@@ -1,8 +1,10 @@
 <?php
 /**
- * @author Christoph Wurst <christoph@owncloud.com>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -98,6 +100,7 @@ class AuthSettingsController extends Controller {
 			$data = $token->jsonSerialize();
 			if ($sessionToken->getId() === $token->getId()) {
 				$data['canDelete'] = false;
+				$data['current'] = true;
 			} else {
 				$data['canDelete'] = true;
 			}

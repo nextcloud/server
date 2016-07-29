@@ -1,11 +1,12 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -70,8 +71,9 @@ class UserTest extends \Test\TestCase {
 			$umMethods, array($cfMock, $fsMock, $logMock, $avaMgr, $im, $dbc, $userMgr));
 		$connector = $this->getMock('\OCA\User_LDAP\Connection',
 			$conMethods, array($lw, null, null));
+		$helper = new \OCA\User_LDAP\Helper();
 		$access = $this->getMock('\OCA\User_LDAP\Access',
-			$accMethods, array($connector, $lw, $um));
+			$accMethods, array($connector, $lw, $um, $helper));
 
 		return array($access, $connector);
 	}

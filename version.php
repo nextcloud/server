@@ -1,12 +1,12 @@
 <?php
 /**
- * @author C Montero-Luque <cml@owncloud.com>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Frank Karlitschek <frank@karlitschek.de>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -25,12 +25,12 @@
 // We only can count up. The 4. digit is only for the internal patchlevel to trigger DB upgrades
 // between betas, final and RCs. This is _not_ the public version number. Reset minor/patchlevel
 // when updating major/minor version number.
-$OC_Version = array(9, 1, 0, 11);
+$OC_Version = array(9, 2, 0, 0);
 
 // The human readable string
-$OC_VersionString = '9.1.0 RC1';
+$OC_VersionString = '11.0 alpha';
 
-$OC_VersionCanBeUpgradedFrom = array(9, 0);
+$OC_VersionCanBeUpgradedFrom = array(9, 1);
 
 // The ownCloud channel
 $OC_Channel = 'git';

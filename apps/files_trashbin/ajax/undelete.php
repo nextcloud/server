@@ -1,14 +1,15 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Robin Appelman <icewind@owncloud.com>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -28,7 +29,6 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 \OC::$server->getSession()->close();
 
-$files = $_POST['files'];
 $dir = '/';
 if (isset($_POST['dir'])) {
 	$dir = rtrim((string)$_POST['dir'], '/'). '/';
@@ -49,7 +49,7 @@ if (isset($_POST['allfiles']) && (string)$_POST['allfiles'] === 'true') {
 		$list[] = $fileName;
 	}
 } else {
-	$list = json_decode($files);
+	$list = json_decode($_POST['files']);
 }
 
 $error = array();

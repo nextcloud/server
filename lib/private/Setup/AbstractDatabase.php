@@ -1,11 +1,14 @@
 <?php
 /**
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Manish Bisht <manish.bisht490@gmail.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Manish Bisht <manish.bisht490@gmail.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Thomas Pulzer <t.pulzer@kniel.de>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -23,6 +26,8 @@
  */
 namespace OC\Setup;
 
+use OC\AllConfig;
+use OC\DB\ConnectionFactory;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Security\ISecureRandom;
@@ -45,7 +50,7 @@ abstract class AbstractDatabase {
 	protected $dbPort;
 	/** @var string */
 	protected $tablePrefix;
-	/** @var IConfig */
+	/** @var AllConfig */
 	protected $config;
 	/** @var ILogger */
 	protected $logger;
@@ -96,6 +101,41 @@ abstract class AbstractDatabase {
 		$this->dbHost = $dbHost;
 		$this->dbPort = $dbPort;
 		$this->tablePrefix = $dbTablePrefix;
+	}
+
+	/**
+	 * @param array $configOverwrite
+	 * @return \OC\DB\Connection
+	 */
+	protected function connect(array $configOverwrite = []) {
+		$connectionParams = array(
+			'host' => $this->dbHost,
+			'user' => $this->dbUser,
+			'password' => $this->dbPassword,
+			'tablePrefix' => $this->tablePrefix,
+		);
+
+		// adding port support through installer
+		if (!empty($this->dbPort)) {
+			if (ctype_digit($this->dbPort)) {
+				$connectionParams['port'] = $this->dbPort;
+			} else {
+				$connectionParams['unix_socket'] = $this->dbPort;
+			}
+		} else if (strpos($this->dbHost, ':')) {
+			// Host variable may carry a port or socket.
+			list($host, $portOrSocket) = explode(':', $this->dbHost, 2);
+			if (ctype_digit($portOrSocket)) {
+				$connectionParams['port'] = $portOrSocket;
+			} else {
+				$connectionParams['unix_socket'] = $portOrSocket;
+			}
+			$connectionParams['host'] = $host;
+		}
+
+		$connectionParams = array_merge($connectionParams, $configOverwrite);
+		$cf = new ConnectionFactory();
+		return $cf->getConnection($this->config->getSystemValue('dbtype', 'sqlite'), $connectionParams);
 	}
 
 	/**

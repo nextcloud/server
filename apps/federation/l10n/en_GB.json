@@ -6,8 +6,6 @@
     "Federation" : "Federation",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federation allows you to connect with other trusted servers to exchange the user directory. For example: to auto-complete external users for federated sharing.",
     "Add server automatically once a federated share was created successfully" : "Automatically add server once a federated share is successfully created",
-    "Trusted Servers" : "Trusted Servers",
-    "+ Add ownCloud server" : "+ Add ownCloud server",
-    "ownCloud Server" : "ownCloud Server"
+    "Trusted Servers" : "Trusted Servers"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

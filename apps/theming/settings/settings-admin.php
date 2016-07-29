@@ -3,6 +3,9 @@
  * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,8 +23,6 @@
  *
  */
 
-\OC_Util::checkAdminUser();
-
 $config = \OC::$server->getConfig();
 $l = \OC::$server->getL10N('theming');
 $urlGenerator = \OC::$server->getURLGenerator();
@@ -37,7 +38,7 @@ if ($theme !== '') {
 	$errorMessage = $l->t('You already use a custom theme');
 }
 
-$template = new OCP\Template('theming', 'settings-admin');
+$template = new \OCP\Template('theming', 'settings-admin');
 
 $template->assign('themable', $themable);
 $template->assign('errorMessage', $errorMessage);

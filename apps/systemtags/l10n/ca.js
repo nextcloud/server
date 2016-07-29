@@ -23,9 +23,9 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s ha des-assignat les marques de sistema de la %3$s a la %2$s",
     "%s (restricted)" : "%s (restringit)",
     "%s (invisible)" : "%s (invisible)",
+    "Name" : "Nom",
     "No files in here" : "No hi ha arxius",
     "No entries found in this folder" : "No hi ha entrades en aquesta carpeta",
-    "Name" : "Nom",
     "Size" : "Mida",
     "Modified" : "Modificat"
 },

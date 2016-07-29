@@ -1,16 +1,17 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@owncloud.com>
  * @author Georg Ehrke <georg@owncloud.com>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -173,7 +174,8 @@ class Application extends App {
 				$c->query('URLGenerator'),
 				$c->query('Util'),
 				$c->query('L10N'),
-				$c->query('Checker')
+				$c->query('Checker'),
+				$c->query('Logger')
 			);
 		});
 
@@ -227,7 +229,7 @@ class Application extends App {
 			return $c->query('ServerContainer')->getMailer();
 		});
 		$container->registerService('Defaults', function(IContainer $c) {
-			return new \OC_Defaults;
+			return $c->query('ServerContainer')->getThemingDefaults();
 		});
 		$container->registerService('DefaultMailAddress', function(IContainer $c) {
 			return Util::getDefaultEmailAddress('no-reply');

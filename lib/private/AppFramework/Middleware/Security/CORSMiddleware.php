@@ -1,11 +1,13 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Christoph Wurst <christoph@owncloud.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Stefan Weil <sw@weilnetz.de>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -27,6 +29,7 @@ namespace OC\AppFramework\Middleware\Security;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
+use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -42,33 +45,29 @@ use OCP\IRequest;
  * https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
  */
 class CORSMiddleware extends Middleware {
-
-	/**
-	 * @var IRequest
-	 */
+	/** @var IRequest  */
 	private $request;
-
-	/**
-	 * @var ControllerMethodReflector
-	 */
+	/** @var ControllerMethodReflector */
 	private $reflector;
-
-	/**
-	 * @var Session
-	 */
+	/** @var Session */
 	private $session;
+	/** @var Throttler */
+	private $throttler;
 
 	/**
 	 * @param IRequest $request
 	 * @param ControllerMethodReflector $reflector
 	 * @param Session $session
+	 * @param Throttler $throttler
 	 */
 	public function __construct(IRequest $request,
 								ControllerMethodReflector $reflector,
-								Session $session) {
+								Session $session,
+								Throttler $throttler) {
 		$this->request = $request;
 		$this->reflector = $reflector;
 		$this->session = $session;
+		$this->throttler = $throttler;
 	}
 
 	/**
@@ -91,7 +90,7 @@ class CORSMiddleware extends Middleware {
 
 			$this->session->logout();
 			try {
-				if (!$this->session->logClientIn($user, $pass, $this->request)) {
+				if (!$this->session->logClientIn($user, $pass, $this->request, $this->throttler)) {
 					throw new SecurityException('CORS requires basic auth', Http::STATUS_UNAUTHORIZED);
 				}
 			} catch (PasswordLoginForbiddenException $ex) {

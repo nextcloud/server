@@ -1,5 +1,7 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Administrator <Administrator@WINDOWS-2012>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
@@ -8,18 +10,17 @@
  * @author Christoph Wurst <christoph@owncloud.com>
  * @author François Kubler <francois@kubler.org>
  * @author Jakob Sack <mail@jakobsack.de>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sean Comeau <sean@ftlnetworks.ca>
  * @author Serge Martin <edb@sigluy.net>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -134,8 +135,8 @@ class Setup {
 				'name' => 'MySQL/MariaDB'
 			),
 			'pgsql' => array(
-				'type' => 'function',
-				'call' => 'pg_connect',
+				'type' => 'pdo',
+				'call' => 'pgsql',
 				'name' => 'PostgreSQL'
 			),
 			'oci' => array(
@@ -305,10 +306,6 @@ class Setup {
 			$trustedDomains = [$request->getInsecureServerHost()];
 		}
 
-		if (\OC_Util::runningOnWindows()) {
-			$dataDir = rtrim(realpath($dataDir), '\\');
-		}
-
 		//use sqlite3 when available, otherwise sqlite2 will be used.
 		if($dbType=='sqlite' and class_exists('SQLite3')) {
 			$dbType='sqlite3';
@@ -430,7 +427,7 @@ class Setup {
 		}
 
 		$setupHelper = new \OC\Setup($config, \OC::$server->getIniWrapper(),
-			\OC::$server->getL10N('lib'), new \OC_Defaults(), \OC::$server->getLogger(),
+			\OC::$server->getL10N('lib'), \OC::$server->getThemingDefaults(), \OC::$server->getLogger(),
 			\OC::$server->getSecureRandom());
 
 		$htaccessContent = file_get_contents($setupHelper->pathToHtaccess());

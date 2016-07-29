@@ -9,18 +9,29 @@
 namespace Test\Files\Node;
 
 use OC\Files\FileInfo;
-use OCP\Files\NotPermittedException;
-use OC\Files\Mount\Manager;
 
-/**
- * @group DB
- */
 class RootTest extends \Test\TestCase {
+	/** @var \OC\User\User */
 	private $user;
+
+	/** @var \OC\Files\Mount\Manager */
+	private $manager;
 
 	protected function setUp() {
 		parent::setUp();
-		$this->user = new \OC\User\User('', new \Test\Util\User\Dummy);
+
+		$config = $this->getMockBuilder('\OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
+		$urlgenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->user = new \OC\User\User('', new \Test\Util\User\Dummy, null, $config, $urlgenerator);
+
+		$this->manager = $this->getMockBuilder('\OC\Files\Mount\Manager')
+			->disableOriginalConstructor()
+			->getMock();
 	}
 
 	protected function getFileInfo($data) {
@@ -28,16 +39,19 @@ class RootTest extends \Test\TestCase {
 	}
 
 	public function testGet() {
-		$manager = new Manager();
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
 		 */
-		$storage = $this->getMock('\OC\Files\Storage\Storage');
+		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
+			->disableOriginalConstructor()
+			->getMock();
 		/**
 		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
 		 */
-		$view = $this->getMock('\OC\Files\View');
-		$root = new \OC\Files\Node\Root($manager, $view, $this->user);
+		$view = $this->getMockBuilder('\OC\Files\View')
+			->disableOriginalConstructor()
+			->getMock();
+		$root = new \OC\Files\Node\Root($this->manager, $view, $this->user);
 
 		$view->expects($this->once())
 			->method('getFileInfo')
@@ -54,16 +68,19 @@ class RootTest extends \Test\TestCase {
 	 * @expectedException \OCP\Files\NotFoundException
 	 */
 	public function testGetNotFound() {
-		$manager = new Manager();
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
 		 */
-		$storage = $this->getMock('\OC\Files\Storage\Storage');
+		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
+			->disableOriginalConstructor()
+			->getMock();
 		/**
 		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
 		 */
-		$view = $this->getMock('\OC\Files\View');
-		$root = new \OC\Files\Node\Root($manager, $view, $this->user);
+		$view = $this->getMockBuilder('\OC\Files\View')
+			->disableOriginalConstructor()
+			->getMock();
+		$root = new \OC\Files\Node\Root($this->manager, $view, $this->user);
 
 		$view->expects($this->once())
 			->method('getFileInfo')
@@ -78,12 +95,13 @@ class RootTest extends \Test\TestCase {
 	 * @expectedException \OCP\Files\NotPermittedException
 	 */
 	public function testGetInvalidPath() {
-		$manager = new Manager();
 		/**
 		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
 		 */
-		$view = $this->getMock('\OC\Files\View');
-		$root = new \OC\Files\Node\Root($manager, $view, $this->user);
+		$view = $this->getMockBuilder('\OC\Files\View')
+			->disableOriginalConstructor()
+			->getMock();
+		$root = new \OC\Files\Node\Root($this->manager, $view, $this->user);
 
 		$root->get('/../foo');
 	}
@@ -92,12 +110,13 @@ class RootTest extends \Test\TestCase {
 	 * @expectedException \OCP\Files\NotFoundException
 	 */
 	public function testGetNoStorages() {
-		$manager = new Manager();
 		/**
 		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
 		 */
-		$view = $this->getMock('\OC\Files\View');
-		$root = new \OC\Files\Node\Root($manager, $view, $this->user);
+		$view = $this->getMockBuilder('\OC\Files\View')
+			->disableOriginalConstructor()
+			->getMock();
+		$root = new \OC\Files\Node\Root($this->manager, $view, $this->user);
 
 		$root->get('/bar/foo');
 	}

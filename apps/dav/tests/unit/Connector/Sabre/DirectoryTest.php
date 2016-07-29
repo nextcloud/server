@@ -1,11 +1,13 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -39,8 +41,12 @@ class DirectoryTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->view = $this->getMock('OC\Files\View', array(), array(), '', false);
-		$this->info = $this->getMock('OC\Files\FileInfo', array(), array(), '', false);
+		$this->view = $this->getMockBuilder('OC\Files\View')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->info = $this->getMockBuilder('OC\Files\FileInfo')
+			->disableOriginalConstructor()
+			->getMock();
 	}
 
 	private function getDir($path = '/') {

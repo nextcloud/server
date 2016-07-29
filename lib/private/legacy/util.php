@@ -1,5 +1,7 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Adam Williamson <awilliam@redhat.com>
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
@@ -8,8 +10,8 @@
  * @author Birk Borkason <daniel.niccoli@gmail.com>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Brice Maron <brice@bmaron.net>
- * @author Christoph Wurst <christoph@owncloud.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Christoph Wurst <christoph@owncloud.com>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author cmeh <cmeh@users.noreply.github.com>
  * @author Florin Peter <github@florin-peter.de>
@@ -18,7 +20,7 @@
  * @author helix84 <helix84@centrum.sk>
  * @author Individual IT Services <info@individual-it.net>
  * @author Jakob Sack <mail@jakobsack.de>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Markus Goetz <markus@woboq.com>
@@ -26,9 +28,9 @@
  * @author Marvin Thomas Rabe <mrabe@marvinrabe.de>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Rado <owncloud@sradonia.net>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -37,7 +39,6 @@
  * @author Vincent Petry <pvince81@owncloud.com>
  * @author Volkan Gezer <volkangezer@gmail.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -631,7 +632,7 @@ class OC_Util {
 
 		$webServerRestart = false;
 		$setup = new \OC\Setup($config, \OC::$server->getIniWrapper(), \OC::$server->getL10N('lib'),
-			new \OC_Defaults(), \OC::$server->getLogger(), \OC::$server->getSecureRandom());
+			\OC::$server->getThemingDefaults(), \OC::$server->getLogger(), \OC::$server->getSecureRandom());
 
 		$urlGenerator = \OC::$server->getURLGenerator();
 
@@ -832,9 +833,15 @@ class OC_Util {
 		}
 
 		if(function_exists('xml_parser_create') &&
-			version_compare('2.7.0', LIBXML_DOTTED_VERSION) === 1) {
+			LIBXML_LOADED_VERSION < 20700 ) {
+			$version = LIBXML_LOADED_VERSION;
+			$major = floor($version/10000);
+			$version -= ($major * 10000);
+			$minor = floor($version/100);
+			$version -= ($minor * 100);
+			$patch = $version;
 			$errors[] = array(
-				'error' => $l->t('libxml2 2.7.0 is at least required. Currently %s is installed.', [LIBXML_DOTTED_VERSION]),
+				'error' => $l->t('libxml2 2.7.0 is at least required. Currently %s is installed.', [$major . '.' . $minor . '.' . $patch]),
 				'hint' => $l->t('To fix this issue update your libxml2 version and restart your web server.')
 			);
 		}
@@ -902,22 +909,18 @@ class OC_Util {
 	public static function checkDataDirectoryPermissions($dataDirectory) {
 		$l = \OC::$server->getL10N('lib');
 		$errors = array();
-		if (self::runningOnWindows()) {
-			//TODO: permissions checks for windows hosts
-		} else {
-			$permissionsModHint = $l->t('Please change the permissions to 0770 so that the directory'
-				. ' cannot be listed by other users.');
+		$permissionsModHint = $l->t('Please change the permissions to 0770 so that the directory'
+			. ' cannot be listed by other users.');
+		$perms = substr(decoct(@fileperms($dataDirectory)), -3);
+		if (substr($perms, -1) != '0') {
+			chmod($dataDirectory, 0770);
+			clearstatcache();
 			$perms = substr(decoct(@fileperms($dataDirectory)), -3);
-			if (substr($perms, -1) != '0') {
-				chmod($dataDirectory, 0770);
-				clearstatcache();
-				$perms = substr(decoct(@fileperms($dataDirectory)), -3);
-				if (substr($perms, 2, 1) != '0') {
-					$errors[] = array(
-						'error' => $l->t('Data directory (%s) is readable by other users', array($dataDirectory)),
-						'hint' => $permissionsModHint
-					);
-				}
+			if (substr($perms, 2, 1) != '0') {
+				$errors[] = array(
+					'error' => $l->t('Data directory (%s) is readable by other users', array($dataDirectory)),
+					'hint' => $permissionsModHint
+				);
 			}
 		}
 		return $errors;
@@ -933,7 +936,7 @@ class OC_Util {
 	public static function checkDataDirectoryValidity($dataDirectory) {
 		$l = \OC::$server->getL10N('lib');
 		$errors = [];
-		if (!self::runningOnWindows() && $dataDirectory[0] !== '/') {
+		if ($dataDirectory[0] !== '/') {
 			$errors[] = [
 				'error' => $l->t('Data directory (%s) must be an absolute path', [$dataDirectory]),
 				'hint' => $l->t('Check the value of "datadirectory" in your configuration')
@@ -1203,11 +1206,6 @@ class OC_Util {
 	 * @return bool
 	 */
 	public static function isSetLocaleWorking() {
-		// setlocale test is pointless on Windows
-		if (OC_Util::runningOnWindows()) {
-			return true;
-		}
-
 		\Patchwork\Utf8\Bootup::initLocale();
 		if ('' === basename('§')) {
 			return false;

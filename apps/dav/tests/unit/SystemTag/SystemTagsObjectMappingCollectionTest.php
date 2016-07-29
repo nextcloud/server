@@ -1,9 +1,11 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -46,10 +48,13 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->tagManager = $this->getMock('\OCP\SystemTag\ISystemTagManager');
-		$this->tagMapper = $this->getMock('\OCP\SystemTag\ISystemTagObjectMapper');
+		$this->tagManager = $this->getMockBuilder('\OCP\SystemTag\ISystemTagManager')
+			->getMock();
+		$this->tagMapper = $this->getMockBuilder('\OCP\SystemTag\ISystemTagObjectMapper')
+			->getMock();
 
-		$this->user = $this->getMock('\OCP\IUser');
+		$this->user = $this->getMockBuilder('\OCP\IUser')
+			->getMock();
 	}
 
 	public function getNode() {
@@ -125,7 +130,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\PreconditionFailed
+	 * @expectedException \Sabre\DAV\Exception\PreconditionFailed
 	 */
 	public function testAssignTagNotFound() {
 		$this->tagManager->expects($this->once())
@@ -137,7 +142,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testForbiddenCreateDirectory() {
 		$this->getNode()->createDirectory('789');
@@ -190,7 +195,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\NotFound
+	 * @expectedException \Sabre\DAV\Exception\NotFound
 	 */
 	public function testGetChildRelationNotFound() {
 		$this->tagMapper->expects($this->once())
@@ -202,7 +207,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\BadRequest
+	 * @expectedException \Sabre\DAV\Exception\BadRequest
 	 */
 	public function testGetChildInvalidId() {
 		$this->tagMapper->expects($this->once())
@@ -214,7 +219,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\NotFound
+	 * @expectedException \Sabre\DAV\Exception\NotFound
 	 */
 	public function testGetChildTagDoesNotExist() {
 		$this->tagMapper->expects($this->once())
@@ -318,7 +323,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\BadRequest
+	 * @expectedException \Sabre\DAV\Exception\BadRequest
 	 */
 	public function testChildExistsInvalidId() {
 		$this->tagMapper->expects($this->once())
@@ -330,14 +335,14 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testDelete() {
 		$this->getNode()->delete();
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testSetName() {
 		$this->getNode()->setName('somethingelse');

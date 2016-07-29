@@ -1,5 +1,7 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Adam Williamson <awilliam@redhat.com>
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
@@ -14,7 +16,8 @@
  * @author Individual IT Services <info@individual-it.net>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joachim Bauch <bauch@struktur.de>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joachim Sokolowski <github@sokolowski.org>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
@@ -22,17 +25,16 @@
  * @author Owen Winkler <a_github@midnightcircus.com>
  * @author Phil Davis <phil.davis@inf.org>
  * @author Ramiro Aparicio <rapariciog@gmail.com>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
- * @author scolebrook <scolebrook@mac.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Thomas Pulzer <t.pulzer@kniel.de>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <pvince81@owncloud.com>
  * @author Volkan Gezer <volkangezer@gmail.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -469,6 +471,84 @@ class OC {
 		@ini_set('gd.jpeg_ignore_warning', 1);
 	}
 
+	/**
+	 * Send the same site cookies
+	 */
+	private static function sendSameSiteCookies() {
+		$cookieParams = session_get_cookie_params();
+		$secureCookie = ($cookieParams['secure'] === true) ? 'secure; ' : '';
+		$policies = [
+			'lax',
+			'strict',
+		];
+		foreach($policies as $policy) {
+			header(
+				sprintf(
+					'Set-Cookie: nc_sameSiteCookie%s=true; path=%s; httponly;' . $secureCookie . 'expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=%s',
+					$policy,
+					$cookieParams['path'],
+					$policy
+				),
+				false
+			);
+		}
+	}
+
+	/**
+	 * Same Site cookie to further mitigate CSRF attacks. This cookie has to
+	 * be set in every request if cookies are sent to add a second level of
+	 * defense against CSRF.
+	 *
+	 * If the cookie is not sent this will set the cookie and reload the page.
+	 * We use an additional cookie since we want to protect logout CSRF and
+	 * also we can't directly interfere with PHP's session mechanism.
+	 */
+	private static function performSameSiteCookieProtection() {
+		if(count($_COOKIE) > 0) {
+			$request = \OC::$server->getRequest();
+			$requestUri = $request->getScriptName();
+			$processingScript = explode('/', $requestUri);
+			$processingScript = $processingScript[count($processingScript)-1];
+			// FIXME: In a SAML scenario we don't get any strict or lax cookie
+			// send for the ACS endpoint. Since we have some legacy code in Nextcloud
+			// (direct PHP files) the enforcement of lax cookies is performed here
+			// instead of the middleware.
+			//
+			// This means we cannot exclude some routes from the cookie validation,
+			// which normally is not a problem but is a little bit cumbersome for
+			// this use-case.
+			// Once the old legacy PHP endpoints have been removed we can move
+			// the verification into a middleware and also adds some exemptions.
+			//
+			// Questions about this code? Ask Lukas ;-)
+			$currentUrl = substr(explode('?',$request->getRequestUri(), 2)[0], strlen(\OC::$WEBROOT));
+			if($currentUrl === '/index.php/apps/user_saml/saml/acs') {
+				return;
+			}
+			// For the "index.php" endpoint only a lax cookie is required.
+			if($processingScript === 'index.php') {
+				if(!$request->passesLaxCookieCheck()) {
+					self::sendSameSiteCookies();
+					header('Location: '.$_SERVER['REQUEST_URI']);
+					exit();
+				}
+			} else {
+				// All other endpoints require the lax and the strict cookie
+				if(!$request->passesStrictCookieCheck()) {
+					self::sendSameSiteCookies();
+					// Debug mode gets access to the resources without strict cookie
+					// due to the fact that the SabreDAV browser also lives there.
+					if(!\OC::$server->getConfig()->getSystemValue('debug', false)) {
+						http_response_code(\OCP\AppFramework\Http::STATUS_SERVICE_UNAVAILABLE);
+						exit();
+					}
+				}
+			}
+		} elseif(!isset($_COOKIE['nc_sameSiteCookielax']) || !isset($_COOKIE['nc_sameSiteCookiestrict'])) {
+			self::sendSameSiteCookies();
+		}
+	}
+
 	public static function init() {
 		// calculate the root directories
 		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
@@ -571,6 +651,8 @@ class OC {
 		if(self::$server->getRequest()->getServerProtocol() === 'https') {
 			ini_set('session.cookie_secure', true);
 		}
+
+		self::performSameSiteCookieProtection();
 
 		if (!defined('OC_CONSOLE')) {
 			$errors = OC_Util::checkServer(\OC::$server->getConfig());
@@ -812,7 +894,7 @@ class OC {
 		if (!$systemConfig->getValue('installed', false)) {
 			\OC::$server->getSession()->clear();
 			$setupHelper = new OC\Setup(\OC::$server->getConfig(), \OC::$server->getIniWrapper(),
-				\OC::$server->getL10N('lib'), new \OC_Defaults(), \OC::$server->getLogger(),
+				\OC::$server->getL10N('lib'), \OC::$server->getThemingDefaults(), \OC::$server->getLogger(),
 				\OC::$server->getSecureRandom());
 			$controller = new OC\Core\Controller\SetupController($setupHelper);
 			$controller->run($_POST);
@@ -905,7 +987,7 @@ class OC {
 	 * @param OCP\IRequest $request
 	 * @return boolean
 	 */
-	private static function handleLogin(OCP\IRequest $request) {
+	static function handleLogin(OCP\IRequest $request) {
 		$userSession = self::$server->getUserSession();
 		if (OC_User::handleApacheAuth()) {
 			return true;
@@ -913,7 +995,7 @@ class OC {
 		if ($userSession->tryTokenLogin($request)) {
 			return true;
 		}
-		if ($userSession->tryBasicAuthLogin($request)) {
+		if ($userSession->tryBasicAuthLogin($request, \OC::$server->getBruteForceThrottler())) {
 			return true;
 		}
 		return false;

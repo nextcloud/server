@@ -1,11 +1,12 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Christoph Wurst <christoph@owncloud.com>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tobias Kaminsky <tobias@kaminsky.me>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -46,7 +47,8 @@ class Application extends App {
 				$c->query('TagService'),
 				$server->getPreviewManager(),
 				$server->getShareManager(),
-				$server->getConfig()
+				$server->getConfig(),
+				$server->getUserFolder()
 			);
 		});
 

@@ -1,12 +1,16 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Georg Ehrke <georg@owncloud.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -43,6 +47,12 @@ class Server {
 	/** @var IRequest */
 	private $request;
 
+	/** @var  string */
+	private $baseUri;
+
+	/** @var Connector\Sabre\Server  */
+	private $server;
+
 	public function __construct(IRequest $request, $baseUri) {
 		$this->request = $request;
 		$this->baseUri = $baseUri;
@@ -58,7 +68,8 @@ class Server {
 			\OC::$server->getSession(),
 			\OC::$server->getUserSession(),
 			\OC::$server->getRequest(),
-			\OC::$server->getTwoFactorAuthManager()
+			\OC::$server->getTwoFactorAuthManager(),
+			\OC::$server->getBruteForceThrottler()
 		);
 
 		// Set URL explicitly due to reverse-proxy situations
@@ -66,12 +77,15 @@ class Server {
 		$this->server->setBaseUri($this->baseUri);
 
 		$this->server->addPlugin(new BlockLegacyClientPlugin(\OC::$server->getConfig()));
-		$authPlugin = new Plugin($authBackend, 'ownCloud');
+		$authPlugin = new Plugin();
 		$this->server->addPlugin($authPlugin);
 
 		// allow setup of additional auth backends
 		$event = new SabrePluginEvent($this->server);
 		$dispatcher->dispatch('OCA\DAV\Connector\Sabre::authInit', $event);
+
+		// because we are throwing exceptions this plugin has to be the last one
+		$authPlugin->addBackend($authBackend);
 
 		// debugging
 		if(\OC::$server->getConfig()->getSystemValue('debug', false)) {
@@ -144,6 +158,7 @@ class Server {
 						$view,
 						\OC::$server->getConfig(),
 						$this->request,
+						\OC::$server->getPreviewManager(),
 						false,
 						!\OC::$server->getConfig()->getSystemValue('debug', false)
 					)

@@ -137,3 +137,7 @@ es6-promise/dist/*
 
 # base64
 base64/*min.js
+
+# clipboard
+clipboard/**
+!clipboard/dist/clipboard.js

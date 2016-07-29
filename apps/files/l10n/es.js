@@ -83,6 +83,7 @@ OC.L10N.register(
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "El almacén de {owner} está casi lleno en un ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "Su almacenamiento está casi lleno ({usedSpacePercent}%)",
     "_matches '{filter}'_::_match '{filter}'_" : ["coincidencias '{filter}'","coincidencia '{filter}'"],
+    "View in folder" : "Ver en carpeta",
     "Path" : "Ruta",
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Favorited" : "Agregado a Favoritos",

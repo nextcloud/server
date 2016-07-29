@@ -1,9 +1,11 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -56,17 +58,25 @@ class SharesPluginTest extends \Test\TestCase {
 		$this->tree = $this->getMockBuilder('\Sabre\DAV\Tree')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->shareManager = $this->getMock('\OCP\Share\IManager');
-		$user = $this->getMock('\OCP\IUser');
+		$this->shareManager = $this->getMockBuilder('\OCP\Share\IManager')
+			->disableOriginalConstructor()
+			->getMock();
+		$user = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
 		$user->expects($this->once())
 			->method('getUID')
 			->will($this->returnValue('user1'));
-		$userSession = $this->getMock('\OCP\IUserSession');
+		$userSession = $this->getMockBuilder('\OCP\IUserSession')
+			->disableOriginalConstructor()
+			->getMock();
 		$userSession->expects($this->once())
 			->method('getUser')
 			->will($this->returnValue($user));
 
-		$this->userFolder = $this->getMock('\OCP\Files\Folder');
+		$this->userFolder = $this->getMockBuilder('\OCP\Files\Folder')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->plugin = new \OCA\DAV\Connector\Sabre\SharesPlugin(
 			$this->tree,
@@ -92,7 +102,9 @@ class SharesPluginTest extends \Test\TestCase {
 			->will($this->returnValue('/subdir'));
 
 		// node API nodes
-		$node = $this->getMock('\OCP\Files\Folder');
+		$node = $this->getMockBuilder('\OCP\Files\Folder')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->userFolder->expects($this->once())
 			->method('get')
@@ -168,15 +180,21 @@ class SharesPluginTest extends \Test\TestCase {
 			->will($this->returnValue('/subdir'));
 
 		// node API nodes
-		$node = $this->getMock('\OCP\Files\Folder');
+		$node = $this->getMockBuilder('\OCP\Files\Folder')
+			->disableOriginalConstructor()
+			->getMock();
 		$node->expects($this->any())
 			->method('getId')
 			->will($this->returnValue(123));
-		$node1 = $this->getMock('\OCP\Files\File');
+		$node1 = $this->getMockBuilder('\OCP\Files\File')
+			->disableOriginalConstructor()
+			->getMock();
 		$node1->expects($this->any())
 			->method('getId')
 			->will($this->returnValue(111));
-		$node2 = $this->getMock('\OCP\Files\File');
+		$node2 = $this->getMockBuilder('\OCP\Files\File')
+			->disableOriginalConstructor()
+			->getMock();
 		$node2->expects($this->any())
 			->method('getId')
 			->will($this->returnValue(222));

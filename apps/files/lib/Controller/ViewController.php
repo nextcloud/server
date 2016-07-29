@@ -1,11 +1,14 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -170,9 +173,11 @@ class ViewController extends Controller {
 		\OCP\Util::addscript('files', 'search');
 
 		\OCP\Util::addScript('files', 'favoritesfilelist');
+		\OCP\Util::addScript('files', 'recentfilelist');
 		\OCP\Util::addScript('files', 'tagsplugin');
 		\OCP\Util::addScript('files', 'gotoplugin');
 		\OCP\Util::addScript('files', 'favoritesplugin');
+		\OCP\Util::addScript('files', 'recentplugin');
 
 		\OCP\Util::addScript('files', 'detailfileinfoview');
 		\OCP\Util::addScript('files', 'sidebarpreviewmanager');

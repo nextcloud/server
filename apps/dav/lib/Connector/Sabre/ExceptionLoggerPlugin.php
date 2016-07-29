@@ -1,12 +1,14 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Pierre Jochem <pierrejochem@msn.com>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -32,6 +34,9 @@ use Sabre\HTTP\Response;
 class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 	protected $nonFatalExceptions = array(
 		'Sabre\DAV\Exception\NotAuthenticated' => true,
+		// If tokenauth can throw this exception (which is basically as
+		// NotAuthenticated. So not fatal.
+		'OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden' => true,
 		// the sync client uses this to find out whether files exist,
 		// so it is not always an error, log it as debug
 		'Sabre\DAV\Exception\NotFound' => true,

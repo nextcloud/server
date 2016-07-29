@@ -1,5 +1,8 @@
 <?php
 /**
+
+ *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Lukas Reschke <lukas@statuscode.ch>
  *
  * @license GNU AGPL version 3 or any later version

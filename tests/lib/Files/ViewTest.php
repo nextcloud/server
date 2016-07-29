@@ -104,7 +104,7 @@ class ViewTest extends \Test\TestCase {
 			$cache->clear();
 		}
 
-		if ($this->tempStorage && !\OC_Util::runningOnWindows()) {
+		if ($this->tempStorage) {
 			system('rm -rf ' . escapeshellarg($this->tempStorage->getDataDir()));
 		}
 
@@ -761,14 +761,10 @@ class ViewTest extends \Test\TestCase {
 		/*
 		 * 4096 is the maximum path length in file_cache.path in *nix
 		 * 1024 is the max path length in mac
-		 * 228 is the max path length in windows
 		 */
 		$folderName = 'abcdefghijklmnopqrstuvwxyz012345678901234567890123456789';
 		$tmpdirLength = strlen(\OC::$server->getTempManager()->getTemporaryFolder());
-		if (\OC_Util::runningOnWindows()) {
-			$this->markTestSkipped('[Windows] ');
-			$depth = ((260 - $tmpdirLength) / 57);
-		} elseif (\OC_Util::runningOnMac()) {
+		if (\OC_Util::runningOnMac()) {
 			$depth = ((1024 - $tmpdirLength) / 57);
 		} else {
 			$depth = ((4000 - $tmpdirLength) / 57);

@@ -12,6 +12,8 @@
  *
  */
 
+/** @global Handlebars */
+
 if (!OCA.External) {
 	OCA.External = {};
 }
@@ -502,7 +504,7 @@ OCA.External.StatusManager.Utils = {
 			trFolder = $('#fileList tr[data-file=\"' + OCA.External.StatusManager.Utils.jqSelEscape(folder) + '\"]');
 		}
 		trFolder.removeClass('externalErroredRow').removeClass('externalDisabledRow');
-		tdChilds = trFolder.find("td:first-child div.thumbnail");
+		var tdChilds = trFolder.find("td:first-child div.thumbnail");
 		tdChilds.each(function () {
 			var thisElement = $(this);
 			thisElement.css('background-image', thisElement.data('oldImage'));
@@ -525,7 +527,7 @@ OCA.External.StatusManager.Utils = {
 			});
 		} else {
 			file = $("#fileList tr[data-file=\"" + this.jqSelEscape(filename) + "\"] > td:first-child div.thumbnail");
-			parentTr = file.parents('tr:first');
+			var parentTr = file.parents('tr:first');
 			route = OCA.External.StatusManager.Utils.getIconRoute(parentTr);
 			parentTr.attr("data-icon", route);
 			file.css('background-image', "url(" + route + ")").css('display', 'none').css('display', 'inline');

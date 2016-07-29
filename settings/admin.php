@@ -1,19 +1,20 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -43,12 +44,13 @@ OC_Util::addScript('files', 'jquery.fileupload');
 
 \OC::$server->getEventDispatcher()->dispatch('OC\Settings\Admin::loadAdditionalScripts');
 
-$showLog = (\OC::$server->getConfig()->getSystemValue('log_type', 'owncloud') === 'owncloud');
+$logType = \OC::$server->getConfig()->getSystemValue('log_type', 'file');
+$showLog = ($logType === 'file' || $logType === 'owncloud');
 $numEntriesToLoad = 3;
-$entries = \OC\Log\Owncloud::getEntries($numEntriesToLoad + 1);
+$entries = \OC\Log\File::getEntries($numEntriesToLoad + 1);
 $entriesRemaining = count($entries) > $numEntriesToLoad;
 $entries = array_slice($entries, 0, $numEntriesToLoad);
-$logFilePath = \OC\Log\Owncloud::getLogFilePath();
+$logFilePath = \OC\Log\File::getLogFilePath();
 $doesLogFileExist = file_exists($logFilePath);
 $logFileSize = 0;
 if($doesLogFileExist) {
@@ -153,9 +155,6 @@ $template->assign('cronErrors', $appConfig->getValue('core', 'cronErrors'));
 // warn if php is not setup properly to get system variables with getenv
 $path = getenv('PATH');
 $template->assign('getenvServerNotWorking', empty($path));
-
-// warn if Windows is used
-$template->assign('WindowsWarning', OC_Util::runningOnWindows());
 
 // warn if outdated version of a memcache module is used
 $caches = [

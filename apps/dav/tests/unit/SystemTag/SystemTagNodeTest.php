@@ -1,9 +1,11 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -46,8 +48,10 @@ class SystemTagNodeTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->tagManager = $this->getMock('\OCP\SystemTag\ISystemTagManager');
-		$this->user = $this->getMock('\OCP\IUser');
+		$this->tagManager = $this->getMockBuilder('\OCP\SystemTag\ISystemTagManager')
+			->getMock();
+		$this->user = $this->getMockBuilder('\OCP\IUser')
+			->getMock();
 	}
 
 	protected function getTagNode($isAdmin = true, $tag = null) {
@@ -77,7 +81,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\MethodNotAllowed
+	 * @expectedException \Sabre\DAV\Exception\MethodNotAllowed
 	 */
 	public function testSetName() {
 		$this->getTagNode()->setName('2');
@@ -194,7 +198,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Conflict
+	 * @expectedException \Sabre\DAV\Exception\Conflict
 	 */
 	public function testUpdateTagAlreadyExists() {
 		$tag = new SystemTag(1, 'tag1', true, true);
@@ -214,7 +218,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\NotFound
+	 * @expectedException \Sabre\DAV\Exception\NotFound
 	 */
 	public function testUpdateTagNotFound() {
 		$tag = new SystemTag(1, 'tag1', true, true);
@@ -292,7 +296,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\NotFound
+	 * @expectedException \Sabre\DAV\Exception\NotFound
 	 */
 	public function testDeleteTagNotFound() {
 		$tag = new SystemTag(1, 'tag1', true, true);

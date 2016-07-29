@@ -43,8 +43,10 @@ class TemplateResponseTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->api = $this->getMock('OC\AppFramework\Core\API',
-								array('getAppName'), array('test'));
+		$this->api = $this->getMockBuilder('OC\AppFramework\Core\API')
+			->setMethods(['getAppName'])
+			->setConstructorArgs(['test'])
+			->getMock();
 		$this->api->expects($this->any())
 				->method('getAppName')
 				->will($this->returnValue('app'));

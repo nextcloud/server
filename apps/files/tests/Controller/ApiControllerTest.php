@@ -1,12 +1,13 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Christoph Wurst <christoph@owncloud.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -58,6 +59,8 @@ class ApiControllerTest extends TestCase {
 	private $shareManager;
 	/** @var \OCP\IConfig */
 	private $config;
+	/** @var  \OC\Files\Node\Folder */
+	private $userFolder;
 
 	public function setUp() {
 		$this->request = $this->getMockBuilder('\OCP\IRequest')
@@ -81,6 +84,9 @@ class ApiControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->config = $this->getMock('\OCP\IConfig');
+		$this->userFolder = $this->getMockBuilder('\OC\Files\Node\Folder')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->apiController = new ApiController(
 			$this->appName,
@@ -89,7 +95,8 @@ class ApiControllerTest extends TestCase {
 			$this->tagService,
 			$this->preview,
 			$this->shareManager,
-			$this->config
+			$this->config,
+			$this->userFolder
 		);
 	}
 

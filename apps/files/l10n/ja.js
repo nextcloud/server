@@ -83,6 +83,7 @@ OC.L10N.register(
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "{owner} のストレージはほぼ一杯です。({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "ストレージがほぼ一杯です（{usedSpacePercent}%）",
     "_matches '{filter}'_::_match '{filter}'_" : [" '{filter}' にマッチ"],
+    "View in folder" : "フォルダー内で表示",
     "Path" : "Path",
     "_%n byte_::_%n bytes_" : ["%n バイト"],
     "Favorited" : "お気に入り済",

@@ -23,8 +23,6 @@ OC.L10N.register(
     "Cancel" : "Avbryt",
     "Add remote share" : "Legg til ekstern deling",
     "You can upload into this folder" : "Du kan laste opp til denne mappen",
-    "No ownCloud installation (7 or higher) found at {remote}" : "Ingen ownCloud-installasjon (7 eller høyere) funnet på {remote}",
-    "Invalid ownCloud url" : "Ugyldig ownCloud-url",
     "Shared by" : "Delt av",
     "Sharing" : "Deling",
     "A file or folder has been <strong>shared</strong>" : "En fil eller mappe ble <strong>delt</strong>",

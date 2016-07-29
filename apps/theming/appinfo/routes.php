@@ -3,6 +3,10 @@
  * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author oparoz <owncloud@interfasys.ch>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,9 +24,7 @@
  *
  */
 
-namespace OCA\Theming\AppInfo;
-
-(new \OCP\AppFramework\App('theming'))->registerRoutes($this, array('routes' => array(
+return ['routes' => [
 	[
 		'name' => 'Theming#updateStylesheet',
 		'url' => '/ajax/updateStylesheet',
@@ -40,7 +42,7 @@ namespace OCA\Theming\AppInfo;
 	],
 	[
 		'name' => 'Theming#getStylesheet',
-		'url' => '/styles.css',
+		'url' => '/styles',
 		'verb' => 'GET',
 	],
 	[
@@ -53,5 +55,5 @@ namespace OCA\Theming\AppInfo;
 		'url' => '/loginbackground',
 		'verb' => 'GET',
 	],
-)));
+]];
 

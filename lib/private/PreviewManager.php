@@ -1,12 +1,13 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -299,8 +300,7 @@ class PreviewManager implements IPreview {
 			}
 
 			if (count($checkImagick->queryFormats('PDF')) === 1) {
-				// Office previews are currently not supported on Windows
-				if (!\OC_Util::runningOnWindows() && \OC_Helper::is_function_enabled('shell_exec')) {
+				if (\OC_Helper::is_function_enabled('shell_exec')) {
 					$officeFound = is_string($this->config->getSystemValue('preview_libreoffice_path', null));
 
 					if (!$officeFound) {
@@ -324,9 +324,8 @@ class PreviewManager implements IPreview {
 			}
 		}
 
-		// Video requires avconv or ffmpeg and is therefor
-		// currently not supported on Windows.
-		if (in_array('OC\Preview\Movie', $this->getEnabledDefaultProvider()) && !\OC_Util::runningOnWindows()) {
+		// Video requires avconv or ffmpeg
+		if (in_array('OC\Preview\Movie', $this->getEnabledDefaultProvider())) {
 			$avconvBinary = \OC_Helper::findBinaryPath('avconv');
 			$ffmpegBinary = ($avconvBinary) ? null : \OC_Helper::findBinaryPath('ffmpeg');
 

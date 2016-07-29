@@ -1,26 +1,6 @@
 <?php
 /** @var $l OC_L10N */
 /** @var $_ array */
-
-OCP\Util::addScript('files', 'file-upload');
-OCP\Util::addStyle('files_sharing', 'public');
-OCP\Util::addStyle('files_sharing', 'mobile');
-OCP\Util::addScript('files_sharing', 'public');
-OCP\Util::addScript('files', 'fileactions');
-OCP\Util::addScript('files', 'fileactionsmenu');
-OCP\Util::addScript('files', 'jquery.fileupload');
-OCP\Util::addScript('files_sharing', 'files_drop');
-
-// JS required for folders
-OCP\Util::addStyle('files', 'files');
-OCP\Util::addStyle('files', 'upload');
-OCP\Util::addScript('files', 'filesummary');
-OCP\Util::addScript('files', 'breadcrumb');
-OCP\Util::addScript('files', 'fileinfomodel');
-OCP\Util::addScript('files', 'newfilemenu');
-OCP\Util::addScript('files', 'files');
-OCP\Util::addScript('files', 'filelist');
-OCP\Util::addscript('files', 'keyboardshortcuts');
 ?>
 
 <?php if ($_['previewSupported']): /* This enables preview images for links (e.g. on Facebook, Google+, ...)*/?>
@@ -82,9 +62,9 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 						?>
 						<span id="save" data-protected="<?php p($_['protected']) ?>"
 							  data-owner-display-name="<?php p($_['displayName']) ?>" data-owner="<?php p($_['owner']) ?>" data-name="<?php p($_['filename']) ?>">
-						<button id="save-button"><?php p($l->t('Add to your ownCloud')) ?></button>
+						<button id="save-button"><?php p($l->t('Add to your Nextcloud')) ?></button>
 						<form class="save-form hidden" action="#">
-							<input type="text" id="remote_address" placeholder="example.com/owncloud"/>
+							<input type="text" id="remote_address" placeholder="user@yourNextcloud.org"/>
 							<button id="save-button-confirm" class="icon-confirm svg" disabled></button>
 						</form>
 					</span>
@@ -126,6 +106,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 				</div>
 			<?php endif; ?>
 		</div>
+		</div>
 		<?php } else { ?>
 		<input type="hidden" id="upload-only-interface" value="1"/>
 			<div id="public-upload">
@@ -143,7 +124,6 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 				</div>
 			</div>
 		<?php } ?>
-</div>
 <?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] !== true)): ?>
 	<input type="hidden" name="dir" id="dir" value="" />
 	<div class="hiddenuploadfield">

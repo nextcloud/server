@@ -23,9 +23,9 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "Uporabnik %1$s je prevzel sistemsko oznako %3$s od %2$s",
     "%s (restricted)" : "%s (omejeno)",
     "%s (invisible)" : "%s (nevidno)",
+    "Name" : "Ime",
     "No files in here" : "V mapi ni datotek",
     "No entries found in this folder" : "V tej mapi ni najdenih predmetov.",
-    "Name" : "Ime",
     "Size" : "Velikost",
     "Modified" : "Spremenjeno"
 },

@@ -1,8 +1,9 @@
 <?php
 /**
- * @author Robin Appelman <icewind@owncloud.com>
- *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
+ *
+ * @author Robin Appelman <robin@icewind.nl>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

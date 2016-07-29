@@ -1,10 +1,11 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -24,6 +25,7 @@
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\FilesReportPlugin as FilesReportPluginImplementation;
+use OCP\IPreview;
 use Sabre\DAV\Exception\NotFound;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OC\Files\View;
@@ -59,6 +61,9 @@ class FilesReportPluginTest extends \Test\TestCase {
 	/** @var Folder|\PHPUnit_Framework_MockObject_MockObject **/
 	private $userFolder;
 
+	/** @var IPreview|\PHPUnit_Framework_MockObject_MockObject * */
+	private $previewManager;
+
 	public function setUp() {
 		parent::setUp();
 		$this->tree = $this->getMockBuilder('\Sabre\DAV\Tree')
@@ -82,11 +87,23 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->tagManager = $this->getMock('\OCP\SystemTag\ISystemTagManager');
-		$this->tagMapper = $this->getMock('\OCP\SystemTag\ISystemTagObjectMapper');
-		$this->userSession = $this->getMock('\OCP\IUserSession');
+		$this->tagManager = $this->getMockBuilder('\OCP\SystemTag\ISystemTagManager')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->tagMapper = $this->getMockBuilder('\OCP\SystemTag\ISystemTagObjectMapper')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userSession = $this->getMockBuilder('\OCP\IUserSession')
+			->disableOriginalConstructor()
+			->getMock();
 
-		$user = $this->getMock('\OCP\IUser');
+		$this->previewManager = $this->getMockBuilder('\OCP\IPreview')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$user = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('testuser'));
@@ -114,7 +131,11 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/' . $path)
-			->will($this->returnValue($this->getMock('\Sabre\DAV\INode')));
+			->will($this->returnValue(
+				$this->getMockBuilder('\Sabre\DAV\INode')
+					->disableOriginalConstructor()
+					->getMock()
+			));
 
 		$this->server->expects($this->any())
 			->method('getRequestUri')
@@ -133,7 +154,11 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/' . $path)
-			->will($this->returnValue($this->getMock('\Sabre\DAV\INode')));
+			->will($this->returnValue(
+				$this->getMockBuilder('\Sabre\DAV\INode')
+					->disableOriginalConstructor()
+					->getMock()
+			));
 
 		$this->server->expects($this->any())
 			->method('getRequestUri')
@@ -337,14 +362,19 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('getSize')
 			->will($this->returnValue(1024));
 
-		$config = $this->getMock('\OCP\IConfig');
+		$config = $this->getMockBuilder('\OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->server->addPlugin(
 			new \OCA\DAV\Connector\Sabre\FilesPlugin(
 				$this->tree,
 				$this->view,
 				$config,
-				$this->getMock('\OCP\IRequest')
+				$this->getMockBuilder('\OCP\IRequest')
+					->disableOriginalConstructor()
+					->getMock(),
+				$this->previewManager
 			)
 		);
 		$this->plugin->initialize($this->server);
@@ -494,7 +524,9 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isAdmin')
 			->will($this->returnValue(true));
 
-		$tag1 = $this->getMock('\OCP\SystemTag\ISystemTag');
+		$tag1 = $this->getMockBuilder('\OCP\SystemTag\ISystemTag')
+			->disableOriginalConstructor()
+			->getMock();
 		$tag1->expects($this->any())
 			->method('getId')
 			->will($this->returnValue('123'));
@@ -502,7 +534,9 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isUserVisible')
 			->will($this->returnValue(true));
 
-		$tag2 = $this->getMock('\OCP\SystemTag\ISystemTag');
+		$tag2 = $this->getMockBuilder('\OCP\SystemTag\ISystemTag')
+			->disableOriginalConstructor()
+			->getMock();
 		$tag2->expects($this->any())
 			->method('getId')
 			->will($this->returnValue('123'));
@@ -539,7 +573,9 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isAdmin')
 			->will($this->returnValue(false));
 
-		$tag1 = $this->getMock('\OCP\SystemTag\ISystemTag');
+		$tag1 = $this->getMockBuilder('\OCP\SystemTag\ISystemTag')
+			->disableOriginalConstructor()
+			->getMock();
 		$tag1->expects($this->any())
 			->method('getId')
 			->will($this->returnValue('123'));
@@ -547,7 +583,9 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isUserVisible')
 			->will($this->returnValue(true));
 
-		$tag2 = $this->getMock('\OCP\SystemTag\ISystemTag');
+		$tag2 = $this->getMockBuilder('\OCP\SystemTag\ISystemTag')
+			->disableOriginalConstructor()
+			->getMock();
 		$tag2->expects($this->any())
 			->method('getId')
 			->will($this->returnValue('123'));
@@ -573,7 +611,9 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isAdmin')
 			->will($this->returnValue(false));
 
-		$tag1 = $this->getMock('\OCP\SystemTag\ISystemTag');
+		$tag1 = $this->getMockBuilder('\OCP\SystemTag\ISystemTag')
+			->disableOriginalConstructor()
+			->getMock();
 		$tag1->expects($this->any())
 			->method('getId')
 			->will($this->returnValue('123'));
@@ -581,7 +621,9 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isUserVisible')
 			->will($this->returnValue(true));
 
-		$tag2 = $this->getMock('\OCP\SystemTag\ISystemTag');
+		$tag2 = $this->getMockBuilder('\OCP\SystemTag\ISystemTag')
+			->disableOriginalConstructor()
+			->getMock();
 		$tag2->expects($this->any())
 			->method('getId')
 			->will($this->returnValue('123'));

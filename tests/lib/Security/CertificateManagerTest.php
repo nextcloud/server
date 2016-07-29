@@ -118,4 +118,96 @@ class CertificateManagerTest extends \Test\TestCase {
 		$this->assertSame('/' . $this->username . '/files_external/rootcerts.crt', $this->certificateManager->getCertificateBundle());
 	}
 
+	/**
+	 * @dataProvider dataTestNeedRebundling
+	 *
+	 * @param string $uid
+	 * @param int $CaBundleMtime
+	 * @param int $systemWideMtime
+	 * @param int $targetBundleMtime
+	 * @param int $targetBundleExists
+	 * @param bool $expected
+	 */
+	function testNeedRebundling($uid,
+								$CaBundleMtime,
+								$systemWideMtime,
+								$targetBundleMtime,
+								$targetBundleExists,
+								$expected
+	) {
+
+		$view = $this->getMockBuilder('OC\Files\View')
+			->disableOriginalConstructor()->getMock();
+		$config = $this->getMock('OCP\IConfig');
+
+		/** @var CertificateManager | \PHPUnit_Framework_MockObject_MockObject $certificateManager */
+		$certificateManager = $this->getMockBuilder('OC\Security\CertificateManager')
+			->setConstructorArgs([$uid, $view, $config])
+			->setMethods(['getFilemtimeOfCaBundle', 'getCertificateBundle'])
+			->getMock();
+
+		$certificateManager->expects($this->any())->method('getFilemtimeOfCaBundle')
+			->willReturn($CaBundleMtime);
+
+		$certificateManager->expects($this->at(1))->method('getCertificateBundle')
+			->with($uid)->willReturn('targetBundlePath');
+
+		$view->expects($this->any())->method('file_exists')
+			->with('targetBundlePath')
+			->willReturn($targetBundleExists);
+
+
+		if ($uid !== null && $targetBundleExists) {
+			$certificateManager->expects($this->at(2))->method('getCertificateBundle')
+				->with(null)->willReturn('SystemBundlePath');
+
+		}
+
+		$view->expects($this->any())->method('filemtime')
+			->willReturnCallback(function($path) use ($systemWideMtime, $targetBundleMtime)  {
+				if ($path === 'SystemBundlePath') {
+					return $systemWideMtime;
+				} elseif ($path === 'targetBundlePath') {
+					return $targetBundleMtime;
+				}
+				throw new \Exception('unexpected path');
+			});
+
+
+		$this->assertSame($expected,
+			$this->invokePrivate($certificateManager, 'needsRebundling', [$uid])
+		);
+
+	}
+
+	function dataTestNeedRebundling() {
+		return [
+			//values: uid, CaBundleMtime, systemWideMtime, targetBundleMtime, targetBundleExists, expected
+
+			// compare minimum of CaBundleMtime and systemWideMtime with targetBundleMtime
+			['user1', 10, 20, 30, true, false],
+			['user1', 10, 20, 15, true, true],
+			['user1', 10, 5, 30, true, false],
+			['user1', 10, 5, 8, true, true],
+
+			// if no user exists we ignore 'systemWideMtime' because this is the bundle we re-build
+			[null, 10, 20, 30, true, false],
+			[null, 10, 20, 15, true, false],
+			[null, 10, 20, 8, true, true],
+			[null, 10, 5, 30, true, false],
+			[null, 10, 5, 8, true, true],
+
+			// if no target bundle exists we always build a new one
+			['user1', 10, 20, 30, false, true],
+			['user1', 10, 20, 15, false, true],
+			['user1', 10, 5, 30, false, true],
+			['user1', 10, 5, 8, false, true],
+			[null, 10, 20, 30, false, true],
+			[null, 10, 20, 15, false, true],
+			[null, 10, 20, 8, false, true],
+			[null, 10, 5, 30, false, true],
+			[null, 10, 5, 8, false, true],
+		];
+	}
+
 }

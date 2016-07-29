@@ -1,13 +1,15 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -61,6 +63,20 @@ namespace OCP;
  * @since 6.0.0
  */
 interface IRequest {
+	/**
+	 * @since 9.1.0
+	 */
+	const USER_AGENT_CLIENT_ANDROID = '/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/';
+
+	/**
+	 * @since 9.1.0
+	 */
+	const USER_AGENT_CLIENT_DESKTOP = '/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/';
+
+	/**
+	 * @since 9.1.0
+	 */
+	const USER_AGENT_CLIENT_IOS = '/^Mozilla\/5\.0 \(iOS\) ownCloud\-iOS.*$/';
 
 	/**
 	 * @param string $name
@@ -142,6 +158,24 @@ interface IRequest {
 	 * @since 6.0.0
 	 */
 	public function passesCSRFCheck();
+
+	/**
+	 * Checks if the strict cookie has been sent with the request if the request
+	 * is including any cookies.
+	 *
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function passesStrictCookieCheck();
+
+	/**
+	 * Checks if the lax cookie has been sent with the request if the request
+	 * is including any cookies.
+	 *
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function passesLaxCookieCheck();
 
 	/**
 	 * Returns an ID for the request, value is not guaranteed to be unique and is mostly meant for logging

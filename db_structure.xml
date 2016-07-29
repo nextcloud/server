@@ -170,6 +170,11 @@
 				<length>4000</length>
 			</field>
 
+			<field>
+				<name>mount_id</name>
+				<type>integer</type>
+			</field>
+
 			<index>
 				<name>mounts_user_index</name>
 				<unique>false</unique>
@@ -193,6 +198,15 @@
 				<unique>false</unique>
 				<field>
 					<name>root_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>mounts_mount_id_index</name>
+				<unique>false</unique>
+				<field>
+					<name>mount_id</name>
 					<sorting>ascending</sorting>
 				</field>
 			</index>
@@ -1147,6 +1161,84 @@
 			</index>
 
 		</declaration>
+	</table>
+
+	<table>
+
+		<!--
+		List of usernames, their display name and login password.
+		-->
+		<name>*dbprefix*bruteforce_attempts</name>
+
+		<declaration>
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>action</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>occurred</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>ip</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>subnet</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>metadata</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<index>
+				<name>bruteforce_attempts_ip</name>
+				<field>
+					<name>ip</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>bruteforce_attempts_subnet</name>
+				<field>
+					<name>subnet</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
 	</table>
 
 	<table>

@@ -1,9 +1,11 @@
 <?php
 /**
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <pvince81@owncloud.com>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -323,13 +325,20 @@ class Checker {
 		$signature = base64_decode($signatureData['signature']);
 		$certificate = $signatureData['certificate'];
 
-		// Check if certificate is signed by ownCloud Root Authority
+		// Check if certificate is signed by Nextcloud Root Authority
 		$x509 = new \phpseclib\File\X509();
 		$rootCertificatePublicKey = $this->fileAccessHelper->file_get_contents($this->environmentHelper->getServerRoot().'/resources/codesigning/root.crt');
 		$x509->loadCA($rootCertificatePublicKey);
 		$x509->loadX509($certificate);
 		if(!$x509->validateSignature()) {
-			throw new InvalidSignatureException('Certificate is not valid.');
+			// FIXME: Once Nextcloud has it's own appstore we should remove the ownCloud Root Authority from here
+			$x509 = new \phpseclib\File\X509();
+			$rootCertificatePublicKey = $this->fileAccessHelper->file_get_contents($this->environmentHelper->getServerRoot().'/resources/codesigning/owncloud.crt');
+			$x509->loadCA($rootCertificatePublicKey);
+			$x509->loadX509($certificate);
+			if(!$x509->validateSignature()) {
+				throw new InvalidSignatureException('Certificate is not valid.');
+			}
 		}
 		// Verify if certificate has proper CN. "core" CN is always trusted.
 		if($x509->getDN(X509::DN_OPENSSL)['CN'] !== $certificateCN && $x509->getDN(X509::DN_OPENSSL)['CN'] !== 'core') {
@@ -345,6 +354,19 @@ class Checker {
 		$rsa->setMGFHash('sha512');
 		if(!$rsa->verify(json_encode($expectedHashes), $signature)) {
 			throw new InvalidSignatureException('Signature could not get verified.');
+		}
+
+		// Fixes for the updater as shipped with ownCloud 9.0.x: The updater is
+		// replaced after the code integrity check is performed.
+		//
+		// Due to this reason we exclude the whole updater/ folder from the code
+		// integrity check.
+		if($basePath === $this->environmentHelper->getServerRoot()) {
+			foreach($expectedHashes as $fileName => $hash) {
+				if(strpos($fileName, 'updater/') === 0) {
+					unset($expectedHashes[$fileName]);
+				}
+			}
 		}
 
 		// Compare the list of files which are not identical

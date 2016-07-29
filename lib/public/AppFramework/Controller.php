@@ -1,5 +1,7 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -7,7 +9,6 @@
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -104,8 +105,9 @@ abstract class Controller {
 	 * @param string $acceptHeader
 	 * @return string the responder type
 	 * @since 7.0.0
+	 * @since 9.1.0 Added default parameter
 	 */
-	public function getResponderByHTTPHeader($acceptHeader) {
+	public function getResponderByHTTPHeader($acceptHeader, $default='json') {
 		$headers = explode(',', $acceptHeader);
 
 		// return the first matching responder
@@ -119,8 +121,8 @@ abstract class Controller {
 			}
 		}
 
-		// no matching header defaults to json
-		return 'json';
+		// no matching header return default
+		return $default;
 	}
 
 

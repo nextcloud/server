@@ -1,5 +1,7 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
@@ -12,23 +14,23 @@
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Kamil Domanski <kdomanski@kdemail.net>
+ * @author Klaas Freitag <freitag@owncloud.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Markus Goetz <markus@woboq.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author RealRancor <Fisch.666@gmx.de>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sam Tuke <mail@samtuke.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Tom Needham <tom@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -167,7 +169,7 @@ class OC_App {
 		// Register on PSR-4 composer autoloader
 		$appNamespace = \OC\AppFramework\App::buildAppNamespace($app);
 		\OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);
-		if (defined('PHPUNIT_RUN')) {
+		if (defined('PHPUNIT_RUN') || defined('CLI_TEST_RUN')) {
 			\OC::$composerAutoloader->addPsr4($appNamespace . '\\Tests\\', $path . '/tests/', true);
 		}
 
@@ -421,9 +423,7 @@ class OC_App {
 
 		$settings = array();
 		// by default, settings only contain the help menu
-		/*
-		 * FIXME: Add help sidebar back once documentation is properly branded.
-		 if (OC_Util::getEditionString() === '' &&
+		if (OC_Util::getEditionString() === '' &&
 			\OC::$server->getSystemConfig()->getValue('knowledgebaseenabled', true) == true
 		) {
 			$settings = array(
@@ -435,7 +435,7 @@ class OC_App {
 					"icon" => $urlGenerator->imagePath("settings", "help.svg")
 				)
 			);
-		}*/
+		}
 
 		// if the user is logged-in
 		if (OC_User::isLoggedIn()) {
@@ -1091,6 +1091,7 @@ class OC_App {
 	 * @throws Exception if no app-name was specified
 	 */
 	public static function installApp($app) {
+		$appName = $app; // $app will be overwritten, preserve name for error logging
 		$l = \OC::$server->getL10N('core');
 		$config = \OC::$server->getConfig();
 		$ocsClient = new OCSClient(
@@ -1163,7 +1164,11 @@ class OC_App {
 			}
 			\OC_Hook::emit('OC_App', 'post_enable', array('app' => $app));
 		} else {
-			throw new \Exception($l->t("No app name specified"));
+			if(empty($appName) ) {
+				throw new \Exception($l->t("No app name specified"));
+			} else {
+				throw new \Exception($l->t("App '%s' could not be installed!", $appName));
+			}
 		}
 
 		return $app;

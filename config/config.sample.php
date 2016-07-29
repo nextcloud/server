@@ -59,6 +59,7 @@ $CONFIG = array(
  * domains prevents host header poisoning. Do not remove this, as it performs
  * necessary security checks.
  * You can specify:
+ *
  * - the exact hostname of your host or virtual host, e.g. demo.example.org.
  * - the exact hostname with permitted port, e.g. demo.example.org:443.
  *   This disallows all other ports on this host
@@ -205,6 +206,13 @@ $CONFIG = array(
  * which can be used as passwords on their clients.
  */
 'token_auth_enforced' => false,
+
+/**
+ * Whether the bruteforce protection shipped with Nextcloud should be enabled or not.
+ *
+ * Disabling this is discouraged for security reasons.
+ */
+'auth.bruteforce.protection.enabled' => true,
 
 /**
  * The directory where the skeleton files are located. These files will be
@@ -427,7 +435,7 @@ $CONFIG = array(
  * Both minimum and maximum times can be set together to explicitly define
  * file and folder deletion. For migration purposes, this setting is installed
  * initially set to "auto", which is equivalent to the default setting in
- * ownCloud 8.1 and before.
+ * Nextcloud.
  *
  * Available values:
  *
@@ -467,7 +475,7 @@ $CONFIG = array(
  * Both minimum and maximum times can be set together to explicitly define
  * version deletion. For migration purposes, this setting is installed
  * initially set to "auto", which is equivalent to the default setting in
- * ownCloud 8.1 and before. 
+ * Nextcloud.
  *
  * Available values:
  *
@@ -561,7 +569,7 @@ $CONFIG = array(
  * Setting this parameter to ``errorlog`` will use the PHP error_log function
  * for logging.
  */
-'log_type' => 'owncloud',
+'log_type' => 'file',
 
 /**
  * Log file path for the Nextcloud logging type.
@@ -651,7 +659,7 @@ $CONFIG = array(
 'customclient_android' =>
 	'https://play.google.com/store/apps/details?id=com.nextcloud.client',
 'customclient_ios' =>
-	'https://itunes.apple.com/us/app/owncloud/id543672169?mt=8',
+	'https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8',
 
 /**
  * Apps
@@ -823,7 +831,7 @@ $CONFIG = array(
  * defines the interval in minutes for the background job that checks user
  * existence and marks them as ready to be cleaned up. The number is always
  * minutes. Setting it to 0 disables the feature.
- * See command line (occ) methods ldap:show-remnants and user:delete
+ * See command line (occ) methods ``ldap:show-remnants`` and ``user:delete``
  */
 'ldapUserCleanupInterval' => 51,
 
@@ -1128,12 +1136,12 @@ $CONFIG = array(
 'cipher' => 'AES-256-CFB',
 
 /**
- * The minimum ownCloud desktop client version that will be allowed to sync with
+ * The minimum Nextcloud desktop client version that will be allowed to sync with
  * this server instance. All connections made from earlier clients will be denied
- * by the server. Defaults to the minimum officially supported ownCloud desktop
+ * by the server. Defaults to the minimum officially supported Nextcloud desktop
  * clientversion at the time of release of this server version.
  *
- * When changing this, note that older unsupported versions of the ownCloud desktop
+ * When changing this, note that older unsupported versions of the Nextcloud desktop
  * client may not function as expected, and could lead to permanent data loss for
  * clients or other unexpected results.
  */
@@ -1166,22 +1174,6 @@ $CONFIG = array(
  * external storage setups that have limited rename capabilities.
  */
 'part_file_in_storage' => true,
-
-/**
- * All css and js files will be served by the Web server statically in one js
- * file and one css file if this is set to ``true``. This improves performance.
- */
-'asset-pipeline.enabled' => false,
-
-/**
- * The parent of the directory where css and js assets will be stored if
- * pipelining is enabled; this defaults to the Nextcloud directory. The assets
- * will be stored in a subdirectory of this directory named 'assets'. The
- * server *must* be configured to serve that directory as $WEBROOT/assets.
- * You will only likely need to change this if the main Nextcloud directory
- * is not writeable by the Web server in your configuration.
- */
-'assetdirectory' => '/var/www/nextcloud',
 
 /**
  * Where ``mount.json`` file should be stored, defaults to ``data/mount.json``

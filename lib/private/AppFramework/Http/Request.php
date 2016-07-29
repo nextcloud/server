@@ -1,20 +1,21 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Mitar <mitar.git@tnode.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -67,10 +68,20 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	// Android Chrome user agent: https://developers.google.com/chrome/mobile/docs/user-agent
 	const USER_AGENT_ANDROID_MOBILE_CHROME = '#Android.*Chrome/[.0-9]*#';
 	const USER_AGENT_FREEBOX = '#^Mozilla/5\.0$#';
-	const USER_AGENT_OWNCLOUD_IOS = '/^Mozilla\/5\.0 \(iOS\) ownCloud\-iOS.*$/';
-	const USER_AGENT_OWNCLOUD_ANDROID = '/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/';
-	const USER_AGENT_OWNCLOUD_DESKTOP = '/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/';
 	const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost)$/';
+
+	/**
+	 * @deprecated use \OCP\IRequest::USER_AGENT_CLIENT_IOS instead
+	 */
+	const USER_AGENT_OWNCLOUD_IOS = '/^Mozilla\/5\.0 \(iOS\) ownCloud\-iOS.*$/';
+	/**
+	 * @deprecated use \OCP\IRequest::USER_AGENT_CLIENT_ANDROID instead
+	 */
+	const USER_AGENT_OWNCLOUD_ANDROID = '/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/';
+	/**
+	 * @deprecated use \OCP\IRequest::USER_AGENT_CLIENT_DESKTOP instead
+	 */
+	const USER_AGENT_OWNCLOUD_DESKTOP = '/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/';
 
 	protected $inputStream;
 	protected $content;
@@ -455,6 +466,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			return false;
 		}
 
+		if(!$this->passesStrictCookieCheck()) {
+			return false;
+		}
+
 		if (isset($this->items['get']['requesttoken'])) {
 			$token = $this->items['get']['requesttoken'];
 		} elseif (isset($this->items['post']['requesttoken'])) {
@@ -469,6 +484,42 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		return $this->csrfTokenManager->isTokenValid($token);
 	}
+
+	/**
+	 * Checks if the strict cookie has been sent with the request if the request
+	 * is including any cookies.
+	 *
+	 * @return bool
+	 * @since 9.1.0
+	 */
+	public function passesStrictCookieCheck() {
+		if(count($this->cookies) === 0) {
+			return true;
+		}
+		if($this->getCookie('nc_sameSiteCookiestrict') === 'true'
+			&& $this->passesLaxCookieCheck()) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Checks if the lax cookie has been sent with the request if the request
+	 * is including any cookies.
+	 *
+	 * @return bool
+	 * @since 9.1.0
+	 */
+	public function passesLaxCookieCheck() {
+		if(count($this->cookies) === 0) {
+			return true;
+		}
+		if($this->getCookie('nc_sameSiteCookielax') === 'true') {
+			return true;
+		}
+		return false;
+	}
+
 
 	/**
 	 * Returns an ID for the request, value is not guaranteed to be unique and is mostly meant for logging

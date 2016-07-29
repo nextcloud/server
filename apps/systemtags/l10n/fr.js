@@ -23,9 +23,9 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s a retiré l'étiquette collaborative %3$s à %2$s",
     "%s (restricted)" : "%s (restreint)",
     "%s (invisible)" : "%s (invisible)",
+    "Name" : "Nom",
     "No files in here" : "Aucun fichier",
     "No entries found in this folder" : "Aucune entrée trouvée dans ce dossier",
-    "Name" : "Nom",
     "Size" : "Taille",
     "Modified" : "Modifié"
 },

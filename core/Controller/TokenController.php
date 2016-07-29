@@ -1,9 +1,10 @@
 <?php
-
 /**
- * @author Christoph Wurst <christoph@owncloud.com>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -23,6 +24,7 @@
 namespace OC\Core\Controller;
 
 use OC\AppFramework\Http;
+use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
@@ -35,27 +37,29 @@ use OCP\IRequest;
 use OCP\Security\ISecureRandom;
 
 class TokenController extends Controller {
-
 	/** @var UserManager */
 	private $userManager;
-
 	/** @var IProvider */
 	private $tokenProvider;
-
 	/** @var TwoFactorAuthManager */
 	private $twoFactorAuthManager;
-
 	/** @var ISecureRandom */
 	private $secureRandom;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
-	 * @param Manager $userManager
-	 * @param DefaultTokenProvider $tokenProvider
+	 * @param UserManager $userManager
+	 * @param IProvider $tokenProvider
+	 * @param TwoFactorAuthManager $twoFactorAuthManager
 	 * @param ISecureRandom $secureRandom
 	 */
-	public function __construct($appName, IRequest $request, UserManager $userManager, IProvider $tokenProvider, TwoFactorAuthManager $twoFactorAuthManager, ISecureRandom $secureRandom) {
+	public function __construct($appName,
+								IRequest $request,
+								UserManager $userManager,
+								IProvider $tokenProvider,
+								TwoFactorAuthManager $twoFactorAuthManager,
+								ISecureRandom $secureRandom) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->tokenProvider = $tokenProvider;

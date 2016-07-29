@@ -38,7 +38,9 @@
 					'<span class="shareOption">' +
 						'<input id="canEdit-{{cid}}-{{shareWith}}" type="checkbox" name="edit" class="permissions checkbox" {{#if hasEditPermission}}checked="checked"{{/if}} />' +
 						'<label for="canEdit-{{cid}}-{{shareWith}}">{{canEditLabel}}</label>' +
+						'{{#if isFolder}}' +
 						'<a href="#" class="showCruds"><img alt="{{crudsLabel}}" src="{{triangleSImage}}"/></a>' +
+						'{{/if}}' +
 					'</span>' +
 					'{{/if}}' +
 					'<div class="cruds hidden">' +
@@ -162,7 +164,8 @@
 				sharePermission: OC.PERMISSION_SHARE,
 				createPermission: OC.PERMISSION_CREATE,
 				updatePermission: OC.PERMISSION_UPDATE,
-				deletePermission: OC.PERMISSION_DELETE
+				deletePermission: OC.PERMISSION_DELETE,
+				isFolder: this.model.isFolder()
 			};
 
 			if(!this.model.hasUserShares()) {

@@ -1,8 +1,10 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -38,7 +40,7 @@ class FedAuth extends AbstractBasic {
 		$this->principalPrefix = 'principals/system/';
 
 		// setup realm
-		$defaults = new \OC_Defaults();
+		$defaults = new \OCP\Defaults();
 		$this->realm = $defaults->getName();
 	}
 

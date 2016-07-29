@@ -1,5 +1,7 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author hkjolhede <hkjolhede@gmail.com>
@@ -7,14 +9,13 @@
  * @author Lennart Rosam <lennart.rosam@medien-systempartner.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Ross Nicoll <jrn@jrn.me.uk>
  * @author SA <stephen@mthosting.net>
  * @author Senorsen <senorsen.zhang@gmail.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -49,8 +50,8 @@ class SFTP extends \OC\Files\Storage\Common {
 	private $auth;
 
 	/**
-	* @var SFTP
-	*/
+	 * @var \phpseclib\Net\SFTP
+	 */
 	protected $client;
 
 	/**
@@ -426,7 +427,7 @@ class SFTP extends \OC\Files\Storage\Common {
 	 */
 	public function rename($source, $target) {
 		try {
-			if (!$this->is_dir($target) && $this->file_exists($target)) {
+			if ($this->file_exists($target)) {
 				$this->unlink($target);
 			}
 			return $this->getConnection()->rename(

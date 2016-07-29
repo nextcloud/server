@@ -31,28 +31,80 @@ function setThemingValue(setting, value) {
 	preview(setting, value);
 }
 
+function calculateLuminance(rgb) {
+	var hexValue = rgb.replace(/[^0-9A-Fa-f]/, '');
+	var r,g,b;
+	if (hexValue.length === 3) {
+		hexValue = hexValue[0] + hexValue[0] + hexValue[1] + hexValue[1] + hexValue[2] + hexValue[2];
+	}
+	if (hexValue.length !== 6) {
+		return 0;
+	}
+	r = parseInt(hexValue.substring(0,2), 16);
+	g = parseInt(hexValue.substring(2,4), 16);
+	b = parseInt(hexValue.substring(4,6), 16);
+	return (0.299*r + 0.587*g + 0.114*b)/255;
+}
+
+function generateRadioButton(color) {
+	var radioButton = '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16">' +
+		'<path d="M8 1a7 7 0 0 0-7 7 7 7 0 0 0 7 7 7 7 0 0 0 7-7 7 7 0 0 0-7-7zm0 1a6 6 0 0 1 6 6 6 6 0 0 1-6 6 6 6 0 0 1-6-6 6 6 0 0 1 6-6zm0 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" fill="' + color + '"/></svg>';
+	return btoa(radioButton);
+}
+
 function preview(setting, value) {
 	if (setting === 'color') {
 		var headerClass = document.getElementById('header');
+		var expandDisplayNameClass = document.getElementById('expandDisplayName');
+		var headerAppName = headerClass.getElementsByClassName('header-appname')[0];
+		var textColor, icon;
+		var luminance = calculateLuminance(value);
+		var elementColor = value;
+
+		if (luminance > 0.5) {
+			textColor = "#000000";
+			icon = 'caret-dark';
+		} else {
+			textColor = "#ffffff";
+			icon = 'caret';
+		}
+		if (luminance>0.8) {
+			elementColor = '#555555';
+		}
+
 		headerClass.style.background = value;
 		headerClass.style.backgroundImage = '../img/logo-icon.svg';
+		expandDisplayNameClass.style.color = textColor;
+		headerAppName.style.color = textColor;
+
+		$('#previewStyles').html(
+			'#header .icon-caret { background-image: url(\'' + OC.getRootPath() + '/core/img/actions/' + icon + '.svg\') }' +
+			'input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' +
+			'background-image:url(\'' + OC.getRootPath() + '/core/img/actions/checkmark-white.svg\');' +
+			'background-color: ' + elementColor + '; background-position: center center; background-size:contain;' +
+			'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;}' +
+			'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' +
+			'background-image: url(\'data:image/svg+xml;base64,' + generateRadioButton(elementColor) + '\'); }'
+		);
 	}
 	if (setting === 'logoMime') {
 		console.log(setting);
 		var logos = document.getElementsByClassName('logo-icon');
 		var timestamp = new Date().getTime();
-		if(value !== '') {
-			logos[0].style.background = "url('" + OC.generateUrl('/apps/theming/logo') + "?v" + timestamp + "')";
-			logos[0].style.backgroundSize = "62px 34px";
+		if (value !== '') {
+			logos[0].style.backgroundImage = "url('" + OC.generateUrl('/apps/theming/logo') + "?v" + timestamp + "')";
+			logos[0].style.backgroundSize = "contain";
 		} else {
-			logos[0].style.background = "url('" + OC.getRootPath() + '/core/img/logo-icon.svg?v' + timestamp +"')";
-			logos[0].style.backgroundSize = "62px 34px";
+			logos[0].style.backgroundImage = "url('" + OC.getRootPath() + '/core/img/logo-icon.svg?v' + timestamp +"')";
+			logos[0].style.backgroundSize = "contain";
 		}
 	}
 }
 
 $(document).ready(function () {
 	$('#theming [data-toggle="tooltip"]').tooltip();
+
+	$('html > head').append($('<style type="text/css" id="previewStyles"></style>'));
 
 	var uploadParamsLogo = {
 		pasteZone: null,

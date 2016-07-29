@@ -23,9 +23,9 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s a înlăturat eticheta de sistem %3$s de la %2$s",
     "%s (restricted)" : "%s (restricționat)",
     "%s (invisible)" : "%s (invizibil)",
+    "Name" : "Nume",
     "No files in here" : "Niciun fișier aici",
     "No entries found in this folder" : "Niciun element găsit în acest director",
-    "Name" : "Nume",
     "Size" : "Mărime",
     "Modified" : "Modificat"
 },

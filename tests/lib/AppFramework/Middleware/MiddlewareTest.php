@@ -48,25 +48,22 @@ class MiddlewareTest extends \Test\TestCase {
 
 		$this->middleware = new ChildMiddleware();
 
-		$this->api = $this->getMockBuilder(
-				'OC\AppFramework\DependencyInjection\DIContainer')
+		$this->api = $this->getMockBuilder('OC\AppFramework\DependencyInjection\DIContainer')
 				->disableOriginalConstructor()
 				->getMock();
 
-		$this->controller = $this->getMock(
-			'OCP\AppFramework\Controller',
-			[],
-			[
+		$this->controller = $this->getMockBuilder('OCP\AppFramework\Controller')
+			->setMethods([])
+			->setConstructorArgs([
 				$this->api,
 				new Request(
 					[],
-					$this->getMock('\OCP\Security\ISecureRandom'),
-					$this->getMock('\OCP\IConfig')
+					$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
+					$this->getMockBuilder('\OCP\IConfig')->getMock()
 				)
-			]
-		);
+			])->getMock();
 		$this->exception = new \Exception();
-		$this->response = $this->getMock('OCP\AppFramework\Http\Response');
+		$this->response = $this->getMockBuilder('OCP\AppFramework\Http\Response')->getMock();
 	}
 
 

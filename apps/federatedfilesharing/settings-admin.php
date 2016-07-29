@@ -1,9 +1,11 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -22,7 +24,7 @@
 
 use OCA\FederatedFileSharing\AppInfo\Application;
 
-$app = new Application('federatedfilesharing');
+$app = new Application();
 $federatedShareProvider = $app->getFederatedShareProvider();
 
 $tmpl = new OCP\Template('federatedfilesharing', 'settings-admin');

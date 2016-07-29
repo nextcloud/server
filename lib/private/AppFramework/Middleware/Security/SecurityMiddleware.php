@@ -1,14 +1,15 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -32,6 +33,7 @@ use OC\AppFramework\Middleware\Security\Exceptions\AppNotEnabledException;
 use OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException;
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
+use OC\AppFramework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
@@ -134,6 +136,12 @@ class SecurityMiddleware extends Middleware {
 			}
 		}
 
+		// Check for strict cookie requirement
+		if($this->reflector->hasAnnotation('StrictCookieRequired') || !$this->reflector->hasAnnotation('NoCSRFRequired')) {
+			if(!$this->request->passesStrictCookieCheck()) {
+				throw new StrictCookieMissingException();
+			}
+		}
 		// CSRF check - also registers the CSRF token since the session may be closed later
 		Util::callRegister();
 		if(!$this->reflector->hasAnnotation('NoCSRFRequired')) {
@@ -186,7 +194,9 @@ class SecurityMiddleware extends Middleware {
 	 */
 	public function afterException($controller, $methodName, \Exception $exception) {
 		if($exception instanceof SecurityException) {
-
+			if($exception instanceof StrictCookieMissingException) {
+				return new RedirectResponse(\OC::$WEBROOT);
+ 			}
 			if (stripos($this->request->getHeader('Accept'),'html') === false) {
 				$response = new JSONResponse(
 					array('message' => $exception->getMessage()),

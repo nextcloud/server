@@ -41,7 +41,7 @@ class UserTest extends TestCase {
 		$this->backend->expects($this->any())
 			->method('implementsActions')
 			->will($this->returnCallback(function ($actions) {
-				if ($actions === \OC_USER_BACKEND_CHECK_PASSWORD) {
+				if ($actions === \OC\USER\BACKEND::CHECK_PASSWORD) {
 					return true;
 				} else {
 					return false;

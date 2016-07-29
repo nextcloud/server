@@ -1,14 +1,16 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -35,7 +37,7 @@ use OC\Core\Controller\LostController;
 use OC\Core\Controller\TokenController;
 use OC\Core\Controller\TwoFactorChallengeController;
 use OC\Core\Controller\UserController;
-use OC_Defaults;
+use OCP\Defaults;
 use OCP\AppFramework\App;
 use OCP\Util;
 
@@ -103,7 +105,8 @@ class Application extends App {
 				$c->query('Session'),
 				$c->query('UserSession'),
 				$c->query('URLGenerator'),
-				$c->query('TwoFactorAuthManager')
+				$c->query('TwoFactorAuthManager'),
+				$c->query('ServerContainer')->getBruteforceThrottler()
 			);
 		});
 		$container->registerService('TwoFactorChallengeController', function (SimpleContainer $c) {
@@ -165,8 +168,8 @@ class Application extends App {
 		$container->registerService('UserFolder', function(SimpleContainer $c) {
 			return $c->query('ServerContainer')->getUserFolder();
 		});
-		$container->registerService('Defaults', function() {
-			return new OC_Defaults;
+		$container->registerService('Defaults', function(SimpleContainer $c) {
+			return $c->query('ServerContainer')->getThemingDefaults();
 		});
 		$container->registerService('Mailer', function(SimpleContainer $c) {
 			return $c->query('ServerContainer')->getMailer();

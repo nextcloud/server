@@ -23,9 +23,9 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s убрал системную метку %3$s с %2$s",
     "%s (restricted)" : "%s (ограничено)",
     "%s (invisible)" : "%s (невидимые)",
+    "Name" : "Имя",
     "No files in here" : "Здесь нет файлов",
     "No entries found in this folder" : "Нет элементов в этом каталоге",
-    "Name" : "Имя",
     "Size" : "Размер",
     "Modified" : "Изменён"
 },

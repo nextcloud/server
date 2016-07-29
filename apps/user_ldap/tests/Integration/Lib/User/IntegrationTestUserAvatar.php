@@ -1,11 +1,12 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -28,7 +29,7 @@ use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 
-require_once __DIR__  . '/../../../../../../lib/base.php';
+require_once __DIR__ . '/../../Bootstrap.php';
 
 class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 	/** @var  UserMapping */
@@ -147,7 +148,6 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 	}
 }
 
-require_once(__DIR__ . '/../../setup-scripts/config.php');
 $test = new IntegrationTestUserAvatar($host, $port, $adn, $apwd, $bdn);
 $test->init();
 $test->run();

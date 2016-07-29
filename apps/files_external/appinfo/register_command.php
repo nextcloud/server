@@ -1,9 +1,10 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Robin Appelman <icewind@owncloud.com>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -31,6 +32,7 @@ use OCA\Files_External\Command\Delete;
 use OCA\Files_External\Command\Create;
 use OCA\Files_External\Command\Backends;
 use OCA\Files_External\Command\Verify;
+use OCA\Files_External\Command\Notify;
 
 $userManager = OC::$server->getUserManager();
 $userSession = OC::$server->getUserSession();
@@ -42,6 +44,7 @@ $globalStorageService = $app->getContainer()->query('\OCA\Files_External\Service
 $userStorageService = $app->getContainer()->query('\OCA\Files_External\Service\UserStoragesService');
 $importLegacyStorageService = $app->getContainer()->query('\OCA\Files_External\Service\ImportLegacyStoragesService');
 $backendService = $app->getContainer()->query('OCA\Files_External\Service\BackendService');
+$connection = $app->getContainer()->getServer()->getDatabaseConnection();
 
 /** @var Symfony\Component\Console\Application $application */
 $application->add(new ListCommand($globalStorageService, $userStorageService, $userSession, $userManager));
@@ -54,3 +57,4 @@ $application->add(new Delete($globalStorageService, $userStorageService, $userSe
 $application->add(new Create($globalStorageService, $userStorageService, $userManager, $userSession, $backendService));
 $application->add(new Backends($backendService));
 $application->add(new Verify($globalStorageService));
+$application->add(new Notify($globalStorageService, $connection));

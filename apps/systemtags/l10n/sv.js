@@ -23,9 +23,9 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s tog bort tilldelad systemtagg %3$s från %2$s",
     "%s (restricted)" : "%s (begränsad)",
     "%s (invisible)" : "%s (osynlig)",
+    "Name" : "Namn",
     "No files in here" : "Inga filer kunde hittas",
     "No entries found in this folder" : "nga Filer hittades i denna mapp",
-    "Name" : "Namn",
     "Size" : "Storlek",
     "Modified" : "Ändrad"
 },

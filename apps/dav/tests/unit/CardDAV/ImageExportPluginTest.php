@@ -1,8 +1,10 @@
 <?php
 /**
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Georg Ehrke <georg@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -57,7 +59,10 @@ class ImageExportPluginTest extends TestCase {
 		$this->server->tree = $this->tree;
 		$this->logger = $this->getMockBuilder('\OCP\ILogger')->getMock();
 
-		$this->plugin = $this->getMock('OCA\DAV\CardDAV\ImageExportPlugin', ['getPhoto'], [$this->logger]);
+		$this->plugin = $this->getMockBuilder('OCA\DAV\CardDAV\ImageExportPlugin')
+			->setMethods(['getPhoto'])
+			->setConstructorArgs([$this->logger])
+			->getMock();
 		$this->plugin->initialize($this->server);
 	}
 

@@ -1,12 +1,14 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -233,13 +235,14 @@ class CertificateManager implements ICertificateManager {
 		if ($uid === '') {
 			$uid = $this->uid;
 		}
-		$sourceMTimes = [filemtime(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt')];
+		$sourceMTimes = [$this->getFilemtimeOfCaBundle()];
 		$targetBundle = $this->getCertificateBundle($uid);
 		if (!$this->view->file_exists($targetBundle)) {
 			return true;
 		}
+
 		if (!is_null($uid)) { // also depend on the system bundle
-			$sourceBundles[] = $this->view->filemtime($this->getCertificateBundle(null));
+			$sourceMTimes[] = $this->view->filemtime($this->getCertificateBundle(null));
 		}
 
 		$sourceMTime = array_reduce($sourceMTimes, function ($max, $mtime) {
@@ -247,4 +250,14 @@ class CertificateManager implements ICertificateManager {
 		}, 0);
 		return $sourceMTime > $this->view->filemtime($targetBundle);
 	}
+
+	/**
+	 * get mtime of ca-bundle shipped by Nextcloud
+	 *
+	 * @return int
+	 */
+	protected function getFilemtimeOfCaBundle() {
+		return filemtime(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
+	}
+
 }

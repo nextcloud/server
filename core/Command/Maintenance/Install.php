@@ -1,11 +1,15 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christian Kampka <christian@kampka.net>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Thomas Pulzer <t.pulzer@kniel.de>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -46,7 +50,7 @@ class Install extends Command {
 	protected function configure() {
 		$this
 			->setName('maintenance:install')
-			->setDescription('install ownCloud')
+			->setDescription('install Nextcloud')
 			->addOption('database', null, InputOption::VALUE_REQUIRED, 'Supported database type', 'sqlite')
 			->addOption('database-name', null, InputOption::VALUE_REQUIRED, 'Name of the database')
 			->addOption('database-host', null, InputOption::VALUE_REQUIRED, 'Hostname of the database', 'localhost')
@@ -64,7 +68,7 @@ class Install extends Command {
 		// validate the environment
 		$server = \OC::$server;
 		$setupHelper = new Setup($this->config, $server->getIniWrapper(),
-			$server->getL10N('lib'), new \OC_Defaults(), $server->getLogger(),
+			$server->getL10N('lib'), $server->getThemingDefaults(), $server->getLogger(),
 			$server->getSecureRandom());
 		$sysInfo = $setupHelper->getSystemInfo(true);
 		$errors = $sysInfo['errors'];
@@ -73,7 +77,7 @@ class Install extends Command {
 
 			// ignore the OS X setup warning
 			if(count($errors) !== 1 ||
-				(string)($errors[0]['error']) !== 'Mac OS X is not supported and ownCloud will not work properly on this platform. Use it at your own risk! ') {
+				(string)($errors[0]['error']) !== 'Mac OS X is not supported and Nextcloud will not work properly on this platform. Use it at your own risk! ') {
 				return 1;
 			}
 		}
@@ -87,7 +91,7 @@ class Install extends Command {
 			$this->printErrors($output, $errors);
 			return 1;
 		}
-		$output->writeln("ownCloud was successfully installed");
+		$output->writeln("Nextcloud was successfully installed");
 		return 0;
 	}
 

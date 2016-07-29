@@ -295,6 +295,7 @@ Feature: provisioning
 			| systemtags |
 			| theming |
 			| updatenotification |
+			| workflowengine |
 
 	Scenario: get app info
 		Given As an "admin"
@@ -508,6 +509,6 @@ Feature: provisioning
 		And assure user "user0" is disabled
 		And As an "user0"
 		When sending "GET" to "/index.php/apps/files"
-		Then the OCS status code should be "999"
-    	And the HTTP status code should be "200"
+		Then the OCS status code should be "997"
+		And the HTTP status code should be "401"
 

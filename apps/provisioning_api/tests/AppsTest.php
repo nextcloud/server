@@ -1,13 +1,14 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -65,13 +66,13 @@ class AppsTest extends TestCase {
 
 	public function testGetAppInfo() {
 		$result = $this->api->getAppInfo(['appid' => 'provisioning_api']);
-		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertInstanceOf('\OC\OCS\Result', $result);
 		$this->assertTrue($result->succeeded());
 	}
 
 	public function testGetAppInfoOnBadAppID() {
 		$result = $this->api->getAppInfo(['appid' => 'not_provisioning_api']);
-		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertInstanceOf('\OC\OCS\Result', $result);
 		$this->assertFalse($result->succeeded());
 		$this->assertEquals(API::RESPOND_NOT_FOUND, $result->getStatusCode());
 	}

@@ -138,9 +138,6 @@ class TempManagerTest extends \Test\TestCase {
 	}
 
 	public function testLogCantCreateFile() {
-		if (\OC_Util::runningOnWindows()) {
-			$this->markTestSkipped('[Windows] chmod() does not work as intended on Windows.');
-		}
 		$this->markTestSkipped('TODO: Disable because fails on drone');
 
 		$logger = $this->getMock('\Test\NullLogger');
@@ -153,9 +150,6 @@ class TempManagerTest extends \Test\TestCase {
 	}
 
 	public function testLogCantCreateFolder() {
-		if (\OC_Util::runningOnWindows()) {
-			$this->markTestSkipped('[Windows] chmod() does not work as intended on Windows.');
-		}
 		$this->markTestSkipped('TODO: Disable because fails on drone');
 
 		$logger = $this->getMock('\Test\NullLogger');

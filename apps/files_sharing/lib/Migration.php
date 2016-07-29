@@ -1,10 +1,12 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -24,6 +26,7 @@
 namespace OCA\Files_Sharing;
 
 use Doctrine\DBAL\Connection;
+use OCP\ICache;
 use OCP\IDBConnection;
 use OC\Cache\CappedMemoryCache;
 
@@ -38,7 +41,7 @@ class Migration {
 	/** @var IDBConnection */
 	private $connection;
 
-	/** @var  array with all shares we already saw */
+	/** @var  ICache with all shares we already saw */
 	private $shareCache;
 
 	/** @var string */

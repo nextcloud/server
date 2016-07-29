@@ -1,25 +1,28 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Bernhard Reiter <ockham@raz.or.at>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@owncloud.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sander <brantje@gmail.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Roger Szabo <roger.szabo@web.de>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -66,6 +69,7 @@ use OC\Lock\NoopLockingProvider;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
 use OC\Notification\Manager;
+use OC\Security\Bruteforce\Throttler;
 use OC\Security\CertificateManager;
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OC\Security\Crypto;
@@ -361,8 +365,9 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 		$this->registerService('Logger', function (Server $c) {
-			$logClass = $c->query('AllConfig')->getSystemValue('log_type', 'owncloud');
-			$logger = 'OC\\Log\\' . ucfirst($logClass);
+			$logClass = $c->query('AllConfig')->getSystemValue('log_type', 'file');
+			// TODO: Drop backwards compatibility for config in the future
+			$logger = 'OC\\Log\\' . ucfirst($logClass=='owncloud' ? 'file' : $logClass);
 			call_user_func(array($logger, 'init'));
 
 			return new Log($logger);
@@ -503,6 +508,14 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('TrustedDomainHelper', function ($c) {
 			return new TrustedDomainHelper($this->getConfig());
 		});
+		$this->registerService('Throttler', function(Server $c) {
+			return new Throttler(
+				$c->getDatabaseConnection(),
+				new TimeFactory(),
+				$c->getLogger(),
+				$c->getConfig()
+			);
+		});
 		$this->registerService('IntegrityCodeChecker', function (Server $c) {
 			// IConfig and IAppManager requires a working database. This code
 			// might however be called when ownCloud is not yet setup.
@@ -562,7 +575,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new Mailer(
 				$c->getConfig(),
 				$c->getLogger(),
-				new \OC_Defaults()
+				$c->getThemingDefaults()
 			);
 		});
 		$this->registerService('OcsClient', function (Server $c) {
@@ -571,6 +584,16 @@ class Server extends ServerContainer implements IServerContainer {
 				$this->getConfig(),
 				$this->getLogger()
 			);
+		});
+		$this->registerService('LDAPProvider', function(Server $c) {
+			$config = $c->getConfig();
+			$factoryClass = $config->getSystemValue('ldapProviderFactory', null);
+			if(is_null($factoryClass)) {
+				throw new \Exception('ldapProviderFactory not set');
+			}
+			/** @var \OCP\LDAP\ILDAPProviderFactory $factory */
+			$factory = new $factoryClass($this);
+			return $factory->getLDAPProvider();
 		});
 		$this->registerService('LockingProvider', function (Server $c) {
 			$ini = $c->getIniWrapper();
@@ -620,7 +643,14 @@ class Server extends ServerContainer implements IServerContainer {
 			return $factory->getManager();
 		});
 		$this->registerService('ThemingDefaults', function(Server $c) {
-			if($this->getConfig()->getSystemValue('installed', false) && $this->getAppManager()->isInstalled('theming')) {
+			try {
+				$classExists = class_exists('OCA\Theming\Template');
+			} catch (\OCP\AutoloadNotAllowedException $e) {
+				// App disabled or in maintenance mode
+				$classExists = false;
+			}
+
+			if ($classExists && $this->getConfig()->getSystemValue('installed', false) && $this->getAppManager()->isInstalled('theming')) {
 				return new Template(
 					$this->getConfig(),
 					$this->getL10N('theming'),
@@ -1331,6 +1361,13 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	/**
+	 * @return Throttler
+	 */
+	public function getBruteForceThrottler() {
+		return $this->query('Throttler');
+	}
+
+	/**
 	 * @return IContentSecurityPolicyManager
 	 */
 	public function getContentSecurityPolicyManager() {
@@ -1380,4 +1417,12 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->query('ShareManager');
 	}
 
+	/**
+	 * Returns the LDAP Provider
+	 *
+	 * @return \OCP\LDAP\ILDAPProvider
+	 */
+	public function getLDAPProvider() {
+		return $this->query('LDAPProvider');
+	}
 }

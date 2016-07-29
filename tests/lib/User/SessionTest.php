@@ -9,6 +9,7 @@
 
 namespace Test\User;
 
+use OC\Security\Bruteforce\Throttler;
 use OC\Session\Memory;
 use OC\User\User;
 
@@ -17,15 +18,14 @@ use OC\User\User;
  * @package Test\User
  */
 class SessionTest extends \Test\TestCase {
-
 	/** @var \OCP\AppFramework\Utility\ITimeFactory */
 	private $timeFactory;
-
 	/** @var \OC\Authentication\Token\DefaultTokenProvider */
 	protected $tokenProvider;
-
 	/** @var \OCP\IConfig */
 	private $config;
+	/** @var Throttler */
+	private $throttler;
 
 	protected function setUp() {
 		parent::setUp();
@@ -36,6 +36,8 @@ class SessionTest extends \Test\TestCase {
 			->will($this->returnValue(10000));
 		$this->tokenProvider = $this->getMock('\OC\Authentication\Token\IProvider');
 		$this->config = $this->getMock('\OCP\IConfig');
+		$this->throttler = $this->getMockBuilder('\OC\Security\Bruteforce\Throttler')
+			->disableOriginalConstructor()->getMock();
 	}
 
 	public function testGetUser() {
@@ -353,7 +355,6 @@ class SessionTest extends \Test\TestCase {
 			->getMock();
 		$session = $this->getMock('\OCP\ISession');
 		$request = $this->getMock('\OCP\IRequest');
-		$user = $this->getMock('\OCP\IUser');
 
 		/** @var \OC\User\Session $userSession */
 		$userSession = $this->getMockBuilder('\OC\User\Session')
@@ -369,8 +370,21 @@ class SessionTest extends \Test\TestCase {
 			->method('getSystemValue')
 			->with('token_auth_enforced', false)
 			->will($this->returnValue(true));
+		$request
+			->expects($this->exactly(2))
+			->method('getRemoteAddress')
+			->willReturn('192.168.0.1');
+		$this->throttler
+			->expects($this->once())
+			->method('sleepDelay')
+			->with('192.168.0.1');
+		$this->throttler
+			->expects($this->once())
+			->method('getDelay')
+			->with('192.168.0.1')
+			->willReturn(0);
 
-		$userSession->logClientIn('john', 'doe', $request);
+		$userSession->logClientIn('john', 'doe', $request, $this->throttler);
 	}
 
 	public function testLogClientInWithTokenPassword() {
@@ -379,7 +393,6 @@ class SessionTest extends \Test\TestCase {
 			->getMock();
 		$session = $this->getMock('\OCP\ISession');
 		$request = $this->getMock('\OCP\IRequest');
-		$user = $this->getMock('\OCP\IUser');
 
 		/** @var \OC\User\Session $userSession */
 		$userSession = $this->getMockBuilder('\OC\User\Session')
@@ -398,8 +411,21 @@ class SessionTest extends \Test\TestCase {
 		$session->expects($this->once())
 			->method('set')
 			->with('app_password', 'I-AM-AN-APP-PASSWORD');
+		$request
+			->expects($this->exactly(2))
+			->method('getRemoteAddress')
+			->willReturn('192.168.0.1');
+		$this->throttler
+			->expects($this->once())
+			->method('sleepDelay')
+			->with('192.168.0.1');
+		$this->throttler
+			->expects($this->once())
+			->method('getDelay')
+			->with('192.168.0.1')
+			->willReturn(0);
 
-		$this->assertTrue($userSession->logClientIn('john', 'I-AM-AN-APP-PASSWORD', $request));
+		$this->assertTrue($userSession->logClientIn('john', 'I-AM-AN-APP-PASSWORD', $request, $this->throttler));
 	}
 
 	/**
@@ -410,7 +436,6 @@ class SessionTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$session = $this->getMock('\OCP\ISession');
-		$user = $this->getMock('\OCP\IUser');
 		$request = $this->getMock('\OCP\IRequest');
 
 		/** @var \OC\User\Session $userSession */
@@ -433,7 +458,21 @@ class SessionTest extends \Test\TestCase {
 			->with('john')
 			->will($this->returnValue(true));
 
-		$userSession->logClientIn('john', 'doe', $request);
+		$request
+			->expects($this->exactly(2))
+			->method('getRemoteAddress')
+			->willReturn('192.168.0.1');
+		$this->throttler
+			->expects($this->once())
+			->method('sleepDelay')
+			->with('192.168.0.1');
+		$this->throttler
+			->expects($this->once())
+			->method('getDelay')
+			->with('192.168.0.1')
+			->willReturn(0);
+
+		$userSession->logClientIn('john', 'doe', $request, $this->throttler);
 	}
 
 	public function testRememberLoginValidToken() {

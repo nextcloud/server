@@ -1,9 +1,11 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Achim Königs <garfonso@tratschtante.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -34,6 +36,12 @@ class BirthdayService {
 
 	/** @var GroupPrincipalBackend */
 	private $principalBackend;
+
+	/** @var CalDavBackend  */
+	private $calDavBackEnd;
+
+	/** @var CardDavBackend  */
+	private $cardDavBackEnd;
 
 	/**
 	 * BirthdayService constructor.

@@ -1,15 +1,17 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -31,6 +33,7 @@ namespace OCA\DAV\Connector\Sabre;
 use OC\Files\View;
 use OCA\DAV\Upload\FutureFile;
 use OCP\Files\ForbiddenException;
+use OCP\IPreview;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
@@ -48,6 +51,7 @@ class FilesPlugin extends ServerPlugin {
 
 	// namespace
 	const NS_OWNCLOUD = 'http://owncloud.org/ns';
+	const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
 	const FILEID_PROPERTYNAME = '{http://owncloud.org/ns}id';
 	const INTERNAL_FILEID_PROPERTYNAME = '{http://owncloud.org/ns}fileid';
 	const PERMISSIONS_PROPERTYNAME = '{http://owncloud.org/ns}permissions';
@@ -60,6 +64,7 @@ class FilesPlugin extends ServerPlugin {
 	const OWNER_DISPLAY_NAME_PROPERTYNAME = '{http://owncloud.org/ns}owner-display-name';
 	const CHECKSUMS_PROPERTYNAME = '{http://owncloud.org/ns}checksums';
 	const DATA_FINGERPRINT_PROPERTYNAME = '{http://owncloud.org/ns}data-fingerprint';
+	const HAS_PREVIEW_PROPERTYNAME = '{http://nextcloud.org/ns}has-preview';
 
 	/**
 	 * Reference to main server object
@@ -102,10 +107,16 @@ class FilesPlugin extends ServerPlugin {
 	private $request;
 
 	/**
+	 * @var IPreview
+	 */
+	private $previewManager;
+
+	/**
 	 * @param Tree $tree
 	 * @param View $view
 	 * @param IConfig $config
 	 * @param IRequest $request
+	 * @param IPreview $previewManager
 	 * @param bool $isPublic
 	 * @param bool $downloadAttachment
 	 */
@@ -113,6 +124,7 @@ class FilesPlugin extends ServerPlugin {
 								View $view,
 								IConfig $config,
 								IRequest $request,
+								IPreview $previewManager,
 								$isPublic = false,
 								$downloadAttachment = true) {
 		$this->tree = $tree;
@@ -121,6 +133,7 @@ class FilesPlugin extends ServerPlugin {
 		$this->request = $request;
 		$this->isPublic = $isPublic;
 		$this->downloadAttachment = $downloadAttachment;
+		$this->previewManager = $previewManager;
 	}
 
 	/**
@@ -137,6 +150,7 @@ class FilesPlugin extends ServerPlugin {
 	public function initialize(\Sabre\DAV\Server $server) {
 
 		$server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
+		$server->xml->namespaceMap[self::NS_NEXTCLOUD] = 'nc';
 		$server->protectedProperties[] = self::FILEID_PROPERTYNAME;
 		$server->protectedProperties[] = self::INTERNAL_FILEID_PROPERTYNAME;
 		$server->protectedProperties[] = self::PERMISSIONS_PROPERTYNAME;
@@ -147,6 +161,7 @@ class FilesPlugin extends ServerPlugin {
 		$server->protectedProperties[] = self::OWNER_DISPLAY_NAME_PROPERTYNAME;
 		$server->protectedProperties[] = self::CHECKSUMS_PROPERTYNAME;
 		$server->protectedProperties[] = self::DATA_FINGERPRINT_PROPERTYNAME;
+		$server->protectedProperties[] = self::HAS_PREVIEW_PROPERTYNAME;
 
 		// normally these cannot be changed (RFC4918), but we want them modifiable through PROPPATCH
 		$allowedProperties = ['{DAV:}getetag'];
@@ -313,6 +328,10 @@ class FilesPlugin extends ServerPlugin {
 				if ($node->getPath() === '/') {
 					return $this->config->getSystemValue('data-fingerprint', '');
 				}
+			});
+
+			$propFind->handle(self::HAS_PREVIEW_PROPERTYNAME, function () use ($node) {
+				return json_encode($this->previewManager->isAvailable($node->getFileInfo()));
 			});
 		}
 

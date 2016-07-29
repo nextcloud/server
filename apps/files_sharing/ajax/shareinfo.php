@@ -1,13 +1,16 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -31,7 +34,7 @@ if (!isset($_GET['t'])) {
 	exit;
 }
 
-$federatedSharingApp = new \OCA\FederatedFileSharing\AppInfo\Application('federatedfilesharing');
+$federatedSharingApp = new \OCA\FederatedFileSharing\AppInfo\Application();
 $federatedShareProvider = $federatedSharingApp->getFederatedShareProvider();
 
 if ($federatedShareProvider->isOutgoingServer2serverShareEnabled() === false) {
@@ -53,11 +56,12 @@ if (isset($_GET['dir'])) {
 
 $data = \OCA\Files_Sharing\Helper::setupFromToken($token, $relativePath, $password);
 
-$linkItem = $data['linkItem'];
+/** @var \OCP\Share\IShare $share */
+$share = $data['share'];
 // Load the files
 $path = $data['realPath'];
 
-$isWritable = $linkItem['permissions'] & (\OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_CREATE);
+$isWritable = $share->getPermissions() & (\OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_CREATE);
 if (!$isWritable) {
 	\OC\Files\Filesystem::addStorageWrapper('readonly', function ($mountPoint, $storage) {
 		return new \OC\Files\Storage\Wrapper\PermissionsMask(array('storage' => $storage, 'mask' => \OCP\Constants::PERMISSION_READ + \OCP\Constants::PERMISSION_SHARE));
@@ -67,11 +71,7 @@ if (!$isWritable) {
 $rootInfo = \OC\Files\Filesystem::getFileInfo($path);
 $rootView = new \OC\Files\View('');
 
-$shareManager = \OC::$server->getShareManager();
-$share = $shareManager->getShareByToken($token);
-$sharePermissions= (int)$share->getPermissions();
-
-if(!($share->getPermissions() & \OCP\Constants::PERMISSION_READ)) {
+if($rootInfo === false || !($share->getPermissions() & \OCP\Constants::PERMISSION_READ)) {
 	OCP\JSON::error(array('data' => 'Share is not readable.'));
 	exit();
 }
@@ -98,11 +98,11 @@ function getChildInfo($dir, $view, $sharePermissions) {
 
 $result = \OCA\Files\Helper::formatFileInfo($rootInfo);
 $result['mtime'] = $result['mtime'] / 1000;
-$result['permissions'] = (int)$result['permissions'] & $sharePermissions;
+$result['permissions'] = (int)$result['permissions'] & $share->getPermissions();
 
 
 if ($rootInfo->getType() === 'dir') {
-	$result['children'] = getChildInfo($rootInfo, $rootView, $sharePermissions);
+	$result['children'] = getChildInfo($rootInfo, $rootView, $share->getPermissions());
 }
 
 OCP\JSON::success(array('data' => $result));

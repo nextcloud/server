@@ -127,7 +127,12 @@
 		 *
 		 * @type string
 		 */
-		mountType: null
+		mountType: null,
+
+		/**
+		 * @type boolean
+		 */
+		hasPreview: true
 	};
 
 	if (!OC.Files) {

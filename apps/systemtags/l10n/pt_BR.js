@@ -23,9 +23,9 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s etiqueta de sistema não atribuída %3$s de %2$s",
     "%s (restricted)" : "%s (restrito)",
     "%s (invisible)" : "%s (invisivel)",
+    "Name" : "Nome",
     "No files in here" : "Nenhum arquivo aqui",
     "No entries found in this folder" : "Nenhuma entrada foi encontrada nesta pasta",
-    "Name" : "Nome",
     "Size" : "Tamanho",
     "Modified" : "Modificado"
 },

@@ -1,17 +1,18 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christoph Wurst <christoph@owncloud.com>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -38,6 +39,7 @@ use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Output;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Middleware\Security\CORSMiddleware;
+use OC\AppFramework\Middleware\OCSMiddleware;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\Utility\SimpleContainer;
@@ -287,6 +289,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getEventDispatcher();
 		});
 
+		$this->registerService('OCP\WorkflowEngine\IManager', function ($c) {
+			return $c->query('OCA\WorkflowEngine\Manager');
+		});
+
 		$this->registerService('OCP\\AppFramework\\IAppContainer', function ($c) {
 			return $c;
 		});
@@ -328,6 +334,12 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			);
 		});
 
+		/**
+		 * App Framework default arguments
+		 */
+		$this->registerParameter('corsMethods', 'PUT, POST, GET, DELETE, PATCH');
+		$this->registerParameter('corsAllowedHeaders', 'Authorization, Content-Type, Accept');
+		$this->registerParameter('corsMaxAge', 1728000);
 
 		/**
 		 * Middleware
@@ -351,7 +363,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return new CORSMiddleware(
 				$c['Request'],
 				$c['ControllerMethodReflector'],
-				$c['OCP\IUserSession']
+				$c['OCP\IUserSession'],
+				$c->getServer()->getBruteForceThrottler()
 			);
 		});
 
@@ -373,6 +386,12 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return new TwoFactorMiddleware($twoFactorManager, $userSession, $session, $urlGenerator, $reflector, $request);
 		});
 
+		$this->registerService('OCSMiddleware', function (SimpleContainer $c) {
+			return new OCSMiddleware(
+				$c['Request']
+			);
+		});
+
 		$middleWares = &$this->middleWares;
 		$this->registerService('MiddlewareDispatcher', function($c) use (&$middleWares) {
 			$dispatcher = new MiddlewareDispatcher();
@@ -385,6 +404,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			}
 
 			$dispatcher->registerMiddleware($c['SessionMiddleware']);
+			$dispatcher->registerMiddleware($c['OCSMiddleware']);
 			return $dispatcher;
 		});
 

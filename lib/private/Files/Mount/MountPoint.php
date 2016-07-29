@@ -1,14 +1,16 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Georg Ehrke <georg@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -68,14 +70,19 @@ class MountPoint implements IMountPoint {
 	 */
 	private $invalidStorage = false;
 
+	/** @var int|null  */
+	protected $mountId;
+
 	/**
 	 * @param string|\OC\Files\Storage\Storage $storage
 	 * @param string $mountpoint
 	 * @param array $arguments (optional) configuration for the storage backend
 	 * @param \OCP\Files\Storage\IStorageFactory $loader
 	 * @param array $mountOptions mount specific options
+	 * @param int|null $mountId
+	 * @throws \Exception
 	 */
-	public function __construct($storage, $mountpoint, $arguments = null, $loader = null, $mountOptions = null) {
+	public function __construct($storage, $mountpoint, $arguments = null, $loader = null, $mountOptions = null, $mountId = null) {
 		if (is_null($arguments)) {
 			$arguments = array();
 		}
@@ -102,6 +109,7 @@ class MountPoint implements IMountPoint {
 			$this->class = $storage;
 			$this->arguments = $arguments;
 		}
+		$this->mountId = $mountId;
 	}
 
 	/**
@@ -248,5 +256,9 @@ class MountPoint implements IMountPoint {
 	 */
 	public function getStorageRootId() {
 		return (int)$this->getStorage()->getCache()->getId('');
+	}
+
+	public function getMountId() {
+		return $this->mountId;
 	}
 }

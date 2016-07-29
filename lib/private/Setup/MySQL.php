@@ -1,14 +1,15 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Michael Göhler <somebody.here@gmx.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -60,12 +61,20 @@ class MySQL extends AbstractDatabase {
 			//we can't use OC_BD functions here because we need to connect as the administrative user.
 			$query = "CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET utf8 COLLATE utf8_bin;";
 			$connection->executeUpdate($query);
+		} catch (\Exception $ex) {
+			$this->logger->error('Database creation failed: {error}', [
+				'app' => 'mysql.setup',
+				'error' => $ex->getMessage()
+			]);
+			return;
+		}
 
+		try {
 			//this query will fail if there aren't the right permissions, ignore the error
 			$query="GRANT ALL PRIVILEGES ON `$name` . * TO '$user'";
 			$connection->executeUpdate($query);
 		} catch (\Exception $ex) {
-			$this->logger->error('Database creation failed: {error}', [
+			$this->logger->debug('Could not automatically grant privileges, this can be ignored if database user already had privileges: {error}', [
 				'app' => 'mysql.setup',
 				'error' => $ex->getMessage()
 			]);
@@ -85,41 +94,6 @@ class MySQL extends AbstractDatabase {
 		$connection->executeUpdate($query);
 		$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
 		$connection->executeUpdate($query);
-	}
-
-	/**
-	 * @return \OC\DB\Connection
-	 * @throws \OC\DatabaseSetupException
-	 */
-	private function connect() {
-
-		$connectionParams = array(
-				'host' => $this->dbHost,
-				'user' => $this->dbUser,
-				'password' => $this->dbPassword,
-				'tablePrefix' => $this->tablePrefix,
-		);
-
-		// adding port support through installer
-		if(!empty($this->dbPort)) {
-			if (ctype_digit($this->dbPort)) {
-				$connectionParams['port'] = $this->dbPort;
-			} else {
-				$connectionParams['unix_socket'] = $this->dbPort;
-			}
-		} else if (strpos($this->dbHost, ':')) {
-			// Host variable may carry a port or socket.
-			list($host, $portOrSocket) = explode(':', $this->dbHost, 2);
-			if (ctype_digit($portOrSocket)) {
-				$connectionParams['port'] = $portOrSocket;
-			} else {
-				$connectionParams['unix_socket'] = $portOrSocket;
-			}
-			$connectionParams['host'] = $host;
-		}
-
-		$cf = new ConnectionFactory();
-		return $cf->getConnection('mysql', $connectionParams);
 	}
 
 	/**

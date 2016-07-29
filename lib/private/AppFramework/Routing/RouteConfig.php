@@ -1,14 +1,15 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Patrick Paysant <ppaysant@linagora.com>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -62,6 +63,61 @@ class RouteConfig {
 
 		// parse resources
 		$this->processResources($this->routes);
+
+		/*
+		 * OCS routes go into a different collection
+		 */
+		$oldCollection = $this->router->getCurrentCollection();
+		$this->router->useCollection($oldCollection.'.ocs');
+
+		// parse ocs simple routes
+		$this->processOCS($this->routes);
+
+		$this->router->useCollection($oldCollection);
+	}
+
+	private function processOCS(array $routes) {
+		$ocsRoutes = isset($routes['ocs']) ? $routes['ocs'] : [];
+		foreach ($ocsRoutes as $ocsRoute) {
+			$name = $ocsRoute['name'];
+			$postfix = '';
+
+			if (isset($ocsRoute['postfix'])) {
+				$postfix = $ocsRoute['postfix'];
+			}
+
+			$url = $ocsRoute['url'];
+			$verb = isset($ocsRoute['verb']) ? strtoupper($ocsRoute['verb']) : 'GET';
+
+			$split = explode('#', $name, 2);
+			if (count($split) != 2) {
+				throw new \UnexpectedValueException('Invalid route name');
+			}
+			$controller = $split[0];
+			$action = $split[1];
+
+			$controllerName = $this->buildControllerName($controller);
+			$actionName = $this->buildActionName($action);
+
+			// register the route
+			$handler = new RouteActionHandler($this->container, $controllerName, $actionName);
+
+			$router = $this->router->create('ocs.'.$this->appName.'.'.$controller.'.'.$action . $postfix, $url)
+				->method($verb)
+				->action($handler);
+
+			// optionally register requirements for route. This is used to
+			// tell the route parser how url parameters should be matched
+			if(array_key_exists('requirements', $ocsRoute)) {
+				$router->requirements($ocsRoute['requirements']);
+			}
+
+			// optionally register defaults for route. This is used to
+			// tell the route parser how url parameters should be default valued
+			if(array_key_exists('defaults', $ocsRoute)) {
+				$router->defaults($ocsRoute['defaults']);
+			}
+		}
 	}
 
 	/**

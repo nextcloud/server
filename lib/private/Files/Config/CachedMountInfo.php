@@ -1,8 +1,9 @@
 <?php
 /**
- * @author Robin Appelman <icewind@owncloud.com>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Robin Appelman <robin@icewind.nl>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -48,18 +49,25 @@ class CachedMountInfo implements ICachedMountInfo {
 	protected $mountPoint;
 
 	/**
+	 * @var int|null
+	 */
+	protected $mountId;
+
+	/**
 	 * CachedMountInfo constructor.
 	 *
 	 * @param IUser $user
 	 * @param int $storageId
 	 * @param int $rootId
 	 * @param string $mountPoint
+	 * @param int|null $mountId
 	 */
-	public function __construct(IUser $user, $storageId, $rootId, $mountPoint) {
+	public function __construct(IUser $user, $storageId, $rootId, $mountPoint, $mountId = null) {
 		$this->user = $user;
 		$this->storageId = $storageId;
 		$this->rootId = $rootId;
 		$this->mountPoint = $mountPoint;
+		$this->mountId = $mountId;
 	}
 
 	/**
@@ -103,5 +111,15 @@ class CachedMountInfo implements ICachedMountInfo {
 	 */
 	public function getMountPoint() {
 		return $this->mountPoint;
+	}
+
+	/**
+	 * Get the id of the configured mount
+	 *
+	 * @return int|null mount id or null if not applicable
+	 * @since 9.1.0
+	 */
+	public function getMountId() {
+		return $this->mountId;
 	}
 }

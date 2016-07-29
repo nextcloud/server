@@ -1,8 +1,9 @@
 <?php
 /**
- * @author Roeland Jago Douma <rullzer@owncloud.com>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -470,5 +471,10 @@ class LazyRoot implements IRootFolder {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
-
+	/**
+	 * @inheritDoc
+	 */
+	public function getRecent($limit, $offset = 0) {
+		return $this->__call(__FUNCTION__, func_get_args());
+	}
 }

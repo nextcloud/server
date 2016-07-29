@@ -1,9 +1,11 @@
 <?php
 /**
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -32,7 +34,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Manage extends Command {
 
-	const DEFAULT_BACKEND = 'owncloud';
+	const DEFAULT_BACKEND = 'file';
 	const DEFAULT_LOG_LEVEL = 2;
 	const DEFAULT_TIMEZONE = 'UTC';
 
@@ -52,7 +54,7 @@ class Manage extends Command {
 				'backend',
 				null,
 				InputOption::VALUE_REQUIRED,
-				'set the logging backend [owncloud, syslog, errorlog]'
+				'set the logging backend [file, syslog, errorlog]'
 			)
 			->addOption(
 				'level',

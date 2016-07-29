@@ -1,11 +1,13 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author scolebrook <scolebrook@mac.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -51,7 +53,7 @@ class Defaults {
 	 * @since 6.0.0
 	 */
 	function __construct() {
-		$this->defaults = new \OC_Defaults();
+		$this->defaults = \OC::$server->getThemingDefaults();
 	}
 
 	/**

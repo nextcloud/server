@@ -17,7 +17,6 @@ use Test\TestCase;
  * Class Manager
  *
  * @package Test\App
- * @group DB
  */
 class ManagerTest extends TestCase {
 	/**
@@ -85,12 +84,22 @@ class ManagerTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->userSession = $this->getMock('\OCP\IUserSession');
-		$this->groupManager = $this->getMock('\OCP\IGroupManager');
+		$this->userSession = $this->getMockBuilder('\OCP\IUserSession')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->groupManager = $this->getMockBuilder('\OCP\IGroupManager')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->appConfig = $this->getAppConfig();
-		$this->cacheFactory = $this->getMock('\OCP\ICacheFactory');
-		$this->cache = $this->getMock('\OCP\ICache');
-		$this->eventDispatcher = $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
+		$this->cacheFactory = $this->getMockBuilder('\OCP\ICacheFactory')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->cache = $this->getMockBuilder('\OCP\ICache')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->eventDispatcher = $this->getMockBuilder('\Symfony\Component\EventDispatcher\EventDispatcherInterface')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->cacheFactory->expects($this->any())
 			->method('create')
 			->with('settings')
@@ -228,20 +237,31 @@ class ManagerTest extends TestCase {
 		$this->assertTrue($this->manager->isInstalled('test'));
 	}
 
+	private function newUser($uid) {
+		$config = $this->getMockBuilder('\OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
+		$urlgenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+			->disableOriginalConstructor()
+			->getMock();
+
+		return new User($uid, null, null, $config, $urlgenerator);
+	}
+
 	public function testIsEnabledForUserEnabled() {
 		$this->appConfig->setValue('test', 'enabled', 'yes');
-		$user = new User('user1', null);
+		$user = $this->newUser('user1');
 		$this->assertTrue($this->manager->isEnabledForUser('test', $user));
 	}
 
 	public function testIsEnabledForUserDisabled() {
 		$this->appConfig->setValue('test', 'enabled', 'no');
-		$user = new User('user1', null);
+		$user = $this->newUser('user1');
 		$this->assertFalse($this->manager->isEnabledForUser('test', $user));
 	}
 
 	public function testIsEnabledForUserEnabledForGroup() {
-		$user = new User('user1', null);
+		$user = $this->newUser('user1');
 		$this->groupManager->expects($this->once())
 			->method('getUserGroupIds')
 			->with($user)
@@ -252,7 +272,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testIsEnabledForUserDisabledForGroup() {
-		$user = new User('user1', null);
+		$user = $this->newUser('user1');
 		$this->groupManager->expects($this->once())
 			->method('getUserGroupIds')
 			->with($user)
@@ -268,7 +288,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testIsEnabledForUserLoggedIn() {
-		$user = new User('user1', null);
+		$user = $this->newUser('user1');
 
 		$this->userSession->expects($this->once())
 			->method('getUser')
@@ -286,11 +306,11 @@ class ManagerTest extends TestCase {
 		$this->appConfig->setValue('test1', 'enabled', 'yes');
 		$this->appConfig->setValue('test2', 'enabled', 'no');
 		$this->appConfig->setValue('test3', 'enabled', '["foo"]');
-		$this->assertEquals(['dav', 'federatedfilesharing', 'files', 'test1', 'test3'], $this->manager->getInstalledApps());
+		$this->assertEquals(['dav', 'federatedfilesharing', 'files', 'test1', 'test3', 'workflowengine'], $this->manager->getInstalledApps());
 	}
 
 	public function testGetAppsForUser() {
-		$user = new User('user1', null);
+		$user = $this->newUser('user1');
 		$this->groupManager->expects($this->any())
 			->method('getUserGroupIds')
 			->with($user)
@@ -300,7 +320,7 @@ class ManagerTest extends TestCase {
 		$this->appConfig->setValue('test2', 'enabled', 'no');
 		$this->appConfig->setValue('test3', 'enabled', '["foo"]');
 		$this->appConfig->setValue('test4', 'enabled', '["asd"]');
-		$this->assertEquals(['dav', 'federatedfilesharing', 'files', 'test1', 'test3'], $this->manager->getEnabledAppsForUser($user));
+		$this->assertEquals(['dav', 'federatedfilesharing', 'files', 'test1', 'test3', 'workflowengine'], $this->manager->getEnabledAppsForUser($user));
 	}
 
 	public function testGetAppsNeedingUpgrade() {
@@ -318,6 +338,7 @@ class ManagerTest extends TestCase {
 			'test3' => ['id' => 'test3', 'version' => '1.2.4', 'requiremin' => '9.0.0'],
 			'test4' => ['id' => 'test4', 'version' => '3.0.0', 'requiremin' => '8.1.0'],
 			'testnoversion' => ['id' => 'testnoversion', 'requiremin' => '8.2.0'],
+			'workflowengine' => ['id' => 'workflowengine'],
 		];
 
 		$this->manager->expects($this->any())
@@ -358,6 +379,7 @@ class ManagerTest extends TestCase {
 			'test2' => ['id' => 'test2', 'version' => '1.0.0', 'requiremin' => '8.2.0'],
 			'test3' => ['id' => 'test3', 'version' => '1.2.4', 'requiremin' => '9.0.0'],
 			'testnoversion' => ['id' => 'testnoversion', 'requiremin' => '8.2.0'],
+			'workflowengine' => ['id' => 'workflowengine'],
 		];
 
 		$this->manager->expects($this->any())

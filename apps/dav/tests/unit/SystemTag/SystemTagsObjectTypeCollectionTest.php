@@ -1,9 +1,11 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -47,30 +49,36 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->tagManager = $this->getMock('\OCP\SystemTag\ISystemTagManager');
-		$this->tagMapper = $this->getMock('\OCP\SystemTag\ISystemTagObjectMapper');
+		$this->tagManager = $this->getMockBuilder('\OCP\SystemTag\ISystemTagManager')
+			->getMock();
+		$this->tagMapper = $this->getMockBuilder('\OCP\SystemTag\ISystemTagObjectMapper')
+			->getMock();
 
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->getMockBuilder('\OCP\IUser')
+			->getMock();
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('testuser'));
-		$userSession = $this->getMock('\OCP\IUserSession');
+		$userSession = $this->getMockBuilder('\OCP\IUserSession')
+			->getMock();
 		$userSession->expects($this->any())
 			->method('getUser')
 			->will($this->returnValue($user));
-		$groupManager = $this->getMock('\OCP\IGroupManager');
+		$groupManager = $this->getMockBuilder('\OCP\IGroupManager')
+			->getMock();
 		$groupManager->expects($this->any())
 			->method('isAdmin')
 			->with('testuser')
 			->will($this->returnValue(true));
 
-		$this->userFolder = $this->getMock('\OCP\Files\Folder');
+		$this->userFolder = $this->getMockBuilder('\OCP\Files\Folder')
+			->getMock();
+		$userFolder = $this->userFolder;
 
-		$fileRoot = $this->getMock('\OCP\Files\IRootFolder');
-		$fileRoot->expects($this->any())
-			->method('getUserfolder')
-			->with('testuser')
-			->will($this->returnValue($this->userFolder));
+		$closure = function($name) use ($userFolder) {
+			$nodes = $userFolder->getById(intval($name));
+			return !empty($nodes);
+		};
 
 		$this->node = new \OCA\DAV\SystemTag\SystemTagsObjectTypeCollection(
 			'files',
@@ -78,19 +86,19 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 			$this->tagMapper,
 			$userSession,
 			$groupManager,
-			$fileRoot
+			$closure
 		);
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testForbiddenCreateFile() {
 		$this->node->createFile('555');
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testForbiddenCreateDirectory() {
 		$this->node->createDirectory('789');
@@ -108,7 +116,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\NotFound
+	 * @expectedException \Sabre\DAV\Exception\NotFound
 	 */
 	public function testGetChildWithoutAccess() {
 		$this->userFolder->expects($this->once())
@@ -119,7 +127,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\MethodNotAllowed
+	 * @expectedException \Sabre\DAV\Exception\MethodNotAllowed
 	 */
 	public function testGetChildren() {
 		$this->node->getChildren();
@@ -142,14 +150,14 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testDelete() {
 		$this->node->delete();
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testSetName() {
 		$this->node->setName('somethingelse');

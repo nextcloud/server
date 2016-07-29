@@ -145,9 +145,6 @@ class UtilCheckServerTest extends \Test\TestCase {
 	 * Tests an error is given when the datadir is not writable
 	 */
 	public function testDataDirNotWritable() {
-		if (\OC_Util::runningOnWindows()) {
-			$this->markTestSkipped('[Windows] chmod() does not work as intended on Windows.');
-		}
 		$this->markTestSkipped('TODO: Disable because fails on drone');
 
 		chmod($this->datadir, 0300);

@@ -175,6 +175,11 @@
 		_clientSideSort: true,
 
 		/**
+		 * Whether or not users can change the sort attribute or direction
+		 */
+		_allowSorting: true,
+
+		/**
 		 * Current directory
 		 * @type String
 		 */
@@ -718,7 +723,7 @@
 				$target = $target.closest('a');
 			}
 			sort = $target.attr('data-sort');
-			if (sort) {
+			if (sort && this._allowSorting) {
 				if (this._sort === sort) {
 					this.setSort(sort, (this._sortDirection === 'desc')?'asc':'desc', true, true);
 				}
@@ -852,7 +857,8 @@
 				type: $el.attr('data-type'),
 				size: parseInt($el.attr('data-size'), 10),
 				etag: $el.attr('data-etag'),
-				permissions: parseInt($el.attr('data-permissions'), 10)
+				permissions: parseInt($el.attr('data-permissions'), 10),
+				hasPreview: $el.attr('data-has-preview') === 'true'
 			};
 			var icon = $el.attr('data-icon');
 			if (icon) {
@@ -1068,7 +1074,8 @@
 				"data-mime": mime,
 				"data-mtime": mtime,
 				"data-etag": fileData.etag,
-				"data-permissions": fileData.permissions || this.getDirectoryPermissions()
+				"data-permissions": fileData.permissions || this.getDirectoryPermissions(),
+				"data-has-preview": fileData.hasPreview !== false
 			});
 
 			if (dataIcon) {
@@ -1330,7 +1337,7 @@
 			// display actions
 			this.fileActions.display(filenameTd, !options.silent, this);
 
-			if (mime !== 'httpd/unix-directory') {
+			if (mime !== 'httpd/unix-directory' && fileData.hasPreview !== false) {
 				var iconDiv = filenameTd.find('.thumbnail');
 				// lazy load / newly inserted td ?
 				// the typeof check ensures that the default value of animate is true

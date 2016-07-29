@@ -27,6 +27,12 @@ namespace Test\Group;
 use OC_Group;
 use OC_User;
 
+/**
+ * Class LegacyGroupTest
+ *
+ * @package Test\Group
+ * @group DB
+ */
 class LegacyGroupTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();

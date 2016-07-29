@@ -1,10 +1,12 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -43,7 +45,9 @@ class DummyGetResponsePluginTest extends TestCase {
 
 	public function testInitialize() {
 		/** @var \Sabre\DAV\Server $server */
-		$server = $this->getMock('\Sabre\DAV\Server');
+		$server = $this->getMockBuilder('\Sabre\DAV\Server')
+			->disableOriginalConstructor()
+			->getMock();
 		$server
 			->expects($this->once())
 			->method('on')
@@ -55,9 +59,13 @@ class DummyGetResponsePluginTest extends TestCase {
 
 	public function testHttpGet() {
 		/** @var \Sabre\HTTP\RequestInterface $request */
-		$request = $this->getMock('\Sabre\HTTP\RequestInterface');
+		$request = $this->getMockBuilder('\Sabre\HTTP\RequestInterface')
+			->disableOriginalConstructor()
+			->getMock();
 		/** @var \Sabre\HTTP\ResponseInterface $response */
-		$response = $server = $this->getMock('\Sabre\HTTP\ResponseInterface');
+		$response = $server = $this->getMockBuilder('\Sabre\HTTP\ResponseInterface')
+			->disableOriginalConstructor()
+			->getMock();
 		$response
 			->expects($this->once())
 			->method('setBody');

@@ -1,12 +1,14 @@
 <?php
 /**
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Robin Appelman <icewind@owncloud.com>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -46,7 +48,7 @@ class Application extends App {
 		 * Controllers
 		 */
 		$container->registerService('ShareController', function (SimpleContainer $c) use ($server) {
-			$federatedSharingApp = new \OCA\FederatedFileSharing\AppInfo\Application('federatedfilesharing');
+			$federatedSharingApp = new \OCA\FederatedFileSharing\AppInfo\Application();
 			return new ShareController(
 				$c->query('AppName'),
 				$c->query('Request'),
@@ -59,7 +61,8 @@ class Application extends App {
 				$server->getSession(),
 				$server->getPreviewManager(),
 				$server->getRootFolder(),
-				$federatedSharingApp->getFederatedShareProvider()
+				$federatedSharingApp->getFederatedShareProvider(),
+				$server->getEventDispatcher()
 			);
 		});
 		$container->registerService('ExternalSharesController', function (SimpleContainer $c) {

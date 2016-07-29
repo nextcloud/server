@@ -1,10 +1,12 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Aaron Wood <aaronjwood@gmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -327,7 +329,7 @@ class CustomPropertiesBackend implements BackendInterface {
 
 		$result = $this->connection->executeQuery(
 			$sql,
-			array($this->user, rtrim($path, '/') . '/%', $requestedProperties),
+			array($this->user, $this->connection->escapeLikeParameter(rtrim($path, '/')) . '/%', $requestedProperties),
 			array(null, null, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
 		);
 

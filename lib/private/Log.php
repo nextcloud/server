@@ -1,17 +1,18 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
- * @author Robin Appelman <icewind@owncloud.com>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -64,6 +65,7 @@ class Log implements ILogger {
 		// Session/User
 		'login',
 		'checkPassword',
+		'loginWithPassword',
 		'updatePrivateKeyPassword',
 		'validateUserPass',
 
@@ -101,7 +103,12 @@ class Log implements ILogger {
 
 		// FIXME: Add this for backwards compatibility, should be fixed at some point probably
 		if($logger === null) {
-			$this->logger = 'OC\\Log\\'.ucfirst($this->config->getValue('log_type', 'owncloud'));
+			// TODO: Drop backwards compatibility for config in the future
+			$logType = $this->config->getValue('log_type', 'file');
+			if($logType==='owncloud') {
+				$logType = 'file';
+			}
+			$this->logger = 'OC\\Log\\'.ucfirst($logType);
 			call_user_func(array($this->logger, 'init'));
 		} else {
 			$this->logger = $logger;

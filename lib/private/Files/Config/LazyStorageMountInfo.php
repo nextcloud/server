@@ -1,8 +1,9 @@
 <?php
 /**
- * @author Robin Appelman <icewind@owncloud.com>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Robin Appelman <robin@icewind.nl>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -74,5 +75,9 @@ class LazyStorageMountInfo extends CachedMountInfo {
 			$this->mountPoint = $this->mount->getMountPoint();
 		}
 		return parent::getMountPoint();
+	}
+
+	public function getMountId() {
+		return $this->mount->getMountId();
 	}
 }

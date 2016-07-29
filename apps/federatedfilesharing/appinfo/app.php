@@ -1,9 +1,10 @@
 <?php
 /**
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Joas Schilling <nickvergessen@owncloud.com>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Björn Schießle <bjoern@schiessle.org>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -20,11 +21,11 @@
  *
  */
 
-$app = new \OCA\FederatedFileSharing\AppInfo\Application('federatedfilesharing');
-
 use OCA\FederatedFileSharing\Notifier;
 
+$app = new \OCA\FederatedFileSharing\AppInfo\Application();
 $l = \OC::$server->getL10N('files_sharing');
+$eventDispatcher = \OC::$server->getEventDispatcher();
 
 $app->registerSettings();
 
@@ -39,3 +40,14 @@ $manager->registerNotifier(function() {
 		'name' => $l->t('Federated sharing'),
 	];
 });
+
+$federatedShareProvider = $app->getFederatedShareProvider();
+
+$eventDispatcher->addListener(
+	'OCA\Files::loadAdditionalScripts',
+	function() use ($federatedShareProvider) {
+		if ($federatedShareProvider->isIncomingServer2serverShareEnabled()) {
+			\OCP\Util::addScript('federatedfilesharing', 'external');
+		}
+	}
+);

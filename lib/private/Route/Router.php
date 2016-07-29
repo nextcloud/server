@@ -1,18 +1,19 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -150,6 +151,11 @@ class Router implements IRouter {
 				$collection = $this->getCollection($app);
 				$collection->addPrefix('/apps/' . $app);
 				$this->root->addCollection($collection);
+
+				// Also add the OCS collection
+				$collection = $this->getCollection($app.'.ocs');
+				$collection->addPrefix('/ocsapp/apps/' . $app);
+				$this->root->addCollection($collection);
 			}
 		}
 		if (!isset($this->loadedApps['core'])) {
@@ -237,6 +243,13 @@ class Router implements IRouter {
 		if (substr($url, 0, 6) === '/apps/') {
 			// empty string / 'apps' / $app / rest of the route
 			list(, , $app,) = explode('/', $url, 4);
+
+			$app = \OC_App::cleanAppId($app);
+			\OC::$REQUESTEDAPP = $app;
+			$this->loadRoutes($app);
+		} else if (substr($url, 0, 13) === '/ocsapp/apps/') {
+			// empty string / 'ocsapp' / 'apps' / $app / rest of the route
+			list(, , , $app,) = explode('/', $url, 5);
 
 			$app = \OC_App::cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;

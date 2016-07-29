@@ -1,17 +1,18 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christoph Wurst <christoph@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -95,7 +96,11 @@ class Session implements IUserSession, Emitter {
 	 * @param IProvider $tokenProvider
 	 * @param IConfig $config
 	 */
-	public function __construct(IUserManager $manager, ISession $session, ITimeFactory $timeFacory, $tokenProvider, IConfig $config) {
+	public function __construct(IUserManager $manager,
+								ISession $session,
+								ITimeFactory $timeFacory,
+								$tokenProvider,
+								IConfig $config) {
 		$this->manager = $manager;
 		$this->session = $session;
 		$this->timeFacory = $timeFacory;
@@ -280,7 +285,6 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function login($uid, $password) {
 		$this->session->regenerateId();
-
 		if ($this->validateToken($password, $uid)) {
 			return $this->loginWithToken($password);
 		} else {
@@ -298,11 +302,18 @@ class Session implements IUserSession, Emitter {
 	 * @param string $user
 	 * @param string $password
 	 * @param IRequest $request
+	 * @param OC\Security\Bruteforce\Throttler $throttler
 	 * @throws LoginException
 	 * @throws PasswordLoginForbiddenException
 	 * @return boolean
 	 */
-	public function logClientIn($user, $password, IRequest $request) {
+	public function logClientIn($user,
+								$password,
+								IRequest $request,
+								OC\Security\Bruteforce\Throttler $throttler) {
+		$currentDelay = $throttler->getDelay($request->getRemoteAddress());
+		$throttler->sleepDelay($request->getRemoteAddress());
+
 		$isTokenPassword = $this->isTokenPassword($password);
 		if (!$isTokenPassword && $this->isTokenAuthEnforced()) {
 			throw new PasswordLoginForbiddenException();
@@ -314,6 +325,11 @@ class Session implements IUserSession, Emitter {
 			$users = $this->manager->getByEmail($user);
 			if (count($users) === 1) {
 				return $this->login($users[0]->getUID(), $password);
+			}
+
+			$throttler->registerAttempt('login', $request->getRemoteAddress(), ['uid' => $user]);
+			if($currentDelay === 0) {
+				$throttler->sleepDelay($request->getRemoteAddress());
 			}
 			return false;
 		}
@@ -391,10 +407,11 @@ class Session implements IUserSession, Emitter {
 	 * @param IRequest $request
 	 * @return boolean if the login was successful
 	 */
-	public function tryBasicAuthLogin(IRequest $request) {
+	public function tryBasicAuthLogin(IRequest $request,
+									  OC\Security\Bruteforce\Throttler $throttler) {
 		if (!empty($request->server['PHP_AUTH_USER']) && !empty($request->server['PHP_AUTH_PW'])) {
 			try {
-				if ($this->logClientIn($request->server['PHP_AUTH_USER'], $request->server['PHP_AUTH_PW'], $request)) {
+				if ($this->logClientIn($request->server['PHP_AUTH_USER'], $request->server['PHP_AUTH_PW'], $request, $throttler)) {
 					/**
 					 * Add DAV authenticated. This should in an ideal world not be
 					 * necessary but the iOS App reads cookies from anywhere instead

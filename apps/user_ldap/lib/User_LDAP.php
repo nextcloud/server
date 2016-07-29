@@ -1,19 +1,22 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Dominik Schmidt <dev@dominik-schmidt.de>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author felixboehm <felix@webhippie.de>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Renaud Fortier <Renaud.Fortier@fsaa.ulaval.ca>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
+ * @author Roger Szabo <roger.szabo@web.de>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -37,7 +40,7 @@ use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
 
-class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserInterface {
+class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserInterface, IUserLDAP {
 	/** @var string[] $homesToKill */
 	protected $homesToKill = array();
 
@@ -87,6 +90,16 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		} catch (\Exception $e) {
 			return false;
 		}
+	}
+	
+	/**
+	 * returns the username for the given LDAP DN, if available
+	 *
+	 * @param string $dn
+	 * @return string|false with the username
+	 */
+	public function dn2UserName($dn) {
+		return $this->access->dn2username($dn);
 	}
 
 	/**
@@ -382,8 +395,14 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			}
 
 			$user = $this->access->userManager->get($uid);
-			$displayName = $user->composeAndStoreDisplayName($displayName, $displayName2);
-			$this->access->connection->writeToCache($cacheKey, $displayName);
+			if ($user instanceof User) {
+				$displayName = $user->composeAndStoreDisplayName($displayName, $displayName2);
+				$this->access->connection->writeToCache($cacheKey, $displayName);
+			}
+			if ($user instanceof OfflineUser) {
+				/** @var OfflineUser $user*/
+				$displayName = $user->getDisplayName();
+			}
 			return $displayName;
 		}
 
@@ -460,5 +479,25 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	public function getBackendName(){
 		return 'LDAP';
 	}
-
+	
+	/**
+	 * Return access for LDAP interaction.
+	 * @param string $uid
+	 * @return Access instance of Access for LDAP interaction
+	 */
+	public function getLDAPAccess($uid) {
+		return $this->access;
+	}
+	
+	/**
+	 * Return LDAP connection resource from a cloned connection.
+	 * The cloned connection needs to be closed manually.
+	 * of the current access.
+	 * @param string $uid
+	 * @return resource of the LDAP connection
+	 */
+	public function getNewLDAPConnection($uid) {
+		$connection = clone $this->access->getConnection();
+		return $connection->getConnectionResource();
+	}
 }

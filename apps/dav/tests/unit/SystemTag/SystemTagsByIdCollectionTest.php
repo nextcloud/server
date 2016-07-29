@@ -1,9 +1,11 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -41,19 +43,23 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->tagManager = $this->getMock('\OCP\SystemTag\ISystemTagManager');
+		$this->tagManager = $this->getMockBuilder('\OCP\SystemTag\ISystemTagManager')
+			->getMock();
 	}
 
 	public function getNode($isAdmin = true) {
-		$this->user = $this->getMock('\OCP\IUser');
+		$this->user = $this->getMockBuilder('\OCP\IUser')
+			->getMock();
 		$this->user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('testuser'));
-		$userSession = $this->getMock('\OCP\IUserSession');
+		$userSession = $this->getMockBuilder('\OCP\IUserSession')
+			->getMock();
 		$userSession->expects($this->any())
 			->method('getUser')
 			->will($this->returnValue($this->user));
-		$groupManager = $this->getMock('\OCP\IGroupManager');
+		$groupManager = $this->getMockBuilder('\OCP\IGroupManager')
+			->getMock();
 		$groupManager->expects($this->any())
 			->method('isAdmin')
 			->with('testuser')
@@ -70,14 +76,14 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testForbiddenCreateFile() {
 		$this->getNode()->createFile('555');
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testForbiddenCreateDirectory() {
 		$this->getNode()->createDirectory('789');
@@ -103,7 +109,7 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\BadRequest
+	 * @expectedException \Sabre\DAV\Exception\BadRequest
 	 */
 	public function testGetChildInvalidName() {
 		$this->tagManager->expects($this->once())
@@ -115,7 +121,7 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\NotFound
+	 * @expectedException \Sabre\DAV\Exception\NotFound
 	 */
 	public function testGetChildNotFound() {
 		$this->tagManager->expects($this->once())
@@ -127,7 +133,7 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\NotFound
+	 * @expectedException \Sabre\DAV\Exception\NotFound
 	 */
 	public function testGetChildUserNotVisible() {
 		$tag = new SystemTag(123, 'Test', false, false);
@@ -221,7 +227,7 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\BadRequest
+	 * @expectedException \Sabre\DAV\Exception\BadRequest
 	 */
 	public function testChildExistsBadRequest() {
 		$this->tagManager->expects($this->once())

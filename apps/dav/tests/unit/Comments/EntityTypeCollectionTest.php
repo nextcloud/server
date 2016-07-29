@@ -1,9 +1,11 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <nickvergessen@owncloud.com>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -42,10 +44,18 @@ class EntityTypeCollectionTest extends \Test\TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->commentsManager = $this->getMock('\OCP\Comments\ICommentsManager');
-		$this->userManager = $this->getMock('\OCP\IUserManager');
-		$this->userSession = $this->getMock('\OCP\IUserSession');
-		$this->logger = $this->getMock('\OCP\ILogger');
+		$this->commentsManager = $this->getMockBuilder('\OCP\Comments\ICommentsManager')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userSession = $this->getMockBuilder('\OCP\IUserSession')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->logger = $this->getMockBuilder('\OCP\ILogger')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$instance = $this;
 

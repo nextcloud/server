@@ -23,9 +23,9 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s は%2$s から タグ %3$s  を解除",
     "%s (restricted)" : "%s (制限)",
     "%s (invisible)" : "%s (不可視)",
+    "Name" : "名前",
     "No files in here" : "ファイルがありません",
     "No entries found in this folder" : "このフォルダーにはエントリーがありません",
-    "Name" : "名前",
     "Size" : "サイズ",
     "Modified" : "更新日時"
 },

@@ -35,7 +35,7 @@ $(document).ready(function(){
 		} );
 	});
 
-	$('#backgroundjobs span.crondate').tipsy({gravity: 's', live: true});
+	$('#backgroundjobs span.crondate').tooltip({placement: 'top'});
 
 	$('#backgroundjobs input').change(function(){
 		if($(this).is(':checked')){

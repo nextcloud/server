@@ -1,14 +1,15 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@owncloud.com>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -28,6 +29,7 @@
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCP\IRequest;
 use OCP\ISession;
@@ -51,6 +53,8 @@ class AuthTest extends TestCase {
 	private $request;
 	/** @var Manager */
 	private $twoFactorManager;
+	/** @var Throttler */
+	private $throttler;
 
 	public function setUp() {
 		parent::setUp();
@@ -63,11 +67,15 @@ class AuthTest extends TestCase {
 		$this->twoFactorManager = $this->getMockBuilder('\OC\Authentication\TwoFactorAuth\Manager')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->throttler = $this->getMockBuilder('\OC\Security\Bruteforce\Throttler')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->auth = new \OCA\DAV\Connector\Sabre\Auth(
 			$this->session,
 			$this->userSession,
 			$this->request,
-			$this->twoFactorManager
+			$this->twoFactorManager,
+			$this->throttler
 		);
 	}
 
@@ -586,7 +594,9 @@ class AuthTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		/** @var IUser */
-		$user = $this->getMock('OCP\IUser');
+		$user = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
 		$user->method('getUID')->willReturn('MyTestUser');
 		$this->userSession
 			->expects($this->any())

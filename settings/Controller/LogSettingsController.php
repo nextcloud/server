@@ -1,12 +1,14 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Georg Ehrke <georg@owncloud.com>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -91,8 +93,8 @@ class LogSettingsController extends Controller {
 	 */
 	public function getEntries($count=50, $offset=0) {
 		return new JSONResponse([
-			'data' => \OC\Log\Owncloud::getEntries($count, $offset),
-			'remain' => count(\OC\Log\Owncloud::getEntries(1, $offset + $count)) !== 0,
+			'data' => \OC\Log\File::getEntries($count, $offset),
+			'remain' => count(\OC\Log\File::getEntries(1, $offset + $count)) !== 0,
 		]);
 	}
 
@@ -104,7 +106,7 @@ class LogSettingsController extends Controller {
 	 * @return StreamResponse
 	 */
 	public function download() {
-		$resp = new StreamResponse(\OC\Log\Owncloud::getLogFilePath());
+		$resp = new StreamResponse(\OC\Log\File::getLogFilePath());
 		$resp->addHeader('Content-Type', 'application/octet-stream');
 		$resp->addHeader('Content-Disposition', 'attachment; filename="nextcloud.log"');
 		return $resp;

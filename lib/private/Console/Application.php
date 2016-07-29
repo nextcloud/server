@@ -1,13 +1,14 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -26,8 +27,8 @@
 namespace OC\Console;
 
 use OC_App;
-use OC_Defaults;
 use OCP\Console\ConsoleEvent;
+use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IRequest;
 use Symfony\Component\Console\Application as SymfonyApplication;
@@ -51,7 +52,7 @@ class Application {
 	 * @param IRequest $request
 	 */
 	public function __construct(IConfig $config, EventDispatcherInterface $dispatcher, IRequest $request) {
-		$defaults = new OC_Defaults;
+		$defaults = \OC::$server->getThemingDefaults();
 		$this->config = $config;
 		$this->application = new SymfonyApplication($defaults->getName(), \OC_Util::getVersionString());
 		$this->dispatcher = $dispatcher;

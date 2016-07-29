@@ -1,14 +1,15 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -75,6 +76,10 @@ class OC_EventSource implements \OCP\IEventSource {
 			echo str_repeat('<span></span>' . PHP_EOL, 10); //dummy data to keep IE happy
 		} else {
 			header("Content-Type: text/event-stream");
+		}
+		if(!\OC::$server->getRequest()->passesStrictCookieCheck()) {
+			header('Location: '.\OC::$WEBROOT);
+			exit();
 		}
 		if (!(\OC::$server->getRequest()->passesCSRFCheck())) {
 			$this->send('error', 'Possible CSRF attack. Connection will be closed.');

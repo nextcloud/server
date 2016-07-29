@@ -1,15 +1,16 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -33,6 +34,7 @@ use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\ILogger;
+use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ITagManager;
 use OCP\IUserSession;
@@ -53,6 +55,8 @@ class ServerFactory {
 	private $tagManager;
 	/** @var IRequest */
 	private $request;
+	/** @var IPreview  */
+	private $previewManager;
 
 	/**
 	 * @param IConfig $config
@@ -62,6 +66,7 @@ class ServerFactory {
 	 * @param IMountManager $mountManager
 	 * @param ITagManager $tagManager
 	 * @param IRequest $request
+	 * @param IPreview $previewManager
 	 */
 	public function __construct(
 		IConfig $config,
@@ -70,7 +75,8 @@ class ServerFactory {
 		IUserSession $userSession,
 		IMountManager $mountManager,
 		ITagManager $tagManager,
-		IRequest $request
+		IRequest $request,
+		IPreview $previewManager
 	) {
 		$this->config = $config;
 		$this->logger = $logger;
@@ -79,6 +85,7 @@ class ServerFactory {
 		$this->mountManager = $mountManager;
 		$this->tagManager = $tagManager;
 		$this->request = $request;
+		$this->previewManager = $previewManager;
 	}
 
 	/**
@@ -144,6 +151,7 @@ class ServerFactory {
 					$view,
 					$this->config,
 					$this->request,
+					$this->previewManager,
 					false,
 					!$this->config->getSystemValue('debug', false)
 				)

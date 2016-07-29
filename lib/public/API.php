@@ -1,11 +1,13 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tom Needham <tom@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -35,6 +37,7 @@ namespace OCP;
 /**
  * This class provides functions to manage apps in ownCloud
  * @since 5.0.0
+ * @deprecated 9.1.0 Use the AppFramework
  */
 class API {
 
@@ -66,6 +69,7 @@ class API {
 	 * @param array $defaults
 	 * @param array $requirements
 	 * @since 5.0.0
+	 * @deprecated 9.1.0 Use the AppFramework
 	 */
 	public static function register($method, $url, $action, $app, $authLevel = self::USER_AUTH,
 		$defaults = array(), $requirements = array()){

@@ -1,18 +1,19 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Georg Ehrke <georg@owncloud.com>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Piotr Filiciak <piotr@filiciak.pl>
- * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -31,11 +32,9 @@
 
 namespace OCA\Files_Sharing\Controllers;
 
-use OC;
 use OC_Files;
 use OC_Util;
 use OCA\FederatedFileSharing\FederatedShareProvider;
-use OCP;
 use OCP\Template;
 use OCP\Share;
 use OCP\AppFramework\Controller;
@@ -54,6 +53,7 @@ use OCA\Files_Sharing\Activity;
 use \OCP\Files\NotFoundException;
 use OCP\Files\IRootFolder;
 use OCP\Share\Exceptions\ShareNotFound;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class ShareController
@@ -70,9 +70,9 @@ class ShareController extends Controller {
 	protected $userManager;
 	/** @var ILogger */
 	protected $logger;
-	/** @var OCP\Activity\IManager */
+	/** @var \OCP\Activity\IManager */
 	protected $activityManager;
-	/** @var OCP\Share\IManager */
+	/** @var \OCP\Share\IManager */
 	protected $shareManager;
 	/** @var ISession */
 	protected $session;
@@ -82,6 +82,8 @@ class ShareController extends Controller {
 	protected $rootFolder;
 	/** @var FederatedShareProvider */
 	protected $federatedShareProvider;
+	/** @var EventDispatcherInterface */
+	protected $eventDispatcher;
 
 	/**
 	 * @param string $appName
@@ -90,12 +92,13 @@ class ShareController extends Controller {
 	 * @param IURLGenerator $urlGenerator
 	 * @param IUserManager $userManager
 	 * @param ILogger $logger
-	 * @param OCP\Activity\IManager $activityManager
+	 * @param \OCP\Activity\IManager $activityManager
 	 * @param \OCP\Share\IManager $shareManager
 	 * @param ISession $session
 	 * @param IPreview $previewManager
 	 * @param IRootFolder $rootFolder
 	 * @param FederatedShareProvider $federatedShareProvider
+	 * @param EventDispatcherInterface $eventDispatcher
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -108,7 +111,8 @@ class ShareController extends Controller {
 								ISession $session,
 								IPreview $previewManager,
 								IRootFolder $rootFolder,
-								FederatedShareProvider $federatedShareProvider) {
+								FederatedShareProvider $federatedShareProvider,
+								EventDispatcherInterface $eventDispatcher) {
 		parent::__construct($appName, $request);
 
 		$this->config = $config;
@@ -121,6 +125,7 @@ class ShareController extends Controller {
 		$this->previewManager = $previewManager;
 		$this->rootFolder = $rootFolder;
 		$this->federatedShareProvider = $federatedShareProvider;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -147,7 +152,7 @@ class ShareController extends Controller {
 	 * Authenticates against password-protected shares
 	 * @param string $token
 	 * @param string $password
-	 * @return RedirectResponse|TemplateResponse
+	 * @return RedirectResponse|TemplateResponse|NotFoundResponse
 	 */
 	public function authenticate($token, $password = '') {
 
@@ -203,8 +208,8 @@ class ShareController extends Controller {
 	 * otherwise token
 	 * @param int $errorCode
 	 * @param string $errorMessage
-	 * @throws OC\HintException
-	 * @throws OC\ServerNotAvailableException
+	 * @throws \OC\HintException
+	 * @throws \OC\ServerNotAvailableException
 	 */
 	protected function emitAccessShareHook($share, $errorCode = 200, $errorMessage = '') {
 		$itemType = $itemSource = $uidOwner = '';
@@ -250,7 +255,7 @@ class ShareController extends Controller {
 	 *
 	 * @param string $token
 	 * @param string $path
-	 * @return TemplateResponse|RedirectResponse
+	 * @return TemplateResponse|RedirectResponse|NotFoundResponse
 	 * @throws NotFoundException
 	 * @throws \Exception
 	 */
@@ -285,19 +290,6 @@ class ShareController extends Controller {
 			throw $e;
 		}
 
-		$rootFolder = null;
-		if ($share->getNode() instanceof \OCP\Files\Folder) {
-			/** @var \OCP\Files\Folder $rootFolder */
-			$rootFolder = $share->getNode();
-
-			try {
-				$path = $rootFolder->get($path);
-			} catch (\OCP\Files\NotFoundException $e) {
-				$this->emitAccessShareHook($share, 404, 'Share not found');
-				throw new NotFoundException();
-			}
-		}
-
 		$shareTmpl = [];
 		$shareTmpl['displayName'] = $this->userManager->get($share->getShareOwner())->getDisplayName();
 		$shareTmpl['owner'] = $share->getShareOwner();
@@ -316,7 +308,17 @@ class ShareController extends Controller {
 		// Show file list
 		$hideFileList = false;
 		if ($share->getNode() instanceof \OCP\Files\Folder) {
-			$shareTmpl['dir'] = $rootFolder->getRelativePath($path->getPath());
+			/** @var \OCP\Files\Folder $rootFolder */
+			$rootFolder = $share->getNode();
+
+			try {
+				$folderNode = $rootFolder->get($path);
+			} catch (\OCP\Files\NotFoundException $e) {
+				$this->emitAccessShareHook($share, 404, 'Share not found');
+				throw new NotFoundException();
+			}
+
+			$shareTmpl['dir'] = $rootFolder->getRelativePath($folderNode->getPath());
 
 			/*
 			 * The OC_Util methods require a view. This just uses the node API
@@ -333,14 +335,14 @@ class ShareController extends Controller {
 			$hideFileList = $share->getPermissions() & \OCP\Constants::PERMISSION_READ ? false : true;
 
 			$folder = new Template('files', 'list', '');
-			$folder->assign('dir', $rootFolder->getRelativePath($path->getPath()));
+			$folder->assign('dir', $rootFolder->getRelativePath($folderNode->getPath()));
 			$folder->assign('dirToken', $token);
 			$folder->assign('permissions', \OCP\Constants::PERMISSION_READ);
 			$folder->assign('isPublic', true);
 			$folder->assign('hideFileList', $hideFileList);
 			$folder->assign('publicUploadEnabled', 'no');
 			$folder->assign('uploadMaxFilesize', $maxUploadFilesize);
-			$folder->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
+			$folder->assign('uploadMaxHumanFilesize', \OCP\Util::humanFileSize($maxUploadFilesize));
 			$folder->assign('freeSpace', $freeSpace);
 			$folder->assign('uploadLimit', $uploadLimit); // PHP upload limit
 			$folder->assign('usedSpacePercent', 0);
@@ -356,7 +358,32 @@ class ShareController extends Controller {
 		$shareTmpl['previewMaxX'] = $this->config->getSystemValue('preview_max_x', 1024);
 		$shareTmpl['previewMaxY'] = $this->config->getSystemValue('preview_max_y', 1024);
 
-		$csp = new OCP\AppFramework\Http\ContentSecurityPolicy();
+		// Load files we need
+		\OCP\Util::addScript('files', 'file-upload');
+		\OCP\Util::addStyle('files_sharing', 'public');
+		\OCP\Util::addStyle('files_sharing', 'mobile');
+		\OCP\Util::addScript('files_sharing', 'public');
+		\OCP\Util::addScript('files', 'fileactions');
+		\OCP\Util::addScript('files', 'fileactionsmenu');
+		\OCP\Util::addScript('files', 'jquery.fileupload');
+		\OCP\Util::addScript('files_sharing', 'files_drop');
+
+		if (isset($shareTmpl['folder'])) {
+			// JS required for folders
+			\OCP\Util::addStyle('files', 'files');
+			\OCP\Util::addStyle('files', 'upload');
+			\OCP\Util::addScript('files', 'filesummary');
+			\OCP\Util::addScript('files', 'breadcrumb');
+			\OCP\Util::addScript('files', 'fileinfomodel');
+			\OCP\Util::addScript('files', 'newfilemenu');
+			\OCP\Util::addScript('files', 'files');
+			\OCP\Util::addScript('files', 'filelist');
+			\OCP\Util::addScript('files', 'keyboardshortcuts');
+		}
+
+		$this->eventDispatcher->dispatch('OCA\Files_Sharing::loadAdditionalScripts');
+
+		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
 		$response = new TemplateResponse($this->appName, 'public', $shareTmpl, 'base');
 		$response->setContentSecurityPolicy($csp);
@@ -374,7 +401,7 @@ class ShareController extends Controller {
 	 * @param string $files
 	 * @param string $path
 	 * @param string $downloadStartSecret
-	 * @return void|OCP\AppFramework\Http\Response
+	 * @return void|\OCP\AppFramework\Http\Response
 	 * @throws NotFoundException
 	 */
 	public function downloadShare($token, $files = null, $path = '', $downloadStartSecret = '') {
@@ -383,7 +410,7 @@ class ShareController extends Controller {
 		$share = $this->shareManager->getShareByToken($token);
 
 		if(!($share->getPermissions() & \OCP\Constants::PERMISSION_READ)) {
-			return new OCP\AppFramework\Http\DataResponse('Share is read-only');
+			return new \OCP\AppFramework\Http\DataResponse('Share is read-only');
 		}
 
 		// Share is password protected - check whether the user is permitted to access the share

@@ -23,9 +23,9 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s hat den System-Tag %3$s von %2$s entfernt",
     "%s (restricted)" : "%s (eingeschränkt)",
     "%s (invisible)" : "%s (unsichtbar)",
+    "Name" : "Name",
     "No files in here" : "Keine Dateien vorhanden",
     "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
-    "Name" : "Name",
     "Size" : "Größe",
     "Modified" : "Geändert"
 },

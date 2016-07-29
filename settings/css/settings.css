@@ -38,8 +38,7 @@ input#openid, input#webdav { width:20em; }
 #displaynameform,
 #lostpassword,
 #groups,
-#passwordform,
-#language {
+#passwordform {
 	display: inline-block;
 	margin-bottom: 0;
 	padding-bottom: 0;
@@ -103,18 +102,19 @@ table.nostyle td { padding: 0.2em 0; }
 #sessions table,
 #apppasswords table {
 	width: 100%;
-	min-height: 150px;
-	padding-top: 25px;
+	min-height: 50px;
+	padding-top: 5px;
+	max-width: 580px;
 }
 #sessions table th,
 #apppasswords table th {
-	font-weight: 800;
+	opacity: .5;
 }
 #sessions table th,
 #sessions table td,
 #apppasswords table th,
 #apppasswords table td {
-	padding: 10px;
+	padding: 10px 10px 10px 0;
 }
 
 #sessions .token-list td,
@@ -124,6 +124,11 @@ table.nostyle td { padding: 0.2em 0; }
 	max-width: 200px;
 	white-space: nowrap;
 	overflow: hidden;
+}
+
+#sessions tr *:nth-child(2),
+#apppasswords tr *:nth-child(2) {
+	text-align: right;
 }
 #sessions .token-list td a.icon-delete,
 #apppasswords .token-list td a.icon-delete {
@@ -468,6 +473,9 @@ span.version {
 #lessLog { display:none; }
 table.grid td.date{
 	white-space: nowrap;
+}
+#log-section p {
+	margin-top:20px;
 }
 
 /* ADMIN */

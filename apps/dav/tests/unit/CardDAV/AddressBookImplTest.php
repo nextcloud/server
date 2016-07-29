@@ -1,10 +1,13 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Georg Ehrke <georg@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -63,8 +66,12 @@ class AddressBookImplTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->backend = $this->getMockBuilder('\OCA\DAV\CardDAV\CardDavBackend')
 			->disableOriginalConstructor()->getMock();
-		$this->vCard = $this->getMock('Sabre\VObject\Component\VCard');
-		$this->urlGenerator = $this->getMock('OCP\IURLGenerator');
+		$this->vCard = $this->getMockBuilder('Sabre\VObject\Component\VCard')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->urlGenerator = $this->getMockBuilder('OCP\IURLGenerator')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->addressBookImpl = new AddressBookImpl(
 			$this->addressBook,

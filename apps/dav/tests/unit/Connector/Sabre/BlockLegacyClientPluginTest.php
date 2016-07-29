@@ -1,10 +1,12 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -41,7 +43,9 @@ class BlockLegacyClientPluginTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->config = $this->getMock('\OCP\IConfig');
+		$this->config = $this->getMockBuilder('\OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->blockLegacyClientVersionPlugin = new BlockLegacyClientPlugin($this->config);
 	}
 
@@ -66,7 +70,9 @@ class BlockLegacyClientPluginTest extends TestCase {
 	 */
 	public function testBeforeHandlerException($userAgent) {
 		/** @var \Sabre\HTTP\RequestInterface $request */
-		$request = $this->getMock('\Sabre\HTTP\RequestInterface');
+		$request = $this->getMockBuilder('\Sabre\HTTP\RequestInterface')
+			->disableOriginalConstructor()
+			->getMock();
 		$request
 			->expects($this->once())
 			->method('getHeader')
@@ -101,7 +107,9 @@ class BlockLegacyClientPluginTest extends TestCase {
 	 */
 	public function testBeforeHandlerSuccess($userAgent) {
 		/** @var \Sabre\HTTP\RequestInterface $request */
-		$request = $this->getMock('\Sabre\HTTP\RequestInterface');
+		$request = $this->getMockBuilder('\Sabre\HTTP\RequestInterface')
+			->disableOriginalConstructor()
+			->getMock();
 		$request
 			->expects($this->once())
 			->method('getHeader')
@@ -119,7 +127,9 @@ class BlockLegacyClientPluginTest extends TestCase {
 
 	public function testBeforeHandlerNoUserAgent() {
 		/** @var \Sabre\HTTP\RequestInterface $request */
-		$request = $this->getMock('\Sabre\HTTP\RequestInterface');
+		$request = $this->getMockBuilder('\Sabre\HTTP\RequestInterface')
+			->disableOriginalConstructor()
+			->getMock();
 		$request
 			->expects($this->once())
 			->method('getHeader')

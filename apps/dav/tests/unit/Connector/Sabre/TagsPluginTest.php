@@ -1,10 +1,12 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -65,8 +67,12 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->tree = $this->getMockBuilder('\Sabre\DAV\Tree')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->tagger = $this->getMock('\OCP\ITags');
-		$this->tagManager = $this->getMock('\OCP\ITagManager');
+		$this->tagger = $this->getMockBuilder('\OCP\ITags')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->tagManager = $this->getMockBuilder('\OCP\ITagManager')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->tagManager->expects($this->any())
 			->method('load')
 			->with('files')

@@ -1,9 +1,11 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -48,7 +50,9 @@ class InvalidPathTest extends \Test\TestCase {
 EOD;
 
 		$ex = new InvalidPath($message, $retry);
-		$server = $this->getMock('Sabre\DAV\Server');
+		$server = $this->getMockBuilder('Sabre\DAV\Server')
+			->disableOriginalConstructor()
+			->getMock();
 		$ex->serialize($server, $error);
 
 		// assert

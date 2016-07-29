@@ -1,8 +1,9 @@
 <?php
 /**
- * @author Robin Appelman <icewind@owncloud.com>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Robin Appelman <robin@icewind.nl>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -59,4 +60,12 @@ interface ICachedMountInfo {
 	 * @since 9.0.0
 	 */
 	public function getMountPoint();
+
+	/**
+	 * Get the id of the configured mount
+	 *
+	 * @return int|null mount id or null if not applicable
+	 * @since 9.1.0
+	 */
+	public function getMountId();
 }

@@ -106,15 +106,6 @@ if ($_['invalidTransactionIsolationLevel']) {
 <?php
 }
 
-// Windows Warning
-if ($_['WindowsWarning']) {
-	?>
-	<li>
-		<?php p($l->t('Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience.')); ?>
-	</li>
-<?php
-}
-
 // Warning if memcache is outdated
 foreach ($_['OutdatedCacheWarning'] as $php_module => $data) {
 	?>
@@ -299,12 +290,12 @@ if ($_['cronErrors']) {
 			$absolute_time = OC_Util::formatDate($_['lastcron']);
 			if (time() - $_['lastcron'] <= 3600): ?>
 				<span class="status success"></span>
-				<span class="crondate" original-title="<?php p($absolute_time);?>">
+				<span class="crondate" title="<?php p($absolute_time);?>">
 					<?php p($l->t("Last cron job execution: %s.", [$relative_time]));?>
 				</span>
 			<?php else: ?>
 				<span class="status error"></span>
-				<span class="crondate" original-title="<?php p($absolute_time);?>">
+				<span class="crondate" title="<?php p($absolute_time);?>">
 					<?php p($l->t("Last cron job execution: %s. Something seems wrong.", [$relative_time]));?>
 				</span>
 			<?php endif;
@@ -319,7 +310,7 @@ if ($_['cronErrors']) {
 		href="<?php p(link_to_docs('admin-background-jobs')); ?>"></a>
 
 	<p>
-				<input type="radio" name="mode" value="ajax"
+				<input type="radio" name="mode" value="ajax" class="radio"
 					   id="backgroundjobs_ajax" <?php if ($_['backgroundjobs_mode'] === "ajax") {
 					print_unescaped('checked="checked"');
 				} ?>>
@@ -327,7 +318,7 @@ if ($_['cronErrors']) {
 				<em><?php p($l->t("Execute one task with each page loaded")); ?></em>
 	</p>
 	<p>
-				<input type="radio" name="mode" value="webcron"
+				<input type="radio" name="mode" value="webcron" class="radio"
 					   id="backgroundjobs_webcron" <?php if ($_['backgroundjobs_mode'] === "webcron") {
 					print_unescaped('checked="checked"');
 				} ?>>
@@ -335,7 +326,7 @@ if ($_['cronErrors']) {
 				<em><?php p($l->t("cron.php is registered at a webcron service to call cron.php every 15 minutes over http.")); ?></em>
 	</p>
 	<p>
-				<input type="radio" name="mode" value="cron"
+				<input type="radio" name="mode" value="cron" class="radio"
 					   id="backgroundjobs_cron" <?php if ($_['backgroundjobs_mode'] === "cron") {
 					print_unescaped('checked="checked"');
 				} ?>>
@@ -523,6 +514,16 @@ if ($_['cronErrors']) {
 		</tr>
 		<?php endforeach;?>
 	</table>
+	<p><?php p($l->t('What to log'));?> <select name='loglevel' id='loglevel'>
+	<?php for ($i = 0; $i < 5; $i++):
+		$selected = '';
+		if ($i == $_['loglevel']):
+			$selected = 'selected="selected"';
+		endif; ?>
+			<option value='<?php p($i)?>' <?php p($selected) ?>><?php p($levelLabels[$i])?></option>
+	<?php endfor;?>
+	</select></p>
+
 	<?php if ($_['logFileSize'] > 0): ?>
 	<a href="<?php print_unescaped(OC::$server->getURLGenerator()->linkToRoute('settings.LogSettings.download')); ?>" class="button" id="downloadLog"><?php p($l->t('Download logfile'));?></a>
 	<?php endif; ?>
@@ -537,16 +538,6 @@ if ($_['cronErrors']) {
 	</em>
 	<?php endif; ?>
 	<?php endif; ?>
-
-	<p><?php p($l->t('What to log'));?> <select name='loglevel' id='loglevel'>
-	<?php for ($i = 0; $i < 5; $i++):
-		$selected = '';
-		if ($i == $_['loglevel']):
-			$selected = 'selected="selected"';
-		endif; ?>
-			<option value='<?php p($i)?>' <?php p($selected) ?>><?php p($levelLabels[$i])?></option>
-	<?php endfor;?>
-	</select></p>
 </div>
 
 <div class="section" id="admin-tips">
