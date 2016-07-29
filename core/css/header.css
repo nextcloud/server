@@ -220,7 +220,13 @@
 	#navigation a:hover span,
 	#navigation a:focus span,
 	#navigation a.active svg,
-	#navigation a.active span {
+	#navigation a.active span,
+	#apps-management a:hover svg,
+	#apps-management a:focus svg,
+	#apps-management a.active svg,
+	#apps-management a:hover span,
+	#apps-management a:focus span,
+	#apps-management a.active span {
 		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
 		opacity: .75;
 	}
@@ -234,11 +240,14 @@
 
 /* Apps management */
 #apps-management {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-	opacity: .6;
 	min-height: initial;
 	height: initial;
 	margin: 0;
+}
+#apps-management a svg,
+#apps-management a span {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	opacity: .3;
 }
 
 
