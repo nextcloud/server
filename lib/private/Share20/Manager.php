@@ -185,6 +185,10 @@ class Manager implements IManager {
 			if ($share->getSharedWith() === null) {
 				throw new \InvalidArgumentException('SharedWith should not be empty');
 			}
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+			if ($share->getSharedWith() === null) {
+				throw new \InvalidArgumentException('SharedWith should not be empty');
+			}
 		} else {
 			// We can't handle other types yet
 			throw new \InvalidArgumentException('unkown share type');
@@ -580,6 +584,16 @@ class Manager implements IManager {
 			if ($share->getPassword() !== null) {
 				$share->setPassword($this->hasher->hash($share->getPassword()));
 			}
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+			$this->linkCreateChecks($share);
+			$share->setToken(
+				$this->secureRandom->generate(
+					\OC\Share\Constants::TOKEN_LENGTH,
+					\OCP\Security\ISecureRandom::CHAR_LOWER.
+					\OCP\Security\ISecureRandom::CHAR_UPPER.
+					\OCP\Security\ISecureRandom::CHAR_DIGITS
+				)
+			);
 		}
 
 		// Cannot share with the owner

@@ -28,6 +28,7 @@ use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\TokenHandler;
+use OCA\ShareByMail\ShareByMailProvider;
 use OCP\Share\IProviderFactory;
 use OC\Share20\Exception\ProviderException;
 use OCP\IServerContainer;
@@ -45,6 +46,8 @@ class ProviderFactory implements IProviderFactory {
 	private $defaultProvider = null;
 	/** @var FederatedShareProvider */
 	private $federatedProvider = null;
+	/** @var  ShareByMailProvider */
+	private $shareByMailProvider;
 
 	/**
 	 * IProviderFactory constructor.
@@ -126,6 +129,37 @@ class ProviderFactory implements IProviderFactory {
 	}
 
 	/**
+	 * Create the federated share provider
+	 *
+	 * @return FederatedShareProvider
+	 */
+	protected function getShareByMailProvider() {
+		if ($this->shareByMailProvider === null) {
+			/*
+			 * Check if the app is enabled
+			 */
+			$appManager = $this->serverContainer->getAppManager();
+			if (!$appManager->isEnabledForUser('sharebymail')) {
+				return null;
+			}
+
+			$l = $this->serverContainer->getL10N('sharebymail');
+
+			$this->shareByMailProvider = new ShareByMailProvider(
+				$this->serverContainer->getDatabaseConnection(),
+				$this->serverContainer->getSecureRandom(),
+				$this->serverContainer->getUserManager(),
+				$this->serverContainer->getLazyRootFolder(),
+				$l,
+				$this->serverContainer->getLogger()
+			);
+		}
+
+		return $this->shareByMailProvider;
+	}
+
+
+	/**
 	 * @inheritdoc
 	 */
 	public function getProvider($id) {
@@ -134,6 +168,8 @@ class ProviderFactory implements IProviderFactory {
 			$provider = $this->defaultShareProvider();
 		} else if ($id === 'ocFederatedSharing') {
 			$provider = $this->federatedShareProvider();
+		} else if ($id = 'ocMailShare') {
+			$provider = $this->getShareByMailProvider();
 		}
 
 		if ($provider === null) {
@@ -155,6 +191,8 @@ class ProviderFactory implements IProviderFactory {
 			$provider = $this->defaultShareProvider();
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE) {
 			$provider = $this->federatedShareProvider();
+		} else if ($shareType === \OCP\Share::SHARE_TYPE_EMAIL) {
+			$provider = $this->getShareByMailProvider();
 		}
 
 		if ($provider === null) {

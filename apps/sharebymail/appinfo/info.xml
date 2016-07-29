@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<info>
+    <id>sharebymail</id>
+    <name>Share by mail</name>
+    <description>Share provider which allows you to share files by mail</description>
+    <licence>AGPL</licence>
+    <author>Bjoern Schiessle</author>
+    <version>1.0.0</version>
+    <namespace>ShareByMail</namespace>
+    <category>other</category>
+    <dependencies>
+        <owncloud min-version="9.2" max-version="9.2" />
+    </dependencies>
+</info>

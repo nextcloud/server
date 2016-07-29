@@ -215,14 +215,14 @@
 									}
 								}
 							} else if (share.share_type === OC.Share.SHARE_TYPE_EMAIL) {
-							emailsLength = emails.length;
-							for (j = 0; j < emailsLength; j++) {
-								if (emails[j].value.shareWith === share.share_with) {
-									emails.splice(j, 1);
-									break;
+								emailsLength = emails.length;
+								for (j = 0; j < emailsLength; j++) {
+									if (emails[j].value.shareWith === share.share_with) {
+										emails.splice(j, 1);
+										break;
+									}
 								}
 							}
-						}
 						}
 
 						var suggestions = users.concat(groups).concat(remotes).concat(emails);
