@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, Nextcloud
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Björn Schießle <bjoern@schiessle.org>
