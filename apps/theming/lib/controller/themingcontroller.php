@@ -70,7 +70,7 @@ class ThemingController extends Controller {
 		IRootFolder $rootFolder
 	) {
 		parent::__construct($appName, $request);
-		
+
 		$this->template = $template;
 		$this->l = $l;
 		$this->config = $config;
@@ -213,7 +213,7 @@ class ThemingController extends Controller {
 		$color = $this->config->getAppValue($this->appName, 'color');
 		if($color !== '') {
 			$responseCss .= sprintf(
-				'#body-user #header,#body-settings #header,#body-public #header {background-color: %s}',
+				'#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: %s}',
 				$color
 			);
 		}
