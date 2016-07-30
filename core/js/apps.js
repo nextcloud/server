@@ -29,7 +29,7 @@
 		var $appSidebar = $el || $('#app-sidebar');
 		$appSidebar.removeClass('disappear')
 			.show('slide', { direction: 'right' }, 200);
-		$('#app-content').addClass('with-app-sidebar').trigger(new $.Event('appresized'));
+		$('#app-content').addClass('with-app-sidebar', 200).trigger(new $.Event('appresized'));
 	};
 
 	/**
@@ -44,7 +44,7 @@
 			function() {
 				$appSidebar.addClass('disappear');
 			});
-		$('#app-content').removeClass('with-app-sidebar').trigger(new $.Event('appresized'));
+		$('#app-content').removeClass('with-app-sidebar', 100).trigger(new $.Event('appresized'));
 	};
 
 	/**
