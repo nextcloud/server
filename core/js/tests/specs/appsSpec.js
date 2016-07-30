@@ -23,6 +23,10 @@ describe('Apps base tests', function() {
 	describe('Sidebar utility functions', function() {
 		beforeEach(function() {
 			$('#testArea').append('<div id="app-content">Content</div><div id="app-sidebar">The sidebar</div>');
+			jQuery.fx.off = true;
+		});
+		afterEach(function() {
+			jQuery.fx.off = false;
 		});
 		it('shows sidebar', function() {
 			var $el = $('#app-sidebar');
