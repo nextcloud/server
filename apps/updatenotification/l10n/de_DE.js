@@ -10,7 +10,7 @@ OC.L10N.register(
     "A new version is available: %s" : "Eine neue Version ist verfügbar: %s",
     "Open updater" : "Updater aufrufen",
     "Your version is up to date." : "Ihre Version ist aktuell.",
-    "Checked on %s" : "Überprüft auf %s",
+    "Checked on %s" : "Überprüft am %s",
     "Update channel:" : "Update-Kanal:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Sie können immer auf eine neuere Version / experimentellen Kanal updaten, aber kein Downgrade auf einen stabileren Kanal durchführen.",
     "Notify members of the following groups about available updates:" : "Informieren Sie die Mitglieder der folgenden Gruppen über verfügbare Updates:",

@@ -13,6 +13,7 @@ OC.L10N.register(
     " Could not set configuration %s" : "Tidak dapat menyetel konfigurasi %s",
     "Action does not exist" : "Tidak ada tindakan",
     "The Base DN appears to be wrong" : "Base DN tampaknya salah",
+    "Testing configuration…" : "Menguji konfigurasi...",
     "Configuration incorrect" : "Konfigurasi salah",
     "Configuration incomplete" : "Konfigurasi tidak lengkap",
     "Configuration OK" : "Konfigurasi Oke",

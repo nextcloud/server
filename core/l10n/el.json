@@ -143,6 +143,7 @@
     "Send" : "Αποστολή",
     "Sending ..." : "Αποστολή...",
     "Email sent" : "Το Email απεστάλη ",
+    "Send link via email" : "Αποστολή συνδέσμου μέσω email",
     "Shared with you and the group {group} by {owner}" : "Διαμοιράστηκε με σας και με την ομάδα {group} του {owner}",
     "Shared with you by {owner}" : "Διαμοιράστηκε με σας από τον {owner}",
     "group" : "ομάδα",
@@ -236,8 +237,10 @@
     "Server side authentication failed!" : "Η διαδικασία επικύρωσης απέτυχε από την πλευρά του διακομιστή!",
     "Please contact your administrator." : "Παρακαλώ επικοινωνήστε με τον διαχειριστή.",
     "Please try again or contact your administrator." : "Παρακαλώ δοκιμάστε ξανά ή επικοινωνήστε με τον διαχειριστή σας.",
+    "Username or email" : "Όνομα χρήστη ή email",
     "Log in" : "Είσοδος",
     "Wrong password. Reset it?" : "Λάθος Κωδικός. Επαναφορά;",
+    "Wrong password." : "Λανθασμένο συνθηματικό.",
     "Stay logged in" : "Μείνετε συνδεδεμένος",
     "Alternative Logins" : "Εναλλακτικές Συνδέσεις",
     "Use the following link to reset your password: {link}" : "Χρησιμοποιήστε τον ακόλουθο σύνδεσμο για να επανεκδόσετε τον κωδικό: {link}",
@@ -260,6 +263,8 @@
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Παρακαλώ βεβαιωθείτε ότι έχουν ληψθεί αντίγραφα ασφαλείας της βάσης δεδομένων, του φακέλου ρυθμίσεων και του φακέλου δεδομένων πριν προχωρήσετε.",
     "Start update" : "Έναρξη ενημέρωσης",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Για να αποφύγετε τη λήξη χρόνου με μεγαλύτερες εγκαταστάσεις, μπορείτε αντί αυτού να τρέξετε την ακόλουθη εντολή από τον κατάλογο αρχείων εφαρμογών:",
+    "Detailed logs" : "Λεπτομερές ιστορικό",
+    "Update needed" : "Απαιτείται ενημέρωση",
     "This %s instance is currently in maintenance mode, which may take a while." : "Αυτή %s η εγκατάσταση είναι σε κατάσταση συντήρησης, η οποία μπορεί να πάρει κάποιο χρόνο.",
     "This page will refresh itself when the %s instance is available again." : "Αυτή η σελίδα θα ανανεωθεί από μόνη της όταν η %s εγκατάσταση είναι διαθέσιμη ξανά."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -1,10 +1,15 @@
 OC.L10N.register(
     "federation",
     {
-    "Server added to the list of trusted ownClouds" : "Server ditambahkan ke daftar ownCloud yang dipercaya",
+    "Added to the list of trusted servers" : "Server telah ditambahkan pada daftar server terpercaya",
     "Server is already in the list of trusted servers." : "Server sudah ada pada daftar server terpercaya",
-    "No ownCloud server found" : "Tidak ada server ownCloud yang ditemukan",
+    "No server to federate found" : "Tidak ada server yang bisa difederasikan",
     "Could not add server" : "Tidak dapat menambahkan server",
-    "Federation" : "Federasi"
+    "Federation" : "Federasi",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federasi memungkinkan Anda untuk terhubung dengan server lainnya yang terpercaya untuk menukar direktori pengguna. Contohnya, ini akan digunakan untuk pengisian-otomatis untuk pengguna eksternal untuk pembagian terfederasi.",
+    "Add server automatically once a federated share was created successfully" : "Tambah server secara otomatis saat pembagian terfederasi dibuat",
+    "Trusted Servers" : "Server Terpercaya",
+    "+ Add Nextcloud server" : "+ Tambahkan server Nextcloud",
+    "Nextcloud Server" : "Server Nextcloud"
 },
 "nplurals=1; plural=0;");
