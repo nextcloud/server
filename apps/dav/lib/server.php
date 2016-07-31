@@ -142,6 +142,8 @@ class Server {
 						)
 					)
 				);
+				$this->server->addPlugin(
+					new \OCA\DAV\Connector\Sabre\QuotaPlugin($view));
 			}
 		});
 	}

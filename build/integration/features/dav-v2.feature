@@ -53,3 +53,30 @@ Feature: dav-v2
 		Given Logging in using web as "admin"
 		When Sending a "PROPFIND" to "/remote.php/dav/files/admin/welcome.txt" with requesttoken
 		Then the HTTP status code should be "207"
+
+	Scenario: Uploading a file having 0B as quota
+		Given using dav path "remote.php/dav"
+		And As an "admin"
+		And user "user0" exists
+		And user "user0" has a quota of "0 B"
+		And As an "user0"
+		When User "user0" uploads file "data/textfile.txt" to "/files/user0/asdf.txt"
+		Then the HTTP status code should be "507"
+
+	Scenario: Uploading a file as recipient using webdav new endpoint having quota
+		Given using dav path "remote.php/dav"
+		And As an "admin"
+		And user "user0" exists
+		And user "user1" exists
+		And user "user0" has a quota of "10 MB"
+		And user "user1" has a quota of "10 MB"
+		And As an "user1"
+		And user "user1" created a folder "/testquota"
+		And as "user1" creating a share with
+		  | path | testquota |
+		  | shareType | 0 |
+		  | permissions | 31 |
+		  | shareWith | user0 |
+		And As an "user0"
+		When User "user0" uploads file "data/textfile.txt" to "/files/user0/testquota/asdf.txt"
+		Then the HTTP status code should be "201"
