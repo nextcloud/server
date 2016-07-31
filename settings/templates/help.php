@@ -21,7 +21,7 @@
 			</a>
 		</li>
 		<li>
-			<a href="https://forum.owncloud.org" target="_blank" rel="noreferrer">
+			<a href="https://central.owncloud.org" target="_blank" rel="noreferrer">
 				<?php p($l->t('Forum')); ?> ↗
 			</a>
 		</li>
