@@ -39,6 +39,13 @@ $_POST['ldap_configuration_active'] = 1;
 
 try {
 	if ($connection->setConfiguration($_POST)) {
+		/*
+		 * Clossing the session since it won't be used from this point on. There might be a potential
+		 * race condition if a second request is made: either this request or the other might not
+		 * contact the LDAP backup server the first time when it should, but there shouldn't be any
+		 * problem with that other than the extra connection.
+		 */
+		\OC::$server->getSession()->close();
 		//Configuration is okay
 		if ($connection->bind()) {
 			/*
