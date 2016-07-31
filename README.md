@@ -46,7 +46,7 @@ changed it substantially:
 More information how to contribute: https://nextcloud.com/contribute/
 
 ## Nextcloud VM
-If you're not familiar with Linux, or simply just want to get up and running on a pre-configured system in no time - we have developed a VM that you download. Just extract it and mount it in VMware or VirtualBox and your're all set.
+If you're not familiar with Linux, or simply just want to get up and running on a pre-configured system in no time - we have developed a VM that you can download. Just extract it and mount it in VMware or VirtualBox and your're all set.
 
 Download the latest version of the [Nextcloud VM](https://github.com/nextcloud/vm/releases/)
 
