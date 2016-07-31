@@ -42,6 +42,7 @@ OC.L10N.register(
     "{seconds}s" : "{seconds}d",
     "Any moment now..." : "Sedikit lagi...",
     "Soon..." : "Segera...",
+    "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} dari {totalSize} ({bitrate})",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Berkas sedang diunggah. Meninggalkan halaman ini akan membatalkan proses.",
     "Actions" : "Tindakan",
     "Download" : "Unduh",

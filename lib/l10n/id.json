@@ -165,6 +165,7 @@
     "Storage unauthorized. %s" : "Penyimpanan tidak terotorisasi. %s",
     "Storage incomplete configuration. %s" : "Konfigurasi penyimpanan tidak terselesaikan. %s",
     "Storage connection error. %s" : "Koneksi penyimpanan bermasalah. %s",
-    "Storage not available" : "Penyimpanan tidak tersedia"
+    "Storage not available" : "Penyimpanan tidak tersedia",
+    "Storage connection timeout. %s" : "Koneksi penyimpanan waktu-habis. %s"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
