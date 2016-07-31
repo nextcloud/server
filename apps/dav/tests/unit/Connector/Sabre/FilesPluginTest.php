@@ -471,7 +471,7 @@ class FilesPluginTest extends TestCase {
 		$node = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Node')
 			->disableOriginalConstructor()
 			->getMock();
-		$node->expects($this->at(0))
+		$node->expects($this->once())
 			->method('getFileInfo')
 			->willReturn($fileInfoFolderATestTXT);
 
@@ -545,7 +545,7 @@ class FilesPluginTest extends TestCase {
 				->getMock();
 
 		$request
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('getPath')
 			->will($this->returnValue('test/somefile.xml'));
 

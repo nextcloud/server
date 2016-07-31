@@ -29,6 +29,7 @@ use OCA\DAV\DAV\Sharing\IShareable;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\Backend;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -119,7 +120,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	/** @var IUserManager */
 	private $userManager;
 	
-	/** @var \OCP\IConfig */
+	/** @var IConfig */
 	private $config;
 
 	/**
@@ -128,14 +129,14 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param IDBConnection $db
 	 * @param Principal $principalBackend
 	 * @param IUserManager $userManager
+         * @param IConfig $config
 	 */
-	public function __construct(IDBConnection $db, Principal $principalBackend, IUserManager $userManager) {
+	public function __construct(IDBConnection $db, Principal $principalBackend, IUserManager $userManager, IConfig $config) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
 		$this->userManager = $userManager;
 		$this->sharingBackend = new Backend($this->db, $principalBackend, 'calendar');
-		// TODO: inject
-		$this->config = \OC::$server->getConfig();
+		$this->config = $config;
 	}
 
 	/**
@@ -1533,26 +1534,26 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
-	 * @param boolean $value
-	 * @param \OCA\DAV\CalDAV\Calendar $calendar
-	 */
-	 public function setPublishStatus($value, $calendar) {
-		 $query = $this->db->getQueryBuilder();
-		 if ($value) {
-			 $query->insert('dav_shares')
-            ->values([
-          			'principaluri' => $query->createNamedParameter($calendar->getPrincipalURI()),
-          			'type' => $query->createNamedParameter('calendar'),
-              	'access' => $query->createNamedParameter(self::ACCESS_PUBLIC),
-              	'resourceid' => $query->createNamedParameter($calendar->getResourceId())
-            	]);
-      } else {
-    		$query->delete('dav_shares')
-              ->Where($query->expr()->eq('resourceid', $query->createNamedParameter($calendar->getResourceId())))
-            	->andWhere($query->expr()->eq('access', $query->createNamedParameter(self::ACCESS_PUBLIC)));
-      }
-    	$query->execute();
-  }
+	* @param boolean $value
+	* @param \OCA\DAV\CalDAV\Calendar $calendar
+	*/
+	public function setPublishStatus($value, $calendar) {
+		$query = $this->db->getQueryBuilder();
+		if ($value) {
+			$query->insert('dav_shares')
+				->values([
+					'principaluri' => $query->createNamedParameter($calendar->getPrincipalURI()),
+					'type' => $query->createNamedParameter('calendar'),
+					'access' => $query->createNamedParameter(self::ACCESS_PUBLIC),
+					'resourceid' => $query->createNamedParameter($calendar->getResourceId())
+				]);
+		} else {
+			$query->delete('dav_shares')
+				->where($query->expr()->eq('resourceid', $query->createNamedParameter($calendar->getResourceId())))
+				->andWhere($query->expr()->eq('access', $query->createNamedParameter(self::ACCESS_PUBLIC)));
+		}
+		$query->execute();
+	}
 
 	/**
 	 * @param \OCA\DAV\CalDAV\Calendar $calendar

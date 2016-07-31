@@ -37,8 +37,87 @@ class Application extends App {
 	/**
 	 * Application constructor.
 	 */
-	public function __construct() {
-		parent::__construct('dav');
+	public function __construct (array $urlParams=array()) {
+		parent::__construct('dav', $urlParams);
+
+		$container = $this->getContainer();
+		$container->registerService('ContactsManager', function($c) {
+			/** @var IAppContainer $c */
+			return new ContactsManager(
+				$c->query('CardDavBackend')
+			);
+		});
+
+		$container->registerService('HookManager', function($c) {
+			/** @var IAppContainer $c */
+			return new HookManager(
+				$c->getServer()->getUserManager(),
+				$c->query('SyncService'),
+				$c->query('CalDavBackend'),
+				$c->query('CardDavBackend')
+			);
+		});
+
+		$container->registerService('SyncService', function($c) {
+			/** @var IAppContainer $c */
+			return new SyncService(
+				$c->query('CardDavBackend'),
+				$c->getServer()->getUserManager(),
+				$c->getServer()->getLogger()
+			);
+		});
+
+		$container->registerService('CardDavBackend', function($c) {
+			/** @var IAppContainer $c */
+			$db = $c->getServer()->getDatabaseConnection();
+			$dispatcher = $c->getServer()->getEventDispatcher();
+			$principal = new Principal(
+				$c->getServer()->getUserManager(),
+				$c->getServer()->getGroupManager()
+			);
+			return new CardDavBackend($db, $principal, $c->getServer()->getUserManager(), $dispatcher);
+		});
+
+		$container->registerService('CalDavBackend', function($c) {
+			/** @var IAppContainer $c */
+			$db = $c->getServer()->getDatabaseConnection();
+			$config = $c->getServer()->getConfig();
+			$principal = new Principal(
+				$c->getServer()->getUserManager(),
+				$c->getServer()->getGroupManager()
+			);
+			return new CalDavBackend($db, $principal, $c->getServer()->getUserManager(), $config);
+		});
+
+		$container->registerService('BirthdayService', function($c) {
+			/** @var IAppContainer $c */
+			$g = new GroupPrincipalBackend(
+				$c->getServer()->getGroupManager()
+			);
+			return new BirthdayService(
+				$c->query('CalDavBackend'),
+				$c->query('CardDavBackend'),
+				$g
+			);
+		});
+
+		$container->registerService('OCA\DAV\Migration\Classification', function ($c) {
+			/** @var IAppContainer $c */
+			return new Classification(
+				$c->query('CalDavBackend'),
+				$c->getServer()->getUserManager()
+			);
+		});
+
+		$container->registerService('OCA\DAV\Migration\GenerateBirthdays', function ($c) {
+			/** @var IAppContainer $c */
+			/** @var BirthdayService $b */
+			$b = $c->query('BirthdayService');
+			return new GenerateBirthdays(
+				$b,
+				$c->getServer()->getUserManager()
+			);
+		});
 	}
 
 	/**

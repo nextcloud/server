@@ -21,14 +21,19 @@
 namespace OCA\DAV\CalDAV;
 
 use Sabre\DAV\Collection;
+use Sabre\DAV\Exception\NotFound;
 
 class PublicCalendarRoot extends Collection {
 
 	/** @var CalDavBackend */
 	protected $caldavBackend;
 
+	/** @var \OCP\IL10N */
+	protected $l10n;
+
 	function __construct(CalDavBackend $caldavBackend) {
 		$this->caldavBackend = $caldavBackend;
+		$this->l10n = \OC::$server->getL10N('dav');
 	}
 
 	/**
@@ -38,21 +43,28 @@ class PublicCalendarRoot extends Collection {
 		return 'public-calendars';
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	function getChild($name) {
-		// TODO: for performance reason this needs to have a custom implementation
-		return parent::getChild($name);
+		foreach ($this->caldavBackend->getPublicCalendars() as $calendar) {
+			if ($calendar['uri'] === $name) {
+				// TODO: maybe implement a new class PublicCalendar ???
+				return new Calendar($this->caldavBackend, $calendar, $this->l10n);
+			}
+		}
+		throw new NotFound('Node with name \'' . $name . '\' could not be found');
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	function getChildren() {
-		$l10n = \OC::$server->getL10N('dav');
 		$calendars = $this->caldavBackend->getPublicCalendars();
 		$children = [];
 		foreach ($calendars as $calendar) {
 			// TODO: maybe implement a new class PublicCalendar ???
-			$children[] = new Calendar($this->caldavBackend, $calendar, $l10n);
+			$children[] = new Calendar($this->caldavBackend, $calendar, $this->l10n);
 		}
 
 		return $children;

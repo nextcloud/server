@@ -60,7 +60,7 @@ class RootCollection extends SimpleCollection {
 		$systemPrincipals->disableListing = $disableListing;
 		$filesCollection = new Files\RootCollection($userPrincipalBackend, 'principals/users');
 		$filesCollection->disableListing = $disableListing;
-		$caldavBackend = new CalDavBackend($db, $userPrincipalBackend, \OC::$server->getUserManager());
+		$caldavBackend = new CalDavBackend($db, $userPrincipalBackend, \OC::$server->getUserManager(), $config);
 		$calendarRoot = new CalendarRoot($userPrincipalBackend, $caldavBackend, 'principals/users');
 		$calendarRoot->disableListing = $disableListing;
 		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend);

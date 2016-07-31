@@ -44,6 +44,7 @@ class CreateCalendar extends Command {
 
 	/**
 	 * @param IUserManager $userManager
+	 * @param IGroupManager $groupManager
 	 * @param IDBConnection $dbConnection
 	 */
 	function __construct(IUserManager $userManager, IGroupManager $groupManager, IDBConnection $dbConnection) {
@@ -74,9 +75,10 @@ class CreateCalendar extends Command {
 			$this->userManager,
 			$this->groupManager
 		);
+		$config = \OC::$server->getConfig();
 
 		$name = $input->getArgument('name');
-		$caldav = new CalDavBackend($this->dbConnection, $principalBackend, $this->userManager);
+		$caldav = new CalDavBackend($this->dbConnection, $principalBackend, $this->userManager, $config);
 		$caldav->createCalendar("principals/users/$user", $name, []);
 	}
 }

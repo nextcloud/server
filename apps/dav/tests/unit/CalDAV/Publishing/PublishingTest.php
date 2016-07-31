@@ -4,7 +4,6 @@ namespace OCA\DAV\Tests\unit\CalDAV\Publishing;
 
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\Publishing\PublishPlugin;
-use OCA\DAV\Connector\Sabre\Auth;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IConfig;
@@ -30,16 +29,16 @@ class PluginTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		/** @var Auth | \PHPUnit_Framework_MockObject_MockObject $authBackend */
-		$authBackend = $this->getMockBuilder('OCA\DAV\DAV\PublicAuth')->disableOriginalConstructor()->getMock();
-		$authBackend->method('isDavAuthenticated')->willReturn(true);
-
-		$this->config = $this->getMock('\OCP\IConfig');
+		$this->config = $this->getMockBuilder('\OCP\IConfig')->
+			disableOriginalConstructor()->
+			getMock();
 		$this->config->expects($this->any())->method('getSystemValue')
 			->with($this->equalTo('secret'))
 			->willReturn('mysecret');
 
-		$this->urlGenerator = $this->getMock('OCP\IURLGenerator');
+		$this->urlGenerator = $this->getMockBuilder('OCP\IURLGenerator')->
+			disableOriginalConstructor()->
+			getMock();
 
 		/** @var IRequest $request */
 		$this->plugin = new PublishPlugin($this->config, $this->urlGenerator);
@@ -48,8 +47,8 @@ class PluginTest extends TestCase {
 		$this->server = new Server($root);
 		/** @var SimpleCollection $node */
 		$this->book = $this->getMockBuilder('OCA\DAV\CalDAV\Calendar')->
-		disableOriginalConstructor()->
-		getMock();
+			disableOriginalConstructor()->
+			getMock();
 		$this->book->method('getName')->willReturn('cal1');
 		$root->addChild($this->book);
 		$this->plugin->initialize($this->server);

@@ -16,9 +16,9 @@ use OCP\IConfig;
 
 class PublishPlugin extends ServerPlugin
 {
-    const NS_CALENDARSERVER = 'http://calendarserver.org/ns/';
+	const NS_CALENDARSERVER = 'http://calendarserver.org/ns/';
 
-    /**
+	/**
      * Reference to SabreDAV server object.
      *
      * @var \Sabre\DAV\Server
@@ -28,29 +28,30 @@ class PublishPlugin extends ServerPlugin
     /**
      * Config instance to get instance secret.
      *
-     * @var OCP\IConfig
+     * @var IConfig
      */
     protected $config;
 
      /**
       * URL Generator for absolute URLs.
       *
-      * @var OCP\IURLGenerator
+      * @var IURLGenerator
       */
      protected $urlGenerator;
 
-     /**
-      * PublishPlugin constructor.
-      *
-      * @param IURLGenerator $urlGenerator
-      */
+	/**
+	 * PublishPlugin constructor.
+	 *
+	 * @param IConfig $config
+	 * @param IURLGenerator $urlGenerator
+	 */
      public function __construct(IConfig $config, IURLGenerator $urlGenerator)
      {
          $this->config = $config;
          $this->urlGenerator = $urlGenerator;
      }
 
-    /**
+	/**
      * This method should return a list of server-features.
      *
      * This is for example 'versioning' and is added to the DAV: header
@@ -58,7 +59,7 @@ class PublishPlugin extends ServerPlugin
      *
      * @return string[]
      */
-    public function getFeatures()
+	public function getFeatures()
     {
         return ['oc-calendar-publishing']; // May have to be changed to be detected
     }
@@ -92,10 +93,9 @@ class PublishPlugin extends ServerPlugin
 
         $this->server->on('method:POST', [$this, 'httpPost']);
         $this->server->on('propFind',    [$this, 'propFind']);
-//        $this->server->on('method:OPTIONS', [$this, 'httpOptions'], 5);
     }
 
-    public function propFind(PropFind $propFind, INode $node)
+	public function propFind(PropFind $propFind, INode $node)
     {
         if ($node instanceof Calendar) {
             $token = md5($this->config->getSystemValue('secret', '').$node->getResourceId());
@@ -104,130 +104,113 @@ class PublishPlugin extends ServerPlugin
 
             $propFind->handle('{'.self::NS_CALENDARSERVER.'}publish-url', function () use ($node, $publishUrl) {
                 if ($node->getPublishStatus()) {
-                    return new Publisher($publishUrl, true); // We return the publish-url only if the calendar is published.
+					// We return the publish-url only if the calendar is published.
+                    return new Publisher($publishUrl, true);
                 }
             });
 
             $propFind->handle('{'.self::NS_CALENDARSERVER.'}pre-publish-url', function () use ($node, $publishUrl) {
-                return new Publisher($publishUrl, false); // The pre-publish-url is always returned
+				// The pre-publish-url is always returned
+                return new Publisher($publishUrl, false);
             });
         }
     }
 
-  /**
-   * We intercept this to handle POST requests on calendars.
-   *
-   * @param RequestInterface $request
-   * @param ResponseInterface $response
-   *
-   * @return null|bool
-   */
-  public function httpPost(RequestInterface $request, ResponseInterface $response)
-  {
-      $path = $request->getPath();
+	/**
+	 * We intercept this to handle POST requests on calendars.
+	 *
+	 * @param RequestInterface $request
+	 * @param ResponseInterface $response
+	 *
+	 * @return null|bool
+	 */
+	public function httpPost(RequestInterface $request, ResponseInterface $response)
+	{
+		$path = $request->getPath();
 
-      // Only handling xml
-      $contentType = $request->getHeader('Content-Type');
-      if (strpos($contentType, 'application/xml') === false && strpos($contentType, 'text/xml') === false) {
-          return;
-      }
+		// Only handling xml
+		$contentType = $request->getHeader('Content-Type');
+		if (strpos($contentType, 'application/xml') === false && strpos($contentType, 'text/xml') === false) {
+			return;
+		}
 
-      // Making sure the node exists
-      try {
-          $node = $this->server->tree->getNodeForPath($path);
-      } catch (NotFound $e) {
-          return;
-      }
+		// Making sure the node exists
+		try {
+			$node = $this->server->tree->getNodeForPath($path);
+		} catch (NotFound $e) {
+			return;
+		}
 
-      $requestBody = $request->getBodyAsString();
+		$requestBody = $request->getBodyAsString();
 
-      // If this request handler could not deal with this POST request, it
-      // will return 'null' and other plugins get a chance to handle the
-      // request.
-      //
-      // However, we already requested the full body. This is a problem,
-      // because a body can only be read once. This is why we preemptively
-      // re-populated the request body with the existing data.
-      $request->setBody($requestBody);
+		// If this request handler could not deal with this POST request, it
+		// will return 'null' and other plugins get a chance to handle the
+		// request.
+		//
+		// However, we already requested the full body. This is a problem,
+		// because a body can only be read once. This is why we preemptively
+		// re-populated the request body with the existing data.
+		$request->setBody($requestBody);
 
-      $message = $this->server->xml->parse($requestBody, $request->getUrl(), $documentType);
+		$this->server->xml->parse($requestBody, $request->getUrl(), $documentType);
 
-      switch ($documentType) {
+		switch ($documentType) {
 
-          case '{'.self::NS_CALENDARSERVER.'}publish-calendar' :
+			case '{'.self::NS_CALENDARSERVER.'}publish-calendar' :
 
-              // We can only deal with IShareableCalendar objects
-              if (!$node instanceof Calendar) {
-                  return;
-              }
-              $this->server->transactionType = 'post-publish-calendar';
+			// We can only deal with IShareableCalendar objects
+			if (!$node instanceof Calendar) {
+				return;
+			}
+			$this->server->transactionType = 'post-publish-calendar';
 
-              // Getting ACL info
-              $acl = $this->server->getPlugin('acl');
+			// Getting ACL info
+			$acl = $this->server->getPlugin('acl');
 
-              // If there's no ACL support, we allow everything
-              if ($acl) {
-                  $acl->checkPrivileges($path, '{DAV:}write');
-              }
+			// If there's no ACL support, we allow everything
+			if ($acl) {
+				$acl->checkPrivileges($path, '{DAV:}write');
+			}
 
-              $node->setPublishStatus(true);
+			$node->setPublishStatus(true);
 
-              // iCloud sends back the 202, so we will too.
-              $response->setStatus(202);
+			// iCloud sends back the 202, so we will too.
+			$response->setStatus(202);
 
-              // Adding this because sending a response body may cause issues,
-              // and I wanted some type of indicator the response was handled.
-              $response->setHeader('X-Sabre-Status', 'everything-went-well');
+			// Adding this because sending a response body may cause issues,
+			// and I wanted some type of indicator the response was handled.
+			$response->setHeader('X-Sabre-Status', 'everything-went-well');
 
-              // Breaking the event chain
-              return false;
+			// Breaking the event chain
+			return false;
 
-          case '{'.self::NS_CALENDARSERVER.'}unpublish-calendar' :
+			case '{'.self::NS_CALENDARSERVER.'}unpublish-calendar' :
 
-              // We can only deal with IShareableCalendar objects
-              if (!$node instanceof Calendar) {
-                  return;
-              }
-              $this->server->transactionType = 'post-unpublish-calendar';
+			// We can only deal with IShareableCalendar objects
+			if (!$node instanceof Calendar) {
+				return;
+			}
+			$this->server->transactionType = 'post-unpublish-calendar';
 
-              // Getting ACL info
-              $acl = $this->server->getPlugin('acl');
+			// Getting ACL info
+			$acl = $this->server->getPlugin('acl');
 
-              // If there's no ACL support, we allow everything
-              if ($acl) {
-                  $acl->checkPrivileges($path, '{DAV:}write');
-              }
+			// If there's no ACL support, we allow everything
+			if ($acl) {
+				$acl->checkPrivileges($path, '{DAV:}write');
+			}
 
-              $node->setPublishStatus(false);
+			$node->setPublishStatus(false);
 
-              $response->setStatus(200);
+			$response->setStatus(200);
 
-              // Adding this because sending a response body may cause issues,
-              // and I wanted some type of indicator the response was handled.
-              $response->setHeader('X-Sabre-Status', 'everything-went-well');
+			// Adding this because sending a response body may cause issues,
+			// and I wanted some type of indicator the response was handled.
+			$response->setHeader('X-Sabre-Status', 'everything-went-well');
 
-              // Breaking the event chain
-              return false;
+			// Breaking the event chain
+			return false;
 
-      }
-  }
-
-    public function httpOptions(RequestInterface $request, ResponseInterface $response) {
-        if ($request->getPath() == 'public-calendars') {
-            $methods = $this->server->getAllowedMethods($request->getPath());
-
-            $response->setHeader('Allow', strtoupper(implode(', ', $methods)));
-            $features = ['1', '3', 'extended-mkcol'];
-
-            $response->setHeader('DAV', implode(', ', $features));
-            $response->setHeader('MS-Author-Via', 'DAV');
-            $response->setHeader('Accept-Ranges', 'bytes');
-            $response->setHeader('Content-Length', '0');
-            $response->setStatus(200);
-
-            // Sending back false will interupt the event chain and tell the server
-            // we've handled this method.
-            return false;
-        }
-    }
+		}
+	}
 }
