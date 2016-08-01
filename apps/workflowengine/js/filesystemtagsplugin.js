@@ -26,11 +26,6 @@
 	OCA.WorkflowEngine.Plugins.FileSystemTagsPlugin = {
 		getCheck: function() {
 			this.collection = OC.SystemTags.collection;
-			this.collection.fetch({
-				success: function() {
-					console.log('done loading tags');
-				}
-			});
 
 			return {
 				'class': 'OCA\\WorkflowEngine\\Check\\FileSystemTags',
