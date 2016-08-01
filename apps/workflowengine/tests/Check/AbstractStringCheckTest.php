@@ -24,6 +24,30 @@ namespace OCA\WorkflowEngine\Tests\Check;
 
 class AbstractStringCheckTest extends \Test\TestCase {
 
+	protected function getCheckMock() {
+		$l = $this->getMockBuilder('OCP\IL10N')
+			->disableOriginalConstructor()
+			->getMock();
+		$l->expects($this->any())
+			->method('t')
+			->willReturnCallback(function($string, $args) {
+					return sprintf($string, $args);
+				});
+
+		$check = $this->getMockBuilder('OCA\WorkflowEngine\Check\AbstractStringCheck')
+			->setConstructorArgs([
+				$l,
+			])
+			->setMethods([
+				'setPath',
+				'executeCheck',
+				'getActualValue',
+			])
+			->getMock();
+
+		return $check;
+	}
+
 	public function dataExecuteStringCheck() {
 		return [
 			['is', 'same', 'same', true],
@@ -46,13 +70,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 	 * @param bool $expected
 	 */
 	public function testExecuteStringCheck($operation, $checkValue, $actualValue, $expected) {
-		$check = $this->getMockBuilder('OCA\WorkflowEngine\Check\AbstractStringCheck')
-			->setMethods([
-				'setPath',
-				'executeCheck',
-				'getActualValue',
-			])
-			->getMock();
+		$check = $this->getCheckMock();
 
 		/** @var \OCA\WorkflowEngine\Check\AbstractStringCheck $check */
 		$this->assertEquals($expected, $this->invokePrivate($check, 'executeStringCheck', [$operation, $checkValue, $actualValue]));
@@ -73,13 +91,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 	 * @param string $value
 	 */
 	public function testValidateCheck($operator, $value) {
-		$check = $this->getMockBuilder('OCA\WorkflowEngine\Check\AbstractStringCheck')
-			->setMethods([
-				'setPath',
-				'executeCheck',
-				'getActualValue',
-			])
-			->getMock();
+		$check = $this->getCheckMock();
 
 		/** @var \OCA\WorkflowEngine\Check\AbstractStringCheck $check */
 		$check->validateCheck($operator, $value);
@@ -87,10 +99,10 @@ class AbstractStringCheckTest extends \Test\TestCase {
 
 	public function dataValidateCheckInvalid() {
 		return [
-			['!!is', '', 1, 'Invalid operator'],
-			['less', '', 1, 'Invalid operator'],
-			['matches', '/Invalid(Regex/', 2, 'Invalid regex'],
-			['!matches', '/Invalid(Regex/', 2, 'Invalid regex'],
+			['!!is', '', 1, 'The given operator is invalid'],
+			['less', '', 1, 'The given operator is invalid'],
+			['matches', '/Invalid(Regex/', 2, 'The given regular expression is invalid'],
+			['!matches', '/Invalid(Regex/', 2, 'The given regular expression is invalid'],
 		];
 	}
 
@@ -102,13 +114,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 	 * @param $exceptionMessage
 	 */
 	public function testValidateCheckInvalid($operator, $value, $exceptionCode, $exceptionMessage) {
-		$check = $this->getMockBuilder('OCA\WorkflowEngine\Check\AbstractStringCheck')
-			->setMethods([
-				'setPath',
-				'executeCheck',
-				'getActualValue',
-			])
-			->getMock();
+		$check = $this->getCheckMock();
 
 		try {
 			/** @var \OCA\WorkflowEngine\Check\AbstractStringCheck $check */
@@ -134,13 +140,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 	 * @param bool $expected
 	 */
 	public function testMatch($pattern, $subject, $matches, $expected) {
-		$check = $this->getMockBuilder('OCA\WorkflowEngine\Check\AbstractStringCheck')
-			->setMethods([
-				'setPath',
-				'executeCheck',
-				'getActualValue',
-			])
-			->getMock();
+		$check = $this->getCheckMock();
 
 		$this->invokePrivate($check, 'matches', [$matches]);
 

@@ -23,18 +23,24 @@ namespace OCA\WorkflowEngine\Check;
 
 
 use OCP\Files\Storage\IStorage;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\WorkflowEngine\ICheck;
 
 class RequestRemoteAddress implements ICheck {
 
+	/** @var IL10N */
+	protected $l;
+
 	/** @var IRequest */
 	protected $request;
 
 	/**
+	 * @param IL10N $l
 	 * @param IRequest $request
 	 */
-	public function __construct(IRequest $request) {
+	public function __construct(IL10N $l, IRequest $request) {
+		$this->l = $l;
 		$this->request = $request;
 	}
 
@@ -73,27 +79,27 @@ class RequestRemoteAddress implements ICheck {
 	 */
 	public function validateCheck($operator, $value) {
 		if (!in_array($operator, ['matchesIPv4', '!matchesIPv4', 'matchesIPv6', '!matchesIPv6'])) {
-			throw new \UnexpectedValueException('Invalid operator', 1);
+			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
 
 		$decodedValue = explode('/', $value);
 		if (sizeof($decodedValue) !== 2) {
-			throw new \UnexpectedValueException('Invalid IP range', 2);
+			throw new \UnexpectedValueException($this->l->t('The given IP range is invalid'), 2);
 		}
 
 		if (in_array($operator, ['matchesIPv4', '!matchesIPv4'])) {
 			if (!filter_var($decodedValue[0], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-				throw new \UnexpectedValueException('Invalid IPv4 range', 3);
+				throw new \UnexpectedValueException($this->l->t('The given IP range is not valid for IPv4'), 3);
 			}
 			if ($decodedValue[1] > 32 || $decodedValue[1] <= 0) {
-				throw new \UnexpectedValueException('Invalid IPv4 range', 4);
+				throw new \UnexpectedValueException($this->l->t('The given IP range is not valid for IPv4'), 4);
 			}
 		} else {
 			if (!filter_var($decodedValue[0], FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
-				throw new \UnexpectedValueException('Invalid IPv6 range', 3);
+				throw new \UnexpectedValueException($this->l->t('The given IP range is not valid for IPv6'), 3);
 			}
 			if ($decodedValue[1] > 128 || $decodedValue[1] <= 0) {
-				throw new \UnexpectedValueException('Invalid IPv6 range', 4);
+				throw new \UnexpectedValueException($this->l->t('The given IP range is not valid for IPv6'), 4);
 			}
 		}
 	}

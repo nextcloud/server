@@ -24,6 +24,7 @@ namespace OCA\WorkflowEngine\Check;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\Storage\IStorage;
+use OCP\IL10N;
 use OCP\WorkflowEngine\ICheck;
 
 class RequestTime implements ICheck {
@@ -34,13 +35,17 @@ class RequestTime implements ICheck {
 	/** @var bool[] */
 	protected $cachedResults;
 
+	/** @var IL10N */
+	protected $l;
+
 	/** @var ITimeFactory */
 	protected $timeFactory;
 
 	/**
 	 * @param ITimeFactory $timeFactory
 	 */
-	public function __construct(ITimeFactory $timeFactory) {
+	public function __construct(IL10N $l, ITimeFactory $timeFactory) {
+		$this->l = $l;
 		$this->timeFactory = $timeFactory;
 	}
 
@@ -101,24 +106,24 @@ class RequestTime implements ICheck {
 	 */
 	public function validateCheck($operator, $value) {
 		if (!in_array($operator, ['in', '!in'])) {
-			throw new \UnexpectedValueException('Invalid operator', 1);
+			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
 
 		$regexValue = '\"' . self::REGEX_TIME . ' ' . self::REGEX_TIMEZONE . '\"';
 		$result = preg_match('/^\[' . $regexValue . ',' . $regexValue . '\]$/', $value, $matches);
 		if (!$result) {
-			throw new \UnexpectedValueException('Invalid time limits', 2);
+			throw new \UnexpectedValueException($this->l->t('The given time span is invalid'), 2);
 		}
 
 		$values = json_decode($value, true);
 		$time1 = \DateTime::createFromFormat('H:i e', $values[0]);
 		if ($time1 === false) {
-			throw new \UnexpectedValueException('Invalid start time given', 3);
+			throw new \UnexpectedValueException($this->l->t('The given start time is invalid'), 3);
 		}
 
 		$time2 = \DateTime::createFromFormat('H:i e', $values[1]);
 		if ($time2 === false) {
-			throw new \UnexpectedValueException('Invalid end time given', 3);
+			throw new \UnexpectedValueException($this->l->t('The given end time is invalid'), 4);
 		}
 	}
 }

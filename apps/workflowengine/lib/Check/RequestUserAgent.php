@@ -22,6 +22,7 @@
 namespace OCA\WorkflowEngine\Check;
 
 
+use OCP\IL10N;
 use OCP\IRequest;
 
 class RequestUserAgent extends AbstractStringCheck {
@@ -30,9 +31,11 @@ class RequestUserAgent extends AbstractStringCheck {
 	protected $request;
 
 	/**
+	 * @param IL10N $l
 	 * @param IRequest $request
 	 */
-	public function __construct(IRequest $request) {
+	public function __construct(IL10N $l, IRequest $request) {
+		parent::__construct($l);
 		$this->request = $request;
 	}
 

@@ -89,11 +89,11 @@ class UserGroupMembership implements ICheck {
 	 */
 	public function validateCheck($operator, $value) {
 		if (!in_array($operator, ['is', '!is'])) {
-			throw new \UnexpectedValueException($this->l->t('Operator %s is invalid', $operator), 1);
+			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
 
 		if (!$this->groupManager->groupExists($value)) {
-			throw new \UnexpectedValueException($this->l->t('Group %s does not exist', $value), 2);
+			throw new \UnexpectedValueException($this->l->t('The given group does not exist'), 2);
 		}
 	}
 
