@@ -106,6 +106,16 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	public function instanceOfStorage($class) {
+		if (in_array($class, ['\OC\Files\Storage\Home', '\OC\Files\ObjectStore\HomeObjectStoreStorage'])) {
+			return false;
+		}
+		return parent::instanceOfStorage($class);
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getShareId() {
