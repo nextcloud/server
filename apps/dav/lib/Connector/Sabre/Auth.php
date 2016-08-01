@@ -159,6 +159,7 @@ class Auth extends AbstractBasic {
 		} catch (Exception $e) {
 			$class = get_class($e);
 			$msg = $e->getMessage();
+			\OC::$server->getLogger()->logException($e);
 			throw new ServiceUnavailable("$class: $msg");
 		}
 	}

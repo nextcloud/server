@@ -62,6 +62,7 @@ use OC\Cache\CappedMemoryCache;
 use OC\Files\Config\MountProviderCollection;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\StorageFactory;
+use OC\Lockdown\Filesystem\NullStorage;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
@@ -216,7 +217,7 @@ class Filesystem {
 	 * @internal
 	 */
 	public static function logWarningWhenAddingStorageWrapper($shouldLog) {
-		self::$logWarningWhenAddingStorageWrapper = (bool) $shouldLog;
+		self::$logWarningWhenAddingStorageWrapper = (bool)$shouldLog;
 	}
 
 	/**
@@ -426,25 +427,36 @@ class Filesystem {
 			self::$usersSetup[$user] = true;
 		}
 
-		/** @var \OC\Files\Config\MountProviderCollection $mountConfigManager */
-		$mountConfigManager = \OC::$server->getMountProviderCollection();
+		if (\OC::$server->getLockdownManager()->canAccessFilesystem()) {
+			/** @var \OC\Files\Config\MountProviderCollection $mountConfigManager */
+			$mountConfigManager = \OC::$server->getMountProviderCollection();
 
-		// home mounts are handled seperate since we need to ensure this is mounted before we call the other mount providers
-		$homeMount = $mountConfigManager->getHomeMountForUser($userObject);
+			// home mounts are handled seperate since we need to ensure this is mounted before we call the other mount providers
+			$homeMount = $mountConfigManager->getHomeMountForUser($userObject);
 
-		self::getMountManager()->addMount($homeMount);
+			self::getMountManager()->addMount($homeMount);
 
-		\OC\Files\Filesystem::getStorage($user);
+			\OC\Files\Filesystem::getStorage($user);
 
-		// Chance to mount for other storages
-		if ($userObject) {
-			$mounts = $mountConfigManager->getMountsForUser($userObject);
-			array_walk($mounts, array(self::$mounts, 'addMount'));
-			$mounts[] = $homeMount;
-			$mountConfigManager->registerMounts($userObject, $mounts);
+			// Chance to mount for other storages
+			if ($userObject) {
+				$mounts = $mountConfigManager->getMountsForUser($userObject);
+				array_walk($mounts, array(self::$mounts, 'addMount'));
+				$mounts[] = $homeMount;
+				$mountConfigManager->registerMounts($userObject, $mounts);
+			}
+
+			self::listenForNewMountProviders($mountConfigManager, $userManager);
+		} else {
+			self::$mounts->addMount(new MountPoint(
+				new NullStorage([]),
+				'/' . $user
+			));
+			self::$mounts->addMount(new MountPoint(
+				new NullStorage([]),
+				'/' . $user . '/files'
+			));
 		}
-
-		self::listenForNewMountProviders($mountConfigManager, $userManager);
 		\OC_Hook::emit('OC_Filesystem', 'post_initMountPoints', array('user' => $user));
 	}
 

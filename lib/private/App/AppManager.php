@@ -112,6 +112,11 @@ class AppManager implements IAppManager {
 				return $value !== 'no';
 			});
 			ksort($this->installedAppsCache);
+			foreach ($this->installedAppsCache as $appId => $value) {
+				if (!\OC::$server->getLockdownManager()->canAccessApp($appId)) {
+					unset($this->installedAppsCache[$appId]);
+				}
+			}
 		}
 		return $this->installedAppsCache;
 	}
