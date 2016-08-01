@@ -61,7 +61,7 @@ class ConvertType extends Command {
 	protected function configure() {
 		$this
 			->setName('db:convert-type')
-			->setDescription('Convert the ownCloud database to the newly configured one')
+			->setDescription('Convert the Nextcloud database to the newly configured one')
 			->addArgument(
 				'type',
 				InputArgument::REQUIRED,
