@@ -396,7 +396,9 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					if(container.children('li[data-id="'+entry.id+'"]').length === 0){
 						var li=$('<li></li>');
 						li.attr('data-id', entry.id);
-						var img= $('<img class="app-icon"/>').attr({ src: entry.icon});
+						var img = '<svg width="32" height="32" viewBox="0 0 32 32">';
+						img += '<defs><filter id="invert"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0" /></filter></defs>';
+						img += '<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" filter="url(#invert)" xlink:href="' + entry.icon + '"  class="app-icon" /></svg>';
 						var a=$('<a></a>').attr('href', entry.href);
 						var filename=$('<span></span>');
 						var loading = $('<div class="icon-loading-dark"></div>').css('display', 'none');
@@ -425,11 +427,6 @@ OC.Settings.Apps = OC.Settings.Apps || {
 							.animate({opacity: 0.5})
 							.animate({opacity: 1})
 							.animate({opacity: 0.75});
-
-						if (!OC.Util.hasSVGSupport() && entry.icon.match(/\.svg$/i)) {
-							$(img).addClass('svg');
-							OC.Util.replaceSVG();
-						}
 					}
 				}
 
