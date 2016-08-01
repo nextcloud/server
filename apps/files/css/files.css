@@ -608,13 +608,6 @@ html.ie8 .column-mtime .selectedActions {
 	padding-right: 14px;
 }
 
-#fileList .filesize {
-	padding-top: 0;
-	padding-bottom: 0;
-	padding-left: 60px;
-	padding-right: 15px;
-}
-
 #fileList .popovermenu {
 	margin-right: 6px;
 }
