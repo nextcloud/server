@@ -23,12 +23,23 @@ namespace OCA\WorkflowEngine\Check;
 
 
 use OCP\Files\Storage\IStorage;
+use OCP\IL10N;
 use OCP\WorkflowEngine\ICheck;
 
 abstract class AbstractStringCheck implements ICheck {
 
 	/** @var array[] Nested array: [Pattern => [ActualValue => Regex Result]] */
 	protected $matches;
+
+	/** @var IL10N */
+	protected $l;
+
+	/**
+	 * @param IL10N $l
+	 */
+	public function __construct(IL10N $l) {
+		$this->l = $l;
+	}
 
 	/**
 	 * @param IStorage $storage
@@ -81,12 +92,12 @@ abstract class AbstractStringCheck implements ICheck {
 	 */
 	public function validateCheck($operator, $value) {
 		if (!in_array($operator, ['is', '!is', 'matches', '!matches'])) {
-			throw new \UnexpectedValueException('Invalid operator', 1);
+			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
 
 		if (in_array($operator, ['matches', '!matches']) &&
 			  @preg_match($value, null) === false) {
-			throw new \UnexpectedValueException('Invalid regex', 2);
+			throw new \UnexpectedValueException($this->l->t('The given regular expression is invalid'), 2);
 		}
 	}
 

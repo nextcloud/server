@@ -27,6 +27,21 @@ class RequestTimeTest extends \Test\TestCase {
 	/** @var \OCP\AppFramework\Utility\ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
 	protected $timeFactory;
 
+	/**
+	 * @return \OCP\IL10N|\PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected function getL10NMock() {
+		$l = $this->getMockBuilder('OCP\IL10N')
+			->disableOriginalConstructor()
+			->getMock();
+		$l->expects($this->any())
+			->method('t')
+			->willReturnCallback(function ($string, $args) {
+				return sprintf($string, $args);
+			});
+		return $l;
+	}
+
 	protected function setUp() {
 		parent::setUp();
 
@@ -72,7 +87,7 @@ class RequestTimeTest extends \Test\TestCase {
 	 * @param bool $expected
 	 */
 	public function testExecuteCheckIn($value, $timestamp, $expected) {
-		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->timeFactory);
+		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->getL10NMock(), $this->timeFactory);
 
 		$this->timeFactory->expects($this->once())
 			->method('getTime')
@@ -88,7 +103,7 @@ class RequestTimeTest extends \Test\TestCase {
 	 * @param bool $expected
 	 */
 	public function testExecuteCheckNotIn($value, $timestamp, $expected) {
-		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->timeFactory);
+		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->getL10NMock(), $this->timeFactory);
 
 		$this->timeFactory->expects($this->once())
 			->method('getTime')
@@ -99,9 +114,9 @@ class RequestTimeTest extends \Test\TestCase {
 
 	public function dataValidateCheck() {
 		return [
-			['in', json_encode(['08:00 Europe/Berlin', '17:00 Europe/Berlin'])],
-			['!in', json_encode(['08:00 Europe/Berlin', '17:00 America/North_Dakota/Beulah'])],
-			['in', json_encode(['08:00 America/Port-au-Prince', '17:00 America/Argentina/San_Luis'])],
+			['in', '["08:00 Europe/Berlin","17:00 Europe/Berlin"]'],
+			['!in', '["08:00 Europe/Berlin","17:00 America/North_Dakota/Beulah"]'],
+			['in', '["08:00 America/Port-au-Prince","17:00 America/Argentina/San_Luis"]'],
 		];
 	}
 
@@ -111,18 +126,19 @@ class RequestTimeTest extends \Test\TestCase {
 	 * @param string $value
 	 */
 	public function testValidateCheck($operator, $value) {
-		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->timeFactory);
+		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->getL10NMock(), $this->timeFactory);
 		$check->validateCheck($operator, $value);
 	}
 
 	public function dataValidateCheckInvalid() {
 		return [
-			['!!in', json_encode(['08:00 Europe/Berlin', '17:00 Europe/Berlin']), 1, 'Invalid operator'],
-			['in', json_encode(['28:00 Europe/Berlin', '17:00 Europe/Berlin']), 2, 'Invalid time limits'],
-			['in', json_encode(['08:00 Europa/Berlin', '17:00 Europe/Berlin']), 3, 'Invalid timezone1'],
-			['in', json_encode(['08:00 Europe/Berlin', '17:00 Europa/Berlin']), 3, 'Invalid timezone2'],
-			['in', json_encode(['08:00 Europe/Bearlin', '17:00 Europe/Berlin']), 3, 'Invalid timezone1'],
-			['in', json_encode(['08:00 Europe/Berlin', '17:00 Europe/Bearlin']), 3, 'Invalid timezone2'],
+			['!!in', '["08:00 Europe/Berlin","17:00 Europe/Berlin"]', 1, 'The given operator is invalid'],
+			['in', '["28:00 Europe/Berlin","17:00 Europe/Berlin"]', 2, 'The given time span is invalid'],
+			['in', '["08:00 Europe/Berlin","27:00 Europe/Berlin"]', 2, 'The given time span is invalid'],
+			['in', '["08:00 Europa/Berlin","17:00 Europe/Berlin"]', 3, 'The given start time is invalid'],
+			['in', '["08:00 Europe/Berlin","17:00 Europa/Berlin"]', 4, 'The given end time is invalid'],
+			['in', '["08:00 Europe/Bearlin","17:00 Europe/Berlin"]', 3, 'The given start time is invalid'],
+			['in', '["08:00 Europe/Berlin","17:00 Europe/Bearlin"]', 4, 'The given end time is invalid'],
 		];
 	}
 
@@ -134,7 +150,7 @@ class RequestTimeTest extends \Test\TestCase {
 	 * @param string $exceptionMessage
 	 */
 	public function testValidateCheckInvalid($operator, $value, $exceptionCode, $exceptionMessage) {
-		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->timeFactory);
+		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->getL10NMock(), $this->timeFactory);
 
 		try {
 			$check->validateCheck($operator, $value);

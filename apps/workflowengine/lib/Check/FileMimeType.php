@@ -23,6 +23,7 @@ namespace OCA\WorkflowEngine\Check;
 
 
 use OCP\Files\IMimeTypeDetector;
+use OCP\IL10N;
 use OCP\IRequest;
 
 class FileMimeType extends AbstractStringCheck {
@@ -37,10 +38,12 @@ class FileMimeType extends AbstractStringCheck {
 	protected $mimeTypeDetector;
 
 	/**
+	 * @param IL10N $l
 	 * @param IRequest $request
 	 * @param IMimeTypeDetector $mimeTypeDetector
 	 */
-	public function __construct(IRequest $request, IMimeTypeDetector $mimeTypeDetector) {
+	public function __construct(IL10N $l, IRequest $request, IMimeTypeDetector $mimeTypeDetector) {
+		parent::__construct($l);
 		$this->request = $request;
 		$this->mimeTypeDetector = $mimeTypeDetector;
 	}

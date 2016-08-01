@@ -24,6 +24,7 @@ namespace OCA\WorkflowEngine\Check;
 
 use OCP\Files\Cache\ICache;
 use OCP\Files\Storage\IStorage;
+use OCP\IL10N;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
@@ -36,6 +37,9 @@ class FileSystemTags implements ICheck {
 
 	/** @var array */
 	protected $fileSystemTags;
+
+	/** @var IL10N */
+	protected $l;
 
 	/** @var ISystemTagManager */
 	protected $systemTagManager;
@@ -50,10 +54,12 @@ class FileSystemTags implements ICheck {
 	protected $path;
 
 	/**
+	 * @param IL10N $l
 	 * @param ISystemTagManager $systemTagManager
 	 * @param ISystemTagObjectMapper $systemTagObjectMapper
 	 */
-	public function __construct(ISystemTagManager $systemTagManager, ISystemTagObjectMapper $systemTagObjectMapper) {
+	public function __construct(IL10N $l, ISystemTagManager $systemTagManager, ISystemTagObjectMapper $systemTagObjectMapper) {
+		$this->l = $l;
 		$this->systemTagManager = $systemTagManager;
 		$this->systemTagObjectMapper = $systemTagObjectMapper;
 	}
@@ -84,15 +90,15 @@ class FileSystemTags implements ICheck {
 	 */
 	public function validateCheck($operator, $value) {
 		if (!in_array($operator, ['is', '!is'])) {
-			throw new \UnexpectedValueException('Invalid operator', 1);
+			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
 
 		try {
 			$this->systemTagManager->getTagsByIds($value);
 		} catch (TagNotFoundException $e) {
-			throw new \UnexpectedValueException('Tag does not exist', 2);
+			throw new \UnexpectedValueException($this->l->t('The given tag id is invalid'), 2);
 		} catch (\InvalidArgumentException $e) {
-			throw new \UnexpectedValueException('Tag does not exist', 3);
+			throw new \UnexpectedValueException($this->l->t('The given tag id is invalid'), 3);
 		}
 	}
 

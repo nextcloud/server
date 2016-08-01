@@ -23,6 +23,7 @@ namespace OCA\WorkflowEngine\Check;
 
 
 use OCP\Files\Storage\IStorage;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Util;
 use OCP\WorkflowEngine\ICheck;
@@ -32,13 +33,18 @@ class FileSize implements ICheck {
 	/** @var int */
 	protected $size;
 
+	/** @var IL10N */
+	protected $l;
+
 	/** @var IRequest */
 	protected $request;
 
 	/**
+	 * @param IL10N $l
 	 * @param IRequest $request
 	 */
-	public function __construct(IRequest $request) {
+	public function __construct(IL10N $l, IRequest $request) {
+		$this->l = $l;
 		$this->request = $request;
 	}
 
@@ -80,11 +86,11 @@ class FileSize implements ICheck {
 	 */
 	public function validateCheck($operator, $value) {
 		if (!in_array($operator, ['less', '!less', 'greater', '!greater'])) {
-			throw new \UnexpectedValueException('Invalid operator', 1);
+			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
 
 		if (!preg_match('/^[0-9]+[ ]?[kmgt]?b$/i', $value)) {
-			throw new \UnexpectedValueException('Invalid file size', 2);
+			throw new \UnexpectedValueException($this->l->t('The given file size is invalid'), 2);
 		}
 	}
 
