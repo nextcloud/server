@@ -19,25 +19,25 @@ class PublishPlugin extends ServerPlugin
 	const NS_CALENDARSERVER = 'http://calendarserver.org/ns/';
 
 	/**
-     * Reference to SabreDAV server object.
-     *
-     * @var \Sabre\DAV\Server
-     */
-    protected $server;
+	 * Reference to SabreDAV server object.
+	 *
+	 * @var \Sabre\DAV\Server
+	 */
+	protected $server;
 
-    /**
-     * Config instance to get instance secret.
-     *
-     * @var IConfig
-     */
-    protected $config;
+	/**
+	 * Config instance to get instance secret.
+	 *
+	 * @var IConfig
+	 */
+	protected $config;
 
-     /**
-      * URL Generator for absolute URLs.
-      *
-      * @var IURLGenerator
-      */
-     protected $urlGenerator;
+	/**
+	 * URL Generator for absolute URLs.
+	 *
+	 * @var IURLGenerator
+	 */
+	protected $urlGenerator;
 
 	/**
 	 * PublishPlugin constructor.
@@ -45,76 +45,77 @@ class PublishPlugin extends ServerPlugin
 	 * @param IConfig $config
 	 * @param IURLGenerator $urlGenerator
 	 */
-     public function __construct(IConfig $config, IURLGenerator $urlGenerator)
-     {
-         $this->config = $config;
-         $this->urlGenerator = $urlGenerator;
-     }
+	public function __construct(IConfig $config, IURLGenerator $urlGenerator)
+	{
+		$this->config = $config;
+		$this->urlGenerator = $urlGenerator;
+	}
 
 	/**
-     * This method should return a list of server-features.
-     *
-     * This is for example 'versioning' and is added to the DAV: header
-     * in an OPTIONS response.
-     *
-     * @return string[]
-     */
+	 * This method should return a list of server-features.
+	 *
+	 * This is for example 'versioning' and is added to the DAV: header
+	 * in an OPTIONS response.
+	 *
+	 * @return string[]
+	 */
 	public function getFeatures()
-    {
-        return ['oc-calendar-publishing']; // May have to be changed to be detected
-    }
+	{
+		// May have to be changed to be detected
+		return ['oc-calendar-publishing'];
+	}
 
-    /**
-     * Returns a plugin name.
-     *
-     * Using this name other plugins will be able to access other plugins
-     * using Sabre\DAV\Server::getPlugin
-     *
-     * @return string
-     */
-    public function getPluginName()
-    {
-        return 'oc-calendar-publishing';
-    }
+	/**
+	 * Returns a plugin name.
+	 *
+	 * Using this name other plugins will be able to access other plugins
+	 * using Sabre\DAV\Server::getPlugin
+	 *
+	 * @return string
+	 */
+	public function getPluginName()
+	{
+		return 'oc-calendar-publishing';
+	}
 
-    /**
-     * This initializes the plugin.
-     *
-     * This function is called by Sabre\DAV\Server, after
-     * addPlugin is called.
-     *
-     * This method should set up the required event subscriptions.
-     *
-     * @param Server $server
-     */
-    public function initialize(Server $server)
-    {
-        $this->server = $server;
+	/**
+	 * This initializes the plugin.
+	 *
+	 * This function is called by Sabre\DAV\Server, after
+	 * addPlugin is called.
+	 *
+	 * This method should set up the required event subscriptions.
+	 *
+	 * @param Server $server
+	 */
+	public function initialize(Server $server)
+	{
+		$this->server = $server;
 
-        $this->server->on('method:POST', [$this, 'httpPost']);
-        $this->server->on('propFind',    [$this, 'propFind']);
-    }
+		$this->server->on('method:POST', [$this, 'httpPost']);
+		$this->server->on('propFind',    [$this, 'propFind']);
+	}
 
 	public function propFind(PropFind $propFind, INode $node)
-    {
-        if ($node instanceof Calendar) {
-            $token = md5($this->config->getSystemValue('secret', '').$node->getResourceId());
+	{
+		if ($node instanceof Calendar) {
+			$token = md5($this->config->getSystemValue('secret', '').$node->getResourceId());
 
-            $publishUrl = $this->urlGenerator->getAbsoluteURL($this->server->getBaseUri().'public-calendars/').$token;
+			$publishUrl = $this->urlGenerator->getAbsoluteURL($this->server->getBaseUri().'public-calendars/').$token;
 
-            $propFind->handle('{'.self::NS_CALENDARSERVER.'}publish-url', function () use ($node, $publishUrl) {
-                if ($node->getPublishStatus()) {
+			$propFind->handle('{'.self::NS_CALENDARSERVER.'}publish-url', function () use ($node, $publishUrl) {
+				if ($node->getPublishStatus()) {
 					// We return the publish-url only if the calendar is published.
-                    return new Publisher($publishUrl, true);
-                }
-            });
+					return new Publisher($publishUrl, true);
+				}
+			});
 
-            $propFind->handle('{'.self::NS_CALENDARSERVER.'}pre-publish-url', function () use ($node, $publishUrl) {
+			$propFind->handle('{'.self::NS_CALENDARSERVER.'}pre-publish-url', function () use ($node, $publishUrl) {
 				// The pre-publish-url is always returned
-                return new Publisher($publishUrl, false);
-            });
-        }
-    }
+				return new Publisher($publishUrl, false);
+			});
+		}
+	}
 
 	/**
 	 * We intercept this to handle POST requests on calendars.
