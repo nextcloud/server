@@ -386,10 +386,10 @@ class ThemingControllerTest extends TestCase {
 
 		$expectedData .= '
 				#firstrunwizard .firstrunwizard-header {
-				    background-color: ' . $color . ';
+					background-color: ' . $color . ';
 				}
 				#firstrunwizard p a {
-				    color: ' . $color . ';
+					color: ' . $color . ';
 				}
 				';
 
@@ -442,10 +442,10 @@ class ThemingControllerTest extends TestCase {
 
 		$expectedData .= '
 				#firstrunwizard .firstrunwizard-header {
-				    background-color: ' . $color . ';
+					background-color: ' . $color . ';
 				}
 				#firstrunwizard p a {
-				    color: ' . $color . ';
+					color: ' . $color . ';
 				}
 				';
 		$expectedData .= '#header .header-appname, #expandDisplayName { color: #000000; }' . "\n";
@@ -484,7 +484,7 @@ class ThemingControllerTest extends TestCase {
 			->willReturn('');
 
 		$expectedData = '#header .logo {' .
-			'background-image: url(\'./logo?v=0\')' .
+			'background-image: url(\'./logo?v=0\');' .
 			'background-size: contain;' .
 			'}' . "\n" .
 			'#header .logo-icon {' .
@@ -579,15 +579,15 @@ class ThemingControllerTest extends TestCase {
 			"}\n";
 		$expectedData .= '
 				#firstrunwizard .firstrunwizard-header {
-				    background-color: ' . $color . ';
+					background-color: ' . $color . ';
 				}
 				#firstrunwizard p a {
-				    color: ' . $color . ';
+					color: ' . $color . ';
 				}
 				';
 		$expectedData .= sprintf(
 			'#header .logo {' .
-			'background-image: url(\'./logo?v=0\')' .
+			'background-image: url(\'./logo?v=0\');' .
 			'background-size: contain;' .
 			'}' . "\n" .
 			'#header .logo-icon {' .
@@ -652,15 +652,15 @@ class ThemingControllerTest extends TestCase {
 			"}\n";
 		$expectedData .= '
 				#firstrunwizard .firstrunwizard-header {
-				    background-color: ' . $color . ';
+					background-color: ' . $color . ';
 				}
 				#firstrunwizard p a {
-				    color: ' . $color . ';
+					color: ' . $color . ';
 				}
 				';
 		$expectedData .= sprintf(
 			'#header .logo {' .
-			'background-image: url(\'./logo?v=0\')' .
+			'background-image: url(\'./logo?v=0\');' .
 			'background-size: contain;' .
 			'}' . "\n" .
 			'#header .logo-icon {' .
