@@ -11,6 +11,7 @@
     "You can upload into this folder" : "Вы можете загружать в эту папку",
     "No compatible server found at {remote}" : "Не найден совместимый сервер на {remote}",
     "Invalid server URL" : "Неверный URL сервера",
+    "Failed to add the public link to your Nextcloud" : "Не получилось добавить публичную ссылку на ваш Nextcloud",
     "No expiration date set" : "Дата истечения не установлена",
     "Shared by" : "Поделился",
     "Sharing" : "Общий доступ",
@@ -89,10 +90,12 @@
     "the link expired" : "срок действия ссылки истёк",
     "sharing is disabled" : "общий доступ отключён",
     "For more info, please ask the person who sent this link." : "Для получения дополнительной информации, свяжитесь с тем, кто отправил вам эту ссылку.",
+    "Add to your Nextcloud" : "Добавить к вашему Nextcloud",
     "Download" : "Скачать",
     "Download %s" : "Скачать %s",
     "Direct link" : "Прямая ссылка",
     "Upload files to %s" : "Загрузка файлов в %s",
+    "Select or drop files" : "Выбрать или сбросить файлы",
     "Uploading files…" : "Загрузка файлов...",
     "Uploaded files:" : "Загруженные файлы:"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"

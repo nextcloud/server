@@ -122,6 +122,7 @@
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "Die App \"%s\" kann nicht installiert werden, da sie mit dieser Serverversion nicht kompatibel ist.",
     "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Die App „%s“ kann nicht installiert werden, da die folgenden Abhängigkeiten nicht erfüllt sind: %s",
     "No app name specified" : "Es wurde kein App-Name angegeben",
+    "App '%s' could not be installed!" : "'%s' - App konnte nicht installiert werden!",
     "a safe home for all your data" : "ein sicherer Ort für all deine Daten",
     "File is currently busy, please try again later" : "Die Datei ist zur Zeit in Benutzung, bitte versuche es später noch einmal",
     "Can't read file" : "Datei kann nicht gelesen werden",
