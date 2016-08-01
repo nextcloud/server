@@ -40,7 +40,12 @@ class SetupController {
 	 * @param Setup $setupHelper
 	 */
 	function __construct(Setup $setupHelper) {
-		$this->autoConfigFile = \OC::$SERVERROOT.'/config/autoconfig.php';
+		$config_directory = getenv('NEXTCLOUD_CONFIG_DIR');
+		if ($config_directory) {
+			$this->autoConfigFile = $config_directory.'/autoconfig.php';
+		} else {
+			$this->autoConfigFile = \OC::$SERVERROOT.'/config/autoconfig.php';
+		}
 		$this->setupHelper = $setupHelper;
 	}
 

@@ -124,7 +124,12 @@ class OC {
 		} elseif(defined('PHPUNIT_RUN') and PHPUNIT_RUN and is_dir(OC::$SERVERROOT . '/tests/config/')) {
 			self::$configDir = OC::$SERVERROOT . '/tests/config/';
 		} else {
-			self::$configDir = OC::$SERVERROOT . '/config/';
+			$config_directory = getenv('NEXTCLOUD_CONFIG_DIR');
+			if($config_directory) {
+				self::$configDir = $config_directory.'/';
+			} else {
+				self::$configDir = OC::$SERVERROOT . '/config/';
+			}
 		}
 		self::$config = new \OC\Config(self::$configDir);
 
