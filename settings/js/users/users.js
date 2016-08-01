@@ -126,7 +126,7 @@ var UserList = {
 				.append(menuImage);
 			$tr.find('td.userActions > span').replaceWith(menuLink);
 		} else if (OC.currentUser === user.name) {
-			$tr.find('td.userActions > span > img').remove();
+		 	$tr.find('td.userActions').empty();
 		}
 
 		/**
@@ -789,18 +789,11 @@ $(document).ready(function () {
 			menudiv.fadeOut(100);
 			return;
 		}
+		menudiv.find('.action-togglestate').empty();
 		if($tr.data('userEnabled')) {
-			menudiv.find('.action-togglestate').find('span').remove();
-			$('.togglestate', $td).attr({
-				src: OC.imagePath('core', 'actions/user-times')
-			});
-			$('.togglestate', $td).after('<span>'+t('settings', 'Disable')+'</span>');
+			$('.action-togglestate', $td).html('<span class="icon icon-close"></span><span>'+t('settings', 'Disable')+'</span>');
 		} else {
-			menudiv.find('.action-togglestate').find('span').remove();
-			$('.togglestate', $td).attr({
-				src: OC.imagePath('core', 'actions/user-plus')
-			});
-			$('.togglestate', $td).after('<span>'+t('settings', 'Enable')+'</span>');
+			$('.action-togglestate', $td).html('<span class="icon icon-add"></span><span>'+t('settings', 'Enable')+'</span>');
 		}
 		menudiv.click(function() { menudiv.fadeOut(100); });
 		menudiv.hover('', function() { menudiv.fadeOut(100); });
