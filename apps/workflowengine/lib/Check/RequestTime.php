@@ -29,7 +29,7 @@ use OCP\WorkflowEngine\ICheck;
 class RequestTime implements ICheck {
 
 	const REGEX_TIME = '([0-1][0-9]|2[0-3]):([0-5][0-9])';
-	const REGEX_TIMEZONE = '([a-zA-Z]+(?:\\\\\\/[a-zA-Z\-\_]+)+)';
+	const REGEX_TIMEZONE = '([a-zA-Z]+(?:\\/[a-zA-Z\-\_]+)+)';
 
 	/** @var bool[] */
 	protected $cachedResults;
@@ -110,16 +110,15 @@ class RequestTime implements ICheck {
 			throw new \UnexpectedValueException('Invalid time limits', 2);
 		}
 
-		try {
-			new \DateTimeZone(stripslashes($matches[3]));
-		} catch(\Exception $e) {
-			throw new \UnexpectedValueException('Invalid timezone1', 3);
+		$values = json_decode($value, true);
+		$time1 = \DateTime::createFromFormat('H:i e', $values[0]);
+		if ($time1 === false) {
+			throw new \UnexpectedValueException('Invalid start time given', 3);
 		}
 
-		try {
-			new \DateTimeZone(stripslashes($matches[6]));
-		} catch(\Exception $e) {
-			throw new \UnexpectedValueException('Invalid timezone2', 3);
+		$time2 = \DateTime::createFromFormat('H:i e', $values[1]);
+		if ($time2 === false) {
+			throw new \UnexpectedValueException('Invalid end time given', 3);
 		}
 	}
 }

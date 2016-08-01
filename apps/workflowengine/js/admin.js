@@ -308,7 +308,6 @@
 					}, 7000, this.$el.find('.msg.success'));
 					this.message = '';
 				}
-
 			}
 		});
 

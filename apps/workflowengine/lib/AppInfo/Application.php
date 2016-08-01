@@ -30,6 +30,7 @@ class Application extends \OCP\AppFramework\App {
 		parent::__construct('workflowengine');
 
 		$this->getContainer()->registerAlias('FlowOperationsController', 'OCA\WorkflowEngine\Controller\FlowOperations');
+		$this->getContainer()->registerAlias('RequestTimeController', 'OCA\WorkflowEngine\Controller\RequestTime');
 	}
 
 	/**
@@ -50,6 +51,8 @@ class Application extends \OCP\AppFramework\App {
 					'systemtags/systemtagmodel',
 					'systemtags/systemtagscollection',
 				]);
+
+				vendor_script('jsTimezoneDetect/jstz');
 
 				script('workflowengine', [
 					'admin',
