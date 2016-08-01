@@ -233,10 +233,10 @@ class ThemingController extends Controller {
 				"}\n";
 			$responseCss .= '
 				#firstrunwizard .firstrunwizard-header {
-				    background-color: ' . $color . ';
+					background-color: ' . $color . ';
 				}
 				#firstrunwizard p a {
-				    color: ' . $color . ';
+					color: ' . $color . ';
 				}
 				';
 
@@ -245,7 +245,7 @@ class ThemingController extends Controller {
 		if($logo !== '') {
 			$responseCss .= sprintf(
 				'#header .logo {' .
-				'background-image: url(\'./logo?v='.$cacheBusterValue.'\')' .
+				'background-image: url(\'./logo?v='.$cacheBusterValue.'\');' .
 				'background-size: contain;' .
 				'}' . "\n" .
 				'#header .logo-icon {' .
