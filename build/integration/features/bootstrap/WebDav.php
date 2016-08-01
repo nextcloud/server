@@ -22,6 +22,16 @@ trait WebDav {
 		$this->davPath = $davPath;
 	}
 
+	public function getFilesPath(){
+		$basePath = '';
+		if ($this->davPath === "remote.php/dav"){
+			$basePath = '/files/' . $this->currentUser . '/';
+		} else {
+			$basePath = '/';
+		}
+		return $basePath;
+	}
+
 	public function makeDavRequest($user, $method, $path, $headers, $body = null){
 		$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath . "$path";
 		$client = new GClient();
@@ -425,7 +435,7 @@ trait WebDav {
 	 */
 	public function userCreatedAFolder($user, $destination){
 		try {
-			$this->response = $this->makeDavRequest($user, "MKCOL", '/' . ltrim($destination, '/'), []);
+			$this->response = $this->makeDavRequest($user, "MKCOL", $this->getFilesPath() . ltrim($destination, $this->getFilesPath()), []);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
 			// 4xx and 5xx responses cause an exception
 			$this->response = $e->getResponse();
