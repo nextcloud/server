@@ -100,6 +100,50 @@ class ThemingController extends Controller {
 	 * @internal param string $color
 	 */
 	public function updateStylesheet($setting, $value) {
+		$value = trim($value);
+		switch ($setting) {
+			case 'name':
+				if (strlen($value) > 250) {
+					return new DataResponse([
+						'data' => [
+							'message' => $this->l->t('The given name is too long'),
+						],
+						'status' => 'error'
+					]);
+				}
+				break;
+			case 'url':
+				if (strlen($value) > 500) {
+					return new DataResponse([
+						'data' => [
+							'message' => $this->l->t('The given web address is too long'),
+						],
+						'status' => 'error'
+					]);
+				}
+				break;
+			case 'slogan':
+				if (strlen($value) > 500) {
+					return new DataResponse([
+						'data' => [
+							'message' => $this->l->t('The given slogan is too long'),
+						],
+						'status' => 'error'
+					]);
+				}
+				break;
+			case 'color':
+				if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $value)) {
+					return new DataResponse([
+						'data' => [
+							'message' => $this->l->t('The given color is invalid'),
+						],
+						'status' => 'error'
+					]);
+				}
+				break;
+		}
+
 		$this->template->set($setting, $value);
 		return new DataResponse(
 			[
