@@ -23,24 +23,36 @@ use OC\Authentication\Token\IToken;
 use OCP\Lockdown\ILockdownManager;
 
 class LockdownManager implements ILockdownManager {
-	/** @var IToken|null */
-	private $token;
-
 	private $enabled = false;
+
+	/** @var array|null */
+	private $scope;
 
 	public function enable() {
 		$this->enabled = true;
 	}
 
 	public function setToken(IToken $token) {
-		$this->token = $token;
+		$this->scope = $token->getScope();
+		$this->enable();
 	}
 
 	public function canAccessFilesystem() {
-		return true;
+		if (!$this->enabled) {
+			return true;
+		}
+		return !$this->scope || $this->scope['filesystem'];
 	}
 
 	public function canAccessApp($app) {
-		return $app === 'logreader' || $app === 'files' || $app === 'dav';
+		if (!$this->enabled) {
+			return true;
+		}
+		if ($this->scope && $this->scope['apps']) {
+			return in_array($app, $this->scope['apps']);
+		} else {
+			// no limit
+			return true;
+		}
 	}
 }

@@ -72,4 +72,8 @@ interface IToken extends JsonSerializable {
 	 * @param int $time
 	 */
 	public function setLastCheck($time);
+
+	public function getScope();
+
+	public function setScope($scope);
 }

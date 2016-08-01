@@ -341,12 +341,10 @@ class Session implements IUserSession, Emitter {
 
 		if ($isTokenPassword) {
 			$this->session->set('app_password', $password);
-			\OC::$server->getLockdownManager()->setToken($this->tokenProvider->getToken($password));
 		} else if($this->supportsCookies($request)) {
 			// Password login, but cookies supported -> create (browser) session token
 			$this->createSessionToken($request, $this->getUser()->getUID(), $user, $password);
 		}
-		\OC::$server->getLockdownManager()->enable();
 
 		return true;
 	}
@@ -527,6 +525,7 @@ class Session implements IUserSession, Emitter {
 		//login
 		$this->setUser($user);
 		$this->setLoginName($dbToken->getLoginName());
+		\OC::$server->getLockdownManager()->setToken($dbToken);
 		$this->manager->emit('\OC\User', 'postLogin', array($user, $password));
 
 		if ($this->isLoggedIn()) {
