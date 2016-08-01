@@ -44,10 +44,11 @@
 				return;
 			}
 
-			var startTime = '16:00',
+			var startTime = '09:00',
 				endTime = '18:00',
-				timezone = 'Europe/London',
+				timezone = jstz.determine().name(),
 				$element = $(element);
+
 			if (_.isString(check['value']) && check['value'] !== '') {
 				var value = JSON.parse(check['value']),
 					splittedStart = value[0].split(' ', 2),
@@ -57,6 +58,7 @@
 				endTime = splittedEnd[0];
 				timezone = splittedStart[1];
 			}
+
 			var valueJSON = JSON.stringify([startTime + ' ' + timezone, endTime + ' ' + timezone]);
 			if (check['value'] !== valueJSON) {
 				check['value'] = valueJSON;
@@ -68,28 +70,78 @@
 			$('<input>')
 				.attr('type', 'text')
 				.attr('placeholder', t('workflowengine', 'Start'))
+				.attr('title', t('workflowengine', 'Example: {placeholder}', {placeholder: '16:00'}))
+				.addClass('has-tooltip')
+				.tooltip({
+					placement: 'bottom'
+				})
 				.addClass('start')
 				.val(startTime)
 				.insertBefore($element);
 			$('<input>')
 				.attr('type', 'text')
 				.attr('placeholder', t('workflowengine', 'End'))
+				.attr('title', t('workflowengine', 'Example: {placeholder}', {placeholder: '16:00'}))
+				.addClass('has-tooltip')
+				.tooltip({
+					placement: 'bottom'
+				})
 				.addClass('end')
 				.val(endTime)
 				.insertBefore($element);
 
-			var timezoneSelect = $('<select>')
-				.addClass('timezone');
-			_.each(this.timezones, function(timezoneName){
-				var timezoneElement = $('<option>').val(timezoneName).html(timezoneName);
+			var timezoneInput = $('<input>')
+				.attr('type', 'hidden')
+				.css('width', '250px')
+				.insertBefore($element)
+				.val(timezone);
 
-				if (timezoneName === timezone) {
-					timezoneElement.attr('selected', 'selected');
+			timezoneInput.select2({
+				allowClear: false,
+				multiple: false,
+				placeholder: t('workflowengine', 'Select timezone…'),
+				ajax: {
+					url: OC.generateUrl('apps/workflowengine/timezones'),
+					dataType: 'json',
+					quietMillis: 100,
+					data: function (term) {
+						if (term === '') {
+							// Default search in the same continent...
+							term = jstz.determine().name().split('/');
+							term = term[0];
+						}
+						return {
+							search: term
+						};
+					},
+					results: function (response) {
+						var results = [];
+						$.each(response, function(timezone) {
+							results.push({ id: timezone });
+						});
+
+						return {
+							results: results,
+							more: false
+						};
+					}
+				},
+				initSelection: function (element, callback) {
+					callback(element.val());
+				},
+				formatResult: function (element) {
+					return '<span>' + element.id + '</span>';
+				},
+				formatSelection: function (element) {
+					if (!_.isUndefined(element.id)) {
+						element = element.id;
+					}
+					return '<span>' + element + '</span>';
 				}
-
-				timezoneSelect.append(timezoneElement);
 			});
-			timezoneSelect.insertBefore($element);
+
+			// Has to be added after select2 for `event.target.classList`
+			timezoneInput.addClass('timezone');
 
 			$element.parent()
 				.on('change', '.start', _.bind(this.update, this))
@@ -136,6 +188,7 @@
 			}
 
 			this._$element.val(JSON.stringify(data));
+			this._$element.trigger('change');
 		}
 	};
 })();
