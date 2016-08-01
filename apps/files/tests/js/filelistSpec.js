@@ -2063,6 +2063,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect(fileList._detailsView.getFileInfo()).toEqual(null);
 		});
 		it('closes sidebar whenever the currently highlighted file was removed from the list', function() {
+			jQuery.fx.off = true;
 			var $tr = fileList.findFileEl('One.txt');
 			$tr.find('td.filename>a.name').click();
 			expect($tr.hasClass('highlighted')).toEqual(true);
@@ -2072,6 +2073,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($('#app-sidebar').hasClass('disappear')).toEqual(false);
 			fileList.remove('One.txt');
 			expect($('#app-sidebar').hasClass('disappear')).toEqual(true);
+			jQuery.fx.off = false;
 		});
 		it('returns the currently selected model instance when calling getModelForFile', function() {
 			var $tr = fileList.findFileEl('One.txt');
@@ -2088,12 +2090,14 @@ describe('OCA.Files.FileList tests', function() {
 			expect(model3).toEqual(model1);
 		});
 		it('closes the sidebar when switching folders', function() {
+			jQuery.fx.off = true;
 			var $tr = fileList.findFileEl('One.txt');
 			$tr.find('td.filename>a.name').click();
 
 			expect($('#app-sidebar').hasClass('disappear')).toEqual(false);
 			fileList.changeDirectory('/another');
 			expect($('#app-sidebar').hasClass('disappear')).toEqual(true);
+			jQuery.fx.off = false;
 		});
 	});
 	describe('File actions', function() {
