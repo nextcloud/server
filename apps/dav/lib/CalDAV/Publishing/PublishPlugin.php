@@ -14,8 +14,7 @@ use OCA\DAV\CalDAV\Calendar;
 use OCP\IURLGenerator;
 use OCP\IConfig;
 
-class PublishPlugin extends ServerPlugin
-{
+class PublishPlugin extends ServerPlugin {
 	const NS_CALENDARSERVER = 'http://calendarserver.org/ns/';
 
 	/**
@@ -45,8 +44,7 @@ class PublishPlugin extends ServerPlugin
 	 * @param IConfig $config
 	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct(IConfig $config, IURLGenerator $urlGenerator)
-	{
+	public function __construct(IConfig $config, IURLGenerator $urlGenerator) {
 		$this->config = $config;
 		$this->urlGenerator = $urlGenerator;
 	}
@@ -59,8 +57,7 @@ class PublishPlugin extends ServerPlugin
 	 *
 	 * @return string[]
 	 */
-	public function getFeatures()
-	{
+	public function getFeatures() {
 		// May have to be changed to be detected
 		return ['oc-calendar-publishing'];
 	}
@@ -73,8 +70,7 @@ class PublishPlugin extends ServerPlugin
 	 *
 	 * @return string
 	 */
-	public function getPluginName()
-	{
+	public function getPluginName()	{
 		return 'oc-calendar-publishing';
 	}
 
@@ -88,16 +84,14 @@ class PublishPlugin extends ServerPlugin
 	 *
 	 * @param Server $server
 	 */
-	public function initialize(Server $server)
-	{
+	public function initialize(Server $server) {
 		$this->server = $server;
 
 		$this->server->on('method:POST', [$this, 'httpPost']);
 		$this->server->on('propFind',    [$this, 'propFind']);
 	}
 
-	public function propFind(PropFind $propFind, INode $node)
-	{
+	public function propFind(PropFind $propFind, INode $node) {
 		if ($node instanceof Calendar) {
 			$token = md5($this->config->getSystemValue('secret', '').$node->getResourceId());
 
@@ -125,8 +119,7 @@ class PublishPlugin extends ServerPlugin
 	 *
 	 * @return null|bool
 	 */
-	public function httpPost(RequestInterface $request, ResponseInterface $response)
-	{
+	public function httpPost(RequestInterface $request, ResponseInterface $response) {
 		$path = $request->getPath();
 
 		// Only handling xml
