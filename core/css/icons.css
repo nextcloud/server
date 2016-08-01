@@ -85,6 +85,9 @@
 .icon-download {
 	background-image: url('../img/actions/download.svg');
 }
+.icon-download-white {
+	background-image: url('../img/actions/download-white.svg');
+}
 
 .icon-edit {
 	background-image: url('../img/actions/edit.svg');
