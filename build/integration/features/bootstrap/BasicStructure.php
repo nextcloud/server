@@ -157,6 +157,9 @@ trait BasicStructure {
 		} else {
 			$options['auth'] = [$this->currentUser, $this->regularUser];
 		}
+		$options['headers'] = [
+			'OCS_APIREQUEST' => 'true'
+		];
 		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
 			$fd = $body->getRowsHash();
 			$options['body'] = $fd;
