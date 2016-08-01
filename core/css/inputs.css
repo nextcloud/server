@@ -310,3 +310,17 @@ input:disabled+label, input:disabled:hover+label, input:disabled:focus+label {
 	background-color: #00a2e9;
 	color: #bbb;
 }
+
+@keyframes shake {
+	0% { transform: translate(-5px, 0); }
+	20% { transform: translate(5px, 0); }
+	40% { transform: translate(-5px, 0); }
+	60% { transform: translate(5px, 0); }
+	80% { transform: translate(-5px, 0); }
+	100% { transform: translate(5px, 0); }
+}
+.shake {
+	animation-name: shake;
+	animation-duration: .3s;
+	animation-timing-function: ease-out;
+}
