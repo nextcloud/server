@@ -47,13 +47,7 @@ class PublicCalendarRoot extends Collection {
 	 * @inheritdoc
 	 */
 	function getChild($name) {
-		foreach ($this->caldavBackend->getPublicCalendars() as $calendar) {
-			if ($calendar['uri'] === $name) {
-				// TODO: maybe implement a new class PublicCalendar ???
-				return new Calendar($this->caldavBackend, $calendar, $this->l10n);
-			}
-		}
-		throw new NotFound('Node with name \'' . $name . '\' could not be found');
+		return $this->caldavBackend->getPublicCalendar($name);
 	}
 
 	/**
