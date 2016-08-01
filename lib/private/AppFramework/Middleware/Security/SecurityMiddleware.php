@@ -153,7 +153,7 @@ class SecurityMiddleware extends Middleware {
 			 */
 			if(!$this->request->passesCSRFCheck() && !(
 					$controller instanceof OCSController &&
-					$this->request->getHeader('OCS_APIREQUEST') === true)) {
+					$this->request->getHeader('OCS-APIREQUEST') === 'true')) {
 				throw new CrossSiteRequestForgeryException();
 			}
 		}
