@@ -38,7 +38,7 @@ script('core', [
 			<!-- the following div ensures that the spinner is always inside the #message div -->
 			<div style="clear: both;"></div>
 		</div>
-		<p class="grouptop">
+		<p class="grouptop<?php if (!empty($_['invalidpassword'])) { ?> shake<?php } ?>">
 			<input type="text" name="user" id="user"
 				placeholder="<?php p($l->t('Username or email')); ?>"
 				value="<?php p($_['loginName']); ?>"
@@ -47,7 +47,7 @@ script('core', [
 			<label for="user" class="infield"><?php p($l->t('Username or email')); ?></label>
 		</p>
 
-		<p class="groupbottom">
+		<p class="groupbottom<?php if (!empty($_['invalidpassword'])) { ?> shake<?php } ?>">
 			<input type="password" name="password" id="password" value=""
 				placeholder="<?php p($l->t('Password')); ?>"
 				<?php p($_['user_autofocus'] ? '' : 'autofocus'); ?>
