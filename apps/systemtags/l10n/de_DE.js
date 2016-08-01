@@ -26,7 +26,7 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s hat den System-Tag %3$s von %2$s entfernt",
     "%s (restricted)" : "%s (eingeschränkt)",
     "%s (invisible)" : "%s (unsichtbar)",
-    "Collaborative tags" : "Zusammenarbeits-Etikett",
+    "Collaborative tags" : "Gemeinsame Tags",
     "Name" : "Name",
     "Delete" : "Löschen",
     "Public" : "Öffentlich",

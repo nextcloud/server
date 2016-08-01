@@ -27,6 +27,7 @@ OC.L10N.register(
     "Error unfavoriting" : "從最愛移除出錯",
     "Couldn't send mail to following users: %s " : "無法寄送郵件給這些使用者：%s",
     "Preparing update" : "準備更新",
+    "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair warning: " : "修復警告：",
     "Repair error: " : "修復錯誤",
     "Turned on maintenance mode" : "已啓用維護模式",
