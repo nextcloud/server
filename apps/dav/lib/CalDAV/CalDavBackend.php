@@ -316,6 +316,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$fields[] = 'a.principaluri';
 		$fields[] = 'a.transparent';
 		$fields[] = 's.access';
+		$fields[] = 's.publicuri';
 		$calendars = [];
 		$query = $this->db->getQueryBuilder();
 		$result = $query->select($fields)
@@ -332,10 +333,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			if ($row['components']) {
 				$components = explode(',',$row['components']);
 			}
-			$uri = md5($this->config->getSystemValue('secret', '') . $row['id']);
 			$calendar = [
 				'id' => $row['id'],
-				'uri' => $uri,
+				'uri' => $row['publicuri'],
 				'principaluri' => $row['principaluri'],
 				'{' . Plugin::NS_CALENDARSERVER . '}getctag' => 'http://sabre.io/ns/sync/' . ($row['synctoken']?$row['synctoken']:'0'),
 				'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
@@ -361,18 +361,62 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 	/**
 	 * @param string $uri
-	 * @return Calendar
+	 * @return array
 	 * @throws NotFound
 	 */
 	public function getPublicCalendar($uri) {
-		$l10n = \OC::$server->getL10N('dav');
-		foreach ($this->getPublicCalendars() as $calendar) {
-			if ($calendar['uri'] === $uri) {
-				// TODO: maybe implement a new class PublicCalendar ???
-				return new Calendar($this, $calendar, $l10n);
-			}
+		$fields = array_values($this->propertyMap);
+		$fields[] = 'a.id';
+		$fields[] = 'a.uri';
+		$fields[] = 'a.synctoken';
+		$fields[] = 'a.components';
+		$fields[] = 'a.principaluri';
+		$fields[] = 'a.transparent';
+		$fields[] = 's.access';
+		$fields[] = 's.publicuri';
+		$query = $this->db->getQueryBuilder();
+		$result = $query->select($fields)
+			->from('dav_shares', 's')
+			->join('s', 'calendars', 'a', $query->expr()->eq('s.resourceid', 'a.id'))
+			->where($query->expr()->in('s.access', $query->createNamedParameter(self::ACCESS_PUBLIC)))
+			->andWhere($query->expr()->eq('s.type', $query->createNamedParameter('calendar')))
+			->andWhere($query->expr()->eq('s.publicuri', $query->createNamedParameter($uri)))
+			->execute();
+
+		$row = $result->fetch(\PDO::FETCH_ASSOC);
+
+		$result->closeCursor();
+
+		if ($row === false) {
+			throw new NotFound('Node with name \'' . $uri . '\' could not be found');
 		}
-		throw new NotFound('Node with name \'' . $uri . '\' could not be found');
+
+		list(, $name) = URLUtil::splitPath($row['principaluri']);
+		$row['displayname'] = $row['displayname'] . "($name)";
+		$components = [];
+		if ($row['components']) {
+			$components = explode(',',$row['components']);
+		}
+		$uri = md5($this->config->getSystemValue('secret', '') . $row['id']);
+		$calendar = [
+			'id' => $row['id'],
+			'uri' => $uri,
+			'principaluri' => $row['principaluri'],
+			'{' . Plugin::NS_CALENDARSERVER . '}getctag' => 'http://sabre.io/ns/sync/' . ($row['synctoken']?$row['synctoken']:'0'),
+			'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
+			'{' . Plugin::NS_CALDAV . '}supported-calendar-component-set' => new SupportedCalendarComponentSet($components),
+			'{' . Plugin::NS_CALDAV . '}schedule-calendar-transp' => new ScheduleCalendarTransp($row['transparent']?'transparent':'opaque'),
+			'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => $row['principaluri'],
+			'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only' => (int)$row['access'] === Backend::ACCESS_READ,
+			'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}public' => (int)$row['access'] === self::ACCESS_PUBLIC,
+		];
+
+		foreach($this->propertyMap as $xmlName=>$dbName) {
+			$calendar[$xmlName] = $row[$dbName];
+		}
+
+		return array_values($calendar);
+
 	}
 
 	/**
@@ -1563,7 +1607,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					'principaluri' => $query->createNamedParameter($calendar->getPrincipalURI()),
 					'type' => $query->createNamedParameter('calendar'),
 					'access' => $query->createNamedParameter(self::ACCESS_PUBLIC),
-					'resourceid' => $query->createNamedParameter($calendar->getResourceId())
+					'resourceid' => $query->createNamedParameter($calendar->getResourceId()),
+					'publicuri' => $query->createNamedParameter(md5($this->config->getSystemValue('secret', '') . $calendar->getResourceId()))
 				]);
 		} else {
 			$query->delete('dav_shares')

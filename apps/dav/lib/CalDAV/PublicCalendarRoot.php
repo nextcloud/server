@@ -47,7 +47,8 @@ class PublicCalendarRoot extends Collection {
 	 * @inheritdoc
 	 */
 	function getChild($name) {
-		return $this->caldavBackend->getPublicCalendar($name);
+		$calendar = $this->caldavBackend->getPublicCalendar($name);
+		return new Calendar($this->caldavBackend, $calendar, $this->l10n);
 	}
 
 	/**
