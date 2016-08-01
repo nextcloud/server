@@ -383,7 +383,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			[$controller, true,  true],
 
 			[$ocsController, false, true],
-			[$ocsController, true,  true],
+			[$ocsController, true,  false],
 		];
 	}
 
@@ -396,6 +396,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	public function testCsrfOcsController(Controller $controller, $hasOcsApiHeader, $exception) {
 		$this->request
 			->method('getHeader')
+			->with('OCS-APIREQUEST')
 			->willReturn($hasOcsApiHeader ? 'true' : null);
 		$this->request->expects($this->once())
 			->method('passesStrictCookieCheck')
