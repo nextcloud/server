@@ -26,6 +26,21 @@ Feature: sharing
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
 
+  Scenario: Creating a new share with user who already received a share through their group
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And group "sharing-group" exists
+    And user "user1" belongs to group "sharing-group"
+    And file "welcome.txt" of user "user0" is shared with group "sharing-group"
+    And As an "user0"
+    Then sending "POST" to "/apps/files_sharing/api/v1/shares" with
+      | path | welcome.txt |
+      | shareWith | user1 |
+      | shareType | 0 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+
   Scenario: Creating a new public share
     Given user "user0" exists
     And As an "user0"
