@@ -36,34 +36,34 @@ use OCP\IRequest;
 use Test\TestCase;
 
 class ThemingControllerTest extends TestCase {
-	/** @var IRequest */
+	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
-	/** @var IConfig */
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
-	/** @var Template */
+	/** @var Template|\PHPUnit_Framework_MockObject_MockObject */
 	private $template;
 	/** @var Util */
 	private $util;
 	/** @var \OCP\AppFramework\Utility\ITimeFactory */
 	private $timeFactory;
-	/** @var IL10N */
+	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
 	private $l10n;
 	/** @var ThemingController */
 	private $themingController;
-	/** @var IRootFolder */
+	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
 	private $rootFolder;
 
 	public function setUp() {
-		$this->request = $this->getMock('\\OCP\\IRequest');
-		$this->config = $this->getMock('\\OCP\\IConfig');
-		$this->template = $this->getMockBuilder('\\OCA\\Theming\\Template')
+		$this->request = $this->getMockBuilder('OCP\IRequest')->getMock();
+		$this->config = $this->getMockBuilder('OCP\IConfig')->getMock();
+		$this->template = $this->getMockBuilder('OCA\Theming\Template')
 			->disableOriginalConstructor()->getMock();
 		$this->util = new Util();
 		$this->timeFactory = $this->getMockBuilder('OCP\AppFramework\Utility\ITimeFactory')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->l10n = $this->getMock('\\OCP\\IL10N');
-		$this->rootFolder = $this->getMock('\\OCP\\Files\\IRootFolder');
+		$this->l10n = $this->getMockBuilder('OCP\IL10N')->getMock();
+		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
 
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
@@ -83,27 +83,48 @@ class ThemingControllerTest extends TestCase {
 		return parent::setUp();
 	}
 
-	public function testUpdateStylesheet() {
+	public function dataUpdateStylesheet() {
+		return [
+			['name', str_repeat('a', 250), 'success', 'Saved'],
+			['name', str_repeat('a', 251), 'error', 'The given name is too long'],
+			['url', str_repeat('a', 500), 'success', 'Saved'],
+			['url', str_repeat('a', 501), 'error', 'The given web address is too long'],
+			['slogan', str_repeat('a', 500), 'success', 'Saved'],
+			['slogan', str_repeat('a', 501), 'error', 'The given slogan is too long'],
+			['color', '#0082c9', 'success', 'Saved'],
+			['color', '#0082C9', 'success', 'Saved'],
+			['color', '0082C9', 'error', 'The given color is invalid'],
+			['color', '#0082Z9', 'error', 'The given color is invalid'],
+			['color', 'Nextcloud', 'error', 'The given color is invalid'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataUpdateStylesheet
+	 *
+	 * @param string $setting
+	 * @param string $value
+	 * @param string $status
+	 * @param string $message
+	 */
+	public function testUpdateStylesheet($setting, $value, $status, $message) {
 		$this->template
-			->expects($this->once())
+			->expects($status === 'success' ? $this->once() : $this->never())
 			->method('set')
-			->with('MySetting', 'MyValue');
+			->with($setting, $value);
 		$this->l10n
 			->expects($this->once())
 			->method('t')
-			->with('Saved')
-			->willReturn('Saved');
+			->with($message)
+			->willReturn($message);
 
-		$expected = new DataResponse(
-			[
-				'data' =>
-					[
-						'message' => 'Saved',
-					],
-				'status' => 'success'
-			]
-		);
-		$this->assertEquals($expected, $this->themingController->updateStylesheet('MySetting', 'MyValue'));
+		$expected = new DataResponse([
+			'data' => [
+				'message' => $message,
+			],
+			'status' => $status,
+		]);
+		$this->assertEquals($expected, $this->themingController->updateStylesheet($setting, $value));
 	}
 
 	public function testUpdateLogoNoData() {
@@ -665,5 +686,4 @@ class ThemingControllerTest extends TestCase {
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
-
 }
