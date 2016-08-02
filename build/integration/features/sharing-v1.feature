@@ -759,3 +759,19 @@ Feature: sharing
       | shareType | 0 |
     Then the OCS status code should be "997"
     And the HTTP status code should be "401"
+
+  Scenario: Deleting a group share as user
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And group "group1" exists
+    And user "user1" belongs to group "group1"
+    And As an "user0"
+    And creating a share with
+      | path | welcome.txt |
+      | shareType | 1 |
+      | shareWith | group1 |
+    When As an "user1"
+    And Deleting last share
+    Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
