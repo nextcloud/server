@@ -56,8 +56,7 @@
 					return element.get('id');
 				},
 				initSelection: function(element, callback) {
-					var selection = ($(element).val() || []).split('|').sort();
-					callback(selection);
+					callback($(element).val());
 				},
 				formatResult: function (tag) {
 					return OC.SystemTags.getDescriptiveTag(tag);
