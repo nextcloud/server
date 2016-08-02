@@ -224,7 +224,7 @@ class Share20OCS {
 			return new \OC_OCS_Result(null, 404, 'could not delete share');
 		}
 
-		if (!$this->canAccessShare($share)) {
+		if (!$this->canAccessShare($share, false)) {
 			$share->getNode()->unlock(ILockingProvider::LOCK_SHARED);
 			return new \OC_OCS_Result(null, 404, $this->l->t('Could not delete share'));
 		}
@@ -573,7 +573,7 @@ class Share20OCS {
 
 		$share->getNode()->lock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
 
-		if (!$this->canAccessShare($share)) {
+		if (!$this->canAccessShare($share, false)) {
 			$share->getNode()->unlock(ILockingProvider::LOCK_SHARED);
 			return new \OC_OCS_Result(null, 404, $this->l->t('Wrong share ID, share doesn\'t exist'));
 		}
@@ -703,7 +703,7 @@ class Share20OCS {
 	 * @param \OCP\Share\IShare $share
 	 * @return bool
 	 */
-	protected function canAccessShare(\OCP\Share\IShare $share) {
+	protected function canAccessShare(\OCP\Share\IShare $share, $checkGroups = true) {
 		// A file with permissions 0 can't be accessed by us. So Don't show it
 		if ($share->getPermissions() === 0) {
 			return false;
@@ -722,7 +722,7 @@ class Share20OCS {
 			return true;
 		}
 
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+		if ($checkGroups && $share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$sharedWith = $this->groupManager->get($share->getSharedWith());
 			if ($sharedWith->inGroup($this->currentUser)) {
 				return true;
