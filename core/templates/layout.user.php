@@ -113,7 +113,10 @@
 					<li data-id="<?php p($entry['id']); ?>">
 						<a href="<?php print_unescaped($entry['href']); ?>" tabindex="3"
 							<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
-							<img class="app-icon" alt="" src="<?php print_unescaped($entry['icon']); ?>">
+							<svg width="32" height="32" viewBox="0 0 32 32">
+								<defs><filter id="invert"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0" /></filter></defs>
+								<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" filter="url(#invert)" xlink:href="<?php print_unescaped($entry['icon']); ?>"  class="app-icon"/>
+							</svg>
 							<div class="icon-loading-dark" style="display:none;"></div>
 							<span>
 								<?php p($entry['name']); ?>
@@ -128,7 +131,10 @@
 					<li id="apps-management">
 						<a href="<?php print_unescaped(\OC::$server->getURLGenerator()->linkToRoute('settings.AppSettings.viewApps')); ?>" tabindex="4"
 							<?php if( $_['appsmanagement_active'] ): ?> class="active"<?php endif; ?>>
-							<img class="app-icon" alt="" src="<?php print_unescaped(image_path('settings', 'apps.svg')); ?>">
+							<svg width="32" height="32" viewBox="0 0 32 32" class="app-icon">
+								<defs><filter id="invert"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0" /></filter></defs>
+								<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" filter="url(#invert)" xlink:href="<?php print_unescaped(image_path('settings', 'apps.svg')); ?>"/>
+							</svg>
 							<div class="icon-loading-dark" style="display:none;"></div>
 							<span>
 								<?php p($l->t('Apps')); ?>
