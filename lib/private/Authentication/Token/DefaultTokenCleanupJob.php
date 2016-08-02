@@ -28,9 +28,8 @@ use OC\BackgroundJob\Job;
 class DefaultTokenCleanupJob extends Job {
 
 	protected function run($argument) {
-		/* @var $provider DefaultTokenProvider */
-		// TODO: add OC\Authentication\Token\IProvider::invalidateOldTokens and query interface
-		$provider = OC::$server->query('OC\Authentication\Token\DefaultTokenProvider');
+		/* @var $provider IProvider */
+		$provider = OC::$server->query('OC\Authentication\Token\IProvider');
 		$provider->invalidateOldTokens();
 	}
 
