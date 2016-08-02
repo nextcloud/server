@@ -49,7 +49,7 @@
 				placeholder: t('workflowengine', 'Select tag…'),
 				query: _.debounce(function(query) {
 					query.callback({
-						results: OCA.WorkflowEngine.Plugins.FileSystemTagsPlugin.collection.filterByName(query.term)
+						results: OC.SystemTags.collection.filterByName(query.term)
 					});
 				}, 100, true),
 				id: function(element) {
@@ -63,7 +63,7 @@
 					return OC.SystemTags.getDescriptiveTag(tag);
 				},
 				formatSelection: function (tagId) {
-					tag = OCA.WorkflowEngine.Plugins.FileSystemTagsPlugin.collection.get(tagId);
+					var tag = OC.SystemTags.collection.get(tagId);
 					return OC.SystemTags.getDescriptiveTag(tag);
 				},
 				escapeMarkup: function(m) {
