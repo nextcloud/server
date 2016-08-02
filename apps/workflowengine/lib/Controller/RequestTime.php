@@ -27,7 +27,6 @@ use OCP\AppFramework\Http\JSONResponse;
 class RequestTime extends Controller {
 
 	/**
-	 * @NoCSRFRequired
 	 * @NoAdminRequired
 	 *
 	 * @param string $search
