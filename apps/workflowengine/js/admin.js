@@ -137,6 +137,7 @@
 				'change .check-operator': 'checkChanged',
 				'change .check-value': 'checkChanged',
 				'change .operation-name': 'operationChanged',
+				'change .operation-operation': 'operationChanged',
 				'click .button-reset': 'reset',
 				'click .button-save': 'save',
 				'click .button-add': 'add',
@@ -269,7 +270,7 @@
 					return;
 				}
 
-				if (key !== 'name') {
+				if (key !== 'name' && key !== 'operation') {
 					console.warn('key "' + key + '" is no valid attribute');
 					return;
 				}
@@ -308,6 +309,8 @@
 					}, 7000, this.$el.find('.msg.success'));
 					this.message = '';
 				}
+
+				return this.$el;
 			}
 		});
 
@@ -324,10 +327,7 @@
 			events: {
 				'click .button-add-operation': 'add'
 			},
-			initialize: function() {
-				this._initialize('OCA\\WorkflowEngine\\Operation');
-			},
-			_initialize: function(classname) {
+			initialize: function(classname) {
 				if (!OCA.WorkflowEngine.availablePlugins.length) {
 					OCA.WorkflowEngine.availablePlugins = OC.Plugins.getPlugins('OCA.WorkflowEngine.CheckPlugins');
 					_.each(OCA.WorkflowEngine.availablePlugins, function(plugin) {
@@ -346,11 +346,8 @@
 				var operation = this.collection.create();
 				this.renderOperation(operation);
 			},
-			renderOperation: function(operation){
-				var subView = new OCA.WorkflowEngine.OperationView({
-						model: operation
-					}),
-					operationsElement = this.$el.find('.operations');
+			renderOperation: function(subView){
+				var operationsElement = this.$el.find('.operations');
 				operationsElement.append(subView.$el);
 				subView.render();
 			},
