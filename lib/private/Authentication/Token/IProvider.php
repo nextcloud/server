@@ -66,6 +66,11 @@ interface IProvider {
 	public function invalidateTokenById(IUser $user, $id);
 
 	/**
+	 * Invalidate (delete) old session tokens
+	 */
+	public function invalidateOldTokens();
+
+	/**
 	 * Save the updated token
 	 *
 	 * @param IToken $token
