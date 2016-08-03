@@ -9,6 +9,8 @@
     "federatedfilesharing",
     "federation",
     "files",
+    "files_accesscontrol",
+    "files_automatedtagging",
     "files_external",
     "files_pdfviewer",
     "files_sharing",
