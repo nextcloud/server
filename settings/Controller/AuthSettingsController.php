@@ -135,11 +135,13 @@ class AuthSettingsController extends Controller {
 
 		$token = $this->generateRandomDeviceToken();
 		$deviceToken = $this->tokenProvider->generateToken($token, $this->uid, $loginName, $password, $name, IToken::PERMANENT_TOKEN);
+		$tokenData = $deviceToken->jsonSerialize();
+		$tokenData['canDelete'] = true;
 
 		return [
 			'token' => $token,
 			'loginName' => $loginName,
-			'deviceToken' => $deviceToken
+			'deviceToken' => $tokenData
 		];
 	}
 

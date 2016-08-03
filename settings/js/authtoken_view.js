@@ -81,7 +81,7 @@
 
 			var list = this.$('.token-list');
 			var tokens = this.collection.filter(function (token) {
-				return parseInt(token.get('type'), 10) === _this.type;
+				return token.get('type') === _this.type;
 			});
 			list.html('');
 
@@ -110,7 +110,7 @@
 			var ts = viewData.lastActivity * 1000;
 			viewData.lastActivity = OC.Util.relativeModifiedDate(ts);
 			viewData.lastActivityTime = OC.Util.formatDate(ts, 'LLL');
-			viewData.canScope = token.get('type') === '1';
+			viewData.canScope = token.get('type') === 1;
 
 			// preserve title for cases where we format it further
 			viewData.title = viewData.name;

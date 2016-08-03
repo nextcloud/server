@@ -172,14 +172,20 @@ table.nostyle td { padding: 0.2em 0; }
 }
 #sessions .token-list a.icon,
 #apppasswords .token-list a.icon {
-	display: block;
 	opacity: 0.6;
 	margin-top: 4px;
+	display: none;
+}
+
+#sessions .token-list tr:hover a.icon,
+#apppasswords .token-list tr:hover a.icon {
+	display: block;
 }
 
 #sessions .token-list td div.configure,
 #apppasswords .token-list td div.configure {
 	display: none;
+	height: 18px;
 }
 
 #sessions .token-list tr.active div.configure,
