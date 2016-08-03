@@ -8,13 +8,35 @@
  *
  */
 
+#commentsTabView .emptycontent {
+	margin-top: 0;
+}
+
 #commentsTabView .newCommentForm {
+	position: relative;
 	margin-bottom: 20px;
 }
 
 #commentsTabView .newCommentForm .message {
-	width: 90%;
-	resize: vertical;
+	width: 76%;
+	margin-left: 32px;
+	padding-right: 30px;
+}
+
+#commentsTabView .newCommentForm .submit {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 30px;
+	margin: 0;
+	padding: 9px;
+	background-color: transparent;
+	border: none;
+	opacity: .3;
+}
+#commentsTabView .newCommentForm .submit:hover,
+#commentsTabView .newCommentForm .submit:focus {
+	opacity: 1;
 }
 
 #commentsTabView .newCommentForm .submitLoading {
@@ -22,23 +44,20 @@
 }
 
 #commentsTabView .comment {
+	position: relative;
+	z-index: 1;
 	margin-bottom: 30px;
 }
 
 #commentsTabView .comment .avatar {
-	width: 28px;
-	height: 28px;
-	line-height: 28px;
-}
-
-#commentsTabView .comment {
-	position: relative;
-	z-index: 1;
+	width: 32px;
+	height: 32px;
+	line-height: 32px;
 }
 
 #commentsTabView .comment.collapsed .message {
 	white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
-	white-space: -webkit-pre-wrap; /*Chrome & Safari */ 
+	white-space: -webkit-pre-wrap; /*Chrome & Safari */
 	white-space: -pre-wrap;      /* Opera 4-6 */
 	white-space: -o-pre-wrap;    /* Opera 7 */
 	white-space: pre-wrap;       /* css-3 */
@@ -80,17 +99,24 @@
 }
 
 #commentsTabView .comment .authorRow {
-	margin-bottom: 5px;
 	position: relative;
 }
 
-#commentsTabView .comment .author {
-	font-weight: bold;
+#commentsTabView .comment .author,
+#commentsTabView .comment .date {
+	opacity: .5;
 }
-
+#commentsTabView .comment .author {
+	margin-left: 5px;
+}
 #commentsTabView .comment .date {
 	position: absolute;
 	right: 0;
+	top: 5px;
+}
+
+#commentsTabView .comments .message {
+	padding-left: 40px;
 }
 
 #commentsTabView .comment .action {
