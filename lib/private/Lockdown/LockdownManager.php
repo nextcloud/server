@@ -33,7 +33,7 @@ class LockdownManager implements ILockdownManager {
 	}
 
 	public function setToken(IToken $token) {
-		$this->scope = $token->getScope();
+		$this->scope = $token->getScopeAsArray();
 		$this->enable();
 	}
 

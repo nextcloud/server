@@ -180,4 +180,20 @@ class AuthSettingsController extends Controller {
 		return [];
 	}
 
+	/**
+	 * @NoAdminRequired
+	 * @NoSubadminRequired
+	 *
+	 * @param int $id
+	 * @param array $scope
+	 */
+	public function update($id, array $scope) {
+		$token = $this->tokenProvider->getTokenById($id);
+		$token->setScope([
+			'filesystem' => $scope['filesystem'],
+			'app' => array_values($scope['apps'])
+		]);
+		$this->tokenProvider->updateToken($token);
+		return [];
+	}
 }

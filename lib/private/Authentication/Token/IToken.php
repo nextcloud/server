@@ -76,11 +76,16 @@ interface IToken extends JsonSerializable {
 	/**
 	 * Get the authentication scope for this token
 	 *
-	 * If the scope is null no limitations exist for the token
-	 *
-	 * @return array|null
+	 * @return string
 	 */
 	public function getScope();
+
+	/**
+	 * Get the authentication scope for this token
+	 *
+	 * @return array
+	 */
+	public function getScopeAsArray();
 
 	/**
 	 * Set the authentication scope for this token

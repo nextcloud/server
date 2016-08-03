@@ -88,6 +88,30 @@ class DefaultTokenMapper extends Mapper {
 	}
 
 	/**
+	 * Get the user UID for the given token
+	 *
+	 * @param string $token
+	 * @throws DoesNotExistException
+	 * @return DefaultToken
+	 */
+	public function getTokenById($token) {
+		/* @var $qb IQueryBuilder */
+		$qb = $this->db->getQueryBuilder();
+		$result = $qb->select('id', 'uid', 'login_name', 'password', 'name', 'type', 'token', 'last_activity', 'last_check', 'scope')
+			->from('authtoken')
+			->where($qb->expr()->eq('id', $qb->createParameter('id')))
+			->setParameter('id', $token)
+			->execute();
+
+		$data = $result->fetch();
+		$result->closeCursor();
+		if ($data === false) {
+			throw new DoesNotExistException('token does not exist');
+		};
+		return DefaultToken::fromRow($data);
+	}
+
+	/**
 	 * Get all token of a user
 	 *
 	 * The provider may limit the number of result rows in case of an abuse
