@@ -83,6 +83,7 @@ class DefaultTokenMapper extends Mapper {
 		if ($data === false) {
 			throw new DoesNotExistException('token does not exist');
 		}
+;
 		return DefaultToken::fromRow($data);
 	}
 

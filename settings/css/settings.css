@@ -149,6 +149,12 @@ table.nostyle td { padding: 0.2em 0; }
 	padding: 10px 10px 10px 0;
 }
 
+#sessions .token-list td.icon,
+#apppasswords .token-list td.icon {
+	width: 16px;
+	padding: 10px;
+}
+
 #sessions .token-list td,
 #apppasswords .token-list td {
 	border-top: 1px solid #DDD;
@@ -162,8 +168,8 @@ table.nostyle td { padding: 0.2em 0; }
 #apppasswords tr *:nth-child(2) {
 	text-align: right;
 }
-#sessions .token-list td a.icon-delete,
-#apppasswords .token-list td a.icon-delete {
+#sessions .token-list td a.icon,
+#apppasswords .token-list td a.icon {
 	display: block;
 	opacity: 0.6;
 }

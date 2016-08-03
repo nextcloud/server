@@ -29,11 +29,16 @@
 		'<tr data-id="{{id}}">'
 		+ '<td class="has-tooltip" title="{{title}}"><span class="token-name">{{name}}</span></td>'
 		+ '<td><span class="last-activity has-tooltip" title="{{lastActivityTime}}">{{lastActivity}}</span></td>'
-		+ '{{#if canDelete}}'
-		+ '<td><a class="icon-delete has-tooltip" title="' + t('core', 'Disconnect') + '"></a></td>'
-		+ '{{else}}'
-		+ '<td></td>'
+		+ '<td class="icon">'
+		+ '{{#if canScope}}'
+		+ '<a class="icon icon-settings has-tooltip" title="' + t('core', 'Configure') + '"></a>'
 		+ '{{/if}}'
+		+ '</td>'
+		+ '<td class="icon">'
+		+ '{{#if canDelete}}'
+		+ '<a class="icon icon-delete has-tooltip" title="' + t('core', 'Disconnect') + '"></a>'
+		+ '{{/if}}'
+		+ '</td>'
 		+ '<tr>';
 
 	var SubView = OC.Backbone.View.extend({
@@ -78,7 +83,7 @@
 			this._toggleHeader(tokens.length > 0);
 
 			tokens.forEach(function (token) {
-				var viewData = this._formatViewData(token.toJSON());
+				var viewData = this._formatViewData(token);
 				var html = _this.template(viewData);
 				var $html = $(html);
 				$html.find('.has-tooltip').tooltip({container: 'body'});
@@ -94,10 +99,12 @@
 			this.$('.hidden-when-empty').toggleClass('hidden', !show);
 		},
 
-		_formatViewData: function (viewData) {
+		_formatViewData: function (token) {
+			var viewData = token.toJSON();
 			var ts = viewData.lastActivity * 1000;
 			viewData.lastActivity = OC.Util.relativeModifiedDate(ts);
 			viewData.lastActivityTime = OC.Util.formatDate(ts, 'LLL');
+			viewData.canScope = token.get('type') === '1';
 
 			// preserve title for cases where we format it further
 			viewData.title = viewData.name;

@@ -151,6 +151,10 @@ class DefaultToken extends Entity implements IToken {
 	}
 
 	public function setScope($scope) {
-		return parent::setScope(json_encode($scope));
+		if (is_string($scope)) {
+			$this->scope = $scope;
+		} else {
+			return parent::setScope(json_encode($scope));
+		}
 	}
 }

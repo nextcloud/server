@@ -67,13 +67,25 @@ interface IToken extends JsonSerializable {
 	public function getLastCheck();
 
 	/**
-	 * Get the timestamp of the last password check
+	 * Set the timestamp of the last password check
 	 *
 	 * @param int $time
 	 */
 	public function setLastCheck($time);
 
+	/**
+	 * Get the authentication scope for this token
+	 *
+	 * If the scope is null no limitations exist for the token
+	 *
+	 * @return array|null
+	 */
 	public function getScope();
 
+	/**
+	 * Set the authentication scope for this token
+	 *
+	 * @param array|null $scope
+	 */
 	public function setScope($scope);
 }
