@@ -4,6 +4,11 @@
 	background-size: 32px;
 }
 
+#update-progress-message-error,
+#update-progress-message-warnings {
+	font-weight: 600;
+}
+
 #update-progress-message {
 	margin-bottom: 10px;
 }
