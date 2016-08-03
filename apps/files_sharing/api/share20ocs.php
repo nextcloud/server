@@ -240,7 +240,7 @@ class Share20OCS {
 			}
 		}
 
-		if (!$this->canAccessShare($share)) {
+		if (!$this->canAccessShare($share, false)) {
 			return new \OC_OCS_Result(null, 404, 'could not delete share');
 		}
 
@@ -564,7 +564,7 @@ class Share20OCS {
 			}
 		}
 
-		if (!$this->canAccessShare($share)) {
+		if (!$this->canAccessShare($share, false)) {
 			return new \OC_OCS_Result(null, 404, 'wrong share Id, share doesn\'t exist.');
 		}
 
@@ -669,9 +669,10 @@ class Share20OCS {
 
 	/**
 	 * @param \OCP\Share\IShare $share
+	 * @param bool $checkGroups
 	 * @return bool
 	 */
-	protected function canAccessShare(\OCP\Share\IShare $share) {
+	protected function canAccessShare(\OCP\Share\IShare $share, $checkGroups = true) {
 		// A file with permissions 0 can't be accessed by us. So Don't show it
 		if ($share->getPermissions() === 0) {
 			return false;
@@ -690,7 +691,7 @@ class Share20OCS {
 			return true;
 		}
 
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+		if ($checkGroups && $share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$sharedWith = $this->groupManager->get($share->getSharedWith());
 			if ($sharedWith->inGroup($this->currentUser)) {
 				return true;
