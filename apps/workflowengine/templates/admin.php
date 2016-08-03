@@ -36,7 +36,7 @@
 			{{#if operation.id}}
 			<span class="button-delete pull-right icon-delete"></span>
 			{{/if}}
-			<span class="pull-right info">{{operation.class}} - ID: {{operation.id}} - operation: {{operation.operation}}</span>
+			<input type="text" class="pull-right operation-operation" value="{{operation.operation}}">
 
 			<div class="checks">
 				{{#each operation.checks}}

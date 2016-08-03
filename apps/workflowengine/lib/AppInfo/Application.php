@@ -30,6 +30,7 @@ class Application extends \OCP\AppFramework\App {
 		parent::__construct('workflowengine');
 
 		$this->getContainer()->registerAlias('FlowOperationsController', 'OCA\WorkflowEngine\Controller\FlowOperations');
+		$this->getContainer()->registerAlias('RequestTimeController', 'OCA\WorkflowEngine\Controller\RequestTime');
 	}
 
 	/**
@@ -40,9 +41,32 @@ class Application extends \OCP\AppFramework\App {
 		$dispatcher->addListener(
 			'OCP\WorkflowEngine::loadAdditionalSettingScripts',
 			function() {
-				Util::addStyle('workflowengine', 'admin');
-				Util::addScript('workflowengine', 'admin');
-				Util::addScript('workflowengine', 'usergroupmembershipplugin');
+				style('workflowengine', [
+					'admin',
+				]);
+
+				script('core', [
+					'oc-backbone-webdav',
+					'systemtags/systemtags',
+					'systemtags/systemtagmodel',
+					'systemtags/systemtagscollection',
+				]);
+
+				vendor_script('jsTimezoneDetect/jstz');
+
+				script('workflowengine', [
+					'admin',
+
+					// Check plugins
+					'filemimetypeplugin',
+					'filesizeplugin',
+					'filesystemtagsplugin',
+					'requestremoteaddressplugin',
+					'requesttimeplugin',
+					'requesturlplugin',
+					'requestuseragentplugin',
+					'usergroupmembershipplugin',
+				]);
 			},
 			-100
 		);

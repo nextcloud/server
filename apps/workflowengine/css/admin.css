@@ -46,3 +46,7 @@
 	margin-right: 5px;
 }
 
+.workflowengine .invalid-input {
+	border-color: #aa0000;
+}
+

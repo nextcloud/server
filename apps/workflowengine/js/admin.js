@@ -75,12 +75,6 @@
 		});
 
 	/**
-	 * @class OCA.WorkflowEngine.AvailableCheck
-	 */
-	OCA.WorkflowEngine.AvailableCheck =
-		OC.Backbone.Model.extend({});
-
-	/**
 	 *  .d8888b.           888 888                   888    d8b
 	 * d88P  Y88b          888 888                   888    Y8P
 	 * 888    888          888 888                   888
@@ -143,6 +137,7 @@
 				'change .check-operator': 'checkChanged',
 				'change .check-value': 'checkChanged',
 				'change .operation-name': 'operationChanged',
+				'change .operation-operation': 'operationChanged',
 				'click .button-reset': 'reset',
 				'click .button-save': 'save',
 				'click .button-add': 'add',
@@ -248,7 +243,7 @@
 				// model change will trigger render
 				this.model.set({'checks': checks});
 			},
-			deleteCheck: function() {
+			deleteCheck: function(event) {
 				console.log(arguments);
 				var id = $(event.target.parentElement).data('id'),
 					checks = JSON.parse(JSON.stringify(this.model.get('checks')));
@@ -275,7 +270,7 @@
 					return;
 				}
 
-				if (key !== 'name') {
+				if (key !== 'name' && key !== 'operation') {
 					console.warn('key "' + key + '" is no valid attribute');
 					return;
 				}
@@ -302,7 +297,7 @@
 
 					_.each(OCA.WorkflowEngine.availablePlugins, function(plugin) {
 						if (_.isFunction(plugin.render)) {
-							plugin.render(valueElement, check['class'], check['value']);
+							plugin.render(valueElement, check);
 						}
 					});
 				}, this);
@@ -315,6 +310,7 @@
 					this.message = '';
 				}
 
+				return this.$el;
 			}
 		});
 
@@ -331,16 +327,15 @@
 			events: {
 				'click .button-add-operation': 'add'
 			},
-			initialize: function() {
-				this._initialize('OCA\\WorkflowEngine\\Operation');
-			},
-			_initialize: function(classname) {
-				OCA.WorkflowEngine.availablePlugins = OC.Plugins.getPlugins('OCA.WorkflowEngine.CheckPlugins');
-				_.each(OCA.WorkflowEngine.availablePlugins, function(plugin) {
-					if (_.isFunction(plugin.getCheck)) {
-						OCA.WorkflowEngine.availableChecks.push(plugin.getCheck());
-					}
-				});
+			initialize: function(classname) {
+				if (!OCA.WorkflowEngine.availablePlugins.length) {
+					OCA.WorkflowEngine.availablePlugins = OC.Plugins.getPlugins('OCA.WorkflowEngine.CheckPlugins');
+					_.each(OCA.WorkflowEngine.availablePlugins, function(plugin) {
+						if (_.isFunction(plugin.getCheck)) {
+							OCA.WorkflowEngine.availableChecks.push(plugin.getCheck(classname));
+						}
+					});
+				}
 
 				this.collection.fetch({data: {
 					'class': classname
@@ -351,12 +346,8 @@
 				var operation = this.collection.create();
 				this.renderOperation(operation);
 			},
-			renderOperation: function(operation){
-				console.log(operation);
-				var subView = new OCA.WorkflowEngine.OperationView({
-						model: operation
-					}),
-					operationsElement = this.$el.find('.operations');
+			renderOperation: function(subView){
+				var operationsElement = this.$el.find('.operations');
 				operationsElement.append(subView.$el);
 				subView.render();
 			},

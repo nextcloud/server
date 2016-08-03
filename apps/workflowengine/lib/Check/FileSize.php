@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Morris Jobke <hey@morrisjobke.de>
+ * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,38 +23,29 @@ namespace OCA\WorkflowEngine\Check;
 
 
 use OCP\Files\Storage\IStorage;
-use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\IUser;
-use OCP\IUserSession;
+use OCP\IRequest;
+use OCP\Util;
 use OCP\WorkflowEngine\ICheck;
 
-class UserGroupMembership implements ICheck {
+class FileSize implements ICheck {
 
-	/** @var string */
-	protected $cachedUser;
-
-	/** @var string[] */
-	protected $cachedGroupMemberships;
-
-	/** @var IUserSession */
-	protected $userSession;
-
-	/** @var IGroupManager */
-	protected $groupManager;
+	/** @var int */
+	protected $size;
 
 	/** @var IL10N */
 	protected $l;
 
+	/** @var IRequest */
+	protected $request;
+
 	/**
-	 * @param IUserSession $userSession
-	 * @param IGroupManager $groupManager
 	 * @param IL10N $l
+	 * @param IRequest $request
 	 */
-	public function __construct(IUserSession $userSession, IGroupManager $groupManager, IL10N $l) {
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
+	public function __construct(IL10N $l, IRequest $request) {
 		$this->l = $l;
+		$this->request = $request;
 	}
 
 	/**
@@ -62,7 +53,6 @@ class UserGroupMembership implements ICheck {
 	 * @param string $path
 	 */
 	public function setFileInfo(IStorage $storage, $path) {
-		// A different path doesn't change group memberships, so nothing to do here.
 	}
 
 	/**
@@ -71,16 +61,23 @@ class UserGroupMembership implements ICheck {
 	 * @return bool
 	 */
 	public function executeCheck($operator, $value) {
-		$user = $this->userSession->getUser();
+		$size = $this->getFileSizeFromHeader();
 
-		if ($user instanceof IUser) {
-			$groupIds = $this->getUserGroups($user);
-			return ($operator === 'is') === in_array($value, $groupIds);
-		} else {
-			return $operator !== 'is';
+		$value = Util::computerFileSize($value);
+		if ($size !== false) {
+			switch ($operator) {
+				case 'less':
+					return $size < $value;
+				case '!less':
+					return $size >= $value;
+				case 'greater':
+					return $size > $value;
+				case '!greater':
+					return $size <= $value;
+			}
 		}
+		return false;
 	}
-
 
 	/**
 	 * @param string $operator
@@ -88,27 +85,35 @@ class UserGroupMembership implements ICheck {
 	 * @throws \UnexpectedValueException
 	 */
 	public function validateCheck($operator, $value) {
-		if (!in_array($operator, ['is', '!is'])) {
+		if (!in_array($operator, ['less', '!less', 'greater', '!greater'])) {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
 
-		if (!$this->groupManager->groupExists($value)) {
-			throw new \UnexpectedValueException($this->l->t('The given group does not exist'), 2);
+		if (!preg_match('/^[0-9]+[ ]?[kmgt]?b$/i', $value)) {
+			throw new \UnexpectedValueException($this->l->t('The given file size is invalid'), 2);
 		}
 	}
 
 	/**
-	 * @param IUser $user
-	 * @return string[]
+	 * @return string
 	 */
-	protected function getUserGroups(IUser $user) {
-		$uid = $user->getUID();
-
-		if ($this->cachedUser !== $uid) {
-			$this->cachedUser = $uid;
-			$this->cachedGroupMemberships = $this->groupManager->getUserGroupIds($user);
+	protected function getFileSizeFromHeader() {
+		if ($this->size !== null) {
+			return $this->size;
 		}
 
-		return $this->cachedGroupMemberships;
+		$size = $this->request->getHeader('OC-Total-Length');
+		if ($size === null) {
+			if (in_array($this->request->getMethod(), ['POST', 'PUT'])) {
+				$size = $this->request->getHeader('Content-Length');
+			}
+		}
+
+		if ($size === null) {
+			$size = false;
+		}
+
+		$this->size = $size;
+		return $this->size;
 	}
 }
