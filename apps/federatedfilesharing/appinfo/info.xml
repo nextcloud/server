@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <info>
     <id>federatedfilesharing</id>
-    <name>Federated File Sharing</name>
+    <name>Federated file sharing</name>
     <description>Provide federated file sharing across servers</description>
     <licence>AGPL</licence>
     <author>Bjoern Schiessle, Roeland Jago Douma</author>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <namespace>FederatedFileSharing</namespace>
     <category>other</category>
     <dependencies>
