@@ -125,7 +125,7 @@ class Preview {
 		$sysConfig = \OC::$server->getConfig();
 		$this->configMaxWidth = $sysConfig->getSystemValue('preview_max_x', 2048);
 		$this->configMaxHeight = $sysConfig->getSystemValue('preview_max_y', 2048);
-		$this->maxScaleFactor = $sysConfig->getSystemValue('preview_max_scale_factor', 2);
+		$this->maxScaleFactor = $sysConfig->getSystemValue('preview_max_scale_factor', 1);
 
 		//save parameters
 		$this->setFile($file);

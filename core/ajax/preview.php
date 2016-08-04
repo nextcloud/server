@@ -49,19 +49,27 @@ if ($maxX === 0 || $maxY === 0) {
 	exit;
 }
 
-$info = \OC\Files\Filesystem::getFileInfo($file);
+$folder = \OC::$server->getUserFolder();
 
-if (!$info instanceof OCP\Files\FileInfo || !$always && !\OC::$server->getPreviewManager()->isAvailable($info)) {
+try {
+	$file = $folder->get($file);
+} catch (\OCP\Files\NotFoundException $e) {
+	return \OC_Response::setStatus(404);
+}
+
+if (!$file instanceof OCP\Files\File || !$always && !\OC::$server->getPreviewManager()->isAvailable($file)) {
 	\OC_Response::setStatus(404);
 } else if (!$info->isReadable()) {
 	\OC_Response::setStatus(403);
 } else {
-	$preview = new \OC\Preview(\OC_User::getUser(), 'files');
-	$preview->setFile($file, $info);
-	$preview->setMaxX($maxX);
-	$preview->setMaxY($maxY);
-	$preview->setScalingUp($scalingUp);
-	$preview->setMode($mode);
-	$preview->setKeepAspect($keepAspect);
-	$preview->showPreview();
+	$preview = new \OC\Preview2(
+		\OC::$server->getRootFolder(),
+		\OC::$server->getConfig(),
+		\OC::$server->getPreviewManager(),
+		$file
+	);
+	$image = $preview->getPreview($maxX, $maxY, !$keepAspect, $mode);
+
+	header('Content-Type: ' . $image->getMimeType());
+	echo $image->getContent();
 }
