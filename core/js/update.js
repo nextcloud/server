@@ -13,7 +13,7 @@
 		_started : false,
 
 		/**
-		 * Start the upgrade process.
+		 * Start the update process.
 		 *
 		 * @param $el progress list element
 		 */
@@ -31,12 +31,12 @@
 			var self = this;
 
 			$(window).on('beforeunload.inprogress', function () {
-				return t('core', 'The upgrade is in progress, leaving this page might interrupt the process in some environments.');
+				return t('core', 'The update is in progress, leaving this page might interrupt the process in some environments.');
 			});
 
 			$('#update-progress-title').html(t(
 				'core',
-				'Updating to {version}', {
+				'Update to {version}', {
 					version: options.version
 				})
 			);
@@ -91,17 +91,15 @@
 
 				if (hasWarnings) {
 					$el.find('.update-show-detailed').before(
-						$('<span>')
-							.append('<br />')
-							.append(t('core', 'The update was successful. There were warnings.'))
+						$('<input type="button" class="update-continue" value="'+t('core', 'Continue to Nextcloud')+'">').on('click', function() {
+							window.location.reload();
+						})
 					);
-					var message = t('core', 'Please reload the page.');
-					$('<span>').append(message).append('<br />').appendTo($el);
 				} else {
 					// FIXME: use product name
-					$('<span>')
-						.append(t('core', 'The update was successful. Redirecting you to Nextcloud now.'))
-						.appendTo($el);
+					$el.find('.update-show-detailed').before(
+						$('<p>'+t('core', 'The update was successful. Redirecting you to Nextcloud now.')+'</p>')
+					);
 					setTimeout(function () {
 						OC.redirect(OC.webroot + '/');
 					}, 3000);
@@ -127,7 +125,7 @@
 				.append(message)
 				.append($('<br>'));
 		},
-		
+
 		setErrorMessage: function (message) {
 			$('#update-progress-message-error')
 				.show()

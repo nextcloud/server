@@ -36,8 +36,10 @@
 		</div>
 		<input class="updateButton" type="button" value="<?php p($l->t('Start update')) ?>">
 		<div class="infogroup">
+			<em>
 			<?php p($l->t('To avoid timeouts with larger installations, you can instead run the following command from your installation directory:')) ?>
 			<pre>./occ upgrade</pre>
+			</em>
 		</div>
 	</div>
 
@@ -48,6 +50,6 @@
 		<ul id="update-progress-message-warnings" class="hidden"></ul>
 		<p id="update-progress-message"></p>
 		<a class="update-show-detailed"><?php p($l->t( 'Detailed logs' )); ?> <img src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" /></a>
-		<div id="update-progress-detailed" class="hidden warning"></div>
+		<div id="update-progress-detailed" class="hidden"></div>
 	</div>
 </div>
