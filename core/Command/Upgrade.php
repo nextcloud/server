@@ -47,7 +47,7 @@ class Upgrade extends Command {
 	const ERROR_SUCCESS = 0;
 	const ERROR_NOT_INSTALLED = 1;
 	const ERROR_MAINTENANCE_MODE = 2;
-	const ERROR_UP_TO_DATE = 3;
+	const ERROR_UP_TO_DATE = 0;
 	const ERROR_INVALID_ARGUMENTS = 4;
 	const ERROR_FAILURE = 5;
 
