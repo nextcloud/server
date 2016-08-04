@@ -1501,17 +1501,21 @@ function initCore() {
 		$navigation.hide();
 
 		// show loading feedback
-		$navigation.delegate('a', 'click', function(event) {
+		$navigation.delegate('a', 'mousedown', function(event) {
 			var $app = $(event.target);
 			if(!$app.is('a')) {
 				$app = $app.closest('a');
 			}
-			if(!event.ctrlKey && !event.metaKey) {
+			if(event.which === 1 && !event.ctrlKey && !event.metaKey) {
 				$app.addClass('app-loading');
 			} else {
 				// Close navigation when opening app in
 				// a new tab
 				OC.hideMenus();
+				// On middle click or on first button click with ctrl key or meta key hold
+				if(event.which === 2 || (event.which === 1 && (event.ctrlKey || event.metaKey))) {
+					window.open($page, '_blank');
+				}
 			}
 		});
 	}
@@ -1520,12 +1524,12 @@ function initCore() {
 		var $menu = $('#header #settings');
 
 		// show loading feedback
-		$menu.delegate('a', 'click', function(event) {
+		$menu.delegate('a', 'mousedown', function(event) {
 			var $page = $(event.target);
 			if (!$page.is('a')) {
 				$page = $page.closest('a');
 			}
-			if(!event.ctrlKey && !event.metaKey) {
+			if(event.which === 1 && !event.ctrlKey && !event.metaKey) {
 				$page.find('img').remove();
 				$page.find('div').remove(); // prevent odd double-clicks
 				$page.prepend($('<div/>').addClass('icon-loading-small-dark'));
@@ -1533,7 +1537,12 @@ function initCore() {
 				// Close navigation when opening menu entry in
 				// a new tab
 				OC.hideMenus();
+				// On middle click or on first button click with ctrl key or meta key hold
+				if(event.which === 2 || (event.which === 1 && (event.ctrlKey || event.metaKey))) {
+					window.open($page, '_blank');
+				}
 			}
+			$($page).click();
 		});
 	}
 
