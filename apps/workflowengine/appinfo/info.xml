@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<info>
+	<id>workflowengine</id>
+	<name>Files Workflow Engine</name>
+	<description></description>
+	<licence>AGPL</licence>
+	<author>Morris Jobke</author>
+	<version>1.0.0</version>
+	<namespace>WorkflowEngine</namespace>
+
+	<category>other</category>
+	<website>https://github.com/nextcloud/server</website>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+	<repository type="git">https://github.com/nextcloud/server.git</repository>
+
+	<types>
+		<filesystem/>
+	</types>
+
+	<dependencies>
+		<owncloud min-version="9.2" max-version="9.2" />
+	</dependencies>
+</info>

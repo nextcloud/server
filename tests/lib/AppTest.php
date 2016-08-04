@@ -316,6 +316,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup12',
 					'dav',
 					'federatedfilesharing',
+					'workflowengine',
 				),
 				false
 			),
@@ -330,6 +331,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup2',
 					'dav',
 					'federatedfilesharing',
+					'workflowengine',
 				),
 				false
 			),
@@ -345,6 +347,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup2',
 					'dav',
 					'federatedfilesharing',
+					'workflowengine',
 				),
 				false
 			),
@@ -360,6 +363,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup2',
 					'dav',
 					'federatedfilesharing',
+					'workflowengine',
 				),
 				false,
 			),
@@ -375,6 +379,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup2',
 					'dav',
 					'federatedfilesharing',
+					'workflowengine',
 				),
 				true,
 			),
@@ -452,11 +457,11 @@ class AppTest extends \Test\TestCase {
 			);
 
 		$apps = \OC_App::getEnabledApps();
-		$this->assertEquals(array('files', 'app3', 'dav', 'federatedfilesharing',), $apps);
+		$this->assertEquals(array('files', 'app3', 'dav', 'federatedfilesharing', 'workflowengine'), $apps);
 
 		// mock should not be called again here
 		$apps = \OC_App::getEnabledApps();
-		$this->assertEquals(array('files', 'app3', 'dav', 'federatedfilesharing',), $apps);
+		$this->assertEquals(array('files', 'app3', 'dav', 'federatedfilesharing', 'workflowengine'), $apps);
 
 		$this->restoreAppConfig();
 		\OC_User::setUserId(null);
