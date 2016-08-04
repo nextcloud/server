@@ -22,10 +22,10 @@
 	</background-jobs>
 	<repair-steps>
 		<post-migration>
-			<job>OCA\DAV\Migration\Classification</job>
+			<step>OCA\DAV\Migration\Classification</step>
 		</post-migration>
 		<live-migration>
-			<job>OCA\DAV\Migration\GenerateBirthdays</job>
+			<step>OCA\DAV\Migration\GenerateBirthdays</step>
 		</live-migration>
 	</repair-steps>
 </info>
