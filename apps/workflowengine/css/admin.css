@@ -30,6 +30,10 @@
 	transition: opacity .5s;
 }
 
+.workflowengine .operation .check:hover {
+	background-color: #f8f8f8;
+}
+
 .workflowengine .operation .button-delete,
 .workflowengine .operation .button-delete-check {
 	opacity: 0.5;
