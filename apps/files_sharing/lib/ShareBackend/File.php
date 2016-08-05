@@ -31,9 +31,11 @@
  *
  */
 
+namespace OCA\Files_Sharing\ShareBackend;
+
 use OCA\FederatedFileSharing\FederatedShareProvider;
 
-class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
+class File implements \OCP\Share_Backend_File_Dependent {
 
 	const FORMAT_SHARED_STORAGE = 0;
 	const FORMAT_GET_FOLDER_CONTENTS = 1;
