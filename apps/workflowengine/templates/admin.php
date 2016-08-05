@@ -26,7 +26,7 @@
 	<h2 class="inlineblock"><?php p($_['heading']); ?></h2>
 	<script type="text/template" id="operations-template">
 		<div class="operations"></div>
-		<button class="button-add-operation"><?php p($l->t('Add operation')); ?></button>
+		<button class="button-add-operation"><?php p($l->t('Add rule group')); ?></button>
 	</script>
 
 	<script type="text/template" id="operation-template">
@@ -56,7 +56,7 @@
 				</div>
 				{{/each}}
 			</div>
-			<button class="button-add"><?php p($l->t('Add check')); ?></button>
+			<button class="button-add"><?php p($l->t('Add rule')); ?></button>
 			{{#if hasChanged}}
 				{{! reset only makes sense if the operation is already saved }}
 				{{#if operation.id}}
