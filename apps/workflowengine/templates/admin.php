@@ -31,7 +31,7 @@
 
 	<script type="text/template" id="operation-template">
 		<div class="operation{{#if hasChanged}} modified{{/if}}">
-			<input type="text" class="operation-name" value="{{operation.name}}">
+			<input type="text" class="operation-name" placeholder="<?php p($l->t('Short rule description')); ?>" value="{{operation.name}}">
 			{{! delete only makes sense if the operation is already saved }}
 			{{#if operation.id}}
 			<span class="button-delete pull-right icon-delete"></span>
