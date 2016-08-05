@@ -1,5 +1,7 @@
 .workflowengine .operation {
 	padding: 5px;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
 	border-bottom: #eee 1px solid;
 	border-left: rgba(0,0,0,0) 1px solid;
 }
