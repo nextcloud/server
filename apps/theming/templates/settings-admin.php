@@ -15,25 +15,25 @@ style('theming', 'settings-admin');
 	<?php } else { ?>
 	<p>
 		<label><span><?php p($l->t('Name')) ?></span>
-			<input id="theming-name" type="text" placeholder="<?php p($l->t('Name')); ?>" value="<?php p($_['name']) ?>" />
+			<input id="theming-name" type="text" placeholder="<?php p($l->t('Name')); ?>" value="<?php p($_['name']) ?>" maxlength="250" />
 		</label>
 		<span data-setting="name" data-toggle="tooltip" data-original-title="<?php p($l->t('reset to default')); ?>" class="theme-undo icon icon-history"></span>
 	</p>
 	<p>
 		<label><span><?php p($l->t('Web address')) ?></span>
-			<input id="theming-url" type="text" placeholder="<?php p($l->t('Web address https://…')); ?>" value="<?php p($_['url']) ?>" />
+			<input id="theming-url" type="text" placeholder="<?php p($l->t('Web address https://…')); ?>" value="<?php p($_['url']) ?>" maxlength="500" />
 		</label>
 		<span data-setting="url" data-toggle="tooltip" data-original-title="<?php p($l->t('reset to default')); ?>" class="theme-undo icon icon-history"></span>
 	</p>
 	<p>
 		<label><span><?php p($l->t('Slogan')) ?></span>
-			<input id="theming-slogan" type="text" placeholder="<?php p($l->t('Slogan')); ?>" value="<?php p($_['slogan']) ?>" />
+			<input id="theming-slogan" type="text" placeholder="<?php p($l->t('Slogan')); ?>" value="<?php p($_['slogan']) ?>" maxlength="500" />
 		</label>
 		<span data-setting="slogan" data-toggle="tooltip" data-original-title="<?php p($l->t('reset to default')); ?>" class="theme-undo icon icon-history"></span>
 	</p>
 	<p>
 		<label><span><?php p($l->t('Color')) ?></span>
-			<input id="theming-color" type="text" class="jscolor" value="<?php p($_['color']) ?>" />
+			<input id="theming-color" type="text" class="jscolor" maxlength="6" value="<?php p($_['color']) ?>" />
 		</label>
 		<span data-setting="color" data-toggle="tooltip" data-original-title="<?php p($l->t('reset to default')); ?>" class="theme-undo icon icon-history"></span>
 	</p>
