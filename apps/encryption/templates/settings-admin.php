@@ -7,7 +7,7 @@ style('encryption', 'settings-admin');
 ?>
 <form id="ocDefaultEncryptionModule" class="sub-section">
 	<?php if(!$_["initStatus"]): ?>
-		<?php p($l->t("Encryption App is enabled but your keys are not initialized, please log-out and log-in again")); ?>
+		<?php p($l->t("Encryption app is enabled but your keys are not initialized, please log-out and log-in again")); ?>
 	<?php else: ?>
 		<p id="encryptHomeStorageSetting">
 			<input type="checkbox" class="checkbox" name="encrypt_home_storage" id="encryptHomeStorage"
