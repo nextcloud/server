@@ -246,7 +246,6 @@ OC.L10N.register(
     "Uninstall App" : "App deinstallieren",
     "Enable experimental apps" : "Experimentelle Apps aktivieren",
     "SSL Root Certificates" : "SSL Root Zertifikate",
-    "Common Name" : "Common Name",
     "Valid until" : "Gültig bis",
     "Issued By" : "Ausgestellt von:",
     "Valid until %s" : "Gültig bis %s",

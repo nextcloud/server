@@ -57,7 +57,7 @@ OC.L10N.register(
     "%2$s shared %1$s via link" : "%2$s hat %1$s über einen Link geteilt",
     "You shared %1$s via link" : "Sie haben %1$s über einen Link geteilt",
     "You removed the public link for %1$s" : "Sie haben die Freigabe als Link für %1$s entfernt",
-    "%2$s removed the public link for %1$s" : "%2$s hat die Freigabe als Link für %1$s entfernt",
+    "%2$s removed the public link for %1$s" : "%2$s hat den öffentlichen Link für %1$s entfernt",
     "Your public link for %1$s expired" : "Ihre Freigabe als Link für %1$s ist abgelaufen",
     "The public link of %2$s for %1$s expired" : "Die Freigabe als Link von %2$s für %1$s ist abgelaufen",
     "%2$s shared %1$s with you" : "%2$s hat %1$s mit Ihnen geteilt",
