@@ -24,6 +24,11 @@
 ?>
 <div id="<?php p($_['appid']); ?>" class="section workflowengine">
 	<h2 class="inlineblock"><?php p($_['heading']); ?></h2>
+
+	<?php if ($_['description']): ?>
+		<p><?php p($_['description']); ?></p>
+	<?php endif; ?>
+
 	<script type="text/template" id="operations-template">
 		<div class="operations"></div>
 		<button class="button-add-operation"><?php p($l->t('Add rule group')); ?></button>
