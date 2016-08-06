@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Wrong password" : "Falsches Passwort",
     "Saved" : "Gespeichert",
-    "No user supplied" : "Kein Benutzer übermittelt",
+    "No user supplied" : "Kein Benutzer angegeben",
     "Authentication error" : "Authentifizierungsfehler",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Bitte geben Sie ein Wiederherstellungspasswort für das Administratorkonto an, da sonst alle Benutzerdaten verlorengehen können",
     "Wrong admin recovery password. Please check the password and try again." : "Falsches Wiederherstellungspasswort für das Admin-Konto. Bitte überprüfen Sie das Passwort und versuchen Sie es erneut.",
@@ -246,6 +246,7 @@ OC.L10N.register(
     "Uninstall App" : "App deinstallieren",
     "Enable experimental apps" : "Experimentelle Apps aktivieren",
     "SSL Root Certificates" : "SSL Root Zertifikate",
+    "Common Name" : "Allgemeiner Name",
     "Valid until" : "Gültig bis",
     "Issued By" : "Ausgestellt von:",
     "Valid until %s" : "Gültig bis %s",

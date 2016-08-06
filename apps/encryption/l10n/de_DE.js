@@ -9,7 +9,7 @@ OC.L10N.register(
     "Recovery key successfully disabled" : "Der Wiederherstellungsschlüssel wurde erfolgreich deaktiviert.",
     "Could not disable recovery key. Please check your recovery key password!" : "Der Wiederherstellungsschlüssel konnte nicht deaktiviert werden. Bitte überprüfen Sie das Passwort für den Wiederherstellungsschlüssel!",
     "Missing parameters" : "Fehlende Parameter",
-    "Please provide the old recovery password" : "Bitte das alte Passwort zur Wiederherstellung eingeben",
+    "Please provide the old recovery password" : "Bitte das alte Wiederherstellungspasswort eingeben",
     "Please provide a new recovery password" : "Bitte ein neues Wiederherstellungspasswort eingeben",
     "Please repeat the new recovery password" : "Bitte das neue Passwort zur Wiederherstellung wiederholen",
     "Password successfully changed." : "Das Passwort wurde erfolgreich geändert.",
