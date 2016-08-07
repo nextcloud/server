@@ -304,15 +304,37 @@ class DependencyAnalyzer {
 
 		if (!is_null($minVersion)) {
 			if ($this->compareSmaller($this->platform->getOcVersion(), $minVersion)) {
-				$missing[] = (string)$this->l->t('Server version %s or higher is required.', $minVersion);
+				$missing[] = (string)$this->l->t('Server version %s or higher is required.', $this->toVisibleVersion($minVersion));
 			}
 		}
 		if (!is_null($maxVersion)) {
 			if ($this->compareBigger($this->platform->getOcVersion(), $maxVersion)) {
-				$missing[] = (string)$this->l->t('Server version %s or lower is required.', $maxVersion);
+				$missing[] = (string)$this->l->t('Server version %s or lower is required.', $this->toVisibleVersion($maxVersion));
 			}
 		}
 		return $missing;
+	}
+
+	/**
+	 * Map the internal version number to the Nextcloud version
+	 *
+	 * @param string $version
+	 * @return string
+	 */
+	protected function toVisibleVersion($version) {
+		switch ($version) {
+			case '9.1':
+				return '10';
+			case '9.2':
+				return '11';
+			default:
+				if (strpos($version, '9.1.') === 0) {
+					$version = '10.0.' . substr($version, 4);
+				} else if (strpos($version, '9.2.') === 0) {
+					$version = '11.0.' . substr($version, 4);
+				}
+				return $version;
+		}
 	}
 
 	/**

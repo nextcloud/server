@@ -16,7 +16,7 @@ use Test\TestCase;
 
 class DependencyAnalyzerTest extends TestCase {
 
-	/** @var Platform */
+	/** @var Platform|\PHPUnit_Framework_MockObject_MockObject */
 	private $platformMock;
 
 	/** @var IL10N */
@@ -206,6 +206,8 @@ class DependencyAnalyzerTest extends TestCase {
 			array(array(), array('@attributes' => array('min-version' => '8.0.2', 'max-version' => '8.0.2'))),
 			array(array('Server version 8.0.3 or higher is required.'), array('@attributes' => array('min-version' => '8.0.3'))),
 			array(array('Server version 9 or higher is required.'), array('@attributes' => array('min-version' => '9'))),
+			array(array('Server version 10 or higher is required.'), array('@attributes' => array('min-version' => '9.1'))),
+			array(array('Server version 11 or higher is required.'), array('@attributes' => array('min-version' => '9.2'))),
 			[['Server version 8.0.1 or lower is required.'], ['@attributes' => ['max-version' => '8.0.1']]],
 		);
 	}
