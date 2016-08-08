@@ -114,6 +114,34 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	/**
+	 * Themed logo url
+	 *
+	 * @return string
+	 */
+	public function getLogo() {
+		$logo = $this->config->getAppValue('theming', 'logoMime');
+		$pathToLogo = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/') . '/themedinstancelogo';
+		if(!$logo || !file_exists($pathToLogo)) {
+			return $this->urlGenerator->imagePath('core','logo.svg');
+		} else {
+			return $this->urlGenerator->linkToRoute('theming.Theming.getLogo');
+		}
+	}
+	/**
+	 * Themed background image url
+	 *
+	 * @return string
+	 */
+	public function getBackground() {
+		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime');
+		$pathToLogo = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/') . '/themedbackgroundlogo';
+		if(!$backgroundLogo || !file_exists($pathToLogo)) {
+			return $this->urlGenerator->imagePath('core','background.jpg');
+		} else {
+			return $this->urlGenerator->linkToRoute('theming.Theming.getLoginBackground');
+		}
+	}
+	/**
 	 * Increases the cache buster key
 	 */
 	private function increaseCacheBuster() {
