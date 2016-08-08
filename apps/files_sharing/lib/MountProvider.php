@@ -75,16 +75,20 @@ class MountProvider implements IMountProvider {
 			return $share->getPermissions() > 0 && $share->getShareOwner() !== $user->getUID();
 		});
 
-		$mounts = [];
-		foreach ($shares as $share) {
+		$superShares = $this->buildSuperShares($shares, $user);
 
+		$mounts = [];
+		foreach ($superShares as $share) {
 			try {
 				$mounts[] = new SharedMount(
 					'\OC\Files\Storage\Shared',
 					$mounts,
 					[
 						'user' => $user->getUID(),
-						'newShare' => $share,
+						// parent share
+						'superShare' => $share[0],
+						// children/component of the superShare
+						'groupedShares' => $share[1],
 					],
 					$storageFactory
 				);
@@ -96,5 +100,85 @@ class MountProvider implements IMountProvider {
 
 		// array_filter removes the null values from the array
 		return array_filter($mounts);
+	}
+
+	/**
+	 * Groups shares by path (nodeId) and target path
+	 *
+	 * @param \OCP\Share\IShare[] $shares
+	 * @return \OCP\Share\IShare[][] array of grouped shares, each element in the
+	 * array is a group which itself is an array of shares
+	 */
+	private function groupShares(array $shares) {
+		$tmp = [];
+
+		foreach ($shares as $share) {
+			if (!isset($tmp[$share->getNodeId()])) {
+				$tmp[$share->getNodeId()] = [];
+			}
+			$tmp[$share->getNodeId()][] = $share;
+		}
+
+		$result = [];
+		// sort by stime, the super share will be based on the least recent share
+		foreach ($tmp as &$tmp2) {
+			@usort($tmp2, function($a, $b) {
+				if ($a->getShareTime() < $b->getShareTime()) {
+					return -1;
+				}
+				return 1;
+			});
+			$result[] = $tmp2;
+		}
+
+		return array_values($result);
+	}
+
+	/**
+	 * Build super shares (virtual share) by grouping them by node id and target,
+	 * then for each group compute the super share and return it along with the matching
+	 * grouped shares. The most permissive permissions are used based on the permissions
+	 * of all shares within the group.
+	 *
+	 * @param \OCP\Share\IShare[] $allShares
+	 * @param \OCP\IUser $user user
+	 * @return array Tuple of [superShare, groupedShares]
+	 */
+	private function buildSuperShares(array $allShares, \OCP\IUser $user) {
+		$result = [];
+
+		$groupedShares = $this->groupShares($allShares);
+
+		/** @var \OCP\Share\IShare[] $shares */
+		foreach ($groupedShares as $shares) {
+			if (count($shares) === 0) {
+				continue;
+			}
+
+			$superShare = $this->shareManager->newShare();
+
+			// compute super share based on first entry of the group
+			$superShare->setId($shares[0]->getId())
+				->setShareOwner($shares[0]->getShareOwner())
+				->setNodeId($shares[0]->getNodeId())
+				->setTarget($shares[0]->getTarget());
+
+			// use most permissive permissions
+			$permissions = 0;
+			foreach ($shares as $share) {
+				$permissions |= $share->getPermissions();
+				if ($share->getTarget() !== $superShare->getTarget()) {
+					// adjust target, for database consistency
+					$share->setTarget($superShare->getTarget());
+					$this->shareManager->moveShare($share, $user->getUID());
+				}
+			}
+
+			$superShare->setPermissions($permissions);
+
+			$result[] = [$superShare, $shares];
+		}
+
+		return $result;
 	}
 }
