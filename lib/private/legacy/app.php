@@ -471,7 +471,7 @@ class OC_App {
 				$settings[] = array(
 					"id" => "admin",
 					"order" => 1000,
-					"href" => $urlGenerator->linkToRoute('settings_admin'),
+					"href" => $urlGenerator->linkToRoute('settings.AdminSettings.index'),
 					"name" => $l->t("Admin"),
 					"icon" => $urlGenerator->imagePath("settings", "admin.svg")
 				);
@@ -1199,6 +1199,9 @@ class OC_App {
 			include $appPath . '/appinfo/update.php';
 		}
 		self::setupBackgroundJobs($appData['background-jobs']);
+		if(isset($appData['settings']) && is_array($appData['settings'])) {
+			\OC::$server->getSettingsManager()->setupSettings($appData['settings']);
+		}
 
 		//set remote/public handlers
 		if (array_key_exists('ocsid', $appData)) {
