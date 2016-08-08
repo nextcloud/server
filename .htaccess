@@ -20,8 +20,8 @@
     SetEnv modHeadersAvailable true
   </IfModule>
 
-  # Add cache control for CSS and JS files
-  <FilesMatch "\.(css|js)$">
+  # Add cache control for static resources
+  <FilesMatch "\.(css|js|woff|svg|gif)$">
     Header set Cache-Control "max-age=7200, public"
   </FilesMatch>
 </IfModule>
