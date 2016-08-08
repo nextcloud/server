@@ -93,7 +93,13 @@ class App {
 		try {
 			$controller = $container->query($controllerName);
 		} catch(QueryException $e) {
-			$appNameSpace = self::buildAppNamespace($appName);
+			if ($appName === 'core') {
+				$appNameSpace = 'OC\\Core';
+			} else if ($appName === 'settings') {
+				$appNameSpace = 'OC\\Settings';
+			} else {
+				$appNameSpace = self::buildAppNamespace($appName);
+			}
 			$controllerName = $appNameSpace . '\\Controller\\' . $controllerName;
 			$controller = $container->query($controllerName);
 		}
