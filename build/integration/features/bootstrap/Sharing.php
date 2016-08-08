@@ -52,7 +52,11 @@ trait Sharing {
 	public function asCreatingAShareWith($user, $body) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares";
 		$client = new Client();
-		$options = [];
+		$options = [
+			'headers' => [
+				'OCS-APIREQUEST' => 'true',
+			],
+		];
 		if ($user === 'admin') {
 			$options['auth'] = $this->adminUser;
 		} else {
@@ -160,7 +164,11 @@ trait Sharing {
 		$share_id = (string) $this->lastShareData->data[0]->id;
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
 		$client = new Client();
-		$options = [];
+		$options = [
+			'headers' => [
+				'OCS-APIREQUEST' => 'true',
+			],
+		];
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
 		} else {
@@ -194,7 +202,11 @@ trait Sharing {
 								$permissions = null){
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares";
 		$client = new Client();
-		$options = [];
+		$options = [
+			'headers' => [
+				'OCS-APIREQUEST' => 'true',
+			],
+		];
 
 		if ($user === 'admin') {
 			$options['auth'] = $this->adminUser;
@@ -335,6 +347,9 @@ trait Sharing {
 		} else {
 			$options['auth'] = [$user1, $this->regularUser];
 		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
 		$this->response = $client->get($fullUrl, $options);
 		if ($this->isUserOrGroupInSharedData($user2, $permissions)){
 			return;
@@ -361,6 +376,9 @@ trait Sharing {
 		} else {
 			$options['auth'] = [$user, $this->regularUser];
 		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
 		$this->response = $client->get($fullUrl, $options);
 		if ($this->isUserOrGroupInSharedData($group, $permissions)){
 			return;
@@ -448,6 +466,7 @@ trait Sharing {
 				],
 				'headers' => [
 					'Content-Type' => 'application/json',
+					'OCS-APIREQUEST' => 'true',
 				],
 			]
 		);
@@ -465,6 +484,7 @@ trait Sharing {
 						],
 						'headers' => [
 							'Content-Type' => 'application/json',
+							'OCS-APIREQUEST' => 'true',
 						],
 					]
 				);

@@ -28,6 +28,8 @@
 namespace OCA\Files_Sharing\AppInfo;
 
 use OCA\FederatedFileSharing\DiscoveryManager;
+use OCA\Files_Sharing\API\Share20OCS;
+use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
 use OCA\Files_Sharing\MountProvider;
 use OCP\AppFramework\App;
 use OC\AppFramework\Utility\SimpleContainer;
@@ -35,7 +37,6 @@ use OCA\Files_Sharing\Controllers\ExternalSharesController;
 use OCA\Files_Sharing\Controllers\ShareController;
 use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
 use \OCP\IContainer;
-use OCA\Files_Sharing\Capabilities;
 
 class Application extends App {
 	public function __construct(array $urlParams = array()) {
@@ -71,6 +72,19 @@ class Application extends App {
 				$c->query('Request'),
 				$c->query('ExternalManager'),
 				$c->query('HttpClientService')
+			);
+		});
+		$container->registerService('ShareAPIController', function (SimpleContainer $c) use ($server) {
+			return new Share20OCS(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$server->getShareManager(),
+				$server->getGroupManager(),
+				$server->getUserManager(),
+				$server->getRootFolder(),
+				$server->getURLGenerator(),
+				$server->getUserSession()->getUser(),
+				$server->getL10N($c->query('AppName'))
 			);
 		});
 
@@ -110,8 +124,16 @@ class Application extends App {
 			);
 		});
 
+		$container->registerService('OCSShareAPIMiddleware', function (SimpleContainer $c) use ($server) {
+			return new OCSShareAPIMiddleware(
+				$server->getShareManager(),
+				$server->getL10N($c->query('AppName'))
+			);
+		});
+
 		// Execute middlewares
 		$container->registerMiddleware('SharingCheckMiddleware');
+		$container->registerMiddleWare('OCSShareAPIMiddleware');
 
 		$container->registerService('MountProvider', function (IContainer $c) {
 			/** @var \OCP\IServerContainer $server */

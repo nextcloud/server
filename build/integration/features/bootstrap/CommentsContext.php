@@ -191,6 +191,9 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 		$options['auth'] = [$user, '123456'];
 		$fd = $body->getRowsHash();
 		$options['body'] = $fd;
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
 		$client->send($client->createRequest($verb, $this->baseUrl.'/ocs/v1.php/'.$url, $options));
 	}
 
