@@ -21,18 +21,16 @@
 
 namespace Test\Files\ObjectStore;
 
-use OC\Files\ObjectStore\Swift;
+use OC\Files\ObjectStore\StorageObjectStore;
+use OC\Files\Storage\Temporary;
 
-class SwiftTest extends ObjectStoreTest {
+class LocalTest extends ObjectStoreTest {
 	/**
 	 * @return \OCP\Files\ObjectStore\IObjectStore
 	 */
 	protected function getInstance() {
-		$config = \OC::$server->getConfig()->getSystemValue('objectstore');
-		if (!is_array($config) || $config['class'] !== 'OC\\Files\\ObjectStore\\Swift') {
-			$this->markTestSkipped('objectstore not configured for swift');
-		}
-
-		return new Swift($config['arguments']);
+		$storage = new Temporary();
+		return new StorageObjectStore($storage);
 	}
+
 }
