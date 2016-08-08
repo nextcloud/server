@@ -1356,7 +1356,6 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	/**
-	 * @internal Not public by intention.
 	 * @return \OC_Defaults
 	 */
 	public function getThemingDefaults() {
