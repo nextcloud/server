@@ -38,45 +38,30 @@ namespace OCA\Files_External\Lib\Storage;
 
 set_include_path(get_include_path() . PATH_SEPARATOR .
 	\OC_App::getAppPath('files_external') . '/3rdparty/aws-sdk-php');
-require 'aws-autoloader.php';
+require_once 'aws-autoloader.php';
 
 use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
 use Icewind\Streams\IteratorDirectory;
+use OC\Files\ObjectStore\S3ConnectionTrait;
 
 class AmazonS3 extends \OC\Files\Storage\Common {
+	use S3ConnectionTrait;
 
-	/**
-	 * @var \Aws\S3\S3Client
-	 */
-	private $connection;
-	/**
-	 * @var string
-	 */
-	private $bucket;
 	/**
 	 * @var array
 	 */
 	private static $tmpFiles = array();
-	/**
-	 * @var array
-	 */
-	private $params;
-	/**
-	 * @var bool
-	 */
-	private $test = false;
-	/**
-	 * @var int
-	 */
-	private $timeout = 15;
+
 	/**
 	 * @var int in seconds
 	 */
 	private $rescanDelay = 10;
 
-	/** @var string  */
-	private $id;
+	public function __construct($parameters) {
+		parent::__construct($parameters);
+		$this->parseParams($parameters);
+	}
 
 	/**
 	 * @param string $path
@@ -92,15 +77,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return $path;
 	}
 
-	/**
-	 * when running the tests wait to let the buckets catch up
-	 */
-	private function testTimeout() {
-		if ($this->test) {
-			sleep($this->timeout);
-		}
-	}
-
 	private function isRoot($path) {
 		return $path === '.';
 	}
@@ -110,26 +86,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			return '/';
 		}
 		return $path;
-	}
-
-	public function __construct($params) {
-		if (empty($params['key']) || empty($params['secret']) || empty($params['bucket'])) {
-			throw new \Exception("Access Key, Secret and Bucket have to be configured.");
-		}
-
-		$this->id = 'amazon::' . $params['bucket'];
-		$this->updateLegacyId($params);
-
-		$this->bucket = $params['bucket'];
-		$this->test = isset($params['test']);
-		$this->timeout = (!isset($params['timeout'])) ? 15 : $params['timeout'];
-		$this->rescanDelay = (!isset($params['rescanDelay'])) ? 10 : $params['rescanDelay'];
-		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
-		$params['hostname'] = empty($params['hostname']) ? 's3.amazonaws.com' : $params['hostname'];
-		if (!isset($params['port']) || $params['port'] === '') {
-			$params['port'] = ($params['use_ssl'] === false) ? 80 : 443;
-		}
-		$this->params = $params;
 	}
 
 	/**
@@ -556,54 +512,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	public function getId() {
 		return $this->id;
-	}
-
-	/**
-	 * Returns the connection
-	 *
-	 * @return S3Client connected client
-	 * @throws \Exception if connection could not be made
-	 */
-	public function getConnection() {
-		if (!is_null($this->connection)) {
-			return $this->connection;
-		}
-
-		$scheme = ($this->params['use_ssl'] === false) ? 'http' : 'https';
-		$base_url = $scheme . '://' . $this->params['hostname'] . ':' . $this->params['port'] . '/';
-
-		$this->connection = S3Client::factory(array(
-			'key' => $this->params['key'],
-			'secret' => $this->params['secret'],
-			'base_url' => $base_url,
-			'region' => $this->params['region'],
-			S3Client::COMMAND_PARAMS => [
-				'PathStyle' => $this->params['use_path_style'],
-			],
-		));
-
-		if (!$this->connection->isValidBucketName($this->bucket)) {
-			throw new \Exception("The configured bucket name is invalid.");
-		}
-
-		if (!$this->connection->doesBucketExist($this->bucket)) {
-			try {
-				$this->connection->createBucket(array(
-					'Bucket' => $this->bucket
-				));
-				$this->connection->waitUntilBucketExists(array(
-					'Bucket' => $this->bucket,
-					'waiter.interval' => 1,
-					'waiter.max_attempts' => 15
-				));
-				$this->testTimeout();
-			} catch (S3Exception $e) {
-				\OCP\Util::logException('files_external', $e);
-				throw new \Exception('Creation of bucket failed. '.$e->getMessage());
-			}
-		}
-
-		return $this->connection;
 	}
 
 	public function writeBack($tmpFile) {
