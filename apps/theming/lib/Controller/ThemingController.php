@@ -286,6 +286,21 @@ class ThemingController extends Controller {
 			$responseCss .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
 				'background-image: url(\'data:image/svg+xml;base64,'.$this->util->generateRadioButton($elementColor).'\');' .
 				"}\n";
+			$responseCss .= '.primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary,' .
+				'.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active,' .
+				'.primary:disabled, input[type="submit"].primary:disabled, input[type="button"].primary:disabled, button.primary:disabled, .button.primary:disabled,' .
+				'.primary:disabled:hover, input[type="submit"].primary:disabled:hover, input[type="button"].primary:disabled:hover, button.primary:disabled:hover, .button.primary:disabled:hover,' .
+				'.primary:disabled:focus, input[type="submit"].primary:disabled:focus, input[type="button"].primary:disabled:focus, button.primary:disabled:focus, .button.primary:disabled:focus {' .
+				'border: 1px solid '.$elementColor.';'.
+				'background-color: '.$elementColor.';'.
+				'opacity: 0.8' .
+				"}\n" .
+				'.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover,' .
+				'.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {' .
+				'border: 1px solid '.$elementColor.';'.
+				'background-color: '.$elementColor.';'.
+				'opacity: 1.0;' .
+				"}\n";
 			$responseCss .= '
 				#firstrunwizard .firstrunwizard-header {
 					background-color: ' . $color . ';
