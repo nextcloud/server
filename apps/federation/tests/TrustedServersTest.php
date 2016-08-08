@@ -309,7 +309,6 @@ class TrustedServersTest extends TestCase {
 	}
 
 	/**
-	 * @expectedException \Exception
 	 * @expectedExceptionMessage simulated exception
 	 */
 	public function testIsOwnCloudServerFail() {
@@ -323,7 +322,7 @@ class TrustedServersTest extends TestCase {
 				throw new \Exception('simulated exception');
 			});
 
-		$this->trustedServers->isOwnCloudServer($server);
+		$this->assertFalse($this->trustedServers->isOwnCloudServer($server));
 	}
 
 	/**

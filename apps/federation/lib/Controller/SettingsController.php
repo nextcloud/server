@@ -113,8 +113,8 @@ class SettingsController extends Controller {
 		}
 
 		if ($this->trustedServers->isOwnCloudServer($url) === false) {
-			$message = 'No server to federate found';
-			$hint = $this->l->t('No server to federate found');
+			$message = 'No server to federate with found';
+			$hint = $this->l->t('No server to federate with found');
 			throw new HintException($message, $hint);
 		}
 
