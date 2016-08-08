@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <info>
 	<id>workflowengine</id>
-	<name>Files Workflow Engine</name>
+	<name>Files workflow engine</name>
 	<description></description>
 	<licence>AGPL</licence>
 	<author>Morris Jobke</author>
