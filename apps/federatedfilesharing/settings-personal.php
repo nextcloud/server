@@ -24,6 +24,7 @@
  */
 
 use OCA\FederatedFileSharing\AppInfo\Application;
+use OCA\Theming\Template;
 
 \OC_Util::checkLoggedIn();
 
@@ -41,6 +42,7 @@ if (count($matches) > 0 && $matches[1] <= 9) {
 $cloudID = \OC::$server->getUserSession()->getUser()->getCloudId();
 $url = 'https://nextcloud.com/federation#' . $cloudID;
 $ownCloudLogoPath = \OC::$server->getURLGenerator()->imagePath('core', 'logo-icon.svg');
+$theme = \OC::$server->getThemingDefaults();
 
 $tmpl = new OCP\Template('federatedfilesharing', 'settings-personal');
 $tmpl->assign('outgoingServer2serverShareEnabled', $federatedShareProvider->isOutgoingServer2serverShareEnabled());
@@ -50,5 +52,6 @@ $tmpl->assign('owncloud_logo_path', $ownCloudLogoPath);
 $tmpl->assign('reference', $url);
 $tmpl->assign('cloudId', $cloudID);
 $tmpl->assign('showShareIT', !$isIE8);
+$tmpl->assign('color', $theme->getMailHeaderColor());
 
 return $tmpl->fetchPage();
