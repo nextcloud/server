@@ -162,4 +162,55 @@ class AppTest extends \Test\TestCase {
 		App::main($this->controllerName, $this->controllerMethod, $this->container, []);
 	}
 
+	public function testCoreApp() {
+		$this->container['AppName'] = 'core';
+		$this->container['OC\Core\Controller\Foo'] = $this->controller;
+
+		$return = array(null, array(), array(), null, new Response());
+		$this->dispatcher->expects($this->once())
+			->method('dispatch')
+			->with($this->equalTo($this->controller),
+				$this->equalTo($this->controllerMethod))
+			->will($this->returnValue($return));
+
+		$this->io->expects($this->never())
+			->method('setOutput');
+
+		App::main('Foo', $this->controllerMethod, $this->container);
+	}
+
+	public function testSettingsApp() {
+		$this->container['AppName'] = 'settings';
+		$this->container['OC\Settings\Controller\Foo'] = $this->controller;
+
+		$return = array(null, array(), array(), null, new Response());
+		$this->dispatcher->expects($this->once())
+			->method('dispatch')
+			->with($this->equalTo($this->controller),
+				$this->equalTo($this->controllerMethod))
+			->will($this->returnValue($return));
+
+		$this->io->expects($this->never())
+			->method('setOutput');
+
+		App::main('Foo', $this->controllerMethod, $this->container);
+	}
+
+	public function testApp() {
+		$this->container['AppName'] = 'bar';
+		$this->container['OCA\Bar\Controller\Foo'] = $this->controller;
+
+		$return = array(null, array(), array(), null, new Response());
+		$this->dispatcher->expects($this->once())
+			->method('dispatch')
+			->with($this->equalTo($this->controller),
+				$this->equalTo($this->controllerMethod))
+			->will($this->returnValue($return));
+
+		$this->io->expects($this->never())
+			->method('setOutput');
+
+		App::main('Foo', $this->controllerMethod, $this->container);
+	}
+
 }
