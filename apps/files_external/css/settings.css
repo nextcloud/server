@@ -1,6 +1,5 @@
-#files_external {
-	margin-bottom: 0;
-	padding-bottom: 0;
+#global_credentials {
+	padding-top: 0;
 }
 
 #externalStorage td.status {

@@ -4,6 +4,8 @@
 	use \OCA\Files_External\Lib\DefinitionParameter;
 	use \OCA\Files_External\Service\BackendService;
 
+	$canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || $_['allowUserMounting'];
+
 	$l->t("Enable encryption");
 	$l->t("Enable previews");
 	$l->t("Enable sharing");
@@ -87,7 +89,7 @@
 
 <form id="files_external" class="section" data-encryption-enabled="<?php echo $_['encryptionEnabled']?'true': 'false'; ?>">
 	<h2><?php p($l->t('External Storage')); ?></h2>
-	<?php if (isset($_['dependencies']) and ($_['dependencies']<>'')) print_unescaped(''.$_['dependencies'].''); ?>
+	<?php if (isset($_['dependencies']) and ($_['dependencies']<>'') and $canCreateMounts) print_unescaped(''.$_['dependencies'].''); ?>
 	<table id="externalStorage" class="grid" data-admin='<?php print_unescaped(json_encode($_['visibilityType'] === BackendService::VISIBILITY_ADMIN)); ?>'>
 		<thead>
 			<tr>
@@ -103,7 +105,7 @@
 		</thead>
 		<tbody>
 			<tr id="addMountPoint"
-			<?php if ($_['visibilityType'] === BackendService::VISIBILITY_PERSONAL && $_['allowUserMounting'] === false): ?>
+			<?php if (!$canCreateMounts): ?>
 				style="display: none;"
 			<?php endif; ?>
 			>
@@ -186,7 +188,7 @@
 	<?php endif; ?>
 </form>
 
-<?php if ($_['visibilityType'] === BackendService::VISIBILITY_ADMIN || $_['allowUserMounting']): ?>
+<?php if ($canCreateMounts): ?>
 	<form autocomplete="false" class="section" action="#"
 		  id="global_credentials">
 		<p><?php p($l->t('Global Credentials')); ?></p>
