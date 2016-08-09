@@ -117,9 +117,9 @@ try {
 				break;
 			}
 
-			$logger->debug('Run job with ID ' . $job->getId(), ['app' => 'cron']);
+			$logger->debug('Run ' . get_class($job) . ' job with ID ' . $job->getId(), ['app' => 'cron']);
 			$job->execute($jobList, $logger);
-			$logger->debug('Finished job with ID ' . $job->getId(), ['app' => 'cron']);
+			$logger->debug('Finished ' . get_class($job) . ' job with ID ' . $job->getId(), ['app' => 'cron']);
 
 			$jobList->setLastJob($job);
 			$executedJobs[$job->getId()] = true;
