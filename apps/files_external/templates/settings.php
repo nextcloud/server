@@ -160,10 +160,8 @@
 			</tr>
 		</tbody>
 	</table>
-	<br />
 
 	<?php if ($_['visibilityType'] === BackendService::VISIBILITY_ADMIN): ?>
-		<br />
 		<input type="checkbox" name="allowUserMounting" id="allowUserMounting" class="checkbox"
 			value="1" <?php if ($_['allowUserMounting'] == 'yes') print_unescaped(' checked="checked"'); ?> />
 		<label for="allowUserMounting"><?php p($l->t('Allow users to mount external storage')); ?></label> <span id="userMountingMsg" class="msg"></span>
