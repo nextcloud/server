@@ -945,6 +945,11 @@ MountConfigListView.prototype = _.extend({
 							$tr.find('.configuration').text(t('files_external', 'Admin defined'));
 						}
 					});
+					var mainForm = $('#files_external');
+					if (result.length === 0 && mainForm.attr('data-can-create') === 'false') {
+						mainForm.hide();
+						$('a[href="#external-storage"]').parent().hide();
+					}
 					onCompletion.resolve();
 				}
 			});
