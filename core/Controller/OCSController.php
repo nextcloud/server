@@ -24,11 +24,15 @@ namespace OC\Core\Controller;
 use OC\CapabilitiesManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
+use OCP\IUserSession;
 
 class OCSController extends \OCP\AppFramework\OCSController {
 
 	/** @var CapabilitiesManager */
 	private $capabilitiesManager;
+
+	/** @var IUserSession */
+	private $userSession;
 
 	/**
 	 * OCSController constructor.
@@ -36,13 +40,16 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param CapabilitiesManager $capabilitiesManager
+	 * @param IUserSession $userSession
 	 */
 	public function __construct($appName,
 								IRequest $request,
-								CapabilitiesManager $capabilitiesManager) {
+								CapabilitiesManager $capabilitiesManager,
+								IUserSession $userSession) {
 		parent::__construct($appName, $request);
 
 		$this->capabilitiesManager = $capabilitiesManager;
+		$this->userSession = $userSession;
 	}
 
 	/**
@@ -63,5 +70,19 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		$result['capabilities'] = $this->capabilitiesManager->getCapabilities();
 
 		return new DataResponse(['data' => $result]);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @return DataResponse
+	 */
+	public function getCurrentUser() {
+		$userObject = $this->userSession->getUser();
+		$data  = [
+			'id' => $userObject->getUID(),
+			'display-name' => $userObject->getDisplayName(),
+			'email' => $userObject->getEMailAddress(),
+		];
+		return new DataResponse(['data' => $data]);
 	}
 }

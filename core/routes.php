@@ -55,6 +55,7 @@ $application->registerRoutes($this, [
 	],
 	'ocs' => [
 		['root' => '/cloud', 'name' => 'OCS#getCapabilities', 'url' => '/capabilities', 'verb' => 'GET'],
+		['root' => '/cloud', 'name' => 'OCS#getCurrentUser', 'url' => '/user', 'verb' => 'GET'],
 	],
 ]);
 

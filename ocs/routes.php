@@ -83,14 +83,6 @@ API::register(
 	'core',
 	API::USER_AUTH
 	);
-// cloud
-API::register(
-	'get',
-	'/cloud/user',
-	array('OC_OCS_Cloud', 'getCurrentUser'),
-	'core',
-	API::USER_AUTH
-);
 
 // Server-to-Server Sharing
 if (\OC::$server->getAppManager()->isEnabledForUser('files_sharing')) {
