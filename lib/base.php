@@ -123,6 +123,8 @@ class OC {
 			self::$configDir = OC::$SERVERROOT . '/' . PHPUNIT_CONFIG_DIR . '/';
 		} elseif(defined('PHPUNIT_RUN') and PHPUNIT_RUN and is_dir(OC::$SERVERROOT . '/tests/config/')) {
 			self::$configDir = OC::$SERVERROOT . '/tests/config/';
+		} elseif($dir = getenv('NEXTCLOUD_CONFIG_DIR')) {
+			self::$configDir = rtrim($dir, '/') . '/';
 		} else {
 			self::$configDir = OC::$SERVERROOT . '/config/';
 		}
@@ -216,7 +218,7 @@ class OC {
 		// set the right include path
 		set_include_path(
 			OC::$SERVERROOT . '/lib/private' . PATH_SEPARATOR .
-			OC::$SERVERROOT . '/config' . PATH_SEPARATOR .
+			self::$configDir . PATH_SEPARATOR .
 			OC::$SERVERROOT . '/3rdparty' . PATH_SEPARATOR .
 			implode(PATH_SEPARATOR, $paths) . PATH_SEPARATOR .
 			get_include_path() . PATH_SEPARATOR .
