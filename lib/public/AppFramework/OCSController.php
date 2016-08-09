@@ -88,25 +88,18 @@ abstract class OCSController extends ApiController {
 	/**
 	 * Unwrap data and build ocs response
 	 * @param string $format json or xml
-	 * @param array|DataResponse $data the data which should be transformed
+	 * @param DataResponse $data the data which should be transformed
 	 * @since 8.1.0
+	 * @return OCSResponse
 	 */
-	private function buildOCSResponse($format, $data) {
-		if ($data instanceof DataResponse) {
-			$data = $data->getData();
-		}
-
+	private function buildOCSResponse($format, DataResponse $data) {
 		$params = [
 			'statuscode' => 100,
 			'message' => 'OK',
-			'data' => [],
+			'data' => $data->getData(),
 			'itemscount' => '',
 			'itemsperpage' => ''
 		];
-
-		foreach ($data as $key => $value) {
-			$params[$key] = $value;
-		}
 
 		return new OCSResponse(
 			$format, $params['statuscode'],
