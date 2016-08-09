@@ -368,4 +368,44 @@ class ThemingDefaultsTest extends TestCase {
 
 		$this->assertSame('', $this->template->undo('defaultitem'));
 	}
+
+	public function testGetBackgroundDefault() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'backgroundMime')
+			->willReturn('');
+		$expected = $this->urlGenerator->imagePath('core','background.jpg');
+		$this->assertEquals($expected, $this->template->getBackground());
+	}
+
+	public function testGetBackgroundCustom() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'backgroundMime')
+			->willReturn('image/svg+xml');
+		$expected = $this->urlGenerator->linkToRoute('theming.Theming.getLoginBackground');
+		$this->assertEquals($expected, $this->template->getBackground());
+	}
+
+	public function testGetLogoDefault() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'logoMime')
+			->willReturn('');
+		$expected = $this->urlGenerator->imagePath('core','logo.svg');
+		$this->assertEquals($expected, $this->template->getLogo());
+	}
+
+	public function testGetLogoCustom() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'logoMime')
+			->willReturn('image/svg+xml');
+		$expected = $this->urlGenerator->linkToRoute('theming.Theming.getLogo');
+		$this->assertEquals($expected, $this->template->getLogo());
+	}
 }

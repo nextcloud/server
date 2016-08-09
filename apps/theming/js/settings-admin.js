@@ -136,12 +136,11 @@ $(document).ready(function () {
 
 	$('html > head').append($('<style type="text/css" id="previewStyles"></style>'));
 
-	$('#theming .theme-undo').each(function(index) {
+	$('#theming .theme-undo').each(function() {
 		var setting = $(this).data('setting');
-		if(setting === 'logoMime' || setting == 'backgroundMime') {
+		var value = $('#theming-'+setting).val();
+		if(setting === 'logoMime' || setting === 'backgroundMime') {
 			var value = $('#current-'+setting).val();
-		} else {
-			var value = $('#theming-'+setting).val();
 		}
 		hideUndoButton(setting, value);
 	});
