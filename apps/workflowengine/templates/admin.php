@@ -24,14 +24,19 @@
 ?>
 <div id="<?php p($_['appid']); ?>" class="section workflowengine">
 	<h2 class="inlineblock"><?php p($_['heading']); ?></h2>
+
+	<?php if ($_['description']): ?>
+		<p><?php p($_['description']); ?></p>
+	<?php endif; ?>
+
 	<script type="text/template" id="operations-template">
 		<div class="operations"></div>
-		<button class="button-add-operation"><?php p($l->t('Add operation')); ?></button>
+		<button class="button-add-operation"><?php p($l->t('Add rule group')); ?></button>
 	</script>
 
 	<script type="text/template" id="operation-template">
 		<div class="operation{{#if hasChanged}} modified{{/if}}">
-			<input type="text" class="operation-name" value="{{operation.name}}">
+			<input type="text" class="operation-name" placeholder="<?php p($l->t('Short rule description')); ?>" value="{{operation.name}}">
 			{{! delete only makes sense if the operation is already saved }}
 			{{#if operation.id}}
 			<span class="button-delete pull-right icon-delete"></span>
@@ -56,7 +61,7 @@
 				</div>
 				{{/each}}
 			</div>
-			<button class="button-add"><?php p($l->t('Add check')); ?></button>
+			<button class="button-add"><?php p($l->t('Add rule')); ?></button>
 			{{#if hasChanged}}
 				{{! reset only makes sense if the operation is already saved }}
 				{{#if operation.id}}
