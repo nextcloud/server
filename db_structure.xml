@@ -2059,7 +2059,7 @@
 			</field>
 
 			<index>
-				<name>admin_sections_id_index</name>
+				<name>admin_settings_id_index</name>
 				<unique>true</unique>
 				<field>
 					<name>id</name>
