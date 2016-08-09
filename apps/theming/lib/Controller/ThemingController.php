@@ -294,6 +294,8 @@ class ThemingController extends Controller {
 					color: ' . $color . ';
 				}
 				';
+			$responseCss .= sprintf('.nc-theming-main-background {background-color: %s}' . "\n", $color);
+			$responseCss .= sprintf('.nc-theming-main-text {color: %s}' . "\n", $color);
 
 		}
 		$logo = $this->config->getAppValue($this->appName, 'logoMime');
@@ -325,6 +327,9 @@ class ThemingController extends Controller {
 			$responseCss .= '#header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); }' . "\n";
 			$responseCss .= '.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }' . "\n";
 			$responseCss .= '.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }' . "\n";
+			$responseCss .= '.nc-theming-contrast {color: #000000}' . "\n";
+		} else {
+			$responseCss .= '.nc-theming-contrast {color: #ffffff}' . "\n";
 		}
 
 		$response = new DataDownloadResponse($responseCss, 'style', 'text/css');

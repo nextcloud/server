@@ -392,6 +392,9 @@ class ThemingControllerTest extends TestCase {
 					color: ' . $color . ';
 				}
 				';
+		$expectedData .= sprintf('.nc-theming-main-background {background-color: %s}' . "\n", $color);
+		$expectedData .= sprintf('.nc-theming-main-text {color: %s}' . "\n", $color);
+		$expectedData .= '.nc-theming-contrast {color: #ffffff}' . "\n";
 
 		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
 
@@ -448,10 +451,13 @@ class ThemingControllerTest extends TestCase {
 					color: ' . $color . ';
 				}
 				';
+		$expectedData .= sprintf('.nc-theming-main-background {background-color: %s}' . "\n", $color);
+		$expectedData .= sprintf('.nc-theming-main-text {color: %s}' . "\n", $color);
 		$expectedData .= '#header .header-appname, #expandDisplayName { color: #000000; }' . "\n";
 		$expectedData .= '#header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); }' . "\n";
 		$expectedData .= '.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }' . "\n";
 		$expectedData .= '.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }' . "\n";
+		$expectedData .= '.nc-theming-contrast {color: #000000}' . "\n";
 
 
 		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
@@ -495,6 +501,7 @@ class ThemingControllerTest extends TestCase {
 			'background-image: url(\'./logo?v=0\');' .
 			'background-size: contain;' .
 			'}' . "\n";
+		$expectedData .= '.nc-theming-contrast {color: #ffffff}' . "\n";
 
 		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
 
@@ -529,6 +536,7 @@ class ThemingControllerTest extends TestCase {
 		$expectedData .= '#firstrunwizard .firstrunwizard-header {' .
 			'background-image: url(\'./loginbackground?v=0\');' .
 			'}' . "\n";
+		$expectedData .= '.nc-theming-contrast {color: #ffffff}' . "\n";
 
 		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
 
@@ -585,6 +593,8 @@ class ThemingControllerTest extends TestCase {
 					color: ' . $color . ';
 				}
 				';
+		$expectedData .= sprintf('.nc-theming-main-background {background-color: %s}' . "\n", $color);
+		$expectedData .= sprintf('.nc-theming-main-text {color: %s}' . "\n", $color);
 		$expectedData .= sprintf(
 			'#header .logo {' .
 			'background-image: url(\'./logo?v=0\');' .
@@ -603,6 +613,7 @@ class ThemingControllerTest extends TestCase {
 		$expectedData .= '#firstrunwizard .firstrunwizard-header {' .
 			'background-image: url(\'./loginbackground?v=0\');' .
 			'}' . "\n";
+		$expectedData .= '.nc-theming-contrast {color: #ffffff}' . "\n";
 		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
 
 		$expected->cacheFor(3600);
@@ -658,6 +669,8 @@ class ThemingControllerTest extends TestCase {
 					color: ' . $color . ';
 				}
 				';
+		$expectedData .= sprintf('.nc-theming-main-background {background-color: %s}' . "\n", $color);
+		$expectedData .= sprintf('.nc-theming-main-text {color: %s}' . "\n", $color);
 		$expectedData .= sprintf(
 			'#header .logo {' .
 			'background-image: url(\'./logo?v=0\');' .
@@ -680,6 +693,7 @@ class ThemingControllerTest extends TestCase {
 		$expectedData .= '#header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); }' . "\n";
 		$expectedData .= '.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }' . "\n";
 		$expectedData .= '.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }' . "\n";
+		$expectedData .= '.nc-theming-contrast {color: #000000}' . "\n";
 		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
 
 		$expected->cacheFor(3600);
