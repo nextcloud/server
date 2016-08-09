@@ -22,12 +22,8 @@
 	</background-jobs>
 	<repair-steps>
 		<post-migration>
-			<step>OCA\DAV\Migration\Classification</step>
 			<step>OCA\DAV\Migration\FixBirthdayCalendarComponent</step>
 		</post-migration>
-		<live-migration>
-			<step>OCA\DAV\Migration\GenerateBirthdays</step>
-		</live-migration>
 	</repair-steps>
 	<commands>
 		<command>OCA\DAV\Command\CreateAddressBook</command>
