@@ -75,8 +75,8 @@ class OCSControllerTest extends \Test\TestCase {
 		$expected = "<?xml version=\"1.0\"?>\n" .
 		"<ocs>\n" .
 		" <meta>\n" .
-		"  <status>failure</status>\n" .
-		"  <statuscode>400</statuscode>\n" .
+		"  <status>ok</status>\n" .
+		"  <statuscode>100</statuscode>\n" .
 		"  <message>OK</message>\n" .
 		"  <totalitems></totalitems>\n" .
 		"  <itemsperpage></itemsperpage>\n" .
@@ -86,53 +86,11 @@ class OCSControllerTest extends \Test\TestCase {
 		" </data>\n" .
 		"</ocs>\n";
 
-		$params = [
-			'data' => [
-				'test' => 'hi'
-			],
-			'statuscode' => 400
-		];
+		$params = new DataResponse(['test' => 'hi']);
 
 		$out = $controller->buildResponse($params, 'xml')->render();
 		$this->assertEquals($expected, $out);
 	}
-
-
-	public function testXMLDataResponse() {
-		$controller = new ChildOCSController('app', new Request(
-			[],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')
-				->disableOriginalConstructor()
-				->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')
-				->disableOriginalConstructor()
-				->getMock()
-		));
-		$expected = "<?xml version=\"1.0\"?>\n" .
-		"<ocs>\n" .
-		" <meta>\n" .
-		"  <status>failure</status>\n" .
-		"  <statuscode>400</statuscode>\n" .
-		"  <message>OK</message>\n" .
-		"  <totalitems></totalitems>\n" .
-		"  <itemsperpage></itemsperpage>\n" .
-		" </meta>\n" .
-		" <data>\n" .
-		"  <test>hi</test>\n" .
-		" </data>\n" .
-		"</ocs>\n";
-
-		$params = new DataResponse([
-			'data' => [
-				'test' => 'hi'
-			],
-			'statuscode' => 400
-		]);
-
-		$out = $controller->buildResponse($params, 'xml')->render();
-		$this->assertEquals($expected, $out);
-	}
-
 
 	public function testJSON() {
 		$controller = new ChildOCSController('app', new Request(
@@ -144,14 +102,9 @@ class OCSControllerTest extends \Test\TestCase {
 				->disableOriginalConstructor()
 				->getMock()
 		));
-		$expected = '{"ocs":{"meta":{"status":"failure","statuscode":400,"message":"OK",' .
+		$expected = '{"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK",' .
 		            '"totalitems":"","itemsperpage":""},"data":{"test":"hi"}}}';
-		$params = [
-			'data' => [
-				'test' => 'hi'
-			],
-			'statuscode' => 400
-		];
+		$params = new DataResponse(['test' => 'hi']);
 
 		$out = $controller->buildResponse($params, 'json')->render();
 		$this->assertEquals($expected, $out);
