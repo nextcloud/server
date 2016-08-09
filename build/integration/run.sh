@@ -42,6 +42,8 @@ OUTPUT_CREATE_STORAGE=`sudo -u $APACHE_USER ../../occ files_external:create loca
 
 ID_STORAGE=`echo $OUTPUT_CREATE_STORAGE | awk {'print $5'}`
 
+sudo -u $APACHE_USER ../../occ files_external:option $ID_STORAGE enable_sharing true
+
 vendor/bin/behat -f junit -f pretty $SCENARIO_TO_RUN
 RESULT=$?
 
