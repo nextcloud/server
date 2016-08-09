@@ -86,13 +86,6 @@ API::register(
 // cloud
 API::register(
 	'get',
-	'/cloud/capabilities',
-	array('OC_OCS_Cloud', 'getCapabilities'),
-	'core',
-	API::USER_AUTH
-	);
-API::register(
-	'get',
 	'/cloud/user',
 	array('OC_OCS_Cloud', 'getCurrentUser'),
 	'core',

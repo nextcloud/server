@@ -186,6 +186,9 @@ class Application extends App {
 		$container->registerService('TwoFactorAuthManager', function(SimpleContainer $c) {
 			return $c->query('ServerContainer')->getTwoFactorAuthManager();
 		});
+		$container->registerService('OC\CapabilitiesManager', function(SimpleContainer $c) {
+			return $c->query('ServerContainer')->getCapabilitiesManager();
+		});
 	}
 
 }

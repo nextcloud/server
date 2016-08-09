@@ -27,22 +27,6 @@ namespace OC\OCS;
 
 class Cloud {
 
-	public static function getCapabilities() {
-		$result = array();
-		list($major, $minor, $micro) = \OCP\Util::getVersion();
-		$result['version'] = array(
-			'major' => $major,
-			'minor' => $minor,
-			'micro' => $micro,
-			'string' => \OC_Util::getVersionString(),
-			'edition' => \OC_Util::getEditionString(),
-			);
-			
-		$result['capabilities'] = \OC::$server->getCapabilitiesManager()->getCapabilities();
-
-		return new Result($result);
-	}
-	
 	public static function getCurrentUser() {
 		$userObject = \OC::$server->getUserManager()->get(\OC_User::getUser());
 		$data  = array(
