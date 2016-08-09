@@ -39,14 +39,14 @@ $mail_smtpsecure = [
 ];
 
 $mail_smtpmode = [
-	'php',
-	'smtp',
+	['php', 'PHP'],
+	['smtp', 'SMTP'],
 ];
 if ($_['sendmail_is_available']) {
-	$mail_smtpmode[] = 'sendmail';
+	$mail_smtpmode[] = ['sendmail', 'Sendmail'];
 }
 if ($_['mail_smtpmode'] == 'qmail') {
-	$mail_smtpmode[] = 'qmail';
+	$mail_smtpmode[] = ['qmail', 'qmail'];
 }
 ?>
 
@@ -414,10 +414,10 @@ if ($_['cronErrors']) {
 			<select name='mail_smtpmode' id='mail_smtpmode'>
 				<?php foreach ($mail_smtpmode as $smtpmode):
 					$selected = '';
-					if ($smtpmode == $_['mail_smtpmode']):
+					if ($smtpmode[0] == $_['mail_smtpmode']):
 						$selected = 'selected="selected"';
 					endif; ?>
-					<option value='<?php p($smtpmode)?>' <?php p($selected) ?>><?php p($smtpmode) ?></option>
+					<option value='<?php p($smtpmode[0])?>' <?php p($selected) ?>><?php p($smtpmode[1]) ?></option>
 				<?php endforeach;?>
 			</select>
 
