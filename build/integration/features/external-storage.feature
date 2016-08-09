@@ -3,6 +3,7 @@ Feature: external-storage
     Given using api version "1"
     Given using dav path "remote.php/webdav"
 
+  @local_storage
   Scenario: Share by link a file inside a local external storage
     Given user "user0" exists
     And user "user1" exists
@@ -21,6 +22,5 @@ Feature: external-storage
       | url | AN_URL |
       | token | A_TOKEN |
       | mimetype | httpd/unix-directory |
-    And Public shared file "/foo/textfile0.txt" can be downloaded
 
 
