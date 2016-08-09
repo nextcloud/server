@@ -537,7 +537,7 @@ OCA.External.StatusManager.Utils = {
 	 * of the tr matching the folder name
 	 */
 	getIconRoute: function (tr) {
-		var icon = OC.imagePath('core', 'filetypes/folder-external');
+		var icon = OC.MimeType.getIconUrl('dir-external');
 		var backend = null;
 
 		if (tr instanceof $) {
