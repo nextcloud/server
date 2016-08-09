@@ -358,6 +358,5 @@ trait BasicStructure {
 			$file->isDir() ?  rmdir($file) : unlink($file);
 		}
 	}
-
 }
 
