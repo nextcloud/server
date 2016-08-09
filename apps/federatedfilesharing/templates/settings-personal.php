@@ -15,7 +15,8 @@ if ($_['showShareIT']) {
 
 		<p>
 			<?php p($l->t('Your Federated Cloud ID:')); ?>
-			<strong><?php p($_['cloudId']); ?></strong>
+			<strong id="cloudid"><?php p($_['cloudId']); ?></strong>
+			<a class="clipboardButton icon icon-clippy" data-clipboard-target="#cloudid"></a>
 		</p>
 
 		<br>
