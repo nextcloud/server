@@ -96,6 +96,8 @@
 				this.model.saveLinkShare({
 					expireDate: ''
 				});
+			} else {
+				this.$el.find('#expirationDate').focus();
 			}
 		},
 
