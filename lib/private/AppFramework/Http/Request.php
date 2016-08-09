@@ -486,6 +486,19 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
+	 * Whether the cookie checks are required
+	 *
+	 * @return bool
+	 */
+	private function cookieCheckRequired() {
+		if($this->getCookie(session_name()) === null && $this->getCookie('oc_token') === null) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Checks if the strict cookie has been sent with the request if the request
 	 * is including any cookies.
 	 *
@@ -493,7 +506,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @since 9.1.0
 	 */
 	public function passesStrictCookieCheck() {
-		if(count($this->cookies) === 0) {
+		if(!$this->cookieCheckRequired()) {
 			return true;
 		}
 		if($this->getCookie('nc_sameSiteCookiestrict') === 'true'
@@ -511,7 +524,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @since 9.1.0
 	 */
 	public function passesLaxCookieCheck() {
-		if(count($this->cookies) === 0) {
+		if(!$this->cookieCheckRequired()) {
 			return true;
 		}
 		if($this->getCookie('nc_sameSiteCookielax') === 'true') {
