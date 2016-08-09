@@ -167,7 +167,6 @@ OC.L10N.register(
     "Hello {name}" : "Hola {name}",
     "_download %n file_::_download %n files_" : ["descarregar l'arxiu %n","descarregar arxius %n "],
     "Please reload the page." : "Carregueu la pàgina de nou.",
-    "The update was successful. There were warnings." : "La actualització ha estat exitosa. Hi ha alertes.",
     "Searching other places" : "Buscant altres ubicacions",
     "Personal" : "Personal",
     "Users" : "Usuaris",
