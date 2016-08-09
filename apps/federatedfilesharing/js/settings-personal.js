@@ -13,7 +13,11 @@ $(document).ready(function() {
 	});
 
 	$('#oca-files-sharing-add-to-your-website').click(function() {
-		$('#oca-files-sharing-add-to-your-website-expanded').slideDown();
+		if ($('#oca-files-sharing-add-to-your-website-expanded').is(':visible')) {
+			$('#oca-files-sharing-add-to-your-website-expanded').slideUp();
+		} else {
+			$('#oca-files-sharing-add-to-your-website-expanded').slideDown();
+		}
 	});
 
 });
