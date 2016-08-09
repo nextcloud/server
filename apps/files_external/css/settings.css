@@ -1,5 +1,14 @@
 #global_credentials {
-	padding-top: 0;
+	padding: 0 30px;
+	margin-bottom: 0px;
+}
+
+#files_external {
+	margin-bottom: 0px;
+}
+
+#externalStorage {
+	margin: 15px 0 20px 0;
 }
 
 #externalStorage td.status {
