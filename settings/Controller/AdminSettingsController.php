@@ -83,6 +83,10 @@ class AdminSettingsController extends Controller {
 	}
 
 	private function getSettings($section) {
+		if($section === 'additional') {
+			return $this->getLegacyForms();
+		}
+
 		$settings = $this->settingsManager->getAdminSettings($section);
 		$html = '';
 		foreach ($settings as $prioritizedSettings) {
@@ -93,6 +97,33 @@ class AdminSettingsController extends Controller {
 			}
 		}
 		return ['content' => $html];
+	}
+
+	private function getLegacyForms() {
+		$forms = \OC_App::getForms('admin');
+
+		$forms = array_map(function ($form) {
+			if (preg_match('%(<h2(?P<class>[^>]*)>.*?</h2>)%i', $form, $regs)) {
+				$sectionName = str_replace('<h2' . $regs['class'] . '>', '', $regs[0]);
+				$sectionName = str_replace('</h2>', '', $sectionName);
+				$anchor = strtolower($sectionName);
+				$anchor = str_replace(' ', '-', $anchor);
+
+				return array(
+					'anchor' => $anchor,
+					'section-name' => $sectionName,
+					'form' => $form
+				);
+			}
+			return array(
+				'form' => $form
+			);
+		}, $forms);
+
+		$out = new \OCP\Template('settings', 'admin/additional');
+		$out->assign('forms', $forms);
+
+		return ['content' => $out->fetchPage()];
 	}
 
 	private function getNavigationParameters() {
