@@ -32,6 +32,7 @@ OUTPUT_CREATE_STORAGE=`../../occ files_external:create local_storage local null:
 
 ID_STORAGE=`echo $OUTPUT_CREATE_STORAGE | awk {'print $5'}`
 
+
 ../../occ files_external:option $ID_STORAGE enable_sharing true
 
 vendor/bin/behat -f junit -f pretty $SCENARIO_TO_RUN
