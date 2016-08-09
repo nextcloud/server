@@ -1574,6 +1574,10 @@ function initCore() {
 				$target.closest('.app-navigation-noclose').length) {
 				return;
 			}
+			if($target.is('.app-navigation-entry-utils-menu-button') ||
+				$target.closest('.app-navigation-entry-utils-menu-button').length) {
+				return;
+			}
 			if($target.is('.add-new') ||
 				$target.closest('.add-new').length) {
 				return;
