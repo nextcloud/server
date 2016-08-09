@@ -48,7 +48,7 @@ class GlobalAuth extends AuthMechanism {
 			->setIdentifier('password::global')
 			->setVisibility(BackendService::VISIBILITY_DEFAULT)
 			->setScheme(self::SCHEME_PASSWORD)
-			->setText($l->t('Global Credentials'));
+			->setText($l->t('Global credentials'));
 	}
 
 	public function getAuth($uid) {

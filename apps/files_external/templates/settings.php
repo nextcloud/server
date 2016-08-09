@@ -88,7 +88,7 @@
 ?>
 
 <form data-can-create="<?php echo $canCreateMounts?'true':'false' ?>" id="files_external" class="section" data-encryption-enabled="<?php echo $_['encryptionEnabled']?'true': 'false'; ?>">
-	<h2><?php p($l->t('External Storage')); ?></h2>
+	<h2><?php p($l->t('External storage')); ?></h2>
 	<?php if (isset($_['dependencies']) and ($_['dependencies']<>'') and $canCreateMounts) print_unescaped(''.$_['dependencies'].''); ?>
 	<table id="externalStorage" class="grid" data-admin='<?php print_unescaped(json_encode($_['visibilityType'] === BackendService::VISIBILITY_ADMIN)); ?>'>
 		<thead>
@@ -189,7 +189,7 @@
 <?php if ($canCreateMounts): ?>
 	<form autocomplete="false" class="section" action="#"
 		  id="global_credentials">
-		<p><?php p($l->t('Global Credentials')); ?></p>
+		<p><?php p($l->t('Global credentials')); ?></p>
 		<input type="text" name="username"
 			   autocomplete="false"
 			   value="<?php p($_['globalCredentials']['user']); ?>"
