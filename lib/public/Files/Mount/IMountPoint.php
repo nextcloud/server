@@ -62,6 +62,14 @@ interface IMountPoint {
 	public function getStorageId();
 
 	/**
+	 * Get the id of the storages
+	 *
+	 * @return int
+	 * @since 9.1.0
+	 */
+	public function getNumericStorageId();
+
+	/**
 	 * Get the path relative to the mountpoint
 	 *
 	 * @param string $path absolute path to a file or folder
