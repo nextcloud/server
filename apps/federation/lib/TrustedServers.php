@@ -211,7 +211,7 @@ class TrustedServers {
 	}
 
 	/**
-	 * check if URL point to a ownCloud server
+	 * check if URL point to a ownCloud/Nextcloud server
 	 *
 	 * @param string $url
 	 * @return bool
@@ -219,15 +219,21 @@ class TrustedServers {
 	public function isOwnCloudServer($url) {
 		$isValidOwnCloud = false;
 		$client = $this->httpClientService->newClient();
-		$result = $client->get(
-			$url . '/status.php',
-			[
-				'timeout' => 3,
-				'connect_timeout' => 3,
-			]
-		);
-		if ($result->getStatusCode() === Http::STATUS_OK) {
-			$isValidOwnCloud = $this->checkOwnCloudVersion($result->getBody());
+		try {
+			$result = $client->get(
+				$url . '/status.php',
+				[
+					'timeout' => 3,
+					'connect_timeout' => 3,
+				]
+			);
+			if ($result->getStatusCode() === Http::STATUS_OK) {
+				$isValidOwnCloud = $this->checkOwnCloudVersion($result->getBody());
+
+			}
+		} catch (\Exception $e) {
+			$this->logger->debug('No Nextcloud server: ' . $e->getMessage());
+			return false;
 		}
 
 		return $isValidOwnCloud;
