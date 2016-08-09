@@ -163,6 +163,11 @@ class Router implements IRouter {
 			$this->useCollection('root');
 			require_once __DIR__ . '/../../../settings/routes.php';
 			require_once __DIR__ . '/../../../core/routes.php';
+
+			// Also add the OCS collection
+			$collection = $this->getCollection('root.ocs');
+			$collection->addPrefix('/ocsapp');
+			$this->root->addCollection($collection);
 		}
 		if ($this->loaded) {
 			// include ocs routes, must be loaded last for /ocs prefix
