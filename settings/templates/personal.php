@@ -200,7 +200,10 @@ if($_['passwordChangeSupported']) {
 		<button id="add-app-password" class="button"><?php p($l->t('Create new app password')); ?></button>
 	</div>
 	<div id="app-password-result" class="hidden">
-		<span><?php p($l->t('Use the credentials below to configure your app or device.')); ?></span>
+		<span>
+			<?php p($l->t('Use the credentials below to configure your app or device.')); ?>
+			<?php p($l->t('For security reasons this password will only be shown once.')); ?>
+		</span>
 		<div class="app-password-row">
 			<span class="app-password-label"><?php p($l->t('Username')); ?></span>
 			<input id="new-app-login-name" type="text" readonly="readonly"/>
