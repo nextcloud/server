@@ -202,7 +202,7 @@ class LoginController extends Controller {
 				$this->throttler->sleepDelay($this->request->getRemoteAddress());
 			}
 			$this->session->set('loginMessages', [
-				['invalidpassword']
+				['invalidpassword'], []
 			]);
 			// Read current user and append if possible - we need to return the unmodified user otherwise we will leak the login name
 			$args = !is_null($user) ? ['user' => $originalUser] : [];
