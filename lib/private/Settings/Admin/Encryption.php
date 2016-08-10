@@ -24,9 +24,9 @@
 namespace OC\Settings\Admin;
 
 use OC\Encryption\Manager;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IUserManager;
 use OCP\Settings\IAdmin;
-use OCP\Template;
 
 class Encryption implements IAdmin {
 	/** @var Manager */
@@ -41,9 +41,9 @@ class Encryption implements IAdmin {
 	}
 
 	/**
-	 * @return Template all parameters are supposed to be assigned
+	 * @return TemplateResponse
 	 */
-	public function render() {
+	public function getForm() {
 		$parameters = [
 			// Encryption API
 			'encryptionEnabled'       => $this->manager->isEnabled(),
@@ -51,11 +51,7 @@ class Encryption implements IAdmin {
 			'externalBackendsEnabled' => count($this->userManager->getBackends()) > 1,
 		];
 
-		$form = new Template('settings', 'admin/encryption');
-		foreach ($parameters as $key => $value) {
-			$form->assign($key, $value);
-		}
-		return $form;
+		return new TemplateResponse('settings', 'admin/encryption', $parameters, '');
 	}
 
 	/**

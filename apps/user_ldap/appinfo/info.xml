@@ -29,7 +29,7 @@ A user logs into ownCloud with their LDAP or AD credentials, and is granted acce
 	</background-jobs>
 
 	<settings>
-		<admin>\OCA\User_LDAP\Settings\Admin</admin>
-		<admin-section>\OCA\User_LDAP\Settings\Section</admin-section>
+		<admin>OCA\User_LDAP\Settings\Admin</admin>
+		<admin-section>OCA\User_LDAP\Settings\Section</admin-section>
 	</settings>
 </info>

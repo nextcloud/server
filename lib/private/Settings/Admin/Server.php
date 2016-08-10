@@ -26,10 +26,10 @@ namespace OC\Settings\Admin;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Settings\IAdmin;
-use OCP\Template;
 
 class Server implements IAdmin {
 
@@ -45,9 +45,9 @@ class Server implements IAdmin {
 	}
 
 	/**
-	 * @return Template all parameters are supposed to be assigned
+	 * @return TemplateResponse
 	 */
-	public function render() {
+	public function getForm() {
 		try {
 			if ($this->db->getDatabasePlatform() instanceof SqlitePlatform) {
 				$invalidTransactionIsolationLevel = false;
@@ -87,11 +87,7 @@ class Server implements IAdmin {
 			'mail_smtppassword'     => $this->config->getSystemValue('mail_smtppassword', ''),
 		];
 
-		$form = new Template('settings', 'admin/server');
-		foreach ($parameters as $key => $value) {
-			$form->assign($key, $value);
-		}
-		return $form;
+		return new TemplateResponse('settings', 'admin/server', $parameters, '');
 	}
 
 	/**

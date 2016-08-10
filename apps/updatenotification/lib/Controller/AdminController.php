@@ -34,8 +34,9 @@ use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
+use OCP\Settings\IAdmin;
 
-class AdminController extends Controller {
+class AdminController extends Controller implements IAdmin {
 	/** @var IJobList */
 	private $jobList;
 	/** @var ISecureRandom */
@@ -143,5 +144,30 @@ class AdminController extends Controller {
 		$this->config->setSystemValue('updater.secret', password_hash($newToken, PASSWORD_DEFAULT));
 
 		return new DataResponse($newToken);
+	}
+
+	/**
+	 * @return TemplateResponse returns the instance with all parameters set, ready to be rendered
+	 */
+	public function getForm() {
+		return $this->displayPanel();
+	}
+
+	/**
+	 * @return string the section ID, e.g. 'sharing'
+	 */
+	public function getSection() {
+		return 'server';
+	}
+
+	/**
+	 * @return int whether the form should be rather on the top or bottom of
+	 * the admin section. The forms are arranged in ascending order of the
+	 * priority values. It is required to return a value between 0 and 100.
+	 *
+	 * E.g.: 70
+	 */
+	public function getPriority() {
+		return 5;
 	}
 }

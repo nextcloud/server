@@ -23,14 +23,14 @@
 
 namespace OCP\Settings;
 
-use OCP\Template;
+use OCP\AppFramework\Http\TemplateResponse;
 
 interface IAdmin {
 
 	/**
-	 * @return Template all parameters are supposed to be assigned
+	 * @return TemplateResponse returns the instance with all parameters set, ready to be rendered
 	 */
-	public function render();
+	public function getForm();
 
 	/**
 	 * @return string the section ID, e.g. 'sharing'

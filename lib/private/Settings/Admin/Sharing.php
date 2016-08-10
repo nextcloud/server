@@ -23,9 +23,9 @@
 
 namespace OC\Settings\Admin;
 
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\Settings\IAdmin;
-use OCP\Template;
 
 class Sharing implements IAdmin {
 	/** @var IConfig */
@@ -36,9 +36,9 @@ class Sharing implements IAdmin {
 	}
 
 	/**
-	 * @return Template all parameters are supposed to be assigned
+	 * @return TemplateResponse
 	 */
-	public function render() {
+	public function getForm() {
 		$excludeGroupsList = !is_null(json_decode($this->config->getAppValue('core', 'shareapi_exclude_groups_list', '')))
 			? implode('|', $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '')) : '';
 
@@ -52,11 +52,7 @@ class Sharing implements IAdmin {
 			'shareExcludedGroupsList'   => $excludeGroupsList,
 		];
 
-		$form = new Template('settings', 'admin/sharing');
-		foreach ($parameters as $key => $value) {
-			$form->assign($key, $value);
-		}
-		return $form;
+		return new TemplateResponse('settings', 'admin/sharing', $parameters, '');
 	}
 
 	/**

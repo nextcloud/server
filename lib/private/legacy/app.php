@@ -1200,6 +1200,7 @@ class OC_App {
 		}
 		self::setupBackgroundJobs($appData['background-jobs']);
 		if(isset($appData['settings']) && is_array($appData['settings'])) {
+			self::loadApp($appId, false);
 			\OC::$server->getSettingsManager()->setupSettings($appData['settings']);
 		}
 

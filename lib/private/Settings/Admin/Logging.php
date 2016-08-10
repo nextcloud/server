@@ -24,9 +24,9 @@
 namespace OC\Settings\Admin;
 
 use OC\Log\File as LogFile;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\Settings\IAdmin;
-use OCP\Template;
 
 class Logging implements IAdmin {
 	/** @var IConfig */
@@ -37,9 +37,9 @@ class Logging implements IAdmin {
 	}
 
 	/**
-	 * @return Template all parameters are supposed to be assigned
+	 * @return TemplateResponse
 	 */
-	public function render() {
+	public function getForm() {
 		$logType = $this->config->getSystemValue('log_type', 'file');
 		$showLog = ($logType === 'file' || $logType === 'owncloud');
 
@@ -60,11 +60,7 @@ class Logging implements IAdmin {
 			'showLog'          => $showLog,
 		];
 
-		$form = new Template('settings', 'admin/logging');
-		foreach ($parameters as $key => $value) {
-			$form->assign($key, $value);
-		}
-		return $form;
+		return new TemplateResponse('settings', 'admin/logging', $parameters, '');
 	}
 
 	/**

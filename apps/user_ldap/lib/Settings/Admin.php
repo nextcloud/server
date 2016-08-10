@@ -23,9 +23,9 @@
 
 namespace OCA\User_LDAP\Settings;
 
-
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Helper;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
 use OCP\Settings\IAdmin;
 use OCP\Template;
@@ -40,53 +40,31 @@ class Admin implements IAdmin {
 	}
 
 	/**
-	 * @return Template all parameters are supposed to be assigned
+	 * @return TemplateResponse
 	 */
-	public function render() {
-		$settings = new Template('user_ldap', 'settings');
-
+	public function getForm() {
 		$helper = new Helper();
 		$prefixes = $helper->getServerConfigurationPrefixes();
 		$hosts = $helper->getServerConfigurationHosts();
-
-		$wizardHtml = '';
-		$toc = [];
 
 		$wControls = new Template('user_ldap', 'part.wizardcontrols');
 		$wControls = $wControls->fetchPage();
 		$sControls = new Template('user_ldap', 'part.settingcontrols');
 		$sControls = $sControls->fetchPage();
 
-		$wizTabs = [
-			['tpl' => 'part.wizard-server',      'cap' => $this->l->t('Server')],
-			['tpl' => 'part.wizard-userfilter',  'cap' => $this->l->t('Users')],
-			['tpl' => 'part.wizard-loginfilter', 'cap' => $this->l->t('Login Attributes')],
-			['tpl' => 'part.wizard-groupfilter', 'cap' => $this->l->t('Groups')],
-		];
-		$wizTabsCount = count($wizTabs);
-		for($i = 0; $i < $wizTabsCount; $i++) {
-			$tab = new Template('user_ldap', $wizTabs[$i]['tpl']);
-			if($i === 0) {
-				$tab->assign('serverConfigurationPrefixes', $prefixes);
-				$tab->assign('serverConfigurationHosts', $hosts);
-			}
-			$tab->assign('wizardControls', $wControls);
-			$wizardHtml .= $tab->fetchPage();
-			$toc['#ldapWizard'.($i+1)] = $wizTabs[$i]['cap'];
-		}
-
-		$settings->assign('tabs', $wizardHtml);
-		$settings->assign('toc', $toc);
-		$settings->assign('settingControls', $sControls);
+		$parameters['serverConfigurationPrefixes'] = $prefixes;
+		$parameters['serverConfigurationHosts'] = $hosts;
+		$parameters['settingControls'] = $sControls;
+		$parameters['wizardControls'] = $wControls;
 
 		// assign default values
 		$config = new Configuration('', false);
 		$defaults = $config->getDefaults();
 		foreach($defaults as $key => $default) {
-			$settings->assign($key.'_default', $default);
+			$parameters[$key.'_default'] = $default;
 		}
 
-		return $settings;
+		return new TemplateResponse('user_ldap', 'settings', $parameters);
 	}
 
 	/**
