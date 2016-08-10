@@ -55,5 +55,10 @@ return ['routes' => [
 		'url' => '/loginbackground',
 		'verb' => 'GET',
 	],
+	[
+		'name' => 'Theming#getJavascript',
+		'url' => '/js/theming',
+		'verb' => 'GET',
+	],
 ]];
 

@@ -39,3 +39,15 @@ $linkToCSS = \OC::$server->getURLGenerator()->linkToRoute(
 	]
 );
 
+$linkToJs = \OC::$server->getURLGenerator()->linkToRoute(
+	'theming.Theming.getJavascript',
+	[
+		'v' => \OC::$server->getConfig()->getAppValue('theming', 'cachebuster', '0'),
+	]
+);
+\OCP\Util::addHeader(
+	'script',
+	[
+		'src' => $linkToJs,
+	], ''
+);
