@@ -27,6 +27,7 @@ use OCA\Theming\ThemingDefaults;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\Files\IRootFolder;
 use Test\TestCase;
 
 class ThemingDefaultsTest extends TestCase {
@@ -40,11 +41,14 @@ class ThemingDefaultsTest extends TestCase {
 	private $defaults;
 	/** @var ThemingDefaults */
 	private $template;
+	/** @var IRootFolder */
+	private $rootFolder;
 
 	public function setUp() {
 		$this->config = $this->getMock('\\OCP\\IConfig');
 		$this->l10n = $this->getMock('\\OCP\\IL10N');
 		$this->urlGenerator = $this->getMock('\\OCP\\IURLGenerator');
+		$this->rootFolder = $this->getMock('\\OCP\\Files\\IRootFolder');
 		$this->defaults = $this->getMockBuilder('\\OC_Defaults')
 			->disableOriginalConstructor()
 			->getMock();
@@ -68,7 +72,8 @@ class ThemingDefaultsTest extends TestCase {
 			$this->config,
 			$this->l10n,
 			$this->urlGenerator,
-			$this->defaults
+			$this->defaults,
+			$this->rootFolder
 		);
 
 		return parent::setUp();
