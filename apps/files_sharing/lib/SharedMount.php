@@ -233,4 +233,13 @@ class SharedMount extends MountPoint implements MoveableMount {
 	public function getStorageRootId() {
 		return $this->getShare()->getNodeId();
 	}
+
+	public function getStorageNumericId() {
+		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$query->select('storage')
+			->from('filecache')
+			->where($query->expr()->eq('fileid', $query->createNamedParameter($this->share->getNodeId())));
+
+		return $query->execute()->fetchColumn();
+	}
 }
