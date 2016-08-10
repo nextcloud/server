@@ -82,13 +82,9 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 
 		$this->user = $arguments['user'];
 
-		Filesystem::initMountPoints($this->superShare->getShareOwner());
-		$sourcePath = $this->ownerView->getPath($this->superShare->getNodeId());
-		list($storage, $internalPath) = $this->ownerView->resolvePath($sourcePath);
-
 		parent::__construct([
-			'storage' => $storage,
-			'root' => $internalPath,
+			'storage' => null, // init later
+			'root' => null, // init later
 		]);
 	}
 
@@ -102,6 +98,10 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 			$sourcePath = $this->ownerView->getPath($this->superShare->getNodeId());
 			list($this->sourceStorage, $sourceInternalPath) = $this->ownerView->resolvePath($sourcePath);
 			$this->sourceRootInfo = $this->sourceStorage->getCache()->get($sourceInternalPath);
+			// adjust jail
+			$this->storage = $this->sourceStorage;
+			$this->rootPath = $sourceInternalPath;
+
 		} catch (\Exception $e) {
 			$this->logger->logException($e);
 		}
@@ -432,6 +432,12 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 		];
 		\OCP\Util::emitHook('\OC\Files\Storage\Shared', 'file_put_contents', $info);
 		return parent::file_put_contents($path, $data);
+	}
+
+	public function getWrapperStorage() {
+		$this->init();
+
+		return $this->sourceStorage;
 	}
 
 }
