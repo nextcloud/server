@@ -13,7 +13,7 @@
 				'<a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noreferrer">',
 				'</a>',
 			],
-			$l->t('Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title="Affero General Public License">AGPL</abbr>{linkclose}.')
+			$l->t('Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}.')
 		)); ?>
 
 		<?php print_unescaped(str_replace(
