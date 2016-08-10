@@ -301,6 +301,14 @@ class ThemingController extends Controller {
 				'background-color: '.$elementColor.';'.
 				'opacity: 1.0;' .
 				"}\n";
+			$responseCss .= '.ui-widget-header { border: 1px solid ' . $color . '; background: '. $color . '; color: #ffffff;' . "}\n";
+			$responseCss .= '.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {' .
+				'border: 1px solid ' . $color . ';' .
+				'color: ' . $elementColor . ';' .
+				"}\n";
+			$responseCss .= '.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {' .
+				'color: ' . $elementColor . ';' .
+				"}\n";
 			$responseCss .= '
 				#firstrunwizard .firstrunwizard-header {
 					background-color: ' . $color . ';
@@ -343,6 +351,7 @@ class ThemingController extends Controller {
 			$responseCss .= '.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }' . "\n";
 			$responseCss .= '.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }' . "\n";
 			$responseCss .= '.nc-theming-contrast {color: #000000}' . "\n";
+			$responseCss .= '.ui-widget-header { color: #000000; }' . "\n";
 		} else {
 			$responseCss .= '.nc-theming-contrast {color: #ffffff}' . "\n";
 		}

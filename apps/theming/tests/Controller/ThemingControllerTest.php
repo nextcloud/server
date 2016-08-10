@@ -398,6 +398,14 @@ class ThemingControllerTest extends TestCase {
 			'background-color: '.$color.';'.
 			'opacity: 1.0;' .
 			"}\n";
+		$expectedData .= '.ui-widget-header { border: 1px solid ' . $color . '; background: '. $color . '; color: #ffffff;' . "}\n";
+		$expectedData .= '.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {' .
+			'border: 1px solid ' . $color . ';' .
+			'color: ' . $color . ';' .
+			"}\n";
+		$expectedData .= '.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {' .
+			'color: ' . $color . ';' .
+			"}\n";
 		$expectedData .= '
 				#firstrunwizard .firstrunwizard-header {
 					background-color: ' . $color . ';
@@ -420,6 +428,7 @@ class ThemingControllerTest extends TestCase {
 	public function testGetStylesheetWithOnlyColorInvert() {
 
 		$color = '#fff';
+		$elementColor = '#555555';
 
 		$this->config
 			->expects($this->at(0))
@@ -471,6 +480,14 @@ class ThemingControllerTest extends TestCase {
 			'background-color: #555555;'.
 			'opacity: 1.0;' .
 			"}\n";
+		$expectedData .= '.ui-widget-header { border: 1px solid ' . $color . '; background: '. $color . '; color: #ffffff;' . "}\n";
+		$expectedData .= '.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {' .
+			'border: 1px solid ' . $color . ';' .
+			'color: ' . $elementColor . ';' .
+			"}\n";
+		$expectedData .= '.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {' .
+			'color: ' . $elementColor . ';' .
+			"}\n";
 		$expectedData .= '
 				#firstrunwizard .firstrunwizard-header {
 					background-color: ' . $color . ';
@@ -486,6 +503,7 @@ class ThemingControllerTest extends TestCase {
 		$expectedData .= '.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }' . "\n";
 		$expectedData .= '.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }' . "\n";
 		$expectedData .= '.nc-theming-contrast {color: #000000}' . "\n";
+		$expectedData .= '.ui-widget-header { color: #000000; }' . "\n";
 
 
 		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
@@ -628,6 +646,14 @@ class ThemingControllerTest extends TestCase {
 			'background-color: '.$color.';'.
 			'opacity: 1.0;' .
 			"}\n";
+		$expectedData .= '.ui-widget-header { border: 1px solid ' . $color . '; background: '. $color . '; color: #ffffff;' . "}\n";
+		$expectedData .= '.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {' .
+			'border: 1px solid ' . $color . ';' .
+			'color: ' . $color . ';' .
+			"}\n";
+		$expectedData .= '.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {' .
+			'color: ' . $color . ';' .
+			"}\n";
 		$expectedData .= '
 				#firstrunwizard .firstrunwizard-header {
 					background-color: ' . $color . ';
@@ -667,6 +693,7 @@ class ThemingControllerTest extends TestCase {
 	public function testGetStylesheetWithAllCombinedInverted() {
 
 		$color = '#fff';
+		$elementColor = '#555555';
 
 		$this->config
 			->expects($this->at(0))
@@ -688,7 +715,6 @@ class ThemingControllerTest extends TestCase {
 			->method('getAppValue')
 			->with('theming', 'backgroundMime', '')
 			->willReturn('image/png');
-
 
 		$expectedData = sprintf(
 			'#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: %s}' . "\n",
@@ -718,6 +744,14 @@ class ThemingControllerTest extends TestCase {
 			'border: 1px solid #555555;'.
 			'background-color: #555555;'.
 			'opacity: 1.0;' .
+			"}\n";
+		$expectedData .= '.ui-widget-header { border: 1px solid ' . $color . '; background: '. $color . '; color: #ffffff;' . "}\n";
+		$expectedData .= '.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {' .
+			'border: 1px solid ' . $color . ';' .
+			'color: ' . $elementColor . ';' .
+			"}\n";
+		$expectedData .= '.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {' .
+			'color: ' . $elementColor . ';' .
 			"}\n";
 		$expectedData .= '
 				#firstrunwizard .firstrunwizard-header {
@@ -752,8 +786,9 @@ class ThemingControllerTest extends TestCase {
 		$expectedData .= '.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }' . "\n";
 		$expectedData .= '.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }' . "\n";
 		$expectedData .= '.nc-theming-contrast {color: #000000}' . "\n";
-		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
+		$expectedData .= '.ui-widget-header { color: #000000; }' . "\n";
 
+		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
 		$expected->cacheFor(3600);
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
