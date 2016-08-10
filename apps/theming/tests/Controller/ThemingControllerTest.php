@@ -700,4 +700,72 @@ class ThemingControllerTest extends TestCase {
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
+
+	public function testGetJavascript() {
+		$this->template
+			->expects($this->at(0))
+			->method('getName')
+			->willReturn("");
+		$this->template
+			->expects($this->at(1))
+			->method('getBaseUrl')
+			->willReturn("");
+		$this->template
+			->expects($this->at(2))
+			->method('getSlogan')
+			->willReturn("");
+		$this->template
+			->expects($this->at(3))
+			->method('getMailHeaderColor')
+			->willReturn("#000");
+
+
+		$expectedResponse = '(function() {
+	OCA.Theming = {
+		name: "",
+		url: "",
+		slogan: "",
+		color: "#000",
+		inverted: false,
+	};
+})();';
+		$expected = new Http\DataDisplayResponse($expectedResponse);
+		$expected->addHeader("Content-type","text/javascript");
+		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		$expected->cacheFor(3600);
+		@$this->assertEquals($expected, $this->themingController->getJavascript());
+	}
+	public function testGetJavascriptInverted() {
+		$this->template
+			->expects($this->at(0))
+			->method('getName')
+			->willReturn("Nextcloud");
+		$this->template
+			->expects($this->at(1))
+			->method('getBaseUrl')
+			->willReturn("nextcloudurl");
+		$this->template
+			->expects($this->at(2))
+			->method('getSlogan')
+			->willReturn("awesome");
+		$this->template
+			->expects($this->any())
+			->method('getMailHeaderColor')
+			->willReturn("#ffffff");
+
+		$expectedResponse = '(function() {
+	OCA.Theming = {
+		name: "Nextcloud",
+		url: "nextcloudurl",
+		slogan: "awesome",
+		color: "#ffffff",
+		inverted: true,
+	};
+})();';
+		$expected = new Http\DataDisplayResponse($expectedResponse);
+		$expected->addHeader("Content-type","text/javascript");
+		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		$expected->cacheFor(3600);
+		@$this->assertEquals($expected, $this->themingController->getJavascript());
+	}
 }
