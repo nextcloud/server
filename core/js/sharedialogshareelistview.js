@@ -296,20 +296,27 @@
 			var $li = $element.closest('li[data-share-id]');
 			var shareId = $li.data('share-id');
 
-			// adjust checkbox states
-			var $checkboxes = $('.permissions', $li).not('input[name="edit"]').not('input[name="share"]');
-			var checked;
-			if ($element.attr('name') === 'edit') {
-				checked = $element.is(':checked');
-				// Check/uncheck Create, Update, and Delete checkboxes if Edit is checked/unck
-				$($checkboxes).prop('checked', checked);
+			var permissions = OC.PERMISSION_READ;
+
+			if (this.model.isFolder()) {
+				// adjust checkbox states
+				var $checkboxes = $('.permissions', $li).not('input[name="edit"]').not('input[name="share"]');
+				var checked;
+				if ($element.attr('name') === 'edit') {
+					checked = $element.is(':checked');
+					// Check/uncheck Create, Update, and Delete checkboxes if Edit is checked/unck
+					$($checkboxes).prop('checked', checked);
+				} else {
+					var numberChecked = $checkboxes.filter(':checked').length;
+					checked = numberChecked > 0;
+					$('input[name="edit"]', $li).prop('checked', checked);
+				}
 			} else {
-				var numberChecked = $checkboxes.filter(':checked').length;
-				checked = numberChecked > 0;
-				$('input[name="edit"]', $li).prop('checked', checked);
+				if ($element.attr('name') === 'edit' && $element.is(':checked')) {
+					permissions |= OC.PERMISSION_UPDATE;
+				}
 			}
 
-			var permissions = OC.PERMISSION_READ;
 			$('.permissions', $li).not('input[name="edit"]').filter(':checked').each(function(index, checkbox) {
 				permissions |= $(checkbox).data('permissions');
 			});
