@@ -337,4 +337,26 @@ class ThemingController extends Controller {
 		$response->cacheFor(3600);
 		return $response;
 	}
+	/**
+	 * @NoCSRFRequired
+	 * @PublicPage
+	 *
+	 * @return DataDownloadResponse
+	 */
+	public function getJavascript() {
+		$responseJS = '(function() {
+	OCA.Theming = {
+		name: ' . json_encode($this->template->getName()) . ',
+		url: ' . json_encode($this->template->getBaseUrl()) . ',
+		slogan: ' . json_encode($this->template->getSlogan()) . ',
+		color: ' . json_encode($this->template->getMailHeaderColor()) . ',
+		inverted: ' . json_encode($this->util->invertTextColor($this->template->getMailHeaderColor())) . ',
+	};
+})();';
+		$response = new Http\DataDisplayResponse($responseJS);
+		$response->addHeader("Content-type","text/javascript");
+		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		$response->cacheFor(3600);
+		return $response;
+	}
 }
