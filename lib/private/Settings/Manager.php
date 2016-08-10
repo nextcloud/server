@@ -104,8 +104,10 @@ class Manager implements IManager {
 			);
 			return;
 		}
-		if(!$this->hasAdminSection($section)) {
+		if(!$this->hasAdminSection(get_class($section))) {
 			$this->addAdminSection($section);
+		} else {
+			$this->updateAdminSection($section);
 		}
 	}
 
@@ -134,20 +136,64 @@ class Manager implements IManager {
 		$query->execute();
 	}
 
-	private function hasAdminSection(ISection $section) {
-		return $this->has(self::TABLE_ADMIN_SECTIONS, 'id', $section->getID());
+	private function updateAdminSettings(IAdmin $settings) {
+		$this->update(
+			self::TABLE_ADMIN_SETTINGS,
+			'class',
+			get_class($settings),
+			[
+				'section' => $settings->getSection(),
+				'priority' => $settings->getPriority(),
+			]
+		);
 	}
 
-	private function hasAdminSettings($pageClass) {
-		return $this->has(self::TABLE_ADMIN_SETTINGS, 'class', $pageClass);
+	private function updateAdminSection(ISection $section) {
+		$this->update(
+			self::TABLE_ADMIN_SECTIONS,
+			'class',
+			get_class($section),
+			[
+				'id'       => $section->getID(),
+				'priority' => $section->getPriority(),
+			]
+		);
 	}
 
-
-	private function has($table, $idCol, $id) {
+	private function update($table, $idCol, $id, $values) {
 		$query = $this->dbc->getQueryBuilder();
-		$query->select($idCol)
+		$query->update($table);
+		foreach($values as $key => $value) {
+			$query->set($key, $query->createNamedParameter($value));
+		}
+		$query
+			->where($query->expr()->eq($idCol, $query->createParameter($idCol)))
+			->setParameter($idCol, $id)
+			->execute();
+	}
+
+	/**
+	 * @param string $className
+	 * @return bool
+	 */
+	private function hasAdminSection($className) {
+		return $this->has(self::TABLE_ADMIN_SECTIONS, $className);
+	}
+
+	/**
+	 * @param string $className
+	 * @return bool
+	 */
+	private function hasAdminSettings($className) {
+		return $this->has(self::TABLE_ADMIN_SETTINGS, $className);
+	}
+
+
+	private function has($table, $className) {
+		$query = $this->dbc->getQueryBuilder();
+		$query->select('class')
 			->from($table)
-			->where($query->expr()->eq($idCol, $query->createNamedParameter($id)))
+			->where($query->expr()->eq('class', $query->createNamedParameter($className)))
 			->setMaxResults(1);
 
 		$result = $query->execute();
@@ -164,6 +210,7 @@ class Manager implements IManager {
 		}
 
 		try {
+			/** @var IAdmin $settings */
 			$settings = $this->query($settingsClassName);
 		} catch (QueryException $e) {
 			// cancel
@@ -177,8 +224,10 @@ class Manager implements IManager {
 			);
 			return;
 		}
-		if(!$this->hasAdminSettings($settings)) {
+		if(!$this->hasAdminSettings(get_class($settings))) {
 			$this->addAdminSettings($settings);
+		} else {
+			$this->updateAdminSettings($settings);
 		}
 	}
 
