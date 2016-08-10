@@ -24,7 +24,6 @@ echo $PHPPID_FED
 export TEST_SERVER_URL="http://localhost:$PORT/ocs/"
 export TEST_SERVER_FED_URL="http://localhost:$PORT_FED/ocs/"
 
-
 #Enable external storage app
 ../../occ app:enable files_external
 
@@ -40,6 +39,8 @@ RESULT=$?
 
 kill $PHPPID
 kill $PHPPID_FED
+
+../../occ files_external:delete -y $ID_STORAGE
 
 if [ -z $HIDE_OC_LOGS ]; then
 	tail "../../data/owncloud.log"
