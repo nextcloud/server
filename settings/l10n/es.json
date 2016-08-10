@@ -295,7 +295,6 @@
     "iOS app" : "La aplicación de iOS",
     "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Si quiere apoyar el proyecto\n⇥⇥<a href=\"https://nextcloud.com/contribute\"\n⇥⇥⇥target=\"_blank\" rel=\"noreferrer\">únase a su desarrollo</a>\n⇥⇥o\n⇥⇥<a href=\"https://nextcloud.com/contribute\"\n⇥⇥⇥target=\"_blank\" rel=\"noreferrer\">'difunda la palabra!</a>!",
     "Show First Run Wizard again" : "Mostrar nuevamente el Asistente de ejecución inicial",
-    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "Desarrollado por la {communityopen}comunidad Nextcloud[linkclose}, el {githubopen}código fuente{linkclose} está bajo la licencia {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}.",
     "Show storage location" : "Mostrar la ubicación del almacenamiento",
     "Show last log in" : "Mostrar el último inicio de sesión",
     "Show user backend" : "Mostrar motor de usuario",

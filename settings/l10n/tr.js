@@ -297,7 +297,6 @@ OC.L10N.register(
     "iOS app" : "iOS uygulaması",
     "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Projeyi desteklemek isterseniz\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">gelişimine katılın</a>\n\t\tya da\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">dünyaya duyurun</a>!",
     "Show First Run Wizard again" : "İlk Çalıştırma Sihirbazı'nı yeniden göster",
-    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "{communityopen}Nextcloud topluluğu tarafından geliştirilmiştir{linkclose},  {githubopen}kaynak kod{linkclose} {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose} ile lisanslanmıştır.",
     "Show storage location" : "Depolama konumunu göster",
     "Show last log in" : "Son oturum açılma zamanını göster",
     "Show user backend" : "Kullanıcı arka ucunu göster",

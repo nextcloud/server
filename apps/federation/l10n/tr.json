@@ -1,7 +1,6 @@
 { "translations": {
     "Added to the list of trusted servers" : "Güvenilir sunucular listesine eklendi",
     "Server is already in the list of trusted servers." : "Sunucu zaten güvenilen sunucu listesine eklenmiş.",
-    "No server to federate found" : "Birleşim sunucusu bulunamadı",
     "Could not add server" : "Sunucu eklenemedi",
     "Federation" : "Birleşim",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Birleşim, diğer güvenilir sunucularla dosya/klasör paylaşımı yapmanıza izin verir. \nÖrneğin, harici kullanıcıların klasörleri, otomatik tamamlama için kullanılacaktır.",

@@ -297,7 +297,6 @@ OC.L10N.register(
     "iOS app" : "Aplikasi iOS",
     "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Apabila Anda ingin mendukung proyek ini\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">ikuti pengembangannya</a>\n\t\tatau\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">sebarkan</a>!",
     "Show First Run Wizard again" : "Tampilkan Penuntun Konfigurasi Awal",
-    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "Dikembangkan oleh {commmunityopen}komunitas Nextcloud{linkclose}, {githubopen}sumber kode{linkclose} dilisensikan dibawah {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}.",
     "Show storage location" : "Tampilkan kolasi penyimpanan",
     "Show last log in" : "Tampilkan masuk terakhir",
     "Show user backend" : "Tampilkan pengguna backend",
