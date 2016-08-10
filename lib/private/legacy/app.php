@@ -1162,6 +1162,12 @@ class OC_App {
 			if (isset($appData['id'])) {
 				$config->setAppValue($app, 'ocsid', $appData['id']);
 			}
+
+			if(isset($info['settings']) && is_array($info['settings'])) {
+				self::loadApp($app, false);
+				\OC::$server->getSettingsManager()->setupSettings($info['settings']);
+			}
+
 			\OC_Hook::emit('OC_App', 'post_enable', array('app' => $app));
 		} else {
 			if(empty($appName) ) {

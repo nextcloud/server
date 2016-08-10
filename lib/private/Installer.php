@@ -135,7 +135,6 @@ class Installer {
 		}
 
 		\OC_App::setupBackgroundJobs($info['background-jobs']);
-		\OC::$server->getSettingsManager()->setupSettings($info['settings']);
 
 		//run appinfo/install.php
 		if((!isset($data['noinstall']) or $data['noinstall']==false)) {
