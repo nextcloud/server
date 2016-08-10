@@ -192,6 +192,13 @@ class MountPoint implements IMountPoint {
 	}
 
 	/**
+	 * @return int
+	 */
+	public function getNumericStorageId() {
+		return $this->getStorage()->getStorageCache()->getNumericId();
+	}
+
+	/**
 	 * @param string $path
 	 * @return string
 	 */
