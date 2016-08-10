@@ -69,7 +69,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 
 		$result['capabilities'] = $this->capabilitiesManager->getCapabilities();
 
-		return new DataResponse(['data' => $result]);
+		return new DataResponse($result);
 	}
 
 	/**
@@ -83,6 +83,6 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			'display-name' => $userObject->getDisplayName(),
 			'email' => $userObject->getEMailAddress(),
 		];
-		return new DataResponse(['data' => $data]);
+		return new DataResponse($data);
 	}
 }
