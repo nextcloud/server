@@ -211,6 +211,7 @@ if($_['passwordChangeSupported']) {
 		<div class="app-password-row">
 			<span class="app-password-label"><?php p($l->t('Password')); ?></span>
 			<input id="new-app-password" type="text" readonly="readonly"/>
+			<a class="clipboardButton icon icon-clippy" data-clipboard-target="#new-app-password"></a>
 			<button id="app-password-hide" class="button"><?php p($l->t('Done')); ?></button>
 		</div>
 	</div>
