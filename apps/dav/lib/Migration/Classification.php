@@ -23,8 +23,7 @@
 namespace OCA\DAV\Migration;
 
 use OCA\DAV\CalDAV\CalDavBackend;
-use OCP\IUser;
-use OCP\IUserManager;
+use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
@@ -33,33 +32,19 @@ class Classification implements IRepairStep {
 	/** @var CalDavBackend */
 	private $calDavBackend;
 
-	/** @var IUserManager */
-	private $userManager;
+	/** @var IDBConnection */
+	private $connection;
 
 	/**
 	 * Classification constructor.
 	 *
 	 * @param CalDavBackend $calDavBackend
+	 * @param IDBConnection $connection
 	 */
-	public function __construct(CalDavBackend $calDavBackend, IUserManager $userManager) {
+	public function __construct(CalDavBackend $calDavBackend, IDBConnection $connection) {
 		$this->calDavBackend = $calDavBackend;
-		$this->userManager = $userManager;
-	}
+		$this->connection = $connection;
 
-	/**
-	 * @param IUser $user
-	 */
-	public function runForUser($user) {
-		$principal = 'principals/users/' . $user->getUID();
-		$calendars = $this->calDavBackend->getCalendarsForUser($principal);
-		foreach ($calendars as $calendar) {
-			$objects = $this->calDavBackend->getCalendarObjects($calendar['id']);
-			foreach ($objects as $object) {
-				$calObject = $this->calDavBackend->getCalendarObject($calendar['id'], $object['uri']);
-				$classification = $this->extractClassification($calObject['calendardata']);
-				$this->calDavBackend->setClassification($object['id'], $classification);
-			}
-		}
 	}
 
 	/**
@@ -82,12 +67,37 @@ class Classification implements IRepairStep {
 	 * @inheritdoc
 	 */
 	public function run(IOutput $output) {
-		$output->startProgress();
-		$this->userManager->callForAllUsers(function($user) use ($output) {
-			/** @var IUser $user */
-			$output->advance(1, $user->getDisplayName());
-			$this->runForUser($user);
-		});
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb->select($qb->createFunction('COUNT(*)'))
+			->from('calendarobjects')
+			->execute();
+
+		$max = $result->fetchColumn();
+		$output->startProgress($max);
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select(['id', 'calendardata', 'classification'])
+			->from('calendarobjects');
+
+		$stmt = $query->execute();
+
+		while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+
+			$output->advance(1);
+
+			$classification = $this->extractClassification($this->readBlob($row['calendardata']));
+			$this->calDavBackend->setClassification($row['id'], $classification);
+		}
+
 		$output->finishProgress();
 	}
+
+	private function readBlob($cardData) {
+		if (is_resource($cardData)) {
+			return stream_get_contents($cardData);
+		}
+
+		return $cardData;
+	}
+
 }

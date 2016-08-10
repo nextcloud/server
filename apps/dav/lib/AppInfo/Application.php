@@ -114,7 +114,7 @@ class Application extends App {
 			/** @var IAppContainer $c */
 			return new Classification(
 				$c->query('CalDavBackend'),
-				$c->getServer()->getUserManager()
+				$c->getServer()->getDatabaseConnection()
 			);
 		});
 
