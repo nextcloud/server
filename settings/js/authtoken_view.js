@@ -183,6 +183,8 @@
 
 		_newAppPassword: undefined,
 
+		_newAppId: undefined,
+
 		_hideAppPasswordBtn: undefined,
 
 		_addingToken: false,
@@ -255,10 +257,13 @@
 			});
 
 			$.when(creatingToken).done(function (resp) {
+				// We can delete token we add
+				resp.deviceToken.canDelete = true;
 				_this.collection.add(resp.deviceToken);
 				_this.render();
 				_this._newAppLoginName.val(resp.loginName);
 				_this._newAppPassword.val(resp.token);
+				_this._newAppId = resp.deviceToken.id;
 				_this._toggleFormResult(false);
 				_this._newAppPassword.select();
 				_this._tokenName.val('');
@@ -292,6 +297,10 @@
 			var $target = $(event.target);
 			var $row = $target.closest('tr');
 			var id = $row.data('id');
+
+			if (id === this._newAppId) {
+				this._toggleFormResult(true);
+			}
 
 			var token = this.collection.get(id);
 			if (_.isUndefined(token)) {
