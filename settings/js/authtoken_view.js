@@ -218,6 +218,38 @@
 			this._newAppPassword.on('focus', _.bind(this._onNewTokenFocus, this));
 			this._hideAppPasswordBtn = $('#app-password-hide');
 			this._hideAppPasswordBtn.click(_.bind(this._hideToken, this));
+
+			// Clipboard!
+			var clipboard = new Clipboard('.clipboardButton');
+			clipboard.on('success', function(e) {
+				var $input = $(e.trigger);
+				$input.tooltip({placement: 'bottom', trigger: 'manual', title: t('core', 'Copied!')});
+				$input.tooltip('show');
+				_.delay(function() {
+					$input.tooltip('hide');
+				}, 3000);
+			});
+			clipboard.on('error', function (e) {
+				var $input = $(e.trigger);
+				var actionMsg = '';
+				if (/iPhone|iPad/i.test(navigator.userAgent)) {
+					actionMsg = t('core', 'Not supported!');
+				} else if (/Mac/i.test(navigator.userAgent)) {
+					actionMsg = t('core', 'Press ⌘-C to copy.');
+				} else {
+					actionMsg = t('core', 'Press Ctrl-C to copy.');
+				}
+
+				$input.tooltip({
+					placement: 'bottom',
+					trigger: 'manual',
+					title: actionMsg
+				});
+				$input.tooltip('show');
+				_.delay(function () {
+					$input.tooltip('hide');
+				}, 3000);
+			});
 		},
 
 		render: function () {
