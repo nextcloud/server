@@ -41,6 +41,9 @@ RESULT=$?
 kill $PHPPID
 kill $PHPPID_FED
 
+../../occ files_external:delete -y $ID_STORAGE
+
+
 if [ -z $HIDE_OC_LOGS ]; then
 	tail "../../data/owncloud.log"
 fi
