@@ -345,6 +345,12 @@ class OC_App {
 		} else {
 			$appManager->enableApp($app);
 		}
+
+		$info = self::getAppInfo($app);
+		if(isset($info['settings']) && is_array($info['settings'])) {
+			self::loadApp($app, false);
+			\OC::$server->getSettingsManager()->setupSettings($info['settings']);
+		}
 	}
 
 	/**
