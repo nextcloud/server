@@ -77,7 +77,7 @@ class ExpireTrash extends \OC\BackgroundJob\TimedJob {
 
 		$this->userManager->callForAllUsers(function(IUser $user) {
 			$uid = $user->getUID();
-			if (!$this->setupFS($uid)) {
+			if ($user->getLastLogin() === 0 || !$this->setupFS($uid)) {
 				return;
 			}
 			$dirContent = Helper::getTrashFiles('/', $uid, 'mtime');
