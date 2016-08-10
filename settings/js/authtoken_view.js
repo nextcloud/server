@@ -354,8 +354,13 @@
 		},
 
 		_toggleFormResult: function (showForm) {
-			this._form.toggleClass('hidden', !showForm);
-			this._result.toggleClass('hidden', showForm);
+			if (showForm) {
+				this._result.slideUp();
+				this._form.slideDown();
+			} else {
+				this._form.slideUp();
+				this._result.slideDown();
+			}
 		}
 	});
 
