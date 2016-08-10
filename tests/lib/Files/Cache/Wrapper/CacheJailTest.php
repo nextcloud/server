@@ -63,8 +63,17 @@ class CacheJailTest extends CacheTest {
 	}
 
 	function testGetById() {
-		//not supported
-		$this->assertTrue(true);
+		$data1 = array('size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory');
+		$id = $this->sourceCache->put('foo/bar', $data1);
+
+		// path from jailed foo of foo/bar is bar
+		$path = $this->cache->getPathById($id);
+		$this->assertEquals('bar', $path);
+
+		// path from jailed '' of foo/bar is foo/bar
+		$this->cache = new \OC\Files\Cache\Wrapper\CacheJail($this->sourceCache, '');
+		$path = $this->cache->getPathById($id);
+		$this->assertEquals('foo/bar', $path);
 	}
 
 	function testGetIncomplete() {
