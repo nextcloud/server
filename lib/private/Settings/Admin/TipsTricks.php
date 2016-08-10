@@ -23,9 +23,9 @@
 
 namespace OC\Settings\Admin;
 
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\Settings\IAdmin;
-use OCP\Template;
 
 class TipsTricks implements IAdmin {
 	/** @var IConfig */
@@ -36,20 +36,16 @@ class TipsTricks implements IAdmin {
 	}
 
 	/**
-	 * @return Template all parameters are supposed to be assigned
+	 * @return TemplateResponse
 	 */
-	public function render() {
+	public function getForm() {
 		$databaseOverload = (strpos($this->config->getSystemValue('dbtype'), 'sqlite') !== false);
 
 		$parameters = [
 			'databaseOverload' => $databaseOverload,
 		];
 
-		$form = new Template('settings', 'admin/tipstricks');
-		foreach ($parameters as $key => $value) {
-			$form->assign($key, $value);
-		}
-		return $form;
+		return new TemplateResponse('settings', 'admin/tipstricks', $parameters, '');
 	}
 
 	/**

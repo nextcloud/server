@@ -92,8 +92,8 @@ class AdminSettingsController extends Controller {
 		foreach ($settings as $prioritizedSettings) {
 			foreach ($prioritizedSettings as $setting) {
 				/** @var \OCP\Settings\IAdmin $setting */
-				$form = $setting->render();
-				$html .= $form->fetchPage();
+				$form = $setting->getForm();
+				$html .= $form->renderAs('')->render();
 			}
 		}
 		return ['content' => $html];
