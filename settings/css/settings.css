@@ -152,6 +152,7 @@ table.nostyle td { padding: 0.2em 0; }
 	position: relative;
 	top: 3px;
 	margin-left: 5px;
+	margin-right: 8px;
 }
 
 .app-password-label {
