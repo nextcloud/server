@@ -386,16 +386,7 @@ span.version {
 	width: 80px;
 	height: 80px;
 }
-.app-image img {
-	max-width: 80px;
-	max-height: 80px;
-}
-.app-image-icon img {
-	background-color: #ccc;
-	width: 60px;
-	padding: 10px;
-	border-radius: 3px;
-}
+
 .app-name,
 .app-version,
 .app-score,
