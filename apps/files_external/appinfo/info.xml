@@ -13,7 +13,7 @@
 		<admin>admin-external-storage</admin>
 	</documentation>
 	<rememberlogin>false</rememberlogin>
-	<version>1.1.1</version>
+	<version>1.1.2</version>
 	<types>
 		<filesystem/>
 	</types>
@@ -27,6 +27,5 @@
 
 	<settings>
 		<admin>OCA\Files_External\Settings\Admin</admin>
-		<admin-section>OCA\Files_External\Settings\Section</admin-section>
 	</settings>
 </info>
