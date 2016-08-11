@@ -29,9 +29,9 @@ use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\Settings\IAdmin;
+use OCP\Settings\ISettings;
 
-class Server implements IAdmin {
+class Server implements ISettings {
 
 	/** @var IDBConnection|Connection */
 	private $db;

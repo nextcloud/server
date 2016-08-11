@@ -27,10 +27,10 @@ use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Helper;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
-use OCP\Settings\IAdmin;
+use OCP\Settings\ISettings;
 use OCP\Template;
 
-class Admin implements IAdmin {
+class Admin implements ISettings {
 
 	/** @var IL10N */
 	private $l;

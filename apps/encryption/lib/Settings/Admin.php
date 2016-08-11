@@ -33,10 +33,10 @@ use OCP\ILogger;
 use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Settings\IAdmin;
+use OCP\Settings\ISettings;
 use OCP\IConfig;
 
-class Admin implements IAdmin {
+class Admin implements ISettings {
 
 	/** @var IL10N */
 	private $l;
