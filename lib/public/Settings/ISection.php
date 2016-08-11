@@ -29,6 +29,7 @@ interface ISection {
 	 * e.g. 'ldap'
 	 *
 	 * @returns string
+	 * @since 9.1
 	 */
 	public function getID();
 
@@ -37,6 +38,7 @@ interface ISection {
 	 * integration'. Use the L10N service to translate it.
 	 *
 	 * @return string
+	 * @since 9.1
 	 */
 	public function getName();
 
@@ -46,6 +48,7 @@ interface ISection {
 	 * the priority values. It is required to return a value between 0 and 99.
 	 *
 	 * E.g.: 70
+	 * @since 9.1
 	 */
 	public function getPriority();
 }
