@@ -72,7 +72,7 @@
     "Removed share of group %2$s" : "Freigabe für Gruppe %2$s entfernt",
     "%2$s removed share of group %3$s" : "%2$s hat die Freigabe für Gruppe %3$s entfernt",
     "Shared via link by %2$s" : "Geteilt mittels Link von %2$s",
-    "Shared via public link" : "Geteilt mittels öffentlichen Link",
+    "Shared via public link" : "Geteilt mittels öffentlichem Link",
     "Removed public link" : "Öffentlichen Link entfernt",
     "%2$s removed public link" : "%2$s hat den öffentlichen Link entfernt",
     "Public link expired" : "öffentlicher Link ist abgelaufen",
