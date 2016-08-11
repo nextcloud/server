@@ -297,6 +297,7 @@ OC.L10N.register(
     "iOS app" : "iOS-App",
     "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Wenn Sie das Projekt unterstützen möchten\n⇥⇥<a href=\"https://nextcloud.com/contribute\"\n⇥⇥⇥target=\"_blank\" rel=\"noreferrer\">helfen Sie bei der Weiterentwicklung</a>\n⇥⇥oder\n⇥⇥<a href=\"https://nextcloud.com/contribute\"\n⇥⇥⇥target=\"_blank\" rel=\"noreferrer\">empfehlen Sie es weiter</a>!",
     "Show First Run Wizard again" : "Den Einrichtungsassistenten erneut anzeigen",
+    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Entwickelt von der {communityopen}Nextcloud community{linkclose}, der {githubopen}Quellcode{linkclose} ist lizensiert unter  {licenseopen}AGPL{linkclose}-Lizenz.",
     "Show storage location" : "Speicherort anzeigen",
     "Show last log in" : "Letzte Anmeldung anzeigen",
     "Show user backend" : "Benutzer-Backend anzeigen",

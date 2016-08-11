@@ -21,7 +21,7 @@ OC.L10N.register(
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibilität mit MAC NFD-Kodierung (langsam)",
     "Admin defined" : "Administrator definiert",
     "Saved" : "Gespeichert",
-    "Saving..." : "Speichern...",
+    "Saving..." : "Speichere...",
     "Save" : "Speichern",
     "Empty response from the server" : "Leere Antwort vom Server erhalten",
     "Couldn't access. Please logout and login to activate this mount point" : "Anmeldung nicht möglich. Bitte melden Sie sich ab und wieder an, damit Sie von diesem Endpunkt zugreifen können.",
