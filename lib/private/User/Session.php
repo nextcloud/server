@@ -167,7 +167,7 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * set the currently active user
 	 *
-	 * @param User|null $user
+	 * @param IUser|null $user
 	 */
 	public function setUser($user) {
 		if (is_null($user)) {
