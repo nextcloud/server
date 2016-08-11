@@ -159,6 +159,11 @@ table.nostyle td { padding: 0.2em 0; }
 	display: table-cell;
 	padding-right: 1em;
 }
+
+.social-button {
+	padding-left: 0;
+	margin-left: -10px
+}
 .social-button img {
 	padding: 10px;
 }
