@@ -34,15 +34,15 @@ div#theming_settings_msg {
 }
 
 #theming-preview {
-    width:230px;
-    height:140px;
+    width: 230px;
+    height: 140px;
     background-size: cover;
     background-position: center center;
     text-align: center;
-    margin-left:93px;
+    margin-left: 93px;
 }
 #theming-preview img {
-    max-width:20%;
-    max-height:20%;
-    margin-top:20px;
+    max-width: 20%;
+    max-height: 20%;
+    margin-top: 20px;
 }
