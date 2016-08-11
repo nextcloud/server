@@ -593,6 +593,11 @@ class Installer {
 
 		OC_App::setAppTypes($info['id']);
 
+		if(isset($info['settings']) && is_array($info['settings'])) {
+			\OC_App::loadApp($app, false);
+			\OC::$server->getSettingsManager()->setupSettings($info['settings']);
+		}
+
 		return $info['id'];
 	}
 
