@@ -55,15 +55,19 @@ namespace OC\User;
 use OC\Cache\CappedMemoryCache;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\IUserBackend;
+use OCP\Util;
 
 /**
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
  */
-class Database extends \OC\User\Backend implements \OCP\IUserBackend {
+class Database extends Backend implements IUserBackend {
 	/** @var CappedMemoryCache */
 	private $cache;
+
 	/** @var EventDispatcher */
 	private $eventDispatcher;
+
 	/**
 	 * OC_User_Database constructor.
 	 */
@@ -233,7 +237,7 @@ class Database extends \OC\User\Backend implements \OCP\IUserBackend {
 			$result = $query->execute(array($uid));
 
 			if ($result === false) {
-				\OCP\Util::writeLog('core', \OC_DB::getErrorMessage(), \OCP\Util::ERROR);
+				Util::writeLog('core', \OC_DB::getErrorMessage(), Util::ERROR);
 				return false;
 			}
 
@@ -310,7 +314,7 @@ class Database extends \OC\User\Backend implements \OCP\IUserBackend {
 		$query = \OC_DB::prepare('SELECT COUNT(*) FROM `*PREFIX*users`');
 		$result = $query->execute();
 		if ($result === false) {
-			\OCP\Util::writeLog('core', \OC_DB::getErrorMessage(), \OCP\Util::ERROR);
+			Util::writeLog('core', \OC_DB::getErrorMessage(), Util::ERROR);
 			return false;
 		}
 		return $result->fetchOne();
@@ -345,7 +349,7 @@ class Database extends \OC\User\Backend implements \OCP\IUserBackend {
 
 		$backends = \OC::$server->getUserManager()->getBackends();
 		foreach ($backends as $backend) {
-			if ($backend instanceof \OC\User\Database) {
+			if ($backend instanceof Database) {
 				/** @var \OC\User\Database $backend */
 				$uid = $backend->loginName2UserName($param['uid']);
 				if ($uid !== false) {

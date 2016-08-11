@@ -30,6 +30,7 @@
 
 namespace OC\User;
 
+use OC\Files\Cache\Storage;
 use OC\Hooks\Emitter;
 use OC_Helper;
 use OCP\IAvatarManager;
@@ -38,6 +39,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IConfig;
 use OCP\UserInterface;
+use \OCP\IUserBackend;
 
 class User implements IUser {
 	/** @var string $uid */
@@ -111,7 +113,7 @@ class User implements IUser {
 	public function getDisplayName() {
 		if (!isset($this->displayName)) {
 			$displayName = '';
-			if ($this->backend and $this->backend->implementsActions(\OC\User\Backend::GET_DISPLAYNAME)) {
+			if ($this->backend and $this->backend->implementsActions(Backend::GET_DISPLAYNAME)) {
 				// get display name and strip whitespace from the beginning and end of it
 				$backendDisplayName = $this->backend->getDisplayName($this->uid);
 				if (is_string($backendDisplayName)) {
@@ -136,7 +138,7 @@ class User implements IUser {
 	 */
 	public function setDisplayName($displayName) {
 		$displayName = trim($displayName);
-		if ($this->backend->implementsActions(\OC\User\Backend::SET_DISPLAYNAME) && !empty($displayName)) {
+		if ($this->backend->implementsActions(Backend::SET_DISPLAYNAME) && !empty($displayName)) {
 			$result = $this->backend->setDisplayName($this->uid, $displayName);
 			if ($result) {
 				$this->displayName = $displayName;
@@ -208,7 +210,7 @@ class User implements IUser {
 			\OC_Helper::rmdirr(\OC_User::getHome($this->uid));
 
 			// Delete the users entry in the storage table
-			\OC\Files\Cache\Storage::remove('home::' . $this->uid);
+			Storage::remove('home::' . $this->uid);
 
 			\OC::$server->getCommentsManager()->deleteReferencesOfActor('users', $this->uid);
 			\OC::$server->getCommentsManager()->deleteReadMarksFromUser($this);
@@ -231,7 +233,7 @@ class User implements IUser {
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'preSetPassword', array($this, $password, $recoveryPassword));
 		}
-		if ($this->backend->implementsActions(\OC\User\Backend::SET_PASSWORD)) {
+		if ($this->backend->implementsActions(Backend::SET_PASSWORD)) {
 			$result = $this->backend->setPassword($this->uid, $password);
 			if ($this->emitter) {
 				$this->emitter->emit('\OC\User', 'postSetPassword', array($this, $password, $recoveryPassword));
@@ -249,7 +251,7 @@ class User implements IUser {
 	 */
 	public function getHome() {
 		if (!$this->home) {
-			if ($this->backend->implementsActions(\OC\User\Backend::GET_HOME) and $home = $this->backend->getHome($this->uid)) {
+			if ($this->backend->implementsActions(Backend::GET_HOME) and $home = $this->backend->getHome($this->uid)) {
 				$this->home = $home;
 			} elseif ($this->config) {
 				$this->home = $this->config->getSystemValue('datadirectory') . '/' . $this->uid;
@@ -266,7 +268,7 @@ class User implements IUser {
 	 * @return string
 	 */
 	public function getBackendClassName() {
-		if($this->backend instanceof \OCP\IUserBackend) {
+		if($this->backend instanceof IUserBackend) {
 			return $this->backend->getBackendName();
 		}
 		return get_class($this->backend);
@@ -278,7 +280,7 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function canChangeAvatar() {
-		if ($this->backend->implementsActions(\OC\User\Backend::PROVIDE_AVATAR)) {
+		if ($this->backend->implementsActions(Backend::PROVIDE_AVATAR)) {
 			return $this->backend->canChangeAvatar($this->uid);
 		}
 		return true;
@@ -290,7 +292,7 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function canChangePassword() {
-		return $this->backend->implementsActions(\OC\User\Backend::SET_PASSWORD);
+		return $this->backend->implementsActions(Backend::SET_PASSWORD);
 	}
 
 	/**
@@ -302,7 +304,7 @@ class User implements IUser {
 		if ($this->config->getSystemValue('allow_user_to_change_display_name') === false) {
 			return false;
 		}
-		return $this->backend->implementsActions(\OC\User\Backend::SET_DISPLAYNAME);
+		return $this->backend->implementsActions(Backend::SET_DISPLAYNAME);
 	}
 
 	/**
