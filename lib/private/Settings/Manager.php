@@ -255,7 +255,6 @@ class Manager implements IManager {
 			 0 => [new Section('server',        $this->l->t('Server Settings'), 0)],
 			 5 => [new Section('sharing',       $this->l->t('Sharing'), 0)],
 			//15 => [new Section('collaboration', $this->l->t('Collaboration'), 0)],
-			//30 => [new Section('theming',       $this->l->t('Theming'), 0)],
 			45 => [new Section('encryption',    $this->l->t('Encryption'), 0)],
 			90 => [new Section('logging',       $this->l->t('Logging'), 0)],
 			98 => [new Section('additional',    $this->l->t('Additional Settings'), 0)],
