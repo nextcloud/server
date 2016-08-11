@@ -23,8 +23,14 @@
 namespace OC\AppFramework\Middleware;
 
 use OC\AppFramework\Http;
+use OCP\API;
+use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\OCSResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\OCS\OCSException;
+use OCP\AppFramework\OCS\OCSForbiddenException;
+use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OCP\AppFramework\Middleware;
@@ -54,17 +60,69 @@ class OCSMiddleware extends Middleware {
 
 			$code = $exception->getCode();
 			if ($code === 0) {
-				$code = Http::STATUS_INTERNAL_SERVER_ERROR;
+				$code = API::RESPOND_UNKNOWN_ERROR;
 			}
+
+			// Build the response
 			$response = new OCSResponse($format, $code, $exception->getMessage());
 
+			// Forbidden always sets 401 (even on v1.php)
+			if ($exception instanceof OCSForbiddenException || $code === API::RESPOND_UNAUTHORISED) {
+				$response->setStatus(Http::STATUS_UNAUTHORIZED);
+			}
+
+			// On v2.php we set actual HTTP error codes
 			if (substr_compare($this->request->getScriptName(), '/ocs/v2.php', -strlen('/ocs/v2.php')) === 0) {
-				$response->setStatus($code);
+				if ($code === API::RESPOND_NOT_FOUND) {
+					$response->setStatus(Http::STATUS_NOT_FOUND);
+				} else if ($code === API::RESPOND_SERVER_ERROR) {
+					$response->setStatus(Http::STATUS_INTERNAL_SERVER_ERROR);
+				} else if ($code === API::RESPOND_UNKNOWN_ERROR) {
+					$response->setStatus(Http::STATUS_INTERNAL_SERVER_ERROR);
+				} else if ($code === API::RESPOND_UNAUTHORISED) {
+					// Already set
+				}
+				// 4xx and 5xx codes are forwarded as is.
+				else if ($code >= 400 && $code < 600) {
+					$response->setStatus($code);
+				} else {
+					// All other codes get a bad request
+					$response->setStatus(Http::STATUS_BAD_REQUEST);
+				}
 			}
 			return $response;
 		}
 
 		throw $exception;
+	}
+
+	/**
+	 * @param \OCP\AppFramework\Controller $controller
+	 * @param string $methodName
+	 * @param Response $response
+	 * @return \OCP\AppFramework\Http\Response
+	 */
+	public function afterController($controller, $methodName, Response $response) {
+		/*
+		 * If a different middleware has detected that a request unauthorized or forbidden
+		 * we need to catch the response and convert it to a proper OCS response.
+		 */
+		if ($controller instanceof OCSController && !($response instanceof OCSResponse)) {
+			if ($response->getStatus() === Http::STATUS_UNAUTHORIZED ||
+			    $response->getStatus() === Http::STATUS_FORBIDDEN) {
+				$format = $this->getFormat($controller);
+
+				$message = '';
+				if ($response instanceof JSONResponse) {
+					/** @var DataResponse $response */
+					$message = $response->getData()['message'];
+				}
+				$response = new OCSResponse($format, \OCP\API::RESPOND_UNAUTHORISED, $message);
+				$response->setStatus(Http::STATUS_UNAUTHORIZED);
+			}
+		}
+
+		return $response;
 	}
 
 	/**
