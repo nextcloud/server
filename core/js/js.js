@@ -1509,12 +1509,13 @@ function initCore() {
 			if(event.which === 1 && !event.ctrlKey && !event.metaKey) {
 				$app.addClass('app-loading');
 			} else {
-				// Close navigation when opening app in
-				// a new tab
-				OC.hideMenus();
 				// On middle click or on first button click with ctrl key or meta key hold
+				console.log(event.which);
 				if(event.which === 2 || (event.which === 1 && (event.ctrlKey || event.metaKey))) {
-					window.open($page, '_blank');
+					// Close navigation when opening app in
+					// a new tab
+					OC.hideMenus();
+					window.open($app, '_blank');
 				}
 			}
 		});
@@ -1534,11 +1535,11 @@ function initCore() {
 				$page.find('div').remove(); // prevent odd double-clicks
 				$page.prepend($('<div/>').addClass('icon-loading-small-dark'));
 			} else {
-				// Close navigation when opening menu entry in
-				// a new tab
-				OC.hideMenus();
 				// On middle click or on first button click with ctrl key or meta key hold
 				if(event.which === 2 || (event.which === 1 && (event.ctrlKey || event.metaKey))) {
+					// Close navigation when opening menu entry in
+					// a new tab
+					OC.hideMenus();
 					window.open($page, '_blank');
 				}
 			}
