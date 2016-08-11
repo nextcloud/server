@@ -310,6 +310,24 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $c->query('ServerContainer')->getWebRoot();
 		});
 
+		$this->registerService('\OCP\Encryption\IManager', function ($c) {
+			$view = new \OC\Files\View();
+			$util = new \OC\Encryption\Util(
+				$view,
+				$c->query('\OCP\IUserManager'),
+				$c->query('\OCP\IGroupManager'),
+				$c->query('\OCP\IConfig')
+			);
+			return new \OC\Encryption\Manager(
+				$c->query('\OCP\IConfig'),
+				$c->query('\OCP\ILogger'),
+				$c->query('ServerContainer')->getL10N('core'),
+				new \OC\Files\View(),
+				$util,
+				new \OC\Memcache\ArrayCache()
+			);
+		});
+
 
 		/**
 		 * App Framework APIs
