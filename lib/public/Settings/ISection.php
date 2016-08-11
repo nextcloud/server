@@ -23,6 +23,9 @@
 
 namespace OCP\Settings;
 
+/**
+ * @since 9.1
+ */
 interface ISection {
 	/**
 	 * returns the ID of the section. It is supposed to be a lower case string,

@@ -25,6 +25,9 @@ namespace OCP\Settings;
 
 use OCP\AppFramework\Http\TemplateResponse;
 
+/**
+ * @since 9.1
+ */
 interface ISettings {
 
 	/**

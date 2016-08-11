@@ -23,7 +23,9 @@
 
 namespace OCP\Settings;
 
-
+/**
+ * @since 9.1
+ */
 interface IManager {
 	/**
 	 * @since 9.1.0
