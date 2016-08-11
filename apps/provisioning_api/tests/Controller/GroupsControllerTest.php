@@ -24,24 +24,20 @@
  *
  */
 
-namespace OCA\Provisioning_API\Tests;
+namespace OCA\Provisioning_API\Tests\Controller;
 
-use OCA\Provisioning_API\Groups;
-use OCP\API;
+use OCA\Provisioning_API\Controller\GroupsController;
 use OCP\IGroupManager;
 use OCP\IUserSession;
-use OCP\IRequest;
 
-class GroupsTest extends \Test\TestCase {
+class GroupsControllerTest extends \Test\TestCase {
 	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $groupManager;
 	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userSession;
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
-	protected $request;
 	/** @var \OC\SubAdmin|\PHPUnit_Framework_MockObject_MockObject */
 	protected $subAdminManager;
-	/** @var Groups */
+	/** @var GroupsController */
 	protected $api;
 
 	protected function setUp() {
@@ -61,13 +57,14 @@ class GroupsTest extends \Test\TestCase {
 		$this->userSession = $this->getMockBuilder('OCP\IUserSession')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->request = $this->getMockBuilder('OCP\IRequest')
+		$request = $this->getMockBuilder('OCP\IRequest')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->api = new Groups(
+		$this->api = new GroupsController(
+			'provisioning_api',
+			$request,
 			$this->groupManager,
-			$this->userSession,
-			$this->request
+			$this->userSession
 		);
 	}
 
@@ -148,15 +145,6 @@ class GroupsTest extends \Test\TestCase {
 	 * @param int|null $offset
 	 */
 	public function testGetGroups($search, $limit, $offset) {
-		$this->request
-			->expects($this->exactly(3))
-			->method('getParam')
-			->will($this->returnValueMap([
-				['search', '', $search],
-				['limit', null, $limit],
-				['offset', null, $offset],
-			]));
-
 		$groups = [$this->createGroup('group1'), $this->createGroup('group2')];
 
 		$search = $search === null ? '' : $search;
@@ -167,19 +155,8 @@ class GroupsTest extends \Test\TestCase {
 			->with($search, $limit, $offset)
 			->willReturn($groups);
 
-		$result = $this->api->getGroups([]);
-		$this->assertInstanceOf('\OC\OCS\Result', $result);
-		$this->assertTrue($result->succeeded());
-		$this->assertEquals(['group1', 'group2'], $result->getData()['groups']);
-	}
-
-	public function testGetGroupAsUser() {
-		$result = $this->api->getGroup([]);
-
-		$this->assertInstanceOf('\OC\OCS\Result', $result);
-		$this->assertFalse($result->succeeded());
-		$this->assertEquals(API::RESPOND_UNAUTHORISED, $result->getStatusCode());
-
+		$result = $this->api->getGroups($search, $limit, $offset);
+		$this->assertEquals(['groups' => ['group1', 'group2']], $result->getData());
 	}
 
 	public function testGetGroupAsSubadmin() {
@@ -201,17 +178,15 @@ class GroupsTest extends \Test\TestCase {
 				$this->createUser('user2')
 			]);
 
-		$result = $this->api->getGroup([
-			'groupid' => 'group',
-		]);
+		$result = $this->api->getGroup('group');
 
-		$this->assertInstanceOf('\OC\OCS\Result', $result);
-		$this->assertTrue($result->succeeded());
-		$this->assertEquals(1, sizeof($result->getData()), 'Asserting the result data array only has the "users" key');
-		$this->assertArrayHasKey('users', $result->getData());
-		$this->assertEquals(['user1', 'user2'], $result->getData()['users']);
+		$this->assertEquals(['users' => ['user1', 'user2']], $result->getData());
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 997
+	 */
 	public function testGetGroupAsIrrelevantSubadmin() {
 		$group = $this->createGroup('group');
 		$otherGroup = $this->createGroup('otherGroup');
@@ -226,13 +201,7 @@ class GroupsTest extends \Test\TestCase {
 			->with('group')
 			->willReturn(true);
 
-		$result = $this->api->getGroup([
-			'groupid' => 'group',
-		]);
-
-		$this->assertInstanceOf('\OC\OCS\Result', $result);
-		$this->assertFalse($result->succeeded());
-		$this->assertEquals(API::RESPOND_UNAUTHORISED, $result->getStatusCode());
+		$this->api->getGroup('group');
 	}
 
 	public function testGetGroupAsAdmin() {
@@ -254,39 +223,29 @@ class GroupsTest extends \Test\TestCase {
 				$this->createUser('user2')
 			]);
 
-		$result = $this->api->getGroup([
-			'groupid' => 'group',
-		]);
+		$result = $this->api->getGroup('group');
 
-		$this->assertInstanceOf('\OC\OCS\Result', $result);
-		$this->assertTrue($result->succeeded());
-		$this->assertEquals(1, sizeof($result->getData()), 'Asserting the result data array only has the "users" key');
-		$this->assertArrayHasKey('users', $result->getData());
-		$this->assertEquals(['user1', 'user2'], $result->getData()['users']);
+		$this->assertEquals(['users' => ['user1', 'user2']], $result->getData());
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 998
+	 * @expectedExceptionMessage The requested group could not be found
+	 */
 	public function testGetGroupNonExisting() {
 		$this->asUser();
 
-		$result = $this->api->getGroup([
-			'groupid' => $this->getUniqueID()
-		]);
-
-		$this->assertInstanceOf('\OC\OCS\Result', $result);
-		$this->assertFalse($result->succeeded());
-		$this->assertEquals(API::RESPOND_NOT_FOUND, $result->getStatusCode());
-		$this->assertEquals('The requested group could not be found', $result->getMeta()['message']);
+		$this->api->getGroup($this->getUniqueID());
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 101
+	 * @expectedExceptionMessage Group does not exist
+	 */
 	public function testGetSubAdminsOfGroupsNotExists() {
-		$result = $this->api->getSubAdminsOfGroup([
-			'groupid' => 'NonExistingGroup',
-		]);
-
-		$this->assertInstanceOf('\OC\OCS\Result', $result);
-		$this->assertFalse($result->succeeded());
-		$this->assertEquals(101, $result->getStatusCode());
-		$this->assertEquals('Group does not exist', $result->getMeta()['message']);
+		$this->api->getSubAdminsOfGroup('NonExistingGroup');
 	}
 
 	public function testGetSubAdminsOfGroup() {
@@ -305,12 +264,7 @@ class GroupsTest extends \Test\TestCase {
 				$this->createUser('SubAdmin2'),
 			]);
 
-		$result = $this->api->getSubAdminsOfGroup([
-			'groupid' => 'GroupWithSubAdmins',
-		]);
-
-		$this->assertInstanceOf('\OC\OCS\Result', $result);
-		$this->assertTrue($result->succeeded());
+		$result = $this->api->getSubAdminsOfGroup('GroupWithSubAdmins');
 		$this->assertEquals(['SubAdmin1', 'SubAdmin2'], $result->getData());
 	}
 
@@ -328,53 +282,33 @@ class GroupsTest extends \Test\TestCase {
 			->willReturn([
 			]);
 
-		$result = $this->api->getSubAdminsOfGroup([
-			'groupid' => 'GroupWithOutSubAdmins',
-		]);
-
-		$this->assertInstanceOf('\OC\OCS\Result', $result);
-		$this->assertTrue($result->succeeded());
+		$result = $this->api->getSubAdminsOfGroup('GroupWithOutSubAdmins');
 		$this->assertEquals([], $result->getData());
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 101
+	 * @expectedExceptionMessage Invalid group name
+	 */
 	public function testAddGroupEmptyGroup() {
-		$this->request
-			->method('getParam')
-			->with('groupid')
-			->willReturn('');
-
-		$result = $this->api->addGroup([]);
-
-		$this->assertInstanceOf('\OC\OCS\Result', $result);
-		$this->assertFalse($result->succeeded());
-		$this->assertEquals(101, $result->getStatusCode());
-		$this->assertEquals('Invalid group name', $result->getMeta()['message']);
+		$this->api->addGroup('');
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 102
+	 */
 	public function testAddGroupExistingGroup() {
-		$this->request
-			->method('getParam')
-			->with('groupid')
-			->willReturn('ExistingGroup');
-
 		$this->groupManager
 			->method('groupExists')
 			->with('ExistingGroup')
 			->willReturn(true);
 
-		$result = $this->api->addGroup([]);
-
-		$this->assertInstanceOf('\OC\OCS\Result', $result);
-		$this->assertFalse($result->succeeded());
-		$this->assertEquals(102, $result->getStatusCode());
+		$this->api->addGroup('ExistingGroup');
 	}
 
 	public function testAddGroup() {
-		$this->request
-			->method('getParam')
-			->with('groupid')
-			->willReturn('NewGroup');
-
 		$this->groupManager
 			->method('groupExists')
 			->with('NewGroup')
@@ -385,17 +319,10 @@ class GroupsTest extends \Test\TestCase {
 			->method('createGroup')
 			->with('NewGroup');
 
-		$result = $this->api->addGroup([]);
-		$this->assertInstanceOf('\OC\OCS\Result', $result);
-		$this->assertTrue($result->succeeded());
+		$this->api->addGroup('NewGroup');
 	}
 
 	public function testAddGroupWithSpecialChar() {
-		$this->request
-			->method('getParam')
-			->with('groupid')
-			->willReturn('Iñtërnâtiônàlizætiøn');
-
 		$this->groupManager
 			->method('groupExists')
 			->with('Iñtërnâtiônàlizætiøn')
@@ -406,32 +333,28 @@ class GroupsTest extends \Test\TestCase {
 			->method('createGroup')
 			->with('Iñtërnâtiônàlizætiøn');
 
-		$result = $this->api->addGroup([]);
-		$this->assertInstanceOf('\OC\OCS\Result', $result);
-		$this->assertTrue($result->succeeded());
+		$this->api->addGroup('Iñtërnâtiônàlizætiøn');
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 101
+	 */
 	public function testDeleteGroupNonExisting() {
-		$result = $this->api->deleteGroup([
-			'groupid' => 'NonExistingGroup'
-		]);
-		$this->assertInstanceOf('\OC\OCS\Result', $result);
-		$this->assertFalse($result->succeeded());
-		$this->assertEquals(101, $result->getStatusCode());
+		$this->api->deleteGroup('NonExistingGroup');
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 102
+	 */
 	public function testDeleteAdminGroup() {
 		$this->groupManager
 			->method('groupExists')
 			->with('admin')
 			->willReturn('true');
 
-		$result = $this->api->deleteGroup([
-			'groupid' => 'admin'
-		]);
-		$this->assertInstanceOf('\OC\OCS\Result', $result);
-		$this->assertFalse($result->succeeded());
-		$this->assertEquals(102, $result->getStatusCode());
+		$this->api->deleteGroup('admin');
 	}
 
 	public function testDeleteGroup() {
@@ -450,10 +373,6 @@ class GroupsTest extends \Test\TestCase {
 			->method('delete')
 			->willReturn(true);
 
-		$result = $this->api->deleteGroup([
-			'groupid' => 'ExistingGroup',
-		]);
-		$this->assertInstanceOf('\OC\OCS\Result', $result);
-		$this->assertTrue($result->succeeded());
+		$this->api->deleteGroup('ExistingGroup');
 	}
 }

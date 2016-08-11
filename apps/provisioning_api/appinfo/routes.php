@@ -26,12 +26,21 @@
  *
  */
 
-namespace OCA\Provisioning_API\AppInfo;
-
 use OCA\Provisioning_API\Apps;
-use OCA\Provisioning_API\Groups;
 use OCA\Provisioning_API\Users;
 use OCP\API;
+
+$app = new \OCA\Provisioning_API\AppInfo\Application();
+$app->registerRoutes($this, [
+	'ocs' => [
+		// Groups
+		['root' => '/cloud', 'name' => 'Groups#getGroups', 'url' => '/groups', 'verb' => 'GET'],
+		['root' => '/cloud', 'name' => 'Groups#getGroup', 'url' => '/groups/{groupId}', 'verb' => 'GET'],
+		['root' => '/cloud', 'name' => 'Groups#addGroup', 'url' => '/groups', 'verb' => 'POST'],
+		['root' => '/cloud', 'name' => 'Groups#deleteGroup', 'url' => '/groups/{groupId}', 'verb' => 'DELETE'],
+		['root' => '/cloud', 'name' => 'Groups#getSubAdminsOfGroup', 'url' => '/groups/{groupId}/subadmins', 'verb' => 'GET'],
+	],
+]);
 
 // Users
 $users = new Users(
@@ -54,18 +63,6 @@ API::register('delete', '/cloud/users/{userid}/groups', [$users, 'removeFromGrou
 API::register('post', '/cloud/users/{userid}/subadmins', [$users, 'addSubAdmin'], 'provisioning_api', API::ADMIN_AUTH);
 API::register('delete', '/cloud/users/{userid}/subadmins', [$users, 'removeSubAdmin'], 'provisioning_api', API::ADMIN_AUTH);
 API::register('get', '/cloud/users/{userid}/subadmins', [$users, 'getUserSubAdminGroups'], 'provisioning_api', API::ADMIN_AUTH);
-
-// Groups
-$groups = new Groups(
-	\OC::$server->getGroupManager(),
-	\OC::$server->getUserSession(),
-	\OC::$server->getRequest()
-);
-API::register('get', '/cloud/groups', [$groups, 'getGroups'], 'provisioning_api', API::SUBADMIN_AUTH);
-API::register('post', '/cloud/groups', [$groups, 'addGroup'], 'provisioning_api', API::SUBADMIN_AUTH);
-API::register('get', '/cloud/groups/{groupid}', [$groups, 'getGroup'], 'provisioning_api', API::SUBADMIN_AUTH);
-API::register('delete', '/cloud/groups/{groupid}', [$groups, 'deleteGroup'], 'provisioning_api', API::ADMIN_AUTH);
-API::register('get', '/cloud/groups/{groupid}/subadmins', [$groups, 'getSubAdminsOfGroup'], 'provisioning_api', API::ADMIN_AUTH);
 
 // Apps
 $apps = new Apps(
