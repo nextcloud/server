@@ -60,5 +60,18 @@ return ['routes' => [
 		'url' => '/js/theming',
 		'verb' => 'GET',
 	],
+	[
+		'name'	=> 'Icon#getFavicon',
+		'url' => '/favicon/{app}',
+		'verb' => 'GET',
+		'defaults' => array("app" => "core"),
+	],
+	[
+		'name'	=> 'Icon#getThemedIcon',
+		'url' => '/image/{app}/{image}',
+		'verb' => 'GET',
+		'defaults' => array("app" => "core"),
+		'requirements' => array('image' => '.+')
+	],
 ]];
 
