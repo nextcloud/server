@@ -52,6 +52,7 @@ interface IManager {
 	 * returns a list of the admin sections
 	 *
 	 * @return array array of ISection[] where key is the priority
+	 * @since 9.1.0
 	 */
 	public function getAdminSections();
 
@@ -60,6 +61,7 @@ interface IManager {
 	 *
 	 * @param string $section the section id for which to load the settings
 	 * @return array array of IAdmin[] where key is the priority
+	 * @since 9.1.0
 	 */
 	public function getAdminSettings($section);
 }
