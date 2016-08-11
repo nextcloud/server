@@ -24,7 +24,6 @@
 namespace OCA\Files_Sharing\Tests\API;
 
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\IL10N;
 use OCA\Files_Sharing\API\Share20OCS;
 use OCP\Files\NotFoundException;
@@ -35,7 +34,6 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Files\IRootFolder;
 use OCP\Lock\LockedException;
-use Punic\Data;
 
 /**
  * Class Share20OCSTest
@@ -485,7 +483,7 @@ class Share20OCSTest extends \Test\TestCase {
 			['group', $group],
 		]));
 
-		$this->assertEquals($result, $ocs->getShare($share->getId())->getData()['data'][0]);
+		$this->assertEquals($result, $ocs->getShare($share->getId())->getData()[0]);
 	}
 
 	/**
@@ -706,6 +704,7 @@ class Share20OCSTest extends \Test\TestCase {
 		$share = $this->newShare();
 		$this->shareManager->method('newShare')->willReturn($share);
 
+		/** @var \OCA\Files_Sharing\API\Share20OCS $ocs */
 		$ocs = $this->getMockBuilder('OCA\Files_Sharing\API\Share20OCS')
 			->setConstructorArgs([
 				$this->appName,
@@ -766,7 +765,7 @@ class Share20OCSTest extends \Test\TestCase {
 			}))
 			->will($this->returnArgument(0));
 
-		$expected = new DataResponse(['data' => null]);
+		$expected = new DataResponse(null);
 		$result = $ocs->createShare();
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -879,7 +878,7 @@ class Share20OCSTest extends \Test\TestCase {
 			}))
 			->will($this->returnArgument(0));
 
-		$expected = new DataResponse(['data' => null]);
+		$expected = new DataResponse(null);
 		$result = $ocs->createShare();
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1049,7 +1048,7 @@ class Share20OCSTest extends \Test\TestCase {
 			})
 		)->will($this->returnArgument(0));
 
-		$expected = new DataResponse(['data' => null]);
+		$expected = new DataResponse(null);
 		$result = $ocs->createShare();
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1093,7 +1092,7 @@ class Share20OCSTest extends \Test\TestCase {
 			})
 		)->will($this->returnArgument(0));
 
-		$expected = new DataResponse(['data' => null]);
+		$expected = new DataResponse(null);
 		$result = $ocs->createShare();
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1140,7 +1139,7 @@ class Share20OCSTest extends \Test\TestCase {
 			})
 		)->will($this->returnArgument(0));
 
-		$expected = new DataResponse(['data' => null]);
+		$expected = new DataResponse(null);
 		$result = $ocs->createShare();
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1337,7 +1336,7 @@ class Share20OCSTest extends \Test\TestCase {
 			})
 		)->will($this->returnArgument(0));
 
-		$expected = new DataResponse(['data' => null]);
+		$expected = new DataResponse(null);
 		$result = $ocs->updateShare(42);
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1377,7 +1376,7 @@ class Share20OCSTest extends \Test\TestCase {
 			})
 		)->will($this->returnArgument(0));
 
-		$expected = new DataResponse(['data' => null]);
+		$expected = new DataResponse(null);
 		$result = $ocs->updateShare(42);
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1415,7 +1414,7 @@ class Share20OCSTest extends \Test\TestCase {
 			})
 		)->will($this->returnArgument(0));
 
-		$expected = new DataResponse(['data' => null]);
+		$expected = new DataResponse(null);
 		$result = $ocs->updateShare(42);
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1562,7 +1561,7 @@ class Share20OCSTest extends \Test\TestCase {
 			})
 		)->will($this->returnArgument(0));
 
-		$expected = new DataResponse(['data' => null]);
+		$expected = new DataResponse(null);
 		$result = $ocs->updateShare(42);
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1605,7 +1604,7 @@ class Share20OCSTest extends \Test\TestCase {
 			})
 		)->will($this->returnArgument(0));
 
-		$expected = new DataResponse(['data' => null]);
+		$expected = new DataResponse(null);
 		$result = $ocs->updateShare(42);
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1645,7 +1644,7 @@ class Share20OCSTest extends \Test\TestCase {
 			})
 		)->will($this->returnArgument(0));
 
-		$expected = new DataResponse(['data' => null]);
+		$expected = new DataResponse(null);
 		$result = $ocs->updateShare(42);
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1687,7 +1686,7 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$this->shareManager->method('getSharedWith')->willReturn([]);
 
-		$expected = new DataResponse(['data' => null]);
+		$expected = new DataResponse(null);
 		$result = $ocs->updateShare(42);
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1754,7 +1753,7 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$this->shareManager->method('getSharedWith')->willReturn([]);
 
-		$expected = new DataResponse(['data' => null]);
+		$expected = new DataResponse(null);
 		$result = $ocs->updateShare(42);
 
 		$this->assertInstanceOf(get_class($expected), $result);

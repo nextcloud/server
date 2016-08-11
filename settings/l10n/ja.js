@@ -279,7 +279,6 @@ OC.L10N.register(
     "iOS app" : "iOSアプリ",
     "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "このプロジェクトを応援するには、\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">開発に参加</a>\n\t\tもしくは、\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">世界に拡散</a>!\nしてください。",
     "Show First Run Wizard again" : "初回ウィザードを再表示する",
-    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "{communityopen}Nextcloud community{linkclose} による開発されています。{githubopen}source code{linkclose} は、 {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose} ライセンスで提供されています。",
     "Show storage location" : "データの保存場所を表示",
     "Show last log in" : "最終ログインを表示",
     "Show user backend" : "ユーザーバックエンドを表示",

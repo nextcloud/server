@@ -86,7 +86,13 @@ class RouteConfig {
 				$postfix = $ocsRoute['postfix'];
 			}
 
-			$url = $ocsRoute['url'];
+			if (isset($ocsRoute['root'])) {
+				$root = $ocsRoute['root'];
+			} else {
+				$root = '/apps/'.$this->appName;
+			}
+
+			$url = $root . $ocsRoute['url'];
 			$verb = isset($ocsRoute['verb']) ? strtoupper($ocsRoute['verb']) : 'GET';
 
 			$split = explode('#', $name, 2);

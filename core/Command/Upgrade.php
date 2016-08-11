@@ -250,10 +250,10 @@ class Upgrade extends Command {
 				$output->writeln('<info>Checked database schema update</info>');
 			});
 			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use($output) {
-				$output->writeln('<info>Disabled incompatible app: ' . $app . '</info>');
+				$output->writeln('<comment>Disabled incompatible app: ' . $app . '</comment>');
 			});
 			$updater->listen('\OC\Updater', 'thirdPartyAppDisabled', function ($app) use ($output) {
-				$output->writeln('<info>Disabled 3rd-party app: ' . $app . '</info>');
+				$output->writeln('<comment>Disabled 3rd-party app: ' . $app . '</comment>');
 			});
 			$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use($output) {
 				$output->writeln('<info>Update 3rd-party app: ' . $app . '</info>');

@@ -24,7 +24,7 @@ class RoutingTest extends \Test\TestCase
 			]
 		];
 
-		$this->assertSimpleOCSRoute($routes, 'folders.open', 'GET', '/folders/{folderId}/open', 'FoldersController', 'open');
+		$this->assertSimpleOCSRoute($routes, 'folders.open', 'GET', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open');
 	}
 
 	public function testSimpleRouteWithMissingVerb()
@@ -42,7 +42,7 @@ class RoutingTest extends \Test\TestCase
 			]
 		];
 
-		$this->assertSimpleOCSRoute($routes, 'folders.open', 'GET', '/folders/{folderId}/open', 'FoldersController', 'open');
+		$this->assertSimpleOCSRoute($routes, 'folders.open', 'GET', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open');
 	}
 
 	public function testSimpleRouteWithLowercaseVerb()
@@ -60,7 +60,7 @@ class RoutingTest extends \Test\TestCase
 			]
 		];
 
-		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open');
+		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open');
 	}
 
 	public function testSimpleRouteWithRequirements()
@@ -78,7 +78,7 @@ class RoutingTest extends \Test\TestCase
 			]
 		];
 
-		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open', ['something']);
+		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open', ['something']);
 	}
 
 	public function testSimpleRouteWithDefaults()
@@ -97,7 +97,7 @@ class RoutingTest extends \Test\TestCase
 			]
 		];
 
-		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open', [], ['param' => 'foobar']);
+		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open', [], ['param' => 'foobar']);
 	}
 
 	public function testSimpleRouteWithPostfix()
@@ -115,7 +115,7 @@ class RoutingTest extends \Test\TestCase
 			]
 		];
 
-		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open', [], [], '_something');
+		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open', [], [], '_something');
 	}
 
 	/**
@@ -175,7 +175,7 @@ class RoutingTest extends \Test\TestCase
 			['name' => 'admin_folders#open_current', 'url' => '/folders/{folderId}/open', 'verb' => 'delete']
 		]];
 
-		$this->assertSimpleOCSRoute($routes, 'admin_folders.open_current', 'DELETE', '/folders/{folderId}/open', 'AdminFoldersController', 'openCurrent');
+		$this->assertSimpleOCSRoute($routes, 'admin_folders.open_current', 'DELETE', '/apps/app1/folders/{folderId}/open', 'AdminFoldersController', 'openCurrent');
 	}
 
 	public function testResource()

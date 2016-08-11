@@ -1,7 +1,7 @@
 { "translations": {
     "Added to the list of trusted servers" : "Добавлено в список доверенных серверов",
     "Server is already in the list of trusted servers." : "Сервер уже в списке доверенных серверов.",
-    "No server to federate found" : "Сервер для объединения не найден",
+    "No server to federate with found" : "Сервер для объединения не найден",
     "Could not add server" : "Не удалось добавить сервер",
     "Federation" : "Объединение",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Объединение серверов позволит Вам подключиться к другим доверенным серверам для обмена каталогами пользователей. Это будет использовано, например, для автоматического завершения внешних пользователей при объединенном общем доступе.",
