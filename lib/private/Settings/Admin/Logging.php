@@ -26,9 +26,9 @@ namespace OC\Settings\Admin;
 use OC\Log\File as LogFile;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
-use OCP\Settings\IAdmin;
+use OCP\Settings\ISettings;
 
-class Logging implements IAdmin {
+class Logging implements ISettings {
 	/** @var IConfig */
 	private $config;
 

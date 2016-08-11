@@ -30,7 +30,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IUserManager;
-use OCP\Settings\IAdmin;
+use OCP\Settings\ISettings;
 use OCP\Settings\IManager;
 use OCP\Settings\ISection;
 
@@ -119,7 +119,7 @@ class Manager implements IManager {
 		]);
 	}
 
-	private function addAdminSettings(IAdmin $settings) {
+	private function addAdminSettings(ISettings $settings) {
 		$this->add(self::TABLE_ADMIN_SETTINGS, [
 			'class' => get_class($settings),
 			'section' => $settings->getSection(),
@@ -136,7 +136,7 @@ class Manager implements IManager {
 		$query->execute();
 	}
 
-	private function updateAdminSettings(IAdmin $settings) {
+	private function updateAdminSettings(ISettings $settings) {
 		$this->update(
 			self::TABLE_ADMIN_SETTINGS,
 			'class',
@@ -210,14 +210,14 @@ class Manager implements IManager {
 		}
 
 		try {
-			/** @var IAdmin $settings */
+			/** @var ISettings $settings */
 			$settings = $this->query($settingsClassName);
 		} catch (QueryException $e) {
 			// cancel
 			return;
 		}
 
-		if(!$settings instanceof IAdmin) {
+		if(!$settings instanceof ISettings) {
 			$this->log->error(
 				'Admin section instance must implement \OCP\ISection. Invalid class: {class}',
 				['class' => $settingsClassName]
@@ -283,27 +283,27 @@ class Manager implements IManager {
 		$forms = [];
 		try {
 			if($section === 'server') {
-				/** @var IAdmin $form */
+				/** @var ISettings $form */
 				$form = new Admin\Server($this->dbc, $this->config);
 				$forms[$form->getPriority()] = [$form];
 			}
 			if($section === 'encryption') {
-				/** @var IAdmin $form */
+				/** @var ISettings $form */
 				$form = new Admin\Encryption($this->encryptionManager, $this->userManager);
 				$forms[$form->getPriority()] = [$form];
 			}
 			if($section === 'sharing') {
-				/** @var IAdmin $form */
+				/** @var ISettings $form */
 				$form = new Admin\Sharing($this->config);
 				$forms[$form->getPriority()] = [$form];
 			}
 			if($section === 'logging') {
-				/** @var IAdmin $form */
+				/** @var ISettings $form */
 				$form = new Admin\Logging($this->config);
 				$forms[$form->getPriority()] = [$form];
 			}
 			if($section === 'tips-tricks') {
-				/** @var IAdmin $form */
+				/** @var ISettings $form */
 				$form = new Admin\TipsTricks($this->config);
 				$forms[$form->getPriority()] = [$form];
 			}

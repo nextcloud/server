@@ -91,7 +91,7 @@ class AdminSettingsController extends Controller {
 		$html = '';
 		foreach ($settings as $prioritizedSettings) {
 			foreach ($prioritizedSettings as $setting) {
-				/** @var \OCP\Settings\IAdmin $setting */
+				/** @var \OCP\Settings\ISettings $setting */
 				$form = $setting->getForm();
 				$html .= $form->renderAs('')->render();
 			}

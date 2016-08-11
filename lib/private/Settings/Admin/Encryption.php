@@ -26,9 +26,9 @@ namespace OC\Settings\Admin;
 use OC\Encryption\Manager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IUserManager;
-use OCP\Settings\IAdmin;
+use OCP\Settings\ISettings;
 
-class Encryption implements IAdmin {
+class Encryption implements ISettings {
 	/** @var Manager */
 	private $manager;
 

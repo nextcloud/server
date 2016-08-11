@@ -25,15 +25,17 @@ namespace OCP\Settings;
 
 use OCP\AppFramework\Http\TemplateResponse;
 
-interface IAdmin {
+interface ISettings {
 
 	/**
 	 * @return TemplateResponse returns the instance with all parameters set, ready to be rendered
+	 * @since 9.1
 	 */
 	public function getForm();
 
 	/**
 	 * @return string the section ID, e.g. 'sharing'
+	 * @since 9.1
 	 */
 	public function getSection();
 
@@ -43,6 +45,7 @@ interface IAdmin {
 	 * priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
+	 * @since 9.1
 	 */
 	public function getPriority();
 }

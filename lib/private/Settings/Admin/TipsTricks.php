@@ -25,9 +25,9 @@ namespace OC\Settings\Admin;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
-use OCP\Settings\IAdmin;
+use OCP\Settings\ISettings;
 
-class TipsTricks implements IAdmin {
+class TipsTricks implements ISettings {
 	/** @var IConfig */
 	private $config;
 
