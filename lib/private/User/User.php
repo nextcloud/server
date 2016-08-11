@@ -200,14 +200,14 @@ class User implements IUser {
 			// FIXME: Feels like an hack - suggestions?
 
 			// We have to delete the user from all groups
-			foreach (\OC_Group::getUserGroups($this->uid) as $i) {
-				\OC_Group::removeFromGroup($this->uid, $i);
+			foreach (\OC::$server->getGroupManager()->getUserGroupIds($this) as $groupId) {
+				\OC_Group::removeFromGroup($this->uid, $groupId);
 			}
 			// Delete the user's keys in preferences
 			\OC::$server->getConfig()->deleteAllUserValues($this->uid);
 
 			// Delete user files in /data/
-			\OC_Helper::rmdirr(\OC_User::getHome($this->uid));
+			\OC_Helper::rmdirr($this->getHome());
 
 			// Delete the users entry in the storage table
 			Storage::remove('home::' . $this->uid);
