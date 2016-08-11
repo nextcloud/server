@@ -13,7 +13,7 @@
 		<admin>admin-external-storage</admin>
 	</documentation>
 	<rememberlogin>false</rememberlogin>
-	<version>1.1.0</version>
+	<version>1.1.1</version>
 	<types>
 		<filesystem/>
 	</types>
@@ -24,4 +24,9 @@
 	<dependencies>
 		<owncloud min-version="9.2" max-version="9.2" />
 	</dependencies>
+
+	<settings>
+		<admin>OCA\Files_External\Settings\Admin</admin>
+		<admin-section>OCA\Files_External\Settings\Section</admin-section>
+	</settings>
 </info>
