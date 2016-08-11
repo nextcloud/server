@@ -157,7 +157,9 @@ class URLGenerator implements IURLGenerator {
 
 		// Check if the app is in the app folder
 		$path = '';
-		if (file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$image")) {
+		if(\OCP\App::isEnabled('theming') && $image === "favicon.ico" && $app !== "") {
+			$path = $this->linkToRoute('theming.Icon.getFavicon', [ 'app' => $app ]);
+		} elseif (file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$image")) {
 			$path = \OC::$WEBROOT . "/themes/$theme/apps/$app/img/$image";
 		} elseif (!file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$basename.svg")
 			&& file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$basename.png")) {
