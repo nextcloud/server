@@ -39,6 +39,8 @@ class DiscoveryManager {
 	private $cache;
 	/** @var IClient */
 	private $client;
+	/** @var bool */
+	public $underTest = false;
 
 	/**
 	 * @param ICacheFactory $cacheFactory
@@ -81,6 +83,10 @@ class DiscoveryManager {
 			'webdav' => '/public.php/webdav',
 			'share' => '/ocs/v1.php/cloud/shares',
 		];
+
+		if (defined('PHPUNIT_RUN') && !$this->underTest) {
+			return $discoveredServices;
+		}
 
 		// Read the data from the response body
 		try {

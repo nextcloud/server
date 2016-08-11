@@ -62,6 +62,7 @@ class DiscoveryManagerTest extends TestCase {
 			$cacheFactory,
 			$clientService
 		);
+		$this->discoveryManager->underTest = true;
 	}
 
 	public function testWithMalformedFormattedEndpointCached() {
