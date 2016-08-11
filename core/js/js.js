@@ -1510,7 +1510,6 @@ function initCore() {
 				$app.addClass('app-loading');
 			} else {
 				// On middle click or on first button click with ctrl key or meta key hold
-				console.log(event.which);
 				if(event.which === 2 || (event.which === 1 && (event.ctrlKey || event.metaKey))) {
 					// Close navigation when opening app in
 					// a new tab
