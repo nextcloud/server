@@ -385,8 +385,8 @@ span.version {
 	padding-right: 10px;
 	width: 80px;
 	height: 80px;
+	opacity: 0.8;
 }
-
 .app-name,
 .app-version,
 .app-score,
