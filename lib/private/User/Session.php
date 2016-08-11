@@ -649,6 +649,7 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * Tries to login the user with auth token header
 	 *
+	 * @param IRequest $request
 	 * @todo check remember me cookie
 	 * @return boolean
 	 */
