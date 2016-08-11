@@ -38,7 +38,6 @@ if(\OC::$server->getConfig()->getSystemValue('updatechecker', true) === true) {
 				\OCP\Util::addScript('updatenotification', 'notification');
 				OC_Hook::connect('\OCP\Config', 'js', $updateChecker, 'getJavaScript');
 			}
-			\OC_App::registerAdmin('updatenotification', 'admin');
 		}
 	}
 
