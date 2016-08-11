@@ -27,10 +27,9 @@
  *
  */
 
-namespace OCA\Provisioning_API\Tests;
+namespace OCA\Provisioning_API\Tests\Controller;
 
-use OCA\Provisioning_API\Users;
-use OCP\API;
+use OCA\Provisioning_API\Controller\UsersController;
 use OCP\IUserManager;
 use OCP\IConfig;
 use OCP\IUserSession;
@@ -38,7 +37,7 @@ use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase as OriginalTest;
 use OCP\ILogger;
 
-class UsersTest extends OriginalTest {
+class UsersControllerTest extends OriginalTest {
 	
 	/** @var IUserManager | PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
@@ -50,12 +49,10 @@ class UsersTest extends OriginalTest {
 	protected $userSession;
 	/** @var ILogger | PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
-	/** @var Users | PHPUnit_Framework_MockObject_MockObject */
+	/** @var UsersController | PHPUnit_Framework_MockObject_MockObject */
 	protected $api;
 
 	protected function tearDown() {
-		$_GET = null;
-		$_POST = null;
 		parent::tearDown();
 	}
 
@@ -77,8 +74,13 @@ class UsersTest extends OriginalTest {
 		$this->logger = $this->getMockBuilder('OCP\ILogger')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->api = $this->getMockBuilder('OCA\Provisioning_API\Users')
+		$request = $this->getMockBuilder('OCP\IRequest')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->api = $this->getMockBuilder('OCA\Provisioning_API\Controller\UsersController')
 			->setConstructorArgs([
+				'provisioning_api',
+				$request,
 				$this->userManager,
 				$this->config,
 				$this->groupManager,
@@ -89,19 +91,7 @@ class UsersTest extends OriginalTest {
 			->getMock();
 	}
 
-	public function testGetUsersNotLoggedIn() {
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue(null));
-
-		$expected = new \OC\OCS\Result(null, API::RESPOND_UNAUTHORISED);
-		$this->assertEquals($expected, $this->api->getUsers());
-	}
-
 	public function testGetUsersAsAdmin() {
-		$_GET['search'] = 'MyCustomSearch';
-
 		$loggedInUser = $this->getMockBuilder('OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
@@ -123,19 +113,16 @@ class UsersTest extends OriginalTest {
 			->with('MyCustomSearch', null, null)
 			->will($this->returnValue(['Admin' => [], 'Foo' => [], 'Bar' => []]));
 
-		$expected = new \OC\OCS\Result([
-			'users' => [
+		$expected = ['users' => [
 				'Admin',
 				'Foo',
 				'Bar',
 			],
-		]);
-		$this->assertEquals($expected, $this->api->getUsers());
+		];
+		$this->assertEquals($expected, $this->api->getUsers('MyCustomSearch')->getData());
 	}
 
 	public function testGetUsersAsSubAdmin() {
-		$_GET['search'] = 'MyCustomSearch';
-
 		$loggedInUser = $this->getMockBuilder('OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
@@ -186,51 +173,20 @@ class UsersTest extends OriginalTest {
 			->method('displayNamesInGroup')
 			->will($this->onConsecutiveCalls(['AnotherUserInTheFirstGroup' => []], ['UserInTheSecondGroup' => []]));
 
-		$expected = new \OC\OCS\Result([
+		$expected = [
 			'users' => [
 				'AnotherUserInTheFirstGroup',
 				'UserInTheSecondGroup',
 			],
-		]);
-		$this->assertEquals($expected, $this->api->getUsers());
+		];
+		$this->assertEquals($expected, $this->api->getUsers('MyCustomSearch')->getData());
 	}
 
-	public function testGetUsersAsRegularUser() {
-		$_GET['search'] = 'MyCustomSearch';
-
-		$loggedInUser = $this->getMockBuilder('OCP\IUser')
-			->disableOriginalConstructor()
-			->getMock();
-		$loggedInUser
-			->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('regularUser'));
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue($loggedInUser));
-		$this->groupManager
-			->expects($this->once())
-			->method('isAdmin')
-			->will($this->returnValue(false));
-		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
-			->disableOriginalConstructor()->getMock();
-		$subAdminManager
-			->expects($this->once())
-			->method('isSubAdmin')
-			->with($loggedInUser)
-			->will($this->returnValue(false));
-		$this->groupManager
-			->expects($this->once())
-			->method('getSubAdmin')
-			->will($this->returnValue($subAdminManager));
-
-		$expected = new \OC\OCS\Result(null, API::RESPOND_UNAUTHORISED);
-		$this->assertEquals($expected, $this->api->getUsers());
-	}
-
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 102
+	 */
 	public function testAddUserAlreadyExisting() {
-		$_POST['userid'] = 'AlreadyExistingUser';
 		$this->userManager
 			->expects($this->once())
 			->method('userExists')
@@ -257,13 +213,15 @@ class UsersTest extends OriginalTest {
 			->with('adminUser')
 			->willReturn(true);
 
-		$expected = new \OC\OCS\Result(null, 102, 'User already exists');
-		$this->assertEquals($expected, $this->api->addUser());
+		$this->api->addUser('AlreadyExistingUser', null, null);
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 104
+	 * @expectedExceptionMessage group NonExistingGroup does not exist
+	 */
 	public function testAddUserNonExistingGroup() {
-		$_POST['userid'] = 'NewUser';
-		$_POST['groups'] = ['NonExistingGroup'];
 		$this->userManager
 			->expects($this->once())
 			->method('userExists')
@@ -291,13 +249,15 @@ class UsersTest extends OriginalTest {
 			->with('NonExistingGroup')
 			->willReturn(false);
 
-		$expected = new \OC\OCS\Result(null, 104, 'group NonExistingGroup does not exist');
-		$this->assertEquals($expected, $this->api->addUser());
+		$this->api->addUser('NewUser', 'pass', ['NonExistingGroup']);
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 104
+	 * @expectedExceptionMessage group NonExistingGroup does not exist
+	 */
 	public function testAddUserExistingGroupNonExistingGroup() {
-		$_POST['userid'] = 'NewUser';
-		$_POST['groups'] = ['ExistingGroup', 'NonExistingGroup'];
 		$this->userManager
 			->expects($this->once())
 			->method('userExists')
@@ -331,13 +291,10 @@ class UsersTest extends OriginalTest {
 				['NonExistingGroup', false]
 			]));
 
-		$expected = new \OC\OCS\Result(null, 104, 'group NonExistingGroup does not exist');
-		$this->assertEquals($expected, $this->api->addUser());
+		$this->api->addUser('NewUser', 'pass', ['ExistingGroup', 'NonExistingGroup']);
 	}
 
 	public function testAddUserSuccessful() {
-		$_POST['userid'] = 'NewUser';
-		$_POST['password'] = 'PasswordOfTheNewUser';
 		$this->userManager
 			->expects($this->once())
 			->method('userExists')
@@ -368,14 +325,10 @@ class UsersTest extends OriginalTest {
 			->with('adminUser')
 			->willReturn(true);
 
-		$expected = new \OC\OCS\Result(null, 100);
-		$this->assertEquals($expected, $this->api->addUser());
+		$this->assertEquals([], $this->api->addUser('NewUser', 'PasswordOfTheNewUser')->getData());
 	}
 
 	public function testAddUserExistingGroup() {
-		$_POST['userid'] = 'NewUser';
-		$_POST['password'] = 'PasswordOfTheNewUser';
-		$_POST['groups'] = ['ExistingGroup'];
 		$this->userManager
 			->expects($this->once())
 			->method('userExists')
@@ -430,13 +383,15 @@ class UsersTest extends OriginalTest {
 				['Added userid NewUser to group ExistingGroup', ['app' => 'ocs_api']]
 			);
 
-		$expected = new \OC\OCS\Result(null, 100);
-		$this->assertEquals($expected, $this->api->addUser());
+		$this->assertEquals([], $this->api->addUser('NewUser', 'PasswordOfTheNewUser', ['ExistingGroup'])->getData());
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 101
+	 * @expectedExceptionMessage Bad request
+	 */
 	public function testAddUserUnsuccessful() {
-		$_POST['userid'] = 'NewUser';
-		$_POST['password'] = 'PasswordOfTheNewUser';
 		$this->userManager
 			->expects($this->once())
 			->method('userExists')
@@ -468,49 +423,15 @@ class UsersTest extends OriginalTest {
 			->with('adminUser')
 			->willReturn(true);
 
-		$expected = new \OC\OCS\Result(null, 101, 'Bad request');
-		$this->assertEquals($expected, $this->api->addUser());
+		$this->api->addUser('NewUser', 'PasswordOfTheNewUser');
 	}
 
-	public function testAddUserAsRegularUser() {
-		$_POST['userid'] = 'NewUser';
-		$_POST['password'] = 'PasswordOfTheNewUser';
-		$loggedInUser = $this->getMockBuilder('OCP\IUser')
-			->disableOriginalConstructor()
-			->getMock();
-		$loggedInUser
-			->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('regularUser'));
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue($loggedInUser));
-		$this->groupManager
-			->expects($this->once())
-			->method('isAdmin')
-			->with('regularUser')
-			->willReturn(false);
-		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
-			->disableOriginalConstructor()->getMock();
-		$subAdminManager
-			->expects($this->once())
-			->method('isSubAdmin')
-			->with($loggedInUser)
-			->willReturn(false);
-		$this->groupManager
-			->expects($this->once())
-			->method('getSubAdmin')
-			->with()
-			->willReturn($subAdminManager);
-
-		$expected = new \OC\OCS\Result(null, API::RESPOND_UNAUTHORISED);
-		$this->assertEquals($expected, $this->api->addUser());	
-	}
-
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 106
+	 * @expectedExceptionMessage no group specified (required for subadmins)
+	 */
 	public function testAddUserAsSubAdminNoGroup() {
-		$_POST['userid'] = 'NewUser';
-		$_POST['password'] = 'PasswordOfTheNewUser';
 		$loggedInUser = $this->getMockBuilder('OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
@@ -529,25 +450,21 @@ class UsersTest extends OriginalTest {
 			->willReturn(false);
 		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
 			->disableOriginalConstructor()->getMock();
-		$subAdminManager
-			->expects($this->once())
-			->method('isSubAdmin')
-			->with($loggedInUser)
-			->willReturn(true);
 		$this->groupManager
 			->expects($this->once())
 			->method('getSubAdmin')
 			->with()
 			->willReturn($subAdminManager);
 
-		$expected = new \OC\OCS\Result(null, 106, 'no group specified (required for subadmins)');
-		$this->assertEquals($expected, $this->api->addUser());	
+		$this->api->addUser('NewUser', 'PasswordOfTheNewUser', null);
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 105
+	 * @expectedExceptionMessage insufficient privileges for group ExistingGroup
+	 */
 	public function testAddUserAsSubAdminValidGroupNotSubAdmin() {
-		$_POST['userid'] = 'NewUser';
-		$_POST['password'] = 'PasswordOfTheNewUser';
-		$_POST['groups'] = ['ExistingGroup'];
 		$loggedInUser = $this->getMockBuilder('OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
@@ -574,11 +491,6 @@ class UsersTest extends OriginalTest {
 			->disableOriginalConstructor()->getMock();
 		$subAdminManager
 			->expects($this->once())
-			->method('isSubAdmin')
-			->with($loggedInUser)
-			->willReturn(true);
-		$subAdminManager
-			->expects($this->once())
 			->method('isSubAdminOfGroup')
 			->with($loggedInUser, $existingGroup)
 			->willReturn(false);
@@ -593,14 +505,10 @@ class UsersTest extends OriginalTest {
 			->with('ExistingGroup')
 			->willReturn(true);
 
-		$expected = new \OC\OCS\Result(null, 105, 'insufficient privileges for group ExistingGroup');
-		$this->assertEquals($expected, $this->api->addUser());	
+		$this->api->addUser('NewUser', 'PasswordOfTheNewUser', ['ExistingGroup'])->getData();
 	}
 
 	public function testAddUserAsSubAdminExistingGroups() {
-		$_POST['userid'] = 'NewUser';
-		$_POST['password'] = 'PasswordOfTheNewUser';
-		$_POST['groups'] = ['ExistingGroup1', 'ExistingGroup2'];
 		$this->userManager
 			->expects($this->once())
 			->method('userExists')
@@ -680,11 +588,6 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->willReturn($subAdminManager);
 		$subAdminManager
-			->expects($this->once())
-			->method('isSubAdmin')
-			->with($loggedInUser)
-			->willReturn(true);
-		$subAdminManager
 			->expects($this->exactly(2))
 			->method('isSubAdminOfGroup')
 			->withConsecutive(
@@ -693,22 +596,14 @@ class UsersTest extends OriginalTest {
 			)
 			->willReturn(true);
 
-
-		$expected = new \OC\OCS\Result(null, 100);
-		$this->assertEquals($expected, $this->api->addUser());
+		$this->assertEquals([], $this->api->addUser('NewUser', 'PasswordOfTheNewUser', ['ExistingGroup1', 'ExistingGroup2'])->getData());
 	}
 
-
-	public function testGetUserNotLoggedIn() {
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue(null));
-
-		$expected = new \OC\OCS\Result(null, API::RESPOND_UNAUTHORISED);
-		$this->assertEquals($expected, $this->api->getUser(['userid' => 'UserToGet']));
-	}
-
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 998
+	 * @expectedExceptionMessage The requested user could not be found
+	 */
 	public function testGetUserTargetDoesNotExist() {
 		$loggedInUser = $this->getMockBuilder('OCP\IUser')
 			->disableOriginalConstructor()
@@ -723,8 +618,7 @@ class UsersTest extends OriginalTest {
 			->with('UserToGet')
 			->will($this->returnValue(null));
 
-		$expected = new \OC\OCS\Result(null, API::RESPOND_NOT_FOUND, 'The requested user could not be found');
-		$this->assertEquals($expected, $this->api->getUser(['userid' => 'UserToGet']));
+		$this->api->getUser('UserToGet');
 	}
 
 	public function testGetUserAsAdmin() {
@@ -770,15 +664,13 @@ class UsersTest extends OriginalTest {
 			->method('getDisplayName')
 			->will($this->returnValue('Demo User'));
 
-		$expected = new \OC\OCS\Result(
-			[
-				'enabled' => 'true',
-				'quota' => ['DummyValue'],
-				'email' => 'demo@owncloud.org',
-				'displayname' => 'Demo User',
-			]
-		);
-		$this->assertEquals($expected, $this->api->getUser(['userid' => 'UserToGet']));
+		$expected = [
+			'enabled' => 'true',
+			'quota' => ['DummyValue'],
+			'email' => 'demo@owncloud.org',
+			'displayname' => 'Demo User',
+		];
+		$this->assertEquals($expected, $this->api->getUser('UserToGet')->getData());
 	}
 
 	public function testGetUserAsSubAdminAndUserIsAccessible() {
@@ -837,17 +729,20 @@ class UsersTest extends OriginalTest {
 			->method('getDisplayName')
 			->will($this->returnValue('Demo User'));
 
-		$expected = new \OC\OCS\Result(
-			[
-				'enabled' => 'true',
-				'quota' => ['DummyValue'],
-				'email' => 'demo@owncloud.org',
-				'displayname' => 'Demo User',
-			]
-		);
-		$this->assertEquals($expected, $this->api->getUser(['userid' => 'UserToGet']));
+		$expected = [
+			'enabled' => 'true',
+			'quota' => ['DummyValue'],
+			'email' => 'demo@owncloud.org',
+			'displayname' => 'Demo User',
+		];
+		$this->assertEquals($expected, $this->api->getUser('UserToGet')->getData());
 	}
 
+
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 997
+	 */
 	public function testGetUserAsSubAdminAndUserIsNotAccessible() {
 		$loggedInUser = $this->getMockBuilder('OCP\IUser')
 			->disableOriginalConstructor()
@@ -886,8 +781,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC\OCS\Result(null, API::RESPOND_UNAUTHORISED);
-		$this->assertEquals($expected, $this->api->getUser(['userid' => 'UserToGet']));
+		$this->api->getUser('UserToGet');
 	}
 
 	public function testGetUserAsSubAdminSelfLookup() {
@@ -941,22 +835,12 @@ class UsersTest extends OriginalTest {
 			->method('getEMailAddress')
 			->will($this->returnValue('subadmin@owncloud.org'));
 
-		$expected = new \OC\OCS\Result([
+		$expected = [
 			'quota' => ['DummyValue'],
 			'email' => 'subadmin@owncloud.org',
 			'displayname' => 'Subadmin User',
-		]);
-		$this->assertEquals($expected, $this->api->getUser(['userid' => 'subadmin']));
-	}
-
-	public function testEditUserNotLoggedIn() {
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue(null));
-
-		$expected = new \OC\OCS\Result(null, API::RESPOND_UNAUTHORISED);
-		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit']));
+		];
+		$this->assertEquals($expected, $this->api->getUser('subadmin')->getData());
 	}
 
 	public function testEditUserRegularUserSelfEditChangeDisplayName() {
@@ -984,8 +868,7 @@ class UsersTest extends OriginalTest {
 			->method('setDisplayName')
 			->with('NewDisplayName');
 
-		$expected = new \OC\OCS\Result(null, 100);
-		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'display', 'value' => 'NewDisplayName']]));
+		$this->assertEquals([], $this->api->editUser('UserToEdit', 'display', 'NewDisplayName')->getData());
 	}
 
 	public function testEditUserRegularUserSelfEditChangeEmailValid() {
@@ -1013,10 +896,14 @@ class UsersTest extends OriginalTest {
 			->method('setEMailAddress')
 			->with('demo@owncloud.org');
 
-		$expected = new \OC\OCS\Result(null, 100);
-		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'email', 'value' => 'demo@owncloud.org']]));
+		$this->assertEquals([], $this->api->editUser('UserToEdit', 'email', 'demo@owncloud.org')->getData());
 	}
 
+
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 102
+	 */
 	public function testEditUserRegularUserSelfEditChangeEmailInvalid() {
 		$loggedInUser = $this->getMockBuilder('OCP\IUser')
 			->disableOriginalConstructor()
@@ -1038,8 +925,7 @@ class UsersTest extends OriginalTest {
 			->with('UserToEdit')
 			->will($this->returnValue($targetUser));
 
-		$expected = new \OC\OCS\Result(null, 102);
-		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'email', 'value' => 'demo.org']]));
+		$this->api->editUser('UserToEdit', 'email', 'demo.org');
 	}
 
 	public function testEditUserRegularUserSelfEditChangePassword() {
@@ -1067,10 +953,14 @@ class UsersTest extends OriginalTest {
 			->method('setPassword')
 			->with('NewPassword');
 
-		$expected = new \OC\OCS\Result(null, 100);
-		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'password', 'value' => 'NewPassword']]));
+		$this->assertEquals([], $this->api->editUser('UserToEdit', 'password', 'NewPassword')->getData());
 	}
 
+
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 997
+	 */
 	public function testEditUserRegularUserSelfEditChangeQuota() {
 		$loggedInUser = $this->getMockBuilder('OCP\IUser')
 			->disableOriginalConstructor()
@@ -1092,8 +982,7 @@ class UsersTest extends OriginalTest {
 			->with('UserToEdit')
 			->will($this->returnValue($targetUser));
 
-		$expected = new \OC\OCS\Result(null, 997);
-		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'quota', 'value' => 'NewQuota']]));
+		$this->api->editUser('UserToEdit', 'quota', 'NewQuota');
 	}
 
 	public function testEditUserAdminUserSelfEditChangeValidQuota() {
@@ -1121,10 +1010,15 @@ class UsersTest extends OriginalTest {
 			->with('UserToEdit')
 			->will($this->returnValue(true));
 
-		$expected = new \OC\OCS\Result(null, 100);
-		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'quota', 'value' => '3042824']]));
+		$this->assertEquals([], $this->api->editUser('UserToEdit', 'quota', '3042824')->getData());
 	}
 
+
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 103
+	 * @expectedExceptionMessage Invalid quota value ABC
+	 */
 	public function testEditUserAdminUserSelfEditChangeInvalidQuota() {
 		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$loggedInUser
@@ -1147,8 +1041,7 @@ class UsersTest extends OriginalTest {
 			->with('UserToEdit')
 			->will($this->returnValue(true));
 
-		$expected = new \OC\OCS\Result(null, 103, 'Invalid quota value ABC');
-		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'quota', 'value' => 'ABC']]));
+		$this->api->editUser('UserToEdit', 'quota', 'ABC');
 	}
 
 	public function testEditUserAdminUserEditChangeValidQuota() {
@@ -1183,8 +1076,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC\OCS\Result(null, 100);
-		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'quota', 'value' => '3042824']]));
+		$this->assertEquals([], $this->api->editUser('UserToEdit', 'quota', '3042824')->getData());
 	}
 
 	public function testEditUserSubadminUserAccessible() {
@@ -1219,10 +1111,13 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC\OCS\Result(null, 100);
-		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'quota', 'value' => '3042824']]));
+		$this->assertEquals([], $this->api->editUser('UserToEdit', 'quota', '3042824')->getData());
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 997
+	 */
 	public function testEditUserSubadminUserInaccessible() {
 		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$loggedInUser
@@ -1252,20 +1147,13 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC\OCS\Result(null, 997);
-		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'quota', 'value' => '3042824']]));
+		$this->api->editUser('UserToEdit', 'quota', 'value');
 	}
 
-	public function testDeleteUserNotLoggedIn() {
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue(null));
-
-		$expected = new \OC\OCS\Result(null, 997);
-		$this->assertEquals($expected, $this->api->deleteUser(['userid' => 'UserToDelete']));
-	}
-
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 101
+	 */
 	public function testDeleteUserNotExistingUser() {
 		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$loggedInUser
@@ -1282,10 +1170,13 @@ class UsersTest extends OriginalTest {
 			->with('UserToDelete')
 			->will($this->returnValue(null));
 
-		$expected = new \OC\OCS\Result(null, 101);
-		$this->assertEquals($expected, $this->api->deleteUser(['userid' => 'UserToDelete']));
+		$this->api->deleteUser('UserToDelete');
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 101
+	 */
 	public function testDeleteUserSelf() {
 		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$loggedInUser
@@ -1307,8 +1198,7 @@ class UsersTest extends OriginalTest {
 			->with('UserToDelete')
 			->will($this->returnValue($targetUser));
 
-		$expected = new \OC\OCS\Result(null, 101);
-		$this->assertEquals($expected, $this->api->deleteUser(['userid' => 'UserToDelete']));
+		$this->api->deleteUser('UserToDelete');
 	}
 
 	public function testDeleteSuccessfulUserAsAdmin() {
@@ -1341,10 +1231,13 @@ class UsersTest extends OriginalTest {
 			->method('delete')
 			->will($this->returnValue(true));
 
-		$expected = new \OC\OCS\Result(null, 100);
-		$this->assertEquals($expected, $this->api->deleteUser(['userid' => 'UserToDelete']));
+		$this->assertEquals([], $this->api->deleteUser('UserToDelete')->getData());
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 101
+	 */
 	public function testDeleteUnsuccessfulUserAsAdmin() {
 		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$loggedInUser
@@ -1375,8 +1268,7 @@ class UsersTest extends OriginalTest {
 			->method('delete')
 			->will($this->returnValue(false));
 
-		$expected = new \OC\OCS\Result(null, 101);
-		$this->assertEquals($expected, $this->api->deleteUser(['userid' => 'UserToDelete']));
+		$this->api->deleteUser('UserToDelete');
 	}
 
 	public function testDeleteSuccessfulUserAsSubadmin() {
@@ -1420,10 +1312,13 @@ class UsersTest extends OriginalTest {
 			->method('delete')
 			->will($this->returnValue(true));
 
-		$expected = new \OC\OCS\Result(null, 100);
-		$this->assertEquals($expected, $this->api->deleteUser(['userid' => 'UserToDelete']));
+		$this->assertEquals([], $this->api->deleteUser('UserToDelete')->getData());
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 101
+	 */
 	public function testDeleteUnsuccessfulUserAsSubadmin() {
 		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$loggedInUser
@@ -1465,10 +1360,13 @@ class UsersTest extends OriginalTest {
 			->method('delete')
 			->will($this->returnValue(false));
 
-		$expected = new \OC\OCS\Result(null, 101);
-		$this->assertEquals($expected, $this->api->deleteUser(['userid' => 'UserToDelete']));
+		$this->api->deleteUser('UserToDelete');
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 997
+	 */
 	public function testDeleteUserAsSubAdminAndUserIsNotAccessible() {
 		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$loggedInUser
@@ -1506,20 +1404,13 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC\OCS\Result(null, 997);
-		$this->assertEquals($expected, $this->api->deleteUser(['userid' => 'UserToDelete']));
+		$this->api->deleteUser('UserToDelete');
 	}
 
-	public function testGetUsersGroupsNotLoggedIn() {
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue(null));
-
-		$expected = new \OC\OCS\Result(null, 997);
-		$this->assertEquals($expected, $this->api->getUsersGroups(['userid' => 'UserToLookup']));
-	}
-
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 998
+	 */
 	public function testGetUsersGroupsTargetUserNotExisting() {
 		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$this->userSession
@@ -1527,8 +1418,7 @@ class UsersTest extends OriginalTest {
 			->method('getUser')
 			->will($this->returnValue($loggedInUser));
 
-		$expected = new \OC\OCS\Result(null, 998);
-		$this->assertEquals($expected, $this->api->getUsersGroups(['userid' => 'UserToLookup']));
+		$this->api->getUsersGroups('UserToLookup');
 	}
 
 	public function testGetUsersGroupsSelfTargetted() {
@@ -1557,8 +1447,7 @@ class UsersTest extends OriginalTest {
 			->with($targetUser)
 			->will($this->returnValue(['DummyValue']));
 
-		$expected = new \OC\OCS\Result(['groups' => ['DummyValue']]);
-		$this->assertEquals($expected, $this->api->getUsersGroups(['userid' => 'UserToLookup']));
+		$this->assertEquals(['groups' => ['DummyValue']], $this->api->getUsersGroups('UserToLookup')->getData());
 	}
 
 	public function testGetUsersGroupsForAdminUser() {
@@ -1592,8 +1481,7 @@ class UsersTest extends OriginalTest {
 			->with('admin')
 			->will($this->returnValue(true));
 
-		$expected = new \OC\OCS\Result(['groups' => ['DummyValue']]);
-		$this->assertEquals($expected, $this->api->getUsersGroups(['userid' => 'UserToLookup']));
+		$this->assertEquals(['groups' => ['DummyValue']], $this->api->getUsersGroups('UserToLookup')->getData());
 	}
 
 	public function testGetUsersGroupsForSubAdminUserAndUserIsAccessible() {
@@ -1653,11 +1541,13 @@ class UsersTest extends OriginalTest {
 			->with($targetUser)
 			->will($this->returnValue(['Group1']));
 
-		$expected = new \OC\OCS\Result(['groups' => ['Group1']]);
-		$this->assertEquals($expected, $this->api->getUsersGroups(['userid' => 'UserToLookup']));
+		$this->assertEquals(['groups' => ['Group1']], $this->api->getUsersGroups('UserToLookup')->getData());
 	}
 
-
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 997
+	 */
 	public function testGetUsersGroupsForSubAdminUserAndUserIsInaccessible() {
 		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$loggedInUser
@@ -1700,137 +1590,64 @@ class UsersTest extends OriginalTest {
 			->with($targetUser)
 			->will($this->returnValue(['Group1']));
 
-		$expected = new \OC\OCS\Result(null, 997);
-		$this->assertEquals($expected, $this->api->getUsersGroups(['userid' => 'UserToLookup']));
+		$this->api->getUsersGroups('UserToLookup');
 	}
 
-	public function testAddToGroupNotLoggedIn() {
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue(null));
-
-		$expected = new \OC\OCS\Result(null, 997);
-		$this->assertEquals($expected, $this->api->addToGroup([]));
-	}
-
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 102
+	 */
 	public function testAddToGroupWithTargetGroupNotExisting() {
-		$_POST['groupid'] = 'GroupToAddTo';
-
-		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
-		$loggedInUser
-			->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('admin'));
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue($loggedInUser));
 		$this->groupManager
 			->expects($this->once())
 			->method('get')
 			->with('GroupToAddTo')
 			->will($this->returnValue(null));
-		$this->groupManager
-			->expects($this->once())
-			->method('isAdmin')
-			->with('admin')
-			->will($this->returnValue(true));
 
-		$expected = new \OC\OCS\Result(null, 102);
-		$this->assertEquals($expected, $this->api->addToGroup(['userid' => 'TargetUser']));
+		$this->api->addToGroup('TargetUser', 'GroupToAddTo');
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 101
+	 */
 	public function testAddToGroupWithNoGroupSpecified() {
-		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
-		$loggedInUser
-			->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('admin'));
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue($loggedInUser));
-		$this->groupManager
-			->expects($this->once())
-			->method('isAdmin')
-			->with('admin')
-			->will($this->returnValue(true));
-
-		$expected = new \OC\OCS\Result(null, 101);
-		$this->assertEquals($expected, $this->api->addToGroup(['userid' => 'TargetUser']));
+		$this->api->addToGroup('TargetUser');
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 103
+	 */
 	public function testAddToGroupWithTargetUserNotExisting() {
-		$_POST['groupid'] = 'GroupToAddTo';
-
-		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
-		$loggedInUser
-			->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('admin'));
 		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue($loggedInUser));
 		$this->groupManager
 			->expects($this->once())
 			->method('get')
 			->with('GroupToAddTo')
 			->will($this->returnValue($targetGroup));
-		$this->groupManager
-			->expects($this->once())
-			->method('isAdmin')
-			->with('admin')
-			->will($this->returnValue(true));
 
-		$expected = new \OC\OCS\Result(null, 103);
-		$this->assertEquals($expected, $this->api->addToGroup(['userid' => 'TargetUser']));
+		$this->api->addToGroup('TargetUser', 'GroupToAddTo');
 	}
 
-	public function testAddToGroupWithoutPermission() {
-		$_POST['groupid'] = 'GroupToAddTo';
-
-		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
-		$loggedInUser
-			->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('admin'));
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue($loggedInUser));
-		$this->groupManager
-			->expects($this->once())
-			->method('isAdmin')
-			->with('admin')
-			->will($this->returnValue(false));
-
-		$expected = new \OC\OCS\Result(null, 997);
-		$this->assertEquals($expected, $this->api->addToGroup(['userid' => 'TargetUser']));
-	}
-
-	public function testRemoveFromGroupWithoutLogIn() {
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue(null));
-
-		$expected = new \OC\OCS\Result(null, 997);
-		$this->assertEquals($expected, $this->api->removeFromGroup(['userid' => 'TargetUser', '_delete' => ['groupid' => 'TargetGroup']]));
-	}
-
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 101
+	 */
 	public function testRemoveFromGroupWithNoTargetGroup() {
 		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
 			->will($this->returnValue($loggedInUser));
-		$expected = new \OC\OCS\Result(null, 101);
-		$this->assertEquals($expected, $this->api->removeFromGroup(['userid' => 'TargetUser', '_delete' => []]));
+
+		$this->api->removeFromGroup('TargetUser', null);
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 102
+	 */
 	public function testRemoveFromGroupWithNotExistingTargetGroup() {
 		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$this->userSession
@@ -1843,10 +1660,13 @@ class UsersTest extends OriginalTest {
 			->with('TargetGroup')
 			->will($this->returnValue(null));
 
-		$expected = new \OC\OCS\Result(null, 102);
-		$this->assertEquals($expected, $this->api->removeFromGroup(['userid' => 'TargetUser', '_delete' => ['groupid' => 'TargetGroup']]));
+		$this->api->removeFromGroup('TargetUser', 'TargetGroup');
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 103
+	 */
 	public function testRemoveFromGroupWithNotExistingTargetUser() {
 		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
@@ -1865,10 +1685,13 @@ class UsersTest extends OriginalTest {
 			->with('TargetUser')
 			->will($this->returnValue(null));
 
-		$expected = new \OC\OCS\Result(null, 103);
-		$this->assertEquals($expected, $this->api->removeFromGroup(['userid' => 'TargetUser', '_delete' => ['groupid' => 'TargetGroup']]));
+		$this->api->removeFromGroup('TargetUser', 'TargetGroup');
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 104
+	 */
 	public function testRemoveFromGroupWithoutPermission() {
 		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$loggedInUser
@@ -1903,10 +1726,14 @@ class UsersTest extends OriginalTest {
 			->with('unauthorizedUser')
 			->will($this->returnValue(false));
 
-		$expected = new \OC\OCS\Result(null, 104);
-		$this->assertEquals($expected, $this->api->removeFromGroup(['userid' => 'TargetUser', '_delete' => ['groupid' => 'TargetGroup']]));
+		$this->api->removeFromGroup('TargetUser', 'TargetGroup');
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 105
+	 * @expectedExceptionMessage Cannot remove yourself from the admin group
+	 */
 	public function testRemoveFromGroupAsAdminFromAdmin() {
 		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$loggedInUser
@@ -1945,10 +1772,14 @@ class UsersTest extends OriginalTest {
 			->with('admin')
 			->will($this->returnValue(true));
 
-		$expected = new \OC\OCS\Result(null, 105, 'Cannot remove yourself from the admin group');
-		$this->assertEquals($expected, $this->api->removeFromGroup(['userid' => 'admin', '_delete' => ['groupid' => 'admin']]));
+		$this->api->removeFromGroup('admin', 'admin');
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 105
+	 * @expectedExceptionMessage Cannot remove yourself from this group as you are a SubAdmin
+	 */
 	public function testRemoveFromGroupAsSubAdminFromSubAdmin() {
 		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$loggedInUser
@@ -1997,8 +1828,7 @@ class UsersTest extends OriginalTest {
 			->with('subadmin')
 			->will($this->returnValue(false));
 
-		$expected = new \OC\OCS\Result(null, 105, 'Cannot remove yourself from this group as you are a SubAdmin');
-		$this->assertEquals($expected, $this->api->removeFromGroup(['userid' => 'subadmin', '_delete' => ['groupid' => 'subadmin']]));
+		$this->api->removeFromGroup('subadmin', 'subadmin');
 	}
 
 	public function testRemoveFromGroupSuccessful() {
@@ -2039,10 +1869,14 @@ class UsersTest extends OriginalTest {
 			->method('removeUser')
 			->with($targetUser);
 
-		$expected = new \OC\OCS\Result(null, 100);
-		$this->assertEquals($expected, $this->api->removeFromGroup(['userid' => 'AnotherUser', '_delete' => ['groupid' => 'admin']]));
+		$this->assertEquals([], $this->api->removeFromGroup('AnotherUser', 'admin')->getData());
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 101
+	 * @expectedExceptionMessage User does not exist
+	 */
 	public function testAddSubAdminWithNotExistingTargetUser() {
 		$this->userManager
 			->expects($this->once())
@@ -2050,12 +1884,15 @@ class UsersTest extends OriginalTest {
 			->with('NotExistingUser')
 			->will($this->returnValue(null));
 
-		$expected = new \OC\OCS\Result(null, 101, 'User does not exist');
-		$this->assertEquals($expected, $this->api->addSubAdmin(['userid' => 'NotExistingUser']));
+		$this->api->addSubAdmin('NotExistingUser', null);
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 102
+	 * @expectedExceptionMessage Group:NotExistingGroup does not exist
+	 */
 	public function testAddSubAdminWithNotExistingTargetGroup() {
-		$_POST['groupid'] = 'NotExistingGroup';
 
 		$targetUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$this->userManager
@@ -2069,13 +1906,15 @@ class UsersTest extends OriginalTest {
 			->with('NotExistingGroup')
 			->will($this->returnValue(null));
 
-		$expected = new \OC\OCS\Result(null, 102, 'Group:NotExistingGroup does not exist');
-		$this->assertEquals($expected, $this->api->addSubAdmin(['userid' => 'ExistingUser']));
+		$this->api->addSubAdmin('ExistingUser', 'NotExistingGroup');
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 103
+	 * @expectedExceptionMessage Cannot create subadmins for admin group
+	 */
 	public function testAddSubAdminToAdminGroup() {
-		$_POST['groupid'] = 'ADmiN';
-
 		$targetUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
 		$this->userManager
@@ -2089,13 +1928,10 @@ class UsersTest extends OriginalTest {
 			->with('ADmiN')
 			->will($this->returnValue($targetGroup));
 
-		$expected = new \OC\OCS\Result(null, 103, 'Cannot create subadmins for admin group');
-		$this->assertEquals($expected, $this->api->addSubAdmin(['userid' => 'ExistingUser']));
+		$this->api->addSubAdmin('ExistingUser', 'ADmiN');
 	}
 
 	public function testAddSubAdminTwice() {
-		$_POST['groupid'] = 'TargetGroup';
-
 		$targetUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
 		$this->userManager
@@ -2120,13 +1956,10 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC\OCS\Result(null, 100);
-		$this->assertEquals($expected, $this->api->addSubAdmin(['userid' => 'ExistingUser']));
+		$this->assertEquals([], $this->api->addSubAdmin('ExistingUser', 'TargetGroup')->getData());
 	}
 
 	public function testAddSubAdminSuccessful() {
-		$_POST['groupid'] = 'TargetGroup';
-
 		$targetUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
 		$this->userManager
@@ -2156,13 +1989,15 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC\OCS\Result(null, 100);
-		$this->assertEquals($expected, $this->api->addSubAdmin(['userid' => 'ExistingUser']));
+		$this->assertEquals([], $this->api->addSubAdmin('ExistingUser', 'TargetGroup')->getData());
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 103
+	 * @expectedExceptionMessage Unknown error occurred
+	 */
 	public function testAddSubAdminUnsuccessful() {
-		$_POST['groupid'] = 'TargetGroup';
-
 		$targetUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
 		$this->userManager
@@ -2192,10 +2027,14 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC\OCS\Result(null, 103, 'Unknown error occurred');
-		$this->assertEquals($expected, $this->api->addSubAdmin(['userid' => 'ExistingUser']));
+		$this->api->addSubAdmin('ExistingUser', 'TargetGroup');
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 101
+	 * @expectedExceptionMessage User does not exist
+	 */
 	public function testRemoveSubAdminNotExistingTargetUser() {
 		$this->userManager
 			->expects($this->once())
@@ -2203,10 +2042,14 @@ class UsersTest extends OriginalTest {
 			->with('NotExistingUser')
 			->will($this->returnValue(null));
 
-		$expected = new \OC\OCS\Result(null, 101, 'User does not exist');
-		$this->assertEquals($expected, $this->api->removeSubAdmin(['userid' => 'NotExistingUser', '_delete' => ['groupid' => 'GroupToDeleteFrom']]));
+		$this->api->removeSubAdmin('NotExistingUser', 'GroupToDeleteFrom');
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 101
+	 * @expectedExceptionMessage Group does not exist
+	 */
 	public function testRemoveSubAdminNotExistingTargetGroup() {
 		$targetUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$this->userManager
@@ -2220,10 +2063,15 @@ class UsersTest extends OriginalTest {
 			->with('GroupToDeleteFrom')
 			->will($this->returnValue(null));
 
-		$expected = new \OC\OCS\Result(null, 101, 'Group does not exist');
-		$this->assertEquals($expected, $this->api->removeSubAdmin(['userid' => 'ExistingUser', '_delete' => ['groupid' => 'GroupToDeleteFrom']]));
+		$this->api->removeSubAdmin('ExistingUser', 'GroupToDeleteFrom');
 	}
 
+
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 102
+	 * @expectedExceptionMessage User is not a subadmin of this group
+	 */
 	public function testRemoveSubAdminFromNotASubadmin() {
 		$targetUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
@@ -2249,8 +2097,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC\OCS\Result(null, 102, 'User is not a subadmin of this group');
-		$this->assertEquals($expected, $this->api->removeSubAdmin(['userid' => 'ExistingUser', '_delete' => ['groupid' => 'GroupToDeleteFrom']]));
+		$this->api->removeSubAdmin('ExistingUser', 'GroupToDeleteFrom');
 	}
 
 	public function testRemoveSubAdminSuccessful() {
@@ -2283,10 +2130,14 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC\OCS\Result(null, 100);
-		$this->assertEquals($expected, $this->api->removeSubAdmin(['userid' => 'ExistingUser', '_delete' => ['groupid' => 'GroupToDeleteFrom']]));
+		$this->assertEquals([], $this->api->removeSubAdmin('ExistingUser', 'GroupToDeleteFrom')->getData());
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 103
+	 * @expectedExceptionMessage Unknown error occurred
+	 */
 	public function testRemoveSubAdminUnsuccessful() {
 		$targetUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
@@ -2317,10 +2168,14 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC\OCS\Result(null, 103, 'Unknown error occurred');
-		$this->assertEquals($expected, $this->api->removeSubAdmin(['userid' => 'ExistingUser', '_delete' => ['groupid' => 'GroupToDeleteFrom']]));
+		$this->api->removeSubAdmin('ExistingUser', 'GroupToDeleteFrom');
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 101
+	 * @expectedExceptionMessage User does not exist
+	 */
 	public function testGetUserSubAdminGroupsNotExistingTargetUser() {
 		$this->userManager
 			->expects($this->once())
@@ -2328,8 +2183,7 @@ class UsersTest extends OriginalTest {
 			->with('RequestedUser')
 			->will($this->returnValue(null));
 
-		$expected = new \OC\OCS\Result(null, 101, 'User does not exist');
-		$this->assertEquals($expected, $this->api->getUserSubAdminGroups(['userid' => 'RequestedUser']));
+		$this->api->getUserSubAdminGroups('RequestedUser');
 	}
 
 	public function testGetUserSubAdminGroupsWithGroups() {
@@ -2356,10 +2210,14 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC\OCS\Result(['TargetGroup'], 100);
-		$this->assertEquals($expected, $this->api->getUserSubAdminGroups(['userid' => 'RequestedUser']));
+		$this->assertEquals(['TargetGroup'], $this->api->getUserSubAdminGroups('RequestedUser')->getData());
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 102
+	 * @expectedExceptionMessage Unknown error occurred
+	 */
 	public function testGetUserSubAdminGroupsWithoutGroups() {
 		$targetUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$this->userManager
@@ -2379,8 +2237,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC\OCS\Result(null, 102, 'Unknown error occurred');
-		$this->assertEquals($expected, $this->api->getUserSubAdminGroups(['userid' => 'RequestedUser']));
+		$this->api->getUserSubAdminGroups('RequestedUser');
 	}
 
 	public function testEnableUser() {
@@ -2407,8 +2264,7 @@ class UsersTest extends OriginalTest {
 			->method('isAdmin')
 			->will($this->returnValue(true));
 
-		$expected = new \OC\OCS\Result(null, 100);
-		$this->assertEquals($expected, $this->api->enableUser(['userid' => 'RequestedUser']));
+		$this->assertEquals([], $this->api->enableUser('RequestedUser')->getData());
 	}
 
 	public function testDisableUser() {
@@ -2435,7 +2291,6 @@ class UsersTest extends OriginalTest {
 			->method('isAdmin')
 			->will($this->returnValue(true));
 
-		$expected = new \OC\OCS\Result(null, 100);
-		$this->assertEquals($expected, $this->api->disableUser(['userid' => 'RequestedUser']));
+		$this->assertEquals([], $this->api->disableUser('RequestedUser')->getData());
 	}
 }
