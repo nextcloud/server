@@ -23,18 +23,10 @@
 
 namespace OCA\SystemTags\Settings;
 
-use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Settings\ISettings;
 
 class Admin implements ISettings {
-
-	/** @var TrustedServers */
-	private $trustedServers;
-
-	public function __construct(TrustedServers $trustedServers) {
-		$this->trustedServers = $trustedServers;
-	}
 
 	/**
 	 * @return TemplateResponse
