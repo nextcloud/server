@@ -96,9 +96,12 @@ trait Provisioning {
 		}
 
 		$options['body'] = [
-							'userid' => $user,
-							'password' => '123456'
-							];
+			'userid' => $user,
+			'password' => '123456'
+		];
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
 
 		$this->response = $client->send($client->createRequest("POST", $fullUrl, $options));
 		if ($this->currentServer === 'LOCAL'){
@@ -110,6 +113,9 @@ trait Provisioning {
 		//Quick hack to login once with the current user
 		$options2 = [
 			'auth' => [$user, '123456'],
+		];
+		$options2['headers'] = [
+			'OCS-APIREQUEST' => 'true',
 		];
 		$url = $fullUrl.'/'.$user;
 		$client->send($client->createRequest('GET', $url, $options2));
@@ -152,6 +158,9 @@ trait Provisioning {
 		$client = new Client();
 		$options = [];
 		$options['auth'] = $this->adminUser;
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true'
+		];
 
 		$this->response = $client->get($fullUrl, $options);
 	}
@@ -168,6 +177,9 @@ trait Provisioning {
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
 		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
 
 		$this->response = $client->get($fullUrl, $options);
 		$respondedArray = $this->getArrayOfGroupsResponded($this->response);
@@ -183,6 +195,9 @@ trait Provisioning {
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
 		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
 
 		$this->response = $client->get($fullUrl, $options);
 		$respondedArray = $this->getArrayOfGroupsResponded($this->response);
@@ -223,6 +238,9 @@ trait Provisioning {
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
 		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
 
 		$this->response = $client->get($fullUrl, $options);
 		$groups = array($group);
@@ -244,8 +262,11 @@ trait Provisioning {
 		}
 
 		$options['body'] = [
-							'groupid' => $group,
-							];
+			'groupid' => $group,
+		];
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
 
 		$this->response = $client->send($client->createRequest("POST", $fullUrl, $options));
 		if ($this->currentServer === 'LOCAL'){
@@ -265,6 +286,13 @@ trait Provisioning {
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
 		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
+		// TODO: fix hack
+		$options['body'] = [
+			'foo' => 'bar'
+		];
 
 		$this->response = $client->send($client->createRequest("PUT", $fullUrl, $options));
 	}
@@ -280,6 +308,9 @@ trait Provisioning {
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
 		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
 
 		$this->response = $client->send($client->createRequest("DELETE", $fullUrl, $options));
 	}
@@ -295,6 +326,9 @@ trait Provisioning {
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
 		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
 
 		$this->response = $client->send($client->createRequest("DELETE", $fullUrl, $options));
 	}
@@ -323,10 +357,13 @@ trait Provisioning {
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
 		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
 
 		$options['body'] = [
-							'groupid' => $group,
-							];
+			'groupid' => $group,
+		];
 
 		$this->response = $client->send($client->createRequest("POST", $fullUrl, $options));
 	}
@@ -337,6 +374,9 @@ trait Provisioning {
 		$client = new Client();
 		$options = [];
 		$options['auth'] = $this->adminUser;
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
 
 		$this->response = $client->get($fullUrl, $options);
 	}
@@ -394,6 +434,9 @@ trait Provisioning {
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
 		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
 
 		$this->response = $client->get($fullUrl, $options);
 		$respondedArray = $this->getArrayOfSubadminsResponded($this->response);
@@ -415,8 +458,11 @@ trait Provisioning {
 			$options['auth'] = $this->adminUser;
 		}
 		$options['body'] = [
-							'groupid' => $group
-							];
+			'groupid' => $group
+		];
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
 		$this->response = $client->send($client->createRequest("POST", $fullUrl, $options));
 		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
 	}
@@ -433,6 +479,9 @@ trait Provisioning {
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
 		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
 
 		$this->response = $client->get($fullUrl, $options);
 		$respondedArray = $this->getArrayOfSubadminsResponded($this->response);
@@ -561,6 +610,9 @@ trait Provisioning {
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
 		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
 
 		$this->response = $client->get($fullUrl, $options);
 		$respondedArray = $this->getArrayOfAppsResponded($this->response);
@@ -579,6 +631,9 @@ trait Provisioning {
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
 		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
 
 		$this->response = $client->get($fullUrl, $options);
 		$respondedArray = $this->getArrayOfAppsResponded($this->response);
@@ -597,6 +652,9 @@ trait Provisioning {
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
 		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
 
 		$this->response = $client->get($fullUrl, $options);
 		PHPUnit_Framework_Assert::assertEquals("false", $this->response->xml()->data[0]->enabled);
@@ -613,6 +671,9 @@ trait Provisioning {
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
 		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
 
 		$this->response = $client->get($fullUrl, $options);
 		PHPUnit_Framework_Assert::assertEquals("true", $this->response->xml()->data[0]->enabled);

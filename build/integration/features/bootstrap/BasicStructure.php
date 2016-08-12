@@ -165,6 +165,13 @@ trait BasicStructure {
 			$options['body'] = $fd;
 		}
 
+		// TODO: Fix this hack!
+		if ($verb === 'PUT' && $body === null) {
+			$options['body'] = [
+				'foo' => 'bar',
+			];
+		}
+
 		try {
 			$this->response = $client->send($client->createRequest($verb, $fullUrl, $options));
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
