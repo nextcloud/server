@@ -27,14 +27,14 @@ use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
-use OC\AppFramework\Http\Request;
+use OCP\IRequest;
 use OC\AppFramework\Middleware\OCSMiddleware;
 
 
 class OCSMiddlewareTest extends \Test\TestCase {
 
 	/**
-	 * @var Request
+	 * @var IRequest
 	 */
 	private $request;
 
@@ -101,8 +101,18 @@ class OCSMiddlewareTest extends \Test\TestCase {
 			$this->assertInstanceOf('OCP\AppFramework\Http\OCSResponse', $result);
 
 			$this->assertSame($message, $this->invokePrivate($result, 'message'));
-			$this->assertSame($code, $this->invokePrivate($result, 'statuscode'));
-			$this->assertSame(200, $result->getStatus());
+
+			if ($exception->getCode() === 0) {
+				$this->assertSame(\OCP\API::RESPOND_UNKNOWN_ERROR, $this->invokePrivate($result, 'statuscode'));
+			} else {
+				$this->assertSame($code, $this->invokePrivate($result, 'statuscode'));
+			}
+
+			if ($exception instanceof OCSForbiddenException) {
+				$this->assertSame(Http::STATUS_UNAUTHORIZED, $result->getStatus());
+			} else {
+				$this->assertSame(200, $result->getStatus());
+			}
 		} catch (\Exception $e) {
 			$this->assertTrue($forward);
 			$this->assertEquals($exception, $e);
@@ -131,7 +141,11 @@ class OCSMiddlewareTest extends \Test\TestCase {
 			$this->assertInstanceOf('OCP\AppFramework\Http\OCSResponse', $result);
 
 			$this->assertSame($message, $this->invokePrivate($result, 'message'));
-			$this->assertSame($code, $this->invokePrivate($result, 'statuscode'));
+			if ($exception->getCode() === 0) {
+				$this->assertSame(\OCP\API::RESPOND_UNKNOWN_ERROR, $this->invokePrivate($result, 'statuscode'));
+			} else {
+				$this->assertSame($code, $this->invokePrivate($result, 'statuscode'));
+			}
 			$this->assertSame($code, $result->getStatus());
 		} catch (\Exception $e) {
 			$this->assertTrue($forward);
@@ -161,11 +175,61 @@ class OCSMiddlewareTest extends \Test\TestCase {
 			$this->assertInstanceOf('OCP\AppFramework\Http\OCSResponse', $result);
 
 			$this->assertSame($message, $this->invokePrivate($result, 'message'));
-			$this->assertSame($code, $this->invokePrivate($result, 'statuscode'));
+			if ($exception->getCode() === 0) {
+				$this->assertSame(\OCP\API::RESPOND_UNKNOWN_ERROR, $this->invokePrivate($result, 'statuscode'));
+			} else {
+				$this->assertSame($code, $this->invokePrivate($result, 'statuscode'));
+			}
 			$this->assertSame($code, $result->getStatus());
 		} catch (\Exception $e) {
 			$this->assertTrue($forward);
 			$this->assertEquals($exception, $e);
+		}
+	}
+
+	public function dataAfterController() {
+		$OCSController = $this->getMockBuilder('OCP\AppFramework\OCSController')
+			->disableOriginalConstructor()
+			->getMock();
+		$controller = $this->getMockBuilder('OCP\AppFramework\Controller')
+			->disableOriginalConstructor()
+			->getMock();
+
+		return [
+			[$OCSController, new Http\Response(), false],
+			[$OCSController, new Http\JSONResponse(), false],
+			[$OCSController, new Http\JSONResponse(['message' => 'foo']), false],
+			[$OCSController, new Http\JSONResponse(['message' => 'foo'], Http::STATUS_UNAUTHORIZED), true],
+			[$OCSController, new Http\JSONResponse(['message' => 'foo'], Http::STATUS_FORBIDDEN), true],
+
+			[$controller, new Http\Response(), false],
+			[$controller, new Http\JSONResponse(), false],
+			[$controller, new Http\JSONResponse(['message' => 'foo']), false],
+			[$controller, new Http\JSONResponse(['message' => 'foo'], Http::STATUS_UNAUTHORIZED), false],
+			[$controller, new Http\JSONResponse(['message' => 'foo'], Http::STATUS_FORBIDDEN), false],
+
+		];
+	}
+
+	/**
+	 * @dataProvider dataAfterController
+	 *
+	 * @param Controller $controller
+	 * @param Http\Response $response
+	 * @param bool $converted
+	 */
+	public function testAfterController($controller, $response, $converted) {
+		$OCSMiddleware = new OCSMiddleware($this->request);
+		$newResponse = $OCSMiddleware->afterController($controller, 'foo', $response);
+
+		if ($converted === false) {
+			$this->assertSame($response, $newResponse);
+		} else {
+			$this->assertInstanceOf('\OCP\AppFramework\Http\OCSResponse', $newResponse);
+			/** @var Http\OCSResponse $newResponse */
+			$this->assertSame($response->getData()['message'], $this->invokePrivate($newResponse, 'message'));
+			$this->assertSame(\OCP\API::RESPOND_UNAUTHORISED, $this->invokePrivate($newResponse, 'statuscode'));
+			$this->assertSame(Http::STATUS_UNAUTHORIZED, $newResponse->getStatus());
 		}
 	}
 
