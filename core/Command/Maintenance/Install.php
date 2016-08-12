@@ -64,15 +64,12 @@ class Install extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-$output->writeln("Setting Up Install procedure");
 		// validate the environment
 		$server = \OC::$server;
 		$setupHelper = new Setup($this->config, $server->getIniWrapper(),
 			$server->getL10N('lib'), $server->getThemingDefaults(), $server->getLogger(),
 			$server->getSecureRandom());
-$output->writeln("Setup initilized");
 		$sysInfo = $setupHelper->getSystemInfo(true);
-$output->writeln("Systeminfo retrieved");
 		$errors = $sysInfo['errors'];
 		if (count($errors) > 0) {
 			$this->printErrors($output, $errors);

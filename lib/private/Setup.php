@@ -373,8 +373,9 @@ class Setup {
 			$userSession->createSessionToken($request, $userSession->getUser()->getUID(), $username, $password);
 
 			//guess what this does
+print('installing shipped apps' . PHP_EOL);
 			Installer::installShippedApps();
-
+print('… done' . PHP_EOL);
 			// create empty file in data dir, so we can later find
 			// out that this is indeed an ownCloud data directory
 			file_put_contents($config->getSystemValue('datadirectory', \OC::$SERVERROOT.'/data').'/.ocdata', '');
