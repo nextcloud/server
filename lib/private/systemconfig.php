@@ -41,7 +41,19 @@ class SystemConfig {
 		'passwordsalt' => true,
 		'secret' => true,
 		'ldap_agent_password' => true,
-		'objectstore' => ['arguments' => ['password' => true]],
+		'proxyuserpwd' => true,
+		'log.condition' => [
+			'shared_secret' => true,
+		],
+		'license-key' => true,
+		'redis' => [
+			'password' => true,
+		],
+		'objectstore' => [
+			'arguments' => [
+				'password' => true,
+			],
+		],
 	];
 
 	/**
