@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\Files\Settings;
+namespace OCA\Files_External\Settings;
 
 use OCP\IL10N;
 use OCP\Settings\ISection;
@@ -41,7 +41,7 @@ class Section implements ISection {
 	 * @returns string
 	 */
 	public function getID() {
-		return 'files';
+		return 'externalstorages';
 	}
 
 	/**
@@ -51,7 +51,7 @@ class Section implements ISection {
 	 * @return string
 	 */
 	public function getName() {
-		return $this->l->t('Files & storages');
+		return $this->l->t('External storages');
 	}
 
 	/**
