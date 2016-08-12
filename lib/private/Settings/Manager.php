@@ -30,6 +30,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IUserManager;
+use OCP\Lock\ILockingProvider;
 use OCP\Settings\ISettings;
 use OCP\Settings\IManager;
 use OCP\Settings\ISection;
@@ -38,7 +39,6 @@ class Manager implements IManager {
 	const TABLE_ADMIN_SETTINGS = 'admin_settings';
 	const TABLE_ADMIN_SECTIONS = 'admin_sections';
 
-	/** @var ILogger */
 	/** @var ILogger */
 	private $log;
 
@@ -57,13 +57,17 @@ class Manager implements IManager {
 	/** @var IUserManager */
 	private $userManager;
 
+	/** @var ILockingProvider */
+	private $lockingProvider;
+
 	public function __construct(
 		ILogger $log,
 		IDBConnection $dbc,
 		IL10N $l,
 		IConfig $config,
 		EncryptionManager $encryptionManager,
-		IUserManager $userManager
+		IUserManager $userManager,
+		ILockingProvider $lockingProvider
 	) {
 		$this->log = $log;
 		$this->dbc = $dbc;
@@ -71,6 +75,7 @@ class Manager implements IManager {
 		$this->config = $config;
 		$this->encryptionManager = $encryptionManager;
 		$this->userManager = $userManager;
+		$this->lockingProvider = $lockingProvider;
 	}
 
 	/**
@@ -85,6 +90,9 @@ class Manager implements IManager {
 		}
 	}
 
+	/**
+	 * @param string $sectionClassName
+	 */
 	private function setupAdminSection($sectionClassName) {
 		if(!class_exists($sectionClassName)) {
 			$this->log->debug('Could not find admin section class ' . $sectionClassName);
@@ -283,7 +291,7 @@ class Manager implements IManager {
 		try {
 			if($section === 'server') {
 				/** @var ISettings $form */
-				$form = new Admin\Server($this->dbc, $this->config);
+				$form = new Admin\Server($this->dbc, $this->config, $this->lockingProvider, $this->l);
 				$forms[$form->getPriority()] = [$form];
 			}
 			if($section === 'encryption') {
