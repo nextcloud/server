@@ -210,7 +210,9 @@ module.exports = function(config) {
 		reporters: ['dots', 'junit', 'coverage'],
 
 		junitReporter: {
-			outputFile: 'tests/autotest-results-js.xml'
+			outputDir: 'tests',
+			outputFile: 'autotest-results-js.xml',
+			useBrowserName: false
 		},
 
 		// web server port
