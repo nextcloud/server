@@ -348,7 +348,8 @@ class OC_App {
 
 		$info = self::getAppInfo($app);
 		if(isset($info['settings']) && is_array($info['settings'])) {
-			self::loadApp($app, false);
+			$appPath = self::getAppPath($app);
+			self::registerAutoloading($app, $appPath);
 			\OC::$server->getSettingsManager()->setupSettings($info['settings']);
 		}
 	}
@@ -1170,7 +1171,8 @@ class OC_App {
 			}
 
 			if(isset($info['settings']) && is_array($info['settings'])) {
-				self::loadApp($app, false);
+				$appPath = self::getAppPath($app);
+				self::registerAutoloading($app, $appPath);
 				\OC::$server->getSettingsManager()->setupSettings($info['settings']);
 			}
 
@@ -1212,7 +1214,8 @@ class OC_App {
 		}
 		self::setupBackgroundJobs($appData['background-jobs']);
 		if(isset($appData['settings']) && is_array($appData['settings'])) {
-			self::loadApp($appId, false);
+			$appPath = self::getAppPath($appId);
+			self::registerAutoloading($appId, $appPath);
 			\OC::$server->getSettingsManager()->setupSettings($appData['settings']);
 		}
 
