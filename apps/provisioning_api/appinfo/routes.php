@@ -33,6 +33,12 @@ use OCP\API;
 $app = new \OCA\Provisioning_API\AppInfo\Application();
 $app->registerRoutes($this, [
 	'ocs' => [
+		// Apps
+		['root' => '/cloud', 'name' => 'Apps#getApps', 'url' => '/apps', 'verb' => 'GET'],
+		['root' => '/cloud', 'name' => 'Apps#getAppInfo', 'url' => '/apps/{app}', 'verb' => 'GET'],
+		['root' => '/cloud', 'name' => 'Apps#enable', 'url' => '/apps/{app}', 'verb' => 'POST'],
+		['root' => '/cloud', 'name' => 'Apps#disable', 'url' => '/apps/{app}', 'verb' => 'DELETE'],
+
 		// Groups
 		['root' => '/cloud', 'name' => 'Groups#getGroups', 'url' => '/groups', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Groups#getGroup', 'url' => '/groups/{groupId}', 'verb' => 'GET'],
@@ -57,13 +63,3 @@ $app->registerRoutes($this, [
 
 	],
 ]);
-
-// Apps
-$apps = new Apps(
-	\OC::$server->getAppManager(),
-	\OC::$server->getOcsClient()
-);
-API::register('get', '/cloud/apps', [$apps, 'getApps'], 'provisioning_api', API::ADMIN_AUTH);
-API::register('get', '/cloud/apps/{appid}', [$apps, 'getAppInfo'], 'provisioning_api', API::ADMIN_AUTH);
-API::register('post', '/cloud/apps/{appid}', [$apps, 'enable'], 'provisioning_api', API::ADMIN_AUTH);
-API::register('delete', '/cloud/apps/{appid}', [$apps, 'disable'], 'provisioning_api', API::ADMIN_AUTH);

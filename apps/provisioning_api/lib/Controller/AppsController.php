@@ -23,89 +23,101 @@
  *
  */
 
-namespace OCA\Provisioning_API;
+namespace OCA\Provisioning_API\Controller;
 
 use OC\OCSClient;
 use \OC_App;
+use OCP\App\IAppManager;
+use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCS\OCSException;
+use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\AppFramework\OCSController;
+use OCP\IRequest;
 
-class Apps {
+class AppsController extends OCSController {
 	/** @var \OCP\App\IAppManager */
 	private $appManager;
 	/** @var OCSClient */
 	private $ocsClient;
 
 	/**
-	 * @param \OCP\App\IAppManager $appManager
+	 * @param string $appName
+	 * @param IRequest $request
+	 * @param IAppManager $appManager
+	 * @param OCSClient $ocsClient
 	 */
-	public function __construct(\OCP\App\IAppManager $appManager,
-								OCSClient $ocsClient) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		IAppManager $appManager,
+		OCSClient $ocsClient
+	) {
+		parent::__construct($appName, $request);
+
 		$this->appManager = $appManager;
 		$this->ocsClient = $ocsClient;
 	}
 
 	/**
-	 * @param array $parameters
-	 * @return \OC\OCS\Result
+	 * @param string $filter
+	 * @return DataResponse
+	 * @throws OCSException
 	 */
-	public function getApps($parameters) {
+	public function getApps($filter = null) {
 		$apps = OC_App::listAllApps(false, true, $this->ocsClient);
 		$list = [];
 		foreach($apps as $app) {
 			$list[] = $app['id'];
 		}
-		$filter = isset($_GET['filter']) ? $_GET['filter'] : false;
 		if($filter){
 			switch($filter){
 				case 'enabled':
-					return new \OC\OCS\Result(array('apps' => \OC_App::getEnabledApps()));
+					return new DataResponse(['apps' => \OC_App::getEnabledApps()]);
 					break;
 				case 'disabled':
 					$enabled = OC_App::getEnabledApps();
-					return new \OC\OCS\Result(array('apps' => array_diff($list, $enabled)));
+					return new DataResponse(['apps' => array_diff($list, $enabled)]);
 					break;
 				default:
 					// Invalid filter variable
-					return new \OC\OCS\Result(null, 101);
-					break;
+					throw new OCSException('', 101);
 			}
 
 		} else {
-			return new \OC\OCS\Result(array('apps' => $list));
+			return new DataResponse(['apps' => $list]);
 		}
 	}
 
 	/**
-	 * @param array $parameters
-	 * @return \OC\OCS\Result
+	 * @param string $app
+	 * @return DataResponse
+	 * @throws OCSNotFoundException
 	 */
-	public function getAppInfo($parameters) {
-		$app = $parameters['appid'];
+	public function getAppInfo($app) {
 		$info = \OCP\App::getAppInfo($app);
 		if(!is_null($info)) {
-			return new \OC\OCS\Result(OC_App::getAppInfo($app));
+			return new DataResponse(OC_App::getAppInfo($app));
 		} else {
-			return new \OC\OCS\Result(null, \OCP\API::RESPOND_NOT_FOUND, 'The request app was not found');
+			throw new OCSException('The request app was not found', \OCP\API::RESPOND_NOT_FOUND);
 		}
 	}
 
 	/**
-	 * @param array $parameters
-	 * @return \OC\OCS\Result
+	 * @param string $app
+	 * @return DataResponse
 	 */
-	public function enable($parameters) {
-		$app = $parameters['appid'];
+	public function enable($app) {
 		$this->appManager->enableApp($app);
-		return new \OC\OCS\Result(null, 100);
+		return new DataResponse();
 	}
 
 	/**
-	 * @param array $parameters
-	 * @return \OC\OCS\Result
+	 * @param string $app
+	 * @return DataResponse
 	 */
-	public function disable($parameters) {
-		$app = $parameters['appid'];
+	public function disable($app) {
 		$this->appManager->disableApp($app);
-		return new \OC\OCS\Result(null, 100);
+		return new DataResponse();
 	}
 
 }
