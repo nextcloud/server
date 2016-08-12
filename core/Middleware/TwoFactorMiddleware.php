@@ -129,6 +129,8 @@ class TwoFactorMiddleware extends Middleware {
 		if ($exception instanceof UserAlreadyLoggedInException) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index'));
 		}
+
+		throw $exception;
 	}
 
 }
