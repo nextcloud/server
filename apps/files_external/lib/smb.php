@@ -363,6 +363,19 @@ class SMB extends Common {
 	public function isUpdatable($path) {
 		try {
 			$info = $this->getFileInfo($path);
+			// following windows behaviour for read-only folders: they can be written into
+			// (https://support.microsoft.com/en-us/kb/326549 - "cause" section)
+			return !$info->isHidden() && (!$info->isReadOnly() || $this->is_dir($path));
+		} catch (NotFoundException $e) {
+			return false;
+		} catch (ForbiddenException $e) {
+			return false;
+		}
+	}
+
+	public function isDeletable($path) {
+		try {
+			$info = $this->getFileInfo($path);
 			return !$info->isHidden() && !$info->isReadOnly();
 		} catch (NotFoundException $e) {
 			return false;
