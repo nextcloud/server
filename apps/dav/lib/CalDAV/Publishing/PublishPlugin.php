@@ -108,6 +108,10 @@ class PublishPlugin extends ServerPlugin {
 				// The pre-publish-url is always returned
 				return new Publisher($publishUrl, false);
 			});
+
+			$propFind->handle('{'.self::NS_CALENDARSERVER.'}can-be-published', function() use ($node) {
+				return !$node->getPublishStatus();
+			});
 		}
 	}
 
