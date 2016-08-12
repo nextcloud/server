@@ -39,7 +39,7 @@ class Admin implements ISettings {
 	 * @return string the section ID, e.g. 'sharing'
 	 */
 	public function getSection() {
-		return 'collaboration';
+		return 'sharing';
 	}
 
 	/**
@@ -50,7 +50,7 @@ class Admin implements ISettings {
 	 * E.g.: 70
 	 */
 	public function getPriority() {
-		return 30;
+		return 70;
 	}
 
 }
