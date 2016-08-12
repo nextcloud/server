@@ -19,7 +19,7 @@
 		<admin>admin-encryption</admin>
 	</documentation>
 	<rememberlogin>false</rememberlogin>
-	<version>1.4.0</version>
+	<version>1.4.1</version>
 	<types>
 		<filesystem/>
 	</types>
@@ -27,5 +27,7 @@
 		<lib>openssl</lib>
 		<owncloud min-version="9.2" max-version="9.2" />
 	</dependencies>
-
+	<settings>
+		<admin>OCA\Encryption\Settings\Admin</admin>
+	</settings>
 </info>

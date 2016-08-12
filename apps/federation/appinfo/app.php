@@ -23,5 +23,4 @@
 namespace OCA\Federation\AppInfo;
 
 $app = new Application();
-$app->registerSettings();
 $app->registerHooks();

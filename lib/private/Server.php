@@ -722,6 +722,17 @@ class Server extends ServerContainer implements IServerContainer {
 
 			return $manager;
 		});
+		$this->registerService('SettingsManager', function(Server $c) {
+			$manager = new \OC\Settings\Manager(
+				$c->getLogger(),
+				$c->getDatabaseConnection(),
+				$c->getL10N('core'),
+				$c->getConfig(),
+				$c->getEncryptionManager(),
+				$c->getUserManager()
+			);
+			return $manager;
+		});
 	}
 
 	/**
@@ -1424,5 +1435,12 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getLDAPProvider() {
 		return $this->query('LDAPProvider');
+	}
+
+	/**
+	 * @return \OCP\Settings\IManager
+	 */
+	public function getSettingsManager() {
+		return $this->query('SettingsManager');
 	}
 }

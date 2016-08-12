@@ -124,6 +124,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getDateTimeZone();
 		});
 
+		$this->registerService('OCP\\IDateTimeFormatter', function($c) {
+			return $this->getServer()->getDateTimeFormatter();
+		});
+
 		$this->registerService('OCP\\IDb', function($c) {
 			return $this->getServer()->getDb();
 		});
@@ -304,6 +308,24 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		$this->registerService('WebRoot', function ($c) {
 			return $c->query('ServerContainer')->getWebRoot();
+		});
+
+		$this->registerService('\OCP\Encryption\IManager', function ($c) {
+			$view = new \OC\Files\View();
+			$util = new \OC\Encryption\Util(
+				$view,
+				$c->query('\OCP\IUserManager'),
+				$c->query('\OCP\IGroupManager'),
+				$c->query('\OCP\IConfig')
+			);
+			return new \OC\Encryption\Manager(
+				$c->query('\OCP\IConfig'),
+				$c->query('\OCP\ILogger'),
+				$c->query('ServerContainer')->getL10N('core'),
+				new \OC\Files\View(),
+				$util,
+				new \OC\Memcache\ArrayCache()
+			);
 		});
 
 

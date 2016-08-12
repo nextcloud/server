@@ -9,7 +9,7 @@ A user logs into ownCloud with their LDAP or AD credentials, and is granted acce
 	</description>
 	<licence>AGPL</licence>
 	<author>Dominik Schmidt and Arthur Schiwon</author>
-	<version>1.1.0</version>
+	<version>1.1.1</version>
 	<types>
 		<authentication/>
 	</types>
@@ -27,4 +27,9 @@ A user logs into ownCloud with their LDAP or AD credentials, and is granted acce
 		<job>OCA\User_LDAP\Jobs\UpdateGroups</job>
 		<job>OCA\User_LDAP\Jobs\CleanUp</job>
 	</background-jobs>
+
+	<settings>
+		<admin>OCA\User_LDAP\Settings\Admin</admin>
+		<admin-section>OCA\User_LDAP\Settings\Section</admin-section>
+	</settings>
 </info>

@@ -1976,4 +1976,98 @@
 
 	</table>
 
+	<table>
+		<!-- Extra admin settings sections -->
+		<name>*dbprefix*admin_sections</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>class</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>priority</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<index>
+				<name>admin_sections_id_index</name>
+				<unique>true</unique>
+				<field>
+					<name>id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+	</table>
+
+	<table>
+		<!-- Extra admin settings -->
+		<name>*dbprefix*admin_settings</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>class</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<!-- id of the section, foreign key: admin_sections.id -->
+			<field>
+				<name>section</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>priority</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<index>
+				<name>admin_settings_id_index</name>
+				<unique>true</unique>
+				<field>
+					<name>id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+	</table>
+
 </database>

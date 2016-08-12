@@ -23,8 +23,6 @@
  *
  */
 
-\OCP\App::registerAdmin('theming', 'settings/settings-admin');
-
 $linkToCSS = \OC::$server->getURLGenerator()->linkToRoute(
 	'theming.Theming.getStylesheet',
 	[

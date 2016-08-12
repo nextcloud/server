@@ -1,6 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
+ * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
+ *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,5 +21,16 @@
  *
  */
 
-$template = new \OCP\Template('systemtags', 'admin');
-return $template->fetchPage();
+/** @var \OCP\IL10N $l */
+/** @var array $_ */
+
+?>
+
+<div class="section" id="additional">
+	<h2><?php p($l->t('Additional Settings'));?></h2>
+	<?php foreach($_['forms'] as $form) {
+		if (isset($form['form'])) {?>
+			<div id="<?php isset($form['anchor']) ? p($form['anchor']) : p('');?>"><?php print_unescaped($form['form']);?></div>
+		<?php }
+	};?>
+</div>

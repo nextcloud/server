@@ -64,7 +64,6 @@ class Install extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-
 		// validate the environment
 		$server = \OC::$server;
 		$setupHelper = new Setup($this->config, $server->getIniWrapper(),
@@ -84,7 +83,7 @@ class Install extends Command {
 
 		// validate user input
 		$options = $this->validateInput($input, $output, array_keys($sysInfo['databases']));
-
+$output->writeln("Input validated");
 		// perform installation
 		$errors = $setupHelper->install($options);
 		if (count($errors) > 0) {

@@ -40,7 +40,6 @@ class Application extends App {
 	 * register personal and admin settings page
 	 */
 	public function registerSettings() {
-		\OCP\App::registerAdmin('federatedfilesharing', 'settings-admin');
 		\OCP\App::registerPersonal('federatedfilesharing', 'settings-personal');
 	}
 

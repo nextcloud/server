@@ -524,6 +524,7 @@ class Installer {
 				while( false !== ( $filename = readdir( $dir ))) {
 					if( substr( $filename, 0, 1 ) != '.' and is_dir($app_dir['path']."/$filename") ) {
 						if( file_exists( $app_dir['path']."/$filename/appinfo/info.xml" )) {
+print('installing ' . $filename . PHP_EOL);
 							if(!Installer::isInstalled($filename)) {
 								$info=OC_App::getAppInfo($filename);
 								$enabled = isset($info['default_enable']);
@@ -537,7 +538,9 @@ class Installer {
 											continue;
 										}
 									} else {
+print('calling shipped app installer' . PHP_EOL);
 										Installer::installShippedApp($filename);
+print('shipped app installer finished' . PHP_EOL);
 									}
 									\OC::$server->getConfig()->setAppValue($filename, 'enabled', 'yes');
 								}
@@ -592,6 +595,14 @@ class Installer {
 		}
 
 		OC_App::setAppTypes($info['id']);
+
+		if(isset($info['settings']) && is_array($info['settings'])) {
+print('mostly done. loading app…' . PHP_EOL);
+			$appPath = \OC_App::getAppPath($app);
+			\OC_App::registerAutoloading($app, $appPath);
+print('and setting up settings' . PHP_EOL);
+			\OC::$server->getSettingsManager()->setupSettings($info['settings']);
+		}
 
 		return $info['id'];
 	}
