@@ -26,9 +26,13 @@ namespace OC\Settings\Admin;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
+use OC\Lock\DBLockingProvider;
+use OC\Lock\NoopLockingProvider;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IL10N;
+use OCP\Lock\ILockingProvider;
 use OCP\Settings\ISettings;
 
 class Server implements ISettings {
@@ -39,9 +43,17 @@ class Server implements ISettings {
 	/** @var IConfig */
 	private $config;
 
-	public function __construct(IDBConnection $db, IConfig $config) {
+	/** @var ILockingProvider */
+	private $lockingProvider;
+
+	/** @var IL10N */
+	private $l;
+
+	public function __construct(IDBConnection $db, IConfig $config, ILockingProvider $lockingProvider, IL10N $l) {
 		$this->db = $db;
 		$this->config = $config;
+		$this->lockingProvider = $lockingProvider;
+		$this->l = $l;
 	}
 
 	/**
@@ -59,19 +71,54 @@ class Server implements ISettings {
 			$invalidTransactionIsolationLevel = false;
 		}
 
+		$envPath = getenv('PATH');
+
+		// warn if outdated version of a memcache module is used
+		$caches = [
+			'apcu'	=> ['name' => $this->l->t('APCu'), 'version' => '4.0.6'],
+			'redis'	=> ['name' => $this->l->t('Redis'), 'version' => '2.2.5'],
+		];
+		$outdatedCaches = [];
+		foreach ($caches as $php_module => $data) {
+			$isOutdated = extension_loaded($php_module) && version_compare(phpversion($php_module), $data['version'], '<');
+			if ($isOutdated) {
+				$outdatedCaches[$php_module] = $data;
+			}
+		}
+
+		if ($this->lockingProvider instanceof NoopLockingProvider) {
+			$fileLockingType = 'none';
+		} else if ($this->lockingProvider instanceof DBLockingProvider) {
+			$fileLockingType = 'db';
+		} else {
+			$fileLockingType = 'cache';
+		}
+
+		// If the current web root is non-empty but the web root from the config is,
+		// and system cron is used, the URL generator fails to build valid URLs.
+		$shouldSuggestOverwriteCliUrl = $this->config->getAppValue('core', 'backgroundjobs_mode', 'ajax') === 'cron'
+			&& \OC::$WEBROOT && \OC::$WEBROOT !== '/'
+			&& !$this->config->getSystemValue('overwrite.cli.url', '');
+		$suggestedOverwriteCliUrl = ($shouldSuggestOverwriteCliUrl) ? \OC::$WEBROOT : '';
+
 		$parameters = [
 			// Diagnosis
-			'readOnlyConfigEnabled' => \OC_Helper::isReadOnlyConfigEnabled(),
-			'isLocaleWorking' => \OC_Util::isSetLocaleWorking(),
-			'isAnnotationsWorking' => \OC_Util::isAnnotationsWorking(),
-			'checkForWorkingWellKnownSetup', $this->config->getSystemValue('check_for_working_wellknown_setup'),
-			'has_fileinfo' => \OC_Util::fileInfoLoaded(),
+			'readOnlyConfigEnabled'            => \OC_Helper::isReadOnlyConfigEnabled(),
+			'isLocaleWorking'                  => \OC_Util::isSetLocaleWorking(),
+			'isAnnotationsWorking'             => \OC_Util::isAnnotationsWorking(),
+			'checkForWorkingWellKnownSetup'    => $this->config->getSystemValue('check_for_working_wellknown_setup', true),
+			'has_fileinfo'                     => \OC_Util::fileInfoLoaded(),
 			'invalidTransactionIsolationLevel' => $invalidTransactionIsolationLevel,
+			'getenvServerNotWorking'           => empty($envPath),
+			'OutdatedCacheWarning'             => $outdatedCaches,
+			'fileLockingType'                  => $fileLockingType,
+			'suggestedOverwriteCliUrl'         => $suggestedOverwriteCliUrl,
 
 			// Background jobs
 			'backgroundjobs_mode' => $this->config->getAppValue('core', 'backgroundjobs_mode', 'ajax'),
 			'cron_log'            => $this->config->getSystemValue('cron_log', true),
 			'lastcron'            => $this->config->getAppValue('core', 'lastcron', false),
+			'cronErrors'		  => $this->config->getAppValue('core', 'cronErrors'),
 
 			// Mail
 			'sendmail_is_available' => (bool) \OC_Helper::findBinaryPath('sendmail'),
