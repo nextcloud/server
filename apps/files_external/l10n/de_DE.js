@@ -126,6 +126,7 @@ OC.L10N.register(
     "Advanced settings" : "Erweiterte Einstellungen",
     "Delete" : "Löschen",
     "Allow users to mount external storage" : "Erlauben Sie den Benutzern externen Speicher hinzuzufügen",
-    "Allow users to mount the following external storage" : "Benutzern erlauben, den oder die folgenden externen Speicher einzubinden:"
+    "Allow users to mount the following external storage" : "Benutzern erlauben, den oder die folgenden externen Speicher einzubinden:",
+    "Access granted" : "Zugriff gewährt"
 },
 "nplurals=2; plural=(n != 1);");

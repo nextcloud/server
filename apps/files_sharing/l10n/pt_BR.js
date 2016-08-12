@@ -102,6 +102,11 @@ OC.L10N.register(
     "Upload files to %s" : "Carregar arquivos para %s",
     "Select or drop files" : "Selecione e solte arquivos",
     "Uploading files…" : "Carregando arquivos...",
-    "Uploaded files:" : "Arquivos carregados:"
+    "Uploaded files:" : "Arquivos carregados:",
+    "Storage not valid" : "Armazenamento inválido",
+    "Remote share" : "Compartilhamento remoto",
+    "Cancel" : "Cancelar",
+    "Accept" : "Aceitar",
+    "Decline" : "Rejeitar"
 },
 "nplurals=2; plural=(n > 1);");

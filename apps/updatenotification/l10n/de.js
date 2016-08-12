@@ -16,6 +16,7 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "Informiere die Mitglieder der folgenden Gruppen über verfügbare Updates:",
     "Only notification for app updates are available." : "Benachrichtigungen sind nur für Aktualisierungen von Apps verfügbar.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Der gewählte Aktualisierungskanal macht dedizierte Benachrichtigungen für Server Aktualisierungen obsolet.",
-    "The selected update channel does not support updates of the server." : "Der gewählte Aktualisierungskanal unterstützt keine Aktualisierungen für Server."
+    "The selected update channel does not support updates of the server." : "Der gewählte Aktualisierungskanal unterstützt keine Aktualisierungen für Server.",
+    "At the moment only manual updates are supported on your environment. This is very likely the case because functions such as shell_exec are not available." : "Aktuell werden lediglich manuelle Aktualisierungen in deiner Umgebung unterstützt. Dies ist wahrscheinlich der Fall, da Funktionen wie zum Beispiel shell_exec nicht verfügbar sind."
 },
 "nplurals=2; plural=(n != 1);");

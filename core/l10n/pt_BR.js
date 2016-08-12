@@ -323,6 +323,7 @@ OC.L10N.register(
     "Please use the command line updater because you have a big instance." : "Por favor, use a atualização de linha de comando, porque você tem um grande exemplo.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Para obter ajuda, consulte a  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentação</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instância %s está em modo de manutenção, o que pode demorar um pouco.",
-    "This page will refresh itself when the %s instance is available again." : "Esta página será atualizada automaticamente quando esta instância %s estiver disponível novamente."
+    "This page will refresh itself when the %s instance is available again." : "Esta página será atualizada automaticamente quando esta instância %s estiver disponível novamente.",
+    "An internal error occured." : "Ocorreu um erro interno."
 },
 "nplurals=2; plural=(n > 1);");

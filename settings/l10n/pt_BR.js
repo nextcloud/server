@@ -98,6 +98,10 @@ OC.L10N.register(
     "Android Client" : "Cliente Android",
     "Sync client - {os}" : "Sincronizar cliente - {os}",
     "This session" : "Esta sessão",
+    "Copied!" : "Copiado!",
+    "Not supported!" : "Não Suportado!",
+    "Press ⌘-C to copy." : "Pressione ⌘-C para copiar",
+    "Press Ctrl-C to copy." : "Pressione Ctrl+C para copiar",
     "Error while loading browser sessions and device tokens" : "Erro durante carregamento de sessões do navegador e tokens de dispositivos",
     "Error while creating device token" : "Erro ao criar token de dispositivo",
     "Error while deleting the token" : "Erro ao excluir o token",
@@ -321,6 +325,15 @@ OC.L10N.register(
     "change full name" : "alterar nome completo",
     "set new password" : "definir nova senha",
     "change email address" : "Trocar o endereço de email",
-    "Default" : "Padrão"
+    "Default" : "Padrão",
+    "no group" : "nenhum grupo",
+    "add group" : "adicionar grupo",
+    "Add Group" : "Adicionar grupo",
+    "Default Quota" : "Quota Padrão",
+    "Full Name" : "Nome Completo",
+    "Group Admin for" : "Grupo Admin para",
+    "Storage Location" : "Local de Armazenamento",
+    "User Backend" : "Administrador do Usuário",
+    "Last Login" : "Último Login"
 },
 "nplurals=2; plural=(n > 1);");
