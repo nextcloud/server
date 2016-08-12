@@ -396,6 +396,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerService('MiddlewareDispatcher', function($c) use (&$middleWares) {
 			$dispatcher = new MiddlewareDispatcher();
 			$dispatcher->registerMiddleware($c['CORSMiddleware']);
+			$dispatcher->registerMiddleware($c['OCSMiddleware']);
 			$dispatcher->registerMiddleware($c['SecurityMiddleware']);
 			$dispatcher->registerMiddleWare($c['TwoFactorMiddleware']);
 
@@ -404,7 +405,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			}
 
 			$dispatcher->registerMiddleware($c['SessionMiddleware']);
-			$dispatcher->registerMiddleware($c['OCSMiddleware']);
 			return $dispatcher;
 		});
 
