@@ -422,6 +422,27 @@ class Users {
 	}
 
 	/**
+	 * Returns whether the given user can manage the given group
+	 *
+	 * @param IUser $user user to check access
+	 * @param IGroup|null $group group to check or null
+	 *
+	 * @return true if the user can manage the group
+	 */
+	private function canUserManageGroup($user, $group) {
+		if ($this->groupManager->isAdmin($user->getUID())) {
+			return true;
+		}
+
+		if ($group !== null) {
+			$subAdminManager = $this->groupManager->getSubAdmin();
+			return $subAdminManager->isSubAdminofGroup($user, $group);
+		}
+
+		return false;
+	}
+
+	/**
 	 * @param array $parameters
 	 * @return OC_OCS_Result
 	 */
@@ -432,22 +453,22 @@ class Users {
 			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 		}
 
-		// Check they're an admin
-		if(!$this->groupManager->isAdmin($user->getUID())) {
-			// This user doesn't have rights to add a user to this group
-			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
-		}
-
 		$groupId = !empty($_POST['groupid']) ? $_POST['groupid'] : null;
 		if($groupId === null) {
 			return new OC_OCS_Result(null, 101);
 		}
 
 		$group = $this->groupManager->get($groupId);
-		$targetUser = $this->userManager->get($parameters['userid']);
-		if($group === null) {
+		if ($group === null) {
 			return new OC_OCS_Result(null, 102);
 		}
+
+		// Check they're an admin or subadmin of the group
+		if(!$this->canUserManageGroup($user, $group)) {
+			return new OC_OCS_Result(null, 104);
+		}
+
+		$targetUser = $this->userManager->get($parameters['userid']);
 		if($targetUser === null) {
 			return new OC_OCS_Result(null, 103);
 		}
@@ -478,15 +499,13 @@ class Users {
 			return new OC_OCS_Result(null, 102);
 		}
 
+		if(!$this->canUserManageGroup($loggedInUser, $group)) {
+			return new OC_OCS_Result(null, 104);
+		}
+
 		$targetUser = $this->userManager->get($parameters['userid']);
 		if($targetUser === null) {
 			return new OC_OCS_Result(null, 103);
-		}
-
-		// If they're not an admin, check they are a subadmin of the group in question
-		$subAdminManager = $this->groupManager->getSubAdmin();
-		if(!$this->groupManager->isAdmin($loggedInUser->getUID()) && !$subAdminManager->isSubAdminofGroup($loggedInUser, $group)) {
-			return new OC_OCS_Result(null, 104);
 		}
 		// Check they aren't removing themselves from 'admin' or their 'subadmin; group
 		if($parameters['userid'] === $loggedInUser->getUID()) {
@@ -496,6 +515,7 @@ class Users {
 				}
 			} else {
 				// Not an admin, check they are not removing themself from their subadmin group
+				$subAdminManager = $this->groupManager->getSubAdmin();
 				$subAdminGroups = $subAdminManager->getSubAdminsGroups($loggedInUser);
 				foreach ($subAdminGroups as $key => $group) {
 					$subAdminGroups[$key] = $group->getGID();
