@@ -38,7 +38,7 @@ class Admin implements ISettings {
 	/** @var IL10N */
 	private $l;
 
-	/** @var Template */
+	/** @var ThemingDefaults */
 	private $themingDefaults;
 
 	/** @var IURLGenerator */

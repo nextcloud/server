@@ -48,7 +48,7 @@ class ThemingDefaults extends \OC_Defaults {
 	private $color;
 
 	/**
-	 * Template constructor.
+	 * ThemingDefaults constructor.
 	 *
 	 * @param IConfig $config
 	 * @param IL10N $l

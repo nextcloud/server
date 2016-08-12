@@ -27,7 +27,7 @@
 
 namespace OCA\Theming\Controller;
 
-use OCA\Theming\Template;
+use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDownloadResponse;
@@ -48,7 +48,7 @@ use OCA\Theming\Util;
  * @package OCA\Theming\Controller
  */
 class ThemingController extends Controller {
-	/** @var Template */
+	/** @var ThemingDefaults */
 	private $template;
 	/** @var Util */
 	private $util;
@@ -67,7 +67,7 @@ class ThemingController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IConfig $config
-	 * @param Template $template
+	 * @param ThemingDefaults $template
 	 * @param Util $util
 	 * @param ITimeFactory $timeFactory
 	 * @param IL10N $l
@@ -77,7 +77,7 @@ class ThemingController extends Controller {
 		$appName,
 		IRequest $request,
 		IConfig $config,
-		Template $template,
+		ThemingDefaults $template,
 		Util $util,
 		ITimeFactory $timeFactory,
 		IL10N $l,
