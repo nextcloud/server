@@ -23,7 +23,7 @@
 
 namespace OCA\Theming\Settings;
 
-use OCA\Theming\Template;
+use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -44,7 +44,7 @@ class Admin implements ISettings {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	public function __construct(IConfig $config, IL10N $l, Template $themingDefaults, IURLGenerator $urlGenerator) {
+	public function __construct(IConfig $config, IL10N $l, ThemingDefaults $themingDefaults, IURLGenerator $urlGenerator) {
 		$this->config = $config;
 		$this->l = $l;
 		$this->themingDefaults = $themingDefaults;
