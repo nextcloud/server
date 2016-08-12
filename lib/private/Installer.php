@@ -598,7 +598,8 @@ print('shipped app installer finished' . PHP_EOL);
 
 		if(isset($info['settings']) && is_array($info['settings'])) {
 print('mostly done. loading app…' . PHP_EOL);
-			\OC_App::loadApp($app, false);
+			$appPath = \OC_App::getAppPath($app);
+			\OC_App::registerAutoloading($app, $appPath);
 print('and setting up settings' . PHP_EOL);
 			\OC::$server->getSettingsManager()->setupSettings($info['settings']);
 		}
