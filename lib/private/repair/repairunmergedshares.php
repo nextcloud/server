@@ -149,6 +149,44 @@ class RepairUnmergedShares extends BasicEmitter implements \OC\RepairStep {
 	}
 
 	/**
+	 * Decide on the best target name based on all group shares and subshares,
+	 * goal is to increase the likeliness that the chosen name matches what
+	 * the user is expecting.
+	 *
+	 * For this, we discard the entries with parenthesis "(2)".
+	 * In case the user also renamed the duplicates to a legitimate name, this logic
+	 * will still pick the most recent one as it's the one the user is most likely to
+	 * remember renaming.
+	 *
+	 * If no suitable subshare is found, use the least recent group share instead.
+	 *
+	 * @param array $groupShares group share entries
+	 * @param array $subShares sub share entries, sorted by stime
+	 *
+	 * @return string chosen target name
+	 */
+	private function findBestTargetName($groupShares, $subShares) {
+		$pickedShare = null;
+		// note subShares are sorted by stime from oldest to newest
+		foreach ($subShares as $subShare) {
+			// skip entries that have parenthesis with numbers
+			if (preg_match('/\([0-9]*\)/', $subShare['file_target']) === 1) {
+				continue;
+			}
+			// pick any share found that would match, the last being the most recent
+			$pickedShare = $subShare;
+		}
+
+		// no suitable subshare found
+		if ($pickedShare === null) {
+			// use least recent group share target instead
+			$pickedShare = $groupShares[0];
+		}
+
+		return $pickedShare['file_target'];
+	}
+
+	/**
 	 * Fix the given received share represented by the set of group shares
 	 * and matching sub shares
 	 *
@@ -171,7 +209,7 @@ class RepairUnmergedShares extends BasicEmitter implements \OC\RepairStep {
 			return false;
 		}
 
-		$targetPath = $groupShares[0]['file_target'];
+		$targetPath = $this->findBestTargetName($groupShares, $subShares);
 
 		// check whether the user opted out completely of all subshares
 		$optedOut = true;
