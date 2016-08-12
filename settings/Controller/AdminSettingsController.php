@@ -72,7 +72,7 @@ class AdminSettingsController extends Controller {
 		$this->navigationManager->setActiveEntry('admin');
 
 		$templateParams = [];
-		$templateParams = array_merge($templateParams, $this->getNavigationParameters());
+		$templateParams = array_merge($templateParams, $this->getNavigationParameters($section));
 		$templateParams = array_merge($templateParams, $this->getSettings($section));
 
 		return new TemplateResponse('settings', 'admin/frame', $templateParams);
@@ -126,15 +126,20 @@ class AdminSettingsController extends Controller {
 		return ['content' => $out->fetchPage()];
 	}
 
-	private function getNavigationParameters() {
-		$a = 'anchor';
-		$name = 'section-name';
-
+	/**
+	 * @param string $currentSection
+	 * @return array
+	 */
+	private function getNavigationParameters($currentSection) {
 		$sections = $this->settingsManager->getAdminSections();
 		$templateParameters = [];
 		foreach($sections as $prioritizedSections) {
 			foreach ($prioritizedSections as $section) {
-				$templateParameters[] = [$a => $section->getID(), $name => $section->getName()];
+				$templateParameters[] = [
+					'anchor'       => $section->getID(),
+					'section-name' => $section->getName(),
+					'active'       => $section->getID() === $currentSection,
+				];
 			}
 		}
 
