@@ -319,6 +319,7 @@ if ($_['mail_smtpmode'] == 'qmail') {
 </div>
 
 <div class="section">
+	<!-- should be the last part, so Updater can follow if enabled (it has no heading therefore). -->
 	<h2><?php p($l->t('Version'));?></h2>
 	<p><a href="<?php print_unescaped($theme->getBaseUrl()); ?>" rel="noreferrer" target="_blank"><?php p($theme->getTitle()); ?></a> <?php p(OC_Util::getHumanVersion()) ?></p>
 	<p><?php include(__DIR__ . '/../settings.development.notice.php'); ?></p>
