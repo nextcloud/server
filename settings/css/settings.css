@@ -372,6 +372,14 @@ span.version {
 .section h2.app-name {
 	margin-bottom: 8px;
 }
+.followupsection {
+	display: block;
+	padding: 0 30px 30px 30px;
+	color: #555;
+	margin-bottom: 24px;
+	margin-top: -30px;
+	position: relative;
+}
 .app-image {
 	float: left;
 	padding-right: 10px;

@@ -168,6 +168,6 @@ class AdminController extends Controller implements ISettings {
 	 * E.g.: 70
 	 */
 	public function getPriority() {
-		return 5;
+		return 1;
 	}
 }

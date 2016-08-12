@@ -13,9 +13,7 @@
 	/** @var string $currentChannel */
 	$currentChannel = $_['currentChannel'];
 ?>
-<form id="oca_updatenotification_section" class="section">
-	<h2><?php p($l->t('Updater')); ?></h2>
-
+<form id="oca_updatenotification_section" class="followupsection">
 	<?php if($isNewVersionAvailable === true): ?>
 		<strong><?php p($l->t('A new version is available: %s', [$newVersionString])); ?></strong>
 		<input type="button" id="oca_updatenotification_button" value="<?php p($l->t('Open updater')) ?>">
