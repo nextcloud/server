@@ -27,5 +27,6 @@
 
 	<settings>
 		<admin>OCA\Files_External\Settings\Admin</admin>
+		<admin-section>OCA\Files_External\Settings\Section</admin-section>
 	</settings>
 </info>

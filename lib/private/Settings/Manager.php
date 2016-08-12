@@ -308,6 +308,11 @@ class Manager implements IManager {
 				$form = new Admin\Logging($this->config);
 				$forms[$form->getPriority()] = [$form];
 			}
+			if($section === 'additional') {
+				/** @var ISettings $form */
+				$form = new Admin\Additional($this->config);
+				$forms[$form->getPriority()] = [$form];
+			}
 			if($section === 'tips-tricks') {
 				/** @var ISettings $form */
 				$form = new Admin\TipsTricks($this->config);

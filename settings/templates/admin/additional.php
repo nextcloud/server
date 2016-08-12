@@ -26,11 +26,8 @@
 
 ?>
 
-<div class="section" id="additional">
-	<h2><?php p($l->t('Additional Settings'));?></h2>
-	<?php foreach($_['forms'] as $form) {
-		if (isset($form['form'])) {?>
-			<div id="<?php isset($form['anchor']) ? p($form['anchor']) : p('');?>"><?php print_unescaped($form['form']);?></div>
-		<?php }
-	};?>
-</div>
+<?php foreach($_['forms'] as $form) {
+	if (isset($form['form'])) {?>
+		<div id="<?php isset($form['anchor']) ? p($form['anchor']) : p('');?>"><?php print_unescaped($form['form']);?></div>
+	<?php }
+};?>

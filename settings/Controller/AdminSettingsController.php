@@ -34,6 +34,7 @@ use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\Settings\IManager as ISettingsManager;
+use OCP\Template;
 
 /**
  * @package OC\Settings\Controller
@@ -83,18 +84,17 @@ class AdminSettingsController extends Controller {
 	}
 
 	private function getSettings($section) {
-		if($section === 'additional') {
-			return $this->getLegacyForms();
-		}
-
-		$settings = $this->settingsManager->getAdminSettings($section);
 		$html = '';
+		$settings = $this->settingsManager->getAdminSettings($section);
 		foreach ($settings as $prioritizedSettings) {
 			foreach ($prioritizedSettings as $setting) {
 				/** @var \OCP\Settings\ISettings $setting */
 				$form = $setting->getForm();
 				$html .= $form->renderAs('')->render();
 			}
+		}
+		if($section === 'additional') {
+			$html .= $this->getLegacyForms();
 		}
 		return ['content' => $html];
 	}
@@ -120,10 +120,10 @@ class AdminSettingsController extends Controller {
 			);
 		}, $forms);
 
-		$out = new \OCP\Template('settings', 'admin/additional');
+		$out = new Template('settings', 'admin/additional');
 		$out->assign('forms', $forms);
 
-		return ['content' => $out->fetchPage()];
+		return $out->fetchPage();
 	}
 
 	/**
