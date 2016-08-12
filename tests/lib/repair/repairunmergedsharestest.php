@@ -44,6 +44,9 @@ class RepairUnmergedSharesTest extends TestCase {
 	/** @var \OCP\IDBConnection */
 	private $connection;
 
+	/** @var int */
+	private $lastShareTime;
+
 	protected function setUp() {
 		parent::setUp();
 
@@ -92,6 +95,9 @@ class RepairUnmergedSharesTest extends TestCase {
 				}
 			}));
 
+		// used to generate incremental stimes
+		$this->lastShareTime = time();
+
 		/** @var \OCP\IConfig $config */
 		$this->repair = new RepairUnmergedShares($config, $this->connection, $userManager, $groupManager);
 	}
@@ -108,6 +114,7 @@ class RepairUnmergedSharesTest extends TestCase {
 	}
 
 	private function createShare($type, $sourceId, $recipient, $targetName, $permissions, $parentId = null) {
+		$this->lastShareTime += 100;
 		$qb = $this->connection->getQueryBuilder();
 		$values = [
 			'share_type' => $qb->expr()->literal($type),
@@ -119,7 +126,7 @@ class RepairUnmergedSharesTest extends TestCase {
 			'file_source' => $qb->expr()->literal($sourceId),
 			'file_target' => $qb->expr()->literal($targetName),
 			'permissions' => $qb->expr()->literal($permissions),
-			'stime' => $qb->expr()->literal(time()),
+			'stime' => $qb->expr()->literal($this->lastShareTime),
 		];
 		if ($parentId !== null) {
 			$values['parent'] = $qb->expr()->literal($parentId);
@@ -456,6 +463,42 @@ class RepairUnmergedSharesTest extends TestCase {
 					['/test', 31],
 					// leave unrelated alone
 					['/test (4)', 31],
+				]
+			],
+			[
+				// #13 bogus share:
+				// - outsider shares with group1, user2 and then group2
+				// - user renamed share as soon as it arrived before the next share (order)
+				// - one subshare for each group share
+				// - one extra share entry for direct share to user2
+				// - non-matching targets
+				[
+					// first share with group
+					[Constants::SHARE_TYPE_GROUP, 123, 'recipientgroup1', '/test', 31],
+					// recipient renames
+					[DefaultShareProvider::SHARE_TYPE_USERGROUP, 123, 'user2', '/first', 31, 0],
+					// then direct share, user renames too
+					[Constants::SHARE_TYPE_USER, 123, 'user2', '/second', 31],
+					// another share with the second group
+					[Constants::SHARE_TYPE_GROUP, 123, 'recipientgroup2', '/test', 31],
+					// use renames it
+					[DefaultShareProvider::SHARE_TYPE_USERGROUP, 123, 'user2', '/third', 31, 1],
+					// different unrelated share
+					[Constants::SHARE_TYPE_GROUP, 456, 'recipientgroup1', '/test (5)', 31],
+				],
+				[
+					// group share with group1 left alone
+					['/test', 31],
+					// first subshare repaired
+					['/third', 31],
+					// direct user share repaired
+					['/third', 31],
+					// group share with group2 left alone
+					['/test', 31],
+					// second subshare repaired
+					['/third', 31],
+					// leave unrelated alone
+					['/test (5)', 31],
 				]
 			],
 		];

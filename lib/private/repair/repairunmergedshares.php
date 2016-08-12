@@ -93,7 +93,7 @@ class RepairUnmergedShares extends BasicEmitter implements \OC\RepairStep {
 		 */
 		$query = $this->connection->getQueryBuilder();
 		$query
-			->select('item_source', 'id', 'file_target', 'permissions', 'parent', 'share_type')
+			->select('item_source', 'id', 'file_target', 'permissions', 'parent', 'share_type', 'stime')
 			->from('share')
 			->where($query->expr()->eq('share_type', $query->createParameter('shareType')))
 			->andWhere($query->expr()->in('share_with', $query->createParameter('shareWiths')))
@@ -161,13 +161,23 @@ class RepairUnmergedShares extends BasicEmitter implements \OC\RepairStep {
 	 * If no suitable subshare is found, use the least recent group share instead.
 	 *
 	 * @param array $groupShares group share entries
-	 * @param array $subShares sub share entries, sorted by stime
+	 * @param array $subShares sub share entries
 	 *
 	 * @return string chosen target name
 	 */
 	private function findBestTargetName($groupShares, $subShares) {
 		$pickedShare = null;
-		// note subShares are sorted by stime from oldest to newest
+		// sort by stime, this also properly sorts the direct user share if any
+		@usort($subShares, function($a, $b) {
+			if ($a['stime'] < $b['stime']) {
+				return -1;
+			} else if ($a['stime'] > $b['stime']) {
+				return 1;
+			}
+
+			return 0;
+		});
+
 		foreach ($subShares as $subShare) {
 			// skip entries that have parenthesis with numbers
 			if (preg_match('/\([0-9]*\)/', $subShare['file_target']) === 1) {
