@@ -1,11 +1,6 @@
 <?php
 /**
  * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -24,20 +19,19 @@
  *
  */
 
+
 namespace OCA\Theming;
+
+
+
 
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 
-/**
- * Class Template
- *
- * Handle all the values which can be modified by this app
- *
- * @package OCA\Theming
- */
-class Template extends \OC_Defaults {
+
+class ThemingDefaults extends \OC_Defaults {
+
 	/** @var IConfig */
 	private $config;
 	/** @var IL10N */
@@ -92,7 +86,7 @@ class Template extends \OC_Defaults {
 	public function getEntity() {
 		return $this->config->getAppValue('theming', 'name', $this->name);
 	}
-	
+
 	public function getBaseUrl() {
 		return $this->config->getAppValue('theming', 'url', $this->url);
 	}
@@ -168,4 +162,5 @@ class Template extends \OC_Defaults {
 
 		return $returnValue;
 	}
+
 }

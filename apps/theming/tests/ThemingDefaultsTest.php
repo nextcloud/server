@@ -24,12 +24,13 @@
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\Template;
+use OCA\Theming\ThemingDefaults;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use Test\TestCase;
 
-class TemplateTest extends TestCase {
+class ThemingDefaultsTest extends TestCase {
 	/** @var IConfig */
 	private $config;
 	/** @var IL10N */
@@ -64,7 +65,7 @@ class TemplateTest extends TestCase {
 			->expects($this->at(3))
 			->method('getMailHeaderColor')
 			->willReturn('#000');
-		$this->template = new Template(
+		$this->template = new ThemingDefaults(
 			$this->config,
 			$this->l10n,
 			$this->urlGenerator,

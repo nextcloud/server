@@ -82,7 +82,7 @@ use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
 use OC\Session\CryptoWrapper;
 use OC\Tagging\TagMapper;
-use OCA\Theming\Template;
+use OCA\Theming\ThemingDefaults;
 use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\Security\IContentSecurityPolicyManager;
@@ -651,7 +651,7 @@ class Server extends ServerContainer implements IServerContainer {
 			}
 
 			if ($classExists && $this->getConfig()->getSystemValue('installed', false) && $this->getAppManager()->isInstalled('theming')) {
-				return new Template(
+				return new ThemingDefaults(
 					$this->getConfig(),
 					$this->getL10N('theming'),
 					$this->getURLGenerator(),
