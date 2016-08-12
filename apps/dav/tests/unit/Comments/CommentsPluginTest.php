@@ -28,7 +28,6 @@ namespace OCA\DAV\Tests\unit\Comments;
 use OC\Comments\Comment;
 use OCA\DAV\Comments\CommentsPlugin as CommentsPluginImplementation;
 use OCP\Comments\IComment;
-use Sabre\DAV\Exception\NotFound;
 
 class CommentsPluginTest extends \Test\TestCase {
 	/** @var \Sabre\DAV\Server */

@@ -33,7 +33,6 @@ use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\TagNotFoundException;
 use OCP\IGroupManager;
 use OCP\IUserSession;
-use OC\User\NoUserException;
 
 class SystemTagsByIdCollection implements ICollection {
 
