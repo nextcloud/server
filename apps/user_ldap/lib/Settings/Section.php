@@ -51,7 +51,7 @@ class Section implements ISection {
 	 * @return string
 	 */
 	public function getName() {
-		return $this->l->t('LDAP / AD Integration');
+		return $this->l->t('LDAP / AD integration');
 	}
 
 	/**

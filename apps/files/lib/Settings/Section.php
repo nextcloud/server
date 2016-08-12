@@ -51,7 +51,7 @@ class Section implements ISection {
 	 * @return string
 	 */
 	public function getName() {
-		return $this->l->t('Files & Storages');
+		return $this->l->t('Files & storages');
 	}
 
 	/**
