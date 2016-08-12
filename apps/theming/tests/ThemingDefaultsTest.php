@@ -23,7 +23,6 @@
  */
 namespace OCA\Theming\Tests;
 
-use OCA\Theming\Template;
 use OCA\Theming\ThemingDefaults;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -39,7 +38,7 @@ class ThemingDefaultsTest extends TestCase {
 	private $urlGenerator;
 	/** @var \OC_Defaults */
 	private $defaults;
-	/** @var Template */
+	/** @var ThemingDefaults */
 	private $template;
 
 	public function setUp() {
