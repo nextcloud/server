@@ -36,7 +36,8 @@ vendor_style('select2/select2');
 			if (isset($form['anchor'])) {
 				$anchor = \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => $form['anchor']]);
 				$sectionName = $form['section-name'];
-				print_unescaped(sprintf("<li><a href='%s'>%s</a></li>", \OCP\Util::sanitizeHTML($anchor), \OCP\Util::sanitizeHTML($sectionName)));
+				$active = $form['active'] ? ' class="active"' : '';
+				print_unescaped(sprintf("<li%s><a href='%s'>%s</a></li>", $active, \OCP\Util::sanitizeHTML($anchor), \OCP\Util::sanitizeHTML($sectionName)));
 			}
 		}?>
 	</ul>
