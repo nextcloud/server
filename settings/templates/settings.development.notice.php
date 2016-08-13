@@ -15,7 +15,9 @@
 			],
 			$l->t('Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}.')
 		)); ?>
+	</p>
 
+	<p class="social-button">
 		<?php print_unescaped(str_replace(
 			[
 				'{googleimage}',
@@ -29,6 +31,11 @@
 				'{rssopen}',
 				'{newsletteropen}',	
 				'{linkclose}',
+				'{googletext}',
+				'{facebooktext}',
+				'{twittertext}',
+				'{rsstext}',
+				'{mailtext}',
 			],
 			[
 				image_path('core', 'googleplus.svg'),
@@ -42,20 +49,19 @@
 				'<a target="_blank" rel="noreferrer noopener" href="https://nextcloud.com/blogfeed">',
 				'<a target="_blank" rel="noreferrer noopener" href="https://newsletter.nextcloud.com/?p=subscribe&amp;id=1">',
 				'</a>',
+				$l->t('Follow us on Google Plus!'),
+				$l->t('Like our facebook page!'),
+				$l->t('Subscribe to our twitter channel!'),
+				$l->t('Subscribe to our news feed!'),
+				$l->t('Subscribe to our newsletter!'),
+
 			],
-			$l->t('
-<p class="social-button">
-{googleopen}<img width="50" src="{googleimage}" title="Follow us on Google Plus!" alt="Follow us on Google Plus!">{linkclose}
-{facebookopen}<img width="50" src="{facebookimage}" title="Like our facebook page!" alt="Like our facebook page!">{linkclose}
-{twitteropen}<img width="50" src="{twitterimage}" title="Subscribe to our twitter channel!" alt="Subscribe to our twitter channel!">{linkclose}
-{rssopen}<img class="img-circle" width="50" src="{rssimage}" title="Subscribe to our news feed!" alt="Subscribe to our news feed!">{linkclose}
-{newsletteropen}<img width="50" src="{mailimage}" title="Subscribe to our newsletter!" alt="Subscribe to our newsletter!">{linkclose}
-</p>
-')
+'{googleopen}<img width="50" src="{googleimage}" title="{googletext}" alt="{googletext}">{linkclose}
+{facebookopen}<img width="50" src="{facebookimage}" title="{facebooktext}" alt="{facebooktext}">{linkclose}
+{twitteropen}<img width="50" src="{twitterimage}" title="{twittertext}" alt="{twittertext}">{linkclose}
+{rssopen}<img class="img-circle" width="50" src="{rssimage}" title="{rsstext}" alt="{rsstext}">{linkclose}
+{newsletteropen}<img width="50" src="{mailimage}" title="{mailtext}" alt="{mailtext}">{linkclose}'
 		)); ?>
-
-
-
-
 	</p>
+
 <?php endif; ?>
