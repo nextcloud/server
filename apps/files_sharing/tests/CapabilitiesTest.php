@@ -232,6 +232,7 @@ class CapabilitiesTest extends \Test\TestCase {
 		];
 		$result = $this->getResults($map);
 		$this->assertTrue($result['public']['upload']);
+		$this->assertTrue($result['public']['upload_files_drop']);
 	}
 
 	public function testLinkNoPublicUpload() {
@@ -242,6 +243,7 @@ class CapabilitiesTest extends \Test\TestCase {
 		];
 		$result = $this->getResults($map);
 		$this->assertFalse($result['public']['upload']);
+		$this->assertFalse($result['public']['upload_files_drop']);
 	}
 
 	public function testNoGroupSharing() {
