@@ -324,18 +324,13 @@ class FilesPlugin extends ServerPlugin {
 				return $displayName;
 			});
 
-			$propFind->handle(self::DATA_FINGERPRINT_PROPERTYNAME, function() use ($node) {
-				if ($node->getPath() === '/') {
-					return $this->config->getSystemValue('data-fingerprint', '');
-				}
-			});
-
 			$propFind->handle(self::HAS_PREVIEW_PROPERTYNAME, function () use ($node) {
 				return json_encode($this->previewManager->isAvailable($node->getFileInfo()));
 			});
 		}
 
-		if ($node instanceof \OCA\DAV\Files\FilesHome) {
+		if ($node instanceof \OCA\DAV\Connector\Sabre\Node
+			|| $node instanceof \OCA\DAV\Files\FilesHome) {
 			$propFind->handle(self::DATA_FINGERPRINT_PROPERTYNAME, function() use ($node) {
 				return $this->config->getSystemValue('data-fingerprint', '');
 			});
