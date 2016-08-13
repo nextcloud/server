@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Pyyntötunnisteen nouto epäonnistui. Tarkista että sovellusavaimesi ja -salaisuutesi ovat oikein.",
     "Step 1 failed. Exception: %s" : "Vaihe 1 epäonnistui. Poikkeus: %s",
     "Step 2 failed. Exception: %s" : "Vaihe 2 epäonnistui. Poikkeus: %s",
     "External storage" : "Ulkoinen tallennustila",

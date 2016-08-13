@@ -57,6 +57,8 @@ OC.L10N.register(
     "Enable password recovery:" : "Passwortwiederherstellung aktivieren:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Wenn Du diese Option aktivierst, kannst Du Deine verschlüsselten Dateien wiederherstellen, falls Du Dein Passwort vergisst",
     "Enabled" : "Aktiviert",
-    "Disabled" : "Deaktiviert"
+    "Disabled" : "Deaktiviert",
+    "You need to migrate your encryption keys from the old encryption (Nextcloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Du musst Deine Verschlüsselungs-Schlüssel von der Alten Vershlüsselung (ownCloud <= 8.0) zur neuen migrieren.  Bitte führe 'occ encryption:migrate' aus oder kontaktiere den Administrator",
+    "Encryption App is enabled and ready" : "Verschlüsselungs-App ist aktiviert und bereit."
 },
 "nplurals=2; plural=(n != 1);");

@@ -151,6 +151,7 @@ OC.L10N.register(
     "Password protect" : "Suojaa salasanalla",
     "Password" : "Salasana",
     "Allow editing" : "Salli muokkaus",
+    "Hide file listing" : "Piilota tiedostolistaus",
     "Email link to person" : "Lähetä linkki sähköpostitse",
     "Send" : "Lähetä",
     "Sending ..." : "Lähetetään...",

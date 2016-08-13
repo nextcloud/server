@@ -10,6 +10,9 @@ OC.L10N.register(
     "Add server automatically once a federated share was created successfully" : "Einen mit ownCloud Federation verbundenen Server automatisch hinzufügen, sobald die Verbindung einmal erfolgreich erstellt wurde",
     "Trusted Servers" : "Vertrauenswürdige Server",
     "+ Add Nextcloud server" : "+ Nextcloud Server hinzufügen",
-    "Nextcloud Server" : "Nextcloud Server"
+    "Nextcloud Server" : "Nextcloud Server",
+    "Server added to the list of trusted Nextclouds" : "Server zur Liste der vertrauenswürdigen Nextclouds hinzugefügt",
+    "No Nextcloud server found" : "Kein Nextcloud Server gefunden",
+    "Trusted Nextcloud Servers" : "Vertrauenswürdige Nextcloud Server"
 },
 "nplurals=2; plural=(n != 1);");
