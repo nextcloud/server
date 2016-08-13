@@ -308,15 +308,10 @@ class FilesPlugin extends ServerPlugin {
 				$displayName = $owner->getDisplayName();
 				return $displayName;
 			});
-
-			$propFind->handle(self::DATA_FINGERPRINT_PROPERTYNAME, function() use ($node) {
-				if ($node->getPath() === '/') {
-					return $this->config->getSystemValue('data-fingerprint', '');
-				}
-			});
 		}
 
-		if ($node instanceof \OCA\DAV\Files\FilesHome) {
+		if ($node instanceof \OCA\DAV\Connector\Sabre\Node
+			|| $node instanceof \OCA\DAV\Files\FilesHome) {
 			$propFind->handle(self::DATA_FINGERPRINT_PROPERTYNAME, function() use ($node) {
 				return $this->config->getSystemValue('data-fingerprint', '');
 			});
