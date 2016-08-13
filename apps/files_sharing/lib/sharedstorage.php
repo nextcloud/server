@@ -322,7 +322,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 		$source = $this->getSourcePath($path);
 		if ($source) {
 			$info = array(
-				'target' => $this->getMountPoint() . $path,
+				'target' => $this->getMountPoint() . '/' . $path,
 				'source' => $source,
 			);
 			\OCP\Util::emitHook('\OC\Files\Storage\Shared', 'file_get_contents', $info);
@@ -461,7 +461,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 					}
 			}
 			$info = array(
-				'target' => $this->getMountPoint() . $path,
+				'target' => $this->getMountPoint() . '/' . $path,
 				'source' => $source,
 				'mode' => $mode,
 			);
