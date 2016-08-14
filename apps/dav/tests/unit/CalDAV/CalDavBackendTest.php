@@ -343,12 +343,23 @@ EOD;
 			->disableOriginalConstructor()->getMock();
 
 		$calendar = new Calendar($this->backend, $calendarInfo, $l10n);
-		$this->backend->setPublishStatus(true, $calendar);
-		$this->assertEquals(true, $this->backend->getPublishStatus($calendar));
+		$calendar->setPublishStatus(true);
+		$this->assertEquals(true, $calendar->getPublishStatus());
 
 		$publicCalendars = $this->backend->getPublicCalendars();
 		$this->assertEquals(1, count($publicCalendars));
 		$this->assertEquals(true, $publicCalendars[0]['{http://owncloud.org/ns}public']);
+
+		$publicCalendarURI = md5($this->config->getSystemValue('secret', '') . $calendar->getResourceId());
+		$publicCalendar = $this->backend->getPublicCalendar($publicCalendarURI);
+		$this->assertEquals(true, $publicCalendar['{http://owncloud.org/ns}public']);
+
+		$calendar->setPublishStatus(false);
+		$this->assertEquals(false, $calendar->getPublishStatus());
+
+		$publicCalendarURI = md5($this->config->getSystemValue('secret', '') . $calendar->getResourceId());
+		$this->setExpectedException('Sabre\DAV\Exception\NotFound');
+		$publicCalendar = $this->backend->getPublicCalendar($publicCalendarURI);
 
 	}
 
