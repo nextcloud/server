@@ -53,6 +53,23 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
+	 * @PublicPage
+	 *
+	 * @return DataResponse
+	 */
+	public function getConfig() {
+		$data = [
+			'version' => '1.7',
+			'website' => 'ownCloud',
+			'host' => $this->request->getServerHost(),
+			'contact' => '',
+			'ssl' => 'false',
+		];
+
+		return new DataResponse($data);
+	}
+
+	/**
 	 * @NoAdminRequired
 	 * @return DataResponse
 	 */
