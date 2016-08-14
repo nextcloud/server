@@ -200,7 +200,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 		currentImage.onload = function() {
 			page.find('.app-image')
-				.append(OC.Settings.Apps.imageUrl(app.preview))
+				.append(OC.Settings.Apps.imageUrl(app.preview, app.detailpage))
 				.fadeIn();
 		};
 
@@ -228,12 +228,18 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 	/**
 	 * Returns the image for apps listing
+	 * url : the url of the image
+	 * appfromstore: bool to check whether the app is fetched from store or not.
 	 */
 
-	imageUrl : function (url) {
+	imageUrl : function (url, appfromstore) {
 		var img = '<svg width="72" height="72" viewBox="0 0 72 72">';
-		img += '<defs><filter id="invert"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0" /></filter></defs>';
-		img += '<image x="0" y="0" width="72" height="72" preserveAspectRatio="xMinYMin meet" filter="url(#invert)" xlink:href="' + url + '"  class="app-icon" /></svg>';
+		if (appfromstore) {
+			img += '<image x="0" y="0" width="72" height="72" preserveAspectRatio="xMinYMin meet" xlink:href="' + url + '"  class="app-icon" /></svg>';
+		} else {
+			img += '<defs><filter id="invert"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0" /></filter></defs>';
+			img += '<image x="0" y="0" width="72" height="72" preserveAspectRatio="xMinYMin meet" filter="url(#invert)" xlink:href="' + url + '"  class="app-icon" /></svg>';
+		}
 		return img;
 	},
 
