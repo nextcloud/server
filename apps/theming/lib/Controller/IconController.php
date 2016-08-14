@@ -121,53 +121,87 @@ class IconController extends Controller {
 		return $response;
 	}
 
+	/**
+	 * Return a 512x512 icon for touch devices
+	 *
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @param $app app name
+	 * @return StreamResponse|DataResponse
+	 */
+	public function getTouchIcon($app) {
+		// TODO: we need caching here
+		$icon = $this->renderAppIcon($app);
+		$icon->resizeImage(512, 512, Imagick::FILTER_LANCZOS, 1);
+		$icon->setImageFormat("png24");
+
+		$response = new DataDisplayResponse($icon, Http::STATUS_OK, ['Content-Type' => 'image/png']);
+		$response->cacheFor(3600);
+		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		return $response;
+	}
+
+	/**
+	 * Render app icon on themed background color
+	 * fallback to logo
+	 *
+	 * @param $app app name
+	 * @return Imagick
+	 */
 	private function renderAppIcon($app) {
 		$appIcon = $this->getAppIcon($app);
 		$color = $this->config->getAppValue($this->appName, 'color');
+		$mime = mime_content_type($appIcon);
 		if ($color === "") {
 			$color = '#0082c9';
 		}
-		$svg = file_get_contents($appIcon);
-		if ($this->util->invertTextColor($color)) {
-			$svg = $this->svgInvert($svg);
-		}
-
 		// generate background image with rounded corners
 		$background = '<?xml version="1.0" encoding="UTF-8"?>' .
 			'<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" width="512" height="512" xmlns:xlink="http://www.w3.org/1999/xlink">' .
 			'<rect x="0" y="0" rx="75" ry="75" width="512" height="512" style="fill:' . $color . ';" />' .
 			'</svg>';
 
-		$tmp = new Imagick();
-		$tmp->readImageBlob($svg);
-		$x = $tmp->getImageWidth();
-		$y = $tmp->getImageHeight();
-		$res = $tmp->getImageResolution();
-		$tmp->destroy();
 
-		// convert svg to resized image
-		$appIconFile = new Imagick();
-		$resX = (int)(512 * $res['x'] / $x * 2.53);
-		$resY = (int)(512 * $res['y'] / $y * 2.53);
-		$appIconFile->setResolution($resX, $resY);
-		$appIconFile->setBackgroundColor(new ImagickPixel('transparent'));
-		$appIconFile->readImageBlob($svg);
-		$appIconFile->setImageFormat("png24");
+		// resize svg magic as this seems broken in Imagemagick
+		if($mime === "image/svg+xml") {
+			$svg = file_get_contents($appIcon);
+			if ($this->util->invertTextColor($color)) {
+				$svg = $this->svgInvert($svg);
+			}
+
+			$tmp = new Imagick();
+			$tmp->readImageBlob($svg);
+			$x = $tmp->getImageWidth();
+			$y = $tmp->getImageHeight();
+			$res = $tmp->getImageResolution();
+			$tmp->destroy();
+
+			// convert svg to resized image
+			$appIconFile = new Imagick();
+			$resX = (int)(512 * $res['x'] / $x * 2.53);
+			$resY = (int)(512 * $res['y'] / $y * 2.53);
+			$appIconFile->setResolution($resX, $resY);
+			$appIconFile->setBackgroundColor(new ImagickPixel('transparent'));
+			$appIconFile->readImageBlob($svg);
+		} else {
+			$appIconFile = new Imagick();
+			$appIconFile->setBackgroundColor(new ImagickPixel('transparent'));
+			$appIconFile->readImageBlob(file_get_contents($appIcon));
+			$appIconFile->scaleImage(512, 512, true);
+		}
 
 		// offset for icon positioning
-		$offset_w = (int)($appIconFile->getImageWidth() * 0.05);
-		$offset_h = (int)($appIconFile->getImageHeight() * 0.05);
-		// center icon if it is not square
-		if ($x > $y) {
-			$offset_h += 512 / 2 - $appIconFile->getImageHeight() / 2;
-		}
-		if ($y > $x) {
-			$offset_h += 512 / 2 - $appIconFile->getImageHeight() / 2;
-		}
-
-		$innerWidth = (int)($appIconFile->getImageWidth() - $offset_w * 2);
-		$innerHeight = (int)($appIconFile->getImageHeight() - $offset_h * 2);
+		$border_w = (int)($appIconFile->getImageWidth() * 0.05);
+		$border_h = (int)($appIconFile->getImageHeight() * 0.05);
+		$innerWidth = (int)($appIconFile->getImageWidth() - $border_w * 2);
+		$innerHeight = (int)($appIconFile->getImageHeight() - $border_h * 2);
 		$appIconFile->adaptiveResizeImage($innerWidth, $innerHeight);
+		// center icon
+		$offset_w = 512 / 2 - $innerWidth / 2;
+		$offset_h = 512 / 2 - $innerHeight / 2;
+
+		$appIconFile->setImageFormat("png24");
 
 		$finalIconFile = new Imagick();
 		$finalIconFile->readImageBlob($background);

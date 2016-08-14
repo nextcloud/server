@@ -67,8 +67,14 @@ return ['routes' => [
 		'defaults' => array("app" => "core"),
 	],
 	[
+		'name'	=> 'Icon#getTouchIcon',
+		'url' => '/icon/{app}',
+		'verb' => 'GET',
+		'defaults' => array("app" => "core"),
+	],
+	[
 		'name'	=> 'Icon#getThemedIcon',
-		'url' => '/image/{app}/{image}',
+		'url' => '/img/{app}/{image}',
 		'verb' => 'GET',
 		'defaults' => array("app" => "core"),
 		'requirements' => array('image' => '.+')
