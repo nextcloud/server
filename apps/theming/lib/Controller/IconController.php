@@ -212,6 +212,10 @@ class IconController extends Controller {
 		return $finalIconFile;
 	}
 
+	/**
+	 * @param $app app name
+	 * @return string path to app icon / logo
+	 */
 	private function getAppIcon($app) {
 		$appPath = \OC_App::getAppPath($app);
 
@@ -224,11 +228,19 @@ class IconController extends Controller {
 			return $icon;
 		}
 
+		$icon = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/') . '/themedinstancelogo';
+		if(file_exists($icon)) {
+			return $icon;
+		}
 		return \OC::$SERVERROOT . '/core/img/logo.svg';
 	}
 
+	/**
+	 * @param $app app name
+	 * @param $image relative path to image in app folder
+	 * @return string absolute path to image
+	 */
 	private function getAppImage($app, $image) {
-		// TODO: add support for images in core/img/
 		$appPath = \OC_App::getAppPath($app);
 
 		if($app==="core") {
@@ -260,6 +272,12 @@ class IconController extends Controller {
 		}
 	}
 
+	/**
+	 * replace black with white and white with black
+	 *
+	 * @param $svg content of a svg file
+	 * @return string
+	 */
 	private function svgInvert($svg) {
 		$svg = preg_replace('/#(f{3,6})/i', '#REPLACECOLOR', $svg);
 		$svg = preg_replace('/#(0{3,6})/i', '#ffffff', $svg);
@@ -267,6 +285,13 @@ class IconController extends Controller {
 		return $svg;
 	}
 
+	/**
+	 * replace default color with a custom one
+	 *
+	 * @param $svg content of a svg file
+	 * @param $color color to match
+	 * @return string
+	 */
 	private function colorizeSvg($svg, $color) {
 		$svg = preg_replace('/#0082c9/i', $color, $svg);
 		return $svg;
