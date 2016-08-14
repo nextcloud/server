@@ -45,6 +45,7 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Common;
 use OCP\Files\Storage\INotifyStorage;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Util;
 
 class SMB extends Common implements INotifyStorage {
 	/**
@@ -68,6 +69,13 @@ class SMB extends Common implements INotifyStorage {
 	protected $statCache;
 
 	public function __construct($params) {
+		$loggedParams = $params;
+		// remove password from log if it is set
+		if (!empty($loggedParams['password'])) {
+			$loggedParams['password'] = '***removed***';
+		}
+		$this->log('enter: '.__FUNCTION__.'('.json_encode($loggedParams).')');
+
 		if (isset($params['host']) && isset($params['user']) && isset($params['password']) && isset($params['share'])) {
 			if (Server::NativeAvailable()) {
 				$this->server = new NativeServer($params['host'], $params['user'], $params['password']);
@@ -84,9 +92,12 @@ class SMB extends Common implements INotifyStorage {
 				$this->root .= '/';
 			}
 		} else {
-			throw new \Exception('Invalid configuration');
+			$ex = new \Exception('Invalid configuration');
+			$this->leave(__FUNCTION__, $ex);
+			throw $ex;
 		}
 		$this->statCache = new CappedMemoryCache();
+		$this->log('leave: '.__FUNCTION__.', getId:'.$this->getId());
 	}
 
 	/**
@@ -104,7 +115,9 @@ class SMB extends Common implements INotifyStorage {
 	 * @return string
 	 */
 	protected function buildPath($path) {
-		return Filesystem::normalizePath($this->root . '/' . $path, true, false, true);
+		$this->log('enter: '.__FUNCTION__."($path)");
+		$result = Filesystem::normalizePath($this->root . '/' . $path, true, false, true);
+		return $this->leave(__FUNCTION__, $result);
 	}
 
 	protected function relativePath($fullPath) {
@@ -123,15 +136,23 @@ class SMB extends Common implements INotifyStorage {
 	 * @throws StorageNotAvailableException
 	 */
 	protected function getFileInfo($path) {
+		$this->log('enter: '.__FUNCTION__."($path)");
 		try {
 			$path = $this->buildPath($path);
 			if (!isset($this->statCache[$path])) {
+				$this->log("stat fetching '{$this->root}$path'");
 				$this->statCache[$path] = $this->share->stat($path);
+			} else {
+				$this->log("stat cache hit for '$path'");
 			}
-			return $this->statCache[$path];
+			$result = $this->statCache[$path];
 		} catch (ConnectException $e) {
-			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+			$ex = new StorageNotAvailableException(
+				$e->getMessage(), $e->getCode(), $e);
+			$this->leave(__FUNCTION__, $ex);
+			throw $ex;
 		}
+		return $this->leave(__FUNCTION__, $result);
 	}
 
 	/**
@@ -140,16 +161,20 @@ class SMB extends Common implements INotifyStorage {
 	 * @throws StorageNotAvailableException
 	 */
 	protected function getFolderContents($path) {
+		$this->log('enter: '.__FUNCTION__."($path)");
 		try {
 			$path = $this->buildPath($path);
-			$files = $this->share->dir($path);
-			foreach ($files as $file) {
+			$result = $this->share->dir($path);
+			foreach ($result as $file) {
 				$this->statCache[$path . '/' . $file->getName()] = $file;
 			}
-			return $files;
 		} catch (ConnectException $e) {
-			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+			$ex = new StorageNotAvailableException(
+				$e->getMessage(), $e->getCode(), $e);
+			$this->leave(__FUNCTION__, $ex);
+			throw $ex;
 		}
+		return $this->leave(__FUNCTION__, $result);
 	}
 
 	/**
@@ -168,50 +193,66 @@ class SMB extends Common implements INotifyStorage {
 	 * @return array
 	 */
 	public function stat($path) {
-		return $this->formatInfo($this->getFileInfo($path));
+		$this->log('enter: '.__FUNCTION__."($path)");
+		$result = $this->formatInfo($this->getFileInfo($path));
+		return $this->leave(__FUNCTION__, $result);
 	}
 
 	/**
 	 * @param string $path
 	 * @return bool
+	 * @throws StorageNotAvailableException
 	 */
 	public function unlink($path) {
+		$this->log('enter: '.__FUNCTION__."($path)");
+		$result = false;
 		try {
 			if ($this->is_dir($path)) {
-				return $this->rmdir($path);
+				$result = $this->rmdir($path);
 			} else {
 				$path = $this->buildPath($path);
 				unset($this->statCache[$path]);
 				$this->share->del($path);
-				return true;
+				$result = true;
 			}
 		} catch (NotFoundException $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		} catch (ForbiddenException $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		} catch (ConnectException $e) {
-			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+			$ex = new StorageNotAvailableException(
+				$e->getMessage(), $e->getCode(), $e);
+			$this->leave(__FUNCTION__, $ex);
+			throw $ex;
 		}
+		return $this->leave(__FUNCTION__, $result);
 	}
 
 	/**
 	 * @param string $path1 the old name
 	 * @param string $path2 the new name
 	 * @return bool
+	 * @throws StorageNotAvailableException
 	 */
 	public function rename($path1, $path2) {
+		$this->log('enter: '.__FUNCTION__."($path1, $path2)");
+		$result = false;
 		try {
 			$this->remove($path2);
 			$path1 = $this->buildPath($path1);
 			$path2 = $this->buildPath($path2);
-			return $this->share->rename($path1, $path2);
+			$result = $this->share->rename($path1, $path2);
 		} catch (NotFoundException $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		} catch (ForbiddenException $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		} catch (ConnectException $e) {
-			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+			$ex = new StorageNotAvailableException(
+				$e->getMessage(), $e->getCode(), $e);
+			$this->leave(__FUNCTION__, $ex);
+			throw $ex;
 		}
+		return $this->leave(__FUNCTION__, $result);
 	}
 
 	/**
@@ -222,37 +263,43 @@ class SMB extends Common implements INotifyStorage {
 	 * @return bool
 	 */
 	public function hasUpdated($path, $time) {
+		$this->log('enter: '.__FUNCTION__."($path, $time)");
 		if (!$path and $this->root == '/') {
 			// mtime doesn't work for shares, but giving the nature of the backend,
 			// doing a full update is still just fast enough
-			return true;
+			$result = true;
 		} else {
 			$actualTime = $this->filemtime($path);
-			return $actualTime > $time;
+			$result = $actualTime > $time;
 		}
+		return $this->leave(__FUNCTION__, $result);
 	}
 
 	/**
 	 * @param string $path
 	 * @param string $mode
 	 * @return resource|false
+	 * @throws StorageNotAvailableException
 	 */
 	public function fopen($path, $mode) {
+		$this->log('enter: '.__FUNCTION__."($path, $mode)");
 		$fullPath = $this->buildPath($path);
+		$result = false;
 		try {
 			switch ($mode) {
 				case 'r':
 				case 'rb':
-					if (!$this->file_exists($path)) {
-						return false;
+					if ($this->file_exists($path)) {
+						$result = $this->share->read($fullPath);
 					}
-					return $this->share->read($fullPath);
+					break;
 				case 'w':
 				case 'wb':
 					$source = $this->share->write($fullPath);
-					return CallBackWrapper::wrap($source, null, null, function () use ($fullPath) {
+					$result = CallBackWrapper::wrap($source, null, null, function () use ($fullPath) {
 						unset($this->statCache[$fullPath]);
 					});
+					break;
 				case 'a':
 				case 'ab':
 				case 'r+':
@@ -271,34 +318,39 @@ class SMB extends Common implements INotifyStorage {
 					}
 					if ($this->file_exists($path)) {
 						if (!$this->isUpdatable($path)) {
-							return false;
+							break;
 						}
 						$tmpFile = $this->getCachedFile($path);
 					} else {
 						if (!$this->isCreatable(dirname($path))) {
-							return false;
+							break;
 						}
 						$tmpFile = \OCP\Files::tmpFile($ext);
 					}
 					$source = fopen($tmpFile, $mode);
 					$share = $this->share;
-					return CallbackWrapper::wrap($source, null, null, function () use ($tmpFile, $fullPath, $share) {
+					$result = CallbackWrapper::wrap($source, null, null, function () use ($tmpFile, $fullPath, $share) {
 						unset($this->statCache[$fullPath]);
 						$share->put($tmpFile, $fullPath);
 						unlink($tmpFile);
 					});
 			}
-			return false;
 		} catch (NotFoundException $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		} catch (ForbiddenException $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		} catch (ConnectException $e) {
-			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+			$ex = new StorageNotAvailableException(
+				$e->getMessage(), $e->getCode(), $e);
+			$this->leave(__FUNCTION__, $ex);
+			throw $ex;
 		}
+		return $this->leave(__FUNCTION__, $result);
 	}
 
 	public function rmdir($path) {
+		$this->log('enter: '.__FUNCTION__."($path)");
+		$result = false;
 		try {
 			$this->statCache = array();
 			$content = $this->share->dir($this->buildPath($path));
@@ -310,112 +362,149 @@ class SMB extends Common implements INotifyStorage {
 				}
 			}
 			$this->share->rmdir($this->buildPath($path));
-			return true;
+			$result = true;
 		} catch (NotFoundException $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		} catch (ForbiddenException $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		} catch (ConnectException $e) {
-			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+			$ex = new StorageNotAvailableException(
+				$e->getMessage(), $e->getCode(), $e);
+			$this->leave(__FUNCTION__, $ex);
+			throw $ex;
 		}
+		return $this->leave(__FUNCTION__, $result);
 	}
 
 	public function touch($path, $time = null) {
+		$this->log('enter: '.__FUNCTION__."($path, $time)");
 		try {
 			if (!$this->file_exists($path)) {
 				$fh = $this->share->write($this->buildPath($path));
 				fclose($fh);
-				return true;
+				$result = true;
+			} else {
+				$result = false;
 			}
-			return false;
 		} catch (ConnectException $e) {
-			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+			$ex = new StorageNotAvailableException(
+				$e->getMessage(), $e->getCode(), $e);
+			$this->leave(__FUNCTION__, $ex);
+			throw $ex;
 		}
+		return $this->leave(__FUNCTION__, $result);
 	}
 
 	public function opendir($path) {
+		$this->log('enter: '.__FUNCTION__."($path)");
+		$result = false;
 		try {
 			$files = $this->getFolderContents($path);
+			$names = array_map(function ($info) {
+				/** @var \Icewind\SMB\IFileInfo $info */
+				return $info->getName();
+			}, $files);
+			$result = IteratorDirectory::wrap($names);
 		} catch (NotFoundException $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		} catch (ForbiddenException $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		}
-		$names = array_map(function ($info) {
-			/** @var \Icewind\SMB\IFileInfo $info */
-			return $info->getName();
-		}, $files);
-		return IteratorDirectory::wrap($names);
+		return $this->leave(__FUNCTION__, $result);
 	}
 
 	public function filetype($path) {
+		$this->log('enter: '.__FUNCTION__."($path)");
+		$result = false;
 		try {
-			return $this->getFileInfo($path)->isDirectory() ? 'dir' : 'file';
+			$result = $this->getFileInfo($path)->isDirectory() ? 'dir' : 'file';
 		} catch (NotFoundException $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		} catch (ForbiddenException $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		}
+		return $this->leave(__FUNCTION__, $result);
 	}
 
 	public function mkdir($path) {
+		$this->log('enter: '.__FUNCTION__."($path)");
+		$result = false;
 		$path = $this->buildPath($path);
 		try {
 			$this->share->mkdir($path);
-			return true;
+			$result = true;
 		} catch (ConnectException $e) {
-			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+			$ex = new StorageNotAvailableException(
+				$e->getMessage(), $e->getCode(), $e);
+			$this->leave(__FUNCTION__, $ex);
+			throw $ex;
 		} catch (Exception $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		}
+		return $this->leave(__FUNCTION__, $result);
 	}
 
 	public function file_exists($path) {
+		$this->log('enter: '.__FUNCTION__."($path)");
+		$result = false;
 		try {
 			$this->getFileInfo($path);
-			return true;
+			$result = true;
 		} catch (NotFoundException $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		} catch (ForbiddenException $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		} catch (ConnectException $e) {
-			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+			$ex = new StorageNotAvailableException(
+				$e->getMessage(), $e->getCode(), $e);
+			$this->leave(__FUNCTION__, $ex);
+			throw $ex;
 		}
+		return $this->leave(__FUNCTION__, $result);
 	}
 
 	public function isReadable($path) {
+		$this->log('enter: '.__FUNCTION__."($path)");
+		$result = false;
 		try {
 			$info = $this->getFileInfo($path);
-			return !$info->isHidden();
+			$result = !$info->isHidden();
 		} catch (NotFoundException $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		} catch (ForbiddenException $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		}
+		return $this->leave(__FUNCTION__, $result);
 	}
 
 	public function isUpdatable($path) {
+		$this->log('enter: '.__FUNCTION__."($path)");
+		$result = false;
 		try {
 			$info = $this->getFileInfo($path);
 			// following windows behaviour for read-only folders: they can be written into
 			// (https://support.microsoft.com/en-us/kb/326549 - "cause" section)
-			return !$info->isHidden() && (!$info->isReadOnly() || $this->is_dir($path));
+			$result = !$info->isHidden() && (!$info->isReadOnly() || $this->is_dir($path));
 		} catch (NotFoundException $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		} catch (ForbiddenException $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		}
+		return $this->leave(__FUNCTION__, $result);
 	}
 
 	public function isDeletable($path) {
+		$this->log('enter: '.__FUNCTION__."($path)");
+		$result = false;
 		try {
 			$info = $this->getFileInfo($path);
-			return !$info->isHidden() && !$info->isReadOnly();
+			$result = !$info->isHidden() && !$info->isReadOnly();
 		} catch (NotFoundException $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		} catch (ForbiddenException $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
 		}
+		return $this->leave(__FUNCTION__, $result);
 	}
 
 	/**
@@ -434,10 +523,55 @@ class SMB extends Common implements INotifyStorage {
 	 * @return bool
 	 */
 	public function test() {
+		$this->log('enter: '.__FUNCTION__."()");
+		$result = false;
 		try {
-			return parent::test();
+			$result = parent::test();
 		} catch (Exception $e) {
-			return false;
+			$this->swallow(__FUNCTION__, $e);
+		}
+		return $this->leave(__FUNCTION__, $result);
+	}
+
+
+	/**
+	 * @param string $message
+	 * @param int $level
+	 * @param string $from
+	 */
+	private function log($message, $level = Util::DEBUG, $from = 'wnd') {
+		if (\OC::$server->getConfig()->getSystemValue('wnd.logging.enable', false) === true) {
+			Util::writeLog($from, $message, $level);
+		}
+	}
+
+	/**
+	 * if wnd.logging.enable is set to true in the config will log a leave line
+	 * with the given function, the return value or the exception
+	 *
+	 * @param $function
+	 * @param mixed $result an exception will be logged and then returned
+	 * @return mixed
+	 */
+	private function leave($function, $result) {
+		if (\OC::$server->getConfig()->getSystemValue('wnd.logging.enable', false) === false) {
+			//don't bother building log strings
+			return $result;
+		} else if ($result === true) {
+			Util::writeLog('wnd', "leave: $function, return true", Util::DEBUG);
+		} else if ($result === false) {
+			Util::writeLog('wnd', "leave: $function, return false", Util::DEBUG);
+		} else if (is_string($result)) {
+			Util::writeLog('wnd', "leave: $function, return '$result'", Util::DEBUG);
+		} else if (is_resource($result)) {
+			Util::writeLog('wnd', "leave: $function, return resource", Util::DEBUG);
+		} else if ($result instanceof \Exception) {
+			Util::writeLog('wnd', "leave: $function, throw ".get_class($result)
+				.' - code: '.$result->getCode()
+				.' message: '.$result->getMessage()
+				.' trace: '.$result->getTraceAsString(), Util::DEBUG);
+		} else {
+			Util::writeLog('wnd', "leave: $function, return ".json_encode($result), Util::DEBUG);
 		}
 	}
 
@@ -482,6 +616,15 @@ class SMB extends Common implements INotifyStorage {
 				return INotifyStorage::NOTIFY_RENAMED;
 			default:
 				return null;
+		}
+	}
+
+	private function swallow($function, \Exception $exception) {
+		if (\OC::$server->getConfig()->getSystemValue('wnd.logging.enable', false) === true) {
+			Util::writeLog('wnd', "$function swallowing ".get_class($exception)
+				.' - code: '.$exception->getCode()
+				.' message: '.$exception->getMessage()
+				.' trace: '.$exception->getTraceAsString(), Util::DEBUG);
 		}
 	}
 }
