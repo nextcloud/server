@@ -53,10 +53,10 @@
 namespace OC\User;
 
 use OC\Cache\CappedMemoryCache;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use OCP\IUserBackend;
 use OCP\Util;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
@@ -69,7 +69,9 @@ class Database extends Backend implements IUserBackend {
 	private $eventDispatcher;
 
 	/**
-	 * OC_User_Database constructor.
+	 * \OC\User\Database constructor.
+	 *
+	 * @param EventDispatcher $eventDispatcher
 	 */
 	public function __construct($eventDispatcher = null) {
 		$this->cache = new CappedMemoryCache();
