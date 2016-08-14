@@ -110,7 +110,7 @@ class PublishPlugin extends ServerPlugin {
 			});
 
 			$propFind->handle('{'.self::NS_CALENDARSERVER.'}can-be-published', function() use ($node) {
-				return !$node->getPublishStatus();
+				return !$node->getPublishStatus() && !$node->isSubscription();
 			});
 		}
 	}

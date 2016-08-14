@@ -279,4 +279,8 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		return isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal']);
 	}
 
+	public function isSubscription() {
+		return isset($this->calendarInfo['{http://calendarserver.org/ns/}source']);
+	}
+
 }
