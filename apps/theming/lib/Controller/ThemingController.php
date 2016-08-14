@@ -403,6 +403,15 @@ class ThemingController extends Controller {
 			$responseCss .= '.nc-theming-contrast {color: #ffffff}' . "\n";
 		}
 
+		if($logo !== '' or $color !== '') {
+			$responseCss .= '.icon-file,.icon-filetype-text {' .
+				'background-image: url(\'./img/core/filetypes/text.svg?v='.$cacheBusterValue.'\');' . "}\n" .
+				'.icon-folder, .icon-filetype-folder ' .
+				'background-image: url(\'./img/core/filetypes/folder.svg?v='.$cacheBusterValue.'\');' . "}\n" .
+				'.icon-filetype-folder-drag-accept {' .
+				'background-image: url(\'./img/core/filetypes/folder-drag-accept.svg?v='.$cacheBusterValue.'\')!important;' . "}\n";
+		}
+
 		$response = new DataDownloadResponse($responseCss, 'style', 'text/css');
 		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
 		$response->addHeader('Pragma', 'cache');

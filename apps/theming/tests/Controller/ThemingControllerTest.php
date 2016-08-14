@@ -475,6 +475,12 @@ class ThemingControllerTest extends TestCase {
 		$expectedData .= sprintf('.nc-theming-main-background {background-color: %s}' . "\n", $color);
 		$expectedData .= sprintf('.nc-theming-main-text {color: %s}' . "\n", $color);
 		$expectedData .= '.nc-theming-contrast {color: #ffffff}' . "\n";
+		$expectedData .= '.icon-file,.icon-filetype-text {' .
+			'background-image: url(\'./img/core/filetypes/text.svg?v=0\');' . "}\n" .
+			'.icon-folder, .icon-filetype-folder ' .
+			'background-image: url(\'./img/core/filetypes/folder.svg?v=0\');' . "}\n" .
+			'.icon-filetype-folder-drag-accept {' .
+			'background-image: url(\'./img/core/filetypes/folder-drag-accept.svg?v=0\')!important;' . "}\n";
 
 		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
 
@@ -569,6 +575,12 @@ class ThemingControllerTest extends TestCase {
 		$expectedData .= '#body-login input.login { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/confirm.svg?v=2\'); }' . "\n";
 		$expectedData .= '.nc-theming-contrast {color: #000000}' . "\n";
 		$expectedData .= '.ui-widget-header { color: #000000; }' . "\n";
+		$expectedData .= '.icon-file,.icon-filetype-text {' .
+			'background-image: url(\'./img/core/filetypes/text.svg?v=0\');' . "}\n" .
+			'.icon-folder, .icon-filetype-folder ' .
+			'background-image: url(\'./img/core/filetypes/folder.svg?v=0\');' . "}\n" .
+			'.icon-filetype-folder-drag-accept {' .
+			'background-image: url(\'./img/core/filetypes/folder-drag-accept.svg?v=0\')!important;' . "}\n";
 
 
 		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
@@ -614,6 +626,12 @@ class ThemingControllerTest extends TestCase {
 			'background-size: contain;' .
 			'}' . "\n";
 		$expectedData .= '.nc-theming-contrast {color: #ffffff}' . "\n";
+		$expectedData .= '.icon-file,.icon-filetype-text {' .
+			'background-image: url(\'./img/core/filetypes/text.svg?v=0\');' . "}\n" .
+			'.icon-folder, .icon-filetype-folder ' .
+			'background-image: url(\'./img/core/filetypes/folder.svg?v=0\');' . "}\n" .
+			'.icon-filetype-folder-drag-accept {' .
+			'background-image: url(\'./img/core/filetypes/folder-drag-accept.svg?v=0\')!important;' . "}\n";
 
 		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
 
@@ -756,6 +774,12 @@ class ThemingControllerTest extends TestCase {
 			'background-image: url(\'./loginbackground?v=0\');' .
 			'}' . "\n";
 		$expectedData .= '.nc-theming-contrast {color: #ffffff}' . "\n";
+		$expectedData .= '.icon-file,.icon-filetype-text {' .
+			'background-image: url(\'./img/core/filetypes/text.svg?v=0\');' . "}\n" .
+			'.icon-folder, .icon-filetype-folder ' .
+			'background-image: url(\'./img/core/filetypes/folder.svg?v=0\');' . "}\n" .
+			'.icon-filetype-folder-drag-accept {' .
+			'background-image: url(\'./img/core/filetypes/folder-drag-accept.svg?v=0\')!important;' . "}\n";
 		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
 
 		$expected->cacheFor(3600);
@@ -867,6 +891,13 @@ class ThemingControllerTest extends TestCase {
 		$expectedData .= '#body-login input.login { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/confirm.svg?v=2\'); }' . "\n";
 		$expectedData .= '.nc-theming-contrast {color: #000000}' . "\n";
 		$expectedData .= '.ui-widget-header { color: #000000; }' . "\n";
+		$expectedData .= '.icon-file,.icon-filetype-text {' .
+			'background-image: url(\'./img/core/filetypes/text.svg?v=0\');' . "}\n" .
+			'.icon-folder, .icon-filetype-folder ' .
+			'background-image: url(\'./img/core/filetypes/folder.svg?v=0\');' . "}\n" .
+			'.icon-filetype-folder-drag-accept {' .
+			'background-image: url(\'./img/core/filetypes/folder-drag-accept.svg?v=0\')!important;' . "}\n";
+		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
 
 		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
 		$expected->cacheFor(3600);
