@@ -76,7 +76,6 @@ return ['routes' => [
 		'name'	=> 'Icon#getThemedIcon',
 		'url' => '/img/{app}/{image}',
 		'verb' => 'GET',
-		'defaults' => array("app" => "core"),
 		'requirements' => array('image' => '.+')
 	],
 ]];

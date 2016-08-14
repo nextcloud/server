@@ -158,8 +158,10 @@ class URLGenerator implements IURLGenerator {
 		// Check if the app is in the app folder
 		$path = '';
 		if(\OCP\App::isEnabled('theming') && $image === "favicon.ico") {
+			if($app==="") { $app = "core"; }
 			$path = $this->linkToRoute('theming.Icon.getFavicon', [ 'app' => $app ]);
 		} elseif(\OCP\App::isEnabled('theming') && $image === "favicon-touch.png") {
+			if($app==="") { $app = "core"; }
 			$path = $this->linkToRoute('theming.Icon.getTouchIcon', [ 'app' => $app ]);
 		} elseif (file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$image")) {
 			$path = \OC::$WEBROOT . "/themes/$theme/apps/$app/img/$image";

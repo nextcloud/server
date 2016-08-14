@@ -109,7 +109,7 @@ class IconController extends Controller {
 	 * @param $app app name
 	 * @return StreamResponse|DataResponse
 	 */
-	public function getFavicon($app) {
+	public function getFavicon($app="core") {
 		// TODO: we need caching here
 		$icon = $this->renderAppIcon($app);
 		$icon->resizeImage(32, 32, Imagick::FILTER_LANCZOS, 1);
@@ -130,7 +130,7 @@ class IconController extends Controller {
 	 * @param $app app name
 	 * @return StreamResponse|DataResponse
 	 */
-	public function getTouchIcon($app) {
+	public function getTouchIcon($app="core") {
 		// TODO: we need caching here
 		$icon = $this->renderAppIcon($app);
 		$icon->resizeImage(512, 512, Imagick::FILTER_LANCZOS, 1);
