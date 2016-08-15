@@ -154,7 +154,12 @@ With help from many libraries and frameworks including:
 		} else {
 			$license = str_replace('@AUTHORS@', $authors, $this->licenseText);
 		}
-		$license = str_replace('@COPYRIGHT@', $copyrightNotices, $license);
+
+		if ($copyrightNotices === '') {
+			$license = str_replace('@COPYRIGHT@', ' *', $license);
+		} else {
+			$license = str_replace('@COPYRIGHT@', $copyrightNotices, $license);
+		}
 
 		$source = $this->eatOldLicense($source);
 		$source = "<?php" . PHP_EOL . $license . PHP_EOL . $source;
