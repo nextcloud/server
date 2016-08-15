@@ -107,23 +107,6 @@ class DefaultShareProvider implements IShareProvider {
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			//Set the GID of the group we share with
 			$qb->setValue('share_with', $qb->createNamedParameter($share->getSharedWith()));
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
-			//Set the token of the share
-			$qb->setValue('token', $qb->createNamedParameter($share->getToken()));
-
-			//If a password is set store it
-			if ($share->getPassword() !== null) {
-				$qb->setValue('share_with', $qb->createNamedParameter($share->getPassword()));
-			}
-
-			//If an expiration date is set store it
-			if ($share->getExpirationDate() !== null) {
-				$qb->setValue('expiration', $qb->createNamedParameter($share->getExpirationDate(), 'datetime'));
-			}
-
-			if (method_exists($share, 'getParent')) {
-				$qb->setValue('parent', $qb->createNamedParameter($share->getParent()));
-			}
 		} else {
 			throw new \Exception('invalid share type!');
 		}
@@ -233,19 +216,6 @@ class DefaultShareProvider implements IShareProvider {
 				->set('permissions', $qb->createNamedParameter($share->getPermissions()))
 				->execute();
 
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
-			$qb = $this->dbConn->getQueryBuilder();
-			$qb->update('share')
-				->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
-				->set('share_with', $qb->createNamedParameter($share->getPassword()))
-				->set('uid_owner', $qb->createNamedParameter($share->getShareOwner()))
-				->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()))
-				->set('permissions', $qb->createNamedParameter($share->getPermissions()))
-				->set('item_source', $qb->createNamedParameter($share->getNode()->getId()))
-				->set('file_source', $qb->createNamedParameter($share->getNode()->getId()))
-				->set('token', $qb->createNamedParameter($share->getToken()))
-				->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
-				->execute();
 		}
 
 		return $share;
@@ -271,7 +241,6 @@ class DefaultShareProvider implements IShareProvider {
 					$qb->createNamedParameter([
 						\OCP\Share::SHARE_TYPE_USER,
 						\OCP\Share::SHARE_TYPE_GROUP,
-						\OCP\Share::SHARE_TYPE_LINK,
 					], IQueryBuilder::PARAM_INT_ARRAY)
 				)
 			)
@@ -518,7 +487,6 @@ class DefaultShareProvider implements IShareProvider {
 					$qb->createNamedParameter([
 						\OCP\Share::SHARE_TYPE_USER,
 						\OCP\Share::SHARE_TYPE_GROUP,
-						\OCP\Share::SHARE_TYPE_LINK,
 					], IQueryBuilder::PARAM_INT_ARRAY)
 				)
 			)
@@ -700,31 +668,8 @@ class DefaultShareProvider implements IShareProvider {
 	 * @throws ShareNotFound
 	 */
 	public function getShareByToken($token) {
-		$qb = $this->dbConn->getQueryBuilder();
-
-		$cursor = $qb->select('*')
-			->from('share')
-			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_LINK)))
-			->andWhere($qb->expr()->eq('token', $qb->createNamedParameter($token)))
-			->andWhere($qb->expr()->orX(
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-			))
-			->execute();
-
-		$data = $cursor->fetch();
-
-		if ($data === false) {
-			throw new ShareNotFound();
-		}
-
-		try {
-			$share = $this->createShare($data);
-		} catch (InvalidShare $e) {
-			throw new ShareNotFound();
-		}
-
-		return $share;
+		// We don' have tokens
+		throw new ShareNotFound();
 	}
 	
 	/**
@@ -750,9 +695,6 @@ class DefaultShareProvider implements IShareProvider {
 			$share->setSharedWith($data['share_with']);
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$share->setSharedWith($data['share_with']);
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
-			$share->setPassword($data['share_with']);
-			$share->setToken($data['token']);
 		}
 
 		$share->setSharedBy($data['uid_initiator']);
@@ -850,19 +792,6 @@ class DefaultShareProvider implements IShareProvider {
 				$qb->expr()->andX(
 					$qb->expr()->eq('share_type', $qb->createNamedParameter(self::SHARE_TYPE_USERGROUP)),
 					$qb->expr()->eq('share_with', $qb->createNamedParameter($uid))
-				)
-			);
-		} else if ($shareType === \OCP\Share::SHARE_TYPE_LINK) {
-			/*
-			 * Delete all link shares owned by this user.
-			 * And all link shares initiated by this user (until #22327 is in)
-			 */
-			$qb->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_LINK)));
-
-			$qb->andWhere(
-				$qb->expr()->orX(
-					$qb->expr()->eq('uid_owner', $qb->createNamedParameter($uid)),
-					$qb->expr()->eq('uid_initiator', $qb->createNamedParameter($uid))
 				)
 			);
 		}
