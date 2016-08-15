@@ -69,6 +69,7 @@ class Capabilities implements ICapability {
 
 				$public['send_mail'] = $this->config->getAppValue('core', 'shareapi_allow_public_notification', 'no') === 'yes';
 				$public['upload'] = $this->config->getAppValue('core', 'shareapi_allow_public_upload', 'yes') === 'yes';
+				$public['upload_files_drop'] = $public['upload'];
 			}
 			$res["public"] = $public;
 
