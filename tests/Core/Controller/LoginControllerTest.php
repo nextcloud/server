@@ -327,7 +327,7 @@ class LoginControllerTest extends TestCase {
 		/** @var IUser | \PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->getMock('\OCP\IUser');
 		$password = 'secret';
-		$indexPageUrl = 'http://localhost/index.php/apps/files/';
+		$indexPageUrl = \OC_Util::getDefaultPageUrl();
 
 		$this->request
 			->expects($this->exactly(2))
