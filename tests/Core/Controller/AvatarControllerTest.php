@@ -32,7 +32,7 @@ use Punic\Exception;
 use Test\Traits\UserTrait;
 
 /**
- * Overwrite is_uploaded_file in this namespace to allow proper unit testing of 
+ * Overwrite is_uploaded_file in this namespace to allow proper unit testing of
  * the postAvatar call.
  */
 function is_uploaded_file($filename) {
@@ -68,19 +68,19 @@ class AvatarControllerTest extends \Test\TestCase {
 		$app = new Application;
 		$this->container = $app->getContainer();
 		$this->container['AppName'] = 'core';
-		$this->container['AvatarManager'] = $this->getMock('OCP\IAvatarManager');
+		$this->container['AvatarManager'] = $this->getMockBuilder('OCP\IAvatarManager')->getMock();
 		$this->container['Cache'] = $this->getMockBuilder('OC\Cache\File')
 			->disableOriginalConstructor()->getMock();
-		$this->container['L10N'] = $this->getMock('OCP\IL10N');
+		$this->container['L10N'] = $this->getMockBuilder('OCP\IL10N')->getMock();
 		$this->container['L10N']->method('t')->will($this->returnArgument(0));
-		$this->container['UserManager'] = $this->getMock('OCP\IUserManager');
-		$this->container['UserSession'] = $this->getMock('OCP\IUserSession');
-		$this->container['Request'] = $this->getMock('OCP\IRequest');
-		$this->container['UserFolder'] = $this->getMock('OCP\Files\Folder');
-		$this->container['Logger'] = $this->getMock('OCP\ILogger');
+		$this->container['UserManager'] = $this->getMockBuilder('OCP\IUserManager')->getMock();
+		$this->container['UserSession'] = $this->getMockBuilder('OCP\IUserSession')->getMock();
+		$this->container['Request'] = $this->getMockBuilder('OCP\IRequest')->getMock();
+		$this->container['UserFolder'] = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$this->container['Logger'] = $this->getMockBuilder('OCP\ILogger')->getMock();
 
-		$this->avatarMock = $this->getMock('OCP\IAvatar');
-		$this->userMock = $this->getMock('OCP\IUser');
+		$this->avatarMock = $this->getMockBuilder('OCP\IAvatar')->getMock();
+		$this->userMock = $this->getMockBuilder('OCP\IUser')->getMock();
 
 		$this->avatarController = $this->container['AvatarController'];
 
@@ -91,7 +91,7 @@ class AvatarControllerTest extends \Test\TestCase {
 			->willReturnMap([['userId', $this->userMock]]);
 		$this->container['UserSession']->method('getUser')->willReturn($this->userMock);
 
-		$this->avatarFile = $this->getMock('OCP\Files\File');
+		$this->avatarFile = $this->getMockBuilder('OCP\Files\File')->getMock();
 		$this->avatarFile->method('getContent')->willReturn('image data');
 		$this->avatarFile->method('getMimeType')->willReturn('image type');
 		$this->avatarFile->method('getEtag')->willReturn('my etag');
@@ -326,7 +326,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * Test posting avatar from existing folder
 	 */
 	public function testPostAvatarFromNoFile() {
-		$file = $this->getMock('OCP\Files\Node');
+		$file = $this->getMockBuilder('OCP\Files\Node')->getMock();
 		$this->container['UserFolder']
 			->method('get')
 			->with('folder')
