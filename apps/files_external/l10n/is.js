@@ -126,6 +126,7 @@ OC.L10N.register(
     "Advanced settings" : "Ítarlegri valkostir",
     "Delete" : "Eyða",
     "Allow users to mount external storage" : "Leyfa notendum að tengja ytri gagnageymslur í skráakerfi",
-    "Allow users to mount the following external storage" : "Leyfa notendum að tengja eftirfarandi ytri gagnageymslu í skráakerfi"
+    "Allow users to mount the following external storage" : "Leyfa notendum að tengja eftirfarandi ytri gagnageymslu í skráakerfi",
+    "Access granted" : "Aðgangur heimilaður"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
