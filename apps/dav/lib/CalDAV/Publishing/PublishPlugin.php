@@ -9,6 +9,7 @@ use Sabre\DAV\ServerPlugin;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use Sabre\CalDAV\Xml\Property\AllowedSharingModes;
 use OCA\DAV\CalDAV\Publishing\Xml\Publisher;
 use OCA\DAV\CalDAV\Calendar;
 use OCP\IURLGenerator;
@@ -109,8 +110,8 @@ class PublishPlugin extends ServerPlugin {
 				return new Publisher($publishUrl, false);
 			});
 
-			$propFind->handle('{'.self::NS_CALENDARSERVER.'}can-be-published', function() use ($node) {
-				return !$node->getPublishStatus() && !$node->isSubscription();
+			$propFind->handle('{'.self::NS_CALENDARSERVER.'}allowed-sharing-modes', function() use ($node) {
+				return new AllowedSharingModes(!$node->isSubscription(), !$node->isSubscription());
 			});
 		}
 	}
