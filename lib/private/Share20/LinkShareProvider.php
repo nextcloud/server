@@ -205,11 +205,11 @@ class LinkShareProvider implements ILinkShareProvider {
 	 *
 	 * @param \OCP\Share\IShare $share
 	 * @param string $recipient UserId of recipient
-	 * @throws BackendError
 	 * @throws ProviderException
 	 */
 	public function deleteFromSelf(\OCP\Share\IShare $share, $recipient) {
-		// Does nothing for link shares
+		// Not supported on link shares
+		throw new ProviderException('Not supported');
 	}
 
 	/**

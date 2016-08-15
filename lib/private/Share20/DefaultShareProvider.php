@@ -794,6 +794,8 @@ class DefaultShareProvider implements IShareProvider {
 					$qb->expr()->eq('share_with', $qb->createNamedParameter($uid))
 				)
 			);
+		} else {
+			return;
 		}
 
 		$qb->execute();
