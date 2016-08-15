@@ -19,6 +19,16 @@
  *
  */
 
+namespace OC\Core\Controller;
+
+/**
+ * Overwrite is_uploaded_file in the OC\Core\Controller namespace to allow
+ * proper unit testing of the postAvatar call.
+ */
+function is_uploaded_file($filename) {
+	return file_exists($filename);
+}
+
 namespace Tests\Core\Controller;
 
 use OC\Core\Application;
@@ -30,14 +40,6 @@ use OCP\IUser;
 use OCP\IAvatar;
 use Punic\Exception;
 use Test\Traits\UserTrait;
-
-/**
- * Overwrite is_uploaded_file in this namespace to allow proper unit testing of
- * the postAvatar call.
- */
-function is_uploaded_file($filename) {
-	return file_exists($filename);
-}
 
 /**
  * Class AvatarControllerTest
