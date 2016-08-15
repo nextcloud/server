@@ -110,6 +110,8 @@ class CheckSetupControllerTest extends TestCase {
 	}
 
 	public function testIsInternetConnectionWorkingDisabledViaConfig() {
+		die('This should die');
+		exit();
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with('has_internet_connection', true)
