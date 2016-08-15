@@ -144,7 +144,7 @@
 			<field>
 				<name>value</name>
 				<type>text</type>
-				<notnull>true</notnull>
+				<notnull>false</notnull>
 				<length>4096</length>
 			</field>
 
