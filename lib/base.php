@@ -725,6 +725,7 @@ class OC {
 		self::registerLogRotate();
 		self::registerEncryptionWrapper();
 		self::registerEncryptionHooks();
+		self::registerSettingsHooks();
 
 		//make sure temporary files are cleaned up
 		$tmpManager = \OC::$server->getTempManager();
@@ -801,6 +802,14 @@ class OC {
 				}
 			});
 		}
+	}
+
+	public static function registerSettingsHooks() {
+		$dispatcher = \OC::$server->getEventDispatcher();
+		$dispatcher->addListener(OCP\App\ManagerEvent::EVENT_APP_DISABLE, function($event) {
+			/** @var \OCP\App\ManagerEvent $event */
+			\OC::$server->getSettingsManager()->onAppDisabled($event->getAppID());
+		});
 	}
 
 	private static function registerEncryptionWrapper() {

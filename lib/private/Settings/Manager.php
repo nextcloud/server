@@ -94,6 +94,25 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * attempts to remove an apps section and/or settings entry. A listener is
+	 * added centrally making sure that this method is called ones an app was
+	 * disabled.
+	 *
+	 * @param string $appId
+	 * @since 9.1.0
+	 */
+	public function onAppDisabled($appId) {
+		$appInfo = \OC_App::getAppInfo($appId); // hello static legacy
+
+		if(isset($appInfo['settings'][IManager::KEY_ADMIN_SECTION])) {
+			$this->remove(self::TABLE_ADMIN_SECTIONS, $appInfo['settings'][IManager::KEY_ADMIN_SECTION]);
+		}
+		if(isset($settings['settings'][IManager::KEY_ADMIN_SETTINGS])) {
+			$this->remove(self::TABLE_ADMIN_SETTINGS, $appInfo['settings'][IManager::KEY_ADMIN_SETTINGS]);
+		}
+	}
+
+	/**
 	 * @param string $sectionClassName
 	 */
 	private function setupAdminSection($sectionClassName) {
@@ -220,6 +239,20 @@ class Manager implements IManager {
 		$result->closeCursor();
 
 		return (bool) $row;
+	}
+
+	/**
+	 * deletes an settings or admin entry from the given table
+	 *
+	 * @param $table
+	 * @param $className
+	 */
+	private function remove($table, $className) {
+		$query = $this->dbc->getQueryBuilder();
+		$query->delete($table)
+			->where($query->expr()->eq('class', $query->createNamedParameter($className)));
+
+		$query->execute();
 	}
 
 	private function setupAdminSettings($settingsClassName) {

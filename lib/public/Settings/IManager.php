@@ -51,6 +51,20 @@ interface IManager {
 	public function setupSettings(array $settings);
 
 	/**
+	 * attempts to remove an apps section and/or settings entry. A listener is
+	 * added centrally making sure that this method is called ones an app was
+	 * disabled.
+	 *
+	 * What this does not help with is when applications change their settings
+	 * or section classes during their life time. New entries will be added,
+	 * but inactive ones will still reside in the database.
+	 *
+	 * @param string $appId
+	 * @since 9.1.0
+	 */
+	public function onAppDisabled($appId);
+
+	/**
 	 * returns a list of the admin sections
 	 *
 	 * @return array array of ISection[] where key is the priority
