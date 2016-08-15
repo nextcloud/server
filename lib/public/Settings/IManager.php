@@ -65,6 +65,21 @@ interface IManager {
 	public function onAppDisabled($appId);
 
 	/**
+	 * The method should check all registered classes whether they are still
+	 * instantiable and remove them, if not. This method is called by a
+	 * background job once, after one or more apps were updated.
+	 *
+	 * An app`s info.xml can change during an update and make it unknown whether
+	 * a registered class name was changed or not. An old one would just stay
+	 * registered. Another case is if an admin takes a radical approach and
+	 * simply removes an app from the app folder. These unregular checks will
+	 * take care of such situations.
+	 *
+	 * @since 9.1.0
+	 */
+	public function checkForOrphanedClassNames();
+
+	/**
 	 * returns a list of the admin sections
 	 *
 	 * @return array array of ISection[] where key is the priority

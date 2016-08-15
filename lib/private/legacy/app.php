@@ -51,6 +51,7 @@ use OC\App\Platform;
 use OC\Installer;
 use OC\OCSClient;
 use OC\Repair;
+use OCP\App\ManagerEvent;
 
 /**
  * This class manages the apps. It allows them to register and integrate in the
@@ -1236,6 +1237,10 @@ class OC_App {
 
 		$version = \OC_App::getAppVersion($appId);
 		\OC::$server->getAppConfig()->setValue($appId, 'installed_version', $version);
+
+		\OC::$server->getEventDispatcher()->dispatch(ManagerEvent::EVENT_APP_UPDATE, new ManagerEvent(
+			ManagerEvent::EVENT_APP_UPDATE, $appId
+		));
 
 		return true;
 	}
