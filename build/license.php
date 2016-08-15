@@ -99,7 +99,7 @@ EOD;
 
 		$excludes = array_map(function($item) use ($folder) {
 			return $folder . '/' . $item;
-		}, ['vendor', '3rdparty', '.git', 'l10n', 'templates']);
+		}, ['vendor', '3rdparty', '.git', 'l10n', 'templates', 'composer']);
 
 		$iterator = new RecursiveDirectoryIterator($folder, RecursiveDirectoryIterator::SKIP_DOTS);
 		$iterator = new RecursiveCallbackFilterIterator($iterator, function($item) use ($folder, $excludes){
@@ -154,7 +154,12 @@ With help from many libraries and frameworks including:
 		} else {
 			$license = str_replace('@AUTHORS@', $authors, $this->licenseText);
 		}
-		$license = str_replace('@COPYRIGHT@', $copyrightNotices, $license);
+
+		if ($copyrightNotices === '') {
+			$license = str_replace('@COPYRIGHT@', ' *', $license);
+		} else {
+			$license = str_replace('@COPYRIGHT@', $copyrightNotices, $license);
+		}
 
 		$source = $this->eatOldLicense($source);
 		$source = "<?php" . PHP_EOL . $license . PHP_EOL . $source;
