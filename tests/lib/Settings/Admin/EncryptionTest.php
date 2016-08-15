@@ -39,8 +39,8 @@ class EncryptionTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->manager = $this->createMock('\OC\Encryption\Manager');
-		$this->userManager = $this->createMock('\OCP\IUserManager');
+		$this->manager = $this->getMockBuilder('\OC\Encryption\Manager')->disableOriginalConstructor()->getMock();
+		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')->getMock();
 
 		$this->admin = new Encryption(
 			$this->manager,

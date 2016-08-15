@@ -59,14 +59,14 @@ class AdminControllerTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->request = $this->createMock('\\OCP\\IRequest');
-		$this->jobList = $this->createMock('\\OCP\\BackgroundJob\\IJobList');
-		$this->secureRandom = $this->createMock('\\OCP\\Security\\ISecureRandom');
-		$this->config = $this->createMock('\\OCP\\IConfig');
-		$this->timeFactory = $this->createMock('\\OCP\\AppFramework\\Utility\\ITimeFactory');
-		$this->l10n = $this->createMock('\\OCP\\IL10N');
-		$this->updateChecker = $this->createMock('\\OCA\\UpdateNotification\\UpdateChecker');
-		$this->dateTimeFormatter = $this->createMock('\\OCP\\IDateTimeFormatter');
+		$this->request = $this->getMockBuilder('\\OCP\\IRequest')->getMock();
+		$this->jobList = $this->getMockBuilder('\\OCP\\BackgroundJob\\IJobList')->getMock();
+		$this->secureRandom = $this->getMockBuilder('\\OCP\\Security\\ISecureRandom')->getMock();
+		$this->config = $this->getMockBuilder('\\OCP\\IConfig')->getMock();
+		$this->timeFactory = $this->getMockBuilder('\\OCP\\AppFramework\\Utility\\ITimeFactory')->getMock();
+		$this->l10n = $this->getMockBuilder('\\OCP\\IL10N')->getMock();
+		$this->updateChecker = $this->getMockBuilder('\\OCA\\UpdateNotification\\UpdateChecker')->disableOriginalConstructor()->getMock();
+		$this->dateTimeFormatter = $this->getMockBuilder('\\OCP\\IDateTimeFormatter')->getMock();
 
 		$this->adminController = new AdminController(
 			'updatenotification',

@@ -98,7 +98,7 @@ class CheckSetupControllerTest extends TestCase {
 			}));
 		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
 				->disableOriginalConstructor()->getMock();
-		$this->logger = $this->createMock('\OCP\ILogger');
+		$this->logger = $this->getMockBuilder('\OCP\ILogger')->getMock();
 		$this->checkSetupController = $this->getMockBuilder('\OC\Settings\Controller\CheckSetupController')
 			->setConstructorArgs([
 				'settings',

@@ -56,13 +56,13 @@ class ManagerTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->logger = $this->createMock('\OCP\ILogger');
-		$this->dbConnection = $this->createMock('\OCP\IDBConnection');
-		$this->l10n = $this->createMock('\OCP\IL10N');
-		$this->config = $this->createMock('\OCP\IConfig');
-		$this->encryptionManager = $this->createMock('\OCP\Encryption\IManager');
-		$this->userManager = $this->createMock('\OCP\IUserManager');
-		$this->lockingProvider = $this->createMock('\OCP\Lock\ILockingProvider');
+		$this->logger = $this->getMockBuilder('\OCP\ILogger')->getMock();
+		$this->dbConnection = $this->getMockBuilder('\OCP\IDBConnection')->getMock();
+		$this->l10n = $this->getMockBuilder('\OCP\IL10N')->getMock();
+		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
+		$this->encryptionManager = $this->getMockBuilder('\OCP\Encryption\IManager')->getMock();
+		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')->getMock();
+		$this->lockingProvider = $this->getMockBuilder('\OCP\Lock\ILockingProvider')->getMock();
 
 		$this->manager = new Manager(
 			$this->logger,
@@ -76,7 +76,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testSetupSettings() {
-		$qb = $this->createMock('\OCP\DB\QueryBuilder\IQueryBuilder');
+		$qb = $this->getMockBuilder('\OCP\DB\QueryBuilder\IQueryBuilder')->getMock();
 		$qb
 			->expects($this->once())
 			->method('select')
@@ -91,12 +91,12 @@ class ManagerTest extends TestCase {
 			->method('from')
 			->with('admin_settings')
 			->willReturn($qb);
-		$expressionBuilder = $this->createMock('\OCP\DB\QueryBuilder\IExpressionBuilder');
+		$expressionBuilder = $this->getMockBuilder('\OCP\DB\QueryBuilder\IExpressionBuilder')->getMock();
 		$qb
 			->expects($this->once())
 			->method('expr')
 			->willReturn($expressionBuilder);
-		$param = $this->createMock('\OCP\DB\QueryBuilder\IParameter');
+		$param = $this->getMockBuilder('\OCP\DB\QueryBuilder\IParameter')->getMock();
 		$qb
 			->expects($this->once())
 			->method('createNamedParameter')
@@ -112,13 +112,13 @@ class ManagerTest extends TestCase {
 			->method('where')
 			->with('myString')
 			->willReturn($qb);
-		$stmt = $this->createMock('\Doctrine\DBAL\Driver\Statement');
+		$stmt = $this->getMockBuilder('\Doctrine\DBAL\Driver\Statement')->getMock();
 		$qb
 			->expects($this->once())
 			->method('execute')
 			->willReturn($stmt);
 
-		$qb1 = $this->createMock('\OCP\DB\QueryBuilder\IQueryBuilder');
+		$qb1 = $this->getMockBuilder('\OCP\DB\QueryBuilder\IQueryBuilder')->getMock();
 		$qb1
 			->expects($this->once())
 			->method('insert')
@@ -135,7 +135,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetAdminSections() {
-		$qb = $this->createMock('\OCP\DB\QueryBuilder\IQueryBuilder');
+		$qb = $this->getMockBuilder('\OCP\DB\QueryBuilder\IQueryBuilder')->getMock();
 		$qb
 			->expects($this->once())
 			->method('select')
@@ -146,7 +146,7 @@ class ManagerTest extends TestCase {
 			->method('from')
 			->with('admin_sections')
 			->willReturn($qb);
-		$stmt = $this->createMock('\Doctrine\DBAL\Driver\Statement');
+		$stmt = $this->getMockBuilder('\Doctrine\DBAL\Driver\Statement')->getMock();
 		$qb
 			->expects($this->once())
 			->method('execute')
@@ -171,7 +171,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetAdminSettings() {
-		$qb = $this->createMock('\OCP\DB\QueryBuilder\IQueryBuilder');
+		$qb = $this->getMockBuilder('\OCP\DB\QueryBuilder\IQueryBuilder')->getMock();
 		$qb
 			->expects($this->once())
 			->method('select')
@@ -182,12 +182,12 @@ class ManagerTest extends TestCase {
 			->method('from')
 			->with('admin_settings')
 			->willReturn($qb);
-		$expressionBuilder = $this->createMock('\OCP\DB\QueryBuilder\IExpressionBuilder');
+		$expressionBuilder = $this->getMockBuilder('\OCP\DB\QueryBuilder\IExpressionBuilder')->getMock();
 		$qb
 			->expects($this->once())
 			->method('expr')
 			->willReturn($expressionBuilder);
-		$param = $this->createMock('\OCP\DB\QueryBuilder\IParameter');
+		$param = $this->getMockBuilder('\OCP\DB\QueryBuilder\IParameter')->getMock();
 		$qb
 			->expects($this->once())
 			->method('createParameter')
@@ -203,7 +203,7 @@ class ManagerTest extends TestCase {
 			->method('where')
 			->with('myString')
 			->willReturn($qb);
-		$stmt = $this->createMock('\Doctrine\DBAL\Driver\Statement');
+		$stmt = $this->getMockBuilder('\Doctrine\DBAL\Driver\Statement')->getMock();
 		$qb
 			->expects($this->once())
 			->method('execute')

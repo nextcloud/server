@@ -40,8 +40,8 @@ class AdminTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->iniGetWrapper = $this->createMock('\bantu\IniGetWrapper\IniGetWrapper');
-		$this->request = $this->createMock('\OCP\IRequest');
+		$this->iniGetWrapper = $this->getMockBuilder('\bantu\IniGetWrapper\IniGetWrapper')->disableOriginalConstructor()->getMock();
+		$this->request = $this->getMockBuilder('\OCP\IRequest')->getMock();
 		$this->admin = new Admin(
 			$this->iniGetWrapper,
 			$this->request

@@ -36,7 +36,7 @@ class AdditionalTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->config = $this->createMock('\OCP\IConfig');
+		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
 
 		$this->admin = new Additional(
 			$this->config
