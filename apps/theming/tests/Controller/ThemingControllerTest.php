@@ -33,6 +33,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use Test\TestCase;
+use OCA\Theming\ThemingDefaults;
 
 class ThemingControllerTest extends TestCase {
 	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */

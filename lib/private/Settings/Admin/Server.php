@@ -36,20 +36,25 @@ use OCP\Lock\ILockingProvider;
 use OCP\Settings\ISettings;
 
 class Server implements ISettings {
-
 	/** @var IDBConnection|Connection */
 	private $db;
-
 	/** @var IConfig */
 	private $config;
-
 	/** @var ILockingProvider */
 	private $lockingProvider;
-
 	/** @var IL10N */
 	private $l;
 
-	public function __construct(IDBConnection $db, IConfig $config, ILockingProvider $lockingProvider, IL10N $l) {
+	/**
+	 * @param IDBConnection $db
+	 * @param IConfig $config
+	 * @param ILockingProvider $lockingProvider
+	 * @param IL10N $l
+	 */
+	public function __construct(IDBConnection $db,
+								IConfig $config,
+								ILockingProvider $lockingProvider,
+								IL10N $l) {
 		$this->db = $db;
 		$this->config = $config;
 		$this->lockingProvider = $lockingProvider;

@@ -31,6 +31,9 @@ class Sharing implements ISettings {
 	/** @var IConfig */
 	private $config;
 
+	/**
+	 * @param IConfig $config
+	 */
 	public function __construct(IConfig $config) {
 		$this->config = $config;
 	}
@@ -39,8 +42,9 @@ class Sharing implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		$excludeGroupsList = !is_null(json_decode($this->config->getAppValue('core', 'shareapi_exclude_groups_list', '')))
-			? implode('|', $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '')) : '';
+		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
+		$excludeGroupsList = !is_null(json_decode($excludedGroups))
+			? implode('|', json_decode($excludedGroups, true)) : '';
 
 		$parameters = [
 			// Built-In Sharing

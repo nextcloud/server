@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,16 +24,10 @@
 
 namespace OC\Settings\Controller;
 
-use Doctrine\DBAL\Connection;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
-use OC\Encryption\Manager as EncryptionManager;
-use OCP\IConfig;
-use OCP\IDBConnection;
-use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
-use OCP\IUserManager;
 use OCP\Settings\IManager as ISettingsManager;
 use OCP\Template;
 
@@ -40,22 +35,21 @@ use OCP\Template;
  * @package OC\Settings\Controller
  */
 class AdminSettingsController extends Controller {
-
 	/** @var INavigationManager */
 	private $navigationManager;
-
 	/** @var ISettingsManager */
 	private $settingsManager;
 
+	/**
+	 * @param string $appName
+	 * @param IRequest $request
+	 * @param INavigationManager $navigationManager
+	 * @param ISettingsManager $settingsManager
+	 */
 	public function __construct(
 		$appName,
 		IRequest $request,
 		INavigationManager $navigationManager,
-		IL10N $l,
-		IConfig $config,
-		EncryptionManager $encryptionManager,
-		IUserManager $userManager,
-		IDBConnection $db,
 		ISettingsManager $settingsManager
 	) {
 		parent::__construct($appName, $request);
@@ -79,10 +73,10 @@ class AdminSettingsController extends Controller {
 		return new TemplateResponse('settings', 'admin/frame', $templateParams);
 	}
 
-	public function form() {
-
-	}
-
+	/**
+	 * @param string $section
+	 * @return array
+	 */
 	private function getSettings($section) {
 		$html = '';
 		$settings = $this->settingsManager->getAdminSettings($section);
@@ -99,6 +93,9 @@ class AdminSettingsController extends Controller {
 		return ['content' => $html];
 	}
 
+	/**
+	 * @return bool|string
+	 */
 	private function getLegacyForms() {
 		$forms = \OC_App::getForms('admin');
 
@@ -133,6 +130,7 @@ class AdminSettingsController extends Controller {
 	private function getNavigationParameters($currentSection) {
 		$sections = $this->settingsManager->getAdminSections();
 		$templateParameters = [];
+		/** @var \OC\Settings\Section[] $prioritizedSections */
 		foreach($sections as $prioritizedSections) {
 			foreach ($prioritizedSections as $section) {
 				$templateParameters[] = [

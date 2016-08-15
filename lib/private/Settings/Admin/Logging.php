@@ -32,6 +32,9 @@ class Logging implements ISettings {
 	/** @var IConfig */
 	private $config;
 
+	/**
+	 * @param IConfig $config
+	 */
 	public function __construct(IConfig $config) {
 		$this->config = $config;
 	}

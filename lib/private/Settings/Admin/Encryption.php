@@ -35,6 +35,10 @@ class Encryption implements ISettings {
 	/** @var IUserManager */
 	private $userManager;
 
+	/**
+	 * @param Manager $manager
+	 * @param IUserManager $userManager
+	 */
 	public function __construct(Manager $manager, IUserManager $userManager) {
 		$this->manager = $manager;
 		$this->userManager = $userManager;
