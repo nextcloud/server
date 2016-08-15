@@ -1288,6 +1288,11 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->query('MountManager');
 	}
 
+	/** @return \OCP\Files\Config\IUserMountCache */
+	function getUserMountCache() {
+		return $this->query('UserMountCache');
+	}
+
 	/**
 	 * Get the MimeTypeDetector
 	 *
