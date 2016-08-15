@@ -36,6 +36,7 @@ OC.L10N.register(
     "No files in here" : "Tidak ada berkas disini",
     "No entries found in this folder" : "Tidak ada entri yang ditemukan dalam folder ini",
     "Size" : "Ukuran",
-    "Modified" : "Dimodifikasi"
+    "Modified" : "Dimodifikasi",
+    "%s (not-assignable)" : "%s (tidak dapat disematkan)"
 },
 "nplurals=1; plural=0;");

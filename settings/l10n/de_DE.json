@@ -324,6 +324,27 @@
     "change full name" : "Vollständigen Namen ändern",
     "set new password" : "Neues Passwort setzen",
     "change email address" : "E-Mail-Adresse ändern",
-    "Default" : "Standard"
+    "Default" : "Standard",
+    "no group" : "Keine Gruppe",
+    "add group" : "Gruppe hinzufügen",
+    "Your database does not run with \"READ COMMITED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "ihre Datenbank läuft nicht mit der \"READ COMMITED\" Transaktionsisolationsstufe. Dies kann Probleme hervorrufen, wenn mehrere Aktionen parallel ausgeführt werden.",
+    "Add Group" : "Gruppe hinzufügen",
+    "Default Quota" : "Standard-Quota",
+    "Full Name" : "Vollständiger Name",
+    "Group Admin for" : "Gruppenadministrator für",
+    "Storage Location" : "Speicherort",
+    "User Backend" : "Benutzer-Backend",
+    "Last Login" : "Letzte Anmeldung",
+    "Official apps are developed by and within the Nextcloud community. They offer functionality central to Nextcloud and are ready for production use." : "Offizielle Apps werden von und innerhalb der Community entwickelt. Sie stellen die zentralen Funktionen bereit und sind für den produktiven Einsatz geeignet.",
+    "No apps found for \"{query}\"" : "Keine Applikationen für \"{query}\" gefunden",
+    "Please check the <a target=\"_blank\" href=\"%s\">installation documentation ↗</a> for php configuration notes and the php configuration of your server, especially when using php-fpm." : "Bitte schauen Sie in der <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">Installationsdokumentation ↗</a>auf Hinweise zur PHP-Konfiguration, sowie die PHP-Konfiguration ihres Servers, insbesondere dann, wenn Sie PHP-FPM einsetzen.",
+    "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Ihr Server wird mit Microsoft Windows betrieben. Für ein optimales Nutzungserlebnis empfehlen wir dringend Linux.",
+    "Transactional file locking is disabled, this might lead to issues with race conditions. Enable 'filelocking.enabled' in config.php to avoid these problems. See the <a target=\"_blank\" href=\"%s\">documentation ↗</a> for more information." : "Transaktionales Sperren ist deaktiviert, was zu Problemen mit Laufzeitbedingungen führen kann. Aktivieren Sie 'filelocking.enabled' in der config.php  diese Probleme zu vermeiden. Weitere Informationen finden Sie in unserer <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">Dokumentation ↗</a>.",
+    "Please double check the <a target=\"_blank\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"#log-section\">log</a>." : "Bitte überprüfen Sie noch einmal die <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">Installationsanleitungen ↗</a> und kontrollieren Sie das <a href=\"#log-section\">Log</a> auf mögliche Fehler oder Warnungen.",
+    "Encryption alone does not guarantee security of the system. Please see Nextcloud documentation for more information about how the encryption app works, and the supported use cases." : "Verschlüsselung alleine garantiert nicht die Systemsicherheit. Bitte lesen Sie in der Dokumentation nach, wie die Verschlüsselungs-App funktioniert und welche Anwendungsfälle unterstützt werden.",
+    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" href=\"%s\">documentation ↗</a>." : "Um zu einer anderen Datenbank zu migrieren, benutzen Sie bitte die Kommandozeile: 'occ db:convert-type', oder in die <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">Dokumentation ↗</a> schauen.",
+    "This app has no minimum Nextcloud version assigned. This will be an error in Nextcloud 11 and later." : "Für diese App wurde keine untere Versionsgrenze für Nextcloud gesetzt. Dies wird ab Nextcloud 11 als Fehler behandelt.",
+    "This app has no maximum Nextcloud version assigned. This will be an error in Nextcloud 11 and later." : "Für diese App wurde keine obere Versionsgrenze für Nextcloud gesetzt. Dies wird ab Nextcloud 11 als Fehler behandelt.",
+    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "Entwickelt von der {communityopen}Nextcloud Community{linkclose}. Der {githubopen}Quellcode{linkclose} ist unter {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose} verfügbar."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

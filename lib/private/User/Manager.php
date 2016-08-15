@@ -187,7 +187,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		$password = str_replace("\0", '', $password);
 		
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(\OC\User\Backend::CHECK_PASSWORD)) {
+			if ($backend->implementsActions(Backend::CHECK_PASSWORD)) {
 				$uid = $backend->checkPassword($loginName, $password);
 				if ($uid !== false) {
 					return $this->getUserObject($uid, $backend);
@@ -291,7 +291,7 @@ class Manager extends PublicEmitter implements IUserManager {
 
 		$this->emit('\OC\User', 'preCreateUser', array($uid, $password));
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(\OC\User\Backend::CREATE_USER)) {
+			if ($backend->implementsActions(Backend::CREATE_USER)) {
 				$backend->createUser($uid, $password);
 				$user = $this->getUserObject($uid, $backend);
 				$this->emit('\OC\User', 'postCreateUser', array($user, $password));
@@ -309,7 +309,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	public function countUsers() {
 		$userCountStatistics = array();
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(\OC\User\Backend::COUNT_USERS)) {
+			if ($backend->implementsActions(Backend::COUNT_USERS)) {
 				$backendUsers = $backend->countUsers();
 				if($backendUsers !== false) {
 					if($backend instanceof IUserBackend) {

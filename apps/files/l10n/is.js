@@ -132,6 +132,8 @@ OC.L10N.register(
     "No favorites" : "Engin eftirlæti",
     "Files and folders you mark as favorite will show up here" : "Skrár og möppur sem þú merkir sem uppáhald birtast hér",
     "Text file" : "Textaskrá",
-    "New text file.txt" : "Ný textaskrá.txt"
+    "New text file.txt" : "Ný textaskrá.txt",
+    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Notaðu þetta vistfang til að <a href=\"%s\" target=\"_blank\">nálgast skrárnar þínar með WebDAV</a>",
+    "Cancel upload" : "Hætta við innsendingu"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -132,6 +132,7 @@ OC.L10N.register(
     "No favorites" : "Sem favoritos",
     "Files and folders you mark as favorite will show up here" : "Arquivos e pastas que você marcou como favoritos são mostrados aqui",
     "Text file" : "Arquivo texto",
-    "New text file.txt" : "Novo texto file.txt"
+    "New text file.txt" : "Novo texto file.txt",
+    "Cancel upload" : "Cancelar envio"
 },
 "nplurals=2; plural=(n > 1);");

@@ -172,8 +172,25 @@ class LoginController extends Controller {
 	}
 
 	/**
+	 * @param string $redirectUrl
+	 * @return RedirectResponse
+	 */
+	private function generateRedirect($redirectUrl) {
+		if (!is_null($redirectUrl) && $this->userSession->isLoggedIn()) {
+			$location = $this->urlGenerator->getAbsoluteURL(urldecode($redirectUrl));
+			// Deny the redirect if the URL contains a @
+			// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
+			if (strpos($location, '@') === false) {
+				return new RedirectResponse($location);
+			}
+		}
+		return new RedirectResponse(OC_Util::getDefaultPageUrl());
+	}
+
+	/**
 	 * @PublicPage
 	 * @UseSession
+	 * @NoCSRFRequired
 	 *
 	 * @param string $user
 	 * @param string $password
@@ -183,6 +200,13 @@ class LoginController extends Controller {
 	public function tryLogin($user, $password, $redirect_url) {
 		$currentDelay = $this->throttler->getDelay($this->request->getRemoteAddress());
 		$this->throttler->sleepDelay($this->request->getRemoteAddress());
+
+		// If the user is already logged in and the CSRF check does not pass then
+		// simply redirect the user to the correct page as required. This is the
+		// case when an user has already logged-in, in another tab.
+		if(!$this->request->passesCSRFCheck()) {
+			return $this->generateRedirect($redirect_url);
+		}
 
 		$originalUser = $user;
 		// TODO: Add all the insane error handling
@@ -223,15 +247,7 @@ class LoginController extends Controller {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('core.TwoFactorChallenge.selectChallenge'));
 		}
 
-		if (!is_null($redirect_url) && $this->userSession->isLoggedIn()) {
-			$location = $this->urlGenerator->getAbsoluteURL(urldecode($redirect_url));
-			// Deny the redirect if the URL contains a @
-			// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
-			if (strpos($location, '@') === false) {
-				return new RedirectResponse($location);
-			}
-		}
-		return new RedirectResponse(OC_Util::getDefaultPageUrl());
+		return $this->generateRedirect($redirect_url);
 	}
 
 }
