@@ -91,6 +91,7 @@ class AuthSettingsControllerTest extends TestCase {
 				'lastActivity' => null,
 				'type' => null,
 				'canDelete' => false,
+				'current' => true,
 			],
 			[
 				'id' => 200,
