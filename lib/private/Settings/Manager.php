@@ -112,6 +112,37 @@ class Manager implements IManager {
 		}
 	}
 
+	public function checkForOrphanedClassNames() {
+		$tables = [ self::TABLE_ADMIN_SECTIONS, self::TABLE_ADMIN_SETTINGS ];
+		foreach ($tables as $table) {
+			$classes = $this->getClasses($table);
+			foreach($classes as $className) {
+				try {
+					\OC::$server->query($className);
+				} catch (QueryException $e) {
+					$this->remove($table, $className);
+				}
+			}
+		}
+	}
+
+	/**
+	 * returns the registerd classes in the given table
+	 *
+	 * @param $table
+	 * @return string[]
+	 */
+	private function getClasses($table) {
+		$q = $this->dbc->getQueryBuilder();
+		$resultStatement = $q->select('class')
+			->from($table)
+			->execute();
+		$data = $resultStatement->fetchAll();
+		$resultStatement->closeCursor();
+
+		return array_map(function($row) { return $row['class']; }, $data);
+	}
+
 	/**
 	 * @param string $sectionClassName
 	 */

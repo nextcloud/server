@@ -810,6 +810,14 @@ class OC {
 			/** @var \OCP\App\ManagerEvent $event */
 			\OC::$server->getSettingsManager()->onAppDisabled($event->getAppID());
 		});
+		$dispatcher->addListener(OCP\App\ManagerEvent::EVENT_APP_UPDATE, function($event) {
+			/** @var \OCP\App\ManagerEvent $event */
+			$jobList = \OC::$server->getJobList();
+			$job = 'OC\\Settings\\RemoveOrphaned';
+			if(!($jobList->has($job, null))) {
+				$jobList->add($job);
+			}
+		});
 	}
 
 	private static function registerEncryptionWrapper() {
