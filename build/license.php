@@ -99,7 +99,7 @@ EOD;
 
 		$excludes = array_map(function($item) use ($folder) {
 			return $folder . '/' . $item;
-		}, ['vendor', '3rdparty', '.git', 'l10n', 'templates']);
+		}, ['vendor', '3rdparty', '.git', 'l10n', 'templates', 'composer']);
 
 		$iterator = new RecursiveDirectoryIterator($folder, RecursiveDirectoryIterator::SKIP_DOTS);
 		$iterator = new RecursiveCallbackFilterIterator($iterator, function($item) use ($folder, $excludes){
