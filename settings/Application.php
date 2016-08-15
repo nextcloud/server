@@ -183,11 +183,6 @@ class Application extends App {
 				$c->query('AppName'),
 				$c->query('Request'),
 				$c->query('INavigationManager'),
-				$c->query('L10N'),
-				$c->query('Config'),
-				$c->query('EncryptionManager'),
-				$c->query('UserManager'),
-				$c->query('DatabaseConnection'),
 				$c->query('SettingsManager')
 			);
 		});
