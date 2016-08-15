@@ -125,7 +125,7 @@ if($_['passwordChangeSupported']) {
 		placeholder="<?php echo $l->t('Current password');?>"
 		autocomplete="off" autocapitalize="off" autocorrect="off" />
 	<label for="pass2" class="hidden-visually"><?php echo $l->t('New password');?>: </label>
-	<input type="password" id="pass2" name="personal-password"
+	<input type="password" id="pass2" name="newpassword"
 		placeholder="<?php echo $l->t('New password');?>"
 		data-typetoggle="#personal-show"
 		autocomplete="off" autocapitalize="off" autocorrect="off" />
