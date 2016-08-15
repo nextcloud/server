@@ -57,14 +57,14 @@ class LoginControllerTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->request = $this->createMock('\\OCP\\IRequest');
-		$this->userManager = $this->createMock('\\OCP\\IUserManager');
-		$this->config = $this->createMock('\\OCP\\IConfig');
-		$this->session = $this->createMock('\\OCP\\ISession');
+		$this->request = $this->getMockBuilder('\\OCP\\IRequest')->getMock();
+		$this->userManager = $this->getMockBuilder('\\OCP\\IUserManager')->getMock();
+		$this->config = $this->getMockBuilder('\\OCP\\IConfig')->getMock();
+		$this->session = $this->getMockBuilder('\\OCP\\ISession')->getMock();
 		$this->userSession = $this->getMockBuilder('\\OC\\User\\Session')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->urlGenerator = $this->createMock('\\OCP\\IURLGenerator');
+		$this->urlGenerator = $this->getMockBuilder('\\OCP\\IURLGenerator')->getMock();
 		$this->twoFactorManager = $this->getMockBuilder('\OC\Authentication\TwoFactorAuth\Manager')
 			->disableOriginalConstructor()
 			->getMock();
@@ -110,7 +110,7 @@ class LoginControllerTest extends TestCase {
 			->method('getCookie')
 			->with('oc_token')
 			->willReturn('MyLoginToken');
-		$user = $this->createMock('\\OCP\\IUser');
+		$user = $this->getMockBuilder('\\OCP\\IUser')->getMock();
 		$user
 			->expects($this->once())
 			->method('getUID')
@@ -217,7 +217,7 @@ class LoginControllerTest extends TestCase {
 			->method('getSystemValue')
 			->with('lost_password_link')
 			->willReturn(false);
-		$user = $this->createMock('\\OCP\\IUser');
+		$user = $this->getMockBuilder('\\OCP\\IUser')->getMock();
 		$user
 			->expects($this->once())
 			->method('canChangePassword')
@@ -255,7 +255,7 @@ class LoginControllerTest extends TestCase {
 			->method('getSystemValue')
 			->with('lost_password_link')
 			->willReturn(false);
-		$user = $this->createMock('\\OCP\\IUser');
+		$user = $this->getMockBuilder('\\OCP\\IUser')->getMock();
 		$user
 			->expects($this->once())
 			->method('canChangePassword')
@@ -326,7 +326,7 @@ class LoginControllerTest extends TestCase {
 
 	public function testLoginWithValidCredentials() {
 		/** @var IUser | \PHPUnit_Framework_MockObject_MockObject $user */
-		$user = $this->createMock('\OCP\IUser');
+		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
 		$password = 'secret';
 		$indexPageUrl = 'some url';
 
@@ -371,7 +371,7 @@ class LoginControllerTest extends TestCase {
 
 	public function testLoginWithoutPassedCsrfCheckAndNotLoggedIn() {
 		/** @var IUser | \PHPUnit_Framework_MockObject_MockObject $user */
-		$user = $this->createMock('\OCP\IUser');
+		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('jane'));
@@ -406,7 +406,7 @@ class LoginControllerTest extends TestCase {
 
 	public function testLoginWithoutPassedCsrfCheckAndLoggedIn() {
 		/** @var IUser | \PHPUnit_Framework_MockObject_MockObject $user */
-		$user = $this->createMock('\OCP\IUser');
+		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('jane'));
@@ -446,7 +446,7 @@ class LoginControllerTest extends TestCase {
 
 	public function testLoginWithValidCredentialsAndRedirectUrl() {
 		/** @var IUser | \PHPUnit_Framework_MockObject_MockObject $user */
-		$user = $this->createMock('\OCP\IUser');
+		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('jane'));
@@ -493,7 +493,7 @@ class LoginControllerTest extends TestCase {
 	
 	public function testLoginWithTwoFactorEnforced() {
 		/** @var IUser | \PHPUnit_Framework_MockObject_MockObject $user */
-		$user = $this->createMock('\OCP\IUser');
+		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('john'));
@@ -544,7 +544,7 @@ class LoginControllerTest extends TestCase {
 
 	public function testToNotLeakLoginName() {
 		/** @var IUser | \PHPUnit_Framework_MockObject_MockObject $user */
-		$user = $this->createMock('\OCP\IUser');
+		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('john'));
