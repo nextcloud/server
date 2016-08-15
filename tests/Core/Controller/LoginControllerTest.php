@@ -181,6 +181,7 @@ class LoginControllerTest extends TestCase {
 				'alt_login' => [],
 				'rememberLoginAllowed' => \OC_Util::rememberLoginAllowed(),
 				'rememberLoginState' => 0,
+				'resetPasswordLink' => null,
 			],
 			'guest'
 		);
@@ -239,6 +240,7 @@ class LoginControllerTest extends TestCase {
 				'alt_login' => [],
 				'rememberLoginAllowed' => \OC_Util::rememberLoginAllowed(),
 				'rememberLoginState' => 0,
+				'resetPasswordLink' => false,
 			],
 			'guest'
 		);
@@ -277,6 +279,7 @@ class LoginControllerTest extends TestCase {
 				'alt_login' => [],
 				'rememberLoginAllowed' => \OC_Util::rememberLoginAllowed(),
 				'rememberLoginState' => 0,
+				'resetPasswordLink' => false,
 			],
 			'guest'
 		);
@@ -324,7 +327,7 @@ class LoginControllerTest extends TestCase {
 		/** @var IUser | \PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->getMock('\OCP\IUser');
 		$password = 'secret';
-		$indexPageUrl = 'some url';
+		$indexPageUrl = \OC_Util::getDefaultPageUrl();
 
 		$this->request
 			->expects($this->exactly(2))
@@ -352,10 +355,6 @@ class LoginControllerTest extends TestCase {
 			->method('isTwoFactorAuthenticated')
 			->with($user)
 			->will($this->returnValue(false));
-		$this->urlGenerator->expects($this->once())
-			->method('linkToRoute')
-			->with('files.view.index')
-			->will($this->returnValue($indexPageUrl));
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($indexPageUrl);
 		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, null));
