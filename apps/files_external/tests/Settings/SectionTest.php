@@ -35,7 +35,7 @@ class SectionTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->l = $this->createMock('\OCP\IL10N');
+		$this->l = $this->getMockBuilder('\OCP\IL10N')->disableOriginalConstructor()->getMock();
 
 		$this->section = new Section(
 			$this->l

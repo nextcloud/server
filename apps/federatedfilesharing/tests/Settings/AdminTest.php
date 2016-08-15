@@ -35,7 +35,7 @@ class AdminTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->federatedShareProvider = $this->createMock('\OCA\FederatedFileSharing\FederatedShareProvider');
+		$this->federatedShareProvider = $this->getMockBuilder('\OCA\FederatedFileSharing\FederatedShareProvider')->disableOriginalConstructor()->getMock();
 		$this->admin = new Admin(
 			$this->federatedShareProvider
 		);

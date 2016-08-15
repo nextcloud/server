@@ -36,7 +36,7 @@ class AdminTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->trustedServers = $this->createMock('\OCA\Federation\TrustedServers');
+		$this->trustedServers = $this->getMockBuilder('\OCA\Federation\TrustedServers')->disableOriginalConstructor()->getMock();
 		$this->admin = new Admin(
 			$this->trustedServers
 		);

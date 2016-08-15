@@ -45,10 +45,10 @@ class AdminTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->encryptionManager = $this->createMock('\OCP\Encryption\IManager');
-		$this->globalStoragesService = $this->createMock('\OCA\Files_External\Service\GlobalStoragesService');
-		$this->backendService = $this->createMock('\OCA\Files_External\Service\BackendService');
-		$this->globalAuth = $this->createMock('\OCA\Files_External\Lib\Auth\Password\GlobalAuth');
+		$this->encryptionManager = $this->getMockBuilder('\OCP\Encryption\IManager')->getMock();
+		$this->globalStoragesService = $this->getMockBuilder('\OCA\Files_External\Service\GlobalStoragesService')->disableOriginalConstructor()->getMock();
+		$this->backendService = $this->getMockBuilder('\OCA\Files_External\Service\BackendService')->disableOriginalConstructor()->getMock();
+		$this->globalAuth = $this->getMockBuilder('\OCA\Files_External\Lib\Auth\Password\GlobalAuth')->disableOriginalConstructor()->getMock();
 
 		$this->admin = new Admin(
 			$this->encryptionManager,

@@ -45,10 +45,10 @@ class AdminTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->config = $this->createMock('\OCP\IConfig');
-		$this->l10n = $this->createMock('\OCP\IL10N');
-		$this->themingDefaults = $this->createMock('\OCA\Theming\ThemingDefaults');
-		$this->urlGenerator = $this->createMock('\OCP\IURLGenerator');
+		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
+		$this->l10n = $this->getMockBuilder('\OCP\IL10N')->getMock();
+		$this->themingDefaults = $this->getMockBuilder('\OCA\Theming\ThemingDefaults')->disableOriginalConstructor()->getMock();
+		$this->urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')->getMock();
 
 		$this->admin = new Admin(
 			$this->config,
