@@ -37,24 +37,11 @@ use Test\TestCase;
 use OC\IntegrityCheck\Checker;
 
 /**
- * Mock version_compare
- * @param string $version1
- * @param string $version2
- * @return int
- */
-function version_compare($version1, $version2) {
-	return CheckSetupControllerTest::$version_compare;
-}
-
-/**
  * Class CheckSetupControllerTest
  *
  * @package Tests\Settings\Controller
  */
 class CheckSetupControllerTest extends TestCase {
-	/** @var int */
-	public static $version_compare;
-
 	/** @var CheckSetupController */
 	private $checkSetupController;
 	/** @var IRequest */
@@ -111,7 +98,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->checker,
 				$this->logger
 				])
-			->setMethods(['getCurlVersion'])->getMock();
+			->setMethods(['getCurlVersion', 'isPhpOutdated'])->getMock();
 	}
 
 	public function testIsInternetConnectionWorkingDisabledViaConfig() {
@@ -136,12 +123,8 @@ class CheckSetupControllerTest extends TestCase {
 
 		$client = $this->getMockBuilder('\OCP\Http\Client\IClient')
 			->disableOriginalConstructor()->getMock();
-		$client->expects($this->at(0))
-			->method('get')
-			->with('https://www.owncloud.org/', []);
-		$client->expects($this->at(1))
-			->method('get')
-			->with('http://www.owncloud.org/', []);
+		$client->expects($this->any())
+			->method('get');
 
 		$this->clientService->expects($this->once())
 			->method('newClient')
@@ -156,7 +139,7 @@ class CheckSetupControllerTest extends TestCase {
 		);
 	}
 
-	public function testIsInternetConnectionHttpsFail() {
+	public function testIsInternetConnectionFail() {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with('has_internet_connection', true)
@@ -164,12 +147,11 @@ class CheckSetupControllerTest extends TestCase {
 
 		$client = $this->getMockBuilder('\OCP\Http\Client\IClient')
 			->disableOriginalConstructor()->getMock();
-		$client->expects($this->at(0))
+		$client->expects($this->any())
 			->method('get')
-			->with('https://www.owncloud.org/', [])
 			->will($this->throwException(new \Exception()));
 
-		$this->clientService->expects($this->once())
+		$this->clientService->expects($this->exactly(3))
 			->method('newClient')
 			->will($this->returnValue($client));
 
@@ -181,33 +163,6 @@ class CheckSetupControllerTest extends TestCase {
 		);
 	}
 
-	public function testIsInternetConnectionHttpFail() {
-		$this->config->expects($this->once())
-			->method('getSystemValue')
-			->with('has_internet_connection', true)
-			->will($this->returnValue(true));
-
-		$client = $this->getMockBuilder('\OCP\Http\Client\IClient')
-			->disableOriginalConstructor()->getMock();
-		$client->expects($this->at(0))
-			->method('get')
-			->with('https://www.owncloud.org/', []);
-		$client->expects($this->at(1))
-			->method('get')
-			->with('http://www.owncloud.org/', [])
-			->will($this->throwException(new \Exception()));
-
-		$this->clientService->expects($this->once())
-			->method('newClient')
-			->will($this->returnValue($client));
-
-		$this->assertFalse(
-			self::invokePrivate(
-				$this->checkSetupController,
-				'isInternetConnectionWorking'
-			)
-		);
-	}
 
 	public function testIsMemcacheConfiguredFalse() {
 		$this->config->expects($this->once())
@@ -238,7 +193,10 @@ class CheckSetupControllerTest extends TestCase {
 	}
 
 	public function testIsPhpSupportedFalse() {
-		self::$version_compare = -1;
+		$this->checkSetupController
+			->expects($this->once())
+			->method('isPhpOutdated')
+			->willReturn(true);
 
 		$this->assertEquals(
 			['eol' => true, 'version' => PHP_VERSION],
@@ -247,15 +205,16 @@ class CheckSetupControllerTest extends TestCase {
 	}
 
 	public function testIsPhpSupportedTrue() {
-		self::$version_compare = 0;
+		$this->checkSetupController
+			->expects($this->exactly(2))
+			->method('isPhpOutdated')
+			->willReturn(false);
 
 		$this->assertEquals(
 			['eol' => false, 'version' => PHP_VERSION],
 			self::invokePrivate($this->checkSetupController, 'isPhpSupported')
 		);
 
-
-		self::$version_compare = 1;
 
 		$this->assertEquals(
 			['eol' => false, 'version' => PHP_VERSION],
@@ -323,13 +282,17 @@ class CheckSetupControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$client->expects($this->at(0))
 			->method('get')
-			->with('https://www.owncloud.org/', []);
+			->with('http://www.nextcloud.com/', [])
+			->will($this->throwException(new \Exception()));
 		$client->expects($this->at(1))
 			->method('get')
-			->with('http://www.owncloud.org/', [])
+			->with('http://www.google.com/', [])
 			->will($this->throwException(new \Exception()));
-
-		$this->clientService->expects($this->once())
+		$client->expects($this->at(2))
+			->method('get')
+			->with('http://www.github.com/', [])
+			->will($this->throwException(new \Exception()));
+		$this->clientService->expects($this->exactly(3))
 			->method('newClient')
 			->will($this->returnValue($client));
 		$this->urlGenerator->expects($this->at(0))
@@ -340,7 +303,10 @@ class CheckSetupControllerTest extends TestCase {
 			->method('linkToDocs')
 			->with('admin-security')
 			->willReturn('https://doc.owncloud.org/server/8.1/admin_manual/configuration_server/hardening.html');
-		self::$version_compare = -1;
+		$this->checkSetupController
+			->expects($this->once())
+			->method('isPhpOutdated')
+			->willReturn(true);
 		$this->urlGenerator->expects($this->at(2))
 			->method('linkToDocs')
 			->with('admin-reverse-proxy')
