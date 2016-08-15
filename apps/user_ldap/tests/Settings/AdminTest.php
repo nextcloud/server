@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,30 +21,40 @@
  *
  */
 
-namespace OCA\User_LDAP\Settings;
+namespace OCA\User_LDAP\Tests\Settings;
 
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Helper;
+use OCA\User_LDAP\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
-use OCP\Settings\ISettings;
 use OCP\Template;
+use Test\TestCase;
 
-class Admin implements ISettings {
+/**
+ * @group DB
+ * @package OCA\User_LDAP\Tests\Settings
+ */
+class AdminTest extends TestCase {
+	/** @var Admin */
+	private $admin;
 	/** @var IL10N */
-	private $l;
+	private $l10n;
 
-	/**
-	 * @param IL10N $l
-	 */
-	public function __construct(IL10N $l) {
-		$this->l = $l;
+	public function setUp() {
+		parent::setUp();
+		$this->l10n = $this->createMock('\OCP\IL10N');
+
+		$this->admin = new Admin(
+			$this->l10n
+		);
 	}
 
 	/**
-	 * @return TemplateResponse
+	 * @UseDB
 	 */
-	public function getForm() {
+	public function testGetForm() {
+
 		$helper = new Helper();
 		$prefixes = $helper->getServerConfigurationPrefixes();
 		$hosts = $helper->getServerConfigurationHosts();
@@ -66,24 +76,15 @@ class Admin implements ISettings {
 			$parameters[$key.'_default'] = $default;
 		}
 
-		return new TemplateResponse('user_ldap', 'settings', $parameters);
+		$expected = new TemplateResponse('user_ldap', 'settings', $parameters);
+		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	/**
-	 * @return string the section ID, e.g. 'sharing'
-	 */
-	public function getSection() {
-		return 'ldap';
+	public function testGetSection() {
+		$this->assertSame('ldap', $this->admin->getSection());
 	}
 
-	/**
-	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
-	 *
-	 * E.g.: 70
-	 */
-	public function getPriority() {
-		return 5;
+	public function testGetPriority() {
+		$this->assertSame(5, $this->admin->getPriority());
 	}
 }

@@ -59,15 +59,14 @@ class AdminControllerTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->request = $this->getMock('\\OCP\\IRequest');
-		$this->jobList = $this->getMock('\\OCP\\BackgroundJob\\IJobList');
-		$this->secureRandom = $this->getMock('\\OCP\\Security\\ISecureRandom');
-		$this->config = $this->getMock('\\OCP\\IConfig');
-		$this->timeFactory = $this->getMock('\\OCP\\AppFramework\\Utility\\ITimeFactory');
-		$this->l10n = $this->getMock('\\OCP\\IL10N');
-		$this->updateChecker = $this->getMockBuilder('\\OCA\\UpdateNotification\\UpdateChecker')
-			->disableOriginalConstructor()->getMock();
-		$this->dateTimeFormatter = $this->getMock('\\OCP\\IDateTimeFormatter');
+		$this->request = $this->createMock('\\OCP\\IRequest');
+		$this->jobList = $this->createMock('\\OCP\\BackgroundJob\\IJobList');
+		$this->secureRandom = $this->createMock('\\OCP\\Security\\ISecureRandom');
+		$this->config = $this->createMock('\\OCP\\IConfig');
+		$this->timeFactory = $this->createMock('\\OCP\\AppFramework\\Utility\\ITimeFactory');
+		$this->l10n = $this->createMock('\\OCP\\IL10N');
+		$this->updateChecker = $this->createMock('\\OCA\\UpdateNotification\\UpdateChecker');
+		$this->dateTimeFormatter = $this->createMock('\\OCP\\IDateTimeFormatter');
 
 		$this->adminController = new AdminController(
 			'updatenotification',
@@ -196,5 +195,13 @@ class AdminControllerTest extends TestCase {
 
 		$expected = new DataResponse('MyGeneratedToken');
 		$this->assertEquals($expected, $this->adminController->createCredentials());
+	}
+
+	public function testGetSection() {
+		$this->assertSame('server', $this->adminController->getSection());
+	}
+
+	public function testGetPriority() {
+		$this->assertSame(1, $this->adminController->getPriority());
 	}
 }

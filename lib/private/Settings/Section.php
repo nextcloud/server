@@ -21,23 +21,23 @@
  *
  */
 
-
 namespace OC\Settings;
-
 
 use OCP\Settings\ISection;
 
 class Section implements ISection {
-
 	/** @var string */
 	private $id;
-
 	/** @var string */
 	private $name;
-
 	/** @var int */
 	private $priority;
 
+	/**
+	 * @param string $id
+	 * @param string $name
+	 * @param int $priority
+	 */
 	public function __construct($id, $name, $priority) {
 		$this->id = $id;
 		$this->name = $name;

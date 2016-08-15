@@ -41,25 +41,28 @@ class Manager implements IManager {
 
 	/** @var ILogger */
 	private $log;
-
 	/** @var IDBConnection */
 	private $dbc;
-
 	/** @var IL10N */
 	private $l;
-
 	/** @var IConfig */
 	private $config;
-
 	/** @var EncryptionManager */
 	private $encryptionManager;
-
 	/** @var IUserManager */
 	private $userManager;
-
 	/** @var ILockingProvider */
 	private $lockingProvider;
 
+	/**
+	 * @param ILogger $log
+	 * @param IDBConnection $dbc
+	 * @param IL10N $l
+	 * @param IConfig $config
+	 * @param EncryptionManager $encryptionManager
+	 * @param IUserManager $userManager
+	 * @param ILockingProvider $lockingProvider
+	 */
 	public function __construct(
 		ILogger $log,
 		IDBConnection $dbc,
@@ -135,7 +138,11 @@ class Manager implements IManager {
 		]);
 	}
 
-	private function add($table, $values) {
+	/**
+	 * @param string $table
+	 * @param array $values
+	 */
+	private function add($table, array $values) {
 		$query = $this->dbc->getQueryBuilder();
 		$values = array_map(function($value) use ($query) {
 			return $query->createNamedParameter($value);
@@ -196,7 +203,11 @@ class Manager implements IManager {
 		return $this->has(self::TABLE_ADMIN_SETTINGS, $className);
 	}
 
-
+	/**
+	 * @param string $table
+	 * @param string $className
+	 * @return bool
+	 */
 	private function has($table, $className) {
 		$query = $this->dbc->getQueryBuilder();
 		$query->select('class')
@@ -249,9 +260,7 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * returns a list of the admin sections
-	 *
-	 * @return ISection[]
+	 * @inheritdoc
 	 */
 	public function getAdminSections() {
 		$query = $this->dbc->getQueryBuilder();
@@ -347,11 +356,12 @@ class Manager implements IManager {
 		ksort($settings);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function getAdminSettings($section) {
 		$settings = $this->getBuiltInAdminSettings($section);
 		$this->getAdminSettingsFromDB($section, $settings);
 		return $settings;
 	}
-
-
 }
