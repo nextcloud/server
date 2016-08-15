@@ -152,6 +152,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getMountProviderCollection();
 		});
 
+		$this->registerService('OCP\\Files\\Config\\IUserMountCache', function($c) {
+			return $this->getServer()->getUserMountCache();
+		});
+
 		$this->registerService('OCP\\Files\\IRootFolder', function($c) {
 			return $this->getServer()->getRootFolder();
 		});
