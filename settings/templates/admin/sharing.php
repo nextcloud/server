@@ -104,6 +104,4 @@
 			<?php if ($_['allowShareDialogUserEnumeration'] === 'yes') print_unescaped('checked="checked"'); ?> />
 		<label for="shareapi_allow_share_dialog_user_enumeration"><?php p($l->t('Allow username autocompletion in share dialog. If this is disabled the full username needs to be entered.'));?></label><br />
 	</p>
-
-	<?php print_unescaped($_['fileSharingSettings']); ?>
 </div>

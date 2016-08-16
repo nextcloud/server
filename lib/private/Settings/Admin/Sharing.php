@@ -23,9 +23,11 @@
 
 namespace OC\Settings\Admin;
 
+use OC\Share\Share;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\Settings\ISettings;
+use OCP\Util;
 
 class Sharing implements ISettings {
 	/** @var IConfig */
@@ -48,12 +50,21 @@ class Sharing implements ISettings {
 
 		$parameters = [
 			// Built-In Sharing
-			'shareAPIEnabled'           => $this->config->getAppValue('core', 'shareapi_enabled', 'yes'),
-			'shareDefaultExpireDateSet' => $this->config->getAppValue('core', 'shareapi_default_expire_date', 'no'),
-			'shareExpireAfterNDays'     => $this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7'),
-			'shareEnforceExpireDate'    => $this->config->getAppValue('core', 'shareapi_enforce_expire_date', 'no'),
-			'shareExcludeGroups'        => $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes' ? true : false,
-			'shareExcludedGroupsList'   => $excludeGroupsList,
+			'allowGroupSharing'               => $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes'),
+			'allowLinks'                      => $this->config->getAppValue('core', 'shareapi_allow_links', 'yes'),
+			'allowMailNotification'           => $this->config->getAppValue('core', 'shareapi_allow_mail_notification', 'no'),
+			'allowPublicMailNotification'     => $this->config->getAppValue('core', 'shareapi_allow_public_notification', 'no'),
+			'allowPublicUpload'               => $this->config->getAppValue('core', 'shareapi_allow_public_upload', 'yes'),
+			'allowResharing'                  => $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes'),
+			'allowShareDialogUserEnumeration' => $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes'),
+			'enforceLinkPassword'             => Util::isPublicLinkPasswordRequired(),
+			'onlyShareWithGroupMembers'       => Share::shareWithGroupMembersOnly(),
+			'shareAPIEnabled'                 => $this->config->getAppValue('core', 'shareapi_enabled', 'yes'),
+			'shareDefaultExpireDateSet'       => $this->config->getAppValue('core', 'shareapi_default_expire_date', 'no'),
+			'shareExpireAfterNDays'           => $this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7'),
+			'shareEnforceExpireDate'          => $this->config->getAppValue('core', 'shareapi_enforce_expire_date', 'no'),
+			'shareExcludeGroups'              => $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes' ? true : false,
+			'shareExcludedGroupsList'         => $excludeGroupsList,
 		];
 
 		return new TemplateResponse('settings', 'admin/sharing', $parameters, '');
