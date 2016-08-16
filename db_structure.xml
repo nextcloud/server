@@ -2008,9 +2008,18 @@
 
 			<index>
 				<name>admin_sections_id_index</name>
-				<unique>true</unique>
+				<primary>true</primary>
 				<field>
 					<name>id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>admin_sections_class</name>
+				<unique>true</unique>
+				<field>
+					<name>class</name>
 					<sorting>ascending</sorting>
 				</field>
 			</index>
@@ -2060,9 +2069,27 @@
 
 			<index>
 				<name>admin_settings_id_index</name>
-				<unique>true</unique>
+				<primary>true</primary>
 				<field>
 					<name>id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>admin_settings_class</name>
+				<unique>true</unique>
+				<field>
+					<name>class</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>admin_settings_section</name>
+				<unique>false</unique>
+				<field>
+					<name>section</name>
 					<sorting>ascending</sorting>
 				</field>
 			</index>
