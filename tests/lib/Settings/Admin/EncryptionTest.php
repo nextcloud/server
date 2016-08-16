@@ -71,6 +71,10 @@ class EncryptionTest extends TestCase {
 			->expects($this->once())
 			->method('isReady')
 			->willReturn($enabled);
+		$this->manager
+			->expects($this->once())
+			->method('getEncryptionModules')
+			->willReturn([]);
 		$this->userManager
 			->expects($this->once())
 			->method('getBackends')
@@ -82,6 +86,7 @@ class EncryptionTest extends TestCase {
 				'encryptionEnabled' => $enabled,
 				'encryptionReady' => $enabled,
 				'externalBackendsEnabled' => false,
+				'encryptionModules' => []
 			],
 			''
 		);
@@ -101,6 +106,10 @@ class EncryptionTest extends TestCase {
 			->expects($this->once())
 			->method('isReady')
 			->willReturn($enabled);
+		$this->manager
+			->expects($this->once())
+			->method('getEncryptionModules')
+			->willReturn([]);
 		$this->userManager
 			->expects($this->once())
 			->method('getBackends')
@@ -112,6 +121,7 @@ class EncryptionTest extends TestCase {
 				'encryptionEnabled' => $enabled,
 				'encryptionReady' => $enabled,
 				'externalBackendsEnabled' => true,
+				'encryptionModules' => []
 			],
 			''
 		);
