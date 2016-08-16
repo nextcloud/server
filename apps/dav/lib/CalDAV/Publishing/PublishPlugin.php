@@ -60,7 +60,7 @@ class PublishPlugin extends ServerPlugin {
 	 */
 	public function getFeatures() {
 		// May have to be changed to be detected
-		return ['oc-calendar-publishing'];
+		return ['oc-calendar-publishing', 'calendarserver-sharing'];
 	}
 
 	/**
