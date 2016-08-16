@@ -318,14 +318,8 @@ class SMB extends Common {
 	 */
 	public function hasUpdated($path, $time) {
 		$this->log('enter: '.__FUNCTION__."($path, $time)");
-		$stat = $this->stat($path);
-		if ($stat === false) {
-			Util::writeLog('wnd', 'hasUpdated failed -> storage not available', Util::ERROR);
-			throw $this->leave(__FUNCTION__, new StorageNotAvailableException());
-		} else {
-			$actualTime = $this->filemtime($path);
-			$result = $actualTime > $time;
-		}
+		$actualTime = $this->filemtime($path);
+		$result = $actualTime > $time;
 		return $this->leave(__FUNCTION__, $result);
 	}
 
