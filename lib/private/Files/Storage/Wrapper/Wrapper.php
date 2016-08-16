@@ -63,7 +63,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return string
 	 */
 	public function getId() {
-		return $this->storage->getId();
+		return $this->getWrapperStorage()->getId();
 	}
 
 	/**
@@ -73,7 +73,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return bool
 	 */
 	public function mkdir($path) {
-		return $this->storage->mkdir($path);
+		return $this->getWrapperStorage()->mkdir($path);
 	}
 
 	/**
@@ -83,7 +83,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return bool
 	 */
 	public function rmdir($path) {
-		return $this->storage->rmdir($path);
+		return $this->getWrapperStorage()->rmdir($path);
 	}
 
 	/**
@@ -93,7 +93,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return resource
 	 */
 	public function opendir($path) {
-		return $this->storage->opendir($path);
+		return $this->getWrapperStorage()->opendir($path);
 	}
 
 	/**
@@ -103,7 +103,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return bool
 	 */
 	public function is_dir($path) {
-		return $this->storage->is_dir($path);
+		return $this->getWrapperStorage()->is_dir($path);
 	}
 
 	/**
@@ -113,7 +113,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return bool
 	 */
 	public function is_file($path) {
-		return $this->storage->is_file($path);
+		return $this->getWrapperStorage()->is_file($path);
 	}
 
 	/**
@@ -124,7 +124,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return array
 	 */
 	public function stat($path) {
-		return $this->storage->stat($path);
+		return $this->getWrapperStorage()->stat($path);
 	}
 
 	/**
@@ -134,7 +134,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return bool
 	 */
 	public function filetype($path) {
-		return $this->storage->filetype($path);
+		return $this->getWrapperStorage()->filetype($path);
 	}
 
 	/**
@@ -145,7 +145,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return int
 	 */
 	public function filesize($path) {
-		return $this->storage->filesize($path);
+		return $this->getWrapperStorage()->filesize($path);
 	}
 
 	/**
@@ -155,7 +155,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return bool
 	 */
 	public function isCreatable($path) {
-		return $this->storage->isCreatable($path);
+		return $this->getWrapperStorage()->isCreatable($path);
 	}
 
 	/**
@@ -165,7 +165,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return bool
 	 */
 	public function isReadable($path) {
-		return $this->storage->isReadable($path);
+		return $this->getWrapperStorage()->isReadable($path);
 	}
 
 	/**
@@ -175,7 +175,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return bool
 	 */
 	public function isUpdatable($path) {
-		return $this->storage->isUpdatable($path);
+		return $this->getWrapperStorage()->isUpdatable($path);
 	}
 
 	/**
@@ -185,7 +185,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return bool
 	 */
 	public function isDeletable($path) {
-		return $this->storage->isDeletable($path);
+		return $this->getWrapperStorage()->isDeletable($path);
 	}
 
 	/**
@@ -195,7 +195,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return bool
 	 */
 	public function isSharable($path) {
-		return $this->storage->isSharable($path);
+		return $this->getWrapperStorage()->isSharable($path);
 	}
 
 	/**
@@ -206,7 +206,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return int
 	 */
 	public function getPermissions($path) {
-		return $this->storage->getPermissions($path);
+		return $this->getWrapperStorage()->getPermissions($path);
 	}
 
 	/**
@@ -216,7 +216,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return bool
 	 */
 	public function file_exists($path) {
-		return $this->storage->file_exists($path);
+		return $this->getWrapperStorage()->file_exists($path);
 	}
 
 	/**
@@ -226,7 +226,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return int
 	 */
 	public function filemtime($path) {
-		return $this->storage->filemtime($path);
+		return $this->getWrapperStorage()->filemtime($path);
 	}
 
 	/**
@@ -236,7 +236,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return string
 	 */
 	public function file_get_contents($path) {
-		return $this->storage->file_get_contents($path);
+		return $this->getWrapperStorage()->file_get_contents($path);
 	}
 
 	/**
@@ -247,7 +247,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return bool
 	 */
 	public function file_put_contents($path, $data) {
-		return $this->storage->file_put_contents($path, $data);
+		return $this->getWrapperStorage()->file_put_contents($path, $data);
 	}
 
 	/**
@@ -257,7 +257,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return bool
 	 */
 	public function unlink($path) {
-		return $this->storage->unlink($path);
+		return $this->getWrapperStorage()->unlink($path);
 	}
 
 	/**
@@ -268,7 +268,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return bool
 	 */
 	public function rename($path1, $path2) {
-		return $this->storage->rename($path1, $path2);
+		return $this->getWrapperStorage()->rename($path1, $path2);
 	}
 
 	/**
@@ -279,7 +279,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return bool
 	 */
 	public function copy($path1, $path2) {
-		return $this->storage->copy($path1, $path2);
+		return $this->getWrapperStorage()->copy($path1, $path2);
 	}
 
 	/**
@@ -290,7 +290,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return resource
 	 */
 	public function fopen($path, $mode) {
-		return $this->storage->fopen($path, $mode);
+		return $this->getWrapperStorage()->fopen($path, $mode);
 	}
 
 	/**
@@ -301,7 +301,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return string
 	 */
 	public function getMimeType($path) {
-		return $this->storage->getMimeType($path);
+		return $this->getWrapperStorage()->getMimeType($path);
 	}
 
 	/**
@@ -313,7 +313,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return string
 	 */
 	public function hash($type, $path, $raw = false) {
-		return $this->storage->hash($type, $path, $raw);
+		return $this->getWrapperStorage()->hash($type, $path, $raw);
 	}
 
 	/**
@@ -323,7 +323,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return int
 	 */
 	public function free_space($path) {
-		return $this->storage->free_space($path);
+		return $this->getWrapperStorage()->free_space($path);
 	}
 
 	/**
@@ -333,7 +333,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return array
 	 */
 	public function search($query) {
-		return $this->storage->search($query);
+		return $this->getWrapperStorage()->search($query);
 	}
 
 	/**
@@ -345,7 +345,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return bool
 	 */
 	public function touch($path, $mtime = null) {
-		return $this->storage->touch($path, $mtime);
+		return $this->getWrapperStorage()->touch($path, $mtime);
 	}
 
 	/**
@@ -356,7 +356,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return string
 	 */
 	public function getLocalFile($path) {
-		return $this->storage->getLocalFile($path);
+		return $this->getWrapperStorage()->getLocalFile($path);
 	}
 
 	/**
@@ -370,7 +370,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * returning true for other changes in the folder is optional
 	 */
 	public function hasUpdated($path, $time) {
-		return $this->storage->hasUpdated($path, $time);
+		return $this->getWrapperStorage()->hasUpdated($path, $time);
 	}
 
 	/**
@@ -384,7 +384,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 		if (!$storage) {
 			$storage = $this;
 		}
-		return $this->storage->getCache($path, $storage);
+		return $this->getWrapperStorage()->getCache($path, $storage);
 	}
 
 	/**
@@ -398,7 +398,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 		if (!$storage) {
 			$storage = $this;
 		}
-		return $this->storage->getScanner($path, $storage);
+		return $this->getWrapperStorage()->getScanner($path, $storage);
 	}
 
 
@@ -409,7 +409,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return string
 	 */
 	public function getOwner($path) {
-		return $this->storage->getOwner($path);
+		return $this->getWrapperStorage()->getOwner($path);
 	}
 
 	/**
@@ -423,28 +423,28 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 		if (!$storage) {
 			$storage = $this;
 		}
-		return $this->storage->getWatcher($path, $storage);
+		return $this->getWrapperStorage()->getWatcher($path, $storage);
 	}
 
 	public function getPropagator($storage = null) {
 		if (!$storage) {
 			$storage = $this;
 		}
-		return $this->storage->getPropagator($storage);
+		return $this->getWrapperStorage()->getPropagator($storage);
 	}
 
 	public function getUpdater($storage = null) {
 		if (!$storage) {
 			$storage = $this;
 		}
-		return $this->storage->getUpdater($storage);
+		return $this->getWrapperStorage()->getUpdater($storage);
 	}
 
 	/**
 	 * @return \OC\Files\Cache\Storage
 	 */
 	public function getStorageCache() {
-		return $this->storage->getStorageCache();
+		return $this->getWrapperStorage()->getStorageCache();
 	}
 
 	/**
@@ -454,7 +454,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return string
 	 */
 	public function getETag($path) {
-		return $this->storage->getETag($path);
+		return $this->getWrapperStorage()->getETag($path);
 	}
 
 	/**
@@ -463,7 +463,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return true
 	 */
 	public function test() {
-		return $this->storage->test();
+		return $this->getWrapperStorage()->test();
 	}
 
 	/**
@@ -472,7 +472,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return bool wrapped storage's isLocal() value
 	 */
 	public function isLocal() {
-		return $this->storage->isLocal();
+		return $this->getWrapperStorage()->isLocal();
 	}
 
 	/**
@@ -482,7 +482,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return bool
 	 */
 	public function instanceOfStorage($class) {
-		return is_a($this, $class) or $this->storage->instanceOfStorage($class);
+		return is_a($this, $class) or $this->getWrapperStorage()->instanceOfStorage($class);
 	}
 
 	/**
@@ -493,7 +493,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return mixed
 	 */
 	public function __call($method, $args) {
-		return call_user_func_array(array($this->storage, $method), $args);
+		return call_user_func_array(array($this->getWrapperStorage(), $method), $args);
 	}
 
 	/**
@@ -505,7 +505,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return array
 	 */
 	public function getDirectDownload($path) {
-		return $this->storage->getDirectDownload($path);
+		return $this->getWrapperStorage()->getDirectDownload($path);
 	}
 
 	/**
@@ -514,7 +514,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return array [ available, last_checked ]
 	 */
 	public function getAvailability() {
-		return $this->storage->getAvailability();
+		return $this->getWrapperStorage()->getAvailability();
 	}
 
 	/**
@@ -523,7 +523,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @param bool $isAvailable
 	 */
 	public function setAvailability($isAvailable) {
-		$this->storage->setAvailability($isAvailable);
+		$this->getWrapperStorage()->setAvailability($isAvailable);
 	}
 
 	/**
@@ -533,7 +533,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @throws InvalidPathException
 	 */
 	public function verifyPath($path, $fileName) {
-		$this->storage->verifyPath($path, $fileName);
+		$this->getWrapperStorage()->verifyPath($path, $fileName);
 	}
 
 	/**
@@ -547,7 +547,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 			return $this->copy($sourceInternalPath, $targetInternalPath);
 		}
 
-		return $this->storage->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+		return $this->getWrapperStorage()->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
 	/**
@@ -561,7 +561,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 			return $this->rename($sourceInternalPath, $targetInternalPath);
 		}
 
-		return $this->storage->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+		return $this->getWrapperStorage()->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
 	/**
@@ -569,7 +569,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @return array
 	 */
 	public function getMetaData($path) {
-		return $this->storage->getMetaData($path);
+		return $this->getWrapperStorage()->getMetaData($path);
 	}
 
 	/**
@@ -579,8 +579,9 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @throws \OCP\Lock\LockedException
 	 */
 	public function acquireLock($path, $type, ILockingProvider $provider) {
-		if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
-			$this->storage->acquireLock($path, $type, $provider);
+		$storage = $this->getWrapperStorage();
+		if ($storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+			$storage->acquireLock($path, $type, $provider);
 		}
 	}
 
@@ -590,8 +591,9 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @param \OCP\Lock\ILockingProvider $provider
 	 */
 	public function releaseLock($path, $type, ILockingProvider $provider) {
-		if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
-			$this->storage->releaseLock($path, $type, $provider);
+		$storage = $this->getWrapperStorage();
+		if ($storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+			$storage->releaseLock($path, $type, $provider);
 		}
 	}
 
@@ -601,8 +603,9 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 * @param \OCP\Lock\ILockingProvider $provider
 	 */
 	public function changeLock($path, $type, ILockingProvider $provider) {
-		if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
-			$this->storage->changeLock($path, $type, $provider);
+		$storage = $this->getWrapperStorage();
+		if ($storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+			$storage->changeLock($path, $type, $provider);
 		}
 	}
 }

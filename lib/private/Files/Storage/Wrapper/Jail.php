@@ -45,10 +45,15 @@ class Jail extends Wrapper {
 	 */
 	public function __construct($arguments) {
 		parent::__construct($arguments);
+		// null value is allowed for lazy init, but it must set at earliest
+		// before the first file operation
 		$this->rootPath = $arguments['root'];
 	}
 
 	public function getSourcePath($path) {
+		if ($this->rootPath === null) {
+			throw new \InvalidArgumentException('Jail rootPath is null');
+		}
 		if ($path === '') {
 			return $this->rootPath;
 		} else {
@@ -67,7 +72,7 @@ class Jail extends Wrapper {
 	 * @return bool
 	 */
 	public function mkdir($path) {
-		return $this->storage->mkdir($this->getSourcePath($path));
+		return $this->getWrapperStorage()->mkdir($this->getSourcePath($path));
 	}
 
 	/**
@@ -77,7 +82,7 @@ class Jail extends Wrapper {
 	 * @return bool
 	 */
 	public function rmdir($path) {
-		return $this->storage->rmdir($this->getSourcePath($path));
+		return $this->getWrapperStorage()->rmdir($this->getSourcePath($path));
 	}
 
 	/**
@@ -87,7 +92,7 @@ class Jail extends Wrapper {
 	 * @return resource
 	 */
 	public function opendir($path) {
-		return $this->storage->opendir($this->getSourcePath($path));
+		return $this->getWrapperStorage()->opendir($this->getSourcePath($path));
 	}
 
 	/**
@@ -97,7 +102,7 @@ class Jail extends Wrapper {
 	 * @return bool
 	 */
 	public function is_dir($path) {
-		return $this->storage->is_dir($this->getSourcePath($path));
+		return $this->getWrapperStorage()->is_dir($this->getSourcePath($path));
 	}
 
 	/**
@@ -107,7 +112,7 @@ class Jail extends Wrapper {
 	 * @return bool
 	 */
 	public function is_file($path) {
-		return $this->storage->is_file($this->getSourcePath($path));
+		return $this->getWrapperStorage()->is_file($this->getSourcePath($path));
 	}
 
 	/**
@@ -118,7 +123,7 @@ class Jail extends Wrapper {
 	 * @return array
 	 */
 	public function stat($path) {
-		return $this->storage->stat($this->getSourcePath($path));
+		return $this->getWrapperStorage()->stat($this->getSourcePath($path));
 	}
 
 	/**
@@ -128,7 +133,7 @@ class Jail extends Wrapper {
 	 * @return bool
 	 */
 	public function filetype($path) {
-		return $this->storage->filetype($this->getSourcePath($path));
+		return $this->getWrapperStorage()->filetype($this->getSourcePath($path));
 	}
 
 	/**
@@ -139,7 +144,7 @@ class Jail extends Wrapper {
 	 * @return int
 	 */
 	public function filesize($path) {
-		return $this->storage->filesize($this->getSourcePath($path));
+		return $this->getWrapperStorage()->filesize($this->getSourcePath($path));
 	}
 
 	/**
@@ -149,7 +154,7 @@ class Jail extends Wrapper {
 	 * @return bool
 	 */
 	public function isCreatable($path) {
-		return $this->storage->isCreatable($this->getSourcePath($path));
+		return $this->getWrapperStorage()->isCreatable($this->getSourcePath($path));
 	}
 
 	/**
@@ -159,7 +164,7 @@ class Jail extends Wrapper {
 	 * @return bool
 	 */
 	public function isReadable($path) {
-		return $this->storage->isReadable($this->getSourcePath($path));
+		return $this->getWrapperStorage()->isReadable($this->getSourcePath($path));
 	}
 
 	/**
@@ -169,7 +174,7 @@ class Jail extends Wrapper {
 	 * @return bool
 	 */
 	public function isUpdatable($path) {
-		return $this->storage->isUpdatable($this->getSourcePath($path));
+		return $this->getWrapperStorage()->isUpdatable($this->getSourcePath($path));
 	}
 
 	/**
@@ -179,7 +184,7 @@ class Jail extends Wrapper {
 	 * @return bool
 	 */
 	public function isDeletable($path) {
-		return $this->storage->isDeletable($this->getSourcePath($path));
+		return $this->getWrapperStorage()->isDeletable($this->getSourcePath($path));
 	}
 
 	/**
@@ -189,7 +194,7 @@ class Jail extends Wrapper {
 	 * @return bool
 	 */
 	public function isSharable($path) {
-		return $this->storage->isSharable($this->getSourcePath($path));
+		return $this->getWrapperStorage()->isSharable($this->getSourcePath($path));
 	}
 
 	/**
@@ -200,7 +205,7 @@ class Jail extends Wrapper {
 	 * @return int
 	 */
 	public function getPermissions($path) {
-		return $this->storage->getPermissions($this->getSourcePath($path));
+		return $this->getWrapperStorage()->getPermissions($this->getSourcePath($path));
 	}
 
 	/**
@@ -210,7 +215,7 @@ class Jail extends Wrapper {
 	 * @return bool
 	 */
 	public function file_exists($path) {
-		return $this->storage->file_exists($this->getSourcePath($path));
+		return $this->getWrapperStorage()->file_exists($this->getSourcePath($path));
 	}
 
 	/**
@@ -220,7 +225,7 @@ class Jail extends Wrapper {
 	 * @return int
 	 */
 	public function filemtime($path) {
-		return $this->storage->filemtime($this->getSourcePath($path));
+		return $this->getWrapperStorage()->filemtime($this->getSourcePath($path));
 	}
 
 	/**
@@ -230,7 +235,7 @@ class Jail extends Wrapper {
 	 * @return string
 	 */
 	public function file_get_contents($path) {
-		return $this->storage->file_get_contents($this->getSourcePath($path));
+		return $this->getWrapperStorage()->file_get_contents($this->getSourcePath($path));
 	}
 
 	/**
@@ -241,7 +246,7 @@ class Jail extends Wrapper {
 	 * @return bool
 	 */
 	public function file_put_contents($path, $data) {
-		return $this->storage->file_put_contents($this->getSourcePath($path), $data);
+		return $this->getWrapperStorage()->file_put_contents($this->getSourcePath($path), $data);
 	}
 
 	/**
@@ -251,7 +256,7 @@ class Jail extends Wrapper {
 	 * @return bool
 	 */
 	public function unlink($path) {
-		return $this->storage->unlink($this->getSourcePath($path));
+		return $this->getWrapperStorage()->unlink($this->getSourcePath($path));
 	}
 
 	/**
@@ -262,7 +267,7 @@ class Jail extends Wrapper {
 	 * @return bool
 	 */
 	public function rename($path1, $path2) {
-		return $this->storage->rename($this->getSourcePath($path1), $this->getSourcePath($path2));
+		return $this->getWrapperStorage()->rename($this->getSourcePath($path1), $this->getSourcePath($path2));
 	}
 
 	/**
@@ -273,7 +278,7 @@ class Jail extends Wrapper {
 	 * @return bool
 	 */
 	public function copy($path1, $path2) {
-		return $this->storage->copy($this->getSourcePath($path1), $this->getSourcePath($path2));
+		return $this->getWrapperStorage()->copy($this->getSourcePath($path1), $this->getSourcePath($path2));
 	}
 
 	/**
@@ -284,7 +289,7 @@ class Jail extends Wrapper {
 	 * @return resource
 	 */
 	public function fopen($path, $mode) {
-		return $this->storage->fopen($this->getSourcePath($path), $mode);
+		return $this->getWrapperStorage()->fopen($this->getSourcePath($path), $mode);
 	}
 
 	/**
@@ -295,7 +300,7 @@ class Jail extends Wrapper {
 	 * @return string
 	 */
 	public function getMimeType($path) {
-		return $this->storage->getMimeType($this->getSourcePath($path));
+		return $this->getWrapperStorage()->getMimeType($this->getSourcePath($path));
 	}
 
 	/**
@@ -307,7 +312,7 @@ class Jail extends Wrapper {
 	 * @return string
 	 */
 	public function hash($type, $path, $raw = false) {
-		return $this->storage->hash($type, $this->getSourcePath($path), $raw);
+		return $this->getWrapperStorage()->hash($type, $this->getSourcePath($path), $raw);
 	}
 
 	/**
@@ -317,7 +322,7 @@ class Jail extends Wrapper {
 	 * @return int
 	 */
 	public function free_space($path) {
-		return $this->storage->free_space($this->getSourcePath($path));
+		return $this->getWrapperStorage()->free_space($this->getSourcePath($path));
 	}
 
 	/**
@@ -327,7 +332,7 @@ class Jail extends Wrapper {
 	 * @return array
 	 */
 	public function search($query) {
-		return $this->storage->search($query);
+		return $this->getWrapperStorage()->search($query);
 	}
 
 	/**
@@ -339,7 +344,7 @@ class Jail extends Wrapper {
 	 * @return bool
 	 */
 	public function touch($path, $mtime = null) {
-		return $this->storage->touch($this->getSourcePath($path), $mtime);
+		return $this->getWrapperStorage()->touch($this->getSourcePath($path), $mtime);
 	}
 
 	/**
@@ -350,7 +355,7 @@ class Jail extends Wrapper {
 	 * @return string
 	 */
 	public function getLocalFile($path) {
-		return $this->storage->getLocalFile($this->getSourcePath($path));
+		return $this->getWrapperStorage()->getLocalFile($this->getSourcePath($path));
 	}
 
 	/**
@@ -364,7 +369,7 @@ class Jail extends Wrapper {
 	 * returning true for other changes in the folder is optional
 	 */
 	public function hasUpdated($path, $time) {
-		return $this->storage->hasUpdated($this->getSourcePath($path), $time);
+		return $this->getWrapperStorage()->hasUpdated($this->getSourcePath($path), $time);
 	}
 
 	/**
@@ -375,10 +380,13 @@ class Jail extends Wrapper {
 	 * @return \OC\Files\Cache\Cache
 	 */
 	public function getCache($path = '', $storage = null) {
+		if ($this->rootPath === null) {
+			throw new \InvalidArgumentException('Jail rootPath is null');
+		}
 		if (!$storage) {
 			$storage = $this;
 		}
-		$sourceCache = $this->storage->getCache($this->getSourcePath($path), $storage);
+		$sourceCache = $this->getWrapperStorage()->getCache($this->getSourcePath($path), $storage);
 		return new CacheJail($sourceCache, $this->rootPath);
 	}
 
@@ -389,7 +397,7 @@ class Jail extends Wrapper {
 	 * @return string
 	 */
 	public function getOwner($path) {
-		return $this->storage->getOwner($this->getSourcePath($path));
+		return $this->getWrapperStorage()->getOwner($this->getSourcePath($path));
 	}
 
 	/**
@@ -403,7 +411,7 @@ class Jail extends Wrapper {
 		if (!$storage) {
 			$storage = $this;
 		}
-		return $this->storage->getWatcher($this->getSourcePath($path), $storage);
+		return $this->getWrapperStorage()->getWatcher($this->getSourcePath($path), $storage);
 	}
 
 	/**
@@ -413,7 +421,7 @@ class Jail extends Wrapper {
 	 * @return string
 	 */
 	public function getETag($path) {
-		return $this->storage->getETag($this->getSourcePath($path));
+		return $this->getWrapperStorage()->getETag($this->getSourcePath($path));
 	}
 
 	/**
@@ -421,7 +429,7 @@ class Jail extends Wrapper {
 	 * @return array
 	 */
 	public function getMetaData($path) {
-		return $this->storage->getMetaData($this->getSourcePath($path));
+		return $this->getWrapperStorage()->getMetaData($this->getSourcePath($path));
 	}
 
 	/**
@@ -431,7 +439,7 @@ class Jail extends Wrapper {
 	 * @throws \OCP\Lock\LockedException
 	 */
 	public function acquireLock($path, $type, ILockingProvider $provider) {
-		$this->storage->acquireLock($this->getSourcePath($path), $type, $provider);
+		$this->getWrapperStorage()->acquireLock($this->getSourcePath($path), $type, $provider);
 	}
 
 	/**
@@ -440,7 +448,7 @@ class Jail extends Wrapper {
 	 * @param \OCP\Lock\ILockingProvider $provider
 	 */
 	public function releaseLock($path, $type, ILockingProvider $provider) {
-		$this->storage->releaseLock($this->getSourcePath($path), $type, $provider);
+		$this->getWrapperStorage()->releaseLock($this->getSourcePath($path), $type, $provider);
 	}
 
 	/**
@@ -449,7 +457,7 @@ class Jail extends Wrapper {
 	 * @param \OCP\Lock\ILockingProvider $provider
 	 */
 	public function changeLock($path, $type, ILockingProvider $provider) {
-		$this->storage->changeLock($this->getSourcePath($path), $type, $provider);
+		$this->getWrapperStorage()->changeLock($this->getSourcePath($path), $type, $provider);
 	}
 
 	/**
@@ -459,7 +467,7 @@ class Jail extends Wrapper {
 	 * @return array
 	 */
 	public function resolvePath($path) {
-		return [$this->storage, $this->getSourcePath($path)];
+		return [$this->getWrapperStorage(), $this->getSourcePath($path)];
 	}
 
 	/**
@@ -472,7 +480,7 @@ class Jail extends Wrapper {
 		if ($sourceStorage === $this) {
 			return $this->copy($sourceInternalPath, $targetInternalPath);
 		}
-		return $this->storage->copyFromStorage($sourceStorage, $sourceInternalPath, $this->getSourcePath($targetInternalPath));
+		return $this->getWrapperStorage()->copyFromStorage($sourceStorage, $sourceInternalPath, $this->getSourcePath($targetInternalPath));
 	}
 
 	/**
@@ -485,6 +493,6 @@ class Jail extends Wrapper {
 		if ($sourceStorage === $this) {
 			return $this->rename($sourceInternalPath, $targetInternalPath);
 		}
-		return $this->storage->moveFromStorage($sourceStorage, $sourceInternalPath, $this->getSourcePath($targetInternalPath));
+		return $this->getWrapperStorage()->moveFromStorage($sourceStorage, $sourceInternalPath, $this->getSourcePath($targetInternalPath));
 	}
 }

@@ -37,6 +37,7 @@ use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Storage\IStorage;
 use OCP\Lock\ILockingProvider;
+use OC\Files\Storage\FailedStorage;
 
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
@@ -82,13 +83,9 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 
 		$this->user = $arguments['user'];
 
-		Filesystem::initMountPoints($this->superShare->getShareOwner());
-		$sourcePath = $this->ownerView->getPath($this->superShare->getNodeId());
-		list($storage, $internalPath) = $this->ownerView->resolvePath($sourcePath);
-
 		parent::__construct([
-			'storage' => $storage,
-			'root' => $internalPath,
+			'storage' => null, // init later
+			'root' => null, // init later
 		]);
 	}
 
@@ -99,12 +96,17 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 		$this->initialized = true;
 		try {
 			Filesystem::initMountPoints($this->superShare->getShareOwner());
-			$sourcePath = $this->ownerView->getPath($this->superShare->getNodeId());
+			$sourcePath = $this->ownerView->getPath($this->superShare->getNodeId(), false);
 			list($this->sourceStorage, $sourceInternalPath) = $this->ownerView->resolvePath($sourcePath);
 			$this->sourceRootInfo = $this->sourceStorage->getCache()->get($sourceInternalPath);
+			// adjust jail
+			$this->rootPath = $sourceInternalPath;
+
 		} catch (\Exception $e) {
+			$this->sourceStorage = new FailedStorage(['exception' => $e]);
 			$this->logger->logException($e);
 		}
+		$this->storage = $this->sourceStorage;
 	}
 
 	/**
@@ -311,7 +313,7 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 
 	public function getCache($path = '', $storage = null) {
 		$this->init();
-		if (is_null($this->sourceStorage)) {
+		if (is_null($this->sourceStorage) || $this->sourceStorage instanceof FailedStorage) {
 			return new FailedCache(false);
 		}
 		if (!$storage) {
@@ -439,4 +441,9 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 		return parent::file_put_contents($path, $data);
 	}
 
+	public function getWrapperStorage() {
+		$this->init();
+
+		return $this->sourceStorage;
+	}
 }
