@@ -64,6 +64,8 @@ $application->registerRoutes($this, [
 		['name' => 'Certificate#removePersonalRootCertificate', 'url' => '/settings/personal/certificate/{certificateIdentifier}', 'verb' => 'DELETE'],
 		['name' => 'Certificate#addSystemRootCertificate', 'url' => '/settings/admin/certificate', 'verb' => 'POST'],
 		['name' => 'Certificate#removeSystemRootCertificate', 'url' => '/settings/admin/certificate/{certificateIdentifier}', 'verb' => 'DELETE'],
+		['name' => 'AdminSettings#index', 'url' => '/settings/admin/{section}', 'verb' => 'GET', 'defaults' => ['section' => 'server']],
+		['name' => 'AdminSettings#form', 'url' => '/settings/admin/{section}', 'verb' => 'GET'],
 	]
 ]);
 
@@ -76,8 +78,6 @@ $this->create('settings_personal', '/settings/personal')
 	->actionInclude('settings/personal.php');
 $this->create('settings_users', '/settings/users')
 	->actionInclude('settings/users.php');
-$this->create('settings_admin', '/settings/admin')
-	->actionInclude('settings/admin.php');
 // Settings ajax actions
 // users
 $this->create('settings_ajax_setquota', '/settings/ajax/setquota.php')

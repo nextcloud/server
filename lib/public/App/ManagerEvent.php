@@ -36,6 +36,11 @@ class ManagerEvent extends Event {
 	const EVENT_APP_ENABLE_FOR_GROUPS = 'OCP\App\IAppManager::enableAppForGroups';
 	const EVENT_APP_DISABLE = 'OCP\App\IAppManager::disableApp';
 
+	/**
+	 * @since 9.1.0
+	 */
+	const EVENT_APP_UPDATE = 'OCP\App\IAppManager::updateApp';
+
 	/** @var string */
 	protected $event;
 	/** @var string */

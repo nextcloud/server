@@ -51,6 +51,7 @@ use OC\App\Platform;
 use OC\Installer;
 use OC\OCSClient;
 use OC\Repair;
+use OCP\App\ManagerEvent;
 
 /**
  * This class manages the apps. It allows them to register and integrate in the
@@ -345,6 +346,13 @@ class OC_App {
 		} else {
 			$appManager->enableApp($app);
 		}
+
+		$info = self::getAppInfo($app);
+		if(isset($info['settings']) && is_array($info['settings'])) {
+			$appPath = self::getAppPath($app);
+			self::registerAutoloading($app, $appPath);
+			\OC::$server->getSettingsManager()->setupSettings($info['settings']);
+		}
 	}
 
 	/**
@@ -471,7 +479,7 @@ class OC_App {
 				$settings[] = array(
 					"id" => "admin",
 					"order" => 1000,
-					"href" => $urlGenerator->linkToRoute('settings_admin'),
+					"href" => $urlGenerator->linkToRoute('settings.AdminSettings.index'),
 					"name" => $l->t("Admin"),
 					"icon" => $urlGenerator->imagePath("settings", "admin.svg")
 				);
@@ -1162,6 +1170,13 @@ class OC_App {
 			if (isset($appData['id'])) {
 				$config->setAppValue($app, 'ocsid', $appData['id']);
 			}
+
+			if(isset($info['settings']) && is_array($info['settings'])) {
+				$appPath = self::getAppPath($app);
+				self::registerAutoloading($app, $appPath);
+				\OC::$server->getSettingsManager()->setupSettings($info['settings']);
+			}
+
 			\OC_Hook::emit('OC_App', 'post_enable', array('app' => $app));
 		} else {
 			if(empty($appName) ) {
@@ -1199,6 +1214,11 @@ class OC_App {
 			include $appPath . '/appinfo/update.php';
 		}
 		self::setupBackgroundJobs($appData['background-jobs']);
+		if(isset($appData['settings']) && is_array($appData['settings'])) {
+			$appPath = self::getAppPath($appId);
+			self::registerAutoloading($appId, $appPath);
+			\OC::$server->getSettingsManager()->setupSettings($appData['settings']);
+		}
 
 		//set remote/public handlers
 		if (array_key_exists('ocsid', $appData)) {
@@ -1217,6 +1237,10 @@ class OC_App {
 
 		$version = \OC_App::getAppVersion($appId);
 		\OC::$server->getAppConfig()->setValue($appId, 'installed_version', $version);
+
+		\OC::$server->getEventDispatcher()->dispatch(ManagerEvent::EVENT_APP_UPDATE, new ManagerEvent(
+			ManagerEvent::EVENT_APP_UPDATE, $appId
+		));
 
 		return true;
 	}

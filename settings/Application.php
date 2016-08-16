@@ -32,6 +32,7 @@ namespace OC\Settings;
 
 use OC\Files\View;
 use OC\Server;
+use OC\Settings\Controller\AdminSettingsController;
 use OC\Settings\Controller\AppSettingsController;
 use OC\Settings\Controller\AuthSettingsController;
 use OC\Settings\Controller\CertificateController;
@@ -178,6 +179,14 @@ class Application extends App {
 				$c->query('Logger')
 			);
 		});
+		$container->registerService('AdminSettingsController', function(IContainer $c) {
+			return new AdminSettingsController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('INavigationManager'),
+				$c->query('SettingsManager')
+			);
+		});
 
 		/**
 		 * Middleware
@@ -268,6 +277,15 @@ class Application extends App {
 			/** @var Server $server */
 			$server = $c->query('ServerContainer');
 			return $server->getIntegrityCodeChecker();
+		});
+		$container->registerService('EventDispatcher', function (IContainer $c) {
+			return $c->query('ServerContainer')->getEventDispatcher();
+		});
+		$container->registerService('EncryptionManager', function (IContainer $c) {
+			return $c->query('ServerContainer')->getEncryptionManager();
+		});
+		$container->registerService('SettingsManager', function (IContainer $c) {
+			return $c->query('ServerContainer')->getSettingsManager();
 		});
 	}
 }

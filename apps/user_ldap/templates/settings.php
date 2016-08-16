@@ -49,6 +49,9 @@ script('user_ldap', [
 
 style('user_ldap', 'settings');
 
+/** @var \OCP\IL10N $l */
+/** @var array $_ */
+
 ?>
 
 <form id="ldap" class="section" action="#" method="post">
@@ -56,20 +59,24 @@ style('user_ldap', 'settings');
 
 	<div id="ldapSettings">
 	<ul>
-		<?php foreach($_['toc'] as $id => $title) { ?>
-			<li id="<?php p($id); ?>"><a href="<?php p($id); ?>"><?php p($title); ?></a></li>
-		<?php } ?>
+		<li id="#ldapWizard1"><a href="#ldapWizard1"><?php p($l->t('Server'));?></a></li>
+		<li id="#ldapWizard2"><a href="#ldapWizard2"><?php p($l->t('Users'));?></a></li>
+		<li id="#ldapWizard3"><a href="#ldapWizard3"><?php p($l->t('Login Attributes'));?></a></li>
+		<li id="#ldapWizard4"><a href="#ldapWizard4"><?php p($l->t('Groups'));?></a></li>
 		<li class="ldapSettingsTabs"><a href="#ldapSettings-2"><?php p($l->t('Expert'));?></a></li>
 		<li class="ldapSettingsTabs"><a href="#ldapSettings-1"><?php p($l->t('Advanced'));?></a></li>
 	</ul>
-		<?php if(OCP\App::isEnabled('user_webdavauth')) {
-			print_unescaped('<p class="ldapwarning">'.$l->t('<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them.').'</p>');
-		}
-		if(!function_exists('ldap_connect')) {
-			print_unescaped('<p class="ldapwarning">'.$l->t('<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it.').'</p>');
-		}
-		?>
-	<?php print_unescaped($_['tabs']); ?>
+	<?php if(OCP\App::isEnabled('user_webdavauth')) {
+		print_unescaped('<p class="ldapwarning">'.$l->t('<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them.').'</p>');
+	}
+	if(!function_exists('ldap_connect')) {
+		print_unescaped('<p class="ldapwarning">'.$l->t('<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it.').'</p>');
+	}
+	?>
+	<?php require_once(__DIR__ . '/part.wizard-server.php'); ?>
+	<?php require_once(__DIR__ . '/part.wizard-userfilter.php'); ?>
+	<?php require_once(__DIR__ . '/part.wizard-loginfilter.php'); ?>
+	<?php require_once(__DIR__ . '/part.wizard-groupfilter.php'); ?>
 	<fieldset id="ldapSettings-1">
 		<div id="ldapAdvancedAccordion">
 			<h3><?php p($l->t('Connection Settings'));?></h3>

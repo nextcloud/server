@@ -51,13 +51,6 @@ class Application extends \OCP\AppFramework\App {
 		$this->registerMiddleware();
 	}
 
-	/**
-	 * register setting scripts
-	 */
-	public function registerSettings() {
-		App::registerAdmin('federation', 'settings/settings-admin');
-	}
-
 	private function registerService() {
 		$container = $this->getContainer();
 

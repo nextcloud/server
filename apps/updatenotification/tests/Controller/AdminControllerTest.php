@@ -197,4 +197,12 @@ class AdminControllerTest extends TestCase {
 		$expected = new DataResponse('MyGeneratedToken');
 		$this->assertEquals($expected, $this->adminController->createCredentials());
 	}
+
+	public function testGetSection() {
+		$this->assertSame('server', $this->adminController->getSection());
+	}
+
+	public function testGetPriority() {
+		$this->assertSame(1, $this->adminController->getPriority());
+	}
 }
