@@ -72,8 +72,6 @@
 						<label
 							for="<?php p($id) ?>"><?php p($module['displayName']) ?></label>
 						<br/>
-
-						<?php if ($id === 'OC_DEFAULT_MODULE') print_unescaped($_['ocDefaultEncryptionModulePanel']); ?>
 					<?php endforeach; ?>
 				</fieldset>
 			<?php } ?>
