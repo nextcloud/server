@@ -324,6 +324,14 @@ OC.L10N.register(
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Para obter ajuda, consulte a  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentação</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instância %s está em modo de manutenção, o que pode demorar um pouco.",
     "This page will refresh itself when the %s instance is available again." : "Esta página será atualizada automaticamente quando esta instância %s estiver disponível novamente.",
+    "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "A atualização está em andamento. Sair desta página poderá interromper o processo em alguns ambientes.",
+    "Updating to {version}" : "Atualizando para {version}",
+    "The update was successful. There were warnings." : "A atualização foi concluída com sucesso. Existem avisos.",
+    "Your web server is not set up properly to resolve \"{url}\". Further information can be found in our <a target=\"_blank\" href=\"{docLink}\">documentation</a>." : "Seu servidor web não está configurado corretamente para abrir a URL \"{url}\". Mais informações podem ser encontradas em nossa <a target=\"_blank\" href=\"{docLink}\">documentação</a>.",
+    "An error occured. Please try again" : "Ocorreu um erro. Tente novamente",
+    "not assignable" : "não atribuível",
+    "Updating {productName} to version {version}, this may take a while." : "Atualizando o {productName} para a versão {version}. Isso pode levar algum tempo.",
+    "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." : "Para obter informações sobre como configurar corretamente o seu servidor, leia a <a href=\"%s\" target=\"_blank\">documentação</a>.",
     "An internal error occured." : "Ocorreu um erro interno."
 },
 "nplurals=2; plural=(n > 1);");

@@ -293,6 +293,7 @@ OC.L10N.register(
     "App name" : "Nome do aplicativo",
     "Create new app password" : "Criar uma nova senha do aplicativo",
     "Use the credentials below to configure your app or device." : "Use as credenciais abaixo para configurar seu aplicativo ou dispositivo.",
+    "For security reasons this password will only be shown once." : "Por motivo de segurança, esta senha só será exibida uma vez.",
     "Username" : "Nome de Usuário",
     "Done" : "Concluída",
     "Get the apps to sync your files" : "Obtenha apps para sincronizar seus arquivos",
@@ -302,6 +303,10 @@ OC.L10N.register(
     "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Se você deseja apoiar o projeto,\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">juntar-se ao desenvolvimento</a>\n\t\tou\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">contar para todo mundo</a>!",
     "Show First Run Wizard again" : "Mostrar Assistente de Primeira Execução novamente",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Desenvolvido pela {communityopen}comunidade Nextcloud{linkclose}, o {githubopen}código-fonte{linkclose} é licenciado sob a {licenseopen}AGPL{linkclose}.",
+    "Follow us on Google Plus!" : "Siga-nos no Google Plus!",
+    "Like our facebook page!" : "Curta nossa página no Facebook!",
+    "Subscribe to our news feed!" : "Assine nosso feed de notícias!",
+    "Subscribe to our newsletter!" : "Inscreva-se para receber nosso boletim informativo!",
     "Show storage location" : "Mostrar localização de armazenamento",
     "Show last log in" : "Mostrar o último acesso",
     "Show user backend" : "Mostrar administrador do usuário",
@@ -334,6 +339,7 @@ OC.L10N.register(
     "Group Admin for" : "Grupo Admin para",
     "Storage Location" : "Local de Armazenamento",
     "User Backend" : "Administrador do Usuário",
-    "Last Login" : "Último Login"
+    "Last Login" : "Último Login",
+    "No apps found for \"{query}\"" : "Nenhum aplicativo encontrado para \"{query}\""
 },
 "nplurals=2; plural=(n > 1);");

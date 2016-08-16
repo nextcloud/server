@@ -21,6 +21,7 @@ OC.L10N.register(
     "You commented" : "Você comentou",
     "%1$s commented" : "%1$s comentado",
     "You commented on %2$s" : "Você comentou em %2$s",
-    "%1$s commented on %2$s" : "%1$s comentado em %2$s"
+    "%1$s commented on %2$s" : "%1$s comentado em %2$s",
+    "<strong>Comments</strong> for files" : "<strong>Comentários</strong> para arquivos"
 },
 "nplurals=2; plural=(n > 1);");
