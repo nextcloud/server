@@ -246,17 +246,32 @@ class Share20OCS extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
+	 * @param string $path
+	 * @param int $permissions
+	 * @param int $shareType
+	 * @param string $shareWith
+	 * @param string $publicUpload
+	 * @param string $password
+	 * @param string $expireDate
+	 *
 	 * @return DataResponse
 	 * @throws OCSNotFoundException
 	 * @throws OCSForbiddenException
 	 * @throws OCSBadRequestException
 	 * @throws OCSException
 	 */
-	public function createShare() {
+	public function createShare(
+		$path = null,
+		$permissions = \OCP\Constants::PERMISSION_ALL,
+		$shareType = -1,
+		$shareWith = null,
+		$publicUpload = 'false',
+		$password = '',
+		$expireDate = ''
+	) {
 		$share = $this->shareManager->newShare();
 
 		// Verify path
-		$path = $this->request->getParam('path', null);
 		if ($path === null) {
 			throw new OCSNotFoundException($this->l->t('Please specify a file or folder path'));
 		}
@@ -274,14 +289,6 @@ class Share20OCS extends OCSController {
 			$this->lock($share->getNode());
 		} catch (LockedException $e) {
 			throw new OCSNotFoundException($this->l->t('Could not create share'));
-		}
-
-		// Parse permissions (if available)
-		$permissions = $this->request->getParam('permissions', null);
-		if ($permissions === null) {
-			$permissions = \OCP\Constants::PERMISSION_ALL;
-		} else {
-			$permissions = (int)$permissions;
 		}
 
 		if ($permissions < 0 || $permissions > \OCP\Constants::PERMISSION_ALL) {
@@ -305,9 +312,6 @@ class Share20OCS extends OCSController {
 		if ($path->getStorage()->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
 			$permissions &= ~($permissions & ~$path->getPermissions());
 		}
-
-		$shareWith = $this->request->getParam('shareWith', null);
-		$shareType = (int)$this->request->getParam('shareType', '-1');
 
 		if ($shareType === \OCP\Share::SHARE_TYPE_USER) {
 			// Valid user is required to share
@@ -342,7 +346,6 @@ class Share20OCS extends OCSController {
 				return new DataResponse($this->formatShare($existingShares[0]));
 			}
 
-			$publicUpload = $this->request->getParam('publicUpload', null);
 			if ($publicUpload === 'true') {
 				// Check if public upload is allowed
 				if (!$this->shareManager->shareApiLinkAllowPublicUpload()) {
@@ -365,15 +368,11 @@ class Share20OCS extends OCSController {
 			}
 
 			// Set password
-			$password = $this->request->getParam('password', '');
-
 			if ($password !== '') {
 				$share->setPassword($password);
 			}
 
 			//Expire date
-			$expireDate = $this->request->getParam('expireDate', '');
-
 			if ($expireDate !== '') {
 				try {
 					$expireDate = $this->parseDate($expireDate);
