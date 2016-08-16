@@ -244,7 +244,7 @@ class ApiTest extends TestCase {
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
 		$this->assertEquals($url, $data['url']);
 
-		$this->shareManager->getShareById('ocinternal:'.$data['id']);
+		$this->shareManager->getShareById('nclink:'.$data['id']);
 
 		$request = $this->createRequest([]);
 		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
@@ -278,7 +278,7 @@ class ApiTest extends TestCase {
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
 		$this->assertEquals($url, $data['url']);
 
-		$this->shareManager->getShareById('ocinternal:'.$data['id']);
+		$this->shareManager->getShareById('nclink:'.$data['id']);
 
 		$request = $this->createRequest([]);
 		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
@@ -1045,7 +1045,7 @@ class ApiTest extends TestCase {
 		$ocs->updateShare($share2->getId());
 		$ocs->cleanup();
 
-		$share2 = $this->shareManager->getShareById('ocinternal:' . $share2->getId());
+		$share2 = $this->shareManager->getShareById('nclink:' . $share2->getId());
 		$this->assertNotNull($share2->getPassword());
 
 		$request = $this->createRequest(['password' => '']);
@@ -1053,7 +1053,7 @@ class ApiTest extends TestCase {
 		$ocs->updateShare($share2->getId());
 		$ocs->cleanup();
 
-		$share2 = $this->shareManager->getShareById('ocinternal:' . $share2->getId());
+		$share2 = $this->shareManager->getShareById('nclink:' . $share2->getId());
 		$this->assertNull($share2->getPassword());
 
 		$this->shareManager->deleteShare($share1);
@@ -1499,7 +1499,7 @@ class ApiTest extends TestCase {
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
 		$this->assertEquals($url, $data['url']);
 
-		$share = $this->shareManager->getShareById('ocinternal:'.$data['id']);
+		$share = $this->shareManager->getShareById('nclink:'.$data['id']);
 
 		$this->assertEquals($date, $share->getExpirationDate()->format('Y-m-d'));
 
@@ -1533,7 +1533,7 @@ class ApiTest extends TestCase {
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
 		$this->assertEquals($url, $data['url']);
 
-		$share = $this->shareManager->getShareById('ocinternal:'.$data['id']);
+		$share = $this->shareManager->getShareById('nclink:'.$data['id']);
 		$date->setTime(0,0,0);
 		$this->assertEquals($date, $share->getExpirationDate());
 
