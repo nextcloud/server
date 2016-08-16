@@ -622,6 +622,7 @@ class Users {
 				'used' => $storage['used'],
 				'total' => $storage['total'],
 				'relative' => $storage['relative'],
+				'quota' => $storage['quota'],
 			];
 		} catch (NotFoundException $ex) {
 			$data = [];
