@@ -180,10 +180,57 @@ class SMB extends Common {
 	 */
 	public function stat($path) {
 		$this->log('enter: '.__FUNCTION__."($path)");
-		$result = $this->formatInfo($this->getFileInfo($path));
+		if ($this->remoteIsShare() && $this->isRootDir($path)) { //mtime doesn't work for shares
+			$result = [
+				'mtime' => $this->shareMTime(),
+				'size' => 0,
+				'type' => 'dir'
+			];
+		} else {
+			$result = $this->formatInfo($this->getFileInfo($path));
+		}
 		return $this->leave(__FUNCTION__, $result);
 	}
 
+	/**
+	 * get the best guess for the modification time of the share
+	 *
+	 * @return array the first element of the array is the calculated mtime for the folder, and
+	 * the second is the list of readable files (the list contains the filename as key and the
+	 * mtime for the file as value)
+	 */
+	private function shareMTime() {
+		$this->log('enter: '.__FUNCTION__, Util::DEBUG);
+		$files = $this->share->dir($this->root);
+		$result = 0;
+		foreach ($files as $fileInfo) {
+			if ($fileInfo->getMTime() > $result) {
+				$result = $fileInfo->getMTime();
+			}
+		}
+		return $this->leave(__FUNCTION__, $result);
+	}
+	/**
+	 * Check if the path is our root dir (not the smb one)
+	 *
+	 * @param string $path the path
+	 * @return bool true if it's root, false if not
+	 */
+	private function isRootDir($path) {
+		$this->log('enter: '.__FUNCTION__."($path)", Util::DEBUG);
+		$result = $path === '' || $path === '/' || $path === '.';
+		return $this->leave(__FUNCTION__, $result);
+	}
+	/**
+	 * Check if our root points to a smb share
+	 *
+	 * @return bool true if our root points to a share false otherwise
+	 */
+	private function remoteIsShare() {
+		$this->log('enter: '.__FUNCTION__, Util::DEBUG);
+		$result = $this->share->getName() && (!$this->root || $this->root === '/');
+		return $this->leave(__FUNCTION__, $result);
+	}
 	/**
 	 * @param string $path
 	 * @return bool
