@@ -30,6 +30,7 @@
 
 namespace OC\Files\Storage;
 
+use Icewind\SMB\Exception\AlreadyExistsException;
 use Icewind\SMB\Exception\ConnectException;
 use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\ForbiddenException;
@@ -188,6 +189,39 @@ class SMB extends Common {
 		}
 	}
 
+	/**
+	 * Rename the files
+	 *
+	 * @param string $source the old name of the path
+	 * @param string $target the new name of the path
+	 * @return bool true if the rename is successful, false otherwise
+	 */
+	public function rename($source, $target) {
+		$this->log("enter: rename('$source', '$target')", Util::DEBUG);
+		try {
+			$result = $this->share->rename($this->root . $source, $this->root . $target);
+			$this->removeFromCache($this->root . $source);
+			$this->removeFromCache($this->root . $target);
+		} catch (AlreadyExistsException $e) {
+			$this->unlink($target);
+			$result = $this->share->rename($this->root . $source, $this->root . $target);
+			$this->removeFromCache($this->root . $source);
+			$this->removeFromCache($this->root . $target);
+			$this->swallow(__FUNCTION__, $e);
+		} catch (\Exception $e) {
+			$this->swallow(__FUNCTION__, $e);
+			$result = false;
+		}
+		return $this->leave(__FUNCTION__, $result);
+	}
+
+	private function removeFromCache($path) {
+		$path = trim($path, '/');
+		// TODO The CappedCache does not really clear by prefix. It just clears all.
+		//$this->dirCache->clear($path);
+		$this->statCache->clear($path);
+		//$this->xattrCache->clear($path);
+	}
 	/**
 	 * @param string $path
 	 * @return array
