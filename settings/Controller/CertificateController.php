@@ -86,10 +86,6 @@ class CertificateController extends Controller {
 	 */
 	private function addCertificate(ICertificateManager $certificateManager) {
 		$headers = [];
-		if ($this->request->isUserAgent([\OC\AppFramework\Http\Request::USER_AGENT_IE_8])) {
-			// due to upload iframe workaround, need to set content-type to text/plain
-			$headers['Content-Type'] = 'text/plain';
-		}
 
 		if ($this->isCertificateImportAllowed() === false) {
 			return new DataResponse(['message' => 'Individual certificate management disabled'], Http::STATUS_FORBIDDEN, $headers);
