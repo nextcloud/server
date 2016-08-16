@@ -51,12 +51,12 @@ class BackgroundJobTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->config = $this->getMock('OCP\IConfig');
-		$this->notificationManager = $this->getMock('OCP\Notification\IManager');
-		$this->groupManager = $this->getMock('OCP\IGroupManager');
-		$this->appManager = $this->getMock('OCP\App\IAppManager');
-		$this->client = $this->getMock('OCP\Http\Client\IClientService');
-		$this->urlGenerator = $this->getMock('OCP\IURLGenerator');
+		$this->config = $this->getMockBuilder('OCP\IConfig')->getMock();
+		$this->notificationManager = $this->getMockBuilder('OCP\Notification\IManager')->getMock();
+		$this->groupManager = $this->getMockBuilder('OCP\IGroupManager')->getMock();
+		$this->appManager = $this->getMockBuilder('OCP\App\IAppManager')->getMock();
+		$this->client = $this->getMockBuilder('OCP\Http\Client\IClientService')->getMock();
+		$this->urlGenerator = $this->getMockBuilder('OCP\IURLGenerator')->getMock();
 	}
 
 	/**
@@ -279,7 +279,7 @@ class BackgroundJobTest extends TestCase {
 		}
 
 		if ($createNotification) {
-			$notification = $this->getMock('OCP\Notification\INotification');
+			$notification = $this->getMockBuilder('OCP\Notification\INotification')->getMock();
 			$notification->expects($this->once())
 				->method('setApp')
 				->with('updatenotification')
@@ -380,7 +380,7 @@ class BackgroundJobTest extends TestCase {
 	 * @param string $version
 	 */
 	public function testDeleteOutdatedNotifications($app, $version) {
-		$notification = $this->getMock('OCP\Notification\INotification');
+		$notification = $this->getMockBuilder('OCP\Notification\INotification')->getMock();
 		$notification->expects($this->once())
 			->method('setApp')
 			->with('updatenotification')
@@ -408,7 +408,7 @@ class BackgroundJobTest extends TestCase {
 	protected function getUsers(array $userIds) {
 		$users = [];
 		foreach ($userIds as $uid) {
-			$user = $this->getMock('OCP\IUser');
+			$user = $this->getMockBuilder('OCP\IUser')->getMock();
 			$user->expects($this->any())
 				->method('getUID')
 				->willReturn($uid);
@@ -422,7 +422,7 @@ class BackgroundJobTest extends TestCase {
 	 * @return \OCP\IGroup|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function getGroup($gid) {
-		$group = $this->getMock('OCP\IGroup');
+		$group = $this->getMockBuilder('OCP\IGroup')->getMock();
 		$group->expects($this->any())
 			->method('getGID')
 			->willReturn($gid);
