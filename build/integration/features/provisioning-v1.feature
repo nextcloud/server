@@ -493,6 +493,65 @@ Feature: provisioning
 		And As an "admin"
 		And user "subadmin" is disabled
 
+	Scenario: a subadmin can add users to groups the subadmin is responsible for
+		Given As an "admin"
+		And user "subadmin" exists
+		And user "brand-new-user" exists
+		And group "new-group" exists
+		And Assure user "subadmin" is subadmin of group "new-group"
+		And As an "subadmin"
+		When sending "POST" to "/cloud/users/brand-new-user/groups" with
+			| groupid | new-group |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And user "brand-new-user" belongs to group "new-group"
+
+	Scenario: a subadmin cannot add users to groups the subadmin is not responsible for
+		Given As an "admin"
+		And user "other-subadmin" exists
+		And user "brand-new-user" exists
+		And group "new-group" exists
+		And group "other-group" exists
+		And Assure user "other-subadmin" is subadmin of group "other-group"
+		And As an "other-subadmin"
+		When sending "POST" to "/cloud/users/brand-new-user/groups" with
+			| groupid | new-group |
+		Then the OCS status code should be "104"
+		And the HTTP status code should be "200"
+		And As an "admin"
+		And user "brand-new-user" does not belongs to group "new-group"
+
+	Scenario: a subadmin can remove users to groups the subadmin is responsible for
+		Given As an "admin"
+		And user "subadmin" exists
+		And user "brand-new-user" exists
+		And group "new-group" exists
+		And user "brand-new-user" belongs to group "new-group"
+		And Assure user "subadmin" is subadmin of group "new-group"
+		And As an "subadmin"
+		When sending "DELETE" to "/cloud/users/brand-new-user/groups" with
+			| groupid | new-group |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And As an "admin"
+		And user "brand-new-user" does not belong to group "new-group"
+
+	Scenario: a subadmin cannot remove users to groups the subadmin is not responsible for
+		Given As an "admin"
+		And user "other-subadmin" exists
+		And user "brand-new-user" exists
+		And group "new-group" exists
+		And group "other-group" exists
+		And user "brand-new-user" belongs to group "new-group"
+		And Assure user "other-subadmin" is subadmin of group "other-group"
+		And As an "other-subadmin"
+		When sending "DELETE" to "/cloud/users/brand-new-user/groups" with
+			| groupid | new-group |
+		Then the OCS status code should be "104"
+		And the HTTP status code should be "200"
+		And As an "admin"
+		And user "brand-new-user" belongs to group "new-group"
+
 	Scenario: Making a web request with an enabled user
 	    Given As an "admin"
 		And user "user0" exists
