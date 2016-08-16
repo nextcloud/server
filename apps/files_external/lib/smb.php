@@ -318,10 +318,10 @@ class SMB extends Common {
 	 */
 	public function hasUpdated($path, $time) {
 		$this->log('enter: '.__FUNCTION__."($path, $time)");
-		if (!$path and $this->root == '/') {
-			// mtime doesn't work for shares, but giving the nature of the backend,
-			// doing a full update is still just fast enough
-			$result = true;
+		$stat = $this->stat($path);
+		if ($stat === false) {
+			Util::writeLog('wnd', 'hasUpdated failed -> storage not available', Util::ERROR);
+			throw $this->leave(__FUNCTION__, new StorageNotAvailableException());
 		} else {
 			$actualTime = $this->filemtime($path);
 			$result = $actualTime > $time;
