@@ -150,6 +150,26 @@ trait Provisioning {
 		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
+	/**
+	 * @Then /^check that user "([^"]*)" does not belong to group "([^"]*)"$/
+	 * @param string $user
+	 * @param string $group
+	 */
+	public function checkThatUserDoesNotBelongToGroup($user, $group) {
+		$fullUrl = $this->baseUrl . "v2.php/cloud/users/$user/groups";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		}
+
+		$this->response = $client->get($fullUrl, $options);
+		$respondedArray = $this->getArrayOfGroupsResponded($this->response);
+		sort($respondedArray);
+		PHPUnit_Framework_Assert::assertNotContains($group, $respondedArray);
+		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+	}
+
 	public function userBelongsToGroup($user, $group) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/users/$user/groups";
 		$client = new Client();
