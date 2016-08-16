@@ -97,7 +97,11 @@ class IconController extends Controller {
 		$svg = file_get_contents($image);
 		$color = $this->template->getMailHeaderColor();
 		$svg = $this->colorizeSvg($svg, $color);
-		return new DataDisplayResponse($svg, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
+
+		$response = new DataDisplayResponse($svg, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
+		$response->cacheFor(86400);
+		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		return $response;
 	}
 
 	/**
@@ -110,7 +114,6 @@ class IconController extends Controller {
 	 * @return StreamResponse|DataResponse
 	 */
 	public function getFavicon($app="core") {
-		// TODO: we need caching here
 		$icon = $this->renderAppIcon($app);
 		$icon->resizeImage(32, 32, Imagick::FILTER_LANCZOS, 1);
 		$icon->setImageFormat("png24");
@@ -131,7 +134,6 @@ class IconController extends Controller {
 	 * @return StreamResponse|DataResponse
 	 */
 	public function getTouchIcon($app="core") {
-		// TODO: we need caching here
 		$icon = $this->renderAppIcon($app);
 		$icon->resizeImage(512, 512, Imagick::FILTER_LANCZOS, 1);
 		$icon->setImageFormat("png24");
