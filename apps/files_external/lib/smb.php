@@ -150,9 +150,18 @@ class SMB extends Common {
 		$this->log('enter: '.__FUNCTION__."($path)");
 		try {
 			$path = $this->buildPath($path);
-			$result = $this->share->dir($path);
-			foreach ($result as $file) {
-				$this->statCache[$path . '/' . $file->getName()] = $file;
+			$result = [];
+			$children = $this->share->dir($path);
+			foreach ($children as $fileInfo) {
+				// check if the file is readable before adding it to the list
+				// can't use "isReadable" function here, use smb internals instead
+				if ($fileInfo->isHidden()) {
+					$this->log("{$fileInfo->getName()} isn't readable, skipping", Util::DEBUG);
+				} else {
+					$result[] = $fileInfo;
+					//remember entry so we can answer file_exists and filetype without a full stat
+					$this->statCache[$path . '/' . $fileInfo->getName()] = $fileInfo;
+				}
 			}
 		} catch (ConnectException $e) {
 			$ex = new StorageNotAvailableException(
