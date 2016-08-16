@@ -36,6 +36,7 @@ OC.L10N.register(
     "No files in here" : "Žádné soubory",
     "No entries found in this folder" : "V tomto adresáři nebylo nic nalezeno",
     "Size" : "Velikost",
-    "Modified" : "Upraveno"
+    "Modified" : "Upraveno",
+    "%s (not-assignable)" : "%s (nepřiřaditelné)"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

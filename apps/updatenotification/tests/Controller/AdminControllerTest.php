@@ -65,7 +65,8 @@ class AdminControllerTest extends TestCase {
 		$this->config = $this->getMockBuilder('\\OCP\\IConfig')->getMock();
 		$this->timeFactory = $this->getMockBuilder('\\OCP\\AppFramework\\Utility\\ITimeFactory')->getMock();
 		$this->l10n = $this->getMockBuilder('\\OCP\\IL10N')->getMock();
-		$this->updateChecker = $this->getMockBuilder('\\OCA\\UpdateNotification\\UpdateChecker')->disableOriginalConstructor()->getMock();
+		$this->updateChecker = $this->getMockBuilder('\\OCA\\UpdateNotification\\UpdateChecker')
+			->disableOriginalConstructor()->getMock();
 		$this->dateTimeFormatter = $this->getMockBuilder('\\OCP\\IDateTimeFormatter')->getMock();
 
 		$this->adminController = new AdminController(

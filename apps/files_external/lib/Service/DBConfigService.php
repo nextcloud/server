@@ -208,7 +208,7 @@ class DBConfigService {
 				'type' => $builder->createNamedParameter($type, IQueryBuilder::PARAM_INT)
 			]);
 		$query->execute();
-		return (int)$this->connection->lastInsertId('external_mounts');
+		return (int)$this->connection->lastInsertId('*PREFIX*external_mounts');
 	}
 
 	/**

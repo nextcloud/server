@@ -9,6 +9,7 @@
     "Trusted Servers" : "Servidores confiáveis",
     "+ Add Nextcloud server" : "+ Adicionar servidor Nextcloud",
     "Nextcloud Server" : "Servidor Nextcloud",
+    "Server added to the list of trusted Nextclouds" : "Adicionado a lista de servidores confiáveis.",
     "No Nextcloud server found" : "Servidor Nextcloud não encontrado",
     "Trusted Nextcloud Servers" : "Servidores Nextcloud confiáveis"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

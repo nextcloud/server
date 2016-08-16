@@ -303,6 +303,11 @@ OC.L10N.register(
     "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Wenn du das Projekt unterstützen möchtest\n⇥⇥<a href=\"https://nextcloud.com/contribute\"\n⇥⇥⇥target=\"_blank\" rel=\"noreferrer\">hilf uns bei der Weiterentwicklung</a>\n⇥⇥oder\n⇥⇥<a href=\"https://nextcloud.com/contribute\"\n⇥⇥⇥target=\"_blank\" rel=\"noreferrer\">empfehle es weiter</a>!",
     "Show First Run Wizard again" : "Den Einrichtungsassistenten erneut anzeigen",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Entwickelt von der {communityopen}Nextcloud community{linkclose}, der {githubopen}Quellcode{linkclose} ist lizensiert unter  {licenseopen}AGPL{linkclose}-Lizenz.",
+    "Follow us on Google Plus!" : "Folgen Sie uns zu Google Plus!",
+    "Like our facebook page!" : "Like uns auf unserer Facebook-Seite!",
+    "Subscribe to our twitter channel!" : "Abonniere unseren Twitter-Kanal!",
+    "Subscribe to our news feed!" : "Abonniere unseren RSS-Feed!",
+    "Subscribe to our newsletter!" : "Abonnieren Sie unseren Newsletter!",
     "Show storage location" : "Speicherort anzeigen",
     "Show last log in" : "Letzte Anmeldung anzeigen",
     "Show user backend" : "Benutzer-Backend anzeigen",
@@ -347,7 +352,7 @@ OC.L10N.register(
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" href=\"%s\">documentation ↗</a>." : "Um zu einer anderen Datenbank zu migrieren, benutze bitte die Kommandozeile: 'occ db:convert-type', oder in die <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">Dokumentation ↗</a> schauen.",
     "This app has no minimum Nextcloud version assigned. This will be an error in Nextcloud 11 and later." : "Für diese App wurde keine untere Versionsgrenze für Nextcloud gesetzt. Dies wird zukünftig als Fehler behandelt.",
     "This app has no maximum Nextcloud version assigned. This will be an error in Nextcloud 11 and later." : "Für diese App wurde keine obere Versionsgrenze für Nextcloud gesetzt. Dies wird zukünftig als Fehler behandelt.",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://help.nextcloud.com/\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">help other users</a>!" : "Wenn du das Projekt unterstützen möchtest\n⇥⇥<a href=\"https://nextcloud.com/contribute\"\n⇥⇥⇥target=\"_blank\" rel=\"noreferrer\">hilf uns bei der Weiterentwicklung</a>\n⇥⇥oder\n⇥⇥<a href=\"https://nextcloud.com/contribute\"\n⇥⇥⇥target=\"_blank\" rel=\"noreferrer\">empfehle es weiter</a>!",
+    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://help.nextcloud.com/\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">help other users</a>!" : "Wenn du das Projekt unterstützen möchtest\n⇥⇥<a href=\"https://nextcloud.com/contribute\"\n⇥⇥⇥target=\"_blank\" rel=\"noreferrer\">hilf uns bei der Weiterentwicklung</a>\n⇥⇥oder\n⇥⇥<a href=\"https://help.nextcloud.com/\"\n⇥⇥⇥target=\"_blank\" rel=\"noreferrer\">hilf anderen Nutzern</a>!",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "Entwickelt von der {communityopen}Nextcloud Community{linkclose}. Der {githubopen}Quellcode{linkclose} ist unter {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose} verfügbar."
 },
 "nplurals=2; plural=(n != 1);");
