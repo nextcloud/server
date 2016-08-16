@@ -177,10 +177,15 @@ class SMB extends Common {
 	 * @return array
 	 */
 	protected function formatInfo($info) {
-		return array(
+		$result = [
 			'size' => $info->getSize(),
-			'mtime' => $info->getMTime()
-		);
+			'mtime' => $info->getMTime(),
+		];
+		if ($info->isDirectory()) {
+			$result['type'] = 'dir';
+		} else {
+			$result['type'] = 'file';
+		}
 	}
 
 	/**
