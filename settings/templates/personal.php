@@ -165,6 +165,38 @@ if($_['passwordChangeSupported']) {
 	<?php endif; ?>
 </form>
 
+
+<div id="clientsbox" class="section clientsbox">
+	<h2><?php p($l->t('Get the apps to sync your files'));?></h2>
+	<a href="<?php p($_['clients']['desktop']); ?>" rel="noreferrer" target="_blank">
+		<img src="<?php print_unescaped(image_path('core', 'desktopapp.svg')); ?>"
+			 alt="<?php p($l->t('Desktop client'));?>" />
+	</a>
+	<a href="<?php p($_['clients']['android']); ?>" rel="noreferrer" target="_blank">
+		<img src="<?php print_unescaped(image_path('core', 'googleplay.png')); ?>"
+			 alt="<?php p($l->t('Android app'));?>" />
+	</a>
+	<a href="<?php p($_['clients']['ios']); ?>" rel="noreferrer" target="_blank">
+		<img src="<?php print_unescaped(image_path('core', 'appstore.svg')); ?>"
+			 alt="<?php p($l->t('iOS app'));?>" />
+	</a>
+
+	<?php if (OC_Util::getEditionString() === ''): ?>
+		<p>
+			<?php print_unescaped($l->t('If you want to support the project
+		<a href="https://nextcloud.com/contribute"
+			target="_blank" rel="noreferrer">join development</a>
+		<or></or>
+		<a href="https://nextcloud.com/contribute"
+			target="_blank" rel="noreferrer">spread the word</a>!'));?>
+		</p>
+	<?php endif; ?>
+
+	<?php if(OC_APP::isEnabled('firstrunwizard')) {?>
+		<p><a class="button" href="#" id="showWizard"><?php p($l->t('Show First Run Wizard again'));?></a></p>
+	<?php }?>
+</div>
+
 <div id="sessions" class="section">
 	<h2><?php p($l->t('Sessions'));?></h2>
 	<span class="hidden-when-empty"><?php p($l->t('Web, desktop and mobile clients currently logged in to your account.'));?></span>
@@ -215,37 +247,6 @@ if($_['passwordChangeSupported']) {
 			<button id="app-password-hide" class="button"><?php p($l->t('Done')); ?></button>
 		</div>
 	</div>
-</div>
-
-<div id="clientsbox" class="section clientsbox">
-	<h2><?php p($l->t('Get the apps to sync your files'));?></h2>
-	<a href="<?php p($_['clients']['desktop']); ?>" rel="noreferrer" target="_blank">
-		<img src="<?php print_unescaped(image_path('core', 'desktopapp.svg')); ?>"
-			alt="<?php p($l->t('Desktop client'));?>" />
-	</a>
-	<a href="<?php p($_['clients']['android']); ?>" rel="noreferrer" target="_blank">
-		<img src="<?php print_unescaped(image_path('core', 'googleplay.png')); ?>"
-			alt="<?php p($l->t('Android app'));?>" />
-	</a>
-	<a href="<?php p($_['clients']['ios']); ?>" rel="noreferrer" target="_blank">
-		<img src="<?php print_unescaped(image_path('core', 'appstore.svg')); ?>"
-			alt="<?php p($l->t('iOS app'));?>" />
-	</a>
-
-	<?php if (OC_Util::getEditionString() === ''): ?>
-	<p>
-		<?php print_unescaped($l->t('If you want to support the project
-		<a href="https://nextcloud.com/contribute"
-			target="_blank" rel="noreferrer">join development</a>
-		or
-		<a href="https://nextcloud.com/contribute"
-			target="_blank" rel="noreferrer">spread the word</a>!'));?>
-	</p>
-	<?php endif; ?>
-
-	<?php if(OC_APP::isEnabled('firstrunwizard')) {?>
-	<p><a class="button" href="#" id="showWizard"><?php p($l->t('Show First Run Wizard again'));?></a></p>
-	<?php }?>
 </div>
 
 <?php foreach($_['forms'] as $form) {
