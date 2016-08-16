@@ -504,6 +504,7 @@ Feature: provisioning
 			| groupid | new-group |
 		Then the OCS status code should be "100"
 		And the HTTP status code should be "200"
+		And As an "admin"
 		And check that user "brand-new-user" belongs to group "new-group"
 
 	Scenario: a subadmin cannot add users to groups the subadmin is not responsible for
