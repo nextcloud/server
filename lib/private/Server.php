@@ -629,7 +629,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new Manager();
 		});
 		$this->registerService('CapabilitiesManager', function (Server $c) {
-			$manager = new \OC\CapabilitiesManager();
+			$manager = new \OC\CapabilitiesManager($c->getLogger());
 			$manager->registerCapability(function () use ($c) {
 				return new \OC\OCS\CoreCapabilities($c->getConfig());
 			});

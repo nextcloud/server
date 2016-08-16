@@ -21,14 +21,29 @@
 
 namespace Test;
 
+use OC\CapabilitiesManager;
+use OCP\AppFramework\QueryException;
+use OCP\Capabilities\ICapability;
+use OCP\ILogger;
+
 class CapabilitiesManagerTest extends TestCase {
+
+	/** @var CapabilitiesManager */
+	private $manager;
+
+	/** @var ILogger */
+	private $logger;
+
+	public function setUp() {
+		$this->logger = $this->getMockBuilder('OCP\ILogger')->getMock();
+		$this->manager = new CapabilitiesManager($this->logger);
+	}
 
 	/**
 	 * Test no capabilities
 	 */
 	public function testNoCapabilities() {
-		$manager = new \OC\CapabilitiesManager();
-		$res = $manager->getCapabilities();
+		$res = $this->manager->getCapabilities();
 		$this->assertEmpty($res);
 	}
 
@@ -36,13 +51,11 @@ class CapabilitiesManagerTest extends TestCase {
 	 * Test a valid capabilitie
 	 */
 	public function testValidCapability() {
-		$manager = new \OC\CapabilitiesManager();
-
-		$manager->registerCapability(function() {
+		$this->manager->registerCapability(function() {
 			return new SimpleCapability();
 		});
 
-		$res = $manager->getCapabilities();
+		$res = $this->manager->getCapabilities();
 		$this->assertEquals(['foo' => 1], $res);
 	}
 
@@ -52,13 +65,11 @@ class CapabilitiesManagerTest extends TestCase {
 	 * @expectedExceptionMessage The given Capability (Test\NoCapability) does not implement the ICapability interface
 	 */
 	public function testNoICapability() {
-		$manager = new \OC\CapabilitiesManager();
-
-		$manager->registerCapability(function() {
+		$this->manager->registerCapability(function() {
 			return new NoCapability();
 		});
 
-		$res = $manager->getCapabilities();
+		$res = $this->manager->getCapabilities();
 		$this->assertEquals([], $res);
 	}
 
@@ -66,19 +77,17 @@ class CapabilitiesManagerTest extends TestCase {
 	 * Test a bunch of merged Capabilities
 	 */
 	public function testMergedCapabilities() {
-		$manager = new \OC\CapabilitiesManager();
-
-		$manager->registerCapability(function() {
+		$this->manager->registerCapability(function() {
 			return new SimpleCapability();
 		});
-		$manager->registerCapability(function() {
+		$this->manager->registerCapability(function() {
 			return new SimpleCapability2();
 		});
-		$manager->registerCapability(function() {
+		$this->manager->registerCapability(function() {
 			return new SimpleCapability3();
 		});
 
-		$res = $manager->getCapabilities();
+		$res = $this->manager->getCapabilities();
 		$expected = [
 			'foo' => 1,
 			'bar' => [
@@ -94,16 +103,14 @@ class CapabilitiesManagerTest extends TestCase {
 	 * Test deep identical capabilities
 	 */
 	public function testDeepIdenticalCapabilities() {
-		$manager = new \OC\CapabilitiesManager();
-
-		$manager->registerCapability(function() {
+		$this->manager->registerCapability(function() {
 			return new DeepCapability();
 		});
-		$manager->registerCapability(function() {
+		$this->manager->registerCapability(function() {
 			return new DeepCapability();
 		});
 
-		$res = $manager->getCapabilities();
+		$res = $this->manager->getCapabilities();
 		$expected = [
 			'foo' => [
 				'bar' => [
@@ -114,9 +121,22 @@ class CapabilitiesManagerTest extends TestCase {
 		
 		$this->assertEquals($expected, $res);
 	}
+
+	public function testInvalidCapability() {
+		$this->manager->registerCapability(function () {
+			throw new QueryException();
+		});
+
+		$this->logger->expects($this->once())
+			->method('error');
+
+		$res = $this->manager->getCapabilities();
+
+		$this->assertEquals([], $res);
+	}
 }
 
-class SimpleCapability implements \OCP\Capabilities\ICapability {
+class SimpleCapability implements ICapability {
 	public function getCapabilities() {
 		return [
 			'foo' => 1
@@ -124,7 +144,7 @@ class SimpleCapability implements \OCP\Capabilities\ICapability {
 	}
 }
 
-class SimpleCapability2 implements \OCP\Capabilities\ICapability {
+class SimpleCapability2 implements ICapability {
 	public function getCapabilities() {
 		return [
 			'bar' => ['x' => 1]
@@ -132,7 +152,7 @@ class SimpleCapability2 implements \OCP\Capabilities\ICapability {
 	}
 }
 
-class SimpleCapability3 implements \OCP\Capabilities\ICapability {
+class SimpleCapability3 implements ICapability {
 	public function getCapabilities() {
 		return [
 			'bar' => ['y' => 2]
@@ -148,7 +168,7 @@ class NoCapability {
 	}
 }
 
-class DeepCapability implements \OCP\Capabilities\ICapability {
+class DeepCapability implements ICapability {
 	public function getCapabilities() {
 		return [
 			'foo' => [
@@ -159,4 +179,3 @@ class DeepCapability implements \OCP\Capabilities\ICapability {
 		];
 	}
 }
-

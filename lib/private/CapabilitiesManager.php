@@ -22,14 +22,21 @@
 namespace OC;
 
 
+use OCP\AppFramework\QueryException;
 use OCP\Capabilities\ICapability;
+use OCP\ILogger;
 
 class CapabilitiesManager {
 
-	/**
-	 * @var \Closure[]
-	 */
+	/** @var \Closure[] */
 	private $capabilities = array();
+
+	/** @var ILogger */
+	private $logger;
+
+	public function __construct(ILogger $logger) {
+		$this->logger = $logger;
+	}
 
 	/**
 	 * Get an array of al the capabilities that are registered at this manager
@@ -40,7 +47,13 @@ class CapabilitiesManager {
 	public function getCapabilities() {
 		$capabilities = [];
 		foreach($this->capabilities as $capability) {
-			$c = $capability();
+			try {
+				$c = $capability();
+			} catch (QueryException $e) {
+				$this->logger->error('CapabilitiesManager: {message}', ['app' => 'core', 'message' => $e->getMessage()]);
+				continue;
+			}
+
 			if ($c instanceof ICapability) {
 				$capabilities = array_replace_recursive($capabilities, $c->getCapabilities());
 			} else {
