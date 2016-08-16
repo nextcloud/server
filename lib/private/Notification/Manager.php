@@ -33,7 +33,7 @@ class Manager implements IManager {
 	/** @var IApp[] */
 	protected $apps;
 
-	/** @var INotifier */
+	/** @var INotifier[] */
 	protected $notifiers;
 
 	/** @var array[] */
