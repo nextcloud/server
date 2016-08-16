@@ -195,18 +195,6 @@ class ViewController extends Controller {
 		\OCP\Util::addscript('files', 'keyboardshortcuts');
 		\OCP\Util::addscript('files', 'navigation');
 
-		// if IE8 and "?dir=path&view=someview" was specified, reformat the URL to use a hash like "#?dir=path&view=someview"
-		$isIE8 = $this->request->isUserAgent([Request::USER_AGENT_IE_8]);
-		if ($isIE8 && ($dir !== '' || $view !== '')) {
-			$dir = !empty($dir) ? $dir : '/';
-			$view = !empty($view) ? $view : 'files';
-			$hash = '#?dir=' . \OCP\Util::encodePath($dir);
-			if ($view !== 'files') {
-				$hash .= '&view=' . urlencode($view);
-			}
-			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index') . $hash);
-		}
-
 		// mostly for the home storage's free space
 		// FIXME: Make non static
 		$storageInfo = $this->getStorageInfo();
