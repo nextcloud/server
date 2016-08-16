@@ -48,11 +48,24 @@ class Encryption implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
+		$encryptionModules = $this->manager->getEncryptionModules();
+		$defaultEncryptionModuleId = $this->manager->getDefaultEncryptionModuleId();
+		$encryptionModuleList = [];
+		foreach ($encryptionModules as $module) {
+			$encryptionModuleList[$module['id']]['displayName'] = $module['displayName'];
+			$encryptionModuleList[$module['id']]['default'] = false;
+			if ($module['id'] === $defaultEncryptionModuleId) {
+				$encryptionModuleList[$module['id']]['default'] = true;
+			}
+		}
+
 		$parameters = [
 			// Encryption API
 			'encryptionEnabled'       => $this->manager->isEnabled(),
 			'encryptionReady'         => $this->manager->isReady(),
 			'externalBackendsEnabled' => count($this->userManager->getBackends()) > 1,
+			// Modules
+			'encryptionModules'       => $encryptionModuleList,
 		];
 
 		return new TemplateResponse('settings', 'admin/encryption', $parameters, '');
