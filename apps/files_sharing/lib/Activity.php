@@ -276,7 +276,7 @@ class Activity implements IExtension {
 				return (string) $l->t('Downloaded via public link');
 			case self::SUBJECT_SHARED_FOLDER_DOWNLOADED:
 			case self::SUBJECT_SHARED_FILE_DOWNLOADED:
-				return (string) $l->t('%1$s was downloaded by %2$s (%3$s)', $params);
+				return (string) $l->t('Downloaded by %2$s (%3$s)', $params);
 			
 			case self::SUBJECT_SHARED_USER_SELF:
 				return (string) $l->t('Shared with %2$s', $params);
