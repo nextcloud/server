@@ -27,7 +27,7 @@ use OC\Settings\Admin\Logging;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use Test\TestCase;
-use OC\Log\File as LogFile;
+use OC\Log\Owncloud as LogFile;
 
 class LoggingTest extends TestCase {
 	/** @var Logging */

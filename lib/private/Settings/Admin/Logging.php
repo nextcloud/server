@@ -23,7 +23,7 @@
 
 namespace OC\Settings\Admin;
 
-use OC\Log\File as LogFile;
+use OC\Log\Owncloud as LogFile;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\Settings\ISettings;
