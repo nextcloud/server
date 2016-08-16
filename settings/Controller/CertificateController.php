@@ -82,7 +82,7 @@ class CertificateController extends Controller {
 	 * Add a new root certificate to a trust store
 	 *
 	 * @param ICertificateManager $certificateManager
-	 * @return array
+	 * @return DataResponse
 	 */
 	private function addCertificate(ICertificateManager $certificateManager) {
 		$headers = [];
