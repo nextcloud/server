@@ -52,25 +52,60 @@ class SharingTest extends TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('getAppValue')
-			->with('core', 'shareapi_enabled', 'yes')
+			->with('core', 'shareapi_allow_group_sharing', 'yes')
 			->willReturn('yes');
 		$this->config
 			->expects($this->at(2))
 			->method('getAppValue')
+			->with('core', 'shareapi_allow_links', 'yes')
+			->willReturn('yes');
+		$this->config
+			->expects($this->at(3))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_mail_notification', 'no')
+			->willReturn('no');
+		$this->config
+			->expects($this->at(4))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_public_notification', 'no')
+			->willReturn('no');
+		$this->config
+			->expects($this->at(5))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_public_upload', 'yes')
+			->willReturn('yes');
+		$this->config
+			->expects($this->at(6))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_resharing', 'yes')
+			->willReturn('yes');
+		$this->config
+			->expects($this->at(7))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes')
+			->willReturn('yes');
+		$this->config
+			->expects($this->at(8))
+			->method('getAppValue')
+			->with('core', 'shareapi_enabled', 'yes')
+			->willReturn('yes');
+		$this->config
+			->expects($this->at(9))
+			->method('getAppValue')
 			->with('core', 'shareapi_default_expire_date', 'no')
 			->willReturn('no');
 		$this->config
-			->expects($this->at(3))
+			->expects($this->at(10))
 			->method('getAppValue')
 			->with('core', 'shareapi_expire_after_n_days', '7')
 			->willReturn('7');
 		$this->config
-			->expects($this->at(4))
+			->expects($this->at(11))
 			->method('getAppValue')
 			->with('core', 'shareapi_enforce_expire_date', 'no')
 			->willReturn('no');
 		$this->config
-			->expects($this->at(5))
+			->expects($this->at(12))
 			->method('getAppValue')
 			->with('core', 'shareapi_exclude_groups', 'no')
 			->willReturn('no');
@@ -79,12 +114,21 @@ class SharingTest extends TestCase {
 			'settings',
 			'admin/sharing',
 			[
-				'shareAPIEnabled'           => 'yes',
-				'shareDefaultExpireDateSet' => 'no',
-				'shareExpireAfterNDays'     => '7',
-				'shareEnforceExpireDate'    => 'no',
-				'shareExcludeGroups'        => false,
-				'shareExcludedGroupsList'   => '',
+				'allowGroupSharing'               => 'yes',
+				'allowLinks'                      => 'yes',
+				'allowMailNotification'           => 'no',
+				'allowPublicMailNotification'     => 'no',
+				'allowPublicUpload'               => 'yes',
+				'allowResharing'                  => 'yes',
+				'allowShareDialogUserEnumeration' => 'yes',
+				'enforceLinkPassword'             => false,
+				'onlyShareWithGroupMembers'       => false,
+				'shareAPIEnabled'                 => 'yes',
+				'shareDefaultExpireDateSet'       => 'no',
+				'shareExpireAfterNDays'           => '7',
+				'shareEnforceExpireDate'          => 'no',
+				'shareExcludeGroups'              => false,
+				'shareExcludedGroupsList'         => '',
 			],
 			''
 		);
@@ -101,25 +145,60 @@ class SharingTest extends TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('getAppValue')
-			->with('core', 'shareapi_enabled', 'yes')
+			->with('core', 'shareapi_allow_group_sharing', 'yes')
 			->willReturn('yes');
 		$this->config
 			->expects($this->at(2))
 			->method('getAppValue')
+			->with('core', 'shareapi_allow_links', 'yes')
+			->willReturn('yes');
+		$this->config
+			->expects($this->at(3))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_mail_notification', 'no')
+			->willReturn('no');
+		$this->config
+			->expects($this->at(4))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_public_notification', 'no')
+			->willReturn('no');
+		$this->config
+			->expects($this->at(5))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_public_upload', 'yes')
+			->willReturn('yes');
+		$this->config
+			->expects($this->at(6))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_resharing', 'yes')
+			->willReturn('yes');
+		$this->config
+			->expects($this->at(7))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes')
+			->willReturn('yes');
+		$this->config
+			->expects($this->at(8))
+			->method('getAppValue')
+			->with('core', 'shareapi_enabled', 'yes')
+			->willReturn('yes');
+		$this->config
+			->expects($this->at(9))
+			->method('getAppValue')
 			->with('core', 'shareapi_default_expire_date', 'no')
 			->willReturn('no');
 		$this->config
-			->expects($this->at(3))
+			->expects($this->at(10))
 			->method('getAppValue')
 			->with('core', 'shareapi_expire_after_n_days', '7')
 			->willReturn('7');
 		$this->config
-			->expects($this->at(4))
+			->expects($this->at(11))
 			->method('getAppValue')
 			->with('core', 'shareapi_enforce_expire_date', 'no')
 			->willReturn('no');
 		$this->config
-			->expects($this->at(5))
+			->expects($this->at(12))
 			->method('getAppValue')
 			->with('core', 'shareapi_exclude_groups', 'no')
 			->willReturn('yes');
@@ -128,12 +207,21 @@ class SharingTest extends TestCase {
 			'settings',
 			'admin/sharing',
 			[
-				'shareAPIEnabled'           => 'yes',
-				'shareDefaultExpireDateSet' => 'no',
-				'shareExpireAfterNDays'     => '7',
-				'shareEnforceExpireDate'    => 'no',
-				'shareExcludeGroups'        => true,
-				'shareExcludedGroupsList'   => 'NoSharers|OtherNoSharers',
+				'allowGroupSharing'               => 'yes',
+				'allowLinks'                      => 'yes',
+				'allowMailNotification'           => 'no',
+				'allowPublicMailNotification'     => 'no',
+				'allowPublicUpload'               => 'yes',
+				'allowResharing'                  => 'yes',
+				'allowShareDialogUserEnumeration' => 'yes',
+				'enforceLinkPassword'             => false,
+				'onlyShareWithGroupMembers'       => false,
+				'shareAPIEnabled'                 => 'yes',
+				'shareDefaultExpireDateSet'       => 'no',
+				'shareExpireAfterNDays'           => '7',
+				'shareEnforceExpireDate'          => 'no',
+				'shareExcludeGroups'              => true,
+				'shareExcludedGroupsList'         => 'NoSharers|OtherNoSharers',
 			],
 			''
 		);
