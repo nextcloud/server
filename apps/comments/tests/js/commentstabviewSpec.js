@@ -328,12 +328,12 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			var $formRow = view.$el.find('.newCommentRow.comment[data-id=1]');
 			expect($formRow.length).toEqual(1);
 
-			$formRow.find('textarea').val('modified\nmessage');
+			$formRow.find('input').val('modified message');
 			$formRow.find('form').submit();
 
 			expect(saveStub.calledOnce).toEqual(true);
 			expect(saveStub.lastCall.args[0]).toEqual({
-				message: 'modified\nmessage'
+				message: 'modified message'
 			});
 
 			var model = view.collection.get(1);
