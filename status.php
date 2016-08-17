@@ -37,7 +37,7 @@ try {
 	$maintenance = (bool) $systemConfig->getValue('maintenance', false);
 	# see core/lib/private/legacy/defaults.php and core/themes/example/defaults.php
 	# for description and defaults
-	$defaults = new \OC_Defaults();
+	$defaults = new \OCP\Defaults();
 	$values=array(
 		'installed'=>$installed,
 		'maintenance' => $maintenance,
