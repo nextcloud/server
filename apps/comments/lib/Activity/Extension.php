@@ -82,8 +82,8 @@ class Extension implements IExtension {
 
 		return array(
 			self::APP_NAME => [
-				'desc' => (string) $l->t('<strong>Comments</strong> for files <em>(always listed in stream)</em>'),
-				'methods' => [self::METHOD_MAIL], // self::METHOD_STREAM is forced true by the default value
+				'desc' => (string) $l->t('<strong>Comments</strong> for files'),
+				'methods' => [self::METHOD_MAIL, self::METHOD_STREAM],
 			],
 		);
 	}
@@ -278,11 +278,7 @@ class Extension implements IExtension {
 	 */
 	public function filterNotificationTypes($types, $filter) {
 		if ($filter === self::APP_NAME) {
-			return [self::APP_NAME];
-		}
-		if (in_array($filter, ['all', 'by', 'self', 'filter'])) {
-			$types[] = self::APP_NAME;
-			return $types;
+			return array_intersect($types, [self::APP_NAME]);
 		}
 		return false;
 	}
