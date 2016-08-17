@@ -60,7 +60,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	public function getConfig() {
 		$data = [
 			'version' => '1.7',
-			'website' => 'ownCloud',
+			'website' => 'Nextcloud',
 			'host' => $this->request->getServerHost(),
 			'contact' => '',
 			'ssl' => 'false',
