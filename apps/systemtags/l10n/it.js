@@ -2,6 +2,9 @@ OC.L10N.register(
     "systemtags",
     {
     "Tags" : "Etichette",
+    "Update" : "Aggiorna",
+    "Create" : "Crea",
+    "Select tag…" : "Seleziona etichetta...",
     "Tagged files" : "File etichettati",
     "Select tags to filter by" : "Seleziona le etichette per filtrare",
     "Please select tags to filter by" : "Seleziona le etichette per filtrare",
@@ -23,10 +26,17 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s ha rimosso l'etichetta di sistema %3$s da %2$s",
     "%s (restricted)" : "%s (limitato)",
     "%s (invisible)" : "%s (invisibile)",
+    "Collaborative tags" : "Etichette collaborative",
+    "Name" : "Nome",
+    "Delete" : "Elimina",
+    "Public" : "Pubblico",
+    "Restricted" : "Limitato",
+    "Invisible" : "invisibile",
+    "Reset" : "Ripristina",
     "No files in here" : "Qui non c'è alcun file",
     "No entries found in this folder" : "Nessuna voce trovata in questa cartella",
-    "Name" : "Nome",
     "Size" : "Dimensione",
-    "Modified" : "Modificato"
+    "Modified" : "Modificato",
+    "%s (not-assignable)" : "%s (non assegnabile)"
 },
 "nplurals=2; plural=(n != 1);");

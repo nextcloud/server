@@ -96,10 +96,6 @@
     "OpenStack Object Storage" : "Depozitë OpenStack Object",
     "Service name" : "Emër shërbimi",
     "Request timeout (seconds)" : "Kohë skadimi kërkese (sekonda)",
-    "<b>Note:</b> " : "<b>Shënim:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Shënim:</b> S’është aktivizuar ose instaluar mbulimi i cURL-ve në PHP. Montimi i %s s’është i mundur. Ju lutemi, kërkojini përgjegjësit të sistemit tuaj ta instalojë.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Shënim:</b> S’është aktivizuar ose instaluar mbulimi i FTP-së në PHP. Montimi i %s s’është i mundur. Ju lutemi, kërkojini përgjegjësit të sistemit tuaj ta instalojë.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Shënim:</b> S’është instaluar \"%s\". Montimi i %s s’është i mundur. Ju lutemi, kërkojini përgjegjësit të sistemit tuaj ta instalojë.",
     "No external storage configured" : "Pa depozita të jashtme të formësuara",
     "You can add external storages in the personal settings" : "Depozita të jashtme mund të shtoni që prej rregullimeve personale",
     "Name" : "Emër",
@@ -111,7 +107,6 @@
     "Check for changes" : "Kontrollo për ndryshime",
     "Never" : "Kurrë",
     "Once every direct access" : "Çdo herë pas hyrjesh të drejtpërdrejta",
-    "External Storage" : "Depozitë e Jashtme",
     "Folder name" : "Emër dosjeje",
     "Authentication" : "Mirëfilltësim",
     "Configuration" : "Formësim",
@@ -120,6 +115,11 @@
     "Advanced settings" : "Rregullime të mëtejshme",
     "Delete" : "Fshije",
     "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme",
-    "Allow users to mount the following external storage" : "Lejoju përdoruesve të montojnë depozitën e jashtme vijuese"
+    "Allow users to mount the following external storage" : "Lejoju përdoruesve të montojnë depozitën e jashtme vijuese",
+    "<b>Note:</b> " : "<b>Shënim:</b> ",
+    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Shënim:</b> S’është aktivizuar ose instaluar mbulimi i cURL-ve në PHP. Montimi i %s s’është i mundur. Ju lutemi, kërkojini përgjegjësit të sistemit tuaj ta instalojë.",
+    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Shënim:</b> S’është aktivizuar ose instaluar mbulimi i FTP-së në PHP. Montimi i %s s’është i mundur. Ju lutemi, kërkojini përgjegjësit të sistemit tuaj ta instalojë.",
+    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Shënim:</b> S’është instaluar \"%s\". Montimi i %s s’është i mundur. Ju lutemi, kërkojini përgjegjësit të sistemit tuaj ta instalojë.",
+    "External Storage" : "Depozitë e Jashtme"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

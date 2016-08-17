@@ -79,10 +79,6 @@ OC.L10N.register(
     "OpenStack Object Storage" : "OpenStack 物件儲存",
     "Service name" : "服務名稱",
     "Request timeout (seconds)" : "請求超時 (秒)",
-    "<b>Note:</b> " : "<b>警告:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>警告:</b> PHP 並未啓用 Curl 的支援，因此無法掛載 %s 。請洽您的系統管理員將其安裝並啓用。",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>警告</b>：PHP 並未啓用 FTP 的支援，因此無法掛載 %s，請洽您的系統管理員將其安裝並啓用。",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>警告</b>並未安裝 \"%s\"，因此無法掛載 %s。請洽您的系統管理員將其安裝並啓用。",
     "No external storage configured" : "目前尚未配置任何外部儲存",
     "You can add external storages in the personal settings" : "在個人設定裡您可以自行加入外部儲存設定",
     "Name" : "名稱",
@@ -92,7 +88,6 @@ OC.L10N.register(
     "Enable previews" : "啟動預覽",
     "Check for changes" : "檢查變動",
     "Never" : "絕不",
-    "External Storage" : "外部儲存",
     "Folder name" : "資料夾名稱",
     "Authentication" : "驗證",
     "Configuration" : "設定",
@@ -101,6 +96,11 @@ OC.L10N.register(
     "Advanced settings" : "進階設定",
     "Delete" : "刪除",
     "Allow users to mount external storage" : "允許使用者能自行掛載外部儲存",
-    "Allow users to mount the following external storage" : "允許使用者自行掛載以下的外部儲存"
+    "Allow users to mount the following external storage" : "允許使用者自行掛載以下的外部儲存",
+    "<b>Note:</b> " : "<b>警告:</b> ",
+    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>警告:</b> PHP 並未啓用 Curl 的支援，因此無法掛載 %s 。請洽您的系統管理員將其安裝並啓用。",
+    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>警告</b>：PHP 並未啓用 FTP 的支援，因此無法掛載 %s，請洽您的系統管理員將其安裝並啓用。",
+    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>警告</b>並未安裝 \"%s\"，因此無法掛載 %s。請洽您的系統管理員將其安裝並啓用。",
+    "External Storage" : "外部儲存"
 },
 "nplurals=1; plural=0;");

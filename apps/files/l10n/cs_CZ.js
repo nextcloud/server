@@ -21,6 +21,7 @@ OC.L10N.register(
     "Invalid directory." : "Neplatný adresář",
     "Files" : "Soubory",
     "All files" : "Všechny soubory",
+    "Recent" : "Nedávné",
     "File could not be found" : "Soubor nelze nalézt",
     "Home" : "Domů",
     "Close" : "Zavřít",
@@ -131,6 +132,8 @@ OC.L10N.register(
     "No favorites" : "Žádné oblíbené",
     "Files and folders you mark as favorite will show up here" : "Soubory a adresáře označené jako oblíbené budou zobrazeny zde",
     "Text file" : "Textový soubor",
-    "New text file.txt" : "Nový textový soubor.txt"
+    "New text file.txt" : "Nový textový soubor.txt",
+    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Použijte tuto adresu pro <a href=\"%s\" target=\"_blank\">přístup ke svým Souborům přes WebDAV</a>",
+    "Cancel upload" : "Ukončit nahrávání"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

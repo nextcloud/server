@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Armazanamento não disponível",
+    "Storage not available" : "Armazenamento não disponível",
     "Storage invalid" : "Armazenamento inválido",
     "Unknown error" : "Erro desconhecido",
     "Unable to set upload directory." : "Não é possível configurar o diretório de envio.",
@@ -21,6 +21,7 @@ OC.L10N.register(
     "Invalid directory." : "Diretório inválido.",
     "Files" : "Arquivos",
     "All files" : "Todos os arquivos",
+    "Recent" : "Recente",
     "File could not be found" : "O arquivo não foi encontrado",
     "Home" : "Home",
     "Close" : "Fechar",
@@ -131,6 +132,8 @@ OC.L10N.register(
     "No favorites" : "Sem favoritos",
     "Files and folders you mark as favorite will show up here" : "Arquivos e pastas que você marcou como favoritos são mostrados aqui",
     "Text file" : "Arquivo texto",
-    "New text file.txt" : "Novo texto file.txt"
+    "New text file.txt" : "Novo texto file.txt",
+    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Use este endereço para <a href=\"%s\" target=\"_blank\">acessar seus arquivos via WebDAV</a>",
+    "Cancel upload" : "Cancelar envio"
 },
 "nplurals=2; plural=(n > 1);");

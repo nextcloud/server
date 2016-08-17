@@ -98,10 +98,6 @@ OC.L10N.register(
     "OpenStack Object Storage" : "Armazenamento de Objetos OpenStack",
     "Service name" : "Nome do serviço",
     "Request timeout (seconds)" : "Pedido expira (segundos)",
-    "<b>Note:</b> " : "<b>Nota:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Aviso:</b> O suporte cURL no PHP não está activo ou instalado. Não é possível montar %s. Peça ao seu administrador para instalar.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Aviso:</b> O suporte FTP no PHP não está activo ou instalado. Não é possível montar %s. Peça ao seu administrador para instalar.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Aviso:</b> O cliente\"%s\" não está instalado. Não é possível montar \"%s\" . Peça ao seu administrador para instalar.",
     "No external storage configured" : "Sem armazenamentos externos configurados",
     "You can add external storages in the personal settings" : "Pode adicionar armazenamentos externos nas definições pessoais",
     "Name" : "Nome",
@@ -113,7 +109,6 @@ OC.L10N.register(
     "Check for changes" : "Verificar se há alterações",
     "Never" : "Nunca",
     "Once every direct access" : "Uma vez em cada acesso direto",
-    "External Storage" : "Armazenamento Externo",
     "Folder name" : "Nome da pasta",
     "Authentication" : "Autenticação",
     "Configuration" : "Configuração",
@@ -122,6 +117,11 @@ OC.L10N.register(
     "Advanced settings" : "Definições avançadas",
     "Delete" : "Apagar",
     "Allow users to mount external storage" : "Permitir que os utilizadores montem armazenamento externo",
-    "Allow users to mount the following external storage" : "Permitir que os utilizadores montem o seguinte armazenamento externo"
+    "Allow users to mount the following external storage" : "Permitir que os utilizadores montem o seguinte armazenamento externo",
+    "<b>Note:</b> " : "<b>Nota:</b> ",
+    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Aviso:</b> O suporte cURL no PHP não está activo ou instalado. Não é possível montar %s. Peça ao seu administrador para instalar.",
+    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Aviso:</b> O suporte FTP no PHP não está activo ou instalado. Não é possível montar %s. Peça ao seu administrador para instalar.",
+    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Aviso:</b> O cliente\"%s\" não está instalado. Não é possível montar \"%s\" . Peça ao seu administrador para instalar.",
+    "External Storage" : "Armazenamento Externo"
 },
 "nplurals=2; plural=(n != 1);");

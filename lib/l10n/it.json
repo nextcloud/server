@@ -113,6 +113,7 @@
     "The username is already being used" : "Il nome utente è già utilizzato",
     "Login canceled by app" : "Accesso annullato dall'applicazione",
     "User disabled" : "Utente disabilitato",
+    "Help" : "Aiuto",
     "Personal" : "Personale",
     "Users" : "Utenti",
     "Admin" : "Admin",
@@ -121,6 +122,7 @@
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "L'applicazione \"%s\" non può essere installata perché non è compatibile con questa versione del server.",
     "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "L'applicazione \"%s\" non può essere installata poiché le seguenti dipendenze non sono soddisfatte: %s",
     "No app name specified" : "Il nome dell'applicazione non è specificato",
+    "App '%s' could not be installed!" : "L'applicazione '%s' non può essere installata!",
     "a safe home for all your data" : "un posto sicuro per tutti i tuoi dati",
     "File is currently busy, please try again later" : "Il file è attualmente occupato, riprova più tardi",
     "Can't read file" : "Impossibile leggere il file",
@@ -164,6 +166,9 @@
     "Storage incomplete configuration. %s" : "Configurazione dell'archiviazione incompleta.%s",
     "Storage connection error. %s" : "Errore di connessione all'archiviazione. %s",
     "Storage not available" : "Archiviazione non disponibile",
-    "Storage connection timeout. %s" : "Timeout di connessione all'archiviazione. %s"
+    "Storage connection timeout. %s" : "Timeout di connessione all'archiviazione. %s",
+    "ownCloud %s or higher is required." : "È richiesta la versione %s o successiva di ownCloud.",
+    "ownCloud %s or lower is required." : "È richiesta la versione %s o precedente di ownCloud.",
+    "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the webserver write access to the root directory</a>." : "Ciò può essere normalmente corretto <a href=\"%s\" target=\"_blank\">fornendo al server web accesso in scrittura alla cartella radice</a>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

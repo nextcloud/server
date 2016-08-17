@@ -21,6 +21,7 @@ OC.L10N.register(
     "You commented" : "Okomentoval(a) jsi",
     "%1$s commented" : "%1$s okomentován",
     "You commented on %2$s" : "Okomentoval(a) jsi %2$s",
-    "%1$s commented on %2$s" : "%1$s okomentoval %2$s"
+    "%1$s commented on %2$s" : "%1$s okomentoval %2$s",
+    "<strong>Comments</strong> for files" : "<strong>Komentáře</strong> souborů"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

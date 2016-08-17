@@ -52,10 +52,6 @@ OC.L10N.register(
     "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Não foi possível detectar o nome de exibição do atributo do usuário. Por favor, indique-o você mesmo em configurações avançadas do LDAP.",
     "Could not find the desired feature" : "Não foi possível encontrar a função desejada",
     "Invalid Host" : "Host Inválido",
-    "Server" : "Servidor",
-    "Users" : "Usuários",
-    "Login Attributes" : "Atributos de Acesso",
-    "Groups" : "Grupos",
     "Test Configuration" : "Teste de Configuração",
     "Help" : "Ajuda",
     "Groups meeting these criteria are available in %s:" : "Grupos que satisfazem estes critérios estão disponíveis em %s:",
@@ -104,6 +100,10 @@ OC.L10N.register(
     "Back" : "Voltar",
     "Continue" : "Continuar",
     "LDAP" : "LDAP",
+    "Server" : "Servidor",
+    "Users" : "Usuários",
+    "Login Attributes" : "Atributos de Acesso",
+    "Groups" : "Grupos",
     "Expert" : "Especialista",
     "Advanced" : "Avançado",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Aviso:</b> Os aplicativos user_ldap e user_webdavauth são incompatíveis. Você pode experimentar comportamento inesperado. Por favor, peça ao seu administrador do sistema para desabilitar um deles.",
@@ -158,6 +158,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Usuário-LDAP Mapeamento de Usuário",
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Nomes de usuários são usados para armazenar e atribuir dados (meta). A fim de identificar e reconhecer precisamente usuários, cada usuário LDAP terá um nome de usuário interno. Isso requer um mapeamento de nome de usuário para usuário LDAP. O nome de usuário criado é mapeado para o UUID do usuário LDAP. Além disso, o DN é armazenado em cache, assim como para reduzir a interação LDAP, mas não é usado para identificação. Se o DN muda, as mudanças serão encontrados. O nome de usuário interno é usado por toda parte. Limpando os mapeamentos terá sobras em todos os lugares. Limpando os mapeamentos não é a configuração sensível, que afeta todas as configurações LDAP! Nunca limpar os mapeamentos em um ambiente de produção, somente em um teste ou estágio experimental.",
     "Clear Username-LDAP User Mapping" : "Limpar Mapeamento de Usuário Nome de Usuário-LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Limpar NomedoGrupo-LDAP Mapeamento do Grupo"
+    "Clear Groupname-LDAP Group Mapping" : "Limpar NomedoGrupo-LDAP Mapeamento do Grupo",
+    "Limit %s access to users meeting these criteria:" : "Limita o acesso a %s para usuários que satisfaçam estes critérios:"
 },
 "nplurals=2; plural=(n > 1);");

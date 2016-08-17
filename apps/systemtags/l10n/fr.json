@@ -1,5 +1,8 @@
 { "translations": {
     "Tags" : "Étiquettes",
+    "Update" : "Mise à jour",
+    "Create" : "Créer",
+    "Select tag…" : "Sélectionner une étiquette...",
     "Tagged files" : "Fichiers étiquetés",
     "Select tags to filter by" : "Sélectionner les étiquettes par lesquelles filtrer",
     "Please select tags to filter by" : "Veuillez sélectionner les étiquettes par lesquelles filtrer",
@@ -21,9 +24,15 @@
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s a retiré l'étiquette collaborative %3$s à %2$s",
     "%s (restricted)" : "%s (restreint)",
     "%s (invisible)" : "%s (invisible)",
+    "Collaborative tags" : "Étiquettes collaboratives ",
+    "Name" : "Nom",
+    "Delete" : "Supprimer",
+    "Public" : "Publique",
+    "Restricted" : "Restreint",
+    "Invisible" : "Invisible",
+    "Reset" : "Réinitialiser",
     "No files in here" : "Aucun fichier",
     "No entries found in this folder" : "Aucune entrée trouvée dans ce dossier",
-    "Name" : "Nom",
     "Size" : "Taille",
     "Modified" : "Modifié"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
