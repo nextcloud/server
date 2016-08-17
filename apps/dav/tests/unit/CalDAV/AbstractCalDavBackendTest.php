@@ -22,16 +22,9 @@
 
 namespace OCA\DAV\Tests\unit\CalDAV;
 
-use DateTime;
-use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
-use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\Connector\Sabre\Principal;
-use OCP\IL10N;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
-use Sabre\DAV\PropPatch;
-use Sabre\DAV\Xml\Property\Href;
-use Sabre\DAVACL\IACL;
 use Test\TestCase;
 
 /**

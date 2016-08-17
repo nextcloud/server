@@ -24,10 +24,6 @@
 
 namespace OCA\DAV\Tests\unit\SystemTag;
 
-use Sabre\DAV\Exception\NotFound;
-use Sabre\DAV\Exception\MethodNotAllowed;
-use Sabre\DAV\Exception\Conflict;
-
 use OC\SystemTag\SystemTag;
 use OCP\SystemTag\TagNotFoundException;
 use OCP\SystemTag\TagAlreadyExistsException;
