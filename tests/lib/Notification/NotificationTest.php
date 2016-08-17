@@ -495,6 +495,35 @@ class NotificationTest extends TestCase {
 		$this->notification->addParsedAction($action);
 	}
 
+	public function testAddActionParsedPrimaryEnd() {
+		/** @var \OCP\Notification\IAction|\PHPUnit_Framework_MockObject_MockObject $action */
+		$action1 = $this->getMockBuilder('OCP\Notification\IAction')
+			->disableOriginalConstructor()
+			->getMock();
+		$action1->expects($this->exactly(2))
+			->method('isValidParsed')
+			->willReturn(true);
+		$action1->expects($this->exactly(2))
+			->method('isPrimary')
+			->willReturn(false);
+		/** @var \OCP\Notification\IAction|\PHPUnit_Framework_MockObject_MockObject $action */
+		$action2 = $this->getMockBuilder('OCP\Notification\IAction')
+			->disableOriginalConstructor()
+			->getMock();
+		$action2->expects($this->once())
+			->method('isValidParsed')
+			->willReturn(true);
+		$action2->expects($this->once())
+			->method('isPrimary')
+			->willReturn(true);
+
+		$this->assertSame($this->notification, $this->notification->addParsedAction($action1));
+		$this->assertSame($this->notification, $this->notification->addParsedAction($action2));
+		$this->assertSame($this->notification, $this->notification->addParsedAction($action1));
+
+		$this->assertEquals([$action2, $action1, $action1], $this->notification->getParsedActions());
+	}
+
 	public function dataIsValid() {
 		return [
 			[false, '', false],
