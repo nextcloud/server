@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="32px" width="32px" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="32px" width="32px" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 32 32">
  <path d="m14.903 3.2373 4.7612 4.5146-7.1418 6.772 4.7612 4.5146 7.1418-6.772 4.7612 4.5146v-13.545h-14.283zm-9.5224 2.2573c-1.3189 0-2.3806 1.0068-2.3806 2.2573v18.058c0 1.2506 1.0617 2.2573 2.3806 2.2573h19.044c1.3188 0 2.3806-1.0068 2.3806-2.2573v-6.772l-2.3806-2.2573v9.0293h-19.044v-18.058h9.522l-2.381-2.2574h-7.1414z" fill="#fff"/>
 </svg>
