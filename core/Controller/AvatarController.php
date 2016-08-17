@@ -150,14 +150,9 @@ class AvatarController extends Controller {
 	 * @return DataResponse
 	 */
 	public function postAvatar($path) {
-		$userId = $this->userSession->getUser()->getUID();
 		$files = $this->request->getUploadedFile('files');
 
 		$headers = [];
-		if ($this->request->isUserAgent([\OC\AppFramework\Http\Request::USER_AGENT_IE_8])) {
-			// due to upload iframe workaround, need to set content-type to text/plain
-			$headers['Content-Type'] = 'text/plain';
-		}
 
 		if (isset($path)) {
 			$path = stripslashes($path);

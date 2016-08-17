@@ -73,22 +73,22 @@ class ViewControllerTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->request = $this->getMock('\OCP\IRequest');
-		$this->urlGenerator = $this->getMock('\OCP\IURLGenerator');
-		$this->navigationManager = $this->getMock('\OCP\INavigationManager');
-		$this->l10n = $this->getMock('\OCP\IL10N');
-		$this->config = $this->getMock('\OCP\IConfig');
-		$this->eventDispatcher = $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
-		$this->userSession = $this->getMock('\OCP\IUserSession');
-		$this->appManager = $this->getMock('\OCP\App\IAppManager');
-		$this->user = $this->getMock('\OCP\IUser');
+		$this->request = $this->getMockBuilder('\OCP\IRequest')->getMock();
+		$this->urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')->getMock();
+		$this->navigationManager = $this->getMockBuilder('\OCP\INavigationManager')->getMock();
+		$this->l10n = $this->getMockBuilder('\OCP\IL10N')->getMock();
+		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
+		$this->eventDispatcher = $this->getMockBuilder('\Symfony\Component\EventDispatcher\EventDispatcherInterface')->getMock();
+		$this->userSession = $this->getMockBuilder('\OCP\IUserSession')->getMock();
+		$this->appManager = $this->getMockBuilder('\OCP\App\IAppManager')->getMock();
+		$this->user = $this->getMockBuilder('\OCP\IUser')->getMock();
 		$this->user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('testuser1'));
 		$this->userSession->expects($this->any())
 			->method('getUser')
 			->will($this->returnValue($this->user));
-		$this->rootFolder = $this->getMock('\OCP\Files\Folder');
+		$this->rootFolder = $this->getMockBuilder('\OCP\Files\Folder')->getMock();
 		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
 			->setConstructorArgs([
 			'files',
@@ -109,60 +109,7 @@ class ViewControllerTest extends TestCase {
 		->getMock();
 	}
 
-	public function testIndexWithIE8RedirectAndDirDefined() {
-		$this->request
-			->expects($this->once())
-			->method('isUserAgent')
-			->with(['/MSIE 8.0/'])
-			->will($this->returnValue(true));
-		$this->urlGenerator
-			->expects($this->once())
-			->method('linkToRoute')
-			->with('files.view.index')
-			->will($this->returnValue('/apps/files/'));
-
-		$expected = new Http\RedirectResponse('/apps/files/#?dir=MyDir');
-		$this->assertEquals($expected, $this->viewController->index('MyDir'));
-	}
-
-	public function testIndexWithIE8RedirectAndViewDefined() {
-		$this->request
-			->expects($this->once())
-			->method('isUserAgent')
-			->with(['/MSIE 8.0/'])
-			->will($this->returnValue(true));
-		$this->urlGenerator
-			->expects($this->once())
-			->method('linkToRoute')
-			->with('files.view.index')
-			->will($this->returnValue('/apps/files/'));
-
-		$expected = new Http\RedirectResponse('/apps/files/#?dir=/&view=MyView');
-		$this->assertEquals($expected, $this->viewController->index('', 'MyView'));
-	}
-
-	public function testIndexWithIE8RedirectAndViewAndDirDefined() {
-		$this->request
-			->expects($this->once())
-			->method('isUserAgent')
-			->with(['/MSIE 8.0/'])
-			->will($this->returnValue(true));
-		$this->urlGenerator
-			->expects($this->once())
-			->method('linkToRoute')
-			->with('files.view.index')
-			->will($this->returnValue('/apps/files/'));
-
-		$expected = new RedirectResponse('/apps/files/#?dir=MyDir&view=MyView');
-		$this->assertEquals($expected, $this->viewController->index('MyDir', 'MyView'));
-	}
-
 	public function testIndexWithRegularBrowser() {
-		$this->request
-			->expects($this->once())
-			->method('isUserAgent')
-			->with(['/MSIE 8.0/'])
-			->will($this->returnValue(false));
 		$this->viewController
 			->expects($this->once())
 			->method('getStorageInfo')
@@ -329,12 +276,12 @@ class ViewControllerTest extends TestCase {
 	 * @dataProvider showFileMethodProvider
 	 */
 	public function testShowFileRouteWithFolder($useShowFile) {
-		$node = $this->getMock('\OCP\Files\Folder');
+		$node = $this->getMockBuilder('\OCP\Files\Folder')->getMock();
 		$node->expects($this->once())
 			->method('getPath')
 			->will($this->returnValue('/testuser1/files/test/sub'));
 
-		$baseFolder = $this->getMock('\OCP\Files\Folder');
+		$baseFolder = $this->getMockBuilder('\OCP\Files\Folder')->getMock();
 
 		$this->rootFolder->expects($this->once())
 			->method('get')
@@ -368,19 +315,19 @@ class ViewControllerTest extends TestCase {
 	 * @dataProvider showFileMethodProvider
 	 */
 	public function testShowFileRouteWithFile($useShowFile) {
-		$parentNode = $this->getMock('\OCP\Files\Folder');
+		$parentNode = $this->getMockBuilder('\OCP\Files\Folder')->getMock();
 		$parentNode->expects($this->once())
 			->method('getPath')
 			->will($this->returnValue('testuser1/files/test'));
 
-		$baseFolder = $this->getMock('\OCP\Files\Folder');
+		$baseFolder = $this->getMockBuilder('\OCP\Files\Folder')->getMock();
 
 		$this->rootFolder->expects($this->once())
 			->method('get')
 			->with('testuser1/files/')
 			->will($this->returnValue($baseFolder));
 
-		$node = $this->getMock('\OCP\Files\File');
+		$node = $this->getMockBuilder('\OCP\Files\File')->getMock();
 		$node->expects($this->once())
 			->method('getParent')
 			->will($this->returnValue($parentNode));
@@ -415,7 +362,7 @@ class ViewControllerTest extends TestCase {
 	 * @dataProvider showFileMethodProvider
 	 */
 	public function testShowFileRouteWithInvalidFileId($useShowFile) {
-		$baseFolder = $this->getMock('\OCP\Files\Folder');
+		$baseFolder = $this->getMockBuilder('\OCP\Files\Folder')->getMock();
 		$this->rootFolder->expects($this->once())
 			->method('get')
 			->with('testuser1/files/')
@@ -446,13 +393,13 @@ class ViewControllerTest extends TestCase {
 			->with('files_trashbin')
 			->will($this->returnValue(true));
 
-		$parentNode = $this->getMock('\OCP\Files\Folder');
+		$parentNode = $this->getMockBuilder('\OCP\Files\Folder')->getMock();
 		$parentNode->expects($this->once())
 			->method('getPath')
 			->will($this->returnValue('testuser1/files_trashbin/files/test.d1462861890/sub'));
 
-		$baseFolderFiles = $this->getMock('\OCP\Files\Folder');
-		$baseFolderTrash = $this->getMock('\OCP\Files\Folder');
+		$baseFolderFiles = $this->getMockBuilder('\OCP\Files\Folder')->getMock();
+		$baseFolderTrash = $this->getMockBuilder('\OCP\Files\Folder')->getMock();
 
 		$this->rootFolder->expects($this->at(0))
 			->method('get')
@@ -468,7 +415,7 @@ class ViewControllerTest extends TestCase {
 			->with(123)
 			->will($this->returnValue([]));
 
-		$node = $this->getMock('\OCP\Files\File');
+		$node = $this->getMockBuilder('\OCP\Files\File')->getMock();
 		$node->expects($this->once())
 			->method('getParent')
 			->will($this->returnValue($parentNode));

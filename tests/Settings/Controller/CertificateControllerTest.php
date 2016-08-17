@@ -51,11 +51,11 @@ class CertificateControllerTest extends \Test\TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->request = $this->getMock('\OCP\IRequest');
-		$this->certificateManager = $this->getMock('\OCP\ICertificateManager');
-		$this->systemCertificateManager = $this->getMock('\OCP\ICertificateManager');
-		$this->l10n = $this->getMock('\OCP\IL10N');
-		$this->appManager = $this->getMock('OCP\App\IAppManager');
+		$this->request = $this->getMockBuilder('\OCP\IRequest')->getMock();
+		$this->certificateManager = $this->getMockBuilder('\OCP\ICertificateManager')->getMock();
+		$this->systemCertificateManager = $this->getMockBuilder('\OCP\ICertificateManager')->getMock();
+		$this->l10n = $this->getMockBuilder('\OCP\IL10N')->getMock();
+		$this->appManager = $this->getMockBuilder('OCP\App\IAppManager')->getMock();
 
 		$this->certificateController = $this->getMockBuilder('OC\Settings\Controller\CertificateController')
 			->setConstructorArgs(
@@ -90,7 +90,7 @@ class CertificateControllerTest extends \Test\TestCase {
 			'name' => 'goodCertificate.crt',
 		];
 
-		$certificate = $this->getMock('\OCP\ICertificate');
+		$certificate = $this->getMockBuilder('\OCP\ICertificate')->getMock();
 		$certificate
 			->expects($this->once())
 			->method('getName')
