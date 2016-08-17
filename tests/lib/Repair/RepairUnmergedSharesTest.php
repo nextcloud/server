@@ -28,6 +28,8 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use Test\TestCase;
 use OC\Share20\DefaultShareProvider;
+use OCP\IUserManager;
+use OCP\IGroupManager;
 
 /**
  * Tests for repairing invalid shares
@@ -47,6 +49,12 @@ class RepairUnmergedSharesTest extends TestCase {
 	/** @var int */
 	private $lastShareTime;
 
+	/** @var IUserManager */
+	private $userManager;
+
+	/** @var IGroupManager */
+	private $groupManager;
+
 	protected function setUp() {
 		parent::setUp();
 
@@ -61,45 +69,14 @@ class RepairUnmergedSharesTest extends TestCase {
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->deleteAllShares();
 
-		$user1 = $this->getMock('\OCP\IUser');
-		$user1->expects($this->any())
-			->method('getUID')
-			->will($this->returnValue('user1'));
-
-		$user2 = $this->getMock('\OCP\IUser');
-		$user2->expects($this->any())
-			->method('getUID')
-			->will($this->returnValue('user2'));
-
-		$users = [$user1, $user2];
-
-		$groupManager = $this->getMock('\OCP\IGroupManager');
-		$groupManager->expects($this->any())
-			->method('getUserGroupIds')
-			->will($this->returnValueMap([
-				// owner
-				[$user1, ['samegroup1', 'samegroup2']],
-				// recipient
-				[$user2, ['recipientgroup1', 'recipientgroup2']],
-			]));
-
-		$userManager = $this->getMock('\OCP\IUserManager');
-		$userManager->expects($this->once())
-			->method('countUsers')
-			->will($this->returnValue([2]));
-		$userManager->expects($this->once())
-			->method('callForAllUsers')
-			->will($this->returnCallback(function(\Closure $closure) use ($users) {
-				foreach ($users as $user) {
-					$closure($user);
-				}
-			}));
+		$this->userManager = $this->getMock('\OCP\IUserManager');
+		$this->groupManager = $this->getMock('\OCP\IGroupManager');
 
 		// used to generate incremental stimes
 		$this->lastShareTime = time();
 
 		/** @var \OCP\IConfig $config */
-		$this->repair = new RepairUnmergedShares($config, $this->connection, $userManager, $groupManager);
+		$this->repair = new RepairUnmergedShares($config, $this->connection, $this->userManager, $this->groupManager);
 	}
 
 	protected function tearDown() {
@@ -510,6 +487,38 @@ class RepairUnmergedSharesTest extends TestCase {
 	 * @dataProvider sharesDataProvider
 	 */
 	public function testMergeGroupShares($shares, $expectedShares) {
+		$user1 = $this->getMock('\OCP\IUser');
+		$user1->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('user1'));
+
+		$user2 = $this->getMock('\OCP\IUser');
+		$user2->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('user2'));
+
+		$users = [$user1, $user2];
+
+		$this->groupManager->expects($this->any())
+			->method('getUserGroupIds')
+			->will($this->returnValueMap([
+				// owner
+				[$user1, ['samegroup1', 'samegroup2']],
+				// recipient
+				[$user2, ['recipientgroup1', 'recipientgroup2']],
+			]));
+
+		$this->userManager->expects($this->once())
+			->method('countUsers')
+			->will($this->returnValue([2]));
+		$this->userManager->expects($this->once())
+			->method('callForAllUsers')
+			->will($this->returnCallback(function(\Closure $closure) use ($users) {
+				foreach ($users as $user) {
+					$closure($user);
+				}
+			}));
+
 		$shareIds = [];
 
 		foreach ($shares as $share) {
@@ -535,6 +544,31 @@ class RepairUnmergedSharesTest extends TestCase {
 			$this->assertEquals($expectedShare[0], $share['file_target']);
 			$this->assertEquals($expectedShare[1], $share['permissions']);
 		}
+	}
+
+	public function duplicateNamesProvider() {
+		return [
+			// matching
+			['filename (1).txt', true],
+			['folder (2)', true],
+			['filename (1)(2).txt', true],
+			// non-matching
+			['filename ().txt', false],
+			['folder ()', false],
+			['folder (1x)', false],
+			['folder (x1)', false],
+			['filename (a)', false],
+			['filename (1).', false],
+			['filename (1).txt.txt', false],
+			['filename (1)..txt', false],
+		];
+	}
+
+	/**
+	 * @dataProvider duplicateNamesProvider
+	 */
+	public function testIsPotentialDuplicateName($name, $expectedResult) {
+		$this->assertEquals($expectedResult, $this->invokePrivate($this->repair, 'isPotentialDuplicateName', [$name]));
 	}
 }
 
