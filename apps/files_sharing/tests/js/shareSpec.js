@@ -470,4 +470,82 @@ describe('OCA.Sharing.Util tests', function() {
 		});
 	});
 
+	describe('ShareTabView interaction', function() {
+		var shareTabSpy;
+		var fileInfoModel;
+		var configModel;
+		var shareModel;
+
+		beforeEach(function() {
+			shareTabSpy = sinon.spy(OCA.Sharing, 'ShareTabView');
+
+			var attributes = {
+				itemType: 'file',
+				itemSource: 123,
+				possiblePermissions: 31,
+				permissions: 31
+			};
+			fileInfoModel = new OCA.Files.FileInfoModel(testFiles[0]);
+			configModel = new OC.Share.ShareConfigModel({
+				enforcePasswordForPublicLink: false,
+				isResharingAllowed: true,
+				isDefaultExpireDateEnabled: false,
+				isDefaultExpireDateEnforced: false,
+				defaultExpireDate: 7
+			});
+			shareModel = new OC.Share.ShareItemModel(attributes, {
+				configModel: configModel,
+				fileInfoModel: fileInfoModel
+			});
+
+			/* jshint camelcase: false */
+			shareModel.set({
+				reshare: {},
+				shares: [{
+					id: 100,
+					item_source: 1,
+					permissions: 31,
+					share_type: OC.Share.SHARE_TYPE_USER,
+					share_with: 'user1',
+					share_with_displayname: 'User One'
+				}, {
+					id: 102,
+					item_source: 1,
+					permissions: 31,
+					share_type: OC.Share.SHARE_TYPE_REMOTE,
+					share_with: 'foo@bar.com/baz',
+					share_with_displayname: 'foo@bar.com/baz'
+
+				}]
+			}, {parse: true});
+
+			fileList.destroy();
+			fileList = new OCA.Files.FileList(
+				$('#listContainer'), {
+					id: 'files',
+					fileActions: new OCA.Files.FileActions()
+				}
+			);
+			OCA.Sharing.Util.attach(fileList);
+			fileList.setFiles(testFiles);
+		});
+		afterEach(function() { 
+			shareTabSpy.restore(); 
+		});
+
+		it('updates fileInfoModel when shares changed', function() {
+			var changeHandler = sinon.stub();
+			fileInfoModel.on('change', changeHandler);
+
+			shareTabSpy.getCall(0).thisValue.trigger('sharesChanged', shareModel);
+
+			expect(changeHandler.calledOnce).toEqual(true);
+			expect(changeHandler.getCall(0).args[0].changed).toEqual({
+				shareTypes: [
+					OC.Share.SHARE_TYPE_USER,
+					OC.Share.SHARE_TYPE_REMOTE
+				]
+			});
+		});
+	});
 });
