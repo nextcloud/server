@@ -166,6 +166,7 @@ class OC_Util {
 
 		// install storage availability wrapper, before most other wrappers
 		\OC\Files\Filesystem::addStorageWrapper('oc_availability', function ($mountPoint, $storage) {
+			/** @var \OCP\Files\Storage $storage */
 			if (!$storage->instanceOfStorage('\OC\Files\Storage\Shared') && !$storage->isLocal()) {
 				return new \OC\Files\Storage\Wrapper\Availability(['storage' => $storage]);
 			}
@@ -283,16 +284,19 @@ class OC_Util {
 	/**
 	 * Get the quota of a user
 	 *
-	 * @param string $user
+	 * @param string $userId
 	 * @return int Quota bytes
 	 */
-	public static function getUserQuota($user) {
-		$userQuota = \OC::$server->getUserManager()->get($user)->getQuota();
-		if($userQuota === 'none') {
+	public static function getUserQuota($userId) {
+		$user = \OC::$server->getUserManager()->get($userId);
+		if (is_null($user)) {
 			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
-		}else{
-			return OC_Helper::computerFileSize($userQuota);
 		}
+		$userQuota = $user->getQuota();
+ 		if($userQuota === 'none') {
+			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
+ 		}
+		return OC_Helper::computerFileSize($userQuota);
 	}
 
 	/**
