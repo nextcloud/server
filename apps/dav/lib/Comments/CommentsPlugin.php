@@ -149,7 +149,7 @@ class CommentsPlugin extends ServerPlugin {
 	 * REPORT operations to look for comments
 	 *
 	 * @param string $reportName
-	 * @param [] $report
+	 * @param array $report
 	 * @param string $uri
 	 * @return bool
 	 * @throws NotFound

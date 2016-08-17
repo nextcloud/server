@@ -47,8 +47,8 @@ class Comment implements IComment {
 	/**
 	 * Comment constructor.
 	 *
-	 * @param [] $data	optional, array with keys according to column names from
-	 * 					the comments database scheme
+	 * @param array $data	optional, array with keys according to column names from
+	 * 						the comments database scheme
 	 */
 	public function __construct(array $data = null) {
 		if(is_array($data)) {
@@ -358,7 +358,7 @@ class Comment implements IComment {
 	 * sets the comment data based on an array with keys as taken from the
 	 * database.
 	 *
-	 * @param [] $data
+	 * @param array $data
 	 * @return IComment
 	 */
 	protected function fromArray($data) {
