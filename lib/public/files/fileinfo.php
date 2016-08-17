@@ -53,7 +53,7 @@ interface FileInfo {
 	 */
 	const SPACE_UNKNOWN = -2;
 	/**
-	 * @const \OCP\Files\FileInfo::SPACE_UNKNOWN Return value for unlimited space
+	 * @const \OCP\Files\FileInfo::SPACE_UNLIMITED Return value for unlimited space
 	 * @since 8.0.0
 	 */
 	const SPACE_UNLIMITED = -3;
