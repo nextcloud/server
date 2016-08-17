@@ -25,7 +25,6 @@
 namespace OCA\Theming\Tests\Controller;
 
 use OCA\Theming\Controller\ThemingController;
-use OCA\Theming\Template;
 use OCA\Theming\Util;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -34,13 +33,14 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use Test\TestCase;
+use OCA\Theming\ThemingDefaults;
 
 class ThemingControllerTest extends TestCase {
 	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
-	/** @var Template|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
 	private $template;
 	/** @var Util */
 	private $util;
@@ -56,7 +56,7 @@ class ThemingControllerTest extends TestCase {
 	public function setUp() {
 		$this->request = $this->getMockBuilder('OCP\IRequest')->getMock();
 		$this->config = $this->getMockBuilder('OCP\IConfig')->getMock();
-		$this->template = $this->getMockBuilder('OCA\Theming\Template')
+		$this->template = $this->getMockBuilder('OCA\Theming\ThemingDefaults')
 			->disableOriginalConstructor()->getMock();
 		$this->util = new Util();
 		$this->timeFactory = $this->getMockBuilder('OCP\AppFramework\Utility\ITimeFactory')

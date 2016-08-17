@@ -593,6 +593,12 @@ class Installer {
 
 		OC_App::setAppTypes($info['id']);
 
+		if(isset($info['settings']) && is_array($info['settings'])) {
+			// requires that autoloading was registered for the app,
+			// as happens before running the install.php some lines above
+			\OC::$server->getSettingsManager()->setupSettings($info['settings']);
+		}
+
 		return $info['id'];
 	}
 

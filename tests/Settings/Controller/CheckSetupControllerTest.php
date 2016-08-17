@@ -29,6 +29,7 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OC_Util;
@@ -55,6 +56,8 @@ class CheckSetupControllerTest extends TestCase {
 	private $util;
 	/** @var IL10N */
 	private $l10n;
+	/** @var ILogger */
+	private $logger;
 	/** @var Checker */
 	private $checker;
 
@@ -82,6 +85,7 @@ class CheckSetupControllerTest extends TestCase {
 			}));
 		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
 				->disableOriginalConstructor()->getMock();
+		$this->logger = $this->getMockBuilder('\OCP\ILogger')->getMock();
 		$this->checkSetupController = $this->getMockBuilder('\OC\Settings\Controller\CheckSetupController')
 			->setConstructorArgs([
 				'settings',
@@ -92,6 +96,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->util,
 				$this->l10n,
 				$this->checker,
+				$this->logger
 				])
 			->setMethods(['getCurlVersion', 'isPhpOutdated'])->getMock();
 	}
@@ -366,7 +371,8 @@ class CheckSetupControllerTest extends TestCase {
 				$this->urlGenerator,
 				$this->util,
 				$this->l10n,
-				$this->checker
+				$this->checker,
+				$this->logger
 			])
 			->setMethods(null)->getMock();
 
@@ -605,7 +611,7 @@ class CheckSetupControllerTest extends TestCase {
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRoute')
-			->with('settings_admin')
+			->with('settings.AdminSettings.index')
 			->will($this->returnValue('/admin'));
 
 		$expected = new RedirectResponse('/admin');

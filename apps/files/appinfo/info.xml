@@ -6,7 +6,7 @@
 	<licence>AGPL</licence>
 	<author>Robin Appelman, Vincent Petry</author>
 	<default_enable/>
-	<version>1.5.1</version>
+	<version>1.5.2</version>
 	<types>
 		<filesystem/>
 	</types>
@@ -22,4 +22,8 @@
 		<job>OCA\Files\BackgroundJob\DeleteOrphanedItems</job>
 		<job>OCA\Files\BackgroundJob\CleanupFileLocks</job>
 	</background-jobs>
+
+	<settings>
+		<admin>OCA\Files\Settings\Admin</admin>
+	</settings>
 </info>

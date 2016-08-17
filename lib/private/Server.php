@@ -82,7 +82,7 @@ use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
 use OC\Session\CryptoWrapper;
 use OC\Tagging\TagMapper;
-use OCA\Theming\Template;
+use OCA\Theming\ThemingDefaults;
 use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\Security\IContentSecurityPolicyManager;
@@ -650,7 +650,7 @@ class Server extends ServerContainer implements IServerContainer {
 			}
 
 			if ($classExists && $this->getConfig()->getSystemValue('installed', false) && $this->getAppManager()->isInstalled('theming')) {
-				return new Template(
+				return new ThemingDefaults(
 					$this->getConfig(),
 					$this->getL10N('theming'),
 					$this->getURLGenerator(),
@@ -719,6 +719,18 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getEventDispatcher()
 			);
 
+			return $manager;
+		});
+		$this->registerService('SettingsManager', function(Server $c) {
+			$manager = new \OC\Settings\Manager(
+				$c->getLogger(),
+				$c->getDatabaseConnection(),
+				$c->getL10N('core'),
+				$c->getConfig(),
+				$c->getEncryptionManager(),
+				$c->getUserManager(),
+				$c->getLockingProvider()
+			);
 			return $manager;
 		});
 	}
@@ -1276,6 +1288,11 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->query('MountManager');
 	}
 
+	/** @return \OCP\Files\Config\IUserMountCache */
+	function getUserMountCache() {
+		return $this->query('UserMountCache');
+	}
+
 	/**
 	 * Get the MimeTypeDetector
 	 *
@@ -1423,5 +1440,12 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getLDAPProvider() {
 		return $this->query('LDAPProvider');
+	}
+
+	/**
+	 * @return \OCP\Settings\IManager
+	 */
+	public function getSettingsManager() {
+		return $this->query('SettingsManager');
 	}
 }
