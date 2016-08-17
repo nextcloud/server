@@ -6,7 +6,6 @@ OC.L10N.register(
     "Updated channel" : "アップデートチャンネル",
     "Nextcloud core" : "Nextcloud core",
     "Update for %1$s to version %2$s is available." : "%1$s に対するバージョン %2$s へアップデートが利用可能です。",
-    "Updater" : "アップデート",
     "A new version is available: %s" : "新しいバージョンが利用可能: %s",
     "Open updater" : "アップデーターを開く",
     "Your version is up to date." : "最新版です。",
@@ -16,6 +15,7 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "次のグループのメンバーに対してアップデートのメッセージが表示されます:",
     "Only notification for app updates are available." : "アプリ更新情報があるときのみ通知する。",
     "The selected update channel makes dedicated notifications for the server obsolete." : "選択した更新チャネルでは、廃止サーバーについて専用の通知を行います。",
-    "The selected update channel does not support updates of the server." : "選択したチャンネルでは、サーバーのアップデートをサポートしていません。"
+    "The selected update channel does not support updates of the server." : "選択したチャンネルでは、サーバーのアップデートをサポートしていません。",
+    "Updater" : "アップデート"
 },
 "nplurals=1; plural=0;");

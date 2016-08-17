@@ -6,7 +6,6 @@ OC.L10N.register(
     "Updated channel" : "Kanal diperbarui",
     "Nextcloud core" : "Nextcloud core",
     "Update for %1$s to version %2$s is available." : "Pembaruan untuk %1$s ke versi %2$s tersedia.",
-    "Updater" : "Pengupdate",
     "A new version is available: %s" : "Versi baru tersedia: %s",
     "Open updater" : "Buka pembaruan",
     "Your version is up to date." : "Versi Anda saat ini adalah yang terbaru.",
@@ -16,6 +15,7 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "Beritahu anggota grup tentang pembaruan yang tersedia:",
     "Only notification for app updates are available." : "Hanya pemberitahuan untuk pembaruan aplikasi tersedia.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Kanal pembaruan yang terpilih membuat pemberitahuan terdedikasi untuk server usang.",
-    "The selected update channel does not support updates of the server." : "Kanal pembaruan yang terpilih tidak mendukung pembaruan server."
+    "The selected update channel does not support updates of the server." : "Kanal pembaruan yang terpilih tidak mendukung pembaruan server.",
+    "Updater" : "Pengupdate"
 },
 "nplurals=1; plural=0;");

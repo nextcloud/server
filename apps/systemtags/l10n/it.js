@@ -36,6 +36,7 @@ OC.L10N.register(
     "No files in here" : "Qui non c'è alcun file",
     "No entries found in this folder" : "Nessuna voce trovata in questa cartella",
     "Size" : "Dimensione",
-    "Modified" : "Modificato"
+    "Modified" : "Modificato",
+    "%s (not-assignable)" : "%s (non assegnabile)"
 },
 "nplurals=2; plural=(n != 1);");

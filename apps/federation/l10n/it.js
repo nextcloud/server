@@ -10,6 +10,9 @@ OC.L10N.register(
     "Add server automatically once a federated share was created successfully" : "Aggiungi automaticamente il server dopo che una condivisione federata è stata creata con successo",
     "Trusted Servers" : "Server affidabili",
     "+ Add Nextcloud server" : "+ Aggiungi server Nextcloud",
-    "Nextcloud Server" : "Server Nextcloud"
+    "Nextcloud Server" : "Server Nextcloud",
+    "Server added to the list of trusted Nextclouds" : "Server aggiunto all'elenco dei Nextcloud affidabili",
+    "No Nextcloud server found" : "Nessun server Nextcloud trovato",
+    "Trusted Nextcloud Servers" : "Server Nextcloud affidabili"
 },
 "nplurals=2; plural=(n != 1);");

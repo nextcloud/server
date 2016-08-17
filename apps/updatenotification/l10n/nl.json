@@ -4,7 +4,6 @@
     "Updated channel" : "Bijgewerkt kanaal",
     "Nextcloud core" : "Nextcloud core",
     "Update for %1$s to version %2$s is available." : "Update voor %1$s naar versie %2$s is beschikbaar.",
-    "Updater" : "Updater",
     "A new version is available: %s" : "Er is een nieuwe versie beschikbaar: %s",
     "Open updater" : "Open updater",
     "Your version is up to date." : "Je versie is up to date.",
@@ -14,6 +13,7 @@
     "Notify members of the following groups about available updates:" : "Geef een melding over beschikbare updates aan leden van de volgende groepen:",
     "Only notification for app updates are available." : "Er zijn alleen meldingen voor apps beschikbaar.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Het geselecteerde updatekanaal maakt overbodig om serverspecifieke meldingen apart te genereren.",
-    "The selected update channel does not support updates of the server." : "Het geselecteerde updatekanaal ondersteunt geen updates voor de server."
+    "The selected update channel does not support updates of the server." : "Het geselecteerde updatekanaal ondersteunt geen updates voor de server.",
+    "Updater" : "Updater"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
