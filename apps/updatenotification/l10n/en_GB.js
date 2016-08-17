@@ -6,7 +6,6 @@ OC.L10N.register(
     "Updated channel" : "Updated channel",
     "Nextcloud core" : "Nextcloud core",
     "Update for %1$s to version %2$s is available." : "Update for %1$s to version %2$s is available.",
-    "Updater" : "Updater",
     "A new version is available: %s" : "A new version is available: %s",
     "Open updater" : "Open updater",
     "Your version is up to date." : "Your version is up to date.",
@@ -16,6 +15,7 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "Notify members of the following groups about available updates:",
     "Only notification for app updates are available." : "Only notification for app updates are available.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "The selected update channel makes dedicated notifications for the server obsolete.",
-    "The selected update channel does not support updates of the server." : "The selected update channel does not support updates of the server."
+    "The selected update channel does not support updates of the server." : "The selected update channel does not support updates of the server.",
+    "Updater" : "Updater"
 },
 "nplurals=2; plural=(n != 1);");

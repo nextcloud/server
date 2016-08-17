@@ -52,10 +52,6 @@ OC.L10N.register(
     "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Nelze detekovat atribut pro zobrazení jména uživatele. Upřesněte ho prosím sami v rozšířeném nastavení LDAP.",
     "Could not find the desired feature" : "Nelze nalézt požadovanou vlastnost",
     "Invalid Host" : "Neplatný hostitel",
-    "Server" : "Server",
-    "Users" : "Uživatelé",
-    "Login Attributes" : "Přihlašovací atributy",
-    "Groups" : "Skupiny",
     "Test Configuration" : "Vyzkoušet nastavení",
     "Help" : "Nápověda",
     "Groups meeting these criteria are available in %s:" : "Skupiny splňující tyto podmínky jsou k dispozici v %s:",
@@ -104,6 +100,10 @@ OC.L10N.register(
     "Back" : "Zpět",
     "Continue" : "Pokračovat",
     "LDAP" : "LDAP",
+    "Server" : "Server",
+    "Users" : "Uživatelé",
+    "Login Attributes" : "Přihlašovací atributy",
+    "Groups" : "Skupiny",
     "Expert" : "Expertní",
     "Advanced" : "Pokročilé",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Varování:</b> Aplikace user_ldap a user_webdavauth jsou vzájemně nekompatibilní. Můžete zaznamenat neočekávané chování. Požádejte prosím svého správce systému o zakázání jedné z nich.",
@@ -158,6 +158,8 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Mapování uživatelských jmen z LDAPu",
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Uživatelská jména jsou používána pro uchovávání a přiřazování (meta)dat. Pro správnou identifikaci a rozpoznání uživatelů bude mít každý LDAP uživatel interní uživatelské jméno. To vyžaduje mapování uživatelských jmen na uživatele LDAP. Vytvořené uživatelské jméno je mapováno na UUID uživatele v LDAP. DN informace je navíc udržována v paměti pro snížení interakce s LDAP, ale není používána pro identifikaci. Pokud se DN změní, bude to správně rozpoznáno. Interní uživatelské jméno se používá celé. Vyčištění mapování zanechá zbytky všude. Vyčištění navíc není specifické pro každou konfiguraci, bude mít vliv na všechny LDAP konfigurace! Nikdy nečistěte mapování v produkčním prostředí, ale pouze v testovací nebo experimentální fázi.",
     "Clear Username-LDAP User Mapping" : "Zrušit mapování uživatelských jmen LDAPu",
-    "Clear Groupname-LDAP Group Mapping" : "Zrušit mapování názvů skupin LDAPu"
+    "Clear Groupname-LDAP Group Mapping" : "Zrušit mapování názvů skupin LDAPu",
+    "Limit %s access to users meeting these criteria:" : "Přístup ke %s je omezen na uživatele odpovídající těmto kritériím:",
+    "By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder. It is also a part of remote URLs, for instance for all *DAV services. With this setting, the default behavior can be overridden. To achieve a similar behavior as before ownCloud 5 enter the user display name attribute in the following field. Leave it empty for default behavior. Changes will have effect only on newly mapped (added) LDAP users." : "Ve výchozím nastavení bude interní uživatelské jméno vytvořeno z atributu UUID. To zajišťuje, že je uživatelské jméno unikátní a znaky nemusí být převáděny. Interní uživatelské jméno má omezení, podle kterého jsou povoleny jen následující znaky [ a-zA-Z0-9_.@- ]. Ostatní znaky jsou nahrazeny jejich protějšky z ASCII nebo prostě vynechány. Při konfliktech bude přidáno/zvýšeno číslo. Interní uživatelské jméno slouží pro interní identifikaci uživatele. Je také výchozím názvem domovského adresáře uživatele. Je také součástí URL, např. pro služby *DAV. Tímto nastavením může být výchozí chování změněno. Pro dosažení podobného chování jako před ownCloud 5, zadejte atribut uživatelského jména do následujícího pole. Ponechte jej prázdné, chcete-li zachovat výchozí nastavení. Změny se projeví pouze u nově namapovaných (přidaných) uživatelů LDAP."
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

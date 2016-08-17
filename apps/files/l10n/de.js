@@ -21,6 +21,7 @@ OC.L10N.register(
     "Invalid directory." : "Ungültiges Verzeichnis.",
     "Files" : "Dateien",
     "All files" : "Alle Dateien",
+    "Recent" : "Akuelle",
     "File could not be found" : "Datei konnte nicht gefunden werden",
     "Home" : "Home",
     "Close" : "Schließen",
@@ -33,7 +34,7 @@ OC.L10N.register(
     "Could not get result from server." : "Ergebnis konnte nicht vom Server abgerufen werden.",
     "Uploading..." : "Hochladen…",
     "..." : "...",
-    "{hours}:{minutes}:{seconds} hour{plural_s} left" : "{hours}:{minutes}:{seconds} Stunde{plural_s} übrig",
+    "{hours}:{minutes}:{seconds} hour{plural_s} left" : "{hours}:{minutes}:{seconds} Stunde(n) übrig",
     "{hours}:{minutes}h" : "{hours}:{minutes}h",
     "{minutes}:{seconds} minute{plural_s} left" : "{minutes}:{seconds} Minute{plural_s} übrig",
     "{minutes}:{seconds}m" : "{minutes}:{seconds}m",
@@ -64,7 +65,7 @@ OC.L10N.register(
     "Could not create file \"{file}\"" : "Die Datei konnte nicht erstellt werden \"{file}\"",
     "Could not create file \"{file}\" because it already exists" : "Die Datei konnte nicht erstellt werden \"{file}\", da sie bereits existiert.",
     "Could not create folder \"{dir}\"" : "Der Ordner konnte nicht erstellt werden \"{dir}\"",
-    "Could not create folder \"{dir}\" because it already exists" : "Der Ordner konnte nicht erstellt werden \"{dir}\", da dieser bereits existiert",
+    "Could not create folder \"{dir}\" because it already exists" : "Der Ordner \"{dir}\" konnte nicht erstellt werden , da dieser bereits existiert",
     "Error deleting file \"{fileName}\"." : "Fehler beim Löschen der Datei \"{fileName}\"",
     "No entries in this folder match '{filter}'" : "Keine Einträge in diesem Ordner stimmen mit '{filter}' überein",
     "Name" : "Name",
@@ -131,6 +132,8 @@ OC.L10N.register(
     "No favorites" : "Keine Favoriten",
     "Files and folders you mark as favorite will show up here" : "Dateien und Ordner, die als Favoriten markiert werden, erscheinen hier",
     "Text file" : "Textdatei",
-    "New text file.txt" : "Neue Textdatei.txt"
+    "New text file.txt" : "Neue Textdatei.txt",
+    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Diese Adresse benutzen, um <a href=\"%s\" target=\"_blank\">über WebDAV auf deine Dateien zuzugreifen</a>",
+    "Cancel upload" : "Hochladen abbrechen"
 },
 "nplurals=2; plural=(n != 1);");

@@ -63,7 +63,6 @@
     "Identity endpoint URL" : "Identity endpoint URL",
     "Rackspace" : "Rackspace",
     "API key" : "Clé API",
-    "Global Credentials" : "Informations d'identification globales",
     "Log-in credentials, save in database" : "Identifiants de connexion, sauvegarder dans la base de données",
     "Username and password" : "Nom d'utilisateur et mot de passe",
     "Log-in credentials, save in session" : "Identifiants de connexion, sauvegardés pour la session",
@@ -100,10 +99,6 @@
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Nom du service",
     "Request timeout (seconds)" : "Délai d'expiration des requêtes (en secondes)",
-    "<b>Note:</b> " : "<b>Attention :</b>",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Attention :</b> La prise en charge de cURL par PHP n'est pas activée ou installée. Le montage de %s n'est pas possible. Contactez votre administrateur système pour l'installer.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Attention : </b> La prise en charge du FTP par PHP n'est pas activée ou installée. Le montage de %s n'est pas possible. Contactez votre administrateur système pour l'installer.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Attention : </b> \"%s\" n'est pas installé. Le montage de %s n'est pas possible. Contactez votre administrateur système pour l'installer.",
     "No external storage configured" : "Aucun stockage externe configuré",
     "You can add external storages in the personal settings" : "Vous pouvez ajouter des stockages externes via vos paramètres personnels",
     "Name" : "Nom",
@@ -115,7 +110,6 @@
     "Check for changes" : "Rechercher les modifications",
     "Never" : "Jamais",
     "Once every direct access" : "Une fois à chaque accès direct",
-    "External Storage" : "Stockage externe",
     "Folder name" : "Nom du dossier",
     "Authentication" : "Authentification",
     "Configuration" : "Configuration",
@@ -124,6 +118,13 @@
     "Advanced settings" : "Paramètres avancés",
     "Delete" : "Supprimer",
     "Allow users to mount external storage" : "Autoriser les utilisateurs à monter des espaces de stockage externes",
-    "Allow users to mount the following external storage" : "Autoriser les utilisateurs à monter les stockages externes suivants"
+    "Allow users to mount the following external storage" : "Autoriser les utilisateurs à monter les stockages externes suivants",
+    "Global Credentials" : "Informations d'identification globales",
+    "<b>Note:</b> " : "<b>Attention :</b>",
+    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Attention :</b> La prise en charge de cURL par PHP n'est pas activée ou installée. Le montage de %s n'est pas possible. Contactez votre administrateur système pour l'installer.",
+    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Attention : </b> La prise en charge du FTP par PHP n'est pas activée ou installée. Le montage de %s n'est pas possible. Contactez votre administrateur système pour l'installer.",
+    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Attention : </b> \"%s\" n'est pas installé. Le montage de %s n'est pas possible. Contactez votre administrateur système pour l'installer.",
+    "External Storage" : "Stockage externe",
+    "Access granted" : "Accès autorisé"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

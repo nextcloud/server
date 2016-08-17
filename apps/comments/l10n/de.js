@@ -1,7 +1,7 @@
 OC.L10N.register(
     "comments",
     {
-    "Type in a new comment..." : "Bitte gib einen neuen Kommentar ein...",
+    "Type in a new comment..." : "Neuen Kommentar eingeben...",
     "Delete comment" : "Kommentar löschen",
     "Post" : "Speichern",
     "Cancel" : "Abbrechen",
@@ -21,6 +21,7 @@ OC.L10N.register(
     "You commented" : "Von Dir kommentiert",
     "%1$s commented" : "%1$s kommentiert",
     "You commented on %2$s" : "Du hast %2$s kommentiert",
-    "%1$s commented on %2$s" : "%1$s kommentierte %2$s"
+    "%1$s commented on %2$s" : "%1$s kommentierte %2$s",
+    "<strong>Comments</strong> for files" : "<strong>Kommentare</strong> für Dateien"
 },
 "nplurals=2; plural=(n != 1);");

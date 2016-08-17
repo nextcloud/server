@@ -98,10 +98,6 @@ OC.L10N.register(
     "OpenStack Object Storage" : "אחסון אובייקט OpenStack",
     "Service name" : "שם שירות",
     "Request timeout (seconds)" : "פסק זמן מבוקש (שניות)",
-    "<b>Note:</b> " : "<b>הערה:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>הערה:</b> תמיכת ה- cURL ב- PHP אינה מופעלת או מותקנת. חיבור של %s אינו אפשרי. יש לבקש ממנהל המערכת להתקין אותה.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>הערה:</b> תמיכת ה- FTP ב- PHP אינה מופעלת או מותקנת. חיבור של %s אינו אפשרי. יש לבקש ממנהל המערכת להתקין אותה.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>הערה:</b> \"%s\" אינו מותקן. חיבור של %s אינו אפשרי. יש לבקש ממנהל המערכת להתקין אותה.",
     "No external storage configured" : "לא מוגדר אחסון חיצוני",
     "You can add external storages in the personal settings" : "ניתן להוסיף אחסונים חיצוניים בהגדרות האישיות",
     "Name" : "שם",
@@ -113,7 +109,6 @@ OC.L10N.register(
     "Check for changes" : "בדיקה אחר שינויים",
     "Never" : "לעולם לא",
     "Once every direct access" : "פעם אחת כל כניסה ישירה",
-    "External Storage" : "אחסון חיצוני",
     "Folder name" : "שם התיקייה",
     "Authentication" : "אימות",
     "Configuration" : "הגדרות",
@@ -122,6 +117,11 @@ OC.L10N.register(
     "Advanced settings" : "הגדרות מתקדמות",
     "Delete" : "מחיקה",
     "Allow users to mount external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני",
-    "Allow users to mount the following external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני הבא"
+    "Allow users to mount the following external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני הבא",
+    "<b>Note:</b> " : "<b>הערה:</b> ",
+    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>הערה:</b> תמיכת ה- cURL ב- PHP אינה מופעלת או מותקנת. חיבור של %s אינו אפשרי. יש לבקש ממנהל המערכת להתקין אותה.",
+    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>הערה:</b> תמיכת ה- FTP ב- PHP אינה מופעלת או מותקנת. חיבור של %s אינו אפשרי. יש לבקש ממנהל המערכת להתקין אותה.",
+    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>הערה:</b> \"%s\" אינו מותקן. חיבור של %s אינו אפשרי. יש לבקש ממנהל המערכת להתקין אותה.",
+    "External Storage" : "אחסון חיצוני"
 },
 "nplurals=2; plural=(n != 1);");

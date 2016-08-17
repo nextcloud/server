@@ -2,6 +2,9 @@ OC.L10N.register(
     "systemtags",
     {
     "Tags" : "Značky",
+    "Update" : "Aktualizovat",
+    "Create" : "Vytvořit",
+    "Select tag…" : "Zvolit značku…",
     "Tagged files" : "Otagované soubory",
     "Select tags to filter by" : "Vybrat tagy pro filtr",
     "Please select tags to filter by" : "Vyberte prosím tagy pro filtrování",
@@ -23,10 +26,17 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s odebral systémový tag %3$s ze %2$s",
     "%s (restricted)" : "%s (omezeno)",
     "%s (invisible)" : "%s (neviditelný)",
+    "Collaborative tags" : "Značky pro spolupráci",
+    "Name" : "Název",
+    "Delete" : "Smazat",
+    "Public" : "Veřejné",
+    "Restricted" : "Omezené",
+    "Invisible" : "Neviditelné",
+    "Reset" : "Obnovit",
     "No files in here" : "Žádné soubory",
     "No entries found in this folder" : "V tomto adresáři nebylo nic nalezeno",
-    "Name" : "Název",
     "Size" : "Velikost",
-    "Modified" : "Upraveno"
+    "Modified" : "Upraveno",
+    "%s (not-assignable)" : "%s (nepřiřaditelné)"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

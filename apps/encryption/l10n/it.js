@@ -22,9 +22,9 @@ OC.L10N.register(
     "The current log-in password was not correct, please try again." : "La password di accesso attuale non era corretta, prova ancora.",
     "Private key password successfully updated." : "Password della chiave privata aggiornata correttamente.",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Devi migrare le tue chiavi di cifratura dalla vecchia cifratura (ownCloud <= 8.0) alla nuova. Esegui 'occ encryption:migrate' o contatta il tuo amministratore",
-    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chiave privata non valida per l'applicazione di cifratura. Aggiorna la password della chiave privata nelle impostazioni personali per ripristinare l'accesso ai tuoi file cifrati.",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'applicazione di cifratura è abilitata, ma le chiavi non sono state inizializzate, disconnettiti ed effettua nuovamente l'accesso",
-    "Encryption App is enabled and ready" : "L'applicazione Cifratura è abilitata e pronta",
+    "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chiave privata non valida per l'applicazione di cifratura. Aggiorna la password della chiave privata nelle impostazioni personali per ripristinare l'accesso ai tuoi file cifrati.",
+    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "L'applicazione di cifratura è abilitata, ma le chiavi non sono state inizializzate, disconnettiti ed effettua nuovamente l'accesso",
+    "Encryption app is enabled and ready" : "L'applicazione Cifratura è abilitata e pronta",
     "Bad Signature" : "Firma non valida",
     "Missing Signature" : "Firma mancante",
     "one-time password for server-side-encryption" : "password monouso per la cifratura lato server",
@@ -46,7 +46,8 @@ OC.L10N.register(
     "New recovery key password" : "Nuova password della chiave di ripristino",
     "Repeat new recovery key password" : "Ripeti la nuova password della chiave di ripristino",
     "Change Password" : "Modifica password",
-    "basic encryption module" : "Modulo di cifratura base di",
+    "Basic encryption module" : "Modulo di cifratura base",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'applicazione di cifratura è abilitata, ma le chiavi non sono state inizializzate, disconnettiti ed effettua nuovamente l'accesso",
     "Your private key password no longer matches your log-in password." : "La password della chiave privata non corrisponde più alla password di accesso.",
     "Set your old private key password to your current log-in password:" : "Imposta la vecchia password della chiave privata sull'attuale password di accesso:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Se non ricordi la vecchia password puoi chiedere al tuo amministratore di recuperare i file.",
@@ -56,6 +57,8 @@ OC.L10N.register(
     "Enable password recovery:" : "Abilita il ripristino della password:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "L'abilitazione di questa opzione ti consentirà di accedere nuovamente ai file cifrati in caso di perdita della password",
     "Enabled" : "Abilitata",
-    "Disabled" : "Disabilitata"
+    "Disabled" : "Disabilitata",
+    "Encryption App is enabled and ready" : "L'applicazione Cifratura è abilitata e pronta",
+    "Nextcloud basic encryption module" : "Modulo di cifratura base di Nextcloud"
 },
 "nplurals=2; plural=(n != 1);");

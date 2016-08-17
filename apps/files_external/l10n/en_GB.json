@@ -63,7 +63,6 @@
     "Identity endpoint URL" : "Identity endpoint URL",
     "Rackspace" : "Rackspace",
     "API key" : "API key",
-    "Global Credentials" : "Global Credentials",
     "Log-in credentials, save in database" : "Log-in credentials, save in database",
     "Username and password" : "Username and password",
     "Log-in credentials, save in session" : "Log-in credentials, save in session",
@@ -100,10 +99,6 @@
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Service name",
     "Request timeout (seconds)" : "Request timeout (seconds)",
-    "<b>Note:</b> " : "<b>Note:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it.",
     "No external storage configured" : "No external storage configured",
     "You can add external storages in the personal settings" : "You can add external storages in the personal settings",
     "Name" : "Name",
@@ -115,7 +110,6 @@
     "Check for changes" : "Check for changes",
     "Never" : "Never",
     "Once every direct access" : "Once every direct access",
-    "External Storage" : "External Storage",
     "Folder name" : "Folder name",
     "Authentication" : "Authentication",
     "Configuration" : "Configuration",
@@ -124,6 +118,12 @@
     "Advanced settings" : "Advanced settings",
     "Delete" : "Delete",
     "Allow users to mount external storage" : "Allow users to mount external storage",
-    "Allow users to mount the following external storage" : "Allow users to mount the following external storage"
+    "Allow users to mount the following external storage" : "Allow users to mount the following external storage",
+    "Global Credentials" : "Global Credentials",
+    "<b>Note:</b> " : "<b>Note:</b> ",
+    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.",
+    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.",
+    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it.",
+    "External Storage" : "External Storage"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

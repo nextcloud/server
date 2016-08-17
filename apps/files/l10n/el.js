@@ -21,6 +21,8 @@ OC.L10N.register(
     "Invalid directory." : "Μη έγκυρος φάκελος.",
     "Files" : "Αρχεία",
     "All files" : "Όλα τα αρχεία",
+    "Recent" : "Τελευταία",
+    "File could not be found" : "Δεν μπορεί να βρεθεί το αρχείο",
     "Home" : "Σπίτι",
     "Close" : "Κλείσιμο",
     "Favorites" : "Αγαπημένα",

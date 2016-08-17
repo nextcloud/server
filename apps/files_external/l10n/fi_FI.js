@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Pyyntötunnisteen nouto epäonnistui. Tarkista että sovellusavaimesi ja -salaisuutesi ovat oikein.",
     "Step 1 failed. Exception: %s" : "Vaihe 1 epäonnistui. Poikkeus: %s",
     "Step 2 failed. Exception: %s" : "Vaihe 2 epäonnistui. Poikkeus: %s",
     "External storage" : "Ulkoinen tallennustila",
@@ -75,10 +76,6 @@ OC.L10N.register(
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Palvelun nimi",
     "Request timeout (seconds)" : "Pyynnön aikakatkaisu (sekunneissa)",
-    "<b>Note:</b> " : "<b>Huomio:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Huomio:</b> PHP:n cURL-tuki ei ole käytössä tai sitä ei ole asennettu. Kohteen %s liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää ottamaan cURL-tuki käyttöön.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Huomio:</b> PHP:n FTP-tuki ei ole käytössä tai sitä ei ole asennettu. Kohteen %s liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää ottamaan FTP-tuki käyttöön.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Huomio:</b> \"%s\" ei ole asennettu. Kohteen %s liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää asentamaan puuttuva kohde.",
     "No external storage configured" : "Erillistä tallennustilaa ei ole määritetty",
     "You can add external storages in the personal settings" : "Voit lisätä erillisiä tallennustiloja henkilökohtaisista asetuksistasi",
     "Name" : "Nimi",
@@ -89,7 +86,6 @@ OC.L10N.register(
     "Check for changes" : "Tarkista muutokset",
     "Never" : "Ei koskaan",
     "Once every direct access" : "Kerran aina suoran käytön yhteydessä",
-    "External Storage" : "Erillinen tallennusväline",
     "Folder name" : "Kansion nimi",
     "Authentication" : "Tunnistautuminen",
     "Configuration" : "Asetukset",
@@ -98,6 +94,11 @@ OC.L10N.register(
     "Advanced settings" : "Lisäasetukset",
     "Delete" : "Poista",
     "Allow users to mount external storage" : "Salli käyttäjien liittää erillisiä tallennustiloja",
-    "Allow users to mount the following external storage" : "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet"
+    "Allow users to mount the following external storage" : "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet",
+    "<b>Note:</b> " : "<b>Huomio:</b> ",
+    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Huomio:</b> PHP:n cURL-tuki ei ole käytössä tai sitä ei ole asennettu. Kohteen %s liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää ottamaan cURL-tuki käyttöön.",
+    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Huomio:</b> PHP:n FTP-tuki ei ole käytössä tai sitä ei ole asennettu. Kohteen %s liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää ottamaan FTP-tuki käyttöön.",
+    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Huomio:</b> \"%s\" ei ole asennettu. Kohteen %s liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää asentamaan puuttuva kohde.",
+    "External Storage" : "Erillinen tallennusväline"
 },
 "nplurals=2; plural=(n != 1);");
