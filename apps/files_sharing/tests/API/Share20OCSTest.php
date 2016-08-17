@@ -46,31 +46,31 @@ class Share20OCSTest extends \Test\TestCase {
 	/** @var string */
 	private $appName = 'files_sharing';
 
-	/** @var \OC\Share20\Manager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\Share20\Manager|\PHPUnit_Framework_MockObject_MockObject */
 	private $shareManager;
 
-	/** @var IGroupManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $groupManager;
 
-	/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
 
-	/** @var IRequest | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
 
-	/** @var IRootFolder | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
 	private $rootFolder;
 
-	/** @var IURLGenerator */
+	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
 
-	/** @var IUser */
+	/** @var IUser|\PHPUnit_Framework_MockObject_MockObject */
 	private $currentUser;
 
 	/** @var Share20OCS */
 	private $ocs;
 
-	/** @var IL10N */
+	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
 	private $l;
 
 	protected function setUp() {
