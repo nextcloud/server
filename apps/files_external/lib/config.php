@@ -193,9 +193,9 @@ class OC_Mount_Config {
 	 */
 	public static function setUserVars($user, $input) {
 		if (is_array($input)) {
-			foreach ($input as &$value) {
+			foreach ($input as $key => $value) {
 				if (is_string($value)) {
-					$value = str_replace('$user', $user, $value);
+					$input[$key] = str_replace('$user', $user, $value);
 				}
 			}
 		} else {
@@ -219,8 +219,8 @@ class OC_Mount_Config {
 		if (self::$skipTest) {
 			return StorageNotAvailableException::STATUS_SUCCESS;
 		}
-		foreach ($options as &$option) {
-			$option = self::setUserVars(OCP\User::getUser(), $option);
+		foreach ($options as $key => $option) {
+			$option[$key] = self::setUserVars(OCP\User::getUser(), $option);
 		}
 		if (class_exists($class)) {
 			try {
