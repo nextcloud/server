@@ -66,6 +66,8 @@ $application->registerRoutes($this, [
 		['name' => 'Certificate#removeSystemRootCertificate', 'url' => '/settings/admin/certificate/{certificateIdentifier}', 'verb' => 'DELETE'],
 		['name' => 'AdminSettings#index', 'url' => '/settings/admin/{section}', 'verb' => 'GET', 'defaults' => ['section' => 'server']],
 		['name' => 'AdminSettings#form', 'url' => '/settings/admin/{section}', 'verb' => 'GET'],
+		['name' => 'ChangePassword#changePersonalPassword', 'url' => '/settings/personal/changepassword', 'verb' => 'POST'],
+		['name' => 'ChangePassword#changeUserPassword', 'url' => '/settings/users/changepassword', 'verb' => 'POST'],
 	]
 ]);
 
@@ -86,15 +88,9 @@ $this->create('settings_ajax_togglegroups', '/settings/ajax/togglegroups.php')
 	->actionInclude('settings/ajax/togglegroups.php');
 $this->create('settings_ajax_togglesubadmins', '/settings/ajax/togglesubadmins.php')
 	->actionInclude('settings/ajax/togglesubadmins.php');
-$this->create('settings_users_changepassword', '/settings/users/changepassword')
-	->post()
-	->action('OC\Settings\ChangePassword\Controller', 'changeUserPassword');
 $this->create('settings_ajax_changegorupname', '/settings/ajax/changegroupname.php')
 	->actionInclude('settings/ajax/changegroupname.php');	
 // personal
-$this->create('settings_personal_changepassword', '/settings/personal/changepassword')
-	->post()
-	->action('OC\Settings\ChangePassword\Controller', 'changePersonalPassword');
 $this->create('settings_ajax_setlanguage', '/settings/ajax/setlanguage.php')
 	->actionInclude('settings/ajax/setlanguage.php');
 // apps
