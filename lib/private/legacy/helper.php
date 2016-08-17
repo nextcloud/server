@@ -588,7 +588,19 @@ class OC_Helper {
 			$sourceStorage = $storage->getSourceStorage();
 		}
 		if ($includeExtStorage) {
-			$quota = OC_Util::getUserQuota(\OCP\User::getUser());
+			if ($storage->instanceOfStorage('\OC\Files\Storage\Home')
+				|| $storage->instanceOfStorage('\OC\Files\ObjectStore\HomeObjectStoreStorage')
+			) {
+				/** @var \OC\Files\Storage\Home $storage */
+				$user = $storage->getUser();
+			} else {
+				$user = \OC::$server->getUserSession()->getUser()->getUID();
+			}
+			if ($user) {
+				$quota = OC_Util::getUserQuota($user);
+			} else {
+				$quota = \OCP\Files\FileInfo::SPACE_UNLIMITED;
+			}
 			if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 				// always get free space / total space from root + mount points
 				return self::getGlobalStorageInfo();
