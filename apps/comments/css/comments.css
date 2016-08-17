@@ -115,7 +115,7 @@
 	top: 5px;
 }
 
-#commentsTabView .comments .message {
+#commentsTabView .comments li .message {
 	padding-left: 40px;
 }
 
