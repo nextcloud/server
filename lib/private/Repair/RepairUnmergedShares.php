@@ -93,7 +93,7 @@ class RepairUnmergedShares implements IRepairStep {
 		 */
 		$query = $this->connection->getQueryBuilder();
 		$query
-			->select('item_source', 'id', 'file_target', 'permissions', 'parent', 'share_type')
+			->select('item_source', 'id', 'file_target', 'permissions', 'parent', 'share_type', 'stime')
 			->from('share')
 			->where($query->expr()->eq('share_type', $query->createParameter('shareType')))
 			->andWhere($query->expr()->in('share_with', $query->createParameter('shareWiths')))
@@ -149,6 +149,54 @@ class RepairUnmergedShares implements IRepairStep {
 	}
 
 	/**
+	 * Decide on the best target name based on all group shares and subshares,
+	 * goal is to increase the likeliness that the chosen name matches what
+	 * the user is expecting.
+	 *
+	 * For this, we discard the entries with parenthesis "(2)".
+	 * In case the user also renamed the duplicates to a legitimate name, this logic
+	 * will still pick the most recent one as it's the one the user is most likely to
+	 * remember renaming.
+	 *
+	 * If no suitable subshare is found, use the least recent group share instead.
+	 *
+	 * @param array $groupShares group share entries
+	 * @param array $subShares sub share entries
+	 *
+	 * @return string chosen target name
+	 */
+	private function findBestTargetName($groupShares, $subShares) {
+		$pickedShare = null;
+		// sort by stime, this also properly sorts the direct user share if any
+		@usort($subShares, function($a, $b) {
+			if ($a['stime'] < $b['stime']) {
+				return -1;
+			} else if ($a['stime'] > $b['stime']) {
+				return 1;
+			}
+
+			return 0;
+		});
+
+		foreach ($subShares as $subShare) {
+			// skip entries that have parenthesis with numbers
+			if (preg_match('/\([0-9]*\)/', $subShare['file_target']) === 1) {
+				continue;
+			}
+			// pick any share found that would match, the last being the most recent
+			$pickedShare = $subShare;
+		}
+
+		// no suitable subshare found
+		if ($pickedShare === null) {
+			// use least recent group share target instead
+			$pickedShare = $groupShares[0];
+		}
+
+		return $pickedShare['file_target'];
+	}
+
+	/**
 	 * Fix the given received share represented by the set of group shares
 	 * and matching sub shares
 	 *
@@ -171,7 +219,7 @@ class RepairUnmergedShares implements IRepairStep {
 			return false;
 		}
 
-		$targetPath = $groupShares[0]['file_target'];
+		$targetPath = $this->findBestTargetName($groupShares, $subShares);
 
 		// check whether the user opted out completely of all subshares
 		$optedOut = true;
