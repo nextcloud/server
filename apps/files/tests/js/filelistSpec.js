@@ -24,6 +24,7 @@ describe('OCA.Files.FileList tests', function() {
 	var testFiles, testRoot, notificationStub, fileList, pageSizeStub;
 	var bcResizeStub;
 	var filesClient;
+	var filesConfig;
 	var redirectStub;
 
 	/**
@@ -54,6 +55,10 @@ describe('OCA.Files.FileList tests', function() {
 	}
 
 	beforeEach(function() {
+		filesConfig = new OC.Backbone.Model({
+			showhidden: true
+		});
+
 		filesClient = new OC.Files.Client({
 			host: 'localhost',
 			port: 80,
@@ -153,7 +158,8 @@ describe('OCA.Files.FileList tests', function() {
 		})];
 		pageSizeStub = sinon.stub(OCA.Files.FileList.prototype, 'pageSize').returns(20);
 		fileList = new OCA.Files.FileList($('#app-content-files'), {
-			filesClient: filesClient
+			filesClient: filesClient,
+			config: filesConfig
 		});
 	});
 	afterEach(function() {
@@ -405,6 +411,35 @@ describe('OCA.Files.FileList tests', function() {
 				$tr = fileList.add(fileData);
 				expect($tr.find('.nametext .extension').text()).toEqual(testSet['extension']);
 			}
+		});
+	});
+	describe('Hidden files', function() {
+		it('sets the class hidden-file for hidden files', function() {
+			var fileData = {
+				type: 'dir',
+				name: '.testFolder'
+			};
+			var $tr = fileList.add(fileData);
+
+			expect($tr).toBeDefined();
+			expect($tr.hasClass('hidden-file')).toEqual(true);
+		});
+		it('does not set the class hidden-file for visible files', function() {
+			var fileData = {
+				type: 'dir',
+				name: 'testFolder'
+			};
+			var $tr = fileList.add(fileData);
+
+			expect($tr).toBeDefined();
+			expect($tr.hasClass('hidden-file')).toEqual(false);
+		});
+		it('toggles the list\'s class when toggling hidden files', function() {
+			expect(fileList.$el.hasClass('hide-hidden-files')).toEqual(false);
+			filesConfig.set('showhidden', false);
+			expect(fileList.$el.hasClass('hide-hidden-files')).toEqual(true);
+			filesConfig.set('showhidden', true);
+			expect(fileList.$el.hasClass('hide-hidden-files')).toEqual(false);
 		});
 	});
 	describe('Removing files from the list', function() {
