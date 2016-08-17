@@ -196,13 +196,13 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		if (app.preview && !OC.Util.isIE()) {
 			var currentImage = new Image();
 			currentImage.src = app.preview;
-		}
 
-		currentImage.onload = function() {
-			page.find('.app-image')
-				.append(OC.Settings.Apps.imageUrl(app.preview, app.detailpage))
-				.fadeIn();
-		};
+			currentImage.onload = function() {
+				page.find('.app-image')
+					.append(OC.Settings.Apps.imageUrl(app.preview, app.detailpage))
+					.fadeIn();
+			};
+		}
 
 		// set group select properly
 		if(OC.Settings.Apps.isType(app, 'filesystem') || OC.Settings.Apps.isType(app, 'prelogin') ||
