@@ -237,8 +237,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		if (appfromstore) {
 			img += '<image x="0" y="0" width="72" height="72" preserveAspectRatio="xMinYMin meet" xlink:href="' + url + '"  class="app-icon" /></svg>';
 		} else {
-			img += '<defs><filter id="invert"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0" /></filter></defs>';
-			img += '<image x="0" y="0" width="72" height="72" preserveAspectRatio="xMinYMin meet" filter="url(#invert)" xlink:href="' + url + '"  class="app-icon" /></svg>';
+			img += '<defs><filter id="invertIcon"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0" /></filter></defs>';
+			img += '<image x="0" y="0" width="72" height="72" preserveAspectRatio="xMinYMin meet" filter="url(#invertIcon)" xlink:href="' + url + '"  class="app-icon" /></svg>';
 		}
 		return img;
 	},
