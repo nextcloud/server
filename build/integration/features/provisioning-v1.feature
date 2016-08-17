@@ -520,7 +520,7 @@ Feature: provisioning
 		Then the OCS status code should be "104"
 		And the HTTP status code should be "200"
 		And As an "admin"
-		And check that user "brand-new-user" does not belongs to group "new-group"
+		And check that user "brand-new-user" does not belong to group "new-group"
 
 	Scenario: a subadmin can remove users to groups the subadmin is responsible for
 		Given As an "admin"
