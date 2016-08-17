@@ -1,3 +1,16 @@
+#global_credentials {
+	padding: 0 30px;
+	margin-bottom: 0px;
+}
+
+#files_external {
+	margin-bottom: 0px;
+}
+
+#externalStorage {
+	margin: 15px 0 20px 0;
+}
+
 #externalStorage td.status {
 	/* overwrite conflicting core styles */
 	display: table-cell;

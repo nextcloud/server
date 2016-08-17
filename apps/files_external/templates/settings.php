@@ -4,6 +4,8 @@
 	use \OCA\Files_External\Lib\DefinitionParameter;
 	use \OCA\Files_External\Service\BackendService;
 
+	$canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || $_['allowUserMounting'];
+
 	$l->t("Enable encryption");
 	$l->t("Enable previews");
 	$l->t("Enable sharing");
@@ -84,25 +86,10 @@
 		}
 	}
 ?>
-<form autocomplete="false" class="section" action="#"
-	  id="global_credentials">
-	<h2><?php p($l->t('External Storage')); ?></h2>
-	<p><?php p($l->t('Global Credentials')); ?></p>
-	<input type="text" name="username"
-		autocomplete="false"
-		value="<?php p($_['globalCredentials']['user']); ?>"
-		placeholder="<?php p($l->t('Username')) ?>"/>
-	<input type="password" name="password"
-		autocomplete="false"
-		value="<?php p($_['globalCredentials']['password']); ?>"
-		placeholder="<?php p($l->t('Password')) ?>"/>
-	<input type="hidden" name="uid"
-		value="<?php p($_['globalCredentialsUid']); ?>"/>
-		<input type="submit" value="<?php p($l->t('Save')) ?>"/>
-</form>
 
-<form id="files_external" class="section" data-encryption-enabled="<?php echo $_['encryptionEnabled']?'true': 'false'; ?>">
-	<?php if (isset($_['dependencies']) and ($_['dependencies']<>'')) print_unescaped(''.$_['dependencies'].''); ?>
+<form data-can-create="<?php echo $canCreateMounts?'true':'false' ?>" id="files_external" class="section" data-encryption-enabled="<?php echo $_['encryptionEnabled']?'true': 'false'; ?>">
+	<h2><?php p($l->t('External storage')); ?></h2>
+	<?php if (isset($_['dependencies']) and ($_['dependencies']<>'') and $canCreateMounts) print_unescaped(''.$_['dependencies'].''); ?>
 	<table id="externalStorage" class="grid" data-admin='<?php print_unescaped(json_encode($_['visibilityType'] === BackendService::VISIBILITY_ADMIN)); ?>'>
 		<thead>
 			<tr>
@@ -118,7 +105,7 @@
 		</thead>
 		<tbody>
 			<tr id="addMountPoint"
-			<?php if ($_['visibilityType'] === BackendService::VISIBILITY_PERSONAL && $_['allowUserMounting'] === false): ?>
+			<?php if (!$canCreateMounts): ?>
 				style="display: none;"
 			<?php endif; ?>
 			>
@@ -173,10 +160,8 @@
 			</tr>
 		</tbody>
 	</table>
-	<br />
 
 	<?php if ($_['visibilityType'] === BackendService::VISIBILITY_ADMIN): ?>
-		<br />
 		<input type="checkbox" name="allowUserMounting" id="allowUserMounting" class="checkbox"
 			value="1" <?php if ($_['allowUserMounting'] == 'yes') print_unescaped(' checked="checked"'); ?> />
 		<label for="allowUserMounting"><?php p($l->t('Allow users to mount external storage')); ?></label> <span id="userMountingMsg" class="msg"></span>
@@ -200,3 +185,21 @@
 		</p>
 	<?php endif; ?>
 </form>
+
+<?php if ($canCreateMounts): ?>
+	<form autocomplete="false" class="section" action="#"
+		  id="global_credentials">
+		<p><?php p($l->t('Global credentials')); ?></p>
+		<input type="text" name="username"
+			   autocomplete="false"
+			   value="<?php p($_['globalCredentials']['user']); ?>"
+			   placeholder="<?php p($l->t('Username')) ?>"/>
+		<input type="password" name="password"
+			   autocomplete="false"
+			   value="<?php p($_['globalCredentials']['password']); ?>"
+			   placeholder="<?php p($l->t('Password')) ?>"/>
+		<input type="hidden" name="uid"
+			   value="<?php p($_['globalCredentialsUid']); ?>"/>
+		<input type="submit" value="<?php p($l->t('Save')) ?>"/>
+	</form>
+<?php endif; ?>
