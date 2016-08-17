@@ -25,11 +25,11 @@
  *
  */
 
-namespace OCA\Provisioning_API\Tests;
+namespace OCA\Provisioning_API\Tests\Controller;
 
 
 use OC\OCSClient;
-use OCA\Provisioning_API\Apps;
+use OCA\Provisioning_API\Controller\AppsController;
 use OCP\API;
 use OCP\App\IAppManager;
 use OCP\IUserSession;
@@ -41,10 +41,10 @@ use OCP\IUserSession;
  *
  * @package OCA\Provisioning_API\Tests
  */
-class AppsTest extends TestCase {
+class AppsControllerTest extends \OCA\Provisioning_API\Tests\TestCase {
 	/** @var IAppManager */
 	private $appManager;
-	/** @var Apps */
+	/** @var AppsController */
 	private $api;
 	/** @var IUserSession */
 	private $userSession;
@@ -61,20 +61,30 @@ class AppsTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->api = new Apps($this->appManager, $this->ocsClient);
+		$request = $this->getMockBuilder('OCP\IRequest')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->api = new AppsController(
+			'provisioning_api',
+			$request,
+			$this->appManager,
+			$this->ocsClient
+		);
 	}
 
 	public function testGetAppInfo() {
-		$result = $this->api->getAppInfo(['appid' => 'provisioning_api']);
-		$this->assertInstanceOf('\OC\OCS\Result', $result);
-		$this->assertTrue($result->succeeded());
+		$result = $this->api->getAppInfo('provisioning_api');
+		$expected = \OC_App::getAppInfo('provisioning_api');
+		$this->assertEquals($expected, $result->getData());
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 998
+	 */
 	public function testGetAppInfoOnBadAppID() {
-		$result = $this->api->getAppInfo(['appid' => 'not_provisioning_api']);
-		$this->assertInstanceOf('\OC\OCS\Result', $result);
-		$this->assertFalse($result->succeeded());
-		$this->assertEquals(API::RESPOND_NOT_FOUND, $result->getStatusCode());
+		$this->api->getAppInfo('not_provisioning_api');
 	}
 
 	public function testGetApps() {
@@ -86,17 +96,14 @@ class AppsTest extends TestCase {
 		$this->groupManager->get('admin')->addUser($user);
 		$this->userSession->setUser($user);
 
-		$result = $this->api->getApps([]);
+		$result = $this->api->getApps();
 
-		$this->assertTrue($result->succeeded());
 		$data = $result->getData();
 		$this->assertEquals(count(\OC_App::listAllApps(false, true, $this->ocsClient)), count($data['apps']));
 	}
 
 	public function testGetAppsEnabled() {
-		$_GET['filter'] = 'enabled';
-		$result = $this->api->getApps(['filter' => 'enabled']);
-		$this->assertTrue($result->succeeded());
+		$result = $this->api->getApps('enabled');
 		$data = $result->getData();
 		$this->assertEquals(count(\OC_App::getEnabledApps()), count($data['apps']));
 	}
@@ -106,9 +113,7 @@ class AppsTest extends TestCase {
 				->expects($this->any())
 				->method($this->anything())
 				->will($this->returnValue(null));
-		$_GET['filter'] = 'disabled';
-		$result = $this->api->getApps(['filter' => 'disabled']);
-		$this->assertTrue($result->succeeded());
+		$result = $this->api->getApps('disabled');
 		$data = $result->getData();
 		$apps = \OC_App::listAllApps(false, true, $this->ocsClient);
 		$list =  array();
@@ -119,10 +124,11 @@ class AppsTest extends TestCase {
 		$this->assertEquals(count($disabled), count($data['apps']));
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 101
+	 */
 	public function testGetAppsInvalidFilter() {
-		$_GET['filter'] = 'foo';
-		$result = $this->api->getApps([]);
-		$this->assertFalse($result->succeeded());
-		$this->assertEquals(101, $result->getStatusCode());
+		$this->api->getApps('foo');
 	}
 }
