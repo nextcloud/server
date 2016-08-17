@@ -148,6 +148,10 @@ class RepairUnmergedShares implements IRepairStep {
 		return $groupedShares;
 	}
 
+	private function isPotentialDuplicateName($name) {
+		return (preg_match('/\(\d+\)(\.[^\.]+)?$/', $name) === 1);
+	}
+
 	/**
 	 * Decide on the best target name based on all group shares and subshares,
 	 * goal is to increase the likeliness that the chosen name matches what
@@ -169,18 +173,12 @@ class RepairUnmergedShares implements IRepairStep {
 		$pickedShare = null;
 		// sort by stime, this also properly sorts the direct user share if any
 		@usort($subShares, function($a, $b) {
-			if ($a['stime'] < $b['stime']) {
-				return -1;
-			} else if ($a['stime'] > $b['stime']) {
-				return 1;
-			}
-
-			return 0;
+			return ((int)$a['stime'] - (int)$b['stime']);
 		});
 
 		foreach ($subShares as $subShare) {
 			// skip entries that have parenthesis with numbers
-			if (preg_match('/\([0-9]*\)/', $subShare['file_target']) === 1) {
+			if ($this->isPotentialDuplicateName($subShare['file_target'])) {
 				continue;
 			}
 			// pick any share found that would match, the last being the most recent
