@@ -234,11 +234,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 	imageUrl : function (url, appfromstore) {
 		var img = '<svg width="72" height="72" viewBox="0 0 72 72">';
-		// weird hack because in Firefox everything is 4 times as big (doubled in width and doubled in height)
-		// TODO: replace this with a proper solution
-		if($.browser.mozilla) {
-			img = '<svg width="72" height="72" viewBox="0 0 36 36">';
-		}
+
 		if (appfromstore) {
 			img += '<image x="0" y="0" width="72" height="72" preserveAspectRatio="xMinYMin meet" xlink:href="' + url + '"  class="app-icon" /></svg>';
 		} else {
