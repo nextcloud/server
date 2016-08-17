@@ -106,12 +106,13 @@ class Configuration {
 
 	/**
 	 * @param string $name
-	 * @return mixed|void
+	 * @return mixed|null
 	 */
 	public function __get($name) {
 		if(isset($this->config[$name])) {
 			return $this->config[$name];
 		}
+		return null;
 	}
 
 	/**
@@ -182,7 +183,7 @@ class Configuration {
 				$applied[] = $inputKey;
 			}
 		}
-
+		return null;
 	}
 
 	public function readConfiguration() {

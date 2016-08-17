@@ -189,11 +189,6 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			$this->access->connection->ldapUserDisplayName . '=*',
 			$this->access->getFilterPartForUserSearch($search)
 		));
-		$attrs = array($this->access->connection->ldapUserDisplayName, 'dn');
-		$additionalAttribute = $this->access->connection->ldapUserDisplayName2;
-		if(!empty($additionalAttribute)) {
-			$attrs[] = $additionalAttribute;
-		}
 
 		\OCP\Util::writeLog('user_ldap',
 			'getUsers: Options: search '.$search.' limit '.$limit.' offset '.$offset.' Filter: '.$filter,

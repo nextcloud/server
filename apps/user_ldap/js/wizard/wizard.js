@@ -70,7 +70,7 @@ OCA = OCA || {};
 		controller.setView(view);
 		controller.setModel(model);
 		controller.run();
-	}
+	};
 
 	OCA.LDAP.Wizard.Wizard = Wizard;
 })();

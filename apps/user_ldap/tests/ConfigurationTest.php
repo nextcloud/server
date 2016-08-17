@@ -93,14 +93,6 @@ class ConfigurationTest extends \Test\TestCase {
 	public function testSetValue($key, $input, $expected) {
 		$configuration = new \OCA\User_LDAP\Configuration('t01', false);
 
-		$settingsInput = array(
-			'ldapBaseUsers' => array(
-				'cn=someUsers,dc=example,dc=org',
-				'  ',
-				' cn=moreUsers,dc=example,dc=org '
-			)
-		);
-
 		$configuration->setConfiguration([$key => $input]);
 		$this->assertSame($configuration->$key, $expected);
 	}

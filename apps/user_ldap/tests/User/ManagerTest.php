@@ -208,7 +208,6 @@ class ManagerTest extends \Test\TestCase {
 		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
-		$dn = 'cn=foo,dc=foobar,dc=bar';
 		$uid = 'gone';
 
 		$access->expects($this->never())
