@@ -28,6 +28,7 @@
  */
 
 namespace OCA\Files_Sharing\Tests;
+
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -48,6 +49,9 @@ class ApiTest extends TestCase {
 
 	/** @var \OCP\Files\Folder */
 	private $userFolder;
+
+	/** @var string */
+	private $subsubfolder;
 
 	protected function setUp() {
 		parent::setUp();
@@ -291,12 +295,9 @@ class ApiTest extends TestCase {
 		$data = $result->getData();
 
 		// setting new password should succeed
-		$data2 = [
-			'password' => 'bar',
-		];
-		$request = $this->createRequest($data2);
+		$request = $this->createRequest([]);
 		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
-		$result = $ocs->updateShare($data['id']);
+		$ocs->updateShare($data['id'], null, 'bar');
 		$ocs->cleanup();
 
 		// removing password should fail
@@ -359,7 +360,7 @@ class ApiTest extends TestCase {
 
 		$request = $this->createRequest([]);
 		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
-		$result = $ocs->deleteShare($data['id']);
+		$ocs->deleteShare($data['id']);
 		$ocs->cleanup();
 
 		// now we exclude the group the user belongs to ('group'), sharing should fail now
@@ -420,12 +421,12 @@ class ApiTest extends TestCase {
 			->setPermissions(31);
 		$share2 = $this->shareManager->createShare($share2);
 
-		$request = $this->createRequest(['shared_with_me' => 'true']);
+		$request = $this->createRequest([]);
 		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER2);
-		$result = $ocs->getShares();
+		$result = $ocs->getShares('true');
 		$ocs->cleanup();
 
-		$this->assertTrue(count($result->getData()) === 2);
+		$this->assertCount(2, $result->getData());
 
 		$this->shareManager->deleteShare($share1);
 		$this->shareManager->deleteShare($share2);
@@ -549,9 +550,9 @@ class ApiTest extends TestCase {
 		$this->assertTrue(count($result->getData()) === 1);
 
 		// now also ask for the reshares
-		$request = $this->createRequest(['path' => $this->filename, 'reshares' => 'true']);
+		$request = $this->createRequest([]);
 		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
-		$result = $ocs->getShares();
+		$result = $ocs->getShares('false', 'true', 'false', $this->filename);
 		$ocs->cleanup();
 
 		// now we should get two shares, the initial share and the reshare
@@ -609,9 +610,9 @@ class ApiTest extends TestCase {
 		$share2 = $this->shareManager->createShare($share2);
 
 
-		$request = $this->createRequest(['path' => $this->folder, 'subfiles' => 'true']);
+		$request = $this->createRequest([]);
 		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
-		$result = $ocs->getShares();
+		$result = $ocs->getShares('false', 'false', 'true', $this->folder);
 		$ocs->cleanup();
 
 		// test should return one share within $this->folder
@@ -631,10 +632,10 @@ class ApiTest extends TestCase {
 			->setPermissions(19);
 		$share1 = $this->shareManager->createShare($share1);
 
-		$request = $this->createRequest(['path' => $this->filename, 'subfiles' => 'true']);
+		$request = $this->createRequest([]);
 		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
 		try {
-			$ocs->getShares();
+			$ocs->getShares('false', 'false', 'true', $this->filename);
 			$this->fail();
 		} catch (OCSBadRequestException $e) {
 			$this->assertEquals('Not a directory', $e->getMessage());
@@ -682,9 +683,9 @@ class ApiTest extends TestCase {
 		);
 		foreach ($testValues as $value) {
 
-			$request = $this->createRequest(['path' => $value['query'], 'subfiles' => 'true']);
+			$request = $this->createRequest([]);
 			$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER2);
-			$result = $ocs->getShares();
+			$result = $ocs->getShares('false', 'false', 'true', $value['query']);
 			$ocs->cleanup();
 
 			// test should return one share within $this->folder
@@ -965,12 +966,9 @@ class ApiTest extends TestCase {
 		$share2 = $this->shareManager->createShare($share2);
 
 		// update permissions
-		$params = array();
-		$params['permissions'] = 1;
-
-		$request = $this->createRequest(['permissions' => 1]);
+		$request = $this->createRequest([]);
 		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
-		$result = $ocs->updateShare($share1->getId());
+		$ocs->updateShare($share1->getId(), 1);
 		$ocs->cleanup();
 
 		$share1 = $this->shareManager->getShareById('ocinternal:' . $share1->getId());
@@ -979,17 +977,17 @@ class ApiTest extends TestCase {
 		// update password for link share
 		$this->assertNull($share2->getPassword());
 
-		$request = $this->createRequest(['password' => 'foo']);
+		$request = $this->createRequest([]);
 		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
-		$ocs->updateShare($share2->getId());
+		$ocs->updateShare($share2->getId(), null, 'foo');
 		$ocs->cleanup();
 
 		$share2 = $this->shareManager->getShareById('ocinternal:' . $share2->getId());
 		$this->assertNotNull($share2->getPassword());
 
-		$request = $this->createRequest(['password' => '']);
+		$request = $this->createRequest([]);
 		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
-		$ocs->updateShare($share2->getId());
+		$ocs->updateShare($share2->getId(), null, '');
 		$ocs->cleanup();
 
 		$share2 = $this->shareManager->getShareById('ocinternal:' . $share2->getId());
@@ -1043,9 +1041,9 @@ class ApiTest extends TestCase {
 		$share1 = $this->shareManager->createShare($share1);
 
 		// update public upload
-		$request = $this->createRequest(['publicUpload' => 'true']);
+		$request = $this->createRequest([]);
 		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
-		$result = $ocs->updateShare($share1->getId());
+		$ocs->updateShare($share1->getId(), null, null, 'true');
 		$ocs->cleanup();
 
 		$share1 = $this->shareManager->getShareById($share1->getFullId());
@@ -1087,9 +1085,9 @@ class ApiTest extends TestCase {
 		$dateOutOfRange->add(new \DateInterval('P8D'));
 
 		// update expire date to a valid value
-		$request = $this->createRequest(['expireDate' => $dateWithinRange->format('Y-m-d')]);
+		$request = $this->createRequest([]);
 		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
-		$result = $ocs->updateShare($share1->getId());
+		$ocs->updateShare($share1->getId(), null, null, null, $dateWithinRange->format('Y-m-d'));
 		$ocs->cleanup();
 
 		$share1 = $this->shareManager->getShareById($share1->getFullId());
@@ -1158,12 +1156,12 @@ class ApiTest extends TestCase {
 
 		$request = $this->createRequest([]);
 		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
-		$result = $ocs->deleteShare($share1->getId());
+		$ocs->deleteShare($share1->getId());
 		$ocs->cleanup();
 
 		$request = $this->createRequest([]);
 		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
-		$result = $ocs->deleteShare($share2->getId());
+		$ocs->deleteShare($share2->getId());
 		$ocs->cleanup();
 
 		$this->assertEmpty($this->shareManager->getSharesBy(self::TEST_FILES_SHARING_API_USER2, \OCP\Share::SHARE_TYPE_USER));
@@ -1195,7 +1193,7 @@ class ApiTest extends TestCase {
 		// test if we can unshare the link again
 		$request = $this->createRequest([]);
 		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER2);
-		$result = $ocs->deleteShare($share2->getId());
+		$ocs->deleteShare($share2->getId());
 		$ocs->cleanup();
 
 		$this->shareManager->deleteShare($share1);
@@ -1207,8 +1205,6 @@ class ApiTest extends TestCase {
 	public function testShareFolderWithAMountPoint() {
 		// user 1 shares a folder with user2
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-
-		$fileInfo = $this->view->getFileInfo($this->folder);
 
 		$share = $this->share(
 			\OCP\Share::SHARE_TYPE_USER,
@@ -1283,8 +1279,6 @@ class ApiTest extends TestCase {
 
 		// logging in will auto-mount the temp storage for user1 as well
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-
-		$fileInfo = $this->view->getFileInfo($this->folder);
 
 		// user 1 shares the mount point folder with user2
 		$share = $this->share(
@@ -1546,7 +1540,7 @@ class ApiTest extends TestCase {
 
 		$request = $this->createRequest([]);
 		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
-		$result = $ocs->deleteShare($topId);
+		$ocs->deleteShare($topId);
 		$ocs->cleanup();
 
 		$request = $this->createRequest([
@@ -1580,7 +1574,7 @@ class ApiTest extends TestCase {
 
 		$request = $this->createRequest([]);
 		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
-		$result = $ocs->deleteShare($topId);
+		$ocs->deleteShare($topId);
 		$ocs->cleanup();
 
 		$request = $this->createRequest([
