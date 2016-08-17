@@ -82,10 +82,6 @@ OC.L10N.register(
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Tjenestenavn",
     "Request timeout (seconds)" : "Anmodning timeout (sekunder)",
-    "<b>Note:</b> " : "<b>Note:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Bemærk:</b>  cURL-understøttelsen i PHP er enten ikke aktiveret eller installeret. Monteringen af %s er ikke mulig. Anmod din systemadministrator om at installere det.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Bemærk:</b>  FTP understøttelsen i PHP er enten ikke aktiveret eller installeret. Montering af %s er ikke muligt. Anmod din systemadministrator om at installere det.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Bemærk:</b>  \"%s\" er ikke installeret. Monteringen af %s er ikke mulig. Anmod din systemadministrator om at installere det.",
     "No external storage configured" : "Der er ingen konfigurerede eksterne lagre",
     "You can add external storages in the personal settings" : "Du kan tilføje eksterne lagerenheder i de personlige indstillinger",
     "Name" : "Navn",
@@ -97,7 +93,6 @@ OC.L10N.register(
     "Check for changes" : "Tjek for ændringer",
     "Never" : "Aldrig",
     "Once every direct access" : "Kun ved hver direkte tilgang",
-    "External Storage" : "Ekstern opbevaring",
     "Folder name" : "Mappenavn",
     "Authentication" : "Godkendelse",
     "Configuration" : "Opsætning",
@@ -105,6 +100,11 @@ OC.L10N.register(
     "Add storage" : "Tilføj lager",
     "Advanced settings" : "Avancerede indstillinger",
     "Delete" : "Slet",
-    "Allow users to mount the following external storage" : "Tillad brugere at montere følgende som eksternt lager"
+    "Allow users to mount the following external storage" : "Tillad brugere at montere følgende som eksternt lager",
+    "<b>Note:</b> " : "<b>Note:</b> ",
+    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Bemærk:</b>  cURL-understøttelsen i PHP er enten ikke aktiveret eller installeret. Monteringen af %s er ikke mulig. Anmod din systemadministrator om at installere det.",
+    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Bemærk:</b>  FTP understøttelsen i PHP er enten ikke aktiveret eller installeret. Montering af %s er ikke muligt. Anmod din systemadministrator om at installere det.",
+    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Bemærk:</b>  \"%s\" er ikke installeret. Monteringen af %s er ikke mulig. Anmod din systemadministrator om at installere det.",
+    "External Storage" : "Ekstern opbevaring"
 },
 "nplurals=2; plural=(n != 1);");

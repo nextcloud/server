@@ -63,7 +63,7 @@
     "Could not create file \"{file}\"" : "Die Datei konnte nicht erstellt werden \"{file}\"",
     "Could not create file \"{file}\" because it already exists" : "Die Datei konnte nicht erstellt werden \"{file}\", da sie bereits existiert.",
     "Could not create folder \"{dir}\"" : "Der Ordner konnte nicht erstellt werden \"{dir}\"",
-    "Could not create folder \"{dir}\" because it already exists" : "Der Ordner konnte nicht erstellt werden \"{dir}\", da dieser bereits existiert",
+    "Could not create folder \"{dir}\" because it already exists" : "Der Ordner \"{dir}\" konnte nicht erstellt werden , da dieser bereits existiert",
     "Error deleting file \"{fileName}\"." : "Fehler beim Löschen der Datei \"{fileName}\"",
     "No entries in this folder match '{filter}'" : "Keine Einträge in diesem Ordner stimmen mit '{filter}' überein",
     "Name" : "Name",

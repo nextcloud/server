@@ -63,7 +63,6 @@
     "Identity endpoint URL" : "認証エンドポイントURL",
     "Rackspace" : "Rackspace",
     "API key" : "APIキー",
-    "Global Credentials" : "グローバル認証情報",
     "Log-in credentials, save in database" : "ログイン認証情報は、データベースに保存されます。",
     "Username and password" : "ユーザー名とパスワード",
     "Log-in credentials, save in session" : "ログイン認証情報は、セッションに保存されます。",
@@ -100,10 +99,6 @@
     "OpenStack Object Storage" : "OpenStack ObjectStorage",
     "Service name" : "サービス名",
     "Request timeout (seconds)" : "リクエストがタイムアウトするまでの秒数",
-    "<b>Note:</b> " : "<b>注意:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>注意:</b> PHPにcURLのエクステンションが入っていないか、有効ではありません。%s をマウントすることができません。このシステムの管理者にインストールをお願いしてください。",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>注意:</b> PHPにFTPのエクステンションが入っていないか、有効ではありません。%s をマウントすることができません。このシステムの管理者にインストールをお願いしてください。",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>注意:</b> \"%s\" がインストールされていません。%sをマウントできません。このシステムの管理者にインストールをお願いしてください。",
     "No external storage configured" : "外部ストレージは設定されていません",
     "You can add external storages in the personal settings" : "個人設定で外部ストレージを設定することができます。",
     "Name" : "名前",
@@ -115,7 +110,6 @@
     "Check for changes" : "変更点を確認",
     "Never" : "更新無",
     "Once every direct access" : "直指定時のみ",
-    "External Storage" : "外部ストレージ",
     "Folder name" : "フォルダー名",
     "Authentication" : "認証",
     "Configuration" : "設定",
@@ -124,6 +118,12 @@
     "Advanced settings" : "詳細設定",
     "Delete" : "削除",
     "Allow users to mount external storage" : "ユーザーに外部ストレージの接続を許可する",
-    "Allow users to mount the following external storage" : "ユーザーに以下の外部ストレージのマウントを許可する"
+    "Allow users to mount the following external storage" : "ユーザーに以下の外部ストレージのマウントを許可する",
+    "Global Credentials" : "グローバル認証情報",
+    "<b>Note:</b> " : "<b>注意:</b> ",
+    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>注意:</b> PHPにcURLのエクステンションが入っていないか、有効ではありません。%s をマウントすることができません。このシステムの管理者にインストールをお願いしてください。",
+    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>注意:</b> PHPにFTPのエクステンションが入っていないか、有効ではありません。%s をマウントすることができません。このシステムの管理者にインストールをお願いしてください。",
+    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>注意:</b> \"%s\" がインストールされていません。%sをマウントできません。このシステムの管理者にインストールをお願いしてください。",
+    "External Storage" : "外部ストレージ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

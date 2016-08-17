@@ -47,6 +47,7 @@ OC.L10N.register(
     "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "Der %uid - Platzhalter fehlt. Dieser wird mit dem Anmeldenamen beim Abfragen von LDAP / AD ersetzt.",
     "Please provide a login name to test against" : "Bitte geben Sie einen Benutzernamen an, um gegen diesen zu testen",
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Das Gruppenfeld wurde deaktiviert, da der LDAP / AD-Server memberOf nicht unterstützt.",
+    "LDAP / AD integration" : "LDAP / AD Integration",
     "_%s group found_::_%s groups found_" : ["%s Gruppe gefunden","%s Gruppen gefunden"],
     "_%s user found_::_%s users found_" : ["%s Benutzer gefunden","%s Benutzer gefunden"],
     "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Das Anzeigename-Attribut des Benutzers konnte nicht gefunden werden. Bitte geben Sie es in den erweiterten LDAP-Einstellungen selber an.",

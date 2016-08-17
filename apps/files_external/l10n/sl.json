@@ -63,7 +63,6 @@
     "Identity endpoint URL" : "Naslov URL končne točke istovetnosti",
     "Rackspace" : "Rackspace",
     "API key" : "Ključ API",
-    "Global Credentials" : "Globalne poverilnice",
     "Log-in credentials, save in database" : "Prijavne poverilnice, shrani v bazo",
     "Username and password" : "Uporabniško ime in geslo",
     "Log-in credentials, save in session" : "Prijavna poverila, shrani v seji",
@@ -100,10 +99,6 @@
     "OpenStack Object Storage" : "Shramba predmeta OpenStack",
     "Service name" : "Ime storitve",
     "Request timeout (seconds)" : "Zahtevan časovni zamik (sekunde)",
-    "<b>Note:</b> " : "<b>Opomba:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Opomba:</b> Podpora za naslove cURL v PHP ni omogočena, ali pa ni ustrezno nameščenih programov. Priklapljanje %s ni mogoče. Za pomoč pri namestitvi se obrnite na sistemskega skrbnika.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Opomba:</b> Podpora za protokol FTP v PHP ni omogočena, ali pa ni ustrezno nameščenih programov. Priklapljanje %s ni mogoče. Za pomoč pri namestitvi se obrnite na sistemskega skrbnika.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Opomba:</b> Program \"%s\" ni nameščen. Priklapljanje %s ni mogoče. Za pomoč pri namestitvi se obrnite na sistemskega skrbnika.",
     "No external storage configured" : "Ni določene zunanje shrambe",
     "You can add external storages in the personal settings" : "Med nastavitvami je mogoče dodati tudi zunanjo shrambo.",
     "Name" : "Ime",
@@ -115,7 +110,6 @@
     "Check for changes" : "Preveri za spremembe",
     "Never" : "Nikoli",
     "Once every direct access" : "Enkrat ob neposrednem dostopu",
-    "External Storage" : "Zunanja podatkovna shramba",
     "Folder name" : "Ime mape",
     "Authentication" : "Overitev",
     "Configuration" : "Nastavitve",
@@ -124,6 +118,12 @@
     "Advanced settings" : "Napredne nastavitve",
     "Delete" : "Izbriši",
     "Allow users to mount external storage" : "Dovoli uporabnikom priklapljanje zunanje shrambe",
-    "Allow users to mount the following external storage" : "Dovoli uporabnikom priklapljanje navedenih zunanjih shramb."
+    "Allow users to mount the following external storage" : "Dovoli uporabnikom priklapljanje navedenih zunanjih shramb.",
+    "Global Credentials" : "Globalne poverilnice",
+    "<b>Note:</b> " : "<b>Opomba:</b> ",
+    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Opomba:</b> Podpora za naslove cURL v PHP ni omogočena, ali pa ni ustrezno nameščenih programov. Priklapljanje %s ni mogoče. Za pomoč pri namestitvi se obrnite na sistemskega skrbnika.",
+    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Opomba:</b> Podpora za protokol FTP v PHP ni omogočena, ali pa ni ustrezno nameščenih programov. Priklapljanje %s ni mogoče. Za pomoč pri namestitvi se obrnite na sistemskega skrbnika.",
+    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Opomba:</b> Program \"%s\" ni nameščen. Priklapljanje %s ni mogoče. Za pomoč pri namestitvi se obrnite na sistemskega skrbnika.",
+    "External Storage" : "Zunanja podatkovna shramba"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

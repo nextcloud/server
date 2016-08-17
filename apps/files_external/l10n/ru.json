@@ -63,7 +63,6 @@
     "Identity endpoint URL" : "Удостоверение конечной точки URL",
     "Rackspace" : "Rackspace",
     "API key" : "Ключ API",
-    "Global Credentials" : "Глобальные Учетные данные",
     "Log-in credentials, save in database" : "Учетные данные, хранить в базе данных",
     "Username and password" : "Имя пользователя и пароль",
     "Log-in credentials, save in session" : "Учетные данные, хранить в сессии",
@@ -100,10 +99,6 @@
     "OpenStack Object Storage" : "Хранилище объектов OpenStack",
     "Service name" : "Название сервиса",
     "Request timeout (seconds)" : "Таймаут запроса (секунды)",
-    "<b>Note:</b> " : "<b>Примечание:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Примечание:</b> Поддержка cURL в PHP не включена или не установлена. Монтирование %s невозможно. Обратитесь к вашему системному администратору.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Примечание:</b> Поддержка FTP в PHP не включена или не установлена. Монтирование %s невозможно. Пожалуйста, обратитесь к системному администратору.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Примечание:</b> \"%s\" не установлен. Монтирование %s невозможно. Пожалуйста, обратитесь к системному администратору.",
     "No external storage configured" : "Нет внешних хранилищ",
     "You can add external storages in the personal settings" : "Вы можете добавить внешние накопители в личных настройках",
     "Name" : "Имя",
@@ -115,7 +110,6 @@
     "Check for changes" : "Проверять изменения",
     "Never" : "Никогда",
     "Once every direct access" : "Один раз при прямом доступе",
-    "External Storage" : "Внешнее хранилище",
     "Folder name" : "Имя каталога",
     "Authentication" : "Авторизация",
     "Configuration" : "Конфигурация",
@@ -124,6 +118,12 @@
     "Advanced settings" : "Расширенные настройки",
     "Delete" : "Удалить",
     "Allow users to mount external storage" : "Разрешить пользователями монтировать внешние накопители",
-    "Allow users to mount the following external storage" : "Разрешить пользователям монтировать следующие сервисы хранения данных"
+    "Allow users to mount the following external storage" : "Разрешить пользователям монтировать следующие сервисы хранения данных",
+    "Global Credentials" : "Глобальные Учетные данные",
+    "<b>Note:</b> " : "<b>Примечание:</b> ",
+    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Примечание:</b> Поддержка cURL в PHP не включена или не установлена. Монтирование %s невозможно. Обратитесь к вашему системному администратору.",
+    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Примечание:</b> Поддержка FTP в PHP не включена или не установлена. Монтирование %s невозможно. Пожалуйста, обратитесь к системному администратору.",
+    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Примечание:</b> \"%s\" не установлен. Монтирование %s невозможно. Пожалуйста, обратитесь к системному администратору.",
+    "External Storage" : "Внешнее хранилище"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

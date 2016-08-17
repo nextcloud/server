@@ -1,14 +1,14 @@
 { "translations": {
+    "Enabled" : "Abilitata",
+    "Not enabled" : "Non abilitata",
     "Wrong password" : "Password errata",
     "Saved" : "Salvato",
     "No user supplied" : "Non è stato fornito alcun utente",
+    "Unable to change password" : "Impossibile cambiare la password",
     "Authentication error" : "Errore di autenticazione",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Fornisci una password amministrativa di ripristino altrimenti tutti i dati degli utenti saranno persi.",
     "Wrong admin recovery password. Please check the password and try again." : "Password amministrativa di ripristino errata. Controlla la password e prova ancora.",
     "Backend doesn't support password change, but the user's encryption key was successfully updated." : "Il motore non supporta la modifica della password, ma la chiave di cifratura dell'utente è stata aggiornata correttamente.",
-    "Unable to change password" : "Impossibile cambiare la password",
-    "Enabled" : "Abilitata",
-    "Not enabled" : "Non abilitata",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "installazione e aggiornamento delle applicazioni tramite il negozio delle applicazioni o condivisione cloud federata",
     "Federated Cloud Sharing" : "Condivisione cloud federata",
     "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL utilizza una versione %s datata (%s). Aggiorna il tuo sistema operativo o funzionalità come %s non funzioneranno correttamente.",
@@ -322,10 +322,6 @@
     "set new password" : "imposta una nuova password",
     "change email address" : "cambia l'indirizzo email",
     "Default" : "Predefinito",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "Archiviazione esterna",
-    "Updates" : "Aggiornamenti",
     "no group" : "nessun gruppo",
     "add group" : "aggiungi gruppo",
     "Add Group" : "Aggiungi gruppo",
@@ -333,6 +329,10 @@
     "Full Name" : "Nome completo",
     "Group Admin for" : "Gruppo di amministrazione per",
     "Storage Location" : "Posizione di archiviazione",
-    "Last Login" : "Ultimo accesso"
+    "Last Login" : "Ultimo accesso",
+    "APCu" : "APCu",
+    "Redis" : "Redis",
+    "External Storage" : "Archiviazione esterna",
+    "Updates" : "Aggiornamenti"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

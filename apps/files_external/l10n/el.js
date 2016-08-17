@@ -87,10 +87,6 @@ OC.L10N.register(
     "OpenStack Object Storage" : "Αποθήκη αντικειμένων OpenStack",
     "Service name" : "Όνομα υπηρεσίας",
     "Request timeout (seconds)" : "Χρονικό όριο αιτήματος (δευτερόλεπτα)",
-    "<b>Note:</b> " : "<b>Σημείωση:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Σημείωση:</b> Η υποστήριξη cURL στην PHP δεν είναι ενεργοποιημένη ή εγκατεστημένη. Η προσάρτηση του %s δεν είναι δυνατή. Παρακαλώ ζητήστε από τον διαχειριστή συστημάτων σας να την εγκαταστήσει.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Σημείωση:</b> Η υποστήριξη FTP στην PHP δεν είναι ενεργοποιημένη ή εγκατεστημένη. Δεν είναι δυνατή η προσάρτηση του %s. Παρακαλώ ζητήστε από τον διαχειριστή συστημάτων σας να την εγκαταστήσει.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Σημείωση:</b> Η επέκταση \"%s\" δεν είναι εγκατεστημένη. Δεν είναι δυνατή η προσάρτηση %s. Παρακαλώ ζητήστε από τον διαχειριστή συστημάτων σας να την εγκαταστήσει.",
     "No external storage configured" : "Δεν έχει ρυθμιστεί κανένα εξωτερικό μέσο αποθήκευσης",
     "You can add external storages in the personal settings" : "Μπορείτε να προσθέσετε εξωτερικά μέσα αποθήκευσης στις προσωπικές ρυθμίσεις",
     "Name" : "Όνομα",
@@ -101,7 +97,6 @@ OC.L10N.register(
     "Check for changes" : "Έλεγχος για αλλαγές",
     "Never" : "Ποτέ",
     "Once every direct access" : "Σε κάθε απευθείας πρόσβαση",
-    "External Storage" : "Εξωτερικό Αποθηκευτικό Μέσο",
     "Folder name" : "Όνομα φακέλου",
     "Authentication" : "Πιστοποίηση",
     "Configuration" : "Ρυθμίσεις",
@@ -110,6 +105,11 @@ OC.L10N.register(
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
     "Delete" : "Διαγραφή",
     "Allow users to mount external storage" : "Να επιτρέπεται στους χρήστες η σύνδεση εξωτερικού χώρου",
-    "Allow users to mount the following external storage" : "Χορήγηση άδειας στους χρήστες να συνδέσουν τα παρακάτω εξωτερικά μέσα αποθήκευσης"
+    "Allow users to mount the following external storage" : "Χορήγηση άδειας στους χρήστες να συνδέσουν τα παρακάτω εξωτερικά μέσα αποθήκευσης",
+    "<b>Note:</b> " : "<b>Σημείωση:</b> ",
+    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Σημείωση:</b> Η υποστήριξη cURL στην PHP δεν είναι ενεργοποιημένη ή εγκατεστημένη. Η προσάρτηση του %s δεν είναι δυνατή. Παρακαλώ ζητήστε από τον διαχειριστή συστημάτων σας να την εγκαταστήσει.",
+    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Σημείωση:</b> Η υποστήριξη FTP στην PHP δεν είναι ενεργοποιημένη ή εγκατεστημένη. Δεν είναι δυνατή η προσάρτηση του %s. Παρακαλώ ζητήστε από τον διαχειριστή συστημάτων σας να την εγκαταστήσει.",
+    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Σημείωση:</b> Η επέκταση \"%s\" δεν είναι εγκατεστημένη. Δεν είναι δυνατή η προσάρτηση %s. Παρακαλώ ζητήστε από τον διαχειριστή συστημάτων σας να την εγκαταστήσει.",
+    "External Storage" : "Εξωτερικό Αποθηκευτικό Μέσο"
 },
 "nplurals=2; plural=(n != 1);");

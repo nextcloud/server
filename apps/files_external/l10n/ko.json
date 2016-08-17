@@ -93,10 +93,6 @@
     "OpenStack Object Storage" : "OpenStack 객체 저장소",
     "Service name" : "서비스 이름",
     "Request timeout (seconds)" : "요청 시간 제한(초)",
-    "<b>Note:</b> " : "<b>메모:</b>",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>메모:</b> PHP cURL 모듈이 비활성화되어 있거나 설치되어 있지 않습니다. %s을(를) 마운트할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>메모:</b> PHP FTP 모듈이 비활성화되어 있거나 설치되어 있지 않습니다. %s을(를) 마운트할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>메모:</b> \"%s\"이(가) 설치되어 있지 않습니다. %s을(를) 마운트할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오.",
     "No external storage configured" : "외부 저장소가 설정되지 않았음",
     "You can add external storages in the personal settings" : "개인 설정에서 외부 저장소를 추가할 수 있습니다",
     "Name" : "이름",
@@ -108,7 +104,6 @@
     "Check for changes" : "변경 사항 감시",
     "Never" : "하지 않음",
     "Once every direct access" : "한 번 직접 접근할 때마다",
-    "External Storage" : "외부 저장소",
     "Folder name" : "폴더 이름",
     "Authentication" : "인증",
     "Configuration" : "설정",
@@ -117,6 +112,11 @@
     "Advanced settings" : "고급 설정",
     "Delete" : "삭제",
     "Allow users to mount external storage" : "사용자가 외부 저장소를 마운트하도록 허용",
-    "Allow users to mount the following external storage" : "사용자가 다음 외부 저장소를 마운트할 수 있도록 허용"
+    "Allow users to mount the following external storage" : "사용자가 다음 외부 저장소를 마운트할 수 있도록 허용",
+    "<b>Note:</b> " : "<b>메모:</b>",
+    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>메모:</b> PHP cURL 모듈이 비활성화되어 있거나 설치되어 있지 않습니다. %s을(를) 마운트할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오.",
+    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>메모:</b> PHP FTP 모듈이 비활성화되어 있거나 설치되어 있지 않습니다. %s을(를) 마운트할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오.",
+    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>메모:</b> \"%s\"이(가) 설치되어 있지 않습니다. %s을(를) 마운트할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오.",
+    "External Storage" : "외부 저장소"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
