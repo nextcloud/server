@@ -220,7 +220,7 @@ class OC_Mount_Config {
 			return StorageNotAvailableException::STATUS_SUCCESS;
 		}
 		foreach ($options as $key => $option) {
-			$option[$key] = self::setUserVars(OCP\User::getUser(), $option);
+			$options[$key] = self::setUserVars(OCP\User::getUser(), $option);
 		}
 		if (class_exists($class)) {
 			try {
