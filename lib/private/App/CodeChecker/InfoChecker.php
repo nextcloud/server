@@ -80,7 +80,7 @@ class InfoChecker extends BasicEmitter {
 
 		$info = $this->infoParser->parse($appPath . '/appinfo/info.xml');
 
-		if (isset($info['dependencies']['owncloud']['@attributes']['min-version']) && ($info['requiremin'] || $info['require'])) {
+		if (isset($info['dependencies']['owncloud']['@attributes']['min-version']) && (isset($info['requiremin']) || isset($info['require']))) {
 			$this->emit('InfoChecker', 'duplicateRequirement', ['min']);
 			$errors[] = [
 				'type' => 'duplicateRequirement',
@@ -90,7 +90,7 @@ class InfoChecker extends BasicEmitter {
 			$this->emit('InfoChecker', 'missingRequirement', ['min']);
 		}
 
-		if (isset($info['dependencies']['owncloud']['@attributes']['max-version']) && $info['requiremax']) {
+		if (isset($info['dependencies']['owncloud']['@attributes']['max-version']) && isset($info['requiremax'])) {
 			$this->emit('InfoChecker', 'duplicateRequirement', ['max']);
 			$errors[] = [
 				'type' => 'duplicateRequirement',
