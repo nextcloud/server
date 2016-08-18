@@ -189,7 +189,7 @@ With help from many libraries and frameworks including:
 			while(!empty($lines)) {
 				$line = $lines[0];
 				array_shift($lines);
-				if (strpos($line, 'ownCloud, Inc') !== false) {
+				if (strpos($line, 'ownCloud, Inc') !== false || strpos($line, 'ownCloud GmbH') !== false) {
 					return true;
 				}
 			}
