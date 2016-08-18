@@ -35,7 +35,7 @@
 		'        <input type="text" class="message" placeholder="{{newMessagePlaceholder}}" value="{{{message}}}"" />' +
 		'        <input class="submit icon-confirm" type="submit" value="" />' +
 		'{{#if isEditMode}}' +
-		'        <input class="cancel" type="button" value="{{cancelText}}" />' +
+		'        <input class="cancel pull-right" type="button" value="{{cancelText}}" />' +
 		'{{/if}}' +
 		'        <div class="submitLoading icon-loading-small hidden"></div>'+
 		'    </form>' +

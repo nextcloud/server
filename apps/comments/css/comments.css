@@ -43,6 +43,10 @@
 	background-position: left;
 }
 
+#commentsTabView .newCommentForm .cancel {
+	margin-right: 6px;
+}
+
 #commentsTabView .comment {
 	position: relative;
 	z-index: 1;
