@@ -81,14 +81,14 @@
 					<li>
 						<a href="<?php print_unescaped($entry['href']); ?>"
 							<?php if( $entry["active"] ): ?> class="active"<?php endif; ?>>
-							<img alt="" src="<?php print_unescaped($entry['icon']); ?>">
+							<img alt="" src="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>">
 							<?php p($entry['name']) ?>
 						</a>
 					</li>
 				<?php endforeach; ?>
 					<li>
 						<a id="logout" <?php print_unescaped(OC_User::getLogoutAttribute()); ?>>
-							<img alt="" src="<?php print_unescaped(image_path('', 'actions/logout.svg')); ?>">
+							<img alt="" src="<?php print_unescaped(image_path('', 'actions/logout.svg') . '?v=' . $_['versionHash']); ?>">
 							<?php p($l->t('Log out'));?>
 						</a>
 					</li>
