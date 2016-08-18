@@ -397,9 +397,13 @@ class Notification implements INotification {
 			}
 
 			$this->hasPrimaryParsedAction = true;
+
+			// Make sure the primary action is always the first one
+			array_unshift($this->actionsParsed, $action);
+		} else {
+			$this->actionsParsed[] = $action;
 		}
 
-		$this->actionsParsed[] = $action;
 		return $this;
 	}
 
