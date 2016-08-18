@@ -21,9 +21,6 @@
 
 namespace OCA\WorkflowEngine\AppInfo;
 
-use OCP\Util;
-use OCP\WorkflowEngine\RegisterCheckEvent;
-
 class Application extends \OCP\AppFramework\App {
 
 	public function __construct() {
@@ -41,6 +38,11 @@ class Application extends \OCP\AppFramework\App {
 		$dispatcher->addListener(
 			'OCP\WorkflowEngine::loadAdditionalSettingScripts',
 			function() {
+				if (!function_exists('style')) {
+					// This is hacky, but we need to load the template class
+					class_exists('OCP\Template', true);
+				}
+
 				style('workflowengine', [
 					'admin',
 				]);
