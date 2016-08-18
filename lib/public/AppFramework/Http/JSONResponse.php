@@ -60,15 +60,21 @@ class JSONResponse extends Response {
 
 	/**
 	 * Returns the rendered json
-	 * @return string the rendered json
+	 * @return string|null the rendered json
 	 * @since 6.0.0
 	 * @throws \Exception If data could not get encoded
 	 */
 	public function render() {
-		$response = json_encode($this->data, JSON_HEX_TAG);
-		if($response === false) {
-			throw new \Exception(sprintf('Could not json_encode due to invalid ' .
-				'non UTF-8 characters in the array: %s', var_export($this->data, true)));
+		if ($this->getStatus() === Http::STATUS_NO_CONTENT
+			|| $this->getStatus() === Http::STATUS_NOT_MODIFIED
+		) {
+			$response = null;
+		} else {
+			$response = json_encode($this->data, JSON_HEX_TAG);
+			if ($response === false) {
+				throw new \Exception(sprintf('Could not json_encode due to invalid ' .
+					'non UTF-8 characters in the array: %s', var_export($this->data, true)));
+			}
 		}
 
 		return $response;
