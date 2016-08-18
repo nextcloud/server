@@ -190,7 +190,7 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 
 		$dn = $user->getDN();
 		//check if user really still exists by reading its entry
-		if(!is_array($this->access->readAttribute($dn, ''))) {
+		if(!is_array($this->access->readAttribute($dn, '', $this->access->connection->ldapUserFilter))) {
 			$lcr = $this->access->connection->getConnectionResource();
 			if(is_null($lcr)) {
 				throw new \Exception('No LDAP Connection to server ' . $this->access->connection->ldapHost);
@@ -202,6 +202,11 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 					return false;
 				}
 				$newDn = $this->access->getUserDnByUuid($uuid);
+				//check if renamed user is still valid by reapplying the ldap filter
+				if(!is_array($this->access->readAttribute($newDn, '', $this->access->connection->ldapUserFilter))) {
+					return false;
+				}
+
 				$this->access->getUserMapper()->setDNbyUUID($newDn, $uuid);
 				return true;
 			} catch (\Exception $e) {
