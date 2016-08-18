@@ -246,17 +246,32 @@ class Share20OCS extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
+	 * @param string $path
+	 * @param int $permissions
+	 * @param int $shareType
+	 * @param string $shareWith
+	 * @param string $publicUpload
+	 * @param string $password
+	 * @param string $expireDate
+	 *
 	 * @return DataResponse
 	 * @throws OCSNotFoundException
 	 * @throws OCSForbiddenException
 	 * @throws OCSBadRequestException
 	 * @throws OCSException
 	 */
-	public function createShare() {
+	public function createShare(
+		$path = null,
+		$permissions = \OCP\Constants::PERMISSION_ALL,
+		$shareType = -1,
+		$shareWith = null,
+		$publicUpload = 'false',
+		$password = '',
+		$expireDate = ''
+	) {
 		$share = $this->shareManager->newShare();
 
 		// Verify path
-		$path = $this->request->getParam('path', null);
 		if ($path === null) {
 			throw new OCSNotFoundException($this->l->t('Please specify a file or folder path'));
 		}
@@ -274,14 +289,6 @@ class Share20OCS extends OCSController {
 			$this->lock($share->getNode());
 		} catch (LockedException $e) {
 			throw new OCSNotFoundException($this->l->t('Could not create share'));
-		}
-
-		// Parse permissions (if available)
-		$permissions = $this->request->getParam('permissions', null);
-		if ($permissions === null) {
-			$permissions = \OCP\Constants::PERMISSION_ALL;
-		} else {
-			$permissions = (int)$permissions;
 		}
 
 		if ($permissions < 0 || $permissions > \OCP\Constants::PERMISSION_ALL) {
@@ -305,9 +312,6 @@ class Share20OCS extends OCSController {
 		if ($path->getStorage()->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
 			$permissions &= ~($permissions & ~$path->getPermissions());
 		}
-
-		$shareWith = $this->request->getParam('shareWith', null);
-		$shareType = (int)$this->request->getParam('shareType', '-1');
 
 		if ($shareType === \OCP\Share::SHARE_TYPE_USER) {
 			// Valid user is required to share
@@ -342,7 +346,6 @@ class Share20OCS extends OCSController {
 				return new DataResponse($this->formatShare($existingShares[0]));
 			}
 
-			$publicUpload = $this->request->getParam('publicUpload', null);
 			if ($publicUpload === 'true') {
 				// Check if public upload is allowed
 				if (!$this->shareManager->shareApiLinkAllowPublicUpload()) {
@@ -365,15 +368,11 @@ class Share20OCS extends OCSController {
 			}
 
 			// Set password
-			$password = $this->request->getParam('password', '');
-
 			if ($password !== '') {
 				$share->setPassword($password);
 			}
 
 			//Expire date
-			$expireDate = $this->request->getParam('expireDate', '');
-
 			if ($expireDate !== '') {
 				try {
 					$expireDate = $this->parseDate($expireDate);
@@ -474,6 +473,11 @@ class Share20OCS extends OCSController {
 	 *
 	 * @NoAdminRequired
 	 *
+	 * @param string $shared_with_me
+	 * @param string $reshares
+	 * @param string $subfiles
+	 * @param string $path
+	 *
 	 * - Get shares by the current user
 	 * - Get shares by the current user and reshares (?reshares=true)
 	 * - Get shares with the current user (?shared_with_me=true)
@@ -483,11 +487,12 @@ class Share20OCS extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSNotFoundException
 	 */
-	public function getShares() {
-		$sharedWithMe = $this->request->getParam('shared_with_me', null);
-		$reshares = $this->request->getParam('reshares', null);
-		$subfiles = $this->request->getParam('subfiles');
-		$path = $this->request->getParam('path', null);
+	public function getShares(
+		$shared_with_me = 'false',
+		$reshares = 'false',
+		$subfiles = 'false',
+		$path = null
+	) {
 
 		if ($path !== null) {
 			$userFolder = $this->rootFolder->getUserFolder($this->currentUser->getUID());
@@ -501,7 +506,7 @@ class Share20OCS extends OCSController {
 			}
 		}
 
-		if ($sharedWithMe === 'true') {
+		if ($shared_with_me === 'true') {
 			$result = $this->getSharedWithMe($path);
 			return $result;
 		}
@@ -544,12 +549,22 @@ class Share20OCS extends OCSController {
 	 * @NoAdminRequired
 	 *
 	 * @param int $id
+	 * @param int $permissions
+	 * @param string $password
+	 * @param string $publicUpload
+	 * @param string $expireDate
 	 * @return DataResponse
 	 * @throws OCSNotFoundException
 	 * @throws OCSBadRequestException
 	 * @throws OCSForbiddenException
 	 */
-	public function updateShare($id) {
+	public function updateShare(
+		$id,
+		$permissions = null,
+		$password = null,
+		$publicUpload = null,
+		$expireDate = null
+	) {
 		try {
 			$share = $this->getShareById($id);
 		} catch (ShareNotFound $e) {
@@ -561,11 +576,6 @@ class Share20OCS extends OCSController {
 		if (!$this->canAccessShare($share, false)) {
 			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
 		}
-
-		$permissions = $this->request->getParam('permissions', null);
-		$password = $this->request->getParam('password', null);
-		$publicUpload = $this->request->getParam('publicUpload', null);
-		$expireDate = $this->request->getParam('expireDate', null);
 
 		/*
 		 * expirationdate, password and publicUpload only make sense for link shares
