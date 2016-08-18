@@ -33,6 +33,8 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCA\DAV\DAV\Sharing\Backend;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCP\IDBConnection;
+use OCP\IUser;
+use OCP\IUserManager;
 use PDO;
 use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Backend\SyncSupport;
@@ -66,6 +68,14 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			'BDAY', 'UID', 'N', 'FN', 'TITLE', 'ROLE', 'NOTE', 'NICKNAME',
 			'ORG', 'CATEGORIES', 'EMAIL', 'TEL', 'IMPP', 'ADR', 'URL', 'GEO', 'CLOUD');
 
+	/**
+	 * @var string[] Map of uid => display name
+	 */
+	protected $userDisplayNames;
+
+	/** @var IUserManager */
+	private $userManager;
+
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
 
@@ -74,13 +84,16 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 *
 	 * @param IDBConnection $db
 	 * @param Principal $principalBackend
+	 * @param IUserManager $userManager
 	 * @param EventDispatcherInterface $dispatcher
 	 */
 	public function __construct(IDBConnection $db,
 								Principal $principalBackend,
+								IUserManager $userManager,
 								EventDispatcherInterface $dispatcher = null) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
+		$this->userManager = $userManager;
 		$this->dispatcher = $dispatcher;
 		$this->sharingBackend = new Backend($this->db, $principalBackend, 'addressbook');
 	}
@@ -143,7 +156,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		while($row = $result->fetch()) {
 			list(, $name) = URLUtil::splitPath($row['principaluri']);
 			$uri = $row['uri'] . '_shared_by_' . $name;
-			$displayName = $row['displayname'] . "($name)";
+			$displayName = $row['displayname'] . ' (' . $this->getUserDisplayName($name) . ')';
 			if (!isset($addressBooks[$row['id']])) {
 				$addressBooks[$row['id']] = [
 					'id'  => $row['id'],
@@ -161,6 +174,20 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$result->closeCursor();
 
 		return array_values($addressBooks);
+	}
+
+	private function getUserDisplayName($uid) {
+		if (!isset($this->userDisplayNames[$uid])) {
+			$user = $this->userManager->get($uid);
+
+			if ($user instanceof IUser) {
+				$this->userDisplayNames[$uid] = $user->getDisplayName();
+			} else {
+				$this->userDisplayNames[$uid] = $uid;
+			}
+		}
+
+		return $this->userDisplayNames[$uid];
 	}
 
 	/**

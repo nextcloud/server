@@ -83,11 +83,11 @@ class RootCollection extends SimpleCollection {
 			\OC::$server->getLogger()
 		);
 
-		$usersCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $dispatcher);
+		$usersCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, \OC::$server->getUserManager(), $dispatcher);
 		$usersAddressBookRoot = new AddressBookRoot($userPrincipalBackend, $usersCardDavBackend, 'principals/users');
 		$usersAddressBookRoot->disableListing = $disableListing;
 
-		$systemCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $dispatcher);
+		$systemCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, \OC::$server->getUserManager(), $dispatcher);
 		$systemAddressBookRoot = new AddressBookRoot(new SystemPrincipalBackend(), $systemCardDavBackend, 'principals/system');
 		$systemAddressBookRoot->disableListing = $disableListing;
 
