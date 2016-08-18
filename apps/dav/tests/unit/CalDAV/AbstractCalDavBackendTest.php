@@ -49,6 +49,9 @@ abstract class AbstractCalDavBackendTest extends TestCase {
 	/** @var Principal | \PHPUnit_Framework_MockObject_MockObject */
 	protected $principal;
 
+	/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $userManager;
+
 	const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
 	const UNIT_TEST_USER1 = 'principals/users/caldav-unit-test1';
 	const UNIT_TEST_GROUP = 'principals/groups/caldav-unit-test-group';
@@ -56,6 +59,9 @@ abstract class AbstractCalDavBackendTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
+		$this->userManager = $this->getMockBuilder('OCP\IUserManager')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->principal = $this->getMockBuilder('OCA\DAV\Connector\Sabre\Principal')
 			->disableOriginalConstructor()
 			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
@@ -69,7 +75,7 @@ abstract class AbstractCalDavBackendTest extends TestCase {
 			->willReturn([self::UNIT_TEST_GROUP]);
 
 		$db = \OC::$server->getDatabaseConnection();
-		$this->backend = new CalDavBackend($db, $this->principal);
+		$this->backend = new CalDavBackend($db, $this->principal, $this->userManager);
 
 		$this->tearDown();
 	}

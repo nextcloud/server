@@ -76,7 +76,7 @@ class CreateCalendar extends Command {
 		);
 
 		$name = $input->getArgument('name');
-		$caldav = new CalDavBackend($this->dbConnection, $principalBackend);
+		$caldav = new CalDavBackend($this->dbConnection, $principalBackend, $this->userManager);
 		$caldav->createCalendar("principals/users/$user", $name, []);
 	}
 }
