@@ -614,7 +614,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Notification\\Manager' => __DIR__ . '/../../..' . '/lib/private/Notification/Manager.php',
         'OC\\Notification\\Notification' => __DIR__ . '/../../..' . '/lib/private/Notification/Notification.php',
         'OC\\OCSClient' => __DIR__ . '/../../..' . '/lib/private/OCSClient.php',
-        'OC\\OCS\\Config' => __DIR__ . '/../../..' . '/lib/private/OCS/Config.php',
         'OC\\OCS\\CoreCapabilities' => __DIR__ . '/../../..' . '/lib/private/OCS/CoreCapabilities.php',
         'OC\\OCS\\Exception' => __DIR__ . '/../../..' . '/lib/private/OCS/Exception.php',
         'OC\\OCS\\Person' => __DIR__ . '/../../..' . '/lib/private/OCS/Person.php',
