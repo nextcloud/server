@@ -180,6 +180,9 @@ script(
 	</div>
 </div>
 <div id="app-content">
+	<svg height="0">
+		<defs><filter id="invertIcon"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>
+	</svg>
 	<div id="apps-list" class="icon-loading"></div>
 	<div id="apps-list-empty" class="hidden emptycontent emptycontent-search">
 		<div class="icon-search"></div>
