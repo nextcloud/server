@@ -35,6 +35,7 @@ use Icewind\SMB\Exception\ConnectException;
 use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\ForbiddenException;
 use Icewind\SMB\Exception\NotFoundException;
+use Icewind\SMB\FileInfo;
 use Icewind\SMB\NativeServer;
 use Icewind\SMB\Server;
 use Icewind\Streams\CallbackWrapper;
@@ -127,8 +128,12 @@ class SMB extends Common {
 		try {
 			$path = $this->buildPath($path);
 			if (!isset($this->statCache[$path])) {
-				$this->log("stat fetching '{$this->root}$path'");
-				$this->statCache[$path] = $this->share->stat($path);
+				if ($this->remoteIsShare() && $this->isRootDir($path)) { //mtime doesn't work for shares
+					$this->statCache[$path] = new FileInfo($path, '', 0, $this->shareMTime(), FileInfo::MODE_DIRECTORY);
+				} else {
+					$this->log("stat fetching '{$this->root}$path'");
+					$this->statCache[$path] = $this->share->stat($path);
+				}
 			} else {
 				$this->log("stat cache hit for '$path'");
 			}
@@ -228,24 +233,16 @@ class SMB extends Common {
 	 */
 	public function stat($path) {
 		$this->log('enter: '.__FUNCTION__."($path)");
-		if ($this->remoteIsShare() && $this->isRootDir($path)) { //mtime doesn't work for shares
-			$result = [
-				'mtime' => $this->shareMTime(),
-				'size' => 0,
-				'type' => 'dir'
-			];
-		} else {
-			$result = $this->formatInfo($this->getFileInfo($path));
-		}
+		$result = $this->formatInfo($this->getFileInfo($path));
 		return $this->leave(__FUNCTION__, $result);
 	}
 
 	/**
 	 * get the best guess for the modification time of the share
+	 * NOTE: modification times do not bubble up the directory tree, basically
+	 * we are just guessing a time
 	 *
-	 * @return array the first element of the array is the calculated mtime for the folder, and
-	 * the second is the list of readable files (the list contains the filename as key and the
-	 * mtime for the file as value)
+	 * @return int the calculated mtime for the folder
 	 */
 	private function shareMTime() {
 		$this->log('enter: '.__FUNCTION__, Util::DEBUG);
