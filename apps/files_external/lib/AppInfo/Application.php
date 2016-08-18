@@ -69,6 +69,10 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 	 */
 	public function registerSettings() {
 		$container = $this->getContainer();
+		$userSession = $container->getServer()->getUserSession();
+		if (!$userSession->isLoggedIn()) {
+			return;
+		}
 		$backendService = $container->query('OCA\\Files_External\\Service\\BackendService');
 
 		/** @var \OCA\Files_External\Service\UserGlobalStoragesService $userGlobalStoragesService */
