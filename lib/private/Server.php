@@ -1397,7 +1397,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @return \OCA\Files_External\Service\BackendService
 	 */
 	public function getStoragesBackendService() {
-		return \OC_Mount_Config::$app->getContainer()->query('OCA\\Files_External\\Service\\BackendService');
+		return $this->query('OCA\\Files_External\\Service\\BackendService');
 	}
 
 	/**
@@ -1406,7 +1406,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @return \OCA\Files_External\Service\GlobalStoragesService
 	 */
 	public function getGlobalStoragesService() {
-		return \OC_Mount_Config::$app->getContainer()->query('OCA\\Files_External\\Service\\GlobalStoragesService');
+		return $this->query('OCA\\Files_External\\Service\\GlobalStoragesService');
 	}
 
 	/**
@@ -1415,7 +1415,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @return \OCA\Files_External\Service\UserGlobalStoragesService
 	 */
 	public function getUserGlobalStoragesService() {
-		return \OC_Mount_Config::$app->getContainer()->query('OCA\\Files_External\\Service\\UserGlobalStoragesService');
+		return $this->query('OCA\\Files_External\\Service\\UserGlobalStoragesService');
 	}
 
 	/**
@@ -1424,7 +1424,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @return \OCA\Files_External\Service\UserStoragesService
 	 */
 	public function getUserStoragesService() {
-		return \OC_Mount_Config::$app->getContainer()->query('OCA\\Files_External\\Service\\UserStoragesService');
+		return $this->query('OCA\\Files_External\\Service\\UserStoragesService');
 	}
 
 	/**
