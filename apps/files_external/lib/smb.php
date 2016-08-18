@@ -122,28 +122,33 @@ class SMB extends Common {
 	 * @param string $path
 	 * @return \Icewind\SMB\IFileInfo
 	 * @throws StorageNotAvailableException
+	 * @throws ForbiddenException
 	 */
 	protected function getFileInfo($path) {
 		$this->log('enter: '.__FUNCTION__."($path)");
-		try {
 			$path = $this->buildPath($path);
 			if (!isset($this->statCache[$path])) {
-				if ($this->remoteIsShare() && $this->isRootDir($path)) { //mtime doesn't work for shares
-					$this->statCache[$path] = new FileInfo($path, '', 0, $this->shareMTime(), FileInfo::MODE_DIRECTORY);
-				} else {
+				try {
 					$this->log("stat fetching '{$this->root}$path'");
 					$this->statCache[$path] = $this->share->stat($path);
+				} catch (ConnectException $e) {
+					$ex = new StorageNotAvailableException(
+						$e->getMessage(), $e->getCode(), $e);
+					$this->leave(__FUNCTION__, $ex);
+					throw $ex;
+				} catch (ForbiddenException $e) {
+					if ($this->remoteIsShare() && $this->isRootDir($path)) { //mtime may not work for share root
+						$this->log("faking stat for forbidden '{$this->root}|$path'");
+						$this->statCache[$path] = new FileInfo($path, '', 0, $this->shareMTime(), FileInfo::MODE_DIRECTORY);
+					} else {
+						$this->leave(__FUNCTION__, $e);
+						throw $e;
+					}
 				}
 			} else {
 				$this->log("stat cache hit for '$path'");
 			}
 			$result = $this->statCache[$path];
-		} catch (ConnectException $e) {
-			$ex = new StorageNotAvailableException(
-				$e->getMessage(), $e->getCode(), $e);
-			$this->leave(__FUNCTION__, $ex);
-			throw $ex;
-		}
 		return $this->leave(__FUNCTION__, $result);
 	}
 
@@ -192,6 +197,7 @@ class SMB extends Common {
 		} else {
 			$result['type'] = 'file';
 		}
+		return $result;
 	}
 
 	/**
@@ -616,7 +622,7 @@ class SMB extends Common {
 				.' message: '.$result->getMessage()
 				.' trace: '.$result->getTraceAsString(), Util::DEBUG);
 		} else {
-			Util::writeLog('wnd', "leave: $function, return ".json_encode($result), Util::DEBUG);
+			Util::writeLog('wnd', "leave: $function, return ".print_r($result, true), Util::DEBUG);
 		}
 		return $result;
 	}
