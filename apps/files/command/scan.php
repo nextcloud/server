@@ -28,6 +28,8 @@ namespace OCA\Files\Command;
 use OC\ForbiddenException;
 use OCP\Files\StorageNotAvailableException;
 use Symfony\Component\Console\Command\Command;
+use Doctrine\DBAL\Connection;
+use OCP\IDBConnection;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -75,7 +77,8 @@ class Scan extends Command {
 	}
 
 	protected function scanFiles($user, $path, $quiet, OutputInterface $output) {
-		$scanner = new \OC\Files\Utils\Scanner($user, \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
+		$connection = $this->reconnectToDatabase($output);
+		$scanner = new \OC\Files\Utils\Scanner($user, $connection, \OC::$server->getLogger());
 		if (!$quiet) {
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
 				$output->writeln("Scanning file   <info>$path</info>");
@@ -126,4 +129,27 @@ class Scan extends Command {
 			}
 		}
 	}
+
+	/**
+	 * @return \OCP\IDBConnection
+	 */
+	protected function reconnectToDatabase(OutputInterface $output) {
+		/** @var Connection | IDBConnection $connection*/
+		$connection = \OC::$server->getDatabaseConnection();
+		try {
+			$connection->close();
+		} catch (\Exception $ex) {
+			$output->writeln("<info>Error while disconnecting from database: {$ex->getMessage()}</info>");
+		}
+		while (!$connection->isConnected()) {
+			try {
+				$connection->connect();
+			} catch (\Exception $ex) {
+				$output->writeln("<info>Error while re-connecting to database: {$ex->getMessage()}</info>");
+				sleep(60);
+			}
+		}
+		return $connection;
+	}
+
 }
