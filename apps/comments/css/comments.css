@@ -18,15 +18,15 @@
 }
 
 #commentsTabView .newCommentForm .message {
-	width: 76%;
-	margin-left: 32px;
+	width: calc(100% - 81px); /* 36 (left margin) + 30 (right padding) + 15 (right padding of surrounding box) */
+	margin-left: 36px;
 	padding-right: 30px;
 }
 
 #commentsTabView .newCommentForm .submit {
 	position: absolute;
-	top: 0;
-	right: 0;
+	top: 1px;
+	right: 8px;
 	width: 30px;
 	margin: 0;
 	padding: 9px;
