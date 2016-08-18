@@ -81,14 +81,14 @@
 					<li>
 						<a href="<?php print_unescaped($entry['href']); ?>"
 							<?php if( $entry["active"] ): ?> class="active"<?php endif; ?>>
-							<img alt="" src="<?php print_unescaped($entry['icon']); ?>">
+							<img alt="" src="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>">
 							<?php p($entry['name']) ?>
 						</a>
 					</li>
 				<?php endforeach; ?>
 					<li>
 						<a id="logout" <?php print_unescaped(OC_User::getLogoutAttribute()); ?>>
-							<img alt="" src="<?php print_unescaped(image_path('', 'actions/logout.svg')); ?>">
+							<img alt="" src="<?php print_unescaped(image_path('', 'actions/logout.svg') . '?v=' . $_['versionHash']); ?>">
 							<?php p($l->t('Log out'));?>
 						</a>
 					</li>
@@ -115,7 +115,7 @@
 							<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
 							<svg width="32" height="32" viewBox="0 0 32 32">
 								<defs><filter id="invert"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>
-								<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" filter="url(#invert)" xlink:href="<?php print_unescaped($entry['icon']); ?>"  class="app-icon"></image>
+								<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" filter="url(#invert)" xlink:href="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"  class="app-icon"></image>
 							</svg>
 							<div class="icon-loading-dark" style="display:none;"></div>
 							<span>
@@ -133,7 +133,7 @@
 							<?php if( $_['appsmanagement_active'] ): ?> class="active"<?php endif; ?>>
 							<svg width="32" height="32" viewBox="0 0 32 32" class="app-icon">
 								<defs><filter id="invert"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>
-								<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" filter="url(#invert)" xlink:href="<?php print_unescaped(image_path('settings', 'apps.svg')); ?>"></image>
+								<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" filter="url(#invert)" xlink:href="<?php print_unescaped(image_path('settings', 'apps.svg') . '?v=' . $_['versionHash']); ?>"></image>
 							</svg>
 							<div class="icon-loading-dark" style="display:none;"></div>
 							<span>
