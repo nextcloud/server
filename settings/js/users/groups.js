@@ -5,6 +5,8 @@
  * See the COPYING-README file.
  */
 
+/* globals escapeHTML, UserList, DeleteHandler */
+
 var $userGroupList,
 	$sortGroupBy;
 
@@ -269,7 +271,7 @@ GroupList = {
 	},
 	initDeleteHandling: function () {
 		//set up handler
-		GroupDeleteHandler = new DeleteHandler('/settings/users/groups', 'groupname',
+		var GroupDeleteHandler = new DeleteHandler('/settings/users/groups', 'groupname',
 			GroupList.hide, GroupList.remove);
 
 		//configure undo
