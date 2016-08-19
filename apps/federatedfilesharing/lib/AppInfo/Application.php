@@ -24,7 +24,12 @@
 namespace OCA\FederatedFileSharing\AppInfo;
 
 
+use OC\AppFramework\Utility\SimpleContainer;
+use OCA\FederatedFileSharing\AddressHandler;
+use OCA\FederatedFileSharing\Controller\RequestHandlerController;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\FederatedFileSharing\Notifications;
+use OCA\FederatedFileSharing\RequestHandler;
 use OCP\AppFramework\App;
 
 class Application extends App {
@@ -34,6 +39,35 @@ class Application extends App {
 
 	public function __construct() {
 		parent::__construct('federatedfilesharing');
+
+		$container = $this->getContainer();
+		$server = $container->getServer();
+
+		$container->registerService('RequestHandlerController', function(SimpleContainer $c) use ($server) {
+			$addressHandler = new AddressHandler(
+				$server->getURLGenerator(),
+				$server->getL10N('federatedfilesharing')
+			);
+			$notification = new Notifications(
+				$addressHandler,
+				$server->getHTTPClientService(),
+				new \OCA\FederatedFileSharing\DiscoveryManager(
+					$server->getMemCacheFactory(),
+					$server->getHTTPClientService()
+				),
+				\OC::$server->getJobList()
+			);
+			return new RequestHandlerController(
+				$c->query('AppName'),
+				$server->getRequest(),
+				$this->getFederatedShareProvider(),
+				$server->getDatabaseConnection(),
+				$server->getShareManager(),
+				$notification,
+				$addressHandler,
+				$server->getUserManager()
+			);
+		});
 	}
 
 	/**
