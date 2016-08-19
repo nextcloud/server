@@ -69,9 +69,6 @@ $this->create('search_ajax_search', '/core/search')
 // AppConfig
 $this->create('core_ajax_appconfig', '/core/ajax/appconfig.php')
 	->actionInclude('core/ajax/appconfig.php');
-// Share
-$this->create('core_ajax_share', '/core/ajax/share.php')
-	->actionInclude('core/ajax/share.php');
 // Tags
 $this->create('core_tags_tags', '/tags/{type}')
 	->get()
