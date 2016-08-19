@@ -237,6 +237,7 @@ return array(
     'OCP\\Util' => $baseDir . '/lib/public/Util.php',
     'OCP\\WorkflowEngine\\ICheck' => $baseDir . '/lib/public/WorkflowEngine/ICheck.php',
     'OCP\\WorkflowEngine\\IManager' => $baseDir . '/lib/public/WorkflowEngine/IManager.php',
+    'OCP\\WorkflowEngine\\IOperation' => $baseDir . '/lib/public/WorkflowEngine/IOperation.php',
     'OC\\Activity\\Event' => $baseDir . '/lib/private/Activity/Event.php',
     'OC\\Activity\\Manager' => $baseDir . '/lib/private/Activity/Manager.php',
     'OC\\AllConfig' => $baseDir . '/lib/private/AllConfig.php',
