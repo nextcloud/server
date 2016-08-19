@@ -385,8 +385,9 @@ describe('OCA.Files.FileList tests', function() {
 			$summary = $('#filestable .summary');
 			expect($summary.hasClass('hidden')).toEqual(false);
 			// yes, ugly...
-			expect($summary.find('.info').text()).toEqual('0 folders and 1 file');
+			expect($summary.find('.fileinfo').text()).toEqual('1 file');
 			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(true);
+			expect($summary.find('.connector').hasClass('hidden')).toEqual(true);
 			expect($summary.find('.fileinfo').hasClass('hidden')).toEqual(false);
 			expect($summary.find('.filesize').text()).toEqual('12 B');
 			expect($('#filestable thead th').hasClass('hidden')).toEqual(false);
@@ -456,7 +457,8 @@ describe('OCA.Files.FileList tests', function() {
 
 			$summary = $('#filestable .summary');
 			expect($summary.hasClass('hidden')).toEqual(false);
-			expect($summary.find('.info').text()).toEqual('1 folder and 2 files');
+			expect($summary.find('.dirinfo').text()).toEqual('1 folder');
+			expect($summary.find('.fileinfo').text()).toEqual('2 files');
 			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(false);
 			expect($summary.find('.fileinfo').hasClass('hidden')).toEqual(false);
 			expect($summary.find('.filesize').text()).toEqual('69 KB');
@@ -511,7 +513,8 @@ describe('OCA.Files.FileList tests', function() {
 
 			$summary = $('#filestable .summary');
 			expect($summary.hasClass('hidden')).toEqual(false);
-			expect($summary.find('.info').text()).toEqual('1 folder and 1 file');
+			expect($summary.find('.dirinfo').text()).toEqual('1 folder');
+			expect($summary.find('.fileinfo').text()).toEqual('1 file');
 			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(false);
 			expect($summary.find('.fileinfo').hasClass('hidden')).toEqual(false);
 			expect($summary.find('.filesize').text()).toEqual('57 KB');
@@ -677,12 +680,14 @@ describe('OCA.Files.FileList tests', function() {
 
 			deferredRename.resolve(201);
 
-			expect($summary.find('.info').text()).toEqual('1 folder and 3 files');
+			expect($summary.find('.dirinfo').text()).toEqual('1 folder');
+			expect($summary.find('.fileinfo').text()).toEqual('3 files');
 		});
 		it('Leaves the summary alone when cancel renaming', function() {
 			var $summary = $('#filestable .summary');
 			doCancelRename();
-			expect($summary.find('.info').text()).toEqual('1 folder and 3 files');
+			expect($summary.find('.dirinfo').text()).toEqual('1 folder');
+			expect($summary.find('.fileinfo').text()).toEqual('3 files');
 		});
 		it('Shows busy state while rename in progress', function() {
 			var $tr;
@@ -856,11 +861,14 @@ describe('OCA.Files.FileList tests', function() {
 			});
 			var $tr = fileList.add(fileData);
 
-			expect($summary.find('.info').text()).toEqual('0 folders and 1 file');
+			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(true);
+			expect($summary.find('.fileinfo').text()).toEqual('1 file');
 
 			var model = fileList.getModelForFile('test file');
 			model.set({size: '100'});
-			expect($summary.find('.info').text()).toEqual('0 folders and 1 file');
+
+			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(true);
+			expect($summary.find('.fileinfo').text()).toEqual('1 file');
 		});
 	})
 	describe('List rendering', function() {
@@ -877,7 +885,8 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.setFiles(testFiles);
 			$summary = $('#filestable .summary');
 			expect($summary.hasClass('hidden')).toEqual(false);
-			expect($summary.find('.info').text()).toEqual('1 folder and 3 files');
+			expect($summary.find('.dirinfo').text()).toEqual('1 folder');
+			expect($summary.find('.fileinfo').text()).toEqual('3 files');
 			expect($summary.find('.filesize').text()).toEqual('69 KB');
 		});
 		it('shows headers, summary and hide empty content message after setting files', function(){
@@ -962,10 +971,12 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.setFiles([testFiles[0]]);
 			$summary = $('#filestable .summary');
 			expect($summary.hasClass('hidden')).toEqual(false);
-			expect($summary.find('.info').text()).toEqual('0 folders and 1 file');
+			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(true);
+			expect($summary.find('.fileinfo').text()).toEqual('1 file');
 			fileList.remove('unexist.txt');
 			expect($summary.hasClass('hidden')).toEqual(false);
-			expect($summary.find('.info').text()).toEqual('0 folders and 1 file');
+			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(true);
+			expect($summary.find('.fileinfo').text()).toEqual('1 file');
 		});
 	});
 	describe('Filtered list rendering', function() {
@@ -987,14 +998,18 @@ describe('OCA.Files.FileList tests', function() {
 			expect($('#fileList tr:not(.hidden)').length).toEqual(3);
 			expect(fileList.files.length).toEqual(4);
 			expect($summary.hasClass('hidden')).toEqual(false);
-			expect($summary.find('.info').text()).toEqual("1 folder and 2 files match 'e'");
+			expect($summary.find('.dirinfo').text()).toEqual('1 folder');
+			expect($summary.find('.fileinfo').text()).toEqual('2 files');
+			expect($summary.find('.filter').text()).toEqual(" match 'e'");
 			expect($nofilterresults.hasClass('hidden')).toEqual(true);
 
 			fileList.setFilter('ee');
 			expect($('#fileList tr:not(.hidden)').length).toEqual(1);
 			expect(fileList.files.length).toEqual(4);
 			expect($summary.hasClass('hidden')).toEqual(false);
-			expect($summary.find('.info').text()).toEqual("0 folders and 1 file matches 'ee'");
+			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(true);
+			expect($summary.find('.fileinfo').text()).toEqual('1 file');
+			expect($summary.find('.filter').text()).toEqual(" matches 'ee'");
 			expect($nofilterresults.hasClass('hidden')).toEqual(true);
 
 			fileList.setFilter('eee');
@@ -1007,21 +1022,26 @@ describe('OCA.Files.FileList tests', function() {
 			expect($('#fileList tr:not(.hidden)').length).toEqual(1);
 			expect(fileList.files.length).toEqual(4);
 			expect($summary.hasClass('hidden')).toEqual(false);
-			expect($summary.find('.info').text()).toEqual("0 folders and 1 file matches 'ee'");
+			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(true);
+			expect($summary.find('.fileinfo').text()).toEqual('1 file');
+			expect($summary.find('.filter').text()).toEqual(" matches 'ee'");
 			expect($nofilterresults.hasClass('hidden')).toEqual(true);
 
 			fileList.setFilter('e');
 			expect($('#fileList tr:not(.hidden)').length).toEqual(3);
 			expect(fileList.files.length).toEqual(4);
 			expect($summary.hasClass('hidden')).toEqual(false);
-			expect($summary.find('.info').text()).toEqual("1 folder and 2 files match 'e'");
+			expect($summary.find('.dirinfo').text()).toEqual('1 folder');
+			expect($summary.find('.fileinfo').text()).toEqual('2 files');
+			expect($summary.find('.filter').text()).toEqual(" match 'e'");
 			expect($nofilterresults.hasClass('hidden')).toEqual(true);
 
 			fileList.setFilter('');
 			expect($('#fileList tr:not(.hidden)').length).toEqual(4);
 			expect(fileList.files.length).toEqual(4);
 			expect($summary.hasClass('hidden')).toEqual(false);
-			expect($summary.find('.info').text()).toEqual("1 folder and 3 files");
+			expect($summary.find('.dirinfo').text()).toEqual('1 folder');
+			expect($summary.find('.fileinfo').text()).toEqual('3 files');
 			expect($nofilterresults.hasClass('hidden')).toEqual(true);
 		});
 		it('filters the list of non-rendered rows using filter()', function() {
@@ -1032,7 +1052,9 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.setFilter('63');
 			expect($('#fileList tr:not(.hidden)').length).toEqual(1);
 			expect($summary.hasClass('hidden')).toEqual(false);
-			expect($summary.find('.info').text()).toEqual("0 folders and 1 file matches '63'");
+			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(true);
+			expect($summary.find('.fileinfo').text()).toEqual('1 file');
+			expect($summary.find('.filter').text()).toEqual(" matches '63'");
 			expect($nofilterresults.hasClass('hidden')).toEqual(true);
 		});
 		it('hides the emptyfiles notice when using filter()', function() {
@@ -1647,6 +1669,18 @@ describe('OCA.Files.FileList tests', function() {
 			$('#fileList tr td.filename input:checkbox').click();
 			expect($('.select-all').prop('checked')).toEqual(false);
 		});
+		it('Selecting all files also selects hidden files when invisible', function() {
+			filesConfig.set('showhidden', false);
+			var $tr = fileList.add(new FileInfo({
+				name: '.hidden',
+				type: 'dir',
+				mimetype: 'httpd/unix-directory',
+				size: 150
+			}));
+			$('.select-all').click();
+			expect($tr.find('td.filename input:checkbox').prop('checked')).toEqual(true);
+			expect(_.pluck(fileList.getSelectedFiles(), 'name')).toContain('.hidden');
+		});
 		it('Clicking "select all" will select/deselect all files', function() {
 			fileList.setFiles(generateFiles(0, 41));
 			$('.select-all').click();
@@ -1723,6 +1757,44 @@ describe('OCA.Files.FileList tests', function() {
 			var $summary = $('#headerName a.name>span:first');
 			fileList.findFileEl('One.txt').find('input:checkbox').click().click();
 			expect($summary.text()).toEqual('Name');
+		});
+		it('Displays the number of hidden files in selection summary if hidden files are invisible', function() {
+			filesConfig.set('showhidden', false);
+			var $tr = fileList.add(new FileInfo({
+				name: '.hidden',
+				type: 'dir',
+				mimetype: 'httpd/unix-directory',
+				size: 150
+			}));
+			$('.select-all').click();
+			var $summary = $('#headerName a.name>span:first');
+			expect($summary.text()).toEqual('2 folders and 3 files (including 1 hidden)');
+		});
+		it('Does not displays the number of hidden files in selection summary if hidden files are visible', function() {
+			filesConfig.set('showhidden', true);
+			var $tr = fileList.add(new FileInfo({
+				name: '.hidden',
+				type: 'dir',
+				mimetype: 'httpd/unix-directory',
+				size: 150
+			}));
+			$('.select-all').click();
+			var $summary = $('#headerName a.name>span:first');
+			expect($summary.text()).toEqual('2 folders and 3 files');
+		});
+		it('Toggling hidden file visibility updates selection summary', function() {
+			filesConfig.set('showhidden', false);
+			var $tr = fileList.add(new FileInfo({
+				name: '.hidden',
+				type: 'dir',
+				mimetype: 'httpd/unix-directory',
+				size: 150
+			}));
+			$('.select-all').click();
+			var $summary = $('#headerName a.name>span:first');
+			expect($summary.text()).toEqual('2 folders and 3 files (including 1 hidden)');
+			filesConfig.set('showhidden', true);
+			expect($summary.text()).toEqual('2 folders and 3 files');
 		});
 		it('Select/deselect files shows/hides file actions', function() {
 			var $actions = $('#headerName .selectedActions');

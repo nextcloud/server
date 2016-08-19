@@ -194,6 +194,7 @@
 		 * @param options.folderDropOptions folder drop options, disabled by default
 		 * @param options.scrollTo name of file to scroll to after the first load
 		 * @param {OC.Files.Client} [options.filesClient] files API client
+		 * @param {OC.Backbone.Model} [options.filesConfig] files app configuration
 		 * @private
 		 */
 		initialize: function($el, options) {
@@ -234,6 +235,7 @@
 				this._filesConfig.on('change:showhidden', function() {
 					var showHidden = this.get('showhidden');
 					self.$el.toggleClass('hide-hidden-files', !showHidden);
+					self.updateSelectionSummary();
 
 					if (!showHidden) {
 						// hiding files could make the page too small, need to try rendering next page
@@ -259,7 +261,7 @@
 
 			this.files = [];
 			this._selectedFiles = {};
-			this._selectionSummary = new OCA.Files.FileSummary();
+			this._selectionSummary = new OCA.Files.FileSummary(undefined, {config: this._filesConfig});
 			// dummy root dir info
 			this.dirInfo = new OC.Files.FileInfo({});
 
@@ -2297,7 +2299,7 @@
 			var $tr = $('<tr class="summary"></tr>');
 			this.$el.find('tfoot').append($tr);
 
-			return new OCA.Files.FileSummary($tr);
+			return new OCA.Files.FileSummary($tr, {config: this._filesConfig});
 		},
 		updateEmptyContent: function() {
 			var permissions = this.getDirectoryPermissions();
@@ -2444,6 +2446,7 @@
 			var summary = this._selectionSummary.summary;
 			var selection;
 
+			var showHidden = !!this._filesConfig.get('showhidden');
 			if (summary.totalFiles === 0 && summary.totalDirs === 0) {
 				this.$el.find('#headerName a.name>span:first').text(t('files','Name'));
 				this.$el.find('#headerSize a>span:first').text(t('files','Size'));
@@ -2468,6 +2471,11 @@
 					selection = directoryInfo;
 				} else {
 					selection = fileInfo;
+				}
+
+				if (!showHidden && summary.totalHidden > 0) {
+					var hiddenInfo = n('files', 'including %n hidden', 'including %n hidden', summary.totalHidden);
+					selection += ' (' + hiddenInfo + ')';
 				}
 
 				this.$el.find('#headerName a.name>span:first').text(selection);
