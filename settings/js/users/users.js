@@ -6,6 +6,8 @@
  * See the COPYING-README file.
  */
 
+/* globals escapeHTML, GroupList, DeleteHandler, UserManagementFilter */
+
 var $userList;
 var $userListBody;
 
@@ -457,7 +459,7 @@ var UserList = {
 				if (user === OC.currentUser && group === 'admin') {
 					return false;
 				}
-				if (!oc_isadmin && checked.length === 1 && checked[0] === group) {
+				if (!OC.isUserAdmin() && checked.length === 1 && checked[0] === group) {
 					return false;
 				}
 				$.post(
@@ -500,7 +502,7 @@ var UserList = {
 			GroupList.addGroup(escapeHTML(group));
 		};
 		var label;
-		if (oc_isadmin) {
+		if (OC.isUserAdmin()) {
 			label = t('settings', 'Add group');
 		}
 		else {
@@ -839,8 +841,8 @@ $(document).ready(function () {
 							if(UserList.availableGroups.indexOf(gid) === -1) {
 								UserList.availableGroups.push(gid);
 							}
-							$li = GroupList.getGroupLI(gid);
-							userCount = GroupList.getUserCount($li);
+							var $li = GroupList.getGroupLI(gid);
+							var userCount = GroupList.getUserCount($li);
 							GroupList.setUserCount($li, userCount + 1);
 						}
 					}

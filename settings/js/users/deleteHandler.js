@@ -17,6 +17,9 @@
  * @param {removeCallback} removeCallback the function to be called after
  * successful delete.
  */
+
+/* globals escapeHTML */
+
 function DeleteHandler(endpoint, paramID, markCallback, removeCallback) {
 	this.oidToDelete = false;
 	this.canceled = false;
