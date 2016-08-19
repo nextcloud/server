@@ -209,12 +209,6 @@
 				this._filesConfig = OCA.Files.App.getFilesConfig();
 			}
 
-			if (!_.isUndefined(this._filesConfig)) {
-				this._filesConfig.on('change:showhidden', function() {
-					self.setFiles(self.files);
-				});
-			}
-
 			if (options.dragOptions) {
 				this._dragOptions = options.dragOptions;
 			}
@@ -235,6 +229,21 @@
 			this.$container = options.scrollContainer || $(window);
 			this.$table = $el.find('table:first');
 			this.$fileList = $el.find('#fileList');
+
+			if (!_.isUndefined(this._filesConfig)) {
+				this._filesConfig.on('change:showhidden', function() {
+					var showHidden = this.get('showhidden');
+					self.$el.toggleClass('hide-hidden-files', !showHidden);
+
+					if (!showHidden) {
+						// hiding files could make the page too small, need to try rendering next page
+						self._onScroll();
+					}
+				});
+
+				this.$el.toggleClass('hide-hidden-files', !this._filesConfig.get('showhidden'));
+			}
+
 
 			if (_.isUndefined(options.detailsViewEnabled) || options.detailsViewEnabled) {
 				this._detailsView = new OCA.Files.DetailsView();
@@ -875,10 +884,6 @@
 		 * @return array of DOM elements of the newly added files
 		 */
 		_nextPage: function(animate) {
-			// Save full files list while rendering
-			var allFiles = this.files;
-			this.files = this._filterHiddenFiles(this.files);
-
 			var index = this.$fileList.children().length,
 				count = this.pageSize(),
 				hidden,
@@ -926,9 +931,6 @@
 				}, 0);
 			}
 
-			// Restore full files list after rendering
-			this.files = allFiles;
-
 			return newTrs;
 		},
 
@@ -967,8 +969,6 @@
 			this.$el.find('.select-all').prop('checked', false);
 
 			// Save full files list while rendering
-			var allFiles = this.files;
-			this.files = this._filterHiddenFiles(this.files);
 
 			this.isEmpty = this.files.length === 0;
 			this._nextPage();
@@ -982,9 +982,6 @@
 			this.updateSelectionSummary();
 			$(window).scrollTop(0);
 
-			// Restore full files list after rendering
-			this.files = allFiles;
-
 			this.$fileList.trigger(jQuery.Event('updated'));
 			_.defer(function() {
 				self.$el.closest('#app-content').trigger(jQuery.Event('apprendered'));
@@ -992,18 +989,14 @@
 		},
 
 		/**
-		 * Filter hidden files of the given filesArray (dot-files)
+		 * Returns whether the given file info must be hidden
 		 *
-		 * @param filesArray files to be filtered
-		 * @returns {array}
+		 * @param {OC.Files.FileInfo} fileInfo file info
+		 * 
+		 * @return {boolean} true if the file is a hidden file, false otherwise
 		 */
-		_filterHiddenFiles: function(files) {
-			if (_.isUndefined(this._filesConfig) || this._filesConfig.get('showhidden')) {
-				return files;
-			}
-			return _.filter(files, function(file) {
-				return file.name.indexOf('.') !== 0;
-			});
+		_isHiddenFile: function(file) {
+			return file.name && file.name.charAt(0) === '.';
 		},
 
 		/**
@@ -1325,6 +1318,10 @@
 
 			if (options.hidden) {
 				tr.addClass('hidden');
+			}
+
+			if (this._isHiddenFile(fileData)) {
+				tr.addClass('hidden-file');
 			}
 
 			// display actions

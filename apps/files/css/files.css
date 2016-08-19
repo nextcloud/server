@@ -329,6 +329,21 @@ table td.filename .nametext {
 	margin-right: 50px;
 }
 
+.hide-hidden-files #fileList tr.hidden-file,
+.hide-hidden-files #fileList tr.hidden-file.dragging {
+	display: none;
+}
+
+#fileList tr.animate-opacity {
+	-webkit-transition:opacity 250ms;
+	-moz-transition:opacity 250ms;
+	-o-transition:opacity 250ms;
+	transition:opacity 250ms;
+}
+#fileList tr.dragging {
+	opacity: 0.2;
+}
+
 table td.filename .nametext .innernametext {
 	text-overflow: ellipsis;
 	overflow: hidden;
