@@ -27,11 +27,11 @@
 
 namespace OCA\Files\Controller;
 
-use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -42,6 +42,7 @@ use OCP\IUserSession;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use OCP\Files\Folder;
 use OCP\App\IAppManager;
+use OC\AppFramework\Http\Request;
 
 /**
  * Class ViewController
@@ -67,7 +68,7 @@ class ViewController extends Controller {
 	protected $userSession;
 	/** @var IAppManager */
 	protected $appManager;
-	/** @var \OCP\Files\Folder */
+	/** @var IRootFolder */
 	protected $rootFolder;
 
 	/**
@@ -80,7 +81,7 @@ class ViewController extends Controller {
 	 * @param EventDispatcherInterface $eventDispatcherInterface
 	 * @param IUserSession $userSession
 	 * @param IAppManager $appManager
-	 * @param Folder $rootFolder
+	 * @param IRootFolder $rootFolder
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -91,7 +92,7 @@ class ViewController extends Controller {
 								EventDispatcherInterface $eventDispatcherInterface,
 								IUserSession $userSession,
 								IAppManager $appManager,
-								Folder $rootFolder
+								IRootFolder $rootFolder
 	) {
 		parent::__construct($appName, $request);
 		$this->appName = $appName;
@@ -277,13 +278,10 @@ class ViewController extends Controller {
 	 * @param string $fileId file id to show
 	 * @return RedirectResponse redirect response or not found response
 	 * @throws \OCP\Files\NotFoundException
-	 *
-	 * @NoCSRFRequired
-	 * @NoAdminRequired
 	 */
-	public function showFile($fileId) {
+	private function showFile($fileId) {
 		$uid = $this->userSession->getUser()->getUID();
-		$baseFolder = $this->rootFolder->get($uid . '/files/');
+		$baseFolder = $this->rootFolder->getUserFolder($uid);
 		$files = $baseFolder->getById($fileId);
 		$params = [];
 
