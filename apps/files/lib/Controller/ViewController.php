@@ -144,15 +144,14 @@ class ViewController extends Controller {
 	 * @param string $dir
 	 * @param string $view
 	 * @param string $fileid
-	 * @return TemplateResponse
+	 * @return TemplateResponse|RedirectResponse
 	 */
-	public function index($dir = '', $view = '', $fileid = null) {
-		$fileNotFound = false;
+	public function index($dir = '', $view = '', $fileid = null, $fileNotFound = false) {
 		if ($fileid !== null) {
 			try {
 				return $this->showFile($fileid);
 			} catch (NotFoundException $e) {
-				$fileNotFound = true;
+				return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', ['fileNotFound' => true]));
 			}
 		}
 

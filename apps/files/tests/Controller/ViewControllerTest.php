@@ -388,10 +388,14 @@ class ViewControllerTest extends TestCase {
 			->with(123)
 			->will($this->returnValue([]));
 
+		$this->urlGenerator->expects($this->once())
+			->method('linkToRoute')
+			->with('files.view.index', ['fileNotFound' => true])
+			->willReturn('redirect.url');
+
 		$response = $this->viewController->index('MyDir', 'MyView', '123');
-		$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $response);
-		$params = $response->getParams();
-		$this->assertEquals(1, $params['fileNotFound']);
+		$this->assertInstanceOf('OCP\AppFramework\Http\RedirectResponse', $response);
+		$this->assertEquals('redirect.url', $response->getRedirectURL());
 	}
 
 	public function testShowFileRouteWithTrashedFile() {
