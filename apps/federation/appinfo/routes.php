@@ -41,8 +41,18 @@ $application->registerRoutes(
 				'url' => '/auto-add-servers',
 				'verb' => 'POST'
 			],
-		]
+		],
+		'ocs' => [
+			[
+				'name' => 'OCSAuthAPI#getSharedSecret',
+				'url' => '/api/v1/shared-secret',
+				'verb' => 'GET',
+			],
+			[
+				'name' => 'OCSAuthAPI#requestSharedSecret',
+				'url' => '/api/v1/request-shared-secret',
+				'verb' => 'POST',
+			],
+		],
 	]
 );
-
-$application->registerOCSApi();

@@ -22,20 +22,21 @@
  */
 
 
-namespace OCA\Federation\Tests\API;
+namespace OCA\Federation\Tests\Controller;
 
 
 use OC\BackgroundJob\JobList;
-use OCA\Federation\API\OCSAuthAPI;
+use OCA\Federation\Controller\OCSAuthAPIController;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
 use Test\TestCase;
 
-class OCSAuthAPITest extends TestCase {
+class OCSAuthAPIControllerTest extends TestCase {
 
 	/** @var \PHPUnit_Framework_MockObject_MockObject | IRequest */
 	private $request;
@@ -55,14 +56,14 @@ class OCSAuthAPITest extends TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject | ILogger */
 	private $logger;
 
-	/** @var  OCSAuthApi */
+	/** @var  OCSAuthAPIController */
 	private $ocsAuthApi;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->request = $this->getMock('OCP\IRequest');
-		$this->secureRandom = $this->getMock('OCP\Security\ISecureRandom');
+		$this->request = $this->getMockBuilder('OCP\IRequest')->getMock();
+		$this->secureRandom = $this->getMockBuilder('OCP\Security\ISecureRandom')->getMock();
 		$this->trustedServers = $this->getMockBuilder('OCA\Federation\TrustedServers')
 			->disableOriginalConstructor()->getMock();
 		$this->dbHandler = $this->getMockBuilder('OCA\Federation\DbHandler')
@@ -72,7 +73,8 @@ class OCSAuthAPITest extends TestCase {
 		$this->logger = $this->getMockBuilder('OCP\ILogger')
 			->disableOriginalConstructor()->getMock();
 
-		$this->ocsAuthApi = new OCSAuthAPI(
+		$this->ocsAuthApi = new OCSAuthAPIController(
+			'federation',
 			$this->request,
 			$this->secureRandom,
 			$this->jobList,
@@ -89,9 +91,9 @@ class OCSAuthAPITest extends TestCase {
 	 * @param string $token
 	 * @param string $localToken
 	 * @param bool $isTrustedServer
-	 * @param int $expected
+	 * @param bool $ok
 	 */
-	public function testRequestSharedSecret($token, $localToken, $isTrustedServer, $expected) {
+	public function testRequestSharedSecret($token, $localToken, $isTrustedServer, $ok) {
 
 		$url = 'url';
 
@@ -103,7 +105,7 @@ class OCSAuthAPITest extends TestCase {
 		$this->dbHandler->expects($this->any())
 			->method('getToken')->with($url)->willReturn($localToken);
 
-		if ($expected === Http::STATUS_OK) {
+		if ($ok) {
 			$this->jobList->expects($this->once())->method('add')
 				->with('OCA\Federation\BackgroundJob\GetSharedSecret', ['url' => $url, 'token' => $token]);
 			$this->jobList->expects($this->once())->method('remove')
@@ -113,15 +115,19 @@ class OCSAuthAPITest extends TestCase {
 			$this->jobList->expects($this->never())->method('remove');
 		}
 
-		$result = $this->ocsAuthApi->requestSharedSecret();
-		$this->assertSame($expected, $result->getStatusCode());
+		try {
+			$result = $this->ocsAuthApi->requestSharedSecret();
+			$this->assertTrue($ok);
+		} catch (OCSForbiddenException $e) {
+			$this->assertFalse($ok);
+		}
 	}
 
 	public function dataTestRequestSharedSecret() {
 		return [
-			['token2', 'token1', true, Http::STATUS_OK],
-			['token1', 'token2', false, Http::STATUS_FORBIDDEN],
-			['token1', 'token2', true, Http::STATUS_FORBIDDEN],
+			['token2', 'token1', true, true],
+			['token1', 'token2', false, false],
+			['token1', 'token2', true, false],
 		];
 	}
 
@@ -130,9 +136,9 @@ class OCSAuthAPITest extends TestCase {
 	 *
 	 * @param bool $isTrustedServer
 	 * @param bool $isValidToken
-	 * @param int $expected
+	 * @param bool $ok
 	 */
-	public function testGetSharedSecret($isTrustedServer, $isValidToken, $expected) {
+	public function testGetSharedSecret($isTrustedServer, $isValidToken, $ok) {
 
 		$url = 'url';
 		$token = 'token';
@@ -140,10 +146,11 @@ class OCSAuthAPITest extends TestCase {
 		$this->request->expects($this->at(0))->method('getParam')->with('url')->willReturn($url);
 		$this->request->expects($this->at(1))->method('getParam')->with('token')->willReturn($token);
 
-		/** @var OCSAuthAPI | \PHPUnit_Framework_MockObject_MockObject $ocsAuthApi */
-		$ocsAuthApi = $this->getMockBuilder('OCA\Federation\API\OCSAuthAPI')
+		/** @var OCSAuthAPIController | \PHPUnit_Framework_MockObject_MockObject $ocsAuthApi */
+		$ocsAuthApi = $this->getMockBuilder('OCA\Federation\Controller\OCSAuthAPIController')
 			->setConstructorArgs(
 				[
+					'federation',
 					$this->request,
 					$this->secureRandom,
 					$this->jobList,
@@ -159,7 +166,7 @@ class OCSAuthAPITest extends TestCase {
 		$ocsAuthApi->expects($this->any())
 			->method('isValidToken')->with($url, $token)->willReturn($isValidToken);
 
-		if($expected === Http::STATUS_OK) {
+		if($ok) {
 			$this->secureRandom->expects($this->once())->method('generate')->with(32)
 				->willReturn('secret');
 			$this->trustedServers->expects($this->once())
@@ -173,22 +180,22 @@ class OCSAuthAPITest extends TestCase {
 			$this->dbHandler->expects($this->never())->method('addToken');
 		}
 
-		$result = $ocsAuthApi->getSharedSecret();
-
-		$this->assertSame($expected, $result->getStatusCode());
-
-		if ($expected === Http::STATUS_OK) {
+		try {
+			$result = $ocsAuthApi->getSharedSecret();
+			$this->assertTrue($ok);
 			$data =  $result->getData();
 			$this->assertSame('secret', $data['sharedSecret']);
+		} catch (OCSForbiddenException $e) {
+			$this->assertFalse($ok);
 		}
 	}
 
 	public function dataTestGetSharedSecret() {
 		return [
-			[true, true, Http::STATUS_OK],
-			[false, true, Http::STATUS_FORBIDDEN],
-			[true, false, Http::STATUS_FORBIDDEN],
-			[false, false, Http::STATUS_FORBIDDEN],
+			[true, true, true],
+			[false, true, false],
+			[true, false, false],
+			[false, false, false],
 		];
 	}
 
