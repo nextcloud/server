@@ -21,6 +21,7 @@
  */
 namespace OC\Settings\Controller;
 
+use OC\HintException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
@@ -233,11 +234,21 @@ class ChangePasswordController extends Controller {
 				}
 			}
 		} else {
-			if ($targetUser->setPassword($password) === false) {
+			try {
+				if ($targetUser->setPassword($password) === false) {
+					return new JSONResponse([
+						'status' => 'error',
+						'data' => [
+							'message' => $this->l->t('Unable to change password'),
+						],
+					]);
+				}
+			// password policy app throws exception
+			} catch(HintException $e) {
 				return new JSONResponse([
 					'status' => 'error',
 					'data' => [
-						'message' => $this->l->t('Unable to change password'),
+						'message' => $e->getHint(),
 					],
 				]);
 			}
