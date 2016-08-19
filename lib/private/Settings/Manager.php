@@ -327,10 +327,6 @@ class Manager implements IManager {
 	 * @inheritdoc
 	 */
 	public function getAdminSections() {
-		$query = $this->dbc->getQueryBuilder();
-		$query->select(['class', 'priority'])
-			->from(self::TABLE_ADMIN_SECTIONS);
-
 		// built-in sections
 		$sections = [
 			 0 => [new Section('server',        $this->l->t('Server settings'), 0)],
@@ -341,7 +337,15 @@ class Manager implements IManager {
 			99 => [new Section('tips-tricks',   $this->l->t('Tips & tricks'), 0)],
 		];
 
+		$query = $this->dbc->getQueryBuilder();
+		$query->selectDistinct('s.class')
+			->addSelect('s.priority')
+			->from(self::TABLE_ADMIN_SECTIONS, 's')
+			->from(self::TABLE_ADMIN_SETTINGS, 'f')
+			->where($query->expr()->eq('s.id', 'f.section'))
+		;
 		$result = $query->execute();
+
 		while($row = $result->fetch()) {
 			if(!isset($sections[$row['priority']])) {
 				$sections[$row['priority']] = [];

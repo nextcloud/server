@@ -136,15 +136,33 @@ class ManagerTest extends TestCase {
 
 	public function testGetAdminSections() {
 		$qb = $this->getMockBuilder('\OCP\DB\QueryBuilder\IQueryBuilder')->getMock();
+		$expr = $this->getMockBuilder('OCP\DB\QueryBuilder\IExpressionBuilder')->getMock();
 		$qb
 			->expects($this->once())
 			->method('select')
-			->with(['class', 'priority'])
+			->with(['s.class', 's.priority'])
+			->willReturn($qb);
+		$qb
+			->expects($this->exactly(2))
+			->method('from')
+			->willReturn($qb);
+		$qb
+			->expects($this->at(1))
+			->method('from')
+			->with('admin_sections', 's')
+			->willReturn($qb);
+		$qb
+			->expects($this->at(2))
+			->method('from')
+			->with('admin_settings', 'f')
 			->willReturn($qb);
 		$qb
 			->expects($this->once())
-			->method('from')
-			->with('admin_sections')
+			->method('expr')
+			->willReturn($expr);
+		$qb
+			->expects($this->once())
+			->method('where')
 			->willReturn($qb);
 		$stmt = $this->getMockBuilder('\Doctrine\DBAL\Driver\Statement')->getMock();
 		$qb
