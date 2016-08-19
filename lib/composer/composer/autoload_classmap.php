@@ -584,7 +584,6 @@ return array(
     'OC\\Notification\\Manager' => $baseDir . '/lib/private/Notification/Manager.php',
     'OC\\Notification\\Notification' => $baseDir . '/lib/private/Notification/Notification.php',
     'OC\\OCSClient' => $baseDir . '/lib/private/OCSClient.php',
-    'OC\\OCS\\Config' => $baseDir . '/lib/private/OCS/Config.php',
     'OC\\OCS\\CoreCapabilities' => $baseDir . '/lib/private/OCS/CoreCapabilities.php',
     'OC\\OCS\\Exception' => $baseDir . '/lib/private/OCS/Exception.php',
     'OC\\OCS\\Person' => $baseDir . '/lib/private/OCS/Person.php',

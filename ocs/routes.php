@@ -29,14 +29,6 @@
 
 use OCP\API;
 
-// Config
-API::register(
-	'get',
-	'/config',
-	array('OC_OCS_Config', 'apiConfig'),
-	'core',
-	API::GUEST_AUTH
-	);
 // Person
 API::register(
 	'post',
