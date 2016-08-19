@@ -158,6 +158,7 @@ class ServerTest extends \Test\TestCase {
 			['TagManager', '\OCP\ITagManager'],
 			['TempManager', '\OC\TempManager'],
 			['TempManager', '\OCP\ITempManager'],
+			['ThemingDefaults', '\OCA\Theming\ThemingDefaults'],
 			['TrustedDomainHelper', '\OC\Security\TrustedDomainHelper'],
 
 			['SystemTagManager', '\OCP\SystemTag\ISystemTagManager'],
