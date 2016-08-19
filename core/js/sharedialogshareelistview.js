@@ -38,7 +38,7 @@
 							'<label for="canEdit-{{cid}}-{{shareWith}}">{{canEditLabel}}</label>' +
 						'</span>' +
 						'{{/if}}' +
-						'<span class="icon icon-more"></span>' +
+						'<a href="#"><span class="icon icon-more"></span></a>' +
 						'<div class="popovermenu bubble hidden menu">' +
 							'<ul>' +
 								'{{#if isResharingAllowed}} {{#if sharePermissionPossible}}' +
