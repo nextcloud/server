@@ -121,9 +121,9 @@ $this->create('core_ajax_update', '/core/ajax/update.php')
 	->actionInclude('core/ajax/update.php');
 
 // File routes
-$this->create('files.viewcontroller.showFile', '/f/{fileId}')->action(function($urlParams) {
+$this->create('files.viewcontroller.showFile', '/f/{fileid}')->action(function($urlParams) {
 	$app = new \OCA\Files\AppInfo\Application($urlParams);
-	$app->dispatch('ViewController', 'showFile');
+	$app->dispatch('ViewController', 'index');
 });
 
 // Sharing routes

@@ -27,7 +27,7 @@ namespace OCA\Files\Tests\Controller;
 
 use OCA\Files\Controller\ViewController;
 use OCP\AppFramework\Http;
-use OCP\Files\NotFoundException;
+use OCP\Files\IRootFolder;
 use OCP\IUser;
 use OCP\Template;
 use Test\TestCase;
@@ -39,7 +39,6 @@ use OCP\IL10N;
 use OCP\IConfig;
 use OCP\IUserSession;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use OCP\Files\Folder;
 use OCP\App\IAppManager;
 
 /**
@@ -48,27 +47,27 @@ use OCP\App\IAppManager;
  * @package OCA\Files\Tests\Controller
  */
 class ViewControllerTest extends TestCase {
-	/** @var IRequest */
+	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
-	/** @var IURLGenerator */
+	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
 	/** @var INavigationManager */
 	private $navigationManager;
 	/** @var IL10N */
 	private $l10n;
-	/** @var IConfig */
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
 	/** @var EventDispatcherInterface */
 	private $eventDispatcher;
-	/** @var ViewController */
+	/** @var ViewController|\PHPUnit_Framework_MockObject_MockObject */
 	private $viewController;
 	/** @var IUser */
 	private $user;
 	/** @var IUserSession */
 	private $userSession;
-	/** @var IAppManager */
+	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $appManager;
-	/** @var Folder */
+	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
 	private $rootFolder;
 
 	public function setUp() {
@@ -88,7 +87,7 @@ class ViewControllerTest extends TestCase {
 		$this->userSession->expects($this->any())
 			->method('getUser')
 			->will($this->returnValue($this->user));
-		$this->rootFolder = $this->getMockBuilder('\OCP\Files\Folder')->getMock();
+		$this->rootFolder = $this->getMockBuilder('\OCP\Files\IRootFolder')->getMock();
 		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
 			->setConstructorArgs([
 			'files',
@@ -265,17 +264,7 @@ class ViewControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->viewController->index('MyDir', 'MyView'));
 	}
 
-	public function showFileMethodProvider() {
-		return [
-			[true],
-			[false],
-		];
-	}
-
-	/**
-	 * @dataProvider showFileMethodProvider
-	 */
-	public function testShowFileRouteWithFolder($useShowFile) {
+	public function testShowFileRouteWithFolder() {
 		$node = $this->getMockBuilder('\OCP\Files\Folder')->getMock();
 		$node->expects($this->once())
 			->method('getPath')
@@ -284,8 +273,8 @@ class ViewControllerTest extends TestCase {
 		$baseFolder = $this->getMockBuilder('\OCP\Files\Folder')->getMock();
 
 		$this->rootFolder->expects($this->once())
-			->method('get')
-			->with('testuser1/files/')
+			->method('getUserFolder')
+			->with('testuser1')
 			->will($this->returnValue($baseFolder));
 
 		$baseFolder->expects($this->at(0))
@@ -304,17 +293,10 @@ class ViewControllerTest extends TestCase {
 			->will($this->returnValue('/apps/files/?dir=/test/sub'));
 
 		$expected = new Http\RedirectResponse('/apps/files/?dir=/test/sub');
-		if ($useShowFile) {
-			$this->assertEquals($expected, $this->viewController->showFile(123));
-		} else {
-			$this->assertEquals($expected, $this->viewController->index('/whatever', '', '123'));
-		}
+		$this->assertEquals($expected, $this->viewController->index('/whatever', '', '123'));
 	}
 
-	/**
-	 * @dataProvider showFileMethodProvider
-	 */
-	public function testShowFileRouteWithFile($useShowFile) {
+	public function testShowFileRouteWithFile() {
 		$parentNode = $this->getMockBuilder('\OCP\Files\Folder')->getMock();
 		$parentNode->expects($this->once())
 			->method('getPath')
@@ -323,8 +305,8 @@ class ViewControllerTest extends TestCase {
 		$baseFolder = $this->getMockBuilder('\OCP\Files\Folder')->getMock();
 
 		$this->rootFolder->expects($this->once())
-			->method('get')
-			->with('testuser1/files/')
+			->method('getUserFolder')
+			->with('testuser1')
 			->will($this->returnValue($baseFolder));
 
 		$node = $this->getMockBuilder('\OCP\Files\File')->getMock();
@@ -351,21 +333,14 @@ class ViewControllerTest extends TestCase {
 			->will($this->returnValue('/apps/files/?dir=/test/sub&scrollto=somefile.txt'));
 
 		$expected = new Http\RedirectResponse('/apps/files/?dir=/test/sub&scrollto=somefile.txt');
-		if ($useShowFile) {
-			$this->assertEquals($expected, $this->viewController->showFile(123));
-		} else {
-			$this->assertEquals($expected, $this->viewController->index('/whatever', '', '123'));
-		}
+		$this->assertEquals($expected, $this->viewController->index('/whatever', '', '123'));
 	}
 
-	/**
-	 * @dataProvider showFileMethodProvider
-	 */
-	public function testShowFileRouteWithInvalidFileId($useShowFile) {
+	public function testShowFileRouteWithInvalidFileId() {
 		$baseFolder = $this->getMockBuilder('\OCP\Files\Folder')->getMock();
 		$this->rootFolder->expects($this->once())
-			->method('get')
-			->with('testuser1/files/')
+			->method('getUserFolder')
+			->with('testuser1')
 			->will($this->returnValue($baseFolder));
 
 		$baseFolder->expects($this->at(0))
@@ -373,21 +348,13 @@ class ViewControllerTest extends TestCase {
 			->with(123)
 			->will($this->returnValue([]));
 
-		if ($useShowFile) {
-			$this->setExpectedException('OCP\Files\NotFoundException');
-			$this->viewController->showFile(123);
-		} else {
-			$response = $this->viewController->index('MyDir', 'MyView', '123');
-			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $response);
-			$params = $response->getParams();
-			$this->assertEquals(1, $params['fileNotFound']);
-		}
+		$response = $this->viewController->index('MyDir', 'MyView', '123');
+		$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $response);
+		$params = $response->getParams();
+		$this->assertEquals(1, $params['fileNotFound']);
 	}
 
-	/**
-	 * @dataProvider showFileMethodProvider
-	 */
-	public function testShowFileRouteWithTrashedFile($useShowFile) {
+	public function testShowFileRouteWithTrashedFile() {
 		$this->appManager->expects($this->once())
 			->method('isEnabledForUser')
 			->with('files_trashbin')
@@ -402,8 +369,8 @@ class ViewControllerTest extends TestCase {
 		$baseFolderTrash = $this->getMockBuilder('\OCP\Files\Folder')->getMock();
 
 		$this->rootFolder->expects($this->at(0))
-			->method('get')
-			->with('testuser1/files/')
+			->method('getUserFolder')
+			->with('testuser1')
 			->will($this->returnValue($baseFolderFiles));
 		$this->rootFolder->expects($this->at(1))
 			->method('get')
@@ -439,10 +406,6 @@ class ViewControllerTest extends TestCase {
 			->will($this->returnValue('/apps/files/?view=trashbin&dir=/test.d1462861890/sub&scrollto=somefile.txt'));
 
 		$expected = new Http\RedirectResponse('/apps/files/?view=trashbin&dir=/test.d1462861890/sub&scrollto=somefile.txt');
-		if ($useShowFile) {
-			$this->assertEquals($expected, $this->viewController->showFile(123));
-		} else {
-			$this->assertEquals($expected, $this->viewController->index('/whatever', '', '123'));
-		}
+		$this->assertEquals($expected, $this->viewController->index('/whatever', '', '123'));
 	}
 }
