@@ -96,14 +96,12 @@ class OCSAuthAPIController extends OCSController{
 	 *
 	 * request received to ask remote server for a shared secret
 	 *
+	 * @param string $url
+	 * @param string $token
 	 * @return Http\DataResponse
 	 * @throws OCSForbiddenException
 	 */
-	public function requestSharedSecret() {
-
-		$url = $this->request->getParam('url');
-		$token = $this->request->getParam('token');
-
+	public function requestSharedSecret($url, $token) {
 		if ($this->trustedServers->isTrustedServer($url) === false) {
 			$this->logger->error('remote server not trusted (' . $url . ') while requesting shared secret', ['app' => 'federation']);
 			throw new OCSForbiddenException();
@@ -146,14 +144,12 @@ class OCSAuthAPIController extends OCSController{
 	 *
 	 * create shared secret and return it
 	 *
+	 * @param string $url
+	 * @param string $token
 	 * @return Http\DataResponse
 	 * @throws OCSForbiddenException
 	 */
-	public function getSharedSecret() {
-
-		$url = $this->request->getParam('url');
-		$token = $this->request->getParam('token');
-
+	public function getSharedSecret($url, $token) {
 		if ($this->trustedServers->isTrustedServer($url) === false) {
 			$this->logger->error('remote server not trusted (' . $url . ') while getting shared secret', ['app' => 'federation']);
 			throw new OCSForbiddenException();

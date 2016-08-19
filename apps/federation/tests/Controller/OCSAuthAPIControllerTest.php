@@ -97,8 +97,6 @@ class OCSAuthAPIControllerTest extends TestCase {
 
 		$url = 'url';
 
-		$this->request->expects($this->at(0))->method('getParam')->with('url')->willReturn($url);
-		$this->request->expects($this->at(1))->method('getParam')->with('token')->willReturn($token);
 		$this->trustedServers
 			->expects($this->once())
 			->method('isTrustedServer')->with($url)->willReturn($isTrustedServer);
@@ -116,7 +114,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 		}
 
 		try {
-			$result = $this->ocsAuthApi->requestSharedSecret();
+			$this->ocsAuthApi->requestSharedSecret($url, $token);
 			$this->assertTrue($ok);
 		} catch (OCSForbiddenException $e) {
 			$this->assertFalse($ok);
@@ -142,9 +140,6 @@ class OCSAuthAPIControllerTest extends TestCase {
 
 		$url = 'url';
 		$token = 'token';
-
-		$this->request->expects($this->at(0))->method('getParam')->with('url')->willReturn($url);
-		$this->request->expects($this->at(1))->method('getParam')->with('token')->willReturn($token);
 
 		/** @var OCSAuthAPIController | \PHPUnit_Framework_MockObject_MockObject $ocsAuthApi */
 		$ocsAuthApi = $this->getMockBuilder('OCA\Federation\Controller\OCSAuthAPIController')
@@ -181,7 +176,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 		}
 
 		try {
-			$result = $ocsAuthApi->getSharedSecret();
+			$result = $ocsAuthApi->getSharedSecret($url, $token);
 			$this->assertTrue($ok);
 			$data =  $result->getData();
 			$this->assertSame('secret', $data['sharedSecret']);
