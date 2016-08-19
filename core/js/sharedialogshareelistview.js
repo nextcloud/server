@@ -165,7 +165,7 @@
 				mailNotificationEnabled: this.configModel.isMailNotificationEnabled(),
 				notifyByMailLabel: t('core', 'notify by email'),
 				unshareLabel: t('core', 'Unshare'),
-				canShareLabel: t('core', 'can share'),
+				canShareLabel: t('core', 'can reshare'),
 				canEditLabel: t('core', 'can edit'),
 				createPermissionLabel: t('core', 'create'),
 				updatePermissionLabel: t('core', 'change'),
