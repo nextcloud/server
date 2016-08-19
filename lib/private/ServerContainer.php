@@ -23,6 +23,7 @@
 namespace OC;
 
 
+use OC\AppFramework\App;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Utility\SimpleContainer;
 use OCP\AppFramework\QueryException;
@@ -49,7 +50,7 @@ class ServerContainer extends SimpleContainer {
 	 * @param DIContainer $container
 	 */
 	public function registerAppContainer($appName, DIContainer $container) {
-		$this->appContainers[$appName] = $container;
+		$this->appContainers[strtolower(App::buildAppNamespace($appName, ''))] = $container;
 	}
 
 	/**
