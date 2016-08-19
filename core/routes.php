@@ -52,6 +52,15 @@ $application->registerRoutes($this, [
 		['name' => 'TwoFactorChallenge#selectChallenge', 'url' => '/login/selectchallenge', 'verb' => 'GET'],
 		['name' => 'TwoFactorChallenge#showChallenge', 'url' => '/login/challenge/{challengeProviderId}', 'verb' => 'GET'],
 		['name' => 'TwoFactorChallenge#solveChallenge', 'url' => '/login/challenge/{challengeProviderId}', 'verb' => 'POST'],
+		['name' => 'Tags#getTags', 'url' => '/tags/{type}', 'verb' => 'GET'],
+		['name' => 'Tags#getFavorites', 'url' => '/tags/{type}/favorites', 'verb' => 'GET'],
+		['name' => 'Tags#getIdsForTag', 'url' => '/tags/{type}/ids', 'verb' => 'GET'],
+		['name' => 'Tags#favorite', 'url' => '/tags/{type}/favorite/{id}/', 'verb' => 'POST'],
+		['name' => 'Tags#unFavorite', 'url' => '/tags/{type}/unfavorite/{id}/', 'verb' => 'POST'],
+		['name' => 'Tags#tagAs', 'url' => '/tags/{type}/tag/{id}/', 'verb' => 'POST'],
+		['name' => 'Tags#unTag', 'url' => '/tags/{type}/untag/{id}/', 'verb' => 'POST'],
+		['name' => 'Tags#addTag', 'url' => '/tags/{type}/add', 'verb' => 'POST'],
+		['name' => 'Tags#deleteTags', 'url' => '/tags/{type}/delete', 'verb' => 'POST'],
 	],
 	'ocs' => [
 		['root' => '/cloud', 'name' => 'OCS#getCapabilities', 'url' => '/capabilities', 'verb' => 'GET'],
@@ -70,43 +79,6 @@ $this->create('search_ajax_search', '/core/search')
 // AppConfig
 $this->create('core_ajax_appconfig', '/core/ajax/appconfig.php')
 	->actionInclude('core/ajax/appconfig.php');
-// Tags
-$this->create('core_tags_tags', '/tags/{type}')
-	->get()
-	->action('OC\Core\Tags\Controller', 'getTags')
-	->requirements(array('type'));
-$this->create('core_tags_favorites', '/tags/{type}/favorites')
-	->get()
-	->action('OC\Core\Tags\Controller', 'getFavorites')
-	->requirements(array('type'));
-$this->create('core_tags_ids_for_tag', '/tags/{type}/ids')
-	->get()
-	->action('OC\Core\Tags\Controller', 'getIdsForTag')
-	->requirements(array('type'));
-$this->create('core_tags_favorite', '/tags/{type}/favorite/{id}/')
-	->post()
-	->action('OC\Core\Tags\Controller', 'favorite')
-	->requirements(array('type', 'id'));
-$this->create('core_tags_unfavorite', '/tags/{type}/unfavorite/{id}/')
-	->post()
-	->action('OC\Core\Tags\Controller', 'unFavorite')
-	->requirements(array('type', 'id'));
-$this->create('core_tags_tag', '/tags/{type}/tag/{id}/')
-	->post()
-	->action('OC\Core\Tags\Controller', 'tagAs')
-	->requirements(array('type', 'id'));
-$this->create('core_tags_untag', '/tags/{type}/untag/{id}/')
-	->post()
-	->action('OC\Core\Tags\Controller', 'unTag')
-	->requirements(array('type', 'id'));
-$this->create('core_tags_add', '/tags/{type}/add')
-	->post()
-	->action('OC\Core\Tags\Controller', 'addTag')
-	->requirements(array('type'));
-$this->create('core_tags_delete', '/tags/{type}/delete')
-	->post()
-	->action('OC\Core\Tags\Controller', 'deleteTags')
-	->requirements(array('type'));
 // oC JS config
 $this->create('js_config', '/core/js/oc.js')
 	->actionInclude('core/js/config.php');
