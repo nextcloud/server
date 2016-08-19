@@ -30,6 +30,7 @@ use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\WorkflowEngine\ICheck;
 use OCP\WorkflowEngine\IManager;
+use OCP\WorkflowEngine\IOperation;
 
 class Manager implements IManager {
 
@@ -176,6 +177,8 @@ class Manager implements IManager {
 	 * @throws \UnexpectedValueException
 	 */
 	public function addOperation($class, $name, array $checks, $operation) {
+		$this->validateOperation($class, $name, $checks, $operation);
+
 		$checkIds = [];
 		foreach ($checks as $check) {
 			$checkIds[] = $this->addCheck($check['class'], $check['operator'], $check['value']);
@@ -204,6 +207,9 @@ class Manager implements IManager {
 	 * @throws \UnexpectedValueException
 	 */
 	public function updateOperation($id, $name, array $checks, $operation) {
+		$row = $this->getOperation($id);
+		$this->validateOperation($row['class'], $name, $checks, $operation);
+
 		$checkIds = [];
 		foreach ($checks as $check) {
 			$checkIds[] = $this->addCheck($check['class'], $check['operator'], $check['value']);
@@ -230,6 +236,43 @@ class Manager implements IManager {
 		$query->delete('flow_operations')
 			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
 		return (bool) $query->execute();
+	}
+
+	/**
+	 * @param string $class
+	 * @param string $name
+	 * @param array[] $checks
+	 * @param string $operation
+	 * @throws \UnexpectedValueException
+	 */
+	protected function validateOperation($class, $name, array $checks, $operation) {
+		try {
+			/** @var IOperation $instance */
+			$instance = $this->container->query($class);
+		} catch (QueryException $e) {
+			throw new \UnexpectedValueException($this->l->t('Operation %s does not exist', $class));
+		}
+
+		if (!($instance instanceof IOperation)) {
+			throw new \UnexpectedValueException($this->l->t('Operation %s is invalid', $class));
+		}
+
+		$instance->validateOperation($name, $checks, $operation);
+
+		foreach ($checks as $check) {
+			try {
+				/** @var ICheck $instance */
+				$instance = $this->container->query($check['class']);
+			} catch (QueryException $e) {
+				throw new \UnexpectedValueException($this->l->t('Check %s does not exist', $class));
+			}
+
+			if (!($instance instanceof ICheck)) {
+				throw new \UnexpectedValueException($this->l->t('Check %s is invalid', $class));
+			}
+
+			$instance->validateCheck($check['operator'], $check['value']);
+		}
 	}
 
 	/**
@@ -279,13 +322,8 @@ class Manager implements IManager {
 	 * @param string $operator
 	 * @param string $value
 	 * @return int Check unique ID
-	 * @throws \UnexpectedValueException
 	 */
 	protected function addCheck($class, $operator, $value) {
-		/** @var ICheck $check */
-		$check = $this->container->query($class);
-		$check->validateCheck($operator, $value);
-
 		$hash = md5($class . '::' . $operator . '::' . $value);
 
 		$query = $this->connection->getQueryBuilder();
