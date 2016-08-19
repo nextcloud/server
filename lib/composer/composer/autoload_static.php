@@ -425,7 +425,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Controller\\TwoFactorChallengeController' => __DIR__ . '/../../..' . '/core/Controller/TwoFactorChallengeController.php',
         'OC\\Core\\Controller\\UserController' => __DIR__ . '/../../..' . '/core/Controller/UserController.php',
         'OC\\Core\\Middleware\\TwoFactorMiddleware' => __DIR__ . '/../../..' . '/core/Middleware/TwoFactorMiddleware.php',
-        'OC\\Core\\Tags\\Controller' => __DIR__ . '/../../..' . '/core/Tags/Controller.php',
         'OC\\DB\\Adapter' => __DIR__ . '/../../..' . '/lib/private/DB/Adapter.php',
         'OC\\DB\\AdapterMySQL' => __DIR__ . '/../../..' . '/lib/private/DB/AdapterMySQL.php',
         'OC\\DB\\AdapterOCI8' => __DIR__ . '/../../..' . '/lib/private/DB/AdapterOCI8.php',
