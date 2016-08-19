@@ -31,13 +31,26 @@ OCP\JSON::callCheck();
 $l = \OC::$server->getL10N('user_ldap');
 
 $ldapWrapper = new OCA\user_ldap\lib\LDAP();
-$connection = new \OCA\user_ldap\lib\Connection($ldapWrapper, '', null);
+$connection = new \OCA\user_ldap\lib\Connection($ldapWrapper, $_POST['ldap_serverconfig_chooser']);
 //needs to be true, otherwise it will also fail with an irritating message
-$_POST['ldap_configuration_active'] = 1;
 
 try {
-	if ($connection->setConfiguration($_POST)) {
+	$configurationOk = true;
+	$conf = $connection->getConfiguration();
+	if ($conf['ldap_configuration_active'] === '0') {
+		//needs to be true, otherwise it will also fail with an irritating message
+		$conf['ldap_configuration_active'] = '1';
+		$configurationOk = $connection->setConfiguration($conf);
+	}
+	if ($configurationOk) {
 		//Configuration is okay
+		/*
+		 * Clossing the session since it won't be used from this point on. There might be a potential
+		 * race condition if a second request is made: either this request or the other might not
+		 * contact the LDAP backup server the first time when it should, but there shouldn't be any
+		 * problem with that other than the extra connection.
+		 */
+		\OC::$server->getSession()->close();
 		if ($connection->bind()) {
 			/*
 			 * This shiny if block is an ugly hack to find out whether anonymous

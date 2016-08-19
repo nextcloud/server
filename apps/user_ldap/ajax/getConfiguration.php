@@ -30,4 +30,9 @@ OCP\JSON::callCheck();
 $prefix = (string)$_POST['ldap_serverconfig_chooser'];
 $ldapWrapper = new OCA\user_ldap\lib\LDAP();
 $connection = new \OCA\user_ldap\lib\Connection($ldapWrapper, $prefix);
-OCP\JSON::success(array('configuration' => $connection->getConfiguration()));
+$configuration = $connection->getConfiguration();
+if (isset($configuration['ldap_agent_password']) && $configuration['ldap_agent_password'] !== '') {
+	// hide password
+	$configuration['ldap_agent_password'] = '**PASSWORD SET**';
+}
+OCP\JSON::success(array('configuration' => $configuration));
