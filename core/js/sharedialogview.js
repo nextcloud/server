@@ -8,6 +8,8 @@
  *
  */
 
+/* globals Handlebars */
+
 (function() {
 	if(!OC.Share) {
 		OC.Share = {};
@@ -148,7 +150,7 @@
 				function (result) {
 					$loading.addClass('hidden');
 					$loading.removeClass('inlineblock');
-					if (result.ocs.meta.statuscode == 100) {
+					if (result.ocs.meta.statuscode === 100) {
 						var users   = result.ocs.data.exact.users.concat(result.ocs.data.users);
 						var groups  = result.ocs.data.exact.groups.concat(result.ocs.data.groups);
 						var remotes = result.ocs.data.exact.remotes.concat(result.ocs.data.remotes);
@@ -404,7 +406,7 @@
 				if (this.configModel.get('isRemoteShareAllowed')) {
 					sharePlaceholder = t('core', 'Share with users, groups or remote users…');
 				} else {
-					sharePlaceholder = t('core', 'Share with users or groups…')
+					sharePlaceholder = t('core', 'Share with users or groups…');
 				}
 			} else if (this.configModel.get('isRemoteShareAllowed')) {
 					sharePlaceholder = t('core', 'Share with users or remote users…');

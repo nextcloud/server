@@ -8,7 +8,7 @@
  *
  */
 
-/* global moment */
+/* global moment, Handlebars */
 
 (function() {
 	if (!OC.Share) {
@@ -107,7 +107,7 @@
 			$target.tooltip('hide');
 			$target.removeClass('error');
 
-			expiration = moment($target.val(), 'DD-MM-YYYY').format('YYYY-MM-DD');
+			var expiration = moment($target.val(), 'DD-MM-YYYY').format('YYYY-MM-DD');
 			this.model.get('linkShare').expiration = expiration;
 			this.model.saveLinkShare({
 				expiration: expiration

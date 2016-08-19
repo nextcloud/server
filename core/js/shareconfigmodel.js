@@ -8,7 +8,7 @@
  *
  */
 
-/* global moment */
+/* global moment, oc_appconfig, oc_config */
 
 (function() {
 	if (!OC.Share) {
