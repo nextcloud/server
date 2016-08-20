@@ -700,10 +700,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return string|false Path info or false when not found
 	 */
 	public function getPathInfo() {
-		if(isset($this->server['PATH_INFO'])) {
-			return $this->server['PATH_INFO'];
-		}
-
 		$pathInfo = $this->getRawPathInfo();
 		// following is taken from \Sabre\HTTP\URLUtil::decodePathSegment
 		$pathInfo = rawurldecode($pathInfo);

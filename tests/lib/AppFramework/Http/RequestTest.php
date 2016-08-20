@@ -1063,22 +1063,6 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('www.owncloud.org', self::invokePrivate($request, 'getOverwriteHost'));
 	}
 
-	public function testGetPathInfoWithSetEnv() {
-		$request = new Request(
-			[
-				'server' => [
-					'PATH_INFO' => 'apps/files/',
-				]
-			],
-			$this->secureRandom,
-			$this->config,
-			$this->csrfTokenManager,
-			$this->stream
-		);
-
-		$this->assertSame('apps/files/',  $request->getPathInfo());
-	}
-
 	/**
 	 * @expectedException \Exception
 	 * @expectedExceptionMessage The requested uri(/foo.php) cannot be processed by the script '/var/www/index.php')
