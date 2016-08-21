@@ -8,6 +8,8 @@
  *
  */
 
+/* globals Clipboard, Handlebars */
+
 (function() {
 	if (!OC.Share) {
 		OC.Share = {};
@@ -131,7 +133,7 @@
 
 			var clipboard = new Clipboard('.clipboardButton');
 			clipboard.on('success', function(e) {
-				$input = $(e.trigger);
+				var $input = $(e.trigger);
 				$input.tooltip({placement: 'bottom', trigger: 'manual', title: t('core', 'Copied!')});
 				$input.tooltip('show');
 				_.delay(function() {
@@ -139,7 +141,7 @@
 				}, 3000);
 			});
 			clipboard.on('error', function (e) {
-				$input = $(e.trigger);
+				var $input = $(e.trigger);
 				var actionMsg = '';
 				if (/iPhone|iPad/i.test(navigator.userAgent)) {
 					actionMsg = t('core', 'Not supported!');
@@ -206,7 +208,7 @@
 		},
 
 		onPasswordKeyUp: function(event) {
-			if(event.keyCode == 13) {
+			if(event.keyCode === 13) {
 				this.onPasswordEntered();
 			}
 		},

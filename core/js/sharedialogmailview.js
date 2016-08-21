@@ -8,6 +8,8 @@
  *
  */
 
+/* globals escapeHTML, Handlebars */
+
 (function() {
 	if (!OC.Share) {
 		OC.Share = {};
@@ -137,7 +139,7 @@
 								fetch: 'getShareWithEmail',
 								search: search.term
 							}, function(result) {
-								if (result.status == 'success' && result.data.length > 0) {
+								if (result.status === 'success' && result.data.length > 0) {
 									response(result.data);
 								}
 							});

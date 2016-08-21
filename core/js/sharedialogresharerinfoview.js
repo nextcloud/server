@@ -8,6 +8,8 @@
  *
  */
 
+/* globals Handlebars */
+
 (function() {
 	if (!OC.Share) {
 		OC.Share = {};

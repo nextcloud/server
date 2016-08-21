@@ -8,6 +8,8 @@
  *
  */
 
+/* globals Handlebars */
+
 (function() {
 	if (!OC.Share) {
 		OC.Share = {};
@@ -254,8 +256,6 @@
 			var $element = $(event.target);
 			var $li = $element.closest('li');
 			var shareId = $li.data('share-id');
-			var shareType = $li.data('share-type');
-			var shareWith = $li.attr('data-share-with');
 
 			// adjust checkbox states
 			var $checkboxes = $('.permissions', $li).not('input[name="edit"]').not('input[name="share"]');
