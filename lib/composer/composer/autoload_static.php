@@ -267,6 +267,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Util' => __DIR__ . '/../../..' . '/lib/public/Util.php',
         'OCP\\WorkflowEngine\\ICheck' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/ICheck.php',
         'OCP\\WorkflowEngine\\IManager' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/IManager.php',
+        'OCP\\WorkflowEngine\\IOperation' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/IOperation.php',
         'OC\\Activity\\Event' => __DIR__ . '/../../..' . '/lib/private/Activity/Event.php',
         'OC\\Activity\\Manager' => __DIR__ . '/../../..' . '/lib/private/Activity/Manager.php',
         'OC\\AllConfig' => __DIR__ . '/../../..' . '/lib/private/AllConfig.php',
