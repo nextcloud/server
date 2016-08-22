@@ -161,7 +161,7 @@ class Converter {
 	 */
 	private function getAvatarImage(IUser $user) {
 		try {
-			$image = $user->getAvatarImage(-1);
+			$image = $user->getAvatarImage(96);
 			return $image;
 		} catch (\Exception $ex) {
 			return null;
