@@ -122,4 +122,20 @@ class LoggerTest extends TestCase {
 			$this->assertContains('validateUserPass(*** sensitive parameters replaced ***)', $logLine);
 		}
 	}
+
+	/**
+	 * @dataProvider userAndPasswordData
+	 */
+	public function testDetecttryLogin($user, $password) {
+		$e = new \Exception('test');
+		$this->logger->logException($e);
+		$logLines = $this->getLogs();
+
+		foreach($logLines as $logLine) {
+			$this->assertNotContains($user, $logLine);
+			$this->assertNotContains($password, $logLine);
+			$this->assertContains('tryLogin(*** sensitive parameters replaced ***)', $logLine);
+		}
+	}
+
 }
