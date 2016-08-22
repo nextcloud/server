@@ -107,7 +107,7 @@ class Manager implements IManager {
 		if(isset($appInfo['settings'][IManager::KEY_ADMIN_SECTION])) {
 			$this->remove(self::TABLE_ADMIN_SECTIONS, $appInfo['settings'][IManager::KEY_ADMIN_SECTION]);
 		}
-		if(isset($settings['settings'][IManager::KEY_ADMIN_SETTINGS])) {
+		if(isset($appInfo['settings'][IManager::KEY_ADMIN_SETTINGS])) {
 			$this->remove(self::TABLE_ADMIN_SETTINGS, $appInfo['settings'][IManager::KEY_ADMIN_SETTINGS]);
 		}
 	}
