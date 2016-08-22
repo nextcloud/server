@@ -208,6 +208,10 @@
 				this._filesConfig = options.config;
 			} else if (!_.isUndefined(OCA.Files) && !_.isUndefined(OCA.Files.App)) {
 				this._filesConfig = OCA.Files.App.getFilesConfig();
+			} else {
+				this._filesConfig = new OC.Backbone.Model({
+					'showhidden': false
+				});
 			}
 
 			if (options.dragOptions) {
