@@ -13,6 +13,7 @@ namespace Test\AppFramework\Http;
 use OC\AppFramework\Http\Request;
 use OC\Security\CSRF\CsrfToken;
 use OC\Security\CSRF\CsrfTokenManager;
+use OCP\IRequest;
 use OCP\Security\ISecureRandom;
 use OCP\IConfig;
 
@@ -24,11 +25,11 @@ use OCP\IConfig;
 class RequestTest extends \Test\TestCase {
 	/** @var string */
 	protected $stream = 'fakeinput://data';
-	/** @var ISecureRandom */
+	/** @var ISecureRandom | \PHPUnit_Framework_MockObject_MockObject */
 	protected $secureRandom;
-	/** @var IConfig */
+	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
-	/** @var CsrfTokenManager */
+	/** @var CsrfTokenManager | \PHPUnit_Framework_MockObject_MockObject */
 	protected $csrfTokenManager;
 
 	protected function setUp() {
@@ -1079,6 +1080,24 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('apps/files/',  $request->getPathInfo());
 	}
 
+	public function testGetPathInfoWithPathInfoBeingEmpty() {
+		$request = new Request(
+			[
+				'server' => [
+					'PATH_INFO' => '',
+					'REQUEST_URI' => '/index.php/apps/files/?dir=/',
+					'SCRIPT_NAME' => 'index.php'
+				]
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('/apps/files/',  $request->getPathInfo());
+	}
+
 	/**
 	 * @expectedException \Exception
 	 * @expectedExceptionMessage The requested uri(/foo.php) cannot be processed by the script '/var/www/index.php')
@@ -1290,6 +1309,7 @@ class RequestTest extends \Test\TestCase {
 			->with('overwritecondaddr')
 			->will($this->returnValue($overwriteCondAddr));
 
+		/** @var IRequest | \PHPUnit_Framework_MockObject_MockObject $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
