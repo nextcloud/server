@@ -7,7 +7,7 @@
 	<licence>AGPL</licence>
 	<author>Vincent Petry, Joas Schilling</author>
 	<default_enable/>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<dependencies>
 		<owncloud min-version="9.1" max-version="9.1" />
 	</dependencies>
