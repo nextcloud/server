@@ -20,7 +20,7 @@
 			'    {{#if mailPublicNotificationEnabled}}' +
 			'<form id="emailPrivateLink" class="emailPrivateLinkForm oneline">' +
 			'    <input id="email" class="emailField" value="{{email}}" placeholder="{{mailPrivatePlaceholder}}" type="text" />' +
-			'    <a id="emailButton" class="icon icon-mail-grey" />' +
+			'    <a id="emailButton" class="icon icon-mail hasTooltip" title="Send e-mail"></a>' +
 			'</form>' +
 			'    {{/if}}' +
 			'{{/if}}'
