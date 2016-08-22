@@ -413,7 +413,7 @@ class SMB extends Common {
 		$this->log('enter: '.__FUNCTION__."($path)");
 		$result = false;
 		try {
-			$this->statCache = array();
+			$this->removeFromCache($path);
 			$content = $this->share->dir($this->buildPath($path));
 			foreach ($content as $file) {
 				if ($file->isDirectory()) {
