@@ -95,6 +95,8 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 			list($this->storage, $this->rootPath) = $this->ownerView->resolvePath($sourcePath);
 			$this->sourceRootInfo = $this->storage->getCache()->get($this->rootPath);
 		} catch (\Exception $e) {
+			$this->storage = new FailedStorage(['exception' => $e]);
+			$this->rootPath = '';
 			$this->logger->logException($e);
 		}
 	}
@@ -293,7 +295,7 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 
 	public function getCache($path = '', $storage = null) {
 		$this->init();
-		if (is_null($this->storage)) {
+		if (is_null($this->storage) || $this->storage instanceof FailedStorage) {
 			return new FailedCache(false);
 		}
 		if (!$storage) {
