@@ -86,6 +86,9 @@ class Log implements ILogger {
 		'calculateHMAC',
 		'encrypt',
 		'decrypt',
+
+		//LoginController
+		'tryLogin'
 	];
 
 	/**
