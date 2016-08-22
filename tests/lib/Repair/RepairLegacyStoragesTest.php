@@ -98,23 +98,9 @@ class RepairLegacyStoragesTest extends TestCase {
 
 		$storageId = Storage::adjustStorageId($storageId);
 		$numRows = $this->connection->executeUpdate($sql, array($storageId));
-		$this->assertEquals(1, $numRows);
+		$this->assertSame(1, $numRows);
 
-		return \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*storages');
-	}
-
-	/**
-	 * Returns the storage id based on the numeric id
-	 *
-	 * @param int $storageId numeric id of the storage
-	 * @return string storage id or null if not found
-	 */
-	private function getStorageId($storageId) {
-		$numericId = Storage::getNumericStorageId($storageId);
-		if (!is_null($numericId)) {
-			return (int)$numericId;
-		}
-		return null;
+		return (int)\OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*storages');
 	}
 
 	/**
@@ -144,8 +130,8 @@ class RepairLegacyStoragesTest extends TestCase {
 
 		$this->repair->run($this->outputMock);
 
-		$this->assertNull($this->getStorageId($this->legacyStorageId));
-		$this->assertEquals($newStorageNumId, $this->getStorageId($this->newStorageId));
+		$this->assertNull(Storage::getNumericStorageId($this->legacyStorageId));
+		$this->assertSame($newStorageNumId, Storage::getNumericStorageId($this->newStorageId));
 	}
 
 	/**
@@ -163,8 +149,8 @@ class RepairLegacyStoragesTest extends TestCase {
 
 		$this->repair->run($this->outputMock);
 
-		$this->assertNull($this->getStorageId($this->legacyStorageId));
-		$this->assertEquals($legacyStorageNumId, $this->getStorageId($this->newStorageId));
+		$this->assertNull(Storage::getNumericStorageId($this->legacyStorageId));
+		$this->assertSame($legacyStorageNumId, Storage::getNumericStorageId($this->newStorageId));
 	}
 
 	/**
@@ -185,8 +171,8 @@ class RepairLegacyStoragesTest extends TestCase {
 
 		$this->repair->run($this->outputMock);
 
-		$this->assertNull($this->getStorageId($this->legacyStorageId));
-		$this->assertEquals($legacyStorageNumId, $this->getStorageId($this->newStorageId));
+		$this->assertNull(Storage::getNumericStorageId($this->legacyStorageId));
+		$this->assertSame($legacyStorageNumId, Storage::getNumericStorageId($this->newStorageId));
 	}
 
 	/**
@@ -208,8 +194,8 @@ class RepairLegacyStoragesTest extends TestCase {
 
 		$this->repair->run($this->outputMock);
 
-		$this->assertNull($this->getStorageId($this->legacyStorageId));
-		$this->assertEquals($newStorageNumId, $this->getStorageId($this->newStorageId));
+		$this->assertNull(Storage::getNumericStorageId($this->legacyStorageId));
+		$this->assertSame($newStorageNumId, Storage::getNumericStorageId($this->newStorageId));
 	}
 
 	/**
@@ -233,8 +219,8 @@ class RepairLegacyStoragesTest extends TestCase {
 		$this->repair->run($this->outputMock);
 
 		// storages left alone
-		$this->assertEquals($legacyStorageNumId, $this->getStorageId($this->legacyStorageId));
-		$this->assertEquals($newStorageNumId, $this->getStorageId($this->newStorageId));
+		$this->assertSame($legacyStorageNumId, Storage::getNumericStorageId($this->legacyStorageId));
+		$this->assertSame($newStorageNumId, Storage::getNumericStorageId($this->newStorageId));
 
 		// do not set the done flag
 		$this->assertNotEquals('yes', $this->config->getAppValue('core', 'repairlegacystoragesdone'));
@@ -255,7 +241,7 @@ class RepairLegacyStoragesTest extends TestCase {
 
 		$this->repair->run($this->outputMock);
 
-		$this->assertEquals($numId, $this->getStorageId($storageId));
+		$this->assertSame($numId, Storage::getNumericStorageId($storageId));
 	}
 
 	/**
@@ -273,7 +259,7 @@ class RepairLegacyStoragesTest extends TestCase {
 
 		$this->repair->run($this->outputMock);
 
-		$this->assertEquals($numId, $this->getStorageId($storageId));
+		$this->assertSame($numId, Storage::getNumericStorageId($storageId));
 	}
 
 	/**
@@ -291,7 +277,7 @@ class RepairLegacyStoragesTest extends TestCase {
 
 		$this->repair->run($this->outputMock);
 
-		$this->assertEquals($numId, $this->getStorageId($storageId));
+		$this->assertSame($numId, Storage::getNumericStorageId($storageId));
 	}
 
 	/**
