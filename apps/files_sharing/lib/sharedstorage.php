@@ -401,6 +401,10 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 		// shares do not participate in availability logic
 	}
 
+	public function getSourceStorage() {
+		return $this->getWrapperStorage();
+	}
+
 	public function getWrapperStorage() {
 		$this->init();
 		return $this->storage;
