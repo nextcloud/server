@@ -70,7 +70,7 @@ class MountPoint implements IMountPoint {
 	 */
 	private $invalidStorage = false;
 
-	/** @var int|null  */
+	/** @var int|null */
 	protected $mountId;
 
 	/**
@@ -132,18 +132,20 @@ class MountPoint implements IMountPoint {
 
 	/**
 	 * create the storage that is mounted
-	 *
-	 * @return \OC\Files\Storage\Storage
 	 */
 	private function createStorage() {
 		if ($this->invalidStorage) {
-			return null;
+			return;
 		}
 
 		if (class_exists($this->class)) {
 			try {
-				return $this->loader->getInstance($this, $this->class, $this->arguments);
+				$class = $this->class;
+				// prevent recursion by setting the storage before applying wrappers
+				$this->storage = new $class($this->arguments);
+				$this->storage = $this->loader->wrap($this, $this->storage);
 			} catch (\Exception $exception) {
+				$this->storage = null;
 				$this->invalidStorage = true;
 				if ($this->mountPoint === '/') {
 					// the root storage could not be initialized, show the user!
@@ -151,12 +153,12 @@ class MountPoint implements IMountPoint {
 				} else {
 					\OCP\Util::writeLog('core', $exception->getMessage(), \OCP\Util::ERROR);
 				}
-				return null;
+				return;
 			}
 		} else {
 			\OCP\Util::writeLog('core', 'storage backend ' . $this->class . ' not found', \OCP\Util::ERROR);
 			$this->invalidStorage = true;
-			return null;
+			return;
 		}
 	}
 
@@ -165,7 +167,7 @@ class MountPoint implements IMountPoint {
 	 */
 	public function getStorage() {
 		if (is_null($this->storage)) {
-			$this->storage = $this->createStorage();
+			$this->createStorage();
 		}
 		return $this->storage;
 	}
