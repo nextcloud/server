@@ -30,6 +30,7 @@ use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider;
 use OCA\Files_Sharing\Tests\TestCase;
+use OCP\Http\Client\IClientService;
 use Test\Traits\UserTrait;
 
 /**
@@ -48,8 +49,8 @@ class ManagerTest extends TestCase {
 	/** @var \OC\Files\Mount\Manager */
 	private $mountManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
-	private $httpHelper;
+	/** @var IClientService|\PHPUnit_Framework_MockObject_MockObject */
+	private $clientService;
 
 	private $uid;
 
@@ -66,17 +67,17 @@ class ManagerTest extends TestCase {
 		$this->createUser($this->uid, '');
 		$this->user = \OC::$server->getUserManager()->get($this->uid);
 		$this->mountManager = new \OC\Files\Mount\Manager();
-		$this->httpHelper = $httpHelper = $this->getMockBuilder('\OC\HTTPHelper')->disableOriginalConstructor()->getMock();
+		$this->clientService = $this->getMockBuilder('\OCP\Http\Client\IClientService')
+			->disableOriginalConstructor()->getMock();
 		$discoveryManager = new DiscoveryManager(
 			\OC::$server->getMemCacheFactory(),
 			\OC::$server->getHTTPClientService()
 		);
-		/** @var \OC\HTTPHelper $httpHelper */
 		$this->manager = new Manager(
 			\OC::$server->getDatabaseConnection(),
 			$this->mountManager,
 			new StorageFactory(),
-			$httpHelper,
+			$this->clientService,
 			\OC::$server->getNotificationManager(),
 			$discoveryManager,
 			$this->uid
@@ -132,9 +133,17 @@ class ManagerTest extends TestCase {
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
 
-		$this->httpHelper->expects($this->at(0))
+		$client = $this->getMockBuilder('OCP\Http\Client\IClient')
+			->disableOriginalConstructor()->getMock();
+		$this->clientService->expects($this->at(0))
+			->method('newClient')
+			->willReturn($client);
+		$response = $this->getMockBuilder('OCP\Http\Client\IResponse')
+			->disableOriginalConstructor()->getMock();
+		$client->expects($this->once())
 			->method('post')
-			->with($this->stringStartsWith('http://localhost/ocs/v1.php/cloud/shares/' . $openShares[0]['remote_id']), $this->anything());
+			->with($this->stringStartsWith('http://localhost/ocs/v1.php/cloud/shares/' . $openShares[0]['remote_id']), $this->anything())
+			->willReturn($response);
 
 		// Accept the first share
 		$this->manager->acceptShare($openShares[0]['id']);
@@ -167,9 +176,17 @@ class ManagerTest extends TestCase {
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
 
-		$this->httpHelper->expects($this->at(0))
+		$client = $this->getMockBuilder('OCP\Http\Client\IClient')
+			->disableOriginalConstructor()->getMock();
+		$this->clientService->expects($this->at(0))
+			->method('newClient')
+			->willReturn($client);
+		$response = $this->getMockBuilder('OCP\Http\Client\IResponse')
+			->disableOriginalConstructor()->getMock();
+		$client->expects($this->once())
 			->method('post')
-			->with($this->stringStartsWith('http://localhost/ocs/v1.php/cloud/shares/' . $openShares[1]['remote_id'] . '/decline'), $this->anything());
+			->with($this->stringStartsWith('http://localhost/ocs/v1.php/cloud/shares/' . $openShares[1]['remote_id'] . '/decline'), $this->anything())
+			->willReturn($response);
 
 		// Decline the third share
 		$this->manager->declineShare($openShares[1]['id']);
@@ -194,12 +211,26 @@ class ManagerTest extends TestCase {
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
 
-		$this->httpHelper->expects($this->at(0))
+		$client1 = $this->getMockBuilder('OCP\Http\Client\IClient')
+			->disableOriginalConstructor()->getMock();
+		$client2 = $this->getMockBuilder('OCP\Http\Client\IClient')
+			->disableOriginalConstructor()->getMock();
+		$this->clientService->expects($this->at(0))
+			->method('newClient')
+			->willReturn($client1);
+		$this->clientService->expects($this->at(1))
+			->method('newClient')
+			->willReturn($client2);
+		$response = $this->getMockBuilder('OCP\Http\Client\IResponse')
+			->disableOriginalConstructor()->getMock();
+		$client1->expects($this->once())
 			->method('post')
-			->with($this->stringStartsWith('http://localhost/ocs/v1.php/cloud/shares/' . $openShares[0]['remote_id'] . '/decline'), $this->anything());
-		$this->httpHelper->expects($this->at(1))
+			->with($this->stringStartsWith('http://localhost/ocs/v1.php/cloud/shares/' . $openShares[0]['remote_id'] . '/decline'), $this->anything())
+			->willReturn($response);
+		$client2->expects($this->once())
 			->method('post')
-			->with($this->stringStartsWith('http://localhost/ocs/v1.php/cloud/shares/' . $acceptedShares[0]['remote_id'] . '/decline'), $this->anything());
+			->with($this->stringStartsWith('http://localhost/ocs/v1.php/cloud/shares/' . $acceptedShares[0]['remote_id'] . '/decline'), $this->anything())
+			->willReturn($response);
 
 		$this->manager->removeUserShares($this->uid);
 		$this->assertEmpty(self::invokePrivate($this->manager, 'getShares', [null]), 'Asserting all shares for the user have been deleted');
