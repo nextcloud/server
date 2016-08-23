@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,36 +21,37 @@
  *
  */
 
-namespace OCA\SystemTags\Settings;
+namespace OCA\WorkflowEngine\Settings;
 
-use OCP\AppFramework\Http\TemplateResponse;
-use OCP\Settings\ISettings;
+use OCP\IL10N;
+use OCP\Settings\ISection;
 
-class Admin implements ISettings {
+class Section implements ISection {
+	/** @var IL10N */
+	private $l;
 
-	/**
-	 * @return TemplateResponse
-	 */
-	public function getForm() {
-		return new TemplateResponse('systemtags', 'admin', [], '');
+	public function __construct(IL10N $l) {
+		$this->l = $l;
 	}
 
 	/**
-	 * @return string the section ID, e.g. 'sharing'
+	 * {@inheritdoc}
 	 */
-	public function getSection() {
+	public function getID() {
 		return 'workflow';
 	}
 
 	/**
-	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
-	 *
-	 * E.g.: 70
+	 * {@inheritdoc}
 	 */
-	public function getPriority() {
-		return 70;
+	public function getName() {
+		return $this->l->t('Workflow');
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPriority() {
+		return 55;
+	}
 }
