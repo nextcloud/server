@@ -129,10 +129,10 @@ class SMB extends Common {
 			$path = $this->buildPath($path);
 			if (!isset($this->statCache[$path])) {
 				try {
-					$this->log("stat fetching '{$this->root}|$path'");
+					$this->log("stat fetching '$path'");
 					$this->statCache[$path] = $this->share->stat($path);
 					if ($this->remoteIsShare() && $this->isRootDir($path) && $this->statCache[$path]->isHidden()) {
-						$this->log(" stat for '{$this->root}|$path'");
+						$this->log(" stat for '$path'");
 						// make root never hidden, may happen when accessing a shared drive (mode is 22, archived and readonly - neither is true ... whatever)
 						if ($this->statCache[$path]->isReadOnly()) {
 							$mode = FileInfo::MODE_DIRECTORY & FileInfo::MODE_READONLY;
@@ -492,8 +492,7 @@ class SMB extends Common {
 		$result = false;
 		$path = $this->buildPath($path);
 		try {
-			$this->share->mkdir($path);
-			$result = true;
+			$result = $this->share->mkdir($path);
 		} catch (ConnectException $e) {
 			$ex = new StorageNotAvailableException(
 				$e->getMessage(), $e->getCode(), $e);
@@ -594,7 +593,6 @@ class SMB extends Common {
 		return $this->leave(__FUNCTION__, $result);
 	}
 
-
 	/**
 	 * @param string $message
 	 * @param int $level
@@ -644,5 +642,12 @@ class SMB extends Common {
 				.' message: '.$exception->getMessage()
 				.' trace: '.$exception->getTraceAsString(), Util::DEBUG);
 		}
+	}
+
+	/**
+	 * immediately close / free connection
+	 */
+	public function __destruct() {
+		unset($this->share);
 	}
 }
