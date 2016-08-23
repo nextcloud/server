@@ -43,6 +43,9 @@ class HookManager {
 	/** @var array */
 	private $calendarsToDelete;
 
+	/** @var array */
+	private $addressBooksToDelete;
+
 	/** @var CalDavBackend */
 	private $calDav;
 
@@ -93,6 +96,7 @@ class HookManager {
 		$this->usersToDelete[$params['uid']] = $user;
 
 		$this->calendarsToDelete = $this->calDav->getCalendarsForUser('principals/users/' . $user->getUID());
+		$this->addressBooksToDelete = $this->cardDav->getAddressBooksForUser('principals/users/' . $user->getUID());
 	}
 
 	public function postDeleteUser($params) {
@@ -103,6 +107,11 @@ class HookManager {
 		if (!is_null($this->calendarsToDelete)) {
 			foreach ($this->calendarsToDelete as $calendar) {
 				$this->calDav->deleteCalendar($calendar['id']);
+			}
+		}
+		if (!is_null($this->addressBooksToDelete)) {
+			foreach ($this->addressBooksToDelete as $addressBook) {
+				$this->cardDav->deleteAddressBook($addressBook['id']);
 			}
 		}
 	}
