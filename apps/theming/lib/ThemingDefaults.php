@@ -28,6 +28,7 @@ namespace OCA\Theming;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\Files\IRootFolder;
 
 
 class ThemingDefaults extends \OC_Defaults {
@@ -46,6 +47,8 @@ class ThemingDefaults extends \OC_Defaults {
 	private $slogan;
 	/** @var string */
 	private $color;
+	/** @var IRootFolder */
+	private $rootFolder;
 
 	/**
 	 * ThemingDefaults constructor.
@@ -54,16 +57,19 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @param IL10N $l
 	 * @param IURLGenerator $urlGenerator
 	 * @param \OC_Defaults $defaults
+	 * @param IRootFolder $rootFolder
 	 */
 	public function __construct(IConfig $config,
 								IL10N $l,
 								IURLGenerator $urlGenerator,
-								\OC_Defaults $defaults
+								\OC_Defaults $defaults,
+								IRootFolder $rootFolder
 	) {
 		parent::__construct();
 		$this->config = $config;
 		$this->l = $l;
 		$this->urlGenerator = $urlGenerator;
+		$this->rootFolder = $rootFolder;
 
 		$this->name = $defaults->getName();
 		$this->url = $defaults->getBaseUrl();
@@ -113,6 +119,32 @@ class ThemingDefaults extends \OC_Defaults {
 		return $this->config->getAppValue('theming', 'color', $this->color);
 	}
 
+	/**
+	 * Themed logo url
+	 *
+	 * @return string
+	 */
+	public function getLogo() {
+		$logo = $this->config->getAppValue('theming', 'logoMime');
+		if(!$logo || !$this->rootFolder->nodeExists('themedinstancelogo')) {
+			return $this->urlGenerator->imagePath('core','logo.svg');
+		} else {
+			return $this->urlGenerator->linkToRoute('theming.Theming.getLogo');
+		}
+	}
+	/**
+	 * Themed background image url
+	 *
+	 * @return string
+	 */
+	public function getBackground() {
+		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime');
+		if(!$backgroundLogo || !$this->rootFolder->nodeExists('themedbackgroundlogo')) {
+			return $this->urlGenerator->imagePath('core','background.jpg');
+		} else {
+			return $this->urlGenerator->linkToRoute('theming.Theming.getLoginBackground');
+		}
+	}
 	/**
 	 * Increases the cache buster key
 	 */
