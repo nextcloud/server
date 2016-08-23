@@ -10,16 +10,7 @@
 		<input id="newemail" type="text" style="display:none"
 			   placeholder="<?php p($l->t('E-Mail'))?>"
 			   autocomplete="off" autocapitalize="off" autocorrect="off" />
-		<select
-			class="groupsselect" id="newusergroups" data-placeholder="groups"
-			title="<?php p($l->t('Groups'))?>" multiple="multiple">
-			<?php foreach($_["adminGroup"] as $adminGroup): ?>
-				<option value="<?php p($adminGroup['name']);?>"><?php p($adminGroup['name']); ?></option>
-			<?php endforeach; ?>
-			<?php foreach($_["groups"] as $group): ?>
-				<option value="<?php p($group['name']);?>"><?php p($group['name']);?></option>
-			<?php endforeach;?>
-		</select>
+		<div class="groups"><div class="groupsListContainer multiselect button" data-placeholder="<?php p($l->t('Groups'))?>"><span class="title groupsList"></span><span class="icon-triangle-s"></span></div></div>
 		<input type="submit" class="button" value="<?php p($l->t('Create'))?>" />
 	</form>
 	<?php if((bool)$_['recoveryAdminEnabled']): ?>

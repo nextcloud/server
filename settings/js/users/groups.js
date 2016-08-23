@@ -136,10 +136,6 @@ GroupList = {
 					var addedGroup = result.groupname;
 					UserList.availableGroups = $.unique($.merge(UserList.availableGroups, [addedGroup]));
 					GroupList.addGroup(result.groupname);
-
-					$('.groupsselect, .subadminsselect')
-						.append($('<option>', { value: result.groupname })
-							.text(result.groupname));
 				}
 				GroupList.toggleAddGroup();
 			}).fail(function(result) {
