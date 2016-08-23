@@ -53,13 +53,6 @@ class Admin implements ISettings {
 		$upload_max_filesize = $this->iniWrapper->getBytes('upload_max_filesize');
 		$post_max_size = $this->iniWrapper->getBytes('post_max_size');
 		$maxUploadFilesize = Util::humanFileSize(min($upload_max_filesize, $post_max_size));
-		if($_POST && $this->request->passesCSRFCheck()) {
-			if(isset($_POST['maxUploadSize'])) {
-				if(($setMaxSize = \OC_Files::setUploadLimit(Util::computerFileSize($_POST['maxUploadSize']))) !== false) {
-					$maxUploadFilesize = Util::humanFileSize($setMaxSize);
-				}
-			}
-		}
 
 		$parameters = [
 			'uploadChangable'              => (($htaccessWorking and $htaccessWritable) or $userIniWritable ),

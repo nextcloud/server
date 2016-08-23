@@ -65,6 +65,11 @@ $application->registerRoutes(
 				'url' => '/',
 				'verb' => 'GET',
 			],
+			[
+				'name' => 'settings#setMaxUploadSize',
+				'url' => '/settings/maxUpload',
+				'verb' => 'POST',
+			]
 		)
 	)
 );
