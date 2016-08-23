@@ -5,7 +5,7 @@
 	<description></description>
 	<licence>AGPL</licence>
 	<author>Morris Jobke</author>
-	<version>1.1.0</version>
+	<version>1.1.1</version>
 	<namespace>WorkflowEngine</namespace>
 
 	<category>other</category>
@@ -20,4 +20,8 @@
 	<dependencies>
 		<owncloud min-version="9.2" max-version="9.2" />
 	</dependencies>
+
+	<settings>
+		<admin-section>OCA\WorkflowEngine\Settings\Section</admin-section>
+	</settings>
 </info>
