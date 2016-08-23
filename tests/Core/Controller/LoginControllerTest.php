@@ -370,7 +370,7 @@ class LoginControllerTest extends TestCase {
 			->will($this->returnValue(false));
 		$this->config->expects($this->once())
 			->method('deleteUserValue')
-			->with('uid', 'owncloud', 'lostpassword');
+			->with('uid', 'core', 'lostpassword');
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($indexPageUrl);
 		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, null));
@@ -499,7 +499,7 @@ class LoginControllerTest extends TestCase {
 			->will($this->returnValue($redirectUrl));
 		$this->config->expects($this->once())
 			->method('deleteUserValue')
-			->with('jane', 'owncloud', 'lostpassword');
+			->with('jane', 'core', 'lostpassword');
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse(urldecode($redirectUrl));
 		$this->assertEquals($expected, $this->loginController->tryLogin('Jane', $password, $originalUrl));
@@ -553,7 +553,7 @@ class LoginControllerTest extends TestCase {
 			->will($this->returnValue($challengeUrl));
 		$this->config->expects($this->once())
 			->method('deleteUserValue')
-			->with('john', 'owncloud', 'lostpassword');
+			->with('john', 'core', 'lostpassword');
 
 		$expected = new RedirectResponse($challengeUrl);
 		$this->assertEquals($expected, $this->loginController->tryLogin('john@doe.com', $password, null));
