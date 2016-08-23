@@ -40,7 +40,7 @@ class Hooks {
 			\OC::$server->getDatabaseConnection(),
 			\OC\Files\Filesystem::getMountManager(),
 			\OC\Files\Filesystem::getLoader(),
-			\OC::$server->getHTTPHelper(),
+			\OC::$server->getHTTPClientService(),
 			\OC::$server->getNotificationManager(),
 			$discoveryManager,
 			$params['uid']);

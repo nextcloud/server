@@ -45,7 +45,7 @@ class Remote {
 			\OC::$server->getDatabaseConnection(),
 			Filesystem::getMountManager(),
 			Filesystem::getLoader(),
-			\OC::$server->getHTTPHelper(),
+			\OC::$server->getHTTPClientService(),
 			\OC::$server->getNotificationManager(),
 			$discoveryManager,
 			\OC_User::getUser()
@@ -69,7 +69,7 @@ class Remote {
 			\OC::$server->getDatabaseConnection(),
 			Filesystem::getMountManager(),
 			Filesystem::getLoader(),
-			\OC::$server->getHTTPHelper(),
+			\OC::$server->getHTTPClientService(),
 			\OC::$server->getNotificationManager(),
 			$discoveryManager,
 			\OC_User::getUser()
@@ -100,7 +100,7 @@ class Remote {
 			\OC::$server->getDatabaseConnection(),
 			Filesystem::getMountManager(),
 			Filesystem::getLoader(),
-			\OC::$server->getHTTPHelper(),
+			\OC::$server->getHTTPClientService(),
 			\OC::$server->getNotificationManager(),
 			$discoveryManager,
 			\OC_User::getUser()
@@ -148,7 +148,7 @@ class Remote {
 			\OC::$server->getDatabaseConnection(),
 			Filesystem::getMountManager(),
 			Filesystem::getLoader(),
-			\OC::$server->getHTTPHelper(),
+			\OC::$server->getHTTPClientService(),
 			\OC::$server->getNotificationManager(),
 			$discoveryManager,
 			\OC_User::getUser()
@@ -176,7 +176,7 @@ class Remote {
 			\OC::$server->getDatabaseConnection(),
 			Filesystem::getMountManager(),
 			Filesystem::getLoader(),
-			\OC::$server->getHTTPHelper(),
+			\OC::$server->getHTTPClientService(),
 			\OC::$server->getNotificationManager(),
 			$discoveryManager,
 			\OC_User::getUser()
@@ -207,7 +207,7 @@ class Remote {
 			\OC::$server->getDatabaseConnection(),
 			Filesystem::getMountManager(),
 			Filesystem::getLoader(),
-			\OC::$server->getHTTPHelper(),
+			\OC::$server->getHTTPClientService(),
 			\OC::$server->getNotificationManager(),
 			$discoveryManager,
 			\OC_User::getUser()

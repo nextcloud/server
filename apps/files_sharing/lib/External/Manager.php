@@ -32,6 +32,7 @@ namespace OCA\Files_Sharing\External;
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\DiscoveryManager;
 use OCP\Files;
+use OCP\Http\Client\IClientService;
 use OCP\Notification\IManager;
 
 class Manager {
@@ -58,9 +59,9 @@ class Manager {
 	private $storageLoader;
 
 	/**
-	 * @var \OC\HTTPHelper
+	 * @var IClientService
 	 */
-	private $httpHelper;
+	private $clientService;
 
 	/**
 	 * @var IManager
@@ -73,7 +74,7 @@ class Manager {
 	 * @param \OCP\IDBConnection $connection
 	 * @param \OC\Files\Mount\Manager $mountManager
 	 * @param \OCP\Files\Storage\IStorageFactory $storageLoader
-	 * @param \OC\HTTPHelper $httpHelper
+	 * @param IClientService $clientService
 	 * @param IManager $notificationManager
 	 * @param DiscoveryManager $discoveryManager
 	 * @param string $uid
@@ -81,14 +82,14 @@ class Manager {
 	public function __construct(\OCP\IDBConnection $connection,
 								\OC\Files\Mount\Manager $mountManager,
 								\OCP\Files\Storage\IStorageFactory $storageLoader,
-								\OC\HTTPHelper $httpHelper,
+								IClientService $clientService,
 								IManager $notificationManager,
 								DiscoveryManager $discoveryManager,
 								$uid) {
 		$this->connection = $connection;
 		$this->mountManager = $mountManager;
 		$this->storageLoader = $storageLoader;
-		$this->httpHelper = $httpHelper;
+		$this->clientService = $clientService;
 		$this->uid = $uid;
 		$this->notificationManager = $notificationManager;
 		$this->discoveryManager = $discoveryManager;
@@ -262,10 +263,23 @@ class Manager {
 		$url = rtrim($remote, '/') . $this->discoveryManager->getShareEndpoint($remote) . '/' . $remoteId . '/' . $feedback . '?format=' . \OCP\Share::RESPONSE_FORMAT;
 		$fields = array('token' => $token);
 
-		$result = $this->httpHelper->post($url, $fields);
-		$status = json_decode($result['result'], true);
+		$client = $this->clientService->newClient();
 
-		return ($result['success'] && ($status['ocs']['meta']['statuscode'] === 100 || $status['ocs']['meta']['statuscode'] === 200));
+		try {
+			$response = $client->post(
+				$url,
+				[
+					'body' => $fields,
+					'connect_timeout' => 10,
+				]
+			);
+		} catch (\Exception $e) {
+			return false;
+		}
+
+		$status = json_decode($response->getBody(), true);
+
+		return ($status['ocs']['meta']['statuscode'] === 100 || $status['ocs']['meta']['statuscode'] === 200);
 	}
 
 	/**

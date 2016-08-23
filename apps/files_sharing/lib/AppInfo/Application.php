@@ -105,7 +105,7 @@ class Application extends App {
 				$server->getDatabaseConnection(),
 				\OC\Files\Filesystem::getMountManager(),
 				\OC\Files\Filesystem::getLoader(),
-				$server->getHTTPHelper(),
+				$server->getHTTPClientService(),
 				$server->getNotificationManager(),
 				$discoveryManager,
 				$uid
