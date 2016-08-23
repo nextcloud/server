@@ -28,6 +28,7 @@
 
 namespace OCA\Provisioning_API\Tests;
 
+use OC\OCS\Result;
 use OCA\Provisioning_API\Users;
 use OCP\API;
 use OCP\IUserManager;
@@ -51,6 +52,8 @@ class UsersTest extends OriginalTest {
 	protected $logger;
 	/** @var Users | PHPUnit_Framework_MockObject_MockObject */
 	protected $api;
+	/** @var \OC\Authentication\TwoFactorAuth\Manager | PHPUnit_Framework_MockObject_MockObject */
+	private $twoFactorAuthManager;
 
 	protected function tearDown() {
 		$_GET = null;
@@ -68,6 +71,13 @@ class UsersTest extends OriginalTest {
 			->getMock();
 		$this->userSession = $this->getMock('OCP\IUserSession');
 		$this->logger = $this->getMock('OCP\ILogger');
+		$this->twoFactorAuthManager = $this->getMockBuilder('\OC\Authentication\TwoFactorAuth\Manager')
+			->disableOriginalConstructor()
+			->setMethods(['isTwoFactorAuthenticated', 'enableTwoFactorAuthentication'])
+			->getMock();
+		$this->twoFactorAuthManager->expects($this->any())
+			->method('isTwoFactorAuthenticated')
+			->willReturn(false);
 		$this->api = $this->getMockBuilder('OCA\Provisioning_API\Users')
 			->setConstructorArgs([
 				$this->userManager,
@@ -75,6 +85,7 @@ class UsersTest extends OriginalTest {
 				$this->groupManager,
 				$this->userSession,
 				$this->logger,
+				$this->twoFactorAuthManager
 			])
 			->setMethods(['fillStorageInfo'])
 			->getMock();
@@ -86,7 +97,7 @@ class UsersTest extends OriginalTest {
 			->method('getUser')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, API::RESPOND_UNAUTHORISED);
+		$expected = new Result(null, API::RESPOND_UNAUTHORISED);
 		$this->assertEquals($expected, $this->api->getUsers());
 	}
 
@@ -112,7 +123,7 @@ class UsersTest extends OriginalTest {
 			->with('MyCustomSearch', null, null)
 			->will($this->returnValue(['Admin' => [], 'Foo' => [], 'Bar' => []]));
 
-		$expected = new \OC_OCS_Result([
+		$expected = new Result([
 			'users' => [
 				'Admin',
 				'Foo',
@@ -169,7 +180,7 @@ class UsersTest extends OriginalTest {
 			->method('displayNamesInGroup')
 			->will($this->onConsecutiveCalls(['AnotherUserInTheFirstGroup' => []], ['UserInTheSecondGroup' => []]));
 
-		$expected = new \OC_OCS_Result([
+		$expected = new Result([
 			'users' => [
 				'AnotherUserInTheFirstGroup',
 				'UserInTheSecondGroup',
@@ -206,7 +217,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC_OCS_Result(null, API::RESPOND_UNAUTHORISED);
+		$expected = new Result(null, API::RESPOND_UNAUTHORISED);
 		$this->assertEquals($expected, $this->api->getUsers());
 	}
 
@@ -236,7 +247,7 @@ class UsersTest extends OriginalTest {
 			->with('adminUser')
 			->willReturn(true);
 
-		$expected = new \OC_OCS_Result(null, 102, 'User already exists');
+		$expected = new Result(null, 102, 'User already exists');
 		$this->assertEquals($expected, $this->api->addUser());
 	}
 
@@ -268,7 +279,7 @@ class UsersTest extends OriginalTest {
 			->with('NonExistingGroup')
 			->willReturn(false);
 
-		$expected = new \OC_OCS_Result(null, 104, 'group NonExistingGroup does not exist');
+		$expected = new Result(null, 104, 'group NonExistingGroup does not exist');
 		$this->assertEquals($expected, $this->api->addUser());
 	}
 
@@ -306,7 +317,7 @@ class UsersTest extends OriginalTest {
 				['NonExistingGroup', false]
 			]));
 
-		$expected = new \OC_OCS_Result(null, 104, 'group NonExistingGroup does not exist');
+		$expected = new Result(null, 104, 'group NonExistingGroup does not exist');
 		$this->assertEquals($expected, $this->api->addUser());
 	}
 
@@ -341,7 +352,7 @@ class UsersTest extends OriginalTest {
 			->with('adminUser')
 			->willReturn(true);
 
-		$expected = new \OC_OCS_Result(null, 100);
+		$expected = new Result(null, 100);
 		$this->assertEquals($expected, $this->api->addUser());
 	}
 
@@ -397,7 +408,7 @@ class UsersTest extends OriginalTest {
 				['Added userid NewUser to group ExistingGroup', ['app' => 'ocs_api']]
 			);
 
-		$expected = new \OC_OCS_Result(null, 100);
+		$expected = new Result(null, 100);
 		$this->assertEquals($expected, $this->api->addUser());
 	}
 
@@ -433,7 +444,7 @@ class UsersTest extends OriginalTest {
 			->with('adminUser')
 			->willReturn(true);
 
-		$expected = new \OC_OCS_Result(null, 101, 'Bad request');
+		$expected = new Result(null, 101, 'Bad request');
 		$this->assertEquals($expected, $this->api->addUser());
 	}
 
@@ -467,7 +478,7 @@ class UsersTest extends OriginalTest {
 			->with()
 			->willReturn($subAdminManager);
 
-		$expected = new \OC_OCS_Result(null, API::RESPOND_UNAUTHORISED);
+		$expected = new Result(null, API::RESPOND_UNAUTHORISED);
 		$this->assertEquals($expected, $this->api->addUser());	
 	}
 
@@ -501,7 +512,7 @@ class UsersTest extends OriginalTest {
 			->with()
 			->willReturn($subAdminManager);
 
-		$expected = new \OC_OCS_Result(null, 106, 'no group specified (required for subadmins)');
+		$expected = new Result(null, 106, 'no group specified (required for subadmins)');
 		$this->assertEquals($expected, $this->api->addUser());	
 	}
 
@@ -552,7 +563,7 @@ class UsersTest extends OriginalTest {
 			->with('ExistingGroup')
 			->willReturn(true);
 
-		$expected = new \OC_OCS_Result(null, 105, 'insufficient privileges for group ExistingGroup');
+		$expected = new Result(null, 105, 'insufficient privileges for group ExistingGroup');
 		$this->assertEquals($expected, $this->api->addUser());	
 	}
 
@@ -645,7 +656,7 @@ class UsersTest extends OriginalTest {
 			->willReturn(true);
 
 
-		$expected = new \OC_OCS_Result(null, 100);
+		$expected = new Result(null, 100);
 		$this->assertEquals($expected, $this->api->addUser());
 	}
 
@@ -656,7 +667,7 @@ class UsersTest extends OriginalTest {
 			->method('getUser')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, API::RESPOND_UNAUTHORISED);
+		$expected = new Result(null, API::RESPOND_UNAUTHORISED);
 		$this->assertEquals($expected, $this->api->getUser(['userid' => 'UserToGet']));
 	}
 
@@ -672,7 +683,7 @@ class UsersTest extends OriginalTest {
 			->with('UserToGet')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, API::RESPOND_NOT_FOUND, 'The requested user could not be found');
+		$expected = new Result(null, API::RESPOND_NOT_FOUND, 'The requested user could not be found');
 		$this->assertEquals($expected, $this->api->getUser(['userid' => 'UserToGet']));
 	}
 
@@ -715,12 +726,13 @@ class UsersTest extends OriginalTest {
 			->method('getDisplayName')
 			->will($this->returnValue('Demo User'));
 
-		$expected = new \OC_OCS_Result(
+		$expected = new Result(
 			[
 				'enabled' => 'true',
 				'quota' => ['DummyValue'],
 				'email' => 'demo@owncloud.org',
 				'displayname' => 'Demo User',
+				'two_factor_auth_enabled' => 'false'
 			]
 		);
 		$this->assertEquals($expected, $this->api->getUser(['userid' => 'UserToGet']));
@@ -778,12 +790,13 @@ class UsersTest extends OriginalTest {
 			->method('getDisplayName')
 			->will($this->returnValue('Demo User'));
 
-		$expected = new \OC_OCS_Result(
+		$expected = new Result(
 			[
 				'enabled' => 'true',
 				'quota' => ['DummyValue'],
 				'email' => 'demo@owncloud.org',
 				'displayname' => 'Demo User',
+				'two_factor_auth_enabled' => 'false'
 			]
 		);
 		$this->assertEquals($expected, $this->api->getUser(['userid' => 'UserToGet']));
@@ -823,7 +836,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC_OCS_Result(null, API::RESPOND_UNAUTHORISED);
+		$expected = new Result(null, API::RESPOND_UNAUTHORISED);
 		$this->assertEquals($expected, $this->api->getUser(['userid' => 'UserToGet']));
 	}
 
@@ -874,10 +887,11 @@ class UsersTest extends OriginalTest {
 			->method('getEMailAddress')
 			->will($this->returnValue('subadmin@owncloud.org'));
 
-		$expected = new \OC_OCS_Result([
+		$expected = new Result([
 			'quota' => ['DummyValue'],
 			'email' => 'subadmin@owncloud.org',
 			'displayname' => 'Subadmin User',
+			'two_factor_auth_enabled' => 'false'
 		]);
 		$this->assertEquals($expected, $this->api->getUser(['userid' => 'subadmin']));
 	}
@@ -888,7 +902,7 @@ class UsersTest extends OriginalTest {
 			->method('getUser')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, API::RESPOND_UNAUTHORISED);
+		$expected = new Result(null, API::RESPOND_UNAUTHORISED);
 		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit']));
 	}
 
@@ -913,7 +927,7 @@ class UsersTest extends OriginalTest {
 			->method('setDisplayName')
 			->with('NewDisplayName');
 
-		$expected = new \OC_OCS_Result(null, 100);
+		$expected = new Result(null, 100);
 		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'display', 'value' => 'NewDisplayName']]));
 	}
 
@@ -938,7 +952,7 @@ class UsersTest extends OriginalTest {
 			->method('setEMailAddress')
 			->with('demo@owncloud.org');
 
-		$expected = new \OC_OCS_Result(null, 100);
+		$expected = new Result(null, 100);
 		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'email', 'value' => 'demo@owncloud.org']]));
 	}
 
@@ -959,7 +973,7 @@ class UsersTest extends OriginalTest {
 			->with('UserToEdit')
 			->will($this->returnValue($targetUser));
 
-		$expected = new \OC_OCS_Result(null, 102);
+		$expected = new Result(null, 102);
 		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'email', 'value' => 'demo.org']]));
 	}
 
@@ -984,7 +998,7 @@ class UsersTest extends OriginalTest {
 			->method('setPassword')
 			->with('NewPassword');
 
-		$expected = new \OC_OCS_Result(null, 100);
+		$expected = new Result(null, 100);
 		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'password', 'value' => 'NewPassword']]));
 	}
 
@@ -1005,8 +1019,32 @@ class UsersTest extends OriginalTest {
 			->with('UserToEdit')
 			->will($this->returnValue($targetUser));
 
-		$expected = new \OC_OCS_Result(null, 997);
+		$expected = new Result(null, 997);
 		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'quota', 'value' => 'NewQuota']]));
+	}
+
+	public function testEditTwoFactor() {
+		$loggedInUser = $this->getMock('OCP\IUser');
+		$loggedInUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UserToEdit'));
+		$targetUser = $this->getMock('OCP\IUser');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToEdit')
+			->will($this->returnValue($targetUser));
+		$this->twoFactorAuthManager
+			->expects($this->once())
+			->method('enableTwoFactorAuthentication');
+
+		$expected = new Result(null, 100);
+		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'two_factor_auth_enabled', 'value' => true]]));
 	}
 
 	public function testEditUserAdminUserSelfEditChangeValidQuota() {
@@ -1034,7 +1072,7 @@ class UsersTest extends OriginalTest {
 			->with('UserToEdit')
 			->will($this->returnValue(true));
 
-		$expected = new \OC_OCS_Result(null, 100);
+		$expected = new Result(null, 100);
 		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'quota', 'value' => '3042824']]));
 	}
 
@@ -1060,7 +1098,7 @@ class UsersTest extends OriginalTest {
 			->with('UserToEdit')
 			->will($this->returnValue(true));
 
-		$expected = new \OC_OCS_Result(null, 103, 'Invalid quota value ABC');
+		$expected = new Result(null, 103, 'Invalid quota value ABC');
 		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'quota', 'value' => 'ABC']]));
 	}
 
@@ -1096,7 +1134,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC_OCS_Result(null, 100);
+		$expected = new Result(null, 100);
 		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'quota', 'value' => '3042824']]));
 	}
 
@@ -1132,7 +1170,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC_OCS_Result(null, 100);
+		$expected = new Result(null, 100);
 		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'quota', 'value' => '3042824']]));
 	}
 
@@ -1165,7 +1203,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC_OCS_Result(null, 997);
+		$expected = new Result(null, 997);
 		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'quota', 'value' => '3042824']]));
 	}
 
@@ -1175,7 +1213,7 @@ class UsersTest extends OriginalTest {
 			->method('getUser')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, 997);
+		$expected = new Result(null, 997);
 		$this->assertEquals($expected, $this->api->deleteUser(['userid' => 'UserToDelete']));
 	}
 
@@ -1195,7 +1233,7 @@ class UsersTest extends OriginalTest {
 			->with('UserToDelete')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, 101);
+		$expected = new Result(null, 101);
 		$this->assertEquals($expected, $this->api->deleteUser(['userid' => 'UserToDelete']));
 	}
 
@@ -1220,7 +1258,7 @@ class UsersTest extends OriginalTest {
 			->with('UserToDelete')
 			->will($this->returnValue($targetUser));
 
-		$expected = new \OC_OCS_Result(null, 101);
+		$expected = new Result(null, 101);
 		$this->assertEquals($expected, $this->api->deleteUser(['userid' => 'UserToDelete']));
 	}
 
@@ -1254,7 +1292,7 @@ class UsersTest extends OriginalTest {
 			->method('delete')
 			->will($this->returnValue(true));
 
-		$expected = new \OC_OCS_Result(null, 100);
+		$expected = new Result(null, 100);
 		$this->assertEquals($expected, $this->api->deleteUser(['userid' => 'UserToDelete']));
 	}
 
@@ -1288,7 +1326,7 @@ class UsersTest extends OriginalTest {
 			->method('delete')
 			->will($this->returnValue(false));
 
-		$expected = new \OC_OCS_Result(null, 101);
+		$expected = new Result(null, 101);
 		$this->assertEquals($expected, $this->api->deleteUser(['userid' => 'UserToDelete']));
 	}
 
@@ -1333,7 +1371,7 @@ class UsersTest extends OriginalTest {
 			->method('delete')
 			->will($this->returnValue(true));
 
-		$expected = new \OC_OCS_Result(null, 100);
+		$expected = new Result(null, 100);
 		$this->assertEquals($expected, $this->api->deleteUser(['userid' => 'UserToDelete']));
 	}
 
@@ -1378,7 +1416,7 @@ class UsersTest extends OriginalTest {
 			->method('delete')
 			->will($this->returnValue(false));
 
-		$expected = new \OC_OCS_Result(null, 101);
+		$expected = new Result(null, 101);
 		$this->assertEquals($expected, $this->api->deleteUser(['userid' => 'UserToDelete']));
 	}
 
@@ -1419,7 +1457,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC_OCS_Result(null, 997);
+		$expected = new Result(null, 997);
 		$this->assertEquals($expected, $this->api->deleteUser(['userid' => 'UserToDelete']));
 	}
 
@@ -1429,7 +1467,7 @@ class UsersTest extends OriginalTest {
 			->method('getUser')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, 997);
+		$expected = new Result(null, 997);
 		$this->assertEquals($expected, $this->api->getUsersGroups(['userid' => 'UserToLookup']));
 	}
 
@@ -1440,7 +1478,7 @@ class UsersTest extends OriginalTest {
 			->method('getUser')
 			->will($this->returnValue($loggedInUser));
 
-		$expected = new \OC_OCS_Result(null, 998);
+		$expected = new Result(null, 998);
 		$this->assertEquals($expected, $this->api->getUsersGroups(['userid' => 'UserToLookup']));
 	}
 
@@ -1470,7 +1508,7 @@ class UsersTest extends OriginalTest {
 			->with($targetUser)
 			->will($this->returnValue(['DummyValue']));
 
-		$expected = new \OC_OCS_Result(['groups' => ['DummyValue']]);
+		$expected = new Result(['groups' => ['DummyValue']]);
 		$this->assertEquals($expected, $this->api->getUsersGroups(['userid' => 'UserToLookup']));
 	}
 
@@ -1505,7 +1543,7 @@ class UsersTest extends OriginalTest {
 			->with('admin')
 			->will($this->returnValue(true));
 
-		$expected = new \OC_OCS_Result(['groups' => ['DummyValue']]);
+		$expected = new Result(['groups' => ['DummyValue']]);
 		$this->assertEquals($expected, $this->api->getUsersGroups(['userid' => 'UserToLookup']));
 	}
 
@@ -1566,7 +1604,7 @@ class UsersTest extends OriginalTest {
 			->with($targetUser)
 			->will($this->returnValue(['Group1']));
 
-		$expected = new \OC_OCS_Result(['groups' => ['Group1']]);
+		$expected = new Result(['groups' => ['Group1']]);
 		$this->assertEquals($expected, $this->api->getUsersGroups(['userid' => 'UserToLookup']));
 	}
 
@@ -1613,7 +1651,7 @@ class UsersTest extends OriginalTest {
 			->with($targetUser)
 			->will($this->returnValue(['Group1']));
 
-		$expected = new \OC_OCS_Result(null, 997);
+		$expected = new Result(null, 997);
 		$this->assertEquals($expected, $this->api->getUsersGroups(['userid' => 'UserToLookup']));
 	}
 
@@ -1623,7 +1661,7 @@ class UsersTest extends OriginalTest {
 			->method('getUser')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, 997);
+		$expected = new Result(null, 997);
 		$this->assertEquals($expected, $this->api->addToGroup([]));
 	}
 
@@ -1641,7 +1679,7 @@ class UsersTest extends OriginalTest {
 			->with('GroupToAddTo')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, 102);
+		$expected = new Result(null, 102);
 		$this->assertEquals($expected, $this->api->addToGroup(['userid' => 'TargetUser']));
 	}
 
@@ -1652,7 +1690,7 @@ class UsersTest extends OriginalTest {
 			->method('getUser')
 			->will($this->returnValue($loggedInUser));
 
-		$expected = new \OC_OCS_Result(null, 101);
+		$expected = new Result(null, 101);
 		$this->assertEquals($expected, $this->api->addToGroup(['userid' => 'TargetUser']));
 	}
 
@@ -1680,7 +1718,7 @@ class UsersTest extends OriginalTest {
 			->with('admin')
 			->will($this->returnValue(true));
 
-		$expected = new \OC_OCS_Result(null, 103);
+		$expected = new Result(null, 103);
 		$this->assertEquals($expected, $this->api->addToGroup(['userid' => 'TargetUser']));
 	}
 
@@ -1692,7 +1730,6 @@ class UsersTest extends OriginalTest {
 			->expects($this->once())
 			->method('getUID')
 			->will($this->returnValue('unauthorizedUser'));
-		$targetUser = $this->getMock('\OCP\IUser');
 		$targetGroup = $this->getMock('\OCP\IGroup');
 		$this->userSession
 			->expects($this->once())
@@ -1715,7 +1752,7 @@ class UsersTest extends OriginalTest {
 			->with('unauthorizedUser')
 			->will($this->returnValue(false));
 
-		$expected = new \OC_OCS_Result(null, 104);
+		$expected = new Result(null, 104);
 		$this->assertEquals($expected, $this->api->addToGroup(['userid' => 'TargetUser']));
 	}
 
@@ -1727,7 +1764,6 @@ class UsersTest extends OriginalTest {
 			->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('subadmin'));
-		$targetUser = $this->getMock('\OCP\IUser');
 		$subadminGroup = $this->getMock('\OCP\IGroup');
 		$subadminGroup
 			->expects($this->any())
@@ -1766,7 +1802,7 @@ class UsersTest extends OriginalTest {
 			->with('subadmin')
 			->will($this->returnValue(false));
 
-		$expected = new \OC_OCS_Result(null, 104);
+		$expected = new Result(null, 104);
 		$this->assertEquals($expected, $this->api->addToGroup(['userid' => 'subadmin']));
 	}
 
@@ -1803,7 +1839,7 @@ class UsersTest extends OriginalTest {
 			->method('addUser')
 			->with($targetUser);
 
-		$expected = new \OC_OCS_Result(null, 100);
+		$expected = new Result(null, 100);
 		$this->assertEquals($expected, $this->api->addToGroup(['userid' => 'AnotherUser']));
 	}
 
@@ -1851,7 +1887,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC_OCS_Result(null, 100);
+		$expected = new Result(null, 100);
 		$this->assertEquals($expected, $this->api->addToGroup(['userid' => 'AnotherUser']));
 	}
 	public function testRemoveFromGroupWithoutLogIn() {
@@ -1860,7 +1896,7 @@ class UsersTest extends OriginalTest {
 			->method('getUser')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, 997);
+		$expected = new Result(null, 997);
 		$this->assertEquals($expected, $this->api->removeFromGroup(['userid' => 'TargetUser', '_delete' => ['groupid' => 'TargetGroup']]));
 	}
 
@@ -1870,7 +1906,7 @@ class UsersTest extends OriginalTest {
 			->expects($this->once())
 			->method('getUser')
 			->will($this->returnValue($loggedInUser));
-		$expected = new \OC_OCS_Result(null, 101);
+		$expected = new Result(null, 101);
 		$this->assertEquals($expected, $this->api->removeFromGroup(['userid' => 'TargetUser', '_delete' => []]));
 	}
 
@@ -1886,7 +1922,7 @@ class UsersTest extends OriginalTest {
 			->with('TargetGroup')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, 102);
+		$expected = new Result(null, 102);
 		$this->assertEquals($expected, $this->api->removeFromGroup(['userid' => 'TargetUser', '_delete' => ['groupid' => 'TargetGroup']]));
 	}
 
@@ -1928,7 +1964,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC_OCS_Result(null, 103);
+		$expected = new Result(null, 103);
 		$this->assertEquals($expected, $this->api->removeFromGroup(['userid' => 'TargetUser', '_delete' => ['groupid' => 'TargetGroup']]));
 	}
 
@@ -1938,7 +1974,6 @@ class UsersTest extends OriginalTest {
 			->expects($this->once())
 			->method('getUID')
 			->will($this->returnValue('unauthorizedUser'));
-		$targetUser = $this->getMock('OCP\IUser');
 		$targetGroup = $this->getMock('OCP\IGroup');
 		$this->userSession
 			->expects($this->once())
@@ -1961,7 +1996,7 @@ class UsersTest extends OriginalTest {
 			->with('unauthorizedUser')
 			->will($this->returnValue(false));
 
-		$expected = new \OC_OCS_Result(null, 104);
+		$expected = new Result(null, 104);
 		$this->assertEquals($expected, $this->api->removeFromGroup(['userid' => 'TargetUser', '_delete' => ['groupid' => 'TargetGroup']]));
 	}
 
@@ -1997,7 +2032,7 @@ class UsersTest extends OriginalTest {
 			->with('admin')
 			->will($this->returnValue(true));
 
-		$expected = new \OC_OCS_Result(null, 105, 'Cannot remove yourself from the admin group');
+		$expected = new Result(null, 105, 'Cannot remove yourself from the admin group');
 		$this->assertEquals($expected, $this->api->removeFromGroup(['userid' => 'admin', '_delete' => ['groupid' => 'admin']]));
 	}
 
@@ -2049,7 +2084,7 @@ class UsersTest extends OriginalTest {
 			->with('subadmin')
 			->will($this->returnValue(false));
 
-		$expected = new \OC_OCS_Result(null, 105, 'Cannot remove yourself from this group as you are a SubAdmin');
+		$expected = new Result(null, 105, 'Cannot remove yourself from this group as you are a SubAdmin');
 		$this->assertEquals($expected, $this->api->removeFromGroup(['userid' => 'subadmin', '_delete' => ['groupid' => 'subadmin']]));
 	}
 
@@ -2085,7 +2120,7 @@ class UsersTest extends OriginalTest {
 			->method('removeUser')
 			->with($targetUser);
 
-		$expected = new \OC_OCS_Result(null, 100);
+		$expected = new Result(null, 100);
 		$this->assertEquals($expected, $this->api->removeFromGroup(['userid' => 'AnotherUser', '_delete' => ['groupid' => 'admin']]));
 	}
 
@@ -2132,7 +2167,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC_OCS_Result(null, 100);
+		$expected = new Result(null, 100);
 		$this->assertEquals($expected, $this->api->removeFromGroup(['userid' => 'AnotherUser', '_delete' => ['groupid' => 'group1']]));
 	}
 
@@ -2143,7 +2178,7 @@ class UsersTest extends OriginalTest {
 			->with('NotExistingUser')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, 101, 'User does not exist');
+		$expected = new Result(null, 101, 'User does not exist');
 		$this->assertEquals($expected, $this->api->addSubAdmin(['userid' => 'NotExistingUser']));
 	}
 
@@ -2162,7 +2197,7 @@ class UsersTest extends OriginalTest {
 			->with('NotExistingGroup')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, 102, 'Group:NotExistingGroup does not exist');
+		$expected = new Result(null, 102, 'Group:NotExistingGroup does not exist');
 		$this->assertEquals($expected, $this->api->addSubAdmin(['userid' => 'ExistingUser']));
 	}
 
@@ -2182,7 +2217,7 @@ class UsersTest extends OriginalTest {
 			->with('ADmiN')
 			->will($this->returnValue($targetGroup));
 
-		$expected = new \OC_OCS_Result(null, 103, 'Cannot create subadmins for admin group');
+		$expected = new Result(null, 103, 'Cannot create subadmins for admin group');
 		$this->assertEquals($expected, $this->api->addSubAdmin(['userid' => 'ExistingUser']));
 	}
 
@@ -2213,7 +2248,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC_OCS_Result(null, 100);
+		$expected = new Result(null, 100);
 		$this->assertEquals($expected, $this->api->addSubAdmin(['userid' => 'ExistingUser']));
 	}
 
@@ -2249,7 +2284,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC_OCS_Result(null, 100);
+		$expected = new Result(null, 100);
 		$this->assertEquals($expected, $this->api->addSubAdmin(['userid' => 'ExistingUser']));
 	}
 
@@ -2285,7 +2320,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC_OCS_Result(null, 103, 'Unknown error occurred');
+		$expected = new Result(null, 103, 'Unknown error occurred');
 		$this->assertEquals($expected, $this->api->addSubAdmin(['userid' => 'ExistingUser']));
 	}
 
@@ -2296,7 +2331,7 @@ class UsersTest extends OriginalTest {
 			->with('NotExistingUser')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, 101, 'User does not exist');
+		$expected = new Result(null, 101, 'User does not exist');
 		$this->assertEquals($expected, $this->api->removeSubAdmin(['userid' => 'NotExistingUser', '_delete' => ['groupid' => 'GroupToDeleteFrom']]));
 	}
 
@@ -2313,7 +2348,7 @@ class UsersTest extends OriginalTest {
 			->with('GroupToDeleteFrom')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, 101, 'Group does not exist');
+		$expected = new Result(null, 101, 'Group does not exist');
 		$this->assertEquals($expected, $this->api->removeSubAdmin(['userid' => 'ExistingUser', '_delete' => ['groupid' => 'GroupToDeleteFrom']]));
 	}
 
@@ -2342,7 +2377,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC_OCS_Result(null, 102, 'User is not a subadmin of this group');
+		$expected = new Result(null, 102, 'User is not a subadmin of this group');
 		$this->assertEquals($expected, $this->api->removeSubAdmin(['userid' => 'ExistingUser', '_delete' => ['groupid' => 'GroupToDeleteFrom']]));
 	}
 
@@ -2376,7 +2411,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC_OCS_Result(null, 100);
+		$expected = new Result(null, 100);
 		$this->assertEquals($expected, $this->api->removeSubAdmin(['userid' => 'ExistingUser', '_delete' => ['groupid' => 'GroupToDeleteFrom']]));
 	}
 
@@ -2410,7 +2445,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC_OCS_Result(null, 103, 'Unknown error occurred');
+		$expected = new Result(null, 103, 'Unknown error occurred');
 		$this->assertEquals($expected, $this->api->removeSubAdmin(['userid' => 'ExistingUser', '_delete' => ['groupid' => 'GroupToDeleteFrom']]));
 	}
 
@@ -2421,7 +2456,7 @@ class UsersTest extends OriginalTest {
 			->with('RequestedUser')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, 101, 'User does not exist');
+		$expected = new Result(null, 101, 'User does not exist');
 		$this->assertEquals($expected, $this->api->getUserSubAdminGroups(['userid' => 'RequestedUser']));
 	}
 
@@ -2449,7 +2484,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC_OCS_Result(['TargetGroup'], 100);
+		$expected = new Result(['TargetGroup'], 100);
 		$this->assertEquals($expected, $this->api->getUserSubAdminGroups(['userid' => 'RequestedUser']));
 	}
 
@@ -2472,7 +2507,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC_OCS_Result(null, 102, 'Unknown error occurred');
+		$expected = new Result(null, 102, 'Unknown error occurred');
 		$this->assertEquals($expected, $this->api->getUserSubAdminGroups(['userid' => 'RequestedUser']));
 	}
 
@@ -2500,7 +2535,7 @@ class UsersTest extends OriginalTest {
 			->method('isAdmin')
 			->will($this->returnValue(true));
 
-		$expected = new \OC_OCS_Result(null, 100);
+		$expected = new Result(null, 100);
 		$this->assertEquals($expected, $this->api->enableUser(['userid' => 'RequestedUser']));
 	}
 
@@ -2528,7 +2563,7 @@ class UsersTest extends OriginalTest {
 			->method('isAdmin')
 			->will($this->returnValue(true));
 
-		$expected = new \OC_OCS_Result(null, 100);
+		$expected = new Result(null, 100);
 		$this->assertEquals($expected, $this->api->disableUser(['userid' => 'RequestedUser']));
 	}
 }

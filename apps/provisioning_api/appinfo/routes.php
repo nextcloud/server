@@ -38,7 +38,8 @@ $users = new Users(
 	\OC::$server->getConfig(),
 	\OC::$server->getGroupManager(),
 	\OC::$server->getUserSession(),
-	\OC::$server->getLogger()
+	\OC::$server->getLogger(),
+	\OC::$server->getTwoFactorAuthManager()
 );
 API::register('get', '/cloud/users', [$users, 'getUsers'], 'provisioning_api', API::SUBADMIN_AUTH);
 API::register('post', '/cloud/users', [$users, 'addUser'], 'provisioning_api', API::SUBADMIN_AUTH);
