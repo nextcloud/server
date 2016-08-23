@@ -237,6 +237,9 @@ class LoginController extends Controller {
 		$this->userSession->login($user, $password);
 		$this->userSession->createSessionToken($this->request, $loginResult->getUID(), $user, $password);
 
+		// User has successfully logged in, now remove the password reset link, when it is available
+		$this->config->deleteUserValue($loginResult->getUID(), 'owncloud', 'lostpassword');
+
 		if ($this->twoFactorManager->isTwoFactorAuthenticated($loginResult)) {
 			$this->twoFactorManager->prepareTwoFactorLogin($loginResult);
 			if (!is_null($redirect_url)) {
