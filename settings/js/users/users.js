@@ -57,9 +57,6 @@ var UserList = {
 		var $tr = $userListBody.find('tr:first-child').clone();
 		// this removes just the `display:none` of the template row
 		$tr.removeAttr('style');
-		var subAdminsEl;
-		var subAdminSelect;
-		var groupsSelect;
 
 		/**
 		 * Avatar or placeholder
@@ -86,32 +83,17 @@ var UserList = {
 		$tr.find('td.mailAddress > .action').tooltip({placement: 'top'});
 		$tr.find('td.password > .action').tooltip({placement: 'top'});
 
+
 		/**
 		 * groups and subadmins
 		 */
-		// make them look like the multiselect buttons
-		// until they get time to really get initialized
-		groupsSelect = $('<select multiple="multiple" class="groupsselect multiselect button" data-placehoder="Groups" title="' + t('settings', 'no group') + '"></select>')
-			.data('username', user.name)
-			.data('user-groups', user.groups);
-		if ($tr.find('td.subadmins').length > 0) {
-			subAdminSelect = $('<select multiple="multiple" class="subadminsselect multiselect button" data-placehoder="subadmins" title="' + t('settings', 'no group') + '">')
-				.data('username', user.name)
-				.data('user-groups', user.groups)
-				.data('subadmin', user.subadmin);
-			$tr.find('td.subadmins').empty();
-		}
-		$.each(this.availableGroups, function (i, group) {
-			groupsSelect.append($('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>'));
-			if (typeof subAdminSelect !== 'undefined' && group !== 'admin') {
-				subAdminSelect.append($('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>'));
-			}
-		});
-		$tr.find('td.groups').empty().append(groupsSelect);
-		subAdminsEl = $tr.find('td.subadmins');
-		if (subAdminsEl.length > 0) {
-			subAdminsEl.append(subAdminSelect);
-		}
+		var $tdGroups = $tr.find('td.groups');
+		this._updateGroupListLabel($tdGroups, user.groups);
+		$tdGroups.find('.action').tooltip({placement: 'top'});
+
+		var $tdSubadmins = $tr.find('td.subadmins');
+		this._updateGroupListLabel($tdSubadmins, user.subadmin);
+		$tdSubadmins.find('.action').tooltip({placement: 'top'});
 
 		/**
 		 * remove action
@@ -195,10 +177,6 @@ var UserList = {
 		// defer init so the user first sees the list appear more quickly
 		window.setTimeout(function(){
 			$quotaSelect.singleSelect();
-			UserList.applyGroupSelect(groupsSelect);
-			if (subAdminSelect) {
-				UserList.applySubadminSelect(subAdminSelect);
-			}
 		}, 0);
 		return $tr;
 	},
@@ -319,7 +297,7 @@ var UserList = {
 	},
 	markRemove: function(uid) {
 		var $tr = UserList.getRow(uid);
-		var groups = $tr.find('.groups .groupsselect').val();
+		var groups = $tr.find('.groups').data('groups');
 		for(var i in groups) {
 			var gid = groups[i];
 			var $li = GroupList.getGroupLI(gid);
@@ -334,7 +312,7 @@ var UserList = {
 	},
 	undoRemove: function(uid) {
 		var $tr = UserList.getRow(uid);
-		var groups = $tr.find('.groups .groupsselect').val();
+		var groups = $tr.find('.groups').data('groups');
 		for(var i in groups) {
 			var gid = groups[i];
 			var $li = GroupList.getGroupLI(gid);
@@ -435,19 +413,9 @@ var UserList = {
 			});
 	},
 
-	applyGroupSelect: function (element) {
-		var checked = [];
+	applyGroupSelect: function (element, user, checked) {
 		var $element = $(element);
-		var user = UserList.getUID($element);
 
-		if ($element.data('user-groups')) {
-			if (typeof $element.data('user-groups') === 'string') {
-				checked = $element.data('user-groups').split(", ");
-			}
-			else {
-				checked = $element.data('user-groups');
-			}
-		}
 		var checkHandler = null;
 		if(user) { // Only if in a user row, and not the #newusergroups select
 			checkHandler = function (group) {
@@ -487,13 +455,6 @@ var UserList = {
 			};
 		}
 		var addGroup = function (select, group) {
-			$('select[multiple]').each(function (index, element) {
-				$element = $(element);
-				if ($element.find('option').filterAttr('value', group).length === 0 &&
-					select.data('msid') !== $element.data('msid')) {
-					$element.append('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>');
-				}
-			});
 			GroupList.addGroup(escapeHTML(group));
 		};
 		var label;
@@ -514,19 +475,8 @@ var UserList = {
 		});
 	},
 
-	applySubadminSelect: function (element) {
-		var checked = [];
+	applySubadminSelect: function (element, user, checked) {
 		var $element = $(element);
-		var user = UserList.getUID($element);
-
-		if ($element.data('subadmin')) {
-			if (typeof $element.data('subadmin') === 'string') {
-				checked = $element.data('subadmin').split(", ");
-			}
-			else {
-				checked = $element.data('subadmin');
-			}
-		}
 		var checkHandler = function (group) {
 			if (group === 'admin') {
 				return false;
@@ -542,15 +492,7 @@ var UserList = {
 			);
 		};
 
-		var addSubAdmin = function (group) {
-			$('select[multiple]').each(function (index, element) {
-				if ($(element).find('option').filterAttr('value', group).length === 0) {
-					$(element).append('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>');
-				}
-			});
-		};
 		$element.multiSelect({
-			createCallback: addSubAdmin,
 			createText: null,
 			checked: checked,
 			oncheck: checkHandler,
@@ -599,6 +541,76 @@ var UserList = {
 				}
 			}
 		);
+	},
+
+	/**
+	 * Creates a temporary jquery.multiselect selector on the given group field
+	 */
+	_triggerGroupEdit: function($td, isSubadminSelect) {
+		var $groupsListContainer = $td.find('.groupsListContainer');
+		var placeholder = $groupsListContainer.attr('data-placeholder') || t('settings', 'no group');
+		var user = UserList.getUID($td);
+		var checked = $td.data('groups') || [];
+		var extraGroups = [].concat(checked);
+
+		$td.find('.multiselectoptions').remove();
+
+		// jquery.multiselect can only work with select+options in DOM ? We'll give jquery.multiselect what it wants...
+		var $groupsSelect;
+		if (isSubadminSelect) {
+			$groupsSelect = $('<select multiple="multiple" class="groupsselect multiselect button" title="' + placeholder + '"></select>');
+		} else {
+			$groupsSelect = $('<select multiple="multiple" class="subadminsselect multiselect button" title="' + placeholder + '"></select>')
+		}
+
+		function createItem(group) {
+			if (isSubadminSelect && group === 'admin') {
+				// can't become subadmin of "admin" group
+				return;
+			}
+			$groupsSelect.append($('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>'));
+		}
+
+		$.each(this.availableGroups, function (i, group) {
+			// some new groups might be selected but not in the available groups list yet
+			var extraIndex = extraGroups.indexOf(group);
+			if (extraIndex >= 0) {
+				// remove extra group as it was found
+				extraGroups.splice(extraIndex, 1);
+			}
+			createItem(group);
+		});
+		$.each(extraGroups, function (i, group) {
+			createItem(group);
+		});
+
+		$td.append($groupsSelect);
+
+		if (isSubadminSelect) {
+			UserList.applySubadminSelect($groupsSelect, user, checked);
+		} else {
+			UserList.applyGroupSelect($groupsSelect, user, checked);
+		}
+
+		$groupsListContainer.addClass('hidden');
+		$td.find('.multiselect:not(.groupsListContainer):first').click();
+		$groupsSelect.on('dropdownclosed', function(e) {
+			$groupsSelect.remove();
+			$td.find('.multiselect:not(.groupsListContainer)').parent().remove();
+			$td.find('.multiselectoptions').remove();
+			$groupsListContainer.removeClass('hidden');
+			UserList._updateGroupListLabel($td, e.checked);
+		});
+	},
+
+	/**
+	 * Updates the groups list td with the given groups selection
+	 */
+	_updateGroupListLabel: function($td, groups) {
+		var placeholder = $td.find('.groupsListContainer').attr('data-placeholder');
+		var $groupsEl = $td.find('.groupsList');
+		$groupsEl.text(groups.join(', ') || placeholder || t('settings', 'no group'));
+		$td.data('groups', groups);
 	}
 };
 
@@ -622,13 +634,6 @@ $(document).ready(function () {
 
 	// TODO: move other init calls inside of initialize
 	UserList.initialize($('#userlist'));
-
-	$('.groupsselect').each(function (index, element) {
-		UserList.applyGroupSelect(element);
-	});
-	$('.subadminsselect').each(function (index, element) {
-		UserList.applySubadminSelect(element);
-	});
 
 	$userListBody.on('click', '.password', function (event) {
 		event.stopPropagation();
@@ -756,11 +761,24 @@ $(document).ready(function () {
 			});
 	});
 
+	$('#newuser .groupsListContainer').on('click', function (event) {
+		event.stopPropagation();
+		var $div = $(this).closest('.groups');
+		UserList._triggerGroupEdit($div);
+	});
+	$userListBody.on('click', '.groups .groupsListContainer, .subadmins .groupsListContainer', function (event) {
+		event.stopPropagation();
+		var $td = $(this).closest('td');
+		var isSubadminSelect = $td.hasClass('subadmins');
+		UserList._triggerGroupEdit($td, isSubadminSelect);
+	});
+
 	// init the quota field select box after it is shown the first time
 	$('#app-settings').one('show', function() {
 		$(this).find('#default_quota').singleSelect().on('change', UserList.onQuotaSelect);
 	});
 
+	UserList._updateGroupListLabel($('#newuser .groups'), []);
 	$('#newuser').submit(function (event) {
 		event.preventDefault();
 		var username = $('#newusername').val();
@@ -796,7 +814,7 @@ $(document).ready(function () {
 		}
 
 		promise.then(function() {
-			var groups = $('#newusergroups').val() || [];
+			var groups = $('#newuser .groups').data('groups') || [];
 			$.post(
 				OC.generateUrl('/settings/users/users'),
 				{
