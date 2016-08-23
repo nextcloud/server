@@ -650,12 +650,13 @@ class Server extends ServerContainer implements IServerContainer {
 				$classExists = false;
 			}
 
-			if ($classExists && $this->getConfig()->getSystemValue('installed', false) && $this->getAppManager()->isInstalled('theming')) {
+			if ($classExists && $c->getConfig()->getSystemValue('installed', false) && $c->getAppManager()->isInstalled('theming')) {
 				return new ThemingDefaults(
-					$this->getConfig(),
-					$this->getL10N('theming'),
-					$this->getURLGenerator(),
-					new \OC_Defaults()
+					$c->getConfig(),
+					$c->getL10N('theming'),
+					$c->getURLGenerator(),
+					new \OC_Defaults(),
+					$c->getRootFolder()
 				);
 			}
 			return new \OC_Defaults();

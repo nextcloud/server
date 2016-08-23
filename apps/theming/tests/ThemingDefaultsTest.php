@@ -27,6 +27,7 @@ use OCA\Theming\ThemingDefaults;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\Files\IRootFolder;
 use Test\TestCase;
 
 class ThemingDefaultsTest extends TestCase {
@@ -40,11 +41,17 @@ class ThemingDefaultsTest extends TestCase {
 	private $defaults;
 	/** @var ThemingDefaults */
 	private $template;
+	/** @var IRootFolder */
+	private $rootFolder;
 
 	public function setUp() {
+		parent::setUp();
 		$this->config = $this->getMock('\\OCP\\IConfig');
 		$this->l10n = $this->getMock('\\OCP\\IL10N');
 		$this->urlGenerator = $this->getMock('\\OCP\\IURLGenerator');
+		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->defaults = $this->getMockBuilder('\\OC_Defaults')
 			->disableOriginalConstructor()
 			->getMock();
@@ -68,10 +75,11 @@ class ThemingDefaultsTest extends TestCase {
 			$this->config,
 			$this->l10n,
 			$this->urlGenerator,
-			$this->defaults
+			$this->defaults,
+			$this->rootFolder
 		);
 
-		return parent::setUp();
+		//return parent::setUp();
 	}
 
 	public function testGetNameWithDefault() {
@@ -367,5 +375,45 @@ class ThemingDefaultsTest extends TestCase {
 			->with('theming', 'cachebuster', 16);
 
 		$this->assertSame('', $this->template->undo('defaultitem'));
+	}
+
+	public function testGetBackgroundDefault() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'backgroundMime')
+			->willReturn('');
+		$expected = $this->urlGenerator->imagePath('core','background.jpg');
+		$this->assertEquals($expected, $this->template->getBackground());
+	}
+
+	public function testGetBackgroundCustom() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'backgroundMime')
+			->willReturn('image/svg+xml');
+		$expected = $this->urlGenerator->linkToRoute('theming.Theming.getLoginBackground');
+		$this->assertEquals($expected, $this->template->getBackground());
+	}
+
+	public function testGetLogoDefault() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'logoMime')
+			->willReturn('');
+		$expected = $this->urlGenerator->imagePath('core','logo.svg');
+		$this->assertEquals($expected, $this->template->getLogo());
+	}
+
+	public function testGetLogoCustom() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'logoMime')
+			->willReturn('image/svg+xml');
+		$expected = $this->urlGenerator->linkToRoute('theming.Theming.getLogo');
+		$this->assertEquals($expected, $this->template->getLogo());
 	}
 }
