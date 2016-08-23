@@ -391,14 +391,18 @@ var dragOptions={
 		if (!$selectedFiles.length) {
 			$selectedFiles = $(this);
 		}
-		$selectedFiles.closest('tr').fadeTo(250, 0.2).addClass('dragging');
+		$selectedFiles.closest('tr').addClass('animate-opacity dragging');
 	},
 	stop: function(event, ui) {
 		var $selectedFiles = $('td.filename input:checkbox:checked');
 		if (!$selectedFiles.length) {
 			$selectedFiles = $(this);
 		}
-		$selectedFiles.closest('tr').fadeTo(250, 1).removeClass('dragging');
+		var $tr = $selectedFiles.closest('tr');
+		$tr.removeClass('dragging');
+		setTimeout(function() {
+			$tr.removeClass('animate-opacity');
+		}, 300);
 	},
 	drag: function(event, ui) {
 		var scrollingArea = FileList.$container;
