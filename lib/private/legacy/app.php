@@ -66,6 +66,7 @@ class OC_App {
 	static private $appTypes = array();
 	static private $loadedApps = array();
 	static private $altLogin = array();
+	static private $alreadyRegistered = [];
 	const officialApp = 200;
 
 	/**
@@ -167,6 +168,11 @@ class OC_App {
 	 * @param string $path
 	 */
 	public static function registerAutoloading($app, $path) {
+		$key = $app . '-' . $path;
+		if(isset(self::$alreadyRegistered[$key])) {
+			return;
+		}
+		self::$alreadyRegistered[$key] = true;
 		// Register on PSR-4 composer autoloader
 		$appNamespace = \OC\AppFramework\App::buildAppNamespace($app);
 		\OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);
