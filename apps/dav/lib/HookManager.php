@@ -40,6 +40,9 @@ class HookManager {
 	/** @var IUser[] */
 	private $usersToDelete;
 
+	/** @var array */
+	private $calendarsToDelete;
+
 	/** @var CalDavBackend */
 	private $calDav;
 
@@ -85,13 +88,22 @@ class HookManager {
 	}
 
 	public function preDeleteUser($params) {
-		$this->usersToDelete[$params['uid']] = $this->userManager->get($params['uid']);
+		$user = $this->userManager->get($params['uid']);
+
+		$this->usersToDelete[$params['uid']] = $user;
+
+		$this->calendarsToDelete = $this->calDav->getCalendarsForUser('principals/users/' . $user->getUID());
 	}
 
 	public function postDeleteUser($params) {
 		$uid = $params['uid'];
 		if (isset($this->usersToDelete[$uid])){
 			$this->syncService->deleteUser($this->usersToDelete[$uid]);
+		}
+		if (!is_null($this->calendarsToDelete)) {
+			foreach ($this->calendarsToDelete as $calendar) {
+				$this->calDav->deleteCalendar($calendar['id']);
+			}
 		}
 	}
 
