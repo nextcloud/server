@@ -61,11 +61,6 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 	 */
 	private $sourceRootInfo;
 
-	/**
-	 * @var IStorage
-	 */
-	private $sourceStorage;
-
 	/** @var string */
 	private $user;
 
@@ -83,13 +78,9 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 
 		$this->user = $arguments['user'];
 
-		Filesystem::initMountPoints($this->superShare->getShareOwner());
-		$sourcePath = $this->ownerView->getPath($this->superShare->getNodeId());
-		list($storage, $internalPath) = $this->ownerView->resolvePath($sourcePath);
-
 		parent::__construct([
-			'storage' => $storage,
-			'root' => $internalPath,
+			'storage' => null,
+			'root' => null,
 		]);
 	}
 
@@ -101,9 +92,11 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 		try {
 			Filesystem::initMountPoints($this->superShare->getShareOwner());
 			$sourcePath = $this->ownerView->getPath($this->superShare->getNodeId());
-			list($this->sourceStorage, $sourceInternalPath) = $this->ownerView->resolvePath($sourcePath);
-			$this->sourceRootInfo = $this->sourceStorage->getCache()->get($sourceInternalPath);
+			list($this->storage, $this->rootPath) = $this->ownerView->resolvePath($sourcePath);
+			$this->sourceRootInfo = $this->storage->getCache()->get($this->rootPath);
 		} catch (\Exception $e) {
+			$this->storage = new FailedStorage(['exception' => $e]);
+			$this->rootPath = '';
 			$this->logger->logException($e);
 		}
 	}
@@ -302,13 +295,13 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 
 	public function getCache($path = '', $storage = null) {
 		$this->init();
-		if (is_null($this->sourceStorage)) {
+		if (is_null($this->storage) || $this->storage instanceof FailedStorage) {
 			return new FailedCache(false);
 		}
 		if (!$storage) {
 			$storage = $this;
 		}
-		return new \OCA\Files_Sharing\Cache($storage, $this->sourceStorage, $this->sourceRootInfo);
+		return new \OCA\Files_Sharing\Cache($storage, $this->storage, $this->sourceRootInfo);
 	}
 
 	public function getScanner($path = '', $storage = null) {
@@ -409,7 +402,12 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 	}
 
 	public function getSourceStorage() {
-		return $this->sourceStorage;
+		return $this->getWrapperStorage();
+	}
+
+	public function getWrapperStorage() {
+		$this->init();
+		return $this->storage;
 	}
 
 	public function file_get_contents($path) {
