@@ -29,21 +29,20 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Settings\ISettings;
-use \OC_Defaults;
 
 class Admin implements ISettings {
 	/** @var IConfig */
 	private $config;
 	/** @var IL10N */
 	private $l;
-	/** @var ThemingDefaults|OC_Defaults */
+	/** @var ThemingDefaults */
 	private $themingDefaults;
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
 	public function __construct(IConfig $config,
 								IL10N $l,
-								OC_Defaults $themingDefaults,
+								ThemingDefaults $themingDefaults,
 								IURLGenerator $urlGenerator) {
 		$this->config = $config;
 		$this->l = $l;
