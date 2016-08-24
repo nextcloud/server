@@ -23,13 +23,10 @@
 namespace OCA\Theming;
 
 
-
-
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Files\IRootFolder;
-
 
 class ThemingDefaults extends \OC_Defaults {
 
@@ -57,6 +54,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @param IL10N $l
 	 * @param IURLGenerator $urlGenerator
 	 * @param \OC_Defaults $defaults
+	 * @param IRootFolder $rootFolder
 	 */
 	public function __construct(IConfig $config,
 								IL10N $l,

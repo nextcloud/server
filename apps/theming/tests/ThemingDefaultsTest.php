@@ -78,8 +78,6 @@ class ThemingDefaultsTest extends TestCase {
 			$this->defaults,
 			$this->rootFolder
 		);
-
-		//return parent::setUp();
 	}
 
 	public function testGetNameWithDefault() {
