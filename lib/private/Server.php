@@ -642,10 +642,16 @@ class Server extends ServerContainer implements IServerContainer {
 			return $factory->getManager();
 		});
 		$this->registerService('ThemingDefaults', function(Server $c) {
-			try {
-				$classExists = class_exists('OCA\Theming\ThemingDefaults');
-			} catch (\OCP\AutoloadNotAllowedException $e) {
-				// App disabled or in maintenance mode
+			/*
+			 * Dark magic for autoloader.
+			 * If we do a class_exists it will try to load the class which will
+			 * make composer cache the result. Resulting in errors when enabling
+			 * the theming app.
+			 */
+			$prefixes = \OC::$composerAutoloader->getPrefixesPsr4();
+			if (isset($prefixes['OCA\\Theming\\'])) {
+				$classExists = true;
+			} else {
 				$classExists = false;
 			}
 
