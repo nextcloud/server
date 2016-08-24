@@ -124,6 +124,7 @@ class SMB extends Common {
 	 * @return \Icewind\SMB\IFileInfo
 	 * @throws StorageNotAvailableException
 	 * @throws ForbiddenException
+	 * @throws NotFoundException
 	 */
 	protected function getFileInfo($path) {
 		$this->log('enter: '.__FUNCTION__."($path)");
@@ -147,8 +148,8 @@ class SMB extends Common {
 							throw $e;
 						}
 					}
-					if ($this->remoteIsShare() && $this->isRootDir($path) && $this->statCache[$path]->isHidden()) {
-						$this->log(" stat for '$path'");
+					if ($this->isRootDir($path) && $this->statCache[$path]->isHidden()) {
+						$this->log("unhiding stat for '$path'");
 						// make root never hidden, may happen when accessing a shared drive (mode is 22, archived and readonly - neither is true ... whatever)
 						if ($this->statCache[$path]->isReadOnly()) {
 							$mode = FileInfo::MODE_DIRECTORY & FileInfo::MODE_READONLY;
@@ -164,7 +165,7 @@ class SMB extends Common {
 					throw $ex;
 				} catch (ForbiddenException $e) {
 					if ($this->remoteIsShare() && $this->isRootDir($path)) { //mtime may not work for share root
-						$this->log("faking stat for forbidden '{$this->root}|$path'");
+						$this->log("faking stat for forbidden '$path'");
 						$this->statCache[$path] = new FileInfo($path, '', 0, $this->shareMTime(), FileInfo::MODE_DIRECTORY);
 					} else {
 						$this->leave(__FUNCTION__, $e);
