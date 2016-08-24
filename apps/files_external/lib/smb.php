@@ -44,6 +44,7 @@ use OC\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Util;
+use Sabre\DAV\Exception\NotFound;
 
 class SMB extends Common {
 	/**
@@ -130,7 +131,22 @@ class SMB extends Common {
 			if (!isset($this->statCache[$path])) {
 				try {
 					$this->log("stat fetching '$path'");
-					$this->statCache[$path] = $this->share->stat($path);
+					try {
+						$this->statCache[$path] = $this->share->stat($path);
+					} catch (NotFoundException $e) {
+						$this->log("stat for '$path' failed, trying to read parent dir");
+						$infos = $this->share->dir(dirname($path));
+						foreach ($infos as $fileInfo) {
+							if ($fileInfo->getName() === basename($path)) {
+								$this->statCache[$path] = $fileInfo;
+								break;
+							}
+						}
+						if (empty($this->statCache[$path])) {
+							$this->leave(__FUNCTION__, $e);
+							throw $e;
+						}
+					}
 					if ($this->remoteIsShare() && $this->isRootDir($path) && $this->statCache[$path]->isHidden()) {
 						$this->log(" stat for '$path'");
 						// make root never hidden, may happen when accessing a shared drive (mode is 22, archived and readonly - neither is true ... whatever)
