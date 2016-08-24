@@ -38,13 +38,13 @@ use Icewind\SMB\Exception\NotFoundException;
 use Icewind\SMB\FileInfo;
 use Icewind\SMB\NativeServer;
 use Icewind\SMB\Server;
+use Icewind\SMB\Share;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Util;
-use Sabre\DAV\Exception\NotFound;
 
 class SMB extends Common {
 	/**
@@ -135,15 +135,22 @@ class SMB extends Common {
 					try {
 						$this->statCache[$path] = $this->share->stat($path);
 					} catch (NotFoundException $e) {
-						$this->log("stat for '$path' failed, trying to read parent dir");
-						$infos = $this->share->dir(dirname($path));
-						foreach ($infos as $fileInfo) {
-							if ($fileInfo->getName() === basename($path)) {
-								$this->statCache[$path] = $fileInfo;
-								break;
+						if ($this->share instanceof Share) {
+							// smbclient may have problems with the allinfo cmd
+							$this->log("stat for '$path' failed, trying to read parent dir");
+							$infos = $this->share->dir(dirname($path));
+							foreach ($infos as $fileInfo) {
+								if ($fileInfo->getName() === basename($path)) {
+									$this->statCache[$path] = $fileInfo;
+									break;
+								}
 							}
-						}
-						if (empty($this->statCache[$path])) {
+							if (empty($this->statCache[$path])) {
+								$this->leave(__FUNCTION__, $e);
+								throw $e;
+							}
+						} else {
+							// trust the results of libsmb
 							$this->leave(__FUNCTION__, $e);
 							throw $e;
 						}
