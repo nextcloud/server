@@ -109,6 +109,25 @@ function preview(setting, value) {
 		} else {
 			previewImage.style.backgroundImage = "url('" + OC.getRootPath() + '/core/img/background.jpg?v' + timestamp + "')";
 		}
+
+	}
+	hideUndoButton(setting, value);
+}
+
+function hideUndoButton(setting, value) {
+	var themingDefaults = {
+		name: 'Nextcloud',
+		slogan: t('lib', 'a safe home for all your data'),
+		url: 'https://nextcloud.com',
+		color: '#0082c9',
+		logoMime: '',
+		backgroundMime: ''
+	};
+
+	if (value === themingDefaults[setting] || value === '') {
+		$('.theme-undo[data-setting=' + setting + ']').hide();
+	} else {
+		$('.theme-undo[data-setting=' + setting + ']').show();
 	}
 }
 
@@ -117,6 +136,14 @@ $(document).ready(function () {
 
 	$('html > head').append($('<style type="text/css" id="previewStyles"></style>'));
 
+	$('#theming .theme-undo').each(function() {
+		var setting = $(this).data('setting');
+		var value = $('#theming-'+setting).val();
+		if(setting === 'logoMime' || setting === 'backgroundMime') {
+			var value = $('#current-'+setting).val();
+		}
+		hideUndoButton(setting, value);
+	});
 	var uploadParamsLogo = {
 		pasteZone: null,
 		dropZone: null,
@@ -192,11 +219,12 @@ $(document).ready(function () {
 			if (setting === 'color') {
 				var colorPicker = document.getElementById('theming-color');
 				colorPicker.style.backgroundColor = response.data.value;
-				colorPicker.value = response.data.value.slice(1);
+				colorPicker.value = response.data.value.slice(1).toUpperCase();
 			} else if (setting !== 'logoMime' && setting !== 'backgroundMime') {
 				var input = document.getElementById('theming-'+setting);
 				input.value = response.data.value;
 			}
+
 			preview(setting, response.data.value);
 			OC.msg.finishedSaving('#theming_settings_msg', response);
 		});
