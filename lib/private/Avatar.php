@@ -33,6 +33,7 @@ use OCP\Files\Folder;
 use OCP\Files\File;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IAvatar;
 use OCP\IConfig;
 use OCP\IImage;
@@ -45,7 +46,7 @@ use OCP\ILogger;
  */
 
 class Avatar implements IAvatar {
-	/** @var Folder */
+	/** @var ISimpleFolder */
 	private $folder;
 	/** @var IL10N */
 	private $l;
@@ -59,13 +60,13 @@ class Avatar implements IAvatar {
 	/**
 	 * constructor
 	 *
-	 * @param Folder $folder The folder where the avatars are
+	 * @param ISimpleFolder $folder The folder where the avatars are
 	 * @param IL10N $l
 	 * @param User $user
 	 * @param ILogger $logger
 	 * @param IConfig $config
 	 */
-	public function __construct(Folder $folder,
+	public function __construct(ISimpleFolder $folder,
 								IL10N $l,
 								$user,
 								ILogger $logger,
