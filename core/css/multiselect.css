@@ -42,6 +42,8 @@ ul.multiselectoptions > li input[type='checkbox']+label {
 	width: 100%;
 	padding: 5px 27px;
 	margin-left: -27px; /* to have area around checkbox clickable as well */
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 ul.multiselectoptions > li input[type='checkbox']:checked+label {
 	font-weight: bold;
