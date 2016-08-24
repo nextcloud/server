@@ -742,6 +742,12 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 			return $manager;
 		});
+		$this->registerService(\OC\Files\AppData\Factory::class, function (Server $c) {
+			return new \OC\Files\AppData\Factory(
+				$c->getRootFolder(),
+				$c->getSystemConfig()
+			);
+		});
 	}
 
 	/**
@@ -1455,5 +1461,14 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getSettingsManager() {
 		return $this->query('SettingsManager');
+	}
+
+	/**
+	 * @return \OCP\Files\IAppData
+	 */
+	public function getAppDataDir($app) {
+		/** @var \OC\Files\AppData\Factory $factory */
+		$factory = $this->query(\OC\Files\AppData\Factory::class);
+		return $factory->get($app);
 	}
 }
