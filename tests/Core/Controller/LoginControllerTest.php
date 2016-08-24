@@ -322,6 +322,8 @@ class LoginControllerTest extends TestCase {
 
 		$this->userSession->expects($this->never())
 			->method('createSessionToken');
+		$this->config->expects($this->never())
+			->method('deleteUserValue');
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($loginPageUrl);
 		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, ''));
@@ -330,6 +332,9 @@ class LoginControllerTest extends TestCase {
 	public function testLoginWithValidCredentials() {
 		/** @var IUser | \PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('uid'));
 		$password = 'secret';
 		$indexPageUrl = \OC_Util::getDefaultPageUrl();
 
@@ -363,6 +368,9 @@ class LoginControllerTest extends TestCase {
 			->method('isTwoFactorAuthenticated')
 			->with($user)
 			->will($this->returnValue(false));
+		$this->config->expects($this->once())
+			->method('deleteUserValue')
+			->with('uid', 'core', 'lostpassword');
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($indexPageUrl);
 		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, null));
@@ -398,6 +406,8 @@ class LoginControllerTest extends TestCase {
 			->method('isLoggedIn')
 			->with()
 			->will($this->returnValue(false));
+		$this->config->expects($this->never())
+			->method('deleteUserValue');
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse(\OC_Util::getDefaultPageUrl());
 		$this->assertEquals($expected, $this->loginController->tryLogin('Jane', $password, $originalUrl));
@@ -438,6 +448,8 @@ class LoginControllerTest extends TestCase {
 			->method('getAbsoluteURL')
 			->with(urldecode($originalUrl))
 			->will($this->returnValue($redirectUrl));
+		$this->config->expects($this->never())
+			->method('deleteUserValue');
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($redirectUrl);
 		$this->assertEquals($expected, $this->loginController->tryLogin('Jane', $password, $originalUrl));
@@ -485,6 +497,9 @@ class LoginControllerTest extends TestCase {
 			->method('getAbsoluteURL')
 			->with(urldecode($originalUrl))
 			->will($this->returnValue($redirectUrl));
+		$this->config->expects($this->once())
+			->method('deleteUserValue')
+			->with('jane', 'core', 'lostpassword');
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse(urldecode($redirectUrl));
 		$this->assertEquals($expected, $this->loginController->tryLogin('Jane', $password, $originalUrl));
@@ -536,6 +551,9 @@ class LoginControllerTest extends TestCase {
 			->method('linkToRoute')
 			->with('core.TwoFactorChallenge.selectChallenge')
 			->will($this->returnValue($challengeUrl));
+		$this->config->expects($this->once())
+			->method('deleteUserValue')
+			->with('john', 'core', 'lostpassword');
 
 		$expected = new RedirectResponse($challengeUrl);
 		$this->assertEquals($expected, $this->loginController->tryLogin('john@doe.com', $password, null));
@@ -586,6 +604,8 @@ class LoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('registerAttempt')
 			->with('login', '192.168.0.1', ['user' => 'john@doe.com']);
+		$this->config->expects($this->never())
+			->method('deleteUserValue');
 
 		$expected = new RedirectResponse('');
 		$this->assertEquals($expected, $this->loginController->tryLogin('john@doe.com', 'just wrong', null));

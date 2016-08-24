@@ -151,7 +151,7 @@ class LostController extends Controller {
 	private function checkPasswordResetToken($token, $userId) {
 		$user = $this->userManager->get($userId);
 
-		$splittedToken = explode(':', $this->config->getUserValue($userId, 'owncloud', 'lostpassword', null));
+		$splittedToken = explode(':', $this->config->getUserValue($userId, 'core', 'lostpassword', null));
 		if(count($splittedToken) !== 2) {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
 		}
@@ -222,7 +222,7 @@ class LostController extends Controller {
 
 			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'post_passwordReset', array('uid' => $userId, 'password' => $password));
 
-			$this->config->deleteUserValue($userId, 'owncloud', 'lostpassword');
+			$this->config->deleteUserValue($userId, 'core', 'lostpassword');
 			@\OC_User::unsetMagicInCookie();
 		} catch (\Exception $e){
 			return $this->error($e->getMessage());
@@ -253,7 +253,7 @@ class LostController extends Controller {
 			ISecureRandom::CHAR_DIGITS.
 			ISecureRandom::CHAR_LOWER.
 			ISecureRandom::CHAR_UPPER);
-		$this->config->setUserValue($user, 'owncloud', 'lostpassword', $this->timeFactory->getTime() .':'. $token);
+		$this->config->setUserValue($user, 'core', 'lostpassword', $this->timeFactory->getTime() .':'. $token);
 
 		$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', array('userId' => $user, 'token' => $token));
 

@@ -133,7 +133,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getUserValue')
-			->with('ValidTokenUser', 'owncloud', 'lostpassword', null)
+			->with('ValidTokenUser', 'core', 'lostpassword', null)
 			->will($this->returnValue('12345:TheOnlyAndOnlyOneTokenToResetThePassword'));
 		$user = $this->getMockBuilder('\OCP\IUser')
 			->disableOriginalConstructor()->getMock();
@@ -180,7 +180,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getUserValue')
-			->with('ValidTokenUser', 'owncloud', 'lostpassword', null)
+			->with('ValidTokenUser', 'core', 'lostpassword', null)
 			->will($this->returnValue('12345:TheOnlyAndOnlyOneTokenToResetThePassword'));
 		$response = $this->lostController->resetform($token, $userId);
 		$expectedResponse = new TemplateResponse('core',
@@ -217,19 +217,19 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getUserValue')
-			->with('ValidTokenUser', 'owncloud', 'lostpassword', null)
+			->with('ValidTokenUser', 'core', 'lostpassword', null)
 			->will($this->returnValue('12345:TheOnlyAndOnlyOneTokenToResetThePassword'));
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
 			->with('core.lost.setPassword', array('userId' => 'ValidTokenUser', 'token' => 'TheOnlyAndOnlyOneTokenToResetThePassword'))
-			->will($this->returnValue('https://ownCloud.com/index.php/lostpassword/'));
+			->will($this->returnValue('https://example.tld/index.php/lostpassword/'));
 
 		$response = $this->lostController->resetform($token, $userId);
 		$expectedResponse = new TemplateResponse('core',
 			'lostpassword/resetpassword',
 			array(
-				'link' => 'https://ownCloud.com/index.php/lostpassword/',
+				'link' => 'https://example.tld/index.php/lostpassword/',
 			),
 			'guest');
 		$this->assertEquals($expectedResponse, $response);
@@ -291,12 +291,12 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->config
 			->expects($this->once())
 			->method('setUserValue')
-			->with('ExistingUser', 'owncloud', 'lostpassword', '12348:ThisIsMaybeANotSoSecretToken!');
+			->with('ExistingUser', 'core', 'lostpassword', '12348:ThisIsMaybeANotSoSecretToken!');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
 			->with('core.lost.resetform', array('userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'))
-			->will($this->returnValue('https://ownCloud.com/index.php/lostpassword/'));
+			->will($this->returnValue('https://example.tld/index.php/lostpassword/'));
 		$message = $this->getMockBuilder('\OC\Mail\Message')
 			->disableOriginalConstructor()->getMock();
 		$message
@@ -310,7 +310,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$message
 			->expects($this->at(2))
 			->method('setPlainBody')
-			->with('Use the following link to reset your password: https://ownCloud.com/index.php/lostpassword/');
+			->with('Use the following link to reset your password: https://example.tld/index.php/lostpassword/');
 		$message
 			->expects($this->at(3))
 			->method('setFrom')
@@ -348,7 +348,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->config
 			->expects($this->once())
 			->method('setUserValue')
-			->with('ExistingUser', 'owncloud', 'lostpassword', '12348:ThisIsMaybeANotSoSecretToken!');
+			->with('ExistingUser', 'core', 'lostpassword', '12348:ThisIsMaybeANotSoSecretToken!');
 		$this->timeFactory
 			->expects($this->once())
 			->method('getTime')
@@ -357,7 +357,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
 			->with('core.lost.resetform', array('userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'))
-			->will($this->returnValue('https://ownCloud.com/index.php/lostpassword/'));
+			->will($this->returnValue('https://example.tld/index.php/lostpassword/'));
 		$message = $this->getMockBuilder('\OC\Mail\Message')
 			->disableOriginalConstructor()->getMock();
 		$message
@@ -371,7 +371,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$message
 			->expects($this->at(2))
 			->method('setPlainBody')
-			->with('Use the following link to reset your password: https://ownCloud.com/index.php/lostpassword/');
+			->with('Use the following link to reset your password: https://example.tld/index.php/lostpassword/');
 		$message
 			->expects($this->at(3))
 			->method('setFrom')
@@ -395,7 +395,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getUserValue')
-			->with('InvalidTokenUser', 'owncloud', 'lostpassword', null)
+			->with('InvalidTokenUser', 'core', 'lostpassword', null)
 			->will($this->returnValue('TheOnlyAndOnlyOneTokenToResetThePassword'));
 
 		// With an invalid token
@@ -417,7 +417,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getUserValue')
-			->with('ValidTokenUser', 'owncloud', 'lostpassword', null)
+			->with('ValidTokenUser', 'core', 'lostpassword', null)
 			->will($this->returnValue('12345:TheOnlyAndOnlyOneTokenToResetThePassword'));
 		$user = $this->getMockBuilder('\OCP\IUser')
 			->disableOriginalConstructor()->getMock();
@@ -437,7 +437,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->config
 			->expects($this->once())
 			->method('deleteUserValue')
-			->with('ValidTokenUser', 'owncloud', 'lostpassword');
+			->with('ValidTokenUser', 'core', 'lostpassword');
 		$this->timeFactory
 			->expects($this->once())
 			->method('getTime')
@@ -452,7 +452,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getUserValue')
-			->with('ValidTokenUser', 'owncloud', 'lostpassword', null)
+			->with('ValidTokenUser', 'core', 'lostpassword', null)
 			->will($this->returnValue('12345:TheOnlyAndOnlyOneTokenToResetThePassword'));
 		$user = $this->getMockBuilder('\OCP\IUser')
 			->disableOriginalConstructor()->getMock();
@@ -478,7 +478,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getUserValue')
-			->with('ValidTokenUser', 'owncloud', 'lostpassword', null)
+			->with('ValidTokenUser', 'core', 'lostpassword', null)
 			->will($this->returnValue('TheOnlyAndOnlyOneTokenToResetThePassword'));
 		$user = $this->getMockBuilder('\OCP\IUser')
 			->disableOriginalConstructor()->getMock();
@@ -500,7 +500,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getUserValue')
-			->with('ValidTokenUser', 'owncloud', 'lostpassword', null)
+			->with('ValidTokenUser', 'core', 'lostpassword', null)
 			->will($this->returnValue('12345:TheOnlyAndOnlyOneTokenToResetThePassword'));
 		$user = $this->getMockBuilder('\OCP\IUser')
 			->disableOriginalConstructor()->getMock();
@@ -530,7 +530,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getUserValue')
-			->with('ValidTokenUser', 'owncloud', 'lostpassword', null)
+			->with('ValidTokenUser', 'core', 'lostpassword', null)
 			->will($this->returnValue(null));
 
 		$response = $this->lostController->setPassword('', 'ValidTokenUser', 'NewPassword', true);
