@@ -318,6 +318,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getEncryptionManager();
 		});
 
+		$this->registerService('OC\Files\View', function ($c) {
+			return new \OC\Files\View('');
+		}, false);
+
 
 		/**
 		 * App Framework APIs
