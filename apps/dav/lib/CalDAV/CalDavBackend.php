@@ -30,6 +30,8 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\Backend;
 use OCP\IDBConnection;
+use OCP\IUser;
+use OCP\IUserManager;
 use Sabre\CalDAV\Backend\AbstractBackend;
 use Sabre\CalDAV\Backend\SchedulingSupport;
 use Sabre\CalDAV\Backend\SubscriptionSupport;
@@ -99,6 +101,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		'{http://calendarserver.org/ns/}subscribed-strip-attachments' => 'stripattachments',
 	];
 
+	/**
+	 * @var string[] Map of uid => display name
+	 */
+	protected $userDisplayNames;
+
 	/** @var IDBConnection */
 	private $db;
 
@@ -108,15 +115,20 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	/** @var Principal */
 	private $principalBackend;
 
+	/** @var IUserManager */
+	private $userManager;
+
 	/**
 	 * CalDavBackend constructor.
 	 *
 	 * @param IDBConnection $db
 	 * @param Principal $principalBackend
+	 * @param IUserManager $userManager
 	 */
-	public function __construct(IDBConnection $db, Principal $principalBackend) {
+	public function __construct(IDBConnection $db, Principal $principalBackend, IUserManager $userManager) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
+		$this->userManager = $userManager;
 		$this->sharingBackend = new Backend($this->db, $principalBackend, 'calendar');
 	}
 
@@ -217,7 +229,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		while($row = $result->fetch()) {
 			list(, $name) = URLUtil::splitPath($row['principaluri']);
 			$uri = $row['uri'] . '_shared_by_' . $name;
-			$row['displayname'] = $row['displayname'] . "($name)";
+			$row['displayname'] = $row['displayname'] . ' (' . $this->getUserDisplayName($name) . ')';
 			$components = [];
 			if ($row['components']) {
 				$components = explode(',',$row['components']);
@@ -245,6 +257,20 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$result->closeCursor();
 
 		return array_values($calendars);
+	}
+
+	private function getUserDisplayName($uid) {
+		if (!isset($this->userDisplayNames[$uid])) {
+			$user = $this->userManager->get($uid);
+
+			if ($user instanceof IUser) {
+				$this->userDisplayNames[$uid] = $user->getDisplayName();
+			} else {
+				$this->userDisplayNames[$uid] = $uid;
+			}
+		}
+
+		return $this->userDisplayNames[$uid];
 	}
 
 	/**

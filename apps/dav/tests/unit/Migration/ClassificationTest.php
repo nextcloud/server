@@ -35,17 +35,6 @@ use OCP\IUser;
  * @package OCA\DAV\Tests\unit\DAV
  */
 class ClassificationTest extends AbstractCalDavBackendTest {
-
-	/** @var  \PHPUnit_Framework_MockObject_MockObject | \OCP\IUserManager */
-	private $userManager;
-
-	public function setUp() {
-		parent::setUp();
-
-		$this->userManager = $this->getMockBuilder('OCP\IUserManager')
-			->disableOriginalConstructor()->getMock();
-	}
-
 	public function test() {
 		// setup data
 		$calendarId = $this->createTestCalendar();

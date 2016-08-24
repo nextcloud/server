@@ -87,7 +87,7 @@ class Application extends App {
 				$c->getServer()->getUserManager(),
 				$c->getServer()->getGroupManager()
 			);
-			return new CardDavBackend($db, $principal, $dispatcher);
+			return new CardDavBackend($db, $principal, $c->getServer()->getUserManager(), $dispatcher);
 		});
 
 		$container->registerService('CalDavBackend', function($c) {
@@ -97,7 +97,7 @@ class Application extends App {
 				$c->getServer()->getUserManager(),
 				$c->getServer()->getGroupManager()
 			);
-			return new CalDavBackend($db, $principal);
+			return new CalDavBackend($db, $principal, $c->getServer()->getUserManager());
 		});
 
 		$container->registerService('BirthdayService', function($c) {

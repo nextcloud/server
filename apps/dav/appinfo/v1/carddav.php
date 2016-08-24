@@ -48,7 +48,7 @@ $principalBackend = new Principal(
 	'principals/'
 );
 $db = \OC::$server->getDatabaseConnection();
-$cardDavBackend = new CardDavBackend($db, $principalBackend);
+$cardDavBackend = new CardDavBackend($db, $principalBackend, \OC::$server->getUserManager());
 
 $debugging = \OC::$server->getConfig()->getSystemValue('debug', false);
 
