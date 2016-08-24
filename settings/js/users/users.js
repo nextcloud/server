@@ -565,6 +565,7 @@ var UserList = {
 		var placeholder = $groupsListContainer.attr('data-placeholder') || t('settings', 'no group');
 		var user = UserList.getUID($td);
 		var checked = $td.data('groups') || [];
+		var extraGroups = [].concat(checked);
 
 		$td.find('.multiselectoptions').remove();
 
@@ -576,12 +577,25 @@ var UserList = {
 			$groupsSelect = $('<select multiple="multiple" class="subadminsselect multiselect button" title="' + placeholder + '"></select>')
 		}
 
-		$.each(this.availableGroups, function (i, group) {
+		function createItem(group) {
 			if (isSubadminSelect && group === 'admin') {
 				// can't become subadmin of "admin" group
 				return;
 			}
 			$groupsSelect.append($('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>'));
+		}
+
+		$.each(this.availableGroups, function (i, group) {
+			// some new groups might be selected but not in the available groups list yet
+			var extraIndex = extraGroups.indexOf(group);
+			if (extraIndex >= 0) {
+				// remove extra group as it was found
+				extraGroups.splice(extraIndex, 1);
+			}
+			createItem(group);
+		});
+		$.each(extraGroups, function (i, group) {
+			createItem(group);
 		});
 
 		$td.append($groupsSelect);
@@ -779,7 +793,6 @@ $(document).ready(function () {
 	});
 
 	$('#newuser .groupsListContainer').on('click', function (event) {
-		var $target = $(event.target);
 		event.stopPropagation();
 		var $div = $(this).closest('.groups');
 		UserList._triggerGroupEdit($div);
