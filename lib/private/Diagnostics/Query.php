@@ -34,15 +34,18 @@ class Query implements IQuery {
 
 	private $end;
 
+	private $stack;
+
 	/**
 	 * @param string $sql
 	 * @param array $params
 	 * @param int $start
 	 */
-	public function __construct($sql, $params, $start) {
+	public function __construct($sql, $params, $start, array $stack) {
 		$this->sql = $sql;
 		$this->params = $params;
 		$this->start = $start;
+		$this->stack = $stack;
 	}
 
 	public function end($time) {
@@ -68,5 +71,13 @@ class Query implements IQuery {
 	 */
 	public function getDuration() {
 		return $this->end - $this->start;
+	}
+
+	public function getStartTime() {
+		return $this->start;
+	}
+
+	public function getStacktrace() {
+		return $this->stack;
 	}
 }

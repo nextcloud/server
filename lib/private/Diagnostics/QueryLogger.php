@@ -42,7 +42,15 @@ class QueryLogger implements IQueryLogger {
 	 * @param array $types
 	 */
 	public function startQuery($sql, array $params = null, array $types = null) {
-		$this->activeQuery = new Query($sql, $params, microtime(true));
+		$this->activeQuery = new Query($sql, $params, microtime(true), $this->getStack());
+	}
+
+	private function getStack() {
+		$stack = debug_backtrace();
+		array_shift($stack);
+		array_shift($stack);
+		array_shift($stack);
+		return $stack;
 	}
 
 	public function stopQuery() {
