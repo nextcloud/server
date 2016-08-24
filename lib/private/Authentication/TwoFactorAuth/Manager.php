@@ -165,10 +165,24 @@ class Manager {
 	/**
 	 * Check if the currently logged in user needs to pass 2FA
 	 *
+	 * @param IUser $user the currently logged in user
 	 * @return boolean
 	 */
-	public function needsSecondFactor() {
-		return $this->session->exists(self::SESSION_UID_KEY);
+	public function needsSecondFactor(IUser $user = null) {
+		if (is_null($user) || !$this->session->exists(self::SESSION_UID_KEY)) {
+			return false;
+		}
+
+		if (!$this->isTwoFactorAuthenticated($user)) {
+			// There is no second factor any more -> let the user pass
+			//   This prevents infinite redirect loops when a user is about
+			//   to solve the 2FA challenge, and the provider app is
+			//   disabled the same time
+			$this->session->remove(self::SESSION_UID_KEY);
+			return false;
+		}
+
+		return true;
 	}
 
 	/**

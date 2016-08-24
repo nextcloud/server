@@ -68,7 +68,7 @@ class OC_JSON{
 	public static function checkLoggedIn() {
 		$twoFactorAuthManger = \OC::$server->getTwoFactorAuthManager();
 		if( !OC_User::isLoggedIn()
-			|| $twoFactorAuthManger->needsSecondFactor()) {
+			|| $twoFactorAuthManger->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
 			$l = \OC::$server->getL10N('lib');
 			http_response_code(\OCP\AppFramework\Http::STATUS_UNAUTHORIZED);
 			self::error(array( 'data' => array( 'message' => $l->t('Authentication error'), 'error' => 'authentication_error' )));

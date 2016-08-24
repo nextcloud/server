@@ -27,6 +27,7 @@ use Exception;
 use OC\Authentication\Exceptions\TwoFactorAuthRequiredException;
 use OC\Authentication\Exceptions\UserAlreadyLoggedInException;
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Core\Controller\LoginController;
 use OC\Core\Controller\TwoFactorChallengeController;
 use OC\User\Session;
 use OCP\AppFramework\Controller;
@@ -36,6 +37,7 @@ use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use OCP\IUser;
 
 class TwoFactorMiddleware extends Middleware {
 
@@ -83,7 +85,7 @@ class TwoFactorMiddleware extends Middleware {
 			return;
 		}
 
-		if ($controller instanceof \OC\Core\Controller\LoginController && $methodName === 'logout') {
+		if ($controller instanceof LoginController && $methodName === 'logout') {
 			// Don't block the logout page, to allow canceling the 2FA
 			return;
 		}
@@ -92,7 +94,7 @@ class TwoFactorMiddleware extends Middleware {
 			$user = $this->userSession->getUser();
 
 			if ($this->twoFactorManager->isTwoFactorAuthenticated($user)) {
-				$this->checkTwoFactor($controller, $methodName);
+				$this->checkTwoFactor($controller, $methodName, $user);
 			} else if ($controller instanceof TwoFactorChallengeController) {
 				// Allow access to the two-factor controllers only if two-factor authentication
 				// is in progress.
@@ -102,10 +104,10 @@ class TwoFactorMiddleware extends Middleware {
 		// TODO: dont check/enforce 2FA if a auth token is used
 	}
 
-	private function checkTwoFactor($controller, $methodName) {
+	private function checkTwoFactor($controller, $methodName, IUser $user) {
 		// If two-factor auth is in progress disallow access to any controllers
 		// defined within "LoginController".
-		$needsSecondFactor = $this->twoFactorManager->needsSecondFactor();
+		$needsSecondFactor = $this->twoFactorManager->needsSecondFactor($user);
 		$twoFactor = $controller instanceof TwoFactorChallengeController;
 
 		// Disallow access to any controller if 2FA needs to be checked

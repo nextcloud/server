@@ -132,6 +132,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 			->will($this->returnValue(true));
 		$this->twoFactorManager->expects($this->once())
 			->method('needsSecondFactor')
+			->with($user)
 			->will($this->returnValue(true));
 
 		$this->middleware->beforeController(null, 'index');
@@ -159,6 +160,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 			->will($this->returnValue(true));
 		$this->twoFactorManager->expects($this->once())
 			->method('needsSecondFactor')
+			->with($user)
 			->will($this->returnValue(false));
 
 		$twoFactorChallengeController = $this->getMockBuilder('\OC\Core\Controller\TwoFactorChallengeController')
