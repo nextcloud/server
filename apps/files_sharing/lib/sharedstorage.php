@@ -36,6 +36,7 @@ use OC\Files\Cache\FailedCache;
 use OCA\Files_Sharing\ISharedStorage;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\Lock\ILockingProvider;
 
@@ -94,6 +95,9 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 			$sourcePath = $this->ownerView->getPath($this->superShare->getNodeId());
 			list($this->storage, $this->rootPath) = $this->ownerView->resolvePath($sourcePath);
 			$this->sourceRootInfo = $this->storage->getCache()->get($this->rootPath);
+		} catch (NotFoundException $e) {
+			$this->storage = new FailedStorage(['exception' => $e]);
+			$this->rootPath = '';
 		} catch (\Exception $e) {
 			$this->storage = new FailedStorage(['exception' => $e]);
 			$this->rootPath = '';
