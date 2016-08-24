@@ -890,9 +890,6 @@ class SessionTest extends \Test\TestCase {
 			->method('getPassword')
 			->with($token, 'APP-PASSWORD')
 			->will($this->throwException(new \OC\Authentication\Exceptions\PasswordlessTokenException()));
-		$tokenProvider->expects($this->once())
-			->method('updateToken')
-			->with($token);
 
 		$this->invokePrivate($userSession, 'validateSession', [$user]);
 
