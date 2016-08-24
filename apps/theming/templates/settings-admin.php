@@ -73,6 +73,9 @@ style('theming', 'settings-admin');
 			<label for="upload-login-background" class="button icon-upload svg" id="upload-login-background" title="<?php p($l->t("Upload new login background")) ?>"></label>
 			<span data-setting="backgroundMime" data-toggle="tooltip" data-original-title="<?php p($l->t('reset to default')); ?>" class="theme-undo icon icon-history"></span>
 		</form>
-		</p>
+	</p>
+		<div id="theming-preview" style="background-color:<?php p($_['color']);?>; background-image:url(<?php p($_['background']); ?>);">
+			<img src="<?php p($_['logo']); ?>" id="theming-preview-logo" />
+		</div>
 	<?php } ?>
 </div>
