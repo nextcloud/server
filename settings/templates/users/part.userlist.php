@@ -38,9 +38,13 @@
 				src="<?php p(image_path('core', 'actions/rename.svg'))?>"
 				alt="<?php p($l->t('change email address'))?>" title="<?php p($l->t('change email address'))?>"/>
 			</td>
-			<td class="groups"></td>
+			<td class="groups"><div class="groupsListContainer multiselect button"
+				><span class="title groupsList"></span><span class="icon-triangle-s"></span></div>
+			</td>
 		<?php if(is_array($_['subadmins']) || $_['subadmins']): ?>
-			<td class="subadmins"></td>
+			<td class="subadmins"><div class="groupsListContainer multiselect button"
+				><span class="title groupsList"></span><span class="icon-triangle-s"></span></div>
+			</td>
 		<?php endif;?>
 			<td class="quota">
 				<select class="quota-user" data-inputtitle="<?php p($l->t('Please enter storage quota (ex: "512 MB" or "12 GB")')) ?>">
