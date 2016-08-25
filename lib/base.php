@@ -268,7 +268,7 @@ class OC {
 			if (OC::$CLI) {
 				throw new Exception('Not installed');
 			} else {
-				$url = 'http://' . $_SERVER['SERVER_NAME'] . OC::$WEBROOT . '/index.php';
+				$url = OC::$WEBROOT . '/index.php';
 				header('Location: ' . $url);
 			}
 			exit();
