@@ -36,39 +36,27 @@ use Test\TestCase;
 use OC\IntegrityCheck\Checker;
 
 /**
- * Mock version_compare
- * @param string $version1
- * @param string $version2
- * @return int
- */
-function version_compare($version1, $version2) {
-	return CheckSetupControllerTest::$version_compare;
-}
-
-/**
  * Class CheckSetupControllerTest
  *
  * @package Tests\Settings\Controller
  */
 class CheckSetupControllerTest extends TestCase {
-	/** @var int */
-	public static $version_compare;
 
-	/** @var CheckSetupController */
+	/** @var CheckSetupController | \PHPUnit_Framework_MockObject_MockObject */
 	private $checkSetupController;
-	/** @var IRequest */
+	/** @var IRequest | \PHPUnit_Framework_MockObject_MockObject */
 	private $request;
-	/** @var IConfig */
+	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
 	private $config;
-	/** @var IClientService */
+	/** @var IClientService | \PHPUnit_Framework_MockObject_MockObject*/
 	private $clientService;
-	/** @var IURLGenerator */
+	/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
 	/** @var OC_Util */
 	private $util;
-	/** @var IL10N */
+	/** @var IL10N | \PHPUnit_Framework_MockObject_MockObject */
 	private $l10n;
-	/** @var Checker */
+	/** @var Checker | \PHPUnit_Framework_MockObject_MockObject */
 	private $checker;
 
 	public function setUp() {
@@ -106,7 +94,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->l10n,
 				$this->checker,
 				])
-			->setMethods(['getCurlVersion'])->getMock();
+			->setMethods(['getCurlVersion', 'isEndOfLive'])->getMock();
 	}
 
 	public function testIsInternetConnectionWorkingDisabledViaConfig() {
@@ -233,7 +221,11 @@ class CheckSetupControllerTest extends TestCase {
 	}
 
 	public function testIsPhpSupportedFalse() {
-		self::$version_compare = -1;
+
+		$this->checkSetupController
+			->expects($this->once())
+			->method('isEndOfLive')
+			->willReturn(true);
 
 		$this->assertEquals(
 			['eol' => true, 'version' => PHP_VERSION],
@@ -242,15 +234,16 @@ class CheckSetupControllerTest extends TestCase {
 	}
 
 	public function testIsPhpSupportedTrue() {
-		self::$version_compare = 0;
+
+		$this->checkSetupController
+			->expects($this->exactly(2))
+			->method('isEndOfLive')
+			->willReturnOnConsecutiveCalls(false, false);
 
 		$this->assertEquals(
 			['eol' => false, 'version' => PHP_VERSION],
 			self::invokePrivate($this->checkSetupController, 'isPhpSupported')
 		);
-
-
-		self::$version_compare = 1;
 
 		$this->assertEquals(
 			['eol' => false, 'version' => PHP_VERSION],
@@ -335,7 +328,10 @@ class CheckSetupControllerTest extends TestCase {
 			->method('linkToDocs')
 			->with('admin-security')
 			->willReturn('https://doc.owncloud.org/server/8.1/admin_manual/configuration_server/hardening.html');
-		self::$version_compare = -1;
+		$this->checkSetupController
+			->expects($this->once())
+			->method('isEndOfLive')
+			->willReturn(true);
 		$this->urlGenerator->expects($this->at(2))
 			->method('linkToDocs')
 			->with('admin-reverse-proxy')
