@@ -31,14 +31,16 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\DataDisplayResponse;
+use OCP\Files\File;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IAvatarManager;
+use OCP\ICache;
 use OCP\ILogger;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Files\Folder;
 
 /**
  * Class AvatarController
@@ -50,7 +52,7 @@ class AvatarController extends Controller {
 	/** @var IAvatarManager */
 	protected $avatarManager;
 
-	/** @var \OC\Cache\File */
+	/** @var ICache */
 	protected $cache;
 
 	/** @var IL10N */
@@ -62,41 +64,44 @@ class AvatarController extends Controller {
 	/** @var IUserSession */
 	protected $userSession;
 
-	/** @var Folder */
-	protected $userFolder;
+	/** @var IRootFolder */
+	protected $rootFolder;
 
 	/** @var ILogger */
 	protected $logger;
+
+	/** @var string */
+	protected $userId;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IAvatarManager $avatarManager
-	 * @param \OC\Cache\File $cache
+	 * @param ICache $cache
 	 * @param IL10N $l10n
 	 * @param IUserManager $userManager
-	 * @param IUserSession $userSession
-	 * @param Folder $userFolder
+	 * @param IRootFolder $rootFolder
 	 * @param ILogger $logger
+	 * @param string $userId
 	 */
 	public function __construct($appName,
 								IRequest $request,
 								IAvatarManager $avatarManager,
-								\OC\Cache\File $cache,
+								ICache $cache,
 								IL10N $l10n,
 								IUserManager $userManager,
-								IUserSession $userSession,
-								Folder $userFolder = null,
-								ILogger $logger) {
+								IRootFolder $rootFolder,
+								ILogger $logger,
+								$userId) {
 		parent::__construct($appName, $request);
 
 		$this->avatarManager = $avatarManager;
 		$this->cache = $cache;
 		$this->l = $l10n;
 		$this->userManager = $userManager;
-		$this->userSession = $userSession;
-		$this->userFolder = $userFolder;
+		$this->rootFolder = $rootFolder;
 		$this->logger = $logger;
+		$this->userId = $userId;
 	}
 
 	/**
@@ -156,8 +161,9 @@ class AvatarController extends Controller {
 
 		if (isset($path)) {
 			$path = stripslashes($path);
-			$node = $this->userFolder->get($path);
-			if (!($node instanceof \OCP\Files\File)) {
+			$userFolder = $this->rootFolder->getUserFolder($this->userId);
+			$node = $userFolder->get($path);
+			if (!($node instanceof File)) {
 				return new DataResponse(['data' => ['message' => $this->l->t('Please select a file.')]], Http::STATUS_OK, $headers);
 			}
 			if ($node->getSize() > 20*1024*1024) {
@@ -240,10 +246,8 @@ class AvatarController extends Controller {
 	 * @return DataResponse
 	 */
 	public function deleteAvatar() {
-		$userId = $this->userSession->getUser()->getUID();
-
 		try {
-			$avatar = $this->avatarManager->getAvatar($userId);
+			$avatar = $this->avatarManager->getAvatar($this->userId);
 			$avatar->remove();
 			return new DataResponse();
 		} catch (\Exception $e) {
@@ -285,8 +289,6 @@ class AvatarController extends Controller {
 	 * @return DataResponse
 	 */
 	public function postCroppedAvatar($crop) {
-		$userId = $this->userSession->getUser()->getUID();
-
 		if (is_null($crop)) {
 			return new DataResponse(['data' => ['message' => $this->l->t("No crop data provided")]],
 									Http::STATUS_BAD_REQUEST);
@@ -308,7 +310,7 @@ class AvatarController extends Controller {
 		$image = new \OC_Image($tmpAvatar);
 		$image->crop($crop['x'], $crop['y'], round($crop['w']), round($crop['h']));
 		try {
-			$avatar = $this->avatarManager->getAvatar($userId);
+			$avatar = $this->avatarManager->getAvatar($this->userId);
 			$avatar->set($image);
 			// Clean up
 			$this->cache->remove('tmpAvatar');

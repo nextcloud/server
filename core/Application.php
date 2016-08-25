@@ -83,19 +83,6 @@ class Application extends App {
 				$c->query('Defaults')
 			);
 		});
-		$container->registerService('AvatarController', function(SimpleContainer $c) {
-			return new AvatarController(
-				$c->query('AppName'),
-				$c->query('Request'),
-				$c->query('AvatarManager'),
-				$c->query('Cache'),
-				$c->query('L10N'),
-				$c->query('UserManager'),
-				$c->query('UserSession'),
-				$c->query('UserFolder'),
-				$c->query('Logger')
-			);
-		});
 		$container->registerService('LoginController', function(SimpleContainer $c) {
 			return new LoginController(
 				$c->query('AppName'),

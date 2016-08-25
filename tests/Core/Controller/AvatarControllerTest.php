@@ -31,67 +31,83 @@ function is_uploaded_file($filename) {
 
 namespace Tests\Core\Controller;
 
-use OC\Core\Application;
-use OCP\AppFramework\IAppContainer;
+use OC\Core\Controller\AvatarController;
 use OCP\AppFramework\Http;
+use OCP\Files\Cache\ICache;
 use OCP\Files\File;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
-use OCP\IUser;
 use OCP\IAvatar;
-use Punic\Exception;
-use Test\Traits\UserTrait;
+use OCP\IAvatarManager;
+use OCP\IL10N;
+use OCP\ILogger;
+use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserManager;
 
 /**
  * Class AvatarControllerTest
  *
- * @group DB
- *
  * @package OC\Core\Controller
  */
 class AvatarControllerTest extends \Test\TestCase {
-	use UserTrait;
-
-	/** @var IAppContainer */
-	private $container;
 	/** @var \OC\Core\Controller\AvatarController */
 	private $avatarController;
-	/** @var IAvatar */
+	/** @var IAvatar|\PHPUnit_Framework_MockObject_MockObject */
 	private $avatarMock;
-	/** @var IUser */
+	/** @var IUser|\PHPUnit_Framework_MockObject_MockObject */
 	private $userMock;
-	/** @var File */
+	/** @var File|\PHPUnit_Framework_MockObject_MockObject */
 	private $avatarFile;
+
+	/** @var IAvatarManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $avatarManager;
+	/** @var ICache|\PHPUnit_Framework_MockObject_MockObject */
+	private $cache;
+	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	private $l;
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $userManager;
+	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	private $rootFolder;
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	private $logger;
+	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	private $request;
 	
 	protected function setUp() {
 		parent::setUp();
-		$this->createUser('userid', 'pass');
-		$this->loginAsUser('userid');
-		
-		$app = new Application;
-		$this->container = $app->getContainer();
-		$this->container['AppName'] = 'core';
-		$this->container['AvatarManager'] = $this->getMockBuilder('OCP\IAvatarManager')->getMock();
-		$this->container['Cache'] = $this->getMockBuilder('OC\Cache\File')
+
+		$this->avatarManager = $this->getMockBuilder('OCP\IAvatarManager')->getMock();
+		$this->cache = $this->getMockBuilder('OCP\ICache')
 			->disableOriginalConstructor()->getMock();
-		$this->container['L10N'] = $this->getMockBuilder('OCP\IL10N')->getMock();
-		$this->container['L10N']->method('t')->will($this->returnArgument(0));
-		$this->container['UserManager'] = $this->getMockBuilder('OCP\IUserManager')->getMock();
-		$this->container['UserSession'] = $this->getMockBuilder('OCP\IUserSession')->getMock();
-		$this->container['Request'] = $this->getMockBuilder('OCP\IRequest')->getMock();
-		$this->container['UserFolder'] = $this->getMockBuilder('OCP\Files\Folder')->getMock();
-		$this->container['Logger'] = $this->getMockBuilder('OCP\ILogger')->getMock();
+		$this->l = $this->getMockBuilder('OCP\IL10N')->getMock();
+		$this->l->method('t')->will($this->returnArgument(0));
+		$this->userManager = $this->getMockBuilder('OCP\IUserManager')->getMock();
+		$this->request = $this->getMockBuilder('OCP\IRequest')->getMock();
+		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
+		$this->logger = $this->getMockBuilder('OCP\ILogger')->getMock();
 
 		$this->avatarMock = $this->getMockBuilder('OCP\IAvatar')->getMock();
 		$this->userMock = $this->getMockBuilder('OCP\IUser')->getMock();
 
-		$this->avatarController = $this->container['AvatarController'];
+		$this->avatarController = new AvatarController(
+			'core',
+			$this->request,
+			$this->avatarManager,
+			$this->cache,
+			$this->l,
+			$this->userManager,
+			$this->rootFolder,
+			$this->logger,
+			'userid'
+		);
 
 		// Configure userMock
 		$this->userMock->method('getDisplayName')->willReturn('displayName');
 		$this->userMock->method('getUID')->willReturn('userId');
-		$this->container['UserManager']->method('get')
+		$this->userManager->method('get')
 			->willReturnMap([['userId', $this->userMock]]);
-		$this->container['UserSession']->method('getUser')->willReturn($this->userMock);
 
 		$this->avatarFile = $this->getMockBuilder('OCP\Files\File')->getMock();
 		$this->avatarFile->method('getContent')->willReturn('image data');
@@ -100,7 +116,6 @@ class AvatarControllerTest extends \Test\TestCase {
 	}
 
 	public function tearDown() {
-		$this->logout();
 		parent::tearDown();
 	}
 
@@ -108,7 +123,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * Fetch an avatar if a user has no avatar
 	 */
 	public function testGetAvatarNoAvatar() {
-		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
+		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 		$this->avatarMock->method('getFile')->will($this->throwException(new NotFoundException()));
 		$response = $this->avatarController->getAvatar('userId', 32);
 
@@ -123,7 +138,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	 */
 	public function testGetAvatar() {
 		$this->avatarMock->method('getFile')->willReturn($this->avatarFile);
-		$this->container['AvatarManager']->method('getAvatar')->with('userId')->willReturn($this->avatarMock);
+		$this->avatarManager->method('getAvatar')->with('userId')->willReturn($this->avatarMock);
 
 		$response = $this->avatarController->getAvatar('userId', 32);
 
@@ -131,14 +146,14 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->assertArrayHasKey('Content-Type', $response->getHeaders());
 		$this->assertEquals('image type', $response->getHeaders()['Content-Type']);
 
-		$this->assertEquals('my etag', $response->getEtag());
+		$this->assertEquals('my etag', $response->getETag());
 	}
 
 	/**
 	 * Fetch the avatar of a non-existing user
 	 */
 	public function testGetAvatarNoUser() {
-		$this->container['AvatarManager']
+		$this->avatarManager
 			->method('getAvatar')
 			->with('userDoesNotExist')
 			->will($this->throwException(new \Exception('user does not exist')));
@@ -160,7 +175,7 @@ class AvatarControllerTest extends \Test\TestCase {
 			->with($this->equalTo(32))
 			->willReturn($this->avatarFile);
 
-		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
+		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 
 		$this->avatarController->getAvatar('userId', 32);
 	}
@@ -174,7 +189,7 @@ class AvatarControllerTest extends \Test\TestCase {
 			->with($this->equalTo(64))
 			->willReturn($this->avatarFile);
 
-		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
+		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 
 		$this->avatarController->getAvatar('userId', 0);
 	}
@@ -188,7 +203,7 @@ class AvatarControllerTest extends \Test\TestCase {
 			->with($this->equalTo(2048))
 			->willReturn($this->avatarFile);
 
-		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
+		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 
 		$this->avatarController->getAvatar('userId', 2049);
 	}
@@ -197,7 +212,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * Remove an avatar
 	 */
 	public function testDeleteAvatar() {
-		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
+		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 
 		$response = $this->avatarController->deleteAvatar();
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
@@ -208,9 +223,9 @@ class AvatarControllerTest extends \Test\TestCase {
 	 */
 	public function testDeleteAvatarException() {
 		$this->avatarMock->method('remove')->will($this->throwException(new \Exception("foo")));
-		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
+		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 
-		$this->container['Logger']->expects($this->once())
+		$this->logger->expects($this->once())
 			->method('logException')
 			->with(new \Exception("foo"));
 		$expectedResponse = new Http\DataResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_BAD_REQUEST);
@@ -229,7 +244,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * Fetch tmp avatar
 	 */
 	public function testTmpAvatarValid() {
-		$this->container['Cache']->method('get')->willReturn(file_get_contents(\OC::$SERVERROOT.'/tests/data/testimage.jpg'));
+		$this->cache->method('get')->willReturn(file_get_contents(\OC::$SERVERROOT.'/tests/data/testimage.jpg'));
 
 		$response = $this->avatarController->getTmpAvatar();
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
@@ -255,11 +270,11 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->assertTrue($copyRes);
 
 		//Create file in cache
-		$this->container['Cache']->method('get')->willReturn(file_get_contents(\OC::$SERVERROOT.'/tests/data/testimage.jpg'));
+		$this->cache->method('get')->willReturn(file_get_contents(\OC::$SERVERROOT.'/tests/data/testimage.jpg'));
 
 		//Create request return
 		$reqRet = ['error' => [0], 'tmp_name' => [$fileName], 'size' => [filesize(\OC::$SERVERROOT.'/tests/data/testimage.jpg')]];
-		$this->container['Request']->method('getUploadedFile')->willReturn($reqRet);
+		$this->request->method('getUploadedFile')->willReturn($reqRet);
 
 		$response = $this->avatarController->postAvatar(null);
 
@@ -276,7 +291,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	public function testPostAvatarInvalidFile() {
 		//Create request return
 		$reqRet = ['error' => [1], 'tmp_name' => ['foo']];
-		$this->container['Request']->method('getUploadedFile')->willReturn($reqRet);
+		$this->request->method('getUploadedFile')->willReturn($reqRet);
 
 		$response = $this->avatarController->postAvatar(null);
 
@@ -293,11 +308,11 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->assertTrue($copyRes);
 
 		//Create file in cache
-		$this->container['Cache']->method('get')->willReturn(file_get_contents(\OC::$SERVERROOT.'/tests/data/testimage.gif'));
+		$this->cache->method('get')->willReturn(file_get_contents(\OC::$SERVERROOT.'/tests/data/testimage.gif'));
 
 		//Create request return
 		$reqRet = ['error' => [0], 'tmp_name' => [$fileName], 'size' => filesize(\OC::$SERVERROOT.'/tests/data/testimage.gif')];
-		$this->container['Request']->method('getUploadedFile')->willReturn($reqRet);
+		$this->request->method('getUploadedFile')->willReturn($reqRet);
 
 		$response = $this->avatarController->postAvatar(null);
 
@@ -315,7 +330,9 @@ class AvatarControllerTest extends \Test\TestCase {
 		$file = $this->getMockBuilder('OCP\Files\File')
 			->disableOriginalConstructor()->getMock();
 		$file->method('getContent')->willReturn(file_get_contents(\OC::$SERVERROOT.'/tests/data/testimage.jpg'));
-		$this->container['UserFolder']->method('get')->willReturn($file);
+		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$this->rootFolder->method('getUserFolder')->with('userid')->willReturn($userFolder);
+		$userFolder->method('get')->willReturn($file);
 
 		//Create request return
 		$response = $this->avatarController->postAvatar('avatar.jpg');
@@ -329,7 +346,9 @@ class AvatarControllerTest extends \Test\TestCase {
 	 */
 	public function testPostAvatarFromNoFile() {
 		$file = $this->getMockBuilder('OCP\Files\Node')->getMock();
-		$this->container['UserFolder']
+		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$this->rootFolder->method('getUserFolder')->with('userid')->willReturn($userFolder);
+		$userFolder
 			->method('get')
 			->with('folder')
 			->willReturn($file);
@@ -345,15 +364,17 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * Test what happens if the upload of the avatar fails
 	 */
 	public function testPostAvatarException() {
-		$this->container['Cache']->expects($this->once())
+		$this->cache->expects($this->once())
 			->method('set')
 			->will($this->throwException(new \Exception("foo")));
 		$file = $this->getMockBuilder('OCP\Files\File')
 			->disableOriginalConstructor()->getMock();
 		$file->method('getContent')->willReturn(file_get_contents(\OC::$SERVERROOT.'/tests/data/testimage.jpg'));
-		$this->container['UserFolder']->method('get')->willReturn($file);
+		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$this->rootFolder->method('getUserFolder')->with('userid')->willReturn($userFolder);
+		$userFolder->method('get')->willReturn($file);
 
-		$this->container['Logger']->expects($this->once())
+		$this->logger->expects($this->once())
 			->method('logException')
 			->with(new \Exception("foo"));
 		$expectedResponse = new Http\DataResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_OK);
@@ -383,10 +404,10 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * Test with non square crop
 	 */
 	public function testPostCroppedAvatarNoSquareCrop() {
-		$this->container['Cache']->method('get')->willReturn(file_get_contents(\OC::$SERVERROOT.'/tests/data/testimage.jpg'));
+		$this->cache->method('get')->willReturn(file_get_contents(\OC::$SERVERROOT.'/tests/data/testimage.jpg'));
 
 		$this->avatarMock->method('set')->will($this->throwException(new \OC\NotSquareException));
-		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
+		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 		$response = $this->avatarController->postCroppedAvatar(['x' => 0, 'y' => 0, 'w' => 10, 'h' => 11]);
 
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $response->getStatus());
@@ -396,8 +417,8 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * Check for proper reply on proper crop argument
 	 */
 	public function testPostCroppedAvatarValidCrop() {
-		$this->container['Cache']->method('get')->willReturn(file_get_contents(\OC::$SERVERROOT.'/tests/data/testimage.jpg'));
-		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
+		$this->cache->method('get')->willReturn(file_get_contents(\OC::$SERVERROOT.'/tests/data/testimage.jpg'));
+		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 		$response = $this->avatarController->postCroppedAvatar(['x' => 0, 'y' => 0, 'w' => 10, 'h' => 10]);
 
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
@@ -408,12 +429,12 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * Test what happens if the cropping of the avatar fails
 	 */
 	public function testPostCroppedAvatarException() {
-		$this->container['Cache']->method('get')->willReturn(file_get_contents(\OC::$SERVERROOT.'/tests/data/testimage.jpg'));
+		$this->cache->method('get')->willReturn(file_get_contents(\OC::$SERVERROOT.'/tests/data/testimage.jpg'));
 
 		$this->avatarMock->method('set')->will($this->throwException(new \Exception('foo')));
-		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
+		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 
-		$this->container['Logger']->expects($this->once())
+		$this->logger->expects($this->once())
 			->method('logException')
 			->with(new \Exception('foo'));
 		$expectedResponse = new Http\DataResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_BAD_REQUEST);
@@ -428,7 +449,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$fileName = \OC::$SERVERROOT.'/tests/data/testimage.jpg';
 		//Create request return
 		$reqRet = ['error' => [0], 'tmp_name' => [$fileName], 'size' => [21*1024*1024]];
-		$this->container['Request']->method('getUploadedFile')->willReturn($reqRet);
+		$this->request->method('getUploadedFile')->willReturn($reqRet);
 
 		$response = $this->avatarController->postAvatar(null);
 
