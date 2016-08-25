@@ -31,13 +31,11 @@ namespace OC\Core;
 
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
-use OC\Core\Controller\AvatarController;
 use OC\Core\Controller\LoginController;
 use OC\Core\Controller\LostController;
 use OC\Core\Controller\TokenController;
 use OC\Core\Controller\TwoFactorChallengeController;
 use OC\Core\Controller\UserController;
-use OCP\Defaults;
 use OCP\AppFramework\App;
 use OCP\Util;
 
@@ -137,32 +135,17 @@ class Application extends App {
 		$container->registerService('SecureRandom', function(SimpleContainer $c) {
 			return $c->query('ServerContainer')->getSecureRandom();
 		});
-		$container->registerService('AvatarManager', function(SimpleContainer $c) {
-			return $c->query('ServerContainer')->getAvatarManager();
-		});
 		$container->registerService('Session', function(SimpleContainer $c) {
 			return $c->query('ServerContainer')->getSession();
 		});
 		$container->registerService('UserSession', function(SimpleContainer $c) {
 			return $c->query('ServerContainer')->getUserSession();
 		});
-		$container->registerService('Session', function(SimpleContainer $c) {
-			return $c->query('ServerContainer')->getSession();
-		});
-		$container->registerService('Cache', function(SimpleContainer $c) {
-			return $c->query('ServerContainer')->getCache();
-		});
-		$container->registerService('UserFolder', function(SimpleContainer $c) {
-			return $c->query('ServerContainer')->getUserFolder();
-		});
 		$container->registerService('Defaults', function(SimpleContainer $c) {
 			return $c->query('ServerContainer')->getThemingDefaults();
 		});
 		$container->registerService('Mailer', function(SimpleContainer $c) {
 			return $c->query('ServerContainer')->getMailer();
-		});
-		$container->registerService('Logger', function(SimpleContainer $c) {
-			return $c->query('ServerContainer')->getLogger();
 		});
 		$container->registerService('TimeFactory', function(SimpleContainer $c) {
 			return new TimeFactory();
@@ -172,9 +155,6 @@ class Application extends App {
 		});
 		$container->registerService('TwoFactorAuthManager', function(SimpleContainer $c) {
 			return $c->query('ServerContainer')->getTwoFactorAuthManager();
-		});
-		$container->registerService('OC\CapabilitiesManager', function(SimpleContainer $c) {
-			return $c->query('ServerContainer')->getCapabilitiesManager();
 		});
 	}
 
