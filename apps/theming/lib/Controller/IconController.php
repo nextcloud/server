@@ -23,6 +23,7 @@
 namespace OCA\Theming\Controller;
 
 use OCA\Theming\Template;
+use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -39,8 +40,8 @@ use Imagick;
 use ImagickPixel;
 
 class IconController extends Controller {
-	/** @var Template */
-	private $template;
+	/** @var ThemingDefaults */
+	private $themingDefaults;
 	/** @var Util */
 	private $util;
 	/** @var ITimeFactory */
@@ -58,7 +59,7 @@ class IconController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IConfig $config
-	 * @param Template $template
+	 * @param ThemingDefaults $themingDefaults
 	 * @param Util $util
 	 * @param ITimeFactory $timeFactory
 	 * @param IL10N $l
@@ -68,7 +69,7 @@ class IconController extends Controller {
 		$appName,
 		IRequest $request,
 		IConfig $config,
-		Template $template,
+		ThemingDefaults $themingDefaults,
 		Util $util,
 		ITimeFactory $timeFactory,
 		IL10N $l,
@@ -76,7 +77,7 @@ class IconController extends Controller {
 	) {
 		parent::__construct($appName, $request);
 
-		$this->template = $template;
+		$this->themingDefaults = $themingDefaults;
 		$this->util = $util;
 		$this->timeFactory = $timeFactory;
 		$this->l = $l;
@@ -95,7 +96,7 @@ class IconController extends Controller {
 	public function getThemedIcon($app, $image) {
 		$image = $this->getAppImage($app, $image);
 		$svg = file_get_contents($image);
-		$color = $this->template->getMailHeaderColor();
+		$color = $this->util->elementColor($this->themingDefaults->getMailHeaderColor());
 		$svg = $this->colorizeSvg($svg, $color);
 
 		$response = new DataDisplayResponse($svg, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
@@ -119,7 +120,7 @@ class IconController extends Controller {
 		$icon->setImageFormat("png24");
 
 		$response = new DataDisplayResponse($icon, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
-		$response->cacheFor(3600);
+		$response->cacheFor(86400);
 		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
 		return $response;
 	}
@@ -139,7 +140,7 @@ class IconController extends Controller {
 		$icon->setImageFormat("png24");
 
 		$response = new DataDisplayResponse($icon, Http::STATUS_OK, ['Content-Type' => 'image/png']);
-		$response->cacheFor(3600);
+		$response->cacheFor(86400);
 		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
 		return $response;
 	}
@@ -153,7 +154,7 @@ class IconController extends Controller {
 	 */
 	private function renderAppIcon($app) {
 		$appIcon = $this->getAppIcon($app);
-		$color = $this->config->getAppValue($this->appName, 'color');
+		$color = $this->themingDefaults->getMailHeaderColor();
 		$mime = mime_content_type($appIcon);
 		if ($color === "") {
 			$color = '#0082c9';
@@ -230,9 +231,8 @@ class IconController extends Controller {
 			return $icon;
 		}
 
-		$icon = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/') . '/themedinstancelogo';
-		if(file_exists($icon)) {
-			return $icon;
+		if($this->rootFolder->nodeExists('/themedinstancelogo')) {
+			return $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/') . '/themedinstancelogo';
 		}
 		return \OC::$SERVERROOT . '/core/img/logo.svg';
 	}

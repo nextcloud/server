@@ -92,7 +92,7 @@ OC.MimeType = {
 			}
 		}
 		if(OCA.Theming) {
-			path = OC.generateUrl('/apps/theming/image/core/filetypes/');
+			path = OC.generateUrl('/apps/theming/img/core/filetypes/');
 			path += OC.MimeType._getFile(mimeType, OC.MimeTypeList.files);
 			gotIcon = true;
 		}
