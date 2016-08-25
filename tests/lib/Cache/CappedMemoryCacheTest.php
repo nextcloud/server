@@ -25,8 +25,6 @@ namespace Test\Cache;
 /**
  * Class CappedMemoryCacheTest
  *
- * @group DB
- *
  * @package Test\Cache
  */
 class CappedMemoryCacheTest extends TestCache {
