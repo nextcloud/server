@@ -145,7 +145,7 @@
 		<ul class="warnings hidden"></ul>
 		<ul class="info hidden"></ul>
 		<p class="hint hidden">
-			<?php print_unescaped($l->t('Please double check the <a target="_blank" rel="noreferrer" href="%s">installation guides ↗</a>, and check for any errors or warnings in the <a href="#log-section">log</a>.', link_to_docs('admin-install'))); ?>
+			<?php print_unescaped($l->t('Please double check the <a target="_blank" rel="noreferrer" href="%s">installation guides ↗</a>, and check for any errors or warnings in the <a href="%s">log</a>.', [link_to_docs('admin-install'), \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => 'logging'])] )); ?>
 		</p>
 	</div>
 	<div id="security-warning-state">
