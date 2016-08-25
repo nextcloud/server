@@ -14,7 +14,6 @@ use DateTime;
 
 /**
  * Class Test_L10n
- * @group DB
  */
 class L10nLegacyTest extends \Test\TestCase {
 
@@ -124,7 +123,11 @@ class L10nLegacyTest extends \Test\TestCase {
 	}
 
 	public function testFactoryGetLanguageCode() {
-		$factory = new \OC\L10N\Factory($this->getMock('OCP\IConfig'), $this->getMock('OCP\IRequest'), $this->getMock('OCP\IUserSession'), \OC::$SERVERROOT);
+		$factory = new \OC\L10N\Factory(
+			$this->getMockBuilder('OCP\IConfig')->getMock(),
+			$this->getMockBuilder('OCP\IRequest')->getMock(),
+			$this->getMockBuilder('OCP\IUserSession')->getMock(),
+			\OC::$SERVERROOT);
 		$l = $factory->get('lib', 'de');
 		$this->assertEquals('de', $l->getLanguageCode());
 	}

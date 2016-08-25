@@ -15,7 +15,6 @@ use Test\TestCase;
  * Class FactoryTest
  *
  * @package Test\L10N
- * @group DB
  */
 class FactoryTest extends TestCase {
 
@@ -44,7 +43,9 @@ class FactoryTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->userSession = $this->getMock('\OCP\IUserSession');
+		$this->userSession = $this->getMockBuilder('\OCP\IUserSession')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->serverRoot = \OC::$SERVERROOT;
 	}
@@ -110,7 +111,8 @@ class FactoryTest extends TestCase {
 			->method('getSystemValue')
 			->with('installed', false)
 			->willReturn(true);
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->getMockBuilder('\OCP\IUser')
+			->getMock();
 		$user->expects($this->once())
 			->method('getUID')
 			->willReturn('MyUserUid');
@@ -143,7 +145,8 @@ class FactoryTest extends TestCase {
 				->method('getSystemValue')
 				->with('installed', false)
 				->willReturn(true);
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->getMockBuilder('\OCP\IUser')
+			->getMock();
 		$user->expects($this->once())
 				->method('getUID')
 				->willReturn('MyUserUid');
@@ -185,7 +188,8 @@ class FactoryTest extends TestCase {
 				->method('getSystemValue')
 				->with('installed', false)
 				->willReturn(true);
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->getMockBuilder('\OCP\IUser')
+			->getMock();
 		$user->expects($this->once())
 				->method('getUID')
 				->willReturn('MyUserUid');
@@ -230,7 +234,8 @@ class FactoryTest extends TestCase {
 				->method('getSystemValue')
 				->with('installed', false)
 				->willReturn(true);
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->getMockBuilder('\OCP\IUser')
+			->getMock();
 		$user->expects($this->once())
 				->method('getUID')
 				->willReturn('MyUserUid');
