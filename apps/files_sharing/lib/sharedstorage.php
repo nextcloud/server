@@ -38,6 +38,7 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Storage\IStorage;
 use OCP\Lock\ILockingProvider;
 use OC\Files\Storage\FailedStorage;
+use OCP\Files\NotFoundException;
 
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
@@ -104,7 +105,9 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 
 		} catch (\Exception $e) {
 			$this->sourceStorage = new FailedStorage(['exception' => $e]);
-			$this->logger->logException($e);
+			if (!$e instanceof NotFoundException) {
+				$this->logger->logException($e);
+			}
 		}
 		$this->storage = $this->sourceStorage;
 	}
