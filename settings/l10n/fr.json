@@ -55,7 +55,7 @@
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Les applications approuvées sont créées par des développeurs de confiance et ont passé les tests de sécurité. Elles sont activement maintenues et leur code source est ouvert. Leurs développeurs les considèrent stables pour une utilisation normale.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "Cette application est nouvelle ou instable, et sa sécurité n'a pas été vérifiée. Installez-la à vos risques et périls!",
     "Update to %s" : "Mettre à niveau vers la version %s",
-    "_You have %n app update pending_::_You have %n app updates pending_" : ["Vous avez %n application qui attend ça  mise a jour .","Vous avez %n applications en attente de mise à jour"],
+    "_You have %n app update pending_::_You have %n app updates pending_" : ["Vous avez %n application en attente de mise à jour.","Vous avez %n applications en attente de mise à jour"],
     "Please wait...." : "Veuillez patienter…",
     "Error while disabling app" : "Erreur lors de la désactivation de l'application",
     "Disable" : "Désactiver",
