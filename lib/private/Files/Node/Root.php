@@ -341,22 +341,17 @@ class Root extends Folder implements IRootFolder {
 	public function getUserFolder($userId) {
 		if (!$this->userFolderCache->hasKey($userId)) {
 			\OC\Files\Filesystem::initMountPoints($userId);
-			$dir = '/' . $userId;
-			$folder = null;
 
 			try {
-				$folder = $this->get($dir);
+				$folder = $this->get('/' . $userId . '/files');
 			} catch (NotFoundException $e) {
-				$folder = $this->newFolder($dir);
-			}
-
-			$dir = '/files';
-			try {
-				$folder = $folder->get($dir);
-			} catch (NotFoundException $e) {
-				$folder = $folder->newFolder($dir);
+				if (!$this->nodeExists('/' . $userId)) {
+					$this->newFolder('/' . $userId);
+				}
+				$folder = $this->newFolder('/' . $userId . '/files');
 				\OC_Util::copySkeleton($userId, $folder);
 			}
+
 			$this->userFolderCache->set($userId, $folder);
 		}
 
