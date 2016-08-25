@@ -356,6 +356,7 @@ class OC_Util {
 	 */
 	public static function tearDownFS() {
 		\OC\Files\Filesystem::tearDown();
+		\OC::$server->getRootFolder()->clearCache();
 		self::$fsSetup = false;
 		self::$rootMounted = false;
 	}
