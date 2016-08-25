@@ -136,7 +136,6 @@ class IconController extends Controller {
 	 */
 	public function getTouchIcon($app="core") {
 		$icon = $this->renderAppIcon($app);
-		$icon->resizeImage(512, 512, Imagick::FILTER_LANCZOS, 1);
 		$icon->setImageFormat("png24");
 
 		$response = new DataDisplayResponse($icon, Http::STATUS_OK, ['Content-Type' => 'image/png']);
@@ -156,6 +155,7 @@ class IconController extends Controller {
 		$appIcon = $this->getAppIcon($app);
 		$color = $this->themingDefaults->getMailHeaderColor();
 		$mime = mime_content_type($appIcon);
+		// FIXME: test if we need this
 		if ($color === "") {
 			$color = '#0082c9';
 		}
@@ -169,10 +169,7 @@ class IconController extends Controller {
 		// resize svg magic as this seems broken in Imagemagick
 		if($mime === "image/svg+xml") {
 			$svg = file_get_contents($appIcon);
-			if ($this->util->invertTextColor($color)) {
-				$svg = $this->svgInvert($svg);
-			}
-
+			
 			$tmp = new Imagick();
 			$tmp->readImageBlob($svg);
 			$x = $tmp->getImageWidth();
@@ -211,6 +208,8 @@ class IconController extends Controller {
 		$finalIconFile->setImageVirtualPixelMethod(Imagick::VIRTUALPIXELMETHOD_TRANSPARENT);
 		$finalIconFile->setImageArtifact('compose:args', "1,0,-0.5,0.5");
 		$finalIconFile->compositeImage($appIconFile, Imagick::COMPOSITE_ATOP, $offset_w, $offset_h);
+		$finalIconFile->resizeImage(512, 512, Imagick::FILTER_LANCZOS, 1);
+
 		$appIconFile->destroy();
 		return $finalIconFile;
 	}
@@ -272,21 +271,9 @@ class IconController extends Controller {
 		if(file_exists($icon)) {
 			return $icon;
 		}
+		return false;
 	}
-
-	/**
-	 * replace black with white and white with black
-	 *
-	 * @param $svg content of a svg file
-	 * @return string
-	 */
-	private function svgInvert($svg) {
-		$svg = preg_replace('/#(f{3,6})/i', '#REPLACECOLOR', $svg);
-		$svg = preg_replace('/#(0{3,6})/i', '#ffffff', $svg);
-		$svg = preg_replace('/#(REPLACECOLOR)/i', '#000000', $svg);
-		return $svg;
-	}
-
+	
 	/**
 	 * replace default color with a custom one
 	 *
