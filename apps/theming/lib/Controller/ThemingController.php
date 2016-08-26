@@ -286,6 +286,29 @@ class ThemingController extends Controller {
 			$responseCss .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
 				'background-image: url(\'data:image/svg+xml;base64,'.$this->util->generateRadioButton($elementColor).'\');' .
 				"}\n";
+			$responseCss .= '.primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary,' .
+				'.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active,' .
+				'.primary:disabled, input[type="submit"].primary:disabled, input[type="button"].primary:disabled, button.primary:disabled, .button.primary:disabled,' .
+				'.primary:disabled:hover, input[type="submit"].primary:disabled:hover, input[type="button"].primary:disabled:hover, button.primary:disabled:hover, .button.primary:disabled:hover,' .
+				'.primary:disabled:focus, input[type="submit"].primary:disabled:focus, input[type="button"].primary:disabled:focus, button.primary:disabled:focus, .button.primary:disabled:focus {' .
+				'border: 1px solid '.$elementColor.';'.
+				'background-color: '.$elementColor.';'.
+				'opacity: 0.8' .
+				"}\n" .
+				'.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover,' .
+				'.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {' .
+				'border: 1px solid '.$elementColor.';'.
+				'background-color: '.$elementColor.';'.
+				'opacity: 1.0;' .
+				"}\n";
+			$responseCss .= '.ui-widget-header { border: 1px solid ' . $color . '; background: '. $color . '; color: #ffffff;' . "}\n";
+			$responseCss .= '.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {' .
+				'border: 1px solid ' . $color . ';' .
+				'color: ' . $elementColor . ';' .
+				"}\n";
+			$responseCss .= '.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {' .
+				'color: ' . $elementColor . ';' .
+				"}\n";
 			$responseCss .= '
 				#firstrunwizard .firstrunwizard-header {
 					background-color: ' . $color . ';
@@ -328,6 +351,7 @@ class ThemingController extends Controller {
 			$responseCss .= '.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }' . "\n";
 			$responseCss .= '.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }' . "\n";
 			$responseCss .= '.nc-theming-contrast {color: #000000}' . "\n";
+			$responseCss .= '.ui-widget-header { color: #000000; }' . "\n";
 		} else {
 			$responseCss .= '.nc-theming-contrast {color: #ffffff}' . "\n";
 		}

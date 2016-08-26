@@ -24,6 +24,7 @@
  */
 
 use OCA\FederatedFileSharing\AppInfo\Application;
+use OCA\Theming\Template;
 
 \OC_Util::checkLoggedIn();
 
@@ -40,15 +41,32 @@ if (count($matches) > 0 && $matches[1] <= 9) {
 
 $cloudID = \OC::$server->getUserSession()->getUser()->getCloudId();
 $url = 'https://nextcloud.com/federation#' . $cloudID;
-$ownCloudLogoPath = \OC::$server->getURLGenerator()->imagePath('core', 'logo-icon.svg');
+$logoPath = \OC::$server->getURLGenerator()->imagePath('core', 'logo-icon.svg');
+$theme = \OC::$server->getThemingDefaults();
+$color = $theme->getMailHeaderColor();
+$textColor = "#ffffff";
+if(\OC::$server->getAppManager()->isEnabledForUser("theming")) {
+	$logoPath = $theme->getLogo();
+	try {
+		$util = \OC::$server->query("\OCA\Theming\Util");
+		if($util->invertTextColor($color)) {
+			$textColor = "#000000";
+		}
+	} catch (OCP\AppFramework\QueryException $e) {
+		
+	}
+}
+
 
 $tmpl = new OCP\Template('federatedfilesharing', 'settings-personal');
 $tmpl->assign('outgoingServer2serverShareEnabled', $federatedShareProvider->isOutgoingServer2serverShareEnabled());
 $tmpl->assign('message_with_URL', $l->t('Share with me through my #Nextcloud Federated Cloud ID, see %s', [$url]));
 $tmpl->assign('message_without_URL', $l->t('Share with me through my #Nextcloud Federated Cloud ID', [$cloudID]));
-$tmpl->assign('owncloud_logo_path', $ownCloudLogoPath);
+$tmpl->assign('logoPath', $logoPath);
 $tmpl->assign('reference', $url);
 $tmpl->assign('cloudId', $cloudID);
 $tmpl->assign('showShareIT', !$isIE8);
+$tmpl->assign('color', $color);
+$tmpl->assign('textColor', $textColor);
 
 return $tmpl->fetchPage();
