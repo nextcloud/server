@@ -311,7 +311,7 @@ class OC_API {
 		// reuse existing login
 		$loggedIn = \OC::$server->getUserSession()->isLoggedIn();
 		if ($loggedIn === true) {
-			if (\OC::$server->getTwoFactorAuthManager()->needsSecondFactor()) {
+			if (\OC::$server->getTwoFactorAuthManager()->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
 				// Do not allow access to OCS until the 2FA challenge was solved successfully
 				return false;
 			}

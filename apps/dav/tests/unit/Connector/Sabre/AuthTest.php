@@ -374,6 +374,7 @@ class AuthTest extends TestCase {
 			->willReturn(true);
 		$this->twoFactorManager->expects($this->once())
 			->method('needsSecondFactor')
+			->with($user)
 			->will($this->returnValue(true));
 		$this->auth->check($request, $response);
 	}
@@ -658,7 +659,7 @@ class AuthTest extends TestCase {
 			->method('getUID')
 			->will($this->returnValue('MyTestUser'));
 		$this->userSession
-			->expects($this->exactly(3))
+			->expects($this->exactly(4))
 			->method('getUser')
 			->will($this->returnValue($user));
 		$response = $this->auth->check($server->httpRequest, $server->httpResponse);

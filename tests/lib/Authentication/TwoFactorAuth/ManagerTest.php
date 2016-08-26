@@ -72,6 +72,19 @@ class ManagerTest extends TestCase {
 		});
 	}
 
+	private function prepareNoProviders() {
+		$this->appManager->expects($this->any())
+			->method('getEnabledAppsForUser')
+			->with($this->user)
+			->will($this->returnValue([]));
+
+		$this->appManager->expects($this->never())
+			->method('getAppInfo');
+
+		$this->manager->expects($this->never())
+			->method('loadTwoFactorApp');
+	}
+
 	private function prepareProviders() {
 		$this->appManager->expects($this->any())
 			->method('getEnabledAppsForUser')
@@ -164,7 +177,7 @@ class ManagerTest extends TestCase {
 			->method('remove')
 			->with('two_factor_auth_uid');
 
-		$this->assertEquals(true, $this->manager->verifyChallenge('email', $this->user, $challenge));
+		$this->assertTrue($this->manager->verifyChallenge('email', $this->user, $challenge));
 	}
 
 	public function testVerifyChallengeInvalidProviderId() {
@@ -177,7 +190,7 @@ class ManagerTest extends TestCase {
 		$this->session->expects($this->never())
 			->method('remove');
 
-		$this->assertEquals(false, $this->manager->verifyChallenge('dontexist', $this->user, $challenge));
+		$this->assertFalse($this->manager->verifyChallenge('dontexist', $this->user, $challenge));
 	}
 
 	public function testVerifyInvalidChallenge() {
@@ -191,16 +204,40 @@ class ManagerTest extends TestCase {
 		$this->session->expects($this->never())
 			->method('remove');
 
-		$this->assertEquals(false, $this->manager->verifyChallenge('email', $this->user, $challenge));
+		$this->assertFalse($this->manager->verifyChallenge('email', $this->user, $challenge));
 	}
 
 	public function testNeedsSecondFactor() {
+		$user = $this->getMock('\OCP\IUser');
 		$this->session->expects($this->once())
 			->method('exists')
 			->with('two_factor_auth_uid')
 			->will($this->returnValue(false));
 
-		$this->assertEquals(false, $this->manager->needsSecondFactor());
+		$this->assertFalse($this->manager->needsSecondFactor($user));
+	}
+
+	public function testNeedsSecondFactorUserIsNull() {
+		$user = null;
+		$this->session->expects($this->never())
+			->method('exists');
+
+		$this->assertFalse($this->manager->needsSecondFactor($user));
+	}
+
+	public function testNeedsSecondFactorWithNoProviderAvailableAnymore() {
+		$this->prepareNoProviders();
+
+		$user = null;
+		$this->session->expects($this->never())
+			->method('exists')
+			->with('two_factor_auth_uid')
+			->will($this->returnValue(true));
+		$this->session->expects($this->never())
+			->method('remove')
+			->with('two_factor_auth_uid');
+
+		$this->assertFalse($this->manager->needsSecondFactor($user));
 	}
 
 	public function testPrepareTwoFactorLogin() {

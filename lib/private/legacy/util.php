@@ -975,7 +975,7 @@ class OC_Util {
 			exit();
 		}
 		// Redirect to index page if 2FA challenge was not solved yet
-		if (\OC::$server->getTwoFactorAuthManager()->needsSecondFactor()) {
+		if (\OC::$server->getTwoFactorAuthManager()->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
 			header('Location: ' . \OCP\Util::linkToAbsolute('', 'index.php'));
 			exit();
 		}
