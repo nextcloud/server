@@ -23,11 +23,12 @@
  *
  */
 
-namespace OCA\Files_Sharing\Tests\API;
+namespace OCA\Files_Sharing\Tests\Controller;
 
-use OCA\Files_Sharing\API\Sharees;
+use OCA\Files_Sharing\Controller\ShareesAPIController;
 use OCA\Files_Sharing\Tests\TestCase;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\Share;
 
 /**
@@ -37,7 +38,7 @@ use OCP\Share;
  *
  * @package OCA\Files_Sharing\Tests\API
  */
-class ShareesTest extends TestCase {
+class ShareesAPIControllerTest extends TestCase {
 	/** @var Sharees */
 	protected $sharees;
 
@@ -86,14 +87,15 @@ class ShareesTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->sharees = new Sharees(
+		$this->sharees = new ShareesAPIController(
+			'files_sharing',
+			$this->request,
 			$this->groupManager,
 			$this->userManager,
 			$this->contactsManager,
 			$this->getMockBuilder('OCP\IConfig')->disableOriginalConstructor()->getMock(),
 			$this->session,
 			$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
-			$this->request,
 			$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock(),
 			$this->shareManager
 		);
@@ -1084,8 +1086,11 @@ class ShareesTest extends TestCase {
 	 * @param bool $allowGroupSharing
 	 */
 	public function testSearch($getData, $apiSetting, $enumSetting, $remoteSharingEnabled, $search, $itemType, $shareTypes, $page, $perPage, $shareWithGroupOnly, $shareeEnumeration, $allowGroupSharing) {
-		$oldGet = $_GET;
-		$_GET = $getData;
+		$search = isset($getData['search']) ? $getData['search'] : '';
+		$itemType = isset($getData['itemType']) ? $getData['itemType'] : null;
+		$page = isset($getData['page']) ? $getData['page'] : 1;
+		$perPage = isset($getData['perPage']) ? $getData['perPage'] : 200;
+		$shareType = isset($getData['shareType']) ? $getData['shareType'] : null;
 
 		$config = $this->getMockBuilder('OCP\IConfig')
 			->disableOriginalConstructor()
@@ -1102,15 +1107,17 @@ class ShareesTest extends TestCase {
 			->method('allowGroupSharing')
 			->willReturn($allowGroupSharing);
 
-		$sharees = $this->getMockBuilder('\OCA\Files_Sharing\API\Sharees')
+		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Files_Sharing\Controller\ShareesAPIController $sharees */
+		$sharees = $this->getMockBuilder('\OCA\Files_Sharing\Controller\ShareesAPIController')
 			->setConstructorArgs([
+				'files_sharing',
+				$this->getMockBuilder('OCP\IRequest')->disableOriginalConstructor()->getMock(),
 				$this->groupManager,
 				$this->userManager,
 				$this->contactsManager,
 				$config,
 				$this->session,
 				$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
-				$this->getMockBuilder('OCP\IRequest')->disableOriginalConstructor()->getMock(),
 				$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock(),
 				$this->shareManager
 			])
@@ -1129,20 +1136,17 @@ class ShareesTest extends TestCase {
 				$this->assertSame($shareTypes, $ishareTypes);
 				$this->assertSame($page, $ipage);
 				$this->assertSame($perPage, $iperPage);
-				return new \OC_OCS_Result([]);
+				return new Http\DataResponse();
 			});
 		$sharees->expects($this->any())
 			->method('isRemoteSharingAllowed')
 			->with($itemType)
 			->willReturn($remoteSharingEnabled);
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Files_Sharing\API\Sharees $sharees */
-		$this->assertInstanceOf('\OC_OCS_Result', $sharees->search());
+		$this->assertInstanceOf('\OCP\AppFramework\Http\DataResponse', $sharees->search($search, $itemType, $page, $perPage, $shareType));
 
 		$this->assertSame($shareWithGroupOnly, $this->invokePrivate($sharees, 'shareWithGroupOnly'));
 		$this->assertSame($shareeEnumeration, $this->invokePrivate($sharees, 'shareeEnumeration'));
-
-		$_GET = $oldGet;
 	}
 
 	public function dataSearchInvalid() {
@@ -1178,8 +1182,8 @@ class ShareesTest extends TestCase {
 	 * @param string $message
 	 */
 	public function testSearchInvalid($getData, $message) {
-		$oldGet = $_GET;
-		$_GET = $getData;
+		$page = isset($getData['page']) ? $getData['page'] : 1;
+		$perPage = isset($getData['perPage']) ? $getData['perPage'] : 200;
 
 		$config = $this->getMockBuilder('OCP\IConfig')
 			->disableOriginalConstructor()
@@ -1187,15 +1191,17 @@ class ShareesTest extends TestCase {
 		$config->expects($this->never())
 			->method('getAppValue');
 
-		$sharees = $this->getMockBuilder('\OCA\Files_Sharing\API\Sharees')
+		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Files_Sharing\Controller\ShareesAPIController $sharees */
+		$sharees = $this->getMockBuilder('\OCA\Files_Sharing\Controller\ShareesAPIController')
 			->setConstructorArgs([
+				'files_sharing',
+				$this->getMockBuilder('OCP\IRequest')->disableOriginalConstructor()->getMock(),
 				$this->groupManager,
 				$this->userManager,
 				$this->contactsManager,
 				$config,
 				$this->session,
 				$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
-				$this->getMockBuilder('OCP\IRequest')->disableOriginalConstructor()->getMock(),
 				$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock(),
 				$this->shareManager
 			])
@@ -1206,13 +1212,12 @@ class ShareesTest extends TestCase {
 		$sharees->expects($this->never())
 			->method('isRemoteSharingAllowed');
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Files_Sharing\API\Sharees $sharees */
-		$ocs = $sharees->search();
-		$this->assertInstanceOf('\OC_OCS_Result', $ocs);
-
-		$this->assertOCSError($ocs, $message);
-
-		$_GET = $oldGet;
+		try {
+			$sharees->search('', null, $page, $perPage, null);
+			$this->fail();
+		} catch (OCSBadRequestException $e) {
+			$this->assertEquals($message, $e->getMessage());
+		}
 	}
 
 	public function dataIsRemoteSharingAllowed() {
@@ -1339,16 +1344,17 @@ class ShareesTest extends TestCase {
 	 */
 	public function testSearchSharees($searchTerm, $itemType, array $shareTypes, $page, $perPage, $shareWithGroupOnly,
 									  $mockedUserResult, $mockedGroupsResult, $mockedRemotesResult, $expected, $nextLink) {
-		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Files_Sharing\API\Sharees $sharees */
-		$sharees = $this->getMockBuilder('\OCA\Files_Sharing\API\Sharees')
+		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Files_Sharing\Controller\ShareesAPIController $sharees */
+		$sharees = $this->getMockBuilder('\OCA\Files_Sharing\Controller\ShareesAPIController')
 			->setConstructorArgs([
+				'files_sharing',
+				$this->getMockBuilder('OCP\IRequest')->disableOriginalConstructor()->getMock(),
 				$this->groupManager,
 				$this->userManager,
 				$this->contactsManager,
 				$this->getMockBuilder('OCP\IConfig')->disableOriginalConstructor()->getMock(),
 				$this->session,
 				$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
-				$this->getMockBuilder('OCP\IRequest')->disableOriginalConstructor()->getMock(),
 				$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock(),
 				$this->shareManager
 			])
@@ -1379,9 +1385,8 @@ class ShareesTest extends TestCase {
 				$this->invokePrivate($sharees, 'result', [$result]);
 			});
 
-		/** @var \OC_OCS_Result $ocs */
 		$ocs = $this->invokePrivate($sharees, 'searchSharees', [$searchTerm, $itemType, $shareTypes, $page, $perPage, $shareWithGroupOnly]);
-		$this->assertInstanceOf('\OC_OCS_Result', $ocs);
+		$this->assertInstanceOf('\OCP\AppFramework\Http\DataResponse', $ocs);
 		$this->assertEquals($expected, $ocs->getData());
 
 		// Check if next link is set
@@ -1393,12 +1398,12 @@ class ShareesTest extends TestCase {
 		}
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSBadRequestException
+	 * @expectedExceptionMessage Missing itemType
+	 */
 	public function testSearchShareesNoItemType() {
-		/** @var \OC_OCS_Result $ocs */
-		$ocs = $this->invokePrivate($this->sharees, 'searchSharees', ['', null, [], [], 0, 0, false]);
-		$this->assertInstanceOf('\OC_OCS_Result', $ocs);
-
-		$this->assertOCSError($ocs, 'Missing itemType');
+		$this->invokePrivate($this->sharees, 'searchSharees', ['', null, [], [], 0, 0, false]);
 	}
 
 	public function dataGetPaginationLink() {
@@ -1443,20 +1448,6 @@ class ShareesTest extends TestCase {
 			->willReturn($scriptName);
 
 		$this->assertEquals($expected, $this->invokePrivate($this->sharees, 'isV2'));
-	}
-
-	/**
-	 * @param \OC_OCS_Result $ocs
-	 * @param string $message
-	 */
-	protected function assertOCSError(\OC_OCS_Result $ocs, $message) {
-		$this->assertSame(Http::STATUS_BAD_REQUEST, $ocs->getStatusCode(), 'Expected status code 400');
-		$this->assertSame([], $ocs->getData(), 'Expected that no data is send');
-
-		$meta = $ocs->getMeta();
-		$this->assertNotEmpty($meta);
-		$this->assertArrayHasKey('message', $meta);
-		$this->assertSame($message, $meta['message']);
 	}
 
 	/**
