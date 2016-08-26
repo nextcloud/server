@@ -139,7 +139,7 @@ class LazyRoot implements IRootFolder {
 	 * @inheritDoc
 	 */
 	public function get($path) {
-		$this->__call(__FUNCTION__, func_get_args());
+		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
 	/**
