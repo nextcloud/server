@@ -111,6 +111,9 @@ function preview(setting, value) {
 		}
 
 	}
+	if (setting === 'name') {
+		window.document.title = t('core', 'Admin') + " - " + value;
+	}
 	hideUndoButton(setting, value);
 }
 
