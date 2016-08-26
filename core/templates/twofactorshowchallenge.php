@@ -9,12 +9,12 @@ $provider = $_['provider'];
 $template = $_['template'];
 ?>
 
-<fieldset class="warning">
-		<legend><strong><?php p($provider->getDisplayName()); ?></strong></legend>
+<div class="warning">
+		<h2><?php p($provider->getDisplayName()); ?></h2>
 		<p><?php p($l->t('Please authenticate using the selected factor.')) ?></p>
-</fieldset>
-<?php if ($error): ?>
-<span class="warning"><?php p($l->t('An error occured while verifying the token')); ?></span>
-<?php endif; ?>
-<?php print_unescaped($template); ?>
+		<?php if ($error): ?>
+		<p><?php p($l->t('An error occured while verifying the token')); ?></p>
+		<?php endif; ?>
+		<?php print_unescaped($template); ?>
+</div>
 <a class="two-factor-cancel" <?php print_unescaped($_['logout_attribute']); ?>><?php p($l->t('Cancel login')) ?></a>
