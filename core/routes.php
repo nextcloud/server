@@ -70,43 +70,6 @@ $this->create('search_ajax_search', '/core/search')
 // AppConfig
 $this->create('core_ajax_appconfig', '/core/ajax/appconfig.php')
 	->actionInclude('core/ajax/appconfig.php');
-// Tags
-$this->create('core_tags_tags', '/tags/{type}')
-	->get()
-	->action('OC\Core\Tags\Controller', 'getTags')
-	->requirements(array('type'));
-$this->create('core_tags_favorites', '/tags/{type}/favorites')
-	->get()
-	->action('OC\Core\Tags\Controller', 'getFavorites')
-	->requirements(array('type'));
-$this->create('core_tags_ids_for_tag', '/tags/{type}/ids')
-	->get()
-	->action('OC\Core\Tags\Controller', 'getIdsForTag')
-	->requirements(array('type'));
-$this->create('core_tags_favorite', '/tags/{type}/favorite/{id}/')
-	->post()
-	->action('OC\Core\Tags\Controller', 'favorite')
-	->requirements(array('type', 'id'));
-$this->create('core_tags_unfavorite', '/tags/{type}/unfavorite/{id}/')
-	->post()
-	->action('OC\Core\Tags\Controller', 'unFavorite')
-	->requirements(array('type', 'id'));
-$this->create('core_tags_tag', '/tags/{type}/tag/{id}/')
-	->post()
-	->action('OC\Core\Tags\Controller', 'tagAs')
-	->requirements(array('type', 'id'));
-$this->create('core_tags_untag', '/tags/{type}/untag/{id}/')
-	->post()
-	->action('OC\Core\Tags\Controller', 'unTag')
-	->requirements(array('type', 'id'));
-$this->create('core_tags_add', '/tags/{type}/add')
-	->post()
-	->action('OC\Core\Tags\Controller', 'addTag')
-	->requirements(array('type'));
-$this->create('core_tags_delete', '/tags/{type}/delete')
-	->post()
-	->action('OC\Core\Tags\Controller', 'deleteTags')
-	->requirements(array('type'));
 // oC JS config
 $this->create('js_config', '/core/js/oc.js')
 	->actionInclude('core/js/config.php');
