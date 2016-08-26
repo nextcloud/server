@@ -185,7 +185,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerService('LazyRootFolder', function(Server $c) {
 			return new LazyRoot(function() use ($c) {
-				return $c->getRootFolder();
+				return $c->query('RootFolder');
 			});
 		});
 		$this->registerService('UserManager', function (Server $c) {
@@ -839,7 +839,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @return \OCP\Files\IRootFolder
 	 */
 	public function getRootFolder() {
-		return $this->query('RootFolder');
+		return $this->query('LazyRootFolder');
 	}
 
 	/**
