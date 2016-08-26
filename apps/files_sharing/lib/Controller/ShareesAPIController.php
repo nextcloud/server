@@ -22,9 +22,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OCA\Files_Sharing\API;
+namespace OCA\Files_Sharing\Controller;
 
 use OCP\AppFramework\Http;
+use OCP\AppFramework\OCS\OCSBadRequestException;
+use OCP\AppFramework\OCSController;
 use OCP\Contacts\IManager;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -37,7 +39,7 @@ use OCP\IUserSession;
 use OCP\IURLGenerator;
 use OCP\Share;
 
-class Sharees {
+class ShareesAPIController extends OCSController {
 
 	/** @var IGroupManager */
 	protected $groupManager;
@@ -53,9 +55,6 @@ class Sharees {
 
 	/** @var IUserSession */
 	protected $userSession;
-
-	/** @var IRequest */
-	protected $request;
 
 	/** @var IURLGenerator */
 	protected $urlGenerator;
@@ -93,32 +92,35 @@ class Sharees {
 	protected $reachedEndFor = [];
 
 	/**
+	 * @param string $appName
+	 * @param IRequest $request
 	 * @param IGroupManager $groupManager
 	 * @param IUserManager $userManager
 	 * @param IManager $contactsManager
 	 * @param IConfig $config
 	 * @param IUserSession $userSession
 	 * @param IURLGenerator $urlGenerator
-	 * @param IRequest $request
 	 * @param ILogger $logger
 	 * @param \OCP\Share\IManager $shareManager
 	 */
-	public function __construct(IGroupManager $groupManager,
+	public function __construct($appName,
+								IRequest $request,
+								IGroupManager $groupManager,
 								IUserManager $userManager,
 								IManager $contactsManager,
 								IConfig $config,
 								IUserSession $userSession,
 								IURLGenerator $urlGenerator,
-								IRequest $request,
 								ILogger $logger,
 								\OCP\Share\IManager $shareManager) {
+		parent::__construct($appName, $request);
+
 		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;
 		$this->contactsManager = $contactsManager;
 		$this->config = $config;
 		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
-		$this->request = $request;
 		$this->logger = $logger;
 		$this->shareManager = $shareManager;
 	}
@@ -401,19 +403,22 @@ class Sharees {
 	}
 
 	/**
-	 * @return \OC_OCS_Result
+	 * @NoAdminRequired
+	 *
+	 * @param string $search
+	 * @param string $itemType
+	 * @param int $page
+	 * @param int $perPage
+	 * @param int|int[] $shareType
+	 * @return Http\DataResponse
+	 * @throws OCSBadRequestException
 	 */
-	public function search() {
-		$search = isset($_GET['search']) ? (string) $_GET['search'] : '';
-		$itemType = isset($_GET['itemType']) ? (string) $_GET['itemType'] : null;
-		$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-		$perPage = isset($_GET['perPage']) ? (int) $_GET['perPage'] : 200;
-
+	public function search($search = '', $itemType = null, $page = 1, $perPage = 200, $shareType = null) {
 		if ($perPage <= 0) {
-			return new \OC_OCS_Result(null, Http::STATUS_BAD_REQUEST, 'Invalid perPage argument');
+			throw new OCSBadRequestException('Invalid perPage argument');
 		}
 		if ($page <= 0) {
-			return new \OC_OCS_Result(null, Http::STATUS_BAD_REQUEST, 'Invalid page');
+			throw new OCSBadRequestException('Invalid page');
 		}
 
 		$shareTypes = [
@@ -426,12 +431,11 @@ class Sharees {
 
 		$shareTypes[] = Share::SHARE_TYPE_REMOTE;
 
-		if (isset($_GET['shareType']) && is_array($_GET['shareType'])) {
-			$shareTypes = array_intersect($shareTypes, $_GET['shareType']);
+		if (is_array($shareType)) {
+			$shareTypes = array_intersect($shareTypes, $shareType);
 			sort($shareTypes);
-
-		} else if (isset($_GET['shareType']) && is_numeric($_GET['shareType'])) {
-			$shareTypes = array_intersect($shareTypes, [(int) $_GET['shareType']]);
+		} else if (is_numeric($shareType)) {
+			$shareTypes = array_intersect($shareTypes, [(int) $shareType]);
 			sort($shareTypes);
 		}
 
@@ -471,12 +475,13 @@ class Sharees {
 	 * @param array $shareTypes
 	 * @param int $page
 	 * @param int $perPage
-	 * @return \OC_OCS_Result
+	 * @return Http\DataResponse
+	 * @throws OCSBadRequestException
 	 */
 	protected function searchSharees($search, $itemType, array $shareTypes, $page, $perPage) {
 		// Verify arguments
 		if ($itemType === null) {
-			return new \OC_OCS_Result(null, Http::STATUS_BAD_REQUEST, 'Missing itemType');
+			throw new OCSBadRequestException('Missing itemType');
 		}
 
 		// Get users
@@ -494,8 +499,7 @@ class Sharees {
 			$this->getRemote($search);
 		}
 
-		$response = new \OC_OCS_Result($this->result);
-		$response->setItemsPerPage($perPage);
+		$response = new Http\DataResponse($this->result);
 
 		if (sizeof($this->reachedEndFor) < 3) {
 			$response->addHeader('Link', $this->getPaginationLink($page, [
