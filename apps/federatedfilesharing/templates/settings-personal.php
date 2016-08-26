@@ -44,7 +44,7 @@ if ($_['showShareIT']) {
 				Facebook
 			</button>
 			<button class="social-googleplus pop-up"
-				data-url='https://plus.google.com/share?url=<?php p(urlencode($_['reference'])); ?>'/>
+				data-url='https://plus.google.com/share?url=<?php p(urlencode($_['reference'])); ?>'>
 				Google+
 			</button>
 			<button id="oca-files-sharing-add-to-your-website">
