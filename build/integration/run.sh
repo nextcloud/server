@@ -27,6 +27,7 @@ export TEST_SERVER_FED_URL="http://localhost:$PORT_FED/ocs/"
 #Enable external storage app
 ../../occ app:enable files_external
 
+
 mkdir -p work/local_storage
 OUTPUT_CREATE_STORAGE=`../../occ files_external:create local_storage local null::null -c datadir=./build/integration/work/local_storage` 
 
@@ -43,6 +44,8 @@ kill $PHPPID_FED
 
 ../../occ files_external:delete -y $ID_STORAGE
 
+#Disable external storage app
+../../occ app:disable files_external
 
 if [ -z $HIDE_OC_LOGS ]; then
 	tail "../../data/owncloud.log"
