@@ -186,7 +186,7 @@ if($_['passwordChangeSupported']) {
 			<?php print_unescaped($l->t('If you want to support the project
 		<a href="https://nextcloud.com/contribute"
 			target="_blank" rel="noreferrer">join development</a>
-		<or></or>
+		or
 		<a href="https://nextcloud.com/contribute"
 			target="_blank" rel="noreferrer">spread the word</a>!'));?>
 		</p>
