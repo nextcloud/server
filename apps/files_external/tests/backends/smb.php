@@ -47,12 +47,14 @@ class SMB extends Storage {
 		}
 		$config['root'] .= $id; //make sure we have an new empty folder to work in
 		$this->instance = new \OC\Files\Storage\SMB($config);
-		$this->instance->mkdir('/');
+		$this->assertTrue($this->instance->mkdir('/'));
 	}
 
 	protected function tearDown() {
 		if ($this->instance) {
 			$this->instance->rmdir('');
+			// force disconnect of the client
+			unset($this->instance);
 		}
 
 		parent::tearDown();
