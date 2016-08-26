@@ -763,7 +763,7 @@ class Preview {
 
 		$this->preview = null;
 		$fileInfo = $this->getFileInfo();
-		if ($fileInfo === null || $fileInfo === false) {
+		if ($fileInfo === null || $fileInfo === false || !$fileInfo->isReadable()) {
 			return new \OC_Image();
 		}
 
