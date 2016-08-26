@@ -71,6 +71,10 @@ class Admin implements ISettings {
 			'url'             => $this->themingDefaults->getBaseUrl(),
 			'slogan'          => $this->themingDefaults->getSlogan(),
 			'color'           => $this->themingDefaults->getMailHeaderColor(),
+			'logo'            => $this->themingDefaults->getLogo(),
+			'logoMime'        => $this->config->getAppValue('theming', 'logoMime', ''),
+			'background'      => $this->themingDefaults->getBackground(),
+			'backgroundMime'  => $this->config->getAppValue('theming', 'backgroundMime', ''),
 			'uploadLogoRoute' => $path,
 		];
 

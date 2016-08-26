@@ -60,19 +60,24 @@ style('theming', 'settings-admin');
 	</p>
 	<p>
 		<form class="uploadButton" method="post" action="<?php p($_['uploadLogoRoute']) ?>">
+			<input type="hidden" id="current-logoMime" name="current-logoMime" value="<?php p($_['logoMime']); ?>" />
 			<label for="uploadlogo"><span><?php p($l->t('Logo')) ?></span></label>
-			<input id="uploadlogo" class="upload-logo-field" name="uploadlogo" type="file">
+			<input id="uploadlogo" class="upload-logo-field" name="uploadlogo" type="file" />
 			<label for="uploadlogo" class="button icon-upload svg" id="uploadlogo" title="<?php p($l->t('Upload new logo')) ?>"></label>
 			<span data-setting="logoMime" data-toggle="tooltip" data-original-title="<?php p($l->t('reset to default')); ?>" class="theme-undo icon icon-history"></span>
 		</form>
 	</p>
 	<p>
 		<form class="uploadButton" method="post" action="<?php p($_['uploadLogoRoute']) ?>">
+			<input type="hidden" id="current-backgroundMime" name="current-backgroundMime" value="<?php p($_['backgroundMime']); ?>" />
 			<label for="upload-login-background"><span><?php p($l->t('Log in image')) ?></span></label>
 			<input id="upload-login-background" class="upload-logo-field" name="upload-login-background" type="file">
 			<label for="upload-login-background" class="button icon-upload svg" id="upload-login-background" title="<?php p($l->t("Upload new login background")) ?>"></label>
 			<span data-setting="backgroundMime" data-toggle="tooltip" data-original-title="<?php p($l->t('reset to default')); ?>" class="theme-undo icon icon-history"></span>
 		</form>
-		</p>
+	</p>
+		<div id="theming-preview" style="background-color:<?php p($_['color']);?>; background-image:url(<?php p($_['background']); ?>);">
+			<img src="<?php p($_['logo']); ?>" id="theming-preview-logo" />
+		</div>
 	<?php } ?>
 </div>

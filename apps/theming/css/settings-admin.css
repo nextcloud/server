@@ -32,3 +32,18 @@
 div#theming_settings_msg {
     margin-left: 10px;
 }
+
+#theming-preview {
+    width: 230px;
+    height: 140px;
+    background-size: cover;
+    background-position: center center;
+    text-align: center;
+    margin-left: 93px;
+}
+
+#theming-preview img {
+    max-width: 20%;
+    max-height: 20%;
+    margin-top: 20px;
+}

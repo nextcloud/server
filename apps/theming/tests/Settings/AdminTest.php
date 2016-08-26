@@ -93,6 +93,10 @@ class AdminTest extends TestCase {
 			'slogan' => 'MySlogan',
 			'color' => '#fff',
 			'uploadLogoRoute' => '/my/route',
+			'logo' => null,
+			'logoMime' => null,
+			'background' => null,
+			'backgroundMime' => null,
 		];
 
 		$expected = new TemplateResponse('theming', 'settings-admin', $params, '');
@@ -139,6 +143,10 @@ class AdminTest extends TestCase {
 			'slogan' => 'MySlogan',
 			'color' => '#fff',
 			'uploadLogoRoute' => '/my/route',
+			'logo' => null,
+			'logoMime' => null,
+			'background' => null,
+			'backgroundMime' => null,
 		];
 
 		$expected = new TemplateResponse('theming', 'settings-admin', $params, '');
