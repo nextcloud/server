@@ -53,6 +53,8 @@ $info = \OC\Files\Filesystem::getFileInfo($file);
 
 if (!$info instanceof OCP\Files\FileInfo || !$always && !\OC::$server->getPreviewManager()->isAvailable($info)) {
 	\OC_Response::setStatus(404);
+} else if (!$info->isReadable()) {
+	\OC_Response::setStatus(403);
 } else {
 	$preview = new \OC\Preview(\OC_User::getUser(), 'files');
 	$preview->setFile($file, $info);
