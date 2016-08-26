@@ -309,8 +309,7 @@ class Session implements IUserSession, Emitter {
 								$password,
 								IRequest $request,
 								OC\Security\Bruteforce\Throttler $throttler) {
-		$currentDelay = $throttler->getDelay($request->getRemoteAddress());
-		$throttler->sleepDelay($request->getRemoteAddress());
+		$currentDelay = $throttler->sleepDelay($request->getRemoteAddress());
 
 		$isTokenPassword = $this->isTokenPassword($password);
 		if (!$isTokenPassword && $this->isTokenAuthEnforced()) {
