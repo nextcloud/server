@@ -443,7 +443,7 @@ class OC_App {
 			$settings = array(
 				array(
 					"id" => "help",
-					"order" => 1000,
+					"order" => 4,
 					"href" => $urlGenerator->linkToRoute('settings_help'),
 					"name" => $l->t("Help"),
 					"icon" => $urlGenerator->imagePath("settings", "help.svg")
@@ -472,7 +472,7 @@ class OC_App {
 				// admin users menu
 				$settings[] = array(
 					"id" => "core_users",
-					"order" => 2,
+					"order" => 3,
 					"href" => $urlGenerator->linkToRoute('settings_users'),
 					"name" => $l->t("Users"),
 					"icon" => $urlGenerator->imagePath("settings", "users.svg")
@@ -484,7 +484,7 @@ class OC_App {
 				// admin settings
 				$settings[] = array(
 					"id" => "admin",
-					"order" => 1000,
+					"order" => 2,
 					"href" => $urlGenerator->linkToRoute('settings.AdminSettings.index'),
 					"name" => $l->t("Admin"),
 					"icon" => $urlGenerator->imagePath("settings", "admin.svg")
