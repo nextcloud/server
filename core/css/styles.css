@@ -41,7 +41,7 @@ body {
 .two-factor-cancel {
 	display: inline-block;
 	padding: 12px;
-	color: rgba(255, 255, 255, .75);;
+	color: rgba(255, 255, 255, .75);
 }
 
 .float-spinner {
