@@ -28,6 +28,7 @@
 
 namespace OC\Files\Node;
 
+use OC\Cache\CappedMemoryCache;
 use OC\Files\Mount\Manager;
 use OC\Files\Mount\MountPoint;
 use OCP\Files\NotFoundException;
@@ -71,6 +72,8 @@ class Root extends Folder implements IRootFolder {
 	 */
 	private $user;
 
+	private $userFolderCache;
+
 	/**
 	 * @param \OC\Files\Mount\Manager $manager
 	 * @param \OC\Files\View $view
@@ -81,6 +84,7 @@ class Root extends Folder implements IRootFolder {
 		$this->mountManager = $manager;
 		$this->user = $user;
 		$this->emitter = new PublicEmitter();
+		$this->userFolderCache = new CappedMemoryCache();
 	}
 
 	/**
@@ -335,25 +339,26 @@ class Root extends Folder implements IRootFolder {
 	 * @return \OCP\Files\Folder
 	 */
 	public function getUserFolder($userId) {
-		\OC\Files\Filesystem::initMountPoints($userId);
-		$dir = '/' . $userId;
-		$folder = null;
+		if (!$this->userFolderCache->hasKey($userId)) {
+			\OC\Files\Filesystem::initMountPoints($userId);
 
-		try {
-			$folder = $this->get($dir);
-		} catch (NotFoundException $e) {
-			$folder = $this->newFolder($dir);
+			try {
+				$folder = $this->get('/' . $userId . '/files');
+			} catch (NotFoundException $e) {
+				if (!$this->nodeExists('/' . $userId)) {
+					$this->newFolder('/' . $userId);
+				}
+				$folder = $this->newFolder('/' . $userId . '/files');
+				\OC_Util::copySkeleton($userId, $folder);
+			}
+
+			$this->userFolderCache->set($userId, $folder);
 		}
 
-		$dir = '/files';
-		try {
-			$folder = $folder->get($dir);
-		} catch (NotFoundException $e) {
-			$folder = $folder->newFolder($dir);
-			\OC_Util::copySkeleton($userId, $folder);
-		}
+		return $this->userFolderCache->get($userId);
+	}
 
-		return $folder;
-
+	public function clearCache() {
+		$this->userFolderCache = new CappedMemoryCache();
 	}
 }

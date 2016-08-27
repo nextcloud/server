@@ -41,6 +41,7 @@ class MountPoint implements IMountPoint {
 	protected $storage = null;
 	protected $class;
 	protected $storageId;
+	protected $rootId = null;
 
 	/**
 	 * Configuration options for the storage backend
@@ -264,7 +265,10 @@ class MountPoint implements IMountPoint {
 	 * @return int
 	 */
 	public function getStorageRootId() {
-		return (int)$this->getStorage()->getCache()->getId('');
+		if (is_null($this->rootId)) {
+			$this->rootId = (int)$this->getStorage()->getCache()->getId('');
+		}
+		return $this->rootId;
 	}
 
 	public function getMountId() {
