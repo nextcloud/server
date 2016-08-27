@@ -10,7 +10,7 @@ $template = $_['template'];
 ?>
 
 <div class="warning">
-		<h2><?php p($provider->getDisplayName()); ?></h2>
+		<h2 class="two-factor-header"><?php p($provider->getDisplayName()); ?></h2>
 		<?php if ($error): ?>
 		<p><?php p($l->t('An error occured while verifying the token')); ?></p>
 		<?php endif; ?>

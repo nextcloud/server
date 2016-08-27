@@ -32,6 +32,10 @@ body {
 	background-size: cover;
 }
 
+.two-factor-header {
+	text-align: center;
+}
+
 .two-factor-provider {
 	text-align: center;
 	width: 100%;
