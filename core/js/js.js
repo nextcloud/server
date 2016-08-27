@@ -1506,12 +1506,20 @@ function initCore() {
 			if(!$app.is('a')) {
 				$app = $app.closest('a');
 			}
-			if(!event.ctrlKey) {
+			if(event.which === 1 && !event.ctrlKey && !event.metaKey) {
 				$app.addClass('app-loading');
 			} else {
 				// Close navigation when opening app in
 				// a new tab
-				OC.hideMenus();
+				OC.hideMenus(function(){return false});
+			}
+		});
+
+		$navigation.delegate('a', 'mouseup', function(event) {
+			if(event.which === 2) {
+				// Close navigation when opening app in
+				// a new tab via middle click
+				OC.hideMenus(function(){return false});
 			}
 		});
 	}
@@ -1519,14 +1527,29 @@ function initCore() {
 	function setupUserMenu() {
 		var $menu = $('#header #settings');
 
+		// show loading feedback
 		$menu.delegate('a', 'click', function(event) {
 			var $page = $(event.target);
 			if (!$page.is('a')) {
 				$page = $page.closest('a');
 			}
-			$page.find('img').remove();
-			$page.find('div').remove(); // prevent odd double-clicks
-			$page.prepend($('<div/>').addClass('icon-loading-small-dark'));
+			if(event.which === 1 && !event.ctrlKey && !event.metaKey) {
+				$page.find('img').remove();
+				$page.find('div').remove(); // prevent odd double-clicks
+				$page.prepend($('<div/>').addClass('icon-loading-small-dark'));
+			} else {
+				// Close navigation when opening menu entry in
+				// a new tab
+				OC.hideMenus(function(){return false});
+			}
+		});
+
+		$menu.delegate('a', 'mouseup', function(event) {
+			if(event.which === 2) {
+				// Close navigation when opening app in
+				// a new tab via middle click
+				OC.hideMenus(function(){return false});
+			}
 		});
 	}
 
