@@ -39,6 +39,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCA\Theming\Util;
+use OCP\ITempManager;
 
 /**
  * Class ThemingController
@@ -60,6 +61,8 @@ class ThemingController extends Controller {
 	private $config;
 	/** @var IRootFolder */
 	private $rootFolder;
+	/** @var ITempManager */
+	private $tempManager;
 
 	/**
 	 * ThemingController constructor.
@@ -72,6 +75,7 @@ class ThemingController extends Controller {
 	 * @param ITimeFactory $timeFactory
 	 * @param IL10N $l
 	 * @param IRootFolder $rootFolder
+	 * @param ITempManager $tempManager
 	 */
 	public function __construct(
 		$appName,
@@ -81,7 +85,8 @@ class ThemingController extends Controller {
 		Util $util,
 		ITimeFactory $timeFactory,
 		IL10N $l,
-		IRootFolder $rootFolder
+		IRootFolder $rootFolder,
+		ITempManager $tempManager
 	) {
 		parent::__construct($appName, $request);
 
@@ -91,6 +96,7 @@ class ThemingController extends Controller {
 		$this->l = $l;
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
+		$this->tempManager = $tempManager;
 	}
 
 	/**
@@ -199,14 +205,16 @@ class ThemingController extends Controller {
 
 			// Optimize the image since some people may upload images that will be
 			// either to big or are not progressive rendering.
+			$tmpFile = $this->tempManager->getTemporaryFile();
 			if(function_exists('imagescale')) {
 				// FIXME: Once PHP 5.5.0 is a requirement the above check can be removed
 				$image = imagescale($image, 1920);
 			}
 			imageinterlace($image, 1);
-			imagejpeg($image, $target->fopen('w'), 75);
+			imagejpeg($image, $tmpFile, 75);
 			imagedestroy($image);
 
+			stream_copy_to_stream(fopen($tmpFile, 'r'), $target->fopen('w'));
 			$this->template->set('backgroundMime', $newBackgroundLogo['type']);
 			$name = $newBackgroundLogo['name'];
 		}

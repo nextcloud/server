@@ -32,6 +32,7 @@ use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\ITempManager;
 use Test\TestCase;
 use OCA\Theming\ThemingDefaults;
 
@@ -52,6 +53,8 @@ class ThemingControllerTest extends TestCase {
 	private $themingController;
 	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
 	private $rootFolder;
+	/** @var ITempManager */
+	private $tempManager;
 
 	public function setUp() {
 		$this->request = $this->getMockBuilder('OCP\IRequest')->getMock();
@@ -64,10 +67,10 @@ class ThemingControllerTest extends TestCase {
 			->getMock();
 		$this->l10n = $this->getMockBuilder('OCP\IL10N')->getMock();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
-
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
 			->willReturn(123);
+		$this->tempManager = \OC::$server->getTempManager();
 
 		$this->themingController = new ThemingController(
 			'theming',
@@ -77,7 +80,8 @@ class ThemingControllerTest extends TestCase {
 			$this->util,
 			$this->timeFactory,
 			$this->l10n,
-			$this->rootFolder
+			$this->rootFolder,
+			$this->tempManager
 		);
 
 		return parent::setUp();
