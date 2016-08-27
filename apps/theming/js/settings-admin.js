@@ -157,8 +157,8 @@ $(document).ready(function () {
 		submit: function(e, response) {
 			OC.msg.startSaving('#theming_settings_msg');
 		},
-		fail: function (e, data){
-			OC.msg.finishedSaving('#theming_settings_msg', response);
+		fail: function (e, response){
+			OC.msg.finishedError('#theming_settings_msg', response._response.jqXHR.responseJSON.data.message);
 		}
 	};
 	var uploadParamsLogin = {
@@ -171,8 +171,8 @@ $(document).ready(function () {
 		submit: function(e, response) {
 			OC.msg.startSaving('#theming_settings_msg');
 		},
-		fail: function (e, data){
-			OC.msg.finishedSaving('#theming_settings_msg', response);
+		fail: function (e, response){
+			OC.msg.finishedError('#theming_settings_msg', response._response.jqXHR.responseJSON.data.message);
 		}
 	};
 

@@ -171,7 +171,8 @@ class ThemingController extends Controller {
 						'message' => $this->l->t('No file uploaded')
 					]
 				],
-				Http::STATUS_UNPROCESSABLE_ENTITY);
+				Http::STATUS_UNPROCESSABLE_ENTITY
+			);
 		}
 		$name = '';
 		if(!empty($newLogo)) {
@@ -182,7 +183,30 @@ class ThemingController extends Controller {
 		}
 		if(!empty($newBackgroundLogo)) {
 			$target = $this->rootFolder->newFile('themedbackgroundlogo');
-			stream_copy_to_stream(fopen($newBackgroundLogo['tmp_name'], 'r'), $target->fopen('w'));
+
+			$image = @imagecreatefromstring(file_get_contents($newBackgroundLogo['tmp_name'], 'r'));
+			if($image === false) {
+				return new DataResponse(
+					[
+						'data' => [
+							'message' => $this->l->t('Unsupported image type'),
+						],
+						'status' => 'failure',
+					],
+					Http::STATUS_UNPROCESSABLE_ENTITY
+				);
+			}
+
+			// Optimize the image since some people may upload images that will be
+			// either to big or are not progressive rendering.
+			if(function_exists('imagescale')) {
+				// FIXME: Once PHP 5.5.0 is a requirement the above check can be removed
+				$image = imagescale($image, 1920);
+			}
+			imageinterlace($image, 1);
+			imagejpeg($image, $target->fopen('w'), 75);
+			imagedestroy($image);
+
 			$this->template->set('backgroundMime', $newBackgroundLogo['type']);
 			$name = $newBackgroundLogo['name'];
 		}
@@ -236,6 +260,7 @@ class ThemingController extends Controller {
 		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
 		$response->addHeader('Content-Disposition', 'attachment');
 		$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, 'logoMime', ''));
+		$response->addHeader('Pragma', 'cache');
 		return $response;
 	}
 
@@ -256,6 +281,7 @@ class ThemingController extends Controller {
 		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
 		$response->addHeader('Content-Disposition', 'attachment');
 		$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, 'backgroundMime', ''));
+		$response->addHeader('Pragma', 'cache');
 		return $response;
 	}
 
@@ -358,6 +384,7 @@ class ThemingController extends Controller {
 
 		$response = new DataDownloadResponse($responseCss, 'style', 'text/css');
 		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		$response->addHeader('Pragma', 'cache');
 		$response->cacheFor(3600);
 		return $response;
 	}
@@ -378,8 +405,9 @@ class ThemingController extends Controller {
 	};
 })();';
 		$response = new Http\DataDisplayResponse($responseJS);
-		$response->addHeader("Content-type","text/javascript");
+		$response->addHeader('Content-type', 'text/javascript');
 		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		$response->addHeader('Pragma', 'cache');
 		$response->cacheFor(3600);
 		return $response;
 	}
