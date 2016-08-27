@@ -38,8 +38,11 @@ body {
 
 .two-factor-provider {
 	text-align: center;
-	width: 100%;
+	width: 258px !important;
 	display: inline-block;
+	margin-bottom: 0 !important;
+	background-color: rgba(0,0,0,0.3) !important;
+	border: none !important;
 }
 
 a.two-factor-cancel {

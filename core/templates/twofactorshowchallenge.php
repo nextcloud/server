@@ -12,7 +12,7 @@ $template = $_['template'];
 <div class="warning">
 		<h2 class="two-factor-header"><?php p($provider->getDisplayName()); ?></h2>
 		<?php if ($error): ?>
-		<p><?php p($l->t('An error occured while verifying the token')); ?></p>
+		<p><strong><?php p($l->t('Error while validating your second factor')); ?></strong></p>
 		<?php endif; ?>
 		<?php print_unescaped($template); ?>
 </div>
