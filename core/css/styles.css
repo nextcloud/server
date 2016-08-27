@@ -45,8 +45,10 @@ body {
 	border: none !important;
 }
 
-a.two-factor-cancel {
-	color: #fff;
+.two-factor-cancel {
+	display: inline-block;
+	padding: 12px;
+	color: rgba(255, 255, 255, .75);
 }
 
 .float-spinner {
