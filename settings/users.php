@@ -59,12 +59,15 @@ $config = \OC::$server->getConfig();
 
 $isAdmin = OC_User::isAdminUser(OC_User::getUser());
 
+$isDisabled = !OC_User::isEnabled(OC_User::getUser());
+
 $groupsInfo = new \OC\Group\MetaData(
 	OC_User::getUser(),
 	$isAdmin,
 	$groupManager,
 	\OC::$server->getUserSession()
 );
+
 $groupsInfo->setSorting($sortGroupsBy);
 list($adminGroup, $groups) = $groupsInfo->get();
 
@@ -92,6 +95,17 @@ if($isAdmin) {
 	}
 	$subAdmins = false;
 }
+$disabledUsers = 0;
+foreach (OC_User::getUsers() as $uid) {
+	if(!$userManager->get($uid)->isEnabled()) {
+		$disabledUsers++;
+	}
+}
+$disabledUsersGroup = array(
+	'id' => 'disabledUsers',
+	'name' => 'disabledUsers',
+	'usercount' => $disabledUsers
+);
 
 // load preset quotas
 $quotaPreset=$config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB');
@@ -111,6 +125,7 @@ $tmpl = new OC_Template("settings", "users/main", "user");
 $tmpl->assign('groups', $groups);
 $tmpl->assign('sortGroups', $sortGroupsBy);
 $tmpl->assign('adminGroup', $adminGroup);
+$tmpl->assign('disabledUsersGroup', $disabledUsersGroup);
 $tmpl->assign('isAdmin', (int)$isAdmin);
 $tmpl->assign('subadmins', $subAdmins);
 $tmpl->assign('numofgroups', count($groups) + count($adminGroup));

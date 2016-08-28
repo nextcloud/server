@@ -198,6 +198,7 @@ class UsersController extends Controller {
 			'email' => $displayName,
 			'isRestoreDisabled' => !$restorePossible,
 			'isAvatarAvailable' => $avatarAvailable,
+			'isEnabled' => $user->isEnabled(),
 		];
 	}
 
@@ -226,11 +227,6 @@ class UsersController extends Controller {
 	 * TODO: Tidy up and write unit tests - code is mainly static method calls
 	 */
 	public function index($offset = 0, $limit = 10, $gid = '', $pattern = '', $backend = '') {
-		// FIXME: The JS sends the group '_everyone' instead of no GID for the "all users" group.
-		if($gid === '_everyone') {
-			$gid = '';
-		}
-
 		// Remove backends
 		if(!empty($backend)) {
 			$activeBackends = $this->userManager->getBackends();
@@ -245,15 +241,18 @@ class UsersController extends Controller {
 
 		$users = [];
 		if ($this->isAdmin) {
-
-			if($gid !== '') {
+			if($gid !== '' && $gid !== 'disabledUsers') {
 				$batch = $this->getUsersForUID($this->groupManager->displayNamesInGroup($gid, $pattern, $limit, $offset));
 			} else {
 				$batch = $this->userManager->search($pattern, $limit, $offset);
 			}
 
 			foreach ($batch as $user) {
-				$users[] = $this->formatUserForIndex($user);
+				if( ($gid !== 'disabledUsers' && $user->isEnabled()) ||
+					($gid === 'disabledUsers' && !$user->isEnabled())
+				) {
+					$users[] = $this->formatUserForIndex($user);
+				}
 			}
 
 		} else {
@@ -266,7 +265,7 @@ class UsersController extends Controller {
 			$subAdminOfGroups = $gids;
 
 			// Set the $gid parameter to an empty value if the subadmin has no rights to access a specific group
-			if($gid !== '' && !in_array($gid, $subAdminOfGroups)) {
+			if($gid !== '' && $gid !== 'disabledUsers' && !in_array($gid, $subAdminOfGroups)) {
 				$gid = '';
 			}
 
@@ -291,7 +290,11 @@ class UsersController extends Controller {
 					$this->groupManager->getUserGroupIds($user),
 					$subAdminOfGroups
 				));
-				$users[] = $this->formatUserForIndex($user, $userGroups);
+				if( ($gid !== 'disabledUsers' && $user->isEnabled()) ||
+					($gid === 'disabledUsers' && !$user->isEnabled())
+				) {
+					$users[] = $this->formatUserForIndex($user, $userGroups);
+				}
 			}
 		}
 
@@ -487,6 +490,135 @@ class UsersController extends Controller {
 			),
 			Http::STATUS_FORBIDDEN
 		);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param string $id
+	 * @return DataResponse
+	 */
+	public function disable($id) {
+		$userId = $this->userSession->getUser()->getUID();
+		$user = $this->userManager->get($id);
+
+		if($userId === $id) {
+			return new DataResponse(
+				array(
+					'status' => 'error',
+					'data' => array(
+						'message' => (string)$this->l10n->t('Unable to disable user.')
+					)
+				),
+				Http::STATUS_FORBIDDEN
+			);
+		}
+
+		if(!$this->isAdmin && !$this->groupManager->getSubAdmin()->isUserAccessible($this->userSession->getUser(), $user)) {
+			return new DataResponse(
+				array(
+					'status' => 'error',
+					'data' => array(
+						'message' => (string)$this->l10n->t('Authentication error')
+					)
+				),
+				Http::STATUS_FORBIDDEN
+			);
+		}
+
+		if($user) {
+			$user->setEnabled(false);
+			return new DataResponse(
+				array(
+					'status' => 'success',
+					'data' => array(
+						'username' => $id,
+						'enabled' => 0
+					)
+				)
+			);
+		} else {
+			return new DataResponse(
+				array(
+					'status' => 'error',
+					'data' => array(
+						'message' => (string)$this->l10n->t('Unable to disable user.')
+					)
+				)
+			);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param string $id
+	 * @return DataResponse
+	 */
+	public function enable($id) {
+		$userId = $this->userSession->getUser()->getUID();
+		$user = $this->userManager->get($id);
+
+		if($userId === $id) {
+			return new DataResponse(
+				array(
+					'status' => 'error',
+					'data' => array(
+						'message' => (string)$this->l10n->t('Unable to enable user.')
+					)
+				),
+				Http::STATUS_FORBIDDEN
+			);
+		}
+
+		if(!$this->isAdmin && !$this->groupManager->getSubAdmin()->isUserAccessible($this->userSession->getUser(), $user)) {
+			return new DataResponse(
+				array(
+					'status' => 'error',
+					'data' => array(
+						'message' => (string)$this->l10n->t('Authentication error')
+					)
+				),
+				Http::STATUS_FORBIDDEN
+			);
+		}
+
+		if($user) {
+			$user->setEnabled(true);
+			return new DataResponse(
+				array(
+					'status' => 'success',
+					'data' => array(
+						'username' => $id,
+						'enabled' => 1
+					)
+				)
+			);
+		} else {
+			return new DataResponse(
+				array(
+					'status' => 'error',
+					'data' => array(
+						'message' => (string)$this->l10n->t('Unable to enable user.')
+					)
+				)
+			);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param string $id
+	 * @param int $enabled
+	 * @return DataResponse
+	 */
+	public function setEnabled($id, $enabled) {
+		if((bool)$enabled) {
+			return $this->enable($id);
+		} else {
+			return $this->disable($id);
+		}
 	}
 
 	/**

@@ -35,6 +35,15 @@
 		</li>
 	<?php endforeach; ?>
 
+	<!-- Disabled Users -->
+	<?php $disabledUsersGroup = $_["disabledUsersGroup"] ?>
+	<li data-gid="disabledUsers" data-usercount="<?php if($disabledUsersGroup['usercount'] > 0) { p($disabledUsersGroup['usercount']); } ?>" class="isgroup">
+		<a href="#"><span class="groupname"><?php p($l->t('Disabled')); ?></span></a>
+		<span class="utils">
+			<span class="usercount"><?php if($disabledUsersGroup['usercount'] > 0) { p($disabledUsersGroup['usercount']); } ?></span>
+		</span>
+	</li>
+
 	<!--List of Groups-->
 	<?php foreach($_["groups"] as $group): ?>
 		<li data-gid="<?php p($group['name']) ?>" data-usercount="<?php p($group['usercount']) ?>" class="isgroup">
