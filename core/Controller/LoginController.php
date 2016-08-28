@@ -100,7 +100,10 @@ class LoginController extends Controller {
 		}
 		$this->userSession->logout();
 
-		return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
+		$redirectUrl = $this->config->getSystemValue('logout_url',
+			$this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm')
+		);
+		return new RedirectResponse($redirectUrl);
 	}
 
 	/**

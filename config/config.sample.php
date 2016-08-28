@@ -242,6 +242,11 @@ $CONFIG = array(
 'lost_password_link' => 'https://example.org/link/to/password/reset',
 
 /**
+ * The URL to redirect to after the user has been logged out.
+ */
+'logout_url' => 'https://example.org/',
+
+/**
  * Mail Parameters
  *
  * These configure the email settings for Nextcloud notifications and password
