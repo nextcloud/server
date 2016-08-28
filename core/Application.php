@@ -44,6 +44,7 @@ class Application extends App {
 		parent::__construct('core');
 
 		$container = $this->getContainer();
+
 		$container->registerService('defaultMailAddress', function() {
 			return Util::getDefaultEmailAddress('lostpassword-noreply');
 		});

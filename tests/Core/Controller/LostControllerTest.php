@@ -32,6 +32,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
+use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use PHPUnit_Framework_MockObject_MockObject;
 
@@ -66,6 +67,8 @@ class LostControllerTest extends \Test\TestCase {
 	private $timeFactory;
 	/** @var IRequest */
 	private $request;
+	/** @var ICrypto */
+	private $crypto;
 
 	protected function setUp() {
 		parent::setUp();
@@ -107,6 +110,7 @@ class LostControllerTest extends \Test\TestCase {
 		$this->encryptionManager->expects($this->any())
 			->method('isEnabled')
 			->willReturn(true);
+		$this->crypto = $this->createMock(ICrypto::class);
 		$this->lostController = new LostController(
 			'Core',
 			$this->request,
@@ -119,23 +123,55 @@ class LostControllerTest extends \Test\TestCase {
 			'lostpassword-noreply@localhost',
 			$this->encryptionManager,
 			$this->mailer,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->crypto
 		);
 	}
 
-	public function testResetFormInvalidToken() {
-		$userId = 'admin';
+	public function testResetFormWithNotExistingUser() {
+		$userId = 'NotExistingUser';
 		$token = 'MySecretToken';
-		$response = $this->lostController->resetform($token, $userId);
-		$expectedResponse = new TemplateResponse('core',
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('NotExistingUser')
+			->willReturn(null);
+
+		$expectedResponse = new TemplateResponse(
+			'core',
 			'error',
 			[
 				'errors' => [
 					['error' => 'Couldn\'t reset password because the token is invalid'],
 				]
 			],
-			'guest');
-		$this->assertEquals($expectedResponse, $response);
+			'guest'
+		);
+		$this->assertEquals($expectedResponse, $this->lostController->resetform($token, $userId));
+	}
+
+	public function testResetFormInvalidTokenFormatting() {
+		$userId = 'admin';
+		$token = 'MySecretToken';
+		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
+
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('admin')
+			->willReturn($user);
+
+		$expectedResponse = new TemplateResponse(
+			'core',
+			'error',
+			[
+				'errors' => [
+					['error' => 'Couldn\'t reset password because the token is invalid'],
+				]
+			],
+			'guest'
+		);
+		$this->assertEquals($expectedResponse, $this->lostController->resetform($token, $userId));
 	}
 
 	public function testResetFormInvalidTokenMatch() {
