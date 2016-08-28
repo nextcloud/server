@@ -10,7 +10,7 @@
 <tr><td colspan="2">&nbsp;</td></tr>
 <tr>
 <td width="20px">&nbsp;</td>
-<td style="font-weight:normal; font-size:0.8em; line-height:1.2em; font-family:verdana,'arial',sans;">
+<td style="font-weight:normal; font-size:0.8em; line-height:1.2em; font-family:'Open Sans',Frutiger,Calibri,'Myriad Pro',Myriad,sans-serif;">
 <?php
 print_unescaped($l->t('Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href="%s">View it!</a><br><br>', array($_['user_displayname'], $_['filename'], $_['link'])));
 if ( isset($_['expiration']) ) {
