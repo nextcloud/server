@@ -94,7 +94,8 @@ class URLGenerator implements IURLGenerator {
 	 * Returns a url to the given app and file.
 	 */
 	public function linkTo( $app, $file, $args = array() ) {
-		$frontControllerActive = !empty($this->config->getSystemValue('htaccess.RewriteBase'));
+		$rewriteBase = $this->config->getSystemValue('htaccess.RewriteBase');
+		$frontControllerActive = ($rewriteBase !== null && $rewriteBase !== '');
 
 		if( $app != '' ) {
 			$app_path = \OC_App::getAppPath($app);
