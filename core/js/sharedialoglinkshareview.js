@@ -330,7 +330,7 @@
 				publicUpload: publicUpload && isLinkShare,
 				publicUploadChecked: publicUploadChecked,
 				hideFileListChecked: hideFileListChecked,
-				publicUploadLabel: t('core', 'Allow editing'),
+				publicUploadLabel: t('core', 'Allow upload and editing'),
 				hideFileListLabel: t('core', 'Hide file listing'),
 				mailPublicNotificationEnabled: isLinkShare && this.configModel.isMailPublicNotificationEnabled(),
 				mailPrivatePlaceholder: t('core', 'Email link to person'),
