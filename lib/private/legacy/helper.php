@@ -612,7 +612,7 @@ class OC_Helper {
 			/** @var \OC\Files\Storage\Wrapper\Quota $storage */
 			$quota = $sourceStorage->getQuota();
 		}
-		$free = $sourceStorage->free_space('');
+		$free = $sourceStorage->free_space($rootInfo->getInternalPath());
 		if ($free >= 0) {
 			$total = $free + $used;
 		} else {
