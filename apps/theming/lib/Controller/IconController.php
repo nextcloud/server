@@ -53,6 +53,7 @@ class IconController extends Controller {
 	/** @var IRootFolder */
 	private $rootFolder;
 
+
 	/**
 	 * IconController constructor.
 	 *
@@ -94,10 +95,10 @@ class IconController extends Controller {
 	 * @return StreamResponse|DataResponse
 	 */
 	public function getThemedIcon($app, $image) {
-		$image = $this->getAppImage($app, $image);
+		$image = $this->util->getAppImage($app, $image);
 		$svg = file_get_contents($image);
 		$color = $this->util->elementColor($this->themingDefaults->getMailHeaderColor());
-		$svg = $this->colorizeSvg($svg, $color);
+		$svg = $this->util->colorizeSvg($svg, $color);
 
 		$response = new DataDisplayResponse($svg, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
 		$response->cacheFor(86400);
@@ -152,24 +153,19 @@ class IconController extends Controller {
 	 * @return Imagick
 	 */
 	private function renderAppIcon($app) {
-		$appIcon = $this->getAppIcon($app);
+		$appIcon = $this->util->getAppIcon($app);
 		$color = $this->themingDefaults->getMailHeaderColor();
 		$mime = mime_content_type($appIcon);
-		// FIXME: test if we need this
-		if ($color === "") {
-			$color = '#0082c9';
-		}
 		// generate background image with rounded corners
 		$background = '<?xml version="1.0" encoding="UTF-8"?>' .
 			'<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" width="512" height="512" xmlns:xlink="http://www.w3.org/1999/xlink">' .
 			'<rect x="0" y="0" rx="75" ry="75" width="512" height="512" style="fill:' . $color . ';" />' .
 			'</svg>';
 
-
 		// resize svg magic as this seems broken in Imagemagick
 		if($mime === "image/svg+xml") {
 			$svg = file_get_contents($appIcon);
-			
+
 			$tmp = new Imagick();
 			$tmp->readImageBlob($svg);
 			$x = $tmp->getImageWidth();
@@ -214,76 +210,6 @@ class IconController extends Controller {
 		return $finalIconFile;
 	}
 
-	/**
-	 * @param $app app name
-	 * @return string path to app icon / logo
-	 */
-	private function getAppIcon($app) {
-		$appPath = \OC_App::getAppPath($app);
 
-		$icon = $appPath . '/img/' . $app . '.svg';
-		if(file_exists($icon)) {
-			return $icon;
-		}
-		$icon = $appPath . '/img/app.svg';
-		if(file_exists($icon)) {
-			return $icon;
-		}
-
-		if($this->rootFolder->nodeExists('/themedinstancelogo')) {
-			return $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/') . '/themedinstancelogo';
-		}
-		return \OC::$SERVERROOT . '/core/img/logo.svg';
-	}
-
-	/**
-	 * @param $app app name
-	 * @param $image relative path to image in app folder
-	 * @return string absolute path to image
-	 */
-	private function getAppImage($app, $image) {
-		$appPath = \OC_App::getAppPath($app);
-
-		if($app==="core") {
-			$icon = \OC::$SERVERROOT . '/core/img/' . $image;
-			if(file_exists($icon)) {
-				return $icon;
-			}
-		}
-
-		$icon = $appPath . '/img/' . $image;
-		if(file_exists($icon)) {
-			return $icon;
-		}
-		$icon = $appPath . '/img/' . $image . '.svg';
-		if(file_exists($icon)) {
-			return $icon;
-		}
-		$icon = $appPath . '/img/' . $image . '.png';
-		if(file_exists($icon)) {
-			return $icon;
-		}
-		$icon = $appPath . '/img/' . $image . '.gif';
-		if(file_exists($icon)) {
-			return $icon;
-		}
-		$icon = $appPath . '/img/' . $image . '.jpg';
-		if(file_exists($icon)) {
-			return $icon;
-		}
-		return false;
-	}
-	
-	/**
-	 * replace default color with a custom one
-	 *
-	 * @param $svg content of a svg file
-	 * @param $color color to match
-	 * @return string
-	 */
-	private function colorizeSvg($svg, $color) {
-		$svg = preg_replace('/#0082c9/i', $color, $svg);
-		return $svg;
-	}
 	
 }

@@ -35,7 +35,7 @@ use Test\TestCase;
 use OCA\Theming\ThemingDefaults;
 use \Imagick;
 
-class ThemingControllerTest extends TestCase {
+class IconControllerTest extends TestCase {
 	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
@@ -54,11 +54,21 @@ class ThemingControllerTest extends TestCase {
 	private $rootFolder;
 
 	public function setUp() {
+
+		if(!extension_loaded('imagick')) {
+			$this->markTestSkipped('Tests skipped as Imagemagick is required for dynamic icon generation.');
+		}
+		$checkImagick = new \Imagick();
+		if (count($checkImagick->queryFormats('SVG')) < 1) {
+			$this->markTestSkipped('No SVG provider present');
+		}
+
 		$this->request = $this->getMockBuilder('OCP\IRequest')->getMock();
 		$this->config = $this->getMockBuilder('OCP\IConfig')->getMock();
 		$this->themingDefaults = $this->getMockBuilder('OCA\Theming\ThemingDefaults')
 			->disableOriginalConstructor()->getMock();
-		$this->util = new Util();
+		$this->util = $this->getMockBuilder('\OCA\Theming\Util')->disableOriginalConstructor()
+			->setMethods(['getAppImage', 'getAppIcon', 'elementColor'])->getMock();
 		$this->timeFactory = $this->getMockBuilder('OCP\AppFramework\Utility\ITimeFactory')
 			->disableOriginalConstructor()
 			->getMock();
@@ -84,10 +94,19 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	public function testGetThemedIcon() {
+		$this->util->expects($this->once())
+			->method('getAppImage')
+			->with('core','filetypes/folder.svg')
+			->willReturn(\OC::$SERVERROOT . "/core/img/filetypes/folder.svg");
 		$this->themingDefaults
 			->expects($this->once())
 			->method('getMailHeaderColor')
 			->willReturn('#000000');
+		$this->util
+			->expects($this->once())
+			->method('elementColor')
+			->willReturn('#000000');
+
 		$svg = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>
 <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"16\" width=\"16\" version=\"1.0\">
  <g fill-rule=\"evenodd\" transform=\"matrix(.86667 0 0 .86667 -172.05 -864.43)\" fill=\"#000000\">
@@ -102,23 +121,27 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	public function testGetFaviconDefault() {
+
+		$this->util->expects($this->once())
+			->method('getAppIcon')
+			->with('core')
+			->willReturn(\OC::$SERVERROOT . "/core/img/logo.svg");
+
 		$favicon = $this->iconController->getFavicon();
-
-		$expectedIcon = $this->invokePrivate($this->iconController, 'renderAppIcon', ["core"]);
-		$expectedIcon->resizeImage(32, 32, Imagick::FILTER_LANCZOS, 1);
-		$expectedIcon->setImageFormat("png24");
-
+		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)) . '/../data/favicon-original.ico');
 		$expected = new DataDisplayResponse($expectedIcon, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		$expected->cacheFor(86400);
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
 		$this->assertEquals($expected, $favicon);
 	}
 	public function testGetTouchIconDefault() {
-		$favicon = $this->iconController->getTouchIcon();
 
-		$expectedIcon = $this->invokePrivate($this->iconController, 'renderAppIcon', ["core"]);
-		$expectedIcon->resizeImage(512, 512, Imagick::FILTER_LANCZOS, 1);
-		$expectedIcon->setImageFormat("png24");
+		$this->util->expects($this->once())
+			->method('getAppIcon')
+			->with('core')
+			->willReturn(\OC::$SERVERROOT . "/core/img/logo.svg");
+		$favicon = $this->iconController->getTouchIcon();
+		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)) . '/../data/touch-original.png');
 
 		$expected = new DataDisplayResponse($expectedIcon, Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		$expected->cacheFor(86400);
@@ -126,76 +149,42 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $favicon);
 	}
 
-	public function testRenderAppIcon() {
+	/**
+	 * @dataProvider dataRenderAppIcon
+	 * @param $appicon
+	 * @param $color
+	 * @param $file
+	 */
+	public function testRenderAppIcon($app, $appicon, $color, $file) {
+
+		$this->util->expects($this->once())
+			->method('getAppIcon')
+			->with($app)
+			->willReturn(\OC::$SERVERROOT . "/"  . $appicon);
 		$this->themingDefaults->expects($this->once())
 			->method('getMailHeaderColor')
-			->willReturn('#000000');
+			->willReturn($color);
 
-		$icon = $this->invokePrivate($this->iconController, 'renderAppIcon', ['core']);
+		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/../data/" . $file);
+
+		$icon = $this->invokePrivate($this->iconController, 'renderAppIcon', [$app]);
+
 		$this->assertEquals(true, $icon->valid());
 		$this->assertEquals(512, $icon->getImageWidth());
 		$this->assertEquals(512, $icon->getImageHeight());
+		$this->assertEquals($icon, $expectedIcon);
+		//$this->assertLessThan(0.0005, $expectedIcon->compareImages($icon, Imagick::METRIC_MEANABSOLUTEERROR)[1]);
 		
 	}
-	public function testRenderAppIconColor() {
-		$this->themingDefaults->expects($this->once())
-			->method('getMailHeaderColor')
-			->willReturn('#0082c9');
 
-		$icon = $this->invokePrivate($this->iconController, 'renderAppIcon', ['core']);
-		$this->assertEquals(true, $icon->valid());
-		$this->assertEquals(512, $icon->getImageWidth());
-		$this->assertEquals(512, $icon->getImageHeight());
-
-	}
-
-
-	/**
-	 * @dataProvider dataGetAppIcon
-	 */
-	public function testGetAppIcon($app, $expected) {
-		$icon = $this->invokePrivate($this->iconController, 'getAppIcon', [$app]);
-		$this->assertEquals($expected, $icon);
-	}
-
-	public function dataGetAppIcon() {
+	public function dataRenderAppIcon() {
 		return [
-			['user_ldap', \OC_App::getAppPath('user_ldap') . '/img/app.svg'],
-			['noapplikethis', \OC::$SERVERROOT . '/core/img/logo.svg'],
-			['comments', \OC_App::getAppPath('comments') . '/img/comments.svg'],
+			['core','core/img/logo.svg', '#0082c9', 'touch-original.png'],
+			['core','core/img/logo.svg', '#FF0000', 'touch-core-red.png'],
+			['testing','apps/testing/img/app.svg', '#FF0000', 'touch-testing-red.png'],
+			['comments','apps/comments/img/comments.svg', '#0082c9', 'touch-comments.png'],
+			['core','core/img/logo.png', '#0082c9', 'touch-original-png.png'],
 		];
-	}
-
-	public function testGetAppIconThemed() {
-		$this->rootFolder->expects($this->once())
-			->method('nodeExists')
-			->with('/themedinstancelogo')
-			->willReturn(true);
-		$expected = '/themedinstancelogo';
-		$icon = $this->invokePrivate($this->iconController, 'getAppIcon', ['noapplikethis']);
-		$this->assertEquals($expected, $icon);
-	}
-
-	/**
-	 * @dataProvider dataGetAppImage
-	 */
-	public function testGetAppImage($app, $image, $expected) {
-		$this->assertEquals($expected, $this->invokePrivate($this->iconController, 'getAppImage', [$app, $image]));
-	}
-	public function dataGetAppImage() {
-		return [
-			['core', 'logo.svg', \OC::$SERVERROOT . '/core/img/logo.svg'],
-			['files', 'external', \OC::$SERVERROOT . '/apps/files/img/external.svg'],
-			['files', 'external.svg', \OC::$SERVERROOT . '/apps/files/img/external.svg'],
-			['noapplikethis', 'foobar.svg', false],
-		];
-	}
-
-	public function testColorizeSvg() {
-		$input = "#0082c9 #0082C9 #000000 #FFFFFF";
-		$expected = "#AAAAAA #AAAAAA #000000 #FFFFFF";
-		$result = $this->invokePrivate($this->iconController, 'colorizeSvg', [$input, '#AAAAAA']);
-		$this->assertEquals($expected, $result);
 	}
 
 }

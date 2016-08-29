@@ -61,12 +61,12 @@ class ThemingControllerTest extends TestCase {
 		$this->config = $this->getMockBuilder('OCP\IConfig')->getMock();
 		$this->template = $this->getMockBuilder('OCA\Theming\ThemingDefaults')
 			->disableOriginalConstructor()->getMock();
-		$this->util = new Util();
 		$this->timeFactory = $this->getMockBuilder('OCP\AppFramework\Utility\ITimeFactory')
 			->disableOriginalConstructor()
 			->getMock();
 		$this->l10n = $this->getMockBuilder('OCP\IL10N')->getMock();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
+		$this->util = new Util($this->config, $this->rootFolder);
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
 			->willReturn(123);
