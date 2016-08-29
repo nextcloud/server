@@ -112,8 +112,8 @@ class AdminTest extends TestCase {
 		$this->l10n
 			->expects($this->once())
 			->method('t')
-			->with('You already use a custom theme')
-			->willReturn('You already use a custom theme');
+			->with('You are already using a custom theme')
+			->willReturn('You are already using a custom theme');
 		$this->themingDefaults
 			->expects($this->once())
 			->method('getEntity')
@@ -137,7 +137,7 @@ class AdminTest extends TestCase {
 			->willReturn('/my/route');
 		$params = [
 			'themable' => false,
-			'errorMessage' => 'You already use a custom theme',
+			'errorMessage' => 'You are already using a custom theme',
 			'name' => 'MyEntity',
 			'url' => 'https://example.com',
 			'slogan' => 'MySlogan',
