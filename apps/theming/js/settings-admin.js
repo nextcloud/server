@@ -25,6 +25,7 @@ function setThemingValue(setting, value) {
 		OC.generateUrl('/apps/theming/ajax/updateStylesheet'), {'setting' : setting, 'value' : value}
 	).done(function(response) {
 		OC.msg.finishedSaving('#theming_settings_msg', response);
+		hideUndoButton(setting, value);
 	}).fail(function(response) {
 		OC.msg.finishedSaving('#theming_settings_msg', response);
 	});
@@ -114,7 +115,6 @@ function preview(setting, value) {
 	if (setting === 'name') {
 		window.document.title = t('core', 'Admin') + " - " + value;
 	}
-	hideUndoButton(setting, value);
 }
 
 function hideUndoButton(setting, value) {
@@ -153,12 +153,16 @@ $(document).ready(function () {
 		done: function (e, response) {
 			preview('logoMime', response.result.data.name);
 			OC.msg.finishedSaving('#theming_settings_msg', response.result);
+			$('label#uploadlogo').addClass('icon-upload').removeClass('icon-loading-small');
+			$('.theme-undo[data-setting=logoMime]').show();
 		},
 		submit: function(e, response) {
 			OC.msg.startSaving('#theming_settings_msg');
+			$('label#uploadlogo').removeClass('icon-upload').addClass('icon-loading-small');
 		},
 		fail: function (e, response){
 			OC.msg.finishedError('#theming_settings_msg', response._response.jqXHR.responseJSON.data.message);
+			$('label#uploadlogo').addClass('icon-upload').removeClass('icon-loading-small');
 		}
 	};
 	var uploadParamsLogin = {
@@ -167,11 +171,15 @@ $(document).ready(function () {
 		done: function (e, response) {
 			preview('backgroundMime', response.result.data.name);
 			OC.msg.finishedSaving('#theming_settings_msg', response.result);
+			$('label#upload-login-background').addClass('icon-upload').removeClass('icon-loading-small');
+			$('.theme-undo[data-setting=backgroundMime]').show();
 		},
 		submit: function(e, response) {
 			OC.msg.startSaving('#theming_settings_msg');
+			$('label#upload-login-background').removeClass('icon-upload').addClass('icon-loading-small');
 		},
 		fail: function (e, response){
+			$('label#upload-login-background').removeClass('icon-loading-small').addClass('icon-upload');
 			OC.msg.finishedError('#theming_settings_msg', response._response.jqXHR.responseJSON.data.message);
 		}
 	};
@@ -216,6 +224,7 @@ $(document).ready(function () {
 	$('.theme-undo').click(function (e) {
 		var setting = $(this).data('setting');
 		OC.msg.startSaving('#theming_settings_msg');
+		$('.theme-undo[data-setting=' + setting + ']').hide();
 		$.post(
 			OC.generateUrl('/apps/theming/ajax/undoChanges'), {'setting' : setting}
 		).done(function(response) {
