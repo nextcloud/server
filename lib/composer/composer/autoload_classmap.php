@@ -392,6 +392,7 @@ return array(
     'OC\\Core\\Controller\\LostController' => $baseDir . '/core/Controller/LostController.php',
     'OC\\Core\\Controller\\OCSController' => $baseDir . '/core/Controller/OCSController.php',
     'OC\\Core\\Controller\\SetupController' => $baseDir . '/core/Controller/SetupController.php',
+    'OC\\Core\\Controller\\TagsController' => $baseDir . '/core/Controller/TagsController.php',
     'OC\\Core\\Controller\\TokenController' => $baseDir . '/core/Controller/TokenController.php',
     'OC\\Core\\Controller\\TwoFactorChallengeController' => $baseDir . '/core/Controller/TwoFactorChallengeController.php',
     'OC\\Core\\Controller\\UserController' => $baseDir . '/core/Controller/UserController.php',

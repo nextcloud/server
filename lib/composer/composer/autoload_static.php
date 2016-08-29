@@ -422,6 +422,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Controller\\LostController' => __DIR__ . '/../../..' . '/core/Controller/LostController.php',
         'OC\\Core\\Controller\\OCSController' => __DIR__ . '/../../..' . '/core/Controller/OCSController.php',
         'OC\\Core\\Controller\\SetupController' => __DIR__ . '/../../..' . '/core/Controller/SetupController.php',
+        'OC\\Core\\Controller\\TagsController' => __DIR__ . '/../../..' . '/core/Controller/TagsController.php',
         'OC\\Core\\Controller\\TokenController' => __DIR__ . '/../../..' . '/core/Controller/TokenController.php',
         'OC\\Core\\Controller\\TwoFactorChallengeController' => __DIR__ . '/../../..' . '/core/Controller/TwoFactorChallengeController.php',
         'OC\\Core\\Controller\\UserController' => __DIR__ . '/../../..' . '/core/Controller/UserController.php',
