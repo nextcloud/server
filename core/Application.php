@@ -73,14 +73,6 @@ class Application extends App {
 				$c->query('TimeFactory')
 			);
 		});
-		$container->registerService('UserController', function(SimpleContainer $c) {
-			return new UserController(
-				$c->query('AppName'),
-				$c->query('Request'),
-				$c->query('UserManager'),
-				$c->query('Defaults')
-			);
-		});
 		$container->registerService('LoginController', function(SimpleContainer $c) {
 			return new LoginController(
 				$c->query('AppName'),
