@@ -62,20 +62,36 @@ class TemplateResponse extends Response {
 	protected $appName;
 
 	/**
+	 * styles (vendor, app)
+	 * @var array
+	 */
+	protected $styles;
+
+	/**
+	 * scripts (vendor, app)
+	 * @var array
+	 */
+	protected $scripts;
+
+	/**
 	 * constructor of TemplateResponse
 	 * @param string $appName the name of the app to load the template from
 	 * @param string $templateName the name of the template
 	 * @param array $params an array of parameters which should be passed to the
 	 * template
 	 * @param string $renderAs how the page should be rendered, defaults to user
-	 * @since 6.0.0 - parameters $params and $renderAs were added in 7.0.0
+	 * @param array $styles an array of styles which sould be added to the template
+	 * @param array $scripts an array of scripts which should be added to the template
+	 * @since 6.0.0 - parameters $params and $renderAs were added in 7.0.0 - parameters $styles and $scripts were added in 11.0.0
 	 */
 	public function __construct($appName, $templateName, array $params=array(),
-	                            $renderAs='user') {
+	                            $renderAs='user', array $styles=array(), array $scripts=array()) {
 		$this->templateName = $templateName;
 		$this->appName = $appName;
 		$this->params = $params;
 		$this->renderAs = $renderAs;
+		$this->styles = $styles;
+		$this->scripts = $scripts;
 	}
 
 
@@ -154,7 +170,44 @@ class TemplateResponse extends Response {
 			$template->assign($key, $value);
 		}
 
+		$this->addScriptsAndStyles();
+
 		return $template->fetchPage();
+	}
+	
+
+	/**
+	 * adds the vendor and app scripts and styles to the templateresponse
+	 * @since 11.0.0
+	 */
+	private function addScriptsAndStyles(){
+		if (array_key_exists('vendor', $this->scripts)){
+			foreach ($this->scripts['vendor'] as $application){
+				\OC_Util::addVendorScript($application);
+			}
+		}
+
+		if (array_key_exists('app', $this->scripts)) {
+			foreach ($this->scripts['app'] as $appName => $files) {
+				foreach ($files as $file) {
+					\OC_Util::addScript($appName, $file);
+				}
+			}
+		}
+
+		if (array_key_exists('vendor', $this->styles)) {
+			foreach ($this->styles['vendor'] as $application) {
+				\OC_Util::addVendorStyle($application);
+			}
+		}
+
+		if (array_key_exists('app', $this->styles)) {
+			foreach ($this->styles['app'] as $appName => $files) {
+				foreach ($files as $file) {
+					\OC_Util::addStyle($appName, $file);
+				}
+			}
+		}
 	}
 
 }
