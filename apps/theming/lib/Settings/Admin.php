@@ -61,7 +61,7 @@ class Admin implements ISettings {
 		$theme = $this->config->getSystemValue('theme', '');
 		if ($theme !== '') {
 			$themable = false;
-			$errorMessage = $this->l->t('You already use a custom theme');
+			$errorMessage = $this->l->t('You are already using a custom theme');
 		}
 
 		$parameters = [
