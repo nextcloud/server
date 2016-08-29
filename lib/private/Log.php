@@ -66,6 +66,7 @@ class Log implements ILogger {
 		'checkPassword',
 		'updatePrivateKeyPassword',
 		'validateUserPass',
+		'loginWithPassword',
 
 		// TokenProvider
 		'getToken',
@@ -84,6 +85,9 @@ class Log implements ILogger {
 		'calculateHMAC',
 		'encrypt',
 		'decrypt',
+
+		//LoginController
+		'tryLogin'
 	];
 
 	/**
@@ -304,14 +308,14 @@ class Log implements ILogger {
 	 * @since 8.2.0
 	 */
 	public function logException($exception, array $context = array()) {
-		$exception = array(
+		$exception = [
 			'Exception' => get_class($exception),
 			'Message' => $exception->getMessage(),
 			'Code' => $exception->getCode(),
 			'Trace' => $exception->getTraceAsString(),
 			'File' => $exception->getFile(),
 			'Line' => $exception->getLine(),
-		);
+		];
 		$exception['Trace'] = preg_replace('!(' . implode('|', $this->methodsWithSensitiveParameters) . ')\(.*\)!', '$1(*** sensitive parameters replaced ***)', $exception['Trace']);
 		$msg = isset($context['message']) ? $context['message'] : 'Exception';
 		$msg .= ': ' . json_encode($exception);

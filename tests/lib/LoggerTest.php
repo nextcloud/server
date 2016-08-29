@@ -9,13 +9,16 @@
 namespace Test;
 
 use OC\Log;
+use OCP\IConfig;
+use OCP\Util;
 
 class LoggerTest extends TestCase {
-	/**
-	 * @var \OCP\ILogger
-	 */
+	/** @var \OCP\ILogger */
 	private $logger;
 	static private $logs = array();
+
+	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	private $config;
 
 	protected function setUp() {
 		parent::setUp();
@@ -40,7 +43,7 @@ class LoggerTest extends TestCase {
 		$this->config->expects($this->any())
 			->method('getValue')
 			->will(($this->returnValueMap([
-				['loglevel', \OCP\Util::WARN, \OCP\Util::WARN],
+				['loglevel', Util::WARN, Util::WARN],
 				['log.condition', [], ['apps' => ['files']]]
 			])));
 		$logger = $this->logger;
@@ -122,4 +125,36 @@ class LoggerTest extends TestCase {
 			$this->assertContains('validateUserPass(*** sensitive parameters replaced ***)', $logLine);
 		}
 	}
+
+	/**
+	 * @dataProvider userAndPasswordData
+	 */
+	public function testDetecttryLogin($user, $password) {
+		$e = new \Exception('test');
+		$this->logger->logException($e);
+		$logLines = $this->getLogs();
+
+		foreach($logLines as $logLine) {
+			$this->assertNotContains($user, $logLine);
+			$this->assertNotContains($password, $logLine);
+			$this->assertContains('tryLogin(*** sensitive parameters replaced ***)', $logLine);
+		}
+	}
+
+	//loginWithPassword
+	/**
+	 * @dataProvider userAndPasswordData
+	 */
+	public function testDetectloginWithPassword($user, $password) {
+		$e = new \Exception('test');
+		$this->logger->logException($e);
+		$logLines = $this->getLogs();
+
+		foreach($logLines as $logLine) {
+			$this->assertNotContains($user, $logLine);
+			$this->assertNotContains($password, $logLine);
+			$this->assertContains('loginWithPassword(*** sensitive parameters replaced ***)', $logLine);
+		}
+	}
+
 }
