@@ -30,6 +30,7 @@ namespace OC\Core\Controller;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\Files\NotFoundException;
 use OCP\IAvatarManager;
@@ -147,7 +148,7 @@ class AvatarController extends Controller {
 	 * @NoAdminRequired
 	 *
 	 * @param string $path
-	 * @return DataResponse
+	 * @return DataResponse|JSONResponse
 	 */
 	public function postAvatar($path) {
 		$userId = $this->userSession->getUser()->getUID();
@@ -172,7 +173,22 @@ class AvatarController extends Controller {
 					$headers
 				);
 			}
-			$content = $node->getContent();
+
+			if ($node->getMimeType() !== 'image/jpeg' && $node->getMimeType() !== 'image/png') {
+				return new JSONResponse(
+					['data' => ['message' => $this->l->t('The selected file is not an image.')]],
+					Http::STATUS_BAD_REQUEST
+				);
+			}
+
+			try {
+				$content = $node->getContent();
+			} catch (\OCP\Files\NotPermittedException $e) {
+				return new JSONResponse(
+					['data' => ['message' => $this->l->t('The selected file cannot be read.')]],
+					Http::STATUS_BAD_REQUEST
+				);
+			}
 		} elseif (!is_null($files)) {
 			if (
 				$files['error'][0] === 0 &&

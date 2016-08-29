@@ -36,9 +36,9 @@ use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
 use OCP\Files\File;
 use OCP\Files\NotFoundException;
-use OCP\IUser;
+use OCP\Files\NotPermittedException;
 use OCP\IAvatar;
-use Punic\Exception;
+use OCP\IUser;
 use Test\Traits\UserTrait;
 
 /**
@@ -314,7 +314,13 @@ class AvatarControllerTest extends \Test\TestCase {
 		//Mock node API call
 		$file = $this->getMockBuilder('OCP\Files\File')
 			->disableOriginalConstructor()->getMock();
-		$file->method('getContent')->willReturn(file_get_contents(\OC::$SERVERROOT.'/tests/data/testimage.jpg'));
+
+		$file->expects($this->once())
+			->method('getContent')
+			->willReturn(file_get_contents(\OC::$SERVERROOT.'/tests/data/testimage.jpg'));
+		$file->expects($this->once())
+			->method('getMimeType')
+			->willReturn('image/jpeg');
 		$this->container['UserFolder']->method('get')->willReturn($file);
 
 		//Create request return
@@ -341,6 +347,36 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->assertEquals(['data' => ['message' => 'Please select a file.']], $response->getData());
 	}
 
+	public function testPostAvatarInvalidType() {
+		$file = $this->getMockBuilder('OCP\Files\File')
+			->disableOriginalConstructor()->getMock();
+		$file->expects($this->never())
+			->method('getContent');
+		$file->expects($this->exactly(2))
+			->method('getMimeType')
+			->willReturn('text/plain');
+		$this->container['UserFolder']->method('get')->willReturn($file);
+
+		$expectedResponse = new Http\JSONResponse(['data' => ['message' => 'The selected file is not an image.']], Http::STATUS_BAD_REQUEST);
+		$this->assertEquals($expectedResponse, $this->avatarController->postAvatar('avatar.jpg'));
+	}
+
+	public function testPostAvatarNotPermittedException() {
+		$file = $this->getMockBuilder('OCP\Files\File')
+			->disableOriginalConstructor()->getMock();
+		$file->expects($this->once())
+			->method('getContent')
+			->willThrowException(new NotPermittedException());
+		$file->expects($this->once())
+			->method('getMimeType')
+			->willReturn('image/jpeg');
+		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$this->container['UserFolder']->method('get')->willReturn($file);
+
+		$expectedResponse = new Http\JSONResponse(['data' => ['message' => 'The selected file cannot be read.']], Http::STATUS_BAD_REQUEST);
+		$this->assertEquals($expectedResponse, $this->avatarController->postAvatar('avatar.jpg'));
+	}
+
 	/**
 	 * Test what happens if the upload of the avatar fails
 	 */
@@ -350,7 +386,13 @@ class AvatarControllerTest extends \Test\TestCase {
 			->will($this->throwException(new \Exception("foo")));
 		$file = $this->getMockBuilder('OCP\Files\File')
 			->disableOriginalConstructor()->getMock();
-		$file->method('getContent')->willReturn(file_get_contents(\OC::$SERVERROOT.'/tests/data/testimage.jpg'));
+
+		$file->expects($this->once())
+			->method('getContent')
+			->willReturn(file_get_contents(\OC::$SERVERROOT.'/tests/data/testimage.jpg'));
+		$file->expects($this->once())
+			->method('getMimeType')
+			->willReturn('image/jpeg');
 		$this->container['UserFolder']->method('get')->willReturn($file);
 
 		$this->container['Logger']->expects($this->once())
