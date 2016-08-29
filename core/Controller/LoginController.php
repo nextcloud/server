@@ -242,12 +242,26 @@ class LoginController extends Controller {
 
 		if ($this->twoFactorManager->isTwoFactorAuthenticated($loginResult)) {
 			$this->twoFactorManager->prepareTwoFactorLogin($loginResult);
-			if (!is_null($redirect_url)) {
-				return new RedirectResponse($this->urlGenerator->linkToRoute('core.TwoFactorChallenge.selectChallenge', [
-					'redirect_url' => $redirect_url
-				]));
+
+			$providers = $this->twoFactorManager->getProviders($loginResult);
+			if (count($providers) === 1) {
+				// Single provider, hence we can redirect to that provider's challenge page directly
+				/* @var $provider IProvider */
+				$provider = array_pop($providers);
+				$url = 'core.TwoFactorChallenge.showChallenge';
+				$urlParams = [
+					'challengeProviderId' => $provider->getId(),
+				];
+			} else {
+				$url = 'core.TwoFactorChallenge.selectChallenge';
+				$urlParams = [];
 			}
-			return new RedirectResponse($this->urlGenerator->linkToRoute('core.TwoFactorChallenge.selectChallenge'));
+
+			if (!is_null($redirect_url)) {
+				$urlParams['redirect_url'] = $redirect_url;
+			}
+
+			return new RedirectResponse($this->urlGenerator->linkToRoute($url, $urlParams));
 		}
 
 		return $this->generateRedirect($redirect_url);
