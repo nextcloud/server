@@ -9,12 +9,13 @@
 #theming .theme-undo {
     cursor: pointer;
     opacity: .5;
-    padding: 9px;
-    vertical-align: bottom;
+    padding: 11px 5px;
+    vertical-align: top;
+    display: inline-block;
 }
 
-#theming .icon {
-    display: inline-block;
+#theming .icon-loading-small:after {
+    margin: -10px 0 0 -10px;
 }
 
 #theming label span {
@@ -23,10 +24,11 @@
     padding: 8px 0px;
 }
 
-#theming .icon-upload {
+#theming .icon-upload,
+#theming .icon-loading-small {
     display: inline-flex;
     padding: 8px;
-    margin: 0;
+    margin: 2px 0px;
 }
 
 div#theming_settings_msg {
