@@ -218,6 +218,13 @@ var OCdialogs = {
 					self.$filePicker = null;
 				}
 			});
+
+			// We can access primary class only from oc-dialog.
+			// Hence this is one of the approach to get the choose button.
+			var getOcDialog = self.$filePicker.closest('.oc-dialog');
+			var buttonEnableDisable = getOcDialog.find('.primary');
+			buttonEnableDisable.prop("disabled", "true");
+
 			if (!OC.Util.hasSVGSupport()) {
 				OC.Util.replaceSVG(self.$filePicker.parent());
 			}
@@ -812,18 +819,25 @@ var OCdialogs = {
 		var self = event.data;
 		var dir = $(event.target).data('dir');
 		self._fillFilePicker(dir);
+		var getOcDialog = this.closest('.oc-dialog');
+		var buttonEnableDisable = $('.primary', getOcDialog);
+		buttonEnableDisable.prop("disabled", true);
 	},
 	/**
 	 * handle clicks made in the filepicker
 	*/
 	_handlePickerClick:function(event, $element) {
+		var getOcDialog = this.$filePicker.closest('.oc-dialog');
+		var buttonEnableDisable = getOcDialog.find('.primary');
 		if ($element.data('type') === 'file') {
 			if (this.$filePicker.data('multiselect') !== true || !event.ctrlKey) {
 				this.$filelist.find('.filepicker_element_selected').removeClass('filepicker_element_selected');
 			}
 			$element.toggleClass('filepicker_element_selected');
+			buttonEnableDisable.prop("disabled", false);
 		} else if ( $element.data('type') === 'dir' ) {
 			this._fillFilePicker(this.$filePicker.data('path') + '/' + $element.data('entryname'));
+			buttonEnableDisable.prop("disabled", true);
 		}
 	}
 };
