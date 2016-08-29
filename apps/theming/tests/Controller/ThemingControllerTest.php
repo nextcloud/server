@@ -437,19 +437,26 @@ class ThemingControllerTest extends TestCase {
 			'background-image: url(\'data:image/svg+xml;base64,'.$this->util->generateRadioButton($color).'\');' .
 			"}\n";
 		$expectedData .= '.primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary,' .
-			'.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active,' .
-			'.primary:disabled, input[type="submit"].primary:disabled, input[type="button"].primary:disabled, button.primary:disabled, .button.primary:disabled,' .
-			'.primary:disabled:hover, input[type="submit"].primary:disabled:hover, input[type="button"].primary:disabled:hover, button.primary:disabled:hover, .button.primary:disabled:hover,' .
-			'.primary:disabled:focus, input[type="submit"].primary:disabled:focus, input[type="button"].primary:disabled:focus, button.primary:disabled:focus, .button.primary:disabled:focus {' .
-			'border: 1px solid '.$color .';'.
+			'.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active {' .
+			'border: 1px solid '.$color.';'.
 			'background-color: '.$color.';'.
-			'opacity: 0.8' .
+			'opacity: 0.8;' .
+			'color: #ffffff;'.
 			"}\n" .
 			'.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover,' .
 			'.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {' .
 			'border: 1px solid '.$color.';'.
 			'background-color: '.$color.';'.
 			'opacity: 1.0;' .
+			'color: #ffffff;'.
+			"}\n" .
+			'.primary:disabled, input[type="submit"].primary:disabled, input[type="button"].primary:disabled, button.primary:disabled, .button.primary:disabled,' .
+			'.primary:disabled:hover, input[type="submit"].primary:disabled:hover, input[type="button"].primary:disabled:hover, button.primary:disabled:hover, .button.primary:disabled:hover,' .
+			'.primary:disabled:focus, input[type="submit"].primary:disabled:focus, input[type="button"].primary:disabled:focus, button.primary:disabled:focus, .button.primary:disabled:focus {' .
+			'border: 1px solid '.$color.';'.
+			'background-color: '.$color.';'.
+			'opacity: 0.4;' .
+			'color: #ffffff;'.
 			"}\n";
 		$expectedData .= '.ui-widget-header { border: 1px solid ' . $color . '; background: '. $color . '; color: #ffffff;' . "}\n";
 		$expectedData .= '.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {' .
@@ -520,19 +527,26 @@ class ThemingControllerTest extends TestCase {
 			'background-image: url(\'data:image/svg+xml;base64,'.$this->util->generateRadioButton('#555555').'\');' .
 			"}\n";
 		$expectedData .= '.primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary,' .
-			'.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active,' .
-			'.primary:disabled, input[type="submit"].primary:disabled, input[type="button"].primary:disabled, button.primary:disabled, .button.primary:disabled,' .
-			'.primary:disabled:hover, input[type="submit"].primary:disabled:hover, input[type="button"].primary:disabled:hover, button.primary:disabled:hover, .button.primary:disabled:hover,' .
-			'.primary:disabled:focus, input[type="submit"].primary:disabled:focus, input[type="button"].primary:disabled:focus, button.primary:disabled:focus, .button.primary:disabled:focus {' .
-			'border: 1px solid #555555;'.
-			'background-color: #555555;'.
-			'opacity: 0.8' .
+			'.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active {' .
+			'border: 1px solid '.$elementColor.';'.
+			'background-color: '.$elementColor.';'.
+			'opacity: 0.8;' .
+			'color: #000000;'.
 			"}\n" .
 			'.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover,' .
 			'.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {' .
-			'border: 1px solid #555555;'.
-			'background-color: #555555;'.
+			'border: 1px solid '.$elementColor.';'.
+			'background-color: '.$elementColor.';'.
 			'opacity: 1.0;' .
+			'color: #000000;'.
+			"}\n" .
+			'.primary:disabled, input[type="submit"].primary:disabled, input[type="button"].primary:disabled, button.primary:disabled, .button.primary:disabled,' .
+			'.primary:disabled:hover, input[type="submit"].primary:disabled:hover, input[type="button"].primary:disabled:hover, button.primary:disabled:hover, .button.primary:disabled:hover,' .
+			'.primary:disabled:focus, input[type="submit"].primary:disabled:focus, input[type="button"].primary:disabled:focus, button.primary:disabled:focus, .button.primary:disabled:focus {' .
+			'border: 1px solid '.$elementColor.';'.
+			'background-color: '.$elementColor.';'.
+			'opacity: 0.4;' .
+			'color: #000000;'.
 			"}\n";
 		$expectedData .= '.ui-widget-header { border: 1px solid ' . $color . '; background: '. $color . '; color: #ffffff;' . "}\n";
 		$expectedData .= '.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {' .
@@ -689,19 +703,26 @@ class ThemingControllerTest extends TestCase {
 			'background-image: url(\'data:image/svg+xml;base64,'.$this->util->generateRadioButton($color).'\');' .
 			"}\n";
 		$expectedData .= '.primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary,' .
-			'.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active,' .
-			'.primary:disabled, input[type="submit"].primary:disabled, input[type="button"].primary:disabled, button.primary:disabled, .button.primary:disabled,' .
-			'.primary:disabled:hover, input[type="submit"].primary:disabled:hover, input[type="button"].primary:disabled:hover, button.primary:disabled:hover, .button.primary:disabled:hover,' .
-			'.primary:disabled:focus, input[type="submit"].primary:disabled:focus, input[type="button"].primary:disabled:focus, button.primary:disabled:focus, .button.primary:disabled:focus {' .
-			'border: 1px solid '.$color .';'.
+			'.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active {' .
+			'border: 1px solid '.$color.';'.
 			'background-color: '.$color.';'.
-			'opacity: 0.8' .
+			'opacity: 0.8;' .
+			'color: #ffffff;'.
 			"}\n" .
 			'.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover,' .
 			'.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {' .
 			'border: 1px solid '.$color.';'.
 			'background-color: '.$color.';'.
 			'opacity: 1.0;' .
+			'color: #ffffff;'.
+			"}\n" .
+			'.primary:disabled, input[type="submit"].primary:disabled, input[type="button"].primary:disabled, button.primary:disabled, .button.primary:disabled,' .
+			'.primary:disabled:hover, input[type="submit"].primary:disabled:hover, input[type="button"].primary:disabled:hover, button.primary:disabled:hover, .button.primary:disabled:hover,' .
+			'.primary:disabled:focus, input[type="submit"].primary:disabled:focus, input[type="button"].primary:disabled:focus, button.primary:disabled:focus, .button.primary:disabled:focus {' .
+			'border: 1px solid '.$color.';'.
+			'background-color: '.$color.';'.
+			'opacity: 0.4;' .
+			'color: #ffffff;'.
 			"}\n";
 		$expectedData .= '.ui-widget-header { border: 1px solid ' . $color . '; background: '. $color . '; color: #ffffff;' . "}\n";
 		$expectedData .= '.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {' .
@@ -789,19 +810,26 @@ class ThemingControllerTest extends TestCase {
 			'background-image: url(\'data:image/svg+xml;base64,'.$this->util->generateRadioButton('#555555').'\');' .
 			"}\n";
 		$expectedData .= '.primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary,' .
-			'.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active,' .
-			'.primary:disabled, input[type="submit"].primary:disabled, input[type="button"].primary:disabled, button.primary:disabled, .button.primary:disabled,' .
-			'.primary:disabled:hover, input[type="submit"].primary:disabled:hover, input[type="button"].primary:disabled:hover, button.primary:disabled:hover, .button.primary:disabled:hover,' .
-			'.primary:disabled:focus, input[type="submit"].primary:disabled:focus, input[type="button"].primary:disabled:focus, button.primary:disabled:focus, .button.primary:disabled:focus {' .
-			'border: 1px solid #555555;'.
-			'background-color: #555555;'.
-			'opacity: 0.8' .
+			'.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active {' .
+			'border: 1px solid '.$elementColor.';'.
+			'background-color: '.$elementColor.';'.
+			'opacity: 0.8;' .
+			'color: #000000;'.
 			"}\n" .
 			'.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover,' .
 			'.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {' .
-			'border: 1px solid #555555;'.
-			'background-color: #555555;'.
+			'border: 1px solid '.$elementColor.';'.
+			'background-color: '.$elementColor.';'.
 			'opacity: 1.0;' .
+			'color: #000000;'.
+			"}\n" .
+			'.primary:disabled, input[type="submit"].primary:disabled, input[type="button"].primary:disabled, button.primary:disabled, .button.primary:disabled,' .
+			'.primary:disabled:hover, input[type="submit"].primary:disabled:hover, input[type="button"].primary:disabled:hover, button.primary:disabled:hover, .button.primary:disabled:hover,' .
+			'.primary:disabled:focus, input[type="submit"].primary:disabled:focus, input[type="button"].primary:disabled:focus, button.primary:disabled:focus, .button.primary:disabled:focus {' .
+			'border: 1px solid '.$elementColor.';'.
+			'background-color: '.$elementColor.';'.
+			'opacity: 0.4;' .
+			'color: #000000;'.
 			"}\n";
 		$expectedData .= '.ui-widget-header { border: 1px solid ' . $color . '; background: '. $color . '; color: #ffffff;' . "}\n";
 		$expectedData .= '.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {' .
