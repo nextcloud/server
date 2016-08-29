@@ -301,7 +301,8 @@ body {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 	opacity: .7;
 }
-#body-login input[type="password"] {
+#body-login input[type="password"],
+#body-login input[name="adminpass-clone"] {
 	padding-right: 40px;
 	box-sizing: border-box;
 	min-width: 269px;
