@@ -304,6 +304,13 @@ class ThemingController extends Controller {
 		$responseCss = '';
 		$color = $this->config->getAppValue($this->appName, 'color');
 		$elementColor = $this->util->elementColor($color);
+
+		if($this->util->invertTextColor($color)) {
+			$textColor = '#000000';
+		} else {
+			$textColor = '#ffffff';
+		}
+
 		if($color !== '') {
 			$responseCss .= sprintf(
 				'#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: %s}' . "\n",
@@ -321,19 +328,26 @@ class ThemingController extends Controller {
 				'background-image: url(\'data:image/svg+xml;base64,'.$this->util->generateRadioButton($elementColor).'\');' .
 				"}\n";
 			$responseCss .= '.primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary,' .
-				'.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active,' .
-				'.primary:disabled, input[type="submit"].primary:disabled, input[type="button"].primary:disabled, button.primary:disabled, .button.primary:disabled,' .
-				'.primary:disabled:hover, input[type="submit"].primary:disabled:hover, input[type="button"].primary:disabled:hover, button.primary:disabled:hover, .button.primary:disabled:hover,' .
-				'.primary:disabled:focus, input[type="submit"].primary:disabled:focus, input[type="button"].primary:disabled:focus, button.primary:disabled:focus, .button.primary:disabled:focus {' .
+				'.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active {' .
 				'border: 1px solid '.$elementColor.';'.
 				'background-color: '.$elementColor.';'.
-				'opacity: 0.8' .
+				'opacity: 0.8;' .
+				'color: ' . $textColor . ';'.
 				"}\n" .
 				'.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover,' .
 				'.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {' .
 				'border: 1px solid '.$elementColor.';'.
 				'background-color: '.$elementColor.';'.
 				'opacity: 1.0;' .
+				'color: ' . $textColor . ';'.
+				"}\n" .
+				'.primary:disabled, input[type="submit"].primary:disabled, input[type="button"].primary:disabled, button.primary:disabled, .button.primary:disabled,' .
+				'.primary:disabled:hover, input[type="submit"].primary:disabled:hover, input[type="button"].primary:disabled:hover, button.primary:disabled:hover, .button.primary:disabled:hover,' .
+				'.primary:disabled:focus, input[type="submit"].primary:disabled:focus, input[type="button"].primary:disabled:focus, button.primary:disabled:focus, .button.primary:disabled:focus {' .
+				'border: 1px solid '.$elementColor.';'.
+				'background-color: '.$elementColor.';'.
+				'opacity: 0.4;' .
+				'color: '.$textColor.';'.
 				"}\n";
 			$responseCss .= '.ui-widget-header { border: 1px solid ' . $color . '; background: '. $color . '; color: #ffffff;' . "}\n";
 			$responseCss .= '.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {' .
