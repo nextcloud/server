@@ -32,6 +32,7 @@ use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\ITempManager;
 use Test\TestCase;
 use OCA\Theming\ThemingDefaults;
 
@@ -52,6 +53,8 @@ class ThemingControllerTest extends TestCase {
 	private $themingController;
 	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
 	private $rootFolder;
+	/** @var ITempManager */
+	private $tempManager;
 
 	public function setUp() {
 		$this->request = $this->getMockBuilder('OCP\IRequest')->getMock();
@@ -64,10 +67,10 @@ class ThemingControllerTest extends TestCase {
 			->getMock();
 		$this->l10n = $this->getMockBuilder('OCP\IL10N')->getMock();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
-
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
 			->willReturn(123);
+		$this->tempManager = \OC::$server->getTempManager();
 
 		$this->themingController = new ThemingController(
 			'theming',
@@ -77,7 +80,8 @@ class ThemingControllerTest extends TestCase {
 			$this->util,
 			$this->timeFactory,
 			$this->l10n,
-			$this->rootFolder
+			$this->rootFolder,
+			$this->tempManager
 		);
 
 		return parent::setUp();
@@ -214,6 +218,7 @@ class ThemingControllerTest extends TestCase {
 		$destination = \OC::$server->getTempManager()->getTemporaryFolder();
 
 		touch($tmpLogo);
+		file_put_contents($tmpLogo, file_get_contents(__DIR__  . '/../../../../tests/data/desktopapp.png'));
 		$this->request
 			->expects($this->at(0))
 			->method('getUploadedFile')
@@ -257,6 +262,52 @@ class ThemingControllerTest extends TestCase {
 					],
 				'status' => 'success'
 			]
+		);
+		$this->assertEquals($expected, $this->themingController->updateLogo());
+	}
+
+	public function testUpdateLogoLoginScreenUploadWithInvalidImage() {
+		$tmpLogo = \OC::$server->getTempManager()->getTemporaryFolder() . '/logo.svg';
+		$destination = \OC::$server->getTempManager()->getTemporaryFolder();
+
+		touch($tmpLogo);
+		file_put_contents($tmpLogo, file_get_contents(__DIR__  . '/../../../../tests/data/data.zip'));
+		$this->request
+			->expects($this->at(0))
+			->method('getUploadedFile')
+			->with('uploadlogo')
+			->willReturn(null);
+		$this->request
+			->expects($this->at(1))
+			->method('getUploadedFile')
+			->with('upload-login-background')
+			->willReturn([
+				'tmp_name' => $tmpLogo,
+				'type' => 'text/svg',
+				'name' => 'logo.svg',
+			]);
+		$this->l10n
+			->expects($this->once())
+			->method('t')
+			->with('Unsupported image type')
+			->willReturn('Unsupported image type');
+		$file = $this->getMockBuilder('\\OCP\\Files\\File')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->rootFolder
+			->expects($this->once())
+			->method('newFile')
+			->with('themedbackgroundlogo')
+			->willReturn($file);
+		$expected = new DataResponse(
+			[
+				'data' =>
+					[
+						'message' => 'Unsupported image type',
+					],
+				'status' => 'failure'
+			],
+			Http::STATUS_UNPROCESSABLE_ENTITY
 		);
 		$this->assertEquals($expected, $this->themingController->updateLogo());
 	}
@@ -311,6 +362,7 @@ class ThemingControllerTest extends TestCase {
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
 		$expected->addHeader('Content-Disposition', 'attachment');
 		$expected->addHeader('Content-Type', 'text/svg');
+		$expected->addHeader('Pragma', 'cache');
 		@$this->assertEquals($expected, $this->themingController->getLogo());
 	}
 
@@ -340,6 +392,7 @@ class ThemingControllerTest extends TestCase {
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
 		$expected->addHeader('Content-Disposition', 'attachment');
 		$expected->addHeader('Content-Type', 'image/png');
+		$expected->addHeader('Pragma', 'cache');
 		@$this->assertEquals($expected, $this->themingController->getLoginBackground());
 	}
 
@@ -400,6 +453,7 @@ class ThemingControllerTest extends TestCase {
 
 		$expected->cacheFor(3600);
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
+		$expected->addHeader('Pragma', 'cache');
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
 
@@ -464,6 +518,7 @@ class ThemingControllerTest extends TestCase {
 
 		$expected->cacheFor(3600);
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
+		$expected->addHeader('Pragma', 'cache');
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
 
@@ -507,6 +562,7 @@ class ThemingControllerTest extends TestCase {
 
 		$expected->cacheFor(3600);
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
+		$expected->addHeader('Pragma', 'cache');
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
 
@@ -542,6 +598,7 @@ class ThemingControllerTest extends TestCase {
 
 		$expected->cacheFor(3600);
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
+		$expected->addHeader('Pragma', 'cache');
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
 
@@ -618,6 +675,7 @@ class ThemingControllerTest extends TestCase {
 
 		$expected->cacheFor(3600);
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
+		$expected->addHeader('Pragma', 'cache');
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
 
@@ -698,6 +756,7 @@ class ThemingControllerTest extends TestCase {
 
 		$expected->cacheFor(3600);
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
+		$expected->addHeader('Pragma', 'cache');
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
 
@@ -732,6 +791,7 @@ class ThemingControllerTest extends TestCase {
 		$expected = new Http\DataDisplayResponse($expectedResponse);
 		$expected->addHeader("Content-type","text/javascript");
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		$expected->addHeader('Pragma', 'cache');
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getJavascript());
 	}
@@ -765,6 +825,7 @@ class ThemingControllerTest extends TestCase {
 		$expected = new Http\DataDisplayResponse($expectedResponse);
 		$expected->addHeader("Content-type","text/javascript");
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		$expected->addHeader('Pragma', 'cache');
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getJavascript());
 	}
