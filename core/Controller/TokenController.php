@@ -24,13 +24,10 @@
 namespace OC\Core\Controller;
 
 use OC\AppFramework\Http;
-use OC\AppFramework\Utility\TimeFactory;
-use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
 use OC\User\Manager as UserManager;
-use OCA\User_LDAP\User\Manager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
@@ -100,9 +97,9 @@ class TokenController extends Controller {
 
 		$token = $this->secureRandom->generate(128);
 		$this->tokenProvider->generateToken($token, $user->getUID(), $loginName, $password, $name, IToken::PERMANENT_TOKEN);
-		return [
+		return new JSONResponse([
 			'token' => $token,
-		];
+		]);
 	}
 
 }
