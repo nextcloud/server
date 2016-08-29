@@ -505,7 +505,7 @@ class LoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->loginController->tryLogin('Jane', $password, $originalUrl));
 	}
 	
-	public function testLoginWithTwoFactorEnforced() {
+	public function testLoginWithOneTwoFactorProvider() {
 		/** @var IUser | \PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
 		$user->expects($this->any())
@@ -513,6 +513,7 @@ class LoginControllerTest extends TestCase {
 			->will($this->returnValue('john'));
 		$password = 'secret';
 		$challengeUrl = 'challenge/url';
+		$provider = $this->getMockBuilder('\OCP\Authentication\TwoFactorAuth\IProvider')->getMock();
 
 		$this->request
 			->expects($this->exactly(2))
@@ -547,6 +548,79 @@ class LoginControllerTest extends TestCase {
 		$this->twoFactorManager->expects($this->once())
 			->method('prepareTwoFactorLogin')
 			->with($user);
+		$this->twoFactorManager->expects($this->once())
+			->method('getProviders')
+			->with($user)
+			->will($this->returnValue([$provider]));
+		$provider->expects($this->once())
+			->method('getId')
+			->will($this->returnValue('u2f'));
+		$this->urlGenerator->expects($this->once())
+			->method('linkToRoute')
+			->with('core.TwoFactorChallenge.showChallenge', [
+				'challengeProviderId' => 'u2f',
+			])
+			->will($this->returnValue($challengeUrl));
+		$this->config->expects($this->once())
+			->method('deleteUserValue')
+			->with('john', 'core', 'lostpassword');
+
+		$expected = new RedirectResponse($challengeUrl);
+		$this->assertEquals($expected, $this->loginController->tryLogin('john@doe.com', $password, null));
+	}
+
+	public function testLoginWithMultpleTwoFactorProviders() {
+		/** @var IUser | \PHPUnit_Framework_MockObject_MockObject $user */
+		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('john'));
+		$password = 'secret';
+		$challengeUrl = 'challenge/url';
+		$provider1 = $this->getMockBuilder('\OCP\Authentication\TwoFactorAuth\IProvider')->getMock();
+		$provider2 = $this->getMockBuilder('\OCP\Authentication\TwoFactorAuth\IProvider')->getMock();
+
+		$this->request
+			->expects($this->exactly(2))
+			->method('getRemoteAddress')
+			->willReturn('192.168.0.1');
+		$this->request
+			->expects($this->once())
+			->method('passesCSRFCheck')
+			->willReturn(true);
+		$this->throttler
+			->expects($this->once())
+			->method('sleepDelay')
+			->with('192.168.0.1');
+		$this->throttler
+			->expects($this->once())
+			->method('getDelay')
+			->with('192.168.0.1')
+			->willReturn(200);
+		$this->userManager->expects($this->once())
+			->method('checkPassword')
+			->will($this->returnValue($user));
+		$this->userSession->expects($this->once())
+			->method('login')
+			->with('john@doe.com', $password);
+		$this->userSession->expects($this->once())
+			->method('createSessionToken')
+			->with($this->request, $user->getUID(), 'john@doe.com', $password);
+		$this->twoFactorManager->expects($this->once())
+			->method('isTwoFactorAuthenticated')
+			->with($user)
+			->will($this->returnValue(true));
+		$this->twoFactorManager->expects($this->once())
+			->method('prepareTwoFactorLogin')
+			->with($user);
+		$this->twoFactorManager->expects($this->once())
+			->method('getProviders')
+			->with($user)
+			->will($this->returnValue([$provider1, $provider2]));
+		$provider1->expects($this->never())
+			->method('getId');
+		$provider2->expects($this->never())
+			->method('getId');
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('core.TwoFactorChallenge.selectChallenge')
