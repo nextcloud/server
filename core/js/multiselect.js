@@ -32,7 +32,7 @@
 			'onuncheck':false,
 			'minWidth': 'default;'
 		};
-		var slideDuration = 200;
+		var slideDuration = 0;
 		$(this).attr('data-msid', multiSelectId);
 		$.extend(settings,options);
 		$.each(this.children(),function(i,option) {
@@ -75,6 +75,26 @@
 
 		var self = this;
 		self.menuDirection = 'down';
+
+		function closeDropDown() {
+			if(!button.parent().data('preventHide')) {
+				// How can I save the effect in a var?
+				if(self.menuDirection === 'down') {
+					button.parent().children('ul').slideUp(slideDuration,function() {
+						button.parent().children('ul').remove();
+						button.removeClass('active down');
+						$(self).trigger($.Event('dropdownclosed', settings));
+					});
+				} else {
+					button.parent().children('ul').fadeOut(slideDuration,function() {
+						button.parent().children('ul').remove();
+						button.removeClass('active up');
+						$(self).trigger($.Event('dropdownclosed', settings));
+					});
+				}
+			}
+		}
+
 		button.click(function(event){
 
 			var button=$(this);
@@ -83,21 +103,20 @@
 					button.parent().children('ul').slideUp(slideDuration,function() {
 						button.parent().children('ul').remove();
 						button.removeClass('active down');
+						$(self).trigger($.Event('dropdownclosed', settings));
 					});
 				} else {
 					button.parent().children('ul').fadeOut(slideDuration,function() {
 						button.parent().children('ul').remove();
 						button.removeClass('active up');
+						$(self).trigger($.Event('dropdownclosed', settings));
 					});
 				}
 				return;
 			}
+			// tell other lists to shut themselves
 			var lists=$('ul.multiselectoptions');
-			lists.slideUp(slideDuration,function(){
-				lists.remove();
-				$('div.multiselect').removeClass('active');
-				button.addClass('active');
-			});
+			lists.trigger($.Event('shut'));
 			button.addClass('active');
 			event.stopPropagation();
 			var options=$(this).parent().next().children();
@@ -309,29 +328,16 @@
 				list.detach().insertBefore($(this));
 				list.addClass('up');
 				button.addClass('up');
-				list.fadeIn();
+				list.show();
 				self.menuDirection = 'up';
 			}
 			list.click(function(event) {
 				event.stopPropagation();
 			});
+			list.one('shut', closeDropDown);
 		});
-		$(window).click(function() {
-			if(!button.parent().data('preventHide')) {
-				// How can I save the effect in a var?
-				if(self.menuDirection === 'down') {
-					button.parent().children('ul').slideUp(slideDuration,function() {
-						button.parent().children('ul').remove();
-						button.removeClass('active down');
-					});
-				} else {
-					button.parent().children('ul').fadeOut(slideDuration,function() {
-						button.parent().children('ul').remove();
-						button.removeClass('active up');
-					});
-				}
-			}
-		});
+
+		$(window).click(closeDropDown);
 
 		return span;
 	};
