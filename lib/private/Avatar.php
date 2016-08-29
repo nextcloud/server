@@ -34,6 +34,7 @@ use OCP\Files\File;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IAvatar;
+use OCP\IConfig;
 use OCP\IImage;
 use OCP\IL10N;
 use OC_Image;
@@ -52,6 +53,8 @@ class Avatar implements IAvatar {
 	private $user;
 	/** @var ILogger  */
 	private $logger;
+	/** @var IConfig */
+	private $config;
 
 	/**
 	 * constructor
@@ -60,12 +63,18 @@ class Avatar implements IAvatar {
 	 * @param IL10N $l
 	 * @param User $user
 	 * @param ILogger $logger
+	 * @param IConfig $config
 	 */
-	public function __construct (Folder $folder, IL10N $l, $user, ILogger $logger) {
+	public function __construct(Folder $folder,
+								IL10N $l,
+								$user,
+								ILogger $logger,
+								IConfig $config) {
 		$this->folder = $folder;
 		$this->l = $l;
 		$this->user = $user;
 		$this->logger = $logger;
+		$this->config = $config;
 	}
 
 	/**
@@ -136,6 +145,9 @@ class Avatar implements IAvatar {
 	public function remove () {
 		$regex = '/^avatar\.([0-9]+\.)?(jpg|png)$/';
 		$avatars = $this->folder->getDirectoryListing();
+
+		$this->config->setUserValue($this->user->getUID(), 'avatar', 'version',
+			(int)$this->config->getUserValue($this->user->getUID(), 'avatar', 'version', 0) + 1);
 
 		foreach ($avatars as $avatar) {
 			if (preg_match($regex, $avatar->getName())) {

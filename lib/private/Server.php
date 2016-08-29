@@ -361,7 +361,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getUserManager(),
 				$c->getRootFolder(),
 				$c->getL10N('lib'),
-				$c->getLogger()
+				$c->getLogger(),
+				$c->getConfig()
 			);
 		});
 		$this->registerService('Logger', function (Server $c) {

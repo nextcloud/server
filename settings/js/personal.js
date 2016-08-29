@@ -100,6 +100,9 @@ function updateAvatar (hidedefault) {
 	var $headerdiv = $('#header .avatardiv');
 	var $displaydiv = $('#displayavatar .avatardiv');
 
+	//Bump avatar avatarversion
+	oc_userconfig.avatar.version = -(Math.floor(Math.random() * 1000));
+
 	if (hidedefault) {
 		$headerdiv.hide();
 		$('#header .avatardiv').removeClass('avatardiv-shown');
@@ -112,7 +115,10 @@ function updateAvatar (hidedefault) {
 	$displaydiv.avatar(OC.currentUser, 145, true);
 	$.get(OC.generateUrl(
 		'/avatar/{user}/{size}',
-		{user: OC.currentUser, size: 1}
+		{
+			user: OC.currentUser,
+			size: 1
+		}
 	), function (result) {
 		if (typeof(result) === 'string') {
 			// Show the delete button when the avatar is custom
@@ -358,7 +364,10 @@ $(document).ready(function () {
 	// does the user have a custom avatar? if he does show #removeavatar
 	$.get(OC.generateUrl(
 		'/avatar/{user}/{size}',
-		{user: OC.currentUser, size: 1}
+		{
+			user: OC.currentUser,
+			size: 1
+		}
 	), function (result) {
 		if (typeof(result) === 'string') {
 			// Show the delete button when the avatar is custom

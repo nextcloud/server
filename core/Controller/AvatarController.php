@@ -27,6 +27,7 @@
  */
 namespace OC\Core\Controller;
 
+use OC\AppFramework\Utility\TimeFactory;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
@@ -73,6 +74,9 @@ class AvatarController extends Controller {
 	/** @var string */
 	protected $userId;
 
+	/** @var TimeFactory */
+	protected $timeFactory;
+
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -83,6 +87,7 @@ class AvatarController extends Controller {
 	 * @param IRootFolder $rootFolder
 	 * @param ILogger $logger
 	 * @param string $userId
+	 * @param TimeFactory $timeFactory
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -92,7 +97,8 @@ class AvatarController extends Controller {
 								IUserManager $userManager,
 								IRootFolder $rootFolder,
 								ILogger $logger,
-								$userId) {
+								$userId,
+								TimeFactory $timeFactory) {
 		parent::__construct($appName, $request);
 
 		$this->avatarManager = $avatarManager;
@@ -102,6 +108,7 @@ class AvatarController extends Controller {
 		$this->rootFolder = $rootFolder;
 		$this->logger = $logger;
 		$this->userId = $userId;
+		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -126,6 +133,21 @@ class AvatarController extends Controller {
 				Http::STATUS_OK,
 				['Content-Type' => $avatar->getMimeType()]);
 			$resp->setETag($avatar->getEtag());
+
+			// Let cache this!
+			$resp->addHeader('Pragma', 'public');
+			// Cache for 15 minutes
+			$resp->cacheFor(900);
+			// Set last modified
+			$lastModified = new \DateTime();
+			$lastModified->setTimestamp($avatar->getMTime());
+			$resp->setLastModified($lastModified);
+
+			$expires = new \DateTime();
+			$expires->setTimestamp($this->timeFactory->getTime());
+			$expires->add(new \DateInterval('PT15M'));
+			$resp->addHeader('Expires', $expires->format(\DateTime::RFC2822));
+
 		} catch (NotFoundException $e) {
 			$user = $this->userManager->get($userId);
 			$resp = new JSONResponse([
@@ -133,17 +155,19 @@ class AvatarController extends Controller {
 					'displayname' => $user->getDisplayName(),
 				],
 			]);
+			// Don't cache this
+			$resp->cacheFor(0);
+			$resp->setLastModified(new \DateTime('now', new \DateTimeZone('GMT')));
 		} catch (\Exception $e) {
 			$resp = new JSONResponse([
 				'data' => [
 					'displayname' => '',
 				],
 			]);
+			// Don't cache this
+			$resp->cacheFor(0);
+			$resp->setLastModified(new \DateTime('now', new \DateTimeZone('GMT')));
 		}
-
-		$resp->addHeader('Pragma', 'public');
-		$resp->cacheFor(0);
-		$resp->setLastModified(new \DateTime('now', new \DateTimeZone('GMT')));
 
 		return $resp;
 	}

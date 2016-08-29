@@ -149,8 +149,8 @@ $array = array(
 	"firstDay" => json_encode($l->l('firstday', null)) ,
 	"oc_config" => json_encode(
 		array(
-			'session_lifetime'	=> min(\OCP\Config::getSystemValue('session_lifetime', OC::$server->getIniWrapper()->getNumeric('session.gc_maxlifetime')), OC::$server->getIniWrapper()->getNumeric('session.gc_maxlifetime')),
-			'session_keepalive'	=> \OCP\Config::getSystemValue('session_keepalive', true),
+			'session_lifetime'	=> min($config->getSystemValue('session_lifetime', OC::$server->getIniWrapper()->getNumeric('session.gc_maxlifetime')), OC::$server->getIniWrapper()->getNumeric('session.gc_maxlifetime')),
+			'session_keepalive'	=> $config->getSystemValue('session_keepalive', true),
 			'version'			=> implode('.', \OCP\Util::getVersion()),
 			'versionstring'		=> OC_Util::getVersionString(),
 			'enable_avatars'	=> \OC::$server->getConfig()->getSystemValue('enable_avatars', true) === true,
@@ -187,8 +187,16 @@ $array = array(
 			'longFooter' => $defaults->getLongFooter(),
 			'folder' => OC_Util::getTheme(),
 		)
-	)
+	),
 );
+
+if (OC_User::getUser() !== null && OC_User::getUser() !== false) {
+	$array['oc_userconfig'] = json_encode([
+		'avatar' => [
+			'version' => (int)$config->getUserValue(OC_User::getUser(), 'avatar', 'version', 0),
+		]
+	]);
+}
 
 // Allow hooks to modify the output values
 OC_Hook::emit('\OCP\Config', 'js', array('array' => &$array));

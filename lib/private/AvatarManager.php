@@ -30,6 +30,7 @@ namespace OC;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\IAvatarManager;
+use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Files\IRootFolder;
@@ -52,6 +53,9 @@ class AvatarManager implements IAvatarManager {
 	/** @var ILogger  */
 	private $logger;
 
+	/** @var IConfig */
+	private $config;
+
 	/**
 	 * AvatarManager constructor.
 	 *
@@ -59,16 +63,19 @@ class AvatarManager implements IAvatarManager {
 	 * @param IRootFolder $rootFolder
 	 * @param IL10N $l
 	 * @param ILogger $logger
+	 * @param IConfig $config
 	 */
 	public function __construct(
 			IUserManager $userManager,
 			IRootFolder $rootFolder,
 			IL10N $l,
-			ILogger $logger) {
+			ILogger $logger,
+			IConfig $config) {
 		$this->userManager = $userManager;
 		$this->rootFolder = $rootFolder;
 		$this->l = $l;
 		$this->logger = $logger;
+		$this->config = $config;
 	}
 
 	/**
@@ -94,6 +101,6 @@ class AvatarManager implements IAvatarManager {
 		/** @var Folder $folder */
 		$folder = $this->rootFolder->get($dir);
 
-		return new Avatar($folder, $this->l, $user, $this->logger);
+		return new Avatar($folder, $this->l, $user, $this->logger, $this->config);
 	}
 }

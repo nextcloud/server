@@ -112,6 +112,7 @@ class TemplateLayout extends \OC_Template {
 				$this->assign('userAvatarSet', false);
 			} else {
 				$this->assign('userAvatarSet', \OC::$server->getAvatarManager()->getAvatar(\OC_User::getUser())->exists());
+				$this->assign('userAvatarVersion', \OC::$server->getConfig()->getUserValue(\OC_User::getUser(), 'avatar', 'version', 0));
 			}
 
 		} else if ($renderAs == 'error') {
