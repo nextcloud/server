@@ -84,11 +84,6 @@ class OC_Image implements \OCP\IImage {
 			$this->logger = \OC::$server->getLogger();
 		}
 
-		if (!extension_loaded('gd') || !function_exists('gd_info')) {
-			$this->logger->error(__METHOD__ . '(): GD module not installed', array('app' => 'core'));
-			return false;
-		}
-
 		if (\OC_Util::fileInfoLoaded()) {
 			$this->fileInfo = new finfo(FILEINFO_MIME_TYPE);
 		}
@@ -802,8 +797,8 @@ class OC_Image implements \OCP\IImage {
 			$this->logger->error(__METHOD__ . '(): No image loaded', array('app' => 'core'));
 			return false;
 		}
-		$widthOrig = imageSX($this->resource);
-		$heightOrig = imageSY($this->resource);
+		$widthOrig = imagesx($this->resource);
+		$heightOrig = imagesy($this->resource);
 		$ratioOrig = $widthOrig / $heightOrig;
 
 		if ($ratioOrig > 1) {
@@ -828,8 +823,8 @@ class OC_Image implements \OCP\IImage {
 			$this->logger->error(__METHOD__ . '(): No image loaded', array('app' => 'core'));
 			return false;
 		}
-		$widthOrig = imageSX($this->resource);
-		$heightOrig = imageSY($this->resource);
+		$widthOrig = imagesx($this->resource);
+		$heightOrig = imagesy($this->resource);
 		$process = imagecreatetruecolor($width, $height);
 
 		if ($process == false) {
@@ -867,8 +862,8 @@ class OC_Image implements \OCP\IImage {
 			$this->logger->error('OC_Image->centerCrop, No image loaded', array('app' => 'core'));
 			return false;
 		}
-		$widthOrig = imageSX($this->resource);
-		$heightOrig = imageSY($this->resource);
+		$widthOrig = imagesx($this->resource);
+		$heightOrig = imagesy($this->resource);
 		if ($widthOrig === $heightOrig and $size == 0) {
 			return true;
 		}
@@ -967,8 +962,8 @@ class OC_Image implements \OCP\IImage {
 			$this->logger->error(__METHOD__ . '(): No image loaded', array('app' => 'core'));
 			return false;
 		}
-		$widthOrig = imageSX($this->resource);
-		$heightOrig = imageSY($this->resource);
+		$widthOrig = imagesx($this->resource);
+		$heightOrig = imagesy($this->resource);
 		$ratio = $widthOrig / $heightOrig;
 
 		$newWidth = min($maxWidth, $ratio * $maxHeight);
@@ -990,8 +985,8 @@ class OC_Image implements \OCP\IImage {
 			$this->logger->error(__METHOD__ . '(): No image loaded', array('app' => 'core'));
 			return false;
 		}
-		$widthOrig = imageSX($this->resource);
-		$heightOrig = imageSY($this->resource);
+		$widthOrig = imagesx($this->resource);
+		$heightOrig = imagesy($this->resource);
 
 		if ($widthOrig > $maxWidth || $heightOrig > $maxHeight) {
 			return $this->fitIn($maxWidth, $maxHeight);
@@ -1024,6 +1019,7 @@ if (!function_exists('imagebmp')) {
 	 * @link http://www.programmierer-forum.de/imagebmp-gute-funktion-gefunden-t143716.htm
 	 * @author mgutt <marc@gutt.it>
 	 * @version 1.00
+	 * @param resource $im
 	 * @param string $fileName [optional] <p>The path to save the file to.</p>
 	 * @param int $bit [optional] <p>Bit depth, (default is 24).</p>
 	 * @param int $compression [optional]
