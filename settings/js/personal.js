@@ -286,8 +286,8 @@ $(document).ready(function () {
 				msg = data.jqXHR.responseJSON.data.message;
 			}
 			avatarResponseHandler({
-			data: {
-					message: t('settings', 'An error occurred: {message}', { message: msg })
+				data: {
+					message: msg
 				}
 			});
 		}
@@ -304,7 +304,7 @@ $(document).ready(function () {
 					url: OC.generateUrl('/avatar/'),
 					data: { path: path }
 				}).done(avatarResponseHandler)
-					.fail(function(jqXHR, status){
+					.fail(function(jqXHR) {
 						var msg = jqXHR.statusText + ' (' + jqXHR.status + ')';
 						if (!_.isUndefined(jqXHR.responseJSON) &&
 							!_.isUndefined(jqXHR.responseJSON.data) &&
@@ -314,7 +314,7 @@ $(document).ready(function () {
 						}
 						avatarResponseHandler({
 							data: {
-								message: t('settings', 'An error occurred: {message}', { message: msg })
+								message: msg
 							}
 						});
 					});
