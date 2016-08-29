@@ -19,4 +19,12 @@
 		</ul>
 	</p>
 </div>
-<a class="two-factor-cancel" <?php print_unescaped($_['logout_attribute']); ?>><?php p($l->t('Cancel log in')) ?></a>
+<a class="two-factor-link" <?php print_unescaped($_['logout_attribute']); ?>><?php p($l->t('Cancel log in')) ?></a>
+<?php if (!is_null($_['backupProvider'])): ?>
+<a class="two-factor-link" href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.showChallenge',
+										[
+											'challengeProviderId' => $_['backupProvider']->getId(),
+											'redirect_url' => $_['redirect_url'],
+										]
+									)) ?>"><?php p($l->t('Use backup code')) ?></a>
+<?php endif;

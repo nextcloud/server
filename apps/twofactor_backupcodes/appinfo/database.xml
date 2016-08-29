@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<database>
+	<name>*dbname*</name>
+	<create>true</create>
+	<overwrite>false</overwrite>
+	<charset>utf8</charset>
+	<table>
+		<name>*dbprefix*twofactor_backup_codes</name>
+		<declaration>
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<autoincrement>1</autoincrement>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+			<field>
+				<name>user_id</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+			<field>
+				<name>code</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+			<field>
+				<name>used</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<default>0</default>
+				<length>1</length>
+			</field>
+
+			<index>
+				<name>two_factor_backupcodes_user_id</name>
+				<field>
+					<name>user_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+		</declaration>
+	</table>
+</database>

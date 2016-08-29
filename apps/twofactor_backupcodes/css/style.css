@@ -1,0 +1,25 @@
+.challenge-form {
+	margin: 16px auto 1px !important;
+}
+
+.challenge {
+	margin-top: 0 !important;
+	margin-left: 0 !important;
+}
+
+.confirm-inline {
+	position: absolute;
+	right: 10px;
+	top: 0;
+	margin: 0 !important;
+	padding-right: 25px !important;
+	background-color: transparent !important;
+	border: none !important;
+	opacity: .5;
+}
+
+.backup-code {
+	font-family: monospace;
+	letter-spacing: 0.02em;
+	font-size: 1.2em;
+}

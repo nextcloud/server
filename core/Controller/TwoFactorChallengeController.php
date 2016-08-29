@@ -82,9 +82,11 @@ class TwoFactorChallengeController extends Controller {
 	public function selectChallenge($redirect_url) {
 		$user = $this->userSession->getUser();
 		$providers = $this->twoFactorManager->getProviders($user);
+		$backupProvider = $this->twoFactorManager->getBackupProvider($user);
 
 		$data = [
 			'providers' => $providers,
+			'backupProvider' => $backupProvider,
 			'redirect_url' => $redirect_url,
 			'logout_attribute' => $this->getLogoutAttribute(),
 		];
@@ -107,6 +109,12 @@ class TwoFactorChallengeController extends Controller {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('core.TwoFactorChallenge.selectChallenge'));
 		}
 
+		$backupProvider = $this->twoFactorManager->getBackupProvider($user);
+		if (!is_null($backupProvider) && $backupProvider->getId() === $provider->getId()) {
+			// Don't show the backup provider link if we're already showing that provider's challenge
+			$backupProvider = null;
+		}
+
 		if ($this->session->exists('two_factor_auth_error')) {
 			$this->session->remove('two_factor_auth_error');
 			$error = true;
@@ -118,6 +126,7 @@ class TwoFactorChallengeController extends Controller {
 		$data = [
 			'error' => $error,
 			'provider' => $provider,
+			'backupProvider' => $backupProvider,
 			'logout_attribute' => $this->getLogoutAttribute(),
 			'template' => $tmpl->fetchPage(),
 		];

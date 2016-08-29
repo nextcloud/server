@@ -35,6 +35,8 @@ use OCP\IUser;
 class Manager {
 
 	const SESSION_UID_KEY = 'two_factor_auth_uid';
+	const BACKUP_CODES_APP_ID = 'twofactor_backupcodes';
+	const BACKUP_CODES_PROVIDER_ID = 'backup_codes';
 
 	/** @var AppManager */
 	private $appManager;
@@ -93,21 +95,35 @@ class Manager {
 	 * @return IProvider|null
 	 */
 	public function getProvider(IUser $user, $challengeProviderId) {
-		$providers = $this->getProviders($user);
+		$providers = $this->getProviders($user, true);
 		return isset($providers[$challengeProviderId]) ? $providers[$challengeProviderId] : null;
+	}
+
+	/**
+	 * @param IUser $user
+	 * @return IProvider|null the backup provider, if enabled for the given user
+	 */
+	public function getBackupProvider(IUser $user) {
+		$providers = $this->getProviders($user, true);
+		return $providers[self::BACKUP_CODES_PROVIDER_ID];
 	}
 
 	/**
 	 * Get the list of 2FA providers for the given user
 	 *
 	 * @param IUser $user
+	 * @param bool $includeBackupApp
 	 * @return IProvider[]
 	 */
-	public function getProviders(IUser $user) {
+	public function getProviders(IUser $user, $includeBackupApp = false) {
 		$allApps = $this->appManager->getEnabledAppsForUser($user);
 		$providers = [];
 
 		foreach ($allApps as $appId) {
+			if (!$includeBackupApp && $appId === self::BACKUP_CODES_APP_ID) {
+				continue;
+			}
+
 			$info = $this->appManager->getAppInfo($appId);
 			if (isset($info['two-factor-providers'])) {
 				$providerClasses = $info['two-factor-providers'];

@@ -77,9 +77,14 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->method('getProviders')
 			->with($user)
 			->will($this->returnValue($providers));
+		$this->twoFactorManager->expects($this->once())
+			->method('getBackupProvider')
+			->with($user)
+			->will($this->returnValue('backup'));
 
 		$expected = new \OCP\AppFramework\Http\TemplateResponse('core', 'twofactorselectchallenge', [
 			'providers' => $providers,
+			'backupProvider' => 'backup',
 			'redirect_url' => '/some/url',
 			'logout_attribute' => 'logoutAttribute',
 		], 'guest');
@@ -90,6 +95,9 @@ class TwoFactorChallengeControllerTest extends TestCase {
 	public function testShowChallenge() {
 		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
 		$provider = $this->getMockBuilder('\OCP\Authentication\TwoFactorAuth\IProvider')
+			->disableOriginalConstructor()
+			->getMock();
+		$backupProvider = $this->getMockBuilder('\OCP\Authentication\TwoFactorAuth\IProvider')
 			->disableOriginalConstructor()
 			->getMock();
 		$tmpl = $this->getMockBuilder('\OCP\Template')
@@ -103,6 +111,16 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->method('getProvider')
 			->with($user, 'myprovider')
 			->will($this->returnValue($provider));
+		$this->twoFactorManager->expects($this->once())
+			->method('getBackupProvider')
+			->with($user)
+			->will($this->returnValue($backupProvider));
+		$provider->expects($this->once())
+			->method('getId')
+			->will($this->returnValue('u2f'));
+		$backupProvider->expects($this->once())
+			->method('getId')
+			->will($this->returnValue('backup_codes'));
 
 		$this->session->expects($this->once())
 			->method('exists')
@@ -122,6 +140,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$expected = new \OCP\AppFramework\Http\TemplateResponse('core', 'twofactorshowchallenge', [
 			'error' => true,
 			'provider' => $provider,
+			'backupProvider' => $backupProvider,
 			'logout_attribute' => 'logoutAttribute',
 			'template' => '<html/>',
 			], 'guest');
