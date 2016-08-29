@@ -564,7 +564,7 @@ class Connection extends LDAPUtility {
 	/**
 	 * @param string $host
 	 * @param string $port
-	 * @return false|void
+	 * @return bool
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	private function doConnect($host, $port) {
