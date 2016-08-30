@@ -73,7 +73,8 @@ class IconController extends Controller {
 		Util $util,
 		ITimeFactory $timeFactory,
 		IL10N $l,
-		IRootFolder $rootFolder
+		IRootFolder $rootFolder,
+		IconBuilder $iconBuilder
 	) {
 		parent::__construct($appName, $request);
 
@@ -83,9 +84,10 @@ class IconController extends Controller {
 		$this->l = $l;
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
-		if(extension_loaded('imagick')) {
-			$this->iconBuilder = new IconBuilder($this->themingDefaults, $this->util);
-		}
+		$this->iconBuilder = $iconBuilder;
+		//if(extension_loaded('imagick')) {
+		//	$this->iconBuilder = new IconBuilder($this->themingDefaults, $this->util);
+		//}
 	}
 
 	/**
@@ -121,18 +123,13 @@ class IconController extends Controller {
 		if($this->themingDefaults->shouldReplaceIcons()) {
 			$icon = $this->iconBuilder->getFavicon($app);
 			$response = new DataDisplayResponse($icon, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
-			$response->cacheFor(86400);
-			$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
-			$response->addHeader('Pragma', 'cache');
-			return $response;
 		} else {
 			$response = new DataDisplayResponse(null, Http::STATUS_NOT_FOUND);
-			$response->cacheFor(86400);
-			$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
-			return $response;
 		}
-
-
+		$response->cacheFor(86400);
+		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		$response->addHeader('Pragma', 'cache');
+		return $response;
 	}
 
 	/**
@@ -148,16 +145,13 @@ class IconController extends Controller {
 		if($this->themingDefaults->shouldReplaceIcons()) {
 			$icon = $this->iconBuilder->getTouchIcon($app);
 			$response = new DataDisplayResponse($icon, Http::STATUS_OK, ['Content-Type' => 'image/png']);
-			$response->cacheFor(86400);
-			$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
-			$response->addHeader('Pragma', 'cache');
-			return $response;
 		} else {
 			$response = new DataDisplayResponse(null, Http::STATUS_NOT_FOUND);
-			$response->cacheFor(86400);
-			$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
-			return $response;
 		}
+		$response->cacheFor(86400);
+		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		$response->addHeader('Pragma', 'cache');
+		return $response;
 	}
 
 

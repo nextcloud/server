@@ -23,6 +23,7 @@
 namespace OCA\Theming\Tests\Controller;
 
 use OCA\Theming\Controller\IconController;
+use OCA\Theming\IconBuilder;
 use OCA\Theming\Util;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -52,11 +53,10 @@ class IconControllerTest extends TestCase {
 	private $iconController;
 	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
 	private $rootFolder;
+	/** @var IconBuilder */
+	private $iconBuilder;
 
 	public function setUp() {
-
-
-
 		$this->request = $this->getMockBuilder('OCP\IRequest')->getMock();
 		$this->config = $this->getMockBuilder('OCP\IConfig')->getMock();
 		$this->themingDefaults = $this->getMockBuilder('OCA\Theming\ThemingDefaults')
@@ -68,6 +68,8 @@ class IconControllerTest extends TestCase {
 			->getMock();
 		$this->l10n = $this->getMockBuilder('OCP\IL10N')->getMock();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
+		$this->iconBuilder = $this->getMockBuilder('OCA\Theming\IconBuilder')
+			->disableOriginalConstructor()->getMock();
 
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
@@ -81,10 +83,11 @@ class IconControllerTest extends TestCase {
 			$this->util,
 			$this->timeFactory,
 			$this->l10n,
-			$this->rootFolder
+			$this->rootFolder,
+			$this->iconBuilder
 		);
 
-		return parent::setUp();
+		parent::setUp();
 	}
 
 	public function testGetThemedIcon() {
@@ -111,38 +114,94 @@ class IconControllerTest extends TestCase {
 		$expected = new DataDisplayResponse($svg, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
 		$expected->cacheFor(86400);
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		$expected->addHeader('Pragma', 'cache');
 		@$this->assertEquals($expected, $this->iconController->getThemedIcon('core','filetypes/folder.svg'));
 	}
 
 	public function testGetFaviconDefault() {
-
-		$this->util->expects($this->once())
-			->method('getAppIcon')
-			->with('core')
-			->willReturn(\OC::$SERVERROOT . "/core/img/logo.svg");
-
-		$favicon = $this->iconController->getFavicon();
+		if(!extension_loaded('imagick')) {
+			$this->markTestSkipped('Imagemagick is required for dynamic icon generation.');
+		}
+		$checkImagick = new \Imagick();
+		if (count($checkImagick->queryFormats('SVG')) < 1) {
+			$this->markTestSkipped('No SVG provider present.');
+		}
+		$this->themingDefaults->expects($this->once())
+			->method('shouldReplaceIcons')
+			->willReturn(true);
 		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)) . '/../data/favicon-original.ico');
+		$this->iconBuilder->expects($this->once())
+			->method('getFavicon')
+			->with('core')
+			->willReturn($expectedIcon);
+		$favicon = $this->iconController->getFavicon();
+
 		$expected = new DataDisplayResponse($expectedIcon, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		$expected->cacheFor(86400);
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		$expected->addHeader('Pragma', 'cache');
 		$this->assertEquals($expected, $favicon);
 	}
 	public function testGetTouchIconDefault() {
-
-		$this->util->expects($this->once())
-			->method('getAppIcon')
-			->with('core')
-			->willReturn(\OC::$SERVERROOT . "/core/img/logo.svg");
-		$favicon = $this->iconController->getTouchIcon();
+		if(!extension_loaded('imagick')) {
+			$this->markTestSkipped('Imagemagick is required for dynamic icon generation.');
+		}
+		$checkImagick = new \Imagick();
+		if (count($checkImagick->queryFormats('SVG')) < 1) {
+			$this->markTestSkipped('No SVG provider present.');
+		}
+		$this->themingDefaults->expects($this->once())
+			->method('shouldReplaceIcons')
+			->willReturn(true);
 		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)) . '/../data/touch-original.png');
+		$this->iconBuilder->expects($this->once())
+			->method('getTouchIcon')
+			->with('core')
+			->willReturn($expectedIcon);
+		$favicon = $this->iconController->getTouchIcon();
 
 		$expected = new DataDisplayResponse($expectedIcon, Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		$expected->cacheFor(86400);
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		$expected->addHeader('Pragma', 'cache');
 		$this->assertEquals($expected, $favicon);
 	}
 
-
+	public function testGetFaviconFail() {
+		if(!extension_loaded('imagick')) {
+			$this->markTestSkipped('Imagemagick is required for dynamic icon generation.');
+		}
+		$checkImagick = new \Imagick();
+		if (count($checkImagick->queryFormats('SVG')) < 1) {
+			$this->markTestSkipped('No SVG provider present.');
+		}
+		$this->themingDefaults->expects($this->once())
+			->method('shouldReplaceIcons')
+			->willReturn(false);
+		$favicon = $this->iconController->getFavicon();
+		$expected = new DataDisplayResponse(null, Http::STATUS_NOT_FOUND);
+		$expected->cacheFor(86400);
+		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		$expected->addHeader('Pragma', 'cache');
+		$this->assertEquals($expected, $favicon);
+	}
+	public function testGetTouchIconFail() {
+		if(!extension_loaded('imagick')) {
+			$this->markTestSkipped('Imagemagick is required for dynamic icon generation.');
+		}
+		$checkImagick = new \Imagick();
+		if (count($checkImagick->queryFormats('SVG')) < 1) {
+			$this->markTestSkipped('No SVG provider present.');
+		}
+		$this->themingDefaults->expects($this->once())
+			->method('shouldReplaceIcons')
+			->willReturn(false);
+		$favicon = $this->iconController->getTouchIcon();
+		$expected = new DataDisplayResponse(null, Http::STATUS_NOT_FOUND);
+		$expected->cacheFor(86400);
+		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		$expected->addHeader('Pragma', 'cache');
+		$this->assertEquals($expected, $favicon);
+	}
 
 }
