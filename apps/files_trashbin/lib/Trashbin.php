@@ -470,21 +470,21 @@ class Trashbin {
 	public static function deleteAll() {
 		$user = User::getUser();
 		$view = new View('/' . $user);
-        $fileInfos = $view->getDirectoryContent('files_trashbin/files');
+		$fileInfos = $view->getDirectoryContent('files_trashbin/files');
 
-        foreach($fileInfos as $fileInfo){
-            $path =  $view->getRelativePath($fileInfo->getPath());
-            self::emitTrashbinPreDelete($path);
-        }
+		foreach($fileInfos as $fileInfo){
+			$path =  $view->getRelativePath($fileInfo->getPath());
+			self::emitTrashbinPreDelete($path);
+		}
 
 		$view->deleteAll('files_trashbin');
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trash` WHERE `user`=?');
 		$query->execute(array($user));
 
-        foreach($fileInfos as $fileInfo){
-            $path = $fileInfo->getPath();
-            self::emitTrashbinPostDelete($path);
-        }
+		foreach($fileInfos as $fileInfo){
+			$path = $fileInfo->getPath();
+			self::emitTrashbinPostDelete($path);
+		}
 
 		$view->mkdir('files_trashbin');
 		$view->mkdir('files_trashbin/files');
@@ -492,21 +492,21 @@ class Trashbin {
 		return true;
 	}
 
-    /**
-     * wrapper function to emit the 'preDelete' hook of \OCP\Trashbin before a file is deleted
-     * @param string $path
-     */
+	/**
+	 * wrapper function to emit the 'preDelete' hook of \OCP\Trashbin before a file is deleted
+	 * @param string $path
+	 */
 	protected static function emitTrashbinPreDelete($path){
-        \OC_Hook::emit('\OCP\Trashbin', 'preDelete', array('path' => $path));
-    }
+		\OC_Hook::emit('\OCP\Trashbin', 'preDelete', array('path' => $path));
+	}
 
-    /**
-     * wrapper function to emit the 'delete' hook of \OCP\Trashbin after a file has been deleted
-     * @param string $path
-     */
-    protected static function emitTrashbinPostDelete($path){
-        \OC_Hook::emit('\OCP\Trashbin', 'delete', array('path' => $path));
-    }
+	/**
+	 * wrapper function to emit the 'delete' hook of \OCP\Trashbin after a file has been deleted
+	 * @param string $path
+	 */
+	protected static function emitTrashbinPostDelete($path){
+		\OC_Hook::emit('\OCP\Trashbin', 'delete', array('path' => $path));
+	}
 
 	/**
 	 * delete file from trash bin permanently
@@ -536,7 +536,7 @@ class Trashbin {
 		} else {
 			$size += $view->filesize('/files_trashbin/files/' . $file);
 		}
-        self::emitTrashbinPreDelete('/files_trashbin/files/' . $file);
+		self::emitTrashbinPreDelete('/files_trashbin/files/' . $file);
 		$view->unlink('/files_trashbin/files/' . $file);
 		self::emitTrashbinPostDelete('/files_trashbin/files/' . $file);
 
