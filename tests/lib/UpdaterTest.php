@@ -137,6 +137,12 @@ class UpdaterTest extends \Test\TestCase {
 			['8.1.0.0', '8.2.0.0', '8.1', true, true],
 			['8.2.0.1', '8.2.0.1', '8.1', true, true],
 			['8.3.0.0', '8.2.0.0', '8.1', true, true],
+
+			// Downgrade of maintenance
+			['9.0.53.0', '9.0.4.0', '8.1', false, false, 'nextcloud'],
+			// with vendor switch
+			['9.0.53.0', '9.0.4.0', '8.1', true, false, ''],
+			['9.0.53.0', '9.0.4.0', '8.1', true, false, 'owncloud'],
 		];
 	}
 
@@ -148,12 +154,17 @@ class UpdaterTest extends \Test\TestCase {
 	 * @param string $allowedVersion
 	 * @param bool $result
 	 * @param bool $debug
+	 * @param string $vendor
 	 */
-	public function testIsUpgradePossible($oldVersion, $newVersion, $allowedVersion, $result, $debug = false) {
+	public function testIsUpgradePossible($oldVersion, $newVersion, $allowedVersion, $result, $debug = false, $vendor = 'nextcloud') {
 		$this->config->expects($this->any())
 			->method('getSystemValue')
 			->with('debug', false)
 			->willReturn($debug);
+		$this->config->expects($this->any())
+			->method('getAppValue')
+			->with('core', 'vendor', '')
+			->willReturn($vendor);
 
 		$this->assertSame($result, $this->updater->isUpgradePossible($oldVersion, $newVersion, $allowedVersion));
 	}
