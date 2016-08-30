@@ -179,6 +179,27 @@ trait BasicStructure {
 		}
 	}
 
+	public function sendingToWithDirectUrl($verb, $url, $body) {
+		$fullUrl = substr($this->baseUrl, 0, -5) . $url;
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$this->currentUser, $this->regularUser];
+		}
+		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
+			$fd = $body->getRowsHash();
+			$options['body'] = $fd;
+		}
+
+		try {
+			$this->response = $client->send($client->createRequest($verb, $fullUrl, $options));
+		} catch (\GuzzleHttp\Exception\ClientException $ex) {
+			$this->response = $ex->getResponse();
+		}
+	}
+
 	public function isExpectedUrl($possibleUrl, $finalPart){
 		$baseUrlChopped = substr($this->baseUrl, 0, -4);
 		$endCharacter = strlen($baseUrlChopped) + strlen($finalPart);
@@ -318,6 +339,16 @@ trait BasicStructure {
 		fseek($file, $size - 1 ,SEEK_CUR);
 		fwrite($file,'a'); // write a dummy char at SIZE position
 		fclose($file);
+	}
+
+	/**
+	 * @When User :user empties trashbin
+	 * @param string $user
+	 */
+	public function emptyTrashbin($user) {
+		$body = new \Behat\Gherkin\Node\TableNode([['allfiles', 'true'], ['dir', '%2F']]);
+		$this->sendingToWithDirectUrl('POST', "/index.php/apps/files_trashbin/ajax/delete.php", $body);
+		$this->theHTTPStatusCodeShouldBe('200');
 	}
 
 	/**
