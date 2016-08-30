@@ -349,7 +349,7 @@ trait BasicStructure {
 	 * @BeforeScenario @local_storage
 	 */
 	public static function removeFilesFromLocalStorageBefore(){
-		$dir = "./local_storage/";
+		$dir = "./work/local_storage/";
 		$di = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
 		$ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
 		foreach ( $ri as $file ) {
@@ -361,7 +361,7 @@ trait BasicStructure {
 	 * @AfterScenario @local_storage
 	 */
 	public static function removeFilesFromLocalStorageAfter(){
-		$dir = "./local_storage/";
+		$dir = "./work/local_storage/";
 		$di = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
 		$ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
 		foreach ( $ri as $file ) {
