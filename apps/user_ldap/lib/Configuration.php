@@ -11,6 +11,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roger Szabo <roger.szabo@web.de>
  *
  * @license AGPL-3.0
  *
@@ -90,6 +91,7 @@ class Configuration {
 		'lastJpegPhotoLookup' => null,
 		'ldapNestedGroups' => false,
 		'ldapPagingSize' => null,
+		'turnOnPasswordChange' => false,
 		'ldapDynamicGroupMemberURL' => null,
 	);
 
@@ -449,6 +451,7 @@ class Configuration {
 			'last_jpegPhoto_lookup'             => 0,
 			'ldap_nested_groups'                => 0,
 			'ldap_paging_size'                  => 500,
+			'ldap_turn_on_pwd_change'           => 0,
 			'ldap_experienced_admin'            => 0,
 			'ldap_dynamic_group_member_url'     => '',
 		);
@@ -505,6 +508,7 @@ class Configuration {
 			'last_jpegPhoto_lookup'             => 'lastJpegPhotoLookup',
 			'ldap_nested_groups'                => 'ldapNestedGroups',
 			'ldap_paging_size'                  => 'ldapPagingSize',
+			'ldap_turn_on_pwd_change'           => 'turnOnPasswordChange',
 			'ldap_experienced_admin'            => 'ldapExperiencedAdmin',
 			'ldap_dynamic_group_member_url'     => 'ldapDynamicGroupMemberURL',
 		);
