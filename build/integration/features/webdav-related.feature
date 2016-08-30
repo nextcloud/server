@@ -59,6 +59,24 @@ Feature: webdav-related
 		  |{DAV:}quota-available-bytes|
 		And the single response should contain a property "{DAV:}quota-available-bytes" with value "10485429"
 
+	Scenario: Uploading a file as recipient using webdav having quota
+		Given using dav path "remote.php/webdav"
+		And As an "admin"
+		And user "user0" exists
+		And user "user1" exists
+		And user "user0" has a quota of "10 MB"
+		And user "user1" has a quota of "10 MB"
+		And As an "user1"
+		And user "user1" created a folder "/testquota"
+		And as "user1" creating a share with
+		  | path | testquota |
+		  | shareType | 0 |
+		  | permissions | 31 |
+		  | shareWith | user0 |
+		And As an "user0"
+		When User "user0" uploads file "data/textfile.txt" to "/testquota/asdf.txt"
+		Then the HTTP status code should be "201"
+
 	Scenario: download a public shared file with range
 		Given user "user0" exists
 		And As an "user0"
