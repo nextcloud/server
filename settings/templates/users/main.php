@@ -19,10 +19,10 @@ style('settings', 'settings');
 
 $userlistParams = array();
 $allGroups=array();
-foreach($_["groups"] as $group) {
+foreach($_["adminGroup"] as $group) {
 	$allGroups[] = $group['name'];
 }
-foreach($_["adminGroup"] as $group) {
+foreach($_["groups"] as $group) {
 	$allGroups[] = $group['name'];
 }
 $userlistParams['subadmingroups'] = $allGroups;
