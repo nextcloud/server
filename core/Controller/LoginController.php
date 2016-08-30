@@ -25,7 +25,6 @@
 
 namespace OC\Core\Controller;
 
-use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;

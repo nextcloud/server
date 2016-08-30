@@ -228,7 +228,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->logger->expects($this->once())
 			->method('logException')
 			->with(new \Exception("foo"));
-		$expectedResponse = new Http\DataResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_BAD_REQUEST);
+		$expectedResponse = new Http\JSONResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_BAD_REQUEST);
 		$this->assertEquals($expectedResponse, $this->avatarController->deleteAvatar());
 	}
 
@@ -377,7 +377,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->logger->expects($this->once())
 			->method('logException')
 			->with(new \Exception("foo"));
-		$expectedResponse = new Http\DataResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_OK);
+		$expectedResponse = new Http\JSONResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_OK);
 		$this->assertEquals($expectedResponse, $this->avatarController->postAvatar('avatar.jpg'));
 	}
 
@@ -437,7 +437,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->logger->expects($this->once())
 			->method('logException')
 			->with(new \Exception('foo'));
-		$expectedResponse = new Http\DataResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_BAD_REQUEST);
+		$expectedResponse = new Http\JSONResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_BAD_REQUEST);
 		$this->assertEquals($expectedResponse, $this->avatarController->postCroppedAvatar(['x' => 0, 'y' => 0, 'w' => 10, 'h' => 11]));
 	}
 

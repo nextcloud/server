@@ -40,7 +40,6 @@ use \OCP\IConfig;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
-use OCP\Security\StringUtils;
 
 /**
  * Class LostController
@@ -144,7 +143,7 @@ class LostController extends Controller {
 	}
 
 	/**
-	 * @param string $userId
+	 * @param string $token
 	 * @param string $userId
 	 * @throws \Exception
 	 */
@@ -161,7 +160,7 @@ class LostController extends Controller {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is expired'));
 		}
 
-		if (!StringUtils::equals($splittedToken[1], $token)) {
+		if (!hash_equals($splittedToken[1], $token)) {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
 		}
 	}

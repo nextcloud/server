@@ -96,7 +96,7 @@ class TwoFactorChallengeController extends Controller {
 	 *
 	 * @param string $challengeProviderId
 	 * @param string $redirect_url
-	 * @return TemplateResponse
+	 * @return TemplateResponse|RedirectResponse
 	 */
 	public function showChallenge($challengeProviderId, $redirect_url) {
 		$user = $this->userSession->getUser();

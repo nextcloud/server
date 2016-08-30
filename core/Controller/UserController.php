@@ -26,26 +26,20 @@ namespace OC\Core\Controller;
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\JSONResponse;
 use \OCP\IRequest;
+use \OCP\IUserManager;
 
 class UserController extends Controller {
 	/**
-	 * @var \OCP\IUserManager
+	 * @var IUserManager
 	 */
 	protected $userManager;
 
-	/**
-	 * @var \OC_Defaults
-	 */
-	protected $defaults;
-
 	public function __construct($appName,
 								IRequest $request,
-								$userManager,
-								$defaults
+								IUserManager $userManager
 	) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
-		$this->defaults = $defaults;
 	}
 
 	/**
