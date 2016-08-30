@@ -942,6 +942,58 @@ class ShareesTest extends TestCase {
 				[],
 				true,
 			],
+			// contact with space
+			[
+				'user name@localhost',
+				[
+					[
+						'FN' => 'User3 @ Localhost',
+					],
+					[
+						'FN' => 'User2 @ Localhost',
+						'CLOUD' => [
+						],
+					],
+					[
+						'FN' => 'User Name @ Localhost',
+						'CLOUD' => [
+							'user name@localhost',
+						],
+					],
+				],
+				false,
+				[
+					['label' => 'User Name @ Localhost', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'user name@localhost', 'server' => 'localhost']],
+				],
+				[],
+				true,
+			],
+			// remote with space, no contact
+			[
+				'user space@remote',
+				[
+					[
+						'FN' => 'User3 @ Localhost',
+					],
+					[
+						'FN' => 'User2 @ Localhost',
+						'CLOUD' => [
+						],
+					],
+					[
+						'FN' => 'User @ Localhost',
+						'CLOUD' => [
+							'username@localhost',
+						],
+					],
+				],
+				false,
+				[
+					['label' => 'user space@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'user space@remote']],
+				],
+				[],
+				true,
+			],
 		];
 	}
 
