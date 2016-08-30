@@ -130,9 +130,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param IDBConnection $db
 	 * @param Principal $principalBackend
 	 * @param IUserManager $userManager
-         * @param IConfig $config
+	 * @param IConfig $config
 	 */
-	public function __construct(IDBConnection $db, Principal $principalBackend, IUserManager $userManager, IConfig $config) {
+	public function __construct(IDBConnection $db,
+								Principal $principalBackend,
+								IUserManager $userManager,
+								IConfig $config) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
 		$this->userManager = $userManager;

@@ -3,10 +3,12 @@
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IL10N;
 use OCP\IConfig;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\PublicCalendarRoot;
+use OCP\IUserManager;
 use Test\TestCase;
 use Sabre\Uri;
 
@@ -29,11 +31,12 @@ class PublicCalendarRootTest extends TestCase {
 
 	/** @var IL10N */
 	private $l10n;
-
+	/** @var IUserManager */
+	private $userManager;
+	/** @var Principal */
+	private $principal;
 	/** var IConfig */
 	protected $config;
-
-	private $principal;
 
 	public function setUp() {
 		parent::setUp();
@@ -43,8 +46,14 @@ class PublicCalendarRootTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->config = \OC::$server->getConfig();
+		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')->getMock();
 
-		$this->backend = new CalDavBackend($db, $this->principal, $this->config);
+		$this->backend = new CalDavBackend(
+			$db,
+			$this->principal,
+			$this->userManager,
+			$this->config
+		);
 
 		$this->publicCalendarRoot = new PublicCalendarRoot($this->backend);
 
@@ -98,6 +107,5 @@ class PublicCalendarRootTest extends TestCase {
 
 		return $calendar;
 	}
-
 
 }
