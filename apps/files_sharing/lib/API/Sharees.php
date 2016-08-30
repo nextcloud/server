@@ -319,7 +319,7 @@ class Sharees {
 			$this->result['remotes'] = [];
 		}
 
-		if (!$foundRemoteById && substr_count($search, '@') >= 1 && substr_count($search, ' ') === 0 && $this->offset === 0) {
+		if (!$foundRemoteById && substr_count($search, '@') >= 1 && $this->offset === 0) {
 			$this->result['exact']['remotes'][] = [
 				'label' => $search,
 				'value' => [
