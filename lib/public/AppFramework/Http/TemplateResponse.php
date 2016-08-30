@@ -61,17 +61,6 @@ class TemplateResponse extends Response {
 	 */
 	protected $appName;
 
-	/**
-	 * styles (vendor, app)
-	 * @var array
-	 */
-	protected $styles;
-
-	/**
-	 * scripts (vendor, app)
-	 * @var array
-	 */
-	protected $scripts;
 
 	/**
 	 * constructor of TemplateResponse
@@ -85,13 +74,11 @@ class TemplateResponse extends Response {
 	 * @since 6.0.0 - parameters $params and $renderAs were added in 7.0.0 - parameters $styles and $scripts were added in 11.0.0
 	 */
 	public function __construct($appName, $templateName, array $params=array(),
-	                            $renderAs='user', array $styles=array(), array $scripts=array()) {
+	                            $renderAs='user') {
 		$this->templateName = $templateName;
 		$this->appName = $appName;
 		$this->params = $params;
 		$this->renderAs = $renderAs;
-		$this->styles = $styles;
-		$this->scripts = $scripts;
 	}
 
 
@@ -154,6 +141,57 @@ class TemplateResponse extends Response {
 		return $this->renderAs;
 	}
 
+	/** Sets the required vendor scripts
+	 * @param array $scripts - should contain items of format 'vendorName/scriptName'
+	 * 						  for example: array('select2/select2');
+	 * @since 11.0.0
+	 */
+	public function setVendorScripts(array $scripts){
+		foreach ($scripts as $application){
+			\OC_Util::addVendorScript($application);
+		}
+	}
+
+	/**
+	 * Sets the required app scripts
+	 * @param array $scripts - should contain items of format 'appName' => array('scriptNameOne', 'scriptNameTwo')
+	 * 						 for example: array('activity' => array('script'));
+	 * @since 11.0.0
+	 */
+	public function setAppScripts(array $scripts){
+		foreach ($scripts as $appName => $files) {
+			foreach ($files as $file) {
+				\OC_Util::addScript($appName, $file);
+			}
+		}
+	}
+
+	/**
+	 * Sets the required vendor styles
+	 * @param array $styles - should contain items of format 'vendorName/styleName'
+	 * 						  for example: array('select2/select2');
+	 * @since 11.0.0
+	 */
+	public function setVendorStyles(array $styles){
+		foreach ($styles as $application) {
+			\OC_Util::addVendorStyle($application);
+		}
+	}
+
+	/**
+	 * Sets the required app styles
+	 * @param array $styles - should contain items of format 'appName' => array('styleNameOne', 'styleNameTwo')
+	 * 						 for example: array('activity' => array('style'));
+	 * @since 11.0.0
+	 */
+	public function setAppStyles(array $styles){
+		foreach ($styles as $appName => $files) {
+			foreach ($files as $file) {
+				\OC_Util::addStyle($appName, $file);
+			}
+		}
+	}
+
 
 	/**
 	 * Returns the rendered html
@@ -170,44 +208,7 @@ class TemplateResponse extends Response {
 			$template->assign($key, $value);
 		}
 
-		$this->addScriptsAndStyles();
-
 		return $template->fetchPage();
-	}
-	
-
-	/**
-	 * adds the vendor and app scripts and styles to the templateresponse
-	 * @since 11.0.0
-	 */
-	private function addScriptsAndStyles(){
-		if (array_key_exists('vendor', $this->scripts)){
-			foreach ($this->scripts['vendor'] as $application){
-				\OC_Util::addVendorScript($application);
-			}
-		}
-
-		if (array_key_exists('app', $this->scripts)) {
-			foreach ($this->scripts['app'] as $appName => $files) {
-				foreach ($files as $file) {
-					\OC_Util::addScript($appName, $file);
-				}
-			}
-		}
-
-		if (array_key_exists('vendor', $this->styles)) {
-			foreach ($this->styles['vendor'] as $application) {
-				\OC_Util::addVendorStyle($application);
-			}
-		}
-
-		if (array_key_exists('app', $this->styles)) {
-			foreach ($this->styles['app'] as $appName => $files) {
-				foreach ($files as $file) {
-					\OC_Util::addStyle($appName, $file);
-				}
-			}
-		}
 	}
 
 }
