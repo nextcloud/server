@@ -242,6 +242,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 
 		$result = $query->execute();
 		$row = $result->fetch();
+		$result->closeCursor();
 		if ($row) {
 			return $row['storage'];
 		}
