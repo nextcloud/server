@@ -225,8 +225,11 @@ class Throttler {
 	 * Will sleep for the defined amount of time
 	 *
 	 * @param string $ip
+	 * @return int the time spent sleeping
 	 */
 	public function sleepDelay($ip) {
-		usleep($this->getDelay($ip) * 1000);
+		$delay = $this->getDelay($ip);
+		usleep($delay * 1000);
+		return $delay;
 	}
 }

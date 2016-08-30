@@ -371,7 +371,7 @@ class SessionTest extends \Test\TestCase {
 			->with('token_auth_enforced', false)
 			->will($this->returnValue(true));
 		$request
-			->expects($this->exactly(2))
+			->expects($this->any())
 			->method('getRemoteAddress')
 			->willReturn('192.168.0.1');
 		$this->throttler
@@ -379,7 +379,7 @@ class SessionTest extends \Test\TestCase {
 			->method('sleepDelay')
 			->with('192.168.0.1');
 		$this->throttler
-			->expects($this->once())
+			->expects($this->any())
 			->method('getDelay')
 			->with('192.168.0.1')
 			->willReturn(0);
@@ -412,7 +412,7 @@ class SessionTest extends \Test\TestCase {
 			->method('set')
 			->with('app_password', 'I-AM-AN-APP-PASSWORD');
 		$request
-			->expects($this->exactly(2))
+			->expects($this->any())
 			->method('getRemoteAddress')
 			->willReturn('192.168.0.1');
 		$this->throttler
@@ -420,7 +420,7 @@ class SessionTest extends \Test\TestCase {
 			->method('sleepDelay')
 			->with('192.168.0.1');
 		$this->throttler
-			->expects($this->once())
+			->expects($this->any())
 			->method('getDelay')
 			->with('192.168.0.1')
 			->willReturn(0);
@@ -459,7 +459,7 @@ class SessionTest extends \Test\TestCase {
 			->will($this->returnValue(true));
 
 		$request
-			->expects($this->exactly(2))
+			->expects($this->any())
 			->method('getRemoteAddress')
 			->willReturn('192.168.0.1');
 		$this->throttler
@@ -467,7 +467,7 @@ class SessionTest extends \Test\TestCase {
 			->method('sleepDelay')
 			->with('192.168.0.1');
 		$this->throttler
-			->expects($this->once())
+			->expects($this->any())
 			->method('getDelay')
 			->with('192.168.0.1')
 			->willReturn(0);
