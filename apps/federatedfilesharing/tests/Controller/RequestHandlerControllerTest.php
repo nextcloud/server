@@ -30,7 +30,7 @@ namespace OCA\FederatedFileSharing\Tests;
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
-use OCA\FederatedFileSharing\RequestHandler;
+use OCA\FederatedFileSharing\Controller\RequestHandlerController;
 use OCP\IUserManager;
 use OCP\Share\IShare;
 
@@ -40,7 +40,7 @@ use OCP\Share\IShare;
  * @package OCA\FederatedFileSharing\Tests
  * @group DB
  */
-class RequestHandlerTest extends TestCase {
+class RequestHandlerControllerTest extends TestCase {
 
 	const TEST_FOLDER_NAME = '/folder_share_api_test';
 
@@ -50,23 +50,23 @@ class RequestHandlerTest extends TestCase {
 	private $connection;
 
 	/**
-	 * @var RequestHandler
+	 * @var RequestHandlerController
 	 */
 	private $s2s;
 
-	/** @var  \OCA\FederatedFileSharing\FederatedShareProvider | PHPUnit_Framework_MockObject_MockObject */
+	/** @var  \OCA\FederatedFileSharing\FederatedShareProvider|\PHPUnit_Framework_MockObject_MockObject */
 	private $federatedShareProvider;
 
-	/** @var  \OCA\FederatedFileSharing\Notifications | PHPUnit_Framework_MockObject_MockObject */
+	/** @var  \OCA\FederatedFileSharing\Notifications|\PHPUnit_Framework_MockObject_MockObject */
 	private $notifications;
 
-	/** @var  \OCA\FederatedFileSharing\AddressHandler | PHPUnit_Framework_MockObject_MockObject */
+	/** @var  \OCA\FederatedFileSharing\AddressHandler|\PHPUnit_Framework_MockObject_MockObject */
 	private $addressHandler;
 	
-	/** @var  IUserManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
 
-	/** @var  IShare | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IShare|\PHPUnit_Framework_MockObject_MockObject */
 	private $share;
 
 	protected function setUp() {
@@ -77,12 +77,12 @@ class RequestHandlerTest extends TestCase {
 
 		$config = $this->getMockBuilder('\OCP\IConfig')
 				->disableOriginalConstructor()->getMock();
-		$clientService = $this->getMock('\OCP\Http\Client\IClientService');
+		$clientService = $this->getMockBuilder('\OCP\Http\Client\IClientService')->getMock();
 		$httpHelperMock = $this->getMockBuilder('\OC\HTTPHelper')
 				->setConstructorArgs([$config, $clientService])
 				->getMock();
 		$httpHelperMock->expects($this->any())->method('post')->with($this->anything())->will($this->returnValue(true));
-		$this->share = $this->getMock('\OCP\Share\IShare');
+		$this->share = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
 		$this->federatedShareProvider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
 			->disableOriginalConstructor()->getMock();
 		$this->federatedShareProvider->expects($this->any())
@@ -96,15 +96,16 @@ class RequestHandlerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')
 			->disableOriginalConstructor()->getMock();
-		$this->userManager = $this->getMock('OCP\IUserManager');
+		$this->userManager = $this->getMockBuilder('OCP\IUserManager')->getMock();
 		
 		$this->registerHttpHelper($httpHelperMock);
 
-		$this->s2s = new RequestHandler(
+		$this->s2s = new RequestHandlerController(
+			'federatedfilesharing',
+			\OC::$server->getRequest(),
 			$this->federatedShareProvider,
 			\OC::$server->getDatabaseConnection(),
 			\OC::$server->getShareManager(),
-			\OC::$server->getRequest(),
 			$this->notifications,
 			$this->addressHandler,
 			$this->userManager
@@ -127,7 +128,7 @@ class RequestHandlerTest extends TestCase {
 
 	/**
 	 * Register an http helper mock for testing purposes.
-	 * @param $httpHelper http helper mock
+	 * @param \OC\HTTPHelper $httpHelper helper mock
 	 */
 	private function registerHttpHelper($httpHelper) {
 		$this->oldHttpHelper = \OC::$server->query('HTTPHelper');
@@ -158,9 +159,7 @@ class RequestHandlerTest extends TestCase {
 		$_POST['shareWith'] = self::TEST_FILES_SHARING_API_USER2;
 		$_POST['remoteId'] = 1;
 
-		$result = $this->s2s->createShare(null);
-
-		$this->assertTrue($result->succeeded());
+		$this->s2s->createShare(null);
 
 		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*share_external` WHERE `remote_id` = ?');
 		$result = $query->execute(array('1'));
@@ -178,13 +177,14 @@ class RequestHandlerTest extends TestCase {
 
 	function testDeclineShare() {
 
-		$this->s2s = $this->getMockBuilder('\OCA\FederatedFileSharing\RequestHandler')
+		$this->s2s = $this->getMockBuilder('\OCA\FederatedFileSharing\Controller\RequestHandlerController')
 			->setConstructorArgs(
 				[
+					'federatedfilessharing',
+					\OC::$server->getRequest(),
 					$this->federatedShareProvider,
 					\OC::$server->getDatabaseConnection(),
 					\OC::$server->getShareManager(),
-					\OC::$server->getRequest(),
 					$this->notifications,
 					$this->addressHandler,
 					$this->userManager
@@ -197,7 +197,7 @@ class RequestHandlerTest extends TestCase {
 
 		$_POST['token'] = 'token';
 
-		$this->s2s->declineShare(array('id' => 42));
+		$this->s2s->declineShare(42);
 
 	}
 
