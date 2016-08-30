@@ -104,8 +104,7 @@ class HookManager {
 		$user = $this->userManager->get($params['uid']);
 		if (!is_null($user)) {
 			$principal = 'principals/users/' . $user->getUID();
-			$calendars = $this->calDav->getCalendarsForUser($principal);
-			if (empty($calendars) || (count($calendars) === 1 && $calendars[0]['uri'] === BirthdayService::BIRTHDAY_CALENDAR_URI)) {
+			if ($this->calDav->getCalendarsForUserCount($principal) === 0) {
 				try {
 					$this->calDav->createCalendar($principal, 'personal', [
 						'{DAV:}displayname' => 'Personal']);
@@ -113,8 +112,7 @@ class HookManager {
 					\OC::$server->getLogger()->logException($ex);
 				}
 			}
-			$books = $this->cardDav->getAddressBooksForUser($principal);
-			if (empty($books)) {
+			if ($this->cardDav->getAddressBooksForUserCount($principal) === 0) {
 				try {
 					$this->cardDav->createAddressBook($principal, 'contacts', [
 						'{DAV:}displayname' => 'Contacts']);

@@ -133,6 +133,29 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
+	 * Return the number of calendars for a principal
+	 *
+	 * By default this excludes the automatically generated birthday calendar
+	 *
+	 * @param $principalUri
+	 * @param bool $excludeBirthday
+	 * @return int
+	 */
+	public function getCalendarsForUserCount($principalUri, $excludeBirthday = true) {
+		$principalUri = $this->convertPrincipal($principalUri, true);
+		$query = $this->db->getQueryBuilder();
+		$query->select($query->createFunction('COUNT(*)'))
+			->from('calendars')
+			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)));
+
+		if ($excludeBirthday) {
+			$query->andWhere($query->expr()->neq('uri', $query->createNamedParameter(BirthdayService::BIRTHDAY_CALENDAR_URI)));
+		}
+
+		return $query->execute()->fetchColumn();
+	}
+
+	/**
 	 * Returns a list of calendars for a principal.
 	 *
 	 * Every project is an array with the following keys:

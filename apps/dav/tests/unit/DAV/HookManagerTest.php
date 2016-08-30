@@ -53,7 +53,7 @@ class HookManagerTest extends TestCase {
 		$cal = $this->getMockBuilder('OCA\DAV\CalDAV\CalDavBackend')
 			->disableOriginalConstructor()
 			->getMock();
-		$cal->expects($this->once())->method('getCalendarsForUser')->willReturn([]);
+		$cal->expects($this->once())->method('getCalendarsForUserCount')->willReturn(0);
 		$cal->expects($this->once())->method('createCalendar')->with(
 			'principals/users/newUser',
 			'personal', ['{DAV:}displayname' => 'Personal']);
@@ -62,7 +62,7 @@ class HookManagerTest extends TestCase {
 		$card = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
 			->disableOriginalConstructor()
 			->getMock();
-		$card->expects($this->once())->method('getAddressBooksForUser')->willReturn([]);
+		$card->expects($this->once())->method('getAddressBooksForUserCount')->willReturn(0);
 		$card->expects($this->once())->method('createAddressBook')->with(
 			'principals/users/newUser',
 			'contacts', ['{DAV:}displayname' => 'Contacts']);
@@ -92,18 +92,14 @@ class HookManagerTest extends TestCase {
 		$cal = $this->getMockBuilder('OCA\DAV\CalDAV\CalDavBackend')
 			->disableOriginalConstructor()
 			->getMock();
-		$cal->expects($this->once())->method('getCalendarsForUser')->willReturn([
-			['uri' => 'my-events']
-		]);
+		$cal->expects($this->once())->method('getCalendarsForUserCount')->willReturn(1);
 		$cal->expects($this->never())->method('createCalendar');
 
 		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $card */
 		$card = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
 			->disableOriginalConstructor()
 			->getMock();
-		$card->expects($this->once())->method('getAddressBooksForUser')->willReturn([
-			['uri' => 'my-contacts']
-		]);
+		$card->expects($this->once())->method('getAddressBooksForUserCount')->willReturn(1);
 		$card->expects($this->never())->method('createAddressBook');
 
 		$hm = new HookManager($userManager, $syncService, $cal, $card);
@@ -131,9 +127,7 @@ class HookManagerTest extends TestCase {
 		$cal = $this->getMockBuilder('OCA\DAV\CalDAV\CalDavBackend')
 			->disableOriginalConstructor()
 			->getMock();
-		$cal->expects($this->once())->method('getCalendarsForUser')->willReturn([
-			['uri' => BirthdayService::BIRTHDAY_CALENDAR_URI]
-		]);
+		$cal->expects($this->once())->method('getCalendarsForUserCount')->willReturn(0);
 		$cal->expects($this->once())->method('createCalendar')->with(
 			'principals/users/newUser',
 			'personal', ['{DAV:}displayname' => 'Personal']);
@@ -142,7 +136,7 @@ class HookManagerTest extends TestCase {
 		$card = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
 			->disableOriginalConstructor()
 			->getMock();
-		$card->expects($this->once())->method('getAddressBooksForUser')->willReturn([]);
+		$card->expects($this->once())->method('getAddressBooksForUserCount')->willReturn(0);
 		$card->expects($this->once())->method('createAddressBook')->with(
 			'principals/users/newUser',
 			'contacts', ['{DAV:}displayname' => 'Contacts']);
