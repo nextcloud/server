@@ -3,6 +3,11 @@
 	width: 85%;
 }
 
+.inlinetable {
+	display: inline-table;
+	vertical-align: bottom;
+}
+
 .tablerow {
 	display: table-row;
 	white-space: nowrap;

@@ -262,6 +262,17 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	public function deleteUser($uid) {
 		return $this->handleRequest($uid, 'deleteUser', array($uid));
 	}
+	
+	/**
+	 * Set password
+	 * @param string $uid The username
+	 * @param string $password The new password
+	 * @return bool
+	 *
+	 */
+	public function setPassword($uid, $password) {
+		return $this->handleRequest($uid, 'setPassword', array($uid, $password));
+	}
 
 	/**
 	 * @return bool

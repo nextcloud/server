@@ -95,6 +95,10 @@ OCA = OCA || {};
 					$element: $('#ldap_paging_size'),
 					setMethod: 'setPagingSize'
 				},
+				ldap_turn_on_pwd_change: {
+					$element: $('#ldap_turn_on_pwd_change'),
+					setMethod: 'setPasswordChangeEnabled'
+				},
 
 				//Special Attributes
 				ldap_quota_attr: {
@@ -287,6 +291,17 @@ OCA = OCA || {};
 		 */
 		setPagingSize: function(size) {
 			this.setElementValue(this.managedItems.ldap_paging_size.$element, size);
+		},
+		
+		/**
+		 * sets whether the password changes per user should be enabled
+		 *
+		 * @param {string} doPasswordChange contains an int
+		 */
+		setPasswordChangeEnabled: function(doPasswordChange) {
+			this.setElementValue(
+				this.managedItems.ldap_turn_on_pwd_change.$element, doPasswordChange
+			);
 		},
 
 		/**

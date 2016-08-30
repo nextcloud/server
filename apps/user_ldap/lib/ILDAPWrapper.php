@@ -163,6 +163,15 @@ interface ILDAPWrapper {
 	 * @return resource|false an LDAP search result resource, false on error
 	 */
 	public function search($link, $baseDN, $filter, $attr, $attrsOnly = 0, $limit = 0);
+	
+	/**
+	 * Replace the value of a userPassword by $password
+	 * @param resource $link LDAP link resource
+	 * @param string $userDN the DN of the user whose password is to be replaced
+	 * @param string $password the new value for the userPassword
+	 * @return bool true on success, false otherwise
+	 */
+	public function modReplace($link, $userDN, $password);
 
 	/**
 	 * Sets the value of the specified option to be $value
