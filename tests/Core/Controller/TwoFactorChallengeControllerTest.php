@@ -39,13 +39,13 @@ class TwoFactorChallengeControllerTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->request = $this->getMock('\OCP\IRequest');
+		$this->request = $this->getMockBuilder('\OCP\IRequest')->getMock();
 		$this->twoFactorManager = $this->getMockBuilder('\OC\Authentication\TwoFactorAuth\Manager')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->userSession = $this->getMock('\OCP\IUserSession');
-		$this->session = $this->getMock('\OCP\ISession');
-		$this->urlGenerator = $this->getMock('\OCP\IURLGenerator');
+		$this->userSession = $this->getMockBuilder('\OCP\IUserSession')->getMock();
+		$this->session = $this->getMockBuilder('\OCP\ISession')->getMock();
+		$this->urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')->getMock();
 
 		$this->controller = $this->getMockBuilder('OC\Core\Controller\TwoFactorChallengeController')
 			->setConstructorArgs([
@@ -64,7 +64,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 	}
 
 	public function testSelectChallenge() {
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
 		$providers = [
 			'prov1',
 			'prov2',
@@ -88,7 +88,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 	}
 
 	public function testShowChallenge() {
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
 		$provider = $this->getMockBuilder('\OCP\Authentication\TwoFactorAuth\IProvider')
 			->disableOriginalConstructor()
 			->getMock();
@@ -130,7 +130,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 	}
 
 	public function testShowInvalidChallenge() {
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
 
 		$this->userSession->expects($this->once())
 			->method('getUser')
@@ -150,7 +150,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 	}
 
 	public function testSolveChallenge() {
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
 		$provider = $this->getMockBuilder('\OCP\Authentication\TwoFactorAuth\IProvider')
 			->disableOriginalConstructor()
 			->getMock();
@@ -168,11 +168,12 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->with('myprovider', $user, 'token')
 			->will($this->returnValue(true));
 
-		$this->assertInstanceOf('\OCP\AppFramework\Http\RedirectResponse', $this->controller->solveChallenge('myprovider', 'token'));
+		$expected = new \OCP\AppFramework\Http\RedirectResponse(\OC_Util::getDefaultPageUrl());
+		$this->assertEquals($expected, $this->controller->solveChallenge('myprovider', 'token'));
 	}
 
 	public function testSolveChallengeInvalidProvider() {
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
 
 		$this->userSession->expects($this->once())
 			->method('getUser')
@@ -192,7 +193,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 	}
 
 	public function testSolveInvalidChallenge() {
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
 		$provider = $this->getMockBuilder('\OCP\Authentication\TwoFactorAuth\IProvider')
 			->disableOriginalConstructor()
 			->getMock();
