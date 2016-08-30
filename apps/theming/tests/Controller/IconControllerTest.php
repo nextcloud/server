@@ -55,13 +55,7 @@ class IconControllerTest extends TestCase {
 
 	public function setUp() {
 
-		if(!extension_loaded('imagick')) {
-			$this->markTestSkipped('Tests skipped as Imagemagick is required for dynamic icon generation.');
-		}
-		$checkImagick = new \Imagick();
-		if (count($checkImagick->queryFormats('SVG')) < 1) {
-			$this->markTestSkipped('No SVG provider present');
-		}
+
 
 		$this->request = $this->getMockBuilder('OCP\IRequest')->getMock();
 		$this->config = $this->getMockBuilder('OCP\IConfig')->getMock();
@@ -149,42 +143,6 @@ class IconControllerTest extends TestCase {
 		$this->assertEquals($expected, $favicon);
 	}
 
-	/**
-	 * @dataProvider dataRenderAppIcon
-	 * @param $appicon
-	 * @param $color
-	 * @param $file
-	 */
-	public function testRenderAppIcon($app, $appicon, $color, $file) {
 
-		$this->util->expects($this->once())
-			->method('getAppIcon')
-			->with($app)
-			->willReturn(\OC::$SERVERROOT . "/"  . $appicon);
-		$this->themingDefaults->expects($this->once())
-			->method('getMailHeaderColor')
-			->willReturn($color);
-
-		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/../data/" . $file);
-
-		$icon = $this->invokePrivate($this->iconController, 'renderAppIcon', [$app]);
-
-		$this->assertEquals(true, $icon->valid());
-		$this->assertEquals(512, $icon->getImageWidth());
-		$this->assertEquals(512, $icon->getImageHeight());
-		$this->assertEquals($icon, $expectedIcon);
-		//$this->assertLessThan(0.0005, $expectedIcon->compareImages($icon, Imagick::METRIC_MEANABSOLUTEERROR)[1]);
-		
-	}
-
-	public function dataRenderAppIcon() {
-		return [
-			['core','core/img/logo.svg', '#0082c9', 'touch-original.png'],
-			['core','core/img/logo.svg', '#FF0000', 'touch-core-red.png'],
-			['testing','apps/testing/img/app.svg', '#FF0000', 'touch-testing-red.png'],
-			['comments','apps/comments/img/comments.svg', '#0082c9', 'touch-comments.png'],
-			['core','core/img/logo.png', '#0082c9', 'touch-original-png.png'],
-		];
-	}
 
 }

@@ -145,6 +145,23 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	/**
+	 * Check if Imagemagick is enabled and if SVG is supported
+	 * otherwise we can't render custom icons
+	 *
+	 * @return bool
+	 */
+	public function shouldReplaceIcons() {
+		if(extension_loaded('imagick')) {
+			$checkImagick = new \Imagick();
+			if (count($checkImagick->queryFormats('SVG')) >= 1) {
+				return true;
+			}
+			$checkImagick->clear();
+		}
+		return false;
+	}
+
+	/**
 	 * Increases the cache buster key
 	 */
 	private function increaseCacheBuster() {
