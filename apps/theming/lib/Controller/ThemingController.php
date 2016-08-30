@@ -425,6 +425,7 @@ class ThemingController extends Controller {
 	 * @return DataDownloadResponse
 	 */
 	public function getJavascript() {
+		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
 		$responseJS = '(function() {
 	OCA.Theming = {
 		name: ' . json_encode($this->template->getName()) . ',
@@ -432,6 +433,7 @@ class ThemingController extends Controller {
 		slogan: ' . json_encode($this->template->getSlogan()) . ',
 		color: ' . json_encode($this->template->getMailHeaderColor()) . ',
 		inverted: ' . json_encode($this->util->invertTextColor($this->template->getMailHeaderColor())) . ',
+		cacheBuster: ' . json_encode($cacheBusterValue). '
 	};
 })();';
 		$response = new Http\DataDisplayResponse($responseJS);

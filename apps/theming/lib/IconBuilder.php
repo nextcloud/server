@@ -47,7 +47,7 @@ class IconBuilder {
 	}
 
 	/**
-	 * @param $app app name
+	 * @param $app string app name
 	 * @return string image blob
 	 */
 	public function getFavicon($app) {
@@ -60,7 +60,7 @@ class IconBuilder {
 	}
 
 	/**
-	 * @param $app app name
+	 * @param $app string app name
 	 * @return string image blob
 	 */
 	public function getTouchIcon($app) {
@@ -75,7 +75,7 @@ class IconBuilder {
 	 * Render app icon on themed background color
 	 * fallback to logo
 	 *
-	 * @param $app app name
+	 * @param $app string app name
 	 * @return Imagick
 	 */
 	public function renderAppIcon($app) {

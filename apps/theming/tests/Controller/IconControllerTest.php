@@ -2,7 +2,7 @@
 /**
  * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
  *
- * @author Julius Haertl <jus@bitgrid.net>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -22,43 +22,31 @@
  */
 namespace OCA\Theming\Tests\Controller;
 
-use OCA\Theming\Controller\IconController;
-use OCA\Theming\IconBuilder;
-use OCA\Theming\Util;
+
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\DataDisplayResponse;
-use OCP\Files\IRootFolder;
-use OCP\IConfig;
-use OCP\IL10N;
 use OCP\IRequest;
 use Test\TestCase;
-use OCA\Theming\ThemingDefaults;
-use \Imagick;
+use OCA\Theming\Util;
+use OCA\Theming\Controller\IconController;
+
 
 class IconControllerTest extends TestCase {
 	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
-	private $config;
-	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
 	private $themingDefaults;
 	/** @var Util */
 	private $util;
 	/** @var \OCP\AppFramework\Utility\ITimeFactory */
 	private $timeFactory;
 	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
-	private $l10n;
-	/** @var IconController */
 	private $iconController;
 	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
-	private $rootFolder;
-	/** @var IconBuilder */
 	private $iconBuilder;
 
 	public function setUp() {
 		$this->request = $this->getMockBuilder('OCP\IRequest')->getMock();
-		$this->config = $this->getMockBuilder('OCP\IConfig')->getMock();
 		$this->themingDefaults = $this->getMockBuilder('OCA\Theming\ThemingDefaults')
 			->disableOriginalConstructor()->getMock();
 		$this->util = $this->getMockBuilder('\OCA\Theming\Util')->disableOriginalConstructor()
@@ -66,8 +54,6 @@ class IconControllerTest extends TestCase {
 		$this->timeFactory = $this->getMockBuilder('OCP\AppFramework\Utility\ITimeFactory')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->l10n = $this->getMockBuilder('OCP\IL10N')->getMock();
-		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
 		$this->iconBuilder = $this->getMockBuilder('OCA\Theming\IconBuilder')
 			->disableOriginalConstructor()->getMock();
 
@@ -78,12 +64,9 @@ class IconControllerTest extends TestCase {
 		$this->iconController = new IconController(
 			'theming',
 			$this->request,
-			$this->config,
 			$this->themingDefaults,
 			$this->util,
 			$this->timeFactory,
-			$this->l10n,
-			$this->rootFolder,
 			$this->iconBuilder
 		);
 

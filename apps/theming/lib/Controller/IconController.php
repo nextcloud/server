@@ -23,17 +23,11 @@
 namespace OCA\Theming\Controller;
 
 use OCA\Theming\IconBuilder;
-use OCA\Theming\Template;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\DataDisplayResponse;
-use OCP\AppFramework\Http\StreamResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Files\IRootFolder;
-use OCP\IConfig;
-use OCP\IL10N;
 use OCP\IRequest;
 use OCA\Theming\Util;
 
@@ -44,12 +38,6 @@ class IconController extends Controller {
 	private $util;
 	/** @var ITimeFactory */
 	private $timeFactory;
-	/** @var IL10N */
-	private $l;
-	/** @var IConfig */
-	private $config;
-	/** @var IRootFolder */
-	private $rootFolder;
 	/** @var IconBuilder */
 	private $iconBuilder;
 
@@ -58,22 +46,17 @@ class IconController extends Controller {
 	 *
 	 * @param string $appName
 	 * @param IRequest $request
-	 * @param IConfig $config
 	 * @param ThemingDefaults $themingDefaults
 	 * @param Util $util
 	 * @param ITimeFactory $timeFactory
-	 * @param IL10N $l
-	 * @param IRootFolder $rootFolder
+	 * @param IconBuilder $iconBuilder
 	 */
 	public function __construct(
 		$appName,
 		IRequest $request,
-		IConfig $config,
 		ThemingDefaults $themingDefaults,
 		Util $util,
 		ITimeFactory $timeFactory,
-		IL10N $l,
-		IRootFolder $rootFolder,
 		IconBuilder $iconBuilder
 	) {
 		parent::__construct($appName, $request);
@@ -81,22 +64,16 @@ class IconController extends Controller {
 		$this->themingDefaults = $themingDefaults;
 		$this->util = $util;
 		$this->timeFactory = $timeFactory;
-		$this->l = $l;
-		$this->config = $config;
-		$this->rootFolder = $rootFolder;
 		$this->iconBuilder = $iconBuilder;
-		//if(extension_loaded('imagick')) {
-		//	$this->iconBuilder = new IconBuilder($this->themingDefaults, $this->util);
-		//}
 	}
 
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
-	 * @param $app app name
-	 * @param $image image file name (svg required)
-	 * @return StreamResponse|DataResponse
+	 * @param $app string app name
+	 * @param $image string image file name (svg required)
+	 * @return DataDisplayResponse
 	 */
 	public function getThemedIcon($app, $image) {
 		$image = $this->util->getAppImage($app, $image);
@@ -116,8 +93,8 @@ class IconController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
-	 * @param $app app name
-	 * @return StreamResponse|DataResponse
+	 * @param $app string app name
+	 * @return DataDisplayResponse
 	 */
 	public function getFavicon($app="core") {
 		if($this->themingDefaults->shouldReplaceIcons()) {
@@ -138,8 +115,8 @@ class IconController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
-	 * @param $app app name
-	 * @return StreamResponse|DataResponse
+	 * @param $app string app name
+	 * @return DataDisplayResponse
 	 */
 	public function getTouchIcon($app="core") {
 		if($this->themingDefaults->shouldReplaceIcons()) {
@@ -153,6 +130,5 @@ class IconController extends Controller {
 		$response->addHeader('Pragma', 'cache');
 		return $response;
 	}
-
 
 }

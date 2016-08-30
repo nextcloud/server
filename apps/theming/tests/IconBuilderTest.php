@@ -78,7 +78,6 @@ class IconBuilderTest extends TestCase {
 	 * @param $file
 	 */
 	public function testRenderAppIcon($app, $color, $file) {
-
 		$this->themingDefaults->expects($this->once())
 			->method('getMailHeaderColor')
 			->willReturn($color);
@@ -92,8 +91,8 @@ class IconBuilderTest extends TestCase {
 		$this->assertEquals($icon, $expectedIcon);
 		$icon->destroy();
 		$expectedIcon->destroy();
-		//$this->assertLessThan(0.0005, $expectedIcon->compareImages($icon, Imagick::METRIC_MEANABSOLUTEERROR)[1]);
-
+		// FIXME: We may need some comparison of the generated and the test images
+		// cloud be something like $expectedIcon->compareImages($icon, Imagick::METRIC_MEANABSOLUTEERROR)[1])
 	}
 
 	/**
@@ -103,7 +102,6 @@ class IconBuilderTest extends TestCase {
 	 * @param $file
 	 */
 	public function testGetTouchIcon($app, $color, $file) {
-
 		$this->themingDefaults->expects($this->once())
 			->method('getMailHeaderColor')
 			->willReturn($color);
@@ -118,8 +116,8 @@ class IconBuilderTest extends TestCase {
 		$this->assertEquals($icon, $expectedIcon);
 		$icon->destroy();
 		$expectedIcon->destroy();
-		//$this->assertLessThan(0.0005, $expectedIcon->compareImages($icon, Imagick::METRIC_MEANABSOLUTEERROR)[1]);
-
+		// FIXME: We may need some comparison of the generated and the test images
+		// cloud be something like $expectedIcon->compareImages($icon, Imagick::METRIC_MEANABSOLUTEERROR)[1])
 	}
 
 	/**
@@ -129,7 +127,6 @@ class IconBuilderTest extends TestCase {
 	 * @param $file
 	 */
 	public function testGetFavicon($app, $color, $file) {
-
 		$this->themingDefaults->expects($this->once())
 			->method('getMailHeaderColor')
 			->willReturn($color);
@@ -143,8 +140,8 @@ class IconBuilderTest extends TestCase {
 		$this->assertEquals(32, $icon->getImageHeight());
 		$icon->destroy();
 		$expectedIcon->destroy();
-		//$this->assertLessThan(0.0005, $expectedIcon->compareImages($icon, Imagick::METRIC_MEANABSOLUTEERROR)[1]);
-
+		// FIXME: We may need some comparison of the generated and the test images
+		// cloud be something like $expectedIcon->compareImages($icon, Imagick::METRIC_MEANABSOLUTEERROR)[1])
 	}
 
 }

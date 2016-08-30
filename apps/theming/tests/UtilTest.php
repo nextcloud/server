@@ -33,7 +33,9 @@ class UtilTest extends TestCase {
 	protected $util;
 	/** @var IConfig */
 	protected $config;
+	/** @var IRootFolder */
 	protected $rootFolder;
+
 	protected function setUp() {
 		parent::setUp();
 		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();

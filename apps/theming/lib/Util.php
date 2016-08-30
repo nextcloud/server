@@ -94,12 +94,11 @@ class Util {
 
 
 	/**
-	 * @param $app app name
+	 * @param $app string app name
 	 * @return string path to app icon / logo
 	 */
 	public function getAppIcon($app) {
 		$appPath = \OC_App::getAppPath($app);
-
 		$icon = $appPath . '/img/' . $app . '.svg';
 		if(file_exists($icon)) {
 			return $icon;
@@ -108,7 +107,6 @@ class Util {
 		if(file_exists($icon)) {
 			return $icon;
 		}
-
 		if($this->config->getAppValue('theming', 'logoMime', '') !== '' && $this->rootFolder->nodeExists('/themedinstancelogo')) {
 			return $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/') . '/themedinstancelogo';
 		}
@@ -116,20 +114,18 @@ class Util {
 	}
 
 	/**
-	 * @param $app app name
-	 * @param $image relative path to image in app folder
+	 * @param $app string app name
+	 * @param $image string relative path to image in app folder
 	 * @return string absolute path to image
 	 */
 	public function getAppImage($app, $image) {
 		$appPath = \OC_App::getAppPath($app);
-
 		if($app==="core") {
 			$icon = \OC::$SERVERROOT . '/core/img/' . $image;
 			if(file_exists($icon)) {
 				return $icon;
 			}
 		}
-
 		$icon = $appPath . '/img/' . $image;
 		if(file_exists($icon)) {
 			return $icon;
@@ -156,8 +152,8 @@ class Util {
 	/**
 	 * replace default color with a custom one
 	 *
-	 * @param $svg content of a svg file
-	 * @param $color color to match
+	 * @param $svg string content of a svg file
+	 * @param $color string color to match
 	 * @return string
 	 */
 	public function colorizeSvg($svg, $color) {

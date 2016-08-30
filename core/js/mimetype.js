@@ -105,6 +105,10 @@ OC.MimeType = {
 
 		path += '.svg';
 
+		if(OCA.Theming) {
+			path += "?v=" + OCA.Theming.cacheBuster;
+		}
+
 		// Cache the result
 		OC.MimeType._mimeTypeIcons[mimeType] = path;
 		return path;
