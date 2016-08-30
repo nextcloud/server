@@ -473,7 +473,7 @@ class Trashbin {
 		$fileInfos = $view->getDirectoryContent('files_trashbin/files');
 
 		foreach($fileInfos as $fileInfo){
-			$path =  $view->getRelativePath($fileInfo->getPath());
+			$path = $view->getRelativePath($fileInfo->getPath());
 			self::emitTrashbinPreDelete($path);
 		}
 
@@ -482,7 +482,7 @@ class Trashbin {
 		$query->execute(array($user));
 
 		foreach($fileInfos as $fileInfo){
-			$path = $fileInfo->getPath();
+			$path = $view->getRelativePath($fileInfo->getPath());
 			self::emitTrashbinPostDelete($path);
 		}
 
