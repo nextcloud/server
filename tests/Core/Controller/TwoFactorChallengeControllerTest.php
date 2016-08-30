@@ -167,13 +167,8 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->method('verifyChallenge')
 			->with('myprovider', $user, 'token')
 			->will($this->returnValue(true));
-		$this->urlGenerator->expects($this->once())
-			->method('linkToRoute')
-			->with('files.view.index')
-			->will($this->returnValue('files/index/url'));
 
-		$expected = new \OCP\AppFramework\Http\RedirectResponse('files/index/url');
-		$this->assertEquals($expected, $this->controller->solveChallenge('myprovider', 'token'));
+		$this->assertInstanceOf('\OCP\AppFramework\Http\RedirectResponse', $this->controller->solveChallenge('myprovider', 'token'));
 	}
 
 	public function testSolveChallengeInvalidProvider() {
