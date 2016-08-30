@@ -922,6 +922,9 @@ class OC {
 
 		$request = \OC::$server->getRequest();
 		$requestPath = $request->getRawPathInfo();
+		if ($requestPath === '/heartbeat') {
+			return;
+		}
 		if (substr($requestPath, -3) !== '.js') { // we need these files during the upgrade
 			self::checkMaintenanceMode();
 			self::checkUpgrade();
