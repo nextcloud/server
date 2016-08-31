@@ -1469,6 +1469,7 @@ class RequestTest extends \Test\TestCase {
 						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
 					],
 					'cookies' => [
+						session_name() => 'asdf',
 						'nc_sameSiteCookiestrict' => 'true',
 					],
 				],
@@ -1495,6 +1496,7 @@ class RequestTest extends \Test\TestCase {
 						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
 					],
 					'cookies' => [
+						session_name() => 'asdf',
 						'nc_sameSiteCookiestrict' => 'true',
 						'nc_sameSiteCookielax' => 'true',
 					],
@@ -1509,7 +1511,76 @@ class RequestTest extends \Test\TestCase {
 		$this->assertTrue($request->passesStrictCookieCheck());
 	}
 
-	public function testFailsSRFCheckWithPostAndWithCookies() {
+	public function testPassesStrictCookieCheckWithRandomCookies() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'server' => [
+						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
+					],
+					'cookies' => [
+						'RandomCookie' => 'asdf',
+					],
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+
+		$this->assertTrue($request->passesStrictCookieCheck());
+	}
+
+	public function testFailsStrictCookieCheckWithSessionCookie() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'server' => [
+						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
+					],
+					'cookies' => [
+						session_name() => 'asdf',
+					],
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+
+		$this->assertFalse($request->passesStrictCookieCheck());
+	}
+
+	public function testFailsStrictCookieCheckWithRememberMeCookie() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'server' => [
+						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
+					],
+					'cookies' => [
+						'oc_token' => 'asdf',
+					],
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+
+		$this->assertFalse($request->passesStrictCookieCheck());
+	}
+
+	public function testFailsCSRFCheckWithPostAndWithCookies() {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -1519,6 +1590,7 @@ class RequestTest extends \Test\TestCase {
 						'requesttoken' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
 					],
 					'cookies' => [
+						session_name() => 'asdf',
 						'foo' => 'bar',
 					],
 				],
@@ -1545,6 +1617,7 @@ class RequestTest extends \Test\TestCase {
 						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
 					],
 					'cookies' => [
+						session_name() => 'asdf',
 						'nc_sameSiteCookielax' => 'true',
 					],
 				],
@@ -1568,6 +1641,7 @@ class RequestTest extends \Test\TestCase {
 						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
 					],
 					'cookies' => [
+						session_name() => 'asdf',
 						'nc_sameSiteCookiestrict' => 'true',
 					],
 				],
@@ -1591,6 +1665,7 @@ class RequestTest extends \Test\TestCase {
 						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
 					],
 					'cookies' => [
+						session_name() => 'asdf',
 						'nc_sameSiteCookielax' => 'true',
 					],
 				],
@@ -1614,6 +1689,7 @@ class RequestTest extends \Test\TestCase {
 						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
 					],
 					'cookies' => [
+						session_name() => 'asdf',
 						'nc_sameSiteCookiestrict' => 'true',
 					],
 				],
