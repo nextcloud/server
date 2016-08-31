@@ -24,7 +24,7 @@
 		'		class="action action-favorite favorite">' +
 		'			<img class="svg" alt="{{starAltText}}" src="{{starIcon}}" />' +
 		'		</a>' +
-		'		{{#if hasSize}}<span class="size" title="{{altSize}}">{{size}}</span>, {{/if}}<span class="date" title="{{altDate}}">{{date}}</span>' +
+		'		{{#if hasSize}}<span class="size" title="{{altSize}}">{{size}}</span>, {{/if}}<span class="date live-relative-timestamp" data-timestamp="{{timestamp}}" title="{{altDate}}">{{date}}</span>' +
 		'	</div>' +
 		'</div>' +
 		'<div class="hidden permalink-field">' +
@@ -152,6 +152,7 @@
 					altSize: n('files', '%n byte', '%n bytes', this.model.get('size')),
 					dateLabel: t('files', 'Modified'),
 					altDate: OC.Util.formatDate(this.model.get('mtime')),
+					timestamp: this.model.get('mtime'),
 					date: OC.Util.relativeModifiedDate(this.model.get('mtime')),
 					starAltText: isFavorite ? t('files', 'Favorited') : t('files', 'Favorite'),
 					starIcon: OC.imagePath('core', isFavorite ? 'actions/starred' : 'actions/star'),
