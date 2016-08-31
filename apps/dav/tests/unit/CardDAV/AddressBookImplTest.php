@@ -60,7 +60,9 @@ class AddressBookImplTest extends TestCase {
 
 		$this->addressBookInfo = [
 			'id' => 42,
-			'{DAV:}displayname' => 'display name'
+			'uri' => 'system',
+			'principaluri' => 'principals/system/system',
+			'{DAV:}displayname' => 'display name',
 		];
 		$this->addressBook = $this->getMockBuilder('OCA\DAV\CardDAV\AddressBook')
 			->disableOriginalConstructor()->getMock();
@@ -306,4 +308,65 @@ class AddressBookImplTest extends TestCase {
 		$this->assertSame($expectedVCardSerialized, $resultSerialized);
 	}
 
+	public function testVCard2Array() {
+		$vCard = new VCard();
+
+		$vCard->add($vCard->createProperty('FN', 'Full Name'));
+
+		// Multi-value properties
+		$vCard->add($vCard->createProperty('CLOUD', 'cloud-user1@localhost'));
+		$vCard->add($vCard->createProperty('CLOUD', 'cloud-user2@example.tld'));
+		$vCard->add($vCard->createProperty('EMAIL', 'email-user1@localhost'));
+		$vCard->add($vCard->createProperty('EMAIL', 'email-user2@example.tld'));
+		$vCard->add($vCard->createProperty('IMPP', 'impp-user1@localhost'));
+		$vCard->add($vCard->createProperty('IMPP', 'impp-user2@example.tld'));
+		$vCard->add($vCard->createProperty('TEL', '+49 123456789'));
+		$vCard->add($vCard->createProperty('TEL', '+1 555 123456789'));
+		$vCard->add($vCard->createProperty('URL', 'https://localhost'));
+		$vCard->add($vCard->createProperty('URL', 'https://example.tld'));
+
+		// Type depending properties
+		$property = $vCard->createProperty('X-SOCIALPROFILE', 'tw-example');
+		$property->add('TYPE', 'twitter');
+		$vCard->add($property);
+		$property = $vCard->createProperty('X-SOCIALPROFILE', 'fb-example');
+		$property->add('TYPE', 'facebook');
+		$vCard->add($property);
+
+		$array = $this->invokePrivate($this->addressBookImpl, 'vCard2Array', ['uri', $vCard]);
+		unset($array['PRODID']);
+
+		$this->assertEquals([
+			'URI' => 'uri',
+			'VERSION' => '3.0',
+			'FN' => 'Full Name',
+			'CLOUD' => [
+				'cloud-user1@localhost',
+				'cloud-user2@example.tld',
+			],
+			'EMAIL' => [
+				'email-user1@localhost',
+				'email-user2@example.tld',
+			],
+			'IMPP' => [
+				'impp-user1@localhost',
+				'impp-user2@example.tld',
+			],
+			'TEL' => [
+				'+49 123456789',
+				'+1 555 123456789',
+			],
+			'URL' => [
+				'https://localhost',
+				'https://example.tld',
+			],
+
+			'X-SOCIALPROFILE' => [
+				'twitter'=> 'tw-example',
+				'facebook'=> 'fb-example',
+			],
+
+			'isLocalSystemBook' => true,
+		], $array);
+	}
 }
