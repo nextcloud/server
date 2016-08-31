@@ -30,6 +30,7 @@ namespace OC\AppFramework;
 use OC\AppFramework\Http\Dispatcher;
 use OC_App;
 use OC\AppFramework\DependencyInjection\DIContainer;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Http\ICallbackResponse;
 
@@ -142,11 +143,19 @@ class App {
 			);
 		}
 
-		if ($response instanceof ICallbackResponse) {
-			$response->callback($io);
-		} else if(!is_null($output)) {
-			$io->setHeader('Content-Length: ' . strlen($output));
-			$io->setOutput($output);
+		/*
+		 * Status 204 does not have a body and no Content Length
+		 * Status 304 does not have a body and does not need a Content Length
+		 * https://tools.ietf.org/html/rfc7230#section-3.3
+		 * https://tools.ietf.org/html/rfc7230#section-3.3.2
+		 */
+		if ($httpHeaders !== Http::STATUS_NO_CONTENT && $httpHeaders !== Http::STATUS_NOT_MODIFIED) {
+			if ($response instanceof ICallbackResponse) {
+				$response->callback($io);
+			} else if (!is_null($output)) {
+				$io->setHeader('Content-Length: ' . strlen($output));
+				$io->setOutput($output);
+			}
 		}
 
 	}
