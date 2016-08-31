@@ -15,7 +15,7 @@
 		'<li data-revision="{{timestamp}}">' +
 		'<img class="preview" src="{{previewUrl}}"/>' +
 		'<a href="{{downloadUrl}}" class="downloadVersion"><img src="{{downloadIconUrl}}" />' +
-		'<span class="versiondate has-tooltip" title="{{formattedTimestamp}}">{{relativeTimestamp}}</span>' +
+		'<span class="versiondate has-tooltip live-relative-timestamp" data-timestamp="{{millisecondsTimestamp}}" title="{{formattedTimestamp}}">{{relativeTimestamp}}</span>' +
 		'</a>' +
 		'{{#canRevert}}' +
 		'<a href="#" class="revertVersion" title="{{revertLabel}}"><img src="{{revertIconUrl}}" /></a>' +
@@ -183,6 +183,7 @@
 		_formatItem: function(version) {
 			var timestamp = version.get('timestamp') * 1000;
 			return _.extend({
+				millisecondsTimestamp: timestamp,
 				formattedTimestamp: OC.Util.formatDate(timestamp),
 				relativeTimestamp: OC.Util.relativeModifiedDate(timestamp),
 				downloadUrl: version.getDownloadUrl(),
