@@ -45,6 +45,8 @@ class ProviderFactory implements IProviderFactory {
 	private $defaultProvider = null;
 	/** @var FederatedShareProvider */
 	private $federatedProvider = null;
+	/** @var LinkShareProvider */
+	private $linkShareProvider = null;
 
 	/**
 	 * IProviderFactory constructor.
@@ -125,42 +127,46 @@ class ProviderFactory implements IProviderFactory {
 		return $this->federatedProvider;
 	}
 
+	protected function linkShareProvider() {
+		if ($this->linkShareProvider === null) {
+			$this->linkShareProvider = new LinkShareProvider(
+				$this->serverContainer->getDatabaseConnection(),
+				$this->serverContainer->getUserManager(),
+				$this->serverContainer->getLazyRootFolder()
+			);
+		}
+
+		return $this->linkShareProvider;
+	}
+
 	/**
 	 * @inheritdoc
 	 */
 	public function getProvider($id) {
-		$provider = null;
 		if ($id === 'ocinternal') {
-			$provider = $this->defaultShareProvider();
+			return $this->defaultShareProvider();
+		} else if ($id === 'nclink') {
+			return $this->linkShareProvider();
 		} else if ($id === 'ocFederatedSharing') {
-			$provider = $this->federatedShareProvider();
+			return $this->federatedShareProvider();
 		}
 
-		if ($provider === null) {
-			throw new ProviderException('No provider with id .' . $id . ' found.');
-		}
-
-		return $provider;
+		throw new ProviderException('No provider with id .' . $id . ' found.');
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function getProviderForType($shareType) {
-		$provider = null;
-
 		if ($shareType === \OCP\Share::SHARE_TYPE_USER  ||
-			$shareType === \OCP\Share::SHARE_TYPE_GROUP ||
-			$shareType === \OCP\Share::SHARE_TYPE_LINK) {
-			$provider = $this->defaultShareProvider();
+			$shareType === \OCP\Share::SHARE_TYPE_GROUP) {
+			return $this->defaultShareProvider();
+		} else if ($shareType === \OCP\Share::SHARE_TYPE_LINK) {
+			return $this->linkShareProvider();
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE) {
-			$provider = $this->federatedShareProvider();
+			return $this->federatedShareProvider();
 		}
 
-		if ($provider === null) {
-			throw new ProviderException('No share provider for share type ' . $shareType);
-		}
-
-		return $provider;
+		throw new ProviderException('No share provider for share type ' . $shareType);
 	}
 }

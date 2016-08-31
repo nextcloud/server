@@ -758,11 +758,15 @@ class Share20OCS extends OCSController {
 		try {
 			$share = $this->shareManager->getShareById('ocinternal:'.$id);
 		} catch (ShareNotFound $e) {
-			if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
-				throw new ShareNotFound();
-			}
+			try {
+				$share = $this->shareManager->getShareById('nclink:' . $id);
+			} catch (ShareNotFound $e) {
+				if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
+					throw new ShareNotFound();
+				}
 
-			$share = $this->shareManager->getShareById('ocFederatedSharing:' . $id);
+				$share = $this->shareManager->getShareById('ocFederatedSharing:' . $id);
+			}
 		}
 
 		return $share;
