@@ -26,6 +26,7 @@ namespace OCA\DAV\CardDAV;
 use OCP\Constants;
 use OCP\IAddressBook;
 use Sabre\VObject\Component\VCard;
+use Sabre\VObject\Property;
 use Sabre\VObject\Property\Text;
 use Sabre\VObject\Reader;
 use Sabre\VObject\UUIDUtil;
@@ -214,12 +215,53 @@ class AddressBookImpl implements IAddressBook {
 	protected function vCard2Array(VCard $vCard) {
 		$result = [];
 		foreach ($vCard->children as $property) {
-			$result[$property->name] = $property->getValue();
+			/** @var \Sabre\VObject\Property\Unknown $property */
+			if ($property->name === 'X-SOCIALPROFILE') {
+				$type = $this->getTypeFromProperty($property);
+
+				// Type is the social network, when it's empty we don't need this.
+				if ($type !== null) {
+					if (!isset($result[$property->name])) {
+						$result[$property->name] = [];
+					}
+					$result[$property->name][$type] = $property->getValue();
+				}
+
+				// The following properties can be set multiple times
+			} else if (in_array($property->name, ['CLOUD', 'EMAIL', 'IMPP', 'TEL', 'URL'])) {
+				if (!isset($result[$property->name])) {
+					$result[$property->name] = [];
+				}
+
+				$result[$property->name][] = $property->getValue();
+
+			} else {
+				$result[$property->name] = $property->getValue();
+			}
 		}
+
 		if ($this->addressBookInfo['principaluri'] === 'principals/system/system' &&
 			$this->addressBookInfo['uri'] === 'system') {
 			$result['isLocalSystemBook'] = true;
 		}
 		return $result;
+	}
+
+	/**
+	 * Get the type of the current property
+	 *
+	 * @param Property $property
+	 * @return null|string
+	 */
+	protected function getTypeFromProperty(Property $property) {
+		$parameters = $property->parameters();
+		// Type is the social network, when it's empty we don't need this.
+		if (isset($parameters['TYPE'])) {
+			/** @var \Sabre\VObject\Parameter $type */
+			$type = $parameters['TYPE'];
+			return $type->getValue();
+		}
+
+		return null;
 	}
 }
