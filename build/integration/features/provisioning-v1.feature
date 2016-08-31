@@ -293,6 +293,7 @@ Feature: provisioning
 			| provisioning_api |
 			| systemtags |
 			| updatenotification |
+			| files_external |
 
 	Scenario: get app info
 		Given As an "admin"
@@ -302,19 +303,19 @@ Feature: provisioning
 
 	Scenario: enable an app
 		Given As an "admin"
-		And app "files_external" is disabled
-		When sending "POST" to "/cloud/apps/files_external"
+		And app "user_ldap" is disabled
+		When sending "POST" to "/cloud/apps/user_ldap"
 		Then the OCS status code should be "100"
 		And the HTTP status code should be "200"
-		And app "files_external" is enabled
+		And app "user_ldap" is enabled
 
 	Scenario: disable an app
 		Given As an "admin"
-		And app "files_external" is enabled
-		When sending "DELETE" to "/cloud/apps/files_external"
+		And app "user_ldap" is enabled
+		When sending "DELETE" to "/cloud/apps/user_ldap"
 		Then the OCS status code should be "100"
 		And the HTTP status code should be "200"
-		And app "files_external" is disabled
+		And app "user_ldap" is disabled
 
 	Scenario: a subadmin can add users to groups the subadmin is responsible for
 		Given As an "admin"
