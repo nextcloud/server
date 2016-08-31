@@ -74,17 +74,17 @@ class TrustedServersTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->dbHandler = $this->getMockBuilder('\OCA\Federation\DbHandler')
+		$this->dbHandler = $this->getMockBuilder(DbHandler::class)
 			->disableOriginalConstructor()->getMock();
-		$this->dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')
+		$this->dispatcher = $this->getMockBuilder(EventDispatcherInterface::class)
 			->disableOriginalConstructor()->getMock();
-		$this->httpClientService = $this->getMock('OCP\Http\Client\IClientService');
-		$this->httpClient = $this->getMock('OCP\Http\Client\IClient');
-		$this->response = $this->getMock('OCP\Http\Client\IResponse');
-		$this->logger = $this->getMock('OCP\ILogger');
-		$this->jobList = $this->getMock('OCP\BackgroundJob\IJobList');
-		$this->secureRandom = $this->getMock('OCP\Security\ISecureRandom');
-		$this->config = $this->getMock('OCP\IConfig');
+		$this->httpClientService = $this->getMockBuilder(IClientService::class)->getMock();
+		$this->httpClient = $this->getMockBuilder(IClient::class)->getMock();
+		$this->response = $this->getMockBuilder(IResponse::class)->getMock();
+		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
+		$this->jobList = $this->getMockBuilder(IJobList::class)->getMock();
+		$this->secureRandom = $this->getMockBuilder(ISecureRandom::class)->getMock();
+		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 
 		$this->trustedServers = new TrustedServers(
 			$this->dbHandler,

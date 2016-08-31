@@ -29,6 +29,7 @@ use OC\HintException;
 use OCA\Federation\Middleware\AddServerMiddleware;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\IL10N;
 use OCP\ILogger;
 use Test\TestCase;
 
@@ -49,9 +50,9 @@ class AddServerMiddlewareTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->logger = $this->getMock('OCP\ILogger');
-		$this->l10n = $this->getMock('OCP\IL10N');
-		$this->controller = $this->getMockBuilder('OCP\AppFramework\Controller')
+		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
+		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
+		$this->controller = $this->getMockBuilder(Controller::class)
 			->disableOriginalConstructor()->getMock();
 
 		$this->middleware = new AddServerMiddleware(
