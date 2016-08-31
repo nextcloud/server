@@ -34,7 +34,12 @@
 OC.FileUpload = function(uploader, data) {
 	this.uploader = uploader;
 	this.data = data;
-	var path = OC.joinPaths(this.uploader.fileList.getCurrentDirectory(), this.getFile().name);
+	var path = '';
+	if (this.uploader.fileList) {
+		path = OC.joinPaths(this.uploader.fileList.getCurrentDirectory(), this.getFile().name);
+	} else {
+		path = this.getFile().name;
+	}
 	this.id = 'web-file-upload-' + md5(path) + '-' + (new Date()).getTime();
 };
 OC.FileUpload.CONFLICT_MODE_DETECT = 0;
@@ -364,6 +369,9 @@ OC.Uploader.prototype = _.extend({
 	 * also see article @link http://blog.new-bamboo.co.uk/2012/01/10/ridiculously-simple-ajax-uploads-with-formdata
 	 */
 	_supportAjaxUploadWithProgress: function() {
+		if (window.TESTING) {
+			return true;
+		}
 		return supportFileAPI() && supportAjaxUploadProgressEvents() && supportFormData();
 
 		// Is the File API supported?
@@ -719,7 +727,6 @@ OC.Uploader.prototype = _.extend({
 				dropZone: options.dropZone, // restrict dropZone to content div
 				autoUpload: false,
 				sequentialUploads: true,
-				maxChunkSize: 10000000,
 				//singleFileUploads is on by default, so the data.files array will always have length 1
 				/**
 				 * on first add of every selection
@@ -920,7 +927,10 @@ OC.Uploader.prototype = _.extend({
 						// HTTP connection problem or other error
 						OC.Notification.showTemporary(data.errorThrown, {timeout: 10});
 					}
-					upload.deleteUpload();
+
+					if (upload) {
+						upload.deleteUpload();
+					}
 				},
 				/**
 				 * called for every successful upload

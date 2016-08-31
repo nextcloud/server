@@ -2724,16 +2724,16 @@
 					// add target dir
 					data.targetDir = dir;
 				} else {
-					// we are dropping somewhere inside the file list, which will
-					// upload the file to the current directory
-					data.targetDir = self.getCurrentDirectory();
-
 					// cancel uploads to current dir if no permission
 					var isCreatable = (self.getDirectoryPermissions() & OC.PERMISSION_CREATE) !== 0;
 					if (!isCreatable) {
 						self._showPermissionDeniedNotification();
 						return false;
 					}
+
+					// we are dropping somewhere inside the file list, which will
+					// upload the file to the current directory
+					data.targetDir = self.getCurrentDirectory();
 				}
 			});
 			uploader.on('add', function(e, data) {

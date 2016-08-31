@@ -2564,15 +2564,12 @@ describe('OCA.Files.FileList tests', function() {
 	 * that were registered on the magic upload object
 	 */
 	describe('file upload', function() {
-		var $uploader;
 		var uploadData;
+		var uploader;
 
 		beforeEach(function() {
-			// note: this isn't the real blueimp file uploader from jquery.fileupload
-			// but it makes it possible to simulate the event triggering to
-			// test the response of the handlers
-			$uploader = $('#file_upload_start');
 			fileList.setFiles(testFiles);
+			uploader = fileList._uploader;
 			// simulate data structure from jquery.upload
 			uploadData = {
 				files: [{
@@ -2582,7 +2579,7 @@ describe('OCA.Files.FileList tests', function() {
 		});
 
 		afterEach(function() {
-			$uploader = null;
+			uploader = null;
 			uploadData = null;
 		});
 
@@ -2606,11 +2603,7 @@ describe('OCA.Files.FileList tests', function() {
 			 * @return event object including the result
 			 */
 			function addFile(data) {
-				var ev = new $.Event('fileuploadadd', {});
-				// using triggerHandler instead of trigger so we can pass
-				// extra data
-				$uploader.triggerHandler(ev, data || {});
-				return ev;
+				uploader.trigger('add', {}, data || {});
 			}
 
 			it('sets target dir to the current directory', function() {
@@ -2632,9 +2625,8 @@ describe('OCA.Files.FileList tests', function() {
 						target: $target
 					}
 				};
-				var ev = new $.Event('fileuploaddrop', eventData);
-				$uploader.trigger(ev, data || {});
-				return ev;
+				uploader.trigger('drop', eventData, data || {});
+				return !!data.targetDir;
 			}
 
 			it('drop on a tr or crumb outside file list does not trigger upload', function() {
@@ -2642,62 +2634,62 @@ describe('OCA.Files.FileList tests', function() {
 				var ev;
 				$('#testArea').append($anotherTable);
 				ev = dropOn($anotherTable.find('tr'), uploadData);
-				expect(ev.result).toEqual(false);
+				expect(ev).toEqual(false);
 
-				ev = dropOn($anotherTable.find('.crumb'));
-				expect(ev.result).toEqual(false);
+				ev = dropOn($anotherTable.find('.crumb'), uploadData);
+				expect(ev).toEqual(false);
 			});
 			it('drop on an element outside file list container does not trigger upload', function() {
 				var $anotherEl = $('<div>outside</div>');
 				var ev;
 				$('#testArea').append($anotherEl);
-				ev = dropOn($anotherEl);
+				ev = dropOn($anotherEl, uploadData);
 
-				expect(ev.result).toEqual(false);
+				expect(ev).toEqual(false);
 			});
 			it('drop on an element inside the table triggers upload', function() {
 				var ev;
 				ev = dropOn(fileList.$fileList.find('th:first'), uploadData);
 
-				expect(ev.result).not.toEqual(false);
+				expect(ev).not.toEqual(false);
 				expect(uploadData.targetDir).toEqual('/subdir');
 			});
 			it('drop on an element on the table container triggers upload', function() {
 				var ev;
 				ev = dropOn($('#app-content-files'), uploadData);
 
-				expect(ev.result).not.toEqual(false);
+				expect(ev).not.toEqual(false);
 				expect(uploadData.targetDir).toEqual('/subdir');
 			});
 			it('drop on an element inside the table does not trigger upload if no upload permission', function() {
 				$('#permissions').val(0);
 				var ev;
-				ev = dropOn(fileList.$fileList.find('th:first'));
+				ev = dropOn(fileList.$fileList.find('th:first'), uploadData);
 
-				expect(ev.result).toEqual(false);
+				expect(ev).toEqual(false);
 				expect(notificationStub.calledOnce).toEqual(true);
 			});
 			it('drop on an folder does not trigger upload if no upload permission on that folder', function() {
 				var $tr = fileList.findFileEl('somedir');
 				var ev;
 				$tr.data('permissions', OC.PERMISSION_READ);
-				ev = dropOn($tr);
+				ev = dropOn($tr, uploadData);
 
-				expect(ev.result).toEqual(false);
+				expect(ev).toEqual(false);
 				expect(notificationStub.calledOnce).toEqual(true);
 			});
 			it('drop on a file row inside the table triggers upload to current folder', function() {
 				var ev;
 				ev = dropOn(fileList.findFileEl('One.txt').find('td:first'), uploadData);
 
-				expect(ev.result).not.toEqual(false);
+				expect(ev).not.toEqual(false);
 				expect(uploadData.targetDir).toEqual('/subdir');
 			});
 			it('drop on a folder row inside the table triggers upload to target folder', function() {
 				var ev;
 				ev = dropOn(fileList.findFileEl('somedir').find('td:eq(2)'), uploadData);
 
-				expect(ev.result).not.toEqual(false);
+				expect(ev).not.toEqual(false);
 				expect(uploadData.targetDir).toEqual('/subdir/somedir');
 			});
 			it('drop on a breadcrumb inside the table triggers upload to target folder', function() {
@@ -2705,7 +2697,7 @@ describe('OCA.Files.FileList tests', function() {
 				fileList.changeDirectory('a/b/c/d');
 				ev = dropOn(fileList.$el.find('.crumb:eq(2)'), uploadData);
 
-				expect(ev.result).not.toEqual(false);
+				expect(ev).not.toEqual(false);
 				expect(uploadData.targetDir).toEqual('/a/b');
 			});
 			it('renders upload indicator element for folders only', function() {
@@ -2729,8 +2721,7 @@ describe('OCA.Files.FileList tests', function() {
 			it('fetches folder info', function() {
 				var fetchInfoStub = sinon.stub(fileList, 'addAndFetchFileInfo');
 
-				var ev = new $.Event('fileuploadcreatedfolder', {});
-				$uploader.triggerHandler(ev, '/subdir/newfolder');
+				uploader.trigger('createdfolder', {}, '/subdir/newfolder');
 
 				expect(fetchInfoStub.calledOnce).toEqual(true);
 				expect(fetchInfoStub.getCall(0).args[0]).toEqual('newfolder');
@@ -2753,19 +2744,16 @@ describe('OCA.Files.FileList tests', function() {
 
 
 			function createUpload(name, dir) {
-				var data = {
-					files: [{
-						name: name
-					}],
-					upload: {
-						getFileName: sinon.stub().returns(name),
-						getFullPath: sinon.stub().returns(dir)
-					},
-					jqXHR: {
-						status: 200
+				var jqXHR = {
+					status: 200
+				};
+				return {
+					getFileName: sinon.stub().returns(name),
+					getFullPath: sinon.stub().returns(dir),
+					data: {
+						jqXHR: jqXHR
 					}
-				}
-				return data;
+				};
 			}
 
 			/**
@@ -2774,12 +2762,12 @@ describe('OCA.Files.FileList tests', function() {
 			 * @return event object including the result
 			 */
 			function addFile(data) {
-				var ev = new $.Event('fileuploaddone', {});
-				// using triggerHandler instead of trigger so we can pass
-				// extra data
+				var ev = new $.Event('done', {
+					jqXHR: {status: 200}
+				});
 				var deferred = $.Deferred();
 				fetchInfoStub.returns(deferred.promise());
-				$uploader.triggerHandler(ev, data || {});
+				uploader.trigger('done', ev, data || {});
 				return deferred;
 			}
 
@@ -2794,7 +2782,7 @@ describe('OCA.Files.FileList tests', function() {
 				var def1 = addFile(createUpload('upload.txt', '/subdir'));
 				var def2 = addFile(createUpload('upload2.txt', '/subdir'));
 				var def3 = addFile(createUpload('upload3.txt', '/another'));
-				$uploader.triggerHandler(new $.Event('fileuploadstop'));
+				uploader.trigger('stop', {});
 
 				expect(highlightStub.notCalled).toEqual(true);
 				def1.resolve();
@@ -2810,7 +2798,7 @@ describe('OCA.Files.FileList tests', function() {
 				var statStub = sinon.stub(fileList, 'updateStorageStatistics');
 				addFile(createUpload('upload.txt', '/subdir'));
 				expect(statStub.notCalled).toEqual(true);
-				$uploader.triggerHandler(new $.Event('fileuploadstop'));
+				uploader.trigger('stop', {});
 				expect(statStub.calledOnce).toEqual(true);
 				statStub.restore();
 			});

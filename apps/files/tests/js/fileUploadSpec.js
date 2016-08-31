@@ -48,7 +48,7 @@ describe('OC.Upload tests', function() {
 		$dummyUploader = $('#file_upload_start');
 		uploader = new OC.Uploader($dummyUploader);
 		failStub = sinon.stub();
-		$dummyUploader.on('fileuploadfail', failStub);
+		uploader.on('fail', failStub);
 	});
 	afterEach(function() {
 		$dummyUploader = undefined;
