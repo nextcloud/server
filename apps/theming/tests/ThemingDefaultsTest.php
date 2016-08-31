@@ -46,13 +46,13 @@ class ThemingDefaultsTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->config = $this->getMock('\\OCP\\IConfig');
-		$this->l10n = $this->getMock('\\OCP\\IL10N');
-		$this->urlGenerator = $this->getMock('\\OCP\\IURLGenerator');
-		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')
+		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
+		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
+		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
+		$this->rootFolder = $this->getMockBuilder(IRootFolder::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->defaults = $this->getMockBuilder('\\OC_Defaults')
+		$this->defaults = $this->getMockBuilder(\OC_Defaults::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->defaults
