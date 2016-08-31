@@ -159,7 +159,8 @@ class UserMountCache implements IUserMountCache {
 				'mount_id' => $mount->getMountId()
 			], ['root_id', 'user_id']);
 		} else {
-			$this->logger->error('Error getting storage info for mount at ' . $mount->getMountPoint());
+			// in some cases this is legitimate, like orphaned shares
+			$this->logger->debug('Could not get storage info for mount at ' . $mount->getMountPoint());
 		}
 	}
 

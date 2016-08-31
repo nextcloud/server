@@ -246,6 +246,12 @@ class SharedMount extends MountPoint implements MoveableMount {
 			->from('filecache')
 			->where($builder->expr()->eq('fileid', $builder->createNamedParameter($this->getStorageRootId())));
 
-		return $query->execute()->fetchColumn();
+		$result = $query->execute();
+		$row = $result->fetch();
+		$result->closeCursor();
+		if ($row) {
+			return $row['storage'];
+		}
+		return -1;
 	}
 }
