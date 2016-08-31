@@ -40,7 +40,8 @@ class DiscoveryManagerTest extends \Test\TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->cache = $this->getMock('\OCP\ICache');
+		$this->cache = $this->getMockBuilder('\OCP\ICache')
+			->getMock();
 		/** @var ICacheFactory $cacheFactory */
 		$cacheFactory = $this->getMockBuilder('\OCP\ICacheFactory')
 			->disableOriginalConstructor()->getMock();
@@ -67,7 +68,8 @@ class DiscoveryManagerTest extends \Test\TestCase {
 	}
 
 	public function testWithMalformedFormattedEndpointCached() {
-		$response = $this->getMock('\OCP\Http\Client\IResponse');
+		$response = $this->getMockBuilder('\OCP\Http\Client\IResponse')
+			->getMock();
 		$response
 			->expects($this->once())
 			->method('getStatusCode')
@@ -104,7 +106,8 @@ class DiscoveryManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetWebDavEndpointWithValidFormattedEndpointAndNotCached() {
-		$response = $this->getMock('\OCP\Http\Client\IResponse');
+		$response = $this->getMockBuilder('\OCP\Http\Client\IResponse')
+			->getMock();
 		$response
 			->expects($this->once())
 			->method('getStatusCode')
@@ -127,7 +130,8 @@ class DiscoveryManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetWebDavEndpointWithValidFormattedEndpointWithoutDataAndNotCached() {
-		$response = $this->getMock('\OCP\Http\Client\IResponse');
+		$response = $this->getMockBuilder('\OCP\Http\Client\IResponse')
+			->getMock();
 		$response
 			->expects($this->once())
 			->method('getStatusCode')
@@ -150,7 +154,8 @@ class DiscoveryManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetShareEndpointWithValidFormattedEndpointAndNotCached() {
-		$response = $this->getMock('\OCP\Http\Client\IResponse');
+		$response = $this->getMockBuilder('\OCP\Http\Client\IResponse')
+			->getMock();
 		$response
 			->expects($this->once())
 			->method('getStatusCode')
@@ -173,7 +178,8 @@ class DiscoveryManagerTest extends \Test\TestCase {
 	}
 
 	public function testWithMaliciousEndpointCached() {
-		$response = $this->getMock('\OCP\Http\Client\IResponse');
+		$response = $this->getMockBuilder('\OCP\Http\Client\IResponse')
+			->getMock();
 		$response
 			->expects($this->once())
 			->method('getStatusCode')
