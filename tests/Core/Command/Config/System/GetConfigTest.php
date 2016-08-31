@@ -147,8 +147,8 @@ class GetConfigTest extends TestCase {
 		$this->consoleInput->expects($this->any())
 			->method('hasParameterOption')
 			->willReturnMap([
-				['--output', true],
-				['--default-value', $hasDefault],
+				['--output', false, true],
+				['--default-value', false,$hasDefault],
 			]);
 
 		if ($expectedMessage !== null) {
