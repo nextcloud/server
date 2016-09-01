@@ -104,6 +104,7 @@ nbproject
 /build/lib/
 /build/jsdocs/
 /npm-debug.log
+/PhantomJS_*
 
 # puphpet
 puphpet
