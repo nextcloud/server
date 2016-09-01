@@ -197,6 +197,15 @@ $(document).ready(function () {
 	if($('#pass2').length) {
 		$('#pass2').showPassword().keyup();
 	}
+
+	var removeloader = function () {
+		setTimeout(function(){
+			if ($('.password-state').length > 0) {
+				$('.password-state').remove();
+			}
+		}, 5000)
+	};
+
 	$("#passwordbutton").click(function () {
 		OC.msg.startSaving('#password-error-msg');
 		var isIE8or9 = $('html').hasClass('lte9');
@@ -211,10 +220,13 @@ $(document).ready(function () {
 			$('#passwordchanged').hide();
 			$('#passworderror').hide();
 			$("#passwordbutton").attr('disabled', 'disabled');
+			$("#passwordbutton").after("<span class='password-loading icon icon-loading-small-dark password-state'></span>");
 			// Ajax foo
 			$.post(OC.generateUrl('/settings/personal/changepassword'), post, function (data) {
 				if (data.status === "success") {
+					$(".password-loading").remove();
 					$("#passwordbutton").after("<span class='checkmark icon icon-checkmark password-state'></span>");
+					removeloader();
 					$('#pass1').val('');
 					$('#pass2').val('').change();
 					OC.msg.finishedSaving('#password-error-msg', data);
