@@ -23,6 +23,9 @@ namespace Tests\Core\Command\Config;
 
 
 use OC\Core\Command\Config\Import;
+use OCP\IConfig;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class ImportTest extends TestCase {
@@ -40,11 +43,11 @@ class ImportTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$config = $this->config = $this->getMockBuilder('OCP\IConfig')
+		$config = $this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->consoleInput = $this->getMock('Symfony\Component\Console\Input\InputInterface');
-		$this->consoleOutput = $this->getMock('Symfony\Component\Console\Output\OutputInterface');
+		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
+		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
 		/** @var \OCP\IConfig $config */
 		$this->command = new Import($config);

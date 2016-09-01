@@ -23,6 +23,10 @@ namespace Tests\Core\Command\Encryption;
 
 
 use OC\Core\Command\Encryption\Enable;
+use OCP\Encryption\IManager;
+use OCP\IConfig;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class EnableTest extends TestCase {
@@ -41,14 +45,14 @@ class EnableTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$config = $this->config = $this->getMockBuilder('OCP\IConfig')
+		$config = $this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$manager = $this->manager = $this->getMockBuilder('OCP\Encryption\IManager')
+		$manager = $this->manager = $this->getMockBuilder(IManager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->consoleInput = $this->getMock('Symfony\Component\Console\Input\InputInterface');
-		$this->consoleOutput = $this->getMock('Symfony\Component\Console\Output\OutputInterface');
+		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
+		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
 		/** @var \OCP\IConfig $config */
 		/** @var \OCP\Encryption\IManager $manager */
