@@ -504,25 +504,26 @@ span.usersLastLoginTooltip { white-space: nowrap; }
 
 .bubble {
 	z-index:1;
-	right: -5px;
+	right: -6px;
 }
 .bubble:after {
 	right: 5px;
 }
 
 .popovermenu a.menuitem {
-	padding: 10px;
-	margin: -5px -10px -5px -15px;
 	height: 20px;
+	margin: 0;
+	padding: 0;
+	line-height: initial;
 }
 
 #userlist .popovermenu {
-	margin-top: 1px;
+	margin-top: 4px;
+	border-top-right-radius: 3px;
 }
 
 #userlist .popovermenu>ul.userActionsMenu {
 	right: 10px;
-	padding: 0 10px 10px;
 }
 
 #userlist .popovermenu>ul.userActionsMenu a span {
@@ -537,6 +538,14 @@ tr:hover>td.password>span, tr:hover>td.displayName>span { margin:0; cursor:point
 tr:hover>td.password>img,tr:hover>td.displayName>img, tr:hover>td.quota>img { visibility:visible; cursor:pointer; }
 td.userActions {
 	width: 25px;
+	text-align: center;
+}
+td.userActions .action {
+	position: relative;
+	top: 3px;
+}
+td.userActions .action:hover {
+	cursor: pointer;
 }
 
 div.recoveryPassword { left:50em; display:block; position:absolute; top:-1px; }
