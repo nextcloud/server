@@ -1400,6 +1400,10 @@
 			return OC.linkTo('files', 'index.php')+"?dir="+ encodeURIComponent(dir).replace(/%2F/g, '/');
 		},
 
+		/**
+		 * @param {string} path
+		 * @returns {boolean}
+		 */
 		_isValidPath: function(path) {
 			var sections = path.split('/');
 			for (var i = 0; i < sections.length; i++) {
@@ -1407,7 +1411,8 @@
 					return false;
 				}
 			}
-			return true;
+
+			return path.toLowerCase().indexOf(decodeURI('%0a')) === -1;
 		},
 
 		/**
