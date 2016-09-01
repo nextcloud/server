@@ -210,6 +210,7 @@ $(document).ready(function () {
 			var post = $("#passwordform").serialize();
 			$('#passwordchanged').hide();
 			$('#passworderror').hide();
+			$("#passwordbutton").attr('disabled', 'disabled');
 			// Ajax foo
 			$.post(OC.generateUrl('/settings/personal/changepassword'), post, function (data) {
 				if (data.status === "success") {
@@ -230,6 +231,7 @@ $(document).ready(function () {
 						);
 					}
 				}
+				$("#passwordbutton").removeAttr('disabled');
 			});
 			return false;
 		} else {
@@ -243,7 +245,6 @@ $(document).ready(function () {
 			);
 			return false;
 		}
-
 	});
 
 	$('#displayName').keyUpDelayedOrEnter(changeDisplayName);
