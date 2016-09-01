@@ -24,6 +24,8 @@ namespace Tests\Core\Command\Maintenance;
 use OC\Core\Command\Maintenance\DataFingerprint;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class DataFingerprintTest extends TestCase {
@@ -42,10 +44,10 @@ class DataFingerprintTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->config = $this->getMock('OCP\IConfig');
-		$this->timeFactory = $this->getMock('OCP\AppFramework\Utility\ITimeFactory');
-		$this->consoleInput = $this->getMock('Symfony\Component\Console\Input\InputInterface');
-		$this->consoleOutput = $this->getMock('Symfony\Component\Console\Output\OutputInterface');
+		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
+		$this->timeFactory = $this->getMockBuilder(ITimeFactory::class)->getMock();
+		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
+		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
 		/** @var \OCP\IConfig $config */
 		$this->command = new DataFingerprint($this->config, $this->timeFactory);

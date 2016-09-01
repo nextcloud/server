@@ -24,6 +24,13 @@ namespace Tests\Core\Command\Encryption;
 
 
 use OC\Core\Command\Encryption\EncryptAll;
+use OCP\App\IAppManager;
+use OCP\Encryption\IEncryptionModule;
+use OCP\Encryption\IManager;
+use OCP\IConfig;
+use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class EncryptAllTest extends TestCase {
@@ -55,23 +62,23 @@ class EncryptAllTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->config = $this->getMockBuilder('OCP\IConfig')
+		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->encryptionManager = $this->getMockBuilder('OCP\Encryption\IManager')
+		$this->encryptionManager = $this->getMockBuilder(IManager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->appManager = $this->getMockBuilder('OCP\App\IAppManager')
+		$this->appManager = $this->getMockBuilder(IAppManager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->encryptionModule = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
+		$this->encryptionModule = $this->getMockBuilder(IEncryptionModule::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->questionHelper = $this->getMockBuilder('Symfony\Component\Console\Helper\QuestionHelper')
+		$this->questionHelper = $this->getMockBuilder(QuestionHelper::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->consoleInput = $this->getMock('Symfony\Component\Console\Input\InputInterface');
-		$this->consoleOutput = $this->getMock('Symfony\Component\Console\Output\OutputInterface');
+		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
+		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
 	}
 

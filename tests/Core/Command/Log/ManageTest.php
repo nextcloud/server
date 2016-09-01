@@ -23,6 +23,9 @@ namespace Tests\Core\Command\Log;
 
 
 use OC\Core\Command\Log\Manage;
+use OCP\IConfig;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class ManageTest extends TestCase {
@@ -39,11 +42,11 @@ class ManageTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$config = $this->config = $this->getMockBuilder('OCP\IConfig')
+		$config = $this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->consoleInput = $this->getMock('Symfony\Component\Console\Input\InputInterface');
-		$this->consoleOutput = $this->getMock('Symfony\Component\Console\Output\OutputInterface');
+		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
+		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
 		$this->command = new Manage($config);
 	}

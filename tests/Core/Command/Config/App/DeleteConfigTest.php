@@ -23,10 +23,13 @@ namespace Tests\Core\Command\Config\App;
 
 
 use OC\Core\Command\Config\App\DeleteConfig;
+use OCP\IConfig;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class DeleteConfigTest extends TestCase {
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
 
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
@@ -40,14 +43,13 @@ class DeleteConfigTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$config = $this->config = $this->getMockBuilder('OCP\IConfig')
+		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->consoleInput = $this->getMock('Symfony\Component\Console\Input\InputInterface');
-		$this->consoleOutput = $this->getMock('Symfony\Component\Console\Output\OutputInterface');
+		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
+		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
-		/** @var \OCP\IConfig $config */
-		$this->command = new DeleteConfig($config);
+		$this->command = new DeleteConfig($this->config);
 	}
 
 

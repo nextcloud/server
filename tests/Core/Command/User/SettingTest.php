@@ -23,6 +23,11 @@ namespace Tests\Core\Command\User;
 
 
 use OC\Core\Command\User\Setting;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\IUserManager;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class SettingTest extends TestCase {
@@ -40,19 +45,19 @@ class SettingTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->userManager = $this->getMockBuilder('OCP\IUserManager')
+		$this->userManager = $this->getMockBuilder(IUserManager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->config = $this->getMockBuilder('OCP\IConfig')
+		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->connection = $this->getMockBuilder('OCP\IDBConnection')
+		$this->connection = $this->getMockBuilder(IDBConnection::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->consoleInput = $this->getMockBuilder('Symfony\Component\Console\Input\InputInterface')
+		$this->consoleInput = $this->getMockBuilder(InputInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->consoleOutput = $this->getMockBuilder('Symfony\Component\Console\Output\OutputInterface')
+		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 	}

@@ -23,6 +23,9 @@ namespace Tests\Core\Command\Config\System;
 
 
 use OC\Core\Command\Config\System\GetConfig;
+use OC\SystemConfig;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class GetConfigTest extends TestCase {
@@ -40,11 +43,11 @@ class GetConfigTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$systemConfig = $this->systemConfig = $this->getMockBuilder('OC\SystemConfig')
+		$systemConfig = $this->systemConfig = $this->getMockBuilder(SystemConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->consoleInput = $this->getMock('Symfony\Component\Console\Input\InputInterface');
-		$this->consoleOutput = $this->getMock('Symfony\Component\Console\Output\OutputInterface');
+		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
+		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
 		/** @var \OC\SystemConfig $systemConfig */
 		$this->command = new GetConfig($systemConfig);

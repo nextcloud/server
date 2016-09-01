@@ -22,6 +22,10 @@
 namespace Tests\Core\Command\Maintenance\Mimetype;
 
 use OC\Core\Command\Maintenance\Mimetype\UpdateDB;
+use OC\Files\Type\Detection;
+use OC\Files\Type\Loader;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
@@ -43,15 +47,15 @@ class UpdateDBTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->detector = $this->getMockBuilder('OC\Files\Type\Detection')
+		$this->detector = $this->getMockBuilder(Detection::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->loader = $this->getMockBuilder('OC\Files\Type\Loader')
+		$this->loader = $this->getMockBuilder(Loader::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->consoleInput = $this->getMock('Symfony\Component\Console\Input\InputInterface');
-		$this->consoleOutput = $this->getMock('Symfony\Component\Console\Output\OutputInterface');
+		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
+		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
 		$this->command = new UpdateDB($this->detector, $this->loader);
 	}
