@@ -73,15 +73,15 @@ class GetSharedSecretTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->httpClient = $this->getMock('OCP\Http\Client\IClient');
-		$this->jobList = $this->getMock('OCP\BackgroundJob\IJobList');
-		$this->urlGenerator = $this->getMock('OCP\IURLGenerator');
-		$this->trustedServers = $this->getMockBuilder('OCA\Federation\TrustedServers')
+		$this->httpClient = $this->getMockBuilder(IClient::class)->getMock();
+		$this->jobList = $this->getMockBuilder(IJobList::class)->getMock();
+		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
+		$this->trustedServers = $this->getMockBuilder(TrustedServers::class)
 			->disableOriginalConstructor()->getMock();
-		$this->dbHandler = $this->getMockBuilder('OCA\Federation\DbHandler')
+		$this->dbHandler = $this->getMockBuilder(DbHandler::class)
 			->disableOriginalConstructor()->getMock();
-		$this->logger = $this->getMock('OCP\ILogger');
-		$this->response = $this->getMock('OCP\Http\Client\IResponse');
+		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
+		$this->response = $this->getMockBuilder(IResponse::class)->getMock();
 
 		$this->getSharedSecret = new GetSharedSecret(
 			$this->httpClient,

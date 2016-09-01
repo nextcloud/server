@@ -25,7 +25,10 @@ namespace OCA\Federation\Tests\Controller;
 
 
 use OCA\Federation\Controller\SettingsController;
+use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\IL10N;
+use OCP\IRequest;
 use Test\TestCase;
 
 class SettingsControllerTest extends TestCase {
@@ -45,9 +48,9 @@ class SettingsControllerTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->request = $this->getMock('OCP\IRequest');
-		$this->l10n = $this->getMock('OCP\IL10N');
-		$this->trustedServers = $this->getMockBuilder('OCA\Federation\TrustedServers')
+		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
+		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
+		$this->trustedServers = $this->getMockBuilder(TrustedServers::class)
 			->disableOriginalConstructor()->getMock();
 
 		$this->controller = new SettingsController(
