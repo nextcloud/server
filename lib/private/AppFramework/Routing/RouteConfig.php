@@ -144,6 +144,7 @@ class RouteConfig {
 
 			$url = $simpleRoute['url'];
 			$verb = isset($simpleRoute['verb']) ? strtoupper($simpleRoute['verb']) : 'GET';
+			$filesystem = isset($simpleRoute['filesystem']) ? $simpleRoute['filesystem'] : true;
 
 			$split = explode('#', $name, 2);
 			if (count($split) != 2) {
@@ -159,7 +160,8 @@ class RouteConfig {
 			$handler = new RouteActionHandler($this->container, $controllerName, $actionName);
 			$router = $this->router->create($this->appName.'.'.$controller.'.'.$action . $postfix, $url)
 							->method($verb)
-							->action($handler);
+							->action($handler)
+							->setupFilesystem($filesystem);
 
 			// optionally register requirements for route. This is used to
 			// tell the route parser how url parameters should be matched

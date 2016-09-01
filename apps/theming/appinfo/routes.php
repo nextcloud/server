@@ -28,37 +28,44 @@ return ['routes' => [
 	[
 		'name' => 'Theming#updateStylesheet',
 		'url' => '/ajax/updateStylesheet',
-		'verb' => 'POST'
+		'verb' => 'POST',
+		'filesystem' => false
 	],
 	[
 		'name' => 'Theming#undo',
 		'url' => '/ajax/undoChanges',
-		'verb' => 'POST'
+		'verb' => 'POST',
+		'filesystem' => false
 	],
 	[
 		'name' => 'Theming#updateLogo',
 		'url' => '/ajax/updateLogo',
-		'verb' => 'POST'
+		'verb' => 'POST',
+		'filesystem' => false
 	],
 	[
 		'name' => 'Theming#getStylesheet',
 		'url' => '/styles',
 		'verb' => 'GET',
+		'filesystem' => false
 	],
 	[
 		'name' => 'Theming#getLogo',
 		'url' => '/logo',
 		'verb' => 'GET',
+		'filesystem' => false
 	],
 	[
 		'name' => 'Theming#getLoginBackground',
 		'url' => '/loginbackground',
 		'verb' => 'GET',
+		'filesystem' => false
 	],
 	[
 		'name' => 'Theming#getJavascript',
 		'url' => '/js/theming',
 		'verb' => 'GET',
+		'filesystem' => false
 	],
 ]];
 

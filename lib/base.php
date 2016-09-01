@@ -968,7 +968,6 @@ class OC {
 					OC_App::loadApps();
 				}
 				self::checkSingleUserMode();
-				OC_Util::setupFS();
 				OC::$server->getRouter()->match(\OC::$server->getRequest()->getRawPathInfo());
 				return;
 			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {

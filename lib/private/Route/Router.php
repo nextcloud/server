@@ -288,6 +288,11 @@ class Router implements IRouter {
 			}
 		}
 
+		$route = $this->root->get($parameters['_route']);
+		if (!($route instanceof \OCP\Route\IRoute && $route->requiresFilesystem() === false)) {
+			\OC_Util::setupFS();
+		}
+
 		\OC::$server->getEventLogger()->start('run_route', 'Run route');
 		if (isset($parameters['action'])) {
 			$action = $parameters['action'];

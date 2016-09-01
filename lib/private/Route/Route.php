@@ -32,6 +32,8 @@ use OCP\Route\IRoute;
 use Symfony\Component\Routing\Route as SymfonyRoute;
 
 class Route extends SymfonyRoute implements IRoute {
+	private $filesystem;
+
 	/**
 	 * Specify the method when this route is to be used
 	 *
@@ -154,5 +156,25 @@ class Route extends SymfonyRoute implements IRoute {
 			.'unset($param);'
 			.'require_once "'.$file.'";');
 		$this->action($function);
+	}
+
+	/**
+	 * Set whether or not the filesystem should be setup to handle this route
+	 *
+	 * @param bool $filesystem
+	 * @return \OCP\Route\IRoute
+	 */
+	public function setupFilesystem($filesystem) {
+		$this->filesystem = $filesystem;
+		return $this;
+	}
+
+	/**
+	 * Whether or not the filesystem should be setup to handle this route
+	 *
+	 * @return bool
+	 */
+	public function requiresFilesystem() {
+		return $this->filesystem;
 	}
 }
