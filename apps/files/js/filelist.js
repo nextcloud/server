@@ -1419,7 +1419,8 @@
 				}
 			}
 
-			return path.toLowerCase().indexOf(decodeURI('%0a')) === -1;
+			return path.toLowerCase().indexOf(decodeURI('%0a')) === -1 &&
+				path.toLowerCase().indexOf(decodeURI('%00')) === -1;
 		},
 
 		/**
