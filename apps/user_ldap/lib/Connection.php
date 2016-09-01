@@ -558,12 +558,13 @@ class Connection extends LDAPUtility {
 			}
 			return $bindStatus;
 		}
+		return null;
 	}
 
 	/**
 	 * @param string $host
 	 * @param string $port
-	 * @return false|void
+	 * @return bool
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	private function doConnect($host, $port) {
@@ -580,6 +581,7 @@ class Connection extends LDAPUtility {
 		} else {
 			throw new \OC\ServerNotAvailableException('Could not set required LDAP Protocol version.');
 		}
+		return true;
 	}
 
 	/**

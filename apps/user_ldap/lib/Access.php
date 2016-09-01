@@ -869,7 +869,7 @@ class Access extends LDAPUtility implements IUserTools {
 
 			//browsing through prior pages to get the cookie for the new one
 			if($skipHandling) {
-				return;
+				return false;
 			}
 			// if count is bigger, then the server does not support
 			// paged search. Instead, he did a normal search. We set a
@@ -983,7 +983,6 @@ class Access extends LDAPUtility implements IUserTools {
 		$findings = array();
 		$savedoffset = $offset;
 		do {
-			$continue = false;
 			$search = $this->executeSearch($filter, $base, $attr, $limit, $offset);
 			if($search === false) {
 				return array();
