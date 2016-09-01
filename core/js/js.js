@@ -1660,6 +1660,13 @@ function initCore() {
 		$('body').delegate('#app-content', 'apprendered appresized', adjustControlsWidth);
 
 	}
+
+	// Update live timestamps every 30 seconds
+	setInterval(function() {
+		$('.live-relative-timestamp').each(function() {
+			$(this).text(OC.Util.relativeModifiedDate(parseInt($(this).attr('data-timestamp'), 10)));
+		});
+	}, 30 * 1000);
 }
 
 $(document).ready(initCore);

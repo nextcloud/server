@@ -51,7 +51,7 @@
 		'{{#if isUserAuthor}}' +
 		'        <a href="#" class="action edit icon icon-rename has-tooltip" title="{{editTooltip}}"></a>' +
 		'{{/if}}' +
-		'        <div class="date has-tooltip" title="{{altDate}}">{{date}}</div>' +
+		'        <div class="date has-tooltip live-relative-timestamp" data-timestamp="{{timestamp}}" title="{{altDate}}">{{date}}</div>' +
 		'    </div>' +
 		'    <div class="message">{{{formattedMessage}}}</div>' +
 		'{{#if isLong}}' +
@@ -179,6 +179,7 @@
 		_formatItem: function(commentModel) {
 			var timestamp = new Date(commentModel.get('creationDateTime')).getTime();
 			var data = _.extend({
+				timestamp: timestamp,
 				date: OC.Util.relativeModifiedDate(timestamp),
 				altDate: OC.Util.formatDate(timestamp),
 				formattedMessage: this._formatMessage(commentModel.get('message'))

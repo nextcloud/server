@@ -1202,8 +1202,9 @@
 			}
 			td = $('<td></td>').attr({ "class": "date" });
 			td.append($('<span></span>').attr({
-				"class": "modified",
+				"class": "modified live-relative-timestamp",
 				"title": formatted,
+				"data-timestamp": mtime,
 				"style": 'color:rgb('+modifiedColor+','+modifiedColor+','+modifiedColor+')'
 			}).text(text)
 			  .tooltip({placement: 'top'})
