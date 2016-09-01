@@ -1401,9 +1401,11 @@ describe('OCA.Files.FileList tests', function() {
 				'/abc/..',
 				'/abc/../',
 				'/../abc/',
+				'/foo%0Abar/',
+				'/foo%00bar/',
 				'/another\\subdir/../foo\\../bar\\..\\file/..\\folder/../'
 			], function(path) {
-				fileList.changeDirectory(path);
+				fileList.changeDirectory(decodeURI(path));
 				expect(fileList.getCurrentDirectory()).toEqual('/');
 			});
 		});
