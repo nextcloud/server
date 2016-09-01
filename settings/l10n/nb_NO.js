@@ -161,7 +161,6 @@ OC.L10N.register(
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Vi anbefaler sterkt å installere de påkrevde pakkene på systemet ditt for å støtte en av følgende nasjonale innstillinger: %s.",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Hvis installasjonen din ikke er installert i roten av domenet og bruker systemets cron, kan det bli problemer med URL-genereringen. For å unngå disse problemene, sett \"overwrite.cli.url\" i filen config.php til web-roten for installasjonen din (Foreslått: \"%s\")",
     "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "Det var ikke mulig å kjøre cron-jobben vi CLI. Følgende tekniske feil oppstod:",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"#log-section\">log</a>." : "Vennligst dobbeltsjekk <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">installasjonsguidene ↗</a>, og se etter feil eller advarsler i <a href=\"#log-section\">loggen</a>.",
     "All checks passed." : "Alle sjekker bestått.",
     "Cron" : "Cron",
     "Last cron job execution: %s." : "Siste kjøring av cron-jobb: %s.",

@@ -16,6 +16,7 @@ OC.L10N.register(
     "Only notification for app updates are available." : "Je možné pouze upozornění na dostupné aktualizace aplikací.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Zvolený kanál aktualizací označuje dedikovaná upozornění pro server za zastaralá.",
     "The selected update channel does not support updates of the server." : "Vybraný kanál aktualizací nepodporuje aktualizace serveru.",
-    "Updater" : "Automatické aktualizace"
+    "Updater" : "Automatické aktualizace",
+    "At the moment only manual updates are supported on your environment. This is very likely the case because functions such as shell_exec are not available." : "Pro vaše prostředí jsou momentálně dostupné pouze ruční aktualizace. Nejspíše z důvodu nedostupných funkcí jako třeba shell_exec."
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

@@ -1,15 +1,12 @@
 OC.L10N.register(
     "comments",
     {
-    "Type in a new comment..." : "Digite um novo comentário...",
     "Delete comment" : "Apague o comentário",
     "Post" : "Postar",
     "Cancel" : "Cancelar",
     "Edit comment" : "Editar comentário",
     "[Deleted user]" : "[Usuário excluído]",
     "Comments" : "Comentários",
-    "No other comments available" : "Nenhum outro comentário disponível",
-    "More comments..." : "Mais comentários...",
     "Save" : "Salvar",
     "Allowed characters {count} of {max}" : "Caracteres permitidos  {count} de {max}",
     "Error occurred while retrieving comment with id {id}" : "Ocorreu um erro durante a recuperação do comentário com o id {id}",
@@ -17,11 +14,13 @@ OC.L10N.register(
     "Error occurred while posting comment" : "Ocorreu um erro durante a postagem do comentário",
     "{count} unread comments" : "{count} comentários não lidos",
     "Comment" : "Comentário",
-    "<strong>Comments</strong> for files <em>(always listed in stream)</em>" : "<strong>Comentários</strong> para arquivos <em>(sempre listados no fluxo)</em>",
+    "<strong>Comments</strong> for files" : "<strong>Comentários</strong> para arquivos",
     "You commented" : "Você comentou",
     "%1$s commented" : "%1$s comentado",
     "You commented on %2$s" : "Você comentou em %2$s",
     "%1$s commented on %2$s" : "%1$s comentado em %2$s",
-    "<strong>Comments</strong> for files" : "<strong>Comentários</strong> para arquivos"
+    "Type in a new comment..." : "Digite um novo comentário...",
+    "No other comments available" : "Nenhum outro comentário disponível",
+    "More comments..." : "Mais comentários..."
 },
 "nplurals=2; plural=(n > 1);");

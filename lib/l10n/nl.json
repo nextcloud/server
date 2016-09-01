@@ -50,6 +50,14 @@
     "App can't be installed because it is not compatible with this version of the server" : "De app kan niet worden geïnstalleerd, omdat die niet compatible is met deze versie van de server",
     "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" : "De app kan niet worden geïnstalleerd, omdat het de <shipped>true</shipped> tag bevat die niet is toegestaan voor niet gepubliceerde apps",
     "App can't be installed because the version in info.xml is not the same as the version reported from the app store" : "De app kan niet worden geïnstalleerd, omdat de versie in info.xml niet dezelfde is als de versie zoals die in de app store staat vermeld",
+    "APCu" : "APCu",
+    "Redis" : "Redis",
+    "Server settings" : "Serverinstellingen",
+    "Sharing" : "Delen",
+    "Encryption" : "Versleuteling",
+    "Logging" : "Logging",
+    "Additional settings" : "Aanvullende instellingen",
+    "Tips & tricks" : "Tips & trucs",
     "%s enter the database username and name." : "%s voer de database gebruikersnaam en naam in .",
     "%s enter the database username." : "%s opgeven database gebruikersnaam.",
     "%s enter the database name." : "%s opgeven databasenaam.",
@@ -166,6 +174,14 @@
     "Storage incomplete configuration. %s" : "Incomplete opslagconfiguratie. %s",
     "Storage connection error. %s" : "Opslagverbindingsfout. %s",
     "Storage not available" : "Opslag niet beschikbaar",
-    "Storage connection timeout. %s" : "Opslagverbinding time-out. %s"
+    "Storage connection timeout. %s" : "Opslagverbinding time-out. %s",
+    "ownCloud %s or higher is required." : "ownCloud %s of hoger vereist.",
+    "ownCloud %s or lower is required." : "ownCloud %s of lager vereist.",
+    "App \"%s\" cannot be installed because it is not compatible with this version of Nextcloud." : "App \"%s\" kan niet worden geïnstalleerd, omdat deze niet compatible is met deze versie van Nextcloud.",
+    "App can't be installed because it is not compatible with this version of Nextcloud" : "App kan niet worden geïnstalleerd, omdat deze niet compatible is met deze versie van Nextcloud.",
+    "App can't be installed because the version in info.xml/version is not the same as the version reported from the app store" : "De app kan niet worden geïnstalleerd, omdat de versie in info.xml/version niet dezelfde is als de versie zoals die in de app store staat vermeld",
+    "Hint: You can speed up the upgrade by executing this SQL command manually: ALTER TABLE %s ADD COLUMN checksum varchar(255) DEFAULT NULL AFTER permissions;" : "Hint: Je kunt de upgrade versnellen door dit SQL commando handmatig uit te voeren: ALTER TABLE %s ADD COLUMN checksum varchar(255) DEFAULT NULL AFTER permissions;",
+    "Running Nextcloud Server on the Microsoft Windows platform is not supported. We suggest you use a Linux server in a virtual machine if you have no option for migrating the server itself. Find Linux packages as well as easy to deploy virtual machine images on <a href=\"%s\">%s</a>. For migrating existing installations to Linux you can find some tips and a migration script in <a href=\"%s\">our documentation</a>." : "Het draaien van Nextcloud server op het Microsoft Windows platform wordt niet ondersteund. We adviseren je om een Linux server op een virtuele server te gebruiken als je geen mogelijkheid hebt om een server zelf te migreren. Je vind Linux packages en handig installeerbare virtual machine images op <a href=\"%s\">%s</a>. Voor het migreren van bestaande installaties naar Linux vind je tips en een migratiescript in <a href=\"%s\">onze documentatie</a>.",
+    "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the webserver write access to the root directory</a>." : "Dit kan hersteld worden door <a href=\"%s\" target=\"_blank\">de webserver schrijfrechten te geven op de hoofddirectory</a>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

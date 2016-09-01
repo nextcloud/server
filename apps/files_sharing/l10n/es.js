@@ -18,6 +18,7 @@ OC.L10N.register(
     "Shared by" : "Compartido por",
     "Sharing" : "Compartiendo",
     "Wrong share ID, share doesn't exist" : "El ID del recurso compartido no es correcto, el recurso compartido no existe",
+    "could not delete share" : "No se ha podido eliminar el recurso compartido",
     "Could not delete share" : "No se ha podido eliminar el recurso compartido",
     "Please specify a file or folder path" : "Por favor, especifica la ubicación de un archivo o carpeta",
     "Wrong path, file/folder doesn't exist" : "Ubicación incorrecta, el archivo/carpeta no existe",
@@ -99,6 +100,9 @@ OC.L10N.register(
     "Upload files to %s" : "Subir archivos a %s",
     "Select or drop files" : "Seleccione o arrastre y suelte archivos",
     "Uploading files…" : "Subiendo archivos...",
-    "Uploaded files:" : "Archivos subidos:"
+    "Uploaded files:" : "Archivos subidos:",
+    "Server to server sharing is not enabled on this server" : "Compartir entre servidores no está habilitado en este servidor",
+    "The mountpoint name contains invalid characters." : "El punto de montaje contiene caracteres inválidos.",
+    "Cancel" : "Cancelar"
 },
 "nplurals=2; plural=(n != 1);");

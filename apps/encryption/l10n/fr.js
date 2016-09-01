@@ -22,6 +22,7 @@ OC.L10N.register(
     "The current log-in password was not correct, please try again." : "Le mot de passe de connexion actuel n'est pas correct, veuillez réessayer.",
     "Private key password successfully updated." : "Mot de passe de la clef privée mis à jour avec succès.",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Vous devez migrer vos clés de chiffrement de l'ancienne version (ownCloud <= 8.0) vers la nouvelle. Veuillez exécuter 'occ encryption:migrate' ou contacter votre administrateur",
+    "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Clé privée invalide pour l'application de chiffrement. Veuillez mettre à jour le mot de passe de la clef privée dans vos paramètres personnels pour récupérer l'accès à vos fichiers chiffrés.",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "L'application de chiffrement est activée mais vos clefs ne sont pas initialisées. Veuillez vous déconnecter et ensuite vous reconnecter.",
     "Encryption app is enabled and ready" : "L'application de chiffrement est activée et prête",
     "Bad Signature" : "Mauvaise signature",
@@ -33,6 +34,7 @@ OC.L10N.register(
     "The share will expire on %s." : "Le partage expirera le %s.",
     "Cheers!" : "À bientôt !",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Bonjour,\n<br><br>\nL'administrateur a activé le chiffrement sur le serveur. Vos fichiers ont été chiffrés avec le mot de passe suivant :\n\n<p style=\"font-family: monospace;\"><b>%s</b></p>\n\n<p>\nVeuillez suivre ces instructions :\n<ol>\n<li>Connectez-vous à l'interface web et trouvez la section <em>\"Module de chiffrement de base d'\"</em> dans vos paramètres personnels;</li>\n<li>Entrez le mot de passe fourni ci-dessus dans le champ <em>\"Ancien mot de passe de connexion\"</em>;</li>\n<li>Entrez le mot de passe que vous utilisez actuellement pour vous connecter dans le champ <em>\"Actuel mot de passe de connexion\"</em>;</li>\n<li>Validez en cliquant sur le bouton <em>\"Mettre à jour le mot de passe de votre clef privée\"</em>.</li>\n</ol>\n</p>",
+    "Default encryption module" : "Module de chiffrement par défaut",
     "Encrypt the home storage" : "Chiffrer l'espace de stockage principal",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "L'activation de cette option chiffre tous les fichiers du stockage principal, sinon seuls les espaces de stockage externes seront chiffrés",
     "Enable recovery key" : "Activer la clé de récupération",
@@ -45,6 +47,7 @@ OC.L10N.register(
     "New recovery key password" : "Nouveau mot de passe de la clé de récupération",
     "Repeat new recovery key password" : "Répétez le nouveau mot de passe de la clé de récupération",
     "Change Password" : "Changer de mot de passe",
+    "Basic encryption module" : "Module de chiffrement basique",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'application de chiffrement est activée mais vos clefs ne sont pas initialisées. Veuillez vous déconnecter et ensuite vous reconnecter.",
     "Your private key password no longer matches your log-in password." : "Le mot de passe de votre clef privée ne correspond plus à votre mot de passe de connexion.",
     "Set your old private key password to your current log-in password:" : "Remplacez l'ancien mot de passe de votre clé privée par votre mot de passe de connexion actuel :",
@@ -55,6 +58,12 @@ OC.L10N.register(
     "Enable password recovery:" : "Activer la récupération du mot de passe :",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Activer cette option vous permettra d'obtenir à nouveau l'accès à vos fichiers chiffrés en cas de perte de mot de passe",
     "Enabled" : "Activé",
-    "Disabled" : "Désactivé"
+    "Disabled" : "Désactivé",
+    "You need to migrate your encryption keys from the old encryption (Nextcloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Vous devez migrer vos clés de chiffrement de l'ancienne version (NextCloud <= 8.0) vers la nouvelle. Veuillez exécuter 'occ encryption:migrate' ou contacter votre administrateur",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Votre clef privée pour Encryption App est invalide. Veuillez mettre à jour votre mot de passe de la clef privée dans vos paramètres personnels afin de retrouver l'accès à vos fichiers chiffrés.",
+    "Encryption App is enabled and ready" : "L'application de chiffrement est activée et prête",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'Nextcloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Bonjour\n\nL'administrateur du serveur à activé le chiffrement côté serveur. Vos fichiers seront chiffrés en utilisant le mot de passe '%s'.\n\nMerci de vous connecter à l'interface web, aller dans la section 'Module de chiffrement basique' dans vos paramètres personnes et mettez à jour votre mot de passe de chiffrement en entrant se mot de passe dans le champs 'ancien mot de passe de connexion' et vos identifiant mots de passe actuels.\n\n",
+    "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"Nextcloud basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Bonjour, <br><br>l'administrateur a activé le chiffrement sur le serveur. Vos fichiers ont été chiffrés avec le mot de passe suivant : <strong>%s</strong>.<br><br>Veuillez vous connectez à l'interface web, allez à la section \"Module de chiffrement basique Nextcloud\" dans vos paramètres personnels et entrez le mot de passe fourni ci-dessus dans le champ \"Ancien mot de passe de connexion\", entrez votre mot de passe que vous utilisez actuellement pour vous connecter dans le champ \"Actuel mot de passe de connexion\".<br><br>",
+    "Nextcloud basic encryption module" : "Module de chiffrement Nextcloud"
 },
 "nplurals=2; plural=(n > 1);");

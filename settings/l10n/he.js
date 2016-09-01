@@ -168,7 +168,6 @@ OC.L10N.register(
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : " אנו ממליצים בחום להתקין את החבילות הנדרשות במערכת שלך כדי לתמוך באחת מהגדרות השפה הבאות: %s.",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "אם המערכת שלך לא מותקנת על נתיב הבסיס של שם התחום ומשתמשת במערכת cron, עלולות להיות בעיות עם יצירת כתובות האינטרנט. למניעת בעיות אלו, יש לקבוע את האופציה \"overwrite.cli.url\" בקובץ ה- config.php לנתיב הבסיסי של ההתקנה שלך (הציעו: \"%s \")",
     "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "לא ניתן היה להפעיל את cronjob דרך CLI. השגיאות הבאות נצפתו:",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"#log-section\">log</a>." : "יש לבדוק בשבע עיניים את <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">מדריכי ההתקנה ↗</a>, ויש לחפש אחר שגיאות או הזהרות ב- <a href=\"#log-section\">לוג</a>.",
     "All checks passed." : "כל הבדיקות עברו",
     "Cron" : "Cron",
     "Last cron job execution: %s." : "פעילות cron job אחרונה: %s.",

@@ -47,6 +47,7 @@ OC.L10N.register(
     "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "La chaîne %uid est manquante. Cette chaîne est remplacée par l'identifiant de connexion lors des requêtes LDAP / AD.",
     "Please provide a login name to test against" : "Veuillez indiquer un identifiant de connexion avec lequel tester.",
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Les groupes sont désactivés car le serveur LDAP / AD ne prend pas en charge memberOf.",
+    "LDAP / AD integration" : "Intégration LDAP/AD",
     "_%s group found_::_%s groups found_" : ["%s groupe trouvé","%s groupes trouvés"],
     "_%s user found_::_%s users found_" : ["%s utilisateur trouvé","%s utilisateurs trouvés"],
     "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Impossible de détecter l'attribut contenant le nom d'affichage des utilisateurs. Veuillez l'indiquer vous-même dans les paramètres ldap avancés.",
@@ -158,6 +159,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Association Nom d'utilisateur-Utilisateur LDAP",
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Les noms d'utilisateurs sont utilisés pour le stockage et l'assignation de (meta) données. Pour identifier et reconnaître précisément les utilisateurs, chaque utilisateur LDAP aura un nom interne spécifique. Cela requiert l'association d'un nom d'utilisateur ownCloud à un nom d'utilisateur LDAP. Le nom d'utilisateur créé est associé à l'attribut UUID de l'utilisateur LDAP. Par ailleurs, le DN est mémorisé en cache pour limiter les interactions LDAP mais il n'est pas utilisé pour l'identification. Si le DN est modifié, ces modifications seront retrouvées. Seul le nom interne à ownCloud est utilisé au sein du produit. Supprimer les associations créera des orphelins et l'action affectera toutes les configurations LDAP. NE JAMAIS SUPPRIMER LES ASSOCIATIONS EN ENVIRONNEMENT DE PRODUCTION, mais uniquement sur des environnements de tests et d'expérimentations.",
     "Clear Username-LDAP User Mapping" : "Supprimer l'association utilisateur interne-utilisateur LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Supprimer l'association nom de groupe-groupe LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Supprimer l'association nom de groupe-groupe LDAP",
+    "Limit %s access to users meeting these criteria:" : "Limiter l'accès à %s aux utilisateurs validant ces critères :"
 },
 "nplurals=2; plural=(n > 1);");

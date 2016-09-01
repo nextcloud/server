@@ -1,15 +1,12 @@
 OC.L10N.register(
     "comments",
     {
-    "Type in a new comment..." : "Ketik di komentar baru...",
     "Delete comment" : "Hapus komentar",
     "Post" : "Posting",
     "Cancel" : "Batal",
     "Edit comment" : "Sunting komentar",
     "[Deleted user]" : "[Hapus pengguna]",
     "Comments" : "Komentar",
-    "No other comments available" : "Tidak ada komentar lainnya",
-    "More comments..." : "Komentar lainya...",
     "Save" : "Simpan",
     "Allowed characters {count} of {max}" : "Karakter yang diizinkan {count} dari {max}",
     "Error occurred while retrieving comment with id {id}" : "Terjadi kesalahan saat mendapatkan komentar dengan id {id}",
@@ -17,10 +14,12 @@ OC.L10N.register(
     "Error occurred while posting comment" : "Terjadi kesalahan saat memosting komentar",
     "{count} unread comments" : "{count} komentar belum dibaca",
     "Comment" : "Komentar",
-    "<strong>Comments</strong> for files <em>(always listed in stream)</em>" : "<strong>Komentar</strong> untuk berkas <em>(selalu dicantumkan dalam stream)</em>",
     "You commented" : "Anda berkomentar",
     "%1$s commented" : "%1$s dikomentari",
     "You commented on %2$s" : "Anda berkomentar di %2$s",
-    "%1$s commented on %2$s" : "%1$s dikomentari pada %2$s"
+    "%1$s commented on %2$s" : "%1$s dikomentari pada %2$s",
+    "Type in a new comment..." : "Ketik di komentar baru...",
+    "No other comments available" : "Tidak ada komentar lainnya",
+    "More comments..." : "Komentar lainya..."
 },
 "nplurals=1; plural=0;");
