@@ -221,12 +221,14 @@ $(document).ready(function () {
 			$('#passworderror').hide();
 			$("#passwordbutton").attr('disabled', 'disabled');
 			$("#passwordbutton").after("<span class='password-loading icon icon-loading-small-dark password-state'></span>");
+			$(".personal-show-label").hide();
 			// Ajax foo
 			$.post(OC.generateUrl('/settings/personal/changepassword'), post, function (data) {
 				if (data.status === "success") {
 					$(".password-loading").remove();
 					$("#passwordbutton").after("<span class='checkmark icon icon-checkmark password-state'></span>");
 					removeloader();
+					$(".personal-show-label").show();
 					$('#pass1').val('');
 					$('#pass2').val('').change();
 					OC.msg.finishedSaving('#password-error-msg', data);
