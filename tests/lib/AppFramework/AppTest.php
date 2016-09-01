@@ -25,6 +25,7 @@
 namespace Test\AppFramework;
 
 use OC\AppFramework\App;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Response;
 
 
@@ -134,7 +135,7 @@ class AppTest extends \Test\TestCase {
 
 
 	public function testOutputIsPrinted(){
-		$return = [null, [], [], $this->output, new Response()];
+		$return = [Http::STATUS_OK, [], [], $this->output, new Response()];
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
 			->with($this->equalTo($this->controller),
@@ -143,6 +144,32 @@ class AppTest extends \Test\TestCase {
 		$this->io->expects($this->once())
 			->method('setOutput')
 			->with($this->equalTo($this->output));
+		App::main($this->controllerName, $this->controllerMethod, $this->container, []);
+	}
+
+	public function dataNoOutput() {
+		return [
+			[Http::STATUS_NO_CONTENT],
+			[Http::STATUS_NOT_MODIFIED],
+		];
+	}
+
+	/**
+	 * @dataProvider dataNoOutput
+	 * @param int $statusCode
+	 */
+	public function testNoOutput($statusCode) {
+		$return = [$statusCode, [], [], $this->output, new Response()];
+		$this->dispatcher->expects($this->once())
+			->method('dispatch')
+			->with($this->equalTo($this->controller),
+				$this->equalTo($this->controllerMethod))
+			->will($this->returnValue($return));
+		$this->io->expects($this->once())
+			->method('setHeader')
+			->with($this->equalTo($statusCode));
+		$this->io->expects($this->never())
+			->method('setOutput');
 		App::main($this->controllerName, $this->controllerMethod, $this->container, []);
 	}
 
