@@ -57,21 +57,6 @@ class LargeFileHelperGetFileSizeTest extends TestCase {
 	/**
 	 * @dataProvider dataFileNameProvider
 	 */
-	public function testGetFileSizeViaCOM($filename, $fileSize) {
-		if (!extension_loaded('COM')) {
-			$this->markTestSkipped(
-				'The PHP Windows COM extension is required for this test.'
-			);
-		}
-		$this->assertSame(
-			$fileSize,
-			$this->helper->getFileSizeViaCOM($filename)
-		);
-	}
-
-	/**
-	 * @dataProvider dataFileNameProvider
-	 */
 	public function testGetFileSizeViaExec($filename, $fileSize) {
 		if (!\OC_Helper::is_function_enabled('exec')) {
 			$this->markTestSkipped(
