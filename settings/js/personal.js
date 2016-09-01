@@ -214,6 +214,7 @@ $(document).ready(function () {
 			// Ajax foo
 			$.post(OC.generateUrl('/settings/personal/changepassword'), post, function (data) {
 				if (data.status === "success") {
+					$("#passwordbutton").after("<span class='checkmark icon icon-checkmark password-state'></span>");
 					$('#pass1').val('');
 					$('#pass2').val('').change();
 					OC.msg.finishedSaving('#password-error-msg', data);

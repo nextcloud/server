@@ -96,6 +96,10 @@ input#identity {
 	padding: 3px;
 }
 
+.password-state {
+	display: inline-block;
+}
+
 table.nostyle label { margin-right: 2em; }
 table.nostyle td { padding: 0.2em 0; }
 
