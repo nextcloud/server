@@ -87,7 +87,6 @@
     "Google Drive" : "Google Drive",
     "Local" : "Lokal",
     "Location" : "lokasi",
-    "ownCloud" : "ownCloud",
     "SFTP" : "SFTP",
     "Root" : "Root",
     "SFTP with secret key login" : "SFTP dengan kunci rahasia masuk",
@@ -119,12 +118,13 @@
     "Delete" : "Hapus",
     "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal",
     "Allow users to mount the following external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut",
+    "Access granted" : "Akses diberikan",
     "Global Credentials" : "Kredensial Global",
+    "ownCloud" : "ownCloud",
     "<b>Note:</b> " : "<b>Catatan:</b> ",
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Catatan:</b> Dukungan cURL di PHP tidak diaktifkan atau belum diinstal. Mengaitkan %s tidak dimungkinkan. Silakan minta administrator sistem Anda untuk menginstalnya.",
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Catatan:</b> Dukungan FTP di PHP tidak diaktifkan atau belum diinstal. Mengaitkan %s tidak dimungkinkan. Silakan minta administrator sistem Anda untuk menginstalnya.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Catatan:</b> \"%s\" belum diinstal. Mengaitkan %s tidak dimungkinkan. Silakan minta administrator sistem Anda untuk menginstalnya.",
-    "External Storage" : "Penyimpanan Eksternal",
-    "Access granted" : "Akses diberikan"
+    "External Storage" : "Penyimpanan Eksternal"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

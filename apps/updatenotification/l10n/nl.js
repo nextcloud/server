@@ -16,6 +16,7 @@ OC.L10N.register(
     "Only notification for app updates are available." : "Er zijn alleen meldingen voor apps beschikbaar.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Het geselecteerde updatekanaal maakt overbodig om serverspecifieke meldingen apart te genereren.",
     "The selected update channel does not support updates of the server." : "Het geselecteerde updatekanaal ondersteunt geen updates voor de server.",
-    "Updater" : "Updater"
+    "Updater" : "Updater",
+    "At the moment only manual updates are supported on your environment. This is very likely the case because functions such as shell_exec are not available." : "Op dit moment worden alleen handmatige updates in jouw omgeving ondersteund. Dit komt waarschijnlijk doordat functies zoals shell_exec niet beschikbaar zijn."
 },
 "nplurals=2; plural=(n != 1);");

@@ -132,6 +132,8 @@ OC.L10N.register(
     "No favorites" : "Aucun favori",
     "Files and folders you mark as favorite will show up here" : "Les fichiers et dossiers ajoutés à vos favoris apparaîtront ici",
     "Text file" : "Fichier texte",
-    "New text file.txt" : "Nouveau fichier texte.txt"
+    "New text file.txt" : "Nouveau fichier texte.txt",
+    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Utilisez cette adresse pour <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">accéder à vos fichiers par WebDAV</a>",
+    "Cancel upload" : "Annuler le téléversement"
 },
 "nplurals=2; plural=(n > 1);");

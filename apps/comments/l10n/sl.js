@@ -1,15 +1,12 @@
 OC.L10N.register(
     "comments",
     {
-    "Type in a new comment..." : "Vpis nove opombe ...",
     "Delete comment" : "Izbriši opombo",
     "Post" : "Objavi",
     "Cancel" : "Prekliči",
     "Edit comment" : "Uredi opombo",
     "[Deleted user]" : "[Izbrisan uporabnik]",
     "Comments" : "Opombe",
-    "No other comments available" : "Ni drugih opomb",
-    "More comments..." : "Več opomb ...",
     "Save" : "Shrani",
     "Allowed characters {count} of {max}" : "Dovoljeni znaki: {count} od {max}",
     "Error occurred while retrieving comment with id {id}" : "Napaka se je zgodila med prenosom komentarja z oznako {id}",
@@ -17,10 +14,12 @@ OC.L10N.register(
     "Error occurred while posting comment" : "Napaka se je zgodila med predajo komentarja",
     "{count} unread comments" : "{count} neprebranih opomb",
     "Comment" : "Opomba",
-    "<strong>Comments</strong> for files <em>(always listed in stream)</em>" : "<strong>Opombe</strong> k datotekam <em>(vedno pokaži)</em>",
     "You commented" : "Vaša opomba",
     "%1$s commented" : "%1$s opomb",
     "You commented on %2$s" : "Napisali ste opombo na %2$s",
-    "%1$s commented on %2$s" : "%1$s opomb ob %2$s"
+    "%1$s commented on %2$s" : "%1$s opomb ob %2$s",
+    "Type in a new comment..." : "Vpis nove opombe ...",
+    "No other comments available" : "Ni drugih opomb",
+    "More comments..." : "Več opomb ..."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

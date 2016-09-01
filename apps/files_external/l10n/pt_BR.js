@@ -89,7 +89,6 @@ OC.L10N.register(
     "Google Drive" : "Google Drive",
     "Local" : "Local",
     "Location" : "Localização",
-    "ownCloud" : "ownCloud",
     "SFTP" : "SFTP",
     "Root" : "Raiz",
     "SFTP with secret key login" : "SFTP com chave secreta de login",
@@ -121,12 +120,13 @@ OC.L10N.register(
     "Delete" : "Excluir",
     "Allow users to mount external storage" : "Permitir que usuários montem armazenamento externo",
     "Allow users to mount the following external storage" : "Permitir que usuários montem o seguinte armazenamento externo",
+    "Access granted" : "Acesso concedido",
     "Global Credentials" : "Credenciais Globais",
+    "ownCloud" : "ownCloud",
     "<b>Note:</b> " : "<b>Nota:</b>",
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Nota:</b> O suporte cURL do PHP não está habilitado ou instalado. Montagem de %s não é possível. Por favor, solicite ao seu administrador do sistema para instalá-lo.",
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Nota:</b> O suporte FTP no PHP não está habilitado ou instalado. Montagem de %s não é possível. Por favor, solicite ao seu administrador do sistema para instalá-lo.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Nota:</b> \"%s\" não está instalado. Montagem de %s não é possível. Por favor, solicite ao seu administrador do sistema para instalá-lo.",
-    "External Storage" : "Armazenamento Externo",
-    "Access granted" : "Acesso concedido"
+    "External Storage" : "Armazenamento Externo"
 },
 "nplurals=2; plural=(n > 1);");

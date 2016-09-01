@@ -36,6 +36,7 @@ OC.L10N.register(
     "No files in here" : "Hier geen bestanden",
     "No entries found in this folder" : "Niets gevonden in deze map",
     "Size" : "Grootte",
-    "Modified" : "Aangepast"
+    "Modified" : "Aangepast",
+    "%s (not-assignable)" : "%s (niet-toewijsbaar)"
 },
 "nplurals=2; plural=(n != 1);");

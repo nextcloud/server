@@ -1,13 +1,10 @@
 { "translations": {
-    "Type in a new comment..." : "Escribir un nuevo comentario",
     "Delete comment" : "Eliminar comentario",
     "Post" : "Publicar",
     "Cancel" : "Cancelar",
     "Edit comment" : "Modificar comentario",
     "[Deleted user]" : "[Usuario eliminado]",
     "Comments" : "Comentarios",
-    "No other comments available" : "No hay mas comentarios",
-    "More comments..." : "Mas comentarios...",
     "Save" : "Guardar",
     "Allowed characters {count} of {max}" : "Caracteres permitidos {count} de {max}",
     "Error occurred while retrieving comment with id {id}" : "Se produjo error al recuperar comentario con id {id}",
@@ -18,6 +15,9 @@
     "You commented" : "Has comentado",
     "%1$s commented" : "%1$s comentado",
     "You commented on %2$s" : "Has comentado en %2$s",
-    "%1$s commented on %2$s" : "%1$s comentado en %2$s"
+    "%1$s commented on %2$s" : "%1$s comentado en %2$s",
+    "Type in a new comment..." : "Escribir un nuevo comentario",
+    "No other comments available" : "No hay mas comentarios",
+    "More comments..." : "Mas comentarios..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

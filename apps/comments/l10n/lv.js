@@ -1,8 +1,26 @@
 OC.L10N.register(
     "comments",
     {
+    "Delete comment" : "Dzēst komentāru",
+    "Post" : "Pievienot",
     "Cancel" : "Atcelt",
+    "Edit comment" : "Rediģēt komentāru",
+    "[Deleted user]" : "[Dzēsts lietotājs]",
+    "Comments" : "Komentāri",
     "Save" : "Saglabāt",
-    "Comment" : "Komentārs"
+    "Allowed characters {count} of {max}" : "Atļautās zīmes {count} no {max}",
+    "Error occurred while retrieving comment with id {id}" : "Notika kļūda saņemot komentāru ar id {id}",
+    "Error occurred while updating comment with id {id}" : "Kļūda atjauninot komentāru ar id {id}",
+    "Error occurred while posting comment" : "Notika kļūda pievienojot komentāru",
+    "{count} unread comments" : "{count} neizlasītu komentāru",
+    "Comment" : "Komentārs",
+    "<strong>Comments</strong> for files" : "<strong>Komentāri</strong> datnēm",
+    "You commented" : "Tu komentēji",
+    "%1$s commented" : "%1$s komentēja",
+    "You commented on %2$s" : "Tu komentēji %2$s",
+    "%1$s commented on %2$s" : "%1$s komentēja %2$s",
+    "Type in a new comment..." : "Raksti jaunu komentāru...",
+    "No other comments available" : "Nav pieejami citi komentāri",
+    "More comments..." : "Vairāk komentāri..."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

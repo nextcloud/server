@@ -171,7 +171,6 @@ OC.L10N.register(
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "次のロケールをサポートするには、システムに必要なパッケージをインストールすることを強くおすすめします: %s。",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "URLがドメインのルート(/)で終わっていない場合で、システムのcronを利用している場合は、URLの生成に問題が発生します。その場合は、config.php ファイルの中の \"overwrite.cli.url\" オプションをインストールしたwebrootのパスに設定してください。(推奨: \"%s\")",
     "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "CLI から cronジョブを実行することができませんでした。次の技術的なエラーが発生しています：",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"#log-section\">log</a>." : "<a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">インストールガイド ↗</a>をもう一度チェックして、<a href=\"#log-section\">ログ</a> にあるエラーまたは警告について確認してください。",
     "All checks passed." : "すべてのチェックに合格しました。",
     "Cron" : "Cron",
     "Last cron job execution: %s." : "最終cronジョブ実行: %s",
