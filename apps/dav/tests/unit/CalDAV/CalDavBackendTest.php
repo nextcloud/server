@@ -53,6 +53,7 @@ class CalDavBackendTest extends AbstractCalDavBackendTest {
 		]);
 		$this->backend->updateCalendar($calendarId, $patch);
 		$patch->commit();
+		$this->assertEquals(1, $this->backend->getCalendarsForUserCount(self::UNIT_TEST_USER));
 		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(1, count($books));
 		$this->assertEquals('Unit test', $books[0]['{DAV:}displayname']);

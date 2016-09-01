@@ -99,6 +99,22 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	}
 
 	/**
+	 * Return the number of address books for a principal
+	 *
+	 * @param $principalUri
+	 * @return int
+	 */
+	public function getAddressBooksForUserCount($principalUri) {
+		$principalUri = $this->convertPrincipal($principalUri, true);
+		$query = $this->db->getQueryBuilder();
+		$query->select($query->createFunction('COUNT(*)'))
+			->from('addressbooks')
+			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)));
+
+		return $query->execute()->fetchColumn();
+	}
+
+	/**
 	 * Returns the list of address books for a specific user.
 	 *
 	 * Every addressbook should have the following properties:
