@@ -106,7 +106,46 @@ class FileMimeType extends AbstractStringCheck {
 			}
 		}
 
+		$this->mimeType[$this->storage->getId()][$this->path] = $this->storage->getMimeType($this->path);
+		if ($this->mimeType[$this->storage->getId()][$this->path] === 'application/octet-stream') {
+			$this->mimeType[$this->storage->getId()][$this->path] = $this->detectMimetypeFromPath();
+		}
+
 		return $this->mimeType[$this->storage->getId()][$this->path];
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function detectMimetypeFromPath() {
+		$mimeType = $this->mimeTypeDetector->detectPath($this->path);
+		if ($mimeType !== 'application/octet-stream' && $mimeType !== false) {
+			return $mimeType;
+		}
+
+		if ($this->storage->instanceOfStorage('\OC\Files\Storage\Local')
+			|| $this->storage->instanceOfStorage('\OC\Files\Storage\Home')
+			|| $this->storage->instanceOfStorage('\OC\Files\ObjectStore\HomeObjectStoreStorage')) {
+			$localFile = $this->storage->getLocalFile($this->path);
+			if ($localFile !== false) {
+				$mimeType = $this->mimeTypeDetector->detect($localFile);
+				if ($mimeType !== false) {
+					return $mimeType;
+				}
+			}
+
+			return 'application/octet-stream';
+		} else {
+			$handle = $this->storage->fopen($this->path, 'r');
+			$data = fread($handle, 8024);
+			fclose($handle);
+			$mimeType = $this->mimeTypeDetector->detectString($data);
+			if ($mimeType !== false) {
+				return $mimeType;
+			}
+
+			return 'application/octet-stream';
+		}
 	}
 
 	/**
