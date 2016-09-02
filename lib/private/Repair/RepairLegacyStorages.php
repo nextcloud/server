@@ -245,6 +245,8 @@ class RepairLegacyStorages implements IRepairStep{
 
 		$this->connection->commit();
 
+		Storage::getGlobalCache()->clearCache();
+
 		if ($hasWarnings) {
 			$out->warning('Some legacy storages could not be repaired. Please manually fix them then re-run ./occ maintenance:repair');
 		} else {

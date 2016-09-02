@@ -40,8 +40,20 @@ namespace OC\Files\Cache;
  * @package OC\Files\Cache
  */
 class Storage {
+	/** @var StorageGlobal|null */
+	private static $globalCache = null;
 	private $storageId;
 	private $numericId;
+
+	/**
+	 * @return StorageGlobal
+	 */
+	public static function getGlobalCache() {
+		if (is_null(self::$globalCache)) {
+			self::$globalCache = new StorageGlobal(\OC::$server->getDatabaseConnection());
+		}
+		return self::$globalCache;
+	}
 
 	/**
 	 * @param \OC\Files\Storage\Storage|string $storage
@@ -75,12 +87,10 @@ class Storage {
 
 	/**
 	 * @param string $storageId
-	 * @return array|null
+	 * @return array
 	 */
 	public static function getStorageById($storageId) {
-		$sql = 'SELECT * FROM `*PREFIX*storages` WHERE `id` = ?';
-		$result = \OC_DB::executeAudited($sql, array($storageId));
-		return $result->fetchRow();
+		return self::getGlobalCache()->getStorageInfo($storageId);
 	}
 
 	/**

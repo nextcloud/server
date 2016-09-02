@@ -148,6 +148,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		libxml_clear_errors();
 		$this->assertEquals([], $errors);
 
+		\OC\Files\Cache\Storage::getGlobalCache()->clearCache();
+
 		// tearDown the traits
 		$traits = $this->getTestTraits();
 		foreach ($traits as $trait) {
