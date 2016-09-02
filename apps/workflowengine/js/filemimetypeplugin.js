@@ -27,7 +27,7 @@
 		getCheck: function() {
 			return {
 				'class': 'OCA\\WorkflowEngine\\Check\\FileMimeType',
-				'name': t('workflowengine', 'File mime type (upload)'),
+				'name': t('workflowengine', 'File mime type'),
 				'operators': [
 					{'operator': 'is', 'name': t('workflowengine', 'is')},
 					{'operator': '!is', 'name': t('workflowengine', 'is not')},
