@@ -23,13 +23,15 @@
 namespace OCA\Files_External\Tests\Command;
 
 use OCA\Files_External\Command\Applicable;
+use OCP\IGroupManager;
+use OCP\IUserManager;
 
 class ApplicableTest extends CommandTest {
 	private function getInstance($storageService) {
 		/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject $userManager */
-		$userManager = $this->getMock('\OCP\IUserManager');
+		$userManager = $this->createMock(IUserManager::class);
 		/** @var \OCP\IGroupManager|\PHPUnit_Framework_MockObject_MockObject $groupManager */
-		$groupManager = $this->getMock('\OCP\IGroupManager');
+		$groupManager = $this->createMock(IGroupManager::class);
 
 		$userManager->expects($this->any())
 			->method('userExists')
