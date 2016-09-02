@@ -42,6 +42,8 @@ use OCP\AppFramework\Http\ICallbackResponse;
  */
 class App {
 
+	/** @var string[] */
+	private static $nameSpaceCache = [];
 
 	/**
 	 * Turns an app id into a namespace by either reading the appinfo.xml's
@@ -52,6 +54,11 @@ class App {
 	 * @return string the starting namespace for the app
 	 */
 	public static function buildAppNamespace($appId, $topNamespace='OCA\\') {
+		// Hit the cache!
+		if (isset(self::$nameSpaceCache[$appId])) {
+			return $topNamespace . self::$nameSpaceCache[$appId];
+		}
+
 		// first try to parse the app's appinfo/info.xml <namespace> tag
 		$appPath = OC_App::getAppPath($appId);
 		if ($appPath !== false) {
@@ -63,14 +70,16 @@ class App {
 				if ($xml) {
 					$result = $xml->xpath('/info/namespace');
 					if ($result && count($result) > 0) {
+						self::$nameSpaceCache[$appId] = trim((string) $result[0]);
 						// take first namespace result
-						return $topNamespace . trim((string) $result[0]);
+						return $topNamespace . self::$nameSpaceCache[$appId];
 					}
 				}
 			}
 		}
 		// if the tag is not found, fall back to uppercasing the first letter
-		return $topNamespace . ucfirst($appId);
+		self::$nameSpaceCache[$appId] = ucfirst($appId);
+		return $topNamespace . self::$nameSpaceCache[$appId];
 	}
 
 
