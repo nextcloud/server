@@ -100,40 +100,6 @@ class Application extends \OCP\AppFramework\App {
 	}
 
 	/**
-	 * register OCS API Calls
-	 */
-	public function registerOCSApi() {
-
-		$container = $this->getContainer();
-		$server = $container->getServer();
-
-		$auth = new OCSAuthAPI(
-			$server->getRequest(),
-			$server->getSecureRandom(),
-			$server->getJobList(),
-			$container->query('TrustedServers'),
-			$container->query('DbHandler'),
-			$server->getLogger()
-
-		);
-
-		API::register('get',
-			'/apps/federation/api/v1/shared-secret',
-			array($auth, 'getSharedSecret'),
-			'federation',
-			API::GUEST_AUTH
-		);
-
-		API::register('post',
-			'/apps/federation/api/v1/request-shared-secret',
-			array($auth, 'requestSharedSecret'),
-			'federation',
-			API::GUEST_AUTH
-		);
-
-	}
-
-	/**
 	 * listen to federated_share_added hooks to auto-add new servers to the
 	 * list of trusted servers.
 	 */
