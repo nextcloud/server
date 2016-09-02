@@ -77,6 +77,39 @@ $application->registerRoutes($this, [
 			'url' => '/api/v1/sharees',
 			'verb' => 'GET',
 		],
+		/*
+		 * Remote Shares
+		 */
+		[
+			'name' => 'Remote#getShares',
+			'url' => '/api/v1/remote_shares',
+			'verb' => 'GET',
+		],
+		[
+			'name' => 'Remote#getOpenShares',
+			'url' => '/api/v1/remote_shares/pending',
+			'verb' => 'GET',
+		],
+		[
+			'name' => 'Remote#acceptShare',
+			'url' => '/api/v1/remote_shares/pending/{id}',
+			'verb' => 'POST',
+		],
+		[
+			'name' => 'Remote#declineShare',
+			'url' => '/api/v1/remote_shares/pending/{id}',
+			'verb' => 'DELETE',
+		],
+		[
+			'name' => 'Remote#getShare',
+			'url' => '/api/v1/remote_shares/{id}',
+			'verb' => 'GET',
+		],
+		[
+			'name' => 'Remote#unshare',
+			'url' => '/api/v1/remote_shares/{id}',
+			'verb' => 'DELETE',
+		],
 	],
 ]);
 
@@ -96,33 +129,3 @@ $this->create('sharing_external_shareinfo', '/shareinfo')
 // OCS API
 
 //TODO: SET: mail notification, waiting for PR #4689 to be accepted
-
-API::register('get',
-		'/apps/files_sharing/api/v1/remote_shares',
-		array('\OCA\Files_Sharing\API\Remote', 'getShares'),
-		'files_sharing');
-
-API::register('get',
-		'/apps/files_sharing/api/v1/remote_shares/pending',
-		array('\OCA\Files_Sharing\API\Remote', 'getOpenShares'),
-		'files_sharing');
-
-API::register('post',
-		'/apps/files_sharing/api/v1/remote_shares/pending/{id}',
-		array('\OCA\Files_Sharing\API\Remote', 'acceptShare'),
-		'files_sharing');
-
-API::register('delete',
-		'/apps/files_sharing/api/v1/remote_shares/pending/{id}',
-		array('\OCA\Files_Sharing\API\Remote', 'declineShare'),
-		'files_sharing');
-
-API::register('get',
-		'/apps/files_sharing/api/v1/remote_shares/{id}',
-		array('\OCA\Files_Sharing\API\Remote', 'getShare'),
-		'files_sharing');
-
-API::register('delete',
-		'/apps/files_sharing/api/v1/remote_shares/{id}',
-		array('\OCA\Files_Sharing\API\Remote', 'unshare'),
-		'files_sharing');

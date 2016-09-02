@@ -111,6 +111,7 @@ class Application extends App {
 				$uid
 			);
 		});
+		$container->registerAlias('OCA\Files_Sharing\External\Manager', 'ExternalManager');
 
 		/**
 		 * Middleware
