@@ -1,12 +1,15 @@
 OC.L10N.register(
     "comments",
     {
+    "New comment …" : "Neuer Kommentar ...",
     "Delete comment" : "Kommentar löschen",
     "Post" : "Speichern",
     "Cancel" : "Abbrechen",
     "Edit comment" : "Kommentar bearbeiten",
     "[Deleted user]" : "[Gelöschter Benutzer]",
     "Comments" : "Kommentare",
+    "No comments yet, start the conversation!" : "Keine Kommentare bisher. Beginne die Diskussion!",
+    "More comments …" : "Weitere Kommentare ...",
     "Save" : "Speichern",
     "Allowed characters {count} of {max}" : "Erlaubte Zeichen {count} von {max}",
     "Error occurred while retrieving comment with id {id}" : "Es ist ein Fehler beim Empfangen des Kommentars mit der ID {id} aufgetreten",
