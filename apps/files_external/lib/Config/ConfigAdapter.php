@@ -126,7 +126,7 @@ class ConfigAdapter implements IMountProvider {
 		$this->userStoragesService->setUser($user);
 		$this->userGlobalStoragesService->setUser($user);
 
-		foreach ($this->userGlobalStoragesService->getUniqueStorages() as $storage) {
+		foreach ($this->userGlobalStoragesService->getAllStoragesForUser() as $storage) {
 			try {
 				$this->prepareStorageConfig($storage, $user);
 				$impl = $this->constructStorage($storage);
@@ -147,35 +147,26 @@ class ConfigAdapter implements IMountProvider {
 				$impl = new FailedStorage(['exception' => $e]);
 			}
 
-			$mount = new MountPoint(
-				$impl,
-				'/' . $user->getUID() . '/files' . $storage->getMountPoint(),
-				null,
-				$loader,
-				$storage->getMountOptions(),
-				$storage->getId()
-			);
-			$mounts[$storage->getMountPoint()] = $mount;
-		}
-
-		foreach ($this->userStoragesService->getStorages() as $storage) {
-			try {
-				$this->prepareStorageConfig($storage, $user);
-				$impl = $this->constructStorage($storage);
-			} catch (\Exception $e) {
-				// propagate exception into filesystem
-				$impl = new FailedStorage(['exception' => $e]);
+			if ($storage->getType() === StorageConfig::MOUNT_TYPE_PERSONAl) {
+				$mount = new PersonalMount(
+					$this->userStoragesService,
+					$storage->getId(),
+					$impl,
+					'/' . $user->getUID() . '/files' . $storage->getMountPoint(),
+					null,
+					$loader,
+					$storage->getMountOptions()
+				);
+			} else {
+				$mount = new MountPoint(
+					$impl,
+					'/' . $user->getUID() . '/files' . $storage->getMountPoint(),
+					null,
+					$loader,
+					$storage->getMountOptions(),
+					$storage->getId()
+				);
 			}
-
-			$mount = new PersonalMount(
-				$this->userStoragesService,
-				$storage->getId(),
-				$impl,
-				'/' . $user->getUID() . '/files' . $storage->getMountPoint(),
-				null,
-				$loader,
-				$storage->getMountOptions()
-			);
 			$mounts[$storage->getMountPoint()] = $mount;
 		}
 
