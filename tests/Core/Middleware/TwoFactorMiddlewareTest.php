@@ -24,6 +24,12 @@ namespace Test\Core\Middleware;
 
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\AppFramework\Http\Request;
+use OCP\AppFramework\Utility\IControllerMethodReflector;
+use OCP\IConfig;
+use OCP\ISession;
+use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\Security\ISecureRandom;
 use Test\TestCase;
 
 class TwoFactorMiddlewareTest extends TestCase {
@@ -47,17 +53,17 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$this->userSession = $this->getMockBuilder('\OC\User\Session')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->session = $this->getMock('\OCP\ISession');
-		$this->urlGenerator = $this->getMock('\OCP\IURLGenerator');
-		$this->reflector = $this->getMock('\OCP\AppFramework\Utility\IControllerMethodReflector');
+		$this->session = $this->createMock(ISession::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->reflector = $this->createMock(IControllerMethodReflector::class);
 		$this->request = new Request(
 			[
 				'server' => [
 					'REQUEST_URI' => 'test/url'
 				]
 			],
-			$this->getMock('\OCP\Security\ISecureRandom'),
-			$this->getMock('\OCP\IConfig')
+			$this->createMock(ISecureRandom::class),
+			$this->createMock(IConfig::class)
 		);
 
 		$this->middleware = new TwoFactorMiddleware($this->twoFactorManager, $this->userSession, $this->session, $this->urlGenerator, $this->reflector, $this->request);
@@ -90,7 +96,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 	}
 
 	public function testBeforeControllerNoTwoFactorCheckNeeded() {
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->createMock(IUser::class);
 
 		$this->reflector->expects($this->once())
 			->method('hasAnnotation')
@@ -114,7 +120,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 	 * @expectedException \OC\Authentication\Exceptions\TwoFactorAuthRequiredException
 	 */
 	public function testBeforeControllerTwoFactorAuthRequired() {
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->createMock(IUser::class);
 
 		$this->reflector->expects($this->once())
 			->method('hasAnnotation')
@@ -142,7 +148,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 	 * @expectedException \OC\Authentication\Exceptions\UserAlreadyLoggedInException
 	 */
 	public function testBeforeControllerUserAlreadyLoggedIn() {
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->createMock(IUser::class);
 
 		$this->reflector->expects($this->once())
 			->method('hasAnnotation')
