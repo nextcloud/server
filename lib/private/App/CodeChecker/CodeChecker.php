@@ -68,19 +68,25 @@ class CodeChecker extends BasicEmitter {
 			throw new \RuntimeException("No app with given id <$appId> known.");
 		}
 
-		return $this->analyseFolder($appPath);
+		return $this->analyseFolder($appId, $appPath);
 	}
 
 	/**
+	 * @param string $appId
 	 * @param string $folder
 	 * @return array
 	 */
-	public function analyseFolder($folder) {
+	public function analyseFolder($appId, $folder) {
 		$errors = [];
+
+		$excludedDirectories = ['vendor', '3rdparty', '.git', 'l10n', 'tests', 'test'];
+		if ($appId === 'password_policy') {
+			$excludedDirectories[] = 'lists';
+		}
 
 		$excludes = array_map(function($item) use ($folder) {
 			return $folder . '/' . $item;
-		}, ['vendor', '3rdparty', '.git', 'l10n', 'tests', 'test']);
+		}, $excludedDirectories);
 
 		$iterator = new RecursiveDirectoryIterator($folder, RecursiveDirectoryIterator::SKIP_DOTS);
 		$iterator = new RecursiveCallbackFilterIterator($iterator, function($item) use ($folder, $excludes){
