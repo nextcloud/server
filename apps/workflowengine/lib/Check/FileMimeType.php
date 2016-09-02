@@ -23,12 +23,13 @@ namespace OCA\WorkflowEngine\Check;
 
 
 use OCP\Files\IMimeTypeDetector;
+use OCP\Files\Storage\IStorage;
 use OCP\IL10N;
 use OCP\IRequest;
 
 class FileMimeType extends AbstractStringCheck {
 
-	/** @var string */
+	/** @var array */
 	protected $mimeType;
 
 	/** @var IRequest */
@@ -36,6 +37,12 @@ class FileMimeType extends AbstractStringCheck {
 
 	/** @var IMimeTypeDetector */
 	protected $mimeTypeDetector;
+
+	/** @var IStorage */
+	protected $storage;
+
+	/** @var string */
+	protected $path;
 
 	/**
 	 * @param IL10N $l
@@ -49,26 +56,57 @@ class FileMimeType extends AbstractStringCheck {
 	}
 
 	/**
+	 * @param IStorage $storage
+	 * @param string $path
+	 */
+	public function setFileInfo(IStorage $storage, $path) {
+		$this->storage = $storage;
+		$this->path = $path;
+		if (!isset($this->mimeType[$this->storage->getId()][$this->path])
+			|| $this->mimeType[$this->storage->getId()][$this->path] === '') {
+			$this->mimeType[$this->storage->getId()][$this->path] = null;
+		}
+	}
+
+	/**
 	 * @return string
 	 */
 	protected function getActualValue() {
-		if ($this->mimeType !== null) {
-			return $this->mimeType;
+		if ($this->mimeType[$this->storage->getId()][$this->path] !== null) {
+			return $this->mimeType[$this->storage->getId()][$this->path];
 		}
 
-		$this->mimeType = '';
+		$this->mimeType[$this->storage->getId()][$this->path] = '';
 		if ($this->isWebDAVRequest()) {
 			if ($this->request->getMethod() === 'PUT') {
 				$path = $this->request->getPathInfo();
-				$this->mimeType = $this->mimeTypeDetector->detectPath($path);
-			}
-		} else if (in_array($this->request->getMethod(), ['POST', 'PUT'])) {
-			$files = $this->request->getUploadedFile('files');
-			if (isset($files['type'][0])) {
-				$this->mimeType = $files['type'][0];
+				$this->mimeType[$this->storage->getId()][$this->path] = $this->mimeTypeDetector->detectPath($path);
+				return $this->mimeType[$this->storage->getId()][$this->path];
 			}
 		}
-		return $this->mimeType;
+
+		if (in_array($this->request->getMethod(), ['POST', 'PUT'])) {
+			$files = $this->request->getUploadedFile('files');
+			if (isset($files['type'][0])) {
+				$mimeType = $files['type'][0];
+				if ($this->mimeType === 'application/octet-stream') {
+					// Maybe not...
+					$mimeTypeTest = $this->mimeTypeDetector->detectPath($files['name'][0]);
+					if ($mimeTypeTest !== 'application/octet-stream' && $mimeTypeTest !== false) {
+						$mimeType = $mimeTypeTest;
+					} else {
+						$mimeTypeTest = $this->mimeTypeDetector->detect($files['tmp_name'][0]);
+						if ($mimeTypeTest !== 'application/octet-stream' && $mimeTypeTest !== false) {
+							$mimeType = $mimeTypeTest;
+						}
+					}
+				}
+				$this->mimeType[$this->storage->getId()][$this->path] = $mimeType;
+				return $mimeType;
+			}
+		}
+
+		return $this->mimeType[$this->storage->getId()][$this->path];
 	}
 
 	/**
