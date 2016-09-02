@@ -30,6 +30,9 @@ use OC\Files\FileInfo;
 use OCP\AppFramework\Http;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IConfig;
+use OCP\IUser;
+use OCP\IUserSession;
 use Test\TestCase;
 use OCP\IRequest;
 use OCA\Files\Service\TagService;
@@ -66,11 +69,11 @@ class ApiControllerTest extends TestCase {
 		$this->request = $this->getMockBuilder('\OCP\IRequest')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->user = $this->getMock('\OCP\IUser');
+		$this->user = $this->createMock(IUser::class);
 		$this->user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('user1'));
-		$userSession = $this->getMock('\OCP\IUserSession');
+		$userSession = $this->createMock(IUserSession::class);
 		$userSession->expects($this->any())
 			->method('getUser')
 			->will($this->returnValue($this->user));
@@ -83,7 +86,7 @@ class ApiControllerTest extends TestCase {
 		$this->preview = $this->getMockBuilder('\OCP\IPreview')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->config = $this->getMock('\OCP\IConfig');
+		$this->config = $this->createMock(IConfig::class);
 		$this->userFolder = $this->getMockBuilder('\OC\Files\Node\Folder')
 			->disableOriginalConstructor()
 			->getMock();
