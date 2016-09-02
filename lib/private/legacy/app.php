@@ -736,6 +736,7 @@ class OC_App {
 	 * @return array
 	 */
 	public static function getForms($type) {
+		\OC::$server->getEventDispatcher()->dispatch('OC\Settings::loadAdditionalForms');
 		$forms = array();
 		switch ($type) {
 			case 'admin':
