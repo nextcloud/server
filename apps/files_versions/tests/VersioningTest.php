@@ -36,6 +36,7 @@ namespace OCA\Files_Versions\Tests;
 require_once __DIR__ . '/../appinfo/app.php';
 
 use OC\Files\Storage\Temporary;
+use OCP\IConfig;
 
 /**
  * Class Test_Files_versions
@@ -79,7 +80,7 @@ class VersioningTest extends \Test\TestCase {
 		parent::setUp();
 
 		$config = \OC::$server->getConfig();
-		$mockConfig = $this->getMock('\OCP\IConfig');
+		$mockConfig = $this->createMock(IConfig::class);
 		$mockConfig->expects($this->any())
 			->method('getSystemValue')
 			->will($this->returnCallback(function ($key, $default) use ($config) {
