@@ -31,7 +31,7 @@
 		'{{/if}}' +
 		'    </div>' +
 		'    <form class="newCommentForm">' +
-		'        <textarea class="message" placeholder="{{newMessagePlaceholder}}">{{{message}}}</textarea>' +
+		'        <textarea class="message" placeholder="{{newMessagePlaceholder}}">{{message}}</textarea>' +
 		'        <input class="submit" type="submit" value="{{submitText}}" />' +
 		'{{#if isEditMode}}' +
 		'        <input class="cancel" type="button" value="{{cancelText}}" />' +
