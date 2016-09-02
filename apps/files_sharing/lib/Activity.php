@@ -42,7 +42,6 @@ class Activity implements IExtension {
 	 */
 	const TYPE_PUBLIC_LINKS = 'public_links';
 	const TYPE_REMOTE_SHARE = 'remote_share';
-	const TYPE_REMOTE_DOWNLOAD = 'remote_download';
 	const TYPE_SHARED = 'shared';
 
 	/**
@@ -116,8 +115,7 @@ class Activity implements IExtension {
 		return array(
 			self::TYPE_SHARED => (string) $l->t('A file or folder has been <strong>shared</strong>'),
 			self::TYPE_REMOTE_SHARE => (string) $l->t('A file or folder was shared from <strong>another server</strong>'),
-			self::TYPE_PUBLIC_LINKS => (string) $l->t('A public shared file or folder was <strong>downloaded</strong>'),
-			self::TYPE_REMOTE_DOWNLOAD => (string) $l->t('A shared file or folder was <strong>downloaded</strong>'),
+			self::TYPE_PUBLIC_LINKS => (string) $l->t('A public or remote shared file or folder was <strong>downloaded</strong>'),
 		);
 	}
 
@@ -132,7 +130,6 @@ class Activity implements IExtension {
 		$defaultTypes = [
 			self::TYPE_SHARED,
 			self::TYPE_REMOTE_SHARE,
-			self::TYPE_REMOTE_DOWNLOAD
 		];
 
 		if ($method === self::METHOD_STREAM) {
@@ -155,7 +152,6 @@ class Activity implements IExtension {
 			case self::TYPE_REMOTE_SHARE:
 				return 'icon-share';
 			case self::TYPE_PUBLIC_LINKS:
-			case self::TYPE_REMOTE_DOWNLOAD:
 				return 'icon-download';
 		}
 
@@ -217,9 +213,21 @@ class Activity implements IExtension {
 			case self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED:
 				return (string) $l->t('Public shared file %1$s was downloaded', $params);
 			case self::SUBJECT_SHARED_FOLDER_DOWNLOADED:
-				return (string) $l->t('Shared folder %1$s was downloaded by %2$s via the %3$s client', $params);
+				if ($params === 'desktop') {
+					return (string) $l->t('Shared folder %1$s was downloaded by %2$s via the desktop client', $params);
+				} else if ($params === 'mobile') {
+					return (string) $l->t('Shared folder %1$s was downloaded by %2$s via the mobile client', $params);
+				} else {
+					return (string) $l->t('Shared folder %1$s was downloaded by %2$s via the web interface', $params);
+				}
 			case self::SUBJECT_SHARED_FILE_DOWNLOADED:
-				return (string) $l->t('Shared file %1$s was downloaded by %2$s via the %3$s client', $params);
+				if ($params === 'desktop') {
+					return (string) $l->t('Shared file %1$s was downloaded by %2$s via the desktop client', $params);
+				} else if ($params === 'mobile') {
+					return (string) $l->t('Shared file %1$s was downloaded by %2$s via the mobile client', $params);
+				} else {
+					return (string) $l->t('Shared file %1$s was downloaded by %2$s via the web interface', $params);
+				}
 
 			case self::SUBJECT_SHARED_USER_SELF:
 				return (string) $l->t('You shared %1$s with %2$s', $params);
@@ -276,7 +284,13 @@ class Activity implements IExtension {
 				return (string) $l->t('Downloaded via public link');
 			case self::SUBJECT_SHARED_FOLDER_DOWNLOADED:
 			case self::SUBJECT_SHARED_FILE_DOWNLOADED:
-				return (string) $l->t('Downloaded by %2$s (%3$s)', $params);
+				if ($params === 'desktop') {
+					return (string) $l->t('Downloaded by %2$s (via desktop)', $params);
+				} else if ($params === 'mobile') {
+					return (string) $l->t('Downloaded by %2$s (via mobile)', $params);
+				} else {
+					return (string) $l->t('Downloaded by %2$s (via web)', $params);
+				}
 			
 			case self::SUBJECT_SHARED_USER_SELF:
 				return (string) $l->t('Shared with %2$s', $params);

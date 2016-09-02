@@ -227,7 +227,7 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 					}
 			}
 			$info = array(
-				'target' => $this->getMountPoint() . $path,
+				'target' => $this->getMountPoint() . '/' . $path,
 				'source' => $source,
 				'mode' => $mode,
 			);
