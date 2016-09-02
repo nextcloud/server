@@ -27,6 +27,7 @@ namespace OCA\Encryption\Tests\Users;
 
 
 use OCA\Encryption\Users\Setup;
+use OCP\ILogger;
 use Test\TestCase;
 
 class SetupTest extends TestCase {
@@ -45,7 +46,7 @@ class SetupTest extends TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$logMock = $this->getMock('OCP\ILogger');
+		$logMock = $this->createMock(ILogger::class);
 		$userSessionMock = $this->getMockBuilder('OCP\IUserSession')
 			->disableOriginalConstructor()
 			->getMock();

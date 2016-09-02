@@ -29,6 +29,8 @@ namespace OCA\Encryption\Tests\Hooks;
 
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Hooks\UserHooks;
+use OCP\ILogger;
+use OCP\IUser;
 use Test\TestCase;
 
 /**
@@ -141,7 +143,7 @@ class UserHooksTest extends TestCase {
 			->setMethods(['setPassphrase'])
 			->getMock();
 
-		$userMock = $this->getMock('OCP\IUser');
+		$userMock = $this->createMock(IUser::class);
 
 		$this->userManagerMock->expects($this->once())
 			->method('get')
@@ -300,7 +302,7 @@ class UserHooksTest extends TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$this->loggerMock = $this->getMock('OCP\ILogger');
+		$this->loggerMock = $this->createMock(ILogger::class);
 		$this->keyManagerMock = $this->getMockBuilder('OCA\Encryption\KeyManager')
 			->disableOriginalConstructor()
 			->getMock();

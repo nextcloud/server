@@ -27,7 +27,12 @@
 namespace OCA\Encryption\Tests;
 
 
+use OC\Files\View;
 use OCA\Encryption\Recovery;
+use OCP\Encryption\IFile;
+use OCP\Encryption\Keys\IStorage;
+use OCP\IConfig;
+use OCP\Security\ISecureRandom;
 use Test\TestCase;
 
 class RecoveryTest extends TestCase {
@@ -268,13 +273,13 @@ class RecoveryTest extends TestCase {
 
 		$this->cryptMock = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')->disableOriginalConstructor()->getMock();
 		/** @var \OCP\Security\ISecureRandom $randomMock */
-		$randomMock = $this->getMock('OCP\Security\ISecureRandom');
+		$randomMock = $this->createMock(ISecureRandom::class);
 		$this->keyManagerMock = $this->getMockBuilder('OCA\Encryption\KeyManager')->disableOriginalConstructor()->getMock();
-		$this->configMock = $this->getMock('OCP\IConfig');
+		$this->configMock = $this->createMock(IConfig::class);
 		/** @var \OCP\Encryption\Keys\IStorage $keyStorageMock */
-		$keyStorageMock = $this->getMock('OCP\Encryption\Keys\IStorage');
-		$this->fileMock = $this->getMock('OCP\Encryption\IFile');
-		$this->viewMock = $this->getMock('OC\Files\View');
+		$keyStorageMock = $this->createMock(IStorage::class);
+		$this->fileMock = $this->createMock(IFile::class);
+		$this->viewMock = $this->createMock(View::class);
 
 		$this->configMock->expects($this->any())
 			->method('setAppValue')

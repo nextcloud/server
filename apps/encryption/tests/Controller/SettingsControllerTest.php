@@ -26,6 +26,7 @@ namespace OCA\Encryption\Tests\Controller;
 use OCA\Encryption\Controller\SettingsController;
 use OCA\Encryption\Session;
 use OCP\AppFramework\Http;
+use OCP\IRequest;
 use Test\TestCase;
 
 class SettingsControllerTest extends TestCase {
@@ -64,7 +65,7 @@ class SettingsControllerTest extends TestCase {
 
 		parent::setUp();
 
-		$this->requestMock = $this->getMock('OCP\IRequest');
+		$this->requestMock = $this->createMock(IRequest::class);
 
 		$this->l10nMock = $this->getMockBuilder('OCP\IL10N')
 			->disableOriginalConstructor()->getMock();

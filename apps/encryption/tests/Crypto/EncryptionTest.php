@@ -24,6 +24,8 @@
 namespace OCA\Encryption\Tests\Crypto;
 
 use OCA\Encryption\Exceptions\PublicKeyMissingException;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 use OCA\Encryption\Crypto\Encryption;
 
@@ -412,9 +414,9 @@ class EncryptionTest extends TestCase {
 
 	public function testPrepareDecryptAll() {
 		/** @var \Symfony\Component\Console\Input\InputInterface $input */
-		$input = $this->getMock('Symfony\Component\Console\Input\InputInterface');
+		$input = $this->createMock(InputInterface::class);
 		/** @var \Symfony\Component\Console\Output\OutputInterface $output */
-		$output = $this->getMock('Symfony\Component\Console\Output\OutputInterface');
+		$output = $this->createMock(OutputInterface::class);
 
 		$this->decryptAllMock->expects($this->once())->method('prepare')
 			->with($input, $output, 'user');

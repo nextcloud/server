@@ -28,6 +28,12 @@ namespace OCA\Encryption\Tests;
 use OCA\Encryption\Migration;
 use OCP\ILogger;
 
+/**
+ * Class MigrationTest
+ *
+ * @package OCA\Encryption\Tests
+ * @group DB
+ */
 class MigrationTest extends \Test\TestCase {
 
 	const TEST_ENCRYPTION_MIGRATION_USER1='test_encryption_user1';
