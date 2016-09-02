@@ -583,6 +583,25 @@ class DefaultShareProvider implements IShareProvider {
 	}
 
 	/**
+	 * Returns whether the given database result can be interpreted as
+	 * a share with accessible file (not trashed, not deleted)
+	 */
+	private function isAccessibleResult($data) {
+		// exclude shares leading to deleted file entries
+		if ($data['fileid'] === null) {
+			return false;
+		}
+
+		// exclude shares leading to trashbin on home storages
+		$pathSections = explode('/', $data['path'], 2);
+		// FIXME: would not detect rare md5'd home storage case properly
+		if ($pathSections[0] !== 'files' && explode(':', $data['storage_string_id'], 2)[0] === 'home') {
+			return false;
+		}
+		return true;
+	}
+
+	/**
 	 * @inheritdoc
 	 */
 	public function getSharedWith($userId, $shareType, $node, $limit, $offset) {
@@ -592,11 +611,14 @@ class DefaultShareProvider implements IShareProvider {
 		if ($shareType === \OCP\Share::SHARE_TYPE_USER) {
 			//Get shares directly with this user
 			$qb = $this->dbConn->getQueryBuilder();
-			$qb->select('*')
-				->from('share');
+			$qb->select('s.*', 'f.fileid', 'f.path')
+				->selectAlias('st.id', 'storage_string_id')
+				->from('share', 's')
+				->leftJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'))
+				->leftJoin('f', 'storages', 'st', $qb->expr()->eq('f.storage', 'st.numeric_id'));
 
 			// Order by id
-			$qb->orderBy('id');
+			$qb->orderBy('s.id');
 
 			// Set limit and offset
 			if ($limit !== -1) {
@@ -619,7 +641,9 @@ class DefaultShareProvider implements IShareProvider {
 			$cursor = $qb->execute();
 
 			while($data = $cursor->fetch()) {
-				$shares[] = $this->createShare($data);
+				if ($this->isAccessibleResult($data)) {
+					$shares[] = $this->createShare($data);
+				}
 			}
 			$cursor->closeCursor();
 
@@ -640,9 +664,12 @@ class DefaultShareProvider implements IShareProvider {
 				}
 
 				$qb = $this->dbConn->getQueryBuilder();
-				$qb->select('*')
-					->from('share')
-					->orderBy('id')
+				$qb->select('s.*', 'f.fileid', 'f.path')
+					->selectAlias('st.id', 'storage_string_id')
+					->from('share', 's')
+					->leftJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'))
+					->leftJoin('f', 'storages', 'st', $qb->expr()->eq('f.storage', 'st.numeric_id'))
+					->orderBy('s.id')
 					->setFirstResult(0);
 
 				if ($limit !== -1) {
@@ -672,7 +699,10 @@ class DefaultShareProvider implements IShareProvider {
 						$offset--;
 						continue;
 					}
-					$shares2[] = $this->createShare($data);
+
+					if ($this->isAccessibleResult($data)) {
+						$shares2[] = $this->createShare($data);
+					}
 				}
 				$cursor->closeCursor();
 			}
