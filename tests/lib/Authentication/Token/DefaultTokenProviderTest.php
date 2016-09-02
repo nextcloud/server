@@ -26,6 +26,11 @@ use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Authentication\Token\IToken;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IConfig;
+use OCP\ILogger;
+use OCP\IUser;
+use OCP\Security\ICrypto;
 use Test\TestCase;
 
 class DefaultTokenProviderTest extends TestCase {
@@ -45,10 +50,10 @@ class DefaultTokenProviderTest extends TestCase {
 		$this->mapper = $this->getMockBuilder('\OC\Authentication\Token\DefaultTokenMapper')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->crypto = $this->getMock('\OCP\Security\ICrypto');
-		$this->config = $this->getMock('\OCP\IConfig');
-		$this->logger = $this->getMock('\OCP\ILogger');
-		$this->timeFactory = $this->getMock('\OCP\AppFramework\Utility\ITimeFactory');
+		$this->crypto = $this->createMock(ICrypto::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->logger = $this->createMock(ILogger::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->time = 1313131;
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
@@ -118,7 +123,7 @@ class DefaultTokenProviderTest extends TestCase {
 	}
 	
 	public function testGetTokenByUser() {
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->createMock(IUser::class);
 		$this->mapper->expects($this->once())
 			->method('getTokenByUser')
 			->with($user)
@@ -212,7 +217,7 @@ class DefaultTokenProviderTest extends TestCase {
 	 * @expectedException \OC\Authentication\Exceptions\InvalidTokenException
 	 */
 	public function testSetPasswordInvalidToken() {
-		$token = $this->getMock('\OC\Authentication\Token\IToken');
+		$token = $this->createMock(IToken::class);
 		$tokenId = 'token123';
 		$password = '123456';
 
@@ -229,7 +234,7 @@ class DefaultTokenProviderTest extends TestCase {
 
 	public function testInvaildateTokenById() {
 		$id = 123;
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->createMock(IUser::class);
 
 		$this->mapper->expects($this->once())
 			->method('deleteById')
