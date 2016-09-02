@@ -28,6 +28,14 @@ namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\FilesystemHelper;
+use OCA\User_LDAP\ILDAPWrapper;
+use OCA\User_LDAP\LogWrapper;
+use OCP\IAvatarManager;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\Image;
+use OCP\IUserManager;
 
 /**
  * Class AccessTest
@@ -47,19 +55,19 @@ class AccessTest extends \Test\TestCase {
 			$accMethods = get_class_methods('\OCA\User_LDAP\Access');
 			$umMethods  = get_class_methods('\OCA\User_LDAP\User\Manager');
 		}
-		$lw  = $this->getMock('\OCA\User_LDAP\ILDAPWrapper');
+		$lw  = $this->createMock(ILDAPWrapper::class);
 		$connector = $this->getMock('\OCA\User_LDAP\Connection',
 									$conMethods,
 									array($lw, null, null));
 		$um = $this->getMock('\OCA\User_LDAP\User\Manager',
 			$umMethods, array(
-				$this->getMock('\OCP\IConfig'),
-				$this->getMock('\OCA\User_LDAP\FilesystemHelper'),
-				$this->getMock('\OCA\User_LDAP\LogWrapper'),
-				$this->getMock('\OCP\IAvatarManager'),
-				$this->getMock('\OCP\Image'),
-				$this->getMock('\OCP\IDBConnection'),
-				$this->getMock('\OCP\IUserManager')));
+				$this->createMock(IConfig::class),
+				$this->createMock(FilesystemHelper::class),
+				$this->createMock(LogWrapper::class),
+				$this->createMock(IAvatarManager::class),
+				$this->createMock(Image::class),
+				$this->createMock(IDBConnection::class),
+				$this->createMock(IUserManager::class)));
 		$helper = new \OCA\User_LDAP\Helper();
 
 		return array($lw, $connector, $um, $helper);
