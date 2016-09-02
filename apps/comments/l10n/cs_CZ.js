@@ -1,12 +1,15 @@
 OC.L10N.register(
     "comments",
     {
+    "New comment …" : "Nový komentář ...",
     "Delete comment" : "Smazat komentář",
     "Post" : "Zveřejnit",
     "Cancel" : "Zrušit",
     "Edit comment" : "Upravit komentář",
     "[Deleted user]" : "[Smazaný uživatel]",
     "Comments" : "Komentáře",
+    "No comments yet, start the conversation!" : "Zatím bez komentářů, začněte konverzaci!",
+    "More comments …" : "Více komentářů ...",
     "Save" : "Uložit",
     "Allowed characters {count} of {max}" : "Povolených znaků {count} z {max}",
     "Error occurred while retrieving comment with id {id}" : "Došlo k chybě při načítání komentáře s id {id}",

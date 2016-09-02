@@ -72,6 +72,7 @@
     "_%n folder_::_%n folders_" : ["%n adresář","%n adresáře","%n adresářů"],
     "_%n file_::_%n files_" : ["%n soubor","%n soubory","%n souborů"],
     "{dirs} and {files}" : "{dirs} a {files}",
+    "_including %n hidden_::_including %n hidden_" : ["přidán %n skrytý","přidány %n skryté","přidáno %n skrytých"],
     "You don’t have permission to upload or create files here" : "Nemáte oprávnění sem nahrávat nebo vytvářet soubory",
     "_Uploading %n file_::_Uploading %n files_" : ["Nahrávám %n soubor","Nahrávám %n soubory","Nahrávám %n souborů"],
     "New" : "Nový",
