@@ -2721,7 +2721,7 @@ describe('OCA.Files.FileList tests', function() {
 			it('fetches folder info', function() {
 				var fetchInfoStub = sinon.stub(fileList, 'addAndFetchFileInfo');
 
-				uploader.trigger('createdfolder', {}, '/subdir/newfolder');
+				uploader.trigger('createdfolder', '/subdir/newfolder');
 
 				expect(fetchInfoStub.calledOnce).toEqual(true);
 				expect(fetchInfoStub.getCall(0).args[0]).toEqual('newfolder');

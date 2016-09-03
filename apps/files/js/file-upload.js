@@ -204,6 +204,14 @@ OC.FileUpload.prototype = {
 			this.data.headers['X-OC-Mtime'] = file.lastModified / 1000;
 		}
 
+		var userName = this.uploader.filesClient.getUserName();
+		var password = this.uploader.filesClient.getPassword();
+		if (userName) {
+			// copy username/password from DAV client
+			this.data.headers['Authorization'] =
+				'Basic ' + btoa(userName + ':' + (password || ''));
+		}
+
 		if (!this.uploader.isXHRUpload()) {
 			data.formData = [];
 
@@ -222,7 +230,7 @@ OC.FileUpload.prototype = {
 			&& this.getFile().size > this.uploader.fileUploadParam.maxChunkSize
 		) {
 			data.isChunked = true;
-			chunkFolderPromise = this.uploader.davClient.createDirectory(
+			chunkFolderPromise = this.uploader.filesClient.createDirectory(
 				'uploads/' + encodeURIComponent(OC.getCurrentUser().uid) + '/' + encodeURIComponent(this.getId())
 			);
 			// TODO: if fails, it means same id already existed, need to retry
@@ -248,7 +256,7 @@ OC.FileUpload.prototype = {
 		}
 
 		var uid = OC.getCurrentUser().uid;
-		return this.uploader.davClient.move(
+		return this.uploader.filesClient.move(
 			'uploads/' + encodeURIComponent(uid) + '/' + encodeURIComponent(this.getId()) + '/.file',
 			'files/' + encodeURIComponent(uid) + '/' + OC.joinPaths(this.getFullPath(), this.getFileName())
 		);
@@ -260,7 +268,7 @@ OC.FileUpload.prototype = {
 	abort: function() {
 		if (this.data.isChunked) {
 			// delete transfer directory for this upload
-			this.uploader.davClient.remove(
+			this.uploader.filesClient.remove(
 				'uploads/' + encodeURIComponent(OC.getCurrentUser().uid) + '/' + encodeURIComponent(this.getId())
 			);
 		}
@@ -343,7 +351,7 @@ OC.Uploader.prototype = _.extend({
 	/**
 	 * @type Array<OC.FileUpload>
 	 */
-	_uploads: [],
+	_uploads: {},
 
 	/**
 	 * List of directories known to exist.
@@ -586,7 +594,7 @@ OC.Uploader.prototype = _.extend({
 	onReplace:function(upload) {
 		this.log('replace', null, upload);
 		upload.setConflictMode(OC.FileUpload.CONFLICT_MODE_OVERWRITE);
-		upload.submit();
+		this.submitUploads([upload]);
 	},
 	/**
 	 * handle uploading a file and letting the server decide a new name
@@ -595,7 +603,7 @@ OC.Uploader.prototype = _.extend({
 	onAutorename:function(upload) {
 		this.log('autorename', null, upload);
 		upload.setConflictMode(OC.FileUpload.CONFLICT_MODE_AUTORENAME);
-		upload.submit();
+		this.submitUploads([upload]);
 	},
 	_trace:false, //TODO implement log handler for JS per class?
 	log:function(caption, e, data) {
@@ -707,19 +715,13 @@ OC.Uploader.prototype = _.extend({
 
 		this.fileList = options.fileList;
 		this.filesClient = options.filesClient || OC.Files.getClient();
-		this.davClient = new OC.Files.Client({
-			host: OC.getHost(),
-			port: OC.getPort(),
-			root: OC.getRootPath() + '/remote.php/dav/',
-			useHTTPS: OC.getProtocol() === 'https'
-		});
 
 		$uploadEl = $($uploadEl);
 		this.$uploadEl = $uploadEl;
 
 		if ($uploadEl.exists()) {
 			$('#uploadprogresswrapper .stop').on('click', function() {
-				this.cancelUploads();
+				self.cancelUploads();
 			});
 
 			this.fileUploadParam = {
