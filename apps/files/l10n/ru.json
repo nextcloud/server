@@ -72,6 +72,7 @@
     "_%n folder_::_%n folders_" : ["%n каталог","%n каталога","%n каталогов","%n каталогов"],
     "_%n file_::_%n files_" : ["%n файл","%n файла","%n файлов","%n файлов"],
     "{dirs} and {files}" : "{dirs} и {files}",
+    "_including %n hidden_::_including %n hidden_" : ["включая %n скрытый","включая %n скрытых","включая %n скрытых","включая %n скрытых"],
     "You don’t have permission to upload or create files here" : "У вас нет прав для загрузки или создания файлов здесь.",
     "_Uploading %n file_::_Uploading %n files_" : ["Закачка %n файла","Закачка %n файлов","Закачка %n файлов","Закачка %n файлов"],
     "New" : "Новый",
@@ -130,6 +131,8 @@
     "No favorites" : "Нет избранного",
     "Files and folders you mark as favorite will show up here" : "Здесь появятся файлы и каталоги, отмеченные как избранные",
     "Text file" : "Текстовый файл",
-    "New text file.txt" : "Новый текстовый документ.txt"
+    "New text file.txt" : "Новый текстовый документ.txt",
+    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Используйте этот адрес для <a href=\"%s\" target=\"_blank\">получения доступа к вашим файлам через WebDAV</a>",
+    "Cancel upload" : "Отменить загрузку"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

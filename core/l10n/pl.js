@@ -192,6 +192,7 @@ OC.L10N.register(
     "Hello {name}" : "Witaj {name}",
     "new" : "nowy",
     "_download %n file_::_download %n files_" : ["pobrano %n plik","pobrano %n plików","pobrano %n plików"],
+    "Update to {version}" : "Uaktualnij do {version}",
     "An error occurred." : "Wystąpił błąd",
     "Please reload the page." : "Proszę przeładować stronę",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Aktualizacja nie powiodła się. Aby uzyskać więcej informacji prosimy o <a href=\"{url}\">sprawdzenie naszego forum</a> które omawia ten problem.",
@@ -298,10 +299,13 @@ OC.L10N.register(
     "Error unfavoriting" : "Błąd przy usuwaniu z ulubionych",
     "Couldn't send mail to following users: %s " : "Nie można było wysłać wiadomości do następujących użytkowników: %s",
     "Allow editing" : "Pozwól na edycję",
+    "Updating to {version}" : "Uaktualnianie do {version}",
     "Two-step verification" : "Weryfikacja dwuskładnikowa",
     "Enhanced security has been enabled for your account. Please authenticate using a second factor." : "Dla Twojego konta uruchomiono wzmocnioną ochronę. Uwierzytelnij przy pomocy drugiego składnika.",
     "Cancel login" : "Anuluj logowanie",
     "Please authenticate using the selected factor." : "Uwierzytelnij przy pomocy wybranego składnika",
-    "An error occured while verifying the token" : "Wystąpił błąd podczas weryfikacji tokena"
+    "An error occured while verifying the token" : "Wystąpił błąd podczas weryfikacji tokena",
+    "An error occured. Please try again" : "Wystąpił błąd. Proszę spróbować ponownie.",
+    "An internal error occured." : "Wystąpił wewnętrzny błąd."
 },
 "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
