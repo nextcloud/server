@@ -33,7 +33,7 @@
     "Uploading..." : "Hochladen…",
     "..." : "...",
     "{hours}:{minutes}:{seconds} hour{plural_s} left" : "{hours}:{minutes}:{seconds} Stunde(n) übrig",
-    "{hours}:{minutes}h" : "{hours}:{minutes}h",
+    "{hours}:{minutes}h" : "{hours}:{minutes} Std.",
     "{minutes}:{seconds} minute{plural_s} left" : "{minutes}:{seconds} Minute(n) übrig",
     "{minutes}:{seconds}m" : "{minutes}:{seconds}m",
     "{seconds} second{plural_s} left" : "{seconds} Sekund{plural_s} übrig",
