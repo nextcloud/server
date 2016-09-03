@@ -86,10 +86,6 @@ class PublicAuth implements BackendInterface {
 	 * @return bool
 	 */
 	private function isRequestPublic(RequestInterface $request) {
-		$params = $request->getQueryParameters();
-		if (isset($params['sabreAction']) && $params['sabreAction'] == 'asset') {
-			return true;
-		}
 		$url = $request->getPath();
 		$matchingUrls = array_filter($this->publicURLs, function ($publicUrl) use ($url) {
 			return strpos($url, $publicUrl, 0) === 0;

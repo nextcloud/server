@@ -33,6 +33,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Security\ISecureRandom;
 use Sabre\CalDAV\Backend\AbstractBackend;
 use Sabre\CalDAV\Backend\SchedulingSupport;
 use Sabre\CalDAV\Backend\SubscriptionSupport;
@@ -124,6 +125,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	/** @var IConfig */
 	private $config;
 
+	/** @var ISecureRandom */
+	private $random;
+
 	/**
 	 * CalDavBackend constructor.
 	 *
@@ -131,16 +135,19 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param Principal $principalBackend
 	 * @param IUserManager $userManager
 	 * @param IConfig $config
+	 * @param ISecureRandom $random
 	 */
 	public function __construct(IDBConnection $db,
 								Principal $principalBackend,
 								IUserManager $userManager,
-								IConfig $config) {
+								IConfig $config,
+								ISecureRandom $random) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
 		$this->userManager = $userManager;
 		$this->sharingBackend = new Backend($this->db, $principalBackend, 'calendar');
 		$this->config = $config;
+		$this->random = $random;
 	}
 
 	/**
@@ -400,10 +407,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		if ($row['components']) {
 			$components = explode(',',$row['components']);
 		}
-		$uri = md5($this->config->getSystemValue('secret', '') . $row['id']);
 		$calendar = [
 			'id' => $row['id'],
-			'uri' => $uri,
+			'uri' => $row['publicuri'],
 			'principaluri' => $row['principaluri'],
 			'{' . Plugin::NS_CALENDARSERVER . '}getctag' => 'http://sabre.io/ns/sync/' . ($row['synctoken']?$row['synctoken']:'0'),
 			'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
@@ -1601,24 +1607,28 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	/**
 	 * @param boolean $value
 	 * @param \OCA\DAV\CalDAV\Calendar $calendar
+	 * @return string|null
 	 */
 	public function setPublishStatus($value, $calendar) {
 		$query = $this->db->getQueryBuilder();
 		if ($value) {
+			$publicUri = $this->random->generate(16, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_DIGITS);
 			$query->insert('dav_shares')
 				->values([
 					'principaluri' => $query->createNamedParameter($calendar->getPrincipalURI()),
 					'type' => $query->createNamedParameter('calendar'),
 					'access' => $query->createNamedParameter(self::ACCESS_PUBLIC),
 					'resourceid' => $query->createNamedParameter($calendar->getResourceId()),
-					'publicuri' => $query->createNamedParameter(md5($this->config->getSystemValue('secret', '') . $calendar->getResourceId()))
+					'publicuri' => $query->createNamedParameter($publicUri)
 				]);
-		} else {
-			$query->delete('dav_shares')
-				->where($query->expr()->eq('resourceid', $query->createNamedParameter($calendar->getResourceId())))
-				->andWhere($query->expr()->eq('access', $query->createNamedParameter(self::ACCESS_PUBLIC)));
+			$query->execute();
+			return $publicUri;
 		}
+		$query->delete('dav_shares')
+			->where($query->expr()->eq('resourceid', $query->createNamedParameter($calendar->getResourceId())))
+			->andWhere($query->expr()->eq('access', $query->createNamedParameter(self::ACCESS_PUBLIC)));
 		$query->execute();
+		return null;
 	}
 
 	/**

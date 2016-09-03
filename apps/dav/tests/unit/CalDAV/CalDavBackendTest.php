@@ -350,7 +350,7 @@ EOD;
 		$this->assertEquals(1, count($publicCalendars));
 		$this->assertEquals(true, $publicCalendars[0]['{http://owncloud.org/ns}public']);
 
-		$publicCalendarURI = md5($this->config->getSystemValue('secret', '') . $calendar->getResourceId());
+		$publicCalendarURI = $publicCalendars[0]['uri'];
 		$publicCalendar = $this->backend->getPublicCalendar($publicCalendarURI);
 		$this->assertEquals(true, $publicCalendar['{http://owncloud.org/ns}public']);
 

@@ -252,9 +252,12 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 
 	/**
 	 * @param boolean $value
+	 * @return string|null
 	 */
 	function setPublishStatus($value) {
-		$this->caldavBackend->setPublishStatus($value, $this);
+		$publicUri = $this->caldavBackend->setPublishStatus($value, $this);
+		$this->calendarInfo['publicuri'] = $publicUri;
+		return $publicUri;
 	}
 
 	/**
