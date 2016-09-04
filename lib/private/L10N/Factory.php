@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Joas Schilling <coding@schilljs.com>
@@ -8,6 +9,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -147,18 +149,23 @@ class Factory implements IFactory {
 			}
 		}
 
-		$defaultLanguage = $this->config->getSystemValue('default_language', false);
-
-		if ($defaultLanguage !== false && $this->languageExists($app, $defaultLanguage)) {
-			return $defaultLanguage;
+		try {
+			// Try to get the language from the Request
+			$lang = $this->getLanguageFromRequest($app);
+			if ($userId !== null && $app === null && !$userLang) {
+				$this->config->setUserValue($userId, 'core', 'lang', $lang);
+			}
+			return $lang;
+		} catch (LanguageNotFoundException $e) {
+			// Finding language from request failed fall back to default language
+			$defaultLanguage = $this->config->getSystemValue('default_language', false);
+			if ($defaultLanguage !== false && $this->languageExists($app, $defaultLanguage)) {
+				return $defaultLanguage;
+			}
 		}
 
-		$lang = $this->setLanguageFromRequest($app);
-		if ($userId !== null && $app === null && !$userLang) {
-			$this->config->setUserValue($userId, 'core', 'lang', $lang);
-		}
-
-		return $lang;
+		// We could not find any language so fall back to english
+		return 'en';
 	}
 
 	/**
@@ -227,10 +234,11 @@ class Factory implements IFactory {
 	}
 
 	/**
-	 * @param string|null $app App id or null for core
+	 * @param string|null $app
 	 * @return string
+	 * @throws LanguageNotFoundException
 	 */
-	public function setLanguageFromRequest($app = null) {
+	private function getLanguageFromRequest($app) {
 		$header = $this->request->getHeader('ACCEPT_LANGUAGE');
 		if ($header) {
 			$available = $this->findAvailableLanguages($app);
@@ -245,9 +253,6 @@ class Factory implements IFactory {
 
 				foreach ($available as $available_language) {
 					if ($preferred_language === strtolower($available_language)) {
-						if ($app === null && !$this->requestLanguage) {
-							$this->requestLanguage = $available_language;
-						}
 						return $available_language;
 					}
 				}
@@ -255,19 +260,31 @@ class Factory implements IFactory {
 				// Fallback from de_De to de
 				foreach ($available as $available_language) {
 					if (substr($preferred_language, 0, 2) === $available_language) {
-						if ($app === null && !$this->requestLanguage) {
-							$this->requestLanguage = $available_language;
-						}
 						return $available_language;
 					}
 				}
 			}
 		}
 
-		if ($app === null && !$this->requestLanguage) {
-			$this->requestLanguage = 'en';
+		throw new LanguageNotFoundException();
+	}
+
+	/**
+	 * @param string|null $app App id or null for core
+	 * @return string
+	 */
+	public function setLanguageFromRequest($app = null) {
+
+		try {
+			$requestLanguage = $this->getLanguageFromRequest($app);
+		} catch (LanguageNotFoundException $e) {
+			$requestLanguage = 'en';
 		}
-		return 'en'; // Last try: English
+
+		if ($app === null && !$this->requestLanguage) {
+			$this->requestLanguage = $requestLanguage;
+		}
+		return $requestLanguage;
 	}
 
 	/**
