@@ -580,6 +580,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\IntegrityCheck\\Iterator\\ExcludeFoldersByPathFilterIterator' => __DIR__ . '/../../..' . '/lib/private/IntegrityCheck/Iterator/ExcludeFoldersByPathFilterIterator.php',
         'OC\\L10N\\Factory' => __DIR__ . '/../../..' . '/lib/private/L10N/Factory.php',
         'OC\\L10N\\L10N' => __DIR__ . '/../../..' . '/lib/private/L10N/L10N.php',
+        'OC\\L10N\\LanguageNotFoundException' => __DIR__ . '/../../..' . '/lib/private/L10N/LanguageNotFoundException.php',
         'OC\\LargeFileHelper' => __DIR__ . '/../../..' . '/lib/private/LargeFileHelper.php',
         'OC\\Lock\\AbstractLockingProvider' => __DIR__ . '/../../..' . '/lib/private/Lock/AbstractLockingProvider.php',
         'OC\\Lock\\DBLockingProvider' => __DIR__ . '/../../..' . '/lib/private/Lock/DBLockingProvider.php',

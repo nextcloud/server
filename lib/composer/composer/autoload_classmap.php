@@ -550,6 +550,7 @@ return array(
     'OC\\IntegrityCheck\\Iterator\\ExcludeFoldersByPathFilterIterator' => $baseDir . '/lib/private/IntegrityCheck/Iterator/ExcludeFoldersByPathFilterIterator.php',
     'OC\\L10N\\Factory' => $baseDir . '/lib/private/L10N/Factory.php',
     'OC\\L10N\\L10N' => $baseDir . '/lib/private/L10N/L10N.php',
+    'OC\\L10N\\LanguageNotFoundException' => $baseDir . '/lib/private/L10N/LanguageNotFoundException.php',
     'OC\\LargeFileHelper' => $baseDir . '/lib/private/LargeFileHelper.php',
     'OC\\Lock\\AbstractLockingProvider' => $baseDir . '/lib/private/Lock/AbstractLockingProvider.php',
     'OC\\Lock\\DBLockingProvider' => $baseDir . '/lib/private/Lock/DBLockingProvider.php',
