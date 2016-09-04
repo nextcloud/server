@@ -74,6 +74,7 @@ OC.L10N.register(
     "_%n folder_::_%n folders_" : ["%n cartella","%n cartelle"],
     "_%n file_::_%n files_" : ["%n file","%n file"],
     "{dirs} and {files}" : "{dirs} e {files}",
+    "_including %n hidden_::_including %n hidden_" : ["incluso %n nascosto","inclusi %n nascosti"],
     "You don’t have permission to upload or create files here" : "Qui non hai i permessi di caricare o creare file",
     "_Uploading %n file_::_Uploading %n files_" : ["Caricamento di %n file in corso","Caricamento di %n file in corso"],
     "New" : "Nuovo",

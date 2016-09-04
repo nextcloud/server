@@ -90,6 +90,7 @@ OC.L10N.register(
     "Google Drive" : "Google Drive",
     "Local" : "Locale",
     "Location" : "Posizione",
+    "Nextcloud" : "Nextcloud",
     "SFTP" : "SFTP",
     "Root" : "Radice",
     "SFTP with secret key login" : "SFTP con accesso a chiave segreta",
