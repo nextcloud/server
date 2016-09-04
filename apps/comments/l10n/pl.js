@@ -1,12 +1,15 @@
 OC.L10N.register(
     "comments",
     {
+    "New comment …" : "Nowy komentarz ...",
     "Delete comment" : "Skasuj komentarz",
     "Post" : "Zapisz",
     "Cancel" : "Anuluj",
     "Edit comment" : "Edytuj komentarz",
     "[Deleted user]" : "[Usunięty użytkownik]",
     "Comments" : "Komentarze",
+    "No comments yet, start the conversation!" : "Brak komentarzy, zacznij konwersację!",
+    "More comments …" : "Więcej komentarzy ...",
     "Save" : "Zapisz",
     "Allowed characters {count} of {max}" : "Dozwolone znaki {count} z {max}",
     "Error occurred while retrieving comment with id {id}" : "W trakcie otrzymywania komentarza o identyfikatorze {id} wystąpił błąd.",
@@ -14,6 +17,7 @@ OC.L10N.register(
     "Error occurred while posting comment" : "Podczas wysyłania komentarza wystąpił błąd",
     "{count} unread comments" : "{count} nieprzeczytanych komentarzy",
     "Comment" : "Komentarz",
+    "<strong>Comments</strong> for files" : "<strong>Komentarze</strong> dla plików",
     "You commented" : "Skomentowałeś/łaś",
     "%1$s commented" : "%1$s skomentował",
     "You commented on %2$s" : "Skomentowałeś/łaś %2$s",

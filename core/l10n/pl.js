@@ -134,6 +134,8 @@ OC.L10N.register(
     "Expiration" : "Wygaśnięcie",
     "Expiration date" : "Data wygaśnięcia",
     "Choose a password for the public link" : "Wybierz hasło dla linku publicznego",
+    "Press ⌘-C to copy." : "Wciśnij ⌘-C by skopiować.",
+    "Press Ctrl-C to copy." : "Wciśnij Ctrl-C by skopiować,",
     "Resharing is not allowed" : "Współdzielenie nie jest możliwe",
     "Share link" : "Udostępnij link",
     "Link" : "Odnośnik",
@@ -272,6 +274,7 @@ OC.L10N.register(
     "This means only administrators can use the instance." : "To oznacza, że tylko administratorzy mogą w tej chwili używać aplikacji.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Skontaktuj się z administratorem, jeśli ten komunikat pojawił się nieoczekiwanie lub wyświetla się ciągle.",
     "Thank you for your patience." : "Dziękuję za cierpliwość.",
+    "Two-factor authentication" : "Uwierzytelnianie dwuskładnikowe",
     "You are accessing the server from an untrusted domain." : "Dostajesz się do serwera z niezaufanej domeny.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Proszę skontaktować się z Twoim administratorem. Jeżeli Ty jesteś administratorem tej instalacji, skonfiguruj ustawienie \"trusted_domains\" w pliku config/config.php. Przykład konfiguracji jest zawarty w pliku config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "W zależności od konfiguracji, jako administrator możesz także użyć poniższego przycisku aby zaufać tej domenie.",
@@ -306,6 +309,7 @@ OC.L10N.register(
     "Please authenticate using the selected factor." : "Uwierzytelnij przy pomocy wybranego składnika",
     "An error occured while verifying the token" : "Wystąpił błąd podczas weryfikacji tokena",
     "An error occured. Please try again" : "Wystąpił błąd. Proszę spróbować ponownie.",
+    "Updating {productName} to version {version}, this may take a while." : "AKtualizowanie {productName} do wersji {version}, może to trochę potrwać.",
     "An internal error occured." : "Wystąpił wewnętrzny błąd."
 },
 "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
