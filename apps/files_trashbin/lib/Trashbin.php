@@ -474,17 +474,28 @@ class Trashbin {
 
 		// Array to store the relative path in (after the file is deleted, the view won't be able to relativise the path anymore)
 		$filePaths = array();
+		foreach($fileInfos as $fileInfo){
+			$filePaths[] = $view->getRelativePath($fileInfo->getPath());
+		}
+		unset($fileInfos); // save memory
 
-		foreach($fileInfos as $key => $fileInfo){
-			$filePaths[] = $path = $view->getRelativePath($fileInfo->getPath());
-			unset($fileInfo[$key]); // save memory
+		// Bulk PreDelete-Hook
+		\OC_Hook::emit('\OCP\Trashbin', 'preDeleteAll', array('paths' => $filePaths));
+
+		// Single-File Hooks
+		foreach($filePaths as $path){
 			self::emitTrashbinPreDelete($path);
 		}
 
+		// actual file deletion
 		$view->deleteAll('files_trashbin');
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trash` WHERE `user`=?');
 		$query->execute(array($user));
 
+		// Bulk PostDelete-Hook
+		\OC_Hook::emit('\OCP\Trashbin', 'deleteAll', array('paths' => $filePaths));
+
+		// Single-File Hooks
 		foreach($filePaths as $path){
 			self::emitTrashbinPostDelete($path);
 		}
