@@ -1,12 +1,15 @@
 OC.L10N.register(
     "comments",
     {
+    "New comment …" : "Nieuwe reactie ...",
     "Delete comment" : "Verwijder reactie",
     "Post" : "Reageer",
     "Cancel" : "Annuleren",
     "Edit comment" : "Bewerk reactie",
     "[Deleted user]" : "[Verwijderde gebruiker]",
     "Comments" : "Reacties",
+    "No comments yet, start the conversation!" : "Nog geen reacties, start de discussie!",
+    "More comments …" : "Meer reacties ...",
     "Save" : "Opslaan",
     "Allowed characters {count} of {max}" : "{count} van de {max} toegestane tekens",
     "Error occurred while retrieving comment with id {id}" : "Er trad een fout op bij het ophalen van reactie met id {id}",

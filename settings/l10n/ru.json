@@ -323,6 +323,7 @@
     "change email address" : "изменить адрес почты",
     "Default" : "По умолчанию",
     "add group" : "Добавить группу",
+    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Если вы хотите поддержать проект\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">присоединитесь к разработке</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">расскажите о нас</a>!",
     "Add Group" : "Добавить группу",
     "Default Quota" : "Квота по умолчанию",
     "Full Name" : "Полное имя",
