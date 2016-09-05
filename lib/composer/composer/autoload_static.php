@@ -56,6 +56,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\AppFramework\\Http\\DataResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/DataResponse.php',
         'OCP\\AppFramework\\Http\\DownloadResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/DownloadResponse.php',
         'OCP\\AppFramework\\Http\\EmptyContentSecurityPolicy' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/EmptyContentSecurityPolicy.php',
+        'OCP\\AppFramework\\Http\\FileDisplayResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/FileDisplayResponse.php',
         'OCP\\AppFramework\\Http\\ICallbackResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/ICallbackResponse.php',
         'OCP\\AppFramework\\Http\\IOutput' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/IOutput.php',
         'OCP\\AppFramework\\Http\\JSONResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/JSONResponse.php',

@@ -26,6 +26,7 @@ return array(
     'OCP\\AppFramework\\Http\\DataResponse' => $baseDir . '/lib/public/AppFramework/Http/DataResponse.php',
     'OCP\\AppFramework\\Http\\DownloadResponse' => $baseDir . '/lib/public/AppFramework/Http/DownloadResponse.php',
     'OCP\\AppFramework\\Http\\EmptyContentSecurityPolicy' => $baseDir . '/lib/public/AppFramework/Http/EmptyContentSecurityPolicy.php',
+    'OCP\\AppFramework\\Http\\FileDisplayResponse' => $baseDir . '/lib/public/AppFramework/Http/FileDisplayResponse.php',
     'OCP\\AppFramework\\Http\\ICallbackResponse' => $baseDir . '/lib/public/AppFramework/Http/ICallbackResponse.php',
     'OCP\\AppFramework\\Http\\IOutput' => $baseDir . '/lib/public/AppFramework/Http/IOutput.php',
     'OCP\\AppFramework\\Http\\JSONResponse' => $baseDir . '/lib/public/AppFramework/Http/JSONResponse.php',
