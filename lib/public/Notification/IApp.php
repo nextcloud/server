@@ -31,7 +31,6 @@ namespace OCP\Notification;
 interface IApp {
 	/**
 	 * @param INotification $notification
-	 * @return null
 	 * @throws \InvalidArgumentException When the notification is not valid
 	 * @since 9.0.0
 	 */
@@ -39,7 +38,6 @@ interface IApp {
 
 	/**
 	 * @param INotification $notification
-	 * @return null
 	 * @since 9.0.0
 	 */
 	public function markProcessed(INotification $notification);
