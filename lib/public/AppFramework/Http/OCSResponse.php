@@ -29,11 +29,10 @@
 
 namespace OCP\AppFramework\Http;
 
-use OCP\AppFramework\Http;
-
 /**
  * A renderer for OCS responses
  * @since 8.1.0
+ * @deprecated 9.2.0 To implement an OCS endpoint extend the OCSController
  */
 class OCSResponse extends Response {
 
@@ -53,6 +52,7 @@ class OCSResponse extends Response {
 	 * @param int|string $itemscount
 	 * @param int|string $itemsperpage
 	 * @since 8.1.0
+	 * @deprecated 9.2.0 To implement an OCS endpoint extend the OCSController
 	 */
 	public function __construct($format, $statuscode, $message,
 								$data=[], $itemscount='',
@@ -79,6 +79,7 @@ class OCSResponse extends Response {
 	/**
 	 * @return string
 	 * @since 8.1.0
+	 * @deprecated 9.2.0 To implement an OCS endpoint extend the OCSController
 	 */
 	public function render() {
 		$r = new \OC_OCS_Result($this->data, $this->statuscode, $this->message);
