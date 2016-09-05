@@ -42,6 +42,9 @@ use OCP\IRequest;
  */
 abstract class OCSController extends ApiController {
 
+	/** @var int */
+	private $ocsVersion;
+
 	/**
 	 * constructor of the controller
 	 * @param string $appName the name of the app
@@ -72,6 +75,15 @@ abstract class OCSController extends ApiController {
 	}
 
 	/**
+	 * @param int $version
+	 * @since 9.2.0
+	 * @internal
+	 */
+	public function setOCSVersion($version) {
+		$this->ocsVersion = $version;
+	}
+
+	/**
 	 * Since the OCS endpoints default to XML we need to find out the format
 	 * again
 	 * @param mixed $response the value that was returned from a controller and
@@ -90,22 +102,16 @@ abstract class OCSController extends ApiController {
 	 * @param string $format json or xml
 	 * @param DataResponse $data the data which should be transformed
 	 * @since 8.1.0
-	 * @return OCSResponse
+	 * @return \OC\AppFramework\OCS\BaseResponse
 	 */
 	private function buildOCSResponse($format, DataResponse $data) {
-		$params = [
-			'statuscode' => 100,
-			'message' => 'OK',
-			'data' => $data->getData(),
-			'itemscount' => '',
-			'itemsperpage' => ''
-		];
+		if ($this->ocsVersion === 1) {
+			$response = new \OC\AppFramework\OCS\V1Response($data, $format);
+		} else {
+			$response = new \OC\AppFramework\OCS\V2Response($data, $format);
+		}
 
-		return new OCSResponse(
-			$format, $params['statuscode'],
-			$params['message'], $params['data'],
-			$params['itemscount'], $params['itemsperpage']
-		);
+		return $response;
 	}
 
 }
