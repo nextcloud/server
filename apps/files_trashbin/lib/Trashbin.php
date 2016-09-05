@@ -472,8 +472,12 @@ class Trashbin {
 		$view = new View('/' . $user);
 		$fileInfos = $view->getDirectoryContent('files_trashbin/files');
 
-		foreach($fileInfos as $fileInfo){
-			$path = $view->getRelativePath($fileInfo->getPath());
+		// Array to store the relative path in (after the file is deleted, the view won't be able to relativise the path anymore)
+		$filePaths = array();
+
+		foreach($fileInfos as $key => $fileInfo){
+			$filePaths[] = $path = $view->getRelativePath($fileInfo->getPath());
+			unset($fileInfo[$key]); // save memory
 			self::emitTrashbinPreDelete($path);
 		}
 
@@ -481,8 +485,7 @@ class Trashbin {
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trash` WHERE `user`=?');
 		$query->execute(array($user));
 
-		foreach($fileInfos as $fileInfo){
-			$path = $view->getRelativePath($fileInfo->getPath());
+		foreach($filePaths as $path){
 			self::emitTrashbinPostDelete($path);
 		}
 
