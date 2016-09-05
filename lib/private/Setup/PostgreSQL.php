@@ -143,7 +143,7 @@ class PostgreSQL extends AbstractDatabase {
 		try {
 			if ($this->userExists($connection)) {
 				// change the password
-				$query = $connection->prepare("ALTER ROLE " . addslashes($this->dbUser) . " CREATEDB WITH PASSWORD '" . addslashes($this->dbPassword) . "'");
+				$query = $connection->prepare("ALTER ROLE " . addslashes($this->dbUser) . " WITH CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
 			} else {
 				// create the user
 				$query = $connection->prepare("CREATE USER " . addslashes($this->dbUser) . " CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
