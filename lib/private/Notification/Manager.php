@@ -60,7 +60,6 @@ class Manager implements IManager {
 	/**
 	 * @param \Closure $service The service must implement IApp, otherwise a
 	 *                          \InvalidArgumentException is thrown later
-	 * @return null
 	 * @since 8.2.0
 	 */
 	public function registerApp(\Closure $service) {
@@ -73,7 +72,6 @@ class Manager implements IManager {
 	 *                          \InvalidArgumentException is thrown later
 	 * @param \Closure $info    An array with the keys 'id' and 'name' containing
 	 *                          the app id and the app name
-	 * @return null
 	 * @since 8.2.0 - Parameter $info was added in 9.0.0
 	 */
 	public function registerNotifier(\Closure $service, \Closure $info) {
@@ -164,7 +162,6 @@ class Manager implements IManager {
 
 	/**
 	 * @param INotification $notification
-	 * @return null
 	 * @throws \InvalidArgumentException When the notification is not valid
 	 * @since 8.2.0
 	 */
