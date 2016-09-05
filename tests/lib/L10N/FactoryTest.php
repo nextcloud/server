@@ -9,6 +9,10 @@
 namespace Test\L10N;
 
 use OC\L10N\Factory;
+use OCP\IConfig;
+use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserSession;
 use Test\TestCase;
 
 /**
@@ -18,13 +22,13 @@ use Test\TestCase;
  */
 class FactoryTest extends TestCase {
 
-	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
 
-	/** @var \OCP\IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	protected $request;
 
-	/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userSession;
 
 	/** @var string */
@@ -33,17 +37,15 @@ class FactoryTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		/** @var \OCP\IConfig $request */
-		$this->config = $this->getMockBuilder('OCP\IConfig')
+		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		/** @var \OCP\IRequest $request */
-		$this->request = $this->getMockBuilder('OCP\IRequest')
+		$this->request = $this->getMockBuilder(IRequest::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->userSession = $this->getMockBuilder('\OCP\IUserSession')
+		$this->userSession = $this->getMockBuilder(IUserSession::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -56,7 +58,7 @@ class FactoryTest extends TestCase {
 	 */
 	protected function getFactory(array $methods = []) {
 		if (!empty($methods)) {
-			return $this->getMockBuilder('OC\L10N\Factory')
+			return $this->getMockBuilder(Factory::class)
 				->setConstructorArgs([
 					$this->config,
 					$this->request,
@@ -111,7 +113,7 @@ class FactoryTest extends TestCase {
 			->method('getSystemValue')
 			->with('installed', false)
 			->willReturn(true);
-		$user = $this->getMockBuilder('\OCP\IUser')
+		$user = $this->getMockBuilder(IUser::class)
 			->getMock();
 		$user->expects($this->once())
 			->method('getUID')
@@ -145,7 +147,7 @@ class FactoryTest extends TestCase {
 				->method('getSystemValue')
 				->with('installed', false)
 				->willReturn(true);
-		$user = $this->getMockBuilder('\OCP\IUser')
+		$user = $this->getMockBuilder(IUser::class)
 			->getMock();
 		$user->expects($this->once())
 				->method('getUID')
@@ -188,7 +190,7 @@ class FactoryTest extends TestCase {
 				->method('getSystemValue')
 				->with('installed', false)
 				->willReturn(true);
-		$user = $this->getMockBuilder('\OCP\IUser')
+		$user = $this->getMockBuilder(IUser::class)
 			->getMock();
 		$user->expects($this->once())
 				->method('getUID')
@@ -234,7 +236,7 @@ class FactoryTest extends TestCase {
 				->method('getSystemValue')
 				->with('installed', false)
 				->willReturn(true);
-		$user = $this->getMockBuilder('\OCP\IUser')
+		$user = $this->getMockBuilder(IUser::class)
 			->getMock();
 		$user->expects($this->once())
 				->method('getUID')
@@ -459,5 +461,87 @@ class FactoryTest extends TestCase {
 		$factory = $this->getFactory();
 		$fn = $factory->createPluralFunction($function);
 		$this->assertEquals($expected, $fn($count));
+	}
+
+	public function dataFindLanguage() {
+		return [
+			// Not logged in
+			[false, [], 'en'],
+			[false, ['fr'], 'fr'],
+			[false, ['de', 'fr'], 'de'],
+			[false, ['nl', 'de', 'fr'], 'de'],
+
+			[true, [], 'en'],
+			[true, ['fr'], 'fr'],
+			[true, ['de', 'fr'], 'de'],
+			[true, ['nl', 'de', 'fr'], 'nl'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataFindLanguage
+	 *
+	 * @param bool $loggedIn
+	 * @param array $availableLang
+	 * @param string $expected
+	 */
+	public function testFindLanguage($loggedIn, $availableLang, $expected) {
+		$userLang = 'nl';
+		$browserLang = 'de';
+		$defaultLang = 'fr';
+
+		$this->config->expects($this->any())
+			->method('getSystemValue')
+			->will($this->returnCallback(function($var, $default) use ($defaultLang) {
+				if ($var === 'installed') {
+					return true;
+				} else if ($var === 'default_language') {
+					return $defaultLang;
+				} else {
+					return $default;
+				}
+			}));
+
+		if ($loggedIn) {
+			$user = $this->getMockBuilder(IUser::class)
+				->getMock();
+			$user->expects($this->any())
+				->method('getUID')
+				->willReturn('MyUserUid');
+			$this->userSession
+				->expects($this->any())
+				->method('getUser')
+				->willReturn($user);
+			$this->config->expects($this->any())
+				->method('getUserValue')
+				->with('MyUserUid', 'core', 'lang', null)
+				->willReturn($userLang);
+		} else {
+			$this->userSession
+				->expects($this->any())
+				->method('getUser')
+				->willReturn(null);
+		}
+
+		$this->request->expects($this->any())
+			->method('getHeader')
+			->with($this->equalTo('ACCEPT_LANGUAGE'))
+			->willReturn($browserLang);
+
+		$factory = $this->getFactory(['languageExists', 'findAvailableLanguages']);
+		$factory->expects($this->any())
+			->method('languageExists')
+			->will($this->returnCallback(function ($app, $lang) use ($availableLang) {
+				return in_array($lang, $availableLang);
+			}));
+		$factory->expects($this->any())
+			->method('findAvailableLanguages')
+			->will($this->returnCallback(function ($app) use ($availableLang) {
+				return $availableLang;
+			}));
+
+		$lang = $factory->findLanguage(null);
+		$this->assertSame($expected, $lang);
+
 	}
 }
