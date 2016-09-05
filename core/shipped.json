@@ -28,6 +28,7 @@
     "survey_client",
     "systemtags",
     "templateeditor",
+    "twofactor_backupcodes",
     "theming",
     "updatenotification",
     "user_external",
@@ -39,6 +40,7 @@
     "files",
     "dav",
     "federatedfilesharing",
+    "twofactor_backupcodes",
     "workflowengine"
   ]
 }

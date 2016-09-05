@@ -22,53 +22,75 @@
 
 namespace Test\Authentication\TwoFactorAuth;
 
-use Test\TestCase;
+use Exception;
+use OC;
+use OC\App\AppManager;
 use OC\Authentication\TwoFactorAuth\Manager;
+use OCA\TwoFactor_BackupCodes\Provider\BackupCodesProvider;
+use OCP\Authentication\TwoFactorAuth\IProvider;
+use OCP\IConfig;
+use OCP\ISession;
+use OCP\IUser;
+use Test\TestCase;
 
 class ManagerTest extends TestCase {
 
-	/** @var \OCP\IUser|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUser|PHPUnit_Framework_MockObject_MockObject */
 	private $user;
 
-	/** @var \OC\App\AppManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var AppManager|PHPUnit_Framework_MockObject_MockObject */
 	private $appManager;
 
-	/** @var \OCP\ISession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISession|PHPUnit_Framework_MockObject_MockObject */
 	private $session;
 
 	/** @var Manager */
 	private $manager;
 
-	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|PHPUnit_Framework_MockObject_MockObject */
 	private $config;
 
-	/** @var \OCP\Authentication\TwoFactorAuth\IProvider|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IProvider|PHPUnit_Framework_MockObject_MockObject */
 	private $fakeProvider;
+
+	/** @var IProvider|PHPUnit_Framework_MockObject_MockObject */
+	private $backupProvider;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$this->user = $this->getMock('\OCP\IUser');
+		$this->user = $this->getMockBuilder('\OCP\IUser')->getMock();
 		$this->appManager = $this->getMockBuilder('\OC\App\AppManager')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->session = $this->getMock('\OCP\ISession');
-		$this->config = $this->getMock('\OCP\IConfig');
+		$this->session = $this->getMockBuilder('\OCP\ISession')->getMock();
+		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
 
 		$this->manager = $this->getMockBuilder('\OC\Authentication\TwoFactorAuth\Manager')
 			->setConstructorArgs([$this->appManager, $this->session, $this->config])
 			->setMethods(['loadTwoFactorApp']) // Do not actually load the apps
 			->getMock();
 
-		$this->fakeProvider = $this->getMock('\OCP\Authentication\TwoFactorAuth\IProvider');
+		$this->fakeProvider = $this->getMockBuilder('\OCP\Authentication\TwoFactorAuth\IProvider')->getMock();
 		$this->fakeProvider->expects($this->any())
 			->method('getId')
 			->will($this->returnValue('email'));
 		$this->fakeProvider->expects($this->any())
 			->method('isTwoFactorAuthEnabledForUser')
 			->will($this->returnValue(true));
-		\OC::$server->registerService('\OCA\MyCustom2faApp\FakeProvider', function() {
+		OC::$server->registerService('\OCA\MyCustom2faApp\FakeProvider', function() {
 			return $this->fakeProvider;
+		});
+
+		$this->backupProvider = $this->getMockBuilder('\OCP\Authentication\TwoFactorAuth\IProvider')->getMock();
+		$this->backupProvider->expects($this->any())
+			->method('getId')
+			->will($this->returnValue('backup_codes'));
+		$this->backupProvider->expects($this->any())
+			->method('isTwoFactorAuthEnabledForUser')
+			->will($this->returnValue(true));
+		OC::$server->registerService('\OCA\TwoFactor_BackupCodes\Provider\FakeBackupCodesProvider', function () {
+			return $this->backupProvider;
 		});
 	}
 
@@ -105,8 +127,40 @@ class ManagerTest extends TestCase {
 			->with('mycustom2faapp');
 	}
 
+	private function prepareProvidersWitBackupProvider() {
+		$this->appManager->expects($this->any())
+			->method('getEnabledAppsForUser')
+			->with($this->user)
+			->will($this->returnValue([
+					'mycustom2faapp',
+					'twofactor_backupcodes',
+		]));
+
+		$this->appManager->expects($this->exactly(2))
+			->method('getAppInfo')
+			->will($this->returnValueMap([
+					[
+						'mycustom2faapp',
+						['two-factor-providers' => [
+								'\OCA\MyCustom2faApp\FakeProvider',
+							]
+						]
+					],
+					[
+						'twofactor_backupcodes',
+						['two-factor-providers' => [
+								'\OCA\TwoFactor_BackupCodes\Provider\FakeBackupCodesProvider',
+							]
+						]
+					],
+		]));
+
+		$this->manager->expects($this->exactly(2))
+			->method('loadTwoFactorApp');
+	}
+
 	/**
-	 * @expectedException \Exception
+	 * @expectedException Exception
 	 * @expectedExceptionMessage Could not load two-factor auth provider \OCA\MyFaulty2faApp\DoesNotExist
 	 */
 	public function testFailHardIfProviderCanNotBeLoaded() {
@@ -148,6 +202,12 @@ class ManagerTest extends TestCase {
 		$this->prepareProviders();
 
 		$this->assertSame($this->fakeProvider, $this->manager->getProvider($this->user, 'email'));
+	}
+
+	public function testGetBackupProvider() {
+		$this->prepareProvidersWitBackupProvider();
+
+		$this->assertSame($this->backupProvider, $this->manager->getBackupProvider($this->user));
 	}
 
 	public function testGetInvalidProvider() {

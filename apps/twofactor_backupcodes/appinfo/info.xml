@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<info>
+	<id>twofactor_backupcodes</id>
+	<name>Two factor backup codes</name>
+	<description>A two-factor auth backup codes provider</description>
+	<licence>agpl</licence>
+	<author>Christoph Wurst</author>
+	<version>1.0.0</version>
+	<namespace>TwoFactor_BackupCodes</namespace>
+	<category>other</category>
+
+	<two-factor-providers>
+		<provider>OCA\TwoFactor_BackupCodes\Provider\BackupCodesProvider</provider>
+	</two-factor-providers>
+
+	<dependencies>
+		<owncloud min-version="9.2" max-version="9.2" />
+	</dependencies>
+</info>

@@ -293,6 +293,7 @@ Feature: provisioning
 			| provisioning_api |
 			| systemtags |
 			| theming |
+			| twofactor_backupcodes |
 			| updatenotification |
 			| workflowengine |
 			| files_external |

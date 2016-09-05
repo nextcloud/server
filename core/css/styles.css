@@ -45,7 +45,7 @@ body {
 	border: none !important;
 }
 
-.two-factor-cancel {
+.two-factor-link {
 	display: inline-block;
 	padding: 12px;
 	color: rgba(255, 255, 255, .75);
