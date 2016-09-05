@@ -74,10 +74,25 @@
 		user = String(user).replace(/\//g,'');
 
 		var $div = this;
+		var url;
 
-		var url = OC.generateUrl(
-			'/avatar/{user}/{size}',
-			{user: user, size: Math.ceil(size * window.devicePixelRatio)});
+		// If this is our own avatar we have to use the version attribute
+		if (user === OC.getCurrentUser().uid) {
+			url = OC.generateUrl(
+				'/avatar/{user}/{size}?v={version}',
+				{
+					user: user,
+					size: Math.ceil(size * window.devicePixelRatio),
+					version: oc_userconfig.avatar.version
+				});
+		} else {
+			url = OC.generateUrl(
+				'/avatar/{user}/{size}',
+				{
+					user: user,
+					size: Math.ceil(size * window.devicePixelRatio)
+				});
+		}
 
 		// If the displayname is not defined we use the old code path
 		if (typeof(displayname) === 'undefined') {
@@ -122,7 +137,7 @@
 				$div.show();
 				$div.text('');
 				$div.append(img);
-			}
+			};
 
 			img.width = size;
 			img.height = size;
