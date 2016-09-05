@@ -26,10 +26,7 @@ if (typeof oc_webroot === "undefined") {
 		oc_webroot = oc_webroot.substr(0, oc_webroot.lastIndexOf('/'));
 	}
 }
-if (
-	oc_debug !== true || typeof console === "undefined" ||
-	typeof console.log === "undefined"
-) {
+if (typeof console === "undefined" || typeof console.log === "undefined") {
 	if (!window.console) {
 		window.console = {};
 	}
