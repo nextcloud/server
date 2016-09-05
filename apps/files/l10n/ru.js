@@ -21,7 +21,7 @@ OC.L10N.register(
     "Invalid directory." : "Неверный каталог.",
     "Files" : "Файлы",
     "All files" : "Все файлы",
-    "Recent" : "Недавний",
+    "Recent" : "Недавние",
     "File could not be found" : "Файл не может быть найден",
     "Home" : "Главная",
     "Close" : "Закрыть",

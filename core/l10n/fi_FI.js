@@ -191,7 +191,7 @@ OC.L10N.register(
     "Delete" : "Poista",
     "Rename" : "Nimeä uudelleen",
     "Collaborative tags" : "Yhteistyölliset tunnisteet",
-    "The object type is not specified." : "The object type is not specified.",
+    "The object type is not specified." : "Objektin tyyppiä ei ole määritelty.",
     "Enter new" : "Kirjoita uusi",
     "Add" : "Lisää",
     "Edit tags" : "Muokkaa tunnisteita",

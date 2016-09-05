@@ -74,6 +74,7 @@ OC.L10N.register(
     "_%n folder_::_%n folders_" : ["%n map","%n mappen"],
     "_%n file_::_%n files_" : ["%n bestand","%n bestanden"],
     "{dirs} and {files}" : "{dirs} en {files}",
+    "_including %n hidden_::_including %n hidden_" : ["inclusief %n verborgen","inclusief %n verborgen"],
     "You don’t have permission to upload or create files here" : "Je hebt geen toestemming om hier te uploaden of bestanden te maken",
     "_Uploading %n file_::_Uploading %n files_" : ["%n bestand aan het uploaden","%n bestanden aan het uploaden"],
     "New" : "Nieuw",

@@ -72,6 +72,7 @@
     "_%n folder_::_%n folders_" : ["%n carpeta","%n carpetas"],
     "_%n file_::_%n files_" : ["%n archivo","%n archivos"],
     "{dirs} and {files}" : "{dirs} y {files}",
+    "_including %n hidden_::_including %n hidden_" : ["incluyendo %n oculto","incluyendo %n ocultos"],
     "You don’t have permission to upload or create files here" : "No tiene permisos para subir o crear archivos aquí.",
     "_Uploading %n file_::_Uploading %n files_" : ["Subiendo %n archivo","Subiendo %n archivos"],
     "New" : "Nuevo",
@@ -130,6 +131,8 @@
     "No favorites" : "No hay favoritos",
     "Files and folders you mark as favorite will show up here" : "Aquí aparecerán los archivos y carpetas que usted marque como favoritos",
     "Text file" : "Archivo de texto",
-    "New text file.txt" : "Nuevo archivo de texto.txt"
+    "New text file.txt" : "Nuevo archivo de texto.txt",
+    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Use esta direccioń para <a href=\"%s\" target=\"_blank\">acceder a sus archivos vía WebDAV<a>",
+    "Cancel upload" : "Cancelar la subida"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

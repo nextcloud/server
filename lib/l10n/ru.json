@@ -57,6 +57,7 @@
     "Encryption" : "Шифрование",
     "Logging" : "Журнал",
     "Additional settings" : "Дополнительные настройки",
+    "Tips & tricks" : "Советы и трюки",
     "%s enter the database username and name." : "%s укажите имя пользователя и название для базы данных.",
     "%s enter the database username." : "%s введите имя пользователя базы данных.",
     "%s enter the database name." : "%s введите имя базы данных.",
@@ -173,6 +174,14 @@
     "Storage incomplete configuration. %s" : "Неполная конфигурация хранилища.  %s",
     "Storage connection error. %s" : "Ошибка подключения к хранилищу. %s",
     "Storage not available" : "Хранилище недоступно",
-    "Storage connection timeout. %s" : "Истекло время ожидания подключения к хранилищу. %s"
+    "Storage connection timeout. %s" : "Истекло время ожидания подключения к хранилищу. %s",
+    "ownCloud %s or higher is required." : "Требуется NextCloud версии %s или выше.",
+    "ownCloud %s or lower is required." : "Требуется NextCloud версии %s или ниже.",
+    "App \"%s\" cannot be installed because it is not compatible with this version of Nextcloud." : "Приложение \"%s\" не может быть установлено, так как оно несовместимо с этой версией Nextcloud.",
+    "App can't be installed because it is not compatible with this version of Nextcloud" : "Приложение не может быть установлено, так как оно несовместимо с этой версией Nextcloud.",
+    "App can't be installed because the version in info.xml/version is not the same as the version reported from the app store" : "Приложение не может быть установлено, поскольку версия в файле info.xml/version не совпадает с версией, заявленной в магазине приложений",
+    "Hint: You can speed up the upgrade by executing this SQL command manually: ALTER TABLE %s ADD COLUMN checksum varchar(255) DEFAULT NULL AFTER permissions;" : "Совет: вы можете ускорить процесс обновления, выполнив SQL-запрос самостоятельно: ALTER TABLE %s ADD COLUMN checksum varchar(255) DEFAULT NULL AFTER permissions;",
+    "Running Nextcloud Server on the Microsoft Windows platform is not supported. We suggest you use a Linux server in a virtual machine if you have no option for migrating the server itself. Find Linux packages as well as easy to deploy virtual machine images on <a href=\"%s\">%s</a>. For migrating existing installations to Linux you can find some tips and a migration script in <a href=\"%s\">our documentation</a>." : "Nextcloud Server на платформе Microsoft Windows не поддерживается. Если у вас нет возможности установить на сервер Linux, рекомендуем воспользоваться виртуальной машиной. Соответствующие пакеты можно найти на странице <a href=\"%s\">%s</a>. Для переноса на Linux уже имеющейся установки некоторые советы и рекомендации есть в <a href=\"%s\">нашей документации</a>.",
+    "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the webserver write access to the root directory</a>." : "Как правило, это можно исправить, <a href=\"%s\" target=\"_blank\">предоставив веб-серверу права на запись в корневой каталог</a>."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }
