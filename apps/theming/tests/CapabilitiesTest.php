@@ -36,9 +36,6 @@ class CapabilitiesTest extends TestCase  {
 	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
 	protected $theming;
 
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
-	protected $url;
-
 	/** @var Capabilities */
 	protected $capabilities;
 
@@ -48,29 +45,23 @@ class CapabilitiesTest extends TestCase  {
 		$this->theming = $this->getMockBuilder('OCA\Theming\ThemingDefaults')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->url = $this->getMockBuilder('OCP\IURLGenerator')
-			->getMock();
 
-		$this->capabilities = new Capabilities($this->theming, $this->url);
+		$this->capabilities = new Capabilities($this->theming);
 	}
 
 	public function dataGetCapabilities() {
 		return [
-			['name', 'url', 'slogan', 'color', 'logo', 'background', 'http://absolute/', [
+			['name', 'url', 'slogan', 'color', [
 				'name' => 'name',
 				'url' => 'url',
 				'slogan' => 'slogan',
 				'color' => 'color',
-				'logo' => 'http://absolute/logo',
-				'background' => 'http://absolute/background',
 			]],
-			['name1', 'url2', 'slogan3', 'color4', 'logo5', 'background6', 'http://localhost/', [
+			['name1', 'url2', 'slogan3', 'color4', [
 				'name' => 'name1',
 				'url' => 'url2',
 				'slogan' => 'slogan3',
 				'color' => 'color4',
-				'logo' => 'http://localhost/logo5',
-				'background' => 'http://localhost/background6',
 			]],
 		];
 	}
@@ -81,12 +72,9 @@ class CapabilitiesTest extends TestCase  {
 	 * @param string $url
 	 * @param string $slogan
 	 * @param string $color
-	 * @param string $logo
-	 * @param string $background
-	 * @param string $baseUrl
 	 * @param string[] $expected
 	 */
-	public function testGetCapabilities($name, $url, $slogan, $color, $logo, $background, $baseUrl, array $expected) {
+	public function testGetCapabilities($name, $url, $slogan, $color, array $expected) {
 		$this->theming->expects($this->once())
 			->method('getName')
 			->willReturn($name);
@@ -99,18 +87,6 @@ class CapabilitiesTest extends TestCase  {
 		$this->theming->expects($this->once())
 			->method('getMailHeaderColor')
 			->willReturn($color);
-		$this->theming->expects($this->once())
-			->method('getLogo')
-			->willReturn($logo);
-		$this->theming->expects($this->once())
-			->method('getBackground')
-			->willReturn($background);
-
-		$this->url->expects($this->exactly(2))
-			->method('getAbsoluteURL')
-			->willReturnCallback(function($url) use($baseUrl) {
-				return $baseUrl . $url;
-			});
 
 		$this->assertEquals(['theming' => $expected], $this->capabilities->getCapabilities());
 	}

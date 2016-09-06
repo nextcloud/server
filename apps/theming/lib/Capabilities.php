@@ -36,17 +36,11 @@ class Capabilities implements ICapability {
 	/** @var ThemingDefaults */
 	protected $theming;
 
-
-	/** @var IURLGenerator */
-	protected $url;
-
 	/**
 	 * @param ThemingDefaults $theming
-	 * @param IURLGenerator $url
 	 */
-	public function __construct(ThemingDefaults $theming, IURLGenerator $url) {
+	public function __construct(ThemingDefaults $theming) {
 		$this->theming = $theming;
-		$this->url = $url;
 	}
 
 	/**
@@ -61,8 +55,6 @@ class Capabilities implements ICapability {
 				'url' => $this->theming->getBaseUrl(),
 				'slogan' => $this->theming->getSlogan(),
 				'color' => $this->theming->getMailHeaderColor(),
-				'logo' => $this->url->getAbsoluteURL($this->theming->getLogo()),
-				'background' => $this->url->getAbsoluteURL($this->theming->getBackground()),
 			],
 		];
 	}
