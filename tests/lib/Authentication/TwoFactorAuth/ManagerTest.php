@@ -233,8 +233,15 @@ class ManagerTest extends TestCase {
 			->with($this->user, $challenge)
 			->will($this->returnValue(true));
 		$this->session->expects($this->once())
+			->method('get')
+			->with('two_factor_remember_login')
+			->will($this->returnValue(false));
+		$this->session->expects($this->at(1))
 			->method('remove')
 			->with('two_factor_auth_uid');
+		$this->session->expects($this->at(2))
+			->method('remove')
+			->with('two_factor_remember_login');
 
 		$this->assertTrue($this->manager->verifyChallenge('email', $this->user, $challenge));
 	}
@@ -304,11 +311,29 @@ class ManagerTest extends TestCase {
 			->method('getUID')
 			->will($this->returnValue('ferdinand'));
 
-		$this->session->expects($this->once())
+		$this->session->expects($this->at(0))
 			->method('set')
 			->with('two_factor_auth_uid', 'ferdinand');
+		$this->session->expects($this->at(1))
+			->method('set')
+			->with('two_factor_remember_login', true);
 
-		$this->manager->prepareTwoFactorLogin($this->user);
+		$this->manager->prepareTwoFactorLogin($this->user, true);
+	}
+
+	public function testPrepareTwoFactorLoginDontRemember() {
+		$this->user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('ferdinand'));
+
+		$this->session->expects($this->at(0))
+			->method('set')
+			->with('two_factor_auth_uid', 'ferdinand');
+		$this->session->expects($this->at(1))
+			->method('set')
+			->with('two_factor_remember_login', false);
+
+		$this->manager->prepareTwoFactorLogin($this->user, false);
 	}
 
 }

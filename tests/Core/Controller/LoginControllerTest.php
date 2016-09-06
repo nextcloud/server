@@ -322,6 +322,8 @@ class LoginControllerTest extends TestCase {
 
 		$this->userSession->expects($this->never())
 			->method('createSessionToken');
+		$this->userSession->expects($this->never())
+			->method('createRememberMeToken');
 		$this->config->expects($this->never())
 			->method('deleteUserValue');
 
@@ -363,7 +365,7 @@ class LoginControllerTest extends TestCase {
 			->with($user, $password);
 		$this->userSession->expects($this->once())
 			->method('createSessionToken')
-			->with($this->request, $user->getUID(), $user, $password);
+			->with($this->request, $user->getUID(), $user, $password, false);
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->with($user)
@@ -371,9 +373,61 @@ class LoginControllerTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('deleteUserValue')
 			->with('uid', 'core', 'lostpassword');
+		$this->userSession->expects($this->never())
+			->method('createRememberMeToken');
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($indexPageUrl);
 		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, null));
+	}
+
+	public function testLoginWithValidCredentialsAndRememberMe() {
+		/** @var IUser | \PHPUnit_Framework_MockObject_MockObject $user */
+		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('uid'));
+		$password = 'secret';
+		$indexPageUrl = \OC_Util::getDefaultPageUrl();
+
+		$this->request
+			->expects($this->exactly(2))
+			->method('getRemoteAddress')
+			->willReturn('192.168.0.1');
+		$this->request
+			->expects($this->once())
+			->method('passesCSRFCheck')
+			->willReturn(true);
+		$this->throttler
+			->expects($this->once())
+			->method('sleepDelay')
+			->with('192.168.0.1');
+		$this->throttler
+			->expects($this->once())
+			->method('getDelay')
+			->with('192.168.0.1')
+			->willReturn(200);
+		$this->userManager->expects($this->once())
+			->method('checkPassword')
+			->will($this->returnValue($user));
+		$this->userSession->expects($this->once())
+			->method('login')
+			->with($user, $password);
+		$this->userSession->expects($this->once())
+			->method('createSessionToken')
+			->with($this->request, $user->getUID(), $user, $password, true);
+		$this->twoFactorManager->expects($this->once())
+			->method('isTwoFactorAuthenticated')
+			->with($user)
+			->will($this->returnValue(false));
+		$this->config->expects($this->once())
+			->method('deleteUserValue')
+			->with('uid', 'core', 'lostpassword');
+		$this->userSession->expects($this->once())
+			->method('createRememberMeToken')
+			->with($user);
+
+		$expected = new \OCP\AppFramework\Http\RedirectResponse($indexPageUrl);
+		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, null, true));
 	}
 
 	public function testLoginWithoutPassedCsrfCheckAndNotLoggedIn() {
@@ -408,6 +462,8 @@ class LoginControllerTest extends TestCase {
 			->will($this->returnValue(false));
 		$this->config->expects($this->never())
 			->method('deleteUserValue');
+		$this->userSession->expects($this->never())
+			->method('createRememberMeToken');
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse(\OC_Util::getDefaultPageUrl());
 		$this->assertEquals($expected, $this->loginController->tryLogin('Jane', $password, $originalUrl));
@@ -450,6 +506,8 @@ class LoginControllerTest extends TestCase {
 			->will($this->returnValue($redirectUrl));
 		$this->config->expects($this->never())
 			->method('deleteUserValue');
+		$this->userSession->expects($this->never())
+			->method('createRememberMeToken');
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($redirectUrl);
 		$this->assertEquals($expected, $this->loginController->tryLogin('Jane', $password, $originalUrl));
@@ -488,7 +546,7 @@ class LoginControllerTest extends TestCase {
 			->will($this->returnValue($user));
 		$this->userSession->expects($this->once())
 			->method('createSessionToken')
-			->with($this->request, $user->getUID(), 'Jane', $password);
+			->with($this->request, $user->getUID(), 'Jane', $password, false);
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->with()
@@ -540,7 +598,7 @@ class LoginControllerTest extends TestCase {
 			->with('john@doe.com', $password);
 		$this->userSession->expects($this->once())
 			->method('createSessionToken')
-			->with($this->request, $user->getUID(), 'john@doe.com', $password);
+			->with($this->request, $user->getUID(), 'john@doe.com', $password, false);
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->with($user)
@@ -564,6 +622,8 @@ class LoginControllerTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('deleteUserValue')
 			->with('john', 'core', 'lostpassword');
+		$this->userSession->expects($this->never())
+			->method('createRememberMeToken');
 
 		$expected = new RedirectResponse($challengeUrl);
 		$this->assertEquals($expected, $this->loginController->tryLogin('john@doe.com', $password, null));
@@ -605,7 +665,7 @@ class LoginControllerTest extends TestCase {
 			->with('john@doe.com', $password);
 		$this->userSession->expects($this->once())
 			->method('createSessionToken')
-			->with($this->request, $user->getUID(), 'john@doe.com', $password);
+			->with($this->request, $user->getUID(), 'john@doe.com', $password, false);
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->with($user)
@@ -628,6 +688,8 @@ class LoginControllerTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('deleteUserValue')
 			->with('john', 'core', 'lostpassword');
+		$this->userSession->expects($this->never())
+			->method('createRememberMeToken');
 
 		$expected = new RedirectResponse($challengeUrl);
 		$this->assertEquals($expected, $this->loginController->tryLogin('john@doe.com', $password, null));
@@ -680,6 +742,8 @@ class LoginControllerTest extends TestCase {
 			->with('login', '192.168.0.1', ['user' => 'john@doe.com']);
 		$this->config->expects($this->never())
 			->method('deleteUserValue');
+		$this->userSession->expects($this->never())
+			->method('createRememberMeToken');
 
 		$expected = new RedirectResponse('');
 		$this->assertEquals($expected, $this->loginController->tryLogin('john@doe.com', 'just wrong', null));

@@ -25,7 +25,6 @@ namespace Test\Authentication\Token;
 use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Authentication\Token\IToken;
-use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -81,6 +80,7 @@ class DefaultTokenProviderTest extends TestCase {
 		$toInsert->setName($name);
 		$toInsert->setToken(hash('sha512', $token . '1f4h9s'));
 		$toInsert->setType($type);
+		$toInsert->setRemember(IToken::DO_NOT_REMEMBER);
 		$toInsert->setLastActivity($this->time);
 
 		$this->config->expects($this->any())
@@ -95,7 +95,7 @@ class DefaultTokenProviderTest extends TestCase {
 			->method('insert')
 			->with($this->equalTo($toInsert));
 
-		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type);
+		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
 
 		$this->assertEquals($toInsert, $actual);
 	}
@@ -245,13 +245,19 @@ class DefaultTokenProviderTest extends TestCase {
 
 	public function testInvalidateOldTokens() {
 		$defaultSessionLifetime = 60 * 60 * 24;
-		$this->config->expects($this->once())
+		$defaultRememberMeLifetime = 60 * 60 * 24 * 15;
+		$this->config->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('session_lifetime', $defaultSessionLifetime)
-			->will($this->returnValue(150));
-		$this->mapper->expects($this->once())
+			->will($this->returnValueMap([
+				['session_lifetime', $defaultSessionLifetime, 150],
+				['remember_login_cookie_lifetime', $defaultRememberMeLifetime, 300],
+			]));
+		$this->mapper->expects($this->at(0))
 			->method('invalidateOld')
 			->with($this->time - 150);
+		$this->mapper->expects($this->at(1))
+			->method('invalidateOld')
+			->with($this->time - 300);
 
 		$this->tokenProvider->invalidateOldTokens();
 	}

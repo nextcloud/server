@@ -52,6 +52,8 @@ class SessionTest extends \Test\TestCase {
 		$this->tokenProvider = $this->createMock(IProvider::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->throttler = $this->createMock(Throttler::class);
+
+		\OC_User::setIncognitoMode(false);
 	}
 
 	public function testGetUser() {
@@ -100,7 +102,7 @@ class SessionTest extends \Test\TestCase {
 			->method('updateTokenActivity')
 			->with($token);
 
-		$manager->expects($this->any())
+		$manager->expects($this->once())
 			->method('get')
 			->with($expectedUser->getUID())
 			->will($this->returnValue($expectedUser));
@@ -181,16 +183,9 @@ class SessionTest extends \Test\TestCase {
 			}, 'foo'));
 
 		$managerMethods = get_class_methods(Manager::class);
-		//keep following methods intact in order to ensure hooks are
-		//working
-		$doNotMock = array('__construct', 'emit', 'listen');
-		foreach ($doNotMock as $methodName) {
-			$i = array_search($methodName, $managerMethods, true);
-			if ($i !== false) {
-				unset($managerMethods[$i]);
-			}
-		}
-		$manager = $this->getMockBuilder(Manager::class)
+		//keep following methods intact in order to ensure hooks are working
+		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
+		$manager = $this->getMockBuilder(Manager::class)->setMethods($mockedManagerMethods)->getMock();
 			->setMethods($managerMethods)
 			->setConstructorArgs([$this->config])
 			->getMock();
@@ -238,17 +233,10 @@ class SessionTest extends \Test\TestCase {
 			->with('bar')
 			->will($this->throwException(new \OC\Authentication\Exceptions\InvalidTokenException()));
 
-		$managerMethods = get_class_methods('\OC\User\Manager');
-		//keep following methods intact in order to ensure hooks are
-		//working
-		$doNotMock = array('__construct', 'emit', 'listen');
-		foreach ($doNotMock as $methodName) {
-			$i = array_search($methodName, $managerMethods, true);
-			if ($i !== false) {
-				unset($managerMethods[$i]);
-			}
-		}
-		$manager = $this->getMockBuilder(Manager::class)
+		$managerMethods = get_class_methods(\OC\User\Manager::class);
+		//keep following methods intact in order to ensure hooks are working
+		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
+		$manager = $this->getMockBuilder(Manager::class)->setMethods($mockedManagerMethods)->getMock();
 			->setMethods($managerMethods)
 			->setConstructorArgs([$this->config])
 			->getMock();
@@ -273,17 +261,10 @@ class SessionTest extends \Test\TestCase {
 
 	public function testLoginInvalidPassword() {
 		$session = $this->getMockBuilder(Memory::class)->setConstructorArgs([''])->getMock();
-		$managerMethods = get_class_methods('\OC\User\Manager');
-		//keep following methods intact in order to ensure hooks are
-		//working
-		$doNotMock = array('__construct', 'emit', 'listen');
-		foreach ($doNotMock as $methodName) {
-			$i = array_search($methodName, $managerMethods, true);
-			if ($i !== false) {
-				unset($managerMethods[$i]);
-			}
-		}
-		$manager = $this->getMockBuilder(Manager::class)
+		$managerMethods = get_class_methods(\OC\User\Manager::class);
+		//keep following methods intact in order to ensure hooks are working
+		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
+		$manager = $this->getMockBuilder(Manager::class)->setMethods($mockedManagerMethods)->getMock();
 			->setMethods($managerMethods)
 			->setConstructorArgs([$this->config])
 			->getMock();
@@ -513,156 +494,208 @@ class SessionTest extends \Test\TestCase {
 
 	public function testRememberLoginValidToken() {
 		$session = $this->getMockBuilder(Memory::class)->setConstructorArgs([''])->getMock();
-		$session->expects($this->exactly(1))
-			->method('set')
-			->with($this->callback(function ($key) {
-				switch ($key) {
-					case 'user_id':
-						return true;
-					default:
-						return false;
-				}
-			}, 'foo'));
-		$session->expects($this->once())
-			->method('regenerateId');
+		$managerMethods = get_class_methods(\OC\User\Manager::class);
+		//keep following methods intact in order to ensure hooks are working
+		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
+		$manager = $this->getMockBuilder(Manager::class)->setMethods($mockedManagerMethods)->getMock();
+		$userSession = $this->getMockBuilder(Session::class)
+			//override, otherwise tests will fail because of setcookie()
+			->setMethods(['setMagicInCookie'])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config])
+			->getMock();
 
-		$managerMethods = get_class_methods(Manager::class);
-		//keep following methods intact in order to ensure hooks are
-		//working
-		$doNotMock = array('__construct', 'emit', 'listen');
-		foreach ($doNotMock as $methodName) {
-			$i = array_search($methodName, $managerMethods, true);
-			if ($i !== false) {
-				unset($managerMethods[$i]);
-			}
-		}
-		$manager = $this->getMockBuilder(Manager::class)
+		$user = $this->createMock(IUser::class);
+		$token = 'goodToken';
+		$oldSessionId = 'sess321';
+		$sessionId = 'sess123';
 			->setMethods($managerMethods)
 			->setConstructorArgs([$this->config])
 			->getMock();
 
-		$backend = $this->createMock(\Test\Util\User\Dummy::class);
-
-		$user = $this->getMockBuilder(User::class)->setConstructorArgs(['foo', $backend])->getMock();
-
-		$user->expects($this->any())
-			->method('getUID')
-			->will($this->returnValue('foo'));
-		$user->expects($this->once())
-			->method('updateLastLoginTimestamp');
-
+		$session->expects($this->once())
+			->method('regenerateId');
 		$manager->expects($this->once())
 			->method('get')
 			->with('foo')
 			->will($this->returnValue($user));
+		$this->config->expects($this->once())
+			->method('getUserKeys')
+			->with('foo', 'login_token')
+			->will($this->returnValue([$token]));
+		$this->config->expects($this->once())
+			->method('deleteUserValue')
+			->with('foo', 'login_token', $token);
+		$this->config->expects($this->once())
+			->method('setUserValue'); // TODO: mock new random value
 
-		//prepare login token
-		$token = 'goodToken';
-		\OC::$server->getConfig()->setUserValue('foo', 'login_token', $token, time());
+		$session->expects($this->once())
+			->method('getId')
+			->will($this->returnValue($sessionId));
+		$this->tokenProvider->expects($this->once())
+			->method('renewSessionToken')
+			->with($oldSessionId, $sessionId)
+			->will($this->returnValue(true));
 
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('foo'));
+		$userSession->expects($this->once())
+			->method('setMagicInCookie');
+		$user->expects($this->once())
+			->method('updateLastLoginTimestamp');
+		$session->expects($this->once())
+			->method('set')
+			->with('user_id', 'foo');
+
+		$granted = $userSession->loginWithCookie('foo', $token, $oldSessionId);
+
+		$this->assertTrue($granted);
+	}
+
+	public function testRememberLoginInvalidSessionToken() {
+		$session = $this->getMockBuilder(Memory::class)->setConstructorArgs([''])->getMock();
+		$managerMethods = get_class_methods(\OC\User\Manager::class);
+		//keep following methods intact in order to ensure hooks are working
+		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
+		$manager = $this->getMockBuilder(Manager::class)->setMethods($mockedManagerMethods)->getMock();
 		$userSession = $this->getMockBuilder(Session::class)
 			//override, otherwise tests will fail because of setcookie()
 			->setMethods(['setMagicInCookie'])
-			//there  are passed as parameters to the constructor
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config])
 			->getMock();
 
-		$granted = $userSession->loginWithCookie('foo', $token);
+		$user = $this->createMock(IUser::class);
+		$token = 'goodToken';
+		$oldSessionId = 'sess321';
+		$sessionId = 'sess123';
 
-		$this->assertSame($granted, true);
+		$session->expects($this->once())
+			->method('regenerateId');
+		$manager->expects($this->once())
+			->method('get')
+			->with('foo')
+			->will($this->returnValue($user));
+		$this->config->expects($this->once())
+			->method('getUserKeys')
+			->with('foo', 'login_token')
+			->will($this->returnValue([$token]));
+		$this->config->expects($this->once())
+			->method('deleteUserValue')
+			->with('foo', 'login_token', $token);
+		$this->config->expects($this->once())
+			->method('setUserValue'); // TODO: mock new random value
+
+		$session->expects($this->once())
+			->method('getId')
+			->will($this->returnValue($sessionId));
+		$this->tokenProvider->expects($this->once())
+			->method('renewSessionToken')
+			->with($oldSessionId, $sessionId)
+			->will($this->throwException(new \OC\Authentication\Exceptions\InvalidTokenException()));
+			->setMethods($managerMethods)
+			->setConstructorArgs([$this->config])
+			->getMock();
+
+		$user->expects($this->never())
+			->method('getUID')
+			->will($this->returnValue('foo'));
+		$userSession->expects($this->never())
+			->method('setMagicInCookie');
+		$user->expects($this->never())
+			->method('updateLastLoginTimestamp');
+		$session->expects($this->never())
+			->method('set')
+			->with('user_id', 'foo');
+
+		$granted = $userSession->loginWithCookie('foo', $token, $oldSessionId);
+
+		$this->assertFalse($granted);
 	}
 
 	public function testRememberLoginInvalidToken() {
 		$session = $this->getMockBuilder(Memory::class)->setConstructorArgs([''])->getMock();
-		$session->expects($this->never())
-			->method('set');
-		$session->expects($this->once())
-			->method('regenerateId');
-
-		$managerMethods = get_class_methods('\OC\User\Manager');
-		//keep following methods intact in order to ensure hooks are
-		//working
-		$doNotMock = array('__construct', 'emit', 'listen');
-		foreach ($doNotMock as $methodName) {
-			$i = array_search($methodName, $managerMethods, true);
-			if ($i !== false) {
-				unset($managerMethods[$i]);
-			}
-		}
-		$manager = $this->getMockBuilder(Manager::class)
-			->setMethods($managerMethods)
-			->setConstructorArgs([$this->config])
+		$managerMethods = get_class_methods(\OC\User\Manager::class);
+		//keep following methods intact in order to ensure hooks are working
+		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
+		$manager = $this->getMockBuilder(Manager::class)->setMethods($mockedManagerMethods)->getMock();
+		$userSession = $this->getMockBuilder(Session::class)
+			//override, otherwise tests will fail because of setcookie()
+			->setMethods(['setMagicInCookie'])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config])
 			->getMock();
 
-		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$user = $this->createMock(IUser::class);
+		$token = 'goodToken';
+		$oldSessionId = 'sess321';
 
-		$user = $this->getMockBuilder(User::class)->setConstructorArgs(['foo', $backend])->getMock();
-
-		$user->expects($this->any())
-			->method('getUID')
-			->will($this->returnValue('foo'));
-		$user->expects($this->never())
-			->method('updateLastLoginTimestamp');
-
+		$session->expects($this->once())
+			->method('regenerateId');
 		$manager->expects($this->once())
 			->method('get')
 			->with('foo')
 			->will($this->returnValue($user));
+		$this->config->expects($this->once())
+			->method('getUserKeys')
+			->with('foo', 'login_token')
+			->will($this->returnValue(['anothertoken']));
+		$this->config->expects($this->never())
+			->method('deleteUserValue')
+			->with('foo', 'login_token', $token);
 
-		//prepare login token
-		$token = 'goodToken';
-		\OC::$server->getConfig()->setUserValue('foo', 'login_token', $token, time());
+		$this->tokenProvider->expects($this->never())
+			->method('renewSessionToken');
+		$userSession->expects($this->never())
+			->method('setMagicInCookie');
+		$user->expects($this->never())
+			->method('updateLastLoginTimestamp');
+		$session->expects($this->never())
+			->method('set')
+			->with('user_id', 'foo');
 
-		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config);
-		$granted = $userSession->loginWithCookie('foo', 'badToken');
+		$granted = $userSession->loginWithCookie('foo', $token, $oldSessionId);
 
-		$this->assertSame($granted, false);
+		$this->assertFalse($granted);
 	}
 
 	public function testRememberLoginInvalidUser() {
 		$session = $this->getMockBuilder(Memory::class)->setConstructorArgs([''])->getMock();
-		$session->expects($this->never())
-			->method('set');
+		$managerMethods = get_class_methods(\OC\User\Manager::class);
+		//keep following methods intact in order to ensure hooks are working
+		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
+		$manager = $this->getMockBuilder(Manager::class)->setMethods($mockedManagerMethods)->getMock();
+		$userSession = $this->getMockBuilder(Session::class)
+			//override, otherwise tests will fail because of setcookie()
+			->setMethods(['setMagicInCookie'])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config])
+			->getMock();
+		$token = 'goodToken';
+		$oldSessionId = 'sess321';
+
 		$session->expects($this->once())
 			->method('regenerateId');
-
-		$managerMethods = get_class_methods('\OC\User\Manager');
-		//keep following methods intact in order to ensure hooks are
-		//working
-		$doNotMock = array('__construct', 'emit', 'listen');
-		foreach ($doNotMock as $methodName) {
-			$i = array_search($methodName, $managerMethods, true);
-			if ($i !== false) {
-				unset($managerMethods[$i]);
-			}
-		}
-		$manager = $this->getMockBuilder(Manager::class)
 			->setMethods($managerMethods)
 			->setConstructorArgs([$this->config])
 			->getMock();
-
-		$backend = $this->createMock(\Test\Util\User\Dummy::class);
-
-		$user = $this->getMockBuilder(User::class)->setConstructorArgs(['foo', $backend])->getMock();
-
-		$user->expects($this->never())
-			->method('getUID');
-		$user->expects($this->never())
-			->method('updateLastLoginTimestamp');
-
 		$manager->expects($this->once())
 			->method('get')
 			->with('foo')
 			->will($this->returnValue(null));
+		$this->config->expects($this->never())
+			->method('getUserKeys')
+			->with('foo', 'login_token')
+			->will($this->returnValue(['anothertoken']));
 
-		//prepare login token
-		$token = 'goodToken';
-		\OC::$server->getConfig()->setUserValue('foo', 'login_token', $token, time());
+		$this->tokenProvider->expects($this->never())
+			->method('renewSessionToken');
+		$userSession->expects($this->never())
+			->method('setMagicInCookie');
+		$session->expects($this->never())
+			->method('set')
+			->with('user_id', 'foo');
 
-		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config);
-		$granted = $userSession->loginWithCookie('foo', $token);
+		$granted = $userSession->loginWithCookie('foo', $token, $oldSessionId);
 
-		$this->assertSame($granted, false);
+		$this->assertFalse($granted);
 	}
 
 	public function testActiveUserAfterSetSession() {

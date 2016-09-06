@@ -1126,6 +1126,15 @@
 			</field>
 
 			<field>
+				<name>remember</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>1</length>
+			</field>
+
+			<field>
 				<name>last_activity</name>
 				<type>integer</type>
 				<default>0</default>

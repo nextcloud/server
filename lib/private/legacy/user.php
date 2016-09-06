@@ -155,10 +155,11 @@ class OC_User {
 	 * @deprecated use \OCP\IUserSession::loginWithCookie()
 	 * @param string $uid The username of the user to log in
 	 * @param string $token
+	 * @param string $oldSessionId
 	 * @return bool
 	 */
-	public static function loginWithCookie($uid, $token) {
-		return self::getUserSession()->loginWithCookie($uid, $token);
+	public static function loginWithCookie($uid, $token, $oldSessionId) {
+		return self::getUserSession()->loginWithCookie($uid, $token, $oldSessionId);
 	}
 
 	/**

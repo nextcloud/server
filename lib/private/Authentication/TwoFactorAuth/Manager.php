@@ -37,6 +37,7 @@ class Manager {
 	const SESSION_UID_KEY = 'two_factor_auth_uid';
 	const BACKUP_CODES_APP_ID = 'twofactor_backupcodes';
 	const BACKUP_CODES_PROVIDER_ID = 'backup_codes';
+	const REMEBER_LOGIN = 'two_factor_remember_login';
 
 	/** @var AppManager */
 	private $appManager;
@@ -51,6 +52,7 @@ class Manager {
 	 * @param AppManager $appManager
 	 * @param ISession $session
 	 * @param IConfig $config
+	 * @param Session $userSession
 	 */
 	public function __construct(AppManager $appManager, ISession $session, IConfig $config) {
 		$this->appManager = $appManager;
@@ -171,11 +173,16 @@ class Manager {
 			return false;
 		}
 
-		$result = $provider->verifyChallenge($user, $challenge);
-		if ($result) {
+		$passed = $provider->verifyChallenge($user, $challenge);
+		if ($passed) {
+			if ($this->session->get(self::REMEBER_LOGIN) === true) {
+				// TODO: resolve cyclic dependency and use DI
+				\OC::$server->getUserSession()->createRememberMeToken($user);
+			}
 			$this->session->remove(self::SESSION_UID_KEY);
+			$this->session->remove(self::REMEBER_LOGIN);
 		}
-		return $result;
+		return $passed;
 	}
 
 	/**
@@ -202,12 +209,14 @@ class Manager {
 	}
 
 	/**
-	 * Prepare the 2FA login (set session value)
+	 * Prepare the 2FA login
 	 *
 	 * @param IUser $user
+	 * @param boolean $rememberMe
 	 */
-	public function prepareTwoFactorLogin(IUser $user) {
+	public function prepareTwoFactorLogin(IUser $user, $rememberMe) {
 		$this->session->set(self::SESSION_UID_KEY, $user->getUID());
+		$this->session->set(self::REMEBER_LOGIN, $rememberMe);
 	}
 
 }
