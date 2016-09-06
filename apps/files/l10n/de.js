@@ -38,7 +38,7 @@ OC.L10N.register(
     "{hours}:{minutes}h" : "{hours}:{minutes} Std.",
     "{minutes}:{seconds} minute{plural_s} left" : "{minutes}:{seconds} Minute(n) übrig",
     "{minutes}:{seconds}m" : "{minutes}:{seconds}m",
-    "{seconds} second{plural_s} left" : "{seconds} Sekund{plural_s} übrig",
+    "{seconds} second{plural_s} left" : "{seconds} Sekunden übrig",
     "{seconds}s" : "{seconds}n",
     "Any moment now..." : "Jeden Augenblick...",
     "Soon..." : "Bald...",

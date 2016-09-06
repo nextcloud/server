@@ -19,6 +19,7 @@
     "Invalid directory." : "Érvénytelen mappa.",
     "Files" : "Fájlkezelő",
     "All files" : "Az összes állomány",
+    "Recent" : "Legutóbbi",
     "File could not be found" : "Fájl nem található",
     "Home" : "Otthoni",
     "Close" : "Bezárás",
@@ -28,7 +29,7 @@
     "Total file size {size1} exceeds upload limit {size2}" : "A teljes fájlméret: {size1} meghaladja a feltöltési limitet: {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Nincs elég szabad hely. A feltöltés mérete {size1}, de csak ennyi hely van: {size2}.",
     "Error uploading file \"{fileName}\": {message}" : "Hiba történt a fájlfeltöltés közben:  \"{fileName}\": {message}",
-    "Could not get result from server." : "A kiszolgálótól nem kapható meg a művelet eredménye.",
+    "Could not get result from server." : "A  szervertől nem kapható meg a művelet eredménye.",
     "Uploading..." : "Feltöltés...",
     "..." : "...",
     "{hours}:{minutes}:{seconds} hour{plural_s} left" : "{hours}:{minutes}:{seconds} óra{plural_s} maradt hátra",
@@ -71,6 +72,7 @@
     "_%n folder_::_%n folders_" : ["%n mappa","%n mappa"],
     "_%n file_::_%n files_" : ["%n állomány","%n állomány"],
     "{dirs} and {files}" : "{dirs} és {files}",
+    "_including %n hidden_::_including %n hidden_" : ["beleértve %n rejtett","beleértve %n rejtett"],
     "You don’t have permission to upload or create files here" : "Önnek nincs jogosultsága ahhoz, hogy ide állományokat töltsön föl, vagy itt újakat hozzon létre",
     "_Uploading %n file_::_Uploading %n files_" : ["%n állomány feltöltése","%n állomány feltöltése"],
     "New" : "Új",
@@ -81,6 +83,7 @@
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "A {owner} felhasználó tárolója majdnem betelt ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "A tároló majdnem tele van ({usedSpacePercent}%)",
     "_matches '{filter}'_::_match '{filter}'_" : ["egyezések '{filter}'","egyezés '{filter}'"],
+    "View in folder" : "Megtekintés mappában",
     "Path" : "Útvonal",
     "_%n byte_::_%n bytes_" : ["%n bájt","%n bájt"],
     "Favorited" : "Kedvenc",
@@ -124,10 +127,12 @@
     "No entries found in this folder" : "Nincsenek bejegyzések ebben a könyvtárban",
     "Select all" : "Összes kijelölése",
     "Upload too large" : "A feltöltés túl nagy",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "A feltöltendő állományok mérete meghaladja a kiszolgálón megengedett maximális méretet.",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "A feltöltendő állományok mérete meghaladja a szerveren megengedett maximális méretet.",
     "No favorites" : "Nincsenek kedvencek",
     "Files and folders you mark as favorite will show up here" : "A kedvencnek jelölt fájlokat és mappákat itt találod meg",
     "Text file" : "Szövegfájl",
-    "New text file.txt" : "Új szöveges fájl.txt"
+    "New text file.txt" : "Új szöveges fájl.txt",
+    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Használd ezt a címet <a href=\"%s\" target=\"_blank\">a Fájlok eléréséhez WebDAV-on keresztül</a>.",
+    "Cancel upload" : "Feltöltés megszakítása"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
