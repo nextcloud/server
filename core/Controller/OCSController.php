@@ -81,7 +81,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			'minor' => $minor,
 			'micro' => $micro,
 			'string' => \OC_Util::getVersionString(),
-			'edition' => \OC_Util::getEditionString(),
+			'edition' => '',
 		);
 
 		$result['capabilities'] = $this->capabilitiesManager->getCapabilities();

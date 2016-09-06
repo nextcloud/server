@@ -157,12 +157,10 @@ if($_['passwordChangeSupported']) {
 			</option>
 		<?php endforeach;?>
 	</select>
-	<?php if (OC_Util::getEditionString() === ''): ?>
 	<a href="https://www.transifex.com/nextcloud/nextcloud/"
 		target="_blank" rel="noreferrer">
 		<em><?php p($l->t('Help translate'));?></em>
 	</a>
-	<?php endif; ?>
 </form>
 
 
@@ -181,7 +179,6 @@ if($_['passwordChangeSupported']) {
 			 alt="<?php p($l->t('iOS app'));?>" />
 	</a>
 
-	<?php if (OC_Util::getEditionString() === ''): ?>
 		<p>
 			<?php print_unescaped($l->t('If you want to support the project
 		<a href="https://nextcloud.com/contribute"
@@ -190,7 +187,6 @@ if($_['passwordChangeSupported']) {
 		<a href="https://nextcloud.com/contribute"
 			target="_blank" rel="noreferrer">spread the word</a>!'));?>
 		</p>
-	<?php endif; ?>
 
 	<?php if(OC_APP::isEnabled('firstrunwizard')) {?>
 		<p><a class="button" href="#" id="showWizard"><?php p($l->t('Show First Run Wizard again'));?></a></p>

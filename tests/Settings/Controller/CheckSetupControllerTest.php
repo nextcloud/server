@@ -508,12 +508,6 @@ class CheckSetupControllerTest extends TestCase {
 	}
 
 	public function testIsUsedTlsLibOutdatedWithAppstoreDisabledAndServerToServerSharingEnabled() {
-		// Appstore is disabled by default in EE
-		$appStoreDefault = false;
-		if (\OC_Util::getEditionString() === '') {
-			$appStoreDefault = true;
-		}
-
 		$this->config
 			->expects($this->at(0))
 			->method('getSystemValue')
@@ -522,7 +516,7 @@ class CheckSetupControllerTest extends TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('getSystemValue')
-			->with('appstoreenabled', $appStoreDefault)
+			->with('appstoreenabled', true)
 			->will($this->returnValue(false));
 		$this->config
 			->expects($this->at(2))
@@ -543,12 +537,6 @@ class CheckSetupControllerTest extends TestCase {
 	}
 
 	public function testIsUsedTlsLibOutdatedWithAppstoreDisabledAndServerToServerSharingDisabled() {
-		// Appstore is disabled by default in EE
-		$appStoreDefault = false;
-		if (\OC_Util::getEditionString() === '') {
-			$appStoreDefault = true;
-		}
-
 		$this->config
 			->expects($this->at(0))
 			->method('getSystemValue')
@@ -557,7 +545,7 @@ class CheckSetupControllerTest extends TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('getSystemValue')
-			->with('appstoreenabled', $appStoreDefault)
+			->with('appstoreenabled', true)
 			->will($this->returnValue(false));
 		$this->config
 			->expects($this->at(2))

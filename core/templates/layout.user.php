@@ -48,13 +48,7 @@
 
 			<a href="#" class="header-appname-container menutoggle" tabindex="2">
 				<h1 class="header-appname">
-					<?php
-						if(OC_Util::getEditionString() === '') {
-							p(!empty($_['application'])?$_['application']: $l->t('Apps'));
-						} else {
-							print_unescaped($theme->getHTMLName());
-						}
-					?>
+					<?php p(!empty($_['application'])?$_['application']: $l->t('Apps')); ?>
 				</h1>
 				<div class="icon-caret"></div>
 			</a>

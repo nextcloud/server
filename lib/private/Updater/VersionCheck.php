@@ -71,7 +71,7 @@ class VersionCheck {
 		$version['installed'] = $this->config->getAppValue('core', 'installedat');
 		$version['updated'] = $this->config->getAppValue('core', 'lastupdatedat');
 		$version['updatechannel'] = \OC_Util::getChannel();
-		$version['edition'] = \OC_Util::getEditionString();
+		$version['edition'] = '';
 		$version['build'] = \OC_Util::getBuild();
 		$versionString = implode('x', $version);
 
