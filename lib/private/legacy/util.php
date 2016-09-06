@@ -382,18 +382,11 @@ class OC_Util {
 	}
 
 	/**
-	 * @description get the current installed edition of ownCloud. There is the community
-	 * edition that just returns an empty string and the enterprise edition
-	 * that returns "Enterprise".
+	 * @deprecated the value is of no use anymore
 	 * @return string
 	 */
 	public static function getEditionString() {
-		if (OC_App::isEnabled('enterprise_key')) {
-			return "Enterprise";
-		} else {
-			return "";
-		}
-
+		return '';
 	}
 
 	/**

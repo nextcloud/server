@@ -174,19 +174,13 @@ class CheckSetupController extends Controller {
 	 * @return string
 	 */
 	private function isUsedTlsLibOutdated() {
-		// Appstore is disabled by default in EE
-		$appStoreDefault = false;
-		if (\OC_Util::getEditionString() === '') {
-			$appStoreDefault = true;
-		}
-
 		// Don't run check when:
 		// 1. Server has `has_internet_connection` set to false
 		// 2. AppStore AND S2S is disabled
 		if(!$this->config->getSystemValue('has_internet_connection', true)) {
 			return '';
 		}
-		if(!$this->config->getSystemValue('appstoreenabled', $appStoreDefault)
+		if(!$this->config->getSystemValue('appstoreenabled', true)
 			&& $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'no'
 			&& $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes') === 'no') {
 			return '';
@@ -200,7 +194,7 @@ class CheckSetupController extends Controller {
 		}
 
 		$features = (string)$this->l10n->t('installing and updating apps via the app store or Federated Cloud Sharing');
-		if(!$this->config->getSystemValue('appstoreenabled', $appStoreDefault)) {
+		if(!$this->config->getSystemValue('appstoreenabled', true)) {
 			$features = (string)$this->l10n->t('Federated Cloud Sharing');
 		}
 

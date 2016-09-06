@@ -43,13 +43,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
 		<div class="header-appname-container">
 			<h1 class="header-appname">
-				<?php
-					if(OC_Util::getEditionString() === '') {
-						p($theme->getName());
-					} else {
-						print_unescaped($theme->getHTMLName());
-					}
-				?>
+				<?php p($theme->getName()); ?>
 			</h1>
 		</div>
 

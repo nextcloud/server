@@ -43,7 +43,7 @@ try {
 		'maintenance' => $maintenance,
 		'version'=>implode('.', \OCP\Util::getVersion()),
 		'versionstring'=>OC_Util::getVersionString(),
-		'edition'=> $installed ? OC_Util::getEditionString() : '',
+		'edition'=> '',
 		'productname'=>$defaults->getName());
 	if (OC::$CLI) {
 		print_r($values);

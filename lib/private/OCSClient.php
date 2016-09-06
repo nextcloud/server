@@ -70,13 +70,7 @@ class OCSClient {
 	 * @return bool
 	 */
 	public function isAppStoreEnabled() {
-		// For a regular edition default to true, all others default to false
-		$default = false;
-		if (\OC_Util::getEditionString() === '') {
-			$default = true;
-		}
-
-		return $this->config->getSystemValue('appstoreenabled', $default) === true;
+		return $this->config->getSystemValue('appstoreenabled', true) === true;
 	}
 
 	/**
