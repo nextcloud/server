@@ -103,13 +103,13 @@
 				this._codes = data.codes;
 				this.render();
 			}.bind(this)).fail(function () {
-				OC.Notification.showTemporary('An error occurred while generating your backup codes');
+				OC.Notification.showTemporary(t('twofactor_backupcodes', 'An error occurred while generating your backup codes'));
 				$('#generate-backup-codes').removeClass('icon-loading-small');
 			});
 		},
 		_onPrintBackupCodes: function () {
 			var url = this._getDownloadDataHref();
-			window.open(url, 'Nextcloud backpu codes');
+			window.open(url, t('twofactor_backupcodes', 'Nextcloud backup codes'));
 			window.print();
 			window.close();
 		}
