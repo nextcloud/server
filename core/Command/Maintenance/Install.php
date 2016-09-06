@@ -31,9 +31,11 @@ use InvalidArgumentException;
 use OC\Setup;
 use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\Question;
 
 class Install extends Command {
 
@@ -138,24 +140,22 @@ class Install extends Command {
 				throw new InvalidArgumentException("Database name not provided.");
 			}
 			if (is_null($dbPass)) {
-				/** @var $dialog \Symfony\Component\Console\Helper\DialogHelper */
-				$dialog = $this->getHelperSet()->get('dialog');
-				$dbPass = $dialog->askHiddenResponse(
-					$output,
-					"<question>What is the password to access the database with user <$dbUser>?</question>",
-					false
-				);
+				/** @var QuestionHelper $helper */
+				$helper = $this->getHelper('question');
+				$question = new Question('What is the password to access the database with user <'.$dbUser.'>?');
+				$question->setHidden(true);
+				$question->setHiddenFallback(false);
+				$dbPass = $helper->ask($input, $output, $question);
 			}
 		}
 
 		if (is_null($adminPassword)) {
-			/** @var $dialog \Symfony\Component\Console\Helper\DialogHelper */
-			$dialog = $this->getHelperSet()->get('dialog');
-			$adminPassword = $dialog->askHiddenResponse(
-				$output,
-				"<question>What is the password you like to use for the admin account <$adminLogin>?</question>",
-				false
-			);
+			/** @var QuestionHelper $helper */
+			$helper = $this->getHelper('question');
+			$question = new Question('What is the password you like to use for the admin account <'.$adminLogin.'>?');
+			$question->setHidden(true);
+			$question->setHiddenFallback(false);
+			$adminPassword = $helper->ask($input, $output, $question);
 		}
 
 		$options = [
