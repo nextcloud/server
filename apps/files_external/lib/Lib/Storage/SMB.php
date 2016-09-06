@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Jesús Macias <jmacias@solidgear.es>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
@@ -11,7 +11,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud GmbH.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -30,20 +30,24 @@
 
 namespace OCA\Files_External\Lib\Storage;
 
+use Icewind\SMB\Exception\AlreadyExistsException;
 use Icewind\SMB\Exception\ConnectException;
 use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\ForbiddenException;
 use Icewind\SMB\Exception\NotFoundException;
+use Icewind\SMB\FileInfo;
 use Icewind\SMB\NativeServer;
 use Icewind\SMB\Server;
+use Icewind\SMB\Share;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
+use OC\Files\Storage\Common;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Util;
 
-class SMB extends \OC\Files\Storage\Common {
+class SMB extends Common {
 	/**
 	 * @var \Icewind\SMB\Server
 	 */
@@ -74,8 +78,10 @@ class SMB extends \OC\Files\Storage\Common {
 
 		if (isset($params['host']) && isset($params['user']) && isset($params['password']) && isset($params['share'])) {
 			if (Server::NativeAvailable()) {
+				$this->log('using native libsmbclient');
 				$this->server = new NativeServer($params['host'], $params['user'], $params['password']);
 			} else {
+				$this->log('falling back to smbclient');
 				$this->server = new Server($params['host'], $params['user'], $params['password']);
 			}
 			$this->share = $this->server->getShare(trim($params['share'], '/'));
@@ -120,24 +126,66 @@ class SMB extends \OC\Files\Storage\Common {
 	 * @param string $path
 	 * @return \Icewind\SMB\IFileInfo
 	 * @throws StorageNotAvailableException
+	 * @throws ForbiddenException
+	 * @throws NotFoundException
 	 */
 	protected function getFileInfo($path) {
 		$this->log('enter: '.__FUNCTION__."($path)");
-		try {
 			$path = $this->buildPath($path);
 			if (!isset($this->statCache[$path])) {
-				$this->log("stat fetching '{$this->root}$path'");
-				$this->statCache[$path] = $this->share->stat($path);
+				try {
+					$this->log("stat fetching '$path'");
+					try {
+						$this->statCache[$path] = $this->share->stat($path);
+					} catch (NotFoundException $e) {
+						if ($this->share instanceof Share) {
+							// smbclient may have problems with the allinfo cmd
+							$this->log("stat for '$path' failed, trying to read parent dir");
+							$infos = $this->share->dir(dirname($path));
+							foreach ($infos as $fileInfo) {
+								if ($fileInfo->getName() === basename($path)) {
+									$this->statCache[$path] = $fileInfo;
+									break;
+								}
+							}
+							if (empty($this->statCache[$path])) {
+								$this->leave(__FUNCTION__, $e);
+								throw $e;
+							}
+						} else {
+							// trust the results of libsmb
+							$this->leave(__FUNCTION__, $e);
+							throw $e;
+						}
+					}
+					if ($this->isRootDir($path) && $this->statCache[$path]->isHidden()) {
+						$this->log("unhiding stat for '$path'");
+						// make root never hidden, may happen when accessing a shared drive (mode is 22, archived and readonly - neither is true ... whatever)
+						if ($this->statCache[$path]->isReadOnly()) {
+							$mode = FileInfo::MODE_DIRECTORY & FileInfo::MODE_READONLY;
+						} else {
+							$mode = FileInfo::MODE_DIRECTORY;
+						}
+						$this->statCache[$path] = new FileInfo($path, '', 0, $this->statCache[$path]->getMTime(), $mode);
+					}
+				} catch (ConnectException $e) {
+					$ex = new StorageNotAvailableException(
+						$e->getMessage(), $e->getCode(), $e);
+					$this->leave(__FUNCTION__, $ex);
+					throw $ex;
+				} catch (ForbiddenException $e) {
+					if ($this->remoteIsShare() && $this->isRootDir($path)) { //mtime may not work for share root
+						$this->log("faking stat for forbidden '$path'");
+						$this->statCache[$path] = new FileInfo($path, '', 0, $this->shareMTime(), FileInfo::MODE_DIRECTORY);
+					} else {
+						$this->leave(__FUNCTION__, $e);
+						throw $e;
+					}
+				}
 			} else {
 				$this->log("stat cache hit for '$path'");
 			}
 			$result = $this->statCache[$path];
-		} catch (ConnectException $e) {
-			$ex = new StorageNotAvailableException(
-				$e->getMessage(), $e->getCode(), $e);
-			$this->leave(__FUNCTION__, $ex);
-			throw $ex;
-		}
 		return $this->leave(__FUNCTION__, $result);
 	}
 
@@ -150,9 +198,18 @@ class SMB extends \OC\Files\Storage\Common {
 		$this->log('enter: '.__FUNCTION__."($path)");
 		try {
 			$path = $this->buildPath($path);
-			$result = $this->share->dir($path);
-			foreach ($result as $file) {
-				$this->statCache[$path . '/' . $file->getName()] = $file;
+			$result = [];
+			$children = $this->share->dir($path);
+			foreach ($children as $fileInfo) {
+				// check if the file is readable before adding it to the list
+				// can't use "isReadable" function here, use smb internals instead
+				if ($fileInfo->isHidden()) {
+					$this->log("{$fileInfo->getName()} isn't readable, skipping", Util::DEBUG);
+				} else {
+					$result[] = $fileInfo;
+					//remember entry so we can answer file_exists and filetype without a full stat
+					$this->statCache[$path . '/' . $fileInfo->getName()] = $fileInfo;
+				}
 			}
 		} catch (ConnectException $e) {
 			$ex = new StorageNotAvailableException(
@@ -168,12 +225,51 @@ class SMB extends \OC\Files\Storage\Common {
 	 * @return array
 	 */
 	protected function formatInfo($info) {
-		return array(
+		$result = [
 			'size' => $info->getSize(),
-			'mtime' => $info->getMTime()
-		);
+			'mtime' => $info->getMTime(),
+		];
+		if ($info->isDirectory()) {
+			$result['type'] = 'dir';
+		} else {
+			$result['type'] = 'file';
+		}
+		return $result;
 	}
 
+	/**
+	 * Rename the files
+	 *
+	 * @param string $source the old name of the path
+	 * @param string $target the new name of the path
+	 * @return bool true if the rename is successful, false otherwise
+	 */
+	public function rename($source, $target) {
+		$this->log("enter: rename('$source', '$target')", Util::DEBUG);
+		try {
+			$result = $this->share->rename($this->root . $source, $this->root . $target);
+			$this->removeFromCache($this->root . $source);
+			$this->removeFromCache($this->root . $target);
+		} catch (AlreadyExistsException $e) {
+			$this->unlink($target);
+			$result = $this->share->rename($this->root . $source, $this->root . $target);
+			$this->removeFromCache($this->root . $source);
+			$this->removeFromCache($this->root . $target);
+			$this->swallow(__FUNCTION__, $e);
+		} catch (\Exception $e) {
+			$this->swallow(__FUNCTION__, $e);
+			$result = false;
+		}
+		return $this->leave(__FUNCTION__, $result);
+	}
+
+	private function removeFromCache($path) {
+		$path = trim($path, '/');
+		// TODO The CappedCache does not really clear by prefix. It just clears all.
+		//$this->dirCache->clear($path);
+		$this->statCache->clear($path);
+		//$this->xattrCache->clear($path);
+	}
 	/**
 	 * @param string $path
 	 * @return array
@@ -184,6 +280,45 @@ class SMB extends \OC\Files\Storage\Common {
 		return $this->leave(__FUNCTION__, $result);
 	}
 
+	/**
+	 * get the best guess for the modification time of the share
+	 * NOTE: modification times do not bubble up the directory tree, basically
+	 * we are just guessing a time
+	 *
+	 * @return int the calculated mtime for the folder
+	 */
+	private function shareMTime() {
+		$this->log('enter: '.__FUNCTION__, Util::DEBUG);
+		$files = $this->share->dir($this->root);
+		$result = 0;
+		foreach ($files as $fileInfo) {
+			if ($fileInfo->getMTime() > $result) {
+				$result = $fileInfo->getMTime();
+			}
+		}
+		return $this->leave(__FUNCTION__, $result);
+	}
+	/**
+	 * Check if the path is our root dir (not the smb one)
+	 *
+	 * @param string $path the path
+	 * @return bool true if it's root, false if not
+	 */
+	private function isRootDir($path) {
+		$this->log('enter: '.__FUNCTION__."($path)", Util::DEBUG);
+		$result = $path === '' || $path === '/' || $path === '.';
+		return $this->leave(__FUNCTION__, $result);
+	}
+	/**
+	 * Check if our root points to a smb share
+	 *
+	 * @return bool true if our root points to a share false otherwise
+	 */
+	private function remoteIsShare() {
+		$this->log('enter: '.__FUNCTION__, Util::DEBUG);
+		$result = $this->share->getName() && (!$this->root || $this->root === '/');
+		return $this->leave(__FUNCTION__, $result);
+	}
 	/**
 	 * @param string $path
 	 * @return bool
@@ -215,33 +350,6 @@ class SMB extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @param string $path1 the old name
-	 * @param string $path2 the new name
-	 * @return bool
-	 * @throws StorageNotAvailableException
-	 */
-	public function rename($path1, $path2) {
-		$this->log('enter: '.__FUNCTION__."($path1, $path2)");
-		$result = false;
-		try {
-			$this->remove($path2);
-			$path1 = $this->buildPath($path1);
-			$path2 = $this->buildPath($path2);
-			$result = $this->share->rename($path1, $path2);
-		} catch (NotFoundException $e) {
-			$this->swallow(__FUNCTION__, $e);
-		} catch (ForbiddenException $e) {
-			$this->swallow(__FUNCTION__, $e);
-		} catch (ConnectException $e) {
-			$ex = new StorageNotAvailableException(
-				$e->getMessage(), $e->getCode(), $e);
-			$this->leave(__FUNCTION__, $ex);
-			throw $ex;
-		}
-		return $this->leave(__FUNCTION__, $result);
-	}
-
-	/**
 	 * check if a file or folder has been updated since $time
 	 *
 	 * @param string $path
@@ -250,14 +358,8 @@ class SMB extends \OC\Files\Storage\Common {
 	 */
 	public function hasUpdated($path, $time) {
 		$this->log('enter: '.__FUNCTION__."($path, $time)");
-		if (!$path and $this->root == '/') {
-			// mtime doesn't work for shares, but giving the nature of the backend,
-			// doing a full update is still just fast enough
-			$result = true;
-		} else {
-			$actualTime = $this->filemtime($path);
-			$result = $actualTime > $time;
-		}
+		$actualTime = $this->filemtime($path);
+		$result = $actualTime > $time;
 		return $this->leave(__FUNCTION__, $result);
 	}
 
@@ -282,7 +384,7 @@ class SMB extends \OC\Files\Storage\Common {
 				case 'w':
 				case 'wb':
 					$source = $this->share->write($fullPath);
-					$result = CallbackWrapper::wrap($source, null, null, function () use ($fullPath) {
+					$result = CallBackWrapper::wrap($source, null, null, function () use ($fullPath) {
 						unset($this->statCache[$fullPath]);
 					});
 					break;
@@ -311,7 +413,7 @@ class SMB extends \OC\Files\Storage\Common {
 						if (!$this->isCreatable(dirname($path))) {
 							break;
 						}
-						$tmpFile = \OCP\Files::tmpFile($ext);
+						$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
 					}
 					$source = fopen($tmpFile, $mode);
 					$share = $this->share;
@@ -338,7 +440,7 @@ class SMB extends \OC\Files\Storage\Common {
 		$this->log('enter: '.__FUNCTION__."($path)");
 		$result = false;
 		try {
-			$this->statCache = array();
+			$this->removeFromCache($path);
 			$content = $this->share->dir($this->buildPath($path));
 			foreach ($content as $file) {
 				if ($file->isDirectory()) {
@@ -417,8 +519,7 @@ class SMB extends \OC\Files\Storage\Common {
 		$result = false;
 		$path = $this->buildPath($path);
 		try {
-			$this->share->mkdir($path);
-			$result = true;
+			$result = $this->share->mkdir($path);
 		} catch (ConnectException $e) {
 			$ex = new StorageNotAvailableException(
 				$e->getMessage(), $e->getCode(), $e);
@@ -519,7 +620,6 @@ class SMB extends \OC\Files\Storage\Common {
 		return $this->leave(__FUNCTION__, $result);
 	}
 
-
 	/**
 	 * @param string $message
 	 * @param int $level
@@ -557,7 +657,7 @@ class SMB extends \OC\Files\Storage\Common {
 				.' message: '.$result->getMessage()
 				.' trace: '.$result->getTraceAsString(), Util::DEBUG);
 		} else {
-			Util::writeLog('wnd', "leave: $function, return ".json_encode($result), Util::DEBUG);
+			Util::writeLog('wnd', "leave: $function, return ".json_encode($result, true), Util::DEBUG);
 		}
 		return $result;
 	}
@@ -569,5 +669,12 @@ class SMB extends \OC\Files\Storage\Common {
 				.' message: '.$exception->getMessage()
 				.' trace: '.$exception->getTraceAsString(), Util::DEBUG);
 		}
+	}
+
+	/**
+	 * immediately close / free connection
+	 */
+	public function __destruct() {
+		unset($this->share);
 	}
 }
