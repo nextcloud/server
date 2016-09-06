@@ -109,7 +109,7 @@
 		},
 		_onPrintBackupCodes: function () {
 			var url = this._getDownloadDataHref();
-			window.open(url, 'Nextcloud backpu codes');
+			window.open(url, 'Nextcloud backup codes');
 			window.print();
 			window.close();
 		}
