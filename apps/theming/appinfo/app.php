@@ -49,3 +49,6 @@ $linkToJs = \OC::$server->getURLGenerator()->linkToRoute(
 		'src' => $linkToJs,
 	], ''
 );
+
+$app = new \OCP\AppFramework\App('theming');
+$app->getContainer()->registerCapability('OCA\Theming\Capabilities');
