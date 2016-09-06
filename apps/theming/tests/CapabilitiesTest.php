@@ -22,17 +22,8 @@
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\Capabilities;
-use OCA\Theming\Controller\ThemingController;
-use OCA\Theming\Settings\Admin;
-use OCA\Theming\Settings\Section;
 use OCA\Theming\ThemingDefaults;
-use OCA\Theming\Util;
-use OCP\AppFramework\App;
-use OCP\Capabilities\ICapability;
-use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\Settings\ISection;
-use OCP\Settings\ISettings;
 use Test\TestCase;
 
 /**
@@ -54,10 +45,10 @@ class CapabilitiesTest extends TestCase  {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->theming = $this->getMockBuilder(ThemingDefaults::class)
+		$this->theming = $this->getMockBuilder('OCA\Theming\ThemingDefaults')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->url = $this->getMockBuilder(IURLGenerator::class)
+		$this->url = $this->getMockBuilder('OCP\IURLGenerator')
 			->getMock();
 
 		$this->capabilities = new Capabilities($this->theming, $this->url);
