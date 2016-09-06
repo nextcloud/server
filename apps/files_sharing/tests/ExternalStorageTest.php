@@ -67,14 +67,11 @@ class ExternalStorageTest extends \Test\TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider optionsProvider
-	 */
-	public function testStorageMountOptions($inputUri, $baseUri) {
+	private function getTestStorage($uri) {
 		$certificateManager = \OC::$server->getCertificateManager();
-		$storage = new TestSharingExternalStorage(
+		return new TestSharingExternalStorage(
 			array(
-				'remote' => $inputUri,
+				'remote' => $uri,
 				'owner' => 'testOwner',
 				'mountpoint' => 'remoteshare',
 				'token' => 'abcdef',
@@ -83,7 +80,19 @@ class ExternalStorageTest extends \Test\TestCase {
 				'certificateManager' => $certificateManager
 			)
 		);
+	}
+
+	/**
+	 * @dataProvider optionsProvider
+	 */
+	public function testStorageMountOptions($inputUri, $baseUri) {
+		$storage = $this->getTestStorage($inputUri);
 		$this->assertEquals($baseUri, $storage->getBaseUri());
+	}
+
+	public function testIfTestReturnsTheValue() {
+		$result = $this->getTestStorage('https://remoteserver')->test();
+		$this->assertSame(true, $result);
 	}
 }
 
@@ -94,5 +103,12 @@ class TestSharingExternalStorage extends \OCA\Files_Sharing\External\Storage {
 
 	public function getBaseUri() {
 		return $this->createBaseUri();
+	}
+
+	public function stat($path) {
+		if ($path === '') {
+			return true;
+		}
+		return parent::stat($path);
 	}
 }
