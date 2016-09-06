@@ -23,8 +23,10 @@
 namespace Test;
 
 use OC\Files\FileInfo;
+use OC\Files\Filesystem;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
+use OC\Preview;
 use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
 
@@ -41,7 +43,7 @@ class Preview extends TestCase {
 
 	const TEST_PREVIEW_USER1 = "test-preview-user1";
 
-	/** @var \OC\Files\View */
+	/** @var View */
 	private $rootView;
 	/**
 	 * Note that using 756 with an image with a ratio of 1.6 brings interesting rounding issues
@@ -77,10 +79,10 @@ class Preview extends TestCase {
 		$this->createUser(self::TEST_PREVIEW_USER1, self::TEST_PREVIEW_USER1);
 		$this->loginAsUser(self::TEST_PREVIEW_USER1);
 
-		$storage = new \OC\Files\Storage\Temporary([]);
-		\OC\Files\Filesystem::mount($storage, [], '/' . self::TEST_PREVIEW_USER1 . '/');
+		$storage = new Temporary([]);
+		Filesystem::mount($storage, [], '/' . self::TEST_PREVIEW_USER1 . '/');
 
-		$this->rootView = new \OC\Files\View('');
+		$this->rootView = new View('');
 		$this->rootView->mkdir('/' . self::TEST_PREVIEW_USER1);
 		$this->rootView->mkdir('/' . self::TEST_PREVIEW_USER1 . '/files');
 
@@ -133,7 +135,7 @@ class Preview extends TestCase {
 		$x = 50;
 		$y = 50;
 
-		$preview = new \OC\Preview(self::TEST_PREVIEW_USER1, 'files/', 'test.txt', $x, $y);
+		$preview = new Preview(self::TEST_PREVIEW_USER1, 'files/', 'test.txt', $x, $y);
 		$preview->getPreview();
 
 		$fileInfo = $this->rootView->getFileInfo($sampleFile);
@@ -164,14 +166,14 @@ class Preview extends TestCase {
 		$x = 50;
 		$y = 50;
 
-		$preview = new \OC\Preview(self::TEST_PREVIEW_USER1, 'files/', 'test.txt', $x, $y);
+		$preview = new Preview(self::TEST_PREVIEW_USER1, 'files/', 'test.txt', $x, $y);
 		$preview->getPreview();
 
 		$fileInfo = $this->rootView->getFileInfo($sampleFile);
 		/** @var int $fileId */
 		$fileId = $fileInfo['fileid'];
 
-		$thumbCacheFolder = '/' . self::TEST_PREVIEW_USER1 . '/' . \OC\Preview::THUMBNAILS_FOLDER .
+		$thumbCacheFolder = '/' . self::TEST_PREVIEW_USER1 . '/' . Preview::THUMBNAILS_FOLDER .
 			'/' . $fileId . '/';
 
 		$this->assertSame(true, $this->rootView->is_dir($thumbCacheFolder), "$thumbCacheFolder \n");
@@ -203,7 +205,7 @@ class Preview extends TestCase {
 
 		$sample = '/' . self::TEST_PREVIEW_USER1 . '/files/test.' . $extension;
 		$this->rootView->file_put_contents($sample, $data);
-		$preview = new \OC\Preview(
+		$preview = new Preview(
 			self::TEST_PREVIEW_USER1, 'files/', 'test.' . $extension, $x,
 			$y
 		);
@@ -233,7 +235,7 @@ class Preview extends TestCase {
 		$this->rootView->file_put_contents($imgPath, $imgData);
 
 		$preview =
-			new \OC\Preview(self::TEST_PREVIEW_USER1, 'files/', 'testimage.odt', $width, $height);
+			new Preview(self::TEST_PREVIEW_USER1, 'files/', 'testimage.odt', $width, $height);
 		$preview->getPreview();
 		$image = $preview->getPreview();
 
@@ -310,8 +312,6 @@ class Preview extends TestCase {
 	public function testCreateMaxAndNormalPreviewsAtFirstRequest(
 		$sampleId, $widthAdjustment, $heightAdjustment, $keepAspect = false, $scalingUp = false
 	) {
-		//$this->markTestSkipped('Not testing this at this time');
-
 		// Get the right sample for the experiment
 		$this->getSample($sampleId);
 		$sampleWidth = $this->sampleWidth;
@@ -328,7 +328,7 @@ class Preview extends TestCase {
 		$preview = $this->createPreview($previewWidth, $previewHeight);
 
 		// There should be no cached thumbnails
-		$thumbnailFolder = '/' . self::TEST_PREVIEW_USER1 . '/' . \OC\Preview::THUMBNAILS_FOLDER .
+		$thumbnailFolder = '/' . self::TEST_PREVIEW_USER1 . '/' . Preview::THUMBNAILS_FOLDER .
 			'/' . $sampleFileId;
 		$this->assertSame(false, $this->rootView->is_dir($thumbnailFolder));
 
@@ -562,10 +562,10 @@ class Preview extends TestCase {
 	 * @param int $width
 	 * @param int $height
 	 *
-	 * @return \OC\Preview
+	 * @return Preview
 	 */
 	private function createPreview($width, $height) {
-		$preview = new \OC\Preview(
+		$preview = new Preview(
 			self::TEST_PREVIEW_USER1, 'files/', $this->sampleFilename, $width,
 			$height
 		);
@@ -581,7 +581,7 @@ class Preview extends TestCase {
 	/**
 	 * Creates the Max preview which will be used in the rest of the test
 	 *
-	 * @return \OC\Preview
+	 * @return Preview
 	 */
 	private function createMaxPreview() {
 		$this->keepAspect = true;
@@ -741,7 +741,7 @@ class Preview extends TestCase {
 			$userPath = '/' . self::TEST_PREVIEW_USER1 . '/';
 		}
 
-		return $userPath . \OC\Preview::THUMBNAILS_FOLDER . '/' . $fileId
+		return $userPath . Preview::THUMBNAILS_FOLDER . '/' . $fileId
 		. '/' . $width . '-' . $height . $postfix . '.png';
 	}
 
@@ -779,14 +779,7 @@ class Preview extends TestCase {
 	 * @param $sampleId
 	 */
 	private function getSample($sampleId) {
-		// Corrects a rounding difference when using the EPS (Imagick converted) sample
-		$filename = $this->samples[$sampleId]['sampleFileName'];
-		$splitFileName = pathinfo($filename);
-		$extension = $splitFileName['extension'];
-		$correction = ($extension === 'eps') ? 1 : 0;
 		$maxPreviewHeight = $this->samples[$sampleId]['maxPreviewHeight'];
-		$maxPreviewHeight = $maxPreviewHeight - $correction;
-
 		$this->sampleFileId = $this->samples[$sampleId]['sampleFileId'];
 		$this->sampleFilename = $this->samples[$sampleId]['sampleFileName'];
 		$this->sampleWidth = $this->samples[$sampleId]['sampleWidth'];
@@ -891,7 +884,7 @@ class Preview extends TestCase {
 		$originalHeight = 1050;
 		$originalAspectRation = $originalWidth / $originalHeight;
 
-		$preview = new \OC\Preview(
+		$preview = new Preview(
 			self::TEST_PREVIEW_USER1, 'files/', 'testimage.jpg',
 			150,
 			150
@@ -911,13 +904,13 @@ class Preview extends TestCase {
 		$originalHeight = 1050;
 		$originalAspectRation = $originalWidth / $originalHeight;
 
-		$preview = new \OC\Preview(
+		$preview = new Preview(
 			self::TEST_PREVIEW_USER1, 'files/', 'testimage.jpg',
 			150,
 			150
 		);
 		$preview->setKeepAspect(true);
-		$preview->setMode(\OC\Preview::MODE_COVER);
+		$preview->setMode(Preview::MODE_COVER);
 		$image = $preview->getPreview();
 
 		$aspectRatio = $image->width() / $image->height();
@@ -929,7 +922,7 @@ class Preview extends TestCase {
 
 	public function testSetFileWithInfo() {
 		$info = new FileInfo('/foo', null, '/foo', ['mimetype' => 'foo/bar'], null);
-		$preview = new \OC\Preview();
+		$preview = new Preview();
 		$preview->setFile('/foo', $info);
 		$this->assertEquals($info, $this->invokePrivate($preview, 'getFileInfo'));
 	}
@@ -945,7 +938,7 @@ class Preview extends TestCase {
 
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($userId);
-		$preview = new \OC\Preview($userId, 'files');
+		$preview = new Preview($userId, 'files');
 		$view = new View('/' . $userId . '/files');
 		$view->file_put_contents('test.png', file_get_contents($sourceFile));
 		$info = $view->getFileInfo('test.png');
