@@ -29,10 +29,13 @@ namespace OC\Core\Command\User;
 
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Question\Question;
 
 class ResetPassword extends Command {
 
@@ -79,28 +82,27 @@ class ResetPassword extends Command {
 				return 1;
 			}
 		} elseif ($input->isInteractive()) {
-			/** @var $dialog \Symfony\Component\Console\Helper\DialogHelper */
-			$dialog = $this->getHelperSet()->get('dialog');
+			/** @var QuestionHelper $helper */
+			$helper = $this->getHelper('question');
 
 			if (\OCP\App::isEnabled('encryption')) {
 				$output->writeln(
 					'<error>Warning: Resetting the password when using encryption will result in data loss!</error>'
 				);
-				if (!$dialog->askConfirmation($output, '<question>Do you want to continue?</question>', true)) {
+
+				$question = new ConfirmationQuestion('Do you want to continue?');
+				if (!$helper->ask($input, $output, $question)) {
 					return 1;
 				}
 			}
 
-			$password = $dialog->askHiddenResponse(
-				$output,
-				'<question>Enter a new password: </question>',
-				false
-			);
-			$confirm = $dialog->askHiddenResponse(
-				$output,
-				'<question>Confirm the new password: </question>',
-				false
-			);
+			$question = new Question('Enter a new password: ');
+			$question->setHidden(true);
+			$password = $helper->ask($input, $output, $question);
+
+			$question = new Question('Conform the new password: ');
+			$question->setHidden(true);
+			$confirm = $helper->ask($input, $output, $question);
 
 			if ($password !== $confirm) {
 				$output->writeln("<error>Passwords did not match!</error>");
