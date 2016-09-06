@@ -172,4 +172,29 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		}
 		return false;
 	}
+
+
+	/**
+	 * Gets all storages for the user, admin, personal, global, etc
+	 *
+	 * @return StorageConfig[] array of storage configs
+	 */
+	public function getAllStoragesForUser() {
+		if (is_null($this->getUser())) {
+			return [];
+		}
+		$groupIds = $this->groupManager->getUserGroupIds($this->getUser());
+		$mounts = $this->dbConfig->getMountsForUser($this->getUser()->getUID(), $groupIds);
+		$configs = array_map([$this, 'getStorageConfigFromDBMount'], $mounts);
+		$configs = array_filter($configs, function ($config) {
+			return $config instanceof StorageConfig;
+		});
+
+		$keys = array_map(function (StorageConfig $config) {
+			return $config->getId();
+		}, $configs);
+
+		$storages = array_combine($keys, $configs);
+		return array_filter($storages, [$this, 'validateStorage']);
+	}
 }
