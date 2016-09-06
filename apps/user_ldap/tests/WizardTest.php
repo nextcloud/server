@@ -26,6 +26,7 @@
 
 namespace OCA\User_LDAP\Tests;
 
+use OCA\User_LDAP\ILDAPWrapper;
 use \OCA\User_LDAP\Wizard;
 
 /**
@@ -59,7 +60,7 @@ class WizardTest extends \Test\TestCase {
 			$connMethods = get_class_methods('\OCA\User_LDAP\Connection');
 			$accMethods  = get_class_methods('\OCA\User_LDAP\Access');
 		}
-		$lw   = $this->getMock('\OCA\User_LDAP\ILDAPWrapper');
+		$lw   = $this->createMock(ILDAPWrapper::class);
 		$conf = $this->getMock('\OCA\User_LDAP\Configuration',
 							   $confMethods,
 							   array($lw, null, null));

@@ -25,10 +25,12 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OCA\Files_Sharing\MountProvider;
+use OCP\Files\IRootFolder;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Share\IShare;
 use OCP\Share\IManager;
 use OCP\Files\Mount\IMountPoint;
@@ -69,7 +71,7 @@ class MountProviderTest extends \Test\TestCase {
 	}
 
 	private function makeMockShare($id, $nodeId, $owner = 'user2', $target = null, $permissions = 31) {
-		$share = $this->getMock('\OCP\Share\IShare');
+		$share = $this->createMock(IShare::class);
 		$share->expects($this->any())
 			->method('getPermissions')
 			->will($this->returnValue($permissions));
@@ -100,8 +102,8 @@ class MountProviderTest extends \Test\TestCase {
 	 * - shares with a group in which the owner is already in
 	 */
 	public function testExcludeShares() {
-		$rootFolder = $this->getMock('\OCP\Files\IRootFolder');
-		$userManager = $this->getMock('\OCP\IUserManager');
+		$rootFolder = $this->createMock(IRootFolder::class);
+		$userManager = $this->createMock(IUserManager::class);
 		$userShares = [
 			$this->makeMockShare(1, 100, 'user2', '/share2', 0),
 			$this->makeMockShare(2, 100, 'user2', '/share2', 31),
@@ -277,8 +279,8 @@ class MountProviderTest extends \Test\TestCase {
 	 * @param array $expectedShares array of expected supershare specs
 	 */
 	public function testMergeShares($userShares, $groupShares, $expectedShares) {
-		$rootFolder = $this->getMock('\OCP\Files\IRootFolder');
-		$userManager = $this->getMock('\OCP\IUserManager');
+		$rootFolder = $this->createMock(IRootFolder::class);
+		$userManager = $this->createMock(IUserManager::class);
 
 		$userShares = array_map(function($shareSpec) {
 			return $this->makeMockShare($shareSpec[0], $shareSpec[1], $shareSpec[2], $shareSpec[3], $shareSpec[4]);

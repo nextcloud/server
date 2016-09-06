@@ -28,6 +28,10 @@ use \OCA\Files_External\Controller\UserStoragesController;
 use OCA\Files_External\Lib\StorageConfig;
 use \OCP\AppFramework\Http;
 use \OCA\Files_External\Service\BackendService;
+use OCP\IL10N;
+use OCP\ILogger;
+use OCP\IRequest;
+use OCP\IUserSession;
 
 class UserStoragesControllerTest extends StoragesControllerTest {
 
@@ -47,11 +51,11 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 
 		$this->controller = new UserStoragesController(
 			'files_external',
-			$this->getMock('\OCP\IRequest'),
-			$this->getMock('\OCP\IL10N'),
+			$this->createMock(IRequest::class),
+			$this->createMock(IL10N::class),
 			$this->service,
-			$this->getMock('\OCP\IUserSession'),
-			$this->getMock('\OCP\ILogger')
+			$this->createMock(IUserSession::class),
+			$this->createMock(ILogger::class)
 		);
 	}
 

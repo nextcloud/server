@@ -28,6 +28,7 @@ namespace OCA\Encryption\Tests;
 
 
 use OCA\Encryption\Session;
+use OCP\ISession;
 use Test\TestCase;
 
 class SessionTest extends TestCase {
@@ -175,7 +176,7 @@ class SessionTest extends TestCase {
 	 */
 	protected function setUp() {
 		parent::setUp();
-		$this->sessionMock = $this->getMock('OCP\ISession');
+		$this->sessionMock = $this->createMock(ISession::class);
 
 		$this->sessionMock->expects($this->any())
 			->method('set')

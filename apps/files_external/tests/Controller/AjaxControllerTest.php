@@ -28,6 +28,7 @@ use OCA\Files_External\Lib\Auth\PublicKey\RSA;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IGroupManager;
 use OCP\IRequest;
+use OCP\IUser;
 use OCP\IUserSession;
 use Test\TestCase;
 
@@ -46,15 +47,15 @@ class AjaxControllerTest extends TestCase {
 	private $ajaxController;
 
 	public function setUp() {
-		$this->request = $this->getMock('\\OCP\\IRequest');
+		$this->request = $this->createMock(IRequest::class);
 		$this->rsa = $this->getMockBuilder('\\OCA\\Files_External\\Lib\\Auth\\PublicKey\\RSA')
 			->disableOriginalConstructor()
 			->getMock();
 		$this->globalAuth = $this->getMockBuilder('\\OCA\\Files_External\\Lib\\Auth\\Password\GlobalAuth')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->userSession = $this->getMock('\\OCP\\IUserSession');
-		$this->groupManager = $this->getMock('\\OCP\\IGroupManager');
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
 
 		$this->ajaxController = new AjaxController(
 			'files_external',
@@ -90,7 +91,7 @@ class AjaxControllerTest extends TestCase {
 	}
 
 	public function testSaveGlobalCredentialsAsAdminForAnotherUser() {
-		$user = $this->getMock('\\OCP\\IUser');
+		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
 			->method('getUID')
@@ -113,7 +114,7 @@ class AjaxControllerTest extends TestCase {
 	}
 
 	public function testSaveGlobalCredentialsAsAdminForSelf() {
-		$user = $this->getMock('\\OCP\\IUser');
+		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
 			->method('getUID')
@@ -136,7 +137,7 @@ class AjaxControllerTest extends TestCase {
 	}
 
 	public function testSaveGlobalCredentialsAsNormalUserForSelf() {
-		$user = $this->getMock('\\OCP\\IUser');
+		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->exactly(2))
 			->method('getUID')
@@ -159,7 +160,7 @@ class AjaxControllerTest extends TestCase {
 	}
 
 	public function testSaveGlobalCredentialsAsNormalUserForAnotherUser() {
-		$user = $this->getMock('\\OCP\\IUser');
+		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->exactly(2))
 			->method('getUID')

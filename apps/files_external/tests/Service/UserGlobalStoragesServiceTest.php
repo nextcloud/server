@@ -28,7 +28,9 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
+use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserSession;
 use Test\Traits\UserTrait;
 
 /**
@@ -63,13 +65,13 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 
 		$this->user = new \OC\User\User(self::USER_ID, null);
 		/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject $userSession */
-		$userSession = $this->getMock('\OCP\IUserSession');
+		$userSession = $this->createMock(IUserSession::class);
 		$userSession
 			->expects($this->any())
 			->method('getUser')
 			->will($this->returnValue($this->user));
 
-		$this->groupManager = $this->getMock('\OCP\IGroupManager');
+		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->groupManager->method('isInGroup')
 			->will($this->returnCallback(function ($userId, $groupId) {
 				if ($userId === self::USER_ID) {

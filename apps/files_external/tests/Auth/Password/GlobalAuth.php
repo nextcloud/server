@@ -24,6 +24,8 @@ namespace OCA\Files_External\Tests\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
 use OCA\Files_external\Lib\StorageConfig;
+use OCP\IL10N;
+use OCP\Security\ICredentialsManager;
 use Test\TestCase;
 
 class GlobalAuthTest extends TestCase {
@@ -44,14 +46,14 @@ class GlobalAuthTest extends TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$this->l10n = $this->getMock('\OCP\IL10N');
-		$this->credentialsManager = $this->getMock('\OCP\Security\ICredentialsManager');
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->credentialsManager = $this->createMock(ICredentialsManager::class);
 		$this->instance = new GlobalAuth($this->l10n, $this->credentialsManager);
 	}
 
 	private function getStorageConfig($type, $config = []) {
 		/** @var \OCA\Files_External\Lib\StorageConfig|\PHPUnit_Framework_MockObject_MockObject $storageConfig */
-		$storageConfig = $this->getMock('\OCA\Files_External\Lib\StorageConfig');
+		$storageConfig = $this->createMock(StorageConfig::class);
 		$storageConfig->expects($this->any())
 			->method('getType')
 			->will($this->returnValue($type));

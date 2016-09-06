@@ -26,6 +26,7 @@ namespace OCA\Encryption\Tests\Crypto;
 
 
 use OCA\Encryption\Crypto\EncryptAll;
+use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Test\TestCase;
 
 class EncryptAllTest extends TestCase {
@@ -101,7 +102,7 @@ class EncryptAllTest extends TestCase {
 
 
 		$this->outputInterface->expects($this->any())->method('getFormatter')
-			->willReturn($this->getMock('\Symfony\Component\Console\Formatter\OutputFormatterInterface'));
+			->willReturn($this->createMock(OutputFormatterInterface::class));
 
 		$this->userManager->expects($this->any())->method('getBackends')->willReturn([$this->userInterface]);
 		$this->userInterface->expects($this->any())->method('getUsers')->willReturn(['user1', 'user2']);

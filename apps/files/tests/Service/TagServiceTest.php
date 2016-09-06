@@ -25,6 +25,7 @@
 namespace OCA\Files\Tests\Service;
 
 use OCA\Files\Service\TagService;
+use OCP\IUserSession;
 
 /**
  * Class TagServiceTest
@@ -66,7 +67,7 @@ class TagServiceTest extends \Test\TestCase {
 		/**
 		 * @var \OCP\IUserSession
 		 */
-		$userSession = $this->getMock('\OCP\IUserSession');
+		$userSession = $this->createMock(IUserSession::class);
 		$userSession->expects($this->any())
 			->method('getUser')
 			->withAnyParameters()

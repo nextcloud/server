@@ -21,6 +21,7 @@
  */
 namespace OCA\Files\Tests\BackgroundJob;
 
+use OCP\IUser;
 use Test\TestCase;
 use OCP\IConfig;
 use OCP\IUserManager;
@@ -42,8 +43,8 @@ class ScanFilesTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->config = $this->getMock('\OCP\IConfig');
-		$this->userManager = $this->getMock('\OCP\IUserManager');
+		$this->config = $this->createMock(IConfig::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 
 		$this->scanFiles = $this->getMockBuilder('\OCA\Files\BackgroundJob\ScanFiles')
 				->setConstructorArgs([
@@ -79,7 +80,7 @@ class ScanFilesTest extends TestCase {
 	}
 
 	public function testRunWithUsers() {
-		$fakeUser = $this->getMock('\OCP\IUser');
+		$fakeUser = $this->createMock(IUser::class);
 		$this->config
 				->expects($this->at(0))
 				->method('getAppValue')

@@ -26,6 +26,8 @@
 
 namespace OCA\User_LDAP\Tests\Mapping;
 
+use OCP\IDBConnection;
+
 abstract class AbstractMappingTest extends \Test\TestCase {
 	abstract public function getMapper(\OCP\IDBConnection $dbMock);
 
@@ -33,7 +35,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * kiss test on isColNameValid
 	 */
 	public function testIsColNameValid() {
-		$dbMock = $this->getMock('\OCP\IDBConnection');
+		$dbMock = $this->createMock(IDBConnection::class);
 		$mapper = $this->getMapper($dbMock);
 
 		$this->assertTrue($mapper->isColNameValid('ldap_dn'));

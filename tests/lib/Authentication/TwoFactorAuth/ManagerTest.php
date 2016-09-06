@@ -59,19 +59,19 @@ class ManagerTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->user = $this->getMockBuilder('\OCP\IUser')->getMock();
+		$this->user = $this->createMock(IUser::class);
 		$this->appManager = $this->getMockBuilder('\OC\App\AppManager')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->session = $this->getMockBuilder('\OCP\ISession')->getMock();
-		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
+		$this->session = $this->createMock(ISession::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->manager = $this->getMockBuilder('\OC\Authentication\TwoFactorAuth\Manager')
 			->setConstructorArgs([$this->appManager, $this->session, $this->config])
 			->setMethods(['loadTwoFactorApp']) // Do not actually load the apps
 			->getMock();
 
-		$this->fakeProvider = $this->getMockBuilder('\OCP\Authentication\TwoFactorAuth\IProvider')->getMock();
+		$this->fakeProvider = $this->createMock(IProvider::class);
 		$this->fakeProvider->expects($this->any())
 			->method('getId')
 			->will($this->returnValue('email'));
@@ -268,7 +268,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testNeedsSecondFactor() {
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->createMock(IUser::class);
 		$this->session->expects($this->once())
 			->method('exists')
 			->with('two_factor_auth_uid')

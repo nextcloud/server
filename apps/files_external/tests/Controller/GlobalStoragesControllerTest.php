@@ -27,6 +27,9 @@ namespace OCA\Files_External\Tests\Controller;
 use OCA\Files_External\Controller\GlobalStoragesController;
 use \OCP\AppFramework\Http;
 use \OCA\Files_External\Service\BackendService;
+use OCP\IL10N;
+use OCP\ILogger;
+use OCP\IRequest;
 
 class GlobalStoragesControllerTest extends StoragesControllerTest {
 	public function setUp() {
@@ -40,10 +43,10 @@ class GlobalStoragesControllerTest extends StoragesControllerTest {
 
 		$this->controller = new GlobalStoragesController(
 			'files_external',
-			$this->getMock('\OCP\IRequest'),
-			$this->getMock('\OCP\IL10N'),
+			$this->createMock(IRequest::class),
+			$this->createMock(IL10N::class),
 			$this->service,
-			$this->getMock('\OCP\ILogger')
+			$this->createMock(ILogger::class)
 		);
 	}
 }

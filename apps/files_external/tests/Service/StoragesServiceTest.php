@@ -31,6 +31,8 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\DBConfigService;
 use OCA\Files_External\Service\StoragesService;
+use OCP\AppFramework\IAppContainer;
+use OCP\Files\Config\IUserMountCache;
 
 class CleaningDBConfig extends DBConfigService {
 	private $mountIds = [];
@@ -94,7 +96,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		);
 		\OC_Mount_Config::$skipTest = true;
 
-		$this->mountCache = $this->getMock('OCP\Files\Config\IUserMountCache');
+		$this->mountCache = $this->createMock(IUserMountCache::class);
 
 		// prepare BackendService mock
 		$this->backendService =
@@ -150,7 +152,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 			Filesystem::signal_delete_mount,
 			get_class($this), 'deleteHookCallback');
 
-		$containerMock = $this->getMock('\OCP\AppFramework\IAppContainer');
+		$containerMock = $this->createMock(IAppContainer::class);
 		$containerMock->method('query')
 			->will($this->returnCallback(function ($name) {
 				if ($name === 'OCA\Files_External\Service\BackendService') {

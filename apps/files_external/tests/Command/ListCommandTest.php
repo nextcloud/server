@@ -29,6 +29,10 @@ use OCA\Files_External\Lib\Auth\Password\Password;
 use OCA\Files_External\Lib\Auth\Password\SessionCredentials;
 use OCA\Files_External\Lib\Backend\Local;
 use OCA\Files_External\Lib\StorageConfig;
+use OCP\ISession;
+use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\Security\ICrypto;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 class ListCommandTest extends CommandTest {
@@ -41,17 +45,17 @@ class ListCommandTest extends CommandTest {
 		/** @var \OCA\Files_External\Service\UserStoragesService|\PHPUnit_Framework_MockObject_MockObject $userService */
 		$userService = $this->getMock('\OCA\Files_External\Service\UserStoragesService', null, [], '', false);
 		/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject $userManager */
-		$userManager = $this->getMock('\OCP\IUserManager');
+		$userManager = $this->createMock(IUserManager::class);
 		/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject $userSession */
-		$userSession = $this->getMock('\OCP\IUserSession');
+		$userSession = $this->createMock(IUserSession::class);
 
 		return new ListCommand($globalService, $userService, $userSession, $userManager);
 	}
 
 	public function testListAuthIdentifier() {
 		$l10n = $this->getMock('\OC_L10N', null, [], '', false);
-		$session = $this->getMock('\OCP\ISession');
-		$crypto = $this->getMock('\OCP\Security\ICrypto');
+		$session = $this->createMock(ISession::class);
+		$crypto = $this->createMock(ICrypto::class);
 		$instance = $this->getInstance();
 		$mount1 = new StorageConfig();
 		$mount1->setAuthMechanism(new Password($l10n));

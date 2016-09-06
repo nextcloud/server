@@ -21,7 +21,11 @@
  */
 namespace OCA\Files_External\Tests\Service;
 
+use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
+use OCA\Files_External\Lib\Config\IBackendProvider;
 use \OCA\Files_External\Service\BackendService;
+use OCP\IConfig;
+use OCP\IL10N;
 
 class BackendServiceTest extends \Test\TestCase {
 
@@ -32,8 +36,8 @@ class BackendServiceTest extends \Test\TestCase {
 	protected $l10n;
 
 	protected function setUp() {
-		$this->config = $this->getMock('\OCP\IConfig');
-		$this->l10n = $this->getMock('\OCP\IL10N');
+		$this->config = $this->createMock(IConfig::class);
+		$this->l10n = $this->createMock(IL10N::class);
 	}
 
 	/**
@@ -97,7 +101,7 @@ class BackendServiceTest extends \Test\TestCase {
 		$backend1 = $this->getBackendMock('\Foo\Bar');
 		$backend2 = $this->getBackendMock('\Bar\Foo');
 
-		$providerMock = $this->getMock('\OCA\Files_External\Lib\Config\IBackendProvider');
+		$providerMock = $this->createMock(IBackendProvider::class);
 		$providerMock->expects($this->once())
 			->method('getBackends')
 			->willReturn([$backend1, $backend2]);
@@ -115,7 +119,7 @@ class BackendServiceTest extends \Test\TestCase {
 		$backend1 = $this->getAuthMechanismMock('\Foo\Bar');
 		$backend2 = $this->getAuthMechanismMock('\Bar\Foo');
 
-		$providerMock = $this->getMock('\OCA\Files_External\Lib\Config\IAuthMechanismProvider');
+		$providerMock = $this->createMock(IAuthMechanismProvider::class);
 		$providerMock->expects($this->once())
 			->method('getAuthMechanisms')
 			->willReturn([$backend1, $backend2]);
@@ -135,12 +139,12 @@ class BackendServiceTest extends \Test\TestCase {
 
 		$backend2 = $this->getBackendMock('\Dead\Beef');
 
-		$provider1Mock = $this->getMock('\OCA\Files_External\Lib\Config\IBackendProvider');
+		$provider1Mock = $this->createMock(IBackendProvider::class);
 		$provider1Mock->expects($this->once())
 			->method('getBackends')
 			->willReturn([$backend1a, $backend1b]);
 		$service->registerBackendProvider($provider1Mock);
-		$provider2Mock = $this->getMock('\OCA\Files_External\Lib\Config\IBackendProvider');
+		$provider2Mock = $this->createMock(IBackendProvider::class);
 		$provider2Mock->expects($this->once())
 			->method('getBackends')
 			->willReturn([$backend2]);

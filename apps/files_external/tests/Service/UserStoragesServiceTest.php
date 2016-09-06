@@ -30,6 +30,7 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCA\Files_External\Lib\StorageConfig;
+use OCP\IUserSession;
 use Test\Traits\UserTrait;
 
 /**
@@ -57,7 +58,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 		$this->user = \OC::$server->getUserManager()->get($this->userId);
 
 		/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject $userSession */
-		$userSession = $this->getMock('\OCP\IUserSession');
+		$userSession = $this->createMock(IUserSession::class);
 		$userSession
 			->expects($this->any())
 			->method('getUser')

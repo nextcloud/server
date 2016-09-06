@@ -24,6 +24,10 @@
 
 namespace OCA\User_LDAP\Tests\Jobs;
 
+use OCA\User_LDAP\Helper;
+use OCP\IConfig;
+use OCP\IDBConnection;
+
 class CleanUpTest extends \Test\TestCase {
 	public function getMocks() {
 		$mocks = array();
@@ -35,9 +39,9 @@ class CleanUpTest extends \Test\TestCase {
 			$this->getMockBuilder('\OCA\User_LDAP\User\DeletedUsersIndex')
 				->disableOriginalConstructor()
 				->getMock();
-		$mocks['ocConfig']    = $this->getMock('\OCP\IConfig');
-		$mocks['db']          = $this->getMock('\OCP\IDBConnection');
-		$mocks['helper']      = $this->getMock('\OCA\User_LDAP\Helper');
+		$mocks['ocConfig']    = $this->createMock(IConfig::class);
+		$mocks['db']          = $this->createMock(IDBConnection::class);
+		$mocks['helper']      = $this->createMock(Helper::class);
 
 		return $mocks;
 	}

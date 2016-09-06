@@ -8,7 +8,11 @@
 
 namespace Test;
 
+use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\IConfig;
+use OCP\IL10N;
+use OCP\ILogger;
 
 class AvatarTest extends \Test\TestCase {
 	/** @var Folder | \PHPUnit_Framework_MockObject_MockObject */
@@ -26,18 +30,18 @@ class AvatarTest extends \Test\TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->folder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$this->folder = $this->createMock(Folder::class);
 		/** @var \OCP\IL10N | \PHPUnit_Framework_MockObject_MockObject $l */
-		$l = $this->getMockBuilder('OCP\IL10N')->getMock();
+		$l = $this->createMock(IL10N::class);
 		$l->method('t')->will($this->returnArgument(0));
 		$this->user = $this->getMockBuilder('OC\User\User')->disableOriginalConstructor()->getMock();
-		$this->config = $this->getMockBuilder('OCP\IConfig')->getMock();
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->avatar = new \OC\Avatar(
 			$this->folder,
 			$l,
 			$this->user,
-			$this->getMockBuilder('\OCP\ILogger')->getMock(),
+			$this->createMock(ILogger::class),
 			$this->config
 		);
 	}
@@ -55,7 +59,7 @@ class AvatarTest extends \Test\TestCase {
 
 		$expected = new \OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 
-		$file = $this->getMockBuilder('OCP\Files\File')->getMock();
+		$file = $this->createMock(File::class);
 		$file->method('getContent')->willReturn($expected->data());
 		$this->folder->method('get')->with('avatar.128.jpg')->willReturn($file);
 
@@ -70,7 +74,7 @@ class AvatarTest extends \Test\TestCase {
 
 		$expected = new \OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 
-		$file = $this->getMockBuilder('OCP\Files\File')->getMock();
+		$file = $this->createMock(File::class);
 		$file->method('getContent')->willReturn($expected->data());
 		$this->folder->method('get')->with('avatar.jpg')->willReturn($file);
 
@@ -88,7 +92,7 @@ class AvatarTest extends \Test\TestCase {
 		$expected2 = new \OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 		$expected2->resize(32);
 
-		$file = $this->getMockBuilder('OCP\Files\File')->getMock();
+		$file = $this->createMock(File::class);
 		$file->method('getContent')->willReturn($expected->data());
 
 		$this->folder->method('get')
@@ -102,7 +106,7 @@ class AvatarTest extends \Test\TestCase {
 				}
 			));
 
-		$newFile = $this->getMockBuilder('OCP\Files\File')->getMock();
+		$newFile = $this->createMock(File::class);
 		$newFile->expects($this->once())
 			->method('putContent')
 			->with($expected2->data());
@@ -140,22 +144,22 @@ class AvatarTest extends \Test\TestCase {
 	}
 
 	public function testSetAvatar() {
-		$avatarFileJPG = $this->getMockBuilder('OCP\Files\File')->getMock();
+		$avatarFileJPG = $this->createMock(File::class);
 		$avatarFileJPG->method('getName')
 			->willReturn('avatar.jpg');
 		$avatarFileJPG->expects($this->once())->method('delete');
 
-		$avatarFilePNG = $this->getMockBuilder('OCP\Files\File')->getMock();
+		$avatarFilePNG = $this->createMock(File::class);
 		$avatarFilePNG->method('getName')
 			->willReturn('avatar.png');
 		$avatarFilePNG->expects($this->once())->method('delete');
 
-		$resizedAvatarFile = $this->getMockBuilder('OCP\Files\File')->getMock();
+		$resizedAvatarFile = $this->createMock(File::class);
 		$resizedAvatarFile->method('getName')
 			->willReturn('avatar.32.jpg');
 		$resizedAvatarFile->expects($this->once())->method('delete');
 
-		$nonAvatarFile = $this->getMockBuilder('OCP\Files\File')->getMock();
+		$nonAvatarFile = $this->createMock(File::class);
 		$nonAvatarFile->method('getName')
 			->willReturn('avatarX');
 		$nonAvatarFile->expects($this->never())->method('delete');
@@ -163,7 +167,7 @@ class AvatarTest extends \Test\TestCase {
 		$this->folder->method('getDirectoryListing')
 			->willReturn([$avatarFileJPG, $avatarFilePNG, $resizedAvatarFile, $nonAvatarFile]);
 
-		$newFile = $this->getMockBuilder('OCP\Files\File')->getMock();
+		$newFile = $this->createMock(File::class);
 		$this->folder->expects($this->once())
 			->method('newFile')
 			->with('avatar.png')
