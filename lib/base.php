@@ -264,7 +264,7 @@ class OC {
 			return;
 		}
 		// Redirect to installer if not installed
-		if (!\OC::$server->getSystemConfig()->getValue('installed', false) && OC::$SUBURI != '/index.php') {
+		if (!\OC::$server->getSystemConfig()->getValue('installed', false) && OC::$SUBURI !== '/index.php' && OC::$SUBURI !== '/status.php') {
 			if (OC::$CLI) {
 				throw new Exception('Not installed');
 			} else {
