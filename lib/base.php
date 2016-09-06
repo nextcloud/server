@@ -890,6 +890,12 @@ class OC {
 				OC_Util::setupFS();
 				OC::$server->getRouter()->match(\OC::$server->getRequest()->getRawPathInfo());
 				return;
+			} catch (\OC\NeedsUpdateException $e) {
+				if ($isOccControllerRequested && $needUpgrade){
+					OC::$server->getRouter()->match(\OC::$server->getRequest()->getRawPathInfo());
+					return;
+				}
+				throw $e;
 			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
 				//header('HTTP/1.0 404 Not Found');
 			} catch (Symfony\Component\Routing\Exception\MethodNotAllowedException $e) {
