@@ -61,7 +61,7 @@ class SecuritySettingsController extends Controller {
 	 * @return array
 	 */
 	public function trustedDomains($newTrustedDomain) {
-		$trustedDomains = $this->config->getSystemValue('trusted_domains');
+		$trustedDomains = $this->config->getSystemValue('trusted_domains', []);
 		$trustedDomains[] = $newTrustedDomain;
 		$this->config->setSystemValue('trusted_domains', $trustedDomains);
 
