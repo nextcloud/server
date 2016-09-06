@@ -2,6 +2,9 @@ OC.L10N.register(
     "systemtags",
     {
     "Tags" : "Címkék",
+    "Update" : "Frissítés",
+    "Create" : "Létrehozás",
+    "Select tag…" : "Címke választás...",
     "Tagged files" : "Címkézett fájlok",
     "Select tags to filter by" : "Kiválasztott címkék a szűrő által:",
     "Please select tags to filter by" : "Kéjük, válasszon ki címkét a szűréshez:",
