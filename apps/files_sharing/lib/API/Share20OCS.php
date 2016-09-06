@@ -665,7 +665,7 @@ class Share20OCS {
 			}
 		}
 
-		if ($permissions !== null) {
+		if ($permissions !== null && $share->getShareOwner() !== $this->currentUser->getUID()) {
 			/* Check if this is an incomming share */
 			$incomingShares = $this->shareManager->getSharedWith($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_USER, $share->getNode(), -1, 0);
 			$incomingShares = array_merge($incomingShares, $this->shareManager->getSharedWith($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_GROUP, $share->getNode(), -1, 0));
