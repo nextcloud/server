@@ -27,6 +27,8 @@ namespace Test\AppFramework\Controller;
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
+use OCP\IConfig;
+use OCP\Security\ISecureRandom;
 
 
 class ChildOCSController extends OCSController {}
@@ -40,10 +42,10 @@ class OCSControllerTest extends \Test\TestCase {
 					'HTTP_ORIGIN' => 'test',
 				],
 			],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')
+			$this->getMockBuilder(ISecureRandom::class)
 				->disableOriginalConstructor()
 				->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')
+			$this->getMockBuilder(IConfig::class)
 				->disableOriginalConstructor()
 				->getMock()
 		);
@@ -65,13 +67,15 @@ class OCSControllerTest extends \Test\TestCase {
 	public function testXML() {
 		$controller = new ChildOCSController('app', new Request(
 			[],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')
+			$this->getMockBuilder(ISecureRandom::class)
 				->disableOriginalConstructor()
 				->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')
+			$this->getMockBuilder(IConfig::class)
 				->disableOriginalConstructor()
 				->getMock()
 		));
+		$controller->setOCSVersion(1);
+
 		$expected = "<?xml version=\"1.0\"?>\n" .
 		"<ocs>\n" .
 		" <meta>\n" .
@@ -95,13 +99,14 @@ class OCSControllerTest extends \Test\TestCase {
 	public function testJSON() {
 		$controller = new ChildOCSController('app', new Request(
 			[],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')
+			$this->getMockBuilder(ISecureRandom::class)
 				->disableOriginalConstructor()
 				->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')
+			$this->getMockBuilder(IConfig::class)
 				->disableOriginalConstructor()
 				->getMock()
 		));
+		$controller->setOCSVersion(1);
 		$expected = '{"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK",' .
 		            '"totalitems":"","itemsperpage":""},"data":{"test":"hi"}}}';
 		$params = new DataResponse(['test' => 'hi']);
@@ -110,5 +115,51 @@ class OCSControllerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $out);
 	}
 
+	public function testXMLV2() {
+		$controller = new ChildOCSController('app', new Request(
+			[],
+			$this->getMockBuilder(ISecureRandom::class)
+				->disableOriginalConstructor()
+				->getMock(),
+			$this->getMockBuilder(IConfig::class)
+				->disableOriginalConstructor()
+				->getMock()
+		));
+		$controller->setOCSVersion(2);
 
+		$expected = "<?xml version=\"1.0\"?>\n" .
+			"<ocs>\n" .
+			" <meta>\n" .
+			"  <status>ok</status>\n" .
+			"  <statuscode>200</statuscode>\n" .
+			"  <message>OK</message>\n" .
+			" </meta>\n" .
+			" <data>\n" .
+			"  <test>hi</test>\n" .
+			" </data>\n" .
+			"</ocs>\n";
+
+		$params = new DataResponse(['test' => 'hi']);
+
+		$out = $controller->buildResponse($params, 'xml')->render();
+		$this->assertEquals($expected, $out);
+	}
+
+	public function testJSONV2() {
+		$controller = new ChildOCSController('app', new Request(
+			[],
+			$this->getMockBuilder(ISecureRandom::class)
+				->disableOriginalConstructor()
+				->getMock(),
+			$this->getMockBuilder(IConfig::class)
+				->disableOriginalConstructor()
+				->getMock()
+		));
+		$controller->setOCSVersion(2);
+		$expected = '{"ocs":{"meta":{"status":"ok","statuscode":200,"message":"OK"},"data":{"test":"hi"}}}';
+		$params = new DataResponse(['test' => 'hi']);
+
+		$out = $controller->buildResponse($params, 'json')->render();
+		$this->assertEquals($expected, $out);
+	}
 }

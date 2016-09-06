@@ -21,12 +21,16 @@
  */
 namespace Test\AppFramework\Middleware;
 
+use OC\AppFramework\OCS\BaseResponse;
+use OC\AppFramework\OCS\V1Response;
+use OC\AppFramework\OCS\V2Response;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OC\AppFramework\Middleware\OCSMiddleware;
 
@@ -41,16 +45,15 @@ class OCSMiddlewareTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->request = $this->getMockBuilder('OCP\IRequest')
+		$this->request = $this->getMockBuilder(IRequest::class)
 			->getMock();
-
 	}
 
 	public function dataAfterException() {
-		$OCSController = $this->getMockBuilder('OCP\AppFramework\OCSController')
+		$OCSController = $this->getMockBuilder(OCSController::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$controller = $this->getMockBuilder('OCP\AppFramework\Controller')
+		$controller = $this->getMockBuilder(Controller::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -93,25 +96,26 @@ class OCSMiddlewareTest extends \Test\TestCase {
 			->method('getScriptName')
 			->willReturn('/ocs/v1.php');
 		$OCSMiddleware = new OCSMiddleware($this->request);
+		$OCSMiddleware->beforeController($controller, 'method');
 
 		try {
 			$result = $OCSMiddleware->afterException($controller, 'method', $exception);
 			$this->assertFalse($forward);
 
-			$this->assertInstanceOf('OCP\AppFramework\Http\OCSResponse', $result);
+			$this->assertInstanceOf(V1Response::class, $result);
 
-			$this->assertSame($message, $this->invokePrivate($result, 'message'));
+			$this->assertSame($message, $this->invokePrivate($result, 'statusMessage'));
 
 			if ($exception->getCode() === 0) {
-				$this->assertSame(\OCP\API::RESPOND_UNKNOWN_ERROR, $this->invokePrivate($result, 'statuscode'));
+				$this->assertSame(\OCP\API::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
 			} else {
-				$this->assertSame($code, $this->invokePrivate($result, 'statuscode'));
+				$this->assertSame($code, $result->getOCSStatus());
 			}
 
 			if ($exception instanceof OCSForbiddenException) {
 				$this->assertSame(Http::STATUS_UNAUTHORIZED, $result->getStatus());
 			} else {
-				$this->assertSame(200, $result->getStatus());
+				$this->assertSame(Http::STATUS_OK, $result->getStatus());
 			}
 		} catch (\Exception $e) {
 			$this->assertTrue($forward);
@@ -133,18 +137,19 @@ class OCSMiddlewareTest extends \Test\TestCase {
 			->method('getScriptName')
 			->willReturn('/ocs/v2.php');
 		$OCSMiddleware = new OCSMiddleware($this->request);
+		$OCSMiddleware->beforeController($controller, 'method');
 
 		try {
 			$result = $OCSMiddleware->afterException($controller, 'method', $exception);
 			$this->assertFalse($forward);
 
-			$this->assertInstanceOf('OCP\AppFramework\Http\OCSResponse', $result);
+			$this->assertInstanceOf(V2Response::class, $result);
 
-			$this->assertSame($message, $this->invokePrivate($result, 'message'));
+			$this->assertSame($message, $this->invokePrivate($result, 'statusMessage'));
 			if ($exception->getCode() === 0) {
-				$this->assertSame(\OCP\API::RESPOND_UNKNOWN_ERROR, $this->invokePrivate($result, 'statuscode'));
+				$this->assertSame(\OCP\API::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
 			} else {
-				$this->assertSame($code, $this->invokePrivate($result, 'statuscode'));
+				$this->assertSame($code, $result->getOCSStatus());
 			}
 			$this->assertSame($code, $result->getStatus());
 		} catch (\Exception $e) {
@@ -167,18 +172,19 @@ class OCSMiddlewareTest extends \Test\TestCase {
 			->method('getScriptName')
 			->willReturn('/mysubfolder/ocs/v2.php');
 		$OCSMiddleware = new OCSMiddleware($this->request);
+		$OCSMiddleware->beforeController($controller, 'method');
 
 		try {
 			$result = $OCSMiddleware->afterException($controller, 'method', $exception);
 			$this->assertFalse($forward);
 
-			$this->assertInstanceOf('OCP\AppFramework\Http\OCSResponse', $result);
+			$this->assertInstanceOf(V2Response::class, $result);
 
-			$this->assertSame($message, $this->invokePrivate($result, 'message'));
+			$this->assertSame($message, $this->invokePrivate($result, 'statusMessage'));
 			if ($exception->getCode() === 0) {
-				$this->assertSame(\OCP\API::RESPOND_UNKNOWN_ERROR, $this->invokePrivate($result, 'statuscode'));
+				$this->assertSame(\OCP\API::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
 			} else {
-				$this->assertSame($code, $this->invokePrivate($result, 'statuscode'));
+				$this->assertSame($code, $result->getOCSStatus());
 			}
 			$this->assertSame($code, $result->getStatus());
 		} catch (\Exception $e) {
@@ -188,10 +194,10 @@ class OCSMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function dataAfterController() {
-		$OCSController = $this->getMockBuilder('OCP\AppFramework\OCSController')
+		$OCSController = $this->getMockBuilder(OCSController::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$controller = $this->getMockBuilder('OCP\AppFramework\Controller')
+		$controller = $this->getMockBuilder(Controller::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -225,10 +231,10 @@ class OCSMiddlewareTest extends \Test\TestCase {
 		if ($converted === false) {
 			$this->assertSame($response, $newResponse);
 		} else {
-			$this->assertInstanceOf('\OCP\AppFramework\Http\OCSResponse', $newResponse);
+			$this->assertInstanceOf(BaseResponse::class, $newResponse);
 			/** @var Http\OCSResponse $newResponse */
-			$this->assertSame($response->getData()['message'], $this->invokePrivate($newResponse, 'message'));
-			$this->assertSame(\OCP\API::RESPOND_UNAUTHORISED, $this->invokePrivate($newResponse, 'statuscode'));
+			$this->assertSame($response->getData()['message'], $this->invokePrivate($newResponse, 'statusMessage'));
+			$this->assertSame(\OCP\API::RESPOND_UNAUTHORISED, $newResponse->getOCSStatus());
 			$this->assertSame(Http::STATUS_UNAUTHORIZED, $newResponse->getStatus());
 		}
 	}
