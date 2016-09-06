@@ -39,4 +39,4 @@ $linkToCSS = \OC::$server->getURLGenerator()->linkToRoute(
 );
 
 $app = new \OCP\AppFramework\App('theming');
-$app->getContainer()->registerCapability(\OCA\Theming\Capabilities::class);
+$app->getContainer()->registerCapability('OCA\Theming\Capabilities');
