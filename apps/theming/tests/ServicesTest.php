@@ -50,18 +50,11 @@ class ServicesTest extends TestCase  {
 			// lib/
 			['OCA\Theming\Capabilities'],
 			['OCA\Theming\Capabilities', 'OCP\Capabilities\ICapability'],
-			['OCA\Theming\ThemingDefaults'],
-			['OCA\Theming\ThemingDefaults', 'OC_Defaults'],
-			['OCA\Theming\Util'],
+			['OCA\Theming\Template'],
+			['OCA\Theming\Template', 'OC_Defaults'],
 
-			// Controller
+			// controller/
 			['OCA\Theming\Controller\ThemingController'],
-
-			// Settings
-			['OCA\Theming\Settings\Admin'],
-			['OCA\Theming\Settings\Admin', 'OCP\Settings\ISettings'],
-			['OCA\Theming\Settings\Section'],
-			['OCA\Theming\Settings\Section', 'OCP\Settings\ISection'],
 		];
 	}
 

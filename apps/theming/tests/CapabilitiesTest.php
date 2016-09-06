@@ -22,8 +22,7 @@
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\Capabilities;
-use OCA\Theming\ThemingDefaults;
-use OCP\IURLGenerator;
+use OCA\Theming\Template;
 use Test\TestCase;
 
 /**
@@ -33,7 +32,7 @@ use Test\TestCase;
  * @package OCA\Theming\Tests
  */
 class CapabilitiesTest extends TestCase  {
-	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Template|\PHPUnit_Framework_MockObject_MockObject */
 	protected $theming;
 
 	/** @var Capabilities */
@@ -42,7 +41,7 @@ class CapabilitiesTest extends TestCase  {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->theming = $this->getMockBuilder('OCA\Theming\ThemingDefaults')
+		$this->theming = $this->getMockBuilder('OCA\Theming\Template')
 			->disableOriginalConstructor()
 			->getMock();
 

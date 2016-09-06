@@ -24,7 +24,6 @@
 namespace OCA\Theming;
 
 use OCP\Capabilities\ICapability;
-use OCP\IURLGenerator;
 
 /**
  * Class Capabilities
@@ -33,13 +32,13 @@ use OCP\IURLGenerator;
  */
 class Capabilities implements ICapability {
 
-	/** @var ThemingDefaults */
+	/** @var Template */
 	protected $theming;
 
 	/**
-	 * @param ThemingDefaults $theming
+	 * @param Template $theming
 	 */
-	public function __construct(ThemingDefaults $theming) {
+	public function __construct(Template $theming) {
 		$this->theming = $theming;
 	}
 
