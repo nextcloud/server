@@ -42,6 +42,7 @@ use OCP\Share\IManager;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Lock\ILockingProvider;
+use OCP\Share\IShare;
 
 /**
  * Class Share20OCS
@@ -419,6 +420,10 @@ class Share20OCS extends OCSController {
 		$groupShares = $this->shareManager->getSharedWith($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_GROUP, $node, -1, 0);
 
 		$shares = array_merge($userShares, $groupShares);
+
+		$shares = array_filter($shares, function(IShare $share) {
+			return $share->getShareOwner() !== $this->currentUser->getUID();
+		});
 
 		$formatted = [];
 		foreach ($shares as $share) {
