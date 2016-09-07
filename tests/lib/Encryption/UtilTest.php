@@ -3,6 +3,7 @@
 namespace Test\Encryption;
 
 use OC\Encryption\Util;
+use OCP\Encryption\IEncryptionModule;
 use Test\TestCase;
 
 class UtilTest extends TestCase {
@@ -77,7 +78,7 @@ class UtilTest extends TestCase {
 	 */
 	public function testCreateHeader($expected, $header, $moduleId) {
 
-		$em = $this->getMock('\OCP\Encryption\IEncryptionModule');
+		$em = $this->createMock(IEncryptionModule::class);
 		$em->expects($this->any())->method('getId')->willReturn($moduleId);
 
 		$result = $this->util->createHeader($header, $em);
@@ -100,7 +101,7 @@ class UtilTest extends TestCase {
 
 		$header = array('header1' => 1, 'header2' => 2, 'oc_encryption_module' => 'foo');
 
-		$em = $this->getMock('\OCP\Encryption\IEncryptionModule');
+		$em = $this->createMock(IEncryptionModule::class);
 		$em->expects($this->any())->method('getId')->willReturn('moduleId');
 
 		$this->util->createHeader($header, $em);

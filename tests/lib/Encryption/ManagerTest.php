@@ -3,6 +3,13 @@
 namespace Test\Encryption;
 
 use OC\Encryption\Manager;
+use OC\Encryption\Util;
+use OC\Files\View;
+use OC\Memcache\ArrayCache;
+use OCP\Encryption\IEncryptionModule;
+use OCP\IConfig;
+use OCP\IL10N;
+use OCP\ILogger;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
@@ -30,12 +37,12 @@ class ManagerTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->config = $this->getMock('\OCP\IConfig');
-		$this->logger = $this->getMock('\OCP\ILogger');
-		$this->l10n = $this->getMock('\OCP\Il10n');
-		$this->view = $this->getMock('\OC\Files\View');
-		$this->util = $this->getMockBuilder('\OC\Encryption\Util')->disableOriginalConstructor()->getMock();
-		$this->arrayCache = $this->getMock('OC\Memcache\ArrayCache');
+		$this->config = $this->createMock(IConfig::class);
+		$this->logger = $this->createMock(ILogger::class);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->view = $this->createMock(View::class);
+		$this->util = $this->createMock(Util::class);
+		$this->arrayCache = $this->createMock(ArrayCache::class);
 		$this->manager = new Manager($this->config, $this->logger, $this->l10n, $this->view, $this->util, $this->arrayCache);
 	}
 
@@ -50,7 +57,7 @@ class ManagerTest extends TestCase {
 
 	public function testManagerIsDisabledIfDisabledButModules() {
 		$this->config->expects($this->any())->method('getAppValue')->willReturn(false);
-		$em = $this->getMock('\OCP\Encryption\IEncryptionModule');
+		$em = $this->createMock(IEncryptionModule::class);
 		$em->expects($this->any())->method('getId')->willReturn('id');
 		$em->expects($this->any())->method('getDisplayName')->willReturn('TestDummyModule0');
 		$this->manager->registerEncryptionModule('id', 'TestDummyModule0', function() use ($em) {return $em;});
@@ -235,7 +242,7 @@ class ManagerTest extends TestCase {
 //	}
 
 	protected function addNewEncryptionModule(Manager $manager, $id) {
-		$encryptionModule = $this->getMock('\OCP\Encryption\IEncryptionModule');
+		$encryptionModule = $this->createMock(IEncryptionModule::class);
 		$encryptionModule->expects($this->any())
 			->method('getId')
 			->willReturn('ID' . $id);
