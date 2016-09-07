@@ -8,7 +8,11 @@
 
 namespace Test;
 
+use bantu\IniGetWrapper\IniGetWrapper;
 use OCP\IConfig;
+use OCP\IL10N;
+use OCP\ILogger;
+use OCP\Security\ISecureRandom;
 
 class SetupTest extends \Test\TestCase {
 
@@ -30,15 +34,16 @@ class SetupTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->config = $this->getMock('\OCP\IConfig');
-		$this->iniWrapper = $this->getMock('\bantu\IniGetWrapper\IniGetWrapper');
-		$this->l10n = $this->getMock('\OCP\IL10N');
-		$this->defaults = $this->getMock('\OC_Defaults');
-		$this->logger = $this->getMock('\OCP\ILogger');
-		$this->random = $this->getMock('\OCP\Security\ISecureRandom');
-		$this->setupClass = $this->getMock('\OC\Setup',
-			['class_exists', 'is_callable', 'getAvailableDbDriversForPdo'],
-			[$this->config, $this->iniWrapper, $this->l10n, $this->defaults, $this->logger, $this->random]);
+		$this->config = $this->createMock(IConfig::class);
+		$this->iniWrapper = $this->createMock(IniGetWrapper::class);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->defaults = $this->createMock(\OC_Defaults::class);
+		$this->logger = $this->createMock(ILogger::class);
+		$this->random = $this->createMock(ISecureRandom::class);
+		$this->setupClass = $this->getMockBuilder('\OC\Setup')
+			->setMethods(['class_exists', 'is_callable', 'getAvailableDbDriversForPdo'])
+			->setConstructorArgs([$this->config, $this->iniWrapper, $this->l10n, $this->defaults, $this->logger, $this->random])
+			->getMock();
 	}
 
 	public function testGetSupportedDatabasesWithOneWorking() {
