@@ -105,10 +105,10 @@ class Manager implements IManager {
 		$appInfo = \OC_App::getAppInfo($appId); // hello static legacy
 
 		if(isset($appInfo['settings'][IManager::KEY_ADMIN_SECTION])) {
-			$this->remove(self::TABLE_ADMIN_SECTIONS, $appInfo['settings'][IManager::KEY_ADMIN_SECTION]);
+			$this->remove(self::TABLE_ADMIN_SECTIONS, trim($appInfo['settings'][IManager::KEY_ADMIN_SECTION], '\\'));
 		}
 		if(isset($appInfo['settings'][IManager::KEY_ADMIN_SETTINGS])) {
-			$this->remove(self::TABLE_ADMIN_SETTINGS, $appInfo['settings'][IManager::KEY_ADMIN_SETTINGS]);
+			$this->remove(self::TABLE_ADMIN_SETTINGS, trim($appInfo['settings'][IManager::KEY_ADMIN_SETTINGS], '\\'));
 		}
 	}
 
@@ -302,7 +302,7 @@ class Manager implements IManager {
 
 		if(!$settings instanceof ISettings) {
 			$this->log->error(
-				'Admin section instance must implement \OCP\ISection. Invalid class: {class}',
+				'Admin section instance must implement \OCP\Settings\ISection. Invalid class: {class}',
 				['class' => $settingsClassName]
 			);
 			return;
