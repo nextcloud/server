@@ -56,6 +56,10 @@ class Folder implements \OCP\Files\SimpleFS\Folder  {
 		$this->folder->delete();
 	}
 
+	public function fileExists($name) {
+		return $this->folder->nodeExists($name);
+	}
+
 	public function getFile($name) {
 		$file = $this->folder->get($name);
 

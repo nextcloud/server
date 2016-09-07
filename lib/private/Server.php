@@ -359,7 +359,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('AvatarManager', function (Server $c) {
 			return new AvatarManager(
 				$c->getUserManager(),
-				$c->getRootFolder(),
+				$c->getAppDataDir('avatar'),
 				$c->getL10N('lib'),
 				$c->getLogger(),
 				$c->getConfig()
