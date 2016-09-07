@@ -113,7 +113,14 @@ class ResetPassword extends Command {
 			return 1;
 		}
 
-		$success = $user->setPassword($password);
+
+		try {
+			$success = $user->setPassword($password);
+		} catch (\Exception $e) {
+			$output->writeln('<error>' . $e->getMessage() . '</error>');
+			return 1;
+		}
+
 		if ($success) {
 			$output->writeln("<info>Successfully reset password for " . $username . "</info>");
 		} else {
