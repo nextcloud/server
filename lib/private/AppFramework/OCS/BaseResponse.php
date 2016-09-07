@@ -68,6 +68,16 @@ abstract class BaseResponse extends Response   {
 		$this->setLastModified($dataResponse->getLastModified());
 		$this->setCookies($dataResponse->getCookies());
 		$this->setContentSecurityPolicy($dataResponse->getContentSecurityPolicy());
+
+		if ($format === 'json') {
+			$this->addHeader(
+				'Content-Type', 'application/json; charset=utf-8'
+			);
+		} else {
+			$this->addHeader(
+				'Content-Type', 'application/xml; charset=utf-8'
+			);
+		}
 	}
 
 	/**
