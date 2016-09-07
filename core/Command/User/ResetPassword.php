@@ -100,7 +100,7 @@ class ResetPassword extends Command {
 			$question->setHidden(true);
 			$password = $helper->ask($input, $output, $question);
 
-			$question = new Question('Conform the new password: ');
+			$question = new Question('Confirm the new password: ');
 			$question->setHidden(true);
 			$confirm = $helper->ask($input, $output, $question);
 
