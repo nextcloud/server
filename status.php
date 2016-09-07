@@ -40,7 +40,7 @@ try {
 		'maintenance' => $maintenance,
 		'version'=>implode('.', \OCP\Util::getVersion()),
 		'versionstring'=>OC_Util::getVersionString(),
-		'edition'=>OC_Util::getEditionString());
+		'edition'=> $installed ? OC_Util::getEditionString() : '');
 	if (OC::$CLI) {
 		print_r($values);
 	} else {
