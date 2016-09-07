@@ -205,7 +205,11 @@ class ObjectTree extends \Sabre\DAV\Tree {
 
 		$infoDestination = $this->fileView->getFileInfo(dirname($destinationPath));
 		$infoSource = $this->fileView->getFileInfo($sourcePath);
-		$destinationPermission = $infoDestination && $infoDestination->isUpdateable();
+		if ($this->fileView->file_exists($destinationPath)) {
+			$destinationPermission = $infoDestination && $infoDestination->isUpdateable();
+		} else {
+			$destinationPermission = $infoDestination && $infoDestination->isCreatable();
+		}
 		$sourcePermission =  $infoSource && $infoSource->isDeletable();
 
 		if (!$destinationPermission || !$sourcePermission) {
@@ -298,7 +302,12 @@ class ObjectTree extends \Sabre\DAV\Tree {
 
 
 		$info = $this->fileView->getFileInfo(dirname($destination));
-		if ($info && !$info->isUpdateable()) {
+		if ($this->fileView->file_exists($destination)) {
+			$destinationPermission = $info && $info->isUpdateable();
+		} else {
+			$destinationPermission = $info && $info->isCreatable();
+		}
+		if (!$destinationPermission) {
 			throw new Forbidden('No permissions to copy object.');
 		}
 
