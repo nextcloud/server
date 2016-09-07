@@ -29,10 +29,9 @@
 namespace OC;
 
 use OC\User\User;
-use OCP\Files\Folder;
-use OCP\Files\File;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IAvatar;
 use OCP\IConfig;
@@ -99,7 +98,8 @@ class Avatar implements IAvatar {
 	 * @return bool
 	 */
 	public function exists() {
-		return $this->folder->nodeExists('avatar.jpg') || $this->folder->nodeExists('avatar.png');
+
+		return $this->folder->fileExists('avatar.jpg') || $this->folder->fileExists('avatar.png');
 	}
 
 	/**
@@ -171,15 +171,15 @@ class Avatar implements IAvatar {
 		}
 
 		try {
-			$file = $this->folder->get($path);
+			$file = $this->folder->getFile($path);
 		} catch (NotFoundException $e) {
 			if ($size <= 0) {
 				throw new NotFoundException;
 			}
 
 			$avatar = new OC_Image();
-			/** @var File $file */
-			$file = $this->folder->get('avatar.' . $ext);
+			/** @var ISimpleFile $file */
+			$file = $this->folder->getFile('avatar.' . $ext);
 			$avatar->loadFromData($file->getContent());
 			if ($size !== -1) {
 				$avatar->resize($size);
@@ -202,9 +202,9 @@ class Avatar implements IAvatar {
 	 * @throws NotFoundException
 	 */
 	private function getExtension() {
-		if ($this->folder->nodeExists('avatar.jpg')) {
+		if ($this->folder->fileExists('avatar.jpg')) {
 			return 'jpg';
-		} elseif ($this->folder->nodeExists('avatar.png')) {
+		} elseif ($this->folder->fileExists('avatar.png')) {
 			return 'png';
 		}
 		throw new NotFoundException;

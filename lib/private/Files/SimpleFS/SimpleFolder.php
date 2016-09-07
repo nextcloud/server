@@ -65,6 +65,10 @@ class SimpleFolder implements ISimpleFolder   {
 		$this->folder->delete();
 	}
 
+	public function fileExists($name) {
+		return $this->folder->nodeExists($name);
+	}
+
 	public function getFile($name) {
 		$file = $this->folder->get($name);
 

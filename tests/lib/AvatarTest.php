@@ -8,6 +8,8 @@
 
 namespace Test;
 
+use OC\Files\SimpleFS\SimpleFolder;
+use OC\User\User;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\IConfig;
@@ -30,11 +32,11 @@ class AvatarTest extends \Test\TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->folder = $this->createMock(Folder::class);
+		$this->folder = $this->createMock(SimpleFolder::class);
 		/** @var \OCP\IL10N | \PHPUnit_Framework_MockObject_MockObject $l */
 		$l = $this->createMock(IL10N::class);
 		$l->method('t')->will($this->returnArgument(0));
-		$this->user = $this->getMockBuilder('OC\User\User')->disableOriginalConstructor()->getMock();
+		$this->user = $this->createMock(User::class);
 		$this->config = $this->createMock(IConfig::class);
 
 		$this->avatar = new \OC\Avatar(
@@ -51,7 +53,7 @@ class AvatarTest extends \Test\TestCase {
 	}
 
 	public function testGetAvatarSizeMatch() {
-		$this->folder->method('nodeExists')
+		$this->folder->method('fileExists')
 			->will($this->returnValueMap([
 				['avatar.jpg', true],
 				['avatar.128.jpg', true],
@@ -61,13 +63,13 @@ class AvatarTest extends \Test\TestCase {
 
 		$file = $this->createMock(File::class);
 		$file->method('getContent')->willReturn($expected->data());
-		$this->folder->method('get')->with('avatar.128.jpg')->willReturn($file);
+		$this->folder->method('getFile')->with('avatar.128.jpg')->willReturn($file);
 
 		$this->assertEquals($expected->data(), $this->avatar->get(128)->data());
 	}
 
 	public function testGetAvatarSizeMinusOne() {
-		$this->folder->method('nodeExists')
+		$this->folder->method('fileExists')
 			->will($this->returnValueMap([
 				['avatar.jpg', true],
 			]));
@@ -76,13 +78,13 @@ class AvatarTest extends \Test\TestCase {
 
 		$file = $this->createMock(File::class);
 		$file->method('getContent')->willReturn($expected->data());
-		$this->folder->method('get')->with('avatar.jpg')->willReturn($file);
+		$this->folder->method('getFile')->with('avatar.jpg')->willReturn($file);
 
 		$this->assertEquals($expected->data(), $this->avatar->get(-1)->data());
 	}
 
 	public function testGetAvatarNoSizeMatch() {
-		$this->folder->method('nodeExists')
+		$this->folder->method('fileExists')
 			->will($this->returnValueMap([
 				['avatar.png', true],
 				['avatar.32.png', false],
@@ -95,7 +97,7 @@ class AvatarTest extends \Test\TestCase {
 		$file = $this->createMock(File::class);
 		$file->method('getContent')->willReturn($expected->data());
 
-		$this->folder->method('get')
+		$this->folder->method('getFile')
 			->will($this->returnCallback(
 				function($path) use ($file) {
 					if ($path === 'avatar.png') {
@@ -126,7 +128,7 @@ class AvatarTest extends \Test\TestCase {
 	}
 
 	public function testExiststJPG() {
-		$this->folder->method('nodeExists')
+		$this->folder->method('fileExists')
 			->will($this->returnValueMap([
 				['avatar.jpg', true],
 				['avatar.png', false],
@@ -135,7 +137,7 @@ class AvatarTest extends \Test\TestCase {
 	}
 
 	public function testExistsPNG() {
-		$this->folder->method('nodeExists')
+		$this->folder->method('fileExists')
 			->will($this->returnValueMap([
 				['avatar.jpg', false],
 				['avatar.png', true],

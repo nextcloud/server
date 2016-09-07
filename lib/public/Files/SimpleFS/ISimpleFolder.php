@@ -51,6 +51,7 @@ interface ISimpleFolder {
 	public function fileExists($name);
 
 	/**
+	 * Get the file named $name from the folder
 	 *
 	 * @param string $name
 	 * @return ISimpleFile
