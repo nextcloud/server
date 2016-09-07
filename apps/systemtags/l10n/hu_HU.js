@@ -28,7 +28,7 @@ OC.L10N.register(
     "%s (invisible)" : "%s (láthatatlan)",
     "Name" : "Név",
     "No files in here" : "Itt nincsenek fájlok",
-    "No entries found in this folder" : "Nincsenek bejegyzések ebben a könyvtárban",
+    "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
     "Size" : "Méret",
     "Modified" : "Módosítva"
 },

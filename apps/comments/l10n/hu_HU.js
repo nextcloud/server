@@ -18,7 +18,7 @@ OC.L10N.register(
     "{count} unread comments" : "{count} olvasatlan hozzászólás",
     "Comment" : "Hozzászólás",
     "<strong>Comments</strong> for files" : "<strong>Hozzászólások</strong> fájlokhoz",
-    "You commented" : "Hozzászólt",
+    "You commented" : "Hozzászóltál",
     "%1$s commented" : "%1$s hozzászólt",
     "You commented on %2$s" : "Hozzászólt ehhez: %2$s",
     "%1$s commented on %2$s" : "%1$s hozzászólt ehhez: %2$s",

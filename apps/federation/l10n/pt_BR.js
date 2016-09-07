@@ -13,6 +13,7 @@ OC.L10N.register(
     "Nextcloud Server" : "Servidor Nextcloud",
     "Server added to the list of trusted Nextclouds" : "Adicionado a lista de servidores confiáveis.",
     "No Nextcloud server found" : "Servidor Nextcloud não encontrado",
+    "Nextcloud Federation allows you to connect with other trusted Nextclouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "A Federação Nextcloud permite que você se conecte com outros Nextcloud confiável para trocar diretórios do usuário. Por exemplo, este será utilizado para usuários externos de auto-completar para compartilhamento federado.",
     "Trusted Nextcloud Servers" : "Servidores Nextcloud confiáveis"
 },
 "nplurals=2; plural=(n > 1);");

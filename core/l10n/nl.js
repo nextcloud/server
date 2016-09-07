@@ -296,6 +296,7 @@ OC.L10N.register(
     "Two-factor authentication" : "Tweefactor authenticatie",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Aanvullende beveiliging is ingeschakeld voor je account. Log in met een tweede factor.",
     "Cancel log in" : "Inlog annuleren",
+    "Use backup code" : "Gebruik backup code",
     "Error while validating your second factor" : "Fout bij het verifiëren van je tweede factor",
     "You are accessing the server from an untrusted domain." : "Je benadert de server vanaf een niet vertrouwd domein.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Neem contact op met je beheerder. Als je zelf de beheerder van deze service bent, configureer dan de \"trusted_domains\" instelling in config/config.php. Een voorbeeldconfiguratie is gegeven in config/config.sample.php.",
