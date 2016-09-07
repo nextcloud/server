@@ -51,12 +51,12 @@ class CheckerTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->environmentHelper = $this->getMock('\OC\IntegrityCheck\Helpers\EnvironmentHelper');
-		$this->fileAccessHelper = $this->getMock('\OC\IntegrityCheck\Helpers\FileAccessHelper');
-		$this->appLocator = $this->getMock('\OC\IntegrityCheck\Helpers\AppLocator');
-		$this->config = $this->getMock('\OCP\IConfig');
-		$this->cacheFactory = $this->getMock('\OCP\ICacheFactory');
-		$this->appManager = $this->getMock('\OCP\App\IAppManager');
+		$this->environmentHelper = $this->createMock(EnvironmentHelper::class);
+		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);
+		$this->appLocator = $this->createMock(AppLocator::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 
 		$this->cacheFactory
 			->expects($this->any())
@@ -89,7 +89,109 @@ class CheckerTest extends TestCase {
 		$this->checker->writeAppSignature('NotExistingApp', $x509, $rsa);
 	}
 
-	public function testWriteAppSignature() {
+	public function testWriteAppSignatureWithoutCertificateInInfoXml() {
+		$expectedSignatureFileData = '{
+    "hashes": {
+        "AnotherFile.txt": "1570ca9420e37629de4328f48c51da29840ddeaa03ae733da4bf1d854b8364f594aac560601270f9e1797ed4cd57c1aea87bf44cf4245295c94f2e935a2f0112",
+        "subfolder\/file.txt": "410738545fb623c0a5c8a71f561e48ea69e3ada0981a455e920a5ae9bf17c6831ae654df324f9328ff8453de179276ae51931cca0fa71fe8ccde6c083ca0574b"
+    },
+    "signature": "Y5yvXvcGHVPuRRatKVDUONWq1FpLXugZd6Km\/+aEHsQj7coVl9FeMj9OsWamBf7yRIw3dtNLguTLlAA9QAv\/b0uHN3JnbNZN+dwFOve4NMtqXfSDlWftqKN00VS+RJXpG1S2IIx9Poyp2NoghL\/5AuTv4GHiNb7zU\/DT\/kt71pUGPgPR6IIFaE+zHOD96vjYkrH+GfWZzKR0FCdLib9yyNvk+EGrcjKM6qjs2GKfS\/XFjj\/\/neDnh\/0kcPuKE3ZbofnI4TIDTv0CGqvOp7PtqVNc3Vy\/UKa7uF1PT0MAUKMww6EiMUSFZdUVP4WWF0Y72W53Qdtf1hrAZa2kfKyoK5kd7sQmCSKUPSU8978AUVZlBtTRlyT803IKwMV0iHMkw+xYB1sN2FlHup\/DESADqxhdgYuK35bCPvgkb4SBe4B8Voz\/izTvcP7VT5UvkYdAO+05\/jzdaHEmzmsD92CFfvX0q8O\/Y\/29ubftUJsqcHeMDKgcR4eZOE8+\/QVc\/89QO6WnKNuNuV+5bybO6g6PAdC9ZPsCvnihS61O2mwRXHLR3jv2UleFWm+lZEquPKtkhi6SLtDiijA4GV6dmS+dzujSLb7hGeD5o1plZcZ94uhWljl+QIp82+zU\/lYB1Zfr4Mb4e+V7r2gv7Fbv7y6YtjE2GIQwRhC5jq56bD0ZB+I=",
+    "certificate": "-----BEGIN CERTIFICATE-----\r\nMIIEwTCCAqmgAwIBAgIUWv0iujufs5lUr0svCf\/qTQvoyKAwDQYJKoZIhvcNAQEF\r\nBQAwIzEhMB8GA1UECgwYb3duQ2xvdWQgQ29kZSBTaWduaW5nIENBMB4XDTE1MTEw\r\nMzIyNDk1M1oXDTE2MTEwMzIyNDk1M1owEjEQMA4GA1UEAwwHU29tZUFwcDCCAiIw\r\nDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAK8q0x62agGSRBqeWsaeEwFfepMk\r\nF8cAobMMi50qHCv9IrOn\/ZH9l52xBrbIkErVmRjmly0d4JhD8Ymhidsh9ONKYl\/j\r\n+ishsZDM8eNNdp3Ew+fEYVvY1W7mR1qU24NWj0bzVsClI7hvPVIuw7AjfBDq1C5+\r\nA+ZSLSXYvOK2cEWjdxQfuNZwEZSjmA63DUllBIrm35IaTvfuyhU6BW9yHZxmb8+M\r\nw0xDv30D5UkE\/2N7Pa\/HQJLxCR+3zKibRK3nUyRDLSXxMkU9PnFNaPNX59VPgyj4\r\nGB1CFSToldJVPF4pzh7p36uGXZVxs8m3LFD4Ol8mhi7jkxDZjqFN46gzR0r23Py6\r\ndol9vfawGIoUwp9LvL0S7MvdRY0oazLXwClLP4OQ17zpSMAiCj7fgNT661JamPGj\r\nt5O7Zn2wA7I4ddDS\/HDTWCu98Zwc9fHIpsJPgCZ9awoqxi4Mnf7Pk9g5nnXhszGC\r\ncxxIASQKM+GhdzoRxKknax2RzUCwCzcPRtCj8AQT\/x\/mqN3PfRmlnFBNACUw9bpZ\r\nSOoNq2pCF9igftDWpSIXQ38pVpKLWowjjg3DVRmVKBgivHnUnVLyzYBahHPj0vaz\r\ntFtUFRaqXDnt+4qyUGyrT5h5pjZaTcHIcSB4PiarYwdVvgslgwnQzOUcGAzRWBD4\r\n6jV2brP5vFY3g6iPAgMBAAEwDQYJKoZIhvcNAQEFBQADggIBACTY3CCHC+Z28gCf\r\nFWGKQ3wAKs+k4+0yoti0qm2EKX7rSGQ0PHSas6uW79WstC4Rj+DYkDtIhGMSg8FS\r\nHVGZHGBCc0HwdX+BOAt3zi4p7Sf3oQef70\/4imPoKxbAVCpd\/cveVcFyDC19j1yB\r\nBapwu87oh+muoeaZxOlqQI4UxjBlR\/uRSMhOn2UGauIr3dWJgAF4pGt7TtIzt+1v\r\n0uA6FtN1Y4R5O8AaJPh1bIG0CVvFBE58esGzjEYLhOydgKFnEP94kVPgJD5ds9C3\r\npPhEpo1dRpiXaF7WGIV1X6DI\/ipWvfrF7CEy6I\/kP1InY\/vMDjQjeDnJ\/VrXIWXO\r\nyZvHXVaN\/m+1RlETsH7YO\/QmxRue9ZHN3gvvWtmpCeA95sfpepOk7UcHxHZYyQbF\r\n49\/au8j+5tsr4A83xzsT1JbcKRxkAaQ7WDJpOnE5O1+H0fB+BaLakTg6XX9d4Fo7\r\n7Gin7hVWX7pL+JIyxMzME3LhfI61+CRcqZQIrpyaafUziPQbWIPfEs7h8tCOWyvW\r\nUO8ZLervYCB3j44ivkrxPlcBklDCqqKKBzDP9dYOtS\/P4RB1NkHA9+NTvmBpTonS\r\nSFXdg9fFMD7VfjDE3Vnk+8DWkVH5wBYowTAD7w9Wuzr7DumiAULexnP\/Y7xwxLv7\r\n4B+pXTAcRK0zECDEaX3npS8xWzrB\r\n-----END CERTIFICATE-----"
+}';
+		$expectedWrittenInfoXML = '<?xml version="1.0"?>
+<info>
+	<id>files_encryption</id>
+	<name>Server-side Encryption</name>
+	<description>
+	This application encrypts all files accessed by ownCloud at rest, wherever they are stored. As an example, with this application enabled, external cloud based Amazon S3 storage will be encrypted, protecting this data on storage outside of the control of the Admin. When this application is enabled for the first time, all files are encrypted as users log in and are prompted for their password. The recommended recovery key option enables recovery of files in case the key is lost. 
+	Note that this app encrypts all files that are touched by ownCloud, so external storage providers and applications such as SharePoint will see new files encrypted when they are accessed. Encryption is based on AES 128 or 256 bit keys. More information is available in the Encryption documentation 
+	</description>
+	<licence>AGPL</licence>
+	<author>Sam Tuke, Bjoern Schiessle, Florin Peter</author>
+	<requiremin>4</requiremin>
+	<shipped>true</shipped>
+	<documentation>
+		<user>user-encryption</user>
+		<admin>admin-encryption</admin>
+	</documentation>
+	<rememberlogin>false</rememberlogin>
+	<types>
+		<filesystem/>
+	</types>
+	<ocsid>166047</ocsid>
+	<dependencies>
+		<php min-version="5.4" max-version="5.5"/>
+		<database min-version="3.0">sqlite</database>
+		<database>mysql</database>
+		<command os="linux">grep</command>
+		<command os="windows">notepad.exe</command>
+		<lib min-version="1.2">xml</lib>
+		<lib max-version="2.0">intl</lib>
+		<lib>curl</lib>
+		<os>Linux</os>
+		<owncloud min-version="7.0.1" max-version="8"/>
+	</dependencies>
+<certificate>-----BEGIN CERTIFICATE-----&#xD;
+MIIEwTCCAqmgAwIBAgIUWv0iujufs5lUr0svCf/qTQvoyKAwDQYJKoZIhvcNAQEF&#xD;
+BQAwIzEhMB8GA1UECgwYb3duQ2xvdWQgQ29kZSBTaWduaW5nIENBMB4XDTE1MTEw&#xD;
+MzIyNDk1M1oXDTE2MTEwMzIyNDk1M1owEjEQMA4GA1UEAwwHU29tZUFwcDCCAiIw&#xD;
+DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAK8q0x62agGSRBqeWsaeEwFfepMk&#xD;
+F8cAobMMi50qHCv9IrOn/ZH9l52xBrbIkErVmRjmly0d4JhD8Ymhidsh9ONKYl/j&#xD;
++ishsZDM8eNNdp3Ew+fEYVvY1W7mR1qU24NWj0bzVsClI7hvPVIuw7AjfBDq1C5+&#xD;
+A+ZSLSXYvOK2cEWjdxQfuNZwEZSjmA63DUllBIrm35IaTvfuyhU6BW9yHZxmb8+M&#xD;
+w0xDv30D5UkE/2N7Pa/HQJLxCR+3zKibRK3nUyRDLSXxMkU9PnFNaPNX59VPgyj4&#xD;
+GB1CFSToldJVPF4pzh7p36uGXZVxs8m3LFD4Ol8mhi7jkxDZjqFN46gzR0r23Py6&#xD;
+dol9vfawGIoUwp9LvL0S7MvdRY0oazLXwClLP4OQ17zpSMAiCj7fgNT661JamPGj&#xD;
+t5O7Zn2wA7I4ddDS/HDTWCu98Zwc9fHIpsJPgCZ9awoqxi4Mnf7Pk9g5nnXhszGC&#xD;
+cxxIASQKM+GhdzoRxKknax2RzUCwCzcPRtCj8AQT/x/mqN3PfRmlnFBNACUw9bpZ&#xD;
+SOoNq2pCF9igftDWpSIXQ38pVpKLWowjjg3DVRmVKBgivHnUnVLyzYBahHPj0vaz&#xD;
+tFtUFRaqXDnt+4qyUGyrT5h5pjZaTcHIcSB4PiarYwdVvgslgwnQzOUcGAzRWBD4&#xD;
+6jV2brP5vFY3g6iPAgMBAAEwDQYJKoZIhvcNAQEFBQADggIBACTY3CCHC+Z28gCf&#xD;
+FWGKQ3wAKs+k4+0yoti0qm2EKX7rSGQ0PHSas6uW79WstC4Rj+DYkDtIhGMSg8FS&#xD;
+HVGZHGBCc0HwdX+BOAt3zi4p7Sf3oQef70/4imPoKxbAVCpd/cveVcFyDC19j1yB&#xD;
+Bapwu87oh+muoeaZxOlqQI4UxjBlR/uRSMhOn2UGauIr3dWJgAF4pGt7TtIzt+1v&#xD;
+0uA6FtN1Y4R5O8AaJPh1bIG0CVvFBE58esGzjEYLhOydgKFnEP94kVPgJD5ds9C3&#xD;
+pPhEpo1dRpiXaF7WGIV1X6DI/ipWvfrF7CEy6I/kP1InY/vMDjQjeDnJ/VrXIWXO&#xD;
+yZvHXVaN/m+1RlETsH7YO/QmxRue9ZHN3gvvWtmpCeA95sfpepOk7UcHxHZYyQbF&#xD;
+49/au8j+5tsr4A83xzsT1JbcKRxkAaQ7WDJpOnE5O1+H0fB+BaLakTg6XX9d4Fo7&#xD;
+7Gin7hVWX7pL+JIyxMzME3LhfI61+CRcqZQIrpyaafUziPQbWIPfEs7h8tCOWyvW&#xD;
+UO8ZLervYCB3j44ivkrxPlcBklDCqqKKBzDP9dYOtS/P4RB1NkHA9+NTvmBpTonS&#xD;
+SFXdg9fFMD7VfjDE3Vnk+8DWkVH5wBYowTAD7w9Wuzr7DumiAULexnP/Y7xwxLv7&#xD;
+4B+pXTAcRK0zECDEaX3npS8xWzrB&#xD;
+-----END CERTIFICATE-----</certificate></info>
+';
+		$this->fileAccessHelper
+			->expects($this->at(2))
+			->method('file_put_contents')
+			->with(
+					\OC::$SERVERROOT . '/tests/data/integritycheck/app//appinfo/signature.json',
+					$expectedSignatureFileData
+			);
+		$this->fileAccessHelper
+			->expects($this->at(0))
+			->method('file_get_contents')
+			->with(
+				\OC::$SERVERROOT . '/tests/data/integritycheck/app//appinfo/info.xml'
+			)
+			->willReturn(file_get_contents(__DIR__ . '/../../data/app/valid-info.xml'));
+		$this->fileAccessHelper
+			->expects($this->at(1))
+			->method('file_put_contents')
+			->with(
+				\OC::$SERVERROOT . '/tests/data/integritycheck/app//appinfo/info.xml',
+				$expectedWrittenInfoXML
+			);
+
+		$keyBundle = file_get_contents(__DIR__ .'/../../data/integritycheck/SomeApp.crt');
+		$rsaPrivateKey = file_get_contents(__DIR__ .'/../../data/integritycheck/SomeApp.key');
+		$rsa = new RSA();
+		$rsa->loadKey($rsaPrivateKey);
+		$x509 = new X509();
+		$x509->loadX509($keyBundle);
+		$this->checker->writeAppSignature(\OC::$SERVERROOT . '/tests/data/integritycheck/app/', $x509, $rsa);
+	}
+
+	public function testWriteAppSignatureWithCertificateInInfoXml() {
 		$expectedSignatureFileData = '{
     "hashes": {
         "AnotherFile.txt": "1570ca9420e37629de4328f48c51da29840ddeaa03ae733da4bf1d854b8364f594aac560601270f9e1797ed4cd57c1aea87bf44cf4245295c94f2e935a2f0112",
@@ -102,9 +204,16 @@ class CheckerTest extends TestCase {
 			->expects($this->once())
 			->method('file_put_contents')
 			->with(
-					\OC::$SERVERROOT . '/tests/data/integritycheck/app//appinfo/signature.json',
-					$expectedSignatureFileData
+				\OC::$SERVERROOT . '/tests/data/integritycheck/app//appinfo/signature.json',
+				$expectedSignatureFileData
 			);
+		$this->fileAccessHelper
+			->expects($this->once())
+			->method('file_get_contents')
+			->with(
+				\OC::$SERVERROOT . '/tests/data/integritycheck/app//appinfo/info.xml'
+			)
+			->willReturn(file_get_contents(__DIR__ . '/../../data/app/valid-info-with-signature.xml'));
 
 		$keyBundle = file_get_contents(__DIR__ .'/../../data/integritycheck/SomeApp.crt');
 		$rsaPrivateKey = file_get_contents(__DIR__ .'/../../data/integritycheck/SomeApp.key');

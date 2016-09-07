@@ -259,6 +259,25 @@ class Checker {
 	}
 
 	/**
+	 * Writes the certificate used for signing to the info.xml
+	 *
+	 * @param string $path
+	 * @param X509 $certificate
+	 */
+	private function writeSignatureToInfoXml($path, $certificate) {
+		$infoXmlPath = $path . '/appinfo/info.xml';
+		$appInfoData = $this->fileAccessHelper->file_get_contents($infoXmlPath);
+		$loadEntities = libxml_disable_entity_loader(true);
+		$parsedAppInfoData = simplexml_load_string($appInfoData);
+		libxml_disable_entity_loader($loadEntities);
+
+		if(count($parsedAppInfoData->certificate) === 0) {
+			$parsedAppInfoData->addChild('certificate', $certificate->saveX509($certificate->currentCert));
+			$this->fileAccessHelper->file_put_contents($infoXmlPath, $parsedAppInfoData->asXML());
+		}
+	}
+
+	/**
 	 * Write the signature of the app in the specified folder
 	 *
 	 * @param string $path
@@ -272,6 +291,7 @@ class Checker {
 		if(!is_dir($path)) {
 			throw new \Exception('Directory does not exist.');
 		}
+		$this->writeSignatureToInfoXml($path, $certificate);
 		$iterator = $this->getFolderIterator($path);
 		$hashes = $this->generateHashes($iterator, $path);
 		$signature = $this->createSignatureData($hashes, $certificate, $privateKey);
