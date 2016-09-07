@@ -9,6 +9,7 @@
 namespace Test\Repair;
 
 use OC\Repair\SharePropagation;
+use OCP\IConfig;
 use OCP\Migration\IOutput;
 
 class RepairSharePropagationTest extends \Test\TestCase {
@@ -27,7 +28,7 @@ class RepairSharePropagationTest extends \Test\TestCase {
 	 */
 	public function testRemovePropagationEntries(array $startKeys, array $expectedRemovedKeys) {
 		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCP\IConfig $config */
-		$config = $this->getMock('\OCP\IConfig');
+		$config = $this->createMock(IConfig::class);
 		$config->expects($this->once())
 			->method('getAppKeys')
 			->with('files_sharing')
