@@ -32,10 +32,14 @@ use \OCP\IConfig;
 use OC\DB\Connection;
 use OC\DB\ConnectionFactory;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Question\Question;
 
 class ConvertType extends Command {
 	/**
@@ -158,13 +162,12 @@ class ConvertType extends Command {
 
 		// Read password by interacting
 		if ($input->isInteractive()) {
-			/** @var $dialog \Symfony\Component\Console\Helper\DialogHelper */
-			$dialog = $this->getHelperSet()->get('dialog');
-			$password = $dialog->askHiddenResponse(
-				$output,
-				'<question>What is the database password?</question>',
-				false
-			);
+			/** @var QuestionHelper $helper */
+			$helper = $this->getHelper('question');
+			$question = new Question('What is the database password?');
+			$question->setHidden(true);
+			$question->setHiddenFallback(false);
+			$password = $helper->ask($input, $output, $question);
 			$input->setOption('password', $password);
 			return;
 		}
@@ -195,13 +198,12 @@ class ConvertType extends Command {
 				$output->writeln('<comment>Please note that tables belonging to available but currently not installed apps</comment>');
 				$output->writeln('<comment>can be included by specifying the --all-apps option.</comment>');
 			}
-			/** @var $dialog \Symfony\Component\Console\Helper\DialogHelper */
-			$dialog = $this->getHelperSet()->get('dialog');
-			if (!$dialog->askConfirmation(
-				$output,
-				'<question>Continue with the conversion (y/n)? [n] </question>',
-				false
-			)) {
+
+			/** @var QuestionHelper $helper */
+			$helper = $this->getHelper('question');
+			$question = new ConfirmationQuestion('Continue with the conversion (y/n)? [n] ', false);
+
+			if (!$helper->ask($input, $output, $question)) {
 				return;
 			}
 		}
@@ -256,9 +258,6 @@ class ConvertType extends Command {
 	protected function copyTable(Connection $fromDB, Connection $toDB, $table, InputInterface $input, OutputInterface $output) {
 		$chunkSize = $input->getOption('chunk-size');
 
-		/** @var $progress \Symfony\Component\Console\Helper\ProgressHelper */
-		$progress = $this->getHelperSet()->get('progress');
-
 		$query = $fromDB->getQueryBuilder();
 		$query->automaticTablePrefix(false);
 		$query->selectAlias($query->createFunction('COUNT(*)'), 'num_entries')
@@ -272,10 +271,10 @@ class ConvertType extends Command {
 			$output->writeln('chunked query, ' . $numChunks . ' chunks');
 		}
 
-		$progress->start($output, $count);
+		$progress = new ProgressBar($output, $count);
+		$progress->start();
 		$redraw = $count > $chunkSize ? 100 : ($count > 100 ? 5 : 1);
 		$progress->setRedrawFrequency($redraw);
-
 
 		$query = $fromDB->getQueryBuilder();
 		$query->automaticTablePrefix(false);

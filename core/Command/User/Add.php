@@ -28,6 +28,7 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -94,18 +95,16 @@ class Add extends Command {
 				return 1;
 			}
 		} elseif ($input->isInteractive()) {
-			/** @var $dialog \Symfony\Component\Console\Helper\DialogHelper */
-			$dialog = $this->getHelperSet()->get('dialog');
-			$password = $dialog->askHiddenResponse(
-				$output,
-				'<question>Enter password: </question>',
-				false
-			);
-			$confirm = $dialog->askHiddenResponse(
-				$output,
-				'<question>Confirm password: </question>',
-				false
-			);
+			/** @var QuestionHelper $helper */
+			$helper = $this->getHelper('question');
+
+			$question = new Question('Enter password: ');
+			$question->setHidden(true);
+			$password = $helper->ask($input, $output, $question);
+
+			$question = new Question('Confirm password: ');
+			$question->setHidden(true);
+			$confirm = $helper->ask($input, $output,$question);
 
 			if ($password !== $confirm) {
 				$output->writeln("<error>Passwords did not match!</error>");

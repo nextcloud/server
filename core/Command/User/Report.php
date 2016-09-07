@@ -27,6 +27,7 @@ namespace OC\Core\Command\User;
 
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -49,8 +50,7 @@ class Report extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		/** @var \Symfony\Component\Console\Helper\TableHelper $table */
-		$table = $this->getHelperSet()->get('table');
+		$table = new Table($output);
 		$table->setHeaders(array('User Report', ''));
 		$userCountArray = $this->countUsers();
 		if(!empty($userCountArray)) {
@@ -72,7 +72,7 @@ class Report extends Command {
 		$rows[] = array('user directories', $userDirectoryCount);
 
 		$table->setRows($rows);
-		$table->render($output);
+		$table->render();
 	}
 
 	private function countUsers() {

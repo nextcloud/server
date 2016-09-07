@@ -99,14 +99,14 @@ class SettingTest extends TestCase {
 			[
 				[['uid', 'username'], ['key', 'configkey']],
 				[['ignore-missing-user', true]],
-				[['--default-value', true]],
+				[['--default-value', false, true]],
 				false,
 				false,
 			],
 			[
 				[['uid', 'username'], ['key', '']],
 				[['ignore-missing-user', true]],
-				[['--default-value', true]],
+				[['--default-value', false, true]],
 				false,
 				'The "default-value" option can only be used when specifying a key.',
 			],
@@ -128,7 +128,7 @@ class SettingTest extends TestCase {
 			[
 				[['uid', 'username'], ['key', 'configkey'], ['value', '']],
 				[['ignore-missing-user', true]],
-				[['--default-value', true]],
+				[['--default-value', false, true]],
 				false,
 				'The value argument can not be used together with "default-value".',
 			],
@@ -164,7 +164,7 @@ class SettingTest extends TestCase {
 			[
 				[['uid', 'username'], ['key', 'configkey']],
 				[['ignore-missing-user', true], ['delete', true]],
-				[['--default-value', true]],
+				[['--default-value', false, true]],
 				false,
 				'The "delete" option can not be used together with "default-value".',
 			],
@@ -283,8 +283,8 @@ class SettingTest extends TestCase {
 		$this->consoleInput->expects($this->atLeastOnce())
 			->method('hasParameterOption')
 			->willReturnMap([
-				['--delete', true],
-				['--error-if-not-exists', $errorIfNotExists],
+				['--delete', false, true],
+				['--error-if-not-exists', false, $errorIfNotExists],
 			]);
 
 		if ($expectedLine === null) {
@@ -349,7 +349,7 @@ class SettingTest extends TestCase {
 		$this->consoleInput->expects($this->atLeastOnce())
 			->method('hasParameterOption')
 			->willReturnMap([
-				['--update-only', $updateOnly],
+				['--update-only', false, $updateOnly],
 			]);
 
 		if ($expectedLine === null) {
@@ -423,7 +423,7 @@ class SettingTest extends TestCase {
 				$this->consoleInput->expects($this->atLeastOnce())
 					->method('hasParameterOption')
 					->willReturnMap([
-						['--default-value', true],
+						['--default-value', false, true],
 					]);
 				$this->consoleInput->expects($this->once())
 					->method('getOption')
