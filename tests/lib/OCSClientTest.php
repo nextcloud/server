@@ -22,7 +22,9 @@
 namespace Test;
 
 use OC\OCSClient;
+use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
+use OCP\Http\Client\IResponse;
 use OCP\IConfig;
 use OCP\ILogger;
 
@@ -44,8 +46,8 @@ class OCSClientTest extends \Test\TestCase {
 
 		$this->config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()->getMock();
-		$this->clientService = $this->getMock('\OCP\Http\Client\IClientService');
-		$this->logger = $this->getMock('\OCP\ILogger');
+		$this->clientService = $this->createMock(IClientService::class);
+		$this->logger = $this->createMock(ILogger::class);
 
 		$this->ocsClient = new OCSClient(
 			$this->clientService,
@@ -102,7 +104,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with('appstoreurl', 'https://api.owncloud.com/v1')
 			->will($this->returnValue('https://api.owncloud.com/v1'));
 
-		$client = $this->getMock('\OCP\Http\Client\IClient');
+		$client = $this->createMock(IClient::class);
 		$client
 			->expects($this->once())
 			->method('get')
@@ -145,13 +147,13 @@ class OCSClientTest extends \Test\TestCase {
 			->with('appstoreurl', 'https://api.owncloud.com/v1')
 			->will($this->returnValue('https://api.owncloud.com/v1'));
 
-		$response = $this->getMock('\OCP\Http\Client\IResponse');
+		$response = $this->createMock(IResponse::class);
 		$response
 			->expects($this->once())
 			->method('getBody')
 			->will($this->returnValue('MyInvalidXml'));
 
-		$client = $this->getMock('\OCP\Http\Client\IClient');
+		$client = $this->createMock(IClient::class);
 		$client
 			->expects($this->once())
 			->method('get')
@@ -194,7 +196,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with('appstoreurl', 'https://api.owncloud.com/v1')
 			->will($this->returnValue('https://api.owncloud.com/v1'));
 
-		$response = $this->getMock('\OCP\Http\Client\IResponse');
+		$response = $this->createMock(IResponse::class);
 		$response
 			->expects($this->once())
 			->method('getBody')
@@ -235,7 +237,7 @@ class OCSClientTest extends \Test\TestCase {
 				</ocs>
 				'));
 
-		$client = $this->getMock('\OCP\Http\Client\IClient');
+		$client = $this->createMock(IClient::class);
 		$client
 			->expects($this->once())
 			->method('get')
@@ -285,7 +287,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with('appstoreurl', 'https://api.owncloud.com/v1')
 			->will($this->returnValue('https://api.owncloud.com/v1'));
 
-		$client = $this->getMock('\OCP\Http\Client\IClient');
+		$client = $this->createMock(IClient::class);
 		$client
 			->expects($this->once())
 			->method('get')
@@ -336,13 +338,13 @@ class OCSClientTest extends \Test\TestCase {
 			->with('appstoreurl', 'https://api.owncloud.com/v1')
 			->will($this->returnValue('https://api.owncloud.com/v1'));
 
-		$response = $this->getMock('\OCP\Http\Client\IResponse');
+		$response = $this->createMock(IResponse::class);
 		$response
 			->expects($this->once())
 			->method('getBody')
 			->will($this->returnValue('MyInvalidXml'));
 
-		$client = $this->getMock('\OCP\Http\Client\IClient');
+		$client = $this->createMock(IClient::class);
 		$client
 			->expects($this->once())
 			->method('get')
@@ -393,7 +395,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with('appstoreurl', 'https://api.owncloud.com/v1')
 			->will($this->returnValue('https://api.owncloud.com/v1'));
 
-		$response = $this->getMock('\OCP\Http\Client\IResponse');
+		$response = $this->createMock(IResponse::class);
 		$response
 			->expects($this->once())
 			->method('getBody')
@@ -478,7 +480,7 @@ class OCSClientTest extends \Test\TestCase {
 				 </data>
 				</ocs> '));
 
-		$client = $this->getMock('\OCP\Http\Client\IClient');
+		$client = $this->createMock(IClient::class);
 		$client
 			->expects($this->once())
 			->method('get')
@@ -568,7 +570,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with('appstoreurl', 'https://api.owncloud.com/v1')
 			->will($this->returnValue('https://api.owncloud.com/v1'));
 
-		$client = $this->getMock('\OCP\Http\Client\IClient');
+		$client = $this->createMock(IClient::class);
 		$client
 			->expects($this->once())
 			->method('get')
@@ -611,13 +613,13 @@ class OCSClientTest extends \Test\TestCase {
 			->with('appstoreurl', 'https://api.owncloud.com/v1')
 			->will($this->returnValue('https://api.owncloud.com/v1'));
 
-		$response = $this->getMock('\OCP\Http\Client\IResponse');
+		$response = $this->createMock(IResponse::class);
 		$response
 			->expects($this->once())
 			->method('getBody')
 			->will($this->returnValue('MyInvalidXml'));
 
-		$client = $this->getMock('\OCP\Http\Client\IClient');
+		$client = $this->createMock(IClient::class);
 		$client
 			->expects($this->once())
 			->method('get')
@@ -660,7 +662,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with('appstoreurl', 'https://api.owncloud.com/v1')
 			->will($this->returnValue('https://api.owncloud.com/v1'));
 
-		$response = $this->getMock('\OCP\Http\Client\IResponse');
+		$response = $this->createMock(IResponse::class);
 		$response
 			->expects($this->once())
 			->method('getBody')
@@ -745,7 +747,7 @@ class OCSClientTest extends \Test\TestCase {
 			</ocs>
 			'));
 
-		$client = $this->getMock('\OCP\Http\Client\IClient');
+		$client = $this->createMock(IClient::class);
 		$client
 			->expects($this->once())
 			->method('get')
@@ -796,7 +798,7 @@ class OCSClientTest extends \Test\TestCase {
 				->with('appstoreurl', 'https://api.owncloud.com/v1')
 				->will($this->returnValue('https://api.owncloud.com/v1'));
 
-		$response = $this->getMock('\OCP\Http\Client\IResponse');
+		$response = $this->createMock(IResponse::class);
 		$response
 				->expects($this->once())
 				->method('getBody')
@@ -881,7 +883,7 @@ class OCSClientTest extends \Test\TestCase {
 			</ocs>
 			'));
 
-		$client = $this->getMock('\OCP\Http\Client\IClient');
+		$client = $this->createMock(IClient::class);
 		$client
 				->expects($this->once())
 				->method('get')
@@ -932,7 +934,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with('appstoreurl', 'https://api.owncloud.com/v1')
 			->will($this->returnValue('https://api.owncloud.com/v1'));
 
-		$response = $this->getMock('\OCP\Http\Client\IResponse');
+		$response = $this->createMock(IResponse::class);
 		$response
 			->expects($this->once())
 			->method('getBody')
@@ -946,7 +948,7 @@ class OCSClientTest extends \Test\TestCase {
 			</ocs>
 			'));
 
-		$client = $this->getMock('\OCP\Http\Client\IClient');
+		$client = $this->createMock(IClient::class);
 		$client
 			->expects($this->once())
 			->method('get')
@@ -988,7 +990,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with('appstoreurl', 'https://api.owncloud.com/v1')
 			->will($this->returnValue('https://api.owncloud.com/v1'));
 
-		$client = $this->getMock('\OCP\Http\Client\IClient');
+		$client = $this->createMock(IClient::class);
 		$client
 			->expects($this->once())
 			->method('get')
@@ -1031,13 +1033,13 @@ class OCSClientTest extends \Test\TestCase {
 			->with('appstoreurl', 'https://api.owncloud.com/v1')
 			->will($this->returnValue('https://api.owncloud.com/v1'));
 
-		$response = $this->getMock('\OCP\Http\Client\IResponse');
+		$response = $this->createMock(IResponse::class);
 		$response
 			->expects($this->once())
 			->method('getBody')
 			->will($this->returnValue('MyInvalidXml'));
 
-		$client = $this->getMock('\OCP\Http\Client\IClient');
+		$client = $this->createMock(IClient::class);
 		$client
 			->expects($this->once())
 			->method('get')
@@ -1080,7 +1082,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with('appstoreurl', 'https://api.owncloud.com/v1')
 			->will($this->returnValue('https://api.owncloud.com/v1'));
 
-		$response = $this->getMock('\OCP\Http\Client\IResponse');
+		$response = $this->createMock(IResponse::class);
 		$response
 			->expects($this->once())
 			->method('getBody')
@@ -1104,7 +1106,7 @@ class OCSClientTest extends \Test\TestCase {
 				</ocs>
 				'));
 
-		$client = $this->getMock('\OCP\Http\Client\IClient');
+		$client = $this->createMock(IClient::class);
 		$client
 			->expects($this->once())
 			->method('get')
