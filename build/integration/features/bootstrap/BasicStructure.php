@@ -202,6 +202,14 @@ trait BasicStructure {
 	}
 
 	/**
+	 * @Then /^the Content-Type should be "([^"]*)"$/
+	 * @param string $contentType
+	 */
+	public function theContentTypeShouldbe($contentType) {
+		PHPUnit_Framework_Assert::assertEquals($contentType, $this->response->getHeader('Content-Type'));
+	}
+
+	/**
 	 * @param ResponseInterface $response
 	 */
 	private function extracRequestTokenFromResponse(ResponseInterface $response) {
