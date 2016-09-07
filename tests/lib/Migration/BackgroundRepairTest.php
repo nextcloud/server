@@ -75,7 +75,9 @@ class BackgroundRepairTest extends TestCase {
 		$this->logger = $this->getMockBuilder('OCP\ILogger')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->job = $this->getMock('OC\Migration\BackgroundRepair', ['loadApp']);
+		$this->job = $this->getMockBuilder(BackgroundRepair::class)
+			->setMethods(['loadApp'])
+			->getMock();
 	}
 
 	public function testNoArguments() {
@@ -105,7 +107,7 @@ class BackgroundRepairTest extends TestCase {
 
 	public function testWorkingStep() {
 		/** @var EventDispatcher | \PHPUnit_Framework_MockObject_MockObject $dispatcher */
-		$dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher', []);
+		$dispatcher = $this->createMock(EventDispatcher::class);
 		$dispatcher->expects($this->once())->method('dispatch')
 			->with('\OC\Repair::step', new GenericEvent('\OC\Repair::step', ['A test repair step']));
 
