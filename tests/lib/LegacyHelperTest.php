@@ -8,6 +8,7 @@
 
 namespace Test;
 
+use OC\Files\View;
 use OC_Helper;
 
 class LegacyHelperTest extends \Test\TestCase {
@@ -129,7 +130,7 @@ class LegacyHelperTest extends \Test\TestCase {
 	}
 
 	function testBuildNotExistingFileNameForView() {
-		$viewMock = $this->getMock('\OC\Files\View', array(), array(), '', false);
+		$viewMock = $this->createMock(View::class);
 		$this->assertEquals('/filename', OC_Helper::buildNotExistingFileNameForView('/', 'filename', $viewMock));
 		$this->assertEquals('dir/filename.ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename.ext', $viewMock));
 
