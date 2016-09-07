@@ -9,17 +9,6 @@ Handlebars.registerHelper('score', function() {
 	}
 	return new Handlebars.SafeString('');
 });
-Handlebars.registerHelper('level', function() {
-	if(typeof this.level !== 'undefined') {
-		if(this.level === 200) {
-			return new Handlebars.SafeString('<span class="official icon-checkmark">' + t('settings', 'Official') + '</span>');
-		} else if(this.level === 100) {
-			return new Handlebars.SafeString('<span class="approved">' + t('settings', 'Approved') + '</span>');
-		} else {
-			return new Handlebars.SafeString('<span class="experimental">' + t('settings', 'Experimental') + '</span>');
-		}
-	}
-});
 
 OC.Settings = OC.Settings || {};
 OC.Settings.Apps = OC.Settings.Apps || {
@@ -31,7 +20,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 	State: {
 		currentCategory: null,
-		apps: null
+		allApps: null
 	},
 
 	loadCategories: function() {
@@ -70,9 +59,6 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		if (OC.Settings.Apps.State.currentCategory === categoryId) {
 			return;
 		}
-		if (this._loadCategoryCall) {
-			this._loadCategoryCall.abort();
-		}
 		$('#apps-list')
 			.addClass('icon-loading')
 			.removeClass('hidden')
@@ -82,93 +68,27 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		$('#app-category-' + categoryId).addClass('active');
 		OC.Settings.Apps.State.currentCategory = categoryId;
 
-		this._loadCategoryCall = $.ajax(OC.generateUrl('settings/apps/list?category={categoryId}&includeUpdateInfo=0', {
-			categoryId: categoryId
-		}), {
-			type:'GET',
-			success: function (apps) {
-				var appListWithIndex = _.indexBy(apps.apps, 'id');
-				OC.Settings.Apps.State.apps = appListWithIndex;
-				var appList = _.map(appListWithIndex, function(app) {
-					// default values for missing fields
-					return _.extend({level: 0}, app);
-				});
+		// Loop over all apps and select only those that match the category id
+		// FIXME: Load category list only once
+		$.get(
+			OC.generateUrl('settings/apps/list'),
+			function (apps) {
 				var source   = $("#app-template").html();
 				var template = Handlebars.compile(source);
 
-				if (appList.length) {
-					appList.sort(function(a,b) {
-						var levelDiff = b.level - a.level;
-						if (levelDiff === 0) {
-							return OC.Util.naturalSortCompare(a.name, b.name);
-						}
-						return levelDiff;
-					});
-
-					var firstExperimental = false;
-					_.each(appList, function(app) {
-						if(app.level === 0 && firstExperimental === false) {
-							firstExperimental = true;
+				apps.forEach(function(app) {
+					app['categories'].forEach(function(category) {
+						if(category === categoryId) {
 							OC.Settings.Apps.renderApp(app, template, null, true);
-						} else {
-							OC.Settings.Apps.renderApp(app, template, null, false);
 						}
 					});
-				} else {
-					$('#apps-list').addClass('hidden');
-					$('#apps-list-empty').removeClass('hidden').find('h2').text(t('settings', 'No apps found for your version'));
-				}
-
-				$('.enable.needs-download').tooltip({
-					title: t('settings', 'The app will be downloaded from the app store'),
-					placement: 'bottom',
-					container: 'body'
 				});
-
-				$('.app-level .official').tooltip({
-					title: t('settings', 'Official apps are developed by and within the community. They offer central functionality and are ready for production use.'),
-					placement: 'bottom',
-					container: 'body'
-				});
-				$('.app-level .approved').tooltip({
-					title: t('settings', 'Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use.'),
-					placement: 'bottom',
-					container: 'body'
-				});
-				$('.app-level .experimental').tooltip({
-					title: t('settings', 'This app is not checked for security issues and is new or known to be unstable. Install at your own risk.'),
-					placement: 'bottom',
-					container: 'body'
-				});
-			},
-			complete: function() {
-				var availableUpdates = 0;
 				$('#apps-list').removeClass('icon-loading');
-				$.ajax(OC.generateUrl('settings/apps/list?category={categoryId}&includeUpdateInfo=1', {
-					categoryId: categoryId
-				}), {
-					type: 'GET',
-					success: function (apps) {
-						_.each(apps.apps, function(app) {
-							if (app.update) {
-								var $update = $('#app-' + app.id + ' .update');
-								$update.removeClass('hidden');
-								$update.val(t('settings', 'Update to %s').replace(/%s/g, app.update));
-								availableUpdates++;
-								OC.Settings.Apps.State.apps[app.id].update = true;
-							}
-						});
-
-						if (availableUpdates > 0) {
-							OC.Notification.show(n('settings', 'You have %n app update pending', 'You have %n app updates pending', availableUpdates));
-						}
-					}
-				});
 			}
-		});
+		);
 	},
 
-	renderApp: function(app, template, selector, firstExperimental) {
+	renderApp: function(app, template, selector) {
 		if (!template) {
 			var source   = $("#app-template").html();
 			template = Handlebars.compile(source);
@@ -176,9 +96,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		if (typeof app === 'string') {
 			app = OC.Settings.Apps.State.apps[app];
 		}
-		app.firstExperimental = firstExperimental;
 
-		if (!app.preview) {
+		if (!app.screenshots) {
 			app.preview = OC.imagePath('core', 'default-app-icon');
 			app.previewAsIcon = true;
 		}
@@ -193,13 +112,13 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		var page = $('#app-' + app.id);
 
 		// image loading kung-fu (IE doesn't properly scale SVGs, so disable app icons)
-		if (app.preview && !OC.Util.isIE()) {
+		if (app.screenshots && !OC.Util.isIE()) {
 			var currentImage = new Image();
-			currentImage.src = app.preview;
+			currentImage.src = app.screenshots[0]['url'];
 
 			currentImage.onload = function() {
 				page.find('.app-image')
-					.append(OC.Settings.Apps.imageUrl(app.preview, app.detailpage))
+					.append(OC.Settings.Apps.imageUrl(app.screenshots[0]['url'], app.detailpage))
 					.fadeIn();
 			};
 		}
@@ -231,7 +150,6 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	 * url : the url of the image
 	 * appfromstore: bool to check whether the app is fetched from store or not.
 	 */
-
 	imageUrl : function (url, appfromstore) {
 		var img = '<svg width="72" height="72" viewBox="0 0 72 72">';
 

@@ -95,7 +95,6 @@ class Application extends App {
 				$c->query('Request'),
 				$c->query('L10N'),
 				$c->query('Config'),
-				$c->query('ICacheFactory'),
 				$c->query('INavigationManager'),
 				$c->query('IAppManager'),
 				$c->query('OcsClient')
