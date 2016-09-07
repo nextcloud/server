@@ -296,6 +296,7 @@ OC.L10N.register(
     "Two-factor authentication" : "Dvoufaktorové přihlášení",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Bylo zapnuto vylepšené zabezpečení pro tento účet. Přihlašte se za použití druhého faktoru.",
     "Cancel log in" : "Zrušit přihlášení",
+    "Use backup code" : "Použít záložní kód",
     "Error while validating your second factor" : "Chyba při ověřování druhého faktoru",
     "You are accessing the server from an untrusted domain." : "Přistupujete na server z nedůvěryhodné domény.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Kontaktujte prosím svého správce. Pokud spravujete tuto instalaci, nastavte \"trusted_domains\" v souboru config/config.php. Příklad konfigurace najdete v souboru config/config.sample.php.",

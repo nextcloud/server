@@ -47,6 +47,7 @@ OC.L10N.register(
     "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "%uid yer tutucusu eksik. LDAP / AD sorgularında kullanıcı adı ile değiştirilecek.",
     "Please provide a login name to test against" : "Lütfen deneme için kullanılacak bir kullanıcı adı girin",
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "LDAP / AD sunucusu memberOf desteklemediğinden grup kutusu kapatıldı.",
+    "LDAP / AD integration" : "LDAP / AD entegrasyonu",
     "_%s group found_::_%s groups found_" : ["%s grup bulundu","%s grup bulundu"],
     "_%s user found_::_%s users found_" : ["%s kullanıcı bulundu","%s kullanıcı bulundu"],
     "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Görüntülenecek kullanıcı adı özelliği algılanamadı. Lütfen gelişmiş ldap ayarlarına girerek kendiniz belirleyin.",
@@ -158,6 +159,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Kullanıcı Adı-LDAP Kullanıcısı Eşleştirme",
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Kullanıcı adları, (üst) veri depolaması ve ataması için kullanılır. Kullanıcıları kesin olarak tanımlamak ve algılamak için, her LDAP kullanıcısı bir dahili kullanıcı adına sahip olacak. Bu kullanıcı adı ile LDAP kullanıcısı arasında bir eşleşme gerektirir. Oluşturulan kullanıcı adı LDAP kullanıcısının UUID'si ile eşleştirilir. Ek olarak LDAP etkileşimini azaltmak için DN de önbelleğe alınır ancak bu kimlik tanıma için kullanılmaz. Eğer DN değişirse, değişiklikler tespit edilir. Dahili kullanıcı her yerde kullanılır. Eşleştirmeleri temizlemek, her yerde kalıntılar bırakacaktır. Eşleştirmeleri temizlemek yapılandırmaya hassas bir şekilde bağlı değildir, tüm LDAP yapılandırmalarını etkiler! Üretim ortamında eşleştirmeleri asla temizlemeyin, sadece sınama veya deneysel aşamada kullanın.",
     "Clear Username-LDAP User Mapping" : "Kullanıcı Adı-LDAP Kullanıcısı Eşleştirmesini Temizle",
-    "Clear Groupname-LDAP Group Mapping" : "Grup Adı-LDAP Grubu Eşleştirmesini Temizle"
+    "Clear Groupname-LDAP Group Mapping" : "Grup Adı-LDAP Grubu Eşleştirmesini Temizle",
+    "Limit %s access to users meeting these criteria:" : "Aşağıdaki kritere uyan kullanıcıları %s erişimi kısıtla"
 },
 "nplurals=2; plural=(n > 1);");

@@ -294,6 +294,7 @@
     "Two-factor authentication" : "Zwei-Faktor Authentifizierung",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Die erweiterte Sicherheit wurde für dein Konto aktiviert. Bitte authentifiziere dich mit einem zweiten Faktor. ",
     "Cancel log in" : "Anmelden abbrechen",
+    "Use backup code" : "Backup-Code benutzen",
     "Error while validating your second factor" : "Fehler beim Bestätigen des zweiten Sicherheitsfaktors",
     "You are accessing the server from an untrusted domain." : "Du greifst von einer nicht vertrauenswürdigen Domäne auf den Server zu.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Bitte kontaktiere deinenAdministrator. Wenn du Administrator dieser Instanz bist, konfiguriere die \"TRUSTED_DOMAINS\" Einstellung in config/config.php .Eine Beispielkonfiguration ist in config/config.sample.php ersichtlich.",
