@@ -40,7 +40,7 @@
 				</option>
 			<?php } ?>
 		</select>
-		<span id="channel_save_msg"></span>
+		<span id="channel_save_msg" class="msg"></span>
 	</p>
 	<p>
 		<em><?php p($l->t('You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel.')); ?></em>
