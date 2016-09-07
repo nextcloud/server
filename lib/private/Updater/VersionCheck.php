@@ -59,7 +59,7 @@ class VersionCheck {
 			return json_decode($this->config->getAppValue('core', 'lastupdateResult'), true);
 		}
 
-		$updaterUrl = $this->config->getSystemValue('updater.server.url', 'https://updates.owncloud.com/server/');
+		$updaterUrl = $this->config->getSystemValue('updater.server.url', 'https://updates.nextcloud.com/server/');
 
 		$this->config->setAppValue('core', 'lastupdatedat', time());
 
