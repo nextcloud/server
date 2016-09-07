@@ -821,7 +821,11 @@ var OCdialogs = {
 		self._fillFilePicker(dir);
 		var getOcDialog = this.closest('.oc-dialog');
 		var buttonEnableDisable = $('.primary', getOcDialog);
-		buttonEnableDisable.prop("disabled", true);
+		if (this.$filePicker.data('mimetype') === "http/unix-directory") {
+			buttonEnableDisable.prop("disabled", false);
+		} else {
+			buttonEnableDisable.prop("disabled", true);
+		}
 	},
 	/**
 	 * handle clicks made in the filepicker
@@ -837,7 +841,11 @@ var OCdialogs = {
 			buttonEnableDisable.prop("disabled", false);
 		} else if ( $element.data('type') === 'dir' ) {
 			this._fillFilePicker(this.$filePicker.data('path') + '/' + $element.data('entryname'));
-			buttonEnableDisable.prop("disabled", true);
+			if (this.$filePicker.data('mimetype') === "httpd/unix-directory") {
+				buttonEnableDisable.prop("disabled", false);
+			} else {
+				buttonEnableDisable.prop("disabled", true);
+			}
 		}
 	}
 };
