@@ -508,7 +508,15 @@ class OC_App {
 		}
 		unset($navEntry);
 
-		usort($list, create_function('$a, $b', 'if( $a["order"] == $b["order"] ) {return 0;}elseif( $a["order"] < $b["order"] ) {return -1;}else{return 1;}'));
+		usort($list, function($a, $b) {
+			if (isset($a['order']) && isset($b['order'])) {
+				return ($a['order'] < $b['order']) ? -1 : 1;
+			} else if (isset($a['order']) || isset($b['order'])) {
+				return isset($a['order']) ? -1 : 1;
+			} else {
+				return ($a['name'] < $b['name']) ? -1 : 1;
+			}
+		});
 
 		return $list;
 	}
