@@ -38,7 +38,7 @@ class CredentialsManagerTest extends \Test\TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$this->crypto = $this->getMock('\OCP\Security\ICrypto');
+		$this->crypto = $this->createMock(ICrypto::class);
 		$this->dbConnection = $this->getMockBuilder('\OC\DB\Connection')
 			->disableOriginalConstructor()
 			->getMock();
