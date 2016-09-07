@@ -23,6 +23,7 @@
 namespace Test;
 
 use OC\Files\FileInfo;
+use OC\Files\Filesystem;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use Test\Traits\MountProviderTrait;
@@ -34,7 +35,7 @@ class Preview extends TestCase {
 
 	const TEST_PREVIEW_USER1 = "test-preview-user1";
 
-	/** @var \OC\Files\View */
+	/** @var View */
 	private $rootView;
 	/**
 	 * Note that using 756 with an image with a ratio of 1.6 brings interesting rounding issues
@@ -70,10 +71,10 @@ class Preview extends TestCase {
 		$this->createUser(self::TEST_PREVIEW_USER1, self::TEST_PREVIEW_USER1);
 		$this->loginAsUser(self::TEST_PREVIEW_USER1);
 
-		$storage = new \OC\Files\Storage\Temporary([]);
-		\OC\Files\Filesystem::mount($storage, [], '/' . self::TEST_PREVIEW_USER1 . '/');
+		$storage = new Temporary([]);
+		Filesystem::mount($storage, [], '/' . self::TEST_PREVIEW_USER1 . '/');
 
-		$this->rootView = new \OC\Files\View('');
+		$this->rootView = new View('');
 		$this->rootView->mkdir('/' . self::TEST_PREVIEW_USER1);
 		$this->rootView->mkdir('/' . self::TEST_PREVIEW_USER1 . '/files');
 
@@ -303,8 +304,6 @@ class Preview extends TestCase {
 	public function testCreateMaxAndNormalPreviewsAtFirstRequest(
 		$sampleId, $widthAdjustment, $heightAdjustment, $keepAspect = false, $scalingUp = false
 	) {
-		//$this->markTestSkipped('Not testing this at this time');
-
 		// Get the right sample for the experiment
 		$this->getSample($sampleId);
 		$sampleWidth = $this->sampleWidth;
@@ -555,7 +554,7 @@ class Preview extends TestCase {
 	 * @param int $width
 	 * @param int $height
 	 *
-	 * @return \OC\Preview
+	 * @return Preview
 	 */
 	private function createPreview($width, $height) {
 		$preview = new \OC\Preview(
@@ -772,14 +771,7 @@ class Preview extends TestCase {
 	 * @param $sampleId
 	 */
 	private function getSample($sampleId) {
-		// Corrects a rounding difference when using the EPS (Imagick converted) sample
-		$filename = $this->samples[$sampleId]['sampleFileName'];
-		$splitFileName = pathinfo($filename);
-		$extension = $splitFileName['extension'];
-		$correction = ($extension === 'eps') ? 1 : 0;
 		$maxPreviewHeight = $this->samples[$sampleId]['maxPreviewHeight'];
-		$maxPreviewHeight = $maxPreviewHeight - $correction;
-
 		$this->sampleFileId = $this->samples[$sampleId]['sampleFileId'];
 		$this->sampleFilename = $this->samples[$sampleId]['sampleFileName'];
 		$this->sampleWidth = $this->samples[$sampleId]['sampleWidth'];
