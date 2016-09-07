@@ -22,6 +22,8 @@
 
 namespace Test\Group;
 
+use OCP\IUserSession;
+
 class MetaDataTest extends \Test\TestCase {
 	/** @var \OC\Group\Manager */
 	private $groupManager;
@@ -37,7 +39,7 @@ class MetaDataTest extends \Test\TestCase {
 		$this->groupManager = $this->getMockBuilder('\OC\Group\Manager')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->userSession = $this->getMock('\OCP\IUserSession');
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->groupMetadata = new \OC\Group\MetaData(
 			'foo',
 			$this->isAdmin,
