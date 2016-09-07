@@ -5,7 +5,10 @@ namespace Test\Files\Storage\Wrapper;
 use OC\Encryption\Util;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
+use OC\Log;
+use OC\Memcache\ArrayCache;
 use OC\User\Manager;
+use OCP\Files\Cache\ICache;
 use Test\Files\Storage\Storage;
 
 class EncryptionTest extends Storage {
@@ -108,7 +111,7 @@ class EncryptionTest extends Storage {
 			->method('getEncryptionModule')
 			->willReturn($mockModule);
 
-		$this->arrayCache = $this->getMock('OC\Memcache\ArrayCache');
+		$this->arrayCache = $this->createMock(ArrayCache::class);
 		$this->config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()
 			->getMock();
@@ -116,10 +119,10 @@ class EncryptionTest extends Storage {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->util = $this->getMock(
-			'\OC\Encryption\Util',
-			['getUidAndFilename', 'isFile', 'isExcluded'],
-			[new View(), new Manager(), $this->groupManager, $this->config, $this->arrayCache]);
+		$this->util = $this->getMockBuilder('\OC\Encryption\Util')
+			->setMethods(['getUidAndFilename', 'isFile', 'isExcluded'])
+			->setConstructorArgs([new View(), new Manager(), $this->groupManager, $this->config, $this->arrayCache])
+			->getMock();
 		$this->util->expects($this->any())
 			->method('getUidAndFilename')
 			->willReturnCallback(function ($path) {
@@ -132,7 +135,7 @@ class EncryptionTest extends Storage {
 			->getMock();
 		$this->file->expects($this->any())->method('getAccessList')->willReturn([]);
 
-		$this->logger = $this->getMock('\OC\Log');
+		$this->logger = $this->createMock(Log::class);
 
 		$this->sourceStorage = new Temporary(array());
 
@@ -713,7 +716,7 @@ class EncryptionTest extends Storage {
 				$temp = \OC::$server->getTempManager();
 				return fopen($temp->getTemporaryFile(), $mode);
 			});
-		$cache = $this->getMock('\OCP\Files\Cache\ICache');
+		$cache = $this->createMock(ICache::class);
 		$cache->expects($this->once())
 			->method('get')
 			->with($sourceInternalPath)
@@ -763,7 +766,7 @@ class EncryptionTest extends Storage {
 				return fopen($temp->getTemporaryFile(), $mode);
 			});
 		if($expectedEncrypted) {
-			$cache = $this->getMock('\OCP\Files\Cache\ICache');
+			$cache = $this->createMock(ICache::class);
 			$cache->expects($this->once())
 				->method('get')
 				->with($sourceInternalPath)

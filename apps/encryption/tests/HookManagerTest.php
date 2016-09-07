@@ -26,6 +26,7 @@ namespace OCA\Encryption\Tests;
 
 
 use OCA\Encryption\HookManager;
+use OCP\IConfig;
 use Test\TestCase;
 
 class HookManagerTest extends TestCase {
@@ -42,7 +43,7 @@ class HookManagerTest extends TestCase {
 		self::$instance->registerHook([
 			$this->getMockBuilder('OCA\Encryption\Hooks\Contracts\IHook')->disableOriginalConstructor()->getMock(),
 			$this->getMockBuilder('OCA\Encryption\Hooks\Contracts\IHook')->disableOriginalConstructor()->getMock(),
-			$this->getMock('NotIHook')
+			$this->createMock(IConfig::class)
 		]);
 
 		$hookInstances = self::invokePrivate(self::$instance, 'hookInstances');

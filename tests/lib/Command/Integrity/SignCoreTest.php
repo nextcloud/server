@@ -23,6 +23,8 @@ namespace Test\Command\Integrity;
 use OC\Core\Command\Integrity\SignCore;
 use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class SignCoreTest extends TestCase {
@@ -35,10 +37,8 @@ class SignCoreTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
-			->disableOriginalConstructor()->getMock();
-		$this->fileAccessHelper = $this->getMockBuilder('\OC\IntegrityCheck\Helpers\FileAccessHelper')
-			->disableOriginalConstructor()->getMock();
+		$this->checker = $this->createMock(Checker::class);
+		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);
 		$this->signCore = new SignCore(
 			$this->checker,
 			$this->fileAccessHelper
@@ -46,8 +46,8 @@ class SignCoreTest extends TestCase {
 	}
 
 	public function testExecuteWithMissingPrivateKey() {
-		$inputInterface = $this->getMock('\Symfony\Component\Console\Input\InputInterface');
-		$outputInterface = $this->getMock('\Symfony\Component\Console\Output\OutputInterface');
+		$inputInterface = $this->createMock(InputInterface::class);
+		$outputInterface = $this->createMock(OutputInterface::class);
 
 		$inputInterface
 			->expects($this->at(0))
@@ -69,8 +69,8 @@ class SignCoreTest extends TestCase {
 	}
 
 	public function testExecuteWithMissingCertificate() {
-		$inputInterface = $this->getMock('\Symfony\Component\Console\Input\InputInterface');
-		$outputInterface = $this->getMock('\Symfony\Component\Console\Output\OutputInterface');
+		$inputInterface = $this->createMock(InputInterface::class);
+		$outputInterface = $this->createMock(OutputInterface::class);
 
 		$inputInterface
 			->expects($this->at(0))
@@ -92,8 +92,8 @@ class SignCoreTest extends TestCase {
 	}
 
 	public function testExecuteWithNotExistingPrivateKey() {
-		$inputInterface = $this->getMock('\Symfony\Component\Console\Input\InputInterface');
-		$outputInterface = $this->getMock('\Symfony\Component\Console\Output\OutputInterface');
+		$inputInterface = $this->createMock(InputInterface::class);
+		$outputInterface = $this->createMock(OutputInterface::class);
 
 		$inputInterface
 			->expects($this->at(0))
@@ -126,8 +126,8 @@ class SignCoreTest extends TestCase {
 	}
 
 	public function testExecuteWithNotExistingCertificate() {
-		$inputInterface = $this->getMock('\Symfony\Component\Console\Input\InputInterface');
-		$outputInterface = $this->getMock('\Symfony\Component\Console\Output\OutputInterface');
+		$inputInterface = $this->createMock(InputInterface::class);
+		$outputInterface = $this->createMock(OutputInterface::class);
 
 		$inputInterface
 			->expects($this->at(0))
@@ -165,8 +165,8 @@ class SignCoreTest extends TestCase {
 	}
 
 	public function testExecute() {
-		$inputInterface = $this->getMock('\Symfony\Component\Console\Input\InputInterface');
-		$outputInterface = $this->getMock('\Symfony\Component\Console\Output\OutputInterface');
+		$inputInterface = $this->createMock(InputInterface::class);
+		$outputInterface = $this->createMock(OutputInterface::class);
 
 		$inputInterface
 			->expects($this->at(0))

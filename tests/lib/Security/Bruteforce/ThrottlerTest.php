@@ -44,9 +44,9 @@ class ThrottlerTest extends TestCase {
 	private $config;
 
 	public function setUp() {
-		$this->dbConnection = $this->getMock('\OCP\IDBConnection');
-		$this->logger = $this->getMock('\OCP\ILogger');
-		$this->config = $this->getMock('\OCP\IConfig');
+		$this->dbConnection = $this->createMock(IDBConnection::class);
+		$this->logger = $this->createMock(ILogger::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->throttler = new Throttler(
 			$this->dbConnection,

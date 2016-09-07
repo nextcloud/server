@@ -21,6 +21,7 @@
 namespace Test\Share20;
 
 use OCP\Files\IRootFolder;
+use OCP\IUserManager;
 
 /**
  * Class ShareTest
@@ -35,8 +36,8 @@ class ShareTest extends \Test\TestCase {
 	protected $share;
 
 	public function setUp() {
-		$this->rootFolder = $this->getMock('\OCP\Files\IRootFolder');
-		$this->userManager = $this->getMock('OCP\IUserManager');
+		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->share = new \OC\Share20\Share($this->rootFolder, $this->userManager);
 	}
 

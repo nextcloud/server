@@ -24,9 +24,9 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->config = $this->getMock('OCP\IConfig');
-		$this->user = $this->getMock('OCP\IUser');
-		$this->loader = $this->getMock('OCP\Files\Storage\IStorageFactory');
+		$this->config = $this->createMock(IConfig::class);
+		$this->user = $this->createMock(IUser::class);
+		$this->loader = $this->createMock(IStorageFactory::class);
 
 		$this->provider = new ObjectHomeMountProvider($this->config);
 	}

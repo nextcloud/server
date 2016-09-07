@@ -170,7 +170,7 @@ class BackupCodeStorageTest extends TestCase {
 			->will($this->returnValue($codes));
 		$this->hasher->expects($this->once())
 			->method('verify')
-			->with('CHALLENGE', 'HASHEDVALUE')
+			->with('CHALLENGE', 'HASHEDVALUE', $this->anything())
 			->will($this->returnValue(true));
 		$this->mapper->expects($this->once())
 			->method('update')
@@ -195,7 +195,7 @@ class BackupCodeStorageTest extends TestCase {
 			->with($user)
 			->will($this->returnValue($codes));
 		$this->hasher->expects($this->never())
-			->method('verifiy');
+			->method('verify');
 		$this->mapper->expects($this->never())
 			->method('update');
 

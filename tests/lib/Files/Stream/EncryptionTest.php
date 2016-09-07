@@ -3,6 +3,7 @@
 namespace Test\Files\Stream;
 
 use OC\Files\View;
+use OC\Memcache\ArrayCache;
 
 class EncryptionTest extends \Test\TestCase {
 
@@ -31,7 +32,7 @@ class EncryptionTest extends \Test\TestCase {
 		$config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()
 			->getMock();
-		$arrayCache = $this->getMock('OC\Memcache\ArrayCache');
+		$arrayCache = $this->createMock(ArrayCache::class);
 		$groupManager = $this->getMockBuilder('\OC\Group\Manager')
 			->disableOriginalConstructor()
 			->getMock();
@@ -40,11 +41,10 @@ class EncryptionTest extends \Test\TestCase {
 			->setMethods(['getAccessList'])
 			->getMock();
 		$file->expects($this->any())->method('getAccessList')->willReturn([]);
-		$util = $this->getMock(
-			'\OC\Encryption\Util',
-			['getUidAndFilename'],
-			[new View(), new \OC\User\Manager(), $groupManager, $config, $arrayCache]
-		);
+		$util = $this->getMockBuilder('\OC\Encryption\Util')
+			->setMethods(['getUidAndFilename'])
+			->setConstructorArgs([new View(), new \OC\User\Manager(), $groupManager, $config, $arrayCache])
+			->getMock();
 		$util->expects($this->any())
 			->method('getUidAndFilename')
 			->willReturn(['user1', $internalPath]);

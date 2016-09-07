@@ -12,6 +12,8 @@ namespace Test\L10N;
 use DateTime;
 use OC\L10N\Factory;
 use OC\L10N\L10N;
+use OCP\IConfig;
+use OCP\IRequest;
 use OCP\IUserSession;
 use Test\TestCase;
 
@@ -26,11 +28,11 @@ class L10nTest extends TestCase {
 	 */
 	protected function getFactory() {
 		/** @var \OCP\IConfig $config */
-		$config = $this->getMock('OCP\IConfig');
+		$config = $this->createMock(IConfig::class);
 		/** @var \OCP\IRequest $request */
-		$request = $this->getMock('OCP\IRequest');
+		$request = $this->createMock(IRequest::class);
 		/** @var IUserSession $userSession */
-		$userSession = $this->getMock('OCP\IUserSession');
+		$userSession = $this->createMock(IUserSession::class);
 		return new Factory($config, $request, $userSession, \OC::$SERVERROOT);
 	}
 

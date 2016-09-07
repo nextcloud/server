@@ -24,6 +24,9 @@ namespace Test\Encryption;
 
 
 use OC\Encryption\EncryptionWrapper;
+use OC\Encryption\Manager;
+use OC\Memcache\ArrayCache;
+use OCP\ILogger;
 use Test\TestCase;
 
 class EncryptionWrapperTest extends TestCase {
@@ -43,10 +46,10 @@ class EncryptionWrapperTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->arrayCache = $this->getMock('OC\Memcache\ArrayCache');
-		$this->manager = $this->getMockBuilder('OC\Encryption\Manager')
-			->disableOriginalConstructor()->getMock();
-		$this->logger = $this->getMock('OCP\ILogger');
+		$this->arrayCache = $this->createMock(ArrayCache::class);
+		$this->manager = $this->createMock(Manager::class);
+		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(ILogger::class);
 
 		$this->instance = new EncryptionWrapper($this->arrayCache, $this->manager, $this->logger);
 	}

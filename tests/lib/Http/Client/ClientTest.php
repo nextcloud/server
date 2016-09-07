@@ -10,6 +10,7 @@ namespace Test\Http\Client;
 
 use GuzzleHttp\Message\Response;
 use OC\Http\Client\Client;
+use OCP\ICertificateManager;
 use OCP\IConfig;
 
 /**
@@ -25,11 +26,11 @@ class ClientTest extends \Test\TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->config = $this->getMock('\OCP\IConfig');
+		$this->config = $this->createMock(IConfig::class);
 		$this->guzzleClient = $this->getMockBuilder('\GuzzleHttp\Client')
 			->disableOriginalConstructor()
 			->getMock();
-		$certificateManager = $this->getMock('\OCP\ICertificateManager');
+		$certificateManager = $this->createMock(ICertificateManager::class);
 		$this->client = new Client(
 			$this->config,
 			$certificateManager,

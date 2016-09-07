@@ -60,7 +60,7 @@ class MailNotificationsTest extends \Test\TestCase {
 				->disableOriginalConstructor()->getMock();
 		$this->user = $this->getMockBuilder('\OCP\IUser')
 				->disableOriginalConstructor()->getMock();
-		$this->urlGenerator = $this->getMock('\OCP\IURLGenerator');
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
 		$this->l10n->expects($this->any())
 			->method('t')
@@ -212,14 +212,17 @@ class MailNotificationsTest extends \Test\TestCase {
 		$this->setupMailerMock('TestUser shared »welcome.txt« with you', ['recipient@owncloud.com' => 'Recipient'], false);
 
 		/** @var MailNotifications | \PHPUnit_Framework_MockObject_MockObject $mailNotifications */
-		$mailNotifications = $this->getMock('OC\Share\MailNotifications',['getItemSharedWithUser'], [
+		$mailNotifications = $this->getMockBuilder(MailNotifications::class)
+			->setMethods(['getItemSharedWithUser'])
+			->setConstructorArgs([
 				$this->user,
 				$this->l10n,
 				$this->mailer,
 				$this->logger,
 				$this->defaults,
 				$this->urlGenerator
-		]);
+			])
+			->getMock();
 
 		$mailNotifications->method('getItemSharedWithUser')
 			->withAnyParameters()

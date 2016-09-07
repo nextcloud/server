@@ -22,6 +22,7 @@ namespace Test\Files\ObjectStore;
 
 
 use OC\Files\ObjectStore\Mapper;
+use OCP\IUser;
 
 class MapperTest extends \Test\TestCase {
 
@@ -39,7 +40,7 @@ class MapperTest extends \Test\TestCase {
 	 * @param string $expectedBucket
 	 */
 	public function testGetBucket($username, $expectedBucket) {
-		$user = $this->getMock('OCP\IUser');
+		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn($username);
 

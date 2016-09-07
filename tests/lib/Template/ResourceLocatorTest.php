@@ -9,6 +9,7 @@
 namespace Test\Template;
 
 use OC\Template\ResourceNotFoundException;
+use OCP\ILogger;
 
 class ResourceLocatorTest extends \Test\TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
@@ -16,7 +17,7 @@ class ResourceLocatorTest extends \Test\TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$this->logger = $this->getMock('OCP\ILogger');
+		$this->logger = $this->createMock(ILogger::class);
 	}
 
 	/**

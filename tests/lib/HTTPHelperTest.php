@@ -8,6 +8,8 @@
 
 namespace Test;
 
+use OCP\Http\Client\IClientService;
+
 class HTTPHelperTest extends \Test\TestCase {
 
 	/** @var \OCP\IConfig*/
@@ -22,7 +24,7 @@ class HTTPHelperTest extends \Test\TestCase {
 
 		$this->config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()->getMock();
-		$this->clientService = $this->getMock('\OCP\Http\Client\IClientService');
+		$this->clientService = $this->createMock(IClientService::class);
 		$this->httpHelperMock = $this->getMockBuilder('\OC\HTTPHelper')
 			->setConstructorArgs(array($this->config, $this->clientService))
 			->setMethods(array('getHeaders'))

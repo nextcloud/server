@@ -20,6 +20,8 @@
  */
 namespace Test;
 
+use OCP\ICache;
+
 class FileChunkingTest extends \Test\TestCase {
 
 	public function dataIsComplete() {
@@ -54,7 +56,7 @@ class FileChunkingTest extends \Test\TestCase {
 			]])
 			->getMock();
 
-		$cache = $this->getMock('\OCP\ICache');
+		$cache = $this->createMock(ICache::class);
 
 		$cache->expects($this->atLeastOnce())
 			->method('hasKey')
