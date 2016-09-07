@@ -128,7 +128,7 @@ class AdminController extends Controller implements ISettings {
 	public function setChannel($channel) {
 		\OCP\Util::setChannel($channel);
 		$this->config->setAppValue('core', 'lastupdatedat', 0);
-		return new DataResponse(['status' => 'success', 'data' => ['message' => $this->l10n->t('Updated channel')]]);
+		return new DataResponse(['status' => 'success', 'data' => ['message' => $this->l10n->t('Channel updated')]]);
 	}
 
 	/**
