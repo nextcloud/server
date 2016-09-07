@@ -359,7 +359,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('AvatarManager', function (Server $c) {
 			return new AvatarManager(
 				$c->getUserManager(),
-				$c->getRootFolder(),
+				$c->getAppDataDir('avatar'),
 				$c->getL10N('lib'),
 				$c->getLogger(),
 				$c->getConfig()
@@ -741,6 +741,12 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getLockingProvider()
 			);
 			return $manager;
+		});
+		$this->registerService(\OC\Files\AppData\Factory::class, function (Server $c) {
+			return new \OC\Files\AppData\Factory(
+				$c->getRootFolder(),
+				$c->getSystemConfig()
+			);
 		});
 	}
 
@@ -1455,5 +1461,14 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getSettingsManager() {
 		return $this->query('SettingsManager');
+	}
+
+	/**
+	 * @return \OCP\Files\IAppData
+	 */
+	public function getAppDataDir($app) {
+		/** @var \OC\Files\AppData\Factory $factory */
+		$factory = $this->query(\OC\Files\AppData\Factory::class);
+		return $factory->get($app);
 	}
 }
