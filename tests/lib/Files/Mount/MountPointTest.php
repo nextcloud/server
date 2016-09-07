@@ -8,15 +8,18 @@
 
 namespace Test\Files\Mount;
 
+use OC\Files\Storage\StorageFactory;
+use OCP\Files\Storage;
+
 class MountPointTest extends \Test\TestCase {
 
 	public function testGetStorage() {
-		$storage = $this->getMock('\OCP\Files\Storage');
+		$storage = $this->createMock(Storage::class);
 		$storage->expects($this->once())
 			->method('getId')
 			->will($this->returnValue(123));
 
-		$loader = $this->getMock('\OC\Files\Storage\StorageFactory');
+		$loader = $this->createMock(StorageFactory::class);
 		$loader->expects($this->once())
 			->method('wrap')
 			->will($this->returnValue($storage));
@@ -38,7 +41,7 @@ class MountPointTest extends \Test\TestCase {
 	}
 
 	public function testInvalidStorage() {
-		$loader = $this->getMock('\OC\Files\Storage\StorageFactory');
+		$loader = $this->createMock(StorageFactory::class);
 		$loader->expects($this->once())
 			->method('wrap')
 			->will($this->throwException(new \Exception('Test storage init exception')));
