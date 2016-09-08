@@ -168,6 +168,10 @@ thead {
 	margin: 0 auto;
 }
 
+#emptycontent.has-disclaimer {
+	margin-top: 10vh;
+}
+
 #public-upload #emptycontent h2 {
 	margin: 10px 0 5px 0;
 }
@@ -221,4 +225,11 @@ thead {
 #public-upload li span.icon-loading-small {
 	padding-left: 18px;
 	margin-right: 7px;
+}
+
+
+.disclaimer {
+	margin: -20px auto 30px;
+	max-width: 400px;
+	text-align: left;
 }

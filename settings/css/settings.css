@@ -499,6 +499,14 @@ table.grid td.date{
 	display: inline-block;
 }
 
+#publicShareDisclaimerText {
+	width: calc(100% - 23px); /* 20 px left margin, 3 px right margin */
+	max-width: 600px;
+	height: 150px;
+	margin-left: 20px;
+	box-sizing: border-box;
+}
+
 /* correctly display help icons next to headings */
 .icon-info {
 	padding: 11px 20px;

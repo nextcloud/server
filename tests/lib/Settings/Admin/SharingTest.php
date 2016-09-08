@@ -109,6 +109,11 @@ class SharingTest extends TestCase {
 			->method('getAppValue')
 			->with('core', 'shareapi_exclude_groups', 'no')
 			->willReturn('no');
+		$this->config
+			->expects($this->at(13))
+			->method('getAppValue')
+			->with('core', 'shareapi_public_link_disclaimertext', null)
+			->willReturn('Lorem ipsum');
 
 		$expected = new TemplateResponse(
 			'settings',
@@ -129,6 +134,7 @@ class SharingTest extends TestCase {
 				'shareEnforceExpireDate'          => 'no',
 				'shareExcludeGroups'              => false,
 				'shareExcludedGroupsList'         => '',
+				'publicShareDisclaimer'           => 'Lorem ipsum',
 			],
 			''
 		);
@@ -202,6 +208,11 @@ class SharingTest extends TestCase {
 			->method('getAppValue')
 			->with('core', 'shareapi_exclude_groups', 'no')
 			->willReturn('yes');
+		$this->config
+			->expects($this->at(13))
+			->method('getAppValue')
+			->with('core', 'shareapi_public_link_disclaimertext', null)
+			->willReturn('Lorem ipsum');
 
 		$expected = new TemplateResponse(
 			'settings',
@@ -222,6 +233,7 @@ class SharingTest extends TestCase {
 				'shareEnforceExpireDate'          => 'no',
 				'shareExcludeGroups'              => true,
 				'shareExcludedGroupsList'         => 'NoSharers|OtherNoSharers',
+				'publicShareDisclaimer'           => 'Lorem ipsum',
 			],
 			''
 		);
