@@ -112,6 +112,7 @@ class AdminController extends Controller implements ISettings {
 			'currentChannel' => $currentChannel,
 			'channels' => $channels,
 			'newVersionString' => ($updateState === []) ? '' : $updateState['updateVersion'],
+			'downloadLink' => (empty($updateState['downloadLink'])) ? '' : $updateState['downloadLink'],
 
 			'notify_groups' => implode('|', $notifyGroups),
 		];

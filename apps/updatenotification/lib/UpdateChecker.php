@@ -49,6 +49,9 @@ class UpdateChecker {
 			if(substr($data['web'], 0, 8) === 'https://') {
 				$result['updateLink'] = $data['web'];
 			}
+			if(substr($data['url'], 0, 8) === 'https://') {
+				$result['downloadLink'] = $data['url'];
+			}
 
 			return $result;
 		}
