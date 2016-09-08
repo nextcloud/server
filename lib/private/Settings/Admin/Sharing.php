@@ -65,6 +65,7 @@ class Sharing implements ISettings {
 			'shareEnforceExpireDate'          => $this->config->getAppValue('core', 'shareapi_enforce_expire_date', 'no'),
 			'shareExcludeGroups'              => $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes' ? true : false,
 			'shareExcludedGroupsList'         => $excludeGroupsList,
+			'publicShareDisclaimerText'       => $this->config->getAppValue('core', 'shareapi_public_link_disclaimertext', null),
 		];
 
 		return new TemplateResponse('settings', 'admin/sharing', $parameters, '');

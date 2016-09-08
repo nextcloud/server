@@ -90,7 +90,7 @@ $(document).ready(function(){
 		}
 	});
 
-	$('#shareAPI input:not(#excludedGroups)').change(function() {
+	$('#shareAPI input:not(.noJSAutoUpdate)').change(function() {
 		var value = $(this).val();
 		if ($(this).attr('type') === 'checkbox') {
 			if (this.checked) {
@@ -104,6 +104,45 @@ $(document).ready(function(){
 
 	$('#shareapiDefaultExpireDate').change(function() {
 		$("#setDefaultExpireDate").toggleClass('hidden', !this.checked);
+	});
+
+	$('#publicShareDisclaimer').change(function() {
+		$("#publicShareDisclaimerText").toggleClass('hidden', !this.checked);
+		if(!this.checked) {
+			savePublicShareDisclaimerText('');
+		}
+	});
+
+	var savePublicShareDisclaimerText = _.debounce(function(value) {
+		var data = {
+			app:'core',
+			key:'shareapi_public_link_disclaimertext'
+		};
+		if (_.isString(value) && value !== '') {
+			data['action'] = 'setValue';
+			data['value'] = value;
+		} else {
+			data['action'] = 'deleteKey';
+			$('#publicShareDisclaimerText').val('');
+		}
+
+		OC.msg.startSaving('#publicShareDisclaimerStatus');
+		$.post(
+			OC.AppConfig.url,
+			data,
+			function(result){
+				if(result.status === 'success'){
+					OC.msg.finishedSuccess('#publicShareDisclaimerStatus', t('core', 'Saved'))
+				} else {
+					OC.msg.finishedError('#publicShareDisclaimerStatus', t('core', 'Not saved'))
+				}
+			},
+			'json'
+		);
+	}, 500);
+
+	$('#publicShareDisclaimerText').on('change, keyup', function() {
+		savePublicShareDisclaimerText(this.value);
 	});
 
 	$('#allowLinks').change(function() {

@@ -357,6 +357,11 @@ class ShareControllerTest extends \Test\TestCase {
 			->method('getShareByToken')
 			->with('token')
 			->willReturn($share);
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('core', 'shareapi_public_link_disclaimertext', null)
+			->willReturn('My disclaimer text');
 
 		$this->userManager->method('get')->with('ownerUID')->willReturn($owner);
 
@@ -385,7 +390,8 @@ class ShareControllerTest extends \Test\TestCase {
 			'previewMaxX' => 1024,
 			'previewMaxY' => 1024,
 			'hideFileList' => false,
-			'shareOwner' => 'ownerDisplay'
+			'shareOwner' => 'ownerDisplay',
+			'disclaimer' => 'My disclaimer text',
 		);
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
