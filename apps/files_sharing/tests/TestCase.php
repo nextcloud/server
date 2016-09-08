@@ -168,6 +168,7 @@ abstract class TestCase extends \Test\TestCase {
 		self::resetStorage();
 
 		\OC_Util::tearDownFS();
+		\OC\Files\Cache\Storage::getGlobalCache()->clearCache();
 		\OC::$server->getUserSession()->setUser(null);
 		\OC\Files\Filesystem::tearDown();
 		\OC::$server->getUserSession()->login($user, $password);

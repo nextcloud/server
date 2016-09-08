@@ -121,54 +121,63 @@ class ConfigAdapter implements IMountProvider {
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
 		$this->migrator->migrateUser($user);
 
-		$mounts = [];
-
 		$this->userStoragesService->setUser($user);
 		$this->userGlobalStoragesService->setUser($user);
 
-		foreach ($this->userGlobalStoragesService->getAllStoragesForUser() as $storage) {
+		$storageConfigs = $this->userGlobalStoragesService->getAllStoragesForUser();
+
+		$storages = array_map(function(StorageConfig $storageConfig) use ($user) {
 			try {
-				$this->prepareStorageConfig($storage, $user);
-				$impl = $this->constructStorage($storage);
+				$this->prepareStorageConfig($storageConfig, $user);
+				return $this->constructStorage($storageConfig);
 			} catch (\Exception $e) {
 				// propagate exception into filesystem
-				$impl = new FailedStorage(['exception' => $e]);
+				return new FailedStorage(['exception' => $e]);
 			}
+		}, $storageConfigs);
 
+
+		\OC\Files\Cache\Storage::getGlobalCache()->loadForStorageIds(array_map(function(Storage\IStorage $storage) {
+			return $storage->getId();
+		}, $storages));
+
+		$availableStorages = array_map(function (Storage\IStorage $storage, StorageConfig $storageConfig) {
 			try {
-				$availability = $impl->getAvailability();
+				$availability = $storage->getAvailability();
 				if (!$availability['available'] && !Availability::shouldRecheck($availability)) {
-					$impl = new FailedStorage([
-						'exception' => new StorageNotAvailableException('Storage with mount id ' . $storage->getId() . ' is not available')
+					$storage = new FailedStorage([
+						'exception' => new StorageNotAvailableException('Storage with mount id ' . $storageConfig->getId() . ' is not available')
 					]);
 				}
 			} catch (\Exception $e) {
 				// propagate exception into filesystem
-				$impl = new FailedStorage(['exception' => $e]);
+				$storage = new FailedStorage(['exception' => $e]);
 			}
+			return $storage;
+		}, $storages, $storageConfigs);
 
-			if ($storage->getType() === StorageConfig::MOUNT_TYPE_PERSONAl) {
-				$mount = new PersonalMount(
+		$mounts = array_map(function(StorageConfig $storageConfig, Storage\IStorage $storage) use ($user, $loader) {
+			if ($storageConfig->getType() === StorageConfig::MOUNT_TYPE_PERSONAl) {
+				return new PersonalMount(
 					$this->userStoragesService,
-					$storage->getId(),
-					$impl,
-					'/' . $user->getUID() . '/files' . $storage->getMountPoint(),
+					$storageConfig->getId(),
+					$storage,
+					'/' . $user->getUID() . '/files' . $storageConfig->getMountPoint(),
 					null,
 					$loader,
-					$storage->getMountOptions()
+					$storageConfig->getMountOptions()
 				);
 			} else {
-				$mount = new MountPoint(
-					$impl,
-					'/' . $user->getUID() . '/files' . $storage->getMountPoint(),
+				return new MountPoint(
+					$storage,
+					'/' . $user->getUID() . '/files' . $storageConfig->getMountPoint(),
 					null,
 					$loader,
-					$storage->getMountOptions(),
-					$storage->getId()
+					$storageConfig->getMountOptions(),
+					$storageConfig->getId()
 				);
 			}
-			$mounts[$storage->getMountPoint()] = $mount;
-		}
+		}, $storageConfigs, $availableStorages);
 
 		$this->userStoragesService->resetUser();
 		$this->userGlobalStoragesService->resetUser();

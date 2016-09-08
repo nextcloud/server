@@ -496,6 +496,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Files\\Cache\\Propagator' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/Propagator.php',
         'OC\\Files\\Cache\\Scanner' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/Scanner.php',
         'OC\\Files\\Cache\\Storage' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/Storage.php',
+        'OC\\Files\\Cache\\StorageGlobal' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/StorageGlobal.php',
         'OC\\Files\\Cache\\Updater' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/Updater.php',
         'OC\\Files\\Cache\\Watcher' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/Watcher.php',
         'OC\\Files\\Cache\\Wrapper\\CacheJail' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/Wrapper/CacheJail.php',

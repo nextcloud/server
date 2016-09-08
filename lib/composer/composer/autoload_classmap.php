@@ -466,6 +466,7 @@ return array(
     'OC\\Files\\Cache\\Propagator' => $baseDir . '/lib/private/Files/Cache/Propagator.php',
     'OC\\Files\\Cache\\Scanner' => $baseDir . '/lib/private/Files/Cache/Scanner.php',
     'OC\\Files\\Cache\\Storage' => $baseDir . '/lib/private/Files/Cache/Storage.php',
+    'OC\\Files\\Cache\\StorageGlobal' => $baseDir . '/lib/private/Files/Cache/StorageGlobal.php',
     'OC\\Files\\Cache\\Updater' => $baseDir . '/lib/private/Files/Cache/Updater.php',
     'OC\\Files\\Cache\\Watcher' => $baseDir . '/lib/private/Files/Cache/Watcher.php',
     'OC\\Files\\Cache\\Wrapper\\CacheJail' => $baseDir . '/lib/private/Files/Cache/Wrapper/CacheJail.php',
