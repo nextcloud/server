@@ -506,8 +506,22 @@ class OC {
 	 * also we can't directly interfere with PHP's session mechanism.
 	 */
 	private static function performSameSiteCookieProtection() {
+		$request = \OC::$server->getRequest();
+
+		// Some user agents are notorious and don't really properly follow HTTP
+		// specifications. For those, have an automated opt-out. Since the protection
+		// for remote.php is applied in base.php as starting point we need to opt out
+		// here.
+		$incompatibleUserAgents = [
+			// OS X Finder
+			'/^WebDAVFS/',
+		];
+		if($request->isUserAgent($incompatibleUserAgents)) {
+			return;
+		}
+
+
 		if(count($_COOKIE) > 0) {
-			$request = \OC::$server->getRequest();
 			$requestUri = $request->getScriptName();
 			$processingScript = explode('/', $requestUri);
 			$processingScript = $processingScript[count($processingScript)-1];
