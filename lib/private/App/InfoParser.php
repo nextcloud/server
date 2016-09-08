@@ -156,7 +156,7 @@ class InfoParser {
 			$totalElement = count($xml->{$element});
 
 			if (!isset($array[$element])) {
-				$array[$element] = "";
+				$array[$element] = $totalElement > 1 ? [] : "";
 			}
 			/** @var \SimpleXMLElement $node */
 			// Has attributes

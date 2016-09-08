@@ -57,8 +57,8 @@ class SecuritySettingsControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->container['Config']
 			->expects($this->once())
 			->method('getSystemValue')
-			->with('trusted_domains')
-			->will($this->returnValue(''));
+			->with($this->equalTo('trusted_domains'), $this->equalTo([]))
+			->willReturn([]);
 
 		$response = $this->securitySettingsController->trustedDomains('newdomain.com');
 		$expectedResponse = array('status' => 'success');
