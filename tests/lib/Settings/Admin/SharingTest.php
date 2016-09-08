@@ -134,7 +134,7 @@ class SharingTest extends TestCase {
 				'shareEnforceExpireDate'          => 'no',
 				'shareExcludeGroups'              => false,
 				'shareExcludedGroupsList'         => '',
-				'publicShareDisclaimer'           => 'Lorem ipsum',
+				'publicShareDisclaimerText'           => 'Lorem ipsum',
 			],
 			''
 		);
@@ -233,7 +233,7 @@ class SharingTest extends TestCase {
 				'shareEnforceExpireDate'          => 'no',
 				'shareExcludeGroups'              => true,
 				'shareExcludedGroupsList'         => 'NoSharers|OtherNoSharers',
-				'publicShareDisclaimer'           => 'Lorem ipsum',
+				'publicShareDisclaimerText'           => 'Lorem ipsum',
 			],
 			''
 		);
