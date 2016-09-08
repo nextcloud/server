@@ -1,7 +1,6 @@
 { "translations": {
     "Update notifications" : "Aktualizovat upozornění",
     "{version} is available. Get more information on how to update." : "Je dostupná {version}. Přečtěte si více informací jak aktualizovat.",
-    "Updated channel" : "Aktualizovat kanál",
     "Nextcloud core" : "Nextcloud Core",
     "Update for %1$s to version %2$s is available." : "Je dostupná aktualizace pro %1$s na verzi %2$s.",
     "A new version is available: %s" : "Je dostupná nová verze: %s",

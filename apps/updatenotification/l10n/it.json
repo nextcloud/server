@@ -1,7 +1,6 @@
 { "translations": {
     "Update notifications" : "Notifiche di aggiornamento",
     "{version} is available. Get more information on how to update." : "{version} è disponibile. Ottieni ulteriori informazioni su come eseguire l'aggiornamento.",
-    "Updated channel" : "Canale di aggiornamento",
     "Nextcloud core" : "Componente principale di Nextcloud",
     "Update for %1$s to version %2$s is available." : "È disponibile l'aggiornamento di %1$s alla versione %2$s.",
     "A new version is available: %s" : "Una nuova versione è disponibile: %s",

@@ -21,6 +21,7 @@ OC.L10N.register(
     "Invalid directory." : "Neveljavna mapa.",
     "Files" : "Datoteke",
     "All files" : "Vse datoteke",
+    "Recent" : "Nedavno",
     "File could not be found" : "Datoteke ne najdem",
     "Home" : "Domači naslov",
     "Close" : "Zapri",
@@ -73,6 +74,7 @@ OC.L10N.register(
     "_%n folder_::_%n folders_" : ["%n mapa","%n mapi","%n mape","%n map"],
     "_%n file_::_%n files_" : ["%n datoteka","%n datoteki","%n datoteke","%n datotek"],
     "{dirs} and {files}" : "{dirs} in {files}",
+    "_including %n hidden_::_including %n hidden_" : ["Vključujoč %n skrit","Vključujoč %n skrita","Vključujoč %n skritih","Vključujoč %n skritih"],
     "You don’t have permission to upload or create files here" : "Ni ustreznih dovoljenj za pošiljanje ali ustvarjanje datotek na tem mestu.",
     "_Uploading %n file_::_Uploading %n files_" : ["Posodabljanje %n datoteke","Posodabljanje %n datotek","Posodabljanje %n datotek","Posodabljanje %n datotek"],
     "New" : "Novo",
@@ -83,6 +85,7 @@ OC.L10N.register(
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Shramba uporabnika {owner} je polna ({usedSpacePercent}%).",
     "Your storage is almost full ({usedSpacePercent}%)" : "Prostor za shranjevanje je skoraj do konca zaseden ({usedSpacePercent}%)",
     "_matches '{filter}'_::_match '{filter}'_" : ["se sklada s filtrom '{filter}'","se skladata s filtrom '{filter}'","se skladajo s filtrom '{filter}'","se skladajo s filtrom '{filter}'"],
+    "View in folder" : "Prikaži v mapi",
     "Path" : "Pot",
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajta","%n bajti","%n bajtov"],
     "Favorited" : "Označeno kot priljubljeno",
@@ -130,6 +133,8 @@ OC.L10N.register(
     "No favorites" : "Ni priljubljenih predmetov",
     "Files and folders you mark as favorite will show up here" : "Datoteke ali mape, ki so označene kot priljubljene, bodo zbrane na tem mestu.",
     "Text file" : "Besedilna datoteka",
-    "New text file.txt" : "Nova datoteka.txt"
+    "New text file.txt" : "Nova datoteka.txt",
+    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Uporabi ta naslov za <a href=\"%s\" target=\"_blank\">dostop do tvojih datotek preko WebDAV</a>",
+    "Cancel upload" : "Prekini nalaganje"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -21,6 +21,7 @@ OC.L10N.register(
     "Invalid directory." : "無効なディレクトリです。",
     "Files" : "ファイル",
     "All files" : "すべてのファイル",
+    "Recent" : "最新",
     "File could not be found" : "ファイルを見つけられませんでした",
     "Home" : "ホーム",
     "Close" : "閉じる",
@@ -73,6 +74,7 @@ OC.L10N.register(
     "_%n folder_::_%n folders_" : ["%n 個のフォルダー"],
     "_%n file_::_%n files_" : ["%n 個のファイル"],
     "{dirs} and {files}" : "{dirs} と {files}",
+    "_including %n hidden_::_including %n hidden_" : ["%n 個の隠しファイルが含まれています"],
     "You don’t have permission to upload or create files here" : "ここにファイルをアップロードもしくは作成する権限がありません",
     "_Uploading %n file_::_Uploading %n files_" : ["%n 個のファイルをアップロード中"],
     "New" : "新規作成",
@@ -131,6 +133,8 @@ OC.L10N.register(
     "No favorites" : "お気に入りなし",
     "Files and folders you mark as favorite will show up here" : "お気に入りに登録されたファイルやフォルダーは、ここに表示されます。",
     "Text file" : "テキストファイル",
-    "New text file.txt" : "新規のテキストファイル作成"
+    "New text file.txt" : "新規のテキストファイル作成",
+    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "<a href=\"%s\" target=\"_blank\">WebDAV 経由でファイルにアクセス</a> するにはこのアドレスを利用してください",
+    "Cancel upload" : "アップロードをキャンセル"
 },
 "nplurals=1; plural=0;");
