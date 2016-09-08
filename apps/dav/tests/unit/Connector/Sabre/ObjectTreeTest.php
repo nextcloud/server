@@ -34,7 +34,8 @@ use OC\Files\Storage\Temporary;
 
 class TestDoubleFileView extends \OC\Files\View {
 
-	public function __construct($updatables, $deletables, $canRename = true) {
+	public function __construct($creatables, $updatables, $deletables, $canRename = true) {
+		$this->creatables = $creatables;
 		$this->updatables = $updatables;
 		$this->deletables = $deletables;
 		$this->canRename = $canRename;
@@ -42,15 +43,15 @@ class TestDoubleFileView extends \OC\Files\View {
 	}
 
 	public function isUpdatable($path) {
-		return $this->updatables[$path];
+		return !empty($this->updatables[$path]);
 	}
 
 	public function isCreatable($path) {
-		return $this->updatables[$path];
+		return !empty($this->creatables[$path]);
 	}
 
 	public function isDeletable($path) {
-		return $this->deletables[$path];
+		return !empty($this->deletables[$path]);
 	}
 
 	public function rename($path1, $path2) {
@@ -63,7 +64,11 @@ class TestDoubleFileView extends \OC\Files\View {
 
 	public function getFileInfo($path, $includeMountPoints = true) {
 		$objectTreeTest = new ObjectTreeTest();
-		return $objectTreeTest->getFileInfoMock();
+		return $objectTreeTest->getFileInfoMock(
+			$this->isCreatable($path),
+			$this->isUpdatable($path),
+			$this->isDeletable($path)
+		);
 	}
 }
 
@@ -76,18 +81,22 @@ class TestDoubleFileView extends \OC\Files\View {
  */
 class ObjectTreeTest extends \Test\TestCase {
 
-	public function getFileInfoMock() {
+	public function getFileInfoMock($create = true, $update = true, $delete = true) {
 		$mock = $this->getMockBuilder('\OCP\Files\FileInfo')
 			->disableOriginalConstructor()
 			->getMock();
 		$mock
 			->expects($this->any())
-			->method('isDeletable')
-			->willReturn(true);
+			->method('isCreatable')
+			->willReturn($create);
 		$mock
 			->expects($this->any())
 			->method('isUpdateable')
-			->willReturn(true);
+			->willReturn($update);
+		$mock
+			->expects($this->any())
+			->method('isDeletable')
+			->willReturn($delete);
 
 		return $mock;
 	}
@@ -97,14 +106,14 @@ class ObjectTreeTest extends \Test\TestCase {
 	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testMoveFailed($source, $destination, $updatables, $deletables) {
-		$this->moveTest($source, $destination, $updatables, $deletables);
+		$this->moveTest($source, $destination, $updatables, $updatables, $deletables, true);
 	}
 
 	/**
 	 * @dataProvider moveSuccessProvider
 	 */
 	public function testMoveSuccess($source, $destination, $updatables, $deletables) {
-		$this->moveTest($source, $destination, $updatables, $deletables);
+		$this->moveTest($source, $destination, $updatables, $updatables, $deletables);
 		$this->assertTrue(true);
 	}
 
@@ -113,7 +122,7 @@ class ObjectTreeTest extends \Test\TestCase {
 	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\InvalidPath
 	 */
 	public function testMoveFailedInvalidChars($source, $destination, $updatables, $deletables) {
-		$this->moveTest($source, $destination, $updatables, $deletables);
+		$this->moveTest($source, $destination, $updatables, $updatables, $deletables);
 	}
 
 	function moveFailedInvalidCharsProvider() {
@@ -144,10 +153,13 @@ class ObjectTreeTest extends \Test\TestCase {
 	/**
 	 * @param $source
 	 * @param $destination
+	 * @param $creatables
 	 * @param $updatables
+	 * @param $deletables
+	 * @param $throwsBeforeGetNode
 	 */
-	private function moveTest($source, $destination, $updatables, $deletables) {
-		$view = new TestDoubleFileView($updatables, $deletables);
+	private function moveTest($source, $destination, $creatables, $updatables, $deletables, $throwsBeforeGetNode = false) {
+		$view = new TestDoubleFileView($creatables, $updatables, $deletables);
 
 		$info = new FileInfo('', null, null, array(), null);
 
@@ -157,7 +169,7 @@ class ObjectTreeTest extends \Test\TestCase {
 			->setConstructorArgs([$rootDir, $view])
 			->getMock();
 
-		$objectTree->expects($this->once())
+		$objectTree->expects($throwsBeforeGetNode ? $this->never() : $this->once())
 			->method('getNodeForPath')
 			->with($this->identicalTo($source))
 			->will($this->returnValue(false));
@@ -360,7 +372,7 @@ class ObjectTreeTest extends \Test\TestCase {
 		$updatables = array('a' => true, 'a/b' => true, 'b' => true, 'b/b' => false);
 		$deletables = array('a/b' => true);
 
-		$view = new TestDoubleFileView($updatables, $deletables);
+		$view = new TestDoubleFileView($updatables, $updatables, $deletables);
 
 		$info = new FileInfo('', null, null, array(), null);
 
