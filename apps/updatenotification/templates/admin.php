@@ -20,10 +20,8 @@
 
 	<?php if($isNewVersionAvailable === true): ?>
 		<strong><?php p($l->t('A new version is available: %s', [$newVersionString])); ?></strong>
-		<?php if($updaterRequirementsFulfilled === true): ?>
-			<input type="button" id="oca_updatenotification_button" value="<?php p($l->t('Open updater')) ?>">
-		<?php else: ?>
-			<br/><?php p($l->t('At the moment only manual updates are supported on your environment. This is very likely the case because functions such as shell_exec are not available.')); ?>
+		<?php if ($_['downloadLink']): ?>
+			<a href="<?php p($_['downloadLink']); ?>" class="button"><?php p($l->t('Download now')) ?></a>
 		<?php endif; ?>
 	<?php else: ?>
 		<strong><?php print_unescaped($l->t('Your version is up to date.')); ?></strong>

@@ -134,6 +134,7 @@ class AdminController extends Controller {
 			'channels' => $channels,
 			'newVersionString' => ($updateState === []) ? '' : $updateState['updateVersion'],
 			'updaterRequirementsFulfilled' => $this->isCompatibleWithUpdater(),
+			'downloadLink' => (empty($updateState['downloadLink'])) ? '' : $updateState['downloadLink'],
 		];
 
 		return new TemplateResponse($this->appName, 'admin', $params, '');

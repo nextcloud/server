@@ -13,32 +13,7 @@
 /**
  * Creates a new authentication token and loads the updater URL
  */
-var loginToken = '';
 $(document).ready(function(){
-	$('#oca_updatenotification_button').click(function() {
-		// Load the new token
-		$.ajax({
-			url: OC.generateUrl('/apps/updatenotification/credentials')
-		}).success(function(data) {
-			loginToken = data;
-			$.ajax({
-				url: OC.webroot+'/updater/',
-				headers: {
-					'X-Updater-Auth': loginToken
-				},
-				method: 'POST',
-				success: function(data){
-					if(data !== 'false') {
-						var body = $('body');
-						$('head').remove();
-						body.html(data);
-						body.removeAttr('id');
-						body.attr('id', 'body-settings');
-					}
-				}
-			});
-		});
-	});
 	$('#release-channel').change(function() {
 		var newChannel = $('#release-channel').find(":selected").val();
 		$.post(
