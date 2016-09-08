@@ -54,7 +54,12 @@ class Local extends \OC\Files\Storage\Common {
 			throw new \InvalidArgumentException('No data directory set for local storage');
 		}
 		$this->datadir = $arguments['datadir'];
-		$this->realDataDir = rtrim(realpath($this->datadir), '/') . '/';
+		// some crazy code uses a local storage on root...
+		if ($this->datadir === '/') {
+			$this->realDataDir = $this->datadir;
+		} else {
+			$this->realDataDir = rtrim(realpath($this->datadir), '/') . '/';
+		}
 		if (substr($this->datadir, -1) !== '/') {
 			$this->datadir .= '/';
 		}
