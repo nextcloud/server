@@ -110,6 +110,6 @@
 		<label for="publicShareDisclaimer"><?php p($l->t('Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)'));?></label>
 		<span id="publicShareDisclaimerStatus" class="msg" style="display:none"></span>
 		<br/>
-		<textarea placeholder="This text will be shown on the public link upload page when the file list is hidden." id="publicShareDisclaimerText" <?php if ($_['publicShareDisclaimerText'] === null) { print_unescaped('class="hidden"'); } ?>><?php p($_['publicShareDisclaimerText']) ?></textarea>
+		<textarea placeholder="<?php p($l->t('This text will be shown on the public link upload page when the file list is hidden.')) ?>" id="publicShareDisclaimerText" <?php if ($_['publicShareDisclaimerText'] === null) { print_unescaped('class="hidden"'); } ?>><?php p($_['publicShareDisclaimerText']) ?></textarea>
 	</p>
 </div>
