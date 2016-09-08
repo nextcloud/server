@@ -115,10 +115,16 @@ class Add extends Command {
 			return 1;
 		}
 
-		$user = $this->userManager->createUser(
-			$input->getArgument('uid'),
-			$password
-		);
+		try {
+			$user = $this->userManager->createUser(
+				$input->getArgument('uid'),
+				$password
+			);
+		} catch (\Exception $e) {
+			$output->writeln('<error>' . $e->getMessage() . '</error>');
+			return 1;
+		}
+
 
 		if ($user instanceof IUser) {
 			$output->writeln('<info>The user "' . $user->getUID() . '" was created successfully</info>');
