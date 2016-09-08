@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Update notifications" : "Bijwerken meldingen",
     "{version} is available. Get more information on how to update." : "{version} is beschikbaar. Meer informatie over het bijwerken.",
-    "Updated channel" : "Bijgewerkt kanaal",
     "Nextcloud core" : "Nextcloud core",
     "Update for %1$s to version %2$s is available." : "Update voor %1$s naar versie %2$s is beschikbaar.",
     "A new version is available: %s" : "Er is een nieuwe versie beschikbaar: %s",

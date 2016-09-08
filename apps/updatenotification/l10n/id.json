@@ -1,7 +1,6 @@
 { "translations": {
     "Update notifications" : "Perbarui pemberitahuan",
     "{version} is available. Get more information on how to update." : "{version} tersedia. Dapatkan informasi lebih lanjut cara memperbaruinya.",
-    "Updated channel" : "Kanal diperbarui",
     "Nextcloud core" : "Nextcloud core",
     "Update for %1$s to version %2$s is available." : "Pembaruan untuk %1$s ke versi %2$s tersedia.",
     "A new version is available: %s" : "Versi baru tersedia: %s",

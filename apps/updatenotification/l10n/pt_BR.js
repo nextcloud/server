@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Update notifications" : "Notificações de atualização",
     "{version} is available. Get more information on how to update." : "{version} está disponível. Obtenha mais informações sobre como atualizar.",
-    "Updated channel" : "Canal atualizado",
     "Nextcloud core" : "Núcleo Nextcloud",
     "Update for %1$s to version %2$s is available." : "Atualização de %1$s para versão %2$s está disponível.",
     "A new version is available: %s" : "Uma nova versão está disponível: %s",
