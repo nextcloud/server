@@ -81,7 +81,7 @@ class DetectionTest extends \Test\TestCase {
 
 	public function testDetectString() {
 		$result = $this->detection->detectString("/data/data.tar.gz");
-		$expected = 'text/plain; charset=us-ascii';
+		$expected = 'text/plain';
 		$this->assertEquals($expected, $result);
 	}
 
