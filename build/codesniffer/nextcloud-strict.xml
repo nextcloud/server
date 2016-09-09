@@ -12,7 +12,9 @@
 	<rule ref="Generic.PHP.LowerCaseKeyword" />
 
 	<!-- The body of each structure MUST be enclosed by braces. -->
-	<rule ref="Generic.ControlStructures.InlineControlStructure" />
+	<rule ref="Generic.ControlStructures.InlineControlStructure">
+		<exclude-pattern>*/templates/*</exclude-pattern>
+	</rule>
 
 	<!-- There MUST not be more than one statement per line. -->
 	<rule ref="Generic.Formatting.DisallowMultipleStatements" />
