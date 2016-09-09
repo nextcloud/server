@@ -74,6 +74,7 @@ OC.L10N.register(
     "_%n folder_::_%n folders_" : ["%n mappa","%n möppur"],
     "_%n file_::_%n files_" : ["%n skrá","%n skrár"],
     "{dirs} and {files}" : "{dirs} og {files}",
+    "_including %n hidden_::_including %n hidden_" : ["þar á meðal %n falin","þar á meðal %n faldar"],
     "You don’t have permission to upload or create files here" : "Þú hefur ekki heimild til að hlaða inn eða búa til skjöl hér",
     "_Uploading %n file_::_Uploading %n files_" : ["Sendi inn %n skrá","Sendi inn %n skrár"],
     "New" : "Nýtt",
