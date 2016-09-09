@@ -620,6 +620,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\OCS\\Result' => __DIR__ . '/../../..' . '/lib/private/OCS/Result.php',
         'OC\\Preview' => __DIR__ . '/../../..' . '/lib/private/Preview.php',
         'OC\\PreviewManager' => __DIR__ . '/../../..' . '/lib/private/PreviewManager.php',
+        'OC\\PreviewNotAvailableException' => __DIR__ . '/../../..' . '/lib/private/PreviewNotAvailableException.php',
         'OC\\Preview\\BMP' => __DIR__ . '/../../..' . '/lib/private/Preview/BMP.php',
         'OC\\Preview\\Bitmap' => __DIR__ . '/../../..' . '/lib/private/Preview/Bitmap.php',
         'OC\\Preview\\Font' => __DIR__ . '/../../..' . '/lib/private/Preview/Font.php',
