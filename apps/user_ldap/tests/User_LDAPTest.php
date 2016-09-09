@@ -32,8 +32,6 @@ use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LogWrapper;
 use OCA\User_LDAP\User_LDAP as UserLDAP;
-use \OCA\User_LDAP\Access;
-use \OCA\User_LDAP\Connection;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;

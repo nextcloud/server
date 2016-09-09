@@ -24,13 +24,13 @@
 
 namespace OCA\User_LDAP\Jobs;
 
-use \OC\BackgroundJob\TimedJob;
-use \OCA\User_LDAP\User_LDAP;
-use \OCA\User_LDAP\User_Proxy;
-use \OCA\User_LDAP\Helper;
-use \OCA\User_LDAP\LDAP;
-use \OCA\User_LDAP\User\DeletedUsersIndex;
-use \OCA\User_LDAP\Mapping\UserMapping;
+use OC\BackgroundJob\TimedJob;
+use OCA\User_LDAP\Helper;
+use OCA\User_LDAP\LDAP;
+use OCA\User_LDAP\Mapping\UserMapping;
+use OCA\User_LDAP\User_LDAP;
+use OCA\User_LDAP\User_Proxy;
+use OCA\User_LDAP\User\DeletedUsersIndex;
 
 /**
  * Class CleanUp
