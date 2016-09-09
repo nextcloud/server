@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<ruleset name="Nextcloud PHP Strict Standard">
-
-	<description>Nextcloud coding standard for PHP files</description>
-
-	<!-- There MUST NOT be unused use statements. -->
-	<rule ref="./phpbb/Sniffs/Namespaces/UnusedUseSniff.php" />
-</ruleset>

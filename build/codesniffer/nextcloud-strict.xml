@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<ruleset name="Nextcloud PHP Strict Standard">
+
+	<description>Nextcloud coding standard for PHP files</description>
+
+	<rule ref="nextcloud-default.xml" />
+
+	<!-- The PHP constants true, false, and null MUST be in lower case. -->
+	<rule ref="Generic.PHP.LowerCaseConstant" />
+
+	<!-- PHP keywords MUST be in lower case. -->
+	<rule ref="Generic.PHP.LowerCaseKeyword" />
+
+	<!-- The body of each structure MUST be enclosed by braces. -->
+	<rule ref="Generic.ControlStructures.InlineControlStructure" />
+
+	<!-- There MUST not be more than one statement per line. -->
+	<rule ref="Generic.Formatting.DisallowMultipleStatements" />
+
+	<!-- Only <?php, no short tags. -->
+	<rule ref="Generic.PHP.DisallowShortOpenTag.EchoFound" />
+</ruleset>

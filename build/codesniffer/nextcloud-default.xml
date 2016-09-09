@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<ruleset name="Nextcloud PHP Default Standard">
+
+	<description>Nextcloud coding standard for PHP files</description>
+
+	<!-- There MUST NOT be unused use statements. -->
+	<rule ref="./phpbb/Sniffs/Namespaces/UnusedUseSniff.php" />
+
+	<!-- "for (; bar; )" should be "while (bar)" instead -->
+	<rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop" />
+
+	<!-- A method MUST not only call its parent -->
+	<rule ref="Generic.CodeAnalysis.UselessOverridingMethod" />
+
+	<!-- When present, all use declarations MUST go after the namespace declaration.
+	 There MUST be one use keyword per declaration.
+	 There MUST be one blank line after the use block. -->
+	<rule ref="PSR2.Namespaces.UseDeclaration" />
+
+	<!-- Constructors MUST be called __construct() instead of after the class. -->
+	<rule ref="Generic.NamingConventions.ConstructorName" />
+
+	<!-- Class constants MUST be declared in all upper case with underscore separators. -->
+	<rule ref="Generic.NamingConventions.UpperCaseConstantName" />
+
+	<!-- Each file MUST end with exactly one newline character -->
+	<rule ref="PSR2.Files.EndFileNewline" />
+
+	<!-- The eval() function MUST NOT be used. -->
+	<rule ref="Squiz.PHP.Eval" />
+
+	<!-- There MUST NOT be trailing whitespace at the end of lines. -->
+	<rule ref="Squiz.WhiteSpace.SuperfluousWhitespace" />
+
+	<!-- There MUST NOT be whitespace before the first content of a file -->
+	<rule ref="Squiz.WhiteSpace.SuperfluousWhitespace.StartFile" />
+
+	<!-- There MUST NOT be whitespace after the last content of a file -->
+	<rule ref="Squiz.WhiteSpace.SuperfluousWhitespace.EndFile" />
+
+	<!-- The ?> closing tag MUST be omitted from files containing only PHP. -->
+	<rule ref="Zend.Files.ClosingTag" />
+</ruleset>
