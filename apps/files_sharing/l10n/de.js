@@ -99,7 +99,7 @@ OC.L10N.register(
     "Download" : "Herunterladen",
     "Download %s" : "Download %s",
     "Direct link" : "Direkter Link",
-    "Upload files to %s" : "Dateien auf %s hochladen",
+    "Upload files to %s" : "Dateien für %s hochladen",
     "Select or drop files" : "Dateien auswählen oder hierher ziehen",
     "Uploading files…" : "Dateien werden hochgeladen...",
     "Uploaded files:" : "Hochgeladene Dateien: ",

@@ -90,6 +90,7 @@ OC.L10N.register(
     "Google Drive" : "Google Drive",
     "Local" : "Staðvært",
     "Location" : "Staðsetning",
+    "Nextcloud" : "Nextcloud",
     "SFTP" : "SFTP",
     "Root" : "Rót (root)",
     "SFTP with secret key login" : "SFTP innskráning með leynilykli",

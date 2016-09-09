@@ -6,7 +6,6 @@ OC.L10N.register(
     "Nextcloud core" : "Nextcloud core",
     "Update for %1$s to version %2$s is available." : "%1$s に対するバージョン %2$s へアップデートが利用可能です。",
     "A new version is available: %s" : "新しいバージョンが利用可能: %s",
-    "Open updater" : "アップデーターを開く",
     "Your version is up to date." : "最新版です。",
     "Checked on %s" : "%s に確認",
     "Update channel:" : "アップデートチャンネル:",

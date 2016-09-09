@@ -6,7 +6,6 @@ OC.L10N.register(
     "Nextcloud core" : "Componente principale di Nextcloud",
     "Update for %1$s to version %2$s is available." : "È disponibile l'aggiornamento di %1$s alla versione %2$s.",
     "A new version is available: %s" : "Una nuova versione è disponibile: %s",
-    "Open updater" : "Apri lo strumento di aggiornamento",
     "Your version is up to date." : "La tua versione è aggiornata.",
     "Checked on %s" : "Controllato il %s",
     "Update channel:" : "Canale di aggiornamento:",
@@ -15,7 +14,6 @@ OC.L10N.register(
     "Only notification for app updates are available." : "Sono disponibili solo le notifiche per gli aggiornamenti delle applicazioni.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Il canale di aggiornamento selezionato rende obsolete le notifiche dedicate al server.",
     "The selected update channel does not support updates of the server." : "Il canale di aggiornamento selezionato non supporta gli aggiornamenti del server.",
-    "Updater" : "Strumento di aggiornamento",
-    "At the moment only manual updates are supported on your environment. This is very likely the case because functions such as shell_exec are not available." : "Attualmente, per il tuo ambiente, sono supportati solo aggiornamenti manuali. Ciò dipende dal fatto che funzioni come shell_exec non sono disponibili."
+    "Updater" : "Strumento di aggiornamento"
 },
 "nplurals=2; plural=(n != 1);");
