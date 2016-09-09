@@ -48,6 +48,7 @@ use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
+use OCP\Share\IShare;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use OCP\Share\IShareProvider;
@@ -1176,7 +1177,7 @@ class Manager implements IManager {
 
 	/**
 	 * Get access list to a path. This means
-	 * all the users and groups that can access a given path.
+	 * all the users that can access a given path.
 	 *
 	 * Consider:
 	 * -root
@@ -1185,20 +1186,76 @@ class Manager implements IManager {
 	 *   |-fileA
 	 *
 	 * fileA is shared with user1
-	 * folder2 is shared with group2
+	 * folder2 is shared with group2 (user4 is a member of group2)
 	 * folder1 is shared with user2
 	 *
 	 * Then the access list will to '/folder1/folder2/fileA' is:
 	 * [
-	 * 	'users' => ['user1', 'user2'],
-	 *  'groups' => ['group2']
+	 *  users => ['user1', 'user2', 'user4'],
+	 *  public => bool
+	 *  remote => bool
 	 * ]
 	 *
-	 * This is required for encryption
+	 * This is required for encryption/activities
 	 *
 	 * @param \OCP\Files\Node $path
+	 * @return array
 	 */
 	public function getAccessList(\OCP\Files\Node $path) {
+		$owner = $path->getOwner()->getUID();
+
+		//Get node for the owner
+		$userFolder = $this->rootFolder->getUserFolder($owner);
+		$path = $userFolder->getById($path->getId())[0];
+
+		$providers = $this->factory->getAllProviders();
+
+		/** @var IShare[] $shares */
+		$shares = [];
+
+		// Collect all the shares
+		while ($path !== $userFolder) {
+			foreach ($providers as $provider) {
+				$shares = array_merge($shares, $provider->getSharesByPath($path));
+			}
+			$path = $path->getParent();
+		}
+
+		$users = [];
+		$public = false;
+		$remote = false;
+		foreach ($shares as $share) {
+			if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+				$uid = $share->getSharedWith();
+
+				// Skip if user does not exist
+				if (!$this->userManager->userExists($uid)) {
+					continue;
+				}
+
+				$users[$uid] = null;
+			} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+				$group = $this->groupManager->get($share->getSharedWith());
+
+				// If group does not exist skip
+				if ($group === null) {
+					continue;
+				}
+
+				$groupUsers = $group->getUsers();
+				foreach ($groupUsers as $groupUser) {
+					$users[$groupUser->getUID()] = null;
+				}
+			} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
+				$public = true;
+			} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_REMOTE) {
+				$remote = true;
+			}
+		}
+
+		$users = array_keys($users);
+
+		return ['users' => $users, 'public' => $public, 'remote' => $remote];
 	}
 
 	/**
