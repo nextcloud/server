@@ -1,7 +1,5 @@
 <?php
 /**
-
- *
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license GNU AGPL version 3 or any later version
@@ -21,10 +19,11 @@
  *
  */
 style('core', ['styles', 'header']);
+
+/** @param $_ array */
 ?>
 <span class="error error-wide">
 	<h2><strong><?php p($_['title']) ?></strong></h2>
-		<p><?php p($_['message']) ?></p>
 	<br>
 
 	<h2><strong><?php p($l->t('Technical details')) ?></strong></h2>
