@@ -32,13 +32,13 @@ use Test\TestCase;
 
 class BackupCodeStorageTest extends TestCase {
 
-	/** @var BackupCodeMapper|PHPUnit_Framework_MockObject_MockObject */
+	/** @var BackupCodeMapper|\PHPUnit_Framework_MockObject_MockObject */
 	private $mapper;
 
-	/** @var ISecureRandom|PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
 	private $random;
 
-	/** @var IHasher|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IHasher|\PHPUnit_Framework_MockObject_MockObject */
 	private $hasher;
 
 	/** @var BackupCodeStorage */

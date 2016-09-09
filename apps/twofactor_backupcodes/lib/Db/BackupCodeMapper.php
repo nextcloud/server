@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
@@ -21,6 +20,7 @@
  */
 
 namespace OCA\TwoFactor_BackupCodes\Db;
+
 
 use OCP\AppFramework\Db\Mapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
