@@ -100,26 +100,14 @@ OC.FileUpload.prototype = {
 
 	/**
 	 * Return the final filename.
-	 * Either this is the original file name or the file name
-	 * after an autorename.
 	 *
 	 * @return {String} file name
 	 */
 	getFileName: function() {
-		// in case of autorename
+		// autorenamed name
 		if (this._newName) {
 			return this._newName;
 		}
-
-		if (this._conflictMode === OC.FileUpload.CONFLICT_MODE_AUTORENAME) {
-
-			var locationUrl = this.getResponseHeader('Content-Location');
-			if (locationUrl) {
-				this._newName = decodeURIComponent(OC.basename(locationUrl));
-				return this._newName;
-			}
-		}
-
 		return this.getFile().name;
 	},
 
@@ -142,8 +130,19 @@ OC.FileUpload.prototype = {
 	},
 
 	/**
+	 * Returns conflict resolution mode.
+	 *
+	 * @return {int} conflict mode
+	 */
+	getConflictMode: function() {
+		return this._conflictMode || OC.FileUpload.CONFLICT_MODE_DETECT;
+	},
+
+	/**
 	 * Set conflict resolution mode.
 	 * See CONFLICT_MODE_* constants.
+	 *
+	 * @param {int} mode conflict mode
 	 */
 	setConflictMode: function(mode) {
 		this._conflictMode = mode;
@@ -163,6 +162,30 @@ OC.FileUpload.prototype = {
 	},
 
 	/**
+	 * Trigger autorename and append "(2)".
+	 * Multiple calls will increment the appended number.
+	 */
+	autoRename: function() {
+		var name = this.getFile().name;
+		if (!this._renameAttempt) {
+			this._renameAttempt = 1;
+		}
+
+		var dotPos = name.lastIndexOf('.');
+		var extPart = '';
+		if (dotPos > 0) {
+			this._newName = name.substr(0, dotPos);
+			extPart = name.substr(dotPos);
+		} else {
+			this._newName = name;
+		}
+
+		// generate new name
+		this._renameAttempt++;
+		this._newName = this._newName + ' (' + this._renameAttempt + ')' + extPart;
+	},
+
+	/**
 	 * Submit the upload
 	 */
 	submit: function() {
@@ -179,7 +202,7 @@ OC.FileUpload.prototype = {
 		}
 
 		if (this.uploader.fileList) {
-			this.data.url = this.uploader.fileList.getUploadUrl(file.name, this.getFullPath());
+			this.data.url = this.uploader.fileList.getUploadUrl(this.getFileName(), this.getFullPath());
 		}
 
 		if (!this.data.headers) {
@@ -191,12 +214,9 @@ OC.FileUpload.prototype = {
 		this.data.type = 'PUT';
 
 		delete this.data.headers['If-None-Match'];
-		if (this._conflictMode === OC.FileUpload.CONFLICT_MODE_DETECT) {
+		if (this._conflictMode === OC.FileUpload.CONFLICT_MODE_DETECT
+			|| this._conflictMode === OC.FileUpload.CONFLICT_MODE_AUTORENAME) {
 			this.data.headers['If-None-Match'] = '*';
-		} else if (this._conflictMode === OC.FileUpload.CONFLICT_MODE_AUTORENAME) {
-			// POST to parent folder, with slug
-			this.data.type = 'POST';
-			this.data.url = this.uploader.fileList.getUploadUrl('&' + file.name, this.getFullPath());
 		}
 
 		if (file.lastModified) {
@@ -210,18 +230,6 @@ OC.FileUpload.prototype = {
 			// copy username/password from DAV client
 			this.data.headers['Authorization'] =
 				'Basic ' + btoa(userName + ':' + (password || ''));
-		}
-
-		if (!this.uploader.isXHRUpload()) {
-			data.formData = [];
-
-			// pass headers as parameters
-			data.formData.push({name: 'headers', value: JSON.stringify(this.data.headers)});
-			data.formData.push({name: 'requesttoken', value: OC.requestToken});
-			if (data.type === 'POST') {
-				// still add the method to the URL
-				data.url += '?_method=POST';
-			}
 		}
 
 		var chunkFolderPromise;
@@ -491,6 +499,14 @@ OC.Uploader.prototype = _.extend({
 		//show "file already exists" dialog
 		var self = this;
 		var file = fileUpload.getFile();
+		// already attempted autorename but the server said the file exists ? (concurrently added)
+		if (fileUpload.getConflictMode() === OC.FileUpload.CONFLICT_MODE_AUTORENAME) {
+			// attempt another autorename, defer to let the current callback finish
+			_.defer(function() {
+				self.onAutorename(fileUpload);
+			});
+			return;
+		}
 		// retrieve more info about this file
 		this.filesClient.getFileInfo(fileUpload.getFullPath()).then(function(status, fileInfo) {
 			var original = fileInfo;
@@ -603,6 +619,13 @@ OC.Uploader.prototype = _.extend({
 	onAutorename:function(upload) {
 		this.log('autorename', null, upload);
 		upload.setConflictMode(OC.FileUpload.CONFLICT_MODE_AUTORENAME);
+
+		do {
+			upload.autoRename();
+			// if file known to exist on the client side, retry
+		} while (this.fileList && this.fileList.inList(upload.getFileName()));
+
+		// resubmit upload
 		this.submitUploads([upload]);
 	},
 	_trace:false, //TODO implement log handler for JS per class?
