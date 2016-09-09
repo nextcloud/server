@@ -10,7 +10,6 @@
  * the docs/CREDITS.txt file.
  *
  */
-var_dump(1);
 
 /**
  * Checks that each use statement is used.
@@ -88,6 +87,11 @@ class phpbb_Sniffs_Namespaces_UnusedUseSniff implements PHP_CodeSniffer_Sniff
 				$old_simple_statement = $simple_statement;
 
 				$simple_class_name_start = $phpcsFile->findNext(array(T_NS_SEPARATOR, T_STRING), ($simple_statement + 1));
+
+				if ($simple_class_name_start === false) {
+					continue;
+				}
+
 				$simple_class_name_end = $phpcsFile->findNext($find, ($simple_statement + 1), null, true);
 
 				$simple_class_name = trim($phpcsFile->getTokensAsString($simple_class_name_start, ($simple_class_name_end - $simple_class_name_start)));
@@ -204,11 +208,10 @@ class phpbb_Sniffs_Namespaces_UnusedUseSniff implements PHP_CodeSniffer_Sniff
 
 	/**
 	 * @param PHP_CodeSniffer_File $phpcsFile
-	 * @param int $field
+	 * @param int $comment_end
 	 * @param array $tokens
 	 * @param string $class_name_full
 	 * @param string $class_name_short
-	 * @param bool $ok
 	 *
 	 * @return bool
 	 */
