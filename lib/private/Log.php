@@ -323,6 +323,9 @@ class Log implements ILogger {
 			'Line' => $exception->getLine(),
 		);
 		$exception['Trace'] = preg_replace('!(' . implode('|', $this->methodsWithSensitiveParameters) . ')\(.*\)!', '$1(*** sensitive parameters replaced ***)', $exception['Trace']);
+		if (\OC::$server->getUserSession()->isLoggedIn()) {
+			$context['userid'] = \OC::$server->getUserSession()->getUser()->getUID();
+		}
 		$msg = isset($context['message']) ? $context['message'] : 'Exception';
 		$msg .= ': ' . json_encode($exception);
 		$this->error($msg, $context);
