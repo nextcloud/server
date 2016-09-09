@@ -2606,7 +2606,7 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($userFolder);
 
 		$expected = [
-			'users' => ['user1', 'user2'],
+			'users' => ['owner', 'user1', 'user2'],
 			'public' => true,
 			'remote' => true,
 		];
