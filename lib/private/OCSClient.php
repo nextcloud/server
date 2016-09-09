@@ -115,6 +115,7 @@ class OCSClient {
 					'app' => 'core',
 				]
 			);
+			return [];
 		}
 
 		foreach($categories as $key => $category) {

@@ -111,7 +111,7 @@ class AppSettingsController extends Controller {
 				'displayName' => (string)$this->l10n->t('Enabled'),
 			],
 			[
-				'id' => 'enabled',
+				'id' => 'disabled',
 				'displayName' => (string)$this->l10n->t('Not enabled'),
 			],
 		];
@@ -130,7 +130,8 @@ class AppSettingsController extends Controller {
 	 */
 	public function listApps() {
 		// FIXME: Inject version
-		return $this->ocsClient->getApplications('9.0.0');
+		$version = '9.1.0';//implode('.', \OCP\Util::getVersion());
+		return $this->ocsClient->getApplications($version);
 	}
 
 }
