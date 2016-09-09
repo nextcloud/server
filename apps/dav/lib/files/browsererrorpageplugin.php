@@ -31,7 +31,6 @@ use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 
 class BrowserErrorPagePlugin extends ServerPlugin {
-
 	/** @var Server */
 	private $server;
 
@@ -88,8 +87,7 @@ class BrowserErrorPagePlugin extends ServerPlugin {
 
 	/**
 	 * @codeCoverageIgnore
-	 * @param \Exception $ex
-	 * @param int $httpCode
+	 * @param \Exception $exception
 	 * @return bool|string
 	 */
 	public function generateBody(\Exception $exception) {
@@ -109,10 +107,11 @@ class BrowserErrorPagePlugin extends ServerPlugin {
 		return $content->fetchPage();
 	}
 
-	/*
+	/**
 	 * @codeCoverageIgnore
 	 */
 	public function sendResponse() {
 		$this->server->sapi->sendResponse($this->server->httpResponse);
+		exit();
 	}
 }
