@@ -117,6 +117,10 @@ puphpet
 .vagrant
 Vagrantfile
 
+# Code Sniffer
+/build/codesniffer/composer.lock
+/build/codesniffer/vendor
+
 # Tests - auto-generated files
 /data-autotest
 /tests/coverage*
