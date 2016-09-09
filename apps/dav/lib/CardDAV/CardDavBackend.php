@@ -111,7 +111,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->from('addressbooks')
 			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)));
 
-		return $query->execute()->fetchColumn();
+		return (int)$query->execute()->fetchColumn();
 	}
 
 	/**
