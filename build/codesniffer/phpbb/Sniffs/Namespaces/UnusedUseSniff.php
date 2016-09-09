@@ -155,6 +155,29 @@ class phpbb_Sniffs_Namespaces_UnusedUseSniff implements PHP_CodeSniffer_Sniff
 			}
 		}
 
+		$old_closure_declaration = $stackPtr;
+		while (($closure_declaration = $phpcsFile->findNext(T_CLOSURE, ($old_closure_declaration + 1))) !== false) {
+			$old_closure_declaration = $closure_declaration;
+
+			$parameter_start = $phpcsFile->findNext(array(T_OPEN_PARENTHESIS), ($closure_declaration + 1));
+
+			if ($parameter_start === false) {
+				continue;
+			}
+
+			$parameter_end = $phpcsFile->findNext(array(T_CLOSE_PARENTHESIS), ($parameter_start + 1));
+
+			if ($parameter_end === false) {
+				continue;
+			}
+
+			$type_hint_start = $parameter_start;
+			while ($type_hint_start = $phpcsFile->findNext(array(T_STRING), ($type_hint_start + 1), $parameter_end)) {
+				$type_hint_class_name = trim($phpcsFile->getTokensAsString($type_hint_start, 1));
+				$ok = $this->check($phpcsFile, $type_hint_class_name, $class_name_full, $class_name_short, $parameter_start) ? true : $ok;
+			}
+		}
+
 		// Checks in catch blocks
 		$old_catch = $stackPtr;
 		while (($catch = $phpcsFile->findNext(T_CATCH, ($old_catch + 1))) !== false)
