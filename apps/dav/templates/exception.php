@@ -6,7 +6,6 @@ style('core', ['styles', 'header']);
 ?>
 <span class="error error-wide">
 	<h2><strong><?php p($_['title']) ?></strong></h2>
-		<p><?php p($_['message']) ?></p>
 	<br>
 
 	<h2><strong><?php p($l->t('Technical details')) ?></strong></h2>
