@@ -78,11 +78,12 @@ class Helper {
 					$originalPath = substr($originalPath, 0, -1);
 				}
 			}
+			$type = $entry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE ? 'dir' : 'file';
 			$i = array(
 				'name' => $name,
 				'mtime' => $timestamp,
-				'mimetype' => $entry->getMimeType(),
-				'type' => $entry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE ? 'dir' : 'file',
+				'mimetype' => $type === 'dir' ? 'httpd/unix-directory' : \OC::$server->getMimeTypeDetector()->detectPath($name),
+				'type' => $type,
 				'directory' => ($dir === '/') ? '' : $dir,
 				'size' => $entry->getSize(),
 				'etag' => '',
