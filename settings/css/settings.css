@@ -383,9 +383,12 @@ span.version {
 #apps-list {
 	position: relative;
 	height: 100%;
+	display: flex;
+	flex-flow: row wrap;
 }
 .section {
 	position: relative;
+	width: 300px;
 }
 .section h2.app-name {
 	margin-bottom: 8px;
