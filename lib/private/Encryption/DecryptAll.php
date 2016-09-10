@@ -210,6 +210,10 @@ class DecryptAll {
 		while ($root = array_pop($directories)) {
 			$content = $this->rootView->getDirectoryContent($root);
 			foreach ($content as $file) {
+				// only decrypt files owned by the user
+				if($file->getStorage()->instanceOfStorage('OC\Files\Storage\Shared')) {
+					continue;
+				}
 				$path = $root . '/' . $file['name'];
 				if ($this->rootView->is_dir($path)) {
 					$directories[] = $path;
