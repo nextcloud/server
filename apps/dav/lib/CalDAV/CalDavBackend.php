@@ -152,7 +152,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$query->andWhere($query->expr()->neq('uri', $query->createNamedParameter(BirthdayService::BIRTHDAY_CALENDAR_URI)));
 		}
 
-		return $query->execute()->fetchColumn();
+		return (int)$query->execute()->fetchColumn();
 	}
 
 	/**
