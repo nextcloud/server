@@ -46,6 +46,7 @@ OC.L10N.register(
     "Add trusted domain" : "Bæta við treystu léni",
     "Migration in progress. Please wait until the migration is finished" : "Yfirfærsla er í gangi. Dokaðu við þar til henni er lokið",
     "Migration started …" : "Yfirfærsla hafin...",
+    "Not saved" : "Ekki vistað",
     "Sending..." : "Sendi...",
     "Official" : "Opinbert",
     "Approved" : "Samþykkt",
