@@ -3,64 +3,114 @@ build:
     image: nextcloudci/jsunit:1.0.6
     commands:
       - ./autotest-js.sh
+    when:
+      matrix:
+        TESTS: jsunit
   nodb-php5.6:
     image: nextcloudci/php5.6:php5.6-2
     commands:
-      - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
       - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
+    when:
+      matrix:
+        DB: NODB
+        PHP: 5.6
   nodb-php7.0:
     image: nextcloudci/php7.0:php7.0-2
     commands:
-      - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
       - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
+    when:
+      matrix:
+        DB: NODB
+        PHP: 7.0
   nodb-php7.1:
     image: nextcloudci/php7.1:php7.1-3
     commands:
-      - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
       - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
+    when:
+      matrix:
+        DB: NODB
+        PHP: 7.1
   sqlite-php5.6:
     image: nextcloudci/php5.6:php5.6-2
     commands:
-      - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
+    when:
+      matrix:
+        DB: sqlite
+        PHP: 5.6
   sqlite-php7.0:
     image: nextcloudci/php7.0:php7.0-2
     commands:
-      - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
+    when:
+      matrix:
+        DB: sqlite
+        PHP: 7.0
   sqlite-php7.1:
     image: nextcloudci/php7.1:php7.1-3
     commands:
-      - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
+    when:
+      matrix:
+        DB: sqlite
+        PHP: 7.1
   mysql-php5.6:
     image: nextcloudci/php5.6:php5.6-2
     commands:
       - sleep 15 # gives the database enough time to initialize
-      - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+    when:
+      matrix:
+        DB: mysql
+        PHP: 5.6
   postgres-php5.6:
     image: nextcloudci/php5.6:php5.6-2
     commands:
       - sleep 10 # gives the database enough time to initialize
-      - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
+    when:
+      matrix:
+        DB: postgres
+        PHP: 5.6
   integration:
     image: nextcloudci/php7.0:php7.0-2
     commands:
-      - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
       - ./run.sh
+    when:
+      matrix:
+        TESTS: integration
+
+matrix:
+  include:
+    - TESTS: jsunit
+    - DB: NODB
+      PHP: 5.6
+    - DB: NODB
+      PHP: 7.0
+    - DB: NODB
+      PHP: 7.1
+    - DB: sqlite
+      PHP: 5.6
+    - DB: sqlite
+      PHP: 7.0
+    - DB: sqlite
+      PHP: 7.1
+    - DB: mysql
+      PHP: 5.6
+    - DB: postgres
+      PHP: 5.6
+    - TESTS: integration
 
 compose:
   cache:
@@ -70,6 +120,9 @@ compose:
     environment:
       - POSTGRES_USER=oc_autotest
       - POSTGRES_PASSWORD=oc_autotest
+    when:
+      matrix:
+        DB: postgres
   mysql:
     image: mysql
     environment:
@@ -77,3 +130,6 @@ compose:
       - MYSQL_USER=oc_autotest
       - MYSQL_PASSWORD=owncloud
       - MYSQL_DATABASE=oc_autotest
+    when:
+      matrix:
+        DB: mysql
