@@ -5,7 +5,9 @@ build:
       - ./autotest-js.sh
     when:
       matrix:
-        TESTS: jsunit
+        #TESTS: jsunit
+        DB: NODB
+        PHP: 5.6
   nodb-php5.6:
     image: nextcloudci/php5.6:php5.6-2
     commands:
@@ -68,8 +70,10 @@ build:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
       matrix:
-        DB: mysql
-        PHP: 5.6
+        #DB: mysql
+        #PHP: 5.6
+        DB: NODB
+        PHP: 7.0
   postgres-php5.6:
     image: nextcloudci/php5.6:php5.6-2
     commands:
@@ -78,8 +82,9 @@ build:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
     when:
       matrix:
-        DB: postgres
-        PHP: 5.6
+        #DB: postgres
+        DB: sqlite
+        PHP: 7.0
   integration:
     image: nextcloudci/php7.0:php7.0-2
     commands:
@@ -89,28 +94,25 @@ build:
       - ./run.sh
     when:
       matrix:
-        TESTS: integration
+        #TESTS: integration
+        DB: NODB
+        PHP: 7.1
 
 matrix:
-  include:
-    - TESTS: jsunit
-    - DB: NODB
-      PHP: 5.6
-    - DB: NODB
-      PHP: 7.0
-    - DB: NODB
-      PHP: 7.1
-    - DB: sqlite
-      PHP: 5.6
-    - DB: sqlite
-      PHP: 7.0
-    - DB: sqlite
-      PHP: 7.1
-    - DB: mysql
-      PHP: 5.6
-    - DB: postgres
-      PHP: 5.6
-    - TESTS: integration
+  DB:
+    - NODB
+    - sqlite
+  PHP:
+    - 5.6
+    - 7.0
+    - 7.1
+#  include:
+#    - TESTS: jsunit - not possible in 0.4 -> runs during NODB 5.6
+#    - DB: mysql - not possible in 0.4 -> runs during NODB 7.0
+#      PHP: 5.6
+#    - DB: postgres - not possible in 0.4 -> runs during sqlite 7.0
+#      PHP: 5.6
+#    - TESTS: integration - not possible in 0.4 -> runs during NODB 7.1
 
 compose:
   cache:
@@ -122,7 +124,9 @@ compose:
       - POSTGRES_PASSWORD=oc_autotest
     when:
       matrix:
-        DB: postgres
+        #DB: postgres
+        DB: sqlite
+        PHP: 7.0
   mysql:
     image: mysql
     environment:
@@ -132,4 +136,6 @@ compose:
       - MYSQL_DATABASE=oc_autotest
     when:
       matrix:
-        DB: mysql
+        #DB: mysql
+        DB: NODB
+        PHP: 7.0
