@@ -2413,7 +2413,7 @@ class ManagerTest extends \Test\TestCase {
 		$tomorrow->setTime(0,0,0);
 		$tomorrow->add(new \DateInterval('P1D'));
 
-		$file = $this->getMock('OCP\Files\File', [], [], 'File');
+		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(100);
 
 		$share = $this->manager->newShare();
