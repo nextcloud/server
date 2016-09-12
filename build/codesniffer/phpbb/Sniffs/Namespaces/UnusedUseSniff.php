@@ -141,6 +141,24 @@ class phpbb_Sniffs_Namespaces_UnusedUseSniff implements PHP_CodeSniffer_Sniff
 			$ok = $this->checkDocblock($phpcsFile, $docblock, $tokens, $class_name_full, $class_name_short) ? true : $ok;
 		}
 
+		$old_docline = $stackPtr;
+		while (($docline = $phpcsFile->findNext(T_COMMENT, ($old_docline + 1))) !== false)
+		{
+			$old_docline = $docline;
+			$content = $phpcsFile->getTokensAsString($docline, 1);
+			$content = str_replace("\t", ' ', $content);
+			$content = explode(' ', $content);
+
+			// E.g. /* @var Class $var */
+			if ($content[1] === '@var') {
+				$classes = explode('|', str_replace('[]', '', $content[2]));
+				foreach ($classes as $class)
+				{
+					$ok = $this->check($phpcsFile, $class, $class_name_full, $class_name_short, $docline) ? true : $ok;
+				}
+			}
+		}
+
 		// Checks in type hinting
 		$old_function_declaration = $stackPtr;
 		while (($function_declaration = $phpcsFile->findNext(T_FUNCTION, ($old_function_declaration + 1))) !== false)
