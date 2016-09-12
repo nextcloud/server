@@ -9,7 +9,14 @@
 namespace Test;
 
 use OC_Util;
+use OCP\App\IAppManager;
 
+/**
+ * Class UtilTest
+ *
+ * @package Test
+ * @group DB
+ */
 class UtilTest extends \Test\TestCase {
 	public function testGetVersion() {
 		$version = \OCP\Util::getVersion();
@@ -300,7 +307,7 @@ class UtilTest extends \Test\TestCase {
 		$oldWebRoot = \OC::$WEBROOT;
 		\OC::$WEBROOT = '';
 
-		$appManager = $this->getMock('\OCP\App\IAppManager');
+		$appManager = $this->createMock(IAppManager::class);
 		$appManager->expects($this->any())
 			->method('isEnabledForUser')
 			->will($this->returnCallback(function($appId) use ($enabledApps){
