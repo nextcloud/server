@@ -8,6 +8,7 @@
  */
 
 namespace Test;
+use OC\AppConfig;
 use OCP\IAppConfig;
 
 /**
@@ -476,13 +477,11 @@ class AppTest extends \Test\TestCase {
 
 
 	private function setupAppConfigMock() {
-		$appConfig = $this->getMock(
-			'\OC\AppConfig',
-			array('getValues'),
-			array(\OC::$server->getDatabaseConnection()),
-			'',
-			false
-		);
+		$appConfig = $this->getMockBuilder(AppConfig::class)
+			->setMethods(['getValues'])
+			->setConstructorArgs([\OC::$server->getDatabaseConnection()])
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->registerAppConfig($appConfig);
 		return $appConfig;
