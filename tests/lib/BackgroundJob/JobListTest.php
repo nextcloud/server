@@ -8,8 +8,10 @@
 
 namespace Test\BackgroundJob;
 
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IConfig;
 use Test\TestCase;
 
 /**
@@ -36,8 +38,8 @@ class JobListTest extends TestCase {
 
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->clearJobsList();
-		$this->config = $this->getMock('OCP\IConfig');
-		$this->timeFactory = $this->getMock('OCP\AppFramework\Utility\ITimeFactory');
+		$this->config = $this->createMock(IConfig::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->instance = new \OC\BackgroundJob\JobList(
 			$this->connection,
 			$this->config,
