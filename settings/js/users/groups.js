@@ -211,9 +211,9 @@ GroupList = {
 
 	showDisabledUsers: function () {
 		UserList.empty();
-		UserList.update('disabledUsers');
+		UserList.update('_disabledUsers');
 		$userGroupList.find('li').removeClass('active');
-		GroupList.getGroupLI('disabledUsers').addClass('active');
+		GroupList.getGroupLI('_disabledUsers').addClass('active');
 	},
 
 	showGroup: function (gid) {

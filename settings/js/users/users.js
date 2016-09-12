@@ -52,7 +52,7 @@ var UserList = {
 	 * 			}
 	 */
 	add: function (user) {
-		if (this.currentGid && this.currentGid !== '_everyone' && this.currentGid !== 'disabledUsers' && _.indexOf(user.groups, this.currentGid) < 0) {
+		if (this.currentGid && this.currentGid !== '_everyone' && this.currentGid !== '_disabledUsers' && _.indexOf(user.groups, this.currentGid) < 0) {
 			return false;
 		}
 
@@ -936,14 +936,14 @@ $(document).ready(function () {
 			{username: uid, enabled: setEnabled},
 			function (result) {
 				if (result && result.status==='success'){
-					var count = GroupList.getUserCount(GroupList.getGroupLI('disabledUsers'));
+					var count = GroupList.getUserCount(GroupList.getGroupLI('_disabledUsers'));
 					$tr.remove();
 					if(result.data.enabled == 1) {
 						$tr.data('userEnabled', true);
-						GroupList.setUserCount(GroupList.getGroupLI('disabledUsers'), count-1);
+						GroupList.setUserCount(GroupList.getGroupLI('_disabledUsers'), count-1);
 					} else {
 						$tr.data('userEnabled', false);
-						GroupList.setUserCount(GroupList.getGroupLI('disabledUsers'), count+1);
+						GroupList.setUserCount(GroupList.getGroupLI('_disabledUsers'), count+1);
 					}
 				} else {
 					OC.dialogs.alert(result.data.message, t('settings', 'Unable to change status of {user}', {user: uid}));

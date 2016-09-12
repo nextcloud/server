@@ -39,7 +39,7 @@
 
 	<!-- Disabled Users -->
 	<?php $disabledUsersGroup = $_["disabledUsersGroup"] ?>
-	<li data-gid="disabledUsers" data-usercount="<?php if($disabledUsersGroup['usercount'] > 0) { p($disabledUsersGroup['usercount']); } ?>" class="isgroup">
+	<li data-gid="_disabledUsers" data-usercount="<?php if($disabledUsersGroup['usercount'] > 0) { p($disabledUsersGroup['usercount']); } ?>" class="isgroup">
 		<a href="#"><span class="groupname"><?php p($l->t('Disabled')); ?></span></a>
 		<span class="utils">
 			<span class="usercount"><?php if($disabledUsersGroup['usercount'] > 0) { p($disabledUsersGroup['usercount']); } ?></span>

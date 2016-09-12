@@ -102,8 +102,8 @@ foreach (OC_User::getUsers() as $uid) {
 	}
 }
 $disabledUsersGroup = array(
-	'id' => 'disabledUsers',
-	'name' => 'disabledUsers',
+	'id' => '_disabledUsers',
+	'name' => '_disabledUsers',
 	'usercount' => $disabledUsers
 );
 

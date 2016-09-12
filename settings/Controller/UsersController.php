@@ -268,15 +268,15 @@ class UsersController extends Controller {
 
 		$users = [];
 		if ($this->isAdmin) {
-			if($gid !== '' && $gid !== 'disabledUsers') {
+			if($gid !== '' && $gid !== '_disabledUsers') {
 				$batch = $this->getUsersForUID($this->groupManager->displayNamesInGroup($gid, $pattern, $limit, $offset));
 			} else {
 				$batch = $this->userManager->search($pattern, $limit, $offset);
 			}
 
 			foreach ($batch as $user) {
-				if( ($gid !== 'disabledUsers' && $user->isEnabled()) ||
-					($gid === 'disabledUsers' && !$user->isEnabled())
+				if( ($gid !== '_disabledUsers' && $user->isEnabled()) ||
+					($gid === '_disabledUsers' && !$user->isEnabled())
 				) {
 					$users[] = $this->formatUserForIndex($user);
 				}
@@ -292,7 +292,7 @@ class UsersController extends Controller {
 			$subAdminOfGroups = $gids;
 
 			// Set the $gid parameter to an empty value if the subadmin has no rights to access a specific group
-			if($gid !== '' && $gid !== 'disabledUsers' && !in_array($gid, $subAdminOfGroups)) {
+			if($gid !== '' && $gid !== '_disabledUsers' && !in_array($gid, $subAdminOfGroups)) {
 				$gid = '';
 			}
 
@@ -317,8 +317,8 @@ class UsersController extends Controller {
 					$this->groupManager->getUserGroupIds($user),
 					$subAdminOfGroups
 				));
-				if( ($gid !== 'disabledUsers' && $user->isEnabled()) ||
-					($gid === 'disabledUsers' && !$user->isEnabled())
+				if( ($gid !== '_disabledUsers' && $user->isEnabled()) ||
+					($gid === '_disabledUsers' && !$user->isEnabled())
 				) {
 					$users[] = $this->formatUserForIndex($user, $userGroups);
 				}
