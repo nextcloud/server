@@ -29,7 +29,6 @@ use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\Controller\RequestHandlerController;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
-use OCA\FederatedFileSharing\RequestHandler;
 use OCP\AppFramework\App;
 
 class Application extends App {
