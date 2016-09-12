@@ -1,9 +1,11 @@
 { "translations": {
     "Update notifications" : "Уведомления об обновлениях",
     "{version} is available. Get more information on how to update." : "Доступна версия {version}. Получить дополнительную информацию о порядке обновления.",
+    "Channel updated" : "Канал обновлен.",
     "Nextcloud core" : "Nextcloud core",
     "Update for %1$s to version %2$s is available." : "Доступно обновление для %1$s до версии %2$s.",
     "A new version is available: %s" : "Доступна новая версия: %s",
+    "Download now" : "Скачать сейчас",
     "Your version is up to date." : "Версия не требует обновления.",
     "Checked on %s" : "Проверено %s",
     "Update channel:" : "Канал обновлений:",

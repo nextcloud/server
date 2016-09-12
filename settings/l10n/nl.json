@@ -216,6 +216,8 @@
     "Exclude groups from sharing" : "Sluit groepen uit van delen",
     "These groups will still be able to receive shares, but not to initiate them." : "Deze groepen kunnen gedeelde mappen bestanden ontvangen, maar kunnen ze niet starten.",
     "Allow username autocompletion in share dialog. If this is disabled the full username needs to be entered." : "Sta auto-aanvullen van gebruikersnaam toe in de Delen-dialoog. Als dit is uitgeschakeld, moet de gebruikersnaam volledig worden ingevuld.",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Tonen disclaimer op de openbare link uploadpagina (alleen tonen als het bestandsoverzicht verborgen is).",
+    "This text will be shown on the public link upload page when the file list is hidden." : "Deze tekst wordt getoond op de openbare link uploadpagina als het bestandsoverzicht is verborgen.",
     "Tips & tricks" : "Tips & trucs",
     "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "SQLite wordt gebruikt als database. Voor grotere installaties adviseren we om te schakelen naar een andere database engine.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Vooral wanneer de desktop client wordt gebruik voor bestandssynchronisatie wordt gebruik van sqlite afgeraden.",
