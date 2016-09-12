@@ -472,9 +472,10 @@ class Setup {
 
 		if ($content !== '') {
 			//suppress errors in case we don't have permissions for it
-			@file_put_contents($setupHelper->pathToHtaccess(), $htaccessContent.$content . "\n");
+			return (bool) @file_put_contents($setupHelper->pathToHtaccess(), $htaccessContent.$content . "\n");
 		}
 
+		return false;
 	}
 
 	public static function protectDataDirectory() {

@@ -38,8 +38,12 @@ class UpdateHtaccess extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		\OC\Setup::updateHtaccess();
-		$output->writeln('.htaccess has been updated');
-		return 0;
+		if (\OC\Setup::updateHtaccess()) {
+			$output->writeln('.htaccess has been updated');
+			return 0;
+		} else {
+			$output->writeln('<error>Error updating .htaccess file, not enough permissions?</error>');
+			return 1;
+		}
 	}
 }
