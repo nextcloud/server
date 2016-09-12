@@ -13,6 +13,9 @@ namespace Tests\Settings\Controller;
 use \OC\Settings\Application;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\IAvatar;
+use OCP\IAvatarManager;
+use OCP\IUser;
 
 /**
  * @group DB
@@ -60,11 +63,11 @@ class UsersControllerTest extends \Test\TestCase {
 		/*
 		 * Set default avtar behaviour for whole testsuite
 		 */
-		$this->container['OCP\\IAvatarManager'] = $this->getMock('OCP\IAvatarManager');
+		$this->container['OCP\\IAvatarManager'] = $this->createMock(IAvatarManager::class);
 
-		$avatarExists = $this->getMock('OCP\IAvatar');
+		$avatarExists = $this->createMock(IAvatar::class);
 		$avatarExists->method('exists')->willReturn(true);
-		$avatarNotExists = $this->getMock('OCP\IAvatar');
+		$avatarNotExists = $this->createMock(IAvatar::class);
 		$avatarNotExists->method('exists')->willReturn(false);
 		$this->container['OCP\\IAvatarManager']
 			->method('getAvatar')
@@ -1861,7 +1864,7 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	public function testSetDisplayNameNull() {
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('userName');
 
 		$this->container['UserSession']
@@ -1885,33 +1888,33 @@ class UsersControllerTest extends \Test\TestCase {
 	public function dataSetDisplayName() {
 		$data = [];
 
-		$user1 = $this->getMock('\OCP\IUser');
+		$user1 = $this->createMock(IUser::class);
 		$user1->method('getUID')->willReturn('user1');
 		$user1->method('canChangeDisplayName')->willReturn(true);
 		$data[] = [$user1, $user1, false, false, true];
 
-		$user1 = $this->getMock('\OCP\IUser');
+		$user1 = $this->createMock(IUser::class);
 		$user1->method('getUID')->willReturn('user1');
 		$user1->method('canChangeDisplayName')->willReturn(false);
 		$data[] = [$user1, $user1, false, false, false];
 
-		$user1 = $this->getMock('\OCP\IUser');
+		$user1 = $this->createMock(IUser::class);
 		$user1->method('getUID')->willReturn('user1');
-		$user2 = $this->getMock('\OCP\IUser');
+		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
 		$user2->method('canChangeDisplayName')->willReturn(true);
 		$data[] = [$user1, $user2, false, false, false];
 
-		$user1 = $this->getMock('\OCP\IUser');
+		$user1 = $this->createMock(IUser::class);
 		$user1->method('getUID')->willReturn('user1');
-		$user2 = $this->getMock('\OCP\IUser');
+		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
 		$user2->method('canChangeDisplayName')->willReturn(true);
 		$data[] = [$user1, $user2, true, false, true];
 
-		$user1 = $this->getMock('\OCP\IUser');
+		$user1 = $this->createMock(IUser::class);
 		$user1->method('getUID')->willReturn('user1');
-		$user2 = $this->getMock('\OCP\IUser');
+		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
 		$user2->method('canChangeDisplayName')->willReturn(true);
 		$data[] = [$user1, $user2, false, true, true];
@@ -1981,7 +1984,7 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	public function testSetDisplayNameFails() {
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->createMock(IUser::class);
 		$user->method('canChangeDisplayname')->willReturn(true);
 		$user->method('getUID')->willReturn('user');
 		$user->expects($this->once())
