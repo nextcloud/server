@@ -36,7 +36,7 @@ licensed under the AGPLv3 or any later version.
 
 Nextcloud doesn't require a CLA (Contributor License Agreement).
 The copyright belongs to all the individual contributors. Therefore we recommend
-that every contributor adds following line to the header of a file, if he
+that every contributor adds following line to the header of a file, if they
 changed it substantially:
 
 ```
@@ -46,7 +46,7 @@ changed it substantially:
 More information how to contribute: https://nextcloud.com/contribute/
 
 ## Nextcloud VM
-If you're not familiar with Linux, or simply just want to get up and running on a pre-configured system in no time - we have developed a VM that you can download. Just extract it and mount it in VMware or VirtualBox and your're all set.
+If you're not familiar with Linux, or simply just want to get up and running on a pre-configured system in no time - we have developed a VM that you can download. Just extract it and mount it in VMware or VirtualBox and you're all set.
 
 Download the latest version of the [Nextcloud VM](https://github.com/nextcloud/vm/releases/)
 
