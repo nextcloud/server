@@ -4,5 +4,7 @@
 	<description>Nextcloud coding standard for PHP files</description>
 
 	<!-- There MUST NOT be unused use statements. -->
-	<rule ref="./phpbb/Sniffs/Namespaces/UnusedUseSniff.php" />
+	<rule ref="./phpbb/Sniffs/Namespaces/UnusedUseSniff.php">
+		<exclude-pattern>*/3rdparty/*</exclude-pattern>
+	</rule>
 </ruleset>
