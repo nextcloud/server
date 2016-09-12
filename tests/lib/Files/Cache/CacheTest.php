@@ -10,6 +10,7 @@ namespace Test\Files\Cache;
 
 
 use Doctrine\DBAL\Platforms\MySqlPlatform;
+use OC\Files\Cache\Cache;
 
 class LongId extends \OC\Files\Storage\Temporary {
 	public function getId() {
@@ -500,7 +501,10 @@ class CacheTest extends \Test\TestCase {
 		/**
 		 * @var \OC\Files\Cache\Cache | \PHPUnit_Framework_MockObject_MockObject $cacheMock
 		 */
-		$cacheMock = $this->getMock('\OC\Files\Cache\Cache', array('normalize'), array($this->storage), '', true);
+		$cacheMock = $this->getMockBuilder(Cache::class)
+			->setMethods(['normalize'])
+			->setConstructorArgs([$this->storage])
+			->getMock();
 
 		$cacheMock->expects($this->any())
 			->method('normalize')
