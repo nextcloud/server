@@ -33,7 +33,6 @@ use OCA\Encryption\Exceptions\PublicKeyMissingException;
 use OCA\Encryption\Crypto\Crypt;
 use OCP\Encryption\Keys\IStorage;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\IUserSession;
 

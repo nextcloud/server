@@ -27,7 +27,6 @@
 namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\Access;
-use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LogWrapper;

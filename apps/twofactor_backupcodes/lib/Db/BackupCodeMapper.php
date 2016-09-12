@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
@@ -22,6 +21,7 @@
 
 namespace OCA\TwoFactor_BackupCodes\Db;
 
+
 use OCP\AppFramework\Db\Mapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDb;
@@ -38,7 +38,7 @@ class BackupCodeMapper extends Mapper {
 	 * @return BackupCode[]
 	 */
 	public function getBackupCodes(IUser $user) {
-		/* @var $qb IQueryBuilder */
+		/* @var IQueryBuilder $qb */
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('id', 'user_id', 'code', 'used')
@@ -55,7 +55,7 @@ class BackupCodeMapper extends Mapper {
 	}
 
 	public function deleteCodes(IUser $user) {
-		/* @var $qb IQueryBuilder */
+		/* @var IQueryBuilder $qb */
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->delete('twofactor_backup_codes')

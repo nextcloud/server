@@ -25,9 +25,6 @@
 namespace OCA\Admin_Audit\Actions;
 
 
-use OCP\ILogger;
-use OCP\IUserSession;
-
 class Trashbin extends Action {
 
 	public function delete($params) {

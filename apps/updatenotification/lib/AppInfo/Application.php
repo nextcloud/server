@@ -24,7 +24,6 @@
 namespace OCA\UpdateNotification\AppInfo;
 
 use OC\AppFramework\Utility\TimeFactory;
-use OC\Updater;
 use OCA\UpdateNotification\Controller\AdminController;
 use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\App;

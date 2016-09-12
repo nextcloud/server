@@ -22,12 +22,11 @@
 
 namespace OCA\User_LDAP;
 
-use OCP\IUserBackend;
+
 use OCP\LDAP\ILDAPProvider;
 use OCP\LDAP\IDeletionFlagSupport;
 use OCP\IServerContainer;
 use OCA\User_LDAP\User\DeletedUsersIndex;
-use OCA\User_LDAP\Mapping\UserMapping;
 
 /**
  * LDAP provider for pulic access to the LDAP backend.

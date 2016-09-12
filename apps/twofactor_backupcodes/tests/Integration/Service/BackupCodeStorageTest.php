@@ -22,7 +22,6 @@
 
 namespace OCA\TwoFactor_BackupCodes\Tests\Integration\Service;
 
-use OC;
 use OCA\TwoFactor_BackupCodes\Service\BackupCodeStorage;
 use Test\TestCase;
 
@@ -40,7 +39,7 @@ class BackupCodeStorageTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->storage = OC::$server->query(BackupCodeStorage::class);
+		$this->storage = \OC::$server->query(BackupCodeStorage::class);
 	}
 
 	public function testSimpleWorkFlow() {

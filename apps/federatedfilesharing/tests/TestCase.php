@@ -23,7 +23,6 @@
 namespace OCA\FederatedFileSharing\Tests;
 
 use OC\Files\Filesystem;
-use OCA\Files\Share;
 
 /**
  * Class Test_Files_Sharing_Base

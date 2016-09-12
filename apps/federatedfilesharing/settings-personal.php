@@ -24,7 +24,6 @@
  */
 
 use OCA\FederatedFileSharing\AppInfo\Application;
-use OCA\Theming\Template;
 
 \OC_Util::checkLoggedIn();
 

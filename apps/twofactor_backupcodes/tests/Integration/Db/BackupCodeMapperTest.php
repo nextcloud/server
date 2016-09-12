@@ -22,7 +22,6 @@
 
 namespace OCA\TwoFactor_BackupCodes\Tests\Integration\Db;
 
-use OC;
 use OCA\TwoFactor_BackupCodes\Db\BackupCode;
 use OCA\TwoFactor_BackupCodes\Db\BackupCodeMapper;
 use OCP\IDBConnection;
@@ -53,8 +52,8 @@ class BackupCodeMapperTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->db = OC::$server->getDatabaseConnection();
-		$this->mapper = OC::$server->query(BackupCodeMapper::class);
+		$this->db = \OC::$server->getDatabaseConnection();
+		$this->mapper = \OC::$server->query(BackupCodeMapper::class);
 
 		$this->resetDB();
 	}
