@@ -36,6 +36,7 @@ use OC\Repair\CleanTags;
 use OC\Repair\Collation;
 use OC\Repair\DropOldJobs;
 use OC\Repair\MoveUpdaterStepFile;
+use OC\Repair\NC11\MoveAvatars;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\RemoveGetETagEntries;
 use OC\Repair\RemoveOldShares;
@@ -149,6 +150,12 @@ class Repair implements IOutput{
 				\OC::$server->getGroupManager()
 			),
 			new MoveUpdaterStepFile(\OC::$server->getConfig()),
+			new MoveAvatars(
+				\OC::$server->getUserManager(),
+				\OC::$server->getRootFolder(),
+				\OC::$server->getAppDataDir('avatar'),
+				\OC::$server->getSystemConfig()
+			),
 		];
 	}
 
