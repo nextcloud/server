@@ -56,4 +56,4 @@
 
 })();
 
-OC.Plugins.register('OCA.Activity.Plugins', OCA.Comments.ActivityTabViewPlugin);
+OC.Plugins.register('OCA.Activity.RenderingPlugins', OCA.Comments.ActivityTabViewPlugin);
