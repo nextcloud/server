@@ -3,6 +3,7 @@
 namespace Test\Comments;
 
 use OCP\Comments\ICommentsManager;
+use OCP\IUser;
 use Test\TestCase;
 
 /**
@@ -561,7 +562,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testSetMarkRead() {
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('alice'));
@@ -577,7 +578,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testSetMarkReadUpdate() {
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('alice'));
@@ -596,7 +597,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testReadMarkDeleteUser() {
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('alice'));
@@ -613,7 +614,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testReadMarkDeleteObject() {
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('alice'));
