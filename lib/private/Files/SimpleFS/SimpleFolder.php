@@ -22,8 +22,10 @@
  */
 namespace OC\Files\SimpleFS;
 
+use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 
 class SimpleFolder implements ISimpleFolder   {
@@ -48,10 +50,15 @@ class SimpleFolder implements ISimpleFolder   {
 		$listing = $this->folder->getDirectoryListing();
 
 		$fileListing = array_map(function(Node $file) {
-			return new SimpleFile($file);
+			if ($file instanceof File) {
+				return new SimpleFile($file);
+			}
+			return null;
 		}, $listing);
 
-		return $fileListing;
+		$fileListing = array_filter($fileListing);
+
+		return array_values($fileListing);
 	}
 
 	public function delete() {
@@ -60,6 +67,10 @@ class SimpleFolder implements ISimpleFolder   {
 
 	public function getFile($name) {
 		$file = $this->folder->get($name);
+
+		if (!($file instanceof File)) {
+			throw new NotFoundException();
+		}
 
 		return new SimpleFile($file);
 	}
