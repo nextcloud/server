@@ -11,6 +11,7 @@ namespace Test\Files\Utils;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Temporary;
+use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
 
@@ -107,7 +108,7 @@ class ScannerTest extends \Test\TestCase {
 		$uid = $this->getUniqueID();
 		$this->userBackend->createUser($uid, 'test');
 
-		$mountProvider = $this->getMock('\OCP\Files\Config\IMountProvider');
+		$mountProvider = $this->createMock(IMountProvider::class);
 
 		$storage = new Temporary(array());
 		$mount = new MountPoint($storage, '/' . $uid . '/files/foo');
