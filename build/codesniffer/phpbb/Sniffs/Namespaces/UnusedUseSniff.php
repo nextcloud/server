@@ -150,7 +150,7 @@ class phpbb_Sniffs_Namespaces_UnusedUseSniff implements PHP_CodeSniffer_Sniff
 			$content = explode(' ', $content);
 
 			// E.g. /* @var Class $var */
-			if ($content[1] === '@var') {
+			if (isset($content[1]) && isset($content[2]) && $content[1] === '@var') {
 				$classes = explode('|', str_replace('[]', '', $content[2]));
 				foreach ($classes as $class)
 				{
