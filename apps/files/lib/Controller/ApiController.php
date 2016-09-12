@@ -174,23 +174,6 @@ class ApiController extends Controller {
 	}
 
 	/**
-	 * Returns a list of all files tagged with the given tag.
-	 *
-	 * @NoAdminRequired
-	 *
-	 * @param string $tagName tag name to filter by
-	 * @return DataResponse
-	 */
-	public function getFilesByTag($tagName) {
-		$nodes = $this->tagService->getFilesByTag($tagName);
-		$files = $this->formatNodes($nodes);
-		foreach ($files as &$file) {
-			$file['tags'] = [$tagName];
-		}
-		return new DataResponse(['files' => $files]);
-	}
-
-	/**
 	 * Returns a list of recently modifed files.
 	 *
 	 * @NoAdminRequired

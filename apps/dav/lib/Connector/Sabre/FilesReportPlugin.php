@@ -39,6 +39,7 @@ use OCP\Files\Folder;
 use OCP\IGroupManager;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\TagNotFoundException;
+use OCP\ITagManager;
 
 class FilesReportPlugin extends ServerPlugin {
 
@@ -75,6 +76,13 @@ class FilesReportPlugin extends ServerPlugin {
 	private $tagMapper;
 
 	/**
+	 * Manager for private tags
+	 *
+	 * @var ITagManager
+	 */
+	private $fileTagger;
+
+	/**
 	 * @var IUserSession
 	 */
 	private $userSession;
@@ -92,11 +100,18 @@ class FilesReportPlugin extends ServerPlugin {
 	/**
 	 * @param Tree $tree
 	 * @param View $view
+	 * @param ISystemTagManager $tagManager
+	 * @param ISystemTagObjectMapper $tagMapper
+	 * @param ITagManager $fileTagger manager for private tags
+	 * @param IUserSession $userSession
+	 * @param IGroupManager $groupManager
+	 * @param Folder $userfolder
 	 */
 	public function __construct(Tree $tree,
 								View $view,
 								ISystemTagManager $tagManager,
 								ISystemTagObjectMapper $tagMapper,
+								ITagManager $fileTagger,
 								IUserSession $userSession,
 								IGroupManager $groupManager,
 								Folder $userFolder
@@ -105,6 +120,7 @@ class FilesReportPlugin extends ServerPlugin {
 		$this->fileView = $view;
 		$this->tagManager = $tagManager;
 		$this->tagMapper = $tagMapper;
+		$this->fileTagger = $fileTagger;
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
 		$this->userFolder = $userFolder;
@@ -215,11 +231,37 @@ class FilesReportPlugin extends ServerPlugin {
 		$ns = '{' . $this::NS_OWNCLOUD . '}';
 		$resultFileIds = null;
 		$systemTagIds = [];
+		$favoriteFilter = null;
 		foreach ($filterRules as $filterRule) {
 			if ($filterRule['name'] === $ns . 'systemtag') {
 				$systemTagIds[] = $filterRule['value'];
 			}
+			if ($filterRule['name'] === $ns . 'favorite') {
+				$favoriteFilter = true;
+			}
 		}
+
+		if ($favoriteFilter !== null) {
+			$resultFileIds = $this->fileTagger->load('files')->getFavorites();
+			if (empty($resultFileIds)) {
+				return [];
+			}
+		}
+
+		if (!empty($systemTagIds)) {
+			$fileIds = $this->getSystemTagFileIds($systemTagIds);
+			if (empty($resultFileIds)) {
+				$resultFileIds = $fileIds;
+			} else {
+				$resultFileIds = array_intersect($fileIds, $resultFileIds);
+			}
+		}
+
+		return $resultFileIds;
+	}
+
+	private function getSystemTagFileIds($systemTagIds) {
+		$resultFileIds = null;
 
 		// check user permissions, if applicable
 		if (!$this->isAdmin()) {

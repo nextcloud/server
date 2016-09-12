@@ -85,7 +85,11 @@ class TagList implements Element {
 	static function xmlDeserialize(Reader $reader) {
 		$tags = [];
 
-		foreach ($reader->parseInnerTree() as $elem) {
+		$tree = $reader->parseInnerTree();
+		if ($tree === null) {
+			return null;
+		}
+		foreach ($tree as $elem) {
 			if ($elem['name'] === '{' . self::NS_OWNCLOUD . '}tag') {
 				$tags[] = $elem['value'];
 			}

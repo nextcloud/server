@@ -66,7 +66,11 @@ class ShareTypeList implements Element {
 	static function xmlDeserialize(Reader $reader) {
 		$shareTypes = [];
 
-		foreach ($reader->parseInnerTree() as $elem) {
+		$tree = $reader->parseInnerTree();
+		if ($tree === null) {
+			return null;
+		}
+		foreach ($tree as $elem) {
 			if ($elem['name'] === '{' . self::NS_OWNCLOUD . '}share-type') {
 				$shareTypes[] = (int)$elem['value'];
 			}

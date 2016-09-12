@@ -437,6 +437,7 @@
 		 *
 		 * @param {Object} filter filter criteria
 		 * @param {Object} [filter.systemTagIds] list of system tag ids to filter by
+		 * @param {bool} [filter.favorite] set it to filter by favorites
 		 * @param {Object} [options] options
 		 * @param {Array} [options.properties] list of Webdav properties to retrieve
 		 *
@@ -454,7 +455,7 @@
 				properties = options.properties;
 			}
 
-			if (!filter || !filter.systemTagIds || !filter.systemTagIds.length) {
+			if (!filter || (!filter.systemTagIds && _.isUndefined(filter.favorite))) {
 				throw 'Missing filter argument';
 			}
 
@@ -480,6 +481,9 @@
 			_.each(filter.systemTagIds, function(systemTagIds) {
 				body += '        <oc:systemtag>' + escapeHTML(systemTagIds) + '</oc:systemtag>\n';
 			});
+			if (filter.favorite) {
+				body += '        <oc:favorite>' + (filter.favorite ? '1': '0') + '</oc:favorite>\n';
+			}
 			body += '    </oc:filter-rules>\n';
 
 			// end of root

@@ -461,9 +461,7 @@ describe('OC.Files.Client tests', function() {
 		it('throws exception if arguments are missing', function() {
 			var thrown = null;
 			try {
-				client.getFilteredFiles({
-					systemTagIds: []
-				});
+				client.getFilteredFiles({});
 			} catch (e) {
 				thrown = true;
 			}
