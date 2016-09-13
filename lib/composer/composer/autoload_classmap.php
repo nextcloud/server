@@ -590,6 +590,7 @@ return array(
     'OC\\OCS\\Result' => $baseDir . '/lib/private/OCS/Result.php',
     'OC\\Preview' => $baseDir . '/lib/private/Preview.php',
     'OC\\PreviewManager' => $baseDir . '/lib/private/PreviewManager.php',
+    'OC\\PreviewNotAvailableException' => $baseDir . '/lib/private/PreviewNotAvailableException.php',
     'OC\\Preview\\BMP' => $baseDir . '/lib/private/Preview/BMP.php',
     'OC\\Preview\\Bitmap' => $baseDir . '/lib/private/Preview/Bitmap.php',
     'OC\\Preview\\Font' => $baseDir . '/lib/private/Preview/Font.php',
