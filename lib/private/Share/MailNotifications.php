@@ -123,7 +123,7 @@ class MailNotifications {
 
 			$link = $this->urlGenerator->linkToRouteAbsolute(
 				'files.viewcontroller.showFile',
-				['fileId' => $items[0]['item_source']]
+				['fileid' => $items[0]['item_source']]
 			);
 
 			list($htmlBody, $textBody) = $this->createMailBody($filename, $link, $expiration, 'internal');

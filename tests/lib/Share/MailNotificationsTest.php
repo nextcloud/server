@@ -241,10 +241,8 @@ class MailNotificationsTest extends \Test\TestCase {
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRouteAbsolute')
 			->with(
-				$this->equalTo('files.viewcontroller.showFile'),
-				$this->equalTo([
-					'fileId' => 123,
-				])
+				'files.viewcontroller.showFile',
+				['fileid' => 123]
 			);
 
 		$recipientList = [$recipient];
