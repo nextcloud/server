@@ -3,12 +3,6 @@
   "numFilesToCheck": 5,
   "alwaysNotifyForPaths": [
     {
-      "name": "DeepDiver1975",
-      "files": [
-        "apps/dav/**"
-      ]
-    },
-    {
       "name": "nickvergessen",
       "files": [
         "lib/private/Activity/**",
@@ -25,7 +19,10 @@
     }
   ],
   "userBlacklist": [
+    "DeepDiver1975",
+    "nextcloud-bot",
     "owncloud-bot",
+    "PVince81",
     "scrutinizer-auto-fixer",
     "th3fallen",
     "zander"
