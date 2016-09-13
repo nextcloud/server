@@ -46,6 +46,7 @@ OC.L10N.register(
     "Add trusted domain" : "Vertrauenswürdige Domain hinzufügen",
     "Migration in progress. Please wait until the migration is finished" : "Migration läuft. Bitte warte, bis die Migrationabgeschlossen ist",
     "Migration started …" : "Migration begonnen…",
+    "Not saved" : "Nicht gespeichert",
     "Sending..." : "Senden…",
     "Official" : "Offiziell",
     "Approved" : "Geprüft",

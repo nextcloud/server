@@ -288,6 +288,7 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Nézzük meg újra az első bejelentkezéskori segítséget!",
     "Device" : "Eszköz",
     "Last activity" : "Utolsó tevékenység",
+    "Passcodes that give an app or device permissions to access your account." : "A számkódok jogosultságot adnak egy alkalmazás vagy eszköz részére a fiókod hozzáféréséhez.",
     "Name" : "Név",
     "App name" : "Alkalmazás név",
     "Create new app password" : "Új alkalmazás jelszó létrehozása",
