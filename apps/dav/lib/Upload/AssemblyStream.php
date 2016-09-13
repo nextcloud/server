@@ -50,6 +50,9 @@ class AssemblyStream implements \Icewind\Streams\File {
 	/** @var int */
 	private $size;
 
+	/** @var resource */
+	private $currentStream = null;
+
 	/**
 	 * @param string $path
 	 * @param string $mode
@@ -102,16 +105,36 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 * @return string
 	 */
 	public function stream_read($count) {
+		do {
+			if ($this->currentStream === null) {
+				list($node, $posInNode) = $this->getNodeForPosition($this->pos);
+				if (is_null($node)) {
+					// reached last node, no more data
+					return '';
+				}
+				$this->currentStream = $this->getStream($node);
+				fseek($this->currentStream, $posInNode);
+			}
 
-		list($node, $posInNode) = $this->getNodeForPosition($this->pos);
-		if (is_null($node)) {
-			return null;
-		}
-		$stream = $this->getStream($node);
+			$data = fread($this->currentStream, $count);
+			// isset is faster than strlen
+			if (isset($data[$count - 1])) {
+				// we read the full count
+				$read = $count;
+			} else {
+				// reaching end of stream, which happens less often so strlen is ok
+				$read = strlen($data);
+			}
 
-		fseek($stream, $posInNode);
-		$data = fread($stream, $count);
-		$read = strlen($data);
+			if (feof($this->currentStream)) {
+				fclose($this->currentStream);
+				$this->currentNode = null;
+				$this->currentStream = null;
+			}
+			// if no data read, try again with the next node because
+			// returning empty data can make the caller think there is no more
+			// data left to read
+		} while ($read === 0);
 
 		// update position
 		$this->pos += $read;
