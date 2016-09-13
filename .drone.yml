@@ -1,4 +1,7 @@
 pipeline:
+  clone:
+    image: plugins/git
+    depth: 1
   jsunit:
     image: nextcloudci/jsunit:1.0.6
     commands:
@@ -9,7 +12,6 @@ pipeline:
   nodb-php5.4:
     image: nextcloudci/php5.4:1.0.7
     commands:
-      - git submodule update --init
       - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
     when:
       matrix:
@@ -18,7 +20,6 @@ pipeline:
   nodb-php5.5:
     image: nextcloudci/php5.5:1.0.7
     commands:
-      - git submodule update --init
       - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
     when:
       matrix:
@@ -27,7 +28,6 @@ pipeline:
   nodb-php5.6:
     image: nextcloudci/php5.6:1.0.6
     commands:
-      - git submodule update --init
       - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
     when:
       matrix:
@@ -36,7 +36,6 @@ pipeline:
   nodb-php7.0:
     image: nextcloudci/php7.0:1.0.9
     commands:
-      - git submodule update --init
       - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
     when:
       matrix:
@@ -45,7 +44,6 @@ pipeline:
   sqlite-php5.4:
     image: nextcloudci/php5.4:1.0.7
     commands:
-      - git submodule update --init
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
     when:
       matrix:
@@ -54,7 +52,6 @@ pipeline:
   sqlite-php5.5:
     image: nextcloudci/php5.5:1.0.7
     commands:
-      - git submodule update --init
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
     when:
       matrix:
@@ -63,7 +60,6 @@ pipeline:
   sqlite-php5.6:
     image: nextcloudci/php5.6:1.0.6
     commands:
-      - git submodule update --init
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
     when:
       matrix:
@@ -72,7 +68,6 @@ pipeline:
   sqlite-php7.0:
     image: nextcloudci/php7.0:1.0.9
     commands:
-      - git submodule update --init
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
     when:
       matrix:
@@ -82,7 +77,6 @@ pipeline:
     image: nextcloudci/php5.6:1.0.6
     commands:
       - sleep 15 # gives the database enough time to initialize
-      - git submodule update --init
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
       matrix:
@@ -92,7 +86,6 @@ pipeline:
     image: nextcloudci/php5.6:1.0.6
     commands:
       - sleep 10 # gives the database enough time to initialize
-      - git submodule update --init
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
     when:
       matrix:
@@ -101,7 +94,6 @@ pipeline:
   integration:
     image: nextcloudci/php7.0:1.0.9
     commands:
-      - git submodule update --init
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
       - ./run.sh
