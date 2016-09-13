@@ -791,6 +791,7 @@ class Preview {
 	 * @param null|string $mimeTypeForHeaders the media type to use when sending back the reply
 	 *
 	 * @throws NotFoundException
+	 * @throws PreviewNotAvailableException
 	 */
 	public function showPreview($mimeTypeForHeaders = null) {
 		// Check if file is valid
@@ -1172,6 +1173,7 @@ class Preview {
 
 	/**
 	 * Defines the media icon, for the media type of the original file, as the preview
+	 * @throws PreviewNotAvailableException
 	 */
 	private function getMimeIcon() {
 		$image = new \OC_Image();
@@ -1180,6 +1182,10 @@ class Preview {
 			$mimeIconServerPath = \OC::$SERVERROOT . $mimeIconWebPath;
 		} else {
 			$mimeIconServerPath = str_replace(\OC::$WEBROOT, \OC::$SERVERROOT, $mimeIconWebPath);
+		}
+		// we can't load SVGs into an image
+		if (substr($mimeIconWebPath, -4) === '.svg') {
+			throw new PreviewNotAvailableException('SVG mimetype cannot be rendered');
 		}
 		$image->loadFromFile($mimeIconServerPath);
 
