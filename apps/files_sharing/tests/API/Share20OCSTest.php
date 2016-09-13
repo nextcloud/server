@@ -24,6 +24,8 @@
 namespace OCA\Files_Sharing\Tests\API;
 
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\Files\Folder;
 use OCP\IL10N;
 use OCA\Files_Sharing\API\Share20OCS;
 use OCP\Files\NotFoundException;
@@ -108,8 +110,11 @@ class Share20OCSTest extends \Test\TestCase {
 		);
 	}
 
+	/**
+	 * @return Share20OCS|\PHPUnit_Framework_MockObject_MockObject
+	 */
 	private function mockFormatShare() {
-		return $this->getMockBuilder('OCA\Files_Sharing\API\Share20OCS')
+		return $this->getMockBuilder(Share20OCS::class)
 			->setConstructorArgs([
 				$this->appName,
 				$this->request,
@@ -1567,6 +1572,103 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
+	public function testUpdateShareCannotIncreasePermissions() {
+		$ocs = $this->mockFormatShare();
+
+		$folder = $this->createMock(Folder::class);
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share
+			->setId(42)
+			->setSharedBy($this->currentUser->getUID())
+			->setShareOwner('anotheruser')
+			->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setSharedWith('group1')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($folder);
+
+		// note: updateShare will modify the received instance but getSharedWith will reread from the database,
+		// so their values will be different
+		$incomingShare = \OC::$server->getShareManager()->newShare();
+		$incomingShare
+			->setId(42)
+			->setSharedBy($this->currentUser->getUID())
+			->setShareOwner('anotheruser')
+			->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setSharedWith('group1')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($folder);
+
+		$this->request
+			->method('getParam')
+			->will($this->returnValueMap([
+				['permissions', null, '31'],
+			]));
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+
+		$this->shareManager->expects($this->any(0))
+			->method('getSharedWith')
+			->will($this->returnValueMap([
+				['currentUser', \OCP\Share::SHARE_TYPE_USER, $share->getNode(), -1, 0, []],
+				['currentUser', \OCP\Share::SHARE_TYPE_GROUP, $share->getNode(), -1, 0, [$incomingShare]]
+			]));
+
+		$this->shareManager->expects($this->never())->method('updateShare');
+
+		try {
+			$ocs->updateShare(42, 31);
+			$this->fail();
+		} catch (OCSNotFoundException $e) {
+			$this->assertEquals('Cannot increase permissions', $e->getMessage());
+		}
+	}
+
+	public function testUpdateShareCanIncreasePermissionsIfOwner() {
+		$ocs = $this->mockFormatShare();
+
+		$folder = $this->createMock(Folder::class);
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share
+			->setId(42)
+			->setSharedBy($this->currentUser->getUID())
+			->setShareOwner($this->currentUser->getUID())
+			->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setSharedWith('group1')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($folder);
+
+		// note: updateShare will modify the received instance but getSharedWith will reread from the database,
+		// so their values will be different
+		$incomingShare = \OC::$server->getShareManager()->newShare();
+		$incomingShare
+			->setId(42)
+			->setSharedBy($this->currentUser->getUID())
+			->setShareOwner($this->currentUser->getUID())
+			->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setSharedWith('group1')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($folder);
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+
+		$this->shareManager->expects($this->any(0))
+			->method('getSharedWith')
+			->will($this->returnValueMap([
+				['currentUser', \OCP\Share::SHARE_TYPE_USER, $share->getNode(), -1, 0, []],
+				['currentUser', \OCP\Share::SHARE_TYPE_GROUP, $share->getNode(), -1, 0, [$incomingShare]]
+			]));
+
+		$this->shareManager->expects($this->once())
+			->method('updateShare')
+			->with($share)
+			->willReturn($share);
+
+		$result = $ocs->updateShare(42, 31);
+		$this->assertInstanceOf(DataResponse::class, $result);
 	}
 
 	public function dataFormatShare() {
