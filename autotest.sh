@@ -191,14 +191,6 @@ function execute_tests {
 				-d mysql)
 			DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
 
-			echo "Waiting for MySQL initialisation ..."
-			if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 600; then
-				echo "[ERROR] Waited 600 seconds, no response" >&2
-				exit 1
-			fi
-
-			echo "MySQL is up."
-
 		else
 			if [ -z "$DRONE" ] ; then # no need to drop the DB when we are on CI
                 if [ "mysql" != "$(mysql --version | grep -o mysql)" ] ; then
@@ -211,6 +203,11 @@ function execute_tests {
                 DATABASEHOST=127.0.0.1
             fi
 		fi
+        echo "Waiting for MySQL initialisation ..."
+        if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 600; then
+            echo "[ERROR] Waited 600 seconds, no response" >&2
+            exit 1
+        fi
 	fi
 	if [ "$DB" == "mariadb" ] ; then
 		if [ ! -z "$USEDOCKER" ] ; then
