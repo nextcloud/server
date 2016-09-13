@@ -10,6 +10,7 @@ namespace Test\Files\Storage\Wrapper;
 
 //ensure the constants are loaded
 use OC\Files\Cache\CacheEntry;
+use OC\Files\Storage\Local;
 
 \OC::$loader->load('\OC\Files\Filesystem');
 
@@ -75,11 +76,10 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 	}
 
 	public function testFreeSpaceWithUnknownDiskSpace() {
-		$storage = $this->getMock(
-			'\OC\Files\Storage\Local',
-			array('free_space'),
-			array(array('datadir' => $this->tmpDir))
-		);
+		$storage = $this->getMockBuilder(Local::class)
+			->setMethods(['free_space'])
+			->setConstructorArgs([['datadir' => $this->tmpDir]])
+			->getMock();
 		$storage->expects($this->any())
 			->method('free_space')
 			->will($this->returnValue(-2));
@@ -132,10 +132,10 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 	}
 
 	public function testReturnFalseWhenFopenFailed() {
-		$failStorage = $this->getMock(
-			'\OC\Files\Storage\Local',
-			array('fopen'),
-			array(array('datadir' => $this->tmpDir)));
+		$failStorage = $this->getMockBuilder(Local::class)
+			->setMethods(['fopen'])
+			->setConstructorArgs([['datadir' => $this->tmpDir]])
+			->getMock();
 		$failStorage->expects($this->any())
 			->method('fopen')
 			->will($this->returnValue(false));

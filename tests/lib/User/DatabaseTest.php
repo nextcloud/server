@@ -45,7 +45,7 @@ class DatabaseTest extends Backend {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->eventDispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
+		$this->eventDispatcher = $this->createMock(EventDispatcher::class);
 
 		$this->backend=new \OC\User\Database($this->eventDispatcher);
 	}

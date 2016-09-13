@@ -12,8 +12,10 @@ use OC\Files\Cache\Watcher;
 use OC\Files\Storage\Common;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Temporary;
+use OCP\Files\Config\IMountProvider;
 use OCP\Files\FileInfo;
 use OCP\Lock\ILockingProvider;
+use Test\TestMoveableMountPoint;
 
 class TemporaryNoTouch extends \OC\Files\Storage\Temporary {
 	public function touch($path, $mtime = null) {
@@ -1529,14 +1531,13 @@ class ViewTest extends \Test\TestCase {
 				->setMethods([])
 				->getMock();
 
-			$mounts[] = $this->getMock(
-				'\Test\TestMoveableMountPoint',
-				['moveMount'],
-				[$storage, $mountPoint]
-			);
+			$mounts[] = $this->getMockBuilder(TestMoveableMountPoint::class)
+				->setMethods(['moveMount'])
+				->setConstructorArgs([$storage, $mountPoint])
+				->getMock();
 		}
 
-		$mountProvider = $this->getMock('\OCP\Files\Config\IMountProvider');
+		$mountProvider = $this->createMock(IMountProvider::class);
 		$mountProvider->expects($this->any())
 			->method('getMountsForUser')
 			->will($this->returnValue($mounts));

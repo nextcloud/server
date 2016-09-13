@@ -21,6 +21,7 @@
 */
 
 namespace Test;
+use OCP\IUserSession;
 
 /**
  * Class TagsTest
@@ -49,7 +50,7 @@ class TagsTest extends \Test\TestCase {
 		\OC::$server->getUserManager()->createUser($userId, 'pass');
 		\OC_User::setUserId($userId);
 		$this->user = new \OC\User\User($userId, null);
-		$this->userSession = $this->getMock('\OCP\IUserSession');
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->userSession
 			->expects($this->any())
 			->method('getUser')
@@ -70,7 +71,7 @@ class TagsTest extends \Test\TestCase {
 	}
 
 	public function testTagManagerWithoutUserReturnsNull() {
-		$this->userSession = $this->getMock('\OCP\IUserSession');
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->userSession
 			->expects($this->any())
 			->method('getUser')
@@ -294,7 +295,7 @@ class TagsTest extends \Test\TestCase {
 		$otherUserId = $this->getUniqueID('user2_');
 		\OC::$server->getUserManager()->createUser($otherUserId, 'pass');
 		\OC_User::setUserId($otherUserId);
-		$otherUserSession = $this->getMock('\OCP\IUserSession');
+		$otherUserSession = $this->createMock(IUserSession::class);
 		$otherUserSession
 			->expects($this->any())
 			->method('getUser')

@@ -7,6 +7,7 @@
  */
 
 namespace Test;
+use OC\Files\Storage\Temporary;
 
 /**
  * Test the storage functions of OC_Helper
@@ -62,12 +63,10 @@ class HelperStorageTest extends \Test\TestCase {
 	 * @return \OC\Files\Storage\Storage
 	 */
 	private function getStorageMock($freeSpace = 12) {
-		$this->storageMock = $this->getMock(
-			'\OC\Files\Storage\Temporary',
-			array('free_space'),
-			array('')
-		);
-
+		$this->storageMock = $this->getMockBuilder(Temporary::class)
+			->setMethods(['free_space'])
+			->setConstructorArgs([''])
+			->getMock();
 
 		$this->storageMock->expects($this->once())
 			->method('free_space')

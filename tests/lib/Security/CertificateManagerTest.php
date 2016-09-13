@@ -9,6 +9,7 @@
 namespace Test\Security;
 
 use \OC\Security\CertificateManager;
+use OCP\IConfig;
 
 /**
  * Class CertificateManagerTest
@@ -38,7 +39,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		\OC\Files\Filesystem::tearDown();
 		\OC_Util::setupFS($this->username);
 
-		$config = $this->getMock('OCP\IConfig');
+		$config = $this->createMock(IConfig::class);
 		$config->expects($this->any())->method('getSystemValue')
 			->with('installed', false)->willReturn(true);
 
@@ -138,7 +139,7 @@ class CertificateManagerTest extends \Test\TestCase {
 
 		$view = $this->getMockBuilder('OC\Files\View')
 			->disableOriginalConstructor()->getMock();
-		$config = $this->getMock('OCP\IConfig');
+		$config = $this->createMock(IConfig::class);
 
 		/** @var CertificateManager | \PHPUnit_Framework_MockObject_MockObject $certificateManager */
 		$certificateManager = $this->getMockBuilder('OC\Security\CertificateManager')

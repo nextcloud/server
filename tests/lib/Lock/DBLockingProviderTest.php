@@ -21,6 +21,7 @@
 
 namespace Test\Lock;
 
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Lock\ILockingProvider;
 
 /**
@@ -50,7 +51,7 @@ class DBLockingProviderTest extends LockingProvider {
 
 	public function setUp() {
 		$this->currentTime = time();
-		$this->timeFactory = $this->getMock('\OCP\AppFramework\Utility\ITimeFactory');
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
 			->will($this->returnCallback(function () {

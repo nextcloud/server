@@ -47,7 +47,7 @@ class UserMountCacheTest extends TestCase {
 		$userBackend->createUser('u1', '');
 		$userBackend->createUser('u2', '');
 		$this->userManager->registerBackend($userBackend);
-		$this->cache = new \OC\Files\Config\UserMountCache($this->connection, $this->userManager, $this->getMock('\OC\Log'));
+		$this->cache = new \OC\Files\Config\UserMountCache($this->connection, $this->userManager, $this->createMock(Log::class));
 	}
 
 	public function tearDown() {
