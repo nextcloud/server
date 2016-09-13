@@ -83,6 +83,8 @@ class Database extends \OC\User\Backend implements \OCP\IUserBackend {
 	 */
 	public function createUser($uid, $password) {
 		if (!$this->userExists($uid)) {
+			$event = new GenericEvent($password);
+			$this->eventDispatcher->dispatch('OCP\PasswordPolicy::validate', $event);
 			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )');
 			$result = $query->execute(array($uid, \OC::$server->getHasher()->hash($password)));
 
