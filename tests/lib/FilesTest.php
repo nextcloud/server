@@ -24,7 +24,7 @@ namespace Test;
 
 class FilesTest extends \Test\TestCase {
 
-	const UPLOAD_LIMIT_DEFAULT_STR = '513M';
+	const UPLOAD_LIMIT_DEFAULT_STR = '511M';
 	const UPLOAD_LIMIT_SETTING_STR = '2M';
 	const UPLOAD_LIMIT_SETTING_BYTES = 2097152;
 

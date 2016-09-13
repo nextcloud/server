@@ -195,7 +195,7 @@ class Checker {
 					copy($this->environmentHelper->getServerRoot() . '/.htaccess', $tmpFolder . '/.htaccess');
 					copy($this->environmentHelper->getServerRoot() . '/.user.ini', $tmpFolder . '/.user.ini');
 					\OC_Files::setUploadLimit(
-						\OCP\Util::computerFileSize('513MB'),
+						\OCP\Util::computerFileSize('511MB'),
 						[
 							'.htaccess' => $tmpFolder . '/.htaccess',
 							'.user.ini' => $tmpFolder . '/.user.ini',
