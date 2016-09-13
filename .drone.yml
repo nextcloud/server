@@ -127,7 +127,6 @@ pipeline:
   mysql-php5.6:
     image: nextcloudci/php5.6:php5.6-2
     commands:
-      - sleep 15 # gives the database enough time to initialize
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
       matrix:
