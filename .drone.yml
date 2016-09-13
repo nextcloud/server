@@ -9,6 +9,72 @@ pipeline:
     when:
       matrix:
         TESTS: jsunit
+  syntax-php5.4:
+    image: nextcloudci/php5.4:1.0.14
+    commands:
+      - composer install
+      - vendor/bin/parallel-lint --exclude vendor/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude vendor/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
+    when:
+      matrix:
+        TESTS: syntax-php5.4
+  syntax-php5.5:
+    image: nextcloudci/php5.5:1.0.14
+    commands:
+      - composer install
+      - vendor/bin/parallel-lint --exclude vendor/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude vendor/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
+    when:
+      matrix:
+        TESTS: syntax-php5.5
+  syntax-php5.6:
+    image: nextcloudci/php5.6:php5.6-2
+    commands:
+      - composer install
+      - vendor/bin/parallel-lint --exclude vendor/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude vendor/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
+    when:
+      matrix:
+        TESTS: syntax-php5.6
+  syntax-php7.0:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - composer install
+      - vendor/bin/parallel-lint --exclude vendor/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude vendor/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
+    when:
+      matrix:
+        TESTS: syntax-php7.0
+  litmus-v1:
+    image: nextcloudci/litmus-php7.0:litmus-php7.0-2
+    commands:
+      - bash tests/travis/install.sh sqlite
+      - bash apps/dav/tests/travis/litmus-v1/script.sh
+    when:
+      matrix:
+        TESTS: litmus-v1
+  litmus-v2:
+    image: nextcloudci/litmus-php7.0:litmus-php7.0-2
+    commands:
+      - bash tests/travis/install.sh sqlite
+      - bash apps/dav/tests/travis/litmus-v2/script.sh
+    when:
+      matrix:
+        TESTS: litmus-v2
+  caldavtester:
+    image: nextcloudci/litmus-php7.0:litmus-php7.0-2
+    commands:
+      - bash tests/travis/install.sh sqlite
+      - bash apps/dav/tests/travis/caldav/install.sh
+      - bash apps/dav/tests/travis/caldav/script.sh
+    when:
+      matrix:
+        TESTS: caldavtester
+  carddavtester:
+    image: nextcloudci/litmus-php7.0:litmus-php7.0-2
+    commands:
+      - bash tests/travis/install.sh sqlite
+      - bash apps/dav/tests/travis/carddav/install.sh
+      - bash apps/dav/tests/travis/carddav/script.sh
+    when:
+      matrix:
+        TESTS: carddavtester
   sqlite-php5.4:
     image: nextcloudci/php5.4:1.0.7
     commands:
@@ -59,6 +125,14 @@ matrix:
   include:
     - TESTS: integration
     - TESTS: jsunit
+    - TESTS: syntax-php5.4
+    - TESTS: syntax-php5.5
+    - TESTS: syntax-php5.6
+    - TESTS: syntax-php7.0
+    - TESTS: litmus-v1
+    - TESTS: litmus-v2
+    - TESTS: caldavtester
+    - TESTS: carddavtester
     - DB: sqlite
       PHP: 5.4
     - DB: sqlite
