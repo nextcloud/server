@@ -273,9 +273,15 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getBackendClassName')
 			->willReturn(Dummy::class);
-		$bar->expects($this->any())
+		$bar->expects($this->at(0))
 			->method('isEnabled')
 			->willReturn(true);
+		$bar->expects($this->at(1))
+			->method('isEnabled')
+			->willReturn(true);
+		$bar->expects($this->at(2))
+			->method('isEnabled')
+			->willReturn(false);
 
 		$this->groupManager
 			->expects($this->once())
@@ -367,7 +373,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'email' => 'bar@dummy.com',
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => true,
-					'isEnabled' => true,
+					'isEnabled' => false,
 				),
 			)
 		);
@@ -2217,6 +2223,11 @@ class UsersControllerTest extends \Test\TestCase {
 	/**
 	 * @dataProvider setEmailAddressData
 	 *
+	 * @param string $mailAddress
+	 * @param bool $isValid
+	 * @param bool $expectsUpdate
+	 * @param bool $canChangeDisplayName
+	 * @param int $responseCode
 	 */
 	public function testSetEMailAddress($mailAddress, $isValid, $expectsUpdate, $canChangeDisplayName, $responseCode) {
 		$user = $this->createMock(User::class);
