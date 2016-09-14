@@ -11,7 +11,8 @@
 		"backbone/backbone.js",
 		"es6-promise/dist/es6-promise.js",
 		"davclient.js/lib/client.js",
-		"clipboard/dist/clipboard.js"
+		"clipboard/dist/clipboard.js",
+		"autosize/dist/autosize.js"
 	],
 	"libraries": [
 		"jquery-showpassword.js",
