@@ -616,19 +616,25 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return array
 	 */
 	function getMultipleCalendarObjects($calendarId, array $uris) {
+		if (empty($uris)) {
+			return [];
+		}
+
+		$chunks = array_chunk($uris, 100);
+		$result = [];
+
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'uri', 'lastmodified', 'etag', 'calendarid', 'size', 'calendardata', 'componenttype', 'classification'])
-				->from('calendarobjects')
-				->where($query->expr()->eq('calendarid', $query->createNamedParameter($calendarId)))
-				->andWhere($query->expr()->in('uri', $query->createParameter('uri')))
-				->setParameter('uri', $uris, IQueryBuilder::PARAM_STR_ARRAY);
+			->from('calendarobjects')
+			->where($query->expr()->eq('calendarid', $query->createNamedParameter($calendarId)))
+			->andWhere($query->expr()->in('uri', $query->createParameter('uri')));
 
-		$stmt = $query->execute();
+		foreach ($chunks as $uris) {
+			$query->setParameter('uri', $uris, IQueryBuilder::PARAM_STR_ARRAY);
+			$stmt = $query->execute();
 
-		$result = [];
-		while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-
-			$result[] = [
+			while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+				$result[] = [
 					'id'           => $row['id'],
 					'uri'          => $row['uri'],
 					'lastmodified' => $row['lastmodified'],
@@ -638,8 +644,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					'calendardata' => $this->readBlob($row['calendardata']),
 					'component'    => strtolower($row['componenttype']),
 					'classification' => (int)$row['classification']
-			];
-
+				];
+			}
 		}
 		return $result;
 	}
