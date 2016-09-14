@@ -667,8 +667,23 @@ OC.Upload = {
 						OC.Upload._hideProgressBar();
 					}
 				});
+				var disableDropState = function() {
+					$('#app-content').removeClass('file-drag');
+					$('.dropping-to-dir').removeClass('dropping-to-dir');
+					$('.dir-drop').removeClass('dir-drop');
+					$('.icon-filetype-folder-drag-accept').removeClass('icon-filetype-folder-drag-accept');
+				};
+				var disableClassOnFirefox = _.debounce(function() {
+					disableDropState();
+				}, 100);
 				fileupload.on('fileuploaddragover', function(e){
 					$('#app-content').addClass('file-drag');
+					// dropping a folder in firefox doesn't cause a drop event
+					// this is simulated by simply invoke disabling all classes
+					// once no dragover event isn't noticed anymore
+					if ($.browser['mozilla']) {
+						disableClassOnFirefox();
+					}
 					$('#emptycontent .icon-folder').addClass('icon-filetype-folder-drag-accept');
 
 					var filerow = $(e.delegatedEvent.target).closest('tr');
@@ -685,12 +700,7 @@ OC.Upload = {
 						filerow.find('.thumbnail').addClass('icon-filetype-folder-drag-accept');
 					}
 				});
-				fileupload.on('fileuploaddragleave fileuploaddrop', function (){
-					$('#app-content').removeClass('file-drag');
-					$('.dropping-to-dir').removeClass('dropping-to-dir');
-					$('.dir-drop').removeClass('dir-drop');
-					$('.icon-filetype-folder-drag-accept').removeClass('icon-filetype-folder-drag-accept');
-				});
+				fileupload.on('fileuploaddragleave fileuploaddrop', disableDropState);
 			} else {
 				// for all browsers that don't support the progress bar
 				// IE 8 & 9
