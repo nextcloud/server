@@ -410,6 +410,7 @@ class Setup {
 
 	/**
 	 * Append the correct ErrorDocument path for Apache hosts
+	 * @return bool True when success, False otherwise
 	 */
 	public static function updateHtaccess() {
 		$config = \OC::$server->getConfig();
@@ -418,7 +419,7 @@ class Setup {
 		if(\OC::$CLI) {
 			$webRoot = $config->getSystemValue('overwrite.cli.url', '');
 			if($webRoot === '') {
-				return;
+				return false;
 			}
 			$webRoot = parse_url($webRoot, PHP_URL_PATH);
 			$webRoot = rtrim($webRoot, '/');
@@ -472,9 +473,10 @@ class Setup {
 
 		if ($content !== '') {
 			//suppress errors in case we don't have permissions for it
-			@file_put_contents($setupHelper->pathToHtaccess(), $htaccessContent.$content . "\n");
+			return (bool) @file_put_contents($setupHelper->pathToHtaccess(), $htaccessContent.$content . "\n");
 		}
 
+		return false;
 	}
 
 	public static function protectDataDirectory() {
