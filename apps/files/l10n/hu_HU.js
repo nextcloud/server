@@ -38,7 +38,7 @@ OC.L10N.register(
     "{hours}:{minutes}h" : "{hours}:{minutes}ó",
     "{minutes}:{seconds} minute{plural_s} left" : "{minutes}:{seconds} perc{plural_s} maradt hátra",
     "{minutes}:{seconds}m" : "{minutes}:{seconds}p",
-    "{seconds} second{plural_s} left" : "{seconds} másodperc{plural_s} maradt hátra",
+    "{seconds} second{plural_s} left" : "{seconds} másodperc maradt hátra",
     "{seconds}s" : "{seconds}mp",
     "Any moment now..." : "Mostmár bármelyik pillanatban...",
     "Soon..." : "Hamarosan...",
