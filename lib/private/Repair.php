@@ -151,9 +151,7 @@ class Repair implements IOutput{
 			),
 			new MoveUpdaterStepFile(\OC::$server->getConfig()),
 			new MoveAvatars(
-				\OC::$server->getUserManager(),
-				\OC::$server->getRootFolder(),
-				\OC::$server->getAppDataDir('avatar'),
+				\OC::$server->getJobList(),
 				\OC::$server->getSystemConfig()
 			),
 		];
