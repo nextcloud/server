@@ -25,7 +25,7 @@
 
 #commentsTabView .newCommentForm .submit {
 	position: absolute;
-	top: 1px;
+	bottom: 1px;
 	right: 8px;
 	width: 30px;
 	margin: 0;
@@ -45,6 +45,10 @@
 
 #commentsTabView .newCommentForm .cancel {
 	margin-right: 6px;
+}
+
+#commentsTabView .newCommentForm textarea {
+	resize: none;
 }
 
 #commentsTabView .comment {
