@@ -16,7 +16,7 @@ OC.L10N.register(
     "Couldn't establish a federated share." : "Egy egyesített megosztás nem hozható létre.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Egy egyesített megosztás nem hozható létre, lehet hogy nem megfelelő a jelszó.",
     "Federated Share request was successful, you will receive a invitation. Check your notifications." : "Az egyesített megosztási kérés sikeres volt, kapni fogsz egy értesítést. Ellenőrizd az értesítéseidet.",
-    "The mountpoint name contains invalid characters." : "A csatlakozási pont neve érvénytelen karaktereket tartalmaz ",
+    "The mountpoint name contains invalid characters." : "A csatolási pont neve érvénytelen karaktereket tartalmaz ",
     "Not allowed to create a federated share with the owner." : "A tulajdonossal nem lehet egyesített megosztást létrehozni.",
     "Invalid or untrusted SSL certificate" : "Érvénytelen vagy nem megbízható az SSL tanúsítvány",
     "Could not authenticate to remote share, password might be wrong" : "Nem sikerült az azonosítás a távoli megosztáshoz. Lehet, hogy rossz a jelszó.",

@@ -12,6 +12,8 @@ OC.L10N.register(
     "Checked on %s" : "Ellenőrizve: %s",
     "Update channel:" : "Frissítési csatorna:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Mindig frissíthetsz az újabb verzióra vagy kísérleti csatornára, de visszafelé sosem frissíthetsz egy jóval stabilabb verzióra.",
+    "Notify members of the following groups about available updates:" : "A következő csoport tagjainak értesítése az elérhető frissítésekről:",
+    "Only notification for app updates are available." : "Csak az értesítő alkalmazás frissítései érhetők el.",
     "Updater" : "Frissítéskezelő"
 },
 "nplurals=2; plural=(n != 1);");
