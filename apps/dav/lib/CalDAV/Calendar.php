@@ -267,6 +267,10 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		return $this->caldavBackend->getPublishStatus($this);
 	}
 
+	function getPublishToken() {
+		return $this->caldavBackend->getPublishToken($this);
+	}
+
 	private function canWrite() {
 		if (isset($this->calendarInfo['{http://owncloud.org/ns}read-only'])) {
 			return !$this->calendarInfo['{http://owncloud.org/ns}read-only'];

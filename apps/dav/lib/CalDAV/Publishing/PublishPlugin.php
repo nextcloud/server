@@ -97,7 +97,7 @@ class PublishPlugin extends ServerPlugin {
 			$propFind->handle('{'.self::NS_CALENDARSERVER.'}publish-url', function () use ($node) {
 				if ($node->getPublishStatus()) {
 					// We return the publish-url only if the calendar is published.
-					$token = $node->getName();
+					$token = $node->getPublishToken();
 					$publishUrl = $this->urlGenerator->getAbsoluteURL($this->server->getBaseUri().'public-calendars/').$token;
 
 					return new Publisher($publishUrl, true);
