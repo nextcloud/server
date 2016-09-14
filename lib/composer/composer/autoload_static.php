@@ -677,6 +677,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Repair\\InnoDB' => __DIR__ . '/../../..' . '/lib/private/Repair/InnoDB.php',
         'OC\\Repair\\MoveUpdaterStepFile' => __DIR__ . '/../../..' . '/lib/private/Repair/MoveUpdaterStepFile.php',
         'OC\\Repair\\NC11\\MoveAvatars' => __DIR__ . '/../../..' . '/lib/private/Repair/NC11/MoveAvatars.php',
+        'OC\\Repair\\NC11\\MoveAvatarsBackgroundJob' => __DIR__ . '/../../..' . '/lib/private/Repair/NC11/MoveAvatarBackgroundJob.php',
         'OC\\Repair\\OldGroupMembershipShares' => __DIR__ . '/../../..' . '/lib/private/Repair/OldGroupMembershipShares.php',
         'OC\\Repair\\Preview' => __DIR__ . '/../../..' . '/lib/private/Repair/Preview.php',
         'OC\\Repair\\RemoveGetETagEntries' => __DIR__ . '/../../..' . '/lib/private/Repair/RemoveGetETagEntries.php',
