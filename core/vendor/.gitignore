@@ -24,12 +24,11 @@ blueimp-md5/js/*
 blueimp-md5/index.html
 
 # momentjs - ignore all files except the two listed below
-moment/benchmarks
-moment/locale
+moment/**
+!moment/.bower.json
+!moment/min
+!moment/LICENSE
 moment/min/**
-moment/moment.js
-moment/scripts
-moment/templates
 !moment/min/moment-with-locales.js
 
 # jquery
