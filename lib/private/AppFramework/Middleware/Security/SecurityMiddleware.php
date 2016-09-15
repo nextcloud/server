@@ -37,6 +37,7 @@ use OC\AppFramework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
@@ -181,6 +182,10 @@ class SecurityMiddleware extends Middleware {
 	 */
 	public function afterController($controller, $methodName, Response $response) {
 		$policy = !is_null($response->getContentSecurityPolicy()) ? $response->getContentSecurityPolicy() : new ContentSecurityPolicy();
+
+		if (get_class($policy) === EmptyContentSecurityPolicy::class) {
+			return $response;
+		}
 
 		$defaultPolicy = $this->contentSecurityPolicyManager->getDefaultPolicy();
 		$defaultPolicy = $this->contentSecurityPolicyManager->mergePolicies($defaultPolicy, $policy);

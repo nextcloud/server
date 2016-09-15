@@ -248,18 +248,18 @@ class Response {
 
 	/**
 	 * Set a Content-Security-Policy
-	 * @param ContentSecurityPolicy $csp Policy to set for the response object
+	 * @param EmptyContentSecurityPolicy $csp Policy to set for the response object
 	 * @return $this
 	 * @since 8.1.0
 	 */
-	public function setContentSecurityPolicy(ContentSecurityPolicy $csp) {
+	public function setContentSecurityPolicy(EmptyContentSecurityPolicy $csp) {
 		$this->contentSecurityPolicy = $csp;
 		return $this;
 	}
 
 	/**
 	 * Get the currently used Content-Security-Policy
-	 * @return ContentSecurityPolicy|null Used Content-Security-Policy or null if
+	 * @return EmptyContentSecurityPolicy|null Used Content-Security-Policy or null if
 	 *                                    none specified.
 	 * @since 8.1.0
 	 */

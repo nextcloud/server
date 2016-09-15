@@ -23,6 +23,7 @@
 namespace OC\AppFramework\OCS;
 
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\AppFramework\Http\Response;
 
 abstract class BaseResponse extends Response   {
@@ -67,7 +68,7 @@ abstract class BaseResponse extends Response   {
 		$this->setETag($dataResponse->getETag());
 		$this->setLastModified($dataResponse->getLastModified());
 		$this->setCookies($dataResponse->getCookies());
-		$this->setContentSecurityPolicy($dataResponse->getContentSecurityPolicy());
+		$this->setContentSecurityPolicy(new EmptyContentSecurityPolicy());
 
 		if ($format === 'json') {
 			$this->addHeader(
