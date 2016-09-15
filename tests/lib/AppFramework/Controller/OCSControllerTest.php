@@ -26,6 +26,7 @@ namespace Test\AppFramework\Controller;
 
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\AppFramework\OCSController;
 use OCP\IConfig;
 use OCP\Security\ISecureRandom;
@@ -92,8 +93,9 @@ class OCSControllerTest extends \Test\TestCase {
 
 		$params = new DataResponse(['test' => 'hi']);
 
-		$out = $controller->buildResponse($params, 'xml')->render();
-		$this->assertEquals($expected, $out);
+		$response = $controller->buildResponse($params, 'xml');
+		$this->assertSame(EmptyContentSecurityPolicy::class, get_class($response->getContentSecurityPolicy()));
+		$this->assertEquals($expected, $response->render());
 	}
 
 	public function testJSON() {
@@ -111,8 +113,10 @@ class OCSControllerTest extends \Test\TestCase {
 		            '"totalitems":"","itemsperpage":""},"data":{"test":"hi"}}}';
 		$params = new DataResponse(['test' => 'hi']);
 
-		$out = $controller->buildResponse($params, 'json')->render();
-		$this->assertEquals($expected, $out);
+		$response = $controller->buildResponse($params, 'json');
+		$this->assertSame(EmptyContentSecurityPolicy::class, get_class($response->getContentSecurityPolicy()));
+		$this->assertEquals($expected, $response->render());
+		$this->assertEquals($expected, $response->render());
 	}
 
 	public function testXMLV2() {
@@ -141,8 +145,9 @@ class OCSControllerTest extends \Test\TestCase {
 
 		$params = new DataResponse(['test' => 'hi']);
 
-		$out = $controller->buildResponse($params, 'xml')->render();
-		$this->assertEquals($expected, $out);
+		$response = $controller->buildResponse($params, 'xml');
+		$this->assertSame(EmptyContentSecurityPolicy::class, get_class($response->getContentSecurityPolicy()));
+		$this->assertEquals($expected, $response->render());
 	}
 
 	public function testJSONV2() {
@@ -159,7 +164,8 @@ class OCSControllerTest extends \Test\TestCase {
 		$expected = '{"ocs":{"meta":{"status":"ok","statuscode":200,"message":"OK"},"data":{"test":"hi"}}}';
 		$params = new DataResponse(['test' => 'hi']);
 
-		$out = $controller->buildResponse($params, 'json')->render();
-		$this->assertEquals($expected, $out);
+		$response = $controller->buildResponse($params, 'json');
+		$this->assertSame(EmptyContentSecurityPolicy::class, get_class($response->getContentSecurityPolicy()));
+		$this->assertEquals($expected, $response->render());
 	}
 }
