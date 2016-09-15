@@ -1,12 +1,15 @@
 OC.L10N.register(
     "comments",
     {
+    "New comment …" : "تعليق جديد",
     "Delete comment" : "حذف التعليق",
     "Post" : "ارسال",
     "Cancel" : "إلغاء",
     "Edit comment" : "تعديل التعليق",
     "[Deleted user]" : "[مستخدم محذوف]",
     "Comments" : "تعليقات",
+    "No comments yet, start the conversation!" : "لا يوجد تعليقات, ابدأ النقاش الآن!",
+    "More comments …" : "مزيد من التعليقات...",
     "Save" : "حفظ",
     "Allowed characters {count} of {max}" : "عدد الأحرف المسموح بها {count} من {max}",
     "Error occurred while retrieving comment with id {id}" : "حصل خطأ أثناء عرض التعليق رقم {id}",
