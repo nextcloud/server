@@ -514,5 +514,28 @@ trait Sharing {
 			throw new \Exception('Expected the same link share to be returned');
 		}
 	}
+
+	/**
+	 * @Then The following headers should be set
+	 * @param \Behat\Gherkin\Node\TableNode $table
+	 * @throws \Exception
+	 */
+	public function theFollowingHeadersShouldBeSet(\Behat\Gherkin\Node\TableNode $table) {
+		foreach($table->getTable() as $header) {
+			$headerName = $header[0];
+			$expectedHeaderValue = $header[1];
+			$returnedHeader = $this->response->getHeader($headerName);
+			if($returnedHeader !== $expectedHeaderValue) {
+				throw new \Exception(
+					sprintf(
+						"Expected value '%s' for header '%s', got '%s'",
+						$expectedHeaderValue,
+						$headerName,
+						$returnedHeader
+					)
+				);
+			}
+		}
+	}
 }
 
