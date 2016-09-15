@@ -218,6 +218,8 @@ OC.L10N.register(
     "Exclude groups from sharing" : "Empêcher certains groupes de partager",
     "These groups will still be able to receive shares, but not to initiate them." : "Ces groupes ne pourront plus initier de partage, mais ils pourront toujours rejoindre les partages faits par d'autres. ",
     "Allow username autocompletion in share dialog. If this is disabled the full username needs to be entered." : "Activer l'autocomplétion des noms d'utilisateurs dans la fenêtre de partage. Si cette option est désactivée,  les noms complets doivent être indiqués.",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Afficher les conditions d'utilisation sur la page publique de téléversement. (Visible seulement quand la liste des fichiers est masquée.)",
+    "This text will be shown on the public link upload page when the file list is hidden." : "Ce texte sera visible sur la page publique de téléversement quand la liste des fichiers est masquée.",
     "Tips & tricks" : "Trucs et astuces",
     "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "SQLite est actuellement utilisé comme gestionnaire de base de données. Pour des installations plus volumineuses, nous vous conseillons d'utiliser un autre gestionnaire de base de données.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "L'utilisation de SQLite est particulièrement déconseillée si vous utilisez le client de bureau pour synchroniser vos données.",
