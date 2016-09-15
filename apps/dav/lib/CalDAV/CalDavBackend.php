@@ -1633,26 +1633,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 	/**
 	 * @param \OCA\DAV\CalDAV\Calendar $calendar
-	 * @return boolean
+	 * @return mixed
 	 */
 	public function getPublishStatus($calendar) {
-		$query = $this->db->getQueryBuilder();
-		$result = $query->select($query->createFunction('COUNT(*)'))
-			->from('dav_shares')
-			->where($query->expr()->eq('resourceid', $query->createNamedParameter($calendar->getResourceId())))
-			->andWhere($query->expr()->eq('access', $query->createNamedParameter(self::ACCESS_PUBLIC)))
-			->execute();
-
-		$row = $result->fetch();
-		$result->closeCursor();
-		return reset($row) > 0;
-	}
-
-	/**
-	 * @param \OCA\DAV\CalDAV\Calendar $calendar
-	 * @return string
-	 */
-	public function getPublishToken($calendar) {
 		$query = $this->db->getQueryBuilder();
 		$result = $query->select('publicuri')
 			->from('dav_shares')
@@ -1662,7 +1645,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$row = $result->fetch();
 		$result->closeCursor();
-		return reset($row);
+		return $row ? reset($row) : false;
 	}
 
 	/**
