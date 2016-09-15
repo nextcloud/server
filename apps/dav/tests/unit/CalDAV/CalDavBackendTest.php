@@ -344,7 +344,7 @@ EOD;
 
 		$calendar = new Calendar($this->backend, $calendarInfo, $l10n);
 		$calendar->setPublishStatus(true);
-		$this->assertEquals(true, $calendar->getPublishStatus());
+		$this->assertNotEquals(false, $calendar->getPublishStatus());
 
 		$publicCalendars = $this->backend->getPublicCalendars();
 		$this->assertEquals(1, count($publicCalendars));
