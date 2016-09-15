@@ -621,7 +621,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 
 		$chunks = array_chunk($uris, 100);
-		$result = [];
+		$objects = [];
 
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'uri', 'lastmodified', 'etag', 'calendarid', 'size', 'calendardata', 'componenttype', 'classification'])
@@ -631,10 +631,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		foreach ($chunks as $uris) {
 			$query->setParameter('uri', $uris, IQueryBuilder::PARAM_STR_ARRAY);
-			$stmt = $query->execute();
+			$result = $query->execute();
 
-			while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-				$result[] = [
+			while ($row = $result->fetch()) {
+				$objects[] = [
 					'id'           => $row['id'],
 					'uri'          => $row['uri'],
 					'lastmodified' => $row['lastmodified'],
@@ -646,8 +646,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					'classification' => (int)$row['classification']
 				];
 			}
+			$result->closeCursor();
 		}
-		return $result;
+		return $objects;
 	}
 
 	/**

@@ -499,11 +499,12 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$query->setParameter('uri', $uris, IQueryBuilder::PARAM_STR_ARRAY);
 			$result = $query->execute();
 
-			while($row = $result->fetch()) {
+			while ($row = $result->fetch()) {
 				$row['etag'] = '"' . $row['etag'] . '"';
 				$row['carddata'] = $this->readBlob($row['carddata']);
 				$cards[] = $row;
 			}
+			$result->closeCursor();
 		}
 		return $cards;
 	}
