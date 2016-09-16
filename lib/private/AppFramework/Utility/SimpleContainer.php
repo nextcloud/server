@@ -157,7 +157,10 @@ class SimpleContainer extends Container implements IContainer {
 	 * @return string
 	 */
 	protected function sanitizeName($name) {
-		return ltrim($name, '\\');
+		if (isset($name[0]) && $name[0] === '\\') {
+			return ltrim($name, '\\');
+		}
+		return $name;
 	}
 
 }
