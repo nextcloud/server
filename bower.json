@@ -1,7 +1,7 @@
 {
-  "name": "ownCloud",
-  "version": "8.2 pre alpha",
-  "homepage": "https://www.owncloud.org",
+  "name": "Nextcloud",
+  "version": "11 alpha",
+  "homepage": "https://www.nextcloud.com",
   "license": "AGPL",
   "private": true,
   "ignore": [
@@ -14,7 +14,7 @@
   ],
   "dependencies": {
     "blueimp-md5": "~1.1.0",
-    "handlebars": "~1.3.0",
+    "handlebars": "^4.0.5",
     "jcrop": "~0.9.12",
     "jquery": "~2.2.0",
     "jquery-migrate": "~1.4.0",
