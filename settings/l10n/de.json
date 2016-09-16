@@ -216,6 +216,8 @@
     "Exclude groups from sharing" : "Gruppen von Freigaben ausschließen",
     "These groups will still be able to receive shares, but not to initiate them." : "Diese Gruppen können weiterhin Freigaben empfangen, aber selbst keine mehr initiieren.",
     "Allow username autocompletion in share dialog. If this is disabled the full username needs to be entered." : "Die Auto-Vervollständigung von Benutzernamen im Teilen-Dialog erlauben. Wenn dies deaktiviert ist, muss der vollständige Benutzername eingegeben werden.",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Zeige Haftungsausschluss auf der öffentlichen Upload-Seite. (Wird nur gezeigt wenn die Dateiliste nicht angezeigt wird.) ",
+    "This text will be shown on the public link upload page when the file list is hidden." : "Dieser Text wird auf der öffentlichen Upload-Seite angezeigt wenn die Dateiliste nicht angezeigt wird.",
     "Tips & tricks" : "Tipps & Tricks",
     "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "SQLite wird als Datenbank verwendet. Bei größeren Installationen wird empfohlen, auf ein anderes Datenbank-Backend zu wechseln.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Insbesondere bei der Nutzung des Desktop Clients zur Dateisynchronisierung wird vom Einsatz von SQLite abgeraten.",

@@ -26,6 +26,7 @@ OC.L10N.register(
     "Couldn't get the list of external mount points: {type}" : "Nem lehet letölteni a külső csatolási pontok listáját: {type}",
     "There was an error with message: " : "Hiba történt ezzel az üzenettel:",
     "External mount error" : "Külső csatolási hiba",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Néhány beállított külső csatolási pont nincs kapcsolatban. További információkért kattints a piros sor(ok)ra.",
     "Please enter the credentials for the {mount} mount" : "Kérlek add meg a következő csatolás azonosítóit: {mount}",
     "Username" : "Felhasználónév",
     "Password" : "Jelszó",
