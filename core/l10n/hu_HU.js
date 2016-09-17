@@ -205,7 +205,6 @@ OC.L10N.register(
     "Error loading dialog template: {error}" : "Hiba a párbeszédpanel-sablon betöltésekor: {error}",
     "No tags selected for deletion." : "Nincs törlésre kijelölt címke.",
     "unknown text" : "ismeretlen szöveg",
-    "Hello world!" : "Üdv, Világ!",
     "sunny" : "napos",
     "Hello {name}, the weather is {weather}" : "Üdv {name}, {weather} időnk van",
     "Hello {name}" : "Üdv {name}!",

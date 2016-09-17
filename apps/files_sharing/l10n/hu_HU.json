@@ -13,7 +13,7 @@
     "Invalid server URL" : "Érvénytelen szerver URL",
     "Failed to add the public link to your Nextcloud" : "Nem sikerült hozzáadni a nyilvános hivatkozást a Nexcloudodhoz",
     "No expiration date set" : "Nem lett beállítva lejárati dátum",
-    "Shared by" : "Megosztotta Önnel",
+    "Shared by" : "Megosztotta:",
     "Sharing" : "Megosztás",
     "Wrong share ID, share doesn't exist" : "Hibás megosztás ID, a megosztás nem létezik",
     "could not delete share" : "a megosztás nem törölhető",
