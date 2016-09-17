@@ -37,13 +37,17 @@ use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\CSP\ContentSecurityPolicy;
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IConfig;
 use OCP\ILogger;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Security\ISecureRandom;
 
 
 class SecurityMiddlewareTest extends \Test\TestCase {
@@ -72,30 +76,13 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->controller = $this->getMockBuilder('OCP\AppFramework\Controller')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->controller = $this->createMock(Controller::class);
 		$this->reader = new ControllerMethodReflector();
-		$this->logger = $this->getMockBuilder(
-			'OCP\ILogger')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->navigationManager = $this->getMockBuilder(
-			'OCP\INavigationManager')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->urlGenerator = $this->getMockBuilder(
-			'OCP\IURLGenerator')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->request = $this->getMockBuilder(
-			'OCP\IRequest')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->contentSecurityPolicyManager = $this->getMockBuilder(
-			'OC\Security\CSP\ContentSecurityPolicyManager')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->logger = $this->createMock(ILogger::class);
+		$this->navigationManager = $this->createMock(INavigationManager::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->request = $this->createMock(IRequest::class);
+		$this->contentSecurityPolicyManager = $this->createMock(ContentSecurityPolicyManager::class);
 		$this->middleware = $this->getMiddleware(true, true);
 		$this->secException = new SecurityException('hey', false);
 		$this->secAjaxException = new SecurityException('hey', true);
@@ -459,8 +446,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 						'REQUEST_URI' => 'owncloud/index.php/apps/specialapp'
 					]
 			],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')->getMock()
+			$this->createMock(ISecureRandom::class),
+			$this->createMock(IConfig::class)
 		);
 		$this->middleware = $this->getMiddleware(false, false);
 		$this->urlGenerator
@@ -494,8 +481,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 					'REQUEST_URI' => 'owncloud/index.php/apps/specialapp',
 				],
 			],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')->getMock()
+			$this->createMock(ISecureRandom::class),
+			$this->createMock(IConfig::class)
 		);
 
 		$this->middleware = $this->getMiddleware(false, false);
@@ -540,8 +527,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 						'REQUEST_URI' => 'owncloud/index.php/apps/specialapp'
 					]
 			],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')->getMock()
+			$this->createMock(ISecureRandom::class),
+			$this->createMock(IConfig::class)
 		);
 		$this->middleware = $this->getMiddleware(false, false);
 		$this->logger
@@ -566,7 +553,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testAfterController() {
-		$response = $this->getMockBuilder('\OCP\AppFramework\Http\Response')->disableOriginalConstructor()->getMock();
+		$response = $this->createMock(Response::class);
 		$defaultPolicy = new ContentSecurityPolicy();
 		$defaultPolicy->addAllowedImageDomain('defaultpolicy');
 		$currentPolicy = new ContentSecurityPolicy();
@@ -589,6 +576,18 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$response->expects($this->once())
 			->method('setContentSecurityPolicy')
 			->with($mergedPolicy);
+
+		$this->middleware->afterController($this->controller, 'test', $response);
+	}
+
+	public function testAfterControllerEmptyCSP() {
+		$response = $this->createMock(Response::class);
+		$emptyPolicy = new EmptyContentSecurityPolicy();
+		$response->expects($this->any())
+			->method('getContentSecurityPolicy')
+			->willReturn($emptyPolicy);
+		$response->expects($this->never())
+			->method('setContentSecurityPolicy');
 
 		$this->middleware->afterController($this->controller, 'test', $response);
 	}
