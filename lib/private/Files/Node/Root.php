@@ -31,6 +31,7 @@ namespace OC\Files\Node;
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Mount\Manager;
 use OC\Files\Mount\MountPoint;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OC\Hooks\PublicEmitter;
@@ -75,16 +76,23 @@ class Root extends Folder implements IRootFolder {
 	private $userFolderCache;
 
 	/**
+	 * @var IUserMountCache
+	 */
+	private $userMountCache;
+
+	/**
 	 * @param \OC\Files\Mount\Manager $manager
 	 * @param \OC\Files\View $view
 	 * @param \OC\User\User|null $user
+	 * @param IUserMountCache $userMountCache
 	 */
-	public function __construct($manager, $view, $user) {
+	public function __construct($manager, $view, $user, IUserMountCache $userMountCache) {
 		parent::__construct($this, $view, '');
 		$this->mountManager = $manager;
 		$this->user = $user;
 		$this->emitter = new PublicEmitter();
 		$this->userFolderCache = new CappedMemoryCache();
+		$this->userMountCache = $userMountCache;
 	}
 
 	/**
@@ -360,5 +368,9 @@ class Root extends Folder implements IRootFolder {
 
 	public function clearCache() {
 		$this->userFolderCache = new CappedMemoryCache();
+	}
+
+	public function getUserMountCache() {
+		return $this->userMountCache;
 	}
 }

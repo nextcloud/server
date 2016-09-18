@@ -31,6 +31,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\ICache;
 use OCP\IDBConnection;
@@ -187,7 +188,7 @@ class UserMountCache implements IUserMountCache {
 
 	private function dbRowToMountInfo(array $row) {
 		$user = $this->userManager->get($row['user_id']);
-		return new CachedMountInfo($user, (int)$row['storage_id'], (int)$row['root_id'], $row['mount_point'], $row['mount_id']);
+		return new CachedMountInfo($user, (int)$row['storage_id'], (int)$row['root_id'], $row['mount_point'], $row['mount_id'], isset($row['path'])? $row['path']:'');
 	}
 
 	/**
@@ -197,8 +198,9 @@ class UserMountCache implements IUserMountCache {
 	public function getMountsForUser(IUser $user) {
 		if (!isset($this->mountsForUsers[$user->getUID()])) {
 			$builder = $this->connection->getQueryBuilder();
-			$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id')
-				->from('mounts')
+			$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path')
+				->from('mounts', 'm')
+				->innerJoin('m', 'filecache', 'f', $builder->expr()->eq('m.root_id', 'f.fileid'))
 				->where($builder->expr()->eq('user_id', $builder->createPositionalParameter($user->getUID())));
 
 			$rows = $query->execute()->fetchAll();
@@ -214,8 +216,9 @@ class UserMountCache implements IUserMountCache {
 	 */
 	public function getMountsForStorageId($numericStorageId) {
 		$builder = $this->connection->getQueryBuilder();
-		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id')
-			->from('mounts')
+		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path')
+			->from('mounts', 'm')
+			->innerJoin('m', 'filecache', 'f' , $builder->expr()->eq('m.root_id', 'f.fileid'))
 			->where($builder->expr()->eq('storage_id', $builder->createPositionalParameter($numericStorageId, IQueryBuilder::PARAM_INT)));
 
 		$rows = $query->execute()->fetchAll();
@@ -229,8 +232,9 @@ class UserMountCache implements IUserMountCache {
 	 */
 	public function getMountsForRootId($rootFileId) {
 		$builder = $this->connection->getQueryBuilder();
-		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id')
-			->from('mounts')
+		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path')
+			->from('mounts', 'm')
+			->innerJoin('m', 'filecache', 'f', $builder->expr()->eq('m.root_id', 'f.fileid'))
 			->where($builder->expr()->eq('root_id', $builder->createPositionalParameter($rootFileId, IQueryBuilder::PARAM_INT)));
 
 		$rows = $query->execute()->fetchAll();
@@ -246,7 +250,7 @@ class UserMountCache implements IUserMountCache {
 	private function getCacheInfoFromFileId($fileId) {
 		if (!isset($this->cacheInfoCache[$fileId])) {
 			$builder = $this->connection->getQueryBuilder();
-			$query = $builder->select('storage', 'path')
+			$query = $builder->select('storage', 'path', 'mimetype')
 				->from('filecache')
 				->where($builder->expr()->eq('fileid', $builder->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
 
@@ -254,7 +258,8 @@ class UserMountCache implements IUserMountCache {
 			if (is_array($row)) {
 				$this->cacheInfoCache[$fileId] = [
 					(int)$row['storage'],
-					$row['path']
+					$row['path'],
+					(int)$row['mimetype']
 				];
 			} else {
 				throw new NotFoundException('File with id "' . $fileId . '" not found');
@@ -281,15 +286,10 @@ class UserMountCache implements IUserMountCache {
 			if ($fileId === $mount->getRootId()) {
 				return true;
 			}
-			try {
-				list(, $internalMountPath) = $this->getCacheInfoFromFileId($mount->getRootId());
-			} catch (NotFoundException $e) {
-				return false;
-			}
+			$internalMountPath = $mount->getRootInternalPath();
 
 			return $internalMountPath === '' || substr($internalPath, 0, strlen($internalMountPath) + 1) === $internalMountPath . '/';
 		});
-
 	}
 
 	/**
