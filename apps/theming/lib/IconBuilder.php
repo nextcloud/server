@@ -80,19 +80,21 @@ class IconBuilder {
 	 */
 	public function renderAppIcon($app) {
 		$appIcon = $this->util->getAppIcon($app);
+		$appIconContent = file_get_contents($appIcon);
 
 		$color = $this->themingDefaults->getMailHeaderColor();
 		$mime = mime_content_type($appIcon);
+
 		// generate background image with rounded corners
 		$background = '<?xml version="1.0" encoding="UTF-8"?>' .
 			'<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" width="512" height="512" xmlns:xlink="http://www.w3.org/1999/xlink">' .
 			'<rect x="0" y="0" rx="75" ry="75" width="512" height="512" style="fill:' . $color . ';" />' .
 			'</svg>';
-
 		// resize svg magic as this seems broken in Imagemagick
-		if($mime === "image/svg+xml") {
-			$svg = file_get_contents($appIcon);
-
+		if($mime === "image/svg+xml" || substr($appIconContent, 0, 4) === "<svg") {
+			if(substr($appIconContent, 0, 5) !== "<?xml") {
+				$svg = "<?xml version=\"1.0\"?>".$appIconContent;
+			}
 			$tmp = new Imagick();
 			$tmp->readImageBlob($svg);
 			$x = $tmp->getImageWidth();
@@ -135,6 +137,14 @@ class IconBuilder {
 
 		$appIconFile->destroy();
 		return $finalIconFile;
+	}
+
+	public function colorSvg($app, $image) {
+		$imageFile = $this->util->getAppImage($app, $image);
+		$svg = file_get_contents($imageFile);
+		$color = $this->util->elementColor($this->themingDefaults->getMailHeaderColor());
+		$svg = $this->util->colorizeSvg($svg, $color);
+		return $svg;
 	}
 
 }

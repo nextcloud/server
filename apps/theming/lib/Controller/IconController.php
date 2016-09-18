@@ -23,13 +23,16 @@
 namespace OCA\Theming\Controller;
 
 use OCA\Theming\IconBuilder;
+use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
+use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IRequest;
 use OCA\Theming\Util;
+use OCP\IConfig;
 
 class IconController extends Controller {
 	/** @var ThemingDefaults */
@@ -38,8 +41,12 @@ class IconController extends Controller {
 	private $util;
 	/** @var ITimeFactory */
 	private $timeFactory;
+	/** @var IConfig */
+	private $config;
 	/** @var IconBuilder */
 	private $iconBuilder;
+	/** @var ImageManager */
+	private $imageManager;
 
 	/**
 	 * IconController constructor.
@@ -49,7 +56,9 @@ class IconController extends Controller {
 	 * @param ThemingDefaults $themingDefaults
 	 * @param Util $util
 	 * @param ITimeFactory $timeFactory
+	 * @param IConfig $config
 	 * @param IconBuilder $iconBuilder
+	 * @param ImageManager $imageManager
 	 */
 	public function __construct(
 		$appName,
@@ -57,14 +66,18 @@ class IconController extends Controller {
 		ThemingDefaults $themingDefaults,
 		Util $util,
 		ITimeFactory $timeFactory,
-		IconBuilder $iconBuilder
+		IConfig $config,
+		IconBuilder $iconBuilder,
+		ImageManager $imageManager
 	) {
 		parent::__construct($appName, $request);
 
 		$this->themingDefaults = $themingDefaults;
 		$this->util = $util;
 		$this->timeFactory = $timeFactory;
+		$this->config = $config;
 		$this->iconBuilder = $iconBuilder;
+		$this->imageManager = $imageManager;
 	}
 
 	/**
@@ -73,14 +86,15 @@ class IconController extends Controller {
 	 *
 	 * @param $app string app name
 	 * @param $image string image file name (svg required)
-	 * @return DataDisplayResponse
+	 * @return FileDisplayResponse
 	 */
 	public function getThemedIcon($app, $image) {
-		$image = $this->util->getAppImage($app, $image);
-		$svg = file_get_contents($image);
-		$color = $this->util->elementColor($this->themingDefaults->getMailHeaderColor());
-		$svg = $this->util->colorizeSvg($svg, $color);
-		$response = new DataDisplayResponse($svg, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
+		$iconFile = $this->imageManager->getCachedImage("icon-" . $app . '-' . str_replace("/","_",$image));
+		if ($iconFile === null) {
+			$icon = $this->iconBuilder->colorSvg($app, $image);
+			$iconFile = $this->imageManager->setCachedImage("icon-" . $app . '-' . str_replace("/","_",$image), $icon);
+		}
+		$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
 		$response->cacheFor(86400);
 		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
 		$response->addHeader('Pragma', 'cache');
@@ -94,12 +108,16 @@ class IconController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * @param $app string app name
-	 * @return DataDisplayResponse
+	 * @return FileDisplayResponse|DataDisplayResponse
 	 */
-	public function getFavicon($app="core") {
-		if($this->themingDefaults->shouldReplaceIcons()) {
+	public function getFavicon($app = "core") {
+		$iconFile = $this->imageManager->getCachedImage('favIcon-' . $app);
+		if($iconFile === null && $this->themingDefaults->shouldReplaceIcons()) {
 			$icon = $this->iconBuilder->getFavicon($app);
-			$response = new DataDisplayResponse($icon, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
+			$iconFile = $this->imageManager->setCachedImage('favIcon-' . $app, $icon);
+		}
+		if ($this->themingDefaults->shouldReplaceIcons()) {
+			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		} else {
 			$response = new DataDisplayResponse(null, Http::STATUS_NOT_FOUND);
 		}
@@ -116,12 +134,16 @@ class IconController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * @param $app string app name
-	 * @return DataDisplayResponse
+	 * @return FileDisplayResponse|DataDisplayResponse
 	 */
-	public function getTouchIcon($app="core") {
-		if($this->themingDefaults->shouldReplaceIcons()) {
+	public function getTouchIcon($app = "core") {
+		$iconFile = $this->imageManager->getCachedImage('touchIcon-' . $app);
+		if ($iconFile === null && $this->themingDefaults->shouldReplaceIcons()) {
 			$icon = $this->iconBuilder->getTouchIcon($app);
-			$response = new DataDisplayResponse($icon, Http::STATUS_OK, ['Content-Type' => 'image/png']);
+			$iconFile = $this->imageManager->setCachedImage('touchIcon-' . $app, $icon);
+		}
+		if ($this->themingDefaults->shouldReplaceIcons()) {
+			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		} else {
 			$response = new DataDisplayResponse(null, Http::STATUS_NOT_FOUND);
 		}
@@ -130,5 +152,4 @@ class IconController extends Controller {
 		$response->addHeader('Pragma', 'cache');
 		return $response;
 	}
-
 }

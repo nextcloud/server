@@ -45,6 +45,15 @@ class IconBuilderTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
+		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
+		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
+		$this->themingDefaults = $this->getMockBuilder('OCA\Theming\ThemingDefaults')
+			->disableOriginalConstructor()->getMock();
+		$this->util = new Util($this->config, $this->rootFolder);
+		$this->iconBuilder = new IconBuilder($this->themingDefaults, $this->util);
+	}
+
+	private function checkImagick() {
 		if(!extension_loaded('imagick')) {
 			$this->markTestSkipped('Imagemagick is required for dynamic icon generation.');
 		}
@@ -52,13 +61,6 @@ class IconBuilderTest extends TestCase {
 		if (count($checkImagick->queryFormats('SVG')) < 1) {
 			$this->markTestSkipped('No SVG provider present.');
 		}
-
-		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
-		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
-		$this->themingDefaults = $this->getMockBuilder('OCA\Theming\ThemingDefaults')
-			->disableOriginalConstructor()->getMock();
-		$this->util = new Util($this->config, $this->rootFolder);
-		$this->iconBuilder = new IconBuilder($this->themingDefaults, $this->util);
 	}
 
 	public function dataRenderAppIcon() {
@@ -78,6 +80,7 @@ class IconBuilderTest extends TestCase {
 	 * @param $file
 	 */
 	public function testRenderAppIcon($app, $color, $file) {
+		$this->checkImagick();
 		$this->themingDefaults->expects($this->once())
 			->method('getMailHeaderColor')
 			->willReturn($color);
@@ -102,6 +105,7 @@ class IconBuilderTest extends TestCase {
 	 * @param $file
 	 */
 	public function testGetTouchIcon($app, $color, $file) {
+		$this->checkImagick();
 		$this->themingDefaults->expects($this->once())
 			->method('getMailHeaderColor')
 			->willReturn($color);
@@ -127,6 +131,7 @@ class IconBuilderTest extends TestCase {
 	 * @param $file
 	 */
 	public function testGetFavicon($app, $color, $file) {
+		$this->checkImagick();
 		$this->themingDefaults->expects($this->once())
 			->method('getMailHeaderColor')
 			->willReturn($color);
