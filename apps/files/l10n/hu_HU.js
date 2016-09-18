@@ -23,6 +23,7 @@ OC.L10N.register(
     "All files" : "Az összes fájl",
     "Recent" : "Legutóbbi",
     "File could not be found" : "Fájl nem található",
+    "Home" : "Saját mappa",
     "Close" : "Bezárás",
     "Favorites" : "Kedvencek",
     "Upload cancelled." : "A feltöltést megszakítottuk.",
