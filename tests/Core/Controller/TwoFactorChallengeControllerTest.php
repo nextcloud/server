@@ -87,6 +87,37 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->selectChallenge('/some/url'));
 	}
 
+	public function testSelectChallengeSingleEntry() {
+		$provider = $this->createMock('\OCP\Authentication\TwoFactorAuth\IProvider');
+		$user = $this->createMock('\OCP\IUser');
+		$providers = [$provider];
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+		$this->twoFactorManager->expects($this->once())
+			->method('getProviders')
+			->with($user)
+			->will($this->returnValue($providers));
+
+		$provider->expects($this->once())
+			->method('getId')
+			->will($this->returnValue('prov1'));
+
+		$url = $this->urlGenerator->linkToRoute(
+			'core.TwoFactorChallenge.showChallenge',
+			[
+				'challengeProviderId' => 'prov1',
+				'redirect_url' => '/some/url',
+			]
+		);
+		$expected = new RedirectResponse($url);
+
+		$response = $this->controller->selectChallenge('/some/url');
+		$this->assertEquals($expected, $response);
+		$this->assertEquals($url, $response->getRedirectURL());
+	}
+
 	public function testShowChallenge() {
 		$user = $this->getMock('\OCP\IUser');
 		$provider = $this->getMockBuilder('\OCP\Authentication\TwoFactorAuth\IProvider')

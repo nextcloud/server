@@ -78,6 +78,19 @@ class TwoFactorChallengeController extends Controller {
 	public function selectChallenge($redirect_url) {
 		$user = $this->userSession->getUser();
 		$providers = $this->twoFactorManager->getProviders($user);
+		if (count($providers) === 1) {
+			// redirect to the challenge page
+			$provider = current($providers);
+			return new RedirectResponse(
+				$this->urlGenerator->linkToRoute(
+					'core.TwoFactorChallenge.showChallenge',
+					[
+						'challengeProviderId' => $provider->getId(),
+						'redirect_url' => $redirect_url,
+					]
+				)
+			);
+		}
 
 		$data = [
 			'providers' => $providers,
