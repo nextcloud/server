@@ -70,6 +70,7 @@ OC.L10N.register(
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Ο αποθηκευτικός χώρος του {owner} είναι σχεδόν γεμάτος ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "Ο αποθηκευτικός χώρος είναι σχεδόν γεμάτος ({usedSpacePercent}%)",
     "_matches '{filter}'_::_match '{filter}'_" : ["ταιριάζουν '{filter}' ","ταιριάζουν '{filter}'"],
+    "View in folder" : "Προβολή στον φάκελο",
     "Path" : "Διαδρομή",
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Favorited" : "Προτιμώμενα",
@@ -105,6 +106,7 @@ OC.L10N.register(
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Με PHP-FPM μπορεί να χρειαστούν μέχρι και 5 λεπτά για να ενεργοποιηθούν οι αλλαγές.",
     "Missing permissions to edit from here." : "Δεν υπάρχουν τα απαραίτητα δικαιώματα για να γίνει τροποποιήση σε αυτό το σημείο.",
     "Settings" : "Ρυθμίσεις",
+    "Show hidden files" : "Προβολή κρυφών αρχείων",
     "WebDAV" : "WebDAV",
     "No files in here" : "Δεν υπάρχουν αρχεία",
     "Upload some content or sync with your devices!" : "Μεταφόρτωση περιεχομένου ή συγχρονισμός με τις συσκευές σας!",
@@ -115,6 +117,7 @@ OC.L10N.register(
     "No favorites" : "Δεν υπάρχουν αγαπημένα",
     "Files and folders you mark as favorite will show up here" : "Τα αρχεία και οι φάκελοι που σημειώνονται ως αγαπημένα  θα εμφανιστούν εδώ ",
     "Text file" : "Αρχείο κειμένου",
-    "New text file.txt" : "Νέο αρχείο κειμένου.txt"
+    "New text file.txt" : "Νέο αρχείο κειμένου.txt",
+    "Cancel upload" : "Ακύρωση αποστολής"
 },
 "nplurals=2; plural=(n != 1);");

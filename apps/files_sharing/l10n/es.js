@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "Compartido contigo",
+    "Shared with you" : "Compartido con usted",
     "Shared with others" : "Compartido con otros",
     "Shared by link" : "Compartido por medio de enlaces",
     "Nothing shared with you yet" : "Todavía no han compartido nada contigo",
@@ -22,6 +22,8 @@ OC.L10N.register(
     "Could not delete share" : "No se ha podido eliminar el recurso compartido",
     "Please specify a file or folder path" : "Por favor, especifica la ubicación de un archivo o carpeta",
     "Wrong path, file/folder doesn't exist" : "Ubicación incorrecta, el archivo/carpeta no existe",
+    "Could not create share" : "No se ha podido compartir",
+    "invalid permissions" : "Permisos incorrectos",
     "Please specify a valid user" : "Por favor, especifica un usuario válido",
     "Group sharing is disabled by the administrator" : "Compartir en grupo está deshabilitado por el administrador",
     "Please specify a valid group" : "Por favor, especifica un grupo válido",
@@ -103,6 +105,23 @@ OC.L10N.register(
     "Uploaded files:" : "Archivos subidos:",
     "Server to server sharing is not enabled on this server" : "Compartir entre servidores no está habilitado en este servidor",
     "The mountpoint name contains invalid characters." : "El punto de montaje contiene caracteres inválidos.",
-    "Cancel" : "Cancelar"
+    "Not allowed to create a federated share with the same user server" : "No se permite crear un recurso compartido federado con el mismo servidor del usuario",
+    "Invalid or untrusted SSL certificate" : "Certificado SSL no válido o no confiable",
+    "Could not authenticate to remote share, password might be wrong" : "No se ha podido autenticar para compartir remotamente, quizás esté mal la contraseña",
+    "Couldn't add remote share" : "No se ha podido añadir el recurso compartido remoto",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Desea añadir el recurso compartido remoto {name} de {owner}@{remote}?",
+    "Remote share" : "Recurso compartido remoto",
+    "Remote share password" : "Contraseña del recurso compartido remoto",
+    "Cancel" : "Cancelar",
+    "Invalid ownCloud url" : "URL de ownCloud no válida",
+    "You received \"/%2$s\" as a remote share from %1$s" : "Has recibido \"/%2$s\" como recurso compartido remoto de %1$s",
+    "Accept" : "Aceptar",
+    "Allow users on this server to send shares to other servers" : "Permitir a usuarios de este servidor compartir con usuarios de otros servidores",
+    "Allow users on this server to receive shares from other servers" : "Permitir a usuarios de este servidor recibir recursos compartidos de usuarios de otros servidores",
+    "Federated Cloud" : "Nube Federada",
+    "Your Federated Cloud ID:" : "Su ID de Nube Federada:",
+    "Add to your website" : "Añadir a su sitio web",
+    "Share with me via Nextcloud" : "Compartir conmigo vía Nextcloud",
+    "HTML Code:" : "Código HTML:"
 },
 "nplurals=2; plural=(n != 1);");
