@@ -1722,9 +1722,10 @@ function formatDate(timestamp){
  * @return {string}
  */
 function getURLParameter(name) {
-	return decodeURI(
-			(RegExp(name + '=' + '(.+?)(&|$)').exec(location.search) || [, null])[1]
-			);
+	return decodeURIComponent(
+		(new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(
+			location.search)||[,''])[1].replace(/\+/g, '%20')
+		)||'';
 }
 
 /**
