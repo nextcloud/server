@@ -924,7 +924,7 @@ describe('Core base tests', function() {
 			var dataProvider = [
 				[200, false],
 				[400, false],
-				[0, true],
+				[0, false],
 				[401, true],
 				[302, true],
 				[303, true],
@@ -978,6 +978,15 @@ describe('Core base tests', function() {
 
 			clock.tick(waitTimeMs);
 			expect(notificationStub.calledOnce).toEqual(true);
+		});
+		it('shows a temporary notification if the connection is lost', function() {
+			var xhr = { status: 0 };
+			spyOn(OC, '_ajaxConnectionLostHandler');
+
+			$(document).trigger(new $.Event('ajaxError'), xhr);
+			clock.tick(101);
+
+			expect(OC._ajaxConnectionLostHandler.calls.count()).toBe(1);
 		});
 	});
 });
