@@ -1,5 +1,6 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Christoph Wurst <christoph@owncloud.com>
@@ -31,6 +32,8 @@ use OC\User\Session;
 use OC_App;
 use OC_Util;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Authentication\TwoFactorAuth\IProvider;
@@ -242,6 +245,8 @@ class LoginController extends Controller {
 		// User has successfully logged in, now remove the password reset link, when it is available
 		$this->config->deleteUserValue($loginResult->getUID(), 'core', 'lostpassword');
 
+		$this->session->set('last-password-confirm', $loginResult->getLastLogin());
+
 		if ($this->twoFactorManager->isTwoFactorAuthenticated($loginResult)) {
 			$this->twoFactorManager->prepareTwoFactorLogin($loginResult, $remember_login);
 
@@ -273,4 +278,36 @@ class LoginController extends Controller {
 		return $this->generateRedirect($redirect_url);
 	}
 
+	/**
+	 * @NoAdminRequired
+	 * @UseSession
+	 *
+	 * @license GNU AGPL version 3 or any later version
+	 *
+	 * @param string $password
+	 * @return DataResponse
+	 */
+	public function confirmPassword($password) {
+		$currentDelay = $this->throttler->getDelay($this->request->getRemoteAddress());
+		$this->throttler->sleepDelay($this->request->getRemoteAddress());
+
+		$user = $this->userSession->getUser();
+		if (!$user instanceof IUser) {
+			return new DataResponse([], Http::STATUS_UNAUTHORIZED);
+		}
+
+		$loginResult = $this->userManager->checkPassword($user->getUID(), $password);
+		if ($loginResult === false) {
+			$this->throttler->registerAttempt('sudo', $this->request->getRemoteAddress(), ['user' => $user->getUID()]);
+			if ($currentDelay === 0) {
+				$this->throttler->sleepDelay($this->request->getRemoteAddress());
+			}
+
+			return new DataResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		$confirmTimestamp = time();
+		$this->session->set('last-password-confirm', $confirmTimestamp);
+		return new DataResponse(['lastLogin' => $confirmTimestamp], Http::STATUS_OK);
+	}
 }

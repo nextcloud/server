@@ -32,6 +32,7 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 
@@ -48,7 +49,8 @@ class OCJSController extends Controller {
 	 * @param IL10N $l
 	 * @param \OC_Defaults $defaults
 	 * @param IAppManager $appManager
-	 * @param IUserSession $session
+	 * @param ISession $session
+	 * @param IUserSession $userSession
 	 * @param IConfig $config
 	 * @param IGroupManager $groupManager
 	 * @param IniGetWrapper $iniWrapper
@@ -59,7 +61,8 @@ class OCJSController extends Controller {
 								IL10N $l,
 								\OC_Defaults $defaults,
 								IAppManager $appManager,
-								IUserSession $session,
+								ISession $session,
+								IUserSession $userSession,
 								IConfig $config,
 								IGroupManager $groupManager,
 								IniGetWrapper $iniWrapper,
@@ -70,7 +73,8 @@ class OCJSController extends Controller {
 			$l,
 			$defaults,
 			$appManager,
-			$session->getUser(),
+			$session,
+			$userSession->getUser(),
 			$config,
 			$groupManager,
 			$iniWrapper,

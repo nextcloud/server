@@ -146,6 +146,13 @@
 			</div>
 		</div></nav>
 
+		<div id="sudo-login-background" class="hidden"></div>
+		<div id="sudo-login-form" class="hidden">
+			<input type="password" class="question" autocomplete="off" name="question" value=" "
+				placeholder="<?php p($l->t('Confirm your password')); ?>" />
+			<input class="confirm icon-confirm" title="<?php p($l->t('Confirm')); ?>" value="" type="submit">
+		</div>
+
 		<div id="content-wrapper">
 			<div id="content" class="app-<?php p($_['appid']) ?>" role="main">
 				<?php print_unescaped($_['content']); ?>

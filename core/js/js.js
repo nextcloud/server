@@ -1512,7 +1512,71 @@ function initCore() {
 			$(this).text(OC.Util.relativeModifiedDate(parseInt($(this).attr('data-timestamp'), 10)));
 		});
 	}, 30 * 1000);
+
+	OC.PasswordConfirmation.init();
 }
+
+OC.PasswordConfirmation = {
+	$form: null,
+	$background: null,
+	$input: null,
+	$submit: null,
+
+	init: function() {
+		this.$form = $('#sudo-login-form');
+		this.$background = $('#sudo-login-background');
+		this.$input = this.$form.find('.question');
+		this.$submit = this.$form.find('.confirm');
+
+		this.$background.on('click', _.bind(this._fadeOut, this));
+		$('.password-confirm-required').on('click', _.bind(this.requirePasswordConfirmation, this));
+		this.$submit.on('click', _.bind(this._submitPasswordConfirmation, this));
+	},
+
+	requirePasswordConfirmation: function() {
+		var timeSinceLogin = moment.now() - nc_lastLogin * 1000;
+		if (timeSinceLogin > 30 * 60 * 1000) { // 30 minutes
+			this.$form.removeClass('hidden');
+			this.$background.removeClass('hidden');
+
+			// Hack against firefox ignoring autocomplete="off"
+			if (this.$input.val() === ' ') {
+				this.$input.val('');
+			}
+		}
+	},
+
+	_submitPasswordConfirmation: function() {
+		var self = this;
+
+		self.$submit.removeClass('icon-confirm').addClass('icon-loading-small');
+
+		$.ajax({
+			url: OC.generateUrl('/login/confirm'),
+			data: {
+				password: this.$input.val()
+			},
+			type: 'POST',
+			success: function(response) {
+				nc_lastLogin = response.lastLogin;
+				self.$submit.addClass('icon-confirm').removeClass('icon-loading-small');
+
+				self.$form.addClass('hidden');
+				self.$background.addClass('hidden');
+			},
+			error: function() {
+				OC.Notification.showTemporary(t('core', 'Failed to authenticate, try again'));
+				self.$submit.addClass('icon-confirm').removeClass('icon-loading-small');
+			}
+		});
+	},
+
+	_fadeOut: function() {
+		this.$form.addClass('hidden');
+		this.$background.addClass('hidden');
+		this.$input.value = '';
+	}
+};
 
 $(document).ready(initCore);
 

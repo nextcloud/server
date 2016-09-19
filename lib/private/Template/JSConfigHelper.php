@@ -27,6 +27,7 @@ use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 
@@ -41,7 +42,10 @@ class JSConfigHelper {
 	/** @var IAppManager */
 	private $appManager;
 
-	/** @var IUser */
+	/** @var ISession */
+	private $session;
+
+	/** @var IUser|null */
 	private $currentUser;
 
 	/** @var IConfig */
@@ -60,6 +64,7 @@ class JSConfigHelper {
 	 * @param IL10N $l
 	 * @param \OC_Defaults $defaults
 	 * @param IAppManager $appManager
+	 * @param ISession $session
 	 * @param IUser|null $currentUser
 	 * @param IConfig $config
 	 * @param IGroupManager $groupManager
@@ -69,6 +74,7 @@ class JSConfigHelper {
 	public function __construct(IL10N $l,
 								\OC_Defaults $defaults,
 								IAppManager $appManager,
+								ISession $session,
 								$currentUser,
 								IConfig $config,
 								IGroupManager $groupManager,
@@ -77,6 +83,7 @@ class JSConfigHelper {
 		$this->l = $l;
 		$this->defaults = $defaults;
 		$this->appManager = $appManager;
+		$this->session = $session;
 		$this->currentUser = $currentUser;
 		$this->config = $config;
 		$this->groupManager = $groupManager;
@@ -119,6 +126,16 @@ class JSConfigHelper {
 			$dataLocation = false;
 		}
 
+		if ($this->currentUser instanceof IUser) {
+			$lastConfirmTimestamp = $this->currentUser->getLastLogin();
+			$sessionTime = $this->session->get('last-password-confirm');
+			if (is_int($sessionTime)) {
+				$lastConfirmTimestamp = $sessionTime;
+			}
+		} else {
+			$lastConfirmTimestamp = 0;
+		}
+
 		$array = [
 			"oc_debug" => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
 			"oc_isadmin" => $this->groupManager->isAdmin($uid) ? 'true' : 'false',
@@ -126,6 +143,7 @@ class JSConfigHelper {
 			"oc_webroot" => "\"".\OC::$WEBROOT."\"",
 			"oc_appswebroots" =>  str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
 			"datepickerFormatDate" => json_encode($this->l->l('jsdate', null)),
+			'nc_lastLogin' => $lastConfirmTimestamp,
 			"dayNames" =>  json_encode([
 				(string)$this->l->t('Sunday'),
 				(string)$this->l->t('Monday'),
