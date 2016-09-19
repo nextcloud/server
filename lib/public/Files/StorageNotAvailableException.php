@@ -58,7 +58,7 @@ class StorageNotAvailableException extends HintException {
 	 */
 	public function __construct($message = '', $code = self::STATUS_ERROR, \Exception $previous = null) {
 		$l = \OC::$server->getL10N('core');
-		parent::__construct($message, $l->t('Storage not available'), $code, $previous);
+		parent::__construct($message, $l->t('Storage is temporarily not available'), $code, $previous);
 	}
 
 	/**

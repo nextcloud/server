@@ -2668,7 +2668,7 @@ describe('OCA.Files.FileList tests', function() {
 		});
 		it('redirects to root folder and shows notification in case of storage not available', function () {
 			expect(notificationStub.notCalled).toEqual(true);
-			deferredList.reject(503, 'Storage not available');
+			deferredList.reject(503, 'Storage is temporarily not available');
 
 			expect(fileList.getCurrentDirectory()).toEqual('/');
 			expect(getFolderContentsStub.calledTwice).toEqual(true);

@@ -159,7 +159,7 @@ class ObjectTree extends \Sabre\DAV\Tree {
 			try {
 				$info = $this->fileView->getFileInfo($path);
 			} catch (StorageNotAvailableException $e) {
-				throw new \Sabre\DAV\Exception\ServiceUnavailable('Storage not available');
+				throw new \Sabre\DAV\Exception\ServiceUnavailable('Storage is temporarily not available');
 			} catch (StorageInvalidException $e) {
 				throw new \Sabre\DAV\Exception\NotFound('Storage ' . $path . ' is invalid');
 			} catch (LockedException $e) {
