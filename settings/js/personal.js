@@ -65,7 +65,7 @@ function changeEmailAddress () {
 		//              for failure the first parameter is the result object
 		OC.msg.finishedSaving('#lostpassword .msg', result);
 	}).fail(function(result){
-		OC.msg.finishedSaving('#lostpassword .msg', result.responseJSON);
+		OC.msg.finishedError('#lostpassword .msg', result.responseJSON.message);
 	});
 }
 
