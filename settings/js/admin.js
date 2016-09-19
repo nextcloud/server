@@ -114,31 +114,22 @@ $(document).ready(function(){
 	});
 
 	var savePublicShareDisclaimerText = _.debounce(function(value) {
-		var data = {
-			app:'core',
-			key:'shareapi_public_link_disclaimertext'
+		var options = {
+			success: function() {
+				OC.msg.finishedSuccess('#publicShareDisclaimerStatus', t('core', 'Saved'));
+			},
+			error: function() {
+				OC.msg.finishedError('#publicShareDisclaimerStatus', t('core', 'Not saved'));
+			}
 		};
-		if (_.isString(value) && value !== '') {
-			data['action'] = 'setValue';
-			data['value'] = value;
-		} else {
-			data['action'] = 'deleteKey';
-			$('#publicShareDisclaimerText').val('');
-		}
 
 		OC.msg.startSaving('#publicShareDisclaimerStatus');
-		$.post(
-			OC.AppConfig.url,
-			data,
-			function(result){
-				if(result.status === 'success'){
-					OC.msg.finishedSuccess('#publicShareDisclaimerStatus', t('core', 'Saved'))
-				} else {
-					OC.msg.finishedError('#publicShareDisclaimerStatus', t('core', 'Not saved'))
-				}
-			},
-			'json'
-		);
+		if (_.isString(value) && value !== '') {
+			OCP.AppConfig.setValue('core', 'shareapi_public_link_disclaimertext', value, options);
+		} else {
+			$('#publicShareDisclaimerText').val('');
+			OCP.AppConfig.deleteKey('core', 'shareapi_public_link_disclaimertext', options);
+		}
 	}, 500);
 
 	$('#publicShareDisclaimerText').on('change, keyup', function() {

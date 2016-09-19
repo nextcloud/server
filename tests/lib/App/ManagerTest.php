@@ -306,7 +306,16 @@ class ManagerTest extends TestCase {
 		$this->appConfig->setValue('test1', 'enabled', 'yes');
 		$this->appConfig->setValue('test2', 'enabled', 'no');
 		$this->appConfig->setValue('test3', 'enabled', '["foo"]');
-		$apps = ['dav', 'federatedfilesharing', 'files', 'test1', 'test3', 'twofactor_backupcodes', 'workflowengine'];
+		$apps = [
+			'dav',
+			'federatedfilesharing',
+			'files',
+			'provisioning_api',
+			'test1',
+			'test3',
+			'twofactor_backupcodes',
+			'workflowengine',
+		];
 		$this->assertEquals($apps, $this->manager->getInstalledApps());
 	}
 
@@ -325,6 +334,7 @@ class ManagerTest extends TestCase {
 			'dav',
 			'federatedfilesharing',
 			'files',
+			'provisioning_api',
 			'test1',
 			'test3',
 			'twofactor_backupcodes',
@@ -343,6 +353,7 @@ class ManagerTest extends TestCase {
 			'dav' => ['id' => 'dav'],
 			'files' => ['id' => 'files'],
 			'federatedfilesharing' => ['id' => 'federatedfilesharing'],
+			'provisioning_api' => ['id' => 'provisioning_api'],
 			'test1' => ['id' => 'test1', 'version' => '1.0.1', 'requiremax' => '9.0.0'],
 			'test2' => ['id' => 'test2', 'version' => '1.0.0', 'requiremin' => '8.2.0'],
 			'test3' => ['id' => 'test3', 'version' => '1.2.4', 'requiremin' => '9.0.0'],
@@ -386,6 +397,7 @@ class ManagerTest extends TestCase {
 			'dav' => ['id' => 'dav'],
 			'files' => ['id' => 'files'],
 			'federatedfilesharing' => ['id' => 'federatedfilesharing'],
+			'provisioning_api' => ['id' => 'provisioning_api'],
 			'test1' => ['id' => 'test1', 'version' => '1.0.1', 'requiremax' => '8.0.0'],
 			'test2' => ['id' => 'test2', 'version' => '1.0.0', 'requiremin' => '8.2.0'],
 			'test3' => ['id' => 'test3', 'version' => '1.2.4', 'requiremin' => '9.0.0'],

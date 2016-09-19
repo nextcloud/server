@@ -40,6 +40,7 @@
     "files",
     "dav",
     "federatedfilesharing",
+    "provisioning_api",
     "twofactor_backupcodes",
     "workflowengine"
   ]

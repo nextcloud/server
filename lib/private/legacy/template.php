@@ -135,6 +135,7 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addScript("oc-requesttoken", null, true);
 			OC_Util::addScript('search', 'search', true);
 			OC_Util::addScript("config", null, true);
+			OC_Util::addScript("public/appconfig", null, true);
 			OC_Util::addScript("eventsource", null, true);
 			OC_Util::addScript("octemplate", null, true);
 			OC_Util::addTranslations("core", null, true);
