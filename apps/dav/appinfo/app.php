@@ -23,6 +23,7 @@
  */
 
 use OCA\DAV\AppInfo\Application;
+use OCA\DAV\CardDAV\CardDavBackend;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 $app = new Application();
@@ -36,8 +37,8 @@ $eventDispatcher = \OC::$server->getEventDispatcher();
 
 $eventDispatcher->addListener('OCP\Federation\TrustedServerEvent::remove',
 	function(GenericEvent $event) use ($app) {
-		/** @var \OCA\DAV\CardDAV\CardDavBackend $cardDavBackend */
-		$cardDavBackend = $app->getContainer()->query('CardDavBackend');
+		/** @var CardDavBackend $cardDavBackend */
+		$cardDavBackend = $app->getContainer()->query(CardDavBackend::class);
 		$addressBookUri = $event->getSubject();
 		$addressBook = $cardDavBackend->getAddressBooksByUri('principals/system/system', $addressBookUri);
 		if (!is_null($addressBook)) {

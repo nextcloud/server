@@ -25,110 +25,20 @@
 namespace OCA\DAV\AppInfo;
 
 use OCA\DAV\CalDAV\BirthdayService;
-use OCA\DAV\CalDAV\CalDavBackend;
-use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
-use OCA\DAV\CardDAV\SyncJob;
 use OCA\DAV\CardDAV\SyncService;
-use OCA\DAV\Connector\Sabre\Principal;
-use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCA\DAV\HookManager;
-use OCA\DAV\Migration\Classification;
-use OCA\DAV\Migration\GenerateBirthdays;
 use \OCP\AppFramework\App;
-use OCP\AppFramework\IAppContainer;
 use OCP\Contacts\IManager;
-use OCP\IUser;
-use Sabre\VObject\Reader;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App {
 
 	/**
 	 * Application constructor.
-	 *
-	 * @param array $urlParams
 	 */
-	public function __construct (array $urlParams=array()) {
-		parent::__construct('dav', $urlParams);
-
-		$container = $this->getContainer();
-		$container->registerService('ContactsManager', function($c) {
-			/** @var IAppContainer $c */
-			return new ContactsManager(
-				$c->query('CardDavBackend')
-			);
-		});
-
-		$container->registerService('HookManager', function($c) {
-			/** @var IAppContainer $c */
-			return new HookManager(
-				$c->getServer()->getUserManager(),
-				$c->query('SyncService'),
-				$c->query('CalDavBackend'),
-				$c->query('CardDavBackend')
-			);
-		});
-
-		$container->registerService('SyncService', function($c) {
-			/** @var IAppContainer $c */
-			return new SyncService(
-				$c->query('CardDavBackend'),
-				$c->getServer()->getUserManager(),
-				$c->getServer()->getLogger()
-			);
-		});
-
-		$container->registerService('CardDavBackend', function($c) {
-			/** @var IAppContainer $c */
-			$db = $c->getServer()->getDatabaseConnection();
-			$dispatcher = $c->getServer()->getEventDispatcher();
-			$principal = new Principal(
-				$c->getServer()->getUserManager(),
-				$c->getServer()->getGroupManager()
-			);
-			return new CardDavBackend($db, $principal, $c->getServer()->getUserManager(), $dispatcher);
-		});
-
-		$container->registerService('CalDavBackend', function($c) {
-			/** @var IAppContainer $c */
-			$db = $c->getServer()->getDatabaseConnection();
-			$principal = new Principal(
-				$c->getServer()->getUserManager(),
-				$c->getServer()->getGroupManager()
-			);
-			return new CalDavBackend($db, $principal, $c->getServer()->getUserManager());
-		});
-
-		$container->registerService('BirthdayService', function($c) {
-			/** @var IAppContainer $c */
-			$g = new GroupPrincipalBackend(
-				$c->getServer()->getGroupManager()
-			);
-			return new BirthdayService(
-				$c->query('CalDavBackend'),
-				$c->query('CardDavBackend'),
-				$g
-			);
-		});
-
-		$container->registerService('OCA\DAV\Migration\Classification', function ($c) {
-			/** @var IAppContainer $c */
-			return new Classification(
-				$c->query('CalDavBackend'),
-				$c->getServer()->getUserManager()
-			);
-		});
-
-		$container->registerService('OCA\DAV\Migration\GenerateBirthdays', function ($c) {
-			/** @var IAppContainer $c */
-			/** @var BirthdayService $b */
-			$b = $c->query('BirthdayService');
-			return new GenerateBirthdays(
-				$b,
-				$c->getServer()->getUserManager()
-			);
-		});
+	public function __construct() {
+		parent::__construct('dav');
 	}
 
 	/**
@@ -137,20 +47,20 @@ class Application extends App {
 	 */
 	public function setupContactsProvider(IManager $contactsManager, $userID) {
 		/** @var ContactsManager $cm */
-		$cm = $this->getContainer()->query('ContactsManager');
+		$cm = $this->getContainer()->query(ContactsManager::class);
 		$urlGenerator = $this->getContainer()->getServer()->getURLGenerator();
 		$cm->setupContactsProvider($contactsManager, $userID, $urlGenerator);
 	}
 
 	public function registerHooks() {
 		/** @var HookManager $hm */
-		$hm = $this->getContainer()->query('HookManager');
+		$hm = $this->getContainer()->query(HookManager::class);
 		$hm->setup();
 
 		$listener = function($event) {
 			if ($event instanceof GenericEvent) {
 				/** @var BirthdayService $b */
-				$b = $this->getContainer()->query('BirthdayService');
+				$b = $this->getContainer()->query(BirthdayService::class);
 				$b->onCardChanged(
 					$event->getArgument('addressBookId'),
 					$event->getArgument('cardUri'),
@@ -165,7 +75,7 @@ class Application extends App {
 		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::deleteCard', function($event) {
 			if ($event instanceof GenericEvent) {
 				/** @var BirthdayService $b */
-				$b = $this->getContainer()->query('BirthdayService');
+				$b = $this->getContainer()->query(BirthdayService::class);
 				$b->onCardDeleted(
 					$event->getArgument('addressBookId'),
 					$event->getArgument('cardUri')
@@ -175,7 +85,7 @@ class Application extends App {
 	}
 
 	public function getSyncService() {
-		return $this->getContainer()->query('SyncService');
+		return $this->getContainer()->query(SyncService::class);
 	}
 
 }

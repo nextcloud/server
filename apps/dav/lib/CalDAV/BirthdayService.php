@@ -50,7 +50,7 @@ class BirthdayService {
 	 * @param CardDavBackend $cardDavBackEnd
 	 * @param GroupPrincipalBackend $principalBackend
 	 */
-	public function __construct($calDavBackEnd, $cardDavBackEnd, $principalBackend) {
+	public function __construct(CalDavBackend $calDavBackEnd, CardDavBackend $cardDavBackEnd, GroupPrincipalBackend $principalBackend) {
 		$this->calDavBackEnd = $calDavBackEnd;
 		$this->cardDavBackEnd = $cardDavBackEnd;
 		$this->principalBackend = $principalBackend;
