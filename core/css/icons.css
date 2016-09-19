@@ -114,6 +114,10 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 	background-image: url('../img/actions/add.svg?v=1');
 }
 
+.icon-audio {
+	background-image: url('../img/actions/audio.svg?v=1');
+}
+
 .icon-caret {
 	background-image: url('../img/actions/caret.svg?v=1');
 }
@@ -307,6 +311,10 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 
 .icon-user {
 	background-image: url('../img/actions/user.svg?v=1');
+}
+
+.icon-video {
+	background-image: url('../img/actions/video.svg?v=1');
 }
 
 .icon-view-close {
