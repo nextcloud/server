@@ -495,6 +495,7 @@ class UsersController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 * @NoSubadminRequired
+	 * @PasswordConfirmationRequired
 	 *
 	 * @param string $id
 	 * @param string $mailAddress

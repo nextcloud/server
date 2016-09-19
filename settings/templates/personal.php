@@ -91,6 +91,7 @@ if($_['displayNameChangeSupported']) {
 	</h2>
 	<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
 		placeholder="<?php p($l->t('Your email address'));?>"
+		class="password-confirm-required"
 		autocomplete="on" autocapitalize="off" autocorrect="off" />
 	<span class="msg"></span><br />
 	<em><?php p($l->t('For password recovery and notifications'));?></em>
