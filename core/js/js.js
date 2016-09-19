@@ -1574,7 +1574,7 @@ OC.PasswordConfirmation = {
 				self.$form.addClass('hidden');
 				self.$background.addClass('hidden');
 
-				if (!_.isUndefined(self.callback)) {
+				if (_.isFunction(self.callback)) {
 					self.callback();
 				}
 			},
