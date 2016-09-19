@@ -299,6 +299,11 @@
 		},
 
 		_addAppPassword: function () {
+			if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+				OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this._addAppPassword, this));
+				return;
+			}
+
 			var _this = this;
 			this._toggleAddingToken(true);
 
