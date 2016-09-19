@@ -172,21 +172,48 @@ $(document).ready(function(){
 		}
 	});
 
-	$('#mail_general_settings_form').change(function(){
-		OC.msg.startSaving('#mail_settings_msg');
-		var post = $( "#mail_general_settings_form" ).serialize();
-		$.post(OC.generateUrl('/settings/admin/mailsettings'), post, function(data){
-			OC.msg.finishedSaving('#mail_settings_msg', data);
-		});
-	});
+	var changeEmailSettings = function() {
+		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+			OC.PasswordConfirmation.requirePasswordConfirmation(changeEmailSettings);
+			return;
+		}
 
-	$('#mail_credentials_settings_submit').click(function(){
 		OC.msg.startSaving('#mail_settings_msg');
-		var post = $( "#mail_credentials_settings" ).serialize();
-		$.post(OC.generateUrl('/settings/admin/mailsettings/credentials'), post, function(data){
-			OC.msg.finishedSaving('#mail_settings_msg', data);
+		$.ajax({
+			url: OC.generateUrl('/settings/admin/mailsettings'),
+			type: 'POST',
+			data: $('#mail_general_settings_form').serialize(),
+			success: function(data){
+				OC.msg.finishedSaving('#mail_settings_msg', data);
+			},
+			error: function(data){
+				OC.msg.finishedError('#mail_settings_msg', data.responseJSON.message);
+			}
 		});
-	});
+	};
+
+	var toggleEmailCredentials = function() {
+		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+			OC.PasswordConfirmation.requirePasswordConfirmation(toggleEmailCredentials);
+			return;
+		}
+
+		OC.msg.startSaving('#mail_settings_msg');
+		$.ajax({
+			url: OC.generateUrl('/settings/admin/mailsettings/credentials'),
+			type: 'POST',
+			data: $('#mail_credentials_settings').serialize(),
+			success: function(data){
+				OC.msg.finishedSaving('#mail_settings_msg', data);
+			},
+			error: function(data){
+				OC.msg.finishedError('#mail_settings_msg', data.responseJSON.message);
+			}
+		});
+	};
+
+	$('#mail_general_settings_form').change(changeEmailSettings);
+	$('#mail_credentials_settings_submit').click(toggleEmailCredentials);
 
 	$('#sendtestemail').click(function(event){
 		event.preventDefault();

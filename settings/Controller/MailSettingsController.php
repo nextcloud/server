@@ -73,6 +73,9 @@ class MailSettingsController extends Controller {
 
 	/**
 	 * Sets the email settings
+	 *
+	 * @PasswordConfirmationRequired
+	 *
 	 * @param string $mail_domain
 	 * @param string $mail_from_address
 	 * @param string $mail_smtpmode
@@ -116,6 +119,9 @@ class MailSettingsController extends Controller {
 
 	/**
 	 * Store the credentials used for SMTP in the config
+	 *
+	 * @PasswordConfirmationRequired
+	 *
 	 * @param string $mail_smtpname
 	 * @param string $mail_smtppassword
 	 * @return array
