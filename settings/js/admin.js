@@ -24,7 +24,7 @@ $(document).ready(function(){
 		$(element).change(function(ev) {
 			var groups = ev.val || [];
 			groups = JSON.stringify(groups);
-			OC.AppConfig.setValue('core', $(this).attr('name'), groups);
+			OCP.AppConfig.setValue('core', $(this).attr('name'), groups);
 		});
 	});
 
@@ -41,9 +41,9 @@ $(document).ready(function(){
 		if($(this).is(':checked')){
 			var mode = $(this).val();
 			if (mode === 'ajax' || mode === 'webcron' || mode === 'cron') {
-				OC.AppConfig.setValue('core', 'backgroundjobs_mode', mode);
+				OCP.AppConfig.setValue('core', 'backgroundjobs_mode', mode);
 				// clear cron errors on background job mode change
-				OC.AppConfig.deleteKey('core', 'cronErrors');
+				OCP.AppConfig.deleteKey('core', 'cronErrors');
 			}
 		}
 	});
@@ -59,7 +59,7 @@ $(document).ready(function(){
 	$('#reallyEnableEncryption').click(function() {
 		$('#encryptionAPI div#EncryptionWarning').toggleClass('hidden');
 		$('#encryptionAPI div#EncryptionSettingsArea').toggleClass('hidden');
-		OC.AppConfig.setValue('core', 'encryption_enabled', 'yes');
+		OCP.AppConfig.setValue('core', 'encryption_enabled', 'yes');
 		$('#enableEncryption').attr('disabled', 'disabled');
 	});
 
@@ -99,7 +99,7 @@ $(document).ready(function(){
 				value = 'no';
 			}
 		}
-		OC.AppConfig.setValue('core', $(this).attr('name'), value);
+		OCP.AppConfig.setValue('core', $(this).attr('name'), value);
 	});
 
 	$('#shareapiDefaultExpireDate').change(function() {

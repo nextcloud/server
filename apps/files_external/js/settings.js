@@ -1317,12 +1317,12 @@ $(document).ready(function() {
 	$allowUserMounting.bind('change', function() {
 		OC.msg.startSaving('#userMountingMsg');
 		if (this.checked) {
-			OC.AppConfig.setValue('files_external', 'allow_user_mounting', 'yes');
+			OCP.AppConfig.setValue('files_external', 'allow_user_mounting', 'yes');
 			$('input[name="allowUserMountingBackends\\[\\]"]').prop('checked', true);
 			$('#userMountingBackends').removeClass('hidden');
 			$('input[name="allowUserMountingBackends\\[\\]"]').eq(0).trigger('change');
 		} else {
-			OC.AppConfig.setValue('files_external', 'allow_user_mounting', 'no');
+			OCP.AppConfig.setValue('files_external', 'allow_user_mounting', 'no');
 			$('#userMountingBackends').addClass('hidden');
 		}
 		OC.msg.finishedSaving('#userMountingMsg', {status: 'success', data: {message: t('files_external', 'Saved')}});
@@ -1342,7 +1342,7 @@ $(document).ready(function() {
 		}).get();
 		userMountingBackends = userMountingBackends.concat(deprecatedBackends);
 
-		OC.AppConfig.setValue('files_external', 'user_mounting_backends', userMountingBackends.join());
+		OCP.AppConfig.setValue('files_external', 'user_mounting_backends', userMountingBackends.join());
 		OC.msg.finishedSaving('#userMountingMsg', {status: 'success', data: {message: t('files_external', 'Saved')}});
 
 		// disable allowUserMounting
