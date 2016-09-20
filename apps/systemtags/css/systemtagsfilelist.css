@@ -30,6 +30,7 @@
 
 #app-sidebar .mainFileInfoView .tag-label {
 	cursor: pointer;
+	padding: 13px;
 }
 
 #app-sidebar .mainFileInfoView .icon-tag {
