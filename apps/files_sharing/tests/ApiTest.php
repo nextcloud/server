@@ -1194,14 +1194,11 @@ class ApiTest extends TestCase {
 	 * Tests mounting a folder that is an external storage mount point.
 	 */
 	public function testShareStorageMountPoint() {
-		self::$tempStorage = new \OC\Files\Storage\Temporary(array());
-		self::$tempStorage->file_put_contents('test.txt', 'abcdef');
-		self::$tempStorage->getScanner()->scan('');
+		$tempStorage = new \OC\Files\Storage\Temporary(array());
+		$tempStorage->file_put_contents('test.txt', 'abcdef');
+		$tempStorage->getScanner()->scan('');
 
-		// needed because the sharing code sometimes switches the user internally and mounts the user's
-		// storages. In our case the temp storage isn't mounted automatically, so doing it in the post hook
-		// (similar to how ext storage works)
-		\OCP\Util::connectHook('OC_Filesystem', 'post_initMountPoints', '\OCA\Files_Sharing\Tests\ApiTest', 'initTestMountPointsHook');
+		$this->registerMount(self::TEST_FILES_SHARING_API_USER1, $tempStorage, self::TEST_FILES_SHARING_API_USER1 . '/files' . self::TEST_FOLDER_NAME);
 
 		// logging in will auto-mount the temp storage for user1 as well
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);

@@ -31,8 +31,10 @@
 
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem;
 use OCA\Files_Sharing\AppInfo\Application;
+use Test\Traits\MountProviderTrait;
 
 /**
  * Class TestCase
@@ -42,6 +44,7 @@ use OCA\Files_Sharing\AppInfo\Application;
  * Base class for sharing tests.
  */
 abstract class TestCase extends \Test\TestCase {
+	use MountProviderTrait;
 
 	const TEST_FILES_SHARING_API_USER1 = "test-share-user1";
 	const TEST_FILES_SHARING_API_USER2 = "test-share-user2";
