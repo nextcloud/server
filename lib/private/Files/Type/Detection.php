@@ -164,9 +164,11 @@ class Detection implements IMimeTypeDetector {
 	public function detectPath($path) {
 		$this->loadMappings();
 
-		if (strpos($path, '.')) {
+		$fileName = basename($path);
+		// note: leading dot doesn't qualify as extension
+		if (strpos($fileName, '.') > 0) {
 			//try to guess the type by the file extension
-			$extension = strtolower(strrchr(basename($path), "."));
+			$extension = strtolower(strrchr($fileName, '.'));
 			$extension = substr($extension, 1); //remove leading .
 			return (isset($this->mimetypes[$extension]) && isset($this->mimetypes[$extension][0]))
 				? $this->mimetypes[$extension][0]
