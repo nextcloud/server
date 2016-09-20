@@ -132,8 +132,9 @@ class HookManager {
 			}
 			if ($this->cardDav->getAddressBooksForUserCount($principal) === 0) {
 				try {
-					$this->cardDav->createAddressBook($principal, 'contacts', [
-						'{DAV:}displayname' => 'Contacts']);
+					$this->cardDav->createAddressBook($principal, CardDavBackend::PERSONAL_ADDRESSBOOK_URI, [
+						'{DAV:}displayname' => CardDavBackend::PERSONAL_ADDRESSBOOK_NAME,
+					]);
 				} catch (\Exception $ex) {
 					\OC::$server->getLogger()->logException($ex);
 				}

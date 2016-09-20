@@ -48,6 +48,9 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 class CardDavBackend implements BackendInterface, SyncSupport {
 
+	const PERSONAL_ADDRESSBOOK_URI = 'contacts';
+	const PERSONAL_ADDRESSBOOK_NAME = 'Contacts';
+
 	/** @var Principal */
 	private $principalBackend;
 

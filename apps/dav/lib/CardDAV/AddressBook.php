@@ -22,12 +22,30 @@
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\DAV\Sharing\IShareable;
+use OCP\IL10N;
+use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Card;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
 
 class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
+
+	/**
+	 * AddressBook constructor.
+	 *
+	 * @param BackendInterface $carddavBackend
+	 * @param array $addressBookInfo
+	 * @param IL10N $l10n
+	 */
+	public function __construct(BackendInterface $carddavBackend, array $addressBookInfo, IL10N $l10n) {
+		parent::__construct($carddavBackend, $addressBookInfo);
+
+		if ($this->getName() === CardDavBackend::PERSONAL_ADDRESSBOOK_URI &&
+			$this->addressBookInfo['{DAV:}displayname'] === CardDavBackend::PERSONAL_ADDRESSBOOK_NAME) {
+			$this->addressBookInfo['{DAV:}displayname'] = $l10n->t('Contacts');
+		}
+	}
 
 	/**
 	 * Updates the list of shares.
