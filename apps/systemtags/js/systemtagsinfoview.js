@@ -37,6 +37,8 @@
 		 */
 		_inputView: null,
 
+		_toggleHandle: null,
+
 		initialize: function(options) {
 			var self = this;
 			options = options || {};
@@ -58,6 +60,9 @@
 
 			this._inputView.on('select', this._onSelectTag, this);
 			this._inputView.on('deselect', this._onDeselectTag, this);
+
+			this._toggleHandle = $('<span>').addClass('tag-label').text(t('systemtags', 'Tags'));
+			this._toggleHandle.prepend($('<span>').addClass('icon icon-tag'));
 		},
 
 		/**
@@ -130,6 +135,7 @@
 					}
 				});
 			}
+
 			this.$el.addClass('hidden');
 		},
 
@@ -137,12 +143,23 @@
 		 * Renders this details view
 		 */
 		render: function() {
+			var self = this;
+
 			this.$el.append(this._inputView.$el);
 			this._inputView.render();
+
+			$('#app-sidebar').find('.mainFileInfoView .file-details').append(this._toggleHandle);
+			this._toggleHandle.off('click');
+			this._toggleHandle.on('click', function () {
+				console.log('toggle');
+				console.log(self.$el);
+				self.$el.toggleClass('hidden');
+			});
 		},
 
 		remove: function() {
 			this._inputView.remove();
+			this._toggleHandle.remove();
 		}
 	});
 
