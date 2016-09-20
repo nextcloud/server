@@ -628,7 +628,7 @@ class ApiTest extends TestCase {
 		);
 		foreach ($testValues as $value) {
 
-				$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER2);
+			$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER2);
 			$result = $ocs->getShares('false', 'false', 'true', $value['query']);
 			$ocs->cleanup();
 
@@ -765,6 +765,7 @@ class ApiTest extends TestCase {
 	 * @medium
 	 */
 	function testGetShareMultipleSharedFolder() {
+		$this->setUp();
 		$node1 = $this->userFolder->get($this->folder . $this->subfolder);
 		$share1 = $this->shareManager->newShare();
 		$share1->setNode($node1)
@@ -790,8 +791,9 @@ class ApiTest extends TestCase {
 			->setPermissions(1);
 		$share3 = $this->shareManager->createShare($share3);
 
+		// $request = $this->createRequest(['path' => $this->subfolder]);
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER2);
-		$result1 = $ocs->getShares();
+		$result1 = $ocs->getShares('false','false','false', $this->subfolder);
 		$ocs->cleanup();
 
 		// test should return one share within $this->folder
@@ -799,8 +801,9 @@ class ApiTest extends TestCase {
 		$this->assertCount(1, $data1);
 		$s1 = reset($data1);
 
+		//$request = $this->createRequest(['path' => $this->folder.$this->subfolder]);
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER2);
-		$result2 = $ocs->getShares();
+		$result2 = $ocs->getShares('false', 'false', 'false', $this->folder . $this->subfolder);
 		$ocs->cleanup();
 
 		// test should return one share within $this->folder
@@ -808,7 +811,7 @@ class ApiTest extends TestCase {
 		$this->assertCount(1, $data2);
 		$s2 = reset($data2);
 
-		$this->assertEquals($this->folder.$this->subfolder, $s1['path']);
+		$this->assertEquals($this->subfolder, $s1['path']);
 		$this->assertEquals($this->folder.$this->subfolder, $s2['path']);
 
 		$this->shareManager->deleteShare($share1);
