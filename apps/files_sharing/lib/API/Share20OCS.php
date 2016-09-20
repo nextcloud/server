@@ -29,6 +29,7 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -110,10 +111,11 @@ class Share20OCS extends OCSController {
 	 * Convert an IShare to an array for OCS output
 	 *
 	 * @param \OCP\Share\IShare $share
+	 * @param Node|null $recipientNode
 	 * @return array
 	 * @throws NotFoundException In case the node can't be resolved.
 	 */
-	protected function formatShare(\OCP\Share\IShare $share) {
+	protected function formatShare(\OCP\Share\IShare $share, Node $recipientNode = null) {
 		$sharedBy = $this->userManager->get($share->getSharedBy());
 		$shareOwner = $this->userManager->get($share->getShareOwner());
 
@@ -132,13 +134,17 @@ class Share20OCS extends OCSController {
 		];
 
 		$userFolder = $this->rootFolder->getUserFolder($this->currentUser->getUID());
-		$nodes = $userFolder->getById($share->getNodeId());
+		if ($recipientNode) {
+			$node = $recipientNode;
+		} else {
+			$nodes = $userFolder->getById($share->getNodeId());
 
-		if (empty($nodes)) {
-			throw new NotFoundException();
+			if (empty($nodes)) {
+				throw new NotFoundException();
+			}
+
+			$node = $nodes[0];
 		}
-
-		$node = $nodes[0];
 
 		$result['path'] = $userFolder->getRelativePath($node->getPath());
 		if ($node instanceOf \OCP\Files\Folder) {
@@ -543,7 +549,7 @@ class Share20OCS extends OCSController {
 		$formatted = [];
 		foreach ($shares as $share) {
 			try {
-				$formatted[] = $this->formatShare($share);
+				$formatted[] = $this->formatShare($share, $path);
 			} catch (NotFoundException $e) {
 				//Ignore share
 			}
