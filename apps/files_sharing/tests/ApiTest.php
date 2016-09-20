@@ -29,6 +29,7 @@
 
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Files\Cache\Scanner;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -72,6 +73,8 @@ class ApiTest extends TestCase {
 		$this->view->mkdir($this->folder . $this->subfolder . $this->subsubfolder);
 		$this->view->file_put_contents($this->folder.$this->filename, $this->data);
 		$this->view->file_put_contents($this->folder . $this->subfolder . $this->filename, $this->data);
+		$mount = $this->view->getMount($this->filename);
+		$mount->getStorage()->getScanner()->scan('', Scanner::SCAN_RECURSIVE);
 
 		$this->userFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
 	}
@@ -113,10 +116,8 @@ class ApiTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @medium
-	 */
 	function testCreateShareUserFile() {
+		$this->setUp(); // for some reasons phpunit refuses to do this for us only for this test
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->filename, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
 		$ocs->cleanup();
