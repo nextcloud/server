@@ -5,6 +5,10 @@ input, textarea, select, button {
 	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
 }
 
+.select2-container-multi .select2-choices .select2-search-field input {
+	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif !important;
+}
+
 input[type="text"],
 input[type="password"],
 input[type="search"],
