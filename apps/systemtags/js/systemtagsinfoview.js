@@ -118,8 +118,15 @@
 				this.selectedTagsCollection.fetch({
 					success: function(collection) {
 						collection.fetched = true;
-						self._inputView.setData(collection.map(modelToSelection));
-						self.$el.removeClass('hidden');
+
+						var appliedTags = collection.map(modelToSelection);
+						self._inputView.setData(appliedTags);
+
+						if (appliedTags.length !== 0) {
+							self.$el.removeClass('hidden');
+						} else {
+							self.$el.addClass('hidden');
+						}
 					}
 				});
 			}
