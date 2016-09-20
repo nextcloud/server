@@ -38,6 +38,10 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		if ($this->getName() === BirthdayService::BIRTHDAY_CALENDAR_URI) {
 			$this->calendarInfo['{DAV:}displayname'] = $l10n->t('Contact birthdays');
 		}
+		if ($this->getName() === CalDavBackend::PERSONAL_CALENDAR_URI &&
+			$this->calendarInfo['{DAV:}displayname'] === CalDavBackend::PERSONAL_CALENDAR_NAME) {
+			$this->calendarInfo['{DAV:}displayname'] = $l10n->t('Personal');
+		}
 	}
 
 	/**

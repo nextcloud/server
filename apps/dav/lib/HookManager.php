@@ -21,7 +21,6 @@
  */
 namespace OCA\DAV;
 
-use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\SyncService;
@@ -124,8 +123,9 @@ class HookManager {
 			$principal = 'principals/users/' . $user->getUID();
 			if ($this->calDav->getCalendarsForUserCount($principal) === 0) {
 				try {
-					$this->calDav->createCalendar($principal, 'personal', [
-						'{DAV:}displayname' => 'Personal']);
+					$this->calDav->createCalendar($principal, CalDavBackend::PERSONAL_CALENDAR_URI, [
+						'{DAV:}displayname' => CalDavBackend::PERSONAL_CALENDAR_NAME,
+					]);
 				} catch (\Exception $ex) {
 					\OC::$server->getLogger()->logException($ex);
 				}
