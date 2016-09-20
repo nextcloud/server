@@ -368,7 +368,7 @@ trait WebDav {
 	}
 
 	public function makeSabrePath($path) {
-		return $this->encodePath($this->davPath . '/' . ltrim($path, '/'));
+		return $this->encodePath($this->davPath . $this->getFilesPath() . ltrim($path, '/'));
 	}
 
 	public function getSabreClient($user) {
@@ -584,7 +584,7 @@ trait WebDav {
 			];
 		}
 
-		$response = $client->proppatch($this->davPath . '/' . ltrim($path, '/'), $properties, $folderDepth);
+		$response = $client->proppatch($this->davPath . $this->getFilesPath() . ltrim($path, '/'), $properties, $folderDepth);
 		return $response;
 	}
 

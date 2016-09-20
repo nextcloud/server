@@ -49,7 +49,7 @@ Feature: favorite
             |{http://owncloud.org/ns}favorite|
         And the single response should contain a property "{http://owncloud.org/ns}favorite" with value "1"
 
-    Scenario: Favorite and unfavorite a folder
+    Scenario: Favorite and unfavorite a folder new endpoint
         Given using dav path "remote.php/dav"
         And As an "admin"
         And user "user0" exists
@@ -59,7 +59,7 @@ Feature: favorite
             |{http://owncloud.org/ns}favorite|
         And the single response should contain a property "{http://owncloud.org/ns}favorite" with value ""
 
-    Scenario: Favorite a file
+    Scenario: Favorite a file new endpoint
         Given using dav path "remote.php/dav"
         And As an "admin"
         And user "user0" exists
@@ -68,7 +68,7 @@ Feature: favorite
             |{http://owncloud.org/ns}favorite|
         And the single response should contain a property "{http://owncloud.org/ns}favorite" with value "1"
 
-    Scenario: Favorite and unfavorite a file
+    Scenario: Favorite and unfavorite a file new endpoint
         Given using dav path "remote.php/dav"
         And As an "admin"
         And user "user0" exists
