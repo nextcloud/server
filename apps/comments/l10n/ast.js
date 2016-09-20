@@ -1,8 +1,28 @@
 OC.L10N.register(
     "comments",
     {
+    "New comment …" : "Comentariu nuevu...",
+    "Delete comment" : "Desaniciar comentariu",
+    "Post" : "Espublizar",
     "Cancel" : "Encaboxar",
+    "Edit comment" : "Editar comentariu",
+    "[Deleted user]" : "[Usuariu desaniciáu]",
+    "Comments" : "Comentarios",
+    "No comments yet, start the conversation!" : "Entá nun hai comentarios. ¡Entama una conversación!",
+    "More comments …" : "Más comentarios...",
     "Save" : "Guardar",
-    "Comment" : "Comentariu"
+    "Error occurred while retrieving comment with id {id}" : "Asocedió un fallu entrín se recibía'l comentariu cola ID {id}",
+    "Error occurred while updating comment with id {id}" : "Asocedió un fallu entrín s'anovaba'l comentariu cola ID {id}",
+    "Error occurred while posting comment" : "Asocedieron fallos entrín s'espublizaba'l comentariu",
+    "{count} unread comments" : "{count} comentarios ensin lleer",
+    "Comment" : "Comentariu",
+    "<strong>Comments</strong> for files" : "<strong>Comentarios</strong> pa ficheros",
+    "You commented" : "Comentesti",
+    "%1$s commented" : "%1$s comentó",
+    "You commented on %2$s" : "Comentesti en %2$s",
+    "%1$s commented on %2$s" : "%1$s comentó en %2$s",
+    "Type in a new comment..." : "Teclexa un comentariu nuevu...",
+    "No other comments available" : "Nun hai otros comentarios disponibles",
+    "More comments..." : "Más comentarios..."
 },
 "nplurals=2; plural=(n != 1);");
