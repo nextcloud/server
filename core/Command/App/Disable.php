@@ -26,12 +26,14 @@
 namespace OC\Core\Command\App;
 
 use OCP\App\IAppManager;
+use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Disable extends Command {
+class Disable extends Command implements CompletionAwareInterface {
 
 	/** @var IAppManager */
 	protected $manager;
@@ -68,5 +70,26 @@ class Disable extends Command {
 		} else {
 			$output->writeln('No such app enabled: ' . $appId);
 		}
+	}
+
+	/**
+	 * @param string $optionName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeOptionValues($optionName, CompletionContext $context) {
+		return [];
+	}
+
+	/**
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		if ($argumentName === 'app-id') {
+			return array_diff(\OC_App::getEnabledApps(true, true), $this->manager->getAlwaysEnabledApps());
+		}
+		return [];
 	}
 }

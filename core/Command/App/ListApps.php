@@ -27,6 +27,7 @@ namespace OC\Core\Command\App;
 
 use OC\Core\Command\Base;
 use OCP\App\IAppManager;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -116,5 +117,26 @@ class ListApps extends Base {
 				parent::writeArrayInOutputFormat($input, $output, $items);
 			break;
 		}
+	}
+
+	/**
+	 * @param string $optionName
+	 * @param CompletionContext $completionContext
+	 * @return array
+	 */
+	public function completeOptionValues($optionName, CompletionContext $completionContext) {
+		if ($optionName === 'shipped') {
+			return ['true', 'false'];
+		}
+		return [];
+	}
+
+	/**
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		return [];
 	}
 }
