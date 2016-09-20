@@ -402,8 +402,10 @@ class Share20OCS extends OCSController {
 		} catch (GenericShareException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), $code);
-		}catch (\Exception $e) {
+		} catch (\Exception $e) {
 			throw new OCSForbiddenException($e->getMessage());
+		} finally {
+			$share->getNode()->unlock(ILockingProvider::LOCK_SHARED);
 		}
 
 		$output = $this->formatShare($share);
