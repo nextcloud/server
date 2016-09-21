@@ -600,6 +600,7 @@ em {
 
 /* generic tab styles */
 .tabHeaders {
+	display: inline-block;
 	margin: 15px;
 }
 .tabHeaders .tabHeader {
