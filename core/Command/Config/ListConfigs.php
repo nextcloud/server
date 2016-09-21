@@ -25,6 +25,7 @@ namespace OC\Core\Command\Config;
 use OC\Core\Command\Base;
 use OC\SystemConfig;
 use OCP\IAppConfig;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -126,5 +127,17 @@ class ListConfigs extends Base {
 		}
 
 		return $configs;
+	}
+
+	/**
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		if ($argumentName === 'app') {
+			return array_merge(['all', 'system'], \OC_App::getAllApps());
+		}
+		return [];
 	}
 }

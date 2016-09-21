@@ -167,6 +167,9 @@ class Base extends Command implements CompletionAwareInterface {
 	 * @return string[]
 	 */
 	public function completeOptionValues($optionName, CompletionContext $context) {
+		if ($optionName === 'output') {
+			return ['plain', 'json', 'json_pretty'];
+		}
 		return [];
 	}
 
