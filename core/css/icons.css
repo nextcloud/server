@@ -114,6 +114,13 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 	background-image: url('../img/actions/add.svg?v=1');
 }
 
+.icon-audio {
+	background-image: url('../img/actions/audio.svg?v=1');
+}
+.icon-audio-white {
+	background-image: url('../img/actions/audio-white.svg?v=1');
+}
+
 .icon-caret {
 	background-image: url('../img/actions/caret.svg?v=1');
 }
@@ -211,6 +218,9 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 .icon-more {
 	background-image: url('../img/actions/more.svg?v=1');
 }
+.icon-more-white {
+	background-image: url('../img/actions/more-white.svg?v=1');
+}
 
 .icon-password {
 	background-image: url('../img/actions/password.svg?v=1');
@@ -307,6 +317,13 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 
 .icon-user {
 	background-image: url('../img/actions/user.svg?v=1');
+}
+
+.icon-video {
+	background-image: url('../img/actions/video.svg?v=1');
+}
+.icon-video-white {
+	background-image: url('../img/actions/video-white.svg?v=1');
 }
 
 .icon-view-close {
