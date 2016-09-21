@@ -85,15 +85,15 @@ class Share20OCS extends OCSController {
 	 * @param IL10N $l10n
 	 */
 	public function __construct(
-			$appName,
-			IRequest $request,
-			IManager $shareManager,
-			IGroupManager $groupManager,
-			IUserManager $userManager,
-			IRootFolder $rootFolder,
-			IURLGenerator $urlGenerator,
-			IUser $currentUser,
-			IL10N $l10n
+		$appName,
+		IRequest $request,
+		IManager $shareManager,
+		IGroupManager $groupManager,
+		IUserManager $userManager,
+		IRootFolder $rootFolder,
+		IURLGenerator $urlGenerator,
+		IUser $currentUser,
+		IL10N $l10n
 	) {
 		parent::__construct($appName, $request);
 
@@ -405,6 +405,8 @@ class Share20OCS extends OCSController {
 
 		try {
 			$share = $this->shareManager->createShare($share);
+			$userFolder = $this->rootFolder->getUserFolder($this->currentUser->getUID());
+			$recipientNode = $userFolder->get($share->getTarget());
 		} catch (GenericShareException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), $code);
@@ -414,7 +416,7 @@ class Share20OCS extends OCSController {
 			$share->getNode()->unlock(ILockingProvider::LOCK_SHARED);
 		}
 
-		$output = $this->formatShare($share);
+		$output = $this->formatShare($share, $recipientNode);
 
 		return new DataResponse($output);
 	}
@@ -429,7 +431,7 @@ class Share20OCS extends OCSController {
 
 		$shares = array_merge($userShares, $groupShares);
 
-		$shares = array_filter($shares, function(IShare $share) {
+		$shares = array_filter($shares, function (IShare $share) {
 			return $share->getShareOwner() !== $this->currentUser->getUID();
 		});
 
@@ -716,7 +718,8 @@ class Share20OCS extends OCSController {
 
 		// If the share is shared with you (or a group you are a member of)
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER &&
-			$share->getSharedWith() === $this->currentUser->getUID()) {
+			$share->getSharedWith() === $this->currentUser->getUID()
+		) {
 			return true;
 		}
 
@@ -751,7 +754,7 @@ class Share20OCS extends OCSController {
 			throw new \Exception('Invalid date. Format must be YYYY-MM-DD');
 		}
 
-		$date->setTime(0,0,0);
+		$date->setTime(0, 0, 0);
 
 		return $date;
 	}
@@ -769,7 +772,7 @@ class Share20OCS extends OCSController {
 
 		// First check if it is an internal share.
 		try {
-			$share = $this->shareManager->getShareById('ocinternal:'.$id);
+			$share = $this->shareManager->getShareById('ocinternal:' . $id);
 		} catch (ShareNotFound $e) {
 			if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
 				throw new ShareNotFound();
@@ -783,6 +786,7 @@ class Share20OCS extends OCSController {
 
 	/**
 	 * Lock a Node
+	 *
 	 * @param \OCP\Files\Node $node
 	 */
 	private function lock(\OCP\Files\Node $node) {
