@@ -192,23 +192,6 @@ class OC_DB {
 	}
 
 	/**
-	 * simulate the database schema update
-	 * @param string $file file to read structure from
-	 * @throws Exception
-	 * @return string|boolean
-	 */
-	public static function simulateUpdateDbFromStructure($file) {
-		$schemaManager = self::getMDB2SchemaManager();
-		try {
-			$result = $schemaManager->simulateUpdateDbFromStructure($file);
-		} catch (Exception $e) {
-			\OCP\Util::writeLog('core', 'Simulated database structure update failed ('.$e.')', \OCP\Util::FATAL);
-			throw $e;
-		}
-		return $result;
-	}
-
-	/**
 	 * remove all tables defined in a database structure xml file
 	 * @param string $file the xml file describing the tables
 	 */

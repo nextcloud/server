@@ -122,17 +122,6 @@ class MDB2SchemaManager {
 	}
 
 	/**
-	 * update the database scheme
-	 * @param string $file file to read structure from
-	 * @return boolean
-	 */
-	public function simulateUpdateDbFromStructure($file) {
-		$toSchema = $this->readSchemaFromFile($file);
-		$this->getMigrator()->checkMigrate($toSchema);
-		return true;
-	}
-
-	/**
 	 * @param \Doctrine\DBAL\Schema\Schema $schema
 	 * @return string
 	 */

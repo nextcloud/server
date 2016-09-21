@@ -27,25 +27,25 @@ use OCP\IConfig;
 use OCP\ILogger;
 use OC\IntegrityCheck\Checker;
 
-class UpdaterTest extends \Test\TestCase {
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+class UpdaterTest extends TestCase {
+	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
 	private $config;
-	/** @var ILogger */
+	/** @var ILogger | \PHPUnit_Framework_MockObject_MockObject */
 	private $logger;
 	/** @var Updater */
 	private $updater;
-	/** @var Checker */
+	/** @var Checker | \PHPUnit_Framework_MockObject_MockObject */
 	private $checker;
 
 	public function setUp() {
 		parent::setUp();
-		$this->config = $this->getMockBuilder('\\OCP\\IConfig')
+		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->logger = $this->getMockBuilder('\\OCP\\ILogger')
+		$this->logger = $this->getMockBuilder(ILogger::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
+		$this->checker = $this->getMockBuilder(Checker::class)
 				->disableOriginalConstructor()
 				->getMock();
 
@@ -167,20 +167,6 @@ class UpdaterTest extends \Test\TestCase {
 			->willReturn($vendor);
 
 		$this->assertSame($result, $this->updater->isUpgradePossible($oldVersion, $newVersion, $allowedVersion));
-	}
-
-	public function testSetSimulateStepEnabled() {
-		$this->updater->setSimulateStepEnabled(true);
-		$this->assertSame(true, $this->invokePrivate($this->updater, 'simulateStepEnabled'));
-		$this->updater->setSimulateStepEnabled(false);
-		$this->assertSame(false, $this->invokePrivate($this->updater, 'simulateStepEnabled'));
-	}
-
-	public function testSetUpdateStepEnabled() {
-		$this->updater->setUpdateStepEnabled(true);
-		$this->assertSame(true, $this->invokePrivate($this->updater, 'updateStepEnabled'));
-		$this->updater->setUpdateStepEnabled(false);
-		$this->assertSame(false, $this->invokePrivate($this->updater, 'updateStepEnabled'));
 	}
 
 	public function testSetSkip3rdPartyAppsDisable() {
