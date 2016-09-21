@@ -102,6 +102,13 @@ void executeAndReport(String testResultLocation, def body) {
     }
 
     if (failed) {
+
+        if (env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'stable9.1' || env.BRANCH_NAME == 'stable9' || env.BRANCH_NAME == 'stable8.2') {
+            mail body: "project build error is here: ${env.BUILD_URL}" ,
+                subject: "Build on release branch failed: ${env.BRANCH_NAME}",
+                to: 'jenkins@owncloud.com'
+        }
+
         error "Test execution failed. Terminating the build"
     }
 }
