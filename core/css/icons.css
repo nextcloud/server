@@ -218,6 +218,9 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 .icon-more {
 	background-image: url('../img/actions/more.svg?v=1');
 }
+.icon-more-white {
+	background-image: url('../img/actions/more-white.svg?v=1');
+}
 
 .icon-password {
 	background-image: url('../img/actions/password.svg?v=1');
