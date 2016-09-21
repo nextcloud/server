@@ -26,6 +26,13 @@ pipeline:
     when:
       matrix:
         TESTS: app-check-code
+  signed-off-check:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - php ./build/signed-off-checker.php
+    when:
+      matrix:
+        TESTS: signed-off-check
   syntax-php5.6:
     image: nextcloudci/php5.6:php5.6-2
     commands:
@@ -153,6 +160,7 @@ pipeline:
 
 matrix:
   include:
+    - TESTS: signed-off-check
     - TESTS: integration
     - TESTS: jsunit
     - TESTS: check-autoloader
