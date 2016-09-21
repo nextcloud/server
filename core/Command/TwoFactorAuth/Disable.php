@@ -23,8 +23,7 @@
 namespace OC\Core\Command\TwoFactorAuth;
 
 use OC\Authentication\TwoFactorAuth\Manager;
-use OC\User\Manager as UserManager;
-use OC\Core\Command\Base;
+use OCP\IUserManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -34,10 +33,10 @@ class Disable extends Base {
 	/** @var Manager */
 	private $manager;
 
-	/** @var UserManager */
-	private $userManager;
+	/** @var IUserManager */
+	protected $userManager;
 
-	public function __construct(Manager $manager, UserManager $userManager) {
+	public function __construct(Manager $manager, IUserManager $userManager) {
 		parent::__construct('twofactorauth:disable');
 		$this->manager = $manager;
 		$this->userManager = $userManager;
