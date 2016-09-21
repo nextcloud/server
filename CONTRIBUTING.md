@@ -29,11 +29,36 @@ Thanks for wanting to contribute source code to Nextcloud. That's great!
 
 Please read the [Developer Manuals][devmanual] to learn how to create your first application or how to test the Nextcloud code with PHPUnit.
 
+### Tests
+
 In order to constantly increase the quality of our software we can no longer accept pull request which submit un-tested code.
 It is a must have that changed and added code segments are unit tested.
 In some areas unit testing is hard (aka almost impossible) as of today - in these areas refactoring WHILE fixing a bug is encouraged to enable unit testing.
 
+### Sign your work
+
+We use the Developer Certificate of Origin (DCO) as a additional safeguard
+for the Nextcloud project. This is a well established and widely used 
+mechanism to assure contributors have confirmed their right to license 
+their contribution under the project's license. 
+Please read [contribute/developer-certificate-of-origin][dcofile]. 
+If you can certify it, then just add a line to every git commit message:
+
+````
+  Signed-off-by: Random J Developer <random@developer.example.org>
+````
+
+Use your real name (sorry, no pseudonyms or anonymous contributions).
+If you set your `user.name` and `user.email` git configs, you can sign your
+commit automatically with `git commit -s`.
+
+### Apply a license
+
+In case you are not sure how to add or update the license header correctly please have a look at [contribute/HowToApplyALicense.md][applyalicense]
+
 [devmanual]: https://docs.nextcloud.org/server/10/developer_manual/
+[dcofile]: https://github.com/nextcloud/server/blob/master/contribute/developer-certificate-of-origin
+[applyalicense]: https://github.com/nextcloud/server/blob/master/contribute/HowToApplyALicense.md
 
 ## Translations
 Please submit translations via [Transifex][transifex].
