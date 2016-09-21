@@ -31,6 +31,8 @@ namespace OC\Core\Command\Db;
 use \OCP\IConfig;
 use OC\DB\Connection;
 use OC\DB\ConnectionFactory;
+use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -41,7 +43,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
-class ConvertType extends Command {
+class ConvertType extends Command implements CompletionAwareInterface {
 	/**
 	 * @var \OCP\IConfig
 	 */
@@ -349,5 +351,30 @@ class ConvertType extends Command {
 			'dbuser'		=> $username,
 			'dbpassword'	=> $password,
 		]);
+	}
+
+	/**
+	 * Return possible values for the named option
+	 *
+	 * @param string $optionName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeOptionValues($optionName, CompletionContext $context) {
+		return [];
+	}
+
+	/**
+	 * Return possible values for the named argument
+	 *
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		if ($argumentName === 'type') {
+			return ['mysql', 'oci', 'pgsql'];
+		}
+		return [];
 	}
 }

@@ -201,7 +201,7 @@ class Import extends Command implements CompletionAwareInterface  {
 	/**
 	 * @param string $optionName
 	 * @param CompletionContext $context
-	 * @return string[]|false
+	 * @return string[]
 	 */
 	public function completeOptionValues($optionName, CompletionContext $context) {
 		return [];

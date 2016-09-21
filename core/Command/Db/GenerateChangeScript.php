@@ -23,12 +23,16 @@
 
 namespace OC\Core\Command\Db;
 
+use Stecman\Component\Symfony\Console\BashCompletion\Completion;
+use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
+use Stecman\Component\Symfony\Console\BashCompletion\Completion\ShellPathCompletion;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateChangeScript extends Command {
+class GenerateChangeScript extends Command implements CompletionAwareInterface {
 	protected function configure() {
 		$this
 			->setName('db:generate-change-script')
@@ -55,5 +59,31 @@ class GenerateChangeScript extends Command {
 			$output->writeln('Failed to update database structure ('.$e.')');
 		}
 
+	}
+
+	/**
+	 * @param string $optionName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeOptionValues($optionName, CompletionContext $context) {
+		return [];
+	}
+
+	/**
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		if ($argumentName === 'schema-xml') {
+			$helper = new ShellPathCompletion(
+				$this->getName(),
+				'schema-xml',
+				Completion::TYPE_ARGUMENT
+			);
+			return $helper->run();
+		}
+		return [];
 	}
 }
