@@ -140,10 +140,14 @@ class Share20OCS extends OCSController {
 			$nodes = $userFolder->getById($share->getNodeId());
 
 			if (empty($nodes)) {
-				throw new NotFoundException();
+				// fallback to guessing the path
+				$node = $userFolder->get($share->getTarget());
+				if ($node === null) {
+					throw new NotFoundException();
+				}
+			} else {
+				$node = $nodes[0];
 			}
-
-			$node = $nodes[0];
 		}
 
 		$result['path'] = $userFolder->getRelativePath($node->getPath());
@@ -405,8 +409,6 @@ class Share20OCS extends OCSController {
 
 		try {
 			$share = $this->shareManager->createShare($share);
-			$userFolder = $this->rootFolder->getUserFolder($this->currentUser->getUID());
-			$recipientNode = $userFolder->get($share->getTarget());
 		} catch (GenericShareException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), $code);
@@ -416,7 +418,7 @@ class Share20OCS extends OCSController {
 			$share->getNode()->unlock(ILockingProvider::LOCK_SHARED);
 		}
 
-		$output = $this->formatShare($share, $recipientNode);
+		$output = $this->formatShare($share);
 
 		return new DataResponse($output);
 	}
