@@ -38,7 +38,6 @@ use Test\Traits\UserTrait;
  */
 class SizePropagationTest extends TestCase {
 	use UserTrait;
-	use MountProviderTrait;
 
 	protected function setupUser($name, $password = '') {
 		$this->createUser($name, $password);
