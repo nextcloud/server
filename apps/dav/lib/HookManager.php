@@ -40,12 +40,6 @@ class HookManager {
 	/** @var IUser[] */
 	private $usersToDelete;
 
-	/** @var array */
-	private $calendarsToDelete;
-
-	/** @var array */
-	private $addressBooksToDelete;
-
 	/** @var CalDavBackend */
 	private $calDav;
 
@@ -91,12 +85,7 @@ class HookManager {
 	}
 
 	public function preDeleteUser($params) {
-		$user = $this->userManager->get($params['uid']);
-
-		$this->usersToDelete[$params['uid']] = $user;
-
-		$this->calendarsToDelete = $this->calDav->getCalendarsForUser('principals/users/' . $user->getUID());
-		$this->addressBooksToDelete = $this->cardDav->getAddressBooksForUser('principals/users/' . $user->getUID());
+		$this->usersToDelete[$params['uid']] = $this->userManager->get($params['uid']);
 	}
 
 	public function postDeleteUser($params) {
@@ -104,15 +93,15 @@ class HookManager {
 		if (isset($this->usersToDelete[$uid])){
 			$this->syncService->deleteUser($this->usersToDelete[$uid]);
 		}
-		if (!is_null($this->calendarsToDelete)) {
-			foreach ($this->calendarsToDelete as $calendar) {
-				$this->calDav->deleteCalendar($calendar['id']);
-			}
+
+		$calendarsToDelete = $this->calDav->getCalendarsForUser('principals/users/' . $uid);
+		foreach ($calendarsToDelete as $calendar) {
+			$this->calDav->deleteCalendar($calendar['id']);
 		}
-		if (!is_null($this->addressBooksToDelete)) {
-			foreach ($this->addressBooksToDelete as $addressBook) {
-				$this->cardDav->deleteAddressBook($addressBook['id']);
-			}
+
+		$addressBooksToDelete = $this->cardDav->getAddressBooksForUser('principals/users/' . $uid);
+		foreach ($addressBooksToDelete as $addressBook) {
+			$this->cardDav->deleteAddressBook($addressBook['id']);
 		}
 	}
 
