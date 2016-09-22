@@ -50,6 +50,14 @@
     "App can't be installed because it is not compatible with this version of the server" : "程式無法安裝，因為伺服器版本不符。",
     "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" : "無法安裝應用程式，因為它包含了 <shipped>true</shipped> 標籤，在未發行的應用程式當中這是不允許的",
     "App can't be installed because the version in info.xml is not the same as the version reported from the app store" : "程式無法安裝，因為info.xml檔案中版本與app商店中要求不同。",
+    "APCu" : "APCu",
+    "Redis" : "Redis",
+    "Server settings" : "伺服器設定",
+    "Sharing" : "分享",
+    "Encryption" : "加密",
+    "Logging" : "記錄",
+    "Additional settings" : "其他設定",
+    "Tips & tricks" : "使用祕訣",
     "%s enter the database username and name." : "%s 輸入資料庫名稱及使用者名稱",
     "%s enter the database username." : "%s 輸入資料庫使用者名稱。",
     "%s enter the database name." : "%s 輸入資料庫名稱。",
@@ -166,6 +174,8 @@
     "Storage incomplete configuration. %s" : "儲存空間配置尚未完成。%s",
     "Storage connection error. %s" : "儲存空間連線錯誤。%s",
     "Storage not available" : "無法存取儲存空間",
-    "Storage connection timeout. %s" : "儲存空間連線逾時。%s"
+    "Storage connection timeout. %s" : "儲存空間連線逾時。%s",
+    "App \"%s\" cannot be installed because it is not compatible with this version of Nextcloud." : "應用程式 \"%s\" 無法安裝，因為與此版本 Nextcloud 不相容",
+    "App can't be installed because it is not compatible with this version of Nextcloud" : "應用程式無法安裝，因為與此版本 Nextcloud 不相容"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
