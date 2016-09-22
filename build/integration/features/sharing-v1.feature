@@ -883,3 +883,34 @@ Feature: sharing
     And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRDNVCK"
     And as "user1" the folder "merge-test-outside-groups-renamebeforesecondshare" does not exist
 
+  Scenario: Empting trashbin
+    Given As an "admin"
+    And user "user0" exists
+    And User "user0" deletes file "/textfile0.txt"
+    When User "user0" empties trashbin
+    Then the HTTP status code should be "200"
+
+  Scenario: orphaned shares
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And user "user0" created a folder "/common"
+    And user "user0" created a folder "/common/sub"
+    And file "/common/sub" of user "user0" is shared with user "user1"
+    And User "user0" deletes folder "/common"
+    When User "user0" empties trashbin
+    Then as "user1" the folder "sub" does not exist
+
+  Scenario: sharing again an own file while belonging to a group
+    Given As an "admin"
+    Given user "user0" exists
+    And group "sharing-group" exists
+    And user "user0" belongs to group "sharing-group"
+    And file "welcome.txt" of user "user0" is shared with group "sharing-group"
+    And Deleting last share
+    When sending "POST" to "/apps/files_sharing/api/v1/shares" with
+      | path | welcome.txt |
+      | shareWith | sharing-group |
+      | shareType | 1 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
