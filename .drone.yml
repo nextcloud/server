@@ -148,20 +148,180 @@ pipeline:
       matrix:
         DB: postgres
         PHP: 5.6
-  integration:
+  integration-capabilities_features:
     image: nextcloudci/php7.0:php7.0-2
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
-      - ./run.sh
+      - ./run.sh capabilities_features/capabilities.feature
     when:
       matrix:
-        TESTS: integration
+        TESTS: integration-capabilities_features
+  integration-federation_features:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh federation_features/federated.feature
+    when:
+      matrix:
+        TESTS: integration-federation_features
+  integration-auth:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/auth.feature
+    when:
+      matrix:
+        TESTS: integration-auth
+  integration-carddav:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/carddav.feature
+    when:
+      matrix:
+        TESTS: integration-carddav
+  integration-dav-v2:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/dav-v2.feature
+    when:
+      matrix:
+        TESTS: integration-dav-v2
+  integration-ocs-v1:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/ocs-v1.feature
+    when:
+      matrix:
+        TESTS: integration-ocs-v1
+  integration-sharing-v1:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/sharing-v1.feature
+    when:
+      matrix:
+        TESTS: integration-sharing-v1
+  integration-checksums-v1:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/checksums.feature
+    when:
+      matrix:
+        TESTS: integration-checksums
+  integration-external-storage:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/external-storage.feature
+    when:
+      matrix:
+        TESTS: integration-external-storage
+  integration-provisioning-v1:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/provisioning-v1.feature
+    when:
+      matrix:
+        TESTS: integration-provisioning-v1
+  integration-tags:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/tags.feature
+    when:
+      matrix:
+        TESTS: integration-tags
+  integration-caldav:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/caldav.feature
+    when:
+      matrix:
+        TESTS: integration-caldav
+  integration-comments:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/comments.feature
+    when:
+      matrix:
+        TESTS: integration-comments
+  integration-favorites:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/favorites.feature
+    when:
+      matrix:
+        TESTS: integration-favorites
+  integration-provisioning-v2:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/provisioning-v2.feature
+    when:
+      matrix:
+        TESTS: integration-provisioning-v2
+  integration-webdav-related:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/webdav-related.feature
+    when:
+      matrix:
+        TESTS: integration-webdav-related
+  integration-sharees-features:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh sharees_features/sharees.feature
+    when:
+      matrix:
+        TESTS: integration-sharees-features
 
 matrix:
   include:
     - TESTS: signed-off-check
-    - TESTS: integration
+    - TESTS: integration-capabilities_features
+    - TESTS: integration-federation_features
+    - TESTS: integration-auth
+    - TESTS: integration-carddav
+    - TESTS: integration-dav-v2
+    - TESTS: integration-ocs-v1
+    - TESTS: integration-sharing-v1
+    - TESTS: integration-checksums
+    - TESTS: integration-external-storage
+    - TESTS: integration-provisioning-v1
+    - TESTS: integration-tags
+    - TESTS: integration-caldav
+    - TESTS: integration-comments
+    - TESTS: integration-favorites
+    - TESTS: integration-provisioning-v2
+    - TESTS: integration-webdav-related
+    - TESTS: integration-sharees-features
     - TESTS: jsunit
     - TESTS: check-autoloader
     - TESTS: app-check-code
@@ -209,3 +369,4 @@ services:
     when:
       matrix:
         DB: mysql
+
