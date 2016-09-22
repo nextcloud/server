@@ -37,7 +37,7 @@ class OC_OCS {
 		$format = \OC::$server->getRequest()->getParam('format', 'xml');
 		$txt='Invalid query, please check the syntax. API specifications are here:'
 			.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
-		OC_API::respond(new OC_OCS_Result(null, API::RESPOND_UNKNOWN_ERROR, $txt), $format);
+		OC_API::respond(new OC_OCS_Result(null, API::RESPOND_NOT_FOUND, $txt), $format);
 	}
 
 }
