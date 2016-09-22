@@ -62,7 +62,16 @@ class SimpleContainer extends Container implements IContainer {
 					$resolveName = $parameterClass->name;
 				}
 
-				$parameters[] = $this->query($resolveName);
+				try {
+					$parameters[] = $this->query($resolveName);
+				} catch (\Exception $e) {
+					// Service not found, use the default value when available
+					if ($parameter->isDefaultValueAvailable()) {
+						$parameters[] = $parameter->getDefaultValue();
+					} else {
+						throw $e;
+					}
+				}
 			}
 			return $class->newInstanceArgs($parameters);
 		}
