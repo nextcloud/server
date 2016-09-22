@@ -13,6 +13,7 @@ OC.L10N.register(
     " Could not set configuration %s" : "Klarte ikke å sette konfigurasjon %s",
     "Action does not exist" : "Aksjonen eksisterer ikke",
     "The Base DN appears to be wrong" : "Basis-DN ser ut til å være feil",
+    "Testing configuration…" : "Tester konfigurasjonen...",
     "Configuration incorrect" : "Konfigurasjon feil",
     "Configuration incomplete" : "Konfigurasjon ufullstendig",
     "Configuration OK" : "Konfigurasjon OK",
