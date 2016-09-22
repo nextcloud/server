@@ -41,14 +41,6 @@ curl_setopt($ch, CURLOPT_USERAGENT, 'CI for Nextcloud (https://github.com/nextcl
 $response = curl_exec($ch);
 curl_close($ch);
 
-shell_exec(
-	sprintf(
-		'cd %s && git fetch',
-		escapeshellarg($baseDir),
-		escapeshellarg($pullRequestNumber)
-	)
-);
-
 $decodedResponse = json_decode($response, true);
 if(!is_array($decodedResponse) || count($decodedResponse) === 0) {
 	echo("Could not decode JSON response from GitHub API.\n");
@@ -63,9 +55,12 @@ foreach($decodedResponse as $commit) {
 		echo("No SHA specified in $commit\n");
 		exit(1);
 	}
-	$commits[] = $commit['sha'];
+	if(!isset($commit['commit']['message'])) {
+		echo("No commit message specified in $commit\n");
+		exit(1);
+	}
+	$commits[$commit['sha']] = $commit['commit']['message'];
 }
-
 
 if(count($commits) < 1) {
 	echo("Could not read commits.\n");
@@ -73,23 +68,13 @@ if(count($commits) < 1) {
 }
 
 $notSignedCommits = [];
-foreach($commits as $commit) {
+foreach($commits as $commit => $message) {
 	if($commit === '') {
 		continue;
 	}
 
 	$signOffMessage = false;
-	$commitMessageLines =
-		explode(
-			"\n",
-			shell_exec(
-				sprintf(
-					'cd %s && git rev-list --format=%%B --max-count=1 %s',
-					$baseDir,
-					$commit
-				)
-			)
-		);
+	$commitMessageLines = explode("\n", $message);
 
 	foreach($commitMessageLines as $line) {
 		if(preg_match('/^Signed-off-by: .* <.*@.*>$/', $line)) {
