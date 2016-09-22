@@ -938,3 +938,17 @@ Feature: sharing
     And User "user0" deletes folder "/common"
     When User "user0" empties trashbin
     Then as "user1" the folder "sub" does not exist
+
+  Scenario: sharing again an own file while belonging to a group
+    Given As an "admin"
+    Given user "user0" exists
+    And group "sharing-group" exists
+    And user "user0" belongs to group "sharing-group"
+    And file "welcome.txt" of user "user0" is shared with group "sharing-group"
+    And Deleting last share
+    When sending "POST" to "/apps/files_sharing/api/v1/shares" with
+      | path | welcome.txt |
+      | shareWith | sharing-group |
+      | shareType | 1 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
