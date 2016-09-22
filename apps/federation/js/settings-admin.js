@@ -18,66 +18,125 @@
  *
  */
 
+(function( $ ) {
+ 
+    // ocFederationAddServer
+    $.fn.ocFederationAddServer = function() {
+
+        /* Go easy on jquery and define some vars
+        ========================================================================== */
+
+        var $wrapper = $(this),
+            
+            // Buttons
+            $btnAddServer   = $wrapper.find("#ocFederationAddServerButton"),
+            $btnSubmit      = $wrapper.find("#ocFederationSubmit"),
+            
+            // Inputs
+            $inpServerUrl   = $wrapper.find("#serverUrl"),
+            $inpAutoAddServers = $wrapper.find("#autoAddServers"),
+
+            // misc
+            $msgBox         = $wrapper.find("#ocFederationAddServer .msg"),
+            $srvList        = $wrapper.find("#listOfTrustedServers");
+
+
+        /* Interaction
+        ========================================================================== */
+
+        $btnAddServer.on('click', function() {
+            $btnAddServer.addClass('hidden');
+            $inpServerUrl
+                .removeClass('hidden')
+                .focus();
+        });
+
+        // trigger server removal
+        $srvList.on('click', 'li > .icon-delete', function() {
+            var $this = $(this).parent();
+            var id = $this.attr('id');
+            
+            removeServer( id );
+        });
+
+        $inpAutoAddServers.on("change", function() {
+            $.post(
+                OC.generateUrl('/apps/federation/auto-add-servers'),
+                {
+                    autoAddServers: $(this).is(":checked")
+                }
+            );
+        });
+
+        $btnSubmit.on("click", function()
+        {
+            addServer($inpServerUrl.val());
+        });
+
+        $inpServerUrl.on("change keyup", function (e) {
+
+            console.log("typing away");
+
+            url = $(this).val();
+
+            // toggle add-button visiblity based on input length
+            if ( url.length > 0 )
+                $btnSubmit.removeClass("hidden")
+            else
+                $btnSubmit.addClass("hidden")
+
+            if (e.keyCode === 13) { // add server on "enter"
+                addServer(url);
+            } else if (e.keyCode === 27) { // hide input filed again in ESC
+                $btnAddServer.removeClass('hidden');
+                $inpServerUrl.val("").addClass('hidden');
+                $btnSubmit.addClass('hidden');
+            }
+        });
+    };
+    
+    /* private Functions
+    ========================================================================== */
+
+    function addServer( url ) {
+        OC.msg.startSaving('#ocFederationAddServer .msg');
+
+        $.post(
+            OC.generateUrl('/apps/federation/trusted-servers'),
+            {
+                url: url
+            }
+        ).done(function (data) {
+            $("#serverUrl").attr('value', '');
+            $("#listOfTrustedServers").prepend(
+                $('<li>')
+                    .attr('id', data.id)
+                    .html('<span class="status indeterminate"></span>' +
+                        data.url +
+                        '<span class="icon icon-delete"></span>')
+            );
+            OC.msg.finishedSuccess('#ocFederationAddServer .msg', data.message);
+        })
+        .fail(function (jqXHR) {
+            OC.msg.finishedError('#ocFederationAddServer .msg', JSON.parse(jqXHR.responseText).message);
+        });
+    };
+
+    function removeServer( id ) {
+        $.ajax({
+            url: OC.generateUrl('/apps/federation/trusted-servers/' + id),
+            type: 'DELETE',
+            success: function(response) {
+                $("#ocFederationSettings").find("#" + id).remove();
+            }
+        });
+    }
+
+ 
+})( jQuery );
+
 $(document).ready(function () {
 
-	// show input field to add a new trusted server
-	$("#ocFederationAddServer").on('click', function() {
-		$('#ocFederationAddServerButton').addClass('hidden');
-		$("#serverUrl").removeClass('hidden');
-		$("#serverUrl").focus();
-	});
-
-	// add new trusted server
-	$("#serverUrl").keyup(function (e) {
-		if (e.keyCode === 13) { // add server on "enter"
-			var url = $('#serverUrl').val();
-			OC.msg.startSaving('#ocFederationAddServer .msg');
-			$.post(
-				OC.generateUrl('/apps/federation/trusted-servers'),
-				{
-					url: url
-				}
-			).done(function (data) {
-					$('#serverUrl').attr('value', '');
-					$('ul#listOfTrustedServers').prepend(
-						$('<li>')
-								.attr('id', data.id)
-								.html('<span class="status indeterminate"></span>' +
-									data.url +
-									'<span class="icon icon-delete"></span>')
-					);
-					OC.msg.finishedSuccess('#ocFederationAddServer .msg', data.message);
-				})
-				.fail(function (jqXHR) {
-					OC.msg.finishedError('#ocFederationAddServer .msg', JSON.parse(jqXHR.responseText).message);
-				});
-		} else if (e.keyCode === 27) { // hide input filed again in ESC
-			$('#ocFederationAddServerButton').toggleClass('hidden');
-			$("#serverUrl").toggleClass('hidden');
-		}
-	});
-
-// remove trusted server from list
-	$( "#listOfTrustedServers" ).on('click', 'li > .icon-delete', function() {
-		var $this = $(this).parent();
-		var id = $this.attr('id');
-		$.ajax({
-			url: OC.generateUrl('/apps/federation/trusted-servers/' + id),
-			type: 'DELETE',
-			success: function(response) {
-				$this.remove();
-			}
-		});
-
-	});
-
-	$("#ocFederationSettings #autoAddServers").change(function() {
-		$.post(
-				OC.generateUrl('/apps/federation/auto-add-servers'),
-				{
-					autoAddServers: $(this).is(":checked")
-				}
-		);
-	});
-
+    $('#ocFederationSettings').ocFederationAddServer();
+    
 });
