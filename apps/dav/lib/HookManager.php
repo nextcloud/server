@@ -78,10 +78,6 @@ class HookManager {
 			'changeUser',
 			$this,
 			'changeUser');
-		Util::connectHook('OC_User',
-			'post_login',
-			$this,
-			'postLogin');
 	}
 
 	public function postCreateUser($params) {
@@ -117,8 +113,7 @@ class HookManager {
 		$this->syncService->updateUser($user);
 	}
 
-	public function postLogin($params) {
-		$user = $this->userManager->get($params['uid']);
+	public function firstLogin(IUser $user = null) {
 		if (!is_null($user)) {
 			$principal = 'principals/users/' . $user->getUID();
 			if ($this->calDav->getCalendarsForUserCount($principal) === 0) {

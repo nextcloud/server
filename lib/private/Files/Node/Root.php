@@ -378,7 +378,6 @@ class Root extends Folder implements IRootFolder {
 					$this->newFolder('/' . $userId);
 				}
 				$folder = $this->newFolder('/' . $userId . '/files');
-				\OC_Util::copySkeleton($userId, $folder);
 			}
 
 			$this->userFolderCache->set($userId, $folder);

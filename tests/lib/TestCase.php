@@ -377,6 +377,10 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		self::logout();
 		\OC\Files\Filesystem::tearDown();
 		\OC_User::setUserId($user);
+		$userObject = \OC::$server->getUserManager()->get($user);
+		if (!is_null($userObject)) {
+			$userObject->updateLastLoginTimestamp();
+		}
 		\OC_Util::setupFS($user);
 		if (\OC_User::userExists($user)) {
 			\OC::$server->getUserFolder($user);

@@ -58,7 +58,6 @@ class HookManagerTest extends TestCase {
 		$userManager = $this->getMockBuilder(IUserManager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$userManager->expects($this->once())->method('get')->willReturn($user);
 
 		/** @var SyncService | \PHPUnit_Framework_MockObject_MockObject $syncService */
 		$syncService = $this->getMockBuilder(SyncService::class)
@@ -84,7 +83,7 @@ class HookManagerTest extends TestCase {
 			'contacts', ['{DAV:}displayname' => 'Contacts']);
 
 		$hm = new HookManager($userManager, $syncService, $cal, $card);
-		$hm->postLogin(['uid' => 'newUser']);
+		$hm->firstLogin($user);
 	}
 
 	public function testWithExisting() {
@@ -97,7 +96,6 @@ class HookManagerTest extends TestCase {
 		$userManager = $this->getMockBuilder(IUserManager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$userManager->expects($this->once())->method('get')->willReturn($user);
 
 		/** @var SyncService | \PHPUnit_Framework_MockObject_MockObject $syncService */
 		$syncService = $this->getMockBuilder(SyncService::class)
@@ -119,7 +117,7 @@ class HookManagerTest extends TestCase {
 		$card->expects($this->never())->method('createAddressBook');
 
 		$hm = new HookManager($userManager, $syncService, $cal, $card);
-		$hm->postLogin(['uid' => 'newUser']);
+		$hm->firstLogin($user);
 	}
 
 	public function testWithBirthdayCalendar() {
@@ -132,7 +130,6 @@ class HookManagerTest extends TestCase {
 		$userManager = $this->getMockBuilder(IUserManager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$userManager->expects($this->once())->method('get')->willReturn($user);
 
 		/** @var SyncService | \PHPUnit_Framework_MockObject_MockObject $syncService */
 		$syncService = $this->getMockBuilder(SyncService::class)
@@ -158,7 +155,7 @@ class HookManagerTest extends TestCase {
 			'contacts', ['{DAV:}displayname' => 'Contacts']);
 
 		$hm = new HookManager($userManager, $syncService, $cal, $card);
-		$hm->postLogin(['uid' => 'newUser']);
+		$hm->firstLogin($user);
 	}
 
 	public function testDeleteCalendar() {

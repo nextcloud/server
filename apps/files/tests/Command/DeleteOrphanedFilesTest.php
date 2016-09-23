@@ -24,8 +24,10 @@
 
 namespace OCA\Files\Tests\Command;
 
+use OC\Files\View;
 use OCA\Files\Command\DeleteOrphanedFiles;
 use OCP\Files\StorageNotAvailableException;
+use Test\TestCase;
 
 /**
  * Class DeleteOrphanedFilesTest
@@ -34,7 +36,7 @@ use OCP\Files\StorageNotAvailableException;
  *
  * @package OCA\Files\Tests\Command
  */
-class DeleteOrphanedFilesTest extends \Test\TestCase {
+class DeleteOrphanedFilesTest extends TestCase {
 
 	/**
 	 * @var DeleteOrphanedFiles
@@ -94,7 +96,7 @@ class DeleteOrphanedFilesTest extends \Test\TestCase {
 
 		$this->loginAsUser($this->user1);
 
-		$view = new \OC\Files\View('/' . $this->user1 . '/');
+		$view = new View('/' . $this->user1 . '/');
 		$view->mkdir('files/test');
 
 		$fileInfo = $view->getFileInfo('files/test');
@@ -115,7 +117,7 @@ class DeleteOrphanedFilesTest extends \Test\TestCase {
 		$output
 			->expects($this->once())
 			->method('writeln')
-			->with('4 orphaned file cache entries deleted');
+			->with('3 orphaned file cache entries deleted');
 
 		$this->command->execute($input, $output);
 

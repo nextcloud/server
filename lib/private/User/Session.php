@@ -51,6 +51,7 @@ use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\Util;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class Session
@@ -396,15 +397,25 @@ class Session implements IUserSession, Emitter {
 		}
 	}
 
-	protected function prepareUserLogin() {
+	protected function prepareUserLogin($firstTimeLogin) {
 		// TODO: mock/inject/use non-static
 		// Refresh the token
 		\OC::$server->getCsrfTokenManager()->refreshToken();
 		//we need to pass the user name, which may differ from login name
 		$user = $this->getUser()->getUID();
 		OC_Util::setupFS($user);
-		//trigger creation of user home and /files folder
-		\OC::$server->getUserFolder($user);
+
+		if ($firstTimeLogin) {
+			// TODO: lock necessary?
+			//trigger creation of user home and /files folder
+			$userFolder = \OC::$server->getUserFolder($user);
+
+			// copy skeleton
+			\OC_Util::copySkeleton($user, $userFolder);
+
+			// trigger any other initialization
+			\OC::$server->getEventDispatcher()->dispatch(IUser::class . '::firstLogin', new GenericEvent($this->getUser()));
+		}
 	}
 
 	/**
@@ -457,9 +468,10 @@ class Session implements IUserSession, Emitter {
 		if ($user->isEnabled()) {
 			$this->setUser($user);
 			$this->setLoginName($uid);
-			$this->manager->emit('\OC\User', 'postLogin', array($user, $password));
+			$firstTimeLogin = $user->updateLastLoginTimestamp();
+			$this->manager->emit('\OC\User', 'postLogin', [$user, $password]);
 			if ($this->isLoggedIn()) {
-				$this->prepareUserLogin();
+				$this->prepareUserLogin($firstTimeLogin);
 				return true;
 			} else {
 				// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
@@ -725,7 +737,8 @@ class Session implements IUserSession, Emitter {
 
 		//login
 		$this->setUser($user);
-		$this->manager->emit('\OC\User', 'postRememberedLogin', array($user));
+		$user->updateLastLoginTimestamp();
+		$this->manager->emit('\OC\User', 'postRememberedLogin', [$user]);
 		return true;
 	}
 
