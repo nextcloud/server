@@ -29,6 +29,13 @@ if you want to join the Github organization just let us know and we’ll add you
 * :lock: **Encryption** You can encrypt data in transit with secure https connections. You can enable the encryption app to encrypt data on storage for improved security and privacy.
 * ...
 
+## Installation
+Read the Full [Installation Documentation](https://docs.nextcloud.com/server/10/admin_manual/installation/)
+
+1. [Install yourself, use our appliances or find a provider](https://nextcloud.com/install/#instructions-server)
+2. [Set permissions](https://docs.nextcloud.com/server/10/admin_manual/installation/installation_wizard.html#setting-strong-directory-permissions)
+3. [Sync your data via Desktop or Mobile App](https://nextcloud.com/install/#install-clients)
+
 ## Contribution Guidelines
 
 All contributions to this repository from June, 16 2016 on are considered to be
@@ -43,7 +50,7 @@ changed it substantially:
 @copyright Copyright (c) <year>, <your name> (<your email address>)
 ```
 
-More information how to contribute: https://nextcloud.com/contribute/
+More information how to contribute: [https://nextcloud.com/contribute/](https://nextcloud.com/contribute/)
 
 ## Nextcloud VM
 If you're not familiar with Linux, or simply just want to get up and running on a pre-configured system in no time - we have developed a VM that you can download. Just extract it and mount it in VMware or VirtualBox and you're all set.
@@ -51,10 +58,10 @@ If you're not familiar with Linux, or simply just want to get up and running on 
 Download the latest version of the [Nextcloud VM](https://github.com/nextcloud/vm/releases/)
 
 ## Support
-Learn about the different ways you can get support for Nextcloud: https://nextcloud.com/support/
+Learn about the different ways you can get support for Nextcloud: [https://nextcloud.com/support/](https://nextcloud.com/support/)
 
 ## Get in touch
 * :clipboard: [Forum](https://help.nextcloud.com)
 * :hash: [IRC channel](https://webchat.freenode.net/?channels=nextcloud)
-* :busts_in_silhouette: [Facebook] (https://facebook.com/nextclouders)
+* :busts_in_silhouette: [Facebook](https://facebook.com/nextclouders)
 * :hatching_chick: [Twitter](https://twitter.com/Nextclouders)
