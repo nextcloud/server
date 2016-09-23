@@ -10,8 +10,8 @@
 	"requiremin": "4",
 	"shipped": "true",
 	"documentation": {
-		"user": "https://docs.example.com/server/go.php?to=user-encryption",
-		"admin": "https://docs.example.com/server/go.php?to=admin-encryption"
+		"user": "user-encryption",
+		"admin": "admin-encryption"
 	},
 	"rememberlogin": "false",
 	"types": ["filesystem"],

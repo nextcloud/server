@@ -44,9 +44,7 @@ class InfoCheckerTest extends TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$infoParser = new InfoParser(\OC::$server->getURLGenerator());
-
-		$this->infoChecker = new InfoChecker($infoParser);
+		$this->infoChecker = new InfoChecker(new InfoParser());
 	}
 
 	public function appInfoData() {
