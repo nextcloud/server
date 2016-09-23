@@ -46,14 +46,13 @@ class UpdateCheckerTest extends TestCase {
 			->method('check')
 			->willReturn([
 				'version' => 123,
-				'versionstring' => 'Nextcloud 123',
+				'versionstring' => 'ownCloud 123',
 				'web'=> 'javascript:alert(1)',
-				'url'=> 'javascript:alert(2)',
 			]);
 
 		$expected = [
 			'updateAvailable' => true,
-			'updateVersion' => 'Nextcloud 123',
+			'updateVersion' => 'ownCloud 123',
 		];
 		$this->assertSame($expected, $this->updateChecker->getUpdateState());
 	}
@@ -64,16 +63,14 @@ class UpdateCheckerTest extends TestCase {
 			->method('check')
 			->willReturn([
 				'version' => 123,
-				'versionstring' => 'Nextcloud 123',
-				'web'=> 'https://docs.nextcloud.com/myUrl',
-				'url'=> 'https://downloads.nextcloud.org/server',
+				'versionstring' => 'ownCloud 123',
+				'web'=> 'https://owncloud.org/myUrl',
 			]);
 
 		$expected = [
 			'updateAvailable' => true,
-			'updateVersion' => 'Nextcloud 123',
-			'updateLink' => 'https://docs.nextcloud.com/myUrl',
-			'downloadLink' => 'https://downloads.nextcloud.org/server',
+			'updateVersion' => 'ownCloud 123',
+			'updateLink' => 'https://owncloud.org/myUrl',
 		];
 		$this->assertSame($expected, $this->updateChecker->getUpdateState());
 	}
