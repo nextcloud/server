@@ -172,6 +172,7 @@ class HookManagerTest extends TestCase {
 			['id' => 'personal']
 		]);
 		$cal->expects($this->once())->method('deleteCalendar');
+		$cal->expects($this->once())->method('deleteAllSharesForUser');
 
 		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $card */
 		$card = $this->getMockBuilder(CardDavBackend::class)

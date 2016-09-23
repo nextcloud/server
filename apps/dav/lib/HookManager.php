@@ -98,6 +98,7 @@ class HookManager {
 		foreach ($calendarsToDelete as $calendar) {
 			$this->calDav->deleteCalendar($calendar['id']);
 		}
+		$this->calDav->deleteAllSharesForUser('principals/users/' . $uid);
 
 		$addressBooksToDelete = $this->cardDav->getAddressBooksForUser('principals/users/' . $uid);
 		foreach ($addressBooksToDelete as $addressBook) {

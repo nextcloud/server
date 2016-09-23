@@ -508,6 +508,16 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
+	 * Delete all of an user's shares
+	 *
+	 * @param string $principaluri
+	 * @return void
+	 */
+	function deleteAllSharesForUser($principaluri) {
+		$this->sharingBackend->deleteAllSharesByUser($principaluri);
+	}
+
+	/**
 	 * Returns all calendar objects within a calendar.
 	 *
 	 * Every item contains an array with the following keys:

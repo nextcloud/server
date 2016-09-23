@@ -110,6 +110,14 @@ class Backend {
 			->execute();
 	}
 
+	public function deleteAllSharesByUser($principaluri) {
+		$query = $this->db->getQueryBuilder();
+		$query->delete('dav_shares')
+			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principaluri)))
+			->andWhere($query->expr()->eq('type', $query->createNamedParameter($this->resourceType)))
+			->execute();
+	}
+
 	/**
 	 * @param IShareable $shareable
 	 * @param string $element
