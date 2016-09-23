@@ -36,7 +36,7 @@
 $application->add(new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand());
 $application->add(new OC\Core\Command\Status);
 $application->add(new OC\Core\Command\Check(\OC::$server->getConfig()));
-$infoParser = new \OC\App\InfoParser(\OC::$server->getURLGenerator());
+$infoParser = new \OC\App\InfoParser();
 $application->add(new OC\Core\Command\App\CheckCode($infoParser));
 $application->add(new OC\Core\Command\L10n\CreateJs());
 $application->add(new \OC\Core\Command\Integrity\SignApp(

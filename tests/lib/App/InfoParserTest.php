@@ -10,27 +10,16 @@
 namespace Test\App;
 
 use OC;
-use OCP\IURLGenerator;
+use OC\App\InfoParser;
 use Test\TestCase;
 
 class InfoParserTest extends TestCase {
 
-	/** @var \OC\App\InfoParser */
+	/** @var InfoParser */
 	private $parser;
 
 	public function setUp() {
-		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
-			->disableOriginalConstructor()
-			->getMock();
-
-		/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject $urlGenerator */
-		$urlGenerator->expects($this->any())
-			->method('linkToDocs')
-			->will($this->returnCallback(function ($url) {
-				return "https://docs.example.com/server/go.php?to=$url";
-			}));
-
-		$this->parser = new \OC\App\InfoParser($urlGenerator);
+		$this->parser = new InfoParser();
 	}
 
 	/**
