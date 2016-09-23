@@ -1,13 +1,13 @@
 OC.L10N.register(
     "federation",
     {
-    "Added to the list of trusted servers" : "Lagt til i listen over klarerte servere",
-    "Server is already in the list of trusted servers." : "Serveren er allerede i listen av klarerte servere.",
-    "No server to federate with found" : "Ingen server å forene med ble funnet",
-    "Could not add server" : "Kunne ikke legge til server",
+    "Added to the list of trusted servers" : "Lagt til i listen over klarerte tjenere",
+    "Server is already in the list of trusted servers." : "Tjeneren er allerede i listen av klarerte tjenere.",
+    "No server to federate with found" : "Ingen tjener å forene med ble funnet",
+    "Could not add server" : "Kunne ikke legge til tjener",
     "Federation" : "Sammenknytting",
     "Add server automatically once a federated share was created successfully" : "Legg til server automatisk når en sammenknyttet deling er blitt opprettet",
-    "Trusted Servers" : "Klarerte servere",
+    "Trusted Servers" : "Klarerte tjenere",
     "+ Add Nextcloud server" : "+ Legg til Nextcloud tjener",
     "Nextcloud Server" : "Nextcloud tjener",
     "Server added to the list of trusted Nextclouds" : "Tjener lagt til i listen over klarerte Nextclouder",

@@ -12,7 +12,7 @@
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Du kan alltid oppdatere til en nyere versjon / eksperimentell kanal. Men du kan aldri nedgradere til en mer stabil kanal.",
     "Notify members of the following groups about available updates:" : "Informer medlemmene i følgende grupper om tilgjengelig oppdateringer:",
     "Only notification for app updates are available." : "Kun varsler for app oppdateringer er tilgjengelig.",
-    "The selected update channel does not support updates of the server." : "Den valgte oppdateringskanalen tilbyr ikke oppdateringer av serveren.",
+    "The selected update channel does not support updates of the server." : "Den valgte oppdateringskanalen tilbyr ikke oppdateringer av tjeneren.",
     "Updater" : "Oppdaterer"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
