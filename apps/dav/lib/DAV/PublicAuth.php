@@ -29,9 +29,6 @@ class PublicAuth implements BackendInterface {
 	/** @var string[] */
 	private $publicURLs;
 
-	/**
-	 * @param string[] $publicURLs
-	 */
 	public function __construct() {
 		$this->publicURLs = [
 			'public-calendars',
