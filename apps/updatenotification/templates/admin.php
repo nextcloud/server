@@ -16,9 +16,7 @@
 <form id="oca_updatenotification_section" class="followupsection">
 	<?php if($isNewVersionAvailable === true): ?>
 		<strong><?php p($l->t('A new version is available: %s', [$newVersionString])); ?></strong>
-		<?php if ($_['downloadLink']): ?>
-			<a href="<?php p($_['downloadLink']); ?>" class="button"><?php p($l->t('Download now')) ?></a>
-		<?php endif; ?>
+		<input type="button" id="oca_updatenotification_button" value="<?php p($l->t('Open updater')) ?>">
 	<?php else: ?>
 		<strong><?php print_unescaped($l->t('Your version is up to date.')); ?></strong>
 		<span class="icon-info svg" title="<?php p($l->t('Checked on %s', [$lastCheckedDate])) ?>"></span>
