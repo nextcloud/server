@@ -1570,6 +1570,114 @@ class Share20OCSTest extends \Test\TestCase {
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
 
+	public function testUpdateShareCannotIncreasePermissions() {
+		$ocs = $this->mockFormatShare();
+
+		$date = new \DateTime('2000-01-01');
+
+		$folder = $this->getMock('\OCP\Files\Folder');
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share
+			->setId(42)
+			->setSharedBy($this->currentUser->getUID())
+			->setShareOwner('anotheruser')
+			->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setSharedWith('group1')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($folder);
+
+		// note: updateShare will modify the received instance but getSharedWith will reread from the database,
+		// so their values will be different
+		$incomingShare = \OC::$server->getShareManager()->newShare();
+		$incomingShare
+			->setId(42)
+			->setSharedBy($this->currentUser->getUID())
+			->setShareOwner('anotheruser')
+			->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setSharedWith('group1')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($folder);
+
+		$this->request
+			->method('getParam')
+			->will($this->returnValueMap([
+				['permissions', null, '31'],
+			]));
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+
+		$this->shareManager->expects($this->any(0))
+			->method('getSharedWith')
+			->will($this->returnValueMap([
+				['currentUser', \OCP\Share::SHARE_TYPE_USER, $share->getNode(), -1, 0, []],
+				['currentUser', \OCP\Share::SHARE_TYPE_GROUP, $share->getNode(), -1, 0, [$incomingShare]]
+			]));
+
+		$this->shareManager->expects($this->never())->method('updateShare');
+
+		$expected = new \OC_OCS_Result(null, 404, 'Cannot increase permissions');
+		$result = $ocs->updateShare(42);
+
+		$this->assertEquals($expected->getMeta(), $result->getMeta());
+		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
+	public function testUpdateShareCanIncreasePermissionsIfOwner() {
+		$ocs = $this->mockFormatShare();
+
+		$date = new \DateTime('2000-01-01');
+
+		$folder = $this->getMock('\OCP\Files\Folder');
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share
+			->setId(42)
+			->setSharedBy($this->currentUser->getUID())
+			->setShareOwner($this->currentUser->getUID())
+			->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setSharedWith('group1')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($folder);
+
+		// note: updateShare will modify the received instance but getSharedWith will reread from the database,
+		// so their values will be different
+		$incomingShare = \OC::$server->getShareManager()->newShare();
+		$incomingShare
+			->setId(42)
+			->setSharedBy($this->currentUser->getUID())
+			->setShareOwner($this->currentUser->getUID())
+			->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setSharedWith('group1')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($folder);
+
+		$this->request
+			->method('getParam')
+			->will($this->returnValueMap([
+				['permissions', null, '31'],
+			]));
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+
+		$this->shareManager->expects($this->any(0))
+			->method('getSharedWith')
+			->will($this->returnValueMap([
+				['currentUser', \OCP\Share::SHARE_TYPE_USER, $share->getNode(), -1, 0, []],
+				['currentUser', \OCP\Share::SHARE_TYPE_GROUP, $share->getNode(), -1, 0, [$incomingShare]]
+			]));
+
+		$this->shareManager->expects($this->once())
+			->method('updateShare')
+			->with($share)
+			->willReturn($share);
+
+		$expected = new \OC_OCS_Result();
+		$result = $ocs->updateShare(42);
+
+		$this->assertEquals($expected->getMeta(), $result->getMeta());
+		$this->assertEquals($expected->getData(), $result->getData());
+	}
 	public function dataFormatShare() {
 		$file = $this->getMock('\OCP\Files\File');
 		$folder = $this->getMock('\OCP\Files\Folder');
