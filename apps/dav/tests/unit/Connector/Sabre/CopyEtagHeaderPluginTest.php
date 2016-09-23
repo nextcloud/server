@@ -22,23 +22,28 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use OCA\DAV\Connector\Sabre\CopyEtagHeaderPlugin;
+use Sabre\DAV\Server;
+use Test\TestCase;
+
 /**
  * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
  */
-class CopyEtagHeaderPluginTest extends \Test\TestCase {
+class CopyEtagHeaderPluginTest extends TestCase {
 
-	/**
-	 * @var \OCA\DAV\Connector\Sabre\CopyEtagHeaderPlugin
-	 */
+	/** @var CopyEtagHeaderPlugin */
 	private $plugin;
+
+	/** @var Server */
+	private $server;
 
 	public function setUp() {
 		parent::setUp();
 		$this->server = new \Sabre\DAV\Server();
-		$this->plugin = new \OCA\DAV\Connector\Sabre\CopyEtagHeaderPlugin();
+		$this->plugin = new CopyEtagHeaderPlugin();
 		$this->plugin->initialize($this->server);
 	}
 
@@ -59,5 +64,27 @@ class CopyEtagHeaderPluginTest extends \Test\TestCase {
 		$this->plugin->afterMethod($request, $response);
 
 		$this->assertNull($response->getHeader('OC-Etag'));
+	}
+
+	public function testAfterMove() {
+		$node = $this->getMockBuilder('OCA\DAV\Connector\Sabre\File')
+			->disableOriginalConstructor()
+			->getMock();
+		$node->expects($this->once())
+			->method('getETag')
+			->willReturn('123456');
+		$tree = $this->getMockBuilder('Sabre\DAV\Tree')
+			->disableOriginalConstructor()
+			->getMock();
+		$tree->expects($this->once())
+			->method('getNodeForPath')
+			->with('test.txt')
+			->willReturn($node);
+
+		$this->server->tree = $tree;
+		$this->plugin->afterMove('', 'test.txt');
+
+		$this->assertEquals('123456', $this->server->httpResponse->getHeader('OC-Etag'));
+		$this->assertEquals('123456', $this->server->httpResponse->getHeader('Etag'));
 	}
 }
