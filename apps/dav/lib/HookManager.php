@@ -46,6 +46,12 @@ class HookManager {
 	/** @var CardDavBackend */
 	private $cardDav;
 
+	/** @var array */
+	private $calendarsToDelete;
+
+	/** @var array */
+	private $addressBooksToDelete;
+
 	public function __construct(IUserManager $userManager,
 								SyncService $syncService,
 								CalDavBackend $calDav,
@@ -85,7 +91,10 @@ class HookManager {
 	}
 
 	public function preDeleteUser($params) {
-		$this->usersToDelete[$params['uid']] = $this->userManager->get($params['uid']);
+		$uid = $params['uid'];
+		$this->usersToDelete[$uid] = $this->userManager->get($uid);
+		$this->calendarsToDelete = $this->calDav->getUsersOwnCalendars('principals/users/' . $uid);
+		$this->addressBooksToDelete = $this->cardDav->getAddressBooksForUser('principals/users/' . $uid);
 	}
 
 	public function postDeleteUser($params) {
@@ -94,14 +103,12 @@ class HookManager {
 			$this->syncService->deleteUser($this->usersToDelete[$uid]);
 		}
 
-		$calendarsToDelete = $this->calDav->getCalendarsForUser('principals/users/' . $uid);
-		foreach ($calendarsToDelete as $calendar) {
+		foreach ($this->calendarsToDelete as $calendar) {
 			$this->calDav->deleteCalendar($calendar['id']);
 		}
 		$this->calDav->deleteAllSharesForUser('principals/users/' . $uid);
 
-		$addressBooksToDelete = $this->cardDav->getAddressBooksForUser('principals/users/' . $uid);
-		foreach ($addressBooksToDelete as $addressBook) {
+		foreach ($this->addressBooksToDelete as $addressBook) {
 			$this->cardDav->deleteAddressBook($addressBook['id']);
 		}
 	}

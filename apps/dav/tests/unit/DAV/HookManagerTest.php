@@ -168,7 +168,7 @@ class HookManagerTest extends TestCase {
 		$cal = $this->getMockBuilder(CalDavBackend::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$cal->expects($this->once())->method('getCalendarsForUser')->willReturn([
+		$cal->expects($this->once())->method('getUsersOwnCalendars')->willReturn([
 			['id' => 'personal']
 		]);
 		$cal->expects($this->once())->method('deleteCalendar');
