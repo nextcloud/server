@@ -14,6 +14,8 @@ OC.L10N.register(
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Mindig frissíthetsz az újabb verzióra vagy kísérleti csatornára, de visszafelé sosem frissíthetsz egy jóval stabilabb verzióra.",
     "Notify members of the following groups about available updates:" : "A következő csoport tagjainak értesítése az elérhető frissítésekről:",
     "Only notification for app updates are available." : "Csak az értesítő alkalmazás frissítései érhetők el.",
+    "The selected update channel makes dedicated notifications for the server obsolete." : "A kiválasztott frissítési csatorna dedikált értesítéseket jelenít meg a szerver elavulásakor.",
+    "The selected update channel does not support updates of the server." : "A kiválasztott frissítése csatorna nem támogatja a szerver frissítéseit.",
     "Updater" : "Frissítéskezelő"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,6 +1,8 @@
 OC.L10N.register(
     "files_external",
     {
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Nem sikerült a kérési tokenek letöltése. Ellenőrizd, hogy az alkalmazás kulcs és titok megfelelő-e!",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Nem sikerült a hozzáférési tokenek letöltése. Ellenőrizd, hogy az alkalmazás kulcs és titok megfelelő-e!",
     "Please provide a valid app key and secret." : "Kérlek adj meg egy érvényes alkalmazás kulcsot és jelszót.",
     "Step 1 failed. Exception: %s" : "1. lépés sikertelen. Kivétel: %s",
     "Step 2 failed. Exception: %s" : "2. lépés sikertelen. Kivétel: %s",
