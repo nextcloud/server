@@ -21,7 +21,7 @@
 (function() {
 	Handlebars.registerHelper('selectItem', function(currentValue, itemValue) {
 		if(currentValue === itemValue) {
-			return 'selected=selected';
+			return 'selected="selected"';
 		}
 
 		return "";
