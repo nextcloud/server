@@ -425,6 +425,20 @@ trait WebDav {
 	}
 
 	/**
+	 * @When User :user adds a file of :bytes bytes to :destination
+	 * @param string $user
+	 * @param string $bytes
+	 * @param string $destination
+	 */
+	public function userAddsAFileTo($user, $bytes, $destination){
+		$filename = "filespecificSize.txt";
+		$this->createFileSpecificSize($user, $filename, $bytes);
+		PHPUnit_Framework_Assert::assertEquals(1, file_exists("data/$filename"));
+		$this->userUploadsAFileTo($user, "data/$filename", $destination);
+		$this->removeFile("data/", $filename);
+	}
+
+	/**
 	 * @When User :user uploads file with content :content to :destination
 	 */
 	public function userUploadsAFileWithContentTo($user, $content, $destination)

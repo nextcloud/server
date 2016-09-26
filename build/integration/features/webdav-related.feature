@@ -77,6 +77,16 @@ Feature: webdav-related
 		When User "user0" uploads file "data/textfile.txt" to "/testquota/asdf.txt"
 		Then the HTTP status code should be "201"
 
+	Scenario: Retrieving folder quota when quota is set and a file was uploaded
+		Given using dav path "remote.php/webdav"
+		And As an "admin"
+		And user "user0" exists
+		And user "user0" has a quota of "1 KB"
+		And user "user0" adds a file of 93 bytes to "/prueba.txt"
+		When as "user0" gets properties of folder "/" with
+		  |{DAV:}quota-available-bytes|
+		Then the single response should contain a property "{DAV:}quota-available-bytes" with value "600"
+
 	Scenario: download a public shared file with range
 		Given user "user0" exists
 		And As an "user0"
