@@ -31,6 +31,8 @@ use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\Backend;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IGroup;
+use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
@@ -613,7 +615,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$query->setValue($column, $query->createNamedParameter($value));
 		}
 		$query->execute();
-		return $query->getLastInsertId();
+		$calendarId = $query->getLastInsertId();
+
+		$this->triggerActivity(Activity::SUBJECT_ADD, $calendarId, $values);
+
+		return $calendarId;
 	}
 
 	/**
@@ -661,6 +667,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 			$this->addChange($calendarId, "", 2);
 
+			$this->triggerActivity(Activity::SUBJECT_UPDATE, $calendarId, $mutations);
+
 			return true;
 		});
 	}
@@ -672,6 +680,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return void
 	 */
 	function deleteCalendar($calendarId) {
+		$this->triggerActivity(Activity::SUBJECT_DELETE, $calendarId);
+
 		$stmt = $this->db->prepare('DELETE FROM `*PREFIX*calendarobjects` WHERE `calendarid` = ?');
 		$stmt->execute([$calendarId]);
 
@@ -1721,5 +1731,89 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			return "principals/$name";
 		}
 		return $principalUri;
+	}
+
+	protected function triggerActivity($action, $calendarId, array $changedProperties = []) {
+		$aM = \OC::$server->getActivityManager();
+		$userSession = \OC::$server->getUserSession();
+
+		$properties = $this->getCalendarById($calendarId);
+		if (!isset($properties['principaluri'])) {
+			return;
+		}
+
+		$principaluri = explode('/', $properties['principaluri']);
+		$owner = array_pop($principaluri);
+
+		$currentUser = $userSession->getUser();
+		if ($currentUser instanceof IUser) {
+			$currentUser = $currentUser->getUID();
+		} else {
+			$currentUser = $owner;
+		}
+
+		$event = $aM->generateEvent();
+		$event->setApp('dav')
+			->setObject(Activity::CALENDAR, $calendarId)
+			->setType(Activity::CALENDAR)
+			->setAuthor($currentUser);
+
+		$changedVisibleInformation = array_intersect([
+			'{DAV:}displayname',
+			'{http://apple.com/ns/ical/}calendar-color'
+		], array_keys($changedProperties));
+
+		if ($action === Activity::SUBJECT_UPDATE && empty($changedVisibleInformation)) {
+			$users = [$owner];
+		} else {
+			$users = $this->getUsersForCalendar($calendarId);
+			$users[] = $owner;
+		}
+
+		foreach ($users as $user) {
+			$event->setAffectedUser($user)
+				->setSubject(
+					$user === $currentUser ? $action . '_self' : $action,
+					[
+						$currentUser,
+						$properties['{DAV:}displayname'],
+					]
+				);
+			$aM->publish($event);
+		}
+	}
+
+	/**
+	 * Get all users that have access to a given calendar
+	 *
+	 * @param int $calendarId
+	 * @return string[]
+	 */
+	protected function getUsersForCalendar($calendarId) {
+		$gM = \OC::$server->getGroupManager();
+
+		$users = $groups = [];
+		$shares = $this->getShares($calendarId);
+		foreach ($shares as $share) {
+			$prinical = explode('/', $share['{http://owncloud.org/ns}principal']);
+			if ($prinical[1] === 'users') {
+				$users[] = $prinical[2];
+			} else if ($prinical[1] === 'groups') {
+				$groups[] = $prinical[2];
+			}
+		}
+
+		if (!empty($groups)) {
+			foreach ($groups as $gid) {
+				$group = $gM->get($gid);
+				if ($group instanceof IGroup) {
+					foreach ($group->getUsers() as $user) {
+						$users[] = $user->getUID();
+					}
+				}
+			}
+		}
+
+		return $users;
 	}
 }

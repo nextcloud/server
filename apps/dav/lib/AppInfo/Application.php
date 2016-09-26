@@ -24,6 +24,7 @@
  */
 namespace OCA\DAV\AppInfo;
 
+use OCA\DAV\CalDAV\Activity;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\Capabilities;
 use OCA\DAV\CardDAV\ContactsManager;
@@ -87,6 +88,11 @@ class Application extends App {
 					$event->getArgument('cardUri')
 				);
 			}
+		});
+
+		$aM = $this->getContainer()->getServer()->getActivityManager();
+		$aM->registerExtension(function() {
+			return $this->getContainer()->query(Activity::class);
 		});
 	}
 
