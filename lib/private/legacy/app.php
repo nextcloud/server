@@ -798,7 +798,7 @@ class OC_App {
 	 * @return array an array of app names (string IDs)
 	 * @todo: change the name of this method to getInstalledApps, which is more accurate
 	 */
-	public static function getAllApps() {
+	public static function getAllApps($onlyLocalTrusted=false) {
 
 		$apps = array();
 
@@ -807,6 +807,10 @@ class OC_App {
 				\OCP\Util::writeLog('core', 'unable to read app folder : ' . $apps_dir['path'], \OCP\Util::WARN);
 				continue;
 			}
+			if ($onlyLocalTrusted && ! (array_key_exists('trusted', $apps_dir) &&  $apps_dir['trusted'])) {
+				continue;
+			}
+			
 			$dh = opendir($apps_dir['path']);
 
 			if (is_resource($dh)) {
@@ -842,6 +846,7 @@ class OC_App {
 
 		//we don't want to show configuration for these
 		$blacklist = \OC::$server->getAppManager()->getAlwaysEnabledApps();
+		$localTrustApps=OC_App::getAllApps(true);
 		$appList = array();
 
 		foreach ($installedApps as $app) {
@@ -880,6 +885,10 @@ class OC_App {
 					$info['removable'] = true;
 				}
 
+				if (array_search($app, $localTrustApps)) {
+					$info['level'] = 50;
+				}
+				
 				$info['update'] = ($includeUpdateInfo) ? Installer::isUpdateAvailable($app) : null;
 
 				$appPath = self::getAppPath($app);

@@ -693,12 +693,16 @@ $CONFIG = array(
  * file system path to the app folder. The key ``url`` defines the HTTP Web path
  * to that folder, starting from the Nextcloud webroot. The key ``writable``
  * indicates if a Web server can write files to that folder.
+ * The key ``trusted`` indicates that all apps in this folder shouldn't be checked 
+ * against central repositories for validation, but considered trustworthy and
+ * non-experimental.
  */
 'apps_paths' => array(
 	array(
 		'path'=> '/var/www/nextcloud/apps',
 		'url' => '/apps',
 		'writable' => true,
+		'trusted' => false,
 	),
 ),
 
