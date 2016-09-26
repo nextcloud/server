@@ -110,10 +110,7 @@ class AdminControllerTest extends TestCase {
 		$this->updateChecker
 			->expects($this->once())
 			->method('getUpdateState')
-			->willReturn([
-				'updateVersion' => '8.1.2',
-				'downloadLink' => 'https://downloads.nextcloud.org/server',
-			]);
+			->willReturn(['updateVersion' => '8.1.2']);
 
 		$params = [
 			'isNewVersionAvailable' => true,
@@ -122,7 +119,6 @@ class AdminControllerTest extends TestCase {
 			'channels' => $channels,
 			'newVersionString' => '8.1.2',
 			'notify_groups' => 'admin',
-			'downloadLink' => 'https://downloads.nextcloud.org/server',
 		];
 
 		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
@@ -167,7 +163,6 @@ class AdminControllerTest extends TestCase {
 			'channels' => $channels,
 			'newVersionString' => '',
 			'notify_groups' => 'admin',
-			'downloadLink' => '',
 		];
 
 		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');

@@ -74,7 +74,6 @@ class UpdateCheckerTest extends TestCase {
 			'updateAvailable' => true,
 			'updateVersion' => 'Nextcloud 123',
 			'updateLink' => 'https://docs.nextcloud.com/myUrl',
-			'downloadLink' => 'https://downloads.nextcloud.org/server',
 		];
 		$this->assertSame($expected, $this->updateChecker->getUpdateState());
 	}
