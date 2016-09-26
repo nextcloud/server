@@ -28,15 +28,27 @@
 $baseDir = __DIR__ . '/../';
 
 $pullRequestNumber = getenv('DRONE_PULL_REQUEST');
+$repoOwner = getenv('DRONE_REPO_OWNER');
+$repoName = getenv('DRONE_REPO_NAME');
 
 if(!is_string($pullRequestNumber) || $pullRequestNumber === '') {
 	echo("The environment variable DRONE_PULL_REQUEST has no proper value.\n");
 	exit(1);
 }
 
+if(!is_string($repoOwner) || $repoOwner === '') {
+	echo("The environment variable DRONE_REPO_OWNER has no proper value.\n");
+	exit(1);
+}
+
+if(!is_string($repoName) || $repoName === '') {
+	echo("The environment variable DRONE_REPO_NAME has no proper value.\n");
+	exit(1);
+}
+
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_URL, 'https://api.github.com/repos/nextcloud/server/pulls/'.$pullRequestNumber.'/commits');
+curl_setopt($ch, CURLOPT_URL, 'https://api.github.com/repos/'.$repoOwner.'/'.$repoName.'/pulls/'.$pullRequestNumber.'/commits');
 curl_setopt($ch, CURLOPT_USERAGENT, 'CI for Nextcloud (https://github.com/nextcloud/server)');
 $response = curl_exec($ch);
 curl_close($ch);
