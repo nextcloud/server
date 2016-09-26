@@ -336,7 +336,16 @@ class OC_Util {
 	 * @return void
 	 */
 	public static function copyr($source, \OCP\Files\Folder $target) {
+		$logger = \OC::$server->getLogger();
+
+		// Verify if folder exists
 		$dir = opendir($source);
+		if($dir === false) {
+			$logger->error(sprintf('Could not opendir "%s"', $source), ['app' => 'core']);
+			return;
+		}
+
+		// Copy the files
 		while (false !== ($file = readdir($dir))) {
 			if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
 				if (is_dir($source . '/' . $file)) {
@@ -344,7 +353,13 @@ class OC_Util {
 					self::copyr($source . '/' . $file, $child);
 				} else {
 					$child = $target->newFile($file);
-					stream_copy_to_stream(fopen($source . '/' . $file,'r'), $child->fopen('w'));
+					$sourceStream = fopen($source . '/' . $file, 'r');
+					if($sourceStream === false) {
+						$logger->error(sprintf('Could not fopen "%s"', $source . '/' . $file), ['app' => 'core']);
+						closedir($dir);
+						return;
+					}
+					stream_copy_to_stream($sourceStream, $child->fopen('w'));
 				}
 			}
 		}
