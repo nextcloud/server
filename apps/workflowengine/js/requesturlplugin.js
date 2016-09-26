@@ -42,10 +42,10 @@
 				return;
 			}
 
-			var placeholder = t('workflowengine', 'https://localhost/index.php');
+			var placeholder = 'https://localhost/index.php';
 
 			if (check['operator'] === 'matches' || check['operator'] === '!matches') {
-				placeholder = t('workflowengine', '/^https\\:\\/\\/localhost\\/index\\.php$/i');
+				placeholder = '/^https\\:\\/\\/localhost\\/index\\.php$/i';
 			}
 
 			$(element).css('width', '250px')
