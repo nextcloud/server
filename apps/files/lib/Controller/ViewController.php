@@ -160,16 +160,16 @@ class ViewController extends Controller {
 		\OCP\Util::addStyle('files', 'files');
 		\OCP\Util::addStyle('files', 'upload');
 		\OCP\Util::addStyle('files', 'mobile');
-		\OCP\Util::addscript('files', 'app');
-		\OCP\Util::addscript('files', 'file-upload');
-		\OCP\Util::addscript('files', 'newfilemenu');
-		\OCP\Util::addscript('files', 'jquery.fileupload');
-		\OCP\Util::addscript('files', 'jquery-visibility');
-		\OCP\Util::addscript('files', 'fileinfomodel');
-		\OCP\Util::addscript('files', 'filesummary');
-		\OCP\Util::addscript('files', 'breadcrumb');
-		\OCP\Util::addscript('files', 'filelist');
-		\OCP\Util::addscript('files', 'search');
+		\OCP\Util::addScript('files', 'app');
+		\OCP\Util::addScript('files', 'file-upload');
+		\OCP\Util::addScript('files', 'newfilemenu');
+		\OCP\Util::addScript('files', 'jquery.fileupload');
+		\OCP\Util::addScript('files', 'jquery-visibility');
+		\OCP\Util::addScript('files', 'fileinfomodel');
+		\OCP\Util::addScript('files', 'filesummary');
+		\OCP\Util::addScript('files', 'breadcrumb');
+		\OCP\Util::addScript('files', 'filelist');
+		\OCP\Util::addScript('files', 'search');
 
 		\OCP\Util::addScript('files', 'favoritesfilelist');
 		\OCP\Util::addScript('files', 'recentfilelist');
@@ -188,11 +188,11 @@ class ViewController extends Controller {
 
 		\OC_Util::addVendorScript('core', 'handlebars/handlebars');
 
-		\OCP\Util::addscript('files', 'fileactions');
-		\OCP\Util::addscript('files', 'fileactionsmenu');
-		\OCP\Util::addscript('files', 'files');
-		\OCP\Util::addscript('files', 'keyboardshortcuts');
-		\OCP\Util::addscript('files', 'navigation');
+		\OCP\Util::addScript('files', 'fileactions');
+		\OCP\Util::addScript('files', 'fileactionsmenu');
+		\OCP\Util::addScript('files', 'files');
+		\OCP\Util::addScript('files', 'keyboardshortcuts');
+		\OCP\Util::addScript('files', 'navigation');
 
 		// mostly for the home storage's free space
 		// FIXME: Make non static
