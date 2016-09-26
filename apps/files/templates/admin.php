@@ -1,4 +1,4 @@
-	<?php OCP\Util::addscript('files', 'admin'); ?>
+	<?php OCP\Util::addScript('files', 'admin'); ?>
 
 	<div class="section">
 		<h2><?php p($l->t('File handling')); ?></h2>
