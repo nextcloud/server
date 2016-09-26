@@ -311,7 +311,7 @@ trait BasicStructure {
 		$this->theHTTPStatusCodeShouldBe('200');
 	}
 
-	public function createFileSpecificSize($user, $name, $size){
+	public function createFileSpecificSize($name, $size){
 		$file = fopen("data/" . "$name", 'w');
 		fseek($file, $size - 1 ,SEEK_CUR);
 		fwrite($file,'a'); // write a dummy char at SIZE position
