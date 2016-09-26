@@ -347,10 +347,6 @@ OC.Upload = {
 							//file is a directory
 							dirUploadFailure = true;
 						}
-						if (file.size === 0) {
-							// file is empty or a directory
-							dirUploadFailure = true;
-						}
 
 						if (dirUploadFailure) {
 							data.textStatus = 'dirorzero';
