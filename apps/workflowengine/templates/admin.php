@@ -55,12 +55,12 @@
 				<div class="check" data-id="{{@index}}">
 					<select class="check-class">
 						{{#each ../classes}}
-						<option value="{{class}}" {{selectItem class ../class}}>{{name}}</option>
+						<option value="{{class}}" {{{selectItem class ../class}}}>{{name}}</option>
 						{{/each}}
 					</select>
 					<select class="check-operator">
 						{{#each (getOperators class)}}
-						<option value="{{operator}}" {{selectItem operator ../operator}}>{{name}}</option>
+						<option value="{{operator}}" {{{selectItem operator ../operator}}}>{{name}}</option>
 						{{/each}}
 					</select>
 					<input type="text" class="check-value" value="{{value}}">
