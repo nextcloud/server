@@ -665,6 +665,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Repair\\DropOldTables' => __DIR__ . '/../../..' . '/lib/private/Repair/DropOldTables.php',
         'OC\\Repair\\FillETags' => __DIR__ . '/../../..' . '/lib/private/Repair/FillETags.php',
         'OC\\Repair\\InnoDB' => __DIR__ . '/../../..' . '/lib/private/Repair/InnoDB.php',
+        'OC\\Repair\\MoveUpdaterStepFile' => __DIR__ . '/../../..' . '/lib/private/Repair/MoveUpdaterStepFile.php',
         'OC\\Repair\\OldGroupMembershipShares' => __DIR__ . '/../../..' . '/lib/private/Repair/OldGroupMembershipShares.php',
         'OC\\Repair\\Preview' => __DIR__ . '/../../..' . '/lib/private/Repair/Preview.php',
         'OC\\Repair\\RemoveGetETagEntries' => __DIR__ . '/../../..' . '/lib/private/Repair/RemoveGetETagEntries.php',

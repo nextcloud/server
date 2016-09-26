@@ -635,6 +635,7 @@ return array(
     'OC\\Repair\\DropOldTables' => $baseDir . '/lib/private/Repair/DropOldTables.php',
     'OC\\Repair\\FillETags' => $baseDir . '/lib/private/Repair/FillETags.php',
     'OC\\Repair\\InnoDB' => $baseDir . '/lib/private/Repair/InnoDB.php',
+    'OC\\Repair\\MoveUpdaterStepFile' => $baseDir . '/lib/private/Repair/MoveUpdaterStepFile.php',
     'OC\\Repair\\OldGroupMembershipShares' => $baseDir . '/lib/private/Repair/OldGroupMembershipShares.php',
     'OC\\Repair\\Preview' => $baseDir . '/lib/private/Repair/Preview.php',
     'OC\\Repair\\RemoveGetETagEntries' => $baseDir . '/lib/private/Repair/RemoveGetETagEntries.php',
