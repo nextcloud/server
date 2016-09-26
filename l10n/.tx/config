@@ -97,3 +97,9 @@ file_filter = <lang>/twofactor_backupcodes.po
 source_file = templates/twofactor_backupcodes.pot
 source_lang = en
 type = PO
+
+[nextcloud.workflowengine]
+file_filter = <lang>/workflowengine.po
+source_file = templates/workflowengine.pot
+source_lang = en
+type = PO
