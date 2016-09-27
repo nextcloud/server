@@ -28,11 +28,26 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\HookManager;
+use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use Test\TestCase;
 
 class HookManagerTest extends TestCase {
+	/** @var IL10N */
+	private $l10n;
+
+	public function setUp() {
+		parent::setUp();
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->l10n
+			->expects($this->any())
+			->method('t')
+			->will($this->returnCallback(function ($text, $parameters = []) {
+				return vsprintf($text, $parameters);
+			}));
+	}
+
 	public function test() {
 		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
