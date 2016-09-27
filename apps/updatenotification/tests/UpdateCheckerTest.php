@@ -48,11 +48,14 @@ class UpdateCheckerTest extends TestCase {
 				'version' => 123,
 				'versionstring' => 'ownCloud 123',
 				'web'=> 'javascript:alert(1)',
+				'url'=> 'javascript:alert(2)',
+				'autoupdater'=> '0',
 			]);
 
 		$expected = [
 			'updateAvailable' => true,
 			'updateVersion' => 'ownCloud 123',
+			'updaterEnabled' => false,
 		];
 		$this->assertSame($expected, $this->updateChecker->getUpdateState());
 	}
@@ -65,12 +68,16 @@ class UpdateCheckerTest extends TestCase {
 				'version' => 123,
 				'versionstring' => 'ownCloud 123',
 				'web'=> 'https://owncloud.org/myUrl',
+				'url'=> 'https://downloads.nextcloud.org/server',
+				'autoupdater'=> '1',
 			]);
 
 		$expected = [
 			'updateAvailable' => true,
 			'updateVersion' => 'ownCloud 123',
+			'updaterEnabled' => true,
 			'updateLink' => 'https://owncloud.org/myUrl',
+			'downloadLink' => 'https://downloads.nextcloud.org/server',
 		];
 		$this->assertSame($expected, $this->updateChecker->getUpdateState());
 	}
