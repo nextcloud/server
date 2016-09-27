@@ -363,7 +363,7 @@ CREATE TABLE calendarobjects (
 		<field>
 			<name>components</name>
 			<type>text</type>
-			<length>20</length>
+			<length>64</length>
 		</field>
 		<field>
 			<name>transparent</name>
