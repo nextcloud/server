@@ -254,12 +254,12 @@ trait WebDav {
 	}
 
 	/**
-	 * @Then /^as "([^"]*)" gets properties of folder "([^"]*)" with$/
+	 * @Then /^as "([^"]*)" gets properties of (file|folder|entry) "([^"]*)" with$/
 	 * @param string $user
 	 * @param string $path
 	 * @param \Behat\Gherkin\Node\TableNode|null $propertiesTable
 	 */
-	public function asGetsPropertiesOfFolderWith($user, $path, $propertiesTable) {
+	public function asGetsPropertiesOfFolderWith($user, $elementType, $path, $propertiesTable) {
 		$properties = null;
 		if ($propertiesTable instanceof \Behat\Gherkin\Node\TableNode) {
 			foreach ($propertiesTable->getRows() as $row) {
@@ -379,7 +379,7 @@ trait WebDav {
 
 
 	public function makeSabrePath($user, $path) {
-		return $this->encodePath($this->getDavFilesPath($user));
+		return $this->encodePath($this->getDavFilesPath($user) . $path);
 	}
 
 	public function getSabreClient($user) {
@@ -599,13 +599,4 @@ trait WebDav {
 		return $response;
 	}
 
-	/**
-	 * @Then /^as "([^"]*)" gets properties of file "([^"]*)" with$/
-	 * @param string $user
-	 * @param string $path
-	 * @param \Behat\Gherkin\Node\TableNode|null $propertiesTable
-	 */
-	public function asGetsPropertiesOfFileWith($user, $path, $propertiesTable) {
-		$this->asGetsPropertiesOfFolderWith($user, $path, $propertiesTable);
-	}
 }

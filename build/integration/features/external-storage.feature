@@ -1,7 +1,7 @@
 Feature: external-storage
   Background:
     Given using api version "1"
-    Given using dav path "remote.php/webdav"
+    Given using old dav path
 
   @local_storage
   Scenario: Share by link a file inside a local external storage
