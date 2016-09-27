@@ -81,6 +81,7 @@ class VersionCheckTest extends \Test\TestCase {
 			'versionstring' => 'ownCloud 8.0.4',
 			'url' => 'https://download.owncloud.org/community/owncloud-8.0.4.zip',
 			'web' => 'http://doc.owncloud.org/server/8.0/admin_manual/maintenance/upgrade.html',
+			'autoupdater' => '0',
 		];
 
 		$this->config
@@ -118,6 +119,7 @@ class VersionCheckTest extends \Test\TestCase {
   <versionstring>ownCloud 8.0.4</versionstring>
   <url>https://download.owncloud.org/community/owncloud-8.0.4.zip</url>
   <web>http://doc.owncloud.org/server/8.0/admin_manual/maintenance/upgrade.html</web>
+  <autoupdater>0</autoupdater>
 </owncloud>';
 		$this->updater
 			->expects($this->once())
@@ -174,6 +176,7 @@ class VersionCheckTest extends \Test\TestCase {
 			'versionstring' => '',
 			'url' => '',
 			'web' => '',
+			'autoupdater' => '',
 		];
 
 		$this->config
@@ -207,6 +210,7 @@ class VersionCheckTest extends \Test\TestCase {
   <versionstring></versionstring>
   <url></url>
   <web></web>
+  <autoupdater></autoupdater>
 </owncloud>';
 		$this->updater
 			->expects($this->once())
