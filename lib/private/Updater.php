@@ -426,6 +426,8 @@ class Updater extends BasicEmitter {
 		$apps = OC_App::getEnabledApps();
 		$version = \OCP\Util::getVersion();
 		$disabledApps = [];
+		$localTrustApps=OC_App::getAllApps(true);
+		
 		foreach ($apps as $app) {
 			// check if the app is compatible with this version of ownCloud
 			$info = OC_App::getAppInfo($app);
@@ -439,6 +441,10 @@ class Updater extends BasicEmitter {
 			}
 			// shipped apps will remain enabled
 			if (OC_App::isShipped($app)) {
+				continue;
+			}
+			// locally trusted apps remain enabled
+			if (array_search($app, $localTrustApps)) {
 				continue;
 			}
 			// authentication and session apps will remain enabled as well

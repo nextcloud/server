@@ -366,6 +366,9 @@ span.version {
 .app-level .approved {
 	border-color: #0082c9;
 }
+.app-level .private-trusted {
+	border-color: #000000;
+}
 .app-level .experimental {
 	background-color: #ce3702;
 	border-color: #ce3702;
