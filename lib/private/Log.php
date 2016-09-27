@@ -227,7 +227,7 @@ class Log implements ILogger {
 	 * @return void
 	 */
 	public function log($level, $message, array $context = array()) {
-		$minLevel = min($this->config->getValue('loglevel', Util::WARN), Util::ERROR);
+		$minLevel = min($this->config->getValue('loglevel', Util::WARN), Util::FATAL);
 		$logCondition = $this->config->getValue('log.condition', []);
 
 		array_walk($context, [$this->normalizer, 'format']);
