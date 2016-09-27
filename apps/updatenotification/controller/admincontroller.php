@@ -102,11 +102,13 @@ class AdminController extends Controller {
 		}
 		$updateState = $this->updateChecker->getUpdateState();
 		$params = [
-			'isNewVersionAvailable' => ($updateState === []) ? false : true,
+			'isNewVersionAvailable' => !empty($updateState['updateAvailable']),
 			'lastChecked' => $lastUpdateCheck,
 			'currentChannel' => $currentChannel,
 			'channels' => $channels,
-			'newVersionString' => ($updateState === []) ? '' : $updateState['updateVersion'],
+			'newVersionString' => (empty($updateState['updateVersion'])) ? '' : $updateState['updateVersion'],
+			'downloadLink' => (empty($updateState['downloadLink'])) ? '' : $updateState['downloadLink'],
+			'updaterEnabled' => $updateState['updaterEnabled'],
 		];
 
 		return new TemplateResponse($this->appName, 'admin', $params, '');
