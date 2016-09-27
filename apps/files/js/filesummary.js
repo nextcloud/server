@@ -23,7 +23,7 @@
 	var INFO_TEMPLATE =
 		'<span class="info">' +
 			'<span class="dirinfo"></span>' +
-			'<span class="connector"> and </span>' +
+			'<span class="connector">{{connectorLabel}}</span>' +
 			'<span class="fileinfo"></span>' +
 			'<span class="hiddeninfo"></span>' +
 			'<span class="filter"></span>' +
@@ -203,7 +203,9 @@
 			if (!this._infoTemplateCompiled) {
 				this._infoTemplateCompiled = Handlebars.compile(INFO_TEMPLATE);
 			}
-			return this._infoTemplateCompiled(data);
+			return this._infoTemplateCompiled(_.extend({
+				connectorLabel: t('files', '{dirs} and {files}', {dirs: '', files: ''})
+			}, data));
 		},
 
 		/**
