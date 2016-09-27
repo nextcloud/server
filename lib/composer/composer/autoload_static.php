@@ -91,6 +91,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Comments\\CommentsEntityEvent' => __DIR__ . '/../../..' . '/lib/public/Comments/CommentsEntityEvent.php',
         'OCP\\Comments\\CommentsEvent' => __DIR__ . '/../../..' . '/lib/public/Comments/CommentsEvent.php',
         'OCP\\Comments\\IComment' => __DIR__ . '/../../..' . '/lib/public/Comments/IComment.php',
+        'OCP\\Comments\\ICommentsEventHandler' => __DIR__ . '/../../..' . '/lib/public/Comments/ICommentsEventHandler.php',
         'OCP\\Comments\\ICommentsManager' => __DIR__ . '/../../..' . '/lib/public/Comments/ICommentsManager.php',
         'OCP\\Comments\\ICommentsManagerFactory' => __DIR__ . '/../../..' . '/lib/public/Comments/ICommentsManagerFactory.php',
         'OCP\\Comments\\IllegalIDChangeException' => __DIR__ . '/../../..' . '/lib/public/Comments/IllegalIDChangeException.php',
