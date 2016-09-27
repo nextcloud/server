@@ -703,6 +703,11 @@ CREATE TABLE calendarobjects (
 				<notnull>true</notnull>
 				<unsigned>true</unsigned>
 			</field>
+			<field>
+				<name>publicuri</name>
+				<type>text</type>
+				<length>255</length>
+			</field>
 			<index>
 				<name>dav_shares_index</name>
 				<unique>true</unique>
@@ -714,6 +719,9 @@ CREATE TABLE calendarobjects (
 				</field>
 				<field>
 					<name>type</name>
+				</field>
+				<field>
+					<name>publicuri</name>
 				</field>
 			</index>
 		</declaration>

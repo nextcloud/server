@@ -45,7 +45,12 @@ class SystemPrincipalBackendTest extends TestCase {
 			[[[
 				'uri' => 'principals/system/system',
 				'{DAV:}displayname' => 'system',
-			]], 'principals/system'],
+			],
+			[
+				'uri' => 'principals/system/public',
+				'{DAV:}displayname' => 'public',
+			]
+			], 'principals/system'],
 		];
 	}
 

@@ -46,7 +46,10 @@ $principalBackend = new Principal(
 	'principals/'
 );
 $db = \OC::$server->getDatabaseConnection();
-$calDavBackend = new CalDavBackend($db, $principalBackend, \OC::$server->getUserManager());
+$config = \OC::$server->getConfig();
+$userManager = \OC::$server->getUserManager();
+$random = \OC::$server->getSecureRandom();
+$calDavBackend = new CalDavBackend($db, $principalBackend, $userManager, $config, $random);
 
 $debugging = \OC::$server->getConfig()->getSystemValue('debug', false);
 

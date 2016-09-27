@@ -35,6 +35,7 @@ use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
 use OCA\DAV\Connector\Sabre\DavAclPlugin;
 use OCA\DAV\Connector\Sabre\DummyGetResponsePlugin;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
+use OCA\DAV\DAV\PublicAuth;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCA\DAV\Files\CustomPropertiesBackend;
 use OCP\IRequest;
@@ -78,6 +79,8 @@ class Server {
 
 		$this->server->addPlugin(new BlockLegacyClientPlugin(\OC::$server->getConfig()));
 		$authPlugin = new Plugin();
+		$authPlugin->addBackend($authBackend);
+		$authPlugin->addBackend(new PublicAuth());
 		$this->server->addPlugin($authPlugin);
 
 		// allow setup of additional auth backends
@@ -114,6 +117,10 @@ class Server {
 		$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 		$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
 		$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
+		$this->server->addPlugin(new \OCA\DAV\CalDAV\Publishing\PublishPlugin(
+			\OC::$server->getConfig(),
+			\OC::$server->getUrlGenerator()
+		));
 
 		// addressbook plugins
 		$this->server->addPlugin(new \OCA\DAV\CardDAV\Plugin());

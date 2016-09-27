@@ -26,6 +26,7 @@ namespace OCA\DAV;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarRoot;
+use OCA\DAV\CalDAV\PublicCalendarRoot;
 use OCA\DAV\CardDAV\AddressBookRoot;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
@@ -38,10 +39,12 @@ class RootCollection extends SimpleCollection {
 
 	public function __construct() {
 		$config = \OC::$server->getConfig();
+		$random = \OC::$server->getSecureRandom();
+		$userManager = \OC::$server->getUserManager();
 		$db = \OC::$server->getDatabaseConnection();
 		$dispatcher = \OC::$server->getEventDispatcher();
 		$userPrincipalBackend = new Principal(
-			\OC::$server->getUserManager(),
+			$userManager,
 			\OC::$server->getGroupManager()
 		);
 		$groupPrincipalBackend = new GroupPrincipalBackend(
@@ -59,9 +62,11 @@ class RootCollection extends SimpleCollection {
 		$systemPrincipals->disableListing = $disableListing;
 		$filesCollection = new Files\RootCollection($userPrincipalBackend, 'principals/users');
 		$filesCollection->disableListing = $disableListing;
-		$caldavBackend = new CalDavBackend($db, $userPrincipalBackend, \OC::$server->getUserManager());
+		$caldavBackend = new CalDavBackend($db, $userPrincipalBackend, $userManager, $config, $random);
 		$calendarRoot = new CalendarRoot($userPrincipalBackend, $caldavBackend, 'principals/users');
 		$calendarRoot->disableListing = $disableListing;
+		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend);
+		$publicCalendarRoot->disableListing = $disableListing;
 
 		$systemTagCollection = new SystemTag\SystemTagsByIdCollection(
 			\OC::$server->getSystemTagManager(),
@@ -101,6 +106,7 @@ class RootCollection extends SimpleCollection {
 						$systemPrincipals]),
 				$filesCollection,
 				$calendarRoot,
+				$publicCalendarRoot,
 				new SimpleCollection('addressbooks', [
 						$usersAddressBookRoot,
 						$systemAddressBookRoot]),

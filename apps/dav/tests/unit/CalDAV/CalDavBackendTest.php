@@ -334,6 +334,35 @@ EOD;
 		$this->assertEquals($event, $changes['added'][0]);
 	}
 
+	public function testPublications() {
+		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', []);
+
+		$calendarInfo = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER)[0];
+
+		$l10n = $this->getMockBuilder('\OCP\IL10N')
+			->disableOriginalConstructor()->getMock();
+
+		$calendar = new Calendar($this->backend, $calendarInfo, $l10n);
+		$calendar->setPublishStatus(true);
+		$this->assertNotEquals(false, $calendar->getPublishStatus());
+
+		$publicCalendars = $this->backend->getPublicCalendars();
+		$this->assertEquals(1, count($publicCalendars));
+		$this->assertEquals(true, $publicCalendars[0]['{http://owncloud.org/ns}public']);
+
+		$publicCalendarURI = $publicCalendars[0]['uri'];
+		$publicCalendar = $this->backend->getPublicCalendar($publicCalendarURI);
+		$this->assertEquals(true, $publicCalendar['{http://owncloud.org/ns}public']);
+
+		$calendar->setPublishStatus(false);
+		$this->assertEquals(false, $calendar->getPublishStatus());
+
+		$publicCalendarURI = md5($this->config->getSystemValue('secret', '') . $calendar->getResourceId());
+		$this->setExpectedException('Sabre\DAV\Exception\NotFound');
+		$publicCalendar = $this->backend->getPublicCalendar($publicCalendarURI);
+
+	}
+
 	public function testSubscriptions() {
 		$id = $this->backend->createSubscription(self::UNIT_TEST_USER, 'Subscription', [
 			'{http://calendarserver.org/ns/}source' => new Href('test-source'),
