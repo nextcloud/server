@@ -2341,10 +2341,8 @@
 			this.$table.addClass('hidden');
 			this.$el.find('#emptycontent').addClass('hidden');
 
-			$mask = $('<div class="mask transparent"></div>');
+			$mask = $('<div class="mask transparent icon-loading"></div>');
 
-			$mask.css('background-image', 'url('+ OC.imagePath('core', 'loading.gif') + ')');
-			$mask.css('background-repeat', 'no-repeat');
 			this.$el.append($mask);
 
 			$mask.removeClass('transparent');
