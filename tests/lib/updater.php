@@ -223,8 +223,8 @@ class UpdaterTest extends \Test\TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('getSystemValue')
-			->with('updater.server.url', 'https://updates.nextcloud.com/update-server/')
-			->willReturn('https://updates.nextcloud.com/update-server/');
+			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
+			->willReturnArgument(1);
 		$this->config
 			->expects($this->at(2))
 			->method('setAppValue')
@@ -255,7 +255,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->httpHelper
 			->expects($this->once())
 			->method('getUrlContent')
-			->with($this->buildUpdateUrl('https://updates.nextcloud.com/update-server/'))
+			->with($this->buildUpdateUrl('https://updates.nextcloud.com/updater_server/'))
 			->will($this->returnValue($updateXml));
 
 		$this->assertSame($expectedResult, $this->updater->check());
@@ -270,8 +270,8 @@ class UpdaterTest extends \Test\TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('getSystemValue')
-			->with('updater.server.url', 'https://updates.nextcloud.com/update-server/')
-			->willReturn('https://updates.nextcloud.com/update-server/');
+			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
+			->willReturnArgument(1);
 		$this->config
 			->expects($this->at(2))
 			->method('setAppValue')
@@ -295,7 +295,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->httpHelper
 			->expects($this->once())
 			->method('getUrlContent')
-			->with($this->buildUpdateUrl('https://updates.nextcloud.com/update-server/'))
+			->with($this->buildUpdateUrl('https://updates.nextcloud.com/updater_server/'))
 			->will($this->returnValue($updateXml));
 
 		$this->assertSame([], $this->updater->check());
@@ -318,8 +318,8 @@ class UpdaterTest extends \Test\TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('getSystemValue')
-			->with('updater.server.url', 'https://updates.nextcloud.com/update-server/')
-			->willReturn('https://updates.nextcloud.com/update-server/');
+			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
+			->willReturnArgument(1);
 		$this->config
 			->expects($this->at(2))
 			->method('setAppValue')
@@ -346,7 +346,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->httpHelper
 			->expects($this->once())
 			->method('getUrlContent')
-			->with($this->buildUpdateUrl('https://updates.nextcloud.com/update-server/'))
+			->with($this->buildUpdateUrl('https://updates.nextcloud.com/updater_server/'))
 			->will($this->returnValue($updateXml));
 
 		$this->assertSame($expectedResult, $this->updater->check());
@@ -363,8 +363,8 @@ class UpdaterTest extends \Test\TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('getSystemValue')
-			->with('updater.server.url', 'https://updates.nextcloud.com/update-server/')
-			->willReturn('https://updates.nextcloud.com/update-server/');
+			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
+			->willReturnArgument(1);
 		$this->config
 			->expects($this->at(2))
 			->method('setAppValue')
@@ -388,7 +388,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->httpHelper
 			->expects($this->once())
 			->method('getUrlContent')
-			->with($this->buildUpdateUrl('https://updates.nextcloud.com/update-server/'))
+			->with($this->buildUpdateUrl('https://updates.nextcloud.com/updater_server/'))
 			->will($this->returnValue($updateXml));
 
 		$this->assertSame($expectedResult, $this->updater->check());
