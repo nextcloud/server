@@ -1,7 +1,7 @@
 Feature: sharing
   Background:
     Given using api version "1"
-    Given using dav path "remote.php/webdav"
+    Given using old dav path
 
   Scenario: Creating a new share with user
     Given user "user0" exists
@@ -570,7 +570,7 @@ Feature: sharing
       | /myFOLDER/myTMP/ |
 
   Scenario: Check quota of owners parent directory of a shared file
-    Given using dav path "remote.php/webdav"
+    Given using old dav path
     And As an "admin"
     And user "user0" exists
     And user "user1" exists
@@ -644,7 +644,7 @@ Feature: sharing
     Given user "user0" exists
     And user "user1" exists
     And User "user0" uploads file with content "foo" to "/tmp.txt"
-    And file "tmp.txt" of user "user0" is shared with user "user1"
+    And file "/tmp.txt" of user "user0" is shared with user "user1"
     When as "user1" gets properties of folder "/tmp.txt" with
       |{http://open-collaboration-services.org/ns}share-permissions |
     Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "19"
@@ -779,16 +779,17 @@ Feature: sharing
     And the HTTP status code should be "200"
 
   Scenario: Merging shares for recipient when shared from outside with group and member
-    Given As an "admin"
+    Given using old dav path
+    And As an "admin"
     And user "user0" exists
     And user "user1" exists
     And group "group1" exists
     And user "user1" belongs to group "group1"
-    And user "user0" created a folder "merge-test-outside"
-    When folder "merge-test-outside" of user "user0" is shared with group "group1"
-    And folder "merge-test-outside" of user "user0" is shared with user "user1"
-    Then as "user1" the folder "merge-test-outside" exists
-    And as "user1" the folder "merge-test-outside (2)" does not exist
+    And user "user0" created a folder "/merge-test-outside"
+    When folder "/merge-test-outside" of user "user0" is shared with group "group1"
+    And folder "/merge-test-outside" of user "user0" is shared with user "user1"
+    Then as "user1" the folder "/merge-test-outside" exists
+    And as "user1" the folder "/merge-test-outside (2)" does not exist
 
   Scenario: Merging shares for recipient when shared from outside with group and member with different permissions
     Given As an "admin"
@@ -796,13 +797,13 @@ Feature: sharing
     And user "user1" exists
     And group "group1" exists
     And user "user1" belongs to group "group1"
-    And user "user0" created a folder "merge-test-outside-perms"
-    When folder "merge-test-outside-perms" of user "user0" is shared with group "group1" with permissions 1
-    And folder "merge-test-outside-perms" of user "user0" is shared with user "user1" with permissions 31
-    Then as "user1" gets properties of folder "merge-test-outside-perms" with
+    And user "user0" created a folder "/merge-test-outside-perms"
+    When folder "/merge-test-outside-perms" of user "user0" is shared with group "group1" with permissions 1
+    And folder "/merge-test-outside-perms" of user "user0" is shared with user "user1" with permissions 31
+    Then as "user1" gets properties of folder "/merge-test-outside-perms" with
         |{http://owncloud.org/ns}permissions|
     And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRDNVCK"
-    And as "user1" the folder "merge-test-outside-perms (2)" does not exist
+    And as "user1" the folder "/merge-test-outside-perms (2)" does not exist
 
   Scenario: Merging shares for recipient when shared from outside with two groups
     Given As an "admin"
@@ -812,11 +813,11 @@ Feature: sharing
     And group "group2" exists
     And user "user1" belongs to group "group1"
     And user "user1" belongs to group "group2"
-    And user "user0" created a folder "merge-test-outside-twogroups"
-    When folder "merge-test-outside-twogroups" of user "user0" is shared with group "group1"
-    And folder "merge-test-outside-twogroups" of user "user0" is shared with group "group2"
-    Then as "user1" the folder "merge-test-outside-twogroups" exists
-    And as "user1" the folder "merge-test-outside-twogroups (2)" does not exist
+    And user "user0" created a folder "/merge-test-outside-twogroups"
+    When folder "/merge-test-outside-twogroups" of user "user0" is shared with group "group1"
+    And folder "/merge-test-outside-twogroups" of user "user0" is shared with group "group2"
+    Then as "user1" the folder "/merge-test-outside-twogroups" exists
+    And as "user1" the folder "/merge-test-outside-twogroups (2)" does not exist
 
   Scenario: Merging shares for recipient when shared from outside with two groups with different permissions
     Given As an "admin"
@@ -826,13 +827,13 @@ Feature: sharing
     And group "group2" exists
     And user "user1" belongs to group "group1"
     And user "user1" belongs to group "group2"
-    And user "user0" created a folder "merge-test-outside-twogroups-perms"
-    When folder "merge-test-outside-twogroups-perms" of user "user0" is shared with group "group1" with permissions 1
-    And folder "merge-test-outside-twogroups-perms" of user "user0" is shared with group "group2" with permissions 31
-    Then as "user1" gets properties of folder "merge-test-outside-twogroups-perms" with
+    And user "user0" created a folder "/merge-test-outside-twogroups-perms"
+    When folder "/merge-test-outside-twogroups-perms" of user "user0" is shared with group "group1" with permissions 1
+    And folder "/merge-test-outside-twogroups-perms" of user "user0" is shared with group "group2" with permissions 31
+    Then as "user1" gets properties of folder "/merge-test-outside-twogroups-perms" with
         |{http://owncloud.org/ns}permissions|
     And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRDNVCK"
-    And as "user1" the folder "merge-test-outside-twogroups-perms (2)" does not exist
+    And as "user1" the folder "/merge-test-outside-twogroups-perms (2)" does not exist
 
   Scenario: Merging shares for recipient when shared from outside with two groups and member
     Given As an "admin"
@@ -842,24 +843,24 @@ Feature: sharing
     And group "group2" exists
     And user "user1" belongs to group "group1"
     And user "user1" belongs to group "group2"
-    And user "user0" created a folder "merge-test-outside-twogroups-member-perms"
-    When folder "merge-test-outside-twogroups-member-perms" of user "user0" is shared with group "group1" with permissions 1
-    And folder "merge-test-outside-twogroups-member-perms" of user "user0" is shared with group "group2" with permissions 31
-    And folder "merge-test-outside-twogroups-member-perms" of user "user0" is shared with user "user1" with permissions 1
-    Then as "user1" gets properties of folder "merge-test-outside-twogroups-member-perms" with
+    And user "user0" created a folder "/merge-test-outside-twogroups-member-perms"
+    When folder "/merge-test-outside-twogroups-member-perms" of user "user0" is shared with group "group1" with permissions 1
+    And folder "/merge-test-outside-twogroups-member-perms" of user "user0" is shared with group "group2" with permissions 31
+    And folder "/merge-test-outside-twogroups-member-perms" of user "user0" is shared with user "user1" with permissions 1
+    Then as "user1" gets properties of folder "/merge-test-outside-twogroups-member-perms" with
         |{http://owncloud.org/ns}permissions|
     And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRDNVCK"
-    And as "user1" the folder "merge-test-outside-twogroups-member-perms (2)" does not exist
+    And as "user1" the folder "/merge-test-outside-twogroups-member-perms (2)" does not exist
 
   Scenario: Merging shares for recipient when shared from inside with group
     Given As an "admin"
     And user "user0" exists
     And group "group1" exists
     And user "user0" belongs to group "group1"
-    And user "user0" created a folder "merge-test-inside-group"
+    And user "user0" created a folder "/merge-test-inside-group"
     When folder "/merge-test-inside-group" of user "user0" is shared with group "group1"
-    Then as "user0" the folder "merge-test-inside-group" exists
-    And as "user0" the folder "merge-test-inside-group (2)" does not exist
+    Then as "user0" the folder "/merge-test-inside-group" exists
+    And as "user0" the folder "/merge-test-inside-group (2)" does not exist
 
   Scenario: Merging shares for recipient when shared from inside with two groups
     Given As an "admin"
@@ -868,12 +869,12 @@ Feature: sharing
     And group "group2" exists
     And user "user0" belongs to group "group1"
     And user "user0" belongs to group "group2"
-    And user "user0" created a folder "merge-test-inside-twogroups"
-    When folder "merge-test-inside-twogroups" of user "user0" is shared with group "group1"
-    And folder "merge-test-inside-twogroups" of user "user0" is shared with group "group2"
-    Then as "user0" the folder "merge-test-inside-twogroups" exists
-    And as "user0" the folder "merge-test-inside-twogroups (2)" does not exist
-    And as "user0" the folder "merge-test-inside-twogroups (3)" does not exist
+    And user "user0" created a folder "/merge-test-inside-twogroups"
+    When folder "/merge-test-inside-twogroups" of user "user0" is shared with group "group1"
+    And folder "/merge-test-inside-twogroups" of user "user0" is shared with group "group2"
+    Then as "user0" the folder "/merge-test-inside-twogroups" exists
+    And as "user0" the folder "/merge-test-inside-twogroups (2)" does not exist
+    And as "user0" the folder "/merge-test-inside-twogroups (3)" does not exist
 
   Scenario: Merging shares for recipient when shared from inside with group with less permissions
     Given As an "admin"
@@ -882,14 +883,14 @@ Feature: sharing
     And group "group2" exists
     And user "user0" belongs to group "group1"
     And user "user0" belongs to group "group2"
-    And user "user0" created a folder "merge-test-inside-twogroups-perms"
-    When folder "merge-test-inside-twogroups-perms" of user "user0" is shared with group "group1"
-    And folder "merge-test-inside-twogroups-perms" of user "user0" is shared with group "group2"
-    Then as "user0" gets properties of folder "merge-test-inside-twogroups-perms" with
+    And user "user0" created a folder "/merge-test-inside-twogroups-perms"
+    When folder "/merge-test-inside-twogroups-perms" of user "user0" is shared with group "group1"
+    And folder "/merge-test-inside-twogroups-perms" of user "user0" is shared with group "group2"
+    Then as "user0" gets properties of folder "/merge-test-inside-twogroups-perms" with
         |{http://owncloud.org/ns}permissions|
     And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "RDNVCK"
-    And as "user0" the folder "merge-test-inside-twogroups-perms (2)" does not exist
-    And as "user0" the folder "merge-test-inside-twogroups-perms (3)" does not exist
+    And as "user0" the folder "/merge-test-inside-twogroups-perms (2)" does not exist
+    And as "user0" the folder "/merge-test-inside-twogroups-perms (3)" does not exist
 
   Scenario: Merging shares for recipient when shared from outside with group then user and recipient renames in between
     Given As an "admin"
@@ -897,29 +898,30 @@ Feature: sharing
     And user "user1" exists
     And group "group1" exists
     And user "user1" belongs to group "group1"
-    And user "user0" created a folder "merge-test-outside-groups-renamebeforesecondshare"
-    When folder "merge-test-outside-groups-renamebeforesecondshare" of user "user0" is shared with group "group1"
+    And user "user0" created a folder "/merge-test-outside-groups-renamebeforesecondshare"
+    When folder "/merge-test-outside-groups-renamebeforesecondshare" of user "user0" is shared with group "group1"
     And User "user1" moved folder "/merge-test-outside-groups-renamebeforesecondshare" to "/merge-test-outside-groups-renamebeforesecondshare-renamed"
-    And folder "merge-test-outside-groups-renamebeforesecondshare" of user "user0" is shared with user "user1"
-    Then as "user1" gets properties of folder "merge-test-outside-groups-renamebeforesecondshare-renamed" with
+    And folder "/merge-test-outside-groups-renamebeforesecondshare" of user "user0" is shared with user "user1"
+    Then as "user1" gets properties of folder "/merge-test-outside-groups-renamebeforesecondshare-renamed" with
         |{http://owncloud.org/ns}permissions|
     And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRDNVCK"
-    And as "user1" the folder "merge-test-outside-groups-renamebeforesecondshare" does not exist
+    And as "user1" the folder "/merge-test-outside-groups-renamebeforesecondshare" does not exist
 
-#  Scenario: Merging shares for recipient when shared from outside with user then group and recipient renames in between
-#    Given As an "admin"
-#    And user "user0" exists
-#    And user "user1" exists
-#    And group "group1" exists
-#    And user "user1" belongs to group "group1"
-#    And user "user0" created a folder "merge-test-outside-groups-renamebeforesecondshare"
-#    When folder "merge-test-outside-groups-renamebeforesecondshare" of user "user0" is shared with user "user1"
-#    And User "user1" moved folder "/merge-test-outside-groups-renamebeforesecondshare" to "/merge-test-outside-groups-renamebeforesecondshare-renamed"
-#    And folder "merge-test-outside-groups-renamebeforesecondshare" of user "user0" is shared with group "group1"
-#    Then as "user1" gets properties of folder "merge-test-outside-groups-renamebeforesecondshare-renamed" with
-#        |{http://owncloud.org/ns}permissions|
-#    And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRDNVCK"
-#    And as "user1" the folder "merge-test-outside-groups-renamebeforesecondshare" does not exist
+  Scenario: Merging shares for recipient when shared from outside with user then group and recipient renames in between
+    Given using old dav path
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And group "group1" exists
+    And user "user1" belongs to group "group1"
+    And user "user0" created a folder "/merge-test-outside-groups-renamebeforesecondshare"
+    When folder "/merge-test-outside-groups-renamebeforesecondshare" of user "user0" is shared with user "user1"
+    And User "user1" moved folder "/merge-test-outside-groups-renamebeforesecondshare" to "/merge-test-outside-groups-renamebeforesecondshare-renamed"
+    And folder "/merge-test-outside-groups-renamebeforesecondshare" of user "user0" is shared with group "group1"
+    Then as "user1" gets properties of folder "/merge-test-outside-groups-renamebeforesecondshare-renamed" with
+        |{http://owncloud.org/ns}permissions|
+    And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRDNVCK"
+    And as "user1" the folder "/merge-test-outside-groups-renamebeforesecondshare" does not exist
 
   Scenario: Empting trashbin
     Given As an "admin"
@@ -937,7 +939,7 @@ Feature: sharing
     And file "/common/sub" of user "user0" is shared with user "user1"
     And User "user0" deletes folder "/common"
     When User "user0" empties trashbin
-    Then as "user1" the folder "sub" does not exist
+    Then as "user1" the folder "/sub" does not exist
 
   Scenario: sharing again an own file while belonging to a group
     Given As an "admin"

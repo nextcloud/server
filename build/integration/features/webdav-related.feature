@@ -2,21 +2,122 @@ Feature: webdav-related
 	Background:
 		Given using api version "1"
 
-	Scenario: moving a file old way
-		Given using dav path "remote.php/webdav"
+	Scenario: Moving a file
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
-		When User "user0" moves file "/textfile0.txt" to "/FOLDER/textfile0.txt"
+		And As an "user0"
+		When User "user0" moves file "/welcome.txt" to "/FOLDER/welcome.txt"
 		Then the HTTP status code should be "201"
+		And Downloaded content when downloading file "/FOLDER/welcome.txt" with range "bytes=0-6" should be "Welcome"
+
+	Scenario: Moving and overwriting a file old way
+		Given using old dav path
+		And As an "admin"
+		And user "user0" exists
+		And As an "user0"
+		When User "user0" moves file "/welcome.txt" to "/textfile0.txt"
+		Then the HTTP status code should be "204"
+		And Downloaded content when downloading file "/textfile0.txt" with range "bytes=0-6" should be "Welcome"
+
+	Scenario: Moving a file to a folder with no permissions
+		Given using old dav path
+		And As an "admin"
+		And user "user0" exists
+		And user "user1" exists
+		And As an "user1"
+		And user "user1" created a folder "/testshare"
+		And as "user1" creating a share with
+		  | path | testshare |
+		  | shareType | 0 |
+		  | permissions | 1 |
+		  | shareWith | user0 |
+		And As an "user0"
+		And User "user0" moves file "/textfile0.txt" to "/testshare/textfile0.txt"
+		And the HTTP status code should be "403"
+		When Downloading file "/testshare/textfile0.txt"
+ 		Then the HTTP status code should be "404"
+
+	Scenario: Moving a file to overwrite a file in a folder with no permissions
+		Given using old dav path
+		And As an "admin"
+		And user "user0" exists
+		And user "user1" exists
+		And As an "user1"
+		And user "user1" created a folder "/testshare"
+		And as "user1" creating a share with
+		  | path | testshare |
+		  | shareType | 0 |
+		  | permissions | 1 |
+		  | shareWith | user0 |
+		And User "user1" copies file "/welcome.txt" to "/testshare/overwritethis.txt"
+		And As an "user0"
+		When User "user0" moves file "/textfile0.txt" to "/testshare/overwritethis.txt"
+		Then the HTTP status code should be "403"
+		And Downloaded content when downloading file "/testshare/overwritethis.txt" with range "bytes=0-6" should be "Welcome"
+
+	Scenario: Copying a file
+		Given using old dav path
+		And As an "admin"
+		And user "user0" exists
+		And As an "user0"
+		When User "user0" copies file "/welcome.txt" to "/FOLDER/welcome.txt"
+		Then the HTTP status code should be "201"
+		And Downloaded content when downloading file "/FOLDER/welcome.txt" with range "bytes=0-6" should be "Welcome"
+
+	Scenario: Copying and overwriting a file
+		Given using old dav path
+		And As an "admin"
+		And user "user0" exists
+		And As an "user0"
+		When User "user0" copies file "/welcome.txt" to "/textfile1.txt"
+		Then the HTTP status code should be "204"
+		And Downloaded content when downloading file "/textfile1.txt" with range "bytes=0-6" should be "Welcome"
+
+	Scenario: Copying a file to a folder with no permissions
+		Given using old dav path
+		And As an "admin"
+		And user "user0" exists
+		And user "user1" exists
+		And As an "user1"
+		And user "user1" created a folder "/testshare"
+		And as "user1" creating a share with
+		  | path | testshare |
+		  | shareType | 0 |
+		  | permissions | 1 |
+		  | shareWith | user0 |
+		And As an "user0"
+		When User "user0" copies file "/textfile0.txt" to "/testshare/textfile0.txt"
+		Then the HTTP status code should be "403"
+		And Downloading file "/testshare/textfile0.txt"
+		And the HTTP status code should be "404"
+
+	Scenario: Copying a file to overwrite a file into a folder with no permissions
+		Given using old dav path
+		And As an "admin"
+		And user "user0" exists
+		And user "user1" exists
+		And As an "user1"
+		And user "user1" created a folder "/testshare"
+		And as "user1" creating a share with
+		  | path | testshare |
+		  | shareType | 0 |
+		  | permissions | 1 |
+		  | shareWith | user0 |
+		And User "user1" copies file "/welcome.txt" to "/testshare/overwritethis.txt"
+		And As an "user0"
+		When User "user0" copies file "/textfile0.txt" to "/testshare/overwritethis.txt"
+		Then the HTTP status code should be "403"
+		And Downloaded content when downloading file "/testshare/overwritethis.txt" with range "bytes=0-6" should be "Welcome"
 
 	Scenario: download a file with range
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		When Downloading file "/welcome.txt" with range "bytes=52-78"
 		Then Downloaded content should be "example file for developers"
 
 	Scenario: Upload forbidden if quota is 0
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		And user "user0" has a quota of "0"
@@ -24,7 +125,7 @@ Feature: webdav-related
 		Then the HTTP status code should be "507"
 
 	Scenario: Retrieving folder quota when no quota is set
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		When user "user0" has unlimited quota
@@ -33,7 +134,7 @@ Feature: webdav-related
 		And the single response should contain a property "{DAV:}quota-available-bytes" with value "-3"
 
 	Scenario: Retrieving folder quota when quota is set
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		When user "user0" has a quota of "10 MB"
@@ -42,7 +143,7 @@ Feature: webdav-related
 		And the single response should contain a property "{DAV:}quota-available-bytes" with value "10485421"
 
 	Scenario: Retrieving folder quota of shared folder with quota when no quota is set for recipient
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		And user "user1" exists
@@ -60,7 +161,7 @@ Feature: webdav-related
 		And the single response should contain a property "{DAV:}quota-available-bytes" with value "10485421"
 
 	Scenario: Uploading a file as recipient using webdav having quota
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		And user "user1" exists
@@ -78,7 +179,7 @@ Feature: webdav-related
 		Then the HTTP status code should be "201"
 
 	Scenario: Retrieving folder quota when quota is set and a file was uploaded
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		And user "user0" has a quota of "1 KB"
@@ -88,7 +189,7 @@ Feature: webdav-related
 		Then the single response should contain a property "{DAV:}quota-available-bytes" with value "592"
 
 	Scenario: Retrieving folder quota when quota is set and a file was recieved
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		And user "user1" exists
@@ -118,7 +219,7 @@ Feature: webdav-related
 		Then Downloaded content should be "extcloud"
 
 	Scenario: Downloading a file on the old endpoint should serve security headers
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		When Downloading file "/welcome.txt"
 		Then The following headers should be set
@@ -255,7 +356,7 @@ Feature: webdav-related
 			| 3 |
 
 	Scenario: Upload chunked file asc with new chunking
-		Given using dav path "remote.php/dav"
+		Given using new dav path
 		And user "user0" exists
 		And user "user0" creates a new chunking upload with id "chunking-42"
 		And user "user0" uploads new chunk file "1" with "AAAAA" to id "chunking-42"
@@ -263,11 +364,11 @@ Feature: webdav-related
 		And user "user0" uploads new chunk file "3" with "CCCCC" to id "chunking-42"
 		And user "user0" moves new chunk file with id "chunking-42" to "/myChunkedFile.txt"
 		When As an "user0"
-		And Downloading file "/files/user0/myChunkedFile.txt"
+		And Downloading file "/myChunkedFile.txt"
 		Then Downloaded content should be "AAAAABBBBBCCCCC"
 
 	Scenario: Upload chunked file desc with new chunking
-		Given using dav path "remote.php/dav"
+		Given using new dav path
 		And user "user0" exists
 		And user "user0" creates a new chunking upload with id "chunking-42"
 		And user "user0" uploads new chunk file "3" with "CCCCC" to id "chunking-42"
@@ -275,11 +376,11 @@ Feature: webdav-related
 		And user "user0" uploads new chunk file "1" with "AAAAA" to id "chunking-42"
 		And user "user0" moves new chunk file with id "chunking-42" to "/myChunkedFile.txt"
 		When As an "user0"
-		And Downloading file "/files/user0/myChunkedFile.txt"
+		And Downloading file "/myChunkedFile.txt"
 		Then Downloaded content should be "AAAAABBBBBCCCCC"
 
 	Scenario: Upload chunked file random with new chunking
-		Given using dav path "remote.php/dav"
+		Given using new dav path
 		And user "user0" exists
 		And user "user0" creates a new chunking upload with id "chunking-42"
 		And user "user0" uploads new chunk file "2" with "BBBBB" to id "chunking-42"
@@ -287,7 +388,7 @@ Feature: webdav-related
 		And user "user0" uploads new chunk file "1" with "AAAAA" to id "chunking-42"
 		And user "user0" moves new chunk file with id "chunking-42" to "/myChunkedFile.txt"
 		When As an "user0"
-		And Downloading file "/files/user0/myChunkedFile.txt"
+		And Downloading file "/myChunkedFile.txt"
 		Then Downloaded content should be "AAAAABBBBBCCCCC"
 
 	Scenario: A disabled user cannot use webdav
