@@ -470,13 +470,56 @@ class Trashbin {
 	public static function deleteAll() {
 		$user = User::getUser();
 		$view = new View('/' . $user);
+		$fileInfos = $view->getDirectoryContent('files_trashbin/files');
+
+		// Array to store the relative path in (after the file is deleted, the view won't be able to relativise the path anymore)
+		$filePaths = array();
+		foreach($fileInfos as $fileInfo){
+			$filePaths[] = $view->getRelativePath($fileInfo->getPath());
+		}
+		unset($fileInfos); // save memory
+
+		// Bulk PreDelete-Hook
+		\OC_Hook::emit('\OCP\Trashbin', 'preDeleteAll', array('paths' => $filePaths));
+
+		// Single-File Hooks
+		foreach($filePaths as $path){
+			self::emitTrashbinPreDelete($path);
+		}
+
+		// actual file deletion
 		$view->deleteAll('files_trashbin');
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trash` WHERE `user`=?');
 		$query->execute(array($user));
+
+		// Bulk PostDelete-Hook
+		\OC_Hook::emit('\OCP\Trashbin', 'deleteAll', array('paths' => $filePaths));
+
+		// Single-File Hooks
+		foreach($filePaths as $path){
+			self::emitTrashbinPostDelete($path);
+		}
+
 		$view->mkdir('files_trashbin');
 		$view->mkdir('files_trashbin/files');
 
 		return true;
+	}
+
+	/**
+	 * wrapper function to emit the 'preDelete' hook of \OCP\Trashbin before a file is deleted
+	 * @param string $path
+	 */
+	protected static function emitTrashbinPreDelete($path){
+		\OC_Hook::emit('\OCP\Trashbin', 'preDelete', array('path' => $path));
+	}
+
+	/**
+	 * wrapper function to emit the 'delete' hook of \OCP\Trashbin after a file has been deleted
+	 * @param string $path
+	 */
+	protected static function emitTrashbinPostDelete($path){
+		\OC_Hook::emit('\OCP\Trashbin', 'delete', array('path' => $path));
 	}
 
 	/**
@@ -507,9 +550,9 @@ class Trashbin {
 		} else {
 			$size += $view->filesize('/files_trashbin/files/' . $file);
 		}
-		\OC_Hook::emit('\OCP\Trashbin', 'preDelete', array('path' => '/files_trashbin/files/' . $file));
+		self::emitTrashbinPreDelete('/files_trashbin/files/' . $file);
 		$view->unlink('/files_trashbin/files/' . $file);
-		\OC_Hook::emit('\OCP\Trashbin', 'delete', array('path' => '/files_trashbin/files/' . $file));
+		self::emitTrashbinPostDelete('/files_trashbin/files/' . $file);
 
 		return $size;
 	}
