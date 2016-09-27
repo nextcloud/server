@@ -1,6 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="16" width="16" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
- <g transform="translate(0 -1036.4)">
-  <path d="m1 1037.4v14h5v-14zm9 0v14h5v-14z"/>
- </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16"><path d="M1 1v14h5V1zm9 0v14h5V1z"/></svg>

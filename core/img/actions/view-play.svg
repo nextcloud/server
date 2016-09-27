@@ -1,14 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="32" width="32" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
- <defs>
-  <filter id="a" style="color-interpolation-filters:sRGB" height="1.6" width="1.6" y="-.3" x="-.3">
-   <feGaussianBlur stdDeviation="3"/>
-  </filter>
- </defs>
- <g filter="url(#a)" stroke="#000" stroke-width="2.4" transform="matrix(.83333 0 0 .83333 2.6667 -847.67)">
-  <path stroke="#000" stroke-width="2.4" d="m4 1024.4 24 12-24 12z"/>
- </g>
- <g transform="matrix(.83333 0 0 .83333 2.6667 -847.67)">
-  <path d="m4 1024.4 24 12-24 12z" fill="#fff"/>
- </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" height="32" width="32"><defs><filter id="a" height="1.6" width="1.6" y="-.3" x="-.3" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="3"/></filter></defs><path d="M4 1024.4l24 12-24 12z" filter="url(#a)" stroke="#000" stroke-width="2.4" transform="translate(2.667 -847.67) scale(.83333)"/><path d="M6 5.993l20 10-20 10z" fill="#fff"/></svg>

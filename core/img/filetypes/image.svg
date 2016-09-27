@@ -1,4 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="16" width="16" version="1.0" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
- <path style="color:#000000;block-progression:tb;text-transform:none;text-indent:0" d="m1.3438 2c-0.19748 0.03825-0.3473 0.2334-0.34375 0.4375v11.125c0 0.23 0.212 0.438 0.4375 0.438h13.125c0.22555-0.000006 0.43749-0.20846 0.4375-0.4375v-10.953c-0.0005-0.33655-0.2645-0.61145-0.5155-0.6095zm0.65619 0.99994 12 0.0000068v5.0001l-1-1-3 4-3-3-4 4h-1zm2.5001 1c-0.82845 0-1.5 0.67155-1.5 1.5s0.67155 1.5 1.5 1.5 1.5-0.67155 1.5-1.5-0.67155-1.5-1.5-1.5z" fill="#969696"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" version="1"><path style="block-progression:tb;text-transform:none;text-indent:0" d="M1.344 2A.445.445 0 0 0 1 2.438v11.124c0 .23.212.44.438.44h13.125a.457.457 0 0 0 .437-.44V2.61c0-.337-.264-.61-.515-.61zM2 3h12v5l-1-1-3 4-3-3-4 4H2zm2.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" fill="#969696" color="#000"/></svg>
