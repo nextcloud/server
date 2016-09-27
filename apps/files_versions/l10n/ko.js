@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_versions",
     {
-    "Could not revert: %s" : "되돌릴 수 없습니다: %s",
+    "Could not revert: %s" : "되돌릴 수 없음: %s",
     "Versions" : "버전",
     "Failed to revert {file} to revision {timestamp}." : "{file}을(를) 리비전 {timestamp}으(로) 되돌리는 데 실패했습니다.",
     "Restore" : "복원",

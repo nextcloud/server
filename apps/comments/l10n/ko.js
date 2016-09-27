@@ -1,20 +1,29 @@
 OC.L10N.register(
     "comments",
     {
-    "Type in a new comment..." : "새 댓글을 입력하십시오...",
+    "New comment …" : "새로운 댓글 ...",
     "Delete comment" : "댓글 삭제",
     "Post" : "게시",
     "Cancel" : "취소",
     "Edit comment" : "댓글 편집",
     "[Deleted user]" : "[삭제된 사용자]",
     "Comments" : "댓글",
-    "No other comments available" : "더 이상 댓글 없음",
-    "More comments..." : "더 많은 댓글...",
+    "No comments yet, start the conversation!" : "아직 댓글이 없습니다. 대화를 시작합니다!",
+    "More comments …" : "더 많은 댓글...",
     "Save" : "저장",
     "Allowed characters {count} of {max}" : "{count}/{max} 글자 사용 가능",
+    "Error occurred while retrieving comment with id {id}" : "댓글을 가져오는 중 오류가 발생했습니다 {ID}",
+    "Error occurred while updating comment with id {id}" : "댓글을 업데이트하는 동안 오류가 발생했습니다 {ID}",
+    "Error occurred while posting comment" : "댓글을 게시하는 중 오류가 발생했습니다",
     "{count} unread comments" : "읽지 않은 댓글 {count}개",
     "Comment" : "설명",
+    "<strong>Comments</strong> for files" : "파일의 <strong>댓글</strong>",
+    "You commented" : "댓글을 달았습니다",
     "%1$s commented" : "%1$s 님의 댓글",
-    "%1$s commented on %2$s" : "%2$s에 %1$s 님이 댓글 남김"
+    "You commented on %2$s" : "%2$s에 댓글 남김",
+    "%1$s commented on %2$s" : "%2$s에 %1$s 님이 댓글 남김",
+    "Type in a new comment..." : "새 댓글을 입력하십시오...",
+    "No other comments available" : "더 이상 댓글 없음",
+    "More comments..." : "더 많은 댓글..."
 },
 "nplurals=1; plural=0;");

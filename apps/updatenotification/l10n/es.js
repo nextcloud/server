@@ -6,7 +6,6 @@ OC.L10N.register(
     "Nextcloud core" : "Núcleo de Nextcloud",
     "Update for %1$s to version %2$s is available." : "La actualización de %1$s a la versión %2$s está disponible.",
     "A new version is available: %s" : "Hay una nueva versión disponible: %s",
-    "Download now" : "Descargar ahora",
     "Your version is up to date." : "Su versión está actualizada.",
     "Checked on %s" : "Revisado el %s",
     "Update channel:" : "Canal de actualización: ",
