@@ -519,7 +519,7 @@ $CONFIG = array(
 /**
  * URL that Nextcloud should use to look for updates
  */
-'updater.server.url' => 'https://updates.nextcloud.com/update-server/',
+'updater.server.url' => 'https://updates.nextcloud.com/updater_server/',
 
 /**
  * Is Nextcloud connected to the Internet or running in a closed network?
