@@ -174,6 +174,7 @@ class Updater extends BasicEmitter {
 				$tmp['versionstring'] = (string)$data->versionstring;
 				$tmp['url'] = (string)$data->url;
 				$tmp['web'] = (string)$data->web;
+				$tmp['autoupdater'] = (string)$data->autoupdater;
 			} else {
 				libxml_clear_errors();
 			}
