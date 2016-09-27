@@ -501,15 +501,16 @@ Feature: provisioning
 	    Given As an "admin"
 		And user "user0" exists
 		And As an "user0"
-		When sending "GET" to "/index.php/apps/files"
+		When sending "GET" to "/cloud/capabilities"
 		Then the HTTP status code should be "200"
+		And the OCS status code should be "100"
 
 	Scenario: Making a web request with a disabled user
 	    Given As an "admin"
 		And user "user0" exists
 		And assure user "user0" is disabled
 		And As an "user0"
-		When sending "GET" to "/index.php/apps/files"
+		When sending "GET" to "/cloud/capabilities"
 		Then the OCS status code should be "997"
 		And the HTTP status code should be "401"
 
