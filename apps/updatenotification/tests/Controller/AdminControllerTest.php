@@ -110,7 +110,12 @@ class AdminControllerTest extends TestCase {
 		$this->updateChecker
 			->expects($this->once())
 			->method('getUpdateState')
-			->willReturn(['updateVersion' => '8.1.2']);
+			->willReturn([
+				'updateAvailable' => true,
+				'updateVersion' => '8.1.2',
+				'downloadLink' => 'https://downloads.nextcloud.org/server',
+				'updaterEnabled' => true,
+			]);
 
 		$params = [
 			'isNewVersionAvailable' => true,
@@ -118,6 +123,8 @@ class AdminControllerTest extends TestCase {
 			'currentChannel' => \OCP\Util::getChannel(),
 			'channels' => $channels,
 			'newVersionString' => '8.1.2',
+			'downloadLink' => 'https://downloads.nextcloud.org/server',
+			'updaterEnabled' => true,
 			'notify_groups' => 'admin',
 		];
 
@@ -154,7 +161,7 @@ class AdminControllerTest extends TestCase {
 		$this->updateChecker
 			->expects($this->once())
 			->method('getUpdateState')
-			->willReturn([]);
+			->willReturn(['updaterEnabled' => false]);
 
 		$params = [
 			'isNewVersionAvailable' => false,
@@ -162,6 +169,8 @@ class AdminControllerTest extends TestCase {
 			'currentChannel' => \OCP\Util::getChannel(),
 			'channels' => $channels,
 			'newVersionString' => '',
+			'downloadLink' => '',
+			'updaterEnabled' => 0,
 			'notify_groups' => 'admin',
 		];
 

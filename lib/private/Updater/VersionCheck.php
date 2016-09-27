@@ -59,7 +59,7 @@ class VersionCheck {
 			return json_decode($this->config->getAppValue('core', 'lastupdateResult'), true);
 		}
 
-		$updaterUrl = $this->config->getSystemValue('updater.server.url', 'https://updates.nextcloud.com/update-server/');
+		$updaterUrl = $this->config->getSystemValue('updater.server.url', 'https://updates.nextcloud.com/updater_server/');
 
 		$this->config->setAppValue('core', 'lastupdatedat', time());
 
@@ -89,6 +89,7 @@ class VersionCheck {
 				$tmp['versionstring'] = (string)$data->versionstring;
 				$tmp['url'] = (string)$data->url;
 				$tmp['web'] = (string)$data->web;
+				$tmp['autoupdater'] = (string)$data->autoupdater;
 			} else {
 				libxml_clear_errors();
 			}
