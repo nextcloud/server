@@ -28,7 +28,7 @@
 
 	<?php if($_['admin']) { ?>
 		<li>
-			<a href="https://github.com/owncloud/core/blob/master/CONTRIBUTING.md"
+			<a href="https://github.com/owncloud/core/blob/master/.github/CONTRIBUTING.md"
 				target="_blank">
 				<?php p($l->t( 'Bugtracker' )); ?> ↗
 			</a>
