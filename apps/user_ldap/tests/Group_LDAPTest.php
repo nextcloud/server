@@ -48,16 +48,18 @@ class Group_LDAPTest extends \Test\TestCase {
 			$accMethods = get_class_methods('\OCA\User_LDAP\Access');
 		}
 		$lw  = $this->createMock(ILDAPWrapper::class);
-		$connector = $this->getMock('\OCA\User_LDAP\Connection',
-									$conMethods,
-									array($lw, null, null));
+		$connector = $this->getMockBuilder('\OCA\User_LDAP\Connection')
+			->setMethods($conMethods)
+			->setConstructorArgs([$lw, null, null])
+			->getMock();
 		$um = $this->getMockBuilder('\OCA\User_LDAP\User\Manager')
 			->disableOriginalConstructor()
 			->getMock();
 		$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
-		$access = $this->getMock('\OCA\User_LDAP\Access',
-								 $accMethods,
-								 array($connector, $lw, $um, $helper));
+		$access = $this->getMockBuilder('\OCA\User_LDAP\Access')
+			->setMethods($accMethods)
+			->setConstructorArgs([$connector, $lw, $um, $helper])
+			->getMock();
 
 		$access->expects($this->any())
 			->method('getConnection')

@@ -55,11 +55,11 @@ class AccessTest extends \Test\TestCase {
 			$umMethods  = get_class_methods('\OCA\User_LDAP\User\Manager');
 		}
 		$lw  = $this->createMock(ILDAPWrapper::class);
-		$connector = $this->getMock('\OCA\User_LDAP\Connection',
-									$conMethods,
-									array($lw, null, null));
-		$um = $this->getMock('\OCA\User_LDAP\User\Manager',
-			$umMethods, array(
+		$connector = $this->getMockBuilder('\OCA\User_LDAP\Connection')
+			->setMethods($conMethods)
+			->setConstructorArgs([$lw, null, null])
+			->getMock();
+		$um = $this->getMockBuilder('\OCA\User_LDAP\User\Manager')
 				$this->createMock(IConfig::class),
 				$this->createMock(FilesystemHelper::class),
 				$this->createMock(LogWrapper::class),
@@ -68,6 +68,9 @@ class AccessTest extends \Test\TestCase {
 				$this->createMock(IDBConnection::class),
 				$this->createMock(IUserManager::class)));
 		$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
+				$this->createMock('\OCP\IUserManager')
+			])
+			->getMock();
 
 		return array($lw, $connector, $um, $helper);
 	}
