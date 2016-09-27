@@ -11,6 +11,7 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "En feil oppstod under generering av sikkerhetskopi koder",
     "Nextcloud backup codes" : "Nextclouds backupkoder",
     "Backup code" : "Sikkerhetskopi kode",
-    "Use backup code" : "Bruker sikkerhetskopi kode"
+    "Use backup code" : "Bruker sikkerhetskopi kode",
+    "Second-factor backup codes" : "To-faktor sikkerhetskopikoder"
 },
 "nplurals=2; plural=(n != 1);");
