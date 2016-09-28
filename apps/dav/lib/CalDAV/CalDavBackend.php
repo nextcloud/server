@@ -300,6 +300,48 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		return array_values($calendars);
 	}
 
+	public function getUsersOwnCalendars($principalUri) {
+		$principalUri = $this->convertPrincipal($principalUri, true);
+		$fields = array_values($this->propertyMap);
+		$fields[] = 'id';
+		$fields[] = 'uri';
+		$fields[] = 'synctoken';
+		$fields[] = 'components';
+		$fields[] = 'principaluri';
+		$fields[] = 'transparent';
+		// Making fields a comma-delimited list
+		$query = $this->db->getQueryBuilder();
+		$query->select($fields)->from('calendars')
+			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)))
+			->orderBy('calendarorder', 'ASC');
+		$stmt = $query->execute();
+		$calendars = [];
+		while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+			$components = [];
+			if ($row['components']) {
+				$components = explode(',',$row['components']);
+			}
+			$calendar = [
+				'id' => $row['id'],
+				'uri' => $row['uri'],
+				'principaluri' => $this->convertPrincipal($row['principaluri'], false),
+				'{' . Plugin::NS_CALENDARSERVER . '}getctag' => 'http://sabre.io/ns/sync/' . ($row['synctoken']?$row['synctoken']:'0'),
+				'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
+				'{' . Plugin::NS_CALDAV . '}supported-calendar-component-set' => new SupportedCalendarComponentSet($components),
+				'{' . Plugin::NS_CALDAV . '}schedule-calendar-transp' => new ScheduleCalendarTransp($row['transparent']?'transparent':'opaque'),
+			];
+			foreach($this->propertyMap as $xmlName=>$dbName) {
+				$calendar[$xmlName] = $row[$dbName];
+			}
+			if (!isset($calendars[$calendar['id']])) {
+				$calendars[$calendar['id']] = $calendar;
+			}
+		}
+		$stmt->closeCursor();
+		return array_values($calendars);
+	}
+
+
 	private function getUserDisplayName($uid) {
 		if (!isset($this->userDisplayNames[$uid])) {
 			$user = $this->userManager->get($uid);
@@ -637,6 +679,16 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$stmt->execute([$calendarId]);
 
 		$this->sharingBackend->deleteAllShares($calendarId);
+	}
+
+	/**
+	 * Delete all of an user's shares
+	 *
+	 * @param string $principaluri
+	 * @return void
+	 */
+	function deleteAllSharesByUser($principaluri) {
+		$this->sharingBackend->deleteAllSharesByUser($principaluri);
 	}
 
 	/**
