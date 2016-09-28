@@ -555,7 +555,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param string $principaluri
 	 * @return void
 	 */
-	function deleteAllSharesForUser($principaluri) {
+	function deleteAllSharesByUser($principaluri) {
 		$this->sharingBackend->deleteAllSharesByUser($principaluri);
 	}
 
