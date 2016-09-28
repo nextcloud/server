@@ -306,7 +306,7 @@ OC.Share = _.extend(OC.Share || {}, {
 			}
 		}
 		else {
-			action.html('<span></span>').prepend(icon);
+			action.html('<span class="hidden-visually">' + t('core', 'Shared') + '</span>').prepend(icon);
 		}
 		if (hasLink) {
 			iconClass = 'icon-public';

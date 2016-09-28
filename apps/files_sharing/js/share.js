@@ -141,6 +141,7 @@
 			fileActions.registerAction({
 				name: 'Share',
 				displayName: '',
+				altText: t('core', 'Share'),
 				mime: 'all',
 				permissions: OC.PERMISSION_ALL,
 				iconClass: 'icon-share',
