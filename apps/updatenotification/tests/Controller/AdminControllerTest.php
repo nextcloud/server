@@ -162,7 +162,7 @@ class AdminControllerTest extends TestCase {
 		$this->updateChecker
 			->expects($this->once())
 			->method('getUpdateState')
-			->willReturn(['updaterEnabled' => false]);
+			->willReturn([]);
 
 		$params = [
 			'isNewVersionAvailable' => false,
