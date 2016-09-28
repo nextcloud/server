@@ -39,7 +39,7 @@
 			}
 			return this._commentsUnreadTemplate({
 				count: count,
-				countMessage: t('comments', '{count} unread comments', {count: count}),
+				countMessage: n('comments', '%n unread comment', '%n unread comments', count),
 				iconUrl: OC.imagePath('core', 'actions/comment')
 			});
 		},
