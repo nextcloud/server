@@ -30,6 +30,12 @@ $baseDir = __DIR__ . '/../';
 $pullRequestNumber = getenv('DRONE_PULL_REQUEST');
 $repoOwner = getenv('DRONE_REPO_OWNER');
 $repoName = getenv('DRONE_REPO_NAME');
+$droneEvent = getenv('DRONE_BUILD_EVENT');
+
+if(is_string($droneEvent) && $droneEvent === 'push') {
+	echo("Push event - no signed-off check required.\n");
+	exit(0);
+}
 
 if(!is_string($pullRequestNumber) || $pullRequestNumber === '') {
 	echo("The environment variable DRONE_PULL_REQUEST has no proper value.\n");
