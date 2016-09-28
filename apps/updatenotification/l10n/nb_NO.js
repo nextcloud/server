@@ -7,6 +7,7 @@ OC.L10N.register(
     "Nextcloud core" : "Nextcloud kjerne",
     "Update for %1$s to version %2$s is available." : "Oppdatering for %1$s til versjon %2$s er tilgjengelig.",
     "A new version is available: %s" : "En ny versjon er tilgjengelig: %s",
+    "Open updater" : "Åpne oppdaterer",
     "Your version is up to date." : "Du har nyeste versjon.",
     "Checked on %s" : "Sjekket %s",
     "Update channel:" : "Oppdateringskanal:",

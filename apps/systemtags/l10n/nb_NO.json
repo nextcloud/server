@@ -34,6 +34,7 @@
     "No files in here" : "Ingen filer her",
     "No entries found in this folder" : "Ingen oppføringer funnet i denne mappen",
     "Size" : "Størrelse",
-    "Modified" : "Endret"
+    "Modified" : "Endret",
+    "%s (not-assignable)" : "%s (ikke overdragbar)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

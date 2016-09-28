@@ -43,6 +43,7 @@
     "New recovery key password" : "Nytt passord for gjenopprettingsnøkkel",
     "Repeat new recovery key password" : "Gjenta nytt passord for gjenopprettingsnøkkel",
     "Change Password" : "Endre passord",
+    "Basic encryption module" : "Grunnleggende krypteringsmodul",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "App for kryptering er aktivert men nøklene dine er ikke satt opp. Logg ut og logg inn igjen.",
     "Your private key password no longer matches your log-in password." : "Passordet for din private nøkkel stemmer ikke lenger med påloggingspassordet ditt.",
     "Set your old private key password to your current log-in password:" : "Sett ditt gamle passord for privat nøkkel til ditt nåværende påloggingspassord:",
@@ -55,6 +56,10 @@
     "Enabled" : "Aktiv",
     "Disabled" : "Inaktiv",
     "You need to migrate your encryption keys from the old encryption (Nextcloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Du må migrere krypteringsnøklene din fra den gamle krypteringen (Nextcloud <= 8.0) til den nye. Vennligst kjør 'occ encryption:migrate' eller kontakt en administrator",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ugyldig privat nøkkel for Krypterings-app. Oppdater passordet for din private nøkkel i dine personlige innstillinger for å gjenopprette tilgang til de krypterte filene dine.",
+    "Encryption App is enabled and ready" : "Krypteringsappen er aktivert og klar",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'Nextcloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Hei,\n\nAdministratoren har aktivert serverkryptering. Filene dine er blitt kryptert med passordet '%s'.\n\nVennligst logg inn på web-grensesnittet, gå til seksjonen 'grunnleggende krypteringsmodul' i dine personlige innstillinger og oppdater krypteringspassordet ditt ved å legge inn dette passordet i feltet 'gammelt påloggingspassord' sammen med ditt nåværende påloggingspassord.\n\n",
+    "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"Nextcloud basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Hei,<br><br>Administratoren har aktivert serverkryptering. Filene dine er blitt kryptert med passordet <strong>%s</strong>.<br><br>Vennligst logg inn på web-grensesnittet, gå til seksjonen \"grunnleggende krypteringsmodul\" i dine personlige innstillinger og oppdater krypteringspassordet ditt ved å legge inn dette passordet i feltet \"gammelt påloggingspassord\" sammen med ditt nåværende påloggingspassord.<br><br>",
     "Nextcloud basic encryption module" : "Nextcloud grunnleggende krypteringsmodul"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
