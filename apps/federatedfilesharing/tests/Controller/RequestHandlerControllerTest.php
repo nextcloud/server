@@ -31,6 +31,9 @@ use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Controller\RequestHandlerController;
+use OCP\Http\Client\IClient;
+use OCP\Http\Client\IClientService;
+use OCP\Http\Client\IResponse;
 use OCP\IUserManager;
 use OCP\Share\IShare;
 
@@ -242,15 +245,31 @@ class RequestHandlerControllerTest extends TestCase {
 	function testDeleteUser($toDelete, $expected, $remainingUsers) {
 		$this->createDummyS2SShares();
 
+		$httpClientService = $this->createMock(IClientService::class);
+		$client = $this->createMock(IClient::class);
+		$response = $this->createMock(IResponse::class);
+		$client
+			->expects($this->any())
+			->method('get')
+			->willReturn($response);
+		$client
+			->expects($this->any())
+			->method('post')
+			->willReturn($response);
+		$httpClientService
+			->expects($this->any())
+			->method('newClient')
+			->willReturn($client);
+
 		$discoveryManager = new DiscoveryManager(
 			\OC::$server->getMemCacheFactory(),
-			\OC::$server->getHTTPClientService()
+			$httpClientService
 		);
 		$manager = new \OCA\Files_Sharing\External\Manager(
 			\OC::$server->getDatabaseConnection(),
 			Filesystem::getMountManager(),
 			Filesystem::getLoader(),
-			\OC::$server->getHTTPClientService(),
+			$httpClientService,
 			\OC::$server->getNotificationManager(),
 			$discoveryManager,
 			$toDelete
