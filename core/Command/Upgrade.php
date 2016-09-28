@@ -72,12 +72,6 @@ class Upgrade extends Command {
 			->setName('upgrade')
 			->setDescription('run upgrade routines after installation of a new release. The release has to be installed before.')
 			->addOption(
-				'--skip-migration-test',
-				null,
-				InputOption::VALUE_NONE,
-				'skips the database schema migration simulation and update directly'
-			)
-			->addOption(
 				'--dry-run',
 				null,
 				InputOption::VALUE_NONE,
@@ -99,26 +93,10 @@ class Upgrade extends Command {
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 
-		$simulateStepEnabled = true;
-		$updateStepEnabled = true;
 		$skip3rdPartyAppsDisable = false;
 
-		if ($input->getOption('skip-migration-test')) {
-			$simulateStepEnabled = false;
-		}
-	   	if ($input->getOption('dry-run')) {
-			$updateStepEnabled = false;
-		}
 		if ($input->getOption('no-app-disable')) {
 			$skip3rdPartyAppsDisable = true;
-		}
-
-		if (!$simulateStepEnabled && !$updateStepEnabled) {
-			$output->writeln(
-				'<error>Only one of "--skip-migration-test" or "--dry-run" ' .
-				'can be specified at a time.</error>'
-			);
-			return self::ERROR_INVALID_ARGUMENTS;
 		}
 
 		if(\OC::checkUpgrade(false)) {
@@ -135,8 +113,6 @@ class Upgrade extends Command {
 					$this->logger
 			);
 
-			$updater->setSimulateStepEnabled($simulateStepEnabled);
-			$updater->setUpdateStepEnabled($updateStepEnabled);
 			$updater->setSkip3rdPartyAppsDisable($skip3rdPartyAppsDisable);
 			$dispatcher = \OC::$server->getEventDispatcher();
 			$progress = new ProgressBar($output);
@@ -228,12 +204,11 @@ class Upgrade extends Command {
 				$output->writeln('<info>Maintenance mode is kept active</info>');
 			});
 			$updater->listen('\OC\Updater', 'updateEnd',
-				function ($success) use($output, $updateStepEnabled, $self) {
-					$mode = $updateStepEnabled ? 'Update' : 'Update simulation';
+				function ($success) use($output, $self) {
 					if ($success) {
-						$message = "<info>$mode successful</info>";
+						$message = "<info>Update successful</info>";
 					} else {
-						$message = "<error>$mode failed</error>";
+						$message = "<error>Update failed</error>";
 					}
 					$output->writeln($message);
 				});
