@@ -71,21 +71,21 @@ class OC_Theme {
 	}
 
 	public function getShortFooter() {
-		$footer = '© 2015 <a href="'.$this->getBaseUrl().'" target="_blank\">'.$this->getEntity().'</a>'.
+		$footer = '© 2016 <a href="'.$this->getBaseUrl().'" target="_blank\">'.$this->getEntity().'</a>'.
 			'<br/>' . $this->getSlogan();
 
 		return $footer;
 	}
 
 	public function getLongFooter() {
-		$footer = '© 2015 <a href="'.$this->getBaseUrl().'" target="_blank\">'.$this->getEntity().'</a>'.
+		$footer = '© 2016 <a href="'.$this->getBaseUrl().'" target="_blank\">'.$this->getEntity().'</a>'.
 			'<br/>' . $this->getSlogan();
 
 		return $footer;
 	}
 
 	public function buildDocLinkToKey($key) {
-		return $this->getDocBaseUrl() . '/server/8.0/go.php?to=' . $key;
+		return $this->getDocBaseUrl() . '/server/8.1/go.php?to=' . $key;
 	}
 
 	public function getMailHeaderColor() {
