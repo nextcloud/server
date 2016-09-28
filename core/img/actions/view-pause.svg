@@ -1,14 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="32" width="32" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
- <defs>
-  <filter id="a" style="color-interpolation-filters:sRGB" height="1.6" width="1.6" y="-.3" x="-.3">
-   <feGaussianBlur stdDeviation="2.5"/>
-  </filter>
- </defs>
- <g filter="url(#a)" stroke="#000" stroke-width="2.2222" transform="matrix(.9 0 0 .9 1.6 -916.76)">
-  <path stroke="#000" stroke-width="2.2222" d="m6 1026.4v20h8v-20h-8zm12 0v20h8v-20h-8z"/>
- </g>
- <g transform="matrix(.9 0 0 .9 1.6 -916.76)">
-  <path d="m6 1026.4v20h8v-20h-8zm12 0v20h8v-20h-8z" fill="#fff"/>
- </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" height="32" width="32"><defs><filter id="a" height="1.6" width="1.6" y="-.3" x="-.3" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="2.5"/></filter></defs><path d="M6 1026.4v20h8v-20H6zm12 0v20h8v-20h-8z" filter="url(#a)" stroke="#000" stroke-width="2.222" transform="matrix(.9 0 0 .9 1.6 -916.76)"/><path d="M7 7v18h7.2V7H7zm10.8 0v18H25V7h-7.2z" fill="#fff"/></svg>

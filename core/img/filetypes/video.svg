@@ -1,4 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="16" width="16" version="1.0" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
- <path style="color:#000000;block-progression:tb;text-transform:none;text-indent:0" d="m1.3438 2c-0.1975 0.0382-0.34736 0.2334-0.3438 0.4375v11.125c0 0.229 0.212 0.438 0.4375 0.438h13.125c0.22555-0.000006 0.4375-0.20846 0.4375-0.4375v-10.953c0-0.3362-0.265-0.611-0.516-0.609zm0.6562 1h12v10h-12zm3 2v6l6-3z" fill="#969696"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" version="1"><path style="block-progression:tb;text-transform:none;text-indent:0" d="M1.344 2A.445.445 0 0 0 1 2.438v11.124c0 .23.212.44.438.44h13.124a.457.457 0 0 0 .438-.44V2.61c0-.336-.265-.61-.516-.61zM2 3h12v10H2zm3 2v6l6-3z" fill="#969696" color="#000"/></svg>
