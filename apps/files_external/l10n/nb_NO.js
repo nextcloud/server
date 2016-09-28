@@ -103,6 +103,8 @@ OC.L10N.register(
     "Service name" : "Tjenestenavn",
     "Request timeout (seconds)" : "Tidsavbrudd for forespørsel (sekunder)",
     "External storages" : "Ekstern lagring",
+    "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Merk:</b> Støtte for cURL i PHP er ikke aktivert eller installert. Oppkobling av %s er ikke mulig. Be systemadministratoren om å installere det.",
+    "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Merk:</b> FTP-støtte i PHP er ikke slått på eller installert. Kan ikke koble opp %s. Ta kontakt med systemadministratoren for å få dette installert.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" er ikke installert. Oppkobling av %s er ikke mulig. Vennligst spør din systemadministrator om å installere det.",
     "No external storage configured" : "Eksternt lager er ikke konfigurert",
     "You can add external storages in the personal settings" : "Du kan legge til eksterne lagre i personlige innstillinger",

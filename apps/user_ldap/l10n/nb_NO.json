@@ -45,6 +45,7 @@
     "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "Plassholder %uid mangler. Den erstattes av påloggingsnavnet ved spørring mot LDAP / AD.",
     "Please provide a login name to test against" : "Vennligst oppgi et påloggingsnavn å teste mot",
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Gruppeboksen ble deaktivert fordi LDAP- / AD-tjeneren ikke støtter memberOf.",
+    "LDAP / AD integration" : "LDAP / AD integrasjon",
     "_%s group found_::_%s groups found_" : ["%s gruppe funnet","%s grupper funnet"],
     "_%s user found_::_%s users found_" : ["%s bruker funnet","%s brukere funnet"],
     "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Kunne ikke påvise attributt for brukers visningsnavn. Du må selv spesifisere det i avanserte LDAP-innstillinger.",

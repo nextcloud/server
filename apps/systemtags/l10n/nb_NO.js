@@ -36,6 +36,7 @@ OC.L10N.register(
     "No files in here" : "Ingen filer her",
     "No entries found in this folder" : "Ingen oppføringer funnet i denne mappen",
     "Size" : "Størrelse",
-    "Modified" : "Endret"
+    "Modified" : "Endret",
+    "%s (not-assignable)" : "%s (ikke overdragbar)"
 },
 "nplurals=2; plural=(n != 1);");
