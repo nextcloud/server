@@ -24,6 +24,8 @@
 namespace OC\Core\Controller;
 
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC_User;
+use OC_Util;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -67,7 +69,7 @@ class TwoFactorChallengeController extends Controller {
 	 * @return string
 	 */
 	protected function getLogoutAttribute() {
-		return \OC_User::getLogoutAttribute();
+		return OC_User::getLogoutAttribute();
 	}
 
 	/**
@@ -143,7 +145,7 @@ class TwoFactorChallengeController extends Controller {
 			if (!is_null($redirect_url)) {
 				return new RedirectResponse($this->urlGenerator->getAbsoluteURL(urldecode($redirect_url)));
 			}
-			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index'));
+			return new RedirectResponse(OC_Util::getDefaultPageUrl());
 		}
 
 		$this->session->set('two_factor_auth_error', true);
