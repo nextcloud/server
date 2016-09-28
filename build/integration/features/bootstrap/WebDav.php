@@ -40,14 +40,6 @@ trait WebDav {
 		$this->usingOldDavPath = false;
 	}
 
-	/*public function getDavFilesPath($user){
-		if ($this->usingOldDavPath === true){
-			return $this->davPath . '/';
-		} else {
-			return $this->davPath . '/files/' . $user . '/';
-		}
-	}*/
-
 	public function getDavFilesPath($user){
 		if ($this->usingOldDavPath === true){
 			return $this->davPath;
@@ -56,19 +48,8 @@ trait WebDav {
 		}
 	}
 
-	public function getFilesPath($user){
-		$basePath = '';
-		if ($this->davPath === "remote.php/dav"){
-			$basePath = '/files/' . $this->currentUser . '/';
-		} else {
-			$basePath = '/';
-		}
-		return $basePath;
-	}
-
 	public function makeDavRequest($user, $method, $path, $headers, $body = null, $type = "files"){
 		if ( $type === "files" ){
-			echo "user: " . $user . " method: " . $method . " path: " . $path . " type: " . $type;
 			$fullUrl = substr($this->baseUrl, 0, -4) . $this->getDavFilesPath($user) . "$path";
 		} else if ( $type === "uploads" ){
 			$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath . "$path";
