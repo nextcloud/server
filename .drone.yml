@@ -301,10 +301,21 @@ pipeline:
     when:
       matrix:
         TESTS: integration-sharees-features
+  codecov:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - TEST_SELECTION=NODB ./autotest.sh sqlite
+      - wget https://codecov.io/bash -O codecov.sh
+      - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
+      - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
+    when:
+      matrix:
+        TESTS: codecov
 
 matrix:
   include:
     - TESTS: signed-off-check
+    - TESTS: codecov
     - TESTS: integration-capabilities_features
     - TESTS: integration-federation_features
     - TESTS: integration-auth
@@ -369,4 +380,3 @@ services:
     when:
       matrix:
         DB: mysql
-
