@@ -435,8 +435,10 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 			return true;
 		}
 		$annotations = $this->getAnnotations();
-		if (isset($annotations['class']['group']) && in_array('DB', $annotations['class']['group'])) {
-			return true;
+		if (isset($annotations['class']['group'])) {
+			if(in_array('DB', $annotations['class']['group']) || in_array('SLOWDB', $annotations['class']['group']) ) {
+				return true;
+			}
 		}
 
 		return false;

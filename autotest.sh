@@ -293,11 +293,14 @@ function execute_tests {
 		export XDEBUG_CONFIG=$_XDEBUG_CONFIG
 	fi
 	GROUP=''
+	if [ "$TEST_SELECTION" == "QUICKDB" ]; then
+		GROUP='--group DB --exclude-group=SLOWDB'
+	fi
 	if [ "$TEST_SELECTION" == "DB" ]; then
-		GROUP='--group DB'
+		GROUP='--group DB,SLOWDB'
 	fi
 	if [ "$TEST_SELECTION" == "NODB" ]; then
-		GROUP='--exclude-group DB'
+		GROUP='--exclude-group DB,SLOWDB'
 	fi
 
 	COVER=''

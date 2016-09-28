@@ -28,7 +28,7 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 
 /**
- * @group DB
+ * @group SLOWDB
  *
  * @package OCA\Files_Sharing\Tests
  */
