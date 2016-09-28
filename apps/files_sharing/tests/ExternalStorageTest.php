@@ -25,6 +25,9 @@
  */
 
 namespace OCA\Files_Sharing\Tests;
+use OCP\Http\Client\IClient;
+use OCP\Http\Client\IClientService;
+use OCP\Http\Client\IResponse;
 
 /**
  * Tests for the external Storage class for remote shares.
@@ -69,6 +72,22 @@ class ExternalStorageTest extends \Test\TestCase {
 
 	private function getTestStorage($uri) {
 		$certificateManager = \OC::$server->getCertificateManager();
+		$httpClientService = $this->createMock(IClientService::class);
+		$client = $this->createMock(IClient::class);
+		$response = $this->createMock(IResponse::class);
+		$client
+			->expects($this->any())
+			->method('get')
+			->willReturn($response);
+		$client
+			->expects($this->any())
+			->method('post')
+			->willReturn($response);
+		$httpClientService
+			->expects($this->any())
+			->method('newClient')
+			->willReturn($client);
+
 		return new TestSharingExternalStorage(
 			array(
 				'remote' => $uri,
@@ -77,7 +96,8 @@ class ExternalStorageTest extends \Test\TestCase {
 				'token' => 'abcdef',
 				'password' => '',
 				'manager' => null,
-				'certificateManager' => $certificateManager
+				'certificateManager' => $certificateManager,
+				'HttpClientService' => $httpClientService,
 			)
 		);
 	}
