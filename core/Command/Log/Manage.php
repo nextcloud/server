@@ -24,15 +24,15 @@
 
 namespace OC\Core\Command\Log;
 
-use \OCP\IConfig;
-
+use OCP\IConfig;
+use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Manage extends Command {
+class Manage extends Command implements CompletionAwareInterface {
 
 	const DEFAULT_BACKEND = 'file';
 	const DEFAULT_LOG_LEVEL = 2;
@@ -171,5 +171,30 @@ class Manage extends Command {
 			return 'Error';
 		}
 		throw new \InvalidArgumentException('Invalid log level number');
+	}
+
+	/**
+	 * @param string $optionName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeOptionValues($optionName, CompletionContext $context) {
+		if ($optionName === 'backend') {
+			return ['file', 'syslog', 'errorlog'];
+		} else if ($optionName === 'level') {
+			return ['debug', 'info', 'warning', 'error'];
+		} else if ($optionName === 'timezone') {
+			return \DateTimeZone::listIdentifiers();
+		}
+		return [];
+	}
+
+	/**
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		return [];
 	}
 }

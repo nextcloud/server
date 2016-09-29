@@ -23,12 +23,16 @@
 namespace OC\Core\Command\Config;
 
 use OCP\IConfig;
+use Stecman\Component\Symfony\Console\BashCompletion\Completion;
+use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
+use Stecman\Component\Symfony\Console\BashCompletion\Completion\ShellPathCompletion;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Import extends Command {
+class Import extends Command implements CompletionAwareInterface  {
 	protected $validRootKeys = ['system', 'apps'];
 
 	/** @var IConfig */
@@ -192,5 +196,31 @@ class Import extends Command {
 				}
 			}
 		}
+	}
+
+	/**
+	 * @param string $optionName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeOptionValues($optionName, CompletionContext $context) {
+		return [];
+	}
+
+	/**
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		if ($argumentName === 'file') {
+			$helper = new ShellPathCompletion(
+				$this->getName(),
+				'file',
+				Completion::TYPE_ARGUMENT
+			);
+			return $helper->run();
+		}
+		return [];
 	}
 }

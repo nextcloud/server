@@ -23,6 +23,7 @@
 namespace OC\Core\Command\App;
 
 use OC\Core\Command\Base;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -59,5 +60,17 @@ class GetPath extends Base {
 
 		// App not found, exit with non-zero
 		return 1;
+	}
+
+	/**
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		if ($argumentName === 'app') {
+			return \OC_App::getAllApps();
+		}
+		return [];
 	}
 }

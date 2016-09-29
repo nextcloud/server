@@ -29,13 +29,15 @@ use OC\App\CodeChecker\CodeChecker;
 use OC\App\CodeChecker\EmptyCheck;
 use OC\App\CodeChecker\InfoChecker;
 use OC\App\InfoParser;
+use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CheckCode extends Command {
+class CheckCode extends Command implements CompletionAwareInterface  {
 
 	/** @var InfoParser */
 	private $infoParser;
@@ -196,5 +198,29 @@ class CheckCode extends Command {
 		if (file_exists($updatePhp)) {
 			$output->writeln("<info>Deprecated file found: $updatePhp - please use repair steps</info>");
 		}
+	}
+
+	/**
+	 * @param string $optionName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeOptionValues($optionName, CompletionContext $context) {
+		if ($optionName === 'checker') {
+			return ['private', 'deprecation', 'strong-comparison'];
+		}
+		return [];
+	}
+
+	/**
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		if ($argumentName === 'app-id') {
+			return \OC_App::getAllApps();
+		}
+		return [];
 	}
 }

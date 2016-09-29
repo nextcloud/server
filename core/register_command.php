@@ -33,6 +33,7 @@
  */
 
 /** @var $application Symfony\Component\Console\Application */
+$application->add(new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand());
 $application->add(new OC\Core\Command\Status);
 $application->add(new OC\Core\Command\Check(\OC::$server->getConfig()));
 $infoParser = new \OC\App\InfoParser(\OC::$server->getURLGenerator());

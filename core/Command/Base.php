@@ -23,12 +23,14 @@
 
 namespace OC\Core\Command;
 
+use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Base extends Command {
+class Base extends Command implements CompletionAwareInterface {
 	const OUTPUT_FORMAT_PLAIN = 'plain';
 	const OUTPUT_FORMAT_JSON = 'json';
 	const OUTPUT_FORMAT_JSON_PRETTY = 'json_pretty';
@@ -157,5 +159,26 @@ class Base extends Command {
 		}
 
 		return parent::run($input, $output);
+	}
+
+	/**
+	 * @param string $optionName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeOptionValues($optionName, CompletionContext $context) {
+		if ($optionName === 'output') {
+			return ['plain', 'json', 'json_pretty'];
+		}
+		return [];
+	}
+
+	/**
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		return [];
 	}
 }

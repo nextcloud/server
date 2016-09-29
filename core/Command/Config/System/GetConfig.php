@@ -22,7 +22,6 @@
 
 namespace OC\Core\Command\Config\System;
 
-use OC\Core\Command\Base;
 use OC\SystemConfig;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

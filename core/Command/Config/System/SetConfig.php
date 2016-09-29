@@ -23,8 +23,8 @@
 
 namespace OC\Core\Command\Config\System;
 
-use OC\Core\Command\Base;
 use OC\SystemConfig;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -196,4 +196,15 @@ class SetConfig extends Base {
 		return $existingValues;
 	}
 
+	/**
+	 * @param string $optionName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeOptionValues($optionName, CompletionContext $context) {
+		if ($optionName === 'type') {
+			return ['string', 'integer', 'double', 'boolean'];
+		}
+		return parent::completeOptionValues($optionName, $context);
+	}
 }

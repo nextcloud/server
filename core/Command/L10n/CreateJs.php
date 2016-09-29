@@ -25,13 +25,15 @@ namespace OC\Core\Command\L10n;
 
 use DirectoryIterator;
 
+use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use UnexpectedValueException;
 
-class CreateJs extends Command {
+class CreateJs extends Command implements CompletionAwareInterface {
 
 	protected function configure() {
 		$this
@@ -134,5 +136,33 @@ class CreateJs extends Command {
 		require $phpFile;
 
 		return array($TRANSLATIONS, $PLURAL_FORMS);
+	}
+
+	/**
+	 * Return possible values for the named option
+	 *
+	 * @param string $optionName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeOptionValues($optionName, CompletionContext $context) {
+		return [];
+	}
+
+	/**
+	 * Return possible values for the named argument
+	 *
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		if ($argumentName === 'app') {
+			return \OC_App::getAllApps();
+		} else if ($argumentName === 'lang') {
+			$appName = $context->getWordAtIndex($context->getWordIndex() - 1);
+			return $this->getAllLanguages(\OC_App::getAppPath($appName));
+		}
+		return [];
 	}
 }
