@@ -12,7 +12,6 @@ OC.L10N.register(
     "Error occurred while retrieving comment with id {id}" : "Virhe noutaessa kommenttia tunnisteella {id}",
     "Error occurred while updating comment with id {id}" : "Virhe päivittäessä kommenttia tunnisteella {id}",
     "Error occurred while posting comment" : "Virhe kommenttia lähettäessä",
-    "{count} unread comments" : "{count} lukematonta kommenttia",
     "Comment" : "Kommentti",
     "You commented" : "Kommentoit",
     "%1$s commented" : "%1$s kommentoi",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s kommentoi kohdetta %2$s",
     "Type in a new comment..." : "Kirjoita uusi kommentti...",
     "No other comments available" : "Ei muita kommentteja saatavilla",
-    "More comments..." : "Lisää kommentteja..."
+    "More comments..." : "Lisää kommentteja...",
+    "{count} unread comments" : "{count} lukematonta kommenttia"
 },
 "nplurals=2; plural=(n != 1);");

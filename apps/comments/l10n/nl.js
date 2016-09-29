@@ -15,7 +15,6 @@ OC.L10N.register(
     "Error occurred while retrieving comment with id {id}" : "Er trad een fout op bij het ophalen van reactie met id {id}",
     "Error occurred while updating comment with id {id}" : "Er trad een fout op bij het bijwerken van reactie met id {id}",
     "Error occurred while posting comment" : "Er trad een fout op bij plaatsen reactie",
-    "{count} unread comments" : "{count} ongelezen reacties",
     "Comment" : "Reactie",
     "<strong>Comments</strong> for files" : "<strong>Reacties</strong> voor bestanden",
     "You commented" : "Je reageerde",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s heeft gereageerd op %2$s",
     "Type in a new comment..." : "Type een nieuwe reactie...",
     "No other comments available" : "Geen andere reacties beschikbaar",
-    "More comments..." : "Meer reacties..."
+    "More comments..." : "Meer reacties...",
+    "{count} unread comments" : "{count} ongelezen reacties"
 },
 "nplurals=2; plural=(n != 1);");

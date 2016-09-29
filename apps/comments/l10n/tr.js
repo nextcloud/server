@@ -15,7 +15,6 @@ OC.L10N.register(
     "Error occurred while retrieving comment with id {id}" : "{id} kodlu yorum alınırken bir sorun çıktı",
     "Error occurred while updating comment with id {id}" : "{id} kodlu yorum güncellenirken bir sorun çıktı",
     "Error occurred while posting comment" : "Yorum gönderilirken bir sorun çıktı",
-    "{count} unread comments" : "{count} okunmamış yorum",
     "Comment" : "Yorum",
     "<strong>Comments</strong> for files" : "Dosyalar için <strong>Yorumlar</strong>",
     "You commented" : "Yorum yaptınız",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s, %2$s için yorum yaptı",
     "Type in a new comment..." : "Yeni bir yorum yazın...",
     "No other comments available" : "Başka bir yorum yok",
-    "More comments..." : "Diğer yorumlar..."
+    "More comments..." : "Diğer yorumlar...",
+    "{count} unread comments" : "{count} okunmamış yorum"
 },
 "nplurals=2; plural=(n > 1);");

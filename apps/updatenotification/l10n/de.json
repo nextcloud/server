@@ -1,11 +1,13 @@
 { "translations": {
     "Update notifications" : "Update-Benachrichtigungen",
+    "Could not start updater, please try the manual update" : "Aktualisierungsfunktion konnte nicht gestartet werden, bitte versuche ein mauelles Update",
     "{version} is available. Get more information on how to update." : "{version} ist verfügbar. Weitere Informationen zur Aktualisierung.",
     "Channel updated" : "Kanal aktualisiert",
     "Nextcloud core" : "Nextcloud Kern",
     "Update for %1$s to version %2$s is available." : "Ein Update von %1$s auf Version %2$s ist verfügbar.",
     "A new version is available: %s" : "Eine neue Version ist verfügbar: %s",
     "Open updater" : "Updater öffnen",
+    "Download now" : "Jetzt herunterladen",
     "Your version is up to date." : "Deine Version ist aktuell.",
     "Checked on %s" : "Geprüft am %s",
     "Update channel:" : "Update-Kanal:",

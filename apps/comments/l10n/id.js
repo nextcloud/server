@@ -12,7 +12,6 @@ OC.L10N.register(
     "Error occurred while retrieving comment with id {id}" : "Terjadi kesalahan saat mendapatkan komentar dengan id {id}",
     "Error occurred while updating comment with id {id}" : "Terjadi kesalahan saat memperbarui komentar dengan id {id}",
     "Error occurred while posting comment" : "Terjadi kesalahan saat memosting komentar",
-    "{count} unread comments" : "{count} komentar belum dibaca",
     "Comment" : "Komentar",
     "You commented" : "Anda berkomentar",
     "%1$s commented" : "%1$s dikomentari",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s dikomentari pada %2$s",
     "Type in a new comment..." : "Ketik di komentar baru...",
     "No other comments available" : "Tidak ada komentar lainnya",
-    "More comments..." : "Komentar lainya..."
+    "More comments..." : "Komentar lainya...",
+    "{count} unread comments" : "{count} komentar belum dibaca"
 },
 "nplurals=1; plural=0;");

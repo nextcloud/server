@@ -10,7 +10,6 @@
     "Error occurred while retrieving comment with id {id}" : "コメントID {id} のコメントを取得する際にエラーが発生",
     "Error occurred while updating comment with id {id}" : "コメントID {id} のコメントをアップロードする際にエラーが発生",
     "Error occurred while posting comment" : "コメント投稿時にエラーが発生",
-    "{count} unread comments" : "未読コメント数 {count}",
     "Comment" : "コメント",
     "You commented" : "コメント済",
     "%1$s commented" : "%1$s がコメントを追加",
@@ -18,6 +17,7 @@
     "%1$s commented on %2$s" : "%2$s について、%1$s がコメントしました",
     "Type in a new comment..." : "新しいコメントを入力...",
     "No other comments available" : "コメントはありません",
-    "More comments..." : "コメントをさらに表示..."
+    "More comments..." : "コメントをさらに表示...",
+    "{count} unread comments" : "未読コメント数 {count}"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

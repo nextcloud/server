@@ -15,7 +15,6 @@ OC.L10N.register(
     "Error occurred while retrieving comment with id {id}" : "Ένα σφάλμα προέκυψε κατά την προσπάθεια λήψης σχολίων με αναγνωριστικό {id}",
     "Error occurred while updating comment with id {id}" : "Ένα σφάλμα προέκυψε κατά την προσπάθεια αναβάθμισης του σχολίου με το αναγνωριστικό {id}",
     "Error occurred while posting comment" : "Ένα σφάλμα προέκυψε κατά την προσπάθεια δημοσίευσης σχολίου",
-    "{count} unread comments" : "{count} μη αναγνωσμένα σχόλια",
     "Comment" : "Σχόλιο",
     "<strong>Comments</strong> for files" : "<strong>Σχόλια</strong> για αρχεία",
     "You commented" : "Σχολιάσατε",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s σχολίασε στο %2$s",
     "Type in a new comment..." : "Αυτό είναι ένα νέο σχόλιο...",
     "No other comments available" : "Δεν υπάρχουν άλλα διαθέσιμα σχόλια",
-    "More comments..." : "Περισσότερα σχόλια..."
+    "More comments..." : "Περισσότερα σχόλια...",
+    "{count} unread comments" : "{count} μη αναγνωσμένα σχόλια"
 },
 "nplurals=2; plural=(n != 1);");

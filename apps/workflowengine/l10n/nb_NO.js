@@ -32,6 +32,7 @@ OC.L10N.register(
     "Request URL" : "Ønsk en URL",
     "Predefined URLs" : "Forhåndsdefinerte URLer",
     "Files WebDAV" : "Filer WebDAV",
+    "Request user agent" : "Ønsket brukeragent",
     "Sync clients" : "Synkroniseringsklienter",
     "Android client" : "Android klient",
     "iOS client" : "iOS klient",

@@ -10,7 +10,6 @@
     "Error occurred while retrieving comment with id {id}" : "שגיאה אירעה כאשר אוחזרה תגובה עם מספר זיהוי {id}",
     "Error occurred while updating comment with id {id}" : "שגיאה אירעה כאשר עודכנה תגובה עם מספר זיהוי {id}",
     "Error occurred while posting comment" : "אירעה שגיאה בזמן פרסום תגובה",
-    "{count} unread comments" : "{count} תגובות שלא נקראו",
     "Comment" : "תגובה",
     "You commented" : "הערות שלך",
     "%1$s commented" : "התקבלו תגובות %1$s",
@@ -18,6 +17,7 @@
     "%1$s commented on %2$s" : "התקבלו תגובות %1$s ב- %2$s ",
     "Type in a new comment..." : "יש להכניס תגובה חדשה...",
     "No other comments available" : "אין תגובות אחרות זמינות",
-    "More comments..." : "תגובות נוספות..."
+    "More comments..." : "תגובות נוספות...",
+    "{count} unread comments" : "{count} תגובות שלא נקראו"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
