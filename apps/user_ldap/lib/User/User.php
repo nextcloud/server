@@ -6,6 +6,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  *
  * @license AGPL-3.0
  *
@@ -110,6 +111,12 @@ class User {
 	public function __construct($username, $dn, IUserTools $access,
 		IConfig $config, FilesystemHelper $fs, Image $image,
 		LogWrapper $log, IAvatarManager $avatarManager, IUserManager $userManager) {
+
+		if ($username === null) {
+			throw new \InvalidArgumentException("uid for '$dn' must not be null!");
+		} else if ($username === '') {
+			throw new \InvalidArgumentException("uid for '$dn' must not be an empty string!");
+		}
 
 		$this->access        = $access;
 		$this->connection    = $access->getConnection();
