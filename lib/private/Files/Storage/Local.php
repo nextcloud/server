@@ -173,8 +173,15 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function filemtime($path) {
-		clearstatcache($this->getSourcePath($path));
-		return $this->file_exists($path) ? filemtime($this->getSourcePath($path)) : false;
+		$fullPath = $this->getSourcePath($path);
+		clearstatcache($fullPath);
+		if (!$this->file_exists($path)) {
+			return false;
+		}
+		if (PHP_INT_SIZE === 4) {
+			return (int) exec ('stat -c %Y '. escapeshellarg ($fullPath));
+		}
+		return filemtime($fullPath);
 	}
 
 	public function touch($path, $mtime = null) {
