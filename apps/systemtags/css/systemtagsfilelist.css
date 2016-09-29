@@ -27,3 +27,13 @@
 .nav-icon-systemtagsfilter {
 	background-image: url('../img/tag.svg');
 }
+
+#app-sidebar .mainFileInfoView .tag-label {
+	cursor: pointer;
+	padding: 13px;
+}
+
+#app-sidebar .mainFileInfoView .icon-tag {
+	opacity: .5;
+	vertical-align: middle;
+}
