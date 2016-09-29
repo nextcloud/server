@@ -27,14 +27,14 @@ use OC\AppFramework\Http;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
-use OC\User\Manager as UserManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
+use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 
 class TokenController extends Controller {
-	/** @var UserManager */
+	/** @var IUserManager */
 	private $userManager;
 	/** @var IProvider */
 	private $tokenProvider;
@@ -46,14 +46,14 @@ class TokenController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
-	 * @param UserManager $userManager
+	 * @param IUserManager $userManager
 	 * @param IProvider $tokenProvider
 	 * @param TwoFactorAuthManager $twoFactorAuthManager
 	 * @param ISecureRandom $secureRandom
 	 */
 	public function __construct($appName,
 								IRequest $request,
-								UserManager $userManager,
+								IUserManager $userManager,
 								IProvider $tokenProvider,
 								TwoFactorAuthManager $twoFactorAuthManager,
 								ISecureRandom $secureRandom) {

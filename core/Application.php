@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christoph Wurst <christoph@owncloud.com>
@@ -29,13 +30,8 @@
 
 namespace OC\Core;
 
-use OC\AppFramework\Utility\SimpleContainer;
-use OC\AppFramework\Utility\TimeFactory;
-use OC\Core\Controller\LoginController;
-use OC\Core\Controller\LostController;
-use OC\Core\Controller\TokenController;
-use OC\Core\Controller\TwoFactorChallengeController;
-use OC\Core\Controller\UserController;
+use OC\Authentication\Token\DefaultTokenProvider;
+use OC\Authentication\Token\IProvider;
 use OCP\AppFramework\App;
 use OCP\Util;
 
@@ -46,108 +42,13 @@ use OCP\Util;
  */
 class Application extends App {
 
-	/**
-	 * @param array $urlParams
-	 */
-	public function __construct(array $urlParams=array()){
-		parent::__construct('core', $urlParams);
+	public function __construct() {
+		parent::__construct('core');
 
 		$container = $this->getContainer();
-
-		/**
-		 * Controllers
-		 */
-		$container->registerService('LostController', function(SimpleContainer $c) {
-			return new LostController(
-				$c->query('AppName'),
-				$c->query('Request'),
-				$c->query('URLGenerator'),
-				$c->query('UserManager'),
-				$c->query('Defaults'),
-				$c->query('L10N'),
-				$c->query('Config'),
-				$c->query('SecureRandom'),
-				$c->query('DefaultEmailAddress'),
-				$c->query('IsEncryptionEnabled'),
-				$c->query('Mailer'),
-				$c->query('TimeFactory')
-			);
-		});
-		$container->registerService('LoginController', function(SimpleContainer $c) {
-			return new LoginController(
-				$c->query('AppName'),
-				$c->query('Request'),
-				$c->query('UserManager'),
-				$c->query('Config'),
-				$c->query('Session'),
-				$c->query('UserSession'),
-				$c->query('URLGenerator'),
-				$c->query('TwoFactorAuthManager'),
-				$c->query('ServerContainer')->getBruteforceThrottler()
-			);
-		});
-		$container->registerService('TwoFactorChallengeController', function (SimpleContainer $c) {
-			return new TwoFactorChallengeController(
-				$c->query('AppName'),
-				$c->query('Request'),
-				$c->query('TwoFactorAuthManager'),
-				$c->query('UserSession'),
-				$c->query('Session'),
-				$c->query('URLGenerator'));
-		});
-		$container->registerService('TokenController', function(SimpleContainer $c) {
-			return new TokenController(
-				$c->query('AppName'),
-				$c->query('Request'),
-				$c->query('UserManager'),
-				$c->query('ServerContainer')->query('OC\Authentication\Token\IProvider'),
-				$c->query('TwoFactorAuthManager'),
-				$c->query('SecureRandom')
-			);
-		});
-
-		/**
-		 * Core class wrappers
-		 */
-		$container->registerService('IsEncryptionEnabled', function(SimpleContainer $c) {
-			return $c->query('ServerContainer')->getEncryptionManager()->isEnabled();
-		});
-		$container->registerService('URLGenerator', function(SimpleContainer $c) {
-			return $c->query('ServerContainer')->getURLGenerator();
-		});
-		$container->registerService('UserManager', function(SimpleContainer $c) {
-			return $c->query('ServerContainer')->getUserManager();
-		});
-		$container->registerService('Config', function(SimpleContainer $c) {
-			return $c->query('ServerContainer')->getConfig();
-		});
-		$container->registerService('L10N', function(SimpleContainer $c) {
-			return $c->query('ServerContainer')->getL10N('core');
-		});
-		$container->registerService('SecureRandom', function(SimpleContainer $c) {
-			return $c->query('ServerContainer')->getSecureRandom();
-		});
-		$container->registerService('Session', function(SimpleContainer $c) {
-			return $c->query('ServerContainer')->getSession();
-		});
-		$container->registerService('UserSession', function(SimpleContainer $c) {
-			return $c->query('ServerContainer')->getUserSession();
-		});
-		$container->registerService('Defaults', function(SimpleContainer $c) {
-			return $c->query('ServerContainer')->getThemingDefaults();
-		});
-		$container->registerService('Mailer', function(SimpleContainer $c) {
-			return $c->query('ServerContainer')->getMailer();
-		});
-		$container->registerService('TimeFactory', function(SimpleContainer $c) {
-			return new TimeFactory();
-		});
-		$container->registerService('DefaultEmailAddress', function() {
+		$container->registerService('defaultMailAddress', function() {
 			return Util::getDefaultEmailAddress('lostpassword-noreply');
 		});
-		$container->registerService('TwoFactorAuthManager', function(SimpleContainer $c) {
-			return $c->query('ServerContainer')->getTwoFactorAuthManager();
-		});
+		$container->registerAlias(IProvider::class, DefaultTokenProvider::class);
 	}
-
 }

@@ -33,6 +33,7 @@ namespace OC\Core\Controller;
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Encryption\IManager;
 use \OCP\IURLGenerator;
 use \OCP\IRequest;
 use \OCP\IL10N;
@@ -60,8 +61,8 @@ class LostController extends Controller {
 	protected $l10n;
 	/** @var string */
 	protected $from;
-	/** @var bool */
-	protected $isDataEncrypted;
+	/** @var IManager */
+	protected $encryptionManager;
 	/** @var IConfig */
 	protected $config;
 	/** @var ISecureRandom */
@@ -80,8 +81,8 @@ class LostController extends Controller {
 	 * @param IL10N $l10n
 	 * @param IConfig $config
 	 * @param ISecureRandom $secureRandom
-	 * @param string $from
-	 * @param string $isDataEncrypted
+	 * @param string $defaultMailAddress
+	 * @param IManager $encryptionManager
 	 * @param IMailer $mailer
 	 * @param ITimeFactory $timeFactory
 	 */
@@ -93,8 +94,8 @@ class LostController extends Controller {
 								IL10N $l10n,
 								IConfig $config,
 								ISecureRandom $secureRandom,
-								$from,
-								$isDataEncrypted,
+								$defaultMailAddress,
+								IManager $encryptionManager,
 								IMailer $mailer,
 								ITimeFactory $timeFactory) {
 		parent::__construct($appName, $request);
@@ -103,8 +104,8 @@ class LostController extends Controller {
 		$this->defaults = $defaults;
 		$this->l10n = $l10n;
 		$this->secureRandom = $secureRandom;
-		$this->from = $from;
-		$this->isDataEncrypted = $isDataEncrypted;
+		$this->from = $defaultMailAddress;
+		$this->encryptionManager = $encryptionManager;
 		$this->config = $config;
 		$this->mailer = $mailer;
 		$this->timeFactory = $timeFactory;
@@ -207,7 +208,7 @@ class LostController extends Controller {
 	 * @return array
 	 */
 	public function setPassword($token, $userId, $password, $proceed) {
-		if ($this->isDataEncrypted && !$proceed) {
+		if ($this->encryptionManager->isEnabled() && !$proceed) {
 			return $this->error('', array('encryption' => true));
 		}
 
