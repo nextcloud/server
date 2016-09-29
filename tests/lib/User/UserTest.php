@@ -11,6 +11,10 @@ namespace Test\User;
 
 use OC\Hooks\PublicEmitter;
 use OC\User\Database;
+use OCP\Comments\ICommentsManager;
+use OCP\IConfig;
+use OCP\Notification\IManager as INotificationManager;
+use OCP\Notification\INotification;
 
 /**
  * Class UserTest
@@ -175,9 +179,7 @@ class UserTest extends \Test\TestCase {
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnCallback(function ($actions) {
-					return false;
-			}));
+			->willReturn(false);
 
 		$user = new \OC\User\User('foo', $backend);
 		$this->assertTrue($user->canChangeAvatar());
@@ -380,9 +382,7 @@ class UserTest extends \Test\TestCase {
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnCallback(function ($actions) {
-					return false;
-			}));
+			->willReturn(false);
 
 		$backend->expects($this->never())
 			->method('setDisplayName');
@@ -433,7 +433,18 @@ class UserTest extends \Test\TestCase {
 		$this->assertEquals(2, $hooksCalled);
 	}
 
-	public function testDeleteHooks() {
+	public function dataDeleteHooks() {
+		return [
+			[true],
+			[false],
+		];
+	}
+
+	/**
+	 * @dataProvider dataDeleteHooks
+	 * @param bool $result
+	 */
+	public function testDeleteHooks($result) {
 		$hooksCalled = 0;
 		$test = $this;
 
@@ -442,7 +453,10 @@ class UserTest extends \Test\TestCase {
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
-			->method('deleteUser');
+			->method('deleteUser')
+			->willReturn($result);
+		$emitter = new PublicEmitter();
+		$user = new \OC\User\User('foo', $backend, $emitter);
 
 		/**
 		 * @param \OC\User\User $user
@@ -452,12 +466,61 @@ class UserTest extends \Test\TestCase {
 			$test->assertEquals('foo', $user->getUID());
 		};
 
-		$emitter = new PublicEmitter();
 		$emitter->listen('\OC\User', 'preDelete', $hook);
 		$emitter->listen('\OC\User', 'postDelete', $hook);
 
-		$user = new \OC\User\User('foo', $backend, $emitter);
-		$this->assertTrue($user->delete());
+		$config = $this->createMock(IConfig::class);
+		$commentsManager = $this->createMock(ICommentsManager::class);
+		$notificationManager = $this->createMock(INotificationManager::class);
+
+		if ($result) {
+			$config->expects($this->once())
+				->method('deleteAllUserValues')
+				->with('foo');
+
+			$commentsManager->expects($this->once())
+				->method('deleteReferencesOfActor')
+				->with('users', 'foo');
+			$commentsManager->expects($this->once())
+				->method('deleteReadMarksFromUser')
+				->with($user);
+
+			$notification = $this->createMock(INotification::class);
+			$notification->expects($this->once())
+				->method('setUser')
+				->with('foo');
+
+			$notificationManager->expects($this->once())
+				->method('createNotification')
+				->willReturn($notification);
+			$notificationManager->expects($this->once())
+				->method('markProcessed')
+				->with($notification);
+		} else {
+			$config->expects($this->never())
+				->method('deleteAllUserValues');
+
+			$commentsManager->expects($this->never())
+				->method('deleteReferencesOfActor');
+			$commentsManager->expects($this->never())
+				->method('deleteReadMarksFromUser');
+
+			$notificationManager->expects($this->never())
+				->method('createNotification');
+			$notificationManager->expects($this->never())
+				->method('markProcessed');
+		}
+
+		$this->overwriteService('NotificationManager', $notificationManager);
+		$this->overwriteService('CommentsManager', $commentsManager);
+		$this->overwriteService('AllConfig', $config);
+
+		$this->assertSame($result, $user->delete());
+
+		$this->restoreService('AllConfig');
+		$this->restoreService('CommentsManager');
+		$this->restoreService('NotificationManager');
+
 		$this->assertEquals(2, $hooksCalled);
 	}
 
