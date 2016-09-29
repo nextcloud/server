@@ -15,7 +15,6 @@ OC.L10N.register(
     "Error occurred while retrieving comment with id {id}" : "Es ist ein Fehler beim Empfangen des Kommentars mit der ID {id} aufgetreten",
     "Error occurred while updating comment with id {id}" : "Es ist ein Fehler beim Aktualisieren des Kommentars mit der ID {id} aufgetreten",
     "Error occurred while posting comment" : "Es ist ein Fehler beim Veröffentlichen des Kommentars aufgetreten",
-    "{count} unread comments" : "[count] ungelesene Kommentare",
     "Comment" : "Kommentar",
     "<strong>Comments</strong> for files" : "<strong>Kommentare</strong> für Dateien",
     "You commented" : "Sie haben kommentiert",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s kommentierte %2$s",
     "Type in a new comment..." : "Neuen Kommentar eingeben...",
     "No other comments available" : "Keine weiteren Kommentare verfügbar",
-    "More comments..." : "Weitere Kommentare..."
+    "More comments..." : "Weitere Kommentare...",
+    "{count} unread comments" : "[count] ungelesene Kommentare"
 },
 "nplurals=2; plural=(n != 1);");

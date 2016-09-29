@@ -15,7 +15,6 @@ OC.L10N.register(
     "Error occurred while retrieving comment with id {id}" : "Hiba a következő azonosítójú hozzászólás letöltése közben: {id}",
     "Error occurred while updating comment with id {id}" : "Hiba a következő azonosítójú hozzászólás frissítése közben: {id}",
     "Error occurred while posting comment" : "Hiba történt a hozzászólás küldése közben",
-    "{count} unread comments" : "{count} olvasatlan hozzászólás",
     "Comment" : "Hozzászólás",
     "<strong>Comments</strong> for files" : "<strong>Hozzászólások</strong> fájlokhoz",
     "You commented" : "Hozzászóltál",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s hozzászólt ehhez: %2$s",
     "Type in a new comment..." : "Új hozzászólás írása...",
     "No other comments available" : "Nincs több hozzászólás.",
-    "More comments..." : "Több hozzászólás..."
+    "More comments..." : "Több hozzászólás...",
+    "{count} unread comments" : "{count} olvasatlan hozzászólás"
 },
 "nplurals=2; plural=(n != 1);");
