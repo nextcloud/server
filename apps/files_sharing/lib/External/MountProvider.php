@@ -56,6 +56,7 @@ class MountProvider implements IMountProvider {
 		$mountPoint = '/' . $user->getUID() . '/files/' . ltrim($data['mountpoint'], '/');
 		$data['mountpoint'] = $mountPoint;
 		$data['certificateManager'] = \OC::$server->getCertificateManager($user->getUID());
+		$data['HttpClientService'] = \OC::$server->getHTTPClientService();
 		return new Mount(self::STORAGE, $mountPoint, $data, $manager, $storageFactory);
 	}
 
