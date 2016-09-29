@@ -41,6 +41,7 @@ try {
 	$values=array(
 		'installed'=>$installed,
 		'maintenance' => $maintenance,
+		'needsDbUpgrade' => \OCP\Util::needUpgrade(),
 		'version'=>implode('.', \OCP\Util::getVersion()),
 		'versionstring'=>OC_Util::getVersionString(),
 		'edition'=> '',
