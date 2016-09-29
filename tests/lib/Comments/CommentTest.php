@@ -12,6 +12,7 @@ class CommentTest extends TestCase {
 
 		$id = 'comment23';
 		$parentId = 'comment11.5';
+		$topMostParentId = 'comment11.0';
 		$childrenCount = 6;
 		$message = 'I like to comment comment';
 		$verb = 'comment';
@@ -23,6 +24,7 @@ class CommentTest extends TestCase {
 		$comment
 			->setId($id)
 			->setParentId($parentId)
+			->setTopmostParentId($topMostParentId)
 			->setChildrenCount($childrenCount)
 			->setMessage($message)
 			->setVerb($verb)
@@ -33,6 +35,7 @@ class CommentTest extends TestCase {
 
 		$this->assertSame($id, $comment->getId());
 		$this->assertSame($parentId, $comment->getParentId());
+		$this->assertSame($topMostParentId, $comment->getTopmostParentId());
 		$this->assertSame($childrenCount, $comment->getChildrenCount());
 		$this->assertSame($message, $comment->getMessage());
 		$this->assertSame($verb, $comment->getVerb());
@@ -65,6 +68,7 @@ class CommentTest extends TestCase {
 	public function simpleSetterProvider() {
 		return [
 			['Id', true],
+			['TopmostParentId', true],
 			['ParentId', true],
 			['Message', true],
 			['Verb', true],
