@@ -218,10 +218,10 @@ class User implements IUser {
 			$notification = \OC::$server->getNotificationManager()->createNotification();
 			$notification->setUser($this->uid);
 			\OC::$server->getNotificationManager()->markProcessed($notification);
-		}
 
-		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'postDelete', array($this));
+			if ($this->emitter) {
+				$this->emitter->emit('\OC\User', 'postDelete', array($this));
+			}
 		}
 		return !($result === false);
 	}
