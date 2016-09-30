@@ -91,6 +91,8 @@ class AvatarManager implements IAvatarManager {
 		if (is_null($user)) {
 			throw new \Exception('user does not exist');
 		}
+		// sanitize userID - fixes casing issue (needed for the filesystem stuff that is done below)
+		$userId = $user->getUID();
 
 		/*
 		 * Fix for #22119
