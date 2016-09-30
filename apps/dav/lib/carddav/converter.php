@@ -54,6 +54,7 @@ class Converter {
 			$vCard->add(new Text($vCard, 'CLOUD', $cloudId));
 		}
 		if ($image) {
+			unset($vCard->PHOTO);
 			$vCard->add('PHOTO', $image->data(), ['ENCODING' => 'b', 'TYPE' => $image->mimeType()]);
 		}
 		$vCard->validate();
