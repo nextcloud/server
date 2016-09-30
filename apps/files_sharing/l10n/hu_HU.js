@@ -14,6 +14,7 @@ OC.L10N.register(
     "No compatible server found at {remote}" : "Itt nem található kompatibilis szerver: {remote}",
     "Invalid server URL" : "Érvénytelen szerver URL",
     "Failed to add the public link to your Nextcloud" : "Nem sikerült hozzáadni a nyilvános hivatkozást a Nexcloudodhoz",
+    "Share" : "Megosztás",
     "No expiration date set" : "Nem lett beállítva lejárati dátum",
     "Shared by" : "Megosztotta:",
     "Sharing" : "Megosztás",

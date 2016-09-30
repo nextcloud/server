@@ -14,6 +14,7 @@ OC.L10N.register(
     "No compatible server found at {remote}" : "Ingen kompatibel tjener ble funnet på {remote}",
     "Invalid server URL" : "Ugyldig tjener adresse",
     "Failed to add the public link to your Nextcloud" : "Feil oppstod under oppretting av offentlig lenke til din Nextcloud",
+    "Share" : "Del",
     "No expiration date set" : "Ingen utløpsdato er satt",
     "Shared by" : "Delt av",
     "Sharing" : "Deling",

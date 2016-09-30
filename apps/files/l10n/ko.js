@@ -35,6 +35,7 @@ OC.L10N.register(
     "Uploading..." : "업로드 중...",
     "..." : "...",
     "{hours}:{minutes}:{seconds} hour{plural_s} left" : "{hours}:{minutes}:{seconds} 시간 {plural_s} 남음",
+    "{seconds}s" : "{seconds}초",
     "Soon..." : "곧...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "파일 업로드가 진행 중입니다. 이 페이지를 벗어나면 업로드가 취소됩니다.",
     "Actions" : "작업",

@@ -317,7 +317,7 @@
     "Enter the recovery password in order to recover the users files during password change" : "Adja meg az adatok visszanyeréséhez szükséges jelszót arra az esetre, ha a felhasználók megváltoztatják a jelszavukat",
     "Group" : "Csoport",
     "Everyone" : "Mindenki",
-    "Admins" : "Adminok",
+    "Admins" : "Adminisztrátorok",
     "Default quota" : "Alapértelmezett kvóta",
     "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")" : "Kérjük adja meg a tárolási kvótát (pl.  \"512 MB\" vagy \"12 GB\")",
     "Other" : "Más",

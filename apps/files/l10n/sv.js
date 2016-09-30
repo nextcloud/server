@@ -21,6 +21,7 @@ OC.L10N.register(
     "Invalid directory." : "Felaktig mapp.",
     "Files" : "Filer",
     "All files" : "Alla filer",
+    "Recent" : "Nyligen",
     "File could not be found" : "Fil kunde inte hittas",
     "Home" : "Hem",
     "Close" : "Stäng",
@@ -73,6 +74,7 @@ OC.L10N.register(
     "_%n folder_::_%n folders_" : ["%n mapp","%n mappar"],
     "_%n file_::_%n files_" : ["%n fil","%n filer"],
     "{dirs} and {files}" : "{dirs} och {files}",
+    "_including %n hidden_::_including %n hidden_" : ["inkluderar %n gömd","inkluderar %n gömda"],
     "You don’t have permission to upload or create files here" : "Du har ej tillåtelse att ladda upp eller skapa filer här",
     "_Uploading %n file_::_Uploading %n files_" : ["Laddar upp %n fil","Laddar upp %n filer"],
     "New" : "Ny",
@@ -83,6 +85,7 @@ OC.L10N.register(
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Lagring av  {owner}  är nästan full  ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "Ditt lagringsutrymme är nästan fullt ({usedSpacePercent}%)",
     "_matches '{filter}'_::_match '{filter}'_" : ["matchar '{filter}'","matcha '{filter}'"],
+    "View in folder" : "Utforska i mapp",
     "Path" : "sökväg",
     "_%n byte_::_%n bytes_" : ["%n bytes","%n bytes"],
     "Favorited" : "Favoriserad",
@@ -130,6 +133,8 @@ OC.L10N.register(
     "No favorites" : "Inga favoriter",
     "Files and folders you mark as favorite will show up here" : "Filer och mappar du markerat som favoriter kommer att visas här",
     "Text file" : "Textfil",
-    "New text file.txt" : "nytextfil.txt"
+    "New text file.txt" : "nytextfil.txt",
+    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Använd denna adress för att <a href=\"%s\" target=\"_blank\">få tillgång till filer via WebDAV</a>",
+    "Cancel upload" : "Avbryt uppladdning"
 },
 "nplurals=2; plural=(n != 1);");
