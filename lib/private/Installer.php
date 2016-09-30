@@ -237,7 +237,7 @@ class Installer {
 	/**
 	 * update an app by it's id
 	 *
-	 * @param integer $ocsId
+	 * @param string $ocsId
 	 * @return bool
 	 * @throws \Exception
 	 */

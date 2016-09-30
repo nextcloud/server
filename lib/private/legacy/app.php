@@ -933,7 +933,7 @@ class OC_App {
 	 * @return string|false
 	 */
 	public static function getInternalAppIdByOcs($ocsID) {
-		if(is_numeric($ocsID)) {
+		if($ocsID) {
 			$idArray = \OC::$server->getAppConfig()->getValues(false, 'ocsid');
 			if(array_search($ocsID, $idArray)) {
 				return array_search($ocsID, $idArray);

@@ -106,17 +106,13 @@ class AppSettingsController extends Controller {
 		if (is_string($category)) {
 			foreach ($this->listCategories() as $cat) {
 				if (isset($cat['ident']) && $cat['ident'] === $category) {
-					$category = (int) $cat['id'];
-					break;
+					return $cat['id'];
 				}
 			}
-
 			// Didn't find the category, falling back to enabled
-			if (is_string($category)) {
-				$category = self::CAT_ENABLED;
-			}
+			return self::CAT_ENABLED;
 		}
-		return (int) $category;
+		return $category;
 	}
 
 	/**
@@ -191,94 +187,88 @@ class AppSettingsController extends Controller {
 	public function listApps($category = '', $includeUpdateInfo = true) {
 		$category = $this->getCategory($category);
 		$cacheName = 'listApps-' . $category . '-' . (int) $includeUpdateInfo;
-
 		if(!is_null($this->cache->get($cacheName))) {
 			$apps = $this->cache->get($cacheName);
 		} else {
-			switch ($category) {
-				// installed apps
-				case 0:
-					$apps = $this->getInstalledApps($includeUpdateInfo);
-					usort($apps, function ($a, $b) {
-						$a = (string)$a['name'];
-						$b = (string)$b['name'];
-						if ($a === $b) {
-							return 0;
-						}
-						return ($a < $b) ? -1 : 1;
-					});
-					$version = \OCP\Util::getVersion();
-					foreach($apps as $key => $app) {
-						if(!array_key_exists('level', $app) && array_key_exists('ocsid', $app)) {
-							$remoteAppEntry = $this->ocsClient->getApplication($app['ocsid'], $version);
+			if ($category === 0) {
+				$apps = $this->getInstalledApps($includeUpdateInfo);
+				usort($apps, function ($a, $b) {
+					$a = (string)$a['name'];
+					$b = (string)$b['name'];
+					if ($a === $b) {
+						return 0;
+					}
+					return ($a < $b) ? -1 : 1;
+				});
+				$version = \OCP\Util::getVersion();
+				foreach($apps as $key => $app) {
+					if(!array_key_exists('level', $app) && array_key_exists('ocsid', $app)) {
+						$remoteAppEntry = $this->ocsClient->getApplication($app['ocsid'], $version);
 
-							if(is_array($remoteAppEntry) && array_key_exists('level', $remoteAppEntry)) {
-								$apps[$key]['level'] = $remoteAppEntry['level'];
-							}
+						if(is_array($remoteAppEntry) && array_key_exists('level', $remoteAppEntry)) {
+							$apps[$key]['level'] = $remoteAppEntry['level'];
 						}
 					}
-					break;
+				}
+			} else if ($category === 1) {
 				// not-installed apps
-				case 1:
-					$apps = \OC_App::listAllApps(true, $includeUpdateInfo, $this->ocsClient);
-					$apps = array_filter($apps, function ($app) {
-						return !$app['active'];
-					});
-					$version = \OCP\Util::getVersion();
-					foreach($apps as $key => $app) {
-						if(!array_key_exists('level', $app) && array_key_exists('ocsid', $app)) {
-							$remoteAppEntry = $this->ocsClient->getApplication($app['ocsid'], $version);
+				$apps = \OC_App::listAllApps(true, $includeUpdateInfo, $this->ocsClient);
+				$apps = array_filter($apps, function ($app) {
+					return !$app['active'];
+				});
+				$version = \OCP\Util::getVersion();
+				foreach($apps as $key => $app) {
+					if(!array_key_exists('level', $app) && array_key_exists('ocsid', $app)) {
+						$remoteAppEntry = $this->ocsClient->getApplication($app['ocsid'], $version);
 
-							if(is_array($remoteAppEntry) && array_key_exists('level', $remoteAppEntry)) {
-								$apps[$key]['level'] = $remoteAppEntry['level'];
-							}
+						if(is_array($remoteAppEntry) && array_key_exists('level', $remoteAppEntry)) {
+							$apps[$key]['level'] = $remoteAppEntry['level'];
 						}
 					}
-					usort($apps, function ($a, $b) {
-						$a = (string)$a['name'];
-						$b = (string)$b['name'];
-						if ($a === $b) {
-							return 0;
-						}
-						return ($a < $b) ? -1 : 1;
-					});
-					break;
-				default:
-					$filter = $this->config->getSystemValue('appstore.experimental.enabled', false) ? 'all' : 'approved';
-
-					$apps = \OC_App::getAppstoreApps($filter, $category, $this->ocsClient);
-					if (!$apps) {
-						$apps = array();
-					} else {
-						// don't list installed apps
-						$installedApps = $this->getInstalledApps(false);
-						$installedApps = array_map(function ($app) {
-							if (isset($app['ocsid'])) {
-								return $app['ocsid'];
-							}
-							return $app['id'];
-						}, $installedApps);
-						$apps = array_filter($apps, function ($app) use ($installedApps) {
-							return !in_array($app['id'], $installedApps);
-						});
-
-						// show tooltip if app is downloaded from remote server
-						$inactiveApps = $this->getInactiveApps();
-						foreach ($apps as &$app) {
-							$app['needsDownload'] = !in_array($app['id'], $inactiveApps);
-						}
+				}
+				usort($apps, function ($a, $b) {
+					$a = (string)$a['name'];
+					$b = (string)$b['name'];
+					if ($a === $b) {
+						return 0;
 					}
+					return ($a < $b) ? -1 : 1;
+				});
+			} else {
+				$filter = $this->config->getSystemValue('appstore.experimental.enabled', false) ? 'all' : 'approved';
+				$apps = \OC_App::getAppstoreApps($filter, $category, $this->ocsClient);
 
-					// sort by score
-					usort($apps, function ($a, $b) {
-						$a = (int)$a['score'];
-						$b = (int)$b['score'];
-						if ($a === $b) {
-							return 0;
+				if (!$apps) {
+					$apps = array();
+				} else {
+					// don't list installed apps
+					$installedApps = $this->getInstalledApps(false);
+					$installedApps = array_map(function ($app) {
+						if (isset($app['ocsid'])) {
+							return $app['ocsid'];
 						}
-						return ($a > $b) ? -1 : 1;
+						return $app['id'];
+					}, $installedApps);
+					$apps = array_filter($apps, function ($app) use ($installedApps) {
+						return !in_array($app['id'], $installedApps);
 					});
-					break;
+
+					// show tooltip if app is downloaded from remote server
+					$inactiveApps = $this->getInactiveApps();
+					foreach ($apps as &$app) {
+						$app['needsDownload'] = !in_array($app['id'], $inactiveApps);
+					}
+				}
+
+				// sort by score
+				usort($apps, function ($a, $b) {
+					$a = (int)$a['score'];
+					$b = (int)$b['score'];
+					if ($a === $b) {
+						return 0;
+					}
+					return ($a > $b) ? -1 : 1;
+				});
 			}
 		}
 
