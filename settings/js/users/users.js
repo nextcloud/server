@@ -660,7 +660,9 @@ $(document).ready(function () {
 							OC.generateUrl('/settings/users/changepassword'),
 							{username: uid, password: $(this).val(), recoveryPassword: recoveryPasswordVal},
 							function (result) {
-								if (result.status != 'success') {
+								if(result.status == 'success') {
+									OC.Notification.showTemporary(t('admin', 'Password successfully changed'));
+								} else {
 									OC.Notification.showTemporary(t('admin', result.data.message));
 								}
 							}
