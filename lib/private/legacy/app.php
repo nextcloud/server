@@ -662,15 +662,16 @@ class OC_App {
 	 * Read all app metadata from the info.xml file
 	 *
 	 * @param string $appId id of the app or the path of the info.xml file
-	 * @param boolean $path (optional)
+	 * @param bool $path
+	 * @param string $lang
 	 * @return array|null
 	 * @note all data is read from info.xml, not just pre-defined fields
 	 */
-	public static function getAppInfo($appId, $path = false) {
+	public static function getAppInfo($appId, $path = false, $lang = null) {
 		if ($path) {
 			$file = $appId;
 		} else {
-			if (isset(self::$appInfo[$appId])) {
+			if ($lang === null && isset(self::$appInfo[$appId])) {
 				return self::$appInfo[$appId];
 			}
 			$appPath = self::getAppPath($appId);
@@ -684,7 +685,7 @@ class OC_App {
 		$data = $parser->parse($file);
 
 		if (is_array($data)) {
-			$data = OC_App::parseAppInfo($data);
+			$data = OC_App::parseAppInfo($data, $lang);
 		}
 		if(isset($data['ocsid'])) {
 			$storedId = \OC::$server->getConfig()->getAppValue($appId, 'ocsid');
@@ -693,7 +694,9 @@ class OC_App {
 			}
 		}
 
-		self::$appInfo[$appId] = $data;
+		if ($lang === null) {
+			self::$appInfo[$appId] = $data;
+		}
 
 		return $data;
 	}
@@ -843,11 +846,12 @@ class OC_App {
 		//we don't want to show configuration for these
 		$blacklist = \OC::$server->getAppManager()->getAlwaysEnabledApps();
 		$appList = array();
+		$langCode = \OC::$server->getL10N('core')->getLanguageCode();
 
 		foreach ($installedApps as $app) {
 			if (array_search($app, $blacklist) === false) {
 
-				$info = OC_App::getAppInfo($app);
+				$info = OC_App::getAppInfo($app, false, $langCode);
 				if (!is_array($info)) {
 					\OCP\Util::writeLog('core', 'Could not read app info file for app "' . $app . '"', \OCP\Util::ERROR);
 					continue;
@@ -1327,13 +1331,42 @@ class OC_App {
 		}
 	}
 
+	protected static function findBestL10NOption($options, $lang) {
+		$fallback = $englishFallback = false;
+		foreach ($options as $option) {
+			if (is_array($option)) {
+				if ($fallback === false) {
+					$fallback = $option['@value'];
+				}
+
+				if (isset($option['@attributes']['lang']) && $option['@attributes']['lang'] === $lang) {
+					return $option['@value'];
+				}
+			} else {
+				$englishFallback = $option;
+			}
+		}
+		return $englishFallback !== false ? $englishFallback : (string) $fallback;
+	}
+
 	/**
 	 * parses the app data array and enhanced the 'description' value
 	 *
 	 * @param array $data the app data
+	 * @param string $lang
 	 * @return array improved app data
 	 */
-	public static function parseAppInfo(array $data) {
+	public static function parseAppInfo(array $data, $lang = null) {
+
+		if ($lang && isset($data['name']) && is_array($data['name'])) {
+			$data['name'] = self::findBestL10NOption($data['name'], $lang);
+		}
+		if ($lang && isset($data['summary']) && is_array($data['summary'])) {
+			$data['summary'] = self::findBestL10NOption($data['summary'], $lang);
+		}
+		if ($lang && isset($data['description']) && is_array($data['description'])) {
+			$data['description'] = self::findBestL10NOption($data['description'], $lang);
+		}
 
 		// just modify the description if it is available
 		// otherwise this will create a $data element with an empty 'description'
