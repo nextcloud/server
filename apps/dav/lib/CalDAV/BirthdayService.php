@@ -62,28 +62,19 @@ class BirthdayService {
 	 * @param string $cardData
 	 */
 	public function onCardChanged($addressBookId, $cardUri, $cardData) {
-
 		$targetPrincipals = $this->getAllAffectedPrincipals($addressBookId);
 		
 		$book = $this->cardDavBackEnd->getAddressBookById($addressBookId);
 		$targetPrincipals[] = $book['principaluri'];
+		$datesToSync = [
+			['postfix' => '', 'field' => 'BDAY', 'symbol' => '*'],
+			['postfix' => '-death', 'field' => 'DEATHDATE', 'symbol' => "†"],
+			['postfix' => '-anniversary', 'field' => 'ANNIVERSARY', 'symbol' => "⚭"],
+		];
 		foreach ($targetPrincipals as $principalUri) {
 			$calendar = $this->ensureCalendarExists($principalUri);
-			$objectUri = $book['uri'] . '-' . $cardUri. '.ics';
-			$calendarData = $this->buildBirthdayFromContact($cardData);
-			$existing = $this->calDavBackEnd->getCalendarObject($calendar['id'], $objectUri);
-			if (is_null($calendarData)) {
-				if (!is_null($existing)) {
-					$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $objectUri);
-				}
-			} else {
-				if (is_null($existing)) {
-					$this->calDavBackEnd->createCalendarObject($calendar['id'], $objectUri, $calendarData->serialize());
-				} else {
-					if ($this->birthdayEvenChanged($existing['calendardata'], $calendarData)) {
-						$this->calDavBackEnd->updateCalendarObject($calendar['id'], $objectUri, $calendarData->serialize());
-					}
-				}
+			foreach ($datesToSync as $type) {
+				$this->updateCalendar($cardUri, $cardData, $book, $calendar['id'], $type);
 			}
 		}
 	}
@@ -98,8 +89,10 @@ class BirthdayService {
 		$targetPrincipals[] = $book['principaluri'];
 		foreach ($targetPrincipals as $principalUri) {
 			$calendar = $this->ensureCalendarExists($principalUri);
-			$objectUri = $book['uri'] . '-' . $cardUri . '.ics';
-			$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $objectUri);
+			foreach (['', '-death', '-anniversary'] as $tag) {
+				$objectUri = $book['uri'] . '-' . $cardUri . $tag .'.ics';
+				$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $objectUri);
+			}
 		}
 	}
 
@@ -124,9 +117,11 @@ class BirthdayService {
 
 	/**
 	 * @param string $cardData
+	 * @param string $dateField
+	 * @param string $summarySymbol
 	 * @return null|VCalendar
 	 */
-	public function buildBirthdayFromContact($cardData) {
+	public function buildDateFromContact($cardData, $dateField, $summarySymbol) {
 		if (empty($cardData)) {
 			return null;
 		}
@@ -136,10 +131,10 @@ class BirthdayService {
 			return null;
 		}
 
-		if (!isset($doc->BDAY)) {
+		if (!isset($doc->{$dateField})) {
 			return null;
 		}
-		$birthday = $doc->BDAY;
+		$birthday = $doc->{$dateField};
 		if (!(string)$birthday) {
 			return null;
 		}
@@ -168,7 +163,7 @@ class BirthdayService {
 		$vEvent->DTEND['VALUE'] = 'DATE';
 		$vEvent->{'UID'} = $doc->UID;
 		$vEvent->{'RRULE'} = 'FREQ=YEARLY';
-		$vEvent->{'SUMMARY'} = $title . ' (*' . $date->format('Y') . ')';
+		$vEvent->{'SUMMARY'} = $title . ' (' . $summarySymbol . $date->format('Y') . ')';
 		$vEvent->{'TRANSP'} = 'TRANSPARENT';
 		$alarm = $vCal->createComponent('VALARM');
 		$alarm->add($vCal->createProperty('TRIGGER', '-PT0M', ['VALUE' => 'DURATION']));
@@ -231,6 +226,32 @@ class BirthdayService {
 			}
 		}
 		return array_values(array_unique($targetPrincipals, SORT_STRING));
+	}
+
+	/**
+	 * @param string $cardUri
+	 * @param string  $cardData
+	 * @param array $book
+	 * @param int $calendarId
+	 * @param string $type
+	 */
+	private function updateCalendar($cardUri, $cardData, $book, $calendarId, $type) {
+		$objectUri = $book['uri'] . '-' . $cardUri . $type['postfix'] . '.ics';
+		$calendarData = $this->buildDateFromContact($cardData, $type['field'], $type['symbol']);
+		$existing = $this->calDavBackEnd->getCalendarObject($calendarId, $objectUri);
+		if (is_null($calendarData)) {
+			if (!is_null($existing)) {
+				$this->calDavBackEnd->deleteCalendarObject($calendarId, $objectUri);
+			}
+		} else {
+			if (is_null($existing)) {
+				$this->calDavBackEnd->createCalendarObject($calendarId, $objectUri, $calendarData->serialize());
+			} else {
+				if ($this->birthdayEvenChanged($existing['calendardata'], $calendarData)) {
+					$this->calDavBackEnd->updateCalendarObject($calendarId, $objectUri, $calendarData->serialize());
+				}
+			}
+		}
 	}
 
 }
