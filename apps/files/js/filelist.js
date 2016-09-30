@@ -1941,7 +1941,9 @@
 					// Files.isFileNameValid(filename) throws an exception itself
 					OCA.Files.Files.isFileNameValid(filename);
 					if (self.inList(filename)) {
-						throw t('files', '{newName} already exists', {newName: filename});
+						throw t('files', '{newName} already exists', {newName: filename}, undefined, {
+							escape: false
+						});
 					}
 				}
 				return true;
