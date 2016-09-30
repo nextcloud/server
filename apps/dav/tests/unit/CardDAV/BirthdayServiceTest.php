@@ -178,6 +178,17 @@ class BirthdayServiceTest extends TestCase {
 		], $users);
 	}
 
+	public function testBirthdayCalendarHasComponentEvent() {
+		$this->calDav->expects($this->once())
+			->method('createCalendar')
+			->with('principal001', 'contact_birthdays', [
+				'{DAV:}displayname' => 'Contact birthdays',
+				'{http://apple.com/ns/ical/}calendar-color' => '#FFFFCA',
+				'components'   => 'VEVENT',
+			]);
+		$this->service->ensureCalendarExists('principal001');
+	}
+
 	public function providesBirthday() {
 		return [
 			[true,
