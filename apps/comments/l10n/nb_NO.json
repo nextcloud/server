@@ -13,6 +13,7 @@
     "Error occurred while retrieving comment with id {id}" : "En feil oppstod under henting av kommentar med id {id}",
     "Error occurred while updating comment with id {id}" : "En feil oppstod under oppdatering av kommentar med id {id}",
     "Error occurred while posting comment" : "En feil oppstod under posting av kommentar",
+    "_%n unread comment_::_%n unread comments_" : ["%n ulest kommentar","%n uleste kommentarer"],
     "Comment" : "Kommentar",
     "<strong>Comments</strong> for files" : "<strong>Kommentarer</strong> for filer",
     "You commented" : "Du kommenterte",
