@@ -26,4 +26,10 @@
 	<settings>
 		<admin>OCA\Files\Settings\Admin</admin>
 	</settings>
+
+	<commands>
+		<command>OCA\Files\Command\Scan</command>
+		<command>OCA\Files\Command\DeleteOrphanedFiles</command>
+		<command>OCA\Files\Command\TransferOwnership</command>
+	</commands>
 </info>

@@ -27,12 +27,11 @@
 namespace OC\Console;
 
 use OC_App;
+use OCP\AppFramework\QueryException;
 use OCP\Console\ConsoleEvent;
-use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IRequest;
 use Symfony\Component\Console\Application as SymfonyApplication;
-use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -103,6 +102,12 @@ class Application {
 					if($appPath === false) {
 						continue;
 					}
+					// load commands using info.xml
+					$info = \OC_App::getAppInfo($app);
+					if (isset($info['commands'])) {
+						$this->loadCommandsFromInfoXml($info['commands']);
+					}
+					// load from register_command.php
 					\OC_App::registerAutoloading($app, $appPath);
 					$file = $appPath . '/appinfo/register_command.php';
 					if (file_exists($file)) {
@@ -148,5 +153,21 @@ class Application {
 			$this->request->server['argv']
 		));
 		return $this->application->run($input, $output);
+	}
+
+	private function loadCommandsFromInfoXml($commands) {
+		foreach ($commands as $command) {
+			try {
+				$c = \OC::$server->query($command);
+			} catch (QueryException $e) {
+				if (class_exists($command)) {
+					$c = new $command();
+				} else {
+					throw new \Exception("Console command '$command' is unknown and could not be loaded");
+				}
+			}
+
+			$this->application->add($c);
+		}
 	}
 }

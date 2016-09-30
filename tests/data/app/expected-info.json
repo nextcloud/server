@@ -76,5 +76,6 @@
 		"uninstall": []
 	},
 	"background-jobs": [],
-	"two-factor-providers": []
+	"two-factor-providers": [],
+	"commands": []
 }

@@ -29,4 +29,10 @@
 			<step>OCA\DAV\Migration\GenerateBirthdays</step>
 		</live-migration>
 	</repair-steps>
+	<commands>
+		<command>OCA\DAV\Command\CreateAddressBook</command>
+		<command>OCA\DAV\Command\CreateCalendar</command>
+		<command>OCA\DAV\Command\SyncBirthdayCalendar</command>
+		<command>OCA\DAV\Command\SyncSystemAddressBook</command>
+	</commands>
 </info>

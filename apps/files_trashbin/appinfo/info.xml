@@ -25,4 +25,9 @@ To prevent a user from running out of disk space, the Deleted files app will not
 	<background-jobs>
 		<job>OCA\Files_Trashbin\BackgroundJob\ExpireTrash</job>
 	</background-jobs>
+
+	<commands>
+		<command>OCA\Files_Trashbin\Command\CleanUp</command>
+		<command>OCA\Files_Trashbin\Command\ExpireTrash</command>
+	</commands>
 </info>
