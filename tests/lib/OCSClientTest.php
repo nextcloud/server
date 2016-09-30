@@ -764,7 +764,7 @@ class OCSClientTest extends \Test\TestCase {
 			->will($this->returnValue($client));
 
 		$expected = [
-			'id' => 166053,
+			'id' => '166053',
 			'name' => 'Versioning',
 			'version' => '0.0.1',
 			'type' => '925',
@@ -900,7 +900,7 @@ class OCSClientTest extends \Test\TestCase {
 				->will($this->returnValue($client));
 
 		$expected = [
-				'id' => 166053,
+				'id' => '166053',
 				'name' => 'Versioning',
 				'version' => '0.0.1',
 				'type' => '925',
