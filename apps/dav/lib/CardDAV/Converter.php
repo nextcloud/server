@@ -91,6 +91,7 @@ class Converter {
 		}
 
 		if($this->propertyNeedsUpdate($vCard, 'PHOTO', $image)) {
+			unset($vCard->PHOTO);
 			$vCard->add('PHOTO', $image->data(), ['ENCODING' => 'b', 'TYPE' => $image->mimeType()]);
 			$updated = true;
 		}
