@@ -67,13 +67,21 @@ trait Auth {
 	 * @Given a new client token is used
 	 */
 	public function aNewClientTokenIsUsed() {
+		$this->loggingInUsingWebAs('user0');
+
+		$fullUrl = substr($this->baseUrl, 0, -5) . '/index.php/settings/personal/authtokens';
 		$client = new Client();
-		$resp = $client->post(substr($this->baseUrl, 0, -5) . '/token/generate', [
-		    'json' => [
-			'user' => 'user0',
-			'password' => '123456',
-		    ]
-		]);
+		$options = [
+			'auth' => ['user0', '123456'],
+			'body' => [
+				'requesttoken' => $this->requestToken,
+				'name' => md5(microtime()),
+			],
+			'cookies' => $this->cookieJar,
+		];
+
+		$resp = $client->send($client->createRequest('POST', $fullUrl, $options));
+
 		$this->clientToken = json_decode($resp->getBody()->getContents())->token;
 	}
 

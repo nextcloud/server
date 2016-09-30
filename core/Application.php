@@ -49,6 +49,5 @@ class Application extends App {
 		$container->registerService('defaultMailAddress', function() {
 			return Util::getDefaultEmailAddress('lostpassword-noreply');
 		});
-		$container->registerAlias(IProvider::class, DefaultTokenProvider::class);
 	}
 }
