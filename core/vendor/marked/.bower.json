@@ -1,0 +1,33 @@
+{
+  "name": "marked",
+  "version": "0.3.6",
+  "homepage": "https://github.com/chjj/marked",
+  "authors": [
+    "Christopher Jeffrey <chjjeffrey@gmail.com>"
+  ],
+  "description": "A markdown parser built for speed",
+  "keywords": [
+    "markdown",
+    "markup",
+    "html"
+  ],
+  "main": "lib/marked.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "0.3.6",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.3.6",
+    "commit": "eddec20467c2d10c7769061ee9074e268500966f"
+  },
+  "_source": "https://github.com/chjj/marked.git",
+  "_target": "0.3.6",
+  "_originalSource": "marked"
+}

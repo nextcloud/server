@@ -1,12 +1,14 @@
 test/
 src/
 bower.json
+component.json
 .jshintrc
 .travis.yml
 CHANGELOG*
 Gemfile
 gruntfile.js
 Gruntfile.js
+Gulpfile.js
 Makefile
 package.json
 README*
@@ -156,3 +158,10 @@ autosize/**
 !autosize/dist/autosize.js
 !autosize/.bower.json
 !autosize/LICENCE.md
+
+#marked
+marked/bin
+marked/doc
+marked/index.js
+marked/lib
+marked/man
