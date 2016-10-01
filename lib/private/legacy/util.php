@@ -14,6 +14,7 @@
  * @author Christoph Wurst <christoph@owncloud.com>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author cmeh <cmeh@users.noreply.github.com>
+ * @author Felix Anand Epp <work@felixepp.de>
  * @author Florin Peter <github@florin-peter.de>
  * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Georg Ehrke <georg@owncloud.com>
@@ -438,16 +439,16 @@ class OC_Util {
 			$session->set('OC_VersionString', $OC_VersionString);
 			/** @var $OC_Build string */
 			$session->set('OC_Build', $OC_Build);
-			
+
 			// Allow overriding update channel
-			
+
 			if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
 				$channel = \OC::$server->getAppConfig()->getValue('core', 'OC_Channel');
 			} else {
 				/** @var $OC_Channel string */
 				$channel = $OC_Channel;
 			}
-			
+
 			if (!is_null($channel)) {
 				$session->set('OC_Channel', $channel);
 			} else {
@@ -513,7 +514,7 @@ class OC_Util {
 	 *
 	 * @param string $application application id
 	 * @param string $languageCode language code, defaults to the current language
-	 * @param bool $prepend prepend the Script to the beginning of the list 
+	 * @param bool $prepend prepend the Script to the beginning of the list
 	 */
 	public static function addTranslations($application, $languageCode = null, $prepend = false) {
 		if (is_null($languageCode)) {
@@ -558,7 +559,7 @@ class OC_Util {
 	 *
 	 * @param string $application application id
 	 * @param bool $prepend prepend the file to the beginning of the list
-	 * @param string $path 
+	 * @param string $path
 	 * @param string $type (script or style)
 	 * @return void
 	 */
@@ -1073,7 +1074,7 @@ class OC_Util {
 					}
 				}
 
-				if(getenv('front_controller_active') === 'true') {
+				if(\OC::$server->getConfig()->getSystemValue('htaccess.RewriteBase', '') !== '') {
 					$location = $urlGenerator->getAbsoluteURL('/apps/' . $appId . '/');
 				} else {
 					$location = $urlGenerator->getAbsoluteURL('/index.php/apps/' . $appId . '/');
