@@ -33,12 +33,14 @@ use OC_Util;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 
 class LoginController extends Controller {
 	/** @var IUserManager */
@@ -47,7 +49,7 @@ class LoginController extends Controller {
 	private $config;
 	/** @var ISession */
 	private $session;
-	/** @var Session */
+	/** @var IUserSession|Session */
 	private $userSession;
 	/** @var IURLGenerator */
 	private $urlGenerator;
@@ -62,7 +64,7 @@ class LoginController extends Controller {
 	 * @param IUserManager $userManager
 	 * @param IConfig $config
 	 * @param ISession $session
-	 * @param Session $userSession
+	 * @param IUserSession $userSession
 	 * @param IURLGenerator $urlGenerator
 	 * @param Manager $twoFactorManager
 	 * @param Throttler $throttler
@@ -72,7 +74,7 @@ class LoginController extends Controller {
 						 IUserManager $userManager,
 						 IConfig $config,
 						 ISession $session,
-						 Session $userSession,
+						 IUserSession $userSession,
 						 IURLGenerator $urlGenerator,
 						 Manager $twoFactorManager,
 						 Throttler $throttler) {
