@@ -515,6 +515,8 @@ class OC {
 		$incompatibleUserAgents = [
 			// OS X Finder
 			'/^WebDAVFS/',
+			// Sailfish caldav/carddav client
+			'/^Mozilla\/5\.0$/',
 		];
 		if($request->isUserAgent($incompatibleUserAgents)) {
 			return;
