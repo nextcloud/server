@@ -48,7 +48,7 @@
     "Signature could not get checked. Please contact the app developer and check your admin screen." : "Handtekening kon niet worden geverifieerd. Nee contact op met de ontwikkelaar van de app en check je beheerscherm.",
     "App can't be installed because of not allowed code in the App" : "De app kan niet worden geïnstalleerd wegens onjuiste code in de app",
     "App can't be installed because it is not compatible with this version of the server" : "De app kan niet worden geïnstalleerd, omdat die niet compatible is met deze versie van de server",
-    "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" : "De app kan niet worden geïnstalleerd, omdat het de <shipped>true</shipped> tag bevat die niet is toegestaan voor niet gepubliceerde apps",
+    "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" : "De app kan niet worden geïnstalleerd, omdat het de <shipped>true</shipped> markering bevat die niet is toegestaan voor niet gepubliceerde apps",
     "App can't be installed because the version in info.xml is not the same as the version reported from the app store" : "De app kan niet worden geïnstalleerd, omdat de versie in info.xml niet dezelfde is als de versie zoals die in de app store staat vermeld",
     "APCu" : "APCu",
     "Redis" : "Redis",

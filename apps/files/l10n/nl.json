@@ -93,7 +93,7 @@
     "New folder" : "Nieuwe map",
     "{newname} already exists" : "{newname} bestaat al",
     "Upload" : "Uploaden",
-    "An error occurred while trying to update the tags" : "Er trad een fout op bij uw poging de tags bij te werken",
+    "An error occurred while trying to update the tags" : "Er trad een fout op bij uw poging de markeringen bij te werken",
     "A new file or folder has been <strong>created</strong>" : "Een nieuw bestand of map is <strong>aangemaakt</strong>",
     "A file or folder has been <strong>changed</strong>" : "Een bestand of map is <strong>gewijzigd</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Beperk meldingen over aanmaken en wijzigen aan je <strong>favoriete bestanden</strong> <em>(Alleen stream)</em>",

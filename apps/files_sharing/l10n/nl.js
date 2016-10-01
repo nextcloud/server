@@ -14,6 +14,7 @@ OC.L10N.register(
     "No compatible server found at {remote}" : "Geen geschikte server gevonden op {remote}",
     "Invalid server URL" : "Ongeldig server URL",
     "Failed to add the public link to your Nextcloud" : "Kon de openbare link niet aan je Nextcloud toevoegen",
+    "Share" : "Deel",
     "No expiration date set" : "Geen vervaldatum ingesteld",
     "Shared by" : "Gedeeld door",
     "Sharing" : "Delen",

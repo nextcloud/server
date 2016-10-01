@@ -13,6 +13,7 @@
     "Error occurred while retrieving comment with id {id}" : "取得留言 {id} 發生錯誤",
     "Error occurred while updating comment with id {id}" : "編輯留言 {id} 發生錯誤",
     "Error occurred while posting comment" : "張貼留言出錯",
+    "_%n unread comment_::_%n unread comments_" : ["%n 未讀留言"],
     "Comment" : "留言",
     "<strong>Comments</strong> for files" : "檔案的<strong>留言</strong>",
     "You commented" : "您已留言",
