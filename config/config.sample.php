@@ -9,7 +9,7 @@
  * consider important for your instance to your working ``config.php``, and
  * apply configuration options that are pertinent for your instance.
  *
- * This file is used to generate the configuration documentation. 
+ * This file is used to generate the configuration documentation.
  * Please consider following requirements of the current parser:
  *  * all comments need to start with `/**` and end with ` *\/` - each on their
  *    own line
@@ -406,6 +406,17 @@ $CONFIG = array(
  * - `mod_env` is installed
  */
 'htaccess.RewriteBase' => '/',
+
+/**
+ * For server setups, that don't have `mod_env` enabled or restricted (e.g. suEXEC)
+ * this parameter has to be set to true and will assume mod_rewrite.
+ *
+ * Please check, if `mod_rewrite` is active and functional before setting this
+ * parameter and you updated your .htaccess with `occ maintenance:update:htaccess`.
+ * Otherwise your nextcloud installation might not be reachable anymore.
+ * For example, try accessing resources by leaving out `index.php` in the URL.
+ */
+'htaccess.IgnoreFrontController' => false,
 
 /**
  * The URL of your proxy server, for example ``proxy.example.com:8081``.
@@ -852,9 +863,9 @@ $CONFIG = array(
 /**
  * Enable maintenance mode to disable Nextcloud
  *
- * If you want to prevent users from logging in to Nextcloud before you start 
- * doing some maintenance work, you need to set the value of the maintenance 
- * parameter to true. Please keep in mind that users who are already logged-in 
+ * If you want to prevent users from logging in to Nextcloud before you start
+ * doing some maintenance work, you need to set the value of the maintenance
+ * parameter to true. Please keep in mind that users who are already logged-in
  * are kicked out of Nextcloud instantly.
  */
 'maintenance' => false,
@@ -1172,7 +1183,7 @@ $CONFIG = array(
 
 /**
  * Specifies how often the local filesystem (the Nextcloud data/ directory, and
- * NFS mounts in data/) is checked for changes made outside Nextcloud. This 
+ * NFS mounts in data/) is checked for changes made outside Nextcloud. This
  * does not apply to external storages.
  *
  * 0 -> Never check the filesystem for outside changes, provides a performance
@@ -1212,7 +1223,7 @@ $CONFIG = array(
 
 /**
  * List of trusted proxy servers
- * 
+ *
  * If you configure these also consider setting `forwarded_for_headers` which
  * otherwise defaults to `HTTP_X_FORWARDED_FOR` (the `X-Forwarded-For` header).
  */

@@ -189,7 +189,7 @@ class JSConfigHelper {
 				'versionstring'		=> \OC_Util::getVersionString(),
 				'enable_avatars'	=> $this->config->getSystemValue('enable_avatars', true) === true,
 				'lost_password_link'=> $this->config->getSystemValue('lost_password_link', null),
-				'modRewriteWorking'	=> (getenv('front_controller_active') === 'true'),
+				'modRewriteWorking'	=> (\OC::$server->getConfig()->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true'),
 			]),
 			"oc_appconfig" => json_encode([
 				'core' => [
