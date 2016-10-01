@@ -13,6 +13,7 @@ OC.L10N.register(
     " Could not set configuration %s" : " 설정 %s을(를) 지정할 수 없음",
     "Action does not exist" : "동작이 존재하지 않음",
     "The Base DN appears to be wrong" : "기본 DN이 올바르지 않습니다",
+    "Testing configuration…" : "설정 시험 중...",
     "Configuration incorrect" : "설정 올바르지 않음",
     "Configuration incomplete" : "설정 불완전함",
     "Configuration OK" : "설정 올바름",
