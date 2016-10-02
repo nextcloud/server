@@ -85,7 +85,7 @@ Feature: webdav-related
 		And user "user0" adds a file of 93 bytes to "/prueba.txt"
 		When as "user0" gets properties of folder "/" with
 		  |{DAV:}quota-available-bytes|
-		Then the single response should contain a property "{DAV:}quota-available-bytes" with value "600"
+		Then the single response should contain a property "{DAV:}quota-available-bytes" with value "592"
 
 	Scenario: Retrieving folder quota when quota is set and a file was recieved
 		Given using dav path "remote.php/webdav"
@@ -97,7 +97,7 @@ Feature: webdav-related
 		And file "user0.txt" of user "user0" is shared with user "user1"
 		When as "user1" gets properties of folder "/" with
 		  |{DAV:}quota-available-bytes|
-		Then the single response should contain a property "{DAV:}quota-available-bytes" with value "693"
+		Then the single response should contain a property "{DAV:}quota-available-bytes" with value "685"
 
 	Scenario: download a public shared file with range
 		Given user "user0" exists
