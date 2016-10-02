@@ -13,6 +13,7 @@
     "Error occurred while retrieving comment with id {id}" : "Ένα σφάλμα προέκυψε κατά την προσπάθεια λήψης σχολίων με αναγνωριστικό {id}",
     "Error occurred while updating comment with id {id}" : "Ένα σφάλμα προέκυψε κατά την προσπάθεια αναβάθμισης του σχολίου με το αναγνωριστικό {id}",
     "Error occurred while posting comment" : "Ένα σφάλμα προέκυψε κατά την προσπάθεια δημοσίευσης σχολίου",
+    "_%n unread comment_::_%n unread comments_" : ["%n αδιάβαστο σχόλιο","%n αδιάβαστα σχόλια"],
     "Comment" : "Σχόλιο",
     "<strong>Comments</strong> for files" : "<strong>Σχόλια</strong> για αρχεία",
     "You commented" : "Σχολιάσατε",

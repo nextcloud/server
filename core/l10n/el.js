@@ -22,6 +22,7 @@ OC.L10N.register(
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair warning: " : "Προειδοποίηση διόρθωσης:",
     "Repair error: " : "Σφάλμα διόρθωσης:",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Παρακαλώ αναβαθμίστε μέσω γραμμής εντολών διότι η αυτόματη αναβάθμιση έχει απενεργοποιηθεί στο αρχείο config.php.",
     "Turned on maintenance mode" : "Η κατάσταση συντήρησης ενεργοποιήθηκε",
     "Turned off maintenance mode" : "Η κατάσταση συντήρησης απενεργοποιήθηκε",
     "Maintenance mode is kept active" : "Η λειτουργία συντήρησης διατηρήθηκε ενεργή",

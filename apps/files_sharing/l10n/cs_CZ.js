@@ -14,6 +14,7 @@ OC.L10N.register(
     "No compatible server found at {remote}" : "Na {remote} nebyl nalezen kompatibilní server",
     "Invalid server URL" : "Neplatná URL serveru",
     "Failed to add the public link to your Nextcloud" : "Selhalo přidání veřejného odkazu do Nextcloud",
+    "Share" : "Sdílet",
     "No expiration date set" : "Není nastaveno datum vypršení platnosti",
     "Shared by" : "Sdílí",
     "Sharing" : "Sdílení",
