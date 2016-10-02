@@ -69,7 +69,7 @@
     "Log-in credentials, save in session" : "Identifiants de connexion, sauvegardés pour la session",
     "User entered, store in database" : "Utilisateur entré, stocker dans la base de données",
     "RSA public key" : "Clé publique RSA",
-    "Public key" : "Clef publique",
+    "Public key" : "Clé publique",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Nom de l'hôte",

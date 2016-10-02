@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Storage not available" : "Support de stockage non disponible",
     "Storage invalid" : "Support de stockage non valable",
-    "Unknown error" : "Erreur Inconnue ",
+    "Unknown error" : "Erreur inconnue ",
     "Unable to set upload directory." : "Impossible de définir le dossier de destination.",
     "Invalid Token" : "Jeton non valide",
     "No file was uploaded. Unknown error" : "Aucun fichier n'a été envoyé. Erreur inconnue",

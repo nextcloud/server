@@ -7,6 +7,7 @@ OC.L10N.register(
     "Nextcloud core" : "Nextcloud Core",
     "Update for %1$s to version %2$s is available." : "Je dostupná aktualizace pro %1$s na verzi %2$s.",
     "A new version is available: %s" : "Je dostupná nová verze: %s",
+    "Download now" : "Stáhnout nyní",
     "Your version is up to date." : "Používáte nejnovější verzi.",
     "Checked on %s" : "Zkontrolováno %s",
     "Update channel:" : "Aktualizovat kanál:",
