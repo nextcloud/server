@@ -439,23 +439,30 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return array
 	 */
 	function getMultipleCards($addressBookId, array $uris) {
+		if (empty($uris)) {
+			return [];
+		}
+
+		$chunks = array_chunk($uris, 100);
+		$cards = [];
+
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'uri', 'lastmodified', 'etag', 'size', 'carddata'])
 			->from('cards')
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
-			->andWhere($query->expr()->in('uri', $query->createParameter('uri')))
-			->setParameter('uri', $uris, IQueryBuilder::PARAM_STR_ARRAY);
+			->andWhere($query->expr()->in('uri', $query->createParameter('uri')));
 
-		$cards = [];
+		foreach ($chunks as $uris) {
+			$query->setParameter('uri', $uris, IQueryBuilder::PARAM_STR_ARRAY);
+			$result = $query->execute();
 
-		$result = $query->execute();
-		while($row = $result->fetch()) {
-			$row['etag'] = '"' . $row['etag'] . '"';
-			$row['carddata'] = $this->readBlob($row['carddata']);
-			$cards[] = $row;
+			while ($row = $result->fetch()) {
+				$row['etag'] = '"' . $row['etag'] . '"';
+				$row['carddata'] = $this->readBlob($row['carddata']);
+				$cards[] = $row;
+			}
+			$result->closeCursor();
 		}
-		$result->closeCursor();
-
 		return $cards;
 	}
 
