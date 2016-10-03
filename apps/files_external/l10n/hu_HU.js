@@ -73,7 +73,7 @@ OC.L10N.register(
     "Enable Path Style" : "Útvonal stílus engedélyezés",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
-    "Remote subfolder" : "Távoli alkönyvtár",
+    "Remote subfolder" : "Távoli almappa",
     "Secure https://" : "Biztonságos https://",
     "Dropbox" : "Dropbox",
     "FTP" : "FTP",

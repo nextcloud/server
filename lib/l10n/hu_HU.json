@@ -35,7 +35,7 @@
     "File name is a reserved word" : "A fajl neve egy rezervált szó",
     "File name contains at least one invalid character" : "A fájlnév legalább egy érvénytelen karaktert tartalmaz!",
     "File name is too long" : "A fájlnév túl hosszú!",
-    "App directory already exists" : "Az alkalmazás mappája már létezik",
+    "App directory already exists" : "Az alkalmazás könyvtára már létezik",
     "Can't create app folder. Please fix permissions. %s" : "Nem lehetett létrehozni az alkalmazás mappáját. Kérem ellenőrizze a jogosultságokat. %s",
     "Archive does not contain a directory named %s" : "Az archívum nem tartalmazza ezt a könyvtárt: %s",
     "No source specified when installing app" : "Az alkalmazás telepítéséhez nincs forrás megadva",
