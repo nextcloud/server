@@ -19,6 +19,7 @@ OC.L10N.register(
     "%s password reset" : "%s 암호 재설정",
     "Couldn't send reset email. Please contact your administrator." : "재설정 메일을 보낼수 없습니다. 관리자에게 문의하십시오.",
     "Preparing update" : "업데이트 준비 중",
+    "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair warning: " : "수리 경고:",
     "Repair error: " : "수리 오류:",
     "Turned on maintenance mode" : "유지 보수 모드 켜짐",
