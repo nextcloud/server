@@ -48,17 +48,11 @@ class MoveAvatarsBackgroundJob extends QueuedJob {
 
 	/**
 	 * MoveAvatars constructor.
-	 *
-	 * @param IUserManager $userManager
-	 * @param IRootFolder $rootFolder
-	 * @param ILogger $logger
 	 */
-	public function __construct(IUserManager $userManager,
-								IRootFolder $rootFolder,
-								ILogger $logger) {
-		$this->userManager = $userManager;
-		$this->rootFolder = $rootFolder;
-		$this->logger = $logger;
+	public function __construct() {
+		$this->userManager = \OC::$server->getUserManager();
+		$this->rootFolder = \OC::$server->getRootFolder();
+		$this->logger = \OC::$server->getLogger();
 		$this->appData = \OC::$server->getAppDataDir('avatar');
 	}
 
