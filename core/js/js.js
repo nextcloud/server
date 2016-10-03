@@ -1075,7 +1075,7 @@ OC.Notification={
 	 *
 	 * @param {string} html Message to display
 	 * @param {Object} [options] options
-	 * @param {string] [options.type] notification type
+	 * @param {string} [options.type] notification type
 	 * @param {int} [options.timeout=0] timeout value, defaults to 0 (permanent)
 	 * @return {jQuery} jQuery element for notification row
 	 */
@@ -1284,6 +1284,88 @@ OC.Breadcrumb={
 	},
 	_clear:function(container) {
 		container.find('div.crumb').remove();
+	}
+};
+
+OC.Undo = {
+	_currentCommand: undefined,
+	_$notificationRow: undefined,
+	_notificationTimer: undefined,
+
+	/**
+	 * Add an action to the undo queue
+	 *
+	 * @since 11
+	 * @param {OC.Undo.Command} command
+	 * @param {string} text
+	 * @returns {OC.Undo.Command}
+	 */
+	push: function(command, text) {
+		var self = this;
+		if (!_.isUndefined(this._currentCommand)) {
+			this._currentCommand.execute();
+		}
+		this._currentCommand = command;
+		this._$notificationRow = OC.Notification.showHtml('<span>' + text + '</span> <a>' + t('core', 'Click to undo') + '</a>');
+
+		// If a user clicks the notification, we undo the command
+		this._$notificationRow.click(function() {
+			self.undo();
+		});
+		// If it's not clicked, then we execute it
+		this._notificationTimer = setTimeout(function() {
+			self.execute();
+		}, 7 * 1000);
+	},
+
+	/**
+	 * Execute the current command
+	 *
+	 * @todo bind to onpageunload
+	 *
+	 * @returns {undefined}
+	 */
+	execute: function() {
+		if (!_.isUndefined(this._currentCommand)) {
+			clearTimeout(this._notificationTimer);
+			OC.Notification.hide(this._$notificationRow);
+			this._currentCommand.execute();
+			this._currentCommand = undefined;
+		}
+	},
+
+	/**
+	 * Undo the current command
+	 *
+	 * @returns {undefined}
+	 */
+	undo: function() {
+		if (!_.isUndefined(this._currentCommand)) {
+			clearTimeout(this._notificationTimer);
+			OC.Notification.hide(this._$notificationRow);
+			this._currentCommand.undo();
+			this._currentCommand = undefined;
+		}
+	}
+};
+OC.Undo.Command = function(execute, undo) {
+	this._executeFn = execute;
+	this._undoFn = undo;
+	this._executed = false;
+	this._undone = false;
+};
+OC.Undo.Command.prototype = {
+	execute: function() {
+		if (!this._executed) {
+			this._executeFn();
+			this._executed = true;
+		}
+	},
+	undo: function() {
+		if (!this._undone && this._undoFn) {
+			this._undoFn();
+			this._undone = true;
+		}
 	}
 };
 
