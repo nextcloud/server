@@ -1,8 +1,11 @@
 <?php
 /**
  * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -21,33 +24,49 @@
 
 namespace Test;
 
+use OC\Avatar;
 use OC\AvatarManager;
-use Test\Traits\UserTrait;
-use Test\Traits\MountProviderTrait;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\IConfig;
+use OCP\IL10N;
+use OCP\ILogger;
+use OCP\IUser;
+use OCP\IUserManager;
 
 /**
  * Class AvatarManagerTest
- * @group DB
  */
 class AvatarManagerTest extends \Test\TestCase {
-	use UserTrait;
-	use MountProviderTrait;
-
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $userManager;
+	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	private $rootFolder;
+	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	private $l10n;
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	private $logger;
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	private $config;
 	/** @var AvatarManager */
 	private $avatarManager;
-
-	/** @var \OC\Files\Storage\Temporary */
-	private $storage;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->createUser('valid-user', 'valid-user');
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->logger = $this->createMock(ILogger::class);
+		$this->config = $this->createMock(IConfig::class);
 
-		$this->storage = new \OC\Files\Storage\Temporary();
-		$this->registerMount('valid-user', $this->storage, '/valid-user/');
-
-		$this->avatarManager = \OC::$server->getAvatarManager();
+		$this->avatarManager = new AvatarManager(
+			$this->userManager,
+			$this->rootFolder,
+			$this->l10n,
+			$this->logger,
+			$this->config
+		);
 	}
 
 	/**
@@ -55,14 +74,35 @@ class AvatarManagerTest extends \Test\TestCase {
 	 * @expectedExceptionMessage user does not exist
 	 */
 	public function testGetAvatarInvalidUser() {
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('invalidUser')
+			->willReturn(null);
+
 		$this->avatarManager->getAvatar('invalidUser');
 	}
 
 	public function testGetAvatarValidUser() {
-		$avatar = $this->avatarManager->getAvatar('valid-user');
+		$user = $this->createMock(IUser::class);
+		$user
+			->expects($this->once())
+			->method('getUID')
+			->willReturn('valid-user');
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('valid-user')
+			->willReturn($user);
+		$folder = $this->createMock(Folder::class);
+		$this->rootFolder
+			->expects($this->once())
+			->method('get')
+			->with('/valid-user')
+			->willReturn($folder);
 
-		$this->assertInstanceOf('\OCP\IAvatar', $avatar);
-		$this->assertFalse($this->storage->file_exists('files'));
+		$expected = new Avatar($folder, $this->l10n, $user, $this->logger, $this->config);;
+		$this->assertEquals($expected, $this->avatarManager->getAvatar('valid-user'));
 	}
 
 }
