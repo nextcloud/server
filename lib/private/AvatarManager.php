@@ -92,11 +92,19 @@ class AvatarManager implements IAvatarManager {
 			throw new \Exception('user does not exist');
 		}
 
+		// sanitize userID - fixes casing issue (needed for the filesystem stuff that is done below)
+		$userId = $user->getUID();
+
 		/*
 		 * Fix for #22119
-		 * Basically we do not want to copy the skeleton folder
+		 * Basically we do not want to copy the skeleton folder.
+		 *
+		 * For unit test purposes this is ignored when run in PHPUnit.
 		 */
-		\OC\Files\Filesystem::initMountPoints($userId);
+		if(!defined('PHPUNIT_RUN')) {
+			\OC\Files\Filesystem::initMountPoints($userId);
+		}
+
 		$dir = '/' . $userId;
 		/** @var Folder $folder */
 		$folder = $this->rootFolder->get($dir);
