@@ -146,7 +146,9 @@
 					if (!Files.isFileNameValid(filename)) {
 						// Files.isFileNameValid(filename) throws an exception itself
 					} else if (self.fileList.inList(filename)) {
-						throw t('files', '{newname} already exists', {newname: filename});
+						throw t('files', '{newName} already exists', {newName: filename}, undefined, {
+							escape: false
+						});
 					} else {
 						return true;
 					}
