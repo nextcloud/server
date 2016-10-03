@@ -1,3 +1,5 @@
+/* global OC, Handlebars */
+
 /*
  * Copyright (c) 2015
  *
@@ -19,7 +21,6 @@
 			'<ul id="shareWithList" class="shareWithList">' +
 			'{{#each sharees}}' +
 				'<li data-share-id="{{shareId}}" data-share-type="{{shareType}}" data-share-with="{{shareWith}}">' +
-					'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span class="hidden-visually">{{unshareLabel}}</span></a>' +
 					'{{#if avatarEnabled}}' +
 					'<div class="avatar {{#if modSeed}}imageplaceholderseed{{/if}}" data-username="{{shareWith}}" {{#if modSeed}}data-seed="{{shareWith}} {{shareType}}"{{/if}}></div>' +
 					'{{/if}}' +
@@ -30,45 +31,57 @@
 						'<label for="mail-{{cid}}-{{shareWith}}">{{notifyByMailLabel}}</label>' +
 					'</span>' +
 					'{{/unless}} {{/if}}' +
-					'{{#if isResharingAllowed}} {{#if sharePermissionPossible}}' +
-					'<span class="shareOption">' +
-						'<input id="canShare-{{cid}}-{{shareWith}}" type="checkbox" name="share" class="permissions checkbox" {{#if hasSharePermission}}checked="checked"{{/if}} data-permissions="{{sharePermission}}" />' +
-						'<label for="canShare-{{cid}}-{{shareWith}}">{{canShareLabel}}</label>' +
+					'<span class="sharingOptionsGroup">' +
+						'{{#if editPermissionPossible}}' +
+						'<span class="shareOption">' +
+							'<input id="canEdit-{{cid}}-{{shareWith}}" type="checkbox" name="edit" class="permissions checkbox" {{#if hasEditPermission}}checked="checked"{{/if}} />' +
+							'<label for="canEdit-{{cid}}-{{shareWith}}">{{canEditLabel}}</label>' +
+						'</span>' +
+						'{{/if}}' +
+						'<a href="#"><span class="icon icon-more"></span></a>' +
+						'<div class="popovermenu bubble hidden menu">' +
+							'<ul>' +
+								'{{#if isResharingAllowed}} {{#if sharePermissionPossible}}' +
+								'<li>' +
+									'<span class="shareOption">' +
+										'<input id="canShare-{{cid}}-{{shareWith}}" type="checkbox" name="share" class="permissions checkbox" {{#if hasSharePermission}}checked="checked"{{/if}} data-permissions="{{sharePermission}}" />' +
+										'<label for="canShare-{{cid}}-{{shareWith}}">{{canShareLabel}}</label>' +
+									'</span>' +
+								'</li>' +
+								'{{/if}} {{/if}}' +
+								'{{#if isFolder}}' +
+									'{{#if createPermissionPossible}}' +
+									'<li>' +
+										'<span class="shareOption">' +
+											'<input id="canCreate-{{cid}}-{{shareWith}}" type="checkbox" name="create" class="permissions checkbox" {{#if hasCreatePermission}}checked="checked"{{/if}} data-permissions="{{createPermission}}"/>' +
+											'<label for="canCreate-{{cid}}-{{shareWith}}">{{createPermissionLabel}}</label>' +
+										'</span>' +
+									'</li>' +
+									'{{/if}}' +
+									'{{#if updatePermissionPossible}}' +
+									'<li>' +
+										'<span class="shareOption">' +
+											'<input id="canUpdate-{{cid}}-{{shareWith}}" type="checkbox" name="update" class="permissions checkbox" {{#if hasUpdatePermission}}checked="checked"{{/if}} data-permissions="{{updatePermission}}"/>' +
+											'<label for="canUpdate-{{cid}}-{{shareWith}}">{{updatePermissionLabel}}</label>' +
+										'</span>' +
+									'</li>' +
+									'{{/if}}' +
+									'{{#if deletePermissionPossible}}' +
+									'<li>' +
+										'<span class="shareOption">' +
+											'<input id="canDelete-{{cid}}-{{shareWith}}" type="checkbox" name="delete" class="permissions checkbox" {{#if hasDeletePermission}}checked="checked"{{/if}} data-permissions="{{deletePermission}}"/>' +
+											'<label for="canDelete-{{cid}}-{{shareWith}}">{{deletePermissionLabel}}</label>' +
+										'</span>' +
+									'</li>' +
+									'{{/if}}' +
+								'{{/if}}' +
+							'</ul>' +
+						'</div>' +
+						'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span class="hidden-visually">{{unshareLabel}}</span></a>' +
 					'</span>' +
-					'{{/if}} {{/if}}' +
-					'{{#if editPermissionPossible}}' +
-					'<span class="shareOption">' +
-						'<input id="canEdit-{{cid}}-{{shareWith}}" type="checkbox" name="edit" class="permissions checkbox" {{#if hasEditPermission}}checked="checked"{{/if}} />' +
-						'<label for="canEdit-{{cid}}-{{shareWith}}">{{canEditLabel}}</label>' +
-						'{{#if isFolder}}' +
-						'<a href="#" class="showCruds"><img alt="{{crudsLabel}}" src="{{triangleSImage}}"/></a>' +
-						'{{/if}}' +
-					'</span>' +
-					'{{/if}}' +
-					'<div class="cruds hidden">' +
-						'{{#if createPermissionPossible}}' +
-						'<span class="shareOption">' +
-							'<input id="canCreate-{{cid}}-{{shareWith}}" type="checkbox" name="create" class="permissions checkbox" {{#if hasCreatePermission}}checked="checked"{{/if}} data-permissions="{{createPermission}}"/>' +
-							'<label for="canCreate-{{cid}}-{{shareWith}}">{{createPermissionLabel}}</label>' +
-						'</span>' +
-						'{{/if}}' +
-						'{{#if updatePermissionPossible}}' +
-						'<span class="shareOption">' +
-							'<input id="canUpdate-{{cid}}-{{shareWith}}" type="checkbox" name="update" class="permissions checkbox" {{#if hasUpdatePermission}}checked="checked"{{/if}} data-permissions="{{updatePermission}}"/>' +
-							'<label for="canUpdate-{{cid}}-{{shareWith}}">{{updatePermissionLabel}}</label>' +
-						'</span>' +
-						'{{/if}}' +
-						'{{#if deletePermissionPossible}}' +
-						'<span class="shareOption">' +
-							'<input id="canDelete-{{cid}}-{{shareWith}}" type="checkbox" name="delete" class="permissions checkbox" {{#if hasDeletePermission}}checked="checked"{{/if}} data-permissions="{{deletePermission}}"/>' +
-							'<label for="canDelete-{{cid}}-{{shareWith}}">{{deletePermissionLabel}}</label>' +
-						'</span>' +
-						'{{/if}}' +
-					'</div>' +
 				'</li>' +
 			'{{/each}}' +
-			'</ul>'
-		;
+			'</ul>';
 
 	/**
 	 * @class OCA.Share.ShareDialogShareeListView
@@ -90,10 +103,12 @@
 		/** @type {Function} **/
 		_template: undefined,
 
+		_menuOpen: false,
+
 		events: {
 			'click .unshare': 'onUnshare',
+			'click .icon-more': 'onToggleMenu',
 			'click .permissions': 'onPermissionChange',
-			'click .showCruds': 'onCrudsToggle',
 			'click .mailNotification': 'onSendMailNotification'
 		},
 
@@ -150,7 +165,7 @@
 				mailNotificationEnabled: this.configModel.isMailNotificationEnabled(),
 				notifyByMailLabel: t('core', 'notify by email'),
 				unshareLabel: t('core', 'Unshare'),
-				canShareLabel: t('core', 'can share'),
+				canShareLabel: t('core', 'can reshare'),
 				canEditLabel: t('core', 'can edit'),
 				createPermissionLabel: t('core', 'create'),
 				updatePermissionLabel: t('core', 'change'),
@@ -192,7 +207,7 @@
 			}));
 
 			if(this.configModel.areAvatarsEnabled()) {
-				this.$el.find('.avatar').each(function() {
+				this.$('.avatar').each(function() {
 					var $this = $(this);
 					if ($this.hasClass('imageplaceholderseed')) {
 						$this.css({width: 32, height: 32});
@@ -203,9 +218,18 @@
 				});
 			}
 
-			this.$el.find('.has-tooltip').tooltip({
+			this.$('.has-tooltip').tooltip({
 				placement: 'bottom'
 			});
+
+			var _this = this;
+			this.$('.popovermenu').on('afterHide', function() {
+				_this._menuOpen = false;
+			});
+			if (this._menuOpen) {
+				// Open menu again if it was opened before
+				OC.showMenu(null, this.$('.popovermenu'));
+			}
 
 			this.delegateEvents();
 
@@ -224,6 +248,8 @@
 		},
 
 		onUnshare: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
 			var self = this;
 			var $element = $(event.target);
 			if (!$element.is('a')) {
@@ -237,7 +263,7 @@
 			}
 			$loading.removeClass('hidden');
 
-			var $li = $element.closest('li');
+			var $li = $element.closest('li[data-share-id]');
 
 			var shareId = $li.data('share-id');
 
@@ -252,25 +278,45 @@
 			return false;
 		},
 
-		onPermissionChange: function(event) {
+		onToggleMenu: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
 			var $element = $(event.target);
-			var $li = $element.closest('li');
+			var $li = $element.closest('li[data-share-id]');
+			var $menu = $li.find('.popovermenu');
+
+			OC.showMenu(null, $menu);
+			this._menuOpen = true;
+		},
+
+		onPermissionChange: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			var $element = $(event.target);
+			var $li = $element.closest('li[data-share-id]');
 			var shareId = $li.data('share-id');
 
-			// adjust checkbox states
-			var $checkboxes = $('.permissions', $li).not('input[name="edit"]').not('input[name="share"]');
-			var checked;
-			if ($element.attr('name') === 'edit') {
-				checked = $element.is(':checked');
-				// Check/uncheck Create, Update, and Delete checkboxes if Edit is checked/unck
-				$($checkboxes).prop('checked', checked);
+			var permissions = OC.PERMISSION_READ;
+
+			if (this.model.isFolder()) {
+				// adjust checkbox states
+				var $checkboxes = $('.permissions', $li).not('input[name="edit"]').not('input[name="share"]');
+				var checked;
+				if ($element.attr('name') === 'edit') {
+					checked = $element.is(':checked');
+					// Check/uncheck Create, Update, and Delete checkboxes if Edit is checked/unck
+					$($checkboxes).prop('checked', checked);
+				} else {
+					var numberChecked = $checkboxes.filter(':checked').length;
+					checked = numberChecked > 0;
+					$('input[name="edit"]', $li).prop('checked', checked);
+				}
 			} else {
-				var numberChecked = $checkboxes.filter(':checked').length;
-				checked = numberChecked > 0;
-				$('input[name="edit"]', $li).prop('checked', checked);
+				if ($element.attr('name') === 'edit' && $element.is(':checked')) {
+					permissions |= OC.PERMISSION_UPDATE;
+				}
 			}
 
-			var permissions = OC.PERMISSION_READ;
 			$('.permissions', $li).not('input[name="edit"]').filter(':checked').each(function(index, checkbox) {
 				permissions |= $(checkbox).data('permissions');
 			});
@@ -278,15 +324,9 @@
 			this.model.updateShare(shareId, {permissions: permissions});
 		},
 
-		onCrudsToggle: function(event) {
-			var $target = $(event.target);
-			$target.closest('li').find('.cruds').toggleClass('hidden');
-			return false;
-		},
-
 		onSendMailNotification: function(event) {
 			var $target = $(event.target);
-			var $li = $(event.target).closest('li');
+			var $li = $(event.target).closest('li[data-share-id]');
 			var shareType = $li.data('share-type');
 			var shareWith = $li.attr('data-share-with');
 

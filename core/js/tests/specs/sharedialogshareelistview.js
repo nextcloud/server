@@ -102,6 +102,7 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 				share_with: 'user1',
 				share_with_displayname: 'User One'
 			}]);
+			shareModel.set('itemType', 'folder');
 			listView.render();
 			listView.$el.find("input[name='edit']").click();
 			expect(listView.$el.find("input[name='update']").is(':checked')).toEqual(true);
@@ -115,8 +116,10 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 				permissions: 1,
 				share_type: OC.Share.SHARE_TYPE_USER,
 				share_with: 'user1',
-				share_with_displayname: 'User One'
+				share_with_displayname: 'User One',
+				itemType: 'folder'
 			}]);
+			shareModel.set('itemType', 'folder');
 			listView.render();
 			listView.$el.find("input[name='update']").click();
 			expect(listView.$el.find("input[name='edit']").is(':checked')).toEqual(true);

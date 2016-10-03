@@ -57,6 +57,16 @@
 	vertical-align:text-bottom; /* properly align icons */
 }
 
+#shareWithList .sharingOptionsGroup .icon-more,
+#shareWithList .unshare .icon-delete {
+	vertical-align: sub;
+}
+
+#shareWithList .unshare .icon-delete {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
 #shareWithList label input[type=checkbox]{
 	margin-left: 0;
 	position: relative;
