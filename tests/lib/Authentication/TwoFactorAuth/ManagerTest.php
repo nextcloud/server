@@ -26,7 +26,6 @@ use Exception;
 use OC;
 use OC\App\AppManager;
 use OC\Authentication\TwoFactorAuth\Manager;
-use OCA\TwoFactor_BackupCodes\Provider\BackupCodesProvider;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IConfig;
 use OCP\ISession;
@@ -89,7 +88,7 @@ class ManagerTest extends TestCase {
 		$this->backupProvider->expects($this->any())
 			->method('isTwoFactorAuthEnabledForUser')
 			->will($this->returnValue(true));
-		OC::$server->registerService('\OCA\TwoFactor_BackupCodes\Provider\FakeBackupCodesProvider', function () {
+		OC::$server->registerService('\OCA\TwoFactorBackupCodes\Provider\FakeBackupCodesProvider', function () {
 			return $this->backupProvider;
 		});
 	}
@@ -149,7 +148,7 @@ class ManagerTest extends TestCase {
 					[
 						'twofactor_backupcodes',
 						['two-factor-providers' => [
-								'\OCA\TwoFactor_BackupCodes\Provider\FakeBackupCodesProvider',
+								'\OCA\TwoFactorBackupCodes\Provider\FakeBackupCodesProvider',
 							]
 						]
 					],

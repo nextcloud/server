@@ -20,9 +20,9 @@
  *
  */
 
-namespace OCA\TwoFactor_BackupCodes\Controller;
+namespace OCA\TwoFactorBackupCodes\Controller;
 
-use OCA\TwoFactor_BackupCodes\Service\BackupCodeStorage;
+use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;

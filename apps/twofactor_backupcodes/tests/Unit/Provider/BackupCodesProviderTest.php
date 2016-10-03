@@ -20,10 +20,10 @@
  *
  */
 
-namespace OCA\TwoFactor_BackupCodes\Tests\Unit\Provider;
+namespace OCA\TwoFactorBackupCodes\Tests\Unit\Provider;
 
-use OCA\TwoFactor_BackupCodes\Provider\BackupCodesProvider;
-use OCA\TwoFactor_BackupCodes\Service\BackupCodeStorage;
+use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
+use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\Template;

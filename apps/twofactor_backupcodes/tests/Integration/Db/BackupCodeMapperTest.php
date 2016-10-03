@@ -20,10 +20,10 @@
  *
  */
 
-namespace OCA\TwoFactor_BackupCodes\Tests\Integration\Db;
+namespace OCA\TwoFactorBackupCodes\Tests\Integration\Db;
 
-use OCA\TwoFactor_BackupCodes\Db\BackupCode;
-use OCA\TwoFactor_BackupCodes\Db\BackupCodeMapper;
+use OCA\TwoFactorBackupCodes\Db\BackupCode;
+use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
 use OCP\IDBConnection;
 use OCP\IUser;
 use Test\TestCase;

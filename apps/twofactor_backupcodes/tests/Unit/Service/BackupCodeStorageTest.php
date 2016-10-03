@@ -20,11 +20,11 @@
  *
  */
 
-namespace OCA\TwoFactor_BackupCodes\Tests\Unit\Service;
+namespace OCA\TwoFactorBackupCodes\Tests\Unit\Service;
 
-use OCA\TwoFactor_BackupCodes\Db\BackupCode;
-use OCA\TwoFactor_BackupCodes\Db\BackupCodeMapper;
-use OCA\TwoFactor_BackupCodes\Service\BackupCodeStorage;
+use OCA\TwoFactorBackupCodes\Db\BackupCode;
+use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
+use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
 use OCP\IUser;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
