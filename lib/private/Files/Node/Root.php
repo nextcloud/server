@@ -347,6 +347,15 @@ class Root extends Folder implements IRootFolder {
 	 * @return \OCP\Files\Folder
 	 */
 	public function getUserFolder($userId) {
+		$userObject = \OC::$server->getUserManager()->get($userId);
+
+		if (is_null($userObject)) {
+			\OCP\Util::writeLog('files', 'Backends provided no user object for ' . $userId, \OCP\Util::ERROR);
+			throw new \OC\User\NoUserException('Backends provided no user object for ' . $userId);
+		}
+
+		$userId = $userObject->getUID();
+
 		if (!$this->userFolderCache->hasKey($userId)) {
 			\OC\Files\Filesystem::initMountPoints($userId);
 
