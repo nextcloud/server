@@ -93,7 +93,6 @@ OC.L10N.register(
     "Local link" : "Link local",
     "Folder" : "Pasta",
     "New folder" : "Nova pasta",
-    "{newname} already exists" : "{newname} já existe",
     "Upload" : "Enviar",
     "An error occurred while trying to update the tags" : "Ocorreu um erro enquanto tentava atualizar as etiquetas",
     "A new file or folder has been <strong>created</strong>" : "Um novo arquivo ou pasta foi <strong>criado</strong>",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Arquivos e pastas que você marcou como favoritos são mostrados aqui",
     "Text file" : "Arquivo texto",
     "New text file.txt" : "Novo texto file.txt",
+    "{newname} already exists" : "{newname} já existe",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Use este endereço para <a href=\"%s\" target=\"_blank\">acessar seus arquivos via WebDAV</a>",
     "Cancel upload" : "Cancelar envio"
 },

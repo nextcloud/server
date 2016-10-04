@@ -153,7 +153,6 @@ OC.L10N.register(
     "remote" : "รีโมท",
     "notify by email" : "แจ้งเตือนทางอีเมล",
     "Unshare" : "ยกเลิกการแชร์",
-    "can share" : "สามารถแชร์ได้",
     "can edit" : "สามารถแก้ไข",
     "create" : "สร้าง",
     "change" : "เปลี่ยนแปลง",
@@ -281,6 +280,7 @@ OC.L10N.register(
     "Error favoriting" : "เกิดข้อผิดพลาดขณะเลือกที่ชื่นชอบ",
     "Error unfavoriting" : "เกิดข้อผิดพลาดขณะยกเลิกการเลือกที่ชื่นชอบ",
     "Couldn't send mail to following users: %s " : "ไม่สามารถส่งอีเมลไปยังผู้ใช้: %s",
-    "Allow editing" : "อนุญาตให้แก้ไข"
+    "Allow editing" : "อนุญาตให้แก้ไข",
+    "can share" : "สามารถแชร์ได้"
 },
 "nplurals=1; plural=0;");

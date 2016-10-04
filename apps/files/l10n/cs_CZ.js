@@ -93,7 +93,6 @@ OC.L10N.register(
     "Local link" : "Místní odkaz",
     "Folder" : "Adresář",
     "New folder" : "Nový adresář",
-    "{newname} already exists" : "{newname} již existuje",
     "Upload" : "Odeslat",
     "An error occurred while trying to update the tags" : "Při pokusu o úpravu tagů nastala chyba",
     "A new file or folder has been <strong>created</strong>" : "Byl <strong>vytvořen</strong> nový soubor nebo adresář",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Zde budou zobrazeny soubory a adresáře označené jako oblíbené",
     "Text file" : "Textový soubor",
     "New text file.txt" : "Nový textový soubor.txt",
+    "{newname} already exists" : "{newname} již existuje",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Použijte tuto adresu pro <a href=\"%s\" target=\"_blank\">přístup ke svým Souborům přes WebDAV</a>",
     "Cancel upload" : "Ukončit nahrávání"
 },

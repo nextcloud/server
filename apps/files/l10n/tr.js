@@ -92,7 +92,6 @@ OC.L10N.register(
     "Local link" : "Yerel bağlantı",
     "Folder" : "Klasör",
     "New folder" : "Yeni klasör",
-    "{newname} already exists" : "{newname} zaten mevcut",
     "Upload" : "Yükle",
     "An error occurred while trying to update the tags" : "Etiketler güncellenmeye çalışılırken bir hata oluştu",
     "A new file or folder has been <strong>created</strong>" : "Yeni bir dosya veya klasör <strong>oluşturuldu</strong>",
@@ -132,6 +131,7 @@ OC.L10N.register(
     "No favorites" : "Sık kullanılan öge yok.",
     "Files and folders you mark as favorite will show up here" : "Sık kullanılan olarak işaretlediğiniz dosya ve klasörler burada gösterilecek",
     "Text file" : "Metin dosyası",
-    "New text file.txt" : "Yeni metin dosyası.txt"
+    "New text file.txt" : "Yeni metin dosyası.txt",
+    "{newname} already exists" : "{newname} zaten mevcut"
 },
 "nplurals=2; plural=(n > 1);");

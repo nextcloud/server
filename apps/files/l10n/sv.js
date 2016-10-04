@@ -93,7 +93,6 @@ OC.L10N.register(
     "Local link" : "Lokal länk",
     "Folder" : "Mapp",
     "New folder" : "Ny mapp",
-    "{newname} already exists" : "{newname}  existerar redan",
     "Upload" : "Ladda upp",
     "An error occurred while trying to update the tags" : "Ett fel uppstod när uppdatera taggarna",
     "A new file or folder has been <strong>created</strong>" : "En ny fil eller mapp har blivit <strong>skapad</strong>",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Filer och mappar du markerat som favoriter kommer att visas här",
     "Text file" : "Textfil",
     "New text file.txt" : "nytextfil.txt",
+    "{newname} already exists" : "{newname}  existerar redan",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Använd denna adress för att <a href=\"%s\" target=\"_blank\">få tillgång till filer via WebDAV</a>",
     "Cancel upload" : "Avbryt uppladdning"
 },

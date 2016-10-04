@@ -79,7 +79,6 @@ OC.L10N.register(
     "Favorite" : "รายการโปรด",
     "Folder" : "แฟ้มเอกสาร",
     "New folder" : "โฟลเดอร์ใหม่",
-    "{newname} already exists" : "{newname} ถูกใช้ไปแล้ว",
     "Upload" : "อัพโหลด",
     "An error occurred while trying to update the tags" : "เกิดข้อผิดพลาดขณะที่พยายามจะปรับปรุงแท็ก",
     "A new file or folder has been <strong>created</strong>" : "มีไฟล์ใหม่หรือโฟลเดอร์ได้ถูก <strong>สร้างขึ้น!</strong>",
@@ -119,6 +118,7 @@ OC.L10N.register(
     "No favorites" : "ยังไม่มีรายการโปรด",
     "Files and folders you mark as favorite will show up here" : "ไฟล์และโฟลเดอร์ที่คุณทำเครื่องหมายเป็นรายการโปรดจะปรากฏขึ้นที่นี่",
     "Text file" : "ไฟล์ข้อความ",
-    "New text file.txt" : "ไฟล์ข้อความใหม่ .txt"
+    "New text file.txt" : "ไฟล์ข้อความใหม่ .txt",
+    "{newname} already exists" : "{newname} ถูกใช้ไปแล้ว"
 },
 "nplurals=1; plural=0;");

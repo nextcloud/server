@@ -152,7 +152,6 @@ OC.L10N.register(
     "remote" : "Віддалений",
     "notify by email" : "повідомити по Email",
     "Unshare" : "Закрити доступ",
-    "can share" : "може ділитися з іншими",
     "can edit" : "може редагувати",
     "create" : "створити",
     "change" : "змінити",
@@ -296,6 +295,7 @@ OC.L10N.register(
     "Error unfavoriting" : "Помилка видалення з улюбленого",
     "Couldn't send mail to following users: %s " : "Неможливо надіслати листа наступним користувачам: %s ",
     "Allow editing" : "Дозволити редагування",
+    "can share" : "може ділитися з іншими",
     "Two-step verification" : "Дворівнева перевірка",
     "An error occured while verifying the token" : "При верифікації токена виникла помилка"
 },

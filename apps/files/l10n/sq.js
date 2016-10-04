@@ -90,7 +90,6 @@ OC.L10N.register(
     "Local link" : "Lidhje vendore",
     "Folder" : "Dosje",
     "New folder" : "Dosje e re",
-    "{newname} already exists" : "Ka tashmë një {newname}",
     "Upload" : "Ngarkoje",
     "An error occurred while trying to update the tags" : "Ndodhi një gabim teksa provohej të përditësoheshin etiketat",
     "A new file or folder has been <strong>created</strong>" : "<strong>U krijua</strong> një kartelë ose dosje e re",
@@ -130,6 +129,7 @@ OC.L10N.register(
     "No favorites" : "Pa të parapëlqyera",
     "Files and folders you mark as favorite will show up here" : "Këtu do të duken kartelat dhe dosjet që i shënoni si të parapëlqyera",
     "Text file" : "Kartelë tekst",
-    "New text file.txt" : "Kartelë e re file.txt"
+    "New text file.txt" : "Kartelë e re file.txt",
+    "{newname} already exists" : "Ka tashmë një {newname}"
 },
 "nplurals=2; plural=(n != 1);");

@@ -93,7 +93,6 @@ OC.L10N.register(
     "Local link" : "Paikallinen linkki",
     "Folder" : "Kansio",
     "New folder" : "Uusi kansio",
-    "{newname} already exists" : "{newname} on jo olemassa",
     "Upload" : "Lähetä",
     "An error occurred while trying to update the tags" : "Tunnisteiden päivitystä yrittäessä tapahtui virhe",
     "A new file or folder has been <strong>created</strong>" : "Uusi tiedosto tai kansio on <strong>luotu</strong>",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Suosikeiksi merkitsemäsi tiedostot ja kansiot näkyvät täällä",
     "Text file" : "Tekstitiedosto",
     "New text file.txt" : "Uusi tekstitiedosto.txt",
+    "{newname} already exists" : "{newname} on jo olemassa",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Käytä tätä osoitetta <a href=\"%s\" target=\"_blank\">käyttääksesi tiedostojasi WebDAV:n yli</a>",
     "Cancel upload" : "Peru lähetys"
 },

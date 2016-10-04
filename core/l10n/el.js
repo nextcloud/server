@@ -152,7 +152,6 @@ OC.L10N.register(
     "remote" : "απομακρυσμένα",
     "notify by email" : "ειδοποίηση με email",
     "Unshare" : "Διακοπή διαμοιρασμού",
-    "can share" : "δυνατότητα διαμοιρασμού",
     "can edit" : "δυνατότητα αλλαγής",
     "create" : "δημιουργία",
     "change" : "αλλαγή",
@@ -290,6 +289,7 @@ OC.L10N.register(
     "Error unfavoriting" : "Σφάλμα αφαίρεσης από τα αγαπημένα",
     "Couldn't send mail to following users: %s " : "Αδυναμία αποστολής μηνύματος στους ακόλουθους χρήστες: %s",
     "Allow editing" : "Επιτρέπεται η επεξεργασία",
+    "can share" : "δυνατότητα διαμοιρασμού",
     "Updating to {version}" : "Ενημέρωση στην έκδοση {version}",
     "The update was successful. There were warnings." : "Η ενημέρωση ήταν επιτυχής. Υπάρχουν προειδοποιήσεις."
 },

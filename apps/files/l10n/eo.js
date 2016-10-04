@@ -75,7 +75,6 @@ OC.L10N.register(
     "Favorite" : "Favorato",
     "Folder" : "Dosierujo",
     "New folder" : "Nova dosierujo",
-    "{newname} already exists" : "{newname} jam ekzistas",
     "Upload" : "Alŝuti",
     "An error occurred while trying to update the tags" : "Eraris provo ĝisdatigi la etikedojn",
     "A new file or folder has been <strong>created</strong>" : "Nova dosiero aŭ dosierujo <strong>kreiĝis</strong>",
@@ -112,6 +111,7 @@ OC.L10N.register(
     "No favorites" : "Neniu pliŝato",
     "Files and folders you mark as favorite will show up here" : "Dosieroj kaj dosierujoj, kiujn vi markas, kiel pliŝatoj, aperos ĉi tie",
     "Text file" : "Tekstodosiero",
-    "New text file.txt" : "Nova tekstodosiero.txt"
+    "New text file.txt" : "Nova tekstodosiero.txt",
+    "{newname} already exists" : "{newname} jam ekzistas"
 },
 "nplurals=2; plural=(n != 1);");

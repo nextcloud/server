@@ -90,7 +90,6 @@ OC.L10N.register(
     "Local link" : "本地链接",
     "Folder" : "文件夹",
     "New folder" : "增加文件夹",
-    "{newname} already exists" : "{newname} 已经存在",
     "Upload" : "上传",
     "An error occurred while trying to update the tags" : "更新标签时出错",
     "A new file or folder has been <strong>created</strong>" : "一个新的文件或文件夹已被<strong>创建</strong>",
@@ -130,6 +129,7 @@ OC.L10N.register(
     "No favorites" : "无收藏",
     "Files and folders you mark as favorite will show up here" : "收藏的文件和文件夹会在这里显示",
     "Text file" : "文本文件",
-    "New text file.txt" : "创建文本文件 .txt"
+    "New text file.txt" : "创建文本文件 .txt",
+    "{newname} already exists" : "{newname} 已经存在"
 },
 "nplurals=1; plural=0;");

@@ -158,7 +158,6 @@ OC.L10N.register(
     "remote" : "ekstern",
     "notify by email" : "Giv besked med mail",
     "Unshare" : "Fjern deling",
-    "can share" : "kan dele",
     "can edit" : "kan redigere",
     "create" : "opret",
     "change" : "tilpas",
@@ -297,6 +296,7 @@ OC.L10N.register(
     "Error unfavoriting" : "Fejl ved fjernelse fra foretrukken.",
     "Couldn't send mail to following users: %s " : "Kunne ikke sende mail til følgende brugere: %s",
     "Allow editing" : "Tillad redigering",
+    "can share" : "kan dele",
     "Cancel login" : "Annuller login"
 },
 "nplurals=2; plural=(n != 1);");

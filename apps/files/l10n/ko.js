@@ -86,7 +86,6 @@ OC.L10N.register(
     "Local link" : "로컬 링크",
     "Folder" : "폴더",
     "New folder" : "새 폴더",
-    "{newname} already exists" : "{newname} 항목이 이미 존재함",
     "Upload" : "업로드",
     "An error occurred while trying to update the tags" : "태그를 업데이트하는 중 오류 발생",
     "A new file or folder has been <strong>created</strong>" : "새 파일이나 폴더가 <strong>생성됨</strong>",
@@ -126,6 +125,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "책갈피에 추가한 파일과 폴더가 여기에 나타납니다",
     "Text file" : "텍스트 파일",
     "New text file.txt" : "새 텍스트 파일.txt",
+    "{newname} already exists" : "{newname} 항목이 이미 존재함",
     "Cancel upload" : "업로드 취소"
 },
 "nplurals=1; plural=0;");

@@ -93,7 +93,6 @@ OC.L10N.register(
     "Local link" : "Lokale link",
     "Folder" : "Map",
     "New folder" : "Nieuwe map",
-    "{newname} already exists" : "{newname} bestaat al",
     "Upload" : "Uploaden",
     "An error occurred while trying to update the tags" : "Er trad een fout op bij uw poging de markeringen bij te werken",
     "A new file or folder has been <strong>created</strong>" : "Een nieuw bestand of map is <strong>aangemaakt</strong>",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Bestanden en mappen die je als favoriet aanmerkt, worden hier getoond",
     "Text file" : "Tekstbestand",
     "New text file.txt" : "Nieuw tekstbestand.txt",
+    "{newname} already exists" : "{newname} bestaat al",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Gebruik deze link <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">om je bestanden via WebDAV te benaderen</a>",
     "Cancel upload" : "Upload annuleren"
 },

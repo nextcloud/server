@@ -92,7 +92,6 @@ OC.L10N.register(
     "Local link" : "Lokāla saite",
     "Folder" : "Mape",
     "New folder" : "Jauna mape",
-    "{newname} already exists" : "{newname} jau eksistē",
     "Upload" : "Augšupielādēt",
     "An error occurred while trying to update the tags" : "Notika kļūda atjaunojot atzīmi",
     "A new file or folder has been <strong>created</strong>" : "<strong>Izveidota</strong> jauna datne vai mape",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Datnes un mapes, ko atzīmēsiet kā favorītus, tiks rādīti šeit",
     "Text file" : "Teksta datne",
     "New text file.txt" : "Jauna teksta datne.txt",
+    "{newname} already exists" : "{newname} jau eksistē",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Izmanto šo adresi, lai <a href=\"%s\" target=\"_blank\">sasniegtu savas datnes caur WebDAV</a>",
     "Cancel upload" : "Atcelt augšupielādi"
 },

@@ -89,7 +89,6 @@ OC.L10N.register(
     "Favorite" : "المفضلة",
     "Folder" : "مجلد",
     "New folder" : "مجلد جديد",
-    "{newname} already exists" : "{newname} موجود مسبقاً",
     "Upload" : "رفع",
     "An error occurred while trying to update the tags" : "حدث خطأ اثناء محاولة تحديث tags",
     "A new file or folder has been <strong>created</strong>" : "تم <strong>  إنشاء</strong> ملف جديد أو مجلد ",
@@ -125,6 +124,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "الملفات والمجلدات التي حددتها كامفضلة سوف تظهر هنا ",
     "Text file" : "ملف نصي",
     "New text file.txt" : "ملف نصي جديد fille.txt",
+    "{newname} already exists" : "{newname} موجود مسبقاً",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "استخدم هذا الرابط <a href=\"%s\" target=\"_blank\">للوصول الى ملفاتك عبر WebDAV</a>",
     "Cancel upload" : "إلغاء الرفع"
 },
