@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\TwoFactor_BackupCodes\Db;
+namespace OCA\TwoFactorBackupCodes\Db;
 
 
 use OCP\AppFramework\Db\Entity;

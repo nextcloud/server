@@ -20,10 +20,10 @@
  *
  */
 
-namespace OCA\TwoFactor_BackupCodes\Service;
+namespace OCA\TwoFactorBackupCodes\Service;
 
-use OCA\TwoFactor_BackupCodes\Db\BackupCode;
-use OCA\TwoFactor_BackupCodes\Db\BackupCodeMapper;
+use OCA\TwoFactorBackupCodes\Db\BackupCode;
+use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
 use OCP\IUser;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;

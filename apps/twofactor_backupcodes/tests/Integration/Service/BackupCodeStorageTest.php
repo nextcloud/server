@@ -20,9 +20,9 @@
  *
  */
 
-namespace OCA\TwoFactor_BackupCodes\Tests\Integration\Service;
+namespace OCA\TwoFactorBackupCodes\Tests\Integration\Service;
 
-use OCA\TwoFactor_BackupCodes\Service\BackupCodeStorage;
+use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
 use Test\TestCase;
 
 /**

@@ -6,11 +6,11 @@
 	<licence>agpl</licence>
 	<author>Christoph Wurst</author>
 	<version>1.0.0</version>
-	<namespace>TwoFactor_BackupCodes</namespace>
+	<namespace>TwoFactorBackupCodes</namespace>
 	<category>other</category>
 
 	<two-factor-providers>
-		<provider>OCA\TwoFactor_BackupCodes\Provider\BackupCodesProvider</provider>
+		<provider>OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider</provider>
 	</two-factor-providers>
 
 	<dependencies>

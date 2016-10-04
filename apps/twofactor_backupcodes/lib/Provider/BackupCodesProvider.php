@@ -20,9 +20,9 @@
  *
  */
 
-namespace OCA\TwoFactor_BackupCodes\Provider;
+namespace OCA\TwoFactorBackupCodes\Provider;
 
-use OCA\TwoFactor_BackupCodes\Service\BackupCodeStorage;
+use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IL10N;
 use OCP\IUser;

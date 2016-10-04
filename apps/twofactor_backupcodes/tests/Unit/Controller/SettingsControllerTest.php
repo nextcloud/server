@@ -20,10 +20,10 @@
  *
  */
 
-namespace OCA\TwoFactor_BackupCodes\Tests\Unit\Controller;
+namespace OCA\TwoFactorBackupCodes\Tests\Unit\Controller;
 
-use OCA\TwoFactor_BackupCodes\Controller\SettingsController;
-use OCA\TwoFactor_BackupCodes\Service\BackupCodeStorage;
+use OCA\TwoFactorBackupCodes\Controller\SettingsController;
+use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
