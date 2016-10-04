@@ -164,7 +164,8 @@ class Server {
 		// wait with registering these until auth is handled and the filesystem is setup
 		$this->server->on('beforeMethod', function () {
 			// custom properties plugin must be the last one
-			$user = \OC::$server->getUserSession()->getUser();
+			$userSession = \OC::$server->getUserSession();
+			$user = $userSession->getUser();
 			if (!is_null($user)) {
 				$view = \OC\Files\Filesystem::getView();
 				$this->server->addPlugin(
@@ -196,7 +197,30 @@ class Server {
 						$this->server->tree, \OC::$server->getTagManager()
 					)
 				);
+				// TODO: switch to LazyUserFolder
+				$userFolder = \OC::$server->getUserFolder();
+				$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\SharesPlugin(
+					$this->server->tree,
+					$userSession,
+					$userFolder,
+					\OC::$server->getShareManager()
+				));
+				$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\CommentPropertiesPlugin(
+					\OC::$server->getCommentsManager(),
+					$userSession
+				));
+				$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\FilesReportPlugin(
+					$this->server->tree,
+					$view,
+					\OC::$server->getSystemTagManager(),
+					\OC::$server->getSystemTagObjectMapper(),
+					\OC::$server->getTagManager(),
+					$userSession,
+					\OC::$server->getGroupManager(),
+					$userFolder
+				));
 			}
+			$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\CopyEtagHeaderPlugin());
 		});
 	}
 
