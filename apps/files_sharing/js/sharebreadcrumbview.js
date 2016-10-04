@@ -33,6 +33,10 @@
 
 	var BreadCrumbView = OC.Backbone.View.extend({
 		tagName: 'span',
+		events: {
+			click: '_onClick'
+		},
+		_dirInfo: undefined,
 		_template: undefined,
 		template: function(data) {
 			if (!this._template) {
@@ -41,13 +45,21 @@
 			return this._template(data);
 		},
 		render: function(data) {
+			this._dirInfo = data.dirInfo;
+
 			var isShared = data.dirInfo && data.dirInfo.shareTypes && data.dirInfo.shareTypes.length > 0;
 
 			this.$el.html(this.template({
 				isShared: isShared
 			}));
+			this.delegateEvents();
 
 			return this;
+		},
+		_onClick: function(e) {
+			e.preventDefault();
+
+			OCA.Files.App.fileList.showDetailsView(this._dirInfo, 'shareTabView');
 		}
 	});
 

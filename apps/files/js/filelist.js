@@ -518,12 +518,15 @@
 				OC.Apps.showAppSidebar(this._detailsView.$el);
 			}
 
-			var $tr = this.findFileEl(fileName);
-			var model = this.getModelForFile($tr);
+			if (_.isObject(fileName)) {
+				var model = new OCA.Files.FileInfoModel(fileName);
+			} else {
+				var $tr = this.findFileEl(fileName);
+				var model = this.getModelForFile($tr);
+				$tr.addClass('highlighted');
+			}
 
 			this._currentFileModel = model;
-
-			$tr.addClass('highlighted');
 
 			this._detailsView.setFileInfo(model);
 			this._detailsView.$el.scrollTop(0);
