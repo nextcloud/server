@@ -168,7 +168,7 @@ class BackgroundJobTest extends TestCase {
 		} else {
 			$this->urlGenerator->expects($this->once())
 				->method('linkToRouteAbsolute')
-				->with('settings_admin')
+				->with('settings.AdminSettings.index')
 				->willReturn('admin-url');
 
 			$job->expects($this->once())
