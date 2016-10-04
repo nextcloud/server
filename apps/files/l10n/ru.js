@@ -93,7 +93,6 @@ OC.L10N.register(
     "Local link" : "Локальная ссылка",
     "Folder" : "Каталог",
     "New folder" : "Новый каталог",
-    "{newname} already exists" : "{newname} уже существует",
     "Upload" : "Загрузить",
     "An error occurred while trying to update the tags" : "Во время обновления тегов возникла ошибка",
     "A new file or folder has been <strong>created</strong>" : "<strong>Создан</strong> новый файл или каталог",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Здесь появятся файлы и каталоги, отмеченные как избранные",
     "Text file" : "Текстовый файл",
     "New text file.txt" : "Новый текстовый документ.txt",
+    "{newname} already exists" : "{newname} уже существует",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Используйте этот адрес для <a href=\"%s\" target=\"_blank\">получения доступа к вашим файлам через WebDAV</a>",
     "Cancel upload" : "Отменить загрузку"
 },

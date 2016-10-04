@@ -71,7 +71,6 @@ OC.L10N.register(
     "Favorite" : "Lemmik",
     "Folder" : "Kaust",
     "New folder" : "Uus kaust",
-    "{newname} already exists" : "{newname} on juba olemas",
     "Upload" : "Lae üles",
     "An error occurred while trying to update the tags" : "Siltide uuendamisel tekkis tõrge",
     "A new file or folder has been <strong>created</strong>" : "Uus fail või kataloog on <strong>loodud</strong>",
@@ -103,6 +102,7 @@ OC.L10N.register(
     "No favorites" : "Lemmikuid pole",
     "Files and folders you mark as favorite will show up here" : "Siin kuvatakse faile ja kaustasid, mille oled märkinud lemmikuteks",
     "Text file" : "Tekstifail",
-    "New text file.txt" : "Uus tekstifail.txt"
+    "New text file.txt" : "Uus tekstifail.txt",
+    "{newname} already exists" : "{newname} on juba olemas"
 },
 "nplurals=2; plural=(n != 1);");

@@ -88,6 +88,8 @@ OC.L10N.register(
     "This session" : "이 세션",
     "Copied!" : "복사됨!",
     "Not supported!" : "지원하지 않음!",
+    "Press ⌘-C to copy." : "⌘-C 복사",
+    "Press Ctrl-C to copy." : "Ctrl-C 복사",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "오류가 발생했습니다. ASCII로 인코딩된 PEM 인증서를 업로드하십시오.",
     "Valid until {date}" : "{date}까지 유효함",
     "Delete" : "삭제",

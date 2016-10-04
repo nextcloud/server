@@ -149,7 +149,6 @@ OC.L10N.register(
     "remote" : "vzdialený",
     "notify by email" : "informovať emailom",
     "Unshare" : "Zrušiť zdieľanie",
-    "can share" : "môže zdieľať",
     "can edit" : "môže upraviť",
     "create" : "vytvoriť",
     "change" : "zmeniť",
@@ -280,6 +279,7 @@ OC.L10N.register(
     "Error favoriting" : "Chyba pri pridaní do obľúbených",
     "Error unfavoriting" : "Chyba pri odobratí z obľúbených",
     "Couldn't send mail to following users: %s " : "Nebolo možné odoslať email týmto používateľom: %s ",
-    "Allow editing" : "Povoliť úpravy"
+    "Allow editing" : "Povoliť úpravy",
+    "can share" : "môže zdieľať"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

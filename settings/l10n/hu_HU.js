@@ -226,7 +226,7 @@ OC.L10N.register(
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation ↗</a>." : "Más adatbázisról való áttéréshez használja a parancssort: 'occ db:convert-type', vagy keresse fel a <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentációt ↗</a>.",
     "How to do backups" : "Hogyan csináljunk biztonsági mentéseket",
     "Advanced monitoring" : "Haladó monitorozás",
-    "Performance tuning" : "Teljesítményi hangolás",
+    "Performance tuning" : "Teljesítmény hangolás",
     "Improving the config.php" : "config.php javítása",
     "Theming" : "Témázás",
     "Hardening and security guidance" : "Erősítési és biztonsági útmutató",

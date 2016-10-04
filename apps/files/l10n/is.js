@@ -93,7 +93,6 @@ OC.L10N.register(
     "Local link" : "Staðvær tengill",
     "Folder" : "Mappa",
     "New folder" : "Ný mappa",
-    "{newname} already exists" : "{newname} er þegar til",
     "Upload" : "Senda inn",
     "An error occurred while trying to update the tags" : "Villa kom upp við að reyna að uppfæra merkin",
     "A new file or folder has been <strong>created</strong>" : "Skjal eða mappa hefur verið <strong>búin til</strong>",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Skrár og möppur sem þú merkir sem uppáhald birtast hér",
     "Text file" : "Textaskrá",
     "New text file.txt" : "Ný textaskrá.txt",
+    "{newname} already exists" : "{newname} er þegar til",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Notaðu þetta vistfang til að <a href=\"%s\" target=\"_blank\">nálgast skrárnar þínar með WebDAV</a>",
     "Cancel upload" : "Hætta við innsendingu"
 },

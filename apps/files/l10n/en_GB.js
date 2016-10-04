@@ -91,7 +91,6 @@ OC.L10N.register(
     "Local link" : "Local link",
     "Folder" : "Folder",
     "New folder" : "New folder",
-    "{newname} already exists" : "{newname} already exists",
     "Upload" : "Upload",
     "An error occurred while trying to update the tags" : "An error occurred whilst trying to update the tags",
     "A new file or folder has been <strong>created</strong>" : "A new file or folder has been <strong>created</strong>",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "No favorites" : "No favourites",
     "Files and folders you mark as favorite will show up here" : "Files and folders you mark as favourite will show up here",
     "Text file" : "Text file",
-    "New text file.txt" : "New text file.txt"
+    "New text file.txt" : "New text file.txt",
+    "{newname} already exists" : "{newname} already exists"
 },
 "nplurals=2; plural=(n != 1);");

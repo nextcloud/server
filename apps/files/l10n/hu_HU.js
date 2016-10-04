@@ -93,7 +93,6 @@ OC.L10N.register(
     "Local link" : "Helyi hivatkozás",
     "Folder" : "Mappa",
     "New folder" : "Új mappa",
-    "{newname} already exists" : "{newname} már létezik",
     "Upload" : "Feltöltés",
     "An error occurred while trying to update the tags" : "Hiba történt, miközben megpróbálta frissíteni a címkéket",
     "A new file or folder has been <strong>created</strong>" : "Új fájl vagy mappa <strong>létrehozva</strong>",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "A kedvencnek jelölt fájlokat és mappákat itt találod meg",
     "Text file" : "Szövegfájl",
     "New text file.txt" : "Új szöveges fájl.txt",
+    "{newname} already exists" : "{newname} már létezik",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Használd ezt a címet <a href=\"%s\" target=\"_blank\">a Fájlok eléréséhez WebDAV-on keresztül</a>.",
     "Cancel upload" : "Feltöltés megszakítása"
 },

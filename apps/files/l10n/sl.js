@@ -93,7 +93,6 @@ OC.L10N.register(
     "Local link" : "Krajevna povezava",
     "Folder" : "Mapa",
     "New folder" : "Nova mapa",
-    "{newname} already exists" : "{newname} že obstaja",
     "Upload" : "Pošlji",
     "An error occurred while trying to update the tags" : "Prišlo je do napake med posodabljanjem oznak",
     "A new file or folder has been <strong>created</strong>" : "Nova datoteka ali mapa je <strong>ustvarjena</strong>",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Datoteke ali mape, ki so označene kot priljubljene, bodo zbrane na tem mestu.",
     "Text file" : "Besedilna datoteka",
     "New text file.txt" : "Nova datoteka.txt",
+    "{newname} already exists" : "{newname} že obstaja",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Uporabi ta naslov za <a href=\"%s\" target=\"_blank\">dostop do tvojih datotek preko WebDAV</a>",
     "Cancel upload" : "Prekini nalaganje"
 },

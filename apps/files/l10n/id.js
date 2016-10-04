@@ -92,7 +92,6 @@ OC.L10N.register(
     "Local link" : "Pranala lokal",
     "Folder" : "Folder",
     "New folder" : "Map baru",
-    "{newname} already exists" : "{newname} sudah ada",
     "Upload" : "Unggah",
     "An error occurred while trying to update the tags" : "Terjadi kesalahan saat mencoba untuk memperbarui label",
     "A new file or folder has been <strong>created</strong>" : "Sebuah berkas atau folder baru telah <strong>dibuat</strong>",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Berkas dan folder yang Anda tandai sebagai favorit akan ditampilkan disini.",
     "Text file" : "Berkas teks",
     "New text file.txt" : "Teks baru file.txt",
+    "{newname} already exists" : "{newname} sudah ada",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Gunakan alamat ini untuk <a href=\"%s\" target=\"_blank\">mengakses berkas Anda melalui WebDAV</a>",
     "Cancel upload" : "Batalkan pengunggahan"
 },

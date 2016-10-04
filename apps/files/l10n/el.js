@@ -78,7 +78,6 @@ OC.L10N.register(
     "Local link" : "Τοπικός σύνδεσμος",
     "Folder" : "Φάκελος",
     "New folder" : "Νέος φάκελος",
-    "{newname} already exists" : "το {newname} υπάρχει ήδη",
     "Upload" : "Μεταφόρτωση",
     "An error occurred while trying to update the tags" : "Ένα σφάλμα προέκυψε κατά τη διάρκεια ενημέρωσης των ετικετών",
     "A new file or folder has been <strong>created</strong>" : "Ένα νέο αρχείο ή κατάλογος έχουν <strong>δημιουργηθεί</strong>",
@@ -118,6 +117,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Τα αρχεία και οι φάκελοι που σημειώνονται ως αγαπημένα  θα εμφανιστούν εδώ ",
     "Text file" : "Αρχείο κειμένου",
     "New text file.txt" : "Νέο αρχείο κειμένου.txt",
+    "{newname} already exists" : "το {newname} υπάρχει ήδη",
     "Cancel upload" : "Ακύρωση αποστολής"
 },
 "nplurals=2; plural=(n != 1);");

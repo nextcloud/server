@@ -75,7 +75,6 @@
     "Favorite" : "Mėgiamas",
     "Folder" : "Katalogas",
     "New folder" : "Naujas aplankas",
-    "{newname} already exists" : "{newname} jau egzistuoja",
     "Upload" : "Įkelti",
     "An error occurred while trying to update the tags" : "Bandant atnaujinti žymes įvyko klaida",
     "A new file or folder has been <strong>created</strong>" : "Naujas failas ar aplankas buvo <strong>sukurtas</strong>",
@@ -113,6 +112,7 @@
     "No favorites" : "Nėra mėgstamiausių",
     "Files and folders you mark as favorite will show up here" : "Failai ir aplankai, kuriuos pažymite mėgstamais, atsiras čia",
     "Text file" : "Teksto failas",
-    "New text file.txt" : "Naujas tekstas file.txt"
+    "New text file.txt" : "Naujas tekstas file.txt",
+    "{newname} already exists" : "{newname} jau egzistuoja"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

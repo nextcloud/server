@@ -91,7 +91,6 @@
     "Local link" : "Collegamento locale",
     "Folder" : "Cartella",
     "New folder" : "Nuova cartella",
-    "{newname} already exists" : "{newname} esiste già",
     "Upload" : "Carica",
     "An error occurred while trying to update the tags" : "Si è verificato un errore durante il tentativo di aggiornare le etichette",
     "A new file or folder has been <strong>created</strong>" : "Un nuovo file o cartella è stato <strong>creato</strong>",
@@ -132,6 +131,7 @@
     "Files and folders you mark as favorite will show up here" : "I file e le cartelle che marchi come preferiti saranno mostrati qui",
     "Text file" : "File di testo",
     "New text file.txt" : "Nuovo file di testo.txt",
+    "{newname} already exists" : "{newname} esiste già",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Utilizza questo indirizzo per <a href=\"%s\" target=\"_blank\">accedere ai tuoi file con WebDAV</a>",
     "Cancel upload" : "Annulla caricamento"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -89,7 +89,6 @@ OC.L10N.register(
     "Local link" : "Hiperligação local",
     "Folder" : "Pasta",
     "New folder" : "Nova pasta",
-    "{newname} already exists" : "{newname} já existe",
     "Upload" : "Enviar",
     "An error occurred while trying to update the tags" : "Ocorreu um erro ao tentar atualizar as etiquetas",
     "A new file or folder has been <strong>created</strong>" : "Foi <strong>criado</strong> um novo ficheiro ou pasta",
@@ -129,6 +128,7 @@ OC.L10N.register(
     "No favorites" : "Sem favoritos",
     "Files and folders you mark as favorite will show up here" : "Os ficheiros e pastas que marcou como favoritos serão mostrados aqui",
     "Text file" : "Ficheiro de Texto",
-    "New text file.txt" : "Novo texto ficheiro.txt"
+    "New text file.txt" : "Novo texto ficheiro.txt",
+    "{newname} already exists" : "{newname} já existe"
 },
 "nplurals=2; plural=(n != 1);");

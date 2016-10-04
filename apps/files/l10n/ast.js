@@ -90,7 +90,6 @@ OC.L10N.register(
     "Local link" : "Enllaz llocal",
     "Folder" : "Carpeta",
     "New folder" : "Nueva carpeta",
-    "{newname} already exists" : "{newname} yá existe",
     "Upload" : "Xubir",
     "An error occurred while trying to update the tags" : "Hebo un fallu mientres s'intentaba actualizar les etiquetes",
     "A new file or folder has been <strong>created</strong>" : "<strong>Creóse</strong> un ficheru o carpeta nuevos",
@@ -130,6 +129,7 @@ OC.L10N.register(
     "No favorites" : "Nengún favoritu",
     "Files and folders you mark as favorite will show up here" : "Los ficheros y carpetes que marque como favoritos apaecerán equí",
     "Text file" : "Ficheru de testu",
-    "New text file.txt" : "Nuevu testu ficheru.txt"
+    "New text file.txt" : "Nuevu testu ficheru.txt",
+    "{newname} already exists" : "{newname} yá existe"
 },
 "nplurals=2; plural=(n != 1);");

@@ -93,7 +93,6 @@ OC.L10N.register(
     "Local link" : "ローカルリンク",
     "Folder" : "フォルダー",
     "New folder" : "新しいフォルダー",
-    "{newname} already exists" : "{newname} はすでに存在します",
     "Upload" : "アップロード",
     "An error occurred while trying to update the tags" : "タグを更新する際にエラーが発生しました",
     "A new file or folder has been <strong>created</strong>" : "新しいファイルまたはフォルダーを<strong>作成</strong>したとき",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "お気に入りに登録されたファイルやフォルダーは、ここに表示されます。",
     "Text file" : "テキストファイル",
     "New text file.txt" : "新規のテキストファイル作成",
+    "{newname} already exists" : "{newname} はすでに存在します",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "<a href=\"%s\" target=\"_blank\">WebDAV 経由でファイルにアクセス</a> するにはこのアドレスを利用してください",
     "Cancel upload" : "アップロードをキャンセル"
 },

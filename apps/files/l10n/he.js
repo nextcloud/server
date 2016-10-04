@@ -90,7 +90,6 @@ OC.L10N.register(
     "Local link" : "קישור מקומי",
     "Folder" : "תיקייה",
     "New folder" : "תיקייה חדשה",
-    "{newname} already exists" : "{newname} כבר קיים",
     "Upload" : "העלאה",
     "An error occurred while trying to update the tags" : "שגיאה אירעה בזמן עדכון התגיות",
     "A new file or folder has been <strong>created</strong>" : "קובץ או תיקייה חדשים <strong>נוצרו<strong/>",
@@ -130,6 +129,7 @@ OC.L10N.register(
     "No favorites" : "אין מועדפים",
     "Files and folders you mark as favorite will show up here" : "קבצים ותיקיות שסומנו על ידך כמועדפים יוצגו כאן",
     "Text file" : "קובץ טקסט",
-    "New text file.txt" : "קובץ טקסט חדש.txt"
+    "New text file.txt" : "קובץ טקסט חדש.txt",
+    "{newname} already exists" : "{newname} כבר קיים"
 },
 "nplurals=2; plural=(n != 1);");
