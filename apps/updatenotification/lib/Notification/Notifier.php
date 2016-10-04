@@ -66,9 +66,10 @@ class Notifier implements INotifier {
 
 		$l = $this->l10NFactory->get('updatenotification', $languageCode);
 		if ($notification->getObjectType() === 'core') {
-			$appName = $l->t('Nextcloud core');
-
 			$this->updateAlreadyInstalledCheck($notification, $this->getCoreVersions());
+
+			$parameters = $notification->getSubjectParameters();
+			$notification->setParsedSubject($l->t('Update to %1$s is available.', [$parameters['version']]));
 		} else {
 			$appInfo = $this->getAppInfo($notification->getObjectType());
 			$appName = ($appInfo === null) ? $notification->getObjectType() : $appInfo['name'];
@@ -76,9 +77,10 @@ class Notifier implements INotifier {
 			if (isset($this->appVersions[$notification->getObjectType()])) {
 				$this->updateAlreadyInstalledCheck($notification, $this->appVersions[$notification->getObjectType()]);
 			}
+
+			$notification->setParsedSubject($l->t('Update for %1$s to version %2$s is available.', [$appName, $notification->getObjectId()]));
 		}
 
-		$notification->setParsedSubject($l->t('Update for %1$s to version %2$s is available.', [$appName, $notification->getObjectId()]));
 		return $notification;
 	}
 
