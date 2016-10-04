@@ -89,17 +89,20 @@ class TransferOwnership extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$this->sourceUser = $input->getArgument('source-user');
-		$this->destinationUser = $input->getArgument('destination-user');
-		if (!$this->userManager->userExists($this->sourceUser)) {
+		$sourceUserObject = $this->userManager->get($input->getArgument('source-user'));
+		$destinationUserObject = $this->userManager->get($input->getArgument('destination-user'));
+		if (is_null($sourceUserObject)) {
 			$output->writeln("<error>Unknown source user $this->sourceUser</error>");
 			return;
 		}
-		if (!$this->userManager->userExists($this->destinationUser)) {
+		if (is_null($destinationUserObject)) {
 			$output->writeln("<error>Unknown destination user $this->destinationUser</error>");
 			return;
 		}
-		
+
+		$this->sourceUser = $sourceUserObject->getUID();
+		$this->destinationUser = $destinationUserObject->getUID();
+
 		// target user has to be ready
 		if (!\OC::$server->getEncryptionManager()->isReadyForUser($this->destinationUser)) {
 			$output->writeln("<error>The target user is not ready to accept files. The user has at least to be logged in once.</error>");

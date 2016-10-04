@@ -79,6 +79,7 @@ class FilesystemTest extends \Test\TestCase {
 
 	protected function setUp() {
 		parent::setUp();
+		\OC_User::clearBackends();
 		$userBackend = new \Test\Util\User\Dummy();
 		$userBackend->createUser(self::TEST_FILESYSTEM_USER1, self::TEST_FILESYSTEM_USER1);
 		$userBackend->createUser(self::TEST_FILESYSTEM_USER2, self::TEST_FILESYSTEM_USER2);
@@ -93,6 +94,7 @@ class FilesystemTest extends \Test\TestCase {
 
 		$this->logout();
 		$this->invokePrivate('\OC\Files\Filesystem', 'normalizedPathCache', [null]);
+		\OC_User::clearBackends();
 		parent::tearDown();
 	}
 
@@ -388,6 +390,39 @@ class FilesystemTest extends \Test\TestCase {
 		}
 
 		$this->assertEquals(2, $thrown);
+	}
+
+	public function testUserNameCasing() {
+		$this->logout();
+		$userId = $this->getUniqueID('user_');
+
+		\OC_User::clearBackends();
+		// needed for loginName2UserName mapping
+		$userBackend = $this->getMock('\OC\User\Database');
+		\OC::$server->getUserManager()->registerBackend($userBackend);
+
+		$userBackend->expects($this->once())
+			->method('userExists')
+			->with(strtoupper($userId))
+			->will($this->returnValue(true));
+		$userBackend->expects($this->once())
+			->method('loginName2UserName')
+			->with(strtoupper($userId))
+			->will($this->returnValue($userId));
+
+		$view = new \OC\Files\View();
+		$this->assertFalse($view->file_exists('/' . $userId));
+
+		\OC\Files\Filesystem::initMountPoints(strtoupper($userId));
+
+		list($storage1, $path1) = $view->resolvePath('/' . $userId);
+		list($storage2, $path2) = $view->resolvePath('/' . strtoupper($userId));
+
+		$this->assertTrue($storage1->instanceOfStorage('\OCP\Files\IHomeStorage'));
+		$this->assertEquals('', $path1);
+
+		// not mounted, still on the local root storage
+		$this->assertEquals(strtoupper($userId), $path2);
 	}
 
 	/**

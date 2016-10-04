@@ -30,7 +30,6 @@ use Test\Traits\MountProviderTrait;
  * @group DB
  */
 class AvatarManagerTest extends \Test\TestCase {
-	use UserTrait;
 	use MountProviderTrait;
 
 	/** @var AvatarManager */
@@ -39,15 +38,38 @@ class AvatarManagerTest extends \Test\TestCase {
 	/** @var \OC\Files\Storage\Temporary */
 	private $storage;
 
+	/** @var \OCP\IUser */
+	private $user;
+
 	public function setUp() {
 		parent::setUp();
 
-		$this->createUser('valid-user', 'valid-user');
+		\OC_User::clearBackends();
+		// needed for loginName2UserName mapping
+		$userBackend = $this->getMock('\OC\User\Database');
+		\OC::$server->getUserManager()->registerBackend($userBackend);
+
+		$userBackend->expects($this->any())
+			->method('userExists')
+			->will($this->returnValueMap([
+				['valid-user', true],
+				['vaLid-USER', true],
+			]));
+		$userBackend->expects($this->any())
+			->method('loginName2UserName')
+			->will($this->returnValueMap([
+				['valid-user', 'valid-user'],
+				['vaLid-USER', 'valid-user'],
+			]));
 
 		$this->storage = new \OC\Files\Storage\Temporary();
 		$this->registerMount('valid-user', $this->storage, '/valid-user/');
 
 		$this->avatarManager = \OC::$server->getAvatarManager();
+	}
+
+	public function tearDown() {
+		\OC_User::clearBackends();
 	}
 
 	/**
@@ -60,6 +82,13 @@ class AvatarManagerTest extends \Test\TestCase {
 
 	public function testGetAvatarValidUser() {
 		$avatar = $this->avatarManager->getAvatar('valid-user');
+
+		$this->assertInstanceOf('\OCP\IAvatar', $avatar);
+		$this->assertFalse($this->storage->file_exists('files'));
+	}
+
+	public function testGetAvatarValidUserDifferentCasing() {
+		$avatar = $this->avatarManager->getAvatar('vaLid-USER');
 
 		$this->assertInstanceOf('\OCP\IAvatar', $avatar);
 		$this->assertFalse($this->storage->file_exists('files'));
