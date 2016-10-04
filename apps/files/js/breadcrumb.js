@@ -45,6 +45,7 @@
 		if (options.getCrumbUrl) {
 			this.getCrumbUrl = options.getCrumbUrl;
 		}
+		this._detailViews = [];
 	};
 	/**
 	 * @memberof OCA.Files
@@ -52,6 +53,7 @@
 	BreadCrumb.prototype = {
 		$el: null,
 		dir: null,
+		dirInfo: null,
 
 		/**
 		 * Total width of all breadcrumbs
@@ -77,6 +79,20 @@
 				this.dir = dir;
 				this.render();
 			}
+		},
+
+		setDirectoryInfo: function(dirInfo) {
+			if (dirInfo !== this.dirInfo) {
+				this.dirInfo = dirInfo;
+				this.render();
+			}
+		},
+
+		/**
+		 * @param {Backbone.View} detailView
+		 */
+		addDetailView: function(detailView) {
+			this._detailViews.push(detailView);
 		},
 
 		/**
@@ -121,6 +137,13 @@
 				}
 			}
 			$crumb.addClass('last');
+
+			_.each(this._detailViews, function(view) {
+				view.render({
+					dirInfo: this.dirInfo
+				});
+				$crumb.append(view.$el);
+			}, this);
 
 			// in case svg is not supported by the browser we need to execute the fallback mechanism
 			if (!OC.Util.hasSVGSupport()) {
