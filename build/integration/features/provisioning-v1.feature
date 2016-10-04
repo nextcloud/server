@@ -497,20 +497,37 @@ Feature: provisioning
 		And As an "admin"
 		And user "subadmin" is disabled
 
-	Scenario: Making a web request with an enabled user
-	    Given As an "admin"
+	Scenario: Making a ocs request with an enabled user
+		Given As an "admin"
 		And user "user0" exists
 		And As an "user0"
 		When sending "GET" to "/cloud/capabilities"
 		Then the HTTP status code should be "200"
 		And the OCS status code should be "100"
 
-	Scenario: Making a web request with a disabled user
-	    Given As an "admin"
+	Scenario: Making a web request with an enabled user
+		Given As an "admin"
+		And user "user0" exists
+		And As an "user0"
+		When sending "GET" to "/cloud/capabilities"
+		When sending "GET" with exact url to "/index.php/apps/files"
+		Then the HTTP status code should be "200"
+		And the OCS status code should be "100"
+
+	Scenario: Making a ocs request with a disabled user
+		Given As an "admin"
 		And user "user0" exists
 		And assure user "user0" is disabled
 		And As an "user0"
 		When sending "GET" to "/cloud/capabilities"
 		Then the OCS status code should be "997"
 		And the HTTP status code should be "401"
+
+	Scenario: Making a web request with a disabled user
+		Given As an "admin"
+		And user "user0" exists
+		And assure user "user0" is disabled
+		And As an "user0"
+		When sending "GET" with exact url to "/index.php/apps/files"
+		And the HTTP status code should be "403"
 
