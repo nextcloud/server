@@ -145,6 +145,36 @@ trait BasicStructure {
 		}
 	}
 
+	/**
+	 * @When /^sending "([^"]*)" with exact url to "([^"]*)"$/
+	 * @param string $verb
+	 * @param string $url
+	 */
+	public function sendingToDirectUrl($verb, $url) {
+		$this->sendingToWithDirectUrl($verb, $url, null);
+	}
+
+	public function sendingToWithDirectUrl($verb, $url, $body) {
+		$fullUrl = substr($this->baseUrl, 0, -5) . $url;
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$this->currentUser, $this->regularUser];
+		}
+		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
+			$fd = $body->getRowsHash();
+			$options['body'] = $fd;
+		}
+
+		try {
+			$this->response = $client->send($client->createRequest($verb, $fullUrl, $options));
+		} catch (\GuzzleHttp\Exception\ClientException $ex) {
+			$this->response = $ex->getResponse();
+		}
+	}
+
 	public function isExpectedUrl($possibleUrl, $finalPart){
 		$baseUrlChopped = substr($this->baseUrl, 0, -4);
 		$endCharacter = strlen($baseUrlChopped) + strlen($finalPart);
