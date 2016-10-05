@@ -183,6 +183,10 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			app.previewAsIcon = true;
 		}
 
+		if (_.isArray(app.author)) {
+			app.author = app.author.join(', ');
+		}
+
 		var html = template(app);
 		if (selector) {
 			selector.html(html);
@@ -513,6 +517,9 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 		// Author Name
 		apps = apps.concat(_.filter(OC.Settings.Apps.State.apps, function (app) {
+			if (_.isArray(app.author)) {
+				return app.author.join(', ').toLowerCase().indexOf(query) !== -1;
+			}
 			return app.author.toLowerCase().indexOf(query) !== -1;
 		}));
 
