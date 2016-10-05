@@ -104,7 +104,7 @@ class Activity implements IExtension {
 		$l = $this->getL10N($languageCode);
 		return [
 			self::TYPE_SHARE_CREATED => (string) $l->t('A new file or folder has been <strong>created</strong>'),
-			self::TYPE_SHARE_CHANGED => (string) $l->t('A file or folder has been <strong>changed</strong>'),
+			self::TYPE_SHARE_CHANGED => (string) $l->t('A file or folder has been <strong>changed</strong> or <strong>renamed</strong>'),
 			self::TYPE_FAVORITES => [
 				'desc' => (string) $l->t('Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>'),
 				'methods' => [self::METHOD_STREAM],
@@ -189,6 +189,14 @@ class Activity implements IExtension {
 				return (string) $l->t('You restored %1$s', $params);
 			case 'restored_by':
 				return (string) $l->t('%2$s restored %1$s', $params);
+			case 'renamed_self':
+				return (string) $l->t('You renamed %2$s to %1$s', $params);
+			case 'renamed_by':
+				return (string) $l->t('%2$s renamed %3$s to %1$s', $params);
+			case 'moved_self':
+				return (string) $l->t('You moved %2$s to %1$s', $params);
+			case 'moved_by':
+				return (string) $l->t('%2$s moved %3$s to %1$s', $params);
 
 			default:
 				return false;
@@ -209,6 +217,10 @@ class Activity implements IExtension {
 				return (string) $l->t('Deleted by %2$s', $params);
 			case 'restored_by':
 				return (string) $l->t('Restored by %2$s', $params);
+			case 'renamed_by':
+				return (string) $l->t('Renamed by %2$s', $params);
+			case 'moved_by':
+				return (string) $l->t('Moved by %2$s', $params);
 
 			default:
 				return false;
@@ -241,6 +253,19 @@ class Activity implements IExtension {
 					return [
 						0 => 'file',
 						1 => 'username',
+					];
+				case 'renamed_self':
+				case 'moved_self':
+					return [
+						0 => 'file',
+						1 => 'file',
+					];
+				case 'renamed_by':
+				case 'moved_by':
+					return [
+						0 => 'file',
+						1 => 'username',
+						2 => 'file',
 					];
 			}
 		}
