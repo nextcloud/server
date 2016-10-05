@@ -82,10 +82,15 @@
 				'</li>' +
 			'{{/each}}' +
 			'{{#each linkReshares}}' +
-				'<li data-share-id="{{shareId}}" data-share-type="{{shareType}}">' +
-					'<span class="icon icon-public"></span>' +
-					'<span class="has-tooltip username" title="{{shareInitiator}}">{{shareInitiatorDisplayName}}</span>' +
-					'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span class="hidden-visually">{{unshareLabel}}</span></a>' +
+				'<span data-share-id="{{shareId}}" data-share-type="{{shareType}}">' +
+					'{{#if avatarEnabled}}' +
+					'<div class="avatar" data-username="{{shareInitiator}}"></div>' +
+					'{{/if}}' +
+					'<span class="has-tooltip username" title="{{shareInitiator}}">' + t('core', '{{shareInitiatorDisplayName}} shared via link') + '</span>' +
+
+					'<span class="sharingOptionsGroup">' +
+						'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span class="hidden-visually">{{unshareLabel}}</span></a>' +
+					'</span>' +
 				'</li>' +
 			'{{/each}}' +
 			'</ul>'
@@ -216,6 +221,7 @@
 		getLinkReshares: function() {
 			var universal = {
 				unshareLabel: t('core', 'Unshare'),
+				avatarEnabled: this.configModel.areAvatarsEnabled(),
 			};
 
 			if(!this.model.hasUserShares()) {
