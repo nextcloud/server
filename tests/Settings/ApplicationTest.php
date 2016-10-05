@@ -25,6 +25,18 @@ namespace Tests\Settings;
 
 
 use OC\Settings\Application;
+use OC\Settings\Controller\AdminSettingsController;
+use OC\Settings\Controller\AppSettingsController;
+use OC\Settings\Controller\AuthSettingsController;
+use OC\Settings\Controller\CertificateController;
+use OC\Settings\Controller\CheckSetupController;
+use OC\Settings\Controller\EncryptionController;
+use OC\Settings\Controller\GroupsController;
+use OC\Settings\Controller\LogSettingsController;
+use OC\Settings\Controller\MailSettingsController;
+use OC\Settings\Controller\SecuritySettingsController;
+use OC\Settings\Controller\UsersController;
+use OC\Settings\Middleware\SubadminMiddleware;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Middleware;
 use OCP\IUser;
@@ -56,21 +68,21 @@ class ApplicationTest extends TestCase {
 	}
 
 	public function dataContainerQuery() {
-		return array(
-			array('AdminSettingsController', Controller::class),
-			array('AppSettingsController', Controller::class),
-			array('AuthSettingsController', Controller::class),
-			// Needs session: array('CertificateController', Controller::class),
-			array('CheckSetupController', Controller::class),
-			array('EncryptionController', Controller::class),
-			array('GroupsController', Controller::class),
-			array('LogSettingsController', Controller::class),
-			array('MailSettingsController', Controller::class),
-			array('SecuritySettingsController', Controller::class),
-			array('UsersController', Controller::class),
+		return [
+			[AdminSettingsController::class, Controller::class],
+			[AppSettingsController::class, Controller::class],
+			[AuthSettingsController::class, Controller::class],
+			// Needs session: [CertificateController::class, Controller::class],
+			[CheckSetupController::class, Controller::class],
+			[EncryptionController::class, Controller::class],
+			[GroupsController::class, Controller::class],
+			[LogSettingsController::class, Controller::class],
+			[MailSettingsController::class, Controller::class],
+			[SecuritySettingsController::class, Controller::class],
+			[UsersController::class, Controller::class],
 
-			array('SubadminMiddleware', Middleware::class),
-		);
+			[SubadminMiddleware::class, Middleware::class],
+		];
 	}
 
 	/**
@@ -83,9 +95,9 @@ class ApplicationTest extends TestCase {
 	}
 
 	public function dataContainerQueryRequiresSession() {
-		return array(
-			array('CertificateController', Controller::class),
-		);
+		return [
+			[CertificateController::class, Controller::class],
+		];
 	}
 
 	/**

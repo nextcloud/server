@@ -23,14 +23,15 @@
 
 
 namespace OC\Settings\Controller;
+
 use OC\Files\View;
 use OCA\Encryption\Migration;
+use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\AppFramework\Controller;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IConfig;
-use OC\DB\Connection;
 use OCP\IUserManager;
 
 /**
@@ -38,10 +39,10 @@ use OCP\IUserManager;
  */
 class EncryptionController extends Controller {
 
-	/** @var \OCP\IL10N */
+	/** @var IL10N */
 	private $l10n;
 
-	/** @var  Connection */
+	/** @var IDBConnection */
 	private $connection;
 
 	/** @var IConfig */
@@ -53,15 +54,15 @@ class EncryptionController extends Controller {
 	/** @var View */
 	private $view;
 
-	/** @var  ILogger */
+	/** @var ILogger */
 	private $logger;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
-	 * @param \OCP\IL10N $l10n
-	 * @param \OCP\IConfig $config
-	 * @param \OC\DB\Connection $connection
+	 * @param IL10N $l10n
+	 * @param IConfig $config
+	 * @param IDBConnection $connection
 	 * @param IUserManager $userManager
 	 * @param View $view
 	 * @param ILogger $logger
@@ -70,7 +71,7 @@ class EncryptionController extends Controller {
 								IRequest $request,
 								IL10N $l10n,
 								IConfig $config,
-								Connection $connection,
+								IDBConnection $connection,
 								IUserManager $userManager,
 								View $view,
 								ILogger  $logger) {
@@ -86,13 +87,13 @@ class EncryptionController extends Controller {
 	/**
 	 * @param IConfig $config
 	 * @param View $view
-	 * @param Connection $connection
+	 * @param IDBConnection $connection
 	 * @param ILogger $logger
 	 * @return Migration
 	 */
 	protected function getMigration(IConfig $config,
 								 View $view,
-								 Connection $connection,
+								 IDBConnection $connection,
 								 ILogger $logger) {
 		return new Migration($config, $view, $connection, $logger);
 	}
