@@ -23,6 +23,7 @@
 namespace OCP\Files\SimpleFS;
 
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 
 /**
  * Interface ISimpleRoot
@@ -38,6 +39,7 @@ interface ISimpleRoot {
 	 * @param string $name
 	 * @return ISimpleFolder
 	 * @throws NotFoundException
+	 * @throws \RuntimeException
 	 * @since 9.2.0
 	 */
 	public function getFolder($name);
@@ -46,6 +48,8 @@ interface ISimpleRoot {
 	 * Get all the Folders
 	 *
 	 * @return ISimpleFolder[]
+	 * @throws NotFoundException
+	 * @throws \RuntimeException
 	 * @since 9.2.0
 	 */
 	public function getDirectoryListing();
@@ -55,6 +59,8 @@ interface ISimpleRoot {
 	 *
 	 * @param string $name
 	 * @return ISimpleFolder
+	 * @throws NotPermittedException
+	 * @throws \RuntimeException
 	 * @since 9.2.0
 	 */
 	public function newFolder($name);
