@@ -30,8 +30,6 @@
 
 namespace OC\Core;
 
-use OC\Authentication\Token\DefaultTokenProvider;
-use OC\Authentication\Token\IProvider;
 use OCP\AppFramework\App;
 use OCP\Util;
 
