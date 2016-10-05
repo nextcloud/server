@@ -33,15 +33,11 @@ namespace OC\Settings;
 use OC\Files\View;
 use OC\Server;
 use OC\Settings\Controller\AdminSettingsController;
-use OC\Settings\Controller\AppSettingsController;
 use OC\Settings\Controller\AuthSettingsController;
 use OC\Settings\Controller\CertificateController;
-use OC\Settings\Controller\CheckSetupController;
 use OC\Settings\Controller\EncryptionController;
 use OC\Settings\Controller\GroupsController;
-use OC\Settings\Controller\LogSettingsController;
 use OC\Settings\Controller\MailSettingsController;
-use OC\Settings\Controller\SecuritySettingsController;
 use OC\Settings\Controller\UsersController;
 use OC\Settings\Middleware\SubadminMiddleware;
 use OCP\AppFramework\App;
@@ -89,18 +85,6 @@ class Application extends App {
 				$c->query('Logger')
 			);
 		});
-		$container->registerService('AppSettingsController', function(IContainer $c) {
-			return new AppSettingsController(
-				$c->query('AppName'),
-				$c->query('Request'),
-				$c->query('L10N'),
-				$c->query('Config'),
-				$c->query('ICacheFactory'),
-				$c->query('INavigationManager'),
-				$c->query('IAppManager'),
-				$c->query('OcsClient')
-			);
-		});
 		$container->registerService('AuthSettingsController', function(IContainer $c) {
 			return new AuthSettingsController(
 				$c->query('AppName'),
@@ -110,13 +94,6 @@ class Application extends App {
 				$c->query('ServerContainer')->getSession(),
 				$c->query('ServerContainer')->getSecureRandom(),
 				$c->query('UserId')
-			);
-		});
-		$container->registerService('SecuritySettingsController', function(IContainer $c) {
-			return new SecuritySettingsController(
-				$c->query('AppName'),
-				$c->query('Request'),
-				$c->query('Config')
 			);
 		});
 		$container->registerService('CertificateController', function(IContainer $c) {
@@ -156,27 +133,6 @@ class Application extends App {
 				$c->query('URLGenerator'),
 				$c->query('OCP\\App\\IAppManager'),
 				$c->query('OCP\\IAvatarManager')
-			);
-		});
-		$container->registerService('LogSettingsController', function(IContainer $c) {
-			return new LogSettingsController(
-				$c->query('AppName'),
-				$c->query('Request'),
-				$c->query('Config'),
-				$c->query('L10N')
-			);
-		});
-		$container->registerService('CheckSetupController', function(IContainer $c) {
-			return new CheckSetupController(
-				$c->query('AppName'),
-				$c->query('Request'),
-				$c->query('Config'),
-				$c->query('ClientService'),
-				$c->query('URLGenerator'),
-				$c->query('Util'),
-				$c->query('L10N'),
-				$c->query('Checker'),
-				$c->query('Logger')
 			);
 		});
 		$container->registerService('AdminSettingsController', function(IContainer $c) {
