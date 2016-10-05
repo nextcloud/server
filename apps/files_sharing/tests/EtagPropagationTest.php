@@ -34,7 +34,7 @@ use OC\Files\View;
 /**
  * Class EtagPropagationTest
  *
- * @group DB
+ * @group SLOWDB
  *
  * @package OCA\Files_Sharing\Tests
  */

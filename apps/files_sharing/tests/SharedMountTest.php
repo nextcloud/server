@@ -31,7 +31,7 @@ namespace OCA\Files_Sharing\Tests;
 /**
  * Class SharedMountTest
  *
- * @group DB
+ * @group SLOWDB
  */
 class SharedMountTest extends TestCase {
 
