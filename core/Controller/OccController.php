@@ -26,6 +26,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OC\Console\Application;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\ILogger;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
@@ -48,6 +49,8 @@ class OccController extends Controller {
 	private $config;
 	/** @var Application */
 	private $console;
+	/** @var ILogger */
+	private $logger;
 
 	/**
 	 * OccController constructor.
@@ -56,12 +59,14 @@ class OccController extends Controller {
 	 * @param IRequest $request
 	 * @param IConfig $config
 	 * @param Application $console
+	 * @param ILogger $logger
 	 */
 	public function __construct($appName, IRequest $request,
-								IConfig $config, Application $console) {
+								IConfig $config, Application $console, ILogger $logger) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->console = $console;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -108,6 +113,13 @@ class OccController extends Controller {
 			];
 
 		} catch (\UnexpectedValueException $e){
+			$this->logger->warning(
+				'Invalid request to occ controller. Details: "{details}"',
+				[
+					'app' => 'core',
+					'details' => $e->getMessage()
+				]
+			);
 			$json = [
 				'exitCode' => 126,
 				'response' => 'Not allowed',
@@ -123,8 +135,13 @@ class OccController extends Controller {
 	 * @param $token
 	 */
 	protected function validateRequest($command, $token){
-		if (!in_array($this->request->getRemoteAddress(), ['::1', '127.0.0.1', 'localhost'])) {
-			throw new \UnexpectedValueException('Web executor is not allowed to run from a different host');
+		$allowedHosts = ['::1', '127.0.0.1', 'localhost'];
+		if (isset($this->request->server['SERVER_ADDR'])){
+			array_push($allowedHosts, $this->request->server['SERVER_ADDR']);
+		}
+
+		if (!in_array($this->request->getRemoteAddress(), $allowedHosts)) {
+			throw new \UnexpectedValueException('Web executor is not allowed to run from a host ' . $this->request->getRemoteAddress());
 		}
 
 		if (!in_array($command, $this->allowedCommands)) {

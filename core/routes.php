@@ -48,7 +48,7 @@ $application->registerRoutes($this, [
 		['name' => 'login#showLoginForm', 'url' => '/login', 'verb' => 'GET'],
 		['name' => 'login#logout', 'url' => '/logout', 'verb' => 'GET'],
 		['name' => 'token#generateToken', 'url' => '/token/generate', 'verb' => 'POST'],
-		['name' => 'occ#execute', 'url' => '/occ/{command}', 'verb' => 'POST'],
+		['name' => 'OC\Core\Controller\Occ#execute', 'url' => '/occ/{command}', 'verb' => 'POST'],
 		['name' => 'TwoFactorChallenge#selectChallenge', 'url' => '/login/selectchallenge', 'verb' => 'GET'],
 		['name' => 'TwoFactorChallenge#showChallenge', 'url' => '/login/challenge/{challengeProviderId}', 'verb' => 'GET'],
 		['name' => 'TwoFactorChallenge#solveChallenge', 'url' => '/login/challenge/{challengeProviderId}', 'verb' => 'POST'],
