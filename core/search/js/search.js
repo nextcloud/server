@@ -217,7 +217,7 @@
 					$status.addClass('emptycontent').removeClass('status');
 					$status.html('');
 					$status.append('<div class="icon-search"></div>');
-					$status.append('<h2>' + t('core', 'No search results in other folders {filter}', {filter:this._filter}) + '</h2>');
+					$status.append('<h2>' + t('core', 'No search results in other folders {filter}', {filter:lastQuery}) + '</h2>');
 				} else {
 					$status.removeClass('emptycontent').addClass('status');
 					$status.text(n('core', '{count} search result in another folder', '{count} search results in other folders', count, {count:count}));
