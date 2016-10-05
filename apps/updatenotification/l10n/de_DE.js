@@ -5,7 +5,6 @@ OC.L10N.register(
     "Could not start updater, please try the manual update" : "Aktualisierungsfunktion konnte nicht gestartet werden, bitte versuchen Sie ein mauelles Update",
     "{version} is available. Get more information on how to update." : "{version} ist verfügbar. Weitere Informationen zur Aktualisierung.",
     "Channel updated" : "Kanal aktualisiert",
-    "Nextcloud core" : "Nextcloud Kern",
     "Update for %1$s to version %2$s is available." : "Ein Update von %1$s auf Version %2$s ist verfügbar.",
     "A new version is available: %s" : "Eine neue Version ist verfügbar: %s",
     "Open updater" : "Updater öffnen",
@@ -18,6 +17,7 @@ OC.L10N.register(
     "Only notification for app updates are available." : "Benachrichtigungen sind nur für Aktualisierungen von Apps verfügbar.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Der gewählte Aktualisierungskanal macht dedizierte Benachrichtigungen für Server Aktualisierungen obsolet.",
     "The selected update channel does not support updates of the server." : "Der gewählte Aktualisierungskanal unterstützt keine Aktualisierungen für Server.",
+    "Nextcloud core" : "Nextcloud Kern",
     "Updater" : "Updater"
 },
 "nplurals=2; plural=(n != 1);");

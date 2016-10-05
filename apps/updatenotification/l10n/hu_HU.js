@@ -5,7 +5,6 @@ OC.L10N.register(
     "Could not start updater, please try the manual update" : "Nem sikerült elindítani a frissítőt, kérlek próbáld a manuális frissítést",
     "{version} is available. Get more information on how to update." : "{version} rendelkezésre áll. További információ a frissítéshez.",
     "Channel updated" : "Csatorna frissítve",
-    "Nextcloud core" : "Nextcloud mag",
     "Update for %1$s to version %2$s is available." : "%1$s frissíthető %2$s verzióra.",
     "A new version is available: %s" : "Új verzió érhető el: %s",
     "Open updater" : "Frissítő megnyitása",
@@ -18,6 +17,7 @@ OC.L10N.register(
     "Only notification for app updates are available." : "Csak az értesítő alkalmazás frissítései érhetők el.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "A kiválasztott frissítési csatorna dedikált értesítéseket jelenít meg a szerver elavulásakor.",
     "The selected update channel does not support updates of the server." : "A kiválasztott frissítése csatorna nem támogatja a szerver frissítéseit.",
+    "Nextcloud core" : "Nextcloud mag",
     "Updater" : "Frissítéskezelő"
 },
 "nplurals=2; plural=(n != 1);");

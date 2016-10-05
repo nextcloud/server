@@ -168,6 +168,7 @@ OC.L10N.register(
     "remote" : "Entfernte Freigabe",
     "notify by email" : "per E-Mail benachrichtigen",
     "Unshare" : "Freigabe aufheben",
+    "can reshare" : "Kann weiterteilen",
     "can edit" : "kann bearbeiten",
     "create" : "erstellen",
     "change" : "ändern",

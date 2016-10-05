@@ -4,7 +4,6 @@ OC.L10N.register(
     "Update notifications" : "Уведомления об обновлениях",
     "{version} is available. Get more information on how to update." : "Доступна версия {version}. Получить дополнительную информацию о порядке обновления.",
     "Channel updated" : "Канал обновлен.",
-    "Nextcloud core" : "Nextcloud core",
     "Update for %1$s to version %2$s is available." : "Доступно обновление для %1$s до версии %2$s.",
     "A new version is available: %s" : "Доступна новая версия: %s",
     "Your version is up to date." : "Версия не требует обновления.",
@@ -15,6 +14,7 @@ OC.L10N.register(
     "Only notification for app updates are available." : "Только уведомления об обновлении приложений доступны.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Выбранный канал обновлений высылает специальные уведомления, если сервер устарел.",
     "The selected update channel does not support updates of the server." : "Выбранный канал обновлений не поддерживает обновление сервера.",
+    "Nextcloud core" : "Nextcloud core",
     "Updater" : "Обновление"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
