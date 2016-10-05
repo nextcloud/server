@@ -1,5 +1,5 @@
 # Nextcloud
-[![Build Status](https://drone.weasel.rocks/api/badges/nextcloud/server/status.svg)](https://drone.weasel.rocks/nextcloud/server)
+[![Build Status](https://drone.nextcloud.com/api/badges/nextcloud/server/status.svg)](https://drone.nextcloud.com/nextcloud/server)
 [![irc](https://img.shields.io/badge/IRC-%23nextcloud%20on%20freenode-orange.svg)](https://webchat.freenode.net/?channels=nextcloud)
 [![irc](https://img.shields.io/badge/IRC-%23nextcloud--dev%20on%20freenode-blue.svg)](https://webchat.freenode.net/?channels=nextcloud-dev)
 
