@@ -217,58 +217,6 @@ class FilesPluginTest extends TestCase {
 		$this->assertEquals([self::SIZE_PROPERTYNAME], $propFind->get404Properties());
 	}
 
-	public function testGetPropertiesForFileHome() {
-		/** @var \OCA\DAV\Files\FilesHome | \PHPUnit_Framework_MockObject_MockObject $node */
-		$node = $this->getMockBuilder('\OCA\DAV\Files\FilesHome')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$propFind = new PropFind(
-			'/dummyPath',
-			array(
-				self::GETETAG_PROPERTYNAME,
-				self::FILEID_PROPERTYNAME,
-				self::INTERNAL_FILEID_PROPERTYNAME,
-				self::SIZE_PROPERTYNAME,
-				self::PERMISSIONS_PROPERTYNAME,
-				self::DOWNLOADURL_PROPERTYNAME,
-				self::OWNER_ID_PROPERTYNAME,
-				self::OWNER_DISPLAY_NAME_PROPERTYNAME,
-				self::DATA_FINGERPRINT_PROPERTYNAME,
-			),
-			0
-		);
-
-		$user = $this->getMockBuilder('\OC\User\User')
-			->disableOriginalConstructor()->getMock();
-		$user->expects($this->never())->method('getUID');
-		$user->expects($this->never())->method('getDisplayName');
-
-		$this->plugin->handleGetProperties(
-			$propFind,
-			$node
-		);
-
-		$this->assertEquals(null, $propFind->get(self::GETETAG_PROPERTYNAME));
-		$this->assertEquals(null, $propFind->get(self::FILEID_PROPERTYNAME));
-		$this->assertEquals(null, $propFind->get(self::INTERNAL_FILEID_PROPERTYNAME));
-		$this->assertEquals(null, $propFind->get(self::SIZE_PROPERTYNAME));
-		$this->assertEquals(null, $propFind->get(self::PERMISSIONS_PROPERTYNAME));
-		$this->assertEquals(null, $propFind->get(self::DOWNLOADURL_PROPERTYNAME));
-		$this->assertEquals(null, $propFind->get(self::OWNER_ID_PROPERTYNAME));
-		$this->assertEquals(null, $propFind->get(self::OWNER_DISPLAY_NAME_PROPERTYNAME));
-		$this->assertEquals(['{DAV:}getetag',
-					'{http://owncloud.org/ns}id',
-					'{http://owncloud.org/ns}fileid',
-					'{http://owncloud.org/ns}size',
-					'{http://owncloud.org/ns}permissions',
-					'{http://owncloud.org/ns}downloadURL',
-					'{http://owncloud.org/ns}owner-id',
-					'{http://owncloud.org/ns}owner-display-name'
-				], $propFind->get404Properties());
-		$this->assertEquals('my_fingerprint', $propFind->get(self::DATA_FINGERPRINT_PROPERTYNAME));
-	}
-
 	public function testGetPropertiesStorageNotAvailable() {
 		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit_Framework_MockObject_MockObject $node */
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
