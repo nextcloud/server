@@ -405,7 +405,14 @@ class ShareAPIController extends OCSController {
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_EMAIL) {
-			$share->setPermissions(\OCP\Constants::PERMISSION_READ);
+			if ($share->getNodeType() === 'file') {
+				$share->setPermissions(\OCP\Constants::PERMISSION_READ);
+			} else {
+				$share->setPermissions(
+					\OCP\Constants::PERMISSION_READ |
+					\OCP\Constants::PERMISSION_CREATE |
+					\OCP\Constants::PERMISSION_UPDATE);
+			}
 			$share->setSharedWith($shareWith);
 		} else {
 			throw new OCSBadRequestException($this->l->t('Unknown share type'));
