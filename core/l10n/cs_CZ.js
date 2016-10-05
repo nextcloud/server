@@ -168,6 +168,7 @@ OC.L10N.register(
     "remote" : "vzdálený",
     "notify by email" : "upozornit emailem",
     "Unshare" : "Zrušit sdílení",
+    "can reshare" : "Může znovu sdílet",
     "can edit" : "lze upravovat",
     "create" : "vytvořit",
     "change" : "změnit",

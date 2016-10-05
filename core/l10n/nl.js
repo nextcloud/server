@@ -168,6 +168,7 @@ OC.L10N.register(
     "remote" : "extern",
     "notify by email" : "melden per e-mail",
     "Unshare" : "Stop met delen",
+    "can reshare" : "kan doordelen",
     "can edit" : "kan wijzigen",
     "create" : "creëer",
     "change" : "wijzig",
