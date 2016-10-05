@@ -109,6 +109,7 @@ class ObjectTree extends \Sabre\DAV\Tree {
 	 * @throws InvalidPath
 	 * @throws \Sabre\DAV\Exception\Locked
 	 * @throws \Sabre\DAV\Exception\NotFound
+	 * @throws \Sabre\DAV\Exception\Forbidden
 	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 */
 	public function getNodeForPath($path) {
@@ -116,6 +117,11 @@ class ObjectTree extends \Sabre\DAV\Tree {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable('filesystem not setup');
 		}
 
+		// check the path, also called when the path has been entered manually eg via a file explorer
+		if (\OC\Files\Filesystem::isForbiddenFileOrDir($path)) {
+			throw new \Sabre\DAV\Exception\Forbidden();
+		}
+		
 		$path = trim($path, '/');
 
 		if (isset($this->cache[$path])) {
@@ -128,6 +134,11 @@ class ObjectTree extends \Sabre\DAV\Tree {
 			} catch (\OCP\Files\InvalidPathException $ex) {
 				throw new InvalidPath($ex->getMessage());
 			}
+		}
+
+		// check the path, also called when the path has been entered manually eg via a file explorer
+		if (\OC\Files\Filesystem::isForbiddenFileOrDir($path)) {
+			throw new \Sabre\DAV\Exception\Forbidden();
 		}
 
 		// Is it the root node?
@@ -203,6 +214,11 @@ class ObjectTree extends \Sabre\DAV\Tree {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable('filesystem not setup');
 		}
 
+		# check the destination path, for source see below
+		if (\OC\Files\Filesystem::isForbiddenFileOrDir($destinationPath)) {
+ 			throw new \Sabre\DAV\Exception\Forbidden();
+		}
+		
 		$infoDestination = $this->fileView->getFileInfo(dirname($destinationPath));
 		if (dirname($destinationPath) === dirname($sourcePath)) {
 			$sourcePermission = $infoDestination && $infoDestination->isUpdateable();
@@ -222,6 +238,9 @@ class ObjectTree extends \Sabre\DAV\Tree {
 		}
 
 		$targetNodeExists = $this->nodeExists($destinationPath);
+
+		// at getNodeForPath we also check the path for isForbiddenFileOrDir
+		// with that we have covered both source and destination
 		$sourceNode = $this->getNodeForPath($sourcePath);
 		if ($sourceNode instanceof \Sabre\DAV\ICollection && $targetNodeExists) {
 			throw new \Sabre\DAV\Exception\Forbidden('Could not copy directory ' . $sourceNode->getName() . ', target exists');
@@ -316,7 +335,13 @@ class ObjectTree extends \Sabre\DAV\Tree {
 			throw new Forbidden('No permissions to copy object.');
 		}
 
-		// this will trigger existence check
+		# check the destination path, for source see below
+		if (\OC\Files\Filesystem::isForbiddenFileOrDir($destination)) {
+			throw new \Sabre\DAV\Exception\Forbidden();
+		}
+
+		// at getNodeForPath we also check the path for isForbiddenFileOrDir
+		// with that we have covered both source and destination
 		$this->getNodeForPath($source);
 
 		list($destinationDir, $destinationName) = \Sabre\HTTP\URLUtil::splitPath($destination);

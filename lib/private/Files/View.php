@@ -625,7 +625,7 @@ class View {
 		if (is_resource($data)) { //not having to deal with streams in file_put_contents makes life easier
 			$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 			if (Filesystem::isValidPath($path)
-				and !Filesystem::isFileBlacklisted($path)
+				and !Filesystem::isForbiddenFileOrDir($path)
 			) {
 				$path = $this->getRelativePath($absolutePath);
 
@@ -722,7 +722,7 @@ class View {
 		if (
 			Filesystem::isValidPath($path2)
 			and Filesystem::isValidPath($path1)
-			and !Filesystem::isFileBlacklisted($path2)
+			and !Filesystem::isForbiddenFileOrDir($path2)
 		) {
 			$path1 = $this->getRelativePath($absolutePath1);
 			$path2 = $this->getRelativePath($absolutePath2);
@@ -843,7 +843,7 @@ class View {
 		if (
 			Filesystem::isValidPath($path2)
 			and Filesystem::isValidPath($path1)
-			and !Filesystem::isFileBlacklisted($path2)
+			and !Filesystem::isForbiddenFileOrDir($path2)
 		) {
 			$path1 = $this->getRelativePath($absolutePath1);
 			$path2 = $this->getRelativePath($absolutePath2);
@@ -1094,7 +1094,7 @@ class View {
 		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		if (Filesystem::isValidPath($path)
-			and !Filesystem::isFileBlacklisted($path)
+			and !Filesystem::isForbiddenFileOrDir($path)
 		) {
 			$path = $this->getRelativePath($absolutePath);
 			if ($path == null) {
@@ -1408,13 +1408,17 @@ class View {
 			/**
 			 * @var \OC\Files\FileInfo[] $files
 			 */
+			$files = array_filter($contents, function(ICacheEntry $content) {
+				return (!\OC\Files\Filesystem::isForbiddenFileOrDir($content['path']));
+			});
+
 			$files = array_map(function (ICacheEntry $content) use ($path, $storage, $mount, $sharingDisabled) {
 				if ($sharingDisabled) {
 					$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 				}
 				$owner = $this->getUserObjectForOwner($storage->getOwner($content['path']));
 				return new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content, $mount, $owner);
-			}, $contents);
+			}, $files);
 
 			//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
 			$mounts = Filesystem::getMountManager()->findIn($path);
