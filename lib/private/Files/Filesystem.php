@@ -650,7 +650,6 @@ class Filesystem {
 	}
 
 	/**
-	/**
 	 * following functions are equivalent to their php builtin equivalents for arguments/return values.
 	 */
 	static public function mkdir($path) {
