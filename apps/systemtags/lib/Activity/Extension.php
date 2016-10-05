@@ -98,7 +98,7 @@ class Extension implements IExtension {
 	public function getTypeIcon($type) {
 		switch ($type) {
 			case self::APP_NAME:
-				return false;
+				return 'icon-tag';
 		}
 
 		return false;
