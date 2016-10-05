@@ -282,6 +282,10 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 	background-image: url('../img/actions/sound-off.svg?v=1');
 }
 
+.icon-favorite  {
+	background-image: url('../img/actions/star-dark.svg?v=1');
+}
+
 .icon-star,
 .icon-starred:hover,
 .icon-starred:focus {
@@ -364,6 +368,9 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 
 .icon-files {
 	background-image: url('../img/places/files.svg?v=1');
+}
+.icon-files-dark {
+	background-image: url('../img/places/files-dark.svg?v=1');
 }
 .icon-file,
 .icon-filetype-text {

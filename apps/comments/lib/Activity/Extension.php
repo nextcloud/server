@@ -247,14 +247,15 @@ class Extension implements IExtension {
 	public function getNavigation() {
 		$l = $this->getL10N();
 		return [
-			'apps' => [],
-			'top' => [
+			'apps' => [
 				self::APP_NAME => [
 					'id' => self::APP_NAME,
+					'icon' => 'icon-comment',
 					'name' => (string) $l->t('Comments'),
 					'url' => $this->URLGenerator->linkToRoute('activity.Activities.showList', ['filter' => self::APP_NAME]),
 				],
 			],
+			'top' => [],
 		];
 	}
 

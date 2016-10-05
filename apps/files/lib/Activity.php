@@ -306,6 +306,7 @@ class Activity implements IExtension {
 			'top' => [
 				self::FILTER_FAVORITES => [
 					'id' => self::FILTER_FAVORITES,
+					'icon' => 'icon-favorite',
 					'name' => (string) $this->l->t('Favorites'),
 					'url' => $this->URLGenerator->linkToRoute('activity.Activities.showList', ['filter' => self::FILTER_FAVORITES]),
 				],
@@ -313,6 +314,7 @@ class Activity implements IExtension {
 			'apps' => [
 				self::FILTER_FILES => [
 					'id' => self::FILTER_FILES,
+					'icon' => 'icon-files-dark',
 					'name' => (string) $this->l->t('Files'),
 					'url' => $this->URLGenerator->linkToRoute('activity.Activities.showList', ['filter' => self::FILTER_FILES]),
 				],
