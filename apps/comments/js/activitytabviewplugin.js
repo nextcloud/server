@@ -1,5 +1,5 @@
 /*
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * Copyright (c) 2016
  *
  * This file is licensed under the Affero General Public License version 3
