@@ -21,6 +21,7 @@
  */
 namespace Tests\Core\Controller;
 
+use OC\HintException;
 use OC\Settings\Controller\ChangePasswordController;
 use OC\User\Session;
 use OCP\App\IAppManager;
@@ -86,6 +87,30 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 			'status' => 'error',
 			'data' => [
 				'message' => 'Wrong password',
+			],
+		];
+
+		$res = $this->controller->changePersonalPassword('old', 'new');
+
+		$this->assertEquals($expects, $res->getData());
+	}
+
+	public function testChangePersonalPasswordCommonPassword() {
+		$user = $this->getMockBuilder('OCP\IUser')->getMock();
+		$this->userManager->expects($this->once())
+			->method('checkPassword')
+			->with($this->userId, 'old')
+			->willReturn($user);
+
+		$user->expects($this->once())
+			->method('setPassword')
+			->with('new')
+			->will($this->throwException(new HintException('Common password')));
+
+		$expects = [
+			'status' => 'error',
+			'data' => [
+				'message' => 'Common password',
 			],
 		];
 

@@ -91,6 +91,7 @@ class ChangePasswordController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function changePersonalPassword($oldpassword = '', $newpassword = null) {
+		/** @var IUser $user */
 		$user = $this->userManager->checkPassword($this->userId, $oldpassword);
 		if ($user === false) {
 			return new JSONResponse([
@@ -101,10 +102,19 @@ class ChangePasswordController extends Controller {
 			]);
 		}
 
-		/** @var IUser $user */
-		if ($newpassword === null || $user->setPassword($newpassword) === false) {
+		try {
+			if ($newpassword === null || $user->setPassword($newpassword) === false) {
+				return new JSONResponse([
+					'status' => 'error'
+				]);
+			}
+		// password policy app throws exception
+		} catch(HintException $e) {
 			return new JSONResponse([
-				'status' => 'error'
+				'status' => 'error',
+				'data' => [
+					'message' => $e->getHint(),
+				],
 			]);
 		}
 
@@ -216,7 +226,17 @@ class ChangePasswordController extends Controller {
 					]
 				]);
 			} else { // now we know that everything is fine regarding the recovery password, let's try to change the password
-				$result = $targetUser->setPassword($password, $recoveryPassword);
+				try {
+					$result = $targetUser->setPassword($password, $recoveryPassword);
+				// password policy app throws exception
+				} catch(HintException $e) {
+					return new JSONResponse([
+						'status' => 'error',
+						'data' => [
+							'message' => $e->getHint(),
+						],
+					]);
+				}
 				if (!$result && $recoveryEnabledForUser) {
 					return new JSONResponse([
 						'status' => 'error',
