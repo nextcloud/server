@@ -46,7 +46,8 @@ class OccControllerTest extends TestCase {
 	private $console;
 
 	public function testFromInvalidLocation(){
-		$this->getControllerMock('example.org');
+		$fakeHost = 'example.org';
+		$this->getControllerMock($fakeHost);
 
 		$response = $this->controller->execute('status', '');
 		$responseData = $response->getData();
@@ -55,7 +56,7 @@ class OccControllerTest extends TestCase {
 		$this->assertEquals(126, $responseData['exitCode']);
 
 		$this->assertArrayHasKey('details', $responseData);
-		$this->assertEquals('Web executor is not allowed to run from a different host', $responseData['details']);
+		$this->assertEquals('Web executor is not allowed to run from a host ' . $fakeHost, $responseData['details']);
 	}
 
 	public function testNotWhiteListedCommand(){
@@ -136,7 +137,10 @@ class OccControllerTest extends TestCase {
 			'core',
 			$this->request,
 			$this->config,
-			$this->console
+			$this->console,
+			$this->getMockBuilder('\OCP\ILogger')
+				->disableOriginalConstructor()
+				->getMock()
 		);
 	}
 

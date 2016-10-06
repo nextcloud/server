@@ -90,18 +90,6 @@ class Application extends App {
 				$c->query('Logger')
 			);
 		});
-		$container->registerService('OccController', function(SimpleContainer $c) {
-			return new OccController(
-				$c->query('AppName'),
-				$c->query('Request'),
-				$c->query('Config'),
-				new \OC\Console\Application(
-					$c->query('Config'),
-					$c->query('ServerContainer')->getEventDispatcher(),
-					$c->query('Request')
-				)
-			);
-		});
 
 		/**
 		 * Core class wrappers
