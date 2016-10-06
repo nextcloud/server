@@ -55,6 +55,7 @@ class EncryptionControllerTest extends TestCase {
 	private $encryptionController;
 
 	public function setUp() {
+		parent::setUp();
 		$this->request = $this->getMockBuilder('\\OCP\\IRequest')
 			->disableOriginalConstructor()->getMock();
 		$this->l10n = $this->getMockBuilder('\\OCP\\IL10N')

@@ -10,42 +10,47 @@
 
 namespace Tests\Settings\Controller;
 
-use OC\Group\Group;
 use OC\Group\MetaData;
-use \OC\Settings\Application;
 use OC\Settings\Controller\GroupsController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\IGroupManager;
+use OCP\IL10N;
+use OCP\IRequest;
+use OCP\IUserSession;
 
 /**
  * @package Tests\Settings\Controller
  */
 class GroupsControllerTest extends \Test\TestCase {
 
-	/** @var \OCP\AppFramework\IAppContainer */
-	private $container;
+	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $groupManager;
+
+	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	private $userSession;
 
 	/** @var GroupsController */
 	private $groupsController;
 
 	protected function setUp() {
-		$app = new Application();
-		$this->container = $app->getContainer();
-		$this->container['AppName'] = 'settings';
-		$this->container['GroupManager'] = $this->getMockBuilder('\OCP\IGroupManager')
-			->disableOriginalConstructor()->getMock();
-		$this->container['UserSession'] = $this->getMockBuilder('\OC\User\Session')
-			->disableOriginalConstructor()->getMock();
-		$this->container['L10N'] = $this->getMockBuilder('\OCP\IL10N')
-			->disableOriginalConstructor()->getMock();
-		$this->container['IsAdmin'] = true;
-		$this->container['L10N']
-			->expects($this->any())
-					->method('t')
-					->will($this->returnCallback(function($text, $parameters = array()) {
-							return vsprintf($text, $parameters);
-					}));
-		$this->groupsController = $this->container['GroupsController'];
+		parent::setUp();
+
+		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$l = $this->createMock(IL10N::class);
+		$l->method('t')
+			->will($this->returnCallback(function($text, $parameters = []) {
+				return vsprintf($text, $parameters);
+			}));
+		$this->groupsController = new GroupsController(
+			'settings',
+			$this->createMock(IRequest::class),
+			$this->groupManager,
+			$this->userSession,
+			true,
+			$l
+		);
 
 	}
 
@@ -95,7 +100,7 @@ class GroupsControllerTest extends \Test\TestCase {
 
 		$user = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
-		$this->container['UserSession']
+		$this->userSession
 			->expects($this->once())
 			->method('getUser')
 			->will($this->returnValue($user));
@@ -103,8 +108,7 @@ class GroupsControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getUID')
 			->will($this->returnValue('MyAdminUser'));
-		$this->container['GroupManager']
-			->method('search')
+		$this->groupManager->method('search')
 			->will($this->returnValue($groups));
 
 		$expectedResponse = new DataResponse(
@@ -188,7 +192,7 @@ class GroupsControllerTest extends \Test\TestCase {
 
 		$user = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
-		$this->container['UserSession']
+		$this->userSession
 			->expects($this->once())
 			->method('getUser')
 			->will($this->returnValue($user));
@@ -196,7 +200,7 @@ class GroupsControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getUID')
 			->will($this->returnValue('MyAdminUser'));
-		$this->container['GroupManager']
+		$this->groupManager
 			->method('search')
 			->will($this->returnValue($groups));
 
@@ -236,7 +240,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	}
 
 	public function testCreateWithExistingGroup() {
-		$this->container['GroupManager']
+		$this->groupManager
 			->expects($this->once())
 			->method('groupExists')
 			->with('ExistingGroup')
@@ -253,12 +257,12 @@ class GroupsControllerTest extends \Test\TestCase {
 	}
 
 	public function testCreateSuccessful() {
-		$this->container['GroupManager']
+		$this->groupManager
 			->expects($this->once())
 			->method('groupExists')
 			->with('NewGroup')
 			->will($this->returnValue(false));
-		$this->container['GroupManager']
+		$this->groupManager
 			->expects($this->once())
 			->method('createGroup')
 			->with('NewGroup')
@@ -275,12 +279,12 @@ class GroupsControllerTest extends \Test\TestCase {
 	}
 
 	public function testCreateUnsuccessful() {
-		$this->container['GroupManager']
+		$this->groupManager
 			->expects($this->once())
 			->method('groupExists')
 			->with('NewGroup')
 			->will($this->returnValue(false));
-		$this->container['GroupManager']
+		$this->groupManager
 			->expects($this->once())
 			->method('createGroup')
 			->with('NewGroup')
@@ -300,7 +304,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	public function testDestroySuccessful() {
 		$group = $this->getMockBuilder('\OC\Group\Group')
 			->disableOriginalConstructor()->getMock();
-		$this->container['GroupManager']
+		$this->groupManager
 			->expects($this->once())
 			->method('get')
 			->with('ExistingGroup')
@@ -322,7 +326,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	}
 
 	public function testDestroyUnsuccessful() {
-		$this->container['GroupManager']
+		$this->groupManager
 			->expects($this->once())
 			->method('get')
 			->with('ExistingGroup')

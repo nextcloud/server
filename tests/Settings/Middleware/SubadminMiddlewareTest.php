@@ -33,6 +33,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 	private $controller;
 
 	protected function setUp() {
+		parent::setUp();
 		$this->reflector = $this->getMockBuilder('\OC\AppFramework\Utility\ControllerMethodReflector')
 			->disableOriginalConstructor()->getMock();
 		$this->controller = $this->getMockBuilder('\OCP\AppFramework\Controller')

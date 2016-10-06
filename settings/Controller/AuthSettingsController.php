@@ -60,14 +60,14 @@ class AuthSettingsController extends Controller {
 	 * @param IUserManager $userManager
 	 * @param ISession $session
 	 * @param ISecureRandom $random
-	 * @param string $uid
+	 * @param string $userId
 	 */
 	public function __construct($appName, IRequest $request, IProvider $tokenProvider, IUserManager $userManager,
-		ISession $session, ISecureRandom $random, $uid) {
+		ISession $session, ISecureRandom $random, $userId) {
 		parent::__construct($appName, $request);
 		$this->tokenProvider = $tokenProvider;
 		$this->userManager = $userManager;
-		$this->uid = $uid;
+		$this->uid = $userId;
 		$this->session = $session;
 		$this->random = $random;
 	}
