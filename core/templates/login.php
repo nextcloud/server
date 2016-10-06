@@ -64,6 +64,9 @@ script('core', [
 				<?php p($l->t('Wrong password.')); ?>
 			</p>
 		<?php } ?>
+
+		<input type="submit" id="submit" class="login primary icon-confirm-white" title="" value="<?php p($l->t('Log in')); ?>" disabled="disabled" tabindex="4" />
+
 		<?php if ($_['rememberLoginAllowed'] === true) : ?>
 		<div class="remember-login-container">
 			<?php if ($_['rememberLoginState'] === 0) { ?>
@@ -74,8 +77,6 @@ script('core', [
 			<label for="remember_login"><?php p($l->t('Stay logged in')); ?></label>
 		</div>
 		<?php endif; ?>
-
-		<input type="submit" id="submit" class="login primary icon-confirm-white" title="" value="<?php p($l->t('Log in')); ?>" disabled="disabled" tabindex="4" />
 
 		<input type="hidden" name="timezone-offset" id="timezone-offset"/>
 		<input type="hidden" name="timezone" id="timezone"/>
