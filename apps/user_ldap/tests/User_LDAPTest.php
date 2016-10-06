@@ -28,15 +28,20 @@
 
 namespace OCA\User_LDAP\Tests;
 
+use OCA\User_LDAP\Access;
+use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\FilesystemHelper;
+use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LogWrapper;
+use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User_LDAP as UserLDAP;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Image;
 use OCP\IUserManager;
+use Test\TestCase;
 
 /**
  * Class Test_User_Ldap_Direct
@@ -45,7 +50,7 @@ use OCP\IUserManager;
  *
  * @package OCA\User_LDAP\Tests
  */
-class User_LDAPTest extends \Test\TestCase {
+class User_LDAPTest extends TestCase {
 	protected $backend;
 	protected $access;
 	protected $configMock;
@@ -58,23 +63,17 @@ class User_LDAPTest extends \Test\TestCase {
 	}
 
 	private function getAccessMock() {
-		static $conMethods;
 		static $accMethods;
-		static $uMethods;
 
-		if(is_null($conMethods) || is_null($accMethods)) {
-			$conMethods = get_class_methods('\OCA\User_LDAP\Connection');
-			$accMethods = get_class_methods('\OCA\User_LDAP\Access');
+		if(is_null($accMethods)) {
+			$accMethods = get_class_methods(Access::class);
 			unset($accMethods[array_search('getConnection', $accMethods)]);
-			$uMethods   = get_class_methods('\OCA\User_LDAP\User\User');
-			unset($uMethods[array_search('getUsername', $uMethods)]);
-			unset($uMethods[array_search('getDN', $uMethods)]);
-			unset($uMethods[array_search('__construct', $uMethods)]);
 		}
 		$lw  = $this->createMock(ILDAPWrapper::class);
-		$connector = $this->getMock('\OCA\User_LDAP\Connection',
-									$conMethods,
-									array($lw, null, null));
+		$connector = $this->getMockBuilder(Connection::class)
+			->setMethodsExcept(['getConnection'])
+			->setConstructorArgs([$lw, null, null])
+			->getMock();
 
 		$this->configMock = $this->createMock(IConfig::class);
 
@@ -82,7 +81,8 @@ class User_LDAPTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$um = $this->getMockBuilder('\OCA\User_LDAP\User\Manager')
+		/** @var Manager|\PHPUnit_Framework_MockObject_MockObject $um */
+		$um = $this->getMockBuilder(Manager::class)
 			->setMethods(['getDeletedUser'])
 			->setConstructorArgs([
 				$this->configMock,
@@ -99,11 +99,12 @@ class User_LDAPTest extends \Test\TestCase {
 			->method('getDeletedUser')
 			->will($this->returnValue($offlineUser));
 
-		$helper = new \OCA\User_LDAP\Helper();
-		
-		$access = $this->getMock('\OCA\User_LDAP\Access',
-								 $accMethods,
-								 array($connector, $lw, $um, $helper));
+		$helper = new Helper();
+
+		$access = $this->getMockBuilder(Access::class)
+			->setMethodsExcept(['getConnection'])
+			->setConstructorArgs([$connector, $lw, $um, $helper])
+			->getMock();
 
 		$um->setLdapAccess($access);
 
@@ -135,7 +136,7 @@ class User_LDAPTest extends \Test\TestCase {
 
 	/**
 	 * Prepares the Access mock for checkPassword tests
-	 * @param \OCA\User_LDAP\Access $access mock
+	 * @param Access $access mock
 	 * @param bool $noDisplayName
 	 * @return void
 	 */
@@ -304,7 +305,7 @@ class User_LDAPTest extends \Test\TestCase {
 
 	/**
 	 * Prepares the Access mock for getUsers tests
-	 * @param \OCA\User_LDAP\Access $access mock
+	 * @param Access $access mock
 	 * @return void
 	 */
 	private function prepareAccessForGetUsers(&$access) {
