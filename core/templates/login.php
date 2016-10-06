@@ -53,7 +53,6 @@ script('core', [
 				<?php p($_['user_autofocus'] ? '' : 'autofocus'); ?>
 				autocomplete="on" autocapitalize="off" autocorrect="off" required tabindex="2">
 			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
-			<input type="submit" id="submit" class="login primary icon-confirm" title="<?php p($l->t('Log in')); ?>" value="" disabled="disabled" tabindex="4" />
 		</p>
 
 		<?php if (!empty($_['invalidpassword']) && !empty($_['canResetPassword'])) { ?>
@@ -75,6 +74,9 @@ script('core', [
 			<label for="remember_login"><?php p($l->t('Stay logged in')); ?></label>
 		</div>
 		<?php endif; ?>
+
+		<input type="submit" id="submit" class="login primary icon-confirm-white" title="" value="<?php p($l->t('Log in')); ?>" disabled="disabled" tabindex="4" />
+
 		<input type="hidden" name="timezone-offset" id="timezone-offset"/>
 		<input type="hidden" name="timezone" id="timezone"/>
 		<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>">

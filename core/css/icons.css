@@ -149,6 +149,9 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 .icon-confirm {
 	background-image: url('../img/actions/confirm.svg?v=1');
 }
+.icon-confirm-white {
+	background-image: url('../img/actions/confirm-white.svg?v=1');
+}
 
 .icon-delete,
 .icon-delete.no-permission:hover,
