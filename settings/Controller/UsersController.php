@@ -537,19 +537,19 @@ class UsersController extends Controller {
 			);
 		}
 
-		if(!$this->isAdmin && !$this->groupManager->getSubAdmin()->isUserAccessible($this->userSession->getUser(), $user)) {
-			return new DataResponse(
-				array(
-					'status' => 'error',
-					'data' => array(
-						'message' => (string)$this->l10n->t('Authentication error')
-					)
-				),
-				Http::STATUS_FORBIDDEN
-			);
-		}
-
 		if($user) {
+			if(!$this->isAdmin && !$this->groupManager->getSubAdmin()->isUserAccessible($this->userSession->getUser(), $user)) {
+				return new DataResponse(
+					array(
+						'status' => 'error',
+						'data' => array(
+							'message' => (string)$this->l10n->t('Authentication error')
+						)
+					),
+					Http::STATUS_FORBIDDEN
+				);
+			}
+
 			$user->setEnabled(false);
 			return new DataResponse(
 				array(
@@ -594,19 +594,19 @@ class UsersController extends Controller {
 			);
 		}
 
-		if(!$this->isAdmin && !$this->groupManager->getSubAdmin()->isUserAccessible($this->userSession->getUser(), $user)) {
-			return new DataResponse(
-				array(
-					'status' => 'error',
-					'data' => array(
-						'message' => (string)$this->l10n->t('Authentication error')
-					)
-				),
-				Http::STATUS_FORBIDDEN
-			);
-		}
-
 		if($user) {
+			if(!$this->isAdmin && !$this->groupManager->getSubAdmin()->isUserAccessible($this->userSession->getUser(), $user)) {
+				return new DataResponse(
+					array(
+						'status' => 'error',
+						'data' => array(
+							'message' => (string)$this->l10n->t('Authentication error')
+						)
+					),
+					Http::STATUS_FORBIDDEN
+				);
+			}
+
 			$user->setEnabled(true);
 			return new DataResponse(
 				array(
