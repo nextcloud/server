@@ -920,3 +920,21 @@ Feature: sharing
 #        |{http://owncloud.org/ns}permissions|
 #    And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRDNVCK"
 #    And as "user1" the folder "merge-test-outside-groups-renamebeforesecondshare" does not exist
+
+  Scenario: Empting trashbin
+    Given As an "admin"
+    And user "user0" exists
+    And User "user0" deletes file "/textfile0.txt"
+    When User "user0" empties trashbin
+    Then the HTTP status code should be "200"
+
+  Scenario: orphaned shares
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And user "user0" created a folder "/common"
+    And user "user0" created a folder "/common/sub"
+    And file "/common/sub" of user "user0" is shared with user "user1"
+    And User "user0" deletes folder "/common"
+    When User "user0" empties trashbin
+    Then as "user1" the folder "sub" does not exist

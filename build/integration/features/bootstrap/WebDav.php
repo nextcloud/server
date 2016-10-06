@@ -455,11 +455,12 @@ trait WebDav {
 	}
 
 	/**
-	 * @When User :user deletes file :file
+	 * @When /^User "([^"]*)" deletes (file|folder) "([^"]*)"$/
 	 * @param string $user
+	 * @param string $type
 	 * @param string $file
 	 */
-	public function userDeletesFile($user, $file)  {
+	public function userDeletesFile($user, $type, $file)  {
 		try {
 			$this->response = $this->makeDavRequest($user, 'DELETE', $file, []);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
