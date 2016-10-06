@@ -62,37 +62,8 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			->method('t')
 			->will($this->returnValue('Saved'));
 
-		/**
-		 * FIXME: Use the following block once Jenkins uses PHPUnit >= 4.1
-		 */
-		/*
-		$this->config
-			->expects($this->exactly(15))
-			->method('setSystemValue')
-			->withConsecutive(
-				array($this->equalTo('mail_domain'), $this->equalTo('owncloud.com')),
-				array($this->equalTo('mail_from_address'), $this->equalTo('demo@owncloud.com')),
-				array($this->equalTo('mail_smtpmode'), $this->equalTo('smtp')),
-				array($this->equalTo('mail_smtpsecure'), $this->equalTo('ssl')),
-				array($this->equalTo('mail_smtphost'), $this->equalTo('mx.owncloud.org')),
-				array($this->equalTo('mail_smtpauthtype'), $this->equalTo('NTLM')),
-				array($this->equalTo('mail_smtpauth'), $this->equalTo(1)),
-				array($this->equalTo('mail_smtpport'), $this->equalTo('25')),
-				array($this->equalTo('mail_domain'), $this->equalTo('owncloud.com')),
-				array($this->equalTo('mail_from_address'), $this->equalTo('demo@owncloud.com')),
-				array($this->equalTo('mail_smtpmode'), $this->equalTo('smtp')),
-				array($this->equalTo('mail_smtpsecure'), $this->equalTo('ssl')),
-				array($this->equalTo('mail_smtphost'), $this->equalTo('mx.owncloud.org')),
-				array($this->equalTo('mail_smtpauthtype'), $this->equalTo('NTLM')),
-				array($this->equalTo('mail_smtpport'), $this->equalTo('25'))
-			);
-		 */
-
-		/** @var \PHPUnit_Framework_MockObject_MockObject $config */
 		$this->config->expects($this->exactly(2))
-			->method('setSystemValues');
-		/**
-		 * FIXME: Use the following block once Jenkins uses PHPUnit >= 4.1
+			->method('setSystemValues')
 			->withConsecutive(
 				[[
 					'mail_domain' => 'owncloud.com',
@@ -117,7 +88,6 @@ class MailSettingsControllerTest extends \Test\TestCase {
 					'mail_smtppassword' => null,
 				]]
 			);
-		 */
 
 		// With authentication
 		$response = $this->mailController->setMailSettings(
