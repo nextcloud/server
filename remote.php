@@ -107,7 +107,7 @@ function resolveService($service) {
 }
 
 try {
-	require_once 'lib/base.php';
+	require_once __DIR__ . '/lib/base.php';
 
 	// All resources served via the DAV endpoint should have the strictest possible
 	// policy. Exempted from this is the SabreDAV browser plugin which overwrites
