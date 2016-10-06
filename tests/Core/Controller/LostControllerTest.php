@@ -40,7 +40,7 @@ use PHPUnit_Framework_MockObject_MockObject;
  *
  * @package OC\Core\Controller
  */
-class LostControllerTest extends \PHPUnit_Framework_TestCase {
+class LostControllerTest extends \Test\TestCase {
 
 	/** @var LostController */
 	private $lostController;
@@ -68,6 +68,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 	private $request;
 
 	protected function setUp() {
+		parent::setUp();
 
 		$this->existingUser = $this->getMockBuilder('OCP\IUser')
 				->disableOriginalConstructor()->getMock();
