@@ -197,8 +197,16 @@ $(document).ready(function () {
 	if($('#pass2').length) {
 		$('#pass2').showPassword().keyup();
 	}
+
+	var removeloader = function () {
+		setTimeout(function(){
+			if ($('.password-state').length > 0) {
+				$('.password-state').remove();
+			}
+		}, 5000)
+	};
+
 	$("#passwordbutton").click(function () {
-		OC.msg.startSaving('#password-error-msg');
 		var isIE8or9 = $('html').hasClass('lte9');
 		// FIXME - TODO - once support for IE8 and IE9 is dropped
 		// for IE8 and IE9 this will check additionally if the typed in password
@@ -210,12 +218,17 @@ $(document).ready(function () {
 			var post = $("#passwordform").serialize();
 			$('#passwordchanged').hide();
 			$('#passworderror').hide();
+			$("#passwordbutton").attr('disabled', 'disabled');
+			$("#passwordbutton").after("<span class='password-loading icon icon-loading-small-dark password-state'></span>");
+			$(".personal-show-label").hide();
 			// Ajax foo
 			$.post(OC.generateUrl('/settings/personal/changepassword'), post, function (data) {
 				if (data.status === "success") {
+					$("#passwordbutton").after("<span class='checkmark icon icon-checkmark password-state'></span>");
+					removeloader();
+					$(".personal-show-label").show();
 					$('#pass1').val('');
 					$('#pass2').val('').change();
-					OC.msg.finishedSaving('#password-error-msg', data);
 				} else {
 					if (typeof(data.data) !== "undefined") {
 						OC.msg.finishedSaving('#password-error-msg', data);
@@ -230,6 +243,8 @@ $(document).ready(function () {
 						);
 					}
 				}
+				$(".password-loading").remove();
+				$("#passwordbutton").removeAttr('disabled');
 			});
 			return false;
 		} else {
@@ -243,7 +258,6 @@ $(document).ready(function () {
 			);
 			return false;
 		}
-
 	});
 
 	$('#displayName').keyUpDelayedOrEnter(changeDisplayName);

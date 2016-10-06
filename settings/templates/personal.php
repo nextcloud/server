@@ -129,7 +129,7 @@ if($_['passwordChangeSupported']) {
 		placeholder="<?php echo $l->t('New password');?>"
 		data-typetoggle="#personal-show"
 		autocomplete="off" autocapitalize="off" autocorrect="off" />
-	<input type="checkbox" id="personal-show" name="show" /><label for="personal-show"></label>
+	<input type="checkbox" id="personal-show" name="show" /><label for="personal-show" class="personal-show-label"></label>
 	<input id="passwordbutton" type="submit" value="<?php echo $l->t('Change password');?>" />
 	<br/>
 </form>
