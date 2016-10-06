@@ -26,6 +26,12 @@ source_file = templates/lib.pot
 source_lang = en
 type = PO
 
+[nextcloud.dav]
+file_filter = <lang>/dav.po
+source_file = templates/dav.pot
+source_lang = en
+type = PO
+
 [nextcloud.files_encryption]
 file_filter = <lang>/encryption.po
 source_file = templates/encryption.pot

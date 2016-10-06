@@ -27,6 +27,7 @@ namespace OCA\DAV\Tests\unit\CardDAV;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
 use OCP\Contacts\IManager;
+use OCP\IL10N;
 use Test\TestCase;
 
 class ContactsManagerTest extends TestCase {
@@ -38,10 +39,11 @@ class ContactsManagerTest extends TestCase {
 		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $backEnd */
 		$backEnd = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')->disableOriginalConstructor()->getMock();
 		$backEnd->method('getAddressBooksForUser')->willReturn([
-				[]
+				['uri' => 'default'],
 			]);
 
-		$app = new ContactsManager($backEnd);
+		$l = $this->createMock(IL10N::class);
+		$app = new ContactsManager($backEnd, $l);
 		$app->setupContactsProvider($cm, 'user01', $urlGenerator);
 	}
 }

@@ -21,7 +21,22 @@
  */
 namespace OCA\DAV\CardDAV;
 
+use OCP\IL10N;
+
 class AddressBookRoot extends \Sabre\CardDAV\AddressBookRoot {
+
+	/** @var IL10N */
+	protected $l10n;
+
+	/**
+	 * @param \Sabre\DAVACL\PrincipalBackend\BackendInterface $principalBackend
+	 * @param \Sabre\CardDAV\Backend\BackendInterface $carddavBackend
+	 * @param string $principalPrefix
+	 */
+	public function __construct(\Sabre\DAVACL\PrincipalBackend\BackendInterface $principalBackend, \Sabre\CardDAV\Backend\BackendInterface $carddavBackend, $principalPrefix = 'principals') {
+		parent::__construct($principalBackend, $carddavBackend, $principalPrefix);
+		$this->l10n = \OC::$server->getL10N('dav');
+	}
 
 	/**
 	 * This method returns a node for a principal.
@@ -35,7 +50,7 @@ class AddressBookRoot extends \Sabre\CardDAV\AddressBookRoot {
 	 */
 	function getChildForPrincipal(array $principal) {
 
-		return new UserAddressBooks($this->carddavBackend, $principal['uri']);
+		return new UserAddressBooks($this->carddavBackend, $principal['uri'], $this->l10n);
 
 	}
 

@@ -21,7 +21,12 @@
  */
 namespace OCA\DAV\CardDAV;
 
+use OCP\IL10N;
+
 class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
+
+	/** @var IL10N */
+	protected $l10n;
 
 	/**
 	 * Returns a list of addressbooks
@@ -29,11 +34,14 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	 * @return array
 	 */
 	function getChildren() {
+		if ($this->l10n === null) {
+			$this->l10n = \OC::$server->getL10N('dav');
+		}
 
 		$addressBooks = $this->carddavBackend->getAddressBooksForUser($this->principalUri);
 		$objects = [];
 		foreach($addressBooks as $addressBook) {
-			$objects[] = new AddressBook($this->carddavBackend, $addressBook);
+			$objects[] = new AddressBook($this->carddavBackend, $addressBook, $this->l10n);
 		}
 		return $objects;
 

@@ -33,6 +33,7 @@ use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\IL10N;
 use Sabre\DAV\PropPatch;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Property\Text;
@@ -146,7 +147,8 @@ class CardDavBackendTest extends TestCase {
 		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(1, count($books));
-		$addressBook = new AddressBook($this->backend, $books[0]);
+		$l = $this->createMock(IL10N::class);
+		$addressBook = new AddressBook($this->backend, $books[0], $l);
 		$this->backend->updateShares($addressBook, [
 			[
 				'href' => 'principal:' . self::UNIT_TEST_USER1,
@@ -329,7 +331,8 @@ class CardDavBackendTest extends TestCase {
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(1, count($books));
 
-		$exampleBook = new AddressBook($this->backend, $books[0]);
+		$l = $this->createMock(IL10N::class);
+		$exampleBook = new AddressBook($this->backend, $books[0], $l);
 		$this->backend->updateShares($exampleBook, [['href' => 'principal:principals/best-friend']], []);
 
 		$shares = $this->backend->getShares($exampleBook->getResourceId());

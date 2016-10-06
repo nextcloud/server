@@ -59,6 +59,9 @@ use Sabre\VObject\Recur\EventIterator;
  */
 class CalDavBackend extends AbstractBackend implements SyncSupport, SubscriptionSupport, SchedulingSupport {
 
+	const PERSONAL_CALENDAR_URI = 'personal';
+	const PERSONAL_CALENDAR_NAME = 'Personal';
+
 	/**
 	 * We need to specify a max date, because we need to stop *somewhere*
 	 *

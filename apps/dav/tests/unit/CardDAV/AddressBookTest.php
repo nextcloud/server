@@ -25,6 +25,7 @@ namespace OCA\DAV\Tests\unit\CardDAV;
 
 use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\CardDavBackend;
+use OCP\IL10N;
 use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
@@ -40,9 +41,11 @@ class AddressBookTest extends TestCase {
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
 			'principaluri' => 'user2',
-			'id' => 666
+			'id' => 666,
+			'uri' => 'default',
 		];
-		$c = new AddressBook($backend, $calendarInfo);
+		$l = $this->createMock(IL10N::class);
+		$c = new AddressBook($backend, $calendarInfo, $l);
 		$c->delete();
 	}
 
@@ -59,9 +62,11 @@ class AddressBookTest extends TestCase {
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
 			'principaluri' => 'user2',
-			'id' => 666
+			'id' => 666,
+			'uri' => 'default',
 		];
-		$c = new AddressBook($backend, $calendarInfo);
+		$l = $this->createMock(IL10N::class);
+		$c = new AddressBook($backend, $calendarInfo, $l);
 		$c->delete();
 	}
 
@@ -74,9 +79,11 @@ class AddressBookTest extends TestCase {
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
 			'principaluri' => 'user2',
-			'id' => 666
+			'id' => 666,
+			'uri' => 'default',
 		];
-		$c = new AddressBook($backend, $calendarInfo);
+		$l = $this->createMock(IL10N::class);
+		$c = new AddressBook($backend, $calendarInfo, $l);
 		$c->propPatch(new PropPatch([]));
 	}
 
@@ -98,7 +105,8 @@ class AddressBookTest extends TestCase {
 		if ($hasOwnerSet) {
 			$calendarInfo['{http://owncloud.org/ns}owner-principal'] = 'user1';
 		}
-		$c = new AddressBook($backend, $calendarInfo);
+		$l = $this->createMock(IL10N::class);
+		$c = new AddressBook($backend, $calendarInfo, $l);
 		$acl = $c->getACL();
 		$childAcl = $c->getChildACL();
 
