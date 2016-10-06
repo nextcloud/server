@@ -45,7 +45,7 @@ function exceptionHandler($exception) {
 	exit(1);
 }
 try {
-	require_once 'lib/base.php';
+	require_once __DIR__ . '/lib/base.php';
 
 	// set to run indefinitely if needed
 	set_time_limit(0);
