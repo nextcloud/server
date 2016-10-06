@@ -33,6 +33,7 @@ use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\Image;
 use OCP\IUserManager;
+use OCP\Util;
 
 /**
  * User
@@ -113,9 +114,11 @@ class User {
 		LogWrapper $log, IAvatarManager $avatarManager, IUserManager $userManager) {
 
 		if ($username === null) {
-			throw new \InvalidArgumentException("uid for '$dn' must not be null!");
+			$log->log("uid for '$dn' must not be null!", Util::ERROR);
+			throw new \InvalidArgumentException('uid must not be null!');
 		} else if ($username === '') {
-			throw new \InvalidArgumentException("uid for '$dn' must not be an empty string!");
+			$log->log("uid for '$dn' must not be an empty string", Util::ERROR);
+			throw new \InvalidArgumentException('uid must not be an empty string!');
 		}
 
 		$this->access        = $access;
