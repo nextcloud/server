@@ -311,10 +311,20 @@ class OC_Util {
 	 *
 	 * @param String $userId
 	 * @param \OCP\Files\Folder $userDirectory
+	 * @throws \RuntimeException
 	 */
 	public static function copySkeleton($userId, \OCP\Files\Folder $userDirectory) {
 
-		$skeletonDirectory = \OCP\Config::getSystemValue('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
+		$skeletonDirectory = \OC::$server->getConfig()->getSystemValue('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
+		$instanceId = \OC::$server->getConfig()->getSystemValue('instanceid', '');
+
+		if ($instanceId === null) {
+			throw new \RuntimeException('no instance id!');
+		}
+		$appdata = 'appdata_' . $instanceId;
+		if ($userId === $appdata) {
+			throw new \RuntimeException('username is reserved name: ' . $appdata);
+		}
 
 		if (!empty($skeletonDirectory)) {
 			\OCP\Util::writeLog(

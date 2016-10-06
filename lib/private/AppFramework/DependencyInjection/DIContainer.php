@@ -46,6 +46,7 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OCP\AppFramework\IApi;
 use OCP\AppFramework\IAppContainer;
+use OCP\Files\IAppData;
 
 
 class DIContainer extends SimpleContainer implements IAppContainer {
@@ -162,6 +163,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		$this->registerService('OCP\\Http\\Client\\IClientService', function($c) {
 			return $this->getServer()->getHTTPClientService();
+		});
+
+		$this->registerService(IAppData::class, function (SimpleContainer $c) {
+			return $this->getServer()->getAppDataDir($c->query('AppName'));
 		});
 
 		$this->registerService('OCP\\IGroupManager', function($c) {

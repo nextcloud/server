@@ -26,8 +26,8 @@ namespace Test;
 
 use OC\Avatar;
 use OC\AvatarManager;
-use OCP\Files\Folder;
-use OCP\Files\IRootFolder;
+use OCP\Files\IAppData;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -40,8 +40,8 @@ use OCP\IUserManager;
 class AvatarManagerTest extends \Test\TestCase {
 	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
-	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
-	private $rootFolder;
+	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	private $appData;
 	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
 	private $l10n;
 	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
@@ -55,14 +55,14 @@ class AvatarManagerTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(IUserManager::class);
-		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->appData = $this->createMock(IAppData::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->logger = $this->createMock(ILogger::class);
 		$this->config = $this->createMock(IConfig::class);
 
 		$this->avatarManager = new AvatarManager(
 			$this->userManager,
-			$this->rootFolder,
+			$this->appData,
 			$this->l10n,
 			$this->logger,
 			$this->config
@@ -94,11 +94,11 @@ class AvatarManagerTest extends \Test\TestCase {
 			->method('get')
 			->with('valid-user')
 			->willReturn($user);
-		$folder = $this->createMock(Folder::class);
-		$this->rootFolder
+		$folder = $this->createMock(ISimpleFolder::class);
+		$this->appData
 			->expects($this->once())
-			->method('get')
-			->with('/valid-user')
+			->method('getFolder')
+			->with('valid-user')
 			->willReturn($folder);
 
 		$expected = new Avatar($folder, $this->l10n, $user, $this->logger, $this->config);;

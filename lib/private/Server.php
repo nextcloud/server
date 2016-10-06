@@ -359,7 +359,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('AvatarManager', function (Server $c) {
 			return new AvatarManager(
 				$c->getUserManager(),
-				$c->getRootFolder(),
+				$c->getAppDataDir('avatar'),
 				$c->getL10N('lib'),
 				$c->getLogger(),
 				$c->getConfig()
@@ -742,6 +742,12 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 			return $manager;
 		});
+		$this->registerService(\OC\Files\AppData\Factory::class, function (Server $c) {
+			return new \OC\Files\AppData\Factory(
+				$c->getRootFolder(),
+				$c->getSystemConfig()
+			);
+		});
 	}
 
 	/**
@@ -876,6 +882,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Returns an app-specific view in ownClouds data directory
 	 *
 	 * @return \OCP\Files\Folder
+	 * @deprecated since 9.2.0 use IAppData
 	 */
 	public function getAppFolder() {
 		$dir = '/' . \OC_App::getCurrentApp();
@@ -1455,5 +1462,14 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getSettingsManager() {
 		return $this->query('SettingsManager');
+	}
+
+	/**
+	 * @return \OCP\Files\IAppData
+	 */
+	public function getAppDataDir($app) {
+		/** @var \OC\Files\AppData\Factory $factory */
+		$factory = $this->query(\OC\Files\AppData\Factory::class);
+		return $factory->get($app);
 	}
 }

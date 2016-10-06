@@ -115,6 +115,7 @@ interface IServerContainer {
 	 *
 	 * @return \OCP\Files\Folder
 	 * @since 6.0.0
+	 * @deprecated since 9.2.0 use IAppData
 	 */
 	public function getAppFolder();
 
