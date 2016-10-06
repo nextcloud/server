@@ -104,20 +104,23 @@ class BackgroundJobTest extends TestCase {
 
 	public function dataCheckCoreUpdate() {
 		return [
-			['daily', null, null],
-			['git', null, null],
-			['beta', false, null],
+			['daily', null, null, null],
+			['git', null, null, null],
+			['beta', false, null, null],
 			['beta', [
 				'version' => '9.2.0',
-			], '9.2.0'],
-			['stable', false, null],
+				'versionstring' => 'Nextcloud 11.0.0',
+			], '9.2.0', 'Nextcloud 11.0.0'],
+			['stable', false, null, null],
 			['stable', [
 				'version' => '9.2.0',
-			], '9.2.0'],
-			['production', false, null],
+				'versionstring' => 'Nextcloud 11.0.0',
+			], '9.2.0', 'Nextcloud 11.0.0'],
+			['production', false, null, null],
 			['production', [
 				'version' => '9.2.0',
-			], '9.2.0'],
+				'versionstring' => 'Nextcloud 11.0.0',
+			], '9.2.0', 'Nextcloud 11.0.0'],
 		];
 	}
 
@@ -127,8 +130,9 @@ class BackgroundJobTest extends TestCase {
 	 * @param string $channel
 	 * @param mixed $versionCheck
 	 * @param null|string $notification
+	 * @param null|string $readableVersion
 	 */
-	public function testCheckCoreUpdate($channel, $versionCheck, $notification) {
+	public function testCheckCoreUpdate($channel, $versionCheck, $notification, $readableVersion) {
 		$job = $this->getJob([
 			'getChannel',
 			'createVersionCheck',
@@ -164,12 +168,12 @@ class BackgroundJobTest extends TestCase {
 		} else {
 			$this->urlGenerator->expects($this->once())
 				->method('linkToRouteAbsolute')
-				->with('settings_admin')
+				->with('settings.AdminSettings.index')
 				->willReturn('admin-url');
 
 			$job->expects($this->once())
 				->method('createNotifications')
-				->willReturn('core', $notification, 'admin-url#updater');
+				->willReturn('core', $notification, 'admin-url#updater', $readableVersion);
 		}
 
 		$this->invokePrivate($job, 'checkCoreUpdate');
