@@ -207,7 +207,6 @@ $(document).ready(function () {
 	};
 
 	$("#passwordbutton").click(function () {
-		OC.msg.startSaving('#password-error-msg');
 		var isIE8or9 = $('html').hasClass('lte9');
 		// FIXME - TODO - once support for IE8 and IE9 is dropped
 		// for IE8 and IE9 this will check additionally if the typed in password
@@ -230,7 +229,6 @@ $(document).ready(function () {
 					$(".personal-show-label").show();
 					$('#pass1').val('');
 					$('#pass2').val('').change();
-					OC.msg.finishedSaving('#password-error-msg', data);
 				} else {
 					if (typeof(data.data) !== "undefined") {
 						OC.msg.finishedSaving('#password-error-msg', data);
