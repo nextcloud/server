@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Brice Maron <brice@bmaron.net>
@@ -74,60 +75,26 @@ class OCSClient {
 	}
 
 	/**
-	 * Get the url of the OCS AppStore server.
+	 * Get the url of the appstore server.
 	 *
-	 * @return string of the AppStore server
+	 * @return string of the appstore server
 	 */
 	private function getAppStoreUrl() {
-		return $this->config->getSystemValue('appstoreurl', 'https://api.owncloud.com/v1');
+		return $this->config->getSystemValue('appstoreurl', 'https://apps.nextcloud.com/');
 	}
 
 	/**
-	 * @param string $body
-	 * @param string $action
-	 * @return null|\SimpleXMLElement
-	 */
-	private function loadData($body, $action) {
-		$loadEntities = libxml_disable_entity_loader(true);
-		$data = @simplexml_load_string($body);
-		libxml_disable_entity_loader($loadEntities);
-
-		if($data === false) {
-			libxml_clear_errors();
-			$this->logger->error(
-				sprintf('Could not get %s, content was no valid XML', $action),
-				[
-					'app' => 'core',
-				]
-			);
-			return null;
-		}
-
-		return $data;
-	}
-
-	/**
-	 * Get all the categories from the OCS server
+	 * Get all the categories from the Apptore server
 	 *
-	 * @param array $targetVersion The target ownCloud version
-	 * @return array|null an array of category ids or null
-	 * @note returns NULL if config value appstoreenabled is set to false
-	 * This function returns a list of all the application categories on the OCS server
+	 * @return array
 	 */
-	public function getCategories(array $targetVersion) {
-		if (!$this->isAppStoreEnabled()) {
-			return null;
-		}
-
+	public function getCategories() {
 		$client = $this->httpClientService->newClient();
 		try {
 			$response = $client->get(
-				$this->getAppStoreUrl() . '/content/categories',
+				$this->getAppStoreUrl() . '/api/v1/categories.json',
 				[
 					'timeout' => 20,
-					'query' => [
-						'version' => implode('x', $targetVersion),
-					],
 				]
 			);
 		} catch(\Exception $e) {
@@ -137,35 +104,53 @@ class OCSClient {
 					'app' => 'core',
 				]
 			);
-			return null;
+			return [];
 		}
 
-		$data = $this->loadData($response->getBody(), 'categories');
-		if($data === null) {
-			return null;
+		$categories = json_decode($response->getBody(), true);
+		if(!is_array($categories)) {
+			$this->logger->error(
+				sprintf('Could not get parse category JSON response. Got "%s".', $response->getBody()),
+				[
+					'app' => 'core',
+				]
+			);
+			return [];
 		}
 
-		$tmp = $data->data;
-		$cats = [];
+		foreach($categories as $key => $category) {
+			$requiredElements = [
+				'id',
+				'translations',
+			];
 
-		foreach ($tmp->category as $value) {
-			$id = (int)$value->id;
-			$name = (string)$value->name;
-			$cats[$id] = $name;
+			foreach($requiredElements as $element) {
+				if(!isset($category[$element])) {
+					$this->logger->error(
+						sprintf('Required element "%s" not set for category "%s".', $element, $category['id']),
+						[
+							'app' => 'core',
+						]
+					);
+					return [];
+				}
+			}
+
+			// TODO: Use the currently configured instance language
+			$categories[$key]['displayName'] = $category['translations']['en']['name'];
+			unset($categories[$key]['translations']);
 		}
 
-		return $cats;
+		return $categories;
 	}
 
 	/**
-	 * Get all the applications from the OCS server
-	 * @param array $categories
-	 * @param int $page
-	 * @param string $filter
-	 * @param array $targetVersion The target ownCloud version
-	 * @return array An array of application data
+	 * Get all the applications from the appstore server
+	 *
+	 * @param string $platformVersion The target Nextcloud version
+	 * @return array
 	 */
-	public function getApplications(array $categories, $page, $filter, array $targetVersion) {
+	public function getApplications($platformVersion) {
 		if (!$this->isAppStoreEnabled()) {
 			return [];
 		}
@@ -173,18 +158,9 @@ class OCSClient {
 		$client = $this->httpClientService->newClient();
 		try {
 			$response = $client->get(
-				$this->getAppStoreUrl() . '/content/data',
+				$this->getAppStoreUrl() . '/api/v1/platform/'.$platformVersion.'/apps.json',
 				[
 					'timeout' => 20,
-					'query' => [
-						'version' => implode('x', $targetVersion),
-						'filter' => $filter,
-						'categories' => implode('x', $categories),
-						'sortmode' => 'new',
-						'page' => $page,
-						'pagesize' => 100,
-						'approved' => $filter
-					],
 				]
 			);
 		} catch(\Exception $e) {
@@ -197,36 +173,26 @@ class OCSClient {
 			return [];
 		}
 
-		$data = $this->loadData($response->getBody(), 'applications');
-		if($data === null) {
+		$apps = json_decode($response->getBody(), true);
+		if(!is_array($apps)) {
+			$this->logger->error(
+				sprintf('Could not decode application JSON object: %s', $response->getBody()),
+				[
+					'app' => 'core',
+				]
+			);
 			return [];
 		}
 
-		$tmp = $data->data->content;
-		$tmpCount = count($tmp);
+		foreach($apps as $key => $app) {
+			$requiredElements = [
+				'id',
+				'categories',
+				'description',
+			];
 
-		$apps = [];
-		for ($i = 0; $i < $tmpCount; $i++) {
-			$app = [];
-			$app['id'] = (string)$tmp[$i]->id;
-			$app['name'] = (string)$tmp[$i]->name;
-			$app['label'] = (string)$tmp[$i]->label;
-			$app['version'] = (string)$tmp[$i]->version;
-			$app['type'] = (string)$tmp[$i]->typeid;
-			$app['typename'] = (string)$tmp[$i]->typename;
-			$app['personid'] = (string)$tmp[$i]->personid;
-			$app['profilepage'] = (string)$tmp[$i]->profilepage;
-			$app['license'] = (string)$tmp[$i]->license;
-			$app['detailpage'] = (string)$tmp[$i]->detailpage;
-			$app['preview'] = (string)$tmp[$i]->smallpreviewpic1;
-			$app['preview-full'] = (string)$tmp[$i]->previewpic1;
-			$app['changed'] = strtotime($tmp[$i]->changed);
-			$app['description'] = (string)$tmp[$i]->description;
-			$app['score'] = (string)$tmp[$i]->score;
-			$app['downloads'] = (int)$tmp[$i]->downloads;
-			$app['level'] = (int)$tmp[$i]->approved;
+			// TODO: Check if response from AppStore makes sense
 
-			$apps[] = $app;
 		}
 
 		return $apps;

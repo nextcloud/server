@@ -24,7 +24,7 @@ script(
 ?>
 <script id="categories-template" type="text/x-handlebars-template">
 {{#each this}}
-	<li id="app-category-{{ident}}" data-category-id="{{ident}}" tabindex="0">
+	<li id="app-category-{{id}}" data-category-id="{{id}}" tabindex="0">
 		<a href="#">{{displayName}}</a>
 	</li>
 {{/each}}
@@ -37,15 +37,6 @@ script(
 </script>
 
 <script id="app-template" type="text/x-handlebars">
-	{{#if firstExperimental}}
-		<div class="section apps-experimental">
-			<h2><?php p($l->t('Experimental applications ahead')) ?></h2>
-			<p>
-				<?php p($l->t('Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches.')) ?>
-			</p>
-		</div>
-	{{/if}}
-
 	<div class="section" id="app-{{id}}">
 	{{#if preview}}
 	<div class="app-image{{#if previewAsIcon}} app-image-icon{{/if}} hidden">
@@ -53,19 +44,21 @@ script(
 	{{/if}}
 	<h2 class="app-name">
 		{{#if detailpage}}
-			<a href="{{detailpage}}" target="_blank" rel="noreferrer">{{name}}</a>
+			<a href="{{detailpage}}" target="_blank" rel="noreferrer">{{translations.en.name}}</a>
 		{{else}}
-			{{name}}
+			{{translations.en.name}}
 		{{/if}}
 	</h2>
 	<div class="app-version"> {{version}}</div>
-	{{#if profilepage}}<a href="{{profilepage}}" target="_blank" rel="noreferrer">{{/if}}
-	<div class="app-author"><?php p($l->t('by %s', ['{{author}}']));?>
+	<div class="app-author">
+		{{#if authors}}
+		<?php p($l->t('by')) ?>
+			{{#each authors}}{{this.name}} {{/each}}
+		{{/if}}
 		{{#if licence}}
 		(<?php p($l->t('%s-licensed', ['{{licence}}'])); ?>)
 		{{/if}}
 	</div>
-	{{#if profilepage}}</a>{{/if}}
 	<div class="app-level">
 		{{{level}}}
 	</div>
@@ -75,30 +68,27 @@ script(
 	<div class="app-detailpage"></div>
 
 	<div class="app-description-container hidden">
-		<div class="app-description"><pre>{{description}}</pre></div>
-		<!--<div class="app-changed">{{changed}}</div>-->
-		{{#if documentation}}
+		<div class="app-description"><pre>{{translations.en.description}}</pre></div>
 		<p class="documentation">
 			<?php p($l->t("Documentation:"));?>
-			{{#if documentation.user}}
+			{{#if userDocs}}
 			<span class="userDocumentation">
-			<a id="userDocumentation" class="appslink" href="{{documentation.user}}" target="_blank" rel="noreferrer"><?php p($l->t('User documentation'));?> ↗</a>
+			<a id="userDocumentation" class="appslink" href="{{userDocs}}" target="_blank" rel="noreferrer"><?php p($l->t('User documentation'));?> ↗</a>
 			</span>
 			{{/if}}
 
-			{{#if documentation.admin}}
+			{{#if adminDocs}}
 			<span class="adminDocumentation">
-			<a id="adminDocumentation" class="appslink" href="{{documentation.admin}}" target="_blank" rel="noreferrer"><?php p($l->t('Admin documentation'));?> ↗</a>
+			<a id="adminDocumentation" class="appslink" href="{{adminDocs}}" target="_blank" rel="noreferrer"><?php p($l->t('Admin documentation'));?> ↗</a>
 			</span>
 			{{/if}}
 
-			{{#if documentation.developer}}
+			{{#if developerDocs}}
 			<span class="developerDocumentation">
-			<a id="developerDocumentation" class="appslink" href="{{documentation.developer}}" target="_blank" rel="noreferrer"><?php p($l->t('Developer documentation'));?> ↗</a>
+			<a id="developerDocumentation" class="appslink" href="{{developerDocs}}" target="_blank" rel="noreferrer"><?php p($l->t('Developer documentation'));?> ↗</a>
 			</span>
 			{{/if}}
 		</p>
-		{{/if}}
 
 		{{#if website}}
 		<a id="userDocumentation" class="appslink" href="{{website}}" target="_blank" rel="noreferrer"><?php p($l->t('Visit website'));?> ↗</a>
@@ -163,21 +153,6 @@ script(
 	<ul id="apps-categories">
 
 	</ul>
-	<div id="app-settings">
-		<div id="app-settings-header">
-			<button class="settings-button" data-apps-slide-toggle="#app-settings-content"></button>
-		</div>
-
-		<div id="app-settings-content" class="apps-experimental">
-			<input type="checkbox" id="enable-experimental-apps" <?php if($_['experimentalEnabled']) { print_unescaped('checked="checked"'); }?> class="checkbox">
-			<label for="enable-experimental-apps"><?php p($l->t('Enable experimental apps')) ?></label>
-			<p>
-				<small>
-					<?php p($l->t('Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches.')) ?>
-				</small>
-			</p>
-		</div>
-	</div>
 </div>
 <div id="app-content">
 	<svg height="0">
