@@ -96,6 +96,7 @@ class UsersController extends Controller {
 	 * @param string $fromMailAddress
 	 * @param IURLGenerator $urlGenerator
 	 * @param IAppManager $appManager
+	 * @param IAvatarManager $avatarManager
 	 */
 	public function __construct($appName,
 								IRequest $request,

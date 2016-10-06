@@ -13,25 +13,36 @@ namespace Tests\Settings\Controller;
 use \OC\Settings\Application;
 use OC\Settings\Controller\LogSettingsController;
 use OCP\AppFramework\Http\StreamResponse;
+use OCP\IConfig;
+use OCP\IL10N;
+use OCP\IRequest;
 
 /**
  * @package Tests\Settings\Controller
  */
 class LogSettingsControllerTest extends \Test\TestCase {
 
-	/** @var \OCP\AppFramework\IAppContainer */
-	private $container;
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	private $config;
 
 	/** @var LogSettingsController */
 	private $logSettingsController;
 
 	protected function setUp() {
-		$app = new Application();
-		$this->container = $app->getContainer();
-		$this->container['Config'] = $this->getMockBuilder('\OCP\IConfig')
-			->disableOriginalConstructor()->getMock();
-		$this->container['AppName'] = 'settings';
-		$this->logSettingsController = $this->container['LogSettingsController'];
+		parent::setUp();
+
+		$this->config = $this->createMock(IConfig::class);
+		$l = $this->createMock(IL10N::class);
+		$l->method('t')
+			->will($this->returnCallback(function($text, $parameters = []) {
+				return vsprintf($text, $parameters);
+			}));
+		$this->logSettingsController = new LogSettingsController(
+			'settings',
+			$this->createMock(IRequest::class),
+			$this->config,
+			$l
+		);
 	}
 
 	/**
@@ -39,8 +50,7 @@ class LogSettingsControllerTest extends \Test\TestCase {
 	 */
 	public function testSetLogLevel($level, $inRange) {
 		if ($inRange) {
-			$this->container['Config']
-				->expects($this->once())
+			$this->config->expects($this->once())
 				->method('setSystemValue')
 				->with('loglevel', $level);
 		}

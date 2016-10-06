@@ -10,39 +10,54 @@
 
 namespace Tests\Settings\Controller;
 
-use OC\Settings\Application;
+use OC\Mail\Message;
+use OC\Settings\Controller\MailSettingsController;
+use OCP\IConfig;
+use OCP\IL10N;
+use OCP\IRequest;
+use OCP\IUserSession;
+use OCP\Mail\IMailer;
 
 /**
  * @package Tests\Settings\Controller
  */
 class MailSettingsControllerTest extends \Test\TestCase {
 
-	private $container;
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	private $config;
+	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	private $userSession;
+	/** @var IMailer|\PHPUnit_Framework_MockObject_MockObject */
+	private $mailer;
+	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	private $l;
+
+	/** @var MailSettingsController */
+	private $mailController;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$app = new Application();
-		$this->container = $app->getContainer();
-		$this->container['Config'] = $this->getMockBuilder('\OCP\IConfig')
-			->disableOriginalConstructor()->getMock();
-		$this->container['L10N'] = $this->getMockBuilder('\OCP\IL10N')
-			->disableOriginalConstructor()->getMock();
-		$this->container['AppName'] = 'settings';
-		$this->container['UserSession'] = $this->getMockBuilder('\OC\User\Session')
-			->disableOriginalConstructor()->getMock();
-		$this->container['MailMessage'] = $this->getMockBuilder('\OCP\Mail\IMessage')
-			->disableOriginalConstructor()->getMock();
-		$this->container['Mailer'] = $this->getMockBuilder('\OC\Mail\Mailer')
-			->setMethods(['send'])
-			->disableOriginalConstructor()->getMock();
-		$this->container['Defaults'] = $this->getMockBuilder('\OC_Defaults')
-			->disableOriginalConstructor()->getMock();
-		$this->container['DefaultMailAddress'] = 'no-reply@owncloud.com';
+		$this->l = $this->createMock(IL10N::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->mailer = $this->createMock(IMailer::class);
+//		$this->mailer = $this->getMockBuilder(IMailer::class)
+//			->setMethods(['send'])
+//			->getMock();
+		$this->mailController = new MailSettingsController(
+			'settings',
+			$this->createMock(IRequest::class),
+			$this->l,
+			$this->config,
+			$this->userSession,
+			$this->mailer,
+			'no-reply@owncloud.com'
+		);
 	}
 
 	public function testSetMailSettings() {
-		$this->container['L10N']
+		$this->l
 			->expects($this->exactly(2))
 			->method('t')
 			->will($this->returnValue('Saved'));
@@ -51,7 +66,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		 * FIXME: Use the following block once Jenkins uses PHPUnit >= 4.1
 		 */
 		/*
-		$this->container['Config']
+		$this->config
 			->expects($this->exactly(15))
 			->method('setSystemValue')
 			->withConsecutive(
@@ -74,8 +89,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		 */
 
 		/** @var \PHPUnit_Framework_MockObject_MockObject $config */
-		$config = $this->container['Config'];
-		$config->expects($this->exactly(2))
+		$this->config->expects($this->exactly(2))
 			->method('setSystemValues');
 		/**
 		 * FIXME: Use the following block once Jenkins uses PHPUnit >= 4.1
@@ -106,7 +120,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		 */
 
 		// With authentication
-		$response = $this->container['MailSettingsController']->setMailSettings(
+		$response = $this->mailController->setMailSettings(
 			'owncloud.com',
 			'demo@owncloud.com',
 			'smtp',
@@ -120,7 +134,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$this->assertSame($expectedResponse, $response);
 
 		// Without authentication (testing the deletion of the stored password)
-		$response = $this->container['MailSettingsController']->setMailSettings(
+		$response = $this->mailController->setMailSettings(
 			'owncloud.com',
 			'demo@owncloud.com',
 			'smtp',
@@ -136,12 +150,12 @@ class MailSettingsControllerTest extends \Test\TestCase {
 	}
 
 	public function testStoreCredentials() {
-		$this->container['L10N']
+		$this->l
 			->expects($this->once())
 			->method('t')
 			->will($this->returnValue('Saved'));
 
-		$this->container['Config']
+		$this->config
 			->expects($this->once())
 			->method('setSystemValues')
 			->with([
@@ -149,7 +163,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 				'mail_smtppassword' => 'PasswordToStore',
 			]);
 
-		$response = $this->container['MailSettingsController']->storeCredentials('UsernameToStore', 'PasswordToStore');
+		$response = $this->mailController->storeCredentials('UsernameToStore', 'PasswordToStore');
 		$expectedResponse = array('data' => array('message' =>'Saved'), 'status' => 'success');
 
 		$this->assertSame($expectedResponse, $response);
@@ -166,7 +180,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			->method('getDisplayName')
 			->will($this->returnValue('Werner Brösel'));
 
-		$this->container['L10N']
+		$this->l
 			->expects($this->any())
 			->method('t')
 			->will(
@@ -182,22 +196,25 @@ class MailSettingsControllerTest extends \Test\TestCase {
 							'If you received this email, the settings seem to be correct.')
 					)
 				));
-		$this->container['UserSession']
+		$this->userSession
 			->expects($this->any())
 			->method('getUser')
 			->will($this->returnValue($user));
 
 		// Ensure that it fails when no mail address has been specified
-		$response = $this->container['MailSettingsController']->sendTestMail();
+		$response = $this->mailController->sendTestMail();
 		$expectedResponse = array('data' => array('message' =>'You need to set your user email before being able to send test emails.'), 'status' => 'error');
 		$this->assertSame($expectedResponse, $response);
 
 		// If no exception is thrown it should work
-		$this->container['Config']
+		$this->config
 			->expects($this->any())
 			->method('getUserValue')
 			->will($this->returnValue('mail@example.invalid'));
-		$response = $this->container['MailSettingsController']->sendTestMail();
+		$this->mailer->expects($this->once())
+			->method('createMessage')
+			->willReturn($this->createMock(Message::class));
+		$response = $this->mailController->sendTestMail();
 		$expectedResponse = array('data' => array('message' =>'Email sent'), 'status' => 'success');
 		$this->assertSame($expectedResponse, $response);
 	}

@@ -11,33 +11,37 @@ namespace Tests\Settings\Controller;
 
 use \OC\Settings\Application;
 use OC\Settings\Controller\SecuritySettingsController;
+use OCP\IConfig;
+use OCP\IRequest;
 
 /**
  * @package Tests\Settings\Controller
  */
-class SecuritySettingsControllerTest extends \PHPUnit_Framework_TestCase {
+class SecuritySettingsControllerTest extends \Test\TestCase {
 
-	/** @var \OCP\AppFramework\IAppContainer */
-	private $container;
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	private $config;
 
 	/** @var SecuritySettingsController */
 	private $securitySettingsController;
 
 	protected function setUp() {
-		$app = new Application();
-		$this->container = $app->getContainer();
-		$this->container['Config'] = $this->getMockBuilder('\OCP\IConfig')
-			->disableOriginalConstructor()->getMock();
-		$this->container['AppName'] = 'settings';
-		$this->securitySettingsController = $this->container['SecuritySettingsController'];
+		parent::setUp();
+
+		$this->config = $this->createMock(IConfig::class);
+		$this->securitySettingsController = new SecuritySettingsController(
+			'settings',
+			$this->createMock(IRequest::class),
+			$this->config
+		);
 	}
 
 	public function testTrustedDomainsWithExistingValues() {
-		$this->container['Config']
+		$this->config
 			->expects($this->once())
 			->method('setSystemValue')
 			->with('trusted_domains', array('owncloud.org', 'owncloud.com', 'newdomain.com'));
-		$this->container['Config']
+		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
 			->with('trusted_domains')
@@ -50,11 +54,11 @@ class SecuritySettingsControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testTrustedDomainsEmpty() {
-		$this->container['Config']
+		$this->config
 			->expects($this->once())
 			->method('setSystemValue')
 			->with('trusted_domains', array('newdomain.com'));
-		$this->container['Config']
+		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
 			->with($this->equalTo('trusted_domains'), $this->equalTo([]))
