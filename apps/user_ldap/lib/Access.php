@@ -54,6 +54,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @var \OCA\User_LDAP\Connection
 	 */
 	public $connection;
+	/** @var Manager */
 	public $userManager;
 	//never ever check this var directly, always use getPagedSearchResultState
 	protected $pagedSearchedSuccessful;

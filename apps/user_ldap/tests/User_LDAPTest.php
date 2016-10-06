@@ -35,6 +35,8 @@ use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LogWrapper;
 use OCA\User_LDAP\User\Manager;
+use OCA\User_LDAP\User\OfflineUser;
+use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\User_LDAP as UserLDAP;
 use OCP\IAvatarManager;
 use OCP\IConfig;
@@ -62,13 +64,10 @@ class User_LDAPTest extends TestCase {
 		\OC_Group::clearBackends();
 	}
 
+	/**
+	 * @return \PHPUnit_Framework_MockObject_MockObject|Access
+	 */
 	private function getAccessMock() {
-		static $accMethods;
-
-		if(is_null($accMethods)) {
-			$accMethods = get_class_methods(Access::class);
-			unset($accMethods[array_search('getConnection', $accMethods)]);
-		}
 		$lw  = $this->createMock(ILDAPWrapper::class);
 		$connector = $this->getMockBuilder(Connection::class)
 			->setMethodsExcept(['getConnection'])
@@ -81,7 +80,6 @@ class User_LDAPTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		/** @var Manager|\PHPUnit_Framework_MockObject_MockObject $um */
 		$um = $this->getMockBuilder(Manager::class)
 			->setMethods(['getDeletedUser'])
 			->setConstructorArgs([
@@ -136,7 +134,7 @@ class User_LDAPTest extends TestCase {
 
 	/**
 	 * Prepares the Access mock for checkPassword tests
-	 * @param Access $access mock
+	 * @param Access|\PHPUnit_Framework_MockObject_MockObject $access mock
 	 * @param bool $noDisplayName
 	 * @return void
 	 */
@@ -849,4 +847,116 @@ class User_LDAPTest extends TestCase {
 		$result = $backend->countUsers();
 		$this->assertFalse($result);
 	}
+
+	public function testLoginName2UserNameSuccess() {
+		$loginName = 'Alice';
+		$username  = 'alice';
+		$dn        = 'uid=alice,dc=what,dc=ever';
+
+		$access = $this->getAccessMock();
+		$access->expects($this->once())
+			->method('fetchUsersByLoginName')
+			->with($this->equalTo($loginName))
+			->willReturn([['dn' => [$dn]]]);
+		$access->expects($this->once())
+			->method('stringResemblesDN')
+			->with($this->equalTo($dn))
+			->willReturn(true);
+		$access->expects($this->once())
+			->method('dn2username')
+			->with($this->equalTo($dn))
+			->willReturn($username);
+
+		$access->connection->expects($this->exactly(2))
+			->method('getFromCache')
+			->with($this->equalTo('loginName2UserName-'.$loginName))
+			->willReturnOnConsecutiveCalls(null, $username);
+		$access->connection->expects($this->once())
+			->method('writeToCache')
+			->with($this->equalTo('loginName2UserName-'.$loginName), $this->equalTo($username));
+
+		$backend = new UserLDAP($access, $this->createMock(IConfig::class));
+		$name = $backend->loginName2UserName($loginName);
+		$this->assertSame($username, $name);
+
+		// and once again to verify that caching works
+		$backend->loginName2UserName($loginName);
+	}
+
+	public function testLoginName2UserNameNoUsersOnLDAP() {
+		$loginName = 'Loki';
+
+		$access = $this->getAccessMock();
+		$access->expects($this->once())
+			->method('fetchUsersByLoginName')
+			->with($this->equalTo($loginName))
+			->willReturn([]);
+		$access->expects($this->never())
+			->method('stringResemblesDN');
+		$access->expects($this->never())
+			->method('dn2username');
+
+		$access->connection->expects($this->exactly(2))
+			->method('getFromCache')
+			->with($this->equalTo('loginName2UserName-'.$loginName))
+			->willReturnOnConsecutiveCalls(null, false);
+		$access->connection->expects($this->once())
+			->method('writeToCache')
+			->with($this->equalTo('loginName2UserName-'.$loginName), false);
+
+		$backend = new UserLDAP($access, $this->createMock(IConfig::class));
+		$name = $backend->loginName2UserName($loginName);
+		$this->assertSame(false, $name);
+
+		// and once again to verify that caching works
+		$backend->loginName2UserName($loginName);
+	}
+
+	public function testLoginName2UserNameOfflineUser() {
+		$loginName = 'Alice';
+		$username  = 'alice';
+		$dn        = 'uid=alice,dc=what,dc=ever';
+
+		$offlineUser = $this->getMockBuilder(OfflineUser::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$access = $this->getAccessMock();
+		$access->expects($this->once())
+			->method('fetchUsersByLoginName')
+			->with($this->equalTo($loginName))
+			->willReturn([['dn' => [$dn]]]);
+		$access->expects($this->once())
+			->method('stringResemblesDN')
+			->with($this->equalTo($dn))
+			->willReturn(true);
+		$access->expects($this->once())
+			->method('dn2username')
+			->willReturn(false);	// this is fake, but allows us to force-enter the OfflineUser path
+
+		$access->connection->expects($this->exactly(2))
+			->method('getFromCache')
+			->with($this->equalTo('loginName2UserName-'.$loginName))
+			->willReturnOnConsecutiveCalls(null, false);
+		$access->connection->expects($this->once())
+			->method('writeToCache')
+			->with($this->equalTo('loginName2UserName-'.$loginName), $this->equalTo(false));
+
+		$access->userManager->expects($this->once())
+			->method('getDeletedUser')
+			->will($this->returnValue($offlineUser));
+
+		//$config = $this->createMock(IConfig::class);
+		$this->configMock->expects($this->once())
+			->method('getUserValue')
+			->willReturn(1);
+
+		$backend = new UserLDAP($access, $this->createMock(IConfig::class));
+		$name = $backend->loginName2UserName($loginName);
+		$this->assertSame(false, $name);
+
+		// and once again to verify that caching works
+		$backend->loginName2UserName($loginName);
+	}
+
 }
