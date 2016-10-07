@@ -58,7 +58,6 @@
 }
 
 #filestable tbody tr {
-	background-color: #fff;
 	height: 51px;
 }
 
@@ -131,7 +130,6 @@
 
 #filestable tbody tr {
 	transition: background-color 0.3s ease;
-	background-color: #fff;
 	height: 40px;
 }
 #filestable tbody tr:hover,
@@ -144,7 +142,7 @@
 #filestable tbody tr.searchresult,
 table tr.mouseOver td {
 	transition: background-color 0.3s ease;
-	background-color: #f8f8f8;
+	background-color: rgba(0,0,0,0.08);
 }
 tbody a { color:#000; }
 
@@ -215,7 +213,7 @@ table th:focus .sort-indicator.hidden {
 
 table th,
 table td {
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid rgba(0,0,0,0.08);
 	text-align: left;
 	font-weight: normal;
 }
@@ -265,9 +263,6 @@ table.multiselect thead {
 	left: 250px; /* sidebar */
 }
 
-table thead th {
-	background-color: #fff;
-}
 table.multiselect thead th {
 	background-color: rgba(255, 255, 255, 0.95); /* like controls bar */
 	color: #000;
