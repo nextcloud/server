@@ -56,11 +56,18 @@ class User_LDAPTest extends TestCase {
 	 * @return \PHPUnit_Framework_MockObject_MockObject|Access
 	 */
 	private function getAccessMock() {
-		$lw  = $this->getMock('\OCA\User_LDAP\ILDAPWrapper');
-		$connector = $this->getMockBuilder('\OCA\User_LDAP\Connection')
-			->setMethodsExcept(['getConnection'])
-			->setConstructorArgs([$lw, null, null])
-			->getMock();
+		static $conMethods;
+		static $accMethods;
+
+		if(is_null($conMethods) || is_null($accMethods)) {
+						$conMethods = get_class_methods('\OCA\User_LDAP\Connection');
+						$accMethods = get_class_methods('\OCA\User_LDAP\Access');
+						unset($accMethods[array_search('getConnection', $accMethods)]);
+		}
+ 		$lw  = $this->getMock('\OCA\User_LDAP\ILDAPWrapper');
+		$connector = $this->getMock(
+			'\OCA\User_LDAP\Connection', $conMethods, array($lw, null, null)
+		);
 
 		$this->configMock = $this->getMock('\OCP\IConfig');
 
@@ -87,10 +94,10 @@ class User_LDAPTest extends TestCase {
 
 		$helper = new Helper();
 
-		$access = $this->getMockBuilder('OCA\User_LDAP\Access')
-			->setMethodsExcept(['getConnection'])
-			->setConstructorArgs([$connector, $lw, $um, $helper])
-			->getMock();
+		$access = $this->getMock('\OCA\User_LDAP\Access',
+			$accMethods,
+			array($connector, $lw, $um, $helper)
+		);
 
 		$um->setLdapAccess($access);
 
@@ -863,7 +870,7 @@ class User_LDAPTest extends TestCase {
 			->method('writeToCache')
 			->with($this->equalTo('loginName2UserName-'.$loginName), $this->equalTo($username));
 
-		$backend = new UserLDAP($access, $this->createMock('\OCP\IConfig'));
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		$name = $backend->loginName2UserName($loginName);
 		$this->assertSame($username, $name);
 
@@ -892,7 +899,7 @@ class User_LDAPTest extends TestCase {
 			->method('writeToCache')
 			->with($this->equalTo('loginName2UserName-'.$loginName), false);
 
-		$backend = new UserLDAP($access, $this->createMock('\OCP\IConfig'));
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		$name = $backend->loginName2UserName($loginName);
 		$this->assertSame(false, $name);
 
@@ -937,7 +944,7 @@ class User_LDAPTest extends TestCase {
 			->method('getUserValue')
 			->willReturn(1);
 
-		$backend = new UserLDAP($access, $this->createMock('\OCP\IConfig'));
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		$name = $backend->loginName2UserName($loginName);
 		$this->assertSame(false, $name);
 
