@@ -1833,6 +1833,32 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 						);
 					$aM->publish($event);
 				}
+			} else if ($principal[1] === 'groups') {
+				$this->triggerActivityUnshareGroup($principal[2], $event, $properties);
+
+				$event->setAffectedUser($currentUser)
+					->setSubject(
+						Activity::SUBJECT_UNSHARE_GROUP . '_you',
+						[
+							$principal[2],
+							$properties['{DAV:}displayname'],
+						]
+					);
+				$aM->publish($event);
+			}
+		}
+	}
+
+	protected function triggerActivityUnshareGroup($gid, IEvent $event, array $properties) {
+		$gM = \OC::$server->getGroupManager();
+
+		$group = $gM->get($gid);
+		if ($group instanceof IGroup) {
+			foreach ($group->getUsers() as $user) {
+				// Exclude current user
+				if ($user !== $event->getAuthor()) {
+					$this->triggerActivityUnshareUser($user->getUID(), $event, $properties);
+				}
 			}
 		}
 	}
