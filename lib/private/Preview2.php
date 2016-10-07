@@ -24,9 +24,11 @@ namespace OC;
 
 use OC\Files\View;
 use OCP\Files\File;
-use OCP\Files\Folder;
+use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\Image;
@@ -48,17 +50,21 @@ class Preview2 {
 	private $previewManager;
 	/** @var IConfig */
 	private $config;
+	/** @var IAppData */
+	private $appData;
 
 	public function __construct(
 		IRootFolder $rootFolder,
 		IConfig $config,
 		IPreview $previewManager,
-		File $file
+		File $file,
+		IAppData $appData
 	) {
 		$this->rootFolder = $rootFolder;
 		$this->config = $config;
 		$this->file = $file;
 		$this->previewManager = $previewManager;
+		$this->appData = $appData;
 	}
 
 	/**
@@ -71,7 +77,7 @@ class Preview2 {
 	 * @param int $height
 	 * @param bool $crop
 	 * @param string $mode
-	 * @return File
+	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 */
 	public function getPreview($width = -1, $height = -1, $crop = false, $mode = Preview2::MODE_FILL) {
@@ -103,14 +109,13 @@ class Preview2 {
 	}
 
 	/**
-	 * @param Folder $previewFolder
-	 * @return File
+	 * @param ISimpleFolder $previewFolder
+	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 */
-	private function getMaxPreview(Folder $previewFolder) {
+	private function getMaxPreview(ISimpleFolder $previewFolder) {
 		$nodes = $previewFolder->getDirectoryListing();
 
-		/** @var File $node */
 		foreach ($nodes as $node) {
 			if (strpos($node->getName(), 'max')) {
 				return $node;
@@ -152,10 +157,10 @@ class Preview2 {
 	}
 
 	/**
-	 * @param File $file
+	 * @param ISimpleFile $file
 	 * @return int[]
 	 */
-	private function getPreviewSize(File $file) {
+	private function getPreviewSize(ISimpleFile $file) {
 		$size = explode('-', $file->getName());
 		return [(int)$size[0], (int)$size[1]];
 	}
@@ -279,17 +284,17 @@ class Preview2 {
 	}
 
 	/**
-	 * @param Folder $previewFolder
-	 * @param File $maxPreview
+	 * @param ISimpleFolder $previewFolder
+	 * @param ISimpleFile $maxPreview
 	 * @param int $width
 	 * @param int $height
 	 * @param bool $crop
 	 * @param int $maxWidth,
 	 * @param int $maxHeight
-	 * @return File
+	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 */
-	private function generatePreview(Folder $previewFolder, File $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight) {
+	private function generatePreview(ISimpleFolder $previewFolder, ISimpleFile $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight) {
 		$preview = new Image($maxPreview->getContent());
 
 		if ($crop) {
@@ -322,45 +327,32 @@ class Preview2 {
 	}
 
 	/**
-	 * @param Folder $previewFolder
+	 * @param ISimpleFolder $previewFolder
 	 * @param int $width
 	 * @param int $height
 	 * @param bool $crop
-	 * @return File
+	 * @return ISimpleFile
 	 *
 	 * @throws NotFoundException
 	 */
-	private function getCachedPreview(Folder $previewFolder, $width, $height, $crop) {
+	private function getCachedPreview(ISimpleFolder $previewFolder, $width, $height, $crop) {
 		$path = $this->generatePath($width, $height, $crop);
 
-		return $previewFolder->get($path);
+		return $previewFolder->getFile($path);
 	}
 
 	/**
 	 * Get the specific preview folder for this file
 	 *
-	 * @return Folder
+	 * @return ISimpleFolder
 	 */
 	private function getPreviewFolder() {
-		$user = $this->file->getOwner();
-		$user = $user->getUID();
-
-		$previewRoot = $this->rootFolder->getUserFolder($user);
-		$previewRoot = $previewRoot->getParent();
-
 		try {
-			/** @var Folder $previewRoot */
-			$previewRoot = $previewRoot->get(self::THUMBNAILS_FOLDER);
+			$folder = $this->appData->getFolder($this->file->getId());
 		} catch (NotFoundException $e) {
-			$previewRoot = $previewRoot->newFolder(self::THUMBNAILS_FOLDER);
+			$folder = $this->appData->newFolder($this->file->getId());
 		}
 
-		try {
-			$previewFolder = $previewRoot->get($this->file->getId());
-		} catch (NotFoundException $e) {
-			$previewFolder = $previewRoot->newFolder($this->file->getId());
-		}
-
-		return $previewFolder;
+		return $folder;
 	}
 }

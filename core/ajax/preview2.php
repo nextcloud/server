@@ -30,7 +30,11 @@ $file = $userFolder->get($file);
 $p = new \OC\Preview2(\OC::$server->getRootFolder(),
 	\OC::$server->getConfig(),
 	\OC::$server->getPreviewManager(),
-	$file);
+	$file,
+	\OC::$server->getAppDataDir('preview'));
 
-$p->getPreview($maxX, $maxY, !$keepAspect, $mode);
+$image = $p->getPreview($maxX, $maxY, !$keepAspect, $mode);
+
+header('Content-Type: ' . $image->getMimeType());
+echo $image->getContent();
 
