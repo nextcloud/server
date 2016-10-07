@@ -93,7 +93,6 @@ OC.L10N.register(
     "Upload" : "Ngarkoje",
     "An error occurred while trying to update the tags" : "Ndodhi një gabim teksa provohej të përditësoheshin etiketat",
     "A new file or folder has been <strong>created</strong>" : "<strong>U krijua</strong> një kartelë ose dosje e re",
-    "A file or folder has been <strong>changed</strong>" : "<strong>U ndryshua</strong> një kartelë ose dosje",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Kufizojini njoftimet mbi krijim dhe ndryshim kartelash vetëm për <strong>kartelat tuaja të parapëlqyera</strong> <em>(Vetëm te rrjedha)</em>",
     "A file or folder has been <strong>deleted</strong>" : "<strong>U fshi</strong> një kartelë ose dosje",
     "A file or folder has been <strong>restored</strong>" : "<strong>U rikthye</strong> një kartelë ose dosje",
@@ -130,6 +129,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Këtu do të duken kartelat dhe dosjet që i shënoni si të parapëlqyera",
     "Text file" : "Kartelë tekst",
     "New text file.txt" : "Kartelë e re file.txt",
-    "{newname} already exists" : "Ka tashmë një {newname}"
+    "{newname} already exists" : "Ka tashmë një {newname}",
+    "A file or folder has been <strong>changed</strong>" : "<strong>U ndryshua</strong> një kartelë ose dosje"
 },
 "nplurals=2; plural=(n != 1);");

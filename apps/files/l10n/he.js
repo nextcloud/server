@@ -93,7 +93,6 @@ OC.L10N.register(
     "Upload" : "העלאה",
     "An error occurred while trying to update the tags" : "שגיאה אירעה בזמן עדכון התגיות",
     "A new file or folder has been <strong>created</strong>" : "קובץ או תיקייה חדשים <strong>נוצרו<strong/>",
-    "A file or folder has been <strong>changed</strong>" : "קובץ או תיקייה <strong>שונו<strong/>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "הגבלת הודעות על יצירת או שינוי <strong>הקבצים המועדפים</strong> שלך <em>(Stream only)</em>",
     "A file or folder has been <strong>deleted</strong>" : "קובץ או תיקייה <strong>נמחקו<strong/>",
     "A file or folder has been <strong>restored</strong>" : "קובץ או תיקייה <strong>שוחזר</strong>",
@@ -130,6 +129,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "קבצים ותיקיות שסומנו על ידך כמועדפים יוצגו כאן",
     "Text file" : "קובץ טקסט",
     "New text file.txt" : "קובץ טקסט חדש.txt",
-    "{newname} already exists" : "{newname} כבר קיים"
+    "{newname} already exists" : "{newname} כבר קיים",
+    "A file or folder has been <strong>changed</strong>" : "קובץ או תיקייה <strong>שונו<strong/>"
 },
 "nplurals=2; plural=(n != 1);");

@@ -92,7 +92,6 @@ OC.L10N.register(
     "Upload" : "Wyślij",
     "An error occurred while trying to update the tags" : "Wystąpił błąd podczas aktualizacji tagów",
     "A new file or folder has been <strong>created</strong>" : "Nowy plik lub folder został <strong>utworzony</strong>",
-    "A file or folder has been <strong>changed</strong>" : "Plik lub folder został <strong>zmieniony</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Ogranicz powiadomienia o utworzeniu i zmianach do swoich <strong>ulubionych plkow</strong> <em>(Tylko w strumieniu aktywności)</em>",
     "A file or folder has been <strong>deleted</strong>" : "Plik lub folder został <strong>usunięty</strong>",
     "A file or folder has been <strong>restored</strong>" : "Plik lub folder został <strong>przywrócy</strong>",
@@ -130,6 +129,7 @@ OC.L10N.register(
     "Text file" : "Plik tekstowy",
     "New text file.txt" : "Nowy plik tekstowy.txt",
     "{newname} already exists" : "{newname} już istnieje",
+    "A file or folder has been <strong>changed</strong>" : "Plik lub folder został <strong>zmieniony</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Użyj tego adresu aby uzyskać  <a href=\"%s\" target=\"_blank\">dostęp do swoich plików poprzez WebDAV</a>",
     "Cancel upload" : "Anuluj wysyłanie"
 },

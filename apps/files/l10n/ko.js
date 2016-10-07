@@ -89,7 +89,6 @@ OC.L10N.register(
     "Upload" : "업로드",
     "An error occurred while trying to update the tags" : "태그를 업데이트하는 중 오류 발생",
     "A new file or folder has been <strong>created</strong>" : "새 파일이나 폴더가 <strong>생성됨</strong>",
-    "A file or folder has been <strong>changed</strong>" : "파일이나 폴더가 <strong>변경됨</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "<strong>즐겨찾는 파일</strong>의 생성 및 변경 사항에 대한 알림을 줄일 수 있습니다<em>(스트림에서만)</em>",
     "A file or folder has been <strong>deleted</strong>" : "파일이나 폴더가 <strong>삭제됨</strong>",
     "A file or folder has been <strong>restored</strong>" : "파일이나 폴더가 <strong>복원됨</strong>",
@@ -126,6 +125,7 @@ OC.L10N.register(
     "Text file" : "텍스트 파일",
     "New text file.txt" : "새 텍스트 파일.txt",
     "{newname} already exists" : "{newname} 항목이 이미 존재함",
+    "A file or folder has been <strong>changed</strong>" : "파일이나 폴더가 <strong>변경됨</strong>",
     "Cancel upload" : "업로드 취소"
 },
 "nplurals=1; plural=0;");

@@ -96,7 +96,6 @@ OC.L10N.register(
     "Upload" : "Odeslat",
     "An error occurred while trying to update the tags" : "Při pokusu o úpravu tagů nastala chyba",
     "A new file or folder has been <strong>created</strong>" : "Byl <strong>vytvořen</strong> nový soubor nebo adresář",
-    "A file or folder has been <strong>changed</strong>" : "Soubor nebo adresář byl <strong>změněn</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Omezovat oznámení o tvorbě a změnách <strong>oblíbených souborů</strong> <em>(Pouze v proudu)</em>",
     "A file or folder has been <strong>deleted</strong>" : "Soubor nebo adresář byl <strong>smazán</strong>",
     "A file or folder has been <strong>restored</strong>" : "Soubor nebo adresář byla <strong>obnoven</strong>",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Text file" : "Textový soubor",
     "New text file.txt" : "Nový textový soubor.txt",
     "{newname} already exists" : "{newname} již existuje",
+    "A file or folder has been <strong>changed</strong>" : "Soubor nebo adresář byl <strong>změněn</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Použijte tuto adresu pro <a href=\"%s\" target=\"_blank\">přístup ke svým Souborům přes WebDAV</a>",
     "Cancel upload" : "Ukončit nahrávání"
 },

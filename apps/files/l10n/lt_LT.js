@@ -80,7 +80,6 @@ OC.L10N.register(
     "Upload" : "Įkelti",
     "An error occurred while trying to update the tags" : "Bandant atnaujinti žymes įvyko klaida",
     "A new file or folder has been <strong>created</strong>" : "Naujas failas ar aplankas buvo <strong>sukurtas</strong>",
-    "A file or folder has been <strong>changed</strong>" : "Failas ar aplankas buvo <strong>pakeistas</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Riboti pranešimus apie sukūrimą ir pokyčius jūsų <strong>mėgiamuose failuose</strong> <em>(Tik srautas)</em>",
     "A file or folder has been <strong>deleted</strong>" : "Failas ar aplankas buvo <strong>ištrintas</strong>",
     "A file or folder has been <strong>restored</strong>" : "Failas ar aplankas buvo <strong>atkurtas</strong>",
@@ -115,6 +114,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Failai ir aplankai, kuriuos pažymite mėgstamais, atsiras čia",
     "Text file" : "Teksto failas",
     "New text file.txt" : "Naujas tekstas file.txt",
-    "{newname} already exists" : "{newname} jau egzistuoja"
+    "{newname} already exists" : "{newname} jau egzistuoja",
+    "A file or folder has been <strong>changed</strong>" : "Failas ar aplankas buvo <strong>pakeistas</strong>"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");

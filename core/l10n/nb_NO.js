@@ -162,6 +162,7 @@ OC.L10N.register(
     "remote" : "ekstern",
     "notify by email" : "Varsle på email",
     "Unshare" : "Avslutt deling",
+    "can reshare" : "kan dele videre",
     "can edit" : "kan endre",
     "create" : "opprette",
     "change" : "endre",

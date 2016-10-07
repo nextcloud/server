@@ -96,7 +96,6 @@ OC.L10N.register(
     "Upload" : "Chargement",
     "An error occurred while trying to update the tags" : "Une erreur est survenue lors de la mise à jour des étiquettes",
     "A new file or folder has been <strong>created</strong>" : "Un nouveau fichier ou répertoire a été <strong>créé</strong>",
-    "A file or folder has been <strong>changed</strong>" : "Un fichier ou un répertoire a été <strong>modifié</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limiter les notifications à ce qui concerne la création et la modification de vos <strong>fichiers favoris</strong> <em>(Flux uniquement)</em>",
     "A file or folder has been <strong>deleted</strong>" : "Un fichier ou un répertoire a été <strong>supprimé</strong>",
     "A file or folder has been <strong>restored</strong>" : "Un fichier ou un répertoire a été <strong>restauré</strong>",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Text file" : "Fichier texte",
     "New text file.txt" : "Nouveau fichier texte.txt",
     "{newname} already exists" : "{newname} existe déjà",
+    "A file or folder has been <strong>changed</strong>" : "Un fichier ou un répertoire a été <strong>modifié</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Utilisez cette adresse pour <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">accéder à vos fichiers par WebDAV</a>",
     "Cancel upload" : "Annuler le téléversement"
 },

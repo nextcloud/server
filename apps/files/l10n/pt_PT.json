@@ -90,7 +90,6 @@
     "Upload" : "Enviar",
     "An error occurred while trying to update the tags" : "Ocorreu um erro ao tentar atualizar as etiquetas",
     "A new file or folder has been <strong>created</strong>" : "Foi <strong>criado</strong> um novo ficheiro ou pasta",
-    "A file or folder has been <strong>changed</strong>" : "Foi <strong>alterado</strong> um ficheiro ou pasta",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limite as notificações sobre a criação e alterações para os seus <strong>ficheiros favoritos</strong> <em>(apenas Emissão)</em>",
     "A file or folder has been <strong>deleted</strong>" : "Foi <strong>eliminado</strong> um ficheiro ou pasta",
     "A file or folder has been <strong>restored</strong>" : "Foi <strong>restaurado</strong> um ficheiro ou pasta",
@@ -127,6 +126,7 @@
     "Files and folders you mark as favorite will show up here" : "Os ficheiros e pastas que marcou como favoritos serão mostrados aqui",
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt",
-    "{newname} already exists" : "{newname} já existe"
+    "{newname} already exists" : "{newname} já existe",
+    "A file or folder has been <strong>changed</strong>" : "Foi <strong>alterado</strong> um ficheiro ou pasta"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

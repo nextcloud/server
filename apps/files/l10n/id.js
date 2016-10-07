@@ -95,7 +95,6 @@ OC.L10N.register(
     "Upload" : "Unggah",
     "An error occurred while trying to update the tags" : "Terjadi kesalahan saat mencoba untuk memperbarui label",
     "A new file or folder has been <strong>created</strong>" : "Sebuah berkas atau folder baru telah <strong>dibuat</strong>",
-    "A file or folder has been <strong>changed</strong>" : "Sebuah berkas atau folder telah <strong>diubah</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Batas notifikasi tentang pembuatan dan perubahan <strong>berkas favorit</strong> Anda <em>(Hanya stream)</em>",
     "A file or folder has been <strong>deleted</strong>" : "Sebuah berkas atau folder telah <strong>dihapus</strong>",
     "A file or folder has been <strong>restored</strong>" : "Sebuah berkas atau folder telah <strong>dipulihkan</strong>",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "Text file" : "Berkas teks",
     "New text file.txt" : "Teks baru file.txt",
     "{newname} already exists" : "{newname} sudah ada",
+    "A file or folder has been <strong>changed</strong>" : "Sebuah berkas atau folder telah <strong>diubah</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Gunakan alamat ini untuk <a href=\"%s\" target=\"_blank\">mengakses berkas Anda melalui WebDAV</a>",
     "Cancel upload" : "Batalkan pengunggahan"
 },

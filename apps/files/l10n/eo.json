@@ -76,7 +76,6 @@
     "Upload" : "Alŝuti",
     "An error occurred while trying to update the tags" : "Eraris provo ĝisdatigi la etikedojn",
     "A new file or folder has been <strong>created</strong>" : "Nova dosiero aŭ dosierujo <strong>kreiĝis</strong>",
-    "A file or folder has been <strong>changed</strong>" : "Dosiero aŭ dosierujo <strong>ŝanĝiĝis</strong>",
     "A file or folder has been <strong>deleted</strong>" : "Dosiero aŭ dosierujo <strong>foriĝis</strong>",
     "A file or folder has been <strong>restored</strong>" : "Dosiero aŭ dosierujo <strong>restaŭriĝis</strong>",
     "You created %1$s" : "Vi kreis %1$s",
@@ -110,6 +109,7 @@
     "Files and folders you mark as favorite will show up here" : "Dosieroj kaj dosierujoj, kiujn vi markas, kiel pliŝatoj, aperos ĉi tie",
     "Text file" : "Tekstodosiero",
     "New text file.txt" : "Nova tekstodosiero.txt",
-    "{newname} already exists" : "{newname} jam ekzistas"
+    "{newname} already exists" : "{newname} jam ekzistas",
+    "A file or folder has been <strong>changed</strong>" : "Dosiero aŭ dosierujo <strong>ŝanĝiĝis</strong>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
