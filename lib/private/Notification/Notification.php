@@ -242,7 +242,7 @@ class Notification implements INotification {
 	/**
 	 * @param string $subject
 	 * @return $this
-	 * @throws \InvalidArgumentException if the subject are invalid
+	 * @throws \InvalidArgumentException if the subject is invalid
 	 * @since 8.2.0
 	 */
 	public function setParsedSubject($subject) {
@@ -300,7 +300,7 @@ class Notification implements INotification {
 	/**
 	 * @param string $message
 	 * @return $this
-	 * @throws \InvalidArgumentException if the message are invalid
+	 * @throws \InvalidArgumentException if the message is invalid
 	 * @since 8.2.0
 	 */
 	public function setParsedMessage($message) {
@@ -322,7 +322,7 @@ class Notification implements INotification {
 	/**
 	 * @param string $link
 	 * @return $this
-	 * @throws \InvalidArgumentException if the link are invalid
+	 * @throws \InvalidArgumentException if the link is invalid
 	 * @since 8.2.0
 	 */
 	public function setLink($link) {
@@ -342,6 +342,28 @@ class Notification implements INotification {
 	}
 
 	/**
+	 * @param string $icon
+	 * @return $this
+	 * @throws \InvalidArgumentException if the icon is invalid
+	 * @since 9.2.0
+	 */
+	public function setIcon($icon) {
+		if (!is_string($icon) || $icon === '' || isset($icon[4000])) {
+			throw new \InvalidArgumentException('The given icon is invalid');
+		}
+		$this->icon = $icon;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 * @since 9.2.0
+	 */
+	public function getIcon() {
+		return $this->icon;
+	}
+
+	/**
 	 * @return IAction
 	 * @since 8.2.0
 	 */
@@ -352,7 +374,7 @@ class Notification implements INotification {
 	/**
 	 * @param IAction $action
 	 * @return $this
-	 * @throws \InvalidArgumentException if the action are invalid
+	 * @throws \InvalidArgumentException if the action is invalid
 	 * @since 8.2.0
 	 */
 	public function addAction(IAction $action) {
@@ -383,7 +405,7 @@ class Notification implements INotification {
 	/**
 	 * @param IAction $action
 	 * @return $this
-	 * @throws \InvalidArgumentException if the action are invalid
+	 * @throws \InvalidArgumentException if the action is invalid
 	 * @since 8.2.0
 	 */
 	public function addParsedAction(IAction $action) {
