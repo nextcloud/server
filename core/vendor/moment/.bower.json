@@ -1,5 +1,6 @@
 {
   "name": "moment",
+  "license": "MIT",
   "main": "moment.js",
   "ignore": [
     "**/.*",
@@ -20,12 +21,12 @@
     "package.json"
   ],
   "homepage": "https://github.com/moment/moment",
-  "version": "2.15.0",
-  "_release": "2.15.0",
+  "version": "2.15.1",
+  "_release": "2.15.1",
   "_resolution": {
     "type": "version",
-    "tag": "2.15.0",
-    "commit": "0d01bda39d30c904977d385d2e5352c6a02600dc"
+    "tag": "2.15.1",
+    "commit": "d3f9a749f0e27ea7ec6e8de3719247d132b357a7"
   },
   "_source": "https://github.com/moment/moment.git",
   "_target": "^2.15.0",
