@@ -72,9 +72,6 @@ class NotificationsTest extends TestCase {
 			->will($this->returnValue($comment));
 
 		$file = $this->getMockBuilder('\OCP\Files\Node')->getMock();
-		$file->expects($this->once())
-			->method('getParent')
-			->will($this->returnValue($this->getMockBuilder('\OCP\Files\Folder')->getMock()));
 
 		$this->folder->expects($this->once())
 			->method('getById')
@@ -105,10 +102,6 @@ class NotificationsTest extends TestCase {
 			->method('get')
 			->with('42')
 			->will($this->throwException(new NotFoundException()));
-
-		$file = $this->getMockBuilder('\OCP\Files\Node')->getMock();
-		$file->expects($this->never())
-			->method('getParent');
 
 		$this->folder->expects($this->never())
 			->method('getById');

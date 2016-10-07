@@ -102,13 +102,9 @@ class Notifications extends Controller {
 				return new NotFoundResponse();
 			}
 
-			$dir = $this->folder->getRelativePath($files[0]->getParent()->getPath());
 			$url = $this->urlGenerator->linkToRouteAbsolute(
-				'files.view.index',
-				[
-					'dir'      => $dir,
-					'scrollto' => $files[0]->getName()
-				]
+				'files.viewcontroller.showFile',
+				[ 'fileid' => $comment->getObjectId() ]
 			);
 
 			$this->markProcessed($comment);
