@@ -81,7 +81,6 @@ OC.L10N.register(
     "Upload" : "Μεταφόρτωση",
     "An error occurred while trying to update the tags" : "Ένα σφάλμα προέκυψε κατά τη διάρκεια ενημέρωσης των ετικετών",
     "A new file or folder has been <strong>created</strong>" : "Ένα νέο αρχείο ή κατάλογος έχουν <strong>δημιουργηθεί</strong>",
-    "A file or folder has been <strong>changed</strong>" : "Ένα αρχείο ή κατάλογος έχουν <strong>αλλάξει</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Βάλτε όριο στις ειδοποιήσεις για τη δημιουργία και αλλαγές στα <strong>αγαπημένα σας αρχεία</strong> <em>(Μόνο Stream)</em>",
     "A file or folder has been <strong>deleted</strong>" : "Ένα αρχείο ή κατάλογος έχουν <strong>διαγραφεί</strong>",
     "A file or folder has been <strong>restored</strong>" : "Ένα αρχείο ή φάκελος <strong>επαναφέρθηκε</ strong>",
@@ -118,6 +117,7 @@ OC.L10N.register(
     "Text file" : "Αρχείο κειμένου",
     "New text file.txt" : "Νέο αρχείο κειμένου.txt",
     "{newname} already exists" : "το {newname} υπάρχει ήδη",
+    "A file or folder has been <strong>changed</strong>" : "Ένα αρχείο ή κατάλογος έχουν <strong>αλλάξει</strong>",
     "Cancel upload" : "Ακύρωση αποστολής"
 },
 "nplurals=2; plural=(n != 1);");

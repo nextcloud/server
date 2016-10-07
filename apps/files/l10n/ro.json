@@ -83,7 +83,6 @@
     "Upload" : "Încărcă",
     "An error occurred while trying to update the tags" : "A apărut o eroare în timpul actualizării etichetelor",
     "A new file or folder has been <strong>created</strong>" : "Un nou fișier sau dosar a fost <strong>creat</strong>",
-    "A file or folder has been <strong>changed</strong>" : "Un nou fișier sau dosar a fost <strong>modificat</strong>",
     "A file or folder has been <strong>deleted</strong>" : "Un nou fișier sau dosar a fost <strong>șters</strong>",
     "A file or folder has been <strong>restored</strong>" : "Un fișier sau dosar a fost <strong>restaurat</strong>",
     "You created %1$s" : "Ai creat %1$s",
@@ -117,6 +116,7 @@
     "Files and folders you mark as favorite will show up here" : "FIșierele și directoarele pe care le marchezi ca favorite vor apărea aici",
     "Text file" : "Fișier text",
     "New text file.txt" : "New text file.txt",
-    "{newname} already exists" : "{newname} există deja"
+    "{newname} already exists" : "{newname} există deja",
+    "A file or folder has been <strong>changed</strong>" : "Un nou fișier sau dosar a fost <strong>modificat</strong>"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

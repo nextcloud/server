@@ -94,7 +94,6 @@ OC.L10N.register(
     "Upload" : "Upload",
     "An error occurred while trying to update the tags" : "An error occurred whilst trying to update the tags",
     "A new file or folder has been <strong>created</strong>" : "A new file or folder has been <strong>created</strong>",
-    "A file or folder has been <strong>changed</strong>" : "A file or folder has been <strong>changed</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limit notifications about creation and changes to your <strong>favourite files</strong> <em>(Stream only)</em>",
     "A file or folder has been <strong>deleted</strong>" : "A file or folder has been <strong>deleted</strong>",
     "A file or folder has been <strong>restored</strong>" : "A file or folder has been <strong>restored</strong>",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Files and folders you mark as favourite will show up here",
     "Text file" : "Text file",
     "New text file.txt" : "New text file.txt",
-    "{newname} already exists" : "{newname} already exists"
+    "{newname} already exists" : "{newname} already exists",
+    "A file or folder has been <strong>changed</strong>" : "A file or folder has been <strong>changed</strong>"
 },
 "nplurals=2; plural=(n != 1);");

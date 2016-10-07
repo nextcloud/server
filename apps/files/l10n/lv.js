@@ -95,7 +95,6 @@ OC.L10N.register(
     "Upload" : "Augšupielādēt",
     "An error occurred while trying to update the tags" : "Notika kļūda atjaunojot atzīmi",
     "A new file or folder has been <strong>created</strong>" : "<strong>Izveidota</strong> jauna datne vai mape",
-    "A file or folder has been <strong>changed</strong>" : "<strong>Izmainīta</strong> datne vai mape",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitēt ziņojumus par jūsu <strong>iecienīto datņu</strong> izveidošanu un izmaiņām <em>(tikai datu straumei)</em>",
     "A file or folder has been <strong>deleted</strong>" : "<strong>Dzēsta</strong> datne vai mape",
     "A file or folder has been <strong>restored</strong>" : "<strong>Atjaunota</strong> datne vai mape",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "Text file" : "Teksta datne",
     "New text file.txt" : "Jauna teksta datne.txt",
     "{newname} already exists" : "{newname} jau eksistē",
+    "A file or folder has been <strong>changed</strong>" : "<strong>Izmainīta</strong> datne vai mape",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Izmanto šo adresi, lai <a href=\"%s\" target=\"_blank\">sasniegtu savas datnes caur WebDAV</a>",
     "Cancel upload" : "Atcelt augšupielādi"
 },

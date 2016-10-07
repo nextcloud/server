@@ -94,7 +94,6 @@
     "Upload" : "Lähetä",
     "An error occurred while trying to update the tags" : "Tunnisteiden päivitystä yrittäessä tapahtui virhe",
     "A new file or folder has been <strong>created</strong>" : "Uusi tiedosto tai kansio on <strong>luotu</strong>",
-    "A file or folder has been <strong>changed</strong>" : "Tiedostoa tai kansiota on <strong>muutettu</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Rajoita luomis- ja muutosilmoitukset <strong>omiin suosikkitiedostoihin</strong> <em>(Vain listaus)</em>",
     "A file or folder has been <strong>deleted</strong>" : "Tiedosto tai kansio on <strong>poistettu</strong>",
     "A file or folder has been <strong>restored</strong>" : "Tiedosto tai kansio on <strong>palautettu</strong>",
@@ -132,6 +131,7 @@
     "Text file" : "Tekstitiedosto",
     "New text file.txt" : "Uusi tekstitiedosto.txt",
     "{newname} already exists" : "{newname} on jo olemassa",
+    "A file or folder has been <strong>changed</strong>" : "Tiedostoa tai kansiota on <strong>muutettu</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Käytä tätä osoitetta <a href=\"%s\" target=\"_blank\">käyttääksesi tiedostojasi WebDAV:n yli</a>",
     "Cancel upload" : "Peru lähetys"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

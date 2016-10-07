@@ -92,7 +92,6 @@ OC.L10N.register(
     "Upload" : "رفع",
     "An error occurred while trying to update the tags" : "حدث خطأ اثناء محاولة تحديث tags",
     "A new file or folder has been <strong>created</strong>" : "تم <strong>  إنشاء</strong> ملف جديد أو مجلد ",
-    "A file or folder has been <strong>changed</strong>" : "تم  <strong> تغيير</strong> ملف أو مجلد",
     "A file or folder has been <strong>deleted</strong>" : "تم <strong>حذف </strong> ملف أو مجلد",
     "A file or folder has been <strong>restored</strong>" : "تم <strong> استعادة </strong> ملف أو مجلد",
     "You created %1$s" : "لقد أنشأت %1$s",
@@ -125,6 +124,7 @@ OC.L10N.register(
     "Text file" : "ملف نصي",
     "New text file.txt" : "ملف نصي جديد fille.txt",
     "{newname} already exists" : "{newname} موجود مسبقاً",
+    "A file or folder has been <strong>changed</strong>" : "تم  <strong> تغيير</strong> ملف أو مجلد",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "استخدم هذا الرابط <a href=\"%s\" target=\"_blank\">للوصول الى ملفاتك عبر WebDAV</a>",
     "Cancel upload" : "إلغاء الرفع"
 },

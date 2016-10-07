@@ -17,7 +17,6 @@ OC.L10N.register(
     "Only notification for app updates are available." : "Seules les notifications pour les mises à jour d'applications sont diponibles.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Le canal de mise à jour sélectionné rend obsolètes les notifications dédiées au serveur.",
     "The selected update channel does not support updates of the server." : "Le canal de mises à jour sélectionné ne supporte pas les mises à jour du serveur.",
-    "Nextcloud core" : "Noyau Nextcloud",
     "Updater" : "Mises à jour"
 },
 "nplurals=2; plural=(n > 1);");

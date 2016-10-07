@@ -168,6 +168,7 @@ OC.L10N.register(
     "remote" : "távoli",
     "notify by email" : "e-mail értesítés",
     "Unshare" : "Megosztás visszavonása",
+    "can reshare" : "újra megoszthatja",
     "can edit" : "szerkesztheti",
     "create" : "létrehoz",
     "change" : "módosít",

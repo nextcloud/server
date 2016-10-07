@@ -93,7 +93,6 @@ OC.L10N.register(
     "Upload" : "上传",
     "An error occurred while trying to update the tags" : "更新标签时出错",
     "A new file or folder has been <strong>created</strong>" : "一个新的文件或文件夹已被<strong>创建</strong>",
-    "A file or folder has been <strong>changed</strong>" : "一个文件或文件夹已被<strong>修改</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "针对<strong>已收藏文件</strong>的新建和修改发送有限的通知 <em>(仅流)</em>",
     "A file or folder has been <strong>deleted</strong>" : "一个文件或文件夹已被<strong>删除</strong>",
     "A file or folder has been <strong>restored</strong>" : "一个文件或文件夹已经被 <strong>恢复</strong>",
@@ -130,6 +129,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "收藏的文件和文件夹会在这里显示",
     "Text file" : "文本文件",
     "New text file.txt" : "创建文本文件 .txt",
-    "{newname} already exists" : "{newname} 已经存在"
+    "{newname} already exists" : "{newname} 已经存在",
+    "A file or folder has been <strong>changed</strong>" : "一个文件或文件夹已被<strong>修改</strong>"
 },
 "nplurals=1; plural=0;");

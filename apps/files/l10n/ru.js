@@ -96,7 +96,6 @@ OC.L10N.register(
     "Upload" : "Загрузить",
     "An error occurred while trying to update the tags" : "Во время обновления тегов возникла ошибка",
     "A new file or folder has been <strong>created</strong>" : "<strong>Создан</strong> новый файл или каталог",
-    "A file or folder has been <strong>changed</strong>" : "<strong>Изменён</strong> файл или каталог",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Ограничить уведомления о создании и изменении ваших <strong>избранных файлов</strong> <em>(отображать только в приложении события)</em>",
     "A file or folder has been <strong>deleted</strong>" : "<strong>Удален</strong> файл или каталог",
     "A file or folder has been <strong>restored</strong>" : "<strong>Восстановлен</strong> файл или каталог",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Text file" : "Текстовый файл",
     "New text file.txt" : "Новый текстовый документ.txt",
     "{newname} already exists" : "{newname} уже существует",
+    "A file or folder has been <strong>changed</strong>" : "<strong>Изменён</strong> файл или каталог",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Используйте этот адрес для <a href=\"%s\" target=\"_blank\">получения доступа к вашим файлам через WebDAV</a>",
     "Cancel upload" : "Отменить загрузку"
 },

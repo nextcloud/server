@@ -96,7 +96,6 @@ OC.L10N.register(
     "Upload" : "Pošlji",
     "An error occurred while trying to update the tags" : "Prišlo je do napake med posodabljanjem oznak",
     "A new file or folder has been <strong>created</strong>" : "Nova datoteka ali mapa je <strong>ustvarjena</strong>",
-    "A file or folder has been <strong>changed</strong>" : "Datoteka ali mapa je <strong>spremenjena</strong>.",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Omeji obvestila o ustvarjanju in spreminjanju <strong>najpogosteje uporabljenih </strong> datotek <em>(omogoči pretok)</em>",
     "A file or folder has been <strong>deleted</strong>" : "Datoteka ali mapa je <strong>izbrisana</strong>.",
     "A file or folder has been <strong>restored</strong>" : "Datoteka ali mapa je <strong>obnovljena</strong>.",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Text file" : "Besedilna datoteka",
     "New text file.txt" : "Nova datoteka.txt",
     "{newname} already exists" : "{newname} že obstaja",
+    "A file or folder has been <strong>changed</strong>" : "Datoteka ali mapa je <strong>spremenjena</strong>.",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Uporabi ta naslov za <a href=\"%s\" target=\"_blank\">dostop do tvojih datotek preko WebDAV</a>",
     "Cancel upload" : "Prekini nalaganje"
 },

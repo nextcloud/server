@@ -82,7 +82,6 @@ OC.L10N.register(
     "Upload" : "อัพโหลด",
     "An error occurred while trying to update the tags" : "เกิดข้อผิดพลาดขณะที่พยายามจะปรับปรุงแท็ก",
     "A new file or folder has been <strong>created</strong>" : "มีไฟล์ใหม่หรือโฟลเดอร์ได้ถูก <strong>สร้างขึ้น!</strong>",
-    "A file or folder has been <strong>changed</strong>" : "มีไฟล์หรือโฟลเดอร์ได้ถูก <strong>เปลี่ยน!</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "จำกัดการแจ้งเตือนเกี่ยวกับการสร้างและการเปลี่ยนแปลงของคุณ <strong>ไฟล์ที่ชื่นชอบ</strong> <em>(สตรีมเท่านั้น)</em>",
     "A file or folder has been <strong>deleted</strong>" : "ไฟล์หรือโฟลเดอร์ถูก <strong>ลบ</strong>",
     "A file or folder has been <strong>restored</strong>" : "ไฟล์หรือโฟลเดอร์ถูก <strong>กู้คืน</strong>",
@@ -119,6 +118,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "ไฟล์และโฟลเดอร์ที่คุณทำเครื่องหมายเป็นรายการโปรดจะปรากฏขึ้นที่นี่",
     "Text file" : "ไฟล์ข้อความ",
     "New text file.txt" : "ไฟล์ข้อความใหม่ .txt",
-    "{newname} already exists" : "{newname} ถูกใช้ไปแล้ว"
+    "{newname} already exists" : "{newname} ถูกใช้ไปแล้ว",
+    "A file or folder has been <strong>changed</strong>" : "มีไฟล์หรือโฟลเดอร์ได้ถูก <strong>เปลี่ยน!</strong>"
 },
 "nplurals=1; plural=0;");

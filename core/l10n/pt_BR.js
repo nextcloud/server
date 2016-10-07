@@ -168,6 +168,7 @@ OC.L10N.register(
     "remote" : "remoto",
     "notify by email" : "notificar por e-mail",
     "Unshare" : "Descompartilhar",
+    "can reshare" : "pode voltar a compartilhar",
     "can edit" : "pode editar",
     "create" : "criar",
     "change" : "mudança",

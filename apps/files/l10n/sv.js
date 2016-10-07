@@ -96,7 +96,6 @@ OC.L10N.register(
     "Upload" : "Ladda upp",
     "An error occurred while trying to update the tags" : "Ett fel uppstod när uppdatera taggarna",
     "A new file or folder has been <strong>created</strong>" : "En ny fil eller mapp har blivit <strong>skapad</strong>",
-    "A file or folder has been <strong>changed</strong>" : "En ny fil eller mapp har blivit <strong>ändrad</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Begränsa notiser om skapande och ändringar till dina <strong>favoritfiler</strong> <em>(Endast ström)</em>",
     "A file or folder has been <strong>deleted</strong>" : "En ny fil eller mapp har blivit <strong>raderad</strong>",
     "A file or folder has been <strong>restored</strong>" : "En ny fil eller mapp har blivit <strong>återskapad</strong>",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Text file" : "Textfil",
     "New text file.txt" : "nytextfil.txt",
     "{newname} already exists" : "{newname}  existerar redan",
+    "A file or folder has been <strong>changed</strong>" : "En ny fil eller mapp har blivit <strong>ändrad</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Använd denna adress för att <a href=\"%s\" target=\"_blank\">få tillgång till filer via WebDAV</a>",
     "Cancel upload" : "Avbryt uppladdning"
 },

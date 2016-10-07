@@ -14,7 +14,6 @@ OC.L10N.register(
     "Only notification for app updates are available." : "Eingöngu eru eru tiltækar tilkynningar fyrir uppfærslur forrita.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Valda uppfærslurásin gerir úreltar sértækar tilkynningar fyrir vefþjóninn.",
     "The selected update channel does not support updates of the server." : "Valda uppfærslurásin styður ekki uppfærslur fyrir vefþjóninn.",
-    "Nextcloud core" : "Nextcloud kjarni",
     "Updater" : "Uppfærslustýring"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
