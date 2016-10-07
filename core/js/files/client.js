@@ -37,6 +37,7 @@
 		}
 
 		url += options.host + this._root;
+		this._host = options.host;
 		this._defaultHeaders = options.defaultHeaders || {
 				'X-Requested-With': 'XMLHttpRequest',
 				'requesttoken': OC.requestToken
@@ -698,10 +699,11 @@
 		 * @param {String} destinationPath destination path
 		 * @param {boolean} [allowOverwrite=false] true to allow overwriting,
 		 * false otherwise
+		 * @param {Object} [headers=null] additional headers
 		 *
 		 * @return {Promise} promise
 		 */
-		move: function(path, destinationPath, allowOverwrite) {
+		move: function(path, destinationPath, allowOverwrite, headers) {
 			if (!path) {
 				throw 'Missing argument "path"';
 			}
@@ -712,9 +714,9 @@
 			var self = this;
 			var deferred = $.Deferred();
 			var promise = deferred.promise();
-			var headers = {
+			headers = _.extend({}, headers, {
 				'Destination' : this._buildUrl(destinationPath)
-			};
+			});
 
 			if (!allowOverwrite) {
 				headers.Overwrite = 'F';
@@ -828,6 +830,16 @@
 		 */
 		getBaseUrl: function() {
 			return this._client.baseUrl;
+		},
+
+		/**
+		 * Returns the host
+		 *
+		 * @since 13.0.0
+		 * @return {String} base URL
+		 */
+		getHost: function() {
+			return this._host;
 		}
 	};
 
