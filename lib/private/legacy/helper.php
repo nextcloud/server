@@ -378,32 +378,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * Checks if $sub is a subdirectory of $parent
-	 *
-	 * @param string $sub
-	 * @param string $parent
-	 * @return bool
-	 */
-	public static function isSubDirectory($sub, $parent) {
-		$realpathSub = realpath($sub);
-		$realpathParent = realpath($parent);
-
-		// realpath() may return false in case the directory does not exist
-		// since we can not be sure how different PHP versions may behave here
-		// we do an additional check whether realpath returned false
-		if($realpathSub === false ||  $realpathParent === false) {
-			return false;
-		}
-
-		// Check whether $sub is a subdirectory of $parent
-		if (strpos($realpathSub, $realpathParent) === 0) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Returns an array with all keys from input lowercased or uppercased. Numbered indices are left as is.
 	 *
 	 * @param array $input The array to work on
