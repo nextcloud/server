@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Christoph Wurst <christoph@owncloud.com>
@@ -26,7 +27,18 @@
 
 namespace OC\App;
 
+use OCP\ICache;
+
 class InfoParser {
+	/** @var \OCP\ICache|null */
+	private $cache;
+
+	/**
+	 * @param ICache|null $cache
+	 */
+	public function __construct(ICache $cache = null) {
+		$this->cache = $cache;
+	}
 
 	/**
 	 * @param string $file the xml file to be loaded
@@ -35,6 +47,13 @@ class InfoParser {
 	public function parse($file) {
 		if (!file_exists($file)) {
 			return null;
+		}
+
+		if(!is_null($this->cache)) {
+			$fileCacheKey = $file . filemtime($file);
+			if ($cachedValue = $this->cache->get($fileCacheKey)) {
+				return json_decode($cachedValue, true);
+			}
 		}
 
 		libxml_use_internal_errors(true);
@@ -118,6 +137,10 @@ class InfoParser {
 		}
 		if (isset($array['background-jobs']['job']) && is_array($array['background-jobs']['job'])) {
 			$array['background-jobs'] = $array['background-jobs']['job'];
+		}
+
+		if(!is_null($this->cache)) {
+			$this->cache->set($fileCacheKey, json_encode($array));
 		}
 		return $array;
 	}
