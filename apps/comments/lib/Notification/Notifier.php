@@ -93,13 +93,13 @@ class Notifier implements INotifier {
 				$fileName = $nodes[0]->getName();
 				if($isDeletedActor) {
 					$subject = (string) $l->t(
-						'You were mentioned in a comment on "%s" by a now deleted user.',
+						'A (now) deleted user mentioned you in a comment on "%s".',
 						[ $fileName ]
 					);
 				} else {
 					$subject = (string) $l->t(
-						'You were mentioned in a comment on "%s" by %s.',
-						[ $fileName, $displayName ]
+						'%s mentioned you in a comment on "%s".',
+						[ $displayName, $fileName ]
 					);
 				}
 				$notification->setParsedSubject($subject);

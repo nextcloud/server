@@ -89,7 +89,7 @@ class NotifierTest extends TestCase {
 	public function testPrepareSuccess() {
 		$fileName = 'Gre\'thor.odp';
 		$displayName = 'Huraga';
-		$message = 'You were mentioned in a comment on "Gre\'thor.odp" by Huraga.';
+		$message = 'Hurage mentioned you in a comment on "Gre\'thor.odp".';
 
 		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->getMockBuilder('OCP\IUser')->getMock();
@@ -130,7 +130,7 @@ class NotifierTest extends TestCase {
 		$this->l
 			->expects($this->once())
 			->method('t')
-			->with('You were mentioned in a comment on "%s" by %s.', [$fileName, $displayName])
+			->with('%s mentioned you in a comment on "%s".', [$displayName, $fileName])
 			->willReturn($message);
 
 		$this->l10nFactory
@@ -163,8 +163,7 @@ class NotifierTest extends TestCase {
 
 	public function testPrepareSuccessDeletedUser() {
 		$fileName = 'Gre\'thor.odp';
-		$displayName = 'a now deleted user';
-		$message = 'You were mentioned in a comment on "Gre\'thor.odp" by a now deleted user.';
+		$message = 'A (now) deleted user mentioned you in a comment on "Gre\'thor.odp".';
 
 		/** @var Node|\PHPUnit_Framework_MockObject_MockObject */
 		$node = $this->getMockBuilder('OCP\Files\Node')->getMock();
@@ -199,7 +198,7 @@ class NotifierTest extends TestCase {
 		$this->l
 			->expects($this->once())
 			->method('t')
-			->with('You were mentioned in a comment on "%s" by a now deleted user.', [ $fileName ])
+			->with('A (now) deleted user mentioned you in a comment on "%s".', [ $fileName ])
 			->willReturn($message);
 
 		$this->l10nFactory
