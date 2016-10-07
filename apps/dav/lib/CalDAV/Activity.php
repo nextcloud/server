@@ -22,8 +22,6 @@
 namespace OCA\DAV\CalDAV;
 
 use OCP\Activity\IExtension;
-use OCP\Activity\IManager;
-use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 
@@ -40,6 +38,7 @@ class Activity implements IExtension {
 	const SUBJECT_ADD = 'calendar_add';
 	const SUBJECT_UPDATE = 'calendar_update';
 	const SUBJECT_DELETE = 'calendar_delete';
+	const SUBJECT_UNSHARE_USER = 'calendar_user_unshare';
 
 	/**
 	 * Subject keys for translation of the subjections
@@ -143,6 +142,12 @@ class Activity implements IExtension {
 				return (string) $l->t('%1$s updated calendar %2$s', $params);
 			case self::SUBJECT_UPDATE . '_self':
 				return (string) $l->t('You updated calendar %2$s', $params);
+			case self::SUBJECT_UNSHARE_USER:
+				return (string) $l->t('%1$s unshared calendar %2$s from you', $params);
+			case self::SUBJECT_UNSHARE_USER . '_you':
+				return (string) $l->t('You unshared calendar %2$s from %1$s', $params);
+			case self::SUBJECT_UNSHARE_USER . '_by':
+				return (string) $l->t('%1$s unshared calendar %2$s from themselves', $params);
 		}
 
 		return false;
@@ -165,6 +170,9 @@ class Activity implements IExtension {
 				case self::SUBJECT_ADD:
 				case self::SUBJECT_DELETE:
 				case self::SUBJECT_UPDATE:
+				case self::SUBJECT_UNSHARE_USER:
+				case self::SUBJECT_UNSHARE_USER . '_you':
+				case self::SUBJECT_UNSHARE_USER . '_by':
 					return [
 						0 => 'username',
 						//1 => 'calendar',

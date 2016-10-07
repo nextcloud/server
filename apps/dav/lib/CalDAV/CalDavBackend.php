@@ -26,6 +26,7 @@
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\DAV\Sharing\IShareable;
+use OCP\Activity\IEvent;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\Backend;
@@ -1658,6 +1659,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param array $remove
 	 */
 	public function updateShares($shareable, $add, $remove) {
+		/** @var Calendar $shareable */
+		$this->triggerActivitySharing($shareable, $add, $remove);
+
 		$this->sharingBackend->updateShares($shareable, $add, $remove);
 	}
 
@@ -1742,8 +1746,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			return;
 		}
 
-		$principaluri = explode('/', $properties['principaluri']);
-		$owner = array_pop($principaluri);
+		$principal = explode('/', $properties['principaluri']);
+		$owner = $principal[2];
 
 		$currentUser = $userSession->getUser();
 		if ($currentUser instanceof IUser) {
@@ -1781,6 +1785,70 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				);
 			$aM->publish($event);
 		}
+	}
+
+	protected function triggerActivitySharing(Calendar $calendar, array $add, array $remove) {
+		$aM = \OC::$server->getActivityManager();
+		$userSession = \OC::$server->getUserSession();
+
+		$calendarId = $calendar->getResourceId();
+		//$shares = $this->sharingBackend->getShares($calendarId);
+
+		$properties = $this->getCalendarById($calendarId);
+		$principal = explode('/', $properties['principaluri']);
+		$owner = $principal[2];
+
+		$currentUser = $userSession->getUser();
+		if ($currentUser instanceof IUser) {
+			$currentUser = $currentUser->getUID();
+		} else {
+			$currentUser = $owner;
+		}
+
+		$event = $aM->generateEvent();
+		$event->setApp('dav')
+			->setObject(Activity::CALENDAR, $calendarId)
+			->setType(Activity::CALENDAR)
+			->setAuthor($currentUser);
+
+		foreach ($remove as $principal) {
+			// principal:principals/users/test
+			$parts = explode(':', $principal, 2);
+			if ($parts[0] !== 'principal') {
+				continue;
+			}
+			$principal = explode('/', $parts[1]);
+
+			if ($principal[1] === 'users') {
+				$this->triggerActivityUnshareUser($principal[2], $event, $properties);
+
+				if ($owner !== $principal[2]) {
+					$event->setAffectedUser($owner)
+						->setSubject(
+							$owner === $event->getAuthor() ? Activity::SUBJECT_UNSHARE_USER . '_you' : Activity::SUBJECT_UNSHARE_USER . '_by',
+							[
+								$principal[2],
+								$properties['{DAV:}displayname'],
+							]
+						);
+					$aM->publish($event);
+				}
+			}
+		}
+	}
+
+	protected function triggerActivityUnshareUser($user, IEvent $event, array $properties) {
+		$aM = \OC::$server->getActivityManager();
+
+		$event->setAffectedUser($user)
+			->setSubject(
+				$user === $event->getAuthor() ? Activity::SUBJECT_DELETE . '_self' : Activity::SUBJECT_UNSHARE_USER,
+				[
+					$event->getAuthor(),
+					$properties['{DAV:}displayname'],
+				]
+			);
+		$aM->publish($event);
 	}
 
 	/**
