@@ -1,0 +1,32 @@
+{
+  "name": "davclient.js",
+  "version": "0.0.1",
+  "authors": [
+    "Evert Pot <me@evertpot.com>"
+  ],
+  "description": "A WebDAV, CalDAV and CardDAV client for browsers.",
+  "main": "lib/client.js",
+  "keywords": [
+    "webdav",
+    "caldav",
+    "carddav"
+  ],
+  "license": "MIT",
+  "homepage": "http://sabre.io/",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "0.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.0.1",
+    "commit": "2d054c63ba5bf7f7d40de904a742f3ad9c71e63c"
+  },
+  "_source": "https://github.com/evert/davclient.js.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/evert/davclient.js.git"
+}
