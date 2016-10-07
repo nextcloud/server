@@ -71,14 +71,13 @@ class EventHandlerTest extends TestCase {
 
 	public function notHandledProvider() {
 		return [
-			[CommentsEvent::EVENT_DELETE],
 			[CommentsEvent::EVENT_UPDATE]
 		];
 	}
 
 	/**
 	 * @dataProvider notHandledProvider
-	 * @param $eventType
+	 * @param string $eventType
 	 */
 	public function testNotHandled($eventType) {
 		/** @var IComment|\PHPUnit_Framework_MockObject_MockObject $comment */
@@ -103,7 +102,18 @@ class EventHandlerTest extends TestCase {
 		$this->eventHandler->handle($event);
 	}
 
-	public function testHandled() {
+	public function handledProvider() {
+		return [
+			[CommentsEvent::EVENT_DELETE],
+			[CommentsEvent::EVENT_ADD]
+		];
+	}
+
+	/**
+	 * @dataProvider handledProvider
+	 * @param string $eventType
+	 */
+	public function testHandled($eventType) {
 		/** @var IComment|\PHPUnit_Framework_MockObject_MockObject $comment */
 		$comment = $this->getMockBuilder(IComment::class)->getMock();
 		$comment->expects($this->once())
@@ -119,7 +129,7 @@ class EventHandlerTest extends TestCase {
 			->willReturn($comment);
 		$event->expects($this->atLeastOnce())
 			->method('getEvent')
-			->willReturn(CommentsEvent::EVENT_ADD);
+			->willReturn($eventType);
 
 		$notificationListener = $this->getMockBuilder(NotificationListener::class)
 			->disableOriginalConstructor()
@@ -131,13 +141,13 @@ class EventHandlerTest extends TestCase {
 		$activityListener = $this->getMockBuilder(ActivityListener::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$activityListener->expects($this->once())
+		$activityListener->expects($this->any())
 			->method('commentEvent')
 			->with($event);
 
 		/** @var IContainer|\PHPUnit_Framework_MockObject_MockObject $c */
 		$c = $this->getMockBuilder(IContainer::class)->getMock();
-		$c->expects($this->exactly(2))
+		$c->expects($this->atLeastOnce())
 			->method('query')
 			->withConsecutive([NotificationListener::class], [ActivityListener::class])
 			->willReturnOnConsecutiveCalls($notificationListener, $activityListener);
