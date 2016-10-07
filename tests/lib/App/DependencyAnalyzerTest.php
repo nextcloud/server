@@ -9,7 +9,7 @@
 
 namespace Test\App;
 
-use OC;
+use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
 use OCP\IL10N;
 use Test\TestCase;
@@ -22,11 +22,11 @@ class DependencyAnalyzerTest extends TestCase {
 	/** @var IL10N */
 	private $l10nMock;
 
-	/** @var \OC\App\DependencyAnalyzer */
+	/** @var DependencyAnalyzer */
 	private $analyser;
 
 	public function setUp() {
-		$this->platformMock = $this->getMockBuilder('\OC\App\Platform')
+		$this->platformMock = $this->getMockBuilder(Platform::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->platformMock->expects($this->any())
@@ -67,7 +67,7 @@ class DependencyAnalyzerTest extends TestCase {
 				return vsprintf($text, $parameters);
 			}));
 
-		$this->analyser = new \OC\App\DependencyAnalyzer($this->platformMock, $this->l10nMock);
+		$this->analyser = new DependencyAnalyzer($this->platformMock, $this->l10nMock);
 	}
 
 	/**
@@ -101,12 +101,14 @@ class DependencyAnalyzerTest extends TestCase {
 
 	/**
 	 * @dataProvider providesDatabases
+	 * @param $expectedMissing
+	 * @param $databases
 	 */
 	public function testDatabases($expectedMissing, $databases) {
-		$app = array(
-			'dependencies' => array(
-			)
-		);
+		$app = [
+			'dependencies' => [
+			]
+		];
 		if (!is_null($databases)) {
 			$app['dependencies']['database'] = $databases;
 		}
@@ -228,28 +230,30 @@ class DependencyAnalyzerTest extends TestCase {
 	 * @return array
 	 */
 	function providesLibs() {
-		return array(
+		return [
 			// we expect curl to exist
-			array(array(), 'curl'),
+			[[], 'curl'],
 			// we expect abcde to exist
-			array(array('The library abcde is not available.'), array('abcde')),
+			[['The library abcde is not available.'], ['abcde']],
 			// curl in version 100.0 does not exist
-			array(array('Library curl with a version higher than 100.0 is required - available version 2.3.4.'),
-				array(array('@attributes' => array('min-version' => '100.0'), '@value' => 'curl'))),
+			[['Library curl with a version higher than 100.0 is required - available version 2.3.4.'],
+				[['@attributes' => ['min-version' => '100.0'], '@value' => 'curl']]],
 			// curl in version 100.0 does not exist
-			array(array('Library curl with a version lower than 1.0.0 is required - available version 2.3.4.'),
-				array(array('@attributes' => array('max-version' => '1.0.0'), '@value' => 'curl'))),
-			array(array('Library curl with a version lower than 2.3.3 is required - available version 2.3.4.'),
-				array(array('@attributes' => array('max-version' => '2.3.3'), '@value' => 'curl'))),
-			array(array('Library curl with a version higher than 2.3.5 is required - available version 2.3.4.'),
-				array(array('@attributes' => array('min-version' => '2.3.5'), '@value' => 'curl'))),
-			array(array(),
-				array(array('@attributes' => array('min-version' => '2.3.4', 'max-version' => '2.3.4'), '@value' => 'curl'))),
-			array(array(),
-				array(array('@attributes' => array('min-version' => '2.3', 'max-version' => '2.3'), '@value' => 'curl'))),
-			array(array(),
-				array(array('@attributes' => array('min-version' => '2', 'max-version' => '2'), '@value' => 'curl'))),
-		);
+			[['Library curl with a version lower than 1.0.0 is required - available version 2.3.4.'],
+				[['@attributes' => ['max-version' => '1.0.0'], '@value' => 'curl']]],
+			[['Library curl with a version lower than 2.3.3 is required - available version 2.3.4.'],
+				[['@attributes' => ['max-version' => '2.3.3'], '@value' => 'curl']]],
+			[['Library curl with a version higher than 2.3.5 is required - available version 2.3.4.'],
+				[['@attributes' => ['min-version' => '2.3.5'], '@value' => 'curl']]],
+			[[],
+				[['@attributes' => ['min-version' => '2.3.4', 'max-version' => '2.3.4'], '@value' => 'curl']]],
+			[[],
+				[['@attributes' => ['min-version' => '2.3', 'max-version' => '2.3'], '@value' => 'curl']]],
+			[[],
+				[['@attributes' => ['min-version' => '2', 'max-version' => '2'], '@value' => 'curl']]],
+			[[],
+				['@attributes' => ['min-version' => '2', 'max-version' => '2'], '@value' => 'curl']],
+		];
 	}
 
 	/**
