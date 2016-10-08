@@ -29,9 +29,9 @@ input[type="button"],
 	margin: 3px 3px 3px 0;
 	padding: 7px 6px 5px;
 	font-size: 13px;
-	background-color: #fff;
+	background: transparent;
 	color: #333;
-	border: 1px solid #ddd;
+	border: 1px solid rgba(0,0,0,0.133);
 	outline: none;
 	border-radius: 3px;
 }
@@ -48,7 +48,7 @@ input[type="tel"],
 input[type="url"],
 input[type="time"],
 textarea {
-	background: #fff;
+	background: transparent;
 	color: #555;
 	cursor: text;
 	font-family: inherit; /* use default ownCloud font instead of default textarea monospace */
@@ -210,13 +210,13 @@ select {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
-	background: url('../../core/img/actions/triangle-s.svg') no-repeat right 8px center rgba(240, 240, 240, 0.90);
+	background: url('../../core/img/actions/triangle-s.svg') no-repeat right 8px center rgba(0,0,0,0.054);
 	outline: 0;
 	padding-right: 24px !important;
 }
 
 select:hover {
-	background-color: #fefefe;
+	background-color: rgba(0,0,0,0.02);
 }
 
 .select2-choices {
@@ -237,7 +237,7 @@ input img, button img, .button img {
 }
 
 input[type="submit"].enabled {
-	background-color: #66f866;
+	background-color: rgba(0,243,0,0.6);
 	border: 1px solid #5e5;
 }
 
@@ -257,10 +257,10 @@ button, .button,
 	width: auto;
 	min-width: 25px;
 	padding: 5px;
-	background-color: rgba(240,240,240,.9);
+	background-color: rgba(0,0,0,0.054);
 	font-weight: 600;
 	color: #555;
-	border: 1px solid rgba(240,240,240,.9);
+	border: 1px solid rgba(0,0,0,0.054);
 	cursor: pointer;
 }
 select, .button.multiselect {
@@ -272,7 +272,7 @@ button:hover, button:focus,
 .button:hover, .button:focus,
 .button a:focus,
 select:hover, select:focus, select:active {
-	background-color: rgba(255, 255, 255, .95);
+	background-color: rgba(0,0,0,0.1);
 	color: #111;
 }
 input[type="submit"] img, input[type="button"] img, button img, .button img { cursor:pointer; }
