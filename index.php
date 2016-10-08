@@ -33,6 +33,13 @@ if (version_compare(PHP_VERSION, '5.6.0') === -1) {
 	return;
 }
 
+// running oC on Windows is unsupported since 8.1, this has to happen here because
+// is seems that the autoloader on Windows fails later and just throws an exception.
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+	echo 'ownCloud Server does not support Microsoft Windows.';
+	return;
+}
+
 try {
 
 	require_once __DIR__ . '/lib/base.php';
