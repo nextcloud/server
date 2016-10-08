@@ -90,6 +90,7 @@ OC.L10N.register(
     "Dec." : "Dez.",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Es gab Probleme bei der Code Integritätsprüfung. Mehr Informationen...</a>",
     "Settings" : "Einstellungen",
+    "Connection to server lost" : "Verbindung zum Server verloren",
     "Problem loading page, reloading in 5 seconds" : "Problem beim Laden der Seite, Seite wird in 5 Sekunden nochmals geladen",
     "Saving..." : "Speichere...",
     "Dismiss" : "Ausblenden",

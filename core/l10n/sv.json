@@ -88,6 +88,7 @@
     "Dec." : "Dec.",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\"> Ett problem uppstod under integritetskontrollen av koden. Mer information ... </a>",
     "Settings" : "Inställningar",
+    "Connection to server lost" : "Anslutning till server förlorad",
     "Problem loading page, reloading in 5 seconds" : "Problem med att ladda sidan, försöker igen om 5 sekunder",
     "Saving..." : "Sparar...",
     "Dismiss" : "Avfärda",

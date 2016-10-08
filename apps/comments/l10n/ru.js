@@ -15,6 +15,7 @@ OC.L10N.register(
     "Error occurred while retrieving comment with id {id}" : "При получении комментария с id {id} произошла ошибка",
     "Error occurred while updating comment with id {id}" : "При обновлении комментария с id {id} произошла ошибка",
     "Error occurred while posting comment" : "При сохранении комментария произошла ошибка",
+    "_%n unread comment_::_%n unread comments_" : ["%n не прочитанный комментарий","%n не прочитанных комментариев","%n не прочитанных комментариев","%n не прочитанных комментариев"],
     "Comment" : "Комментарий",
     "<strong>Comments</strong> for files" : "<strong>Комментарии</strong> к файлам",
     "You commented" : "Вы прокомментировали",
