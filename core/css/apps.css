@@ -69,7 +69,6 @@
 	box-sizing: border-box;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	color: #000;
 	opacity: .57;
 }
 #app-navigation .active,

@@ -237,7 +237,7 @@ input img, button img, .button img {
 }
 
 input[type="submit"].enabled {
-	background-color: rgba(0,243,0,0.6);
+	background-color: rgba(0, 243, 0, .6);
 	border: 1px solid #5e5;
 }
 

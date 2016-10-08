@@ -144,7 +144,6 @@ table tr.mouseOver td {
 	transition: background-color 0.3s ease;
 	background-color: rgba(0, 0, 0, .027);
 }
-tbody a { color:#000; }
 
 span.extension, span.uploading, td.date {
 	color: #999;
