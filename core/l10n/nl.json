@@ -88,6 +88,7 @@
     "Dec." : "Dec.",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Er traden problemen op tijdens de code betrouwbaarheidscontrole. Meer informatie…</a>",
     "Settings" : "Instellingen",
+    "Connection to server lost" : "Verbinding met server verbroken",
     "Problem loading page, reloading in 5 seconds" : "Kan de pagina niet laden, verversen in 5 seconden",
     "Saving..." : "Opslaan",
     "Dismiss" : "Terzijde leggen",

@@ -24,7 +24,7 @@ OC.L10N.register(
     "Saving..." : "Mentés...",
     "Save" : "Mentés",
     "Empty response from the server" : "Üres válasz a szervertől",
-    "Couldn't access. Please logout and login to activate this mount point" : "Nem férhető hozzá. Kérjük próbálj meg ki- és bejelentkezni a csatolási pont aktiválásához.",
+    "Couldn't access. Please logout and login to activate this mount point" : "Nem férhető hozzá. Kérlek próbálj meg ki- és bejelentkezni a csatolási pont aktiválásához.",
     "Couldn't get the information from the ownCloud server: {code} {type}" : "Nem sikerült lekérdezni az információkat az ownCloud szerverről: {code} {type}",
     "Couldn't get the list of external mount points: {type}" : "Nem lehet letölteni a külső csatolási pontok listáját: {type}",
     "There was an error with message: " : "Hiba történt ezzel az üzenettel:",

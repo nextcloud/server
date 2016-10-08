@@ -90,6 +90,7 @@ OC.L10N.register(
     "Dec." : "prosinec",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Došlo k problémům při kontrole integrity kódu. Více informací…</a>",
     "Settings" : "Nastavení",
+    "Connection to server lost" : "Připojení k serveru ztraceno",
     "Problem loading page, reloading in 5 seconds" : "Problém s načítáním stránky, stránka se obnoví za 5 sekund",
     "Saving..." : "Ukládám...",
     "Dismiss" : "Zamítnout",
