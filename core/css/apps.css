@@ -27,7 +27,7 @@
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	border-right: 1px solid rgba(0,0,0,0.066);
+	border-right: 1px solid rgba(0, 0, 0, .066);
 }
 #app-navigation > ul {
 	position: relative;
@@ -438,7 +438,7 @@
 	width: 27%;
 	min-width: 300px;
 	display: block;
-	border-left: 1px solid rgba(0,0,0,0.066);
+	border-left: 1px solid rgba(0, 0, 0, .066);
 	-webkit-transition: margin-right 300ms;
 	transition: margin-right 300ms;
 	overflow-x: hidden;

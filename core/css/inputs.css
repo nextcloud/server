@@ -30,8 +30,8 @@ input[type="button"],
 	padding: 7px 6px 5px;
 	font-size: 13px;
 	background: transparent;
-	color: rgba(0,0,0,0.8);
-	border: 1px solid rgba(0,0,0,0.133);
+	color: rgba(0, 0, 0, .8);
+	border: 1px solid rgba(0, 0, 0, .133);
 	outline: none;
 	border-radius: 3px;
 }
@@ -49,7 +49,7 @@ input[type="url"],
 input[type="time"],
 textarea {
 	background: transparent;
-	color: rgba(0,0,0,0.666);
+	color: rgba(0, 0, 0, .666);
 	cursor: text;
 	font-family: inherit; /* use default ownCloud font instead of default textarea monospace */
 }
@@ -74,7 +74,7 @@ input[type="tel"]:hover, input[type="tel"]:focus, input[type="tel"]:active,
 input[type="url"]:hover, input[type="url"]:focus, input[type="url"]:active,
 input[type="time"]:hover, input[type="time"]:focus, input[type="time"]:active,
 textarea:hover, textarea:focus, textarea:active {
-	color: rgba(0,0,0,0.8);
+	color: rgba(0, 0, 0, .8);
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	opacity: 1;
 }
@@ -149,7 +149,7 @@ input[type="checkbox"].checkbox--white:indeterminate:disabled + label:before {
 }
 
 input[type="checkbox"].checkbox:hover+label:before, input[type="checkbox"]:focus+label:before {
-	color:rgba(0,0,0,0.933) !important;
+	color:rgba(0, 0, 0, .933) !important;
 }
 
 input[type="radio"].radio {
@@ -210,19 +210,19 @@ select {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
-	background: url('../../core/img/actions/triangle-s.svg') no-repeat right 8px center rgba(0,0,0,0.054);
+	background: url('../../core/img/actions/triangle-s.svg') no-repeat right 8px center rgba(0, 0, 0, .054);
 	outline: 0;
 	padding-right: 24px !important;
 }
 
 select:hover {
-	background-color: rgba(0,0,0,0.003);
+	background-color: rgba(0, 0, 0, .003);
 }
 
 .select2-choices {
 	border: 1px solid #ddd;
 	border-radius: 3px;
-	color: rgba(0,0,0,0.8);
+	color: rgba(0, 0, 0, .8);
 	background-image: none;
 }
 .select2-dropdown-open .select2-choices {
@@ -257,10 +257,10 @@ button, .button,
 	width: auto;
 	min-width: 25px;
 	padding: 5px;
-	background-color: rgba(0,0,0,0.054);
+	background-color: rgba(0, 0, 0, .054);
 	font-weight: 600;
-	color: rgba(0,0,0,0.666);
-	border: 1px solid rgba(0,0,0,0.054);
+	color: rgba(0, 0, 0, .666);
+	border: 1px solid rgba(0, 0, 0, .054);
 	cursor: pointer;
 }
 select, .button.multiselect {
@@ -272,8 +272,8 @@ button:hover, button:focus,
 .button:hover, .button:focus,
 .button a:focus,
 select:hover, select:focus, select:active {
-	background-color: rgba(0,0,0,0.1);
-	color: rgba(0,0,0,0.933);
+	background-color: rgba(0, 0, 0, .1);
+	color: rgba(0, 0, 0, .933);
 }
 input[type="submit"] img, input[type="button"] img, button img, .button img { cursor:pointer; }
 #header .button {
@@ -288,11 +288,11 @@ button:disabled, button:disabled:hover, button:disabled:focus,
 a.disabled, a.disabled:hover, a.disabled:focus,
 textarea:disabled {
 	background-color: rgba(230,230,230,.9);
-	color: rgba(0,0,0,0.4);
+	color: rgba(0, 0, 0, .4);
 	cursor: default;
 }
 input:disabled+label, input:disabled:hover+label, input:disabled:focus+label {
-	color: rgba(0,0,0,0.4) !important;
+	color: rgba(0, 0, 0, .4) !important;
 	cursor: default;
 }
 
