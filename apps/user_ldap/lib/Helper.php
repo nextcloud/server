@@ -55,30 +55,19 @@ class Helper {
 	public function getServerConfigurationPrefixes($activeConfigurations = false) {
 		$referenceConfigkey = 'ldap_configuration_active';
 
-		$sql = '
-			SELECT DISTINCT `configkey`
-			FROM `*PREFIX*appconfig`
-			WHERE `appid` = \'user_ldap\'
-				AND `configkey` LIKE ?
-		';
+		$config = \OC::$server->getConfig();
 
-		if($activeConfigurations) {
-			if (\OC::$server->getConfig()->getSystemValue( 'dbtype', 'sqlite' ) === 'oci') {
-				//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
-				$sql .= ' AND to_char(`configvalue`)=\'1\'';
-			} else {
-				$sql .= ' AND `configvalue` = \'1\'';
+		$keys = $config->getAppKeys('user_ldap');
+		$prefixes = [];
+		foreach ($keys as $key) {
+			if (preg_match('/ldap_configuration_active$/S', $key) === 1) {
+				if ($activeConfigurations && $config->getAppValue('user_ldap', $key, '0') !== '1') {
+					continue;
+				}
+
+				$len = strlen($key) - strlen($referenceConfigkey);
+				$prefixes[] = substr($key, 0, $len);
 			}
-		}
-
-		$stmt = \OCP\DB::prepare($sql);
-
-		$serverConfigs = $stmt->execute(array('%'.$referenceConfigkey))->fetchAll();
-		$prefixes = array();
-
-		foreach($serverConfigs as $serverConfig) {
-			$len = strlen($serverConfig['configkey']) - strlen($referenceConfigkey);
-			$prefixes[] = substr($serverConfig['configkey'], 0, $len);
 		}
 
 		return $prefixes;
