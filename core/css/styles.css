@@ -742,7 +742,7 @@ code { font-family:"Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono
 }
 #quota div {
 	padding: 0;
-	background-color: rgb(220,220,220);
+	background-color: rgba(0,0,0,0.137);
 	font-weight: normal;
 	white-space: nowrap;
 	border-bottom-left-radius: 3px;

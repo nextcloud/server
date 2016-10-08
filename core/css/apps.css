@@ -27,7 +27,7 @@
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	border-right: 1px solid rgba(0,0,0,0.08);
+	border-right: 1px solid rgba(0,0,0,0.066);
 }
 #app-navigation > ul {
 	position: relative;
@@ -438,7 +438,7 @@
 	width: 27%;
 	min-width: 300px;
 	display: block;
-	border-left: 1px solid rgba(0,0,0,0.08);
+	border-left: 1px solid rgba(0,0,0,0.066);
 	-webkit-transition: margin-right 300ms;
 	transition: margin-right 300ms;
 	overflow-x: hidden;
@@ -477,10 +477,6 @@
 	/* restrict height of settings and make scrollable */
 	max-height: 300px;
 	overflow-y: auto;
-}
-#app-settings-content,
-#app-settings-header {
-	border-right: 1px solid rgba(0,0,0,0.08);
 }
 
 /* display input fields at full width */
