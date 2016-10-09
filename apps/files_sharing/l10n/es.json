@@ -115,10 +115,12 @@
     "Invalid ownCloud url" : "URL de ownCloud no válida",
     "You received \"/%2$s\" as a remote share from %1$s" : "Has recibido \"/%2$s\" como recurso compartido remoto de %1$s",
     "Accept" : "Aceptar",
+    "Decline" : "Rechazar",
     "Allow users on this server to send shares to other servers" : "Permitir a usuarios de este servidor compartir con usuarios de otros servidores",
     "Allow users on this server to receive shares from other servers" : "Permitir a usuarios de este servidor recibir recursos compartidos de usuarios de otros servidores",
     "Federated Cloud" : "Nube Federada",
     "Your Federated Cloud ID:" : "Su ID de Nube Federada:",
+    "Share it:" : "Compartir:",
     "Add to your website" : "Añadir a su sitio web",
     "Share with me via Nextcloud" : "Compartir conmigo vía Nextcloud",
     "HTML Code:" : "Código HTML:"
