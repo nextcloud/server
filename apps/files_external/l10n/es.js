@@ -65,6 +65,7 @@ OC.L10N.register(
     "Identity endpoint URL" : "Identidad de punto final URL",
     "Rackspace" : "Espacio de Rack",
     "API key" : "Clave API",
+    "Global credentials" : "Credenciales global",
     "Log-in credentials, save in database" : "Credenciales de inicio de sesión, salvar en la base de datos",
     "Username and password" : "Nombre de usuario y contraseña",
     "Log-in credentials, save in session" : "Credenciales de login, guardar en la sesión",
