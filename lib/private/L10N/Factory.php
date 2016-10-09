@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright 2016 Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright 2016 Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Joas Schilling <coding@schilljs.com>
@@ -288,6 +289,27 @@ class Factory implements IFactory {
 	}
 
 	/**
+	 * Checks if $sub is a subdirectory of $parent
+	 *
+	 * @param string $sub
+	 * @param string $parent
+	 * @return bool
+	 */
+	private function isSubDirectory($sub, $parent) {
+		// Check whether $sub contains no ".."
+		if(strpos($sub, '..') !== false) {
+			return false;
+		}
+
+		// Check whether $sub is a subdirectory of $parent
+		if (strpos($sub, $parent) === 0) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Get a list of language files that should be loaded
 	 *
 	 * @param string $app
@@ -302,10 +324,10 @@ class Factory implements IFactory {
 		$i18nDir = $this->findL10nDir($app);
 		$transFile = strip_tags($i18nDir) . strip_tags($lang) . '.json';
 
-		if ((\OC_Helper::isSubDirectory($transFile, $this->serverRoot . '/core/l10n/')
-				|| \OC_Helper::isSubDirectory($transFile, $this->serverRoot . '/lib/l10n/')
-				|| \OC_Helper::isSubDirectory($transFile, $this->serverRoot . '/settings/l10n/')
-				|| \OC_Helper::isSubDirectory($transFile, \OC_App::getAppPath($app) . '/l10n/')
+		if (($this->isSubDirectory($transFile, $this->serverRoot . '/core/l10n/')
+				|| $this->isSubDirectory($transFile, $this->serverRoot . '/lib/l10n/')
+				|| $this->isSubDirectory($transFile, $this->serverRoot . '/settings/l10n/')
+				|| $this->isSubDirectory($transFile, \OC_App::getAppPath($app) . '/l10n/')
 			)
 			&& file_exists($transFile)) {
 			// load the translations file

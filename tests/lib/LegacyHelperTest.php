@@ -76,19 +76,6 @@ class LegacyHelperTest extends \Test\TestCase {
 		];
 	}
 
-	function testIsSubDirectory() {
-		$result = OC_Helper::isSubDirectory("./data/", "/anotherDirectory/");
-		$this->assertFalse($result);
-
-		$result = OC_Helper::isSubDirectory("./data/", "./data/");
-		$this->assertTrue($result);
-
-		mkdir("data/TestSubdirectory", 0777);
-		$result = OC_Helper::isSubDirectory("data/TestSubdirectory/", "data");
-		rmdir("data/TestSubdirectory");
-		$this->assertTrue($result);
-	}
-
 	function testMb_array_change_key_case() {
 		$arrayStart = array(
 			"Foo" => "bar",
