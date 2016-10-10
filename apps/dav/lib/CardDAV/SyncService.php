@@ -263,6 +263,8 @@ class SyncService {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
 		$this->userManager->callForAllUsers(function($user) use ($systemAddressBook, $progressCallback) {
 			$this->updateUser($user);
+			// avatar fetching sets up FS, need to clear again
+			\OC_Util::tearDownFS();
 			if (!is_null($progressCallback)) {
 				$progressCallback();
 			}
