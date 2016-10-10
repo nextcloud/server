@@ -36,19 +36,7 @@
 			var oldCreateRow = fileList._createRow;
 			fileList._createRow = function(fileData) {
 				var tr = oldCreateRow.apply(this, arguments);
-				var sharePermissions = fileData.permissions;
-				if (fileData.mountType && fileData.mountType === "external-root"){
-					// for external storages we can't use the permissions of the mountpoint
-					// instead we show all permissions and only use the share permissions from the mountpoint to handle resharing
-					sharePermissions = sharePermissions | (OC.PERMISSION_ALL & ~OC.PERMISSION_SHARE);
-				}
-				if (fileData.type === 'file') {
-					// files can't be shared with delete permissions
-					sharePermissions = sharePermissions & ~OC.PERMISSION_DELETE;
-
-					// create permissions don't mean anything for files
-					sharePermissions = sharePermissions & ~OC.PERMISSION_CREATE;
-				}
+				var sharePermissions = OCA.Sharing.Util.getSharePermissions(fileData);
 				tr.attr('data-share-permissions', sharePermissions);
 				if (fileData.shareOwner) {
 					tr.attr('data-share-owner', fileData.shareOwner);
@@ -251,6 +239,27 @@
 				text += ', +' + (count - maxRecipients);
 			}
 			return text;
+		},
+
+		/**
+		 * @param {Array} fileData
+		 * @returns {String}
+		 */
+		getSharePermissions: function(fileData) {
+			var sharePermissions = fileData.permissions;
+			if (fileData.mountType && fileData.mountType === "external-root"){
+				// for external storages we can't use the permissions of the mountpoint
+				// instead we show all permissions and only use the share permissions from the mountpoint to handle resharing
+				sharePermissions = sharePermissions | (OC.PERMISSION_ALL & ~OC.PERMISSION_SHARE);
+			}
+			if (fileData.type === 'file') {
+				// files can't be shared with delete permissions
+				sharePermissions = sharePermissions & ~OC.PERMISSION_DELETE;
+
+				// create permissions don't mean anything for files
+				sharePermissions = sharePermissions & ~OC.PERMISSION_CREATE;
+			}
+			return sharePermissions;
 		}
 	};
 })();
