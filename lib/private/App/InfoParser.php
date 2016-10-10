@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Christoph Wurst <christoph@owncloud.com>
@@ -26,18 +27,17 @@
 
 namespace OC\App;
 
-use OCP\IURLGenerator;
+use OCP\ICache;
 
 class InfoParser {
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
+	/** @var \OCP\ICache|null */
+	private $cache;
 
 	/**
-	 * @param IURLGenerator $urlGenerator
+	 * @param ICache|null $cache
 	 */
-	public function __construct(IURLGenerator $urlGenerator) {
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(ICache $cache = null) {
+		$this->cache = $cache;
 	}
 
 	/**
@@ -49,18 +49,28 @@ class InfoParser {
 			return null;
 		}
 
+		if(!is_null($this->cache)) {
+			$fileCacheKey = $file . filemtime($file);
+			if ($cachedValue = $this->cache->get($fileCacheKey)) {
+				return json_decode($cachedValue, true);
+			}
+		}
+
 		libxml_use_internal_errors(true);
 		$loadEntities = libxml_disable_entity_loader(false);
 		$xml = simplexml_load_file($file);
+
 		libxml_disable_entity_loader($loadEntities);
-		if ($xml == false) {
+		if ($xml === false) {
 			libxml_clear_errors();
 			return null;
 		}
 		$array = $this->xmlToArray($xml);
+
 		if (is_null($array)) {
 			return null;
 		}
+
 		if (!array_key_exists('info', $array)) {
 			$array['info'] = [];
 		}
@@ -98,17 +108,6 @@ class InfoParser {
 			$array['two-factor-providers'] = [];
 		}
 
-		if (array_key_exists('documentation', $array) && is_array($array['documentation'])) {
-			foreach ($array['documentation'] as $key => $url) {
-				// If it is not an absolute URL we assume it is a key
-				// i.e. admin-ldap will get converted to go.php?to=admin-ldap
-				if (!$this->isHTTPURL($url)) {
-					$url = $this->urlGenerator->linkToDocs($url);
-				}
-
-				$array['documentation'][$key] = $url;
-			}
-		}
 		if (array_key_exists('types', $array)) {
 			if (is_array($array['types'])) {
 				foreach ($array['types'] as $type => $v) {
@@ -138,6 +137,10 @@ class InfoParser {
 		}
 		if (isset($array['background-jobs']['job']) && is_array($array['background-jobs']['job'])) {
 			$array['background-jobs'] = $array['background-jobs']['job'];
+		}
+
+		if(!is_null($this->cache)) {
+			$this->cache->set($fileCacheKey, json_encode($array));
 		}
 		return $array;
 	}
@@ -192,9 +195,5 @@ class InfoParser {
 		}
 
 		return $array;
-	}
-
-	private function isHTTPURL($url) {
-		return stripos($url, 'https://') === 0 || stripos($url, 'http://') === 0;
 	}
 }

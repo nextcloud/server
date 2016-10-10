@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @author Thomas Müller
  * @copyright 2014 Thomas Müller deepdiver@owncloud.com
@@ -10,44 +9,48 @@
 namespace Test\App;
 
 use OC;
-use OCP\IURLGenerator;
+use OC\App\InfoParser;
 use Test\TestCase;
 
 class InfoParserTest extends TestCase {
+	/** @var OC\Cache\CappedMemoryCache */
+	private static $cache;
 
-	/** @var \OC\App\InfoParser */
-	private $parser;
+	public static function setUpBeforeClass() {
+		self::$cache = new OC\Cache\CappedMemoryCache();
+	}
 
-	public function setUp() {
-		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
-			->disableOriginalConstructor()
-			->getMock();
 
-		/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject $urlGenerator */
-		$urlGenerator->expects($this->any())
-			->method('linkToDocs')
-			->will($this->returnCallback(function ($url) {
-				return "https://docs.example.com/server/go.php?to=$url";
-			}));
+	public function parserTest($expectedJson, $xmlFile, $cache = null) {
+		$parser = new InfoParser($cache);
 
-		$this->parser = new \OC\App\InfoParser($urlGenerator);
+		$expectedData = null;
+		if (!is_null($expectedJson)) {
+			$expectedData = json_decode(file_get_contents(OC::$SERVERROOT . "/tests/data/app/$expectedJson"), true);
+		}
+		$data = $parser->parse(OC::$SERVERROOT. "/tests/data/app/$xmlFile");
+
+		$this->assertEquals($expectedData, $data);
 	}
 
 	/**
 	 * @dataProvider providesInfoXml
 	 */
-	public function testParsingValidXml($expectedJson, $xmlFile) {
-		$expectedData = null;
-		if (!is_null($expectedJson)) {
-			$expectedData = json_decode(file_get_contents(OC::$SERVERROOT . "/tests/data/app/$expectedJson"), true);
-		}
-		$data = $this->parser->parse(OC::$SERVERROOT. "/tests/data/app/$xmlFile");
+	public function testParsingValidXmlWithoutCache($expectedJson, $xmlFile) {
+		$this->parserTest($expectedJson, $xmlFile);
+	}
 
-		$this->assertEquals($expectedData, $data);
+	/**
+	 * @dataProvider providesInfoXml
+	 */
+	public function testParsingValidXmlWithCache($expectedJson, $xmlFile) {
+		$this->parserTest($expectedJson, $xmlFile, self::$cache);
 	}
 
 	function providesInfoXml() {
 		return array(
+			array('expected-info.json', 'valid-info.xml'),
+			array(null, 'invalid-info.xml'),
 			array('expected-info.json', 'valid-info.xml'),
 			array(null, 'invalid-info.xml'),
 		);
