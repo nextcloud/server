@@ -47,7 +47,7 @@ class TestConfig extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$helper = new Helper();
+		$helper = new Helper(\OC::$server->getConfig());
 		$availableConfigs = $helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
 		if(!in_array($configID, $availableConfigs)) {

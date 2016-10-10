@@ -83,7 +83,7 @@ class CleanUp extends TimedJob {
 		if(isset($arguments['helper'])) {
 			$this->ldapHelper = $arguments['helper'];
 		} else {
-			$this->ldapHelper = new Helper();
+			$this->ldapHelper = new Helper(\OC::$server->getConfig());
 		}
 
 		if(isset($arguments['ocConfig'])) {

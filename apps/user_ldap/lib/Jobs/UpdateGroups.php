@@ -172,7 +172,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 		if(!is_null(self::$groupBE)) {
 			return self::$groupBE;
 		}
-		$helper = new Helper();
+		$helper = new Helper(\OC::$server->getConfig());
 		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 		$ldapWrapper = new LDAP();
 		if(count($configPrefixes) === 1) {

@@ -54,7 +54,7 @@ class Group_LDAPTest extends \Test\TestCase {
 		$um = $this->getMockBuilder('\OCA\User_LDAP\User\Manager')
 			->disableOriginalConstructor()
 			->getMock();
-		$helper = new \OCA\User_LDAP\Helper();
+		$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
 		$access = $this->getMock('\OCA\User_LDAP\Access',
 								 $accMethods,
 								 array($connector, $lw, $um, $helper));

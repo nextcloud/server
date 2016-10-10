@@ -55,7 +55,7 @@ class AdminTest extends TestCase {
 	 */
 	public function testGetForm() {
 
-		$helper = new Helper();
+		$helper = new Helper(\OC::$server->getConfig());
 		$prefixes = $helper->getServerConfigurationPrefixes();
 		$hosts = $helper->getServerConfigurationHosts();
 

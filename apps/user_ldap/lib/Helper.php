@@ -30,7 +30,21 @@
 
 namespace OCA\User_LDAP;
 
+use OCP\IConfig;
+
 class Helper {
+
+	/** @var IConfig */
+	private $config;
+
+	/**
+	 * Helper constructor.
+	 *
+	 * @param IConfig $config
+	 */
+	public function __construct(IConfig $config) {
+		$this->config = $config;
+	}
 
 	/**
 	 * returns prefixes for each saved LDAP/AD server configuration.
@@ -251,7 +265,7 @@ class Helper {
 		}
 
 		//ain't it ironic?
-		$helper = new Helper();
+		$helper = new Helper(\OC::$server->getConfig());
 
 		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 		$ldapWrapper = new LDAP();

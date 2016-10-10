@@ -97,7 +97,7 @@ class User_LDAPTest extends TestCase {
 			->method('getDeletedUser')
 			->will($this->returnValue($offlineUser));
 
-		$helper = new Helper();
+		$helper = new Helper(\OC::$server->getConfig());
 
 		$access = $this->getMockBuilder(Access::class)
 			->setMethodsExcept(['getConnection'])
