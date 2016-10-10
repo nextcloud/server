@@ -87,7 +87,7 @@ class Connection extends LDAPUtility {
 		if($memcache->isAvailable()) {
 			$this->cache = $memcache->create();
 		}
-		$helper = new Helper();
+		$helper = new Helper(\OC::$server->getConfig());
 		$this->doNotValidate = !in_array($this->configPrefix,
 			$helper->getServerConfigurationPrefixes());
 		$this->hasPagedResultSupport =

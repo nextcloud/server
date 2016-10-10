@@ -52,7 +52,7 @@ class LDAPProviderFactory implements ILDAPProviderFactory {
 	public function getLDAPProvider() {
 		$dbConnection = $this->serverContainer->getDatabaseConnection();
 		$userMapping = new UserMapping($dbConnection);
-		return new LDAPProvider($this->serverContainer, new Helper(), 
+		return new LDAPProvider($this->serverContainer, new Helper($this->serverContainer->getConfig()),
 					new DeletedUsersIndex($this->serverContainer->getConfig(), 
 					$dbConnection, $userMapping));
 	}

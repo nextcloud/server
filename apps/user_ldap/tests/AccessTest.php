@@ -67,7 +67,7 @@ class AccessTest extends \Test\TestCase {
 				$this->createMock(Image::class),
 				$this->createMock(IDBConnection::class),
 				$this->createMock(IUserManager::class)));
-		$helper = new \OCA\User_LDAP\Helper();
+		$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
 
 		return array($lw, $connector, $um, $helper);
 	}

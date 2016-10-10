@@ -27,7 +27,7 @@
  *
  */
 
-$helper = new \OCA\User_LDAP\Helper();
+$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
 $configPrefixes = $helper->getServerConfigurationPrefixes(true);
 $ldapWrapper = new OCA\User_LDAP\LDAP();
 $ocConfig = \OC::$server->getConfig();

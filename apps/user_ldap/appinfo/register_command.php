@@ -30,7 +30,7 @@ use OCA\User_LDAP\User\DeletedUsersIndex;
 
 $dbConnection = \OC::$server->getDatabaseConnection();
 $userMapping = new UserMapping($dbConnection);
-$helper = new Helper();
+$helper = new Helper(\OC::$server->getConfig());
 $ocConfig = \OC::$server->getConfig();
 $uBackend = new User_Proxy(
 	$helper->getServerConfigurationPrefixes(true),

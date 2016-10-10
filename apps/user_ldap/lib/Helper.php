@@ -30,7 +30,21 @@
 
 namespace OCA\User_LDAP;
 
+use OCP\IConfig;
+
 class Helper {
+
+	/** @var IConfig */
+	private $config;
+
+	/**
+	 * Helper constructor.
+	 *
+	 * @param IConfig $config
+	 */
+	public function __construct(IConfig $config) {
+		$this->config = $config;
+	}
 
 	/**
 	 * returns prefixes for each saved LDAP/AD server configuration.
@@ -55,30 +69,16 @@ class Helper {
 	public function getServerConfigurationPrefixes($activeConfigurations = false) {
 		$referenceConfigkey = 'ldap_configuration_active';
 
-		$sql = '
-			SELECT DISTINCT `configkey`
-			FROM `*PREFIX*appconfig`
-			WHERE `appid` = \'user_ldap\'
-				AND `configkey` LIKE ?
-		';
+		$keys = $this->getServersConfig($referenceConfigkey);
 
-		if($activeConfigurations) {
-			if (\OC::$server->getConfig()->getSystemValue( 'dbtype', 'sqlite' ) === 'oci') {
-				//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
-				$sql .= ' AND to_char(`configvalue`)=\'1\'';
-			} else {
-				$sql .= ' AND `configvalue` = \'1\'';
+		$prefixes = [];
+		foreach ($keys as $key) {
+			if ($activeConfigurations && $this->config->getAppValue('user_ldap', $key, '0') !== '1') {
+				continue;
 			}
-		}
 
-		$stmt = \OCP\DB::prepare($sql);
-
-		$serverConfigs = $stmt->execute(array('%'.$referenceConfigkey))->fetchAll();
-		$prefixes = array();
-
-		foreach($serverConfigs as $serverConfig) {
-			$len = strlen($serverConfig['configkey']) - strlen($referenceConfigkey);
-			$prefixes[] = substr($serverConfig['configkey'], 0, $len);
+			$len = strlen($key) - strlen($referenceConfigkey);
+			$prefixes[] = substr($key, 0, $len);
 		}
 
 		return $prefixes;
@@ -93,20 +93,27 @@ class Helper {
 	public function getServerConfigurationHosts() {
 		$referenceConfigkey = 'ldap_host';
 
-		$query = '
-			SELECT DISTINCT `configkey`, `configvalue`
-			FROM `*PREFIX*appconfig`
-			WHERE `appid` = \'user_ldap\'
-				AND `configkey` LIKE ?
-		';
-		$query = \OCP\DB::prepare($query);
-		$configHosts = $query->execute(array('%'.$referenceConfigkey))->fetchAll();
-		$result = array();
+		$keys = $this->getServersConfig($referenceConfigkey);
 
-		foreach($configHosts as $configHost) {
-			$len = strlen($configHost['configkey']) - strlen($referenceConfigkey);
-			$prefix = substr($configHost['configkey'], 0, $len);
-			$result[$prefix] = $configHost['configvalue'];
+		$result = array();
+		foreach($keys as $key) {
+			$len = strlen($key) - strlen($referenceConfigkey);
+			$prefix = substr($key, 0, $len);
+			$result[$prefix] = $this->config->getAppValue('user_ldap', $key);
+		}
+
+		return $result;
+	}
+
+	private function getServersConfig($value) {
+		$regex = '/' . $value . '$/S';
+
+		$keys = $this->config->getAppKeys('user_ldap');
+		$result = [];
+		foreach ($keys as $key) {
+			if (preg_match($regex, $key) === 1) {
+				$result[] = $key;
+			}
 		}
 
 		return $result;
@@ -262,7 +269,7 @@ class Helper {
 		}
 
 		//ain't it ironic?
-		$helper = new Helper();
+		$helper = new Helper(\OC::$server->getConfig());
 
 		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 		$ldapWrapper = new LDAP();

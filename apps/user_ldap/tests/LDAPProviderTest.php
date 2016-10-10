@@ -121,7 +121,7 @@ class LDAPProviderTest extends \Test\TestCase {
 		
 		$server = $this->getServerMock($backend);
 		
-		$helper = new \OCA\User_LDAP\Helper();
+		$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
 			
 		$ldapProvider = $this->getLDAPProvider($server);
 		$this->assertEquals(
@@ -137,7 +137,7 @@ class LDAPProviderTest extends \Test\TestCase {
 		
 		$server = $this->getServerMock($backend);
 		
-		$helper = new \OCA\User_LDAP\Helper();
+		$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
 			
 		$ldapProvider = $this->getLDAPProvider($server);
 		$this->assertEquals(
