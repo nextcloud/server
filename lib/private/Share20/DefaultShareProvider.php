@@ -543,7 +543,7 @@ class DefaultShareProvider implements IShareProvider {
 
 		// If the recipient is set for a group share resolve to that user
 		if ($recipientId !== null && $share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
-			$share = $this->resolveGroupShare($share, $recipientId);
+			$share = $this->resolveGroupShares([$share], $recipientId)[0];
 		}
 
 		return $share;
@@ -709,11 +709,8 @@ class DefaultShareProvider implements IShareProvider {
 
 			/*
  			 * Resolve all group shares to user specific shares
- 			 * TODO: Optmize this!
  			 */
-			foreach($shares2 as $share) {
-				$shares[] = $this->resolveGroupShare($share, $userId);
-			}
+			$shares = $this->resolveGroupShares($shares2, $userId);
 		} else {
 			throw new BackendError('Invalid backend');
 		}
@@ -802,37 +799,59 @@ class DefaultShareProvider implements IShareProvider {
 	}
 
 	/**
-	 * Resolve a group share to a user specific share
-	 * Thus if the user moved their group share make sure this is properly reflected here.
-	 *
-	 * @param \OCP\Share\IShare $share
-	 * @param string $userId
-	 * @return Share Returns the updated share if one was found else return the original share.
+	 * @param Share[] $shares
+	 * @param $userId
+	 * @return Share[] The updates shares if no update is found for a share return the original
 	 */
-	private function resolveGroupShare(\OCP\Share\IShare $share, $userId) {
-		$qb = $this->dbConn->getQueryBuilder();
+	private function resolveGroupShares($shares, $userId) {
+		$result = [];
 
-		$stmt = $qb->select('*')
-			->from('share')
-			->where($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())))
-			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(self::SHARE_TYPE_USERGROUP)))
-			->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)))
-			->andWhere($qb->expr()->orX(
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-			))
-			->setMaxResults(1)
-			->execute();
+		$start = 0;
+		while(true) {
+			/** @var Share[] $shareSlice */
+			$shareSlice = array_slice($shares, $start, 100);
+			$start += 100;
 
-		$data = $stmt->fetch();
-		$stmt->closeCursor();
+			if ($shareSlice === []) {
+				break;
+			}
 
-		if ($data !== false) {
-			$share->setPermissions((int)$data['permissions']);
-			$share->setTarget($data['file_target']);
+			/** @var int[] $ids */
+			$ids = [];
+			/** @var Share[] $shareMap */
+			$shareMap = [];
+
+			foreach ($shareSlice as $share) {
+				$ids[] = (int)$share->getId();
+				$shareMap[$share->getId()] = $share;
+			}
+
+			$qb = $this->dbConn->getQueryBuilder();
+
+			$query = $qb->select('*')
+				->from('share')
+				->where($qb->expr()->in('parent', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)))
+				->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)))
+				->andWhere($qb->expr()->orX(
+					$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
+					$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
+				));
+
+			$stmt = $query->execute();
+
+			while($data = $stmt->fetch()) {
+				$shareMap[$data['parent']]->setPermissions((int)$data['permissions']);
+				$shareMap[$data['parent']]->setTarget($data['file_target']);
+			}
+
+			$stmt->closeCursor();
+
+			foreach ($shareMap as $share) {
+				$result[] = $share;
+			}
 		}
 
-		return $share;
+		return $result;
 	}
 
 	/**
