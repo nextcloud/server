@@ -32,7 +32,7 @@ interface INotification {
 	/**
 	 * @param string $app
 	 * @return $this
-	 * @throws \InvalidArgumentException if the app id are invalid
+	 * @throws \InvalidArgumentException if the app id is invalid
 	 * @since 9.0.0
 	 */
 	public function setApp($app);
@@ -46,7 +46,7 @@ interface INotification {
 	/**
 	 * @param string $user
 	 * @return $this
-	 * @throws \InvalidArgumentException if the user id are invalid
+	 * @throws \InvalidArgumentException if the user id is invalid
 	 * @since 9.0.0
 	 */
 	public function setUser($user);
@@ -116,7 +116,7 @@ interface INotification {
 	/**
 	 * @param string $subject
 	 * @return $this
-	 * @throws \InvalidArgumentException if the subject are invalid
+	 * @throws \InvalidArgumentException if the subject is invalid
 	 * @since 9.0.0
 	 */
 	public function setParsedSubject($subject);
@@ -151,7 +151,7 @@ interface INotification {
 	/**
 	 * @param string $message
 	 * @return $this
-	 * @throws \InvalidArgumentException if the message are invalid
+	 * @throws \InvalidArgumentException if the message is invalid
 	 * @since 9.0.0
 	 */
 	public function setParsedMessage($message);
@@ -165,7 +165,7 @@ interface INotification {
 	/**
 	 * @param string $link
 	 * @return $this
-	 * @throws \InvalidArgumentException if the link are invalid
+	 * @throws \InvalidArgumentException if the link is invalid
 	 * @since 9.0.0
 	 */
 	public function setLink($link);
@@ -177,6 +177,20 @@ interface INotification {
 	public function getLink();
 
 	/**
+	 * @param string $icon
+	 * @return $this
+	 * @throws \InvalidArgumentException if the icon is invalid
+	 * @since 9.2.0
+	 */
+	public function setIcon($icon);
+
+	/**
+	 * @return string
+	 * @since 9.2.0
+	 */
+	public function getIcon();
+
+	/**
 	 * @return IAction
 	 * @since 9.0.0
 	 */
@@ -185,7 +199,7 @@ interface INotification {
 	/**
 	 * @param IAction $action
 	 * @return $this
-	 * @throws \InvalidArgumentException if the action are invalid
+	 * @throws \InvalidArgumentException if the action is invalid
 	 * @since 9.0.0
 	 */
 	public function addAction(IAction $action);
@@ -199,7 +213,7 @@ interface INotification {
 	/**
 	 * @param IAction $action
 	 * @return $this
-	 * @throws \InvalidArgumentException if the action are invalid
+	 * @throws \InvalidArgumentException if the action is invalid
 	 * @since 9.0.0
 	 */
 	public function addParsedAction(IAction $action);
