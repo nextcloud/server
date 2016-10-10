@@ -96,11 +96,12 @@ class Owncloud {
 		$time = $time->format($format);
 		$url = ($request->getRequestUri() !== '') ? $request->getRequestUri() : '--';
 		$method = is_string($request->getMethod()) ? $request->getMethod() : '--';
-		if(\OC::$server->getConfig()->getSystemValue('installed', false)) {
+		if($config->getValue('installed', false)) {
 			$user = (\OC_User::getUser()) ? \OC_User::getUser() : '--';
 		} else {
 			$user = '--';
 		}
+		$version = $config->getValue('version', '');
 		$entry = compact(
 			'reqId',
 			'remoteAddr',
@@ -110,7 +111,8 @@ class Owncloud {
 			'time',
 			'method',
 			'url',
-			'user'
+			'user',
+			'version'
 		);
 		$entry = json_encode($entry);
 		$handle = @fopen(self::$logFile, 'a');
