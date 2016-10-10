@@ -35,6 +35,7 @@ use Icewind\SMB\Exception\ConnectException;
 use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\ForbiddenException;
 use Icewind\SMB\Exception\NotFoundException;
+use Icewind\SMB\IFileInfo;
 use Icewind\SMB\IShare;
 use Icewind\SMB\NativeServer;
 use Icewind\SMB\Server;
@@ -146,7 +147,9 @@ class SMB extends Common implements INotifyStorage {
 			foreach ($files as $file) {
 				$this->statCache[$path . '/' . $file->getName()] = $file;
 			}
-			return $files;
+			return array_filter($files, function(IFileInfo $file) {
+				return !$file->isHidden();
+			});
 		} catch (ConnectException $e) {
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
@@ -168,7 +171,46 @@ class SMB extends Common implements INotifyStorage {
 	 * @return array
 	 */
 	public function stat($path) {
-		return $this->formatInfo($this->getFileInfo($path));
+		$result = $this->formatInfo($this->getFileInfo($path));
+		if ($this->remoteIsShare() && $this->isRootDir($path)) {
+			$result['mtime'] = $this->shareMTime();
+		}
+		return $result;
+	}
+
+	/**
+	 * get the best guess for the modification time of the share
+	 *
+	 * @return int
+	 */
+	private function shareMTime() {
+		$highestMTime = 0;
+		$files = $this->share->dir($this->root);
+		foreach ($files as $fileInfo) {
+			if ($fileInfo->getMTime() > $highestMTime) {
+				$highestMTime = $fileInfo->getMTime();
+			}
+		}
+		return $highestMTime;
+	}
+
+	/**
+	 * Check if the path is our root dir (not the smb one)
+	 *
+	 * @param string $path the path
+	 * @return bool
+	 */
+	private function isRootDir($path) {
+		return $path === '' || $path === '/' || $path === '.';
+	}
+
+	/**
+	 * Check if our root points to a smb share
+	 *
+	 * @return bool true if our root points to a share false otherwise
+	 */
+	private function remoteIsShare() {
+		return $this->share->getName() && (!$this->root || $this->root === '/');
 	}
 
 	/**
