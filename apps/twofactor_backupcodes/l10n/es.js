@@ -11,6 +11,7 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "Ha ocurrido un error mientras se generaban los códigos de respaldo.",
     "Nextcloud backup codes" : "Códigos de respaldo de Nextcloud",
     "Backup code" : "Código de respaldo",
-    "Use backup code" : "Usar código de respaldo"
+    "Use backup code" : "Usar código de respaldo",
+    "Second-factor backup codes" : "Codigo de copia de seguridad de segundo-factor"
 },
 "nplurals=2; plural=(n != 1);");
