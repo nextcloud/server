@@ -25,11 +25,7 @@
 (function() {
 	'use strict';
 
-	var TEMPLATE = '{{#if isShared}}'
-		+ 'Shared!'
-		+ '{{else}}'
-		+ 'Not shared!'
-		+ '{{/if}}';
+	var TEMPLATE = '<span class="icon icon-share {{#if isShared}}shared{{/if}}"></span>';
 
 	var BreadCrumbView = OC.Backbone.View.extend({
 		tagName: 'span',
