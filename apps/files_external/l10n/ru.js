@@ -25,7 +25,7 @@ OC.L10N.register(
     "Save" : "Сохранить",
     "Empty response from the server" : "Пустой ответ от сервера",
     "Couldn't access. Please logout and login to activate this mount point" : "Не удалось получить доступ. Пожалуйста, выйти и войдите чтобы активировать эту точку монтирования",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Не удалось получить информацию от сервера OwnCloud: {code} {type}",
+    "Couldn't get the information from the ownCloud server: {code} {type}" : "Не удалось получить информацию от сервера Nextcloud: {code} {type}",
     "Couldn't get the list of external mount points: {type}" : "Не удалось получить список внешних точек монтирования: {type}",
     "There was an error with message: " : "Обнаружена ошибка с сообщением:",
     "External mount error" : "Ошибка внешнего монтирования",
