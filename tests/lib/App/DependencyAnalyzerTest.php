@@ -9,7 +9,7 @@
 
 namespace Test\App;
 
-use OC;
+use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
 use OCP\IL10N;
 use Test\TestCase;
@@ -22,11 +22,11 @@ class DependencyAnalyzerTest extends TestCase {
 	/** @var IL10N */
 	private $l10nMock;
 
-	/** @var \OC\App\DependencyAnalyzer */
+	/** @var DependencyAnalyzer */
 	private $analyser;
 
 	public function setUp() {
-		$this->platformMock = $this->getMockBuilder('\OC\App\Platform')
+		$this->platformMock = $this->getMockBuilder(Platform::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->platformMock->expects($this->any())
@@ -67,7 +67,7 @@ class DependencyAnalyzerTest extends TestCase {
 				return vsprintf($text, $parameters);
 			}));
 
-		$this->analyser = new \OC\App\DependencyAnalyzer($this->platformMock, $this->l10nMock);
+		$this->analyser = new DependencyAnalyzer($this->platformMock, $this->l10nMock);
 	}
 
 	/**
@@ -101,6 +101,8 @@ class DependencyAnalyzerTest extends TestCase {
 
 	/**
 	 * @dataProvider providesDatabases
+	 * @param $expectedMissing
+	 * @param $databases
 	 */
 	public function testDatabases($expectedMissing, $databases) {
 		$app = array(
@@ -247,6 +249,8 @@ class DependencyAnalyzerTest extends TestCase {
 				array(array('@attributes' => array('min-version' => '2.3', 'max-version' => '2.3'), '@value' => 'curl'))),
 			array(array(),
 				array(array('@attributes' => array('min-version' => '2', 'max-version' => '2'), '@value' => 'curl'))),
+			array(array(),
+				array('@attributes' => array('min-version' => '2', 'max-version' => '2'), '@value' => 'curl')),
 		);
 	}
 
