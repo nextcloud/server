@@ -9,6 +9,8 @@
 
 namespace Test\User;
 
+use OC\Authentication\Token\DefaultTokenMapper;
+use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Security\Bruteforce\Throttler;
@@ -18,10 +20,12 @@ use OC\User\Session;
 use OC\User\User;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 
 /**
@@ -167,16 +171,16 @@ class SessionTest extends \Test\TestCase {
 		$session->expects($this->exactly(2))
 			->method('set')
 			->with($this->callback(function ($key) {
-					switch ($key) {
-						case 'user_id':
-						case 'loginname':
-							return true;
-							break;
-						default:
-							return false;
-							break;
-					}
-				}, 'foo'));
+				switch ($key) {
+					case 'user_id':
+					case 'loginname':
+						return true;
+						break;
+					default:
+						return false;
+						break;
+				}
+			}, 'foo'));
 
 		$managerMethods = get_class_methods('\OC\User\Manager');
 		//keep following methods intact in order to ensure hooks are
@@ -490,13 +494,13 @@ class SessionTest extends \Test\TestCase {
 		$session->expects($this->exactly(1))
 			->method('set')
 			->with($this->callback(function ($key) {
-					switch ($key) {
-						case 'user_id':
-							return true;
-						default:
-							return false;
-					}
-				}, 'foo'));
+				switch ($key) {
+					case 'user_id':
+						return true;
+					default:
+						return false;
+				}
+			}, 'foo'));
 		$session->expects($this->once())
 			->method('regenerateId');
 
@@ -643,8 +647,8 @@ class SessionTest extends \Test\TestCase {
 		$manager->expects($this->any())
 			->method('get')
 			->will($this->returnCallback(function ($uid) use ($users) {
-					return $users[$uid];
-				}));
+				return $users[$uid];
+			}));
 
 		$session = new Memory('');
 		$session->set('user_id', 'foo');
@@ -699,7 +703,7 @@ class SessionTest extends \Test\TestCase {
 			->method('getToken')
 			->with($password)
 			->will($this->throwException(new \OC\Authentication\Exceptions\InvalidTokenException()));
-		
+
 		$this->tokenProvider->expects($this->once())
 			->method('generateToken')
 			->with($sessionId, $uid, $loginName, $password, 'Firefox');
@@ -748,7 +752,7 @@ class SessionTest extends \Test\TestCase {
 			->method('getPassword')
 			->with($token, $password)
 			->will($this->returnValue($realPassword));
-		
+
 		$this->tokenProvider->expects($this->once())
 			->method('generateToken')
 			->with($sessionId, $uid, $loginName, $realPassword, 'Firefox');
@@ -772,7 +776,7 @@ class SessionTest extends \Test\TestCase {
 			->method('get')
 			->with($uid)
 			->will($this->returnValue(null));
-		
+
 		$this->assertFalse($userSession->createSessionToken($request, $uid, $loginName, $password));
 	}
 
@@ -904,7 +908,7 @@ class SessionTest extends \Test\TestCase {
 		$userSession = new \OC\User\Session($userManager, $session, $timeFactory, $tokenProvider, $this->config);
 
 		$password = '123456';
-		$sessionId ='session1234';
+		$sessionId = 'session1234';
 		$token = new \OC\Authentication\Token\DefaultToken();
 
 		$session->expects($this->once())
@@ -943,7 +947,7 @@ class SessionTest extends \Test\TestCase {
 		$userSession = new \OC\User\Session($userManager, $session, $timeFactory, $tokenProvider, $this->config);
 
 		$password = '123456';
-		$sessionId ='session1234';
+		$sessionId = 'session1234';
 		$token = new \OC\Authentication\Token\DefaultToken();
 
 		$session->expects($this->once())
@@ -961,4 +965,104 @@ class SessionTest extends \Test\TestCase {
 		$userSession->updateSessionTokenPassword($password);
 	}
 
+	public function testUpdateAuthTokenLastCheck() {
+		$manager = $this->getMockBuilder('\OC\User\Manager')
+			->disableOriginalConstructor()
+			->getMock();
+		$session = $this->createMock(ISession::class);
+		$request = $this->createMock(IRequest::class);
+
+		$token = new \OC\Authentication\Token\DefaultToken();
+		$token->setUid('john');
+		$token->setLoginName('john');
+		$token->setLastActivity(100);
+		$token->setLastCheck(100);
+
+		$mapper = $this->getMockBuilder(DefaultTokenMapper::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$crypto = $this->getMock(ICrypto::class);
+		$logger = $this->getMock(ILogger::class);
+		$tokenProvider = new DefaultTokenProvider($mapper, $crypto, $this->config, $logger, $this->timeFactory);
+
+		/** @var \OC\User\Session $userSession */
+		$userSession = new Session($manager, $session, $this->timeFactory, $tokenProvider, $this->config);
+
+		$mapper->expects($this->any())
+			->method('getToken')
+			->will($this->returnValue($token));
+		$mapper->expects($this->once())
+			->method('update');
+		$request
+			->expects($this->any())
+			->method('getRemoteAddress')
+			->willReturn('192.168.0.1');
+		$this->throttler
+			->expects($this->once())
+			->method('sleepDelay')
+			->with('192.168.0.1');
+		$this->throttler
+			->expects($this->any())
+			->method('getDelay')
+			->with('192.168.0.1')
+			->willReturn(0);
+		$this->timeFactory
+			->expects($this->any())
+			->method('getTime')
+			->will($this->returnValue(100));
+
+		$userSession->logClientIn('john', 'doe', $request, $this->throttler);
+
+		$this->assertEquals(10000, $token->getLastActivity());
+		$this->assertEquals(10000, $token->getLastCheck());
+	}
+
+	public function testNoUpdateAuthTokenLastCheckRecent() {
+		$manager = $this->getMockBuilder('\OC\User\Manager')
+			->disableOriginalConstructor()
+			->getMock();
+		$session = $this->createMock(ISession::class);
+		$request = $this->createMock(IRequest::class);
+
+		$token = new \OC\Authentication\Token\DefaultToken();
+		$token->setUid('john');
+		$token->setLoginName('john');
+		$token->setLastActivity(10000);
+		$token->setLastCheck(100);
+
+		$mapper = $this->getMockBuilder(DefaultTokenMapper::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$crypto = $this->getMock(ICrypto::class);
+		$logger = $this->getMock(ILogger::class);
+		$tokenProvider = new DefaultTokenProvider($mapper, $crypto, $this->config, $logger, $this->timeFactory);
+
+		/** @var \OC\User\Session $userSession */
+		$userSession = new Session($manager, $session, $this->timeFactory, $tokenProvider, $this->config);
+
+		$mapper->expects($this->any())
+			->method('getToken')
+			->will($this->returnValue($token));
+		$mapper->expects($this->never())
+			->method('update');
+		$request
+			->expects($this->any())
+			->method('getRemoteAddress')
+			->willReturn('192.168.0.1');
+		$this->throttler
+			->expects($this->once())
+			->method('sleepDelay')
+			->with('192.168.0.1');
+		$this->throttler
+			->expects($this->any())
+			->method('getDelay')
+			->with('192.168.0.1')
+			->willReturn(0);
+		$this->timeFactory
+			->expects($this->any())
+			->method('getTime')
+			->will($this->returnValue(100));
+
+		$userSession->logClientIn('john', 'doe', $request, $this->throttler);
+	}
 }
