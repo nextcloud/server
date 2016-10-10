@@ -763,7 +763,7 @@
 						 * FIXME: Find a way to display properly
 						 */
 						if (share.uid_owner !== OC.currentUser) {
-							return share;
+							return;
 						}
 
 						var link = window.location.protocol + '//' + window.location.host;

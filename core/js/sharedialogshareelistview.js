@@ -81,7 +81,20 @@
 					'</span>' +
 				'</li>' +
 			'{{/each}}' +
-			'</ul>';
+			'{{#each linkReshares}}' +
+				'<li data-share-id="{{shareId}}" data-share-type="{{shareType}}">' +
+					'{{#if avatarEnabled}}' +
+					'<div class="avatar" data-username="{{shareInitiator}}"></div>' +
+					'{{/if}}' +
+					'<span class="has-tooltip username" title="{{shareInitiator}}">' + t('core', '{{shareInitiatorDisplayName}} shared via link') + '</span>' +
+
+					'<span class="sharingOptionsGroup">' +
+						'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span class="hidden-visually">{{unshareLabel}}</span></a>' +
+					'</span>' +
+				'</li>' +
+			'{{/each}}' +
+			'</ul>'
+		;
 
 	/**
 	 * @class OCA.Share.ShareDialogShareeListView
@@ -192,9 +205,43 @@
 			var shares = this.model.get('shares');
 			var list = [];
 			for(var index = 0; index < shares.length; index++) {
+				var share = this.getShareeObject(index);
+
+				if (share.shareType === OC.Share.SHARE_TYPE_LINK) {
+					continue;
+				}
 				// first empty {} is necessary, otherwise we get in trouble
 				// with references
-				list.push(_.extend({}, universal, this.getShareeObject(index)));
+				list.push(_.extend({}, universal, share));
+			}
+
+			return list;
+		},
+
+		getLinkReshares: function() {
+			var universal = {
+				unshareLabel: t('core', 'Unshare'),
+				avatarEnabled: this.configModel.areAvatarsEnabled(),
+			};
+
+			if(!this.model.hasUserShares()) {
+				return [];
+			}
+
+			var shares = this.model.get('shares');
+			var list = [];
+			for(var index = 0; index < shares.length; index++) {
+				var share = this.getShareeObject(index);
+
+				if (share.shareType !== OC.Share.SHARE_TYPE_LINK) {
+					continue;
+				}
+				// first empty {} is necessary, otherwise we get in trouble
+				// with references
+				list.push(_.extend({}, universal, share, {
+					shareInitiator: shares[index].uid_owner,
+					shareInitiatorDisplayName: shares[index].displayname_owner
+				}));
 			}
 
 			return list;
@@ -203,7 +250,8 @@
 		render: function() {
 			this.$el.html(this.template({
 				cid: this.cid,
-				sharees: this.getShareeList()
+				sharees: this.getShareeList(),
+				linkReshares: this.getLinkReshares()
 			}));
 
 			if(this.configModel.areAvatarsEnabled()) {
