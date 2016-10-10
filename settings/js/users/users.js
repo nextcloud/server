@@ -393,7 +393,7 @@ var UserList = {
 					if(UserList.has(user.name)) {
 						return true;
 					}
-					var $tr = UserList.add(user, user.lastLogin, false, user.backend);
+					var $tr = UserList.add(user, false);
 					trs.push($tr);
 					loadedUsers++;
 				});
