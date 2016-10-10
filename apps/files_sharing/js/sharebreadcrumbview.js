@@ -41,7 +41,7 @@
 			return this._template(data);
 		},
 		render: function(data) {
-			this._dirInfo = data.dirInfo;
+			this._dirInfo = data.dirInfo || null;
 
 			if (this._dirInfo !== null && (this._dirInfo.path !== '/' || this._dirInfo.name !== '')) {
 				var isShared = data.dirInfo && data.dirInfo.shareTypes && data.dirInfo.shareTypes.length > 0;
@@ -60,7 +60,15 @@
 		_onClick: function(e) {
 			e.preventDefault();
 
-			OCA.Files.App.fileList.showDetailsView(this._dirInfo, 'shareTabView');
+			var fileInfoModel = new OCA.Files.FileInfoModel(this._dirInfo);
+			var self = this;
+			fileInfoModel.on('change', function() {
+				console.log('CHANGE');
+				self.render({
+					dirInfo: self._dirInfo
+				});
+			});
+			OCA.Files.App.fileList.showDetailsView(fileInfoModel, 'shareTabView');
 		}
 	});
 
