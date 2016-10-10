@@ -88,8 +88,8 @@ class TwoFactorChallengeControllerTest extends TestCase {
 	}
 
 	public function testSelectChallengeSingleEntry() {
-		$provider = $this->createMock('\OCP\Authentication\TwoFactorAuth\IProvider');
-		$user = $this->createMock('\OCP\IUser');
+		$provider = $this->getMock('\OCP\Authentication\TwoFactorAuth\IProvider');
+		$user = $this->getMock('\OCP\IUser');
 		$providers = [$provider];
 
 		$this->userSession->expects($this->once())
