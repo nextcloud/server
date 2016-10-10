@@ -26,7 +26,7 @@ class DependencyAnalyzerTest extends TestCase {
 	private $analyser;
 
 	public function setUp() {
-		$this->platformMock = $this->getMockBuilder(Platform::class)
+		$this->platformMock = $this->getMockBuilder('\OC\App\Platform')
 			->disableOriginalConstructor()
 			->getMock();
 		$this->platformMock->expects($this->any())
