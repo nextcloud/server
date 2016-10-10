@@ -265,7 +265,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 */
 	public function getById($id) {
 		$mountCache = $this->root->getUserMountCache();
-		$mountsContainingFile = $mountCache->getMountsForFileId($id);
+		$mountsContainingFile = $mountCache->getMountsForFileId((int)$id);
 		$mounts = $this->root->getMountsIn($this->path);
 		$mounts[] = $this->root->getMount($this->path);
 		/** @var IMountPoint[] $folderMounts */
@@ -285,7 +285,10 @@ class Folder extends Node implements \OCP\Files\Folder {
 		// we only need to get the cache info once, since all mounts we found point to the same storage
 
 		$mount = $folderMounts[$mountsContainingFile[0]->getMountPoint()];
-		$cacheEntry = $mount->getStorage()->getCache()->get($id);
+		$cacheEntry = $mount->getStorage()->getCache()->get((int)$id);
+		if (!$cacheEntry) {
+			return [];
+		}
 		// cache jails will hide the "true" internal path
 		$internalPath = ltrim($mountsContainingFile[0]->getRootInternalPath() . '/' . $cacheEntry->getPath(), '/');
 
