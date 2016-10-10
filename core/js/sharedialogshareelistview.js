@@ -82,7 +82,7 @@
 				'</li>' +
 			'{{/each}}' +
 			'{{#each linkReshares}}' +
-				'<span data-share-id="{{shareId}}" data-share-type="{{shareType}}">' +
+				'<li data-share-id="{{shareId}}" data-share-type="{{shareType}}">' +
 					'{{#if avatarEnabled}}' +
 					'<div class="avatar" data-username="{{shareInitiator}}"></div>' +
 					'{{/if}}' +
