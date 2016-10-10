@@ -69,19 +69,16 @@ class Helper {
 	public function getServerConfigurationPrefixes($activeConfigurations = false) {
 		$referenceConfigkey = 'ldap_configuration_active';
 
-		$config = \OC::$server->getConfig();
+		$keys = $this->getServersConfig($referenceConfigkey);
 
-		$keys = $config->getAppKeys('user_ldap');
 		$prefixes = [];
 		foreach ($keys as $key) {
-			if (preg_match('/ldap_configuration_active$/S', $key) === 1) {
-				if ($activeConfigurations && $config->getAppValue('user_ldap', $key, '0') !== '1') {
-					continue;
-				}
-
-				$len = strlen($key) - strlen($referenceConfigkey);
-				$prefixes[] = substr($key, 0, $len);
+			if ($activeConfigurations && $this->config->getAppValue('user_ldap', $key, '0') !== '1') {
+				continue;
 			}
+
+			$len = strlen($key) - strlen($referenceConfigkey);
+			$prefixes[] = substr($key, 0, $len);
 		}
 
 		return $prefixes;
@@ -96,20 +93,27 @@ class Helper {
 	public function getServerConfigurationHosts() {
 		$referenceConfigkey = 'ldap_host';
 
-		$query = '
-			SELECT DISTINCT `configkey`, `configvalue`
-			FROM `*PREFIX*appconfig`
-			WHERE `appid` = \'user_ldap\'
-				AND `configkey` LIKE ?
-		';
-		$query = \OCP\DB::prepare($query);
-		$configHosts = $query->execute(array('%'.$referenceConfigkey))->fetchAll();
-		$result = array();
+		$keys = $this->getServersConfig($referenceConfigkey);
 
-		foreach($configHosts as $configHost) {
-			$len = strlen($configHost['configkey']) - strlen($referenceConfigkey);
-			$prefix = substr($configHost['configkey'], 0, $len);
-			$result[$prefix] = $configHost['configvalue'];
+		$result = array();
+		foreach($keys as $key) {
+			$len = strlen($key) - strlen($referenceConfigkey);
+			$prefix = substr($key, 0, $len);
+			$result[$prefix] = $this->config->getAppValue('user_ldap', $key);
+		}
+
+		return $result;
+	}
+
+	private function getServersConfig($value) {
+		$regex = '/' . $value . '$/S';
+
+		$keys = $this->config->getAppKeys('user_ldap');
+		$result = [];
+		foreach ($keys as $key) {
+			if (preg_match($regex, $key) === 1) {
+				$result[] = $key;
+			}
 		}
 
 		return $result;
