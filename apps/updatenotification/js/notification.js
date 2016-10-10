@@ -14,11 +14,8 @@
  * this gets only loaded if an update is available and then shows a temporary notification
  */
 $(document).ready(function(){
-	var head = $('html > head'),
-		version = oc_updateState.updateVersion,
-		docLink = oc_updateState.updateLink,
-		text = t('core', '{version} is available. Get more information on how to update.', {version: version}),
-		element = $('<a href="'+escapeHTML(docLink)+'" target="_blank">'+escapeHTML(text)+'</a>');
+	var text = t('core', '{version} is available. Get more information on how to update.', {version: oc_updateState.updateVersion}),
+		element = $('<a>').attr('href', oc_updateState.updateLink).attr('target','_blank').text(text);
 
 	OC.Notification.showTemporary(
 		element,
