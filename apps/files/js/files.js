@@ -360,7 +360,7 @@ var createDragShadow = function(event) {
 		tbody.append(newtr);
 		if (elem.type === 'dir') {
 			newtr.find('td.filename')
-				.css('background-image', 'url(' + OC.imagePath('core', 'filetypes/folder.png') + ')');
+				.css('background-image', 'url(' + OC.imagePath('core', 'filetypes/folder.svg') + ')');
 		} else {
 			var path = dir + '/' + elem.name;
 			Files.lazyLoadPreview(path, elem.mimetype, function(previewpath) {
