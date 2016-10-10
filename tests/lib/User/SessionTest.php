@@ -373,6 +373,32 @@ class SessionTest extends \Test\TestCase {
 		$userSession->logClientIn('john', 'doe', $request);
 	}
 
+	public function testLogClientInUnexist() {
+		$manager = $this->getMockBuilder('\OC\User\Manager')
+			->disableOriginalConstructor()
+			->getMock();
+		$session = $this->getMock('\OCP\ISession');
+		$request = $this->getMock('\OCP\IRequest');
+		$user = $this->getMock('\OCP\IUser');
+
+		/** @var \OC\User\Session $userSession */
+		$userSession = $this->getMockBuilder('\OC\User\Session')
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config])
+			->setMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
+			->getMock();
+
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('doe')
+			->will($this->throwException(new \OC\Authentication\Exceptions\InvalidTokenException()));
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('token_auth_enforced', false)
+			->will($this->returnValue(false));
+
+		$this->assertFalse($userSession->logClientIn('unexist', 'doe', $request));
+	}
+
 	public function testLogClientInWithTokenPassword() {
 		$manager = $this->getMockBuilder('\OC\User\Manager')
 			->disableOriginalConstructor()
