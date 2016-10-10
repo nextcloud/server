@@ -3,6 +3,7 @@
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -20,7 +21,6 @@
  */
 namespace Test\Share20;
 
-use OC\Authentication\Token\DefaultTokenMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -485,7 +485,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share->method('getId')->willReturn($id);
 		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_GROUP);
 
-		/** @var DefaultTokenMapper $provider */
+		/** @var DefaultShareProvider $provider */
 		$provider = $this->getMockBuilder(DefaultShareProvider::class)
 			->setConstructorArgs([
 				$this->dbConn,
