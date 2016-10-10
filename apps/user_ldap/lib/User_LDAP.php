@@ -36,6 +36,7 @@
 namespace OCA\User_LDAP;
 
 use OC\User\NoUserException;
+use OCA\User_LDAP\Exceptions\NotOnLDAP;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
@@ -80,14 +81,26 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * @return string|false
 	 */
 	public function loginName2UserName($loginName) {
+		$cacheKey = 'loginName2UserName-'.$loginName;
+		$username = $this->access->connection->getFromCache($cacheKey);
+		if(!is_null($username)) {
+			return $username;
+		}
+
 		try {
 			$ldapRecord = $this->getLDAPUserByLoginName($loginName);
 			$user = $this->access->userManager->get($ldapRecord['dn'][0]);
 			if($user instanceof OfflineUser) {
+				// this path is not really possible, however get() is documented
+				// to return User or OfflineUser so we are very defensive here.
+				$this->access->connection->writeToCache($cacheKey, false);
 				return false;
 			}
-			return $user->getUsername();
-		} catch (\Exception $e) {
+			$username = $user->getUsername();
+			$this->access->connection->writeToCache($cacheKey, $username);
+			return $username;
+		} catch (NotOnLDAP $e) {
+			$this->access->connection->writeToCache($cacheKey, false);
 			return false;
 		}
 	}
@@ -107,14 +120,14 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 *
 	 * @param string $loginName
 	 * @return array
-	 * @throws \Exception
+	 * @throws NotOnLDAP
 	 */
 	public function getLDAPUserByLoginName($loginName) {
 		//find out dn of the user name
 		$attrs = $this->access->userManager->getAttributes();
 		$users = $this->access->fetchUsersByLoginName($loginName, $attrs);
 		if(count($users) < 1) {
-			throw new \Exception('No user available for the given login name on ' .
+			throw new NotOnLDAP('No user available for the given login name on ' .
 				$this->access->connection->ldapHost . ':' . $this->access->connection->ldapPort);
 		}
 		return $users[0];
