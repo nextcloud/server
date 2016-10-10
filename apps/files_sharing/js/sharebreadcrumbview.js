@@ -43,12 +43,17 @@
 		render: function(data) {
 			this._dirInfo = data.dirInfo;
 
-			var isShared = data.dirInfo && data.dirInfo.shareTypes && data.dirInfo.shareTypes.length > 0;
-
-			this.$el.html(this.template({
-				isShared: isShared
-			}));
-			this.delegateEvents();
+			if (this._dirInfo !== null && (this._dirInfo.path !== '/' || this._dirInfo.name !== '')) {
+				var isShared = data.dirInfo && data.dirInfo.shareTypes && data.dirInfo.shareTypes.length > 0;
+				this.$el.html(this.template({
+					isShared: isShared
+				}));
+				this.$el.show();
+				this.delegateEvents();
+			} else {
+				this.$el.empty();
+				this.$el.hide();
+			}
 
 			return this;
 		},
