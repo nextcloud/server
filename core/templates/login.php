@@ -43,7 +43,7 @@ script('core', [
 				placeholder="<?php p($l->t('Username or email')); ?>"
 				value="<?php p($_['loginName']); ?>"
 				<?php p($_['user_autofocus'] ? 'autofocus' : ''); ?>
-				autocomplete="on" autocapitalize="off" autocorrect="off" required tabindex="1">
+				autocomplete="on" autocapitalize="off" autocorrect="off" required>
 			<label for="user" class="infield"><?php p($l->t('Username or email')); ?></label>
 		</p>
 
@@ -51,7 +51,7 @@ script('core', [
 			<input type="password" name="password" id="password" value=""
 				placeholder="<?php p($l->t('Password')); ?>"
 				<?php p($_['user_autofocus'] ? '' : 'autofocus'); ?>
-				autocomplete="on" autocapitalize="off" autocorrect="off" required tabindex="2">
+				autocomplete="on" autocapitalize="off" autocorrect="off" required>
 			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
 		</p>
 
@@ -65,18 +65,26 @@ script('core', [
 			</p>
 		<?php } ?>
 
-		<input type="submit" id="submit" class="login primary icon-confirm-white" title="" value="<?php p($l->t('Log in')); ?>" disabled="disabled" tabindex="4" />
+		<input type="submit" id="submit" class="login primary icon-confirm-white" title="" value="<?php p($l->t('Log in')); ?>" disabled="disabled" />
 
-		<?php if ($_['rememberLoginAllowed'] === true) : ?>
-		<div class="remember-login-container">
-			<?php if ($_['rememberLoginState'] === 0) { ?>
-			<input type="checkbox" name="remember_login" value="1" id="remember_login" class="checkbox checkbox--white" tabindex="3">
-			<?php } else { ?>
-			<input type="checkbox" name="remember_login" value="1" id="remember_login" class="checkbox checkbox--white" checked="checked" tabindex="3">
+		<div class="login-additional">
+			<?php if ($_['rememberLoginAllowed'] === true) : ?>
+			<div class="remember-login-container">
+				<?php if ($_['rememberLoginState'] === 0) { ?>
+				<input type="checkbox" name="remember_login" value="1" id="remember_login" class="checkbox checkbox--white">
+				<?php } else { ?>
+				<input type="checkbox" name="remember_login" value="1" id="remember_login" class="checkbox checkbox--white" checked="checked">
+				<?php } ?>
+				<label for="remember_login"><?php p($l->t('Stay logged in')); ?></label>
+			</div>
+			<?php endif; ?>
+
+			<?php if(!empty($_['canResetPassword'])) { ?>
+			<a id="forgot-password" href="<?php p($_['resetPasswordLink']); ?>">
+				<?php p($l->t('Forgot password?')); ?>
+			</a>
 			<?php } ?>
-			<label for="remember_login"><?php p($l->t('Stay logged in')); ?></label>
 		</div>
-		<?php endif; ?>
 
 		<input type="hidden" name="timezone-offset" id="timezone-offset"/>
 		<input type="hidden" name="timezone" id="timezone"/>

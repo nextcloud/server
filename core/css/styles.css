@@ -398,7 +398,6 @@ label.infield {
 	position: relative;
 	margin: 0;
 	padding: 14px;
-	padding-left: 28px;
 	vertical-align: middle;
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -420,6 +419,8 @@ label.infield {
 
 #body-login #remember_login:hover+label,
 #body-login #remember_login:focus+label,
+#body-login #forgot-password:hover,
+#body-login #forgot-password:focus,
 #body-login p.info a:hover,
 #body-login p.info a:focus  {
 	opacity: .6;
@@ -596,7 +597,6 @@ label.infield {
 #body-login input.login {
 	width: 269px;
 	background-position: right 16px center;
-	border-radius: 50px;
 }
 #body-login input[type="submit"] {
 	padding: 10px 20px; /* larger log in and installation buttons */
@@ -605,8 +605,14 @@ label.infield {
 	margin: 18px 5px 0 16px !important;
 }
 #body-login .remember-login-container {
+	display: inline-block;
 	margin: 10px 0;
 	text-align: center;
+}
+#body-login #forgot-password {
+	padding: 11px;
+	float: right;
+	color: #fff;
 }
 
 /* Sticky footer */
