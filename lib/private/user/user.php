@@ -212,10 +212,14 @@ class User implements IUser {
 
 			\OC::$server->getCommentsManager()->deleteReferencesOfActor('users', $this->uid);
 			\OC::$server->getCommentsManager()->deleteReadMarksFromUser($this);
-		}
 
-		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'postDelete', array($this));
+			$notification = \OC::$server->getNotificationManager()->createNotification();
+			$notification->setUser($this->uid);
+			\OC::$server->getNotificationManager()->markProcessed($notification);
+
+			if ($this->emitter) {
+				$this->emitter->emit('\OC\User', 'postDelete', array($this));
+			}
 		}
 		return !($result === false);
 	}
