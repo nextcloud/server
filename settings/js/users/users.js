@@ -946,7 +946,7 @@ $(document).ready(function () {
 						GroupList.setUserCount(GroupList.getGroupLI('_disabledUsers'), count+1);
 					}
 				} else {
-					OC.dialogs.alert(result.data.message, t('settings', 'Unable to change status of {user}', {user: uid}));
+					OC.dialogs.alert(result.data.message, t('settings', 'Error while changing status of {user}', {user: uid}));
 				}
 			}
 		);

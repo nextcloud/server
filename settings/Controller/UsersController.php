@@ -530,7 +530,7 @@ class UsersController extends Controller {
 				array(
 					'status' => 'error',
 					'data' => array(
-						'message' => (string)$this->l10n->t('Unable to disable user.')
+						'message' => (string)$this->l10n->t('Error while disabling user.')
 					)
 				),
 				Http::STATUS_FORBIDDEN
@@ -565,7 +565,7 @@ class UsersController extends Controller {
 				array(
 					'status' => 'error',
 					'data' => array(
-						'message' => (string)$this->l10n->t('Unable to disable user.')
+						'message' => (string)$this->l10n->t('Error while disabling user.')
 					)
 				)
 			);
@@ -587,7 +587,7 @@ class UsersController extends Controller {
 				array(
 					'status' => 'error',
 					'data' => array(
-						'message' => (string)$this->l10n->t('Unable to enable user.')
+						'message' => (string)$this->l10n->t('Error while enabling user.')
 					)
 				),
 				Http::STATUS_FORBIDDEN
@@ -622,7 +622,7 @@ class UsersController extends Controller {
 				array(
 					'status' => 'error',
 					'data' => array(
-						'message' => (string)$this->l10n->t('Unable to enable user.')
+						'message' => (string)$this->l10n->t('Error while enabling user.')
 					)
 				)
 			);
