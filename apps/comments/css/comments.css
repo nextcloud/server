@@ -21,15 +21,16 @@
 	width: calc(100% - 81px); /* 36 (left margin) + 30 (right padding) + 15 (right padding of surrounding box) */
 	margin-left: 36px;
 	padding-right: 30px;
+	display: block;
 }
 
 #commentsTabView .newCommentForm .submit {
 	position: absolute;
-	bottom: 1px;
+	bottom: 0px;
 	right: 8px;
 	width: 30px;
 	margin: 0;
-	padding: 9px;
+	padding: 7px 9px;
 	background-color: transparent;
 	border: none;
 	opacity: .3;
