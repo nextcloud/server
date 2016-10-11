@@ -184,7 +184,15 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}
 
 		if (_.isArray(app.author)) {
-			app.author = app.author.join(', ');
+			var authors = [];
+			_.each(app.author, function (author) {
+				if (typeof author === 'string') {
+					authors.push(author);
+				} else {
+					authors.push(author['@value']);
+				}
+			});
+			app.author = authors.join(', ');
 		}
 
 		var html = template(app);
@@ -518,7 +526,21 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		// Author Name
 		apps = apps.concat(_.filter(OC.Settings.Apps.State.apps, function (app) {
 			if (_.isArray(app.author)) {
-				return app.author.join(', ').toLowerCase().indexOf(query) !== -1;
+				var authors = [];
+				_.each(app.author, function (author) {
+					if (typeof author === 'string') {
+						authors.push(author);
+					} else {
+						authors.push(author['@value']);
+						if (!_.isUndefined(author['@attributes']['homepage'])) {
+							authors.push(author['@attributes']['homepage']);
+						}
+						if (!_.isUndefined(author['@attributes']['mail'])) {
+							authors.push(author['@attributes']['mail']);
+						}
+					}
+				});
+				return authors.join(' ').toLowerCase().indexOf(query) !== -1;
 			}
 			return app.author.toLowerCase().indexOf(query) !== -1;
 		}));
