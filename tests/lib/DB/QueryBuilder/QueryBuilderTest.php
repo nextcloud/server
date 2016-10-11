@@ -740,7 +740,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 
 		$this->assertSame(
-			'SELECT `column` FROM  WHERE ' . $expectedQuery,
+			'SELECT `column` WHERE ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
@@ -765,7 +765,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 
 		$this->assertSame(
-			'SELECT `column` FROM  WHERE ' . $expectedQuery,
+			'SELECT `column` WHERE ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
@@ -797,7 +797,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 
 		$this->assertSame(
-			'SELECT `column` FROM  WHERE ' . $expectedQuery,
+			'SELECT `column` WHERE ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
@@ -829,7 +829,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 
 		$this->assertSame(
-			'SELECT `column` FROM  GROUP BY ' . $expectedQuery,
+			'SELECT `column` GROUP BY ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
@@ -862,7 +862,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 
 		$this->assertSame(
-			'SELECT `column` FROM  GROUP BY ' . $expectedQuery,
+			'SELECT `column` GROUP BY ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
@@ -957,7 +957,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 
 		$this->assertSame(
-			'SELECT  FROM  ' . $expectedQuery,
+			'SELECT  ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
@@ -999,7 +999,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 
 		$this->assertSame(
-			'SELECT  FROM  ' . $expectedQuery,
+			'SELECT  ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
@@ -1041,7 +1041,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 
 		$this->assertSame(
-			'SELECT  FROM  ' . $expectedQuery,
+			'SELECT  ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
@@ -1071,7 +1071,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 
 		$this->assertSame(
-			'SELECT  FROM  ' . $expectedQuery,
+			'SELECT  ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
@@ -1109,7 +1109,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 
 		$this->assertSame(
-			'SELECT  FROM  ' . $expectedQuery,
+			'SELECT  ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
