@@ -33,7 +33,7 @@
 
 try {
 
-	require_once 'lib/base.php';
+	require_once __DIR__ . '/lib/base.php';
 
 	if (\OCP\Util::needUpgrade()) {
 		\OCP\Util::writeLog('cron', 'Update required, skipping cron', \OCP\Util::DEBUG);

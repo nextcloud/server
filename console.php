@@ -44,7 +44,7 @@ if (version_compare(PHP_VERSION, '5.4.0') === -1) {
 }
 
 try {
-	require_once 'lib/base.php';
+	require_once __DIR__ . '/lib/base.php';
 
 	// set to run indefinitely if needed
 	set_time_limit(0);
