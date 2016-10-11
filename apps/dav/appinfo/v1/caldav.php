@@ -75,6 +75,8 @@ if ($debugging) {
 }
 
 $server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
+$server->addPlugin(new \Sabre\CalDAV\Schedule\Plugin());
+$server->addPlugin(new OCA\DAV\CalDAV\Schedule\IMipPlugin( \OC::$server->getMailer(), \OC::$server->getLogger()));
 $server->addPlugin(new ExceptionLoggerPlugin('caldav', \OC::$server->getLogger()));
 
 // And off we go!
