@@ -664,15 +664,16 @@ class OC_App {
 	 * Read all app metadata from the info.xml file
 	 *
 	 * @param string $appId id of the app or the path of the info.xml file
-	 * @param boolean $path (optional)
+	 * @param bool $path
+	 * @param string $lang
 	 * @return array|null
 	 * @note all data is read from info.xml, not just pre-defined fields
 	 */
-	public static function getAppInfo($appId, $path = false) {
+	public static function getAppInfo($appId, $path = false, $lang = null) {
 		if ($path) {
 			$file = $appId;
 		} else {
-			if (isset(self::$appInfo[$appId])) {
+			if ($lang === null && isset(self::$appInfo[$appId])) {
 				return self::$appInfo[$appId];
 			}
 			$appPath = self::getAppPath($appId);
@@ -686,7 +687,7 @@ class OC_App {
 		$data = $parser->parse($file);
 
 		if (is_array($data)) {
-			$data = OC_App::parseAppInfo($data);
+			$data = OC_App::parseAppInfo($data, $lang);
 		}
 		if(isset($data['ocsid'])) {
 			$storedId = \OC::$server->getConfig()->getAppValue($appId, 'ocsid');
@@ -695,7 +696,9 @@ class OC_App {
 			}
 		}
 
-		self::$appInfo[$appId] = $data;
+		if ($lang === null) {
+			self::$appInfo[$appId] = $data;
+		}
 
 		return $data;
 	}
@@ -845,11 +848,12 @@ class OC_App {
 		//we don't want to show configuration for these
 		$blacklist = \OC::$server->getAppManager()->getAlwaysEnabledApps();
 		$appList = array();
+		$langCode = \OC::$server->getL10N('core')->getLanguageCode();
 
 		foreach ($installedApps as $app) {
 			if (array_search($app, $blacklist) === false) {
 
-				$info = OC_App::getAppInfo($app);
+				$info = OC_App::getAppInfo($app, false, $langCode);
 				if (!is_array($info)) {
 					\OCP\Util::writeLog('core', 'Could not read app info file for app "' . $app . '"', \OCP\Util::ERROR);
 					continue;
@@ -1329,13 +1333,69 @@ class OC_App {
 		}
 	}
 
+	protected static function findBestL10NOption($options, $lang) {
+		$fallback = $similarLangFallback = $englishFallback = false;
+
+		$lang = strtolower($lang);
+		$similarLang = $lang;
+		if (strpos($similarLang, '_')) {
+			// For "de_DE" we want to find "de" and the other way around
+			$similarLang = substr($lang, 0, strpos($lang, '_'));
+		}
+
+		foreach ($options as $option) {
+			if (is_array($option)) {
+				if ($fallback === false) {
+					$fallback = $option['@value'];
+				}
+
+				if (!isset($option['@attributes']['lang'])) {
+					continue;
+				}
+
+				$attributeLang = strtolower($option['@attributes']['lang']);
+				if ($attributeLang === $lang) {
+					return $option['@value'];
+				}
+
+				if ($attributeLang === $similarLang) {
+					$similarLangFallback = $option['@value'];
+				} else if (strpos($attributeLang, $similarLang . '_') === 0) {
+					if ($similarLangFallback === false) {
+						$similarLangFallback =  $option['@value'];
+					}
+				}
+			} else {
+				$englishFallback = $option;
+			}
+		}
+
+		if ($similarLangFallback !== false) {
+			return $similarLangFallback;
+		} else if ($englishFallback !== false) {
+			return $englishFallback;
+		}
+		return (string) $fallback;
+	}
+
 	/**
 	 * parses the app data array and enhanced the 'description' value
 	 *
 	 * @param array $data the app data
+	 * @param string $lang
 	 * @return array improved app data
 	 */
-	public static function parseAppInfo(array $data) {
+	public static function parseAppInfo(array $data, $lang = null) {
+
+		if ($lang && isset($data['name']) && is_array($data['name'])) {
+			$data['name'] = self::findBestL10NOption($data['name'], $lang);
+		}
+		if ($lang && isset($data['summary']) && is_array($data['summary'])) {
+			$data['summary'] = self::findBestL10NOption($data['summary'], $lang);
+		}
+		if ($lang && isset($data['description']) && is_array($data['description'])) {
+			$data['description'] = self::findBestL10NOption($data['description'], $lang);
+		}
 
 		// just modify the description if it is available
 		// otherwise this will create a $data element with an empty 'description'
