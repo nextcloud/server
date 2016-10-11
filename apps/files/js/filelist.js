@@ -2426,8 +2426,9 @@
 				$('#searchresults').addClass('filter-empty');
 				$('#searchresults .emptycontent').addClass('emptycontent-search');
 				if ( $('#searchresults').length === 0 || $('#searchresults').hasClass('hidden') ) {
+					var error = t('files', "No search results in other folders for '{tag}{filter}{endtag}'", {filter:this._filter}, null, {'escape': false});
 					this.$el.find('.nofilterresults').removeClass('hidden').
-						find('h2').text(t('files', "No results in this folder for {filter}", {filter:this._filter},  null, {'escape': false}));
+						find('p').html(error.replace('{tag}', '<strong>').replace('{endtag}', '</strong>'));
 				}
 			} else {
 				$('#searchresults').removeClass('filter-empty');
