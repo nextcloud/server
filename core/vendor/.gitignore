@@ -142,3 +142,10 @@ base64/*min.js
 clipboard/**
 !clipboard/dist
 !clipboard/dist/clipboard.js
+
+# autosize
+autosize/**
+!autosize/dist
+!autosize/dist/autosize.js
+!autosize/.bower.json
+!autosize/LICENCE.md

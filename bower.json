@@ -31,6 +31,7 @@
     "davclient.js": "https://github.com/evert/davclient.js.git",
     "es6-promise": "https://github.com/jakearchibald/es6-promise.git#~2.3.0",
     "base64": "~0.3.0",
-    "clipboard": "^1.5.12"
+    "clipboard": "^1.5.12",
+    "autosize": "^3.0.17"
   }
 }
