@@ -614,7 +614,7 @@ class Installer {
 		}
 
 		$codeChecker = new CodeChecker(new PrivateCheck(new EmptyCheck()));
-		$errors = $codeChecker->analyseFolder($folder);
+		$errors = $codeChecker->analyseFolder(basename($folder), $folder);
 
 		return empty($errors);
 	}
