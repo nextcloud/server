@@ -1,0 +1,33 @@
+#update-progress-icon {
+	height: 32px;
+	margin: 10px;
+	background-size: 32px;
+}
+
+#update-progress-message-error,
+#update-progress-message-warnings {
+	font-weight: 600;
+	margin-bottom: 10px;
+}
+
+#update-progress-message {
+	margin-bottom: 10px;
+}
+
+.update-show-detailed {
+	padding: 13px;
+	display: block;
+	opacity: .75;
+}
+
+#body-login .update a.update-show-detailed {
+	border-bottom: inherit;
+}
+
+#update-progress-detailed {
+	text-align: left;
+}
+
+#body-login .warning.hidden {
+	display: none;
+}

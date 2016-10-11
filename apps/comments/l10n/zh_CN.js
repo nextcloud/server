@@ -1,0 +1,23 @@
+OC.L10N.register(
+    "comments",
+    {
+    "Type in a new comment..." : "添加新评论...",
+    "Delete comment" : "删除评论",
+    "Post" : "发布",
+    "Cancel" : "取消",
+    "Edit comment" : "编辑评论",
+    "[Deleted user]" : "[Deleted user]",
+    "Comments" : "评论",
+    "No other comments available" : "没有其他评论",
+    "More comments..." : "更多评论...",
+    "Save" : "保存",
+    "Allowed characters {count} of {max}" : "当前字数： {count}，最大允许：{max}",
+    "{count} unread comments" : "{count} 条未读评论",
+    "Comment" : "评论",
+    "<strong>Comments</strong> for files <em>(always listed in stream)</em>" : "文件的<strong>评论</strong><em>(始终在数据流中列出)</em>",
+    "You commented" : "您的评论",
+    "%1$s commented" : "%1$s 已评论",
+    "You commented on %2$s" : "你评论了 %2$s",
+    "%1$s commented on %2$s" : "%1$s 评论了 %2$s"
+},
+"nplurals=1; plural=0;");

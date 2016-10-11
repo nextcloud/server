@@ -1,0 +1,130 @@
+#app-sidebar .detailFileInfoContainer {
+	min-height: 50px;
+	padding: 15px;
+}
+
+#app-sidebar .detailFileInfoContainer > div {
+	clear: both;
+}
+
+#app-sidebar .mainFileInfoView {
+	margin-right: 20px; /* accommodate for close icon */
+	float:left;
+	display:block;
+	width: 100%;
+}
+
+#app-sidebar .mainFileInfoView .icon {
+	display: inline-block;
+}
+
+#app-sidebar .mainFileInfoView .permalink {
+	margin-left: 10px;
+	opacity: .5;
+}
+#app-sidebar .mainFileInfoView .permalink-field>input {
+	clear: both;
+	width: 90%;
+}
+
+#app-sidebar .file-details-container {
+	display: inline-block;
+	float: left;
+}
+
+#app-sidebar .thumbnailContainer.large {
+	margin-left: -15px;
+	margin-right: -35px; /* 15 + 20 for the close button */
+	margin-top: -15px;
+}
+
+#app-sidebar .thumbnailContainer.large.portrait {
+	margin: 0; /* if we don't fit the image anyway we give it back the margin */
+}
+
+#app-sidebar .large .thumbnail {
+	width:100%;
+	display:block;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 100%;
+	float: none;
+	margin: 0;
+	height: auto;
+}
+
+#app-sidebar .large .thumbnail .stretcher {
+	content: '';
+	display: block;
+	padding-bottom: 56.25%; /* sets height of .thumbnail to 9/16 of the width */
+}
+
+#app-sidebar .large.portrait .thumbnail {
+	background-position: 50% top;
+}
+
+#app-sidebar .large.portrait .thumbnail {
+	background-size: contain;
+}
+
+#app-sidebar .large.text {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	padding-top: 15px;
+	font-size: 80%;
+	margin-left: 0;
+}
+
+#app-sidebar .thumbnail {
+	width: 75px;
+	height: 75px;
+	display: inline-block;
+	float: left;
+	margin-right: 10px;
+	background-size: 75px;
+}
+
+#app-sidebar .ellipsis {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+#app-sidebar .fileName {
+	font-size: 16px;
+	padding-top: 13px;
+	padding-bottom: 3px;
+}
+
+#app-sidebar .fileName h3 {
+	max-width: 300px;
+	display: inline-block;
+	padding: 5px 0;
+	margin: -5px 0;
+}
+
+#app-sidebar .file-details {
+	color: #999;
+}
+#app-sidebar .file-details img {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	opacity: .5;
+}
+#app-sidebar .action-favorite {
+	vertical-align: text-bottom;
+	padding: 10px;
+	margin: -10px;
+}
+
+#app-sidebar .detailList {
+	float: left;
+}
+
+#app-sidebar .close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 15px;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	opacity: .5;
+}

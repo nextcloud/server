@@ -1,0 +1,62 @@
+@media only screen and (max-width: 768px) {
+
+/* make header scroll up for single shares, more view of content on small screens */
+#header.share-file {
+	position: absolute !important;
+}
+
+/* hide text of download button, only show icon */
+#download-text {
+	display: none;
+}
+
+/* hide size and date columns */
+table th#headerSize,
+table td.filesize,
+table th#headerDate,
+table td.date {
+	display: none;
+}
+
+/* restrict length of displayed filename to prevent overflow */
+table td.filename .nametext {
+	max-width: 75% !important;
+}
+
+/* on mobile, show single shared image at full width without margin */
+#imgframe {
+	width: 100%;
+	padding: 0;
+	margin-bottom: 35px;
+}
+/* some margin for the file type icon */
+#imgframe .publicpreview {
+	margin-top: 32px;
+}
+
+/* always show actions on mobile */
+#fileList a.action {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)" !important;
+	filter: alpha(opacity=20) !important;
+	opacity: .2 !important;
+	display: inline !important;
+}
+/* some padding for better clickability */
+#fileList a.action img {
+	padding: 0 6px 0 12px;
+}
+/* hide text of the actions on mobile */
+#fileList a.action span {
+	display: none;
+}
+
+/* ellipsis on file names */
+.nametext {
+	width: 60%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+
+}

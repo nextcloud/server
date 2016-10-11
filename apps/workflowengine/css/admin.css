@@ -1,0 +1,58 @@
+.workflowengine .operation {
+	padding: 5px;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+	border-bottom: #eee 1px solid;
+	border-left: rgba(0,0,0,0) 1px solid;
+}
+.workflowengine .operation.modified {
+	border-left: rgb(255, 94, 32) 1px solid;
+}
+.workflowengine .operation button {
+	margin-bottom: 0;
+}
+.workflowengine .operation span.info {
+	padding: 7px;
+	color: #eee;
+}
+.workflowengine .rules .operation:nth-last-child(2) {
+	margin-bottom: 5px;
+}
+
+.workflowengine .pull-right {
+	float: right
+}
+
+.workflowengine .operation .msg {
+	border-radius: 3px;
+	margin: 3px 3px 3px 0;
+	padding: 5px;
+	transition: opacity .5s;
+}
+
+.workflowengine .operation .check:hover {
+	background-color: #f8f8f8;
+}
+
+.workflowengine .operation .button-delete,
+.workflowengine .operation .button-delete-check {
+	opacity: 0.5;
+	padding: 7px;
+}
+.workflowengine .operation .button-delete:hover,
+.workflowengine .operation .button-delete:focus,
+.workflowengine .operation .button-delete-check:hover,
+.workflowengine .operation .button-delete-check:focus {
+	opacity: 1;
+	cursor: pointer;
+}
+
+.workflowengine .rules .icon-loading-small {
+	display: inline-block;
+	margin-right: 5px;
+}
+
+.workflowengine .invalid-input {
+	border-color: #aa0000;
+}
+

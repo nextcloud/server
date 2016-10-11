@@ -1,0 +1,35 @@
+{
+  "name": "underscore",
+  "version": "1.8.3",
+  "main": "underscore.js",
+  "keywords": [
+    "util",
+    "functional",
+    "server",
+    "client",
+    "browser"
+  ],
+  "ignore": [
+    "docs",
+    "test",
+    "*.yml",
+    "CNAME",
+    "index.html",
+    "favicon.ico",
+    "CONTRIBUTING.md",
+    ".*",
+    "component.json",
+    "package.json",
+    "karma.*"
+  ],
+  "homepage": "https://github.com/jashkenas/underscore",
+  "_release": "1.8.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.8.3",
+    "commit": "e4743ab712b8ab42ad4ccb48b155034d02394e4d"
+  },
+  "_source": "git://github.com/jashkenas/underscore.git",
+  "_target": "~1.8.0",
+  "_originalSource": "underscore"
+}

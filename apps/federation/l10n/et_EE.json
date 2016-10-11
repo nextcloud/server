@@ -1,0 +1,5 @@
+{ "translations": {
+    "No ownCloud server found" : "ownCloudi serverit ei leitud",
+    "Could not add server" : "Serveri lisamine ebaõnnestus"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

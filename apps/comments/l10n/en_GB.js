@@ -1,0 +1,25 @@
+OC.L10N.register(
+    "comments",
+    {
+    "Delete comment" : "Delete comment",
+    "Post" : "Post",
+    "Cancel" : "Cancel",
+    "Edit comment" : "Edit comment",
+    "[Deleted user]" : "[Deleted user]",
+    "Comments" : "Comments",
+    "Save" : "Save",
+    "Allowed characters {count} of {max}" : "Allowed characters: {count} of {max}",
+    "Error occurred while retrieving comment with id {id}" : "Error occurred while retrieving comment with id {id}",
+    "Error occurred while updating comment with id {id}" : "Error occurred while updating comment with id {id}",
+    "Error occurred while posting comment" : "Error occurred while posting comment",
+    "Comment" : "Comment",
+    "You commented" : "You commented",
+    "%1$s commented" : "%1$s commented",
+    "You commented on %2$s" : "You commented on %2$s",
+    "%1$s commented on %2$s" : "%1$s commented on %2$s",
+    "Type in a new comment..." : "Type a new comment...",
+    "No other comments available" : "No other comments available",
+    "More comments..." : "More comments...",
+    "{count} unread comments" : "{count} unread comments"
+},
+"nplurals=2; plural=(n != 1);");

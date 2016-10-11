@@ -1,0 +1,54 @@
+{
+  "name": "blueimp-md5",
+  "version": "1.1.0",
+  "title": "JavaScript MD5",
+  "description": "JavaScript MD5 implementation.",
+  "keywords": [
+    "javascript",
+    "md5"
+  ],
+  "homepage": "https://github.com/blueimp/JavaScript-MD5",
+  "author": {
+    "name": "Sebastian Tschan",
+    "url": "https://blueimp.net"
+  },
+  "maintainers": [
+    {
+      "name": "Sebastian Tschan",
+      "url": "https://blueimp.net"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Paul Johnston",
+      "url": "http://pajhome.org.uk/crypt/md5"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/blueimp/JavaScript-MD5.git"
+  },
+  "bugs": "https://github.com/blueimp/JavaScript-MD5/issues",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    }
+  ],
+  "main": "js/md5.js",
+  "ignore": [
+    "/*.*",
+    "css",
+    "js/demo.js",
+    "test"
+  ],
+  "_release": "1.1.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.1.0",
+    "commit": "b187bf0abe24bacbca83ea4799978b78829e7914"
+  },
+  "_source": "git://github.com/blueimp/JavaScript-MD5.git",
+  "_target": "~1.1.0",
+  "_originalSource": "blueimp-md5"
+}

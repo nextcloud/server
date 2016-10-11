@@ -1,0 +1,106 @@
+/* Copyright (c) 2011, Jan-Christoph Borchardt, http://jancborchardt.net
+ This file is licensed under the Affero General Public License version 3 or later.
+ See the COPYING-README file. */
+
+#searchresults {
+	background-color: #fff;
+	overflow-x: hidden;
+	text-overflow: ellipsis;
+	padding-top: 65px;
+	box-sizing: border-box;
+	z-index: 75;
+	/* account for margin-bottom in files list */
+	margin-top: -250px;
+}
+#searchresults.filter-empty {
+	/* remove whitespace on bottom when no search results, to fix layout */
+	margin-top: 0 !important;
+}
+
+#searchresults.hidden {
+	display: none;
+}
+#searchresults * {
+	box-sizing: content-box;
+}
+
+#searchresults .status {
+	background-color: rgba(255, 255, 255, .85);
+	height: 12px;
+	padding: 28px 0 28px 56px;
+	font-size: 18px;
+}
+.has-favorites:not(.hidden) ~ #searchresults .status {
+	padding-left: 102px;
+}
+#searchresults .status.fixed {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index: 10;
+}
+
+#searchresults .status .spinner {
+	height: 16px;
+	width: 16px;
+	vertical-align: middle;
+	margin-left: 10px;
+}
+#searchresults table {
+	border-spacing:0;
+	table-layout:fixed;
+	top:0;
+	width:100%;
+}
+
+#searchresults td {
+	padding: 5px 19px;
+	font-style: normal;
+	vertical-align: middle;
+	border-bottom: none;
+}
+#searchresults td.icon {
+	text-align: right;
+	width: 40px;
+	height: 40px;
+	padding: 5px 0;
+	background-position: right center;
+	background-repeat: no-repeat;
+}
+.has-favorites:not(.hidden) ~ #searchresults td.icon {
+	width: 86px;
+}
+
+#searchresults tr.template {
+	display: none;
+}
+
+#searchresults .name,
+#searchresults .text,
+#searchresults .path {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+#searchresults .text {
+	white-space: normal;
+	color: #545454;
+}
+#searchresults .path {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	opacity: .5;
+}
+#searchresults .text em {
+	color: #545454;
+	font-weight: bold;
+	opacity: 1;
+}
+
+#searchresults tr.result * {
+	cursor:pointer;
+}
+
+#searchresults tr.current {
+	background-color:#ddd;
+}

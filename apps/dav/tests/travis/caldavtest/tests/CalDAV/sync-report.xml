@@ -1,0 +1,3329 @@
+<?xml version="1.0" standalone="no"?>
+
+<!DOCTYPE caldavtest SYSTEM "caldavtest.dtd">
+
+<!--
+ Copyright (c) 2006-2015 Apple Inc. All rights reserved.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ -->
+
+<caldavtest>
+	<require-feature>
+		<feature>caldav</feature>
+		<feature>sync-report</feature>
+	</require-feature>
+
+	<start>
+		<request end-delete="yes">
+			<method>MKCOL</method>
+			<ruri>$calendarhome1:/synccalendar1/</ruri>
+			<data>
+				<content-type>application/xml; charset="utf-8"</content-type>
+				<filepath>Resource/CalDAV/reports/put/1.xml</filepath>
+			</data>
+		</request>
+		<request>
+			<method>PUT</method>
+			<ruri>$calendarhome1:/synccalendar1/1.ics</ruri>
+			<data>
+				<content-type>text/calendar; charset=utf-8</content-type>
+				<filepath>Resource/CalDAV/reports/put/1.txt</filepath>
+			</data>
+		</request>
+		<request>
+			<method>PUT</method>
+			<ruri>$calendarhome1:/synccalendar1/2.ics</ruri>
+			<data>
+				<content-type>text/calendar; charset=utf-8</content-type>
+				<filepath>Resource/CalDAV/reports/put/2.txt</filepath>
+			</data>
+		</request>
+		<request end-delete="yes">
+			<method>MKCOL</method>
+			<ruri>$calendarhome1:/synccalendar2/</ruri>
+			<data>
+				<content-type>application/xml; charset="utf-8"</content-type>
+				<filepath>Resource/CalDAV/reports/put/1.xml</filepath>
+			</data>
+		</request>
+		<request>
+			<method>PUT</method>
+			<ruri>$calendarhome1:/synccalendar2/1.ics</ruri>
+			<data>
+				<content-type>text/calendar; charset=utf-8</content-type>
+				<filepath>Resource/CalDAV/reports/put/4.txt</filepath>
+			</data>
+		</request>
+		<request>
+			<method>PUT</method>
+			<ruri>$calendarhome1:/synccalendar2/2.ics</ruri>
+			<data>
+				<content-type>text/calendar; charset=utf-8</content-type>
+				<filepath>Resource/CalDAV/reports/put/5.txt</filepath>
+			</data>
+		</request>
+	</start>
+
+	<test-suite name='support-report-set/sync-token property'>
+		<test name='1'>
+			<description>Not on calendars</description>
+			<request>
+				<method>PROPFIND</method>
+				<ruri>$calendars:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>0</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/1.xml</filepath>
+				</data>
+				<verify>
+					<callback>xmlElementMatch</callback>
+					<arg>
+						<name>notexists</name>
+						<value>$verify-property-prefix:/{DAV:}supported-report-set/{DAV:}supported-report/{DAV:}report/{DAV:}sync-collection</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}supported-report-set</value>
+					</arg>
+					<arg>
+						<name>badprops</name>
+						<value>{DAV:}sync-token</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='3'>
+			<description>On calendar</description>
+			<request>
+				<method>PROPFIND</method>
+				<ruri>$calendarhome1:/synccalendar1/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>0</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/1.xml</filepath>
+				</data>
+				<verify>
+					<callback>xmlElementMatch</callback>
+					<arg>
+						<name>exists</name>
+						<value>$verify-property-prefix:/{DAV:}supported-report-set/{DAV:}supported-report/{DAV:}report/{DAV:}sync-collection</value>
+						<!--<value>$verify-property-prefix:/{DAV:}sync-token[+data:,]</value>-->
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}supported-report-set</value>
+						<value>{DAV:}sync-token</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+	</test-suite>
+
+	<test-suite name='simple reports - sync-level'>
+		<test name='1'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>sync-level:1, depth:0</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>0</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/8.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar1/</value>
+						<value>synccalendar2/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='2'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>sync-level:1, depth:1</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/8.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar1/</value>
+						<value>synccalendar2/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='3'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>sync-level:1, depth:infinity</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/8.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar1/</value>
+						<value>synccalendar2/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='4'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>sync-level:infinity, depth:0</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>0</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/9.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar1/</value>
+						<value>synccalendar1/1.ics</value>
+						<value>synccalendar1/2.ics</value>
+						<value>synccalendar2/</value>
+						<value>synccalendar2/1.ics</value>
+						<value>synccalendar2/2.ics</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='5'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>sync-level:infinity, depth:1</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/9.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar1/</value>
+						<value>synccalendar1/1.ics</value>
+						<value>synccalendar1/2.ics</value>
+						<value>synccalendar2/</value>
+						<value>synccalendar2/1.ics</value>
+						<value>synccalendar2/2.ics</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='6'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>sync-level:infinity, depth:infinity</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/9.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar1/</value>
+						<value>synccalendar1/1.ics</value>
+						<value>synccalendar1/2.ics</value>
+						<value>synccalendar2/</value>
+						<value>synccalendar2/1.ics</value>
+						<value>synccalendar2/2.ics</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='7'>
+			<description>sync-level:1, depth:0</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar1/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>0</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/8.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>1.ics</value>
+						<value>2.ics</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='8'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>sync-level:1, depth:1</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar1/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/8.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_sync_extra_items:</value>
+						<value>1.ics</value>
+						<value>2.ics</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='9'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>sync-level:1, depth:infinity</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar1/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/8.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_sync_extra_items:</value>
+						<value>1.ics</value>
+						<value>2.ics</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='10'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>sync-level:infinity, depth:0</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar1/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>0</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/9.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_sync_extra_items:</value>
+						<value>1.ics</value>
+						<value>2.ics</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='11'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>sync-level:infinity, depth:1</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar1/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/9.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_sync_extra_items:</value>
+						<value>1.ics</value>
+						<value>2.ics</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='12'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>sync-level:infinity, depth:infinity</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar1/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/9.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_sync_extra_items:</value>
+						<value>1.ics</value>
+						<value>2.ics</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+	</test-suite>
+
+	<test-suite name='simple reports - empty token - no props'>
+		<test name='1'>
+			<description>initial query - calendar collection depth:1</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar1/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>1.ics</value>
+						<value>2.ics</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='2'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>initial query - home depth:1</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar1/</value>
+						<value>synccalendar2/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='3'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>initial query - home depth:infinity</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar1/</value>
+						<value>synccalendar1/1.ics</value>
+						<value>synccalendar1/2.ics</value>
+						<value>synccalendar2/</value>
+						<value>synccalendar2/1.ics</value>
+						<value>synccalendar2/2.ics</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='4'>
+			<description>add new resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar1/3.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/3.txt</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+		</test>
+		<test name='5'>
+			<description>new resource - calendar collection depth:1</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar1/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>1.ics</value>
+						<value>2.ics</value>
+						<value>3.ics</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='6'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>new resource - home depth:1</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar1/</value>
+						<value>synccalendar2/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='7'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>new resource - home depth:infinity</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar1/</value>
+						<value>synccalendar1/1.ics</value>
+						<value>synccalendar1/2.ics</value>
+						<value>synccalendar1/3.ics</value>
+						<value>synccalendar2/</value>
+						<value>synccalendar2/1.ics</value>
+						<value>synccalendar2/2.ics</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='8'>
+			<description>remove new resource</description>
+			<request>
+				<method>DELETE</method>
+				<ruri>$calendarhome1:/synccalendar1/3.ics</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+		</test>
+		<test name='9'>
+			<description>remove new resource - calendar collection depth:1</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar1/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>1.ics</value>
+						<value>2.ics</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='10'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>remove new resource - home depth:1</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar1/</value>
+						<value>synccalendar2/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='11'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>remove new resource - home depth:infinity</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar1/</value>
+						<value>synccalendar1/1.ics</value>
+						<value>synccalendar1/2.ics</value>
+						<value>synccalendar2/</value>
+						<value>synccalendar2/1.ics</value>
+						<value>synccalendar2/2.ics</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='12'>
+			<description>changed resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar1/1.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/1.txt</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+		</test>
+		<test name='13'>
+			<description>changed resource - calendar collection depth:1</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar1/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>1.ics</value>
+						<value>2.ics</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='14'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>changed resource - home depth:1</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar1/</value>
+						<value>synccalendar2/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='15'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>changed resource - home depth:infinity</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar1/</value>
+						<value>synccalendar1/1.ics</value>
+						<value>synccalendar1/2.ics</value>
+						<value>synccalendar2/</value>
+						<value>synccalendar2/1.ics</value>
+						<value>synccalendar2/2.ics</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+	</test-suite>
+
+	<test-suite name='simple reports - diff token - no props - calendar depth:1'>
+		<test name='1'>
+			<description>initial query - grab token</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar1/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>1.ics</value>
+						<value>2.ics</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='2'>
+			<description>new resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar1/3.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/3.txt</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar1/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>3.ics</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken2:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='3'>
+			<description>remove resource (treated as new)</description>
+			<request>
+				<method>DELETE</method>
+				<ruri>$calendarhome1:/synccalendar1/3.ics</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar1/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>badhrefs</name>
+						<value>3.ics</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='4'>
+			<description>remove resource (treated as old)</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar1/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/4.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>badhrefs</name>
+						<value>3.ics</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='5'>
+			<description>changed resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar1/1.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/1.txt</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar1/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>1.ics</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='6'>
+			<description>no change</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar1/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+	</test-suite>
+
+	<test-suite name='simple reports - empty token - props'>
+		<test name='1'>
+			<description>initial query</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar2/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/5.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>1.ics</value>
+						<value>2.ics</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='2'>
+			<description>new resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar2/3.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/6.txt</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar2/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/5.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>1.ics</value>
+						<value>2.ics</value>
+						<value>3.ics</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='3'>
+			<description>remove resource new resource</description>
+			<request>
+				<method>DELETE</method>
+				<ruri>$calendarhome1:/synccalendar2/3.ics</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar2/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/5.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>1.ics</value>
+						<value>2.ics</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='4'>
+			<description>changed resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar2/1.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/4.txt</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar2/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/5.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>1.ics</value>
+						<value>2.ics</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+	</test-suite>
+
+	<test-suite name='simple reports - diff token - props'>
+		<test name='1'>
+			<description>initial query - grab token</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar2/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/5.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>1.ics</value>
+						<value>2.ics</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='2'>
+			<description>new resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar2/3.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/6.txt</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar2/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/6.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>3.ics</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken2:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='3'>
+			<description>remove resource (treated as new)</description>
+			<request>
+				<method>DELETE</method>
+				<ruri>$calendarhome1:/synccalendar2/3.ics</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar2/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/6.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>badhrefs</name>
+						<value>3.ics</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='4'>
+			<description>remove resource (treated as old)</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar2/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/7.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>badhrefs</name>
+						<value>3.ics</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='5'>
+			<description>changed resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar2/1.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/4.txt</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar2/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/6.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>1.ics</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='6'>
+			<description>no change</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/synccalendar2/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/6.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+	</test-suite>
+
+	<test-suite name='simple reports - diff token - no props - home depth:infinity'>
+		<require-feature>
+			<feature>sync-report-home</feature>
+		</require-feature>
+		<test name='1'>
+			<description>Initialize</description>
+			<request>
+				<method>DELETE</method>
+				<ruri>$calendarhome1:/synccalendar1/</ruri>
+			</request>
+			<request>
+				<method>DELETE</method>
+				<ruri>$calendarhome1:/synccalendar2/</ruri>
+			</request>
+			<request end-delete="yes">
+				<method>MKCALENDAR</method>
+				<ruri>$calendarhome1:/synccalendar3/</ruri>
+			</request>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar3/1.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/7.txt</filepath>
+				</data>
+			</request>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar3/2.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/8.txt</filepath>
+				</data>
+			</request>
+			<request end-delete="yes">
+				<method>MKCALENDAR</method>
+				<ruri>$calendarhome1:/synccalendar4/</ruri>
+			</request>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar4/1.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/10.txt</filepath>
+				</data>
+			</request>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar4/2.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/11.txt</filepath>
+				</data>
+			</request>
+		</test>
+		<test name='2'>
+			<description>initial query - grab token</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar3/</value>
+						<value>synccalendar3/1.ics</value>
+						<value>synccalendar3/2.ics</value>
+						<value>synccalendar4/</value>
+						<value>synccalendar4/1.ics</value>
+						<value>synccalendar4/2.ics</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='3'>
+			<description>new resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar3/3.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/9.txt</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar3/</value>
+						<value>synccalendar3/3.ics</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken2:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='4'>
+			<description>remove resource (treated as new)</description>
+			<request>
+				<method>DELETE</method>
+				<ruri>$calendarhome1:/synccalendar3/3.ics</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar3/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>synccalendar3/3.ics</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='5'>
+			<description>remove resource (treated as old)</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/4.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar3/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>synccalendar3/3.ics</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='6'>
+			<description>changed resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar3/1.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/7.txt</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar3/</value>
+						<value>synccalendar3/1.ics</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='7'>
+			<description>no change</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+	</test-suite>
+
+	<test-suite name='simple reports - diff token - props - home depth:infinity'>
+		<require-feature>
+			<feature>sync-report-home</feature>
+		</require-feature>
+		<test name='1'>
+			<description>initial query - grab token</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/5.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar3/</value>
+						<value>synccalendar3/1.ics</value>
+						<value>synccalendar3/2.ics</value>
+						<value>synccalendar4/</value>
+						<value>synccalendar4/1.ics</value>
+						<value>synccalendar4/2.ics</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>ignore</name>
+						<value>$calendarhome1:/$outbox:/</value>
+						<value>$calendarhome1:/$freebusy:</value>
+						<value>$calendarhome1:/$notification:/</value>
+						<value>$calendarhome1:/$dropbox:/</value>
+					</arg>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='2'>
+			<description>new resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar4/3.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/12.txt</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/6.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar4/</value>
+						<value>synccalendar4/3.ics</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken2:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='3'>
+			<description>remove resource (treated as new)</description>
+			<request>
+				<method>DELETE</method>
+				<ruri>$calendarhome1:/synccalendar4/3.ics</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/6.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar4/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>synccalendar4/3.ics</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='4'>
+			<description>remove resource (treated as old)</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/7.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar4/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>synccalendar4/3.ics</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>count</name>
+						<value>2</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='5'>
+			<description>changed resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar4/1.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/10.txt</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/6.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar4/</value>
+						<value>synccalendar4/1.ics</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='6'>
+			<description>no change</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/6.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+	</test-suite>
+
+	<test-suite name='simple reports - diff token - delete/create calendar - home depth:infinity'>
+		<require-feature>
+			<feature>sync-report-home</feature>
+		</require-feature>
+		<test name='1'>
+			<description>initial query - grab token</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar3/</value>
+						<value>synccalendar3/1.ics</value>
+						<value>synccalendar3/2.ics</value>
+						<value>synccalendar4/</value>
+						<value>synccalendar4/1.ics</value>
+						<value>synccalendar4/2.ics</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='2'>
+			<description>remove resource then calendar</description>
+			<request>
+				<method>DELETE</method>
+				<ruri>$calendarhome1:/synccalendar3/1.ics</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>DELETE</method>
+				<ruri>$calendarhome1:/synccalendar3/</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>badhrefs</name>
+						<value>synccalendar3/</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken2:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='3'>
+			<description>add calendar - test last sync</description>
+			<request>
+				<method>MKCALENDAR</method>
+				<ruri>$calendarhome1:/synccalendar3/</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/4.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar3/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='4'>
+			<description>add calendar - test previous sync</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar3/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+	</test-suite>
+
+	<test-suite name='simple reports - diff token - no props - home depth:1'>
+		<require-feature>
+			<feature>sync-report-home</feature>
+		</require-feature>
+		<test name='1'>
+			<description>Initialize</description>
+			<request>
+				<method>DELETE</method>
+				<ruri>$calendarhome1:/synccalendar1/</ruri>
+			</request>
+			<request>
+				<method>DELETE</method>
+				<ruri>$calendarhome1:/synccalendar2/</ruri>
+			</request>
+			<request end-delete="yes">
+				<method>MKCALENDAR</method>
+				<ruri>$calendarhome1:/synccalendar3/</ruri>
+			</request>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar3/1.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/7.txt</filepath>
+				</data>
+			</request>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar3/2.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/8.txt</filepath>
+				</data>
+			</request>
+			<request end-delete="yes">
+				<method>MKCALENDAR</method>
+				<ruri>$calendarhome1:/synccalendar4/</ruri>
+			</request>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar4/1.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/10.txt</filepath>
+				</data>
+			</request>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar4/2.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/11.txt</filepath>
+				</data>
+			</request>
+		</test>
+		<test name='2'>
+			<description>initial query - grab token</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/8.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar3/</value>
+						<value>synccalendar4/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='3'>
+			<description>new resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar3/3.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/9.txt</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/12.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar3/</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken2:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='4'>
+			<description>remove resource (treated as new)</description>
+			<request>
+				<method>DELETE</method>
+				<ruri>$calendarhome1:/synccalendar3/3.ics</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/12.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar3/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='5'>
+			<description>remove resource (treated as old)</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/13.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar3/</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='6'>
+			<description>changed resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar3/1.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/7.txt</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/12.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar3/</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='7'>
+			<description>no change</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/12.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+	</test-suite>
+
+	<test-suite name='simple reports - diff token - props - home depth:1'>
+		<require-feature>
+			<feature>sync-report-home</feature>
+		</require-feature>
+		<test name='1'>
+			<description>initial query - grab token</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/14.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar3/</value>
+						<value>synccalendar4/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>ignore</name>
+						<value>$calendarhome1:/$outbox:/</value>
+						<value>$calendarhome1:/$freebusy:</value>
+						<value>$calendarhome1:/$notification:/</value>
+						<value>$calendarhome1:/$dropbox:/</value>
+					</arg>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='2'>
+			<description>new resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar4/3.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/12.txt</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/15.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar4/</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken2:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='3'>
+			<description>remove resource (treated as new)</description>
+			<request>
+				<method>DELETE</method>
+				<ruri>$calendarhome1:/synccalendar4/3.ics</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/15.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar4/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='4'>
+			<description>remove resource (treated as old)</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/16.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar4/</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>count</name>
+						<value>1</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='5'>
+			<description>changed resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$calendarhome1:/synccalendar4/1.ics</ruri>
+				<data>
+					<content-type>text/calendar; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/put/10.txt</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/15.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar4/</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='6'>
+			<description>no change</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/15.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+	</test-suite>
+
+	<test-suite name='simple reports - diff token - delete/create calendar - home depth:1'>
+		<require-feature>
+			<feature>sync-report-home</feature>
+		</require-feature>
+		<test name='1'>
+			<description>initial query - grab token</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/8.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar3/</value>
+						<value>synccalendar4/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='2'>
+			<description>remove resource then calendar</description>
+			<request>
+				<method>DELETE</method>
+				<ruri>$calendarhome1:/synccalendar3/1.ics</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>DELETE</method>
+				<ruri>$calendarhome1:/synccalendar3/</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/12.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>badhrefs</name>
+						<value>synccalendar3/</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken2:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='3'>
+			<description>add calendar - test last sync</description>
+			<request>
+				<method>MKCALENDAR</method>
+				<ruri>$calendarhome1:/synccalendar3/</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/13.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar3/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='4'>
+			<description>add calendar - test previous sync</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/12.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar3/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+	</test-suite>
+
+	<test-suite name='simple reports - valid token'>
+		<test name='1'>
+			<description>initial query</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/11.xml</filepath>
+				</data>
+				<verify>
+					<callback>prepostcondition</callback>
+					<arg>
+						<name>error</name>
+						<value>{DAV:}valid-sync-token</value>
+					</arg>
+					<arg>
+						<name>ignoreextras</name>
+						<value>{http://sabredav.org/ns}message</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+	</test-suite>
+
+	<test-suite name='calendar webdav property change - home depth:infinity'>
+		<require-feature>
+			<feature>sync-report-home</feature>
+		</require-feature>
+		<test name='1'>
+			<description>initial query - grab token</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar3/</value>
+						<value>synccalendar4/</value>
+						<value>synccalendar4/1.ics</value>
+						<value>synccalendar4/2.ics</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='2'>
+			<description>Change a property</description>
+			<request>
+				<method>PROPPATCH</method>
+				<ruri>$calendarhome1:/synccalendar3/</ruri>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/17.xml</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar3/</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>xmlElementMatch</callback>
+					<arg>
+						<name>exists</name>
+						<value>/{DAV:}multistatus/{DAV:}sync-token[!$synctoken1:]</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='3'>
+			<description>Remove a property</description>
+			<request>
+				<method>PROPPATCH</method>
+				<ruri>$calendarhome1:/synccalendar3/</ruri>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/18.xml</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar3/</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>xmlElementMatch</callback>
+					<arg>
+						<name>exists</name>
+						<value>/{DAV:}multistatus/{DAV:}sync-token[!$synctoken1:]</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+	</test-suite>
+
+	<test-suite name='calendar webdav property change - home depth:1'>
+		<require-feature>
+			<feature>sync-report-home</feature>
+		</require-feature>
+		<test name='1'>
+			<description>initial query - grab token</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/8.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar3/</value>
+						<value>synccalendar4/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='2'>
+			<description>Change a property</description>
+			<request>
+				<method>PROPPATCH</method>
+				<ruri>$calendarhome1:/synccalendar3/</ruri>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/17.xml</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/12.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar3/</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>xmlElementMatch</callback>
+					<arg>
+						<name>exists</name>
+						<value>/{DAV:}multistatus/{DAV:}sync-token[!$synctoken1:]</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='3'>
+			<description>Remove a property</description>
+			<request>
+				<method>PROPPATCH</method>
+				<ruri>$calendarhome1:/synccalendar3/</ruri>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/18.xml</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/12.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>synccalendar3/</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>xmlElementMatch</callback>
+					<arg>
+						<name>exists</name>
+						<value>/{DAV:}multistatus/{DAV:}sync-token[!$synctoken1:]</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+	</test-suite>
+
+
+	<test-suite name='default calendar property change - home depth:1'>
+		<require-feature>
+			<feature>sync-report-home</feature>
+		</require-feature>
+		<test name='1'>
+			<description>initial query - grab token</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/8.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar3/</value>
+						<value>synccalendar4/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='2'>
+			<description>Change property on Inbox</description>
+			<request>
+				<method>PROPPATCH</method>
+				<ruri>$inboxpath1:/</ruri>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/19.xml</filepath>
+				</data>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL</value>
+					</arg>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/12.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$inbox:/</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>xmlElementMatch</callback>
+					<arg>
+						<name>exists</name>
+						<value>/{DAV:}multistatus/{DAV:}sync-token[!$synctoken1:]</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='3'>
+			<description>Reset the property</description>
+			<request>
+				<method>PROPPATCH</method>
+				<ruri>$inboxpath1:/</ruri>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/20.xml</filepath>
+				</data>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL</value>
+					</arg>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/12.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$inbox:/</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>xmlElementMatch</callback>
+					<arg>
+						<name>exists</name>
+						<value>/{DAV:}multistatus/{DAV:}sync-token[!$synctoken1:]</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+	</test-suite>
+
+
+	<test-suite name='schedule-calendar-transp in response - home depth:1'>
+		<require-feature>
+			<feature>sync-report-home</feature>
+		</require-feature>
+		<test name='1'>
+			<description>initial query - grab token</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/22.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_home_items_initial_sync:</value>
+						<value>synccalendar3/</value>
+						<value>synccalendar4/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$dropbox:/</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>dataString</callback>
+					<arg>
+						<name>contains</name>
+						<value>opaque</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='2'>
+			<description>Change property on calendar</description>
+			<request>
+				<method>PROPPATCH</method>
+				<ruri>$calendarpath1:/</ruri>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/Common/PROPPATCH/calendar-transp-transparent.xml</filepath>
+				</data>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp</value>
+					</arg>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/23.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar:/</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>xmlElementMatch</callback>
+					<arg>
+						<name>exists</name>
+						<value>/{DAV:}multistatus/{DAV:}sync-token[!$synctoken1:]</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>dataString</callback>
+					<arg>
+						<name>contains</name>
+						<value>transparent</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='3'>
+			<description>Reset the property</description>
+			<request>
+				<method>PROPPATCH</method>
+				<ruri>$calendarpath1:/</ruri>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/Common/PROPPATCH/calendar-transp-opaque.xml</filepath>
+				</data>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp</value>
+					</arg>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/23.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar:/</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>xmlElementMatch</callback>
+					<arg>
+						<name>exists</name>
+						<value>/{DAV:}multistatus/{DAV:}sync-token[!$synctoken1:]</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>dataString</callback>
+					<arg>
+						<name>contains</name>
+						<value>opaque</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+	</test-suite>
+
+
+
+	<test-suite name='Prefer:return=minimal - home depth:1'>
+		<require-feature>
+			<feature>sync-report-home</feature>
+		</require-feature>
+		<test name='1'>
+			<description>initial query - no minimal</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/24.xml</filepath>
+				</data>
+				<verify>
+					<callback>dataString</callback>
+					<arg>
+						<name>contains</name>
+						<value>foobar</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='2'>
+			<description>initial query - with minimal</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$calendarhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<header>
+					<name>Prefer</name>
+					<value>return=minimal</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/reports/sync/24.xml</filepath>
+				</data>
+				<verify>
+					<callback>dataString</callback>
+					<arg>
+						<name>notcontains</name>
+						<value>foobar</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+	</test-suite>
+
+	<end/>
+
+</caldavtest>

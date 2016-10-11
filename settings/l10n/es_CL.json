@@ -1,0 +1,6 @@
+{ "translations": {
+    "Cancel" : "Cancelar",
+    "Password" : "Clave",
+    "Username" : "Usuario"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

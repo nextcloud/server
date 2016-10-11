@@ -1,0 +1,27 @@
+{ "translations": {
+    "New comment …" : "Nowy komentarz ...",
+    "Delete comment" : "Skasuj komentarz",
+    "Post" : "Zapisz",
+    "Cancel" : "Anuluj",
+    "Edit comment" : "Edytuj komentarz",
+    "[Deleted user]" : "[Usunięty użytkownik]",
+    "Comments" : "Komentarze",
+    "No comments yet, start the conversation!" : "Brak komentarzy, zacznij konwersację!",
+    "More comments …" : "Więcej komentarzy ...",
+    "Save" : "Zapisz",
+    "Allowed characters {count} of {max}" : "Dozwolone znaki {count} z {max}",
+    "Error occurred while retrieving comment with id {id}" : "W trakcie otrzymywania komentarza o identyfikatorze {id} wystąpił błąd.",
+    "Error occurred while updating comment with id {id}" : "W trakcie aktualizacji komentarza o identyfikatorze {id} wystąpił błąd.",
+    "Error occurred while posting comment" : "Podczas wysyłania komentarza wystąpił błąd",
+    "Comment" : "Komentarz",
+    "<strong>Comments</strong> for files" : "<strong>Komentarze</strong> dla plików",
+    "You commented" : "Skomentowałeś/łaś",
+    "%1$s commented" : "%1$s skomentował",
+    "You commented on %2$s" : "Skomentowałeś/łaś %2$s",
+    "%1$s commented on %2$s" : "%1$s skomentował %2$s",
+    "Type in a new comment..." : "Wprowadź nowy komentarz...",
+    "No other comments available" : "Nie ma więcej komentarzy",
+    "More comments..." : "Więcej komentarzy...",
+    "{count} unread comments" : "{count} nieprzeczytanych komentarzy"
+},"pluralForm" :"nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
+}

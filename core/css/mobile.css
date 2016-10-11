@@ -1,0 +1,164 @@
+@media only screen and (max-width: 768px) {
+
+#body-login #header {
+	padding-top: 10px;
+}
+
+#body-login .wrapper {
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-pack: center;
+	-webkit-box-align: center;
+
+	display: -webkit-flex;
+	-webkit-flex-direction: row;
+	-webkit-align-self: center;
+	-webkit-align-items: center;
+
+	display: -moz-box;
+	-moz-box-orient: horizontal;
+	-moz-box-pack: center;
+	-moz-box-align: center;
+
+	display: -ms-flexbox;
+	-ms-flex-direction: row;
+	-ms-flex-pack: center;
+	-ms-flex-align: center;
+
+	display: flex;
+	flex-direction: row;
+	align-self: center;
+	align-items: center;
+}
+
+/* on mobile public share, show only the icon of the logo, hide the text */
+#body-public #header .header-appname-container {
+	display: none;
+}
+
+/* do not show update notification on mobile */
+#update-notification {
+	display: none !important;
+}
+
+/* position share dropdown */
+#dropdown {
+	margin-right: 10% !important;
+	width: 80% !important;
+}
+
+/* fix name autocomplete not showing on mobile */
+.ui-autocomplete {
+	z-index: 1000 !important;
+}
+
+/* fix error display on smaller screens */
+.error-wide {
+	width: 100%;
+	margin-left: 0 !important;
+	box-sizing: border-box;
+}
+
+
+/* APP SIDEBAR TOGGLE and SWIPE ----------------------------------------------*/
+
+#app-navigation,
+#app-content {
+	position: absolute !important;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+#app-navigation {
+	width: 250px !important;
+}
+
+#app-content {
+	width: 100% !important;
+	left: 0 !important;
+	background-color: #fff;
+	overflow-x: hidden !important;
+	z-index: 1000;
+}
+
+/* allow horizontal scrollbar in settings
+	otherwise user management is not usable on mobile */
+#body-settings #app-content {
+	overflow-x: auto !important;
+}
+
+#app-navigation-toggle {
+	position: fixed;
+	display: inline-block !important;
+	top: 45px;
+	left: 0;
+	width: 44px;
+	height: 44px;
+	z-index: 149;
+	background-color: rgba(255, 255, 255, .7);
+	cursor: pointer;
+	opacity: .6;
+}
+#app-navigation-toggle:hover,
+#app-navigation-toggle:focus {
+	opacity: 1;
+}
+
+
+/* controls bar for mobile */
+#controls {
+	min-width: initial !important;
+	left: 0 !important;
+	padding-left: 0;
+}
+/* position controls for apps with app-navigation */
+#app-navigation+#app-content #controls {
+	padding-left: 44px;
+}
+
+/* .viewer-mode is when text editor, PDF viewer, etc is open */
+#body-user .app-files.viewer-mode #controls {
+	padding-left: 0 !important;
+}
+.app-files.viewer-mode #app-navigation-toggle {
+	display: none !important;
+}
+
+table.multiselect thead {
+	left: 0 !important;
+}
+
+
+/* prevent overflow in user management controls bar */
+#usersearchform {
+	display: none;
+}
+#body-settings #controls {
+	min-width: 768px !important;
+}
+
+
+/* do not show dates in filepicker */
+#oc-dialog-filepicker-content .filelist .date {
+	display: none;
+}
+#oc-dialog-filepicker-content .filelist .filename {
+	max-width: 80%;
+}
+
+
+/* fix controls bar jumping when navigation is slid out */
+.snapjs-left #app-navigation-toggle,
+.snapjs-left #controls {
+	top: 0;
+}
+.snapjs-left table.multiselect thead {
+	top: 44px;
+}
+
+
+
+/* end of media query */
+}

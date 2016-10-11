@@ -1,0 +1,117 @@
+#global_credentials {
+	padding: 0 30px;
+	margin-bottom: 0px;
+}
+
+#files_external {
+	margin-bottom: 0px;
+}
+
+#externalStorage {
+	margin: 15px 0 20px 0;
+}
+
+#externalStorage td.status {
+	/* overwrite conflicting core styles */
+	display: table-cell;
+	vertical-align: middle;
+}
+
+#externalStorage td.status > span {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	vertical-align: text-bottom;
+}
+
+td.mountPoint, td.backend { width:160px; }
+#externalStorage td>img { padding-top:7px; opacity: 0.5; }
+#externalStorage td>img:hover { padding-top:7px; cursor:pointer; opacity: 1; }
+#addMountPoint>td { border:none; }
+#addMountPoint>td.applicable { visibility:hidden; }
+#addMountPoint>td.hidden { visibility:hidden; }
+
+#externalStorage .icon-settings {
+	padding: 11px 20px;
+	vertical-align: text-bottom;
+}
+
+#selectBackend {
+	margin-left: -10px;
+	width: 150px;
+}
+
+#externalStorage td.configuration,
+#externalStorage td.backend {
+	white-space: normal;
+}
+#externalStorage td.configuration > * {
+	white-space: nowrap;
+}
+
+#externalStorage td.configuration input.added  {
+	margin-right: 6px;
+}
+
+#externalStorage label > input[type="checkbox"] {
+	margin-right: 3px;
+}
+
+#externalStorage td.configuration label {
+	min-width: 144px; /* 130px plus 2x7px padding */
+	display: inline-block;
+	margin-right: 6px;
+}
+
+#externalStorage td.configuration input.disabled-success {
+	background-color: rgba(134, 255, 110, 0.9);
+}
+
+
+#externalStorage td.applicable div.chzn-container {
+	position: relative;
+	top: 3px;
+}
+
+#externalStorage td.status .success {
+	border-radius: 50%;
+}
+
+#userMountingBackends {
+	padding-left: 25px;
+}
+
+.files-external-select2 .select2-results .select2-result-label {
+	height: 32px;
+	padding: 3px;
+}
+.files-external-select2 .select2-results .select2-result-label > span {
+	display: block;
+	position: relative;
+}
+.files-external-select2 .select2-results .select2-result-label .avatardiv {
+	display:inline-block;
+}
+.files-external-select2 .select2-results .select2-result-label .avatardiv + span {
+	position: absolute;
+	top: 5px;
+	margin-left: 10px;
+}
+.files-external-select2 .select2-results .select2-result-label .avatardiv[data-type="group"] + span {
+	vertical-align: top;
+	top: 6px;
+	position: absolute;
+	max-width: 80%;
+	left: 30px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+#externalStorage .mountOptionsToggle .dropdown {
+	width: auto;
+}
+
+#externalStorage .mountOptionsDropdown {
+	margin-right: 40px;
+}

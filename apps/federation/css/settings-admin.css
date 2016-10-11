@@ -1,0 +1,28 @@
+#ocFederationSettings p {
+	padding-top: 10px;
+}
+
+#listOfTrustedServers li {
+	padding-top: 10px;
+}
+
+.removeTrustedServer {
+	display: none;
+	vertical-align:middle;
+	padding-left: 10px;
+}
+
+#ocFederationAddServerButton {
+	cursor: pointer;
+}
+
+#listOfTrustedServers .status {
+	margin-right: 10px;
+}
+
+#listOfTrustedServers .icon {
+	cursor: pointer;
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 10px;
+}

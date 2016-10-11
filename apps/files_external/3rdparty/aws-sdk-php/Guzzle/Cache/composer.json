@@ -1,0 +1,27 @@
+{
+    "name": "guzzle/cache",
+    "description": "Guzzle cache adapter component",
+    "homepage": "http://guzzlephp.org/",
+    "keywords": ["cache", "adapter", "zf", "doctrine", "guzzle"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Dowling",
+            "email": "mtdowling@gmail.com",
+            "homepage": "https://github.com/mtdowling"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "guzzle/common": "self.version"
+    },
+    "autoload": {
+        "psr-0": { "Guzzle\\Cache": "" }
+    },
+    "target-dir": "Guzzle/Cache",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.7-dev"
+        }
+    }
+}

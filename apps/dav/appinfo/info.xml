@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<info>
+	<id>dav</id>
+	<name>WebDAV</name>
+	<description>WebDAV endpoint</description>
+	<licence>AGPL</licence>
+	<author>owncloud.org</author>
+	<version>1.1.1</version>
+	<default_enable/>
+	<types>
+		<filesystem/>
+	</types>
+	<namespace>DAV</namespace>
+	<public>
+		<webdav>appinfo/v1/publicwebdav.php</webdav>
+	</public>
+	<dependencies>
+		<owncloud min-version="9.2" max-version="9.2" />
+	</dependencies>
+	<background-jobs>
+		<job>OCA\DAV\CardDAV\SyncJob</job>
+	</background-jobs>
+	<repair-steps>
+		<post-migration>
+			<step>OCA\DAV\Migration\Classification</step>
+			<step>OCA\DAV\Migration\FixBirthdayCalendarComponent</step>
+		</post-migration>
+		<live-migration>
+			<step>OCA\DAV\Migration\GenerateBirthdays</step>
+		</live-migration>
+	</repair-steps>
+</info>

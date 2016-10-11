@@ -1,0 +1,18 @@
+/* ---- BROWSER-SPECIFIC FIXES ---- */
+
+/* remove dotted outlines in Firefox */
+::-moz-focus-inner {
+	border: 0;
+}
+
+/* fix height of select boxes for OS X */
+select {
+	height: 32px;
+}
+
+/* deactivate show password toggle for IE. Does not work for 8 and 9+ have their own implementation. */
+.ie #show, .ie #show+label {
+	display: none;
+	visibility: hidden;
+}
+

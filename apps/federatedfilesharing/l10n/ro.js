@@ -1,0 +1,27 @@
+OC.L10N.register(
+    "federatedfilesharing",
+    {
+    "Federated sharing" : "Partajare federalizată",
+    "Invalid Federated Cloud ID" : "ID invalid cloud federalizat",
+    "Sharing %s failed, because this item is already shared with %s" : "Partajarea %s a eșuat deoarece acest element este deja partajat cu %s",
+    "Not allowed to create a federated share with the same user" : "Nu este permisă crearea unei partajări federalizate cu acelaşi utilizator",
+    "File is already shared with %s" : "Fişierul este deja partajat cu %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Partajarea %s a eşuat, nu pot găsi %s, poate serverul nu poate fi contactat.",
+    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Ai primit \"/%3$s\" ca partajare remote de la %1$s (în numele %2$s)",
+    "You received \"/%3$s\" as a remote share from %1$s" : "Ai primit \"/%3$s\" ca partajare remote de la %1$s",
+    "Accept" : "Accept",
+    "Decline" : "Refuză",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Partajează cu mine prin #Nextcloud Federated Cloud ID, vezi %s",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Partajează cu mine prin #Nextcloud Federated Cloud ID",
+    "Federated Cloud Sharing" : "Partajare federalizata cloud",
+    "Open documentation" : "Deschide documentația",
+    "Allow users on this server to send shares to other servers" : "Permite utilizatorilor de pe acest server să transmită partajări către alte servere",
+    "Allow users on this server to receive shares from other servers" : "Permite utilizatorilor acestui server să primească partajări de la alte servere",
+    "Federated Cloud" : "Cloud federalizat",
+    "Your Federated Cloud ID:" : "ID Cloud federalizat:",
+    "Share it:" : "Partajează:",
+    "Add to your website" : "Adaugă la site-ul tău Web",
+    "Share with me via Nextcloud" : "Partajează cu mine via Nextcloud",
+    "HTML Code:" : "Cod HTML:"
+},
+"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

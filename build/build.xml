@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ownCloud" default="build">
+
+ <!-- the target 'build' can be used by developers for command line builds -->
+ <target name="build" depends="lint"/>
+
+ <!-- php syntax analysis -->
+ <target name="lint">
+  <apply executable="php" failonerror="true">
+   <arg value="-l" />
+
+   <fileset dir="${basedir}">
+    <include name="**/*.php" />
+    <exclude name="**/3rdparty/**" />
+    <exclude name="**/l10n/**" />
+    <!-- modified / -->
+   </fileset>
+
+  </apply>
+
+  <!-- this looks for @brief and @returns annotation in PHP files and fails if it found some -->
+  <apply executable="egrep" failonerror="false" resultproperty="grepReturnCode">
+    <arg value="-rsHn" />
+    <arg value="@brief|@returns" />
+
+    <fileset dir="${basedir}/build">
+      <include name="**/*.php" />
+      <exclude name="**/3rdparty/**" />
+      <exclude name="**/l10n/**" />
+    </fileset>
+  </apply>
+
+  <!-- fail if grep has found something -->
+  <fail message="Please remove @returns and @brief annotations for PHPDoc (listed above)">
+    <condition>
+      <equals arg1="0" arg2="${grepReturnCode}"/>
+    </condition>
+  </fail>
+
+ </target>
+</project>

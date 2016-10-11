@@ -1,0 +1,222 @@
+Nextcloud is written by:
+ - AW-UC <git@a-wesemann.de>
+ - Aaron Wood <aaronjwood@gmail.com>
+ - Achim Königs <garfonso@tratschtante.de>
+ - Adam Williamson <awilliam@redhat.com>
+ - Administrator <Administrator@WINDOWS-2012>
+ - Aldo "xoen" Giambelluca <xoen@xoen.org>
+ - Alex Weirig <alex.weirig@technolink.lu>
+ - Alexander Bergolth <leo@strike.wu.ac.at>
+ - Andreas Fischer <bantu@owncloud.com>
+ - Andrew Brown <andrew@casabrown.com>
+ - André Gaul <gaul@web-yard.de>
+ - Arthur Schiwon <blizzz@arthur-schiwon.de>
+ - Bart Visscher <bartv@thisnet.nl>
+ - Bartek Przybylski <bart.p.pl@gmail.com>
+ - Bastien Ho <bastienho@urbancube.fr>
+ - Benjamin Diele <benjamin@diele.be>
+ - Benjamin Liles <benliles@arch.tamu.edu>
+ - Bernhard Posselt <dev@bernhard-posselt.com>
+ - Bernhard Reiter <ockham@raz.or.at>
+ - Birk Borkason <daniel.niccoli@gmail.com>
+ - Bjoern Schiessle <bjoern@schiessle.org>
+ - Björn Schießle <bjoern@schiessle.org>
+ - Borjan Tchakaloff <borjan@tchakaloff.fr>
+ - Brice Maron <brice@bmaron.net>
+ - Byron Marohn <combustible@live.com>
+ - Carla Schroder <carla@owncloud.com>
+ - Carlos Cerrillo <ccerrillo@gmail.com>
+ - Carlos Damken <carlos@damken.com>
+ - Christian Berendt <berendt@b1-systems.de>
+ - Christian Jürges <christian@eqipe.ch>
+ - Christian Kampka <christian@kampka.net>
+ - Christian Weiske <cweiske@cweiske.de>
+ - Christoph Schaefer <christophł@wolkesicher.de>
+ - Christoph Wurst <christoph@owncloud.com>
+ - Christopher Schäpers <kondou@ts.unde.re>
+ - Christopher T. Johnson <ctjctj@gmail.com>
+ - Clark Tomlinson <fallen013@gmail.com>
+ - Craig Morrissey <craig@owncloud.com>
+ - Dan Bartram <daneybartram@gmail.com>
+ - Daniel Hansson <enoch85@gmail.com>
+ - Daniel Jagszent <daniel@jagszent.de>
+ - Daniel Molkentin <daniel@molkentin.de>
+ - Daniel Tosello <tosello.daniel@gmail.com>
+ - David Prévot <taffit@debian.org>
+ - David Toledo <dtoledo@solidgear.es>
+ - Dominik Schmidt <dev@dominik-schmidt.de>
+ - Fabian Henze <flyser42@gmx.de>
+ - Faruk Uzun <farukuzun@collabora.com>
+ - Felix Böhm <felixboehm@gmx.de>
+ - Felix Moeller <mail@felixmoeller.de>
+ - Florian Preinstorfer <nblock@archlinux.us>
+ - Florian Pritz <bluewind@xinu.at>
+ - Florin Peter <github@florin-peter.de>
+ - Francesco Rovelli <francesco.rovelli@gmail.com>
+ - Frank Karlitschek <frank@karlitschek.de>
+ - François Kubler <francois@kubler.org>
+ - Frédéric Fortier <frederic.fortier@oronospolytechnique.com>
+ - Gadzy <dev@gadzy.fr>
+ - Georg Ehrke <georg@owncloud.com>
+ - Guillaume AMAT <guillaume.amat@informatique-libre.com>
+ - Hasso Tepper <hasso@zone.ee>
+ - Hendrik Leppelsack <hendrik@leppelsack.de>
+ - Hugo Gonzalez Labrador <hglavra@gmail.com>
+ - Individual IT Services <info@individual-it.net>
+ - Jakob Sack <mail@jakobsack.de>
+ - Jan-Christoph Borchardt <hey@jancborchardt.net>
+ - Jarrett <JetUni@users.noreply.github.com>
+ - Jean-Louis Dupond <jean-louis@dupond.be>
+ - Jens-Christian Fischer <jens-christian.fischer@switch.ch>
+ - Jesús Macias <jmacias@solidgear.es>
+ - Joachim Bauch <bauch@struktur.de>
+ - Joachim Sokolowski <github@sokolowski.org>
+ - Joas Schilling <coding@schilljs.com>
+ - Johan Björk <johanimon@gmail.com>
+ - Johannes Ernst <jernst@indiecomputing.com>
+ - Johannes Willnecker <johannes@willnecker.com>
+ - Jonny007-MKD <1-23-4-5@web.de>
+ - Juan Pablo Villafáñez <jvillafanez@solidgear.es>
+ - Julius Haertl <jus@bitgrid.net>
+ - Jörn Friedrich Dreyer <jfd@butonic.de>
+ - Kamil Domanski <kdomanski@kdemail.net>
+ - Klaas Freitag <freitag@owncloud.com>
+ - Lars <winnetou+github@catolic.de>
+ - Laurens Post <Crote@users.noreply.github.com>
+ - Laurens Post <lkpost@scept.re>
+ - Lennart Rosam <hello@takuto.de>
+ - Lennart Rosam <lennart.rosam@medien-systempartner.de>
+ - Leonardo Diez <leio10@users.noreply.github.com>
+ - Lorenzo M. Catucci <lorenzo@sancho.ccd.uniroma2.it>
+ - Lukas Reschke <lukas@statuscode.ch>
+ - Luke Policinski <lpolicinski@gmail.com>
+ - Lyonel Vincent <lyonel@ezix.org>
+ - Manish Bisht <manish.bisht490@gmail.com>
+ - Mario Kolling <mario.kolling@serpro.gov.br>
+ - Markus Goetz <markus@woboq.com>
+ - Martin Konrad <info@martin-konrad.net>
+ - Martin Konrad <konrad@frib.msu.edu>
+ - Martin Mattel <martin.mattel@diemattels.at>
+ - Marvin Thomas Rabe <mrabe@marvinrabe.de>
+ - Masaki Kawabata Neto <masaki.kawabata@gmail.com>
+ - Michael Gapczynski <GapczynskiM@gmail.com>
+ - Michael Göhler <somebody.here@gmx.de>
+ - Michael Kuhn <suraia@ikkoku.de>
+ - Michael Roitzsch <reactorcontrol@icloud.com>
+ - Michael Roth <michael.roth@rz.uni-augsburg.de>
+ - Michael U <mdusher@users.noreply.github.com>
+ - Miguel Prokop <miguel.prokop@vtu.com>
+ - Mitar <mitar.git@tnode.com>
+ - Morris Jobke <hey@morrisjobke.de>
+ - Nicolai Ehemann <en@enlightened.de>
+ - Nicolas Grekas <nicolas.grekas@gmail.com>
+ - Nmz <nemesiz@nmz.lt>
+ - Normal Ra <normalraw@gmail.com>
+ - Oliver Gasser <oliver.gasser@gmail.com>
+ - Oliver Kohl D.Sc. <oliver@kohl.bz>
+ - Olivier Paroz <github@oparoz.com>
+ - Otto Sabart <ottosabart@seberm.com>
+ - Owen Winkler <a_github@midnightcircus.com>
+ - Pascal de Bruijn <pmjdebruijn@pcode.nl>
+ - Patrick Paysant <ppaysant@linagora.com>
+ - Pellaeon Lin <nfsmwlin@gmail.com>
+ - Petr Svoboda <weits666@gmail.com>
+ - Phiber2000 <phiber2000@gmx.de>
+ - Phil Davis <phil.davis@inf.org>
+ - Philipp Kapfer <philipp.kapfer@gmx.at>
+ - Philippe Jung <phil.jung@free.fr>
+ - Pierre Jochem <pierrejochem@msn.com>
+ - Pierre Ozoux <pierre@ozoux.net>
+ - Piotr Filiciak <piotr@filiciak.pl>
+ - Qingping Hou <dave2008713@gmail.com>
+ - Raghu Nayyar <hey@raghunayyar.com>
+ - Raghu Nayyar <me@iraghu.com>
+ - Ralph Krimmel <rkrimme1@gwdg.de>
+ - Ramiro Aparicio <rapariciog@gmail.com>
+ - Randolph Carter <RandolphCarter@fantasymail.de>
+ - RealRancor <Fisch.666@gmx.de>
+ - Remco Brenninkmeijer <requist1@starmail.nl>
+ - Renaud Fortier <Renaud.Fortier@fsaa.ulaval.ca>
+ - Robin Appelman <robin@icewind.nl>
+ - Robin McCorkell <robin@mccorkell.me.uk>
+ - Roeland Jago Douma <roeland@famdouma.nl>
+ - Roman Geber <rgeber@owncloudapps.com>
+ - Roman Kreisel <mail@romankreisel.de>
+ - Ross Nicoll <jrn@jrn.me.uk>
+ - SA <stephen@mthosting.net>
+ - Sam Tuke <mail@samtuke.com>
+ - Sander <brantje@gmail.com>
+ - Sean Comeau <sean@ftlnetworks.ca>
+ - Sebastian Döll <sebastian.doell@libasys.de>
+ - Senorsen <senorsen.zhang@gmail.com>
+ - Serge Martin <edb@sigluy.net>
+ - Sergio Bertolin <sbertolin@solidgear.es>
+ - Sergio Bertolín <sbertolin@solidgear.es>
+ - Simon Könnecke <simonkoennecke@gmail.com>
+ - Sjors van der Pluijm <sjors@desjors.nl>
+ - Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+ - Stefan Rado <owncloud@sradonia.net>
+ - Stefan Weil <sw@weilnetz.de>
+ - Steffen Lindner <mail@steffen-lindner.de>
+ - Stephan Peijnik <speijnik@anexia-it.com>
+ - TheSFReader <TheSFReader@gmail.com>
+ - Thibaut GRIDEL <tgridel@free.fr>
+ - Thomas Citharel <tcit@tcit.fr>
+ - Thomas Müller <thomas.mueller@tmit.eu>
+ - Thomas Pulzer <t.pulzer@kniel.de>
+ - Thomas Tanghus <thomas@tanghus.net>
+ - Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
+ - Tim Dettrick <t.dettrick@uq.edu.au>
+ - Tobia De Koninck <tobia@ledfan.be>
+ - Tobias Kaminsky <tobias@kaminsky.me>
+ - Tom Needham <tom@owncloud.com>
+ - Torben Dannhauer <torben@dannhauer.de>
+ - Victor Dubiniuk <dubiniuk@owncloud.com>
+ - Viktor Szépe <viktor@szepe.net>
+ - Vincent Chan <plus.vincchan@gmail.com>
+ - Vincent Cloutier <vincent1cloutier@gmail.com>
+ - Vincent Petry <pvince81@owncloud.com>
+ - Volkan Gezer <volkangezer@gmail.com>
+ - adrien <adrien.waksberg@believedigital.com>
+ - alexweirig <alex.weirig@technolink.lu>
+ - brumsel <brumsel@losecatcher.de>
+ - cetra3 <peter@parashift.com.au>
+ - cmeh <cmeh@users.noreply.github.com>
+ - dampfklon <me@dampfklon.de>
+ - davidgumberg <davidnoizgumberg@gmail.com>
+ - davitol <dtoledo@solidgear.es>
+ - derkostka <sebastian.kostka@gmail.com>
+ - eduardo <eduardo@vnexu.net>
+ - fabian <fabian@web2.0-apps.de>
+ - felixboehm <felix@webhippie.de>
+ - goodkiller <markopraakli@gmail.com>
+ - helix84 <helix84@centrum.sk>
+ - hkjolhede <hkjolhede@gmail.com>
+ - ideaship <ideaship@users.noreply.github.com>
+ - j-ed <juergen@eisfair.org>
+ - jknockaert <jasper@knockaert.nl>
+ - josh4trunks <joshruehlig@gmail.com>
+ - karakayasemi <karakayasemi@itu.edu.tr>
+ - macjohnny <estebanmarin@gmx.ch>
+ - martin-rueegg <martin.rueegg@metaworx.ch>
+ - martin.mattel@diemattels.at <martin.mattel@diemattels.at>
+ - michag86 <micha_g@arcor.de>
+ - mmccarn <mmccarn-github@mmsionline.us>
+ - nishiki <nishiki@yaegashi.fr>
+ - oparoz <owncloud@interfasys.ch>
+ - root <root@oc.(none)>
+ - scambra <sergio@entrecables.com>
+ - scolebrook <scolebrook@mac.com>
+ - shkdee <louis.traynard@m4x.org>
+ - sualko <klaus@jsxc.org>
+ - tbartenstein <tbartenstein@users.noreply.github.com>
+ - tbelau666 <thomas.belau@gmx.de>
+ - unclejamal3000 <andreas.pramhaas@posteo.de>
+ - v1r0x <vinzenz.rosenkranz@gmail.com>
+ - voxsim <Simon Vocella>
+
+With help from many libraries and frameworks including:
+	Open Collaboration Services
+	SabreDAV
+	jQuery
+	…

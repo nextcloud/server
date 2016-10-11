@@ -1,0 +1,85 @@
+@media only screen and (max-width: 768px) {
+
+.app-files #app-content.dir-drop{
+	background-color: rgba(255, 255, 255, 1)!important;
+}
+
+/* don’t require a minimum width for files table */
+#body-user #filestable {
+	min-width: initial !important;
+}
+
+/* hide size and date columns */
+table th#headerSize,
+table td.filesize,
+table th#headerDate,
+table td.date {
+	display: none;
+}
+
+/* remove padding to let border bottom fill the whole width*/
+table td {
+	padding: 0;
+}
+/* and accordingly fix left margin of file list summary on mobile */
+.summary .info {
+	margin-left: 105px;
+}
+
+/* remove shift for multiselect bar to account for missing navigation */
+table.multiselect thead {
+	padding-left: 0;
+}
+
+/* restrict length of displayed filename to prevent overflow */
+table td.filename .nametext {
+	width: 100%;
+}
+
+#fileList a.action.action-menu img {
+	padding-left: 0;
+}
+
+#fileList .fileActionsMenu {
+	margin-right: 6px;
+}
+/* hide text of the share action on mobile */
+#fileList a.action-share span {
+	display: none;
+}
+#fileList a.action.action-favorite {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)" !important;
+	opacity: .7 !important;
+}
+#fileList a.action.action-favorite {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)" !important;
+	opacity: .3 !important;
+}
+
+/* ellipsis on file names */
+table td.filename .nametext .innernametext {
+	max-width: 50%;
+}
+
+/* proper notification area for multi line messages */
+#notification-container {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+}
+
+/* shorten elements for mobile */
+#uploadprogressbar, #uploadprogressbar .label.inner {
+	width: 50px;
+}
+/* hide desktop-only parts */
+#uploadprogressbar .desktop {
+	display: none !important;
+}
+#uploadprogressbar .mobile {
+	display: block !important;
+}
+
+}

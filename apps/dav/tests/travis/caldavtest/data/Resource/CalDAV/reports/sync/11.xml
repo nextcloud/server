@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<D:sync-collection xmlns:D="DAV:">
+<D:sync-token>null</D:sync-token>
+<D:prop>
+<D:getetag/>
+</D:prop>
+</D:sync-collection>

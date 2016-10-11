@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<info>
+	<id>theming</id>
+	<name>Theming</name>
+	<description>Adjust the Nextcloud theme</description>
+	<licence>AGPL</licence>
+	<author>Nextcloud</author>
+	<version>1.1.1</version>
+	<namespace>Theming</namespace>
+	<category>other</category>
+
+	<dependencies>
+		<owncloud min-version="9.2" max-version="9.2" />
+	</dependencies>
+
+	<types>
+		<logging/>
+	</types>
+
+	<default_enable/>
+
+	<settings>
+		<admin>OCA\Theming\Settings\Admin</admin>
+		<admin-section>OCA\Theming\Settings\Section</admin-section>
+	</settings>
+</info>

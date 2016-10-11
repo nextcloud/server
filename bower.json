@@ -1,0 +1,36 @@
+{
+  "name": "Nextcloud",
+  "version": "11 alpha",
+  "homepage": "https://www.nextcloud.com",
+  "license": "AGPL",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "core/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "blueimp-md5": "~1.1.0",
+    "handlebars": "^4.0.5",
+    "jcrop": "~0.9.12",
+    "jquery": "~2.2.0",
+    "jquery-migrate": "~1.4.0",
+    "jquery-ui": "1.10.0",
+    "jsTimezoneDetect": "~1.0.5",
+    "moment": "^2.15.0",
+    "select2": "~3.4.8",
+    "zxcvbn": "*",
+    "snapjs": "~2.0.0-rc1",
+    "strengthify": "^0.5.1",
+    "underscore": "~1.8.0",
+    "bootstrap": "~3.3.6",
+    "backbone": "~1.2.3",
+    "davclient.js": "https://github.com/evert/davclient.js.git",
+    "es6-promise": "https://github.com/jakearchibald/es6-promise.git#~2.3.0",
+    "base64": "~0.3.0",
+    "clipboard": "^1.5.12"
+  }
+}

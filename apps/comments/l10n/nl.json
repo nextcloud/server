@@ -1,0 +1,28 @@
+{ "translations": {
+    "New comment …" : "Nieuwe reactie ...",
+    "Delete comment" : "Verwijder reactie",
+    "Post" : "Reageer",
+    "Cancel" : "Annuleren",
+    "Edit comment" : "Bewerk reactie",
+    "[Deleted user]" : "[Verwijderde gebruiker]",
+    "Comments" : "Reacties",
+    "No comments yet, start the conversation!" : "Nog geen reacties, start de discussie!",
+    "More comments …" : "Meer reacties ...",
+    "Save" : "Opslaan",
+    "Allowed characters {count} of {max}" : "{count} van de {max} toegestane tekens",
+    "Error occurred while retrieving comment with id {id}" : "Er trad een fout op bij het ophalen van reactie met id {id}",
+    "Error occurred while updating comment with id {id}" : "Er trad een fout op bij het bijwerken van reactie met id {id}",
+    "Error occurred while posting comment" : "Er trad een fout op bij plaatsen reactie",
+    "_%n unread comment_::_%n unread comments_" : ["%n ongelezen reactie","%n ongelezen reacties"],
+    "Comment" : "Reactie",
+    "<strong>Comments</strong> for files" : "<strong>Reacties</strong> voor bestanden",
+    "You commented" : "Je reageerde",
+    "%1$s commented" : "%1$s heeft gereageerd",
+    "You commented on %2$s" : "Je reageerde op %2$s",
+    "%1$s commented on %2$s" : "%1$s heeft gereageerd op %2$s",
+    "Type in a new comment..." : "Type een nieuwe reactie...",
+    "No other comments available" : "Geen andere reacties beschikbaar",
+    "More comments..." : "Meer reacties...",
+    "{count} unread comments" : "{count} ongelezen reacties"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

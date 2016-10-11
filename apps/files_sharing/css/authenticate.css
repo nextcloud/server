@@ -1,0 +1,20 @@
+#password {
+	padding: 10px;
+	margin:	6px;
+}
+
+input[type='submit'] {
+	width: 45px;
+	height: 45px;
+	margin:	6px;
+}
+
+#body-login input[type='submit'] {
+	position: absolute;
+	top: 0;
+	border: none;
+}
+
+fieldset > p {
+	position: relative;
+}

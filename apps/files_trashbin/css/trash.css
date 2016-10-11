@@ -1,0 +1,38 @@
+/*
+ * Copyright (c) 2014
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+#app-content-trashbin tbody tr[data-type="file"] td a.name,
+#app-content-trashbin tbody tr[data-type="file"] td a.name span {
+    cursor: default;
+}
+
+#app-content-trashbin .summary :last-child {
+	padding: 0;
+}
+#app-content-trashbin #filestable .summary .filesize {
+	display: none;
+}
+
+#app-navigation > ul {
+	padding-bottom: 44px;
+}
+
+/* move Deleted Files to bottom of sidebar */
+.nav-trashbin {
+	position: fixed !important;
+	bottom: 44px;
+	width: inherit !important;
+	background-color: #fff;
+	border-right: 1px solid #eee;
+}
+/* double padding to account for Deleted files entry, issue with Firefox */
+.app-files #app-navigation > ul li:nth-last-child(2) {
+	margin-bottom: 44px;
+}
+

@@ -1,0 +1,30 @@
+{
+  "maxReviewers": 3,
+  "numFilesToCheck": 5,
+  "alwaysNotifyForPaths": [
+    {
+      "name": "nickvergessen",
+      "files": [
+        "lib/private/Activity/**",
+        "lib/private/Notification/**",
+        "lib/public/Activity/**",
+        "lib/public/Notification/**"
+      ]
+    },
+    {
+      "name": "Xenopathic",
+      "files": [
+        "apps/files_external/**"
+      ]
+    }
+  ],
+  "userBlacklist": [
+    "DeepDiver1975",
+    "nextcloud-bot",
+    "owncloud-bot",
+    "PVince81",
+    "scrutinizer-auto-fixer",
+    "th3fallen",
+    "zander"
+  ]
+}

@@ -1,0 +1,10 @@
+../strings.php
+../templates/404.php
+../templates/error.php
+../templates/installation.php
+../templates/layout.guest.php
+../templates/layout.user.php
+../templates/login.php
+../templates/logout.php
+../templates/part.pagenavi.php
+../../lib/app.php

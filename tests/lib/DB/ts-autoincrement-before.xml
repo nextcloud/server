@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<database>
+
+	<name>*dbname*</name>
+	<create>true</create>
+	<overwrite>false</overwrite>
+
+	<charset>utf8</charset>
+
+	<table>
+
+		<name>*dbprefix*table</name>
+
+		<declaration>
+			<field>
+				<name>textfield</name>
+				<type>text</type>
+				<default>foo</default>
+				<notnull>true</notnull>
+				<length>32</length>
+			</field>
+		</declaration>
+	</table>
+</database>

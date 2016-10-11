@@ -1,0 +1,12 @@
+
+#body-login .error-broken-link{
+ text-align:left;color:#fff;
+}
+
+#body-login .error-broken-link ul{
+	margin:10px 0 10px 0;
+}
+
+#body-login .error-broken-link ul li{
+	list-style: disc;list-style-position:inside;cursor:default;	
+}

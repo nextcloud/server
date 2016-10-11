@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<info>
+	<id>files</id>
+	<name>Files</name>
+	<description>File Management</description>
+	<licence>AGPL</licence>
+	<author>Robin Appelman, Vincent Petry</author>
+	<default_enable/>
+	<version>1.6.1</version>
+	<types>
+		<filesystem/>
+	</types>
+	<dependencies>
+		<owncloud min-version="9.2" max-version="9.2" />
+	</dependencies>
+	<documentation>
+		<user>user-files</user>
+	</documentation>
+
+	<background-jobs>
+		<job>OCA\Files\BackgroundJob\ScanFiles</job>
+		<job>OCA\Files\BackgroundJob\DeleteOrphanedItems</job>
+		<job>OCA\Files\BackgroundJob\CleanupFileLocks</job>
+	</background-jobs>
+
+	<settings>
+		<admin>OCA\Files\Settings\Admin</admin>
+	</settings>
+</info>

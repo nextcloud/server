@@ -1,0 +1,392 @@
+pipeline:
+  clone:
+    image: plugins/git
+    depth: 1
+  jsunit:
+    image: nextcloudci/jsunit:1.0.6
+    commands:
+      - ./autotest-js.sh
+    when:
+      matrix:
+        TESTS: jsunit
+  check-autoloader:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - bash ./build/autoloaderchecker.sh
+    when:
+      matrix:
+        TESTS: check-autoloader
+  app-check-code:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - ./occ app:check-code admin_audit
+      - ./occ app:check-code comments
+      - ./occ app:check-code federation
+      - ./occ app:check-code workflowengine
+    when:
+      matrix:
+        TESTS: app-check-code
+  signed-off-check:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - php ./build/signed-off-checker.php
+    when:
+      matrix:
+        TESTS: signed-off-check
+  syntax-php5.6:
+    image: nextcloudci/php5.6:php5.6-2
+    commands:
+      - composer install
+      - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
+    when:
+      matrix:
+        TESTS: syntax-php5.6
+  syntax-php7.0:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - composer install
+      - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
+    when:
+      matrix:
+        TESTS: syntax-php7.0
+  litmus-v1:
+    image: nextcloudci/litmus-php7.0:litmus-php7.0-2
+    commands:
+      - bash tests/travis/install.sh sqlite
+      - bash apps/dav/tests/travis/litmus-v1/script.sh
+    when:
+      matrix:
+        TESTS: litmus-v1
+  litmus-v2:
+    image: nextcloudci/litmus-php7.0:litmus-php7.0-2
+    commands:
+      - bash tests/travis/install.sh sqlite
+      - bash apps/dav/tests/travis/litmus-v2/script.sh
+    when:
+      matrix:
+        TESTS: litmus-v2
+  caldavtester:
+    image: nextcloudci/litmus-php7.0:litmus-php7.0-2
+    commands:
+      - bash tests/travis/install.sh sqlite
+      - bash apps/dav/tests/travis/caldav/install.sh
+      - bash apps/dav/tests/travis/caldav/script.sh
+    when:
+      matrix:
+        TESTS: caldavtester
+  carddavtester:
+    image: nextcloudci/litmus-php7.0:litmus-php7.0-2
+    commands:
+      - bash tests/travis/install.sh sqlite
+      - bash apps/dav/tests/travis/carddav/install.sh
+      - bash apps/dav/tests/travis/carddav/script.sh
+    when:
+      matrix:
+        TESTS: carddavtester
+  nodb-php5.6:
+    image: nextcloudci/php5.6:php5.6-2
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
+    when:
+      matrix:
+        DB: NODB
+        PHP: 5.6
+  nodb-php7.0:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
+    when:
+      matrix:
+        DB: NODB
+        PHP: "7.0"
+  nodb-php7.1:
+    image: nextcloudci/php7.1:php7.1-5
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
+    when:
+      matrix:
+        DB: NODB
+        PHP: 7.1
+  sqlite-php5.6:
+    image: nextcloudci/php5.6:php5.6-2
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
+    when:
+      matrix:
+        DB: sqlite
+        PHP: 5.6
+  sqlite-php7.0:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
+    when:
+      matrix:
+        DB: sqlite
+        PHP: "7.0"
+  sqlite-php7.1:
+    image: nextcloudci/php7.1:php7.1-5
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
+    when:
+      matrix:
+        DB: sqlite
+        PHP: 7.1
+  mysql-php5.6:
+    image: nextcloudci/php5.6:php5.6-2
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+    when:
+      matrix:
+        DB: mysql
+        PHP: 5.6
+  postgres-php5.6:
+    image: nextcloudci/php5.6:php5.6-2
+    commands:
+      - sleep 10 # gives the database enough time to initialize
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
+    when:
+      matrix:
+        DB: postgres
+        PHP: 5.6
+  integration-capabilities_features:
+    image: nextcloudci/integration-php7.0:integration-php7.0-1
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh capabilities_features/capabilities.feature
+    when:
+      matrix:
+        TESTS: integration-capabilities_features
+  integration-federation_features:
+    image: nextcloudci/integration-php7.0:integration-php7.0-1
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh federation_features/federated.feature
+    when:
+      matrix:
+        TESTS: integration-federation_features
+  integration-auth:
+    image: nextcloudci/integration-php7.0:integration-php7.0-1
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/auth.feature
+    when:
+      matrix:
+        TESTS: integration-auth
+  integration-carddav:
+    image: nextcloudci/integration-php7.0:integration-php7.0-1
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/carddav.feature
+    when:
+      matrix:
+        TESTS: integration-carddav
+  integration-dav-v2:
+    image: nextcloudci/integration-php7.0:integration-php7.0-1
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/dav-v2.feature
+    when:
+      matrix:
+        TESTS: integration-dav-v2
+  integration-ocs-v1:
+    image: nextcloudci/integration-php7.0:integration-php7.0-1
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/ocs-v1.feature
+    when:
+      matrix:
+        TESTS: integration-ocs-v1
+  integration-sharing-v1:
+    image: nextcloudci/integration-php7.0:integration-php7.0-1
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/sharing-v1.feature
+    when:
+      matrix:
+        TESTS: integration-sharing-v1
+  integration-checksums-v1:
+    image: nextcloudci/integration-php7.0:integration-php7.0-1
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/checksums.feature
+    when:
+      matrix:
+        TESTS: integration-checksums
+  integration-external-storage:
+    image: nextcloudci/integration-php7.0:integration-php7.0-1
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/external-storage.feature
+    when:
+      matrix:
+        TESTS: integration-external-storage
+  integration-provisioning-v1:
+    image: nextcloudci/integration-php7.0:integration-php7.0-1
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/provisioning-v1.feature
+    when:
+      matrix:
+        TESTS: integration-provisioning-v1
+  integration-tags:
+    image: nextcloudci/integration-php7.0:integration-php7.0-1
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/tags.feature
+    when:
+      matrix:
+        TESTS: integration-tags
+  integration-caldav:
+    image: nextcloudci/integration-php7.0:integration-php7.0-1
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/caldav.feature
+    when:
+      matrix:
+        TESTS: integration-caldav
+  integration-comments:
+    image: nextcloudci/integration-php7.0:integration-php7.0-1
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/comments.feature
+    when:
+      matrix:
+        TESTS: integration-comments
+  integration-favorites:
+    image: nextcloudci/integration-php7.0:integration-php7.0-1
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/favorites.feature
+    when:
+      matrix:
+        TESTS: integration-favorites
+  integration-provisioning-v2:
+    image: nextcloudci/integration-php7.0:integration-php7.0-1
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/provisioning-v2.feature
+    when:
+      matrix:
+        TESTS: integration-provisioning-v2
+  integration-webdav-related:
+    image: nextcloudci/integration-php7.0:integration-php7.0-1
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/webdav-related.feature
+    when:
+      matrix:
+        TESTS: integration-webdav-related
+  integration-sharees-features:
+    image: nextcloudci/integration-php7.0:integration-php7.0-1
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh sharees_features/sharees.feature
+    when:
+      matrix:
+        TESTS: integration-sharees-features
+  nodb-codecov:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - TEST_SELECTION=NODB ./autotest.sh sqlite
+      - wget https://codecov.io/bash -O codecov.sh
+      - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
+      - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
+    when:
+      matrix:
+        TESTS: nodb-codecov
+  db-codecov:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - TEST_SELECTION=QUICKDB ./autotest.sh sqlite
+      - wget https://codecov.io/bash -O codecov.sh
+      - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
+      - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
+    when:
+      matrix:
+        TESTS: db-codecov
+matrix:
+  include:
+    - TESTS: signed-off-check
+    - TESTS: nodb-codecov
+    - TESTS: db-codecov    
+    - TESTS: integration-capabilities_features
+    - TESTS: integration-federation_features
+    - TESTS: integration-auth
+    - TESTS: integration-carddav
+    - TESTS: integration-dav-v2
+    - TESTS: integration-ocs-v1
+    - TESTS: integration-sharing-v1
+    - TESTS: integration-checksums
+    - TESTS: integration-external-storage
+    - TESTS: integration-provisioning-v1
+    - TESTS: integration-tags
+    - TESTS: integration-caldav
+    - TESTS: integration-comments
+    - TESTS: integration-favorites
+    - TESTS: integration-provisioning-v2
+    - TESTS: integration-webdav-related
+    - TESTS: integration-sharees-features
+    - TESTS: jsunit
+    - TESTS: check-autoloader
+    - TESTS: app-check-code
+    - TESTS: syntax-php5.6
+    - TESTS: syntax-php7.0
+    - TESTS: litmus-v1
+    - TESTS: litmus-v2
+    - TESTS: caldavtester
+    - TESTS: carddavtester
+    - DB: NODB
+      PHP: 5.6
+    - DB: NODB
+      PHP: 7.0
+    - DB: NODB
+      PHP: 7.1
+    - DB: sqlite
+      PHP: 5.6
+    - DB: sqlite
+      PHP: 7.0
+    - DB: sqlite
+      PHP: 7.1
+    - DB: mysql
+      PHP: 5.6
+    - DB: postgres
+      PHP: 5.6
+
+services:
+  cache:
+    image: redis
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_USER=oc_autotest
+      - POSTGRES_PASSWORD=oc_autotest
+    when:
+      matrix:
+        DB: postgres
+  mysql:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=owncloud
+      - MYSQL_USER=oc_autotest
+      - MYSQL_PASSWORD=owncloud
+      - MYSQL_DATABASE=oc_autotest
+    when:
+      matrix:
+        DB: mysql

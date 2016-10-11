@@ -1,0 +1,2100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<database>
+
+	<name>*dbname*</name>
+	<create>true</create>
+	<overwrite>false</overwrite>
+
+	<charset>utf8</charset>
+
+	<table>
+
+		<!--
+		Namespaced Key-Value Store for Application Configuration.
+		 - Keys are namespaced per appid.
+		 - E.g. (core, global_cache_gc_lastrun) -> 1385463286
+		-->
+		<name>*dbprefix*appconfig</name>
+
+		<declaration>
+
+			<field>
+				<name>appid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>32</length>
+			</field>
+
+			<field>
+				<name>configkey</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>configvalue</name>
+				<type>clob</type>
+				<notnull>false</notnull>
+			</field>
+
+			<index>
+				<name>appconfig_appid_key_index</name>
+				<primary>true</primary>
+				<unique>true</unique>
+				<field>
+					<name>appid</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>configkey</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>appconfig_config_key_index</name>
+				<field>
+					<name>configkey</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>appconfig_appid_key</name>
+				<field>
+					<name>appid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<!--
+		Bidirectional Map for Storage Names and Storage Ids.
+		 - Assigns each storage name a unique storage id integer.
+		 - Long storage names are hashed.
+		 - E.g.                     local::/tmp/ <-> 2
+		 - E.g. b5db994aa8c6625100e418406c798269 <-> 27
+		-->
+		<name>*dbprefix*storages</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>numeric_id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>available</name>
+				<type>integer</type>
+				<default>1</default>
+				<notnull>true</notnull>
+			</field>
+
+			<field>
+				<name>last_checked</name>
+				<type>integer</type>
+			</field>
+
+			<index>
+				<name>storages_id_index</name>
+				<unique>true</unique>
+				<field>
+					<name>id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<!-- a list of all mounted storage per user, populated on filesystem setup -->
+	<table>
+
+		<name>*dbprefix*mounts</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>storage_id</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+			</field>
+
+			<!-- fileid of the root of the mount, foreign key: oc_filecache.fileid -->
+			<field>
+				<name>root_id</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+			</field>
+
+			<field>
+				<name>user_id</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>mount_point</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>4000</length>
+			</field>
+
+			<field>
+				<name>mount_id</name>
+				<type>integer</type>
+			</field>
+
+			<index>
+				<name>mounts_user_index</name>
+				<unique>false</unique>
+				<field>
+					<name>user_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>mounts_storage_index</name>
+				<unique>false</unique>
+				<field>
+					<name>storage_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>mounts_root_index</name>
+				<unique>false</unique>
+				<field>
+					<name>root_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>mounts_mount_id_index</name>
+				<unique>false</unique>
+				<field>
+					<name>mount_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>mounts_user_root_index</name>
+				<unique>true</unique>
+				<field>
+					<name>user_id</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>root_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<!--
+		Bidirectional Map for Mimetypes and Mimetype Id
+		 - Assigns each mimetype (and supertype) a unique mimetype id integer.
+		 - E.g.     application <-> 5
+		 - E.g. application/pdf <-> 6
+		-->
+		<name>*dbprefix*mimetypes</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>mimetype</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<index>
+				<name>mimetype_id_index</name>
+				<unique>true</unique>
+				<field>
+					<name>mimetype</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<!--
+		Main file table containing one row for each directory and file.
+		 - Assigns a unique integer fileid to each file (and directory)
+		 - Assigns an etag to each file (and directory)
+		 - Caches various file/dir properties such as:
+		  - path (filename, e.g. files/combinatoricslib-2.0_doc.zip)
+		  - path_hash = md5(path)
+		  - name (basename, e.g. combinatoricslib-2.0_doc.zip)
+		  - size (for directories this is the sum of all contained file sizes)
+		-->
+		<name>*dbprefix*filecache</name>
+
+		<declaration>
+
+			<field>
+				<name>fileid</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<length>4</length>
+			</field>
+
+			<!-- Foreign Key storages::numeric_id -->
+			<field>
+				<name>storage</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>path</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>4000</length>
+			</field>
+
+			<field>
+				<name>path_hash</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>32</length>
+			</field>
+
+			<!-- Foreign Key filecache::fileid -->
+			<field>
+				<name>parent</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>name</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>250</length>
+			</field>
+
+			<!-- Foreign Key mimetypes::id -->
+			<field>
+				<name>mimetype</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<!-- Foreign Key mimetypes::id -->
+			<field>
+				<name>mimepart</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>size</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>8</length>
+			</field>
+
+			<field>
+				<name>mtime</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>storage_mtime</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>encrypted</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+            <field>
+                <name>unencrypted_size</name>
+                <type>integer</type>
+                <default>0</default>
+                <notnull>true</notnull>
+                <length>8</length>
+            </field>
+
+			<field>
+				<name>etag</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>40</length>
+			</field>
+
+            <field>
+                <name>permissions</name>
+                <type>integer</type>
+                <default>0</default>
+                <notnull>false</notnull>
+                <length>4</length>
+            </field>
+
+			<field>
+				<name>checksum</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>255</length>
+			</field>
+
+
+            <index>
+				<name>fs_storage_path_hash</name>
+				<unique>true</unique>
+				<field>
+					<name>storage</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>path_hash</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>fs_parent_name_hash</name>
+				<field>
+					<name>parent</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>name</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>fs_storage_mimetype</name>
+				<field>
+					<name>storage</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>mimetype</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>fs_storage_mimepart</name>
+				<field>
+					<name>storage</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>mimepart</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>fs_storage_size</name>
+				<field>
+					<name>storage</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>size</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>fileid</name>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<!--
+		Stores which groups have which users as members in an n:m relationship.
+		 - Maps group id (gid) to a set of users (uid)
+		 - Maps user id (uid) to a set of groups (gid) (but without index)
+		-->
+		<name>*dbprefix*group_user</name>
+
+		<declaration>
+
+			<!-- Foreign Key groups::gid -->
+			<field>
+				<name>gid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<!-- Foreign Key users::uid -->
+			<field>
+				<name>uid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<index>
+				<name>gu_gid_uid_index</name>
+				<primary>true</primary>
+				<unique>true</unique>
+				<field>
+					<name>gid</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>uid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>gu_uid_index</name>
+				<field>
+					<name>uid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<!--
+		Stores which groups have which users as admins in an n:m relationship.
+		 - Maps group id (gid) to a set of users (uid)
+		 - Maps user id (uid) to a set of groups (gid)
+
+		NOTE: This could (very likely) be reduced to a single bit in group_user
+		      instead of repeating varchars gid and uid here
+		-->
+		<name>*dbprefix*group_admin</name>
+
+		<declaration>
+
+			<!-- Foreign Key groups::gid -->
+			<field>
+				<name>gid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<!-- Foreign Key users::uid -->
+			<field>
+				<name>uid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+			<index>
+				<name>group_admin_uid</name>
+				<field>
+					<name>uid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>ga_gid_uid_index</name>
+				<primary>true</primary>
+				<unique>true</unique>
+				<field>
+					<name>gid</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>uid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<!--
+		A simple list of groups.
+		-->
+		<name>*dbprefix*groups</name>
+
+		<declaration>
+
+			<field>
+				<name>gid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<index>
+				<name>groups_pKey</name>
+				<primary>true</primary>
+				<field>
+					<name>gid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<!--
+		Namespaced Key-Value Store for User Preferences
+		 - Keys are namespaced per userid and appid.
+		 - E.g. (admin, files, cache_version) -> 5
+		-->
+		<name>*dbprefix*preferences</name>
+
+		<declaration>
+
+			<!-- Foreign Key users::uid -->
+			<field>
+				<name>userid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>appid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>32</length>
+			</field>
+
+			<field>
+				<name>configkey</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>configvalue</name>
+				<type>clob</type>
+				<notnull>false</notnull>
+			</field>
+
+			<index>
+				<name>pref_userid_appid_key_index</name>
+				<primary>true</primary>
+				<unique>true</unique>
+				<field>
+					<name>userid</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>appid</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>configkey</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<!--
+		WebDAV properties.
+		-->
+		<name>*dbprefix*properties</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<autoincrement>1</autoincrement>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<!-- Foreign Key users::uid -->
+			<field>
+				<name>userid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>propertypath</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>propertyname</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>propertyvalue</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<index>
+				<name>property_index</name>
+				<field>
+					<name>userid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<!--
+		Shares of all types (user-to-user, external-via-link, etc.)
+		-->
+		<name>*dbprefix*share</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<autoincrement>1</autoincrement>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<!-- Constant OCP\Share::SHARE_TYPE_* -->
+			<field>
+				<name>share_type</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<!-- Foreign Key users::uid or NULL -->
+			<field>
+				<name>share_with</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>255</length>
+			</field>
+
+			<!-- Foreign Key users::uid -->
+            <!-- This is the owner of the share
+                 which does not have to be the initiator of the share -->
+			<field>
+				<name>uid_owner</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<!-- Foreign Key users::uid -->
+            <!-- This is the initiator of the share -->
+			<field>
+				<name>uid_initiator</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>64</length>
+			</field>
+
+
+
+			<!-- Foreign Key share::id or NULL -->
+			<field>
+				<name>parent</name>
+				<type>integer</type>
+				<notnull>false</notnull>
+				<length>4</length>
+			</field>
+
+			<!-- E.g. file or folder -->
+			<field>
+				<name>item_type</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<!-- Foreign Key filecache::fileid -->
+			<field>
+				<name>item_source</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>item_target</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>255</length>
+			</field>
+
+			<!-- Foreign Key filecache::fileid -->
+			<field>
+				<name>file_source</name>
+				<type>integer</type>
+				<notnull>false</notnull>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>file_target</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>512</length>
+			</field>
+
+			<!-- Permission bitfield -->
+			<field>
+				<name>permissions</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<!-- Time of share creation -->
+			<field>
+				<name>stime</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>8</length>
+			</field>
+
+			<!-- Whether the receiver accepted the share, if share_with is set. -->
+			<field>
+				<name>accepted</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<!-- Time of share expiration -->
+			<field>
+				<name>expiration</name>
+				<type>timestamp</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+
+			<field>
+				<name>token</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>32</length>
+			</field>
+
+			<field>
+				<name>mail_send</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<index>
+				<name>item_share_type_index</name>
+				<field>
+					<name>item_type</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>share_type</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>file_source_index</name>
+				<field>
+					<name>file_source</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>token_index</name>
+				<field>
+					<name>token</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<!--
+		Scheduled background jobs.
+		See OC\BackgroundJob\JobList.
+		-->
+		<name>*dbprefix*jobs</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>class</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>argument</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>4000</length>
+			</field>
+
+			<field>
+				<!-- timestamp when the job was executed the last time -->
+				<name>last_run</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+
+			<field>
+				<!-- timestamp when the job was checked if it needs execution the last time -->
+				<name>last_checked</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+
+			<field>
+				<!-- timestamp when the job was reserved the last time, 1 day timeout -->
+				<name>reserved_at</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+
+			<index>
+				<name>job_class_index</name>
+				<field>
+					<name>class</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<!--
+		List of usernames, their display name and login password.
+		-->
+		<name>*dbprefix*users</name>
+
+		<declaration>
+
+			<field>
+				<name>uid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>displayname</name>
+				<type>text</type>
+				<default></default>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>password</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<index>
+				<name>users_pKey</name>
+				<primary>true</primary>
+				<field>
+					<name>uid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+		<name>*dbprefix*authtoken</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<!-- Foreign Key users::uid -->
+			<field>
+				<name>uid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>login_name</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>password</name>
+				<type>clob</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+
+			<field>
+				<name>name</name>
+				<type>clob</type>
+				<default></default>
+				<notnull>true</notnull>
+			</field>
+
+			<field>
+				<name>token</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>200</length>
+			</field>
+
+			<field>
+				<name>type</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>2</length>
+			</field>
+
+			<field>
+				<name>last_activity</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>last_check</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<index>
+				<name>authtoken_token_index</name>
+				<unique>true</unique>
+				<field>
+					<name>token</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>authtoken_last_activity_index</name>
+				<field>
+					<name>last_activity</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+	</table>
+
+	<table>
+
+		<!--
+		List of usernames, their display name and login password.
+		-->
+		<name>*dbprefix*bruteforce_attempts</name>
+
+		<declaration>
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>action</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>occurred</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>ip</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>subnet</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>metadata</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<index>
+				<name>bruteforce_attempts_ip</name>
+				<field>
+					<name>ip</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>bruteforce_attempts_subnet</name>
+				<field>
+					<name>subnet</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<!--
+		List of tags (category) + a unique tag id (id) per user (uid) and type.
+		-->
+		<name>*dbprefix*vcategory</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<!-- Foreign Key users::uid -->
+			<field>
+				<name>uid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>type</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>category</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<index>
+				<name>uid_index</name>
+				<field>
+					<name>uid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>type_index</name>
+				<field>
+					<name>type</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>category_index</name>
+				<field>
+					<name>category</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+	</table>
+
+	<table>
+
+		<!--
+		Object-Tag associations per tag type.
+		-->
+		<name>*dbprefix*vcategory_to_object</name>
+
+		<declaration>
+
+		<field>
+			<name>objid</name>
+			<type>integer</type>
+			<default>0</default>
+			<notnull>true</notnull>
+			<unsigned>true</unsigned>
+			<length>4</length>
+		</field>
+
+		<!-- Foreign Key vcategory::id -->
+		<field>
+			<name>categoryid</name>
+			<type>integer</type>
+			<default>0</default>
+			<notnull>true</notnull>
+			<unsigned>true</unsigned>
+			<length>4</length>
+		</field>
+
+		<field>
+			<name>type</name>
+			<type>text</type>
+			<default></default>
+			<notnull>true</notnull>
+			<length>64</length>
+		</field>
+
+		<index>
+			<primary>true</primary>
+			<unique>true</unique>
+			<name>category_object_index</name>
+			<field>
+				<name>categoryid</name>
+				<sorting>ascending</sorting>
+			</field>
+			<field>
+				<name>objid</name>
+				<sorting>ascending</sorting>
+			</field>
+			<field>
+				<name>type</name>
+				<sorting>ascending</sorting>
+			</field>
+		</index>
+
+		<index>
+			<name>vcategory_objectd_index</name>
+			<field>
+				<name>objid</name>
+				<sorting>ascending</sorting>
+			</field>
+			<field>
+				<name>type</name>
+				<sorting>ascending</sorting>
+			</field>
+		</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+		<!--
+		List of system-wide tags
+		-->
+		<name>*dbprefix*systemtag</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<!-- Tag name -->
+			<field>
+				<name>name</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<!-- Visibility: 0 user-not-visible, 1 user-visible -->
+			<field>
+				<name>visibility</name>
+				<type>integer</type>
+				<default>1</default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<!-- Editable: 0 user-not-editable, 1 user-editable -->
+			<field>
+				<name>editable</name>
+				<type>integer</type>
+				<default>1</default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<index>
+				<name>tag_ident</name>
+				<unique>true</unique>
+				<field>
+					<name>name</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>visibility</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>editable</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+	</table>
+
+	<table>
+
+		<!--
+		System tag to object associations per object type.
+		-->
+		<name>*dbprefix*systemtag_object_mapping</name>
+
+		<declaration>
+
+		<!-- object id (ex: file id for files)-->
+		<field>
+			<name>objectid</name>
+			<type>text</type>
+			<default></default>
+			<notnull>true</notnull>
+			<length>64</length>
+		</field>
+
+		<!-- object type (ex: "files")-->
+		<field>
+			<name>objecttype</name>
+			<type>text</type>
+			<default></default>
+			<notnull>true</notnull>
+			<length>64</length>
+		</field>
+
+		<!-- Foreign Key systemtag::id -->
+		<field>
+			<name>systemtagid</name>
+			<type>integer</type>
+			<default>0</default>
+			<notnull>true</notnull>
+			<unsigned>true</unsigned>
+			<length>4</length>
+		</field>
+
+		<index>
+			<unique>true</unique>
+			<name>mapping</name>
+			<field>
+				<name>objecttype</name>
+				<sorting>ascending</sorting>
+			</field>
+			<field>
+				<name>objectid</name>
+				<sorting>ascending</sorting>
+			</field>
+			<field>
+				<name>systemtagid</name>
+				<sorting>ascending</sorting>
+			</field>
+		</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<!--
+		System tag to group mapping
+		-->
+		<name>*dbprefix*systemtag_group</name>
+
+		<declaration>
+
+		<!-- Foreign Key systemtag::id -->
+		<field>
+			<name>systemtagid</name>
+			<type>integer</type>
+			<default>0</default>
+			<notnull>true</notnull>
+			<unsigned>true</unsigned>
+			<length>4</length>
+		</field>
+
+		<field>
+			<name>gid</name>
+			<type>string</type>
+			<notnull>true</notnull>
+		</field>
+
+		<index>
+			<name>systemtag_group</name>
+			<primary>true</primary>
+			<unique>true</unique>
+			<field>
+				<name>gid</name>
+				<sorting>ascending</sorting>
+			</field>
+			<field>
+				<name>systemtagid</name>
+				<sorting>ascending</sorting>
+			</field>
+		</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<!--
+		Namespaced Key-Value Store for arbitrary data.
+		 - Keys are namespaced per userid and appid.
+		 - E.g. (admin, files, foo) -> bar
+		-->
+		<name>*dbprefix*privatedata</name>
+
+		<declaration>
+
+		<field>
+			<name>keyid</name>
+			<type>integer</type>
+			<default>0</default>
+			<notnull>true</notnull>
+			<unsigned>true</unsigned>
+			<length>4</length>
+			<autoincrement>1</autoincrement>
+		</field>
+
+		<!-- Foreign Key users::uid -->
+		<field>
+			<name>user</name>
+			<type>text</type>
+			<default></default>
+			<notnull>true</notnull>
+			<length>64</length>
+		</field>
+
+		<field>
+			<name>app</name>
+			<type>text</type>
+			<default></default>
+			<notnull>true</notnull>
+			<length>255</length>
+		</field>
+
+		<field>
+			<name>key</name>
+			<type>text</type>
+			<default></default>
+			<notnull>true</notnull>
+			<length>255</length>
+		</field>
+
+		<field>
+			<name>value</name>
+			<type>text</type>
+			<default></default>
+			<notnull>true</notnull>
+			<length>255</length>
+		</field>
+
+		<index>
+			<primary>true</primary>
+			<unique>true</unique>
+			<name>keyid_index</name>
+			<field>
+				<name>keyid</name>
+				<sorting>ascending</sorting>
+			</field>
+		</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<!--
+		Table for storing transactional file locking
+		-->
+		<name>*dbprefix*file_locks</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+				<autoincrement>1</autoincrement>
+			</field>
+
+			<field>
+				<name>lock</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>key</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>ttl</name>
+				<type>integer</type>
+				<default>-1</default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<index>
+				<primary>true</primary>
+				<unique>true</unique>
+				<name>lock_id_index</name>
+				<field>
+					<name>id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<unique>true</unique>
+				<name>lock_key_index</name>
+				<field>
+					<name>key</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>lock_ttl_index</name>
+				<field>
+					<name>ttl</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+		<!--
+		default place to store comment data
+		-->
+		<name>*dbprefix*comments</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+				<autoincrement>1</autoincrement>
+			</field>
+
+			<field>
+				<name>parent_id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>topmost_parent_id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>children_count</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>actor_type</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>actor_id</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>message</name>
+				<type>clob</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+
+			<field>
+				<name>verb</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>creation_timestamp</name>
+				<type>timestamp</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+
+			<field>
+				<name>latest_child_timestamp</name>
+				<type>timestamp</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+
+			<field>
+				<name>object_type</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>object_id</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<index>
+				<name>comments_parent_id_index</name>
+				<unique>false</unique>
+				<field>
+					<name>parent_id</name>
+					<sorting>descending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>comments_topmost_parent_id_idx</name>
+				<unique>false</unique>
+				<field>
+					<name>topmost_parent_id</name>
+					<sorting>descending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>comments_object_index</name>
+				<unique>false</unique>
+				<field>
+					<name>object_type</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>object_id</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>creation_timestamp</name>
+					<sorting>descending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>comments_actor_index</name>
+				<unique>false</unique>
+				<field>
+					<name>actor_type</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>actor_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+		<!--
+		default place to store per user and object read markers
+		-->
+		<name>*dbprefix*comments_read_markers</name>
+
+		<declaration>
+
+			<field>
+				<name>user_id</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>marker_datetime</name>
+				<type>timestamp</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+
+			<field>
+				<name>object_type</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>object_id</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<index>
+				<name>comments_marker_object_index</name>
+				<unique>false</unique>
+				<field>
+					<name>object_type</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>object_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>comments_marker_index</name>
+				<unique>true</unique>
+				<field>
+					<name>user_id</name>
+					<sorting>descending</sorting>
+				</field>
+				<field>
+					<name>object_type</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>object_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+		<!--
+		Encrypted credentials storage
+		-->
+		<name>*dbprefix*credentials</name>
+
+		<declaration>
+
+			<field>
+				<name>user</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>identifier</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>credentials</name>
+				<type>clob</type>
+				<notnull>false</notnull>
+			</field>
+
+			<index>
+				<name>credentials_user_id</name>
+				<primary>true</primary>
+				<unique>true</unique>
+				<field>
+					<name>user</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>identifier</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>credentials_user</name>
+				<unique>false</unique>
+				<field>
+					<name>user</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+		<!-- Extra admin settings sections -->
+		<name>*dbprefix*admin_sections</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>class</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>priority</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<index>
+				<name>admin_sections_id_index</name>
+				<primary>true</primary>
+				<field>
+					<name>id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>admin_sections_class</name>
+				<unique>true</unique>
+				<field>
+					<name>class</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+	</table>
+
+	<table>
+		<!-- Extra admin settings -->
+		<name>*dbprefix*admin_settings</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>class</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<!-- id of the section, foreign key: admin_sections.id -->
+			<field>
+				<name>section</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>priority</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<index>
+				<name>admin_settings_id_index</name>
+				<primary>true</primary>
+				<field>
+					<name>id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>admin_settings_class</name>
+				<unique>true</unique>
+				<field>
+					<name>class</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>admin_settings_section</name>
+				<unique>false</unique>
+				<field>
+					<name>section</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+	</table>
+
+</database>

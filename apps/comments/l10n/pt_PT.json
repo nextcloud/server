@@ -1,0 +1,23 @@
+{ "translations": {
+    "Delete comment" : "Eliminar comentário",
+    "Post" : "Publicar",
+    "Cancel" : "Cancelar",
+    "Edit comment" : "Editar comentário",
+    "[Deleted user]" : "[Utilizador eliminado]",
+    "Comments" : "Comentários",
+    "Save" : "Guardar",
+    "Allowed characters {count} of {max}" : "{count} de {max} caracteres restantes",
+    "Error occurred while retrieving comment with id {id}" : "Ocorreu um erro ao tentar obter o comentário com o id {id}",
+    "Error occurred while updating comment with id {id}" : "Ocorreu um erro ao tentar atualizar o comentário com o id {id}",
+    "Error occurred while posting comment" : "Ocorreu um erro ao tentar publicar o comentário",
+    "Comment" : "Comentário",
+    "You commented" : "Comentou",
+    "%1$s commented" : "%1$s comentou",
+    "You commented on %2$s" : "Comentou %2$s",
+    "%1$s commented on %2$s" : "%1$s comentou %2$s",
+    "Type in a new comment..." : "Escreva um novo comentário...",
+    "No other comments available" : "Nenhum outro comentário disponível",
+    "More comments..." : "Mais comentários...",
+    "{count} unread comments" : "{count} comentários não lidos"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

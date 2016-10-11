@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<info>
+    <id>federatedfilesharing</id>
+    <name>Federated file sharing</name>
+    <description>Provide federated file sharing across servers</description>
+    <licence>AGPL</licence>
+    <author>Bjoern Schiessle, Roeland Jago Douma</author>
+    <version>1.1.1</version>
+    <namespace>FederatedFileSharing</namespace>
+    <category>other</category>
+    <dependencies>
+        <owncloud min-version="9.2" max-version="9.2" />
+    </dependencies>
+    <settings>
+        <admin>OCA\FederatedFileSharing\Settings\Admin</admin>
+    </settings>
+</info>

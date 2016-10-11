@@ -1,0 +1,27 @@
+{
+    "name": "guzzle/plugin-curlauth",
+    "description": "Guzzle cURL authorization plugin",
+    "homepage": "http://guzzlephp.org/",
+    "keywords": ["plugin", "curl", "guzzle"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Dowling",
+            "email": "mtdowling@gmail.com",
+            "homepage": "https://github.com/mtdowling"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "guzzle/http": "self.version"
+    },
+    "autoload": {
+        "psr-0": { "Guzzle\\Plugin\\CurlAuth": "" }
+    },
+    "target-dir": "Guzzle/Plugin/CurlAuth",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.7-dev"
+        }
+    }
+}

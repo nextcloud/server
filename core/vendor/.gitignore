@@ -1,0 +1,144 @@
+test/
+src/
+bower.json
+.jshintrc
+.travis.yml
+CHANGELOG*
+Gemfile
+gruntfile.js
+Gruntfile.js
+Makefile
+package.json
+README*
+
+# underscore
+underscore/**
+!underscore/.bower.json
+!underscore/underscore.js
+!underscore/LICENSE
+
+# blueimp-md5
+blueimp-md5/css
+blueimp-md5/js/*
+!blueimp-md5/js/md5.js
+blueimp-md5/index.html
+
+# momentjs - ignore all files except the two listed below
+moment/**
+!moment/.bower.json
+!moment/min
+!moment/LICENSE
+moment/min/**
+!moment/min/moment-with-locales.js
+
+# jquery
+jquery/**
+!jquery/.bower.json
+!jquery/dist
+!jquery/dist/jquery.*
+!jquery/MIT-LICENSE.txt
+
+# jquery-ui
+jquery-ui/themes/base/minified
+jquery-ui/themes/base/images/**
+!jquery-ui/themes/base/images/animated-overlay.gif
+!jquery-ui/themes/base/images/ui-icons_222222_256x240.png
+jquery-ui/themes/base/jquery.ui.*
+jquery-ui/themes/black-tie
+jquery-ui/themes/blitzer
+jquery-ui/themes/cupertino
+jquery-ui/themes/dark-hive
+jquery-ui/themes/dot-luv
+jquery-ui/themes/eggplant
+jquery-ui/themes/excite-bike
+jquery-ui/themes/flick
+jquery-ui/themes/hot-sneaks
+jquery-ui/themes/humanity
+jquery-ui/themes/le-frog
+jquery-ui/themes/mint-choc
+jquery-ui/themes/overcast
+jquery-ui/themes/pepper-grinder
+jquery-ui/themes/redmond
+jquery-ui/themes/smoothness
+jquery-ui/themes/south-street
+jquery-ui/themes/start
+jquery-ui/themes/sunny
+jquery-ui/themes/swanky-purse
+jquery-ui/themes/trontastic
+jquery-ui/themes/ui-darkness
+jquery-ui/themes/ui-lightness
+jquery-ui/themes/vader
+jquery-ui/ui/**
+!jquery-ui/ui/jquery-ui.custom.js
+jquery-ui/*.json
+jquery-ui/AUTHORS.txt
+jquery-ui/MANIFEST
+jquery-ui/README.md
+
+# jcrop
+jcrop/index.html
+jcrop/demos
+jcrop/css/jquery.Jcrop.min.css
+jcrop/js/**
+!jcrop/js/jquery.Jcrop.js
+
+# jsTimezoneDetect
+jsTimezoneDetect/jstz.min.js
+
+# handlebars
+handlebars/**
+!handlebars/.bower.json
+!handlebars/handlebars.js
+
+# select2
+select2/**
+!select2/.bower.json
+!select2/select2.js
+!select2/select2.css
+!select2/select2.png
+!select2/select2x2.png
+!select2/select2-spinner.gif
+!select2/LICENSE
+
+#zxcvbn
+zxcvbn/**
+!zxcvbn/.bower.json
+!zxcvbn/zxcvbn.js
+!zxcvbn/LICENSE.txt
+
+# snapjs
+snapjs/demo
+snapjs/dist/2.0.0-rc1
+snapjs/dist/latest/snap.css
+snapjs/dist/latest/snap.min.js
+snapjs/scripts
+
+# bootstrap - only include the tooltip plugin
+bootstrap/**
+!bootstrap/js
+bootstrap/js/*
+!bootstrap/js/tooltip.js
+
+# backbone
+backbone/backbone-min*
+
+# davclient.js
+davclient.js/**
+!davclient.js/lib
+!davclient.js/lib/client.js
+!davclient.js/LICENSE
+
+# es6-promise
+es6-promise/**
+!es6-promise/LICENSE
+!es6-promise/dist
+es6-promise/dist/*
+!es6-promise/dist/es6-promise.js
+
+# base64
+base64/*min.js
+
+# clipboard
+clipboard/**
+!clipboard/dist
+!clipboard/dist/clipboard.js

@@ -1,0 +1,22 @@
+{ "translations": {
+    "Cancel" : "Avbryt",
+    "Shared by" : "Delt av",
+    "Sharing" : "Deling",
+    "A file or folder has been <strong>shared</strong>" : "Ei fil eller ei mappe har blitt <strong>delt</strong>",
+    "You shared %1$s with %2$s" : "Du delte %1$s med %2$s",
+    "You shared %1$s with group %2$s" : "Du delte %1$s med gruppa %2$s",
+    "You shared %1$s via link" : "Du delte %1$s via ei lenkje",
+    "%2$s shared %1$s with you" : "%2$s delte %1$s med deg",
+    "Shares" : "Delingar",
+    "The password is wrong. Try again." : "Passordet er gale. Prøv igjen.",
+    "Password" : "Passord",
+    "Name" : "Namn",
+    "Sorry, this link doesn’t seem to work anymore." : "Orsak, denne lenkja fungerer visst ikkje lenger.",
+    "Reasons might be:" : "Moglege grunnar:",
+    "the item was removed" : "fila/mappa er fjerna",
+    "the link expired" : "lenkja har gått ut på dato",
+    "sharing is disabled" : "deling er slått av",
+    "For more info, please ask the person who sent this link." : "Spør den som sende deg lenkje om du vil ha meir informasjon.",
+    "Download" : "Last ned"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

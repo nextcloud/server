@@ -1,0 +1,51 @@
+#theming input {
+    width: 17em;
+}
+
+#theming .upload-logo-field {
+    display: none;
+}
+
+#theming .theme-undo {
+    cursor: pointer;
+    opacity: .5;
+    padding: 11px 5px;
+    vertical-align: top;
+    display: inline-block;
+}
+
+#theming .icon-loading-small:after {
+    margin: -10px 0 0 -10px;
+}
+
+#theming label span {
+    display: inline-block;
+    min-width: 90px;
+    padding: 8px 0px;
+}
+
+#theming .icon-upload,
+#theming .icon-loading-small {
+    display: inline-flex;
+    padding: 8px;
+    margin: 2px 0px;
+}
+
+div#theming_settings_msg {
+    margin-left: 10px;
+}
+
+#theming-preview {
+    width: 230px;
+    height: 140px;
+    background-size: cover;
+    background-position: center center;
+    text-align: center;
+    margin-left: 93px;
+}
+
+#theming-preview img {
+    max-width: 20%;
+    max-height: 20%;
+    margin-top: 20px;
+}

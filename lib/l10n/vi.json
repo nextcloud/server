@@ -1,0 +1,27 @@
+{ "translations": {
+    "Cannot write into \"config\" directory!" : "Không thể ghi vào thư mục \"config\"!",
+    "See %s" : "Xem %s",
+    "Unknown filetype" : "Không biết kiểu tập tin",
+    "Invalid image" : "Hình ảnh không hợp lệ",
+    "today" : "hôm nay",
+    "yesterday" : "hôm qua",
+    "last month" : "tháng trước",
+    "_%n month ago_::_%n months ago_" : ["%n tháng trước"],
+    "last year" : "năm trước",
+    "_%n hour ago_::_%n hours ago_" : ["%n giờ trước"],
+    "_%n minute ago_::_%n minutes ago_" : ["%n phút trước"],
+    "seconds ago" : "vài giây trước",
+    "%s shared »%s« with you" : "%s đã chia sẻ »%s« với bạn",
+    "Could not find category \"%s\"" : "không thể tìm thấy mục \"%s\"",
+    "Apps" : "Ứng dụng",
+    "Help" : "Giúp đỡ",
+    "Personal" : "Cá nhân",
+    "Users" : "Người dùng",
+    "Admin" : "Quản trị",
+    "web services under your control" : "dịch vụ web dưới sự kiểm soát của bạn",
+    "Application is not enabled" : "Ứng dụng không được BẬT",
+    "Authentication error" : "Lỗi xác thực",
+    "Token expired. Please reload page." : "Mã Token đã hết hạn. Hãy tải lại trang.",
+    "Storage not available" : "Lưu trữ không có sẵn"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

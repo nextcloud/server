@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<info>
+	<id>files_encryption</id>
+	<name>Server-side Encryption</name>
+	<description>
+	This application encrypts all files accessed by ownCloud at rest, wherever they are stored. As an example, with this application enabled, external cloud based Amazon S3 storage will be encrypted, protecting this data on storage outside of the control of the Admin. When this application is enabled for the first time, all files are encrypted as users log in and are prompted for their password. The recommended recovery key option enables recovery of files in case the key is lost. 
+	Note that this app encrypts all files that are touched by ownCloud, so external storage providers and applications such as SharePoint will see new files encrypted when they are accessed. Encryption is based on AES 128 or 256 bit keys. More information is available in the Encryption documentation 
+	</description>
+	<licence>AGPL</licence>
+	<author>Sam Tuke, Bjoern Schiessle, Florin Peter</author>
+	<requiremin>4</requiremin>
+	<shipped>true</shipped>
+	<documentation>
+		<user>user-encryption</user>
+		<admin>admin-encryption</admin>
+	</documentation>
+	<rememberlogin>false</rememberlogin>
+	<types>
+		<filesystem/>
+	</types>
+	<ocsid>166047</ocsid>
+	<dependencies>
+		<php min-version="5.4" max-version="5.5"/>
+		<database min-version="3.0">sqlite</database>
+		<database>mysql</database>
+		<command os="linux">grep</command>
+		<command os="windows">notepad.exe</command>
+		<lib min-version="1.2">xml</lib>
+		<lib max-version="2.0">intl</lib>
+		<lib>curl</lib>
+		<os>Linux</os>
+		<owncloud min-version="7.0.1" max-version="8" />
+	</dependencies>
+</info>

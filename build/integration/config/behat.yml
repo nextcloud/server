@@ -1,0 +1,61 @@
+default:
+  autoload:
+    '': %paths.base%/../features/bootstrap
+  suites:
+    default:
+      paths:
+        - %paths.base%/../features
+      contexts:
+        - FeatureContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+        - CommentsContext:
+            baseUrl: http://localhost:8080
+        - TagsContext:
+            baseUrl: http://localhost:8080
+        - CardDavContext:
+            baseUrl: http://localhost:8080
+        - CalDavContext:
+            baseUrl: http://localhost:8080
+        - ChecksumsContext:
+            baseUrl: http://localhost:8080
+    federation:
+      paths:
+        - %paths.base%/../federation_features
+      contexts:
+        - FederationContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+    capabilities:
+      paths:
+        - %paths.base%/../capabilities_features
+      contexts:
+        - CapabilitiesContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+    sharees:
+      paths:
+        - %paths.base%/../sharees_features
+      contexts:
+        - ShareesContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+
+
+
+  extensions:
+      jarnaiz\JUnitFormatter\JUnitFormatterExtension:
+          filename: report.xml
+          outputDir: %paths.base%/../output/

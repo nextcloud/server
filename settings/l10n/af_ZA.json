@@ -1,0 +1,8 @@
+{ "translations": {
+    "So-so password" : "So-so wagwoord",
+    "Cancel" : "Kanseleer",
+    "Password" : "Wagwoord",
+    "New password" : "Nuwe wagwoord",
+    "Username" : "Gebruikersnaam"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

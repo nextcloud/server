@@ -1,0 +1,130 @@
+# the default generated dir + db file
+/data
+/owncloud
+/config/config.php
+/config/*.config.php
+/config/mimetype*.json
+/config/mount.php
+/apps/inc.php
+/assets
+
+# ignore all apps except core ones
+/apps*/*
+!/apps/comments
+!/apps/dav
+!/apps/files
+!/apps/federation
+!/apps/federatedfilesharing
+!/apps/encryption
+!/apps/files_external
+!/apps/files_sharing
+!/apps/files_trashbin
+!/apps/files_versions
+!/apps/user_ldap
+!/apps/provisioning_api
+!/apps/systemtags
+!/apps/testing
+!/apps/admin_audit
+!/apps/updatenotification
+!/apps/theming
+!/apps/twofactor_backupcodes
+!/apps/workflowengine
+/apps/files_external/3rdparty/irodsphp/PHPUnitTest
+/apps/files_external/3rdparty/irodsphp/web
+/apps/files_external/3rdparty/irodsphp/prods/test
+/apps/files_external/3rdparty/irodsphp/prods/tutorials
+/apps/files_external/3rdparty/irodsphp/prods/test*
+/apps/files_external/tests/config.*.php
+
+
+
+# ignore themes except the example and the README
+/themes/*
+!/themes/example
+!/themes/README
+
+# just sane ignores
+.*.sw[po]
+*.bak
+*.BAK
+*~
+*.orig
+*.class
+.cvsignore
+Thumbs.db
+*.py[co]
+_darcs/*
+CVS/*
+.svn/*
+RCS/*
+*.backup*
+
+# kdevelop
+.kdev
+*.kdev4
+*.kate-swp
+
+# Lokalize
+*lokalize*
+
+# eclipse
+.project
+.settings
+
+# netbeans 
+nbproject
+
+# phpStorm
+.idea
+*.iml
+
+# geany
+*.geany
+
+# Cloud9IDE
+.settings.xml
+.c9revisions
+
+# vim ex mode
+.vimrc
+
+# ack(-grep)
+.ackrc
+	
+# Mac OS
+.DS_Store
+
+# WebFinger
+.well-known
+/.buildpath
+
+# Tests
+/tests/phpunit.xml
+
+# Node Modules
+/build/node_modules/
+
+# nodejs
+/build/lib/
+/build/jsdocs/
+/npm-debug.log
+/PhantomJS_*
+
+# puphpet
+puphpet
+
+# vagrant
+.vagrant
+Vagrantfile
+
+# Tests - auto-generated files
+/data-autotest
+/tests/coverage*
+/tests/karma-coverage
+/tests/autoconfig*
+/tests/autotest*
+/tests/data/lorem-copy.txt
+/tests/data/testimage-copy.png
+/config/config-autotest-backup.php
+/config/autoconfig.php
+clover.xml

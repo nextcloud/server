@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<database>
+
+	<table>
+
+		<!--
+		Scheduled background jobs.
+		See OC\BackgroundJob\JobList.
+		-->
+		<name>*dbprefix*jobs</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>class</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>argument</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>4000</length>
+			</field>
+
+			<field>
+				<!-- timestamp when the job was executed the last time -->
+				<name>last_run</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+
+			<field>
+				<!-- timestamp when the job was checked if it needs execution the last time -->
+				<name>last_checked</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+
+			<field>
+				<!-- timestamp when the job was reserved the last time, 1 day timeout -->
+				<name>reserved_at</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+
+		</declaration>
+
+	</table>
+
+</database>

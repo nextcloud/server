@@ -1,0 +1,31 @@
+{
+  "name": "Snap.js",
+  "description": "A Library for creating beautiful mobile shelfs in Javascript (Facebook and Path style side menus)",
+  "version": "2.0.0-rc1",
+  "author": "Jacob Kelley <jakie8@gmail.com>",
+  "keywords": [
+    "mobile shelfs",
+    "nav",
+    "menu",
+    "mobile",
+    "side menu"
+  ],
+  "license": "MIT",
+  "main": [
+    "./dist/latest/snap.js",
+    "./dist/latest/snap.css"
+  ],
+  "scripts": [
+    "snap.js"
+  ],
+  "homepage": "https://github.com/jakiestfu/Snap.js",
+  "_release": "2.0.0-rc1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.0.0-rc1",
+    "commit": "15c77da330d9e8ca580a922bc748d88553838a73"
+  },
+  "_source": "git://github.com/jakiestfu/Snap.js.git",
+  "_target": "~2.0.0-rc1",
+  "_originalSource": "snapjs"
+}

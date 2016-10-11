@@ -1,0 +1,28 @@
+OC.L10N.register(
+    "files_external",
+    {
+    "Personal" : "Лично",
+    "Grant access" : "Дозволи пристап",
+    "Saved" : "Снимено",
+    "Username" : "Корисничко име",
+    "Password" : "Лозинка",
+    "Save" : "Сними",
+    "None" : "Ништо",
+    "API key" : "API key",
+    "Port" : "Порта",
+    "Region" : "Регион",
+    "WebDAV" : "WebDAV",
+    "URL" : "Адреса",
+    "Host" : "Домаќин",
+    "Local" : "Локален",
+    "Location" : "Локација",
+    "ownCloud" : "ownCloud",
+    "Share" : "Сподели",
+    "Name" : "Име",
+    "Enable encryption" : "Овозможи енкрипција",
+    "External Storage" : "Надворешно складиште",
+    "Folder name" : "Име на папка",
+    "Configuration" : "Конфигурација",
+    "Delete" : "Избриши"
+},
+"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -1,0 +1,205 @@
+#upload {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	height: 36px;
+	width: 39px;
+	padding: 0 !important; /* override default control bar button padding */
+	margin-left: 3px;
+	overflow: hidden;
+	vertical-align: top;
+	position: relative;
+	z-index: -20;
+}
+#upload .icon-upload {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 44px;
+	width: 44px;
+	margin: -5px -3px;
+	cursor: pointer;
+	z-index: 10;
+	opacity: .65;
+}
+.file_upload_target { display:none; }
+.file_upload_form { display:inline; float:left; margin:0; padding:0; cursor:pointer; overflow:visible; }
+
+#uploadprogresswrapper, #uploadprogresswrapper * {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#uploadprogresswrapper {
+	display: inline-block;
+	vertical-align: top;
+	height: 36px;
+	margin-left: 3px;
+}
+#uploadprogresswrapper > input[type='button'] {
+	height: 36px;
+	margin-left: 3px;
+}
+#uploadprogressbar {
+	position:relative;
+	float: left;
+	width: 200px;
+	height: 36px;
+	display:inline-block;
+	text-align: center;
+}
+#uploadprogressbar .ui-progressbar-value.ui-widget-header.ui-corner-left {
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    position: absolute;
+    overflow: hidden;
+}
+#uploadprogressbar .label {
+    top: 6px;
+    opacity: 1;
+    overflow: hidden;
+    white-space: nowrap;
+	font-weight: normal;
+}
+#uploadprogressbar .label.inner {
+    color:white; 
+    position: absolute;
+    display: block;
+    width: 200px;
+}
+#uploadprogressbar .label.outer {
+    position: relative;
+    color: black;
+}
+#uploadprogressbar .desktop {
+	display: block;
+}
+#uploadprogressbar .mobile {
+	display: none;
+}
+
+#uploadprogressbar + stop {
+	font-size: 13px;
+}
+
+.oc-dialog .fileexists {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.oc-dialog .fileexists .conflict .filename,
+.oc-dialog .fileexists .conflict .mtime,
+.oc-dialog .fileexists .conflict .size {
+	-webkit-touch-callout: initial;
+	-webkit-user-select: initial;
+	-khtml-user-select: initial;
+	-moz-user-select: initial;
+	-ms-user-select: initial;
+	user-select: initial;
+}
+.oc-dialog .fileexists .conflict .message {
+	color: #e9322d;
+}
+.oc-dialog .fileexists table {
+	width: 100%;
+}
+.oc-dialog .fileexists th {
+	padding-left: 0;
+	padding-right: 0;
+}
+.oc-dialog .fileexists th input[type='checkbox'] {
+	margin-right: 3px;
+}
+.oc-dialog .fileexists th:first-child {
+	width: 230px;
+}
+.oc-dialog .fileexists th label {
+	font-weight: normal;
+	color:black;
+}
+.oc-dialog .fileexists th .count {
+	margin-left: 3px;
+}
+.oc-dialog .fileexists .conflicts .template {
+	display: none;
+}
+.oc-dialog .fileexists .conflict {
+	width: 100%;
+	height: 85px;
+}
+.oc-dialog .fileexists .conflict .filename {
+	color:#777;
+	word-break: break-all;
+	clear: left;
+}
+.oc-dialog .fileexists .icon {
+	width: 64px;
+	height: 64px;
+	margin: 0px 5px 5px 5px;
+	background-repeat: no-repeat;
+	background-size: 64px 64px;
+	float: left;
+}
+.oc-dialog .fileexists .replacement {
+	float: left;
+	width: 230px;
+}
+.oc-dialog .fileexists .original {
+	float: left;
+	width: 230px;
+}
+.oc-dialog .fileexists .conflicts {
+	overflow-y:scroll;
+	max-height: 225px;
+}
+.oc-dialog .fileexists .conflict input[type='checkbox'] {
+	float: left;
+}
+.oc-dialog .fileexists #allfileslabel {
+	float:right;
+}
+.oc-dialog .fileexists #allfiles {
+	vertical-align: bottom;
+	position: relative;
+	top: -3px;
+}
+.oc-dialog .fileexists #allfiles + span{
+	vertical-align: bottom;
+}
+.oc-dialog .oc-dialog-buttonrow {
+	width:100%;
+	text-align:right;
+}
+.oc-dialog .oc-dialog-buttonrow .cancel {
+	float:left;
+}
+
+.highlightUploaded {
+	-webkit-animation: highlightAnimation 2s 1;
+	-moz-animation: highlightAnimation 2s 1;
+	-o-animation: highlightAnimation 2s 1;
+	animation: highlightAnimation 2s 1;
+}
+
+@-webkit-keyframes highlightAnimation {
+  0% { background-color: rgba(255, 255, 140, 1); }
+  100% { background-color: rgba(0, 0, 0, 0); }
+}
+@-moz-keyframes highlightAnimation {
+  0% { background-color: rgba(255, 255, 140, 1); }
+  100% { background-color: rgba(0, 0, 0, 0); }
+}
+@-o-keyframes highlightAnimation {
+  0% { background-color: rgba(255, 255, 140, 1); }
+  100% { background-color: rgba(0, 0, 0, 0); }
+}
+@keyframes highlightAnimation {
+  0% { background-color: rgba(255, 255, 140, 1); }
+  100% { background-color: rgba(0, 0, 0, 0); }
+}

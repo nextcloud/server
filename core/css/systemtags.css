@@ -1,0 +1,118 @@
+/*
+ * Copyright (c) 2016
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+.systemtags-select2-dropdown .select2-selected {
+	display: list-item;
+	background-color: #f8f8f8;
+}
+.systemtags-select2-dropdown .select2-highlighted,
+.systemtags-select2-dropdown .select2-selected.select2-highlighted {
+	background: #f8f8f8;
+}
+
+.select2-result {
+	position: relative;
+}
+.systemtags-select2-dropdown .select2-highlighted {
+	color: #000000;
+}
+.systemtags-select2-dropdown .select2-result-label .checkmark {
+	visibility: hidden;
+}
+
+.systemtags-select2-dropdown .select2-result-label .new-item .systemtags-actions {
+	display: none;
+}
+
+.systemtags-select2-dropdown .select2-selected .select2-result-label .checkmark {
+	visibility: visible;
+}
+
+.systemtags-select2-dropdown .select2-result-label .icon {
+	display: inline-block;
+	opacity: .5;
+}
+.systemtags-select2-dropdown .select2-result-label .icon.rename {
+	padding: 4px;
+}
+
+.systemtags-select2-dropdown .systemtags-actions {
+	position: absolute;
+	right: 0;
+	top: 3px;
+}
+
+.systemtags-select2-dropdown .systemtags-rename-form {
+	display: inline;
+	margin-left: 10px;
+}
+
+.systemtags-select2-container {
+	width: 100%;
+}
+
+.systemtags-select2-container .select2-choices {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	background: #fff;
+	color: #555;
+	box-sizing: content-box;
+	border-radius: 3px;
+	border: 1px solid #ddd;
+	margin: 3px 3px 3px 0;
+	padding: 2px 0;
+	min-height: auto;
+}
+
+.systemtags-select2-container .select2-choices .select2-search-choice {
+	line-height: 20px;
+	padding-left: 5px;
+}
+
+.systemtags-select2-container .select2-choices .select2-search-choice.select2-locked .label {
+	opacity: 0.5;
+}
+
+.systemtags-select2-container .select2-choices .select2-search-choice-close {
+	display: none;
+}
+.systemtags-select2-container .select2-choices .select2-search-field input {
+	line-height: 20px;
+}
+.systemtags-select2-dropdown  .label {
+	width:85%;
+	display:-moz-inline-box;
+	display:inline-block;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+
+.systemtags-select2-dropdown  .label.hidden {
+	display: none;
+}
+
+.select2-container-multi .select2-choices .select2-search-choice {
+	background-color: rgba(240,240,240,.9);
+	border-color: rgba(240,240,240,.9);
+	box-shadow: none;
+	background-image: none;
+}
+.select2-results .select2-highlighted {
+	background-color: rgba(240,240,240,.9);
+	color: #000;
+}
+
+.select2-container-multi.select2-container-active .select2-choices,
+.select2-drop-active {
+	border-color: #ddd;
+}
+.select2-container-multi.select2-container-active .select2-choices {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}

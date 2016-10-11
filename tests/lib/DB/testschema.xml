@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<database>
+
+	<name>*dbname*</name>
+	<create>true</create>
+	<overwrite>false</overwrite>
+
+	<charset>utf8</charset>
+
+	<table>
+
+		<name>*dbprefix*table</name>
+
+		<declaration>
+			<field>
+				<name>integerfield</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<length>4</length>
+			</field>
+			<field>
+				<name>integerfield_default</name>
+				<type>integer</type>
+				<default>10</default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+			<field>
+				<name>textfield</name>
+				<type>text</type>
+				<default>foo</default>
+				<notnull>true</notnull>
+				<length>32</length>
+			</field>
+			<field>
+				<name>clobfield</name>
+				<type>clob</type>
+				<notnull>true</notnull>
+			</field>
+			<field>
+				<name>booleanfield</name>
+				<type>boolean</type>
+			</field>
+			<field>
+				<name>booleanfield_true</name>
+				<type>boolean</type>
+				<default>true</default>
+			</field>
+			<field>
+				<name>booleanfield_false</name>
+				<type>boolean</type>
+				<default>false</default>
+			</field>
+			<field>
+				<name>decimalfield_precision_scale</name>
+				<type>decimal</type>
+				<precision>12</precision>
+				<scale>2</scale>
+			</field>
+
+			<index>
+				<name>index_primary</name>
+				<primary>true</primary>
+				<unique>true</unique>
+				<field>
+					<name>integerfield</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>index_boolean</name>
+				<unique>false</unique>
+				<field>
+					<name>booleanfield</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+		</declaration>
+	</table>
+</database>

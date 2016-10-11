@@ -1,0 +1,53 @@
+.versionsTabView .clear-float {
+	clear: both;
+}
+.versionsTabView li {
+	width: 100%;
+	cursor: default;
+	height: 56px;
+	float: left;
+	border-bottom: 1px solid rgba(100,100,100,.1);
+}
+.versionsTabView li:last-child {
+	border-bottom: none;
+}
+
+.versionsTabView li > * {
+	vertical-align: middle;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	opacity: .5;
+}
+
+.versionsTabView li > a,
+.versionsTabView li > span {
+	padding: 15px 10px 11px;
+}
+
+.versionsTabView li > *:hover,
+.versionsTabView li > *:focus {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+
+.versionsTabView img {
+	cursor: pointer;
+	padding-right: 4px;
+}
+
+.versionsTabView img.preview {
+	cursor: default;
+	opacity: 1;
+}
+
+.versionsTabView .versiondate {
+	min-width: 100px;
+	vertical-align: super;
+}
+
+.versionsTabView .revertVersion {
+	cursor: pointer;
+	float: right;
+	margin-right: -10px;
+}

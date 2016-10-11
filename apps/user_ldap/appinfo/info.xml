@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<info>
+	<id>user_ldap</id>
+	<name>LDAP user and group backend</name>
+	<description>This application enables administrators to connect ownCloud to an LDAP-based user directory for authentication and provisioning users, groups and user attributes. Admins can configure this application to connect to one or more LDAP directories or Active Directories via an LDAP interface. Attributes such as user quota, email, avatar pictures, group memberships and more can be pulled into ownCloud from a directory with the appropriate queries and filters.
+
+A user logs into ownCloud with their LDAP or AD credentials, and is granted access based on an authentication request handled by the LDAP or AD server. ownCloud does not store LDAP or AD passwords, rather these credentials are used to authenticate a user and then ownCloud uses a session for the user ID. More information is available in the LDAP User and Group Backend documentation.
+
+	</description>
+	<licence>AGPL</licence>
+	<author>Dominik Schmidt and Arthur Schiwon</author>
+	<version>1.1.1</version>
+	<types>
+		<authentication/>
+	</types>
+	<documentation>
+		<admin>admin-ldap</admin>
+	</documentation>
+	<dependencies>
+		<lib>ldap</lib>
+		<owncloud min-version="9.2" max-version="9.2" />
+	</dependencies>
+
+	<namespace>User_LDAP</namespace>
+
+	<background-jobs>
+		<job>OCA\User_LDAP\Jobs\UpdateGroups</job>
+		<job>OCA\User_LDAP\Jobs\CleanUp</job>
+	</background-jobs>
+
+	<settings>
+		<admin>OCA\User_LDAP\Settings\Admin</admin>
+		<admin-section>OCA\User_LDAP\Settings\Section</admin-section>
+	</settings>
+</info>

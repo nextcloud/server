@@ -1,0 +1,24 @@
+{
+	"name"             : "icewind/streams",
+	"description"      : "A set of generic stream wrappers",
+	"license"          : "MIT",
+	"authors"          : [
+		{
+			"name" : "Robin Appelman",
+			"email": "icewind@owncloud.com"
+		}
+	],
+	"require"          : {
+		"php": ">=5.3"
+	},
+	"require-dev"      : {
+		"satooshi/php-coveralls": "v1.0.0",
+		"phpunit/phpunit": "^4.8"
+	},
+	"autoload"         : {
+		"psr-4": {
+			"Icewind\\Streams\\Tests\\": "tests/",
+			"Icewind\\Streams\\": "src/"
+		}
+	}
+}
