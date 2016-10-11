@@ -460,7 +460,7 @@ table.grid th, table.grid td {
 td.name, td.password { padding-left:.8em; }
 td.password>img,td.displayName>img, td.quota>img { visibility:hidden; }
 td.password, td.quota, td.displayName { width:12em; cursor:pointer; }
-td.password>span, td.quota>span, td.displayName>span { margin-right: 1.2em; color: #C7C7C7; }
+td.password>span, td.quota>span { margin-right: 1.2em; color: #C7C7C7; }
 span.usersLastLoginTooltip { white-space: nowrap; }
 
 /* dropdowns will be relative to this element */
