@@ -172,7 +172,7 @@ class RepairLegacyStorages implements IRepairStep{
 		$sql = 'SELECT `id`, `numeric_id` FROM `*PREFIX*storages`'
 			. ' WHERE `id` LIKE ?'
 			. ' ORDER BY `id`';
-		$result = $this->connection->executeQuery($sql, array($dataDirId . '%'));
+		$result = $this->connection->executeQuery($sql, array($this->connection->escapeLikeParameter($dataDirId) . '%'));
 
 		while ($row = $result->fetch()) {
 			$currentId = $row['id'];
