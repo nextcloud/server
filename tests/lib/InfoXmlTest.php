@@ -118,5 +118,12 @@ class InfoXmlTest extends TestCase {
 				$this->assertInstanceOf($migration, \OC::$server->query($migration));
 			}
 		}
+
+		if (isset($appInfo['commands'])) {
+			foreach ($appInfo['commands'] as $command) {
+				$this->assertTrue(class_exists($command), 'Asserting command "'. $command . '"exists');
+				$this->assertInstanceOf($command, \OC::$server->query($command));
+			}
+		}
 	}
 }
