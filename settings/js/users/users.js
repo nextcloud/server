@@ -949,7 +949,15 @@ $(document).ready(function () {
 					OC.dialogs.alert(result.data.message, t('settings', 'Error while changing status of {user}', {user: uid}));
 				}
 			}
-		);
+		).fail(function(result){
+			var message = 'Unknown error';
+			if( result.responseJSON &&
+				result.responseJSON.data &&
+				result.responseJSON.data.message) {
+				message = result.responseJSON.data.message;
+			}
+			OC.dialogs.alert(message, t('settings', 'Error while changing status of {user}', {user: uid}));
+		});
 	});
 	
 	// init the quota field select box after it is shown the first time

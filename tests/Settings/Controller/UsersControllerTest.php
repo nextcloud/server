@@ -2532,7 +2532,8 @@ class UsersControllerTest extends \Test\TestCase {
 				'data' => [
 					'message' => 'Error while disabling user.',
 				],
-			]
+			],
+			Http::STATUS_FORBIDDEN
 		);
 		$response = $this->getController(true)->disable('abc');
 		$this->assertEquals($expectedResponse, $response);
@@ -2569,7 +2570,8 @@ class UsersControllerTest extends \Test\TestCase {
 				'data' => [
 					'message' => 'Error while disabling user.',
 				],
-			]
+			],
+			Http::STATUS_FORBIDDEN
 		);
 		$response = $this->getController(false)->disable('abc');
 		$this->assertEquals($expectedResponse, $response);
@@ -2746,7 +2748,8 @@ class UsersControllerTest extends \Test\TestCase {
 				'data' => [
 					'message' => 'Error while enabling user.',
 				],
-			]
+			],
+			Http::STATUS_FORBIDDEN
 		);
 		$response = $this->getController(true)->enable('abc');
 		$this->assertEquals($expectedResponse, $response);
@@ -2783,7 +2786,8 @@ class UsersControllerTest extends \Test\TestCase {
 				'data' => [
 					'message' => 'Error while enabling user.',
 				],
-			]
+			],
+			Http::STATUS_FORBIDDEN
 		);
 		$response = $this->getController(false)->enable('abc');
 		$this->assertEquals($expectedResponse, $response);
