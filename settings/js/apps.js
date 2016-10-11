@@ -462,6 +462,24 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		);
 	},
 
+	/**
+	 * Splits the query by spaces and tries to find all substring in the app
+	 * @param {string} string
+	 * @param {string} query
+	 * @returns {boolean}
+	 */
+	_search: function(string, query) {
+		var keywords = query.split(' '),
+			stringLower = string.toLowerCase(),
+			found = true;
+
+		_.each(keywords, function(keyword) {
+			found = found && stringLower.indexOf(keyword) !== -1;
+		});
+
+		return found;
+	},
+
 	filter: function(query) {
 		var $appList = $('#apps-list'),
 			$emptyList = $('#apps-list-empty');
@@ -478,17 +496,17 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 		// App Name
 		var apps = _.filter(OC.Settings.Apps.State.apps, function (app) {
-			return app.name.toLowerCase().indexOf(query) !== -1;
+			return OC.Settings.Apps._search(app.name, query);
 		});
 
 		// App ID
 		apps = apps.concat(_.filter(OC.Settings.Apps.State.apps, function (app) {
-			return app.id.toLowerCase().indexOf(query) !== -1;
+			return OC.Settings.Apps._search(app.id, query);
 		}));
 
 		// App Description
 		apps = apps.concat(_.filter(OC.Settings.Apps.State.apps, function (app) {
-			return app.description.toLowerCase().indexOf(query) !== -1;
+			return OC.Settings.Apps._search(app.description, query);
 		}));
 
 		// Author Name
@@ -508,9 +526,9 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						}
 					}
 				});
-				return authors.join(' ').toLowerCase().indexOf(query) !== -1;
+				return OC.Settings.Apps._search(authors.join(' '), query);
 			}
-			return app.author.toLowerCase().indexOf(query) !== -1;
+			return OC.Settings.Apps._search(app.author, query);
 		}));
 
 		// App status
