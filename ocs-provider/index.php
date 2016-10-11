@@ -19,7 +19,7 @@
  *
  */
 
-require_once('../lib/base.php');
+require_once __DIR__ . '/../lib/base.php';
 
 header('Content-Type: application/json');
 
