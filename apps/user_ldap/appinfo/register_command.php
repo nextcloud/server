@@ -52,3 +52,4 @@ $application->add(new OCA\User_LDAP\Command\ShowRemnants(
 $application->add(new OCA\User_LDAP\Command\CheckUser(
 	$uBackend, $helper, $deletedUsersIndex, $userMapping)
 );
+$application->add(new OCA\User_LDAP\Command\UpdateGroup(new LDAP(), $helper, $dbConnection));
