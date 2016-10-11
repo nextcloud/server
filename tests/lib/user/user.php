@@ -437,16 +437,17 @@ class User extends \Test\TestCase {
 
 	public function dataDeleteHooks() {
 		return [
-			[true],
-			[false],
+			[true, 2],
+			[false, 1],
 		];
 	}
 
 	/**
 	 * @dataProvider dataDeleteHooks
 	 * @param bool $result
+	 * @param int $expectedHooks
 	 */
-	public function testDeleteHooks($result) {
+	public function testDeleteHooks($result, $expectedHooks) {
 		$hooksCalled = 0;
 		$test = $this;
 
@@ -523,7 +524,7 @@ class User extends \Test\TestCase {
 		$this->restoreService('CommentsManager');
 		$this->restoreService('NotificationManager');
 		
-		$this->assertEquals(2, $hooksCalled);
+		$this->assertEquals($expectedHooks, $hooksCalled);
 	}
 
 	public function testGetCloudId() {
