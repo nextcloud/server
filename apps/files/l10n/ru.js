@@ -96,6 +96,7 @@ OC.L10N.register(
     "Upload" : "Загрузить",
     "An error occurred while trying to update the tags" : "Во время обновления тегов возникла ошибка",
     "A new file or folder has been <strong>created</strong>" : "<strong>Создан</strong> новый файл или каталог",
+    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Фаил или каталог <strong>изменён</strong> или <strong>переименован</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Ограничить уведомления о создании и изменении ваших <strong>избранных файлов</strong> <em>(отображать только в приложении события)</em>",
     "A file or folder has been <strong>deleted</strong>" : "<strong>Удален</strong> файл или каталог",
     "A file or folder has been <strong>restored</strong>" : "<strong>Восстановлен</strong> файл или каталог",

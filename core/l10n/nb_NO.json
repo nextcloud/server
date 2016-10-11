@@ -88,6 +88,7 @@
     "Dec." : "Des.",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Det oppstod problemer med sjekk av kode-integritet. Mer informasjon…</a>",
     "Settings" : "Innstillinger",
+    "Connection to server lost" : "Mistet tilkobling til tjener",
     "Problem loading page, reloading in 5 seconds" : "Det oppstod et problem ved lasting av side, laster på nytt om 5 sekunder",
     "Saving..." : "Lagrer...",
     "Dismiss" : "Forkast",
