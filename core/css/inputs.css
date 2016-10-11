@@ -29,9 +29,9 @@ input[type="button"],
 	margin: 3px 3px 3px 0;
 	padding: 7px 6px 5px;
 	font-size: 13px;
-	background: transparent;
-	color: rgba(0, 0, 0, .8);
-	border: 1px solid rgba(0, 0, 0, .133);
+	background-color: transparent;
+	color: #ddd;
+	border: 1px solid rgba(127, 127, 127, .266);
 	outline: none;
 	border-radius: 3px;
 }
@@ -48,8 +48,8 @@ input[type="tel"],
 input[type="url"],
 input[type="time"],
 textarea {
-	background: transparent;
-	color: rgba(0, 0, 0, .666);
+	background-color: transparent;
+	color: #bbb;
 	cursor: text;
 	font-family: inherit; /* use default ownCloud font instead of default textarea monospace */
 }
@@ -74,7 +74,7 @@ input[type="tel"]:hover, input[type="tel"]:focus, input[type="tel"]:active,
 input[type="url"]:hover, input[type="url"]:focus, input[type="url"]:active,
 input[type="time"]:hover, input[type="time"]:focus, input[type="time"]:active,
 textarea:hover, textarea:focus, textarea:active {
-	color: rgba(0, 0, 0, .8);
+	color: inherit;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	opacity: 1;
 }
@@ -257,10 +257,10 @@ button, .button,
 	width: auto;
 	min-width: 25px;
 	padding: 5px;
-	background-color: rgba(0, 0, 0, .054);
+	background-color: rgba(127, 127, 127, .11);
 	font-weight: 600;
-	color: rgba(0, 0, 0, .666);
-	border: 1px solid rgba(0, 0, 0, .054);
+	color: #bbb;
+	border: 1px solid rgba(127, 127, 127, .11);
 	cursor: pointer;
 }
 select, .button.multiselect {
@@ -272,8 +272,8 @@ button:hover, button:focus,
 .button:hover, .button:focus,
 .button a:focus,
 select:hover, select:focus, select:active {
-	background-color: rgba(0, 0, 0, .1);
-	color: rgba(0, 0, 0, .933);
+	background-color: rgba(127, 127, 127, .05);
+	color: #eee;
 }
 input[type="submit"] img, input[type="button"] img, button img, .button img { cursor:pointer; }
 #header .button {

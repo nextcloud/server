@@ -142,7 +142,7 @@
 #filestable tbody tr.searchresult,
 table tr.mouseOver td {
 	transition: background-color 0.3s ease;
-	background-color: rgba(0, 0, 0, .027);
+	background-color: rgba(127, 127, 127, .055);
 }
 
 span.extension, span.uploading, td.date {
@@ -212,7 +212,7 @@ table th:focus .sort-indicator.hidden {
 
 table th,
 table td {
-	border-bottom: 1px solid rgba(0, 0, 0, .066);
+	border-bottom: 1px solid rgba(127, 127, 127, .133);
 	text-align: left;
 	font-weight: normal;
 }
