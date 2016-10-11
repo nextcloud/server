@@ -1205,21 +1205,48 @@ class OC_App {
 	}
 
 	protected static function findBestL10NOption($options, $lang) {
-		$fallback = $englishFallback = false;
+		$fallback = $similarLangFallback = $englishFallback = false;
+
+		$lang = strtolower($lang);
+		$similarLang = $lang;
+		if (strpos($similarLang, '_')) {
+			// For "de_DE" we want to find "de" and the other way around
+			$similarLang = substr($lang, 0, strpos($lang, '_'));
+		}
+
 		foreach ($options as $option) {
 			if (is_array($option)) {
 				if ($fallback === false) {
 					$fallback = $option['@value'];
 				}
 
-				if (isset($option['@attributes']['lang']) && $option['@attributes']['lang'] === $lang) {
+				if (!isset($option['@attributes']['lang'])) {
+					continue;
+				}
+
+				$attributeLang = strtolower($option['@attributes']['lang']);
+				if ($attributeLang === $lang) {
 					return $option['@value'];
+				}
+
+				if ($attributeLang === $similarLang) {
+					$similarLangFallback = $option['@value'];
+				} else if (strpos($attributeLang, $similarLang . '_') === 0) {
+					if ($similarLangFallback === false) {
+						$similarLangFallback =  $option['@value'];
+					}
 				}
 			} else {
 				$englishFallback = $option;
 			}
 		}
-		return $englishFallback !== false ? $englishFallback : (string) $fallback;
+
+		if ($similarLangFallback !== false) {
+			return $similarLangFallback;
+		} else if ($englishFallback !== false) {
+			return $englishFallback;
+		}
+		return (string) $fallback;
 	}
 
 	/**
