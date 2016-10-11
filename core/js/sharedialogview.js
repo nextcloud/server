@@ -392,7 +392,7 @@
 				var infoTemplate = this._getRemoteShareInfoTemplate();
 				remoteShareInfo = infoTemplate({
 					docLink: this.configModel.getFederatedShareDocLink(),
-					tooltip: t('core', 'Share with people on other ownClouds using the syntax username@example.com/owncloud')
+					tooltip: t('core', 'Share with people on other Nextclouds using the syntax username@example.com/nextcloud')
 				});
 			}
 
