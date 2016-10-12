@@ -41,5 +41,6 @@
 		<command>OCA\Files_External\Command\Create</command>
 		<command>OCA\Files_External\Command\Backends</command>
 		<command>OCA\Files_External\Command\Verify</command>
+		<command>OCA\Files_External\Command\Notify</command>
 	</commands>
 </info>
