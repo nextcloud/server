@@ -68,7 +68,7 @@ abstract class Proxy {
 			$ocConfig = \OC::$server->getConfig();
 			$fs       = new FilesystemHelper();
 			$log      = new LogWrapper();
-			$avatarM  = \OC::$server->getAvatarManager();
+			$avatarM  = function() { return \OC::$server->getAvatarManager(); };
 			$db       = \OC::$server->getDatabaseConnection();
 			$userMap  = new UserMapping($db);
 			$groupMap = new GroupMapping($db);

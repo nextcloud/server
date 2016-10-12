@@ -127,7 +127,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 			\OC::$server->getConfig(),
 			new \OCA\User_LDAP\FilesystemHelper(),
 			new \OCA\User_LDAP\LogWrapper(),
-			\OC::$server->getAvatarManager(),
+			function() { return \OC::$server->getAvatarManager(); },
 			new \OCP\Image(),
 			\OC::$server->getDatabaseConnection(),
 			\OC::$server->getUserManager()

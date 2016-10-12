@@ -68,6 +68,10 @@ class User {
 	 */
 	protected $avatarManager;
 	/**
+	 * @var \Closure
+	 */
+	protected $avatarManagerClosure;
+	/**
 	 * @var IUserManager
 	 */
 	protected $userManager;
@@ -104,23 +108,24 @@ class User {
 	 * @param FilesystemHelper $fs
 	 * @param Image $image any empty instance
 	 * @param LogWrapper $log
-	 * @param IAvatarManager $avatarManager
+	 * @param \Closure $avatarManagerClosure - instantiation of filesystem
+	 * 		  dependent features should be delayed in authentication apps
 	 * @param IUserManager $userManager
 	 */
 	public function __construct($username, $dn, IUserTools $access,
 		IConfig $config, FilesystemHelper $fs, Image $image,
-		LogWrapper $log, IAvatarManager $avatarManager, IUserManager $userManager) {
+		LogWrapper $log, \Closure $avatarManagerClosure, IUserManager $userManager) {
 
-		$this->access        = $access;
-		$this->connection    = $access->getConnection();
-		$this->config        = $config;
-		$this->fs            = $fs;
-		$this->dn            = $dn;
-		$this->uid           = $username;
-		$this->image         = $image;
-		$this->log           = $log;
-		$this->avatarManager = $avatarManager;
-		$this->userManager   = $userManager;
+		$this->access               = $access;
+		$this->connection           = $access->getConnection();
+		$this->config               = $config;
+		$this->fs                   = $fs;
+		$this->dn                   = $dn;
+		$this->uid                  = $username;
+		$this->image                = $image;
+		$this->log                  = $log;
+		$this->avatarManagerClosure = $avatarManagerClosure;
+		$this->userManager          = $userManager;
 	}
 
 	/**
@@ -521,6 +526,9 @@ class User {
 		}
 
 		try {
+			if(is_null($this->avatarManager)) {
+				$this->avatarManager = $this->avatarManagerClosure();
+			}
 			$avatar = $this->avatarManager->getAvatar($this->uid);
 			$avatar->set($this->image);
 		} catch (\Exception $e) {

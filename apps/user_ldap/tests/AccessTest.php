@@ -56,7 +56,7 @@ class AccessTest extends \Test\TestCase {
 				$this->getMock('\OCP\IConfig'),
 				$this->getMock('\OCA\User_LDAP\FilesystemHelper'),
 				$this->getMock('\OCA\User_LDAP\LogWrapper'),
-				$this->getMock('\OCP\IAvatarManager'),
+				function() { return $this->getMock('\OCP\IAvatarManager'); },
 				$this->getMock('\OCP\Image'),
 				$this->getMock('\OCP\IDBConnection'),
 				$this->getMock('\OCP\IUserManager')));
