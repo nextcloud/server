@@ -169,7 +169,6 @@ OC.L10N.register(
     "No users found for {search}" : "Ingen brugere fundet for {search}",
     "An error occurred. Please try again" : "Der opstor den fejl. Prøv igen",
     "Share" : "Del",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Del med andre på ownCloud ved hjælp af syntaxen username@example.com/owncloud",
     "Share with users…" : "Del med brugere...",
     "Share with users, groups or remote users…" : "Del med brugere, grupper eller eksterne brugere...",
     "Share with users or groups…" : "Del med brugere eller grupper...",
@@ -297,6 +296,7 @@ OC.L10N.register(
     "Couldn't send mail to following users: %s " : "Kunne ikke sende mail til følgende brugere: %s",
     "Allow editing" : "Tillad redigering",
     "can share" : "kan dele",
+    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Del med andre på ownCloud ved hjælp af syntaxen username@example.com/owncloud",
     "Cancel login" : "Annuller login"
 },
 "nplurals=2; plural=(n != 1);");

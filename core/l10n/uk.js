@@ -165,7 +165,6 @@ OC.L10N.register(
     "{sharee} (at {server})" : "{sharee} (на {server})",
     "{sharee} (remote)" : "{sharee} (віддалений)",
     "Share" : "Поділитися",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Поширити серед людей інших ownCloud'ів, використовуючи синтаксис ім'я_користувача@файли.укр/owncloud",
     "Share with users…" : "Поділитись з користувачами...",
     "Share with users, groups or remote users…" : "Поділитись з користувачами, групами або віддаленими користувачами...",
     "Share with users or groups…" : "Поділитись з користувачами або групами...",
@@ -296,6 +295,7 @@ OC.L10N.register(
     "Couldn't send mail to following users: %s " : "Неможливо надіслати листа наступним користувачам: %s ",
     "Allow editing" : "Дозволити редагування",
     "can share" : "може ділитися з іншими",
+    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Поширити серед людей інших ownCloud'ів, використовуючи синтаксис ім'я_користувача@файли.укр/owncloud",
     "Two-step verification" : "Дворівнева перевірка",
     "An error occured while verifying the token" : "При верифікації токена виникла помилка"
 },

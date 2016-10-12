@@ -2,6 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Personal" : "Osobiste",
+    "Contacts" : "Kontakty",
     "Technical details" : "Szczegóły techniczne",
     "Remote Address: %s" : "Adres zdalny: %s",
     "Request ID: %s" : "ID żądania: %s",

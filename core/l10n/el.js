@@ -163,7 +163,6 @@ OC.L10N.register(
     "An error occurred. Please try again" : "Παρουσιάστηκε σφάλμα. Παρακαλώ δοκιμάστε αργότερα",
     "{sharee} (group)" : "{sharee} (ομάδα)",
     "Share" : "Διαμοιρασμός",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Διαμοιρασμός με άτομα σε άλλα ownClouds χρησιμοποιώντας την σύνταξη username@example.com/owncloud",
     "Share with users…" : "Διαμοιρασμός με χρήστες...",
     "Share with users or groups…" : "Διαμοιρασμός με χρήστες και ομάδες ...",
     "Share with users or remote users…" : "Διαμοιρασμός με χρήστες ή με απομακρυσμένους χρήστες...",
@@ -290,6 +289,7 @@ OC.L10N.register(
     "Couldn't send mail to following users: %s " : "Αδυναμία αποστολής μηνύματος στους ακόλουθους χρήστες: %s",
     "Allow editing" : "Επιτρέπεται η επεξεργασία",
     "can share" : "δυνατότητα διαμοιρασμού",
+    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Διαμοιρασμός με άτομα σε άλλα ownClouds χρησιμοποιώντας την σύνταξη username@example.com/owncloud",
     "Updating to {version}" : "Ενημέρωση στην έκδοση {version}",
     "The update was successful. There were warnings." : "Η ενημέρωση ήταν επιτυχής. Υπάρχουν προειδοποιήσεις."
 },
