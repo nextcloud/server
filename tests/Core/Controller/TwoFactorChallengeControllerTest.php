@@ -23,6 +23,7 @@
 namespace Test\Core\Controller;
 
 use OC\Core\Controller\TwoFactorChallengeController;
+use OCP\AppFramework\Http\RedirectResponse;
 use Test\TestCase;
 
 class TwoFactorChallengeControllerTest extends TestCase {
