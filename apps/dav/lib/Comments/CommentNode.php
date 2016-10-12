@@ -173,7 +173,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 * @param $propertyValue
 	 * @return bool
 	 * @throws BadRequest
-	 * @throws Forbidden
+	 * @throws \Exception
 	 */
 	public function updateComment($propertyValue) {
 		$this->checkWriteAccessOnComment();

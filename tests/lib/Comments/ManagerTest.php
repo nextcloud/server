@@ -635,11 +635,11 @@ class ManagerTest extends TestCase {
 
 	public function testSendEvent() {
 		$handler1 = $this->getMockBuilder(ICommentsEventHandler::class)->getMock();
-		$handler1->expects($this->exactly(3))
+		$handler1->expects($this->exactly(4))
 			->method('handle');
 
 		$handler2 = $this->getMockBuilder(ICommentsEventHandler::class)->getMock();
-		$handler1->expects($this->exactly(3))
+		$handler1->expects($this->exactly(4))
 			->method('handle');
 
 		$manager = $this->getManager();

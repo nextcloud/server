@@ -60,6 +60,8 @@ class ListenerTest extends TestCase {
 	public function eventProvider() {
 		return [
 			[CommentsEvent::EVENT_ADD, 'notify'],
+			[CommentsEvent::EVENT_UPDATE, 'notify'],
+			[CommentsEvent::EVENT_PRE_UPDATE, 'markProcessed'],
 			[CommentsEvent::EVENT_DELETE, 'markProcessed']
 		];
 	}

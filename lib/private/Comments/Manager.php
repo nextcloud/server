@@ -536,6 +536,12 @@ class Manager implements ICommentsManager {
 	 * @throws NotFoundException
 	 */
 	protected function update(IComment $comment) {
+		// for properly working preUpdate Events we need the old comments as is
+		// in the DB and overcome caching. Also avoid that outdated information stays.
+		$this->uncache($comment->getId());
+		$this->sendEvent(CommentsEvent::EVENT_PRE_UPDATE, $this->get($comment->getId()));
+		$this->uncache($comment->getId());
+
 		$qb = $this->dbConn->getQueryBuilder();
 		$affectedRows = $qb
 			->update('comments')

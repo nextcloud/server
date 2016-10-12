@@ -57,14 +57,29 @@ class EventHandler implements ICommentsEventHandler {
 		if( $eventType === CommentsEvent::EVENT_ADD
 			&& $event instanceof CommentsEvent
 		) {
-			$this->onAdd($event);
+			$this->notificationHandler($event);
+			$this->activityHandler($event);
+			return;
+		}
+
+		if( $eventType === CommentsEvent::EVENT_PRE_UPDATE
+			&& $event instanceof CommentsEvent
+		) {
+			$this->notificationHandler($event);
+			return;
+		}
+
+		if( $eventType === CommentsEvent::EVENT_UPDATE
+			&& $event instanceof CommentsEvent
+		) {
+			$this->notificationHandler($event);
 			return;
 		}
 
 		if( $eventType === CommentsEvent::EVENT_DELETE
 			&& $event instanceof CommentsEvent
 		) {
-			$this->onDelete($event);
+			$this->notificationHandler($event);
 			return;
 		}
 	}
@@ -72,12 +87,8 @@ class EventHandler implements ICommentsEventHandler {
 	/**
 	 * @param CommentsEvent $event
 	 */
-	private function onAdd(CommentsEvent $event) {
+	private function activityHandler(CommentsEvent $event) {
 		$c = $this->app->getContainer();
-
-		/** @var NotificationListener $notificationListener */
-		$notificationListener = $c->query(NotificationListener::class);
-		$notificationListener->evaluate($event);
 
 		/** @var ActivityListener $listener */
 		$activityListener = $c->query(ActivityListener::class);
@@ -87,7 +98,7 @@ class EventHandler implements ICommentsEventHandler {
 	/**
 	 * @param CommentsEvent $event
 	 */
-	private function onDelete(CommentsEvent $event) {
+	private function notificationHandler(CommentsEvent $event) {
 		$c = $this->app->getContainer();
 
 		/** @var NotificationListener $notificationListener */

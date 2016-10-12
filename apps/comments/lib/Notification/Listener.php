@@ -85,7 +85,9 @@ class Listener {
 			}
 
 			$notification->setUser($user);
-			if($event->getEvent() === CommentsEvent::EVENT_DELETE) {
+			if(    $event->getEvent() === CommentsEvent::EVENT_DELETE
+				|| $event->getEvent() === CommentsEvent::EVENT_PRE_UPDATE)
+			{
 				$this->notificationManager->markProcessed($notification);
 			} else {
 				$this->notificationManager->notify($notification);

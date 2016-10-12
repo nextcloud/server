@@ -69,42 +69,11 @@ class EventHandlerTest extends TestCase {
 		$this->eventHandler->handle($event);
 	}
 
-	public function notHandledProvider() {
-		return [
-			[CommentsEvent::EVENT_UPDATE]
-		];
-	}
-
-	/**
-	 * @dataProvider notHandledProvider
-	 * @param string $eventType
-	 */
-	public function testNotHandled($eventType) {
-		/** @var IComment|\PHPUnit_Framework_MockObject_MockObject $comment */
-		$comment = $this->getMockBuilder(IComment::class)->getMock();
-		$comment->expects($this->once())
-			->method('getObjectType')
-			->willReturn('files');
-
-		/** @var CommentsEvent|\PHPUnit_Framework_MockObject_MockObject $event */
-		$event = $this->getMockBuilder(CommentsEvent::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$event->expects($this->once())
-			->method('getComment')
-			->willReturn($comment);
-		$event->expects($this->once())
-			->method('getEvent')
-			->willReturn($eventType);
-
-		// further processing does not happen, because $event methods cannot be
-		// access more than once.
-		$this->eventHandler->handle($event);
-	}
-
 	public function handledProvider() {
 		return [
 			[CommentsEvent::EVENT_DELETE],
+			[CommentsEvent::EVENT_UPDATE],
+			[CommentsEvent::EVENT_PRE_UPDATE],
 			[CommentsEvent::EVENT_ADD]
 		];
 	}
@@ -152,7 +121,7 @@ class EventHandlerTest extends TestCase {
 			->withConsecutive([NotificationListener::class], [ActivityListener::class])
 			->willReturnOnConsecutiveCalls($notificationListener, $activityListener);
 
-		$this->app->expects($this->once())
+		$this->app->expects($this->atLeastOnce())
 			->method('getContainer')
 			->willReturn($c);
 
