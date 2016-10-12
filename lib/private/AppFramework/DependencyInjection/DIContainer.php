@@ -44,10 +44,12 @@ use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\Core\Middleware\TwoFactorMiddleware;
+use OC\RichObjectStrings\Validator;
 use OCP\AppFramework\IApi;
 use OCP\AppFramework\IAppContainer;
 use OCP\Files\IAppData;
 use OCP\Files\Mount\IMountManager;
+use OCP\RichObjectStrings\IValidator;
 
 class DIContainer extends SimpleContainer implements IAppContainer {
 
@@ -328,6 +330,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		$this->registerService('OCP\Encryption\IManager', function ($c) {
 			return $this->getServer()->getEncryptionManager();
+		});
+
+		$this->registerService(IValidator::class, function($c) {
+			return $c->query(Validator::class);
 		});
 
 
