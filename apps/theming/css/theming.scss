@@ -65,3 +65,49 @@ input.primary {
 		background-image: url('../../../core/img/actions/confirm.svg');
 	}
 }
+
+// plain background color for login page
+@if $image-login-plain == 'true' {
+	#body-login, #firstrunwizard .firstrunwizard-header, #theming-preview {
+		background-image: none !important;
+		background-color: $color-primary;
+	}
+	#body-login {
+
+		a, label, p {
+			color: $color-primary-text !important;
+		}
+
+		@if (lightness($color-primary) > 50) {
+			#submit {
+				border-color: nc-darken($color-primary, 20%);
+				background-color: nc-darken($color-primary, 10%);
+			}
+			#submit:hover {
+				border-color: nc-darken($color-primary, 10%);
+				background-color: nc-darken($color-primary, 3%);
+			}
+			input[type='checkbox'].checkbox--white + label:before {
+				border-color: nc-darken($color-primary, 40%) !important;
+			}
+			input[type='checkbox'].checkbox--white:not(:disabled):not(:checked) + label:hover:before,
+			input[type='checkbox'].checkbox--white:focus + label:before {
+				border-color: nc-darken($color-primary, 30%) !important;
+			}
+			input[type='checkbox'].checkbox--white:checked + label:before {
+				border-color: nc-darken($color-primary, 30%) !important;
+				background-image: url('../../../core/img/actions/checkbox-mark.svg');
+				background-color: nc-darken($color-primary, 30%) !important;
+			}
+		} @else {
+			#submit {
+				border-color: nc-lighten($color-primary, 20%);
+				background-color: nc-lighten($color-primary, 5%);
+			}
+			#submit:hover {
+				border-color: nc-lighten($color-primary, 10%);
+				background-color: nc-lighten($color-primary, 3%);
+			}
+		}
+	}
+}

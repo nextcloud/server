@@ -26,10 +26,20 @@
     display: inline-block;
     visibility: hidden;
 }
-#theming form .theme-undo {
+form.uploadButton {
+    width: 356px;
+}
+#theming form .theme-undo,
+#theming .theme-remove-bg {
+    cursor: pointer;
+    opacity: .3;
+    padding: 7px;
+    vertical-align: top;
+    display: inline-block;
+    float: right;
     position: relative;
     top: 4px;
-    left: 158px;
+    right: 0px;
     visibility: visible;
 }
 #theming input[type='text']:focus + .theme-undo,
@@ -54,7 +64,8 @@
     margin: 2px 0px;
 }
 
-#theming .icon-upload {
+#theming .icon-upload,
+#theming .icon-loading-small {
     padding: 8px 20px;
     width: 20px;
     margin: 2px 0px;

@@ -185,6 +185,20 @@ class ThemingController extends Controller {
 	 * @return DataResponse
 	 */
 	public function updateLogo() {
+		$backgroundColor = $this->request->getParam('backgroundColor');
+		if($backgroundColor) {
+			$this->themingDefaults->set('backgroundMime', 'backgroundColor');
+			return new DataResponse(
+				[
+					'data' =>
+						[
+							'name' => 'backgroundColor',
+							'message' => $this->l10n->t('Saved')
+						],
+					'status' => 'success'
+				]
+			);
+		}
 		$newLogo = $this->request->getUploadedFile('uploadlogo');
 		$newBackgroundLogo = $this->request->getUploadedFile('upload-login-background');
 		if (empty($newLogo) && empty($newBackgroundLogo)) {
