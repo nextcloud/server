@@ -414,8 +414,6 @@ class Share20OCS extends OCSController {
 			throw new OCSException($e->getHint(), $code);
 		} catch (\Exception $e) {
 			throw new OCSForbiddenException($e->getMessage());
-		} finally {
-			$share->getNode()->unlock(ILockingProvider::LOCK_SHARED);
 		}
 
 		$output = $this->formatShare($share);
