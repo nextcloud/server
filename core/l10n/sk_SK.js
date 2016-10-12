@@ -158,7 +158,6 @@ OC.L10N.register(
     "Share details could not be loaded for this item." : "Nebolo možné načítať údaje o zdieľaní tejto položky.",
     "{sharee} (at {server})" : "{sharee} (na {server})",
     "Share" : "Zdieľať",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Zdieľať s ľuďmi na iných serveroch ownClouds pomocou syntaxe používateľ@doména.com/owncloud",
     "Share with users…" : "Sprístupniť používateľom...",
     "Share with users, groups or remote users…" : "Sprístupniť používateľom, skupinám alebo vzdialeným používateľom...",
     "Share with users or groups…" : "Sprístupniť používateľom alebo skupinám...",
@@ -280,6 +279,7 @@ OC.L10N.register(
     "Error unfavoriting" : "Chyba pri odobratí z obľúbených",
     "Couldn't send mail to following users: %s " : "Nebolo možné odoslať email týmto používateľom: %s ",
     "Allow editing" : "Povoliť úpravy",
-    "can share" : "môže zdieľať"
+    "can share" : "môže zdieľať",
+    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Zdieľať s ľuďmi na iných serveroch ownClouds pomocou syntaxe používateľ@doména.com/owncloud"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
