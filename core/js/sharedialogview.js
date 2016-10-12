@@ -251,7 +251,7 @@
 		},
 
 		autocompleteRenderItem: function(ul, item) {
-			var insert = $("<a>");
+
 			var text = item.label;
 			if (item.value.shareType === OC.Share.SHARE_TYPE_GROUP) {
 				text = t('core', '{sharee} (group)', {
@@ -269,15 +269,20 @@
 					});
 				}
 			}
-			insert.text(text);
-			insert.attr('title', item.value.shareWith);
-			if(item.value.shareType === OC.Share.SHARE_TYPE_GROUP) {
-				insert = insert.wrapInner('<strong></strong>');
+			var insert = $("<div class='share-autocomplete-item'/>");
+			var avatar = $("<div class='avatardiv'></div>").appendTo(insert);
+			if (item.value.shareType === OC.Share.SHARE_TYPE_USER) {
+				avatar.avatar(item.value.shareWith, 32, undefined, undefined, undefined, item.label);
+			} else {
+				avatar.imageplaceholder(text, undefined, 32);
 			}
-			insert.tooltip({
-				placement: 'bottom',
-				container: 'body'
-			});
+
+			$("<div class='autocomplete-item-text'></div>")
+				.text(text)
+				.appendTo(insert);
+			insert.attr('title', item.value.shareWith);
+			insert = $("<a>")
+				.append(insert);
 			return $("<li>")
 				.addClass((item.value.shareType === OC.Share.SHARE_TYPE_GROUP) ? 'group' : 'user')
 				.append(insert)
