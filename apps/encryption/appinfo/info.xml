@@ -30,4 +30,8 @@
 	<settings>
 		<admin>OCA\Encryption\Settings\Admin</admin>
 	</settings>
+	<commands>
+		<command>OCA\Encryption\Command\EnableMasterKey</command>
+		<command>OCA\Encryption\Command\MigrateKeys</command>
+	</commands>
 </info>

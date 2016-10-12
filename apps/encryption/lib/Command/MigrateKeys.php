@@ -22,13 +22,13 @@
 
 namespace OCA\Encryption\Command;
 
-use OC\DB\Connection;
 use OC\Files\View;
-use OC\User\Manager;
 use OCA\Encryption\Migration;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\IUserBackend;
+use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,12 +36,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MigrateKeys extends Command {
 
-	/** @var \OC\User\Manager */
+	/** @var IUserManager */
 	private $userManager;
-
 	/** @var View */
 	private $view;
-	/** @var \OC\DB\Connection */
+	/** @var IDBConnection */
 	private $connection;
 	/** @var IConfig */
 	private $config;
@@ -49,15 +48,15 @@ class MigrateKeys extends Command {
 	private $logger;
 
 	/**
-	 * @param Manager $userManager
+	 * @param IUserManager $userManager
 	 * @param View $view
-	 * @param Connection $connection
+	 * @param IDBConnection $connection
 	 * @param IConfig $config
 	 * @param ILogger $logger
 	 */
-	public function __construct(Manager $userManager,
+	public function __construct(IUserManager $userManager,
 								View $view,
-								Connection $connection,
+								IDBConnection $connection,
 								IConfig $config,
 								ILogger $logger) {
 

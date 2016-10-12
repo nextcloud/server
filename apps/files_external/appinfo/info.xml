@@ -29,4 +29,18 @@
 		<admin>OCA\Files_External\Settings\Admin</admin>
 		<admin-section>OCA\Files_External\Settings\Section</admin-section>
 	</settings>
+
+	<commands>
+		<command>OCA\Files_External\Command\ListCommand</command>
+		<command>OCA\Files_External\Command\Config</command>
+		<command>OCA\Files_External\Command\Option</command>
+		<command>OCA\Files_External\Command\Applicable</command>
+		<command>OCA\Files_External\Command\Import</command>
+		<command>OCA\Files_External\Command\Export</command>
+		<command>OCA\Files_External\Command\Delete</command>
+		<command>OCA\Files_External\Command\Create</command>
+		<command>OCA\Files_External\Command\Backends</command>
+		<command>OCA\Files_External\Command\Verify</command>
+		<command>OCA\Files_External\Command\Notify</command>
+	</commands>
 </info>
