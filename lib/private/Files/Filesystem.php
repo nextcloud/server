@@ -225,7 +225,7 @@ class Filesystem {
 	 * @param int $priority
 	 */
 	public static function addStorageWrapper($wrapperName, $wrapper, $priority = 50) {
-		if (self::$logWarningWhenAddingStorageWrapper) {
+		if (self::$logWarningWhenAddingStorageWrapper && $wrapperName !== 'readonly') {
 			\OC::$server->getLogger()->warning("Storage wrapper '{wrapper}' was not registered via the 'OC_Filesystem - preSetup' hook which could cause potential problems.", [
 				'wrapper' => $wrapperName,
 				'app' => 'filesystem',
