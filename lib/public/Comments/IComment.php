@@ -133,6 +133,28 @@ interface IComment {
 	public function setMessage($message);
 
 	/**
+	 * returns an array containing mentions that are included in the comment
+	 *
+	 * @return array each mention provides a 'type' and an 'id', see example below
+	 * @since 9.2.0
+	 *
+	 * The return array looks like:
+	 * [
+	 *   [
+	 *     'type' => 'user',
+	 *     'id' => 'citizen4'
+	 *   ],
+	 *   [
+	 *     'type' => 'group',
+	 *     'id' => 'media'
+	 *   ],
+	 *   …
+	 * ]
+	 *
+	 */
+	public function getMentions();
+
+	/**
 	 * returns the verb of the comment
 	 *
 	 * @return string

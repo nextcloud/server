@@ -373,6 +373,10 @@ class CommentsNodeTest extends \Test\TestCase {
 			$ns . 'topmostParentId' => '2',
 			$ns . 'childrenCount' => 3,
 			$ns . 'message' => 'such a nice file you have…',
+			$ns . 'mentions' => [
+				[ $ns . 'mention' => [ $ns . 'mentionType' => 'user', $ns . 'mentionId' => 'alice'] ],
+				[ $ns . 'mention' => [ $ns . 'mentionType' => 'user', $ns . 'mentionId' => 'bob'] ],
+			],
 			$ns . 'verb' => 'comment',
 			$ns . 'actorType' => 'users',
 			$ns . 'actorId' => 'alice',
@@ -403,6 +407,13 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->comment->expects($this->once())
 			->method('getMessage')
 			->will($this->returnValue($expected[$ns . 'message']));
+
+		$this->comment->expects($this->once())
+			->method('getMentions')
+			->willReturn([
+				['type' => 'user', 'id' => 'alice'],
+				['type' => 'user', 'id' => 'bob'],
+			]);
 
 		$this->comment->expects($this->once())
 			->method('getVerb')
@@ -474,6 +485,10 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->comment->expects($this->any())
 			->method('getCreationDateTime')
 			->will($this->returnValue($creationDT));
+
+		$this->comment->expects($this->any())
+			->method('getMentions')
+			->willReturn([]);
 
 		$this->commentsManager->expects($this->once())
 			->method('getReadMark')

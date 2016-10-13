@@ -41,6 +41,10 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	const PROPERTY_NAME_UNREAD = '{http://owncloud.org/ns}isUnread';
 	const PROPERTY_NAME_MESSAGE = '{http://owncloud.org/ns}message';
 	const PROPERTY_NAME_ACTOR_DISPLAYNAME = '{http://owncloud.org/ns}actorDisplayName';
+	const PROPERTY_NAME_MENTIONS = '{http://owncloud.org/ns}mentions';
+	const PROPERTY_NAME_MENTION = '{http://owncloud.org/ns}mention';
+	const PROPERTY_NAME_MENTION_TYPE = '{http://owncloud.org/ns}mentionType';
+	const PROPERTY_NAME_MENTION_ID = '{http://owncloud.org/ns}mentionId';
 
 	/** @var  IComment */
 	public $comment;
@@ -85,6 +89,9 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 			return strpos($name, 'get') === 0;
 		});
 		foreach($methods as $getter) {
+			if($getter === 'getMentions') {
+				continue;	// special treatment
+			}
 			$name = '{'.self::NS_OWNCLOUD.'}' . lcfirst(substr($getter, 3));
 			$this->properties[$name] = $getter;
 		}
@@ -113,7 +120,11 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 			// re-used property names are defined as constants
 			self::PROPERTY_NAME_MESSAGE,
 			self::PROPERTY_NAME_ACTOR_DISPLAYNAME,
-			self::PROPERTY_NAME_UNREAD
+			self::PROPERTY_NAME_UNREAD,
+			self::PROPERTY_NAME_MENTIONS,
+			self::PROPERTY_NAME_MENTION,
+			self::PROPERTY_NAME_MENTION_TYPE,
+			self::PROPERTY_NAME_MENTION_ID,
 		];
 	}
 
@@ -240,6 +251,8 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 			$result[self::PROPERTY_NAME_ACTOR_DISPLAYNAME] = $displayName;
 		}
 
+		$result[self::PROPERTY_NAME_MENTIONS] = $this->composeMentionsPropertyValue();
+
 		$unread = null;
 		$user =  $this->userSession->getUser();
 		if(!is_null($user)) {
@@ -259,5 +272,23 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 		$result[self::PROPERTY_NAME_UNREAD] = $unread;
 
 		return $result;
+	}
+
+	/**
+	 * transforms a mentions array as returned from IComment->getMentions to an
+	 * array with DAV-compatible structure that can be assigned to the
+	 * PROPERTY_NAME_MENTION property.
+	 *
+	 * @return array
+	 */
+	protected function composeMentionsPropertyValue() {
+		return array_map(function($mention) {
+			return [
+				self::PROPERTY_NAME_MENTION => [
+					self::PROPERTY_NAME_MENTION_TYPE => $mention['type'],
+					self::PROPERTY_NAME_MENTION_ID   => $mention['id'],
+				]
+			];
+		}, $this->comment->getMentions());
 	}
 }

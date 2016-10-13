@@ -61,7 +61,7 @@ class Listener {
 	public function evaluate(CommentsEvent $event) {
 		$comment = $event->getComment();
 
-		$mentions = $this->extractMentions($comment->getMessage());
+		$mentions = $this->extractMentions($comment->getMentions());
 		if(empty($mentions)) {
 			// no one to notify
 			return;
@@ -69,16 +69,15 @@ class Listener {
 
 		$notification = $this->instantiateNotification($comment);
 
-		foreach($mentions as $mention) {
-			$user = substr($mention, 1); // @username → username
-			if( ($comment->getActorType() === 'users' && $user === $comment->getActorId())
-				|| !$this->userManager->userExists($user)
+		foreach($mentions as $uid) {
+			if( ($comment->getActorType() === 'users' && $uid === $comment->getActorId())
+				|| !$this->userManager->userExists($uid)
 			) {
 				// do not notify unknown users or yourself
 				continue;
 			}
 
-			$notification->setUser($user);
+			$notification->setUser($uid);
 			if(    $event->getEvent() === CommentsEvent::EVENT_DELETE
 				|| $event->getEvent() === CommentsEvent::EVENT_PRE_UPDATE)
 			{
@@ -111,16 +110,21 @@ class Listener {
 	}
 
 	/**
-	 * extracts @-mentions out of a message body.
+	 * flattens the mention array returned from comments to a list of user ids.
 	 *
-	 * @param string $message
-	 * @return string[] containing the mentions, e.g. ['@alice', '@bob']
+	 * @param array $mentions
+	 * @return string[] containing the mentions, e.g. ['alice', 'bob']
 	 */
-	public function extractMentions($message) {
-		$ok = preg_match_all('/\B@[a-z0-9_\-@\.\']+/i', $message, $mentions);
-		if(!$ok || !isset($mentions[0]) || !is_array($mentions[0])) {
+	public function extractMentions(array $mentions) {
+		if(empty($mentions)) {
 			return [];
 		}
-		return array_unique($mentions[0]);
+		$uids = [];
+		foreach($mentions as $mention) {
+			if($mention['type'] === 'user') {
+				$uids[] = $mention['id'];
+			}
+		}
+		return $uids;
 	}
 }
