@@ -892,6 +892,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			])
 			->execute();
 
+		$this->activityBackend->addCalendarObject($calendarId, $objectUri);
 		$this->addChange($calendarId, $objectUri, 1);
 
 		return '"' . $extraData['etag'] . '"';
@@ -933,6 +934,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->andWhere($query->expr()->eq('uri', $query->createNamedParameter($objectUri)))
 			->execute();
 
+		$this->activityBackend->updateCalendarObject($calendarId, $objectUri);
 		$this->addChange($calendarId, $objectUri, 2);
 
 		return '"' . $extraData['etag'] . '"';
@@ -965,6 +967,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return void
 	 */
 	function deleteCalendarObject($calendarId, $objectUri) {
+		$this->activityBackend->deleteCalendarObject($calendarId, $objectUri);
+
 		$stmt = $this->db->prepare('DELETE FROM `*PREFIX*calendarobjects` WHERE `calendarid` = ? AND `uri` = ?');
 		$stmt->execute([$calendarId, $objectUri]);
 

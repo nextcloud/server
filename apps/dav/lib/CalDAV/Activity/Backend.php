@@ -30,6 +30,7 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use Sabre\VObject\Reader;
 
 /**
  * Class Backend
@@ -70,7 +71,7 @@ class Backend {
 	 * @param array $properties
 	 */
 	public function addCalendar($calendarId, array $properties) {
-		$this->triggerActivity(Extension::SUBJECT_ADD, $calendarId, $properties);
+		$this->triggerCalendarActivity(Extension::SUBJECT_ADD, $calendarId, $properties);
 	}
 
 	/**
@@ -80,7 +81,7 @@ class Backend {
 	 * @param array $properties
 	 */
 	public function updateCalendar($calendarId, array $properties) {
-		$this->triggerActivity(Extension::SUBJECT_UPDATE, $calendarId, $properties);
+		$this->triggerCalendarActivity(Extension::SUBJECT_UPDATE, $calendarId, $properties);
 	}
 
 	/**
@@ -89,9 +90,8 @@ class Backend {
 	 * @param int $calendarId
 	 */
 	public function deleteCalendar($calendarId) {
-		$this->triggerActivity(Extension::SUBJECT_DELETE, $calendarId);
+		$this->triggerCalendarActivity(Extension::SUBJECT_DELETE, $calendarId);
 	}
-
 
 	/**
 	 * Creates activities for all related users when a calendar was touched
@@ -100,7 +100,7 @@ class Backend {
 	 * @param int $calendarId
 	 * @param array $changedProperties
 	 */
-	protected function triggerActivity($action, $calendarId, array $changedProperties = []) {
+	protected function triggerCalendarActivity($action, $calendarId, array $changedProperties = []) {
 		$properties = $this->calDavBackend->getCalendarById($calendarId);
 		if (!isset($properties['principaluri'])) {
 			return;
@@ -363,6 +363,119 @@ class Backend {
 	}
 
 	/**
+	 * Creates activities when a calendar object was created
+	 *
+	 * @param int $calendarId
+	 * @param string $objectUri
+	 */
+	public function addCalendarObject($calendarId, $objectUri) {
+		$this->triggerCalendarObjectActivity(Extension::SUBJECT_OBJECT_ADD, $calendarId, $objectUri);
+	}
+
+	/**
+	 * Creates activities when a calendar object was updated
+	 *
+	 * @param int $calendarId
+	 * @param string $objectUri
+	 */
+	public function updateCalendarObject($calendarId, $objectUri) {
+		$this->triggerCalendarObjectActivity(Extension::SUBJECT_OBJECT_UPDATE, $calendarId, $objectUri);
+	}
+
+	/**
+	 * Creates activities when a calendar object was deleted
+	 *
+	 * @param int $calendarId
+	 * @param string $objectUri
+	 */
+	public function deleteCalendarObject($calendarId, $objectUri) {
+		$this->triggerCalendarObjectActivity(Extension::SUBJECT_OBJECT_DELETE, $calendarId, $objectUri);
+	}
+
+	/**
+	 * Creates activities for all related users when a calendar was touched
+	 *
+	 * @param string $action
+	 * @param int $calendarId
+	 * @param string $objectUri
+	 */
+	protected function triggerCalendarObjectActivity($action, $calendarId, $objectUri) {
+		$properties = $this->calDavBackend->getCalendarById($calendarId);
+		if (!isset($properties['principaluri'])) {
+			return;
+		}
+
+		$principal = explode('/', $properties['principaluri']);
+		$owner = $principal[2];
+
+		$currentUser = $this->userSession->getUser();
+		if ($currentUser instanceof IUser) {
+			$currentUser = $currentUser->getUID();
+		} else {
+			$currentUser = $owner;
+		}
+
+		$object = $this->getObjectNameAndType($calendarId, $objectUri);
+		$action = $action . '_' . $object['type'];
+
+		if ($object['type'] === 'todo' && strpos($action, Extension::SUBJECT_OBJECT_UPDATE) === 0 && $object['status'] === 'COMPLETED') {
+			$action .= '_completed';
+		} else if ($object['type'] === 'todo' && strpos($action, Extension::SUBJECT_OBJECT_UPDATE) === 0 && $object['status'] === 'NEEDS-ACTION') {
+			$action .= '_needs_action';
+		}
+
+		$event = $this->activityManager->generateEvent();
+		$event->setApp('dav')
+			->setObject(Extension::CALENDAR, $calendarId)
+			->setType(Extension::CALENDAR)
+			->setAuthor($currentUser);
+
+		$users = $this->getUsersForCalendar($calendarId);
+		$users[] = $owner;
+
+		foreach ($users as $user) {
+			$event->setAffectedUser($user)
+				->setSubject(
+					$user === $currentUser ? $action . '_self' : $action,
+					[
+						$currentUser,
+						$properties['{DAV:}displayname'],
+						$object['name'],
+					]
+				);
+			$this->activityManager->publish($event);
+		}
+	}
+
+	/**
+	 * @param int $calendarId
+	 * @param string $objectUri
+	 * @return string[]|bool
+	 */
+	protected function getObjectNameAndType($calendarId, $objectUri) {
+		$data = $this->calDavBackend->getCalendarObject($calendarId, $objectUri);
+
+		$vObject = Reader::read($data['calendardata']);
+		$component = $componentType = null;
+		foreach($vObject->getComponents() as $component) {
+			if (in_array($component->name, ['VEVENT', 'VTODO'])) {
+				$componentType = $component->name;
+				break;
+			}
+		}
+
+		if (!$componentType) {
+			// Calendar objects must have a VEVENT or VTODO component
+			return false;
+		}
+
+		if ($componentType === 'VEVENT') {
+			return ['name' => (string) $component->SUMMARY, 'type' => 'event'];
+		}
+		return ['name' => (string) $component->SUMMARY, 'type' => 'todo', 'status' => (string) $component->STATUS];
+	}
+
+	/**
 	 * Get all users that have access to a given calendar
 	 *
 	 * @param int $calendarId
@@ -391,6 +504,6 @@ class Backend {
 			}
 		}
 
-		return $users;
+		return array_unique($users);
 	}
 }

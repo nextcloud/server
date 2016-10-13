@@ -40,6 +40,10 @@ class Extension implements IExtension {
 	const SUBJECT_UNSHARE_USER = 'calendar_user_unshare';
 	const SUBJECT_UNSHARE_GROUP = 'calendar_group_unshare';
 
+	const SUBJECT_OBJECT_ADD = 'object_add';
+	const SUBJECT_OBJECT_UPDATE = 'object_update';
+	const SUBJECT_OBJECT_DELETE = 'object_delete';
+
 	/** @var IFactory */
 	protected $languageFactory;
 
@@ -138,6 +142,7 @@ class Extension implements IExtension {
 				return (string) $l->t('%1$s updated calendar %2$s', $params);
 			case self::SUBJECT_UPDATE . '_self':
 				return (string) $l->t('You updated calendar %2$s', $params);
+
 			case self::SUBJECT_SHARE_USER:
 				return (string) $l->t('%1$s shared calendar %2$s with you', $params);
 			case self::SUBJECT_SHARE_USER . '_you':
@@ -152,6 +157,7 @@ class Extension implements IExtension {
 				return (string) $l->t('%3$s unshared calendar %2$s from %1$s', $params);
 			case self::SUBJECT_UNSHARE_USER . '_self':
 				return (string) $l->t('%1$s unshared calendar %2$s from themselves', $params);
+
 			case self::SUBJECT_SHARE_GROUP . '_you':
 				return (string) $l->t('You shared calendar %2$s with group %1$s', $params);
 			case self::SUBJECT_SHARE_GROUP . '_by':
@@ -160,6 +166,42 @@ class Extension implements IExtension {
 				return (string) $l->t('You unshared calendar %2$s from group %1$s', $params);
 			case self::SUBJECT_UNSHARE_GROUP . '_by':
 				return (string) $l->t('%3$s unshared calendar %2$s from group %1$s', $params);
+
+			case self::SUBJECT_OBJECT_ADD . '_event':
+				return (string) $l->t('%1$s created event %3$s in calendar %2$s', $params);
+			case self::SUBJECT_OBJECT_ADD . '_event_self':
+				return (string) $l->t('You created event %3$s in calendar %2$s', $params);
+			case self::SUBJECT_OBJECT_DELETE . '_event':
+				return (string) $l->t('%1$s deleted event %3$s from calendar %2$s', $params);
+			case self::SUBJECT_OBJECT_DELETE . '_event_self':
+				return (string) $l->t('You deleted event %3$s from calendar %2$s', $params);
+			case self::SUBJECT_OBJECT_UPDATE . '_event':
+				return (string) $l->t('%1$s updated event %3$s in calendar %2$s', $params);
+			case self::SUBJECT_OBJECT_UPDATE . '_event_self':
+				return (string) $l->t('You updated event %3$s in calendar %2$s', $params);
+
+			case self::SUBJECT_OBJECT_ADD . '_todo':
+				return (string) $l->t('%1$s created todo %3$s in list %2$s', $params);
+			case self::SUBJECT_OBJECT_ADD . '_todo_self':
+				return (string) $l->t('You created todo %3$s in list %2$s', $params);
+			case self::SUBJECT_OBJECT_DELETE . '_todo':
+				return (string) $l->t('%1$s deleted todo %3$s from list %2$s', $params);
+			case self::SUBJECT_OBJECT_DELETE . '_todo_self':
+				return (string) $l->t('You deleted todo %3$s from list %2$s', $params);
+			case self::SUBJECT_OBJECT_UPDATE . '_todo':
+				return (string) $l->t('%1$s updated todo %3$s in list %2$s', $params);
+			case self::SUBJECT_OBJECT_UPDATE . '_todo_self':
+				return (string) $l->t('You updated todo %3$s in list %2$s', $params);
+
+			case self::SUBJECT_OBJECT_UPDATE . '_todo_completed':
+				return (string) $l->t('%1$s solved todo %3$s in list %2$s', $params);
+			case self::SUBJECT_OBJECT_UPDATE . '_todo_completed_self':
+				return (string) $l->t('You solved todo %3$s in list %2$s', $params);
+			case self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action':
+				return (string) $l->t('%1$s reopened todo %3$s in list %2$s', $params);
+			case self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action_self':
+				return (string) $l->t('You reopened todo %3$s in list %2$s', $params);
+
 		}
 
 		return false;
@@ -213,6 +255,30 @@ class Extension implements IExtension {
 						//0 => 'group',
 						//1 => 'calendar',
 						2 => 'username',
+					];
+
+				case self::SUBJECT_OBJECT_ADD . '_event':
+				case self::SUBJECT_OBJECT_ADD . '_event_self':
+				case self::SUBJECT_OBJECT_DELETE . '_event':
+				case self::SUBJECT_OBJECT_DELETE . '_event_self':
+				case self::SUBJECT_OBJECT_UPDATE . '_event':
+				case self::SUBJECT_OBJECT_UPDATE . '_event_self':
+
+				case self::SUBJECT_OBJECT_ADD . '_todo':
+				case self::SUBJECT_OBJECT_ADD . '_todo_self':
+				case self::SUBJECT_OBJECT_DELETE . '_todo':
+				case self::SUBJECT_OBJECT_DELETE . '_todo_self':
+				case self::SUBJECT_OBJECT_UPDATE . '_todo':
+				case self::SUBJECT_OBJECT_UPDATE . '_todo_self':
+
+				case self::SUBJECT_OBJECT_UPDATE . '_todo_completed':
+				case self::SUBJECT_OBJECT_UPDATE . '_todo_completed_self':
+				case self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action':
+				case self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action_self':
+					return [
+						0 => 'username',
+						//1 => 'calendar',
+						//2 => 'object',
 					];
 			}
 		}
