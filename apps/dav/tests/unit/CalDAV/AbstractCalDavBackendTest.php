@@ -22,15 +22,12 @@
 
 namespace OCA\DAV\Tests\unit\CalDAV;
 
-use OCA\DAV\CalDAV\Activity\Backend as ActivityBackend;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
-use OCP\Activity\IManager as IActivityManager;
-use OCP\IGroupManager;
 use OCP\IUserManager;
-use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 /**
@@ -49,8 +46,6 @@ abstract class AbstractCalDavBackendTest extends TestCase {
 	protected $principal;
 	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
-	/** @var ActivityBackend|\PHPUnit_Framework_MockObject_MockObject */
-	protected $activityBackend;
 
 	/** @var ISecureRandom */
 	private $random;
@@ -63,9 +58,7 @@ abstract class AbstractCalDavBackendTest extends TestCase {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(IUserManager::class);
-		$groupManager = $this->createMock(IGroupManager::class);
-		$activityManager = $this->createMock(IActivityManager::class);
-		$userSession = $this->createMock(IUserSession::class);
+		$dispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->principal = $this->getMockBuilder('OCA\DAV\Connector\Sabre\Principal')
 			->disableOriginalConstructor()
 			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
@@ -80,10 +73,7 @@ abstract class AbstractCalDavBackendTest extends TestCase {
 
 		$db = \OC::$server->getDatabaseConnection();
 		$this->random = \OC::$server->getSecureRandom();
-		$this->backend = new CalDavBackend($db, $this->principal, $this->userManager, $groupManager, $this->random, $activityManager, $userSession);
-
-		$this->activityBackend = $this->createMock(ActivityBackend::class);
-		$this->invokePrivate($this->backend, 'activityBackend', [$this->activityBackend]);
+		$this->backend = new CalDavBackend($db, $this->principal, $this->userManager, $this->random, $dispatcher);
 
 		$this->cleanUpBackend();
 	}

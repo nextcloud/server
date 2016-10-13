@@ -22,8 +22,6 @@
 namespace OCA\DAV\CalDAV\Activity;
 
 
-use OCA\DAV\CalDAV\CalDavBackend;
-use OCA\DAV\CalDAV\Calendar;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\IGroup;
@@ -39,9 +37,6 @@ use Sabre\VObject\Reader;
  */
 class Backend {
 
-	/** @var CalDavBackend */
-	protected  $calDavBackend;
-
 	/** @var IActivityManager */
 	protected $activityManager;
 
@@ -52,13 +47,11 @@ class Backend {
 	protected $userSession;
 
 	/**
-	 * @param CalDavBackend $calDavBackend
 	 * @param IActivityManager $activityManager
 	 * @param IGroupManager $groupManager
 	 * @param IUserSession $userSession
 	 */
-	public function __construct(CalDavBackend $calDavBackend, IActivityManager $activityManager, IGroupManager $groupManager, IUserSession $userSession) {
-		$this->calDavBackend = $calDavBackend;
+	public function __construct(IActivityManager $activityManager, IGroupManager $groupManager, IUserSession $userSession) {
 		$this->activityManager = $activityManager;
 		$this->groupManager = $groupManager;
 		$this->userSession = $userSession;
@@ -67,46 +60,47 @@ class Backend {
 	/**
 	 * Creates activities when a calendar was creates
 	 *
-	 * @param int $calendarId
-	 * @param array $properties
+	 * @param array $calendarData
 	 */
-	public function addCalendar($calendarId, array $properties) {
-		$this->triggerCalendarActivity(Extension::SUBJECT_ADD, $calendarId, $properties);
+	public function onCalendarAdd(array $calendarData) {
+		$this->triggerCalendarActivity(Extension::SUBJECT_ADD, $calendarData);
 	}
 
 	/**
 	 * Creates activities when a calendar was updated
 	 *
-	 * @param int $calendarId
+	 * @param array $calendarData
+	 * @param array $shares
 	 * @param array $properties
 	 */
-	public function updateCalendar($calendarId, array $properties) {
-		$this->triggerCalendarActivity(Extension::SUBJECT_UPDATE, $calendarId, $properties);
+	public function onCalendarUpdate(array $calendarData, array $shares, array $properties) {
+		$this->triggerCalendarActivity(Extension::SUBJECT_UPDATE, $calendarData, $shares, $properties);
 	}
 
 	/**
 	 * Creates activities when a calendar was deleted
 	 *
-	 * @param int $calendarId
+	 * @param array $calendarData
+	 * @param array $shares
 	 */
-	public function deleteCalendar($calendarId) {
-		$this->triggerCalendarActivity(Extension::SUBJECT_DELETE, $calendarId);
+	public function onCalendarDelete(array $calendarData, array $shares) {
+		$this->triggerCalendarActivity(Extension::SUBJECT_DELETE, $calendarData, $shares);
 	}
 
 	/**
 	 * Creates activities for all related users when a calendar was touched
 	 *
 	 * @param string $action
-	 * @param int $calendarId
+	 * @param array $calendarData
+	 * @param array $shares
 	 * @param array $changedProperties
 	 */
-	protected function triggerCalendarActivity($action, $calendarId, array $changedProperties = []) {
-		$properties = $this->calDavBackend->getCalendarById($calendarId);
-		if (!isset($properties['principaluri'])) {
+	protected function triggerCalendarActivity($action, array $calendarData, array $shares = [], array $changedProperties = []) {
+		if (!isset($calendarData['principaluri'])) {
 			return;
 		}
 
-		$principal = explode('/', $properties['principaluri']);
+		$principal = explode('/', $calendarData['principaluri']);
 		$owner = $principal[2];
 
 		$currentUser = $this->userSession->getUser();
@@ -118,7 +112,7 @@ class Backend {
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
-			->setObject(Extension::CALENDAR, $calendarId)
+			->setObject(Extension::CALENDAR, $calendarData['id'])
 			->setType(Extension::CALENDAR)
 			->setAuthor($currentUser);
 
@@ -127,10 +121,10 @@ class Backend {
 			'{http://apple.com/ns/ical/}calendar-color'
 		], array_keys($changedProperties));
 
-		if ($action === Extension::SUBJECT_UPDATE && empty($changedVisibleInformation)) {
+		if (empty($shares) || ($action === Extension::SUBJECT_UPDATE && empty($changedVisibleInformation))) {
 			$users = [$owner];
 		} else {
-			$users = $this->getUsersForCalendar($calendarId);
+			$users = $this->getUsersForShares($shares);
 			$users[] = $owner;
 		}
 
@@ -140,7 +134,7 @@ class Backend {
 					$user === $currentUser ? $action . '_self' : $action,
 					[
 						$currentUser,
-						$properties['{DAV:}displayname'],
+						$calendarData['{DAV:}displayname'],
 					]
 				);
 			$this->activityManager->publish($event);
@@ -150,16 +144,13 @@ class Backend {
 	/**
 	 * Creates activities for all related users when a calendar was (un-)shared
 	 *
-	 * @param Calendar $calendar
+	 * @param array $calendarData
+	 * @param array $shares
 	 * @param array $add
 	 * @param array $remove
 	 */
-	public function updateCalendarShares(Calendar $calendar, array $add, array $remove) {
-		$calendarId = $calendar->getResourceId();
-		$shares = $this->calDavBackend->getShares($calendarId);
-
-		$properties = $this->calDavBackend->getCalendarById($calendarId);
-		$principal = explode('/', $properties['principaluri']);
+	public function onCalendarUpdateShares(array $calendarData, array $shares, array $add, array $remove) {
+		$principal = explode('/', $calendarData['principaluri']);
 		$owner = $principal[2];
 
 		$currentUser = $this->userSession->getUser();
@@ -171,7 +162,7 @@ class Backend {
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
-			->setObject(Extension::CALENDAR, $calendarId)
+			->setObject(Extension::CALENDAR, $calendarData['id'])
 			->setType(Extension::CALENDAR)
 			->setAuthor($currentUser);
 
@@ -187,7 +178,7 @@ class Backend {
 				$this->triggerActivityUser(
 					$principal[2],
 					$event,
-					$properties,
+					$calendarData,
 					Extension::SUBJECT_UNSHARE_USER,
 					Extension::SUBJECT_DELETE . '_self'
 				);
@@ -195,7 +186,7 @@ class Backend {
 				if ($owner !== $principal[2]) {
 					$parameters = [
 						$principal[2],
-						$properties['{DAV:}displayname'],
+						$calendarData['{DAV:}displayname'],
 					];
 
 					if ($owner === $event->getAuthor()) {
@@ -216,11 +207,11 @@ class Backend {
 					$this->activityManager->publish($event);
 				}
 			} else if ($principal[1] === 'groups') {
-				$this->triggerActivityGroup($principal[2], $event, $properties, Extension::SUBJECT_UNSHARE_USER);
+				$this->triggerActivityGroup($principal[2], $event, $calendarData, Extension::SUBJECT_UNSHARE_USER);
 
 				$parameters = [
 					$principal[2],
-					$properties['{DAV:}displayname'],
+					$calendarData['{DAV:}displayname'],
 				];
 
 				if ($owner === $event->getAuthor()) {
@@ -253,12 +244,12 @@ class Backend {
 			$principal = explode('/', $parts[1]);
 
 			if ($principal[1] === 'users') {
-				$this->triggerActivityUser($principal[2], $event, $properties, Extension::SUBJECT_SHARE_USER);
+				$this->triggerActivityUser($principal[2], $event, $calendarData, Extension::SUBJECT_SHARE_USER);
 
 				if ($owner !== $principal[2]) {
 					$parameters = [
 						$principal[2],
-						$properties['{DAV:}displayname'],
+						$calendarData['{DAV:}displayname'],
 					];
 
 					if ($owner === $event->getAuthor()) {
@@ -277,11 +268,11 @@ class Backend {
 					$this->activityManager->publish($event);
 				}
 			} else if ($principal[1] === 'groups') {
-				$this->triggerActivityGroup($principal[2], $event, $properties, Extension::SUBJECT_SHARE_USER);
+				$this->triggerActivityGroup($principal[2], $event, $calendarData, Extension::SUBJECT_SHARE_USER);
 
 				$parameters = [
 					$principal[2],
-					$properties['{DAV:}displayname'],
+					$calendarData['{DAV:}displayname'],
 				];
 
 				if ($owner === $event->getAuthor()) {
@@ -363,49 +354,19 @@ class Backend {
 	}
 
 	/**
-	 * Creates activities when a calendar object was created
-	 *
-	 * @param int $calendarId
-	 * @param string $objectUri
-	 */
-	public function addCalendarObject($calendarId, $objectUri) {
-		$this->triggerCalendarObjectActivity(Extension::SUBJECT_OBJECT_ADD, $calendarId, $objectUri);
-	}
-
-	/**
-	 * Creates activities when a calendar object was updated
-	 *
-	 * @param int $calendarId
-	 * @param string $objectUri
-	 */
-	public function updateCalendarObject($calendarId, $objectUri) {
-		$this->triggerCalendarObjectActivity(Extension::SUBJECT_OBJECT_UPDATE, $calendarId, $objectUri);
-	}
-
-	/**
-	 * Creates activities when a calendar object was deleted
-	 *
-	 * @param int $calendarId
-	 * @param string $objectUri
-	 */
-	public function deleteCalendarObject($calendarId, $objectUri) {
-		$this->triggerCalendarObjectActivity(Extension::SUBJECT_OBJECT_DELETE, $calendarId, $objectUri);
-	}
-
-	/**
-	 * Creates activities for all related users when a calendar was touched
+	 * Creates activities when a calendar object was created/updated/deleted
 	 *
 	 * @param string $action
-	 * @param int $calendarId
-	 * @param string $objectUri
+	 * @param array $calendarData
+	 * @param array $shares
+	 * @param array $objectData
 	 */
-	protected function triggerCalendarObjectActivity($action, $calendarId, $objectUri) {
-		$properties = $this->calDavBackend->getCalendarById($calendarId);
-		if (!isset($properties['principaluri'])) {
+	public function onTouchCalendarObject($action, array $calendarData, array $shares, array $objectData) {
+		if (!isset($calendarData['principaluri'])) {
 			return;
 		}
 
-		$principal = explode('/', $properties['principaluri']);
+		$principal = explode('/', $calendarData['principaluri']);
 		$owner = $principal[2];
 
 		$currentUser = $this->userSession->getUser();
@@ -415,7 +376,7 @@ class Backend {
 			$currentUser = $owner;
 		}
 
-		$object = $this->getObjectNameAndType($calendarId, $objectUri);
+		$object = $this->getObjectNameAndType($objectData);
 		$action = $action . '_' . $object['type'];
 
 		if ($object['type'] === 'todo' && strpos($action, Extension::SUBJECT_OBJECT_UPDATE) === 0 && $object['status'] === 'COMPLETED') {
@@ -426,11 +387,11 @@ class Backend {
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
-			->setObject(Extension::CALENDAR, $calendarId)
+			->setObject(Extension::CALENDAR, $calendarData['id'])
 			->setType($object['type'] === 'event' ? Extension::CALENDAR_EVENT : Extension::CALENDAR_TODO)
 			->setAuthor($currentUser);
 
-		$users = $this->getUsersForCalendar($calendarId);
+		$users = $this->getUsersForShares($shares);
 		$users[] = $owner;
 
 		foreach ($users as $user) {
@@ -439,7 +400,7 @@ class Backend {
 					$user === $currentUser ? $action . '_self' : $action,
 					[
 						$currentUser,
-						$properties['{DAV:}displayname'],
+						$calendarData['{DAV:}displayname'],
 						$object['name'],
 					]
 				);
@@ -448,14 +409,11 @@ class Backend {
 	}
 
 	/**
-	 * @param int $calendarId
-	 * @param string $objectUri
+	 * @param array $objectData
 	 * @return string[]|bool
 	 */
-	protected function getObjectNameAndType($calendarId, $objectUri) {
-		$data = $this->calDavBackend->getCalendarObject($calendarId, $objectUri);
-
-		$vObject = Reader::read($data['calendardata']);
+	protected function getObjectNameAndType(array $objectData) {
+		$vObject = Reader::read($objectData['calendardata']);
 		$component = $componentType = null;
 		foreach($vObject->getComponents() as $component) {
 			if (in_array($component->name, ['VEVENT', 'VTODO'])) {
@@ -478,12 +436,11 @@ class Backend {
 	/**
 	 * Get all users that have access to a given calendar
 	 *
-	 * @param int $calendarId
+	 * @param array $shares
 	 * @return string[]
 	 */
-	protected function getUsersForCalendar($calendarId) {
+	protected function getUsersForShares(array $shares) {
 		$users = $groups = [];
-		$shares = $this->calDavBackend->getShares($calendarId);
 		foreach ($shares as $share) {
 			$prinical = explode('/', $share['{http://owncloud.org/ns}principal']);
 			if ($prinical[1] === 'users') {

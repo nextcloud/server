@@ -48,10 +48,8 @@ $principalBackend = new Principal(
 $db = \OC::$server->getDatabaseConnection();
 $userManager = \OC::$server->getUserManager();
 $random = \OC::$server->getSecureRandom();
-$groupManager = \OC::$server->getGroupManager();
-$activityManager = \OC::$server->getActivityManager();
-$userSession = \OC::$server->getUserSession();
-$calDavBackend = new CalDavBackend($db, $principalBackend, $userManager, $groupManager, $random, $activityManager, $userSession);
+$dispatcher = \OC::$server->getEventDispatcher();
+$calDavBackend = new CalDavBackend($db, $principalBackend, $userManager, $random, $dispatcher);
 
 $debugging = \OC::$server->getConfig()->getSystemValue('debug', false);
 
