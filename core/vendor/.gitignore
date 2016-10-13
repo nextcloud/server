@@ -71,6 +71,7 @@ jquery-ui/themes/vader
 jquery-ui/ui/**
 !jquery-ui/ui/jquery-ui.custom.js
 jquery-ui/*.json
+!jquery-ui/.bower.json
 jquery-ui/AUTHORS.txt
 jquery-ui/MANIFEST
 jquery-ui/README.md
@@ -115,6 +116,7 @@ snapjs/scripts
 
 # bootstrap - only include the tooltip plugin
 bootstrap/**
+!bootstrap/.bower.json
 !bootstrap/js
 bootstrap/js/*
 !bootstrap/js/tooltip.js
@@ -124,12 +126,14 @@ backbone/backbone-min*
 
 # davclient.js
 davclient.js/**
+!davclient.js/.bower.json
 !davclient.js/lib
 !davclient.js/lib/client.js
 !davclient.js/LICENSE
 
 # es6-promise
 es6-promise/**
+!es6-promise/.bower.json
 !es6-promise/LICENSE
 !es6-promise/dist
 es6-promise/dist/*
@@ -140,6 +144,7 @@ base64/*min.js
 
 # clipboard
 clipboard/**
+!clipboard/.bower.json
 !clipboard/dist
 !clipboard/dist/clipboard.js
 
