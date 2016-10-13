@@ -107,6 +107,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$expected = [
 			'token' => $newToken,
 			'deviceToken' => $deviceToken,
+			'loginName' => 'User13',
 		];
 		$this->assertEquals($expected, $this->controller->create($name));
 	}

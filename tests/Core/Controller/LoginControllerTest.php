@@ -174,6 +174,7 @@ class LoginControllerTest extends TestCase {
 				'alt_login' => [],
 				'rememberLoginAllowed' => \OC_Util::rememberLoginAllowed(),
 				'rememberLoginState' => 0,
+				'resetPasswordLink' => null,
 			],
 			'guest'
 		);
@@ -232,6 +233,7 @@ class LoginControllerTest extends TestCase {
 				'alt_login' => [],
 				'rememberLoginAllowed' => \OC_Util::rememberLoginAllowed(),
 				'rememberLoginState' => 0,
+				'resetPasswordLink' => false
 			],
 			'guest'
 		);
@@ -270,6 +272,7 @@ class LoginControllerTest extends TestCase {
 				'alt_login' => [],
 				'rememberLoginAllowed' => \OC_Util::rememberLoginAllowed(),
 				'rememberLoginState' => 0,
+				'resetPasswordLink' => false
 			],
 			'guest'
 		);
@@ -315,12 +318,24 @@ class LoginControllerTest extends TestCase {
 			->method('isTwoFactorAuthenticated')
 			->with($user)
 			->will($this->returnValue(false));
-		$this->urlGenerator->expects($this->once())
-			->method('linkToRoute')
-			->with('files.view.index')
-			->will($this->returnValue($indexPageUrl));
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($indexPageUrl);
+
+		$this->loginController = $this->getMock('OC\Core\Controller\LoginController',
+			['getDefaultUrl'], [
+			'core',
+			$this->request,
+			$this->userManager,
+			$this->config,
+			$this->session,
+			$this->userSession,
+			$this->urlGenerator,
+			$this->twoFactorManager
+		]);
+		$this->loginController->expects($this->once())
+			->method('getDefaultUrl')
+			->willReturn($indexPageUrl);
+
 		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, null));
 	}
 
