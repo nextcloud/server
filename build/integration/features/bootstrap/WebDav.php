@@ -14,6 +14,8 @@ trait WebDav {
 	private $davPath = "remote.php/webdav";
 	/** @var ResponseInterface */
 	private $response;
+	/** @var array */
+	private $storedETAG = NULL;
 
 	/**
 	 * @Given /^using dav path "([^"]*)"$/
@@ -573,4 +575,34 @@ trait WebDav {
 	public function asGetsPropertiesOfFileWith($user, $path, $propertiesTable) {
 		$this->asGetsPropertiesOfFolderWith($user, $path, $propertiesTable);
 	}
+
+    /**
+	 * @Given user :user stores etag of element :path
+	 */
+	public function userStoresEtagOfElement($user, $path){
+		$propertiesTable = new \Behat\Gherkin\Node\TableNode([['{DAV:}getetag']]);
+		$this->asGetsPropertiesOfFolderWith($user, NULL, $path, $propertiesTable);
+		$pathETAG[$path] = $this->response['{DAV:}getetag'];
+		$this->storedETAG[$user]= $pathETAG;
+		print_r($this->storedETAG[$user][$path]);
+	}
+
+	/**
+	 * @Then etag of element :path of user :user has not changed
+	 */
+	public function checkIfETAGHasNotChanged($path, $user){
+		$propertiesTable = new \Behat\Gherkin\Node\TableNode([['{DAV:}getetag']]);
+		$this->asGetsPropertiesOfFolderWith($user, NULL, $path, $propertiesTable);
+		PHPUnit_Framework_Assert::assertEquals($this->response['{DAV:}getetag'], $this->storedETAG[$user][$path]);
+	}
+
+	/**
+	 * @Then etag of element :path of user :user has changed
+	 */
+	public function checkIfETAGHasChanged($path, $user){
+		$propertiesTable = new \Behat\Gherkin\Node\TableNode([['{DAV:}getetag']]);
+		$this->asGetsPropertiesOfFolderWith($user, NULL, $path, $propertiesTable);
+		PHPUnit_Framework_Assert::assertNotEquals($this->response['{DAV:}getetag'], $this->storedETAG[$user][$path]);
+	}
+
 }
