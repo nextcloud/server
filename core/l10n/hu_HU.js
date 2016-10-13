@@ -185,6 +185,7 @@ OC.L10N.register(
     "{sharee} (at {server})" : "{sharee} ({server} szerveren)",
     "{sharee} (remote)" : "{sharee} (távoli)",
     "Share" : "Megosztás",
+    "Share with people on other Nextclouds using the syntax username@example.com/nextcloud" : "Megosztás más Nextcloud-ot használó emberekkel, a következő szintaxissal: felhasznalo@pelda.hu/nextcloud",
     "Share with users…" : "Megosztás felhasználókkal",
     "Share with users, groups or remote users…" : "Megosztás felhasználókkal, csoportokkal vagy távoli felhasználókkal...",
     "Share with users or groups…" : "Megosztás felhasználókkal vagy csoportokkal...",
