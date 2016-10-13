@@ -183,6 +183,7 @@
     "{sharee} (at {server})" : "{sharee} (auf {server})",
     "{sharee} (remote)" : "{sharee} (entfernt)",
     "Share" : "Teilen",
+    "Share with people on other Nextclouds using the syntax username@example.com/nextcloud" : "Teilen Sie es mit Nutzern in anderen Nextclouds. Die Syntax hierfür lautet: username@beispiel.de/nextcloud",
     "Share with users…" : "Mit Benutzern teilen…",
     "Share with users, groups or remote users…" : "Mit Benutzern, Gruppen oder externen Benutzern teilen…",
     "Share with users or groups…" : "Mit Benutzern oder Gruppen teilen…",
