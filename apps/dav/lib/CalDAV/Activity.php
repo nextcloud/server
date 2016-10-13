@@ -38,6 +38,8 @@ class Activity implements IExtension {
 	const SUBJECT_ADD = 'calendar_add';
 	const SUBJECT_UPDATE = 'calendar_update';
 	const SUBJECT_DELETE = 'calendar_delete';
+	const SUBJECT_SHARE_USER = 'calendar_user_share';
+	const SUBJECT_SHARE_GROUP = 'calendar_group_share';
 	const SUBJECT_UNSHARE_USER = 'calendar_user_unshare';
 	const SUBJECT_UNSHARE_GROUP = 'calendar_group_unshare';
 
@@ -143,6 +145,12 @@ class Activity implements IExtension {
 				return (string) $l->t('%1$s updated calendar %2$s', $params);
 			case self::SUBJECT_UPDATE . '_self':
 				return (string) $l->t('You updated calendar %2$s', $params);
+			case self::SUBJECT_SHARE_USER:
+				return (string) $l->t('%1$s shared calendar %2$s with you', $params);
+			case self::SUBJECT_SHARE_USER . '_you':
+				return (string) $l->t('You shared calendar %2$s with %1$s', $params);
+			case self::SUBJECT_SHARE_USER . '_by':
+				return (string) $l->t('%3$s shared calendar %2$s with %1$s', $params);
 			case self::SUBJECT_UNSHARE_USER:
 				return (string) $l->t('%1$s unshared calendar %2$s from you', $params);
 			case self::SUBJECT_UNSHARE_USER . '_you':
@@ -151,6 +159,10 @@ class Activity implements IExtension {
 				return (string) $l->t('%3$s unshared calendar %2$s from %1$s', $params);
 			case self::SUBJECT_UNSHARE_USER . '_self':
 				return (string) $l->t('%1$s unshared calendar %2$s from themselves', $params);
+			case self::SUBJECT_SHARE_GROUP . '_you':
+				return (string) $l->t('You shared calendar %2$s with group %1$s', $params);
+			case self::SUBJECT_SHARE_GROUP . '_by':
+				return (string) $l->t('%3$s shared calendar %2$s with group %1$s', $params);
 			case self::SUBJECT_UNSHARE_GROUP . '_you':
 				return (string) $l->t('You unshared calendar %2$s from group %1$s', $params);
 			case self::SUBJECT_UNSHARE_GROUP . '_by':
@@ -180,6 +192,8 @@ class Activity implements IExtension {
 				case self::SUBJECT_DELETE . '_self':
 				case self::SUBJECT_UPDATE:
 				case self::SUBJECT_UPDATE . '_self':
+				case self::SUBJECT_SHARE_USER:
+				case self::SUBJECT_SHARE_USER . '_you':
 				case self::SUBJECT_UNSHARE_USER:
 				case self::SUBJECT_UNSHARE_USER . '_you':
 				case self::SUBJECT_UNSHARE_USER . '_self':
@@ -187,17 +201,20 @@ class Activity implements IExtension {
 						0 => 'username',
 						//1 => 'calendar',
 					];
+				case self::SUBJECT_SHARE_USER . '_by':
 				case self::SUBJECT_UNSHARE_USER . '_by':
 					return [
 						0 => 'username',
 						//1 => 'calendar',
 						2 => 'username',
 					];
+				case self::SUBJECT_SHARE_GROUP . '_you':
 				case self::SUBJECT_UNSHARE_GROUP . '_you':
 					return [
 						//0 => 'group',
 						//1 => 'calendar',
 					];
+				case self::SUBJECT_SHARE_GROUP . '_by':
 				case self::SUBJECT_UNSHARE_GROUP . '_by':
 					return [
 						//0 => 'group',

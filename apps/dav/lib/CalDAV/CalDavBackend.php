@@ -1792,7 +1792,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$userSession = \OC::$server->getUserSession();
 
 		$calendarId = $calendar->getResourceId();
-		//$shares = $this->sharingBackend->getShares($calendarId);
+		$shares = $this->sharingBackend->getShares($calendarId);
 
 		$properties = $this->getCalendarById($calendarId);
 		$principal = explode('/', $properties['principaluri']);
@@ -1820,7 +1820,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$principal = explode('/', $parts[1]);
 
 			if ($principal[1] === 'users') {
-				$this->triggerActivityUnshareUser($principal[2], $event, $properties);
+				$this->triggerActivityUnshareUser(
+					$principal[2],
+					$event,
+					$properties,
+					Activity::SUBJECT_UNSHARE_USER,
+					Activity::SUBJECT_DELETE . '_self'
+				);
 
 				if ($owner !== $principal[2]) {
 					$parameters = [
@@ -1846,7 +1852,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					$aM->publish($event);
 				}
 			} else if ($principal[1] === 'groups') {
-				$this->triggerActivityUnshareGroup($principal[2], $event, $properties);
+				$this->triggerActivityUnshareGroup($principal[2], $event, $properties, Activity::SUBJECT_UNSHARE_USER);
 
 				$parameters = [
 					$principal[2],
@@ -1869,9 +1875,79 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$aM->publish($event);
 			}
 		}
+
+		foreach ($add as $share) {
+			if ($this->isAlreadyShared($share['href'], $shares)) {
+				continue;
+			}
+
+			// principal:principals/users/test
+			$parts = explode(':', $share['href'], 2);
+			if ($parts[0] !== 'principal') {
+				continue;
+			}
+			$principal = explode('/', $parts[1]);
+
+			if ($principal[1] === 'users') {
+				$this->triggerActivityUnshareUser($principal[2], $event, $properties, Activity::SUBJECT_SHARE_USER);
+
+				if ($owner !== $principal[2]) {
+					$parameters = [
+						$principal[2],
+						$properties['{DAV:}displayname'],
+					];
+
+					if ($owner === $event->getAuthor()) {
+						$subject = Activity::SUBJECT_SHARE_USER . '_you';
+					} else {
+						$event->setAffectedUser($event->getAuthor())
+							->setSubject(Activity::SUBJECT_SHARE_USER . '_you', $parameters);
+						$aM->publish($event);
+
+						$subject = Activity::SUBJECT_SHARE_USER . '_by';
+						$parameters[] = $event->getAuthor();
+					}
+
+					$event->setAffectedUser($owner)
+						->setSubject($subject, $parameters);
+					$aM->publish($event);
+				}
+			} else if ($principal[1] === 'groups') {
+				$this->triggerActivityUnshareGroup($principal[2], $event, $properties, Activity::SUBJECT_SHARE_USER);
+
+				$parameters = [
+					$principal[2],
+					$properties['{DAV:}displayname'],
+				];
+
+				if ($owner === $event->getAuthor()) {
+					$subject = Activity::SUBJECT_SHARE_GROUP . '_you';
+				} else {
+					$event->setAffectedUser($event->getAuthor())
+						->setSubject(Activity::SUBJECT_SHARE_GROUP . '_you', $parameters);
+					$aM->publish($event);
+
+					$subject = Activity::SUBJECT_SHARE_GROUP . '_by';
+					$parameters[] = $event->getAuthor();
+				}
+
+				$event->setAffectedUser($owner)
+					->setSubject($subject, $parameters);
+				$aM->publish($event);
+			}
+		}
 	}
 
-	protected function triggerActivityUnshareGroup($gid, IEvent $event, array $properties) {
+	protected function isAlreadyShared($principal, $shares) {
+		foreach ($shares as $share) {
+			if ($principal === $share['href']) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	protected function triggerActivityUnshareGroup($gid, IEvent $event, array $properties, $subject) {
 		$gM = \OC::$server->getGroupManager();
 
 		$group = $gM->get($gid);
@@ -1879,18 +1955,18 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			foreach ($group->getUsers() as $user) {
 				// Exclude current user
 				if ($user->getUID() !== $event->getAuthor()) {
-					$this->triggerActivityUnshareUser($user->getUID(), $event, $properties);
+					$this->triggerActivityUnshareUser($user->getUID(), $event, $properties, $subject);
 				}
 			}
 		}
 	}
 
-	protected function triggerActivityUnshareUser($user, IEvent $event, array $properties) {
+	protected function triggerActivityUnshareUser($user, IEvent $event, array $properties, $subject, $subjectSelf = '') {
 		$aM = \OC::$server->getActivityManager();
 
 		$event->setAffectedUser($user)
 			->setSubject(
-				$user === $event->getAuthor() ? Activity::SUBJECT_DELETE . '_self' : Activity::SUBJECT_UNSHARE_USER,
+				$user === $event->getAuthor() && $subjectSelf ? $subjectSelf : $subject,
 				[
 					$event->getAuthor(),
 					$properties['{DAV:}displayname'],
