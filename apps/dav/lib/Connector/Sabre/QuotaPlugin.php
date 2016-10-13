@@ -25,6 +25,11 @@
  *
  */
 namespace OCA\DAV\Connector\Sabre;
+use OCP\Files\FileInfo;
+use OCP\Files\StorageNotAvailableException;
+use Sabre\DAV\Exception\InsufficientStorage;
+use Sabre\DAV\Exception\ServiceUnavailable;
+use Sabre\HTTP\URLUtil;
 
 /**
  * This plugin check user quota and deny creating files when they exceeds the quota.
@@ -77,17 +82,16 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	 * This method is called before any HTTP method and validates there is enough free space to store the file
 	 *
 	 * @param string $uri
-	 * @param null $data
-	 * @throws \Sabre\DAV\Exception\InsufficientStorage
+	 * @throws InsufficientStorage
 	 * @return bool
 	 */
-	public function checkQuota($uri, $data = null) {
+	public function checkQuota($uri) {
 		$length = $this->getLength();
 		if ($length) {
 			if (substr($uri, 0, 1) !== '/') {
 				$uri = '/' . $uri;
 			}
-			list($parentUri, $newName) = \Sabre\HTTP\URLUtil::splitPath($uri);
+			list($parentUri, $newName) = URLUtil::splitPath($uri);
 			if(is_null($parentUri)) {
 				$parentUri = '';
 			}
@@ -102,11 +106,11 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 				$uri = rtrim($parentUri, '/') . '/' . $info['name'];
 			}
 			$freeSpace = $this->getFreeSpace($uri);
-			if ($freeSpace !== \OCP\Files\FileInfo::SPACE_UNKNOWN && $length > $freeSpace) {
+			if ($freeSpace !== FileInfo::SPACE_UNKNOWN && $length > $freeSpace) {
 				if (isset($chunkHandler)) {
 					$chunkHandler->cleanup();
 				}
-				throw new \Sabre\DAV\Exception\InsufficientStorage();
+				throw new InsufficientStorage();
 			}
 		}
 		return true;
@@ -136,13 +140,14 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	/**
 	 * @param string $uri
 	 * @return mixed
+	 * @throws ServiceUnavailable
 	 */
 	public function getFreeSpace($uri) {
 		try {
 			$freeSpace = $this->view->free_space(ltrim($uri, '/'));
 			return $freeSpace;
-		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+		} catch (StorageNotAvailableException $e) {
+			throw new ServiceUnavailable($e->getMessage());
 		}
 	}
 }
