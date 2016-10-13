@@ -1823,27 +1823,49 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$this->triggerActivityUnshareUser($principal[2], $event, $properties);
 
 				if ($owner !== $principal[2]) {
+					$parameters = [
+						$principal[2],
+						$properties['{DAV:}displayname'],
+					];
+
+					if ($owner === $event->getAuthor()) {
+						$subject = Activity::SUBJECT_UNSHARE_USER . '_you';
+					} else if ($principal[2] === $event->getAuthor()) {
+						$subject = Activity::SUBJECT_UNSHARE_USER . '_self';
+					} else {
+						$event->setAffectedUser($event->getAuthor())
+							->setSubject(Activity::SUBJECT_UNSHARE_USER . '_you', $parameters);
+						$aM->publish($event);
+
+						$subject = Activity::SUBJECT_UNSHARE_USER . '_by';
+						$parameters[] = $event->getAuthor();
+					}
+
 					$event->setAffectedUser($owner)
-						->setSubject(
-							$owner === $event->getAuthor() ? Activity::SUBJECT_UNSHARE_USER . '_you' : Activity::SUBJECT_UNSHARE_USER . '_by',
-							[
-								$principal[2],
-								$properties['{DAV:}displayname'],
-							]
-						);
+						->setSubject($subject, $parameters);
 					$aM->publish($event);
 				}
 			} else if ($principal[1] === 'groups') {
 				$this->triggerActivityUnshareGroup($principal[2], $event, $properties);
 
-				$event->setAffectedUser($currentUser)
-					->setSubject(
-						Activity::SUBJECT_UNSHARE_GROUP . '_you',
-						[
-							$principal[2],
-							$properties['{DAV:}displayname'],
-						]
-					);
+				$parameters = [
+					$principal[2],
+					$properties['{DAV:}displayname'],
+				];
+
+				if ($owner === $event->getAuthor()) {
+					$subject = Activity::SUBJECT_UNSHARE_GROUP . '_you';
+				} else {
+					$event->setAffectedUser($event->getAuthor())
+						->setSubject(Activity::SUBJECT_UNSHARE_GROUP . '_you', $parameters);
+					$aM->publish($event);
+
+					$subject = Activity::SUBJECT_UNSHARE_GROUP . '_by';
+					$parameters[] = $event->getAuthor();
+				}
+
+				$event->setAffectedUser($owner)
+					->setSubject($subject, $parameters);
 				$aM->publish($event);
 			}
 		}
@@ -1856,7 +1878,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		if ($group instanceof IGroup) {
 			foreach ($group->getUsers() as $user) {
 				// Exclude current user
-				if ($user !== $event->getAuthor()) {
+				if ($user->getUID() !== $event->getAuthor()) {
 					$this->triggerActivityUnshareUser($user->getUID(), $event, $properties);
 				}
 			}

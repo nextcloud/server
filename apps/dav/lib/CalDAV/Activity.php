@@ -148,9 +148,13 @@ class Activity implements IExtension {
 			case self::SUBJECT_UNSHARE_USER . '_you':
 				return (string) $l->t('You unshared calendar %2$s from %1$s', $params);
 			case self::SUBJECT_UNSHARE_USER . '_by':
+				return (string) $l->t('%3$s unshared calendar %2$s from %1$s', $params);
+			case self::SUBJECT_UNSHARE_USER . '_self':
 				return (string) $l->t('%1$s unshared calendar %2$s from themselves', $params);
 			case self::SUBJECT_UNSHARE_GROUP . '_you':
 				return (string) $l->t('You unshared calendar %2$s from group %1$s', $params);
+			case self::SUBJECT_UNSHARE_GROUP . '_by':
+				return (string) $l->t('%3$s unshared calendar %2$s from group %1$s', $params);
 		}
 
 		return false;
@@ -178,15 +182,27 @@ class Activity implements IExtension {
 				case self::SUBJECT_UPDATE . '_self':
 				case self::SUBJECT_UNSHARE_USER:
 				case self::SUBJECT_UNSHARE_USER . '_you':
+				case self::SUBJECT_UNSHARE_USER . '_self':
+					return [
+						0 => 'username',
+						//1 => 'calendar',
+					];
 				case self::SUBJECT_UNSHARE_USER . '_by':
 					return [
 						0 => 'username',
 						//1 => 'calendar',
+						2 => 'username',
 					];
 				case self::SUBJECT_UNSHARE_GROUP . '_you':
 					return [
 						//0 => 'group',
 						//1 => 'calendar',
+					];
+				case self::SUBJECT_UNSHARE_GROUP . '_by':
+					return [
+						//0 => 'group',
+						//1 => 'calendar',
+						2 => 'username',
 					];
 			}
 		}
