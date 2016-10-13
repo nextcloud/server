@@ -31,6 +31,8 @@ class Extension implements IExtension {
 	 * Filter with all sharing related activities
 	 */
 	const CALENDAR = 'calendar';
+	const CALENDAR_EVENT = 'calendar_event';
+	const CALENDAR_TODO = 'calendar_todo';
 
 	const SUBJECT_ADD = 'calendar_add';
 	const SUBJECT_UPDATE = 'calendar_update';
@@ -75,6 +77,8 @@ class Extension implements IExtension {
 
 		return array(
 			self::CALENDAR => (string) $l->t('A <strong>calendar</strong> was modified'),
+			self::CALENDAR_EVENT => (string) $l->t('A calendar <strong>event</strong> was modified'),
+			self::CALENDAR_TODO => (string) $l->t('A calendar <strong>todo</strong> was modified'),
 		);
 	}
 
@@ -89,6 +93,8 @@ class Extension implements IExtension {
 		$defaultTypes = [];
 		if ($method === self::METHOD_STREAM) {
 			$defaultTypes[] = self::CALENDAR;
+			$defaultTypes[] = self::CALENDAR_EVENT;
+			$defaultTypes[] = self::CALENDAR_TODO;
 		}
 
 		return $defaultTypes;
@@ -104,7 +110,10 @@ class Extension implements IExtension {
 	public function getTypeIcon($type) {
 		switch ($type) {
 			case self::CALENDAR:
+			case self::CALENDAR_EVENT:
 				return 'icon-calendar-dark';
+			case self::CALENDAR_TODO:
+				return 'icon-checkmark';
 		}
 
 		return false;
@@ -314,6 +323,12 @@ class Extension implements IExtension {
 					'name' => (string) $l->t('Calendar'),
 					'url' => $this->URLGenerator->linkToRoute('activity.Activities.showList', ['filter' => self::CALENDAR]),
 				],
+				self::CALENDAR_TODO => [
+					'id' => self::CALENDAR_TODO,
+					'icon' => 'icon-checkmark',
+					'name' => (string) $l->t('Todos'),
+					'url' => $this->URLGenerator->linkToRoute('activity.Activities.showList', ['filter' => self::CALENDAR_TODO]),
+				],
 			],
 			'top' => [],
 		];
@@ -326,7 +341,7 @@ class Extension implements IExtension {
 	 * @return boolean
 	 */
 	public function isFilterValid($filterValue) {
-		return $filterValue === self::CALENDAR;
+		return in_array($filterValue, [self::CALENDAR, self::CALENDAR_TODO]);
 	}
 
 	/**
@@ -340,7 +355,9 @@ class Extension implements IExtension {
 	public function filterNotificationTypes($types, $filter) {
 		switch ($filter) {
 			case self::CALENDAR:
-				return array_intersect([self::CALENDAR], $types);
+				return array_intersect([self::CALENDAR, self::CALENDAR_EVENT], $types);
+			case self::CALENDAR_TODO:
+				return array_intersect([self::CALENDAR_TODO], $types);
 		}
 		return false;
 	}

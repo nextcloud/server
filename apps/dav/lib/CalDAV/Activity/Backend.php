@@ -427,7 +427,7 @@ class Backend {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
 			->setObject(Extension::CALENDAR, $calendarId)
-			->setType(Extension::CALENDAR)
+			->setType($object['type'] === 'event' ? Extension::CALENDAR_EVENT : Extension::CALENDAR_TODO)
 			->setAuthor($currentUser);
 
 		$users = $this->getUsersForCalendar($calendarId);
