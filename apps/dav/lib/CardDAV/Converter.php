@@ -43,16 +43,17 @@ class Converter {
 		$image = $this->getAvatarImage($user);
 
 		$vCard = new VCard();
-		$vCard->add(new Text($vCard, 'UID', $uid));
+		$vCard->VERSION = '3.0';
+		$vCard->UID = $uid;
 		if (!empty($displayName)) {
-			$vCard->add(new Text($vCard, 'FN', $displayName));
-			$vCard->add(new Text($vCard, 'N', $this->splitFullName($displayName)));
+			$vCard->FN = $displayName;
+			$vCard->N = $this->splitFullName($displayName);
 		}
 		if (!empty($emailAddress)) {
 			$vCard->add(new Text($vCard, 'EMAIL', $emailAddress, ['TYPE' => 'OTHER']));
 		}
 		if (!empty($cloudId)) {
-			$vCard->add(new Text($vCard, 'CLOUD', $cloudId));
+			$vCard->CLOUD = $cloudId;
 		}
 		if ($image) {
 			$vCard->add('PHOTO', $image->data(), ['ENCODING' => 'b', 'TYPE' => $image->mimeType()]);
