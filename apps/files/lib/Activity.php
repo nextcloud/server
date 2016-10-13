@@ -285,9 +285,9 @@ class Activity implements IExtension {
 			case self::TYPE_SHARE_CHANGED:
 				return 'icon-change';
 			case self::TYPE_SHARE_CREATED:
-				return 'icon-add-color';
+				return 'icon-add-color is-colored';
 			case self::TYPE_SHARE_DELETED:
-				return 'icon-delete-color';
+				return 'icon-delete-color is-colored';
 
 			default:
 				return false;
