@@ -41,6 +41,9 @@ class RootCollection extends SimpleCollection {
 		$config = \OC::$server->getConfig();
 		$random = \OC::$server->getSecureRandom();
 		$userManager = \OC::$server->getUserManager();
+		$groupManager = \OC::$server->getGroupManager();
+		$activityManager = \OC::$server->getActivityManager();
+		$userSession = \OC::$server->getUserSession();
 		$db = \OC::$server->getDatabaseConnection();
 		$dispatcher = \OC::$server->getEventDispatcher();
 		$userPrincipalBackend = new Principal(
@@ -62,7 +65,7 @@ class RootCollection extends SimpleCollection {
 		$systemPrincipals->disableListing = $disableListing;
 		$filesCollection = new Files\RootCollection($userPrincipalBackend, 'principals/users');
 		$filesCollection->disableListing = $disableListing;
-		$caldavBackend = new CalDavBackend($db, $userPrincipalBackend, $userManager, $config, $random);
+		$caldavBackend = new CalDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $random, $activityManager, $userSession);
 		$calendarRoot = new CalendarRoot($userPrincipalBackend, $caldavBackend, 'principals/users');
 		$calendarRoot->disableListing = $disableListing;
 		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend);

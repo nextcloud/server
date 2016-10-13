@@ -2,12 +2,16 @@
 
 namespace OCA\DAV\Tests\unit\CalDAV;
 
+use OCA\DAV\CalDAV\Activity\Backend as ActivityBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\Activity\IManager as IActivityManager;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\PublicCalendarRoot;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use Test\TestCase;
 
@@ -27,12 +31,19 @@ class PublicCalendarRootTest extends TestCase {
 	private $publicCalendarRoot;
 	/** @var IL10N */
 	private $l10n;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var Principal */
+	/** @var Principal|\PHPUnit_Framework_MockObject_MockObject */
 	private $principal;
-	/** var IConfig */
-	protected $config;
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $userManager;
+	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $groupManager;
+	/** @var IActivityManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $activityManager;
+	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	protected $userSession;
+	/** @var ActivityBackend|\PHPUnit_Framework_MockObject_MockObject */
+	protected $activityBackend;
+
 	/** @var ISecureRandom */
 	private $random;
 
@@ -40,20 +51,25 @@ class PublicCalendarRootTest extends TestCase {
 		parent::setUp();
 
 		$db = \OC::$server->getDatabaseConnection();
-		$this->principal = $this->getMockBuilder('OCA\DAV\Connector\Sabre\Principal')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->config = \OC::$server->getConfig();
-		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')->getMock();
+		$this->principal = $this->createMock('OCA\DAV\Connector\Sabre\Principal');
+		$this->userManager = $this->createMock(IUserManager::class);
+		$groupManager = $this->createMock(IGroupManager::class);
+		$activityManager = $this->createMock(IActivityManager::class);
+		$userSession = $this->createMock(IUserSession::class);
 		$this->random = \OC::$server->getSecureRandom();
 
 		$this->backend = new CalDavBackend(
 			$db,
 			$this->principal,
 			$this->userManager,
-			$this->config,
-			$this->random
+			$groupManager,
+			$this->random,
+			$activityManager,
+			$userSession
 		);
+
+		$this->activityBackend = $this->createMock(ActivityBackend::class);
+		$this->invokePrivate($this->backend, 'activityBackend', [$this->activityBackend]);
 
 		$this->publicCalendarRoot = new PublicCalendarRoot($this->backend);
 
@@ -79,6 +95,14 @@ class PublicCalendarRootTest extends TestCase {
 	}
 
 	public function testGetChild() {
+		$this->activityBackend->expects($this->exactly(1))
+			->method('addCalendar');
+		$this->activityBackend->expects($this->never())
+			->method('updateCalendar');
+		$this->activityBackend->expects($this->never())
+			->method('deleteCalendar');
+		$this->activityBackend->expects($this->never())
+			->method('updateCalendarShares');
 
 		$calendar = $this->createPublicCalendar();
 
@@ -93,6 +117,15 @@ class PublicCalendarRootTest extends TestCase {
 	}
 
 	public function testGetChildren() {
+		$this->activityBackend->expects($this->exactly(1))
+			->method('addCalendar');
+		$this->activityBackend->expects($this->never())
+			->method('updateCalendar');
+		$this->activityBackend->expects($this->never())
+			->method('deleteCalendar');
+		$this->activityBackend->expects($this->never())
+			->method('updateCalendarShares');
+
 		$this->createPublicCalendar();
 
 		$publicCalendars = $this->backend->getPublicCalendars();

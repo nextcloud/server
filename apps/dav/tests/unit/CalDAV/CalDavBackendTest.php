@@ -357,10 +357,8 @@ EOD;
 		$calendar->setPublishStatus(false);
 		$this->assertEquals(false, $calendar->getPublishStatus());
 
-		$publicCalendarURI = md5($this->config->getSystemValue('secret', '') . $calendar->getResourceId());
 		$this->setExpectedException('Sabre\DAV\Exception\NotFound');
-		$publicCalendar = $this->backend->getPublicCalendar($publicCalendarURI);
-
+		$this->backend->getPublicCalendar($publicCalendarURI);
 	}
 
 	public function testSubscriptions() {

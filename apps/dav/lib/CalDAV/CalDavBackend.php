@@ -26,16 +26,16 @@
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\DAV\Sharing\IShareable;
-use OCP\Activity\IEvent;
+use OCA\DAV\CalDAV\Activity\Backend as ActivityBackend;
+use OCP\Activity\IManager as IActivityManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\Backend;
-use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use Sabre\CalDAV\Backend\AbstractBackend;
 use Sabre\CalDAV\Backend\SchedulingSupport;
@@ -127,12 +127,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 	/** @var IUserManager */
 	private $userManager;
-	
-	/** @var IConfig */
-	private $config;
 
 	/** @var ISecureRandom */
 	private $random;
+
+	/** @var ActivityBackend */
+	private $activityBackend;
 
 	/**
 	 * CalDavBackend constructor.
@@ -140,19 +140,24 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param IDBConnection $db
 	 * @param Principal $principalBackend
 	 * @param IUserManager $userManager
-	 * @param IConfig $config
+	 * @param IGroupManager $groupManager
 	 * @param ISecureRandom $random
+	 * @param IActivityManager $activityManager
+	 * @param IUserSession $userSession
 	 */
 	public function __construct(IDBConnection $db,
 								Principal $principalBackend,
 								IUserManager $userManager,
-								IConfig $config,
-								ISecureRandom $random) {
+								IGroupManager $groupManager,
+								ISecureRandom $random,
+								IActivityManager $activityManager,
+								IUserSession $userSession) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
 		$this->userManager = $userManager;
+		$this->userManager = $groupManager;
 		$this->sharingBackend = new Backend($this->db, $principalBackend, 'calendar');
-		$this->config = $config;
+		$this->activityBackend = new ActivityBackend($this, $activityManager, $groupManager, $userSession);
 		$this->random = $random;
 	}
 
@@ -618,7 +623,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$query->execute();
 		$calendarId = $query->getLastInsertId();
 
-		$this->triggerActivity(Activity::SUBJECT_ADD, $calendarId, $values);
+		$this->activityBackend->addCalendar($calendarId, $values);
 
 		return $calendarId;
 	}
@@ -668,7 +673,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 			$this->addChange($calendarId, "", 2);
 
-			$this->triggerActivity(Activity::SUBJECT_UPDATE, $calendarId, $mutations);
+			$this->activityBackend->updateCalendar($calendarId, $mutations);
 
 			return true;
 		});
@@ -681,7 +686,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return void
 	 */
 	function deleteCalendar($calendarId) {
-		$this->triggerActivity(Activity::SUBJECT_DELETE, $calendarId);
+		$this->activityBackend->deleteCalendar($calendarId);
 
 		$stmt = $this->db->prepare('DELETE FROM `*PREFIX*calendarobjects` WHERE `calendarid` = ?');
 		$stmt->execute([$calendarId]);
@@ -1660,8 +1665,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 */
 	public function updateShares($shareable, $add, $remove) {
 		/** @var Calendar $shareable */
-		$this->triggerActivitySharing($shareable, $add, $remove);
-
+		$this->activityBackend->updateCalendarShares($shareable, $add, $remove);
 		$this->sharingBackend->updateShares($shareable, $add, $remove);
 	}
 
@@ -1735,277 +1739,5 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			return "principals/$name";
 		}
 		return $principalUri;
-	}
-
-	protected function triggerActivity($action, $calendarId, array $changedProperties = []) {
-		$aM = \OC::$server->getActivityManager();
-		$userSession = \OC::$server->getUserSession();
-
-		$properties = $this->getCalendarById($calendarId);
-		if (!isset($properties['principaluri'])) {
-			return;
-		}
-
-		$principal = explode('/', $properties['principaluri']);
-		$owner = $principal[2];
-
-		$currentUser = $userSession->getUser();
-		if ($currentUser instanceof IUser) {
-			$currentUser = $currentUser->getUID();
-		} else {
-			$currentUser = $owner;
-		}
-
-		$event = $aM->generateEvent();
-		$event->setApp('dav')
-			->setObject(Activity::CALENDAR, $calendarId)
-			->setType(Activity::CALENDAR)
-			->setAuthor($currentUser);
-
-		$changedVisibleInformation = array_intersect([
-			'{DAV:}displayname',
-			'{http://apple.com/ns/ical/}calendar-color'
-		], array_keys($changedProperties));
-
-		if ($action === Activity::SUBJECT_UPDATE && empty($changedVisibleInformation)) {
-			$users = [$owner];
-		} else {
-			$users = $this->getUsersForCalendar($calendarId);
-			$users[] = $owner;
-		}
-
-		foreach ($users as $user) {
-			$event->setAffectedUser($user)
-				->setSubject(
-					$user === $currentUser ? $action . '_self' : $action,
-					[
-						$currentUser,
-						$properties['{DAV:}displayname'],
-					]
-				);
-			$aM->publish($event);
-		}
-	}
-
-	protected function triggerActivitySharing(Calendar $calendar, array $add, array $remove) {
-		$aM = \OC::$server->getActivityManager();
-		$userSession = \OC::$server->getUserSession();
-
-		$calendarId = $calendar->getResourceId();
-		$shares = $this->sharingBackend->getShares($calendarId);
-
-		$properties = $this->getCalendarById($calendarId);
-		$principal = explode('/', $properties['principaluri']);
-		$owner = $principal[2];
-
-		$currentUser = $userSession->getUser();
-		if ($currentUser instanceof IUser) {
-			$currentUser = $currentUser->getUID();
-		} else {
-			$currentUser = $owner;
-		}
-
-		$event = $aM->generateEvent();
-		$event->setApp('dav')
-			->setObject(Activity::CALENDAR, $calendarId)
-			->setType(Activity::CALENDAR)
-			->setAuthor($currentUser);
-
-		foreach ($remove as $principal) {
-			// principal:principals/users/test
-			$parts = explode(':', $principal, 2);
-			if ($parts[0] !== 'principal') {
-				continue;
-			}
-			$principal = explode('/', $parts[1]);
-
-			if ($principal[1] === 'users') {
-				$this->triggerActivityUnshareUser(
-					$principal[2],
-					$event,
-					$properties,
-					Activity::SUBJECT_UNSHARE_USER,
-					Activity::SUBJECT_DELETE . '_self'
-				);
-
-				if ($owner !== $principal[2]) {
-					$parameters = [
-						$principal[2],
-						$properties['{DAV:}displayname'],
-					];
-
-					if ($owner === $event->getAuthor()) {
-						$subject = Activity::SUBJECT_UNSHARE_USER . '_you';
-					} else if ($principal[2] === $event->getAuthor()) {
-						$subject = Activity::SUBJECT_UNSHARE_USER . '_self';
-					} else {
-						$event->setAffectedUser($event->getAuthor())
-							->setSubject(Activity::SUBJECT_UNSHARE_USER . '_you', $parameters);
-						$aM->publish($event);
-
-						$subject = Activity::SUBJECT_UNSHARE_USER . '_by';
-						$parameters[] = $event->getAuthor();
-					}
-
-					$event->setAffectedUser($owner)
-						->setSubject($subject, $parameters);
-					$aM->publish($event);
-				}
-			} else if ($principal[1] === 'groups') {
-				$this->triggerActivityUnshareGroup($principal[2], $event, $properties, Activity::SUBJECT_UNSHARE_USER);
-
-				$parameters = [
-					$principal[2],
-					$properties['{DAV:}displayname'],
-				];
-
-				if ($owner === $event->getAuthor()) {
-					$subject = Activity::SUBJECT_UNSHARE_GROUP . '_you';
-				} else {
-					$event->setAffectedUser($event->getAuthor())
-						->setSubject(Activity::SUBJECT_UNSHARE_GROUP . '_you', $parameters);
-					$aM->publish($event);
-
-					$subject = Activity::SUBJECT_UNSHARE_GROUP . '_by';
-					$parameters[] = $event->getAuthor();
-				}
-
-				$event->setAffectedUser($owner)
-					->setSubject($subject, $parameters);
-				$aM->publish($event);
-			}
-		}
-
-		foreach ($add as $share) {
-			if ($this->isAlreadyShared($share['href'], $shares)) {
-				continue;
-			}
-
-			// principal:principals/users/test
-			$parts = explode(':', $share['href'], 2);
-			if ($parts[0] !== 'principal') {
-				continue;
-			}
-			$principal = explode('/', $parts[1]);
-
-			if ($principal[1] === 'users') {
-				$this->triggerActivityUnshareUser($principal[2], $event, $properties, Activity::SUBJECT_SHARE_USER);
-
-				if ($owner !== $principal[2]) {
-					$parameters = [
-						$principal[2],
-						$properties['{DAV:}displayname'],
-					];
-
-					if ($owner === $event->getAuthor()) {
-						$subject = Activity::SUBJECT_SHARE_USER . '_you';
-					} else {
-						$event->setAffectedUser($event->getAuthor())
-							->setSubject(Activity::SUBJECT_SHARE_USER . '_you', $parameters);
-						$aM->publish($event);
-
-						$subject = Activity::SUBJECT_SHARE_USER . '_by';
-						$parameters[] = $event->getAuthor();
-					}
-
-					$event->setAffectedUser($owner)
-						->setSubject($subject, $parameters);
-					$aM->publish($event);
-				}
-			} else if ($principal[1] === 'groups') {
-				$this->triggerActivityUnshareGroup($principal[2], $event, $properties, Activity::SUBJECT_SHARE_USER);
-
-				$parameters = [
-					$principal[2],
-					$properties['{DAV:}displayname'],
-				];
-
-				if ($owner === $event->getAuthor()) {
-					$subject = Activity::SUBJECT_SHARE_GROUP . '_you';
-				} else {
-					$event->setAffectedUser($event->getAuthor())
-						->setSubject(Activity::SUBJECT_SHARE_GROUP . '_you', $parameters);
-					$aM->publish($event);
-
-					$subject = Activity::SUBJECT_SHARE_GROUP . '_by';
-					$parameters[] = $event->getAuthor();
-				}
-
-				$event->setAffectedUser($owner)
-					->setSubject($subject, $parameters);
-				$aM->publish($event);
-			}
-		}
-	}
-
-	protected function isAlreadyShared($principal, $shares) {
-		foreach ($shares as $share) {
-			if ($principal === $share['href']) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	protected function triggerActivityUnshareGroup($gid, IEvent $event, array $properties, $subject) {
-		$gM = \OC::$server->getGroupManager();
-
-		$group = $gM->get($gid);
-		if ($group instanceof IGroup) {
-			foreach ($group->getUsers() as $user) {
-				// Exclude current user
-				if ($user->getUID() !== $event->getAuthor()) {
-					$this->triggerActivityUnshareUser($user->getUID(), $event, $properties, $subject);
-				}
-			}
-		}
-	}
-
-	protected function triggerActivityUnshareUser($user, IEvent $event, array $properties, $subject, $subjectSelf = '') {
-		$aM = \OC::$server->getActivityManager();
-
-		$event->setAffectedUser($user)
-			->setSubject(
-				$user === $event->getAuthor() && $subjectSelf ? $subjectSelf : $subject,
-				[
-					$event->getAuthor(),
-					$properties['{DAV:}displayname'],
-				]
-			);
-		$aM->publish($event);
-	}
-
-	/**
-	 * Get all users that have access to a given calendar
-	 *
-	 * @param int $calendarId
-	 * @return string[]
-	 */
-	protected function getUsersForCalendar($calendarId) {
-		$gM = \OC::$server->getGroupManager();
-
-		$users = $groups = [];
-		$shares = $this->getShares($calendarId);
-		foreach ($shares as $share) {
-			$prinical = explode('/', $share['{http://owncloud.org/ns}principal']);
-			if ($prinical[1] === 'users') {
-				$users[] = $prinical[2];
-			} else if ($prinical[1] === 'groups') {
-				$groups[] = $prinical[2];
-			}
-		}
-
-		if (!empty($groups)) {
-			foreach ($groups as $gid) {
-				$group = $gM->get($gid);
-				if ($group instanceof IGroup) {
-					foreach ($group->getUsers() as $user) {
-						$users[] = $user->getUID();
-					}
-				}
-			}
-		}
-
-		return $users;
 	}
 }

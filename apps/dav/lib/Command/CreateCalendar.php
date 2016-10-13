@@ -75,11 +75,12 @@ class CreateCalendar extends Command {
 			$this->userManager,
 			$this->groupManager
 		);
-		$config = \OC::$server->getConfig();
 		$random = \OC::$server->getSecureRandom();
+		$activityManager = \OC::$server->getActivityManager();
+		$userSession = \OC::$server->getUserSession();
 
 		$name = $input->getArgument('name');
-		$caldav = new CalDavBackend($this->dbConnection, $principalBackend, $this->userManager, $config, $random);
+		$caldav = new CalDavBackend($this->dbConnection, $principalBackend, $this->userManager, $this->groupManager, $random, $activityManager, $userSession);
 		$caldav->createCalendar("principals/users/$user", $name, []);
 	}
 }

@@ -19,22 +19,19 @@
  *
  */
 
-namespace OCA\DAV\CalDAV;
+namespace OCA\DAV\CalDAV\Activity;
 
 use OCP\Activity\IExtension;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 
-class Activity implements IExtension {
+class Extension implements IExtension {
 	const APP = 'dav';
 	/**
 	 * Filter with all sharing related activities
 	 */
 	const CALENDAR = 'calendar';
 
-	/**
-	 * Activity types known to this extension
-	 */
 	const SUBJECT_ADD = 'calendar_add';
 	const SUBJECT_UPDATE = 'calendar_update';
 	const SUBJECT_DELETE = 'calendar_delete';
@@ -42,10 +39,6 @@ class Activity implements IExtension {
 	const SUBJECT_SHARE_GROUP = 'calendar_group_share';
 	const SUBJECT_UNSHARE_USER = 'calendar_user_unshare';
 	const SUBJECT_UNSHARE_GROUP = 'calendar_group_unshare';
-
-	/**
-	 * Subject keys for translation of the subjections
-	 */
 
 	/** @var IFactory */
 	protected $languageFactory;

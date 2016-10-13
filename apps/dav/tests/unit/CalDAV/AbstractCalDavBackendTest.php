@@ -22,18 +22,15 @@
 
 namespace OCA\DAV\Tests\unit\CalDAV;
 
-use DateTime;
-use DateTimeZone;
+use OCA\DAV\CalDAV\Activity\Backend as ActivityBackend;
 use OCA\DAV\CalDAV\CalDavBackend;
-use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\Connector\Sabre\Principal;
-use OCP\IL10N;
-use OCP\IConfig;
+use OCP\Activity\IManager as IActivityManager;
+use OCP\IGroupManager;
+use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
-use Sabre\DAV\PropPatch;
-use Sabre\DAV\Xml\Property\Href;
-use Sabre\DAVACL\IACL;
 use Test\TestCase;
 
 /**
@@ -50,12 +47,10 @@ abstract class AbstractCalDavBackendTest extends TestCase {
 
 	/** @var Principal | \PHPUnit_Framework_MockObject_MockObject */
 	protected $principal;
-
-	/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
-	
-	/** var OCP\IConfig */
-	protected $config;
+	/** @var ActivityBackend|\PHPUnit_Framework_MockObject_MockObject */
+	protected $activityBackend;
 
 	/** @var ISecureRandom */
 	private $random;
@@ -67,9 +62,10 @@ abstract class AbstractCalDavBackendTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->userManager = $this->getMockBuilder('OCP\IUserManager')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->userManager = $this->createMock(IUserManager::class);
+		$groupManager = $this->createMock(IGroupManager::class);
+		$activityManager = $this->createMock(IActivityManager::class);
+		$userSession = $this->createMock(IUserSession::class);
 		$this->principal = $this->getMockBuilder('OCA\DAV\Connector\Sabre\Principal')
 			->disableOriginalConstructor()
 			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
@@ -83,15 +79,21 @@ abstract class AbstractCalDavBackendTest extends TestCase {
 			->willReturn([self::UNIT_TEST_GROUP]);
 
 		$db = \OC::$server->getDatabaseConnection();
-		$this->config = \OC::$server->getConfig();
 		$this->random = \OC::$server->getSecureRandom();
-		$this->backend = new CalDavBackend($db, $this->principal, $this->userManager, $this->config, $this->random);
-		$this->tearDown();
+		$this->backend = new CalDavBackend($db, $this->principal, $this->userManager, $groupManager, $this->random, $activityManager, $userSession);
+
+		$this->activityBackend = $this->createMock(ActivityBackend::class);
+		$this->invokePrivate($this->backend, 'activityBackend', [$this->activityBackend]);
+
+		$this->cleanUpBackend();
 	}
 
 	public function tearDown() {
+		$this->cleanUpBackend();
 		parent::tearDown();
+	}
 
+	public function cleanUpBackend() {
 		if (is_null($this->backend)) {
 			return;
 		}
