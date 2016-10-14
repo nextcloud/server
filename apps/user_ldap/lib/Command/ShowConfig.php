@@ -26,6 +26,7 @@
 namespace OCA\User_LDAP\Command;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -91,7 +92,7 @@ class ShowConfig extends Command {
 			$configuration = $configHolder->getConfiguration();
 			ksort($configuration);
 
-			$table = $this->getHelperSet()->get('table');
+			$table = new Table($output);
 			$table->setHeaders(array('Configuration', $id));
 			$rows = array();
 			foreach($configuration as $key => $value) {

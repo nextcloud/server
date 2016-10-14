@@ -16,6 +16,8 @@ class RootTest extends \Test\TestCase {
 
 	/** @var \OC\Files\Mount\Manager */
 	private $manager;
+	/** @var \OCP\Files\Config\IUserMountCache|\PHPUnit_Framework_MockObject_MockObject */
+	private $userMountCache;
 
 	protected function setUp() {
 		parent::setUp();
@@ -30,6 +32,9 @@ class RootTest extends \Test\TestCase {
 		$this->user = new \OC\User\User('', new \Test\Util\User\Dummy, null, $config, $urlgenerator);
 
 		$this->manager = $this->getMockBuilder('\OC\Files\Mount\Manager')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userMountCache = $this->getMockBuilder('\OCP\Files\Config\IUserMountCache')
 			->disableOriginalConstructor()
 			->getMock();
 	}
@@ -51,7 +56,7 @@ class RootTest extends \Test\TestCase {
 		$view = $this->getMockBuilder('\OC\Files\View')
 			->disableOriginalConstructor()
 			->getMock();
-		$root = new \OC\Files\Node\Root($this->manager, $view, $this->user);
+		$root = new \OC\Files\Node\Root($this->manager, $view, $this->user, $this->userMountCache);
 
 		$view->expects($this->once())
 			->method('getFileInfo')
@@ -80,7 +85,7 @@ class RootTest extends \Test\TestCase {
 		$view = $this->getMockBuilder('\OC\Files\View')
 			->disableOriginalConstructor()
 			->getMock();
-		$root = new \OC\Files\Node\Root($this->manager, $view, $this->user);
+		$root = new \OC\Files\Node\Root($this->manager, $view, $this->user, $this->userMountCache);
 
 		$view->expects($this->once())
 			->method('getFileInfo')
@@ -101,7 +106,7 @@ class RootTest extends \Test\TestCase {
 		$view = $this->getMockBuilder('\OC\Files\View')
 			->disableOriginalConstructor()
 			->getMock();
-		$root = new \OC\Files\Node\Root($this->manager, $view, $this->user);
+		$root = new \OC\Files\Node\Root($this->manager, $view, $this->user, $this->userMountCache);
 
 		$root->get('/../foo');
 	}
@@ -116,7 +121,7 @@ class RootTest extends \Test\TestCase {
 		$view = $this->getMockBuilder('\OC\Files\View')
 			->disableOriginalConstructor()
 			->getMock();
-		$root = new \OC\Files\Node\Root($this->manager, $view, $this->user);
+		$root = new \OC\Files\Node\Root($this->manager, $view, $this->user, $this->userMountCache);
 
 		$root->get('/bar/foo');
 	}

@@ -54,6 +54,11 @@ class CachedMountInfo implements ICachedMountInfo {
 	protected $mountId;
 
 	/**
+	 * @var string
+	 */
+	protected $rootInternalPath;
+
+	/**
 	 * CachedMountInfo constructor.
 	 *
 	 * @param IUser $user
@@ -61,13 +66,15 @@ class CachedMountInfo implements ICachedMountInfo {
 	 * @param int $rootId
 	 * @param string $mountPoint
 	 * @param int|null $mountId
+	 * @param string $rootInternalPath
 	 */
-	public function __construct(IUser $user, $storageId, $rootId, $mountPoint, $mountId = null) {
+	public function __construct(IUser $user, $storageId, $rootId, $mountPoint, $mountId = null, $rootInternalPath = '') {
 		$this->user = $user;
 		$this->storageId = $storageId;
 		$this->rootId = $rootId;
 		$this->mountPoint = $mountPoint;
 		$this->mountId = $mountId;
+		$this->rootInternalPath = $rootInternalPath;
 	}
 
 	/**
@@ -121,5 +128,14 @@ class CachedMountInfo implements ICachedMountInfo {
 	 */
 	public function getMountId() {
 		return $this->mountId;
+	}
+
+	/**
+	 * Get the internal path (within the storage) of the root of the mount
+	 *
+	 * @return string
+	 */
+	public function getRootInternalPath() {
+		return $this->rootInternalPath;
 	}
 }

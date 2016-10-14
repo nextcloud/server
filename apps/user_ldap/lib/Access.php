@@ -304,7 +304,6 @@ class Access extends LDAPUtility implements IUserTools {
 	}
 
 	/**
-	public function ocname2dn($name, $isUser) {
 	 * returns the internal ownCloud name for the given LDAP DN of the group, false on DN outside of search DN or failure
 	 * @param string $fdn the dn of the group object
 	 * @param string $ldapName optional, the display name of the object

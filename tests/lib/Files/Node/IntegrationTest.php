@@ -47,7 +47,7 @@ class IntegrationTest extends \Test\TestCase {
 		$this->loginAsUser($user->getUID());
 
 		$this->view = new View();
-		$this->root = new Root($manager, $this->view, $user);
+		$this->root = new Root($manager, $this->view, $user, \OC::$server->getUserMountCache());
 		$storage = new Temporary(array());
 		$subStorage = new Temporary(array());
 		$this->storages[] = $storage;

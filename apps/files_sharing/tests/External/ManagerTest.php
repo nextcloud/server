@@ -58,7 +58,7 @@ class ManagerTest extends TestCase {
 	 * @var \OCP\IUser
 	 */
 	private $user;
-	private $mountProvider;
+	private $testMountProvider;
 
 	protected function setUp() {
 		parent::setUp();
@@ -82,13 +82,13 @@ class ManagerTest extends TestCase {
 			$discoveryManager,
 			$this->uid
 		);
-		$this->mountProvider = new MountProvider(\OC::$server->getDatabaseConnection(), function() {
+		$this->testMountProvider = new MountProvider(\OC::$server->getDatabaseConnection(), function() {
 			return $this->manager;
 		});
 	}
 
 	private function setupMounts() {
-		$mounts = $this->mountProvider->getMountsForUser($this->user, new StorageFactory());
+		$mounts = $this->testMountProvider->getMountsForUser($this->user, new StorageFactory());
 		foreach ($mounts as $mount) {
 			$this->mountManager->addMount($mount);
 		}

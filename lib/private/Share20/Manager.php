@@ -614,8 +614,11 @@ class Manager implements IManager {
 			throw new \Exception($error);
 		}
 
+		$oldShare = $share;
 		$provider = $this->factory->getProviderForType($share->getShareType());
 		$share = $provider->create($share);
+		//reuse the node we already have
+		$share->setNode($oldShare->getNode());
 
 		// Post share hook
 		$postHookData = [

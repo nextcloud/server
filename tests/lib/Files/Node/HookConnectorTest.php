@@ -50,7 +50,12 @@ class HookConnectorTest extends TestCase {
 		$this->registerMount($this->userId, new Temporary(), '/' . $this->userId . '/files/');
 		\OC_Util::setupFS($this->userId);
 		$this->view = new View();
-		$this->root = new Root(Filesystem::getMountManager(), $this->view, \OC::$server->getUserManager()->get($this->userId));
+		$this->root = new Root(
+			Filesystem::getMountManager(),
+			$this->view,
+			\OC::$server->getUserManager()->get($this->userId),
+			\OC::$server->getUserMountCache()
+		);
 	}
 
 	public function tearDown() {
