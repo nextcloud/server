@@ -617,6 +617,20 @@
 				}
 			});
 
+			this.registerAction({
+				name: 'Move',
+				displayName: t('files', 'Move'),
+				mime: 'all',
+				order: -25,
+				permissions: OC.PERMISSION_UPDATE,
+				iconClass: 'icon-rename',
+				actionHandler: function (filename, context) {
+					OC.dialogs.filepicker(t('files', 'Target folder'), function(targetPath) {
+						context.fileList.move(filename, targetPath);
+					}, false, "httpd/unix-directory", true);
+				}
+			});
+
 			this.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename, context) {
 				var dir = context.$file.attr('data-path') || context.fileList.getCurrentDirectory();
 				context.fileList.changeDirectory(OC.joinPaths(dir, filename), true, false, parseInt(context.$file.attr('data-id'), 10));
