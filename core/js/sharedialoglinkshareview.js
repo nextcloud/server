@@ -17,6 +17,7 @@
 
 	var PASSWORD_PLACEHOLDER = '**********';
 	var PASSWORD_PLACEHOLDER_MESSAGE = t('core', 'Choose a password for the public link');
+	var PASSWORD_PLACEHOLDER_MESSAGE_OPTIONAL = t('core', 'Choose a password for the public link or press enter');
 
 	var TEMPLATE =
 			'{{#if shareAllowed}}' +
@@ -49,7 +50,11 @@
 			'    {{/if}}' +
 			'<div id="linkPass" class="linkPass {{#unless isPasswordSet}}hidden{{/unless}}">' +
 			'    <label for="linkPassText-{{cid}}" class="hidden-visually">{{passwordLabel}}</label>' +
+			'    {{#if showPasswordCheckBox}}' +
 			'    <input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" />' +
+			'    {{else}}' +
+			'    <input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholderInitial}}" />' +
+			'    {{/if}}' +
 			'    <span class="icon-loading-small hidden"></span>' +
 			'</div>' +
 			'{{else}}' +
@@ -172,7 +177,7 @@
 			}
 
 			if($checkBox.is(':checked')) {
-				if(this.configModel.get('enforcePasswordForPublicLink') === false) {
+				if(this.configModel.get('enforcePasswordForPublicLink') === false && this.configModel.get('enableLinkPasswordByDefault') === false) {
 					$loading.removeClass('hidden');
 					// this will create it
 					this.model.saveLinkShare();
@@ -222,9 +227,19 @@
 			var $input = this.$el.find('.linkPassText');
 			$input.removeClass('error');
 			var password = $input.val();
-			// in IE9 the password might be the placeholder due to bugs in the placeholders polyfill
-			if(password === '' || password === PASSWORD_PLACEHOLDER || password === PASSWORD_PLACEHOLDER_MESSAGE) {
-				return;
+
+			if (this.$el.find('.linkPassText').attr('placeholder') === PASSWORD_PLACEHOLDER_MESSAGE_OPTIONAL) {
+
+				// in IE9 the password might be the placeholder due to bugs in the placeholders polyfill
+				if(password === PASSWORD_PLACEHOLDER_MESSAGE_OPTIONAL) {
+					password = '';
+				}
+			} else {
+
+				// in IE9 the password might be the placeholder due to bugs in the placeholders polyfill
+				if(password === '' || password === PASSWORD_PLACEHOLDER || password === PASSWORD_PLACEHOLDER_MESSAGE) {
+					return;
+				}
 			}
 
 			$loading
@@ -313,6 +328,8 @@
 			var showPasswordCheckBox = isLinkShare
 				&& (   !this.configModel.get('enforcePasswordForPublicLink')
 					|| !this.model.get('linkShare').password);
+			var passwordPlaceholderInitial = this.configModel.get('enforcePasswordForPublicLink')
+				? PASSWORD_PLACEHOLDER_MESSAGE : PASSWORD_PLACEHOLDER_MESSAGE_OPTIONAL;
 
 			this.$el.html(linkShareTemplate({
 				cid: this.cid,
@@ -325,6 +342,7 @@
 				enablePasswordLabel: t('core', 'Password protect'),
 				passwordLabel: t('core', 'Password'),
 				passwordPlaceholder: isPasswordSet ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
+				passwordPlaceholderInitial: passwordPlaceholderInitial,
 				isPasswordSet: isPasswordSet,
 				showPasswordCheckBox: showPasswordCheckBox,
 				publicUpload: publicUpload && isLinkShare,
