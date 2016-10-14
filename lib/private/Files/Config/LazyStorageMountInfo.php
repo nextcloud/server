@@ -76,4 +76,13 @@ class LazyStorageMountInfo extends CachedMountInfo {
 	public function getMountId() {
 		return $this->mount->getMountId();
 	}
+
+	/**
+	 * Get the internal path (within the storage) of the root of the mount
+	 *
+	 * @return string
+	 */
+	public function getRootInternalPath() {
+		return $this->mount->getInternalPath($this->mount->getMountPoint());
+	}
 }

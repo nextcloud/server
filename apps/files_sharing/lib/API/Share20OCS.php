@@ -29,6 +29,7 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -84,15 +85,15 @@ class Share20OCS extends OCSController {
 	 * @param IL10N $l10n
 	 */
 	public function __construct(
-			$appName,
-			IRequest $request,
-			IManager $shareManager,
-			IGroupManager $groupManager,
-			IUserManager $userManager,
-			IRootFolder $rootFolder,
-			IURLGenerator $urlGenerator,
-			IUser $currentUser,
-			IL10N $l10n
+		$appName,
+		IRequest $request,
+		IManager $shareManager,
+		IGroupManager $groupManager,
+		IUserManager $userManager,
+		IRootFolder $rootFolder,
+		IURLGenerator $urlGenerator,
+		IUser $currentUser,
+		IL10N $l10n
 	) {
 		parent::__construct($appName, $request);
 
@@ -110,10 +111,11 @@ class Share20OCS extends OCSController {
 	 * Convert an IShare to an array for OCS output
 	 *
 	 * @param \OCP\Share\IShare $share
+	 * @param Node|null $recipientNode
 	 * @return array
 	 * @throws NotFoundException In case the node can't be resolved.
 	 */
-	protected function formatShare(\OCP\Share\IShare $share) {
+	protected function formatShare(\OCP\Share\IShare $share, Node $recipientNode = null) {
 		$sharedBy = $this->userManager->get($share->getSharedBy());
 		$shareOwner = $this->userManager->get($share->getShareOwner());
 
@@ -132,13 +134,21 @@ class Share20OCS extends OCSController {
 		];
 
 		$userFolder = $this->rootFolder->getUserFolder($this->currentUser->getUID());
-		$nodes = $userFolder->getById($share->getNodeId());
+		if ($recipientNode) {
+			$node = $recipientNode;
+		} else {
+			$nodes = $userFolder->getById($share->getNodeId());
 
-		if (empty($nodes)) {
-			throw new NotFoundException();
+			if (empty($nodes)) {
+				// fallback to guessing the path
+				$node = $userFolder->get($share->getTarget());
+				if ($node === null) {
+					throw new NotFoundException();
+				}
+			} else {
+				$node = $nodes[0];
+			}
 		}
-
-		$node = $nodes[0];
 
 		$result['path'] = $userFolder->getRelativePath($node->getPath());
 		if ($node instanceOf \OCP\Files\Folder) {
@@ -402,7 +412,7 @@ class Share20OCS extends OCSController {
 		} catch (GenericShareException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), $code);
-		}catch (\Exception $e) {
+		} catch (\Exception $e) {
 			throw new OCSForbiddenException($e->getMessage());
 		}
 
@@ -421,7 +431,7 @@ class Share20OCS extends OCSController {
 
 		$shares = array_merge($userShares, $groupShares);
 
-		$shares = array_filter($shares, function(IShare $share) {
+		$shares = array_filter($shares, function (IShare $share) {
 			return $share->getShareOwner() !== $this->currentUser->getUID();
 		});
 
@@ -541,7 +551,7 @@ class Share20OCS extends OCSController {
 		$formatted = [];
 		foreach ($shares as $share) {
 			try {
-				$formatted[] = $this->formatShare($share);
+				$formatted[] = $this->formatShare($share, $path);
 			} catch (NotFoundException $e) {
 				//Ignore share
 			}
@@ -708,7 +718,8 @@ class Share20OCS extends OCSController {
 
 		// If the share is shared with you (or a group you are a member of)
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER &&
-			$share->getSharedWith() === $this->currentUser->getUID()) {
+			$share->getSharedWith() === $this->currentUser->getUID()
+		) {
 			return true;
 		}
 
@@ -743,7 +754,7 @@ class Share20OCS extends OCSController {
 			throw new \Exception('Invalid date. Format must be YYYY-MM-DD');
 		}
 
-		$date->setTime(0,0,0);
+		$date->setTime(0, 0, 0);
 
 		return $date;
 	}
@@ -761,7 +772,7 @@ class Share20OCS extends OCSController {
 
 		// First check if it is an internal share.
 		try {
-			$share = $this->shareManager->getShareById('ocinternal:'.$id);
+			$share = $this->shareManager->getShareById('ocinternal:' . $id);
 		} catch (ShareNotFound $e) {
 			if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
 				throw new ShareNotFound();
@@ -775,6 +786,7 @@ class Share20OCS extends OCSController {
 
 	/**
 	 * Lock a Node
+	 *
 	 * @param \OCP\Files\Node $node
 	 */
 	private function lock(\OCP\Files\Node $node) {

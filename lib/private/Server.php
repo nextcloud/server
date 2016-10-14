@@ -175,10 +175,10 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('SystemTagObjectMapper', function (Server $c) {
 			return $c->query('SystemTagManagerFactory')->getObjectMapper();
 		});
-		$this->registerService('RootFolder', function () {
+		$this->registerService('RootFolder', function (Server $c) {
 			$manager = \OC\Files\Filesystem::getMountManager(null);
 			$view = new View();
-			$root = new Root($manager, $view, null);
+			$root = new Root($manager, $view, null, $c->getUserMountCache());
 			$connector = new HookConnector($root, $view);
 			$connector->viewToNode();
 			return $root;

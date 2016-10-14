@@ -29,6 +29,7 @@
 
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Files\Cache\Scanner;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -72,6 +73,8 @@ class ApiTest extends TestCase {
 		$this->view->mkdir($this->folder . $this->subfolder . $this->subsubfolder);
 		$this->view->file_put_contents($this->folder.$this->filename, $this->data);
 		$this->view->file_put_contents($this->folder . $this->subfolder . $this->filename, $this->data);
+		$mount = $this->view->getMount($this->filename);
+		$mount->getStorage()->getScanner()->scan('', Scanner::SCAN_RECURSIVE);
 
 		$this->userFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
 	}
@@ -113,10 +116,8 @@ class ApiTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @medium
-	 */
 	function testCreateShareUserFile() {
+		$this->setUp(); // for some reasons phpunit refuses to do this for us only for this test
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->filename, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
 		$ocs->cleanup();
@@ -627,7 +628,7 @@ class ApiTest extends TestCase {
 		);
 		foreach ($testValues as $value) {
 
-				$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER2);
+			$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER2);
 			$result = $ocs->getShares('false', 'false', 'true', $value['query']);
 			$ocs->cleanup();
 
@@ -764,6 +765,7 @@ class ApiTest extends TestCase {
 	 * @medium
 	 */
 	function testGetShareMultipleSharedFolder() {
+		$this->setUp();
 		$node1 = $this->userFolder->get($this->folder . $this->subfolder);
 		$share1 = $this->shareManager->newShare();
 		$share1->setNode($node1)
@@ -789,8 +791,9 @@ class ApiTest extends TestCase {
 			->setPermissions(1);
 		$share3 = $this->shareManager->createShare($share3);
 
+		// $request = $this->createRequest(['path' => $this->subfolder]);
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER2);
-		$result1 = $ocs->getShares();
+		$result1 = $ocs->getShares('false','false','false', $this->subfolder);
 		$ocs->cleanup();
 
 		// test should return one share within $this->folder
@@ -798,8 +801,9 @@ class ApiTest extends TestCase {
 		$this->assertCount(1, $data1);
 		$s1 = reset($data1);
 
+		//$request = $this->createRequest(['path' => $this->folder.$this->subfolder]);
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER2);
-		$result2 = $ocs->getShares();
+		$result2 = $ocs->getShares('false', 'false', 'false', $this->folder . $this->subfolder);
 		$ocs->cleanup();
 
 		// test should return one share within $this->folder
@@ -807,7 +811,7 @@ class ApiTest extends TestCase {
 		$this->assertCount(1, $data2);
 		$s2 = reset($data2);
 
-		$this->assertEquals($this->folder.$this->subfolder, $s1['path']);
+		$this->assertEquals($this->subfolder, $s1['path']);
 		$this->assertEquals($this->folder.$this->subfolder, $s2['path']);
 
 		$this->shareManager->deleteShare($share1);
@@ -1193,14 +1197,11 @@ class ApiTest extends TestCase {
 	 * Tests mounting a folder that is an external storage mount point.
 	 */
 	public function testShareStorageMountPoint() {
-		self::$tempStorage = new \OC\Files\Storage\Temporary(array());
-		self::$tempStorage->file_put_contents('test.txt', 'abcdef');
-		self::$tempStorage->getScanner()->scan('');
+		$tempStorage = new \OC\Files\Storage\Temporary(array());
+		$tempStorage->file_put_contents('test.txt', 'abcdef');
+		$tempStorage->getScanner()->scan('');
 
-		// needed because the sharing code sometimes switches the user internally and mounts the user's
-		// storages. In our case the temp storage isn't mounted automatically, so doing it in the post hook
-		// (similar to how ext storage works)
-		\OCP\Util::connectHook('OC_Filesystem', 'post_initMountPoints', '\OCA\Files_Sharing\Tests\ApiTest', 'initTestMountPointsHook');
+		$this->registerMount(self::TEST_FILES_SHARING_API_USER1, $tempStorage, self::TEST_FILES_SHARING_API_USER1 . '/files' . self::TEST_FOLDER_NAME);
 
 		// logging in will auto-mount the temp storage for user1 as well
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);

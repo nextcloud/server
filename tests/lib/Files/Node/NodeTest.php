@@ -22,6 +22,8 @@ class NodeTest extends \Test\TestCase {
 
 	/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject */
 	private $root;
+	/** @var \OCP\Files\Config\IUserMountCache|\PHPUnit_Framework_MockObject_MockObject */
+	private $userMountCache;
 
 	protected function setUp() {
 		parent::setUp();
@@ -41,8 +43,11 @@ class NodeTest extends \Test\TestCase {
 		$this->view = $this->getMockBuilder('\OC\Files\View')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->userMountCache = $this->getMockBuilder('\OCP\Files\Config\IUserMountCache')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache])
 			->getMock();
 	}
 
@@ -268,7 +273,7 @@ class NodeTest extends \Test\TestCase {
 			$hooksRun++;
 		};
 
-		$root = new \OC\Files\Node\Root($this->manager, $this->view, $this->user);
+		$root = new \OC\Files\Node\Root($this->manager, $this->view, $this->user, $this->userMountCache);
 		$root->listen('\OC\Files', 'preTouch', $preListener);
 		$root->listen('\OC\Files', 'postTouch', $postListener);
 
