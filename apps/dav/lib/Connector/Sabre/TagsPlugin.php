@@ -109,7 +109,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
 
-		$server->xml->namespacesMap[self::NS_OWNCLOUD] = 'oc';
+		$server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
 		$server->xml->elementMap[self::TAGS_PROPERTYNAME] = 'OCA\\DAV\\Connector\\Sabre\\TagList';
 
 		$this->server = $server;
