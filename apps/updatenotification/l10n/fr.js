@@ -5,6 +5,7 @@ OC.L10N.register(
     "Could not start updater, please try the manual update" : "Impossible de démarrer le système de mise à jour, s'il vous plaît essayer la mise à jour manuelle",
     "{version} is available. Get more information on how to update." : "La version {version} est disponible. Cliquez ici pour plus d'informations sur comment mettre à jour.",
     "Channel updated" : "Canal de mise à jour modifié",
+    "Update to %1$s is available." : "Une mise à jour vers %1$s est disponible",
     "Update for %1$s to version %2$s is available." : "Une mise à jour de %1$s vers la version %2$s est disponible.",
     "A new version is available: %s" : "Une nouvelle version est disponible : %s",
     "Open updater" : "Ouvrir le système de mise à jour",
