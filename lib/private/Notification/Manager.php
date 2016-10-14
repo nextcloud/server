@@ -24,6 +24,7 @@
 namespace OC\Notification;
 
 
+use OC\RichObjectStrings\Validator;
 use OCP\Notification\IApp;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
@@ -149,7 +150,9 @@ class Manager implements IManager {
 	 * @since 8.2.0
 	 */
 	public function createNotification() {
-		return new Notification();
+		return new Notification(
+			new Validator()
+		);
 	}
 
 	/**

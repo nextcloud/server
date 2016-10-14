@@ -26,8 +26,14 @@ namespace OC\Notification;
 
 use OCP\Notification\IAction;
 use OCP\Notification\INotification;
+use OCP\RichObjectStrings\InvalidObjectExeption;
+use OCP\RichObjectStrings\IValidator;
 
 class Notification implements INotification {
+
+	/** @var IValidator */
+	protected $richValidator;
+
 	/** @var string */
 	protected $app;
 
@@ -51,6 +57,12 @@ class Notification implements INotification {
 
 	/** @var string */
 	protected $subjectParsed;
+
+	/** @var string */
+	protected $subjectRich;
+
+	/** @var array */
+	protected $subjectRichParameters;
 
 	/** @var string */
 	protected $message;
@@ -81,8 +93,11 @@ class Notification implements INotification {
 
 	/**
 	 * Constructor
+	 *
+	 * @param IValidator $richValidator
 	 */
-	public function __construct() {
+	public function __construct(IValidator $richValidator) {
+		$this->richValidator = $richValidator;
 		$this->app = '';
 		$this->user = '';
 		$this->dateTime = new \DateTime();
@@ -92,6 +107,8 @@ class Notification implements INotification {
 		$this->subject = '';
 		$this->subjectParameters = [];
 		$this->subjectParsed = '';
+		$this->subjectRich = '';
+		$this->subjectRichParameters = [];
 		$this->message = '';
 		$this->messageParameters = [];
 		$this->messageParsed = '';
@@ -259,6 +276,43 @@ class Notification implements INotification {
 	 */
 	public function getParsedSubject() {
 		return $this->subjectParsed;
+	}
+
+	/**
+	 * @param string $subject
+	 * @param array $parameters
+	 * @return $this
+	 * @throws \InvalidArgumentException if the subject or parameters are invalid
+	 * @since 9.2.0
+	 */
+	public function setRichSubject($subject, array $parameters = []) {
+		if (!is_string($subject) || $subject === '') {
+			throw new \InvalidArgumentException('The given parsed subject is invalid');
+		}
+		$this->subjectRich = $subject;
+
+		if (!is_array($parameters)) {
+			throw new \InvalidArgumentException('The given subject parameters are invalid');
+		}
+		$this->subjectRichParameters = $parameters;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 * @since 9.2.0
+	 */
+	public function getRichSubject() {
+		return $this->subjectRich;
+	}
+
+	/**
+	 * @return array[]
+	 * @since 9.2.0
+	 */
+	public function getRichSubjectParameters() {
+		return $this->subjectRichParameters;
 	}
 
 	/**
@@ -454,6 +508,14 @@ class Notification implements INotification {
 	 * @since 8.2.0
 	 */
 	public function isValidParsed() {
+		if ($this->getRichSubject() !== '' || !empty($this->getRichSubjectParameters())) {
+			try {
+				$this->richValidator->validate($this->getRichSubject(), $this->getRichSubjectParameters());
+			} catch (InvalidObjectExeption $e) {
+				return false;
+			}
+		}
+
 		return
 			$this->isValidCommon()
 			&&
