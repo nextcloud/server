@@ -53,6 +53,13 @@ class Preview2 {
 	/** @var IAppData */
 	private $appData;
 
+	/**
+	 * @param IRootFolder $rootFolder
+	 * @param IConfig $config
+	 * @param IPreview $previewManager
+	 * @param File $file
+	 * @param IAppData $appData
+	 */
 	public function __construct(
 		IRootFolder $rootFolder,
 		IConfig $config,
