@@ -109,7 +109,7 @@ class PreviewController extends Controller {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		$preview = new \OC\Preview2(
+		$preview = new \OC\Preview\Generator(
 			$this->root,
 			$this->config,
 			$this->previewManager,
