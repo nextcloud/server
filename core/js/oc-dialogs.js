@@ -174,7 +174,7 @@ var OCdialogs = {
 			self.$filePicker.ready(function() {
 				self.$filelist = self.$filePicker.find('.filelist');
 				self.$dirTree = self.$filePicker.find('.dirtree');
-				self.$dirTree.on('click', 'span:not(:last-child)', self, self._handleTreeListSelect);
+				self.$dirTree.on('click', 'div:not(:last-child)', self, self._handleTreeListSelect.bind(self));
 				self.$filelist.on('click', 'li', function(event) {
 					self._handlePickerClick(event, $(this));
 				});
@@ -792,8 +792,9 @@ var OCdialogs = {
 	_fillSlug: function() {
 		this.$dirTree.empty();
 		var self = this;
+		var dir;
 		var path = this.$filePicker.data('path');
-		var $template = $('<span data-dir="{dir}">{name}</span>');
+		var $template = $('<div data-dir="{dir}"><a>{name}</a></div>').addClass('crumb');
 		if(path) {
 			var paths = path.split('/');
 			$.each(paths, function(index, dir) {
@@ -809,15 +810,15 @@ var OCdialogs = {
 		}
 		$template.octemplate({
 			dir: '',
-			name: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' // Ugly but works ;)
-		}, {escapeFunction: null}).addClass('home svg').prependTo(this.$dirTree);
+			name: '' // Ugly but works ;)
+		}, {escapeFunction: null}).prependTo(this.$dirTree);
 	},
 	/**
 	 * handle selection made in the tree list
 	*/
 	_handleTreeListSelect:function(event) {
 		var self = event.data;
-		var dir = $(event.target).data('dir');
+		var dir = $(event.target).parent().data('dir');
 		self._fillFilePicker(dir);
 	},
 	/**
