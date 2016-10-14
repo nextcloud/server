@@ -104,13 +104,20 @@ class IconBuilder {
 			$res = $tmp->getImageResolution();
 			$tmp->destroy();
 
+			if($x>$y) {
+				$max = $x;
+			} else {
+				$max = $y;
+			}
+
 			// convert svg to resized image
 			$appIconFile = new Imagick();
-			$resX = (int)(512 * $res['x'] / $x * 2.53);
-			$resY = (int)(512 * $res['y'] / $y * 2.53);
+			$resX = (int)(512 * $res['x'] / $max * 2.53);
+			$resY = (int)(512 * $res['y'] / $max * 2.53);
 			$appIconFile->setResolution($resX, $resY);
 			$appIconFile->setBackgroundColor(new ImagickPixel('transparent'));
 			$appIconFile->readImageBlob($svg);
+			$appIconFile->scaleImage(512, 512, true);
 		} else {
 			$appIconFile = new Imagick();
 			$appIconFile->setBackgroundColor(new ImagickPixel('transparent'));

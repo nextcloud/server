@@ -157,8 +157,8 @@ class ThemingDefaults extends \OC_Defaults {
 	 */
 	public function shouldReplaceIcons() {
 		$cache = $this->cacheFactory->create('theming');
-		if($cache->hasKey('shouldReplaceIcons')) {
-			return (bool)$cache->get('shouldReplaceIcons');
+		if($value = $cache->get('shouldReplaceIcons')) {
+			return (bool)$value;
 		}
 		$value = false;
 		if(extension_loaded('imagick')) {
