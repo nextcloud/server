@@ -12,7 +12,7 @@ pipeline:
   eslint:
     image: nextcloudci/eslint:eslint-1
     commands:
-      - ./run-eslint.sh
+      - ./build/run-eslint.sh
     when:
       matrix:
         TESTS: eslint
