@@ -1,0 +1,20 @@
+root: true
+
+extends:
+  - eslint:recommended
+
+env:
+  browser: true
+  amd: true
+
+rules:
+  curly: error
+  eqeqeq: ["error", "smart"]
+  guard-for-in: error
+  no-console: off
+  no-fallthrough: error
+  no-mixed-spaces-and-tabs: off
+  no-undef: off
+  no-unused-vars: error
+  no-use-before-define: error
+  semi: ["error", "always"]

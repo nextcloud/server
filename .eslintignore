@@ -1,0 +1,5 @@
+**/3rdparty/**/*.js
+**/vendor/**/*.js
+core/js/tests/lib/*.js
+
+**/simplewebrtc.js
