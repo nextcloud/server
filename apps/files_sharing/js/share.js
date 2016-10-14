@@ -174,7 +174,7 @@
 			});
 			fileList.registerTabView(shareTab);
 
-			var breadCrumbSharingDetailView = new OCA.Sharing.ShareBreadCrumbView();
+			var breadCrumbSharingDetailView = new OCA.Sharing.ShareBreadCrumbView({shareTab: shareTab});
 			fileList.registerBreadCrumbDetailView(breadCrumbSharingDetailView);
 		},
 

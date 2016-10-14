@@ -34,6 +34,14 @@
 		},
 		_dirInfo: undefined,
 		_template: undefined,
+
+		/** @type OCA.Sharing.ShareTabView */
+		_shareTab: undefined,
+
+		initialize: function(options) {
+			this._shareTab = options.shareTab;
+		},
+
 		template: function(data) {
 			if (!this._template) {
 				this._template = Handlebars.compile(TEMPLATE);
@@ -67,6 +75,9 @@
 				self.render({
 					dirInfo: self._dirInfo
 				});
+			});
+			this._shareTab.on('sharesChanged', function(shareModel) {
+				alert('aaoobb');
 			});
 			OCA.Files.App.fileList.showDetailsView(fileInfoModel, 'shareTabView');
 		}
