@@ -42,7 +42,7 @@ trait WebDav {
 	private $davPath = "remote.php/webdav";
 	/** @var ResponseInterface */
 	private $response;
-	/** @var array */
+	/** @var map with user as key and another map as value, which has path as key and etag as value */
 	private $storedETAG = NULL;
 
 	/**
