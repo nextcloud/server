@@ -23,30 +23,35 @@
 
 namespace OCA\Comments\Tests\Unit\Notification;
 
-use OCA\Comments\AppInfo\Application;
 use OCA\Comments\EventHandler;
 use OCP\Comments\CommentsEvent;
 use OCP\Comments\IComment;
 use OCA\Comments\Activity\Listener as ActivityListener;
 use OCA\Comments\Notification\Listener as NotificationListener;
-use OCP\IContainer;
 use Test\TestCase;
 
 class EventHandlerTest extends TestCase {
 	/** @var  EventHandler */
 	protected $eventHandler;
 
-	/** @var Application|\PHPUnit_Framework_MockObject_MockObject */
-	protected $app;
+	/** @var ActivityListener|\PHPUnit_Framework_MockObject_MockObject */
+	protected $activityListener;
+
+	/** @var NotificationListener|\PHPUnit_Framework_MockObject_MockObject */
+	protected $notificationListener;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$this->app = $this->getMockBuilder(Application::class)
+		$this->activityListener = $this->getMockBuilder(ActivityListener::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->eventHandler = new EventHandler($this->app);
+		$this->notificationListener = $this->getMockBuilder(NotificationListener::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->eventHandler = new EventHandler($this->activityListener, $this->notificationListener);
 	}
 
 	public function testNotFiles() {
@@ -100,30 +105,13 @@ class EventHandlerTest extends TestCase {
 			->method('getEvent')
 			->willReturn($eventType);
 
-		$notificationListener = $this->getMockBuilder(NotificationListener::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$notificationListener->expects($this->once())
+		$this->notificationListener->expects($this->once())
 			->method('evaluate')
 			->with($event);
 
-		$activityListener = $this->getMockBuilder(ActivityListener::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$activityListener->expects($this->any())
+		$this->activityListener->expects($this->any())
 			->method('commentEvent')
 			->with($event);
-
-		/** @var IContainer|\PHPUnit_Framework_MockObject_MockObject $c */
-		$c = $this->getMockBuilder(IContainer::class)->getMock();
-		$c->expects($this->atLeastOnce())
-			->method('query')
-			->withConsecutive([NotificationListener::class], [ActivityListener::class])
-			->willReturnOnConsecutiveCalls($notificationListener, $activityListener);
-
-		$this->app->expects($this->atLeastOnce())
-			->method('getContainer')
-			->willReturn($c);
 
 		$this->eventHandler->handle($event);
 	}

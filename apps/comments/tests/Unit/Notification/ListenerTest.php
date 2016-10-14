@@ -172,29 +172,6 @@ class ListenerTest extends TestCase {
 		$this->listener->evaluate($event);
 	}
 
-	public function testUnsupportedCommentObjectType() {
-		/** @var IComment|\PHPUnit_Framework_MockObject_MockObject $comment */
-		$comment = $this->getMockBuilder('\OCP\Comments\IComment')->getMock();
-		$comment->expects($this->once())
-			->method('getObjectType')
-			->will($this->returnValue('vcards'));
-		$comment->expects($this->never())
-			->method('getMessage');
-
-		/** @var CommentsEvent|\PHPUnit_Framework_MockObject_MockObject $event */
-		$event = $this->getMockBuilder('\OCP\Comments\CommentsEvent')
-			->disableOriginalConstructor()
-			->getMock();
-		$event->expects($this->once())
-			->method('getComment')
-			->will($this->returnValue($comment));
-		$event->expects(($this->any()))
-			->method(('getEvent'))
-			->will($this->returnValue(CommentsEvent::EVENT_ADD));
-
-		$this->listener->evaluate($event);
-	}
-
 	public function testEvaluateUserDoesNotExist() {
 		$message = '@foobar bla bla bla';
 

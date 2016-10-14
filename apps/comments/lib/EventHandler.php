@@ -36,12 +36,15 @@ use OCP\Comments\ICommentsEventHandler;
  * @package OCA\Comments
  */
 class EventHandler implements ICommentsEventHandler {
+	/** @var ActivityListener */
+	private $activityListener;
 
-	/** @var Application */
-	protected $app;
+	/** @var NotificationListener */
+	private $notificationListener;
 
-	public function __construct(Application $app) {
-		$this->app = $app;
+	public function __construct(ActivityListener $activityListener, NotificationListener $notificationListener) {
+		$this->activityListener     = $activityListener;
+		$this->notificationListener = $notificationListener;
 	}
 
 	/**
@@ -55,30 +58,18 @@ class EventHandler implements ICommentsEventHandler {
 
 		$eventType = $event->getEvent();
 		if( $eventType === CommentsEvent::EVENT_ADD
-			&& $event instanceof CommentsEvent
 		) {
 			$this->notificationHandler($event);
 			$this->activityHandler($event);
 			return;
 		}
 
-		if( $eventType === CommentsEvent::EVENT_PRE_UPDATE
-			&& $event instanceof CommentsEvent
-		) {
-			$this->notificationHandler($event);
-			return;
-		}
-
-		if( $eventType === CommentsEvent::EVENT_UPDATE
-			&& $event instanceof CommentsEvent
-		) {
-			$this->notificationHandler($event);
-			return;
-		}
-
-		if( $eventType === CommentsEvent::EVENT_DELETE
-			&& $event instanceof CommentsEvent
-		) {
+		$applicableEvents = [
+			CommentsEvent::EVENT_PRE_UPDATE,
+			CommentsEvent::EVENT_UPDATE,
+			CommentsEvent::EVENT_DELETE,
+		];
+		if(in_array($eventType, $applicableEvents)) {
 			$this->notificationHandler($event);
 			return;
 		}
@@ -88,21 +79,13 @@ class EventHandler implements ICommentsEventHandler {
 	 * @param CommentsEvent $event
 	 */
 	private function activityHandler(CommentsEvent $event) {
-		$c = $this->app->getContainer();
-
-		/** @var ActivityListener $listener */
-		$activityListener = $c->query(ActivityListener::class);
-		$activityListener->commentEvent($event);
+		$this->activityListener->commentEvent($event);
 	}
 
 	/**
 	 * @param CommentsEvent $event
 	 */
 	private function notificationHandler(CommentsEvent $event) {
-		$c = $this->app->getContainer();
-
-		/** @var NotificationListener $notificationListener */
-		$notificationListener = $c->query(NotificationListener::class);
-		$notificationListener->evaluate($event);
+		$this->notificationListener->evaluate($event);
 	}
 }

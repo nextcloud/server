@@ -61,12 +61,6 @@ class Listener {
 	public function evaluate(CommentsEvent $event) {
 		$comment = $event->getComment();
 
-		if($comment->getObjectType() !== 'files') {
-			// comments App serves files only, other object types/apps need to
-			// register their own ICommentsEventHandler and trigger notifications
-			return;
-		}
-
 		$mentions = $this->extractMentions($comment->getMessage());
 		if(empty($mentions)) {
 			// no one to notify
