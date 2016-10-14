@@ -769,10 +769,17 @@ var OCdialogs = {
 				});
 				if (entry.type === 'file') {
 					var urlSpec = {
-						file: dir + '/' + entry.name
+						file: dir + '/' + entry.name,
 					};
+					$li.find('img').attr('src', OC.MimeType.getIconUrl(entry.mimetype));
+					var img = new Image();
 					var previewUrl = OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
-					$li.find('img').attr('src', previewUrl);
+					img.onload = function() {
+						if (img.width > 5) {
+							$li.find('img').attr('src', previewUrl);
+						}
+					};
+					img.src = previewUrl;
 				}
 				else {
 					$li.find('img').attr('src', OC.Util.replaceSVGIcon(entry.icon));
