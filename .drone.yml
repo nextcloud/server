@@ -9,6 +9,13 @@ pipeline:
     when:
       matrix:
         TESTS: jsunit
+  eslint:
+    image: nextcloudci/eslint:eslint-1
+    commands:
+      - ./run-eslint.sh
+    when:
+      matrix:
+        TESTS: eslint
   check-autoloader:
     image: nextcloudci/php7.0:php7.0-6
     commands:
@@ -363,6 +370,7 @@ matrix:
     - TESTS: integration-webdav-related
     - TESTS: integration-sharees-features
     - TESTS: jsunit
+    - TESTS: eslint
     - TESTS: check-autoloader
     - TESTS: app-check-code
     - TESTS: syntax-php5.6
