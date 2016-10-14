@@ -952,3 +952,18 @@ Feature: sharing
       | shareType | 1 |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
+
+  Scenario: unshare from self
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And group "sharing-group" exists
+    And user "user0" belongs to group "sharing-group"
+    And user "user1" belongs to group "sharing-group"
+    And file "/PARENT/parent.txt" of user "user0" is shared with group "sharing-group"
+    And user "user0" stores etag of element "/PARENT"
+    And user "user1" stores etag of element "/"
+    And As an "user1"
+    When Deleting last share
+    Then etag of element "/" of user "user1" has changed
+    And etag of element "/PARENT" of user "user0" has not changed
