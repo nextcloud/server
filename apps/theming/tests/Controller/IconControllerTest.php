@@ -103,7 +103,10 @@ class IconControllerTest extends TestCase {
 			->willReturn($file);
 		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
 		$expected->cacheFor(86400);
-		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		$expires = new \DateTime();
+		$expires->setTimestamp($this->timeFactory->getTime());
+		$expires->add(new \DateInterval('PT24H'));
+		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
 		$expected->addHeader('Pragma', 'cache');
 		@$this->assertEquals($expected, $this->iconController->getThemedIcon('core', 'filetypes/folder.svg'));
 
@@ -133,7 +136,10 @@ class IconControllerTest extends TestCase {
 
 		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		$expected->cacheFor(86400);
-		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		$expires = new \DateTime();
+		$expires->setTimestamp($this->timeFactory->getTime());
+		$expires->add(new \DateInterval('PT24H'));
+		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
 		$expected->addHeader('Pragma', 'cache');
 		$this->assertEquals($expected, $this->iconController->getFavicon());
 	}
@@ -143,9 +149,8 @@ class IconControllerTest extends TestCase {
 			->method('shouldReplaceIcons')
 			->willReturn(false);
 		$expected = new DataDisplayResponse(null, Http::STATUS_NOT_FOUND);
-		$expected->cacheFor(86400);
-		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
-		$expected->addHeader('Pragma', 'cache');
+		$expected->cacheFor(0);
+		$expected->setLastModified(new \DateTime('now', new \DateTimeZone('GMT')));
 		$this->assertEquals($expected, $this->iconController->getFavicon());
 	}
 
@@ -172,7 +177,10 @@ class IconControllerTest extends TestCase {
 
 		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		$expected->cacheFor(86400);
-		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		$expires = new \DateTime();
+		$expires->setTimestamp($this->timeFactory->getTime());
+		$expires->add(new \DateInterval('PT24H'));
+		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
 		$expected->addHeader('Pragma', 'cache');
 		$this->assertEquals($expected, $this->iconController->getTouchIcon());
 	}
@@ -182,9 +190,8 @@ class IconControllerTest extends TestCase {
 			->method('shouldReplaceIcons')
 			->willReturn(false);
 		$expected = new DataDisplayResponse(null, Http::STATUS_NOT_FOUND);
-		$expected->cacheFor(86400);
-		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
-		$expected->addHeader('Pragma', 'cache');
+		$expected->cacheFor(0);
+		$expected->setLastModified(new \DateTime('now', new \DateTimeZone('GMT')));
 		$this->assertEquals($expected, $this->iconController->getTouchIcon());
 	}
 

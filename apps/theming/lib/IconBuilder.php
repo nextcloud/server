@@ -94,6 +94,8 @@ class IconBuilder {
 		if($mime === "image/svg+xml" || substr($appIconContent, 0, 4) === "<svg") {
 			if(substr($appIconContent, 0, 5) !== "<?xml") {
 				$svg = "<?xml version=\"1.0\"?>".$appIconContent;
+			} else {
+				$svg = $appIconContent;
 			}
 			$tmp = new Imagick();
 			$tmp->readImageBlob($svg);

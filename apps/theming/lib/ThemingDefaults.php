@@ -23,6 +23,7 @@
 namespace OCA\Theming;
 
 
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -38,6 +39,8 @@ class ThemingDefaults extends \OC_Defaults {
 	private $urlGenerator;
 	/** @var IRootFolder */
 	private $rootFolder;
+	/** @var ICacheFactory */
+	private $cacheFactory;
 	/** @var string */
 	private $name;
 	/** @var string */
@@ -60,13 +63,15 @@ class ThemingDefaults extends \OC_Defaults {
 								IL10N $l,
 								IURLGenerator $urlGenerator,
 								\OC_Defaults $defaults,
-								IRootFolder $rootFolder
+								IRootFolder $rootFolder,
+								ICacheFactory $cacheFactory
 	) {
 		parent::__construct();
 		$this->config = $config;
 		$this->l = $l;
 		$this->urlGenerator = $urlGenerator;
 		$this->rootFolder = $rootFolder;
+		$this->cacheFactory = $cacheFactory;
 
 		$this->name = $defaults->getName();
 		$this->url = $defaults->getBaseUrl();
@@ -151,14 +156,20 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return bool
 	 */
 	public function shouldReplaceIcons() {
+		$cache = $this->cacheFactory->create('theming');
+		if($cache->hasKey('shouldReplaceIcons')) {
+			return (bool)$cache->get('shouldReplaceIcons');
+		}
+		$value = false;
 		if(extension_loaded('imagick')) {
 			$checkImagick = new \Imagick();
 			if (count($checkImagick->queryFormats('SVG')) >= 1) {
-				return true;
+				$value = true;
 			}
 			$checkImagick->clear();
 		}
-		return false;
+		$cache->set('shouldReplaceIcons', $value);
+		return $value;
 	}
 
 	/**
