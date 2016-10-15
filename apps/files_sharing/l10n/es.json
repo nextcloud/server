@@ -107,6 +107,7 @@
     "Not allowed to create a federated share with the same user server" : "No se permite crear un recurso compartido federado con el mismo servidor del usuario",
     "Invalid or untrusted SSL certificate" : "Certificado SSL no válido o no confiable",
     "Could not authenticate to remote share, password might be wrong" : "No se ha podido autenticar para compartir remotamente, quizás esté mal la contraseña",
+    "Storage not valid" : "Almacenamiento inválido",
     "Couldn't add remote share" : "No se ha podido añadir el recurso compartido remoto",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Desea añadir el recurso compartido remoto {name} de {owner}@{remote}?",
     "Remote share" : "Recurso compartido remoto",

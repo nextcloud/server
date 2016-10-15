@@ -44,6 +44,8 @@
     "The given end time is invalid" : "El tiempo final no es valido",
     "Operation %s does not exist" : "Operación %s no existe",
     "Operation %s is invalid" : "Operación %s no es valida",
+    "Check %s does not exist" : "Chequeo %s no existe",
+    "Check %s is invalid" : "Chequeo %s no es valido",
     "Open documentation" : "Documentación abierta",
     "Add rule" : "Añadir regla",
     "Reset" : "Reiniciar",

@@ -118,7 +118,7 @@ OC.L10N.register(
     "Cancel" : "Annuler",
     "Add remote share" : "Ajouter un partage distant",
     "No ownCloud installation (7 or higher) found at {remote}" : "Aucune installation ownCloud (7 ou supérieur) trouvée sur {remote}",
-    "Invalid ownCloud url" : "URL ownCloud non valide",
+    "Invalid ownCloud url" : "URL Nextcloud non valide",
     "You received \"/%2$s\" as a remote share from %1$s" : "Vous avez reçu \"/%2$s\" comme partage distant de %1$s",
     "Accept" : "Accepter",
     "Decline" : "Refuser",
