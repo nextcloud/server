@@ -324,6 +324,7 @@ OC.L10N.register(
     "set new password" : "establecer nueva contraseña",
     "change email address" : "cambiar dirección de correo electrónico",
     "Default" : "Predeterminado",
+    "add group" : "añadir grupo",
     "Add Group" : "Agregar grupo",
     "Full Name" : "Nombre completo",
     "Last Login" : "Último inicio de sesión",
