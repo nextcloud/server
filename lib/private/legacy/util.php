@@ -667,15 +667,6 @@ class OC_Util {
 			$webServerRestart = true;
 		}
 
-		// Check if server running on Windows platform
-		if(OC_Util::runningOnWindows()) {
-			$errors[] = [
-				'error' => $l->t('Microsoft Windows Platform is not supported'),
-				'hint' => $l->t('Running Nextcloud Server on the Microsoft Windows platform is not supported. We suggest you ' .
-					'use a Linux server in a virtual machine if you have no option for migrating the server itself.')
-			];
-		}
-
 		// Check if config folder is writable.
 		if(!OC_Helper::isReadOnlyConfigEnabled()) {
 			if (!is_writable(OC::$configDir) or !is_readable(OC::$configDir)) {
@@ -1265,15 +1256,6 @@ class OC_Util {
 		while (ob_get_level()) {
 			ob_end_clean();
 		}
-	}
-
-	/**
-	 * Checks whether the server is running on Windows
-	 *
-	 * @return bool true if running on Windows, false otherwise
-	 */
-	public static function runningOnWindows() {
-		return (substr(PHP_OS, 0, 3) === "WIN");
 	}
 
 	/**

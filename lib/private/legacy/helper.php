@@ -254,16 +254,9 @@ class OC_Helper {
 		if ($path === false) {
 			$path = getenv("PATH");
 		}
-		// check method depends on operating system
-		if (!strncmp(PHP_OS, "WIN", 3)) {
-			// on Windows an appropriate COM or EXE file needs to exist
-			$exts = array(".exe", ".com");
-			$check_fn = "file_exists";
-		} else {
-			// anywhere else we look for an executable file of that name
-			$exts = array("");
-			$check_fn = "is_executable";
-		}
+		// we look for an executable file of that name
+		$exts = [""];
+		$check_fn = "is_executable";
 		// Default check will be done with $path directories :
 		$dirs = explode(PATH_SEPARATOR, $path);
 		// WARNING : We have to check if open_basedir is enabled :
@@ -498,7 +491,6 @@ class OC_Helper {
 
 	/**
 	 * Try to find a program
-	 * Note: currently windows is not supported
 	 *
 	 * @param string $program
 	 * @return null|string
