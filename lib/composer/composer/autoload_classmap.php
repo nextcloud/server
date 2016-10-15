@@ -531,7 +531,6 @@ return array(
     'OC\\Files\\Stream\\Close' => $baseDir . '/lib/private/Files/Stream/Close.php',
     'OC\\Files\\Stream\\Dir' => $baseDir . '/lib/private/Files/Stream/Dir.php',
     'OC\\Files\\Stream\\Encryption' => $baseDir . '/lib/private/Files/Stream/Encryption.php',
-    'OC\\Files\\Stream\\OC' => $baseDir . '/lib/private/Files/Stream/OC.php',
     'OC\\Files\\Stream\\Quota' => $baseDir . '/lib/private/Files/Stream/Quota.php',
     'OC\\Files\\Stream\\StaticStream' => $baseDir . '/lib/private/Files/Stream/StaticStream.php',
     'OC\\Files\\Type\\Detection' => $baseDir . '/lib/private/Files/Type/Detection.php',

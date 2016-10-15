@@ -561,7 +561,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Files\\Stream\\Close' => __DIR__ . '/../../..' . '/lib/private/Files/Stream/Close.php',
         'OC\\Files\\Stream\\Dir' => __DIR__ . '/../../..' . '/lib/private/Files/Stream/Dir.php',
         'OC\\Files\\Stream\\Encryption' => __DIR__ . '/../../..' . '/lib/private/Files/Stream/Encryption.php',
-        'OC\\Files\\Stream\\OC' => __DIR__ . '/../../..' . '/lib/private/Files/Stream/OC.php',
         'OC\\Files\\Stream\\Quota' => __DIR__ . '/../../..' . '/lib/private/Files/Stream/Quota.php',
         'OC\\Files\\Stream\\StaticStream' => __DIR__ . '/../../..' . '/lib/private/Files/Stream/StaticStream.php',
         'OC\\Files\\Type\\Detection' => __DIR__ . '/../../..' . '/lib/private/Files/Type/Detection.php',

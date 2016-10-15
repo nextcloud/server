@@ -660,7 +660,6 @@ class OC {
 		stream_wrapper_register('static', 'OC\Files\Stream\StaticStream');
 		stream_wrapper_register('close', 'OC\Files\Stream\Close');
 		stream_wrapper_register('quota', 'OC\Files\Stream\Quota');
-		stream_wrapper_register('oc', 'OC\Files\Stream\OC');
 
 		\OC::$server->getEventLogger()->start('init_session', 'Initialize session');
 		OC_App::loadApps(array('session'));
