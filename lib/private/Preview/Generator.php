@@ -32,7 +32,7 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IImage;
-use OCP\Image;
+use OCP\Image as img;
 use OCP\IPreview;
 use OCP\Preview\IProvider;
 
@@ -297,13 +297,13 @@ class Generator {
 	 * @param int $width
 	 * @param int $height
 	 * @param bool $crop
-	 * @param int $maxWidth,
+	 * @param int $maxWidth
 	 * @param int $maxHeight
 	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 */
 	private function generatePreview(ISimpleFolder $previewFolder, ISimpleFile $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight) {
-		$preview = new Image($maxPreview->getContent());
+		$preview = new img($maxPreview->getContent());
 
 		if ($crop) {
 			if ($height !== $preview->height() && $width !== $preview->width()) {
