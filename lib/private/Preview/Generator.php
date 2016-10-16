@@ -76,11 +76,15 @@ class Generator {
 	 * @param int $height
 	 * @param bool $crop
 	 * @param string $mode
+	 * @param string $mimeType
 	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 */
-	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL) {
-		if (!$this->previewManager->isMimeSupported($file->getMimeType())) {
+	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null) {
+		if ($mimeType === null) {
+			$mimeType = $file->getMimeType();
+		}
+		if (!$this->previewManager->isMimeSupported($mimeType)) {
 			throw new NotFoundException();
 		}
 
@@ -91,7 +95,7 @@ class Generator {
 		$previewFolder = $this->getPreviewFolder($file);
 
 		// Get the max preview and infer the max preview sizes from that
-		$maxPreview = $this->getMaxPreview($previewFolder, $file);
+		$maxPreview = $this->getMaxPreview($previewFolder, $file, $mimeType);
 		list($maxWidth, $maxHeight) = $this->getPreviewSize($maxPreview);
 
 		// Calculate the preview size
@@ -110,10 +114,11 @@ class Generator {
 	/**
 	 * @param ISimpleFolder $previewFolder
 	 * @param File $file
+	 * @param string $mimeType
 	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 */
-	private function getMaxPreview(ISimpleFolder $previewFolder, File $file) {
+	private function getMaxPreview(ISimpleFolder $previewFolder, File $file, $mimeType) {
 		$nodes = $previewFolder->getDirectoryListing();
 
 		foreach ($nodes as $node) {
@@ -124,7 +129,7 @@ class Generator {
 
 		$previewProviders = $this->previewManager->getProviders();
 		foreach ($previewProviders as $supportedMimeType => $providers) {
-			if (!preg_match($supportedMimeType, $file->getMimeType())) {
+			if (!preg_match($supportedMimeType, $mimeType)) {
 				continue;
 			}
 

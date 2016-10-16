@@ -96,11 +96,12 @@ interface IPreview {
 	 * @param int $height
 	 * @param bool $crop
 	 * @param string $mode
+	 * @param string $mimeType To force a given mimetype for the file (files_versions needs this)
 	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 * @since 9.2.0
 	 */
-	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL);
+	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null);
 
 	/**
 	 * Returns true if the passed mime type is supported

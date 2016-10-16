@@ -462,7 +462,7 @@ class Storage {
 						if (empty($userFullPath)) {
 							$versions[$key]['preview'] = '';
 						} else {
-							$versions[$key]['preview'] = \OCP\Util::linkToRoute('core_ajax_versions_preview', array('file' => $userFullPath, 'version' => $timestamp));
+							$versions[$key]['preview'] = \OC::$server->getURLGenerator('files_version.Preview.getPreview', ['file' => $userFullPath, 'version' => $timestamp]);
 						}
 						$versions[$key]['path'] = Filesystem::normalizePath($pathinfo['dirname'] . '/' . $filename);
 						$versions[$key]['name'] = $versionedFile;

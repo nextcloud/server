@@ -151,11 +151,12 @@ class PreviewManager implements IPreview {
 	 * @param int $height
 	 * @param bool $crop
 	 * @param string $mode
+	 * @param string $mimeType
 	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 * @since 9.2.0
 	 */
-	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL) {
+	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null) {
 		if ($this->generator === null) {
 			$this->generator = new Generator(
 				$this->rootFolder,
@@ -165,7 +166,7 @@ class PreviewManager implements IPreview {
 			);
 		}
 
-		return $this->generator->getPreview($file, $width, $height, $crop, $mode);
+		return $this->generator->getPreview($file, $width, $height, $crop, $mode, $mimeType);
 	}
 
 	/**
