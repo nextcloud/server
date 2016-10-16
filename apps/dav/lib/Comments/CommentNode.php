@@ -45,6 +45,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	const PROPERTY_NAME_MENTION = '{http://owncloud.org/ns}mention';
 	const PROPERTY_NAME_MENTION_TYPE = '{http://owncloud.org/ns}mentionType';
 	const PROPERTY_NAME_MENTION_ID = '{http://owncloud.org/ns}mentionId';
+	const PROPERTY_NAME_MENTION_DISPLAYNAME = '{http://owncloud.org/ns}mentionDisplayName';
 
 	/** @var  IComment */
 	public $comment;
@@ -125,6 +126,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 			self::PROPERTY_NAME_MENTION,
 			self::PROPERTY_NAME_MENTION_TYPE,
 			self::PROPERTY_NAME_MENTION_ID,
+			self::PROPERTY_NAME_MENTION_DISPLAYNAME,
 		];
 	}
 
@@ -283,10 +285,19 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 */
 	protected function composeMentionsPropertyValue() {
 		return array_map(function($mention) {
+			try {
+				$displayName = $this->commentsManager->resolveDisplayName($mention['type'], $mention['id']);
+			} catch (\OutOfBoundsException $e) {
+				$this->logger->logException($e);
+				// No displayname, upon client's discretion what to display.
+				$displayName = '';
+			}
+
 			return [
 				self::PROPERTY_NAME_MENTION => [
-					self::PROPERTY_NAME_MENTION_TYPE => $mention['type'],
-					self::PROPERTY_NAME_MENTION_ID   => $mention['id'],
+					self::PROPERTY_NAME_MENTION_TYPE        => $mention['type'],
+					self::PROPERTY_NAME_MENTION_ID          => $mention['id'],
+					self::PROPERTY_NAME_MENTION_DISPLAYNAME => $displayName,
 				]
 			];
 		}, $this->comment->getMentions());

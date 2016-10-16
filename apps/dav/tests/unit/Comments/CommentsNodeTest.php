@@ -27,11 +27,14 @@ namespace OCA\DAV\Tests\unit\Comments;
 
 use OCA\DAV\Comments\CommentNode;
 use OCP\Comments\IComment;
+use OCP\Comments\ICommentsManager;
 use OCP\Comments\MessageTooLongException;
 
 class CommentsNodeTest extends \Test\TestCase {
 
+	/** @var  ICommentsManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $commentsManager;
+
 	protected $comment;
 	protected $node;
 	protected $userManager;
@@ -374,8 +377,16 @@ class CommentsNodeTest extends \Test\TestCase {
 			$ns . 'childrenCount' => 3,
 			$ns . 'message' => 'such a nice file you have…',
 			$ns . 'mentions' => [
-				[ $ns . 'mention' => [ $ns . 'mentionType' => 'user', $ns . 'mentionId' => 'alice'] ],
-				[ $ns . 'mention' => [ $ns . 'mentionType' => 'user', $ns . 'mentionId' => 'bob'] ],
+				[ $ns . 'mention' => [
+					$ns . 'mentionType' => 'user',
+					$ns . 'mentionId' => 'alice',
+					$ns . 'mentionDisplayName' => 'Alice Al-Isson',
+				] ],
+				[ $ns . 'mention' => [
+					$ns . 'mentionType' => 'user',
+					$ns . 'mentionId' => 'bob',
+					$ns . 'mentionDisplayName' => 'Unknown user',
+				] ],
 			],
 			$ns . 'verb' => 'comment',
 			$ns . 'actorType' => 'users',
@@ -387,6 +398,14 @@ class CommentsNodeTest extends \Test\TestCase {
 			$ns . 'objectId' => '1848',
 			$ns . 'isUnread' => null,
 		];
+
+		$this->commentsManager->expects($this->exactly(2))
+			->method('resolveDisplayName')
+			->withConsecutive(
+				[$this->equalTo('user'), $this->equalTo('alice')],
+				[$this->equalTo('user'), $this->equalTo('bob')]
+			)
+			->willReturnOnConsecutiveCalls('Alice Al-Isson', 'Unknown user');
 
 		$this->comment->expects($this->once())
 			->method('getId')

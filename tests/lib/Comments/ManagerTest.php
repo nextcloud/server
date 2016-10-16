@@ -664,4 +664,82 @@ class ManagerTest extends TestCase {
 		$manager->delete($comment->getId());
 	}
 
+	public function testResolveDisplayName() {
+		$manager = $this->getManager();
+
+		$planetClosure = function($name) {
+			return ucfirst($name);
+		};
+
+		$galaxyClosure = function($name) {
+			return strtoupper($name);
+		};
+
+		$manager->registerDisplayNameResolver('planet', $planetClosure);
+		$manager->registerDisplayNameResolver('galaxy', $galaxyClosure);
+
+		$this->assertSame('Neptune', $manager->resolveDisplayName('planet', 'neptune'));
+		$this->assertSame('SOMBRERO', $manager->resolveDisplayName('galaxy', 'sombrero'));
+	}
+
+	/**
+	 * @expectedException \OutOfBoundsException
+	 */
+	public function testRegisterResolverDuplicate() {
+		$manager = $this->getManager();
+
+		$planetClosure = function($name) {
+			return ucfirst($name);
+		};
+		$manager->registerDisplayNameResolver('planet', $planetClosure);
+		$manager->registerDisplayNameResolver('planet', $planetClosure);
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testRegisterResolverInvalidType() {
+		$manager = $this->getManager();
+
+		$planetClosure = function($name) {
+			return ucfirst($name);
+		};
+		$manager->registerDisplayNameResolver(1337, $planetClosure);
+	}
+
+	/**
+	 * @expectedException \OutOfBoundsException
+	 */
+	public function testResolveDisplayNameUnregisteredType() {
+		$manager = $this->getManager();
+
+		$planetClosure = function($name) {
+			return ucfirst($name);
+		};
+
+		$manager->registerDisplayNameResolver('planet', $planetClosure);
+		$manager->resolveDisplayName('galaxy', 'sombrero');
+	}
+
+	public function testResolveDisplayNameDirtyResolver() {
+		$manager = $this->getManager();
+
+		$planetClosure = function() { return null; };
+
+		$manager->registerDisplayNameResolver('planet', $planetClosure);
+		$this->assertTrue(is_string($manager->resolveDisplayName('planet', 'neptune')));
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testResolveDisplayNameInvalidType() {
+		$manager = $this->getManager();
+
+		$planetClosure = function() { return null; };
+
+		$manager->registerDisplayNameResolver('planet', $planetClosure);
+		$this->assertTrue(is_string($manager->resolveDisplayName(1337, 'neptune')));
+	}
+
 }

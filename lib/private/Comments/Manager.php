@@ -55,6 +55,9 @@ class Manager implements ICommentsManager {
 	/** @var  ICommentsEventHandler[] */
 	protected $eventHandlers = [];
 
+	/** @var \Closure[] */
+	protected $displayNameResolvers = [];
+
 	/**
 	 * Manager constructor.
 	 *
@@ -757,6 +760,50 @@ class Manager implements ICommentsManager {
 	public function registerEventHandler(\Closure $closure) {
 		$this->eventHandlerClosures[] = $closure;
 		$this->eventHandlers = [];
+	}
+
+	/**
+	 * registers a method that resolves an ID to a display name for a given type
+	 *
+	 * @param string $type
+	 * @param \Closure $closure
+	 * @throws \OutOfBoundsException
+	 * @since 9.2.0
+	 *
+	 * Only one resolver shall be registered per type. Otherwise a
+	 * \OutOfBoundsException has to thrown.
+	 */
+	public function registerDisplayNameResolver($type, \Closure $closure) {
+		if(!is_string($type)) {
+			throw new \InvalidArgumentException('String expected.');
+		}
+		if(isset($this->displayNameResolvers[$type])) {
+			throw new \OutOfBoundsException('Displayname resolver for this type already registered');
+		}
+		$this->displayNameResolvers[$type] = $closure;
+	}
+
+	/**
+	 * resolves a given ID of a given Type to a display name.
+	 *
+	 * @param string $type
+	 * @param string $id
+	 * @return string
+	 * @throws \OutOfBoundsException
+	 * @since 9.2.0
+	 *
+	 * If a provided type was not registered, an \OutOfBoundsException shall
+	 * be thrown. It is upon the resolver discretion what to return of the
+	 * provided ID is unknown. It must be ensured that a string is returned.
+	 */
+	public function resolveDisplayName($type, $id) {
+		if(!is_string($type)) {
+			throw new \InvalidArgumentException('String expected.');
+		}
+		if(!isset($this->displayNameResolvers[$type])) {
+			throw new \OutOfBoundsException('No Displayname resolver for this type registered');
+		}
+		return (string)$this->displayNameResolvers[$type]($id);
 	}
 
 	/**
