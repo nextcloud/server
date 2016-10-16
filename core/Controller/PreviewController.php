@@ -23,15 +23,14 @@
 
 namespace OC\Core\Controller;
 
-use OC\PreviewManager;
+use OC\DatabaseException;
 use OCP\AppFramework\Controller;
 use OCP\Files\File;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
-use OCP\IConfig;
+use OCP\IPreview;
 use OCP\IRequest;
 
 class PreviewController extends Controller {
@@ -42,29 +41,28 @@ class PreviewController extends Controller {
 	/** @var IRootFolder */
 	private $root;
 
-	/** @var IConfig */
-	private $config;
+	/** @var IPreview */
+	private $preview;
 
-	/** @var PreviewManager */
-	private $previewManager;
-
-	/** @var IAppData */
-	private $appData;
-
+	/**
+	 * PreviewController constructor.
+	 *
+	 * @param string $appName
+	 * @param IRequest $request
+	 * @param IPreview $preview
+	 * @param IRootFolder $root
+	 * @param string $userId
+	 */
 	public function __construct($appName,
 								IRequest $request,
+								IPreview $preview,
 								IRootFolder $root,
-								IConfig $config,
-								PreviewManager $previewManager,
-								IAppData $appData,
 								$userId
 	) {
 		parent::__construct($appName, $request);
 
-		$this->previewManager = $previewManager;
+		$this->preview = $preview;
 		$this->root = $root;
-		$this->config = $config;
-		$this->appData = $appData;
 		$this->userId = $userId;
 	}
 
@@ -103,21 +101,17 @@ class PreviewController extends Controller {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		if (!($file instanceof File) || (!$forceIcon && !$this->previewManager->isAvailable($file))) {
+		if (!($file instanceof File) || (!$forceIcon && !$this->preview->isAvailable($file))) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} else if (!$file->isReadable()) {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		$preview = new \OC\Preview\Generator(
-			$this->root,
-			$this->config,
-			$this->previewManager,
-			$file,
-			$this->appData
-		);
-
-		$f = $preview->getPreview($x, $y, !$a, $mode);
+		try {
+			$f = $this->preview->getPreview($file, $x, $y, !$a, $mode);
+		} catch (NotFoundException $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
 		return new Http\FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
 	}
 }

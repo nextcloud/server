@@ -117,7 +117,11 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerService('PreviewManager', function (Server $c) {
-			return new PreviewManager($c->getConfig());
+			return new PreviewManager(
+				$c->getConfig(),
+				$c->getRootFolder(),
+				$c->getAppDataDir('preview')
+			);
 		});
 
 		$this->registerService(\OC\Preview\Watcher::class, function (Server $c) {
