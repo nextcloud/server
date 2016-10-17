@@ -185,6 +185,7 @@ OC.L10N.register(
     "{sharee} (at {server})" : "{sharee} (op {server})",
     "{sharee} (remote)" : "{sharee} (extern)",
     "Share" : "Delen",
+    "Share with people on other Nextclouds using the syntax username@example.com/nextcloud" : "Met mensen op andere Nextclouds delen via de syntax gebruikersnaam@example.com/nextcloud",
     "Share with users…" : "Delen met gebruikers...",
     "Share with users, groups or remote users…" : "Delen met gebruikers, groepen of externe gebruikers...",
     "Share with users or groups…" : "Delen met gebruikers of groepen...",
