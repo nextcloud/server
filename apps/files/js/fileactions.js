@@ -363,7 +363,7 @@
 
 		/**
 		 * Renders the menu trigger on the given file list row
-		 * 
+		 *
 		 * @param {Object} $tr file list row element
 		 * @param {OCA.Files.FileActionContext} context rendering context
 		 */
@@ -623,7 +623,7 @@
 				mime: 'all',
 				order: -25,
 				permissions: OC.PERMISSION_UPDATE,
-				iconClass: 'icon-rename',
+				iconClass: 'icon-external',
 				actionHandler: function (filename, context) {
 					OC.dialogs.filepicker(t('files', 'Target folder'), function(targetPath) {
 						context.fileList.move(filename, targetPath);
@@ -758,7 +758,7 @@
 	OCA.Files.legacyFileActions = new OCA.Files.FileActions();
 
 	// for backward compatibility
-	// 
+	//
 	// legacy apps are expecting a stateful global FileActions object to register
 	// their actions on. Since legacy apps are very likely to break with other
 	// FileList views than the main one ("All files"), actions registered
@@ -777,4 +777,3 @@
 		OCA.Files.FileActions.prototype.display.call(window.FileActions, parent, triggerEvent, fileList);
 	};
 })();
-
