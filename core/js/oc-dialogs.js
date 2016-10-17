@@ -223,7 +223,11 @@ var OCdialogs = {
 			// Hence this is one of the approach to get the choose button.
 			var getOcDialog = self.$filePicker.closest('.oc-dialog');
 			var buttonEnableDisable = getOcDialog.find('.primary');
-			buttonEnableDisable.prop("disabled", "true");
+			if (self.$filePicker.data('mimetype') === "httpd/unix-directory") {
+				buttonEnableDisable.prop("disabled", false);
+			} else {
+				buttonEnableDisable.prop("disabled", true);
+			}
 
 			if (!OC.Util.hasSVGSupport()) {
 				OC.Util.replaceSVG(self.$filePicker.parent());
