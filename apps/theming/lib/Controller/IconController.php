@@ -30,6 +30,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\NotFoundException;
 use OCP\IRequest;
 use OCA\Theming\Util;
 use OCP\IConfig;
@@ -89,8 +90,9 @@ class IconController extends Controller {
 	 * @return FileDisplayResponse
 	 */
 	public function getThemedIcon($app, $image) {
-		$iconFile = $this->imageManager->getCachedImage("icon-" . $app . '-' . str_replace("/","_",$image));
-		if ($iconFile === null) {
+		try {
+			$iconFile = $this->imageManager->getCachedImage("icon-" . $app . '-' . str_replace("/","_",$image));
+		} catch (NotFoundException $exception) {
 			$icon = $this->iconBuilder->colorSvg($app, $image);
 			$iconFile = $this->imageManager->setCachedImage("icon-" . $app . '-' . str_replace("/","_",$image), $icon);
 		}
@@ -115,8 +117,9 @@ class IconController extends Controller {
 	 */
 	public function getFavicon($app = "core") {
 		if ($this->themingDefaults->shouldReplaceIcons()) {
-			$iconFile = $this->imageManager->getCachedImage('favIcon-' . $app);
-			if($iconFile === null) {
+			try {
+				$iconFile = $this->imageManager->getCachedImage('favIcon-' . $app);
+			} catch (NotFoundException $exception) {
 				$icon = $this->iconBuilder->getFavicon($app);
 				$iconFile = $this->imageManager->setCachedImage('favIcon-' . $app, $icon);
 			}
@@ -146,8 +149,9 @@ class IconController extends Controller {
 	 */
 	public function getTouchIcon($app = "core") {
 		if ($this->themingDefaults->shouldReplaceIcons()) {
-			$iconFile = $this->imageManager->getCachedImage('touchIcon-' . $app);
-			if ($iconFile === null) {
+			try {
+				$iconFile = $this->imageManager->getCachedImage('touchIcon-' . $app);
+			} catch (NotFoundException $exception) {
 				$icon = $this->iconBuilder->getTouchIcon($app);
 				$iconFile = $this->imageManager->setCachedImage('touchIcon-' . $app, $icon);
 			}

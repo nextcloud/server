@@ -86,10 +86,6 @@ class ImageManager extends TestCase {
 	public function testGetCachedImage() {
 		$folder = $this->setupCacheFolder();
 		$folder->expects($this->once())
-			->method('fileExists')
-			->with('filename')
-			->willReturn(true);
-		$folder->expects($this->once())
 			->method('getFile')
 			->with('filename')
 			->willReturn('filecontent');
@@ -97,14 +93,16 @@ class ImageManager extends TestCase {
 		$this->assertEquals($expected, $this->imageManager->getCachedImage('filename'));
 	}
 
+	/**
+	 * @expectedException \OCP\Files\NotFoundException
+	 */
 	public function testGetCachedImageNotFound() {
 		$folder = $this->setupCacheFolder();
 		$folder->expects($this->once())
-			->method('fileExists')
+			->method('getFile')
 			->with('filename')
-			->willReturn(false);
-		$expected = null;
-		$this->assertEquals($expected, $this->imageManager->getCachedImage('filename'));
+			->will($this->throwException(new \OCP\Files\NotFoundException()));
+		$image = $this->imageManager->getCachedImage('filename');
 	}
 
 	public function testSetCachedImage() {

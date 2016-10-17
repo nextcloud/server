@@ -71,15 +71,12 @@ class ImageManager {
 	 * Get a file from AppData
 	 *
 	 * @param string $filename
-	 * @return null|\OCP\Files\SimpleFS\ISimpleFile
+	 * @throws NotFoundException
+	 * @return \OCP\Files\SimpleFS\ISimpleFile
 	 */
 	public function getCachedImage($filename) {
 		$currentFolder = $this->getCacheFolder();
-		if($currentFolder->fileExists($filename)) {
-			return $currentFolder->getFile($filename);
-		} else {
-			return null;
-		}
+		return $currentFolder->getFile($filename);
 	}
 
 	/**

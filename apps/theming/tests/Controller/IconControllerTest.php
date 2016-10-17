@@ -28,6 +28,7 @@ use OCA\Theming\ImageManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -131,6 +132,9 @@ class IconControllerTest extends TestCase {
 			->willReturn('filecontent');
 		$file = $this->iconFileMock('filename', 'filecontent');
 		$this->imageManager->expects($this->once())
+			->method('getCachedImage')
+			->will($this->throwException(new NotFoundException()));
+		$this->imageManager->expects($this->once())
 			->method('setCachedImage')
 			->willReturn($file);
 
@@ -171,6 +175,9 @@ class IconControllerTest extends TestCase {
 			->with('core')
 			->willReturn('filecontent');
 		$file = $this->iconFileMock('filename', 'filecontent');
+		$this->imageManager->expects($this->once())
+			->method('getCachedImage')
+			->will($this->throwException(new NotFoundException()));
 		$this->imageManager->expects($this->once())
 			->method('setCachedImage')
 			->willReturn($file);
