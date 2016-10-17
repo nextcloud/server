@@ -42,6 +42,7 @@
     "The given tag id is invalid" : "El id de etiqueta dado no es valido",
     "The given IP range is invalid" : "El rango de IPs no es valido",
     "The given end time is invalid" : "El tiempo final no es valido",
+    "Operation #%s does not exist" : "Operación #%s no existe",
     "Operation %s does not exist" : "Operación %s no existe",
     "Operation %s is invalid" : "Operación %s no es valida",
     "Check %s does not exist" : "Chequeo %s no existe",
