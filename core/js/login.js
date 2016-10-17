@@ -13,18 +13,18 @@
 OC.Login = _.extend(OC.Login || {}, {
 	onLogin: function () {
 		$('#submit')
-			.removeClass('icon-confirm')
+			.removeClass('icon-confirm-white')
 			.addClass('icon-loading-small')
-			.css('opacity', '1');
+			.attr('value', t('core', 'Logging in …'));
 		return true;
 	},
 
 	rememberLogin: function(){
 		if($(this).is(":checked")){
-	    	if($("#user").val() && $("#password").val()) {
-	     	 	$('#submit').trigger('click');
-	    	} 
-        }
+			if($("#user").val() && $("#password").val()) {
+				$('#submit').trigger('click');
+			}
+		}
 	}
 });
 
