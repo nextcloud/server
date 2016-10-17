@@ -833,7 +833,7 @@ var OCdialogs = {
 		self._fillFilePicker(dir);
 		var getOcDialog = (event.target).closest('.oc-dialog');
 		var buttonEnableDisable = $('.primary', getOcDialog);
-		if (this.$filePicker.data('mimetype') === "http/unix-directory") {
+		if (this.$filePicker.data('mimetype') === "httpd/unix-directory") {
 			buttonEnableDisable.prop("disabled", false);
 		} else {
 			buttonEnableDisable.prop("disabled", true);
