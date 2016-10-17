@@ -148,6 +148,7 @@ var OCdialogs = {
 			return;
 		}
 		this.filepicker.loading = true;
+		this.filepicker.filesClient = OC.Files.getClient();
 		$.when(this._getFilePickerTemplate()).then(function($tmpl) {
 			self.filepicker.loading = false;
 			var dialogName = 'oc-dialog-filepicker-content';
@@ -727,7 +728,7 @@ var OCdialogs = {
 		}
 		return defer.promise();
 	},
-	_getFileList: function(dir, mimeType) {
+	_getFileList: function(dir, mimeType) { //this is only used by the spreedme app atm
 		if (typeof(mimeType) === "string") {
 			mimeType = [mimeType];
 		}
@@ -745,25 +746,29 @@ var OCdialogs = {
 	 * fills the filepicker with files
 	*/
 	_fillFilePicker:function(dir) {
-		var dirs = [];
-		var others = [];
 		var self = this;
 		this.$filelist.empty().addClass('icon-loading');
 		this.$filePicker.data('path', dir);
-		$.when(this._getFileList(dir, this.$filePicker.data('mimetype'))).then(function(response) {
-
-			$.each(response.data.files, function(index, file) {
-				if (file.type === 'dir') {
-					dirs.push(file);
+		var filter = this.$filePicker.data('mimetype');
+		if (typeof(filter) === "string") {
+			filter = [filter];
+		}
+		self.filepicker.filesClient.getFolderContents(dir).then(function(status, files) {
+			files = files.filter(function(file) {
+				return file.type === 'dir' || filter.indexOf(file.mimetype) !== -1;
+			}).sort(function(a, b) {
+				if (a.type === 'dir' && b.type !== 'dir') {
+					return -1;
+				} else if(a.type !== 'dir' && b.type === 'dir') {
+					return 1;
 				} else {
-					others.push(file);
+					return 0;
 				}
 			});
 
 			self._fillSlug();
-			var sorted = dirs.concat(others);
 
-			$.each(sorted, function(idx, entry) {
+			$.each(files, function(idx, entry) {
 				entry.icon = OC.MimeType.getIconUrl(entry.mimetype);
 				var $li = self.$listTmpl.octemplate({
 					type: entry.type,
@@ -786,7 +791,7 @@ var OCdialogs = {
 					img.src = previewUrl;
 				}
 				else {
-					$li.find('img').attr('src', OC.Util.replaceSVGIcon(entry.icon));
+					$li.find('img').attr('src', OC.MimeType.getIconUrl(entry.mimetype));
 				}
 				self.$filelist.append($li);
 			});
