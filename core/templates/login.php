@@ -78,12 +78,6 @@ script('core', [
 				<label for="remember_login"><?php p($l->t('Stay logged in')); ?></label>
 			</div>
 			<?php endif; ?>
-
-			<?php if(!empty($_['canResetPassword'])) { ?>
-			<a id="forgot-password" href="<?php p($_['resetPasswordLink']); ?>">
-				<?php p($l->t('Forgot password?')); ?>
-			</a>
-			<?php } ?>
 		</div>
 
 		<input type="hidden" name="timezone-offset" id="timezone-offset"/>

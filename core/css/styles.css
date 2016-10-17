@@ -608,6 +608,7 @@ label.infield {
 	display: inline-block;
 	margin: 10px 0;
 	text-align: center;
+	width: 100%;
 }
 #body-login #forgot-password {
 	padding: 11px;
