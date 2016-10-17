@@ -256,9 +256,20 @@
 
 			for(var i in mentions) {
 				var mention = '@' + mentions[i].mentionId;
+
+
+				// escape possible regex characters in the name
 				mention = mention.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 				var displayName = '<b>'+ _.escape(mentions[i].mentionDisplayName)+'</b>';
-				message = message.replace(new RegExp(mention, 'g'), displayName);
+
+				// replace every mention either at the start of the input or after a whitespace
+				// followed by a non-word character.
+				message = message.replace(new RegExp("(^|\\s)(" + mention + ")(\\b|?![_-@.])", 'g'),
+					function(match, p1) {
+						// to  get number of whitespaces (0 vs 1) right
+						return p1+displayName;
+					}
+				);
 			}
 
 			return message;
