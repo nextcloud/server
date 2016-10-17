@@ -237,4 +237,13 @@ interface ICommentsManager {
 	 */
 	public function deleteReadMarksOnObject($objectType, $objectId);
 
+	/**
+	 * registers an Entity to the manager, so event notifications can be send
+	 * to consumers of the comments infrastructure
+	 *
+	 * @param \Closure $closure
+	 * @since 9.2.0
+	 */
+	public function registerEventHandler(\Closure $closure);
+
 }

@@ -61,6 +61,7 @@ return array(
     'OCP\\Comments\\CommentsEntityEvent' => $baseDir . '/lib/public/Comments/CommentsEntityEvent.php',
     'OCP\\Comments\\CommentsEvent' => $baseDir . '/lib/public/Comments/CommentsEvent.php',
     'OCP\\Comments\\IComment' => $baseDir . '/lib/public/Comments/IComment.php',
+    'OCP\\Comments\\ICommentsEventHandler' => $baseDir . '/lib/public/Comments/ICommentsEventHandler.php',
     'OCP\\Comments\\ICommentsManager' => $baseDir . '/lib/public/Comments/ICommentsManager.php',
     'OCP\\Comments\\ICommentsManagerFactory' => $baseDir . '/lib/public/Comments/ICommentsManagerFactory.php',
     'OCP\\Comments\\IllegalIDChangeException' => $baseDir . '/lib/public/Comments/IllegalIDChangeException.php',
