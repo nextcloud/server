@@ -28,6 +28,7 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\Files\FileInfo;
 use OCP\Files\Mount\IMountManager;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -92,15 +93,22 @@ class TransferOwnership extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$this->sourceUser = $input->getArgument('source-user');
 		$this->destinationUser = $input->getArgument('destination-user');
-		if (!$this->userManager->userExists($this->sourceUser)) {
+		$source = $this->userManager->get($this->sourceUser);
+		$destination = $this->userManager->get($this->destinationUser);
+
+		if (!$source instanceof IUser) {
 			$output->writeln("<error>Unknown source user $this->sourceUser</error>");
 			return;
 		}
-		if (!$this->userManager->userExists($this->destinationUser)) {
+
+		if (!$destination instanceof IUser) {
 			$output->writeln("<error>Unknown destination user $this->destinationUser</error>");
 			return;
 		}
-		
+
+		$this->sourceUser = $source->getUID();
+		$this->destinationUser = $destination->getUID();
+
 		// target user has to be ready
 		if (!\OC::$server->getEncryptionManager()->isReadyForUser($this->destinationUser)) {
 			$output->writeln("<error>The target user is not ready to accept files. The user has at least to be logged in once.</error>");
