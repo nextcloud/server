@@ -184,7 +184,7 @@
 				timestamp: timestamp,
 				date: OC.Util.relativeModifiedDate(timestamp),
 				altDate: OC.Util.formatDate(timestamp),
-				formattedMessage: this._formatMessage(commentModel.get('message'))
+				formattedMessage: this._formatMessage(commentModel.get('message'), commentModel.get('mentions'))
 			}, commentModel.attributes);
 			return data;
 		},
@@ -251,8 +251,17 @@
 		 * Convert a message to be displayed in HTML,
 		 * converts newlines to <br> tags.
 		 */
-		_formatMessage: function(message) {
-			return escapeHTML(message).replace(/\n/g, '<br/>');
+		_formatMessage: function(message, mentions) {
+			message = escapeHTML(message).replace(/\n/g, '<br/>');
+
+			for(var i in mentions) {
+				var mention = '@' + mentions[i].mentionId;
+				mention = mention.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+				var displayName = '<b>'+ _.escape(mentions[i].mentionDisplayName)+'</b>';
+				message = message.replace(new RegExp(mention, 'g'), displayName);
+			}
+
+			return message;
 		},
 
 		nextPage: function() {
@@ -359,6 +368,42 @@
 			this.nextPage();
 		},
 
+		_onSubmitSuccess: function(model, $form, commentId) {
+			var self = this;
+			var $submit = $form.find('.submit');
+			var $loading = $form.find('.submitLoading');
+			var $textArea = $form.find('.message');
+
+			model.fetch({
+				success: function(model) {
+					$submit.removeClass('hidden');
+					$loading.addClass('hidden');
+					if(!_.isUndefined(commentId)) {
+						var $row = $form.closest('.comment');
+						$row.data('commentEl')
+							.removeClass('hidden')
+							.find('.message')
+							.html(self._formatMessage(model.get('message'), model.get('mentions')));
+						$row.remove();
+					} else {
+						var $row = $form.closest('.comments');
+						console.log($form);
+						$('.commentsTabView .comments').find('li:first')
+							.find('.message')
+							.html(self._formatMessage(model.get('message'), model.get('mentions')));
+						$textArea.val('').prop('disabled', false);
+					}
+				},
+				error: function () {
+					$submit.removeClass('hidden');
+					$loading.addClass('hidden');
+					$textArea.prop('disabled', false);
+
+					OC.Notification.showTemporary(t('comments', 'Error occurred while updating comment with id {id}', {id: commentId}));
+				}
+			});
+		},
+
 		_onSubmitComment: function(e) {
 			var self = this;
 			var $form = $(e.target);
@@ -385,14 +430,7 @@
 					message: $textArea.val()
 				}, {
 					success: function(model) {
-						var $row = $form.closest('.comment');
-						$submit.removeClass('hidden');
-						$loading.addClass('hidden');
-						$row.data('commentEl')
-							.removeClass('hidden')
-							.find('.message')
-							.html(self._formatMessage(model.get('message')));
-						$row.remove();
+						self._onSubmitSuccess(model, $form, commentId);
 					},
 					error: function() {
 						$submit.removeClass('hidden');
@@ -414,10 +452,8 @@
 					at: 0,
 					// wait for real creation before adding
 					wait: true,
-					success: function() {
-						$submit.removeClass('hidden');
-						$loading.addClass('hidden');
-						$textArea.val('').prop('disabled', false);
+					success: function(model) {
+						self._onSubmitSuccess(model, $form);
 					},
 					error: function() {
 						$submit.removeClass('hidden');
