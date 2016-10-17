@@ -228,7 +228,7 @@
 			}
 
 			if($checkBox.is(':checked')) {
-				if(this.configModel.get('enforcePasswordForPublicLink') === false && this.configModel.get('endorsePasswordForPublicLink') === false) {
+				if(this.configModel.get('enforcePasswordForPublicLink') === false && this.configModel.get('enableLinkPasswordByDefault') === false) {
 					$loading.removeClass('hidden');
 					// this will create it
 					this.model.saveLinkShare();
