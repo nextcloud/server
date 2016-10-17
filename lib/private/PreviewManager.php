@@ -26,6 +26,7 @@
 namespace OC;
 
 use OC\Preview\Generator;
+use OC\Preview\GeneratorHelper;
 use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
@@ -159,10 +160,12 @@ class PreviewManager implements IPreview {
 	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null) {
 		if ($this->generator === null) {
 			$this->generator = new Generator(
-				$this->rootFolder,
 				$this->config,
 				$this,
-				$this->appData
+				$this->appData,
+				new GeneratorHelper(
+					$this->rootFolder
+				)
 			);
 		}
 

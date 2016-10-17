@@ -652,6 +652,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Preview\\Font' => __DIR__ . '/../../..' . '/lib/private/Preview/Font.php',
         'OC\\Preview\\GIF' => __DIR__ . '/../../..' . '/lib/private/Preview/GIF.php',
         'OC\\Preview\\Generator' => __DIR__ . '/../../..' . '/lib/private/Preview/Generator.php',
+        'OC\\Preview\\GeneratorHelper' => __DIR__ . '/../../..' . '/lib/private/Preview/GeneratorHelper.php',
         'OC\\Preview\\Illustrator' => __DIR__ . '/../../..' . '/lib/private/Preview/Illustrator.php',
         'OC\\Preview\\Image' => __DIR__ . '/../../..' . '/lib/private/Preview/Image.php',
         'OC\\Preview\\JPEG' => __DIR__ . '/../../..' . '/lib/private/Preview/JPEG.php',

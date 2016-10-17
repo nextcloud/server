@@ -23,46 +23,43 @@
 
 namespace OC\Preview;
 
-use OC\Files\View;
 use OCP\Files\File;
 use OCP\Files\IAppData;
-use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IImage;
-use OCP\Image as img;
 use OCP\IPreview;
 use OCP\Preview\IProvider;
 
 class Generator {
 
-	/** @var IRootFolder*/
-	private $rootFolder;
 	/** @var IPreview */
 	private $previewManager;
 	/** @var IConfig */
 	private $config;
 	/** @var IAppData */
 	private $appData;
+	/** @var GeneratorHelper */
+	private $helper;
 
 	/**
-	 * @param IRootFolder $rootFolder
 	 * @param IConfig $config
 	 * @param IPreview $previewManager
 	 * @param IAppData $appData
+	 * @param GeneratorHelper $helper
 	 */
 	public function __construct(
-		IRootFolder $rootFolder,
 		IConfig $config,
 		IPreview $previewManager,
-		IAppData $appData
+		IAppData $appData,
+		GeneratorHelper $helper
 	) {
-		$this->rootFolder = $rootFolder;
 		$this->config = $config;
 		$this->previewManager = $previewManager;
 		$this->appData = $appData;
+		$this->helper = $helper;
 	}
 
 	/**
@@ -88,10 +85,6 @@ class Generator {
 			throw new NotFoundException();
 		}
 
-		/*
-		 * Get the preview folder
-		 * TODO: Separate preview creation from storing previews
-		 */
 		$previewFolder = $this->getPreviewFolder($file);
 
 		// Get the max preview and infer the max preview sizes from that
@@ -134,17 +127,15 @@ class Generator {
 			}
 
 			foreach ($providers as $provider) {
-				$provider = $provider();
+				$provider = $this->helper->getProvider($provider);
 				if (!($provider instanceof IProvider)) {
 					continue;
 				}
 
-				list($view, $path) = $this->getViewAndPath($file);
-
 				$maxWidth = (int)$this->config->getSystemValue('preview_max_x', 2048);
 				$maxHeight = (int)$this->config->getSystemValue('preview_max_y', 2048);
 
-				$preview = $provider->getThumbnail($path, $maxWidth, $maxHeight, false, $view);
+				$preview = $this->helper->getThumbnail($provider, $file, $maxWidth, $maxHeight);
 
 				if (!($preview instanceof IImage)) {
 					continue;
@@ -185,24 +176,7 @@ class Generator {
 		return $path;
 	}
 
-	/**
-	 * @param File $file
-	 * @return array
-	 * This is required to create the old view and path
-	 */
-	private function getViewAndPath(File $file) {
-		$owner = $file->getOwner()->getUID();
 
-		$userFolder = $this->rootFolder->getUserFolder($owner)->getParent();
-		$nodes = $userFolder->getById($file->getId());
-
-		$file = $nodes[0];
-
-		$view = new View($userFolder->getPath());
-		$path = $userFolder->getRelativePath($file->getPath());
-
-		return [$view, $path];
-	}
 
 	/**
 	 * @param int $width
@@ -300,7 +274,7 @@ class Generator {
 	 * @throws NotFoundException
 	 */
 	private function generatePreview(ISimpleFolder $previewFolder, ISimpleFile $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight) {
-		$preview = new img($maxPreview->getContent());
+		$preview = $this->helper->getImage($maxPreview);
 
 		if ($crop) {
 			if ($height !== $preview->height() && $width !== $preview->width()) {

@@ -622,6 +622,7 @@ return array(
     'OC\\Preview\\Font' => $baseDir . '/lib/private/Preview/Font.php',
     'OC\\Preview\\GIF' => $baseDir . '/lib/private/Preview/GIF.php',
     'OC\\Preview\\Generator' => $baseDir . '/lib/private/Preview/Generator.php',
+    'OC\\Preview\\GeneratorHelper' => $baseDir . '/lib/private/Preview/GeneratorHelper.php',
     'OC\\Preview\\Illustrator' => $baseDir . '/lib/private/Preview/Illustrator.php',
     'OC\\Preview\\Image' => $baseDir . '/lib/private/Preview/Image.php',
     'OC\\Preview\\JPEG' => $baseDir . '/lib/private/Preview/JPEG.php',
