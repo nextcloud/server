@@ -14,7 +14,8 @@
 	background: white;
 	font-weight: bold;
 	font-size: 110%;
-	margin-bottom: 10px;
+	margin-bottom: 5px;
+	margin-top: -9px;
 }
 .oc-dialog-content {
 	z-index: 1000;
