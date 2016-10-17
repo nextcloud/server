@@ -477,7 +477,7 @@ class ThemingControllerTest extends TestCase {
 		$expectedData .= '.nc-theming-contrast {color: #ffffff}' . "\n";
 		$expectedData .= '.icon-file,.icon-filetype-text {' .
 			'background-image: url(\'./img/core/filetypes/text.svg?v=0\');' . "}\n" .
-			'.icon-folder, .icon-filetype-folder ' .
+			'.icon-folder, .icon-filetype-folder {' .
 			'background-image: url(\'./img/core/filetypes/folder.svg?v=0\');' . "}\n" .
 			'.icon-filetype-folder-drag-accept {' .
 			'background-image: url(\'./img/core/filetypes/folder-drag-accept.svg?v=0\')!important;' . "}\n";
@@ -577,7 +577,7 @@ class ThemingControllerTest extends TestCase {
 		$expectedData .= '.ui-widget-header { color: #000000; }' . "\n";
 		$expectedData .= '.icon-file,.icon-filetype-text {' .
 			'background-image: url(\'./img/core/filetypes/text.svg?v=0\');' . "}\n" .
-			'.icon-folder, .icon-filetype-folder ' .
+			'.icon-folder, .icon-filetype-folder {' .
 			'background-image: url(\'./img/core/filetypes/folder.svg?v=0\');' . "}\n" .
 			'.icon-filetype-folder-drag-accept {' .
 			'background-image: url(\'./img/core/filetypes/folder-drag-accept.svg?v=0\')!important;' . "}\n";
@@ -628,7 +628,7 @@ class ThemingControllerTest extends TestCase {
 		$expectedData .= '.nc-theming-contrast {color: #ffffff}' . "\n";
 		$expectedData .= '.icon-file,.icon-filetype-text {' .
 			'background-image: url(\'./img/core/filetypes/text.svg?v=0\');' . "}\n" .
-			'.icon-folder, .icon-filetype-folder ' .
+			'.icon-folder, .icon-filetype-folder {' .
 			'background-image: url(\'./img/core/filetypes/folder.svg?v=0\');' . "}\n" .
 			'.icon-filetype-folder-drag-accept {' .
 			'background-image: url(\'./img/core/filetypes/folder-drag-accept.svg?v=0\')!important;' . "}\n";
@@ -776,7 +776,7 @@ class ThemingControllerTest extends TestCase {
 		$expectedData .= '.nc-theming-contrast {color: #ffffff}' . "\n";
 		$expectedData .= '.icon-file,.icon-filetype-text {' .
 			'background-image: url(\'./img/core/filetypes/text.svg?v=0\');' . "}\n" .
-			'.icon-folder, .icon-filetype-folder ' .
+			'.icon-folder, .icon-filetype-folder {' .
 			'background-image: url(\'./img/core/filetypes/folder.svg?v=0\');' . "}\n" .
 			'.icon-filetype-folder-drag-accept {' .
 			'background-image: url(\'./img/core/filetypes/folder-drag-accept.svg?v=0\')!important;' . "}\n";
@@ -893,7 +893,7 @@ class ThemingControllerTest extends TestCase {
 		$expectedData .= '.ui-widget-header { color: #000000; }' . "\n";
 		$expectedData .= '.icon-file,.icon-filetype-text {' .
 			'background-image: url(\'./img/core/filetypes/text.svg?v=0\');' . "}\n" .
-			'.icon-folder, .icon-filetype-folder ' .
+			'.icon-folder, .icon-filetype-folder {' .
 			'background-image: url(\'./img/core/filetypes/folder.svg?v=0\');' . "}\n" .
 			'.icon-filetype-folder-drag-accept {' .
 			'background-image: url(\'./img/core/filetypes/folder-drag-accept.svg?v=0\')!important;' . "}\n";
