@@ -173,10 +173,10 @@ var OCdialogs = {
 			$('body').append(self.$filePicker);
 
 			self.$filePicker.ready(function() {
-				self.$filelist = self.$filePicker.find('.filelist');
+				self.$filelist = self.$filePicker.find('.filelist tbody');
 				self.$dirTree = self.$filePicker.find('.dirtree');
 				self.$dirTree.on('click', 'div:not(:last-child)', self, self._handleTreeListSelect.bind(self));
-				self.$filelist.on('click', 'li', function(event) {
+				self.$filelist.on('click', 'tr', function(event) {
 					self._handlePickerClick(event, $(this));
 				});
 				self._fillFilePicker('');
@@ -188,12 +188,12 @@ var OCdialogs = {
 					var datapath;
 					if (multiselect === true) {
 						datapath = [];
-						self.$filelist.find('.filepicker_element_selected .filename').each(function(index, element) {
-							datapath.push(self.$filePicker.data('path') + '/' + $(element).text());
+						self.$filelist.find('tr.filepicker_element_selected').each(function(index, element) {
+							datapath.push(self.$filePicker.data('path') + '/' + $(element).data('entryname'));
 						});
 					} else {
 						datapath = self.$filePicker.data('path');
-						datapath += '/' + self.$filelist.find('.filepicker_element_selected .filename').text();
+						datapath += '/' + self.$filelist.find('tr.filepicker_element_selected').data('entryname');
 					}
 					callback(datapath);
 					self.$filePicker.ocdialog('close');
@@ -685,7 +685,7 @@ var OCdialogs = {
 			var self = this;
 			$.get(OC.filePath('core', 'templates', 'filepicker.html'), function(tmpl) {
 				self.$filePickerTemplate = $(tmpl);
-				self.$listTmpl = self.$filePickerTemplate.find('.filelist li:first-child').detach();
+				self.$listTmpl = self.$filePickerTemplate.find('.filelist tr:first-child').detach();
 				defer.resolve(self.$filePickerTemplate);
 			})
 			.fail(function(jqXHR, textStatus, errorThrown) {
@@ -770,30 +770,35 @@ var OCdialogs = {
 
 			$.each(files, function(idx, entry) {
 				entry.icon = OC.MimeType.getIconUrl(entry.mimetype);
-				var $li = self.$listTmpl.octemplate({
+				if (typeof(entry.size) !== 'undefined' && entry.size >= 0) {
+					var simpleSize = humanFileSize(parseInt(entry.size, 10), true);
+					var sizeColor = Math.round(160 - Math.pow((entry.size / (1024 * 1024)), 2));
+				} else {
+					simpleSize = t('files', 'Pending');
+				}
+				var $row = self.$listTmpl.octemplate({
 					type: entry.type,
 					dir: dir,
 					filename: entry.name,
-					date: OC.Util.relativeModifiedDate(entry.mtime)
+					date: OC.Util.relativeModifiedDate(entry.mtime),
+					size: simpleSize,
+					sizeColor: sizeColor,
+					icon: entry.icon
 				});
 				if (entry.type === 'file') {
 					var urlSpec = {
 						file: dir + '/' + entry.name,
 					};
-					$li.find('img').attr('src', OC.MimeType.getIconUrl(entry.mimetype));
 					var img = new Image();
 					var previewUrl = OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
 					img.onload = function() {
 						if (img.width > 5) {
-							$li.find('img').attr('src', previewUrl);
+							$row.find('td.filename').attr('style', 'background-image:url(' + previewUrl + ')');
 						}
 					};
 					img.src = previewUrl;
 				}
-				else {
-					$li.find('img').attr('src', OC.MimeType.getIconUrl(entry.mimetype));
-				}
-				self.$filelist.append($li);
+				self.$filelist.append($row);
 			});
 
 			self.$filelist.removeClass('icon-loading');

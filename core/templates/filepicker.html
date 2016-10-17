@@ -1,10 +1,19 @@
 <div id="{dialog_name}" title="{title}">
 	<span class="dirtree breadcrumb"></span>
-	<ul class="filelist">
-		<li data-entryname="{filename}" data-type="{type}">
-			<img />
-			<span class="filename">{filename}</span>
-			<span class="date">{date}</span>
-		</li>
-	</ul>
+	<div class="filelist-container">
+		<table id="filestable" class="filelist">
+			<tbody>
+			<tr data-entryname="{filename}" data-type="{type}">
+				<td class="filename"
+					style="background-image:url({icon})">{filename}
+				</td>
+				<td class="filesize"
+					style="color:rgb({sizeColor}, {sizeColor}, {sizeColor})">
+					{size}
+				</td>
+				<td class="date">{date}</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
 </div>

@@ -141,6 +141,7 @@ table.multiselect thead {
 
 
 /* do not show dates in filepicker */
+#oc-dialog-filepicker-content .filelist .filesize,
 #oc-dialog-filepicker-content .filelist .date {
 	display: none;
 }
