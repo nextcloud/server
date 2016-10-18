@@ -343,6 +343,10 @@ class MigrationTest extends \Test\TestCase {
 		unset($cache['files_encryption']);
 		$this->invokePrivate(\OC::$server->getAppConfig(), 'cache', [$cache]);
 
+		$cache = $this->invokePrivate($config, 'userCache');
+		unset($cache[self::TEST_ENCRYPTION_MIGRATION_USER1]);
+		$this->invokePrivate(\OC::$server->getAppConfig(), 'userCache', [$cache]);
+
 		// delete default values set by the encryption app during initialization
 
 		/** @var \OCP\IDBConnection $connection */
