@@ -6,6 +6,7 @@ input, textarea, select, button {
 }
 
 .select2-container-multi .select2-choices .select2-search-field input,
+.select2-search input,
 .ui-widget {
 	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif !important;
 }
@@ -221,17 +222,118 @@ select:hover {
 }
 
 
+
+/* select2 adjustments */
+.select2-container {
+    margin: 3px 3px 3px 0 !important;
+}
+#select2-drop {
+	margin-top: -4px;
+}
+.select2-container .select2-choice,
+.select2-container .select2-default {
+	border: none !important;
+	border-radius: 0;
+	background: transparent !important;
+	box-shadow: none !important;
+	line-height: 32px !important;
+	padding-left: 38px;
+	background-color: transparent;
+}
+.select2-selected {
+	display: list-item !important;
+	background-color: #f8f8f8 !important;
+}
+.select2-highlighted,
+.select2-selected.select2-highlighted {
+	background: #f8f8f8 !important;
+	color: #000 !important;
+}
+
+.select2-result {
+	position: relative !important;
+}
+.select2-results {
+	max-height: 220px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+.select2-results .select2-result-label {
+	padding: 12px !important;
+}
+
 .select2-choices {
-	border: 1px solid #ddd;
-	border-radius: 3px;
-	color: #333;
-	background-image: none;
+	white-space: nowrap !important;
+	text-overflow: ellipsis !important;
+	background: #fff !important;
+	color: #555 !important;
+	box-sizing: content-box !important;
+	border-radius: 3px !important;
+	border: 1px solid #ddd !important;
+	margin: 0 !important;
+	padding: 2px 0 !important;
+	min-height: auto !important;
 }
 .select2-dropdown-open .select2-choices {
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
-	border: 1px solid #3875d7;
+	border-bottom-left-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
 }
+
+.select2-search {
+	padding: 0 !important;
+}
+.select2-search input {
+	background-position: 100% -21px !important;
+	padding: 12px !important;
+	border-radius: 0 !important;
+	border: none !important;
+}
+
+.select2-choices .select2-search-choice {
+	line-height: 20px !important;
+	padding-left: 5px !important;
+}
+.select2-choices .select2-search-choice-close {
+	display: none !important;
+}
+.select2-choices .select2-search-field input {
+	line-height: 20px !important;
+}
+
+.select2-container-multi .select2-choices .select2-search-choice {
+	background-color: #f8f8f8 !important;
+	border-color: #f8f8f8 !important;
+	box-shadow: none !important;
+	background-image: none !important;
+}
+.select2-results .select2-highlighted {
+	background-color: #f8f8f8 !important;
+	color: #000 !important;
+}
+
+.select2-container-multi.select2-container-active .select2-choices,
+.select2-drop-active {
+	border-color: #ddd !important;
+}
+.select2-container-multi.select2-container-active .select2-choices {
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+}
+
+#select2-drop .avatar,
+.select2-chosen .avatar {
+	display: inline-block;
+	margin-right: 8px;
+	vertical-align: middle;
+}
+
+.select2-results .select2-no-results,
+.select2-results .select2-searching,
+.select2-results .select2-selection-limit {
+	background: #fff !important;
+	padding: 12px !important;
+}
+
 
 
 /* jQuery UI fixes */
@@ -255,6 +357,7 @@ select:hover {
     border: none !important;
     background: #f8f8f8 !important;
 }
+
 
 
 /* correctly align images inside of buttons */
