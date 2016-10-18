@@ -101,9 +101,9 @@
 					if(this.$title) {
 						this.$title.text(value);
 					} else {
-						var $title = $('<h3 class="oc-dialog-title">'
+						var $title = $('<h2 class="oc-dialog-title">'
 							+ value
-							+ '</h3>');
+							+ '</h2>');
 						this.$title = $title.prependTo(this.$dialog);
 					}
 					this._setSizes();

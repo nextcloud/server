@@ -775,11 +775,12 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 #oc-dialog-filepicker-content .dirtree span:last-child { font-weight: bold; }
 #oc-dialog-filepicker-content .dirtree span:not(:last-child)::after { content: '>'; padding: 3px;}
 #oc-dialog-filepicker-content .filelist-container {
+	box-sizing: border-box;
 	display: inline-block;
 	overflow-y: auto;
-	height: 290px;
+	height: 321px;
 	width: 100%;
-	border-top: 1px solid #eee;
+	padding-bottom: 55px;
 }
 #oc-dialog-filepicker-content .filelist {
 	background-color:white;
@@ -789,6 +790,9 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 #oc-dialog-filepicker-content .filelist td {
 	padding: 14px;
 	border-bottom: 1px solid #eee;
+}
+#oc-dialog-filepicker-content .filelist tr:last-child td {
+	border-bottom: none;
 }
 #oc-dialog-filepicker-content .filelist .filename {
 	overflow: hidden;
