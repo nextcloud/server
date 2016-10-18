@@ -224,6 +224,9 @@ select:hover {
 
 
 /* select2 adjustments */
+.select2-container {
+    margin: 3px 3px 3px 0 !important;
+}
 #select2-drop {
 	margin-top: -4px;
 }
@@ -267,7 +270,7 @@ select:hover {
 	box-sizing: content-box !important;
 	border-radius: 3px !important;
 	border: 1px solid #ddd !important;
-	margin: 3px 3px 3px 0 !important;
+	margin: 0 !important;
 	padding: 2px 0 !important;
 	min-height: auto !important;
 }
