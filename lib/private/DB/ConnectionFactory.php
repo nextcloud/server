@@ -67,7 +67,7 @@ class ConnectionFactory {
 
 	public function __construct(IConfig $config) {
 		if($config->getSystemValue('mysql.utf8mb4', false)) {
-			$defaultConnectionParams['mysql']['charset'] = 'utf8mb4';
+			$this->defaultConnectionParams['mysql']['charset'] = 'utf8mb4';
 		}
 	}
 
@@ -106,7 +106,9 @@ class ConnectionFactory {
 			case 'mysql':
 				// Send "SET NAMES utf8". Only required on PHP 5.3 below 5.3.6.
 				// See http://stackoverflow.com/questions/4361459/php-pdo-charset-set-names#4361485
-				$eventManager->addEventSubscriber(new MysqlSessionInit);
+				$eventManager->addEventSubscriber(new MysqlSessionInit(
+					$this->defaultConnectionParams['mysql']['charset']
+				));
 				$eventManager->addEventSubscriber(
 					new SQLSessionInit("SET SESSION AUTOCOMMIT=1"));
 				break;
