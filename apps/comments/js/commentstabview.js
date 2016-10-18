@@ -257,10 +257,17 @@
 			for(var i in mentions) {
 				var mention = '@' + mentions[i].mentionId;
 
+				var avatar = '';
+				if(this._avatarsEnabled) {
+					avatar = '<div class="avatar" '
+						+ 'data-user="' + _.escape(mentions[i].mentionId) + '"'
+						+' data-user-display-name="'
+						+ _.escape(mentions[i].mentionDisplayName) + '"></div>';
+				}
 
 				// escape possible regex characters in the name
 				mention = mention.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-				var displayName = '<b>'+ _.escape(mentions[i].mentionDisplayName)+'</b>';
+				var displayName = avatar + ' <strong>'+ _.escape(mentions[i].mentionDisplayName)+'</strong>';
 
 				// replace every mention either at the start of the input or after a whitespace
 				// followed by a non-word character.

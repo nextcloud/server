@@ -64,6 +64,10 @@
 	line-height: 32px;
 }
 
+#commentsTabView .comment .message .avatar {
+	display: inline-block;
+}
+
 #activityTabView li.comment.collapsed .activitymessage,
 #commentsTabView .comment.collapsed .message {
 	white-space: pre-wrap;
