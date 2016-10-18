@@ -134,6 +134,15 @@ class Share extends Constants {
 	 *       not '/admin/data/file.txt'
 	 */
 	public static function getUsersSharingFile($path, $ownerUser, $includeOwner = false, $returnUserPaths = false, $recursive = true) {
+		$userManager = \OC::$server->getUserManager();
+		$userObject = $userManager->get($ownerUser);
+
+		if (is_null($ownerUser)) {
+			\OCP\Util::writeLog('files', ' Backends provided no user object for ' . $ownerUser, \OCP\Util::ERROR);
+			throw new \OC\User\NoUserException('Backends provided no user object for ' . $ownerUser);
+		}
+
+		$ownerUser = $userObject->getUID();
 
 		Filesystem::initMountPoints($ownerUser);
 		$shares = $sharePaths = $fileTargets = array();

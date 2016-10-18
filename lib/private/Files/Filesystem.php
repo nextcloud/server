@@ -393,9 +393,6 @@ class Filesystem {
 		if ($user === null || $user === false || $user === '') {
 			throw new \OC\User\NoUserException('Attempted to initialize mount points for null user and no user in session');
 		}
-		if (isset(self::$usersSetup[$user])) {
-			return;
-		}
 
 		$userManager = \OC::$server->getUserManager();
 		$userObject = $userManager->get($user);
@@ -403,6 +400,17 @@ class Filesystem {
 		if (is_null($userObject)) {
 			\OCP\Util::writeLog('files', ' Backends provided no user object for ' . $user, \OCP\Util::ERROR);
 			throw new \OC\User\NoUserException('Backends provided no user object for ' . $user);
+		}
+
+		// workaround in case of different casings
+		if ($user !== $userObject->getUID()) {
+			$stack = json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 50));
+			\OCP\Util::writeLog('files', 'initMountPoints() called with wrong user casing. This could be a bug. Expected: "' . $userObject->getUID() . '" got "' . $user . '". Stack: ' . $stack, \OCP\Util::WARN);
+		}
+		$user = $userObject->getUID();
+
+		if (isset(self::$usersSetup[$user])) {
+			return;
 		}
 
 		self::$usersSetup[$user] = true;

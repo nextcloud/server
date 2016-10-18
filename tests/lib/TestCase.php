@@ -229,6 +229,9 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		self::tearDownAfterClassCleanStrayHooks();
 		self::tearDownAfterClassCleanStrayLocks();
 
+		\OC_User::clearBackends();
+		\OC_User::useBackend('dummy');
+
 		parent::tearDownAfterClass();
 	}
 

@@ -11,6 +11,7 @@ namespace Test\Files\Node;
 use OC\Files\FileInfo;
 use OCP\Files\NotPermittedException;
 use OC\Files\Mount\Manager;
+use OC\User\NoUserException;
 
 /**
  * @group DB
@@ -100,5 +101,60 @@ class RootTest extends \Test\TestCase {
 		$root = new \OC\Files\Node\Root($manager, $view, $this->user);
 
 		$root->get('/bar/foo');
+	}
+
+	public function testGetUserFolder() {
+		$this->logout();
+		$manager = new Manager();
+		/**
+		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
+		 */
+		$view = new \OC\Files\View();
+
+		$user1 = $this->getUniqueID('user1_');
+		$user2 = $this->getUniqueID('user2_');
+
+		\OC_User::clearBackends();
+		// needed for loginName2UserName mapping
+		$userBackend = $this->getMock('\OC\User\Database');
+		\OC::$server->getUserManager()->registerBackend($userBackend);
+
+		$userBackend->expects($this->any())
+			->method('userExists')
+			->will($this->returnValueMap([
+				[$user1, true],
+				[$user2, true],
+				[strtoupper($user1), true],
+				[strtoupper($user2), true],
+			]));
+		$userBackend->expects($this->any())
+			->method('loginName2UserName')
+			->will($this->returnValueMap([
+				[strtoupper($user1), $user1],
+				[$user1, $user1],
+				[strtoupper($user2), $user2],
+				[$user2, $user2],
+			]));
+
+		$this->loginAsUser($user1);
+		$root = new \OC\Files\Node\Root($manager, $view, null);
+
+		$folder = $root->getUserFolder($user1);
+		$this->assertEquals('/' . $user1 . '/files', $folder->getPath());
+
+		$folder = $root->getUserFolder($user2);
+		$this->assertEquals('/' . $user2 . '/files', $folder->getPath());
+
+		// case difference must not matter here
+		$folder = $root->getUserFolder(strtoupper($user2));
+		$this->assertEquals('/' . $user2 . '/files', $folder->getPath());
+
+		$thrown = false;
+		try {
+			$folder = $root->getUserFolder($this->getUniqueID('unexist'));
+		} catch (NoUserException $e) {
+			$thrown = true;
+		}
+		$this->assertTrue($thrown);
 	}
 }

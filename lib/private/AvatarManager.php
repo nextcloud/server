@@ -84,6 +84,9 @@ class AvatarManager implements IAvatarManager {
 			throw new \Exception('user does not exist');
 		}
 
+		// casing might not be the same
+		$userId = $user->getUID();
+
 		/*
 		 * Fix for #22119
 		 * Basically we do not want to copy the skeleton folder
