@@ -1038,7 +1038,7 @@ class Share extends Constants {
 			if (isset($groupShare['file_target'])) {
 				$shareTmp['fileTarget'] = $groupShare['file_target'];
 			}
-			$listOfUnsharedItems = array_merge($listOfUnsharedItems, array($groupShare));
+			$listOfUnsharedItems = array_merge($listOfUnsharedItems, array($shareTmp));
 			$itemUnshared = true;
 		} elseif (!$itemUnshared && isset($uniqueGroupShare)) {
 			$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `permissions` = ? WHERE `id` = ?');
@@ -1053,7 +1053,7 @@ class Share extends Constants {
 			if (isset($uniqueGroupShare['file_target'])) {
 				$shareTmp['fileTarget'] = $uniqueGroupShare['file_target'];
 			}
-			$listOfUnsharedItems = array_merge($listOfUnsharedItems, array($uniqueGroupShare));
+			$listOfUnsharedItems = array_merge($listOfUnsharedItems, array($shareTmp));
 			$itemUnshared = true;
 		}
 
