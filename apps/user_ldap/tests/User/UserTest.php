@@ -77,13 +77,19 @@ class UserTest extends \Test\TestCase {
 		if (is_null($userMgr)) {
 			$userMgr = $this->createMock(IUserManager::class);
 		}
-		$um = $this->getMock('\OCA\User_LDAP\User\Manager',
-			$umMethods, array($cfMock, $fsMock, $logMock, $avaMgr, $im, $dbc, $userMgr));
-		$connector = $this->getMock('\OCA\User_LDAP\Connection',
-			$conMethods, array($lw, null, null));
+		$um = $this->getMockBuilder('\OCA\User_LDAP\User\Manager')
+			->setMethods($umMethods)
+			->setConstructorArgs([$cfMock, $fsMock, $logMock, $avaMgr, $im, $dbc, $userMgr])
+			->getMock();
 		$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
-		$access = $this->getMock('\OCA\User_LDAP\Access',
-			$accMethods, array($connector, $lw, $um, $helper));
+		$connector = $this->getMockBuilder('\OCA\User_LDAP\Connection')
+			->setMethods($conMethods)
+			->setConstructorArgs([$lw, null, null])
+			->getMock();
+		$access = $this->getMockBuilder('\OCA\User_LDAP\Access')
+			->setMethods($accMethods)
+			->setConstructorArgs([$connector, $lw, $um, $helper])
+			->getMock();
 
 		return array($access, $connector);
 	}

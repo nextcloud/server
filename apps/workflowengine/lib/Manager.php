@@ -300,7 +300,6 @@ class Manager implements IManager {
 			->where($query->expr()->in('id', $query->createNamedParameter($checkIds, IQueryBuilder::PARAM_INT_ARRAY)));
 		$result = $query->execute();
 
-		$checks = [];
 		while ($row = $result->fetch()) {
 			$this->checks[(int) $row['id']] = $row;
 			$checks[(int) $row['id']] = $row;
