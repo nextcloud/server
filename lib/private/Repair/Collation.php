@@ -24,28 +24,38 @@
 
 namespace OC\Repair;
 
+use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\ILogger;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class Collation implements IRepairStep {
-	/**
-	 * @var \OCP\IConfig
-	 */
+	/**  @var IConfig */
 	protected $config;
 
-	/**
-	 * @var \OC\DB\Connection
-	 */
+	/** @var ILogger */
+	protected $logger;
+
+	/** @var IDBConnection */
 	protected $connection;
 
+	/** @var bool */
+	protected $ignoreFailures;
+
 	/**
-	 * @param \OCP\IConfig $config
-	 * @param \OC\DB\Connection $connection
+	 * @param IConfig $config
+	 * @param ILogger $logger
+	 * @param IDBConnection $connection
+	 * @param bool $ignoreFailures
 	 */
-	public function __construct($config, $connection) {
+	public function __construct(IConfig $config, ILogger $logger, IDBConnection $connection, $ignoreFailures) {
 		$this->connection = $connection;
 		$this->config = $config;
+		$this->logger = $logger;
+		$this->ignoreFailures = $ignoreFailures;
 	}
 
 	public function getName() {
@@ -67,7 +77,15 @@ class Collation implements IRepairStep {
 		foreach ($tables as $table) {
 			$output->info("Change collation for $table ...");
 			$query = $this->connection->prepare('ALTER TABLE `' . $table . '` CONVERT TO CHARACTER SET ' . $characterSet . ' COLLATE ' . $characterSet . '_bin;');
-			$query->execute();
+			try {
+				$query->execute();
+			} catch (DriverException $e) {
+				// Just log this
+				$this->logger->logException($e);
+				if (!$this->ignoreFailures) {
+					throw $e;
+				}
+			}
 		}
 	}
 
