@@ -184,17 +184,23 @@ table.nostyle td { padding: 0.2em 0; }
 	height: 44px;
 }
 #newgroupname {
-	margin: 6px;
-	width: 95%;
-	padding-right: 32px;
-	box-sizing: border-box
+	margin: 0;
+	width: 100%;
+	padding: 12px 40px 12px 12px;
+	box-sizing: border-box;
+	background-color: transparent;
+	border: none;
+	border-bottom: 1px solid #eee;
+	border-radius: 0;
 }
 #newgroup-form .button {
 	position: absolute;
 	right: 0;
-	top: 3px;
-	height: 32px;
-	width: 32px;
+	top: 0;
+	padding: 10px 20px;
+	background-color: transparent;
+	border: none;
+	opacity: .5;
 }
 
 .isgroup .groupname {
