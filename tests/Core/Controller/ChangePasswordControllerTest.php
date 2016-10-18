@@ -105,12 +105,13 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		$user->expects($this->once())
 			->method('setPassword')
 			->with('new')
-			->will($this->throwException(new HintException('Common password')));
+			->will($this->throwException(new HintException('Common password', 'Pick a less common one')));
 
 		$expects = [
 			'status' => 'error',
 			'data' => [
 				'message' => 'Common password',
+				'hint' => 'Pick a less common one',
 			],
 		];
 
