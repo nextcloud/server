@@ -1,13 +1,13 @@
 OC.L10N.register(
     "comments",
     {
+    "Comments" : "Athugasemdir",
     "New comment …" : "Ný athugasemd ...",
     "Delete comment" : "Eyða athugasemd",
     "Post" : "Senda",
     "Cancel" : "Hætta við",
     "Edit comment" : "Breyta athugasemd",
     "[Deleted user]" : "[Eyddur notandi]",
-    "Comments" : "Athugasemdir",
     "No comments yet, start the conversation!" : "Engar athugasemdir ennþá, byrjaðu umræðuna!",
     "More comments …" : "Fleiri athugasemdir ...",
     "Save" : "Vista",

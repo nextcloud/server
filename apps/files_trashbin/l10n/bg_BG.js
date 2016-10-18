@@ -8,6 +8,8 @@ OC.L10N.register(
     "Delete" : "Изтрий",
     "Delete permanently" : "Изтрий завинаги",
     "Error" : "Грешка",
+    "This operation is forbidden" : "Операцията е забранена",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Директорията не е налична. Моля проверете журнала или се свържете с администратор",
     "restored" : "възстановено",
     "No deleted files" : "Няма изтрити файлове",
     "You will be able to recover deleted files from here" : "Имате възможност да възстановите изтрити файлове от тук",

@@ -1,13 +1,13 @@
 OC.L10N.register(
     "comments",
     {
+    "Comments" : "Hozzászólások",
     "New comment …" : "Új hozzászólás...",
     "Delete comment" : "Hozzászólás törlése",
     "Post" : "Küldés",
     "Cancel" : "Mégsem",
     "Edit comment" : "Hozzászólás szerkesztése",
     "[Deleted user]" : "[Törölt felhasználó]",
-    "Comments" : "Hozzászólások",
     "No comments yet, start the conversation!" : "Még nincsenek hozzászólások, kezdd el a beszélgetést!",
     "More comments …" : "Több hozzászólás...",
     "Save" : "Mentés",

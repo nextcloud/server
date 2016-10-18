@@ -12,6 +12,7 @@
     "No compatible server found at {remote}" : "Yhteensopivaa palvelinta ei löytynyt osoitteesta {remote}",
     "Invalid server URL" : "Virheellinen palvelimen URL",
     "Failed to add the public link to your Nextcloud" : "Julkisen linkin lisääminen Nextcloudiisi epäonnistui",
+    "Share" : "Jaa",
     "No expiration date set" : "Ei vanhenemispäivää asetettu",
     "Shared by" : "Jakanut",
     "Sharing" : "Jakaminen",
