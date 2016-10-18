@@ -332,10 +332,11 @@ class AddressBookImplTest extends TestCase {
 
 		$array = $this->invokePrivate($this->addressBookImpl, 'vCard2Array', ['uri', $vCard]);
 		unset($array['PRODID']);
+		unset($array['UID']);
 
 		$this->assertEquals([
 			'URI' => 'uri',
-			'VERSION' => '3.0',
+			'VERSION' => '4.0',
 			'FN' => 'Full Name',
 			'CLOUD' => [
 				'cloud-user1@localhost',

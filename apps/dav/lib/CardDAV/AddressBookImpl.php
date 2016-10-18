@@ -225,7 +225,6 @@ class AddressBookImpl implements IAddressBook {
 		];
 
 		foreach ($vCard->children() as $property) {
-			$result[$property->name] = $property->getValue();
 			if ($property->name === 'PHOTO' && $property->getValueType() === 'BINARY') {
 				$url = $this->urlGenerator->getAbsoluteURL(
 					$this->urlGenerator->linkTo('', 'remote.php') . '/dav/');
