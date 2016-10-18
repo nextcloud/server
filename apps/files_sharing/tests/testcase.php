@@ -59,6 +59,11 @@ abstract class TestCase extends \Test\TestCase {
 	public $folder;
 	public $subfolder;
 
+	/** @var \OCP\Share\IManager */
+	protected $shareManager;
+	/** @var \OCP\Files\IRootFolder */
+	protected $rootFolder;
+
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
@@ -96,7 +101,6 @@ abstract class TestCase extends \Test\TestCase {
 		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER4, 'group3');
 		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_GROUP1);
 		\OC_Group::useBackend($groupBackend);
-
 	}
 
 	protected function setUp() {
@@ -107,6 +111,9 @@ abstract class TestCase extends \Test\TestCase {
 
 		$this->data = 'foobar';
 		$this->view = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
+
+		$this->shareManager = \OC::$server->getShareManager();
+		$this->rootFolder = \OC::$server->getRootFolder();
 	}
 
 	protected function tearDown() {
@@ -201,4 +208,26 @@ abstract class TestCase extends \Test\TestCase {
 
 	}
 
+	/**
+	 * @param int $type The share type
+	 * @param string $path The path to share relative to $initiators root
+	 * @param string $initiator
+	 * @param string $recipient
+	 * @param int $permissions
+	 * @return \OCP\Share\IShare
+	 */
+	protected function share($type, $path, $initiator, $recipient, $permissions) {
+		$userFolder = $this->rootFolder->getUserFolder($initiator);
+		$node = $userFolder->get($path);
+
+		$share = $this->shareManager->newShare();
+		$share->setShareType($type)
+			->setSharedWith($recipient)
+			->setSharedBy($initiator)
+			->setNode($node)
+			->setPermissions($permissions);
+		$share = $this->shareManager->createShare($share);
+
+		return $share;
+	}
 }
