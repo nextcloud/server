@@ -96,6 +96,10 @@
 	position: absolute;
 }
 
+.linkShareView {
+	margin-top: 16px;
+}
+
 .shareTabView .linkPass .icon-loading-small {
 	margin-top: 9px;
 }
