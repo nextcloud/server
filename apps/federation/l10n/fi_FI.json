@@ -10,6 +10,8 @@
     "+ Add Nextcloud server" : "+ Lisää Nextcloud-palvelin",
     "Nextcloud Server" : "Nextcloud-palvelin",
     "Server added to the list of trusted Nextclouds" : "Palvelin lisätty luotettujen palvelimien luetteloon",
-    "No Nextcloud server found" : "Nextcloud-palvelinta ei löytynyt"
+    "No Nextcloud server found" : "Nextcloud-palvelinta ei löytynyt",
+    "Nextcloud Federation allows you to connect with other trusted Nextclouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Nextcould federointi sallii sinun liittyä toisten luotettujen Nextcloud -palvelimien käyttäjäluetteloihin. Sitä käytetään esimerkiksi ulkoisten käyttäjänimien automaattiseen täydentämiseen.",
+    "Trusted Nextcloud Servers" : "Luotetut Nextcloud -palvelimet"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

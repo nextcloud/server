@@ -1,11 +1,11 @@
 { "translations": {
+    "Comments" : "Yorumlar",
     "New comment …" : "Yorum ekle ...",
     "Delete comment" : "Yorumu sil",
     "Post" : "Gönder",
     "Cancel" : "İptal",
     "Edit comment" : "Yorumu düzenle",
     "[Deleted user]" : "[Silinmiş kullanıcı]",
-    "Comments" : "Yorumlar",
     "No comments yet, start the conversation!" : "Henüz bir yorum yok! Bir sohbet başlatın!",
     "More comments …" : "Diğer yorumlar ...",
     "Save" : "Kaydet",

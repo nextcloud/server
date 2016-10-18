@@ -2,11 +2,13 @@ OC.L10N.register(
     "updatenotification",
     {
     "Update notifications" : "Actualizar notificaciones",
+    "Could not start updater, please try the manual update" : "No se pudo iniciar el actualizador, por favor inténtalo de forma manual la actualización",
     "{version} is available. Get more information on how to update." : "{version} está disponible. Obtenga más información sobre cómo actualizar.",
     "Channel updated" : "Canal actualizado",
     "Update to %1$s is available." : "Actualización a %1$s esta disponible.",
     "Update for %1$s to version %2$s is available." : "La actualización de %1$s a la versión %2$s está disponible.",
     "A new version is available: %s" : "Hay una nueva versión disponible: %s",
+    "Open updater" : "Abrir el actualizador",
     "Download now" : "Descargar ahora",
     "Your version is up to date." : "Su versión está actualizada.",
     "Checked on %s" : "Revisado el %s",

@@ -1,12 +1,12 @@
 OC.L10N.register(
     "comments",
     {
+    "Comments" : "Komentāri",
     "Delete comment" : "Dzēst komentāru",
     "Post" : "Pievienot",
     "Cancel" : "Atcelt",
     "Edit comment" : "Rediģēt komentāru",
     "[Deleted user]" : "[Dzēsts lietotājs]",
-    "Comments" : "Komentāri",
     "Save" : "Saglabāt",
     "Allowed characters {count} of {max}" : "Atļautās zīmes {count} no {max}",
     "Error occurred while retrieving comment with id {id}" : "Notika kļūda saņemot komentāru ar id {id}",
