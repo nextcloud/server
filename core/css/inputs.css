@@ -5,7 +5,8 @@ input, textarea, select, button {
 	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
 }
 
-.select2-container-multi .select2-choices .select2-search-field input {
+.select2-container-multi .select2-choices .select2-search-field input,
+.ui-widget {
 	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif !important;
 }
 
@@ -219,6 +220,7 @@ select:hover {
 	background-color: #fefefe;
 }
 
+
 .select2-choices {
 	border: 1px solid #ddd;
 	border-radius: 3px;
@@ -230,6 +232,30 @@ select:hover {
 	border-bottom-right-radius: 0;
 	border: 1px solid #3875d7;
 }
+
+
+/* jQuery UI fixes */
+.ui-menu {
+	padding: 0 !important;
+}
+.ui-menu .ui-menu-item a.ui-state-focus, .ui-menu .ui-menu-item a.ui-state-active {
+    font-weight: inherit !important;
+    margin: 0 !important;
+}
+.ui-widget-content {
+	background: #fff !important;
+	border-top: none !important;
+}
+.ui-corner-all {
+	border-radius: 0 !important;
+	border-bottom-left-radius: 3px !important;
+	border-bottom-right-radius: 3px !important;
+}
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+    border: none !important;
+    background: #f8f8f8 !important;
+}
+
 
 /* correctly align images inside of buttons */
 input img, button img, .button img {
