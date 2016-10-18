@@ -25,7 +25,7 @@
 (function() {
 	'use strict';
 
-	var TEMPLATE = '<span class="icon icon-share {{#if isShared}}shared{{/if}}"></span>';
+	var TEMPLATE = '<span class="icon-share {{#if isShared}}shared{{/if}}"></span>';
 
 	var BreadCrumbView = OC.Backbone.View.extend({
 		tagName: 'span',
@@ -85,4 +85,3 @@
 
 	OCA.Sharing.ShareBreadCrumbView = BreadCrumbView;
 })();
-
