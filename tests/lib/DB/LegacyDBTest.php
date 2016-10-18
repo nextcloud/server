@@ -400,18 +400,18 @@ class LegacyDBTest extends \Test\TestCase {
 	/**
 	 * @dataProvider insertAndSelectDataProvider
 	 */
-	public function testInsertAndSelectData($expected, $skipOnMysql) {
+	public function testInsertAndSelectData($expected, $throwsOnMysqlWithoutUTF8MB4) {
 		$table = "*PREFIX*{$this->text_table}";
+		$config = \OC::$server->getConfig();
 
 		$query = OC_DB::prepare("INSERT INTO `$table` (`textfield`) VALUES (?)");
+		if ($throwsOnMysqlWithoutUTF8MB4 && $config->getSystemValue('dbtype', 'sqlite') === 'mysql' && $config->getSystemValue('mysql.utf8mb4', false) === false) {
+			$this->markTestSkipped('MySQL requires UTF8mb4 to store value: ' . $expected);
+		}
 		$result = $query->execute(array($expected));
 		$this->assertEquals(1, $result);
 
 		$actual = OC_DB::prepare("SELECT `textfield` FROM `$table`")->execute()->fetchOne();
-		$config = \OC::$server->getConfig();
-		if($skipOnMysql && $config->getSystemValue('dbtype', 'sqlite') === 'mysql' && $config->getSystemValue('mysql.utf8mb4', false) === false) {
-			return;
-		}
 		$this->assertSame($expected, $actual);
 	}
 
