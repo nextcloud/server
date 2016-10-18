@@ -114,11 +114,6 @@ class PreviewController extends Controller {
 			return new Http\FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
-		} catch (\OC\PreviewNotAvailableException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
-		}catch(\Exception $e) {
-			return new DataResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
-
 	}
 }

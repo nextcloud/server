@@ -78,11 +78,7 @@ class PreviewController extends Controller {
 		$y = 44,
 		$version = ''
 	) {
-		if($file === '' && $version === '') {
-			return new DataResponse([], Http::STATUS_BAD_REQUEST);
-		}
-
-		if($x === 0 || $y === 0) {
+		if($file === '' || $version === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
@@ -93,19 +89,11 @@ class PreviewController extends Controller {
 			$mimeType = $this->mimeTypeDetector->detectPath($file);
 			$file = $versionFolder->get($file.'.v'.$version);
 
-			if ($file instanceof Folder) {
-				return new DataResponse([], Http::STATUS_BAD_REQUEST);
-			}
-
 			/** @var File $file */
 			$f = $this->previewManager->getPreview($file, $x, $y, true, IPreview::MODE_FILL, $mimeType);
-
 			return new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
-		} catch (\Exception $e) {
-			return new DataResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
-
 	}
 }

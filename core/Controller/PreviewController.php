@@ -23,11 +23,11 @@
 
 namespace OC\Core\Controller;
 
-use OC\DatabaseException;
 use OCP\AppFramework\Controller;
 use OCP\Files\File;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IPreview;
@@ -86,11 +86,7 @@ class PreviewController extends Controller {
 		$forceIcon = true,
 		$mode = 'fill') {
 
-		if ($file === '') {
-			return new DataResponse([], Http::STATUS_BAD_REQUEST);
-		}
-
-		if ($x === 0 || $y === 0) {
+		if ($file === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
@@ -109,9 +105,10 @@ class PreviewController extends Controller {
 
 		try {
 			$f = $this->preview->getPreview($file, $x, $y, !$a, $mode);
+			return new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
-		return new Http\FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
+
 	}
 }

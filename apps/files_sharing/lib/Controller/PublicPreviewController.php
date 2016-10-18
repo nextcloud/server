@@ -22,7 +22,6 @@
  */
 namespace OCA\Files_Sharing\Controller;
 
-use OC\PreviewManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -30,6 +29,7 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\Constants;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
+use OCP\IPreview;
 use OCP\IRequest;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
@@ -39,13 +39,13 @@ class PublicPreviewController extends Controller {
 	/** @var ShareManager */
 	private $shareManager;
 
-	/** @var PreviewManager */
+	/** @var IPreview */
 	private $previewManager;
 
 	public function __construct($appName,
 								IRequest $request,
 								ShareManager $shareManger,
-								PreviewManager $previewManager) {
+								IPreview $previewManager) {
 		parent::__construct($appName, $request);
 
 		$this->shareManager = $shareManger;
@@ -71,11 +71,7 @@ class PublicPreviewController extends Controller {
 		$a = false
 	) {
 
-		if ($t === '') {
-			return new DataResponse([], Http::STATUS_BAD_REQUEST);
-		}
-
-		if ($x === 0 || $y === 0) {
+		if ($t === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
@@ -89,20 +85,18 @@ class PublicPreviewController extends Controller {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		$node = $share->getNode();
-
-		if ($node instanceof Folder) {
-			try {
+		try {
+			$node = $share->getNode();
+			if ($node instanceof Folder) {
 				$file = $node->get($file);
-			} catch (NotFoundException $e) {
-				return new DataResponse([], Http::STATUS_NOT_FOUND);
+			} else {
+				$file = $node;
 			}
-		} else {
-			$file = $node;
+
+			$f = $this->previewManager->getPreview($file, $x, $y, !$a);
+			return new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
+		} catch (NotFoundException $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
-
-		$f = $this->previewManager->getPreview($file, $x, $y, !$a);
-
-		return new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
 	}
 }
