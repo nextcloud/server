@@ -663,12 +663,3 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 #warning {
 	color: red;
 }
-
-/* SELECT */
-
-.select2-container-multi .select2-choices .select2-search-choice {
-	background-color: rgba(240,240,240,.9)!important;
-	border-color: rgba(240,240,240,.9)!important;
-	box-shadow: none!important;
-	background-image: none!important;
-}
