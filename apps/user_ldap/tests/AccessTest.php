@@ -27,9 +27,12 @@
 namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\Access;
+use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\FilesystemHelper;
+use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LogWrapper;
+use OCA\User_LDAP\User\Manager;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -45,29 +48,21 @@ use OCP\IUserManager;
  */
 class AccessTest extends \Test\TestCase {
 	private function getConnectorAndLdapMock() {
-		static $conMethods;
-		static $accMethods;
-		static $umMethods;
-
-		if(is_null($conMethods) || is_null($accMethods)) {
-			$conMethods = get_class_methods('\OCA\User_LDAP\Connection');
-			$accMethods = get_class_methods('\OCA\User_LDAP\Access');
-			$umMethods  = get_class_methods('\OCA\User_LDAP\User\Manager');
-		}
 		$lw  = $this->createMock(ILDAPWrapper::class);
-		$connector = $this->getMock('\OCA\User_LDAP\Connection',
-									$conMethods,
-									array($lw, null, null));
-		$um = $this->getMock('\OCA\User_LDAP\User\Manager',
-			$umMethods, array(
+		$connector = $this->getMockBuilder(Connection::class)
+			->setConstructorArgs([$lw, null, null])
+			->getMock();
+		$um = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
 				$this->createMock(IConfig::class),
 				$this->createMock(FilesystemHelper::class),
 				$this->createMock(LogWrapper::class),
 				$this->createMock(IAvatarManager::class),
 				$this->createMock(Image::class),
 				$this->createMock(IDBConnection::class),
-				$this->createMock(IUserManager::class)));
-		$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
+				$this->createMock(IUserManager::class)])
+			->getMock();
+		$helper = new Helper(\OC::$server->getConfig());
 
 		return array($lw, $connector, $um, $helper);
 	}
