@@ -189,7 +189,22 @@ class AvatarController extends Controller {
 					Http::STATUS_BAD_REQUEST
 				);
 			}
-			$content = $node->getContent();
+
+			if ($node->getMimeType() !== 'image/jpeg' && $node->getMimeType() !== 'image/png') {
+				return new JSONResponse(
+					['data' => ['message' => $this->l->t('The selected file is not an image.')]],
+					Http::STATUS_BAD_REQUEST
+				);
+			}
+
+			try {
+				$content = $node->getContent();
+			} catch (\OCP\Files\NotPermittedException $e) {
+				return new JSONResponse(
+					['data' => ['message' => $this->l->t('The selected file cannot be read.')]],
+					Http::STATUS_BAD_REQUEST
+				);
+			}
 		} elseif (!is_null($files)) {
 			if (
 				$files['error'][0] === 0 &&
