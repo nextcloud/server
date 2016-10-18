@@ -242,6 +242,9 @@ $(document).ready(function () {
 					$('#pass2').val('').change();
 				}
 				if (typeof(data.data) !== "undefined") {
+					if(!_.isEmpty(data.data.hint)) {
+						data.data.message += "\n" + data.data.hint;
+					}
 					OC.msg.finishedSaving('#password-error-msg', data);
 				} else {
 					OC.msg.finishedSaving('#password-error-msg',

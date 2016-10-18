@@ -681,7 +681,11 @@ $(document).ready(function () {
 				if (result.status === 'success') {
 					OC.Notification.showTemporary(t('admin', 'Password successfully changed'));
 				} else {
-					OC.Notification.showTemporary(t('admin', result.data.message));
+					var message = _.escape(result.data.message);
+					if(!_.isEmpty(result.data.hint)) {
+						message += "<br/>" + _.escape(result.data.hint);
+					}
+					OC.Notification.showTemporary(t('admin', message), {isHTML: true});
 				}
 			}
 		).fail(blurFunction);
