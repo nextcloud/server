@@ -239,8 +239,17 @@ table.grid {
 	width: 100%;
 }
 
-table.grid th { height:2em; color:#999; }
-table.grid th, table.grid td { border-bottom:1px solid #ddd; padding:0 .5em; padding-left:.8em; text-align:left; font-weight:normal; }
+table.grid th {
+	height: 2em;
+	color: #999;
+}
+table.grid th, table.grid td {
+	border-bottom: 1px solid #eee;
+	padding: 0 .5em;
+	padding-left: .8em;
+	text-align: left;
+	font-weight: normal;
+}
 td.name, td.password { padding-left:.8em; }
 td.password>img,td.displayName>img, td.remove>a, td.quota>img { visibility:hidden; }
 td.password, td.quota, td.displayName { width:12em; cursor:pointer; }
@@ -260,7 +269,12 @@ span.usersLastLoginTooltip { white-space: nowrap; }
 
 /* because of accessibility the name cell is <th> - therefore we enforce the black color */
 #userlist th.name {
-	color: #000000;
+	color: #000;
+}
+
+/* use same height as in files app */
+#userlist tr {
+	height: 51px;
 }
 
 #userlist .mailAddress .loading-small {
