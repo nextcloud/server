@@ -363,7 +363,7 @@
 
 		/**
 		 * Renders the menu trigger on the given file list row
-		 * 
+		 *
 		 * @param {Object} $tr file list row element
 		 * @param {OCA.Files.FileActionContext} context rendering context
 		 */
@@ -617,6 +617,20 @@
 				}
 			});
 
+			this.registerAction({
+				name: 'Move',
+				displayName: t('files', 'Move'),
+				mime: 'all',
+				order: -25,
+				permissions: OC.PERMISSION_UPDATE,
+				iconClass: 'icon-external',
+				actionHandler: function (filename, context) {
+					OC.dialogs.filepicker(t('files', 'Target folder'), function(targetPath) {
+						context.fileList.move(filename, targetPath);
+					}, false, "httpd/unix-directory", true);
+				}
+			});
+
 			this.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename, context) {
 				var dir = context.$file.attr('data-path') || context.fileList.getCurrentDirectory();
 				context.fileList.changeDirectory(OC.joinPaths(dir, filename), true, false, parseInt(context.$file.attr('data-id'), 10));
@@ -744,7 +758,7 @@
 	OCA.Files.legacyFileActions = new OCA.Files.FileActions();
 
 	// for backward compatibility
-	// 
+	//
 	// legacy apps are expecting a stateful global FileActions object to register
 	// their actions on. Since legacy apps are very likely to break with other
 	// FileList views than the main one ("All files"), actions registered
@@ -763,4 +777,3 @@
 		OCA.Files.FileActions.prototype.display.call(window.FileActions, parent, triggerEvent, fileList);
 	};
 })();
-
