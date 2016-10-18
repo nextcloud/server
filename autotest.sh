@@ -210,16 +210,30 @@ function execute_tests {
         fi
 	fi
 	if [ "$DB" == "mysqlmb4" ] ; then
-		echo "Fire up the mysql docker"
-		DOCKER_CONTAINER_ID=$(docker run \
-			-v $BASEDIR/tests/docker/mysqlmb4:/etc/mysql/conf.d \
-			-e MYSQL_ROOT_PASSWORD=owncloud \
-			-e MYSQL_USER="$DATABASEUSER" \
-			-e MYSQL_PASSWORD=owncloud \
-			-e MYSQL_DATABASE="$DATABASENAME" \
-			-d mysql:5.7)
+		if [ ! -z "$USEDOCKER" ] ; then
+			echo "Fire up the mysql docker"
+			DOCKER_CONTAINER_ID=$(docker run \
+				-v $BASEDIR/tests/docker/mysqlmb4:/etc/mysql/conf.d \
+				-e MYSQL_ROOT_PASSWORD=owncloud \
+				-e MYSQL_USER="$DATABASEUSER" \
+				-e MYSQL_PASSWORD=owncloud \
+				-e MYSQL_DATABASE="$DATABASENAME" \
+				-d mysql:5.7)
 
-		DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
+			DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
+
+		else
+			if [ -z "$DRONE" ] ; then # no need to drop the DB when we are on CI
+				if [ "mysql" != "$(mysql --version | grep -o mysql)" ] ; then
+					echo "Your mysql binary is not provided by mysql"
+					echo "To use the docker container set the USEDOCKER environment variable"
+					exit -1
+				fi
+				mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
+			else
+				DATABASEHOST=127.0.0.1
+			fi
+		fi
 
 		echo "Waiting for MySQL(utf8mb4) initialisation ..."
 

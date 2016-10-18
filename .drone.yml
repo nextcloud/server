@@ -148,6 +148,14 @@ pipeline:
       matrix:
         DB: postgres
         PHP: 5.6
+  mysqlmb4-php5.6:
+    image: nextcloudci/php5.6:php5.6-2
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
+    when:
+      matrix:
+        DB: mysqlmb4
+        PHP: 5.6
   integration-capabilities_features:
     image: nextcloudci/integration-php7.0:integration-php7.0-1
     commands:
@@ -368,6 +376,8 @@ matrix:
       PHP: 5.6
     - DB: postgres
       PHP: 5.6
+    - DB: mysqlmb4
+      PHP: 5.6
 
 services:
   cache:
@@ -390,3 +400,15 @@ services:
     when:
       matrix:
         DB: mysql
+  mysqlmb4:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=owncloud
+      - MYSQL_USER=oc_autotest
+      - MYSQL_PASSWORD=owncloud
+      - MYSQL_DATABASE=oc_autotest
+    volumes:
+      - /drone/src/github.com/nextcloud/server/tests/docker/mysqlmb4:/etc/mysql/conf.d
+    when:
+      matrix:
+        DB: mysqlmb4
