@@ -340,7 +340,7 @@ class Activity implements IExtension {
 				self::FILTER_FILES => [
 					'id' => self::FILTER_FILES,
 					'icon' => 'icon-files-dark',
-					'name' => (string) $this->l->t('Files'),
+					'name' => (string) $this->l->t('File changes'),
 					'url' => $this->URLGenerator->linkToRoute('activity.Activities.showList', ['filter' => self::FILTER_FILES]),
 				],
 			],
