@@ -40,7 +40,7 @@ OCA = OCA || {};
 						};
 					})(name, properties[name]) :
 					properties[name];
-		};
+		}
 
 		function Class() {
 			if(!initializing && this.init) {

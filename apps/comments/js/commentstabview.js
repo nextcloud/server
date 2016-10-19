@@ -175,7 +175,7 @@
 			this.delegateEvents();
 			this.$el.find('.message').on('keydown input change', this._onTypeComment);
 
-			autosize(this.$el.find('.newCommentRow textarea'))
+			autosize(this.$el.find('.newCommentRow textarea'));
 		},
 
 		_formatItem: function(commentModel) {

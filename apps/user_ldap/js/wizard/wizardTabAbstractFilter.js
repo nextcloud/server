@@ -302,7 +302,7 @@ OCA = OCA || {};
 				if(    !view.getFilterItem().$element.val()
 					&& view.parsedFilterMode === view.configModel.FILTER_MODE_ASSISTED
 				) {
-					view.configModel.requestWizard(view.getFilterItem().keyName)
+					view.configModel.requestWizard(view.getFilterItem().keyName);
 				}
 			} else if (payload.feature === view.getGroupsItem().featureName) {
 				if(view.manyGroupsSupport && payload.data.length > view._groupElementSwitchThreshold) {

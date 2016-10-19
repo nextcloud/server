@@ -86,7 +86,7 @@ OCA.External.StatusManager = {
 						self.mountStatus[mountData.mount_point] = response;
 					} else {
 						var statusCode = response.status ? response.status : 1;
-						var statusMessage = response.statusMessage ? response.statusMessage : t('files_external', 'Empty response from the server')
+						var statusMessage = response.statusMessage ? response.statusMessage : t('files_external', 'Empty response from the server');
 						// failure response with error message
 						self.mountStatus[mountData.mount_point] = {
 							type: mountData.type,

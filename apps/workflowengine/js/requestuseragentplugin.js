@@ -78,7 +78,7 @@
 					data.unshift({
 						id: check['value'],
 						text: check['value']
-					})
+					});
 				}
 
 				$(element).select2({
@@ -103,7 +103,7 @@
 					escapeMarkup: function(m) {
 						return m;
 					}
-				})
+				});
 			}
 		},
 

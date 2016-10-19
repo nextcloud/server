@@ -330,7 +330,7 @@ OCA.Sharing.PublicApp = {
 		var location = window.location.protocol + '//' + window.location.host + OC.webroot;
 
 		if(remote.substr(-1) !== '/') {
-			remote += '/'
+			remote += '/';
 		}
 
 		var url = remote + 'index.php/apps/files#' + 'remote=' + encodeURIComponent(location) // our location is the remote for the other server
