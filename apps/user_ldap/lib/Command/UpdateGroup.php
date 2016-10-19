@@ -92,7 +92,7 @@ class UpdateGroup extends Command {
 		$splittedGroups = $this->checkGroupMappingExists($groupIDs);
 		if (!empty($splittedGroups['notinDB'])) {
 			$missingGroups = implode(', ', $splittedGroups['notinDB']);
-			$output->writeln("<error>Following groups are missing in the DB and will be skipped: $missingGroups</error>");
+			$output->writeln("<error>The following groups are missing in the DB and will be skipped: $missingGroups</error>");
 		}
 
 		$groupProxy = new Group_Proxy($availableConfigs, $this->ldap);
