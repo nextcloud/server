@@ -401,16 +401,20 @@
 						$row.data('commentEl')
 							.removeClass('hidden')
 							.find('.message')
-							.html(self._formatMessage(model.get('message'), model.get('mentions')));
+							.html(self._formatMessage(model.get('message'), model.get('mentions')))
+							.find('.avatar')
+							.each(function () { $(this).avatar(); });
 						$row.remove();
 					} else {
 						var $row = $form.closest('.comments');
-						console.log($form);
 						$('.commentsTabView .comments').find('li:first')
 							.find('.message')
-							.html(self._formatMessage(model.get('message'), model.get('mentions')));
+							.html(self._formatMessage(model.get('message'), model.get('mentions')))
+							.find('.avatar')
+							.each(function () { $(this).avatar(); });
 						$textArea.val('').prop('disabled', false);
 					}
+
 				},
 				error: function () {
 					$submit.removeClass('hidden');
