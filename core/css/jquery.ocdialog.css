@@ -12,6 +12,7 @@
 }
 .oc-dialog-title {
 	background: #fff;
+	margin-left: 12px;
 }
 .oc-dialog-content {
 	z-index: 1000;
