@@ -125,7 +125,7 @@ class Preview {
 		$this->setFile($file);
 		$this->setMaxX((int)$maxX);
 		$this->setMaxY((int)$maxY);
-		$this->setScalingUp($scalingUp);
+		$this->setScalingup($scalingUp);
 
 		$this->preview = null;
 
