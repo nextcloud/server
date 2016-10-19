@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, nextCloud, Inc.
+ * @copyright Copyright (c) 2016, John Molakvoæ.
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
