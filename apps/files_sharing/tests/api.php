@@ -40,9 +40,6 @@ class Test_Files_Sharing_Api extends TestCase {
 
 	private static $tempStorage;
 
-	/** @var \OCP\Share\IManager */
-	private $shareManager;
-
 	protected function setUp() {
 		parent::setUp();
 
@@ -62,8 +59,6 @@ class Test_Files_Sharing_Api extends TestCase {
 		$this->view->mkdir($this->folder . $this->subfolder . $this->subsubfolder);
 		$this->view->file_put_contents($this->folder.$this->filename, $this->data);
 		$this->view->file_put_contents($this->folder . $this->subfolder . $this->filename, $this->data);
-
-		$this->shareManager = \OC::$server->getShareManager();
 	}
 
 	protected function tearDown() {
