@@ -142,7 +142,11 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getGroupManager(),
 				$c->getConfig()
 			);
-			return new Encryption\File($util);
+			return new Encryption\File(
+				$util,
+				$c->getRootFolder(),
+				$c->getShareManager()
+			);
 		});
 
 		$this->registerService('EncryptionKeyStorage', function (Server $c) {
