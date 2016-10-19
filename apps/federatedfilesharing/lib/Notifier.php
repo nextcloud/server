@@ -24,18 +24,28 @@
 namespace OCA\FederatedFileSharing;
 
 
+use OC\HintException;
+use OC\Share\Helper;
+use OCP\Contacts\IManager;
+use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 
 class Notifier implements INotifier {
-	/** @var \OCP\L10N\IFactory */
+	/** @var IFactory */
 	protected $factory;
+	/** @var IManager */
+	protected $contactsManager;
+	/** @var array */
+	protected $federatedContacts;
 
 	/**
-	 * @param \OCP\L10N\IFactory $factory
+	 * @param IFactory $factory
+	 * @param IManager $contactsManager
 	 */
-	public function __construct(\OCP\L10N\IFactory $factory) {
+	public function __construct(IFactory $factory, IManager $contactsManager) {
 		$this->factory = $factory;
+		$this->contactsManager = $contactsManager;
 	}
 
 	/**
@@ -58,11 +68,34 @@ class Notifier implements INotifier {
 				$params = $notification->getSubjectParameters();
 				if ($params[0] !== $params[1] && $params[1] !== null) {
 					$notification->setParsedSubject(
-						(string) $l->t('You received "/%3$s" as a remote share from %1$s (on behalf of %2$s)', $params)
+						$l->t('You received "%3$s" as a remote share from %1$s (on behalf of %2$s)', $params)
+					);
+					$notification->setRichSubject(
+						$l->t('You received {share} as a remote share from {user} (on behalf of {behalf})'),
+						[
+							'share' => [
+								'type' => 'pending-federated-share',
+								'id' => $notification->getObjectId(),
+								'name' => $params[2],
+							],
+							'user' => $this->createRemoteUser($params[0]),
+							'behalf' => $this->createRemoteUser($params[1]),
+						]
 					);
 				} else {
 					$notification->setParsedSubject(
-						(string)$l->t('You received "/%3$s" as a remote share from %1$s', $params)
+						$l->t('You received "%3$s" as a remote share from %1$s', $params)
+					);
+					$notification->setRichSubject(
+						$l->t('You received {share} as a remote share from {user}'),
+						[
+							'share' => [
+								'type' => 'pending-federated-share',
+								'id' => $notification->getObjectId(),
+								'name' => $params[2],
+							],
+							'user' => $this->createRemoteUser($params[0]),
+						]
 					);
 				}
 
@@ -91,5 +124,94 @@ class Notifier implements INotifier {
 				// Unknown subject => Unknown notification => throw
 				throw new \InvalidArgumentException();
 		}
+	}
+
+	/**
+	 * @param string $cloudId
+	 * @return array
+	 */
+	protected function createRemoteUser($cloudId) {
+		$displayName = $cloudId;
+		try {
+			list($user, $server) = Helper::splitUserRemote($cloudId);
+			$displayName = $this->getDisplayName($user, $server);
+		} catch (HintException $e) {
+			$user = $cloudId;
+			$server = '';
+		}
+
+		return [
+			'type' => 'user',
+			'id' => $user,
+			'name' => $displayName,
+			'server' => $server,
+		];
+	}
+
+	/**
+	 * Try to find the user in the contacts
+	 *
+	 * @param string $user
+	 * @param string $server
+	 * @return string
+	 * @throws \OutOfBoundsException when there is no contact for the id
+	 */
+	protected function getDisplayName($user, $server) {
+		$server = strtolower(rtrim($server, '/'));
+
+		if (strpos($server, 'http://') === 0) {
+			$server = substr($server, strlen('http://'));
+		} else if (strpos($server, 'https://') === 0) {
+			$server = substr($server, strlen('https://'));
+		}
+
+		try {
+			return $this->getDisplayNameFromContact($user . '@' . $server);
+		} catch (\OutOfBoundsException $e) {
+		}
+
+		try {
+			$this->getDisplayNameFromContact($user . '@http://' . $server);
+		} catch (\OutOfBoundsException $e) {
+		}
+
+		try {
+			$this->getDisplayNameFromContact($user . '@https://' . $server);
+		} catch (\OutOfBoundsException $e) {
+		}
+
+		return $user . '@' . $server;
+	}
+
+	/**
+	 * Try to find the user in the contacts
+	 *
+	 * @param string $federatedCloudId
+	 * @return string
+	 * @throws \OutOfBoundsException when there is no contact for the id
+	 */
+	protected function getDisplayNameFromContact($federatedCloudId) {
+		if (isset($this->federatedContacts[$federatedCloudId])) {
+			if ($this->federatedContacts[$federatedCloudId] !== '') {
+				return $this->federatedContacts[$federatedCloudId];
+			} else {
+				throw new \OutOfBoundsException('No contact found for federated cloud id');
+			}
+		}
+
+		$addressBookEntries = $this->contactsManager->search($federatedCloudId, ['CLOUD']);
+		foreach ($addressBookEntries as $entry) {
+			if (isset($entry['CLOUD'])) {
+				foreach ($entry['CLOUD'] as $cloudID) {
+					if ($cloudID === $federatedCloudId) {
+						$this->federatedContacts[$federatedCloudId] = $entry['FN'];
+						return $entry['FN'];
+					}
+				}
+			}
+		}
+
+		$this->federatedContacts[$federatedCloudId] = '';
+		throw new \OutOfBoundsException('No contact found for federated cloud id');
 	}
 }
