@@ -125,7 +125,7 @@ class Server {
 		$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
 		$this->server->addPlugin(new \OCA\DAV\CalDAV\Publishing\PublishPlugin(
 			\OC::$server->getConfig(),
-			\OC::$server->getUrlGenerator()
+			\OC::$server->getURLGenerator()
 		));
 
 		// addressbook plugins
