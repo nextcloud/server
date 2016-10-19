@@ -148,10 +148,10 @@ table tr.mouseOver td {
 }
 tbody a { color:#000; }
 
-span.extension, span.uploading, td.date {
+span.conflict-path, span.extension, span.uploading, td.date {
 	color: #999;
 }
-span.extension {
+span.conflict-path, span.extension {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 	filter: alpha(opacity=70);
 	opacity: .7;
@@ -161,6 +161,8 @@ span.extension {
 	transition: opacity 300ms;
 	vertical-align: top;
 }
+tr:hover span.conflict-path,
+tr:focus span.conflict-path,
 tr:hover span.extension,
 tr:focus span.extension {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
