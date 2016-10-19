@@ -107,6 +107,13 @@
 	background-image: url('../img/actions/external.svg');
 }
 
+.icon-fullscreen {
+	background-image: url('../img/actions/fullscreen.svg?v=1');
+}
+.icon-fullscreen-white {
+	background-image: url('../img/actions/fullscreen-white.svg?v=1');
+}
+
 .icon-history {
 	background-image: url('../img/actions/history.svg');
 }
