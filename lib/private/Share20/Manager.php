@@ -1118,17 +1118,21 @@ class Manager implements IManager {
 	 *  remote => bool
 	 * ]
 	 *
-	 * This is required for encryption/activities
+	 * This is required for encryption/activity
 	 *
 	 * @param \OCP\Files\Node $path
+	 * @param bool $recursive Should we check all parent folders as well
 	 * @return array
 	 */
-	public function getAccessList(\OCP\Files\Node $path) {
+	public function getAccessList(\OCP\Files\Node $path, $recursive = true) {
 		$owner = $path->getOwner()->getUID();
 
 		//Get node for the owner
 		$userFolder = $this->rootFolder->getUserFolder($owner);
-		$path = $userFolder->getById($path->getId())[0];
+
+		if (!$userFolder->isSubNode($path)) {
+			$path = $userFolder->getById($path->getId())[0];
+		}
 
 		$providers = $this->factory->getProviders();
 
@@ -1136,9 +1140,12 @@ class Manager implements IManager {
 		$shares = [];
 
 		// Collect all the shares
-		while ($path !== $userFolder) {
+		while ($path->getPath() !== $userFolder->getPath()) {
 			foreach ($providers as $provider) {
 				$shares = array_merge($shares, $provider->getSharesByPath($path));
+			}
+			if (!$recursive) {
+				break;
 			}
 			$path = $path->getParent();
 		}
