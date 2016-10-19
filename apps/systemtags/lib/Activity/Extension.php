@@ -145,15 +145,15 @@ class Extension implements IExtension {
 			case self::ASSIGN_TAG:
 				$params[2] = $this->convertParameterToTag($params[2], $l);
 				if ($this->actorIsCurrentUser($params[0])) {
-					return (string) $l->t('You assigned system tag %3$s', $params);
+					return (string) $l->t('You added system tag %3$s', $params);
 				}
-				return (string) $l->t('%1$s assigned system tag %3$s', $params);
+				return (string) $l->t('%1$s added system tag %3$s', $params);
 			case self::UNASSIGN_TAG:
 				$params[2] = $this->convertParameterToTag($params[2], $l);
 				if ($this->actorIsCurrentUser($params[0])) {
-					return (string) $l->t('You unassigned system tag %3$s', $params);
+					return (string) $l->t('You removed system tag %3$s', $params);
 				}
-				return (string) $l->t('%1$s unassigned system tag %3$s', $params);
+				return (string) $l->t('%1$s removed system tag %3$s', $params);
 		}
 
 		return false;
@@ -190,15 +190,15 @@ class Extension implements IExtension {
 			case self::ASSIGN_TAG:
 				$params[2] = $this->convertParameterToTag($params[2], $l);
 				if ($this->actorIsCurrentUser($params[0])) {
-					return (string) $l->t('You assigned system tag %3$s to %2$s', $params);
+					return (string) $l->t('You added system tag %3$s to %2$s', $params);
 				}
-				return (string) $l->t('%1$s assigned system tag %3$s to %2$s', $params);
+				return (string) $l->t('%1$s added system tag %3$s to %2$s', $params);
 			case self::UNASSIGN_TAG:
 				$params[2] = $this->convertParameterToTag($params[2], $l);
 				if ($this->actorIsCurrentUser($params[0])) {
-					return (string) $l->t('You unassigned system tag %3$s from %2$s', $params);
+					return (string) $l->t('You removed system tag %3$s from %2$s', $params);
 				}
-				return (string) $l->t('%1$s unassigned system tag %3$s from %2$s', $params);
+				return (string) $l->t('%1$s removed system tag %3$s from %2$s', $params);
 		}
 
 		return false;
