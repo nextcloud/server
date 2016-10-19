@@ -20,7 +20,6 @@
 		"placeholder.js"
 	],
 	"modules": [
-		"compatibility.js",
 		"jquery.ocdialog.js",
 		"oc-dialogs.js",
 		"js.js",
