@@ -685,7 +685,7 @@ $(document).ready(function () {
 					if(!_.isEmpty(result.data.hint)) {
 						message += "<br/>" + _.escape(result.data.hint);
 					}
-					OC.Notification.showTemporary(t('admin', message), {isHTML: true});
+					OC.Notification.showTemporary(message, {isHTML: true});
 				}
 			}
 		).fail(blurFunction);
