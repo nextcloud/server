@@ -89,14 +89,15 @@ class UpdateGroup extends Command {
 			return self::ERROR_CODE_MISSING_CONF;
 		}
 
-		if (!$this->checkGroupMappingExists($groupIDs)) {
-			$output->writeln("<error>Some of the groups are unknown</error>");
-			return self::ERROR_CODE_MISSING_MAPPING;
+		$splittedGroups = $this->checkGroupMappingExists($groupIDs);
+		if (!empty($splittedGroups['notinDB'])) {
+			$missingGroups = implode(', ', $splittedGroups['notinDB']);
+			$output->writeln("<error>The following groups are missing in the DB and will be skipped: $missingGroups</error>");
 		}
 
 		$groupProxy = new Group_Proxy($availableConfigs, $this->ldap);
 
-		foreach ($groupIDs as $groupID) {
+		foreach ($splittedGroups['inDB'] as $groupID) {
 			$output->writeln("checking group \"$groupID\"...");
 			if (!$groupProxy->groupExists($groupID)) {
 				$output->writeln("\"$groupID\" doesn't exist in LDAP any more, removing local mapping");
@@ -196,25 +197,34 @@ class UpdateGroup extends Command {
 	}
 
 	/**
-	 * Make sure $groupNames doesn't contain duplicated values. This function could behave
-	 * unexpectedly otherwise.
+	 * Split the list of group names into those which are in the DB and those which aren't
+	 * As an example, checkGroupMappingExists(['g1', 'g2', 'g3', 'missing', 'another']) could return:
+	 * ['inDB' => ['g1', 'g2', 'g3'], 'notinDB' => ['missing', 'another']]
 	 *
-	 * Take advantage of the owncloud_name column in the DB has a unique constraint.
-	 *
-	 * @return true if the count($groupNames) matches the number of
+	 * @param array<String> $groupNames list of group names
+	 * @return array returns an array containing 2 arrays: 'inDB' for those group names that are in
+	 * the DB and 'notinDB' for those that aren't
 	 */
 	private function checkGroupMappingExists($groupNames) {
+		$groups = array('inDB' => array(), 'notinDB' => array());
 		$query = $this->connection->getQueryBuilder();
-		$query->select($query->createFunction('count(owncloud_name) as ngroups'))
+		$query->select('owncloud_name')
 			->from('ldap_group_mapping')
 			->where($query->expr()->in('owncloud_name', $query->createParameter('groups')))
 			->setParameter('groups', $groupNames, IQueryBuilder::PARAM_STR_ARRAY);
 		$result = $query->execute();
-		$row = $result->fetch();
 
-		$countValue = intval($row['ngroups']);
+		// fill with those which are inside the DB
+		while (($row = $result->fetch()) !== false) {
+			if (in_array($row['owncloud_name'], $groupNames, true)) {
+				$groups['inDB'][] = $row['owncloud_name'];
+			}
+		}
+
 		$result->closeCursor();
-		$requestedGroupNameCount = count($groupNames);
-		return $countValue === $requestedGroupNameCount;
+
+		// fill with the missing ones
+		$groups['notinDB'] = array_diff($groupNames, $groups['inDB']);
+		return $groups;
 	}
 }
