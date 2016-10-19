@@ -1148,6 +1148,28 @@
 			}
 			var nameSpan=$('<span></span>').addClass('nametext');
 			var innernameSpan = $('<span></span>').addClass('innernametext').text(basename);
+
+			if (path && path !== '/') {
+				var conflictingItems = this.$fileList.find('tr[data-file="' + name.replace( /(:|\.|\[|\]|,|=)/g, "\\$1") + '"]');
+				if (conflictingItems.length !== 0) {
+					if (conflictingItems.length === 1) {
+						// Update the path on the first conflicting item
+						var $firstConflict = $(conflictingItems[0]),
+							firstConflictPath = $firstConflict.attr('data-path') + '/';
+						if (firstConflictPath.charAt(0) === '/') {
+							firstConflictPath = firstConflictPath.substr(1);
+						}
+						$firstConflict.find('td.filename span.innernametext').prepend($('<span></span>').addClass('conflict-path').text(firstConflictPath));
+					}
+
+					var conflictPath = path + '/';
+					if (conflictPath.charAt(0) === '/') {
+						conflictPath = conflictPath.substr(1);
+					}
+					nameSpan.append($('<span></span>').addClass('conflict-path').text(conflictPath));
+				}
+			}
+
 			nameSpan.append(innernameSpan);
 			linkElem.append(nameSpan);
 			if (extension) {
