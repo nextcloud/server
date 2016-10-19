@@ -145,6 +145,21 @@ interface IUserManager {
 	public function callForAllUsers (\Closure $callback, $search = '');
 
 	/**
+	 * returns how many users have logged in once
+	 *
+	 * @return int
+	 * @since 9.2.0
+	 */
+	public function countSeenUsers();
+
+	/**
+	 * @param \Closure $callback
+	 * @param string $search
+	 * @since 9.2.0
+	 */
+	public function callForSeenUsers (\Closure $callback);
+
+	/**
 	 * @param string $email
 	 * @return IUser[]
 	 * @since 9.1.0

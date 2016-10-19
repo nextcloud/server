@@ -106,6 +106,7 @@ class RemoveRootSharesTest extends \Test\TestCase {
 		$user = $this->userManager->createUser('test', 'test');
 		$userFolder = $this->rootFolder->getUserFolder('test');
 		$fileId = $userFolder->getId();
+		$user->updateLastLoginTimestamp();
 
 		//Now insert cyclic share
 		$qb = $this->connection->getQueryBuilder();
@@ -134,6 +135,7 @@ class RemoveRootSharesTest extends \Test\TestCase {
 		$user1 = $this->userManager->createUser('test1', 'test1');
 		$userFolder = $this->rootFolder->getUserFolder('test1');
 		$fileId = $userFolder->getId();
+		$user1->updateLastLoginTimestamp();
 
 		//Now insert cyclic share
 		$qb = $this->connection->getQueryBuilder();
@@ -156,6 +158,7 @@ class RemoveRootSharesTest extends \Test\TestCase {
 		$userFolder = $this->rootFolder->getUserFolder('test2');
 		$folder = $userFolder->newFolder('foo');
 		$fileId = $folder->getId();
+		$user2->updateLastLoginTimestamp();
 
 		//Now insert cyclic share
 		$qb = $this->connection->getQueryBuilder();
