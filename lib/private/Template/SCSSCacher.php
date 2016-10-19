@@ -109,5 +109,3 @@ class SCSSCacher {
 		return $this->fileCache;
 	}
 }
-
-?>
