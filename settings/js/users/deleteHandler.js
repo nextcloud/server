@@ -197,7 +197,7 @@ DeleteHandler.prototype.deleteEntry = function(keepNotification) {
 		url: OC.generateUrl(dh.ajaxEndpoint+'/{oid}',{oid: this.oidToDelete}),
 		// FIXME: do not use synchronous ajax calls as they block the browser !
 		async: false,
-		success: function (result) {
+		success: function () {
 			// Remove undo option, & remove user from table
 
 			//TODO: following line

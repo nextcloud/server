@@ -137,7 +137,7 @@
 						});
 					});
 					this.$buttonrow.find('button')
-						.on('focus', function(event) {
+						.on('focus', function() {
 							self.$buttonrow.find('button').removeClass('primary');
 							$(this).addClass('primary');
 						});
@@ -167,8 +167,7 @@
 			//this._super(key, value);
 			$.Widget.prototype._setOption.apply(this, arguments );
 		},
-		_setOptions: function(options) {
-			//this._super(options);
+		_setOptions: function() {
 			$.Widget.prototype._setOptions.apply(this, arguments);
 		},
 		_setSizes: function() {

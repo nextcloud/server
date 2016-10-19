@@ -1,4 +1,4 @@
-/* global Handlebars, moment */
+/* global Handlebars */
 
 /**
  * @author Christoph Wurst <christoph@owncloud.com>
@@ -20,7 +20,7 @@
  *
  */
 
-(function (OC, _, $, Handlebars, moment) {
+(function (OC, _, $, Handlebars) {
 	'use strict';
 
 	OC.Settings = OC.Settings || {};
@@ -366,4 +366,4 @@
 
 	OC.Settings.AuthTokenView = AuthTokenView;
 
-})(OC, _, $, Handlebars, moment);
+})(OC, _, $, Handlebars);

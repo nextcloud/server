@@ -604,7 +604,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	/**
 	 * Initializes the apps list
 	 */
-	initialize: function($el) {
+	initialize: function() {
 		OC.Plugins.register('OCA.Search', OC.Settings.Apps.Search);
 		OC.Settings.Apps.loadCategories();
 		OC.Util.History.addOnPopStateHandler(_.bind(this._onPopState, this));

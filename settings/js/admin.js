@@ -69,7 +69,7 @@ $(document).ready(function(){
 	});
 
 	$('#startmigration').click(function(event){
-		$(window).on('beforeunload.encryption', function(e) {
+		$(window).on('beforeunload.encryption', function() {
 			return t('settings', 'Migration in progress. Please wait until the migration is finished');
 		});
 		event.preventDefault();
