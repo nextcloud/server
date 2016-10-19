@@ -407,8 +407,8 @@ class Server extends ServerContainer implements IServerContainer {
 			return new CredentialsManager($c->getCrypto(), $c->getDatabaseConnection());
 		});
 		$this->registerService('DatabaseConnection', function (Server $c) {
-			$factory = new \OC\DB\ConnectionFactory();
 			$systemConfig = $c->getSystemConfig();
+			$factory = new \OC\DB\ConnectionFactory($c->getConfig());
 			$type = $systemConfig->getValue('dbtype', 'sqlite');
 			if (!$factory->isValidType($type)) {
 				throw new \OC\DatabaseException('Invalid database type');

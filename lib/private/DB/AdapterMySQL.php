@@ -27,6 +27,9 @@ namespace OC\DB;
 
 class AdapterMySQL extends Adapter {
 
+	/** @var string */
+	protected $charset;
+
 	/**
 	 * @param string $tableName
 	 */
@@ -39,7 +42,16 @@ class AdapterMySQL extends Adapter {
 	}
 
 	public function fixupStatement($statement) {
-		$statement = str_replace(' ILIKE ', ' COLLATE utf8_general_ci LIKE ', $statement);
+		$statement = str_replace(' ILIKE ', ' COLLATE ' . $this->getCharset() . '_general_ci LIKE ', $statement);
 		return $statement;
+	}
+
+	protected function getCharset() {
+		if (!$this->charset) {
+			$params = $this->conn->getParams();
+			$this->charset = isset($params['charset']) ? $params['charset'] : 'utf8';
+		}
+
+		return $this->charset;
 	}
 }

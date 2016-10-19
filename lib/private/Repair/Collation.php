@@ -24,28 +24,38 @@
 
 namespace OC\Repair;
 
+use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\ILogger;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class Collation implements IRepairStep {
-	/**
-	 * @var \OCP\IConfig
-	 */
+	/**  @var IConfig */
 	protected $config;
 
-	/**
-	 * @var \OC\DB\Connection
-	 */
+	/** @var ILogger */
+	protected $logger;
+
+	/** @var IDBConnection */
 	protected $connection;
 
+	/** @var bool */
+	protected $ignoreFailures;
+
 	/**
-	 * @param \OCP\IConfig $config
-	 * @param \OC\DB\Connection $connection
+	 * @param IConfig $config
+	 * @param ILogger $logger
+	 * @param IDBConnection $connection
+	 * @param bool $ignoreFailures
 	 */
-	public function __construct($config, $connection) {
+	public function __construct(IConfig $config, ILogger $logger, IDBConnection $connection, $ignoreFailures) {
 		$this->connection = $connection;
 		$this->config = $config;
+		$this->logger = $logger;
+		$this->ignoreFailures = $ignoreFailures;
 	}
 
 	public function getName() {
@@ -61,11 +71,21 @@ class Collation implements IRepairStep {
 			return;
 		}
 
+		$characterSet = $this->config->getSystemValue('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
+
 		$tables = $this->getAllNonUTF8BinTables($this->connection);
 		foreach ($tables as $table) {
 			$output->info("Change collation for $table ...");
-			$query = $this->connection->prepare('ALTER TABLE `' . $table . '` CONVERT TO CHARACTER SET utf8 COLLATE utf8_bin;');
-			$query->execute();
+			$query = $this->connection->prepare('ALTER TABLE `' . $table . '` CONVERT TO CHARACTER SET ' . $characterSet . ' COLLATE ' . $characterSet . '_bin;');
+			try {
+				$query->execute();
+			} catch (DriverException $e) {
+				// Just log this
+				$this->logger->logException($e);
+				if (!$this->ignoreFailures) {
+					throw $e;
+				}
+			}
 		}
 	}
 
@@ -75,11 +95,12 @@ class Collation implements IRepairStep {
 	 */
 	protected function getAllNonUTF8BinTables($connection) {
 		$dbName = $this->config->getSystemValue("dbname");
+		$characterSet = $this->config->getSystemValue('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
 		$rows = $connection->fetchAll(
 			"SELECT DISTINCT(TABLE_NAME) AS `table`" .
 			"	FROM INFORMATION_SCHEMA . COLUMNS" .
 			"	WHERE TABLE_SCHEMA = ?" .
-			"	AND (COLLATION_NAME <> 'utf8_bin' OR CHARACTER_SET_NAME <> 'utf8')" .
+			"	AND (COLLATION_NAME <> '" . $characterSet . "_bin' OR CHARACTER_SET_NAME <> '" . $characterSet . "')" .
 			"	AND TABLE_NAME LIKE \"*PREFIX*%\"",
 			array($dbName)
 		);

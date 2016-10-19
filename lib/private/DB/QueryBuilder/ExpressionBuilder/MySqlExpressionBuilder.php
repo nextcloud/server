@@ -24,10 +24,23 @@
 namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
 
-use OC\DB\QueryBuilder\QueryFunction;
-use OCP\DB\QueryBuilder\IQueryBuilder;
+use OC\DB\Connection;
+use OCP\IDBConnection;
 
 class MySqlExpressionBuilder extends ExpressionBuilder {
+
+	/** @var string */
+	protected $charset;
+
+	/**
+	 * @param \OCP\IDBConnection|Connection $connection
+	 */
+	public function __construct(IDBConnection $connection) {
+		parent::__construct($connection);
+
+		$params = $connection->getParams();
+		$this->charset = isset($params['charset']) ? $params['charset'] : 'utf8';
+	}
 
 	/**
 	 * @inheritdoc
@@ -35,7 +48,7 @@ class MySqlExpressionBuilder extends ExpressionBuilder {
 	public function iLike($x, $y, $type = null) {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnName($y);
-		return $this->expressionBuilder->comparison($x, ' COLLATE utf8_general_ci LIKE', $y);
+		return $this->expressionBuilder->comparison($x, ' COLLATE ' . $this->charset . '_general_ci LIKE', $y);
 	}
 
 }

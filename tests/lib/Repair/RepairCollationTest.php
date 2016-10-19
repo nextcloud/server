@@ -1,15 +1,15 @@
 <?php
-
-namespace Test\Repair;
-
-use OCP\Migration\IOutput;
-
 /**
  * Copyright (c) 2014 Thomas Müller <deepdiver@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
  */
+
+namespace Test\Repair;
+
+use OCP\ILogger;
+use OCP\Migration\IOutput;
 
 class TestCollationRepair extends \OC\Repair\Collation {
 	/**
@@ -50,10 +50,14 @@ class RepairCollationTest extends \Test\TestCase {
 	 */
 	private $config;
 
+	/** @var ILogger */
+	private $logger;
+
 	protected function setUp() {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->logger = $this->createMock(ILogger::class);
 		$this->config = \OC::$server->getConfig();
 		if (!$this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\MySqlPlatform) {
 			$this->markTestSkipped("Test only relevant on MySql");
@@ -63,7 +67,7 @@ class RepairCollationTest extends \Test\TestCase {
 		$this->tableName = $this->getUniqueID($dbPrefix . "_collation_test");
 		$this->connection->exec("CREATE TABLE $this->tableName(text VARCHAR(16)) COLLATE utf8_unicode_ci");
 
-		$this->repair = new TestCollationRepair($this->config, $this->connection);
+		$this->repair = new TestCollationRepair($this->config, $this->logger, $this->connection, false);
 	}
 
 	protected function tearDown() {

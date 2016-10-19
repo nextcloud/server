@@ -46,6 +46,11 @@ class LegacyDBTest extends \Test\TestCase {
 	 */
 	private $table5;
 
+	/**
+	 * @var string
+	 */
+	private $text_table;
+
 	protected function setUp() {
 		parent::setUp();
 
@@ -63,6 +68,7 @@ class LegacyDBTest extends \Test\TestCase {
 		$this->table3 = $this->test_prefix.'vcategory';
 		$this->table4 = $this->test_prefix.'decimal';
 		$this->table5 = $this->test_prefix.'uniconst';
+		$this->text_table = $this->test_prefix.'text_table';
 	}
 
 	protected function tearDown() {
@@ -389,5 +395,34 @@ class LegacyDBTest extends \Test\TestCase {
 		$query = OC_DB::prepare("SELECT * FROM `$table` WHERE `fullname` ILIKE ?");
 		$result = $query->execute(array('%ba%'));
 		$this->assertCount(1, $result->fetchAll());
+	}
+
+	/**
+	 * @dataProvider insertAndSelectDataProvider
+	 */
+	public function testInsertAndSelectData($expected, $throwsOnMysqlWithoutUTF8MB4) {
+		$table = "*PREFIX*{$this->text_table}";
+		$config = \OC::$server->getConfig();
+
+		$query = OC_DB::prepare("INSERT INTO `$table` (`textfield`) VALUES (?)");
+		if ($throwsOnMysqlWithoutUTF8MB4 && $config->getSystemValue('dbtype', 'sqlite') === 'mysql' && $config->getSystemValue('mysql.utf8mb4', false) === false) {
+			$this->markTestSkipped('MySQL requires UTF8mb4 to store value: ' . $expected);
+		}
+		$result = $query->execute(array($expected));
+		$this->assertEquals(1, $result);
+
+		$actual = OC_DB::prepare("SELECT `textfield` FROM `$table`")->execute()->fetchOne();
+		$this->assertSame($expected, $actual);
+	}
+
+	public function insertAndSelectDataProvider() {
+		return [
+			['abcdefghijklmnopqrstuvwxyzABCDEFGHIKLMNOPQRSTUVWXYZ', false],
+			['0123456789', false],
+			['äöüÄÖÜß!"§$%&/()=?#\'+*~°^`´', false],
+			['²³¼½¬{[]}\\', false],
+			['♡⚗', false],
+			['💩', true], # :hankey: on github
+		];
 	}
 }

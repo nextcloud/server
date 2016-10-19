@@ -293,4 +293,19 @@
 
 	</table>
 
+  <table>
+
+		<name>*dbprefix*text_table</name>
+		<declaration>
+
+         <field>
+          <name>textfield</name>
+          <type>text</type>
+          <notnull>false</notnull>
+          <length>255</length>
+         </field>
+
+		</declaration>
+  </table>
+
 </database>

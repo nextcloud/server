@@ -28,6 +28,7 @@ namespace OC\DB;
 use Doctrine\DBAL\Event\Listeners\OracleSessionInit;
 use Doctrine\DBAL\Event\Listeners\SQLSessionInit;
 use Doctrine\DBAL\Event\Listeners\MysqlSessionInit;
+use OCP\IConfig;
 
 /**
 * Takes care of creating and configuring Doctrine connections.
@@ -64,6 +65,12 @@ class ConnectionFactory {
 		),
 	);
 
+	public function __construct(IConfig $config) {
+		if($config->getSystemValue('mysql.utf8mb4', false)) {
+			$this->defaultConnectionParams['mysql']['charset'] = 'utf8mb4';
+		}
+	}
+
 	/**
 	* @brief Get default connection parameters for a given DBMS.
 	* @param string $type DBMS type
@@ -99,7 +106,9 @@ class ConnectionFactory {
 			case 'mysql':
 				// Send "SET NAMES utf8". Only required on PHP 5.3 below 5.3.6.
 				// See http://stackoverflow.com/questions/4361459/php-pdo-charset-set-names#4361485
-				$eventManager->addEventSubscriber(new MysqlSessionInit);
+				$eventManager->addEventSubscriber(new MysqlSessionInit(
+					$this->defaultConnectionParams['mysql']['charset']
+				));
 				$eventManager->addEventSubscriber(
 					new SQLSessionInit("SET SESSION AUTOCOMMIT=1"));
 				break;
