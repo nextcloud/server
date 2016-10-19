@@ -140,7 +140,7 @@ class OC_App {
 	public static function loadApp($app, $checkUpgrade = true) {
 		self::$loadedApps[] = $app;
 		$appPath = self::getAppPath($app);
-		if($appPath === false || !\OC::$server->getLockdownManager()->canAccessApp($app)) {
+		if($appPath === false) {
 			return;
 		}
 

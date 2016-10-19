@@ -43,16 +43,4 @@ class LockdownManager implements ILockdownManager {
 		}
 		return !$this->scope || $this->scope['filesystem'];
 	}
-
-	public function canAccessApp($app) {
-		if (!$this->enabled) {
-			return true;
-		}
-		if ($this->scope && $this->scope['apps']) {
-			return in_array($app, $this->scope['apps']);
-		} else {
-			// no limit
-			return true;
-		}
-	}
 }
