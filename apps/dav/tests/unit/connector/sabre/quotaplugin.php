@@ -130,6 +130,12 @@ class QuotaPlugin extends \Test\TestCase {
 			array(512, array('CONTENT-LENGTH' => '512')),
 			array(2048, array('OC-TOTAL-LENGTH' => '2048', 'CONTENT-LENGTH' => '1024')),
 			array(4096, array('OC-TOTAL-LENGTH' => '2048', 'X-EXPECTED-ENTITY-LENGTH' => '4096')),
+			[null, ['X-EXPECTED-ENTITY-LENGTH' => 'A']],
+			[null, ['CONTENT-LENGTH' => 'A']],
+			[1024, ['OC-TOTAL-LENGTH' => 'A', 'CONTENT-LENGTH' => '1024']],
+			[1024, ['OC-TOTAL-LENGTH' => 'A', 'X-EXPECTED-ENTITY-LENGTH' => '1024']],
+			[null, ['OC-TOTAL-LENGTH' => '2048', 'X-EXPECTED-ENTITY-LENGTH' => 'A']],
+			[null, ['OC-TOTAL-LENGTH' => '2048', 'CONTENT-LENGTH' => 'A']],
 		);
 	}
 
