@@ -754,9 +754,12 @@ var OCdialogs = {
 			filter = [filter];
 		}
 		self.filepicker.filesClient.getFolderContents(dir).then(function(status, files) {
-			files = files.filter(function(file) {
-				return file.type === 'dir' || filter.indexOf(file.mimetype) !== -1;
-			}).sort(function(a, b) {
+			if (filter) {
+				files = files.filter(function (file) {
+					return filter == [] || file.type === 'dir' || filter.indexOf(file.mimetype) !== -1;
+				});
+			}
+			files = files.sort(function(a, b) {
 				if (a.type === 'dir' && b.type !== 'dir') {
 					return -1;
 				} else if(a.type !== 'dir' && b.type === 'dir') {
