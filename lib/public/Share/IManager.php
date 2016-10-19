@@ -192,6 +192,36 @@ interface IManager {
 	public function userDeletedFromGroup($uid, $gid);
 
 	/**
+	 * Get access list to a path. This means
+	 * all the users that can access a given path.
+	 *
+	 * Consider:
+	 * -root
+	 * |-folder1
+	 *  |-folder2
+	 *   |-fileA
+	 *
+	 * fileA is shared with user1
+	 * folder2 is shared with group2 (user4 is a member of group2)
+	 * folder1 is shared with user2
+	 *
+	 * Then the access list will to '/folder1/folder2/fileA' is:
+	 * [
+	 *  users => ['user1', 'user2', 'user4'],
+	 *  public => bool
+	 *  remote => bool
+	 * ]
+	 *
+	 * This is required for encryption/activity
+	 *
+	 * @param \OCP\Files\Node $path
+	 * @param bool $recursive Should we check all parent folders as well
+	 * @return array
+	 * @since 9.2.0
+	 */
+	public function getAccessList(\OCP\Files\Node $path, $recursive = true);
+
+	/**
 	 * Instantiates a new share object. This is to be passed to
 	 * createShare.
 	 *
