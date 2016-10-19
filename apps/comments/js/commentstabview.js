@@ -386,6 +386,15 @@
 			this.nextPage();
 		},
 
+		/**
+		 * takes care of updating comment elements after submit (either new
+		 * comment or edit).
+		 *
+		 * @param {OC.Backbone.Model} model
+		 * @param {jQuery} $form
+		 * @param {string|undefined} commentId
+		 * @private
+		 */
 		_onSubmitSuccess: function(model, $form, commentId) {
 			var self = this;
 			var $submit = $form.find('.submit');
@@ -396,32 +405,25 @@
 				success: function(model) {
 					$submit.removeClass('hidden');
 					$loading.addClass('hidden');
+					var $target;
+
 					if(!_.isUndefined(commentId)) {
 						var $row = $form.closest('.comment');
-						$row.data('commentEl')
-							.removeClass('hidden')
-							.find('.message')
-							.html(self._formatMessage(model.get('message'), model.get('mentions')))
-							.find('.avatar')
-							.each(function () { $(this).avatar(); });
+						$target = $row.data('commentEl');
+						$target.removeClass('hidden');
 						$row.remove();
 					} else {
-						var $row = $form.closest('.comments');
-						$('.commentsTabView .comments').find('li:first')
-							.find('.message')
-							.html(self._formatMessage(model.get('message'), model.get('mentions')))
-							.find('.avatar')
-							.each(function () { $(this).avatar(); });
+						$target = $('.commentsTabView .comments').find('li:first');
 						$textArea.val('').prop('disabled', false);
 					}
 
+					$target.find('.message')
+						.html(self._formatMessage(model.get('message'), model.get('mentions')))
+						.find('.avatar')
+						.each(function () { $(this).avatar(); });
 				},
 				error: function () {
-					$submit.removeClass('hidden');
-					$loading.addClass('hidden');
-					$textArea.prop('disabled', false);
-
-					OC.Notification.showTemporary(t('comments', 'Error occurred while updating comment with id {id}', {id: commentId}));
+					self._onSubmitError($form, commentId);
 				}
 			});
 		},
@@ -455,11 +457,7 @@
 						self._onSubmitSuccess(model, $form, commentId);
 					},
 					error: function() {
-						$submit.removeClass('hidden');
-						$loading.addClass('hidden');
-						$textArea.prop('disabled', false);
-
-						OC.Notification.showTemporary(t('comments', 'Error occurred while updating comment with id {id}', {id: commentId}));
+						self._onSubmitError($form, commentId);
 					}
 				});
 			} else {
@@ -478,16 +476,32 @@
 						self._onSubmitSuccess(model, $form);
 					},
 					error: function() {
-						$submit.removeClass('hidden');
-						$loading.addClass('hidden');
-						$textArea.prop('disabled', false);
-
-						OC.Notification.showTemporary(t('comments', 'Error occurred while posting comment'));
+						self._onSubmitError($form);
 					}
 				});
 			}
 
 			return false;
+		},
+
+		/**
+		 * takes care of updating the UI after an error on submit (either new
+		 * comment or edit).
+		 *
+		 * @param {jQuery} $form
+		 * @param {string|undefined} commentId
+		 * @private
+		 */
+		_onSubmitError: function($form, commentId) {
+			$form.find('.submit').removeClass('hidden');
+			$form.find('.submitLoading').addClass('hidden');
+			$form.find('.message').prop('disabled', false);
+
+			if(!_.isUndefined(commentId)) {
+				OC.Notification.showTemporary(t('comments', 'Error occurred while updating comment with id {id}', {id: commentId}));
+			} else {
+				OC.Notification.showTemporary(t('comments', 'Error occurred while posting comment'));
+			}
 		},
 
 		/**
