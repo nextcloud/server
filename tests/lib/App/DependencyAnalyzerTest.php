@@ -256,17 +256,18 @@ class DependencyAnalyzerTest extends TestCase {
 	 * @return array
 	 */
 	function providesCommands() {
-		return array(
-			array(array(), null),
+		return [
+			[[], null],
 			// grep is known on linux
-			array(array(), array(array('@attributes' => array('os' => 'Linux'), '@value' => 'grep'))),
+			[[], [['@attributes' => ['os' => 'Linux'], '@value' => 'grep']]],
 			// grepp is not known on linux
-			array(array('The command line tool grepp could not be found'), array(array('@attributes' => array('os' => 'Linux'), '@value' => 'grepp'))),
+			[['The command line tool grepp could not be found'], [['@attributes' => ['os' => 'Linux'], '@value' => 'grepp']]],
 			// we don't care about tools on Windows - we are on Linux
-			array(array(), array(array('@attributes' => array('os' => 'Windows'), '@value' => 'grepp'))),
+			[[], [['@attributes' => ['os' => 'Windows'], '@value' => 'grepp']]],
 			// grep is known on all systems
-			array(array(), 'grep'),
-		);
+			[[], 'grep'],
+			[[], ['@attributes' => ['os' => 'Linux'], '@value' => 'grep']],
+		];
 	}
 
 	/**

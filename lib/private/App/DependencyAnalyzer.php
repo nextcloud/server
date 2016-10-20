@@ -197,6 +197,9 @@ class DependencyAnalyzer {
 		if (!is_array($commands)) {
 			$commands = array($commands);
 		}
+		if (isset($commands['@value'])) {
+			$commands = [$commands];
+		}
 		$os = $this->platform->getOS();
 		foreach ($commands as $command) {
 			if (isset($command['@attributes']['os']) && $command['@attributes']['os'] !== $os) {
