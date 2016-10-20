@@ -40,4 +40,8 @@ class FakeManager implements \OCP\Comments\ICommentsManager {
 	public function deleteReadMarksOnObject($objectType, $objectId) {}
 
 	public function registerEventHandler(\Closure $closure) {}
+
+	public function registerDisplayNameResolver($type, \Closure $closure) {}
+
+	public function resolveDisplayName($type, $id) {}
 }
