@@ -1,0 +1,44 @@
+.systemtags-select2-dropdown {
+	.select2-result-label {
+		.checkmark {
+			visibility: hidden;
+		}
+		.new-item .systemtags-actions {
+			display: none;
+		}
+		.icon {
+			display: inline-block;
+			opacity: .5;
+			&.rename {
+				padding: 4px;
+			}
+		}
+	}
+	.select2-selected .select2-result-label .checkmark {
+		visibility: visible;
+	}
+	.systemtags-actions {
+		position: absolute;
+		right: 5px;
+	}
+	.systemtags-rename-form {
+		display: inline;
+		margin-left: 10px;
+	}
+	.label {
+		width: 85%;
+		display: -moz-inline-box;
+		display: inline-block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		&.hidden {
+			display: none;
+		}
+	}
+}
+.systemtags-select2-container {
+	width: 100%;
+	.select2-choices .select2-search-choice.select2-locked .label {
+		opacity: 0.5;
+	}
+}
