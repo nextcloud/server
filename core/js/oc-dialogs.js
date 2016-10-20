@@ -193,7 +193,10 @@ var OCdialogs = {
 						});
 					} else {
 						datapath = self.$filePicker.data('path');
-						datapath += '/' + self.$filelist.find('tr.filepicker_element_selected').data('entryname');
+						var selectedName = self.$filelist.find('tr.filepicker_element_selected').data('entryname');
+						if (selectedName) {
+							datapath += '/' + selectedName;
+						}
 					}
 					callback(datapath);
 					self.$filePicker.ocdialog('close');
