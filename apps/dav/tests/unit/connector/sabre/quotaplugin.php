@@ -21,22 +21,20 @@
  *
  */
 namespace OCA\DAV\Tests\Unit\Connector\Sabre;
+use Test\TestCase;
+
 /**
  * Copyright (c) 2013 Thomas Müller <thomas.mueller@tmit.eu>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
  */
-class QuotaPlugin extends \Test\TestCase {
+class QuotaPlugin extends TestCase {
 
-	/**
-	 * @var \Sabre\DAV\Server
-	 */
+	/** @var \Sabre\DAV\Server | \PHPUnit_Framework_MockObject_MockObject */
 	private $server;
 
-	/**
-	 * @var \OCA\DAV\Connector\Sabre\QuotaPlugin
-	 */
+	/** @var \OCA\DAV\Connector\Sabre\QuotaPlugin | \PHPUnit_Framework_MockObject_MockObject */
 	private $plugin;
 
 	private function init($quota, $checkedPath = '') {
@@ -123,13 +121,19 @@ class QuotaPlugin extends \Test\TestCase {
 	}
 
 	public function lengthProvider() {
-		return array(
-			array(null, array()),
-			array(1024, array('X-EXPECTED-ENTITY-LENGTH' => '1024')),
-			array(512, array('CONTENT-LENGTH' => '512')),
-			array(2048, array('OC-TOTAL-LENGTH' => '2048', 'CONTENT-LENGTH' => '1024')),
-			array(4096, array('OC-TOTAL-LENGTH' => '2048', 'X-EXPECTED-ENTITY-LENGTH' => '4096')),
-		);
+		return [
+			[null, []],
+			[1024, ['X-EXPECTED-ENTITY-LENGTH' => '1024']],
+			[512, ['CONTENT-LENGTH' => '512']],
+			[2048, ['OC-TOTAL-LENGTH' => '2048', 'CONTENT-LENGTH' => '1024']],
+			[4096, ['OC-TOTAL-LENGTH' => '2048', 'X-EXPECTED-ENTITY-LENGTH' => '4096']],
+			[null, ['X-EXPECTED-ENTITY-LENGTH' => 'A']],
+			[null, ['CONTENT-LENGTH' => 'A']],
+			[1024, ['OC-TOTAL-LENGTH' => 'A', 'CONTENT-LENGTH' => '1024']],
+			[1024, ['OC-TOTAL-LENGTH' => 'A', 'X-EXPECTED-ENTITY-LENGTH' => '1024']],
+			[null, ['OC-TOTAL-LENGTH' => '2048', 'X-EXPECTED-ENTITY-LENGTH' => 'A']],
+			[null, ['OC-TOTAL-LENGTH' => '2048', 'CONTENT-LENGTH' => 'A']],
+		];
 	}
 
 	public function quotaChunkedOkProvider() {
@@ -210,8 +214,11 @@ class QuotaPlugin extends \Test\TestCase {
 	}
 
 	private function buildFileViewMock($quota, $checkedPath) {
-		// mock filesysten
-		$view = $this->getMock('\OC\Files\View', array('free_space'), array(), '', false);
+		// mock file systen
+		$view = $this->getMockBuilder('\OC\Files\View')
+			->setMethods(['free_space'])
+			->setConstructorArgs([])
+			->getMock();
 		$view->expects($this->any())
 			->method('free_space')
 			->with($this->identicalTo($checkedPath))
