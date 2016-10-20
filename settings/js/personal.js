@@ -139,7 +139,6 @@ function showAvatarCropper () {
 	// Looks weird, but on('load', ...) doesn't work in IE8
 	$cropperImage.ready(function () {
 		$('#displayavatar').hide();
-		$cropper.show();
 
 		$cropperImage.Jcrop({
 			onChange: saveCoords,
@@ -148,6 +147,8 @@ function showAvatarCropper () {
 			boxHeight: 500,
 			boxWidth: 500,
 			setSelect: [0, 0, 300, 300]
+		}, function() {
+			$cropper.show();
 		});
 	});
 }
