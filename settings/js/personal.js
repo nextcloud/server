@@ -112,7 +112,10 @@ function updateAvatar (hidedefault) {
 		$('#header .avatardiv').addClass('avatardiv-shown');
 	}
 	$displaydiv.css({'background-color': ''});
-	$displaydiv.avatar(OC.currentUser, 145, true);
+	$displaydiv.avatar(OC.currentUser, 145, true, null, function() {
+		$displaydiv.removeClass('loading');
+		$('#displayavatar img').show();
+	});
 	$.get(OC.generateUrl(
 		'/avatar/{user}/{size}',
 		{
@@ -138,7 +141,6 @@ function showAvatarCropper () {
 
 	// Looks weird, but on('load', ...) doesn't work in IE8
 	$cropperImage.ready(function () {
-		$('#displayavatar').hide();
 
 		$cropperImage.Jcrop({
 			onChange: saveCoords,
@@ -295,6 +297,8 @@ $(document).ready(function () {
 			avatarResponseHandler(response);
 		},
 		submit: function(e, data) {
+			$('#displayavatar img').hide();
+			$('#displayavatar .avatardiv').addClass('loading');
 			data.formData = _.extend(data.formData || {}, {
 				requesttoken: OC.requestToken
 			});
@@ -321,6 +325,8 @@ $(document).ready(function () {
 		OC.dialogs.filepicker(
 			t('settings', "Select a profile picture"),
 			function (path) {
+				$('#displayavatar img').hide();
+				$('#displayavatar .avatardiv').addClass('loading');
 				$.ajax({
 					type: "POST",
 					url: OC.generateUrl('/avatar/'),
@@ -358,6 +364,8 @@ $(document).ready(function () {
 	});
 
 	$('#abortcropperbutton').click(function () {
+		$('#displayavatar .avatardiv').removeClass('loading');
+		$('#displayavatar img').show();
 		cleanCropper();
 	});
 
