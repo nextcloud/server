@@ -94,6 +94,7 @@ class SCSSCacher {
 			$this->logger->error($e, ['app' => 'SCSSPHP']);
 			return false;
 		}
+		$this->logger->info($this->fileLoc.'/'.$this->fileName.' compiled and successfully cached', ['app' => 'SCSSPHP']);
 		return file_put_contents($this->fileCache, $this->rebaseUrls($compiledScss));
 	}
 
