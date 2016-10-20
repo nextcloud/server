@@ -192,6 +192,13 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 	background-image: url('../img/actions/external.svg?v=1');
 }
 
+.icon-fullscreen {
+	background-image: url('../img/actions/fullscreen.svg?v=1');
+}
+.icon-fullscreen-white {
+	background-image: url('../img/actions/fullscreen-white.svg?v=1');
+}
+
 .icon-history {
 	background-image: url('../img/actions/history.svg?v=1');
 }
