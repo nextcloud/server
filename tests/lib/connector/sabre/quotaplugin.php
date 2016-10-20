@@ -80,13 +80,19 @@ class Test_OC_Connector_Sabre_QuotaPlugin extends \Test\TestCase {
 	}
 
 	public function lengthProvider() {
-		return array(
-			array(null, array()),
-			array(1024, array('HTTP_X_EXPECTED_ENTITY_LENGTH' => '1024')),
-			array(512, array('HTTP_CONTENT_LENGTH' => '512')),
-			array(2048, array('HTTP_OC_TOTAL_LENGTH' => '2048', 'HTTP_CONTENT_LENGTH' => '1024')),
-			array(4096, array('HTTP_OC_TOTAL_LENGTH' => '2048', 'HTTP_X_EXPECTED_ENTITY_LENGTH' => '4096')),
-		);
+		return [
+			[null, []],
+			[1024, ['HTTP_X_EXPECTED_ENTITY_LENGTH' => '1024']],
+			[512, ['HTTP_CONTENT_LENGTH' => '512']],
+			[2048, ['HTTP_OC_TOTAL_LENGTH' => '2048', 'HTTP_CONTENT_LENGTH' => '1024']],
+			[4096, ['HTTP_OC_TOTAL_LENGTH' => '2048', 'HTTP_X_EXPECTED_ENTITY_LENGTH' => '4096']],
+			[null, ['HTTP_X_EXPECTED_ENTITY_LENGTH' => 'A']],
+			[null, ['HTTP_CONTENT_LENGTH' => 'A']],
+			[1024, ['HTTP_OC_TOTAL_LENGTH' => 'A', 'HTTP_CONTENT_LENGTH' => '1024']],
+			[1024, ['HTTP_OC_TOTAL_LENGTH' => 'A', 'HTTP_X_EXPECTED_ENTITY_LENGTH' => '1024']],
+			[null, ['HTTP_OC_TOTAL_LENGTH' => '2048', 'HTTP_X_EXPECTED_ENTITY_LENGTH' => 'A']],
+			[null, ['HTTP_OC_TOTAL_LENGTH' => '2048', 'HTTP_CONTENT_LENGTH' => 'A']],
+		];
 	}
 
 	private function buildFileViewMock($quota) {
