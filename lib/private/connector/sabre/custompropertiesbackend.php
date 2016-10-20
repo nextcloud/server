@@ -327,7 +327,7 @@ class CustomPropertiesBackend implements BackendInterface {
 
 		$result = $this->connection->executeQuery(
 			$sql,
-			array($this->user, rtrim($path, '/') . '/%', $requestedProperties),
+			array($this->user, $this->connection->escapeLikeParameter(rtrim($path, '/')) . '/%', $requestedProperties),
 			array(null, null, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
 		);
 

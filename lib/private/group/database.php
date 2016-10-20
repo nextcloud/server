@@ -222,7 +222,7 @@ class OC_Group_Database extends OC_Group_Backend {
 		$parameters = [$gid];
 		$searchLike = '';
 		if ($search !== '') {
-			$parameters[] = '%' . $search . '%';
+			$parameters[] = '%' . $this->escapeLikeParameter($search) . '%';
 			$searchLike = ' AND `uid` LIKE ?';
 		}
 
@@ -248,7 +248,7 @@ class OC_Group_Database extends OC_Group_Backend {
 		$parameters = [$gid];
 		$searchLike = '';
 		if ($search !== '') {
-			$parameters[] = '%' . $search . '%';
+			$parameters[] = '%' . $this->escapeLikeParameter($search) . '%';
 			$searchLike = ' AND `uid` LIKE ?';
 		}
 
@@ -259,6 +259,10 @@ class OC_Group_Database extends OC_Group_Backend {
 			$count = intval($count);
 		}
 		return $count;
+	}
+
+	private function escapeLikeParameter($param) {
+		return addcslashes($param, '\\_%');
 	}
 
 }
