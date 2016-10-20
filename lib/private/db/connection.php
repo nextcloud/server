@@ -301,4 +301,14 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	public function inTransaction() {
 		return $this->getTransactionNestingLevel() > 0;
 	}
+
+	/**
+	 * Espace a parameter to be used in a LIKE query
+	 *
+	 * @param string $param
+	 * @return string
+	 */
+	public function escapeLikeParameter($param) {
+		return addcslashes($param, '\\_%');
+	}
 }
