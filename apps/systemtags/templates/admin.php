@@ -19,8 +19,6 @@
  *
  */
 
-vendor_script('core', 'select2/select2');
-vendor_style('core', 'select2/select2');
 script('core', [
 	'oc-backbone-webdav',
 	'systemtags/systemtags',

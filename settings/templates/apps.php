@@ -1,16 +1,9 @@
 <?php
 style('settings', 'settings');
-vendor_style(
-	'core',
-	[
-		'select2/select2',
-	]
-);
 vendor_script(
 	'core',
 	[
-		'handlebars/handlebars',
-		'select2/select2'
+		'handlebars/handlebars'
 	]
 );
 script(
