@@ -75,24 +75,25 @@ $(document).ready(function() {
 				// there is only root
 				this._setCurrentDir('/', false);
 
-				this._reloadCall = $.ajax({
-					url: OC.generateUrl('/apps/files/api/v1/tags/{tagName}/files', {tagName: tagName}),
-					type: 'GET',
-					dataType: 'json'
-				});
+				this._reloadCall = this.filesClient.getFilteredFiles(
+					{
+						favorite: true
+					},
+					{
+						properties: this._getWebdavProperties()
+					}
+				);
 				var callBack = this.reloadCallback.bind(this);
 				return this._reloadCall.then(callBack, callBack);
 			},
 
-			reloadCallback: function(result) {
-				delete this._reloadCall;
-				this.hideMask();
-
-				if (result.files) {
-					this.setFiles(result.files.sort(this._sortComparator));
-					return true;
+			reloadCallback: function(status, result) {
+				if (result) {
+					// prepend empty dir info because original handler
+					result.unshift({});
 				}
-				return false;
+
+				return OCA.Files.FileList.prototype.reloadCallback.call(this, status, result);
 			}
 		});
 

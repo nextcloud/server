@@ -90,26 +90,5 @@ class TagService {
 		// list is up to date, in case of concurrent changes ?
 		return $tags;
 	}
-
-	/**
-	 * Get all files for the given tag
-	 *
-	 * @param string $tagName tag name to filter by
-	 * @return Node[] list of matching files
-	 * @throws \Exception if the tag does not exist
-	 */
-	public function getFilesByTag($tagName) {
-		try {
-			$fileIds = $this->tagger->getIdsForTag($tagName);
-		} catch (\Exception $e) {
-			return [];
-		}
-
-		$allNodes = [];
-		foreach ($fileIds as $fileId) {
-			$allNodes = array_merge($allNodes, $this->homeFolder->getById((int) $fileId));
-		}
-		return $allNodes;
-	}
 }
 

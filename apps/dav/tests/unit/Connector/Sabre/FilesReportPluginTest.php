@@ -26,12 +26,15 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\FilesReportPlugin as FilesReportPluginImplementation;
 use OCP\IPreview;
+use OCP\ITagManager;
+use OCP\IUserSession;
 use Sabre\DAV\Exception\NotFound;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OC\Files\View;
 use OCP\Files\Folder;
 use OCP\IGroupManager;
 use OCP\SystemTag\ISystemTagManager;
+use OCP\ITags;
 
 class FilesReportPluginTest extends \Test\TestCase {
 	/** @var \Sabre\DAV\Server|\PHPUnit_Framework_MockObject_MockObject */
@@ -45,6 +48,9 @@ class FilesReportPluginTest extends \Test\TestCase {
 
 	/** @var ISystemTagManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $tagManager;
+
+	/** @var ITags|\PHPUnit_Framework_MockObject_MockObject */
+	private $privateTags;
 
 	/** @var  \OCP\IUserSession */
 	private $userSession;
@@ -87,19 +93,19 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->tagManager = $this->getMockBuilder('\OCP\SystemTag\ISystemTagManager')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->tagMapper = $this->getMockBuilder('\OCP\SystemTag\ISystemTagObjectMapper')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->userSession = $this->getMockBuilder('\OCP\IUserSession')
-			->disableOriginalConstructor()
-			->getMock();
-
 		$this->previewManager = $this->getMockBuilder('\OCP\IPreview')
 			->disableOriginalConstructor()
 			->getMock();
+
+		$this->tagManager = $this->createMock(ISystemTagManager::class);
+		$this->tagMapper = $this->createMock(ISystemTagObjectMapper::class);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->privateTags = $this->createMock(ITags::class);
+		$privateTagManager = $this->createMock(ITagManager::class);
+		$privateTagManager->expects($this->any())
+			->method('load')
+			->with('files')
+			->will($this->returnValue($this->privateTags));
 
 		$user = $this->getMockBuilder('\OCP\IUser')
 			->disableOriginalConstructor()
@@ -116,6 +122,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 			$this->view,
 			$this->tagManager,
 			$this->tagMapper,
+			$privateTagManager,
 			$this->userSession,
 			$this->groupManager,
 			$this->userFolder
@@ -651,5 +658,17 @@ class FilesReportPluginTest extends \Test\TestCase {
 		];
 
 		$this->assertEquals(['222'], array_values($this->invokePrivate($this->plugin, 'processFilterRules', [$rules])));
+	}
+
+	public function testProcessFavoriteFilter() {
+		$rules = [
+			['name' => '{http://owncloud.org/ns}favorite', 'value' => '1'],
+		];
+
+		$this->privateTags->expects($this->once())
+			->method('getFavorites')
+			->will($this->returnValue(['456', '789']));
+
+		$this->assertEquals(['456', '789'], array_values($this->invokePrivate($this->plugin, 'processFilterRules', [$rules])));
 	}
 }

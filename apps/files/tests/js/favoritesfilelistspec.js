@@ -41,13 +41,9 @@ describe('OCA.Files.FavoritesFileList tests', function() {
 			'</div>'
 		);
 	});
-	afterEach(function() {
-		fileList.destroy();
-		fileList = undefined;
-	});
 
 	describe('loading file list', function() {
-		var response;
+		var fetchStub;
 
 		beforeEach(function() {
 			fileList = new OCA.Files.FavoritesFileList(
@@ -55,36 +51,31 @@ describe('OCA.Files.FavoritesFileList tests', function() {
 			);
 			OCA.Files.FavoritesPlugin.attach(fileList);
 
-			fileList.reload();
-
-			/* jshint camelcase: false */
-			response = {
-				files: [{
-					id: 7,
-					name: 'test.txt',
-					path: '/somedir',
-					size: 123,
-					mtime: 11111000,
-					tags: [OC.TAG_FAVORITE],
-					permissions: OC.PERMISSION_ALL,
-					mimetype: 'text/plain'
-				}]
-			};
+			fetchStub = sinon.stub(fileList.filesClient, 'getFilteredFiles');
+		});
+		afterEach(function() {
+			fetchStub.restore();
+			fileList.destroy();
+			fileList = undefined;
 		});
 		it('render files', function() {
-			var request;
+			var deferred = $.Deferred();
+			fetchStub.returns(deferred.promise());
 
-			expect(fakeServer.requests.length).toEqual(1);
-			request = fakeServer.requests[0];
-			expect(request.url).toEqual(
-				OC.generateUrl('apps/files/api/v1/tags/{tagName}/files', {tagName: OC.TAG_FAVORITE})
-			);
+			fileList.reload();
 
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify(response)
-			);
+			expect(fetchStub.calledOnce).toEqual(true);
+
+			deferred.resolve(207, [{
+				id: 7,
+				name: 'test.txt',
+				path: '/somedir',
+				size: 123,
+				mtime: 11111000,
+				tags: [OC.TAG_FAVORITE],
+				permissions: OC.PERMISSION_ALL,
+				mimetype: 'text/plain'
+			}]);
 
 			var $rows = fileList.$el.find('tbody tr');
 			var $tr = $rows.eq(0);

@@ -177,6 +177,7 @@ class ServerFactory {
 					$view,
 					\OC::$server->getSystemTagManager(),
 					\OC::$server->getSystemTagObjectMapper(),
+					\OC::$server->getTagManager(),
 					$this->userSession,
 					\OC::$server->getGroupManager(),
 					$userFolder
