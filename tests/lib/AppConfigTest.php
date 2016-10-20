@@ -40,7 +40,7 @@ class AppConfigTest extends TestCase {
 		$sql->delete('appconfig');
 		$sql->execute();
 
-		$this->registerAppConfig(new \OC\AppConfig($this->connection));
+		$this->overwriteService('AppConfig', new \OC\AppConfig($this->connection));
 
 		$sql = $this->connection->getQueryBuilder();
 		$sql->insert('appconfig')
@@ -130,19 +130,8 @@ class AppConfigTest extends TestCase {
 			$sql->execute();
 		}
 
-		$this->registerAppConfig(new \OC\AppConfig(\OC::$server->getDatabaseConnection()));
+		$this->restoreService('AppConfig');
 		parent::tearDown();
-	}
-
-	/**
-	 * Register an app config object for testing purposes.
-	 *
-	 * @param \OCP\IAppConfig $appConfig
-	 */
-	protected function registerAppConfig($appConfig) {
-		\OC::$server->registerService('AppConfig', function () use ($appConfig) {
-			return $appConfig;
-		});
 	}
 
 	public function testGetApps() {

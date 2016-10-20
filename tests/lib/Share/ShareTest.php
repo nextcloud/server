@@ -119,12 +119,6 @@ class ShareTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	protected function setHttpHelper($httpHelper) {
-		\OC::$server->registerService('HTTPHelper', function () use ($httpHelper) {
-			return $httpHelper;
-		});
-	}
-
 	public function testShareInvalidShareType() {
 		$message = 'Share type foobar is not valid for test.txt';
 		try {
@@ -1046,11 +1040,10 @@ class ShareTest extends \Test\TestCase {
 	 * @param string $urlHost
 	 */
 	public function testRemoteShareUrlCalls($shareWith, $urlHost) {
-		$oldHttpHelper = \OC::$server->query('HTTPHelper');
-		$httpHelperMock = $this->getMockBuilder('OC\HttpHelper')
+		$httpHelperMock = $this->getMockBuilder('OC\HTTPHelper')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->setHttpHelper($httpHelperMock);
+		$this->overwriteService('HTTPHelper', $httpHelperMock);
 
 		$httpHelperMock->expects($this->at(0))
 			->method('post')
@@ -1075,7 +1068,7 @@ class ShareTest extends \Test\TestCase {
 			->willReturn(['success' => true, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 100]]])]);
 
 		\OCP\Share::unshare('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, $shareWith);
-		$this->setHttpHelper($oldHttpHelper);
+		$this->restoreService('HTTPHelper');
 	}
 
 	/**
@@ -1473,11 +1466,10 @@ class ShareTest extends \Test\TestCase {
 	 * Make sure that a user cannot have multiple identical shares to remote users
 	 */
 	public function testOnlyOneRemoteShare() {
-		$oldHttpHelper = \OC::$server->query('HTTPHelper');
-		$httpHelperMock = $this->getMockBuilder('OC\HttpHelper')
+		$httpHelperMock = $this->getMockBuilder('OC\HTTPHelper')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->setHttpHelper($httpHelperMock);
+		$this->overwriteService('HTTPHelper', $httpHelperMock);
 
 		$httpHelperMock->expects($this->at(0))
 			->method('post')
@@ -1502,7 +1494,7 @@ class ShareTest extends \Test\TestCase {
 			->willReturn(['success' => true, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 100]]])]);
 
 		\OCP\Share::unshare('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, 'foo@localhost');
-		$this->setHttpHelper($oldHttpHelper);
+		$this->restoreService('HTTPHelper');
 	}
 
 	/**
