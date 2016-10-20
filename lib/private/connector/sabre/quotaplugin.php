@@ -114,12 +114,13 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	public function getLength() {
 		$req = $this->server->httpRequest;
 		$length = $req->getHeader('X-Expected-Entity-Length');
-		if (!$length) {
+		if (!is_numeric($length)) {
 			$length = $req->getHeader('Content-Length');
+			$length = is_numeric($length) ? $length : null;
 		}
 
 		$ocLength = $req->getHeader('OC-Total-Length');
-		if ($length && $ocLength) {
+		if (is_numeric($length) && is_numeric($ocLength)) {
 			return max($length, $ocLength);
 		}
 

@@ -80,13 +80,19 @@ class Test_OC_Connector_Sabre_QuotaPlugin extends \Test\TestCase {
 	}
 
 	public function lengthProvider() {
-		return array(
-			array(null, array()),
-			array(1024, array('X-EXPECTED-ENTITY-LENGTH' => '1024')),
-			array(512, array('CONTENT-LENGTH' => '512')),
-			array(2048, array('OC-TOTAL-LENGTH' => '2048', 'CONTENT-LENGTH' => '1024')),
-			array(4096, array('OC-TOTAL-LENGTH' => '2048', 'X-EXPECTED-ENTITY-LENGTH' => '4096')),
-		);
+		return [
+			[null, []],
+			[1024, ['X-EXPECTED-ENTITY-LENGTH' => '1024']],
+			[512, ['CONTENT-LENGTH' => '512']],
+			[2048, ['OC-TOTAL-LENGTH' => '2048', 'CONTENT-LENGTH' => '1024']],
+			[4096, ['OC-TOTAL-LENGTH' => '2048', 'X-EXPECTED-ENTITY-LENGTH' => '4096']],
+			[null, ['X-EXPECTED-ENTITY-LENGTH' => 'A']],
+			[null, ['CONTENT-LENGTH' => 'A']],
+			[1024, ['OC-TOTAL-LENGTH' => 'A', 'CONTENT-LENGTH' => '1024']],
+			[1024, ['OC-TOTAL-LENGTH' => 'A', 'X-EXPECTED-ENTITY-LENGTH' => '1024']],
+			[null, ['OC-TOTAL-LENGTH' => '2048', 'X-EXPECTED-ENTITY-LENGTH' => 'A']],
+			[null, ['OC-TOTAL-LENGTH' => '2048', 'CONTENT-LENGTH' => 'A']],
+		];
 	}
 
 	private function buildFileViewMock($quota) {
