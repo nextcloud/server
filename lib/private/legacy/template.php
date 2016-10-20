@@ -143,7 +143,6 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addScript("oc-dialogs", null, true);
 			OC_Util::addScript("jquery.ocdialog", null, true);
 			OC_Util::addStyle("jquery.ocdialog");
-			OC_Util::addScript("compatibility", null, true);
 			OC_Util::addScript('files/fileinfo');
 			OC_Util::addScript('files/client');
 
