@@ -101,9 +101,9 @@
 					if(this.$title) {
 						this.$title.text(value);
 					} else {
-						var $title = $('<h3 class="oc-dialog-title">'
+						var $title = $('<h2 class="oc-dialog-title">'
 							+ value
-							+ '</h3>');
+							+ '</h2>');
 						this.$title = $title.prependTo(this.$dialog);
 					}
 					this._setSizes();
@@ -184,11 +184,11 @@
 			if (content_height> 0) {
 				this.element.css({
 					height: content_height + 'px',
-					width: this.$dialog.innerWidth()-20 + 'px'
+					width: this.$dialog.innerWidth() - 30 + 'px'
 				});
 			} else {
 				this.element.css({
-					width : this.$dialog.innerWidth() - 20 + 'px'
+					width : this.$dialog.innerWidth() - 30 + 'px'
 				});
 			}
 		},

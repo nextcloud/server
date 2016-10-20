@@ -1,7 +1,7 @@
 .oc-dialog {
-	background: white;
-	color: #333333;
-	border-radius: 3px; box-shadow: 0 0 7px #888888;
+	background: #fff;
+	color: #333;
+	border-radius: 3px; box-shadow: 0 0 7px #888;
 	padding: 15px;
 	z-index: 1000;
 	font-size: 100%;
@@ -11,26 +11,26 @@
 	min-width: 200px;
 }
 .oc-dialog-title {
-	background: white;
-	font-weight: bold;
-	font-size: 110%;
-	margin-bottom: 5px;
-	margin-top: -9px;
+	background: #fff;
+	margin-left: 12px;
 }
 .oc-dialog-content {
 	z-index: 1000;
-	background: white;
 }
 .oc-dialog-separator {
 }
 .oc-dialog-buttonrow {
-	background: white;
-	float: right;
-	position: relative;
-	bottom: 5px;
 	display: block;
-	margin-top: 10px;
+	background: transparent;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	padding: 10px;
+	box-sizing: border-box;
 	width: 100%;
+	background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
 }
 /* align primary button to right, other buttons to left */
 .oc-dialog-buttonrow.twobuttons button:nth-child(1) {
@@ -45,10 +45,11 @@
 }
 
 .oc-dialog-close {
-	position:absolute;
-	top:7px; right:7px;
-	height:20px; width:20px;
-	background:url('../img/actions/close.svg') no-repeat center;
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 25px;
+	background: url('../img/actions/close.svg') no-repeat center;
 }
 
 .oc-dialog-dim {

@@ -774,39 +774,48 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 #oc-dialog-filepicker-content .dirtree span:not(:last-child) { cursor: pointer; }
 #oc-dialog-filepicker-content .dirtree span:last-child { font-weight: bold; }
 #oc-dialog-filepicker-content .dirtree span:not(:last-child)::after { content: '>'; padding: 3px;}
+#oc-dialog-filepicker-content .filelist-container {
+	box-sizing: border-box;
+	display: inline-block;
+	overflow-y: auto;
+	height: 321px;
+	width: 100%;
+	padding-bottom: 55px;
+}
 #oc-dialog-filepicker-content .filelist {
-	overflow-y:auto;
-	height: 290px;
 	background-color:white;
 	width:100%;
 }
-
-#oc-dialog-filepicker-content .filelist li:first-child {
-	border-top: 1px solid #eee;
+#oc-dialog-filepicker-content #filestable.filelist {
+	/* prevent the filepicker to overflow */
+	min-width: initial;
 }
-#oc-dialog-filepicker-content .filelist li {
-	position: relative;
-	height: 40px;
-	padding: 5px;
+
+#oc-dialog-filepicker-content .filelist td {
+	padding: 14px;
 	border-bottom: 1px solid #eee;
 }
+#oc-dialog-filepicker-content .filelist tr:last-child td {
+	border-bottom: none;
+}
 #oc-dialog-filepicker-content .filelist .filename {
-	position: absolute;
-	padding-top: 9px;
-	max-width: 60%;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	background-size: 32px;
+	background-repeat: no-repeat;
+	padding-left: 51px;
+	background-position: 7px 7px;
+	cursor: pointer;
 }
-#oc-dialog-filepicker-content .filelist img {
-	margin: 2px 1em 0 4px;
-	width: 32px;
-}
+
+#oc-dialog-filepicker-content .filelist .filesize,
 #oc-dialog-filepicker-content .filelist .date {
-	float: right;
-	margin-right: 10px;
-	margin-top: 0;
-	padding-top: 9px;
+	width: 80px;
+}
+
+#oc-dialog-filepicker-content .filelist .filesize {
+	text-align: right;
 }
 #oc-dialog-filepicker-content .filepicker_element_selected { background-color:lightblue;}
 .ui-dialog {position:fixed !important;}
