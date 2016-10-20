@@ -19,7 +19,34 @@
 		'<div class="resharerInfoView subView"></div>' +
 		'{{#if isSharingAllowed}}' +
 		'<label for="shareWith-{{cid}}" class="hidden-visually">{{shareLabel}}</label>' +
-		'<div class="oneline">' +
+		'<div class="oneline shareInput">' +
+		'    <a href="#"><span class="preSharePermissions"></span></a>' +
+			'<div class="popovermenu bubble hidden menu">' +
+				'<ul>' +
+					'<li>' +
+						'<span class="sharePermission">' +
+							'<input id="sharePermission-read-{{cid}}" type="checkbox" name="share" class="permissions checkbox" checked="checked" disabled="disabled" data-permissions="{{readPermission}}"/>' +
+							'<label for="sharePermission-read-{{cid}}">{{readLabel}}</label>' +
+						'</span>' +
+					'</li>' +
+					'{{#if canEdit}}' +
+					'<li>' +
+						'<span class="sharePermission">' +
+							'<input id="sharePermission-edit-{{cid}}" type="checkbox" name="share" class="permissions checkbox" checked="checked" data-permissions="{{editPermission}}"/>' +
+							'<label for="sharePermission-edit-{{cid}}">{{editLabel}}</label>' +
+						'</span>' +
+					'</li>' +
+					'{{/if}}' +
+					'{{#if canShare}}' +
+					'<li>' +
+						'<span class="sharePermission">' +
+							'<input id="sharePermission-share-{{cid}}" type="checkbox" name="share" class="permissions checkbox" checked="checked" data-permissions="{{sharePermission}}"/>' +
+							'<label for="sharePermission-share-{{cid}}">{{shareLabel}}</label>' +
+						'</span>' +
+					'</li>' +
+					'{{/if}}' +
+				'</ul>' +
+			'</div>' +
 		'    <input id="shareWith-{{cid}}" class="shareWithField" type="text" placeholder="{{sharePlaceholder}}" />' +
 		'    <span class="shareWithLoading icon-loading-small hidden"></span>'+
 		'{{{remoteShareInfo}}}' +
@@ -74,7 +101,9 @@
 		mailView: undefined,
 
 		events: {
-			'input .shareWithField': 'onShareWithFieldChanged'
+			'input .shareWithField': 'onShareWithFieldChanged',
+			'click .preSharePermissions': 'onTogglePermissionsMenu',
+			'click .permissions': 'onPermissionChange',
 		},
 
 		initialize: function(options) {
@@ -297,18 +326,25 @@
 			$loading.removeClass('hidden')
 				.addClass('inlineblock');
 
-			this.model.addShare(s.item.value, {success: function() {
-				$(e.target).val('')
-					.attr('disabled', false);
-				$loading.addClass('hidden')
-					.removeClass('inlineblock');
-			}, error: function(obj, msg) {
-				OC.Notification.showTemporary(msg);
-				$(e.target).attr('disabled', false)
-					.autocomplete('search', $(e.target).val());
-				$loading.addClass('hidden')
-					.removeClass('inlineblock');
-			}});
+			var permissions = $(this.$el.find('.preSharePermissions')).data('permissions');
+			var attributes = s.item.value;
+			attributes.permissions = permissions;
+
+			this.model.addShare(attributes, {
+				success: function() {
+					$(e.target).val('')
+						.attr('disabled', false);
+					$loading.addClass('hidden')
+						.removeClass('inlineblock');
+				},
+				error: function(obj, msg) {
+					OC.Notification.showTemporary(msg);
+					$(e.target).attr('disabled', false)
+						.autocomplete('search', $(e.target).val());
+					$loading.addClass('hidden')
+						.removeClass('inlineblock');
+				}
+			});
 		},
 
 		_toggleLoading: function(state) {
@@ -339,13 +375,39 @@
 		render: function() {
 			var baseTemplate = this._getTemplate('base', TEMPLATE_BASE);
 
+			var editPermission = 0;
+			if (this.model.updatePermissionPossible()) {
+				editPermission |= OC.PERMISSION_UPDATE;
+			}
+			if (this.model.createPermissionPossible()) {
+				editPermission |= OC.PERMISSION_CREATE;
+			}
+			if (this.model.deletePermissionPossible()) {
+				editPermission |= OC.PERMISSION_DELETE;
+			}
+
+			var canShare = this.configModel.get('isResharingAllowed') && this.model.sharePermissionPossible();
+
 			this.$el.html(baseTemplate({
 				cid: this.cid,
 				shareLabel: t('core', 'Share'),
 				sharePlaceholder: this._renderSharePlaceholderPart(),
 				remoteShareInfo: this._renderRemoteShareInfoPart(),
-				isSharingAllowed: this.model.sharePermissionPossible()
+				isSharingAllowed: this.model.sharePermissionPossible(),
+				readLabel: t('core', 'Read'),
+				editLabel: t('core', 'Edit'),
+				readPermission: OC.PERMISSION_READ,
+				sharePermission: OC.PERMISSION_SHARE,
+				editPermission: editPermission,
+				canEdit: editPermission !== 0,
+				canShare: canShare
 			}));
+
+			var permissions = OC.PERMISSION_READ | editPermission;
+			if (canShare) {
+				permissions |= OC.PERMISSION_SHARE;
+			}
+			this.updatePermissions(permissions);
 
 			var $shareField = this.$el.find('.shareWithField');
 			if ($shareField.length) {
@@ -442,6 +504,35 @@
 		 */
 		_getRemoteShareInfoTemplate: function() {
 			return this._getTemplate('remoteShareInfo', TEMPLATE_REMOTE_SHARE_INFO);
+		},
+
+		onTogglePermissionsMenu: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			var $element = $(event.target);
+			var $div = $element.closest('.shareInput');
+			var $menu = $div.find('.popovermenu');
+
+			OC.showMenu(null, $menu);
+			this._menuOpen = true;
+		},
+
+		onPermissionChange: function(event) {
+			var $element = $(event.target);
+			var $div = $element.closest('.shareInput');
+
+			var permissions = 0;
+			$('.permissions', $div).filter(':checked').each(function(index, checkbox) {
+				permissions |= $(checkbox).data('permissions');
+			});
+
+			this.updatePermissions(permissions);
+		},
+
+		updatePermissions: function(permissions) {
+			var el = $(this.$el.find('.preSharePermissions'));
+			el.html(permissions);
+			el.data('permissions', permissions);
 		}
 	});
 
