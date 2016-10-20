@@ -129,8 +129,9 @@ function updateAvatar (hidedefault) {
 
 function showAvatarCropper () {
 	var $cropper = $('#cropper');
-	$cropper.prepend("<img>");
-	var $cropperImage = $('#cropper img');
+	var $cropperImage = $('<img/>');
+	$cropperImage.css('opacity', 0);
+	$cropper.prepend($cropperImage);
 
 	$cropperImage.attr('src',
 		OC.generateUrl('/avatar/tmp') + '?requesttoken=' + encodeURIComponent(oc_requesttoken) + '#' + Math.floor(Math.random() * 1000));
@@ -147,6 +148,8 @@ function showAvatarCropper () {
 			boxHeight: 500,
 			boxWidth: 500,
 			setSelect: [0, 0, 300, 300]
+		}, function() {
+			$cropperImage.css('opacity', 1);
 		});
 	});
 }
