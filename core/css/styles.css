@@ -786,6 +786,10 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 	background-color:white;
 	width:100%;
 }
+#oc-dialog-filepicker-content #filestable.filelist {
+	/* prevent the filepicker to overflow */
+	min-width: initial;
+}
 
 #oc-dialog-filepicker-content .filelist td {
 	padding: 14px;

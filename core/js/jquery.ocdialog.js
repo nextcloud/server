@@ -184,11 +184,11 @@
 			if (content_height> 0) {
 				this.element.css({
 					height: content_height + 'px',
-					width: this.$dialog.innerWidth()-20 + 'px'
+					width: this.$dialog.innerWidth() - 30 + 'px'
 				});
 			} else {
 				this.element.css({
-					width : this.$dialog.innerWidth() - 20 + 'px'
+					width : this.$dialog.innerWidth() - 30 + 'px'
 				});
 			}
 		},
