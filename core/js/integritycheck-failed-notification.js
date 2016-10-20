@@ -31,6 +31,7 @@ $(document).ready(function(){
 	OC.Notification.showHtml(
 		text,
 		{
+			type: 'error',
 			isHTML: true
 		}
 	);
