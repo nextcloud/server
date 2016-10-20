@@ -110,6 +110,12 @@ class InfoParser {
 		if (!array_key_exists('commands', $array)) {
 			$array['commands'] = [];
 		}
+		if (!array_key_exists('activity', $array)) {
+			$array['activity'] = [];
+		}
+		if (!array_key_exists('filters', $array['activity'])) {
+			$array['activity']['filters'] = [];
+		}
 
 		if (array_key_exists('types', $array)) {
 			if (is_array($array['types'])) {
@@ -143,6 +149,9 @@ class InfoParser {
 		}
 		if (isset($array['commands']['command']) && is_array($array['commands']['command'])) {
 			$array['commands'] = $array['commands']['command'];
+		}
+		if (isset($array['activity']['filters']['filter']) && is_array($array['activity']['filters']['filter'])) {
+			$array['activity']['filters'] = $array['activity']['filters']['filter'];
 		}
 
 		if(!is_null($this->cache)) {

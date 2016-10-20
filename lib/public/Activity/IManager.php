@@ -111,6 +111,27 @@ interface IManager {
 	public function registerExtension(\Closure $callable);
 
 	/**
+	 * @param string $filter Class must implement OCA\Activity\IFilter
+	 * @return void
+	 * @since 9.2.0
+	 */
+	public function registerFilter($filter);
+
+	/**
+	 * @return IFilter[]
+	 * @since 9.2.0
+	 */
+	public function getFilters();
+
+	/**
+	 * @param string $id
+	 * @return IFilter
+	 * @throws \InvalidArgumentException when the filter was not found
+	 * @since 9.2.0
+	 */
+	public function getFilterById($id);
+
+	/**
 	 * Will return additional notification types as specified by other apps
 	 *
 	 * @param string $languageCode
@@ -177,34 +198,6 @@ interface IManager {
 	 */
 	public function getGroupParameter($activity);
 
-	/**
-	 * @return array
-	 * @since 8.0.0
-	 */
-	public function getNavigation();
-
-	/**
-	 * @param string $filterValue
-	 * @return boolean
-	 * @since 8.0.0
-	 */
-	public function isFilterValid($filterValue);
-
-	/**
-	 * @param array $types
-	 * @param string $filter
-	 * @return array
-	 * @since 8.0.0
-	 */
-	public function filterNotificationTypes($types, $filter);
-
-	/**
-	 * @param string $filter
-	 * @return array
-	 * @since 8.0.0
-	 */
-	public function getQueryForFilter($filter);
-
 
 	/**
 	 * Set the user we need to use
@@ -225,4 +218,36 @@ interface IManager {
 	 * @since 8.1.0
 	 */
 	public function getCurrentUserId();
+
+	/**
+	 * @return array
+	 * @since 8.0.0
+	 * @deprecated 9.2.0 - Use getFilters() instead
+	 */
+	public function getNavigation();
+
+	/**
+	 * @param string $filterValue
+	 * @return boolean
+	 * @since 8.0.0
+	 * @deprecated 9.2.0 - Use getFilterById() instead
+	 */
+	public function isFilterValid($filterValue);
+
+	/**
+	 * @param array $types
+	 * @param string $filter
+	 * @return array
+	 * @since 8.0.0
+	 * @deprecated 9.2.0 - Use getFilterById()->filterTypes() instead
+	 */
+	public function filterNotificationTypes($types, $filter);
+
+	/**
+	 * @param string $filter
+	 * @return array
+	 * @since 8.0.0
+	 * @deprecated 9.2.0 - Use getFilterById() instead
+	 */
+	public function getQueryForFilter($filter);
 }

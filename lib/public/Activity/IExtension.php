@@ -129,6 +129,7 @@ interface IExtension {
 	 *
 	 * @return array|false
 	 * @since 8.0.0
+	 * @deprecated 9.2.0 - Register an IFilter instead
 	 */
 	public function getNavigation();
 
@@ -138,6 +139,7 @@ interface IExtension {
 	 * @param string $filterValue
 	 * @return boolean
 	 * @since 8.0.0
+	 * @deprecated 9.2.0 - Register an IFilter instead
 	 */
 	public function isFilterValid($filterValue);
 
@@ -149,6 +151,7 @@ interface IExtension {
 	 * @param string $filter
 	 * @return array|false
 	 * @since 8.0.0
+	 * @deprecated 9.2.0 - Register an IFilter instead
 	 */
 	public function filterNotificationTypes($types, $filter);
 
@@ -161,6 +164,7 @@ interface IExtension {
 	 * @param string $filter
 	 * @return array|false
 	 * @since 8.0.0
+	 * @deprecated 9.2.0 - Register an IFilter instead
 	 */
 	public function getQueryForFilter($filter);
 }

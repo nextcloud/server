@@ -27,6 +27,7 @@ namespace OC\Activity;
 use OCP\Activity\IConsumer;
 use OCP\Activity\IEvent;
 use OCP\Activity\IExtension;
+use OCP\Activity\IFilter;
 use OCP\Activity\IManager;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -235,7 +236,7 @@ class Manager implements IManager {
 	 * In order to improve lazy loading a closure can be registered which will be called in case
 	 * activity consumers are actually requested
 	 *
-	 * $callable has to return an instance of OCA\Activity\IConsumer
+	 * $callable has to return an instance of OCA\Activity\IExtension
 	 *
 	 * @param \Closure $callable
 	 * @return void
@@ -243,6 +244,76 @@ class Manager implements IManager {
 	public function registerExtension(\Closure $callable) {
 		array_push($this->extensionsClosures, $callable);
 		$this->extensions = [];
+	}
+
+	/** @var IFilter[] */
+	protected $filterClasses;
+
+	/** @var IFilter[] */
+	protected $filters;
+
+	/** @var bool */
+	protected $loadedLegacyFilters = false;
+
+	/**
+	 * @param string $filter Class must implement OCA\Activity\IFilter
+	 * @return void
+	 */
+	public function registerFilter($filter) {
+		$this->filterClasses[$filter] = false;
+	}
+
+	/**
+	 * @return IFilter[]
+	 * @throws \InvalidArgumentException
+	 */
+	public function getFilters() {
+		if (!$this->loadedLegacyFilters) {
+			$legacyFilters = $this->getNavigation();
+
+			foreach ($legacyFilters['top'] as $filter => $data) {
+				$this->filters[$filter] = new LegacyFilter(
+					$this, $filter, $data['name'], true
+				);
+			}
+
+			foreach ($legacyFilters['apps'] as $filter => $data) {
+				$this->filters[$filter] = new LegacyFilter(
+					$this, $filter, $data['name'], false
+				);
+			}
+			$this->loadedLegacyFilters = true;
+		}
+
+		foreach ($this->filterClasses as $class => $false) {
+			/** @var IFilter $filter */
+			$filter = \OC::$server->query($class);
+
+			if (!$filter instanceof IFilter) {
+				throw new \InvalidArgumentException('Invalid activity filter registered');
+			}
+
+			$this->filters[$filter->getIdentifier()] = $filter;
+
+			unset($this->filterClasses[$class]);
+		}
+		return $this->filters;
+	}
+
+	/**
+	 * @param string $id
+	 * @return IFilter
+	 * @throws \InvalidArgumentException when the filter was not found
+	 * @since 9.2.0
+	 */
+	public function getFilterById($id) {
+		$filters = $this->getFilters();
+
+		if (isset($filters[$id])) {
+			return $filters[$id];
+		}
+
+		throw new \InvalidArgumentException('Requested filter does not exist');
 	}
 
 	/**
@@ -391,94 +462,6 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @return array
-	 */
-	public function getNavigation() {
-		$entries = array(
-			'apps' => array(),
-			'top' => array(),
-		);
-		foreach ($this->getExtensions() as $c) {
-			$additionalEntries = $c->getNavigation();
-			if (is_array($additionalEntries)) {
-				$entries['apps'] = array_merge($entries['apps'], $additionalEntries['apps']);
-				$entries['top'] = array_merge($entries['top'], $additionalEntries['top']);
-			}
-		}
-
-		return $entries;
-	}
-
-	/**
-	 * @param string $filterValue
-	 * @return boolean
-	 */
-	public function isFilterValid($filterValue) {
-		if (isset($this->validFilters[$filterValue])) {
-			return $this->validFilters[$filterValue];
-		}
-
-		foreach ($this->getExtensions() as $c) {
-			if ($c->isFilterValid($filterValue) === true) {
-				$this->validFilters[$filterValue] = true;
-				return true;
-			}
-		}
-
-		$this->validFilters[$filterValue] = false;
-		return false;
-	}
-
-	/**
-	 * @param array $types
-	 * @param string $filter
-	 * @return array
-	 */
-	public function filterNotificationTypes($types, $filter) {
-		if (!$this->isFilterValid($filter)) {
-			return $types;
-		}
-
-		foreach ($this->getExtensions() as $c) {
-			$result = $c->filterNotificationTypes($types, $filter);
-			if (is_array($result)) {
-				$types = $result;
-			}
-		}
-		return $types;
-	}
-
-	/**
-	 * @param string $filter
-	 * @return array
-	 */
-	public function getQueryForFilter($filter) {
-		if (!$this->isFilterValid($filter)) {
-			return [null, null];
-		}
-
-		$conditions = array();
-		$parameters = array();
-
-		foreach ($this->getExtensions() as $c) {
-			$result = $c->getQueryForFilter($filter);
-			if (is_array($result)) {
-				list($condition, $parameter) = $result;
-				if ($condition && is_array($parameter)) {
-					$conditions[] = $condition;
-					$parameters = array_merge($parameters, $parameter);
-				}
-			}
-		}
-
-		if (empty($conditions)) {
-			return array(null, null);
-		}
-
-		return array(' and ((' . implode(') or (', $conditions) . '))', $parameters);
-	}
-
-	/**
 	 * Set the user we need to use
 	 *
 	 * @param string|null $currentUserId
@@ -530,5 +513,97 @@ class Manager implements IManager {
 
 		// Token found login as that user
 		return array_shift($users);
+	}
+
+	/**
+	 * @return array
+	 * @deprecated 9.2.0 - Use getFilters() instead
+	 */
+	public function getNavigation() {
+		$entries = array(
+			'apps' => array(),
+			'top' => array(),
+		);
+		foreach ($this->getExtensions() as $c) {
+			$additionalEntries = $c->getNavigation();
+			if (is_array($additionalEntries)) {
+				$entries['apps'] = array_merge($entries['apps'], $additionalEntries['apps']);
+				$entries['top'] = array_merge($entries['top'], $additionalEntries['top']);
+			}
+		}
+
+		return $entries;
+	}
+
+	/**
+	 * @param string $filterValue
+	 * @return boolean
+	 * @deprecated 9.2.0 - Use getFilterById() instead
+	 */
+	public function isFilterValid($filterValue) {
+		if (isset($this->validFilters[$filterValue])) {
+			return $this->validFilters[$filterValue];
+		}
+
+		foreach ($this->getExtensions() as $c) {
+			if ($c->isFilterValid($filterValue) === true) {
+				$this->validFilters[$filterValue] = true;
+				return true;
+			}
+		}
+
+		$this->validFilters[$filterValue] = false;
+		return false;
+	}
+
+	/**
+	 * @param array $types
+	 * @param string $filter
+	 * @return array
+	 * @deprecated 9.2.0 - Use getFilterById()->filterTypes() instead
+	 */
+	public function filterNotificationTypes($types, $filter) {
+		if (!$this->isFilterValid($filter)) {
+			return $types;
+		}
+
+		foreach ($this->getExtensions() as $c) {
+			$result = $c->filterNotificationTypes($types, $filter);
+			if (is_array($result)) {
+				$types = $result;
+			}
+		}
+		return $types;
+	}
+
+	/**
+	 * @param string $filter
+	 * @return array
+	 * @deprecated 9.2.0 - Use getFilterById() instead
+	 */
+	public function getQueryForFilter($filter) {
+		if (!$this->isFilterValid($filter)) {
+			return [null, null];
+		}
+
+		$conditions = array();
+		$parameters = array();
+
+		foreach ($this->getExtensions() as $c) {
+			$result = $c->getQueryForFilter($filter);
+			if (is_array($result)) {
+				list($condition, $parameter) = $result;
+				if ($condition && is_array($parameter)) {
+					$conditions[] = $condition;
+					$parameters = array_merge($parameters, $parameter);
+				}
+			}
+		}
+
+		if (empty($conditions)) {
+			return array(null, null);
+		}
+
+		return array(' and ((' . implode(') or (', $conditions) . '))', $parameters);
 	}
 }
