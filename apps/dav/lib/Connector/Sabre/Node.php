@@ -250,8 +250,8 @@ abstract class Node implements \Sabre\DAV\INode {
 
 		$path = $this->info->getInternalPath();
 
-		if ($storage->instanceOfStorage('\OC\Files\Storage\Shared')) {
-			/** @var \OC\Files\Storage\Shared $storage */
+		if ($storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
+			/** @var \OCA\Files_Sharing\SharedStorage $storage */
 			$permissions = (int)$storage->getShare()->getPermissions();
 		} else {
 			$permissions = $storage->getPermissions($path);

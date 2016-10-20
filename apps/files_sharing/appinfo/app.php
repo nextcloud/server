@@ -28,8 +28,6 @@
 
 $l = \OC::$server->getL10N('files_sharing');
 
-\OC::$CLASSPATH['OC\Files\Storage\Shared'] = 'files_sharing/lib/sharedstorage.php';
-
 \OCA\Files_Sharing\Helper::registerHooks();
 
 \OCP\Share::registerBackend('file', 'OCA\Files_Sharing\ShareBackend\File');

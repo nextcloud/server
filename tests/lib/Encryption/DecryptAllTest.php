@@ -260,7 +260,7 @@ class DecryptAllTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 
 		$sharedStorage->expects($this->once())->method('instanceOfStorage')
-			->with('OC\Files\Storage\Shared')->willReturn(true);
+			->with('OCA\Files_Sharing\SharedStorage')->willReturn(true);
 
 		$this->view->expects($this->at(0))->method('getDirectoryContent')
 			->with('/user1/files')->willReturn(

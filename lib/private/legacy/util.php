@@ -165,15 +165,14 @@ class OC_Util {
 
 		// install storage availability wrapper, before most other wrappers
 		\OC\Files\Filesystem::addStorageWrapper('oc_availability', function ($mountPoint, $storage) {
-			/** @var \OCP\Files\Storage $storage */
-			if (!$storage->instanceOfStorage('\OC\Files\Storage\Shared') && !$storage->isLocal()) {
+			if (!$storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage') && !$storage->isLocal()) {
 				return new \OC\Files\Storage\Wrapper\Availability(['storage' => $storage]);
 			}
 			return $storage;
 		});
 
 		\OC\Files\Filesystem::addStorageWrapper('oc_encoding', function ($mountPoint, \OCP\Files\Storage $storage, \OCP\Files\Mount\IMountPoint $mount) {
-			if ($mount->getOption('encoding_compatibility', false) && !$storage->instanceOfStorage('\OC\Files\Storage\Shared') && !$storage->isLocal()) {
+			if ($mount->getOption('encoding_compatibility', false) && !$storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage') && !$storage->isLocal()) {
 				return new \OC\Files\Storage\Wrapper\Encoding(['storage' => $storage]);
 			}
 			return $storage;

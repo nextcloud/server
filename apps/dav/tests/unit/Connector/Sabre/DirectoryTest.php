@@ -216,7 +216,7 @@ class DirectoryTest extends \Test\TestCase {
 		$storage->expects($this->any())
 			->method('instanceOfStorage')
 			->will($this->returnValueMap([
-				'\OC\Files\Storage\Shared' => false,
+				'\OCA\Files_Sharing\SharedStorage' => false,
 				'\OC\Files\Storage\Wrapper\Quota' => false,
 			]));
 
@@ -247,7 +247,7 @@ class DirectoryTest extends \Test\TestCase {
 		$storage->expects($this->any())
 			->method('instanceOfStorage')
 			->will($this->returnValueMap([
-				['\OC\Files\Storage\Shared', false],
+				['\OCA\Files_Sharing\SharedStorage', false],
 				['\OC\Files\Storage\Wrapper\Quota', true],
 			]));
 
