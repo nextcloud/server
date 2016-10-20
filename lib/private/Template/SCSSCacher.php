@@ -1,10 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, John Molakvoæ.
+ * @copyright Copyright (c) 2016, John Molakvoæ (skjnldsv@protonmail.com)
  *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0
+ * @license GNU AGPL version 3 or any later version
  *
  * This code is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License, version 3,
