@@ -493,24 +493,22 @@ class AppTest extends \Test\TestCase {
 	 * @param IAppConfig $appConfig app config mock
 	 */
 	private function registerAppConfig(IAppConfig $appConfig) {
-		\OC::$server->registerService('AppConfig', function ($c) use ($appConfig) {
-			return $appConfig;
-		});
-		\OC::$server->registerService('AppManager', function (\OC\Server $c) use ($appConfig) {
-			return new \OC\App\AppManager($c->getUserSession(), $appConfig, $c->getGroupManager(), $c->getMemCacheFactory(), $c->getEventDispatcher());
-		});
+		$this->overwriteService('AppConfig', $appConfig);
+		$this->overwriteService('AppManager', new \OC\App\AppManager(
+			\OC::$server->getUserSession(),
+			$appConfig,
+			\OC::$server->getGroupManager(),
+			\OC::$server->getMemCacheFactory(),
+			\OC::$server->getEventDispatcher()
+		));
 	}
 
 	/**
 	 * Restore the original app config service.
 	 */
 	private function restoreAppConfig() {
-		\OC::$server->registerService('AppConfig', function (\OC\Server $c) {
-			return new \OC\AppConfig($c->getDatabaseConnection());
-		});
-		\OC::$server->registerService('AppManager', function (\OC\Server $c) {
-			return new \OC\App\AppManager($c->getUserSession(), $c->getAppConfig(), $c->getGroupManager(), $c->getMemCacheFactory(), $c->getEventDispatcher());
-		});
+		$this->restoreService('AppConfig');
+		$this->restoreService('AppManager');
 
 		// Remove the cache of the mocked apps list with a forceRefresh
 		\OC_App::getEnabledApps();
