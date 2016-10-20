@@ -55,7 +55,7 @@
 }
 
 /* Css replaced elements don't have ::after nor ::before */
-img, object, video, audio, textarea, input, select {
+audio, embed, img, input, select, textarea, video {
 	&.icon-loading,
 	&.loading {
 		background-image: url("../img/loading.gif");
