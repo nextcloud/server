@@ -55,14 +55,16 @@
 }
 
 /* Css replaced elements don't have ::after nor ::before */
-img, object, video, textarea, input, select {
-	&.icon-loading {
+img, object, video, audio, textarea, input, select {
+	&.icon-loading,
+	&.loading {
 		background-image: url("../img/loading.gif");
 	}
 	&.icon-loading-dark {
 		background-image: url("../img/loading-dark.gif");
 	}
-	&.icon-loading-small {
+	&.icon-loading-small,
+	&.loading-small {
 		background-image: url("../img/loading-small.gif");
 	}
 	&.icon-loading-small-dark {
