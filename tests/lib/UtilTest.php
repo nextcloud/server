@@ -87,24 +87,17 @@ class UtilTest extends \Test\TestCase {
 	function testFormatDateWithTZFromSession($offset, $expected, $expectedTimeZone) {
 		date_default_timezone_set("UTC");
 
-		$oldDateTimeFormatter = \OC::$server->query('DateTimeFormatter');
 		\OC::$server->getSession()->set('timezone', $offset);
 
 		$selectedTimeZone = \OC::$server->getDateTimeZone()->getTimeZone(1350129205);
 		$this->assertEquals($expectedTimeZone, $selectedTimeZone->getName());
 		$newDateTimeFormatter = new \OC\DateTimeFormatter($selectedTimeZone, new \OC_L10N('lib', 'en'));
-		$this->setDateFormatter($newDateTimeFormatter);
+		$this->overwriteService('DateTimeFormatter', $newDateTimeFormatter);
 
 		$result = OC_Util::formatDate(1350129205, false);
 		$this->assertEquals($expected, $result);
 
-		$this->setDateFormatter($oldDateTimeFormatter);
-	}
-
-	protected function setDateFormatter($formatter) {
-		\OC::$server->registerService('DateTimeFormatter', function ($c) use ($formatter) {
-			return $formatter;
-		});
+		$this->restoreService('DateTimeFormatter');
 	}
 
 	function testSanitizeHTML() {
