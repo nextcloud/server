@@ -77,40 +77,4 @@ class StreamWrappersTest extends \Test\TestCase {
 		fclose($fh);
 		$this->assertSame($tmpFile, $actual);
 	}
-
-	public function testOC() {
-		// FIXME: use proper tearDown with $this->loginAsUser() and $this->logout()
-		// (would currently break the tests for some reason)
-		$originalStorage = \OC\Files\Filesystem::getStorage('/');
-		\OC\Files\Filesystem::clearMounts();
-
-		$storage = new \OC\Files\Storage\Temporary(array());
-		$storage->file_put_contents('foo.txt', 'asd');
-		\OC\Files\Filesystem::mount($storage, array(), '/');
-
-		$this->assertTrue(file_exists('oc:///foo.txt'));
-		$this->assertEquals('asd', file_get_contents('oc:///foo.txt'));
-		$this->assertEquals(array('.', '..', 'foo.txt'), scandir('oc:///'));
-
-		file_put_contents('oc:///bar.txt', 'qwerty');
-		$this->assertEquals('qwerty', $storage->file_get_contents('bar.txt'));
-		$this->assertEquals(array('.', '..', 'bar.txt', 'foo.txt'), scandir('oc:///'));
-		$this->assertEquals('qwerty', file_get_contents('oc:///bar.txt'));
-
-		$fh = fopen('oc:///bar.txt', 'rb');
-		$this->assertSame(0, ftell($fh));
-		$content = fread($fh, 4);
-		$this->assertSame(4, ftell($fh));
-		$this->assertSame('qwer', $content);
-		$content = fread($fh, 1);
-		$this->assertSame(5, ftell($fh));
-		$this->assertSame(0, fseek($fh, 0));
-		$this->assertSame(0, ftell($fh));
-
-		unlink('oc:///foo.txt');
-		$this->assertEquals(array('.', '..', 'bar.txt'), scandir('oc:///'));
-
-		\OC\Files\Filesystem::clearMounts();
-		\OC\Files\Filesystem::mount($originalStorage, array(), '/');
-	}
 }
