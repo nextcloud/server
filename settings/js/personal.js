@@ -139,16 +139,18 @@ function showAvatarCropper () {
 	$cropperImage.attr('src',
 		OC.generateUrl('/avatar/tmp') + '?requesttoken=' + encodeURIComponent(oc_requesttoken) + '#' + Math.floor(Math.random() * 1000));
 
-	// Looks weird, but on('load', ...) doesn't work in IE8
-	$cropperImage.ready(function () {
-
+	$cropperImage.load(function () {
+		var img = $cropperImage.get()[0];
+		var selectSize = Math.min(img.width, img.height);
+		var offsetX = (img.width - selectSize) / 2;
+		var offsetY = (img.height - selectSize) / 2;
 		$cropperImage.Jcrop({
 			onChange: saveCoords,
 			onSelect: saveCoords,
 			aspectRatio: 1,
 			boxHeight: 500,
 			boxWidth: 500,
-			setSelect: [0, 0, 300, 300]
+			setSelect: [offsetX, offsetY, selectSize, selectSize]
 		}, function() {
 			$cropper.show();
 		});
