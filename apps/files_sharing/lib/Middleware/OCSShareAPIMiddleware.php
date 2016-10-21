@@ -2,7 +2,7 @@
 
 namespace OCA\Files_Sharing\Middleware;
 
-use OCA\Files_Sharing\API\Share20OCS;
+use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\OCS\OCSNotFoundException;
@@ -28,7 +28,7 @@ class OCSShareAPIMiddleware extends Middleware {
 	 * @throws OCSNotFoundException
 	 */
 	public function beforeController($controller, $methodName) {
-		if ($controller instanceof Share20OCS) {
+		if ($controller instanceof ShareAPIController) {
 			if (!$this->shareManager->shareApiEnabled()) {
 				throw new OCSNotFoundException($this->l->t('Share API is disabled'));
 			}
@@ -42,8 +42,8 @@ class OCSShareAPIMiddleware extends Middleware {
 	 * @return Response
 	 */
 	public function afterController($controller, $methodName, Response $response) {
-		if ($controller instanceof Share20OCS) {
-			/** @var Share20OCS $controller */
+		if ($controller instanceof ShareAPIController) {
+			/** @var ShareAPIController $controller */
 			$controller->cleanup();
 		}
 

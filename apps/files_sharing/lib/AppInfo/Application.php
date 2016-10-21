@@ -28,7 +28,6 @@
 namespace OCA\Files_Sharing\AppInfo;
 
 use OCA\FederatedFileSharing\DiscoveryManager;
-use OCA\Files_Sharing\API\Share20OCS;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
 use OCA\Files_Sharing\MountProvider;
 use OCP\AppFramework\App;
@@ -76,19 +75,6 @@ class Application extends App {
 				$c->query('Request'),
 				$c->query('ExternalManager'),
 				$c->query('HttpClientService')
-			);
-		});
-		$container->registerService('ShareAPIController', function (SimpleContainer $c) use ($server) {
-			return new Share20OCS(
-				$c->query('AppName'),
-				$c->query('Request'),
-				$server->getShareManager(),
-				$server->getGroupManager(),
-				$server->getUserManager(),
-				$server->getRootFolder(),
-				$server->getURLGenerator(),
-				$server->getUserSession()->getUser(),
-				$server->getL10N($c->query('AppName'))
 			);
 		});
 
