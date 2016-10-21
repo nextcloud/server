@@ -83,6 +83,16 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		return false;
 	}
 
+	public function restoreAllServices() {
+		if (!empty($this->services)) {
+			if (!empty($this->services)) {
+				foreach ($this->services as $name => $service) {
+					$this->restoreService($name);
+				}
+			}
+		}
+	}
+
 	protected function getTestTraits() {
 		$traits = [];
 		$class = $this;
@@ -113,9 +123,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
 		// overwrite the command bus with one we can run ourselves
 		$this->commandBus = new QueueBus();
-		\OC::$server->registerService('AsyncCommandBus', function () {
-			return $this->commandBus;
-		});
+		$this->overwriteService('AsyncCommandBus', $this->commandBus);
 
 		$traits = $this->getTestTraits();
 		foreach ($traits as $trait) {
@@ -126,7 +134,22 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		}
 	}
 
+	protected function onNotSuccessfulTest($e) {
+		$this->restoreAllServices();
+
+		// restore database connection
+		if (!$this->IsDatabaseAccessAllowed()) {
+			\OC::$server->registerService('DatabaseConnection', function () {
+				return self::$realDatabase;
+			});
+		}
+
+		parent::onNotSuccessfulTest($e);
+	}
+
 	protected function tearDown() {
+		$this->restoreAllServices();
+
 		// restore database connection
 		if (!$this->IsDatabaseAccessAllowed()) {
 			\OC::$server->registerService('DatabaseConnection', function () {
