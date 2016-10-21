@@ -2,9 +2,11 @@
 
 namespace OCA\Files_Sharing\Tests\Middleware;
 
+use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\AppFramework\OCSController;
 use OCP\IL10N;
 use OCP\Share\IManager;
 
@@ -13,7 +15,7 @@ use OCP\Share\IManager;
  */
 class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 
-	/** @var IManager */
+	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $shareManager;
 	/** @var IL10N */
 	private $l;
@@ -21,8 +23,10 @@ class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 	private $middleware;
 
 	public function setUp() {
-		$this->shareManager = $this->getMockBuilder('OCP\Share\IManager')->getMock();
-		$this->l = $this->getMockBuilder('OCP\IL10N')->getMock();
+		parent::setUp();
+
+		$this->shareManager = $this->createMock(IManager::class);
+		$this->l = $this->createMock(IL10N::class);
 
 		$this->l->method('t')->will($this->returnArgument(0));
 
@@ -32,32 +36,32 @@ class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 	public function dataBeforeController() {
 		return [
 			[
-				$this->getMockBuilder('OCP\AppFramework\Controller')->disableOriginalConstructor()->getMock(),
+				$this->createMock(Controller::class),
 				false,
 				false
 			],
 			[
-				$this->getMockBuilder('OCP\AppFramework\Controller')->disableOriginalConstructor()->getMock(),
+				$this->createMock(Controller::class),
 				true,
 				false
 			],
 			[
-				$this->getMockBuilder('OCP\AppFramework\OCSController')->disableOriginalConstructor()->getMock(),
+				$this->createMock(OCSController::class),
 				false,
 				false
 			],
 			[
-				$this->getMockBuilder('OCP\AppFramework\OCSController')->disableOriginalConstructor()->getMock(),
+				$this->createMock(OCSController::class),
 				true,
 				false
 			],
 			[
-				$this->getMockBuilder('OCA\Files_Sharing\API\Share20OCS')->disableOriginalConstructor()->getMock(),
+				$this->createMock(ShareAPIController::class),
 				false,
 				true
 			],
 			[
-				$this->getMockBuilder('OCA\Files_Sharing\API\Share20OCS')->disableOriginalConstructor()->getMock(),
+				$this->createMock(ShareAPIController::class),
 				true,
 				false
 			],
@@ -85,13 +89,13 @@ class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 	public function dataAfterController() {
 		return [
 			[
-				$this->getMockBuilder('OCP\AppFramework\Controller')->disableOriginalConstructor()->getMock(),
+				$this->createMock(Controller::class),
 			],
 			[
-				$this->getMockBuilder('OCP\AppFramework\OCSController')->disableOriginalConstructor()->getMock(),
+				$this->createMock(OCSController::class),
 			],
 			[
-				$this->getMockBuilder('OCA\Files_Sharing\API\Share20OCS')->disableOriginalConstructor()->getMock(),
+				$this->createMock(ShareAPIController::class),
 			],
 		];
 	}
@@ -103,7 +107,7 @@ class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 	 * @param bool $called
 	 */
 	public function testAfterController(Controller $controller) {
-		if ($controller instanceof OCA\Files_Sharing\API\Share20OCS) {
+		if ($controller instanceof ShareAPIController) {
 			$controller->expects($this->once())->method('cleanup');
 		}
 
