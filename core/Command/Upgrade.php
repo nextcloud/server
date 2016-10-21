@@ -72,12 +72,6 @@ class Upgrade extends Command {
 			->setName('upgrade')
 			->setDescription('run upgrade routines after installation of a new release. The release has to be installed before.')
 			->addOption(
-				'--dry-run',
-				null,
-				InputOption::VALUE_NONE,
-				'only runs the database schema migration simulation, do not actually update'
-			)
-			->addOption(
 				'--no-app-disable',
 				null,
 				InputOption::VALUE_NONE,
