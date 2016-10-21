@@ -24,6 +24,7 @@
 
 namespace OCA\User_LDAP\Command;
 
+use OCA\User_LDAP\Configuration;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -32,7 +33,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use \OCA\User_LDAP\Helper;
 use \OCA\User_LDAP\LDAP;
 use \OCA\User_LDAP\Group_Proxy;
-use \OCA\User_LDAP\Mapping\GroupMapping;
 use \OCP\IDBConnection;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
@@ -41,6 +41,22 @@ class UpdateGroup extends Command {
 	const ERROR_CODE_MISSING_CONF = 1;
 	const ERROR_CODE_MISSING_MAPPING = 2;
 
+	/** @var LDAP */
+	private $ldap;
+
+	/** @var Helper */
+	private $helper;
+
+	/** @var IDBConnection */
+	private $connection;
+
+	/**
+	 * UpdateGroup constructor.
+	 *
+	 * @param LDAP $ldap
+	 * @param Helper $helper
+	 * @param IDBConnection $connection
+	 */
 	public function __construct(LDAP $ldap, Helper $helper, IDBConnection $connection) {
 		$this->connection = $connection;
 		$this->ldap = $ldap;
@@ -53,18 +69,23 @@ class UpdateGroup extends Command {
 			->setName('ldap:update-group')
 			->setDescription('update the specified group membership information stored locally')
 			->addArgument(
-					'groupID',
-					InputArgument::REQUIRED | InputArgument::IS_ARRAY,
-					'the group ID'
-				)
+				'groupID',
+				InputArgument::REQUIRED | InputArgument::IS_ARRAY,
+				'the group ID'
+			)
 			->addOption(
-					'hide-warning',
-					null,
-					InputOption::VALUE_NONE,
-					'Group membership attribute is critical for this command to work properly. This option hides the warning and the additional output associated with it.'
-				);
+				'hide-warning',
+				null,
+				InputOption::VALUE_NONE,
+				'Group membership attribute is critical for this command to work properly. This option hides the warning and the additional output associated with it.'
+			);
 	}
 
+	/**
+	 * @param InputInterface $input
+	 * @param OutputInterface $output
+	 * @return int
+	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$groupIDs = $input->getArgument('groupID');
 		// make sure we don't have duplicated groups in the parameters
@@ -77,7 +98,7 @@ class UpdateGroup extends Command {
 			$output->writeln("Group membership attribute is critical for this command, please verify.");
 			// show configuration information, useful to debug
 			foreach ($availableConfigs as $aconfig) {
-				$config = new \OCA\User_LDAP\Configuration($aconfig);
+				$config = new Configuration($aconfig);
 				$message = '* ' . $config->ldapHost . ':' . $config->ldapPort . ' -> ' . $config->ldapGroupMemberAssocAttr;
 				$output->writeln($message);
 			}
@@ -122,26 +143,28 @@ class UpdateGroup extends Command {
 	}
 
 
+	/**
+	 * @param string $groupName
+	 * @throws \Exception
+	 */
 	private function removeGroupMapping($groupName) {
 		$this->connection->beginTransaction();
 
 		try {
 			$query = $this->connection->getQueryBuilder();
 			$query->delete('ldap_group_mapping')
-				->where($query->expr()->eq('owncloud_name', $query->createParameter('group')))
-				->setParameter('group', $groupName)
+				->where($query->expr()->eq('owncloud_name', $query->createNamedParameter($groupName)))
 				->execute();
 
 			$query2 = $this->connection->getQueryBuilder();
 			$query2->delete('ldap_group_members')
-				->where($query->expr()->eq('owncloudname', $query->createParameter('group')))
-				->setParameter('group', $groupName)
+				->where($query->expr()->eq('owncloudname', $query->createNamedParameter($groupName)))
 				->execute();
 
 			$this->connection->commit();
 		} catch (\Exception $e) {
 			// Rollback and rethrow the exception
-			$this->connection->rollback();
+			$this->connection->rollBack();
 			throw $e;
 		}
 	}
@@ -155,14 +178,13 @@ class UpdateGroup extends Command {
 	 * @param array $userList array of user names to be compared. For example: ['user1', 'user44'].
 	 * The list will usually come from the LDAP server and will be compared against the information
 	 * in the DB.
+	 * @return array
 	 */
 	private function updateGroupMapping($groupName, $userList) {
 		$query = $this->connection->getQueryBuilder();
-		$needToInsert = false;
 		$result = $query->select('*')
 			->from('ldap_group_members')
-			->where($query->expr()->eq('owncloudname', $query->createParameter('group')))
-			->setParameter('group', $groupName)
+			->where($query->expr()->eq('owncloudname', $query->createNamedParameter($groupName)))
 			->execute();
 		$row = $result->fetch();
 		if ($row) {
@@ -174,19 +196,15 @@ class UpdateGroup extends Command {
 		if ($needToInsert) {
 			$query2 = $this->connection->getQueryBuilder();
 			$query2->insert('ldap_group_members')
-				->setValue('owncloudname', $query2->createParameter('group'))
-				->setValue('owncloudusers', $query2->createParameter('users'))
-				->setParameter('group', $groupName)
-				->setParameter('users', serialize($userList))
+				->setValue('owncloudname', $query2->createNamedParameter($groupName))
+				->setValue('owncloudusers', $query2->createNamedParameter(json_encode($userList)))
 				->execute();
 			return array('added' => $userList, 'removed' => array());
 		} else {
 			$query2 = $this->connection->getQueryBuilder();
 			$query2->update('ldap_group_members')
-				->set('owncloudusers', $query2->createParameter('users'))
-				->where($query2->expr()->eq('owncloudname', $query2->createParameter('group')))
-				->setParameter('group', $groupName)
-				->setParameter('users', serialize($userList))
+				->set('owncloudusers', $query2->createNamedParameter(json_encode($userList)))
+				->where($query2->expr()->eq('owncloudname', $query2->createNamedParameter($groupName)))
 				->execute();
 			// calculate changes
 			$usersAdded = array_diff($userList, $mappedList);
@@ -201,14 +219,14 @@ class UpdateGroup extends Command {
 	 *
 	 * Take advantage of the owncloud_name column in the DB has a unique constraint.
 	 *
+	 * @param string[] $groupNames
 	 * @return true if the count($groupNames) matches the number of
 	 */
 	private function checkGroupMappingExists($groupNames) {
 		$query = $this->connection->getQueryBuilder();
 		$query->select($query->createFunction('count(owncloud_name) as ngroups'))
 			->from('ldap_group_mapping')
-			->where($query->expr()->in('owncloud_name', $query->createParameter('groups')))
-			->setParameter('groups', $groupNames, IQueryBuilder::PARAM_STR_ARRAY);
+			->where($query->expr()->in('owncloud_name', $query->createNamedParameter($groupNames, IQueryBuilder::PARAM_STR_ARRAY)));
 		$result = $query->execute();
 		$row = $result->fetch();
 
