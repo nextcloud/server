@@ -31,10 +31,10 @@ use OCP\IRequest;
 
 class AppConfigController extends OCSController {
 
-	/** @var IAppConfig */
+	/** @var IConfig */
 	protected $config;
 
-	/** @var IConfig */
+	/** @var IAppConfig */
 	protected $appConfig;
 
 	/**
@@ -126,9 +126,8 @@ class AppConfigController extends OCSController {
 			return new DataResponse(['data' => ['message' => $e->getMessage()]], Http::STATUS_FORBIDDEN);
 		}
 
-		return new DataResponse([
-			'data' => $this->config->deleteAppValue($app, $key),
-		]);
+		$this->config->deleteAppValue($app, $key);
+		return new DataResponse();
 	}
 
 	/**
