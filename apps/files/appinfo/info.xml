@@ -17,6 +17,12 @@
 		<user>user-files</user>
 	</documentation>
 
+	<activity>
+		<filters>
+			<filter>OCA\Files\Activity\Filter\FileChanges</filter>
+		</filters>
+	</activity>
+
 	<background-jobs>
 		<job>OCA\Files\BackgroundJob\ScanFiles</job>
 		<job>OCA\Files\BackgroundJob\DeleteOrphanedItems</job>

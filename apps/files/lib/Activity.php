@@ -336,14 +336,7 @@ class Activity implements IExtension {
 					'url' => $this->URLGenerator->linkToRoute('activity.Activities.showList', ['filter' => self::FILTER_FAVORITES]),
 				],
 			],
-			'apps' => [
-				self::FILTER_FILES => [
-					'id' => self::FILTER_FILES,
-					'icon' => 'icon-files-dark',
-					'name' => (string) $this->l->t('File changes'),
-					'url' => $this->URLGenerator->linkToRoute('activity.Activities.showList', ['filter' => self::FILTER_FILES]),
-				],
-			],
+			'apps' => [],
 		];
 	}
 
@@ -354,7 +347,7 @@ class Activity implements IExtension {
 	 * @return boolean
 	 */
 	public function isFilterValid($filterValue) {
-		return $filterValue === self::FILTER_FILES || $filterValue === self::FILTER_FAVORITES;
+		return $filterValue === self::FILTER_FAVORITES;
 	}
 
 	/**
@@ -366,7 +359,7 @@ class Activity implements IExtension {
 	 * @return array|false
 	 */
 	public function filterNotificationTypes($types, $filter) {
-		if ($filter === self::FILTER_FILES || $filter === self::FILTER_FAVORITES) {
+		if ($filter === self::FILTER_FAVORITES) {
 			return array_intersect([
 				self::TYPE_SHARE_CREATED,
 				self::TYPE_SHARE_CHANGED,
@@ -388,11 +381,6 @@ class Activity implements IExtension {
 	 */
 	public function getQueryForFilter($filter) {
 		$user = $this->activityManager->getCurrentUserId();
-		// Display actions from all files
-		if ($filter === self::FILTER_FILES) {
-			return ['`app` = ?', [self::APP_FILES]];
-		}
-
 		if (!$user) {
 			// Remaining filters only work with a user/token
 			return false;
