@@ -111,7 +111,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame($comment->getVerb(), 'comment');
 		$this->assertSame($comment->getObjectType(), 'files');
 		$this->assertSame($comment->getObjectId(), 'file64');
-		$this->assertEquals($comment->getCreationDateTime(), $creationDT);
+		$this->assertEquals($comment->getCreationDateTime()->getTimestamp(), $creationDT->getTimestamp());
 		$this->assertEquals($comment->getLatestChildDateTime(), $latestChildDT);
 	}
 
@@ -373,7 +373,7 @@ class ManagerTest extends TestCase {
 
 		$loadedComment = $manager->get($comment->getId());
 		$this->assertSame($comment->getMessage(), $loadedComment->getMessage());
-		$this->assertEquals($comment->getCreationDateTime(), $loadedComment->getCreationDateTime());
+		$this->assertEquals($comment->getCreationDateTime()->getTimestamp(), $loadedComment->getCreationDateTime()->getTimestamp());
 	}
 
 	public function testSaveUpdate() {
@@ -444,7 +444,7 @@ class ManagerTest extends TestCase {
 			$this->assertSame($comment->getTopmostParentId(), strval($id));
 			$parentComment = $manager->get(strval($id));
 			$this->assertSame($parentComment->getChildrenCount(), $i + 1);
-			$this->assertEquals($parentComment->getLatestChildDateTime(), $comment->getCreationDateTime());
+			$this->assertEquals($parentComment->getLatestChildDateTime()->getTimestamp(), $comment->getCreationDateTime()->getTimestamp());
 		}
 	}
 
@@ -577,7 +577,7 @@ class ManagerTest extends TestCase {
 
 		$dateTimeGet = $manager->getReadMark('robot', '36',  $user);
 
-		$this->assertEquals($dateTimeGet, $dateTimeSet);
+		$this->assertEquals($dateTimeGet->getTimestamp(), $dateTimeSet->getTimestamp());
 	}
 
 	public function testSetMarkReadUpdate() {
