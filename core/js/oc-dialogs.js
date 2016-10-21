@@ -157,7 +157,8 @@ var OCdialogs = {
 			}
 			self.$filePicker = $tmpl.octemplate({
 				dialog_name: dialogName,
-				title: title
+				title: title,
+				emptytext: t('core', 'No files in here')
 			}).data('path', '').data('multiselect', multiselect).data('mimetype', mimetypeFilter);
 
 			if (modal === undefined) {
@@ -770,6 +771,12 @@ var OCdialogs = {
 			});
 
 			self._fillSlug();
+
+			if (files.length === 0) {
+				self.$filePicker.find('.emptycontent').show();
+			} else {
+				self.$filePicker.find('.emptycontent').hide();
+			}
 
 			$.each(files, function(idx, entry) {
 				entry.icon = OC.MimeType.getIconUrl(entry.mimetype);
