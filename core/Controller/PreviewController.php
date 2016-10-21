@@ -24,6 +24,7 @@
 namespace OC\Core\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -44,6 +45,9 @@ class PreviewController extends Controller {
 	/** @var IPreview */
 	private $preview;
 
+	/** @var ITimeFactory */
+	private $timeFactory;
+
 	/**
 	 * PreviewController constructor.
 	 *
@@ -57,13 +61,15 @@ class PreviewController extends Controller {
 								IRequest $request,
 								IPreview $preview,
 								IRootFolder $root,
-								$userId
+								$userId,
+								ITimeFactory $timeFactory
 	) {
 		parent::__construct($appName, $request);
 
 		$this->preview = $preview;
 		$this->root = $root;
 		$this->userId = $userId;
+		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -105,7 +111,19 @@ class PreviewController extends Controller {
 
 		try {
 			$f = $this->preview->getPreview($file, $x, $y, !$a, $mode);
-			return new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
+			$response = new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
+
+			// Let cache this!
+			$response->addHeader('Pragma', 'public');
+
+			// Cache previews for 24H
+			$response->cacheFor(3600 * 24);
+			$expires = new \DateTime();
+			$expires->setTimestamp($this->timeFactory->getTime());
+			$expires->add(new \DateInterval('P1D'));
+			$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
+
+			return $response;
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}

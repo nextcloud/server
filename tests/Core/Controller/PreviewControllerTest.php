@@ -25,6 +25,7 @@ namespace Tests\Core\Controller;
 use OC\Core\Controller\PreviewController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -59,7 +60,8 @@ class PreviewControllerTest extends \Test\TestCase {
 			$this->createMock(IRequest::class),
 			$this->previewManager,
 			$this->rootFolder,
-			$this->userId
+			$this->userId,
+			$this->createMock(ITimeFactory::class)
 		);
 	}
 
@@ -216,8 +218,9 @@ class PreviewControllerTest extends \Test\TestCase {
 			->willReturn('myMime');
 
 		$res = $this->controller->getPreview('file', 10, 10, true, true, 'myMode');
-		$expected = new Http\FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => 'myMime']);
 
-		$this->assertEquals($expected, $res);
+		$this->assertEquals('myMime', $res->getHeaders()['Content-Type']);
+		$this->assertEquals(Http::STATUS_OK, $res->getStatus());
+		$this->assertEquals($preview, $this->invokePrivate($res, 'file'));
 	}
 }
