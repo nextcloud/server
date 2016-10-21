@@ -52,14 +52,14 @@ try {
 
 	if (!OC::$CLI) {
 		echo "This script can be run from the command line only" . PHP_EOL;
-		exit(0);
+		exit(1);
 	}
 
 	set_exception_handler('exceptionHandler');
 
 	if (!function_exists('posix_getuid')) {
 		echo "The posix extensions are required - see http://php.net/manual/en/book.posix.php" . PHP_EOL;
-		exit(0);
+		exit(1);
 	}
 	$user = posix_getpwuid(posix_getuid());
 	$configUser = posix_getpwuid(fileowner(OC::$configDir . 'config.php'));
@@ -68,7 +68,7 @@ try {
 		echo "Current user: " . $user['name'] . PHP_EOL;
 		echo "Owner of config.php: " . $configUser['name'] . PHP_EOL;
 		echo "Try adding 'sudo -u " . $configUser['name'] . " ' to the beginning of the command (without the single quotes)" . PHP_EOL;  
-		exit(0);
+		exit(1);
 	}
 
 	$oldWorkingDir = getcwd();
