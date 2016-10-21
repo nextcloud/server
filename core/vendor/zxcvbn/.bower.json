@@ -39,6 +39,7 @@
     "commit": "4c3d1c2b4a246cc8d7c81a61e341ad92ce14411b"
   },
   "_source": "https://github.com/dropbox/zxcvbn.git",
-  "_target": "*",
-  "_originalSource": "zxcvbn"
+  "_target": "^4.4.0",
+  "_originalSource": "zxcvbn",
+  "_direct": true
 }
