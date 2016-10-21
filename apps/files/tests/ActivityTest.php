@@ -48,9 +48,6 @@ class ActivityTest extends TestCase {
 	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
 
-	/** @var \OCA\Files\ActivityHelper|\PHPUnit_Framework_MockObject_MockObject */
-	protected $activityHelper;
-
 	/** @var \OCP\L10N\IFactory|\PHPUnit_Framework_MockObject_MockObject */
 	protected $l10nFactory;
 
@@ -67,9 +64,6 @@ class ActivityTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->config = $this->getMockBuilder('OCP\IConfig')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->activityHelper = $this->getMockBuilder('OCA\Files\ActivityHelper')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -99,7 +93,6 @@ class ActivityTest extends TestCase {
 			$this->l10nFactory,
 			$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
 			$this->activityManager,
-			$this->activityHelper,
 			\OC::$server->getDatabaseConnection(),
 			$this->config
 		);

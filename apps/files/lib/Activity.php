@@ -60,23 +60,18 @@ class Activity implements IExtension {
 	/** @var \OCP\IConfig */
 	protected $config;
 
-	/** @var \OCA\Files\ActivityHelper */
-	protected $helper;
-
 	/**
 	 * @param IFactory $languageFactory
 	 * @param IURLGenerator $URLGenerator
 	 * @param IManager $activityManager
-	 * @param ActivityHelper $helper
 	 * @param IDBConnection $connection
 	 * @param IConfig $config
 	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $URLGenerator, IManager $activityManager, ActivityHelper $helper, IDBConnection $connection, IConfig $config) {
+	public function __construct(IFactory $languageFactory, IURLGenerator $URLGenerator, IManager $activityManager, IDBConnection $connection, IConfig $config) {
 		$this->languageFactory = $languageFactory;
 		$this->URLGenerator = $URLGenerator;
 		$this->l = $this->getL10N();
 		$this->activityManager = $activityManager;
-		$this->helper = $helper;
 		$this->connection = $connection;
 		$this->config = $config;
 	}
@@ -327,17 +322,7 @@ class Activity implements IExtension {
 	 * @return array|false
 	 */
 	public function getNavigation() {
-		return [
-			'top' => [
-				self::FILTER_FAVORITES => [
-					'id' => self::FILTER_FAVORITES,
-					'icon' => 'icon-favorite',
-					'name' => (string) $this->l->t('Favorites'),
-					'url' => $this->URLGenerator->linkToRoute('activity.Activities.showList', ['filter' => self::FILTER_FAVORITES]),
-				],
-			],
-			'apps' => [],
-		];
+		return false;
 	}
 
 	/**
@@ -347,7 +332,7 @@ class Activity implements IExtension {
 	 * @return boolean
 	 */
 	public function isFilterValid($filterValue) {
-		return $filterValue === self::FILTER_FAVORITES;
+		return false;
 	}
 
 	/**
@@ -359,14 +344,6 @@ class Activity implements IExtension {
 	 * @return array|false
 	 */
 	public function filterNotificationTypes($types, $filter) {
-		if ($filter === self::FILTER_FAVORITES) {
-			return array_intersect([
-				self::TYPE_SHARE_CREATED,
-				self::TYPE_SHARE_CHANGED,
-				self::TYPE_SHARE_DELETED,
-				self::TYPE_SHARE_RESTORED,
-			], $types);
-		}
 		return false;
 	}
 
@@ -380,61 +357,6 @@ class Activity implements IExtension {
 	 * @return array|false
 	 */
 	public function getQueryForFilter($filter) {
-		$user = $this->activityManager->getCurrentUserId();
-		if (!$user) {
-			// Remaining filters only work with a user/token
-			return false;
-		}
-
-		// Display actions from favorites only
-		if ($filter === self::FILTER_FAVORITES || in_array($filter, ['all', 'by', 'self']) && $this->userSettingFavoritesOnly($user)) {
-			try {
-				$favorites = $this->helper->getFavoriteFilePaths($user);
-			} catch (\RuntimeException $e) {
-				// Too many favorites, can not put them into one query anymore...
-				return ['`app` = ?', [self::APP_FILES]];
-			}
-
-			/*
-			 * Display activities only, when they are not `type` create/change
-			 * or `file` is a favorite or in a favorite folder
-			 */
-			$parameters = $fileQueryList = [];
-			$parameters[] = self::APP_FILES;
-			$parameters[] = self::APP_FILES;
-
-			$fileQueryList[] = '(`type` <> ? AND `type` <> ?)';
-			$parameters[] = self::TYPE_SHARE_CREATED;
-			$parameters[] = self::TYPE_SHARE_CHANGED;
-
-			foreach ($favorites['items'] as $favorite) {
-				$fileQueryList[] = '`file` = ?';
-				$parameters[] = $favorite;
-			}
-			foreach ($favorites['folders'] as $favorite) {
-				$fileQueryList[] = '`file` LIKE ?';
-				$parameters[] = $this->connection->escapeLikeParameter($favorite) . '/%';
-			}
-
-			return [
-				' CASE '
-					. 'WHEN `app` <> ? THEN 1 '
-					. 'WHEN `app` = ? AND (' . implode(' OR ', $fileQueryList) . ') THEN 1 '
-					. 'ELSE 0 '
-				. 'END = 1 ',
-				$parameters,
-			];
-		}
 		return false;
-	}
-
-	/**
-	 * Is the file actions favorite limitation enabled?
-	 *
-	 * @param string $user
-	 * @return bool
-	 */
-	protected function userSettingFavoritesOnly($user) {
-		return (bool) $this->config->getUserValue($user, 'activity', 'notify_' . self::METHOD_STREAM . '_' . self::TYPE_FAVORITES, false);
 	}
 }

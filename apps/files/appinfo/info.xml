@@ -20,6 +20,7 @@
 	<activity>
 		<filters>
 			<filter>OCA\Files\Activity\Filter\FileChanges</filter>
+			<filter>OCA\Files\Activity\Filter\Favorites</filter>
 		</filters>
 	</activity>
 
