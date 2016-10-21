@@ -307,7 +307,7 @@
 			$formRow.find('textarea').on('keydown input change', this._onTypeComment);
 
 			// copy avatar element from original to avoid flickering
-			$formRow.find('.avatar').replaceWith($comment.find('.avatar').clone());
+			$formRow.find('.avatar:first').replaceWith($comment.find('.avatar:first').clone());
 			$formRow.find('.has-tooltip').tooltip();
 
 			// Enable autosize
