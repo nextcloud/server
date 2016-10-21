@@ -82,8 +82,12 @@ class FilesReportPluginTest extends \Test\TestCase {
 
 		$this->server = $this->getMockBuilder('\Sabre\DAV\Server')
 			->setConstructorArgs([$this->tree])
-			->setMethods(['getRequestUri'])
+			->setMethods(['getRequestUri', 'getBaseUri'])
 			->getMock();
+
+		$this->server->expects($this->any())
+			->method('getBaseUri')
+			->will($this->returnValue('http://example.com/owncloud/remote.php/dav'));
 
 		$this->groupManager = $this->getMockBuilder('\OCP\IGroupManager')
 			->disableOriginalConstructor()
@@ -129,9 +133,6 @@ class FilesReportPluginTest extends \Test\TestCase {
 		);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\ReportNotSupported
-	 */
 	public function testOnReportInvalidNode() {
 		$path = 'totally/unrelated/13';
 
@@ -149,12 +150,9 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->will($this->returnValue($path));
 		$this->plugin->initialize($this->server);
 
-		$this->plugin->onReport(FilesReportPluginImplementation::REPORT_NAME, [], '/' . $path);
+		$this->assertNull($this->plugin->onReport(FilesReportPluginImplementation::REPORT_NAME, [], '/' . $path));
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\ReportNotSupported
-	 */
 	public function testOnReportInvalidReportName() {
 		$path = 'test';
 
@@ -172,7 +170,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->will($this->returnValue($path));
 		$this->plugin->initialize($this->server);
 
-		$this->plugin->onReport('{whoever}whatever', [], '/' . $path);
+		$this->assertNull($this->plugin->onReport('{whoever}whatever', [], '/' . $path));
 	}
 
 	public function testOnReport() {
@@ -254,7 +252,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->server->httpResponse = $response;
 		$this->plugin->initialize($this->server);
 
-		$this->plugin->onReport(FilesReportPluginImplementation::REPORT_NAME, $parameters, '/' . $path);
+		$this->assertFalse($this->plugin->onReport(FilesReportPluginImplementation::REPORT_NAME, $parameters, '/' . $path));
 	}
 
 	public function testFindNodesByFileIdsRoot() {
@@ -362,12 +360,18 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$node1->expects($this->once())
 			->method('getInternalFileId')
 			->will($this->returnValue('111'));
+		$node1->expects($this->any())
+			->method('getPath')
+			->will($this->returnValue('/node1'));
 		$node2->expects($this->once())
 			->method('getInternalFileId')
 			->will($this->returnValue('222'));
 		$node2->expects($this->once())
 			->method('getSize')
 			->will($this->returnValue(1024));
+		$node2->expects($this->any())
+			->method('getPath')
+			->will($this->returnValue('/sub/node2'));
 
 		$config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()
@@ -385,12 +389,15 @@ class FilesReportPluginTest extends \Test\TestCase {
 			)
 		);
 		$this->plugin->initialize($this->server);
-		$responses = $this->plugin->prepareResponses($requestedProps, [$node1, $node2]);
+		$responses = $this->plugin->prepareResponses('/files/username', $requestedProps, [$node1, $node2]);
 
 		$this->assertCount(2, $responses);
 
 		$this->assertEquals(200, $responses[0]->getHttpStatus());
 		$this->assertEquals(200, $responses[1]->getHttpStatus());
+
+		$this->assertEquals('http://example.com/owncloud/remote.php/dav/files/username/node1', $responses[0]->getHref());
+		$this->assertEquals('http://example.com/owncloud/remote.php/dav/files/username/sub/node2', $responses[1]->getHref());
 
 		$props1 = $responses[0]->getResponseProperties();
 		$this->assertEquals('111', $props1[200]['{http://owncloud.org/ns}fileid']);
@@ -670,5 +677,22 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->will($this->returnValue(['456', '789']));
 
 		$this->assertEquals(['456', '789'], array_values($this->invokePrivate($this->plugin, 'processFilterRules', [$rules])));
+	}
+
+	public function filesBaseUriProvider() {
+		return [
+			['', '', ''],
+			['files/username', '', '/files/username'],
+			['files/username/test', '/test', '/files/username'],
+			['files/username/test/sub', '/test/sub', '/files/username'],
+			['test', '/test', ''],
+		];
+	}
+
+	/**
+	 * @dataProvider filesBaseUriProvider
+	 */
+	public function testFilesBaseUri($uri, $reportPath, $expectedUri) {
+		$this->assertEquals($expectedUri, $this->invokePrivate($this->plugin, 'getFilesBaseUri', [$uri, $reportPath]));
 	}
 }
