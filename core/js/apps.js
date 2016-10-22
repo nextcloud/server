@@ -79,6 +79,10 @@
 					area.slideDown(OC.menuSpeed*4, function() {
 						area.trigger(new $.Event('show'));
 					});
+					var input = $(areaSelector + ' [autofocus]');
+					if (input.length === 1) {
+						input.focus();
+					}
 				}
 
 				// do nothing if the area is animated
