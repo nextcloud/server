@@ -287,6 +287,13 @@
 				data.hasPreview = true;
 			}
 
+			var isFavorite = props['{' + Client.NS_OWNCLOUD + '}favorite'];
+			if (!_.isUndefined(isFavorite)) {
+				data.isFavorite = isFavorite === '1';
+			} else {
+				data.isFavorite = false;
+			}
+
 			var contentType = props['{' + Client.NS_DAV + '}getcontenttype'];
 			if (!_.isUndefined(contentType)) {
 				data.mimetype = contentType;
