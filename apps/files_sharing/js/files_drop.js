@@ -22,22 +22,46 @@
 		_template: undefined,
 
 		initialize: function () {
+
+			var filesClient = new OC.Files.Client({
+				host: OC.getHost(),
+				port: OC.getPort(),
+				userName: $('#sharingToken').val(),
+				// note: password not be required, the endpoint
+				// will recognize previous validation from the session
+				root: OC.getRootPath() + '/public.php/webdav',
+				useHTTPS: OC.getProtocol() === 'https'
+			});
+
 			$(document).bind('drop dragover', function (e) {
 				// Prevent the default browser drop action:
 				e.preventDefault();
 			});
 			var output = this.template();
 			$('#public-upload').fileupload({
-				url: OC.linkTo('files', 'ajax/upload.php'),
-				dataType: 'json',
+				type: 'PUT',
 				dropZone: $('#public-upload'),
-				formData: {
-					dirToken: $('#sharingToken').val()
-				},
+				sequentialUploads: true,
 				add: function(e, data) {
 					var errors = [];
-					if(data.files[0]['size'] && data.files[0]['size'] > $('#maxFilesizeUpload').val()) {
-						errors.push('File is too big');
+
+					var name = data.files[0].name;
+
+					var base = OC.getProtocol() + '://' + OC.getHost();
+					data.url = base + OC.getRootPath() + '/public.php/webdav/' + encodeURI(name);
+
+					data.multipart = false;
+
+					if (!data.headers) {
+						data.headers = {};
+					}
+
+					var userName = filesClient.getUserName();
+					var password = filesClient.getPassword();
+					if (userName) {
+						// copy username/password from DAV client
+						data.headers['Authorization'] =
+							'Basic ' + btoa(userName + ':' + (password || ''));
 					}
 
 					$('#drop-upload-done-indicator').addClass('hidden');
@@ -53,6 +77,8 @@
 							$('[data-toggle="tooltip"]').tooltip();
 						}
 					});
+
+					return true;
 				},
 				success: function (response) {
 					if(response.status !== 'error') {
