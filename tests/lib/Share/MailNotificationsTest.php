@@ -208,54 +208,6 @@ class MailNotificationsTest extends \Test\TestCase {
 		$this->assertSame(['lukas@owncloud.com'], $mailNotifications->sendLinkShareMail('lukas@owncloud.com', 'MyFile', 'https://owncloud.com/file/?foo=bar', 3600));
 	}
 
-	public function testSendInternalShareMail() {
-		$this->setupMailerMock('TestUser shared »welcome.txt« with you', ['recipient@owncloud.com' => 'Recipient'], false);
-
-		/** @var MailNotifications | \PHPUnit_Framework_MockObject_MockObject $mailNotifications */
-		$mailNotifications = $this->getMockBuilder(MailNotifications::class)
-			->setMethods(['getItemSharedWithUser'])
-			->setConstructorArgs([
-				$this->user,
-				$this->l10n,
-				$this->mailer,
-				$this->logger,
-				$this->defaults,
-				$this->urlGenerator
-			])
-			->getMock();
-
-		$mailNotifications->method('getItemSharedWithUser')
-			->withAnyParameters()
-			->willReturn([
-				['file_target' => '/welcome.txt', 'item_source' => 123],
-			]);
-
-		$recipient = $this->getMockBuilder('\OCP\IUser')
-				->disableOriginalConstructor()->getMock();
-		$recipient
-				->expects($this->once())
-				->method('getEMailAddress')
-				->willReturn('recipient@owncloud.com');
-		$recipient
-				->expects($this->once())
-				->method('getDisplayName')
-				->willReturn('Recipient');
-
-		$this->urlGenerator->expects($this->once())
-			->method('linkToRouteAbsolute')
-			->with(
-				$this->equalTo('files.viewcontroller.showFile'),
-				$this->equalTo([
-					'fileId' => 123,
-				])
-			);
-
-		$recipientList = [$recipient];
-		$result = $mailNotifications->sendInternalShareMail($recipientList, '3', 'file');
-		$this->assertSame([], $result);
-
-	}
-
 	/**
 	 * @param string $subject
 	 */
