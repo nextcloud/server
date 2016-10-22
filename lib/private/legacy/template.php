@@ -117,7 +117,7 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addStyle("fonts",null,true);
 			OC_Util::addStyle("icons",null,true);
 			OC_Util::addStyle("header",null,true);
-			OC_Util::addStyle("inputs",null,true);
+			OC_Util::addStyle("inputs");
 			OC_Util::addStyle("styles",null,true);
 
 			// avatars
@@ -125,6 +125,10 @@ class OC_Template extends \OC\Template\Base {
 				\OC_Util::addScript('jquery.avatar', null, true);
 				\OC_Util::addScript('placeholder', null, true);
 			}
+
+			OC_Util::addVendorScript('select2/select2');
+			OC_Util::addVendorStyle('select2/select2', null, true);
+			OC_Util::addScript('select2-toggleselect');
 
 			OC_Util::addScript('oc-backbone', null, true);
 			OC_Util::addVendorScript('core', 'backbone/backbone', true);

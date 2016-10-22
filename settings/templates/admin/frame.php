@@ -25,8 +25,6 @@ style('settings', 'settings');
 script('settings', [ 'settings', 'admin', 'log', 'certificates'] );
 script('core', ['multiselect', 'setupchecks']);
 script('files', 'jquery.fileupload');
-vendor_script('select2/select2');
-vendor_style('select2/select2');
 
 ?>
 

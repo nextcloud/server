@@ -31,9 +31,6 @@ $eventDispatcher->addListener(
 	'OCA\Files::loadAdditionalScripts',
 	function() {
 		// FIXME: no public API for these ?
-		\OC_Util::addVendorScript('select2/select2');
-		\OC_Util::addVendorStyle('select2/select2');
-		\OCP\Util::addScript('select2-toggleselect');
 		\OCP\Util::addScript('oc-backbone-webdav');
 		\OCP\Util::addScript('systemtags/systemtags');
 		\OCP\Util::addScript('systemtags/systemtagmodel');
