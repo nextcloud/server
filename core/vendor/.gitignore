@@ -104,7 +104,9 @@ select2/**
 #zxcvbn
 zxcvbn/**
 !zxcvbn/.bower.json
-!zxcvbn/zxcvbn.js
+!zxcvbn/dist
+zxcvbn/dist/**
+!zxcvbn/dist/zxcvbn.js
 !zxcvbn/LICENSE.txt
 
 # snapjs

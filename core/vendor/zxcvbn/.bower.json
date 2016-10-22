@@ -1,14 +1,45 @@
 {
   "name": "zxcvbn",
-  "main": "zxcvbn.js",
-  "homepage": "https://github.com/lowe/zxcvbn",
-  "_release": "f2a8cda13d",
+  "description": "realistic password strength estimation",
+  "main": "dist/zxcvbn.js",
+  "keywords": [
+    "password",
+    "passphrase",
+    "strength",
+    "quality",
+    "estimation",
+    "estimate",
+    "meter",
+    "pattern",
+    "matcher",
+    "security",
+    "authentication",
+    "cracking",
+    "scoring",
+    "entropy",
+    "bruteforce"
+  ],
+  "ignore": [
+    "/.*",
+    "*.json",
+    "node_modules",
+    "data",
+    "data-scripts",
+    "demo",
+    "lib",
+    "src",
+    "test"
+  ],
+  "homepage": "https://github.com/dropbox/zxcvbn",
+  "version": "4.4.0",
+  "_release": "4.4.0",
   "_resolution": {
-    "type": "branch",
-    "branch": "master",
-    "commit": "f2a8cda13d247f4956d3334ee7cbae80a2c61a97"
+    "type": "version",
+    "tag": "v4.4.0",
+    "commit": "4c3d1c2b4a246cc8d7c81a61e341ad92ce14411b"
   },
-  "_source": "git://github.com/lowe/zxcvbn.git",
-  "_target": "*",
-  "_originalSource": "zxcvbn"
+  "_source": "https://github.com/dropbox/zxcvbn.git",
+  "_target": "^4.4.0",
+  "_originalSource": "zxcvbn",
+  "_direct": true
 }
