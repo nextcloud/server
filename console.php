@@ -41,6 +41,14 @@ if (version_compare(PHP_VERSION, '5.4.0') === -1) {
 	return;
 }
 
+// Show warning if PHP 7.1 is used as ownCloud is not compatible with PHP 7.1 until
+// version 9.2.0.
+if (version_compare(PHP_VERSION, '7.1.0') !== -1) {
+	echo 'This version of ownCloud is not compatible with PHP 7.1.<br/>';
+	echo 'You are currently running ' . PHP_VERSION . '. Please use at least ownCloud 9.2.0.';
+	return;
+}
+
 function exceptionHandler($exception) {
 	echo "An unhandled exception has been thrown:" . PHP_EOL;
 	echo $exception;
