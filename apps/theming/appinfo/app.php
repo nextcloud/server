@@ -47,6 +47,7 @@ $linkToJs = \OC::$server->getURLGenerator()->linkToRoute(
 	'script',
 	[
 		'src' => $linkToJs,
+		'nonce' => base64_encode(\OC::$server->getCsrfTokenManager()->getToken()->getEncryptedValue())
 	], ''
 );
 

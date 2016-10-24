@@ -28,6 +28,13 @@ class CsrfTokenTest extends \Test\TestCase {
 		$this->assertSame(':', $csrfToken->getEncryptedValue()[16]);
 	}
 
+	public function testGetEncryptedValueStaysSameOnSecondRequest() {
+		$csrfToken = new \OC\Security\CSRF\CsrfToken('MyCsrfToken');
+		$tokenValue = $csrfToken->getEncryptedValue();
+		$this->assertSame($tokenValue, $csrfToken->getEncryptedValue());
+		$this->assertSame($tokenValue, $csrfToken->getEncryptedValue());
+	}
+
 	public function testGetDecryptedValue() {
 		$csrfToken = new \OC\Security\CSRF\CsrfToken('XlQhHjgWCgBXAEI0Khl+IQEiCXN2LUcDHAQTQAc1HQs=:qgkUlg8l3m8WnkOG4XM9Az33pAt1vSVMx4hcJFsxdqc=');
 		$this->assertSame('/3JKTq2ldmzcDr1f5zDJ7Wt0lEgqqfKF', $csrfToken->getDecryptedValue());

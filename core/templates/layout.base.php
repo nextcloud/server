@@ -19,7 +19,7 @@
 			<link rel="stylesheet" href="<?php print_unescaped($cssfile); ?>" media="print">
 		<?php endforeach; ?>
 		<?php foreach ($_['jsfiles'] as $jsfile): ?>
-			<script src="<?php print_unescaped($jsfile); ?>"></script>
+			<script src="<?php print_unescaped($jsfile); ?>" nonce="<?php p(base64_encode($_['requesttoken'])) ?>"></script>
 		<?php endforeach; ?>
 		<?php print_unescaped($_['headers']); ?>
 	</head>

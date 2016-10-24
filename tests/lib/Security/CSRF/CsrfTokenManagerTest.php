@@ -56,6 +56,22 @@ class CsrfTokenManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->csrfTokenManager->getToken());
 	}
 
+	public function testGetTokenWithExistingTokenKeepsOnSecondRequest() {
+		$this->storageInterface
+			->expects($this->once())
+			->method('hasToken')
+			->willReturn(true);
+		$this->storageInterface
+			->expects($this->once())
+			->method('getToken')
+			->willReturn('MyExistingToken');
+
+		$expected = new \OC\Security\CSRF\CsrfToken('MyExistingToken');
+		$token = $this->csrfTokenManager->getToken();
+		$this->assertSame($token, $this->csrfTokenManager->getToken());
+		$this->assertSame($token, $this->csrfTokenManager->getToken());
+	}
+
 	public function testGetTokenWithoutExistingToken() {
 		$this->storageInterface
 			->expects($this->once())

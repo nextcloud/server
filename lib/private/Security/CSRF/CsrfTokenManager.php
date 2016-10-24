@@ -34,6 +34,8 @@ class CsrfTokenManager {
 	private $tokenGenerator;
 	/** @var SessionStorage */
 	private $sessionStorage;
+	/** @var CsrfToken|null */
+	private $csrfToken = null;
 
 	/**
 	 * @param CsrfTokenGenerator $tokenGenerator
@@ -51,6 +53,10 @@ class CsrfTokenManager {
 	 * @return CsrfToken
 	 */
 	public function getToken() {
+		if(!is_null($this->csrfToken)) {
+			return $this->csrfToken;
+		}
+
 		if($this->sessionStorage->hasToken()) {
 			$value = $this->sessionStorage->getToken();
 		} else {
@@ -58,7 +64,8 @@ class CsrfTokenManager {
 			$this->sessionStorage->setToken($value);
 		}
 
-		return new CsrfToken($value);
+		$this->csrfToken = new CsrfToken($value);
+		return $this->csrfToken;
 	}
 
 	/**
@@ -69,13 +76,15 @@ class CsrfTokenManager {
 	public function refreshToken() {
 		$value = $this->tokenGenerator->generateToken();
 		$this->sessionStorage->setToken($value);
-		return new CsrfToken($value);
+		$this->csrfToken = new CsrfToken($value);
+		return $this->csrfToken;
 	}
 
 	/**
 	 * Remove the current token from the storage.
 	 */
 	public function removeToken() {
+		$this->csrfToken = null;
 		$this->sessionStorage->removeToken();
 	}
 

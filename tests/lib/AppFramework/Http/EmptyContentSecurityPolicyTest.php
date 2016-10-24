@@ -427,4 +427,28 @@ class EmptyContentSecurityPolicyTest extends \Test\TestCase {
 		$this->contentSecurityPolicy->disallowChildSrcDomain('www.owncloud.org')->disallowChildSrcDomain('www.owncloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
+
+	public function testGetPolicyWithJsNonceAndScriptDomains() {
+		$expectedPolicy = "default-src 'none';script-src 'nonce-TXlKc05vbmNl' www.nextcloud.com www.nextcloud.org";
+
+		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->useJsNonce('MyJsNonce');
+		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.org');
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyWithJsNonceAndSelfScriptDomain() {
+		$expectedPolicy = "default-src 'none';script-src 'nonce-TXlKc05vbmNl'";
+
+		$this->contentSecurityPolicy->useJsNonce('MyJsNonce');
+		$this->contentSecurityPolicy->addAllowedScriptDomain("'self'");
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyWithoutJsNonceAndSelfScriptDomain() {
+		$expectedPolicy = "default-src 'none';script-src 'self'";
+
+		$this->contentSecurityPolicy->addAllowedScriptDomain("'self'");
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
 }

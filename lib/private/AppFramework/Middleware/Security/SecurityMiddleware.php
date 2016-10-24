@@ -36,6 +36,7 @@ use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\CSP\ContentSecurityPolicyManager;
+use OC\Security\CSRF\CsrfTokenManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -77,6 +78,8 @@ class SecurityMiddleware extends Middleware {
 	private $isAdminUser;
 	/** @var ContentSecurityPolicyManager */
 	private $contentSecurityPolicyManager;
+	/** @var CsrfTokenManager */
+	private $csrfTokenManager;
 
 	/**
 	 * @param IRequest $request
@@ -88,6 +91,7 @@ class SecurityMiddleware extends Middleware {
 	 * @param bool $isLoggedIn
 	 * @param bool $isAdminUser
 	 * @param ContentSecurityPolicyManager $contentSecurityPolicyManager
+	 * @param CSRFTokenManager $csrfTokenManager
 	 */
 	public function __construct(IRequest $request,
 								ControllerMethodReflector $reflector,
@@ -97,7 +101,8 @@ class SecurityMiddleware extends Middleware {
 								$appName,
 								$isLoggedIn,
 								$isAdminUser,
-								ContentSecurityPolicyManager $contentSecurityPolicyManager) {
+								ContentSecurityPolicyManager $contentSecurityPolicyManager,
+								CsrfTokenManager $csrfTokenManager) {
 		$this->navigationManager = $navigationManager;
 		$this->request = $request;
 		$this->reflector = $reflector;
@@ -107,6 +112,7 @@ class SecurityMiddleware extends Middleware {
 		$this->isLoggedIn = $isLoggedIn;
 		$this->isAdminUser = $isAdminUser;
 		$this->contentSecurityPolicyManager = $contentSecurityPolicyManager;
+		$this->csrfTokenManager = $csrfTokenManager;
 	}
 
 
@@ -171,6 +177,23 @@ class SecurityMiddleware extends Middleware {
 
 	}
 
+	private function browserSupportsCspV3() {
+		$browserWhitelist = [
+			// Chrome 40+
+			'/^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Chrome\/[4-9][0-9].[0-9.]+ (Mobile Safari|Safari)\/[0-9.]+$/',
+			// Firefox 45+
+			'/^Mozilla\/5\.0 \([^)]+\) Gecko\/[0-9.]+ Firefox\/(4[5-9]|[5-9][0-9])\.[0-9.]+$/',
+			// Safari 10+
+			'/^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Version\/1[0-9.]+ Safari\/[0-9.A-Z]+$/',
+		];
+
+		if($this->request->isUserAgent($browserWhitelist)) {
+			return true;
+		}
+
+		return false;
+	}
+
 	/**
 	 * Performs the default CSP modifications that may be injected by other
 	 * applications
@@ -189,6 +212,10 @@ class SecurityMiddleware extends Middleware {
 
 		$defaultPolicy = $this->contentSecurityPolicyManager->getDefaultPolicy();
 		$defaultPolicy = $this->contentSecurityPolicyManager->mergePolicies($defaultPolicy, $policy);
+
+		if($this->browserSupportsCspV3()) {
+			$defaultPolicy->useJsNonce($this->csrfTokenManager->getToken()->getEncryptedValue());
+		}
 
 		$response->setContentSecurityPolicy($defaultPolicy);
 
