@@ -40,7 +40,7 @@ OCP.AppConfig = {
 			data: options.data || {},
 			success: options.success,
 			error: options.error
-		})
+		});
 	},
 
 	/**
