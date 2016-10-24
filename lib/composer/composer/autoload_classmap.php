@@ -674,7 +674,7 @@ return array(
     'OC\\Security\\Bruteforce\\Throttler' => $baseDir . '/lib/private/Security/Bruteforce/Throttler.php',
     'OC\\Security\\CSP\\ContentSecurityPolicy' => $baseDir . '/lib/private/Security/CSP/ContentSecurityPolicy.php',
     'OC\\Security\\CSP\\ContentSecurityPolicyManager' => $baseDir . '/lib/private/Security/CSP/ContentSecurityPolicyManager.php',
-    'OC\\Security\\CSP\\ContentSecurityPolicyNounceManager' => $baseDir . '/lib/private/Security/CSP/ContentSecurityPolicyNonceManager.php',
+    'OC\\Security\\CSP\\ContentSecurityPolicyNonceManager' => $baseDir . '/lib/private/Security/CSP/ContentSecurityPolicyNonceManager.php',
     'OC\\Security\\CSRF\\CsrfToken' => $baseDir . '/lib/private/Security/CSRF/CsrfToken.php',
     'OC\\Security\\CSRF\\CsrfTokenGenerator' => $baseDir . '/lib/private/Security/CSRF/CsrfTokenGenerator.php',
     'OC\\Security\\CSRF\\CsrfTokenManager' => $baseDir . '/lib/private/Security/CSRF/CsrfTokenManager.php',
