@@ -33,6 +33,7 @@ namespace OCA\Files_Sharing;
 
 use OC\Files\Filesystem;
 use OC\Files\Cache\FailedCache;
+use OC\Files\Storage\FailedStorage;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\NotFoundException;
@@ -170,6 +171,8 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		if (!$this->file_exists($path)) {
 			return false;
 		}
+		/** @var IStorage $storage */
+		/** @var string $internalPath */
 		list($storage, $internalPath) = $this->resolvePath($path);
 		return $storage->isReadable($internalPath);
 	}
