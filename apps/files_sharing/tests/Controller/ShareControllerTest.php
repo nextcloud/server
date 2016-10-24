@@ -33,7 +33,7 @@ namespace OCA\Files_Sharing\Tests\Controllers;
 
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\FederatedShareProvider;
-use OCA\Files_Sharing\Controllers\ShareController;
+use OCA\Files_Sharing\Controller\ShareController;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\AppFramework\Http\NotFoundResponse;
@@ -96,7 +96,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->method('isIncomingServer2serverShareEnabled')->willReturn(true);
 		$this->eventDispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')->getMock();
 
-		$this->shareController = new \OCA\Files_Sharing\Controllers\ShareController(
+		$this->shareController = new \OCA\Files_Sharing\Controller\ShareController(
 			$this->appName,
 			$this->getMockBuilder('\OCP\IRequest')->getMock(),
 			$this->config,

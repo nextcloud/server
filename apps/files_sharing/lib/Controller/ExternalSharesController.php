@@ -24,7 +24,7 @@
  *
  */
 
-namespace OCA\Files_Sharing\Controllers;
+namespace OCA\Files_Sharing\Controller;
 
 use OCP\AppFramework\Controller;
 use OCP\IRequest;
@@ -35,7 +35,7 @@ use OCP\AppFramework\Http\DataResponse;
 /**
  * Class ExternalSharesController
  *
- * @package OCA\Files_Sharing\Controllers
+ * @package OCA\Files_Sharing\Controller
  */
 class ExternalSharesController extends Controller {
 

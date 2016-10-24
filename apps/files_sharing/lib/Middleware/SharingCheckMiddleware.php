@@ -78,10 +78,10 @@ class SharingCheckMiddleware extends Middleware {
 			throw new NotFoundException('Sharing is disabled.');
 		}
 
-		if ($controller instanceof \OCA\Files_Sharing\Controllers\ExternalSharesController &&
+		if ($controller instanceof \OCA\Files_Sharing\Controller\ExternalSharesController &&
 			!$this->externalSharesChecks()) {
 			throw new S2SException('Federated sharing not allowed');
-		} else if ($controller instanceof \OCA\Files_Sharing\Controllers\ShareController &&
+		} else if ($controller instanceof \OCA\Files_Sharing\Controller\ShareController &&
 			!$this->isLinkSharingEnabled()) {
 			throw new NotFoundException('Link sharing is disabled');
 		}
