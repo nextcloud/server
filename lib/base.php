@@ -626,7 +626,7 @@ class OC {
 		@ini_set('log_errors', 1);
 
 		if(!date_default_timezone_set('UTC')) {
-			\OC::$server->getLogger()->error('Could not set timezone to UTC');
+			throw new \RuntimeException('Could not set timezone to UTC');
 		};
 
 		//try to configure php to enable big file uploads.
