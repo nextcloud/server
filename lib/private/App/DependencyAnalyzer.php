@@ -227,6 +227,9 @@ class DependencyAnalyzer {
 		if (!is_array($libs)) {
 			$libs = array($libs);
 		}
+		if (isset($libs['@value'])) {
+			$libs = [$libs];
+		}
 		foreach ($libs as $lib) {
 			$libName = $this->getValue($lib);
 			$libVersion = $this->platform->getLibraryVersion($libName);

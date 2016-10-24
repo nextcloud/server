@@ -334,9 +334,16 @@ class OC_App {
 	 * This function set an app as enabled in appconfig.
 	 */
 	public static function enable($app, $groups = null) {
-		self::$enabledAppsCache = array(); // flush
+		self::$enabledAppsCache = []; // flush
 		if (!Installer::isInstalled($app)) {
 			$app = self::installApp($app);
+		} else {
+			// check for required dependencies
+			$config = \OC::$server->getConfig();
+			$l = \OC::$server->getL10N('core');
+			$info = self::getAppInfo($app);
+
+			self::checkAppDependencies($config, $l, $info);
 		}
 
 		$appManager = \OC::$server->getAppManager();
@@ -1186,16 +1193,7 @@ class OC_App {
 			}
 
 			// check for required dependencies
-			$dependencyAnalyzer = new DependencyAnalyzer(new Platform($config), $l);
-			$missing = $dependencyAnalyzer->analyze($info);
-			if (!empty($missing)) {
-				$missingMsg = join(PHP_EOL, $missing);
-				throw new \Exception(
-					$l->t('App "%s" cannot be installed because the following dependencies are not fulfilled: %s',
-						array($info['name'], $missingMsg)
-					)
-				);
-			}
+			self::checkAppDependencies($config, $l, $info);
 
 			$config->setAppValue($app, 'enabled', 'yes');
 			if (isset($appData['id'])) {
@@ -1437,5 +1435,24 @@ class OC_App {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * @param $config
+	 * @param $l
+	 * @param $info
+	 * @throws Exception
+	 */
+	protected static function checkAppDependencies($config, $l, $info) {
+		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($config), $l);
+		$missing = $dependencyAnalyzer->analyze($info);
+		if (!empty($missing)) {
+			$missingMsg = join(PHP_EOL, $missing);
+			throw new \Exception(
+				$l->t('App "%s" cannot be installed because the following dependencies are not fulfilled: %s',
+					[$info['name'], $missingMsg]
+				)
+			);
+		}
 	}
 }
