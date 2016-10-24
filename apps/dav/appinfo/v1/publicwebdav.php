@@ -88,6 +88,11 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authBackend, func
 	$fileInfo = $ownerView->getFileInfo($path);
 	$linkCheckPlugin->setFileInfo($fileInfo);
 
+	// If not readble (files_drop) enable the filesdrop plugin
+	if (!$isReadable) {
+		$filesDropPlugin->enable();
+	}
+
 	$view = new \OC\Files\View($ownerView->getAbsolutePath($path));
 	$filesDropPlugin->setView($view);
 

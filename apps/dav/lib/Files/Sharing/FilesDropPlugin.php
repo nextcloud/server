@@ -32,10 +32,11 @@ use Sabre\HTTP\ResponseInterface;
  */
 class FilesDropPlugin extends ServerPlugin {
 
-	/**
-	 * @var View
-	 */
+	/** @var View */
 	private $view;
+
+	/** @var bool */
+	private $enabled = false;
 
 	/**
 	 * @param View $view
@@ -43,6 +44,11 @@ class FilesDropPlugin extends ServerPlugin {
 	public function setView($view) {
 		$this->view = $view;
 	}
+
+	public function enable() {
+		$this->enabled = true;
+	}
+
 
 	/**
 	 * This initializes the plugin.
@@ -52,10 +58,16 @@ class FilesDropPlugin extends ServerPlugin {
 	 * @return void
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
-		$server->on('beforeMethod', [$this, 'beforeMethod']);
+		$server->on('beforeMethod:PUT', [$this, 'beforeMethod']);
+		$this->enabled = false;
 	}
 
 	public function beforeMethod(RequestInterface $request, ResponseInterface $response){
+
+		if (!$this->enabled) {
+			return;
+		}
+
 		$path = $request->getPath();
 
 		if ($this->view->file_exists($path)) {
