@@ -67,31 +67,25 @@
 					$('#drop-upload-done-indicator').addClass('hidden');
 					$('#drop-upload-progress-indicator').removeClass('hidden');
 					_.each(data['files'], function(file) {
-						if(errors.length === 0) {
-							$('#public-upload ul').append(output({isUploading: true, name: escapeHTML(file.name)}));
-							$('[data-toggle="tooltip"]').tooltip();
-							data.submit();
-						} else {
-							OC.Notification.showTemporary(OC.L10N.translate('files_sharing', 'Could not upload "{filename}"', {filename: file.name}));
-							$('#public-upload ul').append(output({isUploading: false, name: escapeHTML(file.name)}));
-							$('[data-toggle="tooltip"]').tooltip();
-						}
+						$('#public-upload ul').append(output({isUploading: true, name: escapeHTML(file.name)}));
+						$('[data-toggle="tooltip"]').tooltip();
+						data.submit();
 					});
 
 					return true;
 				},
-				success: function (response) {
-					if(response.status !== 'error') {
-						var mimeTypeUrl = OC.MimeType.getIconUrl(response['mimetype']);
-						$('#public-upload ul li[data-name="' + escapeHTML(response['filename']) + '"]').html('<img src="' + escapeHTML(mimeTypeUrl) + '"/> ' + escapeHTML(response['filename']));
+				done: function(e, data) {
+					// Created
+					if (data.jqXHR.status === 201) {
+						var mimeTypeUrl = OC.MimeType.getIconUrl(data.files[0].type);
+						$('#public-upload ul li[data-name="' + escapeHTML(data.files[0].name) + '"]').html('<img src="' + escapeHTML(mimeTypeUrl) + '"/> ' + escapeHTML(data.files[0].name));
 						$('[data-toggle="tooltip"]').tooltip();
 					} else {
-						var name = response[0]['data']['filename'];
+						var name = data.files[0].name;
 						OC.Notification.showTemporary(OC.L10N.translate('files_sharing', 'Could not upload "{filename}"', {filename: name}));
 						$('#public-upload ul li[data-name="' + escapeHTML(name) + '"]').html(output({isUploading: false, name: escapeHTML(name)}));
 						$('[data-toggle="tooltip"]').tooltip();
 					}
-
 				},
 				progressall: function (e, data) {
 					var progress = parseInt(data.loaded / data.total * 100, 10);
