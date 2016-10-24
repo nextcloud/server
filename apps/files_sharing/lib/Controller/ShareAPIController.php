@@ -23,6 +23,7 @@
  */
 namespace OCA\Files_Sharing\Controller;
 
+use OC\Share20\Exception\ProviderException;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
@@ -556,7 +557,11 @@ class ShareAPIController extends OCSController {
 		$userShares = $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_USER, $path, $reshares, -1, 0);
 		$groupShares = $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_GROUP, $path, $reshares, -1, 0);
 		$linkShares = $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_LINK, $path, $reshares, -1, 0);
-		$mailShares = $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_EMAIL, $path, $reshares, -1, 0);
+		if ($this->shareManager->shareProviderExists(\OCP\Share::SHARE_TYPE_EMAIL)) {
+			$mailShares = $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_EMAIL, $path, $reshares, -1, 0);
+		} else {
+			$mailShares = [];
+		}
 		$shares = array_merge($userShares, $groupShares, $linkShares, $mailShares);
 
 		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {

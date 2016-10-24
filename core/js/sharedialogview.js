@@ -154,7 +154,11 @@
 						var users   = result.ocs.data.exact.users.concat(result.ocs.data.users);
 						var groups  = result.ocs.data.exact.groups.concat(result.ocs.data.groups);
 						var remotes = result.ocs.data.exact.remotes.concat(result.ocs.data.remotes);
-						var emails = result.ocs.data.exact.emails.concat(result.ocs.data.emails);
+						if (typeof(result.ocs.data.emails) !== 'undefined') {
+							var emails = result.ocs.data.exact.emails.concat(result.ocs.data.emails);
+						} else {
+							var emails = [];
+						}
 
 						var usersLength;
 						var groupsLength;

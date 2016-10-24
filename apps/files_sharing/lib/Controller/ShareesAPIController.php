@@ -446,6 +446,11 @@ class ShareesAPIController extends OCSController {
 			$shareTypes = array_diff($shareTypes, [Share::SHARE_TYPE_REMOTE]);
 		}
 
+		if (!$this->shareManager->shareProviderExists(Share::SHARE_TYPE_EMAIL)) {
+			// Remove mail shares from type array, because the share provider is not loaded
+			$shareTypes = array_diff($shareTypes, [Share::SHARE_TYPE_EMAIL]);
+		}
+
 		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->limit = (int) $perPage;
