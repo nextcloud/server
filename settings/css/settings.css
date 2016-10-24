@@ -34,25 +34,23 @@ input#openid, input#webdav { width:20em; }
 	/* float cropper above settings page to prevent unexpected flowing from dynamically sized element */
 	position: fixed;
 	background-color: rgba(0, 0, 0, .2);
-	/*opacity: .20;*/
 	box-sizing: border-box;
-	top: 0;
+	top: 45px;
 	left: 0;
 	width: 100%;
-	height: 100%;
-	padding-top: 45px;
-	text-align: center;
+	height: calc(100% - 45px);
 }
 #avatar #cropper .inner-container {
-	display: inline-block;
-	margin-top: 160px;
-	margin-left: 30px;
+	z-index: 2001; /* above the top bar if needed */
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 	background: #fff;
 	color: #333;
 	border-radius: 3px;
 	box-shadow: 0 0 7px #888;
 	padding: 15px;
-	text-align: left;
 }
 
 #avatar #cropper .inner-container .jcrop-holder {
