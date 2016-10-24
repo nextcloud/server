@@ -148,8 +148,8 @@ function showAvatarCropper () {
 			onChange: saveCoords,
 			onSelect: saveCoords,
 			aspectRatio: 1,
-			boxHeight: 500,
-			boxWidth: 500,
+			boxHeight: Math.min(500, $('#app-content').height() -100),
+			boxWidth: Math.min(500, $('#app-content').width()),
 			setSelect: [offsetX, offsetY, selectSize, selectSize]
 		}, function() {
 			$cropper.show();
