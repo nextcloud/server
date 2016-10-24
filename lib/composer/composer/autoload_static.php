@@ -704,6 +704,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Security\\Bruteforce\\Throttler' => __DIR__ . '/../../..' . '/lib/private/Security/Bruteforce/Throttler.php',
         'OC\\Security\\CSP\\ContentSecurityPolicy' => __DIR__ . '/../../..' . '/lib/private/Security/CSP/ContentSecurityPolicy.php',
         'OC\\Security\\CSP\\ContentSecurityPolicyManager' => __DIR__ . '/../../..' . '/lib/private/Security/CSP/ContentSecurityPolicyManager.php',
+        'OC\\Security\\CSP\\ContentSecurityPolicyNounceManager' => __DIR__ . '/../../..' . '/lib/private/Security/CSP/ContentSecurityPolicyNonceManager.php',
         'OC\\Security\\CSRF\\CsrfToken' => __DIR__ . '/../../..' . '/lib/private/Security/CSRF/CsrfToken.php',
         'OC\\Security\\CSRF\\CsrfTokenGenerator' => __DIR__ . '/../../..' . '/lib/private/Security/CSRF/CsrfTokenGenerator.php',
         'OC\\Security\\CSRF\\CsrfTokenManager' => __DIR__ . '/../../..' . '/lib/private/Security/CSRF/CsrfTokenManager.php',

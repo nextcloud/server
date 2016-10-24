@@ -73,6 +73,7 @@ use OC\Security\Bruteforce\Throttler;
 use OC\Security\CertificateManager;
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OC\Security\Crypto;
+use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Security\CSRF\CsrfTokenGenerator;
 use OC\Security\CSRF\CsrfTokenManager;
 use OC\Security\CSRF\TokenStorage\SessionStorage;
@@ -707,6 +708,11 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerService('ContentSecurityPolicyManager', function (Server $c) {
 			return new ContentSecurityPolicyManager();
+		});
+		$this->registerService('ContentSecurityPolicyNonceManager', function(Server $c) {
+			return new ContentSecurityPolicyNonceManager(
+				$c->getCsrfTokenManager()
+			);
 		});
 		$this->registerService('ShareManager', function(Server $c) {
 			$config = $c->getConfig();
@@ -1403,6 +1409,13 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getContentSecurityPolicyManager() {
 		return $this->query('ContentSecurityPolicyManager');
+	}
+
+	/**
+	 * @return ContentSecurityPolicyNonceManager
+	 */
+	public function getContentSecurityPolicyNonceManager() {
+		return $this->query('ContentSecurityPolicyNonceManager');
 	}
 
 	/**
