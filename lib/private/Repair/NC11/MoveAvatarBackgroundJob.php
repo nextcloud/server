@@ -64,35 +64,33 @@ class MoveAvatarsBackgroundJob extends QueuedJob {
 
 	private function moveAvatars() {
 		$counter = 0;
-		$this->userManager->callForAllUsers(function (IUser $user) use ($counter) {
-			if ($user->getLastLogin() !== 0) {
-				$uid = $user->getUID();
+		$this->userManager->callForSeenUsers(function (IUser $user) use ($counter) {
+			$uid = $user->getUID();
 
-				\OC\Files\Filesystem::initMountPoints($uid);
-				/** @var Folder $userFolder */
-				$userFolder = $this->rootFolder->get($uid);
+			\OC\Files\Filesystem::initMountPoints($uid);
+			/** @var Folder $userFolder */
+			$userFolder = $this->rootFolder->get($uid);
 
-				try {
-					$userData = $this->appData->getFolder($uid);
-				} catch (NotFoundException $e) {
-					$userData = $this->appData->newFolder($uid);
-				}
+			try {
+				$userData = $this->appData->getFolder($uid);
+			} catch (NotFoundException $e) {
+				$userData = $this->appData->newFolder($uid);
+			}
 
 
-				$regex = '/^avatar\.([0-9]+\.)?(jpg|png)$/';
-				$avatars = $userFolder->getDirectoryListing();
+			$regex = '/^avatar\.([0-9]+\.)?(jpg|png)$/';
+			$avatars = $userFolder->getDirectoryListing();
 
-				foreach ($avatars as $avatar) {
-					/** @var File $avatar */
-					if (preg_match($regex, $avatar->getName())) {
-						/*
-						 * This is not the most effective but it is the most abstract way
-						 * to handle this. Avatars should be small anyways.
-						 */
-						$newAvatar = $userData->newFile($avatar->getName());
-						$newAvatar->putContent($avatar->getContent());
-						$avatar->delete();
-					}
+			foreach ($avatars as $avatar) {
+				/** @var File $avatar */
+				if (preg_match($regex, $avatar->getName())) {
+					/*
+					 * This is not the most effective but it is the most abstract way
+					 * to handle this. Avatars should be small anyways.
+					 */
+					$newAvatar = $userData->newFile($avatar->getName());
+					$newAvatar->putContent($avatar->getContent());
+					$avatar->delete();
 				}
 			}
 			$counter++;
