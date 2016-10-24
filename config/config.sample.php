@@ -1174,7 +1174,7 @@ $CONFIG = array(
  * client may not function as expected, and could lead to permanent data loss for
  * clients or other unexpected results.
  */
-'minimum.supported.desktop.version' => '1.7.0',
+'minimum.supported.desktop.version' => '2.0.0',
 
 /**
  * EXPERIMENTAL: option whether to include external storage in quota
