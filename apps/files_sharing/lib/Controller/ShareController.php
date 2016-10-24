@@ -30,7 +30,7 @@
  *
  */
 
-namespace OCA\Files_Sharing\Controllers;
+namespace OCA\Files_Sharing\Controller;
 
 use OC_Files;
 use OC_Util;

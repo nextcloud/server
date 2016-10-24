@@ -24,7 +24,7 @@
 
 namespace OCA\Files_Sharing\Tests\Controllers;
 
-use OCA\Files_Sharing\Controllers\ExternalSharesController;
+use OCA\Files_Sharing\Controller\ExternalSharesController;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Http\Client\IClientService;
