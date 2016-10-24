@@ -30,6 +30,7 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Cache\Scanner;
+use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -92,18 +93,16 @@ class ApiTest extends TestCase {
 
 	/**
 	 * @param string $userId The userId of the caller
-	 * @return \OCA\Files_Sharing\API\Share20OCS
+	 * @return \OCA\Files_Sharing\Controller\ShareAPIController
 	 */
 	private function createOCS($userId) {
-		$currentUser = \OC::$server->getUserManager()->get($userId);
-
 		$l = $this->getMockBuilder('\OCP\IL10N')->getMock();
 		$l->method('t')
 			->will($this->returnCallback(function($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			}));
 
-		return new \OCA\Files_Sharing\API\Share20OCS(
+		return new ShareAPIController(
 			self::APP_NAME,
 			$this->getMockBuilder('OCP\IRequest')->getMock(),
 			$this->shareManager,
@@ -111,7 +110,7 @@ class ApiTest extends TestCase {
 			\OC::$server->getUserManager(),
 			\OC::$server->getRootFolder(),
 			\OC::$server->getURLGenerator(),
-			$currentUser,
+			$userId,
 			$l
 		);
 	}
@@ -715,7 +714,6 @@ class ApiTest extends TestCase {
 		/*
 		 * Test as recipient
 		 */
-		$request = $this->createRequest(['path' => '/', 'subfiles' => 'true']);
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER3);
 		$result = $ocs->getShares();
 		$ocs->cleanup();

@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OCA\Files_Sharing\API;
+namespace OCA\Files_Sharing\Controller;
 
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -50,7 +50,7 @@ use OCP\Share\IShare;
  *
  * @package OCA\Files_Sharing\API
  */
-class Share20OCS extends OCSController {
+class ShareAPIController extends OCSController {
 
 	/** @var IManager */
 	private $shareManager;
@@ -64,7 +64,7 @@ class Share20OCS extends OCSController {
 	private $rootFolder;
 	/** @var IURLGenerator */
 	private $urlGenerator;
-	/** @var IUser */
+	/** @var string */
 	private $currentUser;
 	/** @var IL10N */
 	private $l;
@@ -81,7 +81,7 @@ class Share20OCS extends OCSController {
 	 * @param IUserManager $userManager
 	 * @param IRootFolder $rootFolder
 	 * @param IURLGenerator $urlGenerator
-	 * @param IUser $currentUser
+	 * @param string $userId
 	 * @param IL10N $l10n
 	 */
 	public function __construct(
@@ -92,7 +92,7 @@ class Share20OCS extends OCSController {
 		IUserManager $userManager,
 		IRootFolder $rootFolder,
 		IURLGenerator $urlGenerator,
-		IUser $currentUser,
+		$userId,
 		IL10N $l10n
 	) {
 		parent::__construct($appName, $request);
@@ -103,7 +103,7 @@ class Share20OCS extends OCSController {
 		$this->request = $request;
 		$this->rootFolder = $rootFolder;
 		$this->urlGenerator = $urlGenerator;
-		$this->currentUser = $currentUser;
+		$this->currentUser = $userId;
 		$this->l = $l10n;
 	}
 
@@ -133,7 +133,7 @@ class Share20OCS extends OCSController {
 			'displayname_file_owner' => $shareOwner !== null ? $shareOwner->getDisplayName() : $share->getShareOwner(),
 		];
 
-		$userFolder = $this->rootFolder->getUserFolder($this->currentUser->getUID());
+		$userFolder = $this->rootFolder->getUserFolder($this->currentUser);
 		if ($recipientNode) {
 			$node = $recipientNode;
 		} else {
@@ -287,7 +287,7 @@ class Share20OCS extends OCSController {
 			throw new OCSNotFoundException($this->l->t('Please specify a file or folder path'));
 		}
 
-		$userFolder = $this->rootFolder->getUserFolder($this->currentUser->getUID());
+		$userFolder = $this->rootFolder->getUserFolder($this->currentUser);
 		try {
 			$path = $userFolder->get($path);
 		} catch (NotFoundException $e) {
@@ -352,7 +352,7 @@ class Share20OCS extends OCSController {
 			 * For now we only allow 1 link share.
 			 * Return the existing link share if this is a duplicate
 			 */
-			$existingShares = $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_LINK, $path, false, 1, 0);
+			$existingShares = $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_LINK, $path, false, 1, 0);
 			if (!empty($existingShares)) {
 				return new DataResponse($this->formatShare($existingShares[0]));
 			}
@@ -405,7 +405,7 @@ class Share20OCS extends OCSController {
 		}
 
 		$share->setShareType($shareType);
-		$share->setSharedBy($this->currentUser->getUID());
+		$share->setSharedBy($this->currentUser);
 
 		try {
 			$share = $this->shareManager->createShare($share);
@@ -426,13 +426,13 @@ class Share20OCS extends OCSController {
 	 * @return DataResponse
 	 */
 	private function getSharedWithMe($node = null) {
-		$userShares = $this->shareManager->getSharedWith($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_USER, $node, -1, 0);
-		$groupShares = $this->shareManager->getSharedWith($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_GROUP, $node, -1, 0);
+		$userShares = $this->shareManager->getSharedWith($this->currentUser, \OCP\Share::SHARE_TYPE_USER, $node, -1, 0);
+		$groupShares = $this->shareManager->getSharedWith($this->currentUser, \OCP\Share::SHARE_TYPE_GROUP, $node, -1, 0);
 
 		$shares = array_merge($userShares, $groupShares);
 
 		$shares = array_filter($shares, function (IShare $share) {
-			return $share->getShareOwner() !== $this->currentUser->getUID();
+			return $share->getShareOwner() !== $this->currentUser;
 		});
 
 		$formatted = [];
@@ -463,11 +463,11 @@ class Share20OCS extends OCSController {
 		/** @var \OCP\Share\IShare[] $shares */
 		$shares = [];
 		foreach ($nodes as $node) {
-			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_USER, $node, false, -1, 0));
-			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_GROUP, $node, false, -1, 0));
-			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_LINK, $node, false, -1, 0));
+			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_USER, $node, false, -1, 0));
+			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_GROUP, $node, false, -1, 0));
+			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_LINK, $node, false, -1, 0));
 			if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
-				$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_REMOTE, $node, false, -1, 0));
+				$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_REMOTE, $node, false, -1, 0));
 			}
 		}
 
@@ -510,7 +510,7 @@ class Share20OCS extends OCSController {
 	) {
 
 		if ($path !== null) {
-			$userFolder = $this->rootFolder->getUserFolder($this->currentUser->getUID());
+			$userFolder = $this->rootFolder->getUserFolder($this->currentUser);
 			try {
 				$path = $userFolder->get($path);
 				$this->lock($path);
@@ -538,13 +538,13 @@ class Share20OCS extends OCSController {
 		}
 
 		// Get all shares
-		$userShares = $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_USER, $path, $reshares, -1, 0);
-		$groupShares = $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_GROUP, $path, $reshares, -1, 0);
-		$linkShares = $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_LINK, $path, $reshares, -1, 0);
+		$userShares = $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_USER, $path, $reshares, -1, 0);
+		$groupShares = $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_GROUP, $path, $reshares, -1, 0);
+		$linkShares = $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_LINK, $path, $reshares, -1, 0);
 		$shares = array_merge($userShares, $groupShares, $linkShares);
 
 		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
-			$federatedShares = $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_REMOTE, $path, $reshares, -1, 0);
+			$federatedShares = $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_REMOTE, $path, $reshares, -1, 0);
 			$shares = array_merge($shares, $federatedShares);
 		}
 
@@ -671,10 +671,10 @@ class Share20OCS extends OCSController {
 			}
 		}
 
-		if ($permissions !== null && $share->getShareOwner() !== $this->currentUser->getUID()) {
+		if ($permissions !== null && $share->getShareOwner() !== $this->currentUser) {
 			/* Check if this is an incomming share */
-			$incomingShares = $this->shareManager->getSharedWith($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_USER, $share->getNode(), -1, 0);
-			$incomingShares = array_merge($incomingShares, $this->shareManager->getSharedWith($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_GROUP, $share->getNode(), -1, 0));
+			$incomingShares = $this->shareManager->getSharedWith($this->currentUser, \OCP\Share::SHARE_TYPE_USER, $share->getNode(), -1, 0);
+			$incomingShares = array_merge($incomingShares, $this->shareManager->getSharedWith($this->currentUser, \OCP\Share::SHARE_TYPE_GROUP, $share->getNode(), -1, 0));
 
 			/** @var \OCP\Share\IShare[] $incomingShares */
 			if (!empty($incomingShares)) {
@@ -710,22 +710,23 @@ class Share20OCS extends OCSController {
 		}
 
 		// Owner of the file and the sharer of the file can always get share
-		if ($share->getShareOwner() === $this->currentUser->getUID() ||
-			$share->getSharedBy() === $this->currentUser->getUID()
+		if ($share->getShareOwner() === $this->currentUser ||
+			$share->getSharedBy() === $this->currentUser
 		) {
 			return true;
 		}
 
 		// If the share is shared with you (or a group you are a member of)
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER &&
-			$share->getSharedWith() === $this->currentUser->getUID()
+			$share->getSharedWith() === $this->currentUser
 		) {
 			return true;
 		}
 
 		if ($checkGroups && $share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$sharedWith = $this->groupManager->get($share->getSharedWith());
-			if ($sharedWith->inGroup($this->currentUser)) {
+			$user = $this->userManager->get($this->currentUser);
+			if ($user !== null && $sharedWith->inGroup($user)) {
 				return true;
 			}
 		}
