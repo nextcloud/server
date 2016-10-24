@@ -47,6 +47,8 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 		// forbidden can be expected when trying to upload to
 		// read-only folders for example
 		'Sabre\DAV\Exception\Forbidden' => true,
+		// Custom exception similar to NotAuthenticated
+		'OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden' => true,
 	);
 
 	/** @var string */
