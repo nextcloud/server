@@ -2530,6 +2530,46 @@ class ManagerTest extends \Test\TestCase {
 		$this->manager->moveShare($share, 'recipient');
 	}
 
+
+	/**
+	 * @dataProvider dataTestShareProviderExists
+	 */
+	public function testShareProviderExists($shareType, $expected) {
+
+		$factory = $this->getMockBuilder('OCP\Share\IProviderFactory')->getMock();
+		$factory->expects($this->any())->method('getProviderForType')
+			->willReturnCallback(function ($id) {
+				if ($id === \OCP\Share::SHARE_TYPE_USER) {
+					return true;
+				}
+				throw new Exception\ProviderException();
+			});
+
+		$manager = new Manager(
+			$this->logger,
+			$this->config,
+			$this->secureRandom,
+			$this->hasher,
+			$this->mountManager,
+			$this->groupManager,
+			$this->l,
+			$factory,
+			$this->userManager,
+			$this->rootFolder,
+			$this->eventDispatcher
+		);
+		$this->assertSame($expected,
+			$manager->shareProviderExists($shareType)
+		);
+	}
+
+	public function dataTestShareProviderExists() {
+		return [
+			[\OCP\Share::SHARE_TYPE_USER, true],
+			[42, false],
+		];
+	}
+
 	public function testGetSharesInFolder() {
 		$factory = new DummyFactory2($this->createMock(IServerContainer::class));
 

@@ -30,6 +30,7 @@ namespace OC\Share20;
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Mount\MoveableMount;
 use OC\HintException;
+use OC\Share20\Exception\ProviderException;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -1289,6 +1290,19 @@ class Manager implements IManager {
 	 */
 	public function outgoingServer2ServerSharesAllowed() {
 		return $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function shareProviderExists($shareType) {
+		try {
+			$this->factory->getProviderForType($shareType);
+		} catch (ProviderException $e) {
+			return false;
+		}
+
+		return true;
 	}
 
 }
