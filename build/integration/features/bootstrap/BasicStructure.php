@@ -179,6 +179,15 @@ trait BasicStructure {
 		}
 	}
 
+	/**
+	 * @When /^sending "([^"]*)" with exact url to "([^"]*)"$/
+	 * @param string $verb
+	 * @param string $url
+	 */
+	public function sendingToDirectUrl($verb, $url) {
+		$this->sendingToWithDirectUrl($verb, $url, null);
+	}
+
 	public function sendingToWithDirectUrl($verb, $url, $body) {
 		$fullUrl = substr($this->baseUrl, 0, -5) . $url;
 		$client = new Client();

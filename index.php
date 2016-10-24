@@ -48,6 +48,9 @@ try {
 } catch (\OC\HintException $ex) {
 	OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
 	OC_Template::printErrorPage($ex->getMessage(), $ex->getHint());
+} catch (\OC\User\LoginException $ex) {
+	OC_Response::setStatus(OC_Response::STATUS_FORBIDDEN);
+	OC_Template::printErrorPage($ex->getMessage(), $ex->getMessage());
 } catch (Exception $ex) {
 	\OC::$server->getLogger()->logException($ex, array('app' => 'index'));
 
