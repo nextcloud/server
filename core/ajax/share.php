@@ -213,6 +213,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			$result = array();
 			if (isset($_GET['search'])) {
 				$cm = OC::$server->getContactsManager();
+				$allowEnumeration = \OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 				if (!is_null($cm) && $cm->isEnabled()) {
 					$contacts = $cm->search((string)$_GET['search'], array('FN', 'EMAIL'));
 					foreach ($contacts as $contact) {
@@ -226,6 +227,13 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 						}
 
 						foreach($emails as $email) {
+							if (!$allowEnumeration &&
+								$email !== $_GET['search'] &&
+								$contact['FN'] !== $_GET['search']
+							) {
+								continue;
+							}
+
 							$result[] = array(
 								'id' => $contact['id'],
 								'email' => $email,

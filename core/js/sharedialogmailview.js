@@ -139,6 +139,8 @@
 							}, function(result) {
 								if (result.status == 'success' && result.data.length > 0) {
 									response(result.data);
+								} else {
+									response([]);
 								}
 							});
 						},
