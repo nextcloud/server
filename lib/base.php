@@ -217,12 +217,7 @@ class OC {
 
 		// set the right include path
 		set_include_path(
-			OC::$SERVERROOT . '/lib/private' . PATH_SEPARATOR .
-			self::$configDir . PATH_SEPARATOR .
-			OC::$SERVERROOT . '/3rdparty' . PATH_SEPARATOR .
-			implode(PATH_SEPARATOR, $paths) . PATH_SEPARATOR .
-			get_include_path() . PATH_SEPARATOR .
-			OC::$SERVERROOT
+			implode(PATH_SEPARATOR, $paths)
 		);
 	}
 
