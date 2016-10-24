@@ -31,6 +31,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDb;
 use OCP\IDBConnection;
 use OCP\PreConditionNotMetException;
+use Doctrine\DBAL\Platforms\MySqlPlatform;
 
 /**
  * @deprecated use IDBConnection directly, will be removed in ownCloud 10
@@ -299,5 +300,15 @@ class Db implements IDb {
 	 */
 	public function escapeLikeParameter($param) {
 		return $this->connection->escapeLikeParameter($param);
+	}
+
+	/**
+	 * Check whether or not the current database support 4byte wide unicode
+	 *
+	 * @return bool
+	 * @since 9.2.0
+	 */
+	public function supports4ByteText() {
+		return $this->connection->supports4ByteText();
 	}
 }
