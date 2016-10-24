@@ -141,7 +141,7 @@ class RootTest extends \Test\TestCase {
 
 		\OC_User::clearBackends();
 		// needed for loginName2UserName mapping
-		$userBackend = $this->getMock('\OC\User\Database');
+		$userBackend = $this->createMock(\OC\User\Database::class);
 		\OC::$server->getUserManager()->registerBackend($userBackend);
 
 		$userBackend->expects($this->any())
