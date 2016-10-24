@@ -40,6 +40,7 @@ use OC\Repair\DropOldJobs;
 use OC\Repair\EncryptionCompatibility;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\RemoveGetETagEntries;
+use OC\Repair\SharePropagation;
 use OC\Repair\SqliteAutoincrement;
 use OC\Repair\DropOldTables;
 use OC\Repair\FillETags;
@@ -118,13 +119,13 @@ class Repair extends BasicEmitter {
 			new DropOldJobs(\OC::$server->getJobList()),
 			new RemoveGetETagEntries(\OC::$server->getDatabaseConnection()),
 			new UpdateOutdatedOcsIds(\OC::$server->getConfig()),
-			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 			new RepairUnmergedShares(
 				\OC::$server->getConfig(),
 				\OC::$server->getDatabaseConnection(),
 				\OC::$server->getUserManager(),
 				\OC::$server->getGroupManager()
 			),
+			new SharePropagation(\OC::$server->getConfig()),
 			new AvatarPermissions(\OC::$server->getDatabaseConnection()),
 			new BrokenUpdaterRepair(),
 		];
