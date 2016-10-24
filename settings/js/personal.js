@@ -112,7 +112,10 @@ function updateAvatar (hidedefault) {
 		$('#header .avatardiv').addClass('avatardiv-shown');
 	}
 	$displaydiv.css({'background-color': ''});
-	$displaydiv.avatar(OC.currentUser, 145, true);
+	$displaydiv.avatar(OC.currentUser, 145, true, null, function() {
+		$displaydiv.removeClass('loading');
+		$('#displayavatar img').show();
+	});
 	$.get(OC.generateUrl(
 		'/avatar/{user}/{size}',
 		{
@@ -129,24 +132,27 @@ function updateAvatar (hidedefault) {
 
 function showAvatarCropper () {
 	var $cropper = $('#cropper');
-	$cropper.prepend("<img>");
-	var $cropperImage = $('#cropper img');
+	var $cropperImage = $('<img/>');
+	$cropperImage.css('opacity', 0); // prevent showing the unresized image
+	$cropper.children('.inner-container').prepend($cropperImage);
 
 	$cropperImage.attr('src',
 		OC.generateUrl('/avatar/tmp') + '?requesttoken=' + encodeURIComponent(oc_requesttoken) + '#' + Math.floor(Math.random() * 1000));
 
-	// Looks weird, but on('load', ...) doesn't work in IE8
-	$cropperImage.ready(function () {
-		$('#displayavatar').hide();
-		$cropper.show();
-
+	$cropperImage.load(function () {
+		var img = $cropperImage.get()[0];
+		var selectSize = Math.min(img.width, img.height);
+		var offsetX = (img.width - selectSize) / 2;
+		var offsetY = (img.height - selectSize) / 2;
 		$cropperImage.Jcrop({
 			onChange: saveCoords,
 			onSelect: saveCoords,
 			aspectRatio: 1,
-			boxHeight: 500,
-			boxWidth: 500,
-			setSelect: [0, 0, 300, 300]
+			boxHeight: Math.min(500, $('#app-content').height() -100),
+			boxWidth: Math.min(500, $('#app-content').width()),
+			setSelect: [offsetX, offsetY, selectSize, selectSize]
+		}, function() {
+			$cropper.show();
 		});
 	});
 }
@@ -293,6 +299,8 @@ $(document).ready(function () {
 			avatarResponseHandler(response);
 		},
 		submit: function(e, data) {
+			$('#displayavatar img').hide();
+			$('#displayavatar .avatardiv').addClass('loading');
 			data.formData = _.extend(data.formData || {}, {
 				requesttoken: OC.requestToken
 			});
@@ -319,6 +327,8 @@ $(document).ready(function () {
 		OC.dialogs.filepicker(
 			t('settings', "Select a profile picture"),
 			function (path) {
+				$('#displayavatar img').hide();
+				$('#displayavatar .avatardiv').addClass('loading');
 				$.ajax({
 					type: "POST",
 					url: OC.generateUrl('/avatar/'),
@@ -356,6 +366,8 @@ $(document).ready(function () {
 	});
 
 	$('#abortcropperbutton').click(function () {
+		$('#displayavatar .avatardiv').removeClass('loading');
+		$('#displayavatar img').show();
 		cleanCropper();
 	});
 

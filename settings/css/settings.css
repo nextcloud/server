@@ -30,9 +30,37 @@ input#openid, input#webdav { width:20em; }
 }
 #avatar #cropper {
 	float: left;
-	background-color: #fff;
 	z-index: 500;
-	position: relative;
+	/* float cropper above settings page to prevent unexpected flowing from dynamically sized element */
+	position: fixed;
+	background-color: rgba(0, 0, 0, .2);
+	box-sizing: border-box;
+	top: 45px;
+	left: 0;
+	width: 100%;
+	height: calc(100% - 45px);
+}
+#avatar #cropper .inner-container {
+	z-index: 2001; /* above the top bar if needed */
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #fff;
+	color: #333;
+	border-radius: 3px;
+	box-shadow: 0 0 7px #888;
+	padding: 15px;
+}
+
+#avatar #cropper .inner-container .jcrop-holder {
+	box-shadow: 0 0 7px #888;
+}
+#avatar #cropper .inner-container .button {
+	margin-top: 15px;
+}
+#avatar #cropper .inner-container .primary {
+	float: right;
 }
 
 #displaynameform,
