@@ -42,7 +42,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 */
 	public function getFullPath($path) {
 		if (!$this->isValidPath($path)) {
-			throw new NotPermittedException();
+			throw new NotPermittedException('Invalid path');
 		}
 		return $this->path . $this->normalizePath($path);
 	}
@@ -152,7 +152,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$this->root->emit('\OC\Files', 'postCreate', array($node));
 			return $node;
 		} else {
-			throw new NotPermittedException();
+			throw new NotPermittedException('No create permission for folder');
 		}
 	}
 
@@ -173,7 +173,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$this->root->emit('\OC\Files', 'postCreate', array($node));
 			return $node;
 		} else {
-			throw new NotPermittedException();
+			throw new NotPermittedException('No create permission for path');
 		}
 	}
 
@@ -321,7 +321,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$this->root->emit('\OC\Files', 'postDelete', array($nonExisting));
 			$this->exists = false;
 		} else {
-			throw new NotPermittedException();
+			throw new NotPermittedException('No delete permission for path');
 		}
 	}
 
@@ -343,7 +343,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$this->root->emit('\OC\Files', 'postWrite', array($targetNode));
 			return $targetNode;
 		} else {
-			throw new NotPermittedException();
+			throw new NotPermittedException('No permission to copy to path');
 		}
 	}
 
@@ -366,7 +366,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$this->path = $targetPath;
 			return $targetNode;
 		} else {
-			throw new NotPermittedException();
+			throw new NotPermittedException('No permission to move to path');
 		}
 	}
 

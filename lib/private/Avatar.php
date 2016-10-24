@@ -131,7 +131,7 @@ class Avatar implements IAvatar {
 		}
 
 		if (!($img->height() === $img->width())) {
-			throw new NotSquareException();
+			throw new NotSquareException($this->l->t("Avatar image is not square"));
 		}
 
 		$this->remove();
