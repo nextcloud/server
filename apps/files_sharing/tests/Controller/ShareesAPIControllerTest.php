@@ -39,7 +39,7 @@ use OCP\Share;
  * @package OCA\Files_Sharing\Tests\API
  */
 class ShareesAPIControllerTest extends TestCase {
-	/** @var Sharees */
+	/** @var ShareesAPIController */
 	protected $sharees;
 
 	/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject */
@@ -1025,8 +1025,234 @@ class ShareesAPIControllerTest extends TestCase {
 		$this->assertCount((int) $reachedEnd, $this->invokePrivate($this->sharees, 'reachedEndFor'));
 	}
 
+	public function dataGetEmails() {
+		return [
+			['test', [], true, [], [], true],
+			['test', [], false, [], [], true],
+			[
+				'test@remote.com',
+				[],
+				true,
+				[
+					['label' => 'test@remote.com', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'test@remote.com']],
+				],
+				[],
+				true,
+			],
+			[
+				'test@remote.com',
+				[],
+				false,
+				[
+					['label' => 'test@remote.com', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'test@remote.com']],
+				],
+				[],
+				true,
+			],
+			[
+				'test',
+				[
+					[
+						'FN' => 'User3 @ Localhost',
+					],
+					[
+						'FN' => 'User2 @ Localhost',
+						'EMAIL' => [
+						],
+					],
+					[
+						'FN' => 'User @ Localhost',
+						'EMAIL' => [
+							'username@localhost.com',
+						],
+					],
+				],
+				true,
+				[],
+				[
+					['label' => 'User @ Localhost', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'username@localhost.com']],
+				],
+				true,
+			],
+			[
+				'test',
+				[
+					[
+						'FN' => 'User3 @ Localhost',
+					],
+					[
+						'FN' => 'User2 @ Localhost',
+						'EMAIL' => [
+						],
+					],
+					[
+						'FN' => 'User @ Localhost',
+						'EMAIL' => [
+							'username@localhost.com',
+						],
+					],
+				],
+				false,
+				[],
+				[],
+				true,
+			],
+			[
+				'test@remote.com',
+				[
+					[
+						'FN' => 'User3 @ Localhost',
+					],
+					[
+						'FN' => 'User2 @ Localhost',
+						'EMAIL' => [
+						],
+					],
+					[
+						'FN' => 'User @ Localhost',
+						'EMAIL' => [
+							'username@localhost.com',
+						],
+					],
+				],
+				true,
+				[
+					['label' => 'test@remote.com', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'test@remote.com']],
+				],
+				[
+					['label' => 'User @ Localhost', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'username@localhost.com']],
+				],
+				true,
+			],
+			[
+				'test@remote.com',
+				[
+					[
+						'FN' => 'User3 @ Localhost',
+					],
+					[
+						'FN' => 'User2 @ Localhost',
+						'EMAIL' => [
+						],
+					],
+					[
+						'FN' => 'User @ Localhost',
+						'EMAIL' => [
+							'username@localhost.com',
+						],
+					],
+				],
+				false,
+				[
+					['label' => 'test@remote.com', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'test@remote.com']],
+				],
+				[],
+				true,
+			],
+			[
+				'username@localhost.com',
+				[
+					[
+						'FN' => 'User3 @ Localhost',
+					],
+					[
+						'FN' => 'User2 @ Localhost',
+						'EMAIL' => [
+						],
+					],
+					[
+						'FN' => 'User @ Localhost',
+						'EMAIL' => [
+							'username@localhost.com',
+						],
+					],
+				],
+				true,
+				[
+					['label' => 'User @ Localhost', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'username@localhost.com']],
+				],
+				[],
+				true,
+			],
+			[
+				'username@localhost.com',
+				[
+					[
+						'FN' => 'User3 @ Localhost',
+					],
+					[
+						'FN' => 'User2 @ Localhost',
+						'EMAIL' => [
+						],
+					],
+					[
+						'FN' => 'User @ Localhost',
+						'EMAIL' => [
+							'username@localhost.com',
+						],
+					],
+				],
+				false,
+				[
+					['label' => 'User @ Localhost', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'username@localhost.com']],
+				],
+				[],
+				true,
+			],
+			// Test single email
+			[
+				'username@localhost.com',
+				[
+					[
+						'FN' => 'User3 @ Localhost',
+					],
+					[
+						'FN' => 'User2 @ Localhost',
+						'EMAIL' => [
+						],
+					],
+					[
+						'FN' => 'User @ Localhost',
+						'EMAIL' => 'username@localhost.com',
+					],
+				],
+				false,
+				[
+					['label' => 'User @ Localhost', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'username@localhost.com']],
+				],
+				[],
+				true,
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetEmails
+	 *
+	 * @param string $searchTerm
+	 * @param array $contacts
+	 * @param bool $shareeEnumeration
+	 * @param array $exactExpected
+	 * @param array $expected
+	 * @param bool $reachedEnd
+	 */
+	public function testGetEmails($searchTerm, $contacts, $shareeEnumeration, $exactExpected, $expected, $reachedEnd) {
+		$this->invokePrivate($this->sharees, 'shareeEnumeration', [$shareeEnumeration]);
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->with($searchTerm, ['FN', 'EMAIL'])
+			->willReturn($contacts);
+
+		$this->invokePrivate($this->sharees, 'getEmails', [$searchTerm]);
+		$result = $this->invokePrivate($this->sharees, 'result');
+
+		$this->assertEquals($exactExpected, $result['exact']['emails']);
+		$this->assertEquals($expected, $result['emails']);
+		$this->assertCount((int) $reachedEnd, $this->invokePrivate($this->sharees, 'reachedEndFor'));
+	}
+
 	public function dataSearch() {
-		$allTypes = [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE];
+		$allTypes = [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_EMAIL, Share::SHARE_TYPE_REMOTE];
 
 		return [
 			[[], '', 'yes', true, '', null, $allTypes, 1, 200, false, true, true],
@@ -1082,13 +1308,13 @@ class ShareesAPIControllerTest extends TestCase {
 			], '', 'yes', true, '', null, $allTypes, 1, 200, false, true, true],
 			[[
 				'shareType' => $allTypes,
-			], '', 'yes', false, '', null, [0, 1], 1, 200, false, true, true],
+			], '', 'yes', false, '', null, [0, 1, 4], 1, 200, false, true, true],
 			[[
 				'shareType' => $allTypes,
-			], '', 'yes', true, '', null, [0, 6], 1, 200, false, true, false],
+			], '', 'yes', true, '', null, [0, 4, 6], 1, 200, false, true, false],
 			[[
 				'shareType' => $allTypes,
-			], '', 'yes', false, '', null, [0], 1, 200, false, true, false],
+			], '', 'yes', false, '', null, [0, 4], 1, 200, false, true, false],
 
 			// Test pagination
 			[[
@@ -1195,7 +1421,7 @@ class ShareesAPIControllerTest extends TestCase {
 			->with($itemType)
 			->willReturn($remoteSharingEnabled);
 
-		$this->assertInstanceOf('\OCP\AppFramework\Http\DataResponse', $sharees->search($search, $itemType, $page, $perPage, $shareType));
+		$this->assertInstanceOf(Http\DataResponse::class, $sharees->search($search, $itemType, $page, $perPage, $shareType));
 
 		$this->assertSame($shareWithGroupOnly, $this->invokePrivate($sharees, 'shareWithGroupOnly'));
 		$this->assertSame($shareeEnumeration, $this->invokePrivate($sharees, 'shareeEnumeration'));
@@ -1295,17 +1521,19 @@ class ShareesAPIControllerTest extends TestCase {
 		return [
 			['test', 'folder', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE], 1, 2, false, [], [], [],
 				[
-					'exact' => ['users' => [], 'groups' => [], 'remotes' => []],
+					'exact' => ['users' => [], 'groups' => [], 'remotes' => [], 'emails' => []],
 					'users' => [],
 					'groups' => [],
 					'remotes' => [],
+					'emails' => [],
 				], false],
 			['test', 'folder', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE], 1, 2, false, [], [], [],
 				[
-					'exact' => ['users' => [], 'groups' => [], 'remotes' => []],
+					'exact' => ['users' => [], 'groups' => [], 'remotes' => [], 'emails' => []],
 					'users' => [],
 					'groups' => [],
 					'remotes' => [],
+					'emails' => [],
 				], false],
 			[
 				'test', 'folder', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE], 1, 2, false, [
@@ -1316,7 +1544,7 @@ class ShareesAPIControllerTest extends TestCase {
 					['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
 				],
 				[
-					'exact' => ['users' => [], 'groups' => [], 'remotes' => []],
+					'exact' => ['users' => [], 'groups' => [], 'remotes' => [], 'emails' => []],
 					'users' => [
 						['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
 					],
@@ -1326,6 +1554,7 @@ class ShareesAPIControllerTest extends TestCase {
 					'remotes' => [
 						['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
 					],
+					'emails' => [],
 				], true,
 			],
 			// No groups requested
@@ -1336,7 +1565,7 @@ class ShareesAPIControllerTest extends TestCase {
 					['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
 				],
 				[
-					'exact' => ['users' => [], 'groups' => [], 'remotes' => []],
+					'exact' => ['users' => [], 'groups' => [], 'remotes' => [], 'emails' => []],
 					'users' => [
 						['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
 					],
@@ -1344,6 +1573,7 @@ class ShareesAPIControllerTest extends TestCase {
 					'remotes' => [
 						['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
 					],
+					'emails' => [],
 				], false,
 			],
 			// Share type restricted to user - Only one user
@@ -1352,12 +1582,13 @@ class ShareesAPIControllerTest extends TestCase {
 					['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
 				], null, null,
 				[
-					'exact' => ['users' => [], 'groups' => [], 'remotes' => []],
+					'exact' => ['users' => [], 'groups' => [], 'remotes' => [], 'emails' => []],
 					'users' => [
 						['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
 					],
 					'groups' => [],
 					'remotes' => [],
+					'emails' => [],
 				], false,
 			],
 			// Share type restricted to user - Multipage result
@@ -1367,13 +1598,14 @@ class ShareesAPIControllerTest extends TestCase {
 					['label' => 'test 2', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
 				], null, null,
 				[
-					'exact' => ['users' => [], 'groups' => [], 'remotes' => []],
+					'exact' => ['users' => [], 'groups' => [], 'remotes' => [], 'emails' => []],
 					'users' => [
 						['label' => 'test 1', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
 						['label' => 'test 2', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
 					],
 					'groups' => [],
 					'remotes' => [],
+					'emails' => [],
 				], true,
 			],
 		];
