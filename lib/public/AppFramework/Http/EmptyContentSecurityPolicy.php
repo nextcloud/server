@@ -38,6 +38,8 @@ use OCP\AppFramework\Http;
 class EmptyContentSecurityPolicy {
 	/** @var bool Whether inline JS snippets are allowed */
 	protected $inlineScriptAllowed = null;
+	/** @var string Whether JS nonces should be used */
+	protected $useJsNonce = null;
 	/**
 	 * @var bool Whether eval in JS scripts is allowed
 	 * TODO: Disallow per default
@@ -74,9 +76,22 @@ class EmptyContentSecurityPolicy {
 	 * @param bool $state
 	 * @return $this
 	 * @since 8.1.0
+	 * @deprecated 10.0 CSP tokens are now used
 	 */
 	public function allowInlineScript($state = false) {
 		$this->inlineScriptAllowed = $state;
+		return $this;
+	}
+
+	/**
+	 * Use the according JS nonce
+	 *
+	 * @param string $nonce
+	 * @return $this
+	 * @since 9.2.0
+	 */
+	public function useJsNonce($nonce) {
+		$this->useJsNonce = $nonce;
 		return $this;
 	}
 
@@ -323,6 +338,15 @@ class EmptyContentSecurityPolicy {
 
 		if(!empty($this->allowedScriptDomains) || $this->inlineScriptAllowed || $this->evalScriptAllowed) {
 			$policy .= 'script-src ';
+			if(is_string($this->useJsNonce)) {
+				$policy .= '\'nonce-'.base64_encode($this->useJsNonce).'\'';
+				$allowedScriptDomains = array_flip($this->allowedScriptDomains);
+				unset($allowedScriptDomains['\'self\'']);
+				$this->allowedScriptDomains = array_flip($allowedScriptDomains);
+				if(count($allowedScriptDomains) !== 0) {
+					$policy .= ' ';
+				}
+			}
 			if(is_array($this->allowedScriptDomains)) {
 				$policy .= implode(' ', $this->allowedScriptDomains);
 			}

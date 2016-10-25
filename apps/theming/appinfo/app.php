@@ -47,6 +47,7 @@ $linkToJs = \OC::$server->getURLGenerator()->linkToRoute(
 	'script',
 	[
 		'src' => $linkToJs,
+		'nonce' => \OC::$server->getContentSecurityPolicyNonceManager()->getNonce()
 	], ''
 );
 
