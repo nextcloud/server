@@ -46,7 +46,7 @@ $prefix = (string)$_POST['ldap_serverconfig_chooser'];
 $ldapWrapper = new \OCA\User_LDAP\LDAP();
 $configuration = new \OCA\User_LDAP\Configuration($prefix);
 
-$con = new \OCA\User_LDAP\Connection($ldapWrapper, '', null);
+$con = new \OCA\User_LDAP\Connection($ldapWrapper, $prefix, null);
 $con->setConfiguration($configuration->getConfiguration());
 $con->ldapConfigurationActive = true;
 $con->setIgnoreValidation(true);
