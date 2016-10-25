@@ -273,15 +273,15 @@ class ShareesAPIController extends OCSController {
 
 	/**
 	 * @param string $search
-	 * @return bool (true if a exact match was found, false otherwise)
+	 * @return array
 	 */
 	protected function getRemote($search) {
-		$this->result['remotes'] = [];
+		$result = ['results' => [], 'exact' => []];
 
 		// Search in contacts
 		//@todo Pagination missing
 		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD', 'FN']);
-		$foundRemoteById = false;
+		$result['exactIdMatch'] = false;
 		foreach ($addressBookContacts as $contact) {
 			if (isset($contact['isLocalSystemBook'])) {
 				continue;
@@ -295,9 +295,9 @@ class ShareesAPIController extends OCSController {
 					list(, $serverUrl) = $this->splitUserRemote($cloudId);
 					if (strtolower($contact['FN']) === strtolower($search) || strtolower($cloudId) === strtolower($search)) {
 						if (strtolower($cloudId) === strtolower($search)) {
-							$foundRemoteById = true;
+							$result['exactIdMatch'] = true;
 						}
-						$this->result['exact']['remotes'][] = [
+						$result['exact'][] = [
 							'label' => $contact['FN'] . " ($cloudId)",
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_REMOTE,
@@ -306,7 +306,7 @@ class ShareesAPIController extends OCSController {
 							],
 						];
 					} else {
-						$this->result['remotes'][] = [
+						$result['results'][] = [
 							'label' => $contact['FN'] . " ($cloudId)",
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_REMOTE,
@@ -320,11 +320,11 @@ class ShareesAPIController extends OCSController {
 		}
 
 		if (!$this->shareeEnumeration) {
-			$this->result['remotes'] = [];
+			$result['results'] = [];
 		}
 
-		if (!$foundRemoteById && substr_count($search, '@') >= 1 && $this->offset === 0) {
-			$this->result['exact']['remotes'][] = [
+		if (!$result['exactIdMatch'] && substr_count($search, '@') >= 1 && $this->offset === 0) {
+			$result['exact'][] = [
 				'label' => $search,
 				'value' => [
 					'shareType' => Share::SHARE_TYPE_REMOTE,
@@ -335,7 +335,7 @@ class ShareesAPIController extends OCSController {
 
 		$this->reachedEndFor[] = 'remotes';
 
-		return $foundRemoteById;
+		return $result;
 	}
 
 	/**
@@ -504,15 +504,30 @@ class ShareesAPIController extends OCSController {
 		}
 
 		// Get remote
-		$foundExactCloudID = false;
+		$remoteResults = ['results' => [], 'exact' => []];
 		if (in_array(Share::SHARE_TYPE_REMOTE, $shareTypes)) {
-			$foundExactCloudID = $this->getRemote($search);
+			$remoteResults = $this->getRemote($search);
 		}
 
-		// if we have a exact match for the cloud ID we don't show the email option,
-		// it is extremely unlikely that a identical email address and cloud id exists
-		if (!$foundExactCloudID && in_array(Share::SHARE_TYPE_EMAIL, $shareTypes)) {
-			$this->getEmail($search);
+		$mailResults = ['results' => [], 'exact' => []];
+		if (in_array(Share::SHARE_TYPE_EMAIL, $shareTypes)) {
+			$mailResults = $this->getEmail($search);
+		}
+
+		// if we have a exact match, either for the federated cloud id or for the
+		// email address we only return the exact match. It is highly unlikely
+		// that the exact same email address and federated cloud id exists
+		if ($mailResults['exactIdMatch'] && !$remoteResults['exactIdMatch']) {
+			$this->result['emails'] = $mailResults['results'];
+			$this->result['exact']['emails'] = $mailResults['exact'];
+		} else if (!$mailResults['exactIdMatch'] && $remoteResults['exactIdMatch']) {
+			$this->result['remotes'] = $remoteResults['results'];
+			$this->result['exact']['remotes'] = $remoteResults['exact'];
+		} else {
+			$this->result['remotes'] = $remoteResults['results'];
+			$this->result['exact']['remotes'] = $remoteResults['exact'];
+			$this->result['emails'] = $mailResults['results'];
+			$this->result['exact']['emails'] = $mailResults['exact'];
 		}
 
 		$response = new Http\DataResponse($this->result);
@@ -531,16 +546,15 @@ class ShareesAPIController extends OCSController {
 
 	/**
 	 * @param string $search
-	 * @return bool (true if a exact match was found, false otherwise)
+	 * @return array
 	 */
 	protected function getEmail($search) {
-
-		$this->result['emails'] = [];
+		$result = ['results' => [], 'exact' => []];
 
 		// Search in contacts
 		//@todo Pagination missing
 		$addressBookContacts = $this->contactsManager->search($search, ['EMAIL', 'FN']);
-		$foundEmailByAddress = false;
+		$result['exactIdMatch'] = false;
 		foreach ($addressBookContacts as $contact) {
 			if (isset($contact['isLocalSystemBook'])) {
 				continue;
@@ -553,9 +567,10 @@ class ShareesAPIController extends OCSController {
 				foreach ($emailAddresses as $emailAddress) {
 					if (strtolower($contact['FN']) === strtolower($search) || strtolower($emailAddress) === strtolower($search)) {
 						if (strtolower($emailAddress) === strtolower($search)) {
+							$result['exactIdMatch'] = true;
 							$foundEmailByAddress = true;
 						}
-						$this->result['exact']['emails'][] = [
+						$result['exact'][] = [
 							'label' => $contact['FN'] . " ($emailAddress)",
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_EMAIL,
@@ -563,7 +578,7 @@ class ShareesAPIController extends OCSController {
 							],
 						];
 					} else {
-						$this->result['emails'][] = [
+						$result['results'][] = [
 							'label' => $contact['FN'] . " ($emailAddress)",
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_EMAIL,
@@ -576,11 +591,11 @@ class ShareesAPIController extends OCSController {
 		}
 
 		if (!$this->shareeEnumeration) {
-			$this->result['emails'] = [];
+			$result['results'] = [];
 		}
 
-		if (!$foundEmailByAddress && filter_var($search, FILTER_VALIDATE_EMAIL)) {
-			$this->result['exact']['emails'][] = [
+		if (!$result['exactIdMatch'] && filter_var($search, FILTER_VALIDATE_EMAIL)) {
+			$result['exact'][] = [
 				'label' => $search,
 				'value' => [
 					'shareType' => Share::SHARE_TYPE_EMAIL,
@@ -591,7 +606,7 @@ class ShareesAPIController extends OCSController {
 
 		$this->reachedEndFor[] = 'emails';
 
-		return $foundEmailByAddress;
+		return $result;
 	}
 
 	/**
