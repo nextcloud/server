@@ -159,7 +159,8 @@ describe('OCA.Files.FileList tests', function() {
 		pageSizeStub = sinon.stub(OCA.Files.FileList.prototype, 'pageSize').returns(20);
 		fileList = new OCA.Files.FileList($('#app-content-files'), {
 			filesClient: filesClient,
-			config: filesConfig
+			config: filesConfig,
+			enableUpload: true
 		});
 	});
 	afterEach(function() {
@@ -2441,7 +2442,7 @@ describe('OCA.Files.FileList tests', function() {
 
 			deferredInfo.resolve(
 				200,
-			   	new FileInfo({
+				new FileInfo({
 					path: '/subdir',
 					name: 'test.txt',
 					mimetype: 'text/plain'
@@ -2501,27 +2502,116 @@ describe('OCA.Files.FileList tests', function() {
 		// TODO: error cases
 		// TODO: unique name cases
 	});
+	describe('addAndFetchFileInfo', function() {
+		var getFileInfoStub;
+		var getFileInfoDeferred;
+
+		beforeEach(function() {
+			getFileInfoDeferred = $.Deferred();
+			getFileInfoStub = sinon.stub(OC.Files.Client.prototype, 'getFileInfo');
+			getFileInfoStub.returns(getFileInfoDeferred.promise());
+		});
+		afterEach(function() {
+			getFileInfoStub.restore();
+		});
+		it('does not fetch if the given folder is not the current one', function() {
+			var promise = fileList.addAndFetchFileInfo('testfile.txt', '/another');
+			expect(getFileInfoStub.notCalled).toEqual(true);
+
+			expect(promise.state()).toEqual('resolved');
+		});
+		it('fetches info when folder is the current one', function() {
+			fileList.addAndFetchFileInfo('testfile.txt', '/subdir');
+			expect(getFileInfoStub.calledOnce).toEqual(true);
+			expect(getFileInfoStub.getCall(0).args[0]).toEqual('/subdir/testfile.txt');
+		});
+		it('adds file data to list when fetching is done', function() {
+			fileList.addAndFetchFileInfo('testfile.txt', '/subdir');
+			getFileInfoDeferred.resolve(200, {
+				name: 'testfile.txt',
+				size: 100
+			});
+			expect(fileList.findFileEl('testfile.txt').attr('data-size')).toEqual('100');
+		});
+		it('replaces file data to list when fetching is done', function() {
+			fileList.addAndFetchFileInfo('testfile.txt', '/subdir', {replace: true});
+			fileList.add({
+				name: 'testfile.txt',
+				size: 95
+			});
+			getFileInfoDeferred.resolve(200, {
+				name: 'testfile.txt',
+				size: 100
+			});
+			expect(fileList.findFileEl('testfile.txt').attr('data-size')).toEqual('100');
+		});
+		it('resolves promise with file data when fetching is done', function() {
+			var promise = fileList.addAndFetchFileInfo('testfile.txt', '/subdir', {replace: true});
+			getFileInfoDeferred.resolve(200, {
+				name: 'testfile.txt',
+				size: 100
+			});
+			expect(promise.state()).toEqual('resolved');
+			promise.then(function(status, data) {
+				expect(status).toEqual(200);
+				expect(data.name).toEqual('testfile.txt');
+				expect(data.size).toEqual(100);
+			});
+		});
+	});
 	/**
 	 * Test upload mostly by testing the code inside the event handlers
 	 * that were registered on the magic upload object
 	 */
 	describe('file upload', function() {
-		var $uploader;
+		var uploadData;
+		var uploader;
 
 		beforeEach(function() {
-			// note: this isn't the real blueimp file uploader from jquery.fileupload
-			// but it makes it possible to simulate the event triggering to
-			// test the response of the handlers
-			$uploader = $('#file_upload_start');
 			fileList.setFiles(testFiles);
+			uploader = fileList._uploader;
+			// simulate data structure from jquery.upload
+			uploadData = {
+				files: [{
+					name: 'upload.txt'
+				}]
+			};
 		});
 
 		afterEach(function() {
-			$uploader = null;
+			uploader = null;
+			uploadData = null;
 		});
 
+		describe('enableupload', function() {
+			it('sets up uploader when enableUpload is true', function() {
+				expect(fileList._uploader).toBeDefined();
+			});
+			it('does not sets up uploader when enableUpload is false', function() {
+				fileList.destroy();
+				fileList = new OCA.Files.FileList($('#app-content-files'), {
+					filesClient: filesClient
+				});
+				expect(fileList._uploader).toBeFalsy();
+			});
+		});
+
+		describe('adding files for upload', function() {
+			/**
+			 * Simulate add event on the given target
+			 *
+			 * @return event object including the result
+			 */
+			function addFile(data) {
+				uploader.trigger('add', {}, data || {});
+			}
+
+			it('sets target dir to the current directory', function() {
+				addFile(uploadData);
+				expect(uploadData.targetDir).toEqual('/subdir');
+			});
+		});
 		describe('dropping external files', function() {
-			var uploadData;
 
 			/**
 			 * Simulate drop event on the given target
@@ -2535,80 +2625,71 @@ describe('OCA.Files.FileList tests', function() {
 						target: $target
 					}
 				};
-				var ev = new $.Event('fileuploaddrop', eventData);
-				$uploader.trigger(ev, data || {});
-				return ev;
+				uploader.trigger('drop', eventData, data || {});
+				return !!data.targetDir;
 			}
 
-			beforeEach(function() {
-				// simulate data structure from jquery.upload
-				uploadData = {
-					files: [{
-						relativePath: 'fileToUpload.txt'
-					}]
-				};
-			});
-			afterEach(function() {
-				uploadData = null;
-			});
 			it('drop on a tr or crumb outside file list does not trigger upload', function() {
 				var $anotherTable = $('<table><tbody><tr><td>outside<div class="crumb">crumb</div></td></tr></table>');
 				var ev;
 				$('#testArea').append($anotherTable);
 				ev = dropOn($anotherTable.find('tr'), uploadData);
-				expect(ev.result).toEqual(false);
+				expect(ev).toEqual(false);
 
-				ev = dropOn($anotherTable.find('.crumb'));
-				expect(ev.result).toEqual(false);
+				ev = dropOn($anotherTable.find('.crumb'), uploadData);
+				expect(ev).toEqual(false);
 			});
 			it('drop on an element outside file list container does not trigger upload', function() {
 				var $anotherEl = $('<div>outside</div>');
 				var ev;
 				$('#testArea').append($anotherEl);
-				ev = dropOn($anotherEl);
+				ev = dropOn($anotherEl, uploadData);
 
-				expect(ev.result).toEqual(false);
+				expect(ev).toEqual(false);
 			});
 			it('drop on an element inside the table triggers upload', function() {
 				var ev;
 				ev = dropOn(fileList.$fileList.find('th:first'), uploadData);
 
-				expect(ev.result).not.toEqual(false);
+				expect(ev).not.toEqual(false);
+				expect(uploadData.targetDir).toEqual('/subdir');
 			});
 			it('drop on an element on the table container triggers upload', function() {
 				var ev;
 				ev = dropOn($('#app-content-files'), uploadData);
 
-				expect(ev.result).not.toEqual(false);
+				expect(ev).not.toEqual(false);
+				expect(uploadData.targetDir).toEqual('/subdir');
 			});
 			it('drop on an element inside the table does not trigger upload if no upload permission', function() {
 				$('#permissions').val(0);
 				var ev;
-				ev = dropOn(fileList.$fileList.find('th:first'));
+				ev = dropOn(fileList.$fileList.find('th:first'), uploadData);
 
-				expect(ev.result).toEqual(false);
+				expect(ev).toEqual(false);
 				expect(notificationStub.calledOnce).toEqual(true);
 			});
 			it('drop on an folder does not trigger upload if no upload permission on that folder', function() {
 				var $tr = fileList.findFileEl('somedir');
 				var ev;
 				$tr.data('permissions', OC.PERMISSION_READ);
-				ev = dropOn($tr);
+				ev = dropOn($tr, uploadData);
 
-				expect(ev.result).toEqual(false);
+				expect(ev).toEqual(false);
 				expect(notificationStub.calledOnce).toEqual(true);
 			});
 			it('drop on a file row inside the table triggers upload to current folder', function() {
 				var ev;
 				ev = dropOn(fileList.findFileEl('One.txt').find('td:first'), uploadData);
 
-				expect(ev.result).not.toEqual(false);
+				expect(ev).not.toEqual(false);
+				expect(uploadData.targetDir).toEqual('/subdir');
 			});
 			it('drop on a folder row inside the table triggers upload to target folder', function() {
 				var ev;
 				ev = dropOn(fileList.findFileEl('somedir').find('td:eq(2)'), uploadData);
 
-				expect(ev.result).not.toEqual(false);
+				expect(ev).not.toEqual(false);
 				expect(uploadData.targetDir).toEqual('/subdir/somedir');
 			});
 			it('drop on a breadcrumb inside the table triggers upload to target folder', function() {
@@ -2616,7 +2697,7 @@ describe('OCA.Files.FileList tests', function() {
 				fileList.changeDirectory('a/b/c/d');
 				ev = dropOn(fileList.$el.find('.crumb:eq(2)'), uploadData);
 
-				expect(ev.result).not.toEqual(false);
+				expect(ev).not.toEqual(false);
 				expect(uploadData.targetDir).toEqual('/a/b');
 			});
 			it('renders upload indicator element for folders only', function() {
@@ -2633,6 +2714,93 @@ describe('OCA.Files.FileList tests', function() {
 
 				expect(fileList.findFileEl('afolder').find('.uploadtext').length).toEqual(1);
 				expect(fileList.findFileEl('afile.txt').find('.uploadtext').length).toEqual(0);
+			});
+		});
+
+		describe('after folder creation due to folder upload', function() {
+			it('fetches folder info', function() {
+				var fetchInfoStub = sinon.stub(fileList, 'addAndFetchFileInfo');
+
+				uploader.trigger('createdfolder', '/subdir/newfolder');
+
+				expect(fetchInfoStub.calledOnce).toEqual(true);
+				expect(fetchInfoStub.getCall(0).args[0]).toEqual('newfolder');
+				expect(fetchInfoStub.getCall(0).args[1]).toEqual('/subdir');
+
+				fetchInfoStub.restore();
+			});
+		});
+
+		describe('after upload', function() {
+			var fetchInfoStub;
+
+			beforeEach(function() {
+				fetchInfoStub = sinon.stub(fileList, 'addAndFetchFileInfo');
+
+			});
+			afterEach(function() {
+				fetchInfoStub.restore();
+			});
+
+
+			function createUpload(name, dir) {
+				var jqXHR = {
+					status: 200
+				};
+				return {
+					getFileName: sinon.stub().returns(name),
+					getFullPath: sinon.stub().returns(dir),
+					data: {
+						jqXHR: jqXHR
+					}
+				};
+			}
+
+			/**
+			 * Simulate add event on the given target
+			 *
+			 * @return event object including the result
+			 */
+			function addFile(data) {
+				var ev = new $.Event('done', {
+					jqXHR: {status: 200}
+				});
+				var deferred = $.Deferred();
+				fetchInfoStub.returns(deferred.promise());
+				uploader.trigger('done', ev, data || {});
+				return deferred;
+			}
+
+			it('fetches file info', function() {
+				addFile(createUpload('upload.txt', '/subdir'));
+				expect(fetchInfoStub.calledOnce).toEqual(true);
+				expect(fetchInfoStub.getCall(0).args[0]).toEqual('upload.txt');
+				expect(fetchInfoStub.getCall(0).args[1]).toEqual('/subdir');
+			});
+			it('highlights all uploaded files after all fetches are done', function() {
+				var highlightStub = sinon.stub(fileList, 'highlightFiles');
+				var def1 = addFile(createUpload('upload.txt', '/subdir'));
+				var def2 = addFile(createUpload('upload2.txt', '/subdir'));
+				var def3 = addFile(createUpload('upload3.txt', '/another'));
+				uploader.trigger('stop', {});
+
+				expect(highlightStub.notCalled).toEqual(true);
+				def1.resolve();
+				expect(highlightStub.notCalled).toEqual(true);
+				def2.resolve();
+				def3.resolve();
+				expect(highlightStub.calledOnce).toEqual(true);
+				expect(highlightStub.getCall(0).args[0]).toEqual(['upload.txt', 'upload2.txt']);
+
+				highlightStub.restore();
+			});
+			it('queries storage stats', function() {
+				var statStub = sinon.stub(fileList, 'updateStorageStatistics');
+				addFile(createUpload('upload.txt', '/subdir'));
+				expect(statStub.notCalled).toEqual(true);
+				uploader.trigger('stop', {});
+				expect(statStub.calledOnce).toEqual(true);
+				statStub.restore();
 			});
 		});
 	});

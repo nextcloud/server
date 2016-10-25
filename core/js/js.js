@@ -423,6 +423,28 @@ var OC={
 	},
 
 	/**
+	 * Returns whether the given paths are the same, without
+	 * leading, trailing or doubled slashes and also removing
+	 * the dot sections.
+	 *
+	 * @param {String} path1 first path
+	 * @param {String} path2 second path
+	 * @return {bool} true if the paths are the same
+	 *
+	 * @since 9.0
+	 */
+	isSamePath: function(path1, path2) {
+		var filterDot = function(p) {
+			return p !== '.';
+		};
+		var pathSections1 = _.filter((path1 || '').split('/'), filterDot);
+		var pathSections2 = _.filter((path2 || '').split('/'), filterDot);
+		path1 = OC.joinPaths.apply(OC, pathSections1);
+		path2 = OC.joinPaths.apply(OC, pathSections2);
+		return path1 === path2;
+	},
+
+	/**
 	 * Join path sections
 	 *
 	 * @param {...String} path sections

@@ -72,7 +72,8 @@ OCA.Sharing.PublicApp = {
 					folderDropOptions: folderDropOptions,
 					fileActions: fileActions,
 					detailsViewEnabled: false,
-					filesClient: filesClient
+					filesClient: filesClient,
+					enableUpload: true
 				}
 			);
 			this.files = OCA.Files.Files;
@@ -170,6 +171,30 @@ OCA.Sharing.PublicApp = {
 				return OC.generateUrl('/s/' + token + '/download') + '?' + OC.buildQueryString(params);
 			};
 
+			this.fileList.getUploadUrl = function(fileName, dir) {
+				if (_.isUndefined(dir)) {
+					dir = this.getCurrentDirectory();
+				}
+
+				var pathSections = dir.split('/');
+				if (!_.isUndefined(fileName)) {
+					pathSections.push(fileName);
+				}
+				var encodedPath = '';
+				_.each(pathSections, function(section) {
+					if (section !== '') {
+						encodedPath += '/' + encodeURIComponent(section);
+					}
+				});
+				var base = '';
+
+				if (!this._uploader.isXHRUpload()) {
+					// also add auth in URL due to POST workaround
+					base = OC.getProtocol() + '://' + token + '@' + OC.getHost() + (OC.getPort() ? ':' + OC.getPort() : '');
+				}
+				return base + OC.getRootPath() + '/public.php/webdav' + encodedPath;
+			};
+
 			this.fileList.getAjaxUrl = function (action, params) {
 				params = params || {};
 				params.t = token;
@@ -203,20 +228,12 @@ OCA.Sharing.PublicApp = {
 				OCA.Files.FileList.prototype.updateEmptyContent.apply(this, arguments);
 			};
 
-			var file_upload_start = $('#file_upload_start');
-			file_upload_start.on('fileuploadadd', function (e, data) {
-				var fileDirectory = '';
-				if (typeof data.files[0].relativePath !== 'undefined') {
-					fileDirectory = data.files[0].relativePath;
+			this.fileList._uploader.on('fileuploadadd', function(e, data) {
+				if (!data.headers) {
+					data.headers = {};
 				}
 
-				// Add custom data to the upload handler
-				data.formData = {
-					requesttoken: $('#publicUploadRequestToken').val(),
-					dirToken: $('#dirToken').val(),
-					subdir: data.targetDir || self.fileList.getCurrentDirectory(),
-					file_directory: fileDirectory
-				};
+				data.headers.Authorization = 'Basic ' + btoa(token + ':');
 			});
 
 			// do not allow sharing from the public page

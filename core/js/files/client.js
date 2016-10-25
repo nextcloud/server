@@ -729,8 +729,47 @@
 		 */
 		addFileInfoParser: function(parserFunction) {
 			this._fileInfoParsers.push(parserFunction);
-		}
+		},
 
+		/**
+		 * Returns the dav.Client instance used internally
+		 *
+		 * @since 9.2
+		 * @return {dav.Client}
+		 */
+		getClient: function() {
+			return this._client;
+		},
+
+		/**
+		 * Returns the user name
+		 *
+		 * @since 9.2
+		 * @return {String} userName
+		 */
+		getUserName: function() {
+			return this._client.userName;
+		},
+
+		/**
+		 * Returns the password 
+		 *
+		 * @since 9.2
+		 * @return {String} password
+		 */
+		getPassword: function() {
+			return this._client.password;
+		},
+
+		/**
+		 * Returns the base URL
+		 *
+		 * @since 9.2
+		 * @return {String} base URL
+		 */
+		getBaseUrl: function() {
+			return this._client.baseUrl;
+		}
 	};
 
 	/**

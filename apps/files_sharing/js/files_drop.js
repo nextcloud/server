@@ -22,50 +22,70 @@
 		_template: undefined,
 
 		initialize: function () {
+
+			var filesClient = new OC.Files.Client({
+				host: OC.getHost(),
+				port: OC.getPort(),
+				userName: $('#sharingToken').val(),
+				// note: password not be required, the endpoint
+				// will recognize previous validation from the session
+				root: OC.getRootPath() + '/public.php/webdav',
+				useHTTPS: OC.getProtocol() === 'https'
+			});
+
 			$(document).bind('drop dragover', function (e) {
 				// Prevent the default browser drop action:
 				e.preventDefault();
 			});
 			var output = this.template();
 			$('#public-upload').fileupload({
-				url: OC.linkTo('files', 'ajax/upload.php'),
-				dataType: 'json',
+				type: 'PUT',
 				dropZone: $('#public-upload'),
-				formData: {
-					dirToken: $('#sharingToken').val()
-				},
+				sequentialUploads: true,
 				add: function(e, data) {
 					var errors = [];
-					if(data.files[0]['size'] && data.files[0]['size'] > $('#maxFilesizeUpload').val()) {
-						errors.push('File is too big');
+
+					var name = data.files[0].name;
+
+					var base = OC.getProtocol() + '://' + OC.getHost();
+					data.url = base + OC.getRootPath() + '/public.php/webdav/' + encodeURI(name);
+
+					data.multipart = false;
+
+					if (!data.headers) {
+						data.headers = {};
+					}
+
+					var userName = filesClient.getUserName();
+					var password = filesClient.getPassword();
+					if (userName) {
+						// copy username/password from DAV client
+						data.headers['Authorization'] =
+							'Basic ' + btoa(userName + ':' + (password || ''));
 					}
 
 					$('#drop-upload-done-indicator').addClass('hidden');
 					$('#drop-upload-progress-indicator').removeClass('hidden');
 					_.each(data['files'], function(file) {
-						if(errors.length === 0) {
-							$('#public-upload ul').append(output({isUploading: true, name: escapeHTML(file.name)}));
-							$('[data-toggle="tooltip"]').tooltip();
-							data.submit();
-						} else {
-							OC.Notification.showTemporary(OC.L10N.translate('files_sharing', 'Could not upload "{filename}"', {filename: file.name}));
-							$('#public-upload ul').append(output({isUploading: false, name: escapeHTML(file.name)}));
-							$('[data-toggle="tooltip"]').tooltip();
-						}
+						$('#public-upload ul').append(output({isUploading: true, name: escapeHTML(file.name)}));
+						$('[data-toggle="tooltip"]').tooltip();
+						data.submit();
 					});
+
+					return true;
 				},
-				success: function (response) {
-					if(response.status !== 'error') {
-						var mimeTypeUrl = OC.MimeType.getIconUrl(response['mimetype']);
-						$('#public-upload ul li[data-name="' + escapeHTML(response['filename']) + '"]').html('<img src="' + escapeHTML(mimeTypeUrl) + '"/> ' + escapeHTML(response['filename']));
+				done: function(e, data) {
+					// Created
+					if (data.jqXHR.status === 201) {
+						var mimeTypeUrl = OC.MimeType.getIconUrl(data.files[0].type);
+						$('#public-upload ul li[data-name="' + escapeHTML(data.files[0].name) + '"]').html('<img src="' + escapeHTML(mimeTypeUrl) + '"/> ' + escapeHTML(data.files[0].name));
 						$('[data-toggle="tooltip"]').tooltip();
 					} else {
-						var name = response[0]['data']['filename'];
+						var name = data.files[0].name;
 						OC.Notification.showTemporary(OC.L10N.translate('files_sharing', 'Could not upload "{filename}"', {filename: name}));
 						$('#public-upload ul li[data-name="' + escapeHTML(name) + '"]').html(output({isUploading: false, name: escapeHTML(name)}));
 						$('[data-toggle="tooltip"]').tooltip();
 					}
-
 				},
 				progressall: function (e, data) {
 					var progress = parseInt(data.loaded / data.total * 100, 10);

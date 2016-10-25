@@ -30,6 +30,7 @@
 	 * @param {Object} [options.dragOptions] drag options, disabled by default
 	 * @param {Object} [options.folderDropOptions] folder drop options, disabled by default
 	 * @param {boolean} [options.detailsViewEnabled=true] whether to enable details view
+	 * @param {boolean} [options.enableUpload=false] whether to enable uploader
 	 * @param {OC.Files.Client} [options.filesClient] files client to use
 	 */
 	var FileList = function($el, options) {
@@ -189,6 +190,11 @@
 		_folderDropOptions: null,
 
 		/**
+		 * @type OC.Uploader
+		 */
+		_uploader: null,
+
+		/**
 		 * Initialize the file list and its components
 		 *
 		 * @param $el container element with existing markup for the #controls
@@ -328,14 +334,26 @@
 
 			this.$el.find('.selectedActions a').tooltip({placement:'top'});
 
-			this.setupUploadEvents();
-
 			this.$container.on('scroll', _.bind(this._onScroll, this));
 
 			if (options.scrollTo) {
 				this.$fileList.one('updated', function() {
 					self.scrollTo(options.scrollTo);
 				});
+			}
+
+			if (options.enableUpload) {
+				// TODO: auto-create this element
+				var $uploadEl = this.$el.find('#file_upload_start');
+				if ($uploadEl.exists()) {
+					this._uploader = new OC.Uploader($uploadEl, {
+						fileList: this,
+						filesClient: this.filesClient,
+						dropZone: $('#content')
+					});
+
+					this.setupUploadEvents(this._uploader);
+				}
 			}
 
 			OC.Plugins.attach('OCA.Files.FileList', this);
@@ -1420,7 +1438,10 @@
 				return;
 			}
 			this._setCurrentDir(targetDir, changeUrl, fileId);
-			return this.reload().then(function(success){
+
+			// discard finished uploads list, we'll get it through a regular reload
+			this._uploads = {};
+			this.reload().then(function(success){
 				if (!success) {
 					self.changeDirectory(currentDir, true);
 				}
@@ -1660,6 +1681,24 @@
 
 		getDownloadUrl: function(files, dir, isDir) {
 			return OCA.Files.Files.getDownloadUrl(files, dir || this.getCurrentDirectory(), isDir);
+		},
+
+		getUploadUrl: function(fileName, dir) {
+			if (_.isUndefined(dir)) {
+				dir = this.getCurrentDirectory();
+			}
+
+			var pathSections = dir.split('/');
+			if (!_.isUndefined(fileName)) {
+				pathSections.push(fileName);
+			}
+			var encodedPath = '';
+			_.each(pathSections, function(section) {
+				if (section !== '') {
+					encodedPath += '/' + encodeURIComponent(section);
+				}
+			});
+			return OC.linkToRemoteBase('webdav') + encodedPath;
 		},
 
 		/**
@@ -2123,19 +2162,11 @@
 				)
 				.done(function() {
 					// TODO: error handling / conflicts
-					self.filesClient.getFileInfo(
-							targetPath, {
-								properties: self._getWebdavProperties()
-							}
-						)
-						.then(function(status, data) {
-							self.add(data, {animate: true, scrollTo: true});
-							deferred.resolve(status, data);
-						})
-						.fail(function(status) {
-							OC.Notification.showTemporary(t('files', 'Could not create file "{file}"', {file: name}));
-							deferred.reject(status);
-						});
+					self.addAndFetchFileInfo(targetPath, '', {scrollTo: true}).then(function(status, data) {
+						deferred.resolve(status, data);
+					}, function() {
+						OC.Notification.showTemporary(t('files', 'Could not create file "{file}"', {file: name}));
+					});
 				})
 				.fail(function(status) {
 					if (status === 412) {
@@ -2176,32 +2207,19 @@
 			var targetPath = this.getCurrentDirectory() + '/' + name;
 
 			this.filesClient.createDirectory(targetPath)
-				.done(function(createStatus) {
-					self.filesClient.getFileInfo(
-							targetPath, {
-								properties: self._getWebdavProperties()
-							}
-						)
-						.done(function(status, data) {
-							self.add(data, {animate: true, scrollTo: true});
-							deferred.resolve(status, data);
-						})
-						.fail(function() {
-							OC.Notification.showTemporary(t('files', 'Could not create folder "{dir}"', {dir: name}));
-							deferred.reject(createStatus);
-						});
+				.done(function() {
+					self.addAndFetchFileInfo(targetPath, '', {scrollTo:true}).then(function(status, data) {
+						deferred.resolve(status, data);
+					}, function() {
+						OC.Notification.showTemporary(t('files', 'Could not create folder "{dir}"', {dir: name}));
+					});
 				})
 				.fail(function(createStatus) {
 					// method not allowed, folder might exist already
 					if (createStatus === 405) {
-						self.filesClient.getFileInfo(
-								targetPath, {
-									properties: self._getWebdavProperties()
-								}
-							)
+						// add it to the list, for completeness
+						self.addAndFetchFileInfo(targetPath, '', {scrollTo:true})
 							.done(function(status, data) {
-								// add it to the list, for completeness
-								self.add(data, {animate: true, scrollTo: true});
 								OC.Notification.showTemporary(
 									t('files', 'Could not create folder "{dir}" because it already exists', {dir: name})
 								);
@@ -2221,6 +2239,60 @@
 				});
 
 			return promise;
+		},
+
+		/**
+		 * Add file into the list by fetching its information from the server first.
+		 *
+		 * If the given directory does not match the current directory, nothing will
+		 * be fetched.
+		 *
+		 * @param {String} fileName file name
+		 * @param {String} [dir] optional directory, defaults to the current one
+		 * @param {Object} options same options as #add
+		 * @return {Promise} promise that resolves with the file info, or an
+		 * already resolved Promise if no info was fetched. The promise rejects
+		 * if the file was not found or an error occurred.
+		 *
+		 * @since 9.0
+		 */
+		addAndFetchFileInfo: function(fileName, dir, options) {
+			var self = this;
+			var deferred = $.Deferred();
+			if (_.isUndefined(dir)) {
+				dir = this.getCurrentDirectory();
+			} else {
+				dir = dir || '/';
+			}
+
+			var targetPath = OC.joinPaths(dir, fileName);
+
+			if ((OC.dirname(targetPath) || '/') !== this.getCurrentDirectory()) {
+				// no need to fetch information
+				deferred.resolve();
+				return deferred.promise();
+			}
+
+			var addOptions = _.extend({
+				animate: true,
+				scrollTo: false
+			}, options || {});
+
+			this.filesClient.getFileInfo(targetPath, {
+					properties: this._getWebdavProperties()
+				})
+				.then(function(status, data) {
+					// remove first to avoid duplicates
+					self.remove(data.name);
+					self.add(data, addOptions);
+					deferred.resolve(status, data);
+				})
+				.fail(function(status) {
+					OC.Notification.showTemporary(t('files', 'Could not create file "{file}"', {file: name}));
+					deferred.reject(status);
+				});
+
+			return deferred.promise();
 		},
 
 		/**
@@ -2591,19 +2663,19 @@
 
 		/**
 		 * Setup file upload events related to the file-upload plugin
+		 *
+		 * @param {OC.Uploader} uploader
 		 */
-		setupUploadEvents: function() {
+		setupUploadEvents: function(uploader) {
 			var self = this;
 
-			// handle upload events
-			var fileUploadStart = this.$el;
-			var delegatedElement = '#file_upload_start';
+			self._uploads = {};
 
 			// detect the progress bar resize
-			fileUploadStart.on('resized', this._onResize);
+			uploader.on('resized', this._onResize);
 
-			fileUploadStart.on('fileuploaddrop', delegatedElement, function(e, data) {
-				OC.Upload.log('filelist handle fileuploaddrop', e, data);
+			uploader.on('drop', function(e, data) {
+				self._uploader.log('filelist handle fileuploaddrop', e, data);
 
 				if (self.$el.hasClass('hidden')) {
 					// do not upload to invisible lists
@@ -2654,25 +2726,20 @@
 					// add target dir
 					data.targetDir = dir;
 				} else {
-					// we are dropping somewhere inside the file list, which will
-					// upload the file to the current directory
-					data.targetDir = self.getCurrentDirectory();
-
 					// cancel uploads to current dir if no permission
 					var isCreatable = (self.getDirectoryPermissions() & OC.PERMISSION_CREATE) !== 0;
 					if (!isCreatable) {
 						self._showPermissionDeniedNotification();
 						return false;
 					}
+
+					// we are dropping somewhere inside the file list, which will
+					// upload the file to the current directory
+					data.targetDir = self.getCurrentDirectory();
 				}
 			});
-			fileUploadStart.on('fileuploadadd', function(e, data) {
-				OC.Upload.log('filelist handle fileuploadadd', e, data);
-
-				//finish delete if we are uploading a deleted file
-				if (self.deleteFiles && self.deleteFiles.indexOf(data.files[0].name)!==-1) {
-					self.finishDelete(null, true); //delete file before continuing
-				}
+			uploader.on('add', function(e, data) {
+				self._uploader.log('filelist handle fileuploadadd', e, data);
 
 				// add ui visualization to existing folder
 				if (data.context && data.context.data('type') === 'dir') {
@@ -2694,135 +2761,74 @@
 					}
 				}
 
+				if (!data.targetDir) {
+					data.targetDir = self.getCurrentDirectory();
+				}
+
 			});
 			/*
 			 * when file upload done successfully add row to filelist
 			 * update counter when uploading to sub folder
 			 */
-			fileUploadStart.on('fileuploaddone', function(e, data) {
-				OC.Upload.log('filelist handle fileuploaddone', e, data);
+			uploader.on('done', function(e, upload) {
+				self._uploader.log('filelist handle fileuploaddone', e, data);
 
-				var response;
-				if (typeof data.result === 'string') {
-					response = data.result;
-				} else {
-					// fetch response from iframe
-					response = data.result[0].body.innerText;
+				var data = upload.data;
+				var status = data.jqXHR.status;
+				if (status < 200 || status >= 300) {
+					// error was handled in OC.Uploads already
+					return;
 				}
-				var result = JSON.parse(response);
 
-				if (typeof result[0] !== 'undefined' && result[0].status === 'success') {
-					var file = result[0];
-					var size = 0;
-
-					if (data.context && data.context.data('type') === 'dir') {
-
-						// update upload counter ui
-						var uploadText = data.context.find('.uploadtext');
-						var currentUploads = parseInt(uploadText.attr('currentUploads'), 10);
-						currentUploads -= 1;
-						uploadText.attr('currentUploads', currentUploads);
-						var translatedText = n('files', 'Uploading %n file', 'Uploading %n files', currentUploads);
-						if (currentUploads === 0) {
-							self.showFileBusyState(uploadText.closest('tr'), false);
-							uploadText.text(translatedText);
-							uploadText.hide();
-						} else {
-							uploadText.text(translatedText);
-						}
-
-						// update folder size
-						size = parseInt(data.context.data('size'), 10);
-						size += parseInt(file.size, 10);
-						data.context.attr('data-size', size);
-						data.context.find('td.filesize').text(humanFileSize(size));
-					} else {
-						// only append new file if uploaded into the current folder
-						if (file.directory !== self.getCurrentDirectory()) {
-							// Uploading folders actually uploads a list of files
-							// for which the target directory (file.directory) might lie deeper
-							// than the current directory
-
-							var fileDirectory = file.directory.replace('/','').replace(/\/$/, "");
-							var currentDirectory = self.getCurrentDirectory().replace('/','').replace(/\/$/, "") + '/';
-
-							if (currentDirectory !== '/') {
-								// abort if fileDirectory does not start with current one
-								if (fileDirectory.indexOf(currentDirectory) !== 0) {
-									return;
-								}
-
-								// remove the current directory part
-								fileDirectory = fileDirectory.substr(currentDirectory.length);
-							}
-
-							// only take the first section of the path
-							fileDirectory = fileDirectory.split('/');
-
-							var fd;
-							// if the first section exists / is a subdir
-							if (fileDirectory.length) {
-								fileDirectory = fileDirectory[0];
-
-								// See whether it is already in the list
-								fd = self.findFileEl(fileDirectory);
-								if (fd.length === 0) {
-									var dir = {
-										name: fileDirectory,
-										type: 'dir',
-										mimetype: 'httpd/unix-directory',
-										permissions: file.permissions,
-										size: 0,
-										id: file.parentId
-									};
-									fd = self.add(dir, {insert: true});
-								}
-
-								// update folder size
-								size = parseInt(fd.attr('data-size'), 10);
-								size += parseInt(file.size, 10);
-								fd.attr('data-size', size);
-								fd.find('td.filesize').text(OC.Util.humanFileSize(size));
-							}
-
-							return;
-						}
-
-						// add as stand-alone row to filelist
-						size = t('files', 'Pending');
-						if (data.files[0].size>=0) {
-							size=data.files[0].size;
-						}
-						//should the file exist in the list remove it
-						self.remove(file.name);
-
-						// create new file context
-						data.context = self.add(file, {animate: true});
-					}
+				var fileName = upload.getFileName();
+				var fetchInfoPromise = self.addAndFetchFileInfo(fileName, upload.getFullPath());
+				if (!self._uploads) {
+					self._uploads = {};
 				}
+				if (OC.isSamePath(OC.dirname(upload.getFullPath() + '/'), self.getCurrentDirectory())) {
+					self._uploads[fileName] = fetchInfoPromise;
+				}
+
+				var uploadText = self.$fileList.find('tr .uploadtext');
+				self.showFileBusyState(uploadText.closest('tr'), false);
+				uploadText.fadeOut();
+				uploadText.attr('currentUploads', 0);
 			});
-			fileUploadStart.on('fileuploadstop', function() {
-				OC.Upload.log('filelist handle fileuploadstop');
+			uploader.on('createdfolder', function(fullPath) {
+				self.addAndFetchFileInfo(OC.basename(fullPath), OC.dirname(fullPath));
+			});
+			uploader.on('stop', function() {
+				self._uploader.log('filelist handle fileuploadstop');
 
+				// prepare list of uploaded file names in the current directory
+				// and discard the other ones
+				var promises = _.values(self._uploads);
+				var fileNames = _.keys(self._uploads);
+				self._uploads = [];
+
+				// as soon as all info is fetched
+				$.when.apply($, promises).then(function() {
+					// highlight uploaded files
+					self.highlightFiles(fileNames);
+				});
+				self.updateStorageStatistics();
+
+				var uploadText = self.$fileList.find('tr .uploadtext');
+				self.showFileBusyState(uploadText.closest('tr'), false);
+				uploadText.fadeOut();
+				uploadText.attr('currentUploads', 0);
+			});
+			uploader.on('fail', function(e, data) {
+				self._uploader.log('filelist handle fileuploadfail', e, data);
+				
+				self._uploads = [];
+
+				//if user pressed cancel hide upload chrome
 				//cleanup uploading to a dir
 				var uploadText = self.$fileList.find('tr .uploadtext');
 				self.showFileBusyState(uploadText.closest('tr'), false);
 				uploadText.fadeOut();
 				uploadText.attr('currentUploads', 0);
-
-				self.updateStorageStatistics();
-			});
-			fileUploadStart.on('fileuploadfail', function(e, data) {
-				OC.Upload.log('filelist handle fileuploadfail', e, data);
-
-				//if user pressed cancel hide upload chrome
-				if (data.errorThrown === 'abort') {
-					//cleanup uploading to a dir
-					var uploadText = self.$fileList.find('tr .uploadtext');
-					self.showFileBusyState(uploadText.closest('tr'), false);
-					uploadText.fadeOut();
-					uploadText.attr('currentUploads', 0);
-				}
 				self.updateStorageStatistics();
 			});
 

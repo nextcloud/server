@@ -87,10 +87,18 @@ describe('OCA.Sharing.PublicApp tests', function() {
 		});
 
 		it('Uses public webdav endpoint', function() {
+			App._initialized = false;
+			fakeServer.restore();
+			window.fakeServer = sinon.fakeServer.create();
+
+			// uploader function messes up with fakeServer
+			var uploaderDetectStub = sinon.stub(OC.Uploader.prototype, '_supportAjaxUploadWithProgress');
+			App.initialize($('#preview'));
 			expect(fakeServer.requests.length).toEqual(1);
 			expect(fakeServer.requests[0].method).toEqual('PROPFIND');
 			expect(fakeServer.requests[0].url).toEqual('https://example.com:9876/owncloud/public.php/webdav/subdir');
 			expect(fakeServer.requests[0].requestHeaders.Authorization).toEqual('Basic c2g0dG9rOm51bGw=');
+			uploaderDetectStub.restore();
 		});
 
 		describe('Download Url', function() {
@@ -116,6 +124,21 @@ describe('OCA.Sharing.PublicApp tests', function() {
 			it('returns the correct ajax URL', function() {
 				expect(fileList.getAjaxUrl('test', {a:1, b:'x y'}))
 					.toEqual(OC.webroot + '/index.php/apps/files_sharing/ajax/test.php?a=1&b=x%20y&t=sh4tok');
+			});
+		});
+		describe('Upload Url', function() {
+			var fileList;
+
+			beforeEach(function() {
+				fileList = App.fileList;
+			});
+			it('returns correct upload URL', function() {
+				expect(fileList.getUploadUrl('some file.txt'))
+					.toEqual('/owncloud/public.php/webdav/subdir/some%20file.txt');
+			});
+			it('returns correct upload URL with specified dir', function() {
+				expect(fileList.getUploadUrl('some file.txt', 'sub'))
+					.toEqual('/owncloud/public.php/webdav/sub/some%20file.txt');
 			});
 		});
 	});
