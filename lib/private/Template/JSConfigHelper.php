@@ -57,8 +57,6 @@ class JSConfigHelper {
 	private $urlGenerator;
 
 	/**
-	 * JSConfigHelper constructor.
-	 *
 	 * @param IL10N $l
 	 * @param \OC_Defaults $defaults
 	 * @param IAppManager $appManager

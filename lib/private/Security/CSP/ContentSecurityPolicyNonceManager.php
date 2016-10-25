@@ -60,6 +60,7 @@ class ContentSecurityPolicyNonceManager {
 
 	/**
 	 * Check if the browser supports CSP v3
+	 *
 	 * @return bool
 	 */
 	public function browserSupportsCspV3() {

@@ -81,6 +81,8 @@ class OCJSController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
+	 *
+	 * @return DataDisplayResponse
 	 */
 	public function getConfig() {
 		$data = $this->helper->getConfig();
