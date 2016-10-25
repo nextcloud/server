@@ -353,6 +353,14 @@ var UserList = {
 		$userListBody.on('click', '.delete', function () {
 			// Call function for handling delete/undo
 			var uid = UserList.getUID(this);
+
+			if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+				OC.PasswordConfirmation.requirePasswordConfirmation(function() {
+					UserDeleteHandler.mark(uid);
+				});
+				return;
+			}
+
 			UserDeleteHandler.mark(uid);
 		});
 
@@ -405,6 +413,11 @@ var UserList = {
 	},
 
 	applyGroupSelect: function (element, user, checked) {
+		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.applySubadminSelect, this, arguments));
+			return;
+		}
+
 		var $element = $(element);
 
 		var checkHandler = null;
@@ -467,6 +480,11 @@ var UserList = {
 	},
 
 	applySubadminSelect: function (element, user, checked) {
+		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.applySubadminSelect, this, arguments));
+			return;
+		}
+
 		var $element = $(element);
 		var checkHandler = function (group) {
 			if (group === 'admin') {
@@ -478,7 +496,10 @@ var UserList = {
 					username: user,
 					group: group
 				},
-				function () {
+				function (response) {
+					if (response.data.message) {
+						OC.Notification.show(response.data.message);
+					}
 				}
 			);
 		};
@@ -635,6 +656,27 @@ $(document).ready(function () {
 	// TODO: move other init calls inside of initialize
 	UserList.initialize($('#userlist'));
 
+	var _submitPasswordChange = function(uid, password, recoveryPasswordVal) {
+		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+			OC.PasswordConfirmation.requirePasswordConfirmation(function() {
+				_submitPasswordChange(uid, password, recoveryPasswordVal);
+			});
+			return;
+		}
+
+		$.post(
+			OC.generateUrl('/settings/users/changepassword'),
+			{username: uid, password: password, recoveryPassword: recoveryPasswordVal},
+			function (result) {
+				if (result.status === 'success') {
+					OC.Notification.showTemporary(t('admin', 'Password successfully changed'));
+				} else {
+					OC.Notification.showTemporary(t('admin', result.data.message));
+				}
+			}
+		);
+	};
+
 	$userListBody.on('click', '.password', function (event) {
 		event.stopPropagation();
 
@@ -657,17 +699,7 @@ $(document).ready(function () {
 				if (event.keyCode === 13) {
 					if ($(this).val().length > 0) {
 						var recoveryPasswordVal = $('input:password[id="recoveryPassword"]').val();
-						$.post(
-							OC.generateUrl('/settings/users/changepassword'),
-							{username: uid, password: $(this).val(), recoveryPassword: recoveryPasswordVal},
-							function (result) {
-								if (result.status === 'success') {
-									OC.Notification.showTemporary(t('admin', 'Password successfully changed'));
-								} else {
-									OC.Notification.showTemporary(t('admin', result.data.message));
-								}
-							}
-						);
+						_submitPasswordChange(uid, $(this).val(), recoveryPasswordVal);
 						$input.blur();
 					} else {
 						$input.blur();
@@ -796,7 +828,14 @@ $(document).ready(function () {
 	});
 
 	UserList._updateGroupListLabel($('#newuser .groups'), []);
-	$('#newuser').submit(function (event) {
+	var _submitNewUserForm = function (event) {
+		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+			OC.PasswordConfirmation.requirePasswordConfirmation(function() {
+				_submitNewUserForm(event);
+			});
+			return;
+		}
+
 		event.preventDefault();
 		var username = $('#newusername').val();
 		var password = $('#newuserpassword').val();
@@ -866,7 +905,8 @@ $(document).ready(function () {
 					$('#newuser').get(0).reset();
 				});
 		});
-	});
+	}
+	$('#newuser').submit(_submitNewUserForm);
 
 	if ($('#CheckboxStorageLocation').is(':checked')) {
 		$("#userlist .storageLocation").show();
