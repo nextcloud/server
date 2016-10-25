@@ -185,7 +185,6 @@ OC.L10N.register(
     "Please reload the page." : "Obnovte prosím stránku.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Aktualizácia neprebehla úspešne. Pre viac informácií <a href=\"{url}\">navštívte príspevok na našom fóre</a>, ktorý pokrýva tento problém.",
     "Searching other places" : "Prehľadanie ostatných umiestnení",
-    "No search results in other folders" : "Žiadne výsledky vyhľadávania v ostatných priečinkoch",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} výsledok vyhľadávania v ostatných priečinkoch","{count} výsledky vyhľadávania v ostatných priečinkoch","{count} výsledkov vyhľadávania v ostatných priečinkoch"],
     "Personal" : "Osobné",
     "Users" : "Používatelia",
@@ -280,6 +279,7 @@ OC.L10N.register(
     "Couldn't send mail to following users: %s " : "Nebolo možné odoslať email týmto používateľom: %s ",
     "Allow editing" : "Povoliť úpravy",
     "can share" : "môže zdieľať",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Zdieľať s ľuďmi na iných serveroch ownClouds pomocou syntaxe používateľ@doména.com/owncloud"
+    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Zdieľať s ľuďmi na iných serveroch ownClouds pomocou syntaxe používateľ@doména.com/owncloud",
+    "No search results in other folders" : "Žiadne výsledky vyhľadávania v ostatných priečinkoch"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

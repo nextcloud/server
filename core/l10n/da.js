@@ -200,7 +200,6 @@ OC.L10N.register(
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Opdateringen blev ikke udført korrekt. Rapporter venligst problemet til <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud fællesskabet</a>.",
     "The update was successful. Redirecting you to Nextcloud now." : "Opdateringen blev udført korrekt. Du bliver nu viderestillet til Nextcloud.",
     "Searching other places" : "Søger på andre steder",
-    "No search results in other folders" : "Søgning gav ingen resultater in andre mapper",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} søgeresultat fundet i andre mapper","{count} søgeresultater fundet i andre mapper"],
     "Personal" : "Personligt",
     "Users" : "Brugere",
@@ -297,6 +296,7 @@ OC.L10N.register(
     "Allow editing" : "Tillad redigering",
     "can share" : "kan dele",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Del med andre på ownCloud ved hjælp af syntaxen username@example.com/owncloud",
+    "No search results in other folders" : "Søgning gav ingen resultater in andre mapper",
     "Cancel login" : "Annuller login"
 },
 "nplurals=2; plural=(n != 1);");

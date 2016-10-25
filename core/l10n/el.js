@@ -191,7 +191,6 @@ OC.L10N.register(
     "Continue to Nextcloud" : "Συνέχεια στον Nextcloud",
     "The update was successful. Redirecting you to Nextcloud now." : "Η ενημέρωση ήταν επιτυχής. Ανακατεύθυνση στο Nextcloud.",
     "Searching other places" : "Έρευνα σε άλλα σημεία.",
-    "No search results in other folders" : "Δεν υπάρχουν αποτελέσματα αναζήτησης σε άλλους φακέλους",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} αποτέλεσμα αναζήτησης σε άλλο φάκελο","{count} αποτελέσματα αναζήτησης σε άλλους φακέλους"],
     "Personal" : "Προσωπικά",
     "Users" : "Χρήστες",
@@ -291,6 +290,7 @@ OC.L10N.register(
     "can share" : "δυνατότητα διαμοιρασμού",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Διαμοιρασμός με άτομα σε άλλα ownClouds χρησιμοποιώντας την σύνταξη username@example.com/owncloud",
     "Updating to {version}" : "Ενημέρωση στην έκδοση {version}",
-    "The update was successful. There were warnings." : "Η ενημέρωση ήταν επιτυχής. Υπάρχουν προειδοποιήσεις."
+    "The update was successful. There were warnings." : "Η ενημέρωση ήταν επιτυχής. Υπάρχουν προειδοποιήσεις.",
+    "No search results in other folders" : "Δεν υπάρχουν αποτελέσματα αναζήτησης σε άλλους φακέλους"
 },
 "nplurals=2; plural=(n != 1);");

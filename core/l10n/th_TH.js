@@ -187,7 +187,6 @@ OC.L10N.register(
     "An error occurred." : "เกิดข้อผิดพลาด",
     "Please reload the page." : "โปรดโหลดหน้าเว็บใหม่",
     "Searching other places" : "กำลังค้นหาสถานที่อื่นๆ",
-    "No search results in other folders" : "ไม่พบผลลัพธ์การค้นหาในโฟลเดอร์อื่นๆ",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["ค้นหาพบ {count} ผลลัพธ์ในโฟลเดอร์อื่นๆ"],
     "Personal" : "ส่วนตัว",
     "Users" : "ผู้ใช้งาน",
@@ -281,6 +280,7 @@ OC.L10N.register(
     "Couldn't send mail to following users: %s " : "ไม่สามารถส่งอีเมลไปยังผู้ใช้: %s",
     "Allow editing" : "อนุญาตให้แก้ไข",
     "can share" : "สามารถแชร์ได้",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "แชร์กับคนใน ownClouds อื่นๆ ที่ใช้ไวยากรณ์ username@example.com/owncloud "
+    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "แชร์กับคนใน ownClouds อื่นๆ ที่ใช้ไวยากรณ์ username@example.com/owncloud ",
+    "No search results in other folders" : "ไม่พบผลลัพธ์การค้นหาในโฟลเดอร์อื่นๆ"
 },
 "nplurals=1; plural=0;");

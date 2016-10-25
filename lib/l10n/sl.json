@@ -119,8 +119,8 @@
     "Recommended" : "Priporočljivo",
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "Programa \\\"%s\\\" ni mogoče namestiti, ker ni mogoče brati datoteke appinfo.",
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "Aplikacije \"%s\" ni mogoče namestiti, ker ni združljiva s trenutno verzijo strežnika",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Programa \"%s\" ni mogoče namestiti zaradi nerešenih odvisnosti: %s",
     "No app name specified" : "Ni podanega imena programa",
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Programa \"%s\" ni mogoče namestiti zaradi nerešenih odvisnosti: %s",
     "a safe home for all your data" : "varen dom za vse vaše podatke",
     "File is currently busy, please try again later" : "Datoteka je trenutno v uporabi. Poskusite znova kasneje.",
     "Can't read file" : "Datoteke ni mogoče prebrati.",
@@ -129,8 +129,6 @@
     "Token expired. Please reload page." : "Žeton je potekel. Stran je treba ponovno naložiti.",
     "Unknown user" : "Neznan uporabnik",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Ni nameščenih programnikov podatkovnih zbirk (sqlite, mysql, ali postgresql).",
-    "Microsoft Windows Platform is not supported" : "Okolje Microsoft Windows ni podprto.",
-    "Running Nextcloud Server on the Microsoft Windows platform is not supported. We suggest you use a Linux server in a virtual machine if you have no option for migrating the server itself." : "Nameščanje Nextcloud strežnika na Microsoft Windows platformi ni podprto. priporočamo uporabo Linux strežnika v virtualnem okolju, če nimate druge možnosti za selitev samega strežnika.",
     "Cannot write into \"config\" directory" : "Mapa 'config' nima nastavljenih ustreznih dovoljenj za pisanje!",
     "Cannot write into \"apps\" directory" : "Mapa \"apps\" nima nastavljenih ustreznih dovoljenj za pisanje!",
     "This can usually be fixed by %sgiving the webserver write access to the apps directory%s or disabling the appstore in the config file." : "Napako je mogoče odpraviti z dodelitvijo dovoljenja spletnemu strežniku %s za pisanje v mapo programov %s, ali pa z onemogočanjem nameščanja programov v nastavitveni datoteki.",
@@ -164,6 +162,8 @@
     "Storage incomplete configuration. %s" : "Nepopolna nastavitev shrambe. %s",
     "Storage connection error. %s" : "Napaka povezave do shrambe. %s",
     "Storage not available" : "Shramba ni na voljo",
-    "Storage connection timeout. %s" : "Povezava do shrambe je časovno potekla. %s"
+    "Storage connection timeout. %s" : "Povezava do shrambe je časovno potekla. %s",
+    "Microsoft Windows Platform is not supported" : "Okolje Microsoft Windows ni podprto.",
+    "Running Nextcloud Server on the Microsoft Windows platform is not supported. We suggest you use a Linux server in a virtual machine if you have no option for migrating the server itself." : "Nameščanje Nextcloud strežnika na Microsoft Windows platformi ni podprto. priporočamo uporabo Linux strežnika v virtualnem okolju, če nimate druge možnosti za selitev samega strežnika."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

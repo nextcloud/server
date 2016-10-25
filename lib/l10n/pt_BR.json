@@ -120,9 +120,9 @@
     "Recommended" : "Recomendado",
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "O App \"%s\" não pode ser instalado porque o arquivo appinfo não pode ser lido.",
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "O aplicativo \"%s\" não pode ser instalado pois não é compatível com a versão do servidor.",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "App \"%s\" não pode ser instalado porque as seguintes dependências não foram cumpridas: %s",
     "No app name specified" : "O nome do aplicativo não foi especificado.",
     "App '%s' could not be installed!" : "O aplicativo '%s' pode não estar instalado!",
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "App \"%s\" não pode ser instalado porque as seguintes dependências não foram cumpridas: %s",
     "a safe home for all your data" : "um local seguro para todos os seus dados",
     "File is currently busy, please try again later" : "O arquivo está ocupado, tente novamente mais tarde",
     "Can't read file" : "Não é possível ler arquivo",
@@ -131,8 +131,6 @@
     "Token expired. Please reload page." : "Token expirou. Por favor recarregue a página.",
     "Unknown user" : "Usuário desconhecido",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Nenhum driver  de banco de dados (sqlite, mysql, or postgresql) instalado.",
-    "Microsoft Windows Platform is not supported" : "Plataforma Microsoft Windows não é suportada",
-    "Running Nextcloud Server on the Microsoft Windows platform is not supported. We suggest you use a Linux server in a virtual machine if you have no option for migrating the server itself." : "O Servidor Nextcloud não possui suporte para execução na plataforma Microsoft Windows. Sugerimos que use um servidor Linux em uma máquina virtual, caso não seja possível migrar o servidor.",
     "Cannot write into \"config\" directory" : "Não é possível gravar no diretório \"config\"",
     "Cannot write into \"apps\" directory" : "Não é possível gravar no diretório \"apps\"",
     "This can usually be fixed by %sgiving the webserver write access to the apps directory%s or disabling the appstore in the config file." : "Isto pode ser corrigido dando ao webserver permissão de escrita %sgiving para o diretório apps directory%s ou desabilitando o appstore no arquivo de configuração.",
@@ -166,6 +164,8 @@
     "Storage incomplete configuration. %s" : "Incompleta configuração de armazenamento. %s",
     "Storage connection error. %s" : "Erro na conexão de armazenamento. %s",
     "Storage not available" : "Armazanamento não disponível",
-    "Storage connection timeout. %s" : "Tempo limite de conexão de armazenamento. %s"
+    "Storage connection timeout. %s" : "Tempo limite de conexão de armazenamento. %s",
+    "Microsoft Windows Platform is not supported" : "Plataforma Microsoft Windows não é suportada",
+    "Running Nextcloud Server on the Microsoft Windows platform is not supported. We suggest you use a Linux server in a virtual machine if you have no option for migrating the server itself." : "O Servidor Nextcloud não possui suporte para execução na plataforma Microsoft Windows. Sugerimos que use um servidor Linux em uma máquina virtual, caso não seja possível migrar o servidor."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

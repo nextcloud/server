@@ -196,7 +196,6 @@ OC.L10N.register(
     "Please reload the page." : "Будь ласка, перезавантажте сторінку.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Оновлення не вдалося. За інформацією <a href=\"{url}\">зверніться до повідомлення на форумі</a>, що описує цю проблему.",
     "Searching other places" : "Йде пошук в інших місцях",
-    "No search results in other folders" : "В інших теках нічого не знайдено",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} результат пошуку в інших теках","{count} результатів пошуку в інших теках","{count} результатів пошуку в інших теках"],
     "Personal" : "Особисте",
     "Users" : "Користувачі",
@@ -296,6 +295,7 @@ OC.L10N.register(
     "Allow editing" : "Дозволити редагування",
     "can share" : "може ділитися з іншими",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Поширити серед людей інших ownCloud'ів, використовуючи синтаксис ім'я_користувача@файли.укр/owncloud",
+    "No search results in other folders" : "В інших теках нічого не знайдено",
     "Two-step verification" : "Дворівнева перевірка",
     "An error occured while verifying the token" : "При верифікації токена виникла помилка"
 },
