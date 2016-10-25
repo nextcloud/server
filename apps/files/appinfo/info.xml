@@ -18,6 +18,14 @@
 	</documentation>
 
 	<activity>
+		<settings>
+			<setting>OCA\Files\Activity\Settings\FileChanged</setting>
+			<setting>OCA\Files\Activity\Settings\FileCreated</setting>
+			<setting>OCA\Files\Activity\Settings\FileDeleted</setting>
+			<setting>OCA\Files\Activity\Settings\FileFavorite</setting>
+			<setting>OCA\Files\Activity\Settings\FileRestored</setting>
+		</settings>
+
 		<filters>
 			<filter>OCA\Files\Activity\Filter\FileChanges</filter>
 			<filter>OCA\Files\Activity\Filter\Favorites</filter>

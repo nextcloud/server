@@ -96,17 +96,7 @@ class Activity implements IExtension {
 	 * 				]
 	 */
 	public function getNotificationTypes($languageCode) {
-		$l = $this->getL10N($languageCode);
-		return [
-			self::TYPE_SHARE_CREATED => (string) $l->t('A new file or folder has been <strong>created</strong>'),
-			self::TYPE_SHARE_CHANGED => (string) $l->t('A file or folder has been <strong>changed</strong> or <strong>renamed</strong>'),
-			self::TYPE_FAVORITES => [
-				'desc' => (string) $l->t('Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>'),
-				'methods' => [self::METHOD_STREAM],
-			],
-			self::TYPE_SHARE_DELETED => (string) $l->t('A file or folder has been <strong>deleted</strong>'),
-			self::TYPE_SHARE_RESTORED => (string) $l->t('A file or folder has been <strong>restored</strong>'),
-		];
+		return false;
 	}
 
 	/**
@@ -117,15 +107,6 @@ class Activity implements IExtension {
 	 * @return array|false
 	 */
 	public function getDefaultTypes($method) {
-		if ($method === self::METHOD_STREAM) {
-			$settings = array();
-			$settings[] = self::TYPE_SHARE_CREATED;
-			$settings[] = self::TYPE_SHARE_CHANGED;
-			$settings[] = self::TYPE_SHARE_DELETED;
-			$settings[] = self::TYPE_SHARE_RESTORED;
-			return $settings;
-		}
-
 		return false;
 	}
 
