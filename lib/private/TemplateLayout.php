@@ -142,7 +142,7 @@ class TemplateLayout extends \OC_Template {
 		$jsFiles = self::findJavascriptFiles(\OC_Util::$scripts);
 		$this->assign('jsfiles', array());
 		if ($this->config->getSystemValue('installed', false) && $renderAs != 'error') {
-			$this->append( 'jsfiles', \OC::$server->getURLGenerator()->linkToRoute('js_config', ['v' => self::$versionHash]));
+			$this->append( 'jsfiles', \OC::$server->getURLGenerator()->linkToRoute('core.OCJS.getConfig', ['v' => self::$versionHash]));
 		}
 		foreach($jsFiles as $info) {
 			$web = $info[1];
