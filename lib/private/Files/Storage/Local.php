@@ -179,7 +179,8 @@ class Local extends \OC\Files\Storage\Common {
 			return false;
 		}
 		if (PHP_INT_SIZE === 4) {
-			return (int) exec ('stat -c %Y '. escapeshellarg ($fullPath));
+			$helper = new \OC\LargeFileHelper();
+			return $helper->getFileMtime($fullPath);
 		}
 		return filemtime($fullPath);
 	}

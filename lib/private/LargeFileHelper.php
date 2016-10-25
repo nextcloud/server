@@ -187,6 +187,20 @@ class LargeFileHelper {
 		return $result;
 	}
 
+	/**
+	 * Returns the current mtime for $fullPath
+	 *
+	 * @param string $fullPath
+	 * @return int
+	 */
+	public function getFileMtime($fullPath) {
+		if (\OC_Helper::is_function_enabled('exec')) {
+			return $this->exec('stat -c %Y ' . escapeshellarg($fullPath));
+		}
+
+		return filemtime($fullPath);
+	}
+
 	protected function exec($cmd) {
 		$result = trim(exec($cmd));
 		return ctype_digit($result) ? 0 + $result : null;
