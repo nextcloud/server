@@ -86,6 +86,7 @@ class ImageExportPlugin extends ServerPlugin {
 
 		if ($result = $this->getPhoto($node)) {
 			$response->setHeader('Content-Type', $result['Content-Type']);
+			$response->setHeader('Content-Disposition', 'attachment');
 			$response->setStatus(200);
 
 			$response->setBody($result['body']);
@@ -120,6 +121,11 @@ class ImageExportPlugin extends ServerPlugin {
 				}
 				$val = file_get_contents($val);
 			}
+
+			if (!in_array($type, ['image/png', 'image/jpeg', 'image/gif'])) {
+				$type = 'application/octet-stream';
+			}
+
 			return [
 				'Content-Type' => $type,
 				'body' => $val
@@ -136,7 +142,7 @@ class ImageExportPlugin extends ServerPlugin {
 
 	/**
 	 * @param Binary $photo
-	 * @return Parameter
+	 * @return string
 	 */
 	private function getType($photo) {
 		$params = $photo->parameters();
@@ -151,6 +157,6 @@ class ImageExportPlugin extends ServerPlugin {
 				return 'image/' . strtolower($type);
 			}
 		}
-		return '';
+		return 'application/octet-stream';
 	}
 }
