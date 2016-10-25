@@ -43,6 +43,14 @@ if (version_compare(PHP_VERSION, '5.4.0') === -1) {
 	return;
 }
 
+// Show warning if PHP 7.1 is used as Nextcloud is not compatible with PHP 7.1 for now
+// @see https://github.com/nextcloud/docker-ci/issues/10
+if (version_compare(PHP_VERSION, '7.1.0') !== -1) {
+	echo 'This version of Nextcloud is not compatible with PHP 7.1.<br/>';
+	echo 'You are currently running ' . PHP_VERSION . '.';
+	return;
+}
+
 try {
 	require_once __DIR__ . '/lib/base.php';
 
