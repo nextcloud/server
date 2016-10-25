@@ -51,7 +51,7 @@ class LargeFileHelper {
 	public function __construct() {
 		$pow_2_53 = floatval(self::POW_2_53_MINUS_1) + 1.0;
 		if ($this->formatUnsignedInteger($pow_2_53) !== self::POW_2_53) {
-			throw new \RunTimeException(
+			throw new \RuntimeException(
 				'This class assumes floats to be double precision or "better".'
 			);
 		}
@@ -95,10 +95,6 @@ class LargeFileHelper {
 	*/
 	public function getFileSize($filename) {
 		$fileSize = $this->getFileSizeViaCurl($filename);
-		if (!is_null($fileSize)) {
-			return $fileSize;
-		}
-		$fileSize = $this->getFileSizeViaCOM($filename);
 		if (!is_null($fileSize)) {
 			return $fileSize;
 		}
@@ -154,12 +150,6 @@ class LargeFileHelper {
 				$result = $this->exec("stat -c %s $arg");
 			} else if (strpos($os, 'bsd') !== false || strpos($os, 'darwin') !== false) {
 				$result = $this->exec("stat -f %z $arg");
-			} else if (strpos($os, 'win') !== false) {
-				$result = $this->exec("for %F in ($arg) do @echo %~zF");
-				if (is_null($result)) {
-					// PowerShell
-					$result = $this->exec("(Get-Item $arg).length");
-				}
 			}
 			return $result;
 		}
