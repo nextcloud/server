@@ -55,6 +55,8 @@
     "Check %s is invalid" : "Chequeo %s no es valido",
     "Check #%s does not exist" : "El chequeo #%s no existe",
     "Open documentation" : "Documentación abierta",
+    "Add rule group" : "Añadir regla al grupo",
+    "Short rule description" : "Descripción de la regla corta",
     "Add rule" : "Añadir regla",
     "Reset" : "Reiniciar",
     "Save" : "Guardar",

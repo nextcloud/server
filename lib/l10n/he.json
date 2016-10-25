@@ -112,8 +112,8 @@
     "Admin" : "מנהל",
     "Recommended" : "מומלץ",
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "יישום \"%s\" לא ניתן להתקנה כיוון שקובץ appinfo לא ניתן לקריאה.",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "היישום \"%s\" לא ניתן להתקנה כיוון שיחסי התלות הבאים אינם מתקיימים: %s",
     "No app name specified" : "לא הוגדר שם יישום",
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "היישום \"%s\" לא ניתן להתקנה כיוון שיחסי התלות הבאים אינם מתקיימים: %s",
     "File is currently busy, please try again later" : "הקובץ בשימוש כרגע, יש לנסות שוב מאוחר יותר",
     "Can't read file" : "לא ניתן לקרוא קובץ",
     "Application is not enabled" : "יישומים אינם מופעלים",
@@ -121,7 +121,6 @@
     "Token expired. Please reload page." : "פג תוקף. נא לטעון שוב את הדף.",
     "Unknown user" : "משתמש לא ידוע",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "לא מותקנים דרייברים למסד הנתונים (sqlite, mysql, או postgresql).",
-    "Microsoft Windows Platform is not supported" : "מערכת הפעלה חלונות אינה נתמכת",
     "Cannot write into \"config\" directory" : "לא ניתן לכתוב לתיקיית \"config\"!",
     "Cannot write into \"apps\" directory" : "לא ניתן לכתוב לתיקיית \"apps\"",
     "This can usually be fixed by %sgiving the webserver write access to the apps directory%s or disabling the appstore in the config file." : "בדרך כלל ניתן להסתדר על ידי %s מתן הרשאות כתיבה בשרת האינטרנט לתיקיית היישומים %s או נטרול חנות היישומים בקובץ ה- config.",
@@ -154,6 +153,7 @@
     "Storage incomplete configuration. %s" : "תצורה לא מושלמת של האחסון. %s",
     "Storage connection error. %s" : "שגיאת חיבור אחסון. %s",
     "Storage not available" : "אחסון לא זמין",
-    "Storage connection timeout. %s" : "פסק זמן חיבור אחסון. %s"
+    "Storage connection timeout. %s" : "פסק זמן חיבור אחסון. %s",
+    "Microsoft Windows Platform is not supported" : "מערכת הפעלה חלונות אינה נתמכת"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

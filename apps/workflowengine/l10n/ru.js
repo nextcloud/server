@@ -7,6 +7,7 @@ OC.L10N.register(
     "is" : "есть",
     "is not" : "не",
     "matches" : "соответствия",
+    "does not match" : "не соответствует",
     "Example: {placeholder}" : "Пример: {placeholder}",
     "File size (upload)" : "Размер файла (загрузка)",
     "less" : "Меньше",

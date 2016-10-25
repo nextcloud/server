@@ -22,6 +22,8 @@ OC.L10N.register(
     "%1$s commented" : "%1$s heeft gereageerd",
     "You commented on %2$s" : "Je reageerde op %2$s",
     "%1$s commented on %2$s" : "%1$s heeft gereageerd op %2$s",
+    "A (now) deleted user mentioned you in a comment on \"%s\"." : "Een (nu) verwijderde gebruiker vermeldde jou in een reactie op \"%s\".",
+    "%s mentioned you in a comment on \"%s\"." : "%s vermeldde jou in een reactie op \"%s\".",
     "Type in a new comment..." : "Type een nieuwe reactie...",
     "No other comments available" : "Geen andere reacties beschikbaar",
     "More comments..." : "Meer reacties...",

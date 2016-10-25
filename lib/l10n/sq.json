@@ -115,8 +115,8 @@
     "Admin" : "Admin",
     "Recommended" : "E rekomanduar",
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "Aplikacioni \"%s\" s’mund të instalohet, ngaqë s’lexohet dot kartela appinfo.",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Përditësimi \"%s\" s’instalohet dot, ngaqë s’plotësohen varësitë vijuese: %s.",
     "No app name specified" : "S’u dha emër aplikacioni",
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Përditësimi \"%s\" s’instalohet dot, ngaqë s’plotësohen varësitë vijuese: %s.",
     "File is currently busy, please try again later" : "Kartela tani është e zënë, ju lutemi, riprovoni më vonë.",
     "Can't read file" : "S'lexohet dot kartela",
     "Application is not enabled" : "Aplikacioni s’është aktivizuar",
@@ -124,7 +124,6 @@
     "Token expired. Please reload page." : "Token-i ka skaduar. Ju lutemi, ringarkoni faqen.",
     "Unknown user" : "Përdorues i panjohur",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "S’ka baza të dhënash (sqlite, mysql, ose postgresql) të instaluara.",
-    "Microsoft Windows Platform is not supported" : "Microsoft Windows Platform nuk mbulohet",
     "Cannot write into \"config\" directory" : "S’shkruhet dot te drejtoria \"config\"",
     "Cannot write into \"apps\" directory" : "S’shkruhet dot te drejtoria \"apps\"",
     "This can usually be fixed by %sgiving the webserver write access to the apps directory%s or disabling the appstore in the config file." : "Zakonisht kjo mund të ndreqet duke %si akorduar shërbyesit web të drejta shkrimi mbi drejtorinë e aplikacionit%s ose duke e çaktivizuar appstore-in te kartela e formësimit.",
@@ -157,6 +156,7 @@
     "Storage incomplete configuration. %s" : "Formësim jo i plotë i depozitës. %s",
     "Storage connection error. %s" : "Gabim lidhje te depozita. %s",
     "Storage not available" : "Pa depozitë gati",
-    "Storage connection timeout. %s" : "Mbarim kohe lidhjeje për depozitën. %s"
+    "Storage connection timeout. %s" : "Mbarim kohe lidhjeje për depozitën. %s",
+    "Microsoft Windows Platform is not supported" : "Microsoft Windows Platform nuk mbulohet"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -110,8 +110,8 @@
     "Admin" : "Адмін",
     "Recommended" : "Рекомендуємо",
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "Додаток \"%s\" не може бути встановлений через те, що файл appinfo не може бути прочитано.",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Додаток \"%s\" не може бути встановлений, так як наступні залежності не виконано: %s",
     "No app name specified" : "Не вказано ім'я додатку",
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Додаток \"%s\" не може бути встановлений, так як наступні залежності не виконано: %s",
     "File is currently busy, please try again later" : "Файл на разі зайнятий, будь ласка, спробуйте пізніше",
     "Can't read file" : "Не можливо прочитати файл",
     "Application is not enabled" : "Додаток не увімкнений",
@@ -119,7 +119,6 @@
     "Token expired. Please reload page." : "Строк дії токена скінчився. Будь ласка, перезавантажте сторінку.",
     "Unknown user" : "Невідомий користувач",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Не встановлено драйвер бази даних (sqlite, mysql, or postgresql).",
-    "Microsoft Windows Platform is not supported" : "Платформа Microsoft Windows не підтримується",
     "Cannot write into \"config\" directory" : "Не можу писати у теку \"config\"",
     "Cannot write into \"apps\" directory" : "Не можу писати у теку \"apps\"",
     "This can usually be fixed by %sgiving the webserver write access to the apps directory%s or disabling the appstore in the config file." : "Зазвичай це можна виправити, %s надавши веб-серверу права на запис в каталог додатків %s або відключивши сховище програм у файлі конфігурації.",
@@ -152,6 +151,7 @@
     "Storage incomplete configuration. %s" : "Неповна конфігурація сховища. %s",
     "Storage connection error. %s" : "Помилка з'єднання зі сховищем. %s",
     "Storage not available" : "Сховище не доступне",
-    "Storage connection timeout. %s" : "Час під'єднання до сховища вичерпався. %s"
+    "Storage connection timeout. %s" : "Час під'єднання до сховища вичерпався. %s",
+    "Microsoft Windows Platform is not supported" : "Платформа Microsoft Windows не підтримується"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }
