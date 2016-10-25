@@ -155,7 +155,7 @@ class Local extends \OC\Files\Storage\Common {
 		$fullPath = $this->getSourcePath($path);
 		if (PHP_INT_SIZE === 4) {
 			$helper = new \OC\LargeFileHelper;
-			return $helper->getFilesize($fullPath);
+			return $helper->getFileSize($fullPath);
 		}
 		return filesize($fullPath);
 	}
