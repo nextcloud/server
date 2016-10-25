@@ -42,23 +42,23 @@ use OC\IntegrityCheck\Checker;
  * @package Tests\Settings\Controller
  */
 class CheckSetupControllerTest extends TestCase {
-	/** @var CheckSetupController */
+	/** @var CheckSetupController | \PHPUnit_Framework_MockObject_MockObject */
 	private $checkSetupController;
-	/** @var IRequest */
+	/** @var IRequest | \PHPUnit_Framework_MockObject_MockObject */
 	private $request;
-	/** @var IConfig */
+	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
 	private $config;
-	/** @var IClientService */
+	/** @var IClientService | \PHPUnit_Framework_MockObject_MockObject*/
 	private $clientService;
-	/** @var IURLGenerator */
+	/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
 	/** @var OC_Util */
 	private $util;
-	/** @var IL10N */
+	/** @var IL10N | \PHPUnit_Framework_MockObject_MockObject */
 	private $l10n;
 	/** @var ILogger */
 	private $logger;
-	/** @var Checker */
+	/** @var Checker | \PHPUnit_Framework_MockObject_MockObject */
 	private $checker;
 
 	public function setUp() {
