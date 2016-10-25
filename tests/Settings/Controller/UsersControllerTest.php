@@ -1176,7 +1176,7 @@ class UsersControllerTest extends \Test\TestCase {
 			array(
 				'status' => 'error',
 				'data' => array(
-					'message' => 'Unable to delete user.'
+					'message' => 'Can\'t delete your own account'
 				)
 			),
 			Http::STATUS_FORBIDDEN
@@ -1202,12 +1202,54 @@ class UsersControllerTest extends \Test\TestCase {
 			array(
 				'status' => 'error',
 				'data' => array(
-					'message' => 'Unable to delete user.'
+					'message' => 'Can\'t delete your own account'
 				)
 			),
 			Http::STATUS_FORBIDDEN
 		);
 		$response = $controller->destroy('myself');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testDestroySelfUser() {
+		$controller = $this->getController(false);
+
+		$this->config->method('getAppValue')
+			->with(
+				'core',
+				'user_own_account_deletion',
+				false
+			)
+			->willReturn(true);
+
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('selfuser'));
+		$user
+			->expects($this->once())
+			->method('delete')
+			->will($this->returnValue(true));
+		$this->userSession
+			->method('getUser')
+			->will($this->returnValue($user));
+		$this->userManager
+			->method('get')
+			->with('selfuser')
+			->will($this->returnValue($user));
+
+		$expectedResponse = new DataResponse(
+			array(
+				'status' => 'success',
+				'data' => array(
+					'username' => 'selfuser'
+				)
+			),
+			Http::STATUS_NO_CONTENT
+		);
+		$response = $controller->destroy('selfuser');
 		$this->assertEquals($expectedResponse, $response);
 	}
 

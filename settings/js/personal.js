@@ -41,6 +41,21 @@ jQuery.fn.keyUpDelayedOrEnter = function (callback, allowEmptyValue) {
 	});
 };
 
+OC.Settings.Personal = OC.Settings.Personal || {
+	deleteAccount: function() {
+		OC.dialogs.confirm('Do you really want to delete your account ? All your data will be lost !', 'Delete your account ?', function (res) {
+			if (res) {
+				$.ajax({
+					type: 'DELETE',
+					url: OC.generateUrl('/settings/users/users/' + OC.getCurrentUser().uid),
+					success: function (data) {
+						// redirect to login page
+					}
+				});
+			}
+		}, true);
+	}
+};
 
 /**
  * Post the email address change to the server.
@@ -268,6 +283,8 @@ $(document).ready(function () {
 
 	$('#displayName').keyUpDelayedOrEnter(changeDisplayName);
 	$('#email').keyUpDelayedOrEnter(changeEmailAddress, true);
+
+	$("#deleteAccount-btn").click(OC.Settings.Personal.deleteAccount);
 
 	$("#languageinput").change(function () {
 		// Serialize the data
