@@ -23,7 +23,6 @@
  */
 namespace OCA\Files_Sharing\Controller;
 
-use OC\Share20\Exception\ProviderException;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
@@ -37,7 +36,6 @@ use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\Files\IRootFolder;
 use OCP\Lock\LockedException;
 use OCP\Share\IManager;
@@ -187,17 +185,39 @@ class ShareAPIController extends OCSController {
 
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_REMOTE) {
 			$result['share_with'] = $share->getSharedWith();
-			$result['share_with_displayname'] = $share->getSharedWith();
+			$result['share_with_displayname'] = $this->getDisplayNameFromAddressBook($share->getSharedWith(), 'CLOUD');
 			$result['token'] = $share->getToken();
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
 			$result['share_with'] = $share->getSharedWith();
-			$result['share_with_displayname'] = $share->getSharedWith();
+			$result['share_with_displayname'] = $this->getDisplayNameFromAddressBook($share->getSharedWith(), 'EMAIL');
 			$result['token'] = $share->getToken();
 		}
 
 		$result['mail_send'] = $share->getMailSend() ? 1 : 0;
 
 		return $result;
+	}
+
+	/**
+	 * Check if one of the users address books knows the exact property, if
+	 * yes we return the full name.
+	 *
+	 * @param string $query
+	 * @param string $property
+	 * @return string
+	 */
+	private function getDisplayNameFromAddressBook($query, $property) {
+		// FIXME: If we inject the contacts manager it gets initialized bofore any address books are registered
+		$result = \OC::$server->getContactsManager()->search($query, [$property]);
+		foreach ($result as $r) {
+			foreach($r[$property] as $value) {
+				if ($value === $query) {
+					return $r['FN'];
+				}
+			}
+		}
+
+		return $query;
 	}
 
 	/**
