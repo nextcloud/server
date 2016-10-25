@@ -79,12 +79,12 @@ try {
 	OCP\JSON::success(array('data' => $data));
 } catch (\OCP\Files\StorageNotAvailableException $e) {
 	\OCP\Util::logException('files', $e);
-	OCP\JSON::error(array(
-		'data' => array(
+	OCP\JSON::error([
+		'data' => [
 			'exception' => '\OCP\Files\StorageNotAvailableException',
-			'message' => $l->t('Storage not available')
-		)
-	));
+			'message' => $l->t('Storage is temporarily not available')
+		]
+	]);
 } catch (\OCP\Files\StorageInvalidException $e) {
 	\OCP\Util::logException('files', $e);
 	OCP\JSON::error(array(

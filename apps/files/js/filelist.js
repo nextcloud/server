@@ -1625,7 +1625,7 @@
 					this.changeDirectory('/');
 					// TODO: read error message from exception
 					OC.Notification.showTemporary(
-						t('files', 'Storage not available')
+						t('files', 'Storage is temporarily not available')
 					);
 				}
 				return false;

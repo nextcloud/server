@@ -32,7 +32,7 @@ use Sabre\DAV\Exception;
 use Sabre\HTTP\Response;
 
 class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
-	protected $nonFatalExceptions = array(
+	protected $nonFatalExceptions = [
 		'Sabre\DAV\Exception\NotAuthenticated' => true,
 		// If tokenauth can throw this exception (which is basically as
 		// NotAuthenticated. So not fatal.
@@ -47,7 +47,10 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 		// forbidden can be expected when trying to upload to
 		// read-only folders for example
 		'Sabre\DAV\Exception\Forbidden' => true,
-	);
+		// Happens when an external storage or federated share is temporarily
+		// not available
+		'Sabre\DAV\Exception\StorageNotAvailableException' => true,
+	];
 
 	/** @var string */
 	private $appName;
