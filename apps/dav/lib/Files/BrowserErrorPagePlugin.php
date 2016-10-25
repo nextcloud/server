@@ -80,38 +80,29 @@ class BrowserErrorPagePlugin extends ServerPlugin {
 		}
 		$this->server->httpResponse->addHeaders($headers);
 		$this->server->httpResponse->setStatus($httpCode);
-		$body = $this->generateBody($ex);
+		$body = $this->generateBody();
 		$this->server->httpResponse->setBody($body);
 		$this->sendResponse();
 	}
 
 	/**
 	 * @codeCoverageIgnore
-	 * @param \Exception $ex
-	 * @param int $httpCode
 	 * @return bool|string
 	 */
-	public function generateBody(\Exception $exception) {
+	public function generateBody() {
 		$request = \OC::$server->getRequest();
 		$content = new OC_Template('dav', 'exception', 'guest');
 		$content->assign('title', $this->server->httpResponse->getStatusText());
-		$content->assign('message', $exception->getMessage());
-		$content->assign('errorClass', get_class($exception));
-		$content->assign('errorMsg', $exception->getMessage());
-		$content->assign('errorCode', $exception->getCode());
-		$content->assign('file', $exception->getFile());
-		$content->assign('line', $exception->getLine());
-		$content->assign('trace', $exception->getTraceAsString());
-		$content->assign('debugMode', \OC::$server->getSystemConfig()->getValue('debug', false));
 		$content->assign('remoteAddr', $request->getRemoteAddress());
 		$content->assign('requestID', $request->getId());
 		return $content->fetchPage();
 	}
 
-	/*
+	/**
 	 * @codeCoverageIgnore
 	 */
 	public function sendResponse() {
 		$this->server->sapi->sendResponse($this->server->httpResponse);
+		exit();
 	}
 }
