@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -195,7 +196,10 @@ class LargeFileHelper {
 	 */
 	public function getFileMtime($fullPath) {
 		if (\OC_Helper::is_function_enabled('exec')) {
-			return $this->exec('stat -c %Y ' . escapeshellarg($fullPath));
+			$os = strtolower(php_uname('s'));
+			if (strpos($os, 'linux') !== false) {
+				return $this->exec('stat -c %Y ' . escapeshellarg($fullPath));
+			}
 		}
 
 		return filemtime($fullPath);
