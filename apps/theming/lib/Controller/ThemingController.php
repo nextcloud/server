@@ -331,14 +331,12 @@ class ThemingController extends Controller {
 				'.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active {' .
 				'border: 1px solid '.$elementColor.';'.
 				'background-color: '.$elementColor.';'.
-				'opacity: 0.8;' .
 				'color: ' . $textColor . ';'.
 				"}\n" .
 				'.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover,' .
 				'.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {' .
 				'border: 1px solid '.$elementColor.';'.
 				'background-color: '.$elementColor.';'.
-				'opacity: 1.0;' .
 				'color: ' . $textColor . ';'.
 				"}\n" .
 				'.primary:disabled, input[type="submit"].primary:disabled, input[type="button"].primary:disabled, button.primary:disabled, .button.primary:disabled,' .
