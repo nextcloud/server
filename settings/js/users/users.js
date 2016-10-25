@@ -914,11 +914,17 @@ $(document).ready(function () {
 	// Option to display/hide the "Storage location" column
 	$('#CheckboxStorageLocation').click(function() {
 		if ($('#CheckboxStorageLocation').is(':checked')) {
-			$("#userlist .storageLocation").show();
-			OCP.AppConfig.setValue('core', 'umgmt_show_storage_location', 'true');
+			OCP.AppConfig.setValue('core', 'umgmt_show_storage_location', 'true', {
+				success: function () {
+					$("#userlist .storageLocation").show();
+				}
+			});
 		} else {
-			$("#userlist .storageLocation").hide();
-			OCP.AppConfig.setValue('core', 'umgmt_show_storage_location', 'false');
+			OCP.AppConfig.setValue('core', 'umgmt_show_storage_location', 'false', {
+				success: function () {
+					$("#userlist .storageLocation").hide();
+				}
+			});
 		}
 	});
 
