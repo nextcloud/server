@@ -1402,8 +1402,15 @@
 
 		_isValidPath: function(path) {
 			var sections = path.split('/');
-			for (var i = 0; i < sections.length; i++) {
+			var i;
+			for (i = 0; i < sections.length; i++) {
 				if (sections[i] === '..') {
+					return false;
+				}
+			}
+			var specialChars = [decodeURIComponent('%00'), decodeURIComponent('%0A')];
+			for (i = 0; i < specialChars.length; i++) {
+				if (path.indexOf(specialChars[i]) !== -1) {
 					return false;
 				}
 			}
@@ -1419,6 +1426,7 @@
 		_setCurrentDir: function(targetDir, changeUrl, fileId) {
 			targetDir = targetDir.replace(/\\/g, '/');
 			if (!this._isValidPath(targetDir)) {
+				OC.Notification.showTemporary(t('files', 'Invalid path'));
 				targetDir = '/';
 				changeUrl = true;
 			}
@@ -1521,12 +1529,22 @@
 			this._currentFileModel = null;
 			this.$el.find('.select-all').prop('checked', false);
 			this.showMask();
-			this._reloadCall = this.filesClient.getFolderContents(
-				this.getCurrentDirectory(), {
-					includeParent: true,
-					properties: this._getWebdavProperties()
+			try {
+				this._reloadCall = this.filesClient.getFolderContents(
+					this.getCurrentDirectory(), {
+						includeParent: true,
+						properties: this._getWebdavProperties()
+					}
+				);
+			} catch (e) {
+				if (e instanceof DOMException) {
+					console.error(e);
+					this.changeDirectory('/');
+					OC.Notification.showTemporary(t('files', 'Invalid path'));
+					return;
 				}
-			);
+				throw e;
+			}
 			if (this._detailsView) {
 				// close sidebar
 				this._updateDetailsView(null);
@@ -1543,7 +1561,7 @@
 			}
 
 			// Firewall Blocked request?
-			if (status === 403) {
+			if (status === 403 || status === 400) {
 				// Go home
 				this.changeDirectory('/');
 				OC.Notification.showTemporary(t('files', 'This operation is forbidden'));

@@ -1400,7 +1400,9 @@ describe('OCA.Files.FileList tests', function() {
 				'/../abc',
 				'/abc/..',
 				'/abc/../',
-				'/../abc/'
+				'/../abc/',
+				'/zero' + decodeURIComponent('%00') + 'byte/',
+				'/really who adds new' + decodeURIComponent('%0A') + 'lines in their paths/',
 			], function(path) {
 				fileList.changeDirectory(path);
 				expect(fileList.getCurrentDirectory()).toEqual('/');
@@ -1415,6 +1417,12 @@ describe('OCA.Files.FileList tests', function() {
 				fileList.changeDirectory(path);
 				expect(fileList.getCurrentDirectory()).toEqual(path);
 			});
+		});
+		it('switches to root dir in case of bad request', function() {
+			fileList.changeDirectory('/unexist');
+			// can happen in case of invalid chars in the URL
+			deferredList.reject(400);
+			expect(fileList.getCurrentDirectory()).toEqual('/');
 		});
 		it('switches to root dir when current directory does not exist', function() {
 			fileList.changeDirectory('/unexist');
