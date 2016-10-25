@@ -1,58 +1,80 @@
 /**
- * Copyright (c) 2011, Robin Appelman <icewind1991@gmail.com>
- * This file is licensed under the Affero General Public License version 3 or later.
- * See the COPYING-README file.
+ * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 /**
  * @namespace
+ * @deprecated Use OCP.AppConfig instead
  */
 OC.AppConfig={
-	url:OC.filePath('core','ajax','appconfig.php'),
-	getCall:function(action,data,callback){
-		data.action=action;
-		$.getJSON(OC.AppConfig.url,data,function(result){
-			if(result.status==='success'){
-				if(callback){
-					callback(result.data);
-				}
-			}
+	/**
+	 * @deprecated Use OCP.AppConfig.getValue() instead
+	 */
+	getValue:function(app,key,defaultValue,callback){
+		OCP.AppConfig.getValue(app, key, defaultValue, {
+			success: callback
 		});
 	},
-	postCall:function(action,data,callback){
-		data.action=action;
-		$.post(OC.AppConfig.url,data,function(result){
-			if(result.status==='success'){
-				if(callback){
-					callback(result.data);
-				}
-			}
-		},'json');
-	},
-	getValue:function(app,key,defaultValue,callback){
-		if(typeof defaultValue=='function'){
-			callback=defaultValue;
-			defaultValue=null;
-		}
-		OC.AppConfig.getCall('getValue',{app:app,key:key,defaultValue:defaultValue},callback);
-	},
+
+	/**
+	 * @deprecated Use OCP.AppConfig.setValue() instead
+	 */
 	setValue:function(app,key,value){
-		OC.AppConfig.postCall('setValue',{app:app,key:key,value:value});
+		OCP.AppConfig.setValue(app, key, value);
 	},
+
+	/**
+	 * @deprecated Use OCP.AppConfig.getApps() instead
+	 */
 	getApps:function(callback){
-		OC.AppConfig.getCall('getApps',{},callback);
+		OCP.AppConfig.getApps({
+			success: callback
+		});
 	},
+
+	/**
+	 * @deprecated Use OCP.AppConfig.getKeys() instead
+	 */
 	getKeys:function(app,callback){
-		OC.AppConfig.getCall('getKeys',{app:app},callback);
+		OCP.AppConfig.getKeys(app, {
+			success: callback
+		});
 	},
+
+	/**
+	 * @deprecated
+	 */
 	hasKey:function(app,key,callback){
-		OC.AppConfig.getCall('hasKey',{app:app,key:key},callback);
+		console.error('OC.AppConfig.hasKey is not supported anymore. Use OCP.AppConfig.getValue instead.');
 	},
+
+	/**
+	 * @deprecated Use OCP.AppConfig.deleteKey() instead
+	 */
 	deleteKey:function(app,key){
-		OC.AppConfig.postCall('deleteKey',{app:app,key:key});
+		OCP.AppConfig.deleteKey(app, key);
 	},
+
+	/**
+	 * @deprecated
+	 */
 	deleteApp:function(app){
-		OC.AppConfig.postCall('deleteApp',{app:app});
+		console.error('OC.AppConfig.deleteApp is not supported anymore.');
 	}
 };
-//TODO OC.Preferences

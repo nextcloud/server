@@ -66,9 +66,6 @@ $application->registerRoutes($this, [
 // Search
 $this->create('search_ajax_search', '/core/search')
 	->actionInclude('core/search/ajax/search.php');
-// AppConfig
-$this->create('core_ajax_appconfig', '/core/ajax/appconfig.php')
-	->actionInclude('core/ajax/appconfig.php');
 // oC JS config
 $this->create('js_config', '/core/js/oc.js')
 	->actionInclude('core/js/config.php');

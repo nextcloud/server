@@ -5,7 +5,7 @@ $(document).ready(function() {
 		if (this.checked) {
 			value = 'yes';
 		}
-		OC.AppConfig.setValue('files_sharing', $(this).attr('name'), value);
+		OCP.AppConfig.setValue('files_sharing', $(this).attr('name'), value);
 	});
 
 });

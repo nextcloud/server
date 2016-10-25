@@ -317,6 +317,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup12',
 					'dav',
 					'federatedfilesharing',
+					'provisioning_api',
 					'twofactor_backupcodes',
 					'workflowengine',
 				),
@@ -333,6 +334,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup2',
 					'dav',
 					'federatedfilesharing',
+					'provisioning_api',
 					'twofactor_backupcodes',
 					'workflowengine',
 				),
@@ -350,6 +352,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup2',
 					'dav',
 					'federatedfilesharing',
+					'provisioning_api',
 					'twofactor_backupcodes',
 					'workflowengine',
 				),
@@ -367,6 +370,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup2',
 					'dav',
 					'federatedfilesharing',
+					'provisioning_api',
 					'twofactor_backupcodes',
 					'workflowengine',
 				),
@@ -384,6 +388,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup2',
 					'dav',
 					'federatedfilesharing',
+					'provisioning_api',
 					'twofactor_backupcodes',
 					'workflowengine',
 				),
@@ -463,11 +468,11 @@ class AppTest extends \Test\TestCase {
 			);
 
 		$apps = \OC_App::getEnabledApps();
-		$this->assertEquals(array('files', 'app3', 'dav', 'federatedfilesharing', 'twofactor_backupcodes', 'workflowengine'), $apps);
+		$this->assertEquals(array('files', 'app3', 'dav', 'federatedfilesharing', 'provisioning_api', 'twofactor_backupcodes', 'workflowengine'), $apps);
 
 		// mock should not be called again here
 		$apps = \OC_App::getEnabledApps();
-		$this->assertEquals(array('files', 'app3', 'dav', 'federatedfilesharing', 'twofactor_backupcodes', 'workflowengine'), $apps);
+		$this->assertEquals(array('files', 'app3', 'dav', 'federatedfilesharing', 'provisioning_api', 'twofactor_backupcodes', 'workflowengine'), $apps);
 
 		$this->restoreAppConfig();
 		\OC_User::setUserId(null);

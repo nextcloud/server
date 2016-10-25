@@ -39,6 +39,7 @@
 		"octemplate.js",
 		"eventsource.js",
 		"config.js",
+		"public/appconfig.js",
 		"multiselect.js",
 		"oc-requesttoken.js",
 		"setupchecks.js",
