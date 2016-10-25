@@ -36,6 +36,7 @@ use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\CSP\ContentSecurityPolicy;
 use OC\Security\CSP\ContentSecurityPolicyManager;
+use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Security\CSRF\CsrfToken;
 use OC\Security\CSRF\CsrfTokenManager;
 use OCP\AppFramework\Controller;
@@ -76,6 +77,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	private $contentSecurityPolicyManager;
 	/** @var CsrfTokenManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $csrfTokenManager;
+	/** @var ContentSecurityPolicyNonceManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $cspNonceManager;
 
 	protected function setUp() {
 		parent::setUp();
@@ -88,6 +91,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->contentSecurityPolicyManager = $this->createMock(ContentSecurityPolicyManager::class);
 		$this->csrfTokenManager = $this->createMock(CsrfTokenManager::class);
+		$this->cspNonceManager = $this->createMock(ContentSecurityPolicyNonceManager::class);
 		$this->middleware = $this->getMiddleware(true, true);
 		$this->secException = new SecurityException('hey', false);
 		$this->secAjaxException = new SecurityException('hey', true);
@@ -109,7 +113,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$isLoggedIn,
 			$isAdminUser,
 			$this->contentSecurityPolicyManager,
-			$this->csrfTokenManager
+			$this->csrfTokenManager,
+			$this->cspNonceManager
 		);
 	}
 
@@ -559,9 +564,9 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testAfterController() {
-		$this->request
+		$this->cspNonceManager
 			->expects($this->once())
-			->method('isUserAgent')
+			->method('browserSupportsCspV3')
 			->willReturn(false);
 		$response = $this->createMock(Response::class);
 		$defaultPolicy = new ContentSecurityPolicy();
@@ -603,9 +608,9 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testAfterControllerWithContentSecurityPolicy3Support() {
-		$this->request
+		$this->cspNonceManager
 			->expects($this->once())
-			->method('isUserAgent')
+			->method('browserSupportsCspV3')
 			->willReturn(true);
 		$token = $this->createMock(CsrfToken::class);
 		$token

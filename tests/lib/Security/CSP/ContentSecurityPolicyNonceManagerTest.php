@@ -24,6 +24,7 @@ namespace Test\Security\CSP;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Security\CSRF\CsrfToken;
 use OC\Security\CSRF\CsrfTokenManager;
+use OCP\IRequest;
 use Test\TestCase;
 
 class ContentSecurityPolicyNonceManagerTest extends TestCase  {
@@ -35,7 +36,8 @@ class ContentSecurityPolicyNonceManagerTest extends TestCase  {
 	public function setUp() {
 		$this->csrfTokenManager = $this->createMock(CsrfTokenManager::class);
 		$this->nonceManager = new ContentSecurityPolicyNonceManager(
-			$this->csrfTokenManager
+			$this->csrfTokenManager,
+			$this->createMock(IRequest::class)
 		);
 	}
 

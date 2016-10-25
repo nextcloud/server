@@ -711,7 +711,8 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerService('ContentSecurityPolicyNonceManager', function(Server $c) {
 			return new ContentSecurityPolicyNonceManager(
-				$c->getCsrfTokenManager()
+				$c->getCsrfTokenManager(),
+				$c->getRequest()
 			);
 		});
 		$this->registerService('ShareManager', function(Server $c) {

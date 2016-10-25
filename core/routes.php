@@ -51,6 +51,7 @@ $application->registerRoutes($this, [
 		['name' => 'TwoFactorChallenge#selectChallenge', 'url' => '/login/selectchallenge', 'verb' => 'GET'],
 		['name' => 'TwoFactorChallenge#showChallenge', 'url' => '/login/challenge/{challengeProviderId}', 'verb' => 'GET'],
 		['name' => 'TwoFactorChallenge#solveChallenge', 'url' => '/login/challenge/{challengeProviderId}', 'verb' => 'POST'],
+		['name' => 'OCJS#getConfig', 'url' => '/core/js/oc.js', 'verb' => 'GET'],
 	],
 	'ocs' => [
 		['root' => '/cloud', 'name' => 'OCS#getCapabilities', 'url' => '/capabilities', 'verb' => 'GET'],
@@ -66,9 +67,6 @@ $application->registerRoutes($this, [
 // Search
 $this->create('search_ajax_search', '/core/search')
 	->actionInclude('core/search/ajax/search.php');
-// oC JS config
-$this->create('js_config', '/core/js/oc.js')
-	->actionInclude('core/js/config.php');
 // Routing
 $this->create('core_ajax_preview', '/core/preview')
 	->actionInclude('core/ajax/preview.php');
