@@ -782,6 +782,14 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 	width: 100%;
 	padding-bottom: 55px;
 }
+
+#oc-dialog-filepicker-content .emptycontent {
+	color: #888;
+	text-align: center;
+	margin-top: 80px;
+	width: 100%;
+	display: none;
+}
 #oc-dialog-filepicker-content .filelist {
 	background-color:white;
 	width:100%;
