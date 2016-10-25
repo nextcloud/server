@@ -245,11 +245,17 @@ class ShareAPIController extends OCSController {
 			throw new OCSNotFoundException($this->l->t('could not delete share'));
 		}
 
-		if (!$this->canAccessShare($share, false)) {
+		if (!$this->canAccessShare($share)) {
 			throw new OCSNotFoundException($this->l->t('Could not delete share'));
 		}
 
-		$this->shareManager->deleteShare($share);
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP &&
+			$share->getShareOwner() !== $this->currentUser &&
+			$share->getSharedBy() !== $this->currentUser) {
+			$this->shareManager->deleteFromSelf($share, $this->currentUser);
+		} else {
+			$this->shareManager->deleteShare($share);
+		}
 
 		return new DataResponse();
 	}
