@@ -34,7 +34,7 @@ OCP.AppConfig = {
 	 */
 	_call: function(method, endpoint, options) {
 		if ((method === 'post' || method === 'delete') && OC.PasswordConfirmation.requiresPasswordConfirmation()) {
-			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this._call, this, arguments));
+			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this._call, this, method, endpoint, options));
 			return;
 		}
 
