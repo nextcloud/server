@@ -29,6 +29,7 @@ use OCP\Activity\IEvent;
 use OCP\Activity\IExtension;
 use OCP\Activity\IFilter;
 use OCP\Activity\IManager;
+use OCP\Activity\ISetting;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUser;
@@ -246,7 +247,7 @@ class Manager implements IManager {
 		$this->extensions = [];
 	}
 
-	/** @var IFilter[] */
+	/** @var string[] */
 	protected $filterClasses;
 
 	/** @var IFilter[] */
@@ -316,49 +317,82 @@ class Manager implements IManager {
 		throw new \InvalidArgumentException('Requested filter does not exist');
 	}
 
+	/** @var string[] */
+	protected $settingsClasses;
+
+	/** @var ISetting[] */
+	protected $settings;
+
+	/** @var bool */
+	protected $loadedLegacyTypes = false;
+
 	/**
-	 * Will return additional notification types as specified by other apps
-	 *
-	 * @param string $languageCode
-	 * @return array
+	 * @param string $setting Class must implement OCA\Activity\ISetting
+	 * @return void
 	 */
-	public function getNotificationTypes($languageCode) {
-		$filesNotificationTypes = [];
-		$sharingNotificationTypes = [];
-
-		$notificationTypes = array();
-		foreach ($this->getExtensions() as $c) {
-			$result = $c->getNotificationTypes($languageCode);
-			if (is_array($result)) {
-				if (class_exists('\OCA\Files\Activity', false) && $c instanceof \OCA\Files\Activity) {
-					$filesNotificationTypes = $result;
-					continue;
-				}
-				if (class_exists('\OCA\Files_Sharing\Activity', false) && $c instanceof \OCA\Files_Sharing\Activity) {
-					$sharingNotificationTypes = $result;
-					continue;
-				}
-
-				$notificationTypes = array_merge($notificationTypes, $result);
-			}
-		}
-
-		return array_merge($filesNotificationTypes, $sharingNotificationTypes, $notificationTypes);
+	public function registerSetting($setting) {
+		$this->settingsClasses[$setting] = false;
 	}
 
 	/**
-	 * @param string $method
-	 * @return array
+	 * @return ISetting[]
+	 * @throws \InvalidArgumentException
 	 */
-	public function getDefaultTypes($method) {
-		$defaultTypes = array();
-		foreach ($this->getExtensions() as $c) {
-			$types = $c->getDefaultTypes($method);
-			if (is_array($types)) {
-				$defaultTypes = array_merge($types, $defaultTypes);
+	public function getSettings() {
+		if (!$this->loadedLegacyTypes) {
+			$l = \OC::$server->getL10N('core');
+			$legacyTypes = $this->getNotificationTypes($l->getLanguageCode());
+			$streamTypes = $this->getDefaultTypes(IExtension::METHOD_STREAM);
+			$mailTypes = $this->getDefaultTypes(IExtension::METHOD_MAIL);
+			foreach ($legacyTypes as $type => $data) {
+				if (is_string($data)) {
+					$desc = $data;
+					$canChangeStream = true;
+					$canChangeMail = true;
+				} else {
+					$desc = $data['desc'];
+					$canChangeStream = in_array(IExtension::METHOD_STREAM, $data['methods']);
+					$canChangeMail = in_array(IExtension::METHOD_MAIL, $data['methods']);
+				}
+
+				$this->settings[$type] = new LegacySetting(
+					$type, $desc,
+					$canChangeStream, in_array($type, $streamTypes),
+					$canChangeMail, in_array($type, $mailTypes)
+				);
 			}
+			$this->loadedLegacyTypes = true;
 		}
-		return $defaultTypes;
+
+		foreach ($this->settingsClasses as $class => $false) {
+			/** @var ISetting $setting */
+			$setting = \OC::$server->query($class);
+
+			if (!$setting instanceof ISetting) {
+				throw new \InvalidArgumentException('Invalid activity filter registered');
+			}
+
+			$this->settings[$setting->getIdentifier()] = $setting;
+
+			unset($this->settingsClasses[$class]);
+		}
+		return $this->settings;
+	}
+
+	/**
+	 * @param string $id
+	 * @return ISetting
+	 * @throws \InvalidArgumentException when the setting was not found
+	 * @since 9.2.0
+	 */
+	public function getSettingById($id) {
+		$settings = $this->getSettings();
+
+		if (isset($settings[$id])) {
+			return $settings[$id];
+		}
+
+		throw new \InvalidArgumentException('Requested setting does not exist');
 	}
 
 	/**
@@ -605,5 +639,45 @@ class Manager implements IManager {
 		}
 
 		return array(' and ((' . implode(') or (', $conditions) . '))', $parameters);
+	}
+
+	/**
+	 * Will return additional notification types as specified by other apps
+	 *
+	 * @param string $languageCode
+	 * @return array
+	 * @deprecated 9.2.0 - Use getSettings() instead
+	 */
+	public function getNotificationTypes($languageCode) {
+		$notificationTypes = $sharingNotificationTypes = [];
+		foreach ($this->getExtensions() as $c) {
+			$result = $c->getNotificationTypes($languageCode);
+			if (is_array($result)) {
+				if (class_exists('\OCA\Files_Sharing\Activity', false) && $c instanceof \OCA\Files_Sharing\Activity) {
+					$sharingNotificationTypes = $result;
+					continue;
+				}
+
+				$notificationTypes = array_merge($notificationTypes, $result);
+			}
+		}
+
+		return array_merge($sharingNotificationTypes, $notificationTypes);
+	}
+
+	/**
+	 * @param string $method
+	 * @return array
+	 * @deprecated 9.2.0 - Use getSettings()->isDefaulEnabled<method>() instead
+	 */
+	public function getDefaultTypes($method) {
+		$defaultTypes = array();
+		foreach ($this->getExtensions() as $c) {
+			$types = $c->getDefaultTypes($method);
+			if (is_array($types)) {
+				$defaultTypes = array_merge($types, $defaultTypes);
+			}
+		}
+		return $defaultTypes;
 	}
 }

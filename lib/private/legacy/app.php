@@ -169,6 +169,11 @@ class OC_App {
 				\OC::$server->getActivityManager()->registerFilter($filter);
 			}
 		}
+		if (!empty($info['activity']['settings'])) {
+			foreach ($info['activity']['settings'] as $setting) {
+				\OC::$server->getActivityManager()->registerSetting($setting);
+			}
+		}
 	}
 
 	/**

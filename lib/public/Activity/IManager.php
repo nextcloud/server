@@ -132,6 +132,27 @@ interface IManager {
 	public function getFilterById($id);
 
 	/**
+	 * @param string $setting Class must implement OCA\Activity\ISetting
+	 * @return void
+	 * @since 9.2.0
+	 */
+	public function registerSetting($setting);
+
+	/**
+	 * @return ISetting[]
+	 * @since 9.2.0
+	 */
+	public function getSettings();
+
+	/**
+	 * @param string $id
+	 * @return ISetting
+	 * @throws \InvalidArgumentException when the setting was not found
+	 * @since 9.2.0
+	 */
+	public function getSettingById($id);
+
+	/**
 	 * Will return additional notification types as specified by other apps
 	 *
 	 * @param string $languageCode
@@ -141,6 +162,7 @@ interface IManager {
 	 * 					'methods' => [\OCP\Activity\IExtension::METHOD_*],
 	 * 				]
 	 * @since 8.0.0 - 8.2.0: Added support to allow limiting notifications to certain methods
+	 * @deprecated 9.2.0 - Use getSettings() instead
 	 */
 	public function getNotificationTypes($languageCode);
 
@@ -148,6 +170,7 @@ interface IManager {
 	 * @param string $method
 	 * @return array
 	 * @since 8.0.0
+	 * @deprecated 9.2.0 - Use getSettings()->isDefaulEnabled<method>() instead
 	 */
 	public function getDefaultTypes($method);
 
