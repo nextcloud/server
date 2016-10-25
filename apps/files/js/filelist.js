@@ -1500,13 +1500,15 @@
 			var comparator = FileList.Comparators[sort] || FileList.Comparators.name;
 			this._sort = sort;
 			this._sortDirection = (direction === 'desc')?'desc':'asc';
-			this._sortComparator = comparator;
+			this._sortComparator = function(fileInfo1, fileInfo2) {
+				if(fileInfo1.isFavorite && !fileInfo2.isFavorite) {
+					return -1;
+				} else if(!fileInfo1.isFavorite && fileInfo2.isFavorite) {
+					return 1;
+				}
+				return direction === 'asc' ? comparator(fileInfo1, fileInfo2) : -comparator(fileInfo1, fileInfo2);
+			};
 
-			if (direction === 'desc') {
-				this._sortComparator = function(fileInfo1, fileInfo2) {
-					return -comparator(fileInfo1, fileInfo2);
-				};
-			}
 			this.$el.find('thead th .sort-indicator')
 				.removeClass(this.SORT_INDICATOR_ASC_CLASS)
 				.removeClass(this.SORT_INDICATOR_DESC_CLASS)
