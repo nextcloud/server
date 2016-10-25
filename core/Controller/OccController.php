@@ -41,6 +41,7 @@ class OccController extends Controller {
 		'check',
 		'config:list',
 		'maintenance:mode',
+		'integrity:check-core',
 		'status',
 		'upgrade'
 	];
