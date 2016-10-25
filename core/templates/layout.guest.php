@@ -19,6 +19,11 @@
 		<?php foreach($_['printcssfiles'] as $cssfile): ?>
 			<link rel="stylesheet" href="<?php print_unescaped($cssfile); ?>" media="print">
 		<?php endforeach; ?>
+		<?php if (isset($_['inline_ocjs'])): ?>
+			<script nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" type="text/javascript">
+				<?php print_unescaped($_['inline_ocjs']); ?>
+			</script>
+		<?php endif; ?>
 		<?php foreach($_['jsfiles'] as $jsfile): ?>
 			<script nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" src="<?php print_unescaped($jsfile); ?>"></script>
 		<?php endforeach; ?>

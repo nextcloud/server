@@ -43,6 +43,7 @@ use Assetic\Filter\CssMinFilter;
 use Assetic\Filter\CssRewriteFilter;
 use Assetic\Filter\JSqueezeFilter;
 use Assetic\Filter\SeparatorFilter;
+use OC\Template\JSConfigHelper;
 
 class TemplateLayout extends \OC_Template {
 
@@ -142,7 +143,22 @@ class TemplateLayout extends \OC_Template {
 		$jsFiles = self::findJavascriptFiles(\OC_Util::$scripts);
 		$this->assign('jsfiles', array());
 		if ($this->config->getSystemValue('installed', false) && $renderAs != 'error') {
-			$this->append( 'jsfiles', \OC::$server->getURLGenerator()->linkToRoute('core.OCJS.getConfig', ['v' => self::$versionHash]));
+			if (\OC::$server->getContentSecurityPolicyNonceManager()->browserSupportsCspV3()) {
+				$jsConfigHelper = new JSConfigHelper(
+					\OC::$server->getL10N('core'),
+					\OC::$server->getThemingDefaults(),
+					\OC::$server->getAppManager(),
+					\OC::$server->getUserSession()->getUser(),
+					\OC::$server->getConfig(),
+					\OC::$server->getGroupManager(),
+					\OC::$server->getIniWrapper(),
+					\OC::$server->getURLGenerator()
+				);
+				$this->assign('inline_ocjs', $jsConfigHelper->getConfig());
+				$this->assign('foo', 'bar');
+			} else {
+				$this->append('jsfiles', \OC::$server->getURLGenerator()->linkToRoute('core.OCJS.getConfig', ['v' => self::$versionHash]));
+			}
 		}
 		foreach($jsFiles as $info) {
 			$web = $info[1];
