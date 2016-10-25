@@ -31,10 +31,10 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 define('OC_CONSOLE', 1);
 
-// Show warning if a PHP version below 5.4.0 is used, this has to happen here
-// because base.php will already use 5.4 syntax.
-if (version_compare(PHP_VERSION, '5.4.0') === -1) {
-	echo 'This version of ownCloud requires at least PHP 5.4.0'.PHP_EOL;
+// Show warning if a PHP version below 5.6.0 is used, this has to happen here
+// because base.php will already use 5.6 syntax.
+if (version_compare(PHP_VERSION, '5.6.0') === -1) {
+	echo 'This version of Nextcloud requires at least PHP 5.6.0'.PHP_EOL;
 	echo 'You are currently running ' . PHP_VERSION . '. Please update your PHP version.'.PHP_EOL;
 	return;
 }
