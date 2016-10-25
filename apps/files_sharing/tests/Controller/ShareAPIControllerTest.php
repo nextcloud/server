@@ -23,8 +23,10 @@
  */
 namespace OCA\Files_Sharing\Tests\Controller;
 
+use OC\ContactsManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\Contacts;
 use OCP\Files\Folder;
 use OCP\IL10N;
 use OCA\Files_Sharing\Controller\ShareAPIController;

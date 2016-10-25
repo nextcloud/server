@@ -272,16 +272,9 @@
 					sharee: text
 				});
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_REMOTE) {
-				if (item.value.server) {
-					text = t('core', '{sharee} (at {server})', {
-						sharee: text,
-						server: item.value.server
-					});
-				} else {
 					text = t('core', '{sharee} (remote)', {
 						sharee: text
 					});
-				}
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_EMAIL) {
 				text = t('core', '{sharee} (email)', {
 					sharee: text

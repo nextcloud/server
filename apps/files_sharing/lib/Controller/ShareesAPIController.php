@@ -298,7 +298,7 @@ class ShareesAPIController extends OCSController {
 							$foundRemoteById = true;
 						}
 						$this->result['exact']['remotes'][] = [
-							'label' => $contact['FN'],
+							'label' => $contact['FN'] . " ($cloudId)",
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_REMOTE,
 								'shareWith' => $cloudId,
@@ -307,7 +307,7 @@ class ShareesAPIController extends OCSController {
 						];
 					} else {
 						$this->result['remotes'][] = [
-							'label' => $contact['FN'],
+							'label' => $contact['FN'] . " ($cloudId)",
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_REMOTE,
 								'shareWith' => $cloudId,
