@@ -2794,13 +2794,22 @@ describe('OCA.Files.FileList tests', function() {
 
 				highlightStub.restore();
 			});
-			it('queries storage stats', function() {
+			it('queries storage stats after all fetches are done', function() {
 				var statStub = sinon.stub(fileList, 'updateStorageStatistics');
-				addFile(createUpload('upload.txt', '/subdir'));
-				expect(statStub.notCalled).toEqual(true);
+				var highlightStub = sinon.stub(fileList, 'highlightFiles');
+				var def1 = addFile(createUpload('upload.txt', '/subdir'));
+				var def2 = addFile(createUpload('upload2.txt', '/subdir'));
+				var def3 = addFile(createUpload('upload3.txt', '/another'));
 				uploader.trigger('stop', {});
+
+				expect(statStub.notCalled).toEqual(true);
+				def1.resolve();
+				expect(statStub.notCalled).toEqual(true);
+				def2.resolve();
+				def3.resolve();
 				expect(statStub.calledOnce).toEqual(true);
-				statStub.restore();
+
+				highlightStub.restore();
 			});
 		});
 	});

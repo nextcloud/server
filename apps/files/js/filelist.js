@@ -2810,8 +2810,8 @@
 				$.when.apply($, promises).then(function() {
 					// highlight uploaded files
 					self.highlightFiles(fileNames);
+					self.updateStorageStatistics();
 				});
-				self.updateStorageStatistics();
 
 				var uploadText = self.$fileList.find('tr .uploadtext');
 				self.showFileBusyState(uploadText.closest('tr'), false);

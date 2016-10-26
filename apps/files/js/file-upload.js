@@ -1071,6 +1071,7 @@ OC.Uploader.prototype = _.extend({
 
 					self.clear();
 					self._hideProgressBar();
+					self.trigger('stop', e, data);
 				});
 				fileupload.on('fileuploadfail', function(e, data) {
 					self.log('progress handle fileuploadfail', e, data);
