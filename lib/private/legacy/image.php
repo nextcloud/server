@@ -54,6 +54,8 @@ class OC_Image implements \OCP\IImage {
 	private $fileInfo;
 	/** @var \OCP\ILogger */
 	private $logger;
+	/** @var array */
+	private $exif;
 
 	/**
 	 * Get mime type for an image file.
@@ -347,6 +349,10 @@ class OC_Image implements \OCP\IImage {
 	 * @return int The orientation or -1 if no EXIF data is available.
 	 */
 	public function getOrientation() {
+		if ($this->exif !== null) {
+			return $this->exif['Orientation'];
+		}
+
 		if ($this->imageType !== IMAGETYPE_JPEG) {
 			$this->logger->debug('OC_Image->fixOrientation() Image is not a JPEG.', array('app' => 'core'));
 			return -1;
@@ -370,7 +376,28 @@ class OC_Image implements \OCP\IImage {
 		if (!isset($exif['Orientation'])) {
 			return -1;
 		}
+		$this->exif = $exif;
 		return $exif['Orientation'];
+	}
+
+	public function readExif($data) {
+		if (!is_callable('exif_read_data')) {
+			$this->logger->debug('OC_Image->fixOrientation() Exif module not enabled.', array('app' => 'core'));
+			return;
+		}
+		if (!$this->valid()) {
+			$this->logger->debug('OC_Image->fixOrientation() No image loaded.', array('app' => 'core'));
+			return;
+		}
+
+		$exif = @exif_read_data('data://image/jpeg;base64,' . base64_encode($data));
+		if (!$exif) {
+			return;
+		}
+		if (!isset($exif['Orientation'])) {
+			return;
+		}
+		$this->exif = $exif;
 	}
 
 	/**
