@@ -21,6 +21,7 @@
 
 namespace OC\Security\CSP;
 
+use OC\AppFramework\Http\Request;
 use OC\Security\CSRF\CsrfTokenManager;
 use OCP\IRequest;
 
@@ -65,8 +66,7 @@ class ContentSecurityPolicyNonceManager {
 	 */
 	public function browserSupportsCspV3() {
 		$browserWhitelist = [
-			// Chrome 40+
-			'/^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Chrome\/[4-9][0-9].[0-9.]+ (Mobile Safari|Safari)\/[0-9.]+$/',
+			Request::USER_AGENT_CHROME,
 			// Firefox 45+
 			'/^Mozilla\/5\.0 \([^)]+\) Gecko\/[0-9.]+ Firefox\/(4[5-9]|[5-9][0-9])\.[0-9.]+$/',
 			// Safari 10+

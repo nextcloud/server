@@ -792,6 +792,20 @@ class RequestTest extends \Test\TestCase {
 				false,
 			],
 			[
+				'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36',
+				[
+					Request::USER_AGENT_CHROME
+				],
+				true,
+			],
+			[
+				'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/53.0.2785.143 Chrome/53.0.2785.143 Safari/537.36',
+				[
+					Request::USER_AGENT_CHROME
+				],
+				true,
+			],
+			[
 				'Mozilla/5.0 (Linux; Android 4.4; Nexus 4 Build/KRT16S) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.59 Mobile Safari/537.36',
 				[
 					Request::USER_AGENT_ANDROID_MOBILE_CHROME
