@@ -435,12 +435,22 @@ span.version {
 #apps-list {
 	position: relative;
 	height: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: flex-start;
 }
-.section {
+#apps-list .section {
 	position: relative;
+	flex: 1 0 330px;
+	margin: 0;
+	padding-right: 50px;
+}
+#apps-list .section.apps-experimental {
+	flex-basis: 90%;
 }
 .section h2.app-name {
 	margin-bottom: 8px;
+	display: inline;
 }
 .followupsection {
 	display: block;
