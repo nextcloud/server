@@ -21,12 +21,15 @@
 
 namespace OCA\ShareByMail;
 
+use OC\HintException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
 use OC\Share20\Share;
 use OCP\Share\IShare;
@@ -57,6 +60,12 @@ class ShareByMailProvider implements IShareProvider {
 	/** @var IL10N */
 	private $l;
 
+	/** @var IMailer */
+	private $mailer;
+
+	/** @var IURLGenerator */
+	private $urlGenerator;
+
 	/**
 	 * Return the identifier of this provider.
 	 *
@@ -75,6 +84,8 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param IRootFolder $rootFolder
 	 * @param IL10N $l
 	 * @param ILogger $logger
+	 * @param IMailer $mailer
+	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct(
 		IDBConnection $connection,
@@ -82,7 +93,9 @@ class ShareByMailProvider implements IShareProvider {
 		IUserManager $userManager,
 		IRootFolder $rootFolder,
 		IL10N $l,
-		ILogger $logger
+		ILogger $logger,
+		IMailer $mailer,
+		IURLGenerator $urlGenerator
 	) {
 		$this->dbConnection = $connection;
 		$this->secureRandom = $secureRandom;
@@ -90,6 +103,8 @@ class ShareByMailProvider implements IShareProvider {
 		$this->rootFolder = $rootFolder;
 		$this->l = $l;
 		$this->logger = $logger;
+		$this->mailer = $mailer;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -127,7 +142,7 @@ class ShareByMailProvider implements IShareProvider {
 	 * @throws \Exception
 	 */
 	private function createMailShare(IShare $share) {
-		$token = $this->generateToken();
+		$share->setToken($this->generateToken());
 		$shareId = $this->addShareToDB(
 			$share->getNodeId(),
 			$share->getNodeType(),
@@ -135,19 +150,75 @@ class ShareByMailProvider implements IShareProvider {
 			$share->getSharedBy(),
 			$share->getShareOwner(),
 			$share->getPermissions(),
-			$token
+			$share->getToken()
 		);
 
 		try {
-			// TODO: Send email with public link
-		} catch (\Exception $e) {
-			$this->logger->error('Failed to notify remote server of federated share, removing share (' . $e->getMessage() . ')');
+			$link = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare',
+				['token' => $share->getToken()]);
+			$this->sendMailNotification($share->getNode()->getName(),
+				$link,
+				$share->getShareOwner(),
+				$share->getSharedBy(), $share->getSharedWith());
+		} catch (HintException $hintException) {
+			$this->logger->error('Failed to send share by mail: ' . $hintException->getMessage());
 			$this->removeShareFromTable($shareId);
-			throw $e;
+			throw $hintException;
+		} catch (\Exception $e) {
+			$this->logger->error('Failed to send share by mail: ' . $e->getMessage());
+			$this->removeShareFromTable($shareId);
+			throw new HintException('Failed to send share by mail',
+				$this->l->t('Failed to send share by E-mail'));
 		}
 
 		return $shareId;
 
+	}
+
+	private function sendMailNotification($filename, $link, $owner, $initiator, $shareWith) {
+		if ($owner === $initiator) {
+			$subject = (string)$this->l->t('%s shared »%s« with you', array($owner, $filename));
+		} else {
+			$subject = (string)$this->l->t('%s shared »%s« with you on behalf of %s', array($owner, $filename, $initiator));
+		}
+
+		$message = $this->mailer->createMessage();
+		$htmlBody = $this->createMailBody('mail', $filename, $link, $owner, $initiator);
+		$textBody = $this->createMailBody('altmail', $filename, $link, $owner, $initiator);
+		$message->setTo([$shareWith]);
+		$message->setSubject($subject);
+		$message->setBody($textBody, 'text/plain');
+		$message->setHtmlBody($htmlBody);
+		$this->mailer->send($message);
+
+	}
+
+	/**
+	 * create mail body
+	 *
+	 * @param $filename
+	 * @param $link
+	 * @param $owner
+	 * @param $initiator
+	 * @return string plain text mail
+	 * @throws HintException
+	 */
+	protected function createMailBody($template, $filename, $link, $owner, $initiator) {
+
+		$mailBodyTemplate = new \OC_Template('sharebymail', $template, '');
+		$mailBodyTemplate->assign ('filename', $filename);
+		$mailBodyTemplate->assign ('link', $link);
+		$mailBodyTemplate->assign ('owner', $owner);
+		$mailBodyTemplate->assign ('initiator', $initiator);
+		$mailBodyTemplate->assign ('onBehalfOf', $initiator !== $owner);
+		$mailBody = $mailBodyTemplate->fetchPage();
+
+		if (is_string($mailBody)) {
+			return $mailBody;
+		}
+
+		throw new HintException('Failed to create the E-mail',
+			$this->l->t('Failed to create the E-mail'));
 	}
 
 	/**
