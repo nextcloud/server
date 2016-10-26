@@ -351,7 +351,7 @@ class Root extends Folder implements IRootFolder {
 
 		if (is_null($userObject)) {
 			\OCP\Util::writeLog('files', 'Backends provided no user object for ' . $userId, \OCP\Util::ERROR);
-			throw new \OC\User\NoUserException('Backends provided no user object for ' . $userId);
+			throw new \OC\User\NoUserException('Backends provided no user object');
 		}
 
 		$userId = $userObject->getUID();
