@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Opslag niet beschikbaar",
     "Storage invalid" : "Opslag ongeldig",
     "Unknown error" : "Onbekende fout",
     "Files" : "Bestanden",
@@ -121,6 +120,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Bestanden en mappen die je als favoriet aanmerkt, worden hier getoond",
     "Text file" : "Tekstbestand",
     "New text file.txt" : "Nieuw tekstbestand.txt",
+    "Storage not available" : "Opslag niet beschikbaar",
     "Unable to set upload directory." : "Kan uploadmap niet instellen.",
     "Invalid Token" : "Ongeldig Token",
     "No file was uploaded. Unknown error" : "Er was geen bestand geladen.  Onbekende fout",

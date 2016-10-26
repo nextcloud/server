@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Depolama yok",
     "Storage invalid" : "Depolama geçersiz",
     "Unknown error" : "Bilinmeyen hata",
     "Files" : "Dosyalar",
@@ -113,6 +112,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Sık kullanılan olarak işaretlediğiniz dosya ve klasörler burada gösterilecek",
     "Text file" : "Metin dosyası",
     "New text file.txt" : "Yeni metin dosyası.txt",
+    "Storage not available" : "Depolama yok",
     "Unable to set upload directory." : "Yükleme dizini ayarlanamadı.",
     "Invalid Token" : "Geçersiz Belirteç",
     "No file was uploaded. Unknown error" : "Dosya yüklenmedi. Bilinmeyen bir sorun çıktı",

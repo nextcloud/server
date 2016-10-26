@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Μη διαθέσιμος αποθηκευτικός χώρος",
     "Storage invalid" : "Μη έγκυρος αποθηκευτικός χώρος",
     "Unknown error" : "Άγνωστο σφάλμα",
     "Files" : "Αρχεία",
@@ -99,6 +98,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Τα αρχεία και οι φάκελοι που σημειώνονται ως αγαπημένα  θα εμφανιστούν εδώ ",
     "Text file" : "Αρχείο κειμένου",
     "New text file.txt" : "Νέο αρχείο κειμένου.txt",
+    "Storage not available" : "Μη διαθέσιμος αποθηκευτικός χώρος",
     "Unable to set upload directory." : "Αδυναμία ορισμού καταλόγου αποστολής.",
     "Invalid Token" : "Μη έγκυρο Token",
     "No file was uploaded. Unknown error" : "Δεν ανέβηκε κάποιο αρχείο. Άγνωστο σφάλμα",

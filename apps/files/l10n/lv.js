@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Glabātuve nav pieejama",
     "Storage invalid" : "Nepareiza glabātuve",
     "Unknown error" : "Nezināma kļūda",
     "Files" : "Datnes",
@@ -113,6 +112,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Datnes un mapes, ko atzīmēsiet kā favorītus, tiks rādīti šeit",
     "Text file" : "Teksta datne",
     "New text file.txt" : "Jauna teksta datne.txt",
+    "Storage not available" : "Glabātuve nav pieejama",
     "Unable to set upload directory." : "Nevar uzstādīt augšupielādes mapi.",
     "Invalid Token" : "Nepareiza pilnvara",
     "No file was uploaded. Unknown error" : "Netika augšupielādēta neviena datne. Nezināma kļūda",

@@ -6,12 +6,6 @@ OC.L10N.register(
     "Contacts" : "Kontaktai",
     "Technical details" : "Techninės detalės",
     "Remote Address: %s" : "Nutolęs adresas: %s",
-    "Request ID: %s" : "Užklausos ID: %s",
-    "Type: %s" : "Tipas: %s",
-    "Code: %s" : "Kodas: %s",
-    "Message: %s" : "Žinutė: %s",
-    "File: %s" : "Failas: %s",
-    "Line: %s" : "Eilutė: %s",
-    "Trace" : "Pėdsakas"
+    "Request ID: %s" : "Užklausos ID: %s"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");

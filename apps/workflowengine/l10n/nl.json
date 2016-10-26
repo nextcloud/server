@@ -62,8 +62,8 @@
     "Short rule description" : "Korte rolbeschrijving",
     "Add rule" : "Voeg rol toe",
     "Reset" : "Reset",
-    "Save" : "Bewaren",
-    "Saving…" : "Bewaren...",
+    "Save" : "Opslaan",
+    "Saving…" : "Opslaan...",
     "Loading…" : "Laden..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Saugykla neprieinama",
     "Storage invalid" : "Saugykla neteisinga",
     "Unknown error" : "Neatpažinta klaida",
     "Files" : "Failai",
@@ -97,6 +96,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Failai ir aplankai, kuriuos pažymite mėgstamais, atsiras čia",
     "Text file" : "Teksto failas",
     "New text file.txt" : "Naujas tekstas file.txt",
+    "Storage not available" : "Saugykla neprieinama",
     "Unable to set upload directory." : "Nepavyksta nustatyti įkėlimų katalogo.",
     "Invalid Token" : "Netinkamas ženklas",
     "No file was uploaded. Unknown error" : "Failai nebuvo įkelti dėl nežinomos priežasties",

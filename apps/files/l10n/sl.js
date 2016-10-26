@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Na voljo ni dovolj prostora",
     "Storage invalid" : "Določen prostor ni veljaven",
     "Unknown error" : "Neznana napaka",
     "Files" : "Datoteke",
@@ -114,6 +113,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Datoteke ali mape, ki so označene kot priljubljene, bodo zbrane na tem mestu.",
     "Text file" : "Besedilna datoteka",
     "New text file.txt" : "Nova datoteka.txt",
+    "Storage not available" : "Na voljo ni dovolj prostora",
     "Unable to set upload directory." : "Mapo, v katero boste prenašali dokumente, ni mogoče določiti",
     "Invalid Token" : "Neveljaven žeton",
     "No file was uploaded. Unknown error" : "Ni poslane datoteke. Neznana napaka.",

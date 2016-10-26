@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Spațiu de stocare indisponibil",
     "Storage invalid" : "Spațiu de stocare invalid",
     "Unknown error" : "Eroare necunoscută",
     "Files" : "Fișiere",
@@ -101,6 +100,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "FIșierele și directoarele pe care le marchezi ca favorite vor apărea aici",
     "Text file" : "Fișier text",
     "New text file.txt" : "New text file.txt",
+    "Storage not available" : "Spațiu de stocare indisponibil",
     "Unable to set upload directory." : "Imposibil de a seta directorul pentru încărcare.",
     "Invalid Token" : "Jeton Invalid",
     "No file was uploaded. Unknown error" : "Niciun fișier nu a fost încărcat. Eroare necunoscută",

@@ -6,12 +6,6 @@ OC.L10N.register(
     "Contacts" : "Επαφές",
     "Technical details" : "Τεχνικές λεπτομέρειες",
     "Remote Address: %s" : "Απομακρυσμένη Διεύθυνση: %s",
-    "Request ID: %s" : "Αίτημα ID: %s",
-    "Type: %s" : "Τύπος: %s",
-    "Code: %s" : "Κωδικός: %s",
-    "Message: %s" : "Μήνυμα: %s",
-    "File: %s" : "Αρχείο: %s",
-    "Line: %s" : "Γραμμή: %s",
-    "Trace" : "Ανίχνευση"
+    "Request ID: %s" : "Αίτημα ID: %s"
 },
 "nplurals=2; plural=(n != 1);");

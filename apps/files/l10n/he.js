@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "אחסון לא זמין",
     "Storage invalid" : "אחסון לא חוקי",
     "Unknown error" : "שגיאה בלתי ידועה",
     "Files" : "קבצים",
@@ -111,6 +110,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "קבצים ותיקיות שסומנו על ידך כמועדפים יוצגו כאן",
     "Text file" : "קובץ טקסט",
     "New text file.txt" : "קובץ טקסט חדש.txt",
+    "Storage not available" : "אחסון לא זמין",
     "Unable to set upload directory." : "לא היה ניתן לקבוע תיקיית העלאות.",
     "Invalid Token" : "קוד לא חוקי",
     "No file was uploaded. Unknown error" : "לא הועלה קובץ. טעות בלתי מזוהה.",

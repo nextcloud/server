@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Úložiště není dostupné",
     "Storage invalid" : "Neplatné úložiště",
     "Unknown error" : "Neznámá chyba",
     "Files" : "Soubory",
@@ -121,6 +120,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Zde budou zobrazeny soubory a adresáře označené jako oblíbené",
     "Text file" : "Textový soubor",
     "New text file.txt" : "Nový textový soubor.txt",
+    "Storage not available" : "Úložiště není dostupné",
     "Unable to set upload directory." : "Nelze nastavit adresář pro nahrané soubory.",
     "Invalid Token" : "Neplatný token",
     "No file was uploaded. Unknown error" : "Žádný soubor nebyl odeslán. Neznámá chyba",

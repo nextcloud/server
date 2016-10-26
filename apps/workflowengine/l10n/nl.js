@@ -64,8 +64,8 @@ OC.L10N.register(
     "Short rule description" : "Korte rolbeschrijving",
     "Add rule" : "Voeg rol toe",
     "Reset" : "Reset",
-    "Save" : "Bewaren",
-    "Saving…" : "Bewaren...",
+    "Save" : "Opslaan",
+    "Saving…" : "Opslaan...",
     "Loading…" : "Laden..."
 },
 "nplurals=2; plural=(n != 1);");

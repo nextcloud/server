@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Storage not available",
     "Storage invalid" : "Storage invalid",
     "Unknown error" : "Unknown error",
     "Files" : "Files",
@@ -112,6 +111,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Files and folders you mark as favourite will show up here",
     "Text file" : "Text file",
     "New text file.txt" : "New text file.txt",
+    "Storage not available" : "Storage not available",
     "Unable to set upload directory." : "Unable to set upload directory.",
     "Invalid Token" : "Invalid Token",
     "No file was uploaded. Unknown error" : "No file was uploaded. Unknown error",
