@@ -432,7 +432,8 @@ class ShareAPIController extends OCSController {
 				$share->setPermissions(
 					\OCP\Constants::PERMISSION_READ |
 					\OCP\Constants::PERMISSION_CREATE |
-					\OCP\Constants::PERMISSION_UPDATE);
+					\OCP\Constants::PERMISSION_UPDATE |
+					\OCP\Constants::PERMISSION_DELETE);
 			}
 			$share->setSharedWith($shareWith);
 		} else {
