@@ -29,6 +29,7 @@ use OCP\Comments\NotFoundException;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use OCP\Util;
 
 /**
  * Class Extension
@@ -306,6 +307,25 @@ class Extension implements IExtension {
 				$comment = $this->commentsManager->get((int) $matches[1]);
 				$message = $comment->getMessage();
 				$message = str_replace("\n", '<br />', str_replace(['<', '>'], ['&lt;', '&gt;'], $message));
+
+				foreach ($comment->getMentions() as $mention) {
+					if ($mention['type'] !== 'user') {
+						continue;
+					}
+
+					try {
+						$displayName = $this->commentsManager->resolveDisplayName($mention['type'], $mention['id']);
+					} catch (\OutOfBoundsException $e) {
+						// No displayname, upon client's discretion what to display.
+						$displayName = $mention['id'];
+					}
+
+					$message = preg_replace(
+						'/(^|\s)(' . '@' . $mention['id'] . ')(\b)/',
+						'${1}' . $this->regexSafeUser($mention['id'], $displayName) . '${3}',
+						$message
+					);
+				}
 				return $message;
 			} catch (NotFoundException $e) {
 				return '';
@@ -313,5 +333,10 @@ class Extension implements IExtension {
 		}
 
 		return '';
+	}
+
+	protected function regexSafeUser($uid, $displayName) {
+		// FIXME evil internal API hackery, do NOT copy this
+		return str_replace('$', '\$', '<user display-name="' . Util::sanitizeHTML($displayName) . '">' . Util::sanitizeHTML($uid) . '</user>');
 	}
 }
