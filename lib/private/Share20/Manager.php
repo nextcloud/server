@@ -1049,6 +1049,16 @@ class Manager implements IManager {
 		// If it is not a link share try to fetch a federated share by token
 		if ($share === null) {
 			$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_REMOTE);
+			try {
+				$share = $provider->getShareByToken($token);
+			} catch (ShareNotFound $e) {
+				$share = null;
+			}
+		}
+
+		// If it is not a link share try to fetch a federated share by token
+		if ($share === null && $this->shareProviderExists(\OCP\Share::SHARE_TYPE_EMAIL)) {
+			$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_EMAIL);
 			$share = $provider->getShareByToken($token);
 		}
 
