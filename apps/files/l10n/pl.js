@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Pamięć nie dostępna",
     "Storage invalid" : "Pamięć nieprawidłowa",
     "Unknown error" : "Nieznany błąd",
     "Files" : "Pliki",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Pliki i katalogi, które oznaczysz jako ulubione wyświetlą się tutaj",
     "Text file" : "Plik tekstowy",
     "New text file.txt" : "Nowy plik tekstowy.txt",
+    "Storage not available" : "Pamięć nie dostępna",
     "Unable to set upload directory." : "Nie można ustawić katalog wczytywania.",
     "Invalid Token" : "Nieprawidłowy Token",
     "No file was uploaded. Unknown error" : "Żaden plik nie został załadowany. Nieznany błąd",

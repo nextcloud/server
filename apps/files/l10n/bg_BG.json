@@ -1,5 +1,4 @@
 { "translations": {
-    "Storage not available" : "Хранилището не е налично.",
     "Storage invalid" : "Невалидно хранилище.",
     "Unknown error" : "Непозната грешка.",
     "Files" : "Файлове",
@@ -95,6 +94,7 @@
     "Files and folders you mark as favorite will show up here" : "Файловете и папките които отбелязваш като любими ще се показват тук",
     "Text file" : "Текстов файл",
     "New text file.txt" : "Нов текст file.txt",
+    "Storage not available" : "Хранилището не е налично.",
     "Unable to set upload directory." : "Неуспешно задаване на директория за качване.",
     "Invalid Token" : "Невалиеден токен.",
     "No file was uploaded. Unknown error" : "Неуспешно качвачване на файл. Непозната грешка.",

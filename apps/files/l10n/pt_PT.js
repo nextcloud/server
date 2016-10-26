@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Armazenamento indisponível",
     "Storage invalid" : "Armazenamento inválido",
     "Unknown error" : "Erro desconhecido",
     "Files" : "Ficheiros",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Os ficheiros e pastas que marcou como favoritos serão mostrados aqui",
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt",
+    "Storage not available" : "Armazenamento indisponível",
     "Unable to set upload directory." : "Não foi possível definir a diretoria de envio.",
     "Invalid Token" : "Senha Inválida",
     "No file was uploaded. Unknown error" : "Não foi enviado nenhum ficheiro. Erro desconhecido",

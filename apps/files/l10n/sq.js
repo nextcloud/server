@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Pa depozitë gati",
     "Storage invalid" : "Depozitë e pavlefshme",
     "Unknown error" : "Gabim i panjohur",
     "Files" : "Kartela",
@@ -111,6 +110,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Këtu do të duken kartelat dhe dosjet që i shënoni si të parapëlqyera",
     "Text file" : "Kartelë tekst",
     "New text file.txt" : "Kartelë e re file.txt",
+    "Storage not available" : "Pa depozitë gati",
     "Unable to set upload directory." : "S’arrihet të caktohet drejtori ngarkimesh",
     "Invalid Token" : "Token i pavlefshëm",
     "No file was uploaded. Unknown error" : "S’u ngarkua ndonjë kartelë. Gabim i panjohur",

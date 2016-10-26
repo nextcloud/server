@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "ストレージが利用できません",
     "Storage invalid" : "ストレージが無効です",
     "Unknown error" : "不明なエラー",
     "Files" : "ファイル",
@@ -114,6 +113,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "お気に入りに登録されたファイルやフォルダーは、ここに表示されます。",
     "Text file" : "テキストファイル",
     "New text file.txt" : "新規のテキストファイル作成",
+    "Storage not available" : "ストレージが利用できません",
     "Unable to set upload directory." : "アップロードディレクトリを設定できません。",
     "Invalid Token" : "無効なトークン",
     "No file was uploaded. Unknown error" : "ファイルは何もアップロードされていません。不明なエラー",

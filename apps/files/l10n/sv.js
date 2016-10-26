@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Lagring inte tillgänglig",
     "Storage invalid" : "Lagring ogiltig",
     "Unknown error" : "Okänt fel",
     "Files" : "Filer",
@@ -114,6 +113,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Filer och mappar du markerat som favoriter kommer att visas här",
     "Text file" : "Textfil",
     "New text file.txt" : "nytextfil.txt",
+    "Storage not available" : "Lagring inte tillgänglig",
     "Unable to set upload directory." : "Kan inte sätta mapp för uppladdning.",
     "Invalid Token" : "Ogiltig token",
     "No file was uploaded. Unknown error" : "Ingen fil uppladdad. Okänt fel",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Support de stockage non disponible",
     "Storage invalid" : "Support de stockage non valable",
     "Unknown error" : "Erreur inconnue ",
     "Files" : "Fichiers",
@@ -121,6 +120,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Les fichiers et dossiers ajoutés à vos favoris apparaîtront ici",
     "Text file" : "Fichier texte",
     "New text file.txt" : "Nouveau fichier texte.txt",
+    "Storage not available" : "Support de stockage non disponible",
     "Unable to set upload directory." : "Impossible de définir le dossier de destination.",
     "Invalid Token" : "Jeton non valide",
     "No file was uploaded. Unknown error" : "Aucun fichier n'a été envoyé. Erreur inconnue",

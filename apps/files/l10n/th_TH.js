@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "ไม่สามารถใช้พื้นที่จัดเก็บข้อมูลได้",
     "Storage invalid" : "การจัดเก็บข้อมูลไม่ถูกต้อง",
     "Unknown error" : "ข้อผิดพลาดที่ไม่ทราบสาเหตุ",
     "Files" : "ไฟล์",
@@ -100,6 +99,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "ไฟล์และโฟลเดอร์ที่คุณทำเครื่องหมายเป็นรายการโปรดจะปรากฏขึ้นที่นี่",
     "Text file" : "ไฟล์ข้อความ",
     "New text file.txt" : "ไฟล์ข้อความใหม่ .txt",
+    "Storage not available" : "ไม่สามารถใช้พื้นที่จัดเก็บข้อมูลได้",
     "Unable to set upload directory." : "ไม่สามารถตั้งค่าอัพโหลดไดเรกทอรี",
     "Invalid Token" : "โทเค็นไม่ถูกต้อง",
     "No file was uploaded. Unknown error" : "ยังไม่มีไฟล์ใดที่ถูกอัพโหลด เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ",

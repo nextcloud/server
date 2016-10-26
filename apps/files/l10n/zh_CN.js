@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "存储空间不可用",
     "Storage invalid" : "存储空间无效",
     "Unknown error" : "未知错误",
     "Files" : "文件",
@@ -111,6 +110,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "收藏的文件和文件夹会在这里显示",
     "Text file" : "文本文件",
     "New text file.txt" : "创建文本文件 .txt",
+    "Storage not available" : "存储空间不可用",
     "Unable to set upload directory." : "无法设置上传文件夹。",
     "Invalid Token" : "无效密匙",
     "No file was uploaded. Unknown error" : "没有文件被上传。未知错误",

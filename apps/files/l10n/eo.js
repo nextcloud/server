@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Memoro ne disponeblas",
     "Storage invalid" : "Memoro ne validas",
     "Unknown error" : "Nekonata eraro",
     "Files" : "Dosieroj",
@@ -96,6 +95,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Dosieroj kaj dosierujoj, kiujn vi markas, kiel pliŝatoj, aperos ĉi tie",
     "Text file" : "Tekstodosiero",
     "New text file.txt" : "Nova tekstodosiero.txt",
+    "Storage not available" : "Memoro ne disponeblas",
     "Unable to set upload directory." : "Ne povis agordiĝi la alŝuta dosierujo.",
     "No file was uploaded. Unknown error" : "Neniu dosiero alŝutiĝis. Nekonata eraro.",
     "There is no error, the file uploaded with success" : "Ne estas eraro, la dosiero alŝutiĝis sukcese.",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Lagerplads er ikke tilgængeligt",
     "Storage invalid" : "Lagerplads er ugyldig",
     "Unknown error" : "Ukendt fejl",
     "Files" : "Filer",
@@ -104,6 +103,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Filer og mapper som du har markeret som foretrukne, vil blive vist her",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekst file.txt",
+    "Storage not available" : "Lagerplads er ikke tilgængeligt",
     "Unable to set upload directory." : "Ude af stand til at vælge upload mappe.",
     "Invalid Token" : "Ugyldig Token ",
     "No file was uploaded. Unknown error" : "Ingen fil blev uploadet. Ukendt fejl.",

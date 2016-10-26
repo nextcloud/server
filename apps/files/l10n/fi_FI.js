@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Tallennustila ei ole käytettävissä",
     "Storage invalid" : "Virheellinen tallennustila",
     "Unknown error" : "Tuntematon virhe",
     "Files" : "Tiedostot",
@@ -114,6 +113,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Suosikeiksi merkitsemäsi tiedostot ja kansiot näkyvät täällä",
     "Text file" : "Tekstitiedosto",
     "New text file.txt" : "Uusi tekstitiedosto.txt",
+    "Storage not available" : "Tallennustila ei ole käytettävissä",
     "Unable to set upload directory." : "Lähetyskansion asettaminen epäonnistui.",
     "Invalid Token" : "Virheellinen token",
     "No file was uploaded. Unknown error" : "Tiedostoa ei lähetetty. Tuntematon virhe",

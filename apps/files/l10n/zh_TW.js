@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "無法存取儲存空間",
     "Storage invalid" : "無效的儲存空間",
     "Unknown error" : "未知的錯誤",
     "Files" : "檔案",
@@ -116,6 +115,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "您標記為最愛的檔案與資料夾將會顯示在這裡",
     "Text file" : "文字檔",
     "New text file.txt" : "新文字檔.txt",
+    "Storage not available" : "無法存取儲存空間",
     "Unable to set upload directory." : "無法設定上傳目錄",
     "Invalid Token" : "無效的 token",
     "No file was uploaded. Unknown error" : "沒有檔案被上傳，原因未知",

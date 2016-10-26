@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Almacenamientu non disponible",
     "Storage invalid" : "Almacenamientu inválidu",
     "Unknown error" : "Fallu desconocíu",
     "Files" : "Ficheros",
@@ -111,6 +110,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Los ficheros y carpetes que marque como favoritos apaecerán equí",
     "Text file" : "Ficheru de testu",
     "New text file.txt" : "Nuevu testu ficheru.txt",
+    "Storage not available" : "Almacenamientu non disponible",
     "Unable to set upload directory." : "Nun pue afitase la carpeta de xubida.",
     "Invalid Token" : "Token inválidu",
     "No file was uploaded. Unknown error" : "Nun se xubió dengún ficheru. Fallu desconocíu",

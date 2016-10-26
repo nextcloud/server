@@ -1,5 +1,4 @@
 { "translations": {
-    "Storage not available" : "저장소를 사용할 수 없음",
     "Storage invalid" : "저장소가 잘못됨",
     "Unknown error" : "알 수 없는 오류",
     "Files" : "파일",
@@ -104,6 +103,7 @@
     "Files and folders you mark as favorite will show up here" : "책갈피에 추가한 파일과 폴더가 여기에 나타납니다",
     "Text file" : "텍스트 파일",
     "New text file.txt" : "새 텍스트 파일.txt",
+    "Storage not available" : "저장소를 사용할 수 없음",
     "Unable to set upload directory." : "업로드 디렉터리를 설정할 수 없습니다.",
     "Invalid Token" : "잘못된 토큰",
     "No file was uploaded. Unknown error" : "파일이 업로드 되지 않았습니다. 알 수 없는 오류입니다",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Penyimpanan tidak tersedia",
     "Storage invalid" : "Penyimpanan tidak sah",
     "Unknown error" : "Kesalahan tidak diketahui",
     "Files" : "Berkas",
@@ -113,6 +112,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Berkas dan folder yang Anda tandai sebagai favorit akan ditampilkan disini.",
     "Text file" : "Berkas teks",
     "New text file.txt" : "Teks baru file.txt",
+    "Storage not available" : "Penyimpanan tidak tersedia",
     "Unable to set upload directory." : "Tidak dapat mengatur folder unggah",
     "Invalid Token" : "Token tidak sah",
     "No file was uploaded. Unknown error" : "Tidak ada berkas yang diunggah. Kesalahan tidak dikenal.",

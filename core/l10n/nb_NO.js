@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Please select a file." : "Vennligst velg en fil.",
     "File is too big" : "Filen er for stor",
+    "The selected file is not an image." : "Den valgte filen er ikke et bilde.",
+    "The selected file cannot be read." : "Den valgte filen kan ikke leses.",
     "Invalid file provided" : "Ugyldig fil oppgitt",
     "No image or file provided" : "Bilde eller fil ikke angitt",
     "Unknown filetype" : "Ukjent filtype",

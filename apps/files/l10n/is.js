@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "Geymsla ekki tiltæk",
     "Storage invalid" : "Ógild geymsla",
     "Unknown error" : "Óþekkt villa",
     "Files" : "Skrár",
@@ -114,6 +113,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Skrár og möppur sem þú merkir sem uppáhald birtast hér",
     "Text file" : "Textaskrá",
     "New text file.txt" : "Ný textaskrá.txt",
+    "Storage not available" : "Geymsla ekki tiltæk",
     "Unable to set upload directory." : "Gat ekki sett innhleðslumöppu.",
     "Invalid Token" : "Ógilt teikn",
     "No file was uploaded. Unknown error" : "Engin skrá var send inn. Óþekkt villa.",

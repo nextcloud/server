@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage not available" : "وحدة التخزين غير متوفرة",
     "Storage invalid" : "وحدة تخزين غير صالحه",
     "Unknown error" : "خطأ غير معروف",
     "Files" : "الملفات",
@@ -105,6 +104,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "الملفات والمجلدات التي حددتها كامفضلة سوف تظهر هنا ",
     "Text file" : "ملف نصي",
     "New text file.txt" : "ملف نصي جديد fille.txt",
+    "Storage not available" : "وحدة التخزين غير متوفرة",
     "Unable to set upload directory." : "غير قادر على تحميل المجلد",
     "Invalid Token" : "علامة غير صالحة",
     "No file was uploaded. Unknown error" : "لم يتم رفع أي ملف, خطأ غير معروف",
