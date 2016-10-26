@@ -84,6 +84,7 @@ class ChangePasswordController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @NoSubadminRequired
 	 *
 	 * @param string $oldpassword
 	 * @param string $newpassword
