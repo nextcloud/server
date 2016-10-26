@@ -184,7 +184,7 @@
 				timestamp: timestamp,
 				date: OC.Util.relativeModifiedDate(timestamp),
 				altDate: OC.Util.formatDate(timestamp),
-				formattedMessage: this._formatMessage(commentModel.get('message'))
+				formattedMessage: this._formatMessage(commentModel.get('message'), commentModel.get('mentions'))
 			}, commentModel.attributes);
 			return data;
 		},
@@ -251,8 +251,35 @@
 		 * Convert a message to be displayed in HTML,
 		 * converts newlines to <br> tags.
 		 */
-		_formatMessage: function(message) {
-			return escapeHTML(message).replace(/\n/g, '<br/>');
+		_formatMessage: function(message, mentions) {
+			message = escapeHTML(message).replace(/\n/g, '<br/>');
+
+			for(var i in mentions) {
+				var mention = '@' + mentions[i].mentionId;
+
+				var avatar = '';
+				if(this._avatarsEnabled) {
+					avatar = '<div class="avatar" '
+						+ 'data-user="' + _.escape(mentions[i].mentionId) + '"'
+						+' data-user-display-name="'
+						+ _.escape(mentions[i].mentionDisplayName) + '"></div>';
+				}
+
+				// escape possible regex characters in the name
+				mention = mention.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+				var displayName = avatar + ' <strong>'+ _.escape(mentions[i].mentionDisplayName)+'</strong>';
+
+				// replace every mention either at the start of the input or after a whitespace
+				// followed by a non-word character.
+				message = message.replace(new RegExp("(^|\\s)(" + mention + ")\\b", 'g'),
+					function(match, p1) {
+						// to  get number of whitespaces (0 vs 1) right
+						return p1+displayName;
+					}
+				);
+			}
+
+			return message;
 		},
 
 		nextPage: function() {
@@ -280,7 +307,7 @@
 			$formRow.find('textarea').on('keydown input change', this._onTypeComment);
 
 			// copy avatar element from original to avoid flickering
-			$formRow.find('.avatar').replaceWith($comment.find('.avatar').clone());
+			$formRow.find('.avatar:first').replaceWith($comment.find('.avatar:first').clone());
 			$formRow.find('.has-tooltip').tooltip();
 
 			// Enable autosize
@@ -359,6 +386,48 @@
 			this.nextPage();
 		},
 
+		/**
+		 * takes care of updating comment elements after submit (either new
+		 * comment or edit).
+		 *
+		 * @param {OC.Backbone.Model} model
+		 * @param {jQuery} $form
+		 * @param {string|undefined} commentId
+		 * @private
+		 */
+		_onSubmitSuccess: function(model, $form, commentId) {
+			var self = this;
+			var $submit = $form.find('.submit');
+			var $loading = $form.find('.submitLoading');
+			var $textArea = $form.find('.message');
+
+			model.fetch({
+				success: function(model) {
+					$submit.removeClass('hidden');
+					$loading.addClass('hidden');
+					var $target;
+
+					if(!_.isUndefined(commentId)) {
+						var $row = $form.closest('.comment');
+						$target = $row.data('commentEl');
+						$target.removeClass('hidden');
+						$row.remove();
+					} else {
+						$target = $('.commentsTabView .comments').find('li:first');
+						$textArea.val('').prop('disabled', false);
+					}
+
+					$target.find('.message')
+						.html(self._formatMessage(model.get('message'), model.get('mentions')))
+						.find('.avatar')
+						.each(function () { $(this).avatar(); });
+				},
+				error: function () {
+					self._onSubmitError($form, commentId);
+				}
+			});
+		},
+
 		_onSubmitComment: function(e) {
 			var self = this;
 			var $form = $(e.target);
@@ -385,21 +454,10 @@
 					message: $textArea.val()
 				}, {
 					success: function(model) {
-						var $row = $form.closest('.comment');
-						$submit.removeClass('hidden');
-						$loading.addClass('hidden');
-						$row.data('commentEl')
-							.removeClass('hidden')
-							.find('.message')
-							.html(self._formatMessage(model.get('message')));
-						$row.remove();
+						self._onSubmitSuccess(model, $form, commentId);
 					},
 					error: function() {
-						$submit.removeClass('hidden');
-						$loading.addClass('hidden');
-						$textArea.prop('disabled', false);
-
-						OC.Notification.showTemporary(t('comments', 'Error occurred while updating comment with id {id}', {id: commentId}));
+						self._onSubmitError($form, commentId);
 					}
 				});
 			} else {
@@ -414,22 +472,36 @@
 					at: 0,
 					// wait for real creation before adding
 					wait: true,
-					success: function() {
-						$submit.removeClass('hidden');
-						$loading.addClass('hidden');
-						$textArea.val('').prop('disabled', false);
+					success: function(model) {
+						self._onSubmitSuccess(model, $form);
 					},
 					error: function() {
-						$submit.removeClass('hidden');
-						$loading.addClass('hidden');
-						$textArea.prop('disabled', false);
-
-						OC.Notification.showTemporary(t('comments', 'Error occurred while posting comment'));
+						self._onSubmitError($form);
 					}
 				});
 			}
 
 			return false;
+		},
+
+		/**
+		 * takes care of updating the UI after an error on submit (either new
+		 * comment or edit).
+		 *
+		 * @param {jQuery} $form
+		 * @param {string|undefined} commentId
+		 * @private
+		 */
+		_onSubmitError: function($form, commentId) {
+			$form.find('.submit').removeClass('hidden');
+			$form.find('.submitLoading').addClass('hidden');
+			$form.find('.message').prop('disabled', false);
+
+			if(!_.isUndefined(commentId)) {
+				OC.Notification.showTemporary(t('comments', 'Error occurred while updating comment with id {id}', {id: commentId}));
+			} else {
+				OC.Notification.showTemporary(t('comments', 'Error occurred while posting comment'));
+			}
 		},
 
 		/**

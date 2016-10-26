@@ -204,6 +204,43 @@ class Comment implements IComment {
 	}
 
 	/**
+	 * returns an array containing mentions that are included in the comment
+	 *
+	 * @return array each mention provides a 'type' and an 'id', see example below
+	 * @since 9.2.0
+	 *
+	 * The return array looks like:
+	 * [
+	 *   [
+	 *     'type' => 'user',
+	 *     'id' => 'citizen4'
+	 *   ],
+	 *   [
+	 *     'type' => 'group',
+	 *     'id' => 'media'
+	 *   ],
+	 *   …
+	 * ]
+	 *
+	 */
+	public function getMentions() {
+		$ok = preg_match_all('/\B@[a-z0-9_\-@\.\']+/i', $this->getMessage(), $mentions);
+		if(!$ok || !isset($mentions[0]) || !is_array($mentions[0])) {
+			return [];
+		}
+		$uids = array_unique($mentions[0]);
+		$result = [];
+		foreach ($uids as $uid) {
+			// exclude author, no self-mentioning
+			if($uid === '@' . $this->getActorId()) {
+				continue;
+			}
+			$result[] = ['type' => 'user', 'id' => substr($uid, 1)];
+		}
+		return $result;
+	}
+
+	/**
 	 * returns the verb of the comment
 	 *
 	 * @return string

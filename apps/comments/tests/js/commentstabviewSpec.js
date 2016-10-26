@@ -43,6 +43,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 		clock = sinon.useFakeTimers(Date.UTC(2016, 1, 3, 10, 5, 9));
 		fetchStub = sinon.stub(OCA.Comments.CommentCollection.prototype, 'fetchNext');
 		view = new OCA.Comments.CommentsTabView();
+		view._avatarsEnabled = false;
 		fileInfoModel = new OCA.Files.FileInfoModel({
 			id: 5,
 			name: 'One.txt',
@@ -74,8 +75,29 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			message: 'Second\nNewline',
 			creationDateTime: new Date(Date.UTC(2016, 1, 3, 10, 0, 0)).toUTCString()
 		});
+		var comment3 = new OCA.Comments.CommentModel({
+			id: 3,
+			actorId: 'anotheruser',
+			actorDisplayName: 'Another User',
+			actorType: 'users',
+			verb: 'comment',
+			message: 'Hail to thee, @macbeth. Yours faithfully, @banquo',
+			creationDateTime: new Date(Date.UTC(2016, 1, 3, 10, 5, 9)).toUTCString(),
+			mentions: {
+				0: {
+					mentionDisplayName: "Thane of Cawdor",
+					mentionId: "macbeth",
+					mentionTye: "user"
+				},
+				1: {
+					mentionDisplayName: "Lord Banquo",
+					mentionId: "banquo",
+					mentionTye: "user"
+				}
+			}
+		});
 
-		testComments = [comment1, comment2];
+		testComments = [comment1, comment2, comment3];
 	});
 	afterEach(function() {
 		view.remove();
@@ -102,7 +124,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			view.collection.set(testComments);
 
 			var $comments = view.$el.find('.comments>li');
-			expect($comments.length).toEqual(2);
+			expect($comments.length).toEqual(3);
 			var $item = $comments.eq(0);
 			expect($item.find('.author').text()).toEqual('User One');
 			expect($item.find('.date').text()).toEqual('seconds ago');
@@ -122,6 +144,32 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			expect($item.find('.author').text()).toEqual('[Deleted user]');
 			expect($item.find('.avatar').attr('data-username')).not.toBeDefined();
 		});
+
+		it('renders mentioned user id to avatar and displayname', function() {
+			view._avatarsEnabled = true;
+			view.collection.set(testComments);
+
+			var $comment = view.$el.find('.comment[data-id=3] .message');
+			expect($comment.length).toEqual(1);
+			expect($comment.find('.avatar[data-user=macbeth]').length).toEqual(1);
+			expect($comment.find('strong:first').text()).toEqual('Thane of Cawdor');
+
+			expect($comment.find('.avatar[data-user=banquo]').length).toEqual(1);
+			expect($comment.find('strong:last-child').text()).toEqual('Lord Banquo');
+		});
+
+		it('renders mentioned user id to displayname, avatars disabled', function() {
+			view.collection.set(testComments);
+
+			var $comment = view.$el.find('.comment[data-id=3] .message');
+			expect($comment.length).toEqual(1);
+			expect($comment.find('.avatar[data-user=macbeth]').length).toEqual(0);
+			expect($comment.find('strong:first-child').text()).toEqual('Thane of Cawdor');
+
+			expect($comment.find('.avatar[data-user=banquo]').length).toEqual(0);
+			expect($comment.find('strong:last-child').text()).toEqual('Lord Banquo');
+		});
+
 	});
 	describe('more comments', function() {
 		var hasMoreResultsStub;
@@ -156,8 +204,8 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			expect(fetchStub.calledOnce).toEqual(true);
 		});
 		it('appends comment to the list when added to collection', function() {
-			var comment3 = new OCA.Comments.CommentModel({
-				id: 3,
+			var comment4 = new OCA.Comments.CommentModel({
+				id: 4,
 				actorType: 'users',
 				actorId: 'user3',
 				actorDisplayName: 'User Three',
@@ -167,11 +215,11 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 				creationDateTime: new Date(Date.UTC(2016, 1, 3, 5, 0, 0)).toUTCString()
 			});
 
-			view.collection.add(comment3);
+			view.collection.add(comment4);
 
-			expect(view.$el.find('.comments>li').length).toEqual(3);
+			expect(view.$el.find('.comments>li').length).toEqual(4);
 
-			var $item = view.$el.find('.comments>li').eq(2);
+			var $item = view.$el.find('.comments>li').eq(3);
 			expect($item.find('.author').text()).toEqual('User Three');
 			expect($item.find('.date').text()).toEqual('5 hours ago');
 			expect($item.find('.message').html()).toEqual('Third');
@@ -267,10 +315,12 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 	});
 	describe('editing comments', function() {
 		var saveStub;
+		var fetchStub;
 		var currentUserStub;
 
 		beforeEach(function() {
 			saveStub = sinon.stub(OCA.Comments.CommentModel.prototype, 'save');
+			fetchStub = sinon.stub(OCA.Comments.CommentModel.prototype, 'fetch');
 			currentUserStub = sinon.stub(OC, 'getCurrentUser');
 			currentUserStub.returns({
 				uid: 'testuser',
@@ -292,11 +342,12 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 				actorType: 'users',
 				verb: 'comment',
 				message: 'New message from another user',
-				creationDateTime: new Date(Date.UTC(2016, 1, 3, 10, 5, 9)).toUTCString()
+				creationDateTime: new Date(Date.UTC(2016, 1, 3, 10, 5, 9)).toUTCString(),
 			});
 		});
 		afterEach(function() {
 			saveStub.restore();
+			fetchStub.restore();
 			currentUserStub.restore();
 		});
 
@@ -340,6 +391,9 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			// simulate the fact that save sets the attribute
 			model.set('message', 'modified\nmessage');
 			saveStub.yieldTo('success', model);
+
+			expect(fetchStub.calledOnce).toEqual(true);
+			fetchStub.yieldTo('success', model);
 
 			// original comment element is visible again
 			expect($comment.hasClass('hidden')).toEqual(false);

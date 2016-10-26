@@ -27,11 +27,14 @@ namespace OCA\DAV\Tests\unit\Comments;
 
 use OCA\DAV\Comments\CommentNode;
 use OCP\Comments\IComment;
+use OCP\Comments\ICommentsManager;
 use OCP\Comments\MessageTooLongException;
 
 class CommentsNodeTest extends \Test\TestCase {
 
+	/** @var  ICommentsManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $commentsManager;
+
 	protected $comment;
 	protected $node;
 	protected $userManager;
@@ -373,6 +376,18 @@ class CommentsNodeTest extends \Test\TestCase {
 			$ns . 'topmostParentId' => '2',
 			$ns . 'childrenCount' => 3,
 			$ns . 'message' => 'such a nice file you have…',
+			$ns . 'mentions' => [
+				[ $ns . 'mention' => [
+					$ns . 'mentionType' => 'user',
+					$ns . 'mentionId' => 'alice',
+					$ns . 'mentionDisplayName' => 'Alice Al-Isson',
+				] ],
+				[ $ns . 'mention' => [
+					$ns . 'mentionType' => 'user',
+					$ns . 'mentionId' => 'bob',
+					$ns . 'mentionDisplayName' => 'Unknown user',
+				] ],
+			],
 			$ns . 'verb' => 'comment',
 			$ns . 'actorType' => 'users',
 			$ns . 'actorId' => 'alice',
@@ -383,6 +398,14 @@ class CommentsNodeTest extends \Test\TestCase {
 			$ns . 'objectId' => '1848',
 			$ns . 'isUnread' => null,
 		];
+
+		$this->commentsManager->expects($this->exactly(2))
+			->method('resolveDisplayName')
+			->withConsecutive(
+				[$this->equalTo('user'), $this->equalTo('alice')],
+				[$this->equalTo('user'), $this->equalTo('bob')]
+			)
+			->willReturnOnConsecutiveCalls('Alice Al-Isson', 'Unknown user');
 
 		$this->comment->expects($this->once())
 			->method('getId')
@@ -403,6 +426,13 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->comment->expects($this->once())
 			->method('getMessage')
 			->will($this->returnValue($expected[$ns . 'message']));
+
+		$this->comment->expects($this->once())
+			->method('getMentions')
+			->willReturn([
+				['type' => 'user', 'id' => 'alice'],
+				['type' => 'user', 'id' => 'bob'],
+			]);
 
 		$this->comment->expects($this->once())
 			->method('getVerb')
@@ -474,6 +504,10 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->comment->expects($this->any())
 			->method('getCreationDateTime')
 			->will($this->returnValue($creationDT));
+
+		$this->comment->expects($this->any())
+			->method('getMentions')
+			->willReturn([]);
 
 		$this->commentsManager->expects($this->once())
 			->method('getReadMark')
