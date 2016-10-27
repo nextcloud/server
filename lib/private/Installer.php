@@ -543,7 +543,7 @@ class Installer {
 
 	/**
 	 * Removes an app
-	 * @param string $name name of the application to remove
+	 * @param string $appId ID of the application to remove
 	 * @return boolean
 	 *
 	 *
@@ -555,8 +555,9 @@ class Installer {
 	 * this has to be done by the function oc_app_uninstall().
 	 */
 	public static function removeApp($appId) {
+		$installer = new Installer();
 
-		if(Installer::isDownloaded( $appId )) {
+		if($installer->isDownloaded( $appId )) {
 			$appDir=OC_App::getInstallPath() . '/' . $appId;
 			OC_Helper::rmdirr($appDir);
 
