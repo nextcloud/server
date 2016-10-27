@@ -81,6 +81,7 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Chyba nebo žádná aktualizace dle zadaných parametrů",
     "Can't change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy",
     "Cannot increase permissions" : "Nelze navýšit oprávnění",
+    "%s is publicly shared" : "%s je veřejně sdílen",
     "Share API is disabled" : "Sdílení API je zakázané",
     "This share is password-protected" : "Toto sdílení je chráněno heslem",
     "The password is wrong. Try again." : "Heslo není správné. Zkuste to znovu.",
