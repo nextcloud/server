@@ -74,6 +74,12 @@ class Notification implements INotification {
 	protected $messageParsed;
 
 	/** @var string */
+	protected $messageRich;
+
+	/** @var array */
+	protected $messageRichParameters;
+
+	/** @var string */
 	protected $link;
 
 	/** @var string */
@@ -112,6 +118,8 @@ class Notification implements INotification {
 		$this->message = '';
 		$this->messageParameters = [];
 		$this->messageParsed = '';
+		$this->messageRich = '';
+		$this->messageRichParameters = [];
 		$this->link = '';
 		$this->icon = '';
 		$this->actions = [];
@@ -374,6 +382,43 @@ class Notification implements INotification {
 	}
 
 	/**
+	 * @param string $message
+	 * @param array $parameters
+	 * @return $this
+	 * @throws \InvalidArgumentException if the message or parameters are invalid
+	 * @since 9.2.0
+	 */
+	public function setRichMessage($message, array $parameters = []) {
+		if (!is_string($message) || $message === '') {
+			throw new \InvalidArgumentException('The given parsed message is invalid');
+		}
+		$this->messageRich = $message;
+
+		if (!is_array($parameters)) {
+			throw new \InvalidArgumentException('The given message parameters are invalid');
+		}
+		$this->messageRichParameters = $parameters;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 * @since 9.2.0
+	 */
+	public function getRichMessage() {
+		return $this->messageRich;
+	}
+
+	/**
+	 * @return array[]
+	 * @since 9.2.0
+	 */
+	public function getRichMessageParameters() {
+		return $this->messageRichParameters;
+	}
+
+	/**
 	 * @param string $link
 	 * @return $this
 	 * @throws \InvalidArgumentException if the link is invalid
@@ -511,6 +556,14 @@ class Notification implements INotification {
 		if ($this->getRichSubject() !== '' || !empty($this->getRichSubjectParameters())) {
 			try {
 				$this->richValidator->validate($this->getRichSubject(), $this->getRichSubjectParameters());
+			} catch (InvalidObjectExeption $e) {
+				return false;
+			}
+		}
+
+		if ($this->getRichMessage() !== '' || !empty($this->getRichMessageParameters())) {
+			try {
+				$this->richValidator->validate($this->getRichMessage(), $this->getRichMessageParameters());
 			} catch (InvalidObjectExeption $e) {
 				return false;
 			}

@@ -184,6 +184,27 @@ interface INotification {
 	public function getParsedMessage();
 
 	/**
+	 * @param string $message
+	 * @param array $parameters
+	 * @return $this
+	 * @throws \InvalidArgumentException if the message or parameters are invalid
+	 * @since 9.2.0
+	 */
+	public function setRichMessage($message, array $parameters = []);
+
+	/**
+	 * @return string
+	 * @since 9.2.0
+	 */
+	public function getRichMessage();
+
+	/**
+	 * @return array[]
+	 * @since 9.2.0
+	 */
+	public function getRichMessageParameters();
+
+	/**
 	 * @param string $link
 	 * @return $this
 	 * @throws \InvalidArgumentException if the link is invalid
