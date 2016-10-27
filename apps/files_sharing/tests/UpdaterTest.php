@@ -71,7 +71,8 @@ class UpdaterTest extends TestCase {
 	 */
 	function testDeleteParentFolder() {
 		$status = \OC_App::isEnabled('files_trashbin');
-		\OC_App::enable('files_trashbin');
+		(new \OC_App())->enable('files_trashbin');
+
 
 		\OCA\Files_Trashbin\Trashbin::registerHooks();
 

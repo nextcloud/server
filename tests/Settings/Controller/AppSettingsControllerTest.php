@@ -29,6 +29,7 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\ICacheFactory;
+use OCP\L10N\IFactory;
 use Test\TestCase;
 use OCP\IRequest;
 use OCP\IL10N;
@@ -61,6 +62,8 @@ class AppSettingsControllerTest extends TestCase {
 	private $categoryFetcher;
 	/** @var AppFetcher|\PHPUnit_Framework_MockObject_MockObject */
 	private $appFetcher;
+	/** @var IFactory|\PHPUnit_Framework_MockObject_MockObject */
+	private $l10nFactory;
 
 	public function setUp() {
 		parent::setUp();
@@ -82,6 +85,7 @@ class AppSettingsControllerTest extends TestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->categoryFetcher = $this->createMock(CategoryFetcher::class);
 		$this->appFetcher = $this->createMock(AppFetcher::class);
+		$this->l10nFactory = $this->createMock(IFactory::class);
 
 		$this->appSettingsController = new AppSettingsController(
 			'settings',
@@ -92,7 +96,8 @@ class AppSettingsControllerTest extends TestCase {
 			$this->navigationManager,
 			$this->appManager,
 			$this->categoryFetcher,
-			$this->appFetcher
+			$this->appFetcher,
+			$this->l10nFactory
 		);
 	}
 

@@ -49,7 +49,8 @@ class InstallerTest extends TestCase {
 			]
 		);
 
-		Installer::installApp($data);
+		$installer = new Installer();
+		$installer->installApp($data);
 		$isInstalled = Installer::isInstalled(self::$appid);
 
 		$this->assertTrue($isInstalled);
@@ -88,7 +89,8 @@ class InstallerTest extends TestCase {
 			]
 		);
 
-		Installer::installApp($oldData);
+		$installer = new Installer();
+		$installer->installApp($oldData);
 		$oldVersionNumber = \OC_App::getAppVersion(self::$appid);
 
 		Installer::updateApp($newData);
