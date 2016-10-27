@@ -427,8 +427,8 @@ class ShareesAPIController extends OCSController {
 
 		$shareTypes = [
 			Share::SHARE_TYPE_USER,
-			Share::SHARE_TYPE_EMAIL,
-			Share::SHARE_TYPE_REMOTE
+			Share::SHARE_TYPE_REMOTE,
+			Share::SHARE_TYPE_EMAIL
 		];
 
 		if ($this->shareManager->allowGroupSharing()) {
@@ -504,12 +504,12 @@ class ShareesAPIController extends OCSController {
 		}
 
 		// Get remote
-		$remoteResults = ['results' => [], 'exact' => []];
+		$remoteResults = ['results' => [], 'exact' => [], 'exactIdMatch' => false];
 		if (in_array(Share::SHARE_TYPE_REMOTE, $shareTypes)) {
 			$remoteResults = $this->getRemote($search);
 		}
 
-		$mailResults = ['results' => [], 'exact' => []];
+		$mailResults = ['results' => [], 'exact' => [], 'exactIdMatch' => false];
 		if (in_array(Share::SHARE_TYPE_EMAIL, $shareTypes)) {
 			$mailResults = $this->getEmail($search);
 		}

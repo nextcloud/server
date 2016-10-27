@@ -502,7 +502,9 @@ class ShareAPIController extends OCSController {
 			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_USER, $node, false, -1, 0));
 			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_GROUP, $node, false, -1, 0));
 			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_LINK, $node, false, -1, 0));
-			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_EMAIL, $node, false, -1, 0));
+			if($this->shareManager->shareProviderExists(\OCP\Share::SHARE_TYPE_EMAIL)) {
+				$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_EMAIL, $node, false, -1, 0));
+			}
 			if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
 				$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_REMOTE, $node, false, -1, 0));
 			}
@@ -822,15 +824,18 @@ class ShareAPIController extends OCSController {
 		}
 
 		try {
-			$share = $this->shareManager->getShareById('ocMailShare:' . $id);
-			return $share;
-		} catch (ShareNotFound $e) {
-			if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
-				throw new ShareNotFound();
+			if ($this->shareManager->shareProviderExists(\OCP\Share::SHARE_TYPE_EMAIL)) {
+				$share = $this->shareManager->getShareById('ocMailShare:' . $id);
+				return $share;
 			}
-
-			$share = $this->shareManager->getShareById('ocFederatedSharing:' . $id);
+		} catch (ShareNotFound $e) {
+			// Do nothing, just try the other share type
 		}
+
+		if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
+			throw new ShareNotFound();
+		}
+		$share = $this->shareManager->getShareById('ocFederatedSharing:' . $id);
 
 		return $share;
 	}
