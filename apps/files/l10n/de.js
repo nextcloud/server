@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files",
     {
+    "Storage is temporarily not available" : "Speicher ist vorübergehend nicht verfügbar",
     "Storage invalid" : "Speicher ungültig",
     "Unknown error" : "Unbekannter Fehler",
     "Files" : "Dateien",
@@ -15,6 +16,7 @@ OC.L10N.register(
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Die Datei {filename} kann nicht hochgeladen werden, da sie entweder ein Verzeichnis oder 0 Bytes groß ist",
     "Total file size {size1} exceeds upload limit {size2}" : "Die Gesamt-Größe {size1} überschreitet die Upload-Begrenzung {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Nicht genügend freier Speicherplatz, Du möchtest{size1} hochladen, es sind jedoch nur noch {size2} verfügbar.",
+    "Target folder \"{dir}\" does not exist any more" : "Ziel-Verzeichnis \"{dir}\" existiert nicht mehr",
     "Not enough free space" : "Nicht genügend freier Speicherplatz",
     "Uploading..." : "Hochladen…",
     "..." : "...",

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files",
     {
+    "Storage is temporarily not available" : "Временно хранилището не е налично.",
     "Storage invalid" : "Невалидно хранилище.",
     "Unknown error" : "Непозната грешка.",
     "Files" : "Файлове",
@@ -12,7 +13,9 @@ OC.L10N.register(
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Неуспешно качване на {filename}, защото е директория или е с размер от 0 байта.",
     "Total file size {size1} exceeds upload limit {size2}" : "Общия размер {size1} надминава лимита за качване {size2}.",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Няма достатъчно свободно място, ти се опитваш да качиш {size1}, но са останали само {size2}.",
+    "Not enough free space" : "Няма достатъчно свободно място",
     "Uploading..." : "Качване...",
+    "..." : "...",
     "Any moment now..." : "Всеки момент...",
     "Soon..." : "Скоро...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Извършва се качване на файлове. Затварянето на тази страница ще прекъсне качването.",

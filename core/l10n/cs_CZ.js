@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Please select a file." : "Prosím vyberte soubor.",
     "File is too big" : "Soubor je příliš velký",
+    "The selected file is not an image." : "Vybraný soubor není obrázek.",
+    "The selected file cannot be read." : "Vybraný soubor nelze přečíst.",
     "Invalid file provided" : "Zadán neplatný soubor",
     "No image or file provided" : "Soubor nebo obrázek nebyl zadán",
     "Unknown filetype" : "Neznámý typ souboru",
@@ -117,6 +119,7 @@ OC.L10N.register(
     "(all selected)" : "(vybráno vše)",
     "({count} selected)" : "(vybráno {count})",
     "Error loading file exists template" : "Chyba při nahrávání šablony existence souboru",
+    "Pending" : "Čekající",
     "Very weak password" : "Velmi slabé heslo",
     "Weak password" : "Slabé heslo",
     "So-so password" : "Středně silné heslo",
