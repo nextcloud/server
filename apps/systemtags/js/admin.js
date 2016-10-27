@@ -153,6 +153,12 @@
 			},
 			escapeMarkup: function(m) {
 				return m;
+			},
+			sortResults: function(results) {
+				results.sort(function(a, b) {
+					return OC.Util.naturalSortCompare(a.get('name'), b.get('name'));
+				});
+				return results;
 			}
 		}
 	};
