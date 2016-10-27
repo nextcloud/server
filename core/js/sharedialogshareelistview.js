@@ -25,12 +25,6 @@
 					'<div class="avatar {{#if modSeed}}imageplaceholderseed{{/if}}" data-username="{{shareWith}}" {{#if modSeed}}data-seed="{{shareWith}} {{shareType}}"{{/if}}></div>' +
 					'{{/if}}' +
 					'<span class="has-tooltip username" title="{{shareWith}}">{{shareWithDisplayName}}</span>' +
-					'{{#if mailNotificationEnabled}}  {{#unless isRemoteShare}}' +
-					'<span class="shareOption">' +
-						'<input id="mail-{{cid}}-{{shareWith}}" type="checkbox" name="mailNotification" class="mailNotification checkbox" {{#if wasMailSent}}checked="checked"{{/if}} />' +
-						'<label for="mail-{{cid}}-{{shareWith}}">{{notifyByMailLabel}}</label>' +
-					'</span>' +
-					'{{/unless}} {{/if}}' +
 					'<span class="sharingOptionsGroup">' +
 						'{{#if editPermissionPossible}}' +
 						'<span class="shareOption">' +
@@ -122,7 +116,6 @@
 			'click .unshare': 'onUnshare',
 			'click .icon-more': 'onToggleMenu',
 			'click .permissions': 'onPermissionChange',
-			'click .mailNotification': 'onSendMailNotification'
 		},
 
 		initialize: function(options) {
@@ -175,7 +168,6 @@
 		getShareeList: function() {
 			var universal = {
 				avatarEnabled: this.configModel.areAvatarsEnabled(),
-				mailNotificationEnabled: this.configModel.isMailNotificationEnabled(),
 				notifyByMailLabel: t('core', 'notify by email'),
 				unshareLabel: t('core', 'Unshare'),
 				canShareLabel: t('core', 'can reshare'),
@@ -371,15 +363,6 @@
 
 			this.model.updateShare(shareId, {permissions: permissions});
 		},
-
-		onSendMailNotification: function(event) {
-			var $target = $(event.target);
-			var $li = $(event.target).closest('li[data-share-id]');
-			var shareType = $li.data('share-type');
-			var shareWith = $li.attr('data-share-with');
-
-			this.model.sendNotificationForShare(shareType, shareWith, $target.is(':checked'));
-		}
 	});
 
 	OC.Share.ShareDialogShareeListView = ShareDialogShareeListView;

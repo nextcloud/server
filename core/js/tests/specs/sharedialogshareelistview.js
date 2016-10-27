@@ -139,23 +139,6 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 			listView.$el.find('a.showCruds').click();
 			expect(listView.$el.find('li.cruds').hasClass('hidden')).toEqual(false);
 		});
-
-		it('sends notification to user when checkbox clicked', function () {
-			shareModel.set('shares', [{
-				id: 100,
-				item_source: 123,
-				permissions: 1,
-				share_type: OC.Share.SHARE_TYPE_USER,
-				share_with: 'user1',
-				share_with_displayname: 'User One'
-			}]);
-			listView.render();
-			var notificationStub = sinon.stub(listView.model, 'sendNotificationForShare');
-			listView.$el.find("input[name='mailNotification']").click();
-			expect(notificationStub.called).toEqual(true);
-			notificationStub.restore();
-		});
-
 	});
 
 });
