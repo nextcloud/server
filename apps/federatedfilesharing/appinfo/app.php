@@ -32,7 +32,8 @@ $app->registerSettings();
 $manager = \OC::$server->getNotificationManager();
 $manager->registerNotifier(function() {
 	return new Notifier(
-		\OC::$server->getL10NFactory()
+		\OC::$server->getL10NFactory(),
+		\OC::$server->getContactsManager()
 	);
 }, function() use ($l) {
 	return [

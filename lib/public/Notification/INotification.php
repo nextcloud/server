@@ -128,6 +128,27 @@ interface INotification {
 	public function getParsedSubject();
 
 	/**
+	 * @param string $subject
+	 * @param array $parameters
+	 * @return $this
+	 * @throws \InvalidArgumentException if the subject or parameters are invalid
+	 * @since 9.2.0
+	 */
+	public function setRichSubject($subject, array $parameters = []);
+
+	/**
+	 * @return string
+	 * @since 9.2.0
+	 */
+	public function getRichSubject();
+
+	/**
+	 * @return array[]
+	 * @since 9.2.0
+	 */
+	public function getRichSubjectParameters();
+
+	/**
 	 * @param string $message
 	 * @param array $parameters
 	 * @return $this
