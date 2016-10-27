@@ -46,6 +46,7 @@ class Internal extends Session {
 		session_name($name);
 		set_error_handler(array($this, 'trapError'));
 		try {
+			session_set_save_handler(new FileSessionHandler(), true);
 			session_start();
 		} catch (\Exception $e) {
 			setcookie(session_name(), null, -1, \OC::$WEBROOT ? : '/');
