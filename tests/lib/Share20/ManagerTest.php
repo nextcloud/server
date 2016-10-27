@@ -2757,11 +2757,17 @@ class ManagerTest extends \Test\TestCase {
 
 		$file->method('getParent')
 			->willReturn($folder);
+		$file->method('getPath')
+			->willReturn('/owner/files/folder/file');
 		$folder->method('getParent')
 			->willReturn($userFolder);
+		$folder->method('getPath')
+			->willReturn('/owner/files/folder');
 		$userFolder->method('getById')
 			->with($this->equalTo(42))
 			->willReturn([$file]);
+		$userFolder->method('getPath')
+			->willReturn('/owner/files');
 
 		$userShare = $this->createMock(IShare::class);
 		$userShare->method('getShareType')
