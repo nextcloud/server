@@ -37,7 +37,7 @@ class StreamResponse extends Response implements ICallbackResponse {
 	private $filePath;
 
 	/**
-	 * @param string $filePath the path to the file which should be streamed
+	 * @param string|resource $filePath the path to the file or a file handle which should be streamed
 	 * @since 8.1.0
 	 */
 	public function __construct ($filePath) {
@@ -54,7 +54,7 @@ class StreamResponse extends Response implements ICallbackResponse {
 	public function callback (IOutput $output) {
 		// handle caching
 		if ($output->getHttpResponseCode() !== Http::STATUS_NOT_MODIFIED) {
-			if (!file_exists($this->filePath)) {
+			if (!(file_exists($this->filePath) || is_resource($this->filePath))) {
 				$output->setHttpResponseCode(Http::STATUS_NOT_FOUND);
 			} elseif ($output->setReadfile($this->filePath) === false) {
 				$output->setHttpResponseCode(Http::STATUS_BAD_REQUEST);

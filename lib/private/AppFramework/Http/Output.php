@@ -48,12 +48,17 @@ class Output implements IOutput {
 	}
 
 	/**
-	 * @param string $path
+	 * @param string|resource $path or file handle
 	 *
 	 * @return bool false if an error occurred
 	 */
 	public function setReadfile($path) {
-		return @readfile($path);
+		if (is_resource($path)) {
+			$output = fopen('php://output', 'w');
+			return stream_copy_to_stream($path, $output) > 0;
+		} else {
+			return @readfile($path);
+		}
 	}
 
 	/**

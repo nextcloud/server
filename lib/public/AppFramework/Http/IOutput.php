@@ -39,7 +39,7 @@ interface IOutput {
 	public function setOutput($out);
 
 	/**
-	 * @param string $path
+	 * @param string|resource $path or file handle
 	 *
 	 * @return bool false if an error occurred
 	 * @since 8.1.0
