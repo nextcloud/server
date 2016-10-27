@@ -775,7 +775,7 @@ Feature: sharing
       | shareWith | group1 |
     When As an "user1"
     And Deleting last share
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "100"
     And the HTTP status code should be "200"
 
   Scenario: Merging shares for recipient when shared from outside with group and member
