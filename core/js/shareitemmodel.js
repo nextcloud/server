@@ -427,35 +427,6 @@
 		},
 
 		/**
-		 * Sends an email notification for the given share
-		 *
-		 * @param {int} shareType share type
-		 * @param {string} shareWith recipient
-		 * @param {bool} state whether to set the notification flag or remove it
-		 */
-		sendNotificationForShare: function(shareType, shareWith, state) {
-			var itemType = this.get('itemType');
-			var itemSource = this.get('itemSource');
-
-			return $.post(
-				OC.generateUrl('core/ajax/share.php'),
-				{
-					action: state ? 'informRecipients' : 'informRecipientsDisabled',
-					recipient: shareWith,
-					shareType: shareType,
-					itemSource: itemSource,
-					itemType: itemType
-				},
-				function(result) {
-					if (result.status !== 'success') {
-						// FIXME: a model should not show dialogs
-						OC.dialogs.alert(t('core', result.data.message), t('core', 'Warning'));
-					}
-				}
-			);
-		},
-
-		/**
 		 * Send the link share information by email
 		 *
 		 * @param {string} recipientEmail recipient email address

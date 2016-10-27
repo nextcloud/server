@@ -89,75 +89,6 @@ class MailNotifications {
 	}
 
 	/**
-	 * inform users if a file was shared with them
-	 *
-	 * @param IUser[] $recipientList list of recipients
-	 * @param string $itemSource shared item source
-	 * @param string $itemType shared item type
-	 * @return array list of user to whom the mail send operation failed
-	 */
-	public function sendInternalShareMail($recipientList, $itemSource, $itemType) {
-		$noMail = [];
-
-		foreach ($recipientList as $recipient) {
-			$recipientDisplayName = $recipient->getDisplayName();
-			$to = $recipient->getEMailAddress();
-
-			if ($to === '') {
-				$noMail[] = $recipientDisplayName;
-				continue;
-			}
-
-			$items = $this->getItemSharedWithUser($itemSource, $itemType, $recipient);
-			$filename = trim($items[0]['file_target'], '/');
-			$subject = (string) $this->l->t('%s shared »%s« with you', array($this->senderDisplayName, $filename));
-			$expiration = null;
-			if (isset($items[0]['expiration'])) {
-				try {
-					$date = new DateTime($items[0]['expiration']);
-					$expiration = $date->getTimestamp();
-				} catch (\Exception $e) {
-					$this->logger->error("Couldn't read date: ".$e->getMessage(), ['app' => 'sharing']);
-				}
-			}
-
-			$link = $this->urlGenerator->linkToRouteAbsolute(
-				'files.viewcontroller.showFile',
-				['fileId' => $items[0]['item_source']]
-			);
-
-			list($htmlBody, $textBody) = $this->createMailBody($filename, $link, $expiration, 'internal');
-
-			// send it out now
-			try {
-				$message = $this->mailer->createMessage();
-				$message->setSubject($subject);
-				$message->setTo([$to => $recipientDisplayName]);
-				$message->setHtmlBody($htmlBody);
-				$message->setPlainBody($textBody);
-				$message->setFrom([
-					Util::getDefaultEmailAddress('sharing-noreply') =>
-						(string)$this->l->t('%s via %s', [
-							$this->senderDisplayName,
-							$this->defaults->getName()
-						]),
-					]);
-				if(!is_null($this->replyTo)) {
-					$message->setReplyTo([$this->replyTo]);
-				}
-
-				$this->mailer->send($message);
-			} catch (\Exception $e) {
-				$this->logger->error("Can't send mail to inform the user about an internal share: ".$e->getMessage(), ['app' => 'sharing']);
-				$noMail[] = $recipientDisplayName;
-			}
-		}
-
-		return $noMail;
-
-	}
-
-	/**
 	 * inform recipient about public link share
 	 *
 	 * @param string $recipient recipient email address
@@ -224,15 +155,4 @@ class MailNotifications {
 
 		return [$htmlMail, $plainTextMail];
 	}
-
-	/**
-	 * @param string $itemSource
-	 * @param string $itemType
-	 * @param IUser $recipient
-	 * @return array
-	 */
-	protected function getItemSharedWithUser($itemSource, $itemType, $recipient) {
-		return Share::getItemSharedWithUser($itemType, $itemSource, $recipient->getUID());
-	}
-
 }
