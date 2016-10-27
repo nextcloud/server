@@ -580,13 +580,6 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getThemingDefaults()
 			);
 		});
-		$this->registerService('OcsClient', function (Server $c) {
-			return new OCSClient(
-				$this->getHTTPClientService(),
-				$this->getConfig(),
-				$this->getLogger()
-			);
-		});
 		$this->registerService('LDAPProvider', function(Server $c) {
 			$config = $c->getConfig();
 			$factoryClass = $config->getSystemValue('ldapProviderFactory', null);

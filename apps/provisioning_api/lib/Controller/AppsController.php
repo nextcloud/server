@@ -37,25 +37,20 @@ use OCP\IRequest;
 class AppsController extends OCSController {
 	/** @var \OCP\App\IAppManager */
 	private $appManager;
-	/** @var OCSClient */
-	private $ocsClient;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IAppManager $appManager
-	 * @param OCSClient $ocsClient
 	 */
 	public function __construct(
 		$appName,
 		IRequest $request,
-		IAppManager $appManager,
-		OCSClient $ocsClient
+		IAppManager $appManager
 	) {
 		parent::__construct($appName, $request);
 
 		$this->appManager = $appManager;
-		$this->ocsClient = $ocsClient;
 	}
 
 	/**
@@ -64,7 +59,7 @@ class AppsController extends OCSController {
 	 * @throws OCSException
 	 */
 	public function getApps($filter = null) {
-		$apps = OC_App::listAllApps(false, true, $this->ocsClient);
+		$apps = (new OC_App())->listAllApps();
 		$list = [];
 		foreach($apps as $app) {
 			$list[] = $app['id'];

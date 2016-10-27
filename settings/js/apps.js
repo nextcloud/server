@@ -2,7 +2,7 @@
 
 Handlebars.registerHelper('score', function() {
 	if(this.score) {
-		var score = Math.round( this.score / 10 );
+		var score = Math.round( this.score * 10 );
 		var imageName = 'rating/s' + score + '.svg';
 
 		return new Handlebars.SafeString('<img src="' + OC.imagePath('core', imageName) + '">');
@@ -13,10 +13,6 @@ Handlebars.registerHelper('level', function() {
 	if(typeof this.level !== 'undefined') {
 		if(this.level === 200) {
 			return new Handlebars.SafeString('<span class="official icon-checkmark">' + t('settings', 'Official') + '</span>');
-		} else if(this.level === 100) {
-			return new Handlebars.SafeString('<span class="approved">' + t('settings', 'Approved') + '</span>');
-		} else {
-			return new Handlebars.SafeString('<span class="experimental">' + t('settings', 'Experimental') + '</span>');
 		}
 	}
 });

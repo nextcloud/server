@@ -122,8 +122,6 @@ class ServerTest extends \Test\TestCase {
 			['UserCache', '\OC\Cache\File'],
 			['UserCache', '\OCP\ICache'],
 
-			['OcsClient', '\OC\OCSClient'],
-
 			['PreviewManager', '\OC\PreviewManager'],
 			['PreviewManager', '\OCP\IPreview'],
 
