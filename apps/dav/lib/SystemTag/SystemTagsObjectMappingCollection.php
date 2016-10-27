@@ -192,7 +192,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 	 *
 	 * @param ISystemTag $tag
 	 *
-	 * @return SystemTagNode
+	 * @return SystemTagMappingNode
 	 */
 	private function makeNode(ISystemTag $tag) {
 		return new SystemTagMappingNode(
