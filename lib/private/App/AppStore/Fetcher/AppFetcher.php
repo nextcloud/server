@@ -44,9 +44,13 @@ class AppFetcher extends Fetcher {
 		);
 
 		$this->fileName = 'apps.json';
+
+		$versionArray = \OC_Util::getVersion();
 		$this->endpointUrl = sprintf(
-			'https://apps.nextcloud.com/api/v1/platform/%s/apps.json',
-			substr(implode(\OC_Util::getVersion(), '.'), 0, 5)
+			'https://apps.nextcloud.com/api/v1/platform/%s.%s.%s/apps.json',
+			$versionArray[0],
+			$versionArray[1],
+			$versionArray[2]
 		);
 	}
 }
