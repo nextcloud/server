@@ -24,6 +24,8 @@
 namespace OC\Activity;
 
 use OCP\Activity\IEvent;
+use OCP\RichObjectStrings\InvalidObjectExeption;
+use OCP\RichObjectStrings\IValidator;
 
 class Event implements IEvent {
 
@@ -42,9 +44,21 @@ class Event implements IEvent {
 	/** @var array */
 	protected $subjectParameters = [];
 	/** @var string */
+	protected $subjectParsed;
+	/** @var string */
+	protected $subjectRich;
+	/** @var array */
+	protected $subjectRichParameters;
+	/** @var string */
 	protected $message = '';
 	/** @var array */
 	protected $messageParameters = [];
+	/** @var string */
+	protected $messageParsed;
+	/** @var string */
+	protected $messageRich;
+	/** @var array */
+	protected $messageRichParameters;
 	/** @var string */
 	protected $objectType = '';
 	/** @var int */
@@ -53,6 +67,18 @@ class Event implements IEvent {
 	protected $objectName = '';
 	/** @var string */
 	protected $link = '';
+	/** @var string */
+	protected $icon = '';
+
+	/** @var IValidator */
+	protected $richValidator;
+
+	/**
+	 * @param IValidator $richValidator
+	 */
+	public function __construct(IValidator $richValidator) {
+		$this->richValidator = $richValidator;
+	}
 
 	/**
 	 * Set the app of the activity
@@ -202,6 +228,65 @@ class Event implements IEvent {
 	}
 
 	/**
+	 * @param string $subject
+	 * @return $this
+	 * @throws \InvalidArgumentException if the subject is invalid
+	 * @since 9.2.0
+	 */
+	public function setParsedSubject($subject) {
+		if (!is_string($subject) || $subject === '') {
+			throw new \InvalidArgumentException('The given parsed subject is invalid');
+		}
+		$this->subjectParsed = $subject;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 * @since 9.2.0
+	 */
+	public function getParsedSubject() {
+		return $this->subjectParsed;
+	}
+
+	/**
+	 * @param string $subject
+	 * @param array $parameters
+	 * @return $this
+	 * @throws \InvalidArgumentException if the subject or parameters are invalid
+	 * @since 9.2.0
+	 */
+	public function setRichSubject($subject, array $parameters = []) {
+		if (!is_string($subject) || $subject === '') {
+			throw new \InvalidArgumentException('The given parsed subject is invalid');
+		}
+		$this->subjectRich = $subject;
+
+		if (!is_array($parameters)) {
+			throw new \InvalidArgumentException('The given subject parameters are invalid');
+		}
+		$this->subjectRichParameters = $parameters;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 * @since 9.2.0
+	 */
+	public function getRichSubject() {
+		return $this->subjectRich;
+	}
+
+	/**
+	 * @return array[]
+	 * @since 9.2.0
+	 */
+	public function getRichSubjectParameters() {
+		return $this->subjectRichParameters;
+	}
+
+	/**
 	 * Set the message of the activity
 	 *
 	 * @param string $message
@@ -211,7 +296,7 @@ class Event implements IEvent {
 	 * @since 8.2.0
 	 */
 	public function setMessage($message, array $parameters = []) {
-		if (!is_string($message) || $message === '' || isset($message[255])) {
+		if (!is_string($message) || isset($message[255])) {
 			throw new \InvalidArgumentException('The given message is invalid');
 		}
 		$this->message = (string) $message;
@@ -231,6 +316,65 @@ class Event implements IEvent {
 	 */
 	public function getMessageParameters() {
 		return $this->messageParameters;
+	}
+
+	/**
+	 * @param string $message
+	 * @return $this
+	 * @throws \InvalidArgumentException if the message is invalid
+	 * @since 9.2.0
+	 */
+	public function setParsedMessage($message) {
+		if (!is_string($message) || $message === '') {
+			throw new \InvalidArgumentException('The given parsed message is invalid');
+		}
+		$this->messageParsed = $message;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 * @since 9.2.0
+	 */
+	public function getParsedMessage() {
+		return $this->messageParsed;
+	}
+
+	/**
+	 * @param string $message
+	 * @param array $parameters
+	 * @return $this
+	 * @throws \InvalidArgumentException if the subject or parameters are invalid
+	 * @since 9.2.0
+	 */
+	public function setRichMessage($message, array $parameters = []) {
+		if (!is_string($message) || $message === '') {
+			throw new \InvalidArgumentException('The given parsed message is invalid');
+		}
+		$this->messageRich = $message;
+
+		if (!is_array($parameters)) {
+			throw new \InvalidArgumentException('The given message parameters are invalid');
+		}
+		$this->messageRichParameters = $parameters;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 * @since 9.2.0
+	 */
+	public function getRichMessage() {
+		return $this->messageRich;
+	}
+
+	/**
+	 * @return array[]
+	 * @since 9.2.0
+	 */
+	public function getRichMessageParameters() {
+		return $this->messageRichParameters;
 	}
 
 	/**
@@ -289,7 +433,7 @@ class Event implements IEvent {
 	 * @since 8.2.0
 	 */
 	public function setLink($link) {
-		if (!is_string($link) || $link === '' || isset($link[4000])) {
+		if (!is_string($link) || isset($link[4000])) {
 			throw new \InvalidArgumentException('The given link is invalid');
 		}
 		$this->link = (string) $link;
@@ -302,6 +446,29 @@ class Event implements IEvent {
 	public function getLink() {
 		return $this->link;
 	}
+
+	/**
+	 * @param string $icon
+	 * @return $this
+	 * @throws \InvalidArgumentException if the icon is invalid
+	 * @since 9.2.0
+	 */
+	public function setIcon($icon) {
+		if (!is_string($icon) || isset($icon[4000])) {
+			throw new \InvalidArgumentException('The given icon is invalid');
+		}
+		$this->icon = $icon;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 * @since 9.2.0
+	 */
+	public function getIcon() {
+		return $this->icon;
+	}
+
 	/**
 	 * @return bool
 	 * @since 8.2.0
@@ -319,18 +486,26 @@ class Event implements IEvent {
 	 * @since 8.2.0
 	 */
 	public function isValidParsed() {
-//		if ($this->getRichSubject() !== '' || !empty($this->getRichSubjectParameters())) {
-//			try {
-//				$this->richValidator->validate($this->getRichSubject(), $this->getRichSubjectParameters());
-//			} catch (InvalidObjectExeption $e) {
-//				return false;
-//			}
-//		}
+		if ($this->getRichSubject() !== '' || !empty($this->getRichSubjectParameters())) {
+			try {
+				$this->richValidator->validate($this->getRichSubject(), $this->getRichSubjectParameters());
+			} catch (InvalidObjectExeption $e) {
+				return false;
+			}
+		}
+
+		if ($this->getRichMessage() !== '' || !empty($this->getRichMessageParameters())) {
+			try {
+				$this->richValidator->validate($this->getRichMessage(), $this->getRichMessageParameters());
+			} catch (InvalidObjectExeption $e) {
+				return false;
+			}
+		}
 
 		return
 			$this->isValidCommon()
-//			&&
-//			$this->getParsedSubject() !== ''
+			&&
+			$this->getParsedSubject() !== ''
 		;
 	}
 

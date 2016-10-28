@@ -24,6 +24,7 @@
 namespace OC\Activity;
 
 
+use OC\RichObjectStrings\Validator;
 use OCP\Activity\IConsumer;
 use OCP\Activity\IEvent;
 use OCP\Activity\IExtension;
@@ -149,7 +150,9 @@ class Manager implements IManager {
 	 * @return IEvent
 	 */
 	public function generateEvent() {
-		return new Event();
+		return new Event(
+			new Validator()
+		);
 	}
 
 	/**
@@ -166,18 +169,6 @@ class Manager implements IManager {
 	 * @throws \BadMethodCallException if required values have not been set
 	 */
 	public function publish(IEvent $event) {
-		if (!$event->getApp()) {
-			throw new \BadMethodCallException('App not set', 10);
-		}
-		if (!$event->getType()) {
-			throw new \BadMethodCallException('Type not set', 11);
-		}
-		if ($event->getAffectedUser() === null) {
-			throw new \BadMethodCallException('Affected user not set', 12);
-		}
-		if ($event->getSubject() === null || $event->getSubjectParameters() === null) {
-			throw new \BadMethodCallException('Subject not set', 13);
-		}
 
 		if ($event->getAuthor() === null) {
 			if ($this->session->getUser() instanceof IUser) {
@@ -187,6 +178,10 @@ class Manager implements IManager {
 
 		if (!$event->getTimestamp()) {
 			$event->setTimestamp(time());
+		}
+
+		if (!$event->isValid()) {
+			throw new \BadMethodCallException('The given event is invalid');
 		}
 
 		foreach ($this->getConsumers() as $c) {
