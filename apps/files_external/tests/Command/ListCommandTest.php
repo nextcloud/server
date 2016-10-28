@@ -53,7 +53,7 @@ class ListCommandTest extends CommandTest {
 	}
 
 	public function testListAuthIdentifier() {
-		$l10n = $this->getMock('\OC_L10N', null, [], '', false);
+		$l10n = $this->getMock('\OPC\IL10N', null, [], '', false);
 		$session = $this->createMock(ISession::class);
 		$crypto = $this->createMock(ICrypto::class);
 		$instance = $this->getInstance();
