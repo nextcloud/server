@@ -2,6 +2,7 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Komentáře",
+    "Unknown user" : "Neznámý uživatel",
     "New comment …" : "Nový komentář ...",
     "Delete comment" : "Smazat komentář",
     "Post" : "Zveřejnit",
@@ -22,6 +23,8 @@ OC.L10N.register(
     "%1$s commented" : "%1$s okomentován",
     "You commented on %2$s" : "Okomentoval(a) jsi %2$s",
     "%1$s commented on %2$s" : "%1$s okomentoval %2$s",
+    "A (now) deleted user mentioned you in a comment on \"%s\"." : "Nyní již smazaný uživatel vás zmínil v komentáři na \"%s\".",
+    "%s mentioned you in a comment on \"%s\"." : "%s vás zmínil v komentáři na \"%s\".",
     "Type in a new comment..." : "Zadat nový komentář...",
     "No other comments available" : "Nejsou dostupné žádné další komentáře",
     "More comments..." : "Více komentářů...",

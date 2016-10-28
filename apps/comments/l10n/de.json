@@ -1,5 +1,6 @@
 { "translations": {
     "Comments" : "Kommentare",
+    "Unknown user" : "Unbekannter Benutzer",
     "New comment …" : "Neuer Kommentar ...",
     "Delete comment" : "Kommentar löschen",
     "Post" : "Speichern",

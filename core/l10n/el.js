@@ -167,7 +167,6 @@ OC.L10N.register(
     "Share with users or groups…" : "Διαμοιρασμός με χρήστες και ομάδες ...",
     "Share with users or remote users…" : "Διαμοιρασμός με χρήστες ή με απομακρυσμένους χρήστες...",
     "Error removing share" : "Σφάλμα αφαίρεσης κοινόχρηστου",
-    "Warning" : "Προειδοποίηση",
     "Error while sending notification" : "Σφάλμα κατά την αποστολή ειδοποίησης",
     "({scope})" : "({scope})",
     "Delete" : "Διαγραφή",
@@ -289,6 +288,7 @@ OC.L10N.register(
     "Allow editing" : "Επιτρέπεται η επεξεργασία",
     "can share" : "δυνατότητα διαμοιρασμού",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Διαμοιρασμός με άτομα σε άλλα ownClouds χρησιμοποιώντας την σύνταξη username@example.com/owncloud",
+    "Warning" : "Προειδοποίηση",
     "Updating to {version}" : "Ενημέρωση στην έκδοση {version}",
     "The update was successful. There were warnings." : "Η ενημέρωση ήταν επιτυχής. Υπάρχουν προειδοποιήσεις.",
     "No search results in other folders" : "Δεν υπάρχουν αποτελέσματα αναζήτησης σε άλλους φακέλους"

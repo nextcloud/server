@@ -172,7 +172,6 @@
     "Share with users or groups…" : "Del med brugere eller grupper...",
     "Share with users or remote users…" : "Del med brugere eller eksterne brugere...",
     "Error removing share" : "Fejl ved fjernelse af deling",
-    "Warning" : "Advarsel",
     "Error while sending notification" : "Fejl ved afsendelse af notifikation",
     "Non-existing tag #{tag}" : "Ikke-eksisterende mærke #{tag}",
     "restricted" : "begrænset",
@@ -294,6 +293,7 @@
     "Allow editing" : "Tillad redigering",
     "can share" : "kan dele",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Del med andre på ownCloud ved hjælp af syntaxen username@example.com/owncloud",
+    "Warning" : "Advarsel",
     "No search results in other folders" : "Søgning gav ingen resultater in andre mapper",
     "Cancel login" : "Annuller login"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

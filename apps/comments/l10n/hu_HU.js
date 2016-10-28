@@ -2,6 +2,7 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Hozzászólások",
+    "Unknown user" : "Ismeretlen felhasználó",
     "New comment …" : "Új hozzászólás...",
     "Delete comment" : "Hozzászólás törlése",
     "Post" : "Küldés",

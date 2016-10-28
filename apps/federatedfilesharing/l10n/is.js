@@ -28,8 +28,6 @@ OC.L10N.register(
     "File is already shared with %s" : "Skránni er þegar deilt með %s",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Deiling %s mistókst, gat ekki fundið %s, hugsanlega er þjónninn ekki tiltækur í augnablikinu.",
     "Could not find share" : "Gat ekki fundið sameign",
-    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Þú tókst við \"/%3$s\" sem fjartengdri sameign frá %1$s (fyrir hönd %2$s)",
-    "You received \"/%3$s\" as a remote share from %1$s" : "Þú tókst við \"/%3$s\" sem fjartengdri sameign frá %1$s",
     "Accept" : "Samþykkja",
     "Decline" : "Hafna",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Deila með mér í gegnum víðværa skýjasambandsauðkennið mitt #Nextcloud Federated Cloud ID, sjá %s",
@@ -43,6 +41,8 @@ OC.L10N.register(
     "Share it:" : "Deila því:",
     "Add to your website" : "Bæta við vefsvæðið þitt",
     "Share with me via Nextcloud" : "Deila með mér í gegnum Nextcloud",
-    "HTML Code:" : "HTML-kóði:"
+    "HTML Code:" : "HTML-kóði:",
+    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Þú tókst við \"/%3$s\" sem fjartengdri sameign frá %1$s (fyrir hönd %2$s)",
+    "You received \"/%3$s\" as a remote share from %1$s" : "Þú tókst við \"/%3$s\" sem fjartengdri sameign frá %1$s"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

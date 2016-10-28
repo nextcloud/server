@@ -163,7 +163,6 @@ OC.L10N.register(
     "Share with users or groups…" : "Sprístupniť používateľom alebo skupinám...",
     "Share with users or remote users…" : "Sprístupniť používateľom alebo vzdialeným používateľom...",
     "Error removing share" : "Chyba pri rušení sprístupnenia",
-    "Warning" : "Varovanie",
     "Error while sending notification" : "Chyba pri posielaní oznámenia",
     "invisible" : "neviditeľný",
     "Delete" : "Zmazať",
@@ -280,6 +279,7 @@ OC.L10N.register(
     "Allow editing" : "Povoliť úpravy",
     "can share" : "môže zdieľať",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Zdieľať s ľuďmi na iných serveroch ownClouds pomocou syntaxe používateľ@doména.com/owncloud",
+    "Warning" : "Varovanie",
     "No search results in other folders" : "Žiadne výsledky vyhľadávania v ostatných priečinkoch"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

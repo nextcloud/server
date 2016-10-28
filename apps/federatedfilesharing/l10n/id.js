@@ -28,8 +28,6 @@ OC.L10N.register(
     "File is already shared with %s" : "Berkas sudah dibagikan dengan %s",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Berbagi %s gagal, tidak menemukan %s, kemungkinan saat ini server tidak dapat dijangkau.",
     "Could not find share" : "Tidak dapat mencari pembagian",
-    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Anda menerima \"/%3$s\" sebagai berbagi remote dari %1$s (mewakili %2$s)",
-    "You received \"/%3$s\" as a remote share from %1$s" : "Anda menerima \"/%3$s\" sebagai berbagi remote dari %1$s",
     "Accept" : "Terima",
     "Decline" : "Tolak",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Dibagikan pada saya melalui #Nextcloud Federated Cloud ID saya, lihat %s",
@@ -43,6 +41,8 @@ OC.L10N.register(
     "Share it:" : "Bagikan:",
     "Add to your website" : "Tambahkan pada situs web Anda",
     "Share with me via Nextcloud" : "Dibagikan pada saya via Nextcloud",
-    "HTML Code:" : "Kode HTML:"
+    "HTML Code:" : "Kode HTML:",
+    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Anda menerima \"/%3$s\" sebagai berbagi remote dari %1$s (mewakili %2$s)",
+    "You received \"/%3$s\" as a remote share from %1$s" : "Anda menerima \"/%3$s\" sebagai berbagi remote dari %1$s"
 },
 "nplurals=1; plural=0;");

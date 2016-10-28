@@ -26,8 +26,6 @@
     "File is already shared with %s" : "Le fichier est déjà partagé avec %s",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Le partage de %s a échoué : impossible de trouver %s. Peut-être le serveur est-il momentanément injoignable.",
     "Could not find share" : "Impossible de trouver le partage",
-    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Vous avez reçu  \"/%3$s\" en tant que ressource distante de %1$s (de la part de %2$s)",
-    "You received \"/%3$s\" as a remote share from %1$s" : "Vous avez reçu \"/%3$s\" comme partage distant de %1$s",
     "Accept" : "Accepter",
     "Decline" : "Refuser",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Partagez avec moi grâce à mon identifiant Federated Cloud #Nextcloud %s",
@@ -41,6 +39,8 @@
     "Share it:" : "Partager :",
     "Add to your website" : "Ajouter à votre site web",
     "Share with me via Nextcloud" : "Partagez avec moi via Nextcloud",
-    "HTML Code:" : "Code HTML :"
+    "HTML Code:" : "Code HTML :",
+    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Vous avez reçu  \"/%3$s\" en tant que ressource distante de %1$s (de la part de %2$s)",
+    "You received \"/%3$s\" as a remote share from %1$s" : "Vous avez reçu \"/%3$s\" comme partage distant de %1$s"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
