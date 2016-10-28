@@ -67,7 +67,11 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder
 	 */
 	public function getQueryBuilder() {
-		return new QueryBuilder($this);
+		return new QueryBuilder(
+			$this,
+			\OC::$server->getSystemConfig(),
+			\OC::$server->getLogger()
+		);
 	}
 
 	/**
