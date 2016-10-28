@@ -239,12 +239,10 @@ class Notification implements INotification {
 		if (!is_string($subject) || $subject === '' || isset($subject[64])) {
 			throw new \InvalidArgumentException('The given subject is invalid');
 		}
-		$this->subject = $subject;
 
-		if (!is_array($parameters)) {
-			throw new \InvalidArgumentException('The given subject parameters are invalid');
-		}
+		$this->subject = $subject;
 		$this->subjectParameters = $parameters;
+
 		return $this;
 	}
 
@@ -297,11 +295,8 @@ class Notification implements INotification {
 		if (!is_string($subject) || $subject === '') {
 			throw new \InvalidArgumentException('The given parsed subject is invalid');
 		}
-		$this->subjectRich = $subject;
 
-		if (!is_array($parameters)) {
-			throw new \InvalidArgumentException('The given subject parameters are invalid');
-		}
+		$this->subjectRich = $subject;
 		$this->subjectRichParameters = $parameters;
 
 		return $this;
@@ -334,12 +329,10 @@ class Notification implements INotification {
 		if (!is_string($message) || $message === '' || isset($message[64])) {
 			throw new \InvalidArgumentException('The given message is invalid');
 		}
-		$this->message = $message;
 
-		if (!is_array($parameters)) {
-			throw new \InvalidArgumentException('The given message parameters are invalid');
-		}
+		$this->message = $message;
 		$this->messageParameters = $parameters;
+
 		return $this;
 	}
 
@@ -392,11 +385,8 @@ class Notification implements INotification {
 		if (!is_string($message) || $message === '') {
 			throw new \InvalidArgumentException('The given parsed message is invalid');
 		}
-		$this->messageRich = $message;
 
-		if (!is_array($parameters)) {
-			throw new \InvalidArgumentException('The given message parameters are invalid');
-		}
+		$this->messageRich = $message;
 		$this->messageRichParameters = $parameters;
 
 		return $this;
