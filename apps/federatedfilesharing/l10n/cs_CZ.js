@@ -28,8 +28,6 @@ OC.L10N.register(
     "File is already shared with %s" : "Soubor je již sdílen s %s",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Sdílení %s selhalo, %s se nepodařilo nalézt, server pravděpodobně právě není dostupný.",
     "Could not find share" : "Nelze nalézt sdílení",
-    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Obdrželi jste \"/%3$s\" jako vzdálené sdílení od %1$s (zastupuje %2$s)",
-    "You received \"/%3$s\" as a remote share from %1$s" : "Obdrželi jste \"/%3$s\" jako vzdálené sdílení od %1$s",
     "Accept" : "Přijmout",
     "Decline" : "Zamítnout",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Sdílej se mnou pomocí mého #Nextcloud sdruženého cloud ID, více na %s",
@@ -43,6 +41,8 @@ OC.L10N.register(
     "Share it:" : "Sdílet:",
     "Add to your website" : "Přidat na svou webovou stránku",
     "Share with me via Nextcloud" : "Sdíleno se mnou přes Nextcloud",
-    "HTML Code:" : "HTML kód:"
+    "HTML Code:" : "HTML kód:",
+    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Obdrželi jste \"/%3$s\" jako vzdálené sdílení od %1$s (zastupuje %2$s)",
+    "You received \"/%3$s\" as a remote share from %1$s" : "Obdrželi jste \"/%3$s\" jako vzdálené sdílení od %1$s"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

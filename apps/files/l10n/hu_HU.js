@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files",
     {
+    "Storage is temporarily not available" : "A tároló átmenetileg nem érhető el",
     "Storage invalid" : "A tároló érvénytelen",
     "Unknown error" : "Ismeretlen hiba",
     "Files" : "Fájlok",

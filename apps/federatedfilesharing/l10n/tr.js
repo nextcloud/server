@@ -28,8 +28,6 @@ OC.L10N.register(
     "File is already shared with %s" : "Dosya zaten %s ile paylaşılmış",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "%s paylaşımı başarısız. %s bulunamadı veya sunucu şu anda ulaşılamıyor olabilir.",
     "Could not find share" : "Paylaşım bulunamadı",
-    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "%1$s kişisinden \"/%3$s\" uzak paylaşımını aldınız (%2$s aracılığıyla)",
-    "You received \"/%3$s\" as a remote share from %1$s" : "%1$s kişisinden \"/%3$s\" uzak paylaşımını aldınız",
     "Accept" : "Kabul et",
     "Decline" : "Reddet",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "#Nextcloud Birleşik Bulut kimliğim ile paylaş, bkz %s",
@@ -43,6 +41,8 @@ OC.L10N.register(
     "Share it:" : "Paylaşın:",
     "Add to your website" : "Web sitenize ekleyin",
     "Share with me via Nextcloud" : "Benimle Nextcloud aracılığıyla paylaşın",
-    "HTML Code:" : "HTML Kodu:"
+    "HTML Code:" : "HTML Kodu:",
+    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "%1$s kişisinden \"/%3$s\" uzak paylaşımını aldınız (%2$s aracılığıyla)",
+    "You received \"/%3$s\" as a remote share from %1$s" : "%1$s kişisinden \"/%3$s\" uzak paylaşımını aldınız"
 },
 "nplurals=2; plural=(n > 1);");

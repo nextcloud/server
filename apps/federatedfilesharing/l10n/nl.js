@@ -28,8 +28,6 @@ OC.L10N.register(
     "File is already shared with %s" : "Bestand is al gedeeld met %s",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Delen van %s mislukt, kon %s niet vinden, misschien is de server niet bereikbaar.",
     "Could not find share" : "Kon share niet vinden",
-    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Je ontving \"/%3$s\" als een externe share van %1$s (namens %2$s)",
-    "You received \"/%3$s\" as a remote share from %1$s" : "Je ontving \"/%3$s\" als een externe share van %1$s",
     "Accept" : "Accepteren",
     "Decline" : "Afwijzen",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Deel met mij via mijn #Nextcloud federated Cloud ID, zie %s",
@@ -43,6 +41,8 @@ OC.L10N.register(
     "Share it:" : "Deel het:",
     "Add to your website" : "Toevoegen aan je website",
     "Share with me via Nextcloud" : "Deel met mij via Nextcloud",
-    "HTML Code:" : "HTML Code:"
+    "HTML Code:" : "HTML Code:",
+    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Je ontving \"/%3$s\" als een externe share van %1$s (namens %2$s)",
+    "You received \"/%3$s\" as a remote share from %1$s" : "Je ontving \"/%3$s\" als een externe share van %1$s"
 },
 "nplurals=2; plural=(n != 1);");

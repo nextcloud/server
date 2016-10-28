@@ -28,8 +28,6 @@ OC.L10N.register(
     "File is already shared with %s" : "Datei wird bereits geteilt mit %s",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Die Freigabe von %s ist fehlgeschlagen, da %s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar.",
     "Could not find share" : "Freigabe konnte nicht gefunden werden",
-    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Sie haben \"/%3$s\" als Remotefreigabe von %1$s (als Teil von %2$s) erhalten",
-    "You received \"/%3$s\" as a remote share from %1$s" : "Sie haben \"/%3$s\" als Remotefreigabe von %1$s erhalten",
     "Accept" : "Akzeptieren",
     "Decline" : "Ablehnen",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Teilen Sie mit mir über meine #Nextcloud Federated-Cloud-ID, siehe %s",
@@ -43,6 +41,8 @@ OC.L10N.register(
     "Share it:" : "Zum Teilen:",
     "Add to your website" : "Zu Ihrer Website hinzufügen",
     "Share with me via Nextcloud" : "Teilen Sie mit mir über Nextcloud",
-    "HTML Code:" : "HTML-Code:"
+    "HTML Code:" : "HTML-Code:",
+    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Sie haben \"/%3$s\" als Remotefreigabe von %1$s (als Teil von %2$s) erhalten",
+    "You received \"/%3$s\" as a remote share from %1$s" : "Sie haben \"/%3$s\" als Remotefreigabe von %1$s erhalten"
 },
 "nplurals=2; plural=(n != 1);");

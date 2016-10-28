@@ -28,8 +28,6 @@ OC.L10N.register(
     "File is already shared with %s" : "Filen er allerede delt med %s",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Deling %s feilet, fant ikke %s, kanskje tjeneren er utilgjengelig for øyeblikket.",
     "Could not find share" : "Kunne ikke finne ressurs",
-    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Du mottor \"/%3$s\" som en fjerndeling fra %1$s (på vegne av %2$s)",
-    "You received \"/%3$s\" as a remote share from %1$s" : "Du mottok \"/%3$s\" som en fjerndeling fra %1$s",
     "Accept" : "Aksepter",
     "Decline" : "Avslå",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Del med meg gjennom min #Nextcloud ID for sammenknyttet sky, se %s",
@@ -43,6 +41,8 @@ OC.L10N.register(
     "Share it:" : "Del den:",
     "Add to your website" : "Legg på websiden din",
     "Share with me via Nextcloud" : "Del med meg via Nextcloud",
-    "HTML Code:" : "HTML-kode:"
+    "HTML Code:" : "HTML-kode:",
+    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Du mottor \"/%3$s\" som en fjerndeling fra %1$s (på vegne av %2$s)",
+    "You received \"/%3$s\" as a remote share from %1$s" : "Du mottok \"/%3$s\" som en fjerndeling fra %1$s"
 },
 "nplurals=2; plural=(n != 1);");

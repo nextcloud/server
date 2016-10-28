@@ -163,7 +163,6 @@
     "Share with users, groups or remote users…" : "แชร์กับผู้ใช้หรือกลุ่มหรือผู้ใช้โดยการรีโมท ...",
     "Share with users or remote users…" : "แชร์กับผู้ใช้หรือผู้ใช้โดยการรีโมท ...",
     "Error removing share" : "พบข้อผิดพลาดในรายการที่แชร์ออก",
-    "Warning" : "คำเตือน",
     "Error while sending notification" : "เกิดข้อผิดพลาดขณะกำลังส่งการแจ้งเตือน",
     "Non-existing tag #{tag}" : "ไม่มีแท็กนี้อยู่ #{tag}",
     "invisible" : "จะมองไม่เห็น",
@@ -279,6 +278,7 @@
     "Allow editing" : "อนุญาตให้แก้ไข",
     "can share" : "สามารถแชร์ได้",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "แชร์กับคนใน ownClouds อื่นๆ ที่ใช้ไวยากรณ์ username@example.com/owncloud ",
+    "Warning" : "คำเตือน",
     "No search results in other folders" : "ไม่พบผลลัพธ์การค้นหาในโฟลเดอร์อื่นๆ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

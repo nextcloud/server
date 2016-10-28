@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files",
     {
+    "Storage is temporarily not available" : "Úložiště je dočasně nedostupné",
     "Storage invalid" : "Neplatné úložiště",
     "Unknown error" : "Neznámá chyba",
     "Files" : "Soubory",
@@ -53,6 +54,7 @@ OC.L10N.register(
     "Could not create file \"{file}\" because it already exists" : "Nelze vytvořit soubor \"{file}\", protože již existuje",
     "Could not create folder \"{dir}\" because it already exists" : "Nelze vytvořit adresář \"{dir}\", protože již existuje",
     "Error deleting file \"{fileName}\"." : "Chyba mazání souboru \"{fileName}\".",
+    "No search results in other folders for '{tag}{filter}{endtag}'" : "Žádné výsledky hledání '{tag}{filter}{endtag}' v dalších adresářích",
     "Name" : "Název",
     "Size" : "Velikost",
     "Modified" : "Upraveno",
