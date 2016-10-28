@@ -253,11 +253,31 @@ class Installer {
 		$apps = $appFetcher->get();
 		foreach($apps as $app) {
 			if($app['id'] === $appId) {
+				// Load the certificate
+				$certificate = new X509();
+				$certificate->loadCA(file_get_contents(__DIR__ . '/../../resources/codesigning/root.crt'));
+				$loadedCertificate = $certificate->loadX509($app['certificate']);
+
+				// Verify if the certificate has been revoked
+				$crl = new X509();
+				$crl->loadCA(file_get_contents(__DIR__ . '/../../resources/codesigning/root.crt'));
+				$crl->loadCRL(file_get_contents(__DIR__ . '/../../resources/codesigning/root.crl'));
+				if($crl->validateSignature() !== true) {
+					throw new \Exception('Could not validate CRL signature');
+				}
+				$csn = $loadedCertificate['tbsCertificate']['serialNumber']->toString();
+				$revoked = $crl->getRevoked($csn);
+				if ($revoked !== false) {
+					throw new \Exception(
+						sprintf(
+							'Certificate "%s" has been revoked',
+							$csn
+						)
+					);
+				}
+
 				// Verify if the certificate has been issued by the Nextcloud Code Authority CA
-				$x509 = new X509();
-				$x509->loadCA(file_get_contents(__DIR__ . '/../../resources/codesigning/root.crt'));
-				$x509->loadX509($app['certificate']);
-				if($x509->validateSignature() !== true) {
+				if($certificate->validateSignature() !== true) {
 					throw new \Exception(
 						sprintf(
 							'App with id %s has a certificate not issued by a trusted Code Signing Authority',
