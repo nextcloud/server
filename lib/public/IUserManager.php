@@ -142,7 +142,7 @@ interface IUserManager {
 	 * @param string $search
 	 * @since 9.0.0
 	 */
-	public function callForAllUsers (\Closure $callback, $search = '');
+	public function callForAllUsers(\Closure $callback, $search = '');
 
 	/**
 	 * returns how many users have logged in once
@@ -154,10 +154,9 @@ interface IUserManager {
 
 	/**
 	 * @param \Closure $callback
-	 * @param string $search
 	 * @since 9.2.0
 	 */
-	public function callForSeenUsers (\Closure $callback);
+	public function callForSeenUsers(\Closure $callback);
 
 	/**
 	 * @param string $email

@@ -72,7 +72,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * @param \OCP\IConfig $config
 	 */
-	public function __construct(IConfig $config = null) {
+	public function __construct(IConfig $config) {
 		$this->config = $config;
 		$cachedUsers = &$this->cachedUsers;
 		$this->listen('\OC\User', 'postDelete', function ($user) use (&$cachedUsers) {
@@ -389,25 +389,23 @@ class Manager extends PublicEmitter implements IUserManager {
 		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$queryBuilder->select($queryBuilder->createFunction('COUNT(*)'))
 			->from('preferences')
-			->where($queryBuilder->expr()->eq(
-				'appid', $queryBuilder->createNamedParameter('login'))
-			)
-			->andWhere($queryBuilder->expr()->eq(
-				'configkey', $queryBuilder->createNamedParameter('lastLogin'))
-			)
-			->andWhere($queryBuilder->expr()->isNotNull('configvalue')
-			);
+			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('login')))
+			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('lastLogin')))
+			->andWhere($queryBuilder->expr()->isNotNull('configvalue'));
 
 		$query = $queryBuilder->execute();
-		return (int)$query->fetchColumn();
+
+		$result = (int)$query->fetchColumn();
+		$query->closeCursor();
+
+		return $result;
 	}
 
 	/**
 	 * @param \Closure $callback
-	 * @param string $search
 	 * @since 9.2.0
 	 */
-	public function callForSeenUsers (\Closure $callback) {
+	public function callForSeenUsers(\Closure $callback) {
 		$limit = 1000;
 		$offset = 0;
 		do {
@@ -462,8 +460,11 @@ class Manager extends PublicEmitter implements IUserManager {
 			$result[] = $row['userid'];
 		}
 
+		$query->closeCursor();
+
 		return $result;
 	}
+
 	/**
 	 * @param string $email
 	 * @return IUser[]

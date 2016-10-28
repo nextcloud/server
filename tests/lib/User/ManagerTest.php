@@ -9,6 +9,7 @@
 
 namespace Test\User;
 use OC\User\Database;
+use OCP\IConfig;
 use OCP\IUser;
 use Test\TestCase;
 
@@ -20,9 +21,19 @@ use Test\TestCase;
  * @package Test\User
  */
 class ManagerTest extends TestCase {
+
+	/** @var IConfig */
+	private $config;
+
+	public function setUp() {
+		parent::setUp();
+
+		$this->config = $this->createMock(IConfig::class);
+	}
+
 	public function testGetBackends() {
 		$userDummyBackend = $this->createMock(\Test\Util\User\Dummy::class);
-		$manager = new \OC\User\Manager();
+		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($userDummyBackend);
 		$this->assertEquals([$userDummyBackend], $manager->getBackends());
 		$dummyDatabaseBackend = $this->createMock(Database::class);
@@ -41,7 +52,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->will($this->returnValue(true));
 
-		$manager = new \OC\User\Manager();
+		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend);
 
 		$this->assertTrue($manager->userExists('foo'));
@@ -57,14 +68,14 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->will($this->returnValue(false));
 
-		$manager = new \OC\User\Manager();
+		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend);
 
 		$this->assertFalse($manager->userExists('foo'));
 	}
 
 	public function testUserExistsNoBackends() {
-		$manager = new \OC\User\Manager();
+		$manager = new \OC\User\Manager($this->config);
 
 		$this->assertFalse($manager->userExists('foo'));
 	}
@@ -88,7 +99,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->will($this->returnValue(true));
 
-		$manager = new \OC\User\Manager();
+		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend1);
 		$manager->registerBackend($backend2);
 
@@ -112,7 +123,7 @@ class ManagerTest extends TestCase {
 		$backend2->expects($this->never())
 			->method('userExists');
 
-		$manager = new \OC\User\Manager();
+		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend1);
 		$manager->registerBackend($backend2);
 
@@ -139,7 +150,7 @@ class ManagerTest extends TestCase {
 				}
 			}));
 
-		$manager = new \OC\User\Manager();
+		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend);
 
 		$user = $manager->checkPassword('foo', 'bar');
@@ -158,7 +169,7 @@ class ManagerTest extends TestCase {
 			->method('implementsActions')
 			->will($this->returnValue(false));
 
-		$manager = new \OC\User\Manager();
+		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend);
 
 		$this->assertFalse($manager->checkPassword('foo', 'bar'));
@@ -174,7 +185,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->will($this->returnValue(true));
 
-		$manager = new \OC\User\Manager();
+		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend);
 
 		$this->assertEquals('foo', $manager->get('foo')->getUID());
@@ -190,7 +201,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->will($this->returnValue(false));
 
-		$manager = new \OC\User\Manager();
+		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend);
 
 		$this->assertEquals(null, $manager->get('foo'));
@@ -206,7 +217,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('fo'))
 			->will($this->returnValue(array('foo', 'afoo')));
 
-		$manager = new \OC\User\Manager();
+		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend);
 
 		$result = $manager->search('fo');
@@ -234,7 +245,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('fo'), $this->equalTo(3), $this->equalTo(1))
 			->will($this->returnValue(array('foo3')));
 
-		$manager = new \OC\User\Manager();
+		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend1);
 		$manager->registerBackend($backend2);
 
@@ -263,7 +274,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->will($this->returnValue(false));
 
-		$manager = new \OC\User\Manager();
+		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend);
 
 		$user = $manager->createUser('foo', 'bar');
@@ -290,7 +301,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->will($this->returnValue(true));
 
-		$manager = new \OC\User\Manager();
+		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend);
 
 		$manager->createUser('foo', 'bar');
@@ -313,14 +324,14 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->will($this->returnValue(false));
 
-		$manager = new \OC\User\Manager();
+		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend);
 
 		$this->assertFalse($manager->createUser('foo', 'bar'));
 	}
 
 	public function testCreateUserNoBackends() {
-		$manager = new \OC\User\Manager();
+		$manager = new \OC\User\Manager($this->config);
 
 		$this->assertFalse($manager->createUser('foo', 'bar'));
 	}
@@ -361,7 +372,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->will($this->returnValue(true));
 
-		$manager = new \OC\User\Manager();
+		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend1);
 		$manager->registerBackend($backend2);
 
@@ -369,7 +380,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCountUsersNoBackend() {
-		$manager = new \OC\User\Manager();
+		$manager = new \OC\User\Manager($this->config);
 
 		$result = $manager->countUsers();
 		$this->assertTrue(is_array($result));
@@ -394,7 +405,7 @@ class ManagerTest extends TestCase {
 			->method('getBackendName')
 			->will($this->returnValue('Mock_Test_Util_User_Dummy'));
 
-		$manager = new \OC\User\Manager();
+		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend);
 
 		$result = $manager->countUsers();
@@ -435,7 +446,7 @@ class ManagerTest extends TestCase {
 			->method('getBackendName')
 			->will($this->returnValue('Mock_Test_Util_User_Dummy'));
 
-		$manager = new \OC\User\Manager();
+		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend1);
 		$manager->registerBackend($backend2);
 

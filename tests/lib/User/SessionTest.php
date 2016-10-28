@@ -190,7 +190,10 @@ class SessionTest extends \Test\TestCase {
 				unset($managerMethods[$i]);
 			}
 		}
-		$manager = $this->getMockBuilder(Manager::class)->setMethods($managerMethods)->getMock();
+		$manager = $this->getMockBuilder(Manager::class)
+			->setMethods($managerMethods)
+			->setConstructorArgs([$this->config])
+			->getMock();
 
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
@@ -245,7 +248,10 @@ class SessionTest extends \Test\TestCase {
 				unset($managerMethods[$i]);
 			}
 		}
-		$manager = $this->getMockBuilder(Manager::class)->setMethods($managerMethods)->getMock();
+		$manager = $this->getMockBuilder(Manager::class)
+			->setMethods($managerMethods)
+			->setConstructorArgs([$this->config])
+			->getMock();
 
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
@@ -277,7 +283,10 @@ class SessionTest extends \Test\TestCase {
 				unset($managerMethods[$i]);
 			}
 		}
-		$manager = $this->getMockBuilder(Manager::class)->setMethods($managerMethods)->getMock();
+		$manager = $this->getMockBuilder(Manager::class)
+			->setMethods($managerMethods)
+			->setConstructorArgs([$this->config])
+			->getMock();
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config);
 
@@ -527,7 +536,10 @@ class SessionTest extends \Test\TestCase {
 				unset($managerMethods[$i]);
 			}
 		}
-		$manager = $this->getMockBuilder(Manager::class)->setMethods($managerMethods)->getMock();
+		$manager = $this->getMockBuilder(Manager::class)
+			->setMethods($managerMethods)
+			->setConstructorArgs([$this->config])
+			->getMock();
 
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
@@ -577,7 +589,10 @@ class SessionTest extends \Test\TestCase {
 				unset($managerMethods[$i]);
 			}
 		}
-		$manager = $this->getMockBuilder(Manager::class)->setMethods($managerMethods)->getMock();
+		$manager = $this->getMockBuilder(Manager::class)
+			->setMethods($managerMethods)
+			->setConstructorArgs([$this->config])
+			->getMock();
 
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
@@ -621,7 +636,10 @@ class SessionTest extends \Test\TestCase {
 				unset($managerMethods[$i]);
 			}
 		}
-		$manager = $this->getMockBuilder(Manager::class)->setMethods($managerMethods)->getMock();
+		$manager = $this->getMockBuilder(Manager::class)
+			->setMethods($managerMethods)
+			->setConstructorArgs([$this->config])
+			->getMock();
 
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
