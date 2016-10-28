@@ -139,6 +139,29 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return \Doctrine\DBAL\Driver\Statement|int
 	 */
 	public function execute() {
+		if (\OC::$server->getConfig()->getSystemValue('log_query', false)) {
+			$params = [];
+			foreach ($this->getParameters() as $placeholder => $value) {
+				if (is_array($value)) {
+					$params[] = $placeholder . ' => (\'' . implode('\', \'', $value) . '\')';
+				} else {
+					$params[] = $placeholder . ' => \'' . $value . '\'';
+				}
+			}
+			if (empty($params)) {
+				\OC::$server->getLogger()->debug('DB QueryBuilder: \'{query}\'', [
+					'query' => $this->getSQL(),
+					'app' => 'core',
+				]);
+			} else {
+				\OC::$server->getLogger()->debug('DB QueryBuilder: \'{query}\' with parameters: {params}', [
+					'query' => $this->getSQL(),
+					'params' => implode(', ', $params),
+					'app' => 'core',
+				]);
+			}
+		}
+
 		return $this->queryBuilder->execute();
 	}
 
