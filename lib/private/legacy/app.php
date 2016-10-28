@@ -345,7 +345,7 @@ class OC_App {
 		$isDownloaded = $installer->isDownloaded($appId);
 
 		if(!$isDownloaded) {
-			$state = $installer->downloadApp(
+			$installer->downloadApp(
 				$appId,
 				new \OC\App\AppStore\Fetcher\AppFetcher(
 					\OC::$server->getAppDataDir('appstore'),
@@ -354,18 +354,8 @@ class OC_App {
 					$config
 				),
 				\OC::$server->getHTTPClientService(),
-				\OC::$server->getTempManager(),
-				\OC::$server->getLogger()
+				\OC::$server->getTempManager()
 			);
-
-			if($state !== true) {
-				throw new \Exception(
-					sprintf(
-						'Could not download app with id: %s',
-						$appId
-					)
-				);
-			}
 		}
 
 		if (!Installer::isInstalled($appId)) {

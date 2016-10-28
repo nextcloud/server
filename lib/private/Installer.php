@@ -241,16 +241,13 @@ class Installer {
 	 * @param AppFetcher $appFetcher
 	 * @param IClientService $clientService
 	 * @param ITempManager $tempManager
-	 * @param ILogger $logger
 	 *
-	 * @return bool Whether the installation was successful or not
-	 * @throws \Exception
+	 * @throws \Exception If the installation was not successful
 	 */
 	public function downloadApp($appId,
 								AppFetcher $appFetcher,
 								IClientService $clientService,
-								ITempManager $tempManager,
-								ILogger $logger) {
+								ITempManager $tempManager) {
 		$appId = strtolower($appId);
 
 		$apps = $appFetcher->get();
@@ -261,7 +258,7 @@ class Installer {
 				$x509->loadCA(file_get_contents(__DIR__ . '/../../resources/codesigning/root.crt'));
 				$x509->loadX509($app['certificate']);
 				if($x509->validateSignature() !== true) {
-					$logger->error(
+					throw new \Exception(
 						sprintf(
 							'App with id %s has a certificate not issued by a trusted Code Signing Authority',
 							$appId
@@ -270,13 +267,12 @@ class Installer {
 							'app' => 'core',
 						]
 					);
-					return false;
 				}
 
 				// Verify if the certificate is issued for the requested app id
 				$certInfo = openssl_x509_parse($app['certificate']);
 				if(!isset($certInfo['subject']['CN'])) {
-					$logger->error(
+					throw new \Exception(
 						sprintf(
 							'App with id %s has a cert with no CN',
 							$appId
@@ -285,10 +281,9 @@ class Installer {
 							'app' => 'core',
 						]
 					);
-					return false;
 				}
 				if($certInfo['subject']['CN'] !== $appId) {
-					$logger->error(
+					throw new \Exception(
 						sprintf(
 							'App with id %s has a cert issued to %s',
 							$appId,
@@ -298,13 +293,11 @@ class Installer {
 							'app' => 'core',
 						]
 					);
-					return false;
 				}
 
 				// Download the release
 				$tempFile = $tempManager->getTemporaryFile('.tar.gz');
 				$client = $clientService->newClient();
-				// FIXME: Proper way to determine what the latest release is
 				$client->get($app['releases'][0]['download'], ['save_to' => $tempFile]);
 
 				// Check if the signature actually matches the downloaded content
@@ -325,7 +318,7 @@ class Installer {
 						$xml = simplexml_load_file($extractDir . '/' . $appId . '/appinfo/info.xml');
 						libxml_disable_entity_loader($loadEntities);
 						if((string)$xml->id !== $appId) {
-							$logger->error(
+							throw new \Exception(
 								sprintf(
 									'App for id %s has a wrong app ID in info.xml: %s',
 									$appId,
@@ -335,7 +328,6 @@ class Installer {
 									'app' => 'core',
 								]
 							);
-							return false;
 						}
 
 						// Move to app folder
@@ -347,9 +339,8 @@ class Installer {
 						}
 						OC_Helper::copyr($extractDir, $baseDir);
 						OC_Helper::rmdirr($extractDir);
-						return true;
 					} else {
-						$logger->error(
+						throw new \Exception(
 							sprintf(
 								'Could not extract app with ID %s to %s',
 								$appId,
@@ -359,11 +350,10 @@ class Installer {
 								'app' => 'core',
 							]
 						);
-						return false;
 					}
 				} else {
 					// Signature does not match
-					$logger->error(
+					throw new \Exception(
 						sprintf(
 							'App with id %s has invalid signature',
 							$appId
@@ -375,8 +365,6 @@ class Installer {
 				}
 			}
 		}
-
-		return false;
 	}
 
 	/**
