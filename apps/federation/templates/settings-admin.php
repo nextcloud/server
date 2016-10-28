@@ -2,7 +2,7 @@
 /** @var array $_ */
 use OCA\Federation\TrustedServers;
 
-/** @var OC_L10N $l */
+/** @var \OCP\IL10N $l */
 script('federation', 'settings-admin');
 style('federation', 'settings-admin')
 ?>

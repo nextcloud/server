@@ -1,5 +1,5 @@
 <?php
-/** @var $l OC_L10N */
+/** @var $l \OCP\IL10N */
 /** @var $_ array */
 /* @var $error boolean */
 $error = $_['error'];

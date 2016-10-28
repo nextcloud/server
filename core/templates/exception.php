@@ -1,6 +1,6 @@
 <?php
 	/** @var array $_ */
-	/** @var OC_L10N $l */
+	/** @var \OCP\IL10N $l */
 
 style('core', ['styles', 'header']);
 ?>

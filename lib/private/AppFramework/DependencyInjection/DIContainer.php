@@ -533,6 +533,9 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->query('OC\CapabilitiesManager')->registerCapability(function() use ($serviceName) {
 			return $this->query($serviceName);
 		});
+	}
 
+	public function query($name) {
+		return parent::query($name);
 	}
 }
