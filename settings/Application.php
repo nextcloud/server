@@ -96,7 +96,7 @@ class Application extends App {
 			return new AppFetcher(
 				$server->getAppDataDir('appstore'),
 				$server->getHTTPClientService(),
-				new TimeFactory(),
+				$server->query(TimeFactory::class),
 				$server->getConfig()
 			);
 		});
@@ -106,7 +106,7 @@ class Application extends App {
 			return new CategoryFetcher(
 				$server->getAppDataDir('appstore'),
 				$server->getHTTPClientService(),
-				new TimeFactory()
+				$server->query(TimeFactory::class)
 			);
 		});
 	}

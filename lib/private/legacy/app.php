@@ -350,7 +350,7 @@ class OC_App {
 				new \OC\App\AppStore\Fetcher\AppFetcher(
 					\OC::$server->getAppDataDir('appstore'),
 					\OC::$server->getHTTPClientService(),
-					new \OC\AppFramework\Utility\TimeFactory(),
+					\OC::$server->query(\OC\AppFramework\Utility\TimeFactory::class),
 					$config
 				),
 				\OC::$server->getHTTPClientService(),
