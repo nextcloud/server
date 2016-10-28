@@ -26,33 +26,55 @@ namespace OC\Activity;
 use OCP\Activity\IEvent;
 
 class Event implements IEvent {
+
+	/** @var string */
+	protected $app = '';
+	/** @var string */
+	protected $type = '';
+	/** @var string */
+	protected $affectedUser = '';
+	/** @var string */
+	protected $author = '';
+	/** @var int */
+	protected $timestamp = 0;
+	/** @var string */
+	protected $subject = '';
 	/** @var array */
-	protected $data = [
-		'app' => null,
-		'type' => null,
-		'affected_user' => null,
-		'author' => null,
-		'timestamp' => null,
-		'subject' => null,
-		'subject_parameters' => null,
-		'message' => '',
-		'message_parameters' => [],
-		'object_type' => '',
-		'object_id' => 0,
-		'object_name' => '',
-		'link' => '',
-	];
+	protected $subjectParameters = [];
+	/** @var string */
+	protected $message = '';
+	/** @var array */
+	protected $messageParameters = [];
+	/** @var string */
+	protected $objectType = '';
+	/** @var int */
+	protected $objectId = 0;
+	/** @var string */
+	protected $objectName = '';
+	/** @var string */
+	protected $link = '';
 
 	/**
 	 * Set the app of the activity
 	 *
 	 * @param string $app
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the app id is invalid
 	 * @since 8.2.0
 	 */
 	public function setApp($app) {
-		$this->data['app'] = (string) $app;
+		if (!is_string($app) || $app === '' || isset($app[32])) {
+			throw new \InvalidArgumentException('The given app is invalid');
+		}
+		$this->app = (string) $app;
 		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getApp() {
+		return $this->app;
 	}
 
 	/**
@@ -60,11 +82,22 @@ class Event implements IEvent {
 	 *
 	 * @param string $type
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the type is invalid
 	 * @since 8.2.0
 	 */
 	public function setType($type) {
-		$this->data['type'] = (string) $type;
+		if (!is_string($type) || $type === '' || isset($type[255])) {
+			throw new \InvalidArgumentException('The given type is invalid');
+		}
+		$this->type = (string) $type;
 		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getType() {
+		return $this->type;
 	}
 
 	/**
@@ -72,11 +105,22 @@ class Event implements IEvent {
 	 *
 	 * @param string $affectedUser
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the affected user is invalid
 	 * @since 8.2.0
 	 */
 	public function setAffectedUser($affectedUser) {
-		$this->data['affected_user'] = (string) $affectedUser;
+		if (!is_string($affectedUser) || $affectedUser === '' || isset($affectedUser[64])) {
+			throw new \InvalidArgumentException('The given affected user is invalid');
+		}
+		$this->affectedUser = (string) $affectedUser;
 		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAffectedUser() {
+		return $this->affectedUser;
 	}
 
 	/**
@@ -84,11 +128,22 @@ class Event implements IEvent {
 	 *
 	 * @param string $author
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the author is invalid
 	 * @since 8.2.0
 	 */
 	public function setAuthor($author) {
-		$this->data['author'] = (string) $author;
+		if (!is_string($author) || $author === '' || isset($author[64])) {
+			throw new \InvalidArgumentException('The given author user is invalid');
+		}
+		$this->author = (string) $author;
 		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAuthor() {
+		return $this->author;
 	}
 
 	/**
@@ -96,11 +151,22 @@ class Event implements IEvent {
 	 *
 	 * @param int $timestamp
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the timestamp is invalid
 	 * @since 8.2.0
 	 */
 	public function setTimestamp($timestamp) {
-		$this->data['timestamp'] = (int) $timestamp;
+		if (!is_int($timestamp)) {
+			throw new \InvalidArgumentException('The given timestamp is invalid');
+		}
+		$this->timestamp = (int) $timestamp;
 		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getTimestamp() {
+		return $this->timestamp;
 	}
 
 	/**
@@ -109,12 +175,30 @@ class Event implements IEvent {
 	 * @param string $subject
 	 * @param array $parameters
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the subject or parameters are invalid
 	 * @since 8.2.0
 	 */
 	public function setSubject($subject, array $parameters = []) {
-		$this->data['subject'] = (string) $subject;
-		$this->data['subject_parameters'] = $parameters;
+		if (!is_string($subject) || $subject === '' || isset($subject[255])) {
+			throw new \InvalidArgumentException('The given subject is invalid');
+		}
+		$this->subject = (string) $subject;
+		$this->subjectParameters = $parameters;
 		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSubject() {
+		return $this->subject;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getSubjectParameters() {
+		return $this->subjectParameters;
 	}
 
 	/**
@@ -123,12 +207,30 @@ class Event implements IEvent {
 	 * @param string $message
 	 * @param array $parameters
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the message or parameters are invalid
 	 * @since 8.2.0
 	 */
 	public function setMessage($message, array $parameters = []) {
-		$this->data['message'] = (string) $message;
-		$this->data['message_parameters'] = $parameters;
+		if (!is_string($message) || $message === '' || isset($message[255])) {
+			throw new \InvalidArgumentException('The given message is invalid');
+		}
+		$this->message = (string) $message;
+		$this->messageParameters = $parameters;
 		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getMessage() {
+		return $this->message;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getMessageParameters() {
+		return $this->messageParameters;
 	}
 
 	/**
@@ -138,13 +240,44 @@ class Event implements IEvent {
 	 * @param int $objectId
 	 * @param string $objectName
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the object is invalid
 	 * @since 8.2.0
 	 */
 	public function setObject($objectType, $objectId, $objectName = '') {
-		$this->data['object_type'] = (string) $objectType;
-		$this->data['object_id'] = (int) $objectId;
-		$this->data['object_name'] = (string) $objectName;
+		if (!is_string($objectType) || $objectType === '' || isset($objectType[255])) {
+			throw new \InvalidArgumentException('The given object type is invalid');
+		}
+		if (!is_int($objectId)) {
+			throw new \InvalidArgumentException('The given object id is invalid');
+		}
+		if (!is_string($objectName) || isset($objectName[4000])) {
+			throw new \InvalidArgumentException('The given object name is invalid');
+		}
+		$this->objectType = (string) $objectType;
+		$this->objectId = (int) $objectId;
+		$this->objectName = (string) $objectName;
 		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getObjectType() {
+		return $this->objectType;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getObjectId() {
+		return $this->objectId;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getObjectName() {
+		return $this->objectName;
 	}
 
 	/**
@@ -152,101 +285,71 @@ class Event implements IEvent {
 	 *
 	 * @param string $link
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the link is invalid
 	 * @since 8.2.0
 	 */
 	public function setLink($link) {
-		$this->data['link'] = (string) $link;
+		if (!is_string($link) || $link === '' || isset($link[4000])) {
+			throw new \InvalidArgumentException('The given link is invalid');
+		}
+		$this->link = (string) $link;
 		return $this;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getApp() {
-		return $this->data['app'];
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getType() {
-		return $this->data['type'];
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getAffectedUser() {
-		return $this->data['affected_user'];
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getAuthor() {
-		return $this->data['author'];
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getTimestamp() {
-		return $this->data['timestamp'];
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSubject() {
-		return $this->data['subject'];
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getSubjectParameters() {
-		return $this->data['subject_parameters'];
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getMessage() {
-		return $this->data['message'];
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getMessageParameters() {
-		return $this->data['message_parameters'];
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getObjectType() {
-		return $this->data['object_type'];
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getObjectId() {
-		return $this->data['object_id'];
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getObjectName() {
-		return $this->data['object_name'];
-	}
-
-	/**
-	 * @return string
-	 */
 	public function getLink() {
-		return $this->data['link'];
+		return $this->link;
+	}
+	/**
+	 * @return bool
+	 * @since 8.2.0
+	 */
+	public function isValid() {
+		return
+			$this->isValidCommon()
+			&&
+			$this->getSubject() !== ''
+		;
+	}
+
+	/**
+	 * @return bool
+	 * @since 8.2.0
+	 */
+	public function isValidParsed() {
+//		if ($this->getRichSubject() !== '' || !empty($this->getRichSubjectParameters())) {
+//			try {
+//				$this->richValidator->validate($this->getRichSubject(), $this->getRichSubjectParameters());
+//			} catch (InvalidObjectExeption $e) {
+//				return false;
+//			}
+//		}
+
+		return
+			$this->isValidCommon()
+//			&&
+//			$this->getParsedSubject() !== ''
+		;
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function isValidCommon() {
+		return
+			$this->getApp() !== ''
+			&&
+			$this->getType() !== ''
+			&&
+			$this->getAffectedUser() !== ''
+			&&
+			$this->getTimestamp() !== 0
+			&&
+			$this->getObjectType() !== ''
+			&&
+			$this->getObjectId() !== ''
+		;
 	}
 }

@@ -41,6 +41,7 @@ interface IEvent {
 	 *
 	 * @param string $app
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the app id is invalid
 	 * @since 8.2.0
 	 */
 	public function setApp($app);
@@ -50,6 +51,7 @@ interface IEvent {
 	 *
 	 * @param string $type
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the type is invalid
 	 * @since 8.2.0
 	 */
 	public function setType($type);
@@ -59,6 +61,7 @@ interface IEvent {
 	 *
 	 * @param string $user
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the affected user is invalid
 	 * @since 8.2.0
 	 */
 	public function setAffectedUser($user);
@@ -68,6 +71,7 @@ interface IEvent {
 	 *
 	 * @param string $author
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the author is invalid
 	 * @since 8.2.0
 	 */
 	public function setAuthor($author);
@@ -77,6 +81,7 @@ interface IEvent {
 	 *
 	 * @param int $timestamp
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the timestamp is invalid
 	 * @since 8.2.0
 	 */
 	public function setTimestamp($timestamp);
@@ -87,6 +92,7 @@ interface IEvent {
 	 * @param string $subject
 	 * @param array $parameters
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the subject or parameters are invalid
 	 * @since 8.2.0
 	 */
 	public function setSubject($subject, array $parameters = []);
@@ -97,6 +103,7 @@ interface IEvent {
 	 * @param string $message
 	 * @param array $parameters
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the message or parameters are invalid
 	 * @since 8.2.0
 	 */
 	public function setMessage($message, array $parameters = []);
@@ -108,6 +115,7 @@ interface IEvent {
 	 * @param int $objectId
 	 * @param string $objectName
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the object is invalid
 	 * @since 8.2.0
 	 */
 	public function setObject($objectType, $objectId, $objectName = '');
@@ -117,6 +125,7 @@ interface IEvent {
 	 *
 	 * @param string $link
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the link is invalid
 	 * @since 8.2.0
 	 */
 	public function setLink($link);
@@ -198,4 +207,16 @@ interface IEvent {
 	 * @since 8.2.0
 	 */
 	public function getLink();
+
+	/**
+	 * @return bool
+	 * @since 9.2.0
+	 */
+	public function isValid();
+
+	/**
+	 * @return bool
+	 * @since 9.2.0
+	 */
+	public function isValidParsed();
 }
