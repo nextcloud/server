@@ -41,6 +41,13 @@ class SessionStorage {
 	}
 
 	/**
+	 * @param ISession $session
+	 */
+	public function setSession(ISession $session) {
+		$this->session = $session;
+	}
+
+	/**
 	 * Returns the current token or throws an exception if none is found.
 	 *
 	 * @return string

@@ -710,12 +710,14 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerService('CsrfTokenManager', function (Server $c) {
 			$tokenGenerator = new CsrfTokenGenerator($c->getSecureRandom());
-			$sessionStorage = new SessionStorage($c->getSession());
 
 			return new CsrfTokenManager(
 				$tokenGenerator,
-				$sessionStorage
+				$c->query(SessionStorage::class)
 			);
+		});
+		$this->registerService(SessionStorage::class, function (Server $c) {
+			return new SessionStorage($c->getSession());
 		});
 		$this->registerService('ContentSecurityPolicyManager', function (Server $c) {
 			return new ContentSecurityPolicyManager();
@@ -945,6 +947,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @param \OCP\ISession $session
 	 */
 	public function setSession(\OCP\ISession $session) {
+		$this->query(SessionStorage::class)->setSession($session);
 		return $this->query('UserSession')->setSession($session);
 	}
 
