@@ -21,11 +21,6 @@
 
 namespace OC\Files\ObjectStore;
 
-use Guzzle\Http\EntityBody;
-use Guzzle\Http\Message\RequestInterface;
-use Guzzle\Service\Command\CommandInterface;
-use Guzzle\Stream\PhpStreamRequestFactory;
-use Icewind\Streams\CallbackWrapper;
 use OCP\Files\ObjectStore\IObjectStore;
 
 // TODO: proper composer
@@ -49,20 +44,6 @@ class S3 implements IObjectStore {
 	}
 
 	/**
-	 * Serialize and sign a command, returning a request object
-	 *
-	 * @param CommandInterface $command Command to sign
-	 *
-	 * @return RequestInterface
-	 */
-	protected function getSignedRequest($command) {
-		$request = $command->prepare();
-		$request->dispatch('request.before_send', array('request' => $request));
-
-		return $request;
-	}
-
-	/**
 	 * @param string $urn the unified resource name used to identify the object
 	 * @return resource stream with the read data
 	 * @throws \Exception when something goes wrong, message will be logged
@@ -70,20 +51,30 @@ class S3 implements IObjectStore {
 	 */
 	function readObject($urn) {
 		// Create the command and serialize the request
-		$request = $this->getSignedRequest($this->getConnection()->getCommand('GetObject', [
+		$request = $this->getConnection()->getCommand('GetObject', [
 			'Bucket' => $this->bucket,
 			'Key' => $urn
-		]));
-		// Create a stream that uses the EntityBody object
-		$factory = new PhpStreamRequestFactory();
-		/** @var EntityBody $body */
-		$body = $factory->fromRequest($request, array(), array('stream_class' => 'Guzzle\Http\EntityBody'));
-		$stream = $body->getStream();
+		])->prepare();
 
-		// we need to keep the guzzle request in scope untill the stream is closed
-		return CallbackWrapper::wrap($stream, null, null, function () use ($body) {
-			$body->close();
-		});
+		$request->dispatch('request.before_send', array(
+			'request' => $request
+		));
+
+		$headers = $request->getHeaderLines();
+		$headers[] = 'Connection: close';
+
+		$opts = [
+			'http' => [
+				'method' => "GET",
+				'header' => $headers
+			],
+			'ssl' => [
+				'verify_peer' => true
+			]
+		];
+
+		$context = stream_context_create($opts);
+		return fopen($request->getUrl(), 'r', false, $context);
 	}
 
 	/**
