@@ -13,6 +13,7 @@ use OC\Files\Mount\MountPoint;
 use OC\Log;
 use OC\User\Manager;
 use OCP\Files\Config\ICachedMountInfo;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use Test\TestCase;
@@ -42,7 +43,7 @@ class UserMountCacheTest extends TestCase {
 	public function setUp() {
 		$this->fileIds = [];
 		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->userManager = new Manager(null);
+		$this->userManager = new Manager($this->createMock(IConfig::class));
 		$userBackend = new Dummy();
 		$userBackend->createUser('u1', '');
 		$userBackend->createUser('u2', '');

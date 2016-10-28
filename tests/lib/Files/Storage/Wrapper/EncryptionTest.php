@@ -121,7 +121,7 @@ class EncryptionTest extends Storage {
 
 		$this->util = $this->getMockBuilder('\OC\Encryption\Util')
 			->setMethods(['getUidAndFilename', 'isFile', 'isExcluded'])
-			->setConstructorArgs([new View(), new Manager(), $this->groupManager, $this->config, $this->arrayCache])
+			->setConstructorArgs([new View(), new Manager($this->config), $this->groupManager, $this->config, $this->arrayCache])
 			->getMock();
 		$this->util->expects($this->any())
 			->method('getUidAndFilename')
@@ -547,7 +547,7 @@ class EncryptionTest extends Storage {
 			->setConstructorArgs(
 				[
 					new View(),
-					new Manager(),
+					new Manager($this->config),
 					$this->groupManager,
 					$this->config,
 					$this->arrayCache
@@ -612,7 +612,7 @@ class EncryptionTest extends Storage {
 			->disableOriginalConstructor()->getMock();
 
 		$util = $this->getMockBuilder('\OC\Encryption\Util')
-			->setConstructorArgs([new View(), new Manager(), $this->groupManager, $this->config, $this->arrayCache])
+			->setConstructorArgs([new View(), new Manager($this->config), $this->groupManager, $this->config, $this->arrayCache])
 			->getMock();
 
 		$cache = $this->getMockBuilder('\OC\Files\Cache\Cache')
