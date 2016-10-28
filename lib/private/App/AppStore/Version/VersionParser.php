@@ -28,6 +28,14 @@ namespace OC\App\AppStore\Version;
  */
 class VersionParser {
 	/**
+	 * @param string $versionString
+	 * @return bool
+	 */
+	private function isValidVersionString($versionString) {
+		return (bool)preg_match('/^[0-9.]+$/', $versionString);
+	}
+
+	/**
 	 * Returns the version for a version string
 	 *
 	 * @param string $versionSpec
@@ -42,23 +50,34 @@ class VersionParser {
 
 		// Count the amount of =, if it is one then it's either maximum or minimum
 		// version. If it is two then it is maximum and minimum.
-		if (preg_match_all('/(?:>|<)(?:=|)[0-9.]+/', $versionSpec, $matches)) {
-			switch(count($matches[0])) {
-				case 1:
-					if(substr($matches[0][0], 0, 1) === '>') {
-						return new Version(substr($matches[0][0], 2), '');
-					} else {
-						return new Version('', substr($matches[0][0], 2));
-					}
+		$versionElements = explode(' ', $versionSpec);
+		$firstVersion = isset($versionElements[0]) ? $versionElements[0] : '';
+		$firstVersionNumber = substr($firstVersion, 2);
+		$secondVersion = isset($versionElements[1]) ? $versionElements[1] : '';
+		$secondVersionNumber = substr($secondVersion, 2);
+
+		switch(count($versionElements)) {
+			case 1:
+				if(!$this->isValidVersionString($firstVersionNumber)) {
 					break;
-				case 2:
-					return new Version(substr($matches[0][0], 2), substr($matches[0][1], 2));
+				}
+				if(substr($firstVersion, 0, 1) === '>') {
+					return new Version($firstVersionNumber, '');
+				} else {
+					return new Version('', $firstVersionNumber);
+				}
+			case 2:
+				if(!$this->isValidVersionString($firstVersionNumber) || !$this->isValidVersionString($secondVersionNumber)) {
 					break;
-				default:
-					throw new \Exception('Version cannot be parsed');
-			}
+				}
+				return new Version($firstVersionNumber, $secondVersionNumber);
 		}
 
-		throw new \Exception('Version cannot be parsed');
+		throw new \Exception(
+			sprintf(
+				'Version cannot be parsed: %s',
+				$versionSpec
+			)
+		);
 	}
 }
