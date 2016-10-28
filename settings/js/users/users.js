@@ -938,6 +938,15 @@ $(document).ready(function () {
 		}
 	});
 
+	// Option for users to delete their own accounts
+	$('#CheckboxUserDeletionAccount').click(function() {
+		if ($('#CheckboxUserDeletionAccount').is(':checked')) {
+			OC.AppConfig.setValue('core', 'user_own_account_deletion', 'true');
+		} else {
+			OC.AppConfig.setValue('core', 'user_own_account_deletion', 'false');
+		}
+	});
+
 	// calculate initial limit of users to load
 	var initialUserCountLimit = UserList.initialUsersToLoad,
 		containerHeight = $('#app-content').height();

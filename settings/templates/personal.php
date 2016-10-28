@@ -247,18 +247,18 @@ if($_['passwordChangeSupported']) {
 	</div>
 </div>
 
-<?php if ($_['accountDeletionEnabled']) { ?>
-<div id="deleteAccount" class="section">
-	<h2><?php p($l->t('Account deletion'));?></h2>
-	<button id="deleteAccount-btn"><?php p($l->t('Delete your account')); ?></button>
-</div>
-<?php } ?>
-
 <?php foreach($_['forms'] as $form) {
 	if (isset($form['form'])) {?>
 	<div id="<?php isset($form['anchor']) ? p($form['anchor']) : p('');?>"><?php print_unescaped($form['form']);?></div>
 	<?php }
 };?>
+
+<?php if ($_['accountDeletionEnabled']) { ?>
+	<div id="deleteAccount" class="section">
+		<h2><?php p($l->t('Account deletion'));?></h2>
+		<button id="deleteAccount-btn"><?php p($l->t('Delete your account')); ?></button>
+	</div>
+<?php } ?>
 
 <div class="section">
 	<h2><?php p($l->t('Version'));?></h2>

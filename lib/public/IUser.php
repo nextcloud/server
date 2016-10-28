@@ -133,6 +133,14 @@ interface IUser {
 	public function canChangeDisplayName();
 
 	/**
+	 * check if the backend supports deleting user
+	 *
+	 * @return bool
+	 * @since 11.0.0
+	 */
+	public function canDeleteAccount();
+
+	/**
 	 * check if the user is enabled
 	 *
 	 * @return bool

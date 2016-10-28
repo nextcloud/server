@@ -142,9 +142,6 @@ if ($externalStorageEnabled) {
 	$enableCertImport = $backendService->isUserMountingAllowed();
 }
 
-// show account deletion button only if it's enabled and if the backend supports it
-$accountDeletionEnabled = $config->getAppValue('core', 'user_own_account_deletion', false) && $user->getBackendClassName() === 'Database';
-
 // Return template
 $l = \OC::$server->getL10N('settings');
 $tmpl = new OC_Template( 'settings', 'personal', 'user');
@@ -169,7 +166,7 @@ $tmpl->assign('avatarChangeSupported', OC_User::canUserChangeAvatar(OC_User::get
 $tmpl->assign('certs', $certificateManager->listCertificates());
 $tmpl->assign('showCertificates', $enableCertImport);
 $tmpl->assign('urlGenerator', $urlGenerator);
-$tmpl->assign('accountDeletionEnabled', $accountDeletionEnabled);
+$tmpl->assign('accountDeletionEnabled', $user->canDeleteAccount());
 
 // Get array of group ids for this user
 $groups = \OC::$server->getGroupManager()->getUserIdGroups(OC_User::getUser());
@@ -216,6 +213,10 @@ $formsMap = array_map(function($form){
 }, $forms);
 
 $formsAndMore = array_merge($formsAndMore, $formsMap);
+
+if ($user->canDeleteAccount()) {
+	$formsAndMore[] = ['anchor' => 'deleteAccount', 'section-name' => $l->t('Account deletion')];
+}
 
 $tmpl->assign('forms', $formsAndMore);
 $tmpl->printPage();
