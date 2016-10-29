@@ -78,11 +78,12 @@
 
 #shareWithList .sharingOptionsGroup {
 	position: absolute;
-	right: 0;
+	right: 15px;
 }
 
 #shareWithList .sharingOptionsGroup .popovermenu {
-	right: 44px;
+	right: -22px;
+	top: 30px;
 }
 
 #shareWithList .shareOption {

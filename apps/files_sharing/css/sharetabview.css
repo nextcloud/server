@@ -62,9 +62,13 @@
 	vertical-align: sub;
 }
 
+#shareWithList .unshare {
+	padding: 0;
+}
+
 #shareWithList .unshare .icon-delete {
-	padding-left: 15px;
-	padding-right: 15px;
+	padding-right: 4px;
+	background-position-x: 0;
 }
 
 #shareWithList label input[type=checkbox]{

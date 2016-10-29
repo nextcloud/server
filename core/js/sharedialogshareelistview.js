@@ -69,10 +69,12 @@
 									'</li>' +
 									'{{/if}}' +
 								'{{/if}}' +
+								'<li>' +
+									'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span>{{unshareLabel}}</span></a>' +
+								'</li>' +
 							'</ul>' +
 						'</div>' +
-						'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span class="hidden-visually">{{unshareLabel}}</span></a>' +
-					'</span>' +
+						'</span>' +
 				'</li>' +
 			'{{/each}}' +
 			'{{#each linkReshares}}' +
