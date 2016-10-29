@@ -105,12 +105,11 @@ abstract class OCSController extends ApiController {
 	 * @return \OC\AppFramework\OCS\BaseResponse
 	 */
 	private function buildOCSResponse($format, DataResponse $data) {
+		$version = 'V2Response';
 		if ($this->ocsVersion === 1) {
-			$response = new \OC\AppFramework\OCS\V1Response($data, $format);
-		} else {
-			$response = new \OC\AppFramework\OCS\V2Response($data, $format);
+			$version = 'V1Response';
 		}
-
+		$response = new \OC\AppFramework\OCS\$version($data, $format);
 		return $response;
 	}
 
