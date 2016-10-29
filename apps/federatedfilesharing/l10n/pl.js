@@ -1,7 +1,8 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Sfederowane udostępnianie",
+    "Federated sharing" : "Udostępnianie Stowarzyszone",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Chcesz się dzielić zdalnie {name} z {owner}@{remote}?",
     "Remote share" : "Zdalny zasób",
     "Remote share password" : "Hasło do zdalnego zasobu",
     "Cancel" : "Anuluj",
@@ -16,14 +17,21 @@ OC.L10N.register(
     "Couldn't establish a federated share, maybe the password was wrong." : "Nie udało się ustalić Stowarzyszonego udostępnienia, może być błędne hasło.",
     "Federated Share request was successful, you will receive a invitation. Check your notifications." : "Żądanie podzielenia się ze Stowarzyszeniem powiedzie się, gdy otrzymasz zaproszenie. Sprawdź swoje powiadomienia.",
     "The mountpoint name contains invalid characters." : "Nazwa zamontowanego zasobu zawiera niedozwolone znaki.",
+    "Not allowed to create a federated share with the owner." : "Nie można tworzyć stowarzyszonego udziału ze sobą.",
     "Invalid or untrusted SSL certificate" : "Niewłaściwy lub niezaufany certyfikat SSL",
+    "Could not authenticate to remote share, password might be wrong" : "Nie udało się uwierzytelnić udziału zdalnego, może być błędne hasło",
     "Storage not valid" : "Zasób nie jest prawidłowy",
     "Federated Share successfully added" : "Udane udostępnienie ze Stowarzyszeniem ",
     "Couldn't add remote share" : "Nie można dodać zdalnego zasobu",
     "Sharing %s failed, because this item is already shared with %s" : "Współdzielenie %s nie powiodło się, ponieważ element jest już współdzielony z %s",
+    "Not allowed to create a federated share with the same user" : "Nie można tworzyć stowarzyszonego udziału z tym samym użytkownikiem",
     "File is already shared with %s" : "Plik jest już współdzielony z %s",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Współdzielenie %s nie powiodło się, nie można odnaleźć %s. Prawdopobnie serwer nie jest teraz osiągalny.",
     "Could not find share" : "Nie można znaleźć powiązania",
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Otrzymałeś \"%3$s\" w zdalnym udziale z %1$s (w imieniu %2$s)",
+    "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Otrzymałeś {share} w zdalnym udziale z {user} (w imieniu {behalf})",
+    "You received \"%3$s\" as a remote share from %1$s" : "Otrzymałeś \"%3$s\" w zdalnym udziale %1$s",
+    "You received {share} as a remote share from {user}" : "Otrzymałeś {share} w zdalnym udziale {user}",
     "Accept" : "Akceptuj",
     "Decline" : "Utrata",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Podziel się ze mną przez mój ID #Nextcloud Stowarzyszonej Chmury, zobacz %s",
@@ -37,6 +45,8 @@ OC.L10N.register(
     "Share it:" : "Udostępnij to:",
     "Add to your website" : "Dodaj do swojej strony",
     "Share with me via Nextcloud" : "Podziel się ze mną poprzez Nextcloud",
-    "HTML Code:" : "Kod HTML:"
+    "HTML Code:" : "Kod HTML:",
+    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Otrzymałeś \"/%3$s\" w zdalnym udziale z %1$s (w imieniu %2$s)",
+    "You received \"/%3$s\" as a remote share from %1$s" : "Otrzymałeś \"/%3$s\" w zdalnym udziale z %1$s"
 },
 "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
