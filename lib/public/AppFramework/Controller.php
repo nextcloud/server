@@ -92,9 +92,8 @@ abstract class Controller {
 					}
 					$response->setHeaders(array_merge($dataHeaders, $headers));
 					return $response;
-				} else {
-					return new JSONResponse($data);
 				}
+				return new JSONResponse($data);
 			}
 		);
 	}
@@ -153,10 +152,9 @@ abstract class Controller {
 
 			return $responder($response);
 
-		} else {
-			throw new \DomainException('No responder registered for format ' .
-				$format . '!');
 		}
+		throw new \DomainException('No responder registered for format '.
+			$format . '!');
 	}
 
 
