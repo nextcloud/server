@@ -1,4 +1,4 @@
-<?php /** @var $l OC_L10N */ ?>
+<?php /** @var $l \OCP\IL10N */ ?>
 <?php
 vendor_script('jsTimezoneDetect/jstz');
 script('core', [

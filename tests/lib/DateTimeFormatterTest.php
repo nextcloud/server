@@ -34,7 +34,7 @@ class DateTimeFormatterTest extends TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$this->formatter = new \OC\DateTimeFormatter(new \DateTimeZone('UTC'), new \OC_L10N('lib', 'en'));
+		$this->formatter = new \OC\DateTimeFormatter(new \DateTimeZone('UTC'), \OC::$server->getL10N('lib', 'en'));
 	}
 
 	protected function getTimestampAgo($time, $seconds = 0, $minutes = 0, $hours = 0, $days = 0, $years = 0) {
@@ -43,7 +43,7 @@ class DateTimeFormatterTest extends TestCase {
 
 	public function formatTimeSpanData() {
 		$time = 1416916800; // Use a fixed timestamp so we don't switch days/years with the getTimestampAgo
-		$deL10N = new \OC_L10N('lib', 'de');
+		$deL10N = \OC::$server->getL10N('lib', 'de');
 		return array(
 			array('seconds ago',	$time, $time),
 			array('1 minute ago',	$this->getTimestampAgo($time, 30, 1), $time),
@@ -81,7 +81,7 @@ class DateTimeFormatterTest extends TestCase {
 
 	public function formatDateSpanData() {
 		$time = 1416916800; // Use a fixed timestamp so we don't switch days/years with the getTimestampAgo
-		$deL10N = new \OC_L10N('lib', 'de');
+		$deL10N = \OC::$server->getL10N('lib', 'de');
 		return array(
 			// Normal testing
 			array('today',			$this->getTimestampAgo($time, 30, 15), $time),

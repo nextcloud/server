@@ -1,6 +1,6 @@
 <?php
 	/** @var array $_ */
-	/** @var OC_L10N $l */
+	/** @var \OCP\IL10N $l */
 script('encryption', 'settings-personal');
 script('core', 'multiselect');
 ?>

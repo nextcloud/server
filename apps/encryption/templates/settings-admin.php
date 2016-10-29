@@ -1,6 +1,6 @@
 <?php
 /** @var array $_ */
-/** @var OC_L10N $l */
+/** @var \OCP\IL10N $l */
 script('encryption', 'settings-admin');
 script('core', 'multiselect');
 style('encryption', 'settings-admin');

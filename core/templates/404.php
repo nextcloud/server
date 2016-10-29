@@ -1,6 +1,6 @@
 <?php
 /** @var $_ array */
-/** @var $l OC_L10N */
+/** @var $l \OCP\IL10N */
 /** @var $theme OC_Theme */
 // @codeCoverageIgnoreStart
 if(!isset($_)) {//also provide standalone error page

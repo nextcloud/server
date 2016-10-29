@@ -68,7 +68,7 @@ $storageInfo=OC_Helper::getStorageInfo('/');
 $user = OC::$server->getUserManager()->get(OC_User::getUser());
 $email = $user->getEMailAddress();
 
-$userLang=$config->getUserValue( OC_User::getUser(), 'core', 'lang', OC_L10N::findLanguage() );
+$userLang=$config->getUserValue( OC_User::getUser(), 'core', 'lang', \OC::$server->getL10NFactory()->findLanguage() );
 $languageCodes = \OC::$server->getL10NFactory()->findAvailableLanguages();
 
 // array of common languages

@@ -195,7 +195,7 @@ class Util {
 	 * get l10n object
 	 * @param string $application
 	 * @param string|null $language
-	 * @return \OC_L10N
+	 * @return \OCP\IL10N
 	 * @since 6.0.0 - parameter $language was added in 8.0.0
 	 */
 	public static function getL10N($application, $language = null) {

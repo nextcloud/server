@@ -1,4 +1,4 @@
-<?php /** @var $l OC_L10N */ ?>
+<?php /** @var $l \OCP\IL10N */ ?>
 <?php $_['appNavigation']->printPage(); ?>
 <div id="app-content">
 	<?php foreach ($_['appContents'] as $content) { ?>

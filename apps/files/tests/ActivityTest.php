@@ -24,6 +24,8 @@
 namespace OCA\Files\Tests;
 
 use OCA\Files\Activity;
+use OCP\IL10N;
+use OCP\L10N\IFactory;
 use Test\TestCase;
 
 /**
@@ -77,12 +79,8 @@ class ActivityTest extends TestCase {
 			$this->config
 		);
 
-		$this->l10nFactory = $this->getMockBuilder('OCP\L10N\IFactory')
-			->disableOriginalConstructor()
-			->getMock();
-		$deL10n = $this->getMockBuilder('OC_L10N')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->l10nFactory = $this->createMock(IFactory::class);
+		$deL10n = $this->createMock(IL10N::class);
 		$deL10n->expects($this->any())
 			->method('t')
 			->willReturnCallback(function ($argument) {
@@ -92,8 +90,8 @@ class ActivityTest extends TestCase {
 		$this->l10nFactory->expects($this->any())
 			->method('get')
 			->willReturnMap([
-				['files', null, new \OC_L10N('files', 'en')],
-				['files', 'en', new \OC_L10N('files', 'en')],
+				['files', null, \OC::$server->getL10N('files', 'en')],
+				['files', 'en', \OC::$server->getL10N('files', 'en')],
 				['files', 'de', $deL10n],
 			]);
 
