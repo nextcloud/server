@@ -161,6 +161,8 @@ OC.L10N.register(
     "This means that there might be problems with certain characters in file names." : "Oznacza to, że mogą być problemy z niektórymi znakami w nazwach plików.",
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Zalecamy instalację na Twoim systemie komponentów wymaganych do obsługi języków: %s",
     "Cron" : "Cron",
+    "Last cron job execution: %s." : "Ostatnie wykonanie zadania przez cron: %s.",
+    "Last cron job execution: %s. Something seems wrong." : "Ostatnie wykonanie zadania przez cron: %s. Wydaje się być błędny.",
     "Cron was not executed yet!" : "Cron nie został jeszcze uruchomiony!",
     "Execute one task with each page loaded" : "Wykonuj jedno zadanie wraz z każdą wczytaną stroną",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php jest zarejestrowany w serwisie webcron do uruchamiania cron.php raz na 15 minut przez http.",
