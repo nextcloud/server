@@ -555,7 +555,7 @@ class OC_App {
 	 * @param string $appId
 	 * @return false|string
 	 */
-	protected static function findAppInDirectories($appId) {
+	public static function findAppInDirectories($appId) {
 		$sanitizedAppId = self::cleanAppId($appId);
 		if($sanitizedAppId !== $appId) {
 			return false;

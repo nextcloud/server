@@ -91,7 +91,12 @@ class Installer {
 	 * @return integer
 	 */
 	public function installApp($appId) {
-		$basedir = OC_App::getInstallPath().'/'.$appId;
+		$app = \OC_App::findAppInDirectories($appId);
+		if($app === false) {
+			throw new \Exception('App not found in any app directory');
+		}
+
+		$basedir = $app['path'].'/'.$appId;
 		$info = OC_App::getAppInfo($basedir.'/appinfo/info.xml', true);
 
 		//install the database
