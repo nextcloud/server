@@ -94,8 +94,8 @@ class AuthSettingsControllerTest extends TestCase {
 			[
 				'id' => 100,
 				'name' => null,
-				'lastActivity' => null,
-				'type' => null,
+				'lastActivity' => 0,
+				'type' => 0,
 				'canDelete' => false,
 				'current' => true,
 				'scope' => ['filesystem' => true]
@@ -103,8 +103,8 @@ class AuthSettingsControllerTest extends TestCase {
 			[
 				'id' => 200,
 				'name' => null,
-				'lastActivity' => null,
-				'type' => null,
+				'lastActivity' => 0,
+				'type' => 0,
 				'canDelete' => true,
 				'scope' => ['filesystem' => true]
 			]
