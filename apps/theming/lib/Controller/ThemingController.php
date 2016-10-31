@@ -331,14 +331,12 @@ class ThemingController extends Controller {
 				'.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active {' .
 				'border: 1px solid '.$elementColor.';'.
 				'background-color: '.$elementColor.';'.
-				'opacity: 0.8;' .
 				'color: ' . $textColor . ';'.
 				"}\n" .
 				'.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover,' .
 				'.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {' .
 				'border: 1px solid '.$elementColor.';'.
 				'background-color: '.$elementColor.';'.
-				'opacity: 1.0;' .
 				'color: ' . $textColor . ';'.
 				"}\n" .
 				'.primary:disabled, input[type="submit"].primary:disabled, input[type="button"].primary:disabled, button.primary:disabled, .button.primary:disabled,' .
@@ -398,6 +396,7 @@ class ThemingController extends Controller {
 			$responseCss .= '#header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); }' . "\n";
 			$responseCss .= '.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }' . "\n";
 			$responseCss .= '.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }' . "\n";
+			$responseCss .= '#body-login input.login { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/confirm.svg?v=2\'); }' . "\n";
 			$responseCss .= '.nc-theming-contrast {color: #000000}' . "\n";
 			$responseCss .= '.ui-widget-header { color: #000000; }' . "\n";
 		} else {
