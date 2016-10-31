@@ -1026,13 +1026,6 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	/**
-	 * @return CategoryFetcher
-	 */
-	public function getCategoryFetcher() {
-		return $this->query('CategoryFetcher');
-	}
-
-	/**
 	 * Returns an ICache instance. Since 8.1.0 it returns a fake cache. Use
 	 * getMemCacheFactory() instead.
 	 *
