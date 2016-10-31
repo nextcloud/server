@@ -98,6 +98,7 @@ class AuthSettingsControllerTest extends TestCase {
 				'type' => null,
 				'canDelete' => false,
 				'current' => true,
+				'scope' => ['filesystem' => true]
 			],
 			[
 				'id' => 200,
@@ -105,6 +106,7 @@ class AuthSettingsControllerTest extends TestCase {
 				'lastActivity' => null,
 				'type' => null,
 				'canDelete' => true,
+				'scope' => ['filesystem' => true]
 			]
 		], $this->controller->index());
 	}
@@ -141,9 +143,13 @@ class AuthSettingsControllerTest extends TestCase {
 			->with($newToken, $this->uid, 'User13', $password, $name, IToken::PERMANENT_TOKEN)
 			->will($this->returnValue($deviceToken));
 
+		$deviceToken->expects($this->once())
+			->method('jsonSerialize')
+			->will($this->returnValue(['dummy' => 'dummy', 'canDelete' => true]));
+
 		$expected = [
 			'token' => $newToken,
-			'deviceToken' => $deviceToken,
+			'deviceToken' => ['dummy' => 'dummy', 'canDelete' => true],
 			'loginName' => 'User13',
 		];
 		$this->assertEquals($expected, $this->controller->create($name));
