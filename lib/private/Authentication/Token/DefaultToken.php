@@ -92,6 +92,12 @@ class DefaultToken extends Entity implements IToken {
 	 */
 	protected $scope;
 
+	public function __construct() {
+		$this->addType('type', 'int');
+		$this->addType('lastActivity', 'int');
+		$this->addType('lastCheck', 'int');
+	}
+
 	public function getId() {
 		return $this->id;
 	}
@@ -122,8 +128,8 @@ class DefaultToken extends Entity implements IToken {
 		return [
 			'id' => $this->id,
 			'name' => $this->name,
-			'lastActivity' => (int)$this->lastActivity,
-			'type' => (int)$this->type,
+			'lastActivity' => $this->lastActivity,
+			'type' => $this->type,
 			'scope' => $this->getScopeAsArray()
 		];
 	}
@@ -161,10 +167,10 @@ class DefaultToken extends Entity implements IToken {
 	}
 
 	public function setScope($scope) {
-		if (is_string($scope)) {
-			parent::setScope($scope);
-		} else {
+		if (is_array($scope)) {
 			parent::setScope(json_encode($scope));
+		} else {
+			parent::setScope((string)$scope);
 		}
 	}
 }
