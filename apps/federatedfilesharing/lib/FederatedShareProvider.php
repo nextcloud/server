@@ -27,6 +27,7 @@
 namespace OCA\FederatedFileSharing;
 
 use OC\Share20\Share;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -564,8 +565,45 @@ class FederatedShareProvider implements IShareProvider {
 	}
 
 
-	public function getSharesInFolder($userId, $node, $reshares) {
-		return [];//TODO
+	public function getSharesInFolder($userId, Folder $node, $reshares) {
+		$qb = $this->dbConnection->getQueryBuilder();
+		$qb->select('*')
+			->from('share', 's')
+			->andWhere($qb->expr()->orX(
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
+			))
+			->andWhere(
+				$qb->expr()->eq('shareType', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_REMOTE))
+			);
+
+		/**
+		 * Reshares for this user are shares where they are the owner.
+		 */
+		if ($reshares === false) {
+			$qb->andWhere($qb->expr()->eq('uid_initiator', $qb->createNamedParameter($userId)));
+		} else {
+			$qb->andWhere(
+				$qb->expr()->orX(
+					$qb->expr()->eq('uid_owner', $qb->createNamedParameter($userId)),
+					$qb->expr()->eq('uid_initiator', $qb->createNamedParameter($userId))
+				)
+			);
+		}
+
+		$qb->innerJoin('s', 'filecache' ,'f', 's.file_source = f.fileid');
+		$qb->andWhere($qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())));
+
+		$qb->orderBy('id');
+
+		$cursor = $qb->execute();
+		$shares = [];
+		while ($data = $cursor->fetch()) {
+			$shares[$data['fileid']][] = $this->createShareObject($data);
+		}
+		$cursor->closeCursor();
+
+		return $shares;
 	}
 
 	/**
