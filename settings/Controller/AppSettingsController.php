@@ -113,7 +113,7 @@ class AppSettingsController extends Controller {
 
 		$templateResponse = new TemplateResponse($this->appName, 'apps', $params, 'user');
 		$policy = new ContentSecurityPolicy();
-		$policy->addAllowedImageDomain('*');
+		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 		$templateResponse->setContentSecurityPolicy($policy);
 
 		return $templateResponse;
@@ -234,18 +234,19 @@ class AppSettingsController extends Controller {
 				'missingMaxOwnCloudVersion' => false,
 				'missingMinOwnCloudVersion' => false,
 				'canInstall' => true,
-				'preview' => $app['screenshots'][0]['url'],
+				'preview' => isset($app['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/'.base64_encode($app['screenshots'][0]['url']) : '',
 				'score' => $app['ratingOverall'],
 				'removable' => $existsLocally,
 				'active' => $this->appManager->isEnabledForUser($app['id']),
 				'needsDownload' => !$existsLocally,
 				'groups' => $groups,
+				'fromAppStore' => true,
 			];
 
 
 			$appFetcher = \OC::$server->getAppFetcher();
 			$newVersion = \OC\Installer::isUpdateAvailable($app['id'], $appFetcher);
-			if($newVersion) {
+			if($newVersion && $this->appManager->isInstalled($app['id'])) {
 				$formattedApps[count($formattedApps)-1]['update'] = $newVersion;
 			}
 		}

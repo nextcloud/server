@@ -28,13 +28,11 @@ use OC\Settings\Controller\AppSettingsController;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\ICacheFactory;
 use OCP\L10N\IFactory;
 use Test\TestCase;
 use OCP\IRequest;
 use OCP\IL10N;
 use OCP\IConfig;
-use OCP\ICache;
 use OCP\INavigationManager;
 use OCP\App\IAppManager;
 
@@ -52,8 +50,6 @@ class AppSettingsControllerTest extends TestCase {
 	private $l10n;
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
-	/** @var ICache|\PHPUnit_Framework_MockObject_MockObject */
-	private $cache;
 	/** @var INavigationManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $navigationManager;
 	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
@@ -74,13 +70,6 @@ class AppSettingsControllerTest extends TestCase {
 			->method('t')
 			->will($this->returnArgument(0));
 		$this->config = $this->createMock(IConfig::class);
-		$cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->cache = $this->createMock(ICache::class);
-		$cacheFactory
-			->expects($this->once())
-			->method('create')
-			->with('settings')
-			->will($this->returnValue($this->cache));
 		$this->navigationManager = $this->createMock(INavigationManager::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->categoryFetcher = $this->createMock(CategoryFetcher::class);
@@ -92,7 +81,6 @@ class AppSettingsControllerTest extends TestCase {
 			$this->request,
 			$this->l10n,
 			$this->config,
-			$cacheFactory,
 			$this->navigationManager,
 			$this->appManager,
 			$this->categoryFetcher,
@@ -185,7 +173,7 @@ class AppSettingsControllerTest extends TestCase {
 			->with('core_apps');
 
 		$policy = new ContentSecurityPolicy();
-		$policy->addAllowedImageDomain('*');
+		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 
 		$expected = new TemplateResponse('settings', 'apps', ['category' => 'enabled', 'appstoreEnabled' => true], 'user');
 		$expected->setContentSecurityPolicy($policy);
@@ -205,7 +193,7 @@ class AppSettingsControllerTest extends TestCase {
 			->with('core_apps');
 
 		$policy = new ContentSecurityPolicy();
-		$policy->addAllowedImageDomain('*');
+		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 
 		$expected = new TemplateResponse('settings', 'apps', ['category' => 'enabled', 'appstoreEnabled' => false], 'user');
 		$expected->setContentSecurityPolicy($policy);
