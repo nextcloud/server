@@ -2,6 +2,7 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Reacties",
+    "Unknown user" : "Onbekende gebruiker",
     "New comment …" : "Nieuwe reactie ...",
     "Delete comment" : "Verwijder reactie",
     "Post" : "Reageer",

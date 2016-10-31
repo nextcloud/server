@@ -38,7 +38,7 @@ OC.L10N.register(
     "Allow users on this server to receive shares from other servers" : "Разрешить пользователям использовать общие ресурсы с других серверов",
     "Federated Cloud" : "Объединение облачных хранилищ",
     "Your Federated Cloud ID:" : "Ваш ID в объединении облачных хранилищ:",
-    "Share it:" : "Поделись этим:",
+    "Share it:" : "Поделиться:",
     "Add to your website" : "Добавить к себе на сайт",
     "Share with me via Nextcloud" : "Поделитесь со мной через Nextcloud",
     "HTML Code:" : "HTML код:",

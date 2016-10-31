@@ -27,7 +27,7 @@ OC.L10N.register(
     "Request URL" : "URL запроса",
     "Predefined URLs" : "Предопределенные URL",
     "Files WebDAV" : "Файлы WebDAV",
-    "Sync clients" : "Синхронизирующиеся клиенты",
+    "Sync clients" : "Клиенты синхронизации",
     "Android client" : "Андроид клиент",
     "iOS client" : "iOS клиент",
     "Desktop client" : "Клиент на ПК",
