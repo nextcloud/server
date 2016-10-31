@@ -416,19 +416,33 @@
 		},
 
 		_renderSharePlaceholderPart: function () {
-			var sharePlaceholder = t('core', 'Share with users, or by mail...');
+			var allowGroupSharing = this.configModel.get('allowGroupSharing');
+			var allowRemoteSharing = this.configModel.get('isRemoteShareAllowed');
+			var allowMailSharing = this.configModel.get('isMailShareAllowed');
 
-			if (this.configModel.get('allowGroupSharing')) {
-				if (this.configModel.get('isRemoteShareAllowed')) {
-					sharePlaceholder = t('core', 'Share with users, groups, remote users, or by mail…');
-				} else {
-					sharePlaceholder = t('core', 'Share with users, groups or by mail...');
-				}
-			} else if (this.configModel.get('isRemoteShareAllowed')) {
-					sharePlaceholder = t('core', 'Share with users, remote users or by mail...');
+			if (!allowGroupSharing && !allowRemoteSharing && allowMailSharing) {
+				return t('core', 'Share with users or by mail...');
+			}
+			if (!allowGroupSharing && allowRemoteSharing && !allowMailSharing) {
+				return t('core', 'Share with users or remote users...');
+			}
+			if (!allowGroupSharing && allowRemoteSharing && allowMailSharing) {
+				return t('core', 'Share with users, remote users or by mail...');
+			}
+			if (allowGroupSharing && !allowRemoteSharing && !allowMailSharing) {
+				return t('core', 'Share with users or groups...');
+			}
+			if (allowGroupSharing && !allowRemoteSharing && allowMailSharing) {
+				return t('core', 'Share with users, groups or by mail...');
+			}
+			if (allowGroupSharing && allowRemoteSharing && !allowMailSharing) {
+				return t('core', 'Share with users, groups or remote users...');
+			}
+			if (allowGroupSharing && allowRemoteSharing && allowMailSharing) {
+				return t('core', 'Share with users, groups, remote users or by mail...');
 			}
 
-			return sharePlaceholder;
+			return 	t('core', 'Share with users...');
 		},
 
 		/**
