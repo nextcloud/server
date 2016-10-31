@@ -114,13 +114,6 @@ class DeprecationCheck extends AbstractCheck implements ICheck {
 			'OCP\AppFramework\IAppContainer::isAdminUser' => '8.0.0',
 			'OCP\AppFramework\IAppContainer::log' => '8.0.0',
 
-			'OCP\BackgroundJob::addQueuedTask' => '6.0.0',
-			'OCP\BackgroundJob::addRegularTask' => '6.0.0',
-			'OCP\BackgroundJob::allQueuedTasks' => '6.0.0',
-			'OCP\BackgroundJob::allRegularTasks' => '6.0.0',
-			'OCP\BackgroundJob::deleteQueuedTask' => '6.0.0',
-			'OCP\BackgroundJob::findQueuedTask' => '6.0.0',
-			'OCP\BackgroundJob::queuedTaskWhereAppIs' => '6.0.0',
 			'OCP\BackgroundJob::registerJob' => '8.1.0',
 
 			'OCP\Files::tmpFile' => '8.1.0',
