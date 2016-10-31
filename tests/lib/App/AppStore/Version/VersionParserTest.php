@@ -88,4 +88,12 @@ class VersionParserTest extends TestCase  {
 	public function testGetVersionException() {
 		$this->versionParser->getVersion('BogusVersion');
 	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage Version cannot be parsed: >=8.2 <=9.1a
+	 */
+	public function testGetVersionExceptionWithMultiple() {
+		$this->versionParser->getVersion('>=8.2 <=9.1a');
+	}
 }

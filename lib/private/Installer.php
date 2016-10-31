@@ -209,10 +209,7 @@ class Installer {
 						sprintf(
 							'App with id %s has a certificate not issued by a trusted Code Signing Authority',
 							$appId
-						),
-						[
-							'app' => 'core',
-						]
+						)
 					);
 				}
 
@@ -223,10 +220,7 @@ class Installer {
 						sprintf(
 							'App with id %s has a cert with no CN',
 							$appId
-						),
-						[
-							'app' => 'core',
-						]
+						)
 					);
 				}
 				if($certInfo['subject']['CN'] !== $appId) {
@@ -235,10 +229,7 @@ class Installer {
 							'App with id %s has a cert issued to %s',
 							$appId,
 							$certInfo['subject']['CN']
-						),
-						[
-							'app' => 'core',
-						]
+						)
 					);
 				}
 
@@ -259,10 +250,22 @@ class Installer {
 
 					if($archive) {
 						$archive->extract($extractDir);
+						$allFiles = scandir($extractDir);
+						$folders = array_diff($allFiles, ['.', '..']);
+						$folders = array_values($folders);
+
+						if(count($folders) > 1) {
+							throw new \Exception(
+								sprintf(
+									'Extracted app %s has more than 1 folder',
+									$appId
+								)
+							);
+						}
 
 						// Check if appinfo/info.xml has the same app ID as well
 						$loadEntities = libxml_disable_entity_loader(false);
-						$xml = simplexml_load_file($extractDir . '/' . $appId . '/appinfo/info.xml');
+						$xml = simplexml_load_file($extractDir . '/' . $folders[0] . '/appinfo/info.xml');
 						libxml_disable_entity_loader($loadEntities);
 						if((string)$xml->id !== $appId) {
 							throw new \Exception(
@@ -270,10 +273,7 @@ class Installer {
 									'App for id %s has a wrong app ID in info.xml: %s',
 									$appId,
 									(string)$xml->id
-								),
-								[
-									'app' => 'core',
-								]
+								)
 							);
 						}
 
@@ -282,21 +282,19 @@ class Installer {
 						OC_Helper::rmdirr($baseDir);
 						// Move to app folder
 						if(@mkdir($baseDir)) {
-							$extractDir .= '/' . $appId;
+							$extractDir .= '/' . $folders[0];
 							OC_Helper::copyr($extractDir, $baseDir);
 						}
 						OC_Helper::copyr($extractDir, $baseDir);
 						OC_Helper::rmdirr($extractDir);
+						return;
 					} else {
 						throw new \Exception(
 							sprintf(
 								'Could not extract app with ID %s to %s',
 								$appId,
 								$extractDir
-							),
-							[
-								'app' => 'core',
-							]
+							)
 						);
 					}
 				} else {
@@ -305,14 +303,18 @@ class Installer {
 						sprintf(
 							'App with id %s has invalid signature',
 							$appId
-						),
-						[
-							'app' => 'core',
-						]
+						)
 					);
 				}
 			}
 		}
+
+		throw new \Exception(
+			sprintf(
+				'Could not download app %s',
+				$appId
+			)
+		);
 	}
 
 	/**
