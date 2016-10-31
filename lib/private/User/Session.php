@@ -48,6 +48,7 @@ use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\Util;
 
@@ -89,23 +90,29 @@ class Session implements IUserSession, Emitter {
 	/** @var User $activeUser */
 	protected $activeUser;
 
+	/** @var ISecureRandom */
+	private $random;
+
 	/**
 	 * @param IUserManager $manager
 	 * @param ISession $session
 	 * @param ITimeFactory $timeFacory
 	 * @param IProvider $tokenProvider
 	 * @param IConfig $config
+	 * @param ISecureRandom $random
 	 */
 	public function __construct(IUserManager $manager,
 								ISession $session,
 								ITimeFactory $timeFacory,
 								$tokenProvider,
-								IConfig $config) {
+								IConfig $config,
+								ISecureRandom $random) {
 		$this->manager = $manager;
 		$this->session = $session;
 		$this->timeFacory = $timeFacory;
 		$this->tokenProvider = $tokenProvider;
 		$this->config = $config;
+		$this->random = $random;
 	}
 
 	/**
@@ -701,7 +708,7 @@ class Session implements IUserSession, Emitter {
 		}
 		// replace successfully used token with a new one
 		$this->config->deleteUserValue($uid, 'login_token', $currentToken);
-		$newToken = OC::$server->getSecureRandom()->generate(32);
+		$newToken = $this->random->generate(32);
 		$this->config->setUserValue($uid, 'login_token', $newToken, $this->timeFacory->getTime());
 
 		try {
@@ -726,8 +733,8 @@ class Session implements IUserSession, Emitter {
 	 * @param IUser $user
 	 */
 	public function createRememberMeToken(IUser $user) {
-		$token = OC::$server->getSecureRandom()->generate(32);
-		$this->config->setUserValue($user->getUID(), 'login_token', $token, time());
+		$token = $this->random->generate(32);
+		$this->config->setUserValue($user->getUID(), 'login_token', $token, $this->timeFacory->getTime());
 		$this->setMagicInCookie($user->getUID(), $token);
 	}
 
@@ -763,7 +770,7 @@ class Session implements IUserSession, Emitter {
 			$webRoot = '/';
 		}
 
-		$expires = $this->timeFacory->getTime() + OC::$server->getConfig()->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
+		$expires = $this->timeFacory->getTime() + $this->config->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
 		setcookie('nc_username', $username, $expires, $webRoot, '', $secureCookie, true);
 		setcookie('nc_token', $token, $expires, $webRoot, '', $secureCookie, true);
 		try {
@@ -783,14 +790,14 @@ class Session implements IUserSession, Emitter {
 		unset($_COOKIE['nc_username']); //TODO: DI
 		unset($_COOKIE['nc_token']);
 		unset($_COOKIE['nc_session_id']);
-		setcookie('nc_username', '', time() - 3600, OC::$WEBROOT, '', $secureCookie, true);
-		setcookie('nc_token', '', time() - 3600, OC::$WEBROOT, '', $secureCookie, true);
-		setcookie('nc_session_id', '', time() - 3600, OC::$WEBROOT, '', $secureCookie, true);
+		setcookie('nc_username', '', $this->timeFacory->getTime() - 3600, OC::$WEBROOT, '', $secureCookie, true);
+		setcookie('nc_token', '', $this->timeFacory->getTime() - 3600, OC::$WEBROOT, '', $secureCookie, true);
+		setcookie('nc_session_id', '', $this->timeFacory->getTime() - 3600, OC::$WEBROOT, '', $secureCookie, true);
 		// old cookies might be stored under /webroot/ instead of /webroot
 		// and Firefox doesn't like it!
-		setcookie('nc_username', '', time() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
-		setcookie('nc_token', '', time() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
-		setcookie('nc_session_id', '', time() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
+		setcookie('nc_username', '', $this->timeFacory->getTime() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
+		setcookie('nc_token', '', $this->timeFacory->getTime() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
+		setcookie('nc_session_id', '', $this->timeFacory->getTime() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
 	}
 
 	/**
