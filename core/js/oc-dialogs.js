@@ -77,6 +77,25 @@ var OCdialogs = {
 		);
 	},
 	/**
+	* displays confirmation dialog
+	* @param text content of dialog
+	* @param title dialog title
+	* @param callback which will be triggered when user presses YES or NO
+	*        (true or false would be passed to callback respectively)
+	* @param modal make the dialog modal
+	*/
+	confirmHtml:function(text, title, callback, modal) {
+		return this.message(
+			text,
+			title,
+			'notice',
+			OCdialogs.YES_NO_BUTTONS,
+			callback,
+			modal,
+			true
+		);
+	},
+	/**
 	 * displays prompt dialog
 	 * @param text content of dialog
 	 * @param title dialog title
@@ -251,7 +270,7 @@ var OCdialogs = {
 	 * Displays raw dialog
 	 * You better use a wrapper instead ...
 	*/
-	message:function(content, title, dialogType, buttons, callback, modal) {
+	message:function(content, title, dialogType, buttons, callback, modal, allowHtml) {
 		return $.when(this._getMessageTemplate()).then(function($tmpl) {
 			var dialogName = 'oc-dialog-' + OCdialogs.dialogsCounter + '-content';
 			var dialogId = '#' + dialogName;
@@ -260,7 +279,7 @@ var OCdialogs = {
 				title: title,
 				message: content,
 				type: dialogType
-			});
+			}, allowHtml ? {escapeFunction: ''} : {});
 			if (modal === undefined) {
 				modal = false;
 			}
