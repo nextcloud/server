@@ -38,7 +38,7 @@
 	<form id="avatarform" class="section" method="post" action="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.postAvatar')); ?>">
 		<h2>
 			<label><?php p($l->t('Profile picture')); ?></label>
-			<span class="icon-loading"/>
+			<span class="icon-password"/>
 		</h2>
 		<div id="displayavatar">
 			<div class="avatardiv"></div>

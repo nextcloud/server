@@ -83,7 +83,11 @@ input#openid, input#webdav { width:20em; }
 	min-width: 200px;
 }
 #avatarform > h2 span,
-#personal-settings-container > div h2 span[class^="icon-"] {
+#personal-settings-container > div h2 {
+	position: relative;
+}
+#personal-settings-container > div h2 span[class^="icon-"],
+#personal-settings-avatar-container h2 span[class^="icon-"] {
 	display: inline-block;
 	margin-left: 5px;
 	background-size: 110%;
@@ -102,7 +106,7 @@ input#openid, input#webdav { width:20em; }
 	pointer-events: none;
 }
 .federationScopeMenu {
-	top: 66px;
+	top: 44px;
 }
 .federationScopeMenu.bubble::after {
 	left: 45px;

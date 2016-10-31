@@ -1,4 +1,4 @@
-/* global OC, result */
+/* global OC, result, _ */
 
 /**
  * Copyright (c) 2016, Christoph Wurst <christoph@owncloud.com>
@@ -7,7 +7,7 @@
  * See the COPYING-README file.
  */
 
-(function() {
+(function(_, $, OC) {
 	'use strict';
 
 	var FederationSettingsView = OC.Backbone.View.extend({
@@ -46,11 +46,11 @@
 
 				// Set inputs whenever model values change
 				if (!scopeOnly) {
-					self.listenTo(self._config, 'change:' + field, function () {
+					self.listenTo(self._config, 'change:' + field, function() {
 						self.$('#' + field).val(self._config.get(field));
 					});
 				}
-				self.listenTo(self._config, 'change:' + field + 'Scope', function () {
+				self.listenTo(self._config, 'change:' + field + 'Scope', function() {
 					self._setFieldScopeIcon(field, self._config.get(field + 'Scope'));
 				});
 			});
@@ -118,7 +118,7 @@
 			// update displayName on the top right expand button
 			$('#expandDisplayName').text(displayName);
 			// update avatar if avatar is available
-			if(!$('#removeavatar').hasClass('hidden')) {
+			if (!$('#removeavatar').hasClass('hidden')) {
 				updateAvatar();
 			}
 		},
@@ -159,4 +159,4 @@
 
 	OC.Settings = OC.Settings || {};
 	OC.Settings.FederationSettingsView = FederationSettingsView;
-})();
+})(_, $, OC);
