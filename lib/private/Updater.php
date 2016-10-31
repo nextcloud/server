@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Frank Karlitschek <frank@karlitschek.de>
@@ -426,11 +427,15 @@ class Updater extends BasicEmitter {
 	private function upgradeAppStoreApps(array $disabledApps) {
 		foreach($disabledApps as $app) {
 			try {
-				if (Installer::isUpdateAvailable($app)) {
-					$ocsId = \OC::$server->getConfig()->getAppValue($app, 'ocsid', '');
-
-					$this->emit('\OC\Updater', 'upgradeAppStoreApp', array($app));
-					Installer::updateAppByOCSId($ocsId);
+				$installer = new Installer(
+					\OC::$server->getAppFetcher(),
+					\OC::$server->getHTTPClientService(),
+					\OC::$server->getTempManager(),
+					$this->log
+				);
+				if (Installer::isUpdateAvailable($app, \OC::$server->getAppFetcher())) {
+					$this->emit('\OC\Updater', 'upgradeAppStoreApp', [$app]);
+					$installer->updateAppstoreApp($app);
 				}
 			} catch (\Exception $ex) {
 				$this->log->logException($ex, ['app' => 'core']);

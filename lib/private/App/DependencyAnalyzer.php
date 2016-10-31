@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Joas Schilling <coding@schilljs.com>
@@ -294,7 +295,9 @@ class DependencyAnalyzer {
 	private function analyzeOC(array $dependencies, array $appInfo) {
 		$missing = [];
 		$minVersion = null;
-		if (isset($dependencies['owncloud']['@attributes']['min-version'])) {
+		if (isset($dependencies['nextcloud']['@attributes']['min-version'])) {
+			$minVersion = $dependencies['nextcloud']['@attributes']['min-version'];
+		} elseif (isset($dependencies['owncloud']['@attributes']['min-version'])) {
 			$minVersion = $dependencies['owncloud']['@attributes']['min-version'];
 		} elseif (isset($appInfo['requiremin'])) {
 			$minVersion = $appInfo['requiremin'];
@@ -302,7 +305,9 @@ class DependencyAnalyzer {
 			$minVersion = $appInfo['require'];
 		}
 		$maxVersion = null;
-		if (isset($dependencies['owncloud']['@attributes']['max-version'])) {
+		if (isset($dependencies['nextcloud']['@attributes']['max-version'])) {
+			$maxVersion = $dependencies['nextcloud']['@attributes']['max-version'];
+		} elseif (isset($dependencies['owncloud']['@attributes']['max-version'])) {
 			$maxVersion = $dependencies['owncloud']['@attributes']['max-version'];
 		} elseif (isset($appInfo['requiremax'])) {
 			$maxVersion = $appInfo['requiremax'];

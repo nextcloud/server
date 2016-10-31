@@ -757,6 +757,7 @@ class OC_Util {
 				'simplexml_load_string' => 'SimpleXML',
 				'hash' => 'HASH Message Digest Framework',
 				'curl_init' => 'cURL',
+				'openssl_verify' => 'OpenSSL',
 			],
 			'defined' => array(
 				'PDO::ATTR_DRIVER_NAME' => 'PDO'

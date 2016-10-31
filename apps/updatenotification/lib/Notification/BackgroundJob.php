@@ -22,7 +22,6 @@
 
 namespace OCA\UpdateNotification\Notification;
 
-
 use OC\BackgroundJob\TimedJob;
 use OC\Installer;
 use OC\Updater\VersionCheck;
@@ -215,6 +214,6 @@ class BackgroundJob extends TimedJob {
 	 * @return string|false
 	 */
 	protected function isUpdateAvailable($app) {
-		return Installer::isUpdateAvailable($app);
+		return Installer::isUpdateAvailable($app, \OC::$server->getAppFetcher());
 	}
 }

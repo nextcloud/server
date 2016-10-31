@@ -341,21 +341,16 @@ class OC_App {
 		$config = \OC::$server->getConfig();
 
 		// Check if app is already downloaded
-		$installer = new Installer();
+		$installer = new Installer(
+			\OC::$server->getAppFetcher(),
+			\OC::$server->getHTTPClientService(),
+			\OC::$server->getTempManager(),
+			\OC::$server->getLogger()
+		);
 		$isDownloaded = $installer->isDownloaded($appId);
 
 		if(!$isDownloaded) {
-			$installer->downloadApp(
-				$appId,
-				new \OC\App\AppStore\Fetcher\AppFetcher(
-					\OC::$server->getAppDataDir('appstore'),
-					\OC::$server->getHTTPClientService(),
-					\OC::$server->query(\OC\AppFramework\Utility\TimeFactory::class),
-					$config
-				),
-				\OC::$server->getHTTPClientService(),
-				\OC::$server->getTempManager()
-			);
+			$installer->downloadApp($appId);
 		}
 
 		if (!Installer::isInstalled($appId)) {
@@ -404,7 +399,13 @@ class OC_App {
 			return false;
 		}
 
-		return Installer::removeApp($app);
+		$installer = new Installer(
+			\OC::$server->getAppFetcher(),
+			\OC::$server->getHTTPClientService(),
+			\OC::$server->getTempManager(),
+			\OC::$server->getLogger()
+		);
+		return $installer->removeApp($app);
 	}
 
 	/**
@@ -975,7 +976,9 @@ class OC_App {
 	public static function isAppCompatible($ocVersion, $appInfo) {
 		$requireMin = '';
 		$requireMax = '';
-		if (isset($appInfo['dependencies']['owncloud']['@attributes']['min-version'])) {
+		if (isset($appInfo['dependencies']['nextcloud']['@attributes']['min-version'])) {
+			$requireMin = $appInfo['dependencies']['nextcloud']['@attributes']['min-version'];
+		} elseif (isset($appInfo['dependencies']['owncloud']['@attributes']['min-version'])) {
 			$requireMin = $appInfo['dependencies']['owncloud']['@attributes']['min-version'];
 		} else if (isset($appInfo['requiremin'])) {
 			$requireMin = $appInfo['requiremin'];
@@ -983,7 +986,9 @@ class OC_App {
 			$requireMin = $appInfo['require'];
 		}
 
-		if (isset($appInfo['dependencies']['owncloud']['@attributes']['max-version'])) {
+		if (isset($appInfo['dependencies']['nextcloud']['@attributes']['max-version'])) {
+			$requireMax = $appInfo['dependencies']['nextcloud']['@attributes']['max-version'];
+		} elseif (isset($appInfo['dependencies']['owncloud']['@attributes']['max-version'])) {
 			$requireMax = $appInfo['dependencies']['owncloud']['@attributes']['max-version'];
 		} else if (isset($appInfo['requiremax'])) {
 			$requireMax = $appInfo['requiremax'];

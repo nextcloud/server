@@ -37,7 +37,6 @@ use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\ICacheFactory;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IL10N;
@@ -55,8 +54,6 @@ class AppSettingsController extends Controller {
 	private $l10n;
 	/** @var IConfig */
 	private $config;
-	/** @var \OCP\ICache */
-	private $cache;
 	/** @var INavigationManager */
 	private $navigationManager;
 	/** @var IAppManager */
@@ -73,7 +70,6 @@ class AppSettingsController extends Controller {
 	 * @param IRequest $request
 	 * @param IL10N $l10n
 	 * @param IConfig $config
-	 * @param ICacheFactory $cache
 	 * @param INavigationManager $navigationManager
 	 * @param IAppManager $appManager
 	 * @param CategoryFetcher $categoryFetcher
@@ -84,7 +80,6 @@ class AppSettingsController extends Controller {
 								IRequest $request,
 								IL10N $l10n,
 								IConfig $config,
-								ICacheFactory $cache,
 								INavigationManager $navigationManager,
 								IAppManager $appManager,
 								CategoryFetcher $categoryFetcher,
@@ -93,7 +88,6 @@ class AppSettingsController extends Controller {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->config = $config;
-		$this->cache = $cache->create($appName);
 		$this->navigationManager = $navigationManager;
 		$this->appManager = $appManager;
 		$this->categoryFetcher = $categoryFetcher;
@@ -201,6 +195,18 @@ class AppSettingsController extends Controller {
 			}
 
 			$currentLanguage = substr(\OC::$server->getL10NFactory()->findLanguage(), 0, 2);
+			$enabledValue = $this->config->getAppValue($app['id'], 'enabled', 'no');
+			$groups = null;
+			if($enabledValue !== 'no' && $enabledValue !== 'yes') {
+				$groups = $enabledValue;
+			}
+
+			$currentVersion = '';
+			if($this->appManager->isInstalled($app['id'])) {
+				$currentVersion = \OC_App::getAppVersion($app['id']);
+			} else {
+				$currentLanguage = $app['releases'][0]['version'];
+			}
 
 			$formattedApps[] = [
 				'id' => $app['id'],
@@ -209,7 +215,7 @@ class AppSettingsController extends Controller {
 				'license' => $app['releases'][0]['licenses'],
 				'author' => $authors,
 				'shipped' => false,
-				'version' => $app['releases'][0]['version'],
+				'version' => $currentVersion,
 				'default_enable' => '',
 				'types' => [],
 				'documentation' => [
@@ -233,7 +239,15 @@ class AppSettingsController extends Controller {
 				'removable' => $existsLocally,
 				'active' => $this->appManager->isEnabledForUser($app['id']),
 				'needsDownload' => !$existsLocally,
+				'groups' => $groups,
 			];
+
+
+			$appFetcher = \OC::$server->getAppFetcher();
+			$newVersion = \OC\Installer::isUpdateAvailable($app['id'], $appFetcher);
+			if($newVersion) {
+				$formattedApps[count($formattedApps)-1]['update'] = $newVersion;
+			}
 		}
 
 		return $formattedApps;
