@@ -137,15 +137,19 @@ class CsrfTokenManagerTest extends \Test\TestCase {
 	}
 
 	public function testIsTokenValidWithValidToken() {
+		$a = 'abc';
+		$b = 'def';
+		$xorB64 = 'BQcF';
+		$tokenVal = sprintf('%s:%s', $xorB64, base64_encode($a));
 		$this->storageInterface
 				->expects($this->once())
 				->method('hasToken')
 				->willReturn(true);
-		$token = new \OC\Security\CSRF\CsrfToken('XlQhHjgWCgBXAEI0Khl+IQEiCXN2LUcDHAQTQAc1HQs=:qgkUlg8l3m8WnkOG4XM9Az33pAt1vSVMx4hcJFsxdqc=');
+		$token = new \OC\Security\CSRF\CsrfToken($tokenVal);
 		$this->storageInterface
 				->expects($this->once())
 				->method('getToken')
-				->willReturn('/3JKTq2ldmzcDr1f5zDJ7Wt0lEgqqfKF');
+				->willReturn($b);
 
 		$this->assertSame(true, $this->csrfTokenManager->isTokenValid($token));
 	}
