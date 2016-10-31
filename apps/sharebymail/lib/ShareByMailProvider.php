@@ -142,7 +142,7 @@ class ShareByMailProvider implements IShareProvider {
 	 * @return int
 	 * @throws \Exception
 	 */
-	private function createMailShare(IShare $share) {
+	protected function createMailShare(IShare $share) {
 		$share->setToken($this->generateToken());
 		$shareId = $this->addShareToDB(
 			$share->getNodeId(),
@@ -176,7 +176,7 @@ class ShareByMailProvider implements IShareProvider {
 
 	}
 
-	private function sendMailNotification($filename, $link, $owner, $initiator, $shareWith) {
+	protected function sendMailNotification($filename, $link, $owner, $initiator, $shareWith) {
 		if ($owner === $initiator) {
 			$subject = (string)$this->l->t('%s shared »%s« with you', array($owner, $filename));
 		} else {
@@ -227,7 +227,7 @@ class ShareByMailProvider implements IShareProvider {
 	 *
 	 * @return string
 	 */
-	public function generateToken() {
+	protected function generateToken() {
 		$token = $this->secureRandom->generate(
 			15, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS);
 		return $token;
@@ -270,7 +270,7 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param string $token
 	 * @return int
 	 */
-	private function addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $uidOwner, $permissions, $token) {
+	protected function addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $uidOwner, $permissions, $token) {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert('share')
 			->setValue('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_EMAIL))
@@ -528,7 +528,7 @@ class ShareByMailProvider implements IShareProvider {
 	 *
 	 * @param string $shareId
 	 */
-	private function removeShareFromTable($shareId) {
+	protected function removeShareFromTable($shareId) {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($shareId)));
@@ -543,7 +543,7 @@ class ShareByMailProvider implements IShareProvider {
 	 * @throws InvalidShare
 	 * @throws ShareNotFound
 	 */
-	private function createShareObject($data) {
+	protected function createShareObject($data) {
 
 		$share = new Share($this->rootFolder, $this->userManager);
 		$share->setId((int)$data['id'])
@@ -613,7 +613,7 @@ class ShareByMailProvider implements IShareProvider {
 		$qb = $this->dbConnection->getQueryBuilder();
 
 		$qb->delete('share')
-			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(Share::SHARE_TYPE_REMOTE)))
+			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_EMAIL)))
 			->andWhere($qb->expr()->eq('uid_owner', $qb->createNamedParameter($uid)))
 			->execute();
 	}
@@ -644,7 +644,7 @@ class ShareByMailProvider implements IShareProvider {
 	 * @return array
 	 * @throws ShareNotFound
 	 */
-	private function getRawShare($id) {
+	protected function getRawShare($id) {
 
 		// Now fetch the inserted share and create a complete share object
 		$qb = $this->dbConnection->getQueryBuilder();
