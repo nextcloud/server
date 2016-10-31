@@ -883,7 +883,7 @@ class Manager implements IManager {
 		$provider->move($share, $recipientId);
 	}
 
-	public function getSharesInFolder($userId, Node $node, $reshares = false) {
+	public function getSharesInFolder($userId, Folder $node, $reshares = false) {
 		$providers = $this->factory->getAllProviders();
 
 		return array_reduce($providers, function($shares, IShareProvider $provider) use ($userId, $node, $reshares) {

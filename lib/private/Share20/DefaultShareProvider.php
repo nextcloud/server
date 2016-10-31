@@ -24,6 +24,7 @@
 namespace OC\Share20;
 
 use OCP\Files\File;
+use OCP\Files\Folder;
 use OCP\Share\IShareProvider;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Exception\ProviderException;
@@ -454,7 +455,7 @@ class DefaultShareProvider implements IShareProvider {
 		return $share;
 	}
 
-	public function getSharesInFolder($userId, $node, $reshares) {
+	public function getSharesInFolder($userId, Folder $node, $reshares) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('*')
 			->from('share', 's')
