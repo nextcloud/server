@@ -46,6 +46,7 @@ use OC\App\CodeChecker\CodeChecker;
 use OC\App\CodeChecker\EmptyCheck;
 use OC\App\CodeChecker\PrivateCheck;
 use OC\Archive\Archive;
+use OC\Archive\TAR;
 use OC_App;
 use OC_DB;
 use OC_Helper;
@@ -254,7 +255,7 @@ class Installer {
 				if($verified === true) {
 					// Seems to match, let's proceed
 					$extractDir = $this->tempManager->getTemporaryFolder();
-					$archive = Archive::open($tempFile);
+					$archive = new TAR($tempFile);
 
 					if($archive) {
 						$archive->extract($extractDir);
