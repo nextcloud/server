@@ -57,6 +57,7 @@ class Sharing implements ISettings {
 			'allowPublicUpload'               => $this->config->getAppValue('core', 'shareapi_allow_public_upload', 'yes'),
 			'allowResharing'                  => $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes'),
 			'allowShareDialogUserEnumeration' => $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes'),
+			'enableLinkPasswordByDefault'     => $this->config->getAppValue('core', 'shareapi_enable_link_password_by_default', 'no'),
 			'enforceLinkPassword'             => Util::isPublicLinkPasswordRequired(),
 			'onlyShareWithGroupMembers'       => Share::shareWithGroupMembersOnly(),
 			'shareAPIEnabled'                 => $this->config->getAppValue('core', 'shareapi_enabled', 'yes'),
