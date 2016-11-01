@@ -2298,4 +2298,95 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->assertCount($toDelete ? 0 : 1, $data);
 	}
+
+	public function testGetSharesInFolder() {
+		$userManager = \OC::$server->getUserManager();
+		$groupManager = \OC::$server->getGroupManager();
+		$rootFolder = \OC::$server->getRootFolder();
+
+		$provider = new DefaultShareProvider(
+			$this->dbConn,
+			$userManager,
+			$groupManager,
+			$rootFolder
+		);
+
+		$u1 = $userManager->createUser('testShare1', 'test');
+		$u2 = $userManager->createUser('testShare2', 'test');
+		$u3 = $userManager->createUser('testShare3', 'test');
+
+		$g1 = $groupManager->createGroup('group1');
+
+		$u1Folder = $rootFolder->getUserFolder($u1->getUID());
+		$folder1 = $u1Folder->newFolder('foo');
+		$file1 = $folder1->newFile('bar');
+		$folder2 = $folder1->newFolder('baz');
+
+		$shareManager = \OC::$server->getShareManager();
+		$share1 = $shareManager->newShare();
+		$share1->setNode($folder1)
+			->setSharedBy($u1->getUID())
+			->setSharedWith($u2->getUID())
+			->setShareOwner($u1->getUID())
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(\OCP\Constants::PERMISSION_ALL);
+		$share1 = $this->provider->create($share1);
+
+		$share2 = $shareManager->newShare();
+		$share2->setNode($file1)
+			->setSharedBy($u2->getUID())
+			->setSharedWith($u3->getUID())
+			->setShareOwner($u1->getUID())
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(\OCP\Constants::PERMISSION_READ);
+		$share2 = $this->provider->create($share2);
+
+		$share3 = $shareManager->newShare();
+		$share3->setNode($folder2)
+			->setSharedBy($u2->getUID())
+			->setShareOwner($u1->getUID())
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPermissions(\OCP\Constants::PERMISSION_READ);
+		$share3 = $this->provider->create($share3);
+
+		$share4 = $shareManager->newShare();
+		$share4->setNode($folder2)
+			->setSharedBy($u1->getUID())
+			->setSharedWith($g1->getGID())
+			->setShareOwner($u1->getUID())
+			->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setPermissions(\OCP\Constants::PERMISSION_READ);
+		$share4 = $this->provider->create($share4);
+
+		$result = $provider->getSharesInFolder($u1->getUID(), $folder1, false);
+		$this->assertCount(1, $result);
+		$shares = array_pop($result);
+		$this->assertCount(1, $shares);
+		$this->assertSame($folder2->getId(), $shares[0]->getNodeId());
+
+		$result = $provider->getSharesInFolder($u1->getUID(), $folder1, true);
+		$this->assertCount(2, $result);
+
+		$file_shares = $result[$file1->getId()];
+		$this->assertCount(1, $file_shares);
+		$this->assertSame($file1->getId(), $file_shares[0]->getNodeId());
+		$this->assertSame(\OCP\Share::SHARE_TYPE_USER, $file_shares[0]->getShareType());
+
+		$folder_shares = $result[$folder2->getId()];
+		$this->assertCount(2, $folder_shares);
+		$this->assertSame($folder2->getId(), $folder_shares[0]->getNodeId());
+		$this->assertSame($folder2->getId(), $folder_shares[1]->getNodeId());
+		$this->assertSame(\OCP\Share::SHARE_TYPE_LINK, $folder_shares[0]->getShareType());
+		$this->assertSame(\OCP\Share::SHARE_TYPE_GROUP, $folder_shares[1]->getShareType());
+
+		$provider->delete($share1);
+		$provider->delete($share2);
+		$provider->delete($share3);
+		$provider->delete($share4);
+
+		$u1->delete();
+		$u2->delete();
+		$u3->delete();
+		$g1->delete();
+	}
 }
