@@ -148,9 +148,12 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 		$values = array_map(function (\OCP\Files\Node $node) use ($shares) {
 			/** @var IShare[] $shares */
 			$shares = (isset($shares[$node->getId()])) ? $shares[$node->getId()] : [];
-			return array_map(function(IShare $share) {
+			$types = array_map(function(IShare $share) {
 				return $share->getShareType();
 			}, $shares);
+			$types = array_unique($types);
+			sort($types);
+			return $types;
 		}, $children);
 
 		$keys = array_map(function (\OCP\Files\Node $node) {

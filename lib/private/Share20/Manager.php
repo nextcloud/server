@@ -887,7 +887,15 @@ class Manager implements IManager {
 		$providers = $this->factory->getAllProviders();
 
 		return array_reduce($providers, function($shares, IShareProvider $provider) use ($userId, $node, $reshares) {
-			return $shares + $provider->getSharesInFolder($userId, $node, $reshares);
+			$newShares = $provider->getSharesInFolder($userId, $node, $reshares);
+			foreach ($newShares as $fid => $data) {
+				if (!isset($shares[$fid])) {
+					$shares[$fid] = [];
+				}
+
+				$shares[$fid] = array_merge($shares[$fid], $data);
+			}
+			return $shares;
 		}, []);
 	}
 

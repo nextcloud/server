@@ -574,7 +574,7 @@ class FederatedShareProvider implements IShareProvider {
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
 			))
 			->andWhere(
-				$qb->expr()->eq('shareType', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_REMOTE))
+				$qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_REMOTE))
 			);
 
 		/**
