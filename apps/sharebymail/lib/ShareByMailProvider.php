@@ -22,6 +22,7 @@
 namespace OCA\ShareByMail;
 
 use OC\HintException;
+use OC\Share20\Exception\InvalidShare;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
