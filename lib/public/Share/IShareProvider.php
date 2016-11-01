@@ -22,6 +22,7 @@
 
 namespace OCP\Share;
 
+use OCP\Files\Folder;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Files\Node;
 
@@ -90,6 +91,17 @@ interface IShareProvider {
 	 * @since 9.0.0
 	 */
 	public function move(\OCP\Share\IShare $share, $recipient);
+
+	/**
+	 * Get all shares by the given user in a folder
+	 *
+	 * @param string $userId
+	 * @param Folder $node
+	 * @param bool $reshares Also get the shares where $user is the owner instead of just the shares where $user is the initiator
+	 * @return \OCP\Share\IShare[]
+	 * @since 9.2.0
+	 */
+	public function getSharesInFolder($userId, Folder $node, $reshares);
 
 	/**
 	 * Get all shares by the given user

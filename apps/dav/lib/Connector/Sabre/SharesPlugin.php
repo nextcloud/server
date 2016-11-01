@@ -136,6 +136,33 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 		return $shareTypes;
 	}
 
+	private function getSharesTypesInFolder(\OCP\Files\Folder $node) {
+		$shares = $this->shareManager->getSharesInFolder(
+			$this->userId,
+			$node,
+			false
+		);
+
+		$children = $node->getDirectoryListing();
+
+		$values = array_map(function (\OCP\Files\Node $node) use ($shares) {
+			/** @var IShare[] $shares */
+			$shares = (isset($shares[$node->getId()])) ? $shares[$node->getId()] : [];
+			$types = array_map(function(IShare $share) {
+				return $share->getShareType();
+			}, $shares);
+			$types = array_unique($types);
+			sort($types);
+			return $types;
+		}, $children);
+
+		$keys = array_map(function (\OCP\Files\Node $node) {
+			return $node->getId();
+		}, $children);
+
+		return array_combine($keys, $values);
+	}
+
 	/**
 	 * Adds shares to propfind response
 	 *
@@ -156,15 +183,15 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			&& !is_null($propFind->getStatus(self::SHARETYPES_PROPERTYNAME))
 		) {
 			$folderNode = $this->userFolder->get($sabreNode->getPath());
-			$children = $folderNode->getDirectoryListing();
 
+			$childShares = $this->getSharesTypesInFolder($folderNode);
 			$this->cachedShareTypes[$folderNode->getId()] = $this->getShareTypes($folderNode);
-			foreach ($children as $childNode) {
-				$this->cachedShareTypes[$childNode->getId()] = $this->getShareTypes($childNode);
+			foreach ($childShares as $id => $shares) {
+				$this->cachedShareTypes[$id] = $shares;
 			}
 		}
 
-		$propFind->handle(self::SHARETYPES_PROPERTYNAME, function() use ($sabreNode) {
+		$propFind->handle(self::SHARETYPES_PROPERTYNAME, function () use ($sabreNode) {
 			if (isset($this->cachedShareTypes[$sabreNode->getId()])) {
 				$shareTypes = $this->cachedShareTypes[$sabreNode->getId()];
 			} else {
