@@ -131,6 +131,7 @@ OC.L10N.register(
     "Login" : "Логин",
     "Plain" : "Простой",
     "NT LAN Manager" : "Менеджер NT LAN",
+    "STARTTLS" : "STARTTLS",
     "Email server" : "Почтовый сервер",
     "Open documentation" : "Открыть документацию",
     "This is used for sending out notifications." : "Используется для отправки уведомлений.",

@@ -2,7 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "Update notifications" : "Уведомления об обновлениях",
-    "Could not start updater, please try the manual update" : "Не удалось обновить. Пожалуйста, выполните обновление в ручную.",
+    "Could not start updater, please try the manual update" : "Не удалось обновить. Пожалуйста, выполните обновление вручную.",
     "{version} is available. Get more information on how to update." : "Доступна версия {version}. Получить дополнительную информацию о порядке обновления.",
     "Channel updated" : "Канал обновлен.",
     "Update to %1$s is available." : "Доступно обновлений: %1$s",
@@ -13,7 +13,7 @@ OC.L10N.register(
     "Your version is up to date." : "Версия не требует обновления.",
     "Checked on %s" : "Проверено %s",
     "Update channel:" : "Канал обновлений:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Вы всегда можете переключится на экспериментальный канал обновлений для получения новейшей версии. Но учтите, что вы не сможете переключиться обратно на канал обновлений для стабильных версий. ",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Вы всегда можете переключиться на экспериментальный канал обновлений для получения новейших версий. Но учтите, что вы не сможете переключиться обратно на канал обновлений для стабильных версий.",
     "Notify members of the following groups about available updates:" : "Уведомить членов следующих групп о наличии доступных обновлений:",
     "Only notification for app updates are available." : "Только уведомления об обновлении приложений доступны.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Выбранный канал обновлений высылает специальные уведомления, если сервер устарел.",
