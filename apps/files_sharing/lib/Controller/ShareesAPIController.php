@@ -568,7 +568,6 @@ class ShareesAPIController extends OCSController {
 					if (strtolower($contact['FN']) === strtolower($search) || strtolower($emailAddress) === strtolower($search)) {
 						if (strtolower($emailAddress) === strtolower($search)) {
 							$result['exactIdMatch'] = true;
-							$foundEmailByAddress = true;
 						}
 						$result['exact'][] = [
 							'label' => $contact['FN'] . " ($emailAddress)",
