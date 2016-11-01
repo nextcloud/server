@@ -610,5 +610,46 @@ class ShareByMailProviderTest extends TestCase {
 		return (int)$id;
 	}
 
+	public function testGetSharesInFolder() {
+		$userManager = \OC::$server->getUserManager();
+		$rootFolder = \OC::$server->getRootFolder();
 
+		$provider = $this->getInstance(['sendMailNotification']);
+
+		$u1 = $userManager->createUser('testFed', md5(time()));
+		$u2 = $userManager->createUser('testFed2', md5(time()));
+
+		$folder1 = $rootFolder->getUserFolder($u1->getUID())->newFolder('foo');
+		$file1 = $folder1->newFile('bar1');
+		$file2 = $folder1->newFile('bar2');
+
+		$share1 = $this->shareManager->newShare();
+		$share1->setSharedWith('user@server.com')
+			->setSharedBy($u1->getUID())
+			->setShareOwner($u1->getUID())
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file1);
+		$provider->create($share1);
+
+		$share2 = $this->shareManager->newShare();
+		$share2->setSharedWith('user@server.com')
+			->setSharedBy($u2->getUID())
+			->setShareOwner($u1->getUID())
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file2);
+		$provider->create($share2);
+
+		$result = $provider->getSharesInFolder($u1->getUID(), $folder1, false);
+		$this->assertCount(1, $result);
+		$this->assertCount(1, $result[$file1->getId()]);
+
+		$result = $provider->getSharesInFolder($u1->getUID(), $folder1, true);
+		$this->assertCount(2, $result);
+		$this->assertCount(1, $result[$file1->getId()]);
+		$this->assertCount(1, $result[$file2->getId()]);
+
+		$u1->delete();
+		$u2->delete();
+	}
+	
 }
