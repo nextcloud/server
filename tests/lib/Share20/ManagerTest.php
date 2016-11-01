@@ -22,6 +22,7 @@ namespace Test\Share20;
 
 use OC\Files\Mount\MoveableMount;
 use OC\HintException;
+use OC\Share20\DefaultShareProvider;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -29,6 +30,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\Files\Storage;
 use OCP\IGroup;
+use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -118,13 +120,9 @@ class ManagerTest extends \Test\TestCase {
 			$this->eventDispatcher
 		);
 
-		$this->defaultProvider = $this->getMockBuilder('\OC\Share20\DefaultShareProvider')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->defaultProvider = $this->createMock(DefaultShareProvider::class);
 		$this->defaultProvider->method('identifier')->willReturn('default');
 		$this->factory->setProvider($this->defaultProvider);
-
-
 	}
 
 	/**
@@ -2531,12 +2529,71 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->manager->moveShare($share, 'recipient');
 	}
+
+	public function testGetSharesInFolder() {
+		$factory = new DummyFactory2($this->createMock(IServerContainer::class));
+
+		$manager = new Manager(
+			$this->logger,
+			$this->config,
+			$this->secureRandom,
+			$this->hasher,
+			$this->mountManager,
+			$this->groupManager,
+			$this->l,
+			$factory,
+			$this->userManager,
+			$this->rootFolder,
+			$this->eventDispatcher
+		);
+
+		$factory->setProvider($this->defaultProvider);
+		$extraProvider = $this->createMock(IShareProvider::class);
+		$factory->setSecondProvider($extraProvider);
+
+		$share1 = $this->createMock(IShare::class);
+		$share2 = $this->createMock(IShare::class);
+		$share3 = $this->createMock(IShare::class);
+		$share4 = $this->createMock(IShare::class);
+
+		$folder = $this->createMock(Folder::class);
+
+		$this->defaultProvider->method('getSharesInFolder')
+			->with(
+				$this->equalTo('user'),
+				$this->equalTo($folder),
+				$this->equalTo(false)
+			)->willReturn([
+				1 => [$share1],
+				2 => [$share2],
+			]);
+
+		$extraProvider->method('getSharesInFolder')
+			->with(
+				$this->equalTo('user'),
+				$this->equalTo($folder),
+				$this->equalTo(false)
+			)->willReturn([
+				2 => [$share3],
+				3 => [$share4],
+			]);
+
+		$result = $manager->getSharesInFolder('user', $folder, false);
+
+		$expects = [
+			1 => [$share1],
+			2 => [$share2, $share3],
+			3 => [$share4],
+		];
+
+		$this->assertSame($expects, $result);
+	}
 }
 
 class DummyFactory implements IProviderFactory {
 
 	/** @var IShareProvider */
-	private $provider;
+	protected $provider;
 
 	public function __construct(\OCP\IServerContainer $serverContainer) {
 
@@ -2571,6 +2628,20 @@ class DummyFactory implements IProviderFactory {
 	public function getAllProviders() {
 		return [$this->provider];
 	}
+}
 
+class DummyFactory2 extends DummyFactory {
+	/** @var IShareProvider */
+	private $provider2;
 
+	/**
+	 * @param IShareProvider $provider
+	 */
+	public function setSecondProvider($provider) {
+		$this->provider2 = $provider;
+	}
+
+	public function getAllProviders() {
+		return [$this->provider, $this->provider2];
+	}
 }
