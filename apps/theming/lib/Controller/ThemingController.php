@@ -319,7 +319,7 @@ class ThemingController extends Controller {
 			$responseCss .= sprintf('input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
 				'background-image:url(\'%s/core/img/actions/checkmark-white.svg\');' .
 				'background-color: %s; background-position: center center; background-size:contain;' .
-				'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;' .
+				'width:12px; height:12px; padding:0; margin:2px 6px 6px 9px; border-radius:1px;' .
 				"}\n",
 				\OC::$WEBROOT,
 				$elementColor
