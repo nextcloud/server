@@ -99,7 +99,7 @@
     "Username as share" : "Имя пользователя в качестве имени общего ресурса",
     "OpenStack Object Storage" : "Хранилище объектов OpenStack",
     "Service name" : "Название сервиса",
-    "Request timeout (seconds)" : "Таймаут запроса (секунды)",
+    "Request timeout (seconds)" : "Таймаут запроса (в секундах)",
     "External storages" : "Внешние хранилища",
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Поддержка cURL в PHP не включена и/или не установлена, монтирование %s невозможно. Обратитесь к вашему системному администратору.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Поддержка FTP в PHP не включена и/или не установлена, монтирование %s невозможно. Обратитесь к вашему системному администратору.",

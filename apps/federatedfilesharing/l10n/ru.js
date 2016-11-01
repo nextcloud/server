@@ -1,7 +1,7 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Общий доступ из объединенного общего хранилища",
+    "Federated sharing" : "Общий доступ из объединённого общего хранилища",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Вы хотите добавить удалённую общую папку {name} из {owner}@{remote}?",
     "Remote share" : "Удаленный общий ресурс",
     "Remote share password" : "Пароль для удаленного общего ресурса",
