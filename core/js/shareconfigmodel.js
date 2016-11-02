@@ -49,20 +49,6 @@
 		/**
 		 * @returns {boolean}
 		 */
-		isMailPublicNotificationEnabled: function() {
-			return $('input:hidden[name=mailPublicNotificationEnabled]').val() === 'yes';
-		},
-
-		/**
-		 * @returns {boolean}
-		 */
-		isMailNotificationEnabled: function() {
-			return $('input:hidden[name=mailNotificationEnabled]').val() === 'yes';
-		},
-
-		/**
-		 * @returns {boolean}
-		 */
 		isShareWithLinkAllowed: function() {
 			return $('#allowShareWithLink').val() === 'yes';
 		},

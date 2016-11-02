@@ -34,8 +34,6 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 		oldAppConfig = _.extend({}, oc_appconfig.core);
 		oc_appconfig.core.enforcePasswordForPublicLink = false;
 
-		$('#testArea').append('<input id="mailNotificationEnabled" name="mailNotificationEnabled" type="hidden" value="yes">');
-
 		fileInfoModel = new OCA.Files.FileInfoModel({
 			id: 123,
 			name: 'shared_file_name.txt',
