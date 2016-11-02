@@ -79,7 +79,6 @@ class FilesystemTest extends \Test\TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		\OC_User::clearBackends();
 		$userBackend = new \Test\Util\User\Dummy();
 		$userBackend->createUser(self::TEST_FILESYSTEM_USER1, self::TEST_FILESYSTEM_USER1);
 		$userBackend->createUser(self::TEST_FILESYSTEM_USER2, self::TEST_FILESYSTEM_USER2);
@@ -94,7 +93,6 @@ class FilesystemTest extends \Test\TestCase {
 
 		$this->logout();
 		$this->invokePrivate('\OC\Files\Filesystem', 'normalizedPathCache', [null]);
-		\OC_User::clearBackends();
 		parent::tearDown();
 	}
 

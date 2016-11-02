@@ -20,6 +20,9 @@
 */
 
 namespace Test\Share;
+use OC\Share\Share;
+use OCP\ILogger;
+use OCP\IUserManager;
 
 /**
  * Class Test_Share
@@ -1630,6 +1633,31 @@ class ShareTest extends \Test\TestCase {
 		} catch (\Exception $e) {
 			$this->assertEquals('Sharing failed, because the user ' . $this->user1 . ' is the original sharer', $e->getMessage());
 		}
+	}
+
+	/**
+	 * @expectedException \OC\User\NoUserException
+	 * @expectedExceptionMessage Backends provided no user object
+	 */
+	public function testGetUsersSharingFileWithException() {
+		$userManager = $this->createMock(IUserManager::class);
+		$logger = $this->createMock(ILogger::class);
+		$userManager
+			->expects($this->once())
+			->method('get')
+			->with('test')
+			->willReturn(null);
+		$logger
+			->expects($this->once())
+			->method('error')
+			->with(
+				'Backends provided no user object for test',
+				[
+					'app' => 'files',
+				]
+			);
+
+		Share::getUsersSharingFile('/my/file/path', 'test', $userManager, $logger);
 	}
 }
 

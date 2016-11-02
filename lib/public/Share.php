@@ -89,7 +89,15 @@ class Share extends \OC\Share\Constants {
 	 * @since 5.0.0 - $recursive was added in 9.0.0
 	 */
 	public static function getUsersSharingFile($path, $ownerUser, $includeOwner = false, $returnUserPaths = false, $recursive = true) {
-		return \OC\Share\Share::getUsersSharingFile($path, $ownerUser, $includeOwner, $returnUserPaths, $recursive);
+		return \OC\Share\Share::getUsersSharingFile(
+			$path,
+			$ownerUser,
+			\OC::$server->getUserManager(),
+			\OC::$server->getLogger(),
+			$includeOwner,
+			$returnUserPaths,
+			$recursive
+		);
 	}
 
 	/**
