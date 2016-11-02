@@ -222,6 +222,8 @@ class FederatedShareProvider implements IShareProvider {
 			$token
 		);
 
+		$failure = false;
+
 		try {
 			$sharedByFederatedId = $share->getSharedBy();
 			if ($this->userManager->userExists($sharedByFederatedId)) {
@@ -239,17 +241,22 @@ class FederatedShareProvider implements IShareProvider {
 			);
 
 			if ($send === false) {
-				$message_t = $this->l->t('Sharing %s failed, could not find %s, maybe the server is currently unreachable.',
-					[$share->getNode()->getName(), $share->getSharedWith()]);
-				throw new \Exception($message_t);
+				$failure = true;
 			}
 		} catch (\Exception $e) {
 			$this->logger->error('Failed to notify remote server of federated share, removing share (' . $e->getMessage() . ')');
+			$failure = true;
+		}
+
+		if($failure) {
 			$this->removeShareFromTableById($shareId);
-			throw $e;
+			$message_t = $this->l->t('Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate.',
+				[$share->getNode()->getName(), $share->getSharedWith()]);
+			throw new \Exception($message_t);
 		}
 
 		return $shareId;
+
 	}
 
 	/**
