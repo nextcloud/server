@@ -36,6 +36,8 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OC\Hooks\PublicEmitter;
 use OCP\Files\IRootFolder;
+use OCP\ILogger;
+use OCP\IUserManager;
 
 /**
  * Class Root
@@ -57,42 +59,43 @@ use OCP\Files\IRootFolder;
  * @package OC\Files\Node
  */
 class Root extends Folder implements IRootFolder {
-
-	/**
-	 * @var \OC\Files\Mount\Manager $mountManager
-	 */
+	/** @var Manager */
 	private $mountManager;
-
-	/**
-	 * @var \OC\Hooks\PublicEmitter
-	 */
+	/** @var PublicEmitter */
 	private $emitter;
-
-	/**
-	 * @var \OC\User\User $user
-	 */
+	/** @var null|\OC\User\User */
 	private $user;
-
+	/** @var CappedMemoryCache */
 	private $userFolderCache;
-
-	/**
-	 * @var IUserMountCache
-	 */
+	/** @var IUserMountCache */
 	private $userMountCache;
+	/** @var ILogger */
+	private $logger;
+	/** @var IUserManager */
+	private $userManager;
 
 	/**
 	 * @param \OC\Files\Mount\Manager $manager
 	 * @param \OC\Files\View $view
 	 * @param \OC\User\User|null $user
 	 * @param IUserMountCache $userMountCache
+	 * @param ILogger $logger
+	 * @param IUserManager $userManager
 	 */
-	public function __construct($manager, $view, $user, IUserMountCache $userMountCache) {
+	public function __construct($manager,
+								$view,
+								$user,
+								IUserMountCache $userMountCache,
+								ILogger $logger,
+								IUserManager $userManager) {
 		parent::__construct($this, $view, '');
 		$this->mountManager = $manager;
 		$this->user = $user;
 		$this->emitter = new PublicEmitter();
 		$this->userFolderCache = new CappedMemoryCache();
 		$this->userMountCache = $userMountCache;
+		$this->logger = $logger;
+		$this->userManager = $userManager;
 	}
 
 	/**
@@ -345,12 +348,21 @@ class Root extends Folder implements IRootFolder {
 	 *
 	 * @param String $userId user ID
 	 * @return \OCP\Files\Folder
+	 * @throws \OC\User\NoUserException
 	 */
 	public function getUserFolder($userId) {
-		$userObject = \OC::$server->getUserManager()->get($userId);
+		$userObject = $this->userManager->get($userId);
 
 		if (is_null($userObject)) {
-			\OCP\Util::writeLog('files', 'Backends provided no user object for ' . $userId, \OCP\Util::ERROR);
+			$this->logger->error(
+				sprintf(
+					'Backends provided no user object for %s',
+					$userId
+				),
+				[
+					'app' => 'files',
+				]
+			);
 			throw new \OC\User\NoUserException('Backends provided no user object');
 		}
 

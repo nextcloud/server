@@ -182,7 +182,14 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('RootFolder', function (Server $c) {
 			$manager = \OC\Files\Filesystem::getMountManager(null);
 			$view = new View();
-			$root = new Root($manager, $view, null, $c->getUserMountCache());
+			$root = new Root(
+				$manager,
+				$view,
+				null,
+				$c->getUserMountCache(),
+				$this->getLogger(),
+				$this->getUserManager()
+			);
 			$connector = new HookConnector($root, $view);
 			$connector->viewToNode();
 			return $root;

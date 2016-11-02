@@ -13,6 +13,8 @@ use OC\Files\Node\Root;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OCP\Files\Node;
+use OCP\ILogger;
+use OCP\IUserManager;
 use Test\TestCase;
 use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
@@ -54,7 +56,9 @@ class HookConnectorTest extends TestCase {
 			Filesystem::getMountManager(),
 			$this->view,
 			\OC::$server->getUserManager()->get($this->userId),
-			\OC::$server->getUserMountCache()
+			\OC::$server->getUserMountCache(),
+			$this->createMock(ILogger::class),
+			$this->createMock(IUserManager::class)
 		);
 	}
 

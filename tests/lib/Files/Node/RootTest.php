@@ -8,18 +8,31 @@
 
 namespace Test\Files\Node;
 
+use OC\Cache\CappedMemoryCache;
 use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
-use OC\User\NoUserException;
+use OC\Files\Node\Folder;
+use OC\Files\View;
+use OCP\ILogger;
+use OCP\IUser;
+use OCP\IUserManager;
 
+/**
+ * Class RootTest
+ *
+ * @package Test\Files\Node
+ */
 class RootTest extends \Test\TestCase {
 	/** @var \OC\User\User */
 	private $user;
-
 	/** @var \OC\Files\Mount\Manager */
 	private $manager;
 	/** @var \OCP\Files\Config\IUserMountCache|\PHPUnit_Framework_MockObject_MockObject */
 	private $userMountCache;
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	private $logger;
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $userManager;
 
 	protected function setUp() {
 		parent::setUp();
@@ -32,13 +45,14 @@ class RootTest extends \Test\TestCase {
 			->getMock();
 
 		$this->user = new \OC\User\User('', new \Test\Util\User\Dummy, null, $config, $urlgenerator);
-
 		$this->manager = $this->getMockBuilder('\OC\Files\Mount\Manager')
 			->disableOriginalConstructor()
 			->getMock();
 		$this->userMountCache = $this->getMockBuilder('\OCP\Files\Config\IUserMountCache')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->logger = $this->createMock(ILogger::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 	}
 
 	protected function getFileInfo($data) {
@@ -58,7 +72,14 @@ class RootTest extends \Test\TestCase {
 		$view = $this->getMockBuilder('\OC\Files\View')
 			->disableOriginalConstructor()
 			->getMock();
-		$root = new \OC\Files\Node\Root($this->manager, $view, $this->user, $this->userMountCache);
+		$root = new \OC\Files\Node\Root(
+			$this->manager,
+			$view,
+			$this->user,
+			$this->userMountCache,
+			$this->logger,
+			$this->userManager
+		);
 
 		$view->expects($this->once())
 			->method('getFileInfo')
@@ -87,7 +108,14 @@ class RootTest extends \Test\TestCase {
 		$view = $this->getMockBuilder('\OC\Files\View')
 			->disableOriginalConstructor()
 			->getMock();
-		$root = new \OC\Files\Node\Root($this->manager, $view, $this->user, $this->userMountCache);
+		$root = new \OC\Files\Node\Root(
+			$this->manager,
+			$view,
+			$this->user,
+			$this->userMountCache,
+			$this->logger,
+			$this->userManager
+		);
 
 		$view->expects($this->once())
 			->method('getFileInfo')
@@ -108,7 +136,14 @@ class RootTest extends \Test\TestCase {
 		$view = $this->getMockBuilder('\OC\Files\View')
 			->disableOriginalConstructor()
 			->getMock();
-		$root = new \OC\Files\Node\Root($this->manager, $view, $this->user, $this->userMountCache);
+		$root = new \OC\Files\Node\Root(
+			$this->manager,
+			$view,
+			$this->user,
+			$this->userMountCache,
+			$this->logger,
+			$this->userManager
+		);
 
 		$root->get('/../foo');
 	}
@@ -123,63 +158,82 @@ class RootTest extends \Test\TestCase {
 		$view = $this->getMockBuilder('\OC\Files\View')
 			->disableOriginalConstructor()
 			->getMock();
-		$root = new \OC\Files\Node\Root($this->manager, $view, $this->user, $this->userMountCache);
+		$root = new \OC\Files\Node\Root(
+			$this->manager,
+			$view,
+			$this->user,
+			$this->userMountCache,
+			$this->logger,
+			$this->userManager
+		);
 
 		$root->get('/bar/foo');
 	}
 
 	public function testGetUserFolder() {
-		$this->logout();
-		$manager = new Manager();
-		/**
-		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
-		 */
-		$view = new \OC\Files\View();
+		$root = new \OC\Files\Node\Root(
+			$this->manager,
+			$this->createMock(View::class),
+			$this->user,
+			$this->userMountCache,
+			$this->logger,
+			$this->userManager
+		);
+		$user = $this->createMock(IUser::class);
+		$user
+			->expects($this->once())
+			->method('getUID')
+			->willReturn('MyUserId');
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('MyUserId')
+			->willReturn($user);
+		/** @var CappedMemoryCache|\PHPUnit_Framework_MockObject_MockObject $cappedMemoryCache */
+		$cappedMemoryCache = $this->createMock(CappedMemoryCache::class);
+		$cappedMemoryCache
+			->expects($this->once())
+			->method('hasKey')
+			->willReturn(true);
+		$folder = $this->createMock(Folder::class);
+		$cappedMemoryCache
+			->expects($this->once())
+			->method('get')
+			->with('MyUserId')
+			->willReturn($folder);
 
-		$user1 = $this->getUniqueID('user1_');
-		$user2 = $this->getUniqueID('user2_');
+		$this->invokePrivate($root, 'userFolderCache', [$cappedMemoryCache]);
+		$this->assertEquals($folder, $root->getUserFolder('MyUserId'));
+	}
 
-		\OC_User::clearBackends();
-		// needed for loginName2UserName mapping
-		$userBackend = $this->createMock(\OC\User\Database::class);
-		\OC::$server->getUserManager()->registerBackend($userBackend);
+	/**
+	 * @expectedException \OC\User\NoUserException
+	 * @expectedExceptionMessage Backends provided no user object
+	 */
+	public function testGetUserFolderWithNoUserObj() {
+		$root = new \OC\Files\Node\Root(
+			$this->createMock(Manager::class),
+			$this->createMock(View::class),
+			null,
+			$this->userMountCache,
+			$this->logger,
+			$this->userManager
+		);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('NotExistingUser')
+			->willReturn(null);
+		$this->logger
+			->expects($this->once())
+			->method('error')
+			->with(
+				'Backends provided no user object for NotExistingUser',
+				[
+					'app' => 'files',
+				]
+			);
 
-		$userBackend->expects($this->any())
-			->method('userExists')
-			->will($this->returnValueMap([
-				[$user1, true],
-				[$user2, true],
-				[strtoupper($user1), true],
-				[strtoupper($user2), true],
-			]));
-		$userBackend->expects($this->any())
-			->method('loginName2UserName')
-			->will($this->returnValueMap([
-				[strtoupper($user1), $user1],
-				[$user1, $user1],
-				[strtoupper($user2), $user2],
-				[$user2, $user2],
-			]));
-
-		$this->loginAsUser($user1);
-		$root = new \OC\Files\Node\Root($manager, $view, null, $this->userMountCache);
-
-		$folder = $root->getUserFolder($user1);
-		$this->assertEquals('/' . $user1 . '/files', $folder->getPath());
-
-		$folder = $root->getUserFolder($user2);
-		$this->assertEquals('/' . $user2 . '/files', $folder->getPath());
-
-		// case difference must not matter here
-		$folder = $root->getUserFolder(strtoupper($user2));
-		$this->assertEquals('/' . $user2 . '/files', $folder->getPath());
-
-		$thrown = false;
-		try {
-			$folder = $root->getUserFolder($this->getUniqueID('unexist'));
-		} catch (NoUserException $e) {
-			$thrown = true;
-		}
-		$this->assertTrue($thrown);
+		$root->getUserFolder('NotExistingUser');
 	}
 }

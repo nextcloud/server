@@ -10,19 +10,22 @@ namespace Test\Files\Node;
 
 use OC\Files\FileInfo;
 use OCP\Files\NotFoundException;
+use OCP\ILogger;
+use OCP\IUserManager;
 
 class FileTest extends \Test\TestCase {
 	/** @var \OC\User\User */
 	private $user;
-
 	/** @var \OC\Files\Mount\Manager */
 	private $manager;
-
 	/** @var \OC\Files\View|\PHPUnit_Framework_MockObject_MockObject */
 	private $view;
-
 	/** @var \OCP\Files\Config\IUserMountCache|\PHPUnit_Framework_MockObject_MockObject */
 	private $userMountCache;
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	private $logger;
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $userManager;
 
 	protected function setUp() {
 		parent::setUp();
@@ -30,7 +33,6 @@ class FileTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->user = new \OC\User\User('', new \Test\Util\User\Dummy, null, $config);
-
 		$this->manager = $this->getMockBuilder('\OC\Files\Mount\Manager')
 			->disableOriginalConstructor()
 			->getMock();
@@ -40,6 +42,8 @@ class FileTest extends \Test\TestCase {
 		$this->userMountCache = $this->getMockBuilder('\OCP\Files\Config\IUserMountCache')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->logger = $this->createMock(ILogger::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 	}
 
 	protected function getMockStorage() {
@@ -58,7 +62,7 @@ class FileTest extends \Test\TestCase {
 	public function testDelete() {
 		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
 
 		$root->expects($this->exactly(2))
@@ -108,7 +112,14 @@ class FileTest extends \Test\TestCase {
 			$hooksRun++;
 		};
 
-		$root = new \OC\Files\Node\Root($this->manager, $this->view, $this->user, $this->userMountCache);
+		$root = new \OC\Files\Node\Root(
+			$this->manager,
+			$this->view,
+			$this->user,
+			$this->userMountCache,
+			$this->logger,
+			$this->userManager
+		);
 		$root->listen('\OC\Files', 'preDelete', $preListener);
 		$root->listen('\OC\Files', 'postDelete', $postListener);
 
@@ -138,7 +149,7 @@ class FileTest extends \Test\TestCase {
 	public function testDeleteNotPermitted() {
 		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
 
 		$root->expects($this->any())
@@ -157,7 +168,7 @@ class FileTest extends \Test\TestCase {
 	public function testGetContent() {
 		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
 
 		$hook = function ($file) {
@@ -187,7 +198,7 @@ class FileTest extends \Test\TestCase {
 	public function testGetContentNotPermitted() {
 		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
 
 		$root->expects($this->any())
@@ -206,7 +217,7 @@ class FileTest extends \Test\TestCase {
 	public function testPutContent() {
 		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
 
 		$root->expects($this->any())
@@ -233,7 +244,7 @@ class FileTest extends \Test\TestCase {
 	public function testPutContentNotPermitted() {
 		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
 
 		$this->view->expects($this->once())
@@ -248,7 +259,7 @@ class FileTest extends \Test\TestCase {
 	public function testGetMimeType() {
 		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
 
 		$this->view->expects($this->once())
@@ -265,7 +276,14 @@ class FileTest extends \Test\TestCase {
 		fwrite($stream, 'bar');
 		rewind($stream);
 
-		$root = new \OC\Files\Node\Root($this->manager, $this->view, $this->user, $this->userMountCache);
+		$root = new \OC\Files\Node\Root(
+			$this->manager,
+			$this->view,
+			$this->user,
+			$this->userMountCache,
+			$this->logger,
+			$this->userManager
+		);
 
 		$hook = function ($file) {
 			throw new \Exception('Hooks are not supposed to be called');
@@ -293,8 +311,14 @@ class FileTest extends \Test\TestCase {
 	public function testFOpenWrite() {
 		$stream = fopen('php://memory', 'w+');
 
-		$root = new \OC\Files\Node\Root($this->manager, new $this->view, $this->user, $this->userMountCache);
-
+		$root = new \OC\Files\Node\Root(
+			$this->manager,
+			new $this->view,
+			$this->user,
+			$this->userMountCache,
+			$this->logger,
+			$this->userManager
+		);
 		$hooksCalled = 0;
 		$hook = function ($file) use (&$hooksCalled) {
 			$hooksCalled++;
@@ -326,8 +350,14 @@ class FileTest extends \Test\TestCase {
 	 * @expectedException \OCP\Files\NotPermittedException
 	 */
 	public function testFOpenReadNotPermitted() {
-		$root = new \OC\Files\Node\Root($this->manager, $this->view, $this->user, $this->userMountCache);
-
+		$root = new \OC\Files\Node\Root(
+			$this->manager,
+			$this->view,
+			$this->user,
+			$this->userMountCache,
+			$this->logger,
+			$this->userManager
+		);
 		$hook = function ($file) {
 			throw new \Exception('Hooks are not supposed to be called');
 		};
@@ -345,8 +375,14 @@ class FileTest extends \Test\TestCase {
 	 * @expectedException \OCP\Files\NotPermittedException
 	 */
 	public function testFOpenReadWriteNoReadPermissions() {
-		$root = new \OC\Files\Node\Root($this->manager, $this->view, $this->user, $this->userMountCache);
-
+		$root = new \OC\Files\Node\Root(
+			$this->manager,
+			$this->view,
+			$this->user,
+			$this->userMountCache,
+			$this->logger,
+			$this->userManager
+		);
 		$hook = function () {
 			throw new \Exception('Hooks are not supposed to be called');
 		};
@@ -364,8 +400,14 @@ class FileTest extends \Test\TestCase {
 	 * @expectedException \OCP\Files\NotPermittedException
 	 */
 	public function testFOpenReadWriteNoWritePermissions() {
-		$root = new \OC\Files\Node\Root($this->manager, new $this->view, $this->user, $this->userMountCache);
-
+		$root = new \OC\Files\Node\Root(
+			$this->manager,
+			new $this->view,
+			$this->user,
+			$this->userMountCache,
+			$this->logger,
+			$this->userManager
+		);
 		$hook = function () {
 			throw new \Exception('Hooks are not supposed to be called');
 		};
@@ -382,7 +424,7 @@ class FileTest extends \Test\TestCase {
 	public function testCopySameStorage() {
 		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
 
 		$this->view->expects($this->any())
@@ -415,7 +457,7 @@ class FileTest extends \Test\TestCase {
 	public function testCopyNotPermitted() {
 		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
 
 		/**
@@ -453,7 +495,7 @@ class FileTest extends \Test\TestCase {
 	public function testCopyNoParent() {
 		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
 
 		$this->view->expects($this->never())
@@ -475,7 +517,7 @@ class FileTest extends \Test\TestCase {
 	public function testCopyParentIsFile() {
 		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
 
 		$this->view->expects($this->never())
@@ -496,7 +538,7 @@ class FileTest extends \Test\TestCase {
 	public function testMoveSameStorage() {
 		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
 
 		$this->view->expects($this->any())
@@ -526,7 +568,7 @@ class FileTest extends \Test\TestCase {
 	public function testMoveNotPermitted() {
 		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
 
 		$this->view->expects($this->any())
@@ -553,7 +595,7 @@ class FileTest extends \Test\TestCase {
 	public function testMoveNoParent() {
 		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
 
 		/**
@@ -583,7 +625,7 @@ class FileTest extends \Test\TestCase {
 	public function testMoveParentIsFile() {
 		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
 
 		$this->view->expects($this->never())

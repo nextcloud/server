@@ -12,6 +12,8 @@ use OC\Files\Node\Root;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OC\User\User;
+use OCP\ILogger;
+use OCP\IUserManager;
 
 /**
  * Class IntegrationTest
@@ -47,7 +49,14 @@ class IntegrationTest extends \Test\TestCase {
 		$this->loginAsUser($user->getUID());
 
 		$this->view = new View();
-		$this->root = new Root($manager, $this->view, $user, \OC::$server->getUserMountCache());
+		$this->root = new Root(
+			$manager,
+			$this->view,
+			$user,
+			\OC::$server->getUserMountCache(),
+			$this->createMock(ILogger::class),
+			$this->createMock(IUserManager::class)
+		);
 		$storage = new Temporary(array());
 		$subStorage = new Temporary(array());
 		$this->storages[] = $storage;
