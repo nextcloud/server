@@ -73,9 +73,9 @@ class Capabilities implements ICapability {
 			}
 			$res["public"] = $public;
 
-			$res['user']['send_mail'] = $this->config->getAppValue('core', 'shareapi_allow_mail_notification', 'no') === 'yes';
-
 			$res['resharing'] = $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes') === 'yes';
+
+			$res['user']['send_mail'] = false;
 
 			$res['group_sharing'] = $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes') === 'yes';
 		}

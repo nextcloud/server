@@ -235,8 +235,6 @@ class ViewController extends Controller {
 		$params['owner'] = $storageInfo['owner'];
 		$params['ownerDisplayName'] = $storageInfo['ownerDisplayName'];
 		$params['isPublic'] = false;
-		$params['mailNotificationEnabled'] = $this->config->getAppValue('core', 'shareapi_allow_mail_notification', 'no');
-		$params['mailPublicNotificationEnabled'] = $this->config->getAppValue('core', 'shareapi_allow_public_notification', 'no');
 		$params['allowShareWithLink'] = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes');
 		$user = $this->userSession->getUser()->getUID();
 		$params['defaultFileSorting'] = $this->config->getUserValue($user, 'files', 'file_sorting', 'name');

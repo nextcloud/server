@@ -188,24 +188,6 @@ class CapabilitiesTest extends \Test\TestCase {
 		$this->assertFalse($result['public']['send_mail']);
 	}
 
-	public function testUserSendMail() {
-		$map = [
-			['core', 'shareapi_enabled', 'yes', 'yes'],
-			['core', 'shareapi_allow_mail_notification', 'no', 'yes'],
-		];
-		$result = $this->getResults($map);
-		$this->assertTrue($result['user']['send_mail']);
-	}
-
-	public function testUserNoSendMail() {
-		$map = [
-			['core', 'shareapi_enabled', 'yes', 'yes'],
-			['core', 'shareapi_allow_mail_notification', 'no', 'no'],
-		];
-		$result = $this->getResults($map);
-		$this->assertFalse($result['user']['send_mail']);
-	}
-
 	public function testResharing() {
 		$map = [
 			['core', 'shareapi_enabled', 'yes', 'yes'],

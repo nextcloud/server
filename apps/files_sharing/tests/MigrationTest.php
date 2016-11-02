@@ -39,6 +39,9 @@ class MigrationTest extends TestCase {
 	/** @var \OCP\IDBConnection */
 	private $connection;
 
+	/** @var \OCP\IConfig  */
+	private $config;
+
 	/** @var Migration */
 	private $migration;
 
@@ -48,7 +51,8 @@ class MigrationTest extends TestCase {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->migration = new Migration($this->connection);
+		$this->config = \OC::$server->getConfig();
+		$this->migration = new Migration($this->connection, $this->config);
 
 		$this->cleanDB();
 	}
@@ -350,5 +354,27 @@ class MigrationTest extends TestCase {
 		}
 		$stmt->closeCursor();
 		$this->assertEquals(1001, $i);
+	}
+
+	/**
+	 * test that we really remove the "shareapi_allow_mail_notification" setting only
+	 */
+	public function testRemoveSendMailOption() {
+		$this->config->setAppValue('core', 'shareapi_setting1', 'dummy-value');
+		$this->config->setAppValue('core', 'shareapi_allow_mail_notification', 'no');
+		$this->config->setAppValue('core', 'shareapi_allow_public_notification', 'no');
+
+		$this->migration->removeSendMailOption();
+
+		$this->assertNull(
+			$this->config->getAppValue('core', 'shareapi_allow_mail_notification', null)
+		);
+		$this->assertNull(
+			$this->config->getAppValue('core', 'shareapi_allow_public_notification', null)
+		);
+
+		$this->assertSame('dummy-value',
+			$this->config->getAppValue('core', 'shareapi_setting1', null)
+		);
 	}
 }

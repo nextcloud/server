@@ -218,8 +218,6 @@ class ViewControllerTest extends TestCase {
 				'defaultFileSortingDirection' => 'asc',
 				'showHiddenFiles' => 0,
 				'fileNotFound' => 0,
-				'mailNotificationEnabled' => 'no',
-				'mailPublicNotificationEnabled' => 'no',
 				'allowShareWithLink' => 'yes',
 				'appNavigation' => $nav,
 				'appContents' => [

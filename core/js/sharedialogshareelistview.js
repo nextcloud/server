@@ -173,7 +173,6 @@
 				hasCreatePermission: this.model.hasCreatePermission(shareIndex),
 				hasUpdatePermission: this.model.hasUpdatePermission(shareIndex),
 				hasDeletePermission: this.model.hasDeletePermission(shareIndex),
-				wasMailSent: this.model.notificationMailWasSent(shareIndex),
 				shareWith: shareWith,
 				shareWithDisplayName: shareWithDisplayName,
 				shareWithTitle: shareWithTitle,
@@ -189,7 +188,6 @@
 		getShareeList: function() {
 			var universal = {
 				avatarEnabled: this.configModel.areAvatarsEnabled(),
-				notifyByMailLabel: t('core', 'notify by email'),
 				unshareLabel: t('core', 'Unshare'),
 				canShareLabel: t('core', 'can reshare'),
 				canEditLabel: t('core', 'can edit'),

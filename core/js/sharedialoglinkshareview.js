@@ -332,7 +332,6 @@
 				hideFileListChecked: hideFileListChecked,
 				publicUploadLabel: t('core', 'Allow upload and editing'),
 				hideFileListLabel: t('core', 'Hide file listing'),
-				mailPublicNotificationEnabled: isLinkShare && this.configModel.isMailPublicNotificationEnabled(),
 				mailPrivatePlaceholder: t('core', 'Email link to person'),
 				mailButtonText: t('core', 'Send')
 			}));
