@@ -611,16 +611,6 @@ trait WebDav {
 	}
 
 	/**
-	 * @Then /^as "([^"]*)" gets properties of file "([^"]*)" with$/
-	 * @param string $user
-	 * @param string $path
-	 * @param \Behat\Gherkin\Node\TableNode|null $propertiesTable
-	 */
-	public function asGetsPropertiesOfFileWith($user, $path, $propertiesTable) {
-		$this->asGetsPropertiesOfFolderWith($user, $path, $propertiesTable);
-	}
-
-	/**
 	 * @Given user :user stores etag of element :path
 	 */
 	public function userStoresEtagOfElement($user, $path){
