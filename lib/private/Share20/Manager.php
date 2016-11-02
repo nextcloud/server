@@ -30,6 +30,7 @@ namespace OC\Share20;
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Mount\MoveableMount;
 use OC\HintException;
+use OC\Share20\Exception\ProviderException;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -182,6 +183,10 @@ class Manager implements IManager {
 				throw new \InvalidArgumentException('SharedWith should be empty');
 			}
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_REMOTE) {
+			if ($share->getSharedWith() === null) {
+				throw new \InvalidArgumentException('SharedWith should not be empty');
+			}
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
 			if ($share->getSharedWith() === null) {
 				throw new \InvalidArgumentException('SharedWith should not be empty');
 			}
@@ -580,6 +585,16 @@ class Manager implements IManager {
 			if ($share->getPassword() !== null) {
 				$share->setPassword($this->hasher->hash($share->getPassword()));
 			}
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+			$this->linkCreateChecks($share);
+			$share->setToken(
+				$this->secureRandom->generate(
+					\OC\Share\Constants::TOKEN_LENGTH,
+					\OCP\Security\ISecureRandom::CHAR_LOWER.
+					\OCP\Security\ISecureRandom::CHAR_UPPER.
+					\OCP\Security\ISecureRandom::CHAR_DIGITS
+				)
+			);
 		}
 
 		// Cannot share with the owner
@@ -1034,6 +1049,16 @@ class Manager implements IManager {
 		// If it is not a link share try to fetch a federated share by token
 		if ($share === null) {
 			$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_REMOTE);
+			try {
+				$share = $provider->getShareByToken($token);
+			} catch (ShareNotFound $e) {
+				$share = null;
+			}
+		}
+
+		// If it is not a link share try to fetch a federated share by token
+		if ($share === null && $this->shareProviderExists(\OCP\Share::SHARE_TYPE_EMAIL)) {
+			$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_EMAIL);
 			$share = $provider->getShareByToken($token);
 		}
 
@@ -1275,6 +1300,19 @@ class Manager implements IManager {
 	 */
 	public function outgoingServer2ServerSharesAllowed() {
 		return $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function shareProviderExists($shareType) {
+		try {
+			$this->factory->getProviderForType($shareType);
+		} catch (ProviderException $e) {
+			return false;
+		}
+
+		return true;
 	}
 
 }

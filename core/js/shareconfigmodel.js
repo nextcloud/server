@@ -25,6 +25,7 @@
 			isDefaultExpireDateEnforced: oc_appconfig.core.defaultExpireDateEnforced === true,
 			isDefaultExpireDateEnabled: oc_appconfig.core.defaultExpireDateEnabled === true,
 			isRemoteShareAllowed: oc_appconfig.core.remoteShareAllowed,
+			isMailShareAllowed: oc_appconfig.shareByMailEnabled !== undefined,
 			defaultExpireDate: oc_appconfig.core.defaultExpireDate,
 			isResharingAllowed: oc_appconfig.core.resharingAllowed,
 			allowGroupSharing: oc_appconfig.core.allowGroupSharing

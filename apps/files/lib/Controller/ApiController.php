@@ -200,7 +200,8 @@ class ApiController extends Controller {
 			\OCP\Share::SHARE_TYPE_USER,
 			\OCP\Share::SHARE_TYPE_GROUP,
 			\OCP\Share::SHARE_TYPE_LINK,
-			\OCP\Share::SHARE_TYPE_REMOTE
+			\OCP\Share::SHARE_TYPE_REMOTE,
+			\OCP\Share::SHARE_TYPE_EMAIL
 		];
 		foreach ($requestedShareTypes as $requestedShareType) {
 			// one of each type is enough to find out about the types

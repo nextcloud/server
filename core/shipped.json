@@ -25,6 +25,7 @@
     "password_policy",
     "provisioning_api",
     "serverinfo",
+    "sharebymail",
     "survey_client",
     "systemtags",
     "templateeditor",

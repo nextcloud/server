@@ -255,7 +255,7 @@ Feature: provisioning
 	Scenario: Delete a user
 		Given As an "admin"
 		And user "brand-new-user" exists
-		When sending "DELETE" to "/cloud/users/brand-new-user" 
+		When sending "DELETE" to "/cloud/users/brand-new-user"
 		Then the OCS status code should be "100"
 		And the HTTP status code should be "200"
 		And user "brand-new-user" does not exist
@@ -291,6 +291,7 @@ Feature: provisioning
 			| files_trashbin |
 			| files_versions |
 			| provisioning_api |
+			| sharebymail |
 			| systemtags |
 			| theming |
 			| twofactor_backupcodes |

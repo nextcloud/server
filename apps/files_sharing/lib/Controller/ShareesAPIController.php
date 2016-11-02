@@ -273,15 +273,15 @@ class ShareesAPIController extends OCSController {
 
 	/**
 	 * @param string $search
-	 * @return array possible sharees
+	 * @return array
 	 */
 	protected function getRemote($search) {
-		$this->result['remotes'] = [];
+		$result = ['results' => [], 'exact' => []];
 
 		// Search in contacts
 		//@todo Pagination missing
 		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD', 'FN']);
-		$foundRemoteById = false;
+		$result['exactIdMatch'] = false;
 		foreach ($addressBookContacts as $contact) {
 			if (isset($contact['isLocalSystemBook'])) {
 				continue;
@@ -295,10 +295,10 @@ class ShareesAPIController extends OCSController {
 					list(, $serverUrl) = $this->splitUserRemote($cloudId);
 					if (strtolower($contact['FN']) === strtolower($search) || strtolower($cloudId) === strtolower($search)) {
 						if (strtolower($cloudId) === strtolower($search)) {
-							$foundRemoteById = true;
+							$result['exactIdMatch'] = true;
 						}
-						$this->result['exact']['remotes'][] = [
-							'label' => $contact['FN'],
+						$result['exact'][] = [
+							'label' => $contact['FN'] . " ($cloudId)",
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_REMOTE,
 								'shareWith' => $cloudId,
@@ -306,8 +306,8 @@ class ShareesAPIController extends OCSController {
 							],
 						];
 					} else {
-						$this->result['remotes'][] = [
-							'label' => $contact['FN'],
+						$result['results'][] = [
+							'label' => $contact['FN'] . " ($cloudId)",
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_REMOTE,
 								'shareWith' => $cloudId,
@@ -320,11 +320,11 @@ class ShareesAPIController extends OCSController {
 		}
 
 		if (!$this->shareeEnumeration) {
-			$this->result['remotes'] = [];
+			$result['results'] = [];
 		}
 
-		if (!$foundRemoteById && substr_count($search, '@') >= 1 && $this->offset === 0) {
-			$this->result['exact']['remotes'][] = [
+		if (!$result['exactIdMatch'] && substr_count($search, '@') >= 1 && $this->offset === 0) {
+			$result['exact'][] = [
 				'label' => $search,
 				'value' => [
 					'shareType' => Share::SHARE_TYPE_REMOTE,
@@ -334,6 +334,8 @@ class ShareesAPIController extends OCSController {
 		}
 
 		$this->reachedEndFor[] = 'remotes';
+
+		return $result;
 	}
 
 	/**
@@ -405,68 +407,6 @@ class ShareesAPIController extends OCSController {
 	}
 
 	/**
-	 * @param string $search
-	 */
-	protected function getEmails($search) {
-		$this->result['emails'] = [];
-		$this->result['exact']['emails'] = [];
-
-		$foundEmail = false;
-
-		// Search in contacts
-		//@todo Pagination missing
-		$addressBookContacts = $this->contactsManager->search($search, ['FN', 'EMAIL']);
-		foreach ($addressBookContacts as $contact) {
-			if (!isset($contact['EMAIL'])) {
-				continue;
-			}
-
-			$emails = $contact['EMAIL'];
-			if (!is_array($emails)) {
-				$emails = [$emails];
-			}
-
-			foreach ($emails as $email) {
-				if (strtolower($search) === strtolower($contact['FN']) ||
-					strtolower($search) === strtolower($email)
-				) {
-					if (strtolower($search) === strtolower($email)) {
-						$foundEmail = true;
-					}
-
-					$this->result['exact']['emails'][] = [
-						'label' => $contact['FN'],
-						'value' => [
-							'shareType' => Share::SHARE_TYPE_EMAIL,
-							'shareWith' => $email,
-						],
-					];
-				} else if ($this->shareeEnumeration) {
-					$this->result['emails'][] = [
-						'label' => $contact['FN'],
-						'value' => [
-							'shareType' => Share::SHARE_TYPE_EMAIL,
-							'shareWith' => $email,
-						],
-					];
-				}
-			}
-		}
-
-		if (!$foundEmail && substr_count($search, '@') >= 1 && $this->offset === 0) {
-			$this->result['exact']['emails'][] = [
-				'label' => $search,
-				'value' => [
-					'shareType' => Share::SHARE_TYPE_EMAIL,
-					'shareWith' => $search,
-				],
-			];
-		}
-
-		$this->reachedEndFor[] = 'emails';
-	}
-
-	/**
 	 * @NoAdminRequired
 	 *
 	 * @param string $search
@@ -487,17 +427,16 @@ class ShareesAPIController extends OCSController {
 
 		$shareTypes = [
 			Share::SHARE_TYPE_USER,
+			Share::SHARE_TYPE_REMOTE,
+			Share::SHARE_TYPE_EMAIL
 		];
 
 		if ($this->shareManager->allowGroupSharing()) {
 			$shareTypes[] = Share::SHARE_TYPE_GROUP;
 		}
 
-		$shareTypes[] = Share::SHARE_TYPE_EMAIL;
-		$shareTypes[] = Share::SHARE_TYPE_REMOTE;
-
-		if (is_array($shareType)) {
-			$shareTypes = array_intersect($shareTypes, $shareType);
+		if (isset($_GET['shareType']) && is_array($_GET['shareType'])) {
+			$shareTypes = array_intersect($shareTypes, $_GET['shareType']);
 			sort($shareTypes);
 		} else if (is_numeric($shareType)) {
 			$shareTypes = array_intersect($shareTypes, [(int) $shareType]);
@@ -507,6 +446,11 @@ class ShareesAPIController extends OCSController {
 		if (in_array(Share::SHARE_TYPE_REMOTE, $shareTypes) && !$this->isRemoteSharingAllowed($itemType)) {
 			// Remove remote shares from type array, because it is not allowed.
 			$shareTypes = array_diff($shareTypes, [Share::SHARE_TYPE_REMOTE]);
+		}
+
+		if (!$this->shareManager->shareProviderExists(Share::SHARE_TYPE_EMAIL)) {
+			// Remove mail shares from type array, because the share provider is not loaded
+			$shareTypes = array_diff($shareTypes, [Share::SHARE_TYPE_EMAIL]);
 		}
 
 		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
@@ -560,13 +504,30 @@ class ShareesAPIController extends OCSController {
 		}
 
 		// Get remote
+		$remoteResults = ['results' => [], 'exact' => [], 'exactIdMatch' => false];
 		if (in_array(Share::SHARE_TYPE_REMOTE, $shareTypes)) {
-			$this->getRemote($search);
+			$remoteResults = $this->getRemote($search);
 		}
 
-		// Get email
+		$mailResults = ['results' => [], 'exact' => [], 'exactIdMatch' => false];
 		if (in_array(Share::SHARE_TYPE_EMAIL, $shareTypes)) {
-			$this->getEmails($search);
+			$mailResults = $this->getEmail($search);
+		}
+
+		// if we have a exact match, either for the federated cloud id or for the
+		// email address we only return the exact match. It is highly unlikely
+		// that the exact same email address and federated cloud id exists
+		if ($mailResults['exactIdMatch'] && !$remoteResults['exactIdMatch']) {
+			$this->result['emails'] = $mailResults['results'];
+			$this->result['exact']['emails'] = $mailResults['exact'];
+		} else if (!$mailResults['exactIdMatch'] && $remoteResults['exactIdMatch']) {
+			$this->result['remotes'] = $remoteResults['results'];
+			$this->result['exact']['remotes'] = $remoteResults['exact'];
+		} else {
+			$this->result['remotes'] = $remoteResults['results'];
+			$this->result['exact']['remotes'] = $remoteResults['exact'];
+			$this->result['emails'] = $mailResults['results'];
+			$this->result['exact']['emails'] = $mailResults['exact'];
 		}
 
 		$response = new Http\DataResponse($this->result);
@@ -581,6 +542,70 @@ class ShareesAPIController extends OCSController {
 		}
 
 		return $response;
+	}
+
+	/**
+	 * @param string $search
+	 * @return array
+	 */
+	protected function getEmail($search) {
+		$result = ['results' => [], 'exact' => []];
+
+		// Search in contacts
+		//@todo Pagination missing
+		$addressBookContacts = $this->contactsManager->search($search, ['EMAIL', 'FN']);
+		$result['exactIdMatch'] = false;
+		foreach ($addressBookContacts as $contact) {
+			if (isset($contact['isLocalSystemBook'])) {
+				continue;
+			}
+			if (isset($contact['EMAIL'])) {
+				$emailAddresses = $contact['EMAIL'];
+				if (!is_array($emailAddresses)) {
+					$emailAddresses = [$emailAddresses];
+				}
+				foreach ($emailAddresses as $emailAddress) {
+					if (strtolower($contact['FN']) === strtolower($search) || strtolower($emailAddress) === strtolower($search)) {
+						if (strtolower($emailAddress) === strtolower($search)) {
+							$result['exactIdMatch'] = true;
+						}
+						$result['exact'][] = [
+							'label' => $contact['FN'] . " ($emailAddress)",
+							'value' => [
+								'shareType' => Share::SHARE_TYPE_EMAIL,
+								'shareWith' => $emailAddress,
+							],
+						];
+					} else {
+						$result['results'][] = [
+							'label' => $contact['FN'] . " ($emailAddress)",
+							'value' => [
+								'shareType' => Share::SHARE_TYPE_EMAIL,
+								'shareWith' => $emailAddress,
+							],
+						];
+					}
+				}
+			}
+		}
+
+		if (!$this->shareeEnumeration) {
+			$result['results'] = [];
+		}
+
+		if (!$result['exactIdMatch'] && filter_var($search, FILTER_VALIDATE_EMAIL)) {
+			$result['exact'][] = [
+				'label' => $search,
+				'value' => [
+					'shareType' => Share::SHARE_TYPE_EMAIL,
+					'shareWith' => $search,
+				],
+			];
+		}
+
+		$this->reachedEndFor[] = 'emails';
+
+		return $result;
 	}
 
 	/**

@@ -234,6 +234,7 @@ class ApiTest extends TestCase {
 
 	function testEnfoceLinkPassword() {
 
+		$password = md5(time());
 		$appConfig = \OC::$server->getAppConfig();
 		$appConfig->setValue('core', 'shareapi_enforce_links_password', 'yes');
 
@@ -257,14 +258,14 @@ class ApiTest extends TestCase {
 
 		// share with password should succeed
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
-		$result = $ocs->createShare($this->folder, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', 'bar');
+		$result = $ocs->createShare($this->folder, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', $password);
 		$ocs->cleanup();
 
 		$data = $result->getData();
 
 		// setting new password should succeed
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
-		$ocs->updateShare($data['id'], null, 'bar');
+		$ocs->updateShare($data['id'], null, $password);
 		$ocs->cleanup();
 
 		// removing password should fail
@@ -887,6 +888,9 @@ class ApiTest extends TestCase {
 	 * @depends testCreateShareLink
 	 */
 	function testUpdateShare() {
+
+		$password = md5(time());
+
 		$node1 = $this->userFolder->get($this->filename);
 		$share1 = $this->shareManager->newShare();
 		$share1->setNode($node1)
@@ -915,7 +919,7 @@ class ApiTest extends TestCase {
 		$this->assertNull($share2->getPassword());
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
-		$ocs->updateShare($share2->getId(), null, 'foo');
+		$ocs->updateShare($share2->getId(), null, $password);
 		$ocs->cleanup();
 
 		$share2 = $this->shareManager->getShareById('ocinternal:' . $share2->getId());

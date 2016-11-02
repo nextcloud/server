@@ -286,4 +286,12 @@ interface IManager {
 	 */
 	public function outgoingServer2ServerSharesAllowed();
 
+	/**
+	 * Check if a given share provider exists
+	 * @param int $shareType
+	 * @return bool
+	 * @since 9.2.0
+	 */
+	public function shareProviderExists($shareType);
+
 }

@@ -24,25 +24,28 @@
 					'{{#if avatarEnabled}}' +
 					'<div class="avatar {{#if modSeed}}imageplaceholderseed{{/if}}" data-username="{{shareWith}}" {{#if modSeed}}data-seed="{{shareWith}} {{shareType}}"{{/if}}></div>' +
 					'{{/if}}' +
-					'<span class="has-tooltip username" title="{{shareWith}}">{{shareWithDisplayName}}</span>' +
+					'<span class="has-tooltip username" title="{{shareWithTitle}}">{{shareWithDisplayName}}</span>' +
 					'<span class="sharingOptionsGroup">' +
 						'{{#if editPermissionPossible}}' +
+						'{{#unless isFileSharedByMail}}' +
 						'<span class="shareOption">' +
 							'<input id="canEdit-{{cid}}-{{shareWith}}" type="checkbox" name="edit" class="permissions checkbox" {{#if hasEditPermission}}checked="checked"{{/if}} />' +
 							'<label for="canEdit-{{cid}}-{{shareWith}}">{{canEditLabel}}</label>' +
 						'</span>' +
+						'{{/unless}}' +
 						'{{/if}}' +
+						'{{#unless isMailShare}}' +
 						'<a href="#"><span class="icon icon-more"></span></a>' +
 						'<div class="popovermenu bubble hidden menu">' +
 							'<ul>' +
-								'{{#if isResharingAllowed}} {{#if sharePermissionPossible}}' +
+								'{{#if isResharingAllowed}} {{#if sharePermissionPossible}} {{#unless isMailShare}}' +
 								'<li>' +
 									'<span class="shareOption">' +
 										'<input id="canShare-{{cid}}-{{shareWith}}" type="checkbox" name="share" class="permissions checkbox" {{#if hasSharePermission}}checked="checked"{{/if}} data-permissions="{{sharePermission}}" />' +
 										'<label for="canShare-{{cid}}-{{shareWith}}">{{canShareLabel}}</label>' +
 									'</span>' +
 								'</li>' +
-								'{{/if}} {{/if}}' +
+								'{{/unless}} {{/if}} {{/if}}' +
 								'{{#if isFolder}}' +
 									'{{#if createPermissionPossible}}' +
 									'<li>' +
@@ -74,7 +77,9 @@
 								'</li>' +
 							'</ul>' +
 						'</div>' +
-						'</span>' +
+						'{{/unless}}' +
+						'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span class="hidden-visually">{{unshareLabel}}</span></a>' +
+					'</span>' +
 				'</li>' +
 			'{{/each}}' +
 			'{{#each linkReshares}}' +
@@ -141,6 +146,7 @@
 		getShareeObject: function(shareIndex) {
 			var shareWith = this.model.getShareWith(shareIndex);
 			var shareWithDisplayName = this.model.getShareWithDisplayName(shareIndex);
+			var shareWithTitle = '';
 			var shareType = this.model.getShareType(shareIndex);
 
 			var hasPermissionOverride = {};
@@ -148,6 +154,16 @@
 				shareWithDisplayName = shareWithDisplayName + " (" + t('core', 'group') + ')';
 			} else if (shareType === OC.Share.SHARE_TYPE_REMOTE) {
 				shareWithDisplayName = shareWithDisplayName + " (" + t('core', 'remote') + ')';
+			} else if (shareType === OC.Share.SHARE_TYPE_EMAIL) {
+				shareWithDisplayName = shareWithDisplayName + " (" + t('core', 'email') + ')';
+			}
+
+			if (shareType === OC.Share.SHARE_TYPE_GROUP) {
+				shareWithTitle = shareWith + " (" + t('core', 'group') + ')';
+			} else if (shareType === OC.Share.SHARE_TYPE_REMOTE) {
+				shareWithTitle = shareWith + " (" + t('core', 'remote') + ')';
+			} else if (shareType === OC.Share.SHARE_TYPE_EMAIL) {
+				shareWithTitle = shareWith + " (" + t('core', 'email') + ')';
 			}
 
 			return _.extend(hasPermissionOverride, {
@@ -160,10 +176,13 @@
 				wasMailSent: this.model.notificationMailWasSent(shareIndex),
 				shareWith: shareWith,
 				shareWithDisplayName: shareWithDisplayName,
+				shareWithTitle: shareWithTitle,
 				shareType: shareType,
 				shareId: this.model.get('shares')[shareIndex].id,
 				modSeed: shareType !== OC.Share.SHARE_TYPE_USER,
-				isRemoteShare: shareType === OC.Share.SHARE_TYPE_REMOTE
+				isRemoteShare: shareType === OC.Share.SHARE_TYPE_REMOTE,
+				isMailShare: shareType === OC.Share.SHARE_TYPE_EMAIL,
+				isFileSharedByMail: shareType === OC.Share.SHARE_TYPE_EMAIL && !this.model.isFolder()
 			});
 		},
 

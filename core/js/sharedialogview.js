@@ -154,10 +154,16 @@
 						var users   = result.ocs.data.exact.users.concat(result.ocs.data.users);
 						var groups  = result.ocs.data.exact.groups.concat(result.ocs.data.groups);
 						var remotes = result.ocs.data.exact.remotes.concat(result.ocs.data.remotes);
+						if (typeof(result.ocs.data.emails) !== 'undefined') {
+							var emails = result.ocs.data.exact.emails.concat(result.ocs.data.emails);
+						} else {
+							var emails = [];
+						}
 
 						var usersLength;
 						var groupsLength;
 						var remotesLength;
+						var emailsLength;
 
 						var i, j;
 
@@ -212,10 +218,18 @@
 										break;
 									}
 								}
+							} else if (share.share_type === OC.Share.SHARE_TYPE_EMAIL) {
+								emailsLength = emails.length;
+								for (j = 0; j < emailsLength; j++) {
+									if (emails[j].value.shareWith === share.share_with) {
+										emails.splice(j, 1);
+										break;
+									}
+								}
 							}
 						}
 
-						var suggestions = users.concat(groups).concat(remotes);
+						var suggestions = users.concat(groups).concat(remotes).concat(emails);
 
 						if (suggestions.length > 0) {
 							$('.shareWithField').removeClass('error')
@@ -258,16 +272,13 @@
 					sharee: text
 				});
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_REMOTE) {
-				if (item.value.server) {
-					text = t('core', '{sharee} (at {server})', {
-						sharee: text,
-						server: item.value.server
-					});
-				} else {
 					text = t('core', '{sharee} (remote)', {
 						sharee: text
 					});
-				}
+			} else if (item.value.shareType === OC.Share.SHARE_TYPE_EMAIL) {
+				text = t('core', '{sharee} (email)', {
+					sharee: text
+				});
 			}
 			var insert = $("<div class='share-autocomplete-item'/>");
 			var avatar = $("<div class='avatardiv'></div>").appendTo(insert);
@@ -397,7 +408,7 @@
 				var infoTemplate = this._getRemoteShareInfoTemplate();
 				remoteShareInfo = infoTemplate({
 					docLink: this.configModel.getFederatedShareDocLink(),
-					tooltip: t('core', 'Share with people on other Nextclouds using the syntax username@example.com/nextcloud')
+					tooltip: t('core', 'Share with people on other servers using the syntax username@example.com/nextcloud')
 				});
 			}
 
@@ -405,19 +416,33 @@
 		},
 
 		_renderSharePlaceholderPart: function () {
-			var sharePlaceholder = t('core', 'Share with users…');
+			var allowGroupSharing = this.configModel.get('allowGroupSharing');
+			var allowRemoteSharing = this.configModel.get('isRemoteShareAllowed');
+			var allowMailSharing = this.configModel.get('isMailShareAllowed');
 
-			if (this.configModel.get('allowGroupSharing')) {
-				if (this.configModel.get('isRemoteShareAllowed')) {
-					sharePlaceholder = t('core', 'Share with users, groups or remote users…');
-				} else {
-					sharePlaceholder = t('core', 'Share with users or groups…');
-				}
-			} else if (this.configModel.get('isRemoteShareAllowed')) {
-					sharePlaceholder = t('core', 'Share with users or remote users…');
+			if (!allowGroupSharing && !allowRemoteSharing && allowMailSharing) {
+				return t('core', 'Share with users or by mail...');
+			}
+			if (!allowGroupSharing && allowRemoteSharing && !allowMailSharing) {
+				return t('core', 'Share with users or remote users...');
+			}
+			if (!allowGroupSharing && allowRemoteSharing && allowMailSharing) {
+				return t('core', 'Share with users, remote users or by mail...');
+			}
+			if (allowGroupSharing && !allowRemoteSharing && !allowMailSharing) {
+				return t('core', 'Share with users or groups...');
+			}
+			if (allowGroupSharing && !allowRemoteSharing && allowMailSharing) {
+				return t('core', 'Share with users, groups or by mail...');
+			}
+			if (allowGroupSharing && allowRemoteSharing && !allowMailSharing) {
+				return t('core', 'Share with users, groups or remote users...');
+			}
+			if (allowGroupSharing && allowRemoteSharing && allowMailSharing) {
+				return t('core', 'Share with users, groups, remote users or by mail...');
 			}
 
-			return sharePlaceholder;
+			return 	t('core', 'Share with users...');
 		},
 
 		/**
