@@ -7,5 +7,5 @@ coverage:
   range: "70...100"
 
 comment:
-  layout: "header, diff, changes, sunburst, uncovered, tree"
+  layout: "header, diff, changes, uncovered, tree"
   behavior: default
