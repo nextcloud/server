@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright (c) 2013 Robin Appelman <icewind@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
@@ -43,6 +42,12 @@ class SessionTest extends \Test\TestCase {
 	private $throttler;
 	/** @var ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
 	private $random;
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $manager;
+	/** @var ISession|\PHPUnit_Framework_MockObject_MockObject */
+	private $session;
+	/** @var Session|\PHPUnit_Framework_MockObject_MockObject */
+	private $userSession;
 
 	protected function setUp() {
 		parent::setUp();
@@ -55,6 +60,21 @@ class SessionTest extends \Test\TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->throttler = $this->createMock(Throttler::class);
 		$this->random = $this->createMock(ISecureRandom::class);
+		$this->manager = $this->createMock(IUserManager::class);
+		$this->session = $this->createMock(ISession::class);
+		$this->userSession = $this->getMockBuilder(Session::class)
+			->setConstructorArgs([
+				$this->manager,
+				$this->session,
+				$this->timeFactory,
+				$this->tokenProvider,
+				$this->config,
+				$this->random,
+			])
+			->setMethods([
+				'setMagicInCookie',
+			])
+			->getMock();
 
 		\OC_User::setIncognitoMode(false);
 	}
@@ -1135,5 +1155,28 @@ class SessionTest extends \Test\TestCase {
 			->will($this->returnValue(100));
 
 		$userSession->logClientIn('john', 'doe', $request, $this->throttler);
+	}
+
+	public function testCreateRememberMeToken() {
+		$user = $this->createMock(IUser::class);
+		$user
+			->expects($this->exactly(2))
+			->method('getUID')
+			->willReturn('UserUid');
+		$this->random
+			->expects($this->once())
+			->method('generate')
+			->with(32)
+			->willReturn('LongRandomToken');
+		$this->config
+			->expects($this->once())
+			->method('setUserValue')
+			->with('UserUid', 'login_token', 'LongRandomToken', 10000);
+		$this->userSession
+			->expects($this->once())
+			->method('setMagicInCookie')
+			->with('UserUid', 'LongRandomToken');
+
+		$this->userSession->createRememberMeToken($user);
 	}
 }

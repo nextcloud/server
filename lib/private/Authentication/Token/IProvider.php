@@ -55,6 +55,7 @@ interface IProvider {
 	/**
 	 * @param string $oldSessionId
 	 * @param string $sessionId
+	 * @throws InvalidTokenException
 	 */
 	public function renewSessionToken($oldSessionId, $sessionId);
 

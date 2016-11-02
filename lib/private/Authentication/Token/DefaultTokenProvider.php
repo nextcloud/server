@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@owncloud.com>
  *
@@ -56,7 +57,11 @@ class DefaultTokenProvider implements IProvider {
 	 * @param ILogger $logger
 	 * @param ITimeFactory $time
 	 */
-	public function __construct(DefaultTokenMapper $mapper, ICrypto $crypto, IConfig $config, ILogger $logger, ITimeFactory $time) {
+	public function __construct(DefaultTokenMapper $mapper,
+								ICrypto $crypto,
+								IConfig $config,
+								ILogger $logger,
+								ITimeFactory $time) {
 		$this->mapper = $mapper;
 		$this->crypto = $crypto;
 		$this->config = $config;
@@ -98,6 +103,7 @@ class DefaultTokenProvider implements IProvider {
 	 * Save the updated token
 	 *
 	 * @param IToken $token
+	 * @throws InvalidTokenException
 	 */
 	public function updateToken(IToken $token) {
 		if (!($token instanceof DefaultToken)) {
@@ -156,6 +162,7 @@ class DefaultTokenProvider implements IProvider {
 	/**
 	 * @param string $oldSessionId
 	 * @param string $sessionId
+	 * @throws InvalidTokenException
 	 */
 	public function renewSessionToken($oldSessionId, $sessionId) {
 		$token = $this->getToken($oldSessionId);

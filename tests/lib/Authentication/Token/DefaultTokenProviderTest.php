@@ -1,8 +1,8 @@
 <?php
-
 /**
  * @author Christoph Wurst <christoph@owncloud.com>
  *
+ * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
@@ -25,6 +25,7 @@ namespace Test\Authentication\Token;
 use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Authentication\Token\IToken;
+use OCP\AppFramework\Db\Mapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -34,13 +35,19 @@ use Test\TestCase;
 
 class DefaultTokenProviderTest extends TestCase {
 
-	/** @var DefaultTokenProvider */
+	/** @var DefaultTokenProvider|\PHPUnit_Framework_MockObject_MockObject */
 	private $tokenProvider;
+	/** @var Mapper|\PHPUnit_Framework_MockObject_MockObject */
 	private $mapper;
+	/** @var ICrypto|\PHPUnit_Framework_MockObject_MockObject */
 	private $crypto;
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	private $logger;
+	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
 	private $timeFactory;
+	/** @var int */
 	private $time;
 
 	protected function setUp() {
@@ -260,6 +267,113 @@ class DefaultTokenProviderTest extends TestCase {
 			->with($this->time - 300);
 
 		$this->tokenProvider->invalidateOldTokens();
+	}
+
+	public function testRenewSessionTokenWithoutPassword() {
+		$token = $this->getMockBuilder(DefaultToken::class)
+			->disableOriginalConstructor()
+			->setMethods(['getUID', 'getLoginName', 'getPassword', 'getName'])
+			->getMock();
+		$token
+			->expects($this->at(0))
+			->method('getUID')
+			->willReturn('UserUid');
+		$token
+			->expects($this->at(1))
+			->method('getLoginName')
+			->willReturn('UserLoginName');
+		$token
+			->expects($this->at(2))
+			->method('getPassword')
+			->willReturn(null);
+		$token
+			->expects($this->at(3))
+			->method('getName')
+			->willReturn('MyTokenName');
+		$this->config
+			->expects($this->exactly(2))
+			->method('getSystemValue')
+			->with('secret')
+			->willReturn('MyInstanceSecret');
+		$this->mapper
+			->expects($this->at(0))
+			->method('getToken')
+			->with(hash('sha512', 'oldId' . 'MyInstanceSecret'))
+			->willReturn($token);
+		$newToken = new DefaultToken();
+		$newToken->setUid('UserUid');
+		$newToken->setLoginName('UserLoginName');
+		$newToken->setName('MyTokenName');
+		$newToken->setToken(hash('sha512', 'newId' . 'MyInstanceSecret'));
+		$newToken->setType(IToken::TEMPORARY_TOKEN);
+		$newToken->setLastActivity(1313131);
+		$this->mapper
+			->expects($this->at(1))
+			->method('insert')
+			->with($newToken);
+
+		$this->tokenProvider->renewSessionToken('oldId', 'newId');
+	}
+
+	public function testRenewSessionTokenWithPassword() {
+		$token = $this->getMockBuilder(DefaultToken::class)
+			->disableOriginalConstructor()
+			->setMethods(['getUID', 'getLoginName', 'getPassword', 'getName'])
+			->getMock();
+		$token
+			->expects($this->at(0))
+			->method('getUID')
+			->willReturn('UserUid');
+		$token
+			->expects($this->at(1))
+			->method('getLoginName')
+			->willReturn('UserLoginName');
+		$token
+			->expects($this->at(2))
+			->method('getPassword')
+			->willReturn('EncryptedPassword');
+		$token
+			->expects($this->at(3))
+			->method('getPassword')
+			->willReturn('EncryptedPassword');
+		$token
+			->expects($this->at(4))
+			->method('getName')
+			->willReturn('MyTokenName');
+		$this->crypto
+			->expects($this->any(0))
+			->method('decrypt')
+			->with('EncryptedPassword', 'oldIdMyInstanceSecret')
+			->willReturn('ClearTextPassword');
+		$this->crypto
+			->expects($this->any(1))
+			->method('encrypt')
+			->with('ClearTextPassword', 'newIdMyInstanceSecret')
+			->willReturn('EncryptedPassword');
+		$this->config
+			->expects($this->exactly(4))
+			->method('getSystemValue')
+			->with('secret')
+			->willReturn('MyInstanceSecret');
+		$this->mapper
+			->expects($this->at(0))
+			->method('getToken')
+			->with(hash('sha512', 'oldId' . 'MyInstanceSecret'))
+			->willReturn($token);
+		$newToken = new DefaultToken();
+		$newToken->setUid('UserUid');
+		$newToken->setLoginName('UserLoginName');
+		$newToken->setName('MyTokenName');
+		$newToken->setToken(hash('sha512', 'newId' . 'MyInstanceSecret'));
+		$newToken->setType(IToken::TEMPORARY_TOKEN);
+		$newToken->setLastActivity(1313131);
+		$newToken->setPassword('EncryptedPassword');
+		$this->mapper
+			->expects($this->at(1))
+			->method('insert')
+			->with($newToken);
+
+		$this->tokenProvider->renewSessionToken('oldId', 'newId');
 	}
 
 }
