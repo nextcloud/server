@@ -651,8 +651,13 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	width: 129px;
 }
 
-
-
+.trusted-domain-warning {
+	color: #fff;
+	padding: 5px;
+	background: #ce3702;
+	border-radius: 5px;
+	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+}
 
 
 /* HELP */

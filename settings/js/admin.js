@@ -3,8 +3,13 @@ $(document).ready(function(){
 
 	// Hack to add a trusted domain
 	if (params.trustDomain) {
-		OC.dialogs.confirm(t('settings', 'Are you really sure you want add "{domain}" as trusted domain?',
-				{domain: params.trustDomain}),
+		var potentialDomain = params.trustDomain;
+		potentialDomain = encodeURI(escapeHTML(potentialDomain));
+		potentialDomain = '<span class="trusted-domain-warning">' + potentialDomain + '</span>';
+
+		OC.dialogs.confirmHtml(t('settings', 'Are you really sure you want add {domain} as trusted domain?', {
+				domain: potentialDomain
+			}, undefined, {escape: false}),
 			t('settings', 'Add trusted domain'), function(answer) {
 				if(answer) {
 					$.ajax({
