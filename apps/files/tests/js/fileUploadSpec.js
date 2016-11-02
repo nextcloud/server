@@ -35,7 +35,6 @@ describe('OC.Upload tests', function() {
 		// need a dummy button because file-upload checks on it
 		$('#testArea').append(
 			'<input type="file" id="file_upload_start" name="files[]" multiple="multiple">' +
-			'<input type="hidden" id="upload_limit" name="upload_limit" value="10000000">' + // 10 MB
 			'<input type="hidden" id="free_space" name="free_space" value="50000000">' + // 50 MB
 			// TODO: handlebars!
 			'<div id="new">' +
@@ -96,19 +95,6 @@ describe('OC.Upload tests', function() {
 			expect(result[0]).not.toEqual(null);
 			expect(result[0].submit.calledOnce).toEqual(true);
 			expect(failStub.notCalled).toEqual(true);
-		});
-		it('does not add file if it exceeds upload limit', function() {
-			var result;
-			$('#upload_limit').val(1000);
-
-			result = addFiles(uploader, [testFile]);
-
-			expect(result[0]).toEqual(null);
-			expect(failStub.calledOnce).toEqual(true);
-			expect(failStub.getCall(0).args[1].textStatus).toEqual('sizeexceedlimit');
-			expect(failStub.getCall(0).args[1].errorThrown).toEqual(
-				'Total file size 5 KB exceeds upload limit 1000 B'
-			);
 		});
 		it('does not add file if it exceeds free space', function() {
 			var result;

@@ -342,9 +342,8 @@ class ShareController extends Controller {
 				$freeSpace = (INF > 0) ? INF: PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
 			}
 
-			$uploadLimit = Util::uploadLimit();
-			$maxUploadFilesize = min($freeSpace, $uploadLimit);
 			$hideFileList = $share->getPermissions() & \OCP\Constants::PERMISSION_READ ? false : true;
+			$maxUploadFilesize = $freeSpace;
 
 			$folder = new Template('files', 'list', '');
 			$folder->assign('dir', $rootFolder->getRelativePath($folderNode->getPath()));
@@ -356,7 +355,6 @@ class ShareController extends Controller {
 			$folder->assign('uploadMaxFilesize', $maxUploadFilesize);
 			$folder->assign('uploadMaxHumanFilesize', \OCP\Util::humanFileSize($maxUploadFilesize));
 			$folder->assign('freeSpace', $freeSpace);
-			$folder->assign('uploadLimit', $uploadLimit); // PHP upload limit
 			$folder->assign('usedSpacePercent', 0);
 			$folder->assign('trash', false);
 			$shareTmpl['folder'] = $folder->fetchPage();

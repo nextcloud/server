@@ -59,7 +59,6 @@
 				return;
 			}
 			if (response.data !== undefined && response.data.uploadMaxFilesize !== undefined) {
-				$('#max_upload').val(response.data.uploadMaxFilesize);
 				$('#free_space').val(response.data.freeSpace);
 				$('#upload.button').attr('data-original-title', response.data.maxHumanFilesize);
 				$('#usedSpacePercent').val(response.data.usedSpacePercent);
@@ -71,7 +70,6 @@
 				return;
 			}
 			if (response[0].uploadMaxFilesize !== undefined) {
-				$('#max_upload').val(response[0].uploadMaxFilesize);
 				$('#upload.button').attr('data-original-title', response[0].maxHumanFilesize);
 				$('#usedSpacePercent').val(response[0].usedSpacePercent);
 				Files.displayStorageWarnings();
