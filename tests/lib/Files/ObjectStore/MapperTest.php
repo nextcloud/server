@@ -28,24 +28,28 @@ class MapperTest extends \Test\TestCase {
 
 	public function dataGetBucket() {
 		return [
-			['user', substr(md5('user'), 0, 3)],
-			['USER', substr(md5('USER'), 0, 3)],
-			['bc0e8b52-a66c-1035-90c6-d9663bda9e3f', substr(md5('bc0e8b52-a66c-1035-90c6-d9663bda9e3f'), 0, 3)],
+			['user', 64, '17'],
+			['USER', 64, '0'],
+			['bc0e8b52-a66c-1035-90c6-d9663bda9e3f', 64, '56'],
+			['user', 8, '1'],
+			['user', 2, '1'],
+			['USER', 2, '0'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataGetBucket
 	 * @param string $username
+	 * @param int $numBuckets
 	 * @param string $expectedBucket
 	 */
-	public function testGetBucket($username, $expectedBucket) {
+	public function testGetBucket($username, $numBuckets, $expectedBucket) {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn($username);
 
 		$mapper = new Mapper($user);
 
-		$this->assertSame($expectedBucket, $mapper->getBucket());
+		$this->assertSame($expectedBucket, $mapper->getBucket($numBuckets));
 	}
 }
