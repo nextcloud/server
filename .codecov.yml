@@ -6,4 +6,6 @@ coverage:
   round: down
   range: "70...100"
 
-comment: false
+comment:
+  layout: "header, diff, changes, sunburst, uncovered, tree"
+  behavior: default
