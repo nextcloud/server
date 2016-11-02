@@ -33,6 +33,13 @@ pipeline:
     when:
       matrix:
         TESTS: signed-off-check
+  htaccess-checker:
+    image: nextcloudci/php7.0:php7.0-2
+    commands:
+      - php ./build/htaccess-checker.php
+    when:
+      matrix:
+        TESTS: htaccess-checker
   syntax-php5.6:
     image: nextcloudci/php5.6:php5.6-2
     commands:
@@ -332,6 +339,7 @@ pipeline:
 matrix:
   include:
     - TESTS: signed-off-check
+    - TESTS: htaccess-checker
     - TESTS: nodb-codecov
     - TESTS: db-codecov    
     - TESTS: integration-capabilities_features
