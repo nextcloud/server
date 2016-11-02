@@ -26,7 +26,11 @@ $installedVersion = \OC::$server->getConfig()->getAppValue('files_sharing', 'ins
 
 // Migration OC8.2 -> OC9
 if (version_compare($installedVersion, '0.9.1', '<')) {
-	$m = new Migration(\OC::$server->getDatabaseConnection());
+	$m = new Migration(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig());
 	$m->removeReShares();
 	$m->updateInitiatorInfo();
+}
+
+if (version_compare($installedVersion, '1.1.1', '<')) {
+	$m = new Migration(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig());
 }

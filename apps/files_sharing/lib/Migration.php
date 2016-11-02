@@ -27,6 +27,7 @@ namespace OCA\Files_Sharing;
 
 use Doctrine\DBAL\Connection;
 use OCP\ICache;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OC\Cache\CappedMemoryCache;
 
@@ -41,14 +42,18 @@ class Migration {
 	/** @var IDBConnection */
 	private $connection;
 
+	/** @var  IConfig */
+	private $config;
+
 	/** @var  ICache with all shares we already saw */
 	private $shareCache;
 
 	/** @var string */
 	private $table = 'share';
 
-	public function __construct(IDBConnection $connection) {
+	public function __construct(IDBConnection $connection, IConfig $config) {
 		$this->connection = $connection;
+		$this->config = $config;
 
 		// We cache up to 10k share items (~20MB)
 		$this->shareCache = new CappedMemoryCache(10000);
@@ -108,6 +113,14 @@ class Migration {
 			}
 			$this->updateOwners($owners);
 		}
+	}
+
+	/**
+	 * this was dropped for Nextcloud 11 in favour of share by mail
+	 */
+	public function removeSendMailOption() {
+		$this->config->deleteAppValue('core', 'shareapi_allow_mail_notification');
+		$this->config->deleteAppValue('core', 'shareapi_allow_public_notification');
 	}
 
 	/**

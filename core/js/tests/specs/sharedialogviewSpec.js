@@ -41,7 +41,6 @@ describe('OC.Share.ShareDialogView', function() {
 	beforeEach(function() {
 		// horrible parameters
 		$('#testArea').append('<input id="allowShareWithLink" type="hidden" value="yes">');
-		$('#testArea').append('<input id="mailPublicNotificationEnabled" name="mailPublicNotificationEnabled" type="hidden" value="yes">');
 		$container = $('#shareContainer');
 		/* jshint camelcase:false */
 		oldAppConfig = _.extend({}, oc_appconfig.core);
