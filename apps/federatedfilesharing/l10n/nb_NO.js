@@ -28,6 +28,7 @@ OC.L10N.register(
     "File is already shared with %s" : "Filen er allerede delt med %s",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Deling %s feilet, fant ikke %s, kanskje tjeneren er utilgjengelig for øyeblikket.",
     "Could not find share" : "Kunne ikke finne ressurs",
+    "You received {share} as a remote share from {user}" : "Du mottok {share} som en fjerndeling fra {user}",
     "Accept" : "Aksepter",
     "Decline" : "Avslå",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Del med meg gjennom min #Nextcloud ID for sammenknyttet sky, se %s",
