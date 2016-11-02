@@ -73,14 +73,12 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authBackend, func
 	$isReadable = $share->getPermissions() & \OCP\Constants::PERMISSION_READ;
 	$fileId = $share->getNodeId();
 
-	/*
-	if (!$isReadable) {
-		return false;
-	}*/
-
+	// FIXME: should not add storage wrappers outside of preSetup, need to find a better way
+	$previousLog = \OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(false);
 	\OC\Files\Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($share) {
 		return new \OC\Files\Storage\Wrapper\PermissionsMask(array('storage' => $storage, 'mask' => $share->getPermissions() | \OCP\Constants::PERMISSION_SHARE));
 	});
+	\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
 	OC_Util::setupFS($owner);
 	$ownerView = \OC\Files\Filesystem::getView();
