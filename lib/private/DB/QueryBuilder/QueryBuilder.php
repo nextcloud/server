@@ -31,15 +31,23 @@ use OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\MySqlExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\OCIExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\PgSqlExpressionBuilder;
+use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\IDBConnection;
+use OCP\ILogger;
 
 class QueryBuilder implements IQueryBuilder {
 
 	/** @var \OCP\IDBConnection */
 	private $connection;
+
+	/** @var SystemConfig */
+	private $systemConfig;
+
+	/** @var ILogger */
+	private $logger;
 
 	/** @var \Doctrine\DBAL\Query\QueryBuilder */
 	private $queryBuilder;
@@ -56,10 +64,14 @@ class QueryBuilder implements IQueryBuilder {
 	/**
 	 * Initializes a new QueryBuilder.
 	 *
-	 * @param \OCP\IDBConnection $connection
+	 * @param IDBConnection $connection
+	 * @param SystemConfig $systemConfig
+	 * @param ILogger $logger
 	 */
-	public function __construct(IDBConnection $connection) {
+	public function __construct(IDBConnection $connection, SystemConfig $systemConfig, ILogger $logger) {
 		$this->connection = $connection;
+		$this->systemConfig = $systemConfig;
+		$this->logger = $logger;
 		$this->queryBuilder = new \Doctrine\DBAL\Query\QueryBuilder($this->connection);
 		$this->helper = new QuoteHelper();
 	}
@@ -139,6 +151,29 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return \Doctrine\DBAL\Driver\Statement|int
 	 */
 	public function execute() {
+		if ($this->systemConfig->getValue('log_query', false)) {
+			$params = [];
+			foreach ($this->getParameters() as $placeholder => $value) {
+				if (is_array($value)) {
+					$params[] = $placeholder . ' => (\'' . implode('\', \'', $value) . '\')';
+				} else {
+					$params[] = $placeholder . ' => \'' . $value . '\'';
+				}
+			}
+			if (empty($params)) {
+				$this->logger->debug('DB QueryBuilder: \'{query}\'', [
+					'query' => $this->getSQL(),
+					'app' => 'core',
+				]);
+			} else {
+				$this->logger->debug('DB QueryBuilder: \'{query}\' with parameters: {params}', [
+					'query' => $this->getSQL(),
+					'params' => implode(', ', $params),
+					'app' => 'core',
+				]);
+			}
+		}
+
 		return $this->queryBuilder->execute();
 	}
 

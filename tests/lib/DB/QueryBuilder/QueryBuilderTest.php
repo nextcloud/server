@@ -25,7 +25,9 @@ use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use OC\DB\QueryBuilder\Literal;
 use OC\DB\QueryBuilder\Parameter;
 use OC\DB\QueryBuilder\QueryBuilder;
+use OC\SystemConfig;
 use OCP\IDBConnection;
+use OCP\ILogger;
 
 /**
  * Class QueryBuilderTest
@@ -41,11 +43,19 @@ class QueryBuilderTest extends \Test\TestCase {
 	/** @var IDBConnection */
 	protected $connection;
 
+	/** @var SystemConfig|\PHPUnit_Framework_MockObject_MockObject */
+	protected $config;
+
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	protected $logger;
+
 	protected function setUp() {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->queryBuilder = new QueryBuilder($this->connection);
+		$this->config = $this->createMock(SystemConfig::class);
+		$this->logger = $this->createMock(ILogger::class);
+		$this->queryBuilder = new QueryBuilder($this->connection, $this->config, $this->logger);
 	}
 
 	protected function createTestingRows($appId = 'testFirstResult') {
@@ -166,7 +176,9 @@ class QueryBuilderTest extends \Test\TestCase {
 	}
 
 	public function dataSelect() {
-		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection());
+		$config = $this->createMock(SystemConfig::class);
+		$logger = $this->createMock(ILogger::class);
+		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
 		return [
 			// select('column1')
 			[['configvalue'], ['configvalue' => '99']],
@@ -232,7 +244,9 @@ class QueryBuilderTest extends \Test\TestCase {
 	}
 
 	public function dataSelectAlias() {
-		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection());
+		$config = $this->createMock(SystemConfig::class);
+		$logger = $this->createMock(ILogger::class);
+		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
 		return [
 			['configvalue', 'cv', ['cv' => '99']],
 			[$queryBuilder->expr()->literal('column1'), 'thing', ['thing' => 'column1']],
@@ -301,7 +315,9 @@ class QueryBuilderTest extends \Test\TestCase {
 	}
 
 	public function dataAddSelect() {
-		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection());
+		$config = $this->createMock(SystemConfig::class);
+		$logger = $this->createMock(ILogger::class);
+		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
 		return [
 			// addSelect('column1')
 			[['configvalue'], ['appid' => 'testFirstResult', 'configvalue' => '99']],
@@ -1199,5 +1215,131 @@ class QueryBuilderTest extends \Test\TestCase {
 			$expected,
 			$this->queryBuilder->getColumnName($column, $prefix)
 		);
+	}
+
+	public function testExecuteWithoutLogger() {
+		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
+		$queryBuilder
+			->expects($this->once())
+			->method('execute')
+			->willReturn(3);
+		$this->logger
+			->expects($this->never())
+			->method('debug');
+		$this->config
+			->expects($this->once())
+			->method('getValue')
+			->with('log_query', false)
+			->willReturn(false);
+
+		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->assertEquals(3, $this->queryBuilder->execute());
+	}
+
+	public function testExecuteWithLoggerAndNamedArray() {
+		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
+		$queryBuilder
+			->expects($this->at(0))
+			->method('getParameters')
+			->willReturn([
+				'foo' => 'bar',
+				'key' => 'value',
+			]);
+		$queryBuilder
+			->expects($this->at(1))
+			->method('getSQL')
+			->willReturn('SELECT * FROM FOO WHERE BAR = ?');
+		$queryBuilder
+			->expects($this->once())
+			->method('execute')
+			->willReturn(3);
+		$this->logger
+			->expects($this->once())
+			->method('debug')
+			->with(
+				'DB QueryBuilder: \'{query}\' with parameters: {params}',
+				[
+					'query' => 'SELECT * FROM FOO WHERE BAR = ?',
+					'params' => 'foo => \'bar\', key => \'value\'',
+					'app' => 'core',
+				]
+			);
+		$this->config
+			->expects($this->once())
+			->method('getValue')
+			->with('log_query', false)
+			->willReturn(true);
+
+		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->assertEquals(3, $this->queryBuilder->execute());
+	}
+
+	public function testExecuteWithLoggerAndUnnamedArray() {
+		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
+		$queryBuilder
+			->expects($this->at(0))
+			->method('getParameters')
+			->willReturn(['Bar']);
+		$queryBuilder
+			->expects($this->at(1))
+			->method('getSQL')
+			->willReturn('SELECT * FROM FOO WHERE BAR = ?');
+		$queryBuilder
+			->expects($this->once())
+			->method('execute')
+			->willReturn(3);
+		$this->logger
+			->expects($this->once())
+			->method('debug')
+			->with(
+				'DB QueryBuilder: \'{query}\' with parameters: {params}',
+				[
+					'query' => 'SELECT * FROM FOO WHERE BAR = ?',
+					'params' => '0 => \'Bar\'',
+					'app' => 'core',
+				]
+			);
+		$this->config
+			->expects($this->once())
+			->method('getValue')
+			->with('log_query', false)
+			->willReturn(true);
+
+		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->assertEquals(3, $this->queryBuilder->execute());
+	}
+
+	public function testExecuteWithLoggerAndNoParams() {
+		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
+		$queryBuilder
+			->expects($this->at(0))
+			->method('getParameters')
+			->willReturn([]);
+		$queryBuilder
+			->expects($this->at(1))
+			->method('getSQL')
+			->willReturn('SELECT * FROM FOO WHERE BAR = ?');
+		$queryBuilder
+			->expects($this->once())
+			->method('execute')
+			->willReturn(3);
+		$this->logger
+			->expects($this->once())
+			->method('debug')
+			->with(
+				'DB QueryBuilder: \'{query}\'',
+				[
+					'query' => 'SELECT * FROM FOO WHERE BAR = ?',
+					'app' => 'core',
+				]
+			);
+		$this->config
+			->expects($this->once())
+			->method('getValue')
+			->with('log_query', false)
+			->willReturn(true);
+
+		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->assertEquals(3, $this->queryBuilder->execute());
 	}
 }

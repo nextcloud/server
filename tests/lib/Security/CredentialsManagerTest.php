@@ -21,6 +21,8 @@
 
 namespace Test\Security;
 
+use OC\SystemConfig;
+use OCP\ILogger;
 use \OCP\Security\ICrypto;
 use \OCP\IDBConnection;
 use \OC\Security\CredentialsManager;
@@ -45,7 +47,7 @@ class CredentialsManagerTest extends \Test\TestCase {
 		$this->manager = new CredentialsManager($this->crypto, $this->dbConnection);
 	}
 
-	private function getQeuryResult($row) {
+	private function getQueryResult($row) {
 		$result = $this->getMockBuilder('\Doctrine\DBAL\Driver\Statement')
 			->disableOriginalConstructor()
 			->getMock();
@@ -87,12 +89,16 @@ class CredentialsManagerTest extends \Test\TestCase {
 			->willReturn(json_encode('bar'));
 
 		$qb = $this->getMockBuilder('\OC\DB\QueryBuilder\QueryBuilder')
-			->setConstructorArgs([$this->dbConnection])
+			->setConstructorArgs([
+				$this->dbConnection,
+				$this->createMock(SystemConfig::class),
+				$this->createMock(ILogger::class),
+			])
 			->setMethods(['execute'])
 			->getMock();
 		$qb->expects($this->once())
 			->method('execute')
-			->willReturn($this->getQeuryResult(['credentials' => 'baz']));
+			->willReturn($this->getQueryResult(['credentials' => 'baz']));
 
 		$this->dbConnection->expects($this->once())
 			->method('getQueryBuilder')
