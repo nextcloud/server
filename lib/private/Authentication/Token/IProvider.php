@@ -53,6 +53,8 @@ interface IProvider {
 	public function getToken($tokenId) ;
 
 	/**
+	 * Duplicate an existing session token
+	 *
 	 * @param string $oldSessionId
 	 * @param string $sessionId
 	 * @throws InvalidTokenException
