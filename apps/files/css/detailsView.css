@@ -106,10 +106,18 @@
 #app-sidebar .file-details {
 	color: #999;
 }
+
 #app-sidebar .file-details img {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	opacity: .5;
 }
+
+#app-sidebar .file-details img:hover,
+#app-sidebar .file-details img:focus{
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	opacity: 1;
+}
+
 #app-sidebar .action-favorite {
 	vertical-align: text-bottom;
 	padding: 10px;
