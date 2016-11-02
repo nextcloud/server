@@ -295,6 +295,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\AppFramework\\Middleware\\Security\\Exceptions\\AppNotEnabledException' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/Security/Exceptions/AppNotEnabledException.php',
         'OC\\AppFramework\\Middleware\\Security\\Exceptions\\CrossSiteRequestForgeryException' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/Security/Exceptions/CrossSiteRequestForgeryException.php',
         'OC\\AppFramework\\Middleware\\Security\\Exceptions\\NotAdminException' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/Security/Exceptions/NotAdminException.php',
+        'OC\\AppFramework\\Middleware\\Security\\Exceptions\\NotConfirmedException' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/Security/Exceptions/NotConfirmedException.php',
         'OC\\AppFramework\\Middleware\\Security\\Exceptions\\NotLoggedInException' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/Security/Exceptions/NotLoggedInException.php',
         'OC\\AppFramework\\Middleware\\Security\\Exceptions\\SecurityException' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/Security/Exceptions/SecurityException.php',
         'OC\\AppFramework\\Middleware\\Security\\Exceptions\\StrictCookieMissingException' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/Security/Exceptions/StrictCookieMissingException.php',

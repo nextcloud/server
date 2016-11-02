@@ -265,6 +265,7 @@ return array(
     'OC\\AppFramework\\Middleware\\Security\\Exceptions\\AppNotEnabledException' => $baseDir . '/lib/private/AppFramework/Middleware/Security/Exceptions/AppNotEnabledException.php',
     'OC\\AppFramework\\Middleware\\Security\\Exceptions\\CrossSiteRequestForgeryException' => $baseDir . '/lib/private/AppFramework/Middleware/Security/Exceptions/CrossSiteRequestForgeryException.php',
     'OC\\AppFramework\\Middleware\\Security\\Exceptions\\NotAdminException' => $baseDir . '/lib/private/AppFramework/Middleware/Security/Exceptions/NotAdminException.php',
+    'OC\\AppFramework\\Middleware\\Security\\Exceptions\\NotConfirmedException' => $baseDir . '/lib/private/AppFramework/Middleware/Security/Exceptions/NotConfirmedException.php',
     'OC\\AppFramework\\Middleware\\Security\\Exceptions\\NotLoggedInException' => $baseDir . '/lib/private/AppFramework/Middleware/Security/Exceptions/NotLoggedInException.php',
     'OC\\AppFramework\\Middleware\\Security\\Exceptions\\SecurityException' => $baseDir . '/lib/private/AppFramework/Middleware/Security/Exceptions/SecurityException.php',
     'OC\\AppFramework\\Middleware\\Security\\Exceptions\\StrictCookieMissingException' => $baseDir . '/lib/private/AppFramework/Middleware/Security/Exceptions/StrictCookieMissingException.php',
