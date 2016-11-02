@@ -161,6 +161,22 @@ class AddressHandler {
 	}
 
 	/**
+	 * check if the url contain the protocol (http or https)
+	 *
+	 * @param string $url
+	 * @return bool
+	 */
+	public function urlContainProtocol($url) {
+		if (strpos($url, 'https://') === 0 ||
+			strpos($url, 'http://') === 0) {
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Strips away a potential file names and trailing slashes:
 	 * - http://localhost
 	 * - http://localhost/

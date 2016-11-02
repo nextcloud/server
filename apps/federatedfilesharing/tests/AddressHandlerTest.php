@@ -178,6 +178,26 @@ class AddressHandlerTest extends \Test\TestCase {
 	}
 
 	/**
+	 * @dataProvider dataTestUrlContainProtocol
+	 *
+	 * @param string $url
+	 * @param bool $expectedResult
+	 */
+	public function testUrlContainProtocol($url, $expectedResult) {
+		$result = $this->addressHandler->urlContainProtocol($url);
+		$this->assertSame($expectedResult, $result);
+	}
+
+	public function dataTestUrlContainProtocol() {
+		return [
+			['http://nextcloud.com', true],
+			['https://nextcloud.com', true],
+			['nextcloud.com', false],
+			['httpserver.com', false],
+		];
+	}
+
+	/**
 	 * @dataProvider dataTestFixRemoteUrl
 	 *
 	 * @param string $url

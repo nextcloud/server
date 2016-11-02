@@ -58,7 +58,7 @@ class NotificationsTest extends \Test\TestCase {
 
 	/**
 	 * get instance of Notifications class
-	 * 
+	 *
 	 * @param array $mockedMethods methods which should be mocked
 	 * @return Notifications | \PHPUnit_Framework_MockObject_MockObject
 	 */
@@ -81,7 +81,7 @@ class NotificationsTest extends \Test\TestCase {
 					]
 				)->setMethods($mockedMethods)->getMock();
 		}
-		
+
 		return $instance;
 	}
 
@@ -94,7 +94,7 @@ class NotificationsTest extends \Test\TestCase {
 	 * @param bool $expected
 	 */
 	public function testSendUpdateToRemote($try, $httpRequestResult, $expected) {
-		$remote = 'remote';
+		$remote = 'http://remote';
 		$id = 42;
 		$timestamp = 63576;
 		$token = 'token';
@@ -105,9 +105,6 @@ class NotificationsTest extends \Test\TestCase {
 		$instance->expects($this->once())->method('tryHttpPostToShareEndpoint')
 			->with($remote, '/'.$id.'/unshare', ['token' => $token, 'data1Key' => 'data1Value'])
 			->willReturn($httpRequestResult);
-
-		$this->addressHandler->expects($this->once())->method('removeProtocolFromUrl')
-			->with($remote)->willReturn($remote);
 
 		// only add background job on first try
 		if ($try === 0 && $expected === false) {
