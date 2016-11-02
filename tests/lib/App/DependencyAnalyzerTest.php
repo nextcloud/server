@@ -1,9 +1,10 @@
 <?php
-
 /**
  * @author Thomas Müller
+ * @author Lukas Reschke
  * @copyright 2014 Thomas Müller deepdiver@owncloud.com
- * later.
+ * @copyright 2016 Lukas Reschke <lukas@statuscode.ch>
+ *
  * See the COPYING-README file.
  */
 
@@ -187,7 +188,7 @@ class DependencyAnalyzerTest extends TestCase {
 			'dependencies' => array()
 		);
 		if (!is_null($oc)) {
-			$app['dependencies']['owncloud'] = $oc;
+			$app['dependencies'] = $oc;
 		}
 
 		$missing = $this->analyser->analyze($app);
@@ -200,18 +201,216 @@ class DependencyAnalyzerTest extends TestCase {
 	 * @return array
 	 */
 	function providesOC() {
-		return array(
+		return [
 			// no version -> no missing dependency
-			array(array(), null),
-			array(array(), array('@attributes' => array('min-version' => '8', 'max-version' => '8'))),
-			array(array(), array('@attributes' => array('min-version' => '8.0', 'max-version' => '8.0'))),
-			array(array(), array('@attributes' => array('min-version' => '8.0.2', 'max-version' => '8.0.2'))),
-			array(array('Server version 8.0.3 or higher is required.'), array('@attributes' => array('min-version' => '8.0.3'))),
-			array(array('Server version 9 or higher is required.'), array('@attributes' => array('min-version' => '9'))),
-			array(array('Server version 10 or higher is required.'), array('@attributes' => array('min-version' => '9.1'))),
-			array(array('Server version 11 or higher is required.'), array('@attributes' => array('min-version' => '9.2'))),
-			[['Server version 8.0.1 or lower is required.'], ['@attributes' => ['max-version' => '8.0.1']]],
-		);
+			[
+				[],
+				null,
+			],
+			[
+				[],
+				[
+					'nextcloud' => [
+						'@attributes' => [
+							'min-version' => '8',
+							'max-version' => '8',
+						],
+					],
+				],
+			],
+			[
+				[],
+				[
+					'nextcloud' => [
+						'@attributes' => [
+							'min-version' => '8.0',
+							'max-version' => '8.0',
+						],
+					],
+				],
+			],
+			[
+				[],
+				[
+					'nextcloud' => [
+						'@attributes' => [
+							'min-version' => '8.0.2',
+							'max-version' => '8.0.2'
+						],
+					],
+				],
+			],
+			[
+				[
+					'Server version 8.0.3 or higher is required.',
+				],
+				[
+					'nextcloud' => [
+						'@attributes' => [
+							'min-version' => '8.0.3'
+						],
+					],
+				],
+			],
+			[
+				[
+					'Server version 9 or higher is required.',
+				],
+				[
+					'nextcloud' => [
+						'@attributes' => [
+							'min-version' => '9'
+						],
+					],
+				],
+			],
+			[
+				[
+					'Server version 10 or higher is required.',
+				],
+				[
+					'nextcloud' => [
+						'@attributes' => [
+							'min-version' => '10'
+						],
+					],
+					'owncloud' => [
+						'@attributes' => [
+							'min-version' => '9'
+						],
+					],
+				],
+			],
+			[
+				[
+					'Server version 10 or higher is required.',
+				],
+				[
+					'nextcloud' => [
+						'@attributes' => [
+							'min-version' => '9.1',
+						],
+					],
+				],
+			],
+			[
+				[
+					'Server version 11 or higher is required.',
+				],
+				[
+					'nextcloud' => [
+						'@attributes' => [
+							'min-version' => '9.2',
+						],
+					],
+				],
+			],
+			[
+				[
+					'Server version 8.0.1 or lower is required.',
+				],
+				[
+					'nextcloud' => [
+						'@attributes' => [
+							'max-version' => '8.0.1',
+						],
+					],
+				],
+			],
+			[
+				[],
+				[
+					'owncloud' => [
+						'@attributes' => [
+							'min-version' => '8',
+							'max-version' => '8',
+						],
+					],
+				],
+			],
+			[
+				[],
+				[
+					'owncloud' => [
+						'@attributes' => [
+							'min-version' => '8.0',
+							'max-version' => '8.0',
+						],
+					],
+				],
+			],
+			[
+				[],
+				[
+					'owncloud' => [
+						'@attributes' => [
+							'min-version' => '8.0.2',
+							'max-version' => '8.0.2'
+						],
+					],
+				],
+			],
+			[
+				[
+					'Server version 8.0.3 or higher is required.',
+				],
+				[
+					'owncloud' => [
+						'@attributes' => [
+							'min-version' => '8.0.3'
+						],
+					],
+				],
+			],
+			[
+				[
+					'Server version 9 or higher is required.',
+				],
+				[
+					'owncloud' => [
+						'@attributes' => [
+							'min-version' => '9'
+						],
+					],
+				],
+			],
+			[
+				[
+					'Server version 10 or higher is required.',
+				],
+				[
+					'owncloud' => [
+						'@attributes' => [
+							'min-version' => '9.1',
+						],
+					],
+				],
+			],
+			[
+				[
+					'Server version 11 or higher is required.',
+				],
+				[
+					'owncloud' => [
+						'@attributes' => [
+							'min-version' => '9.2',
+						],
+					],
+				],
+			],
+			[
+				[
+					'Server version 8.0.1 or lower is required.',
+				],
+				[
+					'owncloud' => [
+						'@attributes' => [
+							'max-version' => '8.0.1',
+						],
+					],
+				],
+			],
+		];
 	}
 
 	/**

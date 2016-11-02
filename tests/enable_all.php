@@ -10,7 +10,7 @@ require_once __DIR__.'/../lib/base.php';
 
 function enableApp($app) {
 	try {
-		OC_App::enable($app);
+		(new \OC_App())->enable($app);
 	} catch (Exception $e) {
 		echo $e;
 	}

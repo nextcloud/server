@@ -35,23 +35,18 @@ if (!array_key_exists('appid', $_POST)) {
 }
 
 $appId = (string)$_POST['appid'];
-
-if (!is_numeric($appId)) {
-	$appId = \OC::$server->getAppConfig()->getValue($appId, 'ocsid', null);
-	if ($appId === null) {
-		OCP\JSON::error(array(
-			'message' => 'No OCS-ID found for app!'
-		));
-		exit;
-	}
-}
-
 $appId = OC_App::cleanAppId($appId);
 
 $config = \OC::$server->getConfig();
 $config->setSystemValue('maintenance', true);
 try {
-	$result = \OC\Installer::updateAppByOCSId($appId);
+	$installer = new \OC\Installer(
+		\OC::$server->getAppFetcher(),
+		\OC::$server->getHTTPClientService(),
+		\OC::$server->getTempManager(),
+		\OC::$server->getLogger()
+	);
+	$result = $installer->updateAppstoreApp($appId);
 	$config->setSystemValue('maintenance', false);
 } catch(Exception $ex) {
 	$config->setSystemValue('maintenance', false);

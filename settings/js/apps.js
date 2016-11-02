@@ -2,7 +2,7 @@
 
 Handlebars.registerHelper('score', function() {
 	if(this.score) {
-		var score = Math.round( this.score / 10 );
+		var score = Math.round( this.score * 10 );
 		var imageName = 'rating/s' + score + '.svg';
 
 		return new Handlebars.SafeString('<img src="' + OC.imagePath('core', imageName) + '">');
@@ -13,10 +13,6 @@ Handlebars.registerHelper('level', function() {
 	if(typeof this.level !== 'undefined') {
 		if(this.level === 200) {
 			return new Handlebars.SafeString('<span class="official icon-checkmark">' + t('settings', 'Official') + '</span>');
-		} else if(this.level === 100) {
-			return new Handlebars.SafeString('<span class="approved">' + t('settings', 'Approved') + '</span>');
-		} else {
-			return new Handlebars.SafeString('<span class="experimental">' + t('settings', 'Experimental') + '</span>');
 		}
 	}
 });
@@ -211,7 +207,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 			currentImage.onload = function() {
 				page.find('.app-image')
-					.append(OC.Settings.Apps.imageUrl(app.preview, app.detailpage))
+					.append(OC.Settings.Apps.imageUrl(app.preview, app.fromAppStore))
 					.fadeIn();
 			};
 		}
@@ -248,7 +244,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		var img = '<svg width="72" height="72" viewBox="0 0 72 72">';
 
 		if (appfromstore) {
-			img += '<image x="0" y="0" width="72" height="72" preserveAspectRatio="xMinYMin meet" xlink:href="' + url  + '?v=' + oc_config.version + '"  class="app-icon" /></svg>';
+			img += '<image x="0" y="0" width="72" height="72" preserveAspectRatio="xMinYMin meet" xlink:href="' + url  + '"  class="app-icon" /></svg>';
 		} else {
 			img += '<image x="0" y="0" width="72" height="72" preserveAspectRatio="xMinYMin meet" filter="url(#invertIcon)" xlink:href="' + url + '?v=' + oc_config.version + '" class="app-icon"></image></svg>';
 		}

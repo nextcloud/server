@@ -23,6 +23,8 @@
  */
 
 namespace Test;
+use OC\App\AppStore\Fetcher\AppFetcher;
+use OC\App\AppStore\Fetcher\CategoryFetcher;
 
 /**
  * Class Server
@@ -50,6 +52,7 @@ class ServerTest extends \Test\TestCase {
 			['AllConfig', '\OCP\IConfig'],
 			['AppConfig', '\OC\AppConfig'],
 			['AppConfig', '\OCP\IAppConfig'],
+			['AppFetcher', AppFetcher::class],
 			['AppHelper', '\OC\AppHelper'],
 			['AppHelper', '\OCP\IHelper'],
 			['AppManager', '\OC\App\AppManager'],
@@ -59,6 +62,7 @@ class ServerTest extends \Test\TestCase {
 			['AvatarManager', '\OC\AvatarManager'],
 			['AvatarManager', '\OCP\IAvatarManager'],
 
+			['CategoryFetcher', CategoryFetcher::class],
 			['CapabilitiesManager', '\OC\CapabilitiesManager'],
 			['ContactsManager', '\OC\ContactsManager'],
 			['ContactsManager', '\OCP\Contacts\IManager'],
@@ -121,8 +125,6 @@ class ServerTest extends \Test\TestCase {
 			['NotificationManager', '\OCP\Notification\IManager'],
 			['UserCache', '\OC\Cache\File'],
 			['UserCache', '\OCP\ICache'],
-
-			['OcsClient', '\OC\OCSClient'],
 
 			['PreviewManager', '\OC\PreviewManager'],
 			['PreviewManager', '\OCP\IPreview'],

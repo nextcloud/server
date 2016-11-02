@@ -32,26 +32,7 @@
 
 namespace OC\Archive;
 
-abstract class Archive{
-	/**
-	 * Open any of the supported archive types
-	 *
-	 * @param string $path
-	 * @return Archive|void
-	 */
-	public static function open($path) {
-		$mime = \OC::$server->getMimeTypeDetector()->detect($path);
-
-		switch($mime) {
-			case 'application/zip':
-				return new ZIP($path);
-			case 'application/x-gzip':
-				return new TAR($path);
-			case 'application/x-bzip2':
-				return new TAR($path);
-		}
-	}
-
+abstract class Archive {
 	/**
 	 * @param $source
 	 */

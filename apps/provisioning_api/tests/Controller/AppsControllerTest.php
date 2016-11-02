@@ -48,8 +48,6 @@ class AppsControllerTest extends \OCA\Provisioning_API\Tests\TestCase {
 	private $api;
 	/** @var IUserSession */
 	private $userSession;
-	/** @var OCSClient|\PHPUnit_Framework_MockObject_MockObject */
-	private $ocsClient;
 
 	protected function setUp() {
 		parent::setUp();
@@ -57,9 +55,6 @@ class AppsControllerTest extends \OCA\Provisioning_API\Tests\TestCase {
 		$this->appManager = \OC::$server->getAppManager();
 		$this->groupManager = \OC::$server->getGroupManager();
 		$this->userSession = \OC::$server->getUserSession();
-		$this->ocsClient = $this->getMockBuilder('OC\OCSClient')
-			->disableOriginalConstructor()
-			->getMock();
 
 		$request = $this->getMockBuilder('OCP\IRequest')
 			->disableOriginalConstructor()
@@ -68,8 +63,7 @@ class AppsControllerTest extends \OCA\Provisioning_API\Tests\TestCase {
 		$this->api = new AppsController(
 			'provisioning_api',
 			$request,
-			$this->appManager,
-			$this->ocsClient
+			$this->appManager
 		);
 	}
 
@@ -88,10 +82,6 @@ class AppsControllerTest extends \OCA\Provisioning_API\Tests\TestCase {
 	}
 
 	public function testGetApps() {
-		$this->ocsClient
-				->expects($this->any())
-				->method($this->anything())
-				->will($this->returnValue(null));
 		$user = $this->generateUsers();
 		$this->groupManager->get('admin')->addUser($user);
 		$this->userSession->setUser($user);
@@ -99,7 +89,7 @@ class AppsControllerTest extends \OCA\Provisioning_API\Tests\TestCase {
 		$result = $this->api->getApps();
 
 		$data = $result->getData();
-		$this->assertEquals(count(\OC_App::listAllApps(false, true, $this->ocsClient)), count($data['apps']));
+		$this->assertEquals(count((new \OC_App())->listAllApps()), count($data['apps']));
 	}
 
 	public function testGetAppsEnabled() {
@@ -109,13 +99,9 @@ class AppsControllerTest extends \OCA\Provisioning_API\Tests\TestCase {
 	}
 
 	public function testGetAppsDisabled() {
-		$this->ocsClient
-				->expects($this->any())
-				->method($this->anything())
-				->will($this->returnValue(null));
 		$result = $this->api->getApps('disabled');
 		$data = $result->getData();
-		$apps = \OC_App::listAllApps(false, true, $this->ocsClient);
+		$apps = (new \OC_App)->listAllApps();
 		$list =  array();
 		foreach($apps as $app) {
 			$list[] = $app['id'];

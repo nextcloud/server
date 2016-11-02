@@ -415,17 +415,6 @@ span.version {
 	background-position: 5px center;
 	padding-left: 25px;
 }
-.app-level .approved {
-	border-color: #0082c9;
-}
-.app-level .experimental {
-	background-color: #ce3702;
-	border-color: #ce3702;
-	color: #fff;
-}
-.apps-experimental {
-	color: #ce3702;
-}
 
 .app-score {
 	position: relative;

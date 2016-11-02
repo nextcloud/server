@@ -38,7 +38,7 @@ class StreamWrappersTest extends \Test\TestCase {
 
 	public static function tearDownAfterClass() {
 		if (self::$trashBinStatus) {
-			\OC_App::enable('files_trashbin');
+			(new \OC_App())->enable('files_trashbin');
 		}
 	}
 

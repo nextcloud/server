@@ -75,11 +75,12 @@ class Enable extends Command implements CompletionAwareInterface {
 		}
 
 		$groups = $input->getOption('groups');
+		$appClass = new \OC_App();
 		if (empty($groups)) {
-			\OC_App::enable($appId);
+			$appClass->enable($appId);
 			$output->writeln($appId . ' enabled');
 		} else {
-			\OC_App::enable($appId, $groups);
+			$appClass->enable($appId, $groups);
 			$output->writeln($appId . ' enabled for groups: ' . implode(', ', $groups));
 		}
 		return 0;

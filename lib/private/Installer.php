@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
@@ -40,90 +41,64 @@
 
 namespace OC;
 
+use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\CodeChecker\CodeChecker;
 use OC\App\CodeChecker\EmptyCheck;
 use OC\App\CodeChecker\PrivateCheck;
+use OC\Archive\Archive;
+use OC\Archive\TAR;
 use OC_App;
 use OC_DB;
 use OC_Helper;
+use OCP\Http\Client\IClientService;
+use OCP\ILogger;
+use OCP\ITempManager;
+use phpseclib\File\X509;
 
 /**
- * This class provides the functionality needed to install, update and remove plugins/apps
+ * This class provides the functionality needed to install, update and remove apps
  */
 class Installer {
+	/** @var AppFetcher */
+	private $appFetcher;
+	/** @var IClientService */
+	private $clientService;
+	/** @var ITempManager */
+	private $tempManager;
+	/** @var ILogger */
+	private $logger;
 
 	/**
+	 * @param AppFetcher $appFetcher
+	 * @param IClientService $clientService
+	 * @param ITempManager $tempManager
+	 * @param ILogger $logger
+	 */
+	public function __construct(AppFetcher $appFetcher,
+								IClientService $clientService,
+								ITempManager $tempManager,
+								ILogger $logger) {
+		$this->appFetcher = $appFetcher;
+		$this->clientService = $clientService;
+		$this->tempManager = $tempManager;
+		$this->logger = $logger;
+	}
+
+	/**
+	 * Installs an app that is located in one of the app folders already
 	 *
-	 * This function installs an app. All information needed are passed in the
-	 * associative array $data.
-	 * The following keys are required:
-	 *   - source: string, can be "path" or "http"
-	 *
-	 * One of the following keys is required:
-	 *   - path: path to the file containing the app
-	 *   - href: link to the downloadable file containing the app
-	 *
-	 * The following keys are optional:
-	 *   - pretend: boolean, if set true the system won't do anything
-	 *   - noinstall: boolean, if true appinfo/install.php won't be loaded
-	 *   - inactive: boolean, if set true the appconfig/app.sample.php won't be
-	 *     renamed
-	 *
-	 * This function works as follows
-	 *   -# fetching the file
-	 *   -# unzipping it
-	 *   -# check the code
-	 *   -# installing the database at appinfo/database.xml
-	 *   -# including appinfo/install.php
-	 *   -# setting the installed version
-	 *
-	 * It is the task of oc_app_install to create the tables and do whatever is
-	 * needed to get the app working.
-	 *
-	 * Installs an app
-	 * @param array $data with all information
+	 * @param string $appId App to install
 	 * @throws \Exception
 	 * @return integer
 	 */
-	public static function installApp( $data = array()) {
-		$l = \OC::$server->getL10N('lib');
-
-		list($extractDir, $path) = self::downloadApp($data);
-
-		$info = self::checkAppsIntegrity($data, $extractDir, $path);
-		$appId = OC_App::cleanAppId($info['id']);
-		$basedir = OC_App::getInstallPath().'/'.$appId;
-		//check if the destination directory already exists
-		if(is_dir($basedir)) {
-			OC_Helper::rmdirr($extractDir);
-			if($data['source']=='http') {
-				unlink($path);
-			}
-			throw new \Exception($l->t("App directory already exists"));
+	public function installApp($appId) {
+		$app = \OC_App::findAppInDirectories($appId);
+		if($app === false) {
+			throw new \Exception('App not found in any app directory');
 		}
 
-		if(!empty($data['pretent'])) {
-			return false;
-		}
-
-		//copy the app to the correct place
-		if(@!mkdir($basedir)) {
-			OC_Helper::rmdirr($extractDir);
-			if($data['source']=='http') {
-				unlink($path);
-			}
-			throw new \Exception($l->t("Can't create app folder. Please fix permissions. %s", array($basedir)));
-		}
-
-		$extractDir .= '/' . $info['id'];
-		if(!file_exists($extractDir)) {
-			OC_Helper::rmdirr($basedir);
-			throw new \Exception($l->t("Archive does not contain a directory named %s", $info['id']));
-		}
-		OC_Helper::copyr($extractDir, $basedir);
-
-		//remove temporary files
-		OC_Helper::rmdirr($extractDir);
+		$basedir = $app['path'].'/'.$appId;
+		$info = OC_App::getAppInfo($basedir.'/appinfo/info.xml', true);
 
 		//install the database
 		if(is_file($basedir.'/appinfo/database.xml')) {
@@ -168,259 +143,189 @@ class Installer {
 	 *
 	 * Checks whether or not an app is installed, i.e. registered in apps table.
 	 */
-	public static function 	isInstalled( $app ) {
+	public static function isInstalled( $app ) {
 		return (\OC::$server->getConfig()->getAppValue($app, "installed_version", null) !== null);
 	}
 
 	/**
-	 * @brief Update an application
-	 * @param array $info
-	 * @param bool $isShipped
-	 * @throws \Exception
+	 * Updates the specified app from the appstore
+	 *
+	 * @param string $appId
 	 * @return bool
-	 *
-	 * This function could work like described below, but currently it disables and then
-	 * enables the app again. This does result in an updated app.
-	 *
-	 *
-	 * This function installs an app. All information needed are passed in the
-	 * associative array $info.
-	 * The following keys are required:
-	 *   - source: string, can be "path" or "http"
-	 *
-	 * One of the following keys is required:
-	 *   - path: path to the file containing the app
-	 *   - href: link to the downloadable file containing the app
-	 *
-	 * The following keys are optional:
-	 *   - pretend: boolean, if set true the system won't do anything
-	 *   - noupgrade: boolean, if true appinfo/upgrade.php won't be loaded
-	 *
-	 * This function works as follows
-	 *   -# fetching the file
-	 *   -# removing the old files
-	 *   -# unzipping new file
-	 *   -# including appinfo/upgrade.php
-	 *   -# setting the installed version
-	 *
-	 * upgrade.php can determine the current installed version of the app using
-	 * "\OC::$server->getAppConfig()->getValue($appid, 'installed_version')"
 	 */
-	public static function updateApp($info=array(), $isShipped=false) {
-		list($extractDir, $path) = self::downloadApp($info);
-		$info = self::checkAppsIntegrity($info, $extractDir, $path, $isShipped);
-
-		$currentDir = OC_App::getAppPath($info['id']);
-		$basedir  = OC_App::getInstallPath();
-		$basedir .= '/';
-		$basedir .= $info['id'];
-
-		if($currentDir !== false && is_writable($currentDir)) {
-			$basedir = $currentDir;
-		}
-		if(is_dir($basedir)) {
-			OC_Helper::rmdirr($basedir);
+	public function updateAppstoreApp($appId) {
+		if(self::isUpdateAvailable($appId, $this->appFetcher)) {
+			try {
+				$this->downloadApp($appId);
+			} catch (\Exception $e) {
+				$this->logger->error($e->getMessage(), ['app' => 'core']);
+				return false;
+			}
+			return OC_App::updateApp($appId);
 		}
 
-		$appInExtractDir = $extractDir;
-		if (substr($extractDir, -1) !== '/') {
-			$appInExtractDir .= '/';
-		}
-
-		$appInExtractDir .= $info['id'];
-		OC_Helper::copyr($appInExtractDir, $basedir);
-		OC_Helper::rmdirr($extractDir);
-
-		return OC_App::updateApp($info['id']);
+		return false;
 	}
 
 	/**
-	 * update an app by it's id
+	 * Downloads an app and puts it into the app directory
 	 *
-	 * @param integer $ocsId
-	 * @return bool
-	 * @throws \Exception
+	 * @param string $appId
+	 *
+	 * @throws \Exception If the installation was not successful
 	 */
-	public static function updateAppByOCSId($ocsId) {
-		$ocsClient = new OCSClient(
-			\OC::$server->getHTTPClientService(),
-			\OC::$server->getConfig(),
-			\OC::$server->getLogger()
-		);
-		$appData = $ocsClient->getApplication($ocsId, \OCP\Util::getVersion());
-		$download = $ocsClient->getApplicationDownload($ocsId, \OCP\Util::getVersion());
+	public function downloadApp($appId) {
+		$appId = strtolower($appId);
 
-		if (isset($download['downloadlink']) && trim($download['downloadlink']) !== '') {
-			$download['downloadlink'] = str_replace(' ', '%20', $download['downloadlink']);
-			$info = array(
-				'source' => 'http',
-				'href' => $download['downloadlink'],
-				'appdata' => $appData
-			);
-		} else {
-			throw new \Exception('Could not fetch app info!');
-		}
+		$apps = $this->appFetcher->get();
+		foreach($apps as $app) {
+			if($app['id'] === $appId) {
+				// Load the certificate
+				$certificate = new X509();
+				$certificate->loadCA(file_get_contents(__DIR__ . '/../../resources/codesigning/root.crt'));
+				$loadedCertificate = $certificate->loadX509($app['certificate']);
 
-		return self::updateApp($info);
-	}
+				// Verify if the certificate has been revoked
+				$crl = new X509();
+				$crl->loadCA(file_get_contents(__DIR__ . '/../../resources/codesigning/root.crt'));
+				$crl->loadCRL(file_get_contents(__DIR__ . '/../../resources/codesigning/root.crl'));
+				if($crl->validateSignature() !== true) {
+					throw new \Exception('Could not validate CRL signature');
+				}
+				$csn = $loadedCertificate['tbsCertificate']['serialNumber']->toString();
+				$revoked = $crl->getRevoked($csn);
+				if ($revoked !== false) {
+					throw new \Exception(
+						sprintf(
+							'Certificate "%s" has been revoked',
+							$csn
+						)
+					);
+				}
 
-	/**
-	 * @param array $data
-	 * @return array
-	 * @throws \Exception
-	 */
-	public static function downloadApp($data = array()) {
-		$l = \OC::$server->getL10N('lib');
+				// Verify if the certificate has been issued by the Nextcloud Code Authority CA
+				if($certificate->validateSignature() !== true) {
+					throw new \Exception(
+						sprintf(
+							'App with id %s has a certificate not issued by a trusted Code Signing Authority',
+							$appId
+						)
+					);
+				}
 
-		if(!isset($data['source'])) {
-			throw new \Exception($l->t("No source specified when installing app"));
-		}
+				// Verify if the certificate is issued for the requested app id
+				$certInfo = openssl_x509_parse($app['certificate']);
+				if(!isset($certInfo['subject']['CN'])) {
+					throw new \Exception(
+						sprintf(
+							'App with id %s has a cert with no CN',
+							$appId
+						)
+					);
+				}
+				if($certInfo['subject']['CN'] !== $appId) {
+					throw new \Exception(
+						sprintf(
+							'App with id %s has a cert issued to %s',
+							$appId,
+							$certInfo['subject']['CN']
+						)
+					);
+				}
 
-		//download the file if necessary
-		if($data['source']=='http') {
-			$pathInfo = pathinfo($data['href']);
-			$extension = isset($pathInfo['extension']) ? '.' . $pathInfo['extension'] : '';
-			$path = \OC::$server->getTempManager()->getTemporaryFile($extension);
-			if(!isset($data['href'])) {
-				throw new \Exception($l->t("No href specified when installing app from http"));
-			}
-			$client = \OC::$server->getHTTPClientService()->newClient();
-			$client->get($data['href'], ['save_to' => $path]);
-		} else {
-			if(!isset($data['path'])) {
-				throw new \Exception($l->t("No path specified when installing app from local file"));
-			}
-			$path=$data['path'];
-		}
+				// Download the release
+				$tempFile = $this->tempManager->getTemporaryFile('.tar.gz');
+				$client = $this->clientService->newClient();
+				$client->get($app['releases'][0]['download'], ['save_to' => $tempFile]);
 
-		//detect the archive type
-		$mime = \OC::$server->getMimeTypeDetector()->detect($path);
-		if ($mime !=='application/zip' && $mime !== 'application/x-gzip' && $mime !== 'application/x-bzip2') {
-			throw new \Exception($l->t("Archives of type %s are not supported", array($mime)));
-		}
+				// Check if the signature actually matches the downloaded content
+				$certificate = openssl_get_publickey($app['certificate']);
+				$verified = (bool)openssl_verify(file_get_contents($tempFile), base64_decode($app['releases'][0]['signature']), $certificate, OPENSSL_ALGO_SHA512);
+				openssl_free_key($certificate);
 
-		//extract the archive in a temporary folder
-		$extractDir = \OC::$server->getTempManager()->getTemporaryFolder();
-		OC_Helper::rmdirr($extractDir);
-		mkdir($extractDir);
-		if($archive=\OC\Archive\Archive::open($path)) {
-			$archive->extract($extractDir);
-		} else {
-			OC_Helper::rmdirr($extractDir);
-			if($data['source']=='http') {
-				unlink($path);
-			}
-			throw new \Exception($l->t("Failed to open archive when installing app"));
-		}
+				if($verified === true) {
+					// Seems to match, let's proceed
+					$extractDir = $this->tempManager->getTemporaryFolder();
+					$archive = new TAR($tempFile);
 
-		return array(
-			$extractDir,
-			$path
-		);
-	}
+					if($archive) {
+						$archive->extract($extractDir);
+						$allFiles = scandir($extractDir);
+						$folders = array_diff($allFiles, ['.', '..']);
+						$folders = array_values($folders);
 
-	/**
-	 * check an app's integrity
-	 * @param array $data
-	 * @param string $extractDir
-	 * @param string $path
-	 * @param bool $isShipped
-	 * @return array
-	 * @throws \Exception
-	 */
-	public static function checkAppsIntegrity($data, $extractDir, $path, $isShipped = false) {
-		$l = \OC::$server->getL10N('lib');
-		//load the info.xml file of the app
-		if(!is_file($extractDir.'/appinfo/info.xml')) {
-			//try to find it in a subdir
-			$dh=opendir($extractDir);
-			if(is_resource($dh)) {
-				while (($folder = readdir($dh)) !== false) {
-					if($folder[0]!='.' and is_dir($extractDir.'/'.$folder)) {
-						if(is_file($extractDir.'/'.$folder.'/appinfo/info.xml')) {
-							$extractDir.='/'.$folder;
+						if(count($folders) > 1) {
+							throw new \Exception(
+								sprintf(
+									'Extracted app %s has more than 1 folder',
+									$appId
+								)
+							);
 						}
+
+						// Check if appinfo/info.xml has the same app ID as well
+						$loadEntities = libxml_disable_entity_loader(false);
+						$xml = simplexml_load_file($extractDir . '/' . $folders[0] . '/appinfo/info.xml');
+						libxml_disable_entity_loader($loadEntities);
+						if((string)$xml->id !== $appId) {
+							throw new \Exception(
+								sprintf(
+									'App for id %s has a wrong app ID in info.xml: %s',
+									$appId,
+									(string)$xml->id
+								)
+							);
+						}
+
+						$baseDir = OC_App::getInstallPath() . '/' . $appId;
+						// Remove old app with the ID if existent
+						OC_Helper::rmdirr($baseDir);
+						// Move to app folder
+						if(@mkdir($baseDir)) {
+							$extractDir .= '/' . $folders[0];
+							OC_Helper::copyr($extractDir, $baseDir);
+						}
+						OC_Helper::copyr($extractDir, $baseDir);
+						OC_Helper::rmdirr($extractDir);
+						return;
+					} else {
+						throw new \Exception(
+							sprintf(
+								'Could not extract app with ID %s to %s',
+								$appId,
+								$extractDir
+							)
+						);
 					}
+				} else {
+					// Signature does not match
+					throw new \Exception(
+						sprintf(
+							'App with id %s has invalid signature',
+							$appId
+						)
+					);
 				}
 			}
 		}
-		if(!is_file($extractDir.'/appinfo/info.xml')) {
-			OC_Helper::rmdirr($extractDir);
-			if($data['source'] === 'http') {
-				unlink($path);
-			}
-			throw new \Exception($l->t("App does not provide an info.xml file"));
-		}
 
-		$info = OC_App::getAppInfo($extractDir.'/appinfo/info.xml', true);
-		if(!is_array($info)) {
-			throw new \Exception($l->t('App cannot be installed because appinfo file cannot be read.'));
-		}
-
-		// We can't trust the parsed info.xml file as it may have been tampered
-		// with by an attacker and thus we need to use the local data to check
-		// whether the application needs to be signed.
-		$appId = OC_App::cleanAppId($data['appdata']['id']);
-		$appBelongingToId = OC_App::getInternalAppIdByOcs($appId);
-		if(is_string($appBelongingToId)) {
-			$previouslySigned = \OC::$server->getConfig()->getAppValue($appBelongingToId, 'signed', 'false');
-		} else {
-			$appBelongingToId = $info['id'];
-			$previouslySigned = 'false';
-		}
-		if($data['appdata']['level'] === OC_App::officialApp || $previouslySigned === 'true') {
-			\OC::$server->getConfig()->setAppValue($appBelongingToId, 'signed', 'true');
-			$integrityResult = \OC::$server->getIntegrityCodeChecker()->verifyAppSignature(
-					$appBelongingToId,
-					$extractDir
-			);
-			if($integrityResult !== []) {
-				$e = new \Exception(
-						$l->t(
-								'Signature could not get checked. Please contact the app developer and check your admin screen.'
-						)
-				);
-				throw $e;
-			}
-		}
-
-		// check the code for not allowed calls
-		if(!$isShipped && !Installer::checkCode($extractDir)) {
-			OC_Helper::rmdirr($extractDir);
-			throw new \Exception($l->t("App can't be installed because of not allowed code in the App"));
-		}
-
-		// check if the app is compatible with this version of ownCloud
-		if(!OC_App::isAppCompatible(\OCP\Util::getVersion(), $info)) {
-			OC_Helper::rmdirr($extractDir);
-			throw new \Exception($l->t("App can't be installed because it is not compatible with this version of the server"));
-		}
-
-		// check if shipped tag is set which is only allowed for apps that are shipped with ownCloud
-		if(!$isShipped && isset($info['shipped']) && ($info['shipped']=='true')) {
-			OC_Helper::rmdirr($extractDir);
-			throw new \Exception($l->t("App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps"));
-		}
-
-		// check if the ocs version is the same as the version in info.xml/version
-		$version = trim($info['version']);
-
-		if(isset($data['appdata']['version']) && $version<>trim($data['appdata']['version'])) {
-			OC_Helper::rmdirr($extractDir);
-			throw new \Exception($l->t("App can't be installed because the version in info.xml is not the same as the version reported from the app store"));
-		}
-
-		return $info;
+		throw new \Exception(
+			sprintf(
+				'Could not download app %s',
+				$appId
+			)
+		);
 	}
 
 	/**
 	 * Check if an update for the app is available
-	 * @param string $app
-	 * @return string|false false or the version number of the update
 	 *
-	 * The function will check if an update for a version is available
+	 * @param string $appId
+	 * @param AppFetcher $appFetcher
+	 * @return string|false false or the version number of the update
 	 */
-	public static function isUpdateAvailable( $app ) {
+	public static function isUpdateAvailable($appId,
+									  AppFetcher $appFetcher) {
 		static $isInstanceReadyForUpdates = null;
 
 		if ($isInstanceReadyForUpdates === null) {
@@ -436,27 +341,20 @@ class Installer {
 			return false;
 		}
 
-		$ocsid=\OC::$server->getAppConfig()->getValue( $app, 'ocsid', '');
-
-		if($ocsid<>'') {
-			$ocsClient = new OCSClient(
-				\OC::$server->getHTTPClientService(),
-				\OC::$server->getConfig(),
-				\OC::$server->getLogger()
-			);
-			$ocsdata = $ocsClient->getApplication($ocsid, \OCP\Util::getVersion());
-			$ocsversion= (string) $ocsdata['version'];
-			$currentversion=OC_App::getAppVersion($app);
-			if (version_compare($ocsversion, $currentversion, '>')) {
-				return($ocsversion);
-			}else{
-				return false;
+		$apps = $appFetcher->get();
+		foreach($apps as $app) {
+			if($app['id'] === $appId) {
+				$currentVersion = OC_App::getAppVersion($appId);
+				$newestVersion = $app['releases'][0]['version'];
+				if (version_compare($newestVersion, $currentVersion, '>')) {
+					return $newestVersion;
+				} else {
+					return false;
+				}
 			}
-
-		}else{
-			return false;
 		}
 
+		return false;
 	}
 
 	/**
@@ -466,7 +364,7 @@ class Installer {
 	 *
 	 * The function will check if the app is already downloaded in the apps repository
 	 */
-	public static function isDownloaded( $name ) {
+	public function isDownloaded($name) {
 		foreach(\OC::$APPSROOTS as $dir) {
 			$dirToTest  = $dir['path'];
 			$dirToTest .= '/';
@@ -483,7 +381,7 @@ class Installer {
 
 	/**
 	 * Removes an app
-	 * @param string $name name of the application to remove
+	 * @param string $appId ID of the application to remove
 	 * @return boolean
 	 *
 	 *
@@ -494,12 +392,10 @@ class Installer {
 	 * The function will not delete preferences, tables and the configuration,
 	 * this has to be done by the function oc_app_uninstall().
 	 */
-	public static function removeApp($appId) {
-
-		if(Installer::isDownloaded( $appId )) {
-			$appDir=OC_App::getInstallPath() . '/' . $appId;
+	public function removeApp($appId) {
+		if($this->isDownloaded( $appId )) {
+			$appDir = OC_App::getInstallPath() . '/' . $appId;
 			OC_Helper::rmdirr($appDir);
-
 			return true;
 		}else{
 			\OCP\Util::writeLog('core', 'can\'t remove app '.$appId.'. It is not installed.', \OCP\Util::ERROR);
@@ -620,7 +516,7 @@ class Installer {
 	}
 
 	/**
-	 * @param $basedir
+	 * @param string $script
 	 */
 	private static function includeAppScript($script) {
 		if ( file_exists($script) ){

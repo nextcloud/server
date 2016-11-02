@@ -31,8 +31,10 @@ OCP\JSON::callCheck();
 $groups = isset($_POST['groups']) ? (array)$_POST['groups'] : null;
 
 try {
-	$app = OC_App::cleanAppId((string)$_POST['appid']);
-	OC_App::enable($app, $groups);
+	$app = new OC_App();
+	$appId = (string)$_POST['appid'];
+	$appId = OC_App::cleanAppId($appId);
+	$app->enable($appId, $groups);
 	OC_JSON::success(['data' => ['update_required' => \OC_App::shouldUpgrade($app)]]);
 } catch (Exception $e) {
 	\OCP\Util::writeLog('core', $e->getMessage(), \OCP\Util::ERROR);

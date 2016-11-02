@@ -264,6 +264,40 @@ class AppTest extends \Test\TestCase {
 				),
 				true
 			),
+			[
+				'9.2.0.0',
+				[
+					'dependencies' => [
+						'owncloud' => [
+							'@attributes' => [
+								'min-version' => '9.0',
+								'max-version' => '9.1',
+							],
+						],
+						'nextcloud' => [
+							'@attributes' => [
+								'min-version' => '9.1',
+								'max-version' => '9.2',
+							],
+						],
+					],
+				],
+				true
+			],
+			[
+				'9.2.0.0',
+				[
+					'dependencies' => [
+						'nextcloud' => [
+							'@attributes' => [
+								'min-version' => '9.1',
+								'max-version' => '9.2',
+							],
+						],
+					],
+				],
+				true
+			],
 		);
 	}
 
