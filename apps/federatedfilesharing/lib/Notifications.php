@@ -84,7 +84,6 @@ class Notifications {
 		list($user, $remote) = $this->addressHandler->splitUserRemote($shareWith);
 
 		if ($user && $remote) {
-			$url = $remote;
 			$local = $this->addressHandler->generateRemoteURL();
 
 			$fields = array(
@@ -99,8 +98,7 @@ class Notifications {
 				'remote' => $local,
 			);
 
-			$url = $this->addressHandler->removeProtocolFromUrl($url);
-			$result = $this->tryHttpPostToShareEndpoint($url, '', $fields);
+			$result = $this->tryHttpPostToShareEndpoint($remote, '', $fields);
 			$status = json_decode($result['result'], true);
 
 			if ($result['success'] && ($status['ocs']['meta']['statuscode'] === 100 || $status['ocs']['meta']['statuscode'] === 200)) {
@@ -135,8 +133,7 @@ class Notifications {
 			'remoteId' => $shareId
 		);
 
-		$url = $this->addressHandler->removeProtocolFromUrl($remote);
-		$result = $this->tryHttpPostToShareEndpoint(rtrim($url, '/'), '/' . $id . '/reshare', $fields);
+		$result = $this->tryHttpPostToShareEndpoint(rtrim($remote, '/'), '/' . $id . '/reshare', $fields);
 		$status = json_decode($result['result'], true);
 
 		$httpRequestSuccessful = $result['success'];
@@ -193,7 +190,7 @@ class Notifications {
 
 	/**
 	 * forward accept reShare to remote server
-	 * 
+	 *
 	 * @param string $remote
 	 * @param int $remoteId
 	 * @param string $token
@@ -231,8 +228,7 @@ class Notifications {
 			$fields[$key] = $value;
 		}
 
-		$url = $this->addressHandler->removeProtocolFromUrl($remote);
-		$result = $this->tryHttpPostToShareEndpoint(rtrim($url, '/'), '/' . $remoteId . '/' . $action, $fields);
+		$result = $this->tryHttpPostToShareEndpoint(rtrim($remote, '/'), '/' . $remoteId . '/' . $action, $fields);
 		$status = json_decode($result['result'], true);
 
 		if ($result['success'] &&
@@ -270,7 +266,8 @@ class Notifications {
 	}
 
 	/**
-	 * try http post first with https and then with http as a fallback
+	 * try http post with the given protocol, if no protocol is given we pick
+	 * the secure one (https)
 	 *
 	 * @param string $remoteDomain
 	 * @param string $urlSuffix
@@ -280,33 +277,31 @@ class Notifications {
 	 */
 	protected function tryHttpPostToShareEndpoint($remoteDomain, $urlSuffix, array $fields) {
 		$client = $this->httpClientService->newClient();
-		$protocol = 'https://';
+
+		if ($this->addressHandler->urlContainProtocol($remoteDomain) === false) {
+			$remoteDomain = 'https://' . $remoteDomain;
+		}
+
 		$result = [
 			'success' => false,
 			'result' => '',
 		];
-		$try = 0;
 
-		while ($result['success'] === false && $try < 2) {
-			$endpoint = $this->discoveryManager->getShareEndpoint($protocol . $remoteDomain);
-			try {
-				$response = $client->post($protocol . $remoteDomain . $endpoint . $urlSuffix . '?format=' . self::RESPONSE_FORMAT, [
-					'body' => $fields,
-					'timeout' => 10,
-					'connect_timeout' => 10,
-				]);
-				$result['result'] = $response->getBody();
-				$result['success'] = true;
-				break;
-			} catch (\Exception $e) {
-				// if flat re-sharing is not supported by the remote server
-				// we re-throw the exception and fall back to the old behaviour.
-				// (flat re-shares has been introduced in Nextcloud 9.1)
-				if ($e->getCode() === Http::STATUS_INTERNAL_SERVER_ERROR) {
-					throw $e;
-				}
-				$try++;
-				$protocol = 'http://';
+		$endpoint = $this->discoveryManager->getShareEndpoint($remoteDomain);
+		try {
+			$response = $client->post($remoteDomain . $endpoint . $urlSuffix . '?format=' . self::RESPONSE_FORMAT, [
+				'body' => $fields,
+				'timeout' => 10,
+				'connect_timeout' => 10,
+			]);
+			$result['result'] = $response->getBody();
+			$result['success'] = true;
+		} catch (\Exception $e) {
+			// if flat re-sharing is not supported by the remote server
+			// we re-throw the exception and fall back to the old behaviour.
+			// (flat re-shares has been introduced in Nextcloud 9.1)
+			if ($e->getCode() === Http::STATUS_INTERNAL_SERVER_ERROR) {
+				throw $e;
 			}
 		}
 
