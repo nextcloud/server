@@ -382,6 +382,7 @@ class OC {
 		\OCP\Util::addScript('update');
 		\OCP\Util::addStyle('update');
 
+		/** @var \OCP\App\IAppManager $appManager */
 		$appManager = \OC::$server->getAppManager();
 
 		$tmpl = new OC_Template('', 'update.admin', 'guest');
@@ -390,8 +391,17 @@ class OC {
 
 		// get third party apps
 		$ocVersion = \OCP\Util::getVersion();
+		$incompatibleApps = $appManager->getIncompatibleApps($ocVersion);
+		foreach ($incompatibleApps as $appInfo) {
+			if ($appManager->isShipped($appInfo['id'])) {
+				$l = \OC::$server->getL10N('core');
+				$hint = $l->t('The files of the app "%$1s" (%$2s) were not replaced correctly.', [$appInfo['name'], $appInfo['id']]);
+				throw new \OC\HintException('The files of the app "' . $appInfo['name'] . '" (' . $appInfo['id'] . ') were not replaced correctly.', $hint);
+			}
+		}
+
 		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion));
-		$tmpl->assign('incompatibleAppsList', $appManager->getIncompatibleApps($ocVersion));
+		$tmpl->assign('incompatibleAppsList', $incompatibleApps);
 		$tmpl->assign('productName', 'Nextcloud'); // for now
 		$tmpl->assign('oldTheme', $oldTheme);
 		$tmpl->printPage();
