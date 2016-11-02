@@ -35,6 +35,8 @@ use OCP\AppFramework\Db\Entity;
  * @method string getToken()
  * @method void setType(string $type)
  * @method int getType()
+ * @method void setRemember(int $remember)
+ * @method int getRemember()
  * @method void setLastActivity(int $lastActivity)
  * @method int getLastActivity()
  */
@@ -69,6 +71,11 @@ class DefaultToken extends Entity implements IToken {
 	 * @var int
 	 */
 	protected $type;
+
+	/**
+	 * @var int
+	 */
+	protected $remember;
 
 	/**
 	 * @var int

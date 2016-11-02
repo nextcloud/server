@@ -290,6 +290,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerService('OCP\\IUserSession', function($c) {
 			return $this->getServer()->getUserSession();
 		});
+		$this->registerAlias(\OC\User\Session::class, \OCP\IUserSession::class);
 
 		$this->registerService('OCP\\ISession', function($c) {
 			return $this->getServer()->getSession();

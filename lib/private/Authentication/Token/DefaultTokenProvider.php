@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@owncloud.com>
  *
@@ -56,7 +57,11 @@ class DefaultTokenProvider implements IProvider {
 	 * @param ILogger $logger
 	 * @param ITimeFactory $time
 	 */
-	public function __construct(DefaultTokenMapper $mapper, ICrypto $crypto, IConfig $config, ILogger $logger, ITimeFactory $time) {
+	public function __construct(DefaultTokenMapper $mapper,
+								ICrypto $crypto,
+								IConfig $config,
+								ILogger $logger,
+								ITimeFactory $time) {
 		$this->mapper = $mapper;
 		$this->crypto = $crypto;
 		$this->config = $config;
@@ -73,9 +78,10 @@ class DefaultTokenProvider implements IProvider {
 	 * @param string|null $password
 	 * @param string $name
 	 * @param int $type token type
+	 * @param int $remember whether the session token should be used for remember-me
 	 * @return IToken
 	 */
-	public function generateToken($token, $uid, $loginName, $password, $name, $type = IToken::TEMPORARY_TOKEN) {
+	public function generateToken($token, $uid, $loginName, $password, $name, $type = IToken::TEMPORARY_TOKEN, $remember = IToken::DO_NOT_REMEMBER) {
 		$dbToken = new DefaultToken();
 		$dbToken->setUid($uid);
 		$dbToken->setLoginName($loginName);
@@ -85,6 +91,7 @@ class DefaultTokenProvider implements IProvider {
 		$dbToken->setName($name);
 		$dbToken->setToken($this->hashToken($token));
 		$dbToken->setType($type);
+		$dbToken->setRemember($remember);
 		$dbToken->setLastActivity($this->time->getTime());
 
 		$this->mapper->insert($dbToken);
@@ -96,6 +103,7 @@ class DefaultTokenProvider implements IProvider {
 	 * Save the updated token
 	 *
 	 * @param IToken $token
+	 * @throws InvalidTokenException
 	 */
 	public function updateToken(IToken $token) {
 		if (!($token instanceof DefaultToken)) {
@@ -149,6 +157,28 @@ class DefaultTokenProvider implements IProvider {
 		} catch (DoesNotExistException $ex) {
 			throw new InvalidTokenException();
 		}
+	}
+
+	/**
+	 * @param string $oldSessionId
+	 * @param string $sessionId
+	 * @throws InvalidTokenException
+	 */
+	public function renewSessionToken($oldSessionId, $sessionId) {
+		$token = $this->getToken($oldSessionId);
+
+		$newToken = new DefaultToken();
+		$newToken->setUid($token->getUID());
+		$newToken->setLoginName($token->getLoginName());
+		if (!is_null($token->getPassword())) {
+			$password = $this->decryptPassword($token->getPassword(), $oldSessionId);
+			$newToken->setPassword($this->encryptPassword($password, $sessionId));
+		}
+		$newToken->setName($token->getName());
+		$newToken->setToken($this->hashToken($sessionId));
+		$newToken->setType(IToken::TEMPORARY_TOKEN);
+		$newToken->setLastActivity($this->time->getTime());
+		$this->mapper->insert($newToken);
 	}
 
 	/**
@@ -207,8 +237,11 @@ class DefaultTokenProvider implements IProvider {
 	 */
 	public function invalidateOldTokens() {
 		$olderThan = $this->time->getTime() - (int) $this->config->getSystemValue('session_lifetime', 60 * 60 * 24);
-		$this->logger->info('Invalidating tokens older than ' . date('c', $olderThan));
-		$this->mapper->invalidateOld($olderThan);
+		$this->logger->info('Invalidating session tokens older than ' . date('c', $olderThan));
+		$this->mapper->invalidateOld($olderThan, IToken::DO_NOT_REMEMBER);
+		$rememberThreshold = $this->time->getTime() - (int) $this->config->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
+		$this->logger->info('Invalidating remembered session tokens older than ' . date('c', $rememberThreshold));
+		$this->mapper->invalidateOld($rememberThreshold, IToken::REMEMBER);
 	}
 
 	/**

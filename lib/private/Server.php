@@ -245,7 +245,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$defaultTokenProvider = null;
 			}
 
-			$userSession = new \OC\User\Session($manager, $session, $timeFactory, $defaultTokenProvider, $c->getConfig());
+			$userSession = new \OC\User\Session($manager, $session, $timeFactory, $defaultTokenProvider, $c->getConfig(), $c->getSecureRandom());
 			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password) {
 				\OC_Hook::emit('OC_User', 'pre_createUser', array('run' => true, 'uid' => $uid, 'password' => $password));
 			});
@@ -286,7 +286,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return $userSession;
 		});
 
-		$this->registerService('\OC\Authentication\TwoFactorAuth\Manager', function (Server $c) {
+		$this->registerService(\OC\Authentication\TwoFactorAuth\Manager::class, function (Server $c) {
 			return new \OC\Authentication\TwoFactorAuth\Manager($c->getAppManager(), $c->getSession(), $c->getConfig());
 		});
 
