@@ -24,6 +24,7 @@ namespace OCA\TwoFactorBackupCodes\Tests\Unit\Controller;
 
 use OCA\TwoFactorBackupCodes\Controller\SettingsController;
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -89,7 +90,9 @@ class SettingsControllerTest extends TestCase {
 			'codes' => $codes,
 			'state' => 'state',
 		];
-		$this->assertEquals($expected, $this->controller->createCodes());
+		$response = $this->controller->createCodes();
+		$this->assertInstanceOf(JSONResponse::class, $response);
+		$this->assertEquals($expected, $response->getData());
 	}
 
 }
