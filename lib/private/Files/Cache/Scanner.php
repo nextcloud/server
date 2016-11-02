@@ -132,6 +132,24 @@ class Scanner extends BasicEmitter implements IScanner {
 	 */
 	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true) {
 
+		if (!\OC::$server->getDatabaseConnection()->supports4ByteText()) {
+			// verify database - e.g. mysql only 3-byte chars
+			if (preg_match('%(?:
+      \xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3
+    | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
+    | \xF4[\x80-\x8F][\x80-\xBF]{2}      # plane 16
+)%xs', $file)) {
+				// 4-byte characters are not supported in file names
+				return null;
+			}
+		}
+
+		try {
+			$this->storage->verifyPath(dirname($file), basename($file));
+		} catch (\Exception $e) {
+			return null;
+		}
+
 		// only proceed if $file is not a partial file nor a blacklisted file
 		if (!self::isPartialFile($file) and !Filesystem::isFileBlacklisted($file)) {
 
@@ -167,6 +185,9 @@ class Scanner extends BasicEmitter implements IScanner {
 				// scan the parent if it's not in the cache (id -1) and the current file is not the root folder
 				if ($file and $parentId === -1) {
 					$parentData = $this->scanFile($parent);
+					if (!$parentData) {
+						return null;
+					}
 					$parentId = $parentData['fileid'];
 				}
 				if ($parent) {
