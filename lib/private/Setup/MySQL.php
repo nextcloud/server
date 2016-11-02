@@ -87,14 +87,22 @@ class MySQL extends AbstractDatabase {
 	 * @throws \OC\DatabaseSetupException
 	 */
 	private function createDBUser($connection) {
-		$name = $this->dbUser;
-		$password = $this->dbPassword;
-		// we need to create 2 accounts, one for global use and one for local user. if we don't specify the local one,
-		// the anonymous user would take precedence when there is one.
-		$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
-		$connection->executeUpdate($query);
-		$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
-		$connection->executeUpdate($query);
+		try{
+			$name = $this->dbUser;
+			$password = $this->dbPassword;
+			// we need to create 2 accounts, one for global use and one for local user. if we don't specify the local one,
+			// the anonymous user would take precedence when there is one.
+			$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
+			$connection->executeUpdate($query);
+			$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
+			$connection->executeUpdate($query);
+		}
+		catch (\Exception $ex){
+			$this->logger->error('Database User creation failed: {error}', [
+                                'app' => 'mysql.setup',
+                                'error' => $ex->getMessage()
+                        ]);
+		}
 	}
 
 	/**
