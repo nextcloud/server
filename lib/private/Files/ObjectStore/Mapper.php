@@ -44,10 +44,12 @@ class Mapper {
 	}
 
 	/**
+	 * @param int $numBuckets
 	 * @return string
 	 */
-	public function getBucket() {
+	public function getBucket($numBuckets = 64) {
 		$hash = md5($this->user->getUID());
-		return substr($hash, 0, 3);
+		$num = hexdec(substr($hash, 0, 4));
+		return (string)($num % $numBuckets);
 	}
 }

@@ -80,7 +80,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 				$this->equalTo('uid'),
 				$this->equalTo('homeobjectstore'),
 				$this->equalTo('bucket'),
-				$this->equalTo('987'),
+				$this->equalTo('49'),
 				$this->equalTo(null)
 			);
 
@@ -94,7 +94,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 		$this->assertArrayHasKey('objectstore', $config['arguments']);
 		$this->assertInstanceOf('Test\Files\Mount\FakeObjectStore', $config['arguments']['objectstore']);
 		$this->assertArrayHasKey('bucket', $config['arguments']);
-		$this->assertEquals('987', $config['arguments']['bucket']);
+		$this->assertEquals('49', $config['arguments']['bucket']);
 	}
 
 	public function testMultiBucketWithPrefix() {
@@ -127,7 +127,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 				$this->equalTo('uid'),
 				$this->equalTo('homeobjectstore'),
 				$this->equalTo('bucket'),
-				$this->equalTo('myBucketPrefix987'),
+				$this->equalTo('myBucketPrefix49'),
 				$this->equalTo(null)
 			);
 
@@ -141,7 +141,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 		$this->assertArrayHasKey('objectstore', $config['arguments']);
 		$this->assertInstanceOf('Test\Files\Mount\FakeObjectStore', $config['arguments']['objectstore']);
 		$this->assertArrayHasKey('bucket', $config['arguments']);
-		$this->assertEquals('myBucketPrefix987', $config['arguments']['bucket']);
+		$this->assertEquals('myBucketPrefix49', $config['arguments']['bucket']);
 	}
 
 	public function testMultiBucketBucketAlreadySet() {
