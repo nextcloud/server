@@ -52,7 +52,6 @@ class Manager {
 	 * @param AppManager $appManager
 	 * @param ISession $session
 	 * @param IConfig $config
-	 * @param Session $userSession
 	 */
 	public function __construct(AppManager $appManager, ISession $session, IConfig $config) {
 		$this->appManager = $appManager;
@@ -116,6 +115,7 @@ class Manager {
 	 * @param IUser $user
 	 * @param bool $includeBackupApp
 	 * @return IProvider[]
+	 * @throws Exception
 	 */
 	public function getProviders(IUser $user, $includeBackupApp = false) {
 		$allApps = $this->appManager->getEnabledAppsForUser($user);
