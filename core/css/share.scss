@@ -94,9 +94,10 @@
 	}
 	.sharingOptionsGroup {
 		position: absolute;
-		right: 0;
+		right: 15px;
 		.popovermenu {
-			right: 44px;
+			right: -22px;
+			top: 30px;
 		}
 		a.unshare {
 			display: inline-block;

@@ -427,13 +427,16 @@
 	position: fixed;
 	width: 250px;
 	/* change to 100% when layout positions are absolute */
+	max-height: 80%;
 	bottom: 0;
 	z-index: 140;
+	overflow-x: hidden;
+	overflow-y: scroll;
 	&.opened #app-settings-content {
 		display: block;
-	/* restrict height of settings and make scrollable */
-	max-height: 300px;
-	overflow-y: auto;
+		/* restrict height of settings and make scrollable */
+		max-height: 300px;
+		overflow-y: auto;
 	}
 }
 
