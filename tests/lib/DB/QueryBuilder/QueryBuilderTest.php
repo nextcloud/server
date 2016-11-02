@@ -1216,4 +1216,130 @@ class QueryBuilderTest extends \Test\TestCase {
 			$this->queryBuilder->getColumnName($column, $prefix)
 		);
 	}
+
+	public function testExecuteWithoutLogger() {
+		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
+		$queryBuilder
+			->expects($this->once())
+			->method('execute')
+			->willReturn(3);
+		$this->logger
+			->expects($this->never())
+			->method('debug');
+		$this->config
+			->expects($this->once())
+			->method('getValue')
+			->with('log_query', false)
+			->willReturn(false);
+
+		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->assertEquals(3, $this->queryBuilder->execute());
+	}
+
+	public function testExecuteWithLoggerAndNamedArray() {
+		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
+		$queryBuilder
+			->expects($this->at(0))
+			->method('getParameters')
+			->willReturn([
+				'foo' => 'bar',
+				'key' => 'value',
+			]);
+		$queryBuilder
+			->expects($this->at(1))
+			->method('getSQL')
+			->willReturn('SELECT * FROM FOO WHERE BAR = ?');
+		$queryBuilder
+			->expects($this->once())
+			->method('execute')
+			->willReturn(3);
+		$this->logger
+			->expects($this->once())
+			->method('debug')
+			->with(
+				'DB QueryBuilder: \'{query}\' with parameters: {params}',
+				[
+					'query' => 'SELECT * FROM FOO WHERE BAR = ?',
+					'params' => 'foo => \'bar\', key => \'value\'',
+					'app' => 'core',
+				]
+			);
+		$this->config
+			->expects($this->once())
+			->method('getValue')
+			->with('log_query', false)
+			->willReturn(true);
+
+		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->assertEquals(3, $this->queryBuilder->execute());
+	}
+
+	public function testExecuteWithLoggerAndUnnamedArray() {
+		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
+		$queryBuilder
+			->expects($this->at(0))
+			->method('getParameters')
+			->willReturn(['Bar']);
+		$queryBuilder
+			->expects($this->at(1))
+			->method('getSQL')
+			->willReturn('SELECT * FROM FOO WHERE BAR = ?');
+		$queryBuilder
+			->expects($this->once())
+			->method('execute')
+			->willReturn(3);
+		$this->logger
+			->expects($this->once())
+			->method('debug')
+			->with(
+				'DB QueryBuilder: \'{query}\' with parameters: {params}',
+				[
+					'query' => 'SELECT * FROM FOO WHERE BAR = ?',
+					'params' => '0 => \'Bar\'',
+					'app' => 'core',
+				]
+			);
+		$this->config
+			->expects($this->once())
+			->method('getValue')
+			->with('log_query', false)
+			->willReturn(true);
+
+		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->assertEquals(3, $this->queryBuilder->execute());
+	}
+
+	public function testExecuteWithLoggerAndNoParams() {
+		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
+		$queryBuilder
+			->expects($this->at(0))
+			->method('getParameters')
+			->willReturn([]);
+		$queryBuilder
+			->expects($this->at(1))
+			->method('getSQL')
+			->willReturn('SELECT * FROM FOO WHERE BAR = ?');
+		$queryBuilder
+			->expects($this->once())
+			->method('execute')
+			->willReturn(3);
+		$this->logger
+			->expects($this->once())
+			->method('debug')
+			->with(
+				'DB QueryBuilder: \'{query}\'',
+				[
+					'query' => 'SELECT * FROM FOO WHERE BAR = ?',
+					'app' => 'core',
+				]
+			);
+		$this->config
+			->expects($this->once())
+			->method('getValue')
+			->with('log_query', false)
+			->willReturn(true);
+
+		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->assertEquals(3, $this->queryBuilder->execute());
+	}
 }

@@ -21,6 +21,8 @@
 
 namespace Test\Security\CSRF\TokenStorage;
 
+use OCP\ISession;
+
 class SessionStorageTest extends \Test\TestCase {
 	/** @var \OCP\ISession */
 	private $session;
@@ -105,5 +107,16 @@ class SessionStorageTest extends \Test\TestCase {
 			->with('requesttoken')
 			->willReturn(false);
 		$this->assertSame(false, $this->sessionStorage->hasToken());
+	}
+
+	public function testSetSession() {
+		$session = $this->createMock(ISession::class);
+		$session
+			->expects($this->once())
+			->method('get')
+			->with('requesttoken')
+			->willReturn('MyToken');
+		$this->sessionStorage->setSession($session);
+		$this->assertSame('MyToken', $this->sessionStorage->getToken());
 	}
 }
