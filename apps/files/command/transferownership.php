@@ -215,22 +215,28 @@ class TransferOwnership extends Command {
 		$progress = new ProgressBar($output, count($this->shares));
 
 		foreach($this->shares as $share) {
-			if ($share->getSharedWith() === $this->destinationUser) {
-				// Unmount the shares before deleting, so we don't try to get the storage later on.
-				$shareMountPoint = $this->mountManager->find('/' . $this->destinationUser . '/files' . $share->getTarget());
-				if ($shareMountPoint) {
-					$this->mountManager->removeMount($shareMountPoint->getMountPoint());
-				}
-				$this->shareManager->deleteShare($share);
-			} else {
-				if ($share->getShareOwner() === $this->sourceUser) {
-					$share->setShareOwner($this->destinationUser);
-				}
-				if ($share->getSharedBy() === $this->sourceUser) {
-					$share->setSharedBy($this->destinationUser);
-				}
+			try {
+				if ($share->getSharedWith() === $this->destinationUser) {
+					// Unmount the shares before deleting, so we don't try to get the storage later on.
+					$shareMountPoint = $this->mountManager->find('/' . $this->destinationUser . '/files' . $share->getTarget());
+					if ($shareMountPoint) {
+						$this->mountManager->removeMount($shareMountPoint->getMountPoint());
+					}
+					$this->shareManager->deleteShare($share);
+				} else {
+					if ($share->getShareOwner() === $this->sourceUser) {
+						$share->setShareOwner($this->destinationUser);
+					}
+					if ($share->getSharedBy() === $this->sourceUser) {
+						$share->setSharedBy($this->destinationUser);
+					}
 
-				$this->shareManager->updateShare($share);
+					$this->shareManager->updateShare($share);
+				}
+			} catch (\OCP\Files\NotFoundException $e) {
+				$output->writeln('<error>Share with id ' . $share->getId() . ' points at deleted file, skipping</error>');
+			} catch (\Exception $e) {
+				$output->writeln('<error>Could not restore share with id ' . $share->getId() . ':' . $e->getTraceAsString() . '</error>');
 			}
 			$progress->advance();
 		}
