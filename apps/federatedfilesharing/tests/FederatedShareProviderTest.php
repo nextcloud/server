@@ -227,7 +227,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$share = $this->provider->create($share);
 			$this->fail();
 		} catch (\Exception $e) {
-			$this->assertEquals('Sharing myFile failed, could not find user@server.com, maybe the server is currently unreachable.', $e->getMessage());
+			$this->assertEquals('Sharing myFile failed, could not find user@server.com, maybe the server is currently unreachable or uses a self-signed certificate.', $e->getMessage());
 		}
 
 		$qb = $this->connection->getQueryBuilder();
@@ -283,7 +283,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$share = $this->provider->create($share);
 			$this->fail();
 		} catch (\Exception $e) {
-			$this->assertEquals('dummy', $e->getMessage());
+			$this->assertEquals('Sharing myFile failed, could not find user@server.com, maybe the server is currently unreachable or uses a self-signed certificate.', $e->getMessage());
 		}
 
 		$qb = $this->connection->getQueryBuilder();
@@ -707,8 +707,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$userManager = \OC::$server->getUserManager();
 		$rootFolder = \OC::$server->getRootFolder();
 
-		$u1 = $userManager->createUser('testFed', 'test');
-		$u2 = $userManager->createUser('testFed2', 'test');
+		$u1 = $userManager->createUser('testFed', md5(time()));
+		$u2 = $userManager->createUser('testFed2', md5(time()));
 
 		$folder1 = $rootFolder->getUserFolder($u1->getUID())->newFolder('foo');
 		$file1 = $folder1->newFile('bar1');
