@@ -13,6 +13,7 @@ OC.L10N.register(
     "You added system tag %3$s" : "Du la til system merkelappen %3$s",
     "%1$s added system tag %3$s" : "%1$s la til system merkelapp %3$s",
     "You removed system tag %3$s" : "Du fjernet system merkelappen %3$s",
+    "%1$s removed system tag %3$s" : "%1$s fjernet systemetiketten %3$s",
     "You created system tag %2$s" : "Du opprettet system merkelappen %2$s",
     "%1$s created system tag %2$s" : "%1$s opprettet system-merkelapp %2$s",
     "You deleted system tag %2$s" : "Du slettet system merkelappen %2$s",

@@ -2,6 +2,7 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "댓글",
+    "Unknown user" : "알려지지 않은 사용자",
     "New comment …" : "새로운 댓글 ...",
     "Delete comment" : "댓글 삭제",
     "Post" : "게시",
