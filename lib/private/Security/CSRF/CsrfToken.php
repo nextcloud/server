@@ -51,8 +51,8 @@ class CsrfToken {
 	 */
 	public function getEncryptedValue() {
 		if($this->encryptedValue === '') {
-			$sharedSecret = base64_encode(random_bytes(strlen($this->value)));
-			$this->encryptedValue = base64_encode($this->value ^ $sharedSecret) . ':' . $sharedSecret;
+			$sharedSecret = random_bytes(strlen($this->value));
+			$this->encryptedValue = base64_encode($this->value ^ $sharedSecret) . ':' . base64_encode($sharedSecret);
 		}
 
 		return $this->encryptedValue;
@@ -71,6 +71,6 @@ class CsrfToken {
 		}
 		$obfuscatedToken = $token[0];
 		$secret = $token[1];
-		return base64_decode($obfuscatedToken) ^ $secret;
+		return base64_decode($obfuscatedToken) ^ base64_decode($secret);
 	}
 }

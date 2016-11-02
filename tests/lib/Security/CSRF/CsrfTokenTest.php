@@ -36,7 +36,11 @@ class CsrfTokenTest extends \Test\TestCase {
 	}
 
 	public function testGetDecryptedValue() {
-		$csrfToken = new \OC\Security\CSRF\CsrfToken('XlQhHjgWCgBXAEI0Khl+IQEiCXN2LUcDHAQTQAc1HQs=:qgkUlg8l3m8WnkOG4XM9Az33pAt1vSVMx4hcJFsxdqc=');
-		$this->assertSame('/3JKTq2ldmzcDr1f5zDJ7Wt0lEgqqfKF', $csrfToken->getDecryptedValue());
+		$a = 'abc';
+		$b = 'def';
+		$xorB64 = 'BQcF';
+		$tokenVal = sprintf('%s:%s', $xorB64, base64_encode($a));
+		$csrfToken = new \OC\Security\CSRF\CsrfToken($tokenVal);
+		$this->assertSame($b, $csrfToken->getDecryptedValue());
 	}
 }
