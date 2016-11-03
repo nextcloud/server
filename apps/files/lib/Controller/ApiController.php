@@ -31,11 +31,13 @@ namespace OCA\Files\Controller;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Controller;
+use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Http\DataDisplayResponse;
+use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\Response;
 use OCA\Files\Service\TagService;
 use OCP\IPreview;
@@ -101,18 +103,27 @@ class ApiController extends Controller {
 	 * @param int $x
 	 * @param int $y
 	 * @param string $file URL-encoded filename
-	 * @return DataResponse|DataDisplayResponse
+	 * @return DataResponse|FileDisplayResponse
 	 */
 	public function getThumbnail($x, $y, $file) {
 		if($x < 1 || $y < 1) {
 			return new DataResponse(['message' => 'Requested size must be numeric and a positive value.'], Http::STATUS_BAD_REQUEST);
 		}
 
-		$preview = $this->previewManager->createPreview('files/'.$file, $x, $y, true);
-		if ($preview->valid()) {
-			return new DataDisplayResponse($preview->data(), Http::STATUS_OK, ['Content-Type' => 'image/png']);
-		} else {
+		try {
+			$file = $this->userFolder->get($file);
+			if ($file instanceof Folder) {
+				throw new NotFoundException();
+			}
+
+			/** @var File $file */
+			$preview = $this->previewManager->getPreview($file, $x, $y, true);
+
+			return new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => $preview->getMimeType()]);
+		} catch (NotFoundException $e) {
 			return new DataResponse(['message' => 'File not found.'], Http::STATUS_NOT_FOUND);
+		} catch (\Exception $e) {
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 	}
 

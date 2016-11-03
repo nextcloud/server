@@ -63,7 +63,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 	public function provideRoutes() {
 		return array(
 			array('files_ajax_list', 'http://localhost/owncloud/index.php/apps/files/ajax/list.php'),
-			array('core_ajax_preview', 'http://localhost/owncloud/index.php/core/preview.png'),
+			array('core.Preview.getPreview', 'http://localhost/owncloud/index.php/core/preview.png'),
 		);
 	}
 

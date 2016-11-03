@@ -39,6 +39,17 @@ $application->registerRoutes($this, [
 			'url' => '/testremote',
 			'verb' => 'GET'
 		],
+		[
+			'name' => 'PublicPreview#getPreview',
+			'url' => '/publicpreview',
+			'verb' => 'GET',
+		],
+
+		[
+			'name' => 'PublicPreview#getPreview',
+			'url' => '/ajax/publicpreview.php',
+			'verb' => 'GET',
+		],
 	],
 	'ocs' => [
 		/*
@@ -114,15 +125,8 @@ $application->registerRoutes($this, [
 ]);
 
 /** @var $this \OCP\Route\IRouter */
-$this->create('core_ajax_public_preview', '/publicpreview')->action(
-	function() {
-		require_once __DIR__ . '/../ajax/publicpreview.php';
-	});
-
 $this->create('files_sharing_ajax_list', 'ajax/list.php')
 	->actionInclude('files_sharing/ajax/list.php');
-$this->create('files_sharing_ajax_publicpreview', 'ajax/publicpreview.php')
-	->actionInclude('files_sharing/ajax/publicpreview.php');
 $this->create('sharing_external_shareinfo', '/shareinfo')
 	->actionInclude('files_sharing/ajax/shareinfo.php');
 

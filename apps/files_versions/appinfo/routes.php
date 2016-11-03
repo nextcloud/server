@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
@@ -29,13 +30,17 @@
 namespace OCA\Files_Versions\AppInfo;
 
 $application = new Application();
+$application->registerRoutes($this, [
+	'routes' => [
+		[
+			'name' => 'Preview#getPreview',
+			'url' => '/preview',
+			'verb' => 'GET',
+		],
+	],
+]);
 
 /** @var $this \OCP\Route\IRouter */
-$this->create('core_ajax_versions_preview', '/preview')->action(
-function() {
-	require_once __DIR__ . '/../ajax/preview.php';
-});
-
 $this->create('files_versions_download', 'download.php')
 	->actionInclude('files_versions/download.php');
 $this->create('files_versions_ajax_getVersions', 'ajax/getVersions.php')

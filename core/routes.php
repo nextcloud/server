@@ -52,6 +52,8 @@ $application->registerRoutes($this, [
 		['name' => 'TwoFactorChallenge#showChallenge', 'url' => '/login/challenge/{challengeProviderId}', 'verb' => 'GET'],
 		['name' => 'TwoFactorChallenge#solveChallenge', 'url' => '/login/challenge/{challengeProviderId}', 'verb' => 'POST'],
 		['name' => 'OCJS#getConfig', 'url' => '/core/js/oc.js', 'verb' => 'GET'],
+		['name' => 'Preview#getPreview', 'url' => '/core/preview', 'verb' => 'GET'],
+		['name' => 'Preview#getPreview', 'url' => '/core/preview.png', 'verb' => 'GET'],
 	],
 	'ocs' => [
 		['root' => '/cloud', 'name' => 'OCS#getCapabilities', 'url' => '/capabilities', 'verb' => 'GET'],
@@ -68,10 +70,6 @@ $application->registerRoutes($this, [
 $this->create('search_ajax_search', '/core/search')
 	->actionInclude('core/search/ajax/search.php');
 // Routing
-$this->create('core_ajax_preview', '/core/preview')
-	->actionInclude('core/ajax/preview.php');
-$this->create('core_ajax_preview', '/core/preview.png')
-	->actionInclude('core/ajax/preview.php');
 $this->create('core_ajax_update', '/core/ajax/update.php')
 	->actionInclude('core/ajax/update.php');
 

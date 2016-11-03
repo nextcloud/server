@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -25,9 +26,16 @@
 namespace OCA\Files_Trashbin\AppInfo;
 
 $application = new Application();
+$application->registerRoutes($this, [
+	'routes' => [
+		[
+			'name' => 'Preview#getPreview',
+			'url' => '/ajax/preview.php',
+			'verb' => 'GET',
+		],
+	],
+]);
 
-$this->create('core_ajax_trashbin_preview', 'ajax/preview.php')
-	->actionInclude('files_trashbin/ajax/preview.php');
 $this->create('files_trashbin_ajax_delete', 'ajax/delete.php')
 	->actionInclude('files_trashbin/ajax/delete.php');
 $this->create('files_trashbin_ajax_isEmpty', 'ajax/isEmpty.php')

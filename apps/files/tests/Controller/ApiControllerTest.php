@@ -28,11 +28,15 @@ namespace OCA\Files\Controller;
 
 use OC\Files\FileInfo;
 use OCP\AppFramework\Http;
+use OCP\Files\File;
+use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Share\IManager;
 use Test\TestCase;
 use OCP\IRequest;
 use OCA\Files\Service\TagService;
@@ -54,7 +58,7 @@ class ApiControllerTest extends TestCase {
 	private $request;
 	/** @var TagService */
 	private $tagService;
-	/** @var IPreview */
+	/** @var IPreview|\PHPUnit_Framework_MockObject_MockObject */
 	private $preview;
 	/** @var ApiController */
 	private $apiController;
@@ -62,11 +66,13 @@ class ApiControllerTest extends TestCase {
 	private $shareManager;
 	/** @var \OCP\IConfig */
 	private $config;
-	/** @var  \OC\Files\Node\Folder */
+	/** @var Folder|\PHPUnit_Framework_MockObject_MockObject */
 	private $userFolder;
 
 	public function setUp() {
-		$this->request = $this->getMockBuilder('\OCP\IRequest')
+		parent::setUp();
+
+		$this->request = $this->getMockBuilder(IRequest::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->user = $this->createMock(IUser::class);
@@ -77,17 +83,17 @@ class ApiControllerTest extends TestCase {
 		$userSession->expects($this->any())
 			->method('getUser')
 			->will($this->returnValue($this->user));
-		$this->tagService = $this->getMockBuilder('\OCA\Files\Service\TagService')
+		$this->tagService = $this->getMockBuilder(TagService::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->shareManager = $this->getMockBuilder('\OCP\Share\IManager')
+		$this->shareManager = $this->getMockBuilder(IManager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->preview = $this->getMockBuilder('\OCP\IPreview')
+		$this->preview = $this->getMockBuilder(IPreview::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->config = $this->createMock(IConfig::class);
-		$this->userFolder = $this->getMockBuilder('\OC\Files\Node\Folder')
+		$this->userFolder = $this->getMockBuilder(Folder::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -153,28 +159,41 @@ class ApiControllerTest extends TestCase {
 	}
 
 	public function testGetThumbnailInvalidSize() {
+		$this->userFolder->method('get')
+			->with($this->equalTo(''))
+			->willThrowException(new NotFoundException());
 		$expected = new DataResponse(['message' => 'Requested size must be numeric and a positive value.'], Http::STATUS_BAD_REQUEST);
 		$this->assertEquals($expected, $this->apiController->getThumbnail(0, 0, ''));
 	}
 
 	public function testGetThumbnailInvaidImage() {
+		$file = $this->createMock(File::class);
+		$this->userFolder->method('get')
+			->with($this->equalTo('unknown.jpg'))
+			->willReturn($file);
 		$this->preview->expects($this->once())
-			->method('createPreview')
-			->with('files/unknown.jpg', 10, 10, true)
-			->willReturn(new Image);
+			->method('getPreview')
+			->with($file, 10, 10, true)
+			->willThrowException(new NotFoundException());
 		$expected = new DataResponse(['message' => 'File not found.'], Http::STATUS_NOT_FOUND);
 		$this->assertEquals($expected, $this->apiController->getThumbnail(10, 10, 'unknown.jpg'));
 	}
 
 	public function testGetThumbnail() {
+		$file = $this->createMock(File::class);
+		$this->userFolder->method('get')
+			->with($this->equalTo('known.jpg'))
+			->willReturn($file);
+		$preview = $this->createMock(ISimpleFile::class);
 		$this->preview->expects($this->once())
-			->method('createPreview')
-			->with('files/known.jpg', 10, 10, true)
-			->willReturn(new Image(\OC::$SERVERROOT.'/tests/data/testimage.jpg'));
+			->method('getPreview')
+			->with($this->equalTo($file), 10, 10, true)
+			->willReturn($preview);
 
 		$ret = $this->apiController->getThumbnail(10, 10, 'known.jpg');
 
 		$this->assertEquals(Http::STATUS_OK, $ret->getStatus());
+		$this->assertInstanceOf(Http\FileDisplayResponse::class, $ret);
 	}
 
 	public function testUpdateFileSorting() {

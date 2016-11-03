@@ -117,7 +117,17 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerService('PreviewManager', function (Server $c) {
-			return new PreviewManager($c->getConfig());
+			return new PreviewManager(
+				$c->getConfig(),
+				$c->getRootFolder(),
+				$c->getAppDataDir('preview')
+			);
+		});
+
+		$this->registerService(\OC\Preview\Watcher::class, function (Server $c) {
+			return new \OC\Preview\Watcher(
+				$c->getAppDataDir('preview')
+			);
 		});
 
 		$this->registerService('EncryptionManager', function (Server $c) {
@@ -192,6 +202,10 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 			$connector = new HookConnector($root, $view);
 			$connector->viewToNode();
+
+			$previewConnector = new \OC\Preview\WatcherConnector($root, $c->getSystemConfig());
+			$previewConnector->connectWatcher();
+
 			return $root;
 		});
 		$this->registerService('LazyRootFolder', function(Server $c) {
