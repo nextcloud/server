@@ -80,7 +80,7 @@ class Propagator implements IPropagator {
 		}, $parentHashes);
 
 		$builder->update('filecache')
-			->set('mtime', $builder->createFunction('GREATEST(`mtime`, ' . $builder->createNamedParameter($time, IQueryBuilder::PARAM_INT) . ')'))
+			->set('mtime', $builder->createFunction('GREATEST(`mtime`, ' . $builder->createNamedParameter((int)$time, IQueryBuilder::PARAM_INT) . ')'))
 			->set('etag', $builder->createNamedParameter($etag, IQueryBuilder::PARAM_STR))
 			->where($builder->expr()->eq('storage', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 			->andWhere($builder->expr()->in('path_hash', $hashParams));
