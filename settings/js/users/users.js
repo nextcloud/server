@@ -717,6 +717,36 @@ $(document).ready(function () {
 		OC.Notification.hide();
 	});
 
+	var _submitDisplayNameChange = function($tr, uid, displayName) {
+		var $div = $tr.find('div.avatardiv');
+		if ($div.length) {
+			$div.imageplaceholder(uid, displayName);
+		}
+
+		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+			OC.PasswordConfirmation.requirePasswordConfirmation(function() {
+				_submitDisplayNameChange($tr, uid, displayName);
+			});
+			return;
+		}
+
+		$.ajax({
+			type: 'POST',
+			url: OC.generateUrl('/settings/users/{id}/displayName', {id: uid}),
+			data: {
+				username: uid,
+				displayName: displayName
+			}
+		}).success(function () {
+			if (result && result.status==='success' && $div.length){
+				$div.avatar(result.data.username, 32);
+			}
+			$tr.data('displayname', displayName);
+		}).fail(function (result) {
+			OC.Notification.showTemporary(result.responseJSON.message);
+		});
+	};
+
 	$userListBody.on('click', '.displayName', function (event) {
 		event.stopPropagation();
 		var $td = $(this).closest('td');
@@ -731,21 +761,7 @@ $(document).ready(function () {
 			.keypress(function (event) {
 				if (event.keyCode === 13) {
 					if ($(this).val().length > 0) {
-						var $div = $tr.find('div.avatardiv');
-						if ($div.length) {
-							$div.imageplaceholder(uid, displayName);
-						}
-						$.post(
-							OC.generateUrl('/settings/users/{id}/displayName', {id: uid}),
-							{username: uid, displayName: $(this).val()},
-							function (result) {
-								if (result && result.status==='success' && $div.length){
-									$div.avatar(result.data.username, 32);
-								}
-							}
-						);
-						var displayName = $input.val();
-						$tr.data('displayname', displayName);
+						_submitDisplayNameChange($tr, uid, $(this).val());
 						$input.blur();
 					} else {
 						$input.blur();
