@@ -224,5 +224,24 @@
         "example": "Support Team"
       }
     }
+  },
+  "email": {
+    "author": "Nextcloud",
+    "app": "sharebymail",
+    "since": "9.2.0",
+    "parameters": {
+      "id": {
+        "since": "9.2.0",
+        "required": true,
+        "description": "The mail-address used to identify the event on the instance",
+        "example": "test@localhost"
+      },
+      "name": {
+        "since": "9.2.0",
+        "required": true,
+        "description": "The display name of a matching contact or the email (fallback) which should be used in the visual representation",
+        "example": "Foo Bar"
+      }
+    }
   }
 }
