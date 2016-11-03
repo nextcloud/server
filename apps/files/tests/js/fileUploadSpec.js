@@ -144,6 +144,10 @@ describe('OC.Upload tests', function() {
 			uploader = new OC.Uploader($dummyUploader, {
 				fileList: fileList
 			});
+
+			var deferred = $.Deferred();
+			conflictDialogStub.returns(deferred.promise());
+			deferred.resolve();
 		});
 		afterEach(function() {
 			conflictDialogStub.restore();
@@ -158,10 +162,6 @@ describe('OC.Upload tests', function() {
 			expect(result[1].submit.calledOnce).toEqual(true);
 		});
 		it('shows conflict dialog when no client side conflict', function() {
-			var deferred = $.Deferred();
-			conflictDialogStub.returns(deferred.promise());
-			deferred.resolve();
-
 			var result = addFiles(uploader, [
 				{name: 'conflict.txt'},
 				{name: 'conflict2.txt'},
@@ -184,6 +184,59 @@ describe('OC.Upload tests', function() {
 			expect(result[0].submit.calledOnce).toEqual(false);
 			expect(result[1].submit.calledOnce).toEqual(false);
 			expect(result[2].submit.calledOnce).toEqual(true);
+		});
+		it('cancels upload when skipping file in conflict mode', function() {
+			var fileData = {name: 'conflict.txt'};
+			var uploadData = addFiles(uploader, [
+				fileData
+			]);
+
+			var upload = new OC.FileUpload(uploader, uploadData[0]);
+			var deleteStub = sinon.stub(upload, 'deleteUpload');
+
+			uploader.onSkip(upload);
+			expect(deleteStub.calledOnce).toEqual(true);
+		});
+		it('overwrites file when choosing replace in conflict mode', function() {
+			var fileData = {name: 'conflict.txt'};
+			var uploadData = addFiles(uploader, [
+				fileData
+			]);
+
+			expect(uploadData[0].submit.notCalled).toEqual(true);
+
+			var upload = new OC.FileUpload(uploader, uploadData[0]);
+
+			uploader.onReplace(upload);
+			expect(upload.getConflictMode()).toEqual(OC.FileUpload.CONFLICT_MODE_OVERWRITE);
+			expect(uploadData[0].submit.calledOnce).toEqual(true);
+		});
+		it('autorenames file when choosing replace in conflict mode', function() {
+			// needed for _.defer call
+			var clock = sinon.useFakeTimers();
+			var fileData = {name: 'conflict.txt'};
+			var uploadData = addFiles(uploader, [
+				fileData
+			]);
+
+			expect(uploadData[0].submit.notCalled).toEqual(true);
+
+			var upload = new OC.FileUpload(uploader, uploadData[0]);
+			var getResponseStatusStub = sinon.stub(upload, 'getResponseStatus');
+
+			uploader.onAutorename(upload);
+			expect(upload.getConflictMode()).toEqual(OC.FileUpload.CONFLICT_MODE_AUTORENAME);
+			expect(upload.getFileName()).toEqual('conflict (2).txt');
+			expect(uploadData[0].submit.calledOnce).toEqual(true);
+
+			// in case of server-side conflict, tries to rename again
+			getResponseStatusStub.returns(412);
+			uploader.fileUploadParam.fail.call($dummyUploader[0], {}, uploadData[0]);
+			clock.tick(500);
+			expect(upload.getFileName()).toEqual('conflict (3).txt');
+			expect(uploadData[0].submit.calledTwice).toEqual(true);
+
+			clock.restore();
 		});
 	});
 });
