@@ -29,6 +29,8 @@
 namespace OCA\Files_External\Service;
 
 use \OC\Files\Filesystem;
+use OCA\Files_External\Lib\Auth\InvalidAuth;
+use OCA\Files_External\Lib\Backend\InvalidBackend;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
 use \OCA\Files_External\Lib\Backend\Backend;
@@ -295,11 +297,11 @@ abstract class StoragesService {
 	) {
 		$backend = $this->backendService->getBackend($backendIdentifier);
 		if (!$backend) {
-			throw new \InvalidArgumentException('Unable to get backend for ' . $backendIdentifier);
+			$backend = new InvalidBackend($backendIdentifier);
 		}
 		$authMechanism = $this->backendService->getAuthMechanism($authMechanismIdentifier);
 		if (!$authMechanism) {
-			throw new \InvalidArgumentException('Unable to get authentication mechanism for ' . $authMechanismIdentifier);
+			$authMechanism = new InvalidAuth($authMechanismIdentifier);
 		}
 		$newStorage = new StorageConfig();
 		$newStorage->setMountPoint($mountPoint);
@@ -381,6 +383,10 @@ abstract class StoragesService {
 		}
 
 		$oldStorage = $this->getStorageConfigFromDBMount($existingMount);
+
+		if ($oldStorage->getBackend() instanceof InvalidBackend) {
+			throw new NotFoundException('Storage with id "' . $id . '" cannot be edited due to missing backend');
+		}
 
 		$removedUsers = array_diff($oldStorage->getApplicableUsers(), $updatedStorage->getApplicableUsers());
 		$removedGroups = array_diff($oldStorage->getApplicableGroups(), $updatedStorage->getApplicableGroups());
