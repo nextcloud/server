@@ -201,9 +201,22 @@
 		<input type="radio" name="mode" value="cron" class="radio"
 			   id="backgroundjobs_cron" <?php if ($_['backgroundjobs_mode'] === "cron") {
 			print_unescaped('checked="checked"');
-		} ?>>
+		}
+		if (!$_['cli_based_cron_possible']) {
+			print_unescaped('disabled');
+		}?>>
 		<label for="backgroundjobs_cron">Cron</label><br/>
-		<em><?php p($l->t("Use system's cron service to call the cron.php file every 15 minutes.")); ?></em>
+		<em><?php p($l->t("Use system's cron service to call the cron.php file every 15 minutes.")); ?>
+			<?php if($_['cli_based_cron_possible']) {
+				p($l->t('The cron.php needs to be executed by the system user "%s".', [$_['cli_based_cron_user']]));
+			} else {
+				print_unescaped(str_replace(
+					['{linkstart}', '{linkend}'],
+					['<a href="http://php.net/manual/en/book.posix.php">', ' ↗</a>'],
+					$l->t('To run this you need the PHP posix extension. See {linkstart}PHP documentation{linkend} for more details.')
+				));
+		} ?></em>
+
 	</p>
 </div>
 
