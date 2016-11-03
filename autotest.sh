@@ -389,7 +389,7 @@ if [ -z "$1" ]
 	done
 else
 	FILENAME="$2"
-	if [ ! -z "$2" ] && [ ! -f "tests/$FILENAME" ]; then
+	if [ ! -z "$2" ] && [ ! -f "tests/$FILENAME" ] && [ "${FILENAME:0:2}" != "--" ]; then
 		FILENAME="../$FILENAME"
 	fi
 	execute_tests "$1" "$FILENAME" "$3"
