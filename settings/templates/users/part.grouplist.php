@@ -1,10 +1,12 @@
 <ul id="usergrouplist" data-sort-groups="<?php p($_['sortGroups']); ?>">
 	<!-- Add new group -->
+	<?php if ($_['isAdmin']) { ?>
 	<li id="newgroup-init">
 		<a href="#">
 			<span><?php p($l->t('Add group'))?></span>
 		</a>
 	</li>
+	<?php } ?>
 	<li id="newgroup-form" style="display: none">
 		<form>
 			<input type="text" id="newgroupname" placeholder="<?php p($l->t('Group name')); ?> …" />
