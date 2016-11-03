@@ -103,6 +103,7 @@ interface IExtension {
 	 * Currently known types are:
 	 * * file		=> will strip away the path of the file and add a tooltip with it
 	 * * username	=> will add the avatar of the user
+	 * * email 	    => will add a mailto link
 	 *
 	 * @param string $app
 	 * @param string $text
