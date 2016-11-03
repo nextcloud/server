@@ -45,6 +45,8 @@ namespace OC\Share;
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\DiscoveryManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\ILogger;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\IDBConnection;
 use OCP\IConfig;
@@ -128,14 +130,39 @@ class Share extends Constants {
 	 * Find which users can access a shared item
 	 * @param string $path to the file
 	 * @param string $ownerUser owner of the file
+	 * @param IUserManager $userManager
+	 * @param ILogger $logger
 	 * @param boolean $includeOwner include owner to the list of users with access to the file
 	 * @param boolean $returnUserPaths Return an array with the user => path map
 	 * @param boolean $recursive take all parent folders into account (default true)
 	 * @return array
 	 * @note $path needs to be relative to user data dir, e.g. 'file.txt'
 	 *       not '/admin/data/file.txt'
+	 * @throws \OC\User\NoUserException
 	 */
-	public static function getUsersSharingFile($path, $ownerUser, $includeOwner = false, $returnUserPaths = false, $recursive = true) {
+	public static function getUsersSharingFile($path,
+											   $ownerUser,
+											   IUserManager $userManager,
+											   ILogger $logger,
+											   $includeOwner = false,
+											   $returnUserPaths = false,
+											   $recursive = true) {
+		$userObject = $userManager->get($ownerUser);
+
+		if (is_null($userObject)) {
+			$logger->error(
+				sprintf(
+					'Backends provided no user object for %s',
+					$ownerUser
+				),
+				[
+					'app' => 'files',
+				]
+			);
+			throw new \OC\User\NoUserException('Backends provided no user object');
+		}
+
+		$ownerUser = $userObject->getUID();
 
 		Filesystem::initMountPoints($ownerUser);
 		$shares = $sharePaths = $fileTargets = array();

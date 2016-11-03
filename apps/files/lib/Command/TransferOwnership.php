@@ -91,23 +91,21 @@ class TransferOwnership extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$this->sourceUser = $input->getArgument('source-user');
-		$this->destinationUser = $input->getArgument('destination-user');
-		$source = $this->userManager->get($this->sourceUser);
-		$destination = $this->userManager->get($this->destinationUser);
+		$sourceUserObject = $this->userManager->get($input->getArgument('source-user'));
+		$destinationUserObject = $this->userManager->get($input->getArgument('destination-user'));
 
-		if (!$source instanceof IUser) {
+		if (!$sourceUserObject instanceof IUser) {
 			$output->writeln("<error>Unknown source user $this->sourceUser</error>");
 			return;
 		}
 
-		if (!$destination instanceof IUser) {
+		if (!$destinationUserObject instanceof IUser) {
 			$output->writeln("<error>Unknown destination user $this->destinationUser</error>");
 			return;
 		}
 
-		$this->sourceUser = $source->getUID();
-		$this->destinationUser = $destination->getUID();
+		$this->sourceUser = $sourceUserObject->getUID();
+		$this->destinationUser = $destinationUserObject->getUID();
 
 		// target user has to be ready
 		if (!\OC::$server->getEncryptionManager()->isReadyForUser($this->destinationUser)) {

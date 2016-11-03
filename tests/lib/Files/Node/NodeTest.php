@@ -9,21 +9,24 @@
 namespace Test\Files\Node;
 
 use OC\Files\FileInfo;
+use OCP\ILogger;
+use OCP\IUserManager;
 
 class NodeTest extends \Test\TestCase {
 	/** @var \OC\User\User */
 	private $user;
-
 	/** @var \OC\Files\Mount\Manager */
 	private $manager;
-
 	/** @var \OC\Files\View|\PHPUnit_Framework_MockObject_MockObject */
 	private $view;
-
 	/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject */
 	private $root;
 	/** @var \OCP\Files\Config\IUserMountCache|\PHPUnit_Framework_MockObject_MockObject */
 	private $userMountCache;
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	private $logger;
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $userManager;
 
 	protected function setUp() {
 		parent::setUp();
@@ -34,9 +37,7 @@ class NodeTest extends \Test\TestCase {
 		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
 			->disableOriginalConstructor()
 			->getMock();
-
 		$this->user = new \OC\User\User('', new \Test\Util\User\Dummy, null, $config, $urlGenerator);
-
 		$this->manager = $this->getMockBuilder('\OC\Files\Mount\Manager')
 			->disableOriginalConstructor()
 			->getMock();
@@ -46,8 +47,10 @@ class NodeTest extends \Test\TestCase {
 		$this->userMountCache = $this->getMockBuilder('\OCP\Files\Config\IUserMountCache')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->logger = $this->createMock(ILogger::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
 	}
 
@@ -273,7 +276,14 @@ class NodeTest extends \Test\TestCase {
 			$hooksRun++;
 		};
 
-		$root = new \OC\Files\Node\Root($this->manager, $this->view, $this->user, $this->userMountCache);
+		$root = new \OC\Files\Node\Root(
+			$this->manager,
+			$this->view,
+			$this->user,
+			$this->userMountCache,
+			$this->logger,
+			$this->userManager
+		);
 		$root->listen('\OC\Files', 'preTouch', $preListener);
 		$root->listen('\OC\Files', 'postTouch', $postListener);
 

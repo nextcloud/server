@@ -26,6 +26,7 @@ namespace Test;
 
 use OC\Avatar;
 use OC\AvatarManager;
+use OC\Files\AppData\AppData;
 use OCP\Files\IAppData;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
@@ -48,7 +49,7 @@ class AvatarManagerTest extends \Test\TestCase {
 	private $logger;
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
-	/** @var AvatarManager */
+	/** @var AvatarManager | \PHPUnit_Framework_MockObject_MockObject */
 	private $avatarManager;
 
 	public function setUp() {
@@ -101,8 +102,29 @@ class AvatarManagerTest extends \Test\TestCase {
 			->with('valid-user')
 			->willReturn($folder);
 
-		$expected = new Avatar($folder, $this->l10n, $user, $this->logger, $this->config);;
+		$expected = new Avatar($folder, $this->l10n, $user, $this->logger, $this->config);
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('valid-user'));
 	}
 
+	public function testGetAvatarValidUserDifferentCasing() {
+		$user = $this->createMock(IUser::class);
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('vaLid-USER')
+			->willReturn($user);
+
+		$user->expects($this->once())
+			->method('getUID')
+			->willReturn('valid-user');
+
+		$folder = $this->createMock(ISimpleFolder::class);
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('valid-user')
+			->willReturn($folder);
+
+		$expected = new Avatar($folder, $this->l10n, $user, $this->logger, $this->config);
+		$this->assertEquals($expected, $this->avatarManager->getAvatar('vaLid-USER'));
+	}
 }
