@@ -51,6 +51,9 @@ class CalDavBackendTest extends AbstractCalDavBackendTest {
 			'{DAV:}displayname' => 'Unit test',
 			'{urn:ietf:params:xml:ns:caldav}calendar-description' => 'Calendar used for unit testing'
 		]);
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\CalDavBackend::updateCalendar');
 		$this->backend->updateCalendar($calendarId, $patch);
 		$patch->commit();
 		$this->assertEquals(1, $this->backend->getCalendarsForUserCount(self::UNIT_TEST_USER));
@@ -60,6 +63,9 @@ class CalDavBackendTest extends AbstractCalDavBackendTest {
 		$this->assertEquals('Calendar used for unit testing', $books[0]['{urn:ietf:params:xml:ns:caldav}calendar-description']);
 
 		// delete the address book
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar');
 		$this->backend->deleteCalendar($books[0]['id']);
 		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(0, count($books));
@@ -106,6 +112,9 @@ class CalDavBackendTest extends AbstractCalDavBackendTest {
 		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(1, count($books));
 		$calendar = new Calendar($this->backend, $books[0], $l10n);
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\CalDavBackend::updateShares');
 		$this->backend->updateShares($calendar, $add, []);
 		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER1);
 		$this->assertEquals(1, count($books));
@@ -138,6 +147,9 @@ END:VEVENT
 END:VCALENDAR
 EOD;
 
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
 		$this->backend->createCalendarObject($calendarId, $uri, $calData);
 
 		/** @var IACL $child */
@@ -151,6 +163,9 @@ EOD;
 		$this->assertAccess($groupCanWrite, self::UNIT_TEST_GROUP, '{DAV:}write', $acl);
 
 		// delete the address book
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar');
 		$this->backend->deleteCalendar($books[0]['id']);
 		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(0, count($books));
@@ -179,6 +194,9 @@ END:VEVENT
 END:VCALENDAR
 EOD;
 
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
 		$this->backend->createCalendarObject($calendarId, $uri, $calData);
 
 		// get all the cards
@@ -214,11 +232,17 @@ DTEND;VALUE=DATE-TIME:20130912T140000Z
 END:VEVENT
 END:VCALENDAR
 EOD;
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\CalDavBackend::updateCalendarObject');
 		$this->backend->updateCalendarObject($calendarId, $uri, $calData);
 		$calendarObject = $this->backend->getCalendarObject($calendarId, $uri);
 		$this->assertEquals($calData, $calendarObject['calendardata']);
 
 		// delete the card
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject');
 		$this->backend->deleteCalendarObject($calendarId, $uri);
 		$calendarObjects = $this->backend->getCalendarObjects($calendarId);
 		$this->assertEquals(0, count($calendarObjects));
@@ -246,10 +270,19 @@ END:VEVENT
 END:VCALENDAR
 EOD;
 		$uri0 = $this->getUniqueID('card');
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
 		$this->backend->createCalendarObject($calendarId, $uri0, $calData);
 		$uri1 = $this->getUniqueID('card');
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
 		$this->backend->createCalendarObject($calendarId, $uri1, $calData);
 		$uri2 = $this->getUniqueID('card');
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
 		$this->backend->createCalendarObject($calendarId, $uri2, $calData);
 
 		// get all the cards
@@ -270,8 +303,17 @@ EOD;
 		}
 
 		// delete the card
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject');
 		$this->backend->deleteCalendarObject($calendarId, $uri0);
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject');
 		$this->backend->deleteCalendarObject($calendarId, $uri1);
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject');
 		$this->backend->deleteCalendarObject($calendarId, $uri2);
 		$calendarObjects = $this->backend->getCalendarObjects($calendarId);
 		$this->assertEquals(0, count($calendarObjects));
@@ -335,6 +377,10 @@ EOD;
 	}
 
 	public function testPublications() {
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendar');
+
 		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', []);
 
 		$calendarInfo = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER)[0];
