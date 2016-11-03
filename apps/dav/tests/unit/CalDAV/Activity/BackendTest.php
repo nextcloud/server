@@ -25,6 +25,7 @@ use OCA\DAV\CalDAV\Activity\Backend;
 use OCA\DAV\CalDAV\Activity\Extension;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -181,13 +182,9 @@ class BackendTest extends TestCase {
 
 		if ($author !== '') {
 			if ($currentUser !== '') {
-				$user = $this->createMock(IUser::class);
 				$this->userSession->expects($this->once())
 					->method('getUser')
-					->willReturn($user);
-				$user->expects($this->once())
-					->method('getUID')
-					->willReturn($currentUser);
+					->willReturn($this->getUserMock($currentUser));
 			} else {
 				$this->userSession->expects($this->once())
 					->method('getUser')
@@ -231,5 +228,105 @@ class BackendTest extends TestCase {
 		}
 
 		$this->invokePrivate($backend, 'triggerCalendarActivity', [$action, $data, $shares, $changedProperties]);
+	}
+
+	public function dataGetUsersForShares() {
+		return [
+			[
+				[],
+				[],
+				[],
+			],
+			[
+				[
+					['{http://owncloud.org/ns}principal' => 'principal/users/user1'],
+					['{http://owncloud.org/ns}principal' => 'principal/users/user2'],
+					['{http://owncloud.org/ns}principal' => 'principal/users/user2'],
+					['{http://owncloud.org/ns}principal' => 'principal/users/user2'],
+					['{http://owncloud.org/ns}principal' => 'principal/users/user3'],
+				],
+				[],
+				['user1', 'user2', 'user3'],
+			],
+			[
+				[
+					['{http://owncloud.org/ns}principal' => 'principal/users/user1'],
+					['{http://owncloud.org/ns}principal' => 'principal/users/user2'],
+					['{http://owncloud.org/ns}principal' => 'principal/users/user2'],
+					['{http://owncloud.org/ns}principal' => 'principal/groups/group2'],
+					['{http://owncloud.org/ns}principal' => 'principal/groups/group3'],
+				],
+				['group2' => null, 'group3' => null],
+				['user1', 'user2'],
+			],
+			[
+				[
+					['{http://owncloud.org/ns}principal' => 'principal/users/user1'],
+					['{http://owncloud.org/ns}principal' => 'principal/users/user2'],
+					['{http://owncloud.org/ns}principal' => 'principal/users/user2'],
+					['{http://owncloud.org/ns}principal' => 'principal/groups/group2'],
+					['{http://owncloud.org/ns}principal' => 'principal/groups/group3'],
+				],
+				['group2' => ['user1', 'user2', 'user3'], 'group3' => ['user2', 'user3', 'user4']],
+				['user1', 'user2', 'user3', 'user4'],
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetUsersForShares
+	 * @param array $shares
+	 * @param array $groups
+	 * @param array $expected
+	 */
+	public function testGetUsersForShares(array $shares, array $groups, array $expected) {
+		$backend = $this->getBackend();
+
+		$getGroups = [];
+		foreach ($groups as $gid => $members) {
+			if ($members === null) {
+				$getGroups[] = [$gid, null];
+				continue;
+			}
+
+			$group = $this->createMock(IGroup::class);
+			$group->expects($this->once())
+				->method('getUsers')
+				->willReturn($this->getUsers($members));
+
+			$getGroups[] = [$gid, $group];
+		}
+
+		$this->groupManager->expects($this->exactly(sizeof($getGroups)))
+			->method('get')
+			->willReturnMap($getGroups);
+
+		$users = $this->invokePrivate($backend, 'getUsersForShares', [$shares]);
+		sort($users);
+		$this->assertEquals($expected, $users);
+	}
+
+	/**
+	 * @param string[] $users
+	 * @return IUser[]|\PHPUnit_Framework_MockObject_MockObject[]
+	 */
+	protected function getUsers(array $users) {
+		$list = [];
+		foreach ($users as $user) {
+			$list[] = $this->getUserMock($user);
+		}
+		return $list;
+	}
+
+	/**
+	 * @param string $uid
+	 * @return IUser|\PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected function getUserMock($uid) {
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->once())
+			->method('getUID')
+			->willReturn($uid);
+		return $user;
 	}
 }
