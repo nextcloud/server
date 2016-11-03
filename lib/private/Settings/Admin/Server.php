@@ -124,6 +124,8 @@ class Server implements ISettings {
 			'cron_log'            => $this->config->getSystemValue('cron_log', true),
 			'lastcron'            => $this->config->getAppValue('core', 'lastcron', false),
 			'cronErrors'		  => $this->config->getAppValue('core', 'cronErrors'),
+			'cli_based_cron_possible' => function_exists('posix_getpwuid'),
+			'cli_based_cron_user' => function_exists('posix_getpwuid') ? posix_getpwuid(fileowner(\OC::$configDir . 'config.php'))['name'] : '',
 		];
 
 		return new TemplateResponse('settings', 'admin/server', $parameters, '');
