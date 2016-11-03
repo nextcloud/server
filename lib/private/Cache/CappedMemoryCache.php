@@ -77,6 +77,10 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 		$this->remove($offset);
 	}
 
+	public function getData() {
+		return $this->cache;
+	}
+
 
 	private function garbageCollect() {
 		while (count($this->cache) > $this->capacity) {
