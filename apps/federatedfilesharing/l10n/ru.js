@@ -26,7 +26,6 @@ OC.L10N.register(
     "Sharing %s failed, because this item is already shared with %s" : "Не удалось поделиться %s, пользователь %s уже имеет доступ к этому элементу",
     "Not allowed to create a federated share with the same user" : "Не допускается создание федеративного общего ресурса с тем же пользователем",
     "File is already shared with %s" : "Доступ к файлу уже предоставлен %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Не удалось поделиться %s, не удалось найти %s, возможно, сервер не доступен.",
     "Could not find share" : "Не удалось найти общий ресурс",
     "Accept" : "Принять",
     "Decline" : "Отклонить",
@@ -42,6 +41,7 @@ OC.L10N.register(
     "Add to your website" : "Добавить к себе на сайт",
     "Share with me via Nextcloud" : "Поделитесь со мной через Nextcloud",
     "HTML Code:" : "HTML код:",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Не удалось поделиться %s, не удалось найти %s, возможно, сервер не доступен.",
     "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Вы получили \"/%3$s\"  в качестве удалённого ресурса из %1$s (от имени %2$s)",
     "You received \"/%3$s\" as a remote share from %1$s" : "Вы получили \"/%3$s\" в качестве удалённого ресурса из %1$s"
 },

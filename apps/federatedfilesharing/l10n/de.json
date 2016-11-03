@@ -24,7 +24,6 @@
     "Sharing %s failed, because this item is already shared with %s" : "Freigabe von %s fehlgeschlagen, da dieses Objekt schon mit %s geteilt wird",
     "Not allowed to create a federated share with the same user" : "Das Erstellen einer Federated Cloud Freigabe mit dem gleichen Benutzer ist nicht erlaubt",
     "File is already shared with %s" : "Datei wird bereits mit %s geteilt",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Freigabe von %s fehlgeschlagen, da %s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar.",
     "Could not find share" : "Freigabe konnte nicht gefunden werden",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Du hast \"%3$s\" als eine entfernte Freigabe von \"%1$s\" empfangen (im Auftrag von %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Du hast {share} als eine entfernte Freigabe von {user} empfangen (im Auftrag von {behalf})",
@@ -44,6 +43,7 @@
     "Add to your website" : "Zu deiner Webseite hinzufügen",
     "Share with me via Nextcloud" : "Teile mit mir über Nextcloud",
     "HTML Code:" : "HTML-Code:",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Freigabe von %s fehlgeschlagen, da %s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar.",
     "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Du hast \"/%3$s\" als Remotefreigabe von %1$s (als Teil von %2$s) erhalten",
     "You received \"/%3$s\" as a remote share from %1$s" : "Du hast \"/%3$s\" als Remotefreigabe von %1$s erhalten"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

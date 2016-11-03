@@ -26,7 +26,6 @@ OC.L10N.register(
     "Sharing %s failed, because this item is already shared with %s" : "Die Freigabe von %s ist fehlgeschlagen, da dieses Objekt schon mit %s geteilt wird",
     "Not allowed to create a federated share with the same user" : "Das Erstellen einer Federated Cloud Freigabe mit dem gleichen Benutzer ist nicht erlaubt",
     "File is already shared with %s" : "Datei wird bereits geteilt mit %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Die Freigabe von %s ist fehlgeschlagen, da %s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar.",
     "Could not find share" : "Freigabe konnte nicht gefunden werden",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Sie empfingen \"%3$s\" als eine entfernte Freigabe von \"%1$s\" (im Auftrag von %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Sie empfingen {share} als eine entfernte Freigabe von {user} (im Auftrag von {behalf})",
@@ -46,6 +45,7 @@ OC.L10N.register(
     "Add to your website" : "Zu Ihrer Website hinzufügen",
     "Share with me via Nextcloud" : "Teilen Sie mit mir über Nextcloud",
     "HTML Code:" : "HTML-Code:",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Die Freigabe von %s ist fehlgeschlagen, da %s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar.",
     "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Sie haben \"/%3$s\" als Remotefreigabe von %1$s (als Teil von %2$s) erhalten",
     "You received \"/%3$s\" as a remote share from %1$s" : "Sie haben \"/%3$s\" als Remotefreigabe von %1$s erhalten"
 },
