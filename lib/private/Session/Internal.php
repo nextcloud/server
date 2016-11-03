@@ -42,12 +42,25 @@ class Internal extends Session {
 	 * @param string $name
 	 * @throws \Exception
 	 */
+    private $uniqId;
+    private $startTimestamp;
+	private function logTS($msg)
+	{
+		$diff=microtime(true)-$this->startTimestamp;
+		$fh=fopen("/tmp/session.log", "a+");
+		fprintf($fh, "%s %.1f - %s\n", $this->uniqId, $diff*1000, $msg);
+		fclose($fh);
+	}
 	public function __construct($name) {
+		$this->uniqId=uniqid();
+		$this->startTimestamp=microtime(true);
 		session_name($name);
 		set_error_handler(array($this, 'trapError'));
 		try {
-			session_set_save_handler(new FileSessionHandler(), true);
+			// session_set_save_handler(new FileSessionHandler(), true);
+			$this->logTS('Session start wait');
 			session_start();
+			$this->logTS('Session started');
 		} catch (\Exception $e) {
 			setcookie(session_name(), null, -1, \OC::$WEBROOT ? : '/');
 		}
@@ -103,6 +116,7 @@ class Internal extends Session {
 
 	public function close() {
 		session_write_close();
+		$this->logTS('Session end');
 		parent::close();
 	}
 
