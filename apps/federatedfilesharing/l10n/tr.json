@@ -24,7 +24,6 @@
     "Sharing %s failed, because this item is already shared with %s" : "%s paylaşımı, %s ile zaten paylaşıldığından dolayı başarısız oldu",
     "Not allowed to create a federated share with the same user" : "Aynı kullanıcı ile bir birleşmiş paylaşım oluşturulamaz",
     "File is already shared with %s" : "Dosya zaten %s ile paylaşılmış",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "%s paylaşımı başarısız. %s bulunamadı veya sunucu şu anda ulaşılamıyor olabilir.",
     "Could not find share" : "Paylaşım bulunamadı",
     "Accept" : "Kabul et",
     "Decline" : "Reddet",
@@ -40,6 +39,7 @@
     "Add to your website" : "Web sitenize ekleyin",
     "Share with me via Nextcloud" : "Benimle Nextcloud aracılığıyla paylaşın",
     "HTML Code:" : "HTML Kodu:",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "%s paylaşımı başarısız. %s bulunamadı veya sunucu şu anda ulaşılamıyor olabilir.",
     "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "%1$s kişisinden \"/%3$s\" uzak paylaşımını aldınız (%2$s aracılığıyla)",
     "You received \"/%3$s\" as a remote share from %1$s" : "%1$s kişisinden \"/%3$s\" uzak paylaşımını aldınız"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

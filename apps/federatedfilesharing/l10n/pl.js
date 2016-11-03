@@ -26,7 +26,6 @@ OC.L10N.register(
     "Sharing %s failed, because this item is already shared with %s" : "Współdzielenie %s nie powiodło się, ponieważ element jest już współdzielony z %s",
     "Not allowed to create a federated share with the same user" : "Nie można tworzyć stowarzyszonego udziału z tym samym użytkownikiem",
     "File is already shared with %s" : "Plik jest już współdzielony z %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Współdzielenie %s nie powiodło się, nie można odnaleźć %s. Prawdopobnie serwer nie jest teraz osiągalny.",
     "Could not find share" : "Nie można znaleźć powiązania",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Otrzymałeś \"%3$s\" w zdalnym udziale z %1$s (w imieniu %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Otrzymałeś {share} w zdalnym udziale z {user} (w imieniu {behalf})",
@@ -46,6 +45,7 @@ OC.L10N.register(
     "Add to your website" : "Dodaj do swojej strony",
     "Share with me via Nextcloud" : "Podziel się ze mną poprzez Nextcloud",
     "HTML Code:" : "Kod HTML:",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Współdzielenie %s nie powiodło się, nie można odnaleźć %s. Prawdopobnie serwer nie jest teraz osiągalny.",
     "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Otrzymałeś \"/%3$s\" w zdalnym udziale z %1$s (w imieniu %2$s)",
     "You received \"/%3$s\" as a remote share from %1$s" : "Otrzymałeś \"/%3$s\" w zdalnym udziale z %1$s"
 },

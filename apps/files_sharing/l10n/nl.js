@@ -101,7 +101,7 @@ OC.L10N.register(
     "Download" : "Downloaden",
     "Download %s" : "Download %s",
     "Direct link" : "Directe link",
-    "Upload files to %s" : "Uploaden bestanden naar%s",
+    "Upload files to %s" : "Upload bestanden naar %s",
     "Select or drop files" : "Selecteer of leg bestanden neer",
     "Uploading files…" : "Uploaden bestanden...",
     "Uploaded files:" : "Geüploade bestanden",

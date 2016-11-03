@@ -26,7 +26,6 @@ OC.L10N.register(
     "Sharing %s failed, because this item is already shared with %s" : "%s megosztása nem sikerült, mert ez már meg van osztva vele: %s",
     "Not allowed to create a federated share with the same user" : "Azonos felhasználóval nem lehet létrehozni egyesített megosztást",
     "File is already shared with %s" : "Fájl már megosztva vele: %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "%s megosztása sikertelen, mert %s nem található; talán a szerver jelenleg nem elérhető.",
     "Could not find share" : "A megosztás nem található",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Kaptál egy távoli megosztást: \"%3$s\", innen: %1$s (%2$s nevében)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Kaptál egy távoli megosztást: {share}, innen: {user} ({behalf} nevében)",
@@ -46,6 +45,7 @@ OC.L10N.register(
     "Add to your website" : "Adja hozzá saját weboldalához",
     "Share with me via Nextcloud" : "Ossza meg velem Nextcloud-on keresztül",
     "HTML Code:" : "HTML kód:",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "%s megosztása sikertelen, mert %s nem található; talán a szerver jelenleg nem elérhető.",
     "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Kapott egy távoli megosztást: \"/%3$s\", innen: %1$s (%2$s nevében)",
     "You received \"/%3$s\" as a remote share from %1$s" : "Kapott egy távoli megosztást: \"/%3$s\", innen: %1$s"
 },

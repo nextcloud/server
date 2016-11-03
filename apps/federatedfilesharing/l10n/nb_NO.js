@@ -26,7 +26,6 @@ OC.L10N.register(
     "Sharing %s failed, because this item is already shared with %s" : "Deling av %s feilet, fordi dette elementet allerede er delt med %s",
     "Not allowed to create a federated share with the same user" : "Ikke tillatt å opprette en Sammenknyttet sky-deling med den samme brukeren",
     "File is already shared with %s" : "Filen er allerede delt med %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Deling %s feilet, fant ikke %s, kanskje tjeneren er utilgjengelig for øyeblikket.",
     "Could not find share" : "Kunne ikke finne ressurs",
     "You received {share} as a remote share from {user}" : "Du mottok {share} som en fjerndeling fra {user}",
     "Accept" : "Aksepter",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Add to your website" : "Legg på websiden din",
     "Share with me via Nextcloud" : "Del med meg via Nextcloud",
     "HTML Code:" : "HTML-kode:",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Deling %s feilet, fant ikke %s, kanskje tjeneren er utilgjengelig for øyeblikket.",
     "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Du mottor \"/%3$s\" som en fjerndeling fra %1$s (på vegne av %2$s)",
     "You received \"/%3$s\" as a remote share from %1$s" : "Du mottok \"/%3$s\" som en fjerndeling fra %1$s"
 },

@@ -26,7 +26,6 @@ OC.L10N.register(
     "Sharing %s failed, because this item is already shared with %s" : "Kohteen %s jakaminen epäonnistui, koska kohde on jo jaettu käyttäjän %s kanssa",
     "Not allowed to create a federated share with the same user" : "Saman käyttäjän kanssa ei ole sallittua luoda federoitua jakoa",
     "File is already shared with %s" : "Tiedosto on jo jaettu kohteen %s kanssa",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Kohteen %s jakaminen epäonnistui, kohdetta %s ei löytynyt. Kenties palvelin ei ole juuri nyt tavoitettavissa.",
     "Could not find share" : "Ei löytynyt jakoa",
     "Accept" : "Hyväksy",
     "Decline" : "Kieltäydy",
@@ -42,6 +41,7 @@ OC.L10N.register(
     "Add to your website" : "Lisää verkkosivuillesi",
     "Share with me via Nextcloud" : "Jaa kanssani Nextcloudin kautta",
     "HTML Code:" : "HTML-koodi:",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Kohteen %s jakaminen epäonnistui, kohdetta %s ei löytynyt. Kenties palvelin ei ole juuri nyt tavoitettavissa.",
     "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Vastaanotit \"/%3$s\":n etäjakona käyttäjältä %1$s (%2$s:n puolesta)",
     "You received \"/%3$s\" as a remote share from %1$s" : "Vastaanotit \"/%3$s\":n etäjakona käyttäjältä %1$s"
 },
