@@ -37,6 +37,7 @@ use OC\Share20\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
+use OCP\Template;
 
 /**
  * Class ShareByMail
@@ -208,7 +209,7 @@ class ShareByMailProvider implements IShareProvider {
 	 */
 	protected function createMailBody($template, $filename, $link, $owner, $initiator) {
 
-		$mailBodyTemplate = new \OC_Template('sharebymail', $template, '');
+		$mailBodyTemplate = new Template('sharebymail', $template, '');
 		$mailBodyTemplate->assign ('filename', $filename);
 		$mailBodyTemplate->assign ('link', $link);
 		$mailBodyTemplate->assign ('owner', $owner);

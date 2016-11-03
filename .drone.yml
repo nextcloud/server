@@ -22,6 +22,9 @@ pipeline:
       - ./occ app:check-code admin_audit
       - ./occ app:check-code comments
       - ./occ app:check-code federation
+      - ./occ app:check-code sharebymail
+      - ./occ app:check-code systemtags
+      - ./occ app:check-code theming
       - ./occ app:check-code workflowengine
     when:
       matrix:
