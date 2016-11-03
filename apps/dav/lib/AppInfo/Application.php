@@ -24,6 +24,8 @@
  */
 namespace OCA\DAV\AppInfo;
 
+use OCA\DAV\CalDAV\Activity\Backend;
+use OCA\DAV\CalDAV\Activity\Extension;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\Capabilities;
 use OCA\DAV\CardDAV\ContactsManager;
@@ -87,6 +89,67 @@ class Application extends App {
 					$event->getArgument('cardUri')
 				);
 			}
+		});
+
+		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::createCalendar', function(GenericEvent $event) {
+			/** @var Backend $backend */
+			$backend = $this->getContainer()->query(Backend::class);
+			$backend->onCalendarAdd(
+				$event->getArgument('calendarData')
+			);
+		});
+		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::updateCalendar', function(GenericEvent $event) {
+			/** @var Backend $backend */
+			$backend = $this->getContainer()->query(Backend::class);
+			$backend->onCalendarUpdate(
+				$event->getArgument('calendarData'),
+				$event->getArgument('shares'),
+				$event->getArgument('propertyMutations')
+			);
+		});
+		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar', function(GenericEvent $event) {
+			/** @var Backend $backend */
+			$backend = $this->getContainer()->query(Backend::class);
+			$backend->onCalendarDelete(
+				$event->getArgument('calendarData'),
+				$event->getArgument('shares')
+			);
+		});
+		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::updateShares', function(GenericEvent $event) {
+			/** @var Backend $backend */
+			$backend = $this->getContainer()->query(Backend::class);
+			$backend->onCalendarUpdateShares(
+				$event->getArgument('calendarData'),
+				$event->getArgument('shares'),
+				$event->getArgument('add'),
+				$event->getArgument('remove')
+			);
+		});
+
+		$listener = function(GenericEvent $event, $eventName) {
+			/** @var Backend $backend */
+			$backend = $this->getContainer()->query(Backend::class);
+
+			$subject = Extension::SUBJECT_OBJECT_ADD;
+			if ($eventName === '\OCA\DAV\CalDAV\CalDavBackend::updateCalendarObject') {
+				$subject = Extension::SUBJECT_OBJECT_UPDATE;
+			} else if ($eventName === '\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject') {
+				$subject = Extension::SUBJECT_OBJECT_DELETE;
+			}
+			$backend->onTouchCalendarObject(
+				$subject,
+				$event->getArgument('calendarData'),
+				$event->getArgument('shares'),
+				$event->getArgument('objectData')
+			);
+		};
+		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject', $listener);
+		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::updateCalendarObject', $listener);
+		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject', $listener);
+
+		$aM = $this->getContainer()->getServer()->getActivityManager();
+		$aM->registerExtension(function() {
+			return $this->getContainer()->query(Extension::class);
 		});
 	}
 

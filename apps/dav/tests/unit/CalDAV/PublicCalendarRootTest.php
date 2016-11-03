@@ -9,6 +9,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\PublicCalendarRoot;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 /**
@@ -27,12 +28,11 @@ class PublicCalendarRootTest extends TestCase {
 	private $publicCalendarRoot;
 	/** @var IL10N */
 	private $l10n;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var Principal */
+	/** @var Principal|\PHPUnit_Framework_MockObject_MockObject */
 	private $principal;
-	/** var IConfig */
-	protected $config;
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $userManager;
+
 	/** @var ISecureRandom */
 	private $random;
 
@@ -40,19 +40,17 @@ class PublicCalendarRootTest extends TestCase {
 		parent::setUp();
 
 		$db = \OC::$server->getDatabaseConnection();
-		$this->principal = $this->getMockBuilder('OCA\DAV\Connector\Sabre\Principal')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->config = \OC::$server->getConfig();
-		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')->getMock();
+		$this->principal = $this->createMock('OCA\DAV\Connector\Sabre\Principal');
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->random = \OC::$server->getSecureRandom();
+		$dispatcher = $this->createMock(EventDispatcherInterface::class);
 
 		$this->backend = new CalDavBackend(
 			$db,
 			$this->principal,
 			$this->userManager,
-			$this->config,
-			$this->random
+			$this->random,
+			$dispatcher
 		);
 
 		$this->publicCalendarRoot = new PublicCalendarRoot($this->backend);

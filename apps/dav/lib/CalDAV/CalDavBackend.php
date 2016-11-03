@@ -29,7 +29,6 @@ use OCA\DAV\DAV\Sharing\IShareable;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\Backend;
-use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -49,6 +48,8 @@ use Sabre\HTTP\URLUtil;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\EventIterator;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class CalDavBackend
@@ -124,12 +125,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 	/** @var IUserManager */
 	private $userManager;
-	
-	/** @var IConfig */
-	private $config;
 
 	/** @var ISecureRandom */
 	private $random;
+
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
 
 	/**
 	 * CalDavBackend constructor.
@@ -137,20 +138,20 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param IDBConnection $db
 	 * @param Principal $principalBackend
 	 * @param IUserManager $userManager
-	 * @param IConfig $config
 	 * @param ISecureRandom $random
+	 * @param EventDispatcherInterface $dispatcher
 	 */
 	public function __construct(IDBConnection $db,
 								Principal $principalBackend,
 								IUserManager $userManager,
-								IConfig $config,
-								ISecureRandom $random) {
+								ISecureRandom $random,
+								EventDispatcherInterface $dispatcher) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
 		$this->userManager = $userManager;
 		$this->sharingBackend = new Backend($this->db, $principalBackend, 'calendar');
-		$this->config = $config;
 		$this->random = $random;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -613,7 +614,16 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$query->setValue($column, $query->createNamedParameter($value));
 		}
 		$query->execute();
-		return $query->getLastInsertId();
+		$calendarId = $query->getLastInsertId();
+
+		$this->dispatcher->dispatch('\OCA\DAV\CalDAV\CalDavBackend::createCalendar', new GenericEvent(
+			'\OCA\DAV\CalDAV\CalDavBackend::createCalendar',
+			[
+				'calendarId' => $calendarId,
+				'calendarData' => $this->getCalendarById($calendarId),
+		]));
+
+		return $calendarId;
 	}
 
 	/**
@@ -661,6 +671,15 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 			$this->addChange($calendarId, "", 2);
 
+			$this->dispatcher->dispatch('\OCA\DAV\CalDAV\CalDavBackend::updateCalendar', new GenericEvent(
+				'\OCA\DAV\CalDAV\CalDavBackend::updateCalendar',
+				[
+					'calendarId' => $calendarId,
+					'calendarData' => $this->getCalendarById($calendarId),
+					'shares' => $this->getShares($calendarId),
+					'propertyMutations' => $mutations,
+			]));
+
 			return true;
 		});
 	}
@@ -672,6 +691,14 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return void
 	 */
 	function deleteCalendar($calendarId) {
+		$this->dispatcher->dispatch('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar', new GenericEvent(
+			'\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar',
+			[
+				'calendarId' => $calendarId,
+				'calendarData' => $this->getCalendarById($calendarId),
+				'shares' => $this->getShares($calendarId),
+		]));
+
 		$stmt = $this->db->prepare('DELETE FROM `*PREFIX*calendarobjects` WHERE `calendarid` = ?');
 		$stmt->execute([$calendarId]);
 
@@ -876,6 +903,15 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			])
 			->execute();
 
+		$this->dispatcher->dispatch('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject', new GenericEvent(
+			'\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject',
+			[
+				'calendarId' => $calendarId,
+				'calendarData' => $this->getCalendarById($calendarId),
+				'shares' => $this->getShares($calendarId),
+				'objectData' => $this->getCalendarObject($calendarId, $objectUri),
+			]
+		));
 		$this->addChange($calendarId, $objectUri, 1);
 
 		return '"' . $extraData['etag'] . '"';
@@ -917,6 +953,18 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->andWhere($query->expr()->eq('uri', $query->createNamedParameter($objectUri)))
 			->execute();
 
+		$data = $this->getCalendarObject($calendarId, $objectUri);
+		if (is_array($data)) {
+			$this->dispatcher->dispatch('\OCA\DAV\CalDAV\CalDavBackend::updateCalendarObject', new GenericEvent(
+				'\OCA\DAV\CalDAV\CalDavBackend::updateCalendarObject',
+				[
+					'calendarId' => $calendarId,
+					'calendarData' => $this->getCalendarById($calendarId),
+					'shares' => $this->getShares($calendarId),
+					'objectData' => $data,
+				]
+			));
+		}
 		$this->addChange($calendarId, $objectUri, 2);
 
 		return '"' . $extraData['etag'] . '"';
@@ -949,6 +997,19 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return void
 	 */
 	function deleteCalendarObject($calendarId, $objectUri) {
+		$data = $this->getCalendarObject($calendarId, $objectUri);
+		if (is_array($data)) {
+			$this->dispatcher->dispatch('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject', new GenericEvent(
+				'\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject',
+				[
+					'calendarId' => $calendarId,
+					'calendarData' => $this->getCalendarById($calendarId),
+					'shares' => $this->getShares($calendarId),
+					'objectData' => $data,
+				]
+			));
+		}
+
 		$stmt = $this->db->prepare('DELETE FROM `*PREFIX*calendarobjects` WHERE `calendarid` = ? AND `uri` = ?');
 		$stmt->execute([$calendarId, $objectUri]);
 
@@ -1648,6 +1709,16 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param array $remove
 	 */
 	public function updateShares($shareable, $add, $remove) {
+		$calendarId = $shareable->getResourceId();
+		$this->dispatcher->dispatch('\OCA\DAV\CalDAV\CalDavBackend::updateShares', new GenericEvent(
+			'\OCA\DAV\CalDAV\CalDavBackend::updateShares',
+			[
+				'calendarId' => $calendarId,
+				'calendarData' => $this->getCalendarById($calendarId),
+				'shares' => $this->getShares($calendarId),
+				'add' => $add,
+				'remove' => $remove,
+			]));
 		$this->sharingBackend->updateShares($shareable, $add, $remove);
 	}
 
