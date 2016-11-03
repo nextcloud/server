@@ -23,20 +23,22 @@ namespace OCA\DAV\Tests\unit\CalDAV\Activity;
 
 use OCA\DAV\CalDAV\Activity\Backend;
 use OCA\DAV\CalDAV\Activity\Extension;
+use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\IGroupManager;
+use OCP\IUser;
 use OCP\IUserSession;
 use Test\TestCase;
 
 class BackendTest extends TestCase {
 
-	/** @var IManager */
+	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $activityManager;
 
-	/** @var IGroupManager */
+	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $groupManager;
 
-	/** @var IUserSession */
+	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userSession;
 
 	protected function setUp() {
@@ -72,7 +74,7 @@ class BackendTest extends TestCase {
 	public function dataCallTriggerCalendarActivity() {
 		return [
 			['onCalendarAdd', [['data']], Extension::SUBJECT_ADD, [['data'], [], []]],
-			['onCalendarUpdate', [['data'], ['shares'], ['properties']], Extension::SUBJECT_UPDATE, [['data'], ['shares'], ['properties']]],
+			['onCalendarUpdate', [['data'], ['shares'], ['changed-properties']], Extension::SUBJECT_UPDATE, [['data'], ['shares'], ['changed-properties']]],
 			['onCalendarDelete', [['data'], ['shares']], Extension::SUBJECT_DELETE, [['data'], ['shares'], []]],
 		];
 	}
@@ -96,5 +98,138 @@ class BackendTest extends TestCase {
 			});
 
 		call_user_func_array([$backend, $method], $payload);
+	}
+
+	public function dataTriggerCalendarActivity() {
+		return [
+			// Add calendar
+			[Extension::SUBJECT_ADD, [], [], [], '', '', null, []],
+			[Extension::SUBJECT_ADD, [
+				'principaluri' => 'principal/user/admin',
+				'id' => 42,
+				'{DAV:}displayname' => 'Name of calendar',
+			], [], [], '', 'admin', null, ['admin']],
+			[Extension::SUBJECT_ADD, [
+				'principaluri' => 'principal/user/admin',
+				'id' => 42,
+				'{DAV:}displayname' => 'Name of calendar',
+			], [], [], 'test2', 'test2', null, ['admin']],
+
+			// Update calendar
+			[Extension::SUBJECT_UPDATE, [], [], [], '', '', null, []],
+			// No visible change - owner only
+			[Extension::SUBJECT_UPDATE, [
+				'principaluri' => 'principal/user/admin',
+				'id' => 42,
+				'{DAV:}displayname' => 'Name of calendar',
+			], ['shares'], [], '', 'admin', null, ['admin']],
+			// Visible change
+			[Extension::SUBJECT_UPDATE, [
+				'principaluri' => 'principal/user/admin',
+				'id' => 42,
+				'{DAV:}displayname' => 'Name of calendar',
+			], ['shares'], ['{DAV:}displayname' => 'Name'], '', 'admin', ['user1'], ['user1', 'admin']],
+			[Extension::SUBJECT_UPDATE, [
+				'principaluri' => 'principal/user/admin',
+				'id' => 42,
+				'{DAV:}displayname' => 'Name of calendar',
+			], ['shares'], ['{DAV:}displayname' => 'Name'], 'test2', 'test2', ['user1'], ['user1', 'admin']],
+
+			// Delete calendar
+			[Extension::SUBJECT_DELETE, [], [], [], '', '', null, []],
+			[Extension::SUBJECT_DELETE, [
+				'principaluri' => 'principal/user/admin',
+				'id' => 42,
+				'{DAV:}displayname' => 'Name of calendar',
+			], ['shares'], [], '', 'admin', [], ['admin']],
+			[Extension::SUBJECT_DELETE, [
+				'principaluri' => 'principal/user/admin',
+				'id' => 42,
+				'{DAV:}displayname' => 'Name of calendar',
+			], ['shares'], [], '', 'admin', ['user1'], ['user1', 'admin']],
+			[Extension::SUBJECT_DELETE, [
+				'principaluri' => 'principal/user/admin',
+				'id' => 42,
+				'{DAV:}displayname' => 'Name of calendar',
+			], ['shares'], [], 'test2', 'test2', ['user1'], ['user1', 'admin']],
+		];
+	}
+
+	/**
+	 * @dataProvider dataTriggerCalendarActivity
+	 * @param string $action
+	 * @param array $data
+	 * @param array $shares
+	 * @param array $changedProperties
+	 * @param string $currentUser
+	 * @param string $author
+	 * @param string[]|null $shareUsers
+	 * @param string[] $users
+	 */
+	public function testTriggerCalendarActivity($action, array $data, array $shares, array $changedProperties, $currentUser, $author, $shareUsers, array $users) {
+		$backend = $this->getBackend(['getUsersForShares']);
+
+		if ($shareUsers === null) {
+			$backend->expects($this->never())
+				->method('getUsersForShares');
+		} else {
+			$backend->expects($this->once())
+				->method('getUsersForShares')
+				->with($shares)
+				->willReturn($shareUsers);
+		}
+
+		if ($author !== '') {
+			if ($currentUser !== '') {
+				$user = $this->createMock(IUser::class);
+				$this->userSession->expects($this->once())
+					->method('getUser')
+					->willReturn($user);
+				$user->expects($this->once())
+					->method('getUID')
+					->willReturn($currentUser);
+			} else {
+				$this->userSession->expects($this->once())
+					->method('getUser')
+					->willReturn(null);
+			}
+
+			$event = $this->createMock(IEvent::class);
+			$this->activityManager->expects($this->once())
+				->method('generateEvent')
+				->willReturn($event);
+
+			$event->expects($this->once())
+				->method('setApp')
+				->with('dav')
+				->willReturnSelf();
+			$event->expects($this->once())
+				->method('setObject')
+				->with(Extension::CALENDAR, $data['id'])
+				->willReturnSelf();
+			$event->expects($this->once())
+				->method('setType')
+				->with(Extension::CALENDAR)
+				->willReturnSelf();
+			$event->expects($this->once())
+				->method('setAuthor')
+				->with($author)
+				->willReturnSelf();
+
+			$event->expects($this->exactly(sizeof($users)))
+				->method('setAffectedUser')
+				->willReturnSelf();
+			$event->expects($this->exactly(sizeof($users)))
+				->method('setSubject')
+				->willReturnSelf();
+			$this->activityManager->expects($this->exactly(sizeof($users)))
+				->method('publish')
+				->with($event);
+		} else {
+			$this->activityManager->expects($this->never())
+				->method('generateEvent');
+		}
+
+		$this->invokePrivate($backend, 'triggerCalendarActivity', [$action, $data, $shares, $changedProperties]);
 	}
 }
