@@ -240,8 +240,8 @@ function execute_tests {
 
 		echo "Waiting for MySQL(utf8mb4) initialisation ..."
 
-		if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 60; then
-			echo "[ERROR] Waited 60 seconds, no response" >&2
+		if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 600; then
+			echo "[ERROR] Waited 600 seconds, no response" >&2
 			exit 1
 		fi
 		sleep 1
