@@ -85,6 +85,25 @@ class CalendarTest extends TestCase {
 		$c->delete();
 	}
 
+	public function testDeleteOwn() {
+		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
+		$backend = $this->createMock(CalDavBackend::class);
+		$backend->expects($this->never())->method('updateShares');
+		$backend->expects($this->never())->method('getShares');
+
+		$backend->expects($this->once())->method('deleteCalendar')
+			->with(666);
+
+		$calendarInfo = [
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+			'principaluri' => 'user1',
+			'id' => 666,
+			'uri' => 'cal',
+		];
+		$c = new Calendar($backend, $calendarInfo, $this->l10n);
+		$c->delete();
+	}
+
 	public function dataPropPatch() {
 		return [
 			[[], true],
