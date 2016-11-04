@@ -128,7 +128,11 @@ trait WebDav {
 	public function userMovesFile($user, $entry, $fileSource, $fileDestination){
 		$fullUrl = substr($this->baseUrl, 0, -4) . $this->getDavFilesPath($user);
 		$headers['Destination'] = $fullUrl . $fileDestination;
-		$this->response = $this->makeDavRequest($user, "MOVE", $fileSource, $headers);
+		try {
+			$this->response = $this->makeDavRequest($user, "MOVE", $fileSource, $headers);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
 	}
 
 	/**
@@ -220,7 +224,11 @@ trait WebDav {
 	 * @param string $fileName
 	 */
 	public function downloadingFile($fileName) {
-		$this->response = $this->makeDavRequest($this->currentUser, 'GET', $fileName, []);
+		try {
+			$this->response = $this->makeDavRequest($this->currentUser, 'GET', $fileName, []);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
 	}
 
 	/**
@@ -266,10 +274,11 @@ trait WebDav {
 	/**
 	 * @Then /^as "([^"]*)" gets properties of (file|folder|entry) "([^"]*)" with$/
 	 * @param string $user
+	 * @param string $elementType
 	 * @param string $path
 	 * @param \Behat\Gherkin\Node\TableNode|null $propertiesTable
 	 */
-	public function asGetsPropertiesOfFolderWith($user, $path, $propertiesTable) {
+	public function asGetsPropertiesOfFolderWith($user, $elementType, $path, $propertiesTable) {
 		$properties = null;
 		if ($propertiesTable instanceof \Behat\Gherkin\Node\TableNode) {
 			foreach ($propertiesTable->getRows() as $row) {
@@ -615,7 +624,7 @@ trait WebDav {
 	 */
 	public function userStoresEtagOfElement($user, $path){
 		$propertiesTable = new \Behat\Gherkin\Node\TableNode([['{DAV:}getetag']]);
-		$this->asGetsPropertiesOfFolderWith($user, $path, $propertiesTable);
+		$this->asGetsPropertiesOfFolderWith($user, 'entry', $path, $propertiesTable);
 		$pathETAG[$path] = $this->response['{DAV:}getetag'];
 		$this->storedETAG[$user]= $pathETAG;
 		print_r($this->storedETAG[$user][$path]);
@@ -626,7 +635,7 @@ trait WebDav {
 	 */
 	public function checkIfETAGHasNotChanged($path, $user){
 		$propertiesTable = new \Behat\Gherkin\Node\TableNode([['{DAV:}getetag']]);
-		$this->asGetsPropertiesOfFolderWith($user, $path, $propertiesTable);
+		$this->asGetsPropertiesOfFolderWith($user, 'entry', $path, $propertiesTable);
 		PHPUnit_Framework_Assert::assertEquals($this->response['{DAV:}getetag'], $this->storedETAG[$user][$path]);
 	}
 
@@ -635,7 +644,7 @@ trait WebDav {
 	 */
 	public function checkIfETAGHasChanged($path, $user){
 		$propertiesTable = new \Behat\Gherkin\Node\TableNode([['{DAV:}getetag']]);
-		$this->asGetsPropertiesOfFolderWith($user, $path, $propertiesTable);
+		$this->asGetsPropertiesOfFolderWith($user, 'entry', $path, $propertiesTable);
 		PHPUnit_Framework_Assert::assertNotEquals($this->response['{DAV:}getetag'], $this->storedETAG[$user][$path]);
 	}
 }
