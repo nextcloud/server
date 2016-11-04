@@ -395,26 +395,36 @@ class Filesystem {
 			throw new \OC\User\NoUserException('Attempted to initialize mount points for null user and no user in session');
 		}
 
-		$userManager = \OC::$server->getUserManager();
-		$userObject = $userManager->get($user);
-
-		if (is_null($userObject)) {
-			\OCP\Util::writeLog('files', ' Backends provided no user object for ' . $user, \OCP\Util::ERROR);
-			throw new \OC\User\NoUserException('Backends provided no user object for ' . $user);
-		}
-
-		// workaround in case of different casings
-		if ($user !== $userObject->getUID()) {
-			$stack = json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 50));
-			\OCP\Util::writeLog('files', 'initMountPoints() called with wrong user casing. This could be a bug. Expected: "' . $userObject->getUID() . '" got "' . $user . '". Stack: ' . $stack, \OCP\Util::WARN);
-		}
-		$user = $userObject->getUID();
-
 		if (isset(self::$usersSetup[$user])) {
 			return;
 		}
 
 		self::$usersSetup[$user] = true;
+
+		$userManager = \OC::$server->getUserManager();
+		$userObject = $userManager->get($user);
+
+		if (is_null($userObject)) {
+			\OCP\Util::writeLog('files', ' Backends provided no user object for ' . $user, \OCP\Util::ERROR);
+			// reset flag, this will make it possible to rethrow the exception if called again
+			unset(self::$usersSetup[$user]);
+			throw new \OC\User\NoUserException('Backends provided no user object for ' . $user);
+		}
+
+		$realUid = $userObject->getUID();
+		// workaround in case of different casings
+		if ($user !== $realUid) {
+			$stack = json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 50));
+			\OCP\Util::writeLog('files', 'initMountPoints() called with wrong user casing. This could be a bug. Expected: "' . $realUid . '" got "' . $user . '". Stack: ' . $stack, \OCP\Util::WARN);
+			$user = $realUid;
+
+			// again with the correct casing
+			if (isset(self::$usersSetup[$user])) {
+				return;
+			}
+
+			self::$usersSetup[$user] = true;
+		}
 
 		/** @var \OC\Files\Config\MountProviderCollection $mountConfigManager */
 		$mountConfigManager = \OC::$server->getMountProviderCollection();
