@@ -30,6 +30,7 @@ use OpenCloud\OpenStack;
 use OpenCloud\Rackspace;
 
 class Swift implements IObjectStore {
+
 	/**
 	 * @var \OpenCloud\OpenStack
 	 */
@@ -51,6 +52,9 @@ class Swift implements IObjectStore {
 	private $container;
 
 	public function __construct($params) {
+		if (isset($params['bucket'])) {
+			$params['container'] = $params['bucket'];
+		}
 		if (!isset($params['container'])) {
 			$params['container'] = 'owncloud';
 		}
