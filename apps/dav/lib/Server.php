@@ -118,7 +118,7 @@ class Server {
 		// calendar plugins
 		$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
 		$this->server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
-		$this->server->addPlugin(new \Sabre\CalDAV\Schedule\Plugin());
+		$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin());
 		$this->server->addPlugin(new IMipPlugin($mailer, $logger));
 		$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 		$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
