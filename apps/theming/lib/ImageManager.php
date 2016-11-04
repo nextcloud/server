@@ -109,7 +109,4 @@ class ImageManager {
 			}
 		}
 	}
-
-
-
 }

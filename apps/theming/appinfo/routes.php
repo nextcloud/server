@@ -64,13 +64,13 @@ return ['routes' => [
 		'name'	=> 'Icon#getFavicon',
 		'url' => '/favicon/{app}',
 		'verb' => 'GET',
-		'defaults' => array("app" => "core"),
+		'defaults' => array('app' => 'core'),
 	],
 	[
 		'name'	=> 'Icon#getTouchIcon',
 		'url' => '/icon/{app}',
 		'verb' => 'GET',
-		'defaults' => array("app" => "core"),
+		'defaults' => array('app' => 'core'),
 	],
 	[
 		'name'	=> 'Icon#getThemedIcon',

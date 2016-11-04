@@ -97,13 +97,12 @@ class UtilTest extends TestCase {
 		$expected = 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTYiIHdpZHRoPSIxNiI+PHBhdGggZD0iTTggMWE3IDcgMCAwIDAtNyA3IDcgNyAwIDAgMCA3IDcgNyA3IDAgMCAwIDctNyA3IDcgMCAwIDAtNy03em0wIDFhNiA2IDAgMCAxIDYgNiA2IDYgMCAwIDEtNiA2IDYgNiAwIDAgMS02LTYgNiA2IDAgMCAxIDYtNnptMCAyYTQgNCAwIDEgMCAwIDggNCA0IDAgMCAwIDAtOHoiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=';
 		$this->assertEquals($expected, $button);
 	}
+
 	public function testGenerateRadioButtonBlack() {
 		$button = $this->util->generateRadioButton('#000000');
 		$expected = 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTYiIHdpZHRoPSIxNiI+PHBhdGggZD0iTTggMWE3IDcgMCAwIDAtNyA3IDcgNyAwIDAgMCA3IDcgNyA3IDAgMCAwIDctNyA3IDcgMCAwIDAtNy03em0wIDFhNiA2IDAgMCAxIDYgNiA2IDYgMCAwIDEtNiA2IDYgNiAwIDAgMS02LTYgNiA2IDAgMCAxIDYtNnptMCAyYTQgNCAwIDEgMCAwIDggNCA0IDAgMCAwIDAtOHoiIGZpbGw9IiMwMDAwMDAiLz48L3N2Zz4=';
 		$this->assertEquals($expected, $button);
 	}
-
-
 
 	/**
 	 * @dataProvider dataGetAppIcon
@@ -137,6 +136,7 @@ class UtilTest extends TestCase {
 	public function testGetAppImage($app, $image, $expected) {
 		$this->assertEquals($expected, $this->util->getAppImage($app, $image));
 	}
+
 	public function dataGetAppImage() {
 		return [
 			['core', 'logo.svg', \OC::$SERVERROOT . '/core/img/logo.svg'],

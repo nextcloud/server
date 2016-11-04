@@ -30,7 +30,6 @@ use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
-use OCP\IL10N;
 use OCP\IRequest;
 use Test\TestCase;
 use OCA\Theming\Util;
@@ -47,7 +46,7 @@ class IconControllerTest extends TestCase {
 	private $util;
 	/** @var \OCP\AppFramework\Utility\ITimeFactory */
 	private $timeFactory;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IconController|\PHPUnit_Framework_MockObject_MockObject */
 	private $iconController;
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
@@ -110,8 +109,6 @@ class IconControllerTest extends TestCase {
 		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
 		$expected->addHeader('Pragma', 'cache');
 		@$this->assertEquals($expected, $this->iconController->getThemedIcon('core', 'filetypes/folder.svg'));
-
-
 	}
 
 	public function testGetFaviconDefault() {
@@ -152,7 +149,8 @@ class IconControllerTest extends TestCase {
 		$this->themingDefaults->expects($this->any())
 			->method('shouldReplaceIcons')
 			->willReturn(false);
-		$expected = new DataDisplayResponse(null, Http::STATUS_NOT_FOUND);
+		$expected = new Http\Response();
+		$expected->setStatus(Http::STATUS_NOT_FOUND);
 		$expected->cacheFor(0);
 		$expected->setLastModified(new \DateTime('now', new \DateTimeZone('GMT')));
 		$this->assertEquals($expected, $this->iconController->getFavicon());
@@ -196,7 +194,8 @@ class IconControllerTest extends TestCase {
 		$this->themingDefaults->expects($this->any())
 			->method('shouldReplaceIcons')
 			->willReturn(false);
-		$expected = new DataDisplayResponse(null, Http::STATUS_NOT_FOUND);
+		$expected = new Http\Response();
+		$expected->setStatus(Http::STATUS_NOT_FOUND);
 		$expected->cacheFor(0);
 		$expected->setLastModified(new \DateTime('now', new \DateTimeZone('GMT')));
 		$this->assertEquals($expected, $this->iconController->getTouchIcon());

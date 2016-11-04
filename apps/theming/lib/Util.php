@@ -28,9 +28,18 @@ use OCP\Files\IRootFolder;
 
 class Util {
 
+	/** @var IConfig */
 	private $config;
+
+	/** @var IRootFolder */
 	private $rootFolder;
 
+	/**
+	 * Util constructor.
+	 *
+	 * @param IConfig $config
+	 * @param IRootFolder $rootFolder
+	 */
 	public function __construct(IConfig $config, IRootFolder $rootFolder) {
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
@@ -98,14 +107,17 @@ class Util {
 	 * @return string path to app icon / logo
 	 */
 	public function getAppIcon($app) {
+		$app = str_replace(array('\0', '/', '\\', '..'), '', $app);
 		$appPath = \OC_App::getAppPath($app);
-		$icon = $appPath . '/img/' . $app . '.svg';
-		if(file_exists($icon)) {
-			return $icon;
-		}
-		$icon = $appPath . '/img/app.svg';
-		if(file_exists($icon)) {
-			return $icon;
+		if ($appPath !== false) {
+			$icon = $appPath . '/img/' . $app . '.svg';
+			if (file_exists($icon)) {
+				return $icon;
+			}
+			$icon = $appPath . '/img/app.svg';
+			if (file_exists($icon)) {
+				return $icon;
+			}
 		}
 		if($this->config->getAppValue('theming', 'logoMime', '') !== '' && $this->rootFolder->nodeExists('/themedinstancelogo')) {
 			return $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/') . '/themedinstancelogo';
@@ -119,32 +131,36 @@ class Util {
 	 * @return string absolute path to image
 	 */
 	public function getAppImage($app, $image) {
+		$app = str_replace(array('\0', '/', '\\', '..'), '', $app);
+		$image = str_replace(array('\0', '\\', '..'), '', $image);
 		$appPath = \OC_App::getAppPath($app);
-		if($app==="core") {
-			$icon = \OC::$SERVERROOT . '/core/img/' . $image;
-			if(file_exists($icon)) {
+			if ($app === "core") {
+				$icon = \OC::$SERVERROOT . '/core/img/' . $image;
+				if (file_exists($icon)) {
+					return $icon;
+				}
+			}
+		if ($appPath !== false) {
+			$icon = $appPath . '/img/' . $image;
+			if (file_exists($icon)) {
 				return $icon;
 			}
-		}
-		$icon = $appPath . '/img/' . $image;
-		if(file_exists($icon)) {
-			return $icon;
-		}
-		$icon = $appPath . '/img/' . $image . '.svg';
-		if(file_exists($icon)) {
-			return $icon;
-		}
-		$icon = $appPath . '/img/' . $image . '.png';
-		if(file_exists($icon)) {
-			return $icon;
-		}
-		$icon = $appPath . '/img/' . $image . '.gif';
-		if(file_exists($icon)) {
-			return $icon;
-		}
-		$icon = $appPath . '/img/' . $image . '.jpg';
-		if(file_exists($icon)) {
-			return $icon;
+			$icon = $appPath . '/img/' . $image . '.svg';
+			if (file_exists($icon)) {
+				return $icon;
+			}
+			$icon = $appPath . '/img/' . $image . '.png';
+			if (file_exists($icon)) {
+				return $icon;
+			}
+			$icon = $appPath . '/img/' . $image . '.gif';
+			if (file_exists($icon)) {
+				return $icon;
+			}
+			$icon = $appPath . '/img/' . $image . '.jpg';
+			if (file_exists($icon)) {
+				return $icon;
+			}
 		}
 		return false;
 	}

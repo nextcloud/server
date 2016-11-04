@@ -58,6 +58,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @param IURLGenerator $urlGenerator
 	 * @param \OC_Defaults $defaults
 	 * @param IRootFolder $rootFolder
+	 * @param ICacheFactory $cacheFactory
 	 */
 	public function __construct(IConfig $config,
 								IL10N $l,
