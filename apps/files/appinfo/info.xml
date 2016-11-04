@@ -30,6 +30,10 @@
 			<filter>OCA\Files\Activity\Filter\FileChanges</filter>
 			<filter>OCA\Files\Activity\Filter\Favorites</filter>
 		</filters>
+
+		<providers>
+			<provider>OCA\Files\Activity\Provider</provider>
+		</providers>
 	</activity>
 
 	<background-jobs>
