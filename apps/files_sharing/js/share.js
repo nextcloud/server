@@ -71,6 +71,12 @@
 				var fileInfo = oldElementToFile.apply(this, arguments);
 				fileInfo.sharePermissions = $el.attr('data-share-permissions') || undefined;
 				fileInfo.shareOwner = $el.attr('data-share-owner') || undefined;
+
+				if( $el.attr('data-share-types')){
+					var shareTypes = $el.attr('data-share-types').split(',');
+					fileInfo.shareTypes = shareTypes;
+				}
+
 				return fileInfo;
 			};
 
@@ -247,4 +253,3 @@
 })();
 
 OC.Plugins.register('OCA.Files.FileList', OCA.Sharing.Util);
-
