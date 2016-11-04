@@ -30,6 +30,7 @@ use OCP\Activity\IEvent;
 use OCP\Activity\IExtension;
 use OCP\Activity\IFilter;
 use OCP\Activity\IManager;
+use OCP\Activity\IProvider;
 use OCP\Activity\ISetting;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -310,6 +311,40 @@ class Manager implements IManager {
 		}
 
 		throw new \InvalidArgumentException('Requested filter does not exist');
+	}
+
+	/** @var string[] */
+	protected $providerClasses;
+
+	/** @var IProvider[] */
+	protected $providers;
+
+	/**
+	 * @param string $provider Class must implement OCA\Activity\IProvider
+	 * @return void
+	 */
+	public function registerProvider($provider) {
+		$this->providerClasses[$provider] = false;
+	}
+
+	/**
+	 * @return IProvider[]
+	 * @throws \InvalidArgumentException
+	 */
+	public function getProviders() {
+		foreach ($this->providerClasses as $class => $false) {
+			/** @var IProvider $provider */
+			$provider = \OC::$server->query($class);
+
+			if (!$provider instanceof IProvider) {
+				throw new \InvalidArgumentException('Invalid activity provider registered');
+			}
+
+			$this->providers[] = $provider;
+
+			unset($this->providerClasses[$class]);
+		}
+		return $this->providers;
 	}
 
 	/** @var string[] */

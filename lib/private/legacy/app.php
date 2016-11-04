@@ -174,6 +174,11 @@ class OC_App {
 				\OC::$server->getActivityManager()->registerSetting($setting);
 			}
 		}
+		if (!empty($info['activity']['providers'])) {
+			foreach ($info['activity']['providers'] as $provider) {
+				\OC::$server->getActivityManager()->registerProvider($provider);
+			}
+		}
 	}
 
 	/**

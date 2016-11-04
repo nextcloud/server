@@ -119,6 +119,9 @@ class InfoParser {
 		if (!array_key_exists('settings', $array['activity'])) {
 			$array['activity']['settings'] = [];
 		}
+		if (!array_key_exists('providers', $array['activity'])) {
+			$array['activity']['providers'] = [];
+		}
 
 		if (array_key_exists('types', $array)) {
 			if (is_array($array['types'])) {
@@ -158,6 +161,9 @@ class InfoParser {
 		}
 		if (isset($array['activity']['settings']['setting']) && is_array($array['activity']['settings']['setting'])) {
 			$array['activity']['settings'] = $array['activity']['settings']['setting'];
+		}
+		if (isset($array['activity']['providers']['provider']) && is_array($array['activity']['providers']['provider'])) {
+			$array['activity']['providers'] = $array['activity']['providers']['provider'];
 		}
 
 		if(!is_null($this->cache)) {

@@ -158,8 +158,8 @@ class Event implements IEvent {
 	 * @since 8.2.0
 	 */
 	public function setAuthor($author) {
-		if (!is_string($author) || $author === '' || isset($author[64])) {
-			throw new \InvalidArgumentException('The given author user is invalid');
+		if (!is_string($author) || isset($author[64])) {
+			throw new \InvalidArgumentException('The given author user is invalid'. serialize($author));
 		}
 		$this->author = (string) $author;
 		return $this;
@@ -205,7 +205,7 @@ class Event implements IEvent {
 	 * @since 8.2.0
 	 */
 	public function setSubject($subject, array $parameters = []) {
-		if (!is_string($subject) || $subject === '' || isset($subject[255])) {
+		if (!is_string($subject) || isset($subject[255])) {
 			throw new \InvalidArgumentException('The given subject is invalid');
 		}
 		$this->subject = (string) $subject;
@@ -325,7 +325,7 @@ class Event implements IEvent {
 	 * @since 9.2.0
 	 */
 	public function setParsedMessage($message) {
-		if (!is_string($message) || $message === '') {
+		if (!is_string($message)) {
 			throw new \InvalidArgumentException('The given parsed message is invalid');
 		}
 		$this->messageParsed = $message;
@@ -348,7 +348,7 @@ class Event implements IEvent {
 	 * @since 9.2.0
 	 */
 	public function setRichMessage($message, array $parameters = []) {
-		if (!is_string($message) || $message === '') {
+		if (!is_string($message)) {
 			throw new \InvalidArgumentException('The given parsed message is invalid');
 		}
 		$this->messageRich = $message;
@@ -388,7 +388,7 @@ class Event implements IEvent {
 	 * @since 8.2.0
 	 */
 	public function setObject($objectType, $objectId, $objectName = '') {
-		if (!is_string($objectType) || $objectType === '' || isset($objectType[255])) {
+		if (!is_string($objectType) || isset($objectType[255])) {
 			throw new \InvalidArgumentException('The given object type is invalid');
 		}
 		if (!is_int($objectId)) {

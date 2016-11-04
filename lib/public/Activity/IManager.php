@@ -145,6 +145,19 @@ interface IManager {
 	public function getSettings();
 
 	/**
+	 * @param string $provider Class must implement OCA\Activity\IProvider
+	 * @return void
+	 * @since 9.2.0
+	 */
+	public function registerProvider($provider);
+
+	/**
+	 * @return IProvider[]
+	 * @since 9.2.0
+	 */
+	public function getProviders();
+
+	/**
 	 * @param string $id
 	 * @return ISetting
 	 * @throws \InvalidArgumentException when the setting was not found
