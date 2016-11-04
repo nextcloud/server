@@ -71,10 +71,14 @@ class ShareTest extends TestCase {
 	}
 
 	public function testUnshareFromSelf() {
+		$groupManager = \OC::$server->getGroupManager();
+		$userManager = \OC::$server->getUserManager();
 
-		\OC_Group::createGroup('testGroup');
-		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER2, 'testGroup');
-		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER3, 'testGroup');
+		$testGroup = $groupManager->createGroup('testGroup');
+		$user1 = $userManager->get(self::TEST_FILES_SHARING_API_USER2);
+		$user2 = $userManager->get(self::TEST_FILES_SHARING_API_USER3);
+		$testGroup->addUser($user1);
+		$testGroup->addUser($user2);
 
 		$share1 = $this->share(
 			\OCP\Share::SHARE_TYPE_USER,
