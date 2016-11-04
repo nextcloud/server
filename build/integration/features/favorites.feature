@@ -3,7 +3,7 @@ Feature: favorite
         Given using api version "1"
 
     Scenario: Favorite a folder
-        Given using dav path "remote.php/webdav"
+        Given using old dav path
         And As an "admin"
         And user "user0" exists
         When user "user0" favorites element "/FOLDER"
@@ -12,7 +12,7 @@ Feature: favorite
         And the single response should contain a property "{http://owncloud.org/ns}favorite" with value "1"
 
     Scenario: Favorite and unfavorite a folder
-        Given using dav path "remote.php/webdav"
+        Given using old dav path
         And As an "admin"
         And user "user0" exists
         When user "user0" favorites element "/FOLDER"
@@ -22,7 +22,7 @@ Feature: favorite
         And the single response should contain a property "{http://owncloud.org/ns}favorite" with value ""
 
     Scenario: Favorite a file
-        Given using dav path "remote.php/webdav"
+        Given using old dav path
         And As an "admin"
         And user "user0" exists
         When user "user0" favorites element "/textfile0.txt"
@@ -31,7 +31,7 @@ Feature: favorite
         And the single response should contain a property "{http://owncloud.org/ns}favorite" with value "1"
 
     Scenario: Favorite and unfavorite a file
-        Given using dav path "remote.php/webdav"
+        Given using old dav path
         And As an "admin"
         And user "user0" exists
         When user "user0" favorites element "/textfile0.txt"
@@ -41,7 +41,7 @@ Feature: favorite
         And the single response should contain a property "{http://owncloud.org/ns}favorite" with value ""
 
     Scenario: Favorite a folder new endpoint
-        Given using dav path "remote.php/dav"
+        Given using new dav path
         And As an "admin"
         And user "user0" exists
         When user "user0" favorites element "/FOLDER"
@@ -50,7 +50,7 @@ Feature: favorite
         And the single response should contain a property "{http://owncloud.org/ns}favorite" with value "1"
 
     Scenario: Favorite and unfavorite a folder new endpoint
-        Given using dav path "remote.php/dav"
+        Given using new dav path
         And As an "admin"
         And user "user0" exists
         When user "user0" favorites element "/FOLDER"
@@ -60,7 +60,7 @@ Feature: favorite
         And the single response should contain a property "{http://owncloud.org/ns}favorite" with value ""
 
     Scenario: Favorite a file new endpoint
-        Given using dav path "remote.php/dav"
+        Given using new dav path
         And As an "admin"
         And user "user0" exists
         When user "user0" favorites element "/textfile0.txt"
@@ -69,7 +69,7 @@ Feature: favorite
         And the single response should contain a property "{http://owncloud.org/ns}favorite" with value "1"
 
     Scenario: Favorite and unfavorite a file new endpoint
-        Given using dav path "remote.php/dav"
+        Given using new dav path
         And As an "admin"
         And user "user0" exists
         When user "user0" favorites element "/textfile0.txt"
