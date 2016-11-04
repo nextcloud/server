@@ -27,6 +27,8 @@
  */
 
 namespace OCA\Files_Sharing\Tests;
+use OCP\IGroupManager;
+use OCP\IUserManager;
 
 /**
  * Class SharedMountTest
@@ -34,6 +36,12 @@ namespace OCA\Files_Sharing\Tests;
  * @group SLOWDB
  */
 class SharedMountTest extends TestCase {
+
+	/** @var IGroupManager */
+	private $groupManager;
+
+	/** @var IUserManager */
+	private $userManager;
 
 	protected function setUp() {
 		parent::setUp();
@@ -48,6 +56,9 @@ class SharedMountTest extends TestCase {
 		// save file with content
 		$this->view->file_put_contents($this->filename, "root file");
 		$this->view->file_put_contents($this->folder . $this->filename, "file in subfolder");
+
+		$this->groupManager = \OC::$server->getGroupManager();
+		$this->userManager = \OC::$server->getUserManager();
 	}
 
 	protected function tearDown() {
@@ -172,10 +183,13 @@ class SharedMountTest extends TestCase {
 	 * for the other users
 	 */
 	public function testMoveGroupShare () {
-		\OC_Group::createGroup('testGroup');
-		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER1, 'testGroup');
-		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER2, 'testGroup');
-		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER3, 'testGroup');
+		$testGroup = $this->groupManager->createGroup('testGroup');
+		$user1 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER1);
+		$user2 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER2);
+		$user3 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER3);
+		$testGroup->addUser($user1);
+		$testGroup->addUser($user2);
+		$testGroup->addUser($user3);
 
 		$fileinfo = $this->view->getFileInfo($this->filename);
 		$share = $this->share(
@@ -206,9 +220,9 @@ class SharedMountTest extends TestCase {
 		//cleanup
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		$this->shareManager->deleteShare($share);
-		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER1, 'testGroup');
-		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER2, 'testGroup');
-		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER3, 'testGroup');
+		$testGroup->removeUser($user1);
+		$testGroup->removeUser($user2);
+		$testGroup->removeUser($user3);
 	}
 
 	/**
@@ -317,10 +331,13 @@ class SharedMountTest extends TestCase {
 			$path = $this->folder;
 		}
 
-		\OC_Group::createGroup('testGroup');
-		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER1, 'testGroup');
-		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER2, 'testGroup');
-		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER3, 'testGroup');
+		$testGroup = $this->groupManager->createGroup('testGroup');
+		$user1 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER1);
+		$user2 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER2);
+		$user3 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER3);
+		$testGroup->addUser($user1);
+		$testGroup->addUser($user2);
+		$testGroup->addUser($user3);
 
 		// Share item with group
 		$share = $this->share(
@@ -362,9 +379,9 @@ class SharedMountTest extends TestCase {
 		//cleanup
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		$this->shareManager->deleteShare($share);
-		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER1, 'testGroup');
-		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER2, 'testGroup');
-		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER3, 'testGroup');
+		$testGroup->removeUser($user1);
+		$testGroup->removeUser($user2);
+		$testGroup->removeUser($user3);
 	}
 
 	/**
@@ -372,10 +389,13 @@ class SharedMountTest extends TestCase {
 	 * removed shares by a member of that group
 	 */
 	function testPermissionUpgradeOnUserDeletedGroupShare() {
-		\OC_Group::createGroup('testGroup');
-		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER1, 'testGroup');
-		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER2, 'testGroup');
-		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER3, 'testGroup');
+		$testGroup = $this->groupManager->createGroup('testGroup');
+		$user1 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER1);
+		$user2 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER2);
+		$user3 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER3);
+		$testGroup->addUser($user1);
+		$testGroup->addUser($user2);
+		$testGroup->addUser($user3);
 
 		$connection = \OC::$server->getDatabaseConnection();
 
@@ -419,9 +439,9 @@ class SharedMountTest extends TestCase {
 
 		//cleanup
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER1, 'testGroup');
-		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER2, 'testGroup');
-		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER3, 'testGroup');
+		$testGroup->removeUser($user1);
+		$testGroup->removeUser($user2);
+		$testGroup->removeUser($user3);
 	}
 
 }
