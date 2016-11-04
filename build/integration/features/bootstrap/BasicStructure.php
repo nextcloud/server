@@ -361,6 +361,14 @@ trait BasicStructure {
 	}
 
 	/**
+	 * @When Sleep for :seconds seconds
+	 * @param int $seconds
+	 */
+	public function sleepForSeconds($seconds) {
+		sleep((int)$seconds);
+	}
+
+	/**
 	 * @BeforeSuite
 	 */
 	public static function addFilesToSkeleton(){

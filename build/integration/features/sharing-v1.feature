@@ -901,6 +901,7 @@ Feature: sharing
     And user "user0" created a folder "/merge-test-outside-groups-renamebeforesecondshare"
     When folder "/merge-test-outside-groups-renamebeforesecondshare" of user "user0" is shared with group "group1"
     And User "user1" moved folder "/merge-test-outside-groups-renamebeforesecondshare" to "/merge-test-outside-groups-renamebeforesecondshare-renamed"
+    And Sleep for "1" seconds
     And folder "/merge-test-outside-groups-renamebeforesecondshare" of user "user0" is shared with user "user1"
     Then as "user1" gets properties of folder "/merge-test-outside-groups-renamebeforesecondshare-renamed" with
         |{http://owncloud.org/ns}permissions|
@@ -917,6 +918,7 @@ Feature: sharing
     And user "user0" created a folder "/merge-test-outside-groups-renamebeforesecondshare"
     When folder "/merge-test-outside-groups-renamebeforesecondshare" of user "user0" is shared with user "user1"
     And User "user1" moved folder "/merge-test-outside-groups-renamebeforesecondshare" to "/merge-test-outside-groups-renamebeforesecondshare-renamed"
+    And Sleep for "1" seconds
     And folder "/merge-test-outside-groups-renamebeforesecondshare" of user "user0" is shared with group "group1"
     Then as "user1" gets properties of folder "/merge-test-outside-groups-renamebeforesecondshare-renamed" with
         |{http://owncloud.org/ns}permissions|
