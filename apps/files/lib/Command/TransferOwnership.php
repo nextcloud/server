@@ -93,11 +93,11 @@ class TransferOwnership extends Command {
 		$destinationUserObject = $this->userManager->get($input->getArgument('destination-user'));
 		if (is_null($sourceUserObject)) {
 			$output->writeln("<error>Unknown source user $this->sourceUser</error>");
-			return;
+			return 1;
 		}
 		if (is_null($destinationUserObject)) {
 			$output->writeln("<error>Unknown destination user $this->destinationUser</error>");
-			return;
+			return 1;
 		}
 
 		$this->sourceUser = $sourceUserObject->getUID();
@@ -106,7 +106,7 @@ class TransferOwnership extends Command {
 		// target user has to be ready
 		if (!\OC::$server->getEncryptionManager()->isReadyForUser($this->destinationUser)) {
 			$output->writeln("<error>The target user is not ready to accept files. The user has at least to be logged in once.</error>");
-			return;
+			return 2;
 		}
 
 		$date = date('c');
