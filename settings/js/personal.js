@@ -235,19 +235,18 @@ $(document).ready(function () {
 					$(".personal-show-label").show();
 					$('#pass1').val('');
 					$('#pass2').val('').change();
+				}
+				if (typeof(data.data) !== "undefined") {
+					OC.msg.finishedSaving('#password-error-msg', data);
 				} else {
-					if (typeof(data.data) !== "undefined") {
-						OC.msg.finishedSaving('#password-error-msg', data);
-					} else {
-						OC.msg.finishedSaving('#password-error-msg',
-							{
-								'status' : 'error',
-								'data' : {
-									'message' : t('core', 'Unable to change password')
-								}
+					OC.msg.finishedSaving('#password-error-msg',
+						{
+							'status' : 'error',
+							'data' : {
+								'message' : t('core', 'Unable to change password')
 							}
-						);
-					}
+						}
+					);
 				}
 				$(".password-loading").remove();
 				$("#passwordbutton").removeAttr('disabled');
