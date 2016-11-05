@@ -8,6 +8,8 @@
     "Please select tags to filter by" : "Выберите метки для фильтра",
     "No files found for the selected tags" : "Для выбранных меток файлов не найдено",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Системные метки</strong> файла были изменены",
+    "You removed system tag %3$s" : "Вы удалили системную метку %3$s",
+    "%1$s removed system tag %3$s" : "%1$s удалил системную метку %3$s",
     "You created system tag %2$s" : "Вы создали системную метку %2$s",
     "%1$s created system tag %2$s" : "%1$s создал системную метку %2$s",
     "You deleted system tag %2$s" : "Вы удалили системную метку %2$s",
