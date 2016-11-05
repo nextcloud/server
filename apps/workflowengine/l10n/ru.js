@@ -18,6 +18,8 @@ OC.L10N.register(
     "Request remote address" : "Запрос удаленного адреса",
     "matches IPv4" : "соответствует IPv4",
     "does not match IPv4" : "не соответствует IPv4",
+    "matches IPv6" : "соответствует IPv6",
+    "does not match IPv6" : "не соответствует IPv6",
     "Request time" : "Время запроса",
     "between" : "между",
     "not between" : "не между",

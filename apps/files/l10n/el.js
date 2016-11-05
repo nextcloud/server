@@ -14,6 +14,7 @@ OC.L10N.register(
     "Upload cancelled." : "Η αποστολή ακυρώθηκε.",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Αδυναμία φόρτωσης {filename} καθώς είναι κατάλογος αρχείων ή έχει 0 bytes",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Δεν υπάρχει αρκετός ελεύθερος χώρος, μεταφορτώνετε μέγεθος {size1} αλλά υπάρχει χώρος μόνο {size2}",
+    "Not enough free space" : "Δεν υπάρχει αρκετός ελεύθερος χώρος.",
     "Uploading..." : "Μεταφόρτωση...",
     "..." : "...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Η αποστολή του αρχείου βρίσκεται σε εξέλιξη. Το κλείσιμο της σελίδας θα ακυρώσει την αποστολή.",

@@ -27,6 +27,7 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "Non autorisé à créer un partage fédéré avec le même utilisateur",
     "File is already shared with %s" : "Le fichier est déjà partagé avec %s",
     "Could not find share" : "Impossible de trouver le partage",
+    "You received {share} as a remote share from {user}" : "Vous avez reçu {share} comme partage distant de la part de {user}",
     "Accept" : "Accepter",
     "Decline" : "Refuser",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Partagez avec moi grâce à mon identifiant Federated Cloud #Nextcloud %s",
