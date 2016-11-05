@@ -272,13 +272,16 @@ $(document).ready(function () {
 		// Serialize the data
 		var post = $("#languageinput").serialize();
 		// Ajax foo
-		$.post('ajax/setlanguage.php', post, function (data) {
-			if (data.status === "success") {
-				location.reload();
+		$.ajax(
+			'ajax/setlanguage.php',
+			{
+				method: 'POST',
+				data: post
 			}
-			else {
-				$('#passworderror').text(data.data.message);
-			}
+		).done(function() {
+			location.reload();
+		}).fail(function(jqXHR) {
+			$('#passworderror').text(jqXHR.responseJSON.message);
 		});
 		return false;
 	});

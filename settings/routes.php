@@ -67,6 +67,7 @@ $application->registerRoutes($this, [
 		['name' => 'AdminSettings#form', 'url' => '/settings/admin/{section}', 'verb' => 'GET'],
 		['name' => 'ChangePassword#changePersonalPassword', 'url' => '/settings/personal/changepassword', 'verb' => 'POST'],
 		['name' => 'ChangePassword#changeUserPassword', 'url' => '/settings/users/changepassword', 'verb' => 'POST'],
+		['name' => 'Personal#setLanguage', 'url' => '/settings/ajax/setlanguage.php', 'verb' => 'POST'],
 	]
 ]);
 
@@ -88,10 +89,7 @@ $this->create('settings_ajax_togglegroups', '/settings/ajax/togglegroups.php')
 $this->create('settings_ajax_togglesubadmins', '/settings/ajax/togglesubadmins.php')
 	->actionInclude('settings/ajax/togglesubadmins.php');
 $this->create('settings_ajax_changegorupname', '/settings/ajax/changegroupname.php')
-	->actionInclude('settings/ajax/changegroupname.php');	
-// personal
-$this->create('settings_ajax_setlanguage', '/settings/ajax/setlanguage.php')
-	->actionInclude('settings/ajax/setlanguage.php');
+	->actionInclude('settings/ajax/changegroupname.php');
 // apps
 $this->create('settings_ajax_enableapp', '/settings/ajax/enableapp.php')
 	->actionInclude('settings/ajax/enableapp.php');
