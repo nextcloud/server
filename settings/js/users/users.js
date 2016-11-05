@@ -941,9 +941,9 @@ $(document).ready(function () {
 	// Option for users to delete their own accounts
 	$('#CheckboxUserDeletionAccount').click(function() {
 		if ($('#CheckboxUserDeletionAccount').is(':checked')) {
-			OC.AppConfig.setValue('core', 'user_own_account_deletion', 'true');
+			OCP.AppConfig.setValue('core', 'user_own_account_deletion', '1');
 		} else {
-			OC.AppConfig.setValue('core', 'user_own_account_deletion', 'false');
+			OCP.AppConfig.setValue('core', 'user_own_account_deletion', '0');
 		}
 	});
 

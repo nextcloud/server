@@ -318,7 +318,7 @@ class User implements IUser {
 	 */
 	public function canDeleteAccount() {
 		// TODO : Change this
-		if (!filter_var($this->config->getAppValue('core', 'user_own_account_deletion', false), FILTER_VALIDATE_BOOLEAN)) {
+		if (!(bool)$this->config->getAppValue('core', 'user_own_account_deletion', 0)) {
 			return false;
 		}
 		return $this->backend->implementsActions(Backend::DELETE_USER);
