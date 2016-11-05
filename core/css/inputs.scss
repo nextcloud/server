@@ -1,14 +1,11 @@
 /* INPUTS */
 
 /* specifically override browser styles */
-input, textarea, select, button {
-	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
-}
-
+input, textarea, select, button,
 .select2-container-multi .select2-choices .select2-search-field input,
 .select2-search input,
-.ui-widget {
-	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif !important;
+.ui-widget  {
+	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
 }
 
 /* We need to specify all inputs to allow overriding, input only is too big */
