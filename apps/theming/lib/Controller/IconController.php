@@ -27,8 +27,7 @@ use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Response;
-use OCP\AppFramework\Http\DataDisplayResponse;
+use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\NotFoundException;
@@ -88,7 +87,7 @@ class IconController extends Controller {
 	 *
 	 * @param $app string app name
 	 * @param $image string image file name (svg required)
-	 * @return FileDisplayResponse
+	 * @return FileDisplayResponse|NotFoundResponse
 	 */
 	public function getThemedIcon($app, $image) {
 		try {
@@ -97,14 +96,18 @@ class IconController extends Controller {
 			$icon = $this->iconBuilder->colorSvg($app, $image);
 			$iconFile = $this->imageManager->setCachedImage("icon-" . $app . '-' . str_replace("/","_",$image), $icon);
 		}
-		$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
-		$response->cacheFor(86400);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-		$response->addHeader('Pragma', 'cache');
-		return $response;
+		if ($iconFile !== false) {
+			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
+			$response->cacheFor(86400);
+			$expires = new \DateTime();
+			$expires->setTimestamp($this->timeFactory->getTime());
+			$expires->add(new \DateInterval('PT24H'));
+			$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
+			$response->addHeader('Pragma', 'cache');
+			return $response;
+		} else {
+			return new NotFoundResponse();
+		}
 	}
 
 	/**
@@ -114,7 +117,7 @@ class IconController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * @param $app string app name
-	 * @return FileDisplayResponse|DataDisplayResponse
+	 * @return FileDisplayResponse|NotFoundResponse
 	 */
 	public function getFavicon($app = "core") {
 		if ($this->themingDefaults->shouldReplaceIcons()) {
@@ -124,20 +127,18 @@ class IconController extends Controller {
 				$icon = $this->iconBuilder->getFavicon($app);
 				$iconFile = $this->imageManager->setCachedImage('favIcon-' . $app, $icon);
 			}
-			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
-			$response->cacheFor(86400);
-			$expires = new \DateTime();
-			$expires->setTimestamp($this->timeFactory->getTime());
-			$expires->add(new \DateInterval('PT24H'));
-			$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-			$response->addHeader('Pragma', 'cache');
-		} else {
-			$response = new Response();
-			$response->setStatus(Http::STATUS_NOT_FOUND);
-			$response->cacheFor(0);
-			$response->setLastModified(new \DateTime('now', new \DateTimeZone('GMT')));
+			if ($iconFile !== false) {
+				$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
+				$response->cacheFor(86400);
+				$expires = new \DateTime();
+				$expires->setTimestamp($this->timeFactory->getTime());
+				$expires->add(new \DateInterval('PT24H'));
+				$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
+				$response->addHeader('Pragma', 'cache');
+				return $response;
+			}
 		}
-		return $response;
+		return new NotFoundResponse();
 	}
 
 	/**
@@ -147,7 +148,7 @@ class IconController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * @param $app string app name
-	 * @return FileDisplayResponse|DataDisplayResponse
+	 * @return FileDisplayResponse|NotFoundResponse
 	 */
 	public function getTouchIcon($app = "core") {
 		if ($this->themingDefaults->shouldReplaceIcons()) {
@@ -157,19 +158,17 @@ class IconController extends Controller {
 				$icon = $this->iconBuilder->getTouchIcon($app);
 				$iconFile = $this->imageManager->setCachedImage('touchIcon-' . $app, $icon);
 			}
-			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/png']);
-			$response->cacheFor(86400);
-			$expires = new \DateTime();
-			$expires->setTimestamp($this->timeFactory->getTime());
-			$expires->add(new \DateInterval('PT24H'));
-			$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-			$response->addHeader('Pragma', 'cache');
-		} else {
-			$response = new Response();
-			$response->setStatus(Http::STATUS_NOT_FOUND);
-			$response->cacheFor(0);
-			$response->setLastModified(new \DateTime('now', new \DateTimeZone('GMT')));
+			if ($iconFile !== false) {
+				$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/png']);
+				$response->cacheFor(86400);
+				$expires = new \DateTime();
+				$expires->setTimestamp($this->timeFactory->getTime());
+				$expires->add(new \DateInterval('PT24H'));
+				$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
+				$response->addHeader('Pragma', 'cache');
+				return $response;
+			}
 		}
-		return $response;
+		return new NotFoundResponse();
 	}
 }

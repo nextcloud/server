@@ -27,6 +27,7 @@ use OC\Files\SimpleFS\SimpleFile;
 use OCA\Theming\ImageManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
+use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
@@ -153,7 +154,7 @@ class IconControllerTest extends TestCase {
 		$expected->setStatus(Http::STATUS_NOT_FOUND);
 		$expected->cacheFor(0);
 		$expected->setLastModified(new \DateTime('now', new \DateTimeZone('GMT')));
-		$this->assertEquals($expected, $this->iconController->getFavicon());
+		$this->assertInstanceOf(NotFoundResponse::class, $this->iconController->getFavicon());
 	}
 
 	public function testGetTouchIconDefault() {
@@ -194,11 +195,7 @@ class IconControllerTest extends TestCase {
 		$this->themingDefaults->expects($this->any())
 			->method('shouldReplaceIcons')
 			->willReturn(false);
-		$expected = new Http\Response();
-		$expected->setStatus(Http::STATUS_NOT_FOUND);
-		$expected->cacheFor(0);
-		$expected->setLastModified(new \DateTime('now', new \DateTimeZone('GMT')));
-		$this->assertEquals($expected, $this->iconController->getTouchIcon());
+		$this->assertInstanceOf(NotFoundResponse::class, $this->iconController->getTouchIcon());
 	}
 
 }

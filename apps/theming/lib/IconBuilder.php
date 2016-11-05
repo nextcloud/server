@@ -48,10 +48,13 @@ class IconBuilder {
 
 	/**
 	 * @param $app string app name
-	 * @return string image blob
+	 * @return string|false image blob
 	 */
 	public function getFavicon($app) {
 		$icon = $this->renderAppIcon($app);
+		if($icon === false) {
+			return false;
+		}
 		$icon->resizeImage(32, 32, Imagick::FILTER_LANCZOS, 1);
 		$icon->setImageFormat("png24");
 		$data = $icon->getImageBlob();
@@ -61,10 +64,13 @@ class IconBuilder {
 
 	/**
 	 * @param $app string app name
-	 * @return string image blob
+	 * @return string|false image blob
 	 */
 	public function getTouchIcon($app) {
 		$icon = $this->renderAppIcon($app);
+		if($icon === false) {
+			return false;
+		}
 		$icon->setImageFormat("png24");
 		$data = $icon->getImageBlob();
 		$icon->destroy();
@@ -76,11 +82,14 @@ class IconBuilder {
 	 * fallback to logo
 	 *
 	 * @param $app string app name
-	 * @return Imagick
+	 * @return Imagick|false
 	 */
 	public function renderAppIcon($app) {
 		$appIcon = $this->util->getAppIcon($app);
 		$appIconContent = file_get_contents($appIcon);
+		if($appIconContent === false) {
+			return false;
+		}
 
 		$color = $this->themingDefaults->getMailHeaderColor();
 		$mime = mime_content_type($appIcon);
@@ -151,9 +160,13 @@ class IconBuilder {
 	public function colorSvg($app, $image) {
 		$imageFile = $this->util->getAppImage($app, $image);
 		$svg = file_get_contents($imageFile);
-		$color = $this->util->elementColor($this->themingDefaults->getMailHeaderColor());
-		$svg = $this->util->colorizeSvg($svg, $color);
-		return $svg;
+		if ($svg !== false) {
+			$color = $this->util->elementColor($this->themingDefaults->getMailHeaderColor());
+			$svg = $this->util->colorizeSvg($svg, $color);
+			return $svg;
+		} else {
+			return false;
+		}
 	}
 
 }

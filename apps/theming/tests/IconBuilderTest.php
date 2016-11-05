@@ -25,6 +25,7 @@ namespace OCA\Theming\Tests;
 use OCA\Theming\IconBuilder;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
+use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use Test\TestCase;
@@ -149,4 +150,39 @@ class IconBuilderTest extends TestCase {
 		// cloud be something like $expectedIcon->compareImages($icon, Imagick::METRIC_MEANABSOLUTEERROR)[1])
 	}
 
+	/**
+	 * @expectedException \PHPUnit_Framework_Error_Warning
+	 */
+	public function testGetFaviconNotFound() {
+		$util = $this->getMockBuilder(Util::class)->disableOriginalConstructor()->getMock();
+		$iconBuilder = new IconBuilder($this->themingDefaults, $util);
+		$util->expects($this->once())
+			->method('getAppIcon')
+			->willReturn('notexistingfile');
+		$this->assertFalse($iconBuilder->getFavicon('noapp'));
+	}
+
+	/**
+	 * @expectedException \PHPUnit_Framework_Error_Warning
+	 */
+	public function testGetTouchIconNotFound() {
+		$util = $this->getMockBuilder(Util::class)->disableOriginalConstructor()->getMock();
+		$iconBuilder = new IconBuilder($this->themingDefaults, $util);
+		$util->expects($this->once())
+			->method('getAppIcon')
+			->willReturn('notexistingfile');
+		$this->assertFalse($iconBuilder->getTouchIcon('noapp'));
+	}
+
+	/**
+	 * @expectedException \PHPUnit_Framework_Error_Warning
+	 */
+	public function testColorSvgNotFound() {
+		$util = $this->getMockBuilder(Util::class)->disableOriginalConstructor()->getMock();
+		$iconBuilder = new IconBuilder($this->themingDefaults, $util);
+		$util->expects($this->once())
+			->method('getAppImage')
+			->willReturn('notexistingfile');
+		$this->assertFalse($iconBuilder->colorSvg('noapp','noimage'));
+	}
 }
