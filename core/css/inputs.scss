@@ -40,7 +40,7 @@ button, .button,
 	font-size: 13px;
 	background-color: #fff;
 	color: #555;
-	border: 1px solid #e2e2e2;
+	border: 1px solid #e0e0e0;
 	outline: none;
 	border-radius: 3px;
 	font-family: inherit; /* use default ownCloud font instead of default textarea monospace */
@@ -111,6 +111,7 @@ input[type="submit"], input[type="button"],
 button, .button,
 .button a,
 select {
+	border-color: #e6e6e6;
 	&:hover, &:active, &:focus {
 		background-color: #f1f1f1;
 		color: #111;
