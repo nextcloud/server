@@ -392,6 +392,57 @@ class UserTest extends \Test\TestCase {
 		$this->assertEquals('foo',$user->getDisplayName());
 	}
 
+	public function testCanDeleteAccount() {
+		/**
+		 * @var \OC\User\Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 */
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+
+		/**
+		 * @var \OCP\IConfig | \PHPUnit_Framework_MockObject_MockObject $config
+		 */
+		$config = $this->getMockBuilder('\OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
+		$config->expects($this->any())
+			->method('getAppValue')
+			->will($this->returnValue(true));
+
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->will($this->returnCallback(function ($actions) {
+				if ($actions === \OC\User\Backend::DELETE_USER) {
+					return true;
+				} else {
+					return false;
+				}
+			}));
+
+		$user = new \OC\User\User('foo', $backend, null, $config);
+		$this->assertTrue($user->canDeleteAccount());
+	}
+
+	public function testCanDeleteAccountNotSupported() {
+		/**
+		 * @var \OC\User\Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 */
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+
+		$config = $this->getMockBuilder('\OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
+		$config->expects($this->any())
+			->method('getAppValue')
+			->will($this->returnValue(true));
+
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->will($this->returnValue(false));
+
+		$user = new \OC\User\User('foo', $backend, null, $config);
+		$this->assertFalse($user->canDeleteAccount());
+	}
+
 	public function testSetPasswordHooks() {
 		$hooksCalled = 0;
 		$test = $this;

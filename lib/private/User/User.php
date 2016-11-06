@@ -312,6 +312,19 @@ class User implements IUser {
 	}
 
 	/**
+	 * check if the backend supports deleting user
+	 *
+	 * @return bool
+	 */
+	public function canDeleteAccount() {
+		// TODO : Change this
+		if (!(bool)$this->config->getAppValue('core', 'user_own_account_deletion', 0)) {
+			return false;
+		}
+		return $this->backend->implementsActions(Backend::DELETE_USER);
+	}
+
+	/**
 	 * check if the user is enabled
 	 *
 	 * @return bool

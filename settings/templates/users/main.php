@@ -45,6 +45,13 @@ translation('settings');
 
 			<div id="userlistoptions">
 				<p>
+					<input type="checkbox" name="userDeletionAccount" value="userDeletionAccount" id="CheckboxUserDeletionAccount"
+						   class="checkbox" <?php if ($_['user_own_account_deletion']) print_unescaped('checked="checked"'); ?> />
+					<label for="CheckboxUserDeletionAccount">
+						<?php p($l->t('Users can delete their accounts')) ?>
+					</label>
+				</p>
+				<p>
 					<input type="checkbox" name="StorageLocation" value="StorageLocation" id="CheckboxStorageLocation" 
 						class="checkbox" <?php if ($_['show_storage_location'] === 'true') print_unescaped('checked="checked"'); ?> />
 					<label for="CheckboxStorageLocation">

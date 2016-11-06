@@ -433,6 +433,7 @@ class UsersController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @NoSubadminRequired
 	 *
 	 * @param string $id
 	 * @return DataResponse
@@ -440,20 +441,21 @@ class UsersController extends Controller {
 	public function destroy($id) {
 		$userId = $this->userSession->getUser()->getUID();
 		$user = $this->userManager->get($id);
+		$userOwnDeletion = $this->config->getAppValue('core', 'user_own_account_deletion', false);
 
-		if($userId === $id) {
+		if ($userId === $id && !$userOwnDeletion) {
 			return new DataResponse(
 				array(
 					'status' => 'error',
 					'data' => array(
-						'message' => (string)$this->l10n->t('Unable to delete user.')
+						'message' => (string)$this->l10n->t('Can\'t delete your own account')
 					)
 				),
 				Http::STATUS_FORBIDDEN
 			);
 		}
 
-		if(!$this->isAdmin && !$this->groupManager->getSubAdmin()->isUserAccessible($this->userSession->getUser(), $user)) {
+		if($userId !== $id && !$this->isAdmin && !$this->groupManager->getSubAdmin()->isUserAccessible($this->userSession->getUser(), $user)) {
 			return new DataResponse(
 				array(
 					'status' => 'error',
@@ -467,6 +469,9 @@ class UsersController extends Controller {
 
 		if($user) {
 			if($user->delete()) {
+				if ($userId === $id) {
+					$this->userSession->logout();
+				}
 				return new DataResponse(
 					array(
 						'status' => 'success',
