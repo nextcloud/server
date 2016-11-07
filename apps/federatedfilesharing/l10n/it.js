@@ -26,6 +26,7 @@ OC.L10N.register(
     "Sharing %s failed, because this item is already shared with %s" : "Condivisione di %s non riuscita, poiché l'oggetto è già condiviso con %s",
     "Not allowed to create a federated share with the same user" : "Non è consentito creare una condivisione federata con lo stesso utente",
     "File is already shared with %s" : "Il file è già condiviso con %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "La condivisione di %s non è riuscita, impossibile trovare %s, è probabile che il server non sia al momento raggiungibile o che utilizzi un certificato auto-firmato.",
     "Could not find share" : "Impossibile trovare la condivisione",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Hai ricevuto \"%3$s\" come condivisione remota da %1$s (per conto di %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Hai ricevuto {share} come condivisione remota da {user} (per conto di {behalf})",

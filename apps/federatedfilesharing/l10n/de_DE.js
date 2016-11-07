@@ -26,6 +26,7 @@ OC.L10N.register(
     "Sharing %s failed, because this item is already shared with %s" : "Die Freigabe von %s ist fehlgeschlagen, da dieses Objekt schon mit %s geteilt wird",
     "Not allowed to create a federated share with the same user" : "Das Erstellen einer Federated Cloud Freigabe mit dem gleichen Benutzer ist nicht erlaubt",
     "File is already shared with %s" : "Datei wird bereits geteilt mit %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Freigabe von %s fehlgeschlagen, da %s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar oder nutzt ein selbst zertifiziertes Zertifikat.",
     "Could not find share" : "Freigabe konnte nicht gefunden werden",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Sie empfingen \"%3$s\" als eine entfernte Freigabe von \"%1$s\" (im Auftrag von %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Sie empfingen {share} als eine entfernte Freigabe von {user} (im Auftrag von {behalf})",
