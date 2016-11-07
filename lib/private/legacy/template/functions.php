@@ -186,14 +186,14 @@ function mimetype_icon( $mimetype ) {
  * @return link to the preview
  */
 function preview_icon( $path ) {
-	return \OC::$server->getURLGenerator()->linkToRoute('core_ajax_preview', ['x' => 32, 'y' => 32, 'file' => $path]);
+	return \OC::$server->getURLGenerator()->linkToRoute('core.Preview.getPreview', ['x' => 32, 'y' => 32, 'file' => $path]);
 }
 
 /**
  * @param string $path
  */
 function publicPreview_icon ( $path, $token ) {
-	return \OC::$server->getURLGenerator()->linkToRoute('core_ajax_public_preview', ['x' => 32, 'y' => 32, 'file' => $path, 't' => $token]);
+	return \OC::$server->getURLGenerator()->linkToRoute('files_sharing.PublicPreview.getPreview', ['x' => 32, 'y' => 32, 'file' => $path, 't' => $token]);
 }
 
 /**
