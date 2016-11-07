@@ -676,11 +676,12 @@ em {
 }
 
 .popovermenu .menuitem {
-	display: block;
+	display: flex;
 	line-height: 30px;
 	padding-left: 5px;
 	color: #000;
 	padding: 0;
+	align-items: center;
 }
 
 .popovermenu .menuitem .icon,
