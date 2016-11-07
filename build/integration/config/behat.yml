@@ -22,6 +22,9 @@ default:
             baseUrl: http://localhost:8080
         - ChecksumsContext:
             baseUrl: http://localhost:8080
+        - CommandLineContext:
+            baseUrl: http://localhost:8080
+            ocPath: ../../
     federation:
       paths:
         - %paths.base%/../federation_features
@@ -72,8 +75,6 @@ default:
               - admin
               - admin
             regular_user_password: 123456
-
-
 
   extensions:
       jarnaiz\JUnitFormatter\JUnitFormatterExtension:
