@@ -278,6 +278,73 @@ class RepairInvalidSharesTest extends TestCase {
 		$result->closeCursor();
 	}
 
+	public function fileSharePermissionsProvider() {
+		return [
+			// unchanged for folder
+			[
+				'folder',
+				31,
+				31,
+			],
+			// unchanged for read-write + share
+			[
+				'file',
+				\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE,
+				\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE,
+			],
+			// fixed for all perms
+			[
+				'file',
+				\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_SHARE,
+				\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE,
+			],
+		];
+	}
+
+	/**
+	 * Test adjusting file share permissions
+	 *
+	 * @dataProvider fileSharePermissionsProvider
+	 */
+	public function testFileSharePermissions($itemType, $testPerms, $expectedPerms) {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('share')
+			->values([
+				'share_type' => $qb->expr()->literal(Constants::SHARE_TYPE_LINK),
+				'uid_owner' => $qb->expr()->literal('user1'),
+				'item_type' => $qb->expr()->literal($itemType),
+				'item_source' => $qb->expr()->literal(123),
+				'item_target' => $qb->expr()->literal('/123'),
+				'file_source' => $qb->expr()->literal(123),
+				'file_target' => $qb->expr()->literal('/test'),
+				'permissions' => $qb->expr()->literal($testPerms),
+				'stime' => $qb->expr()->literal(time()),
+			])
+			->execute();
+
+		$shareId = $this->getLastShareId();
+
+		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $outputMock */
+		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->repair->run($outputMock);
+
+		$results = $this->connection->getQueryBuilder()
+			->select('*')
+			->from('share')
+			->orderBy('permissions', 'ASC')
+			->execute()
+			->fetchAll();
+
+		$this->assertCount(1, $results);
+
+		$updatedShare = $results[0];
+
+		$this->assertEquals($expectedPerms, $updatedShare['permissions']);
+	}
+
 	/**
 	 * @return int
 	 */
