@@ -76,6 +76,9 @@ class ShareByMailProviderTest extends TestCase {
 	/** @var  IShare | \PHPUnit_Framework_MockObject_MockObject */
 	private $share;
 
+	/** @var  \OCP\Activity\IManager | \PHPUnit_Framework_MockObject_MockObject */
+	private $activityManager;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -94,6 +97,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->mailer = $this->getMockBuilder('\OCP\Mail\IMailer')->getMock();
 		$this->urlGenerator = $this->getMockBuilder('\OCP\IUrlGenerator')->getMock();
 		$this->share = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
+		$this->activityManager = $this->getMockBuilder('OCP\Activity\IManager')->getMock();
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
 	}
@@ -116,7 +120,8 @@ class ShareByMailProviderTest extends TestCase {
 					$this->l,
 					$this->logger,
 					$this->mailer,
-					$this->urlGenerator
+					$this->urlGenerator,
+					$this->activityManager
 				]
 			);
 
@@ -133,7 +138,8 @@ class ShareByMailProviderTest extends TestCase {
 			$this->l,
 			$this->logger,
 			$this->mailer,
-			$this->urlGenerator
+			$this->urlGenerator,
+			$this->activityManager
 		);
 
 	}
@@ -148,10 +154,11 @@ class ShareByMailProviderTest extends TestCase {
 		$share = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
 		$share->expects($this->once())->method('getSharedWith')->willReturn('user1');
 
-		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject']);
+		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject', 'createActivity']);
 
 		$instance->expects($this->once())->method('getSharedWith')->willReturn([]);
 		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn(42);
+		$instance->expects($this->once())->method('createActivity')->with($share);
 		$instance->expects($this->once())->method('getRawShare')->with(42)->willReturn('rawShare');
 		$instance->expects($this->once())->method('createShareObject')->with('rawShare')->willReturn('shareObject');
 
@@ -614,7 +621,7 @@ class ShareByMailProviderTest extends TestCase {
 		$userManager = \OC::$server->getUserManager();
 		$rootFolder = \OC::$server->getRootFolder();
 
-		$provider = $this->getInstance(['sendMailNotification']);
+		$provider = $this->getInstance(['sendMailNotification', 'createActivity']);
 
 		$u1 = $userManager->createUser('testFed', md5(time()));
 		$u2 = $userManager->createUser('testFed2', md5(time()));
@@ -651,5 +658,5 @@ class ShareByMailProviderTest extends TestCase {
 		$u1->delete();
 		$u2->delete();
 	}
-	
+
 }

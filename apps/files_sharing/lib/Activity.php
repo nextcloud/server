@@ -72,7 +72,6 @@ class Activity implements IExtension {
 	const SUBJECT_LINK_EXPIRED = 'link_expired';
 	const SUBJECT_LINK_BY_EXPIRED = 'link_by_expired';
 
-	const SUBJECT_SHARED_EMAIL = 'shared_with_email';
 	const SUBJECT_SHARED_FILE_BY_EMAIL_DOWNLOADED = 'file_shared_with_email_downloaded';
 	const SUBJECT_SHARED_FOLDER_BY_EMAIL_DOWNLOADED = 'folder_shared_with_email_downloaded';
 
@@ -250,8 +249,6 @@ class Activity implements IExtension {
 			case self::SUBJECT_UNSHARED_BY:
 				return (string) $l->t('%2$s removed the share for %1$s', $params);
 
-			case self::SUBJECT_SHARED_EMAIL:
-				return (string) $l->t('You shared %1$s with %2$s', $params);
 			case self::SUBJECT_SHARED_FILE_BY_EMAIL_DOWNLOADED:
 				return (string) $l->t('File %1$s shared by email with %2$s was downloaded', $params);
 			case self::SUBJECT_SHARED_FOLDER_BY_EMAIL_DOWNLOADED:
@@ -307,8 +304,6 @@ class Activity implements IExtension {
 			case self::SUBJECT_SHARED_WITH_BY:
 				return (string) $l->t('Shared by %2$s', $params);
 
-			case self::SUBJECT_SHARED_EMAIL:
-				return (string) $l->t('Shared with %2$s', $params);
 			case self::SUBJECT_SHARED_FILE_BY_EMAIL_DOWNLOADED:
 			case self::SUBJECT_SHARED_FOLDER_BY_EMAIL_DOWNLOADED:
 				return (string) $l->t('Downloaded by %2$s', $params);
