@@ -68,11 +68,6 @@ class FilesPluginTest extends TestCase {
 	private $plugin;
 
 	/**
-	 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject
-	 */
-	private $view;
-
-	/**
 	 * @var \OCP\IConfig | \PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $config;
@@ -95,12 +90,7 @@ class FilesPluginTest extends TestCase {
 		$this->tree = $this->getMockBuilder('\Sabre\DAV\Tree')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->view = $this->getMockBuilder('\OC\Files\View')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->config = $this->getMockBuilder('\OCP\IConfig')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->config = $this->createMock('\OCP\IConfig');
 		$this->config->expects($this->any())->method('getSystemValue')
 			->with($this->equalTo('data-fingerprint'), $this->equalTo(''))
 			->willReturn('my_fingerprint');
@@ -113,7 +103,6 @@ class FilesPluginTest extends TestCase {
 
 		$this->plugin = new FilesPlugin(
 			$this->tree,
-			$this->view,
 			$this->config,
 			$this->request,
 			$this->previewManager
@@ -246,7 +235,6 @@ class FilesPluginTest extends TestCase {
 	public function testGetPublicPermissions() {
 		$this->plugin = new FilesPlugin(
 			$this->tree,
-			$this->view,
 			$this->config,
 			$this->getMockBuilder('\OCP\IRequest')
 				->disableOriginalConstructor()

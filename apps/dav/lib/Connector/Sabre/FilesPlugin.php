@@ -115,7 +115,6 @@ class FilesPlugin extends ServerPlugin {
 
 	/**
 	 * @param Tree $tree
-	 * @param View $view
 	 * @param IConfig $config
 	 * @param IRequest $request
 	 * @param IPreview $previewManager
@@ -123,14 +122,12 @@ class FilesPlugin extends ServerPlugin {
 	 * @param bool $downloadAttachment
 	 */
 	public function __construct(Tree $tree,
-								View $view,
 								IConfig $config,
 								IRequest $request,
 								IPreview $previewManager,
 								$isPublic = false,
 								$downloadAttachment = true) {
 		$this->tree = $tree;
-		$this->fileView = $view;
 		$this->config = $config;
 		$this->request = $request;
 		$this->isPublic = $isPublic;

@@ -153,7 +153,6 @@ class ServerFactory {
 			$server->addPlugin(
 				new \OCA\DAV\Connector\Sabre\FilesPlugin(
 					$objectTree,
-					$view,
 					$this->config,
 					$this->request,
 					$this->previewManager,

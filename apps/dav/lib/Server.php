@@ -171,7 +171,6 @@ class Server {
 				$this->server->addPlugin(
 					new FilesPlugin(
 						$this->server->tree,
-						$view,
 						\OC::$server->getConfig(),
 						$this->request,
 						\OC::$server->getPreviewManager(),
