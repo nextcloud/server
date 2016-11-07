@@ -109,7 +109,8 @@ input#openid, input#webdav { width:20em; }
 	top: 44px;
 }
 .federationScopeMenu.bubble::after {
-	left: 45px;
+	right: 50%;
+	margin-right: -14px;
 }
 .federationScopeMenu.popovermenu {
 	font-weight: 100;

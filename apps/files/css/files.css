@@ -550,7 +550,7 @@ html.ie8 #fileList tr.selected td.filename>.selectCheckBox {
 }
 .bubble:after,
 #app-navigation .app-navigation-entry-menu:after {
-	right: 6px;
+	right: 12px;
 }
 .bubble:before,
 #app-navigation .app-navigation-entry-menu:before {
@@ -625,13 +625,6 @@ html.ie8 .column-mtime .selectedActions {
 	padding-right: 14px;
 }
 
-#fileList .popovermenu {
-	margin-right: 6px;
-}
-.ie8 #fileList .popovermenu {
-	margin-top: -10px;
-}
-
 .ie8 #fileList a.action img,
 #fileList tr:hover a.action,
 #fileList a.action.permanent,
@@ -649,7 +642,6 @@ html.ie8 .column-mtime .selectedActions {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
 	filter: alpha(opacity=30);
 	opacity: .3;
-	display:inline;
 }
 .ie8 #fileList a.action:hover img,
 #fileList tr a.action.disabled.action-download,
@@ -673,6 +665,7 @@ html.ie8 .column-mtime .selectedActions {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)" !important;
 	filter: alpha(opacity=70) !important;
 	opacity: .7 !important;
+	display:inline;
 }
 /* always show actions on mobile, not only on hover */
 #fileList a.action.action-menu.permanent {
@@ -775,11 +768,6 @@ table.dragshadow td.size {
 	padding: initial;
 }
 
-#fileList .popovermenu a.action {
-	padding: 10px;
-	margin: -10px;
-}
-
 html.ie8 #controls .button.new {
 	padding-right: 0;
 }
@@ -826,11 +814,7 @@ html.ie8 #controls .button.new {
 }
 
 #fileList .popovermenu .action {
-	display: block;
-	line-height: 30px;
-	padding-left: 5px;
 	color: #000;
-	padding: 0;
 }
 
 #filestable .filename .action .icon,
