@@ -25,15 +25,12 @@
 (function() {
 	'use strict';
 
-	var TEMPLATE = '<span class="icon-share {{#if isShared}}shared{{/if}}"></span>';
-
 	var BreadCrumbView = OC.Backbone.View.extend({
 		tagName: 'span',
 		events: {
 			click: '_onClick'
 		},
 		_dirInfo: undefined,
-		_template: undefined,
 
 		/** @type OCA.Sharing.ShareTabView */
 		_shareTab: undefined,
@@ -42,24 +39,26 @@
 			this._shareTab = options.shareTab;
 		},
 
-		template: function(data) {
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
-			}
-			return this._template(data);
-		},
 		render: function(data) {
 			this._dirInfo = data.dirInfo || null;
 
 			if (this._dirInfo !== null && (this._dirInfo.path !== '/' || this._dirInfo.name !== '')) {
 				var isShared = data.dirInfo && data.dirInfo.shareTypes && data.dirInfo.shareTypes.length > 0;
-				this.$el.html(this.template({
-					isShared: isShared
-				}));
+				this.$el.removeClass('shared icon-public icon-share');
+				if (isShared) {
+					this.$el.addClass('shared');
+					if (data.dirInfo.shareTypes.indexOf(OC.Share.SHARE_TYPE_LINK) !== -1) {
+						this.$el.addClass('icon-public');
+					} else {
+						this.$el.addClass('icon-share');
+					}
+				} else {
+					this.$el.addClass('icon-share');
+				}
 				this.$el.show();
 				this.delegateEvents();
 			} else {
-				this.$el.empty();
+				this.$el.removeClass('shared icon-public icon-share');
 				this.$el.hide();
 			}
 
