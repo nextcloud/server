@@ -77,7 +77,25 @@
 				});
 			});
 			this._shareTab.on('sharesChanged', function(shareModel) {
-				alert('aaoobb');
+				var shareTypes = [];
+				var shares = shareModel.getSharesWithCurrentItem();
+
+				for(var i = 0; i < shares.length; i++) {
+					if (shareTypes.indexOf(shares[i].share_type) === -1) {
+						shareTypes.push(shares[i].share_type);
+					}
+				}
+
+				if (shareModel.hasLinkShare()) {
+					shareTypes.push(OC.Share.SHARE_TYPE_LINK);
+				}
+
+				// Since the dirInfo isn't updated we need to do this dark hackery
+				self._dirInfo.shareTypes = shareTypes;
+
+				self.render({
+					dirInfo: self._dirInfo
+				});
 			});
 			OCA.Files.App.fileList.showDetailsView(fileInfoModel, 'shareTabView');
 		}
