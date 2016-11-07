@@ -226,6 +226,7 @@
 				}, {
 					success: function(model) {
 						self._addToSelect2Selection(model.toJSON());
+						self._lastUsedTags.unshift(model.id);
 						self.trigger('select', model);
 					},
 					error: function(model, xhr) {
@@ -253,10 +254,10 @@
 				return false;
 			} else {
 				tag = this.collection.get(e.object.id);
+				this._lastUsedTags.unshift(tag.id);
 			}
 			this._newTag = null;
 			this.trigger('select', tag);
-			this._lastUsedTags.unshift(tag.id);
 		},
 
 		/**
