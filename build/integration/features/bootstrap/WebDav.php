@@ -472,6 +472,7 @@ trait WebDav {
 	 */
 	public function userCreatedAFolder($user, $destination){
 		try {
+			$destination = '/' . ltrim($destination, '/');
 			$this->response = $this->makeDavRequest($user, "MKCOL", $destination, []);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
 			// 4xx and 5xx responses cause an exception
