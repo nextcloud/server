@@ -34,7 +34,6 @@ use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Token\IProvider;
-use OC\Server;
 use OC\Files\View;
 use OC\Server;
 use OC\Settings\Controller\AppSettingsController;
