@@ -293,6 +293,18 @@ interface IEvent {
 	public function getIcon();
 
 	/**
+	 * @param IEvent $child
+	 * @since 9.2.0
+	 */
+	public function setChildEvent(IEvent $child);
+
+	/**
+	 * @return IEvent|null
+	 * @since 9.2.0
+	 */
+	public function getChildEvent();
+
+	/**
 	 * @return bool
 	 * @since 9.2.0
 	 */

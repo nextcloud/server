@@ -70,6 +70,8 @@ class Event implements IEvent {
 	/** @var string */
 	protected $icon = '';
 
+	/** @var IEvent */
+	protected $child = null;
 	/** @var IValidator */
 	protected $richValidator;
 
@@ -467,6 +469,22 @@ class Event implements IEvent {
 	 */
 	public function getIcon() {
 		return $this->icon;
+	}
+
+	/**
+	 * @param IEvent $child
+	 * @since 9.2.0
+	 */
+	public function setChildEvent(IEvent $child) {
+		$this->child = $child;
+	}
+
+	/**
+	 * @return IEvent|null
+	 * @since 9.2.0
+	 */
+	public function getChildEvent() {
+		return $this->child;
 	}
 
 	/**
