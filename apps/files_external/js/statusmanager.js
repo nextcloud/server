@@ -104,7 +104,7 @@ OCA.External.StatusManager = {
 						// In this case the error is because  mount point use Login credentials and don't exist in the session
 						message = t('files_external', 'Couldn\'t access. Please logout and login to activate this mount point');
 					} else {
-						message = t('files_external', 'Couldn\'t get the information from the ownCloud server: {code} {type}', {
+						message = t('files_external', 'Couldn\'t get the information from the remote server: {code} {type}', {
 							code: jqxhr.status,
 							type: error
 						});
