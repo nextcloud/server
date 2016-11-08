@@ -24,13 +24,16 @@
 namespace OC\Notification;
 
 
-use OC\RichObjectStrings\Validator;
 use OCP\Notification\IApp;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
+use OCP\RichObjectStrings\IValidator;
 
 class Manager implements IManager {
+	/** @var IValidator */
+	protected $validator;
+
 	/** @var IApp[] */
 	protected $apps;
 
@@ -49,7 +52,13 @@ class Manager implements IManager {
 	/** @var \Closure[] */
 	protected $notifiersInfoClosures;
 
-	public function __construct() {
+	/**
+	 * Manager constructor.
+	 *
+	 * @param IValidator $validator
+	 */
+	public function __construct(IValidator $validator) {
+		$this->validator = $validator;
 		$this->apps = [];
 		$this->notifiers = [];
 		$this->notifiersInfo = [];
@@ -150,9 +159,7 @@ class Manager implements IManager {
 	 * @since 8.2.0
 	 */
 	public function createNotification() {
-		return new Notification(
-			new Validator()
-		);
+		return new Notification($this->validator);
 	}
 
 	/**
@@ -214,7 +221,6 @@ class Manager implements IManager {
 
 	/**
 	 * @param INotification $notification
-	 * @return null
 	 */
 	public function markProcessed(INotification $notification) {
 		$apps = $this->getApps();

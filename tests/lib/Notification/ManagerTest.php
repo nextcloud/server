@@ -23,6 +23,7 @@ namespace Test\Notification;
 
 use OC\Notification\Manager;
 use OCP\Notification\IManager;
+use OCP\RichObjectStrings\IValidator;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
@@ -31,7 +32,8 @@ class ManagerTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->manager = new Manager();
+		$validator = $this->createMock(IValidator::class);
+		$this->manager = new Manager($validator);
 	}
 
 	public function testRegisterApp() {

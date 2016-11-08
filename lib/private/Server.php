@@ -72,6 +72,7 @@ use OC\Lock\NoopLockingProvider;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
 use OC\Notification\Manager;
+use OC\RichObjectStrings\Validator;
 use OC\Security\Bruteforce\Throttler;
 use OC\Security\CertificateManager;
 use OC\Security\CSP\ContentSecurityPolicyManager;
@@ -659,8 +660,10 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getDatabaseConnection()
 			);
 		});
-		$this->registerService('NotificationManager', function () {
-			return new Manager();
+		$this->registerService('NotificationManager', function (Server $c) {
+			return new Manager(
+				$c->query(Validator::class)
+			);
 		});
 		$this->registerService('CapabilitiesManager', function (Server $c) {
 			$manager = new \OC\CapabilitiesManager($c->getLogger());

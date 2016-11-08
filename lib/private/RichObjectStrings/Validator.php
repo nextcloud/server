@@ -22,6 +22,7 @@
 namespace OC\RichObjectStrings;
 
 
+use OCP\RichObjectStrings\Definitions;
 use OCP\RichObjectStrings\InvalidObjectExeption;
 use OCP\RichObjectStrings\IValidator;
 
@@ -31,9 +32,9 @@ use OCP\RichObjectStrings\IValidator;
  * @package OCP\RichObjectStrings
  * @since 9.2.0
  */
-class Validator implements IValidator  {
+class Validator implements IValidator {
 
-	/** @var array[] */
+	/** @var Definitions */
 	protected $definitions;
 
 	/** @var array[] */
@@ -41,9 +42,11 @@ class Validator implements IValidator  {
 
 	/**
 	 * Constructor
+	 *
+	 * @param Definitions $definitions
 	 */
-	public function __construct() {
-		$this->definitions = json_decode(file_get_contents(__DIR__ . '/../../public/RichObjectStrings/definitions.json'), true);
+	public function __construct(Definitions $definitions) {
+		$this->definitions = $definitions;
 	}
 
 	/**
@@ -76,11 +79,13 @@ class Validator implements IValidator  {
 	 * @throws InvalidObjectExeption
 	 */
 	protected function validateParameter(array $parameter) {
-		if (!isset($parameter['type']) || !isset($this->definitions[$parameter['type']])) {
+		if (!isset($parameter['type'])) {
 			throw new InvalidObjectExeption('Object type is undefined');
 		}
 
-		$requiredParameters = $this->getRequiredParameters($parameter['type']);
+		$definition = $this->definitions->getDefinition($parameter['type']);
+		$requiredParameters = $this->getRequiredParameters($parameter['type'], $definition);
+
 		$missingKeys = array_diff($requiredParameters, array_keys($parameter));
 		if (!empty($missingKeys)) {
 			throw new InvalidObjectExeption('Object is invalid');
@@ -89,15 +94,16 @@ class Validator implements IValidator  {
 
 	/**
 	 * @param string $type
+	 * @param array $definition
 	 * @return string[]
 	 */
-	protected function getRequiredParameters($type) {
+	protected function getRequiredParameters($type, $definition) {
 		if (isset($this->requiredParameters[$type])) {
 			return $this->requiredParameters[$type];
 		}
 
 		$this->requiredParameters[$type] = [];
-		foreach ($this->definitions[$type]['parameters'] as $parameter => $data) {
+		foreach ($definition['parameters'] as $parameter => $data) {
 			if ($data['required']) {
 				$this->requiredParameters[$type][] = $parameter;
 			}
