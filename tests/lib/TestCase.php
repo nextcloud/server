@@ -128,6 +128,10 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	}
 
 	protected function setUp() {
+		// overwrite the command bus with one we can run ourselves
+		$this->commandBus = new QueueBus();
+		$this->overwriteService('AsyncCommandBus', $this->commandBus);
+
 		// detect database access
 		self::$wasDatabaseAllowed = true;
 		if (!$this->IsDatabaseAccessAllowed()) {
@@ -139,10 +143,6 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 				$this->fail('Your test case is not allowed to access the database.');
 			});
 		}
-
-		// overwrite the command bus with one we can run ourselves
-		$this->commandBus = new QueueBus();
-		$this->overwriteService('AsyncCommandBus', $this->commandBus);
 
 		$traits = $this->getTestTraits();
 		foreach ($traits as $trait) {
