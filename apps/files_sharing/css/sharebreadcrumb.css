@@ -22,7 +22,6 @@
 
 div.crumb span.icon-share {
 	display: inline-block;
-	vertical-align: sub;
 	cursor: pointer;
 	opacity: 0.2;
 }

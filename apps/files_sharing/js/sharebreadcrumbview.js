@@ -70,7 +70,6 @@
 			var fileInfoModel = new OCA.Files.FileInfoModel(this._dirInfo);
 			var self = this;
 			fileInfoModel.on('change', function() {
-				console.log('CHANGE');
 				self.render({
 					dirInfo: self._dirInfo
 				});
