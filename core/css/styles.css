@@ -894,11 +894,14 @@ div.crumb.hidden {
 	display: none;
 }
 div.crumb a,
-div.crumb span {
+div.crumb > span {
 	position: relative;
 	top: 12px;
 	padding: 14px 24px 14px 17px;
 	color: #555;
+}
+div.crumb.last a {
+	padding-right: 0px;
 }
 div.crumb:first-child a {
 	position: relative;

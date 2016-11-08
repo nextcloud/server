@@ -50,6 +50,10 @@
 			if (this.model) {
 				this.$el.html(this.template());
 
+				if (_.isUndefined(this.model.get('sharePermissions'))) {
+					this.model.set('sharePermissions', OCA.Sharing.Util.getSharePermissions(this.model.attributes));
+				}
+
 				// TODO: the model should read these directly off the passed fileInfoModel
 				var attributes = {
 					itemType: this.model.isDirectory() ? 'folder' : 'file',

@@ -473,7 +473,7 @@
 		 * Displays the details view for the given file and
 		 * selects the given tab
 		 *
-		 * @param {string} fileName file name for which to show details
+		 * @param {string|OCA.Files.FileInfoModel} fileName file name or FileInfoModel for which to show details
 		 * @param {string} [tabId] optional tab id to select
 		 */
 		showDetailsView: function(fileName, tabId) {
@@ -487,7 +487,7 @@
 		/**
 		 * Update the details view to display the given file
 		 *
-		 * @param {string} fileName file name from the current list
+		 * @param {string|OCA.Files.FileInfoModel} fileName file name from the current list or a FileInfoModel object
 		 * @param {boolean} [show=true] whether to open the sidebar if it was closed
 		 */
 		_updateDetailsView: function(fileName, show) {
@@ -518,12 +518,15 @@
 				OC.Apps.showAppSidebar(this._detailsView.$el);
 			}
 
-			var $tr = this.findFileEl(fileName);
-			var model = this.getModelForFile($tr);
+			if (fileName instanceof OCA.Files.FileInfoModel) {
+				var model = fileName;
+			} else {
+				var $tr = this.findFileEl(fileName);
+				var model = this.getModelForFile($tr);
+				$tr.addClass('highlighted');
+			}
 
 			this._currentFileModel = model;
-
-			$tr.addClass('highlighted');
 
 			this._detailsView.setFileInfo(model);
 			this._detailsView.$el.scrollTop(0);
@@ -1646,6 +1649,7 @@
 
 			// first entry is the root
 			this.dirInfo = result.shift();
+			this.breadcrumb.setDirectoryInfo(this.dirInfo);
 
 			if (this.dirInfo.permissions) {
 				this.setDirectoryPermissions(this.dirInfo.permissions);
@@ -2021,7 +2025,7 @@
 
 			function updateInList(fileInfo) {
 				self.updateRow(tr, fileInfo);
-				self._updateDetailsView(fileInfo.name, false);
+				self._updateDetailsView(fileInfo, false);
 			}
 
 			// TODO: too many nested blocks, move parts into functions
@@ -2953,6 +2957,15 @@
 		registerDetailView: function(detailView) {
 			if (this._detailsView) {
 				this._detailsView.addDetailView(detailView);
+			}
+		},
+
+		/**
+		 * Register a view to be added to the breadcrumb view
+		 */
+		registerBreadCrumbDetailView: function(detailView) {
+			if (this.breadcrumb) {
+				this.breadcrumb.addDetailView(detailView);
 			}
 		}
 	};
