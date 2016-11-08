@@ -95,7 +95,12 @@ class SCSSCacher {
 			$this->logger->error($e, ['app' => 'SCSSPHP']);
 			return false;
 		}
-		return file_put_contents($this->fileCache, $this->rebaseUrls($compiledScss));
+
+		if(file_put_contents($this->fileCache, $this->rebaseUrls($compiledScss))) {
+			$this->logger->debug($root.'/'.$file.' compiled and successfully cached', ['app' => 'SCSSPHP']);
+			return true;
+		}
+		return false;
 	}
 
 	private function rebaseUrls($css) {
