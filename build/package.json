@@ -1,23 +1,23 @@
 {
-  "name": "owncloud-js-tests",
-  "description": "ownCloud tests",
-  "version": "0.0.1",
+  "name": "nextcloud-js-tests",
+  "description": "Nextcloud tests",
+  "version": "0.0.2",
   "author": {
     "name": "Vincent Petry",
     "email": "pvince81@owncloud.com"
   },
   "private": true,
-  "homepage": "https://github.com/owncloud/",
+  "homepage": "https://github.com/nextcloud/",
   "contributors": [],
   "dependencies": {},
   "devDependencies": {
-    "karma": "~0.12.0",
-    "karma-jasmine": "~0.3.0",
+    "karma": "~1.3.0",
+    "karma-jasmine": "~1.0.2",
     "karma-junit-reporter": "*",
     "karma-coverage": "*",
     "karma-phantomjs-launcher": "*",
     "phantomjs-prebuilt": "*",
-    "jasmine-core": "~2.3.4"
+    "jasmine-core": "~2.5.2"
   },
   "engine": "node >= 0.8"
 }
