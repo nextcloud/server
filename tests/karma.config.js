@@ -265,7 +265,8 @@ module.exports = function(config) {
 			reporters: [
 				{ type: 'html' },
 				{ type: 'cobertura' },
-				{ type: 'lcov' }
+				{ type: 'lcov' },
+				{ type: 'json' }
 			]
 		},
 
