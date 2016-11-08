@@ -81,7 +81,7 @@ select {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
-	background: url('../../core/img/actions/triangle-s.svg') no-repeat right 8px center;
+	background: url('../img/actions/triangle-s.svg') no-repeat right 8px center;
 	outline: 0;
 	padding-right: 24px !important;
 }
@@ -272,27 +272,6 @@ input[type="radio"].radio--white:checked:disabled + label:before {
 }
 
 /* SELECT2 adjustments */
-.select2-container {
-	margin: 3px 3px 3px 0;
-	.select2-choice {
-		border: none;
-		border-radius: 0;
-		background: transparent;
-		box-shadow: none;
-		line-height: 32px;
-		padding-left: 38px;
-		background-color: transparent;
-	}
-	.select2-default {
-		border: none;
-		border-radius: 0;
-		background: transparent;
-		box-shadow: none;
-		line-height: 32px;
-		padding-left: 38px;
-		background-color: transparent;
-	}
-}
 #select2-drop {
 	margin-top: -2px;
 	&.select2-drop-active {
@@ -302,6 +281,12 @@ input[type="radio"].radio--white:checked:disabled + label:before {
 		display: inline-block;
 		margin-right: 8px;
 		vertical-align: middle;
+	}
+	.select2-search input {
+		width: calc(100% - 14px);
+		min-height: auto;
+		background: url('../img/actions/search.svg') no-repeat right center;
+		background-origin: content-box;
 	}
 	.select2-results {
 		max-height: 220px;
@@ -326,7 +311,8 @@ input[type="radio"].radio--white:checked:disabled + label:before {
 	}
 }
 .select2-container-multi .select2-choices,
-.select2-container-multi.select2-container-active .select2-choices {
+.select2-container-multi.select2-container-active .select2-choices,
+.select2-container .select2-choice {
 	box-shadow: none;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -355,6 +341,33 @@ input[type="radio"].radio--white:checked:disabled + label:before {
 	}
 	.select2-search-field input {
 		line-height: 20px;
+	}
+}
+.select2-container {
+	margin: 3px 3px 3px 0;
+	&.select2-container-multi .select2-choices {
+		display: flex;
+		flex-wrap: wrap;
+		li {
+			float: none;
+		}
+	}
+	.select2-choice {
+		padding-left: 38px;
+		.select2-arrow {
+			background: none;
+			border-radius: 0;
+			border: none;
+			b {
+				background: url('../img/actions/triangle-s.svg') no-repeat center;
+				opacity: 0.5;
+			}
+		}
+		&:hover, &:focus, &:active {
+			.select2-arrow b {
+				opacity: 0.7;
+			}
+		}
 	}
 }
 
