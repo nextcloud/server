@@ -91,6 +91,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return new Output($this->getServer()->getWebRoot());
 		});
 
+		$this->registerService(\OCP\Authentication\LoginCredentials\IStore::class, function() {
+			return $this->getServer()->query(\OCP\Authentication\LoginCredentials\IStore::class);
+		});
+
 		$this->registerService('OCP\\IAvatarManager', function($c) {
 			return $this->getServer()->getAvatarManager();
 		});
