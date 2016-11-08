@@ -23,6 +23,7 @@ namespace OCA\ShareByMail;
 
 use OC\HintException;
 use OC\Share20\Exception\InvalidShare;
+use OCP\Activity\IManager;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -70,6 +71,9 @@ class ShareByMailProvider implements IShareProvider {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
+	/** @var IManager  */
+	private $activityManager;
+
 	/**
 	 * Return the identifier of this provider.
 	 *
@@ -90,6 +94,7 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param ILogger $logger
 	 * @param IMailer $mailer
 	 * @param IURLGenerator $urlGenerator
+	 * @param IManager $activityManager
 	 */
 	public function __construct(
 		IDBConnection $connection,
@@ -99,7 +104,8 @@ class ShareByMailProvider implements IShareProvider {
 		IL10N $l,
 		ILogger $logger,
 		IMailer $mailer,
-		IURLGenerator $urlGenerator
+		IURLGenerator $urlGenerator,
+		IManager $activityManager
 	) {
 		$this->dbConnection = $connection;
 		$this->secureRandom = $secureRandom;
@@ -109,6 +115,7 @@ class ShareByMailProvider implements IShareProvider {
 		$this->logger = $logger;
 		$this->mailer = $mailer;
 		$this->urlGenerator = $urlGenerator;
+		$this->activityManager = $activityManager;
 	}
 
 	/**
@@ -134,9 +141,62 @@ class ShareByMailProvider implements IShareProvider {
 		}
 
 		$shareId = $this->createMailShare($share);
-
+		$this->createActivity($share);
 		$data = $this->getRawShare($shareId);
 		return $this->createShareObject($data);
+
+	}
+
+	/**
+	 * create activity if a file/folder was shared by mail
+	 *
+	 * @param IShare $share
+	 */
+	protected function createActivity(IShare $share) {
+
+		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
+
+		$this->publishActivity(
+			Activity::SUBJECT_SHARED_EMAIL_SELF,
+			[$userFolder->getRelativePath($share->getNode()->getPath()), $share->getSharedWith()],
+			$share->getSharedBy(),
+			$share->getNode()->getId(),
+			$userFolder->getRelativePath($share->getNode()->getPath())
+		);
+
+		if ($share->getShareOwner() !== $share->getSharedBy()) {
+			$ownerFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
+			$fileId = $share->getNode()->getId();
+			$node = $ownerFolder->getById($fileId);
+			$ownerPath = $node[0]->getPath();
+			$this->publishActivity(
+				Activity::SUBJECT_SHARED_EMAIL_BY,
+				[$ownerFolder->getRelativePath($ownerPath), $share->getSharedWith(), $share->getSharedBy()],
+				$share->getShareOwner(),
+				$fileId,
+				$userFolder->getRelativePath($ownerPath)
+			);
+		}
+
+	}
+
+	/**
+	 * publish activity if a file/folder was shared by mail
+	 *
+	 * @param $subject
+	 * @param $parameters
+	 * @param $affectedUser
+	 * @param $fileId
+	 * @param $filePath
+	 */
+	protected function publishActivity($subject, $parameters, $affectedUser, $fileId, $filePath) {
+		$event = $this->activityManager->generateEvent();
+		$event->setApp('sharebymail')
+			->setType('shared')
+			->setSubject($subject, $parameters)
+			->setAffectedUser($affectedUser)
+			->setObject('files', $fileId, $filePath);
+		$this->activityManager->publish($event);
 
 	}
 

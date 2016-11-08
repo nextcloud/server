@@ -32,6 +32,7 @@
 
 namespace OCA\Files_Sharing\Controller;
 
+use OC\Files\Node\Folder;
 use OC_Files;
 use OC_Util;
 use OCA\FederatedFileSharing\FederatedShareProvider;
@@ -50,7 +51,6 @@ use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\ISession;
 use OCP\IPreview;
-use OCP\Util;
 use OCA\Files_Sharing\Activity;
 use \OCP\Files\NotFoundException;
 use OCP\Files\IRootFolder;
@@ -464,13 +464,7 @@ class ShareController extends Controller {
 		// Single file share
 		if ($share->getNode() instanceof \OCP\Files\File) {
 			// Single file download
-			$event = $this->activityManager->generateEvent();
-			$event->setApp('files_sharing')
-				->setType(Activity::TYPE_PUBLIC_LINKS)
-				->setSubject(Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED, [$userFolder->getRelativePath($share->getNode()->getPath())])
-				->setAffectedUser($share->getShareOwner())
-				->setObject('files', $share->getNode()->getId(), $userFolder->getRelativePath($share->getNode()->getPath()));
-			$this->activityManager->publish($event);
+			$this->singleFileDownloaded($share, $share->getNode());
 		}
 		// Directory share
 		else {
@@ -491,43 +485,12 @@ class ShareController extends Controller {
 
 			if ($node instanceof \OCP\Files\File) {
 				// Single file download
-				$event = $this->activityManager->generateEvent();
-				$event->setApp('files_sharing')
-					->setType(Activity::TYPE_PUBLIC_LINKS)
-					->setSubject(Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED, [$userFolder->getRelativePath($node->getPath())])
-					->setAffectedUser($share->getShareOwner())
-					->setObject('files', $node->getId(), $userFolder->getRelativePath($node->getPath()));
-				$this->activityManager->publish($event);
+				$this->singleFileDownloaded($share, $share->getNode());
 			} else if (!empty($files_list)) {
-				/** @var \OCP\Files\Folder $node */
-
-				// Subset of files is downloaded
-				foreach ($files_list as $file) {
-					$subNode = $node->get($file);
-
-					$event = $this->activityManager->generateEvent();
-					$event->setApp('files_sharing')
-						->setType(Activity::TYPE_PUBLIC_LINKS)
-						->setAffectedUser($share->getShareOwner())
-						->setObject('files', $subNode->getId(), $userFolder->getRelativePath($subNode->getPath()));
-
-					if ($subNode instanceof \OCP\Files\File) {
-						$event->setSubject(Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED, [$userFolder->getRelativePath($subNode->getPath())]);
-					} else {
-						$event->setSubject(Activity::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED, [$userFolder->getRelativePath($subNode->getPath())]);
-					}
-
-					$this->activityManager->publish($event);
-				}
+				$this->fileListDownloaded($share, $files_list);
 			} else {
 				// The folder is downloaded
-				$event = $this->activityManager->generateEvent();
-				$event->setApp('files_sharing')
-					->setType(Activity::TYPE_PUBLIC_LINKS)
-					->setSubject(Activity::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED, [$userFolder->getRelativePath($node->getPath())])
-					->setAffectedUser($share->getShareOwner())
-					->setObject('files', $node->getId(), $userFolder->getRelativePath($node->getPath()));
-				$this->activityManager->publish($event);
+				$this->singleFileDownloaded($share, $share->getNode());
 			}
 		}
 
@@ -572,4 +535,85 @@ class ShareController extends Controller {
 			exit();
 		}
 	}
+
+	/**
+	 * create activity for every downloaded file
+	 *
+	 * @param Share\IShare $share
+	 * @param array $files_list
+	 */
+	protected function fileListDownloaded(Share\IShare $share, array $files_list) {
+		foreach ($files_list as $file) {
+			$subNode = $share->getNode()->get($file);
+			$this->singleFileDownloaded($share, $subNode);
+		}
+
+	}
+
+	/**
+	 * create activity if a single file was downloaded from a link share
+	 *
+	 * @param Share\IShare $share
+	 */
+	protected function singleFileDownloaded(Share\IShare $share, \OCP\Files\Node $node) {
+
+		$fileId = $node->getId();
+
+		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
+		$userNodeList = $userFolder->getById($fileId);
+		$userNode = $userNodeList[0];
+		$ownerFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
+		$userPath = $userFolder->getRelativePath($userNode->getPath());
+		$ownerPath = $ownerFolder->getRelativePath($node->getPath());
+
+		$parameters = [$userPath];
+
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+			if ($node instanceof \OCP\Files\File) {
+				$subject = Activity::SUBJECT_SHARED_FILE_BY_EMAIL_DOWNLOADED;
+			} else {
+				$subject = Activity::SUBJECT_SHARED_FOLDER_BY_EMAIL_DOWNLOADED;
+			}
+			$parameters[] = $share->getSharedWith();
+		} else {
+			if ($node instanceof \OCP\Files\File) {
+				$subject = Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED;
+			} else {
+				$subject = Activity::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED;
+			}
+		}
+
+		$this->publishActivity($subject, $parameters, $share->getSharedBy(), $fileId, $userPath);
+
+		if ($share->getShareOwner() !== $share->getSharedBy()) {
+			$parameters[0] = $ownerPath;
+			$this->publishActivity($subject, $parameters, $share->getShareOwner(), $fileId, $ownerPath);
+		}
+	}
+
+	/**
+	 * publish activity
+	 *
+	 * @param string $subject
+	 * @param array $parameters
+	 * @param string $affectedUser
+	 * @param int $fileId
+	 * @param string $filePath
+	 */
+	protected function publishActivity($subject,
+										array $parameters,
+										$affectedUser,
+										$fileId,
+										$filePath) {
+
+		$event = $this->activityManager->generateEvent();
+		$event->setApp('files_sharing')
+			->setType(Activity::TYPE_PUBLIC_LINKS)
+			->setSubject($subject, $parameters)
+			->setAffectedUser($affectedUser)
+			->setObject('files', $fileId, $filePath);
+		$this->activityManager->publish($event);
+	}
+
+
 }

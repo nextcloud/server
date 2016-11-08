@@ -22,3 +22,10 @@
 $settings = new \OCA\ShareByMail\Settings();
 
 \OCP\Util::connectHook('\OCP\Config', 'js', $settings, 'announceShareProvider');
+
+\OC::$server->getActivityManager()->registerExtension(function() {
+	return new \OCA\ShareByMail\Activity(
+		\OC::$server->query('L10NFactory'),
+		\OC::$server->getActivityManager()
+	);
+});
