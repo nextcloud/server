@@ -100,7 +100,7 @@
     "Changed by %2$s" : "Geändert von %2$s",
     "Deleted by %2$s" : "Gelöscht von %2$s",
     "Restored by %2$s" : "Wiederhergestellt von %2$s",
-    "Renamed by %2$s" : "Von %2$s umbenannt",
+    "Renamed by %2$s" : "Umbenannt von %2$s",
     "Moved by %2$s" : "Verschoben von %2$s",
     "File changes" : "Datei geändert",
     "Upload (max. %s)" : "Hochladen (max. %s)",

@@ -120,7 +120,7 @@ OC.L10N.register(
     "Cancel" : "Abbrechen",
     "Add remote share" : "Entfernte Freigabe hinzufügen",
     "No ownCloud installation (7 or higher) found at {remote}" : "Keine OwnCloud-Installation (7 oder höher) auf {remote} gefunden",
-    "Invalid ownCloud url" : "Ungültige OwnCloud-Adresse",
+    "Invalid ownCloud url" : "Ungültige Nextcloud-Adresse",
     "You received \"/%2$s\" as a remote share from %1$s" : "Sie haben \"/%2$s\" als Remotefreigabe von %1$s erhalten",
     "Accept" : "Akzeptieren",
     "Decline" : "Ablehnen",
