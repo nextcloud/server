@@ -59,6 +59,11 @@ class Provider implements IProvider {
 		$parsedParameters = $this->getParsedParameters($event->getSubject(), $event->getSubjectParameters());
 		$richParameters = $this->getRichParameters($event->getSubject(), $event->getSubjectParameters());
 
+		if ($previousEvent instanceof IEvent && $event->getSubject() !== $previousEvent->getSubject()) {
+			// Different subject means not the same string, so no grouping
+			$previousEvent = null;
+		}
+
 		if ($event->getSubject() === 'created_self') {
 			$event->setParsedSubject($this->l->t('You created %1$s', $parsedParameters))
 				->setRichSubject($this->l->t('You created {file1}'), $richParameters)
