@@ -3,14 +3,14 @@ pipeline:
     image: plugins/git
     depth: 1
   jsunit:
-    image: nextcloudci/jsunit:1.0.6
+    image: nextcloudci/jsunit:jsunit-5
     commands:
       - ./autotest-js.sh
     when:
       matrix:
         TESTS: jsunit
   syntax-php5.4:
-    image: nextcloudci/php5.4:1.0.14
+    image: nextcloudci/php5.4:php5.4-5
     commands:
       - composer install
       - vendor/bin/parallel-lint --exclude vendor/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude vendor/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
@@ -18,7 +18,7 @@ pipeline:
       matrix:
         TESTS: syntax-php5.4
   syntax-php5.5:
-    image: nextcloudci/php5.5:1.0.14
+    image: nextcloudci/php5.5:php5.5-5
     commands:
       - composer install
       - vendor/bin/parallel-lint --exclude vendor/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude vendor/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
@@ -26,7 +26,7 @@ pipeline:
       matrix:
         TESTS: syntax-php5.5
   syntax-php5.6:
-    image: nextcloudci/php5.6:php5.6-2
+    image: nextcloudci/php5.6:php5.6-7
     commands:
       - composer install
       - vendor/bin/parallel-lint --exclude vendor/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude vendor/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
@@ -34,7 +34,7 @@ pipeline:
       matrix:
         TESTS: syntax-php5.6
   syntax-php7.0:
-    image: nextcloudci/php7.0:php7.0-2
+    image: nextcloudci/php7.0:php7.0-6
     commands:
       - composer install
       - vendor/bin/parallel-lint --exclude vendor/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude vendor/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
@@ -42,7 +42,7 @@ pipeline:
       matrix:
         TESTS: syntax-php7.0
   litmus-v1:
-    image: nextcloudci/litmus-php7.0:litmus-php7.0-2
+    image: nextcloudci/litmus-php7.0:litmus-php7.0-4
     commands:
       - bash tests/travis/install.sh sqlite
       - bash apps/dav/tests/travis/litmus-v1/script.sh
@@ -50,7 +50,7 @@ pipeline:
       matrix:
         TESTS: litmus-v1
   litmus-v2:
-    image: nextcloudci/litmus-php7.0:litmus-php7.0-2
+    image: nextcloudci/litmus-php7.0:litmus-php7.0-4
     commands:
       - bash tests/travis/install.sh sqlite
       - bash apps/dav/tests/travis/litmus-v2/script.sh
@@ -58,7 +58,7 @@ pipeline:
       matrix:
         TESTS: litmus-v2
   caldavtester:
-    image: nextcloudci/litmus-php7.0:litmus-php7.0-2
+    image: nextcloudci/litmus-php7.0:litmus-php7.0-4
     commands:
       - bash tests/travis/install.sh sqlite
       - bash apps/dav/tests/travis/caldav/install.sh
@@ -67,7 +67,7 @@ pipeline:
       matrix:
         TESTS: caldavtester
   carddavtester:
-    image: nextcloudci/litmus-php7.0:litmus-php7.0-2
+    image: nextcloudci/litmus-php7.0:litmus-php7.0-4
     commands:
       - bash tests/travis/install.sh sqlite
       - bash apps/dav/tests/travis/carddav/install.sh
@@ -76,7 +76,7 @@ pipeline:
       matrix:
         TESTS: carddavtester
   sqlite-php5.4:
-    image: nextcloudci/php5.4:1.0.7
+    image: nextcloudci/php5.4:php5.4-5
     commands:
       - ./occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
       - NOCOVERAGE=true ./autotest.sh sqlite
@@ -85,7 +85,7 @@ pipeline:
         DB: sqlite
         PHP: 5.4
   sqlite-php5.5:
-    image: nextcloudci/php5.5:1.0.7
+    image: nextcloudci/php5.5:php5.5-5
     commands:
       - ./occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
       - NOCOVERAGE=true ./autotest.sh sqlite
@@ -94,7 +94,7 @@ pipeline:
         DB: sqlite
         PHP: 5.5
   sqlite:
-    image: nextcloudci/php5.6:1.0.6
+    image: nextcloudci/php5.6:php5.6-7
     commands:
       - ./occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
       - ./autotest.sh sqlite
@@ -103,7 +103,7 @@ pipeline:
         DB: sqlite
         PHP: 5.6
   postgres:
-    image: nextcloudci/php5.6:1.0.6
+    image: nextcloudci/php5.6:php5.6-7
     commands:
       - sleep 10 # gives the database enough time to initialize
       - ./autotest.sh pgsql
@@ -112,7 +112,7 @@ pipeline:
         DB: postgres
         PHP: 5.6
   integration:
-    image: nextcloudci/php5.6:1.0.6
+    image: nextcloudci/php5.6:php5.6-7
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
