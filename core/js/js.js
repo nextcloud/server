@@ -1841,11 +1841,13 @@ OC.Util.History = {
 			// https://bugzilla.mozilla.org/show_bug.cgi?id=652991
 			var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 			if (isFirefox && parseInt(navigator.userAgent.split('/').pop()) < 51) {
-				var patterns = document.querySelectorAll('[fill^="url(#"], [stroke^="url(#"]');
+				var patterns = document.querySelectorAll('[fill^="url(#"], [stroke^="url(#"], [filter^="url(#invert"]');
 				for (var i = 0, ii = patterns.length, pattern; i < ii; i++) {
 					pattern = patterns[i];
 					pattern.style.fill = pattern.style.fill;
 					pattern.style.stroke = pattern.style.stroke;
+					pattern.removeAttribute("filter");
+					pattern.setAttribute("filter", "url(#invert)");
 				}
 			}
 			if (replace) {
