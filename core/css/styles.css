@@ -901,7 +901,7 @@ div.crumb > span {
 	color: #555;
 }
 div.crumb.last a {
-	padding-right: 14px;
+	padding-right: 0px;
 }
 div.crumb:first-child a {
 	position: relative;
