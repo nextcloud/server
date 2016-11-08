@@ -6,6 +6,8 @@ pipeline:
     image: nextcloudci/jsunit:jsunit-5
     commands:
       - ./autotest-js.sh
+      - export CODECOV_TOKEN="117641e2-a9e8-4b7b-984b-ae872d9b05f5"
+      - cat tests/karma-coverage/PhantomJS*/lcov.info | ./build/bin/codecov
     when:
       matrix:
         TESTS: jsunit
