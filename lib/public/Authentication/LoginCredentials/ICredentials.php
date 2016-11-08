@@ -30,16 +30,28 @@ namespace OCP\Authentication\LoginCredentials;
 interface ICredentials {
 
 	/**
+	 * Get the user UID
+	 *
+	 * @since 9.2
+	 *
 	 * @return string
 	 */
 	public function getUID();
 
 	/**
+	 * Get the login name the users used to login
+	 *
+	 * @since 9.2
+	 *
 	 * @return string
 	 */
 	public function getLoginName();
 
 	/**
+	 * Get the password
+	 *
+	 * @since 9.2
+	 *
 	 * @return string
 	 */
 	public function getPassword();

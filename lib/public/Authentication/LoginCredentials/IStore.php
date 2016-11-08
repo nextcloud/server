@@ -32,6 +32,8 @@ use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 interface IStore {
 	
 	/**
+	 * Get login credentials of the currently logged in user
+	 *
 	 * @since 9.2
 	 *
 	 * @throws CredentialsUnavailableException
