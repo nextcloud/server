@@ -166,7 +166,7 @@ class Activity implements IExtension {
 			switch ($activity['subject']) {
 				case self::SUBJECT_SHARED_EMAIL_BY:
 					// Group by file name
-					return 0;
+					return 1;
 				case self::SUBJECT_SHARED_EMAIL_SELF:
 					// Group by user/group
 					return 1;
@@ -260,7 +260,7 @@ class Activity implements IExtension {
 			case self::SUBJECT_SHARED_EMAIL_SELF:
 				return (string) $l->t('Shared with %2$s', $params);
 			case self::SUBJECT_SHARED_EMAIL_BY:
-				return (string) $l->t('Shared with %3$s by %2ks', $params);
+				return (string) $l->t('Shared with %3$s by %2$s', $params);
 		}
 
 		return false;
