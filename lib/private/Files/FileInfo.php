@@ -31,6 +31,8 @@
 namespace OC\Files;
 
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 
 class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
@@ -70,6 +72,13 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	private $childEtags = [];
 
 	/**
+	 * @var IMountPoint[]
+	 */
+	private $subMounts = [];
+
+	private $subMountsUsed = false;
+
+	/**
 	 * @param string|boolean $path
 	 * @param Storage\Storage $storage
 	 * @param string $internalPath
@@ -103,6 +112,10 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 			return $this->getType();
 		} else if ($offset === 'etag') {
 			return $this->getEtag();
+		} else if ($offset === 'size') {
+			return $this->getSize();
+		} else if ($offset === 'mtime') {
+			return $this->getMTime();
 		} elseif ($offset === 'permissions') {
 			return $this->getPermissions();
 		} elseif (isset($this->data[$offset])) {
@@ -165,6 +178,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return string
 	 */
 	public function getEtag() {
+		$this->updateEntryfromSubMounts();
 		if (count($this->childEtags) > 0) {
 			$combinedEtag = $this->data['etag'] . '::' . implode('::', $this->childEtags);
 			return md5($combinedEtag);
@@ -177,6 +191,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return int
 	 */
 	public function getSize() {
+		$this->updateEntryfromSubMounts();
 		return isset($this->data['size']) ? $this->data['size'] : 0;
 	}
 
@@ -184,6 +199,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return int
 	 */
 	public function getMTime() {
+		$this->updateEntryfromSubMounts();
 		return $this->data['mtime'];
 	}
 
@@ -317,11 +333,33 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	}
 
 	/**
+	 * @param IMountPoint[] $mounts
+	 */
+	public function setSubMounts(array $mounts) {
+		$this->subMounts = $mounts;
+	}
+
+	private function updateEntryfromSubMounts() {
+		if ($this->subMountsUsed) {
+			return;
+		}
+		$this->subMountsUsed = true;
+		foreach ($this->subMounts as $mount) {
+			$subStorage = $mount->getStorage();
+			if ($subStorage) {
+				$subCache = $subStorage->getCache('');
+				$rootEntry = $subCache->get('');
+				$this->addSubEntry($rootEntry, $mount->getMountPoint());
+			}
+		}
+	}
+
+	/**
 	 * Add a cache entry which is the child of this folder
 	 *
 	 * Sets the size, etag and size to for cross-storage childs
 	 *
-	 * @param array $data cache entry for the child
+	 * @param array|ICacheEntry $data cache entry for the child
 	 * @param string $entryPath full path of the child entry
 	 */
 	public function addSubEntry($data, $entryPath) {
