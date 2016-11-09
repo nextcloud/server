@@ -1,4 +1,4 @@
-/* global Handlebars, OC */
+/* global OC */
 
 /**
  * @copyright 2016 Christoph Wurst <christoph@winzerhof-wurst.at>

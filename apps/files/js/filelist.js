@@ -400,7 +400,7 @@
 					order: -50,
 					iconClass: 'icon-details',
 					permissions: OC.PERMISSION_READ,
-					actionHandler: function(fileName, context) {
+					actionHandler: function(fileName) {
 						self._updateDetailsView(fileName);
 					}
 				});
@@ -566,7 +566,7 @@
 		 * @param {Object} $tr single file row element
 		 * @param {bool} state true to select, false to deselect
 		 */
-		_selectFileEl: function($tr, state, showDetailsView) {
+		_selectFileEl: function($tr, state) {
 			var $checkbox = $tr.find('td.filename>.selectCheckBox');
 			var oldData = !!this._selectedFiles[$tr.data('id')];
 			var data;
@@ -792,7 +792,7 @@
 		 * Event handler for when scrolling the list container.
 		 * This appends/renders the next page of entries when reaching the bottom.
 		 */
-		_onScroll: function(e) {
+		_onScroll: function() {
 			if (this.$container.scrollTop() + this.$container.height() > this.$el.height() - 300) {
 				this._nextPage(true);
 			}
@@ -1056,10 +1056,9 @@
 		/**
 		 * Creates a new table row element using the given file data.
 		 * @param {OC.Files.FileInfo} fileData file info attributes
-		 * @param options map of attributes
 		 * @return new tr element (not appended to the table)
 		 */
-		_createRow: function(fileData, options) {
+		_createRow: function(fileData) {
 			var td, simpleSize, basename, extension, sizeColor,
 				icon = fileData.icon || this._getIconUrl(fileData),
 				name = fileData.name,
@@ -1070,7 +1069,6 @@
 				path = fileData.path,
 				dataIcon = null,
 				linkUrl;
-			options = options || {};
 
 			if (isNaN(mtime)) {
 				mtime = new Date().getTime();
@@ -2471,7 +2469,7 @@
 		/**
 		 * @deprecated use setFilter(filter)
 		 */
-		filter:function(query) {
+		filter:function() {
 			this.setFilter('');
 		},
 		/**
@@ -2542,9 +2540,8 @@
 		},
 		/**
 		 * get the current filter
-		 * @param filter
 		 */
-		getFilter:function(filter) {
+		getFilter:function() {
 			return this._filter;
 		},
 		/**

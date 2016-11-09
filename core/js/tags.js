@@ -1,5 +1,5 @@
 OC.Tags= {
-	edit:function(type, cb) {
+	edit:function(type) {
 		if(!type && !this.type) {
 			throw {
 				name: 'MissingParameter',
@@ -23,10 +23,10 @@ OC.Tags= {
 			self.$dialog.ready(function() {
 				self.$taglist = self.$dialog.find('.taglist');
 				self.$taginput = self.$dialog.find('.addinput');
-				self.$taglist.on('change', 'input:checkbox', function(event) {
+				self.$taglist.on('change', 'input:checkbox', function() {
 					self._handleChanges(self.$taglist, self.$taginput);
 				});
-				self.$taginput.on('input', function(event) {
+				self.$taginput.on('input', function() {
 					self._handleChanges(self.$taglist, self.$taginput);
 				});
 				self.deleteButton = {
@@ -60,7 +60,7 @@ OC.Tags= {
 				height: 'auto',
 				modal: true,
 				//buttons: buttonlist,
-				close: function(event, ui) {
+				close: function() {
 					try {
 						$(this).ocdialog('destroy').remove();
 					} catch(e) {console.warn(e);}
@@ -173,7 +173,6 @@ OC.Tags= {
 		}
 		type = type ? type : this.type;
 		var defer = $.Deferred(),
-			self = this,
 			url = OC.generateUrl('/tags/{type}/untag/{id}/', {type: type, id: id});
 		$.post(url, {tag: tag}, function(response) {
 			if(response.status === 'success') {
@@ -359,7 +358,7 @@ OC.Tags= {
 	},
 	_addTag: function(self, type, tag) {
 		$.when(self.addTag(tag, type))
-		.then(function(tag) {
+		.then(function() {
 			self._fillTagList(type);
 			self.$taginput.val('').trigger('input');
 		})

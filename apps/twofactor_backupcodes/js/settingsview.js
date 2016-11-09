@@ -1,4 +1,4 @@
-/* global Backbone, Handlebars, OC, _ */
+/* global Handlebars, OC, _ */
 
 (function (OC, Handlebars, $, _) {
 	'use strict';

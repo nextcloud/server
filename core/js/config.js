@@ -60,7 +60,7 @@ OC.AppConfig={
 	/**
 	 * @deprecated
 	 */
-	hasKey:function(app,key,callback){
+	hasKey:function(){
 		console.error('OC.AppConfig.hasKey is not supported anymore. Use OCP.AppConfig.getValue instead.');
 	},
 
@@ -74,7 +74,7 @@ OC.AppConfig={
 	/**
 	 * @deprecated
 	 */
-	deleteApp:function(app){
+	deleteApp:function(){
 		console.error('OC.AppConfig.deleteApp is not supported anymore.');
 	}
 };

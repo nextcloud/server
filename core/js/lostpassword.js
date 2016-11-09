@@ -51,7 +51,7 @@ OC.Lostpassword = {
 		}
 	},
 
-	sendLinkSuccess : function(msg){
+	sendLinkSuccess : function(){
 		var node = OC.Lostpassword.getSendStatusNode();
 		// update is the better success message styling
 		node.addClass('update').css({width:'auto'});
@@ -115,7 +115,7 @@ OC.Lostpassword = {
 		}
 	},
 
-	redirect : function(msg){
+	redirect : function(){
 		if(OC.webroot !== '') {
 			window.location = OC.webroot;
 		} else {

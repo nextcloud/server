@@ -78,10 +78,9 @@ OCA = OCA || {};
 		 * avoid any notification.
 		 *
 		 * @param {string} message
-		 * @param {string} key
 		 * @returns {string}
 		 */
-		overrideErrorMessage: function(message, key) {
+		overrideErrorMessage: function(message) {
 			if(message === 'LDAP authentication method rejected'
 				&& !this.configModel.configuration.ldap_dn)
 			{

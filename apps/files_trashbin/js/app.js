@@ -18,7 +18,7 @@ OCA.Trashbin = {};
 OCA.Trashbin.App = {
 	_initialized: false,
 
-	initialize: function($el) {
+	initialize: function() {
 		if (this._initialized) {
 			return;
 		}

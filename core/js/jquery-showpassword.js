@@ -110,7 +110,7 @@
 
 				// set type of password field clone (type=text) to password right on submit
 				// to prevent browser save the value of this field
-				$clone.closest('form').submit(function(e) {
+				$clone.closest('form').submit(function() {
 					// .prop has to be used, because .attr throws
 					// an error while changing a type of an input
 					// element
