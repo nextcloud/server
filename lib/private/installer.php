@@ -556,9 +556,12 @@ class OC_Installer{
 									if ($softErrors) {
 										try {
 											OC_Installer::installShippedApp($filename);
-										} catch (\Doctrine\DBAL\Exception\TableExistsException $e) {
-											$errors[$filename] = $e;
-											continue;
+										} catch (\OC\HintException $e) {
+											if ($e->getPrevious() instanceof \Doctrine\DBAL\Exception\TableExistsException) {
+												$errors[$filename] = $e;
+												continue;
+											}
+											throw $e;
 										}
 									} else {
 										OC_Installer::installShippedApp($filename);
@@ -585,7 +588,15 @@ class OC_Installer{
 		//install the database
 		$appPath = OC_App::getAppPath($app);
 		if(is_file("$appPath/appinfo/database.xml")) {
-			OC_DB::createDbFromStructure("$appPath/appinfo/database.xml");
+			try {
+				OC_DB::createDbFromStructure("$appPath/appinfo/database.xml");
+			} catch (\Doctrine\DBAL\Exception\TableExistsException $e) {
+				throw new \OC\HintException(
+					'Failed to enable app ' . $app,
+					'Please ask for help via one of our <a href="https://nextcloud.com/support/" target="_blank" rel="noreferrer">support channels</a>.',
+					0, $e
+				);
+			}
 		}
 
 		//run appinfo/install.php
