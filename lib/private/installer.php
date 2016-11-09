@@ -586,6 +586,14 @@ class OC_Installer{
 		$appPath = OC_App::getAppPath($app);
 		if(is_file("$appPath/appinfo/database.xml")) {
 			OC_DB::createDbFromStructure("$appPath/appinfo/database.xml");
+			try {
+				OC_DB::createDbFromStructure("$appPath/appinfo/database.xml");
+			} catch (\Doctrine\DBAL\Exception\TableExistsException $e) {
+				throw new \OC\HintException(
+					'Failed to enable app ' . $app,
+					'Please ask for help via one of our <a href="https://nextcloud.com/support/" target="_blank" rel="noreferrer">support channels</a>.'
+				);
+			}
 		}
 
 		//run appinfo/install.php
