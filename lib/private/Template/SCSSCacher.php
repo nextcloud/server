@@ -24,6 +24,7 @@ namespace OC\Template;
 use Leafo\ScssPhp\Compiler;
 use Leafo\ScssPhp\Exception\ParserException;
 use OCP\Files\NotFoundException;
+use OCP\IURLGenerator;
 
 class SCSSCacher {
 
@@ -158,6 +159,6 @@ class SCSSCacher {
 	 * @return string
 	 */
 	public function getCachedSCSS() {
-		return "index.php/css/".$this->fileNameCSS;
+		return substr(\OC::$server->getURLGenerator()->linkToRoute('core.Css.getCss', array('fileName' => $this->fileNameCSS)), 1);
 	}
 }
