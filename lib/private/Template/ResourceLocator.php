@@ -111,6 +111,7 @@ abstract class ResourceLocator {
 	 *
 	 * @param string $root path to check
 	 * @param string $file the filename
+	 * @param IAppData $appData the appData folder
 	 * @param string|null $webRoot base for path, default map $root to $webRoot
 	 * @return bool True if the resource was found and cached, false otherwise
 	 */

@@ -30,19 +30,21 @@ class SCSSCacher {
 	protected $root;
 	protected $folder;
 	protected $file;
-	protected $fileName;
+	protected $fileNameSCSS;
+	protected $fileNameCSS;
 	protected $fileLoc;
-	protected $fileCache;
 	protected $rootCssLoc;
 
 	/** @var \OCP\ILogger */
 	protected $logger;
+	/** @var \OCP\Files\IAppData */
 	protected $appData;
 
 	/**
 	 * @param \OCP\ILogger $logger
 	 * @param string $root
 	 * @param string $file
+	 * @param \OCP\Files\IAppData $appData
 	 */
 	public function __construct(\OCP\ILogger $logger, $root, $file, $appData) {
 		$this->logger = $logger;
@@ -50,8 +52,10 @@ class SCSSCacher {
 		$this->root = $root;
 		$this->file = explode('/', $root.'/'.$file);
 
+		/* filenames */
 		$this->fileNameSCSS = array_pop($this->file);
 		$this->fileNameCSS = str_replace('.scss', '.css', $this->fileNameSCSS);
+
 		$this->fileLoc = implode('/', $this->file);
 
 		// base uri to css file
@@ -67,6 +71,10 @@ class SCSSCacher {
 		}
 	}
 
+	/**
+	 * Process the caching process if needed
+	 * @return boolean
+	 */
 	public function process() {
 
 		if($this->is_cached()) {
@@ -77,6 +85,10 @@ class SCSSCacher {
 		return false;
 	}
 
+	/**
+	 * Check if the file is cached or not
+	 * @return boolean
+	 */
 	private function is_cached() {
 		try{
 			$cachedfile = $this->folder->getFile($this->fileNameCSS);
@@ -90,6 +102,10 @@ class SCSSCacher {
         return false;
 	}
 
+	/**
+	 * Cache the file with AppData
+	 * @return boolean
+	 */
 	private function cache() {
 		$scss = new Compiler();
 		$scss->setImportPaths($this->fileLoc);
@@ -108,6 +124,7 @@ class SCSSCacher {
 			$cachedfile = $this->folder->newFile($this->fileNameCSS);
 		}
 
+		// Compile
 		try {
 			$compiledScss = $scss->compile('@import "'.$this->fileNameSCSS.'";');
 		} catch(ParserException $e) {
@@ -115,20 +132,32 @@ class SCSSCacher {
 			return false;
 		}
 
-		if($cachedfile->putContent($this->rebaseUrls($compiledScss))) {
-			$this->logger->debug($root.'/'.$file.' compiled and successfully cached', ['app' => 'SCSSPHP']);
+		try {
+			$cachedfile->putContent($this->rebaseUrls($compiledScss));
+			$this->logger->debug($this->rootCssLoc.'/'.$this->fileNameSCSS.' compiled and successfully cached', ['app' => 'SCSSPHP']);
 			return true;
+		} catch(NotFoundException $e) {
+			return false;
 		}
 		return false;
 	}
 
+	/**
+	 * Add the correct uri prefix to make uri valid again
+	 * @param string $css
+	 * @return string
+	 */
 	private function rebaseUrls($css) {
 		$re = '/url\([\'"](.*)[\'"]\)/x';
-		$subst = 'url(\'../'.$this->rootCssLoc.'/$1\')';
+		$subst = 'url(\'../../../'.$this->rootCssLoc.'/$1\')';
 		return preg_replace($re, $subst, $css);
 	}
 
+	/**
+	 * Return the cached css file uri
+	 * @return string
+	 */
 	public function getCachedSCSS() {
-		return $this->fileCache;
+		return "index.php/css/".$this->fileNameCSS;
 	}
 }

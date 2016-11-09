@@ -29,6 +29,13 @@ class CSSResourceLocator extends ResourceLocator {
 
 	protected $appData;
 
+	/**
+	 * @param \OCP\ILogger $logger
+	 * @param string $theme
+	 * @param array $core_map
+	 * @param array $party_map
+	 * @param IAppData $appData
+	 */
 	public function __construct(\OCP\ILogger $logger, $theme, $core_map, $party_map, $appData) {
 		$this->appData = $appData;
 		parent::__construct($logger, $theme, $core_map, $party_map);
