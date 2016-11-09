@@ -41,6 +41,7 @@
 
 namespace OC;
 
+use Doctrine\DBAL\Exception\TableExistsException;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\CodeChecker\CodeChecker;
 use OC\App\CodeChecker\EmptyCheck;
@@ -428,9 +429,12 @@ class Installer {
 									if ($softErrors) {
 										try {
 											Installer::installShippedApp($filename);
-										} catch (\Doctrine\DBAL\Exception\TableExistsException $e) {
-											$errors[$filename] = $e;
-											continue;
+										} catch (HintException $e) {
+											if ($e->getPrevious() instanceof TableExistsException) {
+												$errors[$filename] = $e;
+												continue;
+											}
+											throw $e;
 										}
 									} else {
 										Installer::installShippedApp($filename);
@@ -457,7 +461,15 @@ class Installer {
 		//install the database
 		$appPath = OC_App::getAppPath($app);
 		if(is_file("$appPath/appinfo/database.xml")) {
-			OC_DB::createDbFromStructure("$appPath/appinfo/database.xml");
+			try {
+				OC_DB::createDbFromStructure("$appPath/appinfo/database.xml");
+			} catch (TableExistsException $e) {
+				throw new HintException(
+					'Failed to enable app ' . $app,
+					'Please ask for help via one of our <a href="https://nextcloud.com/support/" target="_blank" rel="noreferrer">support channels</a>.',
+					0, $e
+				);
+			}
 		}
 
 		//run appinfo/install.php
