@@ -188,7 +188,8 @@ class TemplateLayout extends \OC_Template {
 			\OC::$server->getLogger(),
 			$theme,
 			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
-			array( \OC::$SERVERROOT => \OC::$WEBROOT ));
+			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
+			\OC::$server->getAppDataDir('server'));
 		$locator->find($styles);
 		return $locator->getResources();
 	}

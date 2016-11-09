@@ -23,46 +23,53 @@ namespace OC\Template;
 
 use Leafo\ScssPhp\Compiler;
 use Leafo\ScssPhp\Exception\ParserException;
+use OCP\Files\NotFoundException;
 
 class SCSSCacher {
 
 	protected $root;
+	protected $folder;
 	protected $file;
 	protected $fileName;
 	protected $fileLoc;
 	protected $fileCache;
 	protected $rootCssLoc;
 
-	/** Cache folder from serverroot */
-	private $scssCache = "assets";
-
-
 	/** @var \OCP\ILogger */
 	protected $logger;
+	protected $appData;
 
 	/**
 	 * @param \OCP\ILogger $logger
 	 * @param string $root
 	 * @param string $file
 	 */
-	public function __construct(\OCP\ILogger $logger, $root, $file) {
+	public function __construct(\OCP\ILogger $logger, $root, $file, $appData) {
 		$this->logger = $logger;
+		$this->appData = $appData;
 		$this->root = $root;
 		$this->file = explode('/', $root.'/'.$file);
 
-		$this->fileName = array_pop($this->file);
+		$this->fileNameSCSS = array_pop($this->file);
+		$this->fileNameCSS = str_replace('.scss', '.css', $this->fileNameSCSS);
 		$this->fileLoc = implode('/', $this->file);
-		$this->fileCache = str_replace('.scss', '.css', $this->scssCache.'/'.$this->fileName);
 
 		// base uri to css file
 		$this->rootCssLoc = explode('/', $file);
 		array_pop($this->rootCssLoc);
 		$this->rootCssLoc = implode('/', $this->rootCssLoc);
+
+		try {
+			$this->folder = $this->appData->getFolder('css');
+		} catch(NotFoundException $e) {
+			// creating css appdata folder
+			$this->folder = $this->appData->newFolder('css');
+		}
 	}
 
 	public function process() {
 
-		if($this->is_cached($this->root.'/'.$this->fileCache, $this->fileLoc.'/'.$this->fileName)) {
+		if($this->is_cached()) {
 			return true;
 		} else {
 			return $this->cache();
@@ -70,33 +77,45 @@ class SCSSCacher {
 		return false;
 	}
 
-	private function is_cached($in, $out) {
-		if (! is_file($out) || filemtime($in) > filemtime($out)) {
-            return true;
-        }
+	private function is_cached() {
+		try{
+			$cachedfile = $this->folder->getFile($this->fileNameCSS);
+			if( $cachedfile->getMTime() > filemtime($this->fileLoc.'/'.$this->fileNameSCSS)
+				&& $cachedfile->getSize() > 0 ) {
+				return true;
+			}
+		} catch(NotFoundException $e) {
+			return false;
+		}
         return false;
 	}
 
 	private function cache() {
 		$scss = new Compiler();
 		$scss->setImportPaths($this->fileLoc);
-
 		if(\OC::$server->getSystemConfig()->getValue('debug')) {
 			// Debug mode
 			$scss->setFormatter('Leafo\ScssPhp\Formatter\Expanded');
 			$scss->setLineNumberStyle(Compiler::LINE_COMMENTS);
 		} else {
+			// Compression
 			$scss->setFormatter('Leafo\ScssPhp\Formatter\Crunched');
 		}
 
 		try {
-			$compiledScss = $scss->compile('@import "'.$this->fileName.'";');
+			$cachedfile = $this->folder->getFile($this->fileNameCSS);
+		} catch(NotFoundException $e) {
+			$cachedfile = $this->folder->newFile($this->fileNameCSS);
+		}
+
+		try {
+			$compiledScss = $scss->compile('@import "'.$this->fileNameSCSS.'";');
 		} catch(ParserException $e) {
 			$this->logger->error($e, ['app' => 'SCSSPHP']);
 			return false;
 		}
 
-		if(file_put_contents($this->fileCache, $this->rebaseUrls($compiledScss))) {
+		if($cachedfile->putContent($this->rebaseUrls($compiledScss))) {
 			$this->logger->debug($root.'/'.$file.' compiled and successfully cached', ['app' => 'SCSSPHP']);
 			return true;
 		}

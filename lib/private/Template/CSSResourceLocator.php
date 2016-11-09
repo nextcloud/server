@@ -26,14 +26,22 @@
 namespace OC\Template;
 
 class CSSResourceLocator extends ResourceLocator {
+
+	protected $appData;
+
+	public function __construct(\OCP\ILogger $logger, $theme, $core_map, $party_map, $appData) {
+		$this->appData = $appData;
+		parent::__construct($logger, $theme, $core_map, $party_map);
+	}
+
 	/**
 	 * @param string $style
 	 */
 	public function doFind($style) {
 		if (strpos($style, '3rdparty') === 0
 			&& $this->appendIfExist($this->thirdpartyroot, $style.'.css')
-			|| $this->cacheAndAppendScssIfExist($this->serverroot, $style.'.scss')
-			|| $this->cacheAndAppendScssIfExist($this->serverroot, 'core/'.$style.'.scss')
+			|| $this->cacheAndAppendScssIfExist($this->serverroot, $style.'.scss', $this->appData)
+			|| $this->cacheAndAppendScssIfExist($this->serverroot, 'core/'.$style.'.scss', $this->appData)
 			|| $this->appendIfExist($this->serverroot, $style.'.css')
 			|| $this->appendIfExist($this->serverroot, 'core/'.$style.'.css')
 		) {
