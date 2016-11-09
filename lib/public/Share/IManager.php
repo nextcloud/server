@@ -94,7 +94,7 @@ interface IManager {
 	 * @param string $userId
 	 * @param Folder $node
 	 * @param bool $reshares
-	 * @return IShare[]
+	 * @return IShare[][] [$fileId => IShare[], ...]
 	 * @since 9.2.0
 	 */
 	public function getSharesInFolder($userId, Folder $node, $reshares = false);
