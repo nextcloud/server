@@ -97,7 +97,7 @@ class Validator implements IValidator {
 	 * @param array $definition
 	 * @return string[]
 	 */
-	protected function getRequiredParameters($type, $definition) {
+	protected function getRequiredParameters($type, array $definition) {
 		if (isset($this->requiredParameters[$type])) {
 			return $this->requiredParameters[$type];
 		}
