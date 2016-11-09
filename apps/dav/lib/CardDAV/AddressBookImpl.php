@@ -29,7 +29,6 @@ use OCP\IAddressBook;
 use OCP\IURLGenerator;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Property;
-use Sabre\VObject\Property\Text;
 use Sabre\VObject\Reader;
 use Sabre\VObject\UUIDUtil;
 
@@ -209,7 +208,7 @@ class AddressBookImpl implements IAddressBook {
 	 */
 	protected function createEmptyVCard($uid) {
 		$vCard = new VCard();
-		$vCard->add(new Text($vCard, 'UID', $uid));
+		$vCard->UID = $uid;
 		return $vCard;
 	}
 
@@ -225,8 +224,7 @@ class AddressBookImpl implements IAddressBook {
 			'URI' => $uri,
 		];
 
-		foreach ($vCard->children as $property) {
-			/** @var \Sabre\VObject\Property\Unknown $property */
+		foreach ($vCard->children() as $property) {
 			if ($property->name === 'PHOTO' && $property->getValueType() === 'BINARY') {
 				$url = $this->urlGenerator->getAbsoluteURL(
 					$this->urlGenerator->linkTo('', 'remote.php') . '/dav/');

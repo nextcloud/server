@@ -29,6 +29,8 @@ use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCP\Files\StorageNotAvailableException;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
+use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
 
 /**
@@ -485,10 +487,10 @@ class FilesPluginTest extends TestCase {
 	 * @dataProvider downloadHeadersProvider
 	 */
 	public function testDownloadHeaders($isClumsyAgent, $contentDispositionHeader) {
-		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
+		$request = $this->getMockBuilder(RequestInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$response = $this->getMockBuilder('Sabre\HTTP\ResponseInterface')
+		$response = $this->getMockBuilder(ResponseInterface::class)
 				->disableOriginalConstructor()
 				->getMock();
 

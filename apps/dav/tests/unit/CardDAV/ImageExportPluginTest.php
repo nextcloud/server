@@ -159,36 +159,36 @@ class ImageExportPluginTest extends TestCase {
 			],
 			'vcard without PHOTO' => [
 				false,
-				"BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n"
+				"BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n"
 			],
 			'vcard 3 with PHOTO' => [
 				[
 					'Content-Type' => 'image/jpeg',
 					'body' => '12345'
 				],
-				"BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU=\r\nEND:VCARD\r\n"
+				"BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU=\r\nEND:VCARD\r\n"
 			],
 			'vcard 3 with PHOTO URL' => [
 				false,
-				"BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nPHOTO;TYPE=JPEG;VALUE=URI:http://example.com/photo.jpg\r\nEND:VCARD\r\n"
+				"BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nPHOTO;TYPE=JPEG;VALUE=URI:http://example.com/photo.jpg\r\nEND:VCARD\r\n"
 			],
 			'vcard 4 with PHOTO' => [
 				[
 					'Content-Type' => 'image/jpeg',
 					'body' => '12345'
 				],
-				"BEGIN:VCARD\r\nVERSION:4.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nPHOTO:data:image/jpeg;base64,MTIzNDU=\r\nEND:VCARD\r\n"
+				"BEGIN:VCARD\r\nVERSION:4.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nPHOTO:data:image/jpeg;base64,MTIzNDU=\r\nEND:VCARD\r\n"
 			],
 			'vcard 4 with PHOTO URL' => [
 				false,
-				"BEGIN:VCARD\r\nVERSION:4.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nPHOTO;MEDIATYPE=image/jpeg:http://example.org/photo.jpg\r\nEND:VCARD\r\n"
+				"BEGIN:VCARD\r\nVERSION:4.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nPHOTO;MEDIATYPE=image/jpeg:http://example.org/photo.jpg\r\nEND:VCARD\r\n"
 			],
 			'vcard 4 with PHOTO AND INVALID MIMEtYPE' => [
 				[
 					'Content-Type' => 'application/octet-stream',
 					'body' => '12345'
 				],
-				"BEGIN:VCARD\r\nVERSION:4.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nPHOTO:data:image/svg;base64,MTIzNDU=\r\nEND:VCARD\r\n"
+				"BEGIN:VCARD\r\nVERSION:4.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nPHOTO:data:image/svg;base64,MTIzNDU=\r\nEND:VCARD\r\n"
 			],
 		];
 	}

@@ -25,6 +25,9 @@
 namespace OCA\DAV\Tests\unit\CardDAV;
 
 use OCA\DAV\CardDAV\Converter;
+use OCP\IImage;
+use OCP\IUser;
+use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
 class ConverterTest extends  TestCase {
@@ -44,10 +47,10 @@ class ConverterTest extends  TestCase {
 
 	public function providesNewUsers() {
 		return [
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU2Nzg5\r\nEND:VCARD\r\n"],
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU2Nzg5\r\nEND:VCARD\r\n", "Dr. Foo Bar"],
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nEMAIL;TYPE=OTHER:foo@bar.net\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU2Nzg5\r\nEND:VCARD\r\n", "Dr. Foo Bar", "foo@bar.net"],
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nCLOUD:foo@bar.net\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU2Nzg5\r\nEND:VCARD\r\n", "Dr. Foo Bar", null, "foo@bar.net"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU2Nzg5\r\nEND:VCARD\r\n"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU2Nzg5\r\nEND:VCARD\r\n", "Dr. Foo Bar"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nEMAIL;TYPE=OTHER:foo@bar.net\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU2Nzg5\r\nEND:VCARD\r\n", "Dr. Foo Bar", "foo@bar.net"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nCLOUD:foo@bar.net\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU2Nzg5\r\nEND:VCARD\r\n", "Dr. Foo Bar", null, "foo@bar.net"],
 		];
 	}
 
@@ -91,9 +94,9 @@ class ConverterTest extends  TestCase {
 
 	public function providesUsersForUpdateOfRemovedElement() {
 		return [
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", "Dr. Foo Bar"],
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", "Dr. Foo Bar", "foo@bar.net"],
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", "Dr. Foo Bar", null, "foo@bar.net"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", "Dr. Foo Bar"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", "Dr. Foo Bar", "foo@bar.net"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", "Dr. Foo Bar", null, "foo@bar.net"],
 		];
 	}
 
@@ -122,13 +125,13 @@ class ConverterTest extends  TestCase {
 	 * @param $displayName
 	 * @param $eMailAddress
 	 * @param $cloudId
-	 * @return \PHPUnit_Framework_MockObject_MockObject
+	 * @return IUser | PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function getUserMock($displayName, $eMailAddress, $cloudId) {
-		$image0 = $this->getMockBuilder('OCP\IImage')->disableOriginalConstructor()->getMock();
+		$image0 = $this->getMockBuilder(IImage::class)->disableOriginalConstructor()->getMock();
 		$image0->method('mimeType')->willReturn('JPEG');
 		$image0->method('data')->willReturn('123456789');
-		$user = $this->getMockBuilder('OCP\IUser')->disableOriginalConstructor()->getMock();
+		$user = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$user->method('getUID')->willReturn('12345');
 		$user->method('getDisplayName')->willReturn($displayName);
 		$user->method('getEMailAddress')->willReturn($eMailAddress);

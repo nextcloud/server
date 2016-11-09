@@ -169,7 +169,7 @@ class CardDavBackendTest extends TestCase {
 	public function testCardOperations() {
 
 		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $backend */
-		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
+		$backend = $this->getMockBuilder(CardDavBackend::class)
 				->setConstructorArgs([$this->db, $this->principal, $this->userManager, null])
 				->setMethods(['updateProperties', 'purgeProperties'])->getMock();
 
@@ -215,7 +215,7 @@ class CardDavBackendTest extends TestCase {
 
 	public function testMultiCard() {
 
-		$this->backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
+		$this->backend = $this->getMockBuilder(CardDavBackend::class)
 			->setConstructorArgs([$this->db, $this->principal, $this->userManager, null])
 			->setMethods(['updateProperties'])->getMock();
 
@@ -261,8 +261,7 @@ class CardDavBackendTest extends TestCase {
 	}
 
 	public function testDeleteWithoutCard() {
-
-		$this->backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
+		$this->backend = $this->getMockBuilder(CardDavBackend::class)
 			->setConstructorArgs([$this->db, $this->principal, $this->userManager, null])
 			->setMethods([
 				'getCardId',
@@ -302,8 +301,7 @@ class CardDavBackendTest extends TestCase {
 	}
 
 	public function testSyncSupport() {
-
-		$this->backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
+		$this->backend = $this->getMockBuilder(CardDavBackend::class)
 			->setConstructorArgs([$this->db, $this->principal, $this->userManager, null])
 			->setMethods(['updateProperties'])->getMock();
 
@@ -362,7 +360,7 @@ class CardDavBackendTest extends TestCase {
 		$cardUri = 'card-uri';
 		$cardId = 2;
 
-		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
+		$backend = $this->getMockBuilder(CardDavBackend::class)
 			->setConstructorArgs([$this->db, $this->principal, $this->userManager, null])
 			->setMethods(['getCardId'])->getMock();
 
@@ -370,8 +368,8 @@ class CardDavBackendTest extends TestCase {
 
 		// add properties for new vCard
 		$vCard = new VCard();
-		$vCard->add(new Text($vCard, 'UID', $cardUri));
-		$vCard->add(new Text($vCard, 'FN', 'John Doe'));
+		$vCard->UID = $cardUri;
+		$vCard->FN = 'John Doe';
 		$this->invokePrivate($backend, 'updateProperties', [$bookId, $cardUri, $vCard->serialize()]);
 
 		$query = $this->db->getQueryBuilder();
@@ -391,7 +389,7 @@ class CardDavBackendTest extends TestCase {
 
 		// update properties for existing vCard
 		$vCard = new VCard();
-		$vCard->add(new Text($vCard, 'FN', 'John Doe'));
+		$vCard->UID = $cardUri;
 		$this->invokePrivate($backend, 'updateProperties', [$bookId, $cardUri, $vCard->serialize()]);
 
 		$query = $this->db->getQueryBuilder();
@@ -399,8 +397,8 @@ class CardDavBackendTest extends TestCase {
 
 		$this->assertSame(1, count($result));
 
-		$this->assertSame('FN', $result[0]['name']);
-		$this->assertSame('John Doe', $result[0]['value']);
+		$this->assertSame('UID', $result[0]['name']);
+		$this->assertSame($cardUri, $result[0]['value']);
 		$this->assertSame($bookId, (int)$result[0]['addressbookid']);
 		$this->assertSame($cardId, (int)$result[0]['cardid']);
 	}

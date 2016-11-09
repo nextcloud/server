@@ -50,7 +50,7 @@ class CalendarTest extends TestCase {
 
 	public function testDelete() {
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
-		$backend = $this->getMockBuilder('OCA\DAV\CalDAV\CalDavBackend')->disableOriginalConstructor()->getMock();
+		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->once())->method('updateShares');
 		$backend->expects($this->any())->method('getShares')->willReturn([
 			['href' => 'principal:user2']
@@ -70,7 +70,7 @@ class CalendarTest extends TestCase {
 	 */
 	public function testDeleteFromGroup() {
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
-		$backend = $this->getMockBuilder('OCA\DAV\CalDAV\CalDavBackend')->disableOriginalConstructor()->getMock();
+		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->never())->method('updateShares');
 		$backend->expects($this->any())->method('getShares')->willReturn([
 			['href' => 'principal:group2']
@@ -78,6 +78,25 @@ class CalendarTest extends TestCase {
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
 			'principaluri' => 'user2',
+			'id' => 666,
+			'uri' => 'cal',
+		];
+		$c = new Calendar($backend, $calendarInfo, $this->l10n);
+		$c->delete();
+	}
+
+	public function testDeleteOwn() {
+		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
+		$backend = $this->createMock(CalDavBackend::class);
+		$backend->expects($this->never())->method('updateShares');
+		$backend->expects($this->never())->method('getShares');
+
+		$backend->expects($this->once())->method('deleteCalendar')
+			->with(666);
+
+		$calendarInfo = [
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+			'principaluri' => 'user1',
 			'id' => 666,
 			'uri' => 'cal',
 		];
@@ -106,7 +125,7 @@ class CalendarTest extends TestCase {
 	 */
 	public function testPropPatch($mutations, $throws) {
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
-		$backend = $this->getMockBuilder('OCA\DAV\CalDAV\CalDavBackend')->disableOriginalConstructor()->getMock();
+		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
 			'principaluri' => 'user2',
@@ -129,7 +148,7 @@ class CalendarTest extends TestCase {
 	 */
 	public function testAcl($expectsWrite, $readOnlyValue, $hasOwnerSet, $uri = 'default') {
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
-		$backend = $this->getMockBuilder('OCA\DAV\CalDAV\CalDavBackend')->disableOriginalConstructor()->getMock();
+		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->any())->method('applyShareAcl')->willReturnArgument(1);
 		$calendarInfo = [
 			'principaluri' => 'user2',
@@ -204,7 +223,7 @@ class CalendarTest extends TestCase {
 		$calObject2 = ['uri' => 'event-2', 'classification' => CalDavBackend::CLASSIFICATION_PRIVATE];
 
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
-		$backend = $this->getMockBuilder('OCA\DAV\CalDAV\CalDavBackend')->disableOriginalConstructor()->getMock();
+		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->any())->method('getCalendarObjects')->willReturn([
 			$calObject0, $calObject1, $calObject2
 		]);
@@ -291,7 +310,7 @@ EOD;
 		$calObject2 = ['uri' => 'event-2', 'classification' => CalDavBackend::CLASSIFICATION_PRIVATE];
 
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
-		$backend = $this->getMockBuilder('OCA\DAV\CalDAV\CalDavBackend')->disableOriginalConstructor()->getMock();
+		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->any())->method('getCalendarObjects')->willReturn([
 			$calObject0, $calObject1, $calObject2
 		]);

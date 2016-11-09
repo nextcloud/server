@@ -37,7 +37,6 @@ use Sabre\CalDAV\Backend\AbstractBackend;
 use Sabre\CalDAV\Backend\SchedulingSupport;
 use Sabre\CalDAV\Backend\SubscriptionSupport;
 use Sabre\CalDAV\Backend\SyncSupport;
-use Sabre\CalDAV\Plugin;
 use Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Sabre\DAV;
@@ -236,6 +235,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
 				'{' . Plugin::NS_CALDAV . '}supported-calendar-component-set' => new SupportedCalendarComponentSet($components),
 				'{' . Plugin::NS_CALDAV . '}schedule-calendar-transp' => new ScheduleCalendarTransp($row['transparent']?'transparent':'opaque'),
+				'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => $principalUri,
 			];
 
 			foreach($this->propertyMap as $xmlName=>$dbName) {
@@ -1658,7 +1658,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$it = new EventIterator($vObject, (string)$component->UID);
 				$maxDate = new \DateTime(self::MAX_DATE);
 				if ($it->isInfinite()) {
-					$lastOccurrence = $maxDate->getTimeStamp();
+					$lastOccurrence = $maxDate->getTimestamp();
 				} else {
 					$end = $it->getDtEnd();
 					while($it->valid() && $end < $maxDate) {
@@ -1666,7 +1666,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 						$it->next();
 
 					}
-					$lastOccurrence = $end->getTimeStamp();
+					$lastOccurrence = $end->getTimestamp();
 				}
 
 			}

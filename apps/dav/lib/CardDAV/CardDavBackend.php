@@ -957,7 +957,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				]
 			);
 
-		foreach ($vCard->children as $property) {
+		foreach ($vCard->children() as $property) {
 			if(!in_array($property->name, self::$indexProperties)) {
 				continue;
 			}

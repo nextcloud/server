@@ -153,7 +153,8 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	}
 
 	function delete() {
-		if (isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
+		if (isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal']) &&
+			$this->calendarInfo['{http://owncloud.org/ns}owner-principal'] !== $this->calendarInfo['principaluri']) {
 			$principal = 'principal:' . parent::getOwner();
 			$shares = $this->getShares();
 			$shares = array_filter($shares, function($share) use ($principal){
@@ -283,7 +284,11 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	}
 
 	private function isShared() {
-		return isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal']);
+		if (!isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
+			return false;
+		}
+
+		return $this->calendarInfo['{http://owncloud.org/ns}owner-principal'] !== $this->calendarInfo['principaluri'];
 	}
 
 	public function isSubscription() {
