@@ -978,7 +978,7 @@ class OC_Util {
 			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute(
 						'core.login.showLoginForm',
 						[
-							'redirect_url' => urlencode(\OC::$server->getRequest()->getRequestUri()),
+							'redirect_url' => \OC::$server->getRequest()->getRequestUri(),
 						]
 					)
 			);
