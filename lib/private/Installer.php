@@ -533,9 +533,12 @@ class Installer {
 									if ($softErrors) {
 										try {
 											Installer::installShippedApp($filename);
-										} catch (\Doctrine\DBAL\Exception\TableExistsException $e) {
-											$errors[$filename] = $e;
-											continue;
+										} catch (HintException $e) {
+											if ($e->getPrevious() instanceof TableExistsException) {
+												$errors[$filename] = $e;
+												continue;
+											}
+											throw $e;
 										}
 									} else {
 										Installer::installShippedApp($filename);
@@ -567,7 +570,8 @@ class Installer {
 			} catch (TableExistsException $e) {
 				throw new HintException(
 					'Failed to enable app ' . $app,
-					'Please ask for help via one of our <a href="https://nextcloud.com/support/" target="_blank" rel="noreferrer">support channels</a>.'
+					'Please ask for help via one of our <a href="https://nextcloud.com/support/" target="_blank" rel="noreferrer">support channels</a>.',
+					0, $e
 				);
 			}
 		}
