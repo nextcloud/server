@@ -67,6 +67,8 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	private $cachedShareTypes;
 
+	private $cachedFolders = [];
+
 	/**
 	 * @param \Sabre\DAV\Tree $tree tree
 	 * @param IUserSession $userSession user session
@@ -143,24 +145,18 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			false
 		);
 
-		$children = $node->getDirectoryListing();
+		$shareTypesByFileId = [];
 
-		$values = array_map(function (\OCP\Files\Node $node) use ($shares) {
-			/** @var IShare[] $shares */
-			$shares = (isset($shares[$node->getId()])) ? $shares[$node->getId()] : [];
+		foreach($shares as $fileId => $sharesForFile) {
 			$types = array_map(function(IShare $share) {
 				return $share->getShareType();
-			}, $shares);
+			}, $sharesForFile);
 			$types = array_unique($types);
 			sort($types);
-			return $types;
-		}, $children);
+			$shareTypesByFileId[$fileId] = $types;
+		}
 
-		$keys = array_map(function (\OCP\Files\Node $node) {
-			return $node->getId();
-		}, $children);
-
-		return array_combine($keys, $values);
+		return $shareTypesByFileId;
 	}
 
 	/**
@@ -185,6 +181,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			$folderNode = $this->userFolder->get($sabreNode->getPath());
 
 			$childShares = $this->getSharesTypesInFolder($folderNode);
+			$this->cachedFolders[] = $sabreNode->getPath();
 			$this->cachedShareTypes[$folderNode->getId()] = $this->getShareTypes($folderNode);
 			foreach ($childShares as $id => $shares) {
 				$this->cachedShareTypes[$id] = $shares;
@@ -195,8 +192,17 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			if (isset($this->cachedShareTypes[$sabreNode->getId()])) {
 				$shareTypes = $this->cachedShareTypes[$sabreNode->getId()];
 			} else {
-				$node = $this->userFolder->get($sabreNode->getPath());
-				$shareTypes = $this->getShareTypes($node);
+				list($parentPath,) = \Sabre\Uri\split($sabreNode->getPath());
+				if ($parentPath === '') {
+					$parentPath = '/';
+				}
+				// if we already cached the folder this file is in we know there are no shares for this file
+				if (array_search($parentPath, $this->cachedFolders) === false) {
+					$node = $this->userFolder->get($sabreNode->getPath());
+					$shareTypes = $this->getShareTypes($node);
+				} else {
+					return [];
+				}
 			}
 
 			return new ShareTypeList($shareTypes);
