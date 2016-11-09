@@ -40,6 +40,7 @@
 
 namespace OC;
 
+use Doctrine\DBAL\Exception\TableExistsException;
 use OC\App\CodeChecker\CodeChecker;
 use OC\App\CodeChecker\EmptyCheck;
 use OC\App\CodeChecker\PrivateCheck;
@@ -561,7 +562,14 @@ class Installer {
 		//install the database
 		$appPath = OC_App::getAppPath($app);
 		if(is_file("$appPath/appinfo/database.xml")) {
-			OC_DB::createDbFromStructure("$appPath/appinfo/database.xml");
+			try {
+				OC_DB::createDbFromStructure("$appPath/appinfo/database.xml");
+			} catch (TableExistsException $e) {
+				throw new HintException(
+					'Failed to enable app ' . $app,
+					'Please ask for help via one of our <a href="https://nextcloud.com/support/" target="_blank" rel="noreferrer">support channels</a>.'
+				);
+			}
 		}
 
 		//run appinfo/install.php

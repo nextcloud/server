@@ -149,6 +149,10 @@ class Updater extends BasicEmitter {
 		$success = true;
 		try {
 			$this->doUpgrade($currentVersion, $installedVersion);
+		} catch (HintException $exception) {
+			$this->log->logException($exception, ['app' => 'core']);
+			$this->emit('\OC\Updater', 'failure', array($exception->getMessage() . ': ' .$exception->getHint()));
+			$success = false;
 		} catch (\Exception $exception) {
 			$this->log->logException($exception, ['app' => 'core']);
 			$this->emit('\OC\Updater', 'failure', array(get_class($exception) . ': ' .$exception->getMessage()));
