@@ -6,6 +6,9 @@ pipeline:
     image: nextcloudci/jsunit:jsunit-5
     commands:
       - ./autotest-js.sh
+      - curl -o codecov.sh https://codecov.io/bash
+      - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5; fi"
+      - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5; fi"
     when:
       matrix:
         TESTS: jsunit

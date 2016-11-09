@@ -264,7 +264,8 @@ module.exports = function(config) {
 			dir:'tests/karma-coverage',
 			reporters: [
 				{ type: 'html' },
-				{ type: 'cobertura' }
+				{ type: 'cobertura' },
+				{ type: 'lcovonly' },
 			]
 		},
 
