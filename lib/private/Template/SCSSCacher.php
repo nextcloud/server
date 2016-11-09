@@ -128,13 +128,13 @@ class SCSSCacher {
 		try {
 			$compiledScss = $scss->compile('@import "'.$this->fileNameSCSS.'";');
 		} catch(ParserException $e) {
-			$this->logger->error($e, ['app' => 'SCSSPHP']);
+			$this->logger->error($e, ['app' => 'server']);
 			return false;
 		}
 
 		try {
 			$cachedfile->putContent($this->rebaseUrls($compiledScss));
-			$this->logger->debug($this->rootCssLoc.'/'.$this->fileNameSCSS.' compiled and successfully cached', ['app' => 'SCSSPHP']);
+			$this->logger->debug($this->rootCssLoc.'/'.$this->fileNameSCSS.' compiled and successfully cached', ['app' => 'server']);
 			return true;
 		} catch(NotFoundException $e) {
 			return false;

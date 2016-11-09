@@ -127,7 +127,7 @@ abstract class ResourceLocator {
 				$this->append($root, $scssCache->getCachedSCSS(), $webRoot, false);
 				return true;
 			} else {
-				$this->logger->error('Failed to compile and/or save '.$root.'/'.$file, ['app' => 'SCSSPHP']);
+				$this->logger->error('Failed to compile and/or save '.$root.'/'.$file, ['app' => 'server']);
 				return false;
 			}
 		}
