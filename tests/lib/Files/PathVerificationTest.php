@@ -86,7 +86,7 @@ class PathVerificationTest extends \Test\TestCase {
 
 		if (!$connection->supports4ByteText()) {
 			$this->expectException(InvalidPathException::class);
-			$this->expectExceptionMessage('4-byte characters are not supported in file names');
+			$this->expectExceptionMessage('File name contains at least one invalid character');
 		}
 
 		$this->view->verifyPath('', $fileName);

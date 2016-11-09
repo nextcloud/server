@@ -45,8 +45,10 @@ use OC\Files\Cache\Scanner;
 use OC\Files\Cache\Updater;
 use OC\Files\Filesystem;
 use OC\Files\Cache\Watcher;
+use OCP\Files\EmptyFileNameException;
 use OCP\Files\FileNameTooLongException;
 use OCP\Files\InvalidCharacterInPathException;
+use OCP\Files\InvalidDirectoryException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\ILockingStorage;
@@ -487,8 +489,31 @@ abstract class Common implements Storage, ILockingStorage {
 
 	/**
 	 * @inheritdoc
+	 * @throws InvalidPathException
 	 */
 	public function verifyPath($path, $fileName) {
+
+		// verify empty and dot files
+		$trimmed = trim($fileName);
+		if ($trimmed === '') {
+			throw new EmptyFileNameException();
+		}
+
+		if (\OC\Files\Filesystem::isIgnoredDir($trimmed)) {
+			throw new InvalidDirectoryException();
+		}
+
+		if (!\OC::$server->getDatabaseConnection()->supports4ByteText()) {
+			// verify database - e.g. mysql only 3-byte chars
+			if (preg_match('%(?:
+      \xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3
+    | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
+    | \xF4[\x80-\x8F][\x80-\xBF]{2}      # plane 16
+)%xs', $fileName)) {
+				throw new InvalidCharacterInPathException();
+			}
+		}
+
 		if (isset($fileName[255])) {
 			throw new FileNameTooLongException();
 		}
