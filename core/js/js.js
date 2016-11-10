@@ -1546,11 +1546,7 @@ OC.PasswordConfirmation = {
 		if (this.requiresPasswordConfirmation()) {
 			this.$form.removeClass('hidden');
 			this.$background.removeClass('hidden');
-
-			// Hack against firefox ignoring autocomplete="off"
-			if (this.$input.val() === ' ') {
-				this.$input.val('');
-			}
+			this.$input.val('');
 		}
 
 		this.callback = callback;
@@ -1568,6 +1564,7 @@ OC.PasswordConfirmation = {
 			},
 			type: 'POST',
 			success: function(response) {
+				self.$input.val('');
 				nc_lastLogin = response.lastLogin;
 				self.$submit.addClass('icon-confirm').removeClass('icon-loading-small');
 
@@ -1579,6 +1576,7 @@ OC.PasswordConfirmation = {
 				}
 			},
 			error: function() {
+				self.$input.val('');
 				OC.Notification.showTemporary(t('core', 'Failed to authenticate, try again'));
 				self.$submit.addClass('icon-confirm').removeClass('icon-loading-small');
 			}

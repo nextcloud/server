@@ -148,7 +148,7 @@
 
 		<div id="sudo-login-background" class="hidden"></div>
 		<div id="sudo-login-form" class="hidden">
-			<input type="password" class="question" autocomplete="off" name="question" value=" "
+			<input type="password" class="question" autocomplete="off" name="question" value=" <?php /* Hack against firefox ignoring autocomplete="off" */ ?>"
 				placeholder="<?php p($l->t('Confirm your password')); ?>" />
 			<input class="confirm icon-confirm" title="<?php p($l->t('Confirm')); ?>" value="" type="submit">
 		</div>
