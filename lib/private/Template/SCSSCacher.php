@@ -156,7 +156,7 @@ class SCSSCacher {
 	 * @return string
 	 */
 	private function rebaseUrls($css) {
-		$re = '/url\([\'"](.*)[\'"]\)/x';
+		$re = '/url\([\'"]([\.\w?=\/-]*)[\'"]\)/x';
 		$subst = 'url(\'../../../'.$this->rootCssLoc.'/$1\')';
 		return preg_replace($re, $subst, $css);
 	}
