@@ -289,7 +289,6 @@ OC.L10N.register(
     "Experimental applications ahead" : "Experimental applications ahead",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches.",
     "Enable experimental apps" : "Enable experimental apps",
-    "Issue tracker" : "Issue tracker",
     "Group" : "Group",
     "APCu" : "APCu",
     "Redis" : "Redis",

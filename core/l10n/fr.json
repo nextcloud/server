@@ -140,6 +140,7 @@
     "{sharee} (email)" : "{sharee} (email)",
     "Share" : "Partager",
     "Share with people on other servers using the syntax username@example.com/nextcloud" : "Partagez avec des personnes sur d'autres serveurs en utilisant la syntaxe utilisateur@exemple.com/nextcloud",
+    "Share with users or by mail..." : "Partager avec des utilisateurs ou par mail…",
     "Share with users or remote users..." : "Partager avec des utilisateurs ou des utilisateurs distants...",
     "Share with users or groups..." : "Partager avec des utilisateurs ou des groupes...",
     "Share with users, groups or remote users..." : "Partager avec des utilisateurs, groupes ou utilisateurs distants...",

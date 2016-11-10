@@ -25,6 +25,7 @@ OC.L10N.register(
     "Save" : "Uložit",
     "Empty response from the server" : "Prázdná odpověď serveru",
     "Couldn't access. Please logout and login to activate this mount point" : "Nelze připojit. Pro aktivaci tohoto přípojného bodu se prosím odhlašte a znovu přihlašte",
+    "Couldn't get the information from the remote server: {code} {type}" : "Nelze obdržet informaci ze vzdáleného serveru: {code} {type}",
     "Couldn't get the list of external mount points: {type}" : "Nelze obdržet seznam vzdálených přípojných bodů: {type}",
     "There was an error with message: " : "Došlo k chybě s tímto hlášením:",
     "External mount error" : "Chyba vzdáleného úložiště",

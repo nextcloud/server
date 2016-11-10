@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files",
     {
+    "Storage is temporarily not available" : "Le support de stockage est temporairement non disponible",
     "Storage invalid" : "Support de stockage non valable",
     "Unknown error" : "Erreur inconnue ",
     "Files" : "Fichiers",
@@ -14,6 +15,7 @@ OC.L10N.register(
     "Upload cancelled." : "Envoi annulé.",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Impossible d'envoyer {filename} car il s'agit d'un répertoire ou d'un fichier de taille nulle",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Espace libre insuffisant : vous tentez d'envoyer {size1} mais seulement {size2} sont disponibles",
+    "Target folder \"{dir}\" does not exist any more" : "Le dossier cible « {dir} » n'existe plus",
     "Not enough free space" : "Pas assez d'espace disponible",
     "Uploading..." : "Téléversement en cours…",
     "..." : "...",

@@ -23,6 +23,7 @@
     "Save" : "Mentés",
     "Empty response from the server" : "Üres válasz a szervertől",
     "Couldn't access. Please logout and login to activate this mount point" : "Nem férhető hozzá. Kérlek próbálj meg ki- és bejelentkezni a csatolási pont aktiválásához.",
+    "Couldn't get the information from the remote server: {code} {type}" : "Nem sikerült lekérdezni az információkat a távoli szerverről: {code} {type}",
     "Couldn't get the list of external mount points: {type}" : "Nem lehet letölteni a külső csatolási pontok listáját: {type}",
     "There was an error with message: " : "Hiba történt ezzel az üzenettel:",
     "External mount error" : "Külső csatolási hiba",

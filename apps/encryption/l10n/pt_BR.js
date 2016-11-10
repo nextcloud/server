@@ -34,6 +34,7 @@ OC.L10N.register(
     "The share will expire on %s." : "O compartilhamento irá expirar em %s.",
     "Cheers!" : "Saudações!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Olá,<br><br>o administrador habilitou criptografia-lado-servidor. Os seus arquivos foram criptografados usando a senha <strong>%s</strong>.<br><br>Por favor, faça o login para a interface da Web, vá para a seção 'módulo de criptografia básico' das suas definições pessoais e atualize sua senha de criptografia, inserindo esta senha no campo 'senha antiga de log-in' e sua atual senha-de-login.<br><br>",
+    "Default encryption module" : "Módulo de criptografia padrão",
     "Encrypt the home storage" : "Criptografar a pasta de armazenamento home",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Ativar essa opção de criptografia para todos os arquivos armazenados no armazenamento principal, caso contrário, apenas arquivos no armazenamento externo serão criptografados",
     "Enable recovery key" : "Habilitar recuperação de chave",
@@ -57,6 +58,10 @@ OC.L10N.register(
     "Enable password recovery:" : "Habilitar recuperação de senha:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ativar essa opção vai permitir que você obtenha novamente acesso aos seus arquivos criptografados em caso de perda de senha",
     "Enabled" : "Habilitado",
-    "Disabled" : "Desabilitado"
+    "Disabled" : "Desabilitado",
+    "You need to migrate your encryption keys from the old encryption (Nextcloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Voce precisará migrar suas chaves de criptografia de uma chave antiga (Nextcloud <=8.0) para uma nova. Por favor execute 'occ encryption:migrate' ou contate seu administrador",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chave privada inválida para criptografia do App. Por favor, atualize a senha da sua chave privada no menu de configurações pessoais para recuperar o acesso dos seus arquivos criptografamos",
+    "Encryption App is enabled and ready" : "Criptografia de App esta habilitada e pronta",
+    "Nextcloud basic encryption module" : "Módulo de criptografia básico"
 },
 "nplurals=2; plural=(n > 1);");

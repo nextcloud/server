@@ -339,7 +339,6 @@ OC.L10N.register(
     "Experimental applications ahead" : "Prima le applicazioni sperimentali",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Le applicazioni sperimentali non sono sottoposte a controlli di sicurezza, sono nuove o notoriamente instabili e sotto sviluppo intensivo. La loro installazione può causare perdite di dati o problemi di sicurezza.",
     "Enable experimental apps" : "Abilita le applicazioni sperimentali",
-    "Issue tracker" : "Sistema di tracciamento dei problemi",
     "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Se desideri supportare il progetto\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">contribuisci allo sviluppo</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">diffondi il verbo</a>!",
     "Add Group" : "Aggiungi gruppo",
     "Group" : "Gruppo",
