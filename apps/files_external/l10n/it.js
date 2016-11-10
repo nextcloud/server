@@ -25,6 +25,7 @@ OC.L10N.register(
     "Save" : "Salva",
     "Empty response from the server" : "Risposta vuota dal server",
     "Couldn't access. Please logout and login to activate this mount point" : "Impossibile accedere. Chiudi la sessione e accedi nuovamente per attivare questo punto di mount",
+    "Couldn't get the information from the remote server: {code} {type}" : "Impossibile ottenere le informazioni dal server remoto: {code} {tipo}",
     "Couldn't get the list of external mount points: {type}" : "Impossibile ottenere l'elenco dei punti di mount esterni: {type}",
     "There was an error with message: " : "Si è verificato un errore con il messaggio:",
     "External mount error" : "Errore di mount esterno",

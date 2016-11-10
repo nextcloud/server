@@ -279,7 +279,6 @@ OC.L10N.register(
     "Experimental applications ahead" : "以下是實驗性質的應用程式",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "實驗性質的應用程式並沒有經過安全檢測，可能會不穩定而且正在開發中，安裝他們可能會造成資料遺失或是安全問題",
     "Enable experimental apps" : "啟用實驗性質的應用程式",
-    "Issue tracker" : "問題追蹤",
     "Group" : "群組",
     "APCu" : "APCu",
     "Redis" : "Redis",

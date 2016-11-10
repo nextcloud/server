@@ -329,7 +329,6 @@
     "Experimental applications ahead" : "Экспериментальные приложения",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Экспериментальные приложения не проверялись на наличие уязвимостей безопасности, они также могут быть нестабильны, т.к. находятся в активной разработке. Их установка может повлечь потерю информации или нарушение безопасности.",
     "Enable experimental apps" : "Включить экспериментальные приложения",
-    "Issue tracker" : "трекер проблем",
     "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Если вы хотите поддержать проект\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">присоединяйтесь к разработке</a>\n\t\tили\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">расскажите о нас</a>!",
     "Add Group" : "Добавить группу",
     "Group" : "Группа",

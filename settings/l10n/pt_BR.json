@@ -328,7 +328,6 @@
     "Experimental applications ahead" : "Aplicações experimentais à frente",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Aplicativos experimentais não são marcados por questões de segurança, por serem novos ou conhecidos como instáveis e sob forte desenvolvimento. Instalá-los pode causar perda de dados ou falhas de segurança.",
     "Enable experimental apps" : "Habilitar aplicativos experimentais",
-    "Issue tracker" : "Rastreador de tópicos",
     "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Se quiser dar suporte ao projeto\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">junte-se ao desenvolvimento</a>\n\t\t<or>ou</or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">espalhe pelo mundo</a>!",
     "Add Group" : "Adicionar grupo",
     "Group" : "Grupo",

@@ -322,7 +322,6 @@
     "Experimental applications ahead" : "Forrit á tilraunastigi fyrst",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Tilraunaforrit eru ekki yfirfarin með tilliti til öryggisvandamála, þau eru þekkt fyrir að vera óstöðug og þróast hratt. Uppsetning þeirra getur valdið gagnatapi og öryggisbrestum.",
     "Enable experimental apps" : "Virkja forrit á tilraunastigi",
-    "Issue tracker" : "Skrásetjari (tracker)",
     "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Ef þú vilt styðja við verkefnið\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">taktu þátt í þróuninni</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">láttu orð út ganga</a>!",
     "Add Group" : "Bæta við hópi",
     "Group" : "Hópur",

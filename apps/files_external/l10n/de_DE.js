@@ -25,6 +25,7 @@ OC.L10N.register(
     "Save" : "Speichern",
     "Empty response from the server" : "Leere Antwort vom Server erhalten",
     "Couldn't access. Please logout and login to activate this mount point" : "Anmeldung nicht möglich. Bitte melden Sie sich ab und wieder an, damit Sie von diesem Endpunkt zugreifen können.",
+    "Couldn't get the information from the remote server: {code} {type}" : "Konnte die Information vom entfernten Server nicht abrufen: {code} {type}",
     "Couldn't get the list of external mount points: {type}" : "Konnte die Liste von externen Speichern nicht laden: {type}",
     "There was an error with message: " : "Ein Fehler ist aufgetreten:",
     "External mount error" : "Externer Einhängefehler",

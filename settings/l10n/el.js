@@ -305,7 +305,6 @@ OC.L10N.register(
     "Experimental applications ahead" : "Πειραματικές εφαρμογές",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Οι πειραματικές εφαρμογές δεν ελέγχονται για θέματα ασφάλειας, είναι ασταθείς και υπό συνεχή εξέλιξη.  Η εγκατάσταση τους μπορεί να προκαλέσει απώλεια δεδομένων ή παραβιάσεις της ασφάλειας.",
     "Enable experimental apps" : "Ενεργοποίηση πειραματικών εφαρμογών",
-    "Issue tracker" : "Ιχνηλάτης ζητημάτων",
     "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Εάν θέλετε να υποστηρίξετε το έργο\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">συνεργαστείτε με τους προγραμματιστές</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">προωθήστε το</a>!",
     "Add Group" : "Προσθήκη ομάδας",
     "Group" : "Ομάδα",

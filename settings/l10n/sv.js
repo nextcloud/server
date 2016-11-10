@@ -280,7 +280,6 @@ OC.L10N.register(
     "Experimental applications ahead" : "Experimentiella applikationer framför",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Experimentella applikationer är ej kontrollerade för säkerhetsproblem, nya eller kända att vara instabila och under föränderlig utveckling. Installation utav dessa kan orsaka dataförlust eller säkerhetsbrott.",
     "Enable experimental apps" : "Aktivera experimentiella applikationer",
-    "Issue tracker" : "Felsökare",
     "Group" : "Grupp",
     "APCu" : "APCu",
     "Redis" : "Redis",
