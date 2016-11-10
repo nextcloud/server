@@ -115,19 +115,21 @@ abstract class ResourceLocator {
 	 * @param string|null $webRoot base for path, default map $root to $webRoot
 	 * @return bool True if the resource was found and cached, false otherwise
 	 */
-	protected function cacheAndAppendScssIfExist($root, $file, $appData, $webRoot = null) {
+	protected function cacheAndAppendScssIfExist($root, $file, $appData, $urlGenerator, $systemConfig, $webRoot = null) {
 		if (is_file($root.'/'.$file)) {
 			$scssCache = new \OC\Template\SCSSCacher(
 				$this->logger,
 				$root,
 				$file,
-				$appData);
+				$appData,
+				$urlGenerator,
+				$systemConfig);
 
 			if($scssCache->process()) {
 				$this->append($root, $scssCache->getCachedSCSS(), $webRoot, false);
 				return true;
 			} else {
-				$this->logger->error('Failed to compile and/or save '.$root.'/'.$file, ['app' => 'server']);
+				$this->logger->error('Failed to compile and/or save '.$root.'/'.$file, ['app' => 'core']);
 				return false;
 			}
 		}

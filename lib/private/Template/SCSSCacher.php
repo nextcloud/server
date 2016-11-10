@@ -40,6 +40,10 @@ class SCSSCacher {
 	protected $logger;
 	/** @var \OCP\Files\IAppData */
 	protected $appData;
+	/** @var \OCP\IURLGenerator */
+	protected $urlGenerator;
+	/** @var \OCP\Files\IConfig */
+	protected $systemConfig;
 
 	/**
 	 * @param \OCP\ILogger $logger
@@ -47,9 +51,12 @@ class SCSSCacher {
 	 * @param string $file
 	 * @param \OCP\Files\IAppData $appData
 	 */
-	public function __construct(\OCP\ILogger $logger, $root, $file, $appData) {
+	public function __construct(\OCP\ILogger $logger, $root, $file, \OCP\Files\IAppData $appData, \OCP\IURLGenerator $urlGenerator, $systemConfig) {
 		$this->logger = $logger;
 		$this->appData = $appData;
+		$this->urlGenerator = $urlGenerator;
+		$this->systemConfig = $systemConfig;
+
 		$this->root = $root;
 		$this->file = explode('/', $root.'/'.$file);
 
@@ -110,7 +117,7 @@ class SCSSCacher {
 	private function cache() {
 		$scss = new Compiler();
 		$scss->setImportPaths($this->fileLoc);
-		if(\OC::$server->getSystemConfig()->getValue('debug')) {
+		if($this->systemConfig->getValue('debug')) {
 			// Debug mode
 			$scss->setFormatter('Leafo\ScssPhp\Formatter\Expanded');
 			$scss->setLineNumberStyle(Compiler::LINE_COMMENTS);
@@ -129,13 +136,13 @@ class SCSSCacher {
 		try {
 			$compiledScss = $scss->compile('@import "'.$this->fileNameSCSS.'";');
 		} catch(ParserException $e) {
-			$this->logger->error($e, ['app' => 'server']);
+			$this->logger->error($e, ['app' => 'core']);
 			return false;
 		}
 
 		try {
 			$cachedfile->putContent($this->rebaseUrls($compiledScss));
-			$this->logger->debug($this->rootCssLoc.'/'.$this->fileNameSCSS.' compiled and successfully cached', ['app' => 'server']);
+			$this->logger->debug($this->rootCssLoc.'/'.$this->fileNameSCSS.' compiled and successfully cached', ['app' => 'core']);
 			return true;
 		} catch(NotFoundException $e) {
 			return false;
@@ -159,6 +166,6 @@ class SCSSCacher {
 	 * @return string
 	 */
 	public function getCachedSCSS() {
-		return substr(\OC::$server->getURLGenerator()->linkToRoute('core.Css.getCss', array('fileName' => $this->fileNameCSS)), 1);
+		return substr($this->urlGenerator->linkToRoute('core.Css.getCss', array('fileName' => $this->fileNameCSS)), 1);
 	}
 }

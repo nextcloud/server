@@ -54,7 +54,7 @@ class CssController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
+	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
 	 * @param string $fileName css filename with extension
@@ -76,8 +76,7 @@ class CssController extends Controller {
 			$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
 			$response->addHeader('Pragma', 'cache');
 			return $response;
-		} else {
-			return new NotFoundResponse();
 		}
+		return new NotFoundResponse();
 	}
 }

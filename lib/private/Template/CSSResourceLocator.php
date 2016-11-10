@@ -27,7 +27,12 @@ namespace OC\Template;
 
 class CSSResourceLocator extends ResourceLocator {
 
+	/** @var IAppData */
 	protected $appData;
+	/** @var \OCP\IURLGenerator */
+	protected $urlGenerator;
+	/** @var \OCP\Files\IConfig */
+	protected $systemConfig;
 
 	/**
 	 * @param \OCP\ILogger $logger
@@ -36,8 +41,11 @@ class CSSResourceLocator extends ResourceLocator {
 	 * @param array $party_map
 	 * @param IAppData $appData
 	 */
-	public function __construct(\OCP\ILogger $logger, $theme, $core_map, $party_map, $appData) {
+	public function __construct(\OCP\ILogger $logger, $theme, $core_map, $party_map, \OCP\Files\IAppData $appData, \OCP\IURLGenerator $urlGenerator, $systemConfig) {
 		$this->appData = $appData;
+		$this->urlGenerator = $urlGenerator;
+		$this->systemConfig = $systemConfig;
+
 		parent::__construct($logger, $theme, $core_map, $party_map);
 	}
 
@@ -47,8 +55,8 @@ class CSSResourceLocator extends ResourceLocator {
 	public function doFind($style) {
 		if (strpos($style, '3rdparty') === 0
 			&& $this->appendIfExist($this->thirdpartyroot, $style.'.css')
-			|| $this->cacheAndAppendScssIfExist($this->serverroot, $style.'.scss', $this->appData)
-			|| $this->cacheAndAppendScssIfExist($this->serverroot, 'core/'.$style.'.scss', $this->appData)
+			|| $this->cacheAndAppendScssIfExist($this->serverroot, $style.'.scss', $this->appData, $this->urlGenerator, $this->systemConfig)
+			|| $this->cacheAndAppendScssIfExist($this->serverroot, 'core/'.$style.'.scss', $this->appData, $this->urlGenerator, $this->systemConfig)
 			|| $this->appendIfExist($this->serverroot, $style.'.css')
 			|| $this->appendIfExist($this->serverroot, 'core/'.$style.'.css')
 		) {
