@@ -427,12 +427,23 @@ class ShareesAPIController extends OCSController {
 
 		$shareTypes = [
 			Share::SHARE_TYPE_USER,
-			Share::SHARE_TYPE_REMOTE,
-			Share::SHARE_TYPE_EMAIL
 		];
 
-		if ($this->shareManager->allowGroupSharing()) {
+		if ($itemType === 'file' || $itemType === 'folder') {
+			if ($this->shareManager->allowGroupSharing()) {
+				$shareTypes[] = Share::SHARE_TYPE_GROUP;
+			}
+
+			if ($this->isRemoteSharingAllowed($itemType)) {
+				$shareTypes[] = Share::SHARE_TYPE_REMOTE;
+			}
+
+			if ($this->shareManager->shareProviderExists(Share::SHARE_TYPE_EMAIL)) {
+				$shareTypes[] = Share::SHARE_TYPE_EMAIL;
+			}
+		} else {
 			$shareTypes[] = Share::SHARE_TYPE_GROUP;
+			$shareTypes[] = Share::SHARE_TYPE_EMAIL;
 		}
 
 		if (isset($_GET['shareType']) && is_array($_GET['shareType'])) {
@@ -441,16 +452,6 @@ class ShareesAPIController extends OCSController {
 		} else if (is_numeric($shareType)) {
 			$shareTypes = array_intersect($shareTypes, [(int) $shareType]);
 			sort($shareTypes);
-		}
-
-		if (in_array(Share::SHARE_TYPE_REMOTE, $shareTypes) && !$this->isRemoteSharingAllowed($itemType)) {
-			// Remove remote shares from type array, because it is not allowed.
-			$shareTypes = array_diff($shareTypes, [Share::SHARE_TYPE_REMOTE]);
-		}
-
-		if (!$this->shareManager->shareProviderExists(Share::SHARE_TYPE_EMAIL)) {
-			// Remove mail shares from type array, because the share provider is not loaded
-			$shareTypes = array_diff($shareTypes, [Share::SHARE_TYPE_EMAIL]);
 		}
 
 		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
