@@ -97,6 +97,11 @@ class OC_Util {
 		}
 
 		// instantiate object store implementation
+		$name = $config['class'];
+		if (strpos($name, 'OCA\\') === 0 && substr_count($name, '\\') >= 2) {
+			$segments = explode('\\', $name);
+			OC_App::loadApp(strtolower($segments[1]));
+		}
 		$config['arguments']['objectstore'] = new $config['class']($config['arguments']);
 		// mount with plain / root object store implementation
 		$config['class'] = '\OC\Files\ObjectStore\ObjectStoreStorage';
