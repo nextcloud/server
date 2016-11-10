@@ -24,7 +24,6 @@
 namespace OC\Activity;
 
 
-use OC\RichObjectStrings\Validator;
 use OCP\Activity\IConsumer;
 use OCP\Activity\IEvent;
 use OCP\Activity\IExtension;
@@ -36,6 +35,7 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\RichObjectStrings\IValidator;
 
 class Manager implements IManager {
 	/** @var IRequest */
@@ -46,6 +46,9 @@ class Manager implements IManager {
 
 	/** @var IConfig */
 	protected $config;
+
+	/** @var IValidator */
+	protected $validator;
 
 	/** @var string */
 	protected $formattingObjectType;
@@ -62,13 +65,16 @@ class Manager implements IManager {
 	 * @param IRequest $request
 	 * @param IUserSession $session
 	 * @param IConfig $config
+	 * @param IValidator $validator
 	 */
 	public function __construct(IRequest $request,
 								IUserSession $session,
-								IConfig $config) {
+								IConfig $config,
+								IValidator $validator) {
 		$this->request = $request;
 		$this->session = $session;
 		$this->config = $config;
+		$this->validator = $validator;
 	}
 
 	/** @var \Closure[] */
@@ -151,9 +157,7 @@ class Manager implements IManager {
 	 * @return IEvent
 	 */
 	public function generateEvent() {
-		return new Event(
-			new Validator()
-		);
+		return new Event($this->validator);
 	}
 
 	/**
@@ -166,12 +170,18 @@ class Manager implements IManager {
 	 *  - setSubject()
 	 *
 	 * @param IEvent $event
-	 * @return null
 	 * @throws \BadMethodCallException if required values have not been set
 	 */
 	public function publish(IEvent $event) {
+		$this->publishToConsumers($event, false);
+	}
 
-		if ($event->getAuthor() === null) {
+	/**
+	 * @param IEvent $event
+	 * @param bool $legacyActivity
+	 */
+	protected function publishToConsumers(IEvent $event, $legacyActivity) {
+		if ($event->getAuthor() === '') {
 			if ($this->session->getUser() instanceof IUser) {
 				$event->setAuthor($this->session->getUser()->getUID());
 			}
@@ -181,7 +191,7 @@ class Manager implements IManager {
 			$event->setTimestamp(time());
 		}
 
-		if (!$event->isValid()) {
+		if (!$legacyActivity && !$event->isValid()) {
 			throw new \BadMethodCallException('The given event is invalid');
 		}
 
@@ -201,7 +211,6 @@ class Manager implements IManager {
 	 * @param string $affectedUser  Recipient of the activity
 	 * @param string $type          Type of the notification
 	 * @param int    $priority      Priority of the notification
-	 * @return null
 	 */
 	public function publishActivity($app, $subject, $subjectParams, $message, $messageParams, $file, $link, $affectedUser, $type, $priority) {
 		$event = $this->generateEvent();
@@ -213,7 +222,7 @@ class Manager implements IManager {
 			->setObject('', 0, $file)
 			->setLink($link);
 
-		$this->publish($event);
+		$this->publishToConsumers($event, true);
 	}
 
 	/**
@@ -236,7 +245,6 @@ class Manager implements IManager {
 	 * $callable has to return an instance of OCA\Activity\IExtension
 	 *
 	 * @param \Closure $callable
-	 * @return void
 	 */
 	public function registerExtension(\Closure $callable) {
 		array_push($this->extensionsClosures, $callable);

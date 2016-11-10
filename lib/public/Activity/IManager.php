@@ -64,7 +64,6 @@ interface IManager {
 	 *  - setSubject()
 	 *
 	 * @param IEvent $event
-	 * @return null
 	 * @since 8.2.0
 	 */
 	public function publish(IEvent $event);
@@ -80,7 +79,6 @@ interface IManager {
 	 * @param string $affectedUser  Recipient of the activity
 	 * @param string $type          Type of the notification
 	 * @param int    $priority      Priority of the notification
-	 * @return null
 	 * @since 6.0.0
 	 * @deprecated 8.2.0 Grab an IEvent from generateEvent() instead and use the publish() method
 	 */
