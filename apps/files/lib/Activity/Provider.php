@@ -23,6 +23,7 @@
 namespace OCA\Files\Activity;
 
 use OCP\Activity\IEvent;
+use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -35,13 +36,18 @@ class Provider implements IProvider {
 	/** @var IURLGenerator */
 	protected $url;
 
+	/** @var IManager */
+	protected $activityManager;
+
 	/**
 	 * @param IL10N $l
 	 * @param IURLGenerator $url
+	 * @param IManager $activityManager
 	 */
-	public function __construct(IL10N $l, IURLGenerator $url) {
+	public function __construct(IL10N $l, IURLGenerator $url, IManager $activityManager) {
 		$this->l = $l;
 		$this->url = $url;
+		$this->activityManager = $activityManager;
 	}
 
 	/**
@@ -56,13 +62,71 @@ class Provider implements IProvider {
 			throw new \InvalidArgumentException();
 		}
 
-		$parsedParameters = $this->getParsedParameters($event->getSubject(), $event->getSubjectParameters());
-		$richParameters = $this->getRichParameters($event->getSubject(), $event->getSubjectParameters());
-
 		if ($previousEvent instanceof IEvent && $event->getSubject() !== $previousEvent->getSubject()) {
 			// Different subject means not the same string, so no grouping
 			$previousEvent = null;
 		}
+
+		if ($this->activityManager->isFormattingFilteredObject()) {
+			try {
+				return $this->parseShortVersion($event);
+			} catch (\InvalidArgumentException $e) {
+				// Ignore and simply use the long version...
+			}
+		}
+
+		return $this->parseLongVersion($event);
+	}
+
+	/**
+	 * @param IEvent $event
+	 * @return IEvent
+	 * @throws \InvalidArgumentException
+	 * @since 9.2.0
+	 */
+	public function parseShortVersion(IEvent $event) {
+		$parsedParameters = $this->getParsedParameters($event->getSubject(), $event->getSubjectParameters());
+		$richParameters = $this->getRichParameters($event->getSubject(), $event->getSubjectParameters());
+
+		if ($event->getSubject() === 'created_by') {
+			$event->setParsedSubject($this->l->t('Created by %s', [$parsedParameters[1]]))
+				->setRichSubject($this->l->t('Created by {user1}'), ['user1' => $richParameters['user1']])
+				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.svg')));
+		} else if ($event->getSubject() === 'changed_by') {
+			$event->setParsedSubject($this->l->t('Changed by %2$s', [$parsedParameters[1]]))
+				->setRichSubject($this->l->t('Changed by {user1}'), ['user1' => $richParameters['user1']])
+				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
+		} else if ($event->getSubject() === 'deleted_by') {
+			$event->setParsedSubject($this->l->t('Deleted by %2$s', [$parsedParameters[1]]))
+				->setRichSubject($this->l->t('Deleted by {user1}'), ['user1' => $richParameters['user1']])
+				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'delete-color.svg')));
+		} else if ($event->getSubject() === 'restored_by') {
+			$event->setParsedSubject($this->l->t('Restored by %2$s', [$parsedParameters[1]]))
+				->setRichSubject($this->l->t('Restored by {user1}'), ['user1' => $richParameters['user1']]);
+		} else if ($event->getSubject() === 'renamed_by') {
+			$event->setParsedSubject($this->l->t('Renamed by %2$s', [$parsedParameters[1]]))
+				->setRichSubject($this->l->t('Renamed by {user1}'), ['user1' => $richParameters['user1']])
+				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
+		} else if ($event->getSubject() === 'moved_by') {
+			$event->setParsedSubject($this->l->t('Moved by %2$s', [$parsedParameters[1]]))
+				->setRichSubject($this->l->t('Moved by {user1}'), ['user1' => $richParameters['user1']])
+				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
+		} else {
+			throw new \InvalidArgumentException();
+		}
+
+		return $event;
+	}
+
+	/**
+	 * @param IEvent $event
+	 * @return IEvent
+	 * @throws \InvalidArgumentException
+	 * @since 9.2.0
+	 */
+	public function parseLongVersion(IEvent $event) {
+		$parsedParameters = $this->getParsedParameters($event->getSubject(), $event->getSubjectParameters());
+		$richParameters = $this->getRichParameters($event->getSubject(), $event->getSubjectParameters());
 
 		if ($event->getSubject() === 'created_self') {
 			$event->setParsedSubject($this->l->t('You created %1$s', $parsedParameters))
