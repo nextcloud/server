@@ -33,6 +33,8 @@ use OCP\IConfig;
 use OCP\IImage;
 use OCP\IPreview;
 use OCP\Preview\IProvider;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class GeneratorTest extends \Test\TestCase {
 
@@ -48,6 +50,9 @@ class GeneratorTest extends \Test\TestCase {
 	/** @var GeneratorHelper|\PHPUnit_Framework_MockObject_MockObject */
 	private $helper;
 
+	/** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
+	private $eventDispatcher;
+
 	/** @var Generator */
 	private $generator;
 
@@ -58,12 +63,14 @@ class GeneratorTest extends \Test\TestCase {
 		$this->previewManager = $this->createMock(IPreview::class);
 		$this->appData = $this->createMock(IAppData::class);
 		$this->helper = $this->createMock(GeneratorHelper::class);
+		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 
 		$this->generator = new Generator(
 			$this->config,
 			$this->previewManager,
 			$this->appData,
-			$this->helper
+			$this->helper,
+			$this->eventDispatcher
 		);
 	}
 
@@ -95,6 +102,17 @@ class GeneratorTest extends \Test\TestCase {
 		$previewFolder->method('getFile')
 			->with($this->equalTo('128-128.png'))
 			->willReturn($previewFile);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatch')
+			->with(
+				$this->equalTo(IPreview::EVENT),
+				$this->callback(function(GenericEvent $event) use ($file) {
+					return $event->getSubject() === $file &&
+						$event->getArgument('width') === 100 &&
+						$event->getArgument('height') === 100;
+				})
+			);
 
 		$result = $this->generator->getPreview($file, 100, 100);
 		$this->assertSame($previewFile, $result);
@@ -204,6 +222,17 @@ class GeneratorTest extends \Test\TestCase {
 			->method('putContent')
 			->with('my resized data');
 
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatch')
+			->with(
+				$this->equalTo(IPreview::EVENT),
+				$this->callback(function(GenericEvent $event) use ($file) {
+					return $event->getSubject() === $file &&
+					$event->getArgument('width') === 100 &&
+					$event->getArgument('height') === 100;
+				})
+			);
+
 		$result = $this->generator->getPreview($file, 100, 100);
 		$this->assertSame($previewFile, $result);
 	}
@@ -216,6 +245,19 @@ class GeneratorTest extends \Test\TestCase {
 		$this->previewManager->method('isMimeSupported')
 			->with('invalidType')
 			->willReturn(false);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatch')
+			->with(
+				$this->equalTo(IPreview::EVENT),
+				$this->callback(function(GenericEvent $event) use ($file) {
+					return $event->getSubject() === $file &&
+					$event->getArgument('width') === 0 &&
+					$event->getArgument('height') === 0 &&
+					$event->getArgument('crop') === true &&
+					$event->getArgument('mode') === IPreview::MODE_COVER;
+				})
+			);
 
 		$this->generator->getPreview($file, 0, 0, true, IPreview::MODE_COVER, 'invalidType');
 	}
@@ -241,6 +283,17 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->previewManager->method('getProviders')
 			->willReturn([]);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatch')
+			->with(
+				$this->equalTo(IPreview::EVENT),
+				$this->callback(function(GenericEvent $event) use ($file) {
+					return $event->getSubject() === $file &&
+					$event->getArgument('width') === 100 &&
+					$event->getArgument('height') === 100;
+				})
+			);
 
 		$this->expectException(NotFoundException::class);
 		$this->generator->getPreview($file, 100, 100);
@@ -331,6 +384,19 @@ class GeneratorTest extends \Test\TestCase {
 		$previewFolder->method('newFile')
 			->with($this->equalTo($filename))
 			->willReturn($preview);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatch')
+			->with(
+				$this->equalTo(IPreview::EVENT),
+				$this->callback(function(GenericEvent $event) use ($file, $reqX, $reqY, $crop, $mode) {
+					return $event->getSubject() === $file &&
+					$event->getArgument('width') === $reqX &&
+					$event->getArgument('height') === $reqY &&
+					$event->getArgument('crop') === $crop &&
+					$event->getArgument('mode') === $mode;
+				})
+			);
 
 		$result = $this->generator->getPreview($file, $reqX, $reqY, $crop, $mode);
 		$this->assertSame($preview, $result);

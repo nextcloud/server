@@ -32,6 +32,8 @@ use OCP\IConfig;
 use OCP\IImage;
 use OCP\IPreview;
 use OCP\Preview\IProvider;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Generator {
 
@@ -43,23 +45,28 @@ class Generator {
 	private $appData;
 	/** @var GeneratorHelper */
 	private $helper;
+	/** @var EventDispatcherInterface */
+	private $eventDispatcher;
 
 	/**
 	 * @param IConfig $config
 	 * @param IPreview $previewManager
 	 * @param IAppData $appData
 	 * @param GeneratorHelper $helper
+	 * @param EventDispatcherInterface $eventDispatcher
 	 */
 	public function __construct(
 		IConfig $config,
 		IPreview $previewManager,
 		IAppData $appData,
-		GeneratorHelper $helper
+		GeneratorHelper $helper,
+		EventDispatcherInterface $eventDispatcher
 	) {
 		$this->config = $config;
 		$this->previewManager = $previewManager;
 		$this->appData = $appData;
 		$this->helper = $helper;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -78,6 +85,16 @@ class Generator {
 	 * @throws NotFoundException
 	 */
 	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null) {
+		$this->eventDispatcher->dispatch(
+			IPreview::EVENT,
+			new GenericEvent($file,[
+				'width' => $width,
+				'height' => $height,
+				'crop' => $crop,
+				'mode' => $mode
+			])
+		);
+
 		if ($mimeType === null) {
 			$mimeType = $file->getMimeType();
 		}

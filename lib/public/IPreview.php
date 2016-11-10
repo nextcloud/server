@@ -43,6 +43,11 @@ use OCP\Files\NotFoundException;
  */
 interface IPreview {
 
+	/**
+	 * @since 9.2.0
+	 */
+	const EVENT = self::class . ':' . 'PreviewRequested';
+
 	const MODE_FILL = 'fill';
 	const MODE_COVER = 'cover';
 
