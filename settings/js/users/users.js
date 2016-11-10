@@ -539,7 +539,7 @@ var UserList = {
 			OC.Notification.showTemporary(t('core', 'Invalid quota value "{val}"', {val: quota}));
 			return;
 		}
-		UserList._updateQuota(uid, quota, function(returnedQuota){
+		UserList._updateQuota(uid, quota, function(returnedQuota) {
 			if (quota !== returnedQuota) {
 				$select.find(':selected').text(returnedQuota);
 			}
@@ -553,12 +553,21 @@ var UserList = {
 	 * @param {Function} ready callback after save
 	 */
 	_updateQuota: function(uid, quota, ready) {
+		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this._updateQuota, this, uid, quota, ready));
+			return;
+		}
+
 		$.post(
 			OC.filePath('settings', 'ajax', 'setquota.php'),
 			{username: uid, quota: quota},
 			function (result) {
-				if (ready) {
-					ready(result.data.quota);
+				if (result.status === 'error') {
+					OC.Notification.showTemporary(result.data.message);
+				} else {
+					if (ready) {
+						ready(result.data.quota);
+					}
 				}
 			}
 		);
