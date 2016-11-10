@@ -72,10 +72,10 @@ class SCSSCacher {
 		$this->rootCssLoc = implode('/', $this->rootCssLoc);
 
 		try {
-			$this->folder = $this->appData->getFolder('css');
+			$this->folder = $this->appData->getFolder('core');
 		} catch(NotFoundException $e) {
 			// creating css appdata folder
-			$this->folder = $this->appData->newFolder('css');
+			$this->folder = $this->appData->newFolder('core');
 		}
 	}
 
