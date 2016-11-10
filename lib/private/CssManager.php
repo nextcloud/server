@@ -48,11 +48,12 @@ class CssManager implements ICssManager {
 	 * Get the css file and return ISimpleFile
 	 *
 	 * @param string $fileName css filename with extension
+	 * @param string $appName css app name
 	 * @return ISimpleFile
 	 */
-	public function getCss($fileName) {
+	public function getCss($fileName, $appName) {
 		try {
-			$folder = $this->appData->getFolder('css');
+			$folder = $this->appData->getFolder($appName);
 		} catch(NotFoundException $e) {
 			throw new NotFoundException();
 		}

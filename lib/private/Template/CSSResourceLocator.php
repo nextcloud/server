@@ -27,11 +27,11 @@ namespace OC\Template;
 
 class CSSResourceLocator extends ResourceLocator {
 
-	/** @var IAppData */
+	/** @var \OCP\Files\IAppData */
 	protected $appData;
 	/** @var \OCP\IURLGenerator */
 	protected $urlGenerator;
-	/** @var \OCP\Files\IConfig */
+	/** @var \OC\SystemConfig */
 	protected $systemConfig;
 
 	/**
@@ -39,9 +39,11 @@ class CSSResourceLocator extends ResourceLocator {
 	 * @param string $theme
 	 * @param array $core_map
 	 * @param array $party_map
-	 * @param IAppData $appData
+	 * @param \OCP\Files\IAppData $appData
+	 * @param \OCP\IURLGenerator $urlGenerator
+	 * @param \OC\SystemConfig $systemConfig
 	 */
-	public function __construct(\OCP\ILogger $logger, $theme, $core_map, $party_map, \OCP\Files\IAppData $appData, \OCP\IURLGenerator $urlGenerator, $systemConfig) {
+	public function __construct(\OCP\ILogger $logger, $theme, $core_map, $party_map, \OCP\Files\IAppData $appData, \OCP\IURLGenerator $urlGenerator, \OC\SystemConfig $systemConfig) {
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
 		$this->systemConfig = $systemConfig;

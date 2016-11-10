@@ -58,11 +58,12 @@ class CssController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * @param string $fileName css filename with extension
+	 * @param string $appName css folder name
 	 * @return text/css
 	 */
-	public function getCss($fileName) {
+	public function getCss($fileName, $appName) {
 		try {
-			$cssFile = $this->cssManager->getCss($fileName);
+			$cssFile = $this->cssManager->getCss($fileName, $appName);
 		} catch(NotFoundException $e) {
 			return new NotFoundResponse();
 		}

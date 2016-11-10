@@ -32,7 +32,8 @@ interface ICssManager {
 	 * Get the css file and return ISimpleFile
 	 *
 	 * @param string $fileName css filename with extension
+	 * @param string $appName css app name
 	 * @return ISimpleFile
 	 */
-	public function getCss($fileName);
+	public function getCss($fileName, $appName);
 }

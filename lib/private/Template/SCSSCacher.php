@@ -42,7 +42,7 @@ class SCSSCacher {
 	protected $appData;
 	/** @var \OCP\IURLGenerator */
 	protected $urlGenerator;
-	/** @var \OCP\Files\IConfig */
+	/** @var \OC\SystemConfig */
 	protected $systemConfig;
 
 	/**
@@ -50,8 +50,10 @@ class SCSSCacher {
 	 * @param string $root
 	 * @param string $file
 	 * @param \OCP\Files\IAppData $appData
+	 * @param \OCP\IURLGenerator $urlGenerator
+	 * @param \OC\SystemConfig $systemConfig
 	 */
-	public function __construct(\OCP\ILogger $logger, $root, $file, \OCP\Files\IAppData $appData, \OCP\IURLGenerator $urlGenerator, $systemConfig) {
+	public function __construct(\OCP\ILogger $logger, $root, $file, \OCP\Files\IAppData $appData, \OCP\IURLGenerator $urlGenerator, \OC\SystemConfig $systemConfig) {
 		$this->logger = $logger;
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
@@ -90,7 +92,6 @@ class SCSSCacher {
 		} else {
 			return $this->cache();
 		}
-		return false;
 	}
 
 	/**
@@ -107,7 +108,7 @@ class SCSSCacher {
 		} catch(NotFoundException $e) {
 			return false;
 		}
-        return false;
+		return false;
 	}
 
 	/**
@@ -163,9 +164,10 @@ class SCSSCacher {
 
 	/**
 	 * Return the cached css file uri
+	 * @param string $appName the app name
 	 * @return string
 	 */
-	public function getCachedSCSS() {
-		return substr($this->urlGenerator->linkToRoute('core.Css.getCss', array('fileName' => $this->fileNameCSS)), 1);
+	public function getCachedSCSS($appName) {
+		return substr($this->urlGenerator->linkToRoute('core.Css.getCss', array('fileName' => $this->fileNameCSS, 'appName' => $appName)), 1);
 	}
 }
