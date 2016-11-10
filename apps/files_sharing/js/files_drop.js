@@ -117,7 +117,7 @@
 	};
 
 	$(document).ready(function() {
-		if($('#upload-only-interface').val() === "1") {
+		if($('#upload-only-interface').val() === "1" && oc_config.enable_avatars) {
 			$('.avatardiv').avatar($('#sharingUserId').val(), 128, true);
 		}
 
