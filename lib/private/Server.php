@@ -778,7 +778,7 @@ class Server extends ServerContainer implements IServerContainer {
 			$manager = new \OC\Settings\Manager(
 				$c->getLogger(),
 				$c->getDatabaseConnection(),
-				$c->getL10N('core'),
+				$c->getL10N('lib'),
 				$c->getConfig(),
 				$c->getEncryptionManager(),
 				$c->getUserManager(),
