@@ -58,13 +58,13 @@ class FilesDropPlugin extends ServerPlugin {
 	 * @return void
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
-		$server->on('beforeMethod:PUT', [$this, 'beforeMethod']);
+		$server->on('beforeMethod', [$this, 'beforeMethod'], 999);
 		$this->enabled = false;
 	}
 
 	public function beforeMethod(RequestInterface $request, ResponseInterface $response){
 
-		if (!$this->enabled) {
+		if (!$this->enabled || $request->getMethod() !== 'PUT') {
 			return;
 		}
 
