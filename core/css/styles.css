@@ -998,6 +998,8 @@ fieldset.warning legend + p, fieldset.update legend + p {
 	top: 45%;
 	left: 40%;
 	border: 1px solid #e9322d;
+	color: #e9322d;
+	font-weight: bold;
 	z-index: 1000;
 	background: #e4b9c0;
 	border-radius: 10px;
@@ -1010,7 +1012,9 @@ fieldset.warning legend + p, fieldset.update legend + p {
 }
 
 #sudo-login-form .confirm {
-	position: absolute;
-	top: 25px;
-	right: 25px;
+	position: relative;
+	right: 32px;
+	border: none;
+	opacity: .3;
+	background-color: transparent;
 }
