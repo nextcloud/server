@@ -278,6 +278,20 @@ class Installer {
 							);
 						}
 
+						// Check if the version is lower than before
+						$currentVersion = OC_App::getAppVersion($appId);
+						$newVersion = (string)$xml->version;
+						if(version_compare($currentVersion, $newVersion) === 1) {
+							throw new \Exception(
+								sprintf(
+									'App for id %s has version %s and tried to update to lower version %s',
+									$appId,
+									$currentVersion,
+									$newVersion
+								)
+							);
+						}
+
 						$baseDir = OC_App::getInstallPath() . '/' . $appId;
 						// Remove old app with the ID if existent
 						OC_Helper::rmdirr($baseDir);
