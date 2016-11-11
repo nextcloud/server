@@ -901,11 +901,12 @@ div.crumb > span {
 	color: #555;
 }
 div.crumb.last a {
-	padding-right: 0px;
+	padding-right: 0;
 }
 div.crumb:first-child a {
 	position: relative;
 	top: 13px;
+	padding-right: 14px;
 }
 div.crumb.last {
 	font-weight: 600;
