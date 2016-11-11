@@ -22,9 +22,11 @@
 
 namespace Test\Authentication\Token;
 
+use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Authentication\Token\IToken;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\Mapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
@@ -376,4 +378,25 @@ class DefaultTokenProviderTest extends TestCase {
 		$this->tokenProvider->renewSessionToken('oldId', 'newId');
 	}
 
+	public function testGetTokenById() {
+		$token = $this->createMock(DefaultToken::class);
+
+		$this->mapper->expects($this->once())
+			->method('getTokenById')
+			->with($this->equalTo(42))
+			->willReturn($token);
+
+		$this->assertSame($token, $this->tokenProvider->getTokenById(42));
+	}
+
+	public function testGetInvalidTokenById() {
+		$this->expectException(InvalidTokenException::class);
+
+		$this->mapper->expects($this->once())
+			->method('getTokenById')
+			->with($this->equalTo(42))
+			->willThrowException(new DoesNotExistException('nope'));
+
+		$this->tokenProvider->getTokenById(42);
+	}
 }

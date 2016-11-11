@@ -74,8 +74,7 @@ class DefaultTokenMapper extends Mapper {
 		$qb = $this->db->getQueryBuilder();
 		$result = $qb->select('id', 'uid', 'login_name', 'password', 'name', 'type', 'remember', 'token', 'last_activity', 'last_check', 'scope')
 			->from('authtoken')
-			->where($qb->expr()->eq('token', $qb->createParameter('token')))
-			->setParameter('token', $token)
+			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)))
 			->execute();
 
 		$data = $result->fetch();
@@ -88,19 +87,18 @@ class DefaultTokenMapper extends Mapper {
 	}
 
 	/**
-	 * Get the user UID for the given token
+	 * Get the token for $id
 	 *
-	 * @param string $token
+	 * @param string $id
 	 * @throws DoesNotExistException
 	 * @return DefaultToken
 	 */
-	public function getTokenById($token) {
+	public function getTokenById($id) {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$result = $qb->select('id', 'uid', 'login_name', 'password', 'name', 'type', 'token', 'last_activity', 'last_check', 'scope')
 			->from('authtoken')
-			->where($qb->expr()->eq('id', $qb->createParameter('id')))
-			->setParameter('id', $token)
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->execute();
 
 		$data = $result->fetch();

@@ -27,6 +27,7 @@ use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\DefaultTokenMapper;
 use OC\Authentication\Token\IToken;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IDBConnection;
 use OCP\IUser;
 use Test\TestCase;
 
@@ -40,6 +41,8 @@ class DefaultTokenMapperTest extends TestCase {
 
 	/** @var DefaultTokenMapper */
 	private $mapper;
+
+	/** @var IDBConnection */
 	private $dbConnection;
 	private $time;
 
@@ -148,6 +151,35 @@ class DefaultTokenMapperTest extends TestCase {
 		$token = 'thisisaninvalidtokenthatisnotinthedatabase';
 
 		$this->mapper->getToken($token);
+	}
+
+	public function testGetTokenById() {
+		$token = new DefaultToken();
+		$token->setUid('user2');
+		$token->setLoginName('User2');
+		$token->setPassword('971a337057853344700bbeccf836519f|UwOQwyb34sJHtqPV|036d4890f8c21d17bbc7b88072d8ef049a5c832a38e97f3e3d5f9186e896c2593aee16883f617322fa242728d0236ff32d163caeb4bd45e14ca002c57a88665f');
+		$token->setName('Firefox on Android');
+		$token->setToken('1504445f1524fc801035448a95681a9378ba2e83930c814546c56e5d6ebde221198792fd900c88ed5ead0555780dad1ebce3370d7e154941cd5de87eb419899b');
+		$token->setType(IToken::TEMPORARY_TOKEN);
+		$token->setRemember(IToken::DO_NOT_REMEMBER);
+		$token->setLastActivity($this->time - 60 * 60 * 24 * 3);
+		$token->setLastCheck($this->time - 10);
+
+		$dbToken = $this->mapper->getToken($token->getToken());
+		$token->setId($dbToken->getId()); // We don't know the ID
+		$token->resetUpdatedFields();
+
+		$dbToken = $this->mapper->getTokenById($token->getId());
+		$this->assertEquals($token, $dbToken);
+	}
+
+	/**
+	 * @expectedException \OCP\AppFramework\Db\DoesNotExistException
+	 */
+	public function testGetInvalidTokenById() {
+		$id = 42;
+
+		$this->mapper->getToken($id);
 	}
 
 	public function testGetTokenByUser() {
