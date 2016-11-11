@@ -173,14 +173,6 @@ class Manager implements IManager {
 	 * @throws \BadMethodCallException if required values have not been set
 	 */
 	public function publish(IEvent $event) {
-		$this->publishToConsumers($event, false);
-	}
-
-	/**
-	 * @param IEvent $event
-	 * @param bool $legacyActivity
-	 */
-	protected function publishToConsumers(IEvent $event, $legacyActivity) {
 		if ($event->getAuthor() === '') {
 			if ($this->session->getUser() instanceof IUser) {
 				$event->setAuthor($this->session->getUser()->getUID());
@@ -191,7 +183,7 @@ class Manager implements IManager {
 			$event->setTimestamp(time());
 		}
 
-		if (!$legacyActivity && !$event->isValid()) {
+		if (!$event->isValid()) {
 			throw new \BadMethodCallException('The given event is invalid');
 		}
 
@@ -222,7 +214,7 @@ class Manager implements IManager {
 			->setObject('', 0, $file)
 			->setLink($link);
 
-		$this->publishToConsumers($event, true);
+		$this->publish($event);
 	}
 
 	/**

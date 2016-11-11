@@ -539,10 +539,13 @@ class Event implements IEvent {
 			$this->getAffectedUser() !== ''
 			&&
 			$this->getTimestamp() !== 0
+			/**
+			 * Disabled for BC with old activities
 			&&
 			$this->getObjectType() !== ''
 			&&
-			$this->getObjectId() !== ''
+			$this->getObjectId() !== 0
+			 */
 		;
 	}
 }
