@@ -44,8 +44,16 @@ class RedisFactory {
 				throw new \Exception('Redis Cluster support is not available');
 			}
 			// cluster config
-			$timeout = isset($config['timeout']) ? $config['timeout'] : null;
-			$readTimeout = isset($config['read_timeout']) ? $config['read_timeout'] : null;
+			if (isset($config['timeout'])) {
+				$timeout = $config['timeout'];
+			} else {
+				$timeout = null;
+			}
+			if (isset($config['read_timeout'])) {
+				$readTimeout = $config['read_timeout'];
+			} else {
+				$readTimeout = null;
+			}
 			$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout);
 
 			if (isset($config['failover_mode'])) {
