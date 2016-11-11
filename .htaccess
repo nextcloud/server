@@ -21,8 +21,13 @@
   </IfModule>
 
   # Add cache control for static resources
-  <FilesMatch "\.(css|js|woff|svg|gif)$">
-    Header set Cache-Control "max-age=7200, public"
+  <FilesMatch "\.(css|js|svg|gif)$">
+    Header set Cache-Control "max-age=15778463"
+  </FilesMatch>
+  
+  # Let browsers cache WOFF files for a week
+  <FilesMatch "\.woff$">
+    Header set Cache-Control "max-age=604800"
   </FilesMatch>
 </IfModule>
 <IfModule mod_php5.c>
