@@ -9,7 +9,7 @@ OC.L10N.register(
     "Update for %1$s to version %2$s is available." : "Доступно обновление для %1$s до версии %2$s.",
     "A new version is available: %s" : "Доступна новая версия: %s",
     "Open updater" : "Открыть окно обновления",
-    "Download now" : "Загрузить сейчас",
+    "Download now" : "Скачать сейчас",
     "Your version is up to date." : "Версия не требует обновления.",
     "Checked on %s" : "Проверено %s",
     "Update channel:" : "Канал обновлений:",
