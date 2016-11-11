@@ -547,7 +547,7 @@ MPLX6f5V9tCJtlH6ztmEcDROfvuVc0U3rEhqx2hphoyo+MZrPFpdcJL8KkIdMKbY
 			],
 		];
 		$this->appFetcher
-			->expects($this->once())
+			->expects($this->at(0))
 			->method('get')
 			->willReturn($appArray);
 		$realTmpFile = \OC::$server->getTempManager()->getTemporaryFile('.tar.gz');
@@ -568,7 +568,7 @@ MPLX6f5V9tCJtlH6ztmEcDROfvuVc0U3rEhqx2hphoyo+MZrPFpdcJL8KkIdMKbY
 			->method('get')
 			->with('https://example.com', ['save_to' => $realTmpFile]);
 		$this->clientService
-			->expects($this->once())
+			->expects($this->at(0))
 			->method('newClient')
 			->willReturn($client);
 
@@ -576,5 +576,92 @@ MPLX6f5V9tCJtlH6ztmEcDROfvuVc0U3rEhqx2hphoyo+MZrPFpdcJL8KkIdMKbY
 
 		$this->assertTrue(file_exists(__DIR__ . '/../../apps/testapp/appinfo/info.xml'));
 		$this->assertEquals('0.9', \OC_App::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
+	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage App for id testapp has version 0.9 and tried to update to lower version 0.8
+	 */
+	public function testDownloadAppWithDowngrade() {
+		$appArray = [
+			[
+				'id' => 'testapp',
+				'certificate' => '-----BEGIN CERTIFICATE-----
+MIIEAjCCAuoCAhAbMA0GCSqGSIb3DQEBCwUAMHsxCzAJBgNVBAYTAkRFMRswGQYD
+VQQIDBJCYWRlbi1XdWVydHRlbWJlcmcxFzAVBgNVBAoMDk5leHRjbG91ZCBHbWJI
+MTYwNAYDVQQDDC1OZXh0Y2xvdWQgQ29kZSBTaWduaW5nIEludGVybWVkaWF0ZSBB
+dXRob3JpdHkwHhcNMTYxMDMxMTgxNTI2WhcNMjcwMjA2MTgxNTI2WjASMRAwDgYD
+VQQDEwd0ZXN0YXBwMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAqa0x
+FcVa0YcO/ABqSNdbf7Bzp2PBBJzVM9gI4/HzzBKU/NY9/RibBBpNjAIWEFAbTI4j
+ilFSoxHDQ8HrboFOeKCrOIdp9ATQ8SnYVNIQ12Ym3LA/XxcG0gG0H7DeS9C0uACe
+svN8fwD1wnKnLLU9GBzO77jwYkneed85wwKG4waHd3965gxQWq0N5gnYS0TTn7Yr
+l1veRiw+ryefXvfWI0cN1WBZJ/4XAkwVlpG1HP60AunIpcwn9bfG4XCka+7x26E4
+6Hw0Ot7D7j0yzVzimJDPB2h2buEtPVd6m+oNPueVvKGta+p6cEEaHlFVh2Pa9DI+
+me3nb6aXE2kABWXav3BmK18A5Rg4ZY4VFYvmHmxkOhT/ulGZRqy6TccL/optqs52
+KQ6P0e5dfmhLeoCvJObD+ZYKv+kJCRFtX1Hve/R4IHG6XSFKUfrRjyor9b6TX2L/
+l2vV0mFjmy4g3l05vWHg1Edtq7M29S/xNA3/hF29NjBq6NoMbLGcBtFced1iK07Z
+yHLjXRZRfURP671Svqqg8pjxuDqkJ2vIj/Vpod4kF2jeiZYXcfmNKhEhxpkccSe0
+dI6p76Ne7XSUpf8yCPiSnWZLadqKZdEulcB4SlrZO2+/pycgqrqihofDrvDeWeeg
+gQyvbZZKl4ylRNj6IRKnosKLVXNqMHQxLmxLHeUCAwEAATANBgkqhkiG9w0BAQsF
+AAOCAQEALkKQwa40HfuP4Q6ShwBFJbXLyodIAXCT014kBVjReDKNl5oHtMXRjPxj
+nj9doKu+3bLNuLCv9uU3H5+t/GFogReV3Av3z/fCqJ6wHv/KX+lacj31dWXZGD8G
+z+RYibrxKkPN0V6q1mSvkg3hJOOE+/4FPIdc8PNlgratv3WS4dT8QwGSUavHW2Kx
+89nIdnwtLEFpgML/bTG0dm8BH57xER8LCYixW1VmpV6A4IsoKVsnB7KUCRTK3iUJ
+Zh8Xg8UMNrOtXc1Wx1Wmjaa4ZE9dY6/KkU2ny2UWyDHKU/9VE8QQ4HN93gxU4+H7
+cUg0V1uAxqUvKytKkMfcyPWsz/AINA==
+-----END CERTIFICATE-----',
+				'releases' => [
+					[
+						'download' => 'https://example.com',
+						'signature' => 'KMSao4cKdMIYxeT8Bm4lrmSeIQnk7YzJZh+Vz+4LVSBwF+OMmcujryQuWLXmbPfg
+4hGI9zS025469VNjUoCprn01H8NBq3O1cXz+ewG1oxYWMMQFZDkOtUQ+XZ27b91t
+y0l45H6C8j0sTeSrUb/LCjrdm+buUygkhC2RZxCI6tLi4rYWj0MiqDz98XkbB3te
+pW3ZND6mG6Jxn1fnd35paqZ/+URMftoLQ4K+6vJoBVGnug9nk1RpGLouICI0zCrz
+YPTsBHo0s2mPvQQ/ASacWYmSe5R6r5JCzNeGMpViGCqCYPbwuebgqK079s2zvSF9
+mSLAm2Tk6gCM29N8Vdfr6ppCvIbuNzlLU/dGdYHAILgxEsm/odZjt1Fhs4lOo3A5
+9ToaNl5+qOEkggwfE/QqceHAY2soW9V5d9izhTCDgXmxpPpPXkwPPTz04ZUpi1Yc
+OdZZOswbEcc2jUC5T7a7Tnp0uBOkdqat6jB4oMGwU1ldYLCGRyy546cPPTXJw5kH
+9WfeKJ/mavrSLVa7QqZ4RCcMigmijT1kdqbaEh05IZNrzs6VDcS2EIrbDX8SGXUk
+uDDkPXZEXqNDEjyONfDXVRLiqDa52Gg+I4vW/l/4ZOFgAWdZkqPPuZFaqzZpsJXm
+JXhrdaWDZ8fzpUjugrtC3qslsqL0dzgU37anS3HwrT8=',
+					],
+					[
+						'download' => 'https://nextcloud.com',
+					],
+				],
+			],
+		];
+		$this->appFetcher
+			->expects($this->at(1))
+			->method('get')
+			->willReturn($appArray);
+		$realTmpFile = \OC::$server->getTempManager()->getTemporaryFile('.tar.gz');
+		copy(__DIR__ . '/../data/testapp.0.8.tar.gz', $realTmpFile);
+		$this->tempManager
+			->expects($this->at(2))
+			->method('getTemporaryFile')
+			->with('.tar.gz')
+			->willReturn($realTmpFile);
+		$realTmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
+		$this->tempManager
+			->expects($this->at(3))
+			->method('getTemporaryFolder')
+			->willReturn($realTmpFolder);
+		$client = $this->createMock(IClient::class);
+		$client
+			->expects($this->once())
+			->method('get')
+			->with('https://example.com', ['save_to' => $realTmpFile]);
+		$this->clientService
+			->expects($this->at(1))
+			->method('newClient')
+			->willReturn($client);
+		$this->testDownloadAppSuccessful();
+		$this->assertTrue(file_exists(__DIR__ . '/../../apps/testapp/appinfo/info.xml'));
+		$this->assertEquals('0.9', \OC_App::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
+
+		$this->installer->downloadApp('testapp');
+		$this->assertTrue(file_exists(__DIR__ . '/../../apps/testapp/appinfo/info.xml'));
+		$this->assertEquals('0.8', \OC_App::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
 	}
 }
