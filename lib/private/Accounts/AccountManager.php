@@ -1,8 +1,9 @@
 <?php
 /**
- * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, Björn Schießle
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -24,6 +25,9 @@ namespace OC\Accounts;
 
 
 use OCP\IDBConnection;
+use OCP\IUser;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class AccountManager
@@ -35,37 +39,69 @@ use OCP\IDBConnection;
  */
 class AccountManager {
 
+	/** nobody can see my account details */
+	const VISIBILITY_PRIVATE = 'private';
+	/** only contacts, especially trusted servers can see my contact details */
+	const VISIBILITY_CONTACTS_ONLY = 'contacts';
+	/** every body ca see my contact detail, will be published to the lookup server */
+	const VISIBILITY_PUBLIC = 'public';
+
+	const PROPERTY_AVATAR = 'avatar';
+	const PROPERTY_DISPLAYNAME = 'displayname';
+	const PROPERTY_PHONE = 'phone';
+	const PROPERTY_EMAIL = 'email';
+	const PROPERTY_WEBSITE = 'website';
+	const PROPERTY_ADDRESS = 'address';
+	const PROPERTY_TWITTER = 'twitter';
+
 	/** @var  IDBConnection database connection */
 	private $connection;
 
 	/** @var string table name */
 	private $table = 'accounts';
 
+	/** @var EventDispatcherInterface */
+	private $eventDispatcher;
+
 	/**
 	 * AccountManager constructor.
 	 *
 	 * @param IDBConnection $connection
+	 * @param EventDispatcherInterface $eventDispatcher
 	 */
-	public function __construct(IDBConnection $connection) {
+	public function __construct(IDBConnection $connection, EventDispatcherInterface $eventDispatcher) {
 		$this->connection = $connection;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
-	public function updateUser($uid, $data) {
-		$userData = $this->getUser($uid);
+	/**
+	 * update user record
+	 *
+	 * @param IUser $user
+	 * @param $data
+	 */
+	public function updateUser(IUser $user, $data) {
+		$userData = $this->getUser($user);
 		if (empty($userData)) {
-			$this->insertNewUser($uid, $data);
+			$this->insertNewUser($user, $data);
 		} else {
-			$this->updateExistingUser($uid, $data);
+			$this->updateExistingUser($user, $data);
 		}
+
+		$this->eventDispatcher->dispatch(
+			'OC\AccountManager::userUpdated',
+			new GenericEvent($user)
+		);
 	}
 
 	/**
 	 * get stored data from a given user
 	 *
-	 * @param $uid
+	 * @param IUser $user
 	 * @return array
 	 */
-	public function getUser($uid) {
+	public function getUser(IUser $user) {
+		$uid = $user->getUID();
 		$query = $this->connection->getQueryBuilder();
 		$query->select('data')->from($this->table)
 			->where($query->expr()->eq('uid', $query->createParameter('uid')))
@@ -74,7 +110,9 @@ class AccountManager {
 		$result = $query->execute()->fetchAll();
 
 		if (empty($result)) {
-			return [];
+			$userData = $this->buildDefaultUserRecord($user);
+			$this->insertNewUser($user, $userData);
+			return $userData;
 		}
 
 		return json_decode($result[0]['data'], true);
@@ -83,10 +121,11 @@ class AccountManager {
 	/**
 	 * add new user to accounts table
 	 *
-	 * @param string $uid
+	 * @param IUser $user
 	 * @param array $data
 	 */
-	protected function insertNewUser($uid, $data) {
+	protected function insertNewUser(IUser $user, $data) {
+		$uid = $user->getUID();
 		$jsonEncodedData = json_encode($data);
 		$query = $this->connection->getQueryBuilder();
 		$query->insert($this->table)
@@ -102,10 +141,11 @@ class AccountManager {
 	/**
 	 * update existing user in accounts table
 	 *
-	 * @param string $uid
+	 * @param IUser $user
 	 * @param array $data
 	 */
-	protected function updateExistingUser($uid, $data) {
+	protected function updateExistingUser(IUser $user, $data) {
+		$uid = $user->getUID();
 		$jsonEncodedData = json_encode($data);
 		$query = $this->connection->getQueryBuilder();
 		$query->update($this->table)
@@ -113,4 +153,50 @@ class AccountManager {
 			->where($query->expr()->eq('uid', $query->createNamedParameter($uid)))
 			->execute();
 	}
+
+	/**
+	 * build default user record in case not data set exists yet
+	 *
+	 * @param IUser $user
+	 * @return array
+	 */
+	protected function buildDefaultUserRecord(IUser $user) {
+		return [
+			self::PROPERTY_DISPLAYNAME =>
+				[
+					'value' => $user->getDisplayName(),
+					'scope' => self::VISIBILITY_CONTACTS_ONLY,
+				],
+			self::PROPERTY_ADDRESS =>
+				[
+					'value' => '',
+					'scope' => self::VISIBILITY_PRIVATE,
+				],
+			self::PROPERTY_WEBSITE =>
+				[
+					'value' => '',
+					'scope' => self::VISIBILITY_PRIVATE,
+				],
+			self::PROPERTY_EMAIL =>
+				[
+					'value' => $user->getEMailAddress(),
+					'scope' => self::VISIBILITY_CONTACTS_ONLY,
+				],
+			self::PROPERTY_AVATAR =>
+				[
+					'scope' => self::VISIBILITY_CONTACTS_ONLY
+				],
+			self::PROPERTY_PHONE =>
+				[
+					'value' => '',
+					'scope' => self::VISIBILITY_PRIVATE,
+				],
+			self::PROPERTY_TWITTER =>
+				[
+					'value' => '',
+					'scope' => self::VISIBILITY_PRIVATE,
+				],
+		];
+	}
+
 }

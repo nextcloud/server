@@ -30,6 +30,7 @@
 				'phone',
 				'email',
 				'website',
+				'twitter',
 				'address',
 				'avatar'
 			];

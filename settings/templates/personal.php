@@ -83,11 +83,12 @@ if($_['displayNameChangeSupported']) {
 	<div class="personal-settings-setting-box">
 		<form id="phoneform" class="section">
 			<h2>
-				<label for="phone"><?php p($l->t('Phone name')); ?></label>
+				<label for="phone"><?php p($l->t('Phone number')); ?></label>
 				<span class="icon-password"/>
 			</h2>
 			<input type="tel" id="phone" name="phone"
 			       value="<?php p($_['phone']) ?>"
+				   placeholder="<?php p($l->t('Your phone number')); ?>"
 			       autocomplete="on" autocapitalize="off" autocorrect="off" />
 			<span class="icon-checkmark hidden"/>
 			<input type="hidden" id="phonescope" value="<?php p($_['phoneScope']) ?>">
@@ -121,6 +122,22 @@ if($_['displayNameChangeSupported']) {
 			<input type="hidden" id="websitescope" value="<?php p($_['websiteScope']) ?>">
 		</form>
 	</div>
+
+	<div class="personal-settings-setting-box">
+		<form id="twitterform" class="section">
+			<h2>
+				<label for="twitter"><?php p($l->t('Twitter')); ?></label>
+				<span class="icon-password"/>
+			</h2>
+			<input type="text" name="twitter" id="twitter" value="<?php p($_['twitter']); ?>"
+				   placeholder="<?php p($l->t('Your Twitter handle')); ?>"
+				   autocomplete="on" autocapitalize="off" autocorrect="off" />
+			<span class="icon-checkmark hidden"/>
+			<input type="hidden" id="twitterscope" value="<?php p($_['twitterScope']) ?>">
+		</form>
+	</div>
+
+
 	<div class="personal-settings-setting-box">
 		<form id="addressform" class="section">
 			<h2>
@@ -128,6 +145,7 @@ if($_['displayNameChangeSupported']) {
 				<span class="icon-password"/>
 			</h2>
 			<input type="text" id="address" name="address"
+				   placeholder="<?php p($l->t('Your postal address')); ?>"
 			       value="<?php p($_['address']) ?>"
 			       autocomplete="on" autocapitalize="off" autocorrect="off" />
 			<span class="icon-checkmark hidden"/>
@@ -183,6 +201,10 @@ if($_['displayNameChangeSupported']) {
 	<div id="websiteform" class="section">
 		<h2><?php p($l->t('Website')); ?></h2>
 		<span><?php if(isset($_['website'][0])) { p($_['website']); } else { p($l->t('No website set')); }?></span>
+	</div>
+	<div id="twitterform" class="section">
+		<h2><?php p($l->t('Twitter')); ?></h2>
+		<span><?php if(isset($_['twitter'][0])) { p($_['twitter']); } else { p($l->t('No twitter handle set')); }?></span>
 	</div>
 	<div id="addressform" class="section">
 		<h2><?php p($l->t('Address')); ?></h2>

@@ -519,6 +519,8 @@ class UsersController extends Controller {
 	 * @param string $websiteScope
 	 * @param string $address
 	 * @param string $addressScope
+	 * @param string $twitter
+	 * @param string $twitterScope
 	 * @return DataResponse
 	 */
 	public function setUserSettings($avatarScope,
@@ -526,7 +528,8 @@ class UsersController extends Controller {
 									 $phone, $phoneScope,
 									 $email, $emailScope,
 									 $website, $websiteScope,
-									 $address, $addressScope
+									 $address, $addressScope,
+									$twitter, $twitterScope
 	) {
 
 
@@ -542,26 +545,27 @@ class UsersController extends Controller {
 			);
 		}
 
-		$userId = $this->userSession->getUser()->getUID();
+		$user = $this->userSession->getUser();
 
 		$data = [
-			'avatar' =>  ['scope' => $avatarScope],
-			'displayName' => ['value' => $displayname, 'scope' => $displaynameScope],
-			'email' => [['value' => $email, 'scope' => $emailScope]],
-			'website' => [['value' => $website, 'scope' => $websiteScope]],
-			'address' => [['value' => $address, 'scope' => $addressScope]],
-			'phone' => [['value' => $phone, 'scope' => $phoneScope]]
+			AccountManager::PROPERTY_AVATAR =>  ['scope' => $avatarScope],
+			AccountManager::PROPERTY_DISPLAYNAME => ['value' => $displayname, 'scope' => $displaynameScope],
+			AccountManager::PROPERTY_EMAIL=> ['value' => $email, 'scope' => $emailScope],
+			AccountManager::PROPERTY_WEBSITE => ['value' => $website, 'scope' => $websiteScope],
+			AccountManager::PROPERTY_ADDRESS => ['value' => $address, 'scope' => $addressScope],
+			AccountManager::PROPERTY_PHONE => ['value' => $phone, 'scope' => $phoneScope],
+			AccountManager::PROPERTY_TWITTER => ['value' => $twitter, 'scope' => $twitterScope]
 		];
 
-		$this->accountManager->updateUser($userId, $data);
+		$this->accountManager->updateUser($user, $data);
 
 		try {
-			$this->saveUserSettings($userId, $data);
+			$this->saveUserSettings($user, $data);
 			return new DataResponse(
 				array(
 					'status' => 'success',
 					'data' => array(
-						'userId' => $userId,
+						'userId' => $user->getUID(),
 						'avatarScope' => $avatarScope,
 						'displayname' => $displayname,
 						'displaynameScope' => $displaynameScope,
@@ -591,12 +595,11 @@ class UsersController extends Controller {
 	/**
 	 * update account manager with new user data
 	 *
-	 * @param string $userId
+	 * @param IUser $user
 	 * @param array $data
 	 * @throws ForbiddenException
 	 */
-	private function saveUserSettings($userId, $data) {
-		$user = $this->userManager->get($userId);
+	private function saveUserSettings(IUser $user, $data) {
 
 		// keep the user back-end up-to-date with the latest display name and email
 		// address
@@ -614,7 +617,7 @@ class UsersController extends Controller {
 			}
 		}
 
-		$this->accountManager->updateUser($userId, $data);
+		$this->accountManager->updateUser($user, $data);
 	}
 
 	/**
@@ -688,12 +691,12 @@ class UsersController extends Controller {
 			]);
 		}
 
-		$userData = $this->accountManager->getUser($user->getUID());
-		$userData['displayName']['value'] = $displayName;
+		$userData = $this->accountManager->getUser($user);
+		$userData[AccountManager::PROPERTY_DISPLAYNAME]['value'] = $displayName;
 
 
 		try {
-			$this->saveUserSettings($username, $userData);
+			$this->saveUserSettings($user, $userData);
 			return new DataResponse([
 				'status' => 'success',
 				'data' => [

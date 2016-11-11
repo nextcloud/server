@@ -101,6 +101,12 @@ class Application extends App {
 			}
 		});
 
+		$dispatcher->addListener('OC\AccountManager::userUpdated', function(GenericEvent $event) {
+			$user = $event->getSubject();
+			$syncService = $this->getContainer()->query(SyncService::class);
+			$syncService->updateUser($user);
+		});
+
 		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::createCalendar', function(GenericEvent $event) {
 			/** @var Backend $backend */
 			$backend = $this->getContainer()->query(Backend::class);
@@ -134,6 +140,10 @@ class Application extends App {
 				$event->getArgument('add'),
 				$event->getArgument('remove')
 			);
+		});
+
+		$dispatcher->addListener('OC\AccountManager::userUpdated', function(GenericEvent $event) {
+			error_log("hello");
 		});
 
 		$listener = function(GenericEvent $event, $eventName) {
