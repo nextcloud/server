@@ -159,7 +159,7 @@ class SecurityMiddleware extends Middleware {
 
 		if ($this->reflector->hasAnnotation('PasswordConfirmationRequired')) {
 			$lastConfirm = (int) $this->session->get('last-password-confirm');
-			if ($lastConfirm < (time() - 30 * 60 + 15)) { // allow 15 seconds delay
+			if ($lastConfirm < (time() - (30 * 60 + 15))) { // allow 15 seconds delay
 				throw new NotConfirmedException();
 			}
 		}
