@@ -102,4 +102,34 @@ class PermissionsMaskTest extends \Test\Files\Storage\Storage {
 		$storage = $this->getMaskedStorage(Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE);
 		$this->assertFalse($storage->fopen('foo', 'w'));
 	}
+
+	public function testRenameExistingFileNoUpdate() {
+		$this->sourceStorage->touch('foo');
+		$storage = $this->getMaskedStorage(Constants::PERMISSION_ALL - Constants::PERMISSION_UPDATE);
+		$this->assertFalse($storage->rename('foo', 'bar'));
+		$this->assertTrue($storage->file_exists('foo'));
+		$this->assertFalse($storage->file_exists('bar'));
+	}
+
+	public function testRenamePartFileNoPerms() {
+		$this->sourceStorage->touch('foo.part');
+		$storage = $this->getMaskedStorage(Constants::PERMISSION_ALL - Constants::PERMISSION_UPDATE - Constants::PERMISSION_CREATE);
+		$this->assertTrue($storage->rename('foo.part', 'bar'));
+		$this->assertFalse($storage->file_exists('foo.part'));
+		$this->assertTrue($storage->file_exists('bar'));
+	}
+
+	public function testFopenPartFileNoPerms() {
+		$storage = $this->getMaskedStorage(Constants::PERMISSION_ALL - Constants::PERMISSION_UPDATE - Constants::PERMISSION_CREATE);
+		$res = $storage->fopen('foo.part', 'w');
+		fwrite($res, 'foo');
+		fclose($res);
+		$this->assertTrue($storage->file_exists('foo.part'));
+	}
+
+	public function testFilePutContentsPartFileNoPerms() {
+		$storage = $this->getMaskedStorage(Constants::PERMISSION_ALL - Constants::PERMISSION_UPDATE - Constants::PERMISSION_CREATE);
+		$this->assertEquals(3, $storage->file_put_contents('foo.part', 'bar'));
+		$this->assertTrue($storage->file_exists('foo.part'));
+	}
 }

@@ -76,8 +76,13 @@ class PermissionsMask extends Wrapper {
 		return $this->storage->getPermissions($path) & $this->mask;
 	}
 
+	private function isPartFile($path) {
+		return pathinfo($path, PATHINFO_EXTENSION) === 'part';
+	}
+
 	public function rename($path1, $path2) {
-		return $this->checkMask(Constants::PERMISSION_UPDATE) and parent::rename($path1, $path2);
+		// allow renaming part files
+		return ($this->isPartFile($path1) || $this->checkMask(Constants::PERMISSION_UPDATE)) && parent::rename($path1, $path2);
 	}
 
 	public function copy($path1, $path2) {
@@ -86,7 +91,7 @@ class PermissionsMask extends Wrapper {
 
 	public function touch($path, $mtime = null) {
 		$permissions = $this->file_exists($path) ? Constants::PERMISSION_UPDATE : Constants::PERMISSION_CREATE;
-		return $this->checkMask($permissions) and parent::touch($path, $mtime);
+		return ($this->isPartFile($path) || $this->checkMask($permissions)) && parent::touch($path, $mtime);
 	}
 
 	public function mkdir($path) {
@@ -103,7 +108,7 @@ class PermissionsMask extends Wrapper {
 
 	public function file_put_contents($path, $data) {
 		$permissions = $this->file_exists($path) ? Constants::PERMISSION_UPDATE : Constants::PERMISSION_CREATE;
-		return $this->checkMask($permissions) and parent::file_put_contents($path, $data);
+		return ($this->isPartFile($path) || $this->checkMask($permissions)) && parent::file_put_contents($path, $data);
 	}
 
 	public function fopen($path, $mode) {
@@ -111,7 +116,7 @@ class PermissionsMask extends Wrapper {
 			return parent::fopen($path, $mode);
 		} else {
 			$permissions = $this->file_exists($path) ? Constants::PERMISSION_UPDATE : Constants::PERMISSION_CREATE;
-			return $this->checkMask($permissions) ? parent::fopen($path, $mode) : false;
+			return ($this->isPartFile($path) || $this->checkMask($permissions)) ? parent::fopen($path, $mode) : false;
 		}
 	}
 
