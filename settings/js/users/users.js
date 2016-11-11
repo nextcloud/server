@@ -784,6 +784,41 @@ $(document).ready(function () {
 			});
 	});
 
+	var _submitEmailChange = function($tr, $td, $input, uid, mailAddress) {
+		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+			OC.PasswordConfirmation.requirePasswordConfirmation(function() {
+				_submitEmailChange($tr, $td, $input, uid, mailAddress);
+			});
+			return;
+		}
+
+		$.ajax({
+			type: 'PUT',
+			url: OC.generateUrl('/settings/users/{id}/mailAddress', {id: uid}),
+			data: {
+				mailAddress: mailAddress
+			}
+		}).success(function () {
+			// set data attribute to new value
+			// will in blur() be used to show the text instead of the input field
+			$tr.data('mailAddress', mailAddress);
+			$td.find('.loading-small').css('display', '');
+			$input.removeAttr('disabled')
+				.triggerHandler('blur'); // needed instead of $input.blur() for Firefox
+		}).fail(function (result) {
+			if (!_.isUndefined(result.responseJSON.data)) {
+				OC.Notification.showTemporary(result.responseJSON.data.message);
+			} else if (!_.isUndefined(result.responseJSON.message)) {
+				OC.Notification.showTemporary(result.responseJSON.message);
+			} else {
+				OC.Notification.showTemporary(t('settings', 'Could not change the users email'));
+			}
+			$td.find('.loading-small').css('display', '');
+			$input.removeAttr('disabled')
+				.css('padding-right', '6px');
+		});
+	};
+
 	$userListBody.on('click', '.mailAddress', function (event) {
 		event.stopPropagation();
 		var $td = $(this).closest('td');
@@ -799,29 +834,10 @@ $(document).ready(function () {
 				if (event.keyCode === 13) {
 					// enter key
 
-					var mailAddress = $input.val();
 					$td.find('.loading-small').css('display', 'inline-block');
 					$input.css('padding-right', '26px');
 					$input.attr('disabled', 'disabled');
-					$.ajax({
-						type: 'PUT',
-						url: OC.generateUrl('/settings/users/{id}/mailAddress', {id: uid}),
-						data: {
-							mailAddress: $(this).val()
-						}
-					}).success(function () {
-						// set data attribute to new value
-						// will in blur() be used to show the text instead of the input field
-						$tr.data('mailAddress', mailAddress);
-						$td.find('.loading-small').css('display', '');
-						$input.removeAttr('disabled')
-							.triggerHandler('blur'); // needed instead of $input.blur() for Firefox
-					}).fail(function (result) {
-						OC.Notification.showTemporary(result.responseJSON.data.message);
-						$td.find('.loading-small').css('display', '');
-						$input.removeAttr('disabled')
-							.css('padding-right', '6px');
-					});
+					_submitEmailChange($tr, $td, $input, uid, $(this).val());
 				}
 			})
 			.blur(function () {
@@ -930,7 +946,7 @@ $(document).ready(function () {
 					$('#newuser').get(0).reset();
 				});
 		});
-	}
+	};
 	$('#newuser').submit(_submitNewUserForm);
 
 	if ($('#CheckboxStorageLocation').is(':checked')) {
