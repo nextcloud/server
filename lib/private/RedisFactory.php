@@ -49,7 +49,7 @@ class RedisFactory {
 			$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout);
 
 			if (isset($config['failover_mode'])) {
-				$this->instance->setOption(\RedisCluster::OPT_FAILOVER, $config['failover_mode']);
+				$this->instance->setOption(\RedisCluster::OPT_SLAVE_FAILOVER, $config['failover_mode']);
 			}
 		} else {
 
