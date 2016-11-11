@@ -252,10 +252,10 @@ class Manager implements IManager {
 	}
 
 	/** @var string[] */
-	protected $filterClasses;
+	protected $filterClasses = [];
 
 	/** @var IFilter[] */
-	protected $filters;
+	protected $filters = [];
 
 	/** @var bool */
 	protected $loadedLegacyFilters = false;
@@ -322,10 +322,10 @@ class Manager implements IManager {
 	}
 
 	/** @var string[] */
-	protected $providerClasses;
+	protected $providerClasses = [];
 
 	/** @var IProvider[] */
-	protected $providers;
+	protected $providers = [];
 
 	/**
 	 * @param string $provider Class must implement OCA\Activity\IProvider
@@ -356,10 +356,10 @@ class Manager implements IManager {
 	}
 
 	/** @var string[] */
-	protected $settingsClasses;
+	protected $settingsClasses = [];
 
 	/** @var ISetting[] */
-	protected $settings;
+	protected $settings = [];
 
 	/** @var bool */
 	protected $loadedLegacyTypes = false;
