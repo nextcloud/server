@@ -274,11 +274,11 @@
     "create" : "สร้าง",
     "change" : "เปลี่ยนแปลง",
     "delete" : "ลบ",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "แชร์กับคนใน ownClouds อื่นๆ ที่ใช้ไวยากรณ์ username@example.com/owncloud ",
     "Share with users, groups or remote users…" : "แชร์กับผู้ใช้หรือกลุ่มหรือผู้ใช้โดยการรีโมท ...",
     "Share with users or remote users…" : "แชร์กับผู้ใช้หรือผู้ใช้โดยการรีโมท ...",
     "Warning" : "คำเตือน",
     "Error while sending notification" : "เกิดข้อผิดพลาดขณะกำลังส่งการแจ้งเตือน",
-    "No search results in other folders" : "ไม่พบผลลัพธ์การค้นหาในโฟลเดอร์อื่นๆ"
+    "No search results in other folders" : "ไม่พบผลลัพธ์การค้นหาในโฟลเดอร์อื่นๆ",
+    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "แชร์กับคนใน ownClouds อื่นๆ ที่ใช้ไวยากรณ์ username@example.com/owncloud "
 },"pluralForm" :"nplurals=1; plural=0;"
 }

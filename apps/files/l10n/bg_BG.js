@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Storage is temporarily not available" : "Временно хранилището не е налично.",
     "Storage invalid" : "Невалидно хранилище.",
-    "Unknown error" : "Непозната грешка.",
+    "Unknown error" : "Непозната грешка",
     "Files" : "Файлове",
     "All files" : "Всички файлове",
     "Home" : "Домашен",
@@ -96,6 +96,9 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файловете, които се опитвате да качите са по-големи от позволеното на сървъра.",
     "No favorites" : "Няма любими",
     "Files and folders you mark as favorite will show up here" : "Файловете и папките които отбелязваш като любими ще се показват тук",
+    "Shared with you" : "Споделено с вас",
+    "Shared with others" : "Споделено с други",
+    "Tags" : "Етикети",
     "Text file" : "Текстов файл",
     "New text file.txt" : "Нов текст file.txt",
     "Storage not available" : "Хранилището не е налично.",

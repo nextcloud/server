@@ -283,7 +283,6 @@ OC.L10N.register(
     "create" : "δημιουργία",
     "change" : "αλλαγή",
     "delete" : "διαγραφή",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Διαμοιρασμός με άτομα σε άλλα ownClouds χρησιμοποιώντας την σύνταξη username@example.com/owncloud",
     "Share with users…" : "Διαμοιρασμός με χρήστες...",
     "Share with users or groups…" : "Διαμοιρασμός με χρήστες και ομάδες ...",
     "Share with users or remote users…" : "Διαμοιρασμός με χρήστες ή με απομακρυσμένους χρήστες...",
@@ -291,6 +290,7 @@ OC.L10N.register(
     "Error while sending notification" : "Σφάλμα κατά την αποστολή ειδοποίησης",
     "Updating to {version}" : "Ενημέρωση στην έκδοση {version}",
     "The update was successful. There were warnings." : "Η ενημέρωση ήταν επιτυχής. Υπάρχουν προειδοποιήσεις.",
-    "No search results in other folders" : "Δεν υπάρχουν αποτελέσματα αναζήτησης σε άλλους φακέλους"
+    "No search results in other folders" : "Δεν υπάρχουν αποτελέσματα αναζήτησης σε άλλους φακέλους",
+    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Διαμοιρασμός με άτομα σε άλλα ownClouds χρησιμοποιώντας την σύνταξη username@example.com/owncloud"
 },
 "nplurals=2; plural=(n != 1);");

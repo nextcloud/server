@@ -76,7 +76,6 @@
     "No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "Der er ikke konfigureret noget hukommelsesmellemlager. For at forbedre din ydelse bør du om muligt konfigurere en mamcache. Yderligere information findes i <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">dokumentationen</a>.",
     "/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "/dev/urandom kan ikke læses af PHP, hvilket stærkt frarådes af sikkerhedsgrunde. Yderligere information kan findes i vores <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">dokumentation</a>.",
     "You are currently running PHP {version}. We encourage you to upgrade your PHP version to take advantage of <a target=\"_blank\" rel=\"noreferrer\" href=\"{phpLink}\">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it." : "Du kører i øjeblikket med PHP {version}. Vi anbefaler dig at opgradere din PHP version for at få glæde af <a target=\"_blank\" rel=\"noreferrer\" href=\"{phpLink}\">ydelses- og sikkerhedsopdateringer udgivet af the PHP Group</a> så snart din dintribution understøtter dem.",
-    "The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "Konfigurationen af reverse proxy-headere er ikke korrekt eller du tilgår ownCloud fra en betroet proxy. Hvis du ikke tilgår ownCloud fra en betroet proxy, så er dette et sikkerhedsproblem og kan tillade en angriber af forfalske deres IP-adresse som synlig for ownCloud. Yderligere information kan findes i vores <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">dokumentation</a>.",
     "Memcached is configured as distributed cache, but the wrong PHP module \"memcache\" is installed. \\OC\\Memcache\\Memcached only supports \"memcached\" and not \"memcache\". See the <a target=\"_blank\" rel=\"noreferrer\" href=\"{wikiLink}\">memcached wiki about both modules</a>." : "Memcached er konfigureret som et distribueret mellemlager, men det forkerte PHP-modul \"memcache\" er installeret. \\OC\\Memcache\\Memcached understøtter kun \"memcached\" og ikke \"memcache\". Se <a target=\"_blank\" rel=\"noreferrer\" href=\"{wikiLink}\">memcached-wikien om begge moduler</a>.",
     "Some files have not passed the integrity check. Further information on how to resolve this issue can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>. (<a href=\"{codeIntegrityDownloadEndpoint}\">List of invalid files…</a> / <a href=\"{rescanEndpoint}\">Rescan…</a>)" : "Nogle filer har ikke bestået integritetskontrollen. Yderligere information om hvordan man løser dette problem kan findes i vores <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">dodumentation</a>. (<a href=\"{codeIntegrityDownloadEndpoint}\">Liste over ugyldige filer...</a> / <a href=\"{rescanEndpoint}\">Scan igen…</a>)",
     "Error occurred while checking server setup" : "Der opstod fejl under tjek af serveropsætningen",
@@ -278,6 +277,7 @@
     "Oct." : "Okt.",
     "Nov." : "Nov.",
     "Dec." : "Dec.",
+    "The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "Konfigurationen af reverse proxy-headere er ikke korrekt eller du tilgår ownCloud fra en betroet proxy. Hvis du ikke tilgår ownCloud fra en betroet proxy, så er dette et sikkerhedsproblem og kan tillade en angriber af forfalske deres IP-adresse som synlig for ownCloud. Yderligere information kan findes i vores <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">dokumentation</a>.",
     "Allow editing" : "Tillad redigering",
     "Sending ..." : "Sender ...",
     "Email sent" : "E-mail afsendt",
@@ -287,7 +287,6 @@
     "create" : "opret",
     "change" : "tilpas",
     "delete" : "slet",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Del med andre på ownCloud ved hjælp af syntaxen username@example.com/owncloud",
     "Share with users…" : "Del med brugere...",
     "Share with users, groups or remote users…" : "Del med brugere, grupper eller eksterne brugere...",
     "Share with users or groups…" : "Del med brugere eller grupper...",
@@ -295,6 +294,7 @@
     "Warning" : "Advarsel",
     "Error while sending notification" : "Fejl ved afsendelse af notifikation",
     "No search results in other folders" : "Søgning gav ingen resultater in andre mapper",
-    "Cancel login" : "Annuller login"
+    "Cancel login" : "Annuller login",
+    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Del med andre på ownCloud ved hjælp af syntaxen username@example.com/owncloud"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
