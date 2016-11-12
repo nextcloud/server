@@ -308,7 +308,6 @@ OC.L10N.register(
     "change" : "更動",
     "delete" : "刪除",
     "{sharee} (at {server})" : "{sharee} （在 {server}）",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "與其他在ownCloud上的人們分享，請使用此格式 username@example.com/owncloud",
     "Share with users…" : "分享給其他使用者…",
     "Share with users, groups or remote users…" : "分享給其他使用者、群組或遠端使用者…",
     "Share with users or groups…" : "分享給群組或使用者…",
@@ -325,6 +324,7 @@ OC.L10N.register(
     "Please authenticate using the selected factor." : "請以選擇的二階段方式認證",
     "An error occured while verifying the token" : "驗證 token 時發生錯誤",
     "An error occured. Please try again" : "發生錯誤，請重試",
+    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "與其他在ownCloud上的人們分享，請使用此格式 username@example.com/owncloud",
     "not assignable" : "不可指定",
     "Updating {productName} to version {version}, this may take a while." : "正在更新 {productName} 至版本 {version} ，需要一些時間",
     "An internal error occured." : "發生內部錯誤"

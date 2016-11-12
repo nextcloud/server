@@ -313,7 +313,6 @@ OC.L10N.register(
     "change" : "sprememba",
     "delete" : "izbriše",
     "{sharee} (at {server})" : "{sharee} (na {server})",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Souporaba z uporabniki, ki so na drugih oblakih ownCloud s povezavo uporabnik@domena.si/owncloud",
     "Share with users…" : "Omogoči souporabo z ...",
     "Share with users, groups or remote users…" : "Souporaba z uporabniki, skupinami ali zunanjimi uporabniki ...",
     "Share with users or groups…" : "Souporaba z uporabniki ali skupinami ...",
@@ -330,6 +329,7 @@ OC.L10N.register(
     "Please authenticate using the selected factor." : "Prijavite se z izbrano metodo.",
     "An error occured while verifying the token" : "Napaka se je zgodila med preverjanjem ključa",
     "An error occured. Please try again" : "Zgodila se je napaka. Poskusi ponovno",
+    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Souporaba z uporabniki, ki so na drugih oblakih ownCloud s povezavo uporabnik@domena.si/owncloud",
     "not assignable" : "ni nastavljivo",
     "Updating {productName} to version {version}, this may take a while." : "Posodabljanje {productName} na različico {version}, lahko traja nekaj časa.",
     "An internal error occured." : "Zgodila se je interna napaka."

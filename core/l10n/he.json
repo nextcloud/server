@@ -79,7 +79,6 @@
     "No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "לא הוגדר זיכרון מטמון. על מנת לשפר את הביצועים יש להגדיר memcache אם קיים. מידע נוסף ניתן לצפות ב- <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">מסמכי התיעוד</a>.",
     "/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "/dev/urandom אינו ניתן לקריאה על ידי PHP אשר אינו מומלץ בשל סיבות אבטחה. מידע נוסף ניתן לראות ב- <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">מסמכי התיעוד</a> שלנו.",
     "You are currently running PHP {version}. We encourage you to upgrade your PHP version to take advantage of <a target=\"_blank\" rel=\"noreferrer\" href=\"{phpLink}\">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it." : "כרגע המערכת מריצה PHP {version}. מומלץ מאוד לשדרג את גרסת ה- PHP vשלך כדי לנצל את <a target=\"_blank\" rel=\"noreferrer\" href=\"{phpLink}\">עדכוני הביצועים והאבטחה המופקים על ידי קבוצת ה- PHP</a> ברגע שההפצה אליך תתמוך בזה.",
-    "The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "תצורת כותרות פרוקסי ההפוכה אינה נכונה, או שהגישה ל- ownCloud מתבצעת מ- proxy אמין. אם הגישה ל- ownCloud אינה מ- proxy אמין, מדובר בבעיית אבטחה שמאפשרת לתוקף לזייף את כתובת ה- IP כגלויה ל- ownCloud. מידע נוסף ניתן למצוא ב- <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">מסמכי התיעוד</a> שלנו.",
     "Memcached is configured as distributed cache, but the wrong PHP module \"memcache\" is installed. \\OC\\Memcache\\Memcached only supports \"memcached\" and not \"memcache\". See the <a target=\"_blank\" rel=\"noreferrer\" href=\"{wikiLink}\">memcached wiki about both modules</a>." : "Memcached מוגדר כמטמון מופץ, אבל מותקן מודול PHP \"memcache\" מוטעה. רק \\OC\\Memcache\\Memcached תומך ב- \"memcached\" אבל לא ב- \"memcache\". ניתן לצפות ב- <a target=\"_blank\" rel=\"noreferrer\" href=\"{wikiLink}\">memcached wiki בנושא שני המודולים</a>.",
     "Some files have not passed the integrity check. Further information on how to resolve this issue can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>. (<a href=\"{codeIntegrityDownloadEndpoint}\">List of invalid files…</a> / <a href=\"{rescanEndpoint}\">Rescan…</a>)" : "חלק מהקבצים לא עברו את בדיקת השלמות. מידע נוסף איך לפתור את הבעיה ניתן למצוא ב- to resolve this issue can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">מסמכי התיעוד</a> שלנו. (<a href=\"{codeIntegrityDownloadEndpoint}\">רשימה של קבצים לא תקינים…</a> / <a href=\"{rescanEndpoint}\">סריקה מחדש…</a>)",
     "Error occurred while checking server setup" : "שגיאה אירעה בזמן בדיקת התקנת השרת",
@@ -288,6 +287,7 @@
     "Oct." : "אוק׳",
     "Nov." : "נוב׳",
     "Dec." : "דצמ׳",
+    "The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "תצורת כותרות פרוקסי ההפוכה אינה נכונה, או שהגישה ל- ownCloud מתבצעת מ- proxy אמין. אם הגישה ל- ownCloud אינה מ- proxy אמין, מדובר בבעיית אבטחה שמאפשרת לתוקף לזייף את כתובת ה- IP כגלויה ל- ownCloud. מידע נוסף ניתן למצוא ב- <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">מסמכי התיעוד</a> שלנו.",
     "Allow editing" : "אישור עריכה",
     "Sending ..." : "מתבצעת שליחה ...",
     "Email sent" : "הודעת הדוא״ל נשלחה",
@@ -298,7 +298,6 @@
     "change" : "שינוי",
     "delete" : "מחיקה",
     "{sharee} (at {server})" : "{sharee} (ב- {server})",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "ניתן לשתף עם אנשים אחרים המשתמשים ב- ownClouds בעזרת הפורמט הבא username@example.com/owncloud",
     "Share with users…" : "שיתוף עם משתמשים...",
     "Share with users, groups or remote users…" : "שיתוף עם משתמשים, קבוצות או משתמשים מרוחקים...",
     "Share with users or groups…" : "שיתוף עם משתמשים או קבוצות...",
@@ -310,6 +309,7 @@
     "Enhanced security has been enabled for your account. Please authenticate using a second factor." : "אבטחה מורחבת הופעלה בחשבון שלך. יש לאמת באמצעות גורם שני.",
     "Cancel login" : "ביטול התחברות",
     "Please authenticate using the selected factor." : "יש לאמת באמצעות גורם נבחר.",
-    "An error occured while verifying the token" : "שגיאה אירעה בזמן אימות המחרוזת"
+    "An error occured while verifying the token" : "שגיאה אירעה בזמן אימות המחרוזת",
+    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "ניתן לשתף עם אנשים אחרים המשתמשים ב- ownClouds בעזרת הפורמט הבא username@example.com/owncloud"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

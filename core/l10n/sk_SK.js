@@ -74,7 +74,6 @@ OC.L10N.register(
     "Strong password" : "Silné heslo",
     "Your web server is not yet set up properly to allow file synchronization because the WebDAV interface seems to be broken." : "Váš webový server nie je zatiaľ správne nastavený, aby umožnil synchronizáciu súborov, pretože rozhranie WebDAV sa zdá byť nefunkčné.",
     "/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "dev/urandom nie je prístupný na čítanie procesom PHP, čo z bezpečnostných dôvodov nie je vôbec odporúčané. Viac informácií nájdete v našej <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">dokumentácii</a>.",
-    "The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "Konfigurácia hlavičiek reverse proxy nie je správna alebo pristupujete k ownCloud z dôveryhodného proxy servera. Ak k ownCloud nepristupujete z dôveryhodného proxy servera, vzniká bezpečnostné riziko - IP adresa potenciálneho útočníka, ktorú vidí ownCloud, môže byť falošná. Viac informácií nájdete v našej <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">dokumentácii</a>.",
     "Memcached is configured as distributed cache, but the wrong PHP module \"memcache\" is installed. \\OC\\Memcache\\Memcached only supports \"memcached\" and not \"memcache\". See the <a target=\"_blank\" rel=\"noreferrer\" href=\"{wikiLink}\">memcached wiki about both modules</a>." : "Memcached je nakonfigurovaný ako distribuovaná vyrovnávacia pamäť, ale v PHP je nainštalovaný nesprávny modul - \"memcache\". \\OC\\Memcache\\Memcached podporuje len modul \"memcached\", \"memcache\" nie je podporovaný. Viac informácií nájdete na <a target=\"_blank\" rel=\"noreferrer\" href=\"{wikiLink}\">memcached wiki stránke o oboch moduloch</a>.",
     "Error occurred while checking server setup" : "Počas kontroly nastavenia serveru sa stala chyba",
     "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root." : "Váš priečinok s dátami aj vaše súbory sú pravdepodobne prístupné z internetu. Súbor .htaccess nefunguje. Dôrazne odporúčame nakonfigurovať webový server tak, aby priečinok s dátami nebol naďalej prístupný alebo presunúť priečinok s dátami mimo priestoru, ktorý webový server sprístupňuje.",
@@ -264,6 +263,7 @@ OC.L10N.register(
     "Oct." : "Okt.",
     "Nov." : "Nov.",
     "Dec." : "Dec.",
+    "The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "Konfigurácia hlavičiek reverse proxy nie je správna alebo pristupujete k ownCloud z dôveryhodného proxy servera. Ak k ownCloud nepristupujete z dôveryhodného proxy servera, vzniká bezpečnostné riziko - IP adresa potenciálneho útočníka, ktorú vidí ownCloud, môže byť falošná. Viac informácií nájdete v našej <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">dokumentácii</a>.",
     "Allow editing" : "Povoliť úpravy",
     "Sending ..." : "Odosielam ...",
     "Email sent" : "Email odoslaný",
@@ -273,13 +273,13 @@ OC.L10N.register(
     "change" : "zmeniť",
     "delete" : "vymazať",
     "{sharee} (at {server})" : "{sharee} (na {server})",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Sprístupniť ľuďom na iných serveroch ownCloud pomocou syntaxe používateľ@doména.com/owncloud",
     "Share with users…" : "Sprístupniť používateľom...",
     "Share with users, groups or remote users…" : "Sprístupniť používateľom, skupinám alebo vzdialeným používateľom...",
     "Share with users or groups…" : "Sprístupniť používateľom alebo skupinám...",
     "Share with users or remote users…" : "Sprístupniť používateľom alebo vzdialeným používateľom...",
     "Warning" : "Varovanie",
     "Error while sending notification" : "Chyba pri posielaní oznámenia",
-    "No search results in other folders" : "Žiadne výsledky vyhľadávania v ostatných priečinkoch"
+    "No search results in other folders" : "Žiadne výsledky vyhľadávania v ostatných priečinkoch",
+    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Sprístupniť ľuďom na iných serveroch ownCloud pomocou syntaxe používateľ@doména.com/owncloud"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

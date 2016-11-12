@@ -79,7 +79,6 @@
     "No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "S’ka të formësuar fshehtinë kujtese. Që të përmirësoni punimin, ju lutemi formësoni një të tillë, në pastë. Më tepër të dhëna mund të gjeni te <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">dokumentimi</a> ynë.",
     "/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "/dev/urandom s’lexohet dot nga PHP-ja, çka shkëshillohet me forcë, për arsye sigurie. Më tepër të dhëna mund të gjenden te <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">dokumentimi</a> ynë.",
     "You are currently running PHP {version}. We encourage you to upgrade your PHP version to take advantage of <a target=\"_blank\" rel=\"noreferrer\" href=\"{phpLink}\">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it." : "Po xhironi PHP {version}. Ju nxisim të përmirësoni versionin e PHP-së që të përfitoni <a target=\"_blank\" rel=\"noreferrer\" href=\"{phpLink}\">nga përditësimet e punimit dhe sigurisë të ofruara PHP Group</a>, sapo të mbulohet nga shpërndarja juaj.",
-    "The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "Formësimi për krye ndërmjetësi prapësor është i pasaktë, ose jeni duke hyrë në ownCloud prej një ndërmjetësi të besuar. Nëse s’jeni duke hyrë në ownCloud prej një ndërmjetësi të besuar, ky është një problem sigurie dhe mund t’i lejojë një agresori të maskojë adresën e vet IP si një të pranueshme nga ownCloud-i. Të dhëna të mëtejshme mund të gjeni te <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">dokumentimi</a> ynë.",
     "Memcached is configured as distributed cache, but the wrong PHP module \"memcache\" is installed. \\OC\\Memcache\\Memcached only supports \"memcached\" and not \"memcache\". See the <a target=\"_blank\" rel=\"noreferrer\" href=\"{wikiLink}\">memcached wiki about both modules</a>." : "Memcached është formësuar si fshehtinë e shpërndarë, por është instaluar moduli i gabuar PHP \"memcache\". \\OC\\Memcache\\Memcached mbulon vetëm \"memcached\" dhe jo \"memcache\". Shihni <a target=\"_blank\" rel=\"noreferrer\" href=\"{wikiLink}\">wiki-n mbi memcached rreth të dy moduleve</a>.",
     "Some files have not passed the integrity check. Further information on how to resolve this issue can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>. (<a href=\"{codeIntegrityDownloadEndpoint}\">List of invalid files…</a> / <a href=\"{rescanEndpoint}\">Rescan…</a>)" : "Disa kartela s’e kaluan dot kontrollin e pacenueshmërisë. Më tepër të dhëna se si të zgjidhet ky problem mund të gjeni te <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">dokumentimi</a> ynë. (<a href=\"{codeIntegrityDownloadEndpoint}\">Listë e kartelave të pavlefshme…</a> / <a href=\"{rescanEndpoint}\">Rikontrollojini…</a>)",
     "Error occurred while checking server setup" : "Ndodhi një gabim gjatë kontrollit të rregullimit të shërbyesit",
@@ -288,6 +287,7 @@
     "Oct." : "Tet.",
     "Nov." : "Nën.",
     "Dec." : "Dhj.",
+    "The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "Formësimi për krye ndërmjetësi prapësor është i pasaktë, ose jeni duke hyrë në ownCloud prej një ndërmjetësi të besuar. Nëse s’jeni duke hyrë në ownCloud prej një ndërmjetësi të besuar, ky është një problem sigurie dhe mund t’i lejojë një agresori të maskojë adresën e vet IP si një të pranueshme nga ownCloud-i. Të dhëna të mëtejshme mund të gjeni te <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">dokumentimi</a> ynë.",
     "Allow editing" : "Lejo përpunim",
     "Sending ..." : "Po dërgohet …",
     "Email sent" : "Email-i u dërgua",
@@ -298,7 +298,6 @@
     "change" : "ndërroje",
     "delete" : "fshije",
     "{sharee} (at {server})" : "{sharee} (në {server})",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Ndajeni me persona në ownCloud-e të tjera duke përdorur sintaksën username@example.com/owncloud",
     "Share with users…" : "Ndajeni me përdorues…",
     "Share with users, groups or remote users…" : "Ndajeni me përdorues, grupe ose përdorues të largët…",
     "Share with users or groups…" : "Ndajeni me përdorues ose grupe…",
@@ -310,6 +309,7 @@
     "Enhanced security has been enabled for your account. Please authenticate using a second factor." : "Siguria e zgjeruar është aktivizuar për llogarinë tuaj. Ju lutemi, bëni mirëfilltësimin duke përdorur një faktor të dytë.",
     "Cancel login" : "Anuloje hyrjen",
     "Please authenticate using the selected factor." : "Ju lutemi, bëni mirëfilltësimin duke përdorur faktorin e përzgjedhur.",
-    "An error occured while verifying the token" : "Ndodhi një gabim gjatë verifikimit të token-it"
+    "An error occured while verifying the token" : "Ndodhi një gabim gjatë verifikimit të token-it",
+    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Ndajeni me persona në ownCloud-e të tjera duke përdorur sintaksën username@example.com/owncloud"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

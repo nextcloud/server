@@ -84,7 +84,6 @@
     "No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "メモリキャッシュが設定されていません。パフォーマンスを向上するために、可能であれば memcache を設定してください。 より詳しい情報については、<a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">を参照してください。",
     "/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "/dev/urandom を PHP から読み取ることができません。この状態はセキュリティの観点からおすすめできません。より詳しい情報については、<a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">ドキュメント</a> を参照ください。",
     "You are currently running PHP {version}. We encourage you to upgrade your PHP version to take advantage of <a target=\"_blank\" rel=\"noreferrer\" href=\"{phpLink}\">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it." : "このサーバーでは、{version} のPHPを利用しています。パフォーマンスとセキュリティ上のメリットがあるため利用中のディストリビューションで<a target=\"_blank\" rel=\"noreferrer\" href=\"{phpLink}\">PHP グループの提供する最新のPHPのバージョン</a>になるべく早くアップデートすることを強くお勧めします。",
-    "The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "リバースプロキシのヘッダー設定が間違っているか、または信頼されたプロキシからownCloudにアクセスしていません。もし、信頼されたプロキシからアクセスされているのでないなら、攻撃者の詐称されたIPアドレスから ownCloudを見ることができるように許可されていて、セキュリティに問題があります。詳細な情報は、 <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">ドキュメント</a>を確認してください。",
     "Memcached is configured as distributed cache, but the wrong PHP module \"memcache\" is installed. \\OC\\Memcache\\Memcached only supports \"memcached\" and not \"memcache\". See the <a target=\"_blank\" rel=\"noreferrer\" href=\"{wikiLink}\">memcached wiki about both modules</a>." : "Memcached は分散キャッシュとして設定されています。しかし、PHPモジュール \"memcache\"が間違ってインストールされています。  \\OC\\Memcache\\Memcached は、\"memcached\" のみをサポートしています。\"memcache\" ではありません。<a target=\"_blank\" rel=\"noreferrer\" href=\"{wikiLink}\">memcached wiki で両方のモジュールの情報</a> について確認してください。",
     "Some files have not passed the integrity check. Further information on how to resolve this issue can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>. (<a href=\"{codeIntegrityDownloadEndpoint}\">List of invalid files…</a> / <a href=\"{rescanEndpoint}\">Rescan…</a>)" : "いくつかのファイルでチェックサムが適合しませんでした。この問題を解決するためは、<a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">ドキュメント</a>の詳細を見てください。(<a href=\"{codeIntegrityDownloadEndpoint}\">不適合ファイルのリスト…</a> / <a href=\"{rescanEndpoint}\">再チェック…</a>)",
     "Error occurred while checking server setup" : "サーバー設定のチェック中にエラーが発生しました",
@@ -299,6 +298,7 @@
     "Oct." : "10月",
     "Nov." : "11月",
     "Dec." : "12月",
+    "The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "リバースプロキシのヘッダー設定が間違っているか、または信頼されたプロキシからownCloudにアクセスしていません。もし、信頼されたプロキシからアクセスされているのでないなら、攻撃者の詐称されたIPアドレスから ownCloudを見ることができるように許可されていて、セキュリティに問題があります。詳細な情報は、 <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">ドキュメント</a>を確認してください。",
     "Allow editing" : "編集を許可",
     "Sending ..." : "送信中...",
     "Email sent" : "メールを送信しました",
@@ -309,7 +309,6 @@
     "change" : "更新",
     "delete" : "削除",
     "{sharee} (at {server})" : "{sharee} ({server} で)",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "次の形式で指定して他のownCloudのユーザーと、共有",
     "Share with users…" : "ユーザーと共有...",
     "Share with users, groups or remote users…" : "ユーザー、グループもしくはリモートユーザーと共有 ...",
     "Share with users or groups…" : "ユーザーもしくはグループと共有...",
@@ -323,6 +322,7 @@
     "Please authenticate using the selected factor." : "選択したデバイスを利用して認証してください。",
     "An error occured while verifying the token" : "トークンの整合性チェックでエラーが発生",
     "An error occured. Please try again" : "エラーが発生しました。再度試行してください。",
+    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "次の形式で指定して他のownCloudのユーザーと、共有",
     "An internal error occured." : "内部エラーが発生しました"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

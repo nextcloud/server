@@ -4,7 +4,7 @@ OC.L10N.register(
     "Couldn't delete %s permanently" : "Неуспешно безвъзвратно изтриване на %s.",
     "Couldn't restore %s" : "Неуспешно възтановяване на %s.",
     "Deleted files" : "Изтрити файлове",
-    "Restore" : "Възстановяви",
+    "Restore" : "Възстановяне",
     "Delete" : "Изтрий",
     "Delete permanently" : "Изтрий завинаги",
     "Error" : "Грешка",
