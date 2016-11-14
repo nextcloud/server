@@ -102,6 +102,7 @@ class SizePropagationTest extends TestCase {
 		$this->assertTrue($recipientView->file_exists('/sharedfolder/subfolder/foo.txt'));
 		$recipientRootInfo = $recipientView->getFileInfo('', false);
 		$recipientRootInfoWithMounts = $recipientView->getFileInfo('', true);
+		$oldRecipientSize = $recipientRootInfoWithMounts->getSize();
 
 		// when file changed as recipient
 		$recipientView->file_put_contents('/sharedfolder/subfolder/foo.txt', 'foobar');
@@ -112,7 +113,7 @@ class SizePropagationTest extends TestCase {
 
 		// but the size including mountpoints increases
 		$newRecipientRootInfo = $recipientView->getFileInfo('', true);
-		$this->assertEquals($recipientRootInfoWithMounts->getSize() +3, $newRecipientRootInfo->getSize());
+		$this->assertEquals($oldRecipientSize +3, $newRecipientRootInfo->getSize());
 
 		// size of owner's root increases
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER2);

@@ -842,10 +842,12 @@ class ViewTest extends \Test\TestCase {
 			'storage_mtime' => $past
 		));
 
+		$oldEtag = $oldFolderInfo->getEtag();
+
 		$view->getFileInfo('/test/sub/storage/test.txt');
 		$newFolderInfo = $view->getFileInfo('/test');
 
-		$this->assertNotEquals($newFolderInfo->getEtag(), $oldFolderInfo->getEtag());
+		$this->assertNotEquals($newFolderInfo->getEtag(), $oldEtag);
 	}
 
 	/**

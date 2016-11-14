@@ -56,6 +56,7 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileNameTooLongException;
 use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidPathException;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
 use OCP\Files\UnseekableException;
@@ -1353,18 +1354,10 @@ class View {
 					//add the sizes of other mount points to the folder
 					$extOnly = ($includeMountPoints === 'ext');
 					$mounts = Filesystem::getMountManager()->findIn($path);
-					foreach ($mounts as $mount) {
+					$info->setSubMounts(array_filter($mounts, function(IMountPoint $mount) use ($extOnly) {
 						$subStorage = $mount->getStorage();
-						if ($subStorage) {
-							// exclude shared storage ?
-							if ($extOnly && $subStorage instanceof \OCA\Files_Sharing\SharedStorage) {
-								continue;
-							}
-							$subCache = $subStorage->getCache('');
-							$rootEntry = $subCache->get('');
-							$info->addSubEntry($rootEntry, $mount->getMountPoint());
-						}
-					}
+						return !($extOnly && $subStorage instanceof \OCA\Files_Sharing\SharedStorage);
+					}));
 				}
 			}
 
