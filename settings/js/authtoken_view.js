@@ -29,21 +29,19 @@
 		'<tr data-id="{{id}}">'
 		+ '<td class="has-tooltip" title="{{title}}">'
 		+ '<span class="token-name">{{name}}</span>'
-		+ '<div class="configure">'
-		+ '<input class="filesystem checkbox" type="checkbox" id="{{id}}_filesystem" {{#if scope.filesystem}}checked{{/if}}/>'
-		+ '<label for="{{id}}_filesystem">' + t('core', 'Allow filesystem access') + '</label><br/>'
-		+ '</div>'
 		+ '</td>'
 		+ '<td><span class="last-activity has-tooltip" title="{{lastActivityTime}}">{{lastActivity}}</span></td>'
-		+ '<td class="icon">'
+		+ '<td class="more">'
+		+ '{{#if showMore}}<a class="icon icon-more"/>{{/if}}'
+		+ '<div class="popovermenu bubble open menu configure">'
 		+ '{{#if canScope}}'
-		+ '<a class="icon icon-settings has-tooltip" title="' + t('core', 'Configure') + '"></a>'
+		+ '<input class="filesystem checkbox" type="checkbox" id="{{id}}_filesystem" {{#if scope.filesystem}}checked{{/if}}/>'
+		+ '<label for="{{id}}_filesystem">' + t('core', 'Allow filesystem access') + '</label><br/>'
 		+ '{{/if}}'
-		+ '</td>'
-		+ '<td class="icon">'
 		+ '{{#if canDelete}}'
-		+ '<a class="icon icon-delete has-tooltip" title="' + t('core', 'Disconnect') + '"></a>'
+		+ '<a class="icon icon-delete has-tooltip" title="' + t('core', 'Disconnect') + '">' + t('core', 'Revoke') +'</a>'
 		+ '{{/if}}'
+		+ '</div>'
 		+ '</td>'
 		+ '<tr>';
 
@@ -111,6 +109,7 @@
 			viewData.lastActivity = OC.Util.relativeModifiedDate(ts);
 			viewData.lastActivityTime = OC.Util.formatDate(ts, 'LLL');
 			viewData.canScope = token.get('type') === 1;
+			viewData.showMore = viewData.canScope || viewData.canDelete;
 
 			// preserve title for cases where we format it further
 			viewData.title = viewData.name;
@@ -217,7 +216,7 @@
 
 				var $el = $(el);
 				$el.on('click', 'a.icon-delete', _.bind(_this._onDeleteToken, _this));
-				$el.on('click', 'a.icon-settings', _.bind(_this._onConfigureToken, _this));
+				$el.on('click', '.icon-more', _.bind(_this._onConfigureToken, _this));
 				$el.on('change', 'input.filesystem', _.bind(_this._onSetTokenScope, _this));
 			});
 

@@ -220,7 +220,6 @@ if($_['passwordChangeSupported']) {
 				<th><?php p($l->t('Name'));?></th>
 				<th><?php p($l->t('Last activity'));?></th>
 				<th></th>
-				<th></th>
 			</tr>
 		</thead>
 		<tbody class="token-list icon-loading">
