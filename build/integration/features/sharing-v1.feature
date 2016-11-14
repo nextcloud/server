@@ -971,3 +971,20 @@ Feature: sharing
     When Deleting last share
     Then etag of element "/" of user "user1" has changed
     And etag of element "/PARENT" of user "user0" has not changed
+
+  Scenario: do not allow to increase link share permissions on reshare
+    Given As an "admin"
+    And user "admin" created a folder "/TMP"
+    And user "user0" exists
+    And creating a share with
+      | path | TMP |
+      | shareType | 0 |
+      | shareWith | user0 |
+      | permissions | 17  |
+    When As an "user0"
+    And creating a share with
+      | path | TMP |
+      | shareType | 3 |
+    And Updating last share with
+      | publicUpload | true |
+    Then the OCS status code should be "404"
