@@ -118,6 +118,19 @@ module.exports = function(config) {
 					'settings/tests/js/appsSpec.js',
 					'settings/tests/js/users/deleteHandlerSpec.js'
 				]
+			},
+			{
+				name: 'bruteforcesettings',
+				srcFiles: [
+					// need to enforce loading order...
+					'apps/bruteforcesettings/js/IPWhitelistModel.js',
+					'apps/bruteforcesettings/js/IPWhitelistCollection.js',
+					'apps/bruteforcesettings/js/IPWhitelistView.js',
+					'apps/bruteforcesettings/js/IPWhitelist.js',
+				],
+				testFiles: [
+					'apps/bruteforcesettings/tests/js/IPWhitelistSpec.js'
+				]
 			}
 		];
 	}

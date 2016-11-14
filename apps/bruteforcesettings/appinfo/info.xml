@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<info>
+	<id>bruteforcesettings</id>
+	<name>Brute force settings</name>
+	<description>
+		This applications allows admins to configure the brute force settings.
+	</description>
+	<licence>AGPL</licence>
+	<author>Roeland Jago Douma</author>
+	<default_enable/>
+	<version>1.0.0</version>
+	<dependencies>
+		<owncloud min-version="9.2" max-version="9.2" />
+	</dependencies>
+
+	<namespace>BruteForceSettings</namespace>
+
+	<settings>
+		<admin>OCA\BruteForceSettings\Settings\IPWhitelist</admin>
+	</settings>
+</info>

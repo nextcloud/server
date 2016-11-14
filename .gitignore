@@ -38,7 +38,7 @@
 /apps/files_external/3rdparty/irodsphp/prods/tutorials
 /apps/files_external/3rdparty/irodsphp/prods/test*
 /apps/files_external/tests/config.*.php
-
+!/apps/bruteforcesettings
 
 
 # ignore themes except the example and the README
