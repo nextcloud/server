@@ -17,7 +17,7 @@ OC.L10N.register(
     "Couldn't establish a federated share, maybe the password was wrong." : "Impossibile stabilire una condivisione federata, forse la password non è corretta.",
     "Federated Share request was successful, you will receive a invitation. Check your notifications." : "La richiesta della condivisione federata è stata eseguita con successo, riceverai un invito. Controlla le tue notifiche.",
     "The mountpoint name contains invalid characters." : "Il nome del punto di mount contiene caratteri non validi.",
-    "Not allowed to create a federated share with the owner." : "Non è consentito di creare una condivisione federata con il proprietario.",
+    "Not allowed to create a federated share with the owner." : "Non è consentito creare una condivisione federata con il proprietario.",
     "Invalid or untrusted SSL certificate" : "Certificato SSL non valido o non attendibile",
     "Could not authenticate to remote share, password might be wrong" : "Impossibile autenticarsi sulla condivisione remota, la password potrebbe essere errata",
     "Storage not valid" : "Archiviazione non valida",
