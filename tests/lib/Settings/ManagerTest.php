@@ -159,6 +159,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals([
 			0 => [new Section('server', 'Server settings', 0, '1')],
 			5 => [new Section('sharing', 'Sharing', 0, '2')],
+			10 => [new Section('security', 'Security', 0)],
 			45 => [new Section('encryption', 'Encryption', 0, '3')],
 			90 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
 			98 => [new Section('additional', 'Additional settings', 0, '4')],
@@ -190,6 +191,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals([
 			0 => [new Section('server', 'Server settings', 0, '1')],
 			5 => [new Section('sharing', 'Sharing', 0, '2')],
+			10 => [new Section('security', 'Security', 0)],
 			45 => [new Section('encryption', 'Encryption', 0, '3')],
 			98 => [new Section('additional', 'Additional settings', 0, '4')],
 			99 => [new Section('tips-tricks', 'Tips & tricks', 0, '5')],
