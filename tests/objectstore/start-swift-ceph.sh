@@ -85,6 +85,7 @@ cat > $thisFolder/swift.config.php <<DELIM
 		'username' => '$user',
 		'password' => '$pass',
 		'container' => 'owncloud-autotest$EXECUTOR_NUMBER',
+		'objectPrefix' => 'autotest$EXECUTOR_NUMBER:oid:urn:',
 		'autocreate' => true,
 		'region' => '$region',
 		'url' => 'http://$host:$port/v2.0',

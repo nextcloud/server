@@ -48,6 +48,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 	 */
 	protected $user;
 
+	private $objectPrefix = 'urn:oid:';
+
 	public function __construct($params) {
 		if (isset($params['objectstore']) && $params['objectstore'] instanceof IObjectStore) {
 			$this->objectStore = $params['objectstore'];
@@ -58,6 +60,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			$this->id = 'object::store:' . $params['storageid'];
 		} else {
 			$this->id = 'object::store:' . $this->objectStore->getStorageId();
+		}
+		if (isset($params['objectPrefix'])) {
+			$this->objectPrefix = $params['objectPrefix'];
 		}
 		//initialize cache with root directory in cache
 		if (!$this->is_dir('/')) {
@@ -216,7 +221,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 	 */
 	protected function getURN($fileId) {
 		if (is_numeric($fileId)) {
-			return 'urn:oid:' . $fileId;
+			return $this->objectPrefix . $fileId;
 		}
 		return null;
 	}
