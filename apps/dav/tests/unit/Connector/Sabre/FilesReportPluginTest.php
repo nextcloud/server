@@ -380,7 +380,6 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->server->addPlugin(
 			new \OCA\DAV\Connector\Sabre\FilesPlugin(
 				$this->tree,
-				$this->view,
 				$config,
 				$this->getMockBuilder('\OCP\IRequest')
 					->disableOriginalConstructor()
