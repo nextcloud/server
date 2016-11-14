@@ -56,7 +56,7 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param \OC\Files\View $view
-	 * @param \OC\Files\Node\Root $root
+	 * @param \OCP\Files\IRootFolder $root
 	 * @param string $path
 	 * @param FileInfo $fileInfo
 	 */
