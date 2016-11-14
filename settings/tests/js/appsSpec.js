@@ -185,26 +185,32 @@ describe('OC.Settings.Apps tests', function() {
 						{
 							id: 'foo',
 							name: 'Foo app',
-							level: 0
+							level: 0,
+							author: 'foo'
 						},
 						{
 							id: 'alpha',
 							name: 'Alpha app',
-							level: 300
+							level: 300,
+							author: ['alpha', 'beta']
 						},
 						{
 							id: 'nolevel',
-							name: 'No level'
+							name: 'No level',
+							author: 'bar'
 						},
 						{
 							id: 'zork',
 							name: 'Some famous adventure game',
-							level: 200
+							level: 200,
+							author: 'baz'
+
 						},
 						{
 							id: 'delta',
 							name: 'Mathematical symbol',
-							level: 200
+							level: 200,
+							author: 'foobar'
 						}
 					]
 				})
@@ -217,26 +223,31 @@ describe('OC.Settings.Apps tests', function() {
 				'foo': {
 					id: 'foo',
 					name: 'Foo app',
-					level: 0
+					level: 0,
+					author: 'foo'
 				},
 				'alpha': {
 					id: 'alpha',
 					name: 'Alpha app',
-					level: 300
+					level: 300,
+					author: ['alpha', 'beta']
 				},
 				'nolevel': {
 					id: 'nolevel',
-					name: 'No level'
+					name: 'No level',
+					author: 'bar'
 				},
 				'zork': {
 					id: 'zork',
 					name: 'Some famous adventure game',
-					level: 200
+					level: 200,
+					author: 'baz',
 				},
 				'delta': {
 					id: 'delta',
 					name: 'Mathematical symbol',
-					level: 200
+					level: 200,
+					author: 'foobar'
 				}
 			});
 		});
