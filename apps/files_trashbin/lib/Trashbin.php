@@ -87,6 +87,10 @@ class Trashbin {
 		if (!$userManager->userExists($uid)) {
 			$uid = User::getUser();
 		}
+		if (!$uid) {
+			// no owner, usually because of share link from ext storage
+			return [null, null];
+		}
 		Filesystem::initMountPoints($uid);
 		if ($uid != User::getUser()) {
 			$info = Filesystem::getFileInfo($filename);
@@ -202,6 +206,12 @@ class Trashbin {
 		$root = Filesystem::getRoot();
 		list(, $user) = explode('/', $root);
 		list($owner, $ownerPath) = self::getUidAndFilename($file_path);
+
+		// if no owner found (ex: ext storage + share link), will use the current user's trashbin then
+		if (is_null($owner)) {
+			$owner = $user;
+			$ownerPath = $file_path;
+		}
 
 		$ownerView = new View('/' . $owner);
 		// file has been deleted in between
