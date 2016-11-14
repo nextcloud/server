@@ -637,6 +637,7 @@ class Share20OCS {
 
 			if ($newPermissions !== null) {
 				$share->setPermissions($newPermissions);
+				$permissions = $newPermissions;
 			}
 
 			if ($expireDate === '') {
