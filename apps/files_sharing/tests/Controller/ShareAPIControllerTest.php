@@ -1205,7 +1205,7 @@ class ShareAPIControllerTest extends \Test\TestCase {
 	public function testUpdateLinkShareClear() {
 		$ocs = $this->mockFormatShare();
 
-		$node = $this->getMockBuilder('\OCP\Files\Folder')->getMock();
+		$node = $this->getMockBuilder(Folder::class)->getMock();
 		$share = $this->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
@@ -1228,6 +1228,9 @@ class ShareAPIControllerTest extends \Test\TestCase {
 				$share->getExpirationDate() === null;
 			})
 		)->will($this->returnArgument(0));
+
+		$this->shareManager->method('getSharedWith')
+			->willReturn([]);
 
 		$expected = new DataResponse(null);
 		$result = $ocs->updateShare(42, null, '', 'false', '');
@@ -1260,6 +1263,9 @@ class ShareAPIControllerTest extends \Test\TestCase {
 				$share->getExpirationDate() == $date;
 			})
 		)->will($this->returnArgument(0));
+
+		$this->shareManager->method('getSharedWith')
+			->willReturn([]);
 
 		$expected = new DataResponse(null);
 		$result = $ocs->updateShare(42, null, 'password', 'true', '2000-01-01');
@@ -1483,6 +1489,9 @@ class ShareAPIControllerTest extends \Test\TestCase {
 			})
 		)->will($this->returnArgument(0));
 
+		$this->shareManager->method('getSharedWith')
+			->willReturn([]);
+
 		$expected = new DataResponse(null);
 		$result = $ocs->updateShare(42, null, null, 'true', null);
 
@@ -1627,6 +1636,52 @@ class ShareAPIControllerTest extends \Test\TestCase {
 
 		try {
 			$ocs->updateShare(42, 31);
+			$this->fail();
+		} catch (OCSNotFoundException $e) {
+			$this->assertEquals('Cannot increase permissions', $e->getMessage());
+		}
+	}
+
+	public function testUpdateShareCannotIncreasePermissionsLinkShare() {
+		$ocs = $this->mockFormatShare();
+
+		$folder = $this->createMock(Folder::class);
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share
+			->setId(42)
+			->setSharedBy($this->currentUser)
+			->setShareOwner('anotheruser')
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($folder);
+
+		// note: updateShare will modify the received instance but getSharedWith will reread from the database,
+		// so their values will be different
+		$incomingShare = \OC::$server->getShareManager()->newShare();
+		$incomingShare
+			->setId(42)
+			->setSharedBy($this->currentUser)
+			->setShareOwner('anotheruser')
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setSharedWith('currentUser')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($folder);
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+
+		$this->shareManager->expects($this->any())
+			->method('getSharedWith')
+			->will($this->returnValueMap([
+				['currentUser', \OCP\Share::SHARE_TYPE_USER, $share->getNode(), -1, 0, [$incomingShare]],
+				['currentUser', \OCP\Share::SHARE_TYPE_GROUP, $share->getNode(), -1, 0, []]
+			]));
+
+		$this->shareManager->expects($this->never())->method('updateShare');
+		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
+
+		try {
+			$ocs->updateShare(42, null, null, 'true');
 			$this->fail();
 		} catch (OCSNotFoundException $e) {
 			$this->assertEquals('Cannot increase permissions', $e->getMessage());

@@ -692,6 +692,7 @@ class ShareAPIController extends OCSController {
 
 			if ($newPermissions !== null) {
 				$share->setPermissions($newPermissions);
+				$permissions = $newPermissions;
 			}
 
 			if ($expireDate === '') {
