@@ -31,10 +31,13 @@ class Person {
 		$login = isset($_POST['login']) ? $_POST['login'] : false;
 		$password = isset($_POST['password']) ? $_POST['password'] : false;
 		if($login && $password) {
+			$remoteIp = \OC::$server->getRequest()->getRemoteAddress();
+			\OC::$server->getBruteForceThrottler()->sleepDelay($remoteIp);
 			if(\OC_User::checkPassword($login, $password)) {
 				$xml['person']['personid'] = $login;
 				return new Result($xml);
 			} else {
+				\OC::$server->getBruteForceThrottler()->registerAttempt('login', $remoteIp);
 				return new Result(null, 102);
 			}
 		} else {
