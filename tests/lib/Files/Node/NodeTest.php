@@ -614,7 +614,6 @@ abstract class NodeTest extends \Test\TestCase {
 			->method('rename');
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
-		$parentNode = new \OC\Files\Node\Folder($this->root, $this->view, '/bar');
 
 		$this->root->expects($this->once())
 			->method('get')
@@ -640,5 +639,51 @@ abstract class NodeTest extends \Test\TestCase {
 			->will($this->returnValue($parentNode));
 
 		$node->move('/bar/asd');
+	}
+
+	/**
+	 * @expectedException \OCP\Files\NotPermittedException
+	 */
+	public function testMoveFailed() {
+		$this->view->expects($this->any())
+			->method('rename')
+			->with('/bar/foo', '/bar/asd')
+			->will($this->returnValue(false));
+
+		$this->view->expects($this->any())
+			->method('getFileInfo')
+			->will($this->returnValue($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 1])));
+
+		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
+		$parentNode = new \OC\Files\Node\Folder($this->root, $this->view, '/bar');
+
+		$this->root->expects($this->any())
+			->method('get')
+			->will($this->returnValueMap([['/bar', $parentNode], ['/bar/asd', $node]]));
+
+		$node->move('/bar/asd');
+	}
+
+	/**
+	 * @expectedException \OCP\Files\NotPermittedException
+	 */
+	public function testCopyFailed() {
+		$this->view->expects($this->any())
+			->method('copy')
+			->with('/bar/foo', '/bar/asd')
+			->will($this->returnValue(false));
+
+		$this->view->expects($this->any())
+			->method('getFileInfo')
+			->will($this->returnValue($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 1])));
+
+		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
+		$parentNode = new \OC\Files\Node\Folder($this->root, $this->view, '/bar');
+
+		$this->root->expects($this->any())
+			->method('get')
+			->will($this->returnValueMap([['/bar', $parentNode], ['/bar/asd', $node]]));
+
+		$node->copy('/bar/asd');
 	}
 }

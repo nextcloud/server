@@ -16,9 +16,6 @@ namespace Test\Files\Node;
  * @package Test\Files\Node
  */
 class FileTest extends NodeTest {
-
-	public $viewDeleteMethod = 'unlink';
-
 	protected function createTestNode($root, $view, $path) {
 		return new \OC\Files\Node\File($root, $view, $path);
 	}
