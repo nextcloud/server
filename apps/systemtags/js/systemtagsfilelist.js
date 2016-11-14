@@ -115,6 +115,9 @@
 				escapeMarkup: function(m) {
 					// prevent double markup escape
 					return m;
+				},
+				formatNoMatches: function() {
+					return t('systemtags', 'No tags found');
 				}
 			});
 			this.$filterField.on('change', _.bind(this._onTagsChanged, this));

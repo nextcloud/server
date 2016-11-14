@@ -408,6 +408,9 @@
 						return 1;
 					});
 					return results;
+				},
+				formatNoMatches: function() {
+					return t('core', 'No tags found');
 				}
 			})
 				.on('select2-selecting', this._onSelectTag)
