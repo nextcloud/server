@@ -55,7 +55,7 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 			if (isset($parts[2]) && $parts[2] === $sourceUser) {
 				// store timestamp as key
 				$foundPaths[] = [
-					'date' => strtotime(dirname($parts[4])),
+					'date' => strtotime(trim($parts[4], '/')),
 					'path' => $path,
 				];
 			}
