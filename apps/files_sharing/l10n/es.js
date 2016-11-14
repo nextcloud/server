@@ -59,6 +59,7 @@ OC.L10N.register(
     "Public link expired" : "El enlace público ha expirado",
     "Public link of %2$s expired" : "El enlace público %2$s ha expirado",
     "Shared by %2$s" : "Compartido por %2$s",
+    "Downloaded by %2$s" : "Descargado por %2$s",
     "Wrong share ID, share doesn't exist" : "El ID del recurso compartido no es correcto, el recurso compartido no existe",
     "could not delete share" : "No se ha podido eliminar el recurso compartido",
     "Could not delete share" : "No se ha podido eliminar el recurso compartido",
