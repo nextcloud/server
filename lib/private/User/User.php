@@ -180,9 +180,12 @@ class User implements IUser {
 	 * updates the timestamp of the most recent login of this user
 	 */
 	public function updateLastLoginTimestamp() {
+		$firstTimeLogin = ($this->lastLogin === 0);
 		$this->lastLogin = time();
-		\OC::$server->getConfig()->setUserValue(
+		$this->config->setUserValue(
 			$this->uid, 'login', 'lastLogin', $this->lastLogin);
+
+		return $firstTimeLogin;
 	}
 
 	/**

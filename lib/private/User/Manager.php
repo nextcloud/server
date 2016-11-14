@@ -79,14 +79,6 @@ class Manager extends PublicEmitter implements IUserManager {
 			/** @var \OC\User\User $user */
 			unset($cachedUsers[$user->getUID()]);
 		});
-		$this->listen('\OC\User', 'postLogin', function ($user) {
-			/** @var \OC\User\User $user */
-			$user->updateLastLoginTimestamp();
-		});
-		$this->listen('\OC\User', 'postRememberedLogin', function ($user) {
-			/** @var \OC\User\User $user */
-			$user->updateLastLoginTimestamp();
-		});
 	}
 
 	/**

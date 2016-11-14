@@ -88,6 +88,7 @@ class UploadTest extends RequestTest {
 	public function testUploadOverWriteWriteLocked() {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
+		$this->loginAsUser($user);
 
 		$view->file_put_contents('foo.txt', 'bar');
 
