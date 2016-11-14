@@ -97,7 +97,7 @@ class SharesPluginTest extends \Test\TestCase {
 		$sabreNode->expects($this->any())
 			->method('getId')
 			->will($this->returnValue(123));
-		$sabreNode->expects($this->once())
+		$sabreNode->expects($this->any())
 			->method('getPath')
 			->will($this->returnValue('/subdir'));
 
@@ -155,7 +155,7 @@ class SharesPluginTest extends \Test\TestCase {
 		$sabreNode1->expects($this->any())
 			->method('getId')
 			->will($this->returnValue(111));
-		$sabreNode1->expects($this->never())
+		$sabreNode1->expects($this->any())
 			->method('getPath');
 		$sabreNode2 = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\File')
 			->disableOriginalConstructor()
@@ -163,8 +163,9 @@ class SharesPluginTest extends \Test\TestCase {
 		$sabreNode2->expects($this->any())
 			->method('getId')
 			->will($this->returnValue(222));
-		$sabreNode2->expects($this->never())
-			->method('getPath');
+		$sabreNode2->expects($this->any())
+			->method('getPath')
+			->will($this->returnValue('/subdir/foo'));
 
 		$sabreNode = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Directory')
 			->disableOriginalConstructor()
@@ -198,9 +199,6 @@ class SharesPluginTest extends \Test\TestCase {
 		$node2->expects($this->any())
 			->method('getId')
 			->will($this->returnValue(222));
-		$node->expects($this->once())
-			->method('getDirectoryListing')
-			->will($this->returnValue([$node1, $node2]));
 
 		$this->userFolder->expects($this->once())
 			->method('get')
@@ -208,7 +206,7 @@ class SharesPluginTest extends \Test\TestCase {
 			->will($this->returnValue($node));
 		
 		$dummyShares = array_map(function($type) {
-			$share = $this->getMock('\OCP\Share\IShare');
+			$share = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
 			$share->expects($this->any())
 				->method('getShareType')
 				->will($this->returnValue($type));
