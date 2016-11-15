@@ -59,7 +59,7 @@ class OC_Defaults {
 		$this->defaultiOSClientUrl = 'https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8';
 		$this->defaultiTunesAppId = '1125420102';
 		$this->defaultAndroidClientUrl = 'https://play.google.com/store/apps/details?id=com.nextcloud.client';
-		$this->defaultDocBaseUrl = 'https://docs.nextcloud.org';
+		$this->defaultDocBaseUrl = 'https://docs.nextcloud.com';
 		$this->defaultDocVersion = '10'; // used to generate doc links
 		$this->defaultSlogan = $this->l->t('a safe home for all your data');
 		$this->defaultLogoClaim = '';
