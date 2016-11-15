@@ -26,12 +26,12 @@ namespace OCP\RichObjectStrings;
  * Class Definitions
  *
  * @package OCP\RichObjectStrings
- * @since 9.2.0
+ * @since 11.0.0
  */
 class Definitions {
 	/**
 	 * @var array
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public $definitions = [
 		'addressbook' => [
@@ -284,7 +284,7 @@ class Definitions {
 	 * @param string $type
 	 * @return array
 	 * @throws InvalidObjectExeption
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getDefinition($type) {
 		if (isset($this->definitions[$type])) {

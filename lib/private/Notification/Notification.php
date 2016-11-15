@@ -289,7 +289,7 @@ class Notification implements INotification {
 	 * @param array $parameters
 	 * @return $this
 	 * @throws \InvalidArgumentException if the subject or parameters are invalid
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function setRichSubject($subject, array $parameters = []) {
 		if (!is_string($subject) || $subject === '') {
@@ -304,7 +304,7 @@ class Notification implements INotification {
 
 	/**
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getRichSubject() {
 		return $this->subjectRich;
@@ -312,7 +312,7 @@ class Notification implements INotification {
 
 	/**
 	 * @return array[]
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getRichSubjectParameters() {
 		return $this->subjectRichParameters;
@@ -379,7 +379,7 @@ class Notification implements INotification {
 	 * @param array $parameters
 	 * @return $this
 	 * @throws \InvalidArgumentException if the message or parameters are invalid
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function setRichMessage($message, array $parameters = []) {
 		if (!is_string($message) || $message === '') {
@@ -394,7 +394,7 @@ class Notification implements INotification {
 
 	/**
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getRichMessage() {
 		return $this->messageRich;
@@ -402,7 +402,7 @@ class Notification implements INotification {
 
 	/**
 	 * @return array[]
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getRichMessageParameters() {
 		return $this->messageRichParameters;
@@ -434,7 +434,7 @@ class Notification implements INotification {
 	 * @param string $icon
 	 * @return $this
 	 * @throws \InvalidArgumentException if the icon is invalid
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function setIcon($icon) {
 		if (!is_string($icon) || $icon === '' || isset($icon[4000])) {
@@ -446,7 +446,7 @@ class Notification implements INotification {
 
 	/**
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getIcon() {
 		return $this->icon;

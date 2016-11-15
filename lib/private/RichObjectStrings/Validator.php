@@ -30,7 +30,7 @@ use OCP\RichObjectStrings\IValidator;
  * Class Validator
  *
  * @package OCP\RichObjectStrings
- * @since 9.2.0
+ * @since 11.0.0
  */
 class Validator implements IValidator {
 
@@ -53,7 +53,7 @@ class Validator implements IValidator {
 	 * @param string $subject
 	 * @param array[] $parameters
 	 * @throws InvalidObjectExeption
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function validate($subject, array $parameters) {
 		$matches = [];

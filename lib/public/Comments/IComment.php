@@ -136,7 +136,7 @@ interface IComment {
 	 * returns an array containing mentions that are included in the comment
 	 *
 	 * @return array each mention provides a 'type' and an 'id', see example below
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 *
 	 * The return array looks like:
 	 * [

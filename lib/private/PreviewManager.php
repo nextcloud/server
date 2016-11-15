@@ -155,7 +155,7 @@ class PreviewManager implements IPreview {
 	 * @param string $mimeType
 	 * @return ISimpleFile
 	 * @throws NotFoundException
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null) {
 		if ($this->generator === null) {

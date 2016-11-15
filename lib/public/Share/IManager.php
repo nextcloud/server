@@ -95,7 +95,7 @@ interface IManager {
 	 * @param Folder $node
 	 * @param bool $reshares
 	 * @return IShare[][] [$fileId => IShare[], ...]
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getSharesInFolder($userId, Folder $node, $reshares = false);
 
@@ -290,7 +290,7 @@ interface IManager {
 	 * Check if a given share provider exists
 	 * @param int $shareType
 	 * @return bool
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function shareProviderExists($shareType);
 

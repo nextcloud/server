@@ -73,7 +73,7 @@ interface ICachedMountInfo {
 	 * Get the internal path (within the storage) of the root of the mount
 	 *
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getRootInternalPath();
 }

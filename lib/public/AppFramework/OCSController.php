@@ -76,7 +76,7 @@ abstract class OCSController extends ApiController {
 
 	/**
 	 * @param int $version
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 * @internal
 	 */
 	public function setOCSVersion($version) {

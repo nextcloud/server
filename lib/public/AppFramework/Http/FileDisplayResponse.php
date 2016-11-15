@@ -28,7 +28,7 @@ use OCP\AppFramework\Http;
  * Class FileDisplayResponse
  *
  * @package OCP\AppFramework\Http
- * @since 9.2.0
+ * @since 11.0.0
  */
 class FileDisplayResponse extends Response implements ICallbackResponse {
 
@@ -41,7 +41,7 @@ class FileDisplayResponse extends Response implements ICallbackResponse {
 	 * @param \OCP\Files\File|\OCP\Files\SimpleFS\ISimpleFile $file
 	 * @param int $statusCode
 	 * @param array $headers
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function __construct($file, $statusCode=Http::STATUS_OK,
 								$headers=[]) {
@@ -58,7 +58,7 @@ class FileDisplayResponse extends Response implements ICallbackResponse {
 
 	/**
 	 * @param IOutput $output
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function callback(IOutput $output) {
 		if ($output->getHttpResponseCode() !== Http::STATUS_NOT_MODIFIED) {

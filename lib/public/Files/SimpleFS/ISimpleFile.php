@@ -28,7 +28,7 @@ use OCP\Files\NotPermittedException;
  * Interface ISimpleFile
  *
  * @package OCP\Files\SimpleFS
- * @since 9.2.0
+ * @since 11.0.0
  * @internal This interface is experimental and might change for NC12
  */
 interface ISimpleFile {
@@ -37,7 +37,7 @@ interface ISimpleFile {
 	 * Get the name
 	 *
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getName();
 
@@ -45,7 +45,7 @@ interface ISimpleFile {
 	 * Get the size in bytes
 	 *
 	 * @return int
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getSize();
 
@@ -53,7 +53,7 @@ interface ISimpleFile {
 	 * Get the ETag
 	 *
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getETag();
 
@@ -61,7 +61,7 @@ interface ISimpleFile {
 	 * Get the last modification time
 	 *
 	 * @return int
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getMTime();
 
@@ -69,7 +69,7 @@ interface ISimpleFile {
 	 * Get the content
 	 *
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getContent();
 
@@ -78,7 +78,7 @@ interface ISimpleFile {
 	 *
 	 * @param string $data
 	 * @throws NotPermittedException
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function putContent($data);
 
@@ -86,7 +86,7 @@ interface ISimpleFile {
 	 * Delete the file
 	 *
 	 * @throws NotPermittedException
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function delete();
 
@@ -94,7 +94,7 @@ interface ISimpleFile {
 	 * Get the MimeType
 	 *
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getMimeType();
 }

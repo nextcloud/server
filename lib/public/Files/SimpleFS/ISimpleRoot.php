@@ -29,7 +29,7 @@ use OCP\Files\NotPermittedException;
  * Interface ISimpleRoot
  *
  * @package OCP\Files\SimpleFS
- * @since 9.2.0
+ * @since 11.0.0
  * @internal This interface is experimental and might change for NC12
  */
 interface ISimpleRoot {
@@ -40,7 +40,7 @@ interface ISimpleRoot {
 	 * @return ISimpleFolder
 	 * @throws NotFoundException
 	 * @throws \RuntimeException
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getFolder($name);
 
@@ -50,7 +50,7 @@ interface ISimpleRoot {
 	 * @return ISimpleFolder[]
 	 * @throws NotFoundException
 	 * @throws \RuntimeException
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getDirectoryListing();
 
@@ -61,7 +61,7 @@ interface ISimpleRoot {
 	 * @return ISimpleFolder
 	 * @throws NotPermittedException
 	 * @throws \RuntimeException
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function newFolder($name);
 }
