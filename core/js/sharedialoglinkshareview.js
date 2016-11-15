@@ -27,7 +27,7 @@
 			'<div class="oneline">' +
 			'<label for="linkText-{{cid}}" class="hidden-visually">{{urlLabel}}</label>' +
 			'<input id="linkText-{{cid}}" class="linkText {{#unless isLinkShare}}hidden{{/unless}}" type="text" readonly="readonly" value="{{shareLinkURL}}" />' +
-			'<a class="{{#unless isLinkShare}}hidden-visually{{/unless}} clipboardButton icon icon-clippy" data-clipboard-target="#linkText-{{cid}}"></a>' +
+			'<a class="{{#unless isLinkShare}}hidden-visually{{/unless}} clipboardButton icon icon-clippy hasTooltip" title="{{copy}}" data-clipboard-target="#linkText-{{cid}}"></a>' +
 			'</div>' +
 			'    {{#if publicUpload}}' +
 			'<div id="allowPublicUploadWrapper">' +
@@ -333,7 +333,8 @@
 				publicUploadLabel: t('core', 'Allow upload and editing'),
 				hideFileListLabel: t('core', 'Hide file listing'),
 				mailPrivatePlaceholder: t('core', 'Email link to person'),
-				mailButtonText: t('core', 'Send')
+				mailButtonText: t('core', 'Send'),
+				copy: t('core', 'Copy')
 			}));
 
 			this.delegateEvents();
