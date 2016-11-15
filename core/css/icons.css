@@ -118,7 +118,7 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 	background-image: url('../img/actions/audio.svg?v=1');
 }
 .icon-audio-white {
-	background-image: url('../img/actions/audio-white.svg?v=1');
+	background-image: url('../img/actions/audio-white.svg?v=2');
 }
 
 .icon-caret {
@@ -196,7 +196,7 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 	background-image: url('../img/actions/fullscreen.svg?v=1');
 }
 .icon-fullscreen-white {
-	background-image: url('../img/actions/fullscreen-white.svg?v=1');
+	background-image: url('../img/actions/fullscreen-white.svg?v=2');
 }
 
 .icon-history {
@@ -334,7 +334,7 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 	background-image: url('../img/actions/video.svg?v=1');
 }
 .icon-video-white {
-	background-image: url('../img/actions/video-white.svg?v=1');
+	background-image: url('../img/actions/video-white.svg?v=2');
 }
 
 .icon-view-close {
