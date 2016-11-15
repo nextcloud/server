@@ -169,10 +169,10 @@ class AppSettingsController extends Controller {
 			$nextCloudVersion = $versionParser->getVersion($app['releases'][0]['rawPlatformVersionSpec']);
 			$nextCloudVersionDependencies = [];
 			if($nextCloudVersion->getMinimumVersion() !== '') {
-				$nextCloudVersionDependencies['owncloud']['@attributes']['min-version'] = $nextCloudVersion->getMinimumVersion();
+				$nextCloudVersionDependencies['nextcloud']['@attributes']['min-version'] = $nextCloudVersion->getMinimumVersion();
 			}
 			if($nextCloudVersion->getMaximumVersion() !== '') {
-				$nextCloudVersionDependencies['owncloud']['@attributes']['max-version'] = $nextCloudVersion->getMaximumVersion();
+				$nextCloudVersionDependencies['nextcloud']['@attributes']['max-version'] = $nextCloudVersion->getMaximumVersion();
 			}
 			$phpVersion = $versionParser->getVersion($app['releases'][0]['rawPhpVersionSpec']);
 			$existsLocally = (\OC_App::getAppPath($app['id']) !== false) ? true : false;
@@ -331,8 +331,8 @@ class AppSettingsController extends Controller {
 			$app['canInstall'] = empty($missing);
 			$app['missingDependencies'] = $missing;
 
-			$app['missingMinOwnCloudVersion'] = !isset($app['dependencies']['owncloud']['@attributes']['min-version']);
-			$app['missingMaxOwnCloudVersion'] = !isset($app['dependencies']['owncloud']['@attributes']['max-version']);
+			$app['missingMinOwnCloudVersion'] = !isset($app['dependencies']['nextcloud']['@attributes']['min-version']);
+			$app['missingMaxOwnCloudVersion'] = !isset($app['dependencies']['nextcloud']['@attributes']['max-version']);
 
 			return $app;
 		}, $apps);

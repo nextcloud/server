@@ -295,12 +295,24 @@ class DependencyAnalyzerTest extends TestCase {
 			],
 			[
 				[
-					'Server version 11 or higher is required.',
+					'Server version 9.2 or higher is required.',
 				],
 				[
 					'nextcloud' => [
 						'@attributes' => [
 							'min-version' => '9.2',
+						],
+					],
+				],
+			],
+			[
+				[
+					'Server version 11 or higher is required.',
+				],
+				[
+					'nextcloud' => [
+						'@attributes' => [
+							'min-version' => '11',
 						],
 					],
 				],
@@ -388,7 +400,7 @@ class DependencyAnalyzerTest extends TestCase {
 			],
 			[
 				[
-					'Server version 11 or higher is required.',
+					'Server version 9.2 or higher is required.',
 				],
 				[
 					'owncloud' => [
