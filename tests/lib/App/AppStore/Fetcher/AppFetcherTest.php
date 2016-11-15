@@ -27,7 +27,7 @@ class AppFetcherTest extends FetcherBase {
 	public function setUp() {
 		parent::setUp();
 		$this->fileName = 'apps.json';
-		$this->endpoint = 'https://apps.nextcloud.com/api/v1/platform/9.2.0/apps.json';
+		$this->endpoint = 'https://apps.nextcloud.com/api/v1/platform/11.0.0/apps.json';
 
 		$this->fetcher = new AppFetcher(
 			$this->appData,
