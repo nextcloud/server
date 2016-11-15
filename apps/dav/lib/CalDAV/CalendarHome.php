@@ -42,6 +42,13 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	}
 
 	/**
+	 * @return BackendInterface
+	 */
+	public function getCalDAVBackend() {
+		return $this->caldavBackend;
+	}
+
+	/**
 	 * @inheritdoc
 	 */
 	function getChildren() {
