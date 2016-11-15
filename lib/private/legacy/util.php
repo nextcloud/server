@@ -427,6 +427,12 @@ class OC_Util {
 	 */
 	public static function getChannel() {
 		OC_Util::loadVersion();
+
+		// Allow overriding update channel
+		if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
+			self::$versionCache['OC_Channel'] = \OC::$server->getAppConfig()->getValue('core', 'OC_Channel');
+		}
+
 		return self::$versionCache['OC_Channel'];
 	}
 
@@ -457,21 +463,9 @@ class OC_Util {
 		self::$versionCache['OC_VersionString'] = $OC_VersionString;
 		/** @var $OC_Build string */
 		self::$versionCache['OC_Build'] = $OC_Build;
-			
-		// Allow overriding update channel
-		if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
-			$channel = \OC::$server->getAppConfig()->getValue('core', 'OC_Channel');
-		} else {
-			/** @var $OC_Channel string */
-			$channel = $OC_Channel;
-		}
-			
-		if (!is_null($channel)) {
-			self::$versionCache['OC_Channel'] = $channel;
-		} else {
-			/** @var $OC_Channel string */
-			self::$versionCache['OC_Channel'] = $OC_Channel;
-		}
+
+		/** @var $OC_Channel string */
+		self::$versionCache['OC_Channel'] = $OC_Channel;
 	}
 
 	/**
