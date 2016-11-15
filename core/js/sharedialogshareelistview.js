@@ -78,7 +78,6 @@
 							'</ul>' +
 						'</div>' +
 						'{{/unless}}' +
-						'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span class="hidden-visually">{{unshareLabel}}</span></a>' +
 					'</span>' +
 				'</li>' +
 			'{{/each}}' +
