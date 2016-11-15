@@ -83,7 +83,6 @@ class Util {
 	 */
 	public static function setChannel($channel) {
 		//Flush timestamp to reload version.php
-		\OC::$server->getSession()->set('OC_Version_Timestamp', 0);
 		\OC::$server->getAppConfig()->setValue('core', 'OC_Channel', $channel);
 		\OC::$server->getConfig()->setSystemValue('updater.release.channel', $channel);
 	}
