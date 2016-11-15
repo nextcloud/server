@@ -126,9 +126,11 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->method('exists')
 			->with('two_factor_auth_error')
 			->will($this->returnValue(true));
-		$this->session->expects($this->once())
+		$this->session->expects($this->exactly(2))
 			->method('remove')
-			->with('two_factor_auth_error');
+			->with($this->logicalOr(
+				$this->equalTo('two_factor_auth_error'),
+				$this->equalTo('two_factor_auth_error_message')));
 		$provider->expects($this->once())
 			->method('getTemplate')
 			->with($user)
@@ -144,6 +146,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			'logout_attribute' => 'logoutAttribute',
 			'template' => '<html/>',
 			'redirect_url' => '/re/dir/ect/url',
+			'error_message' => null,
 			], 'guest');
 
 		$this->assertEquals($expected, $this->controller->showChallenge('myprovider', '/re/dir/ect/url'));
