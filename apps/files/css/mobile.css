@@ -61,9 +61,9 @@ table td.filename .nametext .innernametext {
 	max-width: 50%;
 }
 
-/* ellipsis on user names in share sidebar */
+/* ellipsis on user names in share sidebar, less on mobile */
 #shareWithList .username {
-    max-width: 80px !important;
+	max-width: 80px !important;
 }
 
 /* proper notification area for multi line messages */
