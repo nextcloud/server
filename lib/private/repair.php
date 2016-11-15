@@ -119,6 +119,7 @@ class Repair extends BasicEmitter {
 			new DropOldJobs(\OC::$server->getJobList()),
 			new RemoveGetETagEntries(\OC::$server->getDatabaseConnection()),
 			new UpdateOutdatedOcsIds(\OC::$server->getConfig()),
+			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 			new RepairUnmergedShares(
 				\OC::$server->getConfig(),
 				\OC::$server->getDatabaseConnection(),

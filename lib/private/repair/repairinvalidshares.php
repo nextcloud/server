@@ -24,6 +24,7 @@
 namespace OC\Repair;
 
 use OC\Hooks\BasicEmitter;
+use Doctrine\DBAL\Platforms\OraclePlatform;
 
 /**
  * Repairs shares with invalid data
@@ -74,6 +75,35 @@ class RepairInvalidShares extends BasicEmitter implements \OC\RepairStep {
 	}
 
 	/**
+	 * Adjust file share permissions
+	 */
+	private function adjustFileSharePermissions() {
+		$mask = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE;
+		$builder = $this->connection->getQueryBuilder();
+
+
+		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
+			$permsFunc = $builder->createFunction(
+				'bitand(' . $builder->getColumnName('permissions') . ', ' . $mask . ')'
+			);
+		} else {
+			$permsFunc = $builder->createFunction(
+				'(' . $builder->getColumnName('permissions') . ' & ' . $mask . ')'
+			);
+		}
+		$builder
+			->update('share')
+			->set('permissions', $permsFunc)
+			->where($builder->expr()->eq('item_type', $builder->expr()->literal('file')))
+			->andWhere($builder->expr()->neq('permissions', $permsFunc));
+
+		$updatedEntries = $builder->execute();
+		if ($updatedEntries > 0) {
+			$this->emit('\OC\Repair', 'info', ['Fixed file share permissions for ' . $updatedEntries . ' shares']);
+		}
+	}
+
+	/**
 	 * Remove shares where the parent share does not exist anymore
 	 */
 	private function removeSharesNonExistingParent() {
@@ -114,6 +144,9 @@ class RepairInvalidShares extends BasicEmitter implements \OC\RepairStep {
 		if (version_compare($ocVersionFromBeforeUpdate, '8.2.0.7', '<')) {
 			// this situation was only possible before 8.2
 			$this->removeExpirationDateFromNonLinkShares();
+		}
+		if (version_compare($ocVersionFromBeforeUpdate, '9.0.6.6', '<')) {
+			$this->adjustFileSharePermissions();
 		}
 
 		$this->removeSharesNonExistingParent();
