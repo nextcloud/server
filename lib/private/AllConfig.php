@@ -212,13 +212,15 @@ class AllConfig implements \OCP\IConfig {
 			throw new \UnexpectedValueException('Only integers, floats and strings are allowed as value');
 		}
 
-		// do not change identical value to reduce database traffic
 		$curval=$this->getUserValue($userId, $appName, $key);
+		if (isset($preCondition)) {
+			if ($curval !== $preCondition)
+				throw new OCP\PreConditionNotMetException();				
+		}
+			
+		// do not change identical value to reduce database traffic
 		if ($curval === $value)
 			return;
-
-		// TODO - FIXME
-		$this->fixDIInit();
 
 		$preconditionArray = [];
 		if (isset($preCondition)) {
