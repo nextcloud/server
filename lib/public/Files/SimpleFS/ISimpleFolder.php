@@ -29,7 +29,7 @@ use OCP\Files\NotPermittedException;
  * Interface ISimpleFolder
  *
  * @package OCP\Files\SimpleFS
- * @since 9.2.0
+ * @since 11.0.0
  * @internal This interface is experimental and might change for NC12
  */
 interface ISimpleFolder {
@@ -37,7 +37,7 @@ interface ISimpleFolder {
 	 * Get all the files in a folder
 	 *
 	 * @return ISimpleFile[]
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getDirectoryListing();
 
@@ -46,7 +46,7 @@ interface ISimpleFolder {
 	 *
 	 * @param string $name
 	 * @return bool
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function fileExists($name);
 
@@ -56,7 +56,7 @@ interface ISimpleFolder {
 	 * @param string $name
 	 * @return ISimpleFile
 	 * @throws NotFoundException
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getFile($name);
 
@@ -66,7 +66,7 @@ interface ISimpleFolder {
 	 * @param string $name
 	 * @return ISimpleFile
 	 * @throws NotPermittedException
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function newFile($name);
 
@@ -74,7 +74,7 @@ interface ISimpleFolder {
 	 * Remove the folder and all the files in it
 	 *
 	 * @throws NotPermittedException
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function delete();
 
@@ -82,7 +82,7 @@ interface ISimpleFolder {
 	 * Get the folder name
 	 *
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getName();
 }

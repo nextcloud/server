@@ -375,7 +375,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * returns how many users have logged in once
 	 *
 	 * @return int
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function countSeenUsers() {
 		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
@@ -395,7 +395,7 @@ class Manager extends PublicEmitter implements IUserManager {
 
 	/**
 	 * @param \Closure $callback
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function callForSeenUsers(\Closure $callback) {
 		$limit = 1000;

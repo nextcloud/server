@@ -50,13 +50,13 @@ interface IQuery {
 
 	/**
 	 * @return float
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getStartTime();
 
 	/**
 	 * @return array
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getStacktrace();
 }

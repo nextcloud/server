@@ -88,7 +88,7 @@ class EmptyContentSecurityPolicy {
 	 *
 	 * @param string $nonce
 	 * @return $this
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function useJsNonce($nonce) {
 		$this->useJsNonce = $nonce;

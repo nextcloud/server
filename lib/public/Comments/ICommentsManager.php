@@ -242,7 +242,7 @@ interface ICommentsManager {
 	 * to consumers of the comments infrastructure
 	 *
 	 * @param \Closure $closure
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function registerEventHandler(\Closure $closure);
 
@@ -252,7 +252,7 @@ interface ICommentsManager {
 	 * @param string $type
 	 * @param \Closure $closure
 	 * @throws \OutOfBoundsException
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 *
 	 * Only one resolver shall be registered per type. Otherwise a
 	 * \OutOfBoundsException has to thrown.
@@ -266,7 +266,7 @@ interface ICommentsManager {
 	 * @param string $id
 	 * @return string
 	 * @throws \OutOfBoundsException
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 *
 	 * If a provided type was not registered, an \OutOfBoundsException shall
 	 * be thrown. It is upon the resolver discretion what to return of the

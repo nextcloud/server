@@ -27,13 +27,13 @@ namespace OCP\Comments;
  * Interface ICommentsEventHandler
  *
  * @package OCP\Comments
- * @since 9.2.0
+ * @since 11.0.0
  */
 interface ICommentsEventHandler {
 
 	/**
 	 * @param CommentsEvent $event
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function handle(CommentsEvent $event);
 }

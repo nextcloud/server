@@ -148,13 +148,13 @@ interface IUserManager {
 	 * returns how many users have logged in once
 	 *
 	 * @return int
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function countSeenUsers();
 
 	/**
 	 * @param \Closure $callback
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function callForSeenUsers(\Closure $callback);
 

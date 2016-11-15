@@ -336,13 +336,9 @@ class DependencyAnalyzer {
 		switch ($version) {
 			case '9.1':
 				return '10';
-			case '9.2':
-				return '11';
 			default:
 				if (strpos($version, '9.1.') === 0) {
 					$version = '10.0.' . substr($version, 4);
-				} else if (strpos($version, '9.2.') === 0) {
-					$version = '11.0.' . substr($version, 4);
 				}
 				return $version;
 		}

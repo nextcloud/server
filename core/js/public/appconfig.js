@@ -20,7 +20,7 @@
 
 /**
  * @namespace
- * @since 9.2.0
+ * @since 11.0.0
  */
 OCP.AppConfig = {
 	/**
@@ -46,7 +46,7 @@ OCP.AppConfig = {
 	/**
 	 * @param {Object} [options]
 	 * @param {function} [options.success]
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	getApps: function(options) {
 		this._call('get', '', options);
@@ -57,7 +57,7 @@ OCP.AppConfig = {
 	 * @param {Object} [options]
 	 * @param {function} [options.success]
 	 * @param {function} [options.error]
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	getKeys: function(app, options) {
 		this._call('get', '/' + app, options);
@@ -70,7 +70,7 @@ OCP.AppConfig = {
 	 * @param {Object} [options]
 	 * @param {function} [options.success]
 	 * @param {function} [options.error]
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	getValue: function(app, key, defaultValue, options) {
 		options = options || {};
@@ -88,7 +88,7 @@ OCP.AppConfig = {
 	 * @param {Object} [options]
 	 * @param {function} [options.success]
 	 * @param {function} [options.error]
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	setValue: function(app, key, value, options) {
 		options = options || {};
@@ -105,7 +105,7 @@ OCP.AppConfig = {
 	 * @param {Object} [options]
 	 * @param {function} [options.success]
 	 * @param {function} [options.error]
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	deleteKey: function(app, key, options) {
 		this._call('delete', '/' + app + '/' + key, options);

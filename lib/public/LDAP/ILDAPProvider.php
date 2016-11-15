@@ -26,14 +26,14 @@ namespace OCP\LDAP;
  * Interface ILDAPProvider
  *
  * @package OCP\LDAP
- * @since 9.2.0
+ * @since 11.0.0
  */
 interface ILDAPProvider {
 	/**
 	 * Translate a user id to LDAP DN.
 	 * @param string $uid user id
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getUserDN($uid);
 	
@@ -42,7 +42,7 @@ interface ILDAPProvider {
 	 * @param string $dn LDAP DN
 	 * @return string with the internal user name
 	 * @throws \Exception if translation was unsuccessful
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getUserName($dn);
 	
@@ -50,7 +50,7 @@ interface ILDAPProvider {
 	 * Convert a stored DN so it can be used as base parameter for LDAP queries.
 	 * @param string $dn the DN
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function DNasBaseParameter($dn);
 	
@@ -58,7 +58,7 @@ interface ILDAPProvider {
 	 * Sanitize a DN received from the LDAP server.
 	 * @param array $dn the DN in question
 	 * @return array the sanitized DN
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function sanitizeDN($dn);
 	
@@ -66,7 +66,7 @@ interface ILDAPProvider {
 	 * Return a new LDAP connection resource for the specified user. 
 	 * @param string $uid user id
 	 * @return resource of the LDAP connection
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getLDAPConnection($uid);
 	
@@ -75,7 +75,7 @@ interface ILDAPProvider {
 	 * @param string $uid user id
 	 * @return string the base for users
 	 * @throws \Exception if user id was not found in LDAP
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getLDAPBaseUsers($uid);
 	
@@ -84,7 +84,7 @@ interface ILDAPProvider {
 	 * @param string $uid user id
 	 * @return string the base for groups
 	 * @throws \Exception if user id was not found in LDAP
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getLDAPBaseGroups($uid);
 	
@@ -92,14 +92,14 @@ interface ILDAPProvider {
 	 * Check whether a LDAP DN exists
 	 * @param string $dn LDAP DN
 	 * @return bool whether the DN exists
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function dnExists($dn);
 	
 	/**
 	 * Clear the cache if a cache is used, otherwise do nothing.
 	 * @param string $uid user id
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function clearCache($uid);
 }

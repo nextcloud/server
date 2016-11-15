@@ -256,7 +256,7 @@ interface IDBConnection {
 	 * Check whether or not the current database support 4byte wide unicode
 	 *
 	 * @return bool
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function supports4ByteText();
 }

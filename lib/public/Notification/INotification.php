@@ -132,19 +132,19 @@ interface INotification {
 	 * @param array $parameters
 	 * @return $this
 	 * @throws \InvalidArgumentException if the subject or parameters are invalid
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function setRichSubject($subject, array $parameters = []);
 
 	/**
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getRichSubject();
 
 	/**
 	 * @return array[]
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getRichSubjectParameters();
 
@@ -188,19 +188,19 @@ interface INotification {
 	 * @param array $parameters
 	 * @return $this
 	 * @throws \InvalidArgumentException if the message or parameters are invalid
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function setRichMessage($message, array $parameters = []);
 
 	/**
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getRichMessage();
 
 	/**
 	 * @return array[]
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getRichMessageParameters();
 
@@ -222,13 +222,13 @@ interface INotification {
 	 * @param string $icon
 	 * @return $this
 	 * @throws \InvalidArgumentException if the icon is invalid
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function setIcon($icon);
 
 	/**
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getIcon();
 

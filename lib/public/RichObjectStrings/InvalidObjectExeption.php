@@ -25,7 +25,7 @@ namespace OCP\RichObjectStrings;
  * Class InvalidObjectExeption
  *
  * @package OCP\RichObjectStrings
- * @since 9.2.0
+ * @since 11.0.0
  */
 class InvalidObjectExeption extends \InvalidArgumentException {
 }
