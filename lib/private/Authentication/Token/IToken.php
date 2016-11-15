@@ -90,7 +90,7 @@ interface IToken extends JsonSerializable {
 	/**
 	 * Set the authentication scope for this token
 	 *
-	 * @param array|null $scope
+	 * @param array $scope
 	 */
 	public function setScope($scope);
 }

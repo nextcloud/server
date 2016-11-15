@@ -122,7 +122,7 @@ class NullStorageTest extends TestCase  {
 	}
 
 	public function testFilemtime() {
-		$this->assertFalse($this->storage->isReadable('foo'));
+		$this->assertFalse($this->storage->filemtime('foo'));
 	}
 
 	public function testFile_get_contents() {
