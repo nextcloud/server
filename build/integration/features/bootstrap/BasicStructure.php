@@ -270,6 +270,23 @@ trait BasicStructure {
 	}
 
 	/**
+	 * @When User :user empties trashbin
+	 * @param string $user
+	 */
+	public function emptyTrashbin($user) {
+		$body = new \Behat\Gherkin\Node\TableNode([['allfiles', 'true'], ['dir', '%2F']]);
+		$this->sendingToWithDirectUrl('POST', "/index.php/apps/files_trashbin/ajax/delete.php", $body);
+		$this->theHTTPStatusCodeShouldBe('200');
+	}
+
+	public function createFileSpecificSize($name, $size){
+		$file = fopen("data/" . "$name", 'w');
+		fseek($file, $size - 1 ,SEEK_CUR);
+		fwrite($file,'a'); // write a dummy char at SIZE position
+		fclose($file);
+	}
+
+	/**
 	 * @BeforeSuite
 	 */
 	public static function addFilesToSkeleton(){
