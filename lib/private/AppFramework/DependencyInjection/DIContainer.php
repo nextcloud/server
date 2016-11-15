@@ -95,7 +95,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getAvatarManager();
 		});
 
-
 		$this->registerService('OCP\\ICssManager', function($c) {
 			return $this->getServer()->getCssManager();
 		});

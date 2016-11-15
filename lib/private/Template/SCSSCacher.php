@@ -28,27 +28,29 @@ use OCP\IURLGenerator;
 
 class SCSSCacher {
 
-	protected $root;
-	protected $folder;
-	protected $file;
-	protected $fileNameSCSS;
-	protected $fileNameCSS;
-	protected $fileLoc;
-	protected $rootCssLoc;
+	/** 
+	 * @var string The root path to the nextcloud installation
+	 * @var array The exploded absolute path to the file
+	 * @var string The scss filename with extension
+	 * @var string The css filename with extension
+	 * @var string Absolute path to scss file location folder
+	 * @var string Path to scss file from the root installation
+	 * @var OC\Files\SimpleFS\SimpleFolder The folder we're putting our compiled css files
+	 */
+	protected $root, $file, $fileNameSCSS, $fileNameCSS, $fileLoc, $rootCssLoc, $folder;
 
-	/** @var \OCP\ILogger */
-	protected $logger;
-	/** @var \OCP\Files\IAppData */
-	protected $appData;
-	/** @var \OCP\IURLGenerator */
-	protected $urlGenerator;
-	/** @var \OC\SystemConfig */
-	protected $systemConfig;
+	/**
+	 * @var \OCP\ILogger
+	 * @var \OCP\Files\IAppData
+	 * @var \OCP\IURLGenerator
+	 * @var \OC\SystemConfig
+	 */
+	protected $logger, $appData, $urlGenerator, $systemConfig;
 
 	/**
 	 * @param \OCP\ILogger $logger
-	 * @param string $root
-	 * @param string $file
+	 * @param string $root Root path to the nextcloud installation
+	 * @param string $file 
 	 * @param \OCP\Files\IAppData $appData
 	 * @param \OCP\IURLGenerator $urlGenerator
 	 * @param \OC\SystemConfig $systemConfig

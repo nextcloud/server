@@ -50,6 +50,7 @@ class CssManager implements ICssManager {
 	 * @param string $fileName css filename with extension
 	 * @param string $appName css app name
 	 * @return ISimpleFile
+	 * @throws NotFoundException
 	 */
 	public function getCss($fileName, $appName) {
 		try {
