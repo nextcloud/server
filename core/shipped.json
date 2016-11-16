@@ -21,6 +21,7 @@
     "files_videoplayer",
     "firstrunwizard",
     "gallery",
+    "logreader",
     "notifications",
     "password_policy",
     "provisioning_api",
