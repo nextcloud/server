@@ -376,6 +376,8 @@ class OC_App {
 				$config,
 				$l
 			);
+			$appPath = self::getAppPath($appId);
+			self::registerAutoloading($appId, $appPath);
 			$installer->installApp($appId);
 		} else {
 			// check for required dependencies
