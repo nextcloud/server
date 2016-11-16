@@ -20,14 +20,21 @@ $(document).ready(function() {
 		}
 	});
 
+	$('#fileSharingSettings .clipboardButton').tooltip({placement: 'bottom', title: t('core', 'Copy'), trigger: 'hover'});
+
 	// Clipboard!
 	var clipboard = new Clipboard('.clipboardButton');
 	clipboard.on('success', function(e) {
 		$input = $(e.trigger);
-		$input.tooltip({placement: 'bottom', trigger: 'manual', title: t('core', 'Copied!')});
-		$input.tooltip('show');
+		$input.tooltip('hide')
+			.attr('data-original-title', t('core', 'Copied!'))
+			.tooltip('fixTitle')
+			.tooltip({placement: 'bottom', trigger: 'manual'})
+			.tooltip('show');
 		_.delay(function() {
-			$input.tooltip('hide');
+			$input.tooltip('hide')
+				.attr('data-original-title', t('core', 'Copy'))
+				.tooltip('fixTitle');
 		}, 3000);
 	});
 	clipboard.on('error', function (e) {
@@ -41,14 +48,18 @@ $(document).ready(function() {
 			actionMsg = t('core', 'Press Ctrl-C to copy.');
 		}
 
-		$input.tooltip({
-			placement: 'bottom',
-			trigger: 'manual',
-			title: actionMsg
-		});
-		$input.tooltip('show');
+		$input.tooltip('hide')
+			.attr('data-original-title', actionMsg)
+			.tooltip('fixTitle')
+			.tooltip({placement: 'bottom', trigger: 'manual'})
+			.tooltip('show');
 		_.delay(function () {
-			$input.tooltip('hide');
+			$input.tooltip('hide')
+				.attr('data-original-title', t('core', 'Copy'))
+				.tooltip('fixTitle');
 		}, 3000);
 	});
+
+
+	$('#fileSharingSettings .hasTooltip').tooltip({placement: 'right'});
 });

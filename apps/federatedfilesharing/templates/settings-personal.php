@@ -12,7 +12,7 @@ style('federatedfilesharing', 'settings-personal');
 		<p>
 			<?php p($l->t('Your Federated Cloud ID:')); ?>
 			<strong id="cloudid"><?php p($_['cloudId']); ?></strong>
-			<a class="clipboardButton icon icon-clippy hasTooltip" data-clipboard-target="#cloudid" title="<?php p($l->t('Copy')); ?>"></a>
+			<a class="clipboardButton icon icon-clippy" data-clipboard-target="#cloudid"></a>
 		</p>
 
 		<br>
