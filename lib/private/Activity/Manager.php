@@ -683,11 +683,6 @@ class Manager implements IManager {
 		foreach ($this->getExtensions() as $c) {
 			$result = $c->getNotificationTypes($languageCode);
 			if (is_array($result)) {
-				if (class_exists('\OCA\Files_Sharing\Activity', false) && $c instanceof \OCA\Files_Sharing\Activity) {
-					$sharingNotificationTypes = $result;
-					continue;
-				}
-
 				$notificationTypes = array_merge($notificationTypes, $result);
 			}
 		}

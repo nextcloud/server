@@ -23,6 +23,26 @@ Turning the feature off removes shared files and folders on the server for all s
 
 	<namespace>Files_Sharing</namespace>
 
+	<activity>
+		<settings>
+			<setting>OCA\Files_Sharing\Activity\Settings\Shared</setting>
+			<setting>OCA\Files_Sharing\Activity\Settings\RemoteShare</setting>
+			<setting>OCA\Files_Sharing\Activity\Settings\PublicLinks</setting>
+		</settings>
+
+		<filters>
+			<filter>OCA\Files_Sharing\Activity\Filter</filter>
+		</filters>
+
+		<providers>
+			<provider>OCA\Files_Sharing\Activity\Providers\Downloads</provider>
+			<provider>OCA\Files_Sharing\Activity\Providers\Groups</provider>
+			<provider>OCA\Files_Sharing\Activity\Providers\PublicLinks</provider>
+			<provider>OCA\Files_Sharing\Activity\Providers\RemoteShares</provider>
+			<provider>OCA\Files_Sharing\Activity\Providers\Users</provider>
+		</providers>
+	</activity>
+
 	<background-jobs>
 		<job>OCA\Files_Sharing\DeleteOrphanedSharesJob</job>
 		<job>OCA\Files_Sharing\ExpireSharesJob</job>

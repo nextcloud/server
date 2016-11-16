@@ -50,14 +50,6 @@ $eventDispatcher->addListener(
 
 // \OCP\Util::addStyle('files_sharing', 'sharetabview');
 
-\OC::$server->getActivityManager()->registerExtension(function() {
-		return new \OCA\Files_Sharing\Activity(
-			\OC::$server->query('L10NFactory'),
-			\OC::$server->getURLGenerator(),
-			\OC::$server->getActivityManager()
-		);
-});
-
 $config = \OC::$server->getConfig();
 if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 
