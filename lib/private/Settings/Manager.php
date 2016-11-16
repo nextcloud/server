@@ -369,6 +369,8 @@ class Manager implements IManager {
 				/** @var ISettings $form */
 				$form = new Admin\Server($this->dbc, $this->config, $this->lockingProvider, $this->l);
 				$forms[$form->getPriority()] = [$form];
+				$form = new Admin\ServerDevNotice();
+				$forms[$form->getPriority()] = [$form];
 			}
 			if($section === 'encryption') {
 				/** @var ISettings $form */
