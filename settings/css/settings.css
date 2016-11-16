@@ -193,7 +193,7 @@ table.nostyle td { padding: 0.2em 0; }
 }
 
 .social-button {
-	padding-left: 0;
+	padding-left: 0 !important;
 	margin-left: -10px
 }
 .social-button img {
