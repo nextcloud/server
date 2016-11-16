@@ -83,6 +83,21 @@ if($_['displayNameChangeSupported']) {
 		</form>
 	</div>
 	<div class="personal-settings-setting-box">
+		<form id="emailform" class="section">
+			<h2>
+				<label for="email"><?php p($l->t('Email')); ?></label>
+				<span class="icon-password"/>
+			</h2>
+			<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
+				   placeholder="<?php p($l->t('Your email address')); ?>"
+				   autocomplete="on" autocapitalize="off" autocorrect="off" />
+			<input type="hidden" id="emailscope" value="<?php p($_['emailScope']) ?>">
+			<br />
+			<em><?php p($l->t('For password recovery and notifications')); ?></em>
+			<span class="icon-checkmark hidden"/>
+		</form>
+	</div>
+	<div class="personal-settings-setting-box">
 		<form id="phoneform" class="section">
 			<h2>
 				<label for="phone"><?php p($l->t('Phone number')); ?></label>
@@ -94,21 +109,6 @@ if($_['displayNameChangeSupported']) {
 			       autocomplete="on" autocapitalize="off" autocorrect="off" />
 			<span class="icon-checkmark hidden"/>
 			<input type="hidden" id="phonescope" value="<?php p($_['phoneScope']) ?>">
-		</form>
-	</div>
-	<div class="personal-settings-setting-box">
-		<form id="emailform" class="section">
-			<h2>
-				<label for="email"><?php p($l->t('Email')); ?></label>
-				<span class="icon-password"/>
-			</h2>
-			<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
-			       placeholder="<?php p($l->t('Your email address')); ?>"
-			       autocomplete="on" autocapitalize="off" autocorrect="off" />
-			<input type="hidden" id="emailscope" value="<?php p($_['emailScope']) ?>">
-			<br />
-			<em><?php p($l->t('For password recovery and notifications')); ?></em>
-			<span class="icon-checkmark hidden"/>
 		</form>
 	</div>
 	<div class="personal-settings-setting-box">
