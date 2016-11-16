@@ -71,165 +71,125 @@ class Provider implements IProvider {
 			throw new \InvalidArgumentException();
 		}
 
-		if ($previousEvent instanceof IEvent && $event->getSubject() !== $previousEvent->getSubject()) {
-			// Different subject means not the same string, so no grouping
-			$previousEvent = null;
-		}
-
 		if ($this->activityManager->isFormattingFilteredObject()) {
 			try {
-				return $this->parseShortVersion($event);
+				return $this->parseShortVersion($event, $previousEvent);
 			} catch (\InvalidArgumentException $e) {
 				// Ignore and simply use the long version...
 			}
 		}
 
-		return $this->parseLongVersion($event);
+		return $this->parseLongVersion($event, $previousEvent);
 	}
 
 	/**
 	 * @param IEvent $event
+	 * @param IEvent|null $previousEvent
 	 * @return IEvent
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parseShortVersion(IEvent $event) {
-		$parsedParameters = $this->getParsedParameters($event->getSubject(), $event->getSubjectParameters());
-		$richParameters = $this->getRichParameters($event->getSubject(), $event->getSubjectParameters());
+	public function parseShortVersion(IEvent $event, IEvent $previousEvent = null) {
+		$parsedParameters = $this->getParameters($event->getSubject(), $event->getSubjectParameters());
 
 		if ($event->getSubject() === 'created_by') {
-			$event->setParsedSubject($this->l->t('Created by %s', [$parsedParameters[1]]))
-				->setRichSubject($this->l->t('Created by {user1}'), ['user1' => $richParameters['user1']])
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.svg')));
+			$subject = $this->l->t('Created by {user}');
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.svg')));
 		} else if ($event->getSubject() === 'changed_by') {
-			$event->setParsedSubject($this->l->t('Changed by %2$s', [$parsedParameters[1]]))
-				->setRichSubject($this->l->t('Changed by {user1}'), ['user1' => $richParameters['user1']])
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
+			$subject = $this->l->t('Changed by {user}');
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
 		} else if ($event->getSubject() === 'deleted_by') {
-			$event->setParsedSubject($this->l->t('Deleted by %2$s', [$parsedParameters[1]]))
-				->setRichSubject($this->l->t('Deleted by {user1}'), ['user1' => $richParameters['user1']])
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'delete-color.svg')));
+			$subject = $this->l->t('Deleted by {user}');
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'delete-color.svg')));
 		} else if ($event->getSubject() === 'restored_by') {
-			$event->setParsedSubject($this->l->t('Restored by %2$s', [$parsedParameters[1]]))
-				->setRichSubject($this->l->t('Restored by {user1}'), ['user1' => $richParameters['user1']]);
+			$subject = $this->l->t('Restored by {user}');
 		} else if ($event->getSubject() === 'renamed_by') {
-			$event->setParsedSubject($this->l->t('Renamed by %2$s', [$parsedParameters[1]]))
-				->setRichSubject($this->l->t('Renamed by {user1}'), ['user1' => $richParameters['user1']])
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
+			$subject = $this->l->t('Renamed by {user}');
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
 		} else if ($event->getSubject() === 'moved_by') {
-			$event->setParsedSubject($this->l->t('Moved by %2$s', [$parsedParameters[1]]))
-				->setRichSubject($this->l->t('Moved by {user1}'), ['user1' => $richParameters['user1']])
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
+			$subject = $this->l->t('Moved by {user}');
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
 		} else {
 			throw new \InvalidArgumentException();
 		}
+
+		$this->setSubjects($event, $subject, $parsedParameters);
 
 		return $event;
 	}
 
 	/**
 	 * @param IEvent $event
+	 * @param IEvent|null $previousEvent
 	 * @return IEvent
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parseLongVersion(IEvent $event) {
-		$parsedParameters = $this->getParsedParameters($event->getSubject(), $event->getSubjectParameters());
-		$richParameters = $this->getRichParameters($event->getSubject(), $event->getSubjectParameters());
+	public function parseLongVersion(IEvent $event, IEvent $previousEvent = null) {
+		$parsedParameters = $this->getParameters($event->getSubject(), $event->getSubjectParameters());
 
 		if ($event->getSubject() === 'created_self') {
-			$event->setParsedSubject($this->l->t('You created %1$s', $parsedParameters))
-				->setRichSubject($this->l->t('You created {file1}'), $richParameters)
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.svg')));
+			$subject = $this->l->t('You created {file}');
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.svg')));
 		} else if ($event->getSubject() === 'created_by') {
-			$event->setParsedSubject($this->l->t('%2$s created %1$s', $parsedParameters))
-				->setRichSubject($this->l->t('{user1} created {file1}'), $richParameters)
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.svg')));
+			$subject = $this->l->t('{user} created {file}');
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.svg')));
 		} else if ($event->getSubject() === 'created_public') {
-			$event->setParsedSubject($this->l->t('%1$s was created in a public folder', $parsedParameters))
-				->setRichSubject($this->l->t('{file1} was created in a public folder'), $richParameters)
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.svg')));
+			$subject = $this->l->t('{file} was created in a public folder');
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.svg')));
 		} else if ($event->getSubject() === 'changed_self') {
-			$event->setParsedSubject($this->l->t('You changed %1$s', $parsedParameters))
-				->setRichSubject($this->l->t('You changed {file1}'), $richParameters)
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
+			$subject = $this->l->t('You changed {file}');
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
 		} else if ($event->getSubject() === 'changed_by') {
-			$event->setParsedSubject($this->l->t('%2$s changed %1$s', $parsedParameters))
-				->setRichSubject($this->l->t('{user1} changed {file1}'), $richParameters)
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
+			$subject = $this->l->t('{user} changed {file}');
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
 		} else if ($event->getSubject() === 'deleted_self') {
-			$event->setParsedSubject($this->l->t('You deleted %1$s', $parsedParameters))
-				->setRichSubject($this->l->t('You deleted {file1}'), $richParameters)
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'delete-color.svg')));
+			$subject = $this->l->t('You deleted {file}');
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'delete-color.svg')));
 		} else if ($event->getSubject() === 'deleted_by') {
-			$event->setParsedSubject($this->l->t('%2$s deleted %1$s', $parsedParameters))
-				->setRichSubject($this->l->t('{user1} deleted {file1}'), $richParameters)
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'delete-color.svg')));
+			$subject = $this->l->t('{user} deleted {file}');
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'delete-color.svg')));
 		} else if ($event->getSubject() === 'restored_self') {
-			$event->setParsedSubject($this->l->t('You restored %1$s', $parsedParameters))
-				->setRichSubject($this->l->t('You restored {file1}'), $richParameters);
+			$subject = $this->l->t('You restored {file}');
 		} else if ($event->getSubject() === 'restored_by') {
-			$event->setParsedSubject($this->l->t('%2$s restored %1$s', $parsedParameters))
-				->setRichSubject($this->l->t('{user1} restored {file1}'), $richParameters);
+			$subject = $this->l->t('{user} restored {file}');
 		} else if ($event->getSubject() === 'renamed_self') {
-			$event->setParsedSubject($this->l->t('You renamed %2$s to %1$s', $parsedParameters))
-				->setRichSubject($this->l->t('You renamed {file2} to {file1}'), $richParameters)
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
+			$subject = $this->l->t('You renamed {oldfile} to {newfile}');
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
 		} else if ($event->getSubject() === 'renamed_by') {
-			$event->setParsedSubject($this->l->t('%2$s renamed %3$s to %1$s', $parsedParameters))
-				->setRichSubject($this->l->t('{user1} renamed {file2} to {file1}'), $richParameters)
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
+			$subject = $this->l->t('{user} renamed {oldfile} to {newfile}');
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
 		} else if ($event->getSubject() === 'moved_self') {
-			$event->setParsedSubject($this->l->t('You moved %2$s to %1$s', $parsedParameters))
-				->setRichSubject($this->l->t('You moved {file2} to {file1}'), $richParameters)
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
+			$subject = $this->l->t('You moved {oldfile} to {newfile}');
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
 		} else if ($event->getSubject() === 'moved_by') {
-			$event->setParsedSubject($this->l->t('%2$s moved %3$s to %1$s', $parsedParameters))
-				->setRichSubject($this->l->t('{user1} moved {file2} to {file1}'), $richParameters)
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
+			$subject = $this->l->t('{user} moved {oldfile} to {newfile}');
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
 		} else {
 			throw new \InvalidArgumentException();
 		}
 
+		$this->setSubjects($event, $subject, $parsedParameters);
+
 		return $event;
 	}
 
-	protected function getParsedParameters($subject, array $parameters) {
-		switch ($subject) {
-			case 'created_self':
-			case 'created_public':
-			case 'changed_self':
-			case 'deleted_self':
-			case 'restored_self':
-			return [
-				array_shift($parameters[0]),
-			];
-			case 'created_by':
-			case 'changed_by':
-			case 'deleted_by':
-			case 'restored_by':
-				return [
-					array_shift($parameters[0]),
-					$parameters[1],
-				];
-			case 'renamed_self':
-			case 'moved_self':
-				return [
-					array_shift($parameters[0]),
-					array_shift($parameters[1]),
-				];
-			case 'renamed_by':
-			case 'moved_by':
-				return [
-					array_shift($parameters[0]),
-					$parameters[1],
-					array_shift($parameters[2]),
-				];
+	protected function setSubjects(IEvent $event, $subject, array $parameters) {
+		$placeholders = $replacements = [];
+		foreach ($parameters as $placeholder => $parameter) {
+			$placeholders[] = '{' . $placeholder . '}';
+			if ($parameter['type'] === 'file') {
+				$replacements[] = trim($parameter['path'], '/');
+			} else {
+				$replacements[] = $parameter['name'];
+			}
 		}
-		return [];
+
+		$event->setParsedSubject(str_replace($placeholders, $replacements, $subject))
+			->setRichSubject($subject, $parameters);
 	}
 
-	protected function getRichParameters($subject, array $parameters) {
+	protected function getParameters($subject, array $parameters) {
 		switch ($subject) {
 			case 'created_self':
 			case 'created_public':
@@ -237,28 +197,28 @@ class Provider implements IProvider {
 			case 'deleted_self':
 			case 'restored_self':
 				return [
-					'file1' => $this->getRichFileParameter($parameters[0]),
+					'file' => $this->getRichFileParameter($parameters[0]),
 				];
 			case 'created_by':
 			case 'changed_by':
 			case 'deleted_by':
 			case 'restored_by':
 				return [
-					'file1' => $this->getRichFileParameter($parameters[0]),
-					'user1' => $this->getRichUserParameter($parameters[1]),
+					'file' => $this->getRichFileParameter($parameters[0]),
+					'user' => $this->getRichUserParameter($parameters[1]),
 				];
 			case 'renamed_self':
 			case 'moved_self':
 				return [
-					'file1' => $this->getRichFileParameter($parameters[0]),
-					'file2' => $this->getRichFileParameter($parameters[1]),
+					'newfile' => $this->getRichFileParameter($parameters[0]),
+					'oldfile' => $this->getRichFileParameter($parameters[1]),
 				];
 			case 'renamed_by':
 			case 'moved_by':
 				return [
-					'file1' => $this->getRichFileParameter($parameters[0]),
-					'user1' => $this->getRichUserParameter($parameters[1]),
-					'file2' => $this->getRichFileParameter($parameters[2]),
+					'newfile' => $this->getRichFileParameter($parameters[0]),
+					'user' => $this->getRichUserParameter($parameters[1]),
+					'oldfile' => $this->getRichFileParameter($parameters[2]),
 				];
 		}
 		return [];
