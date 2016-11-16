@@ -6,12 +6,30 @@
     display: none;
 }
 
+#theming div > label {
+    position: relative;
+}
+
 #theming .theme-undo {
+    position: absolute;
+    top: -7px;
+    right: 7px;
     cursor: pointer;
-    opacity: .5;
-    padding: 11px 5px;
+    opacity: .3;
+    padding: 7px;
     vertical-align: top;
     display: inline-block;
+    visibility: hidden;
+}
+#theming form .theme-undo {
+    position: relative;
+    top: 4px;
+    left: 158px;
+    visibility: visible;
+}
+#theming input[type='text']:focus + .theme-undo,
+#theming input[type='text']:active + .theme-undo {
+    visibility: visible;
 }
 
 #theming .icon-loading-small:after {
