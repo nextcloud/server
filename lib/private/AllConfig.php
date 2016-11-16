@@ -215,11 +215,13 @@ class AllConfig implements \OCP\IConfig {
 		// TODO - FIXME
 		$this->fixDIInit();
 
-		if (isset($this->userCache[$userId][$appName][$key])) {
-			if ($this->userCache[$userId][$appName][$key] === (string)$value) {
+		$prevValue = $this->getUserValue($userId, $appName, $key, null);
+
+		if ($prevValue !== null) {
+			if ($prevValue === (string)$value) {
 				return;
-			} else if ($preCondition !== null && $this->userCache[$userId][$appName][$key] !== (string)$preCondition) {
-				return;
+			} else if ($preCondition !== null && $prevValue !== (string)$preCondition) {
+				throw new PreConditionNotMetException();
 			} else {
 				$qb = $this->connection->getQueryBuilder();
 				$qb->update('preferences')
