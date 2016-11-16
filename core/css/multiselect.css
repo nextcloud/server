@@ -31,9 +31,6 @@ ul.multiselectoptions.up {
 ul.multiselectoptions>li {
 	overflow: hidden;
 	white-space: nowrap;
-}
-
-ul.multiselectoptions > li > input[type="checkbox"]+label:before {
 	margin-left: 7px;
 }
 ul.multiselectoptions > li input[type='checkbox']+label {
@@ -106,6 +103,7 @@ ul.multiselectoptions input.new {
 
 ul.multiselectoptions > li.creator {
 	padding: 10px;
+	margin: 0;
 	font-weight: bold;
 }
 ul.multiselectoptions > li.creator > input {
