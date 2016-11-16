@@ -23,7 +23,6 @@
 
 namespace OC\Accounts;
 
-
 use OCP\IDBConnection;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
