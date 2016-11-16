@@ -182,7 +182,16 @@ if($_['passwordChangeSupported']) {
 	</a>
 
 		<p>
-			<?php print_unescaped($l->t('If you want to support the project <a href="https://nextcloud.com/contribute" target="_blank" rel="noreferrer">join development</a> or <a href="https://nextcloud.com/contribute" target="_blank" rel="noreferrer">spread the word</a>!'));?>
+			<?php print_unescaped(str_replace(
+				[
+					'{contributeopen}',
+					'{linkclose}',
+				],
+				[
+					'<a href="https://nextcloud.com/contribute" target="_blank" rel="noreferrer">',
+					'</a>',
+				],
+				$l->t('If you want to support the project {contributeopen}join development{linkclose} or {contributeopen}spread the word{linkclose}!'))); ?>
 		</p>
 
 	<?php if(OC_APP::isEnabled('firstrunwizard')) {?>
