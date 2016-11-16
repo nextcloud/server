@@ -525,6 +525,7 @@ class Session implements IUserSession, Emitter {
 		//login
 		$this->setUser($user);
 		$this->setLoginName($dbToken->getLoginName());
+		\OC::$server->getLockdownManager()->setToken($dbToken);
 		$this->manager->emit('\OC\User', 'postLogin', array($user, $password));
 
 		if ($this->isLoggedIn()) {

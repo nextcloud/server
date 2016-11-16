@@ -1152,6 +1152,13 @@
 				<length>4</length>
 			</field>
 
+			<field>
+				<name>scope</name>
+				<type>clob</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+
 			<index>
 				<name>authtoken_token_index</name>
 				<unique>true</unique>

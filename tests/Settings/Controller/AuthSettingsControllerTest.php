@@ -42,6 +42,7 @@ class AuthSettingsControllerTest extends TestCase {
 	/** @var AuthSettingsController */
 	private $controller;
 	private $request;
+	/** @var IProvider|\PHPUnit_Framework_MockObject_MockObject */
 	private $tokenProvider;
 	private $userManager;
 	private $session;
@@ -94,17 +95,19 @@ class AuthSettingsControllerTest extends TestCase {
 			[
 				'id' => 100,
 				'name' => null,
-				'lastActivity' => null,
-				'type' => null,
+				'lastActivity' => 0,
+				'type' => 0,
 				'canDelete' => false,
 				'current' => true,
+				'scope' => ['filesystem' => true]
 			],
 			[
 				'id' => 200,
 				'name' => null,
-				'lastActivity' => null,
-				'type' => null,
+				'lastActivity' => 0,
+				'type' => 0,
 				'canDelete' => true,
+				'scope' => ['filesystem' => true]
 			]
 		], $this->controller->index());
 	}
@@ -141,9 +144,13 @@ class AuthSettingsControllerTest extends TestCase {
 			->with($newToken, $this->uid, 'User13', $password, $name, IToken::PERMANENT_TOKEN)
 			->will($this->returnValue($deviceToken));
 
+		$deviceToken->expects($this->once())
+			->method('jsonSerialize')
+			->will($this->returnValue(['dummy' => 'dummy', 'canDelete' => true]));
+
 		$expected = [
 			'token' => $newToken,
-			'deviceToken' => $deviceToken,
+			'deviceToken' => ['dummy' => 'dummy', 'canDelete' => true],
 			'loginName' => 'User13',
 		];
 		$this->assertEquals($expected, $this->controller->create($name));
@@ -192,6 +199,28 @@ class AuthSettingsControllerTest extends TestCase {
 			->with($user, $id);
 
 		$this->assertEquals([], $this->controller->destroy($id));
+	}
+
+	public function testUpdateToken() {
+		$token = $this->createMock(DefaultToken::class);
+
+		$this->tokenProvider->expects($this->once())
+			->method('getTokenById')
+			->with($this->equalTo(42))
+			->willReturn($token);
+
+		$token->expects($this->once())
+			->method('setScope')
+			->with($this->equalTo([
+				'filesystem' => true,
+				'app' => ['dav', 'myapp']
+			]));
+
+		$this->tokenProvider->expects($this->once())
+			->method('updateToken')
+			->with($this->equalTo($token));
+
+		$this->assertSame([], $this->controller->update(42, ['filesystem' => true, 'apps' => ['dav', 'myapp']]));
 	}
 
 }

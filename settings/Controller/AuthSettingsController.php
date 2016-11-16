@@ -135,11 +135,13 @@ class AuthSettingsController extends Controller {
 
 		$token = $this->generateRandomDeviceToken();
 		$deviceToken = $this->tokenProvider->generateToken($token, $this->uid, $loginName, $password, $name, IToken::PERMANENT_TOKEN);
+		$tokenData = $deviceToken->jsonSerialize();
+		$tokenData['canDelete'] = true;
 
 		return [
 			'token' => $token,
 			'loginName' => $loginName,
-			'deviceToken' => $deviceToken
+			'deviceToken' => $tokenData
 		];
 	}
 
@@ -180,4 +182,20 @@ class AuthSettingsController extends Controller {
 		return [];
 	}
 
+	/**
+	 * @NoAdminRequired
+	 * @NoSubadminRequired
+	 *
+	 * @param int $id
+	 * @param array $scope
+	 */
+	public function update($id, array $scope) {
+		$token = $this->tokenProvider->getTokenById($id);
+		$token->setScope([
+			'filesystem' => $scope['filesystem'],
+			'app' => array_values($scope['apps'])
+		]);
+		$this->tokenProvider->updateToken($token);
+		return [];
+	}
 }

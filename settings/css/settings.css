@@ -149,6 +149,13 @@ table.nostyle td { padding: 0.2em 0; }
 	padding: 10px 10px 10px 0;
 }
 
+#sessions .token-list td.more,
+#apppasswords .token-list td.more {
+	overflow: visible;
+	position: relative;
+	width: 16px;
+}
+
 #sessions .token-list td,
 #apppasswords .token-list td {
 	border-top: 1px solid #DDD;
@@ -156,16 +163,58 @@ table.nostyle td { padding: 0.2em 0; }
 	max-width: 200px;
 	white-space: nowrap;
 	overflow: hidden;
+	vertical-align: top;
+	position: relative;
 }
 
-#sessions tr *:nth-child(2),
-#apppasswords tr *:nth-child(2) {
+#sessions tr>*:nth-child(2),
+#apppasswords tr>*:nth-child(2) {
 	text-align: right;
 }
-#sessions .token-list td a.icon-delete,
-#apppasswords .token-list td a.icon-delete {
+#sessions .token-list td > a.icon,
+#apppasswords .token-list  td > a.icon {
+	opacity: 0;
+	transition: opacity 0.5s;
+}
+
+#sessions .token-list a.icon,
+#apppasswords .token-list a.icon {
+	margin-top: 4px;
 	display: block;
+}
+
+#sessions .token-list tr:hover td > a.icon,
+#apppasswords .token-list tr:hover td > a.icon,
+#sessions .token-list tr.active td > a.icon,
+#apppasswords .token-list tr.active td > a.icon{
 	opacity: 0.6;
+}
+
+#sessions .token-list td div.configure,
+#apppasswords .token-list td div.configure {
+	display: none;
+}
+
+#sessions .token-list tr.active div.configure,
+#apppasswords .token-list tr.active div.configure {
+	display: block;
+	position: absolute;
+	top: 45px;
+	right: -5px;
+	padding: 10px;
+}
+
+#sessions .token-list tr.active div.configure > *,
+#apppasswords .token-list tr.active div.configure > *{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	display: inline-block;
+}
+
+#sessions .token-list tr.active a.icon-delete,
+#apppasswords .token-list tr.active a.icon-delete {
+	background-position: left;
+	padding-left: 20px;
 }
 
 #new-app-login-name,

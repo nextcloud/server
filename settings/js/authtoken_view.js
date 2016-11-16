@@ -27,13 +27,22 @@
 
 	var TEMPLATE_TOKEN =
 		'<tr data-id="{{id}}">'
-		+ '<td class="has-tooltip" title="{{title}}"><span class="token-name">{{name}}</span></td>'
+		+ '<td class="has-tooltip" title="{{title}}">'
+		+ '<span class="token-name">{{name}}</span>'
+		+ '</td>'
 		+ '<td><span class="last-activity has-tooltip" title="{{lastActivityTime}}">{{lastActivity}}</span></td>'
-		+ '{{#if canDelete}}'
-		+ '<td><a class="icon-delete has-tooltip" title="' + t('core', 'Disconnect') + '"></a></td>'
-		+ '{{else}}'
-		+ '<td></td>'
+		+ '<td class="more">'
+		+ '{{#if showMore}}<a class="icon icon-more"/>{{/if}}'
+		+ '<div class="popovermenu bubble open menu configure">'
+		+ '{{#if canScope}}'
+		+ '<input class="filesystem checkbox" type="checkbox" id="{{id}}_filesystem" {{#if scope.filesystem}}checked{{/if}}/>'
+		+ '<label for="{{id}}_filesystem">' + t('core', 'Allow filesystem access') + '</label><br/>'
 		+ '{{/if}}'
+		+ '{{#if canDelete}}'
+		+ '<a class="icon icon-delete has-tooltip" title="' + t('core', 'Disconnect') + '">' + t('core', 'Revoke') +'</a>'
+		+ '{{/if}}'
+		+ '</div>'
+		+ '</td>'
 		+ '<tr>';
 
 	var SubView = OC.Backbone.View.extend({
@@ -70,7 +79,7 @@
 
 			var list = this.$('.token-list');
 			var tokens = this.collection.filter(function (token) {
-				return parseInt(token.get('type'), 10) === _this.type;
+				return token.get('type') === _this.type;
 			});
 			list.html('');
 
@@ -78,7 +87,7 @@
 			this._toggleHeader(tokens.length > 0);
 
 			tokens.forEach(function (token) {
-				var viewData = this._formatViewData(token.toJSON());
+				var viewData = this._formatViewData(token);
 				var html = _this.template(viewData);
 				var $html = $(html);
 				$html.find('.has-tooltip').tooltip({container: 'body'});
@@ -94,10 +103,13 @@
 			this.$('.hidden-when-empty').toggleClass('hidden', !show);
 		},
 
-		_formatViewData: function (viewData) {
+		_formatViewData: function (token) {
+			var viewData = token.toJSON();
 			var ts = viewData.lastActivity * 1000;
 			viewData.lastActivity = OC.Util.relativeModifiedDate(ts);
 			viewData.lastActivityTime = OC.Util.formatDate(ts, 'LLL');
+			viewData.canScope = token.get('type') === 1;
+			viewData.showMore = viewData.canScope || viewData.canDelete;
 
 			// preserve title for cases where we format it further
 			viewData.title = viewData.name;
@@ -204,6 +216,8 @@
 
 				var $el = $(el);
 				$el.on('click', 'a.icon-delete', _.bind(_this._onDeleteToken, _this));
+				$el.on('click', '.icon-more', _.bind(_this._onConfigureToken, _this));
+				$el.on('change', 'input.filesystem', _.bind(_this._onSetTokenScope, _this));
 			});
 
 			this._form = $('#app-password-form');
@@ -325,6 +339,13 @@
 			this._addAppPasswordBtn.toggleClass('icon-loading-small', state);
 		},
 
+		_onConfigureToken: function (event) {
+			var $target = $(event.target);
+			var $row = $target.closest('tr');
+			$row.toggleClass('active');
+			var id = $row.data('id');
+		},
+
 		_onDeleteToken: function (event) {
 			var $target = $(event.target);
 			var $row = $target.closest('tr');
@@ -351,6 +372,24 @@
 			$.when(destroyingToken).always(function () {
 				_this.render();
 			});
+		},
+
+		_onSetTokenScope: function (event) {
+			var $target = $(event.target);
+			var $row = $target.closest('tr');
+			var id = $row.data('id');
+
+			var token = this.collection.get(id);
+			if (_.isUndefined(token)) {
+				// Ignore event
+				return;
+			}
+
+			var scope = token.get('scope');
+			scope.filesystem = $target.is(":checked");
+
+			token.set('scope', scope);
+			token.save();
 		},
 
 		_toggleFormResult: function (showForm) {
