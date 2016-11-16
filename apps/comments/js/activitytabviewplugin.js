@@ -25,7 +25,7 @@
 
 			if (view === 'ActivityTabView') {
 				$el.addClass('comment');
-				if (this._isLong(model.get('message_prepared'))) {
+				if (model.get('message') && this._isLong(model.get('message'))) {
 					$el.addClass('collapsed');
 					var $overlay = $('<div>').addClass('message-overlay');
 					$el.find('.activitymessage').after($overlay);
