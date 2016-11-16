@@ -134,7 +134,7 @@ class DecryptAll extends Command {
 
 			$uid = $input->getArgument('user');
 			if ($uid === '') {
-				$message = 'your ownCloud';
+				$message = 'your Nextcloud';
 			} else {
 				$message = "$uid's account";
 			}
