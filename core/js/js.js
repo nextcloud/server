@@ -1524,6 +1524,7 @@ OC.PasswordConfirmation = {
 	callback: null,
 
 	init: function() {
+		var self = this;
 		this.$form = $('#sudo-login-form');
 		this.$background = $('#sudo-login-background');
 		this.$input = this.$form.find('.question');
@@ -1532,6 +1533,11 @@ OC.PasswordConfirmation = {
 		this.$background.on('click', _.bind(this._fadeOut, this));
 		$('.password-confirm-required').on('click', _.bind(this.requirePasswordConfirmation, this));
 		this.$submit.on('click', _.bind(this._submitPasswordConfirmation, this));
+		this.$input.keyup(function(e) {
+			if (e.keyCode === 13) {
+				self._submitPasswordConfirmation();
+			}
+		});
 	},
 
 	requiresPasswordConfirmation: function() {
