@@ -28,6 +28,8 @@ use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserManager;
 
 class Provider implements IProvider {
 
@@ -40,19 +42,27 @@ class Provider implements IProvider {
 	/** @var ICommentsManager */
 	protected $commentsManager;
 
+	/** @var IUserManager */
+	protected $userManager;
+
 	/** @var IManager */
 	protected $activityManager;
+
+	/** @var string[] */
+	protected $displayNames = [];
 
 	/**
 	 * @param IL10N $l
 	 * @param IURLGenerator $url
 	 * @param ICommentsManager $commentsManager
+	 * @param IUserManager $userManager
 	 * @param IManager $activityManager
 	 */
-	public function __construct(IL10N $l, IURLGenerator $url, ICommentsManager $commentsManager, IManager $activityManager) {
+	public function __construct(IL10N $l, IURLGenerator $url, ICommentsManager $commentsManager, IUserManager $userManager, IManager $activityManager) {
 		$this->l = $l;
 		$this->url = $url;
 		$this->commentsManager = $commentsManager;
+		$this->userManager = $userManager;
 		$this->activityManager = $activityManager;
 	}
 
@@ -90,7 +100,6 @@ class Provider implements IProvider {
 	 * @param IEvent $event
 	 * @return IEvent
 	 * @throws \InvalidArgumentException
-	 * @since 11.0.0
 	 */
 	protected function parseShortVersion(IEvent $event) {
 		$subjectParameters = $event->getSubjectParameters();
@@ -117,7 +126,6 @@ class Provider implements IProvider {
 	 * @param IEvent $event
 	 * @return IEvent
 	 * @throws \InvalidArgumentException
-	 * @since 11.0.0
 	 */
 	protected function parseLongVersion(IEvent $event) {
 		$subjectParameters = $event->getSubjectParameters();
@@ -148,6 +156,9 @@ class Provider implements IProvider {
 		return $event;
 	}
 
+	/**
+	 * @param IEvent $event
+	 */
 	protected function parseMessage(IEvent $event) {
 		$messageParameters = $event->getMessageParameters();
 		try {
@@ -178,6 +189,11 @@ class Provider implements IProvider {
 		}
 	}
 
+	/**
+	 * @param int $id
+	 * @param string $path
+	 * @return array
+	 */
 	protected function generateFileParameter($id, $path) {
 		return [
 			'type' => 'file',
@@ -188,11 +204,32 @@ class Provider implements IProvider {
 		];
 	}
 
+	/**
+	 * @param string $uid
+	 * @return array
+	 */
 	protected function generateUserParameter($uid) {
+		if (!isset($this->displayNames[$uid])) {
+			$this->displayNames[$uid] = $this->getDisplayName($uid);
+		}
+
 		return [
 			'type' => 'user',
 			'id' => $uid,
-			'name' => $uid,// FIXME Use display name
+			'name' => $this->displayNames[$uid],
 		];
+	}
+
+	/**
+	 * @param string $uid
+	 * @return string
+	 */
+	protected function getDisplayName($uid) {
+		$user = $this->userManager->get($uid);
+		if ($user instanceof IUser) {
+			return $user->getDisplayName();
+		} else {
+			return $uid;
+		}
 	}
 }
