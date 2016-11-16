@@ -112,7 +112,7 @@ class Backend {
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
-			->setObject(Extension::CALENDAR, $calendarData['id'])
+			->setObject(Extension::CALENDAR, (int) $calendarData['id'])
 			->setType(Extension::CALENDAR)
 			->setAuthor($currentUser);
 
@@ -162,7 +162,7 @@ class Backend {
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
-			->setObject(Extension::CALENDAR, $calendarData['id'])
+			->setObject(Extension::CALENDAR, (int) $calendarData['id'])
 			->setType(Extension::CALENDAR)
 			->setAuthor($currentUser);
 
@@ -387,7 +387,7 @@ class Backend {
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
-			->setObject(Extension::CALENDAR, $calendarData['id'])
+			->setObject(Extension::CALENDAR, (int) $calendarData['id'])
 			->setType($object['type'] === 'event' ? Extension::CALENDAR_EVENT : Extension::CALENDAR_TODO)
 			->setAuthor($currentUser);
 

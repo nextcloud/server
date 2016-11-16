@@ -27,11 +27,15 @@ namespace OC\Activity;
 use OCP\Activity\IConsumer;
 use OCP\Activity\IEvent;
 use OCP\Activity\IExtension;
+use OCP\Activity\IFilter;
 use OCP\Activity\IManager;
+use OCP\Activity\IProvider;
+use OCP\Activity\ISetting;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\RichObjectStrings\IValidator;
 
 class Manager implements IManager {
 	/** @var IRequest */
@@ -42,6 +46,9 @@ class Manager implements IManager {
 
 	/** @var IConfig */
 	protected $config;
+
+	/** @var IValidator */
+	protected $validator;
 
 	/** @var string */
 	protected $formattingObjectType;
@@ -58,13 +65,16 @@ class Manager implements IManager {
 	 * @param IRequest $request
 	 * @param IUserSession $session
 	 * @param IConfig $config
+	 * @param IValidator $validator
 	 */
 	public function __construct(IRequest $request,
 								IUserSession $session,
-								IConfig $config) {
+								IConfig $config,
+								IValidator $validator) {
 		$this->request = $request;
 		$this->session = $session;
 		$this->config = $config;
+		$this->validator = $validator;
 	}
 
 	/** @var \Closure[] */
@@ -147,7 +157,7 @@ class Manager implements IManager {
 	 * @return IEvent
 	 */
 	public function generateEvent() {
-		return new Event();
+		return new Event($this->validator);
 	}
 
 	/**
@@ -160,24 +170,10 @@ class Manager implements IManager {
 	 *  - setSubject()
 	 *
 	 * @param IEvent $event
-	 * @return null
 	 * @throws \BadMethodCallException if required values have not been set
 	 */
 	public function publish(IEvent $event) {
-		if (!$event->getApp()) {
-			throw new \BadMethodCallException('App not set', 10);
-		}
-		if (!$event->getType()) {
-			throw new \BadMethodCallException('Type not set', 11);
-		}
-		if ($event->getAffectedUser() === null) {
-			throw new \BadMethodCallException('Affected user not set', 12);
-		}
-		if ($event->getSubject() === null || $event->getSubjectParameters() === null) {
-			throw new \BadMethodCallException('Subject not set', 13);
-		}
-
-		if ($event->getAuthor() === null) {
+		if ($event->getAuthor() === '') {
 			if ($this->session->getUser() instanceof IUser) {
 				$event->setAuthor($this->session->getUser()->getUID());
 			}
@@ -185,6 +181,10 @@ class Manager implements IManager {
 
 		if (!$event->getTimestamp()) {
 			$event->setTimestamp(time());
+		}
+
+		if (!$event->isValid()) {
+			throw new \BadMethodCallException('The given event is invalid');
 		}
 
 		foreach ($this->getConsumers() as $c) {
@@ -203,7 +203,6 @@ class Manager implements IManager {
 	 * @param string $affectedUser  Recipient of the activity
 	 * @param string $type          Type of the notification
 	 * @param int    $priority      Priority of the notification
-	 * @return null
 	 */
 	public function publishActivity($app, $subject, $subjectParams, $message, $messageParams, $file, $link, $affectedUser, $type, $priority) {
 		$event = $this->generateEvent();
@@ -235,59 +234,195 @@ class Manager implements IManager {
 	 * In order to improve lazy loading a closure can be registered which will be called in case
 	 * activity consumers are actually requested
 	 *
-	 * $callable has to return an instance of OCA\Activity\IConsumer
+	 * $callable has to return an instance of OCA\Activity\IExtension
 	 *
 	 * @param \Closure $callable
-	 * @return void
 	 */
 	public function registerExtension(\Closure $callable) {
 		array_push($this->extensionsClosures, $callable);
 		$this->extensions = [];
 	}
 
+	/** @var string[] */
+	protected $filterClasses = [];
+
+	/** @var IFilter[] */
+	protected $filters = [];
+
+	/** @var bool */
+	protected $loadedLegacyFilters = false;
+
 	/**
-	 * Will return additional notification types as specified by other apps
-	 *
-	 * @param string $languageCode
-	 * @return array
+	 * @param string $filter Class must implement OCA\Activity\IFilter
+	 * @return void
 	 */
-	public function getNotificationTypes($languageCode) {
-		$filesNotificationTypes = [];
-		$sharingNotificationTypes = [];
-
-		$notificationTypes = array();
-		foreach ($this->getExtensions() as $c) {
-			$result = $c->getNotificationTypes($languageCode);
-			if (is_array($result)) {
-				if (class_exists('\OCA\Files\Activity', false) && $c instanceof \OCA\Files\Activity) {
-					$filesNotificationTypes = $result;
-					continue;
-				}
-				if (class_exists('\OCA\Files_Sharing\Activity', false) && $c instanceof \OCA\Files_Sharing\Activity) {
-					$sharingNotificationTypes = $result;
-					continue;
-				}
-
-				$notificationTypes = array_merge($notificationTypes, $result);
-			}
-		}
-
-		return array_merge($filesNotificationTypes, $sharingNotificationTypes, $notificationTypes);
+	public function registerFilter($filter) {
+		$this->filterClasses[$filter] = false;
 	}
 
 	/**
-	 * @param string $method
-	 * @return array
+	 * @return IFilter[]
+	 * @throws \InvalidArgumentException
 	 */
-	public function getDefaultTypes($method) {
-		$defaultTypes = array();
-		foreach ($this->getExtensions() as $c) {
-			$types = $c->getDefaultTypes($method);
-			if (is_array($types)) {
-				$defaultTypes = array_merge($types, $defaultTypes);
+	public function getFilters() {
+		if (!$this->loadedLegacyFilters) {
+			$legacyFilters = $this->getNavigation();
+
+			foreach ($legacyFilters['top'] as $filter => $data) {
+				$this->filters[$filter] = new LegacyFilter(
+					$this, $filter, $data['name'], true
+				);
 			}
+
+			foreach ($legacyFilters['apps'] as $filter => $data) {
+				$this->filters[$filter] = new LegacyFilter(
+					$this, $filter, $data['name'], false
+				);
+			}
+			$this->loadedLegacyFilters = true;
 		}
-		return $defaultTypes;
+
+		foreach ($this->filterClasses as $class => $false) {
+			/** @var IFilter $filter */
+			$filter = \OC::$server->query($class);
+
+			if (!$filter instanceof IFilter) {
+				throw new \InvalidArgumentException('Invalid activity filter registered');
+			}
+
+			$this->filters[$filter->getIdentifier()] = $filter;
+
+			unset($this->filterClasses[$class]);
+		}
+		return $this->filters;
+	}
+
+	/**
+	 * @param string $id
+	 * @return IFilter
+	 * @throws \InvalidArgumentException when the filter was not found
+	 * @since 11.0.0
+	 */
+	public function getFilterById($id) {
+		$filters = $this->getFilters();
+
+		if (isset($filters[$id])) {
+			return $filters[$id];
+		}
+
+		throw new \InvalidArgumentException('Requested filter does not exist');
+	}
+
+	/** @var string[] */
+	protected $providerClasses = [];
+
+	/** @var IProvider[] */
+	protected $providers = [];
+
+	/**
+	 * @param string $provider Class must implement OCA\Activity\IProvider
+	 * @return void
+	 */
+	public function registerProvider($provider) {
+		$this->providerClasses[$provider] = false;
+	}
+
+	/**
+	 * @return IProvider[]
+	 * @throws \InvalidArgumentException
+	 */
+	public function getProviders() {
+		foreach ($this->providerClasses as $class => $false) {
+			/** @var IProvider $provider */
+			$provider = \OC::$server->query($class);
+
+			if (!$provider instanceof IProvider) {
+				throw new \InvalidArgumentException('Invalid activity provider registered');
+			}
+
+			$this->providers[] = $provider;
+
+			unset($this->providerClasses[$class]);
+		}
+		return $this->providers;
+	}
+
+	/** @var string[] */
+	protected $settingsClasses = [];
+
+	/** @var ISetting[] */
+	protected $settings = [];
+
+	/** @var bool */
+	protected $loadedLegacyTypes = false;
+
+	/**
+	 * @param string $setting Class must implement OCA\Activity\ISetting
+	 * @return void
+	 */
+	public function registerSetting($setting) {
+		$this->settingsClasses[$setting] = false;
+	}
+
+	/**
+	 * @return ISetting[]
+	 * @throws \InvalidArgumentException
+	 */
+	public function getSettings() {
+		if (!$this->loadedLegacyTypes) {
+			$l = \OC::$server->getL10N('core');
+			$legacyTypes = $this->getNotificationTypes($l->getLanguageCode());
+			$streamTypes = $this->getDefaultTypes(IExtension::METHOD_STREAM);
+			$mailTypes = $this->getDefaultTypes(IExtension::METHOD_MAIL);
+			foreach ($legacyTypes as $type => $data) {
+				if (is_string($data)) {
+					$desc = $data;
+					$canChangeStream = true;
+					$canChangeMail = true;
+				} else {
+					$desc = $data['desc'];
+					$canChangeStream = in_array(IExtension::METHOD_STREAM, $data['methods']);
+					$canChangeMail = in_array(IExtension::METHOD_MAIL, $data['methods']);
+				}
+
+				$this->settings[$type] = new LegacySetting(
+					$type, $desc,
+					$canChangeStream, in_array($type, $streamTypes),
+					$canChangeMail, in_array($type, $mailTypes)
+				);
+			}
+			$this->loadedLegacyTypes = true;
+		}
+
+		foreach ($this->settingsClasses as $class => $false) {
+			/** @var ISetting $setting */
+			$setting = \OC::$server->query($class);
+
+			if (!$setting instanceof ISetting) {
+				throw new \InvalidArgumentException('Invalid activity filter registered');
+			}
+
+			$this->settings[$setting->getIdentifier()] = $setting;
+
+			unset($this->settingsClasses[$class]);
+		}
+		return $this->settings;
+	}
+
+	/**
+	 * @param string $id
+	 * @return ISetting
+	 * @throws \InvalidArgumentException when the setting was not found
+	 * @since 11.0.0
+	 */
+	public function getSettingById($id) {
+		$settings = $this->getSettings();
+
+		if (isset($settings[$id])) {
+			return $settings[$id];
+		}
+
+		throw new \InvalidArgumentException('Requested setting does not exist');
 	}
 
 	/**
@@ -391,94 +526,6 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @return array
-	 */
-	public function getNavigation() {
-		$entries = array(
-			'apps' => array(),
-			'top' => array(),
-		);
-		foreach ($this->getExtensions() as $c) {
-			$additionalEntries = $c->getNavigation();
-			if (is_array($additionalEntries)) {
-				$entries['apps'] = array_merge($entries['apps'], $additionalEntries['apps']);
-				$entries['top'] = array_merge($entries['top'], $additionalEntries['top']);
-			}
-		}
-
-		return $entries;
-	}
-
-	/**
-	 * @param string $filterValue
-	 * @return boolean
-	 */
-	public function isFilterValid($filterValue) {
-		if (isset($this->validFilters[$filterValue])) {
-			return $this->validFilters[$filterValue];
-		}
-
-		foreach ($this->getExtensions() as $c) {
-			if ($c->isFilterValid($filterValue) === true) {
-				$this->validFilters[$filterValue] = true;
-				return true;
-			}
-		}
-
-		$this->validFilters[$filterValue] = false;
-		return false;
-	}
-
-	/**
-	 * @param array $types
-	 * @param string $filter
-	 * @return array
-	 */
-	public function filterNotificationTypes($types, $filter) {
-		if (!$this->isFilterValid($filter)) {
-			return $types;
-		}
-
-		foreach ($this->getExtensions() as $c) {
-			$result = $c->filterNotificationTypes($types, $filter);
-			if (is_array($result)) {
-				$types = $result;
-			}
-		}
-		return $types;
-	}
-
-	/**
-	 * @param string $filter
-	 * @return array
-	 */
-	public function getQueryForFilter($filter) {
-		if (!$this->isFilterValid($filter)) {
-			return [null, null];
-		}
-
-		$conditions = array();
-		$parameters = array();
-
-		foreach ($this->getExtensions() as $c) {
-			$result = $c->getQueryForFilter($filter);
-			if (is_array($result)) {
-				list($condition, $parameter) = $result;
-				if ($condition && is_array($parameter)) {
-					$conditions[] = $condition;
-					$parameters = array_merge($parameters, $parameter);
-				}
-			}
-		}
-
-		if (empty($conditions)) {
-			return array(null, null);
-		}
-
-		return array(' and ((' . implode(') or (', $conditions) . '))', $parameters);
-	}
-
-	/**
 	 * Set the user we need to use
 	 *
 	 * @param string|null $currentUserId
@@ -530,5 +577,137 @@ class Manager implements IManager {
 
 		// Token found login as that user
 		return array_shift($users);
+	}
+
+	/**
+	 * @return array
+	 * @deprecated 11.0.0 - Use getFilters() instead
+	 */
+	public function getNavigation() {
+		$entries = array(
+			'apps' => array(),
+			'top' => array(),
+		);
+		foreach ($this->getExtensions() as $c) {
+			$additionalEntries = $c->getNavigation();
+			if (is_array($additionalEntries)) {
+				$entries['apps'] = array_merge($entries['apps'], $additionalEntries['apps']);
+				$entries['top'] = array_merge($entries['top'], $additionalEntries['top']);
+			}
+		}
+
+		return $entries;
+	}
+
+	/**
+	 * @param string $filterValue
+	 * @return boolean
+	 * @deprecated 11.0.0 - Use getFilterById() instead
+	 */
+	public function isFilterValid($filterValue) {
+		if (isset($this->validFilters[$filterValue])) {
+			return $this->validFilters[$filterValue];
+		}
+
+		foreach ($this->getExtensions() as $c) {
+			if ($c->isFilterValid($filterValue) === true) {
+				$this->validFilters[$filterValue] = true;
+				return true;
+			}
+		}
+
+		$this->validFilters[$filterValue] = false;
+		return false;
+	}
+
+	/**
+	 * @param array $types
+	 * @param string $filter
+	 * @return array
+	 * @deprecated 11.0.0 - Use getFilterById()->filterTypes() instead
+	 */
+	public function filterNotificationTypes($types, $filter) {
+		if (!$this->isFilterValid($filter)) {
+			return $types;
+		}
+
+		foreach ($this->getExtensions() as $c) {
+			$result = $c->filterNotificationTypes($types, $filter);
+			if (is_array($result)) {
+				$types = $result;
+			}
+		}
+		return $types;
+	}
+
+	/**
+	 * @param string $filter
+	 * @return array
+	 * @deprecated 11.0.0 - Use getFilterById() instead
+	 */
+	public function getQueryForFilter($filter) {
+		if (!$this->isFilterValid($filter)) {
+			return [null, null];
+		}
+
+		$conditions = array();
+		$parameters = array();
+
+		foreach ($this->getExtensions() as $c) {
+			$result = $c->getQueryForFilter($filter);
+			if (is_array($result)) {
+				list($condition, $parameter) = $result;
+				if ($condition && is_array($parameter)) {
+					$conditions[] = $condition;
+					$parameters = array_merge($parameters, $parameter);
+				}
+			}
+		}
+
+		if (empty($conditions)) {
+			return array(null, null);
+		}
+
+		return array(' and ((' . implode(') or (', $conditions) . '))', $parameters);
+	}
+
+	/**
+	 * Will return additional notification types as specified by other apps
+	 *
+	 * @param string $languageCode
+	 * @return array
+	 * @deprecated 11.0.0 - Use getSettings() instead
+	 */
+	public function getNotificationTypes($languageCode) {
+		$notificationTypes = $sharingNotificationTypes = [];
+		foreach ($this->getExtensions() as $c) {
+			$result = $c->getNotificationTypes($languageCode);
+			if (is_array($result)) {
+				if (class_exists('\OCA\Files_Sharing\Activity', false) && $c instanceof \OCA\Files_Sharing\Activity) {
+					$sharingNotificationTypes = $result;
+					continue;
+				}
+
+				$notificationTypes = array_merge($notificationTypes, $result);
+			}
+		}
+
+		return array_merge($sharingNotificationTypes, $notificationTypes);
+	}
+
+	/**
+	 * @param string $method
+	 * @return array
+	 * @deprecated 11.0.0 - Use getSettings()->isDefaulEnabled<method>() instead
+	 */
+	public function getDefaultTypes($method) {
+		$defaultTypes = array();
+		foreach ($this->getExtensions() as $c) {
+			$types = $c->getDefaultTypes($method);
+			if (is_array($types)) {
+				$defaultTypes = array_merge($types, $defaultTypes);
+			}
+		}
+		return $defaultTypes;
 	}
 }

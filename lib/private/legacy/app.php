@@ -162,6 +162,23 @@ class OC_App {
 			}
 			\OC::$server->getEventLogger()->end('load_app_' . $app);
 		}
+
+		$info = self::getAppInfo($app);
+		if (!empty($info['activity']['filters'])) {
+			foreach ($info['activity']['filters'] as $filter) {
+				\OC::$server->getActivityManager()->registerFilter($filter);
+			}
+		}
+		if (!empty($info['activity']['settings'])) {
+			foreach ($info['activity']['settings'] as $setting) {
+				\OC::$server->getActivityManager()->registerSetting($setting);
+			}
+		}
+		if (!empty($info['activity']['providers'])) {
+			foreach ($info['activity']['providers'] as $provider) {
+				\OC::$server->getActivityManager()->registerProvider($provider);
+			}
+		}
 	}
 
 	/**

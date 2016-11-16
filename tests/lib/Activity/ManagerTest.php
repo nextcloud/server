@@ -10,6 +10,10 @@
 
 namespace Test\Activity;
 
+use OCP\IConfig;
+use OCP\IRequest;
+use OCP\IUserSession;
+use OCP\RichObjectStrings\IValidator;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
@@ -17,32 +21,28 @@ class ManagerTest extends TestCase {
 	/** @var \OC\Activity\Manager */
 	private $activityManager;
 
-	/** @var \OCP\IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	protected $request;
-
-	/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	protected $session;
-
-	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
+	/** @var IValidator|\PHPUnit_Framework_MockObject_MockObject */
+	protected $validator;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$this->request = $this->getMockBuilder('OCP\IRequest')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->session = $this->getMockBuilder('OCP\IUserSession')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->config = $this->getMockBuilder('OCP\IConfig')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->request = $this->createMock(IRequest::class);
+		$this->session = $this->createMock(IUserSession::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->validator = $this->createMock(IValidator::class);
 
 		$this->activityManager = new \OC\Activity\Manager(
 			$this->request,
 			$this->session,
-			$this->config
+			$this->config,
+			$this->validator
 		);
 
 		$this->assertSame([], $this->invokePrivate($this->activityManager, 'getConsumers'));
@@ -264,32 +264,26 @@ class ManagerTest extends TestCase {
 
 	/**
 	 * @expectedException \BadMethodCallException
-	 * @expectedExceptionMessage App not set
-	 * @expectedExceptionCode 10
 	 */
 	public function testPublishExceptionNoApp() {
-		$event = new \OC\Activity\Event();
+		$event = $this->activityManager->generateEvent();
 		$this->activityManager->publish($event);
 	}
 
 	/**
 	 * @expectedException \BadMethodCallException
-	 * @expectedExceptionMessage Type not set
-	 * @expectedExceptionCode 11
 	 */
 	public function testPublishExceptionNoType() {
-		$event = new \OC\Activity\Event();
+		$event = $this->activityManager->generateEvent();
 		$event->setApp('test');
 		$this->activityManager->publish($event);
 	}
 
 	/**
 	 * @expectedException \BadMethodCallException
-	 * @expectedExceptionMessage Affected user not set
-	 * @expectedExceptionCode 12
 	 */
 	public function testPublishExceptionNoAffectedUser() {
-		$event = new \OC\Activity\Event();
+		$event = $this->activityManager->generateEvent();
 		$event->setApp('test')
 			->setType('test_type');
 		$this->activityManager->publish($event);
@@ -297,11 +291,9 @@ class ManagerTest extends TestCase {
 
 	/**
 	 * @expectedException \BadMethodCallException
-	 * @expectedExceptionMessage Subject not set
-	 * @expectedExceptionCode 13
 	 */
 	public function testPublishExceptionNoSubject() {
-		$event = new \OC\Activity\Event();
+		$event = $this->activityManager->generateEvent();
 		$event->setApp('test')
 			->setType('test_type')
 			->setAffectedUser('test_affected');
@@ -310,16 +302,17 @@ class ManagerTest extends TestCase {
 
 	public function dataPublish() {
 		return [
-			[null],
-			['test_author'],
+			[null, ''],
+			['test_author', 'test_author'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataPublish
-	 * @param string $author
+	 * @param string|null $author
+	 * @param string $expected
 	 */
-	public function testPublish($author) {
+	public function testPublish($author, $expected) {
 		if ($author !== null) {
 			$authorObject = $this->getMockBuilder('OCP\IUser')
 				->disableOriginalConstructor()
@@ -332,11 +325,12 @@ class ManagerTest extends TestCase {
 				->willReturn($authorObject);
 		}
 
-		$event = new \OC\Activity\Event();
+		$event = $this->activityManager->generateEvent();
 		$event->setApp('test')
 			->setType('test_type')
 			->setSubject('test_subject', [])
-			->setAffectedUser('test_affected');
+			->setAffectedUser('test_affected')
+			->setObject('file', 123);
 
 		$consumer = $this->getMockBuilder('OCP\Activity\IConsumer')
 			->disableOriginalConstructor()
@@ -344,10 +338,10 @@ class ManagerTest extends TestCase {
 		$consumer->expects($this->once())
 			->method('receive')
 			->with($event)
-			->willReturnCallback(function(\OCP\Activity\IEvent $event) use ($author) {
+			->willReturnCallback(function(\OCP\Activity\IEvent $event) use ($expected) {
 				$this->assertLessThanOrEqual(time() + 2, $event->getTimestamp(), 'Timestamp not set correctly');
 				$this->assertGreaterThanOrEqual(time() - 2, $event->getTimestamp(), 'Timestamp not set correctly');
-				$this->assertSame($author, $event->getAuthor(), 'Author name not set correctly');
+				$this->assertSame($expected, $event->getAuthor(), 'Author name not set correctly');
 			});
 		$this->activityManager->registerConsumer(function () use ($consumer) {
 			return $consumer;
@@ -357,7 +351,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testPublishAllManually() {
-		$event = new \OC\Activity\Event();
+		$event = $this->activityManager->generateEvent();
 		$event->setApp('test_app')
 			->setType('test_type')
 			->setAffectedUser('test_affected')
@@ -397,7 +391,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testDeprecatedPublishActivity() {
-		$event = new \OC\Activity\Event();
+		$event = $this->activityManager->generateEvent();
 		$event->setApp('test_app')
 			->setType('test_type')
 			->setAffectedUser('test_affected')
@@ -428,7 +422,7 @@ class ManagerTest extends TestCase {
 				// The following values can not be used via publishActivity()
 				$this->assertLessThanOrEqual(time() + 2, $event->getTimestamp(), 'Timestamp not set correctly');
 				$this->assertGreaterThanOrEqual(time() - 2, $event->getTimestamp(), 'Timestamp not set correctly');
-				$this->assertSame(null, $event->getAuthor(), 'Author not set correctly');
+				$this->assertSame('', $event->getAuthor(), 'Author not set correctly');
 				$this->assertSame('', $event->getObjectType(), 'Object type should not be set');
 				$this->assertSame(0, $event->getObjectId(), 'Object ID should not be set');
 			});

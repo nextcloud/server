@@ -64,7 +64,6 @@ interface IManager {
 	 *  - setSubject()
 	 *
 	 * @param IEvent $event
-	 * @return null
 	 * @since 8.2.0
 	 */
 	public function publish(IEvent $event);
@@ -80,7 +79,6 @@ interface IManager {
 	 * @param string $affectedUser  Recipient of the activity
 	 * @param string $type          Type of the notification
 	 * @param int    $priority      Priority of the notification
-	 * @return null
 	 * @since 6.0.0
 	 * @deprecated 8.2.0 Grab an IEvent from generateEvent() instead and use the publish() method
 	 */
@@ -111,6 +109,61 @@ interface IManager {
 	public function registerExtension(\Closure $callable);
 
 	/**
+	 * @param string $filter Class must implement OCA\Activity\IFilter
+	 * @return void
+	 * @since 11.0.0
+	 */
+	public function registerFilter($filter);
+
+	/**
+	 * @return IFilter[]
+	 * @since 11.0.0
+	 */
+	public function getFilters();
+
+	/**
+	 * @param string $id
+	 * @return IFilter
+	 * @throws \InvalidArgumentException when the filter was not found
+	 * @since 11.0.0
+	 */
+	public function getFilterById($id);
+
+	/**
+	 * @param string $setting Class must implement OCA\Activity\ISetting
+	 * @return void
+	 * @since 11.0.0
+	 */
+	public function registerSetting($setting);
+
+	/**
+	 * @return ISetting[]
+	 * @since 11.0.0
+	 */
+	public function getSettings();
+
+	/**
+	 * @param string $provider Class must implement OCA\Activity\IProvider
+	 * @return void
+	 * @since 11.0.0
+	 */
+	public function registerProvider($provider);
+
+	/**
+	 * @return IProvider[]
+	 * @since 11.0.0
+	 */
+	public function getProviders();
+
+	/**
+	 * @param string $id
+	 * @return ISetting
+	 * @throws \InvalidArgumentException when the setting was not found
+	 * @since 11.0.0
+	 */
+	public function getSettingById($id);
+
+	/**
 	 * Will return additional notification types as specified by other apps
 	 *
 	 * @param string $languageCode
@@ -120,6 +173,7 @@ interface IManager {
 	 * 					'methods' => [\OCP\Activity\IExtension::METHOD_*],
 	 * 				]
 	 * @since 8.0.0 - 8.2.0: Added support to allow limiting notifications to certain methods
+	 * @deprecated 11.0.0 - Use getSettings() instead
 	 */
 	public function getNotificationTypes($languageCode);
 
@@ -127,6 +181,7 @@ interface IManager {
 	 * @param string $method
 	 * @return array
 	 * @since 8.0.0
+	 * @deprecated 11.0.0 - Use getSettings()->isDefaulEnabled<method>() instead
 	 */
 	public function getDefaultTypes($method);
 
@@ -177,34 +232,6 @@ interface IManager {
 	 */
 	public function getGroupParameter($activity);
 
-	/**
-	 * @return array
-	 * @since 8.0.0
-	 */
-	public function getNavigation();
-
-	/**
-	 * @param string $filterValue
-	 * @return boolean
-	 * @since 8.0.0
-	 */
-	public function isFilterValid($filterValue);
-
-	/**
-	 * @param array $types
-	 * @param string $filter
-	 * @return array
-	 * @since 8.0.0
-	 */
-	public function filterNotificationTypes($types, $filter);
-
-	/**
-	 * @param string $filter
-	 * @return array
-	 * @since 8.0.0
-	 */
-	public function getQueryForFilter($filter);
-
 
 	/**
 	 * Set the user we need to use
@@ -225,4 +252,36 @@ interface IManager {
 	 * @since 8.1.0
 	 */
 	public function getCurrentUserId();
+
+	/**
+	 * @return array
+	 * @since 8.0.0
+	 * @deprecated 11.0.0 - Use getFilters() instead
+	 */
+	public function getNavigation();
+
+	/**
+	 * @param string $filterValue
+	 * @return boolean
+	 * @since 8.0.0
+	 * @deprecated 11.0.0 - Use getFilterById() instead
+	 */
+	public function isFilterValid($filterValue);
+
+	/**
+	 * @param array $types
+	 * @param string $filter
+	 * @return array
+	 * @since 8.0.0
+	 * @deprecated 11.0.0 - Use getFilterById()->filterTypes() instead
+	 */
+	public function filterNotificationTypes($types, $filter);
+
+	/**
+	 * @param string $filter
+	 * @return array
+	 * @since 8.0.0
+	 * @deprecated 11.0.0 - Use getFilterById() instead
+	 */
+	public function getQueryForFilter($filter);
 }

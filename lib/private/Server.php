@@ -90,6 +90,7 @@ use OC\Tagging\TagMapper;
 use OCA\Theming\ThemingDefaults;
 use OCP\IL10N;
 use OCP\IServerContainer;
+use OCP\RichObjectStrings\IValidator;
 use OCP\Security\IContentSecurityPolicyManager;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -394,9 +395,11 @@ class Server extends ServerContainer implements IServerContainer {
 			return new \OC\Activity\Manager(
 				$c->getRequest(),
 				$c->getUserSession(),
-				$c->getConfig()
+				$c->getConfig(),
+				$c->query(IValidator::class)
 			);
 		});
+		$this->registerAlias(IValidator::class, Validator::class);
 		$this->registerService('AvatarManager', function (Server $c) {
 			return new AvatarManager(
 				$c->getUserManager(),
@@ -662,7 +665,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerService('NotificationManager', function (Server $c) {
 			return new Manager(
-				$c->query(Validator::class)
+				$c->query(IValidator::class)
 			);
 		});
 		$this->registerService('CapabilitiesManager', function (Server $c) {

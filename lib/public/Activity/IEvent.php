@@ -41,6 +41,7 @@ interface IEvent {
 	 *
 	 * @param string $app
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the app id is invalid
 	 * @since 8.2.0
 	 */
 	public function setApp($app);
@@ -50,6 +51,7 @@ interface IEvent {
 	 *
 	 * @param string $type
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the type is invalid
 	 * @since 8.2.0
 	 */
 	public function setType($type);
@@ -59,6 +61,7 @@ interface IEvent {
 	 *
 	 * @param string $user
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the affected user is invalid
 	 * @since 8.2.0
 	 */
 	public function setAffectedUser($user);
@@ -68,6 +71,7 @@ interface IEvent {
 	 *
 	 * @param string $author
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the author is invalid
 	 * @since 8.2.0
 	 */
 	public function setAuthor($author);
@@ -77,6 +81,7 @@ interface IEvent {
 	 *
 	 * @param int $timestamp
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the timestamp is invalid
 	 * @since 8.2.0
 	 */
 	public function setTimestamp($timestamp);
@@ -87,9 +92,45 @@ interface IEvent {
 	 * @param string $subject
 	 * @param array $parameters
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the subject or parameters are invalid
 	 * @since 8.2.0
 	 */
 	public function setSubject($subject, array $parameters = []);
+
+	/**
+	 * @param string $subject
+	 * @return $this
+	 * @throws \InvalidArgumentException if the subject is invalid
+	 * @since 11.0.0
+	 */
+	public function setParsedSubject($subject);
+
+	/**
+	 * @return string
+	 * @since 11.0.0
+	 */
+	public function getParsedSubject();
+
+	/**
+	 * @param string $subject
+	 * @param array $parameters
+	 * @return $this
+	 * @throws \InvalidArgumentException if the subject or parameters are invalid
+	 * @since 11.0.0
+	 */
+	public function setRichSubject($subject, array $parameters = []);
+
+	/**
+	 * @return string
+	 * @since 11.0.0
+	 */
+	public function getRichSubject();
+
+	/**
+	 * @return array[]
+	 * @since 11.0.0
+	 */
+	public function getRichSubjectParameters();
 
 	/**
 	 * Set the message of the activity
@@ -97,9 +138,45 @@ interface IEvent {
 	 * @param string $message
 	 * @param array $parameters
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the message or parameters are invalid
 	 * @since 8.2.0
 	 */
 	public function setMessage($message, array $parameters = []);
+
+	/**
+	 * @param string $message
+	 * @return $this
+	 * @throws \InvalidArgumentException if the message is invalid
+	 * @since 11.0.0
+	 */
+	public function setParsedMessage($message);
+
+	/**
+	 * @return string
+	 * @since 11.0.0
+	 */
+	public function getParsedMessage();
+
+	/**
+	 * @param string $message
+	 * @param array $parameters
+	 * @return $this
+	 * @throws \InvalidArgumentException if the message or parameters are invalid
+	 * @since 11.0.0
+	 */
+	public function setRichMessage($message, array $parameters = []);
+
+	/**
+	 * @return string
+	 * @since 11.0.0
+	 */
+	public function getRichMessage();
+
+	/**
+	 * @return array[]
+	 * @since 11.0.0
+	 */
+	public function getRichMessageParameters();
 
 	/**
 	 * Set the object of the activity
@@ -108,6 +185,7 @@ interface IEvent {
 	 * @param int $objectId
 	 * @param string $objectName
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the object is invalid
 	 * @since 8.2.0
 	 */
 	public function setObject($objectType, $objectId, $objectName = '');
@@ -117,6 +195,7 @@ interface IEvent {
 	 *
 	 * @param string $link
 	 * @return IEvent
+	 * @throws \InvalidArgumentException if the link is invalid
 	 * @since 8.2.0
 	 */
 	public function setLink($link);
@@ -198,4 +277,42 @@ interface IEvent {
 	 * @since 8.2.0
 	 */
 	public function getLink();
+
+	/**
+	 * @param string $icon
+	 * @return $this
+	 * @throws \InvalidArgumentException if the icon is invalid
+	 * @since 11.0.0
+	 */
+	public function setIcon($icon);
+
+	/**
+	 * @return string
+	 * @since 11.0.0
+	 */
+	public function getIcon();
+
+	/**
+	 * @param IEvent $child
+	 * @since 11.0.0
+	 */
+	public function setChildEvent(IEvent $child);
+
+	/**
+	 * @return IEvent|null
+	 * @since 11.0.0
+	 */
+	public function getChildEvent();
+
+	/**
+	 * @return bool
+	 * @since 11.0.0
+	 */
+	public function isValid();
+
+	/**
+	 * @return bool
+	 * @since 11.0.0
+	 */
+	public function isValidParsed();
 }

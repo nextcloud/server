@@ -17,6 +17,25 @@
 		<user>user-files</user>
 	</documentation>
 
+	<activity>
+		<settings>
+			<setting>OCA\Files\Activity\Settings\FileChanged</setting>
+			<setting>OCA\Files\Activity\Settings\FileCreated</setting>
+			<setting>OCA\Files\Activity\Settings\FileDeleted</setting>
+			<setting>OCA\Files\Activity\Settings\FileFavorite</setting>
+			<setting>OCA\Files\Activity\Settings\FileRestored</setting>
+		</settings>
+
+		<filters>
+			<filter>OCA\Files\Activity\Filter\FileChanges</filter>
+			<filter>OCA\Files\Activity\Filter\Favorites</filter>
+		</filters>
+
+		<providers>
+			<provider>OCA\Files\Activity\Provider</provider>
+		</providers>
+	</activity>
+
 	<background-jobs>
 		<job>OCA\Files\BackgroundJob\ScanFiles</job>
 		<job>OCA\Files\BackgroundJob\DeleteOrphanedItems</job>

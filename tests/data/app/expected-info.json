@@ -77,5 +77,10 @@
 	},
 	"background-jobs": [],
 	"two-factor-providers": [],
-	"commands": []
+	"commands": [],
+	"activity": {
+		"filters": [],
+		"settings": [],
+		"providers": []
+	}
 }
