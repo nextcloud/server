@@ -1,0 +1,423 @@
+/* INPUTS */
+
+/* specifically override browser styles */
+input, textarea, select, button,
+.select2-container-multi .select2-choices .select2-search-field input,
+.select2-search input,
+.ui-widget  {
+	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
+}
+
+/* We need to specify all inputs to allow overriding, input only is too big */
+input[type="button"],
+input[type="color"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="file"],
+input[type="image"],
+input[type="month"],
+input[type="number"],
+input[type="password"],
+input[type="reset"],
+input[type="search"],
+input[type="submit"],
+input[type="tel"],
+input[type="text"],
+input[type="time"],
+input[type="url"],
+input[type="week"],
+textarea,
+select,
+button, .button,
+#quota,
+.pager li a {
+	margin: 3px 3px 3px 0;
+	padding: 7px 6px 5px;
+	font-size: 13px;
+	background-color: #fff;
+	color: #555;
+	border: 1px solid #e0e0e0;
+	outline: none;
+	border-radius: 3px;
+	font-family: inherit; /* use default ownCloud font instead of default textarea monospace */
+	transition: 200ms all ease-in-out;
+	&:hover, &:focus, &:active {
+		color: #333;
+		opacity: 1;
+		border-color: #dfdfdf;
+	}
+	&:hover {
+		border-color: #d9d9d9;
+	}
+	&:disabled {
+		background-color: #f0f0f0;
+	}
+}
+
+input[type="text"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="email"],
+input[type="tel"],
+input[type="url"],
+input[type="time"],
+input[type="date"],
+input[type="datetime-local"],
+textarea {
+	width: 130px;
+	-webkit-appearance:textfield;
+	-moz-appearance:textfield;
+	box-sizing:content-box;
+	cursor: text;
+}
+input[type="hidden"] {
+	height: 0;
+	width: 0;
+}
+
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background: url('../img/actions/triangle-s.svg') no-repeat right 8px center;
+	outline: 0;
+	padding-right: 24px !important;
+}
+
+select:hover {
+	background-color: #fefefe;
+}
+
+/* BUTTONS */
+input[type="submit"], input[type="button"],
+button, .button,
+#quota, select, .pager li a {
+	min-width: 25px;
+	padding: 5px;
+	font-weight: 600;
+	color: #555;
+	cursor: pointer;
+	background-color: #f8f8f8;
+}
+select, .button.multiselect {
+	font-weight: 400;
+}
+input[type="submit"], input[type="button"],
+button, .button,
+.button a,
+select {
+	border-color: #e6e6e6;
+	&:hover, &:active, &:focus {
+		background-color: #f1f1f1;
+		color: #111;
+		border-color: #e6e6e6;
+	}
+}
+input[type="submit"], input[type="button"],
+button, .button {
+	img {
+		cursor:pointer;
+	}
+}
+#header .button {
+	border: none;
+	box-shadow: none;
+}
+
+input:disabled+label, input:disabled:hover+label, input:disabled:focus+label {
+	color: #999 !important;
+	cursor: default;
+}
+
+/* correctly align images inside of buttons */
+input img, button img, .button img {
+	vertical-align: text-bottom;
+}
+
+input[type="submit"].enabled {
+	background-color: #66f866;
+	border: 1px solid #5e5;
+}
+
+.input-button-inline {
+	position: absolute !important;
+	right: 0;
+	background-color: transparent !important;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	opacity: .3;
+}
+
+/* CHECKBOXES */
+input[type="checkbox"].checkbox {
+	position: absolute;
+	left:-10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+input[type="checkbox"].checkbox + label:before {
+	content: "";
+	display: inline-block;
+
+	height: 20px;
+	width: 20px;
+	vertical-align: middle;
+
+	background: url('../img/actions/checkbox.svg') left top no-repeat;
+}
+
+input[type="checkbox"].checkbox:disabled +label:before { opacity: .6; }
+
+input[type="checkbox"].checkbox.u-left +label:before { float: left; }
+input[type="checkbox"].checkbox.u-hidden + label:before { display: none; }
+
+input[type="checkbox"].checkbox:checked + label:before {
+	background-image: url('../img/actions/checkbox-checked.svg');
+}
+
+input[type="checkbox"].checkbox:indeterminate + label:before {
+	background-image: url('../img/actions/checkbox-mixed.svg');
+}
+
+input[type="checkbox"].checkbox:disabled + label:before {
+	background-image: url('../img/actions/checkbox-disabled.svg');
+}
+
+input[type="checkbox"].checkbox:checked:disabled + label:before {
+	background-image: url('../img/actions/checkbox-checked-disabled.svg');
+}
+
+input[type="checkbox"].checkbox:indeterminate:disabled + label:before {
+	background-image: url('../img/actions/checkbox-mixed-disabled.svg');
+}
+
+input[type="checkbox"].checkbox--white + label:before {
+	background-image: url('../img/actions/checkbox-white.svg');
+}
+
+input[type="checkbox"].checkbox--white:checked + label:before {
+	background-image: url('../img/actions/checkbox-checked-white.svg');
+}
+
+input[type="checkbox"].checkbox--white:indeterminate + label:before {
+	background-image: url('../img/actions/checkbox-mixed-white.svg');
+}
+
+input[type="checkbox"].checkbox--white:disabled + label:before {
+	background-image: url('../img/actions/checkbox-disabled-white.svg');
+}
+
+input[type="checkbox"].checkbox--white:checked:disabled + label:before {
+	background-image: url('../img/actions/checkbox-checked-disabled.svg');
+}
+
+input[type="checkbox"].checkbox--white:indeterminate:disabled + label:before {
+	background-image: url('../img/actions/checkbox-mixed-disabled.svg');
+}
+
+input[type="checkbox"].checkbox:hover+label:before, input[type="checkbox"]:focus+label:before {
+	color:#111 !important;
+}
+
+input[type="radio"].radio {
+	position: absolute;
+	left:-10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+input[type="radio"].radio + label:before {
+	content: "";
+	display: inline-block;
+
+	height: 20px;
+	width: 20px;
+	vertical-align: middle;
+
+	background: url('../img/actions/radio.svg') left top no-repeat;
+}
+
+input[type="radio"].radio:checked + label:before {
+	background-image: url('../img/actions/radio-checked.svg');
+}
+
+input[type="radio"].radio:disabled + label:before {
+	background-image: url('../img/actions/radio-disabled.svg');
+}
+
+input[type="radio"].radio:checked:disabled + label:before {
+	background-image: url('../img/actions/radio-checked-disabled.svg');
+}
+
+input[type="radio"].radio--white + label:before {
+	background-image: url('../img/actions/radio-white.svg');
+}
+
+input[type="radio"].radio--white:checked + label:before {
+	background-image: url('../img/actions/radio-checked-white.svg');
+}
+
+input[type="radio"].radio--white:disabled + label:before {
+	background-image: url('../img/actions/radio-disabled.svg');
+}
+
+input[type="radio"].radio--white:checked:disabled + label:before {
+	background-image: url('../img/actions/radio-checked-disabled.svg');
+}
+
+/* SELECT2 adjustments */
+#select2-drop {
+	margin-top: -2px;
+	&.select2-drop-active {
+		border-color: #ddd;
+	}
+	.avatar {
+		display: inline-block;
+		margin-right: 8px;
+		vertical-align: middle;
+	}
+	.select2-search input {
+		width: calc(100% - 14px);
+		min-height: auto;
+		background: url('../img/actions/search.svg') no-repeat right center;
+		background-origin: content-box;
+	}
+	.select2-results {
+		max-height: 220px;
+		margin: 0;
+		padding: 0;
+		.select2-result {
+			position: relative;
+			display: list-item;
+			padding: 12px;
+			background-color: #fff;
+			cursor: pointer;
+			color: #222;
+			&.select2-selected {
+				background-color: #f8f8f8;
+			}
+			&.select2-highlighted {
+				background-color: #f8f8f8;
+				color: #000;
+			}
+		}
+
+	}
+}
+.select2-container-multi .select2-choices,
+.select2-container-multi.select2-container-active .select2-choices,
+.select2-container .select2-choice {
+	box-shadow: none;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	background: #fff;
+	color: #555;
+	box-sizing: content-box;
+	border-radius: 3px;
+	border: 1px solid #ddd;
+	margin: 0;
+	padding: 2px 0;
+	min-height: auto;
+	.select2-search-choice {
+		line-height: 20px;
+		padding-left: 5px;
+		background-image: none;
+		background-color: #f8f8f8;
+		border-color: #f8f8f8;
+		&.select2-search-choice-focus,
+		&:hover {
+			background-color: #f0f0f0;
+			border-color: #f0f0f0;
+		}
+		.select2-search-choice-close {
+			display: none;
+		}
+	}
+	.select2-search-field input {
+		line-height: 20px;
+	}
+}
+.select2-container {
+	margin: 3px 3px 3px 0;
+	&.select2-container-multi .select2-choices {
+		display: flex;
+		flex-wrap: wrap;
+		li {
+			float: none;
+		}
+	}
+	.select2-choice {
+		padding-left: 38px;
+		.select2-arrow {
+			background: none;
+			border-radius: 0;
+			border: none;
+			b {
+				background: url('../img/actions/triangle-s.svg') no-repeat center;
+				opacity: 0.5;
+			}
+		}
+		&:hover, &:focus, &:active {
+			.select2-arrow b {
+				opacity: 0.7;
+			}
+		}
+	}
+}
+
+/* jQuery UI fixes */
+.ui-menu {
+	padding: 0 !important;
+}
+.ui-menu .ui-menu-item a.ui-state-focus, .ui-menu .ui-menu-item a.ui-state-active {
+		font-weight: inherit !important;
+		margin: 0 !important;
+}
+.ui-widget-content {
+	background: #fff !important;
+	border-top: none !important;
+}
+.ui-corner-all {
+	border-radius: 0 !important;
+	border-bottom-left-radius: 3px !important;
+	border-bottom-right-radius: 3px !important;
+}
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+		border: none !important;
+		background: #f8f8f8 !important;
+}
+
+/* Primary action button, use sparingly */
+.primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary {
+	border: 1px solid #0082c9;
+	background-color: #00a2e9;
+	color: #ddd;
+	&:hover, &:focus {
+		background-color: #0092d9;
+		color: #fff;
+	}
+	&:active, &:disabled, &:disabled:hover, &:disabled:focus {
+		background-color: #00a2e9;
+		color: #bbb;
+	}
+}
+
+@keyframes shake {
+	0% { transform: translate(-5px, 0); }
+	20% { transform: translate(5px, 0); }
+	40% { transform: translate(-5px, 0); }
+	60% { transform: translate(5px, 0); }
+	80% { transform: translate(-5px, 0); }
+	100% { transform: translate(5px, 0); }
+}
+.shake {
+	animation-name: shake;
+	animation-duration: .3s;
+	animation-timing-function: ease-out;
+}
