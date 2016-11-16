@@ -101,13 +101,13 @@ interface IEvent {
 	 * @param string $subject
 	 * @return $this
 	 * @throws \InvalidArgumentException if the subject is invalid
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function setParsedSubject($subject);
 
 	/**
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getParsedSubject();
 
@@ -116,19 +116,19 @@ interface IEvent {
 	 * @param array $parameters
 	 * @return $this
 	 * @throws \InvalidArgumentException if the subject or parameters are invalid
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function setRichSubject($subject, array $parameters = []);
 
 	/**
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getRichSubject();
 
 	/**
 	 * @return array[]
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getRichSubjectParameters();
 
@@ -147,13 +147,13 @@ interface IEvent {
 	 * @param string $message
 	 * @return $this
 	 * @throws \InvalidArgumentException if the message is invalid
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function setParsedMessage($message);
 
 	/**
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getParsedMessage();
 
@@ -162,19 +162,19 @@ interface IEvent {
 	 * @param array $parameters
 	 * @return $this
 	 * @throws \InvalidArgumentException if the message or parameters are invalid
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function setRichMessage($message, array $parameters = []);
 
 	/**
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getRichMessage();
 
 	/**
 	 * @return array[]
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getRichMessageParameters();
 
@@ -282,37 +282,37 @@ interface IEvent {
 	 * @param string $icon
 	 * @return $this
 	 * @throws \InvalidArgumentException if the icon is invalid
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function setIcon($icon);
 
 	/**
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getIcon();
 
 	/**
 	 * @param IEvent $child
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function setChildEvent(IEvent $child);
 
 	/**
 	 * @return IEvent|null
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getChildEvent();
 
 	/**
 	 * @return bool
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function isValid();
 
 	/**
 	 * @return bool
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function isValidParsed();
 }

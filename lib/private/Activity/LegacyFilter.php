@@ -55,7 +55,7 @@ class LegacyFilter implements IFilter {
 
 	/**
 	 * @return string Lowercase a-z and underscore only identifier
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getIdentifier() {
 		return $this->identifier;
@@ -63,7 +63,7 @@ class LegacyFilter implements IFilter {
 
 	/**
 	 * @return string A translated string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getName() {
 		return $this->name;
@@ -73,7 +73,7 @@ class LegacyFilter implements IFilter {
 	 * @return int whether the filter should be rather on the top or bottom of
 	 * the admin section. The filters are arranged in ascending order of the
 	 * priority values. It is required to return a value between 0 and 100.
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getPriority() {
 		return $this->isTopFilter ? 40 : 50;
@@ -81,7 +81,7 @@ class LegacyFilter implements IFilter {
 
 	/**
 	 * @return string Full URL to an icon, empty string when none is given
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getIcon() {
 		// Old API was CSS class, so we can not use this...
@@ -91,7 +91,7 @@ class LegacyFilter implements IFilter {
 	/**
 	 * @param string[] $types
 	 * @return string[] An array of allowed apps from which activities should be displayed
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function filterTypes(array $types) {
 		return $this->manager->filterNotificationTypes($types, $this->getIdentifier());
@@ -99,7 +99,7 @@ class LegacyFilter implements IFilter {
 
 	/**
 	 * @return string[] An array of allowed apps from which activities should be displayed
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function allowedApps() {
 		return [];

@@ -39,7 +39,7 @@ class FileFavorite implements ISetting {
 
 	/**
 	 * @return string Lowercase a-z and underscore only identifier
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getIdentifier() {
 		return 'file_favorite';
@@ -47,7 +47,7 @@ class FileFavorite implements ISetting {
 
 	/**
 	 * @return string A translated string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getName() {
 		return $this->l->t('Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>');
@@ -57,7 +57,7 @@ class FileFavorite implements ISetting {
 	 * @return int whether the filter should be rather on the top or bottom of
 	 * the admin section. The filters are arranged in ascending order of the
 	 * priority values. It is required to return a value between 0 and 100.
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getPriority() {
 		return 2;
@@ -65,7 +65,7 @@ class FileFavorite implements ISetting {
 
 	/**
 	 * @return bool True when the option can be changed for the stream
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function canChangeStream() {
 		return true;
@@ -73,7 +73,7 @@ class FileFavorite implements ISetting {
 
 	/**
 	 * @return bool True when the option can be changed for the stream
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function isDefaultEnabledStream() {
 		return false;
@@ -81,7 +81,7 @@ class FileFavorite implements ISetting {
 
 	/**
 	 * @return bool True when the option can be changed for the mail
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function canChangeMail() {
 		return false;
@@ -89,7 +89,7 @@ class FileFavorite implements ISetting {
 
 	/**
 	 * @return bool True when the option can be changed for the stream
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function isDefaultEnabledMail() {
 		return false;

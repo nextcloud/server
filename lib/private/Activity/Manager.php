@@ -301,7 +301,7 @@ class Manager implements IManager {
 	 * @param string $id
 	 * @return IFilter
 	 * @throws \InvalidArgumentException when the filter was not found
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getFilterById($id) {
 		$filters = $this->getFilters();
@@ -413,7 +413,7 @@ class Manager implements IManager {
 	 * @param string $id
 	 * @return ISetting
 	 * @throws \InvalidArgumentException when the setting was not found
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getSettingById($id) {
 		$settings = $this->getSettings();
@@ -581,7 +581,7 @@ class Manager implements IManager {
 
 	/**
 	 * @return array
-	 * @deprecated 9.2.0 - Use getFilters() instead
+	 * @deprecated 11.0.0 - Use getFilters() instead
 	 */
 	public function getNavigation() {
 		$entries = array(
@@ -602,7 +602,7 @@ class Manager implements IManager {
 	/**
 	 * @param string $filterValue
 	 * @return boolean
-	 * @deprecated 9.2.0 - Use getFilterById() instead
+	 * @deprecated 11.0.0 - Use getFilterById() instead
 	 */
 	public function isFilterValid($filterValue) {
 		if (isset($this->validFilters[$filterValue])) {
@@ -624,7 +624,7 @@ class Manager implements IManager {
 	 * @param array $types
 	 * @param string $filter
 	 * @return array
-	 * @deprecated 9.2.0 - Use getFilterById()->filterTypes() instead
+	 * @deprecated 11.0.0 - Use getFilterById()->filterTypes() instead
 	 */
 	public function filterNotificationTypes($types, $filter) {
 		if (!$this->isFilterValid($filter)) {
@@ -643,7 +643,7 @@ class Manager implements IManager {
 	/**
 	 * @param string $filter
 	 * @return array
-	 * @deprecated 9.2.0 - Use getFilterById() instead
+	 * @deprecated 11.0.0 - Use getFilterById() instead
 	 */
 	public function getQueryForFilter($filter) {
 		if (!$this->isFilterValid($filter)) {
@@ -676,7 +676,7 @@ class Manager implements IManager {
 	 *
 	 * @param string $languageCode
 	 * @return array
-	 * @deprecated 9.2.0 - Use getSettings() instead
+	 * @deprecated 11.0.0 - Use getSettings() instead
 	 */
 	public function getNotificationTypes($languageCode) {
 		$notificationTypes = $sharingNotificationTypes = [];
@@ -698,7 +698,7 @@ class Manager implements IManager {
 	/**
 	 * @param string $method
 	 * @return array
-	 * @deprecated 9.2.0 - Use getSettings()->isDefaulEnabled<method>() instead
+	 * @deprecated 11.0.0 - Use getSettings()->isDefaulEnabled<method>() instead
 	 */
 	public function getDefaultTypes($method) {
 		$defaultTypes = array();

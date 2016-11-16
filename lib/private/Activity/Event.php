@@ -233,7 +233,7 @@ class Event implements IEvent {
 	 * @param string $subject
 	 * @return $this
 	 * @throws \InvalidArgumentException if the subject is invalid
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function setParsedSubject($subject) {
 		if (!is_string($subject) || $subject === '') {
@@ -245,7 +245,7 @@ class Event implements IEvent {
 
 	/**
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getParsedSubject() {
 		return $this->subjectParsed;
@@ -256,7 +256,7 @@ class Event implements IEvent {
 	 * @param array $parameters
 	 * @return $this
 	 * @throws \InvalidArgumentException if the subject or parameters are invalid
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function setRichSubject($subject, array $parameters = []) {
 		if (!is_string($subject) || $subject === '') {
@@ -274,7 +274,7 @@ class Event implements IEvent {
 
 	/**
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getRichSubject() {
 		return $this->subjectRich;
@@ -282,7 +282,7 @@ class Event implements IEvent {
 
 	/**
 	 * @return array[]
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getRichSubjectParameters() {
 		return $this->subjectRichParameters;
@@ -324,7 +324,7 @@ class Event implements IEvent {
 	 * @param string $message
 	 * @return $this
 	 * @throws \InvalidArgumentException if the message is invalid
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function setParsedMessage($message) {
 		if (!is_string($message)) {
@@ -336,7 +336,7 @@ class Event implements IEvent {
 
 	/**
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getParsedMessage() {
 		return $this->messageParsed;
@@ -347,7 +347,7 @@ class Event implements IEvent {
 	 * @param array $parameters
 	 * @return $this
 	 * @throws \InvalidArgumentException if the subject or parameters are invalid
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function setRichMessage($message, array $parameters = []) {
 		if (!is_string($message)) {
@@ -365,7 +365,7 @@ class Event implements IEvent {
 
 	/**
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getRichMessage() {
 		return $this->messageRich;
@@ -373,7 +373,7 @@ class Event implements IEvent {
 
 	/**
 	 * @return array[]
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getRichMessageParameters() {
 		return $this->messageRichParameters;
@@ -453,7 +453,7 @@ class Event implements IEvent {
 	 * @param string $icon
 	 * @return $this
 	 * @throws \InvalidArgumentException if the icon is invalid
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function setIcon($icon) {
 		if (!is_string($icon) || isset($icon[4000])) {
@@ -465,7 +465,7 @@ class Event implements IEvent {
 
 	/**
 	 * @return string
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getIcon() {
 		return $this->icon;
@@ -473,7 +473,7 @@ class Event implements IEvent {
 
 	/**
 	 * @param IEvent $child
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function setChildEvent(IEvent $child) {
 		$this->child = $child;
@@ -481,7 +481,7 @@ class Event implements IEvent {
 
 	/**
 	 * @return IEvent|null
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getChildEvent() {
 		return $this->child;

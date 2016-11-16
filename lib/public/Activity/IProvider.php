@@ -25,7 +25,7 @@ namespace OCP\Activity;
  * Interface IProvider
  *
  * @package OCP\Activity
- * @since 9.2.0
+ * @since 11.0.0
  */
 interface IProvider {
 	/**
@@ -33,7 +33,7 @@ interface IProvider {
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
 	 * @throws \InvalidArgumentException
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function parse(IEvent $event, IEvent $previousEvent = null);
 }

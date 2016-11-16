@@ -111,13 +111,13 @@ interface IManager {
 	/**
 	 * @param string $filter Class must implement OCA\Activity\IFilter
 	 * @return void
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function registerFilter($filter);
 
 	/**
 	 * @return IFilter[]
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getFilters();
 
@@ -125,33 +125,33 @@ interface IManager {
 	 * @param string $id
 	 * @return IFilter
 	 * @throws \InvalidArgumentException when the filter was not found
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getFilterById($id);
 
 	/**
 	 * @param string $setting Class must implement OCA\Activity\ISetting
 	 * @return void
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function registerSetting($setting);
 
 	/**
 	 * @return ISetting[]
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getSettings();
 
 	/**
 	 * @param string $provider Class must implement OCA\Activity\IProvider
 	 * @return void
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function registerProvider($provider);
 
 	/**
 	 * @return IProvider[]
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getProviders();
 
@@ -159,7 +159,7 @@ interface IManager {
 	 * @param string $id
 	 * @return ISetting
 	 * @throws \InvalidArgumentException when the setting was not found
-	 * @since 9.2.0
+	 * @since 11.0.0
 	 */
 	public function getSettingById($id);
 
@@ -173,7 +173,7 @@ interface IManager {
 	 * 					'methods' => [\OCP\Activity\IExtension::METHOD_*],
 	 * 				]
 	 * @since 8.0.0 - 8.2.0: Added support to allow limiting notifications to certain methods
-	 * @deprecated 9.2.0 - Use getSettings() instead
+	 * @deprecated 11.0.0 - Use getSettings() instead
 	 */
 	public function getNotificationTypes($languageCode);
 
@@ -181,7 +181,7 @@ interface IManager {
 	 * @param string $method
 	 * @return array
 	 * @since 8.0.0
-	 * @deprecated 9.2.0 - Use getSettings()->isDefaulEnabled<method>() instead
+	 * @deprecated 11.0.0 - Use getSettings()->isDefaulEnabled<method>() instead
 	 */
 	public function getDefaultTypes($method);
 
@@ -256,7 +256,7 @@ interface IManager {
 	/**
 	 * @return array
 	 * @since 8.0.0
-	 * @deprecated 9.2.0 - Use getFilters() instead
+	 * @deprecated 11.0.0 - Use getFilters() instead
 	 */
 	public function getNavigation();
 
@@ -264,7 +264,7 @@ interface IManager {
 	 * @param string $filterValue
 	 * @return boolean
 	 * @since 8.0.0
-	 * @deprecated 9.2.0 - Use getFilterById() instead
+	 * @deprecated 11.0.0 - Use getFilterById() instead
 	 */
 	public function isFilterValid($filterValue);
 
@@ -273,7 +273,7 @@ interface IManager {
 	 * @param string $filter
 	 * @return array
 	 * @since 8.0.0
-	 * @deprecated 9.2.0 - Use getFilterById()->filterTypes() instead
+	 * @deprecated 11.0.0 - Use getFilterById()->filterTypes() instead
 	 */
 	public function filterNotificationTypes($types, $filter);
 
@@ -281,7 +281,7 @@ interface IManager {
 	 * @param string $filter
 	 * @return array
 	 * @since 8.0.0
-	 * @deprecated 9.2.0 - Use getFilterById() instead
+	 * @deprecated 11.0.0 - Use getFilterById() instead
 	 */
 	public function getQueryForFilter($filter);
 }
