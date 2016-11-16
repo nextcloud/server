@@ -72,4 +72,6 @@ $(document).ready(function(){
 		groups = JSON.stringify(groups);
 		OCP.AppConfig.setValue('updatenotification', 'notify_groups', groups);
 	});
+
+	$('#oca_updatenotification_section .icon-info').tooltip({placement: 'right'});
 });
