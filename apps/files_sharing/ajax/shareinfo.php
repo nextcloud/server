@@ -63,9 +63,12 @@ $path = $data['realPath'];
 
 $isWritable = $share->getPermissions() & (\OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_CREATE);
 if (!$isWritable) {
+	// FIXME: should not add storage wrappers outside of preSetup, need to find a better way
+	$previousLog = \OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(false);
 	\OC\Files\Filesystem::addStorageWrapper('readonly', function ($mountPoint, $storage) {
 		return new \OC\Files\Storage\Wrapper\PermissionsMask(array('storage' => $storage, 'mask' => \OCP\Constants::PERMISSION_READ + \OCP\Constants::PERMISSION_SHARE));
 	});
+	\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 }
 
 $rootInfo = \OC\Files\Filesystem::getFileInfo($path);
