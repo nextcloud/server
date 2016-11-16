@@ -390,8 +390,8 @@ class OC {
 		foreach ($incompatibleApps as $appInfo) {
 			if ($appManager->isShipped($appInfo['id'])) {
 				$l = \OC::$server->getL10N('core');
-				$hint = $l->t('The files of the app "%$1s" (%$2s) were not replaced correctly.', [$appInfo['name'], $appInfo['id']]);
-				throw new \OC\HintException('The files of the app "' . $appInfo['name'] . '" (' . $appInfo['id'] . ') were not replaced correctly.', $hint);
+				$hint = $l->t('The files of the app %$1s (%$2s) were not replaced correctly. Make sure it is a version compatible with the server.', [$appInfo['name'], $appInfo['id']]);
+				throw new \OC\HintException('The files of the app ' . $appInfo['name'] . ' (' . $appInfo['id'] . ') were not replaced correctly. Make sure it is a version compatible with the server.', $hint);
 			}
 		}
 
