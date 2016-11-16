@@ -16,7 +16,7 @@
 		'<ul>' +
 		'{{#each items}}' +
 		'<li>' +
-		'<a href="#" class="menuitem action action-{{name}} permanent" data-action="{{name}}">' +
+		'<a href="#" class="menuitem action action-{{name}} permanent" data-action="{{name}}" title="{{tooltip}}">' +
 			'{{#if icon}}<img class="icon" src="{{icon}}"/>' +
 			'{{else}}'+
 				'{{#if iconClass}}' +
@@ -38,23 +38,32 @@
 	var FederationScopeMenu = OC.Backbone.View.extend({
 		tagName: 'div',
 		className: 'federationScopeMenu popovermenu bubble hidden open menu',
-		_scopes: [
-			{
-				name: 'private',
-				displayName: t('core', 'Private'),
-				icon: OC.imagePath('core', 'actions/password')
-			},
-			{
-				name: 'contacts',
-				displayName: t('core', 'Contacts'),
-				icon: OC.imagePath('core', 'places/contacts-dark')
-			},
-			{
-				name: 'public',
-				displayName: t('core', 'Public'),
-				icon: OC.imagePath('core', 'places/link')
-			}
-		],
+		field: undefined,
+		_scopes: undefined,
+
+		initialize: function(options) {
+			this.field = options.field;
+			this._scopes = [
+				{
+					name: 'private',
+					displayName: (this.field == 'avatar' || this.field == 'displayname') ? t('core', 'Local') : t('core', 'Private'),
+					tooltip: (this.field == 'avatar' || this.field == 'displayname') ? t('core', 'Only visible to local users') : t('core', 'Only visible to you'),
+					icon: OC.imagePath('core', 'actions/password')
+				},
+				{
+					name: 'contacts',
+					displayName: t('core', 'Contacts'),
+					tooltip: t('core', 'Visible to local users and to trusted servers'),
+					icon: OC.imagePath('core', 'places/contacts-dark')
+				},
+				{
+					name: 'public',
+					displayName: t('core', 'Public'),
+					tooltip: t('core', 'Will be synced to a global and public address book'),
+					icon: OC.imagePath('core', 'places/link')
+				}
+			];
+		},
 
 		/**
 		 * Current context

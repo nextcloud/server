@@ -64,7 +64,7 @@
 			_.each(this._inputFields, function(field) {
 				var $heading = self.$('#' + field + 'form h2');
 				var $icon = self.$('#' + field + 'form h2 > span');
-				var scopeMenu = new OC.Settings.FederationScopeMenu();
+				var scopeMenu = new OC.Settings.FederationScopeMenu({field: field});
 
 				self.listenTo(scopeMenu, 'select:scope', function(scope) {
 					self._onScopeChanged(field, scope);
