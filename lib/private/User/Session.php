@@ -529,7 +529,7 @@ class Session implements IUserSession, Emitter {
 		$this->manager->emit('\OC\User', 'postLogin', array($user, $password));
 
 		if ($this->isLoggedIn()) {
-			$this->prepareUserLogin();
+			$this->prepareUserLogin(false); // token login cant be the first
 		} else {
 			// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
 			$message = \OC::$server->getL10N('lib')->t('Login canceled by app');
