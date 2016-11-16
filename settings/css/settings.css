@@ -82,7 +82,7 @@ input#openid, input#webdav { width:20em; }
 	height: 20px;
 	min-width: 200px;
 }
-#avatarform > h2 span,
+#avatarform > h2,
 #personal-settings-container > div h2 {
 	position: relative;
 }
