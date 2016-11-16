@@ -109,10 +109,24 @@
 		show: function(context) {
 			this._context = context;
 
+			var $el = $(context.target);
+			var offsetIcon = $el.offset();
+			var offsetHeading = $el.closest('h2').offset();
+
 			this.render();
 			this.$el.removeClass('hidden');
 
 			OC.showMenu(null, this.$el);
+
+			//Set the menuwidth
+			var menuWidth = this.$el.width();
+			this.$el.css('width', menuWidth);
+
+			//Calculate menu position
+			var l = offsetIcon.left - offsetHeading.left;
+			l = l - (menuWidth / 2) + ($el.width()/2);
+			this.$el.css('left', l);
+
 		}
 	});
 

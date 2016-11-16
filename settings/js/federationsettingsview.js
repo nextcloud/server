@@ -72,12 +72,6 @@
 				$heading.append(scopeMenu.$el);
 				$icon.on('click', _.bind(scopeMenu.show, scopeMenu));
 
-				// Fix absolute position according to the heading text length
-				// TODO: find alternative to those magic number
-				var diff = field === 'avatar' ? 104 : 68;
-				var pos = ($heading.width() - $heading.find('label').width()) - diff;
-				scopeMenu.$el.css('right', pos);
-
 				// Restore initial state
 				self._setFieldScopeIcon(field, self._config.get(field + 'Scope'));
 			});
