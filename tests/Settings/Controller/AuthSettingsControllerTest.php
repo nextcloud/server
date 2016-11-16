@@ -212,15 +212,14 @@ class AuthSettingsControllerTest extends TestCase {
 		$token->expects($this->once())
 			->method('setScope')
 			->with($this->equalTo([
-				'filesystem' => true,
-				'app' => ['dav', 'myapp']
+				'filesystem' => true
 			]));
 
 		$this->tokenProvider->expects($this->once())
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update(42, ['filesystem' => true, 'apps' => ['dav', 'myapp']]));
+		$this->assertSame([], $this->controller->update(42, ['filesystem' => true]));
 	}
 
 }

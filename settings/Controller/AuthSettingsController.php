@@ -192,8 +192,7 @@ class AuthSettingsController extends Controller {
 	public function update($id, array $scope) {
 		$token = $this->tokenProvider->getTokenById($id);
 		$token->setScope([
-			'filesystem' => $scope['filesystem'],
-			'app' => array_values($scope['apps'])
+			'filesystem' => $scope['filesystem']
 		]);
 		$this->tokenProvider->updateToken($token);
 		return [];
