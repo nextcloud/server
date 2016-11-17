@@ -715,7 +715,11 @@ class DefaultShareProvider implements IShareProvider {
 				}
 
 				$qb = $this->dbConn->getQueryBuilder();
-				$qb->select('s.*', 'f.fileid', 'f.path')
+				$qb->select('s.*',
+					'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
+					'f.parent AS f_parent', 'f.name', 'f.mimetype', 'f.mimepart', 'f.size', 'f.mtime', 'f.storage_mtime',
+					'f.encrypted', 'f.unencrypted_size', 'f.etag', 'f.checksum'
+				)
 					->selectAlias('st.id', 'storage_string_id')
 					->from('share', 's')
 					->leftJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'))
