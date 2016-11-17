@@ -11,6 +11,7 @@ namespace Test\App;
 
 use OC\Group\Group;
 use OC\User\User;
+use OCP\App\AppPathNotFoundException;
 use Test\TestCase;
 
 /**
@@ -258,6 +259,15 @@ class ManagerTest extends TestCase {
 		$this->appConfig->setValue('test', 'enabled', 'no');
 		$user = $this->newUser('user1');
 		$this->assertFalse($this->manager->isEnabledForUser('test', $user));
+	}
+
+	public function testGetAppPath() {
+		$this->assertEquals(\OC::$SERVERROOT . '/apps/files', $this->manager->getAppPath('files'));
+	}
+
+	public function testGetAppPathFail() {
+		$this->expectException(AppPathNotFoundException::class);
+		$this->manager->getAppPath('testnotexisting');
 	}
 
 	public function testIsEnabledForUserEnabledForGroup() {

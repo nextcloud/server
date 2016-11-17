@@ -79,6 +79,16 @@ interface IAppManager {
 	public function disableApp($appId);
 
 	/**
+	 * Get the directory for the given app.
+	 *
+	 * @param string $appId
+	 * @return string
+	 * @since 11.0.0
+	 * @throws AppPathNotFoundException
+	 */
+	public function getAppPath($appId);
+
+	/**
 	 * List all apps enabled for a user
 	 *
 	 * @param \OCP\IUser $user
