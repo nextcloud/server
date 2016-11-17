@@ -10,6 +10,7 @@
 
 namespace Tests\Settings\Controller;
 
+use OC\Accounts\AccountManager;
 use OC\Group\Manager;
 use OC\Settings\Controller\UsersController;
 use OCP\App\IAppManager;
@@ -57,6 +58,8 @@ class UsersControllerTest extends \Test\TestCase {
 	private $avatarManager;
 	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
 	private $l;
+	/** @var  AccountManager | \PHPUnit_Framework_MockObject_MockObject */
+	private $accountManager;
 
 	protected function setUp() {
 		parent::setUp();
@@ -71,6 +74,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->avatarManager = $this->createMock(IAvatarManager::class);
+		$this->accountManager = $this->createMock(AccountManager::class);
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')
 			->will($this->returnCallback(function ($text, $parameters = []) {
@@ -117,7 +121,8 @@ class UsersControllerTest extends \Test\TestCase {
 			'no-reply@owncloud.com',
 			$this->urlGenerator,
 			$this->appManager,
-			$this->avatarManager
+			$this->avatarManager,
+			$this->accountManager
 		);
 	}
 
@@ -1760,74 +1765,6 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResult, $result);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function setEmailAddressData() {
-		return [
-			/* mailAddress,    isValid, expectsUpdate, canChangeDisplayName, responseCode */
-			[ '',              true,    true,          true,                 Http::STATUS_OK ],
-			[ 'foo@local',     true,    true,          true,                 Http::STATUS_OK],
-			[ 'foo@bar@local', false,   false,         true,                 Http::STATUS_UNPROCESSABLE_ENTITY],
-			[ 'foo@local',     true,    false,         false,                Http::STATUS_FORBIDDEN],
-		];
-	}
-
-	/**
-	 * @dataProvider setEmailAddressData
-	 *
-	 * @param string $mailAddress
-	 * @param bool $isValid
-	 * @param bool $expectsUpdate
-	 * @param bool $expectsDelete
-	 */
-	public function testSetEmailAddress($mailAddress, $isValid, $expectsUpdate, $canChangeDisplayName, $responseCode) {
-		$controller = $this->getController(true);
-
-		$user = $this->getMockBuilder('\OC\User\User')
-			->disableOriginalConstructor()->getMock();
-		$user
-			->expects($this->any())
-			->method('getUID')
-			->will($this->returnValue('foo'));
-		$user
-			->expects($this->any())
-			->method('canChangeDisplayName')
-			->will($this->returnValue($canChangeDisplayName));
-		$user
-			->expects($expectsUpdate ? $this->once() : $this->never())
-			->method('setEMailAddress')
-			->with(
-				$this->equalTo($mailAddress)
-			);
-
-		$this->userSession
-			->expects($this->atLeastOnce())
-			->method('getUser')
-			->will($this->returnValue($user));
-		$this->mailer
-			->expects($this->any())
-			->method('validateMailAddress')
-			->with($mailAddress)
-			->willReturn($isValid);
-
-		if ($isValid) {
-			$user->expects($this->atLeastOnce())
-				->method('canChangeDisplayName')
-				->willReturn(true);
-
-			$this->userManager
-				->expects($this->atLeastOnce())
-				->method('get')
-				->with('foo')
-				->will($this->returnValue($user));
-		}
-
-		$response = $controller->setMailAddress($user->getUID(), $mailAddress);
-
-		$this->assertSame($responseCode, $response->getStatus());
-	}
-
 	public function testStatsAdmin() {
 		$controller = $this->getController(true);
 
@@ -1976,6 +1913,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('get')
 			->with($editUser->getUID())
 			->willReturn($editUser);
+		$this->accountManager->expects($this->any())->method('getUser')->willReturn([]);
 
 		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
 			->disableOriginalConstructor()
@@ -1994,10 +1932,6 @@ class UsersControllerTest extends \Test\TestCase {
 			->willReturn($isAdmin);
 
 		if ($valid === true) {
-			$editUser->expects($this->once())
-				->method('setDisplayName')
-				->with('newDisplayName')
-				->willReturn(true);
 			$expectedResponse = new DataResponse(
 				[
 					'status' => 'success',
@@ -2009,7 +1943,6 @@ class UsersControllerTest extends \Test\TestCase {
 				]
 			);
 		} else {
-			$editUser->expects($this->never())->method('setDisplayName');
 			$expectedResponse = new DataResponse(
 				[
 					'status' => 'error',

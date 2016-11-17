@@ -603,8 +603,9 @@ class UsersController extends Controller {
 
 		// keep the user back-end up-to-date with the latest display name and email
 		// address
-		if (isset($data['displayName']['value'])  && $user->getDisplayName() !== $data['displayName']['value']) {
-			$result = $user->setDisplayName($data['displayName']['value']);
+		$oldDisplayName = $user->getDisplayName();
+		if (isset($data[AccountManager::PROPERTY_DISPLAYNAME]['value'])  && $oldDisplayName !== $data[AccountManager::PROPERTY_DISPLAYNAME]['value']) {
+			$result = $user->setDisplayName($data[AccountManager::PROPERTY_DISPLAYNAME]['value']);
 			if ($result === false) {
 				throw new ForbiddenException($this->l10n->t('Unable to change full name'));
 			}
