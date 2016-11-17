@@ -1517,31 +1517,15 @@ function initCore() {
 }
 
 OC.PasswordConfirmation = {
-	$form: null,
-	$background: null,
-	$input: null,
-	$submit: null,
 	callback: null,
 
 	init: function() {
-		var self = this;
-		this.$form = $('#sudo-login-form');
-		this.$background = $('#sudo-login-background');
-		this.$input = this.$form.find('.question');
-		this.$submit = this.$form.find('.confirm');
-
-		this.$background.on('click', _.bind(this._fadeOut, this));
 		$('.password-confirm-required').on('click', _.bind(this.requirePasswordConfirmation, this));
-		this.$submit.on('click', _.bind(this._submitPasswordConfirmation, this));
-		this.$input.keyup(function(e) {
-			if (e.keyCode === 13) {
-				self._submitPasswordConfirmation();
-			}
-		});
 	},
 
 	requiresPasswordConfirmation: function() {
 		var timeSinceLogin = moment.now() - nc_lastLogin * 1000;
+		return timeSinceLogin > 10 * 1000; // 30 minutes
 		return timeSinceLogin > 30 * 60 * 1000; // 30 minutes
 	},
 
@@ -1549,50 +1533,56 @@ OC.PasswordConfirmation = {
 	 * @param {function} callback
 	 */
 	requirePasswordConfirmation: function(callback) {
+		var self = this;
+
 		if (this.requiresPasswordConfirmation()) {
-			this.$form.removeClass('hidden');
-			this.$background.removeClass('hidden');
-			this.$input.val('');
+			OC.dialogs.prompt(
+				t(
+					'core',
+					'This action requires you to confirm your password'
+				),
+				t('core','Authentication required'),
+				function (result, password) {
+					if (result && password !== '') {
+						self._confirmPassword(password);
+					}
+				},
+				true,
+				t('core','Password'),
+				true
+			).then(function() {
+				var $dialog = $('.oc-dialog:visible');
+				$dialog.find('.ui-icon').remove();
+
+				var $buttons = $dialog.find('button');
+				$buttons.eq(0).text(t('core', 'Cancel'));
+				$buttons.eq(1).text(t('core', 'Confirm'));
+			});
 		}
 
 		this.callback = callback;
 	},
 
-	_submitPasswordConfirmation: function() {
+	_confirmPassword: function(password) {
 		var self = this;
-
-		self.$submit.removeClass('icon-confirm').addClass('icon-loading-small');
 
 		$.ajax({
 			url: OC.generateUrl('/login/confirm'),
 			data: {
-				password: this.$input.val()
+				password: password
 			},
 			type: 'POST',
 			success: function(response) {
-				self.$input.val('');
 				nc_lastLogin = response.lastLogin;
-				self.$submit.addClass('icon-confirm').removeClass('icon-loading-small');
-
-				self.$form.addClass('hidden');
-				self.$background.addClass('hidden');
 
 				if (_.isFunction(self.callback)) {
 					self.callback();
 				}
 			},
 			error: function() {
-				self.$input.val('');
 				OC.Notification.showTemporary(t('core', 'Failed to authenticate, try again'));
-				self.$submit.addClass('icon-confirm').removeClass('icon-loading-small');
 			}
 		});
-	},
-
-	_fadeOut: function() {
-		this.$form.addClass('hidden');
-		this.$background.addClass('hidden');
-		this.$input.value = '';
 	}
 };
 
