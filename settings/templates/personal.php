@@ -112,6 +112,20 @@ if($_['displayNameChangeSupported']) {
 		</form>
 	</div>
 	<div class="personal-settings-setting-box">
+		<form id="addressform" class="section">
+			<h2>
+				<label for="address"><?php echo $l->t('Address'); ?></label>
+				<span class="icon-password"/>
+			</h2>
+			<input type="text" id="address" name="address"
+				   placeholder="<?php p($l->t('Your postal address')); ?>"
+				   value="<?php p($_['address']) ?>"
+				   autocomplete="on" autocapitalize="off" autocorrect="off" />
+			<span class="icon-checkmark hidden"/>
+			<input type="hidden" id="addressscope" value="<?php p($_['addressScope']) ?>">
+		</form>
+	</div>
+	<div class="personal-settings-setting-box">
 		<form id="websiteform" class="section">
 			<h2>
 				<label for="website"><?php p($l->t('Website')); ?></label>
@@ -124,7 +138,6 @@ if($_['displayNameChangeSupported']) {
 			<input type="hidden" id="websitescope" value="<?php p($_['websiteScope']) ?>">
 		</form>
 	</div>
-
 	<div class="personal-settings-setting-box">
 		<form id="twitterform" class="section">
 			<h2>
@@ -139,21 +152,6 @@ if($_['displayNameChangeSupported']) {
 		</form>
 	</div>
 
-
-	<div class="personal-settings-setting-box">
-		<form id="addressform" class="section">
-			<h2>
-				<label for="address"><?php echo $l->t('Address'); ?></label>
-				<span class="icon-password"/>
-			</h2>
-			<input type="text" id="address" name="address"
-				   placeholder="<?php p($l->t('Your postal address')); ?>"
-			       value="<?php p($_['address']) ?>"
-			       autocomplete="on" autocapitalize="off" autocorrect="off" />
-			<span class="icon-checkmark hidden"/>
-			<input type="hidden" id="addressscope" value="<?php p($_['addressScope']) ?>">
-		</form>
-	</div>
 	<span class="msg"></span>
 </div>
 <?php
@@ -200,6 +198,10 @@ if($_['displayNameChangeSupported']) {
 		<h2><?php p($l->t('Phone')); ?></h2>
 		<span><?php if(isset($_['phone'][0])) { p($_['phone']); } else { p($l->t('No phone number set')); }?></span>
 	</div>
+	<div id="addressform" class="section">
+		<h2><?php p($l->t('Address')); ?></h2>
+		<span><?php if(isset($_['address'][0])) { p($_['address']); } else { p($l->t('No address set')); }?></span>
+	</div>
 	<div id="websiteform" class="section">
 		<h2><?php p($l->t('Website')); ?></h2>
 		<span><?php if(isset($_['website'][0])) { p($_['website']); } else { p($l->t('No website set')); }?></span>
@@ -208,10 +210,7 @@ if($_['displayNameChangeSupported']) {
 		<h2><?php p($l->t('Twitter')); ?></h2>
 		<span><?php if(isset($_['twitter'][0])) { p($_['twitter']); } else { p($l->t('No twitter handle set')); }?></span>
 	</div>
-	<div id="addressform" class="section">
-		<h2><?php p($l->t('Address')); ?></h2>
-		<span><?php if(isset($_['address'][0])) { p($_['address']); } else { p($l->t('No address set')); }?></span>
-	</div>
+
 </div>
 <?php
 }
