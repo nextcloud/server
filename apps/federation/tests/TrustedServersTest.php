@@ -172,7 +172,7 @@ class TrustedServersTest extends TestCase {
 	 */
 	public function testGetAutoAddServers($status, $expected) {
 		$this->config->expects($this->once())->method('getAppValue')
-			->with('federation', 'autoAddServers', '1')->willReturn($status);
+			->with('federation', 'autoAddServers', '0')->willReturn($status);
 
 		$this->assertSame($expected,
 			$this->trustedServers->getAutoAddServers()
