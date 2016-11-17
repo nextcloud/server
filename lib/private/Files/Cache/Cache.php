@@ -142,23 +142,35 @@ class Cache implements ICache {
 			}
 			return $data;
 		} else {
-			//fix types
-			$data['fileid'] = (int)$data['fileid'];
-			$data['parent'] = (int)$data['parent'];
-			$data['size'] = 0 + $data['size'];
-			$data['mtime'] = (int)$data['mtime'];
-			$data['storage_mtime'] = (int)$data['storage_mtime'];
-			$data['encryptedVersion'] = (int)$data['encrypted'];
-			$data['encrypted'] = (bool)$data['encrypted'];
-			$data['storage'] = $this->storageId;
-			$data['mimetype'] = $this->mimetypeLoader->getMimetypeById($data['mimetype']);
-			$data['mimepart'] = $this->mimetypeLoader->getMimetypeById($data['mimepart']);
-			if ($data['storage_mtime'] == 0) {
-				$data['storage_mtime'] = $data['mtime'];
-			}
-			$data['permissions'] = (int)$data['permissions'];
-			return new CacheEntry($data);
+			return self::cacheEntryFromData($data, $this->storageId, $this->mimetypeLoader);
 		}
+	}
+
+	/**
+	 * Create a CacheEntry from database row
+	 *
+	 * @param array $data
+	 * @param string $storageId
+	 * @param IMimeTypeLoader $mimetypeLoader
+	 * @return CacheEntry
+	 */
+	public static function cacheEntryFromData($data, $storageId, IMimeTypeLoader $mimetypeLoader) {
+		//fix types
+		$data['fileid'] = (int)$data['fileid'];
+		$data['parent'] = (int)$data['parent'];
+		$data['size'] = 0 + $data['size'];
+		$data['mtime'] = (int)$data['mtime'];
+		$data['storage_mtime'] = (int)$data['storage_mtime'];
+		$data['encryptedVersion'] = (int)$data['encrypted'];
+		$data['encrypted'] = (bool)$data['encrypted'];
+		$data['storage'] = $storageId;
+		$data['mimetype'] = $mimetypeLoader->getMimetypeById($data['mimetype']);
+		$data['mimepart'] = $mimetypeLoader->getMimetypeById($data['mimepart']);
+		if ($data['storage_mtime'] == 0) {
+			$data['storage_mtime'] = $data['mtime'];
+		}
+		$data['permissions'] = (int)$data['permissions'];
+		return new CacheEntry($data);
 	}
 
 	/**

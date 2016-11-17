@@ -172,6 +172,9 @@ class MountProvider implements IMountProvider {
 					$share->setTarget($superShare->getTarget());
 					$this->shareManager->moveShare($share, $user->getUID());
 				}
+				if (!is_null($share->getNodeCacheEntry())) {
+					$superShare->setNodeCacheEntry($share->getNodeCacheEntry());
+				}
 			}
 
 			$superShare->setPermissions($permissions);
