@@ -29,14 +29,6 @@
 
 use OCP\API;
 
-// Person
-API::register(
-	'post',
-	'/person/check',
-	array('OC_OCS_Person', 'check'),
-	'core',
-	API::GUEST_AUTH
-	);
 // Privatedata
 API::register(
 	'get',

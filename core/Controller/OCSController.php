@@ -22,8 +22,10 @@
 namespace OC\Core\Controller;
 
 use OC\CapabilitiesManager;
+use OC\Security\Bruteforce\Throttler;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
+use OCP\IUserManager;
 use OCP\IUserSession;
 
 class OCSController extends \OCP\AppFramework\OCSController {
@@ -34,6 +36,12 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/** @var IUserSession */
 	private $userSession;
 
+	/** @var IUserManager */
+	private $userManager;
+
+	/** @var Throttler */
+	private $throttler;
+
 	/**
 	 * OCSController constructor.
 	 *
@@ -41,15 +49,21 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 * @param IRequest $request
 	 * @param CapabilitiesManager $capabilitiesManager
 	 * @param IUserSession $userSession
+	 * @param IUserManager $userManager
+	 * @param Throttler $throttler
 	 */
 	public function __construct($appName,
 								IRequest $request,
 								CapabilitiesManager $capabilitiesManager,
-								IUserSession $userSession) {
+								IUserSession $userSession,
+								IUserManager $userManager,
+								Throttler $throttler) {
 		parent::__construct($appName, $request);
 
 		$this->capabilitiesManager = $capabilitiesManager;
 		$this->userSession = $userSession;
+		$this->userManager = $userManager;
+		$this->throttler = $throttler;
 	}
 
 	/**
@@ -101,5 +115,28 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			'email' => $userObject->getEMailAddress(),
 		];
 		return new DataResponse($data);
+	}
+
+	/**
+	 * @PublicPage
+	 *
+	 * @param string $login
+	 * @param string $password
+	 * @return DataResponse
+	 */
+	public function personCheck($login = '', $password = '') {
+		if ($login !== '' && $password !== '') {
+			$this->throttler->sleepDelay($this->request->getRemoteAddress());
+			if ($this->userManager->checkPassword($login, $password)) {
+				return new DataResponse([
+					'person' => [
+						'personid' => $login
+					]
+				]);
+			}
+			$this->throttler->registerAttempt('login', $this->request->getRemoteAddress());
+			return new DataResponse(null, 102);
+		}
+		return new DataResponse(null, 101);
 	}
 }
