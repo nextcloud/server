@@ -254,7 +254,7 @@ select:hover {
 	position: relative !important;
 }
 .select2-results {
-	max-height: 220px !important;
+	max-height: 250px !important;
 	margin: 0 !important;
 	padding: 0 !important;
 }
