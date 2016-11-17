@@ -21,8 +21,13 @@
 
 $dispatcher = \OC::$server->getEventDispatcher();
 
-$dispatcher->addListener('OC\AccountManager::userUpdated', function(GenericEvent $event) {
+$dispatcher->addListener('OC\AccountManager::userUpdated', function(\Symfony\Component\EventDispatcher\GenericEvent $event) {
 	$user = $event->getSubject();
-	$updateLookupServer = new \OCA\LookupServerConnector\UpdateLookupServer();
+	$updateLookupServer = new \OCA\LookupServerConnector\UpdateLookupServer(
+		new \OC\Accounts\AccountManager(\OC::$server->getDatabaseConnection(), \OC::$server->getEventDispatcher()),
+		\OC::$server->getConfig(),
+		\OC::$server->getSecureRandom(),
+		\OC::$server->getHTTPClientService()
+	);
 	$updateLookupServer->userUpdated($user);
 });
