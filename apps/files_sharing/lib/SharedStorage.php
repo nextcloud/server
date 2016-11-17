@@ -311,6 +311,9 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	}
 
 	public function getCache($path = '', $storage = null) {
+		if ($this->cache) {
+			return $this->cache;
+		}
 		$this->init();
 		if (is_null($this->storage) || $this->storage instanceof FailedStorage) {
 			return new FailedCache(false);
@@ -318,7 +321,8 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		if (!$storage) {
 			$storage = $this;
 		}
-		return new \OCA\Files_Sharing\Cache($storage, $this->storage, $this->sourceRootInfo);
+		$this->cache = new \OCA\Files_Sharing\Cache($storage, $this->storage, $this->sourceRootInfo);
+		return $this->cache;
 	}
 
 	public function getScanner($path = '', $storage = null) {

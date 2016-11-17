@@ -57,6 +57,8 @@ class Cache extends CacheJail {
 	 */
 	private $sourceCache;
 
+	private $rootUnchanged = true;
+
 	/**
 	 * @param \OCA\Files_Sharing\SharedStorage $storage
 	 * @param IStorage $sourceStorage
@@ -79,6 +81,33 @@ class Cache extends CacheJail {
 		} else {
 			return false;
 		}
+	}
+
+	public function get($file) {
+		if ($this->rootUnchanged && ($file === '' || $file === $this->sourceRootInfo->getId())) {
+			return $this->formatCacheEntry(clone $this->sourceRootInfo);
+		}
+		return parent::get($file);
+	}
+
+	public function update($id, array $data) {
+		$this->rootUnchanged = false;
+		parent::update($id, $data);
+	}
+
+	public function insert($file, array $data) {
+		$this->rootUnchanged = false;
+		return parent::insert($file, $data);
+	}
+
+	public function remove($file) {
+		$this->rootUnchanged = false;
+		parent::remove($file);
+	}
+
+	public function moveFromCache(\OCP\Files\Cache\ICache $sourceCache, $sourcePath, $targetPath) {
+		$this->rootUnchanged = false;
+		return parent::moveFromCache($sourceCache, $sourcePath, $targetPath);
 	}
 
 	protected function formatCacheEntry($entry) {
