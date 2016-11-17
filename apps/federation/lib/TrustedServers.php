@@ -137,7 +137,7 @@ class TrustedServers {
 	 * @return bool
 	 */
 	public function getAutoAddServers() {
-		$value = $this->config->getAppValue('federation', 'autoAddServers', '1');
+		$value = $this->config->getAppValue('federation', 'autoAddServers', '0');
 		return $value === '1';
 	}
 
