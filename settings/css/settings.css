@@ -68,6 +68,7 @@ input#openid, input#webdav { width:20em; }
 	position: relative;
 	float: left;
 	min-width: 280px;
+	max-width: 700px;
 	width: calc(100% - 200px);
 }
 #personal-settings-container:after {
