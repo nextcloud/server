@@ -120,6 +120,12 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 .icon-audio-white {
 	background-image: url('../img/actions/audio-white.svg?v=2');
 }
+.icon-audio-off {
+	background-image: url('../img/actions/audio-off.svg?v=1');
+}
+.icon-audio-off-white {
+	background-image: url('../img/actions/audio-off-white.svg?v=1');
+}
 
 .icon-caret {
 	background-image: url('../img/actions/caret.svg?v=1');
@@ -335,6 +341,12 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 }
 .icon-video-white {
 	background-image: url('../img/actions/video-white.svg?v=2');
+}
+.icon-video-off {
+	background-image: url('../img/actions/video-off.svg?v=1');
+}
+.icon-video-off-white {
+	background-image: url('../img/actions/video-off-white.svg?v=1');
 }
 
 .icon-view-close {
