@@ -254,12 +254,18 @@ select:hover {
 	position: relative !important;
 }
 .select2-results {
-	max-height: 220px !important;
+	max-height: 250px !important;
 	margin: 0 !important;
 	padding: 0 !important;
 }
 .select2-results .select2-result-label {
 	padding: 12px !important;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.select2-results .select2-result-label span {
+	cursor: pointer;
 }
 
 .select2-choices {
@@ -325,6 +331,12 @@ select:hover {
 	display: inline-block;
 	margin-right: 8px;
 	vertical-align: middle;
+}
+#select2-drop .avatar img,
+.select2-chosen .avatar img,
+#select2-drop .avatar,
+.select2-chosen .avatar {
+	cursor: pointer;
 }
 
 .select2-results .select2-no-results,
