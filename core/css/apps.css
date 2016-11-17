@@ -632,7 +632,7 @@ em {
 	clear: left;
 }
 .tabsContainer .tab {
-	padding: 15px;
+	padding: 0 15px 15px;
 }
 
 /* popover menu styles (use together with "bubble" class) */
