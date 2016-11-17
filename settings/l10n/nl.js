@@ -283,7 +283,6 @@ OC.L10N.register(
     "Desktop client" : "Desktop client",
     "Android app" : "Android app",
     "iOS app" : "iOS app",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Ondersteun het project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">ontwikkel het mee</a>\n\t\tof\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">verkondig het woord</a>!",
     "Show First Run Wizard again" : "Toon de Eerste start Wizard opnieuw",
     "Web, desktop and mobile clients currently logged in to your account." : "Web, desktop en mobiele clients zijn nu ingelogd op je account.",
     "Device" : "Apparaat",

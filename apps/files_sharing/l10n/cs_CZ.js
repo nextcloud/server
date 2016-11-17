@@ -59,6 +59,7 @@ OC.L10N.register(
     "Public link expired" : "Veřejný odkaz vypršel",
     "Public link of %2$s expired" : "Veřejný odkaz %2$s vypršel",
     "Shared by %2$s" : "%2$s sdílel(a)",
+    "Downloaded by %2$s" : "Staženo uživatelem %2$s",
     "File shares" : "Sdílení souboru",
     "Wrong share ID, share doesn't exist" : "Špatné ID sdílení, sdílení neexistuje",
     "could not delete share" : "nelze smazat sdílení",

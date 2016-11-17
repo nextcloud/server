@@ -7,6 +7,7 @@ OC.L10N.register(
     "Select tag…" : "Sélectionner une étiquette…",
     "Tagged files" : "Fichiers étiquetés",
     "Select tags to filter by" : "Sélectionner les étiquettes par lesquelles filtrer",
+    "No tags found" : "Aucune étiquette trouvée",
     "Please select tags to filter by" : "Veuillez sélectionner les étiquettes par lesquelles filtrer",
     "No files found for the selected tags" : "Aucun fichier pour les étiquettes sélectionnées",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Les étiquettes collaboratives</strong> pour un fichier ont été modifiées",

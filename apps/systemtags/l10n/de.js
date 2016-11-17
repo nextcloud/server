@@ -7,6 +7,7 @@ OC.L10N.register(
     "Select tag…" : "Tag wählen",
     "Tagged files" : "Mit Tags versehene Dateien",
     "Select tags to filter by" : "Wähle Tags nach denen gefilter werden soll",
+    "No tags found" : "Keine Tags gefunden",
     "Please select tags to filter by" : "Bitte wähle die Tags nach denen gefiltert werden soll",
     "No files found for the selected tags" : "Keine Dateien für die ausgewählten Tags gefunden",
     "<strong>System tags</strong> for a file have been modified" : "<strong>System-Tags</strong> für eine Datei sind geändert worden",

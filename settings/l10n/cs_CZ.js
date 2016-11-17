@@ -284,7 +284,6 @@ OC.L10N.register(
     "Desktop client" : "Aplikace pro počítač",
     "Android app" : "Aplikace pro Android",
     "iOS app" : "iOS aplikace",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Chcete-li projekt podpořit\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">připojte se k vývoji</a>\n\t\tnebo\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">šiřte informace dál</a>!",
     "Show First Run Wizard again" : "Znovu zobrazit průvodce prvním spuštěním",
     "Web, desktop and mobile clients currently logged in to your account." : "Weboví, desktopoví a mobilní klienti aktuálně přihlášeni k vašemu účtu.",
     "Device" : "Přístroj",

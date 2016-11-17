@@ -275,7 +275,6 @@
     "Desktop client" : "Клиент для ПК",
     "Android app" : "Android приложение",
     "iOS app" : "iOS приложение",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Если вы хотите поддержать проект,\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">присоединяйтесь к разработке</a>\n\t\tили\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">расскажите о нас</a>!",
     "Show First Run Wizard again" : "Показать помощник настройки снова",
     "Web, desktop and mobile clients currently logged in to your account." : "Веб, настольные и мобильные клиенты, которые в настоящий момент авторизованы вашей учётной записью.",
     "Device" : "Устройство",

@@ -5,6 +5,7 @@
     "Select tag…" : "Címke választás...",
     "Tagged files" : "Címkézett fájlok",
     "Select tags to filter by" : "Kiválasztott címkék a szűrő által:",
+    "No tags found" : "Nem találhatók címkék",
     "Please select tags to filter by" : "Kéjük, válasszon ki címkét a szűréshez:",
     "No files found for the selected tags" : "Nem található fájl a kiválasztott címkéhez.",
     "<strong>System tags</strong> for a file have been modified" : "A fájl <strong>rendszer címkéje</strong> módosítva lett",

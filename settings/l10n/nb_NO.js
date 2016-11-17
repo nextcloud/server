@@ -280,7 +280,6 @@ OC.L10N.register(
     "Desktop client" : "Skrivebordsklient",
     "Android app" : "Android-app",
     "iOS app" : "iOS-app",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Hvis du vil støtte prosjektet \n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">delta i utviklingen</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spre ordet</a>!",
     "Show First Run Wizard again" : "Vis \"Førstegangs veiviser\" på nytt",
     "Web, desktop and mobile clients currently logged in to your account." : "Følgende nett, skrivebord og mobile klienter er for øyeblikket logget på din konto.",
     "Device" : "Enhet",

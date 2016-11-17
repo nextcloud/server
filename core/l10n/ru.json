@@ -137,7 +137,6 @@
     "{sharee} (group)" : "{sharee} (группа)",
     "{sharee} (remote)" : "{sharee} (удалённо)",
     "Share" : "Поделиться",
-    "Share with people on other servers using the syntax username@example.com/nextcloud" : "Поделиться с людьми на других серверах используя формат username@example.com/nextcloud",
     "Share with users or remote users..." : "Общий доступ с пользователями или удаленными пользователями",
     "Share with users or groups..." : "Общий доступ с пользователями или группами",
     "Share with users, groups or remote users..." : "Поделиться с пользователями, группами или удаленными пользователями...",

@@ -282,7 +282,6 @@
     "Desktop client" : "Asztali kliens",
     "Android app" : "Android alkalmazás",
     "iOS app" : "IOS alkalmazás",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Ha támogatni szeretnéd a projektet \n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">csatlakozz a fejlesztéshez</a>\n\t\tvagy\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">hírdesd</a>!",
     "Show First Run Wizard again" : "Jelenítsd meg újra az Első indíráskori varázslót!",
     "Web, desktop and mobile clients currently logged in to your account." : "A fiókodba jelenleg bejelentkezett web, asztali és mobil kliensek.",
     "Device" : "Eszköz",
