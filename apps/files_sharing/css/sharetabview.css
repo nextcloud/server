@@ -2,7 +2,10 @@
 	min-height: 100px;
 }
 
-.shareTabView .oneline { white-space: nowrap; }
+.shareTabView .oneline {
+	white-space: nowrap;
+	position: relative;
+}
 
 .shareTabView .shareWithLoading {
 	padding-left: 10px;
@@ -12,7 +15,10 @@
 
 .shareTabView .shareWithRemoteInfo,
 .shareTabView .clipboardButton {
-	padding-left: 10px;
+	position: absolute;
+	right: -7px;
+	top: -4px;
+	padding: 14px;
 }
 
 .shareTabView label {
@@ -24,15 +30,14 @@
 	vertical-align: middle;
 }
 
-.shareTabView input[type="text"],
-.shareTabView input[type="password"] {
-	width: 94%;
-	margin-left: 0;
-}
 .shareTabView input[type="text"].shareWithField,
 .shareTabView input[type="text"].emailField,
-.shareTabView input[type="text"].linkText {
-	width: 80%;
+.shareTabView input[type="text"].linkText,
+.shareTabView input[type="password"] {
+	width: 100%;
+	box-sizing: border-box;
+	padding-right: 32px;
+	text-overflow: ellipsis;
 }
 
 .shareTabView form {
@@ -54,16 +59,21 @@
 }
 
 #shareWithList .unshare img, #shareWithList .showCruds img {
-	vertical-align:text-bottom; /* properly align icons */
+	vertical-align: text-bottom; /* properly align icons */
 }
 
-#shareWithList .sharingOptionsGroup .icon-more,
-#shareWithList .unshare .icon-delete {
-	vertical-align: sub;
+#shareWithList .sharingOptionsGroup .icon-more {
+	padding: 7px;
+	vertical-align: middle;
+	opacity: .5;
 }
 
 #shareWithList .unshare {
-	padding: 0;
+	padding: 4px;
+	vertical-align: text-bottom;
+}
+#shareWithList .unshare .icon {
+	vertical-align: text-top;
 }
 
 #shareWithList .unshare .icon-delete {
@@ -71,21 +81,23 @@
 	background-position-x: 0;
 }
 
-#shareWithList label input[type=checkbox]{
+#shareWithList label input[type=checkbox] {
 	margin-left: 0;
 	position: relative;
 }
-#shareWithList .username{
+#shareWithList .username {
 	padding-right: 8px;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	max-width: 254px;
+	max-width: 110px;
 	display: inline-block;
 	overflow: hidden;
 	vertical-align: middle;
 }
-#shareWithList li label{
+#shareWithList li label {
+	padding: 6px;
 	margin-right: 8px;
+	vertical-align: text-top;
 }
 
 .shareTabView .icon-loading-small {

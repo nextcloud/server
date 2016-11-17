@@ -19,8 +19,8 @@
 }
 
 #app-sidebar .mainFileInfoView .permalink {
-	margin-left: 10px;
-	opacity: .5;
+	padding: 6px 10px;
+	vertical-align: text-top;
 }
 #app-sidebar .mainFileInfoView .permalink-field>input {
 	clear: both;

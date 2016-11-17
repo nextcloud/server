@@ -15,7 +15,7 @@
 		'<div class="fileName">' +
 			'<h3 title="{{name}}" class="ellipsis">{{name}}</h3>' +
 			'<a class="permalink" href="{{permalink}}" title="{{permalinkTitle}}">' +
-				'<span class="icon icon-public"></span>' +
+				'<span class="icon icon-clippy"></span>' +
 				'<span class="hidden-visually">{{permalinkTitle}}</span>' +
 			'</a>' +
 		'</div>' +
@@ -157,7 +157,7 @@
 					starAltText: isFavorite ? t('files', 'Favorited') : t('files', 'Favorite'),
 					starIcon: OC.imagePath('core', isFavorite ? 'actions/starred' : 'actions/star'),
 					permalink: this._makePermalink(this.model.get('id')),
-					permalinkTitle: t('files', 'Local link')
+					permalinkTitle: t('files', 'Copy local link')
 				}));
 
 				// TODO: we really need OC.Previews
