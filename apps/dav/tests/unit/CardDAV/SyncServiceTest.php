@@ -25,6 +25,7 @@
 
 namespace OCA\DAV\Tests\unit\CardDAV;
 
+use OC\Accounts\AccountManager;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\SyncService;
 use OCP\IUser;
@@ -76,7 +77,8 @@ class SyncServiceTest extends TestCase {
 		/** @var IUserManager $userManager */
 		$userManager = $this->getMockBuilder('OCP\IUserManager')->disableOriginalConstructor()->getMock();
 		$logger = $this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock();
-		$ss = new SyncService($backend, $userManager, $logger);
+		$accountManager = $this->getMockBuilder('OC\Accounts\AccountManager')->disableOriginalConstructor()->getMock();
+		$ss = new SyncService($backend, $userManager, $logger, $accountManager);
 		$book = $ss->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
 	}
 
@@ -100,8 +102,47 @@ class SyncServiceTest extends TestCase {
 		$user = $this->getMockBuilder('OCP\IUser')->disableOriginalConstructor()->getMock();
 		$user->method('getBackendClassName')->willReturn('unittest');
 		$user->method('getUID')->willReturn('test-user');
+		$user->method('getCloudId')->willReturn('cloudId');
+		$accountManager = $this->getMockBuilder('OC\Accounts\AccountManager')->disableOriginalConstructor()->getMock();
+		$accountManager->expects($this->any())->method('getUser')
+			->willReturn([
+				AccountManager::PROPERTY_DISPLAYNAME =>
+					[
+						'value' => $user->getDisplayName(),
+						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
+					],
+				AccountManager::PROPERTY_ADDRESS =>
+					[
+						'value' => '',
+						'scope' => AccountManager::VISIBILITY_PRIVATE,
+					],
+				AccountManager::PROPERTY_WEBSITE =>
+					[
+						'value' => '',
+						'scope' => AccountManager::VISIBILITY_PRIVATE,
+					],
+				AccountManager::PROPERTY_EMAIL =>
+					[
+						'value' => $user->getEMailAddress(),
+						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
+					],
+				AccountManager::PROPERTY_AVATAR =>
+					[
+						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY
+					],
+				AccountManager::PROPERTY_PHONE =>
+					[
+						'value' => '',
+						'scope' => AccountManager::VISIBILITY_PRIVATE,
+					],
+				AccountManager::PROPERTY_TWITTER =>
+					[
+						'value' => '',
+						'scope' => AccountManager::VISIBILITY_PRIVATE,
+					],
+			]);
 
-		$ss = new SyncService($backend, $userManager, $logger);
+		$ss = new SyncService($backend, $userManager, $logger, $accountManager);
 		$ss->updateUser($user);
 
 		$user->method('getDisplayName')->willReturn('A test user for unit testing');
@@ -135,10 +176,11 @@ class SyncServiceTest extends TestCase {
 	private function getSyncServiceMock($backend, $response) {
 		$userManager = $this->getMockBuilder('OCP\IUserManager')->disableOriginalConstructor()->getMock();
 		$logger = $this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock();
+		$accountManager = $this->getMockBuilder('OC\Accounts\AccountManager')->disableOriginalConstructor()->getMock();
 		/** @var SyncService | \PHPUnit_Framework_MockObject_MockObject $ss */
 		$ss = $this->getMockBuilder(SyncService::class)
 			->setMethods(['ensureSystemAddressBookExists', 'requestSyncReport', 'download'])
-			->setConstructorArgs([$backend, $userManager, $logger])
+			->setConstructorArgs([$backend, $userManager, $logger, $accountManager])
 			->getMock();
 		$ss->method('requestSyncReport')->withAnyParameters()->willReturn(['response' => $response, 'token' => 'sync-token-1']);
 		$ss->method('ensureSystemAddressBookExists')->willReturn(['id' => 1]);
