@@ -76,7 +76,7 @@
 					data.unshift({
 						id: check['value'],
 						text: check['value']
-					})
+					});
 				}
 
 
@@ -102,7 +102,7 @@
 					escapeMarkup: function(m) {
 						return m;
 					}
-				})
+				});
 			}
 		},
 

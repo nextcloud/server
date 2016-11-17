@@ -1356,7 +1356,7 @@ function initCore() {
 			} else {
 				// Close navigation when opening app in
 				// a new tab
-				OC.hideMenus(function(){return false});
+				OC.hideMenus(function(){return false; });
 			}
 		});
 
@@ -1364,7 +1364,7 @@ function initCore() {
 			if(event.which === 2) {
 				// Close navigation when opening app in
 				// a new tab via middle click
-				OC.hideMenus(function(){return false});
+				OC.hideMenus(function(){return false; });
 			}
 		});
 	}
@@ -1385,7 +1385,7 @@ function initCore() {
 			} else {
 				// Close navigation when opening menu entry in
 				// a new tab
-				OC.hideMenus(function(){return false});
+				OC.hideMenus(function(){return false; });
 			}
 		});
 
@@ -1393,7 +1393,7 @@ function initCore() {
 			if(event.which === 2) {
 				// Close navigation when opening app in
 				// a new tab via middle click
-				OC.hideMenus(function(){return false});
+				OC.hideMenus(function(){return false; });
 			}
 		});
 	}
@@ -1623,7 +1623,7 @@ OC.Util = {
 	 * @return {boolean} true if the browser supports SVG, false otherwise
 	 */
 	hasSVGSupport: function(){
-		return true
+		return true;
 	},
 	/**
 	 * If SVG is not supported, replaces the given icon's extension
@@ -2118,4 +2118,4 @@ jQuery.fn.tipsy = function(argument) {
 		jQuery.fn.tooltip.call(this, argument);
 	}
 	return this;
-}
+};

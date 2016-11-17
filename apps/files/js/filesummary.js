@@ -250,7 +250,7 @@
 			if (this.summary.totalDirs > 0 && this.summary.totalFiles > 0) {
 				$connector.removeClass('hidden');
 			}
-			$hiddenInfo.toggleClass('hidden', this.summary.totalHidden === 0 || this._showHidden)
+			$hiddenInfo.toggleClass('hidden', this.summary.totalHidden === 0 || this._showHidden);
 			if (this.summary.filter === '') {
 				$filterInfo.html('');
 				$filterInfo.addClass('hidden');

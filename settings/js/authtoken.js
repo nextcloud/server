@@ -1,5 +1,3 @@
-/* global Backbone */
-
 /**
  * @author Christoph Wurst <christoph@owncloud.com>
  *

@@ -209,7 +209,7 @@ $(document).ready(function () {
 			if ($('.password-state').length > 0) {
 				$('.password-state').remove();
 			}
-		}, 5000)
+		}, 5000);
 	};
 
 	$("#passwordbutton").click(function () {

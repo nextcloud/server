@@ -43,8 +43,6 @@
 				dropZone: $('#public-upload'),
 				sequentialUploads: true,
 				add: function(e, data) {
-					var errors = [];
-
 					var name = data.files[0].name;
 
 					var base = OC.getProtocol() + '://' + OC.getHost();

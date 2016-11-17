@@ -131,7 +131,7 @@
 			};
 
 
-			this.handleFolderClick = function($row, result, event) {
+			this.handleFolderClick = function($row, result) {
 				// open folder
 				if (self.fileAppLoaded() && self.fileList.id === 'files') {
 					self.fileList.changeDirectory(result.path);
@@ -141,7 +141,7 @@
 				}
 			};
 
-			this.handleFileClick = function($row, result, event) {
+			this.handleFileClick = function($row, result) {
 				if (self.fileAppLoaded() && self.fileList.id === 'files') {
 					self.fileList.changeDirectory(OC.dirname(result.path));
 					self.fileList.scrollTo(result.name);

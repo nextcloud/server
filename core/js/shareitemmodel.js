@@ -147,7 +147,6 @@
 		},
 
 		addShare: function(attributes, options) {
-			var shareType = attributes.shareType;
 			options = options || {};
 			attributes = _.extend({}, attributes);
 

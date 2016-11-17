@@ -64,7 +64,7 @@ $(document).ready(function () {
 		$.ajax({
 			url: OC.generateUrl('/apps/federation/trusted-servers/' + id),
 			type: 'DELETE',
-			success: function(response) {
+			success: function() {
 				$this.remove();
 			}
 		});

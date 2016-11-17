@@ -8,7 +8,7 @@
 				input.attr('title', inputTooltip);
 			}
 			if (typeof gravity === 'undefined') {
-				gravity = 'n'
+				gravity = 'n';
 			}
 			select = $(select);
 			input.css('position', 'absolute');

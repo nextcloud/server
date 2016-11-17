@@ -17,7 +17,7 @@
          showPassword: function(c) {	
             
             // Setup callback object
-			var callback 	= {'fn':null,'args':{}}
+			var callback = {'fn':null,'args':{}};
 				callback.fn = c;
 			
 			// Clones passwords and turn the clones into text inputs
@@ -90,7 +90,7 @@
 				});
 				
 				$input.bind('keyup', function() {
-					update( $input, $clone )
+					update( $input, $clone );
 				});
 				
 				$clone.bind('keyup', function(){ 
@@ -110,7 +110,7 @@
 
 				// set type of password field clone (type=text) to password right on submit
 				// to prevent browser save the value of this field
-				$clone.closest('form').submit(function(e) {
+				$clone.closest('form').submit(function() {
 					// .prop has to be used, because .attr throws
 					// an error while changing a type of an input
 					// element

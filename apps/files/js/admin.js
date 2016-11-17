@@ -45,7 +45,7 @@
 				OC.msg.finishedError('#maxUploadSizeSettingsMsg', 'Error');
 			});
 		}
-	}
+	};
 })();
 
 function switchPublicFolder() {

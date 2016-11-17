@@ -224,7 +224,6 @@
 		},
 
 		_makeFilesFromRemoteShares: function(data) {
-			var self = this;
 			var files = data;
 
 			files = _.chain(files)

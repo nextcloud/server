@@ -64,7 +64,7 @@ OCA = OCA || {};
 			var params = OC.buildQueryString({ldap_serverconfig_chooser: configID});
 			this.loadingConfig = true;
 			var model = this;
-			$.post(url, params, function (result) { model._processLoadConfig(model, result) });
+			$.post(url, params, function (result) { model._processLoadConfig(model, result); });
 		},
 
 		/**
@@ -84,7 +84,7 @@ OCA = OCA || {};
 			params = OC.buildQueryString(params);
 			var model = this;
 			copyCurrent = _.isUndefined(copyCurrent) ? false : copyCurrent;
-			$.post(url, params, function (result) { model._processNewConfigPrefix(model, result, copyCurrent) });
+			$.post(url, params, function (result) { model._processNewConfigPrefix(model, result, copyCurrent); });
 		},
 
 		/**
@@ -97,7 +97,7 @@ OCA = OCA || {};
 			var url = OC.generateUrl('apps/user_ldap/ajax/deleteConfiguration.php');
 			var params = OC.buildQueryString({ldap_serverconfig_chooser: configID});
 			var model = this;
-			$.post(url, params, function (result) { model._processDeleteConfig(model, result, configID) });
+			$.post(url, params, function (result) { model._processDeleteConfig(model, result, configID); });
 		},
 
 		/**
@@ -179,7 +179,7 @@ OCA = OCA || {};
 			};
 			var strParams = OC.buildQueryString(objParams);
 			var model = this;
-			$.post(url, strParams, function(result) { model._processSetResult(model, result, objParams) });
+			$.post(url, strParams, function(result) { model._processSetResult(model, result, objParams); });
 			return true;
 		},
 
@@ -320,7 +320,7 @@ OCA = OCA || {};
 			var url = OC.generateUrl('apps/user_ldap/ajax/testConfiguration.php');
 			var params = OC.buildQueryString({ldap_serverconfig_chooser: this.configID});
 			var model = this;
-			$.post(url, params, function(result) { model._processTestResult(model, result) });
+			$.post(url, params, function(result) { model._processTestResult(model, result); });
 			//TODO: make sure only one test is running at a time
 		},
 

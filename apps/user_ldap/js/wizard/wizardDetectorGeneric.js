@@ -84,7 +84,7 @@ OCA = OCA || {};
 		 * @returns {boolean|jqXHR}
 		 * @abstract
 		 */
-		run: function(model, configID) {
+		run: function(/*model, configID*/) {
 			// to be implemented by subClass
 			return false;
 		},

@@ -560,7 +560,7 @@ var UserList = {
 		if (isSubadminSelect) {
 			$groupsSelect = $('<select multiple="multiple" class="groupsselect multiselect button" title="' + placeholder + '"></select>');
 		} else {
-			$groupsSelect = $('<select multiple="multiple" class="subadminsselect multiselect button" title="' + placeholder + '"></select>')
+			$groupsSelect = $('<select multiple="multiple" class="subadminsselect multiselect button" title="' + placeholder + '"></select>');
 		}
 
 		function createItem(group) {

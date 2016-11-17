@@ -99,7 +99,7 @@
 	}
 
 	function enter() {
-		$("#fileList tr").each(function(index) {
+		$("#fileList tr").each(function() {
 			if ($(this).hasClass("mouseOver")) {
 				$(this).removeClass("mouseOver");
 				$(this).find("span.nametext").trigger('click');
@@ -108,7 +108,7 @@
 	}
 
 	function del() {
-		$("#fileList tr").each(function(index) {
+		$("#fileList tr").each(function() {
 			if ($(this).hasClass("mouseOver")) {
 				$(this).removeClass("mouseOver");
 				$(this).find("a.action.delete").trigger('click');
@@ -117,7 +117,7 @@
 	}
 
 	function rename() {
-		$("#fileList tr").each(function(index) {
+		$("#fileList tr").each(function() {
 			if ($(this).hasClass("mouseOver")) {
 				$(this).removeClass("mouseOver");
 				$(this).find("a[data-action='Rename']").trigger('click');
