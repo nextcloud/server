@@ -276,7 +276,6 @@ OC.L10N.register(
     "Desktop client" : "Cliente Desktop",
     "Android app" : "App Android",
     "iOS app" : "App iOS",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Se quiser dar suporte ao projeto\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">junte-se ao desenvolvimento</a>\n\t\tou\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">espalhe pelo mundo</a>!",
     "Show First Run Wizard again" : "Mostrar Assistente de Primeira Execução novamente",
     "Web, desktop and mobile clients currently logged in to your account." : "Clientes Web, desktop e móvel estão conectados à sua conta.",
     "Device" : "Dispositivo",

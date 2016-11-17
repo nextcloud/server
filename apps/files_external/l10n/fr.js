@@ -25,6 +25,7 @@ OC.L10N.register(
     "Save" : "Enregistrer",
     "Empty response from the server" : "Réponse vide du serveur",
     "Couldn't access. Please logout and login to activate this mount point" : "Impossible d'accéder. Veuillez vous déconnecter et vous reconnecter pour activer ce point de montage.",
+    "Couldn't get the information from the remote server: {code} {type}" : "Impossible d'obtenir l'information du serveur distant: {code} {type}",
     "Couldn't get the list of external mount points: {type}" : "Impossible de récupérer la liste des points de montage externes : {type}",
     "There was an error with message: " : "Il y a eu une erreur avec le message :",
     "External mount error" : "Erreur de point de montage externe",

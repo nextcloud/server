@@ -114,6 +114,7 @@ OC.L10N.register(
     "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} udostępniane za pośrednictwem łącza",
     "group" : "grupa",
     "remote" : "zdalny",
+    "email" : "email",
     "Unshare" : "Zatrzymaj współdzielenie",
     "can reshare" : "mogą udostępniać",
     "can edit" : "może edytować",

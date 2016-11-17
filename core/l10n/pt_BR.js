@@ -141,7 +141,6 @@ OC.L10N.register(
     "{sharee} (remote)" : "{sharee} (remoto)",
     "{sharee} (email)" : "{sharee} (email)",
     "Share" : "Compartilhar",
-    "Share with people on other servers using the syntax username@example.com/nextcloud" : "Compartilhe com pessoas em outros servidores utilizando a sintaxe username@example.com/nextcloud",
     "Share with users or by mail..." : "Compartilhe com usuários internos ou por email...",
     "Share with users or remote users..." : "Compartilhe com usuários internos ou usuários remotos...",
     "Share with users, remote users or by mail..." : "Compartilhe com usuários internos, usuários remotos ou por email...",

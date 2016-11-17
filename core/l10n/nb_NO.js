@@ -138,7 +138,6 @@ OC.L10N.register(
     "{sharee} (remote)" : "{sharee} (ekstern)",
     "{sharee} (email)" : "{sharee} (email)",
     "Share" : "Del",
-    "Share with people on other servers using the syntax username@example.com/nextcloud" : "Del med andre brukere på andre tjenere ved å bruker syntaksen brukernavn@eksempel.com/nextcloud",
     "Share with users or by mail..." : "Del med brukere eller på e-post...",
     "Share with users or remote users..." : "Del med brukere eller eksterne brukere...",
     "Share with users, remote users or by mail..." : "Del med brukere, eksterne brukere eller på e-post...",
