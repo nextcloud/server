@@ -135,6 +135,8 @@ input#openid, input#webdav { width:20em; }
 #groups {
 	overflow-wrap: break-word;
 	max-width: 75%;
+	display: block;;
+	clear: both;
 }
 
 .clientsbox img {
