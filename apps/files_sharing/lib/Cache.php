@@ -43,36 +43,30 @@ class Cache extends CacheJail {
 	private $storage;
 
 	/**
-	 * @var IStorage
-	 */
-	private $sourceStorage;
-
-	/**
 	 * @var ICacheEntry
 	 */
 	private $sourceRootInfo;
-
-	/**
-	 * @var \OCP\Files\Cache\ICache
-	 */
-	private $sourceCache;
 
 	private $rootUnchanged = true;
 
 	/**
 	 * @param \OCA\Files_Sharing\SharedStorage $storage
-	 * @param IStorage $sourceStorage
 	 * @param ICacheEntry $sourceRootInfo
 	 */
-	public function __construct($storage, IStorage $sourceStorage, ICacheEntry $sourceRootInfo) {
+	public function __construct($storage, ICacheEntry $sourceRootInfo) {
 		$this->storage = $storage;
-		$this->sourceStorage = $sourceStorage;
 		$this->sourceRootInfo = $sourceRootInfo;
-		$this->sourceCache = $sourceStorage->getCache();
 		parent::__construct(
-			$this->sourceCache,
+			null,
 			$this->sourceRootInfo->getPath()
 		);
+	}
+
+	public function getCache() {
+		if (is_null($this->cache)) {
+			$this->cache = $this->storage->getSourceStorage()->getCache();
+		}
+		return $this->cache;
 	}
 
 	public function getNumericStorageId() {
