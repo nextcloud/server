@@ -377,7 +377,7 @@ class OC {
 		\OCP\Util::addScript('update');
 		\OCP\Util::addStyle('update');
 
-		/** @var \OCP\App\IAppManager $appManager */
+		/** @var \OC\App\AppManager $appManager */
 		$appManager = \OC::$server->getAppManager();
 
 		$tmpl = new OC_Template('', 'update.admin', 'guest');
@@ -387,12 +387,17 @@ class OC {
 		// get third party apps
 		$ocVersion = \OCP\Util::getVersion();
 		$incompatibleApps = $appManager->getIncompatibleApps($ocVersion);
+		$incompatibleShippedApps = [];
 		foreach ($incompatibleApps as $appInfo) {
 			if ($appManager->isShipped($appInfo['id'])) {
-				$l = \OC::$server->getL10N('core');
-				$hint = $l->t('The files of the app "%$1s" (%$2s) were not replaced correctly.', [$appInfo['name'], $appInfo['id']]);
-				throw new \OC\HintException('The files of the app "' . $appInfo['name'] . '" (' . $appInfo['id'] . ') were not replaced correctly.', $hint);
+				$incompatibleShippedApps[] = $appInfo['name'] . ' (' . $appInfo['id'] . ')';
 			}
+		}
+
+		if (!empty($incompatibleShippedApps)) {
+			$l = \OC::$server->getL10N('core');
+			$hint = $l->t('The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server.', [implode(', ', $incompatibleShippedApps)]);
+			throw new \OC\HintException('The files of the app ' . implode(', ', $incompatibleShippedApps) . ' were not replaced correctly. Make sure it is a version compatible with the server.', $hint);
 		}
 
 		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion));
