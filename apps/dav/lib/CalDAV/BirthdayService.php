@@ -1,10 +1,12 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, Georg Ehrke
  *
  * @author Achim Königs <garfonso@tratschtante.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Georg Ehrke <georg@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -147,6 +149,8 @@ class BirthdayService {
 		} catch (Exception $e) {
 			return null;
 		}
+
+		$summary = $title . ' (' . $summarySymbol . $date->format('Y') . ')';
 		$vCal = new VCalendar();
 		$vCal->VERSION = '2.0';
 		$vEvent = $vCal->createComponent('VEVENT');
@@ -163,7 +167,7 @@ class BirthdayService {
 		$vEvent->DTEND['VALUE'] = 'DATE';
 		$vEvent->{'UID'} = $doc->UID;
 		$vEvent->{'RRULE'} = 'FREQ=YEARLY';
-		$vEvent->{'SUMMARY'} = $title . ' (' . $summarySymbol . $date->format('Y') . ')';
+		$vEvent->{'SUMMARY'} = $summary;
 		$vEvent->{'TRANSP'} = 'TRANSPARENT';
 		$alarm = $vCal->createComponent('VALARM');
 		$alarm->add($vCal->createProperty('TRIGGER', '-PT0M', ['VALUE' => 'DURATION']));
