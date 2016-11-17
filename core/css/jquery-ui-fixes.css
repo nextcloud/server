@@ -136,3 +136,7 @@
 	opacity: .2;
 	border-radius: 5px;
 }
+
+.ui-menu .ui-menu-item a {
+	padding: 6px;
+}
