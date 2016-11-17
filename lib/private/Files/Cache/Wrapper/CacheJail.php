@@ -27,6 +27,7 @@
 
 namespace OC\Files\Cache\Wrapper;
 use OC\Files\Cache\Cache;
+use OCP\Files\Cache\ICacheEntry;
 
 /**
  * Jail to a subdirectory of the wrapped cache
@@ -73,7 +74,7 @@ class CacheJail extends CacheWrapper {
 	}
 
 	/**
-	 * @param array $entry
+	 * @param ICacheEntry|array $entry
 	 * @return array
 	 */
 	protected function formatCacheEntry($entry) {
