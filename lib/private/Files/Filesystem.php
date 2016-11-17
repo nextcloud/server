@@ -213,10 +213,13 @@ class Filesystem {
 
 	/**
 	 * @param bool $shouldLog
+	 * @return bool previous value
 	 * @internal
 	 */
 	public static function logWarningWhenAddingStorageWrapper($shouldLog) {
+		$previousValue = self::$logWarningWhenAddingStorageWrapper;
 		self::$logWarningWhenAddingStorageWrapper = (bool) $shouldLog;
+		return $previousValue;
 	}
 
 	/**
