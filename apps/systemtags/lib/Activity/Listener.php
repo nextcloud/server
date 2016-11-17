@@ -92,24 +92,26 @@ class Listener {
 		} else {
 			$actor = '';
 		}
+		$tag = $event->getTag();
 
 		$activity = $this->activityManager->generateEvent();
-		$activity->setApp(Extension::APP_NAME)
-			->setType(Extension::APP_NAME)
-			->setAuthor($actor);
+		$activity->setApp('systemtags')
+			->setType('systemtags')
+			->setAuthor($actor)
+			->setObject('systemtag', $tag->getId(), $tag->getName());
 		if ($event->getEvent() === ManagerEvent::EVENT_CREATE) {
-			$activity->setSubject(Extension::CREATE_TAG, [
+			$activity->setSubject(Provider::CREATE_TAG, [
 				$actor,
 				$this->prepareTagAsParameter($event->getTag()),
 			]);
 		} else if ($event->getEvent() === ManagerEvent::EVENT_UPDATE) {
-			$activity->setSubject(Extension::UPDATE_TAG, [
+			$activity->setSubject(Provider::UPDATE_TAG, [
 				$actor,
 				$this->prepareTagAsParameter($event->getTag()),
 				$this->prepareTagAsParameter($event->getTagBefore()),
 			]);
 		} else if ($event->getEvent() === ManagerEvent::EVENT_DELETE) {
-			$activity->setSubject(Extension::DELETE_TAG, [
+			$activity->setSubject(Provider::DELETE_TAG, [
 				$actor,
 				$this->prepareTagAsParameter($event->getTag()),
 			]);
@@ -181,10 +183,10 @@ class Listener {
 		}
 
 		$activity = $this->activityManager->generateEvent();
-		$activity->setApp(Extension::APP_NAME)
-			->setType(Extension::APP_NAME)
+		$activity->setApp('systemtags')
+			->setType('systemtags')
 			->setAuthor($actor)
-			->setObject($event->getObjectType(), $event->getObjectId());
+			->setObject($event->getObjectType(), (int) $event->getObjectId());
 
 		foreach ($users as $user => $path) {
 			$activity->setAffectedUser($user);
@@ -195,13 +197,13 @@ class Listener {
 					continue;
 				}
 				if ($event->getEvent() === MapperEvent::EVENT_ASSIGN) {
-					$activity->setSubject(Extension::ASSIGN_TAG, [
+					$activity->setSubject(Provider::ASSIGN_TAG, [
 						$actor,
 						$path,
 						$this->prepareTagAsParameter($tag),
 					]);
 				} else if ($event->getEvent() === MapperEvent::EVENT_UNASSIGN) {
-					$activity->setSubject(Extension::UNASSIGN_TAG, [
+					$activity->setSubject(Provider::UNASSIGN_TAG, [
 						$actor,
 						$path,
 						$this->prepareTagAsParameter($tag),
@@ -218,12 +220,11 @@ class Listener {
 	 * @return string
 	 */
 	protected function prepareTagAsParameter(ISystemTag $tag) {
-		if (!$tag->isUserVisible()) {
-			return '{{{' . $tag->getName() . '|||invisible}}}';
-		} else if (!$tag->isUserAssignable()) {
-			return '{{{' . $tag->getName() . '|||not-assignable}}}';
-		} else {
-			return '{{{' . $tag->getName() . '|||assignable}}}';
-		}
+		return json_encode([
+			'id' => $tag->getId(),
+			'name' => $tag->getName(),
+			'assignable' => $tag->isUserAssignable(),
+			'visible' => $tag->isUserVisible(),
+		]);
 	}
 }

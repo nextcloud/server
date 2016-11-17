@@ -18,4 +18,14 @@
 	<settings>
 		<admin>OCA\SystemTags\Settings\Admin</admin>
 	</settings>
+
+	<activity>
+		<settings>
+			<setting>OCA\SystemTags\Activity\Setting</setting>
+		</settings>
+
+		<providers>
+			<provider>OCA\SystemTags\Activity\Provider</provider>
+		</providers>
+	</activity>
 </info>
