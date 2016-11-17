@@ -451,11 +451,11 @@ class Filesystem {
 
 			self::listenForNewMountProviders($mountConfigManager, $userManager);
 		} else {
-			self::$mounts->addMount(new MountPoint(
+			self::getMountManager()->addMount(new MountPoint(
 				new NullStorage([]),
 				'/' . $user
 			));
-			self::$mounts->addMount(new MountPoint(
+			self::getMountManager()->addMount(new MountPoint(
 				new NullStorage([]),
 				'/' . $user . '/files'
 			));
