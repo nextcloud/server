@@ -2,7 +2,10 @@
 	min-height: 100px;
 }
 
-.shareTabView .oneline { white-space: nowrap; }
+.shareTabView .oneline {
+	white-space: nowrap;
+	position: relative;
+}
 
 .shareTabView .shareWithLoading {
 	padding-left: 10px;
@@ -12,7 +15,10 @@
 
 .shareTabView .shareWithRemoteInfo,
 .shareTabView .clipboardButton {
-	padding-left: 10px;
+	position: absolute;
+	right: -7px;
+	top: -3px;
+	padding: 14px;
 }
 
 .shareTabView label {
@@ -24,15 +30,14 @@
 	vertical-align: middle;
 }
 
-.shareTabView input[type="text"],
-.shareTabView input[type="password"] {
-	width: 94%;
-	margin-left: 0;
-}
 .shareTabView input[type="text"].shareWithField,
 .shareTabView input[type="text"].emailField,
-.shareTabView input[type="text"].linkText {
-	width: 80%;
+.shareTabView input[type="text"].linkText,
+.shareTabView input[type="password"] {
+	width: 100%;
+	box-sizing: border-box;
+	padding-right: 32px;
+	text-overflow: ellipsis;
 }
 
 .shareTabView form {
