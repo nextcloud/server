@@ -61,6 +61,11 @@ class QuoteHelper {
 			throw new \InvalidArgumentException('Only strings, Literals and Parameters are allowed');
 		}
 
+		$string = str_replace(' AS ', ' as ', $string);
+		if (substr_count($string, ' as ')) {
+			return implode(' as ', array_map([$this, 'quoteColumnName'], explode(' as ', $string, 2)));
+		}
+
 		if (substr_count($string, '.')) {
 			list($alias, $columnName) = explode('.', $string, 2);
 
