@@ -31,6 +31,7 @@
 
 namespace OC\App;
 
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
 use OCP\IAppConfig;
@@ -263,6 +264,21 @@ class AppManager implements IAppManager {
 			ManagerEvent::EVENT_APP_DISABLE, $appId
 		));
 		$this->clearAppsCache();
+	}
+
+	/**
+	 * Get the directory for the given app.
+	 *
+	 * @param string $appId
+	 * @return string
+	 * @throws AppPathNotFoundException if app folder can't be found
+	 */
+	public function getAppPath($appId) {
+		$appPath = \OC_App::getAppPath($appId);
+		if($appPath === false) {
+			throw new AppPathNotFoundException('Could not find path for ' . $appId);
+		}
+		return $appPath;
 	}
 
 	/**
