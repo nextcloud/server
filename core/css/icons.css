@@ -144,6 +144,10 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 	background-image: url('../img/actions/checkmark-color.svg?v=1');
 }
 
+.icon-clippy {
+	background-image: url('../img/actions/clippy.svg?v=2');
+}
+
 .icon-close {
 	background-image: url('../img/actions/close.svg?v=1');
 }
@@ -421,8 +425,4 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 
 .icon-picture {
 	background-image: url('../img/places/picture.svg?v=1');
-}
-
-.icon-clippy {
-	background-image: url('../img/actions/clippy.svg?v=1');
 }
