@@ -22,13 +22,12 @@
 namespace OC\Security\IdentityProof;
 
 use OCP\Files\IAppData;
-use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IUser;
 use OCP\Security\ICrypto;
 
 class Manager {
-	/** @var ISimpleFolder */
-	private $folder;
+	/** @var IAppData */
+	private $appData;
 	/** @var ICrypto */
 	private $crypto;
 
@@ -38,7 +37,7 @@ class Manager {
 	 */
 	public function __construct(IAppData $appData,
 								ICrypto $crypto) {
-		$this->folder = $appData->getFolder('identityproof');
+		$this->appData = $appData;
 		$this->crypto = $crypto;
 	}
 
@@ -64,9 +63,9 @@ class Manager {
 		$publicKey = $publicKey['key'];
 
 		// Write the private and public key to the disk
-		$this->folder->newFile($user->getUID() . '.private')
+		$this->appData->getFolder($user->getUID())->newFile('private')
 			->putContent($this->crypto->encrypt($privateKey));
-		$this->folder->newFile($user->getUID() . '.public')
+		$this->appData->getFolder($user->getUID())->newFile('public')
 			->putContent($publicKey);
 
 		return new Key($publicKey, $privateKey);
@@ -80,8 +79,8 @@ class Manager {
 	 */
 	public function getKey(IUser $user) {
 		try {
-			$privateKey = $this->crypto->decrypt($this->folder->getFile($user->getUID() . '.private')->getContent());
-			$publicKey = $this->folder->getFile($user->getUID() . '.public')->getContent();
+			$privateKey = $this->crypto->decrypt($this->appData->getFolder($user->getUID())->getFile('private')->getContent());
+			$publicKey = $this->appData->getFolder($user->getUID())->getFile('public')->getContent();
 			return new Key($publicKey, $privateKey);
 		} catch (\Exception $e) {
 			return $this->generateKey($user);

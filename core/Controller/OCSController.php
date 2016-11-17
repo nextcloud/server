@@ -23,6 +23,7 @@ namespace OC\Core\Controller;
 
 use OC\CapabilitiesManager;
 use OC\Security\Bruteforce\Throttler;
+use OC\Security\IdentityProof\Manager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 use OCP\IUserManager;
@@ -32,13 +33,12 @@ class OCSController extends \OCP\AppFramework\OCSController {
 
 	/** @var CapabilitiesManager */
 	private $capabilitiesManager;
-
 	/** @var IUserSession */
 	private $userSession;
-
 	/** @var IUserManager */
 	private $userManager;
-
+	/** @var Manager */
+	private $keyManager;
 	/** @var Throttler */
 	private $throttler;
 
@@ -51,19 +51,21 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 * @param IUserSession $userSession
 	 * @param IUserManager $userManager
 	 * @param Throttler $throttler
+	 * @param Manager $keyManager
 	 */
 	public function __construct($appName,
 								IRequest $request,
 								CapabilitiesManager $capabilitiesManager,
 								IUserSession $userSession,
 								IUserManager $userManager,
-								Throttler $throttler) {
+								Throttler $throttler,
+								Manager $keyManager) {
 		parent::__construct($appName, $request);
-
 		$this->capabilitiesManager = $capabilitiesManager;
 		$this->userSession = $userSession;
 		$this->userManager = $userManager;
 		$this->throttler = $throttler;
+		$this->keyManager = $keyManager;
 	}
 
 	/**
@@ -138,5 +140,25 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			return new DataResponse(null, 102);
 		}
 		return new DataResponse(null, 101);
+	}
+
+	/**
+	 * @PublicPage
+	 *
+	 * @param string $cloudId
+	 * @return DataResponse
+	 */
+	public function getIdentityProof($cloudId) {
+		$userObject = $this->userManager->get($cloudId);
+
+		if($cloudId !== null) {
+			$key = $this->keyManager->getKey($userObject);
+			$data = [
+				'public' => $key->getPublic(),
+			];
+			return new DataResponse($data);
+		}
+
+		return new DataResponse(101);
 	}
 }
