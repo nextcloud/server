@@ -147,11 +147,6 @@ script(
 	<ul id="apps-categories">
 
 	</ul>
-	<div id="app-settings">
-		<div id="app-settings-header">
-			<button class="settings-button" data-apps-slide-toggle="#app-settings-content"></button>
-		</div>
-	</div>
 </div>
 <div id="app-content">
 	<svg height="0">
