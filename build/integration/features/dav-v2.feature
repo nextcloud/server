@@ -3,24 +3,24 @@ Feature: dav-v2
 		Given using api version "1"
 
 	Scenario: moving a file new endpoint way
-		Given using dav path "remote.php/dav"
+		Given using new dav path
 		And As an "admin"
 		And user "user0" exists
-		When User "user0" moves file "/files/user0/textfile0.txt" to "/files/user0/FOLDER/textfile0.txt"
+		When User "user0" moves file "/textfile0.txt" to "/FOLDER/textfile0.txt"
 		Then the HTTP status code should be "201"
 
 	Scenario: download a file with range using new endpoint
-		Given using dav path "remote.php/dav"
+		Given using new dav path
 		And As an "admin"
 		And user "user0" exists
 		And As an "user0"
-		When Downloading file "/files/user0/welcome.txt" with range "bytes=51-77"
+		When Downloading file "/welcome.txt" with range "bytes=51-77"
 		Then Downloaded content should be "example file for developers"
 
 	Scenario: Downloading a file on the new endpoint should serve security headers
-		Given using dav path "remote.php/dav/files/admin/"
+		Given using new dav path
 		And As an "admin"
-		When Downloading file "welcome.txt"
+		When Downloading file "/welcome.txt"
 		Then The following headers should be set
 			|Content-Disposition|attachment; filename*=UTF-8''welcome.txt; filename="welcome.txt"|
 			|Content-Security-Policy|default-src 'none';|
@@ -55,16 +55,16 @@ Feature: dav-v2
 		Then the HTTP status code should be "207"
 
 	Scenario: Uploading a file having 0B as quota
-		Given using dav path "remote.php/dav"
+		Given using new dav path
 		And As an "admin"
 		And user "user0" exists
 		And user "user0" has a quota of "0 B"
 		And As an "user0"
-		When User "user0" uploads file "data/textfile.txt" to "/files/user0/asdf.txt"
+		When User "user0" uploads file "data/textfile.txt" to "/asdf.txt"
 		Then the HTTP status code should be "507"
 
 	Scenario: Uploading a file as recipient using webdav new endpoint having quota
-		Given using dav path "remote.php/dav"
+		Given using new dav path
 		And As an "admin"
 		And user "user0" exists
 		And user "user1" exists
@@ -78,5 +78,5 @@ Feature: dav-v2
 		  | permissions | 31 |
 		  | shareWith | user0 |
 		And As an "user0"
-		When User "user0" uploads file "data/textfile.txt" to "/files/user0/testquota/asdf.txt"
+		When User "user0" uploads file "data/textfile.txt" to "/testquota/asdf.txt"
 		Then the HTTP status code should be "201"
