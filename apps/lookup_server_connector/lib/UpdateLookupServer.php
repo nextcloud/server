@@ -93,7 +93,7 @@ class UpdateLookupServer {
 			}
 		}
 
-		if (!empty($publicData) && !empty($authKey)) {
+		if (!empty($publicData)) {
 			$this->sendToLookupServer($user, $publicData);
 		}
 	}
