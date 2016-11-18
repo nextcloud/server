@@ -24,10 +24,58 @@ namespace OCA\LookupServerConnector\BackgroundJobs;
 
 
 use OC\BackgroundJob\Job;
+use OCP\BackgroundJob\IJobList;
+use OCP\Http\Client\IClientService;
 
 class RetryJob extends Job {
+	/** @var IClientService */
+	private $clientService;
+	/** @var IJobList */
+	private $jobList;
+	/** @var string */
+	private $lookupServer = 'https://lookup.nextcloud.com/users';
+
+	/**
+	 * @param IClientService|null $clientService
+	 * @param IJobList|null $jobList
+	 */
+	public function __construct(IClientService $clientService = null,
+								IJobList $jobList = null) {
+		if($clientService !== null) {
+			$this->clientService = $clientService;
+		} else {
+			$this->clientService = \OC::$server->getHTTPClientService();
+		}
+		if($jobList !== null) {
+			$this->jobList = $jobList;
+		} else {
+			$this->jobList = \OC::$server->getJobList();
+		}
+	}
 
 	protected function run($argument) {
-		// TODO: Implement run() method.
+		if($argument['retryNo'] === 5) {
+			return;
+		}
+
+		$client = $this->clientService->newClient();
+
+		try {
+			$client->post($this->lookupServer,
+				[
+					'body' => json_encode($argument['dataArray']),
+					'timeout' => 10,
+					'connect_timeout' => 3,
+				]
+			);
+		} catch (\Exception $e) {
+			$this->jobList->add(RetryJob::class,
+				[
+					'dataArray' => $argument['dataArray'],
+					'retryNo' => $argument['retryNo'] + 1,
+				]
+			);
+
+		}
 	}
 }

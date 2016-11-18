@@ -39,7 +39,8 @@ $dispatcher->addListener('OC\AccountManager::userUpdated', function(\Symfony\Com
 			new \OC\AppFramework\Utility\TimeFactory(),
 			\OC::$server->getURLGenerator(),
 			\OC::$server->getUserManager()
-		)
+		),
+		\OC::$server->getJobList()
 	);
 	$updateLookupServer->userUpdated($user);
 });

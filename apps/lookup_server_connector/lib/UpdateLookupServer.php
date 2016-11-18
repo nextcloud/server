@@ -25,6 +25,8 @@ namespace OCA\LookupServerConnector;
 use OC\Accounts\AccountManager;
 use OC\Security\IdentityProof\Manager;
 use OC\Security\IdentityProof\Signer;
+use OCA\LookupServerConnector\BackgroundJobs\RetryJob;
+use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IUser;
@@ -48,6 +50,8 @@ class UpdateLookupServer {
 	private $keyManager;
 	/** @var Signer */
 	private $signer;
+	/** @var IJobList */
+	private $jobList;
 	/** @var string URL point to lookup server */
 	private $lookupServer = 'https://lookup.nextcloud.com/users';
 
@@ -58,19 +62,22 @@ class UpdateLookupServer {
 	 * @param IClientService $clientService
 	 * @param Manager $manager
 	 * @param Signer $signer
+	 * @param IJobList $jobList
 	 */
 	public function __construct(AccountManager $accountManager,
 								IConfig $config,
 								ISecureRandom $secureRandom,
 								IClientService $clientService,
 								Manager $manager,
-								Signer $signer) {
+								Signer $signer,
+								IJobList $jobList) {
 		$this->accountManager = $accountManager;
 		$this->config = $config;
 		$this->secureRandom = $secureRandom;
 		$this->clientService = $clientService;
 		$this->keyManager = $manager;
 		$this->signer = $signer;
+		$this->jobList = $jobList;
 	}
 
 	/**
@@ -86,22 +93,9 @@ class UpdateLookupServer {
 			}
 		}
 
-		if (empty($publicData) && !empty($authKey)) {
-			$this->removeFromLookupServer($user);
-		} else {
+		if (!empty($publicData) && !empty($authKey)) {
 			$this->sendToLookupServer($user, $publicData);
 		}
-	}
-
-	/**
-	 * TODO: FIXME. Implement removal from lookup server.
-	 *
-	 * remove user from lookup server
-	 *
-	 * @param IUser $user
-	 */
-	protected function removeFromLookupServer(IUser $user) {
-		$this->config->deleteUserValue($user->getUID(), 'lookup_server_connector', 'authKey');
 	}
 
 	/**
@@ -122,12 +116,21 @@ class UpdateLookupServer {
 		];
 		$dataArray = $this->signer->sign('lookupserver', $dataArray, $user);
 		$httpClient = $this->clientService->newClient();
-		$httpClient->post($this->lookupServer,
-			[
-				'body' => json_encode($dataArray),
-				'timeout' => 10,
-				'connect_timeout' => 3,
-			]
-		);
+		try {
+			$httpClient->post($this->lookupServer,
+				[
+					'body' => json_encode($dataArray),
+					'timeout' => 10,
+					'connect_timeout' => 3,
+				]
+			);
+		} catch (\Exception $e) {
+			$this->jobList->add(RetryJob::class,
+				[
+					'dataArray' => $dataArray,
+					'retryNo' => 0,
+				]
+			);
+		}
 	}
 }
