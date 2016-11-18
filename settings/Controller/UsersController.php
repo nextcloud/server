@@ -524,12 +524,18 @@ class UsersController extends Controller {
 	 * @return DataResponse
 	 */
 	public function setUserSettings($avatarScope,
-									 $displayname, $displaynameScope,
-									 $phone, $phoneScope,
-									 $email, $emailScope,
-									 $website, $websiteScope,
-									 $address, $addressScope,
-									$twitter, $twitterScope
+									$displayname,
+									$displaynameScope,
+									$phone,
+									$phoneScope,
+									$email,
+									$emailScope,
+									$website,
+									$websiteScope,
+									$address,
+									$addressScope,
+									$twitter,
+									$twitterScope
 	) {
 
 

@@ -151,7 +151,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	public function getIdentityProof($cloudId) {
 		$userObject = $this->userManager->get($cloudId);
 
-		if($cloudId !== null) {
+		if($userObject !== null) {
 			$key = $this->keyManager->getKey($userObject);
 			$data = [
 				'public' => $key->getPublic(),
@@ -159,6 +159,6 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			return new DataResponse($data);
 		}
 
-		return new DataResponse(101);
+		return new DataResponse('User not found', 404);
 	}
 }

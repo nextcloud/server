@@ -42,13 +42,12 @@ class Manager {
 	}
 
 	/**
-	 * Generate a key for $user
-	 * Note: If a key already exists it will be overwritten
+	 * Calls the openssl functions to generate a public and private key.
+	 * In a separate function for unit testing purposes.
 	 *
-	 * @param IUser $user
-	 * @return Key
+	 * @return array [$publicKey, $privateKey]
 	 */
-	public function generateKey(IUser $user) {
+	protected function generateKeyPair() {
 		$config = [
 			'digest_alg' => 'sha512',
 			'private_key_bits' => 2048,
@@ -62,10 +61,27 @@ class Manager {
 		$publicKey = openssl_pkey_get_details($res);
 		$publicKey = $publicKey['key'];
 
+		return [$publicKey, $privateKey];
+	}
+
+	/**
+	 * Generate a key for $user
+	 * Note: If a key already exists it will be overwritten
+	 *
+	 * @param IUser $user
+	 * @return Key
+	 */
+	protected function generateKey(IUser $user) {
+		list($publicKey, $privateKey) = $this->generateKeyPair();
+
 		// Write the private and public key to the disk
-		$this->appData->getFolder($user->getUID())->newFile('private')
+		try {
+			$this->appData->newFolder($user->getUID());
+		} catch (\Exception $e) {}
+		$folder = $this->appData->getFolder($user->getUID());
+		$folder->newFile('private')
 			->putContent($this->crypto->encrypt($privateKey));
-		$this->appData->getFolder($user->getUID())->newFile('public')
+		$folder->newFile('public')
 			->putContent($publicKey);
 
 		return new Key($publicKey, $privateKey);
@@ -79,8 +95,11 @@ class Manager {
 	 */
 	public function getKey(IUser $user) {
 		try {
-			$privateKey = $this->crypto->decrypt($this->appData->getFolder($user->getUID())->getFile('private')->getContent());
-			$publicKey = $this->appData->getFolder($user->getUID())->getFile('public')->getContent();
+			$folder = $this->appData->getFolder($user->getUID());
+			$privateKey = $this->crypto->decrypt(
+				$folder->getFile('private')->getContent()
+			);
+			$publicKey = $folder->getFile('public')->getContent();
 			return new Key($publicKey, $privateKey);
 		} catch (\Exception $e) {
 			return $this->generateKey($user);

@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
+ * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,11 +20,11 @@
  *
  */
 
-
 namespace OCA\LookupServerConnector;
 
-
 use OC\Accounts\AccountManager;
+use OC\Security\IdentityProof\Manager;
+use OC\Security\IdentityProof\Signer;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IUser;
@@ -35,45 +36,48 @@ use OCP\Security\ISecureRandom;
  * @package OCA\LookupServerConnector
  */
 class UpdateLookupServer {
-
-	/** @var  AccountManager */
+	/** @var AccountManager */
 	private $accountManager;
-
 	/** @var IConfig */
 	private $config;
-
 	/** @var ISecureRandom */
 	private $secureRandom;
-
 	/** @var IClientService */
 	private $clientService;
-
+	/** @var Manager */
+	private $keyManager;
+	/** @var Signer */
+	private $signer;
 	/** @var string URL point to lookup server */
-	private $lookupServer = 'http://192.168.56.102';
+	private $lookupServer = 'http://192.168.176.105/lookup-server/server/';
 
 	/**
-	 * UpdateLookupServer constructor.
-	 *
 	 * @param AccountManager $accountManager
 	 * @param IConfig $config
 	 * @param ISecureRandom $secureRandom
 	 * @param IClientService $clientService
+	 * @param Manager $manager
+	 * @param Signer $signer
 	 */
 	public function __construct(AccountManager $accountManager,
 								IConfig $config,
 								ISecureRandom $secureRandom,
-								IClientService $clientService) {
+								IClientService $clientService,
+								Manager $manager,
+								Signer $signer) {
 		$this->accountManager = $accountManager;
 		$this->config = $config;
 		$this->secureRandom = $secureRandom;
 		$this->clientService = $clientService;
+		$this->keyManager = $manager;
+		$this->signer = $signer;
 	}
 
-
+	/**
+	 * @param IUser $user
+	 */
 	public function userUpdated(IUser $user) {
 		$userData = $this->accountManager->getUser($user);
-		$authKey = $this->config->getUserValue($user->getUID(), 'lookup_server_connector', 'authKey');
-
 		$publicData = [];
 
 		foreach ($userData as $key => $data) {
@@ -83,13 +87,15 @@ class UpdateLookupServer {
 		}
 
 		if (empty($publicData) && !empty($authKey)) {
-			$this->removeFromLookupServer($user, $authKey);
+			$this->removeFromLookupServer($user);
 		} else {
-			$this->sendToLookupServer($user, $publicData, $authKey);
+			$this->sendToLookupServer($user, $publicData);
 		}
 	}
 
 	/**
+	 * TODO: FIXME. Implement removal from lookup server.
+	 *
 	 * remove user from lookup server
 	 *
 	 * @param IUser $user
@@ -103,56 +109,25 @@ class UpdateLookupServer {
 	 *
 	 * @param IUser $user
 	 * @param array $publicData
-	 * @param string $authKey
 	 */
-	protected function sendToLookupServer(IUser $user, $publicData, $authKey) {
-		if (empty($authKey)) {
-			$authKey = $this->secureRandom->generate(16);
-			$this->sendNewRecord($user, $publicData, $authKey);
-			$this->config->setUserValue($user->getUID(), 'lookup_server_connector', 'authKey', $authKey);
-		} else {
-			$this->updateExistingRecord($user, $publicData, $authKey);
-		}
-	}
-
-	protected function sendNewRecord(IUser $user, $publicData, $authKey) {
+	protected function sendToLookupServer(IUser $user, array $publicData) {
+		$dataArray = [
+			'federationId' => $user->getCloudId(),
+			'name' => isset($publicData[AccountManager::PROPERTY_DISPLAYNAME]) ? $publicData[AccountManager::PROPERTY_DISPLAYNAME]['value'] : '',
+			'email' => isset($publicData[AccountManager::PROPERTY_EMAIL]) ? $publicData[AccountManager::PROPERTY_EMAIL]['value'] : '',
+			'address' => isset($publicData[AccountManager::PROPERTY_ADDRESS]) ? $publicData[AccountManager::PROPERTY_ADDRESS]['value'] : '',
+			'website' => isset($publicData[AccountManager::PROPERTY_WEBSITE]) ? $publicData[AccountManager::PROPERTY_WEBSITE]['value'] : '',
+			'twitter' => isset($publicData[AccountManager::PROPERTY_TWITTER]) ? $publicData[AccountManager::PROPERTY_TWITTER]['value'] : '',
+			'phone' => isset($publicData[AccountManager::PROPERTY_PHONE]) ? $publicData[AccountManager::PROPERTY_PHONE]['value'] : '',
+		];
+		$dataArray = $this->signer->sign('lookupserver', $dataArray, $user);
 		$httpClient = $this->clientService->newClient();
-		$response = $httpClient->post($this->lookupServer,
+		$httpClient->post($this->lookupServer,
 			[
-				'body' => [
-					'key' => $authKey,
-					'federationid' => $publicData[$user->getCloudId()],
-					'name' => isset($publicData[AccountManager::PROPERTY_DISPLAYNAME]) ? $publicData[AccountManager::PROPERTY_DISPLAYNAME]['value'] : '',
-					'email' => isset($publicData[AccountManager::PROPERTY_EMAIL]) ? $publicData[AccountManager::PROPERTY_EMAIL]['value'] : '',
-					'address' => isset($publicData[AccountManager::PROPERTY_ADDRESS]) ? $publicData[AccountManager::PROPERTY_ADDRESS]['value'] : '',
-					'website' => isset($publicData[AccountManager::PROPERTY_WEBSITE]) ? $publicData[AccountManager::PROPERTY_WEBSITE]['value'] : '',
-					'twitter' => isset($publicData[AccountManager::PROPERTY_TWITTER]) ? $publicData[AccountManager::PROPERTY_TWITTER]['value'] : '',
-					'phone' => isset($publicData[AccountManager::PROPERTY_PHONE]) ? $publicData[AccountManager::PROPERTY_PHONE]['value'] : '',
-				],
+				'body' => $dataArray,
 				'timeout' => 3,
 				'connect_timeout' => 3,
 			]
 		);
-	}
-
-	protected function updateExistingRecord(IUser $user, $publicData, $authKey) {
-		$httpClient = $this->clientService->newClient();
-		$httpClient->put($this->lookupServer,
-			[
-				'body' => [
-					'key' => $authKey,
-					'federationid' => $publicData[$user->getCloudId()],
-					'name' => isset($publicData[AccountManager::PROPERTY_DISPLAYNAME]) ? $publicData[AccountManager::PROPERTY_DISPLAYNAME]['value'] : '',
-					'email' => isset($publicData[AccountManager::PROPERTY_EMAIL]) ? $publicData[AccountManager::PROPERTY_EMAIL]['value'] : '',
-					'address' => isset($publicData[AccountManager::PROPERTY_ADDRESS]) ? $publicData[AccountManager::PROPERTY_ADDRESS]['value'] : '',
-					'website' => isset($publicData[AccountManager::PROPERTY_WEBSITE]) ? $publicData[AccountManager::PROPERTY_WEBSITE]['value'] : '',
-					'twitter' => isset($publicData[AccountManager::PROPERTY_TWITTER]) ? $publicData[AccountManager::PROPERTY_TWITTER]['value'] : '',
-					'phone' => isset($publicData[AccountManager::PROPERTY_PHONE]) ? $publicData[AccountManager::PROPERTY_PHONE]['value'] : '',
-				],
-				'timeout' => 3,
-				'connect_timeout' => 3,
-			]
-		);
-
 	}
 }

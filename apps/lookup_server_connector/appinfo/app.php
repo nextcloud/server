@@ -23,11 +23,23 @@ $dispatcher = \OC::$server->getEventDispatcher();
 
 $dispatcher->addListener('OC\AccountManager::userUpdated', function(\Symfony\Component\EventDispatcher\GenericEvent $event) {
 	$user = $event->getSubject();
+
+	$keyManager = new \OC\Security\IdentityProof\Manager(
+		\OC::$server->getAppDataDir('identityproof'),
+		\OC::$server->getCrypto()
+	);
 	$updateLookupServer = new \OCA\LookupServerConnector\UpdateLookupServer(
 		new \OC\Accounts\AccountManager(\OC::$server->getDatabaseConnection(), \OC::$server->getEventDispatcher()),
 		\OC::$server->getConfig(),
 		\OC::$server->getSecureRandom(),
-		\OC::$server->getHTTPClientService()
+		\OC::$server->getHTTPClientService(),
+		$keyManager,
+		new \OC\Security\IdentityProof\Signer(
+			$keyManager,
+			new \OC\AppFramework\Utility\TimeFactory(),
+			\OC::$server->getURLGenerator(),
+			\OC::$server->getUserManager()
+		)
 	);
 	$updateLookupServer->userUpdated($user);
 });

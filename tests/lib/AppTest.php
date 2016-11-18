@@ -422,6 +422,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup2',
 					'dav',
 					'federatedfilesharing',
+					'lookup_server_connector',
 					'provisioning_api',
 					'twofactor_backupcodes',
 					'workflowengine',
