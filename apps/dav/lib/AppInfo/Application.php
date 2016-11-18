@@ -142,10 +142,6 @@ class Application extends App {
 			);
 		});
 
-		$dispatcher->addListener('OC\AccountManager::userUpdated', function(GenericEvent $event) {
-			error_log("hello");
-		});
-
 		$listener = function(GenericEvent $event, $eventName) {
 			/** @var Backend $backend */
 			$backend = $this->getContainer()->query(Backend::class);
