@@ -672,6 +672,7 @@ class UsersController extends Controller {
 	 * @todo merge into saveUserSettings
 	 *
 	 * @NoAdminRequired
+	 * @PasswordConfirmationRequired
 	 *
 	 * @param string $username
 	 * @param string $displayName

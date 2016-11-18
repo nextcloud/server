@@ -90,10 +90,18 @@
 		_onInputChanged: function(e) {
 			var self = this;
 
+			var $dialog = $('.oc-dialog:visible');
+			if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+				if($dialog.length === 0) {
+					OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this._onInputChanged, this, e));
+				}
+				return;
+			}
 			var $target = $(e.target);
 			var value = $target.val();
 			var field = $target.attr('id');
 			this._config.set(field, value);
+
 			var savingData = this._config.save({
 				error: function(jqXHR) {
 					OC.msg.finishedSaving('#personal-settings-container .msg', jqXHR);
