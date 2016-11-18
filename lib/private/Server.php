@@ -703,7 +703,8 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->getL10N('theming'),
 					$c->getURLGenerator(),
 					new \OC_Defaults(),
-					$c->getLazyRootFolder()
+					$c->getLazyRootFolder(),
+					$c->getMemCacheFactory()
 				);
 			}
 			return new \OC_Defaults();

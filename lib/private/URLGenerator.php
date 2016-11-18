@@ -157,7 +157,15 @@ class URLGenerator implements IURLGenerator {
 
 		// Check if the app is in the app folder
 		$path = '';
-		if (file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$image")) {
+		if(\OCP\App::isEnabled('theming') && $image === "favicon.ico" && \OC::$server->getThemingDefaults()->shouldReplaceIcons()) {
+			$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
+			if($app==="") { $app = "core"; }
+			$path = $this->linkToRoute('theming.Icon.getFavicon', [ 'app' => $app ]) . '?v='. $cacheBusterValue;
+		} elseif(\OCP\App::isEnabled('theming') && $image === "favicon-touch.png" && \OC::$server->getThemingDefaults()->shouldReplaceIcons()) {
+			$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
+			if($app==="") { $app = "core"; }
+			$path = $this->linkToRoute('theming.Icon.getTouchIcon', [ 'app' => $app ]) . '?v='. $cacheBusterValue;
+		} elseif (file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$image")) {
 			$path = \OC::$WEBROOT . "/themes/$theme/apps/$app/img/$image";
 		} elseif (!file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$basename.svg")
 			&& file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$basename.png")) {

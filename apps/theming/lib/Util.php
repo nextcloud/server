@@ -23,7 +23,34 @@
 
 namespace OCA\Theming;
 
+use OCP\App\AppPathNotFoundException;
+use OCP\App\IAppManager;
+use OCP\IConfig;
+use OCP\Files\IRootFolder;
+
 class Util {
+
+	/** @var IConfig */
+	private $config;
+
+	/** @var IRootFolder */
+	private $rootFolder;
+
+	/** @var IAppManager */
+	private $appManager;
+
+	/**
+	 * Util constructor.
+	 *
+	 * @param IConfig $config
+	 * @param IRootFolder $rootFolder
+	 * @param IAppManager $appManager
+	 */
+	public function __construct(IConfig $config, IRootFolder $rootFolder, IAppManager $appManager) {
+		$this->config = $config;
+		$this->rootFolder = $rootFolder;
+		$this->appManager = $appManager;
+	}
 
 	/**
 	 * @param string $color rgb color value
@@ -79,6 +106,88 @@ class Util {
 		$radioButtonIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16">' .
 			'<path d="M8 1a7 7 0 0 0-7 7 7 7 0 0 0 7 7 7 7 0 0 0 7-7 7 7 0 0 0-7-7zm0 1a6 6 0 0 1 6 6 6 6 0 0 1-6 6 6 6 0 0 1-6-6 6 6 0 0 1 6-6zm0 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" fill="'.$color.'"/></svg>';
 		return base64_encode($radioButtonIcon);
+	}
+
+
+	/**
+	 * @param $app string app name
+	 * @return string path to app icon / logo
+	 */
+	public function getAppIcon($app) {
+		$app = str_replace(array('\0', '/', '\\', '..'), '', $app);
+		try {
+			$appPath = $this->appManager->getAppPath($app);
+			$icon = $appPath . '/img/' . $app . '.svg';
+			if (file_exists($icon)) {
+				return $icon;
+			}
+			$icon = $appPath . '/img/app.svg';
+			if (file_exists($icon)) {
+				return $icon;
+			}
+		} catch (AppPathNotFoundException $e) {}
+
+		if($this->config->getAppValue('theming', 'logoMime', '') !== '' && $this->rootFolder->nodeExists('/themedinstancelogo')) {
+			return $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/') . '/themedinstancelogo';
+		}
+		return \OC::$SERVERROOT . '/core/img/logo.svg';
+	}
+
+	/**
+	 * @param $app string app name
+	 * @param $image string relative path to image in app folder
+	 * @return string|false absolute path to image
+	 */
+	public function getAppImage($app, $image) {
+		$app = str_replace(array('\0', '/', '\\', '..'), '', $app);
+		$image = str_replace(array('\0', '\\', '..'), '', $image);
+		if ($app === "core") {
+			$icon = \OC::$SERVERROOT . '/core/img/' . $image;
+			if (file_exists($icon)) {
+				return $icon;
+			}
+		}
+
+		try {
+			$appPath = $this->appManager->getAppPath($app);
+		} catch (AppPathNotFoundException $e) {
+			return false;
+		}
+
+		$icon = $appPath . '/img/' . $image;
+		if (file_exists($icon)) {
+			return $icon;
+		}
+		$icon = $appPath . '/img/' . $image . '.svg';
+		if (file_exists($icon)) {
+			return $icon;
+		}
+		$icon = $appPath . '/img/' . $image . '.png';
+		if (file_exists($icon)) {
+			return $icon;
+		}
+		$icon = $appPath . '/img/' . $image . '.gif';
+		if (file_exists($icon)) {
+			return $icon;
+		}
+		$icon = $appPath . '/img/' . $image . '.jpg';
+		if (file_exists($icon)) {
+			return $icon;
+		}
+
+		return false;
+	}
+
+	/**
+	 * replace default color with a custom one
+	 *
+	 * @param $svg string content of a svg file
+	 * @param $color string color to match
+	 * @return string
+	 */
+	public function colorizeSvg($svg, $color) {
+		$svg = preg_replace('/#0082c9/i', $color, $svg);
+		return $svg;
 	}
 
 }

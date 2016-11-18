@@ -91,6 +91,11 @@ OC.MimeType = {
 				path += icon;
 			}
 		}
+		if(OCA.Theming) {
+			path = OC.generateUrl('/apps/theming/img/core/filetypes/');
+			path += OC.MimeType._getFile(mimeType, OC.MimeTypeList.files);
+			gotIcon = true;
+		}
 
 		// If we do not yet have an icon fall back to the default
 		if (gotIcon === null) {
@@ -99,6 +104,10 @@ OC.MimeType = {
 		}
 
 		path += '.svg';
+
+		if(OCA.Theming) {
+			path += "?v=" + OCA.Theming.cacheBuster;
+		}
 
 		// Cache the result
 		OC.MimeType._mimeTypeIcons[mimeType] = path;

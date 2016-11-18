@@ -24,6 +24,7 @@
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\ThemingDefaults;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -43,6 +44,8 @@ class ThemingDefaultsTest extends TestCase {
 	private $template;
 	/** @var IRootFolder */
 	private $rootFolder;
+	/** @var ICacheFactory */
+	private $cacheFactory;
 
 	public function setUp() {
 		parent::setUp();
@@ -52,6 +55,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->rootFolder = $this->getMockBuilder(IRootFolder::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$this->cacheFactory = $this->getMockBuilder(ICacheFactory::class)->getMock();
 		$this->defaults = $this->getMockBuilder(\OC_Defaults::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -76,7 +80,8 @@ class ThemingDefaultsTest extends TestCase {
 			$this->l10n,
 			$this->urlGenerator,
 			$this->defaults,
-			$this->rootFolder
+			$this->rootFolder,
+			$this->cacheFactory
 		);
 	}
 

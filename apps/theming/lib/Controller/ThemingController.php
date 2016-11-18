@@ -410,6 +410,15 @@ class ThemingController extends Controller {
 			$responseCss .= '.nc-theming-contrast {color: #ffffff}' . "\n";
 		}
 
+		if($logo !== '' or $color !== '') {
+			$responseCss .= '.icon-file,.icon-filetype-text {' .
+				'background-image: url(\'./img/core/filetypes/text.svg?v='.$cacheBusterValue.'\');' . "}\n" .
+				'.icon-folder, .icon-filetype-folder {' .
+				'background-image: url(\'./img/core/filetypes/folder.svg?v='.$cacheBusterValue.'\');' . "}\n" .
+				'.icon-filetype-folder-drag-accept {' .
+				'background-image: url(\'./img/core/filetypes/folder-drag-accept.svg?v='.$cacheBusterValue.'\')!important;' . "}\n";
+		}
+
 		$response = new DataDownloadResponse($responseCss, 'style', 'text/css');
 		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
 		$response->addHeader('Pragma', 'cache');
@@ -423,6 +432,7 @@ class ThemingController extends Controller {
 	 * @return DataDownloadResponse
 	 */
 	public function getJavascript() {
+		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
 		$responseJS = '(function() {
 	OCA.Theming = {
 		name: ' . json_encode($this->template->getName()) . ',
@@ -430,6 +440,7 @@ class ThemingController extends Controller {
 		slogan: ' . json_encode($this->template->getSlogan()) . ',
 		color: ' . json_encode($this->template->getMailHeaderColor()) . ',
 		inverted: ' . json_encode($this->util->invertTextColor($this->template->getMailHeaderColor())) . ',
+		cacheBuster: ' . json_encode($cacheBusterValue). '
 	};
 })();';
 		$response = new Http\DataDisplayResponse($responseJS);
