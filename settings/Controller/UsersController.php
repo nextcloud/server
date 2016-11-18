@@ -681,8 +681,14 @@ class UsersController extends Controller {
 		$currentUser = $this->userSession->getUser();
 		$user = $this->userManager->get($username);
 
-		if (!$this->groupManager->isAdmin($currentUser->getUID()) &&
-				!$this->groupManager->getSubAdmin()->isUserAccessible($currentUser, $user)
+		if ($user === null ||
+			!$user->canChangeDisplayName() ||
+			(
+				!$this->groupManager->isAdmin($currentUser->getUID()) &&
+				!$this->groupManager->getSubAdmin()->isUserAccessible($currentUser, $user) &&
+				$currentUser->getUID() !== $username
+
+			)
 		) {
 			return new DataResponse([
 				'status' => 'error',

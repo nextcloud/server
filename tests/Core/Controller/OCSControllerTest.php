@@ -24,6 +24,8 @@ namespace OC\Core\Controller;
 
 use OC\CapabilitiesManager;
 use OC\Security\Bruteforce\Throttler;
+use OC\Security\IdentityProof\Key;
+use OC\Security\IdentityProof\Manager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 use OCP\IUser;
@@ -32,22 +34,18 @@ use OCP\IUserSession;
 use Test\TestCase;
 
 class OCSControllerTest extends TestCase {
-
 	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
-
 	/** @var CapabilitiesManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $capabilitiesManager;
-
 	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	private $userSession;
-
 	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
-
 	/** @var Throttler|\PHPUnit_Framework_MockObject_MockObject */
 	private $throttler;
-
+	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject */
+	private $keyManager;
 	/** @var OCSController */
 	private $controller;
 
@@ -59,6 +57,7 @@ class OCSControllerTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->throttler = $this->createMock(Throttler::class);
+		$this->keyManager = $this->createMock(Manager::class);
 
 		$this->controller = new OCSController(
 			'core',
@@ -66,7 +65,8 @@ class OCSControllerTest extends TestCase {
 			$this->capabilitiesManager,
 			$this->userSession,
 			$this->userManager,
-			$this->throttler
+			$this->throttler,
+			$this->keyManager
 		);
 	}
 
@@ -205,5 +205,40 @@ class OCSControllerTest extends TestCase {
 		$expected = new DataResponse(null, 101);
 
 		$this->assertEquals($expected, $this->controller->personCheck('', ''));
+	}
+
+	public function testGetIdentityProofWithNotExistingUser() {
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('NotExistingUser')
+			->willReturn(null);
+
+		$expected = new DataResponse('User not found', 404);
+		$this->assertEquals($expected, $this->controller->getIdentityProof('NotExistingUser'));
+	}
+
+	public function testGetIdentityProof() {
+		$user = $this->createMock(IUser::class);
+		$key = $this->createMock(Key::class);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('ExistingUser')
+			->willReturn($user);
+		$this->keyManager
+			->expects($this->once())
+			->method('getKey')
+			->with($user)
+			->willReturn($key);
+		$key
+			->expects($this->once())
+			->method('getPublic')
+			->willReturn('Existing Users public key');
+
+		$expected = new DataResponse([
+			'public' => 'Existing Users public key',
+		]);
+		$this->assertEquals($expected, $this->controller->getIdentityProof('ExistingUser'));
 	}
 }
