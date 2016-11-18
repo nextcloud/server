@@ -127,6 +127,14 @@
 		},
 
 		_onScopeChanged: function(field, scope) {
+			var $dialog = $('.oc-dialog:visible');
+			if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+				if($dialog.length === 0) {
+					OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this._onScopeChanged, this, field, scope));
+				}
+				return;
+			}
+
 			this._config.set(field + 'Scope', scope);
 
 			$('#' + field).parent().find('span > input').val(scope);
