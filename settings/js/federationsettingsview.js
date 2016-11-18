@@ -128,6 +128,9 @@
 
 		_onScopeChanged: function(field, scope) {
 			this._config.set(field + 'Scope', scope);
+
+			$('#' + field).parent().find('span > input').val(scope);
+
 			// TODO: user loading/success feedback
 			this._config.save();
 			this._setFieldScopeIcon(field, scope);

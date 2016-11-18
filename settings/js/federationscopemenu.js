@@ -9,7 +9,6 @@
  */
 
 /* global OC, Handlebars */
-
 (function() {
 
 	var TEMPLATE_MENU =
@@ -49,19 +48,22 @@
 					name: 'private',
 					displayName: (this.field == 'avatar' || this.field == 'displayname') ? t('core', 'Local') : t('core', 'Private'),
 					tooltip: (this.field == 'avatar' || this.field == 'displayname') ? t('core', 'Only visible to local users') : t('core', 'Only visible to you'),
-					icon: OC.imagePath('core', 'actions/password')
+					icon: OC.imagePath('core', 'actions/password'),
+					active: false
 				},
 				{
 					name: 'contacts',
 					displayName: t('core', 'Contacts'),
 					tooltip: t('core', 'Visible to local users and to trusted servers'),
-					icon: OC.imagePath('core', 'places/contacts-dark')
+					icon: OC.imagePath('core', 'places/contacts-dark'),
+					active: false
 				},
 				{
 					name: 'public',
 					displayName: t('core', 'Public'),
 					tooltip: t('core', 'Will be synced to a global and public address book'),
-					icon: OC.imagePath('core', 'places/link')
+					icon: OC.imagePath('core', 'places/link'),
+					active: false
 				}
 			];
 		},
@@ -109,6 +111,23 @@
 		 */
 		show: function(context) {
 			this._context = context;
+			var currentlyActiveValue = $('#'+context.target.closest('form').id).find('.icon-checkmark > input')[0].value;
+
+			for(var i = 0 in this._scopes) {
+				this._scopes[i].active = false;
+			}
+
+			switch (currentlyActiveValue) {
+				case "private":
+					this._scopes[0].active = true;
+					break;
+				case "contacts":
+					this._scopes[1].active = true;
+					break;
+				case "public":
+					this._scopes[2].active = true;
+					break;
+			}
 
 			var $el = $(context.target);
 			var offsetIcon = $el.offset();
