@@ -49,6 +49,8 @@ class Cache extends CacheJail {
 
 	private $rootUnchanged = true;
 
+	private $ownerDisplayName;
+
 	/**
 	 * @param \OCA\Files_Sharing\SharedStorage $storage
 	 * @param ICacheEntry $sourceRootInfo
@@ -114,11 +116,18 @@ class Cache extends CacheJail {
 			$entry['permissions'] = $sharePermissions;
 		}
 		$entry['uid_owner'] = $this->storage->getOwner($path);
-		$entry['displayname_owner'] = \OC_User::getDisplayName($entry['uid_owner']);
+		$entry['displayname_owner'] = $this->getOwnerDisplayName();
 		if ($path === '') {
 			$entry['is_share_mount_point'] = true;
 		}
 		return $entry;
+	}
+
+	private function getOwnerDisplayName() {
+		if (!$this->ownerDisplayName) {
+			$this->ownerDisplayName = \OC_User::getDisplayName($this->storage->getOwner(''));
+		}
+		return $this->ownerDisplayName;
 	}
 
 	/**
