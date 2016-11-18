@@ -22,6 +22,7 @@
  */
 namespace OC\Share20;
 
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -71,6 +72,9 @@ class Share implements \OCP\Share\IShare {
 
 	/** @var IUserManager */
 	private $userManager;
+
+	/** @var ICacheEntry|null */
+	private $nodeCacheEntry;
 
 	public function __construct(IRootFolder $rootFolder, IUserManager $userManager) {
 		$this->rootFolder = $rootFolder;
@@ -417,5 +421,19 @@ class Share implements \OCP\Share\IShare {
 	 */
 	public function getMailSend() {
 		return $this->mailSend;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function setNodeCacheEntry(ICacheEntry $entry) {
+		$this->nodeCacheEntry = $entry;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getNodeCacheEntry() {
+		return $this->nodeCacheEntry;
 	}
 }

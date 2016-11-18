@@ -45,6 +45,10 @@ class CacheWrapper extends Cache {
 		$this->cache = $cache;
 	}
 
+	protected function getCache() {
+		return $this->cache;
+	}
+
 	/**
 	 * Make it easy for wrappers to modify every returned cache entry
 	 *
@@ -62,7 +66,7 @@ class CacheWrapper extends Cache {
 	 * @return ICacheEntry|false
 	 */
 	public function get($file) {
-		$result = $this->cache->get($file);
+		$result = $this->getCache()->get($file);
 		if ($result) {
 			$result = $this->formatCacheEntry($result);
 		}
@@ -76,7 +80,7 @@ class CacheWrapper extends Cache {
 	 * @return ICacheEntry[]
 	 */
 	public function getFolderContents($folder) {
-		// can't do a simple $this->cache->.... call here since getFolderContentsById needs to be called on this
+		// can't do a simple $this->getCache()->.... call here since getFolderContentsById needs to be called on this
 		// and not the wrapped cache
 		$fileId = $this->getId($folder);
 		return $this->getFolderContentsById($fileId);
@@ -89,7 +93,7 @@ class CacheWrapper extends Cache {
 	 * @return array
 	 */
 	public function getFolderContentsById($fileId) {
-		$results = $this->cache->getFolderContentsById($fileId);
+		$results = $this->getCache()->getFolderContentsById($fileId);
 		return array_map(array($this, 'formatCacheEntry'), $results);
 	}
 
@@ -121,7 +125,7 @@ class CacheWrapper extends Cache {
 	 * @throws \RuntimeException
 	 */
 	public function insert($file, array $data) {
-		return $this->cache->insert($file, $data);
+		return $this->getCache()->insert($file, $data);
 	}
 
 	/**
@@ -131,7 +135,7 @@ class CacheWrapper extends Cache {
 	 * @param array $data
 	 */
 	public function update($id, array $data) {
-		$this->cache->update($id, $data);
+		$this->getCache()->update($id, $data);
 	}
 
 	/**
@@ -141,7 +145,7 @@ class CacheWrapper extends Cache {
 	 * @return int
 	 */
 	public function getId($file) {
-		return $this->cache->getId($file);
+		return $this->getCache()->getId($file);
 	}
 
 	/**
@@ -151,7 +155,7 @@ class CacheWrapper extends Cache {
 	 * @return int
 	 */
 	public function getParentId($file) {
-		return $this->cache->getParentId($file);
+		return $this->getCache()->getParentId($file);
 	}
 
 	/**
@@ -161,7 +165,7 @@ class CacheWrapper extends Cache {
 	 * @return bool
 	 */
 	public function inCache($file) {
-		return $this->cache->inCache($file);
+		return $this->getCache()->inCache($file);
 	}
 
 	/**
@@ -170,7 +174,7 @@ class CacheWrapper extends Cache {
 	 * @param string $file
 	 */
 	public function remove($file) {
-		$this->cache->remove($file);
+		$this->getCache()->remove($file);
 	}
 
 	/**
@@ -180,18 +184,18 @@ class CacheWrapper extends Cache {
 	 * @param string $target
 	 */
 	public function move($source, $target) {
-		$this->cache->move($source, $target);
+		$this->getCache()->move($source, $target);
 	}
 
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
-		$this->cache->moveFromCache($sourceCache, $sourcePath, $targetPath);
+		$this->getCache()->moveFromCache($sourceCache, $sourcePath, $targetPath);
 	}
 
 	/**
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
 	public function clear() {
-		$this->cache->clear();
+		$this->getCache()->clear();
 	}
 
 	/**
@@ -200,7 +204,7 @@ class CacheWrapper extends Cache {
 	 * @return int Cache::NOT_FOUND, Cache::PARTIAL, Cache::SHALLOW or Cache::COMPLETE
 	 */
 	public function getStatus($file) {
-		return $this->cache->getStatus($file);
+		return $this->getCache()->getStatus($file);
 	}
 
 	/**
@@ -210,7 +214,7 @@ class CacheWrapper extends Cache {
 	 * @return ICacheEntry[] an array of file data
 	 */
 	public function search($pattern) {
-		$results = $this->cache->search($pattern);
+		$results = $this->getCache()->search($pattern);
 		return array_map(array($this, 'formatCacheEntry'), $results);
 	}
 
@@ -221,7 +225,7 @@ class CacheWrapper extends Cache {
 	 * @return ICacheEntry[]
 	 */
 	public function searchByMime($mimetype) {
-		$results = $this->cache->searchByMime($mimetype);
+		$results = $this->getCache()->searchByMime($mimetype);
 		return array_map(array($this, 'formatCacheEntry'), $results);
 	}
 
@@ -233,7 +237,7 @@ class CacheWrapper extends Cache {
 	 * @return ICacheEntry[] file data
 	 */
 	public function searchByTag($tag, $userId) {
-		$results = $this->cache->searchByTag($tag, $userId);
+		$results = $this->getCache()->searchByTag($tag, $userId);
 		return array_map(array($this, 'formatCacheEntry'), $results);
 	}
 
@@ -244,8 +248,8 @@ class CacheWrapper extends Cache {
 	 * @param array $data (optional) meta data of the folder
 	 */
 	public function correctFolderSize($path, $data = null) {
-		if ($this->cache instanceof Cache) {
-			$this->cache->correctFolderSize($path, $data);
+		if ($this->getCache() instanceof Cache) {
+			$this->getCache()->correctFolderSize($path, $data);
 		}
 	}
 
@@ -257,8 +261,8 @@ class CacheWrapper extends Cache {
 	 * @return int
 	 */
 	public function calculateFolderSize($path, $entry = null) {
-		if ($this->cache instanceof Cache) {
-			return $this->cache->calculateFolderSize($path, $entry);
+		if ($this->getCache() instanceof Cache) {
+			return $this->getCache()->calculateFolderSize($path, $entry);
 		} else {
 			return 0;
 		}
@@ -270,7 +274,7 @@ class CacheWrapper extends Cache {
 	 * @return int[]
 	 */
 	public function getAll() {
-		return $this->cache->getAll();
+		return $this->getCache()->getAll();
 	}
 
 	/**
@@ -283,7 +287,7 @@ class CacheWrapper extends Cache {
 	 * @return string|bool the path of the folder or false when no folder matched
 	 */
 	public function getIncomplete() {
-		return $this->cache->getIncomplete();
+		return $this->getCache()->getIncomplete();
 	}
 
 	/**
@@ -293,7 +297,7 @@ class CacheWrapper extends Cache {
 	 * @return string|null
 	 */
 	public function getPathById($id) {
-		return $this->cache->getPathById($id);
+		return $this->getCache()->getPathById($id);
 	}
 
 	/**
@@ -302,7 +306,7 @@ class CacheWrapper extends Cache {
 	 * @return int
 	 */
 	public function getNumericStorageId() {
-		return $this->cache->getNumericStorageId();
+		return $this->getCache()->getNumericStorageId();
 	}
 
 	/**

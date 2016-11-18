@@ -23,6 +23,8 @@
  */
 namespace OC\Share20;
 
+use OC\Files\Cache\Cache;
+use OC\Files\Cache\CacheEntry;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Share\IShareProvider;
@@ -571,7 +573,7 @@ class DefaultShareProvider implements IShareProvider {
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
 			));
-		
+
 		$cursor = $qb->execute();
 		$data = $cursor->fetch();
 		$cursor->closeCursor();
@@ -656,7 +658,11 @@ class DefaultShareProvider implements IShareProvider {
 		if ($shareType === \OCP\Share::SHARE_TYPE_USER) {
 			//Get shares directly with this user
 			$qb = $this->dbConn->getQueryBuilder();
-			$qb->select('s.*', 'f.fileid', 'f.path')
+			$qb->select('s.*',
+				'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
+				'f.parent AS f_parent', 'f.name', 'f.mimetype', 'f.mimepart', 'f.size', 'f.mtime', 'f.storage_mtime',
+				'f.encrypted', 'f.unencrypted_size', 'f.etag', 'f.checksum'
+			)
 				->selectAlias('st.id', 'storage_string_id')
 				->from('share', 's')
 				->leftJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'))
@@ -709,7 +715,11 @@ class DefaultShareProvider implements IShareProvider {
 				}
 
 				$qb = $this->dbConn->getQueryBuilder();
-				$qb->select('s.*', 'f.fileid', 'f.path')
+				$qb->select('s.*',
+					'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
+					'f.parent AS f_parent', 'f.name', 'f.mimetype', 'f.mimepart', 'f.size', 'f.mtime', 'f.storage_mtime',
+					'f.encrypted', 'f.unencrypted_size', 'f.etag', 'f.checksum'
+				)
 					->selectAlias('st.id', 'storage_string_id')
 					->from('share', 's')
 					->leftJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'))
@@ -798,7 +808,7 @@ class DefaultShareProvider implements IShareProvider {
 
 		return $share;
 	}
-	
+
 	/**
 	 * Create a share object from an database row
 	 *
@@ -836,6 +846,15 @@ class DefaultShareProvider implements IShareProvider {
 		if ($data['expiration'] !== null) {
 			$expiration = \DateTime::createFromFormat('Y-m-d H:i:s', $data['expiration']);
 			$share->setExpirationDate($expiration);
+		}
+
+		if (isset($data['f_permissions'])) {
+			$entryData = $data;
+			$entryData['permissions'] = $entryData['f_permissions'];
+			$entryData['parent'] = $entryData['f_parent'];;
+			$share->setNodeCacheEntry(Cache::cacheEntryFromData($entryData,
+				$entryData['storage_string_id'],
+				\OC::$server->getMimeTypeLoader()));
 		}
 
 		$share->setProviderId($this->identifier());

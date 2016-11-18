@@ -112,7 +112,7 @@ class CacheJail extends CacheWrapper {
 	 * @throws \RuntimeException
 	 */
 	public function insert($file, array $data) {
-		return $this->cache->insert($this->getSourcePath($file), $data);
+		return $this->getCache()->insert($this->getSourcePath($file), $data);
 	}
 
 	/**
@@ -122,7 +122,7 @@ class CacheJail extends CacheWrapper {
 	 * @param array $data
 	 */
 	public function update($id, array $data) {
-		$this->cache->update($id, $data);
+		$this->getCache()->update($id, $data);
 	}
 
 	/**
@@ -132,7 +132,7 @@ class CacheJail extends CacheWrapper {
 	 * @return int
 	 */
 	public function getId($file) {
-		return $this->cache->getId($this->getSourcePath($file));
+		return $this->getCache()->getId($this->getSourcePath($file));
 	}
 
 	/**
@@ -145,7 +145,7 @@ class CacheJail extends CacheWrapper {
 		if ($file === '') {
 			return -1;
 		} else {
-			return $this->cache->getParentId($this->getSourcePath($file));
+			return $this->getCache()->getParentId($this->getSourcePath($file));
 		}
 	}
 
@@ -156,7 +156,7 @@ class CacheJail extends CacheWrapper {
 	 * @return bool
 	 */
 	public function inCache($file) {
-		return $this->cache->inCache($this->getSourcePath($file));
+		return $this->getCache()->inCache($this->getSourcePath($file));
 	}
 
 	/**
@@ -165,7 +165,7 @@ class CacheJail extends CacheWrapper {
 	 * @param string $file
 	 */
 	public function remove($file) {
-		$this->cache->remove($this->getSourcePath($file));
+		$this->getCache()->remove($this->getSourcePath($file));
 	}
 
 	/**
@@ -175,14 +175,14 @@ class CacheJail extends CacheWrapper {
 	 * @param string $target
 	 */
 	public function move($source, $target) {
-		$this->cache->move($this->getSourcePath($source), $this->getSourcePath($target));
+		$this->getCache()->move($this->getSourcePath($source), $this->getSourcePath($target));
 	}
 
 	/**
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
 	public function clear() {
-		$this->cache->remove($this->root);
+		$this->getCache()->remove($this->root);
 	}
 
 	/**
@@ -191,7 +191,7 @@ class CacheJail extends CacheWrapper {
 	 * @return int Cache::NOT_FOUND, Cache::PARTIAL, Cache::SHALLOW or Cache::COMPLETE
 	 */
 	public function getStatus($file) {
-		return $this->cache->getStatus($this->getSourcePath($file));
+		return $this->getCache()->getStatus($this->getSourcePath($file));
 	}
 
 	private function formatSearchResults($results) {
@@ -207,7 +207,7 @@ class CacheJail extends CacheWrapper {
 	 * @return array an array of file data
 	 */
 	public function search($pattern) {
-		$results = $this->cache->search($pattern);
+		$results = $this->getCache()->search($pattern);
 		return $this->formatSearchResults($results);
 	}
 
@@ -218,7 +218,7 @@ class CacheJail extends CacheWrapper {
 	 * @return array
 	 */
 	public function searchByMime($mimetype) {
-		$results = $this->cache->searchByMime($mimetype);
+		$results = $this->getCache()->searchByMime($mimetype);
 		return $this->formatSearchResults($results);
 	}
 
@@ -230,7 +230,7 @@ class CacheJail extends CacheWrapper {
 	 * @return array
 	 */
 	public function searchByTag($tag, $userId) {
-		$results = $this->cache->searchByTag($tag, $userId);
+		$results = $this->getCache()->searchByTag($tag, $userId);
 		return $this->formatSearchResults($results);
 	}
 
@@ -241,8 +241,8 @@ class CacheJail extends CacheWrapper {
 	 * @param array $data (optional) meta data of the folder
 	 */
 	public function correctFolderSize($path, $data = null) {
-		if ($this->cache instanceof Cache) {
-			$this->cache->correctFolderSize($this->getSourcePath($path), $data);
+		if ($this->getCache() instanceof Cache) {
+			$this->getCache()->correctFolderSize($this->getSourcePath($path), $data);
 		}
 	}
 
@@ -254,8 +254,8 @@ class CacheJail extends CacheWrapper {
 	 * @return int
 	 */
 	public function calculateFolderSize($path, $entry = null) {
-		if ($this->cache instanceof Cache) {
-			return $this->cache->calculateFolderSize($this->getSourcePath($path), $entry);
+		if ($this->getCache() instanceof Cache) {
+			return $this->getCache()->calculateFolderSize($this->getSourcePath($path), $entry);
 		} else {
 			return 0;
 		}
@@ -293,7 +293,7 @@ class CacheJail extends CacheWrapper {
 	 * @return string|null
 	 */
 	public function getPathById($id) {
-		$path = $this->cache->getPathById($id);
+		$path = $this->getCache()->getPathById($id);
 		return $this->getJailedPath($path);
 	}
 
@@ -310,6 +310,6 @@ class CacheJail extends CacheWrapper {
 		if ($sourceCache === $this) {
 			return $this->move($sourcePath, $targetPath);
 		}
-		return $this->cache->moveFromCache($sourceCache, $sourcePath, $this->getSourcePath($targetPath));
+		return $this->getCache()->moveFromCache($sourceCache, $sourcePath, $this->getSourcePath($targetPath));
 	}
 }

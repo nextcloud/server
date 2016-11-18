@@ -71,6 +71,8 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	 */
 	private $logger;
 
+	private $options;
+
 	public function __construct($arguments) {
 		$this->ownerView = $arguments['ownerView'];
 		$this->logger = \OC::$server->getLogger();
@@ -86,6 +88,20 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		]);
 	}
 
+	/**
+	 * @return ICacheEntry
+	 */
+	private function getSourceRootInfo() {
+		if (is_null($this->sourceRootInfo)) {
+			if (is_null($this->superShare->getNodeCacheEntry())) {
+				$this->sourceRootInfo = $this->getWrapperStorage()->getCache()->get($this->rootPath);
+			} else {
+				$this->sourceRootInfo = $this->superShare->getNodeCacheEntry();
+			}
+		}
+		return $this->sourceRootInfo;
+	}
+
 	private function init() {
 		if ($this->initialized) {
 			return;
@@ -95,7 +111,6 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 			Filesystem::initMountPoints($this->superShare->getShareOwner());
 			$sourcePath = $this->ownerView->getPath($this->superShare->getNodeId());
 			list($this->storage, $this->rootPath) = $this->ownerView->resolvePath($sourcePath);
-			$this->sourceRootInfo = $this->storage->getCache()->get($this->rootPath);
 		} catch (NotFoundException $e) {
 			$this->storage = new FailedStorage(['exception' => $e]);
 			$this->rootPath = '';
@@ -110,6 +125,9 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	 * @inheritdoc
 	 */
 	public function instanceOfStorage($class) {
+		if ($class === '\OC\Files\Storage\Common') {
+			return true;
+		}
 		if (in_array($class, ['\OC\Files\Storage\Home', '\OC\Files\ObjectStore\HomeObjectStoreStorage'])) {
 			return false;
 		}
@@ -124,8 +142,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	}
 
 	private function isValid() {
-		$this->init();
-		return $this->sourceRootInfo && ($this->sourceRootInfo->getPermissions() & Constants::PERMISSION_SHARE) === Constants::PERMISSION_SHARE;
+		return $this->getSourceRootInfo() && ($this->getSourceRootInfo()->getPermissions() & Constants::PERMISSION_SHARE) === Constants::PERMISSION_SHARE;
 	}
 
 	/**
@@ -314,14 +331,10 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		if ($this->cache) {
 			return $this->cache;
 		}
-		$this->init();
-		if (is_null($this->storage) || $this->storage instanceof FailedStorage) {
-			return new FailedCache(false);
-		}
 		if (!$storage) {
 			$storage = $this;
 		}
-		$this->cache = new \OCA\Files_Sharing\Cache($storage, $this->storage, $this->sourceRootInfo);
+		$this->cache = new \OCA\Files_Sharing\Cache($storage, $this->getSourceRootInfo(), $this->superShare);
 		return $this->cache;
 	}
 
@@ -449,4 +462,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		return parent::file_put_contents($path, $data);
 	}
 
+	public function setMountOptions(array $options) {
+		$this->mountOptions = $options;
+	}
 }

@@ -22,6 +22,7 @@
 
 namespace OCP\Share;
 
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\Node;
@@ -324,4 +325,20 @@ interface IShare {
 	 * @since 9.0.0
 	 */
 	public function getMailSend();
+
+	/**
+	 * Set the cache entry for the shared node
+	 *
+	 * @param ICacheEntry $entry
+	 * @since 11.0.0
+	 */
+	public function setNodeCacheEntry(ICacheEntry $entry);
+
+	/**
+	 * Get the cache entry for the shared node
+	 *
+	 * @return null|ICacheEntry
+	 * @since 11.0.0
+	 */
+	public function getNodeCacheEntry();
 }
