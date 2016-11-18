@@ -114,7 +114,7 @@ if($_['displayNameChangeSupported']) {
 	<div class="personal-settings-setting-box">
 		<form id="addressform" class="section">
 			<h2>
-				<label for="address"><?php echo $l->t('Address'); ?></label>
+				<label for="address"><?php p($l->t('Address')); ?></label>
 				<span class="icon-password"/>
 			</h2>
 			<input type="text" id="address" name="address"
@@ -233,17 +233,17 @@ if($_['passwordChangeSupported']) {
 	<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
 	<div id="password-error-msg" class="msg success inlineblock" style="display: none;">Saved</div>
 	<br>
-	<label for="pass1" class="hidden-visually"><?php echo $l->t('Current password');?>: </label>
+	<label for="pass1" class="hidden-visually"><?php p($l->t('Current password')); ?>: </label>
 	<input type="password" id="pass1" name="oldpassword"
-		placeholder="<?php echo $l->t('Current password');?>"
+		placeholder="<?php p($l->t('Current password'));?>"
 		autocomplete="off" autocapitalize="off" autocorrect="off" />
-	<label for="pass2" class="hidden-visually"><?php echo $l->t('New password');?>: </label>
+	<label for="pass2" class="hidden-visually"><?php p($l->t('New password'));?>: </label>
 	<input type="password" id="pass2" name="newpassword"
-		placeholder="<?php echo $l->t('New password');?>"
+		placeholder="<?php p($l->t('New password')); ?>"
 		data-typetoggle="#personal-show"
 		autocomplete="off" autocapitalize="off" autocorrect="off" />
 	<input type="checkbox" id="personal-show" name="show" /><label for="personal-show" class="personal-show-label"></label>
-	<input id="passwordbutton" type="submit" value="<?php echo $l->t('Change password');?>" />
+	<input id="passwordbutton" type="submit" value="<?php p($l->t('Change password')); ?>" />
 	<br/>
 </form>
 <?php

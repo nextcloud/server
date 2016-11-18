@@ -502,8 +502,6 @@ class UsersController extends Controller {
 	}
 
 	/**
-	 * @todo add method description
-	 *
 	 * @NoAdminRequired
 	 * @NoSubadminRequired
 	 * @PasswordConfirmationRequired
@@ -673,6 +671,8 @@ class UsersController extends Controller {
 	 * @PasswordConfirmationRequired
 	 * @todo merge into saveUserSettings
 	 *
+	 * @NoAdminRequired
+	 *
 	 * @param string $username
 	 * @param string $displayName
 	 * @return DataResponse
@@ -681,14 +681,8 @@ class UsersController extends Controller {
 		$currentUser = $this->userSession->getUser();
 		$user = $this->userManager->get($username);
 
-		if ($user === null ||
-			!$user->canChangeDisplayName() ||
-			(
-				!$this->groupManager->isAdmin($currentUser->getUID()) &&
-				!$this->groupManager->getSubAdmin()->isUserAccessible($currentUser, $user) &&
-				$currentUser->getUID() !== $username
-
-			)
+		if (!$this->groupManager->isAdmin($currentUser->getUID()) &&
+				!$this->groupManager->getSubAdmin()->isUserAccessible($currentUser, $user)
 		) {
 			return new DataResponse([
 				'status' => 'error',
