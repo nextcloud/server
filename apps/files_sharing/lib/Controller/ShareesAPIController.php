@@ -626,22 +626,36 @@ class ShareesAPIController extends OCSController {
 	}
 
 	protected function getLookup($search) {
-		$client = $this->clientService->newClient();
-
-		$response = $client->get('https://lookup.nextcloud.com/users?search='.urlencode($search));
-		$body = json_decode($response->getBody(), true);
-
+		$isEnabled = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no');
 		$result = [];
-		foreach ($body as $lookup) {
-			$result[] = [
-				'label' => $lookup['federationId'],
-				'value' => [
-					'shareType' => Share::SHARE_TYPE_REMOTE,
-					'shareWith' => $lookup['federationId'],
-				],
-				'extra' => $lookup,
-			];
+
+		if($isEnabled === 'yes') {
+			try {
+				$client = $this->clientService->newClient();
+				$response = $client->get(
+					'https://lookup.nextcloud.com/users?search=' . urlencode($search),
+					[
+						'timeout' => 10,
+						'connect_timeout' => 3,
+					]
+				);
+
+				$body = json_decode($response->getBody(), true);
+
+				$result = [];
+				foreach ($body as $lookup) {
+					$result[] = [
+						'label' => $lookup['federationId'],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $lookup['federationId'],
+						],
+						'extra' => $lookup,
+					];
+				}
+			} catch (\Exception $e) {}
 		}
+
 		$this->result['lookup'] = $result;
 	}
 
