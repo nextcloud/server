@@ -149,6 +149,7 @@
 						var users   = result.ocs.data.exact.users.concat(result.ocs.data.users);
 						var groups  = result.ocs.data.exact.groups.concat(result.ocs.data.groups);
 						var remotes = result.ocs.data.exact.remotes.concat(result.ocs.data.remotes);
+						var lookup = result.ocs.data.lookup;
 						if (typeof(result.ocs.data.emails) !== 'undefined') {
 							var emails = result.ocs.data.exact.emails.concat(result.ocs.data.emails);
 						} else {
@@ -159,6 +160,7 @@
 						var groupsLength;
 						var remotesLength;
 						var emailsLength;
+						var lookupLength;
 
 						var i, j;
 
@@ -224,7 +226,7 @@
 							}
 						}
 
-						var suggestions = users.concat(groups).concat(remotes).concat(emails);
+						var suggestions = users.concat(groups).concat(remotes).concat(emails).concat(lookup);
 
 						if (suggestions.length > 0) {
 							$('.shareWithField').removeClass('error')

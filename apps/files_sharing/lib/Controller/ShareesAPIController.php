@@ -28,6 +28,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCSController;
 use OCP\Contacts\IManager;
+use OCP\Http\Client\IClientService;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\ILogger;
@@ -65,6 +66,9 @@ class ShareesAPIController extends OCSController {
 	/** @var \OCP\Share\IManager */
 	protected $shareManager;
 
+	/** @var IClientService */
+	protected $clientService;
+
 	/** @var bool */
 	protected $shareWithGroupOnly = false;
 
@@ -89,6 +93,7 @@ class ShareesAPIController extends OCSController {
 		'groups' => [],
 		'remotes' => [],
 		'emails' => [],
+		'lookup' => [],
 	];
 
 	protected $reachedEndFor = [];
@@ -104,6 +109,7 @@ class ShareesAPIController extends OCSController {
 	 * @param IURLGenerator $urlGenerator
 	 * @param ILogger $logger
 	 * @param \OCP\Share\IManager $shareManager
+	 * @param IClientService $clientService
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -114,7 +120,8 @@ class ShareesAPIController extends OCSController {
 								IUserSession $userSession,
 								IURLGenerator $urlGenerator,
 								ILogger $logger,
-								\OCP\Share\IManager $shareManager) {
+								\OCP\Share\IManager $shareManager,
+								IClientService $clientService) {
 		parent::__construct($appName, $request);
 
 		$this->groupManager = $groupManager;
@@ -125,6 +132,7 @@ class ShareesAPIController extends OCSController {
 		$this->urlGenerator = $urlGenerator;
 		$this->logger = $logger;
 		$this->shareManager = $shareManager;
+		$this->clientService = $clientService;
 	}
 
 	/**
@@ -414,10 +422,11 @@ class ShareesAPIController extends OCSController {
 	 * @param int $page
 	 * @param int $perPage
 	 * @param int|int[] $shareType
+	 * @param bool $lookup
 	 * @return Http\DataResponse
 	 * @throws OCSBadRequestException
 	 */
-	public function search($search = '', $itemType = null, $page = 1, $perPage = 200, $shareType = null) {
+	public function search($search = '', $itemType = null, $page = 1, $perPage = 200, $shareType = null, $lookup = true) {
 		if ($perPage <= 0) {
 			throw new OCSBadRequestException('Invalid perPage argument');
 		}
@@ -459,7 +468,7 @@ class ShareesAPIController extends OCSController {
 		$this->limit = (int) $perPage;
 		$this->offset = $perPage * ($page - 1);
 
-		return $this->searchSharees($search, $itemType, $shareTypes, $page, $perPage);
+		return $this->searchSharees($search, $itemType, $shareTypes, $page, $perPage, $lookup);
 	}
 
 	/**
@@ -485,10 +494,11 @@ class ShareesAPIController extends OCSController {
 	 * @param array $shareTypes
 	 * @param int $page
 	 * @param int $perPage
+	 * @param bool $lookup
 	 * @return Http\DataResponse
 	 * @throws OCSBadRequestException
 	 */
-	protected function searchSharees($search, $itemType, array $shareTypes, $page, $perPage) {
+	protected function searchSharees($search, $itemType, array $shareTypes, $page, $perPage, $lookup) {
 		// Verify arguments
 		if ($itemType === null) {
 			throw new OCSBadRequestException('Missing itemType');
@@ -510,9 +520,15 @@ class ShareesAPIController extends OCSController {
 			$remoteResults = $this->getRemote($search);
 		}
 
+		// Get emails
 		$mailResults = ['results' => [], 'exact' => [], 'exactIdMatch' => false];
 		if (in_array(Share::SHARE_TYPE_EMAIL, $shareTypes)) {
 			$mailResults = $this->getEmail($search);
+		}
+
+		// Get from lookup server
+		if ($lookup) {
+			$this->getLookup($search);
 		}
 
 		// if we have a exact match, either for the federated cloud id or for the
@@ -607,6 +623,26 @@ class ShareesAPIController extends OCSController {
 		$this->reachedEndFor[] = 'emails';
 
 		return $result;
+	}
+
+	protected function getLookup($search) {
+		$client = $this->clientService->newClient();
+
+		$response = $client->get('http://127.0.0.1:3000/users?search='.urlencode($search));
+		$body = json_decode($response->getBody(), true);
+
+		$result = [];
+		foreach ($body as $lookup) {
+			$result[] = [
+				'label' => $lookup['federationId'],
+				'value' => [
+					'shareType' => Share::SHARE_TYPE_REMOTE,
+					'shareWith' => $lookup['federationId'],
+				],
+				'extra' => $lookup,
+			];
+		}
+		$this->result['lookup'] = $result;
 	}
 
 	/**

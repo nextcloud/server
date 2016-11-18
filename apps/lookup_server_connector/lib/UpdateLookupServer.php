@@ -49,7 +49,7 @@ class UpdateLookupServer {
 	/** @var Signer */
 	private $signer;
 	/** @var string URL point to lookup server */
-	private $lookupServer = 'http://192.168.176.105/lookup-server/server/';
+	private $lookupServer = 'http://127.0.0.1:3000/index2.php/users';
 
 	/**
 	 * @param AccountManager $accountManager
