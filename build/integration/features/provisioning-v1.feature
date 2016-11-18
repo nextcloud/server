@@ -290,6 +290,7 @@ Feature: provisioning
 			| files_sharing |
 			| files_trashbin |
 			| files_versions |
+			| lookup_server_connector |
 			| provisioning_api |
 			| sharebymail |
 			| systemtags |
