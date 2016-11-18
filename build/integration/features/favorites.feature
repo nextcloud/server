@@ -57,7 +57,7 @@ Feature: favorite
         And user "user0" unfavorites element "/FOLDER"
         Then as "user0" gets properties of folder "/FOLDER" with
             |{http://owncloud.org/ns}favorite|
-        And the single response should contain a property "{http://owncloud.org/ns}favorite" with value ""
+        And the single response should contain a property "{http://owncloud.org/ns}favorite" with value "0"
 
     Scenario: Favorite a file new endpoint
         Given using new dav path
@@ -76,4 +76,4 @@ Feature: favorite
         And user "user0" unfavorites element "/textfile0.txt"
         Then as "user0" gets properties of file "/textfile0.txt" with
             |{http://owncloud.org/ns}favorite|
-        And the single response should contain a property "{http://owncloud.org/ns}favorite" with value ""
+        And the single response should contain a property "{http://owncloud.org/ns}favorite" with value "0"
