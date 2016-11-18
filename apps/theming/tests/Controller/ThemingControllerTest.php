@@ -28,7 +28,9 @@ use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\Util;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -338,26 +340,30 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	public function testGetLogoNotExistent() {
-		$expected = new DataResponse();
+		$this->rootFolder->method('get')
+			->with($this->equalTo('themedinstancelogo'))
+			->willThrowException(new NotFoundException());
+
+		$expected = new Http\NotFoundResponse();
 		$this->assertEquals($expected, $this->themingController->getLogo());
 	}
 
 	public function testGetLogo() {
-		$dataFolder = \OC::$server->getTempManager()->getTemporaryFolder();
-		$tmpLogo = $dataFolder . '/themedinstancelogo';
-		touch($tmpLogo);
-		$this->config
-			->expects($this->once())
-			->method('getSystemValue')
-			->with('datadirectory', \OC::$SERVERROOT . '/data/')
-			->willReturn($dataFolder);
+		$file = $this->createMock(File::class);
+		$this->rootFolder->method('get')
+			->with('themedinstancelogo')
+			->willReturn($file);
+		$file->method('fopen')
+			->with('r')
+			->willReturn('mypath');
+
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
 			->with('theming', 'logoMime', '')
 			->willReturn('text/svg');
 
-		@$expected = new Http\StreamResponse($tmpLogo);
+		@$expected = new Http\StreamResponse('mypath');
 		$expected->cacheFor(3600);
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
 		$expected->addHeader('Content-Disposition', 'attachment');
@@ -368,26 +374,29 @@ class ThemingControllerTest extends TestCase {
 
 
 	public function testGetLoginBackgroundNotExistent() {
-		$expected = new DataResponse();
+		$this->rootFolder->method('get')
+			->with('themedbackgroundlogo')
+			->willThrowException(new NotFoundException());
+		$expected = new Http\NotFoundResponse();
 		$this->assertEquals($expected, $this->themingController->getLoginBackground());
 	}
 
 	public function testGetLoginBackground() {
-		$dataFolder = \OC::$server->getTempManager()->getTemporaryFolder();
-		$tmpLogo = $dataFolder . '/themedbackgroundlogo';
-		touch($tmpLogo);
-		$this->config
-			->expects($this->once())
-			->method('getSystemValue')
-			->with('datadirectory', \OC::$SERVERROOT . '/data/')
-			->willReturn($dataFolder);
+		$file = $this->createMock(File::class);
+		$this->rootFolder->method('get')
+			->with('themedbackgroundlogo')
+			->willReturn($file);
+		$file->method('fopen')
+			->with('r')
+			->willReturn('mypath');
+
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
 			->with('theming', 'backgroundMime', '')
 			->willReturn('image/png');
 
-		@$expected = new Http\StreamResponse($tmpLogo);
+		@$expected = new Http\StreamResponse('mypath');
 		$expected->cacheFor(3600);
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
 		$expected->addHeader('Content-Disposition', 'attachment');

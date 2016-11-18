@@ -21,18 +21,18 @@
 
 namespace Test\Files\ObjectStore;
 
-use OC\Files\ObjectStore\Swift;
+use OC\Files\ObjectStore\S3;
 
-class SwiftTest extends ObjectStoreTest {
+class S3Test extends ObjectStoreTest {
 	/**
 	 * @return \OCP\Files\ObjectStore\IObjectStore
 	 */
 	protected function getInstance() {
 		$config = \OC::$server->getConfig()->getSystemValue('objectstore');
-		if (!is_array($config) || $config['class'] !== 'OC\\Files\\ObjectStore\\Swift') {
-			$this->markTestSkipped('objectstore not configured for swift');
+		if (!is_array($config) || $config['class'] !== 'OC\\Files\\ObjectStore\\S3') {
+			$this->markTestSkipped('objectstore not configured for s3');
 		}
 
-		return new Swift($config['arguments']);
+		return new S3($config['arguments']);
 	}
 }

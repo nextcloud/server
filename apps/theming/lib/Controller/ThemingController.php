@@ -32,9 +32,12 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\StreamResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -255,15 +258,17 @@ class ThemingController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
-	 * @return StreamResponse|DataResponse
+	 * @return StreamResponse|NotFoundResponse
 	 */
 	public function getLogo() {
-		$pathToLogo = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/') . '/themedinstancelogo';
-		if(!file_exists($pathToLogo)) {
-			return new DataResponse();
+		try {
+			/** @var File $file */
+			$file = $this->rootFolder->get('themedinstancelogo');
+		} catch (NotFoundException $e) {
+			return new NotFoundResponse();
 		}
 
-		$response = new Http\StreamResponse($pathToLogo);
+		$response = new Http\StreamResponse($file->fopen('r'));
 		$response->cacheFor(3600);
 		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
 		$response->addHeader('Content-Disposition', 'attachment');
@@ -276,15 +281,17 @@ class ThemingController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
-	 * @return StreamResponse|DataResponse
+	 * @return StreamResponse|NotFoundResponse
 	 */
 	public function getLoginBackground() {
-		$pathToLogo = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/') . '/themedbackgroundlogo';
-		if(!file_exists($pathToLogo)) {
-			return new DataResponse();
+		try {
+			/** @var File $file */
+			$file = $this->rootFolder->get('themedbackgroundlogo');
+		} catch (NotFoundException $e) {
+			return new NotFoundResponse();
 		}
 
-		$response = new StreamResponse($pathToLogo);
+		$response = new StreamResponse($file->fopen('r'));
 		$response->cacheFor(3600);
 		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
 		$response->addHeader('Content-Disposition', 'attachment');
