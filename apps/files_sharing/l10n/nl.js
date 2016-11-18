@@ -59,6 +59,7 @@ OC.L10N.register(
     "Public link expired" : "Openbare link is verlopen",
     "Public link of %2$s expired" : "Openbare link van %2$s is verlopen",
     "Shared by %2$s" : "Gedeeld door %2$s",
+    "Downloaded by %2$s" : "Gedownload door %2$s",
     "File shares" : "File shares",
     "Wrong share ID, share doesn't exist" : "Onjuist deel-ID, de share bestaat niet",
     "could not delete share" : "Kon share niet verwijderen",

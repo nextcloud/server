@@ -7,6 +7,7 @@ OC.L10N.register(
     "Select tag…" : "Zvolit značku…",
     "Tagged files" : "Otagované soubory",
     "Select tags to filter by" : "Vybrat tagy pro filtr",
+    "No tags found" : "Nebyly nalezeny žádné tagy",
     "Please select tags to filter by" : "Vyberte prosím tagy pro filtrování",
     "No files found for the selected tags" : "Nebyly nalezeny žádné soubory s vybranými tagy",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systémové tagy</strong> souboru byly upraveny",

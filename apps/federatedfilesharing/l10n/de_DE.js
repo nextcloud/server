@@ -7,6 +7,7 @@ OC.L10N.register(
     "Remote share password" : "Passwort für die entfernte Freigabe",
     "Cancel" : "Abbrechen",
     "Add remote share" : "Entfernte Freigabe hinzufügen",
+    "Copy" : "Kopieren",
     "Copied!" : "Kopiert!",
     "Not supported!" : "Nicht unterstützt!",
     "Press ⌘-C to copy." : "⌘-C zum Kopieren drücken.",

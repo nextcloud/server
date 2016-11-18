@@ -7,6 +7,7 @@ OC.L10N.register(
     "Remote share password" : "Wachtwoord externe share",
     "Cancel" : "Annuleren",
     "Add remote share" : "Toevoegen externe share",
+    "Copy" : "Kopiëren",
     "Copied!" : "Gekopieerd!",
     "Not supported!" : "Niet ondersteund!",
     "Press ⌘-C to copy." : "Druk op ⌘-C om te kopiëren.",
