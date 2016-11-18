@@ -16,7 +16,7 @@
 		'<ul>' +
 		'{{#each items}}' +
 		'<li>' +
-		'<a href="#" class="menuitem action action-{{name}} permanent" data-action="{{name}}" title="{{tooltip}}">' +
+		'<a href="#" class="menuitem action action-{{name}} permanent {{#if active}}active{{/if}}" data-action="{{name}}">' +
 			'{{#if icon}}<img class="icon" src="{{icon}}"/>' +
 			'{{else}}'+
 				'{{#if iconClass}}' +
@@ -25,7 +25,8 @@
 				'<span class="no-icon"></span>' +
 				'{{/if}}' +
 			'{{/if}}' +
-			'<span>{{displayName}}</span></a>' +
+			'<p><strong class="menuitem-text">{{displayName}}</strong><br>' +
+			'<span class="menuitem-text-detail">{{tooltip}}</span></p></a>' +
 		'</li>' +
 		'{{/each}}' +
 		'</ul>';
@@ -134,4 +135,3 @@
 	OC.Settings.FederationScopeMenu = FederationScopeMenu;
 
 })();
-

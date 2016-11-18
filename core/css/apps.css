@@ -333,7 +333,8 @@
 	opacity: .5 !important;
 }
 .bubble .action:hover,
-.bubble .action:focus {
+.bubble .action:focus,
+.bubble .action.active {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)" !important;
 	filter: alpha(opacity=100) !important;
 	opacity: 1 !important;
@@ -646,7 +647,8 @@ em {
 }
 
 .popovermenu .menuitem:hover,
-.popovermenu .menuitem:focus {
+.popovermenu .menuitem:focus,
+.popovermenu .menuitem.active {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	filter: alpha(opacity=100);
 	opacity: 1;

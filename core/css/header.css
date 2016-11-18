@@ -227,8 +227,8 @@
 	#apps-management a:hover span,
 	#apps-management a:focus span,
 	#apps-management a.active span {
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
-		opacity: .75;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+		opacity: 1;
 	}
 
 #navigation .app-icon {
@@ -372,8 +372,8 @@
 	#expanddiv a:focus,
 	#expanddiv a:active,
 	#expanddiv a.active {
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
-		opacity: .75;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+		opacity: 1;
 	}
 
 /* do not show display name when profile picture is present */

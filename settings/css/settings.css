@@ -90,9 +90,11 @@ input#openid, input#webdav { width:20em; }
 #personal-settings-container > div h2 span[class^="icon-"],
 #personal-settings-avatar-container h2 span[class^="icon-"] {
 	display: inline-block;
-	margin-left: 5px;
-	background-size: 110%;
-	opacity: 0.3;
+	padding: 8px;
+	margin-left: -5px;
+	margin-bottom: -8px;
+	background-size: 22px;
+	opacity: .3;
 	cursor: pointer;
 }
 .personal-settings-setting-box input[type="text"],
@@ -112,10 +114,16 @@ input#openid, input#webdav { width:20em; }
 .federationScopeMenu.bubble::after {
 	right: 50%;
 	transform: translate(50%, 0);
+	margin-right: -8px;
 }
-.federationScopeMenu.popovermenu {
-	font-weight: 100;
-	font-size: medium;
+.federationScopeMenu.popovermenu a.menuitem,
+.federationScopeMenu.popovermenu label.menuitem,
+.federationScopeMenu.popovermenu .menuitem {
+	font-size: 12.8px;
+	line-height: 1.6em;
+}
+.federationScopeMenu.popovermenu .menuitem .menuitem-text-detail {
+	opacity: .75;
 }
 
 #lostpassword,
