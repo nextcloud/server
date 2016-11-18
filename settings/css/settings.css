@@ -114,7 +114,6 @@ input#openid, input#webdav { width:20em; }
 .federationScopeMenu.bubble::after {
 	right: 50%;
 	transform: translate(50%, 0);
-	margin-right: -8px;
 }
 .federationScopeMenu.popovermenu a.menuitem,
 .federationScopeMenu.popovermenu label.menuitem,

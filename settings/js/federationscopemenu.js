@@ -125,7 +125,7 @@
 
 			//Calculate menu position
 			var l = offsetIcon.left - offsetHeading.left;
-			l = l - (menuWidth / 2) + ($el.width()/2);
+			l = l - (menuWidth / 2) + ($el.outerWidth()/2);
 			this.$el.css('left', l);
 
 		}
