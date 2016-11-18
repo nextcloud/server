@@ -1512,7 +1512,79 @@ function initCore() {
 			$(this).text(OC.Util.relativeModifiedDate(parseInt($(this).attr('data-timestamp'), 10)));
 		});
 	}, 30 * 1000);
+
+	OC.PasswordConfirmation.init();
 }
+
+OC.PasswordConfirmation = {
+	callback: null,
+
+	init: function() {
+		$('.password-confirm-required').on('click', _.bind(this.requirePasswordConfirmation, this));
+	},
+
+	requiresPasswordConfirmation: function() {
+		var timeSinceLogin = moment.now() - nc_lastLogin * 1000;
+		return timeSinceLogin > 10 * 1000; // 30 minutes
+		return timeSinceLogin > 30 * 60 * 1000; // 30 minutes
+	},
+
+	/**
+	 * @param {function} callback
+	 */
+	requirePasswordConfirmation: function(callback) {
+		var self = this;
+
+		if (this.requiresPasswordConfirmation()) {
+			OC.dialogs.prompt(
+				t(
+					'core',
+					'This action requires you to confirm your password'
+				),
+				t('core','Authentication required'),
+				function (result, password) {
+					if (result && password !== '') {
+						self._confirmPassword(password);
+					}
+				},
+				true,
+				t('core','Password'),
+				true
+			).then(function() {
+				var $dialog = $('.oc-dialog:visible');
+				$dialog.find('.ui-icon').remove();
+
+				var $buttons = $dialog.find('button');
+				$buttons.eq(0).text(t('core', 'Cancel'));
+				$buttons.eq(1).text(t('core', 'Confirm'));
+			});
+		}
+
+		this.callback = callback;
+	},
+
+	_confirmPassword: function(password) {
+		var self = this;
+
+		$.ajax({
+			url: OC.generateUrl('/login/confirm'),
+			data: {
+				password: password
+			},
+			type: 'POST',
+			success: function(response) {
+				nc_lastLogin = response.lastLogin;
+
+				if (_.isFunction(self.callback)) {
+					self.callback();
+				}
+			},
+			error: function() {
+				OC.Notification.showTemporary(t('core', 'Failed to authenticate, try again'));
+			}
+		});
+	}
+};
 
 $(document).ready(initCore);
 

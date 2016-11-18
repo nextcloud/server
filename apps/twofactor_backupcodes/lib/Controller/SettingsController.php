@@ -59,15 +59,17 @@ class SettingsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @PasswordConfirmationRequired
+	 *
 	 * @return JSONResponse
 	 */
 	public function createCodes() {
 		$user = $this->userSession->getUser();
 		$codes = $this->storage->createCodes($user);
-		return [
-		    'codes' => $codes,
-		    'state' => $this->storage->getBackupCodesState($user),
-		];
+		return new JSONResponse([
+			'codes' => $codes,
+			'state' => $this->storage->getBackupCodesState($user),
+		]);
 	}
 
 }

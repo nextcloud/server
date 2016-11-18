@@ -163,6 +163,11 @@
 				}
 			},
 			delete: function() {
+				if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+					OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.delete, this));
+					return;
+				}
+
 				this.model.destroy();
 				this.remove();
 			},
@@ -173,6 +178,11 @@
 				this.render();
 			},
 			save: function() {
+				if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+					OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.save, this));
+					return;
+				}
+
 				var success = function(model, response, options) {
 					this.saving = false;
 					this.originalModel = JSON.parse(JSON.stringify(this.model));

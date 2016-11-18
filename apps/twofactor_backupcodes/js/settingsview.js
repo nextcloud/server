@@ -89,6 +89,11 @@
 			}.bind(this));
 		},
 		_onGenerateBackupCodes: function () {
+			if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+				OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this._onGenerateBackupCodes, this));
+				return;
+			}
+
 			// Hide old codes
 			this._enabled = false;
 			this.render();

@@ -95,6 +95,7 @@ class GroupsController extends Controller {
 	}
 
 	/**
+	 * @PasswordConfirmationRequired
 	 * @param string $id
 	 * @return DataResponse
 	 */
@@ -128,6 +129,7 @@ class GroupsController extends Controller {
 	}
 
 	/**
+	 * @PasswordConfirmationRequired
 	 * @param string $id
 	 * @return DataResponse
 	 */

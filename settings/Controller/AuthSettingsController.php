@@ -111,7 +111,9 @@ class AuthSettingsController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoSubadminRequired
+	 * @PasswordConfirmationRequired
 	 *
+	 * @param string $name
 	 * @return JSONResponse
 	 */
 	public function create($name) {
@@ -138,11 +140,11 @@ class AuthSettingsController extends Controller {
 		$tokenData = $deviceToken->jsonSerialize();
 		$tokenData['canDelete'] = true;
 
-		return [
+		return new JSONResponse([
 			'token' => $token,
 			'loginName' => $loginName,
-			'deviceToken' => $tokenData
-		];
+			'deviceToken' => $tokenData,
+		]);
 	}
 
 	private function getServiceNotAvailableResponse() {

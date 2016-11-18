@@ -148,6 +148,7 @@ class TemplateLayout extends \OC_Template {
 					\OC::$server->getL10N('core'),
 					\OC::$server->getThemingDefaults(),
 					\OC::$server->getAppManager(),
+					\OC::$server->getSession(),
 					\OC::$server->getUserSession()->getUser(),
 					\OC::$server->getConfig(),
 					\OC::$server->getGroupManager(),

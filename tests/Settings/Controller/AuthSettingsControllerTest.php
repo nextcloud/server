@@ -153,7 +153,9 @@ class AuthSettingsControllerTest extends TestCase {
 			'deviceToken' => ['dummy' => 'dummy', 'canDelete' => true],
 			'loginName' => 'User13',
 		];
-		$this->assertEquals($expected, $this->controller->create($name));
+		$response = $this->controller->create($name);
+		$this->assertInstanceOf(JSONResponse::class, $response);
+		$this->assertEquals($expected, $response->getData());
 	}
 
 	public function testCreateSessionNotAvailable() {

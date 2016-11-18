@@ -58,6 +58,8 @@ class FlowOperations extends Controller {
 	}
 
 	/**
+	 * @PasswordConfirmationRequired
+	 *
 	 * @param string $class
 	 * @param string $name
 	 * @param array[] $checks
@@ -75,6 +77,8 @@ class FlowOperations extends Controller {
 	}
 
 	/**
+	 * @PasswordConfirmationRequired
+	 *
 	 * @param int $id
 	 * @param string $name
 	 * @param array[] $checks
@@ -92,6 +96,8 @@ class FlowOperations extends Controller {
 	}
 
 	/**
+	 * @PasswordConfirmationRequired
+	 *
 	 * @param int $id
 	 * @return JSONResponse
 	 */

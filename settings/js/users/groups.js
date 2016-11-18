@@ -128,6 +128,11 @@ GroupList = {
 	},
 
 	createGroup: function (groupname) {
+		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.createGroup, this, groupname));
+			return;
+		}
+
 		$.post(
 			OC.generateUrl('/settings/users/groups'),
 			{
@@ -278,10 +283,16 @@ GroupList = {
 			GroupList.show);
 
 		//when to mark user for delete
-		$userGroupList.on('click', '.delete', function () {
+		var deleteAction = function () {
+			if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+				OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(deleteAction, this));
+				return;
+			}
+
 			// Call function for handling delete/undo
 			GroupDeleteHandler.mark(GroupList.getElementGID(this));
-		});
+		};
+		$userGroupList.on('click', '.delete', deleteAction);
 
 		//delete a marked user when leaving the page
 		$(window).on('beforeunload', function () {
