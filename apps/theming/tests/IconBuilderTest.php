@@ -25,6 +25,7 @@ namespace OCA\Theming\Tests;
 use OCA\Theming\IconBuilder;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
@@ -42,6 +43,8 @@ class IconBuilderTest extends TestCase {
 	protected $util;
 	/** @var IconBuilder */
 	protected $iconBuilder;
+	/** @var IAppManager */
+	protected $appManager;
 
 	protected function setUp() {
 		parent::setUp();
@@ -50,7 +53,8 @@ class IconBuilderTest extends TestCase {
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
 		$this->themingDefaults = $this->getMockBuilder('OCA\Theming\ThemingDefaults')
 			->disableOriginalConstructor()->getMock();
-		$this->util = new Util($this->config, $this->rootFolder);
+		$this->appManager = $this->getMockBuilder('OCP\App\IAppManager')->getMock();
+		$this->util = new Util($this->config, $this->rootFolder, $this->appManager);
 		$this->iconBuilder = new IconBuilder($this->themingDefaults, $this->util);
 	}
 

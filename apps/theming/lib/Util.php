@@ -23,6 +23,8 @@
 
 namespace OCA\Theming;
 
+use OCP\App\AppPathNotFoundException;
+use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\Files\IRootFolder;
 
@@ -34,15 +36,20 @@ class Util {
 	/** @var IRootFolder */
 	private $rootFolder;
 
+	/** @var IAppManager */
+	private $appManager;
+
 	/**
 	 * Util constructor.
 	 *
 	 * @param IConfig $config
 	 * @param IRootFolder $rootFolder
+	 * @param IAppManager $appManager
 	 */
-	public function __construct(IConfig $config, IRootFolder $rootFolder) {
+	public function __construct(IConfig $config, IRootFolder $rootFolder, IAppManager $appManager) {
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -108,8 +115,8 @@ class Util {
 	 */
 	public function getAppIcon($app) {
 		$app = str_replace(array('\0', '/', '\\', '..'), '', $app);
-		$appPath = \OC_App::getAppPath($app);
-		if ($appPath !== false) {
+		try {
+			$appPath = $this->appManager->getAppPath($app);
 			$icon = $appPath . '/img/' . $app . '.svg';
 			if (file_exists($icon)) {
 				return $icon;
@@ -118,7 +125,8 @@ class Util {
 			if (file_exists($icon)) {
 				return $icon;
 			}
-		}
+		} catch (AppPathNotFoundException $e) {}
+
 		if($this->config->getAppValue('theming', 'logoMime', '') !== '' && $this->rootFolder->nodeExists('/themedinstancelogo')) {
 			return $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/') . '/themedinstancelogo';
 		}
@@ -128,40 +136,45 @@ class Util {
 	/**
 	 * @param $app string app name
 	 * @param $image string relative path to image in app folder
-	 * @return string absolute path to image
+	 * @return string|false absolute path to image
 	 */
 	public function getAppImage($app, $image) {
 		$app = str_replace(array('\0', '/', '\\', '..'), '', $app);
 		$image = str_replace(array('\0', '\\', '..'), '', $image);
-		$appPath = \OC_App::getAppPath($app);
-			if ($app === "core") {
-				$icon = \OC::$SERVERROOT . '/core/img/' . $image;
-				if (file_exists($icon)) {
-					return $icon;
-				}
-			}
-		if ($appPath !== false) {
-			$icon = $appPath . '/img/' . $image;
-			if (file_exists($icon)) {
-				return $icon;
-			}
-			$icon = $appPath . '/img/' . $image . '.svg';
-			if (file_exists($icon)) {
-				return $icon;
-			}
-			$icon = $appPath . '/img/' . $image . '.png';
-			if (file_exists($icon)) {
-				return $icon;
-			}
-			$icon = $appPath . '/img/' . $image . '.gif';
-			if (file_exists($icon)) {
-				return $icon;
-			}
-			$icon = $appPath . '/img/' . $image . '.jpg';
+		if ($app === "core") {
+			$icon = \OC::$SERVERROOT . '/core/img/' . $image;
 			if (file_exists($icon)) {
 				return $icon;
 			}
 		}
+
+		try {
+			$appPath = $this->appManager->getAppPath($app);
+		} catch (AppPathNotFoundException $e) {
+			return false;
+		}
+
+		$icon = $appPath . '/img/' . $image;
+		if (file_exists($icon)) {
+			return $icon;
+		}
+		$icon = $appPath . '/img/' . $image . '.svg';
+		if (file_exists($icon)) {
+			return $icon;
+		}
+		$icon = $appPath . '/img/' . $image . '.png';
+		if (file_exists($icon)) {
+			return $icon;
+		}
+		$icon = $appPath . '/img/' . $image . '.gif';
+		if (file_exists($icon)) {
+			return $icon;
+		}
+		$icon = $appPath . '/img/' . $image . '.jpg';
+		if (file_exists($icon)) {
+			return $icon;
+		}
+
 		return false;
 	}
 

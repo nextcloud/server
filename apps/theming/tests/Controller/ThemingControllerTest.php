@@ -26,6 +26,7 @@ namespace OCA\Theming\Tests\Controller;
 
 use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\Util;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Files\IRootFolder;
@@ -55,6 +56,8 @@ class ThemingControllerTest extends TestCase {
 	private $rootFolder;
 	/** @var ITempManager */
 	private $tempManager;
+	/** @var IAppManager */
+	private $appManager;
 
 	public function setUp() {
 		$this->request = $this->getMockBuilder('OCP\IRequest')->getMock();
@@ -66,7 +69,8 @@ class ThemingControllerTest extends TestCase {
 			->getMock();
 		$this->l10n = $this->getMockBuilder('OCP\IL10N')->getMock();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
-		$this->util = new Util($this->config, $this->rootFolder);
+		$this->appManager = $this->getMockBuilder('OCP\App\IAppManager')->getMock();
+		$this->util = new Util($this->config, $this->rootFolder, $this->appManager);
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
 			->willReturn(123);

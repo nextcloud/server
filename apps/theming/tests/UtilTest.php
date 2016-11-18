@@ -23,6 +23,7 @@
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\Util;
+use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\Files\IRootFolder;
 use Test\TestCase;
@@ -35,12 +36,15 @@ class UtilTest extends TestCase {
 	protected $config;
 	/** @var IRootFolder */
 	protected $rootFolder;
+	/** @var IAppManager */
+	protected $appManager;
 
 	protected function setUp() {
 		parent::setUp();
 		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
-		$this->util = new Util($this->config, $this->rootFolder);
+		$this->appManager = $this->getMockBuilder('OCP\App\IAppManager')->getMock();
+		$this->util = new Util($this->config, $this->rootFolder, $this->appManager);
 	}
 
 	public function testInvertTextColorLight() {
@@ -108,6 +112,10 @@ class UtilTest extends TestCase {
 	 * @dataProvider dataGetAppIcon
 	 */
 	public function testGetAppIcon($app, $expected) {
+		$this->appManager->expects($this->once())
+			->method('getAppPath')
+			->with($app)
+			->willReturn(\OC_App::getAppPath($app));
 		$icon = $this->util->getAppIcon($app);
 		$this->assertEquals($expected, $icon);
 	}
@@ -134,6 +142,12 @@ class UtilTest extends TestCase {
 	 * @dataProvider dataGetAppImage
 	 */
 	public function testGetAppImage($app, $image, $expected) {
+		if($app !== 'core') {
+			$this->appManager->expects($this->once())
+				->method('getAppPath')
+				->with($app)
+				->willReturn(\OC_App::getAppPath($app));
+		}
 		$this->assertEquals($expected, $this->util->getAppImage($app, $image));
 	}
 

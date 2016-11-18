@@ -25,6 +25,7 @@ namespace OCA\Theming;
 
 use Imagick;
 use ImagickPixel;
+use OCP\App\AppPathNotFoundException;
 
 class IconBuilder {
 	/** @var ThemingDefaults */
@@ -85,8 +86,13 @@ class IconBuilder {
 	 * @return Imagick|false
 	 */
 	public function renderAppIcon($app) {
-		$appIcon = $this->util->getAppIcon($app);
-		$appIconContent = file_get_contents($appIcon);
+		try {
+			$appIcon = $this->util->getAppIcon($app);
+			$appIconContent = file_get_contents($appIcon);
+		} catch (AppPathNotFoundException $e) {
+			return false;
+		}
+
 		if($appIconContent === false) {
 			return false;
 		}
@@ -158,7 +164,11 @@ class IconBuilder {
 	}
 
 	public function colorSvg($app, $image) {
-		$imageFile = $this->util->getAppImage($app, $image);
+		try {
+			$imageFile = $this->util->getAppImage($app, $image);
+		} catch (AppPathNotFoundException $e) {
+			return false;
+		}
 		$svg = file_get_contents($imageFile);
 		if ($svg !== false) {
 			$color = $this->util->elementColor($this->themingDefaults->getMailHeaderColor());
