@@ -91,10 +91,10 @@ if($_['displayNameChangeSupported']) {
 			<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
 				   placeholder="<?php p($l->t('Your email address')); ?>"
 				   autocomplete="on" autocapitalize="off" autocorrect="off" />
-			<input type="hidden" id="emailscope" value="<?php p($_['emailScope']) ?>">
 			<br />
 			<em><?php p($l->t('For password recovery and notifications')); ?></em>
 			<span class="icon-checkmark hidden"/>
+			<input type="hidden" id="emailscope" value="<?php p($_['emailScope']) ?>">
 		</form>
 	</div>
 	<div class="personal-settings-setting-box">
