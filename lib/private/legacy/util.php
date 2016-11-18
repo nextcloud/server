@@ -14,6 +14,7 @@
  * @author Christoph Wurst <christoph@owncloud.com>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author cmeh <cmeh@users.noreply.github.com>
+ * @author Felix Anand Epp <work@felixepp.de>
  * @author Florin Peter <github@florin-peter.de>
  * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Georg Ehrke <georg@owncloud.com>
@@ -524,7 +525,7 @@ class OC_Util {
 	 *
 	 * @param string $application application id
 	 * @param string $languageCode language code, defaults to the current language
-	 * @param bool $prepend prepend the Script to the beginning of the list 
+	 * @param bool $prepend prepend the Script to the beginning of the list
 	 */
 	public static function addTranslations($application, $languageCode = null, $prepend = false) {
 		if (is_null($languageCode)) {
@@ -569,7 +570,7 @@ class OC_Util {
 	 *
 	 * @param string $application application id
 	 * @param bool $prepend prepend the file to the beginning of the list
-	 * @param string $path 
+	 * @param string $path
 	 * @param string $type (script or style)
 	 * @return void
 	 */
@@ -1076,7 +1077,7 @@ class OC_Util {
 					}
 				}
 
-				if(getenv('front_controller_active') === 'true') {
+				if(\OC::$server->getConfig()->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true') {
 					$location = $urlGenerator->getAbsoluteURL('/apps/' . $appId . '/');
 				} else {
 					$location = $urlGenerator->getAbsoluteURL('/index.php/apps/' . $appId . '/');
