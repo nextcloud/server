@@ -1,6 +1,7 @@
 .versionsTabView .clear-float {
 	clear: both;
 }
+
 .versionsTabView li {
 	width: 100%;
 	cursor: default;
@@ -12,23 +13,28 @@
 	border-bottom: none;
 }
 
-.versionsTabView li > * {
+.versionsTabView a,
+.versionsTabView div > span {
 	vertical-align: middle;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	filter: alpha(opacity=50);
 	opacity: .5;
 }
 
-.versionsTabView li > a,
-.versionsTabView li > span {
+.versionsTabView li a{
 	padding: 15px 10px 11px;
 }
 
-.versionsTabView li > *:hover,
-.versionsTabView li > *:focus {
+.versionsTabView a:hover,
+.versionsTabView a:focus {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	filter: alpha(opacity=100);
 	opacity: 1;
+}
+
+.versionsTabView .preview-container {
+	display: inline-block;
+  vertical-align: top;
 }
 
 .versionsTabView img {
@@ -38,12 +44,23 @@
 
 .versionsTabView img.preview {
 	cursor: default;
-	opacity: 1;
+}
+
+.versionsTabView .version-container {
+	display: inline-block;
 }
 
 .versionsTabView .versiondate {
 	min-width: 100px;
 	vertical-align: super;
+}
+
+.versionsTabView .version-details {
+	text-align: left;
+}
+
+.versionsTabView .version-details > span {
+	padding: 0 10px;
 }
 
 .versionsTabView .revertVersion {
