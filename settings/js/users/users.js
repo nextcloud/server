@@ -665,10 +665,10 @@ $(document).ready(function () {
 	// TODO: move other init calls inside of initialize
 	UserList.initialize($('#userlist'));
 
-	var _submitPasswordChange = function(uid, password, recoveryPasswordVal) {
+	var _submitPasswordChange = function(uid, password, recoveryPasswordVal, blurFunction) {
 		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
 			OC.PasswordConfirmation.requirePasswordConfirmation(function() {
-				_submitPasswordChange(uid, password, recoveryPasswordVal);
+				_submitPasswordChange(uid, password, recoveryPasswordVal, blurFunction);
 			});
 			return;
 		}
@@ -677,13 +677,14 @@ $(document).ready(function () {
 			OC.generateUrl('/settings/users/changepassword'),
 			{username: uid, password: password, recoveryPassword: recoveryPasswordVal},
 			function (result) {
+				blurFunction();
 				if (result.status === 'success') {
 					OC.Notification.showTemporary(t('admin', 'Password successfully changed'));
 				} else {
 					OC.Notification.showTemporary(t('admin', result.data.message));
 				}
 			}
-		);
+		).fail(blurFunction);
 	};
 
 	$userListBody.on('click', '.password', function (event) {
@@ -694,6 +695,12 @@ $(document).ready(function () {
 		var uid = UserList.getUID($td);
 		var $input = $('<input type="password">');
 		var isRestoreDisabled = UserList.getRestoreDisabled($td) === true;
+		var blurFunction = function () {
+			$(this).replaceWith($('<span>●●●●●●●</span>'));
+			$td.find('img').show();
+			// remove highlight class from users without recovery ability
+			$tr.removeClass('row-warning');
+		};
 		if(isRestoreDisabled) {
 			$tr.addClass('row-warning');
 			// add tipsy if the password change could cause data loss - no recovery enabled
@@ -708,25 +715,20 @@ $(document).ready(function () {
 				if (event.keyCode === 13) {
 					if ($(this).val().length > 0) {
 						var recoveryPasswordVal = $('input:password[id="recoveryPassword"]').val();
-						_submitPasswordChange(uid, $(this).val(), recoveryPasswordVal);
-						$input.blur();
+						$input.off('blur');
+						_submitPasswordChange(uid, $(this).val(), recoveryPasswordVal, blurFunction);
 					} else {
 						$input.blur();
 					}
 				}
 			})
-			.blur(function () {
-				$(this).replaceWith($('<span>●●●●●●●</span>'));
-				$td.find('img').show();
-				// remove highlight class from users without recovery ability
-				$tr.removeClass('row-warning');
-			});
+			.blur(blurFunction);
 	});
 	$('input:password[id="recoveryPassword"]').keyup(function() {
 		OC.Notification.hide();
 	});
 
-	var _submitDisplayNameChange = function($tr, uid, displayName) {
+	var _submitDisplayNameChange = function($tr, uid, displayName, blurFunction) {
 		var $div = $tr.find('div.avatardiv');
 		if ($div.length) {
 			$div.imageplaceholder(uid, displayName);
@@ -734,7 +736,7 @@ $(document).ready(function () {
 
 		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
 			OC.PasswordConfirmation.requirePasswordConfirmation(function() {
-				_submitDisplayNameChange($tr, uid, displayName);
+				_submitDisplayNameChange($tr, uid, displayName, blurFunction);
 			});
 			return;
 		}
@@ -746,13 +748,15 @@ $(document).ready(function () {
 				username: uid,
 				displayName: displayName
 			}
-		}).success(function () {
+		}).success(function (result) {
 			if (result && result.status==='success' && $div.length){
 				$div.avatar(result.data.username, 32);
 			}
 			$tr.data('displayname', displayName);
+			blurFunction();
 		}).fail(function (result) {
 			OC.Notification.showTemporary(result.responseJSON.message);
+			$tr.find('.displayName input').blur(blurFunction);
 		});
 	};
 
@@ -763,6 +767,11 @@ $(document).ready(function () {
 		var uid = UserList.getUID($td);
 		var displayName = escapeHTML(UserList.getDisplayName($td));
 		var $input = $('<input type="text" value="' + displayName + '">');
+		var blurFunction = function() {
+			var displayName = $tr.data('displayname');
+			$input.replaceWith('<span>' + escapeHTML(displayName) + '</span>');
+			$td.find('img').show();
+		};
 		$td.find('img').hide();
 		$td.children('span').replaceWith($input);
 		$input
@@ -770,24 +779,20 @@ $(document).ready(function () {
 			.keypress(function (event) {
 				if (event.keyCode === 13) {
 					if ($(this).val().length > 0) {
-						_submitDisplayNameChange($tr, uid, $(this).val());
-						$input.blur();
+						$input.off('blur');
+						_submitDisplayNameChange($tr, uid, $(this).val(), blurFunction);
 					} else {
 						$input.blur();
 					}
 				}
 			})
-			.blur(function () {
-				var displayName = $tr.data('displayname');
-				$input.replaceWith('<span>' + escapeHTML(displayName) + '</span>');
-				$td.find('img').show();
-			});
+			.blur(blurFunction);
 	});
 
-	var _submitEmailChange = function($tr, $td, $input, uid, mailAddress) {
+	var _submitEmailChange = function($tr, $td, $input, uid, mailAddress, blurFunction) {
 		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
 			OC.PasswordConfirmation.requirePasswordConfirmation(function() {
-				_submitEmailChange($tr, $td, $input, uid, mailAddress);
+				_submitEmailChange($tr, $td, $input, uid, mailAddress, blurFunction);
 			});
 			return;
 		}
@@ -805,6 +810,7 @@ $(document).ready(function () {
 			$td.find('.loading-small').css('display', '');
 			$input.removeAttr('disabled')
 				.triggerHandler('blur'); // needed instead of $input.blur() for Firefox
+			blurFunction();
 		}).fail(function (result) {
 			if (!_.isUndefined(result.responseJSON.data)) {
 				OC.Notification.showTemporary(result.responseJSON.data.message);
@@ -816,6 +822,7 @@ $(document).ready(function () {
 			$td.find('.loading-small').css('display', '');
 			$input.removeAttr('disabled')
 				.css('padding-right', '6px');
+			$input.blur(blurFunction);
 		});
 	};
 
@@ -826,6 +833,15 @@ $(document).ready(function () {
 		var uid = UserList.getUID($td);
 		var mailAddress = escapeHTML(UserList.getMailAddress($td));
 		var $input = $('<input type="text">').val(mailAddress);
+		var blurFunction = function() {
+			if($td.find('.loading-small').css('display') === 'inline-block') {
+				// in Chrome the blur event is fired too early by the browser - even if the request is still running
+				return;
+			}
+			var $span = $('<span>').text($tr.data('mailAddress'));
+			$input.replaceWith($span);
+			$td.find('img').show();
+		};
 		$td.children('span').replaceWith($input);
 		$td.find('img').hide();
 		$input
@@ -837,18 +853,11 @@ $(document).ready(function () {
 					$td.find('.loading-small').css('display', 'inline-block');
 					$input.css('padding-right', '26px');
 					$input.attr('disabled', 'disabled');
-					_submitEmailChange($tr, $td, $input, uid, $(this).val());
+					$input.off('blur');
+					_submitEmailChange($tr, $td, $input, uid, $(this).val(), blurFunction);
 				}
 			})
-			.blur(function () {
-				if($td.find('.loading-small').css('display') === 'inline-block') {
-					// in Chrome the blur event is fired too early by the browser - even if the request is still running
-					return;
-				}
-				var $span = $('<span>').text($tr.data('mailAddress'));
-				$input.replaceWith($span);
-				$td.find('img').show();
-			});
+			.blur(blurFunction);
 	});
 
 	$('#newuser .groupsListContainer').on('click', function (event) {
@@ -870,6 +879,7 @@ $(document).ready(function () {
 
 	UserList._updateGroupListLabel($('#newuser .groups'), []);
 	var _submitNewUserForm = function (event) {
+		event.preventDefault();
 		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
 			OC.PasswordConfirmation.requirePasswordConfirmation(function() {
 				_submitNewUserForm(event);
@@ -877,7 +887,6 @@ $(document).ready(function () {
 			return;
 		}
 
-		event.preventDefault();
 		var username = $('#newusername').val();
 		var password = $('#newuserpassword').val();
 		var email = $('#newemail').val();
