@@ -7,6 +7,7 @@ OC.L10N.register(
     "Remote share password" : "Heslo vzdáleného sdílení",
     "Cancel" : "Zrušit",
     "Add remote share" : "Přidat propojené sdílení",
+    "Copy" : "Kopie",
     "Copied!" : "Zkopírováno!",
     "Not supported!" : "Nepodporováno!",
     "Press ⌘-C to copy." : "Zmáčknout ⌘-C pro kopírování.",
