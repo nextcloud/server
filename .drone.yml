@@ -12,6 +12,7 @@ pipeline:
     when:
       matrix:
         TESTS: jsunit
+      event: pull_request
   check-autoloader:
     image: nextcloudci/php7.0:php7.0-6
     commands:
@@ -19,6 +20,7 @@ pipeline:
     when:
       matrix:
         TESTS: check-autoloader
+      event: pull_request
   app-check-code:
     image: nextcloudci/php7.0:php7.0-6
     commands:
@@ -32,6 +34,7 @@ pipeline:
     when:
       matrix:
         TESTS: app-check-code
+      event: pull_request
   signed-off-check:
     image: nextcloudci/php7.0:php7.0-6
     commands:
@@ -39,6 +42,7 @@ pipeline:
     when:
       matrix:
         TESTS: signed-off-check
+      event: pull_request
   htaccess-checker:
     image: nextcloudci/php7.0:php7.0-6
     commands:
@@ -46,6 +50,7 @@ pipeline:
     when:
       matrix:
         TESTS: htaccess-checker
+      event: pull_request
   syntax-php5.6:
     image: nextcloudci/php5.6:php5.6-7
     commands:
@@ -54,6 +59,7 @@ pipeline:
     when:
       matrix:
         TESTS: syntax-php5.6
+      event: pull_request
   syntax-php7.0:
     image: nextcloudci/php7.0:php7.0-6
     commands:
@@ -62,6 +68,7 @@ pipeline:
     when:
       matrix:
         TESTS: syntax-php7.0
+      event: pull_request
   litmus-v1:
     image: nextcloudci/litmus-php7.0:litmus-php7.0-4
     commands:
@@ -70,6 +77,7 @@ pipeline:
     when:
       matrix:
         TESTS: litmus-v1
+      event: pull_request
   litmus-v2:
     image: nextcloudci/litmus-php7.0:litmus-php7.0-4
     commands:
@@ -78,6 +86,7 @@ pipeline:
     when:
       matrix:
         TESTS: litmus-v2
+      event: pull_request
   caldavtester:
     image: nextcloudci/litmus-php7.0:litmus-php7.0-4
     commands:
@@ -87,6 +96,7 @@ pipeline:
     when:
       matrix:
         TESTS: caldavtester
+      event: pull_request
   carddavtester:
     image: nextcloudci/litmus-php7.0:litmus-php7.0-4
     commands:
@@ -96,6 +106,7 @@ pipeline:
     when:
       matrix:
         TESTS: carddavtester
+      event: pull_request
   nodb-php5.6:
     image: nextcloudci/php5.6:php5.6-7
     commands:
@@ -104,6 +115,7 @@ pipeline:
       matrix:
         DB: NODB
         PHP: 5.6
+      event: pull_request
   nodb-php7.0:
     image: nextcloudci/php7.0:php7.0-6
     commands:
@@ -112,6 +124,7 @@ pipeline:
       matrix:
         DB: NODB
         PHP: "7.0"
+      event: pull_request
   nodb-php7.1:
     image: nextcloudci/php7.1:php7.1-9
     commands:
@@ -120,6 +133,7 @@ pipeline:
       matrix:
         DB: NODB
         PHP: 7.1
+      event: pull_request
   sqlite-php5.6:
     image: nextcloudci/php5.6:php5.6-7
     commands:
@@ -128,6 +142,7 @@ pipeline:
       matrix:
         DB: sqlite
         PHP: 5.6
+      event: pull_request
   sqlite-php7.0:
     image: nextcloudci/php7.0:php7.0-6
     commands:
@@ -136,6 +151,7 @@ pipeline:
       matrix:
         DB: sqlite
         PHP: "7.0"
+      event: pull_request
   sqlite-php7.1:
     image: nextcloudci/php7.1:php7.1-9
     commands:
@@ -144,6 +160,7 @@ pipeline:
       matrix:
         DB: sqlite
         PHP: 7.1
+      event: pull_request
   mysql-php5.6:
     image: nextcloudci/php5.6:php5.6-7
     commands:
@@ -152,6 +169,7 @@ pipeline:
       matrix:
         DB: mysql
         PHP: 5.6
+      event: pull_request
   postgres-php5.6:
     image: nextcloudci/php5.6:php5.6-7
     commands:
@@ -161,6 +179,7 @@ pipeline:
       matrix:
         DB: postgres
         PHP: 5.6
+      event: pull_request
   mysqlmb4-php5.6:
     image: nextcloudci/php5.6:php5.6-7
     commands:
@@ -169,6 +188,7 @@ pipeline:
       matrix:
         DB: mysqlmb4
         PHP: 5.6
+      event: pull_request
   integration-capabilities_features:
     image: nextcloudci/integration-php7.0:integration-php7.0-2
     commands:
@@ -178,6 +198,7 @@ pipeline:
     when:
       matrix:
         TESTS: integration-capabilities_features
+      event: pull_request
   integration-federation_features:
     image: nextcloudci/integration-php7.0:integration-php7.0-2
     commands:
@@ -187,6 +208,7 @@ pipeline:
     when:
       matrix:
         TESTS: integration-federation_features
+      event: pull_request
   integration-auth:
     image: nextcloudci/integration-php7.0:integration-php7.0-2
     commands:
@@ -196,6 +218,7 @@ pipeline:
     when:
       matrix:
         TESTS: integration-auth
+      event: pull_request
   integration-carddav:
     image: nextcloudci/integration-php7.0:integration-php7.0-2
     commands:
@@ -205,6 +228,7 @@ pipeline:
     when:
       matrix:
         TESTS: integration-carddav
+      event: pull_request
   integration-dav-v2:
     image: nextcloudci/integration-php7.0:integration-php7.0-2
     commands:
@@ -214,6 +238,7 @@ pipeline:
     when:
       matrix:
         TESTS: integration-dav-v2
+      event: pull_request
   integration-ocs-v1:
     image: nextcloudci/integration-php7.0:integration-php7.0-2
     commands:
@@ -223,6 +248,7 @@ pipeline:
     when:
       matrix:
         TESTS: integration-ocs-v1
+      event: pull_request
   integration-sharing-v1:
     image: nextcloudci/integration-php7.0:integration-php7.0-2
     commands:
@@ -232,6 +258,7 @@ pipeline:
     when:
       matrix:
         TESTS: integration-sharing-v1
+      event: pull_request
   integration-checksums-v1:
     image: nextcloudci/integration-php7.0:integration-php7.0-2
     commands:
@@ -241,6 +268,7 @@ pipeline:
     when:
       matrix:
         TESTS: integration-checksums
+      event: pull_request
   integration-external-storage:
     image: nextcloudci/integration-php7.0:integration-php7.0-2
     commands:
@@ -250,6 +278,7 @@ pipeline:
     when:
       matrix:
         TESTS: integration-external-storage
+      event: pull_request
   integration-provisioning-v1:
     image: nextcloudci/integration-php7.0:integration-php7.0-2
     commands:
@@ -259,6 +288,7 @@ pipeline:
     when:
       matrix:
         TESTS: integration-provisioning-v1
+      event: pull_request
   integration-tags:
     image: nextcloudci/integration-php7.0:integration-php7.0-2
     commands:
@@ -268,6 +298,7 @@ pipeline:
     when:
       matrix:
         TESTS: integration-tags
+      event: pull_request
   integration-caldav:
     image: nextcloudci/integration-php7.0:integration-php7.0-2
     commands:
@@ -277,6 +308,7 @@ pipeline:
     when:
       matrix:
         TESTS: integration-caldav
+      event: pull_request
   integration-comments:
     image: nextcloudci/integration-php7.0:integration-php7.0-2
     commands:
@@ -286,6 +318,7 @@ pipeline:
     when:
       matrix:
         TESTS: integration-comments
+      event: pull_request
   integration-favorites:
     image: nextcloudci/integration-php7.0:integration-php7.0-2
     commands:
@@ -295,6 +328,7 @@ pipeline:
     when:
       matrix:
         TESTS: integration-favorites
+      event: pull_request
   integration-provisioning-v2:
     image: nextcloudci/integration-php7.0:integration-php7.0-2
     commands:
@@ -304,6 +338,7 @@ pipeline:
     when:
       matrix:
         TESTS: integration-provisioning-v2
+      event: pull_request
   integration-webdav-related:
     image: nextcloudci/integration-php7.0:integration-php7.0-2
     commands:
@@ -313,6 +348,7 @@ pipeline:
     when:
       matrix:
         TESTS: integration-webdav-related
+      event: pull_request
   integration-sharees-features:
     image: nextcloudci/integration-php7.0:integration-php7.0-2
     commands:
@@ -322,6 +358,7 @@ pipeline:
     when:
       matrix:
         TESTS: integration-sharees-features
+      event: pull_request
   nodb-codecov:
     image: nextcloudci/php7.0:php7.0-6
     commands:
@@ -332,6 +369,7 @@ pipeline:
     when:
       matrix:
         TESTS: nodb-codecov
+      event: [pull_request, pull]
   db-codecov:
     image: nextcloudci/php7.0:php7.0-6
     commands:
@@ -342,6 +380,7 @@ pipeline:
     when:
       matrix:
         TESTS: db-codecov
+      event: [pull_request, pull]
 matrix:
   include:
     - TESTS: signed-off-check
