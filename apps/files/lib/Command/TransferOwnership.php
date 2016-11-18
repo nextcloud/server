@@ -27,6 +27,7 @@ namespace OCA\Files\Command;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\Files\FileInfo;
+use OCP\Files\IHomeStorage;
 use OCP\Files\Mount\IMountManager;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -157,6 +158,10 @@ class TransferOwnership extends Command {
 		$this->walkFiles($view, "$this->sourceUser/files",
 				function (FileInfo $fileInfo) use ($progress, $self) {
 					if ($fileInfo->getType() === FileInfo::TYPE_FOLDER) {
+						// only analyze into folders from main storage,
+						if (!$fileInfo->getStorage()->instanceOfStorage(IHomeStorage::class)) {
+							return false;
+						}
 						return true;
 					}
 					$progress->advance();
