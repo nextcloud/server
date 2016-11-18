@@ -431,6 +431,7 @@ class View {
 				echo fread($handle, $chunkSize);
 				flush();
 			}
+			fclose($handle);
 			$size = $this->filesize($path);
 			return $size;
 		}
