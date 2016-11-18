@@ -9,8 +9,9 @@
 	<author>Roeland Jago Douma</author>
 	<default_enable/>
 	<version>1.0.0</version>
+	<category>other</category>
 	<dependencies>
-		<owncloud min-version="9.2" max-version="9.2" />
+        <nextcloud min-version="11" max-version="11" />
 	</dependencies>
 
 	<namespace>BruteForceSettings</namespace>

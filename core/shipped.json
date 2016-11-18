@@ -2,6 +2,7 @@
   "shippedApps": [
     "activity",
     "admin_audit",
+    "bruteforcesettings",
     "comments",
     "dav",
     "encryption",
@@ -41,6 +42,7 @@
     "workflowengine"
   ],
   "alwaysEnabled": [
+    "bruteforcesettings",
     "files",
     "dav",
     "federatedfilesharing",
