@@ -52,8 +52,10 @@ class ApplicationTest extends TestCase {
 		$this->assertInstanceOf('OCA\Comments\Controller\Notifications', $s);
 
 		$services = [
-			'OCA\Comments\Activity\Extension',
+			'OCA\Comments\Activity\Filter',
 			'OCA\Comments\Activity\Listener',
+			'OCA\Comments\Activity\Provider',
+			'OCA\Comments\Activity\Setting',
 			'OCA\Comments\Notification\Listener'
 		];
 
