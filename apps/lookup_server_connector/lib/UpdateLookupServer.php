@@ -49,7 +49,7 @@ class UpdateLookupServer {
 	/** @var Signer */
 	private $signer;
 	/** @var string URL point to lookup server */
-	private $lookupServer = 'http://127.0.0.1:3000/users';
+	private $lookupServer = 'https://lookup.nextcloud.com/users';
 
 	/**
 	 * @param AccountManager $accountManager

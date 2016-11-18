@@ -628,7 +628,7 @@ class ShareesAPIController extends OCSController {
 	protected function getLookup($search) {
 		$client = $this->clientService->newClient();
 
-		$response = $client->get('http://127.0.0.1:3000/users?search='.urlencode($search));
+		$response = $client->get('https://lookup.nextcloud.com/users?search='.urlencode($search));
 		$body = json_decode($response->getBody(), true);
 
 		$result = [];
