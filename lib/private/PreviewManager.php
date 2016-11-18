@@ -35,6 +35,7 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IPreview;
 use OCP\Preview\IProvider;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class PreviewManager implements IPreview {
 	/** @var IConfig */
@@ -45,6 +46,9 @@ class PreviewManager implements IPreview {
 
 	/** @var IAppData */
 	protected $appData;
+
+	/** @var EventDispatcherInterface */
+	protected $eventDispatcher;
 
 	/** @var Generator */
 	private $generator;
@@ -65,16 +69,21 @@ class PreviewManager implements IPreview {
 	protected $defaultProviders;
 
 	/**
-	 * Constructor
+	 * PreviewManager constructor.
 	 *
-	 * @param \OCP\IConfig $config
+	 * @param IConfig $config
+	 * @param IRootFolder $rootFolder
+	 * @param IAppData $appData
+	 * @param EventDispatcherInterface $eventDispatcher
 	 */
 	public function __construct(IConfig $config,
 								IRootFolder $rootFolder,
-								IAppData $appData) {
+								IAppData $appData,
+								EventDispatcherInterface $eventDispatcher) {
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
 		$this->appData = $appData;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -165,7 +174,8 @@ class PreviewManager implements IPreview {
 				$this->appData,
 				new GeneratorHelper(
 					$this->rootFolder
-				)
+				),
+				$this->eventDispatcher
 			);
 		}
 

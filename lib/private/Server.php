@@ -123,7 +123,8 @@ class Server extends ServerContainer implements IServerContainer {
 			return new PreviewManager(
 				$c->getConfig(),
 				$c->getRootFolder(),
-				$c->getAppDataDir('preview')
+				$c->getAppDataDir('preview'),
+				$c->getEventDispatcher()
 			);
 		});
 
