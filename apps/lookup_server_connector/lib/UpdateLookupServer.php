@@ -49,7 +49,7 @@ class UpdateLookupServer {
 	/** @var Signer */
 	private $signer;
 	/** @var string URL point to lookup server */
-	private $lookupServer = 'http://127.0.0.1:3000/index2.php/users';
+	private $lookupServer = 'http://127.0.0.1:3000/users';
 
 	/**
 	 * @param AccountManager $accountManager
@@ -124,8 +124,8 @@ class UpdateLookupServer {
 		$httpClient = $this->clientService->newClient();
 		$httpClient->post($this->lookupServer,
 			[
-				'body' => $dataArray,
-				'timeout' => 3,
+				'body' => json_encode($dataArray),
+				'timeout' => 10,
 				'connect_timeout' => 3,
 			]
 		);
