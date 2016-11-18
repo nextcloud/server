@@ -481,6 +481,8 @@
 #app-settings-content,
 #app-settings-header {
 	border-right: 1px solid #eee;
+	width: 250px;
+	box-sizing: border-box;
 }
 
 /* display input fields at full width */
