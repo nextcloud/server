@@ -57,6 +57,15 @@ class Store implements IStore {
 	}
 
 	/**
+	 * Replace the session implementation
+	 *
+	 * @param ISession $session
+	 */
+	public function setSession(ISession $session) {
+		$this->session = $session;
+	}
+
+	/**
 	 * @since 9.2
 	 *
 	 * @return ICredentials the login credentials of the current user
