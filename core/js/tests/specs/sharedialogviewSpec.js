@@ -529,7 +529,8 @@ describe('OC.Share.ShareDialogView', function() {
 						},
 						'users'  : [{'label': 'bob', 'value': {'shareType': 0, 'shareWith': 'test'}}],
 						'groups' : [],
-						'remotes': []
+						'remotes': [],
+						'lookup': []
 					}
 				}
 			});
@@ -577,7 +578,8 @@ describe('OC.Share.ShareDialogView', function() {
 								}
 							],
 							'groups': [],
-							'remotes': []
+							'remotes': [],
+							'lookup': []
 						}
 					}
 				});
@@ -635,7 +637,8 @@ describe('OC.Share.ShareDialogView', function() {
 								}
 							],
 							'groups': [],
-							'remotes': []
+							'remotes': [],
+							'lookup': []
 						}
 					}
 				});
@@ -715,7 +718,8 @@ describe('OC.Share.ShareDialogView', function() {
 									}
 								],
 								'groups': [],
-								'remotes': []
+								'remotes': [],
+								'lookup': []
 							}
 						}
 					});
@@ -765,7 +769,8 @@ describe('OC.Share.ShareDialogView', function() {
 										}
 									}
 								],
-								'remotes': []
+								'remotes': [],
+								'lookup': []
 							}
 						}
 					});
@@ -815,7 +820,8 @@ describe('OC.Share.ShareDialogView', function() {
 											'shareWith': 'foo2@bar.com/baz'
 										}
 									}
-								]
+								],
+								'lookup': []
 							}
 						}
 					});
