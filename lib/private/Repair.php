@@ -158,7 +158,8 @@ class Repair implements IOutput{
 			),
 			new CleanPreviews(
 				\OC::$server->getJobList(),
-				\OC::$server->getUserManager()
+				\OC::$server->getUserManager(),
+				\OC::$server->getConfig()
 			),
 		];
 	}

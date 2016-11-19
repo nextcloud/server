@@ -25,6 +25,7 @@ namespace Test\Repair\NC11;
 use OC\Repair\NC11\CleanPreviews;
 use OC\Repair\NC11\CleanPreviewsBackgroundJob;
 use OCP\BackgroundJob\IJobList;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;
@@ -39,6 +40,9 @@ class CleanPreviewsTest extends TestCase {
 	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
 
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	private $config;
+
 	/** @var CleanPreviews */
 	private $repair;
 
@@ -47,10 +51,12 @@ class CleanPreviewsTest extends TestCase {
 
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->repair = new CleanPreviews(
 			$this->jobList,
-			$this->userManager
+			$this->userManager,
+			$this->config
 		);
 	}
 
@@ -86,6 +92,42 @@ class CleanPreviewsTest extends TestCase {
 				$this->equalTo(CleanPreviewsBackgroundJob::class),
 				$this->equalTo(['uid' => 'user2'])
 			);
+
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with(
+				$this->equalTo('core'),
+				$this->equalTo('previewsCleanedUp'),
+				$this->equalTo(false)
+			)->willReturn(false);
+		$this->config->expects($this->once())
+			->method('setAppValue')
+			->with(
+				$this->equalTo('core'),
+				$this->equalTo('previewsCleanedUp'),
+				$this->equalTo(1)
+			);
+
+		$this->repair->run($this->createMock(IOutput::class));
+	}
+
+
+	public function testRunAlreadyDoone() {
+		$this->userManager->expects($this->never())
+			->method($this->anything());
+
+		$this->jobList->expects($this->never())
+			->method($this->anything());
+
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with(
+				$this->equalTo('core'),
+				$this->equalTo('previewsCleanedUp'),
+				$this->equalTo(false)
+			)->willReturn('1');
+		$this->config->expects($this->never())
+			->method('setAppValue');
 
 		$this->repair->run($this->createMock(IOutput::class));
 	}

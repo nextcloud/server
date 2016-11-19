@@ -23,6 +23,7 @@
 namespace OC\Repair\NC11;
 
 use OCP\BackgroundJob\IJobList;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;
@@ -36,16 +37,22 @@ class CleanPreviews implements IRepairStep {
 	/** @var IUserManager */
 	private $userManager;
 
+	/** @var IConfig */
+	private $config;
+
 	/**
 	 * MoveAvatars constructor.
 	 *
 	 * @param IJobList $jobList
 	 * @param IUserManager $userManager
+	 * @param IConfig $config
 	 */
 	public function __construct(IJobList $jobList,
-								IUserManager $userManager) {
+								IUserManager $userManager,
+								IConfig $config) {
 		$this->jobList = $jobList;
 		$this->userManager = $userManager;
+		$this->config = $config;
 	}
 
 	/**
@@ -56,8 +63,11 @@ class CleanPreviews implements IRepairStep {
 	}
 
 	public function run(IOutput $output) {
-		$this->userManager->callForSeenUsers(function(IUser $user) {
-			$this->jobList->add(CleanPreviewsBackgroundJob::class, ['uid' => $user->getUID()]);
-		});
+		if (!$this->config->getAppValue('core', 'previewsCleanedUp', false)) {
+			$this->userManager->callForSeenUsers(function (IUser $user) {
+				$this->jobList->add(CleanPreviewsBackgroundJob::class, ['uid' => $user->getUID()]);
+			});
+			$this->config->setAppValue('core', 'previewsCleanedUp', 1);
+		}
 	}
 }
