@@ -7,6 +7,7 @@ OC.L10N.register(
     "Remote share password" : "Mot de passe du partage distant",
     "Cancel" : "Annuler",
     "Add remote share" : "Ajouter un partage distant",
+    "Copy" : "Copier",
     "Copied!" : "Copié !",
     "Not supported!" : "Non supporté!",
     "Press ⌘-C to copy." : "Appuyez sur ⌘-C pour copier.",

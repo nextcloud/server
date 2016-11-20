@@ -11,6 +11,7 @@ OC.L10N.register(
     "Trusted Servers" : "Vertrauenswürdige Server",
     "+ Add Nextcloud server" : "+ Nextcloud Server hinzufügen",
     "Nextcloud Server" : "Nextcloud Server",
+    "Add" : "Hinzufügen",
     "Server added to the list of trusted Nextclouds" : "Server zur Liste der vertrauenswürdigen Nextclouds hinzugefügt",
     "No Nextcloud server found" : "Kein Nextcloud Server gefunden",
     "Nextcloud Federation allows you to connect with other trusted Nextclouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Nextcloud Federation erlaubt es Dir, mit anderem vertrautem Nextcloud Server in Verbindung zu stehen, um Benutzerverzeichnise auszutauschen. Zum Beispiel wird das verwendet, um eine automatische Vervollständigung der externen Benutzer zu ermöglichen.",

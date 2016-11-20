@@ -7,6 +7,7 @@ OC.L10N.register(
     "Remote share password" : "Jelszó a távoli megosztáshoz",
     "Cancel" : "Mégsem",
     "Add remote share" : "Távoli megosztás hozzáadása",
+    "Copy" : "Másol",
     "Copied!" : "Másolva!",
     "Not supported!" : "Nem támogatott!",
     "Press ⌘-C to copy." : "A másoláshoz nyomj ⌘-C-t.",
