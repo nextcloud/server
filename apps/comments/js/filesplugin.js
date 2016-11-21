@@ -11,6 +11,11 @@
 /* global Handlebars */
 
 (function() {
+
+	_.extend(OC.Files.Client, {
+		PROPERTY_COMMENTS_UNREAD:	'{' + OC.Files.Client.NS_OWNCLOUD + '}comments-unread'
+	});
+
 	var TEMPLATE_COMMENTS_UNREAD =
 		'<a class="action action-comment permanent" title="{{countMessage}}" href="#">' +
 		'<img class="svg" src="{{iconUrl}}"/>' +
@@ -52,19 +57,17 @@
 
 			fileList.registerTabView(new OCA.Comments.CommentsTabView('commentsTabView'));
 
-			var NS_OC = 'http://owncloud.org/ns';
-
 			var oldGetWebdavProperties = fileList._getWebdavProperties;
 			fileList._getWebdavProperties = function() {
 				var props = oldGetWebdavProperties.apply(this, arguments);
-				props.push('{' + NS_OC + '}comments-unread');
+				props.push(OC.Files.Client.PROPERTY_COMMENTS_UNREAD);
 				return props;
 			};
 
 			fileList.filesClient.addFileInfoParser(function(response) {
 				var data = {};
 				var props = response.propStat[0].properties;
-				var commentsUnread = props['{' + NS_OC + '}comments-unread'];
+				var commentsUnread = props[OC.Files.Client.PROPERTY_COMMENTS_UNREAD];
 				if (!_.isUndefined(commentsUnread) && commentsUnread !== '') {
 					data.commentsUnread = parseInt(commentsUnread, 10);
 				}

@@ -9,7 +9,15 @@
  */
 
 (function(OC) {
-	var NS_OWNCLOUD = 'http://owncloud.org/ns';
+
+	_.extend(OC.Files.Client, {
+		PROPERTY_FILEID:	'{' + OC.Files.Client.NS_OWNCLOUD + '}id',
+		PROPERTY_CAN_ASSIGN:'{' + OC.Files.Client.NS_OWNCLOUD + '}can-assign',
+		PROPERTY_DISPLAYNAME:	'{' + OC.Files.Client.NS_OWNCLOUD + '}display-name',
+		PROPERTY_USERVISIBLE:	'{' + OC.Files.Client.NS_OWNCLOUD + '}user-visible',
+		PROPERTY_USERASSIGNABLE:'{' + OC.Files.Client.NS_OWNCLOUD + '}user-assignable',
+	});
+
 	/**
 	 * @class OCA.SystemTags.SystemTagsCollection
 	 * @classdesc
@@ -28,12 +36,12 @@
 		},
 
 		davProperties: {
-			'id': '{' + NS_OWNCLOUD + '}id',
-			'name': '{' + NS_OWNCLOUD + '}display-name',
-			'userVisible': '{' + NS_OWNCLOUD + '}user-visible',
-			'userAssignable': '{' + NS_OWNCLOUD + '}user-assignable',
+			'id':	OC.Files.Client.PROPERTY_FILEID,
+			'name': OC.Files.Client.PROPERTY_DISPLAYNAME,
+			'userVisible': 	OC.Files.Client.PROPERTY_USERVISIBLE,
+			'userAssignable': 	OC.Files.Client.PROPERTY_USERASSIGNABLE,
 			// read-only, effective permissions computed by the server,
-			'canAssign': '{' + NS_OWNCLOUD + '}can-assign'
+			'canAssign': OC.Files.Client.PROPERTY_CAN_ASSIGN
 		},
 
 		parse: function(data) {
@@ -50,4 +58,3 @@
 	OC.SystemTags = OC.SystemTags || {};
 	OC.SystemTags.SystemTagModel = SystemTagModel;
 })(OC);
-

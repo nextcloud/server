@@ -442,7 +442,9 @@
 			// In the future the FileList should work with Backbone.Collection
 			// and contain existing models that can be used.
 			// This method would in the future simply retrieve the matching model from the collection.
-			var model = new OCA.Files.FileInfoModel(this.elementToFile($tr));
+			var model = new OCA.Files.FileInfoModel(this.elementToFile($tr), {
+				filesClient: this.filesClient
+			});
 			if (!model.get('path')) {
 				model.set('path', this.getCurrentDirectory(), {silent: true});
 			}
@@ -891,11 +893,14 @@
 				mimetype: $el.attr('data-mime'),
 				mtime: parseInt($el.attr('data-mtime'), 10),
 				type: $el.attr('data-type'),
-				size: parseInt($el.attr('data-size'), 10),
 				etag: $el.attr('data-etag'),
 				permissions: parseInt($el.attr('data-permissions'), 10),
 				hasPreview: $el.attr('data-has-preview') === 'true'
 			};
+			var size = $el.attr('data-size');
+			if (size) {
+				data.size = parseInt(size, 10);
+			}
 			var icon = $el.attr('data-icon');
 			if (icon) {
 				data.icon = icon;
@@ -1029,7 +1034,7 @@
 		 * Returns whether the given file info must be hidden
 		 *
 		 * @param {OC.Files.FileInfo} fileInfo file info
-		 * 
+		 *
 		 * @return {boolean} true if the file is a hidden file, false otherwise
 		 */
 		_isHiddenFile: function(file) {
@@ -2828,7 +2833,6 @@
 			});
 			uploader.on('fail', function(e, data) {
 				self._uploader.log('filelist handle fileuploadfail', e, data);
-				
 				self._uploads = [];
 
 				//if user pressed cancel hide upload chrome

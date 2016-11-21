@@ -36,9 +36,17 @@
 			path: ''
 		},
 
-		initialize: function(data) {
+		_filesClient: null,
+
+		initialize: function(data, options) {
 			if (!_.isUndefined(data.id)) {
 				data.id = parseInt(data.id, 10);
+			}
+
+			if( options ){
+				if (options.filesClient) {
+					this._filesClient = options.filesClient;
+				}
 			}
 		},
 
@@ -73,6 +81,42 @@
 		 */
 		getFullPath: function() {
 			return OC.joinPaths(this.get('path'), this.get('name'));
+		},
+
+		/**
+		 * Reloads missing properties from server and set them in the model.
+		 * @param properties array of properties to be reloaded
+		 * @return ajax call object
+		 */
+		reloadProperties: function(properties) {
+			if( !this._filesClient ){
+				return;
+			}
+
+			var self = this;
+			var deferred = $.Deferred();
+
+			var targetPath = OC.joinPaths(this.get('path') + '/', this.get('name'));
+
+			this._filesClient.getFileInfo(targetPath, {
+					properties: properties
+				})
+				.then(function(status, data) {
+					// the following lines should be extracted to a mapper
+
+					if( properties.indexOf(OC.Files.Client.PROPERTY_GETCONTENTLENGTH) !== -1
+					||  properties.indexOf(OC.Files.Client.PROPERTY_SIZE) !== -1 ) {
+						self.set('size', data.size);
+					}
+
+					deferred.resolve(status, data);
+				})
+				.fail(function(status) {
+					OC.Notification.showTemporary(t('files', 'Could not load info for file "{file}"', {file: self.get('name')}));
+					deferred.reject(status);
+				});
+
+			return deferred.promise();
 		}
 	});
 
@@ -82,4 +126,3 @@
 	OCA.Files.FileInfoModel = FileInfoModel;
 
 })(OC, OCA);
-
