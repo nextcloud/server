@@ -596,110 +596,6 @@ Feature: sharing
       | shareType | 3      |
     Then share ids should match
 
-  Scenario: Correct webdav share-permissions for owned file
-    Given user "user0" exists
-    And User "user0" uploads file with content "foo" to "/tmp.txt"
-    When as "user0" gets properties of folder "/tmp.txt" with
-      |{http://open-collaboration-services.org/ns}share-permissions |
-    Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "19"
-
-  Scenario: Correct webdav share-permissions for received file with edit and reshare permissions
-    Given user "user0" exists
-    And user "user1" exists
-    And User "user0" uploads file with content "foo" to "/tmp.txt"
-    And file "/tmp.txt" of user "user0" is shared with user "user1"
-    When as "user1" gets properties of folder "/tmp.txt" with
-      |{http://open-collaboration-services.org/ns}share-permissions |
-    Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "19"
-
-  Scenario: Correct webdav share-permissions for received file with edit permissions but no reshare permissions
-    Given user "user0" exists
-    And user "user1" exists
-    And User "user0" uploads file with content "foo" to "/tmp.txt"
-    And file "tmp.txt" of user "user0" is shared with user "user1"
-    And As an "user0"
-    And Updating last share with
-      | permissions | 3 |
-    When as "user1" gets properties of folder "/tmp.txt" with
-      |{http://open-collaboration-services.org/ns}share-permissions |
-    Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "3"
-
-  Scenario: Correct webdav share-permissions for received file with reshare permissions but no edit permissions
-    Given user "user0" exists
-    And user "user1" exists
-    And User "user0" uploads file with content "foo" to "/tmp.txt"
-    And file "tmp.txt" of user "user0" is shared with user "user1"
-    And As an "user0"
-    And Updating last share with
-      | permissions | 17 |
-    When as "user1" gets properties of folder "/tmp.txt" with
-      |{http://open-collaboration-services.org/ns}share-permissions |
-    Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "17"
-
-  Scenario: Correct webdav share-permissions for owned folder
-    Given user "user0" exists
-    And user "user0" created a folder "/tmp"
-    When as "user0" gets properties of folder "/" with
-      |{http://open-collaboration-services.org/ns}share-permissions |
-    Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "31"
-
-  Scenario: Correct webdav share-permissions for received folder with all permissions
-    Given user "user0" exists
-    And user "user1" exists
-    And user "user0" created a folder "/tmp"
-    And file "/tmp" of user "user0" is shared with user "user1"
-    When as "user1" gets properties of folder "/tmp" with
-      |{http://open-collaboration-services.org/ns}share-permissions |
-    Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "31"
-
-  Scenario: Correct webdav share-permissions for received folder with all permissions but edit
-    Given user "user0" exists
-    And user "user1" exists
-    And user "user0" created a folder "/tmp"
-    And file "/tmp" of user "user0" is shared with user "user1"
-    And As an "user0"
-    And Updating last share with
-      | permissions | 29 |
-    When as "user1" gets properties of folder "/tmp" with
-      |{http://open-collaboration-services.org/ns}share-permissions |
-    Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "29"
-
-  Scenario: Correct webdav share-permissions for received folder with all permissions but create
-    Given user "user0" exists
-    And user "user1" exists
-    And user "user0" created a folder "/tmp"
-    And file "/tmp" of user "user0" is shared with user "user1"
-    And As an "user0"
-    And Updating last share with
-      | permissions | 27 |
-    When as "user1" gets properties of folder "/tmp" with
-      |{http://open-collaboration-services.org/ns}share-permissions |
-    Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "27"
-
-  Scenario: Correct webdav share-permissions for received folder with all permissions but delete
-    Given user "user0" exists
-    And user "user1" exists
-    And user "user0" created a folder "/tmp"
-    And file "/tmp" of user "user0" is shared with user "user1"
-    And As an "user0"
-    And Updating last share with
-      | permissions | 23 |
-    When as "user1" gets properties of folder "/tmp" with
-      |{http://open-collaboration-services.org/ns}share-permissions |
-    Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "23"
-
-  Scenario: Correct webdav share-permissions for received folder with all permissions but share
-    Given user "user0" exists
-    And user "user1" exists
-    And user "user0" created a folder "/tmp"
-    And file "/tmp" of user "user0" is shared with user "user1"
-    And As an "user0"
-    And Updating last share with
-      | permissions | 15 |
-    When as "user1" gets properties of folder "/tmp" with
-      |{http://open-collaboration-services.org/ns}share-permissions |
-    Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "15"
-
   Scenario: unique target names for incoming shares
     Given user "user0" exists
     And user "user1" exists
@@ -855,24 +751,6 @@ Feature: sharing
         |{http://owncloud.org/ns}permissions|
     And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRDNVCK"
     And as "user1" the folder "/merge-test-outside-groups-renamebeforesecondshare" does not exist
-  
-  Scenario: Empting trashbin
-    Given As an "admin"
-    And user "user0" exists
-    And User "user0" deletes file "/textfile0.txt"
-    When User "user0" empties trashbin
-    Then the HTTP status code should be "200"
-
-  Scenario: orphaned shares
-    Given As an "admin"
-    And user "user0" exists
-    And user "user1" exists
-    And user "user0" created a folder "/common"
-    And user "user0" created a folder "/common/sub"
-    And file "/common/sub" of user "user0" is shared with user "user1"
-    And User "user0" deletes folder "/common"
-    When User "user0" empties trashbin
-    Then as "user1" the folder "/sub" does not exist
 
   Scenario: sharing again an own file while belonging to a group
     Given As an "admin"
