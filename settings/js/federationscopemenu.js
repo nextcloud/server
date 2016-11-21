@@ -46,8 +46,8 @@
 			this._scopes = [
 				{
 					name: 'private',
-					displayName: (this.field == 'avatar' || this.field == 'displayname') ? t('core', 'Local') : t('core', 'Private'),
-					tooltip: (this.field == 'avatar' || this.field == 'displayname') ? t('core', 'Only visible to local users') : t('core', 'Only visible to you'),
+					displayName: (this.field === 'avatar' || this.field === 'displayname') ? t('core', 'Local') : t('core', 'Private'),
+					tooltip: (this.field === 'avatar' || this.field === 'displayname') ? t('core', 'Only visible to local users') : t('core', 'Only visible to you'),
 					icon: OC.imagePath('core', 'actions/password'),
 					active: false
 				},

@@ -63,7 +63,7 @@ class UsersController extends Controller {
 	private $isAdmin;
 	/** @var IUserManager */
 	private $userManager;
-	/** @var \OC\Group\Manager */
+	/** @var IGroupManager */
 	private $groupManager;
 	/** @var IConfig */
 	private $config;
@@ -670,9 +670,6 @@ class UsersController extends Controller {
 	 * @NoSubadminRequired
 	 * @PasswordConfirmationRequired
 	 * @todo merge into saveUserSettings
-	 *
-	 * @NoAdminRequired
-	 * @PasswordConfirmationRequired
 	 *
 	 * @param string $username
 	 * @param string $displayName
