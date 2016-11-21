@@ -332,7 +332,6 @@ class Manager implements IManager {
 			 0 => [new Section('server',        $this->l->t('Server settings'), 0)],
 			 5 => [new Section('sharing',       $this->l->t('Sharing'), 0)],
 			45 => [new Section('encryption',    $this->l->t('Encryption'), 0)],
-			90 => [new Section('logging',       $this->l->t('Logging'), 0)],
 			98 => [new Section('additional',    $this->l->t('Additional settings'), 0)],
 			99 => [new Section('tips-tricks',   $this->l->t('Tips & tricks'), 0)],
 		];
@@ -380,11 +379,6 @@ class Manager implements IManager {
 			if($section === 'sharing') {
 				/** @var ISettings $form */
 				$form = new Admin\Sharing($this->config);
-				$forms[$form->getPriority()] = [$form];
-			}
-			if($section === 'logging') {
-				/** @var ISettings $form */
-				$form = new Admin\Logging($this->config);
 				$forms[$form->getPriority()] = [$form];
 			}
 			if($section === 'additional') {
