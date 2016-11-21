@@ -22,6 +22,7 @@
 
 namespace OCA\DAV\CardDAV;
 
+use OC\Accounts\AccountManager;
 use OCP\IImage;
 use OCP\IUser;
 use Sabre\VObject\Component\VCard;
@@ -29,109 +30,76 @@ use Sabre\VObject\Property\Text;
 
 class Converter {
 
+	/** @var AccountManager */
+	private $accountManager;
+
+	/**
+	 * Converter constructor.
+	 *
+	 * @param AccountManager $accountManager
+	 */
+	public function __construct(AccountManager $accountManager) {
+		$this->accountManager = $accountManager;
+	}
+
 	/**
 	 * @param IUser $user
-	 * @return VCard
+	 * @return VCard|null
 	 */
 	public function createCardFromUser(IUser $user) {
 
+		$userData = $this->accountManager->getUser($user);
+
 		$uid = $user->getUID();
-		$displayName = $user->getDisplayName();
-		$displayName = empty($displayName ) ? $uid : $displayName;
-		$emailAddress = $user->getEMailAddress();
 		$cloudId = $user->getCloudId();
 		$image = $this->getAvatarImage($user);
 
 		$vCard = new VCard();
-		$vCard->VERSION = '3.0';
-		$vCard->UID = $uid;
-		if (!empty($displayName)) {
-			$vCard->FN = $displayName;
-			$vCard->N = $this->splitFullName($displayName);
-		}
-		if (!empty($emailAddress)) {
-			$vCard->add(new Text($vCard, 'EMAIL', $emailAddress, ['TYPE' => 'OTHER']));
-		}
-		if (!empty($cloudId)) {
-			$vCard->CLOUD = $cloudId;
-		}
-		if ($image) {
-			$vCard->add('PHOTO', $image->data(), ['ENCODING' => 'b', 'TYPE' => $image->mimeType()]);
-		}
-		$vCard->validate();
+		$vCard->add(new Text($vCard, 'UID', $uid));
 
-		return $vCard;
-	}
+		$publish = false;
 
-	/**
-	 * @param VCard $vCard
-	 * @param IUser $user
-	 * @return bool
-	 */
-	public function updateCard(VCard $vCard, IUser $user) {
-		$uid = $user->getUID();
-		$displayName = $user->getDisplayName();
-		$displayName = empty($displayName ) ? $uid : $displayName;
-		$emailAddress = $user->getEMailAddress();
-		$cloudId = $user->getCloudId();
-		$image = $this->getAvatarImage($user);
-
-		$updated = false;
-		if($this->propertyNeedsUpdate($vCard, 'FN', $displayName)) {
-			$vCard->FN = new Text($vCard, 'FN', $displayName);
-			unset($vCard->N);
-			$vCard->add(new Text($vCard, 'N', $this->splitFullName($displayName)));
-			$updated = true;
-		}
-		if($this->propertyNeedsUpdate($vCard, 'EMAIL', $emailAddress)) {
-			$vCard->EMAIL = new Text($vCard, 'EMAIL', $emailAddress);
-			$updated = true;
-		}
-		if($this->propertyNeedsUpdate($vCard, 'CLOUD', $cloudId)) {
-			$vCard->CLOUD = new Text($vCard, 'CLOUD', $cloudId);
-			$updated = true;
+		foreach ($userData as $property => $value) {
+			if ($value['scope'] === AccountManager::VISIBILITY_CONTACTS_ONLY ||
+				$value['scope'] === AccountManager::VISIBILITY_PUBLIC
+			) {
+				$publish = true;
+				switch ($property) {
+					case AccountManager::PROPERTY_DISPLAYNAME:
+						$vCard->add(new Text($vCard, 'FN', $value['value']));
+						$vCard->add(new Text($vCard, 'N', $this->splitFullName($value['value'])));
+						break;
+					case AccountManager::PROPERTY_AVATAR:
+						if ($image !== null) {
+							$vCard->add('PHOTO', $image->data(), ['ENCODING' => 'b', 'TYPE' => $image->mimeType()]);
+						}
+						break;
+					case AccountManager::PROPERTY_EMAIL:
+						$vCard->add(new Text($vCard, 'EMAIL', $value['value'], ['TYPE' => 'OTHER']));
+						break;
+					case AccountManager::PROPERTY_WEBSITE:
+						$vCard->add(new Text($vCard, 'URL', $value['value']));
+						break;
+					case AccountManager::PROPERTY_PHONE:
+						$vCard->add(new Text($vCard, 'TEL', $value['value'], ['TYPE' => 'OTHER']));
+						break;
+					case AccountManager::PROPERTY_ADDRESS:
+						$vCard->add(new Text($vCard, 'ADR', $value['value'], ['TYPE' => 'OTHER']));
+						break;
+					case AccountManager::PROPERTY_TWITTER:
+						$vCard->add(new Text($vCard, 'X-SOCIALPROFILE', $value['value'], ['TYPE' => 'TWITTER']));
+						break;
+				}
+			}
 		}
 
-		if($this->propertyNeedsUpdate($vCard, 'PHOTO', $image)) {
-			unset($vCard->PHOTO);
-			$vCard->add('PHOTO', $image->data(), ['ENCODING' => 'b', 'TYPE' => $image->mimeType()]);
-			$updated = true;
+		if ($publish && !empty($cloudId)) {
+			$vCard->add(new Text($vCard, 'CLOUD', $cloudId));
+			$vCard->validate();
+			return $vCard;
 		}
 
-		if (empty($emailAddress) && !is_null($vCard->EMAIL)) {
-			unset($vCard->EMAIL);
-			$updated = true;
-		}
-		if (empty($cloudId) && !is_null($vCard->CLOUD)) {
-			unset($vCard->CLOUD);
-			$updated = true;
-		}
-		if (empty($image) && !is_null($vCard->PHOTO)) {
-			unset($vCard->PHOTO);
-			$updated = true;
-		}
-
-		return $updated;
-	}
-
-	/**
-	 * @param VCard $vCard
-	 * @param string $name
-	 * @param string|IImage $newValue
-	 * @return bool
-	 */
-	private function propertyNeedsUpdate(VCard $vCard, $name, $newValue) {
-		if (is_null($newValue)) {
-			return false;
-		}
-		$value = $vCard->__get($name);
-		if (!is_null($value)) {
-			$value = $value->getValue();
-			$newValue = $newValue instanceof IImage ? $newValue->data() : $newValue;
-
-			return $value !== $newValue;
-		}
-		return true;
+		return null;
 	}
 
 	/**

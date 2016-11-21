@@ -101,6 +101,12 @@ class Application extends App {
 			}
 		});
 
+		$dispatcher->addListener('OC\AccountManager::userUpdated', function(GenericEvent $event) {
+			$user = $event->getSubject();
+			$syncService = $this->getContainer()->query(SyncService::class);
+			$syncService->updateUser($user);
+		});
+
 		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::createCalendar', function(GenericEvent $event) {
 			/** @var Backend $backend */
 			$backend = $this->getContainer()->query(Backend::class);

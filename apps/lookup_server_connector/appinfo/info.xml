@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<info>
+	<id>lookup_server_connector</id>
+	<name>Lookup Server Connector</name>
+	<description>Sync public user information with the lookup server</description>
+	<licence>AGPL</licence>
+	<author>Bjoern Schiessle</author>
+	<namespace>LookupServerConnector</namespace>
+	<version>1.0.0</version>
+	<category>other</category>
+	<dependencies>
+		<owncloud min-version="11.0" max-version="11.0" />
+	</dependencies>
+	<default_enable/>
+	<types>
+		<authentication/>
+	</types>
+</info>

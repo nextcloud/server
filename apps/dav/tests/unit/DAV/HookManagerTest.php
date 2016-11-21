@@ -31,14 +31,19 @@ use OCA\DAV\HookManager;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class HookManagerTest extends TestCase {
 	/** @var IL10N */
 	private $l10n;
 
+	/** @var  EventDispatcher | \PHPUnit_Framework_MockObject_MockObject  */
+	private $eventDispatcher;
+
 	public function setUp() {
 		parent::setUp();
+		$this->eventDispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcher')->disableOriginalConstructor()->getMock();
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n
 			->expects($this->any())
@@ -82,7 +87,7 @@ class HookManagerTest extends TestCase {
 			'principals/users/newUser',
 			'contacts', ['{DAV:}displayname' => 'Contacts']);
 
-		$hm = new HookManager($userManager, $syncService, $cal, $card);
+		$hm = new HookManager($userManager, $syncService, $cal, $card, $this->eventDispatcher);
 		$hm->firstLogin($user);
 	}
 
@@ -116,7 +121,7 @@ class HookManagerTest extends TestCase {
 		$card->expects($this->once())->method('getAddressBooksForUserCount')->willReturn(1);
 		$card->expects($this->never())->method('createAddressBook');
 
-		$hm = new HookManager($userManager, $syncService, $cal, $card);
+		$hm = new HookManager($userManager, $syncService, $cal, $card, $this->eventDispatcher);
 		$hm->firstLogin($user);
 	}
 
@@ -154,7 +159,7 @@ class HookManagerTest extends TestCase {
 			'principals/users/newUser',
 			'contacts', ['{DAV:}displayname' => 'Contacts']);
 
-		$hm = new HookManager($userManager, $syncService, $cal, $card);
+		$hm = new HookManager($userManager, $syncService, $cal, $card, $this->eventDispatcher);
 		$hm->firstLogin($user);
 	}
 
@@ -195,7 +200,7 @@ class HookManagerTest extends TestCase {
 		]);
 		$card->expects($this->once())->method('deleteAddressBook');
 
-		$hm = new HookManager($userManager, $syncService, $cal, $card, $this->l10n);
+		$hm = new HookManager($userManager, $syncService, $cal, $card, $this->eventDispatcher);
 		$hm->preDeleteUser(['uid' => 'newUser']);
 		$hm->postDeleteUser(['uid' => 'newUser']);
 	}

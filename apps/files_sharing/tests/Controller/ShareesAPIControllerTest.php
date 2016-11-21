@@ -29,6 +29,7 @@ use OCA\Files_Sharing\Controller\ShareesAPIController;
 use OCA\Files_Sharing\Tests\TestCase;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\OCS\OCSBadRequestException;
+use OCP\Http\Client\IClientService;
 use OCP\Share;
 
 /**
@@ -60,6 +61,9 @@ class ShareesAPIControllerTest extends TestCase {
 	/** @var \OCP\Share\IManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $shareManager;
 
+	/** @var IClientService|\PHPUnit_Framework_MockObject_MockObject */
+	private $clientService;
+
 	protected function setUp() {
 		parent::setUp();
 
@@ -87,6 +91,8 @@ class ShareesAPIControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$this->clientService = $this->createMock(IClientService::class);
+
 		$this->sharees = new ShareesAPIController(
 			'files_sharing',
 			$this->request,
@@ -97,7 +103,8 @@ class ShareesAPIControllerTest extends TestCase {
 			$this->session,
 			$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
 			$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock(),
-			$this->shareManager
+			$this->shareManager,
+			$this->clientService
 		);
 	}
 
@@ -1386,7 +1393,8 @@ class ShareesAPIControllerTest extends TestCase {
 				$this->session,
 				$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
 				$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock(),
-				$this->shareManager
+				$this->shareManager,
+				$this->clientService
 			])
 			->setMethods(array('searchSharees', 'isRemoteSharingAllowed', 'shareProviderExists'))
 			->getMock();
@@ -1477,7 +1485,8 @@ class ShareesAPIControllerTest extends TestCase {
 				$this->session,
 				$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
 				$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock(),
-				$this->shareManager
+				$this->shareManager,
+				$this->clientService
 			])
 			->setMethods(array('searchSharees', 'isRemoteSharingAllowed'))
 			->getMock();
@@ -1522,6 +1531,7 @@ class ShareesAPIControllerTest extends TestCase {
 					'groups' => [],
 					'remotes' => [],
 					'emails' => [],
+					'lookup' => [],
 				], false],
 			['test', 'folder', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE], 1, 2, false, [], [], ['results' => [], 'exact' => [], 'exactIdMatch' => false],
 				[
@@ -1530,6 +1540,7 @@ class ShareesAPIControllerTest extends TestCase {
 					'groups' => [],
 					'remotes' => [],
 					'emails' => [],
+					'lookup' => [],
 				], false],
 			[
 				'test', 'folder', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE], 1, 2, false, [
@@ -1551,6 +1562,7 @@ class ShareesAPIControllerTest extends TestCase {
 						['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
 					],
 					'emails' => [],
+					'lookup' => [],
 				], true,
 			],
 			// No groups requested
@@ -1570,6 +1582,7 @@ class ShareesAPIControllerTest extends TestCase {
 						['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
 					],
 					'emails' => [],
+					'lookup' => [],
 				], false,
 			],
 			// Share type restricted to user - Only one user
@@ -1585,6 +1598,7 @@ class ShareesAPIControllerTest extends TestCase {
 					'groups' => [],
 					'remotes' => [],
 					'emails' => [],
+					'lookup' => [],
 				], false,
 			],
 			// Share type restricted to user - Multipage result
@@ -1602,6 +1616,7 @@ class ShareesAPIControllerTest extends TestCase {
 					'groups' => [],
 					'remotes' => [],
 					'emails' => [],
+					'lookup' => [],
 				], true,
 			],
 		];
@@ -1636,7 +1651,8 @@ class ShareesAPIControllerTest extends TestCase {
 				$this->session,
 				$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
 				$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock(),
-				$this->shareManager
+				$this->shareManager,
+				$this->clientService
 			])
 			->setMethods(array('getShareesForShareIds', 'getUsers', 'getGroups', 'getRemote'))
 			->getMock();

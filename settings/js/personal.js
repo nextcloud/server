@@ -1,9 +1,14 @@
+/* global OC */
+
 /**
  * Copyright (c) 2011, Robin Appelman <icewind1991@gmail.com>
  *               2013, Morris Jobke <morris.jobke@gmail.com>
+ *               2016, Christoph Wurst <christoph@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */
+
+OC.Settings = OC.Settings || {};
 
 /**
  * The callback will be fired as soon as enter is pressed by the
@@ -21,21 +26,21 @@ jQuery.fn.keyUpDelayedOrEnter = function (callback, allowEmptyValue) {
 			return;
 		}
 		if (allowEmptyValue || that.val() !== '') {
-			cb();
+			cb(event);
 		}
 	}, 1000));
 
 	this.keypress(function (event) {
 		if (event.keyCode === 13 && (allowEmptyValue || that.val() !== '')) {
 			event.preventDefault();
-			cb();
+			cb(event);
 		}
 	});
 
-	this.bind('paste', null, function (e) {
-		if(!e.keyCode){
+	this.bind('paste', null, function (event) {
+		if(!event.keyCode){
 			if (allowEmptyValue || that.val() !== '') {
-				cb();
+				cb(event);
 			}
 		}
 	});
@@ -187,7 +192,7 @@ function avatarResponseHandler (data) {
 	if (typeof data === 'string') {
 		data = JSON.parse(data);
 	}
-	var $warning = $('#avatar .warning');
+	var $warning = $('#avatarform .warning');
 	$warning.hide();
 	if (data.status === "success") {
 		updateAvatar();
@@ -265,8 +270,10 @@ $(document).ready(function () {
 		}
 	});
 
-	$('#displayName').keyUpDelayedOrEnter(changeDisplayName);
-	$('#email').keyUpDelayedOrEnter(changeEmailAddress, true);
+	var federationSettingsView = new OC.Settings.FederationSettingsView({
+		el: '#personal-settings'
+	});
+	federationSettingsView.render();
 
 	$("#languageinput").change(function () {
 		// Serialize the data
@@ -405,7 +412,7 @@ $(document).ready(function () {
 
 	// Load the big avatar
 	if (oc_config.enable_avatars) {
-		$('#avatar .avatardiv').avatar(OC.currentUser, 145);
+		$('#avatarform .avatardiv').avatar(OC.currentUser, 145);
 	}
 
 	// Show token views
@@ -452,3 +459,5 @@ OC.Encryption.msg = {
 		}
 	}
 };
+
+OC.Settings.updateAvatar = updateAvatar;

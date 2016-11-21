@@ -289,7 +289,7 @@
 	border-radius: 3px;
 	border-top-right-radius: 0;
 	z-index: 110;
-	margin: -5px 14px 5px 10px;
+	margin-top: -5px;
 	right: 0;
 	-webkit-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
 	-moz-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
@@ -333,7 +333,8 @@
 	opacity: .5 !important;
 }
 .bubble .action:hover,
-.bubble .action:focus {
+.bubble .action:focus,
+.bubble .action.active {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)" !important;
 	filter: alpha(opacity=100) !important;
 	opacity: 1 !important;
@@ -646,18 +647,11 @@ em {
 }
 
 .popovermenu .menuitem:hover,
-.popovermenu .menuitem:focus {
+.popovermenu .menuitem:focus,
+.popovermenu .menuitem.active {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	filter: alpha(opacity=100);
 	opacity: 1;
-}
-
-.popovermenu {
-	padding: 4px 12px;
-}
-
-.popovermenu li {
-	padding: 5px 0;
 }
 
 .popovermenu .menuitem img {
@@ -667,8 +661,8 @@ em {
 .popovermenu a.menuitem,
 .popovermenu label.menuitem,
 .popovermenu .menuitem {
-	padding: 10px;
-	margin: -10px;
+	padding: 10px !important;
+	width: auto;
 }
 
 .popovermenu.hidden {
@@ -676,11 +670,10 @@ em {
 }
 
 .popovermenu .menuitem {
-	display: block;
+	display: flex !important;
 	line-height: 30px;
-	padding-left: 5px;
 	color: #000;
-	padding: 0;
+	align-items: center;
 }
 
 .popovermenu .menuitem .icon,

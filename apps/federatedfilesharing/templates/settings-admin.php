@@ -25,4 +25,11 @@ script('federatedfilesharing', 'settings-admin');
 			<?php p($l->t('Allow users on this server to receive shares from other servers'));?>
 		</label><br/>
 	</p>
+	<p>
+		<input type="checkbox" name="lookupServerEnabled" id="lookupServerEnabled" class="checkbox"
+			   value="1" <?php if ($_['lookupServerEnabled']) print_unescaped('checked="checked"'); ?> />
+		<label for="lookupServerEnabled">
+			<?php p($l->t('Enable lookups on lookup server'));?>
+		</label><br/>
+	</p>
 </div>

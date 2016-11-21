@@ -27,6 +27,8 @@ use OCA\DAV\CardDAV\SyncService;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Util;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class HookManager {
 
@@ -51,14 +53,19 @@ class HookManager {
 	/** @var array */
 	private $addressBooksToDelete;
 
+	/** @var EventDispatcher */
+	private $eventDispatcher;
+
 	public function __construct(IUserManager $userManager,
 								SyncService $syncService,
 								CalDavBackend $calDav,
-								CardDavBackend $cardDav) {
+								CardDavBackend $cardDav,
+								EventDispatcher $eventDispatcher) {
 		$this->userManager = $userManager;
 		$this->syncService = $syncService;
 		$this->calDav = $calDav;
 		$this->cardDav = $cardDav;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	public function setup() {

@@ -53,7 +53,7 @@ class Updater extends BasicEmitter {
 
 	/** @var ILogger $log */
 	private $log;
-	
+
 	/** @var IConfig */
 	private $config;
 

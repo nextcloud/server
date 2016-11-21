@@ -24,79 +24,121 @@
 
 namespace OCA\DAV\Tests\unit\CardDAV;
 
+use OC\Accounts\AccountManager;
 use OCA\DAV\CardDAV\Converter;
+use OCP\IDBConnection;
 use OCP\IImage;
 use OCP\IUser;
+use OpenCloud\ObjectStore\Resource\Account;
 use PHPUnit_Framework_MockObject_MockObject;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Test\TestCase;
 
 class ConverterTest extends  TestCase {
+
+	/** @var  AccountManager | PHPUnit_Framework_MockObject_MockObject */
+	private $accountManager;
+
+	/** @var  EventDispatcher | PHPUnit_Framework_MockObject_MockObject */
+	private $eventDispatcher;
+
+	/** @var  IDBConnection | PHPUnit_Framework_MockObject_MockObject */
+	private $databaseConnection;
+
+	public function setUp() {
+		parent::setUp();
+		$this->databaseConnection = $this->getMockBuilder('OCP\IDBConnection')->getMock();
+		$this->eventDispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcher')
+			->disableOriginalConstructor()->getMock();
+		$this->accountManager = $this->getMockBuilder('OC\Accounts\AccountManager')
+			->disableOriginalConstructor()->getMock();
+	}
+
+	public function getAccountManager(IUser $user) {
+		$accountManager = $this->getMockBuilder('OC\Accounts\AccountManager')
+			->disableOriginalConstructor()->getMock();
+		$accountManager->expects($this->any())->method('getUser')->willReturn(
+			[
+				AccountManager::PROPERTY_DISPLAYNAME =>
+					[
+						'value' => $user->getDisplayName(),
+						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
+					],
+				AccountManager::PROPERTY_ADDRESS =>
+					[
+						'value' => '',
+						'scope' => AccountManager::VISIBILITY_PRIVATE,
+					],
+				AccountManager::PROPERTY_WEBSITE =>
+					[
+						'value' => '',
+						'scope' => AccountManager::VISIBILITY_PRIVATE,
+					],
+				AccountManager::PROPERTY_EMAIL =>
+					[
+						'value' => $user->getEMailAddress(),
+						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
+					],
+				AccountManager::PROPERTY_AVATAR =>
+					[
+						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY
+					],
+				AccountManager::PROPERTY_PHONE =>
+					[
+						'value' => '',
+						'scope' => AccountManager::VISIBILITY_PRIVATE,
+					],
+				AccountManager::PROPERTY_TWITTER =>
+					[
+						'value' => '',
+						'scope' => AccountManager::VISIBILITY_PRIVATE,
+					],
+			]
+		);
+
+		return $accountManager;
+	}
 
 	/**
 	 * @dataProvider providesNewUsers
 	 */
 	public function testCreation($expectedVCard, $displayName = null, $eMailAddress = null, $cloudId = null) {
 		$user = $this->getUserMock($displayName, $eMailAddress, $cloudId);
+		$accountManager = $this->getAccountManager($user);
 
-		$converter = new Converter();
+		$converter = new Converter($accountManager);
 		$vCard = $converter->createCardFromUser($user);
-		$cardData = $vCard->serialize();
+		if ($expectedVCard !== null) {
+			$this->assertInstanceOf('Sabre\VObject\Component\VCard', $vCard);
+			$cardData = $vCard->jsonSerialize();
+			$this->compareData($expectedVCard, $cardData);
 
-		$this->assertEquals($expectedVCard, $cardData);
+		} else {
+			$this->assertSame($expectedVCard, $vCard);
+		}
+
+	}
+
+	protected function compareData($expected, $data) {
+		foreach ($expected as $key => $value) {
+			$found = false;
+			foreach ($data[1] as $d) {
+				if($d[0] === $key && $d[3] === $value) {
+					$found = true;
+					break;
+				}
+			}
+			if (!$found) $this->assertTrue(false, 'Expected data: ' . $key . ' not found.');
+		}
 	}
 
 	public function providesNewUsers() {
 		return [
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU2Nzg5\r\nEND:VCARD\r\n"],
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU2Nzg5\r\nEND:VCARD\r\n", "Dr. Foo Bar"],
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nEMAIL;TYPE=OTHER:foo@bar.net\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU2Nzg5\r\nEND:VCARD\r\n", "Dr. Foo Bar", "foo@bar.net"],
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nCLOUD:foo@bar.net\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU2Nzg5\r\nEND:VCARD\r\n", "Dr. Foo Bar", null, "foo@bar.net"],
-		];
-	}
-
-	/**
-	 * @dataProvider providesNewUsers
-	 */
-	public function testUpdateOfUnchangedUser($expectedVCard, $displayName = null, $eMailAddress = null, $cloudId = null) {
-		$user = $this->getUserMock($displayName, $eMailAddress, $cloudId);
-
-		$converter = new Converter();
-		$vCard = $converter->createCardFromUser($user);
-		$updated = $converter->updateCard($vCard, $user);
-		$this->assertFalse($updated);
-		$cardData = $vCard->serialize();
-
-		$this->assertEquals($expectedVCard, $cardData);
-	}
-
-	/**
-	 * @dataProvider providesUsersForUpdateOfRemovedElement
-	 */
-	public function testUpdateOfRemovedElement($expectedVCard, $displayName = null, $eMailAddress = null, $cloudId = null) {
-		$user = $this->getUserMock($displayName, $eMailAddress, $cloudId);
-
-		$converter = new Converter();
-		$vCard = $converter->createCardFromUser($user);
-
-		$user1 = $this->getMockBuilder('OCP\IUser')->disableOriginalConstructor()->getMock();
-		$user1->method('getUID')->willReturn('12345');
-		$user1->method('getDisplayName')->willReturn(null);
-		$user1->method('getEMailAddress')->willReturn(null);
-		$user1->method('getCloudId')->willReturn(null);
-		$user1->method('getAvatarImage')->willReturn(null);
-
-		$updated = $converter->updateCard($vCard, $user1);
-		$this->assertTrue($updated);
-		$cardData = $vCard->serialize();
-
-		$this->assertEquals($expectedVCard, $cardData);
-	}
-
-	public function providesUsersForUpdateOfRemovedElement() {
-		return [
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", "Dr. Foo Bar"],
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", "Dr. Foo Bar", "foo@bar.net"],
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", "Dr. Foo Bar", null, "foo@bar.net"],
+			[null],
+			[null, null, 'foo@bar.net'],
+			[['cloud' => 'foo@cloud.net', 'email' => 'foo@bar.net'], null, 'foo@bar.net', 'foo@cloud.net'],
+			[['cloud' => 'foo@cloud.net', 'email' => 'foo@bar.net', 'fn' => 'Dr. Foo Bar'], "Dr. Foo Bar", "foo@bar.net", 'foo@cloud.net'],
+			[['cloud' => 'foo@cloud.net', 'fn' => 'Dr. Foo Bar'], "Dr. Foo Bar", null, "foo@cloud.net"],
 		];
 	}
 
@@ -107,7 +149,7 @@ class ConverterTest extends  TestCase {
 	 */
 	public function testNameSplitter($expected, $fullName) {
 
-		$converter = new Converter();
+		$converter = new Converter($this->accountManager);
 		$r = $converter->splitFullName($fullName);
 		$r = implode(';', $r);
 		$this->assertEquals($expected, $r);

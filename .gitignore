@@ -22,6 +22,7 @@
 !/apps/files_sharing
 !/apps/files_trashbin
 !/apps/files_versions
+!/apps/lookup_server_connector
 !/apps/user_ldap
 !/apps/provisioning_api
 !/apps/systemtags

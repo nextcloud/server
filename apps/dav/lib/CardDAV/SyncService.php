@@ -24,6 +24,7 @@
 
 namespace OCA\DAV\CardDAV;
 
+use OC\Accounts\AccountManager;
 use OCP\AppFramework\Http;
 use OCP\ILogger;
 use OCP\IUser;
@@ -48,10 +49,22 @@ class SyncService {
 	/** @var array */
 	private $localSystemAddressBook;
 
-	public function __construct(CardDavBackend $backend, IUserManager $userManager, ILogger $logger) {
+	/** @var AccountManager */
+	private $accountManager;
+
+	/**
+	 * SyncService constructor.
+	 *
+	 * @param CardDavBackend $backend
+	 * @param IUserManager $userManager
+	 * @param ILogger $logger
+	 * @param AccountManager $accountManager
+	 */
+	public function __construct(CardDavBackend $backend, IUserManager $userManager, ILogger $logger, AccountManager $accountManager) {
 		$this->backend = $backend;
 		$this->userManager = $userManager;
 		$this->logger = $logger;
+		$this->accountManager = $accountManager;
 	}
 
 	/**
@@ -215,7 +228,7 @@ class SyncService {
 	public function updateUser($user) {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
 		$addressBookId = $systemAddressBook['id'];
-		$converter = new Converter();
+		$converter = new Converter($this->accountManager);
 		$name = $user->getBackendClassName();
 		$userId = $user->getUID();
 
@@ -223,10 +236,14 @@ class SyncService {
 		$card = $this->backend->getCard($addressBookId, $cardId);
 		if ($card === false) {
 			$vCard = $converter->createCardFromUser($user);
-			$this->backend->createCard($addressBookId, $cardId, $vCard->serialize());
+			if ($vCard !== null) {
+				$this->backend->createCard($addressBookId, $cardId, $vCard->serialize());
+			}
 		} else {
-			$vCard = Reader::read($card['carddata']);
-			if ($converter->updateCard($vCard, $user)) {
+			$vCard = $converter->createCardFromUser($user);
+			if (is_null($vCard)) {
+				$this->backend->deleteCard($addressBookId, $cardId);
+			} else {
 				$this->backend->updateCard($addressBookId, $cardId, $vCard->serialize());
 			}
 		}
