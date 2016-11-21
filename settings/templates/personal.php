@@ -60,6 +60,7 @@
 				<div class="inlineblock button primary" id="sendcropperbutton"><?php p($l->t('Choose as profile picture')); ?></div>
 			</div>
 		</div>
+		<span class="icon-checkmark hidden"/>
 		<input type="hidden" id="avatarscope" value="<?php p($_['avatarScope']) ?>">
 	</form>
 </div>

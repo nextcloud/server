@@ -137,7 +137,7 @@
 
 			this._config.set(field + 'Scope', scope);
 
-			$('#' + field).parent().find('span > input').val(scope);
+			$('#' + field + 'scope').val(scope);
 
 			// TODO: user loading/success feedback
 			this._config.save();
