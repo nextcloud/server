@@ -25,6 +25,7 @@ OC.L10N.register(
     "Save" : "Bewaren",
     "Empty response from the server" : "Lege reactie van de server",
     "Couldn't access. Please logout and login to activate this mount point" : "Geen toegang. Log uit en opnieuw in om dit koppelpunt te activeren",
+    "Couldn't get the information from the remote server: {code} {type}" : "Kon geen informatie van de externe server krijgen: {code} {type}",
     "Couldn't get the list of external mount points: {type}" : "Kon geen overzicht met externe koppelpunten krijgen: {type}",
     "There was an error with message: " : "Er was een fout met de volgende melding:",
     "External mount error" : "Extern koppelpunt fout",

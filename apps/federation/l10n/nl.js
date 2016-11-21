@@ -11,6 +11,7 @@ OC.L10N.register(
     "Trusted Servers" : "Vertrouwde servers",
     "+ Add Nextcloud server" : "+ Toevoegen Nextcloud server",
     "Nextcloud Server" : "Nextcloud Server",
+    "Add" : "Toevoegen",
     "Server added to the list of trusted Nextclouds" : "Server toegevoegd aan de lijst met vertrouwde Nextclouds",
     "No Nextcloud server found" : "Geen Nextcloud server gevonden",
     "Nextcloud Federation allows you to connect with other trusted Nextclouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Nextcloud federatie maakt het mogelijk om te verbinden met andere vertrouwde Nextclouds om de gebuikersadministratie te delen. Zo kun je automatisch externe gebruikers toevoegen voor federatief delen.",
