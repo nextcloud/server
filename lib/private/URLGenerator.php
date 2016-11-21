@@ -158,11 +158,12 @@ class URLGenerator implements IURLGenerator {
 
 		// Check if the app is in the app folder
 		$path = '';
-		if(\OCP\App::isEnabled('theming') && $image === "favicon.ico" && \OC::$server->getThemingDefaults()->shouldReplaceIcons()) {
+		$themingEnabled = $this->config->getSystemValue('installed', false) && \OCP\App::isEnabled('theming');
+		if($themingEnabled && $image === "favicon.ico" && \OC::$server->getThemingDefaults()->shouldReplaceIcons()) {
 			$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
 			if($app==="") { $app = "core"; }
 			$path = $this->linkToRoute('theming.Icon.getFavicon', [ 'app' => $app ]) . '?v='. $cacheBusterValue;
-		} elseif(\OCP\App::isEnabled('theming') && $image === "favicon-touch.png" && \OC::$server->getThemingDefaults()->shouldReplaceIcons()) {
+		} elseif($themingEnabled && $image === "favicon-touch.png" && \OC::$server->getThemingDefaults()->shouldReplaceIcons()) {
 			$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
 			if($app==="") { $app = "core"; }
 			$path = $this->linkToRoute('theming.Icon.getTouchIcon', [ 'app' => $app ]) . '?v='. $cacheBusterValue;
