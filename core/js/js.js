@@ -1525,7 +1525,6 @@ OC.PasswordConfirmation = {
 
 	requiresPasswordConfirmation: function() {
 		var timeSinceLogin = moment.now() - nc_lastLogin * 1000;
-		return timeSinceLogin > 10 * 1000; // 30 minutes
 		return timeSinceLogin > 30 * 60 * 1000; // 30 minutes
 	},
 
