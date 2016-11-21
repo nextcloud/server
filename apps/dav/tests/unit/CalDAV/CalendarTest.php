@@ -106,29 +106,40 @@ class CalendarTest extends TestCase {
 
 	public function dataPropPatch() {
 		return [
-			[[], true],
-			[[
+			['user1', 'user2', [], true],
+			['user1', 'user2', [
 				'{http://owncloud.org/ns}calendar-enabled' => true,
 			], false],
-			[[
+			['user1', 'user2', [
 				'{DAV:}displayname' => true,
 			], true],
-			[[
+			['user1', 'user2', [
 				'{DAV:}displayname' => true,
 				'{http://owncloud.org/ns}calendar-enabled' => true,
 			], true],
+			['user1', 'user1', [], false],
+			['user1', 'user1', [
+				'{http://owncloud.org/ns}calendar-enabled' => true,
+			], false],
+			['user1', 'user1', [
+				'{DAV:}displayname' => true,
+			], false],
+			['user1', 'user1', [
+				'{DAV:}displayname' => true,
+				'{http://owncloud.org/ns}calendar-enabled' => true,
+			], false],
 		];
 	}
 
 	/**
 	 * @dataProvider dataPropPatch
 	 */
-	public function testPropPatch($mutations, $throws) {
+	public function testPropPatch($ownerPrincipal, $principalUri, $mutations, $throws) {
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$calendarInfo = [
-			'{http://owncloud.org/ns}owner-principal' => 'user1',
-			'principaluri' => 'user2',
+			'{http://owncloud.org/ns}owner-principal' => $ownerPrincipal,
+			'principaluri' => $principalUri,
 			'id' => 666,
 			'uri' => 'default'
 		];
