@@ -177,7 +177,6 @@ class ManagerTest extends TestCase {
 			0 => [new Section('server', 'Server settings', 0)],
 			5 => [new Section('sharing', 'Sharing', 0)],
 			45 => [new Section('encryption', 'Encryption', 0)],
-			90 => [new Section('logging', 'Logging', 0)],
 			98 => [new Section('additional', 'Additional settings', 0)],
 			99 => [new Section('tips-tricks', 'Tips & tricks', 0)],
 		], $this->manager->getAdminSections());
