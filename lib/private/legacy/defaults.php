@@ -283,4 +283,7 @@ class OC_Defaults {
 		}
 	}
 
+	public function shouldReplaceIcons() {
+		return false;
+	}
 }
