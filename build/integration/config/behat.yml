@@ -52,6 +52,16 @@ default:
               - admin
               - admin
             regular_user_password: 123456
+    setup:
+      paths:
+        - %paths.base%/../setup_features
+      contexts:
+        - SetupContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
 
 
 

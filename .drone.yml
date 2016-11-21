@@ -322,6 +322,14 @@ pipeline:
     when:
       matrix:
         TESTS: integration-sharees-features
+  integration-setup-features:
+    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    commands:
+      - cd build/integration
+      - ./run.sh setup_features/setup.feature
+    when:
+      matrix:
+        TESTS: integration-setup-features
   nodb-codecov:
     image: nextcloudci/php7.0:php7.0-6
     commands:
@@ -365,6 +373,7 @@ matrix:
     - TESTS: integration-provisioning-v2
     - TESTS: integration-webdav-related
     - TESTS: integration-sharees-features
+    - TESTS: integration-setup-features
     - TESTS: jsunit
     - TESTS: check-autoloader
     - TESTS: app-check-code
