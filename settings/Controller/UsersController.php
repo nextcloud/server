@@ -537,7 +537,7 @@ class UsersController extends Controller {
 	) {
 
 
-		if(!$this->mailer->validateMailAddress($email)) {
+		if(!empty($email) && !$this->mailer->validateMailAddress($email)) {
 			return new DataResponse(
 				array(
 					'status' => 'error',
