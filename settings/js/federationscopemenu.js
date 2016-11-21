@@ -113,7 +113,7 @@
 			this._context = context;
 			var currentlyActiveValue = $('#'+context.target.closest('form').id).find('.icon-checkmark > input')[0].value;
 
-			for(var i = 0 in this._scopes) {
+			for(var i in this._scopes) {
 				this._scopes[i].active = false;
 			}
 
