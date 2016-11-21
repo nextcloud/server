@@ -154,6 +154,9 @@ class AppSettingsController extends Controller {
 		$formattedApps = [];
 		$apps = $this->appFetcher->get();
 		foreach($apps as $app) {
+			if (isset($app['isFeatured'])) {
+				$app['featured'] = $app['isFeatured'];
+			}
 
 			// Skip all apps not in the requested category
 			$isInCategory = false;
