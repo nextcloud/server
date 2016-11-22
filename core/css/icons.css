@@ -33,7 +33,8 @@
 	height: 32px;
 	width: 32px;
 	margin: -17px 0 0 -17px;
-	position: absolute;
+	position: relative;
+	display: inline-block;
 	top: 50%;
 	left: 50%;
 	border-radius: 100%;
