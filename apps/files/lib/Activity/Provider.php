@@ -43,6 +43,9 @@ class Provider implements IProvider {
 	/** @var IUserManager */
 	protected $userManager;
 
+	/** @var string[] cached displayNames - key is the UID and value the displayname */
+	protected $displayNames = [];
+
 	/**
 	 * @param IL10N $l
 	 * @param IURLGenerator $url
