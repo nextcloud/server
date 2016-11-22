@@ -69,6 +69,8 @@ class Application extends App {
 
 		// Register Middleware
 		$container->registerAlias('SubadminMiddleware', SubadminMiddleware::class);
+		$container->registerMiddleWare('SubadminMiddleware');
+
 		/**
 		 * Controllers
 		 */
