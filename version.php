@@ -29,7 +29,7 @@
 $OC_Version = array(11, 0, 0, 2);
 
 // The human readable string
-$OC_VersionString = '11.0 alpha';
+$OC_VersionString = '11.0 beta';
 
 $OC_VersionCanBeUpgradedFrom = array(9, 1);
 
