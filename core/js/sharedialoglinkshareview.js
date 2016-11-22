@@ -337,7 +337,7 @@
 				publicUploadChecked: publicUploadChecked,
 				hideFileListChecked: hideFileListChecked,
 				publicUploadLabel: t('core', 'Allow upload and editing'),
-				hideFileListLabel: t('core', 'Hide file listing'),
+				hideFileListLabel: t('core', 'File drop (upload only)'),
 				mailPrivatePlaceholder: t('core', 'Email link to person'),
 				mailButtonText: t('core', 'Send')
 			}));
