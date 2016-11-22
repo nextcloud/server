@@ -26,6 +26,8 @@ use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserManager;
 
 class Provider implements IProvider {
 
@@ -38,15 +40,23 @@ class Provider implements IProvider {
 	/** @var IManager */
 	protected $activityManager;
 
+	/** @var IUserManager */
+	protected $userManager;
+
+	/** @var string[] cached displayNames - key is the UID and value the displayname */
+	protected $displayNames = [];
+
 	/**
 	 * @param IL10N $l
 	 * @param IURLGenerator $url
 	 * @param IManager $activityManager
+	 * @param IUserManager $userManager
 	 */
-	public function __construct(IL10N $l, IURLGenerator $url, IManager $activityManager) {
+	public function __construct(IL10N $l, IURLGenerator $url, IManager $activityManager, IUserManager $userManager) {
 		$this->l = $l;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
+		$this->userManager = $userManager;
 	}
 
 	/**
@@ -265,11 +275,28 @@ class Provider implements IProvider {
 		];
 	}
 
-	protected function getRichUserParameter($parameter) {
+	protected function getRichUserParameter($uid) {
+		if (!isset($this->displayNames[$uid])) {
+			$this->displayNames[$uid] = $this->getDisplayName($uid);
+		}
+
 		return [
 			'type' => 'user',
-			'id' => $parameter,
-			'name' => $parameter,// FIXME Use display name
+			'id' => $uid,
+			'name' => $this->displayNames[$uid],
 		];
+	}
+
+	/**
+	 * @param string $uid
+	 * @return string
+	 */
+	protected function getDisplayName($uid) {
+		$user = $this->userManager->get($uid);
+		if ($user instanceof IUser) {
+			return $user->getDisplayName();
+		} else {
+			return $uid;
+		}
 	}
 }
