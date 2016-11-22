@@ -147,8 +147,6 @@ script('core', [
 		<?php endif; ?>
 	<?php endif; ?>
 
-	<div class="icon-loading-dark float-spinner">&nbsp;</div>
-
 	<?php if(!$_['dbIsSet'] OR count($_['errors']) > 0): ?>
 		<fieldset id="sqliteInformation" class="warning">
 			<legend><?php p($l->t('Performance warning'));?></legend>
@@ -157,6 +155,8 @@ script('core', [
 			<p><?php p($l->t('Especially when using the desktop client for file syncing the use of SQLite is discouraged.')); ?></p>
 		</fieldset>
 	<?php endif ?>
+
+	<div class="icon-loading-dark float-spinner">&nbsp;</div>
 
 	<div class="buttons"><input type="submit" class="primary" value="<?php p($l->t( 'Finish setup' )); ?>" data-finishing="<?php p($l->t( 'Finishing …' )); ?>"></div>
 
