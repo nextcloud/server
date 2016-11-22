@@ -27,7 +27,7 @@
 namespace OCA\FederatedFileSharing\Controller;
 
 use OCA\FederatedFileSharing\DiscoveryManager;
-use OCA\Files_Sharing\Activity;
+use OCA\Files_Sharing\Activity\Providers\RemoteShares;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
@@ -172,9 +172,13 @@ class RequestHandlerController extends OCSController {
 					$sharedByFederatedId = $ownerFederatedId;
 				}
 
-				\OC::$server->getActivityManager()->publishActivity(
-					Activity::FILES_SHARING_APP, Activity::SUBJECT_REMOTE_SHARE_RECEIVED, array($ownerFederatedId, trim($name, '/')), '', array(),
-					'', '', $shareWith, Activity::TYPE_REMOTE_SHARE, Activity::PRIORITY_LOW);
+				$event = \OC::$server->getActivityManager()->generateEvent();
+				$event->setApp('files_sharing')
+					->setType('remote_share')
+					->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_RECEIVED, [$ownerFederatedId, trim($name, '/')])
+					->setAffectedUser($shareWith)
+					->setObject('remote_share', (int) $shareId, $name);
+				\OC::$server->getActivityManager()->publish($event);
 
 				$urlGenerator = \OC::$server->getURLGenerator();
 
@@ -315,11 +319,11 @@ class RequestHandlerController extends OCSController {
 		list($file, $link) = $this->getFile($this->getCorrectUid($share), $share->getNode()->getId());
 
 		$event = \OC::$server->getActivityManager()->generateEvent();
-		$event->setApp(Activity::FILES_SHARING_APP)
-			->setType(Activity::TYPE_REMOTE_SHARE)
+		$event->setApp('files_sharing')
+			->setType('remote_share')
 			->setAffectedUser($this->getCorrectUid($share))
-			->setSubject(Activity::SUBJECT_REMOTE_SHARE_ACCEPTED, [$share->getSharedWith(), basename($file)])
-			->setObject('files', $share->getNode()->getId(), $file)
+			->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_ACCEPTED, [$share->getSharedWith(), $file])
+			->setObject('files', (int) $share->getNode()->getId(), $file)
 			->setLink($link);
 		\OC::$server->getActivityManager()->publish($event);
 	}
@@ -370,11 +374,11 @@ class RequestHandlerController extends OCSController {
 		list($file, $link) = $this->getFile($this->getCorrectUid($share), $share->getNode()->getId());
 
 		$event = \OC::$server->getActivityManager()->generateEvent();
-		$event->setApp(Activity::FILES_SHARING_APP)
-			->setType(Activity::TYPE_REMOTE_SHARE)
+		$event->setApp('files_sharing')
+			->setType('remote_share')
 			->setAffectedUser($this->getCorrectUid($share))
-			->setSubject(Activity::SUBJECT_REMOTE_SHARE_DECLINED, [$share->getSharedWith(), basename($file)])
-			->setObject('files', $share->getNode()->getId(), $file)
+			->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_DECLINED, [$share->getSharedWith(), $file])
+			->setObject('files', (int) $share->getNode()->getId(), $file)
 			->setLink($link);
 		\OC::$server->getActivityManager()->publish($event);
 
@@ -440,9 +444,13 @@ class RequestHandlerController extends OCSController {
 				->setObject('remote_share', (int) $share['id']);
 			$notificationManager->markProcessed($notification);
 
-			\OC::$server->getActivityManager()->publishActivity(
-				Activity::FILES_SHARING_APP, Activity::SUBJECT_REMOTE_SHARE_UNSHARED, array($owner, $path), '', array(),
-				'', '', $user, Activity::TYPE_REMOTE_SHARE, Activity::PRIORITY_MEDIUM);
+			$event = \OC::$server->getActivityManager()->generateEvent();
+			$event->setApp('files_sharing')
+				->setType('remote_share')
+				->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_UNSHARED, [$owner, $path])
+				->setAffectedUser($user)
+				->setObject('remote_share', (int) $share['id'], $path);
+			\OC::$server->getActivityManager()->publish($event);
 		}
 
 		return new Http\DataResponse();

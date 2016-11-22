@@ -51,7 +51,7 @@ use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\ISession;
 use OCP\IPreview;
-use OCA\Files_Sharing\Activity;
+use OCA\Files_Sharing\Activity\Providers\Downloads;
 use \OCP\Files\NotFoundException;
 use OCP\Files\IRootFolder;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -570,16 +570,16 @@ class ShareController extends Controller {
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
 			if ($node instanceof \OCP\Files\File) {
-				$subject = Activity::SUBJECT_SHARED_FILE_BY_EMAIL_DOWNLOADED;
+				$subject = Downloads::SUBJECT_SHARED_FILE_BY_EMAIL_DOWNLOADED;
 			} else {
-				$subject = Activity::SUBJECT_SHARED_FOLDER_BY_EMAIL_DOWNLOADED;
+				$subject = Downloads::SUBJECT_SHARED_FOLDER_BY_EMAIL_DOWNLOADED;
 			}
 			$parameters[] = $share->getSharedWith();
 		} else {
 			if ($node instanceof \OCP\Files\File) {
-				$subject = Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED;
+				$subject = Downloads::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED;
 			} else {
-				$subject = Activity::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED;
+				$subject = Downloads::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED;
 			}
 		}
 
@@ -608,7 +608,7 @@ class ShareController extends Controller {
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('files_sharing')
-			->setType(Activity::TYPE_PUBLIC_LINKS)
+			->setType('public_links')
 			->setSubject($subject, $parameters)
 			->setAffectedUser($affectedUser)
 			->setObject('files', $fileId, $filePath);
