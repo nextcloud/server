@@ -35,7 +35,7 @@ try {
 	$appId = (string)$_POST['appid'];
 	$appId = OC_App::cleanAppId($appId);
 	$app->enable($appId, $groups);
-	OC_JSON::success(['data' => ['update_required' => \OC_App::shouldUpgrade($app)]]);
+	OC_JSON::success(['data' => ['update_required' => \OC_App::shouldUpgrade($appId)]]);
 } catch (Exception $e) {
 	\OCP\Util::writeLog('core', $e->getMessage(), \OCP\Util::ERROR);
 	OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));
