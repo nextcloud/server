@@ -29,7 +29,7 @@
  * 3. $('.avatardiv').avatar();
  * This will search the DOM for 'user' data, to use as the username. If there
  * is no username available it will default to a placeholder with the value of
- * "x". The size will be determined the same way, as the second example.
+ * "?". The size will be determined the same way, as the second example.
  *
  * 4. $('.avatardiv').avatar('jdoe', 128, true);
  * This will behave like the first example, except it will also append random
@@ -65,7 +65,7 @@
 			if (typeof(this.data('user')) !== 'undefined') {
 				user = this.data('user');
 			} else {
-				this.imageplaceholder('x');
+				this.imageplaceholder('?');
 				return;
 			}
 		}
@@ -105,7 +105,7 @@
 							$div.imageplaceholder(user, result.data.displayname);
 						} else {
 							// User does not exist
-							$div.imageplaceholder(user, 'X');
+							$div.imageplaceholder(user, '?');
 							$div.css('background-color', '#b9b9b9');
 						}
 					} else {
