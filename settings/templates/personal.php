@@ -157,34 +157,6 @@ if($_['displayNameChangeSupported']) {
 <?php
 } else {
 ?>
-<div id="displaynameform" class="section">
-	<h2><?php echo $l->t('Full name');?></h2>
-	<span><?php if(isset($_['displayName'][0])) { p($_['displayName']); } else { p($l->t('No display name set')); } ?></span>
-</div>
-<?php
-}
-?>
-
-<?php
-if($_['displayNameChangeSupported']) {
-?>
-<form id="lostpassword" class="section">
-	<h2>
-		<label for="email"><?php p($l->t('Email'));?></label>
-	</h2>
-	<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
-		placeholder="<?php p($l->t('Your email address'));?>"
-		class="password-confirm-required"
-		autocomplete="on" autocapitalize="off" autocorrect="off" />
-	<span class="msg"></span><br />
-	<em><?php p($l->t('For password recovery and notifications'));?></em>
-</form>
-<?php
-} else {
-?>
-<div id="lostpassword" class="section">
-	<h2><?php echo $l->t('Email'); ?></h2>
-	<span><?php if(isset($_['email'][0])) { p($_['email']); } else { p($l->t('No email address set')); }?></span>
 <div id="personal-settings-container" class="no-edit">
 	<div id="displaynameform" class="section">
 		<h2><?php p($l->t('Full name'));?></h2>
