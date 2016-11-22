@@ -243,8 +243,8 @@ select:hover {
 #select2-drop .select2-search input {
 	width: calc(100% - 14px);
 	min-height: auto;
-	background: url('../img/actions/search.svg') no-repeat right center;
-	background-origin: content-box;
+	background: url('../img/actions/search.svg') no-repeat right center !important;
+	background-origin: content-box !important;
 }
 #select2-drop .select2-results {
 	max-height: 250px;
@@ -339,7 +339,7 @@ select:hover {
 	border: none;
 }
 .select2-container .select2-choice .select2-arrow b {
-	background: url('../img/actions/triangle-s.svg') no-repeat center;
+	background: url('../img/actions/triangle-s.svg') no-repeat center !important;
 	opacity: .5;
 }
 .select2-container .select2-choice:hover .select2-arrow b,
