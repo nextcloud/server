@@ -617,4 +617,28 @@ trait WebDav {
 		$this->asGetsPropertiesOfFolderWith($user, NULL, $path, $propertiesTable);
 		PHPUnit_Framework_Assert::assertNotEquals($this->response['{DAV:}getetag'], $this->storedETAG[$user][$path]);
 	}
+
+	/**
+	 * @When Connecting to dav endpoint
+	 */
+	public function connectingToDavEndpoint() {
+		try {
+			$this->response = $this->makeDavRequest(null, 'PROPFIND', '', []);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @Then there are no duplicate headers
+	 */
+	public function thereAreNoDuplicateHeaders() {
+		$headers = $this->response->getHeaders();
+		foreach ($headers as $headerName => $headerValues) {
+			// if a header has multiple values, they must be different
+			if (count($headerValues) > 1 && count(array_unique($headerValues)) < count($headerValues)) {
+				throw new \Exception('Duplicate header found: ' . $headerName);
+			}
+		}
+    }
 }

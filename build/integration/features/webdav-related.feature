@@ -2,6 +2,22 @@ Feature: webdav-related
 	Background:
 		Given using api version "1"
 
+	Scenario: Unauthenticated call old dav path
+		Given using dav path "remote.php/webdav"
+		When connecting to dav endpoint
+		Then the HTTP status code should be "401"
+		And there are no duplicate headers
+		And The following headers should be set
+			|WWW-Authenticate|Basic realm="ownCloud"|
+
+	Scenario: Unauthenticated call new dav path
+		Given using dav path "remote.php/dav"
+		When connecting to dav endpoint
+		Then the HTTP status code should be "401"
+		And there are no duplicate headers
+		And The following headers should be set
+			|WWW-Authenticate|Basic realm="ownCloud"|
+
 	Scenario: Moving a file
 		Given using old dav path
 		And As an "admin"
