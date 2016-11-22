@@ -70,6 +70,32 @@ class ScannerTest extends \Test\TestCase {
 		$this->assertEquals($cachedData['mimetype'], 'image/png');
 	}
 
+	function testFile4Byte() {
+		$data = "dummy file data\n";
+		$this->storage->file_put_contents('foo🙈.txt', $data);
+
+		if (\OC::$server->getDatabaseConnection()->supports4ByteText()) {
+			$this->assertNotNull($this->scanner->scanFile('foo🙈.txt'));
+			$this->assertTrue($this->cache->inCache('foo🙈.txt'), true);
+
+			$cachedData = $this->cache->get('foo🙈.txt');
+			$this->assertEquals(strlen($data), $cachedData['size']);
+			$this->assertEquals('text/plain', $cachedData['mimetype']);
+			$this->assertNotEquals(-1, $cachedData['parent']); //parent folders should be scanned automatically
+		} else {
+			$this->assertNull($this->scanner->scanFile('foo🙈.txt'));
+			$this->assertFalse($this->cache->inCache('foo🙈.txt'), true);
+		}
+	}
+
+	function testFileInvalidChars() {
+		$data = "dummy file data\n";
+		$this->storage->file_put_contents("foo\nbar.txt", $data);
+
+		$this->assertNull($this->scanner->scanFile("foo\nbar.txt"));
+		$this->assertFalse($this->cache->inCache("foo\nbar.txt"), true);
+	}
+
 	private function fillTestFolders() {
 		$textData = "dummy file data\n";
 		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo.png');

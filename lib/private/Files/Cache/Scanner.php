@@ -131,6 +131,13 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @throws \OCP\Lock\LockedException
 	 */
 	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true) {
+		if ($file !== '') {
+			try {
+				$this->storage->verifyPath(dirname($file), basename($file));
+			} catch (\Exception $e) {
+				return null;
+			}
+		}
 
 		// only proceed if $file is not a partial file nor a blacklisted file
 		if (!self::isPartialFile($file) and !Filesystem::isFileBlacklisted($file)) {
@@ -167,6 +174,9 @@ class Scanner extends BasicEmitter implements IScanner {
 				// scan the parent if it's not in the cache (id -1) and the current file is not the root folder
 				if ($file and $parentId === -1) {
 					$parentData = $this->scanFile($parent);
+					if (!$parentData) {
+						return null;
+					}
 					$parentId = $parentData['fileid'];
 				}
 				if ($parent) {
