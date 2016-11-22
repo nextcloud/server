@@ -134,11 +134,45 @@ class ConverterTest extends  TestCase {
 
 	public function providesNewUsers() {
 		return [
-			[null],
-			[null, null, 'foo@bar.net'],
-			[['cloud' => 'foo@cloud.net', 'email' => 'foo@bar.net'], null, 'foo@bar.net', 'foo@cloud.net'],
-			[['cloud' => 'foo@cloud.net', 'email' => 'foo@bar.net', 'fn' => 'Dr. Foo Bar'], "Dr. Foo Bar", "foo@bar.net", 'foo@cloud.net'],
-			[['cloud' => 'foo@cloud.net', 'fn' => 'Dr. Foo Bar'], "Dr. Foo Bar", null, "foo@cloud.net"],
+			[
+				null
+			],
+			[
+				null,
+				null,
+				'foo@bar.net'
+			],
+			[
+				[
+					'cloud' => 'foo@cloud.net',
+					'email' => 'foo@bar.net',
+					'photo' => 'data:image/jpeg;base64,MTIzNDU2Nzg5',
+				],
+				null,
+				'foo@bar.net',
+				'foo@cloud.net'
+			],
+			[
+				[
+					'cloud' => 'foo@cloud.net',
+					'email' => 'foo@bar.net',
+					'fn' => 'Dr. Foo Bar',
+					'photo' => 'data:image/jpeg;base64,MTIzNDU2Nzg5',
+				],
+				"Dr. Foo Bar",
+				"foo@bar.net",
+				'foo@cloud.net'
+			],
+			[
+				[
+					'cloud' => 'foo@cloud.net',
+					'fn' => 'Dr. Foo Bar',
+					'photo' => 'data:image/jpeg;base64,MTIzNDU2Nzg5',
+				],
+				"Dr. Foo Bar",
+				null,
+				"foo@cloud.net"
+			],
 		];
 	}
 
@@ -171,7 +205,7 @@ class ConverterTest extends  TestCase {
 	 */
 	protected function getUserMock($displayName, $eMailAddress, $cloudId) {
 		$image0 = $this->getMockBuilder(IImage::class)->disableOriginalConstructor()->getMock();
-		$image0->method('mimeType')->willReturn('JPEG');
+		$image0->method('mimeType')->willReturn('image/jpeg');
 		$image0->method('data')->willReturn('123456789');
 		$user = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$user->method('getUID')->willReturn('12345');
