@@ -9,6 +9,7 @@
  */
 #app-content-systemtagsfilter .select2-container {
 	width: 30%;
+	margin-left: 10px;
 }
 
 #app-content-systemtagsfilter .select2-choices {
@@ -19,7 +20,6 @@
 	box-sizing: content-box;
 	border-radius: 3px;
 	border: 1px solid #ddd;
-	margin: 3px 3px 3px 0;
 	padding: 0;
 	min-height: auto;
 }
