@@ -406,6 +406,9 @@ class KeyManager {
 		}
 
 		if ($this->util->isMasterKeyEnabled()) {
+			if ($this->session->getStatus() === Session::NOT_INITIALIZED)
+                        	$this->init('', '');
+			
 			$uid = $this->getMasterKeyId();
 		}
 
