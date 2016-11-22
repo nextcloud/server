@@ -81,6 +81,26 @@ textarea:hover, textarea:focus, textarea:active {
 	opacity: 1;
 }
 
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="time"]:focus,
+input[type="date"]:focus,
+textarea:focus,
+select:focus,
+button:focus, .button:focus,
+input[type="submit"]:focus,
+input[type="button"]:focus,
+#quota:focus,
+.pager li a:focus {
+	border: 1px solid #0082c9;
+}
+
 input[type="checkbox"].checkbox {
 	position: absolute;
 	left:-10000px;
@@ -408,6 +428,11 @@ input[type="submit"] img, input[type="button"] img, button img, .button img { cu
 #header .button {
 	border: none;
 	box-shadow: none;
+}
+
+input[type="submit"]:focus, input[type="button"]:focus, select:focus,
+button:focus, .button:focus {
+	color: #0082c9;
 }
 
 /* disabled input fields and buttons */

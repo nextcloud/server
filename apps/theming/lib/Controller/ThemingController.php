@@ -347,6 +347,15 @@ class ThemingController extends Controller {
 				'opacity: 0.4;' .
 				'color: '.$textColor.';'.
 				"}\n";
+
+			$responseCss .= 'input[type="text"]:focus, input[type="password"]:focus, input[type="search"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="tel"]:focus, input[type="url"]:focus, input[type="time"]:focus, input[type="date"]:focus, textarea:focus, select:focus, button:focus, .button:focus, input[type="submit"]:focus, input[type="button"]:focus, #quota:focus, .pager li a:focus { '.
+							'	border: 1px solid ' . $color . ";" .
+							"}\n";
+
+			$responseCss .= 'input[type="submit"]:focus, input[type="button"]:focus, select:focus, button:focus, .button:focus {' .
+				            ' color: ' . $color. ';'.
+							"}\n";
+			
 			$responseCss .= '.ui-widget-header { border: 1px solid ' . $color . '; background: '. $color . '; color: #ffffff;' . "}\n";
 			$responseCss .= '.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {' .
 				'border: 1px solid ' . $color . ';' .
