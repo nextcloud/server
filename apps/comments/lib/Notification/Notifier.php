@@ -24,6 +24,7 @@ namespace OCA\Comments\Notification;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
 use OCP\Files\Folder;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
@@ -40,18 +41,23 @@ class Notifier implements INotifier {
 	/** @var ICommentsManager  */
 	protected $commentsManager;
 
-	/** @var IUserManager  */
+	/** @var IURLGenerator */
+	protected $url;
+
+	/** @var IUserManager */
 	protected $userManager;
 
 	public function __construct(
 		IFactory $l10nFactory,
 		Folder $userFolder,
 		ICommentsManager $commentsManager,
+		IURLGenerator $url,
 		IUserManager $userManager
 	) {
 		$this->l10nFactory = $l10nFactory;
 		$this->userFolder = $userFolder;
 		$this->commentsManager = $commentsManager;
+		$this->url = $url;
 		$this->userManager = $userManager;
 	}
 
@@ -63,7 +69,7 @@ class Notifier implements INotifier {
 	 */
 	public function prepare(INotification $notification, $languageCode) {
 		if($notification->getApp() !== 'comments') {
-			throw  new \InvalidArgumentException();
+			throw new \InvalidArgumentException();
 		}
 		try {
 			$comment = $this->commentsManager->get($notification->getObjectId());
@@ -80,6 +86,7 @@ class Notifier implements INotifier {
 				$displayName = $commenter->getDisplayName();
 			}
 		}
+
 		switch($notification->getSubject()) {
 			case 'mention':
 				$parameters = $notification->getSubjectParameters();
@@ -90,19 +97,48 @@ class Notifier implements INotifier {
 				if(empty($nodes)) {
 					throw new \InvalidArgumentException('Cannot resolve file id to Node instance');
 				}
-				$fileName = $nodes[0]->getName();
-				if($isDeletedActor) {
-					$subject = (string) $l->t(
-						'A (now) deleted user mentioned you in a comment on "%s".',
-						[ $fileName ]
-					);
+				$node = $nodes[0];
+
+				if ($isDeletedActor) {
+					$notification->setParsedSubject($l->t(
+							'A (now) deleted user mentioned you in a comment on “%s”',
+							[$node->getName()]
+						))
+						->setRichSubject(
+							$l->t('A (now) deleted user mentioned you in a comment on “{file}”'),
+							[
+								'file' => [
+									'type' => 'file',
+									'id' => $comment->getObjectId(),
+									'name' => $node->getName(),
+									'path' => $node->getPath(),
+									'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $comment->getObjectId()]),
+								],
+							]
+						);
 				} else {
-					$subject = (string) $l->t(
-						'%s mentioned you in a comment on "%s".',
-						[ $displayName, $fileName ]
-					);
+					$notification->setParsedSubject($l->t(
+							'%1$s mentioned you in a comment on “%2$s”',
+							[$displayName, $node->getName()]
+						))
+						->setRichSubject(
+							$l->t('{user} mentioned you in a comment on “{file}”'),
+							[
+								'user' => [
+									'type' => 'user',
+									'id' => $comment->getActorId(),
+									'name' => $displayName,
+								],
+								'file' => [
+									'type' => 'file',
+									'id' => $comment->getObjectId(),
+									'name' => $node->getName(),
+									'path' => $node->getPath(),
+									'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $comment->getObjectId()]),
+								],
+							]
+						);
 				}
-				$notification->setParsedSubject($subject);
 
 				return $notification;
 				break;
