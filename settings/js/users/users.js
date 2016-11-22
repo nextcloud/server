@@ -497,7 +497,7 @@ var UserList = {
 					group: group
 				},
 				function (response) {
-					if (response.data.message) {
+					if (response.data !== undefined && response.data.message) {
 						OC.Notification.show(response.data.message);
 					}
 				}
