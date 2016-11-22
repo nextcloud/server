@@ -187,4 +187,26 @@ class ScannerTest extends \Test\TestCase {
 
 		$this->assertNotEquals($oldRoot->getEtag(), $newRoot->getEtag());
 	}
+
+	public function testSkipLocalShares() {
+		$sharedStorage = $this->getMockBuilder('OC\Files\Storage\Shared')
+			->disableOriginalConstructor()
+			->getMock();
+		$sharedMount = new MountPoint($sharedStorage, '/share');
+		Filesystem::getMountManager()->addMount($sharedMount);
+
+		$sharedStorage->expects($this->any())
+			->method('instanceOfStorage')
+			->will($this->returnValueMap([
+				['OCA\Files_Sharing\ISharedStorage', true],
+			]));
+		$sharedStorage->expects($this->never())
+			->method('getScanner');
+
+		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
+		$scanner->addMount($sharedMount);
+		$scanner->scan('');
+
+		$scanner->backgroundScan('');
+	}
 }
