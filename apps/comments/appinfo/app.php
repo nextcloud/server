@@ -37,14 +37,6 @@ $eventDispatcher->addListener(
 	}
 );
 
-$activityManager = \OC::$server->getActivityManager();
-$activityManager->registerExtension(function() {
-	$application = new \OCP\AppFramework\App('comments');
-	/** @var \OCA\Comments\Activity\Extension $extension */
-	$extension = $application->getContainer()->query(\OCA\Comments\Activity\Extension::class);
-	return $extension;
-});
-
 $eventDispatcher->addListener(\OCP\Comments\CommentsEntityEvent::EVENT_ENTITY, function(\OCP\Comments\CommentsEntityEvent $event) {
 	$event->addEntityCollection('files', function($name) {
 		$nodes = \OC::$server->getUserFolder()->getById(intval($name));
@@ -67,7 +59,7 @@ $notificationManager->registerNotifier(
 $commentsManager = \OC::$server->getCommentsManager();
 $commentsManager->registerEventHandler(function () {
 	$application = new \OCP\AppFramework\App('comments');
-	/** @var \OCA\Comments\Activity\Extension $extension */
+	/** @var \OCA\Comments\EventHandler $handler */
 	$handler = $application->getContainer()->query(\OCA\Comments\EventHandler::class);
 	return $handler;
 });

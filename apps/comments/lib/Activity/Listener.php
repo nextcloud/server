@@ -108,18 +108,18 @@ class Listener {
 		}
 
 		$activity = $this->activityManager->generateEvent();
-		$activity->setApp(Extension::APP_NAME)
-			->setType(Extension::APP_NAME)
+		$activity->setApp('comments')
+			->setType('comments')
 			->setAuthor($actor)
-			->setObject($event->getComment()->getObjectType(), $event->getComment()->getObjectId())
-			->setMessage(Extension::ADD_COMMENT_MESSAGE, [
+			->setObject($event->getComment()->getObjectType(), (int) $event->getComment()->getObjectId())
+			->setMessage('add_comment_message', [
 				$event->getComment()->getId(),
 			]);
 
 		foreach ($users as $user => $path) {
 			$activity->setAffectedUser($user);
 
-			$activity->setSubject(Extension::ADD_COMMENT_SUBJECT, [
+			$activity->setSubject('add_comment_subject', [
 				$actor,
 				$path,
 			]);

@@ -19,27 +19,39 @@
  *
  */
 
-namespace OCP\Activity;
+namespace OCA\Comments\Activity;
 
-/**
- * Interface IFilter
- *
- * @package OCP\Activity
- * @since 11.0.0
- */
-interface IFilter {
+
+use OCP\Activity\ISetting;
+use OCP\IL10N;
+
+class Setting implements ISetting {
+
+	/** @var IL10N */
+	protected $l;
+
+	/**
+	 * @param IL10N $l
+	 */
+	public function __construct(IL10N $l) {
+		$this->l = $l;
+	}
 
 	/**
 	 * @return string Lowercase a-z and underscore only identifier
 	 * @since 11.0.0
 	 */
-	public function getIdentifier();
+	public function getIdentifier() {
+		return 'comments';
+	}
 
 	/**
 	 * @return string A translated string
 	 * @since 11.0.0
 	 */
-	public function getName();
+	public function getName() {
+		return $this->l->t('<strong>Comments</strong> for files');
+	}
 
 	/**
 	 * @return int whether the filter should be rather on the top or bottom of
@@ -47,25 +59,40 @@ interface IFilter {
 	 * priority values. It is required to return a value between 0 and 100.
 	 * @since 11.0.0
 	 */
-	public function getPriority();
+	public function getPriority() {
+		return 50;
+	}
 
 	/**
-	 * @return string Full URL to an icon, empty string when none is given
+	 * @return bool True when the option can be changed for the stream
 	 * @since 11.0.0
 	 */
-	public function getIcon();
+	public function canChangeStream() {
+		return true;
+	}
 
 	/**
-	 * @param string[] $types
-	 * @return string[] An array of allowed apps from which activities should be displayed
+	 * @return bool True when the option can be changed for the stream
 	 * @since 11.0.0
 	 */
-	public function filterTypes(array $types);
+	public function isDefaultEnabledStream() {
+		return true;
+	}
 
 	/**
-	 * @return string[] An array of allowed apps from which activities should be displayed
+	 * @return bool True when the option can be changed for the mail
 	 * @since 11.0.0
 	 */
-	public function allowedApps();
+	public function canChangeMail() {
+		return true;
+	}
+
+	/**
+	 * @return bool True when the option can be changed for the stream
+	 * @since 11.0.0
+	 */
+	public function isDefaultEnabledMail() {
+		return false;
+	}
 }
 

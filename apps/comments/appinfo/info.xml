@@ -13,4 +13,18 @@
 	<types>
 		<logging/>
 	</types>
+
+	<activity>
+		<settings>
+			<setting>OCA\Comments\Activity\Setting</setting>
+		</settings>
+
+		<filters>
+			<filter>OCA\Comments\Activity\Filter</filter>
+		</filters>
+
+		<providers>
+			<provider>OCA\Comments\Activity\Provider</provider>
+		</providers>
+	</activity>
 </info>
