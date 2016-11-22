@@ -31,6 +31,7 @@
 namespace OC\Core;
 
 use OC\AppFramework\Utility\SimpleContainer;
+use OC\CssManager;
 use OC\Security\IdentityProof\Manager;
 use OCP\AppFramework\App;
 use OCP\Files\IAppData;
@@ -56,6 +57,9 @@ class Application extends App {
 				\OC::$server->getAppDataDir('identityproof'),
 				\OC::$server->getCrypto()
 			);
+		});
+		$container->registerService(CssManager::class, function () {
+			return new CssManager(\OC::$server->getAppDataDir('css'));
 		});
 	}
 }

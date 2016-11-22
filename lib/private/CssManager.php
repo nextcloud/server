@@ -24,14 +24,13 @@ namespace OC;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
-use OCP\ICssManager;
 
 /**
  * This class implements methods to access SCSS cached files
  * @since 11.0.0
  */
 
-class CssManager implements ICssManager {
+class CssManager {
 
 	/** @var IAppData */
 	private $appData;

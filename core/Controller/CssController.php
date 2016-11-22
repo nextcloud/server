@@ -22,17 +22,18 @@
 namespace OC\Core\Controller;
 
 use OC\AppFramework\Utility\TimeFactory;
+use OC\CssManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
-use OCP\ICssManager;
+use OCP\Files\NotFoundException;
 use OCP\IRequest;
 
 
 class CssController extends Controller {
 
-	/** @var ICssManager */
+	/** @var CssManager */
 	protected $cssManager;
 
 	/** @var TimeFactory */
@@ -43,10 +44,10 @@ class CssController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
-	 * @param ICssManager $cssManager
+	 * @param CssManager $cssManager
 	 * @param TimeFactory $timeFactory
 	 */
-	public function __construct($appName, IRequest $request, ICssManager $cssManager, TimeFactory $timeFactory) {
+	public function __construct($appName, IRequest $request, CssManager $cssManager, TimeFactory $timeFactory) {
 		parent::__construct($appName, $request);
 
 		$this->cssManager = $cssManager;
