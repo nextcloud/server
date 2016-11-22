@@ -252,7 +252,6 @@ select:hover {
 	padding: 0;
 }
 #select2-drop .select2-results .select2-result-label {
-	padding: 12px !important;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
