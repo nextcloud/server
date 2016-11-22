@@ -19,7 +19,7 @@
  *
  */
 
-namespace Test\Security;
+namespace Test\Security\IdentityProof;
 
 use OC\Security\IdentityProof\Key;
 use OC\Security\IdentityProof\Manager;
