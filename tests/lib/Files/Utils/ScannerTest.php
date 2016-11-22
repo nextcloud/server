@@ -189,7 +189,9 @@ class ScannerTest extends \Test\TestCase {
 	}
 
 	public function testSkipLocalShares() {
-		$sharedStorage = $this->getMock('OCA\Files_Sharing\SharedStorage');
+		$sharedStorage = $this->getMockBuilder('OC\Files\Storage\Shared')
+			->disableOriginalConstructor()
+			->getMock();
 		$sharedMount = new MountPoint($sharedStorage, '/share');
 		Filesystem::getMountManager()->addMount($sharedMount);
 
