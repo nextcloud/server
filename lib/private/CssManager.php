@@ -23,6 +23,7 @@ namespace OC;
 
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\ICssManager;
 
 /**
@@ -53,15 +54,7 @@ class CssManager implements ICssManager {
 	 * @throws NotFoundException
 	 */
 	public function getCss($fileName, $appName) {
-		try {
-			$folder = $this->appData->getFolder($appName);
-		} catch(NotFoundException $e) {
-			throw new NotFoundException();
-		}
-		try {
-			return $folder->getFile($fileName);
-		} catch(NotFoundException $e) {
-			throw new NotFoundException();
-		}
+		$folder = $this->appData->getFolder($appName);
+		return $folder->getFile($fileName);
 	}
 }

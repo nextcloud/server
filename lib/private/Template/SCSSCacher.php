@@ -23,8 +23,8 @@ namespace OC\Template;
 
 use Leafo\ScssPhp\Compiler;
 use Leafo\ScssPhp\Exception\ParserException;
+use OC\Files\SimpleFS\SimpleFolder;
 use OCP\Files\NotFoundException;
-use OCP\IURLGenerator;
 
 class SCSSCacher {
 
@@ -35,7 +35,7 @@ class SCSSCacher {
 	 * @var string The css filename with extension
 	 * @var string Absolute path to scss file location folder
 	 * @var string Path to scss file from the root installation
-	 * @var OC\Files\SimpleFS\SimpleFolder The folder we're putting our compiled css files
+	 * @var SimpleFolder The folder we're putting our compiled css files
 	 */
 	protected $root, $file, $fileNameSCSS, $fileNameCSS, $fileLoc, $rootCssLoc, $folder;
 
@@ -150,7 +150,6 @@ class SCSSCacher {
 		} catch(NotFoundException $e) {
 			return false;
 		}
-		return false;
 	}
 
 	/**

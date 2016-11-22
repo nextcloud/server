@@ -21,6 +21,9 @@
 
 namespace OCP;
 
+use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
+
 /**
  * This class provides scss functionality
  * @since 11.0.0
@@ -34,6 +37,7 @@ interface ICssManager {
 	 * @param string $fileName css filename with extension
 	 * @param string $appName css app name
 	 * @return ISimpleFile
+	 * @throws NotFoundException
 	 */
 	public function getCss($fileName, $appName);
 }
