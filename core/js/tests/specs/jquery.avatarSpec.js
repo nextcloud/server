@@ -65,7 +65,7 @@ describe('jquery.avatar tests', function() {
 
 		$div.avatar();
 		
-		expect($div.imageplaceholder).toHaveBeenCalledWith('x');
+		expect($div.imageplaceholder).toHaveBeenCalledWith('?');
 	});
 
 	describe('no avatar', function() {
@@ -96,7 +96,7 @@ describe('jquery.avatar tests', function() {
 				})
 			);
 
-			expect($div.imageplaceholder).toHaveBeenCalledWith('foo', 'X');
+			expect($div.imageplaceholder).toHaveBeenCalledWith('foo', '?');
 		});
 
 		it('show no placeholder', function() {
