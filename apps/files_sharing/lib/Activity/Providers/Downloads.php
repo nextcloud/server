@@ -87,7 +87,7 @@ class Downloads implements IProvider {
 	public function parseShortVersion(IEvent $event) {
 		$parsedParameters = $this->getParsedParameters($event);
 
-		if ($event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED ||
+		if ($event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED ||
 			$event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED) {
 			$event->setParsedSubject($this->l->t('Downloaded via public link'))
 				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/download.svg')));
@@ -114,7 +114,7 @@ class Downloads implements IProvider {
 	public function parseLongVersion(IEvent $event) {
 		$parsedParameters = $this->getParsedParameters($event);
 
-		if ($event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED ||
+		if ($event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED ||
 			$event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED) {
 			$event->setParsedSubject($this->l->t('%1$s downloaded via public link', [
 					$parsedParameters['file']['path'],
@@ -150,6 +150,11 @@ class Downloads implements IProvider {
 		$parameters = $event->getSubjectParameters();
 
 		switch ($subject) {
+			case self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED:
+			case self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED:
+				return [
+					'file' => $this->generateFileParameter($event->getObjectId(), $parameters[0]),
+				];
 			case self::SUBJECT_SHARED_FILE_BY_EMAIL_DOWNLOADED:
 			case self::SUBJECT_SHARED_FOLDER_BY_EMAIL_DOWNLOADED:
 				return [
@@ -161,7 +166,8 @@ class Downloads implements IProvider {
 					],
 				];
 		}
-		return [];
+
+		throw new \InvalidArgumentException();
 	}
 
 	/**
