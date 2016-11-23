@@ -1500,6 +1500,76 @@ class RequestTest extends \Test\TestCase {
 		$this->assertFalse($request->passesCSRFCheck());
 	}
 
+	public function testPassesStrictCookieCheckWithAllCookiesAndStrict() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName', 'getCookieParams'])
+			->setConstructorArgs([
+				[
+					'server' => [
+						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
+					],
+					'cookies' => [
+						session_name() => 'asdf',
+						'__Host-nc_sameSiteCookiestrict' => 'true',
+						'__Host-nc_sameSiteCookielax' => 'true',
+					],
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+		$request
+			->expects($this->any())
+			->method('getCookieParams')
+			->willReturn([
+				'secure' => true,
+				'path' => '/',
+			]);
+
+		$this->assertTrue($request->passesStrictCookieCheck());
+	}
+
+	public function testFailsStrictCookieCheckWithAllCookiesAndMissingStrict() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName', 'getCookieParams'])
+			->setConstructorArgs([
+				[
+					'server' => [
+						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
+					],
+					'cookies' => [
+						session_name() => 'asdf',
+						'nc_sameSiteCookiestrict' => 'true',
+						'nc_sameSiteCookielax' => 'true',
+					],
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+		$request
+			->expects($this->any())
+			->method('getCookieParams')
+			->willReturn([
+				'secure' => true,
+				'path' => '/',
+			]);
+
+		$this->assertFalse($request->passesStrictCookieCheck());
+	}
+
+	public function testGetCookieParams() {
+		$request = $this->createMock(Request::class);
+		$actual = $this->invokePrivate($request, 'getCookieParams');
+		$this->assertSame(session_get_cookie_params(), $actual);
+	}
+
 	public function testPassesStrictCookieCheckWithAllCookies() {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')

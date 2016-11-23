@@ -493,10 +493,18 @@ class OC {
 			'lax',
 			'strict',
 		];
+
+		// Append __Host to the cookie if it meets the requirements
+		$cookiePrefix = '';
+		if($cookieParams['secure'] === true && $cookieParams['path'] === '/') {
+			$cookiePrefix = '__Host-';
+		}
+
 		foreach($policies as $policy) {
 			header(
 				sprintf(
-					'Set-Cookie: nc_sameSiteCookie%s=true; path=%s; httponly;' . $secureCookie . 'expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=%s',
+					'Set-Cookie: %snc_sameSiteCookie%s=true; path=%s; httponly;' . $secureCookie . 'expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=%s',
+					$cookiePrefix,
 					$policy,
 					$cookieParams['path'],
 					$policy
