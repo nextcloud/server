@@ -42,6 +42,7 @@ use OC\ServerNotAvailableException;
  * @property string ldapUserFilter
  * @property string ldapUserDisplayName
  * @property string ldapUserDisplayName2
+ * @property boolean turnOnPasswordChange
  * @property boolean hasPagedResultSupport
  * @property string[] ldapBaseUsers
  * @property int|string ldapPagingSize holds an integer

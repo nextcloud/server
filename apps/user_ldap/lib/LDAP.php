@@ -260,7 +260,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * @return mixed
 	 */
-	private function invokeLDAPMethod() {
+	protected function invokeLDAPMethod() {
 		$arguments = func_get_args();
 		$func = 'ldap_' . array_shift($arguments);
 		if(function_exists($func)) {

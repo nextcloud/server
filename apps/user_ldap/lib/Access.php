@@ -226,9 +226,12 @@ class Access extends LDAPUtility implements IUserTools {
 	
 	/**
 	 * Set password for an LDAP user identified by a DN
+	 *
 	 * @param string $userDN the user in question
 	 * @param string $password the new password
 	 * @return bool
+	 * @throws HintException
+	 * @throws \Exception
 	 */
 	public function setPassword($userDN, $password) {
 		if(intval($this->connection->turnOnPasswordChange) !== 1) {

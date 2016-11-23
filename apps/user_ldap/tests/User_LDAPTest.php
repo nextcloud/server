@@ -38,7 +38,9 @@ use OCA\User_LDAP\LogWrapper;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
 use OC\HintException;
+use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\User_LDAP as UserLDAP;
+use OCA\User_LDAP\User_LDAP;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -1057,5 +1059,46 @@ class User_LDAPTest extends TestCase {
 		\OC_User::useBackend($backend);
 
 		$this->assertFalse(\OC_User::setPassword('roland', 'dt12234$'));
+	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage LDAP setPassword: Could not get user object for uid NotExistingUser. Maybe the LDAP entry has no set display name attribute?
+	 */
+	public function testSetPasswordWithInvalidUser() {
+		$access = $this->createMock(Access::class);
+		$access->userManager = $this->createMock(IUserManager::class);
+		$access->userManager
+			->expects($this->once())
+			->method('get')
+			->with('NotExistingUser')
+			->willReturn(null);
+		$config = $this->createMock(IConfig::class);
+		$ldap = new User_LDAP(
+			$access,
+			$config
+		);
+		$ldap->setPassword('NotExistingUser', 'Password');
+	}
+
+	public function testSetPasswordWithUsernameFalse() {
+		$user = $this->createMock(User::class);
+		$user
+			->expects($this->once())
+			->method('getUsername')
+			->willReturn(false);
+		$access = $this->createMock(Access::class);
+		$access->userManager = $this->createMock(IUserManager::class);
+		$access->userManager
+			->expects($this->once())
+			->method('get')
+			->with('NotExistingUser')
+			->willReturn($user);
+		$config = $this->createMock(IConfig::class);
+		$ldap = new User_LDAP(
+			$access,
+			$config
+		);
+		$this->assertFalse($ldap->setPassword('NotExistingUser', 'Password'));
 	}
 }
