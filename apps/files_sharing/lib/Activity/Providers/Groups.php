@@ -110,17 +110,17 @@ class Groups implements IProvider {
 				])
 				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_RESHARED_GROUP_BY) {
-			$event->setParsedSubject($this->l->t('%2$s shared with %1$s by', [
+			$event->setParsedSubject($this->l->t('%2$s shared with group %1$s', [
 					$parsedParameters['group']['name'],
 					$parsedParameters['actor']['name'],
 				]))
-				->setRichSubject($this->l->t('{actor} shared with {group}'), [
+				->setRichSubject($this->l->t('{actor} shared with group {group}'), [
 					'group' => $parsedParameters['group'],
 					'actor' => $parsedParameters['actor'],
 				])
 				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_BY) {
-			$event->setParsedSubject($this->l->t('%2$s removed share for %1$s', [
+			$event->setParsedSubject($this->l->t('%2$s removed share for group %1$s', [
 					$parsedParameters['group']['name'],
 					$parsedParameters['actor']['name'],
 				]))
