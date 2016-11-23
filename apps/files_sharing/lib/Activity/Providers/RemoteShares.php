@@ -159,10 +159,10 @@ class RemoteShares implements IProvider {
 		$subject = $event->getSubject();
 		$parameters = $event->getSubjectParameters();
 
-		$remoteUser = explode('@', $parameters[0], 2);
 		switch ($subject) {
 			case self::SUBJECT_REMOTE_SHARE_RECEIVED:
 			case self::SUBJECT_REMOTE_SHARE_UNSHARED:
+				$remoteUser = explode('@', $parameters[0], 2);
 				return [
 					'file' => [
 						'type' => 'pending-federated-share',
@@ -178,6 +178,7 @@ class RemoteShares implements IProvider {
 				];
 			case self::SUBJECT_REMOTE_SHARE_ACCEPTED:
 			case self::SUBJECT_REMOTE_SHARE_DECLINED:
+				$remoteUser = explode('@', $parameters[0], 2);
 				return [
 					'file' => $this->generateFileParameter($event->getObjectId(), $event->getObjectName()),
 					'user' => [
@@ -188,7 +189,7 @@ class RemoteShares implements IProvider {
 					],
 				];
 		}
-		return [];
+		throw new \InvalidArgumentException();
 	}
 
 	/**
