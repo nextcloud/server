@@ -498,6 +498,31 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
+	 * Wrapper around session_get_cookie_params
+	 *
+	 * @return array
+	 */
+	protected function getCookieParams() {
+		return session_get_cookie_params();
+	}
+
+	/**
+	 * Appends the __Host- prefix to the cookie if applicable
+	 *
+	 * @param string $name
+	 * @return string
+	 */
+	protected function getProtectedCookieName($name) {
+		$cookieParams = $this->getCookieParams();
+		$prefix = '';
+		if($cookieParams['secure'] === true && $cookieParams['path'] === '/') {
+			$prefix = '__Host-';
+		}
+
+		return $prefix.$name;
+	}
+
+	/**
 	 * Checks if the strict cookie has been sent with the request if the request
 	 * is including any cookies.
 	 *
@@ -508,7 +533,9 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		if(!$this->cookieCheckRequired()) {
 			return true;
 		}
-		if($this->getCookie('nc_sameSiteCookiestrict') === 'true'
+
+		$cookieName = $this->getProtectedCookieName('nc_sameSiteCookiestrict');
+		if($this->getCookie($cookieName) === 'true'
 			&& $this->passesLaxCookieCheck()) {
 			return true;
 		}
@@ -526,7 +553,9 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		if(!$this->cookieCheckRequired()) {
 			return true;
 		}
-		if($this->getCookie('nc_sameSiteCookielax') === 'true') {
+
+		$cookieName = $this->getProtectedCookieName('nc_sameSiteCookielax');
+		if($this->getCookie($cookieName) === 'true') {
 			return true;
 		}
 		return false;
