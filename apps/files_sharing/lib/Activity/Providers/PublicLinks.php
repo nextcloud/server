@@ -176,7 +176,7 @@ class PublicLinks implements IProvider {
 				->setRichSubject($this->l->t('{actor} shared {file} as public link'), $parsedParameters)
 				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_LINK_BY) {
-			$event->setParsedSubject($this->l->t('%1$s removed public link for %1$s', [
+			$event->setParsedSubject($this->l->t('%2$s removed public link for %1$s', [
 					$parsedParameters['file']['path'],
 					$parsedParameters['actor']['name'],
 				]))
