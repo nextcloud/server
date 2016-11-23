@@ -406,32 +406,22 @@ trait WebDav {
 		return $response;
 	}
 
-	/*Returns the elements of a report command*/
-	public function reportFolder($user, $path, $properties = null){
+	/* Returns the elements of a report command
+	 * @param string $user
+	 * @param string $path
+	 * @param string $properties properties which needs to be included in the report
+	 * @param string $filterRules filter-rules to choose what needs to appear in the report
+	 */
+	public function reportFolder($user, $path, $properties, $filterRules){
 		$client = $this->getSabreClient($user);
 
 		$body = '<?xml version="1.0" encoding="utf-8" ?>
 							 <oc:filter-files xmlns:a="DAV:" xmlns:oc="http://owncloud.org/ns" >
 								 <a:prop>
-									 <oc:id/>
-									 <oc:fileid/>
-									 <oc:permissions/>
-									 <a:getlastmodified/>
-									 <a:getetag/>
-									 <oc:downloadURL/>
-									 <oc:ddC/>
-									 <oc:size/>
-									 <oc:owner-id/>
-									 <oc:owner-display-name/>
-									 <oc:size/>
-									 <oc:checksum />
-									 <oc:tags />
-									 <a:quota-used-bytes/>
-									 <a:quota-available-bytes/>
-									 <oc:favorite/>
+									' . $properties . '
 								 </a:prop>
 								 <oc:filter-rules>
-									<oc:favorite>1</oc:favorite>
+									' . $filterRules . '
 								 </oc:filter-rules>
 							 </oc:filter-files>';
 
@@ -722,7 +712,10 @@ trait WebDav {
 	 * @param \Behat\Gherkin\Node\TableNode|null $expectedElements
 	 */
 	public function checkFavoritedElements($user, $folder, $expectedElements){
-		$elementList = $this->reportFolder($user, $folder);
+		$elementList = $this->reportFolder($user,
+											$folder,
+											'<oc:favorite/>',
+											'<oc:favorite>1</oc:favorite>');
 		if ($expectedElements instanceof \Behat\Gherkin\Node\TableNode) {
 			$elementRows = $expectedElements->getRows();
 			$elementsSimplified = $this->simplifyArray($elementRows);
