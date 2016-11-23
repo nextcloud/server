@@ -410,7 +410,7 @@ trait WebDav {
 	public function reportFolder($user, $path, $properties = null){
 		$client = $this->getSabreClient($user);
 
-		$body = [ 'body' => '<?xml version="1.0" encoding="utf-8" ?>
+		$body = '<?xml version="1.0" encoding="utf-8" ?>
 							 <oc:filter-files xmlns:a="DAV:" xmlns:oc="http://owncloud.org/ns" >
 								 <a:prop>
 									 <oc:id/>
@@ -433,11 +433,11 @@ trait WebDav {
 								 <oc:filter-rules>
 									<oc:favorite>1</oc:favorite>
 								 </oc:filter-rules>
-							 </oc:filter-files>'];
+							 </oc:filter-files>';
 
 		$response = $client->request('REPORT', $this->makeSabrePath($user, $path), $body);
-
-		return $response;
+		$parsedResponse = $client->parseMultistatus($response['body']);
+		return $parsedResponse;
 	}
 
 	public function makeSabrePath($user, $path) {
