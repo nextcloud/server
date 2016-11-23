@@ -280,6 +280,21 @@ class EncryptionTest extends TestCase {
 	}
 
 	/**
+	 * test begin() if encryption is not initialized but the master key is enabled
+	 * in this case we can initialize the encryption without a username/password
+	 * and continue
+	 */
+	public function testBeginInitMasterKey() {
+
+		$this->sessionMock->expects($this->once())->method('isReady')->willReturn(false);
+		$this->utilMock->expects($this->once())->method('isMasterKeyEnabled')
+			->willReturn(true);
+		$this->keyManagerMock->expects($this->once())->method('init')->with('', '');
+
+		$this->instance->begin('/user/files/welcome.txt', 'user', 'r', [], []);
+	}
+
+	/**
 	 * @dataProvider dataTestUpdate
 	 *
 	 * @param string $fileKey

@@ -68,6 +68,16 @@ class Session {
 	}
 
 	/**
+	 * check if encryption was initialized successfully
+	 *
+	 * @return bool
+	 */
+	public function isReady() {
+		$status = $this->getStatus();
+		return $status === self::INIT_SUCCESSFUL;
+	}
+
+	/**
 	 * Gets user or public share private key from session
 	 *
 	 * @return string $privateKey The user's plaintext private key

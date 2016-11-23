@@ -134,6 +134,32 @@ class SessionTest extends TestCase {
 	}
 
 	/**
+	 * @dataProvider dataTestIsReady
+	 *
+	 * @param int $status
+	 * @param bool $expected
+	 */
+	public function testIsReady($status, $expected) {
+		/** @var Session | \PHPUnit_Framework_MockObject_MockObject $instance */
+		$instance = $this->getMockBuilder(Session::class)
+			->setConstructorArgs([$this->sessionMock])
+			->setMethods(['getStatus'])->getMock();
+
+		$instance->expects($this->once())->method('getStatus')
+			->willReturn($status);
+
+		$this->assertSame($expected, $instance->isReady());
+	}
+
+	public function dataTestIsReady() {
+		return [
+			[Session::INIT_SUCCESSFUL, true],
+			[Session::INIT_EXECUTED, false],
+			[Session::NOT_INITIALIZED, false],
+		];
+	}
+
+	/**
 	 * @param $key
 	 * @param $value
 	 */
