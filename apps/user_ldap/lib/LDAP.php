@@ -9,6 +9,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roger Szabo <roger.szabo@web.de>
  *
  * @license AGPL-3.0
  *
@@ -29,6 +30,7 @@
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
+use OCA\User_LDAP\Exceptions\ConstraintViolationException;
 
 class LDAP implements ILDAPWrapper {
 	protected $curFunc = '';
@@ -194,6 +196,16 @@ class LDAP implements ILDAPWrapper {
 
 	/**
 	 * @param LDAP $link
+	 * @param string $userDN
+	 * @param string $password
+	 * @return bool
+	 */
+	public function modReplace($link, $userDN, $password) {
+		return $this->invokeLDAPMethod('mod_replace', $link, $userDN, array('userPassword' => $password));
+	}
+
+	/**
+	 * @param LDAP $link
 	 * @param string $option
 	 * @param int $value
 	 * @return bool|mixed
@@ -248,7 +260,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * @return mixed
 	 */
-	private function invokeLDAPMethod() {
+	protected function invokeLDAPMethod() {
 		$arguments = func_get_args();
 		$func = 'ldap_' . array_shift($arguments);
 		if(function_exists($func)) {
@@ -288,6 +300,9 @@ class LDAP implements ILDAPWrapper {
 					throw new \Exception('LDAP authentication method rejected', $errorCode);
 				} else if ($errorCode === 1) {
 					throw new \Exception('LDAP Operations error', $errorCode);
+				} else if ($errorCode === 19) {
+					ldap_get_option($this->curArgs[0], LDAP_OPT_ERROR_STRING, $extended_error);
+					throw new ConstraintViolationException(!empty($extended_error)?$extended_error:$errorMsg, $errorCode);
 				} else {
 					\OCP\Util::writeLog('user_ldap',
 										'LDAP error '.$errorMsg.' (' .

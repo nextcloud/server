@@ -35,6 +35,7 @@
 
 namespace OCA\User_LDAP;
 
+use OC\User\Backend;
 use OC\User\NoUserException;
 use OCA\User_LDAP\Exceptions\NotOnLDAP;
 use OCA\User_LDAP\User\OfflineUser;
@@ -169,6 +170,26 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			$user->markLogin();
 
 			return $user->getUsername();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Set password
+	 * @param string $uid The username
+	 * @param string $password The new password
+	 * @return bool
+	 */
+	public function setPassword($uid, $password) {
+		$user = $this->access->userManager->get($uid);
+
+		if(!$user instanceof User) {
+			throw new \Exception('LDAP setPassword: Could not get user object for uid ' . $uid .
+				'. Maybe the LDAP entry has no set display name attribute?');
+		}
+		if($user->getUsername() !== false) {
+			return $this->access->setPassword($user->getDN(), $password);
 		}
 
 		return false;
@@ -449,11 +470,12 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
 	*/
 	public function implementsActions($actions) {
-		return (bool)((\OC\User\Backend::CHECK_PASSWORD
-			| \OC\User\Backend::GET_HOME
-			| \OC\User\Backend::GET_DISPLAYNAME
-			| \OC\User\Backend::PROVIDE_AVATAR
-			| \OC\User\Backend::COUNT_USERS)
+		return (bool)((Backend::CHECK_PASSWORD
+			| Backend::GET_HOME
+			| Backend::GET_DISPLAYNAME
+			| Backend::PROVIDE_AVATAR
+			| Backend::COUNT_USERS
+			| ((intval($this->access->connection->turnOnPasswordChange) === 1)?(Backend::SET_PASSWORD):0))
 			& $actions);
 	}
 

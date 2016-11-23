@@ -1,12 +1,14 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  *
  * @license AGPL-3.0
  *
@@ -28,9 +30,11 @@ namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\Exceptions\ConstraintViolationException;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\ILDAPWrapper;
+use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\LogWrapper;
 use OCA\User_LDAP\User\Manager;
 use OCP\IAvatarManager;
@@ -47,6 +51,31 @@ use OCP\IUserManager;
  * @package OCA\User_LDAP\Tests
  */
 class AccessTest extends \Test\TestCase {
+	/** @var Connection|\PHPUnit_Framework_MockObject_MockObject */
+	private $connection;
+	/** @var LDAP|\PHPUnit_Framework_MockObject_MockObject */
+	private $ldap;
+	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject */
+	private $userManager;
+	/** @var Helper|\PHPUnit_Framework_MockObject_MockObject */
+	private $helper;
+	/** @var Access */
+	private $access;
+
+	public function setUp() {
+		$this->connection = $this->createMock(Connection::class);
+		$this->ldap = $this->createMock(LDAP::class);
+		$this->userManager = $this->createMock(Manager::class);
+		$this->helper = $this->createMock(Helper::class);
+
+		$this->access = new Access(
+			$this->connection,
+			$this->ldap,
+			$this->userManager,
+			$this->helper
+		);
+	}
+
 	private function getConnectorAndLdapMock() {
 		$lw  = $this->createMock(ILDAPWrapper::class);
 		$connector = $this->getMockBuilder(Connection::class)
@@ -316,5 +345,85 @@ class AccessTest extends \Test\TestCase {
 		$access = new Access($con, $lw, $um, $helper);
 		$values = $access->readAttribute('uid=whoever,dc=example,dc=org', $attribute);
 		$this->assertSame($values[0], strtolower($dnFromServer));
+	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage LDAP password changes are disabled
+	 */
+	public function testSetPasswordWithDisabledChanges() {
+		$this->connection
+			->method('__get')
+			->willReturn(false);
+
+		$this->access->setPassword('CN=foo', 'MyPassword');
+	}
+
+	public function testSetPasswordWithLdapNotAvailable() {
+		$this->connection
+			->method('__get')
+			->willReturn(true);
+		$connection = $this->createMock(LDAP::class);
+		$this->connection
+			->expects($this->once())
+			->method('getConnectionResource')
+			->willReturn($connection);
+		$this->ldap
+			->expects($this->once())
+			->method('isResource')
+			->with($connection)
+			->willReturn(false);
+
+		$this->assertFalse($this->access->setPassword('CN=foo', 'MyPassword'));
+	}
+
+	/**
+	 * @expectedException \OC\HintException
+	 * @expectedExceptionMessage Password change rejected.
+	 */
+	public function testSetPasswordWithRejectedChange() {
+		$this->connection
+			->method('__get')
+			->willReturn(true);
+		$connection = $this->createMock(LDAP::class);
+		$this->connection
+			->expects($this->once())
+			->method('getConnectionResource')
+			->willReturn($connection);
+		$this->ldap
+			->expects($this->once())
+			->method('isResource')
+			->with($connection)
+			->willReturn(true);
+		$this->ldap
+			->expects($this->once())
+			->method('modReplace')
+			->with($connection, 'CN=foo', 'MyPassword')
+			->willThrowException(new ConstraintViolationException());
+
+		$this->access->setPassword('CN=foo', 'MyPassword');
+	}
+
+	public function testSetPassword() {
+		$this->connection
+			->method('__get')
+			->willReturn(true);
+		$connection = $this->createMock(LDAP::class);
+		$this->connection
+			->expects($this->once())
+			->method('getConnectionResource')
+			->willReturn($connection);
+		$this->ldap
+			->expects($this->once())
+			->method('isResource')
+			->with($connection)
+			->willReturn(true);
+		$this->ldap
+			->expects($this->once())
+			->method('modReplace')
+			->with($connection, 'CN=foo', 'MyPassword')
+			->willReturn(true);
+
+		$this->assertTrue($this->access->setPassword('CN=foo', 'MyPassword'));
 	}
 }

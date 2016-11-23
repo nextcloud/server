@@ -9,6 +9,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Roger Szabo <roger.szabo@web.de>
  *
  * @license AGPL-3.0
  *
@@ -36,8 +37,10 @@ use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LogWrapper;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
+use OC\HintException;
 use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\User_LDAP as UserLDAP;
+use OCA\User_LDAP\User_LDAP;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -958,5 +961,144 @@ class User_LDAPTest extends TestCase {
 		// and once again to verify that caching works
 		$backend->loginName2UserName($loginName);
 	}
+	
+	/**
+	 * Prepares the Access mock for setPassword tests
+	 * @param \OCA\User_LDAP\Access|\PHPUnit_Framework_MockObject_MockObject $access mock
+	 * @return void
+	 */
+	private function prepareAccessForSetPassword(&$access, $enablePasswordChange = true) {
+		$access->connection->expects($this->any())
+			   ->method('__get')
+			   ->will($this->returnCallback(function($name) use (&$enablePasswordChange) {
+					if($name === 'ldapLoginFilter') {
+						return '%uid';
+					}
+					if($name === 'turnOnPasswordChange') {
+						return $enablePasswordChange?1:0;
+					}
+					return null;
+			   }));
+			   
+		$access->connection->expects($this->any())
+			   ->method('getFromCache')
+			   ->will($this->returnCallback(function($uid) {
+					if($uid === 'userExists'.'roland') {
+						return true;
+					}
+					return null;
+			   }));
 
+		$access->expects($this->any())
+			   ->method('fetchListOfUsers')
+			   ->will($this->returnCallback(function($filter) {
+					if($filter === 'roland') {
+						return array(array('dn' => ['dnOfRoland,dc=test']));
+					}
+					return array();
+			   }));
+
+		$access->expects($this->any())
+			->method('fetchUsersByLoginName')
+			->will($this->returnCallback(function($uid) {
+				if($uid === 'roland') {
+					return array(array('dn' => ['dnOfRoland,dc=test']));
+				}
+				return array();
+			}));
+
+		$access->expects($this->any())
+			   ->method('dn2username')
+			   ->with($this->equalTo('dnOfRoland,dc=test'))
+			   ->will($this->returnValue('roland'));
+
+		$access->expects($this->any())
+			   ->method('stringResemblesDN')
+			   ->with($this->equalTo('dnOfRoland,dc=test'))
+			   ->will($this->returnValue(true));
+			   
+		$access->expects($this->any())
+			   ->method('setPassword')
+			   ->will($this->returnCallback(function($uid, $password) {
+					if(strlen($password) <= 5) {
+						throw new HintException('Password fails quality checking policy', '', 19);
+					}
+					return true;
+			   }));
+	}
+
+	/**
+	 * @expectedException \OC\HintException
+	 * @expectedExceptionMessage Password fails quality checking policy
+	 */
+	public function testSetPasswordInvalid() {
+		$access = $this->getAccessMock();
+
+		$this->prepareAccessForSetPassword($access);
+		$backend = new UserLDAP($access, $this->createMock(IConfig::class));
+		\OC_User::useBackend($backend);
+
+		$this->assertTrue(\OC_User::setPassword('roland', 'dt'));
+	}
+	
+	public function testSetPasswordValid() {
+		$access = $this->getAccessMock();
+
+		$this->prepareAccessForSetPassword($access);
+		$backend = new UserLDAP($access, $this->createMock(IConfig::class));
+		\OC_User::useBackend($backend);
+
+		$this->assertTrue(\OC_User::setPassword('roland', 'dt12234$'));
+	}
+	
+	public function testSetPasswordValidDisabled() {
+		$access = $this->getAccessMock();
+
+		$this->prepareAccessForSetPassword($access, false);
+		$backend = new UserLDAP($access, $this->createMock(IConfig::class));
+		\OC_User::useBackend($backend);
+
+		$this->assertFalse(\OC_User::setPassword('roland', 'dt12234$'));
+	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage LDAP setPassword: Could not get user object for uid NotExistingUser. Maybe the LDAP entry has no set display name attribute?
+	 */
+	public function testSetPasswordWithInvalidUser() {
+		$access = $this->createMock(Access::class);
+		$access->userManager = $this->createMock(IUserManager::class);
+		$access->userManager
+			->expects($this->once())
+			->method('get')
+			->with('NotExistingUser')
+			->willReturn(null);
+		$config = $this->createMock(IConfig::class);
+		$ldap = new User_LDAP(
+			$access,
+			$config
+		);
+		$ldap->setPassword('NotExistingUser', 'Password');
+	}
+
+	public function testSetPasswordWithUsernameFalse() {
+		$user = $this->createMock(User::class);
+		$user
+			->expects($this->once())
+			->method('getUsername')
+			->willReturn(false);
+		$access = $this->createMock(Access::class);
+		$access->userManager = $this->createMock(IUserManager::class);
+		$access->userManager
+			->expects($this->once())
+			->method('get')
+			->with('NotExistingUser')
+			->willReturn($user);
+		$config = $this->createMock(IConfig::class);
+		$ldap = new User_LDAP(
+			$access,
+			$config
+		);
+		$this->assertFalse($ldap->setPassword('NotExistingUser', 'Password'));
+	}
 }
