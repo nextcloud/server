@@ -265,17 +265,11 @@
 
 			var text = item.label;
 			if (item.value.shareType === OC.Share.SHARE_TYPE_GROUP) {
-				text = t('core', '{sharee} (group)', {
-					sharee: text
-				});
+				text = t('core', '{sharee} (group)', { sharee: text }, undefined, { escape: false });
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_REMOTE) {
-					text = t('core', '{sharee} (remote)', {
-						sharee: text
-					});
+				text = t('core', '{sharee} (remote)', { sharee: text }, undefined, { escape: false });
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_EMAIL) {
-				text = t('core', '{sharee} (email)', {
-					sharee: text
-				});
+				text = t('core', '{sharee} (email)', { sharee: text }, undefined, { escape: false });
 			}
 			var insert = $("<div class='share-autocomplete-item'/>");
 			var avatar = $("<div class='avatardiv'></div>").appendTo(insert);
