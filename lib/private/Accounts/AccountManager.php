@@ -23,7 +23,6 @@
 
 namespace OC\Accounts;
 
-use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -62,9 +61,6 @@ class AccountManager {
 
 	/** @var EventDispatcherInterface */
 	private $eventDispatcher;
-
-	/** @var IConfig */
-	private $config;
 
 	/**
 	 * AccountManager constructor.

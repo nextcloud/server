@@ -22,12 +22,25 @@
 
 namespace OC\Accounts;
 
+use OCP\ILogger;
 use OCP\IUser;
 
 class Hooks {
 
 	/** @var  AccountManager */
 	private $accountManager = null;
+
+	/** @var ILogger */
+	private $logger;
+
+	/**
+	 * Hooks constructor.
+	 *
+	 * @param ILogger $logger
+	 */
+	public function __construct(ILogger $logger) {
+		$this->logger = $logger;
+	}
 
 	/**
 	 * update accounts table if email address or display name was changed from outside
@@ -36,25 +49,31 @@ class Hooks {
 	 */
 	public function changeUserHook($params) {
 
-		$this->instantiateAccountManager();
+		$accountManager = $this->getAccountManager();
 
 		/** @var IUser $user */
-		$user = $params['user'];
-		$feature = $params['feature'];
-		$newValue = $params['value'];
-		$accountData = $this->accountManager->getUser($user);
+		$user = isset($params['user']) ? $params['user'] : null;
+		$feature = isset($params['feature']) ? $params['feature'] : null;
+		$newValue = isset($params['value']) ? $params['value'] : null;
+
+		if (is_null($user) || is_null($feature) || is_null($newValue)) {
+			$this->logger->warning('Missing expected parameters in change user hook');
+			return;
+		}
+
+		$accountData = $accountManager->getUser($user);
 
 		switch ($feature) {
 			case 'eMailAddress':
 				if ($accountData[AccountManager::PROPERTY_EMAIL]['value'] !== $newValue) {
 					$accountData[AccountManager::PROPERTY_EMAIL]['value'] = $newValue;
-					$this->accountManager->updateUser($user, $accountData);
+					$accountManager->updateUser($user, $accountData);
 				}
 				break;
 			case 'displayName':
 				if ($accountData[AccountManager::PROPERTY_DISPLAYNAME]['value'] !== $newValue) {
 					$accountData[AccountManager::PROPERTY_DISPLAYNAME]['value'] = $newValue;
-					$this->accountManager->updateUser($user, $accountData);
+					$accountManager->updateUser($user, $accountData);
 				}
 				break;
 		}
@@ -66,13 +85,14 @@ class Hooks {
 	 *
 	 * @return AccountManager
 	 */
-	protected function instantiateAccountManager() {
+	protected function getAccountManager() {
 		if (is_null($this->accountManager)) {
 			$this->accountManager = new AccountManager(
 				\OC::$server->getDatabaseConnection(),
 				\OC::$server->getEventDispatcher()
 			);
 		}
+		return $this->accountManager;
 	}
 
 }

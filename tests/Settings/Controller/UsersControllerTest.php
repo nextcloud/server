@@ -11,7 +11,6 @@
 namespace Tests\Settings\Controller;
 
 use OC\Accounts\AccountManager;
-use OC\ForbiddenException;
 use OC\Group\Manager;
 use OC\Settings\Controller\UsersController;
 use OCP\App\IAppManager;
@@ -2045,7 +2044,7 @@ class UsersControllerTest extends \Test\TestCase {
 	 */
 	public function testSetUserSettings($email, $validEmail, $expectedStatus) {
 		$controller = $this->getController(false, ['saveUserSettings']);
-		$user = $this->getMock(IUser::class);
+		$user = $this->createMock(IUser::class);
 
 		$this->userSession->method('getUser')->willReturn($user);
 
@@ -2102,10 +2101,11 @@ class UsersControllerTest extends \Test\TestCase {
 										 $oldDisplayName
 	) {
 		$controller = $this->getController();
-		$user = $this->getMock(IUser::class);
+		$user = $this->createMock(IUser::class);
 
 		$user->method('getDisplayName')->willReturn($oldDisplayName);
 		$user->method('getEMailAddress')->willReturn($oldEmailAddress);
+		$user->method('canChangeDisplayName')->willReturn(true);
 
 		if ($data[AccountManager::PROPERTY_EMAIL]['value'] !== $oldEmailAddress) {
 			$user->expects($this->once())->method('setEMailAddress')
@@ -2174,7 +2174,7 @@ class UsersControllerTest extends \Test\TestCase {
 	 * @param string $oldEmailAddress
 	 * @param string $oldDisplayName
 	 * @param bool $setDisplayNameResult
-	 * @param bool $setEmailResult
+	 * @param bool $canChangeEmail
 	 *
 	 * @expectedException \OC\ForbiddenException
 	 */
@@ -2182,18 +2182,17 @@ class UsersControllerTest extends \Test\TestCase {
 												  $oldEmailAddress,
 												  $oldDisplayName,
 												  $setDisplayNameResult,
-												  $setEmailResult
+												  $canChangeEmail
 	) {
 		$controller = $this->getController();
-		$user = $this->getMock(IUser::class);
+		$user = $this->createMock(IUser::class);
 
 		$user->method('getDisplayName')->willReturn($oldDisplayName);
 		$user->method('getEMailAddress')->willReturn($oldEmailAddress);
 
 		if ($data[AccountManager::PROPERTY_EMAIL]['value'] !== $oldEmailAddress) {
-			$user->method('setEMailAddress')
-				->with($data[AccountManager::PROPERTY_EMAIL]['value'])
-				->willReturn($setEmailResult);
+			$user->method('canChangeDisplayName')
+				->willReturn($canChangeEmail);
 		}
 
 		if ($data[AccountManager::PROPERTY_DISPLAYNAME]['value'] !== $oldDisplayName) {
@@ -2240,5 +2239,58 @@ class UsersControllerTest extends \Test\TestCase {
 			],
 
 		];
+	}
+
+	/**
+	 * @return array
+	 */
+	public function setEmailAddressData() {
+		return [
+			/* mailAddress,    isValid, expectsUpdate, canChangeDisplayName, responseCode */
+			[ '',              true,    true,          true,                 Http::STATUS_OK ],
+			[ 'foo@local',     true,    true,          true,                 Http::STATUS_OK],
+			[ 'foo@bar@local', false,   false,         true,                 Http::STATUS_UNPROCESSABLE_ENTITY],
+			[ 'foo@local',     true,    false,         false,                Http::STATUS_FORBIDDEN],
+		];
+	}
+	/**
+	 * @dataProvider setEmailAddressData
+	 *
+	 */
+	public function testSetEMailAddress($mailAddress, $isValid, $expectsUpdate, $canChangeDisplayName, $responseCode) {
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('foo'));
+		$user
+			->expects($this->any())
+			->method('canChangeDisplayName')
+			->will($this->returnValue($canChangeDisplayName));
+		$user
+			->expects($expectsUpdate ? $this->once() : $this->never())
+			->method('setEMailAddress')
+			->with(
+				$this->equalTo($mailAddress)
+			);
+		$this->mailer
+			->expects($this->any())
+			->method('validateMailAddress')
+			->with($mailAddress)
+			->willReturn($isValid);
+		if ($isValid) {
+			$user->expects($this->atLeastOnce())
+				->method('canChangeDisplayName')
+				->willReturn(true);
+			$this->userManager
+				->expects($this->atLeastOnce())
+				->method('get')
+				->with('foo')
+				->will($this->returnValue($user));
+		}
+		$controller = $this->getController(true);
+		$response = $controller->setEMailAddress($user->getUID(), $mailAddress);
+		$this->assertSame($responseCode, $response->getStatus());
 	}
 }
