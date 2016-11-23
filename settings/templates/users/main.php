@@ -72,6 +72,13 @@ translation('settings');
 						<?php p($l->t('Send email to new user')) ?>
 					</label>
 				</p>
+				<p style="padding-left: 20px" id="MailPasswordOnUserCreateSetting">
+					<input type="checkbox" name="MailPasswordOnUserCreate" value="MailPasswordOnUserCreate" id="CheckboxMailPasswordOnUserCreate"
+						   class="checkbox" <?php if ($_['send_passwordlink'] === 'true') print_unescaped('checked="checked"'); ?> />
+					<label for="CheckboxMailPasswordOnUserCreate">
+						<?php p($l->t('Send password link')) ?>
+					</label>
+				</p>
 				<p>
 					<input type="checkbox" name="EmailAddress" value="EmailAddress" id="CheckboxEmailAddress"
 						class="checkbox" <?php if ($_['show_email'] === 'true') print_unescaped('checked="checked"'); ?> />

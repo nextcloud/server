@@ -282,9 +282,9 @@ class Manager extends PublicEmitter implements IUserManager {
 			throw new \Exception($l->t('Username contains whitespace at the beginning or at the end'));
 		}
 		// No empty password
-		if (trim($password) == '') {
-			throw new \Exception($l->t('A valid password must be provided'));
-		}
+//		if (trim($password) == '') {
+//			throw new \Exception($l->t('A valid password must be provided'));
+//		}
 
 		// Check if user already exists
 		if ($this->userExists($uid)) {

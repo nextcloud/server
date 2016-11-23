@@ -124,5 +124,6 @@ $tmpl->assign('show_last_login', $config->getAppValue('core', 'umgmt_show_last_l
 $tmpl->assign('show_email', $config->getAppValue('core', 'umgmt_show_email', 'false'));
 $tmpl->assign('show_backend', $config->getAppValue('core', 'umgmt_show_backend', 'false'));
 $tmpl->assign('send_email', $config->getAppValue('core', 'umgmt_send_email', 'false'));
+$tmpl->assign('send_passwordlink', $config->getAppValue('core', 'umgmt_send_passwordlink', 'false'));
 
 $tmpl->printPage();
