@@ -59,6 +59,10 @@
 	var registerAppsSlideToggle = function () {
 		var buttons = $('[data-apps-slide-toggle]');
 
+		if (buttons.length === 0) {
+			$('#app-navigation').addClass('without-app-settings');
+		}
+
 		$(document).click(function (event) {
 
 			if (dynamicSlideToggleEnabled) {
