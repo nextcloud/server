@@ -40,6 +40,8 @@
 
 namespace OCA\User_LDAP;
 
+use OC\HintException;
+use OCA\User_LDAP\Exceptions\ConstraintViolationException;
 use OCA\User_LDAP\User\IUserTools;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
@@ -220,6 +222,30 @@ class Access extends LDAPUtility implements IUserTools {
 		}
 		\OCP\Util::writeLog('user_ldap', 'Requested attribute '.$attr.' not found for '.$dn, \OCP\Util::DEBUG);
 		return false;
+	}
+	
+	/**
+	 * Set password for an LDAP user identified by a DN
+	 * @param string $userDN the user in question
+	 * @param string $password the new password
+	 * @return bool
+	 */
+	public function setPassword($userDN, $password) {
+		if(intval($this->connection->turnOnPasswordChange) !== 1) {
+			throw new \Exception('LDAP password changes are disabled.');
+		}
+		$cr = $this->connection->getConnectionResource();
+		if(!$this->ldap->isResource($cr)) {
+			//LDAP not available
+			\OCP\Util::writeLog('user_ldap', 'LDAP resource not available.', \OCP\Util::DEBUG);
+			return false;
+		}
+		
+		try {
+			return $this->ldap->modReplace($cr, $userDN, $password);
+		} catch(ConstraintViolationException $e) {
+			throw new HintException('Password change rejected.', \OC::$server->getL10N('user_ldap')->t('Password change rejected. Hint: ').$e->getMessage(), $e->getCode());
+		}
 	}
 
 	/**
