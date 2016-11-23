@@ -1,0 +1,9 @@
+/*
+ * Installation css file.
+ * This file is used on the install page only when the database
+ * isn't set, preventing scss files to be stored using the AppdataController.
+ * It should contain every style needed to correctly display the installation template.
+ *
+ */
+
+ 

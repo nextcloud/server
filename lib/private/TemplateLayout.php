@@ -159,8 +159,13 @@ class TemplateLayout extends \OC_Template {
 			$this->append( 'jsfiles', $web.'/'.$file . '?v=' . self::$versionHash);
 		}
 
-		// Add the css files
-		$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
+		// Add the css files and check if server is already installed to prevent
+		// appdata initialisation before database configuration
+		if(\OC::$server->getSystemConfig()->getValue('installed', false)) {
+			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
+		} else {
+			$cssFiles = array(array(\OC::$SERVERROOT, '', 'core/css/installation.css'));
+		}
 		$this->assign('cssfiles', array());
 		$this->assign('printcssfiles', []);
 		$this->assign('versionHash', self::$versionHash);
