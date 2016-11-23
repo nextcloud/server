@@ -43,6 +43,10 @@
 	box-sizing: border-box;
 }
 
+#app-navigation.without-app-settings {
+	padding-bottom: 0;
+}
+
 #app-navigation .active.with-menu > a,
 #app-navigation .with-counter > a {
 	padding-right: 50px;
