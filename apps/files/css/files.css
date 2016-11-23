@@ -652,7 +652,7 @@ html.ie8 .column-mtime .selectedActions {
 #fileList .name:focus a.action:focus {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 	filter: alpha(opacity=70);
-	opacity: 7;
+	opacity: .7;
 	display:inline;
 }
 #fileList tr a.action.disabled {
@@ -660,14 +660,20 @@ html.ie8 .column-mtime .selectedActions {
 }
 
 /* show share action of shared items darker to distinguish from non-shared */
-#fileList a.action.permanent.shared-style,
-#fileList a.action.action-favorite.permanent {
+#fileList a.action.action-share.permanent.shared-style,
+#fileList a.action.action-favorite.permanent,
+/* show hovered permanent entries darker */
+#fileList tr a.action.action-share.permanent:hover,
+#fileList tr a.action.action-share.permanent:focus,
+#fileList tr a.action.action-menu.permanent:hover,
+#fileList tr a.action.action-menu.permanent:focus {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)" !important;
 	filter: alpha(opacity=70) !important;
 	opacity: .7 !important;
 	display:inline;
 }
 /* always show actions on mobile, not only on hover */
+#fileList a.action.action-share.permanent,
 #fileList a.action.action-menu.permanent {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)" !important;
 	filter: alpha(opacity=30) !important;
