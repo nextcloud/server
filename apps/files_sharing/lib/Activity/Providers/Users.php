@@ -112,7 +112,7 @@ class Users implements IProvider {
 				])
 				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_RESHARED_USER_BY) {
-			$event->setParsedSubject($this->l->t('%2$s shared with %1$s by', [
+			$event->setParsedSubject($this->l->t('%2$s shared with %1$s', [
 					$parsedParameters['user']['name'],
 					$parsedParameters['actor']['name'],
 				]))
