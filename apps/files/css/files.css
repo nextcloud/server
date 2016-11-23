@@ -668,6 +668,7 @@ html.ie8 .column-mtime .selectedActions {
 	display:inline;
 }
 /* always show actions on mobile, not only on hover */
+#fileList a.action.action-share.permanent,
 #fileList a.action.action-menu.permanent {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)" !important;
 	filter: alpha(opacity=30) !important;
