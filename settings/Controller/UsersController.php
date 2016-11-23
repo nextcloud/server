@@ -536,7 +536,6 @@ class UsersController extends Controller {
 									$twitterScope
 	) {
 
-
 		if(!empty($email) && !$this->mailer->validateMailAddress($email)) {
 			return new DataResponse(
 				array(
@@ -549,8 +548,6 @@ class UsersController extends Controller {
 			);
 		}
 
-		$user = $this->userSession->getUser();
-
 		$data = [
 			AccountManager::PROPERTY_AVATAR =>  ['scope' => $avatarScope],
 			AccountManager::PROPERTY_DISPLAYNAME => ['value' => $displayname, 'scope' => $displaynameScope],
@@ -561,7 +558,7 @@ class UsersController extends Controller {
 			AccountManager::PROPERTY_TWITTER => ['value' => $twitter, 'scope' => $twitterScope]
 		];
 
-		$this->accountManager->updateUser($user, $data);
+		$user = $this->userSession->getUser();
 
 		try {
 			$this->saveUserSettings($user, $data);
@@ -603,20 +600,25 @@ class UsersController extends Controller {
 	 * @param array $data
 	 * @throws ForbiddenException
 	 */
-	private function saveUserSettings(IUser $user, $data) {
+	protected function saveUserSettings(IUser $user, $data) {
 
 		// keep the user back-end up-to-date with the latest display name and email
 		// address
 		$oldDisplayName = $user->getDisplayName();
-		if (isset($data[AccountManager::PROPERTY_DISPLAYNAME]['value'])  && $oldDisplayName !== $data[AccountManager::PROPERTY_DISPLAYNAME]['value']) {
+		if (isset($data[AccountManager::PROPERTY_DISPLAYNAME]['value'])
+			&& $oldDisplayName !== $data[AccountManager::PROPERTY_DISPLAYNAME]['value']
+		) {
 			$result = $user->setDisplayName($data[AccountManager::PROPERTY_DISPLAYNAME]['value']);
 			if ($result === false) {
 				throw new ForbiddenException($this->l10n->t('Unable to change full name'));
 			}
 		}
 
-		if (isset($data['email'][0]['value']) && $user->getEMailAddress() !== $data['email'][0]['value']) {
-			$result = $user->setEMailAddress($data['email'][0]['value']);
+		$oldEmailAddress = $user->getEMailAddress();
+		if (isset($data[AccountManager::PROPERTY_EMAIL]['value'])
+			&& $oldEmailAddress !== $data[AccountManager::PROPERTY_EMAIL]['value']
+		) {
+			$result = $user->setEMailAddress($data[AccountManager::PROPERTY_EMAIL]['value']);
 			if ($result === false) {
 				throw new ForbiddenException($this->l10n->t('Unable to change mail address'));
 			}
