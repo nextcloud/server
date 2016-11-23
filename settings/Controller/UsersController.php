@@ -49,7 +49,9 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
 use OCP\IAvatarManager;
-use Punic\Exception;
+use OCP\Security\ICrypto;
+use OCP\Security\ISecureRandom;
+use OC\AppFramework\Utility\TimeFactory;
 
 /**
  * @package OC\Settings\Controller
@@ -85,6 +87,13 @@ class UsersController extends Controller {
 	private $avatarManager;
 	/** @var AccountManager */
 	private $accountManager;
+	/** @var ISecureRandom */
+	private $secureRandom;
+	/** @var TimeFactory */
+	private $timeFactory;
+	/** @var ICrypto */
+	private $crypto;
+
 
 	/**
 	 * @param string $appName
@@ -103,6 +112,9 @@ class UsersController extends Controller {
 	 * @param IAppManager $appManager
 	 * @param IAvatarManager $avatarManager
 	 * @param AccountManager $accountManager
+	 * @param ISecureRandom $secureRandom
+	 * @param TimeFactory $timeFactory
+	 * @param ICrypto $crypto
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -119,8 +131,10 @@ class UsersController extends Controller {
 								IURLGenerator $urlGenerator,
 								IAppManager $appManager,
 								IAvatarManager $avatarManager,
-								AccountManager $accountManager
-) {
+								AccountManager $accountManager,
+								ISecureRandom $secureRandom,
+								TimeFactory $timeFactory,
+								ICrypto $crypto) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -135,6 +149,9 @@ class UsersController extends Controller {
 		$this->urlGenerator = $urlGenerator;
 		$this->avatarManager = $avatarManager;
 		$this->accountManager = $accountManager;
+		$this->secureRandom = $secureRandom;
+		$this->timeFactory = $timeFactory;
+		$this->crypto = $crypto;
 
 		// check for encryption state - TODO see formatUserForIndex
 		$this->isEncryptionAppEnabled = $appManager->isEnabledForUser('encryption');
@@ -394,10 +411,24 @@ class UsersController extends Controller {
 			if($email !== '') {
 				$user->setEMailAddress($email);
 
+				$token = $this->secureRandom->generate(
+					21,
+					ISecureRandom::CHAR_DIGITS.
+					ISecureRandom::CHAR_LOWER.
+					ISecureRandom::CHAR_UPPER
+				);
+				$tokenValue = $this->timeFactory->getTime() .':'. $token;
+				$mailAddress = !is_null($user->getEMailAddress()) ? $user->getEMailAddress() : '';
+				$encryptedValue = $this->crypto->encrypt($tokenValue, $mailAddress.$this->config->getSystemValue('secret'));
+				$this->config->setUserValue($username, 'core', 'lostpassword', $encryptedValue);
+
+				$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', array('userId' => $username, 'token' => $token));
+
+
 				// data for the mail template
 				$mailData = array(
 					'username' => $username,
-					'url' => $this->urlGenerator->getAbsoluteURL('/')
+					'url' =>$link
 				);
 
 				$mail = new TemplateResponse('settings', 'email.new_user', $mailData, 'blank');
