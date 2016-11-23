@@ -177,6 +177,14 @@ class Encryption implements IEncryptionModule {
 		$this->isWriteOperation = false;
 		$this->writeCache = '';
 
+		if($this->session->isReady() === false) {
+			// if the master key is enabled we can initialize encryption
+			// with a empty password and user name
+			if ($this->util->isMasterKeyEnabled()) {
+				$this->keyManager->init('', '');
+			}
+		}
+
 		if ($this->session->decryptAllModeActivated()) {
 			$encryptedFileKey = $this->keyManager->getEncryptedFileKey($this->path);
 			$shareKey = $this->keyManager->getShareKey($this->path, $this->session->getDecryptAllUid());
