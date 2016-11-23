@@ -758,6 +758,7 @@ class OC {
 		self::registerLogRotate();
 		self::registerEncryptionWrapper();
 		self::registerEncryptionHooks();
+		self::registerAccountHooks();
 		self::registerSettingsHooks();
 
 		//make sure temporary files are cleaned up
@@ -866,6 +867,11 @@ class OC {
 			\OCP\Util::connectHook('OC_Filesystem', 'post_rename', 'OC\Encryption\HookManager', 'postRename');
 			\OCP\Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', 'OC\Encryption\HookManager', 'postRestore');
 		}
+	}
+
+	private static function registerAccountHooks() {
+		$hookHandler = new \OC\Accounts\Hooks();
+		\OCP\Util::connectHook('OC_User', 'changeUser', $hookHandler, 'changeUserHook');
 	}
 
 	/**
