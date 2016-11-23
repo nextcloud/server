@@ -211,7 +211,9 @@ class ThemingController extends Controller {
 			$tmpFile = $this->tempManager->getTemporaryFile();
 			if(function_exists('imagescale')) {
 				// FIXME: Once PHP 5.5.0 is a requirement the above check can be removed
-				$image = imagescale($image, 1920);
+				// Workaround for https://bugs.php.net/bug.php?id=65171
+				$newHeight = imagesy($image)/(imagesx($image)/1920);
+				$image = imagescale($image, 1920, $newHeight);
 			}
 			imageinterlace($image, 1);
 			imagejpeg($image, $tmpFile, 75);
