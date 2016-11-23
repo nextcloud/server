@@ -406,6 +406,40 @@ trait WebDav {
 		return $response;
 	}
 
+	/*Returns the elements of a report command*/
+	public function reportFolder($user, $path, $properties = null){
+		$client = $this->getSabreClient($user);
+
+		$body = [ 'body' => '<?xml version="1.0" encoding="utf-8" ?>
+							 <oc:filter-files xmlns:a="DAV:" xmlns:oc="http://owncloud.org/ns" >
+								 <a:prop>
+									 <oc:id/>
+									 <oc:fileid/>
+									 <oc:permissions/>
+									 <a:getlastmodified/>
+									 <a:getetag/>
+									 <oc:downloadURL/>
+									 <oc:ddC/>
+									 <oc:size/>
+									 <oc:owner-id/>
+									 <oc:owner-display-name/>
+									 <oc:size/>
+									 <oc:checksum />
+									 <oc:tags />
+									 <a:quota-used-bytes/>
+									 <a:quota-available-bytes/>
+									 <oc:favorite/>
+								 </a:prop>
+								 <oc:filter-rules>
+									<oc:favorite>1</oc:favorite>
+								 </oc:filter-rules>
+							 </oc:filter-files>'];
+
+		$response = $client->request('REPORT', $this->makeSabrePath($user, $path), $body);
+
+		return $response;
+	}
+
 	public function makeSabrePath($user, $path) {
 		return $this->encodePath($this->getDavFilesPath($user) . $path);
 	}
@@ -637,7 +671,6 @@ trait WebDav {
 		$this->asGetsPropertiesOfFolderWith($user, 'entry', $path, $propertiesTable);
 		$pathETAG[$path] = $this->response['{DAV:}getetag'];
 		$this->storedETAG[$user]= $pathETAG;
-		print_r($this->storedETAG[$user][$path]);
 	}
 
 	/**
@@ -681,4 +714,25 @@ trait WebDav {
 			}
 		}
     }
+
+    /**
+	 * @Then /^user "([^"]*)" in folder "([^"]*)" should have favorited the following elements$/
+	 * @param string $user
+	 * @param string $folder
+	 * @param \Behat\Gherkin\Node\TableNode|null $expectedElements
+	 */
+	public function checkFavoritedElements($user, $folder, $expectedElements){
+		$elementList = $this->reportFolder($user, $folder);
+		if ($expectedElements instanceof \Behat\Gherkin\Node\TableNode) {
+			$elementRows = $expectedElements->getRows();
+			$elementsSimplified = $this->simplifyArray($elementRows);
+			foreach($elementsSimplified as $expectedElement) {
+				$webdavPath = "/" . $this->getDavFilesPath($user) . $expectedElement;
+				if (!array_key_exists($webdavPath,$elementList)){
+					PHPUnit_Framework_Assert::fail("$webdavPath" . " is not in report answer");
+				}
+			}
+		}
+	}
+
 }

@@ -78,3 +78,15 @@ Feature: favorite
             |{http://owncloud.org/ns}favorite|
         And the single response should contain a property "{http://owncloud.org/ns}favorite" with value ""
 
+    Scenario: Get favorited elements of a folder
+        Given using old dav path
+        And As an "admin"
+        And user "user0" exists
+        When user "user0" favorites element "/FOLDER"
+        And user "user0" favorites element "/textfile0.txt"
+        And user "user0" favorites element "/textfile1.txt"
+        Then user "user0" in folder "/" should have favorited the following elements
+            | /FOLDER       |
+            | /textfile0.txt |
+            | /textfile1.txt |
+
