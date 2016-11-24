@@ -30,11 +30,11 @@ abstract class Fetcher {
 	const INVALIDATE_AFTER_SECONDS = 300;
 
 	/** @var IAppData */
-	private $appData;
+	protected $appData;
 	/** @var IClientService */
-	private $clientService;
+	protected $clientService;
 	/** @var ITimeFactory */
-	private $timeFactory;
+	protected $timeFactory;
 	/** @var string */
 	protected $fileName;
 	/** @var string */
@@ -51,6 +51,20 @@ abstract class Fetcher {
 		$this->appData = $appData;
 		$this->clientService = $clientService;
 		$this->timeFactory = $timeFactory;
+	}
+
+	/**
+	 * Fetches the response from the server
+	 *
+	 * @return array
+	 */
+	protected function fetch() {
+		$client = $this->clientService->newClient();
+		$response = $client->get($this->endpointUrl);
+		$responseJson = [];
+		$responseJson['data'] = json_decode($response->getBody(), true);
+		$responseJson['timestamp'] = $this->timeFactory->getTime();
+		return $responseJson;
 	}
 
 	/**
@@ -77,12 +91,8 @@ abstract class Fetcher {
 		}
 
 		// Refresh the file content
-		$client = $this->clientService->newClient();
 		try {
-			$response = $client->get($this->endpointUrl);
-			$responseJson = [];
-			$responseJson['data'] = json_decode($response->getBody(), true);
-			$responseJson['timestamp'] = $this->timeFactory->getTime();
+			$responseJson = $this->fetch();
 			$file->putContent(json_encode($responseJson));
 			return json_decode($file->getContent(), true)['data'];
 		} catch (\Exception $e) {

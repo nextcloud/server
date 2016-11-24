@@ -21,7 +21,6 @@
 
 namespace Test\App\AppStore\Fetcher;
 
-use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\Fetcher;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
