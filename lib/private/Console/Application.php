@@ -31,6 +31,7 @@ use OC_App;
 use OCP\AppFramework\QueryException;
 use OCP\Console\ConsoleEvent;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\IRequest;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\InputInterface;
@@ -45,18 +46,22 @@ class Application {
 	private $dispatcher;
 	/** @var IRequest */
 	private $request;
+	/** @var ILogger  */
+	private $logger;
 
 	/**
 	 * @param IConfig $config
 	 * @param EventDispatcherInterface $dispatcher
 	 * @param IRequest $request
+	 * @param ILogger $logger
 	 */
-	public function __construct(IConfig $config, EventDispatcherInterface $dispatcher, IRequest $request) {
+	public function __construct(IConfig $config, EventDispatcherInterface $dispatcher, IRequest $request, ILogger $logger) {
 		$defaults = \OC::$server->getThemingDefaults();
 		$this->config = $config;
 		$this->application = new SymfonyApplication($defaults->getName(), \OC_Util::getVersionString());
 		$this->dispatcher = $dispatcher;
 		$this->request = $request;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -110,7 +115,11 @@ class Application {
 						\OC_App::registerAutoloading($app, $appPath);
 						$file = $appPath . '/appinfo/register_command.php';
 						if (file_exists($file)) {
-							require $file;
+							try {
+								require $file;
+							} catch (\Exception $e) {
+								$this->logger->logException($e);
+							}
 						}
 					}
 				}
