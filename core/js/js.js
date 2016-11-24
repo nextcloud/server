@@ -69,8 +69,8 @@ var OCP = {},
 	TAG_FAVORITE: '_$!<Favorite>!$_',
 	/* jshint camelcase: false */
 	/**
-	 * Relative path to ownCloud root.
-	 * For example: "/owncloud"
+	 * Relative path to Nextcloud root.
+	 * For example: "/nextcloud"
 	 *
 	 * @type string
 	 *
@@ -240,7 +240,7 @@ var OCP = {},
 	},
 
 	/**
-	 * Protocol that is used to access this ownCloud instance
+	 * Protocol that is used to access this Nextcloud instance
 	 * @return {string} Used protocol
 	 */
 	getProtocol: function() {
@@ -248,7 +248,7 @@ var OCP = {},
 	},
 
 	/**
-	 * Returns the host used to access this ownCloud instance
+	 * Returns the host used to access this Nextcloud instance
 	 * Host is sometimes the same as the hostname but now always.
 	 *
 	 * Examples:
@@ -265,7 +265,7 @@ var OCP = {},
 	},
 
 	/**
-	 * Returns the hostname used to access this ownCloud instance
+	 * Returns the hostname used to access this Nextcloud instance
 	 * The hostname is always stripped of the port
 	 *
 	 * @return {string} hostname
@@ -276,7 +276,7 @@ var OCP = {},
 	},
 
 	/**
-	 * Returns the port number used to access this ownCloud instance
+	 * Returns the port number used to access this Nextcloud instance
 	 *
 	 * @return {int} port number
 	 *
@@ -287,9 +287,9 @@ var OCP = {},
 	},
 
 	/**
-	 * Returns the web root path where this ownCloud instance
+	 * Returns the web root path where this Nextcloud instance
 	 * is accessible, with a leading slash.
-	 * For example "/owncloud".
+	 * For example "/nextcloud".
 	 *
 	 * @return {string} web root path
 	 *
@@ -1404,7 +1404,7 @@ function initCore() {
 	// move triangle of apps dropdown to align with app name triangle
 	// 2 is the additional offset between the triangles
 	if($('#navigation').length) {
-		$('#header #owncloud + .menutoggle').one('click', function(){
+		$('#header #nextcloud + .menutoggle').one('click', function(){
 			var caretPosition = $('.header-appname + .icon-caret').offset().left - 2;
 			if(caretPosition > 255) {
 				// if the app name is longer than the menu, just put the triangle in the middle

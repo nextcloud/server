@@ -36,7 +36,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
 <header><div id="header" class="<?php p((isset($_['folder']) ? 'share-folder' : 'share-file')) ?>">
 		<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
-		   title="" id="owncloud">
+		   title="" id="nextcloud">
 			<div class="logo-icon svg">
 			</div>
 		</a>

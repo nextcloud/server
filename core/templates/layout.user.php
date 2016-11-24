@@ -43,7 +43,7 @@
 	</div>
 	<header role="banner"><div id="header">
 			<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
-				id="owncloud" tabindex="1">
+				id="nextcloud" tabindex="1">
 				<div class="logo-icon">
 					<h1 class="hidden-visually">
 						<?php p($theme->getName()); ?>

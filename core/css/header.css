@@ -46,7 +46,7 @@
 
 /* LOGO and APP NAME -------------------------------------------------------- */
 
-#owncloud {
+#nextcloud {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -57,12 +57,12 @@
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	opacity: 1;
 }
-#owncloud:focus {
+#nextcloud:focus {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
 	opacity: .75;
 }
-#owncloud:hover,
-#owncloud:active {
+#nextcloud:hover,
+#nextcloud:active {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	opacity: 1;
 }
