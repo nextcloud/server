@@ -90,3 +90,47 @@ Feature: favorite
             | /textfile0.txt |
             | /textfile1.txt |
 
+    Scenario: Get favorited elements of a folder using new path
+        Given using new dav path
+        And As an "admin"
+        And user "user0" exists
+        When user "user0" favorites element "/FOLDER"
+        And user "user0" favorites element "/textfile0.txt"
+        And user "user0" favorites element "/textfile1.txt"
+        Then user "user0" in folder "/" should have favorited the following elements
+            | /FOLDER |
+            | /textfile0.txt |
+            | /textfile1.txt |
+
+    Scenario: Get favorited elements of a subfolder
+        Given using old dav path
+        And As an "admin"
+        And user "user0" exists
+        And user "user0" created a folder "/subfolder"
+        And User "user0" moves file "/textfile0.txt" to "/subfolder/textfile0.txt"
+        And User "user0" moves file "/textfile1.txt" to "/subfolder/textfile1.txt"
+        And User "user0" moves file "/textfile2.txt" to "/subfolder/textfile2.txt"
+        When user "user0" favorites element "/subfolder/textfile0.txt"
+        And user "user0" favorites element "/subfolder/textfile1.txt"
+        And user "user0" favorites element "/subfolder/textfile2.txt"
+        And user "user0" unfavorites element "/subfolder/textfile1.txt"
+        Then user "user0" in folder "/subfolder" should have favorited the following elements
+            | /subfolder/textfile0.txt |
+            | /subfolder/textfile2.txt |
+
+    Scenario: Get favorited elements of a subfolder using new path
+        Given using old dav path
+        And As an "admin"
+        And user "user0" exists
+        And user "user0" created a folder "/subfolder"
+        And User "user0" moves file "/textfile0.txt" to "/subfolder/textfile0.txt"
+        And User "user0" moves file "/textfile1.txt" to "/subfolder/textfile1.txt"
+        And User "user0" moves file "/textfile2.txt" to "/subfolder/textfile2.txt"
+        When user "user0" favorites element "/subfolder/textfile0.txt"
+        And user "user0" favorites element "/subfolder/textfile1.txt"
+        And user "user0" favorites element "/subfolder/textfile2.txt"
+        And user "user0" unfavorites element "/subfolder/textfile1.txt"
+        Then user "user0" in folder "/subfolder" should have favorited the following elements
+            | /subfolder/textfile0.txt |
+            | /subfolder/textfile2.txt |
+
