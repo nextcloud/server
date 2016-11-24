@@ -3,7 +3,7 @@ Feature: webdav-related
 		Given using api version "1"
 
 	Scenario: Moving a file
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		And As an "user0"
@@ -12,7 +12,7 @@ Feature: webdav-related
 		And Downloaded content when downloading file "/FOLDER/welcome.txt" with range "bytes=0-6" should be "Welcome"
 
 	Scenario: Moving and overwriting a file old way
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		And As an "user0"
@@ -21,7 +21,7 @@ Feature: webdav-related
 		And Downloaded content when downloading file "/textfile0.txt" with range "bytes=0-6" should be "Welcome"
 
 	Scenario: Moving a file to a folder with no permissions
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		And user "user1" exists
@@ -39,7 +39,7 @@ Feature: webdav-related
  		Then the HTTP status code should be "404"
 
 	Scenario: Moving a file to overwrite a file in a folder with no permissions
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		And user "user1" exists
@@ -57,7 +57,7 @@ Feature: webdav-related
 		And Downloaded content when downloading file "/testshare/overwritethis.txt" with range "bytes=0-6" should be "Welcome"
 
 	Scenario: Copying a file
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		And As an "user0"
@@ -66,7 +66,7 @@ Feature: webdav-related
 		And Downloaded content when downloading file "/FOLDER/welcome.txt" with range "bytes=0-6" should be "Welcome"
 
 	Scenario: Copying and overwriting a file
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		And As an "user0"
@@ -75,7 +75,7 @@ Feature: webdav-related
 		And Downloaded content when downloading file "/textfile1.txt" with range "bytes=0-6" should be "Welcome"
 
 	Scenario: Copying a file to a folder with no permissions
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		And user "user1" exists
@@ -93,7 +93,7 @@ Feature: webdav-related
 		And the HTTP status code should be "404"
 
 	Scenario: Copying a file to overwrite a file into a folder with no permissions
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		And user "user1" exists
@@ -111,13 +111,13 @@ Feature: webdav-related
 		And Downloaded content when downloading file "/testshare/overwritethis.txt" with range "bytes=0-6" should be "Welcome"
 
 	Scenario: download a file with range
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		When Downloading file "/welcome.txt" with range "bytes=51-77"
 		Then Downloaded content should be "example file for developers"
 
 	Scenario: Upload forbidden if quota is 0
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		And user "user0" has a quota of "0"
@@ -125,7 +125,7 @@ Feature: webdav-related
 		Then the HTTP status code should be "507"
 
 	Scenario: Retrieving folder quota when no quota is set
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		When user "user0" has unlimited quota
@@ -134,7 +134,7 @@ Feature: webdav-related
 		And the single response should contain a property "{DAV:}quota-available-bytes" with value "-3"
 
 	Scenario: Retrieving folder quota when quota is set
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		When user "user0" has a quota of "10 MB"
@@ -143,7 +143,7 @@ Feature: webdav-related
 		And the single response should contain a property "{DAV:}quota-available-bytes" with value "10485429"
 
 	Scenario: Retrieving folder quota of shared folder with quota when no quota is set for recipient
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		And user "user1" exists
@@ -161,7 +161,7 @@ Feature: webdav-related
 		And the single response should contain a property "{DAV:}quota-available-bytes" with value "10485429"
 
 	Scenario: Uploading a file as recipient using webdav having quota
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		And user "user1" exists
@@ -179,7 +179,7 @@ Feature: webdav-related
 		Then the HTTP status code should be "201"
 
 	Scenario: Retrieving folder quota when quota is set and a file was uploaded
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		And user "user0" has a quota of "1 KB"
@@ -189,7 +189,7 @@ Feature: webdav-related
 		Then the single response should contain a property "{DAV:}quota-available-bytes" with value "600"
 
 	Scenario: Retrieving folder quota when quota is set and a file was recieved
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
 		And user "user1" exists
@@ -219,7 +219,7 @@ Feature: webdav-related
 		Then Downloaded content should be "wnCloud"
 
 	Scenario: Downloading a file on the old endpoint should serve security headers
-		Given using dav path "remote.php/webdav"
+		Given using old dav path
 		And As an "admin"
 		When Downloading file "/welcome.txt"
 		Then The following headers should be set
@@ -354,4 +354,3 @@ Feature: webdav-related
 			| 0 |
 			| 1 |
 			| 3 |
-
