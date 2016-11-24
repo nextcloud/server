@@ -60,7 +60,8 @@ class GeneratorHelper {
 	 * This is required to create the old view and path
 	 */
 	private function getViewAndPath(File $file) {
-		$owner = $file->getOwner()->getUID();
+		$absPath = ltrim($file->getPath(), '/');
+		$owner = explode('/', $absPath)[0];
 
 		$userFolder = $this->rootFolder->getUserFolder($owner)->getParent();
 
