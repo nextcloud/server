@@ -281,9 +281,11 @@ class Manager extends PublicEmitter implements IUserManager {
 		if (strlen(trim($uid, "\t\n\r\0\x0B\xe2\x80\x8b")) !== strlen(trim($uid))) {
 			throw new \Exception($l->t('Username contains whitespace at the beginning or at the end'));
 		}
-		// empty password only allowed if password link is sent
+		// if password link is sent use random password; permit empty password
 		if (trim($password) == '' && $this->config->getAppValue('core', 'umgmt_send_passwordlink', 'false') === 'false') {
 			throw new \Exception($l->t('A valid password must be provided'));
+		} else {
+			$password = \OC::$server->getSecureRandom()->generate(32);
 		}
 
 		// Check if user already exists
