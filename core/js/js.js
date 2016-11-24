@@ -1579,6 +1579,7 @@ OC.PasswordConfirmation = {
 				}
 			},
 			error: function() {
+				OC.PasswordConfirmation.requirePasswordConfirmation(self.callback);
 				OC.Notification.showTemporary(t('core', 'Failed to authenticate, try again'));
 			}
 		});
