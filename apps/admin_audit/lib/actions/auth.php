@@ -34,7 +34,8 @@ class Auth extends Action {
 			$params,
 			[
 				'uid',
-			]
+			],
+			true
 		);
 	}
 
@@ -44,7 +45,8 @@ class Auth extends Action {
 			$params,
 			[
 				'uid',
-			]
+			],
+			true
 		);
 	}
 
