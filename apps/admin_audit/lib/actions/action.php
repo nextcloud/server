@@ -41,18 +41,28 @@ class Action {
 	 * @param string $text
 	 * @param array $params
 	 * @param array $elements
+	 * @param bool $obfuscateParameters
 	 */
 	public function log($text,
 						array $params,
-						array $elements) {
+						array $elements,
+						$obfuscateParameters = false) {
 		foreach($elements as $element) {
 			if(!isset($params[$element])) {
-				$this->logger->critical(
-					sprintf(
-						'$params["'.$element.'"] was missing. Transferred value: %s',
-						print_r($params, true)
-					)
-				);
+				if ($obfuscateParameters) {
+					$this->logger->critical(
+						'$params["'.$element.'"] was missing.',
+						['app' => 'admin_audit']
+					);
+				} else {
+					$this->logger->critical(
+						sprintf(
+							'$params["'.$element.'"] was missing. Transferred value: %s',
+							print_r($params, true)
+						),
+						['app' => 'admin_audit']
+					);
+				}
 				return;
 			}
 		}
