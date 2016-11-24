@@ -127,10 +127,9 @@ class JSConfigHelper {
 		}
 
 		if ($this->currentUser instanceof IUser) {
-			$lastConfirmTimestamp = $this->currentUser->getLastLogin();
-			$sessionTime = $this->session->get('last-password-confirm');
-			if (is_int($sessionTime)) {
-				$lastConfirmTimestamp = $sessionTime;
+			$lastConfirmTimestamp = $this->session->get('last-password-confirm');
+			if (!is_int($lastConfirmTimestamp)) {
+				$lastConfirmTimestamp = 0;
 			}
 		} else {
 			$lastConfirmTimestamp = 0;
