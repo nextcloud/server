@@ -96,7 +96,7 @@
 		},
 
 		toggleLoading: function (state) {
-			this.$('.token-list').toggleClass('icon-loading', state);
+			this.$('table').toggleClass('icon-loading', state);
 		},
 
 		_toggleHeader: function (show) {

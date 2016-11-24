@@ -286,7 +286,7 @@ if($_['passwordChangeSupported']) {
 <div id="sessions" class="section">
 	<h2><?php p($l->t('Sessions'));?></h2>
 	<span class="hidden-when-empty"><?php p($l->t('Web, desktop and mobile clients currently logged in to your account.'));?></span>
-	<table>
+	<table class="icon-loading">
 		<thead class="token-list-header">
 			<tr>
 				<th><?php p($l->t('Device'));?></th>
@@ -294,7 +294,7 @@ if($_['passwordChangeSupported']) {
 				<th></th>
 			</tr>
 		</thead>
-		<tbody class="token-list icon-loading">
+		<tbody class="token-list">
 		</tbody>
 	</table>
 </div>
@@ -302,7 +302,7 @@ if($_['passwordChangeSupported']) {
 <div id="apppasswords" class="section">
 	<h2><?php p($l->t('App passwords'));?></h2>
 	<p><?php p($l->t('Passcodes that give an app or device permissions to access your account.'));?></p>
-	<table>
+	<table class="icon-loading">
 		<thead class="hidden-when-empty">
 			<tr>
 				<th><?php p($l->t('Name'));?></th>
@@ -310,7 +310,7 @@ if($_['passwordChangeSupported']) {
 				<th></th>
 			</tr>
 		</thead>
-		<tbody class="token-list icon-loading">
+		<tbody class="token-list">
 		</tbody>
 	</table>
 	<div id="app-password-form">
