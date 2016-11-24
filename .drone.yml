@@ -113,7 +113,7 @@ pipeline:
         DB: NODB
         PHP: "7.0"
   nodb-php7.1:
-    image: nextcloudci/php7.1:php7.1-9
+    image: nextcloudci/php7.1:php7.1-10
     commands:
       - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
     when:
@@ -137,7 +137,7 @@ pipeline:
         DB: sqlite
         PHP: "7.0"
   sqlite-php7.1:
-    image: nextcloudci/php7.1:php7.1-9
+    image: nextcloudci/php7.1:php7.1-10
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
     when:
