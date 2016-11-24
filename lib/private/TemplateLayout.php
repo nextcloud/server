@@ -164,7 +164,11 @@ class TemplateLayout extends \OC_Template {
 		if(\OC::$server->getSystemConfig()->getValue('installed', false)) {
 			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
 		} else {
-			$cssFiles = array(array(\OC::$SERVERROOT, '', 'core/css/installation.css'));
+			$cssFiles = array(
+				[\OC::$SERVERROOT, '', 'core/css/global.css'],
+				[\OC::$SERVERROOT, '', 'core/css/fonts.css'],
+				[\OC::$SERVERROOT, '', 'core/css/installation.css']
+			);
 		}
 		$this->assign('cssfiles', array());
 		$this->assign('printcssfiles', []);
