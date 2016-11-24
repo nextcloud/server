@@ -410,7 +410,7 @@ class UserMountCacheTest extends TestCase {
 	public function testGetMountsForFileIdDeletedUser() {
 		$user1 = $this->userManager->get('u1');
 
-		list($storage1, $rootId) = $this->getStorage(2);
+		$storage1 = $this->getStorage(1, 2);
 		$rootId = $this->createCacheEntry('', 2);
 		$mount1 = new MountPoint($storage1, '/foo/');
 		$this->cache->registerMounts($user1, [$mount1]);
