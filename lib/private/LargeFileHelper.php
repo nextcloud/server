@@ -98,10 +98,6 @@ class LargeFileHelper {
 		if (!is_null($fileSize)) {
 			return $fileSize;
 		}
-		$fileSize = $this->getFileSizeViaCOM($filename);
-		if (!is_null($fileSize)) {
-			return $fileSize;
-		}
 		$fileSize = $this->getFileSizeViaExec($filename);
 		if (!is_null($fileSize)) {
 			return $fileSize;
