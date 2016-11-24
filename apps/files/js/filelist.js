@@ -1691,44 +1691,49 @@
 				urlSpec = {};
 			ready(iconURL); // set mimeicon URL
 
-			urlSpec.file = OCA.Files.Files.fixPath(path);
-			if (options.x) {
-				urlSpec.x = options.x;
-			}
-			if (options.y) {
-				urlSpec.y = options.y;
-			}
-			if (options.a) {
-				urlSpec.a = options.a;
-			}
-			if (options.mode) {
-				urlSpec.mode = options.mode;
-			}
-
-			if (etag){
-				// use etag as cache buster
-				urlSpec.c = etag;
-			}
-
-			previewURL = self.generatePreviewUrl(urlSpec);
-			previewURL = previewURL.replace('(', '%28');
-			previewURL = previewURL.replace(')', '%29');
-
-			// preload image to prevent delay
-			// this will make the browser cache the image
 			var img = new Image();
-			img.onload = function(){
-				// if loading the preview image failed (no preview for the mimetype) then img.width will < 5
-				if (img.width > 5) {
-					ready(previewURL, img);
-				} else if (options.error) {
-					options.error();
+
+			if (oc_appconfig.core.previewsEnabled) {
+				urlSpec.file = OCA.Files.Files.fixPath(path);
+				if (options.x) {
+					urlSpec.x = options.x;
 				}
-			};
-			if (options.error) {
-				img.onerror = options.error;
+				if (options.y) {
+					urlSpec.y = options.y;
+				}
+				if (options.a) {
+					urlSpec.a = options.a;
+				}
+				if (options.mode) {
+					urlSpec.mode = options.mode;
+				}
+
+				if (etag) {
+					// use etag as cache buster
+					urlSpec.c = etag;
+				}
+
+				previewURL = self.generatePreviewUrl(urlSpec);
+				previewURL = previewURL.replace('(', '%28');
+				previewURL = previewURL.replace(')', '%29');
+
+				// preload image to prevent delay
+				// this will make the browser cache the image
+				img.onload = function () {
+					// if loading the preview image failed (no preview for the mimetype) then img.width will < 5
+					if (img.width > 5) {
+						ready(previewURL, img);
+					} else if (options.error) {
+						options.error();
+					}
+				};
+				if (options.error) {
+					img.onerror = options.error;
+				}
+				img.src = previewURL;
+			} else {
+				ready(iconURL, img);
 			}
-			img.src = previewURL;
 		},
 
 		/**
