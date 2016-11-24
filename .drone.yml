@@ -62,6 +62,14 @@ pipeline:
     when:
       matrix:
         TESTS: syntax-php7.0
+  syntax-php7.1:
+    image: nextcloudci/php7.1:php7.1-10
+    commands:
+      - composer install
+      - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
+    when:
+      matrix:
+        TESTS: syntax-php7.1
   litmus-v1:
     image: nextcloudci/litmus-php7.0:litmus-php7.0-4
     commands:
@@ -379,6 +387,7 @@ matrix:
     - TESTS: app-check-code
     - TESTS: syntax-php5.6
     - TESTS: syntax-php7.0
+    - TESTS: syntax-php7.1
     - TESTS: litmus-v1
     - TESTS: litmus-v2
     - TESTS: caldavtester
