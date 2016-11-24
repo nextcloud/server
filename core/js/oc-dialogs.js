@@ -149,6 +149,7 @@ var OCdialogs = {
 				modal        : modal,
 				buttons      : buttonlist
 			});
+			input.focus();
 			OCdialogs.dialogsCounter++;
 		});
 	},
