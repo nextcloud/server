@@ -15,10 +15,10 @@ style('federation', 'settings-admin')
 		<label for="autoAddServers"><?php p($l->t('Add server automatically once a federated share was created successfully')); ?></label>
 	</p>
 
-	<h3><?php p($l->t('Trusted Servers')); ?></h3>
+	<h3><?php p($l->t('Trusted servers')); ?></h3>
 	<p id="ocFederationAddServer">
-		<button id="ocFederationAddServerButton" class=""><?php p($l->t('+ Add Nextcloud server')); ?></button>
-		<input id="serverUrl" class="hidden" type="text" value="" placeholder="<?php p($l->t('Nextcloud Server')); ?>" name="server_url"/>
+		<button id="ocFederationAddServerButton" class=""><?php p($l->t('+ Add trusted server')); ?></button>
+		<input id="serverUrl" class="hidden" type="text" value="" placeholder="<?php p($l->t('Trusted server')); ?>" name="server_url"/>
 		<button id="ocFederationSubmit" class="hidden"><?php p($l->t('Add')); ?></button>
 		<span class="msg"></span>
 	</p>
