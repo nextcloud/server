@@ -309,6 +309,7 @@
 	margin-bottom: -3px;
 	margin-right: 6px;
 	background-size: 16px 16px;
+	vertical-align: middle;
 }
 #expand {
 	display: block;
