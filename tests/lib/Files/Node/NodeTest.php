@@ -579,6 +579,87 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->assertEquals('/bar/asd', $node->getPath());
 	}
 
+	public function moveOrCopyProvider() {
+		return [
+			['move', 'rename', 'preRename', 'postRename'],
+			['copy', 'copy', 'preCopy', 'postCopy'],
+		];
+	}
+
+	/**
+	 * @dataProvider moveOrCopyProvider
+	 * @param string $operationMethod
+	 * @param string $viewMethod
+	 * @param string $preHookName
+	 * @param string $postHookName
+	 */
+	public function testMoveCopyHooks($operationMethod, $viewMethod, $preHookName, $postHookName) {
+		/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject $root */
+		$root = $this->getMockBuilder('\OC\Files\Node\Root')
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
+			->setMethods(['get'])
+			->getMock();
+
+		$this->view->expects($this->any())
+			->method($viewMethod)
+			->with('/bar/foo', '/bar/asd')
+			->will($this->returnValue(true));
+
+		$this->view->expects($this->any())
+			->method('getFileInfo')
+			->will($this->returnValue($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 1])));
+
+		/**
+		 * @var \OC\Files\Node\File|\PHPUnit_Framework_MockObject_MockObject $node
+		 */
+		$node = $this->createTestNode($root, $this->view, '/bar/foo');
+		$parentNode = new \OC\Files\Node\Folder($root, $this->view, '/bar');
+		$targetTestNode = $this->createTestNode($root, $this->view, '/bar/asd');
+
+		$root->expects($this->any())
+			->method('get')
+			->will($this->returnValueMap([['/bar', $parentNode], ['/bar/asd', $targetTestNode]]));
+
+		$hooksRun = 0;
+
+		$preListener = function (Node $sourceNode, Node $targetNode) use (&$hooksRun, $node) {
+			$this->assertSame($node, $sourceNode);
+			$this->assertInstanceOf($this->getNodeClass(), $sourceNode);
+			$this->assertInstanceOf($this->getNonExistingNodeClass(), $targetNode);
+			$this->assertEquals('/bar/asd', $targetNode->getPath());
+			$hooksRun++;
+		};
+
+		$postListener = function (Node $sourceNode, Node $targetNode) use (&$hooksRun, $node, $targetTestNode) {
+			$this->assertSame($node, $sourceNode);
+			$this->assertNotSame($node, $targetNode);
+			$this->assertSame($targetTestNode, $targetNode);
+			$this->assertInstanceOf($this->getNodeClass(), $sourceNode);
+			$this->assertInstanceOf($this->getNodeClass(), $targetNode);
+			$hooksRun++;
+		};
+
+		$preWriteListener = function (Node $targetNode) use (&$hooksRun) {
+			$this->assertInstanceOf($this->getNonExistingNodeClass(), $targetNode);
+			$this->assertEquals('/bar/asd', $targetNode->getPath());
+			$hooksRun++;
+		};
+
+		$postWriteListener = function (Node $targetNode) use (&$hooksRun, $targetTestNode) {
+			$this->assertSame($targetTestNode, $targetNode);
+			$hooksRun++;
+		};
+
+		$root->listen('\OC\Files', $preHookName, $preListener);
+		$root->listen('\OC\Files', 'preWrite', $preWriteListener);
+		$root->listen('\OC\Files', $postHookName, $postListener);
+		$root->listen('\OC\Files', 'postWrite', $postWriteListener);
+
+		$node->$operationMethod('/bar/asd');
+
+		$this->assertEquals(4, $hooksRun);
+	}
+
 	/**
 	 * @expectedException \OCP\Files\NotPermittedException
 	 */
