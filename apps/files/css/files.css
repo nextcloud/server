@@ -547,6 +547,7 @@ html.ie8 #fileList tr.selected td.filename>.selectCheckBox {
 .bubble,
 #app-navigation .app-navigation-entry-menu {
 	border-top-right-radius: 3px;
+	min-width: 100px;
 }
 .bubble:after,
 #app-navigation .app-navigation-entry-menu:after {
