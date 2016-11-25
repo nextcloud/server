@@ -272,7 +272,6 @@ body {
 	text-align: center;
 }
 #body-login p.info {
-	width: 22em;
 	margin: 0 auto;
 	padding-top: 20px;
 	-webkit-user-select: none;
@@ -424,10 +423,6 @@ label.infield {
 #body-login p.info a:hover,
 #body-login p.info a:focus  {
 	opacity: .6;
-}
-
-#body-login footer .info {
-	white-space: nowrap;
 }
 
 /* Show password toggle */
