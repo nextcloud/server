@@ -22,7 +22,6 @@
 namespace OC\Security\IdentityProof;
 
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 
@@ -31,20 +30,16 @@ class Signer {
 	private $keyManager;
 	/** @var ITimeFactory */
 	private $timeFactory;
-	/** @var IURLGenerator */
-	private $urlGenerator;
 	/** @var IUserManager */
 	private $userManager;
 
 	/**
 	 * @param Manager $keyManager
 	 * @param ITimeFactory $timeFactory
-	 * @param IURLGenerator $urlGenerator
 	 * @param IUserManager $userManager
 	 */
 	public function __construct(Manager $keyManager,
 								ITimeFactory $timeFactory,
-								IURLGenerator $urlGenerator,
 								IUserManager $userManager) {
 		$this->keyManager = $keyManager;
 		$this->timeFactory = $timeFactory;
@@ -76,20 +71,6 @@ class Signer {
 	}
 
 	/**
-	 * @param string $url
-	 * @return string
-	 */
-	private function removeProtocolFromUrl($url) {
-		if (strpos($url, 'https://') === 0) {
-			return substr($url, strlen('https://'));
-		} else if (strpos($url, 'http://') === 0) {
-			return substr($url, strlen('http://'));
-		}
-
-		return $url;
-	}
-
-	/**
 	 * Whether the data is signed properly
 	 *
 	 * @param array $data
@@ -100,9 +81,8 @@ class Signer {
 			&& isset($data['signature'])
 			&& isset($data['message']['signer'])
 		) {
-			$server = $this->urlGenerator->getAbsoluteURL('/');
-			$postfix = strlen('@' . rtrim($this->removeProtocolFromUrl($server), '/'));
-			$userId = substr($data['message']['signer'], -$postfix);
+			$location = strrpos($data['message']['signer'], '@');
+			$userId = substr($data['message']['signer'], 0, $location);
 
 			$user = $this->userManager->get($userId);
 			if($user !== null) {
@@ -110,7 +90,8 @@ class Signer {
 				return (bool)openssl_verify(
 					json_encode($data['message']),
 					base64_decode($data['signature']),
-					$key->getPublic()
+					$key->getPublic(),
+					OPENSSL_ALGO_SHA512
 				);
 			}
 		}
