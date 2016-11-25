@@ -14,17 +14,14 @@
 	background: #fff;
 	margin-left: 12px;
 }
-.oc-dialog-content {
-	z-index: 1000;
-}
-.oc-dialog-separator {
-}
 .oc-dialog-buttonrow {
+	position: relative;
 	display: block;
 	background: transparent;
 	right: 0;
 	bottom: 0;
-	padding: 10px;
+	padding: 20px;
+	padding-bottom: 10px;
 	box-sizing: border-box;
 	width: 100%;
 	background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
@@ -41,6 +38,14 @@
 
 .oc-dialog-buttonrow.onebutton button {
 	float: right;
+}
+.oc-dialog-buttonrow:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
 }
 
 .oc-dialog-close {
