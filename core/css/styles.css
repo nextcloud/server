@@ -628,6 +628,7 @@ label.infield {
 .avatardiv,
 .avatardiv img {
 	border-radius: 50%;
+	flex-shrink: 0;
 }
 td.avatar {
 	border-radius: 0;
