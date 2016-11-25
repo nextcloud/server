@@ -24,6 +24,7 @@ namespace OCA\ShareByMail;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
+use OCP\Contacts\IManager as IContactsManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -42,9 +43,14 @@ class Activity implements IProvider {
 
 	/** @var IUserManager */
 	protected $userManager;
+	/** @var IContactsManager */
+	protected $contactsManager;
 
 	/** @var array */
 	protected $displayNames = [];
+
+	/** @var array */
+	protected $contactNames = [];
 
 	const SUBJECT_SHARED_EMAIL_SELF = 'shared_with_email_self';
 	const SUBJECT_SHARED_EMAIL_BY = 'shared_with_email_by';
@@ -54,12 +60,14 @@ class Activity implements IProvider {
 	 * @param IURLGenerator $url
 	 * @param IManager $activityManager
 	 * @param IUserManager $userManager
+	 * @param IContactsManager $contactsManager
 	 */
-	public function __construct(IL10N $l, IURLGenerator $url, IManager $activityManager, IUserManager $userManager) {
+	public function __construct(IL10N $l, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IContactsManager $contactsManager) {
 		$this->l = $l;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
 		$this->userManager = $userManager;
+		$this->contactsManager = $contactsManager;
 	}
 
 	/**
@@ -191,10 +199,14 @@ class Activity implements IProvider {
 	 * @return array
 	 */
 	protected function generateEmailParameter($email) {
+		if (!isset($this->contactNames[$email])) {
+			$this->contactNames[$email] = $this->getContactName($email);
+		}
+
 		return [
 			'type' => 'email',
 			'id' => $email,
-			'name' => $email, // TODO ask contacts
+			'name' => $this->contactNames[$email],
 		];
 	}
 
@@ -212,6 +224,26 @@ class Activity implements IProvider {
 			'id' => $uid,
 			'name' => $this->displayNames[$uid],
 		];
+	}
+
+	/**
+	 * @param string $email
+	 * @return string
+	 */
+	protected function getContactName($email) {
+		$addressBookContacts = $this->contactsManager->search($email, ['EMAIL']);
+
+		foreach ($addressBookContacts as $contact) {
+			if (isset($contact['isLocalSystemBook'])) {
+				continue;
+			}
+
+			if (in_array($email, $contact['EMAIL'])) {
+				return $contact['FN'];
+			}
+		}
+
+		return $email;
 	}
 
 	/**
