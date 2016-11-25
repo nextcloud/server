@@ -103,27 +103,51 @@ class UsersControllerTest extends \Test\TestCase {
 
 	/**
 	 * @param bool $isAdmin
-	 * @return UsersController
+	 * @return UsersController | \PHPUnit_Framework_MockObject_MockObject
 	 */
-	protected function getController($isAdmin) {
-		return new UsersController(
-			'settings',
-			$this->createMock(IRequest::class),
-			$this->userManager,
-			$this->groupManager,
-			$this->userSession,
-			$this->config,
-			$isAdmin,
-			$this->l,
-			$this->logger,
-			$this->defaults,
-			$this->mailer,
-			'no-reply@owncloud.com',
-			$this->urlGenerator,
-			$this->appManager,
-			$this->avatarManager,
-			$this->accountManager
-		);
+	protected function getController($isAdmin = false, $mockedMethods = []) {
+		if (empty($mockedMethods)) {
+			return new UsersController(
+				'settings',
+				$this->createMock(IRequest::class),
+				$this->userManager,
+				$this->groupManager,
+				$this->userSession,
+				$this->config,
+				$isAdmin,
+				$this->l,
+				$this->logger,
+				$this->defaults,
+				$this->mailer,
+				'no-reply@owncloud.com',
+				$this->urlGenerator,
+				$this->appManager,
+				$this->avatarManager,
+				$this->accountManager
+			);
+		} else {
+			return $this->getMockBuilder(UsersController::class)
+				->setConstructorArgs(
+					[
+						'settings',
+						$this->createMock(IRequest::class),
+						$this->userManager,
+						$this->groupManager,
+						$this->userSession,
+						$this->config,
+						$isAdmin,
+						$this->l,
+						$this->logger,
+						$this->defaults,
+						$this->mailer,
+						'no-reply@owncloud.com',
+						$this->urlGenerator,
+						$this->appManager,
+						$this->avatarManager,
+						$this->accountManager
+					]
+				)->setMethods($mockedMethods)->getMock();
+		}
 	}
 
 	public function testIndexAdmin() {
@@ -2009,5 +2033,264 @@ class UsersControllerTest extends \Test\TestCase {
 		$controller = $this->getController(true);
 		$response = $controller->setDisplayName($user->getUID(), 'newDisplayName');
 		$this->assertEquals($expectedResponse, $response);
+	}
+
+	/**
+	 * @dataProvider dataTestSetUserSettings
+	 *
+	 * @param string $email
+	 * @param bool $validEmail
+	 * @param $expectedStatus
+	 */
+	public function testSetUserSettings($email, $validEmail, $expectedStatus) {
+		$controller = $this->getController(false, ['saveUserSettings']);
+		$user = $this->createMock(IUser::class);
+
+		$this->userSession->method('getUser')->willReturn($user);
+
+		if (!empty($email) && $validEmail) {
+			$this->mailer->expects($this->once())->method('validateMailAddress')
+				->willReturn($validEmail);
+		}
+
+		$saveData = (!empty($email) && $validEmail) || empty($email);
+
+		if ($saveData) {
+			$controller->expects($this->once())->method('saveUserSettings');
+		} else {
+			$controller->expects($this->never())->method('saveUserSettings');
+		}
+
+		$result = $controller->setUserSettings(
+			AccountManager::VISIBILITY_CONTACTS_ONLY,
+			'displayName',
+			AccountManager::VISIBILITY_CONTACTS_ONLY,
+			'47658468',
+			AccountManager::VISIBILITY_CONTACTS_ONLY,
+			$email,
+			AccountManager::VISIBILITY_CONTACTS_ONLY,
+			'nextcloud.com',
+			AccountManager::VISIBILITY_CONTACTS_ONLY,
+			'street and city',
+			AccountManager::VISIBILITY_CONTACTS_ONLY,
+			'@nextclouders',
+			AccountManager::VISIBILITY_CONTACTS_ONLY
+		);
+
+		$this->assertSame($expectedStatus, $result->getStatus());
+	}
+
+	public function dataTestSetUserSettings() {
+		return [
+			['', true, Http::STATUS_OK],
+			['', false, Http::STATUS_OK],
+			['example.com', false, Http::STATUS_UNPROCESSABLE_ENTITY],
+			['john@example.com', true, Http::STATUS_OK],
+		];
+	}
+
+	/**
+	 * @dataProvider dataTestSaveUserSettings
+	 *
+	 * @param array $data
+	 * @param string $oldEmailAddress
+	 * @param string $oldDisplayName
+	 */
+	public function testSaveUserSettings($data,
+										 $oldEmailAddress,
+										 $oldDisplayName
+	) {
+		$controller = $this->getController();
+		$user = $this->createMock(IUser::class);
+
+		$user->method('getDisplayName')->willReturn($oldDisplayName);
+		$user->method('getEMailAddress')->willReturn($oldEmailAddress);
+		$user->method('canChangeDisplayName')->willReturn(true);
+
+		if ($data[AccountManager::PROPERTY_EMAIL]['value'] !== $oldEmailAddress) {
+			$user->expects($this->once())->method('setEMailAddress')
+				->with($data[AccountManager::PROPERTY_EMAIL]['value'])
+				->willReturn(true);
+		} else {
+			$user->expects($this->never())->method('setEMailAddress');
+		}
+
+		if ($data[AccountManager::PROPERTY_DISPLAYNAME]['value'] !== $oldDisplayName) {
+			$user->expects($this->once())->method('setDisplayName')
+				->with($data[AccountManager::PROPERTY_DISPLAYNAME]['value'])
+				->willReturn(true);
+		} else {
+			$user->expects($this->never())->method('setDisplayName');
+		}
+
+		$this->accountManager->expects($this->once())->method('updateUser')
+			->with($user, $data);
+
+		$this->invokePrivate($controller, 'saveUserSettings', [$user, $data]);
+	}
+
+	public function dataTestSaveUserSettings() {
+		return [
+			[
+				[
+					AccountManager::PROPERTY_EMAIL => ['value' => 'john@example.com'],
+					AccountManager::PROPERTY_DISPLAYNAME => ['value' => 'john doe'],
+				],
+				'john@example.com',
+				'john doe'
+			],
+			[
+				[
+					AccountManager::PROPERTY_EMAIL => ['value' => 'john@example.com'],
+					AccountManager::PROPERTY_DISPLAYNAME => ['value' => 'john doe'],
+				],
+				'johnNew@example.com',
+				'john New doe'
+			],
+			[
+				[
+					AccountManager::PROPERTY_EMAIL => ['value' => 'john@example.com'],
+					AccountManager::PROPERTY_DISPLAYNAME => ['value' => 'john doe'],
+				],
+				'johnNew@example.com',
+				'john doe'
+			],
+			[
+				[
+					AccountManager::PROPERTY_EMAIL => ['value' => 'john@example.com'],
+					AccountManager::PROPERTY_DISPLAYNAME => ['value' => 'john doe'],
+				],
+				'john@example.com',
+				'john New doe'
+			]
+
+		];
+	}
+
+	/**
+	 * @dataProvider dataTestSaveUserSettingsException
+	 *
+	 * @param array $data
+	 * @param string $oldEmailAddress
+	 * @param string $oldDisplayName
+	 * @param bool $setDisplayNameResult
+	 * @param bool $canChangeEmail
+	 *
+	 * @expectedException \OC\ForbiddenException
+	 */
+	public function testSaveUserSettingsException($data,
+												  $oldEmailAddress,
+												  $oldDisplayName,
+												  $setDisplayNameResult,
+												  $canChangeEmail
+	) {
+		$controller = $this->getController();
+		$user = $this->createMock(IUser::class);
+
+		$user->method('getDisplayName')->willReturn($oldDisplayName);
+		$user->method('getEMailAddress')->willReturn($oldEmailAddress);
+
+		if ($data[AccountManager::PROPERTY_EMAIL]['value'] !== $oldEmailAddress) {
+			$user->method('canChangeDisplayName')
+				->willReturn($canChangeEmail);
+		}
+
+		if ($data[AccountManager::PROPERTY_DISPLAYNAME]['value'] !== $oldDisplayName) {
+			$user->method('setDisplayName')
+				->with($data[AccountManager::PROPERTY_DISPLAYNAME]['value'])
+				->willReturn($setDisplayNameResult);
+		}
+
+		$this->invokePrivate($controller, 'saveUserSettings', [$user, $data]);
+	}
+
+
+	public function dataTestSaveUserSettingsException() {
+		return [
+			[
+				[
+					AccountManager::PROPERTY_EMAIL => ['value' => 'john@example.com'],
+					AccountManager::PROPERTY_DISPLAYNAME => ['value' => 'john doe'],
+				],
+				'johnNew@example.com',
+				'john New doe',
+				true,
+				false
+			],
+			[
+				[
+					AccountManager::PROPERTY_EMAIL => ['value' => 'john@example.com'],
+					AccountManager::PROPERTY_DISPLAYNAME => ['value' => 'john doe'],
+				],
+				'johnNew@example.com',
+				'john New doe',
+				false,
+				true
+			],
+			[
+				[
+					AccountManager::PROPERTY_EMAIL => ['value' => 'john@example.com'],
+					AccountManager::PROPERTY_DISPLAYNAME => ['value' => 'john doe'],
+				],
+				'johnNew@example.com',
+				'john New doe',
+				false,
+				false
+			],
+
+		];
+	}
+
+	/**
+	 * @return array
+	 */
+	public function setEmailAddressData() {
+		return [
+			/* mailAddress,    isValid, expectsUpdate, canChangeDisplayName, responseCode */
+			[ '',              true,    true,          true,                 Http::STATUS_OK ],
+			[ 'foo@local',     true,    true,          true,                 Http::STATUS_OK],
+			[ 'foo@bar@local', false,   false,         true,                 Http::STATUS_UNPROCESSABLE_ENTITY],
+			[ 'foo@local',     true,    false,         false,                Http::STATUS_FORBIDDEN],
+		];
+	}
+	/**
+	 * @dataProvider setEmailAddressData
+	 *
+	 */
+	public function testSetEMailAddress($mailAddress, $isValid, $expectsUpdate, $canChangeDisplayName, $responseCode) {
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('foo'));
+		$user
+			->expects($this->any())
+			->method('canChangeDisplayName')
+			->will($this->returnValue($canChangeDisplayName));
+		$user
+			->expects($expectsUpdate ? $this->once() : $this->never())
+			->method('setEMailAddress')
+			->with(
+				$this->equalTo($mailAddress)
+			);
+		$this->mailer
+			->expects($this->any())
+			->method('validateMailAddress')
+			->with($mailAddress)
+			->willReturn($isValid);
+		if ($isValid) {
+			$user->expects($this->atLeastOnce())
+				->method('canChangeDisplayName')
+				->willReturn(true);
+			$this->userManager
+				->expects($this->atLeastOnce())
+				->method('get')
+				->with('foo')
+				->will($this->returnValue($user));
+		}
+		$controller = $this->getController(true);
+		$response = $controller->setEMailAddress($user->getUID(), $mailAddress);
+		$this->assertSame($responseCode, $response->getStatus());
 	}
 }

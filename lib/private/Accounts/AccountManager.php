@@ -81,16 +81,22 @@ class AccountManager {
 	 */
 	public function updateUser(IUser $user, $data) {
 		$userData = $this->getUser($user);
+		$updated = true;
 		if (empty($userData)) {
 			$this->insertNewUser($user, $data);
-		} else {
+		} elseif ($userData !== $data) {
 			$this->updateExistingUser($user, $data);
+		} else {
+			// nothing needs to be done if new and old data set are the same
+			$updated = false;
 		}
 
-		$this->eventDispatcher->dispatch(
-			'OC\AccountManager::userUpdated',
-			new GenericEvent($user)
-		);
+		if ($updated) {
+			$this->eventDispatcher->dispatch(
+				'OC\AccountManager::userUpdated',
+				new GenericEvent($user)
+			);
+		}
 	}
 
 	/**

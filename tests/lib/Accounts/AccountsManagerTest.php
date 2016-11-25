@@ -78,36 +78,45 @@ class AccountsManagerTest extends TestCase {
 	 *
 	 * @param bool $userAlreadyExists
 	 */
-	public function testUpdateUser($userAlreadyExists) {
+	public function testUpdateUser($newData, $oldData, $insertNew, $updateExisitng) {
 		$accountManager = $this->getInstance(['getUser', 'insertNewUser', 'updateExistingUser']);
 		$user = $this->getMockBuilder('OCP\IUser')->getMock();
 
-		$accountManager->expects($this->once())->method('getUser')->with($user)->willReturn($userAlreadyExists);
+		$accountManager->expects($this->once())->method('getUser')->with($user)->willReturn($oldData);
 
-		if ($userAlreadyExists) {
+		if ($updateExisitng) {
 			$accountManager->expects($this->once())->method('updateExistingUser')
-				->with($user, 'data');
+				->with($user, $newData);
 			$accountManager->expects($this->never())->method('insertNewUser');
-		} else {
+		}
+		if ($insertNew) {
 			$accountManager->expects($this->once())->method('insertNewUser')
-				->with($user, 'data');
+				->with($user, $newData);
 			$accountManager->expects($this->never())->method('updateExistingUser');
 		}
 
-		$this->eventDispatcher->expects($this->once())->method('dispatch')
-			->willReturnCallback(function($eventName, $event) use ($user) {
-				$this->assertSame('OC\AccountManager::userUpdated', $eventName);
-				$this->assertInstanceOf('Symfony\Component\EventDispatcher\GenericEvent', $event);
-			}
-			);
+		if (!$insertNew && !$updateExisitng) {
+			$accountManager->expects($this->never())->method('updateExistingUser');
+			$accountManager->expects($this->never())->method('insertNewUser');
+			$this->eventDispatcher->expects($this->never())->method('dispatch');
+		} else {
+			$this->eventDispatcher->expects($this->once())->method('dispatch')
+				->willReturnCallback(
+					function ($eventName, $event) use ($user) {
+						$this->assertSame('OC\AccountManager::userUpdated', $eventName);
+						$this->assertInstanceOf('Symfony\Component\EventDispatcher\GenericEvent', $event);
+					}
+				);
+		}
 
-		$accountManager->updateUser($user, 'data');
+		$accountManager->updateUser($user, $newData);
 	}
 
 	public function dataTrueFalse() {
 		return [
-			[true],
-			[false]
+			[['newData'], ['oldData'], false, true],
+			[['newData'], [], true, false],
+			[['oldData'], ['oldData'], false, false]
 		];
 	}
 

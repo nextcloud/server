@@ -536,7 +536,6 @@ class UsersController extends Controller {
 									$twitterScope
 	) {
 
-
 		if(!empty($email) && !$this->mailer->validateMailAddress($email)) {
 			return new DataResponse(
 				array(
@@ -549,8 +548,6 @@ class UsersController extends Controller {
 			);
 		}
 
-		$user = $this->userSession->getUser();
-
 		$data = [
 			AccountManager::PROPERTY_AVATAR =>  ['scope' => $avatarScope],
 			AccountManager::PROPERTY_DISPLAYNAME => ['value' => $displayname, 'scope' => $displaynameScope],
@@ -561,7 +558,7 @@ class UsersController extends Controller {
 			AccountManager::PROPERTY_TWITTER => ['value' => $twitter, 'scope' => $twitterScope]
 		];
 
-		$this->accountManager->updateUser($user, $data);
+		$user = $this->userSession->getUser();
 
 		try {
 			$this->saveUserSettings($user, $data);
@@ -603,23 +600,30 @@ class UsersController extends Controller {
 	 * @param array $data
 	 * @throws ForbiddenException
 	 */
-	private function saveUserSettings(IUser $user, $data) {
+	protected function saveUserSettings(IUser $user, $data) {
 
 		// keep the user back-end up-to-date with the latest display name and email
 		// address
 		$oldDisplayName = $user->getDisplayName();
-		if (isset($data[AccountManager::PROPERTY_DISPLAYNAME]['value'])  && $oldDisplayName !== $data[AccountManager::PROPERTY_DISPLAYNAME]['value']) {
+		if (isset($data[AccountManager::PROPERTY_DISPLAYNAME]['value'])
+			&& $oldDisplayName !== $data[AccountManager::PROPERTY_DISPLAYNAME]['value']
+		) {
 			$result = $user->setDisplayName($data[AccountManager::PROPERTY_DISPLAYNAME]['value']);
 			if ($result === false) {
 				throw new ForbiddenException($this->l10n->t('Unable to change full name'));
 			}
 		}
 
-		if (isset($data['email'][0]['value']) && $user->getEMailAddress() !== $data['email'][0]['value']) {
-			$result = $user->setEMailAddress($data['email'][0]['value']);
-			if ($result === false) {
-				throw new ForbiddenException($this->l10n->t('Unable to change mail address'));
+		$oldEmailAddress = $user->getEMailAddress();
+		if (isset($data[AccountManager::PROPERTY_EMAIL]['value'])
+			&& $oldEmailAddress !== $data[AccountManager::PROPERTY_EMAIL]['value']
+		) {
+			// this is the only permission a backend provides and is also used
+			// for the permission of setting a email address
+			if (!$user->canChangeDisplayName()) {
+				throw new ForbiddenException($this->l10n->t('Unable to change email address'));
 			}
+			$user->setEMailAddress($data[AccountManager::PROPERTY_EMAIL]['value']);
 		}
 
 		$this->accountManager->updateUser($user, $data);
@@ -720,4 +724,95 @@ class UsersController extends Controller {
 			]);
 		}
 	}
+
+	/**
+	 * Set the mail address of a user
+	 *
+	 * @NoAdminRequired
+	 * @NoSubadminRequired
+	 * @PasswordConfirmationRequired
+	 *
+	 * @param string $id
+	 * @param string $mailAddress
+	 * @return DataResponse
+	 */
+	public function setEMailAddress($id, $mailAddress) {
+		$user = $this->userManager->get($id);
+		if (!$this->isAdmin
+			&& !$this->groupManager->getSubAdmin()->isUserAccessible($this->userSession->getUser(), $user)
+		) {
+			return new DataResponse(
+				array(
+					'status' => 'error',
+					'data' => array(
+						'message' => (string)$this->l10n->t('Forbidden')
+					)
+				),
+				Http::STATUS_FORBIDDEN
+			);
+		}
+
+		if($mailAddress !== '' && !$this->mailer->validateMailAddress($mailAddress)) {
+			return new DataResponse(
+				array(
+					'status' => 'error',
+					'data' => array(
+						'message' => (string)$this->l10n->t('Invalid mail address')
+					)
+				),
+				Http::STATUS_UNPROCESSABLE_ENTITY
+			);
+		}
+
+		if (!$user) {
+			return new DataResponse(
+				array(
+					'status' => 'error',
+					'data' => array(
+						'message' => (string)$this->l10n->t('Invalid user')
+					)
+				),
+				Http::STATUS_UNPROCESSABLE_ENTITY
+			);
+		}
+		// this is the only permission a backend provides and is also used
+		// for the permission of setting a email address
+		if (!$user->canChangeDisplayName()) {
+			return new DataResponse(
+				array(
+					'status' => 'error',
+					'data' => array(
+						'message' => (string)$this->l10n->t('Unable to change mail address')
+					)
+				),
+				Http::STATUS_FORBIDDEN
+			);
+		}
+
+		$userData = $this->accountManager->getUser($user);
+		$userData[AccountManager::PROPERTY_EMAIL]['value'] = $mailAddress;
+
+		try {
+			$this->saveUserSettings($user, $userData);
+			return new DataResponse(
+				array(
+					'status' => 'success',
+					'data' => array(
+						'username' => $id,
+						'mailAddress' => $mailAddress,
+						'message' => (string)$this->l10n->t('Email saved')
+					)
+				),
+				Http::STATUS_OK
+			);
+		} catch (ForbiddenException $e) {
+			return new DataResponse([
+				'status' => 'error',
+				'data' => [
+					'message' => $e->getMessage()
+				],
+			]);
+		}
+	}
+
 }
