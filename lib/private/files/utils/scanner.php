@@ -117,14 +117,20 @@ class Scanner extends PublicEmitter {
 	public function backgroundScan($dir) {
 		$mounts = $this->getMounts($dir);
 		foreach ($mounts as $mount) {
-			if (is_null($mount->getStorage())) {
+			$storage = $mount->getStorage();
+			if (is_null($storage)) {
 				continue;
 			}
 			// don't scan the root storage
-			if ($mount->getStorage()->instanceOfStorage('\OC\Files\Storage\Local') && $mount->getMountPoint() === '/') {
+			if ($storage->instanceOfStorage('\OC\Files\Storage\Local') && $mount->getMountPoint() === '/') {
 				continue;
 			}
-			$scanner = $mount->getStorage()->getScanner();
+
+			// don't scan received local shares, these can be scanned when scanning the owner's storage
+			if ($storage->instanceOfStorage('OCA\Files_Sharing\ISharedStorage')) {
+				continue;
+			}
+			$scanner = $storage->getScanner();
 			$this->attachListener($mount);
 			$scanner->backgroundScan();
 		}
@@ -140,10 +146,10 @@ class Scanner extends PublicEmitter {
 		}
 		$mounts = $this->getMounts($dir);
 		foreach ($mounts as $mount) {
-			if (is_null($mount->getStorage())) {
+			$storage = $mount->getStorage();
+			if (is_null($storage)) {
 				continue;
 			}
-			$storage = $mount->getStorage();
 			// if the home storage isn't writable then the scanner is run as the wrong user
 			if ($storage->instanceOfStorage('\OC\Files\Storage\Home') and
 				(!$storage->isCreatable('') or !$storage->isCreatable('files'))
@@ -154,6 +160,11 @@ class Scanner extends PublicEmitter {
 					break;
 				}
 
+			}
+
+			// don't scan received local shares, these can be scanned when scanning the owner's storage
+			if ($storage->instanceOfStorage('OCA\Files_Sharing\ISharedStorage')) {
+				continue;
 			}
 			$relativePath = $mount->getInternalPath($dir);
 			$scanner = $storage->getScanner();
