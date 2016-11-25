@@ -254,6 +254,7 @@ trait Sharing {
 	 * @param string $filename
 	 */
 	public function checkSharedFileInResponse($filename){
+		$filename = ltrim($filename, '/');
 		PHPUnit_Framework_Assert::assertEquals(True, $this->isFieldInResponse('file_target', "/$filename"));
 	}
 
@@ -263,7 +264,28 @@ trait Sharing {
 	 * @param string $filename
 	 */
 	public function checkSharedFileNotInResponse($filename){
+		$filename = ltrim($filename, '/');
 		PHPUnit_Framework_Assert::assertEquals(False, $this->isFieldInResponse('file_target', "/$filename"));
+	}
+
+	/**
+	 * @Then /^File "([^"]*)" should be included as path in the response$/
+	 *
+	 * @param string $filename
+	 */
+	public function checkSharedFileAsPathInResponse($filename){
+		$filename = ltrim($filename, '/');
+		PHPUnit_Framework_Assert::assertEquals(True, $this->isFieldInResponse('path', "/$filename"));
+	}
+
+	/**
+	 * @Then /^File "([^"]*)" should not be included as path in the response$/
+	 *
+	 * @param string $filename
+	 */
+	public function checkSharedFileAsPathNotInResponse($filename){
+		$filename = ltrim($filename, '/');
+		PHPUnit_Framework_Assert::assertEquals(False, $this->isFieldInResponse('path', "/$filename"));
 	}
 
 	/**
@@ -382,6 +404,14 @@ trait Sharing {
 		if ($this->isFieldInResponse('id', $share_id)){
 			PHPUnit_Framework_Assert::fail("Share id $share_id has been found in response");
 		}
+	}
+
+	/**
+	 * @Then /^the response contains ([0-9]+) entries$/
+	 */
+	public function checkingTheResponseEntriesCount($count){
+		$actualCount = count($this->response->xml()->data[0]);
+		PHPUnit_Framework_Assert::assertEquals($count, $actualCount);
 	}
 
 	/**
