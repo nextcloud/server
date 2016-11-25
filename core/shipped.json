@@ -23,6 +23,7 @@
     "gallery",
     "logreader",
     "lookup_server_connector",
+    "nextcloud_announcements",
     "notifications",
     "password_policy",
     "provisioning_api",
