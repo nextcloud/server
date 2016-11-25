@@ -1570,19 +1570,24 @@ class ViewTest extends \Test\TestCase {
 	 * Create test movable mount points
 	 *
 	 * @param array $mountPoints array of mount point locations
+	 * @param bool $isTargetAllowed value to return for the isTargetAllowed call
 	 * @return array array of MountPoint objects
 	 */
-	private function createTestMovableMountPoints($mountPoints) {
+	private function createTestMovableMountPoints($mountPoints, $isTargetAllowed = true) {
 		$mounts = [];
 		foreach ($mountPoints as $mountPoint) {
 			$storage = $this->getMockBuilder(Temporary::class)
 				->setMethods([])
 				->getMock();
 
-			$mounts[] = $this->getMockBuilder(TestMoveableMountPoint::class)
-				->setMethods(['moveMount'])
+			$testMount = $this->getMockBuilder(TestMoveableMountPoint::class)
+				->setMethods(['moveMount', 'isTargetAllowed'])
 				->setConstructorArgs([$storage, $mountPoint])
 				->getMock();
+			$testMount->expects($this->any())
+				->method('isTargetAllowed')
+				->will($this->returnValue($isTargetAllowed));
+			$mounts[] = $testMount;
 		}
 
 		/** @var IMountProvider|\PHPUnit_Framework_MockObject_MockObject $mountProvider */
@@ -1646,14 +1651,14 @@ class ViewTest extends \Test\TestCase {
 	}
 
 	/**
-	 * Test that moving a mount point into a shared folder is forbidden
+	 * Test that moving a mount point that says it's not allowed will fail
 	 */
 	public function testMoveMountPointIntoSharedFolder() {
 		self::loginAsUser($this->user);
 
 		list($mount1) = $this->createTestMovableMountPoints([
 			$this->user . '/files/mount1',
-		]);
+		], false);
 
 		$mount1->expects($this->never())
 			->method('moveMount');
@@ -1673,6 +1678,24 @@ class ViewTest extends \Test\TestCase {
 
 		$this->assertTrue(Share::unshare('folder', $fileId, Share::SHARE_TYPE_USER, 'test2'));
 		$userObject->delete();
+	}
+
+	public function testMoveMountPointNotAllowed() {
+		self::loginAsUser($this->user);
+
+		list($mount1) = $this->createTestMovableMountPoints([
+			$this->user . '/files/mount1',
+		], false);
+
+		$mount1->expects($this->never())
+			->method('moveMount');
+
+		$view = new View('/' . $this->user . '/files/');
+		$view->mkdir('somedir');
+
+		$view->getFileInfo('somedir')->getId();
+
+		$this->assertFalse($view->rename('mount1', 'shareddir'), 'Cannot overwrite shared folder');
 	}
 
 	public function basicOperationProviderForLocks() {

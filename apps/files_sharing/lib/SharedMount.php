@@ -31,6 +31,7 @@ use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
+use OCP\Share\IShare;
 
 /**
  * Shared mount points can be moved by the user
@@ -180,12 +181,59 @@ class SharedMount extends MountPoint implements MoveableMount {
 	}
 
 	/**
+	 * Check whether it is allowed to move a mount point to a given target.
+	 * It is not allowed to move a mount point into a different mount point or
+	 * into an already shared folder
+	 *
+	 * @param string $target absolute target path
+	 * @return bool true if allowed, false otherwise
+	 */
+	public function isTargetAllowed($target) {
+		list($targetStorage, $targetInternalPath) = \OC\Files\Filesystem::resolvePath($target);
+		// note: cannot use the view because the target is already locked
+		$fileId = (int)$targetStorage->getCache()->getId($targetInternalPath);
+		if ($fileId === -1) {
+			// target might not exist, need to check parent instead
+			$fileId = (int)$targetStorage->getCache()->getId(dirname($targetInternalPath));
+		}
+
+		$targetNodes = \OC::$server->getRootFolder()->getById($fileId);
+		if (empty($targetNodes)) {
+			return false;
+		}
+
+		$shareManager = \OC::$server->getShareManager();
+		$targetNode = $targetNodes[0];
+		// FIXME: make it stop earlier in '/$userId/files'
+		while (!is_null($targetNode) && $targetNode->getPath() !== '/') { 
+			$shares = $shareManager->getSharesByPath($targetNode);
+
+			foreach ($shares as $share) {
+				if ($this->user === $share->getShareOwner()) {
+					\OCP\Util::writeLog('files',
+						'It is not allowed to move one mount point into a shared folder',
+						\OCP\Util::DEBUG);
+					return false;
+				}
+			}
+
+			$targetNode = $targetNode->getParent();
+		}
+
+		return true;
+	}
+
+
+	/**
 	 * Move the mount point to $target
 	 *
 	 * @param string $target the target mount point
 	 * @return bool
 	 */
 	public function moveMount($target) {
+		if (!$this->isTargetAllowed($target)) {
+			return false;
+		}
 
 		$relTargetPath = $this->stripUserFilesPath($target);
 		$share = $this->storage->getShare();

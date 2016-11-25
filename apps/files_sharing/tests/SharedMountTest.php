@@ -30,6 +30,8 @@ namespace OCA\Files_Sharing\Tests;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 
+use OCP\Files\NotPermittedException;
+
 /**
  * Class SharedMountTest
  *
@@ -444,6 +446,59 @@ class SharedMountTest extends TestCase {
 		$testGroup->removeUser($user3);
 	}
 
+	public function testIsTargetAllowed() {
+		$user1 = self::TEST_FILES_SHARING_API_USER1;
+		$user2 = self::TEST_FILES_SHARING_API_USER2;
+		$user3 = self::TEST_FILES_SHARING_API_USER3;
+
+		// user1 shares with user2
+		$userFolder = \OC::$server->getUserFolder($user1);
+		$sharedFolder = $userFolder->newFolder('user1-share');
+
+		$share = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$sharedFolder,
+			$user1,
+			$user2,
+			\OCP\Constants::PERMISSION_ALL);
+
+		$this->loginAsUser($user2);
+
+		// user2 shares with user3
+		$userFolder2 = \OC::$server->getUserFolder($user2);
+
+		$sharedFolder2 = $userFolder2->newFolder('shareddir');
+		$userFolder2->newFolder('shareddir/sub');
+		$userFolder2->newFolder('shareddir/sub2');
+
+		$share2 = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$sharedFolder2,
+			$user2,
+			$user3,
+			\OCP\Constants::PERMISSION_ALL);
+
+		$receivedFolder = $userFolder2->get('user1-share');
+
+		// cannot move into any of these dirs
+		foreach ([
+			'/' . $user2 . '/files/shareddir',
+			'/' . $user2 . '/files/shareddir/sub',
+			'/' . $user2 . '/files/shareddir/sub2',
+		] as $targetDir) {
+			$caught = null;
+			try {
+				$receivedFolder->move($targetDir);
+			} catch (NotPermittedException $e) {
+				$caught = $e;
+			}
+
+			$this->assertInstanceOf('\OCP\Files\NotPermittedException', $e);
+		}
+
+		$this->shareManager->deleteShare($share);
+		$this->shareManager->deleteShare($share2);
+	}
 }
 
 class DummyTestClassSharedMount extends \OCA\Files_Sharing\SharedMount {

@@ -780,7 +780,7 @@ class View {
 				$this->changeLock($path2, ILockingProvider::LOCK_EXCLUSIVE, true);
 
 				if ($internalPath1 === '' and $mount1 instanceof MoveableMount) {
-					if ($this->isTargetAllowed($absolutePath2)) {
+					if ($this->canMove($mount1, $absolutePath2)) {
 						/**
 						 * @var \OC\Files\Mount\MountPoint | \OC\Files\Mount\MoveableMount $mount1
 						 */
@@ -1721,10 +1721,11 @@ class View {
 	 * It is not allowed to move a mount point into a different mount point or
 	 * into an already shared folder
 	 *
-	 * @param string $target path
+	 * @param MoveableMount $mount1 moveable mount
+	 * @param string $target absolute target path
 	 * @return boolean
 	 */
-	private function isTargetAllowed($target) {
+	private function canMove(MoveableMount $mount1, $target) {
 
 		list($targetStorage, $targetInternalPath) = \OC\Files\Filesystem::resolvePath($target);
 		if (!$targetStorage->instanceOfStorage('\OCP\Files\IHomeStorage')) {
@@ -1734,30 +1735,7 @@ class View {
 			return false;
 		}
 
-		// note: cannot use the view because the target is already locked
-		$fileId = (int)$targetStorage->getCache()->getId($targetInternalPath);
-		if ($fileId === -1) {
-			// target might not exist, need to check parent instead
-			$fileId = (int)$targetStorage->getCache()->getId(dirname($targetInternalPath));
-		}
-
-		// check if any of the parents were shared by the current owner (include collections)
-		$shares = \OCP\Share::getItemShared(
-			'folder',
-			$fileId,
-			\OCP\Share::FORMAT_NONE,
-			null,
-			true
-		);
-
-		if (count($shares) > 0) {
-			\OCP\Util::writeLog('files',
-				'It is not allowed to move one mount point into a shared folder',
-				\OCP\Util::DEBUG);
-			return false;
-		}
-
-		return true;
+		return $mount1->isTargetAllowed($target);
 	}
 
 	/**

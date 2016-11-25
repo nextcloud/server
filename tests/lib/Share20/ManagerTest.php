@@ -2234,6 +2234,61 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertSame(\OCP\Constants::PERMISSION_READ, $res->getPermissions());
 	}
 
+	public function testGetSharesByPath() {
+		$factory = $this->createMock('\OCP\Share\IProviderFactory');
+
+		$manager = new Manager(
+			$this->logger,
+			$this->config,
+			$this->secureRandom,
+			$this->hasher,
+			$this->mountManager,
+			$this->groupManager,
+			$this->l,
+			$factory,
+			$this->userManager,
+			$this->rootFolder
+		);
+
+		$provider1 = $this->getMockBuilder('\OC\Share20\DefaultShareProvider')
+			->disableOriginalConstructor()
+			->getMock();
+		$provider1->method('identifier')->willReturn('provider1');
+		$provider2 = $this->getMockBuilder('\OC\Share20\DefaultShareProvider')
+			->disableOriginalConstructor()
+			->getMock();
+		$provider2->method('identifier')->willReturn('provider2');
+
+		$factory->expects($this->any())
+			->method('getProviderForType')
+			->will($this->returnValueMap([
+				[\OCP\Share::SHARE_TYPE_USER, $provider1],
+				[\OCP\Share::SHARE_TYPE_GROUP, $provider1],
+				[\OCP\Share::SHARE_TYPE_LINK, $provider2],
+			]));
+
+		$share1 = $this->manager->newShare();
+		$share1->setId(42);
+
+		$share2 = $this->manager->newShare();
+		$share2->setId(43);
+
+		$share3 = $this->manager->newShare();
+		$share3->setId(44);
+
+		$node = $this->createMock('\OCP\Files\Folder');
+
+		$provider1->expects($this->once())
+			->method('getSharesByPath')
+			->with($node)
+			->willReturn([$share1, $share2]);
+		$provider2->expects($this->never())->method('getSharesByPath');
+
+		$shares = $manager->getSharesByPath($node);
+
+		$this->assertEquals([$share1, $share2], $shares);
+	}
+
 	public function testCheckPasswordNoLinkShare() {
 		$share = $this->createMock(IShare::class);
 		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);

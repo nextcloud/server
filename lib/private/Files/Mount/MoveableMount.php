@@ -42,4 +42,15 @@ interface MoveableMount {
 	 * @return bool
 	 */
 	public function removeMount();
+
+	/**
+	 * Returns whether this mount point is allowed to be moved into the given absolute target
+	 *
+	 * @param string $target absolute target path
+	 *
+	 * @return bool true if allowed, false otherwise
+	 *
+	 * @since 9.2
+	 */
+	public function isTargetAllowed($target);
 }
