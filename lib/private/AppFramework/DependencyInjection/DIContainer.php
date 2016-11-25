@@ -98,6 +98,9 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerService('OCP\\Activity\\IManager', function($c) {
 			return $this->getServer()->getActivityManager();
 		});
+		$this->registerService(\OCP\Activity\IEventMerger::class, function($c) {
+			return $this->getServer()->query(\OCP\Activity\IEventMerger::class);
+		});
 
 		$this->registerService('OCP\\ICache', function($c) {
 			return $this->getServer()->getCache();

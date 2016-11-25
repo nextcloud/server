@@ -22,6 +22,7 @@
 namespace OCA\Files\Activity;
 
 use OCP\Activity\IEvent;
+use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
 use OCP\IL10N;
@@ -43,6 +44,9 @@ class Provider implements IProvider {
 	/** @var IUserManager */
 	protected $userManager;
 
+	/** @var IEventMerger */
+	protected $eventMerger;
+
 	/** @var string[] cached displayNames - key is the UID and value the displayname */
 	protected $displayNames = [];
 
@@ -51,12 +55,14 @@ class Provider implements IProvider {
 	 * @param IURLGenerator $url
 	 * @param IManager $activityManager
 	 * @param IUserManager $userManager
+	 * @param IEventMerger $eventMerger
 	 */
-	public function __construct(IL10N $l, IURLGenerator $url, IManager $activityManager, IUserManager $userManager) {
+	public function __construct(IL10N $l, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IEventMerger $eventMerger) {
 		$this->l = $l;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
 		$this->userManager = $userManager;
+		$this->eventMerger = $eventMerger;
 	}
 
 	/**
@@ -115,6 +121,8 @@ class Provider implements IProvider {
 
 		$this->setSubjects($event, $subject, $parsedParameters);
 
+		$event = $this->eventMerger->mergeEvents('user', $event, $previousEvent);
+
 		return $event;
 	}
 
@@ -170,6 +178,13 @@ class Provider implements IProvider {
 		}
 
 		$this->setSubjects($event, $subject, $parsedParameters);
+
+		$event = $this->eventMerger->mergeEvents('file', $event, $previousEvent);
+
+		if ($event->getChildEvent() === null) {
+			// Couldn't group by file, maybe we can group by user
+			$event = $this->eventMerger->mergeEvents('user', $event, $previousEvent);
+		}
 
 		return $event;
 	}
