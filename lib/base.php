@@ -538,15 +538,6 @@ class OC {
 			return;
 		}
 
-		// Chrome on Android has a bug that it doesn't sent cookies with the
-		// same-site attribute for the download manager. To work around that
-		// all same-site cookies get deleted and recreated directly. Awesome!
-		// FIXME: Remove once Chrome 54 is deployed to end-users
-		// @see https://github.com/nextcloud/server/pull/1454
-		if($request->isUserAgent([\OC\AppFramework\Http\Request::USER_AGENT_ANDROID_MOBILE_CHROME])) {
-			return;
-		}
-
 		if(count($_COOKIE) > 0) {
 			$requestUri = $request->getScriptName();
 			$processingScript = explode('/', $requestUri);
