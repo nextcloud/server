@@ -916,6 +916,66 @@ Feature: sharing
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
 
+  Scenario: sharing subfolder when parent already shared
+    Given As an "admin"
+    Given user "user0" exists
+    Given user "user1" exists
+    And group "sharing-group" exists
+    And user "user0" created a folder "/test"
+    And user "user0" created a folder "/test/sub"
+    And file "/test" of user "user0" is shared with group "sharing-group"
+    And As an "user0"
+    When sending "POST" to "/apps/files_sharing/api/v1/shares" with
+      | path | /test/sub |
+      | shareWith | user1 |
+      | shareType | 0 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+	And as "user1" the folder "/sub" exists
+
+  Scenario: sharing subfolder when parent already shared with group of sharer
+    Given As an "admin"
+    Given user "user0" exists
+    Given user "user1" exists
+    And group "sharing-group" exists
+    And user "user0" belongs to group "sharing-group"
+    And user "user0" created a folder "/test"
+    And user "user0" created a folder "/test/sub"
+    And file "/test" of user "user0" is shared with group "sharing-group"
+    And As an "user0"
+    When sending "POST" to "/apps/files_sharing/api/v1/shares" with
+      | path | /test/sub |
+      | shareWith | user1 |
+      | shareType | 0 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+	And as "user1" the folder "/sub" exists
+
+  Scenario: sharing subfolder of already shared folder, GET result is correct
+    Given As an "admin"
+    Given user "user0" exists
+    Given user "user1" exists
+    Given user "user2" exists
+    Given user "user3" exists
+    Given user "user4" exists
+    And user "user0" created a folder "/folder1"
+    And file "/folder1" of user "user0" is shared with user "user1"
+    And file "/folder1" of user "user0" is shared with user "user2"
+	And user "user0" created a folder "/folder1/folder2"
+    And file "/folder1/folder2" of user "user0" is shared with user "user3"
+    And file "/folder1/folder2" of user "user0" is shared with user "user4"
+    And As an "user0"
+    When sending "GET" to "/apps/files_sharing/api/v1/shares"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+	And the response contains 4 entries
+	And File "/folder1" should be included as path in the response
+	And File "/folder1/folder2" should be included as path in the response
+	And sending "GET" to "/apps/files_sharing/api/v1/shares?path=/folder1/folder2"
+	And the response contains 2 entries
+	And File "/folder1" should not be included as path in the response
+	And File "/folder1/folder2" should be included as path in the response
+
   Scenario: unshare from self
     Given As an "admin"
     And user "user0" exists
@@ -930,3 +990,119 @@ Feature: sharing
     When Deleting last share
     Then etag of element "/" of user "user1" has changed
     And etag of element "/PARENT" of user "user0" has not changed
+
+  Scenario: Increasing permissions is allowed for owner
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And group "new-group" exists
+    And user "user0" belongs to group "new-group"
+    And user "user1" belongs to group "new-group"
+    And Assure user "user0" is subadmin of group "new-group"
+    And As an "user0"
+    And folder "/FOLDER" of user "user0" is shared with group "new-group"
+    And Updating last share with
+      | permissions | 0 |
+    When Updating last share with
+      | permissions | 31 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+
+  Scenario: Adding public upload to a read only shared folder as recipient is not allowed
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And user "user0" created a folder "/test"
+    And folder "/test" of user "user0" is shared with user "user1" with permissions 17
+    And As an "user1"
+    And creating a share with
+      | path | /test |
+      | shareType | 3 |
+      | publicUpload | false |
+    When Updating last share with
+      | publicUpload | true |
+    Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
+
+  Scenario: Adding public upload to a shared folder as recipient is allowed with permissions
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And user "user0" created a folder "/test"
+    And folder "/test" of user "user0" is shared with user "user1" with permissions 31
+    And As an "user1"
+    And creating a share with
+      | path | /test |
+      | shareType | 3 |
+      | publicUpload | false |
+    When Updating last share with
+      | publicUpload | true |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+
+  Scenario: Adding public upload to a read only shared folder as recipient is not allowed
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And user "user0" created a folder "/test"
+    And folder "/test" of user "user0" is shared with user "user1" with permissions 17
+    And As an "user1"
+    And creating a share with
+      | path | /test |
+      | shareType | 3 |
+      | permissions | 1 |
+    When Updating last share with
+      | permissions | 15 |
+    Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
+
+  Scenario: Adding public upload to a shared folder as recipient is allowed with permissions
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And user "user0" created a folder "/test"
+    And folder "/test" of user "user0" is shared with user "user1" with permissions 31
+    And As an "user1"
+    And creating a share with
+      | path | /test |
+      | shareType | 3 |
+      | permissions | 1 |
+    When Updating last share with
+      | permissions | 15 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+
+    Scenario: resharing using a public link with read only permissions is not allowed
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And user "user0" created a folder "/test"
+    And folder "/test" of user "user0" is shared with user "user1" with permissions 1
+    And As an "user1"
+    And creating a share with
+      | path | /test |
+      | shareType | 3 |
+      | publicUpload | false |
+    Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
+
+  Scenario: resharing using a public link with read and write permissions only is not allowed
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And user "user0" created a folder "/test"
+    And folder "/test" of user "user0" is shared with user "user1" with permissions 15
+    And As an "user1"
+    And creating a share with
+      | path | /test |
+      | shareType | 3 |
+      | publicUpload | false |
+    Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
+
