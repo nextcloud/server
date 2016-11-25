@@ -164,12 +164,12 @@ class Activity implements IProvider {
 		$parameters = $event->getSubjectParameters();
 
 		switch ($subject) {
-			case self::SUBJECT_SHARED_EMAIL_BY:
+			case self::SUBJECT_SHARED_EMAIL_SELF:
 				return [
 					'file' => $this->generateFileParameter((int) $event->getObjectId(), $parameters[0]),
 					'email' => $this->generateEmailParameter($parameters[1]),
 				];
-			case self::SUBJECT_SHARED_EMAIL_SELF:
+			case self::SUBJECT_SHARED_EMAIL_BY:
 				return [
 					'file' => $this->generateFileParameter((int) $event->getObjectId(), $parameters[0]),
 					'email' => $this->generateEmailParameter($parameters[1]),
