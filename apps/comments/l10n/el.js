@@ -2,6 +2,7 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Σχόλια",
+    "Unknown user" : "Άγνωστος χρήστης",
     "New comment …" : "Νέο σχόλιο ...",
     "Delete comment" : "Διαγραφή σχολίου",
     "Post" : "Δημοσίευση",
@@ -17,14 +18,14 @@ OC.L10N.register(
     "Error occurred while posting comment" : "Ένα σφάλμα προέκυψε κατά την προσπάθεια δημοσίευσης σχολίου",
     "_%n unread comment_::_%n unread comments_" : ["%n αδιάβαστο σχόλιο","%n αδιάβαστα σχόλια"],
     "Comment" : "Σχόλιο",
-    "<strong>Comments</strong> for files" : "<strong>Σχόλια</strong> για αρχεία",
     "You commented" : "Σχολιάσατε",
     "%1$s commented" : "%1$s σχολίασε",
-    "You commented on %2$s" : "Σχολιάσατε στο %2$s",
     "%1$s commented on %2$s" : "%1$s σχολίασε στο %2$s",
+    "<strong>Comments</strong> for files" : "<strong>Σχόλια</strong> για αρχεία",
     "Type in a new comment..." : "Αυτό είναι ένα νέο σχόλιο...",
     "No other comments available" : "Δεν υπάρχουν άλλα διαθέσιμα σχόλια",
     "More comments..." : "Περισσότερα σχόλια...",
-    "{count} unread comments" : "{count} μη αναγνωσμένα σχόλια"
+    "{count} unread comments" : "{count} μη αναγνωσμένα σχόλια",
+    "You commented on %2$s" : "Σχολιάσατε στο %2$s"
 },
 "nplurals=2; plural=(n != 1);");

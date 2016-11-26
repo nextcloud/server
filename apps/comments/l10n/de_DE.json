@@ -16,16 +16,20 @@
     "Error occurred while posting comment" : "Es ist ein Fehler beim Veröffentlichen des Kommentars aufgetreten",
     "_%n unread comment_::_%n unread comments_" : ["%n ungelesener Kommentar","%n ungelesene Kommentare"],
     "Comment" : "Kommentar",
-    "<strong>Comments</strong> for files" : "<strong>Kommentare</strong> für Dateien",
     "You commented" : "Sie haben kommentiert",
     "%1$s commented" : "%1$s kommentierte",
-    "You commented on %2$s" : "Sie haben %2$s kommentiert",
+    "{author} commented" : "{author} kommentiert",
+    "You commented on %1$s" : "Sie haben %1$s kommentiert",
+    "You commented on {file}" : "Sie haben {file} kommentiert",
     "%1$s commented on %2$s" : "%1$s kommentierte %2$s",
+    "{author} commented on {file}" : "{author} hat {file} kommentiert",
+    "<strong>Comments</strong> for files" : "<strong>Kommentare</strong> für Dateien",
     "A (now) deleted user mentioned you in a comment on \"%s\"." : "Ein (nun) gelöschter Nutzer erwähnt Dich in einem Kommentar zu \"%s\".",
     "%s mentioned you in a comment on \"%s\"." : "%s erwähnt Sie in einem Kommentar zu \"%s\".",
     "Type in a new comment..." : "Neuen Kommentar eingeben...",
     "No other comments available" : "Keine weiteren Kommentare verfügbar",
     "More comments..." : "Weitere Kommentare...",
-    "{count} unread comments" : "[count] ungelesene Kommentare"
+    "{count} unread comments" : "[count] ungelesene Kommentare",
+    "You commented on %2$s" : "Sie haben %2$s kommentiert"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -18,16 +18,20 @@ OC.L10N.register(
     "Error occurred while posting comment" : "コメント投稿時にエラーが発生",
     "_%n unread comment_::_%n unread comments_" : ["%n の未読のコメント"],
     "Comment" : "コメント",
-    "<strong>Comments</strong> for files" : "ファイルの<strong>コメント</ strong>",
     "You commented" : "コメント済",
     "%1$s commented" : "%1$s がコメントを追加",
-    "You commented on %2$s" : "%2$s にコメント済",
+    "{author} commented" : "{author} がコメントしました",
+    "You commented on %1$s" : "%1$s にコメントしました",
+    "You commented on {file}" : "{file} にコメントしました",
     "%1$s commented on %2$s" : "%2$s について、%1$s がコメントしました",
+    "{author} commented on {file}" : "{author} が{file} にコメントしました",
+    "<strong>Comments</strong> for files" : "ファイルの<strong>コメント</ strong>",
     "A (now) deleted user mentioned you in a comment on \"%s\"." : "”%s\" のコメントであなたについて削除(もしくは今)されたユーザーがコメントしました。",
     "%s mentioned you in a comment on \"%s\"." : "%s さんが\"%s\"のコメントであなたについて言及しました。",
     "Type in a new comment..." : "新しいコメントを入力...",
     "No other comments available" : "コメントはありません",
     "More comments..." : "コメントをさらに表示...",
-    "{count} unread comments" : "未読コメント数 {count}"
+    "{count} unread comments" : "未読コメント数 {count}",
+    "You commented on %2$s" : "%2$s にコメント済"
 },
 "nplurals=1; plural=0;");

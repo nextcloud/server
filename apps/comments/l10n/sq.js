@@ -1,12 +1,16 @@
 OC.L10N.register(
     "comments",
     {
+    "Comments" : "Komente",
+    "Unknown user" : "Përdorues i panjohur",
+    "New comment …" : "Koment i ri ...",
     "Delete comment" : "Fshije komentin",
     "Post" : "Postoje",
     "Cancel" : "Anuloje",
     "Edit comment" : "Përpunoni komentin",
     "[Deleted user]" : "[Përdorues i fshirë]",
-    "Comments" : "Komente",
+    "No comments yet, start the conversation!" : "Akoma asnjë koment, fillo një bisedë!",
+    "More comments …" : "Më shumë komente ...",
     "Save" : "Ruaje",
     "Allowed characters {count} of {max}" : "Shenja të lejuara {count} nga {max}",
     "Error occurred while retrieving comment with id {id}" : "Ndodhi një gabim teksa merrej komenti me id{id}",
@@ -15,11 +19,18 @@ OC.L10N.register(
     "Comment" : "Koment",
     "You commented" : "Komentuat",
     "%1$s commented" : "%1$s komentoi",
-    "You commented on %2$s" : "Komentuat te %2$s",
+    "{author} commented" : "{autori} u komentua",
+    "You commented on %1$s" : "Ju komentuat në %1$s",
+    "You commented on {file}" : "Ju komentuat në {file}",
     "%1$s commented on %2$s" : "%1$s komentoi te %2$s",
+    "{author} commented on {file}" : "{autori} komentoj në {file}",
+    "<strong>Comments</strong> for files" : "<strong>Komente</strong> për file-et",
+    "A (now) deleted user mentioned you in a comment on \"%s\"." : "Një përdorues i fshirë (tani) ju përmendi në një koment në \"%s\".",
+    "%s mentioned you in a comment on \"%s\"." : "%s ju përmendi në një koment në \"%s\".",
     "Type in a new comment..." : "Shtypni një koment të ri…",
     "No other comments available" : "S’ka komente të tjera",
     "More comments..." : "Më tepër komente…",
-    "{count} unread comments" : "{count} komente të palexuar"
+    "{count} unread comments" : "{count} komente të palexuar",
+    "You commented on %2$s" : "Komentuat te %2$s"
 },
 "nplurals=2; plural=(n != 1);");

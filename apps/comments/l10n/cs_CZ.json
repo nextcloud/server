@@ -16,16 +16,16 @@
     "Error occurred while posting comment" : "Došlo k chybě při zveřejňování komentáře",
     "_%n unread comment_::_%n unread comments_" : ["%n nepřečtený komentář","%n nepřečtené komentáře","%n nepřečtených komentářů"],
     "Comment" : "Komentář",
-    "<strong>Comments</strong> for files" : "<strong>Komentáře</strong> souborů",
     "You commented" : "Okomentoval(a) jsi",
     "%1$s commented" : "%1$s okomentován",
-    "You commented on %2$s" : "Okomentoval(a) jsi %2$s",
     "%1$s commented on %2$s" : "%1$s okomentoval %2$s",
+    "<strong>Comments</strong> for files" : "<strong>Komentáře</strong> souborů",
     "A (now) deleted user mentioned you in a comment on \"%s\"." : "Nyní již smazaný uživatel vás zmínil v komentáři na \"%s\".",
     "%s mentioned you in a comment on \"%s\"." : "%s vás zmínil v komentáři na \"%s\".",
     "Type in a new comment..." : "Zadat nový komentář...",
     "No other comments available" : "Nejsou dostupné žádné další komentáře",
     "More comments..." : "Více komentářů...",
-    "{count} unread comments" : "{count} nepřečtených komentářů"
+    "{count} unread comments" : "{count} nepřečtených komentářů",
+    "You commented on %2$s" : "Okomentoval(a) jsi %2$s"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

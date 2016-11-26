@@ -41,6 +41,7 @@ OC.L10N.register(
     "Open documentation" : "Otevřít dokumentaci",
     "Allow users on this server to send shares to other servers" : "Povolit uživatelům z tohoto serveru zasílat sdílení na jiné servery",
     "Allow users on this server to receive shares from other servers" : "Povolit uživatelům na tomto serveru přijímat sdílení z jiných serverů",
+    "Enable lookups on lookup server" : "Povolit vyhledávání na vyhledávacím serveru",
     "Federated Cloud" : "Sdružený cloud",
     "Your Federated Cloud ID:" : "Vaše sdružené cloud ID:",
     "Share it:" : "Sdílet:",
