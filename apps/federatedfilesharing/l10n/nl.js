@@ -41,6 +41,7 @@ OC.L10N.register(
     "Open documentation" : "Open documentatie",
     "Allow users on this server to send shares to other servers" : "Toestaan dat gebruikers op deze server shares sturen naar andere servers",
     "Allow users on this server to receive shares from other servers" : "Toestaan dat gebruikers op deze server shares ontvangen van andere servers",
+    "Enable lookups on lookup server" : "Inschakelen lookups op lookupserver",
     "Federated Cloud" : "Gefedereerde Cloud",
     "Your Federated Cloud ID:" : "Je Federated Cloud ID:",
     "Share it:" : "Deel het:",

@@ -18,16 +18,20 @@ OC.L10N.register(
     "Error occurred while posting comment" : "Si è verificato un errore durante la pubblicazione del commento.",
     "_%n unread comment_::_%n unread comments_" : ["%n commento non letto","%n commenti non letti"],
     "Comment" : "Commento",
-    "<strong>Comments</strong> for files" : "<strong>Commenti</strong> sui file",
     "You commented" : "Hai commentato",
     "%1$s commented" : "%1$s ha commentato",
-    "You commented on %2$s" : "Hai commentato su %2$s",
+    "{author} commented" : "{author} ha commentato",
+    "You commented on %1$s" : "Hai commentato su %1$s",
+    "You commented on {file}" : "Hai commentato su {file}",
     "%1$s commented on %2$s" : "%1$s ha commentato %2$s",
+    "{author} commented on {file}" : "{author} ha commentato su {file}",
+    "<strong>Comments</strong> for files" : "<strong>Commenti</strong> sui file",
     "A (now) deleted user mentioned you in a comment on \"%s\"." : "Un utente eliminato (ora) ti ha menzionato in un commento su \"%s\".",
     "%s mentioned you in a comment on \"%s\"." : "%s ti ha menzionato in un commento su \"%s\".",
     "Type in a new comment..." : "Digita un nuovo commento...",
     "No other comments available" : "Non sono disponibili altri commenti",
     "More comments..." : "Altri commenti...",
-    "{count} unread comments" : "{count} commenti non letti"
+    "{count} unread comments" : "{count} commenti non letti",
+    "You commented on %2$s" : "Hai commentato su %2$s"
 },
 "nplurals=2; plural=(n != 1);");

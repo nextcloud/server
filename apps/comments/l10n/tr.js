@@ -17,16 +17,16 @@ OC.L10N.register(
     "Error occurred while posting comment" : "Yorum gönderilirken bir sorun çıktı",
     "_%n unread comment_::_%n unread comments_" : ["%n okunmamış yorum","%n okunmamış yorum"],
     "Comment" : "Yorum",
-    "<strong>Comments</strong> for files" : "Dosyalar için <strong>Yorumlar</strong>",
     "You commented" : "Yorum yaptınız",
     "%1$s commented" : "%1$s yorumlanmış",
-    "You commented on %2$s" : "%2$s için yorum yaptınız",
     "%1$s commented on %2$s" : "%1$s, %2$s için yorum yaptı",
+    "<strong>Comments</strong> for files" : "Dosyalar için <strong>Yorumlar</strong>",
     "A (now) deleted user mentioned you in a comment on \"%s\"." : "(Şu anda) silinmiş bir kullanıcı \"%s\" üzerindeki bir yorumda sizden bahsetmiş.",
     "%s mentioned you in a comment on \"%s\"." : "%s kullanıcısı \"%s\" üzerindeki bir yorumda sizden bahsetmiş.",
     "Type in a new comment..." : "Yeni bir yorum yazın...",
     "No other comments available" : "Başka bir yorum yok",
     "More comments..." : "Diğer yorumlar...",
-    "{count} unread comments" : "{count} okunmamış yorum"
+    "{count} unread comments" : "{count} okunmamış yorum",
+    "You commented on %2$s" : "%2$s için yorum yaptınız"
 },
 "nplurals=2; plural=(n > 1);");

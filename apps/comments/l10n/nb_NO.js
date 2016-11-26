@@ -18,15 +18,15 @@ OC.L10N.register(
     "Error occurred while posting comment" : "En feil oppstod under posting av kommentar",
     "_%n unread comment_::_%n unread comments_" : ["%n ulest kommentar","%n uleste kommentarer"],
     "Comment" : "Kommentar",
-    "<strong>Comments</strong> for files" : "<strong>Kommentarer</strong> for filer",
     "You commented" : "Du kommenterte",
     "%1$s commented" : "%1$s kommentert",
-    "You commented on %2$s" : "Du kommenterte til %2$s",
     "%1$s commented on %2$s" : "%1$s kommenterte %2$s",
+    "<strong>Comments</strong> for files" : "<strong>Kommentarer</strong> for filer",
     "%s mentioned you in a comment on \"%s\"." : "%s nevnte deg i en kommentar på \"%s\".",
     "Type in a new comment..." : "Skriv inn en ny kommentar...",
     "No other comments available" : "Ingen andre kommentarer tilgjengelig",
     "More comments..." : "Flere kommentarer..",
-    "{count} unread comments" : "{count} uleste kommentarer"
+    "{count} unread comments" : "{count} uleste kommentarer",
+    "You commented on %2$s" : "Du kommenterte til %2$s"
 },
 "nplurals=2; plural=(n != 1);");

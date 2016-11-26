@@ -23,6 +23,7 @@
     "Save" : "Salvar",
     "Empty response from the server" : "Resposta vazia a partir do servidor",
     "Couldn't access. Please logout and login to activate this mount point" : "Não foi possível acessar. Por favor, desconectar e conectar novamente para ativar este ponto de montagem",
+    "Couldn't get the information from the remote server: {code} {type}" : "Não foi possível obter as informações do servidor remoto: {code} {type}",
     "Couldn't get the list of external mount points: {type}" : "Não foi possível obter a lista de pontos de montagem externos: {type}",
     "There was an error with message: " : "Houve um erro com a mensagem:",
     "External mount error" : "Erro de montagem externa",

@@ -16,14 +16,14 @@ OC.L10N.register(
     "Error occurred while updating comment with id {id}" : "Villa kom upp við að reyna að uppfæra athugasemd með auðkenninu {id}",
     "Error occurred while posting comment" : "Villa kom upp við að senda inn athugasemd",
     "Comment" : "Athugasemd",
-    "<strong>Comments</strong> for files" : "<strong>Athugasemdir</strong> við skrár",
     "You commented" : "Þú settir inn athugasemd",
     "%1$s commented" : "%1$s setti inn athugasemd",
-    "You commented on %2$s" : "Þú settir inn athugasemd við %2$s",
     "%1$s commented on %2$s" : "%1$s setti inn athugasemd um %2$s",
+    "<strong>Comments</strong> for files" : "<strong>Athugasemdir</strong> við skrár",
     "Type in a new comment..." : "Skrifaðu inn nýja athugasemd...",
     "No other comments available" : "Engar aðrar athugasemdir eru tiltækar",
     "More comments..." : "Fleiri athugasemdir...",
-    "{count} unread comments" : "{count} ólesnar athugasemdir"
+    "{count} unread comments" : "{count} ólesnar athugasemdir",
+    "You commented on %2$s" : "Þú settir inn athugasemd við %2$s"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

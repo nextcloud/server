@@ -18,15 +18,15 @@ OC.L10N.register(
     "Error occurred while posting comment" : "Se ha producido un error al enviar el comentario",
     "_%n unread comment_::_%n unread comments_" : ["%n comentario sin leer","%n comentarios sin leer"],
     "Comment" : "Comentario",
-    "<strong>Comments</strong> for files" : "<strong>Comentarios</strong> para archivos",
     "You commented" : "Has comentado",
     "%1$s commented" : "%1$s comentados",
-    "You commented on %2$s" : "Has comentado en %2$s",
     "%1$s commented on %2$s" : "%1$s comentados en %2$s",
+    "<strong>Comments</strong> for files" : "<strong>Comentarios</strong> para archivos",
     "%s mentioned you in a comment on \"%s\"." : "%s te ha mencionado en un comentario en \"%s\".",
     "Type in a new comment..." : "Escribe un nuevo comentario...",
     "No other comments available" : "No hay otros comentarios disponibles",
     "More comments..." : "Más comentarios...",
-    "{count} unread comments" : "{count} comentarios no leídos"
+    "{count} unread comments" : "{count} comentarios no leídos",
+    "You commented on %2$s" : "Has comentado en %2$s"
 },
 "nplurals=2; plural=(n != 1);");

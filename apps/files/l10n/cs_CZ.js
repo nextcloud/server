@@ -76,6 +76,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajty","%n bajtů"],
     "Favorited" : "Přidáno k oblíbeným",
     "Favorite" : "Oblíbené",
+    "Copy local link" : "Kopírovat místní odkaz",
     "Folder" : "Adresář",
     "New folder" : "Nový adresář",
     "Upload" : "Odeslat",

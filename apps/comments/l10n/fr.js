@@ -18,16 +18,16 @@ OC.L10N.register(
     "Error occurred while posting comment" : "Une erreur est survenue lors de l'envoi du commentaire",
     "_%n unread comment_::_%n unread comments_" : ["%n commentaire non lu","%n commentaires non lus"],
     "Comment" : "Commenter",
-    "<strong>Comments</strong> for files" : "<strong>Commentaires</strong> pour les fichiers",
     "You commented" : "Vous avez commenté",
     "%1$s commented" : "%1$s a commenté",
-    "You commented on %2$s" : "Vous avez commenté %2$s",
     "%1$s commented on %2$s" : "%1$s a commenté %2$s",
+    "<strong>Comments</strong> for files" : "<strong>Commentaires</strong> pour les fichiers",
     "A (now) deleted user mentioned you in a comment on \"%s\"." : "Un utilisateur (maintenant supprimé) vous a mentionné dans un commentaire sur \"%s\".",
     "%s mentioned you in a comment on \"%s\"." : "%s vous a mentionné⋅e dans un commentaire sur \"%s\".",
     "Type in a new comment..." : "Écrire un nouveau commentaire...",
     "No other comments available" : "Aucun autre commentaire",
     "More comments..." : "Plus de commentaires...",
-    "{count} unread comments" : "{count} commentaires non lus"
+    "{count} unread comments" : "{count} commentaires non lus",
+    "You commented on %2$s" : "Vous avez commenté %2$s"
 },
 "nplurals=2; plural=(n > 1);");
