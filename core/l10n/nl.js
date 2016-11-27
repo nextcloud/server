@@ -122,6 +122,7 @@ OC.L10N.register(
     "Link" : "Link",
     "Password protect" : "Wachtwoord beveiligd",
     "Allow upload and editing" : "Toestaan uploaden en bewerken",
+    "File drop (upload only)" : "File drop (alleen uploaden)",
     "Email link to person" : "E-mail link naar persoon",
     "Send" : "Versturen",
     "Shared with you and the group {group} by {owner}" : "Gedeeld met jou en de groep {group} door {owner}",

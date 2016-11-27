@@ -47,6 +47,7 @@ OC.L10N.register(
     "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "Manca il segnaposto %uid. Sarà sostituito con il nome di accesso nelle query a LDAP / AD.",
     "Please provide a login name to test against" : "Fornisci un nome di accesso da provare",
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "La casella dei gruppi è stata disabilitata, poiché il server LDAP / AD non supporta memberOf.",
+    "Password change rejected. Hint: " : "Cambio password rifiutato. Suggerimento:",
     "LDAP / AD integration" : "Integrazione LDAP / AD",
     "_%s group found_::_%s groups found_" : ["%s gruppo trovato","%s gruppi trovati"],
     "_%s user found_::_%s users found_" : ["%s utente trovato","%s utenti trovati"],
