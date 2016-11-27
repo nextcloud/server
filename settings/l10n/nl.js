@@ -31,6 +31,7 @@ OC.L10N.register(
     "Unable to delete user." : "Kan gebruiker niet verwijderen.",
     "Settings saved" : "Instellingen opgeslagen",
     "Unable to change full name" : "Kan de volledige naam niet wijzigen",
+    "Unable to change email address" : "Kan e-mailadres niet wijzigen",
     "Your full name has been changed." : "Je volledige naam is gewijzigd.",
     "Forbidden" : "Verboden",
     "Invalid user" : "Ongeldige gebruiker",

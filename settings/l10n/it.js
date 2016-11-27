@@ -298,7 +298,7 @@ OC.L10N.register(
     "Web, desktop and mobile clients currently logged in to your account." : "Client web, desktop e mobile attualmente connessi al tuo account.",
     "Device" : "Dispositivo",
     "Last activity" : "Ultima attività",
-    "Passcodes that give an app or device permissions to access your account." : "Codici di accesso per fornire alle app oppure ai dispositivi il permesso di accedere al tuo account.",
+    "Passcodes that give an app or device permissions to access your account." : "Codici di accesso per fornire alle applicazioni o ai dispositivi il permesso di accedere al tuo account.",
     "Name" : "Nome",
     "App name" : "Nome applicazione",
     "Create new app password" : "Crea nuova password di applicazione",

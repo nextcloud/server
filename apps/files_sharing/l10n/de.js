@@ -54,6 +54,7 @@ OC.L10N.register(
     "You removed public link for {file}" : "Du hast die öffentliche Freigabe für {file} entfernt",
     "%2$s shared %1$s as public link" : "%2$s hat %1$s über einen öffentlichen Link geteilt",
     "{actor} shared {file} as public link" : "{actor} hat {file} über einen öffentlichen Link geteilt",
+    "%2$s removed public link for %1$s" : "%2$s hat den öffentlichen Link für %1$s entfernt",
     "{actor} removed public link for {file}" : "{actor} hat einen öffentlichen Link {file} entfernt",
     "%1$s accepted the remote share" : "%1$s hat die Remotefreigabe akzeptiert",
     "{user} accepted the remote share" : "{user} hat die Remotefreigabe akzeptiert",

@@ -44,7 +44,7 @@ OC.L10N.register(
     "Collaborative tags" : "Étiquettes collaboratives ",
     "Name" : "Nom",
     "Delete" : "Supprimer",
-    "Public" : "Publique",
+    "Public" : "Public",
     "Restricted" : "Restreint",
     "Invisible" : "Invisible",
     "Reset" : "Réinitialiser",
