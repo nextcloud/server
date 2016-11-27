@@ -192,6 +192,7 @@ class DefaultTokenProvider implements IProvider {
 		$newToken->setName($token->getName());
 		$newToken->setToken($this->hashToken($sessionId));
 		$newToken->setType(IToken::TEMPORARY_TOKEN);
+		$newToken->setRemember($token->getRemember());
 		$newToken->setLastActivity($this->time->getTime());
 		$this->mapper->insert($newToken);
 	}
