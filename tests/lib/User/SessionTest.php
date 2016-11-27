@@ -767,7 +767,6 @@ class SessionTest extends \Test\TestCase {
 	public function testCreateSessionToken() {
 		$manager = $this->createMock(Manager::class);
 		$session = $this->createMock(ISession::class);
-		$token = $this->createMock(IToken::class);
 		$user = $this->createMock(IUser::class);
 		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random);
 
@@ -801,9 +800,50 @@ class SessionTest extends \Test\TestCase {
 
 		$this->tokenProvider->expects($this->once())
 			->method('generateToken')
-			->with($sessionId, $uid, $loginName, $password, 'Firefox');
+			->with($sessionId, $uid, $loginName, $password, 'Firefox', IToken::DO_NOT_REMEMBER, IToken::TEMPORARY_TOKEN);
 
 		$this->assertTrue($userSession->createSessionToken($request, $uid, $loginName, $password));
+	}
+
+	public function testCreateRememberedSessionToken() {
+		$manager = $this->createMock(Manager::class);
+		$session = $this->createMock(ISession::class);
+		$user = $this->createMock(IUser::class);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random);
+
+		$random = $this->createMock(ISecureRandom::class);
+		$config = $this->createMock(IConfig::class);
+		$csrf = $this->getMockBuilder('\OC\Security\CSRF\CsrfTokenManager')
+			->disableOriginalConstructor()
+			->getMock();
+		$request = new \OC\AppFramework\Http\Request([
+			'server' => [
+				'HTTP_USER_AGENT' => 'Firefox',
+			]
+		], $random, $config, $csrf);
+
+		$uid = 'user123';
+		$loginName = 'User123';
+		$password = 'passme';
+		$sessionId = 'abcxyz';
+
+		$manager->expects($this->once())
+			->method('get')
+			->with($uid)
+			->will($this->returnValue($user));
+		$session->expects($this->once())
+			->method('getId')
+			->will($this->returnValue($sessionId));
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with($password)
+			->will($this->throwException(new \OC\Authentication\Exceptions\InvalidTokenException()));
+
+		$this->tokenProvider->expects($this->once())
+			->method('generateToken')
+			->with($sessionId, $uid, $loginName, $password, 'Firefox', IToken::TEMPORARY_TOKEN, IToken::REMEMBER);
+
+		$this->assertTrue($userSession->createSessionToken($request, $uid, $loginName, $password, true));
 	}
 
 	public function testCreateSessionTokenWithTokenPassword() {
@@ -850,7 +890,7 @@ class SessionTest extends \Test\TestCase {
 
 		$this->tokenProvider->expects($this->once())
 			->method('generateToken')
-			->with($sessionId, $uid, $loginName, $realPassword, 'Firefox');
+			->with($sessionId, $uid, $loginName, $realPassword, 'Firefox', IToken::TEMPORARY_TOKEN, IToken::DO_NOT_REMEMBER);
 
 		$this->assertTrue($userSession->createSessionToken($request, $uid, $loginName, $password));
 	}
