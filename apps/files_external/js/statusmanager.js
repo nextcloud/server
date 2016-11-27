@@ -182,7 +182,7 @@ OCA.External.StatusManager = {
 					} else {
 						OC.dialogs.confirm(t('files_external', 'There was an error with message: ') + mountData.error + '. Do you want to review mount point config in admin settings page?', t('files_external', 'External mount error'), function (e) {
 							if (e === true) {
-								OC.redirect(OC.generateUrl('/settings/admin#files_external'));
+								OC.redirect(OC.generateUrl('/settings/admin/externalstorages'));
 							}
 						});
 					}
