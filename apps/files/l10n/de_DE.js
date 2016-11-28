@@ -32,7 +32,7 @@ OC.L10N.register(
     "Actions" : "Aktionen",
     "Download" : "Herunterladen",
     "Rename" : "Umbenennen",
-    "Move" : "Verschiebden",
+    "Move" : "Verschieben",
     "Target folder" : "Zielverzeichnis",
     "Delete" : "Löschen",
     "Disconnect storage" : "Speicher trennen",
