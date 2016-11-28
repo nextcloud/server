@@ -30,6 +30,7 @@ use OCP\Comments\NotFoundException;
 use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
@@ -49,7 +50,8 @@ class NotifierTest extends TestCase {
 
 	/** @var  ICommentsManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $commentsManager;
-
+	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	protected $url;
 	/** @var  IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
 
@@ -72,16 +74,24 @@ class NotifierTest extends TestCase {
 		$this->l10nFactory = $this->getMockBuilder('OCP\L10N\IFactory')->getMock();
 		$this->folder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
 		$this->commentsManager = $this->getMockBuilder('OCP\Comments\ICommentsManager')->getMock();
+		$this->url = $this->createMock(IURLGenerator::class);
 		$this->userManager = $this->getMockBuilder('OCP\IUserManager')->getMock();
 
 		$this->notifier = new Notifier(
 			$this->l10nFactory,
 			$this->folder,
 			$this->commentsManager,
+			$this->url,
 			$this->userManager
 		);
 
-		$this->l = $this->getMockBuilder('OCP\IL10N')->getMock();
+		$this->l = $this->createMock(IL10N::class);
+		$this->l->expects($this->any())
+			->method('t')
+			->will($this->returnCallback(function ($text, $parameters = []) {
+				return vsprintf($text, $parameters);
+			}));
+
 		$this->notification = $this->getMockBuilder('OCP\Notification\INotification')->getMock();
 		$this->comment = $this->getMockBuilder('OCP\Comments\IComment')->getMock();
 	}
@@ -89,7 +99,7 @@ class NotifierTest extends TestCase {
 	public function testPrepareSuccess() {
 		$fileName = 'Gre\'thor.odp';
 		$displayName = 'Huraga';
-		$message = 'Hurage mentioned you in a comment on "Gre\'thor.odp".';
+		$message = 'Huraga mentioned you in a comment on “Gre\'thor.odp”';
 
 		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->getMockBuilder('OCP\IUser')->getMock();
@@ -100,7 +110,7 @@ class NotifierTest extends TestCase {
 		/** @var Node|\PHPUnit_Framework_MockObject_MockObject */
 		$node = $this->getMockBuilder('OCP\Files\Node')->getMock();
 		$node
-			->expects($this->once())
+			->expects($this->atLeastOnce())
 			->method('getName')
 			->willReturn($fileName);
 
@@ -125,13 +135,27 @@ class NotifierTest extends TestCase {
 		$this->notification
 			->expects($this->once())
 			->method('setParsedSubject')
-			->with($message);
-
-		$this->l
+			->with($message)
+			->willReturnSelf();
+		$this->notification
 			->expects($this->once())
-			->method('t')
-			->with('%s mentioned you in a comment on "%s".', [$displayName, $fileName])
-			->willReturn($message);
+			->method('setRichSubject')
+			->with('{user} mentioned you in a comment on “{file}”', $this->anything())
+			->willReturnSelf();
+		$this->notification
+			->expects($this->once())
+			->method('setIcon')
+			->with('absolute-image-path')
+			->willReturnSelf();
+
+		$this->url->expects($this->once())
+			->method('imagePath')
+			->with('core', 'actions/comment.svg')
+			->willReturn('image-path');
+		$this->url->expects($this->once())
+			->method('getAbsoluteURL')
+			->with('image-path')
+			->willReturn('absolute-image-path');
 
 		$this->l10nFactory
 			->expects($this->once())
@@ -163,12 +187,12 @@ class NotifierTest extends TestCase {
 
 	public function testPrepareSuccessDeletedUser() {
 		$fileName = 'Gre\'thor.odp';
-		$message = 'A (now) deleted user mentioned you in a comment on "Gre\'thor.odp".';
+		$message = 'A (now) deleted user mentioned you in a comment on “Gre\'thor.odp”';
 
 		/** @var Node|\PHPUnit_Framework_MockObject_MockObject */
 		$node = $this->getMockBuilder('OCP\Files\Node')->getMock();
 		$node
-			->expects($this->once())
+			->expects($this->atLeastOnce())
 			->method('getName')
 			->willReturn($fileName);
 
@@ -193,13 +217,27 @@ class NotifierTest extends TestCase {
 		$this->notification
 			->expects($this->once())
 			->method('setParsedSubject')
-			->with($message);
-
-		$this->l
+			->with($message)
+			->willReturnSelf();
+		$this->notification
 			->expects($this->once())
-			->method('t')
-			->with('A (now) deleted user mentioned you in a comment on "%s".', [ $fileName ])
-			->willReturn($message);
+			->method('setRichSubject')
+			->with('A (now) deleted user mentioned you in a comment on “{file}”', $this->anything())
+			->willReturnSelf();
+		$this->notification
+			->expects($this->once())
+			->method('setIcon')
+			->with('absolute-image-path')
+			->willReturnSelf();
+
+		$this->url->expects($this->once())
+			->method('imagePath')
+			->with('core', 'actions/comment.svg')
+			->willReturn('image-path');
+		$this->url->expects($this->once())
+			->method('getAbsoluteURL')
+			->with('image-path')
+			->willReturn('absolute-image-path');
 
 		$this->l10nFactory
 			->expects($this->once())
