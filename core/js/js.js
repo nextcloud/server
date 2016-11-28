@@ -1502,7 +1502,7 @@ function initCore() {
 
 		$(window).resize(_.debounce(adjustControlsWidth, 250));
 
-		$('body').delegate('#app-content', 'apprendered appresized', adjustControlsWidth);
+		$('body').delegate('#app-content', 'apprendered appresized', _.debounce(adjustControlsWidth, 100));
 
 	}
 
