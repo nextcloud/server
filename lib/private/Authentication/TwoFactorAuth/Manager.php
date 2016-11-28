@@ -106,6 +106,9 @@ class Manager {
 	 */
 	public function getBackupProvider(IUser $user) {
 		$providers = $this->getProviders($user, true);
+		if (!isset($providers[self::BACKUP_CODES_PROVIDER_ID])) {
+			return null;
+		}
 		return $providers[self::BACKUP_CODES_PROVIDER_ID];
 	}
 
