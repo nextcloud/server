@@ -31,10 +31,7 @@ $app->registerSettings();
 
 $manager = \OC::$server->getNotificationManager();
 $manager->registerNotifier(function() {
-	return new Notifier(
-		\OC::$server->getL10NFactory(),
-		\OC::$server->getContactsManager()
-	);
+	return \OC::$server->query(Notifier::class);
 }, function() use ($l) {
 	return [
 		'id' => 'files_sharing',

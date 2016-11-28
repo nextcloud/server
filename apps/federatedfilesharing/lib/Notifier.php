@@ -27,6 +27,7 @@ namespace OCA\FederatedFileSharing;
 use OC\HintException;
 use OC\Share\Helper;
 use OCP\Contacts\IManager;
+use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
@@ -36,16 +37,20 @@ class Notifier implements INotifier {
 	protected $factory;
 	/** @var IManager */
 	protected $contactsManager;
+	/** @var IURLGenerator */
+	protected $url;
 	/** @var array */
 	protected $federatedContacts;
 
 	/**
 	 * @param IFactory $factory
 	 * @param IManager $contactsManager
+	 * @param IURLGenerator $url
 	 */
-	public function __construct(IFactory $factory, IManager $contactsManager) {
+	public function __construct(IFactory $factory, IManager $contactsManager, IURLGenerator $url) {
 		$this->factory = $factory;
 		$this->contactsManager = $contactsManager;
+		$this->url = $url;
 	}
 
 	/**
@@ -65,6 +70,8 @@ class Notifier implements INotifier {
 		switch ($notification->getSubject()) {
 			// Deal with known subjects
 			case 'remote_share':
+				$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
+
 				$params = $notification->getSubjectParameters();
 				if ($params[0] !== $params[1] && $params[1] !== null) {
 					$notification->setParsedSubject(
