@@ -76,8 +76,9 @@ class Streamer {
 			$file = $dir . '/' . $filename;
 			if(\OC\Files\Filesystem::is_file($file)) {
 				$filesize = \OC\Files\Filesystem::filesize($file);
+				$fileTime = \OC\Files\Filesystem::filemtime($file);
 				$fh = \OC\Files\Filesystem::fopen($file, 'r');
-				$this->addFileFromStream($fh, $internalDir . $filename, $filesize);
+				$this->addFileFromStream($fh, $internalDir . $filename, $filesize, $fileTime);
 				fclose($fh);
 			}elseif(\OC\Files\Filesystem::is_dir($file)) {
 				$this->addDirRecursive($file, $internalDir);
@@ -91,13 +92,21 @@ class Streamer {
 	 * @param string $stream Stream to read data from
 	 * @param string $internalName Filepath and name to be used in the archive.
 	 * @param int $size Filesize
+	 * @param int|bool $time File mtime as int, or false
 	 * @return bool $success
 	 */
-	public function addFileFromStream($stream, $internalName, $size){
+	public function addFileFromStream($stream, $internalName, $size, $time) {
+		$options = [];
+		if ($time) {
+			$options = [
+				'timestamp' => $time
+			];
+		}
+
 		if ($this->streamerInstance instanceof ZipStreamer) {
-			return $this->streamerInstance->addFileFromStream($stream, $internalName);
+			return $this->streamerInstance->addFileFromStream($stream, $internalName, $options);
 		} else {
-			return $this->streamerInstance->addFileFromStream($stream, $internalName, $size);
+			return $this->streamerInstance->addFileFromStream($stream, $internalName, $size, $options);
 		}
 	}
 
