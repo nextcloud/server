@@ -168,7 +168,7 @@ var OCdialogs = {
 			return;
 		}
 		this.filepicker.loading = true;
-		this.filepicker.filesClient = OC.Files.getClient();
+		this.filepicker.filesClient = (OCA.Sharing && OCA.Sharing.PublicApp && OCA.Sharing.PublicApp.fileList)? OCA.Sharing.PublicApp.fileList.filesClient: OC.Files.getClient();
 		$.when(this._getFilePickerTemplate()).then(function($tmpl) {
 			self.filepicker.loading = false;
 			var dialogName = 'oc-dialog-filepicker-content';
