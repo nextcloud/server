@@ -774,7 +774,7 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 	box-sizing: border-box;
 	display: inline-block;
 	overflow-y: auto;
-	height: 321px;
+	height: 100%; /** overflow under the button row */
 	width: 100%;
 	padding-bottom: 55px;
 }

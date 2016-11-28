@@ -232,8 +232,8 @@ var OCdialogs = {
 			self.$filePicker.ocdialog({
 				closeOnEscape: true,
 				// max-width of 600
-				width: Math.min((4/5)*$(document).width(), 600),
-				height: 420,
+				width: 600,
+				height: 500,
 				modal: modal,
 				buttons: buttonlist,
 				close: function() {
@@ -252,10 +252,6 @@ var OCdialogs = {
 				buttonEnableDisable.prop("disabled", false);
 			} else {
 				buttonEnableDisable.prop("disabled", true);
-			}
-
-			if (!OC.Util.hasSVGSupport()) {
-				OC.Util.replaceSVG(self.$filePicker.parent());
 			}
 		})
 		.fail(function(status, error) {
@@ -835,9 +831,6 @@ var OCdialogs = {
 			});
 
 			self.$filelist.removeClass('icon-loading');
-			if (!OC.Util.hasSVGSupport()) {
-				OC.Util.replaceSVG(self.$filePicker.find('.dirtree'));
-			}
 		});
 	},
 	/**
