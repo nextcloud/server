@@ -401,6 +401,11 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->query(IValidator::class)
 			);
 		});
+		$this->registerService(\OCP\Activity\IEventMerger::class, function (Server $c) {
+			return new \OC\Activity\EventMerger(
+				$c->getL10N('lib')
+			);
+		});
 		$this->registerAlias(IValidator::class, Validator::class);
 		$this->registerService('AvatarManager', function (Server $c) {
 			return new AvatarManager(
