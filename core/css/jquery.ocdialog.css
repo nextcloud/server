@@ -9,6 +9,9 @@
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	min-width: 200px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 .oc-dialog-title {
 	background: #fff;

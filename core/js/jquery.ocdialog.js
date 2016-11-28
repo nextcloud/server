@@ -77,8 +77,6 @@
 				self.parent = self.$dialog.parent().length > 0 ? self.$dialog.parent() : $('body');
 				var pos = self.parent.position();
 				self.$dialog.css({
-					left: pos.left + ($(window).innerWidth() - self.$dialog.outerWidth())/2,
-					top: pos.top + ($(window).innerHeight() - self.$dialog.outerHeight())/2,
 					width: Math.min(self.options.width, $(window).innerWidth() - 20 ),
 					height: Math.min(self.options.height, $(window).innerHeight() - 20)
 				});
