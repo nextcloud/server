@@ -31,6 +31,7 @@ OC.L10N.register(
     "Unable to delete user." : "Nem lehet törölni a felhasználót.",
     "Settings saved" : "Beállítások elmentve",
     "Unable to change full name" : "Nem sikerült megváltoztatni a teljes nevét",
+    "Unable to change email address" : "Nem lehet megváltoztatni az e-mail címet",
     "Your full name has been changed." : "Az Ön teljes nevét módosítottuk.",
     "Forbidden" : "Tiltott",
     "Invalid user" : "Érvénytelen felhasználó",

@@ -58,6 +58,8 @@
     "{user} accepted the remote share" : "{user} a accepté le partage distant",
     "%1$s declined the remote share" : "%1$s a refusé le partage distant",
     "{user} declined the remote share" : "{user} a refusé le partage distant",
+    "You received a new remote share %1$s from %2$s" : "L'utilisateur %2$s a partagé la ressource distante %1$s avec vous",
+    "You received a new remote share {file} from {user}" : "Vous avez reçu le partage distant {file} de {user}",
     "%2$s accepted the remote share of %1$s" : "%2$s a accepté le partage distant de %1$s",
     "{user} accepted the remote share of {file}" : "{user} a accepté le partage distant de {file}",
     "%2$s declined the remote share of %1$s" : "%2$s a refusé le partage distant de %1$s",

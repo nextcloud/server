@@ -39,6 +39,7 @@ OC.L10N.register(
     "User found and settings verified." : "Felhasználó megtalálva, beállítások ellenőrizve.",
     "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Beállítások ellenőrizve, de egy felhasználó található. Csak az első léphet be automatikusan. Próbálj egy pontosabb szűrőt.",
     "An unspecified error occurred. Please check the settings and the log." : "Meghatározatlan hiba történt. Kérlek ellenőrizd a beállításokat és a naplót.",
+    "Password change rejected. Hint: " : "Jelszó módosítás elutasítva. Tipp:",
     "LDAP / AD integration" : "LDAP / AD integráció",
     "_%s group found_::_%s groups found_" : ["%s csoport van","%s csoport van"],
     "_%s user found_::_%s users found_" : ["%s felhasználó van","%s felhasználó van"],
