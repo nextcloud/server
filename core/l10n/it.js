@@ -122,6 +122,7 @@ OC.L10N.register(
     "Link" : "Collegamento",
     "Password protect" : "Proteggi con password",
     "Allow upload and editing" : "Consenti il caricamento e la modifica",
+    "File drop (upload only)" : "Rilascia file (solo caricamento)",
     "Email link to person" : "Invia collegamento via email",
     "Send" : "Invia",
     "Shared with you and the group {group} by {owner}" : "Condiviso con te e con il gruppo {group} da {owner}",
