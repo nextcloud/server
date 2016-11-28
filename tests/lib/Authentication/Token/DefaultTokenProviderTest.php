@@ -292,6 +292,10 @@ class DefaultTokenProviderTest extends TestCase {
 			->expects($this->at(3))
 			->method('getName')
 			->willReturn('MyTokenName');
+		$token
+			->expects($this->at(3))
+			->method('getRememberMe')
+			->willReturn(IToken::DO_NOT_REMEMBER);
 		$this->config
 			->expects($this->exactly(2))
 			->method('getSystemValue')
@@ -308,6 +312,7 @@ class DefaultTokenProviderTest extends TestCase {
 		$newToken->setName('MyTokenName');
 		$newToken->setToken(hash('sha512', 'newId' . 'MyInstanceSecret'));
 		$newToken->setType(IToken::TEMPORARY_TOKEN);
+		$newToken->setRemember(IToken::DO_NOT_REMEMBER);
 		$newToken->setLastActivity(1313131);
 		$this->mapper
 			->expects($this->at(1))
@@ -342,6 +347,10 @@ class DefaultTokenProviderTest extends TestCase {
 			->expects($this->at(4))
 			->method('getName')
 			->willReturn('MyTokenName');
+		$token
+			->expects($this->at(3))
+			->method('getRememberMe')
+			->willReturn(IToken::REMEMBER);
 		$this->crypto
 			->expects($this->any(0))
 			->method('decrypt')
@@ -368,12 +377,13 @@ class DefaultTokenProviderTest extends TestCase {
 		$newToken->setName('MyTokenName');
 		$newToken->setToken(hash('sha512', 'newId' . 'MyInstanceSecret'));
 		$newToken->setType(IToken::TEMPORARY_TOKEN);
+		$newToken->setRemember(IToken::REMEMBER);
 		$newToken->setLastActivity(1313131);
 		$newToken->setPassword('EncryptedPassword');
 		$this->mapper
 			->expects($this->at(1))
 			->method('insert')
-			->with($newToken);
+			->with($this->equalTo($newToken));
 
 		$this->tokenProvider->renewSessionToken('oldId', 'newId');
 	}
