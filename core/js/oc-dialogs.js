@@ -232,8 +232,8 @@ var OCdialogs = {
 			self.$filePicker.ocdialog({
 				closeOnEscape: true,
 				// max-width of 600
-				width: Math.min((4/5)*$(document).width(), 600),
-				height: Math.min((4 / 5) * $(document).height(), 500),
+				width: 600,
+				height: 500,
 				modal: modal,
 				buttons: buttonlist,
 				close: function() {

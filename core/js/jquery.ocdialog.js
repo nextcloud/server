@@ -159,27 +159,16 @@
 			$.Widget.prototype._setOptions.apply(this, arguments);
 		},
 		_setSizes: function() {
-			var content_height = this.$dialog.height();
+			var lessHeight = 0;
 			if(this.$title) {
-				content_height -= this.$title.outerHeight(true);
+				lessHeight += this.$title.outerHeight(true);
 			}
 			if(this.$buttonrow) {
-				content_height -= this.$buttonrow.outerHeight(true);
+				lessHeight += this.$buttonrow.outerHeight(true);
 			}
-			this.parent = this.$dialog.parent().length > 0 ? this.$dialog.parent() : $('body');
-			if (this.parent.height() > 0) {
-				content_height = Math.min(content_height, this.parent.height() - 20);
-			}
-			if (content_height> 0) {
-				this.element.css({
-					height: content_height + 'px',
-					width: this.$dialog.innerWidth() - 30 + 'px'
-				});
-			} else {
-				this.element.css({
-					width : this.$dialog.innerWidth() - 30 + 'px'
-				});
-			}
+			this.element.css({
+				'height': 'calc(100% - ' + lessHeight + 'px)'
+			});
 		},
 		_createOverlay: function() {
 			if(!this.options.modal) {
