@@ -352,6 +352,7 @@
 					!$searchBox.is(':focus') // if searchbox is already focused do nothing (fallback to browser default)
 				) {
 					$searchBox.focus();
+					$searchBox.select();
 					event.preventDefault();
 				}
 			});
