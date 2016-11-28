@@ -800,7 +800,7 @@ class SessionTest extends \Test\TestCase {
 
 		$this->tokenProvider->expects($this->once())
 			->method('generateToken')
-			->with($sessionId, $uid, $loginName, $password, 'Firefox', IToken::DO_NOT_REMEMBER, IToken::TEMPORARY_TOKEN);
+			->with($sessionId, $uid, $loginName, $password, 'Firefox', IToken::TEMPORARY_TOKEN, IToken::DO_NOT_REMEMBER);
 
 		$this->assertTrue($userSession->createSessionToken($request, $uid, $loginName, $password));
 	}
