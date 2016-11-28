@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
+ * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,251 +19,243 @@
  *
  */
 
-
 namespace OCA\ShareByMail;
 
-
-use OCP\Activity\IExtension;
+use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
+use OCP\Activity\IProvider;
+use OCP\Contacts\IManager as IContactsManager;
 use OCP\IL10N;
-use OCP\L10N\IFactory;
+use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserManager;
 
-class Activity implements IExtension {
+class Activity implements IProvider {
 
-	const SHARE_BY_MAIL_APP = 'sharebymail';
+	/** @var IL10N */
+	protected $l;
+
+	/** @var IURLGenerator */
+	protected $url;
+
+	/** @var IManager */
+	protected $activityManager;
+
+	/** @var IUserManager */
+	protected $userManager;
+	/** @var IContactsManager */
+	protected $contactsManager;
+
+	/** @var array */
+	protected $displayNames = [];
+
+	/** @var array */
+	protected $contactNames = [];
 
 	const SUBJECT_SHARED_EMAIL_SELF = 'shared_with_email_self';
 	const SUBJECT_SHARED_EMAIL_BY = 'shared_with_email_by';
 
-	/** @var IFactory */
-	private $languageFactory;
-
-	/** @var IManager */
-	private $activityManager;
-
 	/**
-	 * @param IFactory $languageFactory
+	 * @param IL10N $l
+	 * @param IURLGenerator $url
 	 * @param IManager $activityManager
+	 * @param IUserManager $userManager
+	 * @param IContactsManager $contactsManager
 	 */
-	public function __construct(IFactory $languageFactory, IManager $activityManager) {
-		$this->languageFactory = $languageFactory;
+	public function __construct(IL10N $l, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IContactsManager $contactsManager) {
+		$this->l = $l;
+		$this->url = $url;
 		$this->activityManager = $activityManager;
+		$this->userManager = $userManager;
+		$this->contactsManager = $contactsManager;
 	}
 
 	/**
-	 * The extension can return an array of additional notification types.
-	 * If no additional types are to be added false is to be returned
-	 *
-	 * @param string $languageCode
-	 * @return array|false Array "stringID of the type" => "translated string description for the setting"
-	 *                or Array "stringID of the type" => [
-	 *                    'desc' => "translated string description for the setting"
-	 *                    'methods' => [self::METHOD_*],
-	 *                ]
-	 * @since 8.0.0 - 8.2.0: Added support to allow limiting notifications to certain methods
+	 * @param IEvent $event
+	 * @param IEvent|null $previousEvent
+	 * @return IEvent
+	 * @throws \InvalidArgumentException
+	 * @since 11.0.0
 	 */
-	public function getNotificationTypes($languageCode) {
-		return false;
-	}
-
-	/**
-	 * For a given method additional types to be displayed in the settings can be returned.
-	 * In case no additional types are to be added false is to be returned.
-	 *
-	 * @param string $method
-	 * @return array|false
-	 * @since 8.0.0
-	 */
-	public function getDefaultTypes($method) {
-		return false;
-	}
-
-	/**
-	 * A string naming the css class for the icon to be used can be returned.
-	 * If no icon is known for the given type false is to be returned.
-	 *
-	 * @param string $type
-	 * @return string|false
-	 * @since 8.0.0
-	 */
-	public function getTypeIcon($type) {
-		return false;
-	}
-
-	/**
-	 * The extension can translate a given message to the requested languages.
-	 * If no translation is available false is to be returned.
-	 *
-	 * @param string $app
-	 * @param string $text
-	 * @param array $params
-	 * @param boolean $stripPath
-	 * @param boolean $highlightParams
-	 * @param string $languageCode
-	 * @return string|false
-	 * @since 8.0.0
-	 */
-	public function translate($app, $text, $params, $stripPath, $highlightParams, $languageCode) {
-		if ($app !== self::SHARE_BY_MAIL_APP) {
-			return false;
+	public function parse(IEvent $event, IEvent $previousEvent = null) {
+		if ($event->getApp() !== 'sharebymail') {
+			throw new \InvalidArgumentException();
 		}
-
-		$l = $this->getL10N($languageCode);
 
 		if ($this->activityManager->isFormattingFilteredObject()) {
-			$translation = $this->translateShort($text, $l, $params);
-			if ($translation !== false) {
-				return $translation;
+			try {
+				return $this->parseShortVersion($event);
+			} catch (\InvalidArgumentException $e) {
+				// Ignore and simply use the long version...
 			}
 		}
 
-		return $this->translateLong($text, $l, $params);
+		return $this->parseLongVersion($event);
 	}
 
-
 	/**
-	 * The extension can define the type of parameters for translation
-	 *
-	 * Currently known types are:
-	 * * file        => will strip away the path of the file and add a tooltip with it
-	 * * username    => will add the avatar of the user
-	 *
-	 * @param string $app
-	 * @param string $text
-	 * @return array|false
-	 * @since 8.0.0
+	 * @param IEvent $event
+	 * @return IEvent
+	 * @throws \InvalidArgumentException
+	 * @since 11.0.0
 	 */
-	public function getSpecialParameterList($app, $text) {
-		if ($app === self::SHARE_BY_MAIL_APP) {
-			switch ($text) {
-				case self::SUBJECT_SHARED_EMAIL_BY:
-					return [
-						0 => 'file',
-						1 => 'email',
-						2 => 'user',
-					];
-				case self::SUBJECT_SHARED_EMAIL_SELF:
-					return [
-						0 => 'file',
-						1 => 'email',
-					];
-			}
+	public function parseShortVersion(IEvent $event) {
+		$parsedParameters = $this->getParsedParameters($event);
+
+		if ($event->getSubject() === self::SUBJECT_SHARED_EMAIL_SELF) {
+			$event->setParsedSubject($this->l->t('Shared with %1$s', [
+					$parsedParameters['email']['name'],
+				]))
+				->setRichSubject($this->l->t('Shared with {email}'), [
+					'email' => $parsedParameters['email'],
+				])
+				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
+		} else if ($event->getSubject() === self::SUBJECT_SHARED_EMAIL_BY) {
+			$event->setParsedSubject($this->l->t('Shared with %1$s by %2$s', [
+					$parsedParameters['email']['name'],
+					$parsedParameters['actor']['name'],
+				]))
+				->setRichSubject($this->l->t('Shared with {email} by {actor}'), [
+					'email' => $parsedParameters['email'],
+					'actor' => $parsedParameters['actor'],
+				])
+				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
+
+		} else {
+			throw new \InvalidArgumentException();
 		}
 
-		return false;
+		return $event;
 	}
 
 	/**
-	 * The extension can define the parameter grouping by returning the index as integer.
-	 * In case no grouping is required false is to be returned.
-	 *
-	 * @param array $activity
-	 * @return integer|false
-	 * @since 8.0.0
+	 * @param IEvent $event
+	 * @return IEvent
+	 * @throws \InvalidArgumentException
+	 * @since 11.0.0
 	 */
-	public function getGroupParameter($activity) {
-		if ($activity['app'] === self::SHARE_BY_MAIL_APP) {
-			switch ($activity['subject']) {
-				case self::SUBJECT_SHARED_EMAIL_BY:
-					// Group by file name
-					return 1;
-				case self::SUBJECT_SHARED_EMAIL_SELF:
-					// Group by user/group
-					return 1;
-			}
+	public function parseLongVersion(IEvent $event) {
+		$parsedParameters = $this->getParsedParameters($event);
+
+		if ($event->getSubject() === self::SUBJECT_SHARED_EMAIL_SELF) {
+			$event->setParsedSubject($this->l->t('You shared %1$s with %2$s by mail', [
+					$parsedParameters['file']['path'],
+					$parsedParameters['email']['name'],
+				]))
+				->setRichSubject($this->l->t('You shared {file} with {email} by mail'), $parsedParameters)
+				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
+		} else if ($event->getSubject() === self::SUBJECT_SHARED_EMAIL_BY) {
+			$event->setParsedSubject($this->l->t('%3$s shared %1$s with %2$s by mail', [
+					$parsedParameters['file']['path'],
+					$parsedParameters['email']['name'],
+					$parsedParameters['actor']['name'],
+				]))
+				->setRichSubject($this->l->t('{actor} shared {file} with {email} by mail'), $parsedParameters)
+				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
+		} else {
+			throw new \InvalidArgumentException();
 		}
 
-		return false;
-
+		return $event;
 	}
 
-	/**
-	 * The extension can define additional navigation entries. The array returned has to contain two keys 'top'
-	 * and 'apps' which hold arrays with the relevant entries.
-	 * If no further entries are to be added false is no be returned.
-	 *
-	 * @return array|false
-	 * @since 8.0.0
-	 */
-	public function getNavigation() {
-		return false;
-	}
+	protected function getParsedParameters(IEvent $event) {
+		$subject = $event->getSubject();
+		$parameters = $event->getSubjectParameters();
 
-	/**
-	 * The extension can check if a customer filter (given by a query string like filter=abc) is valid or not.
-	 *
-	 * @param string $filterValue
-	 * @return boolean
-	 * @since 8.0.0
-	 */
-	public function isFilterValid($filterValue) {
-		return false;
-	}
-
-	/**
-	 * The extension can filter the types based on the filter if required.
-	 * In case no filter is to be applied false is to be returned unchanged.
-	 *
-	 * @param array $types
-	 * @param string $filter
-	 * @return array|false
-	 * @since 8.0.0
-	 */
-	public function filterNotificationTypes($types, $filter) {
-		return false;
-	}
-
-	/**
-	 * For a given filter the extension can specify the sql query conditions including parameters for that query.
-	 * In case the extension does not know the filter false is to be returned.
-	 * The query condition and the parameters are to be returned as array with two elements.
-	 * E.g. return array('`app` = ? and `message` like ?', array('mail', 'ownCloud%'));
-	 *
-	 * @param string $filter
-	 * @return array|false
-	 * @since 8.0.0
-	 */
-	public function getQueryForFilter($filter) {
-		return false;
-	}
-
-	protected function getL10N($languageCode = null) {
-		return $this->languageFactory->get(self::SHARE_BY_MAIL_APP, $languageCode);
-	}
-
-	/**
-	 * @param string $text
-	 * @param IL10N $l
-	 * @param array $params
-	 * @return bool|string
-	 */
-	protected function translateLong($text, IL10N $l, array $params) {
-
-		switch ($text) {
+		switch ($subject) {
 			case self::SUBJECT_SHARED_EMAIL_SELF:
-				return (string) $l->t('You shared %1$s with %2$s by mail', $params);
+				return [
+					'file' => $this->generateFileParameter((int) $event->getObjectId(), $parameters[0]),
+					'email' => $this->generateEmailParameter($parameters[1]),
+				];
 			case self::SUBJECT_SHARED_EMAIL_BY:
-				return (string) $l->t('%3$s shared %1$s with %2$s by mail', $params);
+				return [
+					'file' => $this->generateFileParameter((int) $event->getObjectId(), $parameters[0]),
+					'email' => $this->generateEmailParameter($parameters[1]),
+					'actor' => $this->generateUserParameter($parameters[2]),
+				];
 		}
-
-		return false;
+		throw new \InvalidArgumentException();
 	}
 
 	/**
-	 * @param string $text
-	 * @param IL10N $l
-	 * @param array $params
-	 * @return bool|string
+	 * @param int $id
+	 * @param string $path
+	 * @return array
 	 */
-	protected function translateShort($text, IL10N $l, array $params) {
-		switch ($text) {
-			case self::SUBJECT_SHARED_EMAIL_SELF:
-				return (string) $l->t('Shared with %2$s', $params);
-			case self::SUBJECT_SHARED_EMAIL_BY:
-				return (string) $l->t('Shared with %3$s by %2$s', $params);
-		}
-
-		return false;
+	protected function generateFileParameter($id, $path) {
+		return [
+			'type' => 'file',
+			'id' => $id,
+			'name' => basename($path),
+			'path' => $path,
+			'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $id]),
+		];
 	}
 
+	/**
+	 * @param string $email
+	 * @return array
+	 */
+	protected function generateEmailParameter($email) {
+		if (!isset($this->contactNames[$email])) {
+			$this->contactNames[$email] = $this->getContactName($email);
+		}
+
+		return [
+			'type' => 'email',
+			'id' => $email,
+			'name' => $this->contactNames[$email],
+		];
+	}
+
+	/**
+	 * @param string $uid
+	 * @return array
+	 */
+	protected function generateUserParameter($uid) {
+		if (!isset($this->displayNames[$uid])) {
+			$this->displayNames[$uid] = $this->getDisplayName($uid);
+		}
+
+		return [
+			'type' => 'user',
+			'id' => $uid,
+			'name' => $this->displayNames[$uid],
+		];
+	}
+
+	/**
+	 * @param string $email
+	 * @return string
+	 */
+	protected function getContactName($email) {
+		$addressBookContacts = $this->contactsManager->search($email, ['EMAIL']);
+
+		foreach ($addressBookContacts as $contact) {
+			if (isset($contact['isLocalSystemBook'])) {
+				continue;
+			}
+
+			if (in_array($email, $contact['EMAIL'])) {
+				return $contact['FN'];
+			}
+		}
+
+		return $email;
+	}
+
+	/**
+	 * @param string $uid
+	 * @return string
+	 */
+	protected function getDisplayName($uid) {
+		$user = $this->userManager->get($uid);
+		if ($user instanceof IUser) {
+			return $user->getDisplayName();
+		} else {
+			return $uid;
+		}
+	}
 }

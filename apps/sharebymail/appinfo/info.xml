@@ -12,4 +12,10 @@
         <nextcloud min-version="11" max-version="11" />
     </dependencies>
     <default_enable/>
+
+    <activity>
+        <providers>
+            <provider>OCA\ShareByMail\Activity</provider>
+        </providers>
+    </activity>
 </info>
