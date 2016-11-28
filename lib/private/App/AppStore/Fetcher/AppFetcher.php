@@ -79,17 +79,18 @@ class AppFetcher extends Fetcher {
 
 			// Filter all compatible releases
 			foreach($app['releases'] as $release) {
-				// Exclude all nightly releases
-				if($release['isNightly'] === false) {
+				// Exclude all nightly and pre-releases
+				if($release['isNightly'] === false
+					&& strpos($release['version'], '-') === false) {
 					// Exclude all versions not compatible with the current version
 					$versionParser = new VersionParser();
 					$version = $versionParser->getVersion($release['rawPlatformVersionSpec']);
-
-					if(
+					if (
 						// Major version is bigger or equals to the minimum version of the app
 						version_compare($ncMajorVersion, $version->getMinimumVersion(), '>=')
 						// Major version is smaller or equals to the maximum version of the app
-						&& version_compare($ncMajorVersion, $version->getMaximumVersion(), '<=')) {
+						&& version_compare($ncMajorVersion, $version->getMaximumVersion(), '<=')
+					) {
 						$releases[] = $release;
 					}
 				}
@@ -118,6 +119,7 @@ class AppFetcher extends Fetcher {
 			}
 		}
 
+		$response['data'] = array_values($response['data']);
 		return $response;
 	}
 }
