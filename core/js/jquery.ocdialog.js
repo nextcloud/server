@@ -73,19 +73,8 @@
 					return false;
 				}
 			});
-			$(window).resize(function() {
-				self.parent = self.$dialog.parent().length > 0 ? self.$dialog.parent() : $('body');
-				var pos = self.parent.position();
-				self.$dialog.css({
-					width: Math.min(self.options.width, $(window).innerWidth() - 20 ),
-					height: Math.min(self.options.height, $(window).innerHeight() - 20)
-				});
-				// set sizes of content
-				self._setSizes();
-			});
 
 			this._setOptions(this.options);
-			$(window).trigger('resize');
 			this._createOverlay();
 		},
 		_init: function() {

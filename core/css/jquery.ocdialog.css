@@ -3,7 +3,7 @@
 	color: #333;
 	border-radius: 3px; box-shadow: 0 0 7px #888;
 	padding: 15px;
-	z-index: 1000;
+	z-index: 10000;
 	font-size: 100%;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -12,6 +12,9 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	max-height: calc(100% - 20px);
+	max-width: calc(100% - 20px);
+	overflow: auto;
 }
 .oc-dialog-title {
 	background: #fff;
