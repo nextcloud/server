@@ -282,9 +282,13 @@
 			this.$('.popovermenu').on('afterHide', function() {
 				_this._menuOpen = false;
 			});
-			if (this._menuOpen) {
+			if (this._menuOpen != false) {
 				// Open menu again if it was opened before
-				OC.showMenu(null, this.$('.popovermenu'));
+				var shareId = parseInt(this._menuOpen, 10);
+				if(!_.isNaN(shareId)) {
+					var liSelector = 'li[data-share-id=' + shareId + ']';
+					OC.showMenu(null, this.$(liSelector + ' .popovermenu'));
+				}
 			}
 
 			this.delegateEvents();
@@ -342,7 +346,7 @@
 			var $menu = $li.find('.popovermenu');
 
 			OC.showMenu(null, $menu);
-			this._menuOpen = true;
+			this._menuOpen = $li.data('share-id');
 		},
 
 		onPermissionChange: function(event) {
