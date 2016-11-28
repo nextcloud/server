@@ -34,7 +34,6 @@
 						'</span>' +
 						'{{/unless}}' +
 						'{{/if}}' +
-						'{{#unless isMailShare}}' +
 						'<a href="#"><span class="icon icon-more"></span></a>' +
 						'<div class="popovermenu bubble hidden menu">' +
 							'<ul>' +
@@ -47,37 +46,36 @@
 								'</li>' +
 								'{{/unless}} {{/if}} {{/if}}' +
 								'{{#if isFolder}}' +
-									'{{#if createPermissionPossible}}' +
+									'{{#if createPermissionPossible}}{{#unless isMailShare}}' +
 									'<li>' +
 										'<span class="shareOption">' +
 											'<input id="canCreate-{{cid}}-{{shareWith}}" type="checkbox" name="create" class="permissions checkbox" {{#if hasCreatePermission}}checked="checked"{{/if}} data-permissions="{{createPermission}}"/>' +
 											'<label for="canCreate-{{cid}}-{{shareWith}}">{{createPermissionLabel}}</label>' +
 										'</span>' +
 									'</li>' +
-									'{{/if}}' +
-									'{{#if updatePermissionPossible}}' +
+									'{{/unless}}{{/if}}' +
+									'{{#if updatePermissionPossible}}{{#unless isMailShare}}' +
 									'<li>' +
 										'<span class="shareOption">' +
 											'<input id="canUpdate-{{cid}}-{{shareWith}}" type="checkbox" name="update" class="permissions checkbox" {{#if hasUpdatePermission}}checked="checked"{{/if}} data-permissions="{{updatePermission}}"/>' +
 											'<label for="canUpdate-{{cid}}-{{shareWith}}">{{updatePermissionLabel}}</label>' +
 										'</span>' +
 									'</li>' +
-									'{{/if}}' +
-									'{{#if deletePermissionPossible}}' +
+									'{{/unless}}{{/if}}' +
+									'{{#if deletePermissionPossible}}{{#unless isMailShare}}' +
 									'<li>' +
 										'<span class="shareOption">' +
 											'<input id="canDelete-{{cid}}-{{shareWith}}" type="checkbox" name="delete" class="permissions checkbox" {{#if hasDeletePermission}}checked="checked"{{/if}} data-permissions="{{deletePermission}}"/>' +
 											'<label for="canDelete-{{cid}}-{{shareWith}}">{{deletePermissionLabel}}</label>' +
 										'</span>' +
 									'</li>' +
-									'{{/if}}' +
+									'{{/unless}}{{/if}}' +
 								'{{/if}}' +
 								'<li>' +
 									'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span>{{unshareLabel}}</span></a>' +
 								'</li>' +
 							'</ul>' +
 						'</div>' +
-						'{{/unless}}' +
 					'</span>' +
 				'</li>' +
 			'{{/each}}' +
