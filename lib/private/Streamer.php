@@ -92,6 +92,7 @@ class Streamer {
 	 * @param string $stream Stream to read data from
 	 * @param string $internalName Filepath and name to be used in the archive.
 	 * @param int $size Filesize
+	 * @param int|bool $time File mtime as int, or false
 	 * @return bool $success
 	 */
 	public function addFileFromStream($stream, $internalName, $size, $time) {
