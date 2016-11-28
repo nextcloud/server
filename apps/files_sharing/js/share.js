@@ -114,6 +114,8 @@
 							shareType = parseInt(shareType, 10);
 							if (shareType === OC.Share.SHARE_TYPE_LINK) {
 								hasLink = true;
+							} else if (shareType === OC.Share.SHARE_TYPE_EMAIL) {
+								hasLink = true;
 							} else if (shareType === OC.Share.SHARE_TYPE_USER) {
 								hasShares = true;
 							} else if (shareType === OC.Share.SHARE_TYPE_GROUP) {
