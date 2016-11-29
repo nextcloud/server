@@ -776,7 +776,6 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 	overflow-y: auto;
 	height: 100%; /** overflow under the button row */
 	width: 100%;
-	padding-bottom: 55px;
 }
 
 #oc-dialog-filepicker-content .emptycontent {
@@ -793,6 +792,7 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 #oc-dialog-filepicker-content #filestable.filelist {
 	/* prevent the filepicker to overflow */
 	min-width: initial;
+	margin-bottom: 50px;
 }
 
 #oc-dialog-filepicker-content .filelist td {
