@@ -1,10 +1,7 @@
 { "translations": {
     "Authentication error" : "سالاھىيەت دەلىللەش خاتالىقى",
-    "Email saved" : "تورخەت ساقلاندى",
-    "Sharing" : "ھەمبەھىر",
-    "Log" : "خاتىرە",
-    "Language changed" : "تىل ئۆزگەردى",
     "Invalid request" : "ئىناۋەتسىز ئىلتىماس",
+    "Email saved" : "تورخەت ساقلاندى",
     "Admins can't remove themself from the admin group" : "باشقۇرغۇچى ئۆزىنى باشقۇرۇش گۇرۇپپىسىدىن چىقىرىۋېتەلمەيدۇ",
     "Unable to add user to group %s" : "ئىشلەتكۈچىنى %s گۇرۇپپىغا قوشالمايدۇ",
     "Unable to remove user from group %s" : "ئىشلەتكۈچىنى %s گۇرۇپپىدىن چىقىرىۋېتەلمەيدۇ",
@@ -20,7 +17,6 @@
     "Groups" : "گۇرۇپپا",
     "undo" : "يېنىۋال",
     "never" : "ھەرگىز",
-    "add group" : "گۇرۇپپا قوش",
     "A valid username must be provided" : "چوقۇم ئىناۋەتلىك ئىشلەتكۈچى ئىسمىدىن بىرنى تەمىنلەش كېرەك",
     "A valid password must be provided" : "چوقۇم ئىناۋەتلىك ئىم تەمىنلەش كېرەك",
     "__language_name__" : "ئۇيغۇرچە",
@@ -30,15 +26,13 @@
     "Encryption" : "شىفىرلاش",
     "Server address" : "مۇلازىمېتىر ئادرىسى",
     "Port" : "ئېغىز",
-    "More" : "تېخىمۇ كۆپ",
-    "Less" : "ئاز",
     "Version" : "نەشرى",
+    "Sharing" : "ھەمبەھىر",
     "Forum" : "مۇنبەر",
     "Cancel" : "ۋاز كەچ",
     "Email" : "تورخەت",
     "Your email address" : "تورخەت ئادرېسىڭىز",
     "Password" : "ئىم",
-    "Unable to change your password" : "ئىمنى ئۆزگەرتكىلى بولمايدۇ.",
     "Current password" : "نۆۋەتتىكى ئىم",
     "New password" : "يېڭى ئىم",
     "Change password" : "ئىم ئۆزگەرت",
@@ -49,6 +43,10 @@
     "Create" : "قۇر",
     "Other" : "باشقا",
     "set new password" : "يېڭى ئىم تەڭشە",
-    "Default" : "كۆڭۈلدىكى"
+    "Default" : "كۆڭۈلدىكى",
+    "Language changed" : "تىل ئۆزگەردى",
+    "Log" : "خاتىرە",
+    "More" : "تېخىمۇ كۆپ",
+    "Less" : "ئاز"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
