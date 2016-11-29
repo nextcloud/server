@@ -31,4 +31,11 @@
 		<command>OCA\DAV\Command\SyncBirthdayCalendar</command>
 		<command>OCA\DAV\Command\SyncSystemAddressBook</command>
 	</commands>
+
+	<activity>
+		<filters>
+			<filter>OCA\DAV\CalDAV\Activity\Filter\Calendar</filter>
+			<filter>OCA\DAV\CalDAV\Activity\Filter\Todo</filter>
+		</filters>
+	</activity>
 </info>

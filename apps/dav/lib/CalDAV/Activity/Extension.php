@@ -314,24 +314,7 @@ class Extension implements IExtension {
 	 * @return array|false
 	 */
 	public function getNavigation() {
-		$l = $this->getL10N();
-		return [
-			'apps' => [
-				self::CALENDAR => [
-					'id' => self::CALENDAR,
-					'icon' => 'icon-calendar-dark',
-					'name' => (string) $l->t('Calendar'),
-					'url' => $this->URLGenerator->linkToRoute('activity.Activities.showList', ['filter' => self::CALENDAR]),
-				],
-				self::CALENDAR_TODO => [
-					'id' => self::CALENDAR_TODO,
-					'icon' => 'icon-checkmark',
-					'name' => (string) $l->t('Todos'),
-					'url' => $this->URLGenerator->linkToRoute('activity.Activities.showList', ['filter' => self::CALENDAR_TODO]),
-				],
-			],
-			'top' => [],
-		];
+		return false;
 	}
 
 	/**
@@ -341,7 +324,7 @@ class Extension implements IExtension {
 	 * @return boolean
 	 */
 	public function isFilterValid($filterValue) {
-		return in_array($filterValue, [self::CALENDAR, self::CALENDAR_TODO]);
+		return false;
 	}
 
 	/**
@@ -353,12 +336,6 @@ class Extension implements IExtension {
 	 * @return array|false
 	 */
 	public function filterNotificationTypes($types, $filter) {
-		switch ($filter) {
-			case self::CALENDAR:
-				return array_intersect([self::CALENDAR, self::CALENDAR_EVENT], $types);
-			case self::CALENDAR_TODO:
-				return array_intersect([self::CALENDAR_TODO], $types);
-		}
 		return false;
 	}
 
