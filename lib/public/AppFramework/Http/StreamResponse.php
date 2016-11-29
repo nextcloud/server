@@ -54,7 +54,7 @@ class StreamResponse extends Response implements ICallbackResponse {
 	public function callback (IOutput $output) {
 		// handle caching
 		if ($output->getHttpResponseCode() !== Http::STATUS_NOT_MODIFIED) {
-			if (!(file_exists($this->filePath) || is_resource($this->filePath))) {
+			if (!(is_resource($this->filePath) || file_exists($this->filePath))) {
 				$output->setHttpResponseCode(Http::STATUS_NOT_FOUND);
 			} elseif ($output->setReadfile($this->filePath) === false) {
 				$output->setHttpResponseCode(Http::STATUS_BAD_REQUEST);
