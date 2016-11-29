@@ -73,13 +73,7 @@ class Extension implements IExtension {
 	 * @return array|false
 	 */
 	public function getNotificationTypes($languageCode) {
-		$l = $this->getL10N($languageCode);
-
-		return array(
-			self::CALENDAR => (string) $l->t('A <strong>calendar</strong> was modified'),
-			self::CALENDAR_EVENT => (string) $l->t('A calendar <strong>event</strong> was modified'),
-			self::CALENDAR_TODO => (string) $l->t('A calendar <strong>todo</strong> was modified'),
-		);
+		return false;
 	}
 
 	/**
@@ -90,14 +84,7 @@ class Extension implements IExtension {
 	 * @return array|false
 	 */
 	public function getDefaultTypes($method) {
-		$defaultTypes = [];
-		if ($method === self::METHOD_STREAM) {
-			$defaultTypes[] = self::CALENDAR;
-			$defaultTypes[] = self::CALENDAR_EVENT;
-			$defaultTypes[] = self::CALENDAR_TODO;
-		}
-
-		return $defaultTypes;
+		return false;
 	}
 
 	/**
@@ -108,14 +95,6 @@ class Extension implements IExtension {
 	 * @return string|false
 	 */
 	public function getTypeIcon($type) {
-		switch ($type) {
-			case self::CALENDAR:
-			case self::CALENDAR_EVENT:
-				return 'icon-calendar-dark';
-			case self::CALENDAR_TODO:
-				return 'icon-checkmark';
-		}
-
 		return false;
 	}
 
