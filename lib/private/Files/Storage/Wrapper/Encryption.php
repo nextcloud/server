@@ -444,7 +444,7 @@ class Encryption extends Wrapper {
 			}
 
 			// encryption disabled on write of new file and write to existing unencrypted file -> don't encrypt
-			if (!$encryptionEnabled || !$this->mount->getOption('encrypt', true)) {
+			if (!$encryptionEnabled || !$this->shouldEncrypt($path)) {
 				if (!$targetExists || !$targetIsEncrypted) {
 					$shouldEncrypt = false;
 				}
@@ -651,7 +651,7 @@ class Encryption extends Wrapper {
 	 * @param bool $isRename
 	 */
 	private function updateEncryptedVersion(Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $isRename) {
-		$isEncrypted = $this->encryptionManager->isEnabled() && $this->mount->getOption('encrypt', true) ? 1 : 0;
+		$isEncrypted = $this->encryptionManager->isEnabled() && $this->shouldEncrypt($targetInternalPath) ? 1 : 0;
 		$cacheInformation = [
 			'encrypted' => (bool)$isEncrypted,
 		];
@@ -954,6 +954,7 @@ class Encryption extends Wrapper {
 				throw $e;
 			}
 		}
+
 		return $encryptionModule;
 	}
 
@@ -989,6 +990,33 @@ class Encryption extends Wrapper {
 	protected function isVersion($path) {
 		$normalized = Filesystem::normalizePath($path);
 		return substr($normalized, 0, strlen('/files_versions/')) === '/files_versions/';
+	}
+
+	/**
+	 * check if the given storage should be encrypted or not
+	 *
+	 * @param $path
+	 * @return bool
+	 */
+	protected function shouldEncrypt($path) {
+		$fullPath = $this->getFullPath($path);
+		$mountPointConfig = $this->mount->getOption('encrypt', true);
+		if ($mountPointConfig === false) {
+			return false;
+		}
+
+		try {
+			$encryptionModule = $this->getEncryptionModule($fullPath);
+		} catch (ModuleDoesNotExistsException $e) {
+			return false;
+		}
+
+		if ($encryptionModule === null) {
+			$encryptionModule = $this->encryptionManager->getEncryptionModule();
+		}
+
+		return $encryptionModule->shouldEncrypt($fullPath);
+
 	}
 
 }
