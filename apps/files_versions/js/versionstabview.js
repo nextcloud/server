@@ -254,15 +254,12 @@
 		 * @param etag file etag (for caching)
 		 */
 		_lazyLoadPreview : function(options) {
-			var self = this;
 			var url = options.url;
 			var mime = options.mime;
 			var ready = options.callback;
 
 			// get mime icon url
 			var iconURL = OC.MimeType.getIconUrl(mime);
-			var previewURL,
-				urlSpec = {};
 			ready(iconURL); // set mimeicon URL
 
 			var img = new Image();
