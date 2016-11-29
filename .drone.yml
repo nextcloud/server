@@ -155,7 +155,7 @@ pipeline:
   mysql-php5.6:
     image: nextcloudci/php5.6:php5.6-7
     commands:
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql "" --debug
     when:
       matrix:
         DB: mysql
@@ -164,7 +164,7 @@ pipeline:
     image: nextcloudci/php5.6:php5.6-7
     commands:
       - sleep 10 # gives the database enough time to initialize
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql "" --debug
     when:
       matrix:
         DB: postgres
@@ -172,7 +172,7 @@ pipeline:
   mysqlmb4-php5.6:
     image: nextcloudci/php5.6:php5.6-7
     commands:
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4 "" --debug
     when:
       matrix:
         DB: mysqlmb4
@@ -360,50 +360,6 @@ pipeline:
         TESTS: db-codecov
 matrix:
   include:
-    - TESTS: signed-off-check
-    - TESTS: htaccess-checker
-    - TESTS: nodb-codecov
-    - TESTS: db-codecov    
-    - TESTS: integration-capabilities_features
-    - TESTS: integration-federation_features
-    - TESTS: integration-auth
-    - TESTS: integration-carddav
-    - TESTS: integration-dav-v2
-    - TESTS: integration-ocs-v1
-    - TESTS: integration-sharing-v1
-    - TESTS: integration-checksums
-    - TESTS: integration-external-storage
-    - TESTS: integration-provisioning-v1
-    - TESTS: integration-tags
-    - TESTS: integration-caldav
-    - TESTS: integration-comments
-    - TESTS: integration-favorites
-    - TESTS: integration-provisioning-v2
-    - TESTS: integration-webdav-related
-    - TESTS: integration-sharees-features
-    - TESTS: integration-setup-features
-    - TESTS: jsunit
-    - TESTS: check-autoloader
-    - TESTS: app-check-code
-    - TESTS: syntax-php5.6
-    - TESTS: syntax-php7.0
-    - TESTS: syntax-php7.1
-    - TESTS: litmus-v1
-    - TESTS: litmus-v2
-    - TESTS: caldavtester
-    - TESTS: carddavtester
-    - DB: NODB
-      PHP: 5.6
-    - DB: NODB
-      PHP: 7.0
-    - DB: NODB
-      PHP: 7.1
-    - DB: sqlite
-      PHP: 5.6
-    - DB: sqlite
-      PHP: 7.0
-    - DB: sqlite
-      PHP: 7.1
     - DB: mysql
       PHP: 5.6
     - DB: postgres
