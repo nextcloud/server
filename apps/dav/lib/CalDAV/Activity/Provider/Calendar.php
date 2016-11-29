@@ -81,63 +81,48 @@ class Calendar implements IProvider {
 	 * @since 11.0.0
 	 */
 	public function parse(IEvent $event, IEvent $previousEvent = null) {
-		if ($event->getApp() !== 'dav') {
+		if ($event->getApp() !== 'dav' || $event->getType() !== 'calendar') {
 			throw new \InvalidArgumentException();
 		}
 
+		$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
+
 		if ($event->getSubject() === self::SUBJECT_ADD) {
 			$subject = $this->l->t('{actor} created calendar {calendar}');
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_ADD . '_self') {
 			$subject = $this->l->t('You created calendar {calendar}');
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_DELETE) {
 			$subject = $this->l->t('{actor} deleted calendar {calendar}');
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_DELETE . '_self') {
 			$subject = $this->l->t('You deleted calendar {calendar}');
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_UPDATE) {
 			$subject = $this->l->t('{actor} updated calendar {calendar}');
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_UPDATE . '_self') {
 			$subject = $this->l->t('You updated calendar {calendar}');
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
 
 		} else if ($event->getSubject() === self::SUBJECT_SHARE_USER) {
 			$subject = $this->l->t('{actor} shared calendar {calendar} with you');
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_SHARE_USER . '_you') {
 			$subject = $this->l->t('You shared calendar {calendar} with {user}');
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_SHARE_USER . '_by') {
 			$subject = $this->l->t('{actor} shared calendar {calendar} with {user}');
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_UNSHARE_USER) {
 			$subject = $this->l->t('{actor} unshared calendar {calendar} from you');
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_UNSHARE_USER . '_you') {
 			$subject = $this->l->t('You unshared calendar {calendar} from {user}');
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_UNSHARE_USER . '_by') {
 			$subject = $this->l->t('{actor} unshared calendar {calendar} from {user}');
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_UNSHARE_USER . '_self') {
 			$subject = $this->l->t('{actor} unshared calendar {calendar} from themselves');
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
 
 		} else if ($event->getSubject() === self::SUBJECT_SHARE_GROUP . '_you') {
 			$subject = $this->l->t('You shared calendar {calendar} with group {group}');
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_SHARE_GROUP . '_by') {
 			$subject = $this->l->t('{actor} shared calendar {calendar} with group {group}');
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_UNSHARE_GROUP . '_you') {
 			$subject = $this->l->t('You unshared calendar {calendar} from group {group}');
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_UNSHARE_GROUP . '_by') {
 			$subject = $this->l->t('{actor} unshared calendar {calendar} from group {group}');
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
 		} else {
 			throw new \InvalidArgumentException();
 		}
