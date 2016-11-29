@@ -908,6 +908,9 @@ div.crumb.last {
 	font-weight: 600;
 	margin-right: 10px;
 }
+div.crumb.ellipsized {
+	padding: 0 10px 0 5px;
+}
 div.crumb a.ellipsislink {
 	padding: 0 !important;
 	position: relative;
