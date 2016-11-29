@@ -46,7 +46,7 @@ table td.filename .nametext {
 	padding: 0 6px 0 12px;
 }
 /* hide text of the actions on mobile */
-#fileList a.action span {
+#fileList a.action:not(.menuitem) span {
 	display: none;
 }
 
