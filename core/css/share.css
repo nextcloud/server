@@ -74,7 +74,7 @@
 	font-weight: bold;
 	line-height: 21px;
 	white-space: normal;
-	max-width: 100%;
+	width: 100%;
 }
 
 #shareWithList .sharingOptionsGroup {
@@ -108,6 +108,7 @@
 	display: inline-block;
 	overflow: hidden;
 	vertical-align: middle;
+	flex-grow: 5;
 }
 #shareWithList li label{
 	margin-right: 8px;
