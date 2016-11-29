@@ -46,6 +46,8 @@
 
 		<providers>
 			<provider>OCA\DAV\CalDAV\Activity\Provider\Calendar</provider>
+			<provider>OCA\DAV\CalDAV\Activity\Provider\Event</provider>
+			<provider>OCA\DAV\CalDAV\Activity\Provider\Todo</provider>
 		</providers>
 	</activity>
 </info>

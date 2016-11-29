@@ -22,6 +22,8 @@
 namespace OCA\DAV\CalDAV\Activity;
 
 
+use OCA\DAV\CalDAV\Activity\Provider\Calendar;
+use OCA\DAV\CalDAV\Activity\Provider\Event;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\IGroup;
@@ -63,7 +65,7 @@ class Backend {
 	 * @param array $calendarData
 	 */
 	public function onCalendarAdd(array $calendarData) {
-		$this->triggerCalendarActivity(Extension::SUBJECT_ADD, $calendarData);
+		$this->triggerCalendarActivity(Calendar::SUBJECT_ADD, $calendarData);
 	}
 
 	/**
@@ -74,7 +76,7 @@ class Backend {
 	 * @param array $properties
 	 */
 	public function onCalendarUpdate(array $calendarData, array $shares, array $properties) {
-		$this->triggerCalendarActivity(Extension::SUBJECT_UPDATE, $calendarData, $shares, $properties);
+		$this->triggerCalendarActivity(Calendar::SUBJECT_UPDATE, $calendarData, $shares, $properties);
 	}
 
 	/**
@@ -84,7 +86,7 @@ class Backend {
 	 * @param array $shares
 	 */
 	public function onCalendarDelete(array $calendarData, array $shares) {
-		$this->triggerCalendarActivity(Extension::SUBJECT_DELETE, $calendarData, $shares);
+		$this->triggerCalendarActivity(Calendar::SUBJECT_DELETE, $calendarData, $shares);
 	}
 
 	/**
@@ -112,8 +114,8 @@ class Backend {
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
-			->setObject(Extension::CALENDAR, (int) $calendarData['id'])
-			->setType(Extension::CALENDAR)
+			->setObject('calendar', (int) $calendarData['id'])
+			->setType('calendar')
 			->setAuthor($currentUser);
 
 		$changedVisibleInformation = array_intersect([
@@ -121,7 +123,7 @@ class Backend {
 			'{http://apple.com/ns/ical/}calendar-color'
 		], array_keys($changedProperties));
 
-		if (empty($shares) || ($action === Extension::SUBJECT_UPDATE && empty($changedVisibleInformation))) {
+		if (empty($shares) || ($action === Calendar::SUBJECT_UPDATE && empty($changedVisibleInformation))) {
 			$users = [$owner];
 		} else {
 			$users = $this->getUsersForShares($shares);
@@ -162,8 +164,8 @@ class Backend {
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
-			->setObject(Extension::CALENDAR, (int) $calendarData['id'])
-			->setType(Extension::CALENDAR)
+			->setObject('calendar', (int) $calendarData['id'])
+			->setType('calendar')
 			->setAuthor($currentUser);
 
 		foreach ($remove as $principal) {
@@ -179,8 +181,8 @@ class Backend {
 					$principal[2],
 					$event,
 					$calendarData,
-					Extension::SUBJECT_UNSHARE_USER,
-					Extension::SUBJECT_DELETE . '_self'
+					Calendar::SUBJECT_UNSHARE_USER,
+					Calendar::SUBJECT_DELETE . '_self'
 				);
 
 				if ($owner !== $principal[2]) {
@@ -190,15 +192,15 @@ class Backend {
 					];
 
 					if ($owner === $event->getAuthor()) {
-						$subject = Extension::SUBJECT_UNSHARE_USER . '_you';
+						$subject = Calendar::SUBJECT_UNSHARE_USER . '_you';
 					} else if ($principal[2] === $event->getAuthor()) {
-						$subject = Extension::SUBJECT_UNSHARE_USER . '_self';
+						$subject = Calendar::SUBJECT_UNSHARE_USER . '_self';
 					} else {
 						$event->setAffectedUser($event->getAuthor())
-							->setSubject(Extension::SUBJECT_UNSHARE_USER . '_you', $parameters);
+							->setSubject(Calendar::SUBJECT_UNSHARE_USER . '_you', $parameters);
 						$this->activityManager->publish($event);
 
-						$subject = Extension::SUBJECT_UNSHARE_USER . '_by';
+						$subject = Calendar::SUBJECT_UNSHARE_USER . '_by';
 						$parameters[] = $event->getAuthor();
 					}
 
@@ -207,7 +209,7 @@ class Backend {
 					$this->activityManager->publish($event);
 				}
 			} else if ($principal[1] === 'groups') {
-				$this->triggerActivityGroup($principal[2], $event, $calendarData, Extension::SUBJECT_UNSHARE_USER);
+				$this->triggerActivityGroup($principal[2], $event, $calendarData, Calendar::SUBJECT_UNSHARE_USER);
 
 				$parameters = [
 					$principal[2],
@@ -215,13 +217,13 @@ class Backend {
 				];
 
 				if ($owner === $event->getAuthor()) {
-					$subject = Extension::SUBJECT_UNSHARE_GROUP . '_you';
+					$subject = Calendar::SUBJECT_UNSHARE_GROUP . '_you';
 				} else {
 					$event->setAffectedUser($event->getAuthor())
-						->setSubject(Extension::SUBJECT_UNSHARE_GROUP . '_you', $parameters);
+						->setSubject(Calendar::SUBJECT_UNSHARE_GROUP . '_you', $parameters);
 					$this->activityManager->publish($event);
 
-					$subject = Extension::SUBJECT_UNSHARE_GROUP . '_by';
+					$subject = Calendar::SUBJECT_UNSHARE_GROUP . '_by';
 					$parameters[] = $event->getAuthor();
 				}
 
@@ -244,7 +246,7 @@ class Backend {
 			$principal = explode('/', $parts[1]);
 
 			if ($principal[1] === 'users') {
-				$this->triggerActivityUser($principal[2], $event, $calendarData, Extension::SUBJECT_SHARE_USER);
+				$this->triggerActivityUser($principal[2], $event, $calendarData, Calendar::SUBJECT_SHARE_USER);
 
 				if ($owner !== $principal[2]) {
 					$parameters = [
@@ -253,13 +255,13 @@ class Backend {
 					];
 
 					if ($owner === $event->getAuthor()) {
-						$subject = Extension::SUBJECT_SHARE_USER . '_you';
+						$subject = Calendar::SUBJECT_SHARE_USER . '_you';
 					} else {
 						$event->setAffectedUser($event->getAuthor())
-							->setSubject(Extension::SUBJECT_SHARE_USER . '_you', $parameters);
+							->setSubject(Calendar::SUBJECT_SHARE_USER . '_you', $parameters);
 						$this->activityManager->publish($event);
 
-						$subject = Extension::SUBJECT_SHARE_USER . '_by';
+						$subject = Calendar::SUBJECT_SHARE_USER . '_by';
 						$parameters[] = $event->getAuthor();
 					}
 
@@ -268,7 +270,7 @@ class Backend {
 					$this->activityManager->publish($event);
 				}
 			} else if ($principal[1] === 'groups') {
-				$this->triggerActivityGroup($principal[2], $event, $calendarData, Extension::SUBJECT_SHARE_USER);
+				$this->triggerActivityGroup($principal[2], $event, $calendarData, Calendar::SUBJECT_SHARE_USER);
 
 				$parameters = [
 					$principal[2],
@@ -276,13 +278,13 @@ class Backend {
 				];
 
 				if ($owner === $event->getAuthor()) {
-					$subject = Extension::SUBJECT_SHARE_GROUP . '_you';
+					$subject = Calendar::SUBJECT_SHARE_GROUP . '_you';
 				} else {
 					$event->setAffectedUser($event->getAuthor())
-						->setSubject(Extension::SUBJECT_SHARE_GROUP . '_you', $parameters);
+						->setSubject(Calendar::SUBJECT_SHARE_GROUP . '_you', $parameters);
 					$this->activityManager->publish($event);
 
-					$subject = Extension::SUBJECT_SHARE_GROUP . '_by';
+					$subject = Calendar::SUBJECT_SHARE_GROUP . '_by';
 					$parameters[] = $event->getAuthor();
 				}
 
@@ -379,16 +381,16 @@ class Backend {
 		$object = $this->getObjectNameAndType($objectData);
 		$action = $action . '_' . $object['type'];
 
-		if ($object['type'] === 'todo' && strpos($action, Extension::SUBJECT_OBJECT_UPDATE) === 0 && $object['status'] === 'COMPLETED') {
+		if ($object['type'] === 'todo' && strpos($action, Event::SUBJECT_OBJECT_UPDATE) === 0 && $object['status'] === 'COMPLETED') {
 			$action .= '_completed';
-		} else if ($object['type'] === 'todo' && strpos($action, Extension::SUBJECT_OBJECT_UPDATE) === 0 && $object['status'] === 'NEEDS-ACTION') {
+		} else if ($object['type'] === 'todo' && strpos($action, Event::SUBJECT_OBJECT_UPDATE) === 0 && $object['status'] === 'NEEDS-ACTION') {
 			$action .= '_needs_action';
 		}
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
-			->setObject(Extension::CALENDAR, (int) $calendarData['id'])
-			->setType($object['type'] === 'event' ? Extension::CALENDAR_EVENT : Extension::CALENDAR_TODO)
+			->setObject('calendar', (int) $calendarData['id'])
+			->setType($object['type'] === 'event' ? 'calendar_event' : 'calendar_todo')
 			->setAuthor($currentUser);
 
 		$users = $this->getUsersForShares($shares);
@@ -401,7 +403,10 @@ class Backend {
 					[
 						$currentUser,
 						$calendarData['{DAV:}displayname'],
-						$object['name'],
+						[
+							'id' => $object['id'],
+							'name' => $object['name'],
+						],
 					]
 				);
 			$this->activityManager->publish($event);
@@ -428,9 +433,9 @@ class Backend {
 		}
 
 		if ($componentType === 'VEVENT') {
-			return ['name' => (string) $component->SUMMARY, 'type' => 'event'];
+			return ['id' => (string) $component->UID, 'name' => (string) $component->SUMMARY, 'type' => 'event'];
 		}
-		return ['name' => (string) $component->SUMMARY, 'type' => 'todo', 'status' => (string) $component->STATUS];
+		return ['id' => (string) $component->UID, 'name' => (string) $component->SUMMARY, 'type' => 'todo', 'status' => (string) $component->STATUS];
 	}
 
 	/**
