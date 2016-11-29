@@ -22,8 +22,8 @@
  */
 namespace OC\Repair\NC11;
 
-use OC\SystemConfig;
 use OCP\BackgroundJob\IJobList;
+use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
@@ -32,33 +32,41 @@ class MoveAvatars implements IRepairStep {
 	/** @var IJobList */
 	private $jobList;
 
-	/** @var SystemConfig */
-	private $systemConfig;
+	/** @var IConfig */
+	private $config;
 
 	/**
 	 * MoveAvatars constructor.
 	 *
 	 * @param IJobList $jobList
-	 * @param SystemConfig $systemConfig
+	 * @param IConfig $config
 	 */
 	public function __construct(IJobList $jobList,
-								SystemConfig $systemConfig) {
+								IConfig $config) {
 		$this->jobList = $jobList;
-		$this->systemConfig = $systemConfig;
+		$this->config = $config;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getName() {
-		return 'Add mover avatar background job';
+		return 'Add move avatar background job';
 	}
 
 	public function run(IOutput $output) {
-		if ($this->systemConfig->getValue('enable_avatars', true) === false) {
+		// only run once
+		if ($this->config->getAppValue('core', 'moveavatarsdone') === 'yes') {
+			$output->info('Repair step already executed');
+			return;
+		}
+		if ($this->config->getSystemValue('enable_avatars', true) === false) {
 			$output->info('Avatars are disabled');
 		} else {
+			$output->info('Add background job');
 			$this->jobList->add(MoveAvatarsBackgroundJob::class);
+			// if all were done, no need to redo the repair during next upgrade
+			$this->config->setAppValue('core', 'moveavatarsdone', 'yes');
 		}
 	}
 }

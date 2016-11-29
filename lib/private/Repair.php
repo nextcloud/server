@@ -153,7 +153,7 @@ class Repair implements IOutput{
 			new MoveUpdaterStepFile(\OC::$server->getConfig()),
 			new MoveAvatars(
 				\OC::$server->getJobList(),
-				\OC::$server->getSystemConfig()
+				\OC::$server->getConfig()
 			),
 		];
 	}
