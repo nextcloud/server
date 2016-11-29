@@ -41,6 +41,7 @@ use OCA\User_LDAP\Exceptions\NotOnLDAP;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
+use OCP\Util;
 
 class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserInterface, IUserLDAP {
 	/** @var string[] $homesToKill */
@@ -146,17 +147,19 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		try {
 			$ldapRecord = $this->getLDAPUserByLoginName($uid);
 		} catch(\Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'user_ldap']);
+			if($this->ocConfig->getSystemValue('loglevel', Util::WARN) === Util::DEBUG) {
+				\OC::$server->getLogger()->logException($e, ['app' => 'user_ldap']);
+			}
 			return false;
 		}
 		$dn = $ldapRecord['dn'][0];
 		$user = $this->access->userManager->get($dn);
 
 		if(!$user instanceof User) {
-			\OCP\Util::writeLog('user_ldap',
+			Util::writeLog('user_ldap',
 				'LDAP Login: Could not get user object for DN ' . $dn .
 				'. Maybe the LDAP entry has no set display name attribute?',
-				\OCP\Util::WARN);
+				Util::WARN);
 			return false;
 		}
 		if($user->getUsername() !== false) {
@@ -224,16 +227,16 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			$this->access->getFilterPartForUserSearch($search)
 		));
 
-		\OCP\Util::writeLog('user_ldap',
+		Util::writeLog('user_ldap',
 			'getUsers: Options: search '.$search.' limit '.$limit.' offset '.$offset.' Filter: '.$filter,
-			\OCP\Util::DEBUG);
+			Util::DEBUG);
 		//do the search and translate results to owncloud names
 		$ldap_users = $this->access->fetchListOfUsers(
 			$filter,
 			$this->access->userManager->getAttributes(true),
 			$limit, $offset);
 		$ldap_users = $this->access->ownCloudUserNames($ldap_users);
-		\OCP\Util::writeLog('user_ldap', 'getUsers: '.count($ldap_users). ' Users found', \OCP\Util::DEBUG);
+		Util::writeLog('user_ldap', 'getUsers: '.count($ldap_users). ' Users found', Util::DEBUG);
 
 		$this->access->connection->writeToCache($cachekey, $ldap_users);
 		return $ldap_users;
@@ -303,8 +306,8 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		$user = $this->access->userManager->get($uid);
 
 		if(is_null($user)) {
-			\OCP\Util::writeLog('user_ldap', 'No DN found for '.$uid.' on '.
-				$this->access->connection->ldapHost, \OCP\Util::DEBUG);
+			Util::writeLog('user_ldap', 'No DN found for '.$uid.' on '.
+				$this->access->connection->ldapHost, Util::DEBUG);
 			$this->access->connection->writeToCache('userExists'.$uid, false);
 			return false;
 		} else if($user instanceof OfflineUser) {
