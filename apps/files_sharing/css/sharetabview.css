@@ -56,6 +56,8 @@
 	padding-bottom: 5px;
 	font-weight: bold;
 	white-space: normal;
+	display: inline-flex;
+	align-items: center;
 }
 
 #shareWithList .unshare img, #shareWithList .showCruds img {
@@ -89,7 +91,6 @@
 	padding-right: 8px;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	max-width: 110px;
 	display: inline-block;
 	overflow: hidden;
 	vertical-align: middle;

@@ -74,16 +74,18 @@
 	font-weight: bold;
 	line-height: 21px;
 	white-space: normal;
+	width: 100%;
 }
 
 #shareWithList .sharingOptionsGroup {
-	position: absolute;
-	right: 15px;
+	flex-shrink: 0;
+	position: relative;
 }
 
 #shareWithList .sharingOptionsGroup .popovermenu {
-	right: -14px;
+	right: -6px;
 	top: 40px;
+	padding: 3px 6px;
 }
 
 #shareWithList .shareOption {
@@ -103,10 +105,10 @@
 	padding-right: 8px;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	max-width: 254px;
 	display: inline-block;
 	overflow: hidden;
 	vertical-align: middle;
+	flex-grow: 5;
 }
 #shareWithList li label{
 	margin-right: 8px;
