@@ -44,5 +44,8 @@
 			<setting>OCA\DAV\CalDAV\Activity\Setting\Todo</setting>
 		</settings>
 
+		<providers>
+			<provider>OCA\DAV\CalDAV\Activity\Provider\Calendar</provider>
+		</providers>
 	</activity>
 </info>

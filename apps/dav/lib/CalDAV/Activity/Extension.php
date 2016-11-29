@@ -118,43 +118,6 @@ class Extension implements IExtension {
 		$l = $this->getL10N($languageCode);
 
 		switch ($text) {
-			case self::SUBJECT_ADD:
-				return (string) $l->t('%1$s created calendar %2$s', $params);
-			case self::SUBJECT_ADD . '_self':
-				return (string) $l->t('You created calendar %2$s', $params);
-			case self::SUBJECT_DELETE:
-				return (string) $l->t('%1$s deleted calendar %2$s', $params);
-			case self::SUBJECT_DELETE . '_self':
-				return (string) $l->t('You deleted calendar %2$s', $params);
-			case self::SUBJECT_UPDATE:
-				return (string) $l->t('%1$s updated calendar %2$s', $params);
-			case self::SUBJECT_UPDATE . '_self':
-				return (string) $l->t('You updated calendar %2$s', $params);
-
-			case self::SUBJECT_SHARE_USER:
-				return (string) $l->t('%1$s shared calendar %2$s with you', $params);
-			case self::SUBJECT_SHARE_USER . '_you':
-				return (string) $l->t('You shared calendar %2$s with %1$s', $params);
-			case self::SUBJECT_SHARE_USER . '_by':
-				return (string) $l->t('%3$s shared calendar %2$s with %1$s', $params);
-			case self::SUBJECT_UNSHARE_USER:
-				return (string) $l->t('%1$s unshared calendar %2$s from you', $params);
-			case self::SUBJECT_UNSHARE_USER . '_you':
-				return (string) $l->t('You unshared calendar %2$s from %1$s', $params);
-			case self::SUBJECT_UNSHARE_USER . '_by':
-				return (string) $l->t('%3$s unshared calendar %2$s from %1$s', $params);
-			case self::SUBJECT_UNSHARE_USER . '_self':
-				return (string) $l->t('%1$s unshared calendar %2$s from themselves', $params);
-
-			case self::SUBJECT_SHARE_GROUP . '_you':
-				return (string) $l->t('You shared calendar %2$s with group %1$s', $params);
-			case self::SUBJECT_SHARE_GROUP . '_by':
-				return (string) $l->t('%3$s shared calendar %2$s with group %1$s', $params);
-			case self::SUBJECT_UNSHARE_GROUP . '_you':
-				return (string) $l->t('You unshared calendar %2$s from group %1$s', $params);
-			case self::SUBJECT_UNSHARE_GROUP . '_by':
-				return (string) $l->t('%3$s unshared calendar %2$s from group %1$s', $params);
-
 			case self::SUBJECT_OBJECT_ADD . '_event':
 				return (string) $l->t('%1$s created event %3$s in calendar %2$s', $params);
 			case self::SUBJECT_OBJECT_ADD . '_event_self':
@@ -209,42 +172,6 @@ class Extension implements IExtension {
 	public function getSpecialParameterList($app, $text) {
 		if ($app === self::APP) {
 			switch ($text) {
-				case self::SUBJECT_ADD:
-				case self::SUBJECT_ADD . '_self':
-				case self::SUBJECT_DELETE:
-				case self::SUBJECT_DELETE . '_self':
-				case self::SUBJECT_UPDATE:
-				case self::SUBJECT_UPDATE . '_self':
-				case self::SUBJECT_SHARE_USER:
-				case self::SUBJECT_SHARE_USER . '_you':
-				case self::SUBJECT_UNSHARE_USER:
-				case self::SUBJECT_UNSHARE_USER . '_you':
-				case self::SUBJECT_UNSHARE_USER . '_self':
-					return [
-						0 => 'username',
-						//1 => 'calendar',
-					];
-				case self::SUBJECT_SHARE_USER . '_by':
-				case self::SUBJECT_UNSHARE_USER . '_by':
-					return [
-						0 => 'username',
-						//1 => 'calendar',
-						2 => 'username',
-					];
-				case self::SUBJECT_SHARE_GROUP . '_you':
-				case self::SUBJECT_UNSHARE_GROUP . '_you':
-					return [
-						//0 => 'group',
-						//1 => 'calendar',
-					];
-				case self::SUBJECT_SHARE_GROUP . '_by':
-				case self::SUBJECT_UNSHARE_GROUP . '_by':
-					return [
-						//0 => 'group',
-						//1 => 'calendar',
-						2 => 'username',
-					];
-
 				case self::SUBJECT_OBJECT_ADD . '_event':
 				case self::SUBJECT_OBJECT_ADD . '_event_self':
 				case self::SUBJECT_OBJECT_DELETE . '_event':
