@@ -110,7 +110,7 @@
     "Error creating user: {message}" : "Σφάλμα δημιουργίας χρήστη: {message}",
     "A valid password must be provided" : "Πρέπει να δοθεί έγκυρο συνθηματικό",
     "A valid email must be provided" : "Πρέπει να εισαχθεί ένα έγκυρο email",
-    "__language_name__" : "__όνομα_γλώσσας__",
+    "__language_name__" : "Ελληνικά",
     "Unlimited" : "Απεριόριστο",
     "Personal info" : "Προσωπικές Πληροφορίες",
     "Sessions" : "Συνεδρίες",

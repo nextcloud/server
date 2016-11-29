@@ -65,7 +65,7 @@ OC.L10N.register(
     "A valid username must be provided" : "Nužno je navesti valjano korisničko ime",
     "A valid password must be provided" : "Nužno je navesti valjanu lozinku",
     "A valid email must be provided" : "Nužno je navesti valjanu adresu e-pošte",
-    "__language_name__" : "__naziv_jezika___",
+    "__language_name__" : "Bosanski jezik",
     "Unlimited" : "Neograničeno",
     "None" : "Ništa",
     "Login" : "Prijava",

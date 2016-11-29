@@ -117,7 +117,7 @@ OC.L10N.register(
     "Error creating user: {message}" : "Feil ved oppretting av bruker: {message}",
     "A valid password must be provided" : "Oppgi et gyldig passord",
     "A valid email must be provided" : "En gyldig e-postadresse må oppgis",
-    "__language_name__" : "__language_name__",
+    "__language_name__" : "Norwegian Bokmål",
     "Unlimited" : "Ubegrenset",
     "Personal info" : "Personlig informasjon",
     "Sessions" : "Økt",

@@ -133,7 +133,7 @@ OC.L10N.register(
     "Error creating user: {message}" : "Hiba történt a felhasználó létrehozásakor: {message}",
     "A valid password must be provided" : "Érvényes jelszót kell megadnia",
     "A valid email must be provided" : "Érvényes e-mail címet kell megadni",
-    "__language_name__" : "__language_name__",
+    "__language_name__" : "Magyar",
     "Unlimited" : "Korlátlan",
     "Personal info" : "Személyes információk",
     "Sessions" : "Munkamenetek",

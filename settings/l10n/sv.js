@@ -97,7 +97,7 @@ OC.L10N.register(
     "Error creating user: {message}" : "Fel uppstod när användare skulle skapas: {message}",
     "A valid password must be provided" : "Ett giltigt lösenord måste anges",
     "A valid email must be provided" : "En giltig e-postadress måste anges",
-    "__language_name__" : "__language_name__",
+    "__language_name__" : "Svenska",
     "Unlimited" : "Obegränsad",
     "Personal info" : "Personlig information",
     "Sessions" : "Sessioner",

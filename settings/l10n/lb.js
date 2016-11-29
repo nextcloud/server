@@ -17,7 +17,7 @@ OC.L10N.register(
     "Groups" : "Gruppen",
     "undo" : "réckgängeg man",
     "never" : "ni",
-    "__language_name__" : "__language_name__",
+    "__language_name__" : "Lëtzebuergesch",
     "None" : "Keng",
     "Login" : "Login",
     "Open documentation" : "Dokumentatioun opmaachen",

@@ -19,6 +19,7 @@ OC.L10N.register(
     "Delete" : "刪除",
     "Groups" : "群組",
     "undo" : "復原",
+    "__language_name__" : "繁體中文（香港）",
     "Unlimited" : "無限",
     "None" : "空",
     "Login" : "登入",

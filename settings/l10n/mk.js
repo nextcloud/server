@@ -78,7 +78,7 @@ OC.L10N.register(
     "Error creating user: {message}" : "Грешка при креирање на корисник: {message}",
     "A valid password must be provided" : "Мора да се обезбеди валидна лозинка",
     "A valid email must be provided" : "Мора да се обезбеди валидна електронска пошта",
-    "__language_name__" : "__language_name__",
+    "__language_name__" : "македонски",
     "Unlimited" : "Неограничено",
     "Personal info" : "Лични податоци",
     "Sync clients" : "Клиенти за синхронизација",

@@ -81,7 +81,7 @@ OC.L10N.register(
     "Error creating user: {message}" : "Eroare la crearea utilizatorului: {message}",
     "A valid password must be provided" : "Trebuie să furnizaţi o parolă validă",
     "A valid email must be provided" : "Trebuie furnizată o adresă email validă",
-    "__language_name__" : "_language_name_",
+    "__language_name__" : "Română",
     "Unlimited" : "Nelimitată",
     "Personal info" : "Informații personale",
     "Sessions" : "Sesiuni",

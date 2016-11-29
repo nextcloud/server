@@ -93,7 +93,7 @@ OC.L10N.register(
     "Error creating user: {message}" : "Virhe käyttäjää luotaessa: {message}",
     "A valid password must be provided" : "Anna kelvollinen salasana",
     "A valid email must be provided" : "Tarvitaan kelvollinen sähköpostiosoite",
-    "__language_name__" : "_kielen_nimi_",
+    "__language_name__" : "Suomi",
     "Unlimited" : "Rajoittamaton",
     "Personal info" : "Henkilökohtaiset tiedot",
     "Sessions" : "Istunnot",

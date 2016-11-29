@@ -52,7 +52,7 @@ OC.L10N.register(
     "deleted {userName}" : "izbrisano {userName}",
     "A valid username must be provided" : "Nužno je navesti valjano korisničko ime",
     "A valid password must be provided" : "Nužno je navesti valjanu lozinku",
-    "__language_name__" : "__jezik_naziv___",
+    "__language_name__" : "Hrvatski",
     "Unlimited" : "Neograničeno",
     "None" : "Ništa",
     "Login" : "Prijava",
