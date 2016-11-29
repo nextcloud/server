@@ -250,7 +250,7 @@ class SecurityMiddleware extends Middleware {
 					$url = $this->urlGenerator->linkToRoute(
 						'core.login.showLoginForm',
 						[
-							'redirect_url' => urlencode($this->request->server['REQUEST_URI']),
+							'redirect_url' => $this->request->server['REQUEST_URI'],
 						]
 					);
 					$response = new RedirectResponse($url);

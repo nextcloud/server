@@ -459,7 +459,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 				'server' =>
 					[
 						'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-						'REQUEST_URI' => 'owncloud/index.php/apps/specialapp'
+						'REQUEST_URI' => 'nextcloud/index.php/apps/specialapp'
 					]
 			],
 			$this->createMock(ISecureRandom::class),
@@ -472,10 +472,10 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->with(
 				'core.login.showLoginForm',
 				[
-					'redirect_url' => 'owncloud%2Findex.php%2Fapps%2Fspecialapp',
+					'redirect_url' => 'nextcloud/index.php/apps/specialapp',
 				]
 			)
-			->will($this->returnValue('http://localhost/index.php/login?redirect_url=owncloud%2Findex.php%2Fapps%2Fspecialapp'));
+			->will($this->returnValue('http://localhost/nextcloud/index.php/login?redirect_url=nextcloud/index.php/apps/specialapp'));
 		$this->logger
 			->expects($this->once())
 			->method('debug')
@@ -485,7 +485,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			'test',
 			new NotLoggedInException()
 		);
-		$expected = new RedirectResponse('http://localhost/index.php/login?redirect_url=owncloud%2Findex.php%2Fapps%2Fspecialapp');
+		$expected = new RedirectResponse('http://localhost/nextcloud/index.php/login?redirect_url=nextcloud/index.php/apps/specialapp');
 		$this->assertEquals($expected , $response);
 	}
 
@@ -494,7 +494,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			[
 				'server' => [
 					'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-					'REQUEST_URI' => 'owncloud/index.php/apps/specialapp',
+					'REQUEST_URI' => 'nextcloud/index.php/apps/specialapp',
 				],
 			],
 			$this->createMock(ISecureRandom::class),
@@ -540,7 +540,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 				'server' =>
 					[
 						'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-						'REQUEST_URI' => 'owncloud/index.php/apps/specialapp'
+						'REQUEST_URI' => 'nextcloud/index.php/apps/specialapp'
 					]
 			],
 			$this->createMock(ISecureRandom::class),
