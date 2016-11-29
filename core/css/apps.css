@@ -616,6 +616,7 @@ em {
 }
 .tabHeaders .tabHeader, .tabHeaders .tabHeader a {
 	color: #888;
+	margin-bottom: 1px;
 }
 .tabHeaders .tabHeader.selected {
 	font-weight: 600;
@@ -628,6 +629,7 @@ em {
 .tabHeaders .tabHeader.selected a,
 .tabHeaders .tabHeader:hover,
 .tabHeaders .tabHeader:hover a {
+	margin-bottom: 0px;
 	color: #000;
 }
 .tabsContainer {
