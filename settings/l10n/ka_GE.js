@@ -22,7 +22,7 @@ OC.L10N.register(
     "never" : "არასდროს",
     "A valid username must be provided" : "უნდა მიუთითოთ არსებული მომხმარებლის სახელი",
     "A valid password must be provided" : "უნდა მიუთითოთ არსებული პაროლი",
-    "__language_name__" : "__language_name__",
+    "__language_name__" : "ქართული",
     "Unlimited" : "ულიმიტო",
     "None" : "არა",
     "Login" : "ლოგინი",

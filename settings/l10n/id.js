@@ -115,7 +115,7 @@ OC.L10N.register(
     "Error creating user: {message}" : "Gagal membuat pengguna: {message}",
     "A valid password must be provided" : "Harus memberikan sandi yang benar",
     "A valid email must be provided" : "Email yang benar harus diberikan",
-    "__language_name__" : "__language_name__",
+    "__language_name__" : "Bahasa Indonesia",
     "Unlimited" : "Tak terbatas",
     "Personal info" : "Info pribadi",
     "Sessions" : "Sesi",

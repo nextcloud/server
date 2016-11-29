@@ -73,7 +73,7 @@ OC.L10N.register(
     "A valid username must be provided" : "نام کاربری صحیح باید وارد شود",
     "A valid password must be provided" : "رمز عبور صحیح باید وارد شود",
     "A valid email must be provided" : "یک ایمیل معتبر باید وارد شود",
-    "__language_name__" : "__language_name__",
+    "__language_name__" : "فارسى",
     "Unlimited" : "نامحدود",
     "Personal info" : "مشخصات شخصی",
     "Sync clients" : "همگام‌سازی مشتریان",

@@ -67,7 +67,7 @@ OC.L10N.register(
     "A valid username must be provided" : "Jānorāda derīgs lietotājvārds",
     "A valid password must be provided" : "Jānorāda derīga parole",
     "A valid email must be provided" : "Jānorāda derīga e-pasta adrese",
-    "__language_name__" : "__valodas_nosaukums__",
+    "__language_name__" : "Latviešu",
     "Unlimited" : "Neierobežota",
     "Sync clients" : "Sinhronizācijas lietotnes",
     "None" : "Nav",

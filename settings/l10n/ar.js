@@ -42,7 +42,7 @@ OC.L10N.register(
     "never" : "بتاتا",
     "A valid username must be provided" : "يجب ادخال اسم مستخدم صحيح",
     "A valid password must be provided" : "يجب ادخال كلمة مرور صحيحة",
-    "__language_name__" : "__language_name__",
+    "__language_name__" : "اللغة العربية",
     "Unlimited" : "غير محدود",
     "None" : "لا شيء",
     "Login" : "تسجيل الدخول",

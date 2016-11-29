@@ -24,7 +24,7 @@ OC.L10N.register(
     "Groups" : "Nhóm",
     "undo" : "lùi lại",
     "never" : "không thay đổi",
-    "__language_name__" : "__Ngôn ngữ___",
+    "__language_name__" : "Tiếng Việt",
     "Unlimited" : "Không giới hạn",
     "None" : "Không gì cả",
     "Login" : "Đăng nhập",

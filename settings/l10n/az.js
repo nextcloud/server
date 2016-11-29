@@ -71,7 +71,7 @@ OC.L10N.register(
     "A valid username must be provided" : "Düzgün istifadəçi adı daxil edilməlidir",
     "A valid password must be provided" : "Düzgün şifrə daxil edilməlidir",
     "A valid email must be provided" : "Düzgün email təqdim edilməlidir",
-    "__language_name__" : "__AZ_Azerbaijan__",
+    "__language_name__" : "Azərbaycan dili",
     "Unlimited" : "Limitsiz",
     "Personal info" : "Şəxsi məlumat",
     "Sync clients" : "Müştəriləri sinxronizasiya et",
