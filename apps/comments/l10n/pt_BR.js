@@ -26,8 +26,6 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s comentado em %2$s",
     "{author} commented on {file}" : "{author} comentado em {file}",
     "<strong>Comments</strong> for files" : "<strong>Comentários</strong> para arquivos",
-    "A (now) deleted user mentioned you in a comment on \"%s\"." : "Um (agora) usuário deletado mencionou voce em um comentário em \"%s\".",
-    "%s mentioned you in a comment on \"%s\"." : "%s mencionou voce em um comentário em \"%s\".",
     "Type in a new comment..." : "Digite um novo comentário...",
     "No other comments available" : "Nenhum outro comentário disponível",
     "More comments..." : "Mais comentários...",

@@ -26,8 +26,6 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s hozzászólt ehhez: %2$s",
     "{author} commented on {file}" : "{author} hozzászólt ehhez: {file}",
     "<strong>Comments</strong> for files" : "<strong>Hozzászólások</strong> fájlokhoz",
-    "A (now) deleted user mentioned you in a comment on \"%s\"." : "Egy (már) törölt felhasználó megemlített itt egy hozzászólásban: \"%s\".",
-    "%s mentioned you in a comment on \"%s\"." : "%s megemlített itt egy hozzászólásban: \"%s\".",
     "Type in a new comment..." : "Új hozzászólás írása...",
     "No other comments available" : "Nincs több hozzászólás.",
     "More comments..." : "Több hozzászólás...",

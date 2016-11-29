@@ -20,8 +20,6 @@
     "%1$s commented" : "%1$s skomentował",
     "%1$s commented on %2$s" : "%1$s skomentował %2$s",
     "<strong>Comments</strong> for files" : "<strong>Komentarze</strong> dla plików",
-    "A (now) deleted user mentioned you in a comment on \"%s\"." : "Już usunięty użytkownik wspomniał o Tobie w komentarzu do \"%s\".",
-    "%s mentioned you in a comment on \"%s\"." : "%s wspomniał o Tobie w komentarzu do \"%s\".",
     "Type in a new comment..." : "Wprowadź nowy komentarz...",
     "No other comments available" : "Nie ma więcej komentarzy",
     "More comments..." : "Więcej komentarzy...",

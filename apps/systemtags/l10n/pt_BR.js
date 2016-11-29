@@ -36,6 +36,8 @@ OC.L10N.register(
     "{actor} added system tag {systemtag} to {file}" : "{actor} adicionou a etiqueta do sistema {systemtag} para {file}",
     "You removed system tag %2$s from %1$s" : "Você removeu a etiqueta do sistema %2$s de %1$s",
     "You removed system tag {systemtag} from {file}" : "Você removeu a etiqueta do sistema {systemtag} de {file} ",
+    "%1$s removed system tag %3$s from %2$s" : "%1$s tag removida do sistema %3$s de %2$s",
+    "{actor} removed system tag {systemtag} from {file}" : "{actor} tag removida do sistema {systemtag} de {file}",
     "%s (restricted)" : "%s (restrito)",
     "%s (invisible)" : "%s (invisivel)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>As etiquetas do sistema</strong> para um arquivo foram modificadas",

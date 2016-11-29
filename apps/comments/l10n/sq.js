@@ -25,8 +25,6 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s komentoi te %2$s",
     "{author} commented on {file}" : "{autori} komentoj në {file}",
     "<strong>Comments</strong> for files" : "<strong>Komente</strong> për file-et",
-    "A (now) deleted user mentioned you in a comment on \"%s\"." : "Një përdorues i fshirë (tani) ju përmendi në një koment në \"%s\".",
-    "%s mentioned you in a comment on \"%s\"." : "%s ju përmendi në një koment në \"%s\".",
     "Type in a new comment..." : "Shtypni një koment të ri…",
     "No other comments available" : "S’ka komente të tjera",
     "More comments..." : "Më tepër komente…",
