@@ -15,7 +15,7 @@
 		'<li data-revision="{{timestamp}}">' +
 		'<div>' +
 		'<div class="preview-container">' +
-		'<img class="preview" src="{{previewUrl}}"/>' +
+		'<img class="preview" src="{{previewUrl}}" width="44" height="44"/>' +
 		'</div>' +
 		'<div class="version-container">' +
 		'<div>' +
@@ -162,6 +162,15 @@
 		_onAddModel: function(model) {
 			var $el = $(this.itemTemplate(this._formatItem(model)));
 			this.$versionsContainer.append($el);
+
+			var preview = $el.find('.preview')[0];
+			this._lazyLoadPreview({
+				url: model.getPreviewUrl(),
+				mime: model.get('mimetype'),
+				callback: function(url) {
+					preview.src = url;
+				}
+			});
 			$el.find('.has-tooltip').tooltip();
 		},
 
@@ -206,7 +215,6 @@
 				downloadUrl: version.getDownloadUrl(),
 				downloadIconUrl: OC.imagePath('core', 'actions/download'),
 				revertIconUrl: OC.imagePath('core', 'actions/history'),
-				previewUrl: version.getPreviewUrl(),
 				revertLabel: t('files_versions', 'Restore'),
 				canRevert: (this.collection.getFileInfo().get('permissions') & OC.PERMISSION_UPDATE) !== 0
 			}, version.attributes);
@@ -235,6 +243,41 @@
 				return false;
 			}
 			return !fileInfo.isDirectory();
+		},
+
+		/**
+		 * Lazy load a file's preview.
+		 *
+		 * @param path path of the file
+		 * @param mime mime type
+		 * @param callback callback function to call when the image was loaded
+		 * @param etag file etag (for caching)
+		 */
+		_lazyLoadPreview : function(options) {
+			var self = this;
+			var url = options.url;
+			var mime = options.mime;
+			var ready = options.callback;
+
+			// get mime icon url
+			var iconURL = OC.MimeType.getIconUrl(mime);
+			var previewURL,
+				urlSpec = {};
+			ready(iconURL); // set mimeicon URL
+
+			var img = new Image();
+			img.onload = function(){
+				// if loading the preview image failed (no preview for the mimetype) then img.width will < 5
+				if (img.width > 5) {
+					ready(url, img);
+				} else if (options.error) {
+					options.error();
+				}
+			};
+			if (options.error) {
+				img.onerror = options.error;
+			}
+			img.src = url;
 		}
 	});
 

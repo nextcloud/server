@@ -81,7 +81,8 @@
 					name: version.name,
 					fullPath: fullPath,
 					timestamp: revision,
-					size: version.size
+					size: version.size,
+					mimetype: version.mimetype
 				};
 			});
 			this._endReached = result.data.endReached;
