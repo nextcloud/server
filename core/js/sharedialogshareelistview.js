@@ -22,7 +22,7 @@
 			'{{#each sharees}}' +
 				'<li data-share-id="{{shareId}}" data-share-type="{{shareType}}" data-share-with="{{shareWith}}">' +
 					'{{#if avatarEnabled}}' +
-					'<div class="avatar {{#if modSeed}}imageplaceholderseed{{/if}}" data-username="{{shareWith}}" {{#if modSeed}}data-seed="{{shareWith}} {{shareType}}"{{/if}}></div>' +
+					'<div class="avatar {{#if modSeed}}imageplaceholderseed{{/if}}" data-username="{{shareWith}}" data-displayname="{{shareWithDisplayName}}" {{#if modSeed}}data-seed="{{shareWith}} {{shareType}}"{{/if}}></div>' +
 					'{{/if}}' +
 					'<span class="has-tooltip username" title="{{shareWithTitle}}">{{shareWithDisplayName}}</span>' +
 					'<span class="sharingOptionsGroup">' +
@@ -269,7 +269,8 @@
 						$this.css({width: 32, height: 32});
 						$this.imageplaceholder($this.data('seed'));
 					} else {
-						$this.avatar($this.data('username'), 32);
+						//                         user,   size,  ie8fix, hidedefault,  callback, displayname
+						$this.avatar($this.data('username'), 32, undefined, undefined, undefined, $this.data('displayname'));
 					}
 				});
 			}
