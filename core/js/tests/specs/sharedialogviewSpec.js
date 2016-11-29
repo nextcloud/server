@@ -464,8 +464,9 @@ describe('OC.Share.ShareDialogView', function() {
 
 			it('test avatar user', function() {
 				var args = avatarStub.getCall(1).args;
-				expect(args.length).toEqual(2);
+				expect(args.length).toEqual(6);
 				expect(args[0]).toEqual('user1');
+				expect(args[5]).toEqual('User One');
 			});
 
 			it('test avatar for groups', function() {
