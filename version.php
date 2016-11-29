@@ -33,7 +33,7 @@ $OC_VersionString = '11.0 beta 2';
 
 $OC_VersionCanBeUpgradedFrom = array(9, 1);
 
-// The ownCloud channel
+// default Nextcloud channel
 $OC_Channel = 'git';
 
 // The build number
