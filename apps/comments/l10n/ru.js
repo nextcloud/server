@@ -22,8 +22,6 @@ OC.L10N.register(
     "%1$s commented" : "%1$s прокомментировано",
     "%1$s commented on %2$s" : "%1$s прокомментировано на %2$s",
     "<strong>Comments</strong> for files" : "<strong>Комментарии</strong> к файлам",
-    "A (now) deleted user mentioned you in a comment on \"%s\"." : "Пользователь (удалённый в настоящее время) упомянул вас в комментарии \"%s\".",
-    "%s mentioned you in a comment on \"%s\"." : "%s упомянул вас в комментарии \"%s\".",
     "Type in a new comment..." : "Напишите новый комментарий...",
     "No other comments available" : "Другие комментарии отсутствуют",
     "More comments..." : "Ещё комментарии...",

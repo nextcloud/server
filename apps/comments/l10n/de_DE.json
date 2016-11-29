@@ -24,8 +24,6 @@
     "%1$s commented on %2$s" : "%1$s kommentierte %2$s",
     "{author} commented on {file}" : "{author} hat {file} kommentiert",
     "<strong>Comments</strong> for files" : "<strong>Kommentare</strong> für Dateien",
-    "A (now) deleted user mentioned you in a comment on \"%s\"." : "Ein (nun) gelöschter Nutzer erwähnt Dich in einem Kommentar zu \"%s\".",
-    "%s mentioned you in a comment on \"%s\"." : "%s erwähnt Sie in einem Kommentar zu \"%s\".",
     "Type in a new comment..." : "Neuen Kommentar eingeben...",
     "No other comments available" : "Keine weiteren Kommentare verfügbar",
     "More comments..." : "Weitere Kommentare...",

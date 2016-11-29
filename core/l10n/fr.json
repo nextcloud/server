@@ -120,6 +120,7 @@
     "Link" : "Lien",
     "Password protect" : "Protéger par un mot de passe",
     "Allow upload and editing" : "Autoriser l'envoi et l'édition",
+    "File drop (upload only)" : "Dépôt de fichier (uniquement pour le téléversement)",
     "Email link to person" : "Envoyer le lien par courriel",
     "Send" : "Envoyer",
     "Shared with you and the group {group} by {owner}" : "Partagé avec vous et le groupe {group} par {owner}",

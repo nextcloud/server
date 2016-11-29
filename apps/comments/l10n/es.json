@@ -20,7 +20,6 @@
     "%1$s commented" : "%1$s comentados",
     "%1$s commented on %2$s" : "%1$s comentados en %2$s",
     "<strong>Comments</strong> for files" : "<strong>Comentarios</strong> para archivos",
-    "%s mentioned you in a comment on \"%s\"." : "%s te ha mencionado en un comentario en \"%s\".",
     "Type in a new comment..." : "Escribe un nuevo comentario...",
     "No other comments available" : "No hay otros comentarios disponibles",
     "More comments..." : "Más comentarios...",
