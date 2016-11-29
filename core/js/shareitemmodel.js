@@ -391,6 +391,26 @@
 			return share.share_with_displayname;
 		},
 
+		/**
+		 * returns the array index of a sharee for a provided shareId
+		 *
+		 * @param shareId
+		 * @returns {number}
+		 */
+		findShareWithIndex: function(shareId) {
+			var shares = this.get('shares');
+			if(!_.isArray(shares)) {
+				throw "Unknown Share";
+			}
+			for(var i = 0; i < shares.length; i++) {
+				var shareWith = shares[i];
+				if(shareWith['id'] == shareId) {
+					return i;
+				}
+			}
+			throw "Unknown Sharee";
+		},
+
 		getShareType: function(shareIndex) {
 			/** @type OC.Share.Types.ShareInfo **/
 			var share = this.get('shares')[shareIndex];
