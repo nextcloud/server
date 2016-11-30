@@ -36,6 +36,7 @@
 namespace OC;
 
 use OC\Template\JSConfigHelper;
+use OC\Template\SCSSCacher;
 
 class TemplateLayout extends \OC_Template {
 
@@ -193,14 +194,19 @@ class TemplateLayout extends \OC_Template {
 		// Read the selected theme from the config file
 		$theme = \OC_Util::getTheme();
 
+		$SCSSCacher = new SCSSCacher(
+			\OC::$server->getLogger(),
+			\OC::$server->getAppDataDir('css'),
+			\OC::$server->getURLGenerator(),
+			\OC::$server->getSystemConfig()
+		);
+
 		$locator = new \OC\Template\CSSResourceLocator(
 			\OC::$server->getLogger(),
 			$theme,
 			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
 			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
-			\OC::$server->getAppDataDir('css'),
-			\OC::$server->getURLGenerator(),
-			\OC::$server->getSystemConfig());
+			$SCSSCacher);
 		$locator->find($styles);
 		return $locator->getResources();
 	}
