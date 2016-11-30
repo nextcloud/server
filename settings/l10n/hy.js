@@ -2,10 +2,8 @@ OC.L10N.register(
     "settings",
     {
     "Wrong password" : "Սխալ գաղտնաբառ",
-    "Unable to change password" : "Չկարողացա փոխել գաղտնաբառը",
     "Saved" : "Պահված",
-    "Updates" : "Թարմացումներ",
-    "Language changed" : "Լեզուն փոխվեց",
+    "Unable to change password" : "Չկարողացա փոխել գաղտնաբառը",
     "Delete" : "Ջնջել",
     "Very weak password" : "Շատ թույլ գաղտնաբառ",
     "Weak password" : "Թույլ գաղտնաբառ",
@@ -14,9 +12,6 @@ OC.L10N.register(
     "Strong password" : "Ուժեղ գաղտնաբառ",
     "Groups" : "Խմբեր",
     "never" : "երբեք",
-    "add group" : "խումբ ավելացնել",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "days" : "օր",
     "Cancel" : "Չեղարկել",
     "Email" : "Էլ. հասցե",
@@ -27,7 +22,11 @@ OC.L10N.register(
     "Help translate" : "Օգնել թարգմանել",
     "Name" : "Անուն",
     "Username" : "Օգտանուն",
+    "Other" : "Այլ",
+    "Language changed" : "Լեզուն փոխվեց",
+    "SSL" : "SSL",
+    "TLS" : "TLS",
     "Group" : "Խումբ",
-    "Other" : "Այլ"
+    "Updates" : "Թարմացումներ"
 },
 "nplurals=2; plural=(n != 1);");
