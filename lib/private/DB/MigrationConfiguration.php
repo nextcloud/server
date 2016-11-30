@@ -22,6 +22,7 @@ namespace OC\DB;
 
 use Doctrine\DBAL\Migrations\Finder\MigrationFinderInterface;
 use Doctrine\DBAL\Migrations\OutputWriter;
+use Doctrine\DBAL\Platforms\OraclePlatform;
 
 class MigrationConfiguration extends \Doctrine\DBAL\Migrations\Configuration\Configuration {
 
@@ -33,12 +34,18 @@ class MigrationConfiguration extends \Doctrine\DBAL\Migrations\Configuration\Con
 	}
 
 	public function setMigrationsColumnName($columnName) {
-		$columnName = $this->getConnection()->getDatabasePlatform()->quoteIdentifier($columnName);
+		$platform = $this->getConnection()->getDatabasePlatform();
+		if ($platform instanceof OraclePlatform) {
+			$columnName = $platform->quoteIdentifier($columnName);
+		}
 		parent::setMigrationsColumnName($columnName);
 	}
 
 	public function setMigrationsTableName($tableName) {
-		$tableName = $this->getConnection()->getDatabasePlatform()->quoteIdentifier($tableName);
+		$platform = $this->getConnection()->getDatabasePlatform();
+		if ($platform instanceof OraclePlatform) {
+			$tableName = $platform->quoteIdentifier($tableName);
+		}
 		parent::setMigrationsTableName($tableName);
 	}
 
