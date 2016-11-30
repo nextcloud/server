@@ -102,7 +102,7 @@ class SCSSCacher {
 	private function is_cached($fileNameCSS, $fileNameSCSS, ISimpleFolder $folder, $path) {
 		try{
 			$cachedFile = $folder->getFile($fileNameCSS);
-			if( $cachedFile->getMTime() > filemtime($this->fileLoc.'/'.$fileNameSCSS)
+			if( $cachedFile->getMTime() > filemtime($path.'/'.$fileNameSCSS)
 				&& $cachedFile->getSize() > 0 ) {
 				return true;
 			}
