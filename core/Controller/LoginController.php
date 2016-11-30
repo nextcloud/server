@@ -207,6 +207,9 @@ class LoginController extends Controller {
 	 * @return RedirectResponse
 	 */
 	public function tryLogin($user, $password, $redirect_url, $remember_login = false, $timezone = '', $timezone_offset = '') {
+		if(!is_string($user)) {
+			throw new \InvalidArgumentException('Username must be string');
+		}
 		$currentDelay = $this->throttler->getDelay($this->request->getRemoteAddress(), 'login');
 		$this->throttler->sleepDelay($this->request->getRemoteAddress(), 'login');
 

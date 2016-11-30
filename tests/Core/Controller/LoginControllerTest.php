@@ -334,6 +334,7 @@ class LoginControllerTest extends TestCase {
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('uid'));
+		$loginName = 'loginli';
 		$user->expects($this->any())
 			->method('getLastLogin')
 			->willReturn(123456);
@@ -362,10 +363,10 @@ class LoginControllerTest extends TestCase {
 			->will($this->returnValue($user));
 		$this->userSession->expects($this->once())
 			->method('login')
-			->with($user, $password);
+			->with($loginName, $password);
 		$this->userSession->expects($this->once())
 			->method('createSessionToken')
-			->with($this->request, $user->getUID(), $user, $password, false);
+			->with($this->request, $user->getUID(), $loginName, $password, false);
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->with($user)
@@ -387,7 +388,7 @@ class LoginControllerTest extends TestCase {
 			);
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($indexPageUrl);
-		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, null, false, 'Europe/Berlin', '1'));
+		$this->assertEquals($expected, $this->loginController->tryLogin($loginName, $password, null, false, 'Europe/Berlin', '1'));
 	}
 
 	public function testLoginWithValidCredentialsAndRememberMe() {
@@ -396,6 +397,7 @@ class LoginControllerTest extends TestCase {
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('uid'));
+		$loginName  = 'loginli';
 		$password = 'secret';
 		$indexPageUrl = \OC_Util::getDefaultPageUrl();
 
@@ -421,10 +423,10 @@ class LoginControllerTest extends TestCase {
 			->will($this->returnValue($user));
 		$this->userSession->expects($this->once())
 			->method('login')
-			->with($user, $password);
+			->with($loginName, $password);
 		$this->userSession->expects($this->once())
 			->method('createSessionToken')
-			->with($this->request, $user->getUID(), $user, $password, true);
+			->with($this->request, $user->getUID(), $loginName, $password, true);
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->with($user)
@@ -437,7 +439,7 @@ class LoginControllerTest extends TestCase {
 			->with($user);
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($indexPageUrl);
-		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, null, true));
+		$this->assertEquals($expected, $this->loginController->tryLogin($loginName, $password, null, true));
 	}
 
 	public function testLoginWithoutPassedCsrfCheckAndNotLoggedIn() {
