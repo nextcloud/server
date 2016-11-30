@@ -73,6 +73,7 @@ use OC\Lockdown\LockdownManager;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
 use OC\Notification\Manager;
+use OC\Repair\NC11\CleanPreviewsBackgroundJob;
 use OC\RichObjectStrings\Validator;
 use OC\Security\Bruteforce\Throttler;
 use OC\Security\CertificateManager;
@@ -803,8 +804,19 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getSystemConfig()
 			);
 		});
+
 		$this->registerService('LockdownManager', function (Server $c) {
 			return new LockdownManager();
+		});
+
+		/* To trick DI since we don't extend the DIContainer here */
+		$this->registerService(CleanPreviewsBackgroundJob::class, function (Server $c) {
+			return new CleanPreviewsBackgroundJob(
+				$c->getRootFolder(),
+				$c->getLogger(),
+				$c->getJobList(),
+				new TimeFactory()
+			);
 		});
 	}
 
