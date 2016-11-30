@@ -18,7 +18,6 @@
 		},
 
 		handlePreview: function (model, $thumbnailDiv, $thumbnailContainer, fallback) {
-			console.log(model);
 			var previewWidth = $thumbnailContainer.parent().width() + 50;  // 50px for negative margins
 			var previewHeight = previewWidth / (16 / 9);
 
@@ -36,10 +35,7 @@
 		},
 
 		getFileContent: function (path) {
-			console.log(path);
-			var url = OC.linkToRemoteBase('files' + path);
-			console.log(url);
-			return $.get(url);
+			return $.get(OC.linkToRemoteBase('files' + path));
 		}
 	};
 
