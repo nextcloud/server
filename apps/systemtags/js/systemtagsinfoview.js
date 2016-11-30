@@ -151,9 +151,10 @@
 			$('#app-sidebar').find('.mainFileInfoView .file-details').append(this._toggleHandle);
 			this._toggleHandle.off('click');
 			this._toggleHandle.on('click', function () {
-				console.log('toggle');
-				console.log(self.$el);
 				self.$el.toggleClass('hidden');
+				if (!self.$el.hasClass('hidden')) {
+					self.$el.find('.systemTagsInputField').select2('open');
+				}
 			});
 		},
 
