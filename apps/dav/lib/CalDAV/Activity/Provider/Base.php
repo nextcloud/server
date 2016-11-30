@@ -62,7 +62,7 @@ abstract class Base implements IProvider {
 	 * @return array
 	 */
 	protected function generateObjectParameter($eventData) {
-		if (!is_array($eventData)) {
+		if (!is_array($eventData) || !isset($eventData['id']) || !isset($eventData['name'])) {
 			throw new \InvalidArgumentException();
 		};
 
