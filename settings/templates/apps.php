@@ -53,7 +53,7 @@ script(
 	<div class="app-level">
 		{{{level}}}
 	</div>
-	{{#if score}}
+	{{#if ratingNumThresholdReached }}
 	<div class="app-score">{{{score}}}</div>
 	{{/if}}
 	<div class="app-detailpage"></div>
