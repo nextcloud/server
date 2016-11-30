@@ -133,7 +133,7 @@ class ShareesAPIControllerTest extends TestCase {
 	 * @param string $gid
 	 * @return \OCP\IGroup|\PHPUnit_Framework_MockObject_MockObject
 	 */
-	protected function getGroupMock($gid) {
+	protected function getGroupMock($gid, $displayName = null) {
 		$group = $this->getMockBuilder('OCP\IGroup')
 			->disableOriginalConstructor()
 			->getMock();
@@ -141,6 +141,15 @@ class ShareesAPIControllerTest extends TestCase {
 		$group->expects($this->any())
 			->method('getGID')
 			->willReturn($gid);
+
+		if (is_null($displayName)) {
+			// note: this is how the Group class behaves
+			$displayName = $gid;
+		}
+
+		$group->expects($this->any())
+			->method('getDisplayName')
+			->willReturn($displayName);
 
 		return $group;
 	}
@@ -467,12 +476,43 @@ class ShareesAPIControllerTest extends TestCase {
 		return [
 			['test', false, true, [], [], [], [], true, false],
 			['test', false, false, [], [], [], [], true, false],
+			// group without display name
 			[
 				'test', false, true,
 				[$this->getGroupMock('test1')],
 				[],
 				[],
 				[['label' => 'test1', 'value' => ['shareType' => Share::SHARE_TYPE_GROUP, 'shareWith' => 'test1']]],
+				true,
+				false,
+			],
+			// group with display name, search by id
+			[
+				'test', false, true,
+				[$this->getGroupMock('test1', 'Test One')],
+				[],
+				[],
+				[['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_GROUP, 'shareWith' => 'test1']]],
+				true,
+				false,
+			],
+			// group with display name, search by display name
+			[
+				'one', false, true,
+				[$this->getGroupMock('test1', 'Test One')],
+				[],
+				[],
+				[['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_GROUP, 'shareWith' => 'test1']]],
+				true,
+				false,
+			],
+			// group with display name, search by display name, exact expected
+			[
+				'Test One', false, true,
+				[$this->getGroupMock('test1', 'Test One')],
+				[],
+				[['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_GROUP, 'shareWith' => 'test1']]],
+				[],
 				true,
 				false,
 			],

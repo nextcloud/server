@@ -190,6 +190,7 @@ describe('OC.Share.ShareItemModel', function() {
 					uid_owner: 'owner',
 					displayname_owner: 'Owner',
 					share_with: 'root',
+					share_with_displayname: 'Wurzel',
 					permissions: 1
 				},
 				{
@@ -221,7 +222,11 @@ describe('OC.Share.ShareItemModel', function() {
 			// user share has higher priority
 			expect(reshare.share_type).toEqual(OC.Share.SHARE_TYPE_USER);
 			expect(reshare.share_with).toEqual('root');
+			expect(reshare.share_with_displayname).toEqual('Wurzel');
 			expect(reshare.id).toEqual('1');
+
+			expect(model.getReshareWith()).toEqual('root');
+			expect(model.getReshareWithDisplayName()).toEqual('Wurzel');
 		});
 		it('does not parse link share when for a different file', function() {
 			/* jshint camelcase: false */

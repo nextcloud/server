@@ -345,6 +345,14 @@
 		},
 
 		/**
+		 * @returns {string}
+		 */
+		getReshareWithDisplayName: function() {
+			var reshare = this.get('reshare');
+			return reshare.share_with_displayname || reshare.share_with;
+		},
+
+		/**
 		 * @returns {number}
 		 */
 		getReshareType: function() {
