@@ -24,14 +24,16 @@ describe('OCA.Versions.VersionsTabView', function() {
 			timestamp: time1,
 			name: 'some file.txt',
 			size: 140,
-			fullPath: '/subdir/some file.txt'
+			fullPath: '/subdir/some file.txt',
+			mimetype: 'text/plain'
 		});
 		var version2 = new VersionModel({
 			id: time2,
 			timestamp: time2,
 			name: 'some file.txt',
 			size: 150,
-			fullPath: '/subdir/some file.txt'
+			fullPath: '/subdir/some file.txt',
+			mimetype: 'text/plain'
 		});
 
 		testVersions = [version1, version2];
@@ -80,14 +82,14 @@ describe('OCA.Versions.VersionsTabView', function() {
 			expect($item.find('.versiondate').text()).toEqual('seconds ago');
 			expect($item.find('.size').text()).toEqual('< 1 KB');
 			expect($item.find('.revertVersion').length).toEqual(1);
-			expect($item.find('.preview').attr('src')).toEqual(version1.getPreviewUrl());
+			expect($item.find('.preview').attr('src')).toEqual('http://localhost/core/img/filetypes/text.svg');
 
 			$item = $versions.eq(1);
 			expect($item.find('.downloadVersion').attr('href')).toEqual(version2.getDownloadUrl());
 			expect($item.find('.versiondate').text()).toEqual('2 days ago');
 			expect($item.find('.size').text()).toEqual('< 1 KB');
 			expect($item.find('.revertVersion').length).toEqual(1);
-			expect($item.find('.preview').attr('src')).toEqual(version2.getPreviewUrl());
+			expect($item.find('.preview').attr('src')).toEqual('http://localhost/core/img/filetypes/text.svg');
 		});
 
 		it('does not render revert button when no update permissions', function() {
@@ -104,13 +106,13 @@ describe('OCA.Versions.VersionsTabView', function() {
 			expect($item.find('.downloadVersion').attr('href')).toEqual(version1.getDownloadUrl());
 			expect($item.find('.versiondate').text()).toEqual('seconds ago');
 			expect($item.find('.revertVersion').length).toEqual(0);
-			expect($item.find('.preview').attr('src')).toEqual(version1.getPreviewUrl());
+			expect($item.find('.preview').attr('src')).toEqual('http://localhost/core/img/filetypes/text.svg');
 
 			$item = $versions.eq(1);
 			expect($item.find('.downloadVersion').attr('href')).toEqual(version2.getDownloadUrl());
 			expect($item.find('.versiondate').text()).toEqual('2 days ago');
 			expect($item.find('.revertVersion').length).toEqual(0);
-			expect($item.find('.preview').attr('src')).toEqual(version2.getPreviewUrl());
+			expect($item.find('.preview').attr('src')).toEqual('http://localhost/core/img/filetypes/text.svg');
 		});
 	});
 
@@ -156,7 +158,8 @@ describe('OCA.Versions.VersionsTabView', function() {
 				timestamp: time3,
 				name: 'some file.txt',
 				size: 54,
-				fullPath: '/subdir/some file.txt'
+				fullPath: '/subdir/some file.txt',
+				mimetype: 'text/plain'
 			});
 
 			tabView.collection.add(version3);
@@ -167,7 +170,7 @@ describe('OCA.Versions.VersionsTabView', function() {
 			expect($item.find('.downloadVersion').attr('href')).toEqual(version3.getDownloadUrl());
 			expect($item.find('.versiondate').text()).toEqual('7 days ago');
 			expect($item.find('.revertVersion').length).toEqual(1);
-			expect($item.find('.preview').attr('src')).toEqual(version3.getPreviewUrl());
+			expect($item.find('.preview').attr('src')).toEqual('http://localhost/core/img/filetypes/text.svg');
 		});
 	});
 
