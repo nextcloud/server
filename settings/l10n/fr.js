@@ -86,6 +86,8 @@ OC.L10N.register(
     "Google Chrome" : "Google Chrome",
     "Safari" : "Safari",
     "Google Chrome for Android" : "Google Chrome pour Android",
+    "iPhone iOS" : "iPhone iOS",
+    "iPad iOS" : "iPad iOS",
     "iOS Client" : "Client iOS",
     "Android Client" : "Client Android",
     "Sync client - {os}" : "Client de synchronisation - {os}",
