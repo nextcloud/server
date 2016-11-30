@@ -9,14 +9,15 @@ OC.L10N.register(
     "So-so password" : "نص نص پاسورڈ",
     "Good password" : "اچھا پاسورڈ",
     "Strong password" : "مضبوط پاسورڈ",
-    "More" : "مزید",
-    "Less" : "کم",
+    "__language_name__" : "اردو",
     "Cheers!" : "واہ!",
     "Cancel" : "منسوخ کریں",
     "Password" : "پاسورڈ",
     "New password" : "نیا پاسورڈ",
     "Name" : "اسم",
     "Username" : "یوزر نیم",
-    "Other" : "دیگر"
+    "Other" : "دیگر",
+    "More" : "مزید",
+    "Less" : "کم"
 },
 "nplurals=2; plural=(n != 1);");

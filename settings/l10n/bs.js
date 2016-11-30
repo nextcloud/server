@@ -120,7 +120,6 @@ OC.L10N.register(
     "Valid until" : "Validno do",
     "Issued By" : "Izdano od",
     "Valid until %s" : "Validno do %s",
-    "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Hej,<br><br>samo da javim da sad imate %s račum.<br><br>Vaše korisničko ime: %s<br>Pristupite mu: <a href=\"%s\">%s</a><br><br>",
     "Cheers!" : "Cheers!",
     "Forum" : "Forum",
     "Profile picture" : "Slika profila",
@@ -174,6 +173,7 @@ OC.L10N.register(
     "Less" : "Manje",
     "Allow users to send mail notification for shared files" : "Dozvoli korisnicima slanje notifikacijske e-pošte za podijeljene datoteke",
     "Allow users to send mail notification for shared files to other users" : "Dozvoli korisnicima slanje notifikacijske e-pošte za podijeljene datoteke ka ostalim korisnicima",
+    "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Hej,<br><br>samo da javim da sad imate %s račum.<br><br>Vaše korisničko ime: %s<br>Pristupite mu: <a href=\"%s\">%s</a><br><br>",
     "Group" : "Grupa",
     "Updates" : "Ažuriranja"
 },
