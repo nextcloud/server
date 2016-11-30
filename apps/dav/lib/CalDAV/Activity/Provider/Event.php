@@ -24,13 +24,11 @@ namespace OCA\DAV\CalDAV\Activity\Provider;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
-use OCP\Activity\IProvider;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 
-class Event implements IProvider {
+class Event extends Base {
 
 	const SUBJECT_OBJECT_ADD = 'object_add';
 	const SUBJECT_OBJECT_UPDATE = 'object_update';
@@ -45,14 +43,8 @@ class Event implements IProvider {
 	/** @var IManager */
 	protected $activityManager;
 
-	/** @var IUserManager */
-	protected $userManager;
-
 	/** @var IEventMerger */
 	protected $eventMerger;
-
-	/** @var string[] cached displayNames - key is the UID and value the displayname */
-	protected $displayNames = [];
 
 	/**
 	 * @param IL10N $l
@@ -62,10 +54,10 @@ class Event implements IProvider {
 	 * @param IEventMerger $eventMerger
 	 */
 	public function __construct(IL10N $l, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IEventMerger $eventMerger) {
+		parent::__construct($userManager);
 		$this->l = $l;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
-		$this->userManager = $userManager;
 		$this->eventMerger = $eventMerger;
 	}
 
@@ -109,22 +101,6 @@ class Event implements IProvider {
 
 	/**
 	 * @param IEvent $event
-	 * @param string $subject
-	 * @param array $parameters
-	 */
-	protected function setSubjects(IEvent $event, $subject, array $parameters) {
-		$placeholders = $replacements = [];
-		foreach ($parameters as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
-			$replacements[] = $parameter['name'];
-		}
-
-		$event->setParsedSubject(str_replace($placeholders, $replacements, $subject))
-			->setRichSubject($subject, $parameters);
-	}
-
-	/**
-	 * @param IEvent $event
 	 * @return array
 	 */
 	protected function getParameters(IEvent $event) {
@@ -150,63 +126,5 @@ class Event implements IProvider {
 		}
 
 		throw new \InvalidArgumentException();
-	}
-
-	/**
-	 * @param array $eventData
-	 * @return array
-	 */
-	protected function generateObjectParameter($eventData) {
-		if (!is_array($eventData)) {
-			throw new \InvalidArgumentException();
-		};
-
-		return [
-			'type' => 'calendar-event',
-			'id' => $eventData['id'],
-			'name' => $eventData['name'],
-		];
-	}
-
-	/**
-	 * @param int $id
-	 * @param string $name
-	 * @return array
-	 */
-	protected function generateCalendarParameter($id, $name) {
-		return [
-			'type' => 'calendar',
-			'id' => $id,
-			'name' => $name,
-		];
-	}
-
-	/**
-	 * @param string $uid
-	 * @return array
-	 */
-	protected function generateUserParameter($uid) {
-		if (!isset($this->displayNames[$uid])) {
-			$this->displayNames[$uid] = $this->getDisplayName($uid);
-		}
-
-		return [
-			'type' => 'user',
-			'id' => $uid,
-			'name' => $this->displayNames[$uid],
-		];
-	}
-
-	/**
-	 * @param string $uid
-	 * @return string
-	 */
-	protected function getDisplayName($uid) {
-		$user = $this->userManager->get($uid);
-		if ($user instanceof IUser) {
-			return $user->getDisplayName();
-		} else {
-			return $uid;
-		}
 	}
 }

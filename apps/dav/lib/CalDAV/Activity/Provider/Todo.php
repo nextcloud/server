@@ -22,13 +22,6 @@
 namespace OCA\DAV\CalDAV\Activity\Provider;
 
 use OCP\Activity\IEvent;
-use OCP\Activity\IEventMerger;
-use OCP\Activity\IManager;
-use OCP\Activity\IProvider;
-use OCP\IL10N;
-use OCP\IURLGenerator;
-use OCP\IUser;
-use OCP\IUserManager;
 
 class Todo extends Event {
 
