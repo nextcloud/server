@@ -133,16 +133,6 @@ class AvatarController extends Controller {
 			$resp = new FileDisplayResponse($avatar,
 				Http::STATUS_OK,
 				['Content-Type' => $avatar->getMimeType()]);
-
-			// Let cache this!
-			$resp->addHeader('Pragma', 'public');
-			// Cache for 15 minutes
-			$resp->cacheFor(900);
-
-			$expires = new \DateTime();
-			$expires->setTimestamp($this->timeFactory->getTime());
-			$expires->add(new \DateInterval('PT15M'));
-			$resp->addHeader('Expires', $expires->format(\DateTime::RFC2822));
 		} catch (NotFoundException $e) {
 			$user = $this->userManager->get($userId);
 			$resp = new JSONResponse([
@@ -150,19 +140,23 @@ class AvatarController extends Controller {
 					'displayname' => $user->getDisplayName(),
 				],
 			]);
-			// Don't cache this
-			$resp->cacheFor(0);
-			$resp->setLastModified(new \DateTime('now', new \DateTimeZone('GMT')));
 		} catch (\Exception $e) {
 			$resp = new JSONResponse([
 				'data' => [
 					'displayname' => '',
 				],
 			]);
-			// Don't cache this
-			$resp->cacheFor(0);
-			$resp->setLastModified(new \DateTime('now', new \DateTimeZone('GMT')));
 		}
+
+		// Let cache this!
+		$resp->addHeader('Pragma', 'public');
+		// Cache for 30 minutes
+		$resp->cacheFor(1800);
+
+		$expires = new \DateTime();
+		$expires->setTimestamp($this->timeFactory->getTime());
+		$expires->add(new \DateInterval('PT30M'));
+		$resp->addHeader('Expires', $expires->format(\DateTime::RFC1123));
 
 		return $resp;
 	}
