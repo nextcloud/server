@@ -91,24 +91,22 @@ class CSSResourceLocator extends ResourceLocator {
 	 *
 	 * @param string $root path to check
 	 * @param string $file the filename
-	 * @param \OCP\Files\IAppData $appData
-	 * @param \OCP\IURLGenerator $urlGenerator
-	 * @param \OC\SystemConfig $systemConfig
+	 * @param IAppData $appData
+	 * @param IURLGenerator $urlGenerator
+	 * @param SystemConfig $systemConfig
 	 * @param string|null $webRoot base for path, default map $root to $webRoot
 	 * @return bool True if the resource was found and cached, false otherwise
 	 */
-	protected function cacheAndAppendScssIfExist($root, $file, $appData, $urlGenerator, $systemConfig, $webRoot = null) {
+	protected function cacheAndAppendScssIfExist($root, $file, IAppData $appData, IURLGenerator $urlGenerator, SystemConfig $systemConfig, $webRoot = null) {
 		if (is_file($root.'/'.$file)) {
 			$scssCache = new SCSSCacher(
 				$this->logger,
-				$root,
-				$file,
 				$appData,
 				$urlGenerator,
 				$systemConfig);
 
-			if($scssCache->process()) {
-				$this->append($root, $scssCache->getCachedSCSS('core'), $webRoot, false);
+			if($scssCache->process($root, $file)) {
+				$this->append($root, $scssCache->getCachedSCSS('core', $file), $webRoot, false);
 				return true;
 			} else {
 				$this->logger->error('Failed to compile and/or save '.$root.'/'.$file, ['app' => 'core']);

@@ -25,35 +25,14 @@ use Leafo\ScssPhp\Compiler;
 use Leafo\ScssPhp\Exception\ParserException;
 use Leafo\ScssPhp\Formatter\Crunched;
 use Leafo\ScssPhp\Formatter\Expanded;
-use OC\Files\SimpleFS\SimpleFolder;
 use OC\SystemConfig;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 
 class SCSSCacher {
-
-	/** @var string The root path to the nextcloud installation */
-	protected $root;
-
-	/** @var array The exploded absolute path to the file */
-	protected $file;
-
-	/** @var string The scss filename with extension */
-	protected $fileNameSCSS;
-
-	/** @var string The css filename with extension */
-	protected $fileNameCSS;
-
-	/** @var string Absolute path to scss file location folder */
-	protected $fileLoc;
-
-	/** @var string Path to scss file from the root installation */
-	protected $rootCssLoc;
-
-	/** @var SimpleFolder The folder we're putting our compiled css files */
-	protected $folder;
 
 	/** @var ILogger */
 	protected $logger;
@@ -69,62 +48,62 @@ class SCSSCacher {
 
 	/**
 	 * @param ILogger $logger
-	 * @param string $root Root path to the nextcloud installation
-	 * @param string $file 
 	 * @param IAppData $appData
 	 * @param IURLGenerator $urlGenerator
 	 * @param SystemConfig $systemConfig
 	 */
-	public function __construct(ILogger $logger, $root, $file, IAppData $appData, IURLGenerator $urlGenerator, SystemConfig $systemConfig) {
+	public function __construct(ILogger $logger, IAppData $appData, IURLGenerator $urlGenerator, SystemConfig $systemConfig) {
 		$this->logger = $logger;
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
 		$this->systemConfig = $systemConfig;
-
-		$this->root = $root;
-		$this->file = explode('/', $root.'/'.$file);
-
-		/* filenames */
-		$this->fileNameSCSS = array_pop($this->file);
-		$this->fileNameCSS = str_replace('.scss', '.css', $this->fileNameSCSS);
-
-		$this->fileLoc = implode('/', $this->file);
-
-		// base uri to css file
-		$this->rootCssLoc = explode('/', $file);
-		array_pop($this->rootCssLoc);
-		$this->rootCssLoc = implode('/', $this->rootCssLoc);
-
-		try {
-			$this->folder = $this->appData->getFolder('core');
-		} catch(NotFoundException $e) {
-			// creating css appdata folder
-			$this->folder = $this->appData->newFolder('core');
-		}
 	}
 
 	/**
 	 * Process the caching process if needed
+	 * @param string $root Root path to the nextcloud installation
+	 * @param string $file
 	 * @return boolean
 	 */
-	public function process() {
+	public function process($root, $file) {
+		$path = explode('/', $root . '/' . $file);
 
-		if($this->is_cached()) {
+		$fileNameSCSS = array_pop($path);
+		$fileNameCSS = str_replace('.scss', '.css', $fileNameSCSS);
+
+		$path = implode('/', $path);
+
+		$webDir = explode('/', $file);
+		array_pop($webDir);
+		$webDir = implode('/', $webDir);
+
+		try {
+			$folder = $this->appData->getFolder('core');
+		} catch(NotFoundException $e) {
+			// creating css appdata folder
+			$folder = $this->appData->newFolder('core');
+		}
+
+		if($this->is_cached($fileNameCSS, $fileNameSCSS, $folder, $path)) {
 			return true;
 		} else {
-			return $this->cache();
+			return $this->cache($path, $fileNameCSS, $fileNameSCSS, $folder, $webDir);
 		}
 	}
 
 	/**
 	 * Check if the file is cached or not
+	 * @param string $fileNameCSS
+	 * @param string $fileNameSCSS
+	 * @param ISimpleFolder $folder
+	 * @param string $path
 	 * @return boolean
 	 */
-	private function is_cached() {
+	private function is_cached($fileNameCSS, $fileNameSCSS, ISimpleFolder $folder, $path) {
 		try{
-			$cachedfile = $this->folder->getFile($this->fileNameCSS);
-			if( $cachedfile->getMTime() > filemtime($this->fileLoc.'/'.$this->fileNameSCSS)
-				&& $cachedfile->getSize() > 0 ) {
+			$cachedFile = $folder->getFile($fileNameCSS);
+			if( $cachedFile->getMTime() > filemtime($this->fileLoc.'/'.$fileNameSCSS)
+				&& $cachedFile->getSize() > 0 ) {
 				return true;
 			}
 		} catch(NotFoundException $e) {
@@ -135,11 +114,16 @@ class SCSSCacher {
 
 	/**
 	 * Cache the file with AppData
+	 * @param string $path
+	 * @param string $fileNameCSS
+	 * @param string $fileNameSCSS
+	 * @param ISimpleFolder $folder
+	 * @param string $webDir
 	 * @return boolean
 	 */
-	private function cache() {
+	private function cache($path, $fileNameCSS, $fileNameSCSS, ISimpleFolder $folder, $webDir) {
 		$scss = new Compiler();
-		$scss->setImportPaths($this->fileLoc);
+		$scss->setImportPaths($path);
 		if($this->systemConfig->getValue('debug')) {
 			// Debug mode
 			$scss->setFormatter(Expanded::class);
@@ -150,22 +134,22 @@ class SCSSCacher {
 		}
 
 		try {
-			$cachedfile = $this->folder->getFile($this->fileNameCSS);
+			$cachedfile = $folder->getFile($fileNameCSS);
 		} catch(NotFoundException $e) {
-			$cachedfile = $this->folder->newFile($this->fileNameCSS);
+			$cachedfile = $folder->newFile($fileNameCSS);
 		}
 
 		// Compile
 		try {
-			$compiledScss = $scss->compile('@import "'.$this->fileNameSCSS.'";');
+			$compiledScss = $scss->compile('@import "'.$fileNameSCSS.'";');
 		} catch(ParserException $e) {
 			$this->logger->error($e, ['app' => 'core']);
 			return false;
 		}
 
 		try {
-			$cachedfile->putContent($this->rebaseUrls($compiledScss));
-			$this->logger->debug($this->rootCssLoc.'/'.$this->fileNameSCSS.' compiled and successfully cached', ['app' => 'core']);
+			$cachedfile->putContent($this->rebaseUrls($compiledScss, $webDir));
+			$this->logger->debug($webDir.'/'.$fileNameSCSS.' compiled and successfully cached', ['app' => 'core']);
 			return true;
 		} catch(NotFoundException $e) {
 			return false;
@@ -175,20 +159,25 @@ class SCSSCacher {
 	/**
 	 * Add the correct uri prefix to make uri valid again
 	 * @param string $css
+	 * @param string $webDir
 	 * @return string
 	 */
-	private function rebaseUrls($css) {
+	private function rebaseUrls($css, $webDir) {
 		$re = '/url\([\'"]([\.\w?=\/-]*)[\'"]\)/x';
-		$subst = 'url(\'../../../'.$this->rootCssLoc.'/$1\')';
+		$subst = 'url(\'../../../'.$webDir.'/$1\')';
 		return preg_replace($re, $subst, $css);
 	}
 
 	/**
 	 * Return the cached css file uri
 	 * @param string $appName the app name
+	 * @param string $fileName
 	 * @return string
 	 */
-	public function getCachedSCSS($appName) {
-		return substr($this->urlGenerator->linkToRoute('core.Css.getCss', array('fileName' => $this->fileNameCSS, 'appName' => $appName)), 1);
+	public function getCachedSCSS($appName, $fileName) {
+		$fileName = array_pop(explode('/', $fileName));
+		$fileName = str_replace('.scss', '.css', $fileName);
+
+		return substr($this->urlGenerator->linkToRoute('core.Css.getCss', array('fileName' => $fileName, 'appName' => $appName)), 1);
 	}
 }
