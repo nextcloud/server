@@ -701,6 +701,7 @@ $(document).ready(function () {
 			// remove highlight class from users without recovery ability
 			$tr.removeClass('row-warning');
 		};
+		blurFunction = _.bind(blurFunction, $input);
 		if(isRestoreDisabled) {
 			$tr.addClass('row-warning');
 			// add tipsy if the password change could cause data loss - no recovery enabled
