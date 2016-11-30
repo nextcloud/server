@@ -30,11 +30,11 @@
 
 namespace OC\Core;
 
-use OC\AppFramework\Utility\SimpleContainer;
-use OC\CssManager;
 use OC\Security\IdentityProof\Manager;
 use OCP\AppFramework\App;
-use OCP\Files\IAppData;
+use OC\Core\Controller\CssController;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IRequest;
 use OCP\Util;
 
 /**
@@ -58,8 +58,13 @@ class Application extends App {
 				\OC::$server->getCrypto()
 			);
 		});
-		$container->registerService(CssManager::class, function () {
-			return new CssManager(\OC::$server->getAppDataDir('css'));
+		$container->registerService(CssController::class, function () use ($container) {
+			return new CssController(
+				$container->query('appName'),
+				$container->query(IRequest::class),
+				\OC::$server->getAppDataDir('css'),
+				$container->query(ITimeFactory::class)
+			);
 		});
 	}
 }

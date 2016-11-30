@@ -27,30 +27,29 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\IRequest;
-
+use OCP\Notification\IApp;
 
 class CssController extends Controller {
 
-	/** @var CssManager */
-	protected $cssManager;
+	/** @var IAppData */
+	protected $appData;
 
 	/** @var TimeFactory */
 	protected $timeFactory;
 
-
-
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
-	 * @param CssManager $cssManager
+	 * @param IAppData $appData
 	 * @param TimeFactory $timeFactory
 	 */
-	public function __construct($appName, IRequest $request, CssManager $cssManager, TimeFactory $timeFactory) {
+	public function __construct($appName, IRequest $request, IAppData $appData, TimeFactory $timeFactory) {
 		parent::__construct($appName, $request);
 
-		$this->cssManager = $cssManager;
+		$this->appData = $appData;
 		$this->timeFactory = $timeFactory;
 	}
 
@@ -64,7 +63,8 @@ class CssController extends Controller {
 	 */
 	public function getCss($fileName, $appName) {
 		try {
-			$cssFile = $this->cssManager->getCss($fileName, $appName);
+			$folder = $this->appData->getFolder($appName);
+			$cssFile = $folder->getFile($fileName);
 		} catch(NotFoundException $e) {
 			return new NotFoundResponse();
 		}
