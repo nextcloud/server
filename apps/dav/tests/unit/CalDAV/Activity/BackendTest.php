@@ -22,7 +22,7 @@
 namespace OCA\DAV\Tests\unit\CalDAV\Activity;
 
 use OCA\DAV\CalDAV\Activity\Backend;
-use OCA\DAV\CalDAV\Activity\Extension;
+use OCA\DAV\CalDAV\Activity\Provider\Calendar;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\IGroup;
@@ -74,9 +74,9 @@ class BackendTest extends TestCase {
 
 	public function dataCallTriggerCalendarActivity() {
 		return [
-			['onCalendarAdd', [['data']], Extension::SUBJECT_ADD, [['data'], [], []]],
-			['onCalendarUpdate', [['data'], ['shares'], ['changed-properties']], Extension::SUBJECT_UPDATE, [['data'], ['shares'], ['changed-properties']]],
-			['onCalendarDelete', [['data'], ['shares']], Extension::SUBJECT_DELETE, [['data'], ['shares'], []]],
+			['onCalendarAdd', [['data']], Calendar::SUBJECT_ADD, [['data'], [], []]],
+			['onCalendarUpdate', [['data'], ['shares'], ['changed-properties']], Calendar::SUBJECT_UPDATE, [['data'], ['shares'], ['changed-properties']]],
+			['onCalendarDelete', [['data'], ['shares']], Calendar::SUBJECT_DELETE, [['data'], ['shares'], []]],
 		];
 	}
 
@@ -104,51 +104,51 @@ class BackendTest extends TestCase {
 	public function dataTriggerCalendarActivity() {
 		return [
 			// Add calendar
-			[Extension::SUBJECT_ADD, [], [], [], '', '', null, []],
-			[Extension::SUBJECT_ADD, [
+			[Calendar::SUBJECT_ADD, [], [], [], '', '', null, []],
+			[Calendar::SUBJECT_ADD, [
 				'principaluri' => 'principal/user/admin',
 				'id' => 42,
 				'{DAV:}displayname' => 'Name of calendar',
 			], [], [], '', 'admin', null, ['admin']],
-			[Extension::SUBJECT_ADD, [
+			[Calendar::SUBJECT_ADD, [
 				'principaluri' => 'principal/user/admin',
 				'id' => 42,
 				'{DAV:}displayname' => 'Name of calendar',
 			], [], [], 'test2', 'test2', null, ['admin']],
 
 			// Update calendar
-			[Extension::SUBJECT_UPDATE, [], [], [], '', '', null, []],
+			[Calendar::SUBJECT_UPDATE, [], [], [], '', '', null, []],
 			// No visible change - owner only
-			[Extension::SUBJECT_UPDATE, [
+			[Calendar::SUBJECT_UPDATE, [
 				'principaluri' => 'principal/user/admin',
 				'id' => 42,
 				'{DAV:}displayname' => 'Name of calendar',
 			], ['shares'], [], '', 'admin', null, ['admin']],
 			// Visible change
-			[Extension::SUBJECT_UPDATE, [
+			[Calendar::SUBJECT_UPDATE, [
 				'principaluri' => 'principal/user/admin',
 				'id' => 42,
 				'{DAV:}displayname' => 'Name of calendar',
 			], ['shares'], ['{DAV:}displayname' => 'Name'], '', 'admin', ['user1'], ['user1', 'admin']],
-			[Extension::SUBJECT_UPDATE, [
+			[Calendar::SUBJECT_UPDATE, [
 				'principaluri' => 'principal/user/admin',
 				'id' => 42,
 				'{DAV:}displayname' => 'Name of calendar',
 			], ['shares'], ['{DAV:}displayname' => 'Name'], 'test2', 'test2', ['user1'], ['user1', 'admin']],
 
 			// Delete calendar
-			[Extension::SUBJECT_DELETE, [], [], [], '', '', null, []],
-			[Extension::SUBJECT_DELETE, [
+			[Calendar::SUBJECT_DELETE, [], [], [], '', '', null, []],
+			[Calendar::SUBJECT_DELETE, [
 				'principaluri' => 'principal/user/admin',
 				'id' => 42,
 				'{DAV:}displayname' => 'Name of calendar',
 			], ['shares'], [], '', 'admin', [], ['admin']],
-			[Extension::SUBJECT_DELETE, [
+			[Calendar::SUBJECT_DELETE, [
 				'principaluri' => 'principal/user/admin',
 				'id' => 42,
 				'{DAV:}displayname' => 'Name of calendar',
 			], ['shares'], [], '', 'admin', ['user1'], ['user1', 'admin']],
-			[Extension::SUBJECT_DELETE, [
+			[Calendar::SUBJECT_DELETE, [
 				'principaluri' => 'principal/user/admin',
 				'id' => 42,
 				'{DAV:}displayname' => 'Name of calendar',
@@ -202,11 +202,11 @@ class BackendTest extends TestCase {
 				->willReturnSelf();
 			$event->expects($this->once())
 				->method('setObject')
-				->with(Extension::CALENDAR, $data['id'])
+				->with('calendar', $data['id'])
 				->willReturnSelf();
 			$event->expects($this->once())
 				->method('setType')
-				->with(Extension::CALENDAR)
+				->with('calendar')
 				->willReturnSelf();
 			$event->expects($this->once())
 				->method('setAuthor')
