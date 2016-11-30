@@ -19,14 +19,14 @@
  *
  */
 
-namespace OCA\DAV\Tests\unit\CalDAV\Activity;
+namespace OCA\DAV\Tests\unit\CalDAV\Activity\Filter;
 
 use OCA\DAV\CalDAV\Activity\Filter\Calendar;
 use OCA\DAV\CalDAV\Activity\Filter\Todo;
 use OCP\Activity\IFilter;
 use Test\TestCase;
 
-class GenericFilterTest extends TestCase {
+class GenericTest extends TestCase {
 
 	public function dataFilters() {
 		return [
