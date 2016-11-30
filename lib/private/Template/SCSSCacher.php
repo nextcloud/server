@@ -23,39 +23,59 @@ namespace OC\Template;
 
 use Leafo\ScssPhp\Compiler;
 use Leafo\ScssPhp\Exception\ParserException;
+use Leafo\ScssPhp\Formatter\Crunched;
+use Leafo\ScssPhp\Formatter\Expanded;
 use OC\Files\SimpleFS\SimpleFolder;
+use OC\SystemConfig;
+use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\ILogger;
+use OCP\IURLGenerator;
 
 class SCSSCacher {
 
-	/** 
-	 * @var string The root path to the nextcloud installation
-	 * @var array The exploded absolute path to the file
-	 * @var string The scss filename with extension
-	 * @var string The css filename with extension
-	 * @var string Absolute path to scss file location folder
-	 * @var string Path to scss file from the root installation
-	 * @var SimpleFolder The folder we're putting our compiled css files
-	 */
-	protected $root, $file, $fileNameSCSS, $fileNameCSS, $fileLoc, $rootCssLoc, $folder;
+	/** @var string The root path to the nextcloud installation */
+	protected $root;
+
+	/** @var array The exploded absolute path to the file */
+	protected $file;
+
+	/** @var string The scss filename with extension */
+	protected $fileNameSCSS;
+
+	/** @var string The css filename with extension */
+	protected $fileNameCSS;
+
+	/** @var string Absolute path to scss file location folder */
+	protected $fileLoc;
+
+	/** @var string Path to scss file from the root installation */
+	protected $rootCssLoc;
+
+	/** @var SimpleFolder The folder we're putting our compiled css files */
+	protected $folder;
+
+	/** @var ILogger */
+	protected $logger;
+
+	/** @var IAppData */
+	protected $appData;
+
+	/** @var IURLGenerator */
+	protected $urlGenerator;
+
+	/** @var SystemConfig */
+	protected $systemConfig;
 
 	/**
-	 * @var \OCP\ILogger
-	 * @var \OCP\Files\IAppData
-	 * @var \OCP\IURLGenerator
-	 * @var \OC\SystemConfig
-	 */
-	protected $logger, $appData, $urlGenerator, $systemConfig;
-
-	/**
-	 * @param \OCP\ILogger $logger
+	 * @param ILogger $logger
 	 * @param string $root Root path to the nextcloud installation
 	 * @param string $file 
-	 * @param \OCP\Files\IAppData $appData
-	 * @param \OCP\IURLGenerator $urlGenerator
-	 * @param \OC\SystemConfig $systemConfig
+	 * @param IAppData $appData
+	 * @param IURLGenerator $urlGenerator
+	 * @param SystemConfig $systemConfig
 	 */
-	public function __construct(\OCP\ILogger $logger, $root, $file, \OCP\Files\IAppData $appData, \OCP\IURLGenerator $urlGenerator, \OC\SystemConfig $systemConfig) {
+	public function __construct(ILogger $logger, $root, $file, IAppData $appData, IURLGenerator $urlGenerator, SystemConfig $systemConfig) {
 		$this->logger = $logger;
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
@@ -122,11 +142,11 @@ class SCSSCacher {
 		$scss->setImportPaths($this->fileLoc);
 		if($this->systemConfig->getValue('debug')) {
 			// Debug mode
-			$scss->setFormatter('Leafo\ScssPhp\Formatter\Expanded');
+			$scss->setFormatter(Expanded::class);
 			$scss->setLineNumberStyle(Compiler::LINE_COMMENTS);
 		} else {
 			// Compression
-			$scss->setFormatter('Leafo\ScssPhp\Formatter\Crunched');
+			$scss->setFormatter(Crunched::class);
 		}
 
 		try {

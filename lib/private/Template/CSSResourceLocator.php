@@ -25,25 +25,30 @@
 
 namespace OC\Template;
 
+use OC\SystemConfig;
+use OCP\Files\IAppData;
+use OCP\ILogger;
+use OCP\IURLGenerator;
+
 class CSSResourceLocator extends ResourceLocator {
 
-	/** @var \OCP\Files\IAppData */
+	/** @var IAppData */
 	protected $appData;
-	/** @var \OCP\IURLGenerator */
+	/** @var IURLGenerator */
 	protected $urlGenerator;
-	/** @var \OC\SystemConfig */
+	/** @var SystemConfig */
 	protected $systemConfig;
 
 	/**
-	 * @param \OCP\ILogger $logger
+	 * @param ILogger $logger
 	 * @param string $theme
 	 * @param array $core_map
 	 * @param array $party_map
-	 * @param \OCP\Files\IAppData $appData
-	 * @param \OCP\IURLGenerator $urlGenerator
-	 * @param \OC\SystemConfig $systemConfig
+	 * @param IAppData $appData
+	 * @param IURLGenerator $urlGenerator
+	 * @param SystemConfig $systemConfig
 	 */
-	public function __construct(\OCP\ILogger $logger, $theme, $core_map, $party_map, \OCP\Files\IAppData $appData, \OCP\IURLGenerator $urlGenerator, \OC\SystemConfig $systemConfig) {
+	public function __construct(ILogger $logger, $theme, $core_map, $party_map, IAppData $appData, IURLGenerator $urlGenerator, SystemConfig $systemConfig) {
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
 		$this->systemConfig = $systemConfig;
@@ -79,5 +84,37 @@ class CSSResourceLocator extends ResourceLocator {
 		$this->appendIfExist($this->serverroot, $theme_dir.'apps/'.$style.'.css')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.$style.'.css')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.'core/'.$style.'.css');
+	}
+
+	/**
+	 * cache and append the scss $file if exist at $root
+	 *
+	 * @param string $root path to check
+	 * @param string $file the filename
+	 * @param \OCP\Files\IAppData $appData
+	 * @param \OCP\IURLGenerator $urlGenerator
+	 * @param \OC\SystemConfig $systemConfig
+	 * @param string|null $webRoot base for path, default map $root to $webRoot
+	 * @return bool True if the resource was found and cached, false otherwise
+	 */
+	protected function cacheAndAppendScssIfExist($root, $file, $appData, $urlGenerator, $systemConfig, $webRoot = null) {
+		if (is_file($root.'/'.$file)) {
+			$scssCache = new SCSSCacher(
+				$this->logger,
+				$root,
+				$file,
+				$appData,
+				$urlGenerator,
+				$systemConfig);
+
+			if($scssCache->process()) {
+				$this->append($root, $scssCache->getCachedSCSS('core'), $webRoot, false);
+				return true;
+			} else {
+				$this->logger->error('Failed to compile and/or save '.$root.'/'.$file, ['app' => 'core']);
+				return false;
+			}
+		}
+		return false;
 	}
 }
