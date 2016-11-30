@@ -161,8 +161,17 @@
 			shareTab.on('sharesChanged', function(shareModel) {
 				var fileInfoModel = shareModel.fileInfoModel;
 				var $tr = fileList.findFileEl(fileInfoModel.get('name'));
+
+				// We count email shares as link share
+				var hasLinkShare = shareModel.hasLinkShare();
+				shareModel.get('shares').forEach(function (share) {
+					if (share.share_type === OC.Share.SHARE_TYPE_EMAIL) {
+						hasLinkShare = true;
+					}
+				});
+
 				OCA.Sharing.Util._updateFileListDataAttributes(fileList, $tr, shareModel);
-				if (!OCA.Sharing.Util._updateFileActionIcon($tr, shareModel.hasUserShares(), shareModel.hasLinkShare())) {
+				if (!OCA.Sharing.Util._updateFileActionIcon($tr, shareModel.hasUserShares(), hasLinkShare)) {
 					// remove icon, if applicable
 					OC.Share.markFileAsShared($tr, false, false);
 				}
