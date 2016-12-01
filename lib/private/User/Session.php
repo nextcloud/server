@@ -339,6 +339,8 @@ class Session implements IUserSession, Emitter {
 			throw new LoginException($message);
 		}
 
+		$this->session->regenerateId();
+
 		$this->setUser($user);
 		$this->setLoginName($loginDetails['loginName']);
 
@@ -559,6 +561,8 @@ class Session implements IUserSession, Emitter {
 		} catch (PasswordlessTokenException $ex) {
 			// Ignore and use empty string instead
 		}
+
+		$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
 
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
