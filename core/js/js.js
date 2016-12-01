@@ -776,7 +776,7 @@ var OCP = {},
 			return;
 		}
 
-		if (_.contains([302, 303, 307, 401], xhr.status)) {
+		if (_.contains([302, 303, 307, 401], xhr.status) && OC.currentUser) {
 			// sometimes "beforeunload" happens later, so need to defer the reload a bit
 			setTimeout(function() {
 				if (!self._userIsNavigatingAway && !self._reloadCalled) {
