@@ -79,7 +79,6 @@ $commonLangCodes = array(
 	'en', 'es', 'fr', 'de', 'de_DE', 'ja', 'ar', 'ru', 'nl', 'it', 'pt_BR', 'pt_PT', 'da', 'fi_FI', 'nb_NO', 'sv', 'tr', 'zh_CN', 'ko'
 );
 
-$languageNames=include 'languageCodes.php';
 $languages=array();
 $commonLanguages = array();
 foreach($languageCodes as $lang) {
@@ -87,9 +86,9 @@ foreach($languageCodes as $lang) {
 	// TRANSLATORS this is the language name for the language switcher in the personal settings and should be the localized version
 	$potentialName = (string) $l->t('__language_name__');
 	if($l->getLanguageCode() === $lang && substr($potentialName, 0, 1) !== '_') {//first check if the language name is in the translation file
-		$ln=array('code'=>$lang, 'name'=> $potentialName);
-	}elseif(isset($languageNames[$lang])) {
-		$ln=array('code'=>$lang, 'name'=>$languageNames[$lang]);
+		$ln = array('code' => $lang, 'name' => $potentialName);
+	} elseif ($lang === 'en') {
+		$ln = ['code' => $lang, 'name' => 'English'];
 	}else{//fallback to language code
 		$ln=array('code'=>$lang, 'name'=>$lang);
 	}
