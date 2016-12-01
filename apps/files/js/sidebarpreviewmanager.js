@@ -20,19 +20,28 @@
 			this._previewHandlers[mime] = handler;
 		},
 
-		getPreviewHandler: function (mime) {
+		getMimeTypePreviewHandler: function(mime) {
 			var mimePart = mime.split('/').shift();
 			if (this._previewHandlers[mime]) {
 				return this._previewHandlers[mime];
-			} else if(this._previewHandlers[mimePart]) {
+			} else if (this._previewHandlers[mimePart]) {
 				return this._previewHandlers[mimePart];
+			} else {
+				return null;
+			}
+		},
+
+		getPreviewHandler: function (mime) {
+			var mimetypeHandler = this.getMimeTypePreviewHandler(mime);
+			if (mimetypeHandler) {
+				return mimetypeHandler;
 			} else {
 				return this.fallbackPreview.bind(this);
 			}
 		},
 
 		loadPreview: function (model, $thumbnailDiv, $thumbnailContainer) {
-			if (model.get('hasPreview') === false) {
+			if (model.get('hasPreview') === false && this.getMimeTypePreviewHandler(model.get('mimetype')) === null) {
 				var mimeIcon = OC.MimeType.getIconUrl(model.get('mimetype'));
 				$thumbnailDiv.removeClass('icon-loading icon-32');
 				$thumbnailContainer.removeClass('image'); //fall back to regular view
