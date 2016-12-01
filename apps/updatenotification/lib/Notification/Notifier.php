@@ -84,7 +84,14 @@ class Notifier implements INotifier {
 				$this->updateAlreadyInstalledCheck($notification, $this->appVersions[$notification->getObjectType()]);
 			}
 
-			$notification->setParsedSubject($l->t('Update for %1$s to version %2$s is available.', [$appName, $notification->getObjectId()]));
+			$notification->setParsedSubject($l->t('Update for %1$s to version %2$s is available.', [$appName, $notification->getObjectId()]))
+				->setRichSubject($l->t('Update for {app} to version %s is available.', $notification->getObjectId()), [
+					'app' => [
+						'type' => 'app',
+						'id' => $notification->getObjectType(),
+						'name' => $appName,
+					]
+				]);
 		}
 
 		$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('updatenotification', 'notification.svg')));

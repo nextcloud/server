@@ -96,6 +96,24 @@ class Definitions {
 				],
 			],
 		],
+		'app' => [
+			'author' => 'Nextcloud',
+			'app' => 'updatenotification',
+			'since' => '11.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '11.0.0',
+					'required' => true, 'description' => 'The app id',
+					'example' => 'updatenotification',
+				],
+				'name' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The name of the app which should be used in the visual representation',
+					'example' => 'Update notification',
+				],
+			],
+		],
 		'calendar' => [
 			'author' => 'Nextcloud',
 			'app' => 'dav',
