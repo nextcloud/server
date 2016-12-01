@@ -29,11 +29,14 @@ namespace OCP\Activity;
  */
 interface IProvider {
 	/**
-	 * @param IEvent $event
-	 * @param IEvent|null $previousEvent
+	 * @param string $language The language which should be used for translating, e.g. "en"
+	 * @param IEvent $event The current event which should be parsed
+	 * @param IEvent|null $previousEvent A potential previous event which you can combine with the current one.
+	 *                                   To do so, simply use setChildEvent($previousEvent) after setting the
+	 *                                   combined subject on the current event.
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws \InvalidArgumentException Should be thrown if your provider does not know this event
 	 * @since 11.0.0
 	 */
-	public function parse(IEvent $event, IEvent $previousEvent = null);
+	public function parse($language, IEvent $event, IEvent $previousEvent = null);
 }
