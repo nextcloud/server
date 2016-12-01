@@ -8,8 +8,12 @@
  *
  */
 #app-content-trashbin tbody tr[data-type="file"] td a.name,
-#app-content-trashbin tbody tr[data-type="file"] td a.name span {
+#app-content-trashbin tbody tr[data-type="file"] td a.name {
     cursor: default;
+}
+
+span.nametext, span.innernametext, span.extension {
+	cursor: default;
 }
 
 #app-content-trashbin .summary :last-child {
