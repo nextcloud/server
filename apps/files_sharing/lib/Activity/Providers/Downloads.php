@@ -26,8 +26,12 @@ use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
 
 class Downloads implements IProvider {
+
+	/** @var IFactory */
+	protected $languageFactory;
 
 	/** @var IL10N */
 	protected $l;
@@ -45,27 +49,30 @@ class Downloads implements IProvider {
 	const SUBJECT_SHARED_FOLDER_BY_EMAIL_DOWNLOADED = 'folder_shared_with_email_downloaded';
 
 	/**
-	 * @param IL10N $l
+	 * @param IFactory $languageFactory
 	 * @param IURLGenerator $url
 	 * @param IManager $activityManager
 	 */
-	public function __construct(IL10N $l, IURLGenerator $url, IManager $activityManager) {
-		$this->l = $l;
+	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager) {
+		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
 	}
 
 	/**
+	 * @param string $language
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parse(IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'files_sharing') {
 			throw new \InvalidArgumentException();
 		}
+
+		$this->l = $this->languageFactory->get('files_sharing', $language);
 
 		if ($this->activityManager->isFormattingFilteredObject()) {
 			try {

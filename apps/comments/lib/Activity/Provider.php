@@ -30,8 +30,12 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\L10N\IFactory;
 
 class Provider implements IProvider {
+
+	/** @var IFactory */
+	protected $languageFactory;
 
 	/** @var IL10N */
 	protected $l;
@@ -52,14 +56,14 @@ class Provider implements IProvider {
 	protected $displayNames = [];
 
 	/**
-	 * @param IL10N $l
+	 * @param IFactory $languageFactory
 	 * @param IURLGenerator $url
 	 * @param ICommentsManager $commentsManager
 	 * @param IUserManager $userManager
 	 * @param IManager $activityManager
 	 */
-	public function __construct(IL10N $l, IURLGenerator $url, ICommentsManager $commentsManager, IUserManager $userManager, IManager $activityManager) {
-		$this->l = $l;
+	public function __construct(IFactory $languageFactory, IURLGenerator $url, ICommentsManager $commentsManager, IUserManager $userManager, IManager $activityManager) {
+		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->commentsManager = $commentsManager;
 		$this->userManager = $userManager;
@@ -67,16 +71,19 @@ class Provider implements IProvider {
 	}
 
 	/**
+	 * @param string $language
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parse(IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'comments') {
 			throw new \InvalidArgumentException();
 		}
+
+		$this->l = $this->languageFactory->get('comments', $language);
 
 		if ($event->getSubject() === 'add_comment_subject') {
 			$this->parseMessage($event);

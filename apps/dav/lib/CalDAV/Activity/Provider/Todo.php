@@ -26,16 +26,19 @@ use OCP\Activity\IEvent;
 class Todo extends Event {
 
 	/**
+	 * @param string $language
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parse(IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'calendar_todo') {
 			throw new \InvalidArgumentException();
 		}
+
+		$this->l = $this->languageFactory->get('dav', $language);
 
 		$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/checkmark.svg')));
 
