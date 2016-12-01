@@ -239,6 +239,8 @@ class AppSettingsController extends Controller {
 				'canInstall' => true,
 				'preview' => isset($app['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/'.base64_encode($app['screenshots'][0]['url']) : '',
 				'score' => $app['ratingOverall'],
+				'ratingNumOverall' => $app['ratingNumOverall'],
+				'ratingNumThresholdReached' => $app['ratingNumOverall'] > 5 ? true : false,
 				'removable' => $existsLocally,
 				'active' => $this->appManager->isEnabledForUser($app['id']),
 				'needsDownload' => !$existsLocally,
