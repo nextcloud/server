@@ -2104,14 +2104,19 @@ class View {
 	 * @return bool
 	 */
 	private function createParentDirectories($filePath) {
-		$parentDirectory = dirname($filePath);
-		while(!$this->file_exists($parentDirectory)) {
-			$result = $this->createParentDirectories($parentDirectory);
-			if($result === false) {
+		$directoryParts = explode('/', $filePath);
+		$directoryParts = array_filter($directoryParts);
+		foreach($directoryParts as $key => $part) {
+			$currentPathElements = array_slice($directoryParts, 0, $key);
+			$currentPath = '/' . implode('/', $currentPathElements);
+			if($this->is_file($currentPath)) {
 				return false;
 			}
+			if(!$this->file_exists($currentPath)) {
+				$this->mkdir($currentPath);
+			}
 		}
-		$this->mkdir($filePath);
+
 		return true;
 	}
 }
