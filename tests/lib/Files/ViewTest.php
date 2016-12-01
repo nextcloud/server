@@ -12,6 +12,7 @@ use OC\Files\Cache\Watcher;
 use OC\Files\Storage\Common;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Temporary;
+use OC\Files\View;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\FileInfo;
 use OCP\Lock\ILockingProvider;
@@ -2498,5 +2499,75 @@ class ViewTest extends \Test\TestCase {
 		$this->assertFalse($cache->inCache('foo/foo.txt'));
 		$this->assertNotEquals($rootInfo->getEtag(), $newInfo->getEtag());
 		$this->assertEquals(0, $newInfo->getSize());
+	}
+
+	public function testCreateParentDirectories() {
+		$view = $this->getMockBuilder(View::class)
+			->disableOriginalConstructor()
+			->setMethods([
+				'is_file',
+				'file_exists',
+				'mkdir',
+			])
+			->getMock();
+
+		$view
+			->expects($this->at(0))
+			->method('is_file')
+			->with('/new')
+			->willReturn(false);
+		$view
+			->expects($this->at(1))
+			->method('file_exists')
+			->with('/new')
+			->willReturn(true);
+		$view
+			->expects($this->at(2))
+			->method('is_file')
+			->with('/new/folder')
+			->willReturn(false);
+		$view
+			->expects($this->at(3))
+			->method('file_exists')
+			->with('/new/folder')
+			->willReturn(false);
+		$view
+			->expects($this->at(4))
+			->method('mkdir')
+			->with('/new/folder');
+		$view
+			->expects($this->at(5))
+			->method('is_file')
+			->with('/new/folder/structure')
+			->willReturn(false);
+		$view
+			->expects($this->at(6))
+			->method('file_exists')
+			->with('/new/folder/structure')
+			->willReturn(false);
+		$view
+			->expects($this->at(7))
+			->method('mkdir')
+			->with('/new/folder/structure');
+
+		$this->assertTrue(self::invokePrivate($view, 'createParentDirectories', ['/new/folder/structure']));
+	}
+
+	public function testCreateParentDirectoriesWithExistingFile() {
+		$view = $this->getMockBuilder(View::class)
+			->disableOriginalConstructor()
+			->setMethods([
+				'is_file',
+				'file_exists',
+				'mkdir',
+			])
+			->getMock();
+
+		$view
+			->expects($this->once())
+			->method('is_file')
+			->with('/file.txt')
+			->willReturn(true);
+		$this->assertFalse(self::invokePrivate($view, 'createParentDirectories', ['/file.txt/folder/structure']));
 	}
 }
