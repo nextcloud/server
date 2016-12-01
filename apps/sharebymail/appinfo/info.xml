@@ -5,13 +5,17 @@
     <description>Share provider which allows you to share files by mail</description>
     <licence>AGPL</licence>
     <author>Bjoern Schiessle</author>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <namespace>ShareByMail</namespace>
     <category>other</category>
     <dependencies>
         <nextcloud min-version="11" max-version="11" />
     </dependencies>
     <default_enable/>
+
+    <types>
+        <filesystem/>
+    </types>
 
     <activity>
         <providers>

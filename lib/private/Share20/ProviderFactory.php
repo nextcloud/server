@@ -206,6 +206,10 @@ class ProviderFactory implements IProviderFactory {
 	}
 
 	public function getAllProviders() {
+		$shareByMail = $this->getShareByMailProvider();
+		if ($shareByMail !== null) {
+			return [$this->defaultShareProvider(), $this->federatedShareProvider(), $shareByMail];
+		}
 		return [$this->defaultShareProvider(), $this->federatedShareProvider()];
 	}
 }
