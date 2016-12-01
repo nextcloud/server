@@ -27,12 +27,16 @@ use OCP\Activity\IManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\L10N\IFactory;
 
 class Event extends Base {
 
 	const SUBJECT_OBJECT_ADD = 'object_add';
 	const SUBJECT_OBJECT_UPDATE = 'object_update';
 	const SUBJECT_OBJECT_DELETE = 'object_delete';
+
+	/** @var IFactory */
+	protected $languageFactory;
 
 	/** @var IL10N */
 	protected $l;
@@ -47,31 +51,34 @@ class Event extends Base {
 	protected $eventMerger;
 
 	/**
-	 * @param IL10N $l
+	 * @param IFactory $languageFactory
 	 * @param IURLGenerator $url
 	 * @param IManager $activityManager
 	 * @param IUserManager $userManager
 	 * @param IEventMerger $eventMerger
 	 */
-	public function __construct(IL10N $l, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IEventMerger $eventMerger) {
+	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IEventMerger $eventMerger) {
 		parent::__construct($userManager);
-		$this->l = $l;
+		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
 		$this->eventMerger = $eventMerger;
 	}
 
 	/**
+	 * @param string $language
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parse(IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'calendar_event') {
 			throw new \InvalidArgumentException();
 		}
+
+		$this->l = $this->languageFactory->get('dav', $language);
 
 		$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
 

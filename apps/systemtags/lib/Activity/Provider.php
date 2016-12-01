@@ -28,6 +28,7 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\L10N\IFactory;
 
 class Provider implements IProvider {
 
@@ -37,6 +38,9 @@ class Provider implements IProvider {
 
 	const ASSIGN_TAG = 'assign_tag';
 	const UNASSIGN_TAG = 'unassign_tag';
+
+	/** @var IFactory */
+	protected $languageFactory;
 
 	/** @var IL10N */
 	protected $l;
@@ -54,29 +58,32 @@ class Provider implements IProvider {
 	protected $displayNames = [];
 
 	/**
-	 * @param IL10N $l
+	 * @param IFactory $languageFactory
 	 * @param IURLGenerator $url
 	 * @param IManager $activityManager
 	 * @param IUserManager $userManager
 	 */
-	public function __construct(IL10N $l, IURLGenerator $url, IManager $activityManager, IUserManager $userManager) {
-		$this->l = $l;
+	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager) {
+		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
 		$this->userManager = $userManager;
 	}
 
 	/**
+	 * @param string $language
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parse(IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'systemtags') {
 			throw new \InvalidArgumentException();
 		}
+
+		$this->l = $this->languageFactory->get('systemtags', $language);
 
 		if ($this->activityManager->isFormattingFilteredObject()) {
 			try {

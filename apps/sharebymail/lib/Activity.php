@@ -29,8 +29,12 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\L10N\IFactory;
 
 class Activity implements IProvider {
+
+	/** @var IFactory */
+	protected $languageFactory;
 
 	/** @var IL10N */
 	protected $l;
@@ -56,14 +60,14 @@ class Activity implements IProvider {
 	const SUBJECT_SHARED_EMAIL_BY = 'shared_with_email_by';
 
 	/**
-	 * @param IL10N $l
+	 * @param IFactory $languageFactory
 	 * @param IURLGenerator $url
 	 * @param IManager $activityManager
 	 * @param IUserManager $userManager
 	 * @param IContactsManager $contactsManager
 	 */
-	public function __construct(IL10N $l, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IContactsManager $contactsManager) {
-		$this->l = $l;
+	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IContactsManager $contactsManager) {
+		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
 		$this->userManager = $userManager;
@@ -71,16 +75,19 @@ class Activity implements IProvider {
 	}
 
 	/**
+	 * @param string $language
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parse(IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'sharebymail') {
 			throw new \InvalidArgumentException();
 		}
+
+		$this->l = $this->languageFactory->get('sharebymail', $language);
 
 		if ($this->activityManager->isFormattingFilteredObject()) {
 			try {
