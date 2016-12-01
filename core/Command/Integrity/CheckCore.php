@@ -60,5 +60,8 @@ class CheckCore extends Base {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$result = $this->checker->verifyCoreSignature();
 		$this->writeArrayInOutputFormat($input, $output, $result);
+		if (count($result)>0){
+			return 1;
+		}
 	}
 }
