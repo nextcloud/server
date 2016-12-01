@@ -538,7 +538,7 @@ span.version {
 }
 #apps-list .section {
 	position: relative;
-	flex: 1 0 330px;
+	flex: 0 0 330px;
 	margin: 0;
 	padding-right: 50px;
 }
