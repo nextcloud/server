@@ -56,13 +56,22 @@ if (empty($_POST['dirToken'])) {
 		die();
 	}
 } else {
+	$shareManager = \OC::$server->getShareManager();
+	$share = $shareManager->getShareByToken((string)$_POST['dirToken']);
+
 	// TODO: ideally this code should be in files_sharing/ajax/upload.php
 	// and the upload/file transfer code needs to be refactored into a utility method
 	// that could be used there
 
 	\OC_User::setIncognitoMode(true);
 
-	$publicDirectory = !empty($_POST['subdir']) ? (string)$_POST['subdir'] : '/';
+	// If it is a write-only folder no subdirectory can be specified
+	$publicDirectory = '';
+	if ($share->getPermissions() & \OCP\Constants::PERMISSION_READ) {
+		$publicDirectory = !empty($_POST['subdir']) ? (string)$_POST['subdir'] : '/';
+	} else {
+		$_POST['file_directory'] = '';
+	}
 
 	$linkItem = OCP\Share::getShareByToken((string)$_POST['dirToken']);
 	if ($linkItem === false) {
@@ -165,8 +174,6 @@ if (\OC\Files\Filesystem::isValidPath($dir) === true) {
 
 		if(isset($_POST['dirToken'])) {
 			// If it is a read only share the resolution will always be autorename
-			$shareManager = \OC::$server->getShareManager();
-			$share = $shareManager->getShareByToken((string)$_POST['dirToken']);
 			if (!($share->getPermissions() & \OCP\Constants::PERMISSION_READ)) {
 				$resolution = 'autorename';
 			}
