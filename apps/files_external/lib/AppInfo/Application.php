@@ -29,10 +29,21 @@
 
 namespace OCA\Files_External\AppInfo;
 
+use OCA\Files_External\Lib\Backend\AmazonS3;
+use OCA\Files_External\Lib\Backend\DAV;
+use OCA\Files_External\Lib\Backend\Dropbox;
+use OCA\Files_External\Lib\Backend\FTP;
+use OCA\Files_External\Lib\Backend\Google;
+use OCA\Files_External\Lib\Backend\Local;
+use OCA\Files_External\Lib\Backend\OwnCloud;
+use OCA\Files_External\Lib\Backend\SFTP;
+use OCA\Files_External\Lib\Backend\SFTP_Key;
+use OCA\Files_External\Lib\Backend\SharePoint;
+use OCA\Files_External\Lib\Backend\SMB;
+use OCA\Files_External\Lib\Backend\SMB_OC;
+use OCA\Files_External\Lib\Backend\Swift;
 use \OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
-use \OCP\IContainer;
-use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Lib\Config\IBackendProvider;
 use \OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 
@@ -89,18 +100,19 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		$container = $this->getContainer();
 
 		$backends = [
-			$container->query('OCA\Files_External\Lib\Backend\Local'),
-			$container->query('OCA\Files_External\Lib\Backend\FTP'),
-			$container->query('OCA\Files_External\Lib\Backend\DAV'),
-			$container->query('OCA\Files_External\Lib\Backend\OwnCloud'),
-			$container->query('OCA\Files_External\Lib\Backend\SFTP'),
-			$container->query('OCA\Files_External\Lib\Backend\AmazonS3'),
-			$container->query('OCA\Files_External\Lib\Backend\Dropbox'),
-			$container->query('OCA\Files_External\Lib\Backend\Google'),
-			$container->query('OCA\Files_External\Lib\Backend\Swift'),
-			$container->query('OCA\Files_External\Lib\Backend\SFTP_Key'),
-			$container->query('OCA\Files_External\Lib\Backend\SMB'),
-			$container->query('OCA\Files_External\Lib\Backend\SMB_OC'),
+			$container->query(Local::class),
+			$container->query(FTP::class),
+			$container->query(DAV::class),
+			$container->query(OwnCloud::class),
+			$container->query(SFTP::class),
+			$container->query(AmazonS3::class),
+			$container->query(Dropbox::class),
+			$container->query(Google::class),
+			$container->query(Swift::class),
+			$container->query(SFTP_Key::class),
+			$container->query(SMB::class),
+			$container->query(SMB_OC::class),
+			$container->query(SharePoint::class),
 		];
 
 		return $backends;
