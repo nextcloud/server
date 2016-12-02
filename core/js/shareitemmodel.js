@@ -147,9 +147,10 @@
 		},
 
 		addShare: function(attributes, options) {
-			var shareType = attributes.shareType;
 			options = options || {};
-			attributes = _.extend({}, attributes);
+			attributes = _.extend({
+				permissions: OC.PERMISSION_ALL
+			}, attributes);
 
 			// Default permissions are Edit (CRUD) and Share
 			// Check if these permissions are possible
@@ -167,7 +168,7 @@
 				permissions = permissions | OC.PERMISSION_SHARE;
 			}
 
-			attributes.permissions = permissions;
+			attributes.permissions &= permissions;
 			if (_.isUndefined(attributes.path)) {
 				attributes.path = this.fileInfoModel.getFullPath();
 			}
