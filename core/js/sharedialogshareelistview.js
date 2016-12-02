@@ -305,7 +305,7 @@
 				$li.find('.popovermenu').replaceWith(this.popoverMenuTemplate(sharee));
 
 				var $edit = $li.parent().find('#canEdit-' + this.cid + '-' + sharee.shareWith);
-				if($edit.length == 1) {
+				if($edit.length === 1) {
 					$edit.prop('checked', sharee.hasEditPermission);
 				}
 			}
@@ -338,10 +338,10 @@
 			if (!this._template) {
 				this._template = Handlebars.compile(TEMPLATE);
 			}
-			var sharees = data['sharees'];
+			var sharees = data.sharees;
 			if(_.isArray(sharees)) {
 				for (var i = 0; i < sharees.length; i++) {
-					data['sharees'][i]['popoverMenu'] = this.popoverMenuTemplate(sharees[i]);
+					data.sharees[i].popoverMenu = this.popoverMenuTemplate(sharees[i]);
 				}
 			}
 			return this._template(data);

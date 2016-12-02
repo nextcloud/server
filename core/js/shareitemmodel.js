@@ -404,7 +404,7 @@
 			}
 			for(var i = 0; i < shares.length; i++) {
 				var shareWith = shares[i];
-				if(shareWith['id'] == shareId) {
+				if(shareWith.id === shareId) {
 					return i;
 				}
 			}
