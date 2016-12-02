@@ -33,6 +33,8 @@ namespace OCA\Files_Sharing;
 
 use OC\Files\Filesystem;
 use OC\Files\Cache\FailedCache;
+use OC\Files\Storage\Wrapper\PermissionsMask;
+use OCA\Files_Sharing\ISharedStorage;
 use OC\Files\Storage\FailedStorage;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
@@ -71,6 +73,9 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	 */
 	private $logger;
 
+	/** @var  IStorage */
+	private $nonMaskedStorage;
+
 	private $options;
 
 	public function __construct($arguments) {
@@ -94,7 +99,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	private function getSourceRootInfo() {
 		if (is_null($this->sourceRootInfo)) {
 			if (is_null($this->superShare->getNodeCacheEntry())) {
-				$this->sourceRootInfo = $this->getWrapperStorage()->getCache()->get($this->rootPath);
+				$this->sourceRootInfo = $this->nonMaskedStorage->getCache()->get($this->rootPath);
 			} else {
 				$this->sourceRootInfo = $this->superShare->getNodeCacheEntry();
 			}
@@ -110,7 +115,11 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		try {
 			Filesystem::initMountPoints($this->superShare->getShareOwner());
 			$sourcePath = $this->ownerView->getPath($this->superShare->getNodeId());
-			list($this->storage, $this->rootPath) = $this->ownerView->resolvePath($sourcePath);
+			list($this->nonMaskedStorage, $this->rootPath) = $this->ownerView->resolvePath($sourcePath);
+			$this->storage = new PermissionsMask([
+				'storage' => $this->nonMaskedStorage,
+				'mask' => $this->superShare->getPermissions()
+			]);
 		} catch (NotFoundException $e) {
 			$this->storage = new FailedStorage(['exception' => $e]);
 			$this->rootPath = '';
@@ -252,7 +261,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 				'mode' => $mode,
 			);
 			\OCP\Util::emitHook('\OC\Files\Storage\Shared', 'fopen', $info);
-			return parent::fopen($path, $mode);
+			return $this->nonMaskedStorage->fopen($this->getSourcePath($path), $mode);
 		}
 		return false;
 	}
@@ -265,6 +274,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	 * @return bool
 	 */
 	public function rename($path1, $path2) {
+		$this->init();
 		$isPartFile = pathinfo($path1, PATHINFO_EXTENSION) === 'part';
 		$targetExists = $this->file_exists($path2);
 		$sameFodler = dirname($path1) === dirname($path2);
@@ -279,7 +289,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 			}
 		}
 
-		return parent::rename($path1, $path2);
+		return $this->nonMaskedStorage->rename($this->getSourcePath($path1), $this->getSourcePath($path2));
 	}
 
 	/**

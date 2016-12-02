@@ -112,7 +112,7 @@ class PermissionsMask extends Wrapper {
 
 	public function file_put_contents($path, $data) {
 		$permissions = $this->file_exists($path) ? Constants::PERMISSION_UPDATE : Constants::PERMISSION_CREATE;
-		return $this->checkMask($permissions) and parent::file_put_contents($path, $data);
+		return $this->checkMask($permissions) ? parent::file_put_contents($path, $data) : false;
 	}
 
 	public function fopen($path, $mode) {
