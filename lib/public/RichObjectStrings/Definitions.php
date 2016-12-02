@@ -37,16 +37,16 @@ class Definitions {
 		'addressbook' => [
 			'author' => 'Nextcloud',
 			'app' => 'dav',
-			'since' => '9.2.0',
+			'since' => '11.0.0',
 			'parameters' => [
 				'id' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The id used to identify the addressbook on the instance',
 					'example' => '42',
 				],
 				'name' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The display name of the addressbook which should be used in the visual representation',
 					'example' => 'Contacts',
@@ -56,16 +56,16 @@ class Definitions {
 		'addressbook-contact' => [
 			'author' => 'Nextcloud',
 			'app' => 'dav',
-			'since' => '9.2.0',
+			'since' => '11.0.0',
 			'parameters' => [
 				'id' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The id used to identify the contact on the instance',
 					'example' => '42',
 				],
 				'name' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The display name of the contact which should be used in the visual representation',
 					'example' => 'John Doe',
@@ -75,40 +75,58 @@ class Definitions {
 		'announcement' => [
 			'author' => 'Joas Schilling',
 			'app' => 'announcementcenter',
-			'since' => '9.2.0',
+			'since' => '11.0.0',
 			'parameters' => [
 				'id' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true, 'description' => 'The id used to identify the announcement on the instance',
 					'example' => '42',
 				],
 				'name' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The announcement subject which should be used in the visual representation',
 					'example' => 'file.txt',
 				],
 				'link' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => false,
 					'description' => 'The full URL to the file',
 					'example' => 'http://localhost/index.php/apps/announcements/#23',
 				],
 			],
 		],
+		'app' => [
+			'author' => 'Nextcloud',
+			'app' => 'updatenotification',
+			'since' => '11.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '11.0.0',
+					'required' => true, 'description' => 'The app id',
+					'example' => 'updatenotification',
+				],
+				'name' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The name of the app which should be used in the visual representation',
+					'example' => 'Update notification',
+				],
+			],
+		],
 		'calendar' => [
 			'author' => 'Nextcloud',
 			'app' => 'dav',
-			'since' => '9.2.0',
+			'since' => '11.0.0',
 			'parameters' => [
 				'id' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The id used to identify the calendar on the instance',
 					'example' => '42',
 				],
 				'name' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The display name of the calendar which should be used in the visual representation',
 					'example' => 'Personal',
@@ -118,16 +136,16 @@ class Definitions {
 		'calendar-event' => [
 			'author' => 'Nextcloud',
 			'app' => 'dav',
-			'since' => '9.2.0',
+			'since' => '11.0.0',
 			'parameters' => [
 				'id' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The id used to identify the event on the instance',
 					'example' => '42',
 				],
 				'name' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The display name of the event which should be used in the visual representation',
 					'example' => 'Workout',
@@ -137,16 +155,16 @@ class Definitions {
 		'email' => [
 			'author' => 'Nextcloud',
 			'app' => 'sharebymail',
-			'since' => '9.2.0',
+			'since' => '11.0.0',
 			'parameters' => [
 				'id' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The mail-address used to identify the event on the instance',
 					'example' => 'test@localhost',
 				],
 				'name' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The display name of a matching contact or the email (fallback) which should be used in the visual representation',
 					'example' => 'Foo Bar',
@@ -156,28 +174,28 @@ class Definitions {
 		'file' => [
 			'author' => 'Nextcloud',
 			'app' => 'dav',
-			'since' => '9.2.0',
+			'since' => '11.0.0',
 			'parameters' => [
 				'id' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The id used to identify the file on the instance',
 					'example' => '42',
 				],
 				'name' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The file name which should be used in the visual representation',
 					'example' => 'file.txt',
 				],
 				'path' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The full path of the file for the user',
 					'example' => 'path/to/file.txt',
 				],
 				'link' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => false,
 					'description' => 'The full URL to the file',
 					'example' => 'http://localhost/index.php/f/42',
@@ -187,16 +205,16 @@ class Definitions {
 		'pending-federated-share' => [
 			'author' => 'Nextcloud',
 			'app' => 'dav',
-			'since' => '9.2.0',
+			'since' => '11.0.0',
 			'parameters' => [
 				'id' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The id used to identify the federated share on the instance',
 					'example' => '42',
 				],
 				'name' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The name of the shared item which should be used in the visual representation',
 					'example' => 'file.txt',
@@ -206,28 +224,28 @@ class Definitions {
 		'systemtag' => [
 			'author' => 'Nextcloud',
 			'app' => 'core',
-			'since' => '9.2.0',
+			'since' => '11.0.0',
 			'parameters' => [
 				'id' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The id used to identify the systemtag on the instance',
 					'example' => '23',
 				],
 				'name' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The display name of the systemtag which should be used in the visual representation',
 					'example' => 'Project 1',
 				],
 				'visibility' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'If the user can see the systemtag',
 					'example' => '1',
 				],
 				'assignable' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'If the user can assign the systemtag',
 					'example' => '0',
@@ -237,22 +255,22 @@ class Definitions {
 		'user' => [
 			'author' => 'Nextcloud',
 			'app' => 'core',
-			'since' => '9.2.0',
+			'since' => '11.0.0',
 			'parameters' => [
 				'id' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The id used to identify the user on the instance',
 					'example' => 'johndoe',
 				],
 				'name' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The display name of the user which should be used in the visual representation',
 					'example' => 'John Doe',
 				],
 				'server' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => false,
 					'description' => 'The URL of the instance the user lives on',
 					'example' => 'localhost',
@@ -262,16 +280,16 @@ class Definitions {
 		'user-group' => [
 			'author' => 'Nextcloud',
 			'app' => 'core',
-			'since' => '9.2.0',
+			'since' => '11.0.0',
 			'parameters' => [
 				'id' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The id used to identify the group on the instance',
 					'example' => 'supportteam',
 				],
 				'name' => [
-					'since' => '9.2.0',
+					'since' => '11.0.0',
 					'required' => true,
 					'description' => 'The display name of the group which should be used in the visual representation',
 					'example' => 'Support Team',

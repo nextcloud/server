@@ -24,12 +24,16 @@ namespace OCA\UpdateNotification\Tests\Notification;
 
 
 use OCA\UpdateNotification\Notification\Notifier;
+use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Notification\IManager;
+use OCP\Notification\INotification;
 use Test\TestCase;
 
 class NotifierTest extends TestCase {
 
+	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	protected $urlGenerator;
 	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $notificationManager;
 	/** @var IFactory|\PHPUnit_Framework_MockObject_MockObject */
@@ -38,8 +42,9 @@ class NotifierTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->notificationManager = $this->getMockBuilder('OCP\Notification\IManager')->getMock();
-		$this->l10nFactory = $this->getMockBuilder('OCP\L10n\IFactory')->getMock();
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->notificationManager = $this->createMock(IManager::class);
+		$this->l10nFactory = $this->createMock(IFactory::class);
 	}
 
 	/**
@@ -49,12 +54,14 @@ class NotifierTest extends TestCase {
 	protected function getNotifier(array $methods = []) {
 		if (empty($methods)) {
 			return new Notifier(
+				$this->urlGenerator,
 				$this->notificationManager,
 				$this->l10nFactory
 			);
 		} {
-			return $this->getMockBuilder('OCA\UpdateNotification\Notification\Notifier')
+			return $this->getMockBuilder(Notifier::class)
 				->setConstructorArgs([
+					$this->urlGenerator,
 					$this->notificationManager,
 					$this->l10nFactory,
 				])
@@ -81,7 +88,7 @@ class NotifierTest extends TestCase {
 	public function testUpdateAlreadyInstalledCheck($versionNotification, $versionInstalled, $exception) {
 		$notifier = $this->getNotifier();
 
-		$notification = $this->getMockBuilder('OCP\Notification\INotification')->getMock();
+		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->once())
 			->method('getObjectId')
 			->willReturn($versionNotification);
