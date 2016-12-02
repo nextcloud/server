@@ -30,9 +30,9 @@
 .icon-loading-small-dark:after {
 	z-index: 2;
 	content: "";
-	height: 32px;
-	width: 32px;
-	margin: -17px 0 0 -17px;
+	height: 30px;
+	width: 30px;
+	margin: -16px 0 0 -16px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -61,9 +61,9 @@
 
 .icon-loading-small:after,
 .icon-loading-small-dark:after {
-	height: 16px;
-	width: 16px;
-	margin: -9px 0 0 -9px;
+	height: 14px;
+	width: 14px;
+	margin: -8px 0 0 -8px;
 }
 
 /* Css replaced elements don't have ::after nor ::before */
