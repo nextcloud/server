@@ -338,6 +338,14 @@ pipeline:
     when:
       matrix:
         TESTS: integration-setup-features
+  integration-filesdrop-features:
+    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    commands:
+      - cd build/integration
+      - ./run.sh filesdrop_features/filesdrop.feature
+    when:
+      matrix:
+        TESTS: integration-filesdrop-features
   nodb-codecov:
     image: nextcloudci/php7.0:php7.0-6
     commands:
@@ -382,6 +390,7 @@ matrix:
     - TESTS: integration-webdav-related
     - TESTS: integration-sharees-features
     - TESTS: integration-setup-features
+    - TESTS: integration-filesdrop-features
     - TESTS: jsunit
     - TESTS: check-autoloader
     - TESTS: app-check-code
