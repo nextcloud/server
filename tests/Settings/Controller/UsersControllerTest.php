@@ -2107,20 +2107,22 @@ class UsersControllerTest extends \Test\TestCase {
 		$user->method('getEMailAddress')->willReturn($oldEmailAddress);
 		$user->method('canChangeDisplayName')->willReturn(true);
 
-		if ($data[AccountManager::PROPERTY_EMAIL]['value'] !== $oldEmailAddress) {
+		if ($data[AccountManager::PROPERTY_EMAIL]['value'] === $oldEmailAddress ||
+		$oldEmailAddress === null && $data[AccountManager::PROPERTY_EMAIL]['value'] === '') {
+			$user->expects($this->never())->method('setEMailAddress');
+		} else {
 			$user->expects($this->once())->method('setEMailAddress')
 				->with($data[AccountManager::PROPERTY_EMAIL]['value'])
 				->willReturn(true);
-		} else {
-			$user->expects($this->never())->method('setEMailAddress');
 		}
 
-		if ($data[AccountManager::PROPERTY_DISPLAYNAME]['value'] !== $oldDisplayName) {
+		if ($data[AccountManager::PROPERTY_DISPLAYNAME]['value'] === $oldDisplayName ||
+			$oldDisplayName === null && $data[AccountManager::PROPERTY_DISPLAYNAME]['value'] === '') {
+			$user->expects($this->never())->method('setDisplayName');
+		} else {
 			$user->expects($this->once())->method('setDisplayName')
 				->with($data[AccountManager::PROPERTY_DISPLAYNAME]['value'])
 				->willReturn(true);
-		} else {
-			$user->expects($this->never())->method('setDisplayName');
 		}
 
 		$this->accountManager->expects($this->once())->method('updateUser')
@@ -2162,7 +2164,23 @@ class UsersControllerTest extends \Test\TestCase {
 				],
 				'john@example.com',
 				'john New doe'
-			]
+			],
+			[
+				[
+					AccountManager::PROPERTY_EMAIL => ['value' => ''],
+					AccountManager::PROPERTY_DISPLAYNAME => ['value' => 'john doe'],
+				],
+				null,
+				'john New doe'
+			],
+			[
+				[
+					AccountManager::PROPERTY_EMAIL => ['value' => 'john@example.com'],
+					AccountManager::PROPERTY_DISPLAYNAME => ['value' => 'john doe'],
+				],
+				'john@example.com',
+				null
+			],
 
 		];
 	}
@@ -2274,6 +2292,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->with(
 				$this->equalTo($mailAddress)
 			);
+		$user->method('getEMailAddress')->willReturn('oldEmailAddress');
 		$this->mailer
 			->expects($this->any())
 			->method('validateMailAddress')

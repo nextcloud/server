@@ -605,6 +605,7 @@ class UsersController extends Controller {
 		// keep the user back-end up-to-date with the latest display name and email
 		// address
 		$oldDisplayName = $user->getDisplayName();
+		$oldDisplayName = is_null($oldDisplayName) ? '' : $oldDisplayName;
 		if (isset($data[AccountManager::PROPERTY_DISPLAYNAME]['value'])
 			&& $oldDisplayName !== $data[AccountManager::PROPERTY_DISPLAYNAME]['value']
 		) {
@@ -615,6 +616,7 @@ class UsersController extends Controller {
 		}
 
 		$oldEmailAddress = $user->getEMailAddress();
+		$oldEmailAddress = is_null($oldEmailAddress) ? '' : $oldEmailAddress;
 		if (isset($data[AccountManager::PROPERTY_EMAIL]['value'])
 			&& $oldEmailAddress !== $data[AccountManager::PROPERTY_EMAIL]['value']
 		) {
