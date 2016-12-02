@@ -815,6 +815,7 @@ html.ie8 #controls .button.new {
 .newFileMenu .filenameform input {
 	width: 100%;
 	box-sizing: border-box;
+	margin: -2px 0;
 }
 
 #fileList .popovermenu .action {
