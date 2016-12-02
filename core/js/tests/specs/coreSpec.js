@@ -969,8 +969,11 @@ describe('Core base tests', function() {
 		var reloadStub, ajaxErrorStub, clock;
 		var notificationStub;
 		var waitTimeMs = 6000;
+		var oldCurrentUser;
 
 		beforeEach(function() {
+			oldCurrentUser = OC.currentUser;
+			OC.currentUser = 'dummy';
 			clock = sinon.useFakeTimers();
 			reloadStub = sinon.stub(OC, 'reload');
 			notificationStub = sinon.stub(OC.Notification, 'show');
@@ -980,6 +983,7 @@ describe('Core base tests', function() {
 			window.initCore();
 		});
 		afterEach(function() {
+			OC.currentUser = oldCurrentUser;
 			reloadStub.restore();
 			notificationStub.restore();
 			clock.restore();
