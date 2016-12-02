@@ -84,6 +84,10 @@
 	display: inline-block;
 }
 
+#shareWithList .sharingOptionsGroup .popovermenu:after {
+	right: 3px;
+}
+
 #shareWithList label input[type=checkbox] {
 	margin-left: 0;
 	position: relative;
