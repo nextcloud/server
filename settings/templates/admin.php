@@ -34,8 +34,8 @@ $mail_smtpauthtype = [
 
 $mail_smtpsecure = [
 	''		=> $l->t('None'),
-	'ssl'	=> $l->t('SSL'),
-	'tls'	=> $l->t('TLS'),
+	'ssl'	=> $l->t('SSL/TLS'),
+	'tls'	=> $l->t('STARTTLS'),
 ];
 
 $mail_smtpmode = [
