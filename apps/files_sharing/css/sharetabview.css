@@ -109,12 +109,14 @@
 .shareTabView .icon-loading-small {
 	display: inline-block;
 	z-index: 1;
-	padding: 2px 0;
+	margin-right: 4px;
+	vertical-align: text-top;
 }
 
-.shareTabView .shareWithList .icon-loading-small,
-.shareTabView .linkShareView .icon-loading-small {
-	position: absolute;
+.shareTabView .shareWithList .icon-loading-small:not(.hidden) + span,
+.shareTabView .linkShareView .icon-loading-small:not(.hidden) + input + label:before {
+	/* Hide if loader is visible */
+	display: none !important;
 }
 
 .linkShareView {
