@@ -104,7 +104,6 @@
 .shareTabView .icon-loading-small {
 	display: inline-block;
 	z-index: 1;
-	background-color: white;
 	padding: 2px 0;
 }
 
@@ -122,6 +121,5 @@
 }
 
 .shareTabView .icon {
-	display: inline-block;
 	background-size: 16px 16px;
 }
