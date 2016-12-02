@@ -38,7 +38,11 @@
 	var TEMPLATE =
 		'<ul class="versions"></ul>' +
 		'<div class="clear-float"></div>' +
-		'<div class="empty hidden">{{emptyResultLabel}}</div>' +
+		'<div class="empty hidden">' +
+		'<div class="emptycontent">' +
+		'<div class="icon-history"></div>' +
+		'<p>{{emptyResultLabel}}</p>' +
+		'</div></div>' +
 		'<input type="button" class="showMoreVersions hidden" value="{{moreVersionsLabel}}"' +
 		' name="show-more-versions" id="show-more-versions" />' +
 		'<div class="loading hidden" style="height: 50px"></div>';
@@ -225,7 +229,7 @@
 		 */
 		render: function() {
 			this.$el.html(this.template({
-				emptyResultLabel: t('files_versions', 'No other versions available'),
+				emptyResultLabel: t('files_versions', 'No versions available'),
 				moreVersionsLabel: t('files_versions', 'More versions...')
 			}));
 			this.$el.find('.has-tooltip').tooltip();
