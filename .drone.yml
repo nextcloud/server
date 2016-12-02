@@ -341,6 +341,7 @@ pipeline:
   integration-filesdrop-features:
     image: nextcloudci/integration-php7.0:integration-php7.0-2
     commands:
+      - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
       - ./run.sh filesdrop_features/filesdrop.feature
     when:
