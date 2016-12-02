@@ -23,6 +23,7 @@
 namespace OCA\DAV\Files\Sharing;
 
 use OC\Files\View;
+use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -56,6 +57,7 @@ class FilesDropPlugin extends ServerPlugin {
 	 * @param \Sabre\DAV\Server $server Sabre server
 	 *
 	 * @return void
+	 * @throws MethodNotAllowed
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
 		$server->on('beforeMethod', [$this, 'beforeMethod'], 999);
@@ -64,31 +66,19 @@ class FilesDropPlugin extends ServerPlugin {
 
 	public function beforeMethod(RequestInterface $request, ResponseInterface $response){
 
-		if (!$this->enabled || $request->getMethod() !== 'PUT') {
+		if (!$this->enabled) {
 			return;
 		}
 
-		$path = $request->getPath();
-
-		if ($this->view->file_exists($path)) {
-			$newName = \OC_Helper::buildNotExistingFileNameForView('/', $path, $this->view);
-
-			$url = $request->getBaseUrl() . $newName . '?';
-			$parms = $request->getQueryParameters();
-			$first = true;
-			foreach ($parms as $k => $v) {
-				if ($first) {
-					$url .= '?';
-					$first = false;
-				} else {
-					$url .= '&';
-				}
-				$url .= $k . '=' . $v;
-			}
-
-			$request->setUrl($url);
+		if ($request->getMethod() !== 'PUT') {
+			throw new MethodNotAllowed('Only PUT is allowed on files drop');
 		}
 
+		$path = explode('/', $request->getPath());
+		$path = array_pop($path);
 
+		$newName = \OC_Helper::buildNotExistingFileNameForView('/', $path, $this->view);
+		$url = $request->getBaseUrl() . $newName;
+		$request->setUrl($url);
 	}
 }

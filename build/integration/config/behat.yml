@@ -62,6 +62,16 @@ default:
               - admin
               - admin
             regular_user_password: 123456
+    filesdrop:
+      paths:
+        - %paths.base%/../filesdrop_features
+      contexts:
+        - FilesDropContext:
+            baseUrl: http://localhost:8080
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
 
 
 
