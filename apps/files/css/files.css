@@ -776,7 +776,7 @@ html.ie8 #controls .button.new {
 }
 
 .newFileMenu {
-	width: 140px;
+	width: 200px;
 	margin-left: -56px;
 	margin-top: 25px;
 	z-index: 1001;
@@ -813,7 +813,9 @@ html.ie8 #controls .button.new {
 }
 
 .newFileMenu .filenameform input {
-	width: 100px;
+	width: 100%;
+	box-sizing: border-box;
+	margin: -2px 0;
 }
 
 #fileList .popovermenu .action {
