@@ -27,11 +27,6 @@
 	width: 90%;
 }
 
-#app-sidebar .file-details-container {
-	display: inline-block;
-	float: left;
-}
-
 #app-sidebar .thumbnailContainer.large {
 	margin-left: -15px;
 	margin-right: -35px; /* 15 + 20 for the close button */
@@ -97,7 +92,7 @@
 }
 
 #app-sidebar .fileName h3 {
-	max-width: 300px;
+	width: calc(100% - 36px); /* 36px is the with of the copy link icon */
 	display: inline-block;
 	padding: 5px 0;
 	margin: -5px 0;
