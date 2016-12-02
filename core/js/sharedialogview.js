@@ -134,6 +134,8 @@
 			var $loading = this.$el.find('.shareWithLoading');
 			$loading.removeClass('hidden');
 			$loading.addClass('inlineblock');
+			var $remoteShareInfo = this.$el.find('.shareWithRemoteInfo');
+			$remoteShareInfo.addClass('hidden');
 			$.get(
 				OC.linkToOCS('apps/files_sharing/api/v1') + 'sharees',
 				{
@@ -145,6 +147,7 @@
 				function (result) {
 					$loading.addClass('hidden');
 					$loading.removeClass('inlineblock');
+					$remoteShareInfo.removeClass('hidden');
 					if (result.ocs.meta.statuscode === 100) {
 						var users   = result.ocs.data.exact.users.concat(result.ocs.data.users);
 						var groups  = result.ocs.data.exact.groups.concat(result.ocs.data.groups);
@@ -256,6 +259,7 @@
 			).fail(function() {
 				$loading.addClass('hidden');
 				$loading.removeClass('inlineblock');
+				$remoteShareInfo.removeClass('hidden');
 				OC.Notification.show(t('core', 'An error occurred. Please try again'));
 				window.setTimeout(OC.Notification.hide, 5000);
 			});
@@ -298,18 +302,22 @@
 			var $loading = this.$el.find('.shareWithLoading');
 			$loading.removeClass('hidden')
 				.addClass('inlineblock');
+			var $remoteShareInfo = this.$el.find('.shareWithRemoteInfo');
+			$remoteShareInfo.addClass('hidden');
 
 			this.model.addShare(s.item.value, {success: function() {
 				$(e.target).val('')
 					.attr('disabled', false);
 				$loading.addClass('hidden')
 					.removeClass('inlineblock');
+				$remoteShareInfo.removeClass('hidden');
 			}, error: function(obj, msg) {
 				OC.Notification.showTemporary(msg);
 				$(e.target).attr('disabled', false)
 					.autocomplete('search', $(e.target).val());
 				$loading.addClass('hidden')
 					.removeClass('inlineblock');
+				$remoteShareInfo.removeClass('hidden');
 			}});
 		},
 
