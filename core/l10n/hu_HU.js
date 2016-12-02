@@ -122,6 +122,7 @@ OC.L10N.register(
     "Link" : "Hivatkozás",
     "Password protect" : "Jelszóval védett",
     "Allow upload and editing" : "Feltöltés és szerkesztés engedélyezése",
+    "File drop (upload only)" : "Fájl ejtés (csak feltöltés)",
     "Email link to person" : "Hivatkozás elküldése e-mail címre",
     "Send" : "Küldés",
     "Shared with you and the group {group} by {owner}" : "{owner} megosztotta veled és ezzel a csoporttal: {group}",
