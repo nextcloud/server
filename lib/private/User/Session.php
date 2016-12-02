@@ -328,10 +328,11 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * @param IUser $user
 	 * @param array $loginDetails
+	 * @param bool $regenerateSessionId
 	 * @return bool
 	 * @throws LoginException
 	 */
-	public function completeLogin(IUser $user, array $loginDetails) {
+	public function completeLogin(IUser $user, array $loginDetails, $regenerateSessionId = true) {
 		if (!$user->isEnabled()) {
 			// disabled users can not log in
 			// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
@@ -339,7 +340,9 @@ class Session implements IUserSession, Emitter {
 			throw new LoginException($message);
 		}
 
-		$this->session->regenerateId();
+		if($regenerateSessionId) {
+			$this->session->regenerateId();
+		}
 
 		$this->setUser($user);
 		$this->setLoginName($loginDetails['loginName']);
@@ -536,7 +539,7 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		return $this->completeLogin($user, ['loginName' => $uid, 'password' => $password]);
+		return $this->completeLogin($user, ['loginName' => $uid, 'password' => $password], false);
 	}
 
 	/**
@@ -570,7 +573,7 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		return $this->completeLogin($user, ['loginName' => $uid, 'password' => $password, 'token' => $dbToken]);
+		return $this->completeLogin($user, ['loginName' => $uid, 'password' => $password, 'token' => $dbToken], false);
 	}
 
 	/**
