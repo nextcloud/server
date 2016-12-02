@@ -77,7 +77,7 @@ class PermissionsMaskTest extends \Test\Files\Storage\Storage {
 
 	public function testPutContentsNewFileNoUpdate() {
 		$storage = $this->getMaskedStorage(Constants::PERMISSION_ALL - Constants::PERMISSION_UPDATE);
-		$this->assertTrue($storage->file_put_contents('foo', 'bar'));
+		$this->assertEquals(3, $storage->file_put_contents('foo', 'bar'));
 		$this->assertEquals('bar', $storage->file_get_contents('foo'));
 	}
 
