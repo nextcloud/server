@@ -437,7 +437,18 @@
 				permissions |= $(checkbox).data('permissions');
 			});
 
-			this.model.updateShare(shareId, {permissions: permissions});
+
+			/** disable checkboxes during save operation to avoid race conditions **/
+			$li.find('input[type=checkbox]').prop('disabled', true);
+			var enableCb = function() {
+				$li.find('input[type=checkbox]').prop('disabled', false);
+			};
+			var errorCb = function(elem, msg) {
+				OC.dialogs.alert(msg, t('core', 'Error while sharing'));
+				enableCb();
+			};
+
+			this.model.updateShare(shareId, {permissions: permissions}, {error: errorCb, success: enableCb});
 
 			this._renderPermissionChange = shareId;
 		},

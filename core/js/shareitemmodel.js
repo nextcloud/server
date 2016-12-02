@@ -573,7 +573,7 @@
 			return superShare;
 		},
 
-		fetch: function() {
+		fetch: function(options) {
 			var model = this;
 			this.trigger('request', this);
 
@@ -597,6 +597,10 @@
 					shares: sharesMap,
 					reshare: reshare
 				}));
+
+				if(!_.isUndefined(options) && _.isFunction(options.success)) {
+					options.success();
+				}
 			});
 
 			return deferred;
