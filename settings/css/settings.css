@@ -231,7 +231,7 @@ table.nostyle td { padding: 0.2em 0; }
 	text-align: right;
 }
 #sessions .token-list td > a.icon,
-#apppasswords .token-list  td > a.icon {
+#apppasswords .token-list td > a.icon {
 	opacity: 0;
 	transition: opacity 0.5s;
 }
@@ -538,13 +538,50 @@ span.version {
 }
 #apps-list .section {
 	position: relative;
-	flex: 1 0 330px;
-	margin: 0;
-	padding-right: 50px;
+	flex: 0 0 auto;
+	margin-left: 20px;
 }
 #apps-list .section.apps-experimental {
 	flex-basis: 90%;
 }
+
+@media (min-width: 1601px) {
+	#apps-list .section {
+		width: 22%;
+		box-sizing: border-box;
+	}
+	#apps-list .section:nth-child(4n) {
+		margin-right: 20px;
+	}
+}
+
+@media (min-width: 1201px) and (max-width: 1600px) {
+	#apps-list .section {
+		width: 30%;
+		box-sizing: border-box;
+	}
+	#apps-list .section:nth-child(3n) {
+		margin-right: 20px;
+	}
+}
+
+@media (min-width: 901px) and (max-width: 1200px), (min-width: 601px) and (max-width: 770px) {
+	#apps-list .section {
+		width: 40%;
+		box-sizing: border-box;
+	}
+	#apps-list .section:nth-child(2n) {
+		margin-right: 20px;
+	}
+}
+
+@media (max-width: 600px), (min-width: 771px) and (max-width: 900px) {
+	#apps-list .section {
+		width: 100%;
+		box-sizing: border-box;
+	}
+}
+
 .section h2.app-name {
 	margin-bottom: 8px;
 	display: inline;
