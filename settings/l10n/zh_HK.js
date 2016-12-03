@@ -49,8 +49,6 @@ OC.L10N.register(
     "Everyone" : "所有人",
     "Other" : "其他",
     "Default" : "預設",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Log" : "日誌",
     "More" : "更多",
     "Group" : "群組",

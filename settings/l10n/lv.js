@@ -138,8 +138,6 @@ OC.L10N.register(
     "Default" : "Noklusējuma",
     "Language changed" : "Valoda tika nomainīta",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Vai esat pārliecināts, ka vēlaties pievienot \"{domain}\" kā uzticamu domēnu?",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Viss (letālas problēmas, kļūdas, brīdinājumi, informatīvas ziņas, atkļūdošanas paziņojumi)",
     "Info, warnings, errors and fatal issues" : "Informatīvas ziņas, brīdinājumi, kļūdas un letālas problēmas",
     "Warnings, errors and fatal issues" : "Brīdinājumi, kļūdas un letālas problēmas",

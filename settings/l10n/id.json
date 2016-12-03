@@ -295,8 +295,6 @@
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Apakah Anda yakin ingin menambahkan \"{domain}\" sebagai domain terpercaya?",
     "iPhone" : "iPhone",
     "add group" : "tambah grup",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Semuanya (Masalah fatal, kesalahan, peringatan, info, debug)",
     "Info, warnings, errors and fatal issues" : "Info, peringatan, kesalahan dan masalah fatal",
     "Warnings, errors and fatal issues" : "Peringatan, kesalahan dan masalah fatal",

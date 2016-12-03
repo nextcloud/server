@@ -161,8 +161,6 @@ OC.L10N.register(
     "Default" : "Zadano",
     "Language changed" : "Jezik je promijenjen",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Jeste li zaista sigurni da želite dodati \"{domain}\" kao pouzdanu domenu?",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Sve (fatalni problemi, greške, upozorenja, info, ispravljanje pogrešaka)",
     "Info, warnings, errors and fatal issues" : "Informacije, upozorenja, greške i fatalni problemi",
     "Warnings, errors and fatal issues" : "Upozorenja, greške i fatalni problemi",

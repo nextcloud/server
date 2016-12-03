@@ -168,8 +168,6 @@ OC.L10N.register(
     "log-level out of allowed range" : "erregistro-maila baimendutako tartetik at",
     "Language changed" : "Hizkuntza aldatuta",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Ziur zaude gehitu nahi duzula  \"{domain}\" domeinu fidagarri gisa?",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Dena (arazo larriak, erroreak, abisuak, informazioa, arazketa)",
     "Info, warnings, errors and fatal issues" : "Informazioa, abisuak, erroreak eta arazo larriak.",
     "Warnings, errors and fatal issues" : "Abisuak, erroreak eta arazo larriak",

@@ -104,8 +104,6 @@ OC.L10N.register(
     "set new password" : "Configurar nueva contraseña",
     "Default" : "Predeterminado",
     "Language changed" : "Idioma cambiado",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Todo (notificaciones fatales, errores, advertencias, info, debug)",
     "Info, warnings, errors and fatal issues" : "Info, advertencias, errores y notificaciones fatales",
     "Warnings, errors and fatal issues" : "Advertencias, errores y notificaciones fatales",

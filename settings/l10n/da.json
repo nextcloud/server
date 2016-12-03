@@ -225,8 +225,6 @@
     "log-level out of allowed range" : "niveau for logregistrering går ud over tilladte interval",
     "Language changed" : "Sprog ændret",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Sikker på at du vil tilføje \"{domain}\" som et domæne du har tiilid til?",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Alt (alvorlige fejl, fejl, advarsler, info, debug)",
     "Info, warnings, errors and fatal issues" : "Info, advarsler, fejl og alvorlige fejl",
     "Warnings, errors and fatal issues" : "Advarsler, fejl og alvorlige fejl",

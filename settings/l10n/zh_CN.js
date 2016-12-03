@@ -242,8 +242,6 @@ OC.L10N.register(
     "log-level out of allowed range" : "日志级别超出允许的范围",
     "Language changed" : "语言已修改",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "你真的希望添加 \"{domain}\" 为信任域？",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "所有（灾难性问题，错误，警告，信息，调试）",
     "Info, warnings, errors and fatal issues" : "信息，警告，错误和灾难性问题",
     "Warnings, errors and fatal issues" : "警告，错误和灾难性问题",

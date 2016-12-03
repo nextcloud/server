@@ -349,8 +349,6 @@ OC.L10N.register(
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Weet je zeker dat je \"{domain}\" als een vertrouwd domein wilt toevoegen?",
     "iPhone" : "iPhone",
     "add group" : "groep toevoegen",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Alles (fatale problemen, fouten, waarschuwingen, info, debug)",
     "Info, warnings, errors and fatal issues" : "Info, waarschuwingen, fouten en fatale problemen",
     "Warnings, errors and fatal issues" : "Waarschuwingen, fouten en fatale problemen",

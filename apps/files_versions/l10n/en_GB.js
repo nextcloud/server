@@ -5,7 +5,7 @@ OC.L10N.register(
     "Versions" : "Versions",
     "Failed to revert {file} to revision {timestamp}." : "Failed to revert {file} to revision {timestamp}.",
     "Restore" : "Restore",
-    "No other versions available" : "No other versions available",
-    "More versions..." : "More versions..."
+    "More versions..." : "More versions...",
+    "No other versions available" : "No other versions available"
 },
 "nplurals=2; plural=(n != 1);");

@@ -187,8 +187,6 @@ OC.L10N.register(
     "log-level out of allowed range" : "jurnal-səviyyəsi izin verilən aralıqdan kənardır",
     "Language changed" : "Dil dəyişdirildi",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "\"{domain}\" adını inamlı domainlər siyahısına əlavə etməyinizdən əminsinizmi?",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Hər şey(ən pis hadisələr, səhvlər, xəbərdarlıqlar, məlmat, araşdırma səhvləri)",
     "Info, warnings, errors and fatal issues" : "Məlmat, xəbərdarlıqlar, səhvlər və ən pis hadisələr",
     "Warnings, errors and fatal issues" : "Xəbərdarlıqlar, səhvlər və ən pis hadisələr",

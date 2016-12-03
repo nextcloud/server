@@ -306,8 +306,6 @@
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Вы действительно хотите добавить домен \"{domain}\" как доверенный?",
     "iPhone" : "iPhone",
     "add group" : "Добавить группу",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Все (критические проблемы, ошибки, предупреждения, информационные, отладочные)",
     "Info, warnings, errors and fatal issues" : "Информационные, предупреждения, ошибки и критические проблемы",
     "Warnings, errors and fatal issues" : "Предупреждения, ошибки и критические проблемы",

@@ -5,7 +5,7 @@ OC.L10N.register(
     "Versions" : "Sürümler",
     "Failed to revert {file} to revision {timestamp}." : "{file} dosyası {timestamp} sürümüne geri alınamadı.",
     "Restore" : "Geri yükle",
-    "No other versions available" : "Başka bir sürüm yok",
-    "More versions..." : "Diğer sürümler..."
+    "More versions..." : "Diğer sürümler...",
+    "No other versions available" : "Başka bir sürüm yok"
 },
 "nplurals=2; plural=(n > 1);");

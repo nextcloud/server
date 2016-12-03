@@ -349,8 +349,6 @@ OC.L10N.register(
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Biztos abban, hogy hozzá akarja adni \"{domain}\"-t a megbízható tartományokhoz?",
     "iPhone" : "iPhone",
     "add group" : "csoport hozzáadása",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Minden (végzetes hibák, hibák, figyelmeztetések, információk, hibakeresési üzenetek)",
     "Info, warnings, errors and fatal issues" : "Információk, figyelmeztetések, hibák és végzetes hibák",
     "Warnings, errors and fatal issues" : "Figyelmeztetések, hibák és végzetes hibák",

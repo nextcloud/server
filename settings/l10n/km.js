@@ -74,8 +74,6 @@ OC.L10N.register(
     "set new password" : "កំណត់​ពាក្យ​សម្ងាត់​ថ្មី",
     "Default" : "លំនាំ​ដើម",
     "Language changed" : "បាន​ប្ដូរ​ភាសា",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Log" : "Log",
     "More" : "ច្រើន​ទៀត",
     "Less" : "តិច",

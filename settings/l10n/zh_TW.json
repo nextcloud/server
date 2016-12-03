@@ -255,8 +255,6 @@
     "Language changed" : "語言已變更",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "您確定要新增 \"{domain}' 為信任的網域？",
     "iPhone" : "iPhone",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "全部（嚴重問題、錯誤、警告、資訊、除錯訊息）",
     "Info, warnings, errors and fatal issues" : "嚴重問題、錯誤、警告、資訊",
     "Warnings, errors and fatal issues" : "嚴重問題、錯誤、警告",

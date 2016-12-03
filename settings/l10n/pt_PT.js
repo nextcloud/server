@@ -257,8 +257,6 @@ OC.L10N.register(
     "log-level out of allowed range" : "log-level fora do alcance permitido",
     "Language changed" : "Idioma alterado",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Você tem certeza que quer adicionar \"{domain}\" como domínio confiável?",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Tudo (problemas fatais, erros, avisos, informação, depuração)",
     "Info, warnings, errors and fatal issues" : "Informação, avisos, erros e problemas fatais",
     "Warnings, errors and fatal issues" : "Avisos, erros e problemas fatais",

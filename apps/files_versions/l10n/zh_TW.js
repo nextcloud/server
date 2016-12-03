@@ -5,7 +5,7 @@ OC.L10N.register(
     "Versions" : "版本",
     "Failed to revert {file} to revision {timestamp}." : "無法還原檔案 {file} 至版本 {timestamp}",
     "Restore" : "復原",
-    "No other versions available" : "沒有其他版本了",
-    "More versions..." : "更多版本…"
+    "More versions..." : "更多版本…",
+    "No other versions available" : "沒有其他版本了"
 },
 "nplurals=1; plural=0;");

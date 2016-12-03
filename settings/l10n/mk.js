@@ -164,8 +164,6 @@ OC.L10N.register(
     "Default" : "Предефиниран",
     "log-level out of allowed range" : "нивото на логирање е надвор од дозволениот опсег",
     "Language changed" : "Јазикот е сменет",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Info, warnings, errors and fatal issues" : "Информации, предупредувања, грешки и фатални работи",
     "Warnings, errors and fatal issues" : "Предупредувања, грешки и фатални работи",
     "Errors and fatal issues" : "Грешки и фатални работи",

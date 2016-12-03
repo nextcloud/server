@@ -6,7 +6,7 @@ OC.L10N.register(
     "Failed to revert {file} to revision {timestamp}." : "{file} fájlt nem sikerült erre visszaállítani: {timestamp}.",
     "_%n byte_::_%n bytes_" : ["%n bájt","%n bájt"],
     "Restore" : "Visszaállítás",
-    "No other versions available" : "Nincs több elérhető verzió",
-    "More versions..." : "További változatok..."
+    "More versions..." : "További változatok...",
+    "No other versions available" : "Nincs több elérhető verzió"
 },
 "nplurals=2; plural=(n != 1);");

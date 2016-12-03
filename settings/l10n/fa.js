@@ -191,8 +191,6 @@ OC.L10N.register(
     "change email address" : "تغییر آدرس ایمیل ",
     "Default" : "پیش فرض",
     "Language changed" : "زبان تغییر کرد",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "همه موارد (مشکلات مهلک، خطاها، اخطارها، اطلاعات، خطایابی)",
     "Info, warnings, errors and fatal issues" : "اطلاعات، اخطارها، خطاها، مشکلات اساسی",
     "Warnings, errors and fatal issues" : "اخطارها، خطاها، مشکلات مهلک",
