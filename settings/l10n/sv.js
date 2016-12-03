@@ -258,8 +258,6 @@ OC.L10N.register(
     "log-level out of allowed range" : "logg-nivå utanför tillåtet område",
     "Language changed" : "Språk ändrades",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Är du verkligen säker på att du vill lägga till \"{domain}\" som en trusted domian?",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Allting (allvarliga fel, fel, varningar, info, debug)",
     "Info, warnings, errors and fatal issues" : "Info, varningar och allvarliga fel",
     "Warnings, errors and fatal issues" : "Varningar, fel och allvarliga fel",

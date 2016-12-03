@@ -209,8 +209,6 @@ OC.L10N.register(
     "log-level out of allowed range" : "úroveň logovania z povoleného rozpätia",
     "Language changed" : "Jazyk zmenený",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Ste si istí, že chcete pridať \"{domain}\" medzi dôveryhodné domény?",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Všetko (fatálne problémy, chyby, upozornenia, info, debug)",
     "Info, warnings, errors and fatal issues" : "Info, upozornenia, chyby a fatálne problémy",
     "Warnings, errors and fatal issues" : "Upozornenia, chyby a fatálne problémy",

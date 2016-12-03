@@ -134,8 +134,6 @@
     "Default" : "Zadano",
     "Language changed" : "Promjena jezika",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Jeste li doista sigurni da želite dodati \"{domain}\" kao pouzdanu domenu?",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Sve (kobni problemi, pogreške, upozorenja, ispravljanje pogrešaka)",
     "Info, warnings, errors and fatal issues" : "Informacije, upozorenja, pogreške i kobni problemi",
     "Warnings, errors and fatal issues" : "Upozorenja, pogreške i kobni problemi",

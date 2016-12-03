@@ -188,8 +188,6 @@
     "Default" : "Implicită",
     "log-level out of allowed range" : "NIvelul de logare este în afara plajei admise",
     "Language changed" : "Limba a fost schimbată",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Tot (erori fatale, erori, avertizări, informări, depanare)",
     "Info, warnings, errors and fatal issues" : "Informări, avertizări, erori și erori fatale",
     "Warnings, errors and fatal issues" : "Avertizări, erori și erori fatale",

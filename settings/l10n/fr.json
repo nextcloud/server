@@ -346,8 +346,6 @@
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Êtes-vous vraiment sûr de vouloir ajouter \"{domain}\" comme domaine de confiance ?",
     "iPhone" : "iPhone",
     "add group" : "ajouter groupe",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Tout (erreurs fatales, erreurs, avertissements, informations, debogage)",
     "Info, warnings, errors and fatal issues" : "Informations, avertissements, erreurs et erreurs fatales",
     "Warnings, errors and fatal issues" : "Avertissements, erreurs et erreurs fatales",

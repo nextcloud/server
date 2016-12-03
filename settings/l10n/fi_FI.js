@@ -248,8 +248,6 @@ OC.L10N.register(
     "log-level out of allowed range" : "lokitaso ei sallittujen rajojen sisäpuolella",
     "Language changed" : "Kieli on vaihdettu",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Haluatko varmasti liittää kohteen \"{domain}\" luotetuksi toimialueeksi?",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Kaikki (vakavat ongelmat, virheet, varoitukset, tiedot, vianjäljitys)",
     "Info, warnings, errors and fatal issues" : "Tiedot, varoitukset, virheet ja vakavat ongelmat",
     "Warnings, errors and fatal issues" : "Varoitukset, virheet ja vakavat ongelmat",

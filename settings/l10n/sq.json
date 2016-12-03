@@ -259,8 +259,6 @@
     "log-level out of allowed range" : "nivel regjistrimi jashtë intervalit të lejuar",
     "Language changed" : "Gjuha u ndryshua",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Jeni vërtet i sigurt se doni të shtoni \"{domain}\" si përkatësi të besuar?",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Gjithçka (probleme fatale, gabime, sinjalizime, të dhëna, diagnostikim)",
     "Info, warnings, errors and fatal issues" : "Të dhëna, sinjalizime, gabime dhe probleme fatale",
     "Warnings, errors and fatal issues" : "Sinjalizime, gabime dhe probleme fatale",

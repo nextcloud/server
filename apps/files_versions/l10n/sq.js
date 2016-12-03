@@ -5,7 +5,7 @@ OC.L10N.register(
     "Versions" : "Versione",
     "Failed to revert {file} to revision {timestamp}." : "Dështoi në rikthimin e {file} te rishikimi {timestamp}.",
     "Restore" : "Riktheje",
-    "No other versions available" : "Nuk ka versione të tjera të gatshme",
-    "More versions..." : "Më shumë versione…"
+    "More versions..." : "Më shumë versione…",
+    "No other versions available" : "Nuk ka versione të tjera të gatshme"
 },
 "nplurals=2; plural=(n != 1);");

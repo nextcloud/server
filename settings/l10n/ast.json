@@ -132,8 +132,6 @@
     "Default" : "Predetermináu",
     "Language changed" : "Camudóse la llingua",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "¿De xuru que quies amestar \"{domain}\" como dominiu de confianza?",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Too (Información, Avisos, Fallos, debug y problemes fatales)",
     "Info, warnings, errors and fatal issues" : "Información, Avisos, Fallos y problemes fatales",
     "Warnings, errors and fatal issues" : "Avisos, fallos y problemes fatales",

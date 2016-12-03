@@ -282,8 +282,6 @@
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Είστε πραγματικά σίγουροι ότι θέλετε να προσθέσετε το \"{domain}\" σαν αξιόπιστη περιοχή;",
     "iPhone" : "iPhone",
     "add group" : "προσθήκη ομάδας",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Όλα (καίρια ζητήματα, σφάλματα, προειδοποιήσεις, πληροφορίες, αποσφαλμάτωση)",
     "Info, warnings, errors and fatal issues" : "Πληροφορίες, προειδοποιήσεις, σφάλματα και καίρια ζητήματα",
     "Warnings, errors and fatal issues" : "Προειδοποιήσεις, σφάλματα και καίρια ζητήματα",

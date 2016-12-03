@@ -347,8 +347,6 @@ OC.L10N.register(
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "\"{domain}\" を信頼するドメインに追加してもよろしいでしょうか？",
     "iPhone" : "iPhone",
     "add group" : "グループを追加する",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "すべて (致命的な問題、エラー、警告、情報、デバッグ)",
     "Info, warnings, errors and fatal issues" : "情報、警告、エラー、致命的な問題",
     "Warnings, errors and fatal issues" : "警告、エラー、致命的な問題",

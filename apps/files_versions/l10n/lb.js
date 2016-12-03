@@ -5,7 +5,7 @@ OC.L10N.register(
     "Versions" : "Versiounen",
     "Failed to revert {file} to revision {timestamp}." : "Konnt {file} net op d'Versioun {timestamp} zrécksetzen.",
     "Restore" : "Zrécksetzen",
-    "No other versions available" : "Keng aner Versiounen disponibel",
-    "More versions..." : "Méi Versiounen..."
+    "More versions..." : "Méi Versiounen...",
+    "No other versions available" : "Keng aner Versiounen disponibel"
 },
 "nplurals=2; plural=(n != 1);");

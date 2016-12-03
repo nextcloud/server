@@ -5,7 +5,7 @@ OC.L10N.register(
     "Versions" : "Versiot",
     "Failed to revert {file} to revision {timestamp}." : "Tiedoston {file} palautus versioon {timestamp} epäonnistui.",
     "Restore" : "Palauta",
-    "No other versions available" : "Ei muita versioita saatavilla",
-    "More versions..." : "Lisää versioita..."
+    "More versions..." : "Lisää versioita...",
+    "No other versions available" : "Ei muita versioita saatavilla"
 },
 "nplurals=2; plural=(n != 1);");

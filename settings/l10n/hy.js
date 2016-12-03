@@ -24,8 +24,6 @@ OC.L10N.register(
     "Username" : "Օգտանուն",
     "Other" : "Այլ",
     "Language changed" : "Լեզուն փոխվեց",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Group" : "Խումբ",
     "Updates" : "Թարմացումներ"
 },

@@ -312,8 +312,6 @@ OC.L10N.register(
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Ønsker du virkelig å legge til \"{domain}\" som klarert domene?",
     "iPhone" : "iPhone",
     "add group" : "legg til gruppe",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Alt (fatale problemer, feil, advarsler, info, debug)",
     "Info, warnings, errors and fatal issues" : "Info, advarsler, feil og fatale problemer",
     "Warnings, errors and fatal issues" : "Advarsler, feil og fatale problemer",

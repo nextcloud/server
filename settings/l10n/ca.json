@@ -205,8 +205,6 @@
     "log-level out of allowed range" : "Nivell d'autenticació fora del rang permès",
     "Language changed" : "S'ha canviat l'idioma",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Esteu seguir que voleu afegir \"{domain}\" com a un domini de confiança?",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Tot (problemes fatals, errors, avisos, informació, depuració)",
     "Info, warnings, errors and fatal issues" : "Informació, avisos, errors i problemes fatals",
     "Warnings, errors and fatal issues" : "Avisos, errors i problemes fatals",

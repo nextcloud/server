@@ -221,8 +221,6 @@ OC.L10N.register(
     "log-level out of allowed range" : "рівень протоколювання перевищує дозволені межі",
     "Language changed" : "Мову змінено",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Ви дійсно бажаєте додати \"{domain}\" як довірений домен?",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Усі (критичні проблеми, помилки, попередження, інформаційні, налагодження)",
     "Info, warnings, errors and fatal issues" : "Інформаційні, попередження, помилки та критичні проблеми",
     "Warnings, errors and fatal issues" : "Попередження, помилки та критичні проблеми",

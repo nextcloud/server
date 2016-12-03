@@ -126,8 +126,6 @@ OC.L10N.register(
     "change email address" : "ŝanĝi retpoŝtadreson",
     "Default" : "Defaŭlta",
     "Language changed" : "La lingvo estas ŝanĝita",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Ĉio (fatalaĵoj, eraroj, avertoj, informoj, sencimigaj mesaĝoj)",
     "Info, warnings, errors and fatal issues" : "Informoj, avertoj, eraroj kaj fatalaĵoj",
     "Warnings, errors and fatal issues" : "Avertoj, eraroj kaj fatalaĵoj",

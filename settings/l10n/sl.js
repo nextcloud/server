@@ -245,8 +245,6 @@ OC.L10N.register(
     "log-level out of allowed range" : "stopnja zapisovanja je izven dovoljenega območja",
     "Language changed" : "Jezik je spremenjen",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Ali ste prepričani, da želite dodati \"{domain}\" kot varno domeno?",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Vse (podrobnosti, opozorila, hrošče, napake in usodne dogodke)",
     "Info, warnings, errors and fatal issues" : "Podrobnosti, opozorila, napake in usodne dogodke",
     "Warnings, errors and fatal issues" : "Opozorila, napake in usodne dogodke",

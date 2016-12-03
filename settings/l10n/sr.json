@@ -215,8 +215,6 @@
     "log-level out of allowed range" : "ниво бележења је ван дозвољеног опсега",
     "Language changed" : "Језик је промењен",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Да ли заиста желите да додате „{domain}“ као поуздан домен?",
-    "SSL" : "ССЛ",
-    "TLS" : "ТЛС",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Све (фаталне проблеме, грешке, упозорења, информације, отклањање грешака)",
     "Info, warnings, errors and fatal issues" : "Информације, упозорења, грешке и фатални проблеми",
     "Warnings, errors and fatal issues" : "Упозорења, грешке и фатални проблеми",

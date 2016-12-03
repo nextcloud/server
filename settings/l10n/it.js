@@ -349,8 +349,6 @@ OC.L10N.register(
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Sei sicuro di voler aggiungere \"{domain}\"  come dominio attendibile?",
     "iPhone" : "iPhone",
     "add group" : "aggiungi gruppo",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Tutto (problemi gravi, errori, avvisi, informazioni, debug)",
     "Info, warnings, errors and fatal issues" : "Informazioni, avvisi, errori e problemi gravi",
     "Warnings, errors and fatal issues" : "Avvisi, errori e problemi gravi",

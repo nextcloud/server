@@ -342,8 +342,6 @@
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Jste si jisti, že chcete přidat \"{domain}\" mezi důvěryhodné domény?",
     "iPhone" : "iPhone",
     "add group" : "přidat skupinu",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Vše (fatální problémy, chyby, varování, informační, ladící)",
     "Info, warnings, errors and fatal issues" : "Informace, varování, chyby a fatální problémy",
     "Warnings, errors and fatal issues" : "Varování, chyby a fatální problémy",

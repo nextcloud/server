@@ -261,8 +261,6 @@ OC.L10N.register(
     "log-level out of allowed range" : "גודל הלוג מעבר לרמה המותרת",
     "Language changed" : "שפה השתנתה",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "האם באמת להוסיף \"{domain}\" כשם מתחם מהימן?",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "הכול (נושאים חמורים, שגיאות, אזהרות, מידע, ניפוי שגיאות)",
     "Info, warnings, errors and fatal issues" : "מידע, אזהרות, שגיאות ונושאים חמורים",
     "Warnings, errors and fatal issues" : "אזהרות, שגיאות ונושאים חמורים",

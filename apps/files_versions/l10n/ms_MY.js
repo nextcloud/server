@@ -5,7 +5,7 @@ OC.L10N.register(
     "Versions" : "Versi",
     "Failed to revert {file} to revision {timestamp}." : "Gagal kembalikan {file} ke semakan {timestamp}.",
     "Restore" : "Pulihkan",
-    "No other versions available" : "Tiada lagi versi lain",
-    "More versions..." : "Lagi versi..."
+    "More versions..." : "Lagi versi...",
+    "No other versions available" : "Tiada lagi versi lain"
 },
 "nplurals=1; plural=0;");

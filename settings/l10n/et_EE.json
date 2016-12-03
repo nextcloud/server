@@ -198,8 +198,6 @@
     "Default" : "Vaikeväärtus",
     "Language changed" : "Keel on muudetud",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Oled sa kindel, et soovid lisada domeeni \"{domain}\" usaldusväärseks domeeniks?",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Kõik (tõsised probleemid, veateated, hoiatused, info, veatuvastus)",
     "Info, warnings, errors and fatal issues" : "Info, hoiatused, veateted ja tõsised probleemid",
     "Warnings, errors and fatal issues" : "Hoiatused, veateated ja tõsised probleemid",

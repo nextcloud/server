@@ -228,8 +228,6 @@ OC.L10N.register(
     "Language changed" : "Езикът е променен",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Сигурен/на ли сте, че искате \"{domain}\"  да бъде добавен като сигурен домейн?",
     "iPhone" : "iPhone",
-    "SSL" : "SSL",
-    "TLS" : "TLS",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Всичко (фатални проблеми, грешки, предупреждения, информация, дебъгване)",
     "Info, warnings, errors and fatal issues" : "информация, предупреждения, грешки и фатални проблеми",
     "Warnings, errors and fatal issues" : "Предупреждения, грешки и фатални проблеми",
