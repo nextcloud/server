@@ -63,7 +63,7 @@ pipeline:
       matrix:
         TESTS: syntax-php7.0
   syntax-php7.1:
-    image: nextcloudci/php7.1:php7.1-10
+    image: nextcloudci/php7.1:php7.1-11
     commands:
       - composer install
       - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
@@ -121,7 +121,7 @@ pipeline:
         DB: NODB
         PHP: "7.0"
   nodb-php7.1:
-    image: nextcloudci/php7.1:php7.1-10
+    image: nextcloudci/php7.1:php7.1-11
     commands:
       - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
     when:
@@ -145,7 +145,7 @@ pipeline:
         DB: sqlite
         PHP: "7.0"
   sqlite-php7.1:
-    image: nextcloudci/php7.1:php7.1-10
+    image: nextcloudci/php7.1:php7.1-11
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
     when:
