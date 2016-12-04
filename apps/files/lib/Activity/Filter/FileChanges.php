@@ -34,6 +34,10 @@ class FileChanges implements IFilter {
 	/** @var IURLGenerator */
 	protected $url;
 
+	/**
+	 * @param IL10N $l
+	 * @param IURLGenerator $url
+	 */
 	public function __construct(IL10N $l, IURLGenerator $url) {
 		$this->l = $l;
 		$this->url = $url;
