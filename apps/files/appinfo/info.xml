@@ -19,6 +19,7 @@
 
 	<activity>
 		<settings>
+			<setting>OCA\Files\Activity\Settings\FavoriteAction</setting>
 			<setting>OCA\Files\Activity\Settings\FileChanged</setting>
 			<setting>OCA\Files\Activity\Settings\FileCreated</setting>
 			<setting>OCA\Files\Activity\Settings\FileDeleted</setting>
@@ -32,6 +33,7 @@
 		</filters>
 
 		<providers>
+			<provider>OCA\Files\Activity\FavoriteProvider</provider>
 			<provider>OCA\Files\Activity\Provider</provider>
 		</providers>
 	</activity>
