@@ -52,11 +52,10 @@ class IconBuilder {
 	 * @return string|false image blob
 	 */
 	public function getFavicon($app) {
-		$icon = $this->renderAppIcon($app);
+		$icon = $this->renderAppIcon($app, 32);
 		if($icon === false) {
 			return false;
 		}
-		$icon->resizeImage(32, 32, Imagick::FILTER_LANCZOS, 1);
 		$icon->setImageFormat("png24");
 		$data = $icon->getImageBlob();
 		$icon->destroy();
@@ -68,7 +67,7 @@ class IconBuilder {
 	 * @return string|false image blob
 	 */
 	public function getTouchIcon($app) {
-		$icon = $this->renderAppIcon($app);
+		$icon = $this->renderAppIcon($app, 512);
 		if($icon === false) {
 			return false;
 		}
@@ -83,9 +82,10 @@ class IconBuilder {
 	 * fallback to logo
 	 *
 	 * @param $app string app name
+	 * @param $size int size of the icon in px
 	 * @return Imagick|false
 	 */
-	public function renderAppIcon($app) {
+	public function renderAppIcon($app, $size) {
 		try {
 			$appIcon = $this->util->getAppIcon($app);
 			$appIconContent = file_get_contents($appIcon);
@@ -157,7 +157,8 @@ class IconBuilder {
 		$finalIconFile->setImageVirtualPixelMethod(Imagick::VIRTUALPIXELMETHOD_TRANSPARENT);
 		$finalIconFile->setImageArtifact('compose:args', "1,0,-0.5,0.5");
 		$finalIconFile->compositeImage($appIconFile, Imagick::COMPOSITE_ATOP, $offset_w, $offset_h);
-		$finalIconFile->resizeImage(512, 512, Imagick::FILTER_LANCZOS, 1);
+		$finalIconFile->setImageFormat('png24');
+		$finalIconFile->resizeImage($size, $size, Imagick::INTERPOLATE_BICUBIC, 1, false);
 
 		$appIconFile->destroy();
 		return $finalIconFile;

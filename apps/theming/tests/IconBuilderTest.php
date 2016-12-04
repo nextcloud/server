@@ -91,7 +91,7 @@ class IconBuilderTest extends TestCase {
 			->willReturn($color);
 
 		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);
-		$icon = $this->iconBuilder->renderAppIcon($app);
+		$icon = $this->iconBuilder->renderAppIcon($app, 512);
 
 		$this->assertEquals(true, $icon->valid());
 		$this->assertEquals(512, $icon->getImageWidth());
