@@ -103,7 +103,7 @@ class IconBuilder {
 		// generate background image with rounded corners
 		$background = '<?xml version="1.0" encoding="UTF-8"?>' .
 			'<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" width="512" height="512" xmlns:xlink="http://www.w3.org/1999/xlink">' .
-			'<rect x="0" y="0" rx="75" ry="75" width="512" height="512" style="fill:' . $color . ';" />' .
+			'<rect x="0" y="0" rx="100" ry="100" width="512" height="512" style="fill:' . $color . ';" />' .
 			'</svg>';
 		// resize svg magic as this seems broken in Imagemagick
 		if($mime === "image/svg+xml" || substr($appIconContent, 0, 4) === "<svg") {
