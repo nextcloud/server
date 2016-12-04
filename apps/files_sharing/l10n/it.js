@@ -15,7 +15,7 @@ OC.L10N.register(
     "Invalid server URL" : "URL del server non valido",
     "Failed to add the public link to your Nextcloud" : "Aggiunta del collegamento pubblico al tuo Nextcloud non riuscita",
     "Share" : "Condividi",
-    "No expiration date set" : "Nessuna data di scandenza impostata",
+    "No expiration date set" : "Nessuna data di scadenza impostata",
     "Shared by" : "Condiviso da",
     "Sharing" : "Condivisione",
     "File shares" : "Condivisioni dei file",
