@@ -153,6 +153,7 @@ class IconBuilder {
 		$appIconFile->setImageFormat("png24");
 
 		$finalIconFile = new Imagick();
+		$finalIconFile->setBackgroundColor(new ImagickPixel('transparent'));
 		$finalIconFile->readImageBlob($background);
 		$finalIconFile->setImageVirtualPixelMethod(Imagick::VIRTUALPIXELMETHOD_TRANSPARENT);
 		$finalIconFile->setImageArtifact('compose:args', "1,0,-0.5,0.5");
