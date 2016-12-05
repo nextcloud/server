@@ -2,13 +2,21 @@
 
 namespace Test\Files\Storage\Wrapper;
 
+use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
+use OC\Encryption\Update;
 use OC\Encryption\Util;
 use OC\Files\Storage\Temporary;
+use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OC\Log;
 use OC\Memcache\ArrayCache;
 use OC\User\Manager;
+use OCP\Encryption\IEncryptionModule;
+use OCP\Encryption\IFile;
+use OCP\Encryption\Keys\IStorage;
 use OCP\Files\Cache\ICache;
+use OCP\Files\Mount\IMountPoint;
+use OCP\ILogger;
 use Test\Files\Storage\Storage;
 
 class EncryptionTest extends Storage {
@@ -923,6 +931,92 @@ class EncryptionTest extends Storage {
 			['files/versions/foo', false],
 			['files/files_versions/foo', false],
 			['files_versions_test/foo', false],
+		];
+	}
+
+	/**
+	 * @dataProvider dataTestShouldEncrypt
+	 *
+	 * @param bool $encryptMountPoint
+	 * @param \PHPUnit_Framework_MockObject_MockObject | IEncryptionModule $encryptionModule
+	 * @param bool $encryptionModuleShouldEncrypt
+	 * @param bool $expected
+	 */
+	public function testShouldEncrypt(
+		$encryptMountPoint,
+		$encryptionModule,
+		$encryptionModuleShouldEncrypt,
+		$expected
+	) {
+		$encryptionManager = $this->createMock(\OC\Encryption\Manager::class);
+		$util = $this->createMock(Util::class);
+		$logger = $this->createMock(ILogger::class);
+		$fileHelper = $this->createMock(IFile::class);
+		$uid = null;
+		$keyStorage = $this->createMock(IStorage::class);
+		$update = $this->createMock(Update::class);
+		$mountManager = $this->createMock(\OC\Files\Mount\Manager::class);
+		$mount = $this->createMock(IMountPoint::class);
+		$arrayCache = $this->createMock(ArrayCache::class);
+		$path = '/welcome.txt';
+		$fullPath = 'admin/files/welcome.txt';
+		$defaultEncryptionModule = $this->createMock(IEncryptionModule::class);
+
+		$wrapper = $this->getMockBuilder(Encryption::class)
+			->setConstructorArgs(
+				[
+					['mountPoint' => '', 'mount' => $mount, 'storage' => ''],
+					$encryptionManager,
+					$util,
+					$logger,
+					$fileHelper,
+					$uid,
+					$keyStorage,
+					$update,
+					$mountManager,
+					$arrayCache
+				]
+			)
+			->setMethods(['getFullPath', 'getEncryptionModule'])
+			->getMock();
+
+		$wrapper->method('getFullPath')->with($path)->willReturn($fullPath);
+		$wrapper->method('getEncryptionModule')->with($fullPath)
+			->willReturnCallback(
+				function() use ($encryptionModule) {
+					if ($encryptionModule === false) {
+						throw new ModuleDoesNotExistsException();
+					}
+					return $encryptionModule;
+				}
+			);
+		$mount->expects($this->once())->method('getOption')->with('encrypt', true)
+			->willReturn($encryptMountPoint);
+
+		if ($encryptionModule !== null && $encryptionModule !== false) {
+			$encryptionModule->method('shouldEncrypt')->with($fullPath)
+				->willReturn($encryptionModuleShouldEncrypt);
+		}
+
+		if ($encryptionModule === null) {
+			$encryptionManager->expects($this->once())->method('getEncryptionModule')
+				->willReturn($defaultEncryptionModule);
+		}
+		$defaultEncryptionModule->method('shouldEncrypt')->willReturn(true);
+
+		$result = $this->invokePrivate($wrapper, 'shouldEncrypt', [$path]);
+
+		$this->assertSame($expected, $result);
+	}
+
+	public function dataTestShouldEncrypt() {
+		$encryptionModule = $this->createMock(IEncryptionModule::class);
+		return [
+			[false, false, false, false],
+			[true, false, false, false],
+			[true, $encryptionModule, false, false],
+			[true, $encryptionModule, true, true],
+			[true, null, false, true],
 		];
 	}
 
