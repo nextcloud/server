@@ -83,7 +83,7 @@
 				if (field === 'avatar') {
 					return;
 				}
-				self.$('#' + field).keyUpDelayedOrEnter(_.bind(self._onInputChanged, self));
+				self.$('#' + field).keyUpDelayedOrEnter(_.bind(self._onInputChanged, self), true);
 			});
 		},
 
