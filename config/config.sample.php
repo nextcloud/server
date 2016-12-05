@@ -522,6 +522,17 @@ $CONFIG = array(
 'updater.server.url' => 'https://updates.nextcloud.com/updater_server/',
 
 /**
+ * The channel that Nextcloud should use to look for updates
+ *
+ * Supported values:
+ *   - ``daily``
+ *   - ``beta`
+ *   - ``stable``
+ *   - ``production``
+ */
+'updater.release.channel' => 'stable',
+
+/**
  * Is Nextcloud connected to the Internet or running in a closed network?
  */
 'has_internet_connection' => true,
