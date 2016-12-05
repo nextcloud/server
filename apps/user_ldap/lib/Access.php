@@ -283,7 +283,7 @@ class Access extends LDAPUtility implements IUserTools {
 			$lowercaseAttribute = strtolower($attribute);
 			for($i=0;$i<$result[$attribute]['count'];$i++) {
 				if($this->resemblesDN($attribute)) {
-					$values[] = $this->sanitizeDN($result[$attribute][$i]);
+					$values[] = $this->helper->sanitizeDN($result[$attribute][$i]);
 				} elseif($lowercaseAttribute === 'objectguid' || $lowercaseAttribute === 'guid') {
 					$values[] = $this->convertObjectGUID2Str($result[$attribute][$i]);
 				} else {
