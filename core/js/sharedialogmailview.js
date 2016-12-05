@@ -48,7 +48,8 @@
 		showLink: true,
 
 		events: {
-			'click #emailButton': '_onEmailPrivateLink'
+			'click #emailButton': '_onEmailPrivateLink',
+			'submit #emailPrivateLink': '_onEmailPrivateLink'
 		},
 
 		initialize: function(options) {
