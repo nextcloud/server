@@ -924,7 +924,11 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('invalid path');
 		}
 
-		$provider = $this->factory->getProviderForType($shareType);
+		try {
+			$provider = $this->factory->getProviderForType($shareType);
+		} catch (ProviderException $e) {
+			return [];
+		}
 
 		$shares = $provider->getSharesBy($userId, $shareType, $path, $reshares, $limit, $offset);
 
@@ -988,7 +992,11 @@ class Manager implements IManager {
 	 * @inheritdoc
 	 */
 	public function getSharedWith($userId, $shareType, $node = null, $limit = 50, $offset = 0) {
-		$provider = $this->factory->getProviderForType($shareType);
+		try {
+			$provider = $this->factory->getProviderForType($shareType);
+		} catch (ProviderException $e) {
+			return [];
+		}
 
 		return $provider->getSharedWith($userId, $shareType, $node, $limit, $offset);
 	}
@@ -1002,7 +1010,12 @@ class Manager implements IManager {
 		}
 
 		list($providerId, $id) = $this->splitFullId($id);
-		$provider = $this->factory->getProvider($providerId);
+
+		try {
+			$provider = $this->factory->getProvider($providerId);
+		} catch (ProviderException $e) {
+			throw new ShareNotFound();
+		}
 
 		$share = $provider->getShareById($id, $recipient);
 
@@ -1038,7 +1051,10 @@ class Manager implements IManager {
 	 * @throws ShareNotFound
 	 */
 	public function getShareByToken($token) {
-		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_LINK);
+		try {
+			$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_LINK);
+		} catch (ProviderException $e) {
+		}
 
 		try {
 			$share = $provider->getShareByToken($token);
@@ -1048,7 +1064,10 @@ class Manager implements IManager {
 
 		// If it is not a link share try to fetch a federated share by token
 		if ($share === null) {
-			$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_REMOTE);
+			try {
+				$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_REMOTE);
+			} catch (ProviderException $e) {
+			}
 			try {
 				$share = $provider->getShareByToken($token);
 			} catch (ShareNotFound $e) {
@@ -1058,7 +1077,10 @@ class Manager implements IManager {
 
 		// If it is not a link share try to fetch a federated share by token
 		if ($share === null && $this->shareProviderExists(\OCP\Share::SHARE_TYPE_EMAIL)) {
-			$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_EMAIL);
+			try {
+				$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_EMAIL);
+			} catch (ProviderException $e) {
+			}
 			$share = $provider->getShareByToken($token);
 		}
 
@@ -1114,10 +1136,14 @@ class Manager implements IManager {
 	 * @inheritdoc
 	 */
 	public function userDeleted($uid) {
-		$types = [\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_LINK, \OCP\Share::SHARE_TYPE_REMOTE];
+		$types = [\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_LINK, \OCP\Share::SHARE_TYPE_REMOTE, \OCP\Share::SHARE_TYPE_EMAIL];
 
 		foreach ($types as $type) {
-			$provider = $this->factory->getProviderForType($type);
+			try {
+				$provider = $this->factory->getProviderForType($type);
+			} catch (ProviderException $e) {
+				continue;
+			}
 			$provider->userDeleted($uid, $type);
 		}
 	}
