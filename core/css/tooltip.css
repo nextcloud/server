@@ -5,7 +5,6 @@
  */
 .tooltip {
   position: absolute;
-  z-index: 1070;
   display: block;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-style: normal;
@@ -24,6 +23,7 @@
   word-wrap: normal;
   font-size: 12px;
   opacity: 0;
+  z-index: 100000;
   filter: alpha(opacity=0);
 }
 .tooltip.in {
