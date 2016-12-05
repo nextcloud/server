@@ -1169,6 +1169,8 @@ class OC_Util {
 		}
 		fwrite($fp, $testContent);
 		fclose($fp);
+
+		return $testContent;
 	}
 
 	/**

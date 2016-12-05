@@ -198,7 +198,8 @@
 			}
 			var afterCall = function(xhr) {
 				var messages = [];
-				if (xhr.status !== 403 && xhr.status !== 307 && xhr.status !== 301 && xhr.responseText !== '') {
+				// .ocdata is an empty file in the data directory - if this is readable then the data dir is not protected
+				if (xhr.status === 200 && xhr.responseText === '') {
 					messages.push({
 						msg: t('core', 'Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root.'),
 						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
@@ -209,7 +210,7 @@
 
 			$.ajax({
 				type: 'GET',
-				url: OC.linkTo('', oc_dataURL+'/htaccesstest.txt?t=' + (new Date()).getTime()),
+				url: OC.linkTo('', oc_dataURL+'/.ocdata?t=' + (new Date()).getTime()),
 				complete: afterCall,
 				allowAuthErrors: true
 			});
