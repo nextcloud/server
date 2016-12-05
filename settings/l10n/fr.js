@@ -110,6 +110,7 @@ OC.L10N.register(
     "Contacts" : "Contacts",
     "Visible to local users and to trusted servers" : "Visible par les utilisateurs locaux et les serveurs de confiance",
     "Public" : "Publique",
+    "Will be synced to a global and public address book" : "Va être synchronisé dans un carnet d'adresse global et public",
     "Select a profile picture" : "Selectionnez une photo de profil ",
     "Very weak password" : "Mot de passe de très faible sécurité",
     "Weak password" : "Mot de passe de faible sécurité",

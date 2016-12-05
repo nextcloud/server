@@ -7,6 +7,7 @@ OC.L10N.register(
     "Channel updated" : "Canal de mise à jour modifié",
     "Update to %1$s is available." : "Une mise à jour vers %1$s est disponible",
     "Update for %1$s to version %2$s is available." : "Une mise à jour de %1$s vers la version %2$s est disponible.",
+    "Update for {app} to version %s is available." : "Une mise à jour de {app} vers la version %s est disponible.",
     "A new version is available: %s" : "Une nouvelle version est disponible : %s",
     "Open updater" : "Ouvrir le système de mise à jour",
     "Download now" : "Télécharger maintenant",
