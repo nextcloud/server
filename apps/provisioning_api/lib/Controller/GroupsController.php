@@ -128,7 +128,7 @@ class GroupsController extends OCSController {
 	/**
 	 * creates a new group
 	 *
-	 * @NoAdminRequired
+	 * @PasswordConfirmationRequired
 	 *
 	 * @param string $groupid
 	 * @return DataResponse
@@ -149,6 +149,8 @@ class GroupsController extends OCSController {
 	}
 
 	/**
+	 * @PasswordConfirmationRequired
+	 *
 	 * @param string $groupId
 	 * @return DataResponse
 	 * @throws OCSException
