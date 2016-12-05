@@ -25,12 +25,10 @@
 
 namespace OCA\Provisioning_API\Controller;
 
-use OC\OCSClient;
 use \OC_App;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
-use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 
@@ -86,7 +84,7 @@ class AppsController extends OCSController {
 	/**
 	 * @param string $app
 	 * @return DataResponse
-	 * @throws OCSNotFoundException
+	 * @throws OCSException
 	 */
 	public function getAppInfo($app) {
 		$info = \OCP\App::getAppInfo($app);
@@ -98,6 +96,7 @@ class AppsController extends OCSController {
 	}
 
 	/**
+	 * @PasswordConfirmationRequired
 	 * @param string $app
 	 * @return DataResponse
 	 */
@@ -107,6 +106,7 @@ class AppsController extends OCSController {
 	}
 
 	/**
+	 * @PasswordConfirmationRequired
 	 * @param string $app
 	 * @return DataResponse
 	 */

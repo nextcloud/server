@@ -8,6 +8,7 @@
 
 namespace Test\User;
 
+use OC\AppFramework\Http\Request;
 use OC\Authentication\Token\DefaultTokenMapper;
 use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Authentication\Token\IProvider;
@@ -17,6 +18,7 @@ use OC\Session\Memory;
 use OC\User\Manager;
 use OC\User\Session;
 use OC\User\User;
+use OCA\DAV\Connector\Sabre\Auth;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -1218,5 +1220,104 @@ class SessionTest extends \Test\TestCase {
 			->with('UserUid', 'LongRandomToken');
 
 		$this->userSession->createRememberMeToken($user);
+	}
+
+	public function testTryBasicAuthLoginValid() {
+		$request = $this->createMock(Request::class);
+		$request->method('__get')
+			->willReturn([
+				'PHP_AUTH_USER' => 'username',
+				'PHP_AUTH_PW' => 'password',
+			]);
+		$request->method('__isset')
+			->with('server')
+			->willReturn(true);
+
+		$davAuthenticatedSet = false;
+		$lastPasswordConfirmSet = false;
+
+		$this->session
+			->method('set')
+			->will($this->returnCallback(function($k, $v) use (&$davAuthenticatedSet, &$lastPasswordConfirmSet) {
+				switch ($k) {
+					case Auth::DAV_AUTHENTICATED:
+						$davAuthenticatedSet = $v;
+						return;
+					case 'last-password-confirm':
+						$lastPasswordConfirmSet = 1000;
+						return;
+					default:
+						throw new \Exception();
+				}
+			}));
+
+		$userSession = $this->getMockBuilder(Session::class)
+			->setConstructorArgs([
+				$this->manager,
+				$this->session,
+				$this->timeFactory,
+				$this->tokenProvider,
+				$this->config,
+				$this->random,
+			])
+			->setMethods([
+				'logClientIn',
+				'getUser',
+			])
+			->getMock();
+
+		/** @var Session|\PHPUnit_Framework_MockObject_MockObject */
+		$userSession->expects($this->once())
+			->method('logClientIn')
+			->with(
+				$this->equalTo('username'),
+				$this->equalTo('password'),
+				$this->equalTo($request),
+				$this->equalTo($this->throttler)
+			)->willReturn(true);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('username');
+
+		$userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+
+		$this->assertTrue($userSession->tryBasicAuthLogin($request, $this->throttler));
+
+		$this->assertSame('username', $davAuthenticatedSet);
+		$this->assertSame(1000, $lastPasswordConfirmSet);
+	}
+
+	public function testTryBasicAuthLoginNoLogin() {
+		$request = $this->createMock(Request::class);
+		$request->method('__get')
+			->willReturn([]);
+		$request->method('__isset')
+			->with('server')
+			->willReturn(true);
+
+		$this->session->expects($this->never())
+			->method($this->anything());
+
+		$userSession = $this->getMockBuilder(Session::class)
+			->setConstructorArgs([
+				$this->manager,
+				$this->session,
+				$this->timeFactory,
+				$this->tokenProvider,
+				$this->config,
+				$this->random,
+			])
+			->setMethods([
+				'logClientIn',
+			])
+			->getMock();
+
+		/** @var Session|\PHPUnit_Framework_MockObject_MockObject */
+		$userSession->expects($this->never())
+			->method('logClientIn');
+
+		$this->assertFalse($userSession->tryBasicAuthLogin($request, $this->throttler));
 	}
 }

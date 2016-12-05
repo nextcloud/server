@@ -93,6 +93,7 @@ class UsersController extends OCSController {
 	 */
 	public function getUsers($search = '', $limit = null, $offset = null) {
 		$user = $this->userSession->getUser();
+		$users = [];
 
 		// Admin? Or SubAdmin?
 		$uid = $user->getUID();
@@ -125,6 +126,7 @@ class UsersController extends OCSController {
 	}
 
 	/**
+	 * @PasswordConfirmationRequired
 	 * @NoAdminRequired
 	 *
 	 * @param string $userid
@@ -218,6 +220,7 @@ class UsersController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
+	 * @PasswordConfirmationRequired
 	 *
 	 * edit users
 	 *
@@ -308,6 +311,7 @@ class UsersController extends OCSController {
 	}
 
 	/**
+	 * @PasswordConfirmationRequired
 	 * @NoAdminRequired
 	 *
 	 * @param string $userId
@@ -339,20 +343,26 @@ class UsersController extends OCSController {
 	}
 
 	/**
+	 * @PasswordConfirmationRequired
 	 * @NoAdminRequired
 	 *
 	 * @param string $userId
 	 * @return DataResponse
+	 * @throws OCSException
+	 * @throws OCSForbiddenException
 	 */
 	public function disableUser($userId) {
 		return $this->setEnabled($userId, false);
 	}
 
 	/**
+	 * @PasswordConfirmationRequired
 	 * @NoAdminRequired
 	 *
 	 * @param string $userId
 	 * @return DataResponse
+	 * @throws OCSException
+	 * @throws OCSForbiddenException
 	 */
 	public function enableUser($userId) {
 		return $this->setEnabled($userId, true);
@@ -390,8 +400,7 @@ class UsersController extends OCSController {
 	 *
 	 * @param string $userId
 	 * @return DataResponse
-	 * @throws OCSForbiddenException
-	 * @throws OCSNotFoundException
+	 * @throws OCSException
 	 */
 	public function getUsersGroups($userId) {
 		$loggedInUser = $this->userSession->getUser();
@@ -430,6 +439,7 @@ class UsersController extends OCSController {
 	}
 
 	/**
+	 * @PasswordConfirmationRequired
 	 * @param string $userId
 	 * @param string $groupid
 	 * @return DataResponse
@@ -455,9 +465,10 @@ class UsersController extends OCSController {
 	}
 
 	/**
+	 * @PasswordConfirmationRequired
 	 * @NoAdminRequired
 	 *
-	 * @param string userId
+	 * @param string $userId
 	 * @param string $groupid
 	 * @return DataResponse
 	 * @throws OCSException
@@ -511,6 +522,8 @@ class UsersController extends OCSController {
 	/**
 	 * Creates a subadmin
 	 *
+	 * @PasswordConfirmationRequired
+	 *
 	 * @param string $userId
 	 * @param string $groupid
 	 * @return DataResponse
@@ -549,6 +562,8 @@ class UsersController extends OCSController {
 
 	/**
 	 * Removes a subadmin from a group
+	 *
+	 * @PasswordConfirmationRequired
 	 *
 	 * @param string $userId
 	 * @param string $groupid
