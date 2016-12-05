@@ -423,6 +423,7 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * @todo do not allow basic auth if the user is 2FA enforced
 	 * @param IRequest $request
+	 * @param OC\Security\Bruteforce\Throttler $throttler
 	 * @return boolean if the login was successful
 	 */
 	public function tryBasicAuthLogin(IRequest $request,
@@ -440,6 +441,10 @@ class Session implements IUserSession, Emitter {
 					$this->session->set(
 						Auth::DAV_AUTHENTICATED, $this->getUser()->getUID()
 					);
+
+					// Set the last-password-confirm session to make the sudo mode work
+					 $this->session->set('last-password-confirm', $this->timeFacory->getTime());
+
 					return true;
 				}
 			} catch (PasswordLoginForbiddenException $ex) {
