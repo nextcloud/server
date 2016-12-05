@@ -19,36 +19,30 @@
  *
  */
 
-namespace OCA\Files\Activity\Filter;
+namespace OCA\Files\Activity\Settings;
 
 
-use OCP\Activity\IFilter;
+use OCP\Activity\ISetting;
 use OCP\IL10N;
-use OCP\IURLGenerator;
 
-class FileChanges implements IFilter {
+class FavoriteAction implements ISetting {
 
 	/** @var IL10N */
 	protected $l;
 
-	/** @var IURLGenerator */
-	protected $url;
-
 	/**
 	 * @param IL10N $l
-	 * @param IURLGenerator $url
 	 */
-	public function __construct(IL10N $l, IURLGenerator $url) {
+	public function __construct(IL10N $l) {
 		$this->l = $l;
-		$this->url = $url;
 	}
 
 	/**
-	 * @return string Lowercase a-z only identifier
+	 * @return string Lowercase a-z and underscore only identifier
 	 * @since 11.0.0
 	 */
 	public function getIdentifier() {
-		return 'files';
+		return 'favorite';
 	}
 
 	/**
@@ -56,44 +50,49 @@ class FileChanges implements IFilter {
 	 * @since 11.0.0
 	 */
 	public function getName() {
-		return $this->l->t('File changes');
+		return $this->l->t('A file has been added to or removed from your <strong>favorites</strong>');
 	}
 
 	/**
-	 * @return int
+	 * @return int whether the filter should be rather on the top or bottom of
+	 * the admin section. The filters are arranged in ascending order of the
+	 * priority values. It is required to return a value between 0 and 100.
 	 * @since 11.0.0
 	 */
 	public function getPriority() {
-		return 30;
+		return 5;
 	}
 
 	/**
-	 * @return string Full URL to an icon, empty string when none is given
+	 * @return bool True when the option can be changed for the stream
 	 * @since 11.0.0
 	 */
-	public function getIcon() {
-		return $this->url->getAbsoluteURL($this->url->imagePath('core', 'places/files-dark.svg'));
+	public function canChangeStream() {
+		return true;
 	}
 
 	/**
-	 * @param string[] $types
-	 * @return string[] An array of allowed apps from which activities should be displayed
+	 * @return bool True when the option can be changed for the stream
 	 * @since 11.0.0
 	 */
-	public function filterTypes(array $types) {
-		return array_intersect([
-			'file_created',
-			'file_changed',
-			'file_deleted',
-			'file_restored',
-		], $types);
+	public function isDefaultEnabledStream() {
+		return true;
 	}
 
 	/**
-	 * @return string[] An array of allowed apps from which activities should be displayed
+	 * @return bool True when the option can be changed for the mail
 	 * @since 11.0.0
 	 */
-	public function allowedApps() {
-		return ['files'];
+	public function canChangeMail() {
+		return true;
+	}
+
+	/**
+	 * @return bool True when the option can be changed for the stream
+	 * @since 11.0.0
+	 */
+	public function isDefaultEnabledMail() {
+		return false;
 	}
 }
+

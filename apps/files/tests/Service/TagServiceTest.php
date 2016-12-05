@@ -24,7 +24,9 @@
  */
 namespace OCA\Files\Tests\Service;
 
+use OC\Tags;
 use OCA\Files\Service\TagService;
+use OCP\Activity\IManager;
 use OCP\IUserSession;
 
 /**
@@ -41,13 +43,19 @@ class TagServiceTest extends \Test\TestCase {
 	 */
 	private $user;
 
+	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	private $userSession;
+
+	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $activityManager;
+
 	/**
 	 * @var \OCP\Files\Folder
 	 */
 	private $root;
 
 	/**
-	 * @var \OCA\Files\Service\TagService
+	 * @var \OCA\Files\Service\TagService|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $tagService;
 
@@ -59,6 +67,7 @@ class TagServiceTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 		$this->user = $this->getUniqueID('user');
+		$this->activityManager = $this->createMock(IManager::class);
 		\OC::$server->getUserManager()->createUser($this->user, 'test');
 		\OC_User::setUserId($this->user);
 		\OC_Util::setupFS($this->user);
@@ -67,8 +76,8 @@ class TagServiceTest extends \Test\TestCase {
 		/**
 		 * @var \OCP\IUserSession
 		 */
-		$userSession = $this->createMock(IUserSession::class);
-		$userSession->expects($this->any())
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->userSession->expects($this->any())
 			->method('getUser')
 			->withAnyParameters()
 			->will($this->returnValue($user));
@@ -76,11 +85,24 @@ class TagServiceTest extends \Test\TestCase {
 		$this->root = \OC::$server->getUserFolder();
 
 		$this->tagger = \OC::$server->getTagManager()->load('files');
-		$this->tagService = new TagService(
-			$userSession,
-			$this->tagger,
-			$this->root
-		);
+		$this->tagService = $this->getTagService(['addActivity']);
+	}
+
+	/**
+	 * @param array $methods
+	 * @return TagService|\PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected function getTagService(array $methods = []) {
+		return $this->getMockBuilder(TagService::class)
+			->setConstructorArgs([
+				$this->userSession,
+				$this->activityManager,
+				$this->tagger,
+				$this->root,
+			])
+			->setMethods($methods)
+			->getMock();
+
 	}
 
 	protected function tearDown() {
@@ -92,6 +114,9 @@ class TagServiceTest extends \Test\TestCase {
 	public function testUpdateFileTags() {
 		$tag1 = 'tag1';
 		$tag2 = 'tag2';
+
+		$this->tagService->expects($this->never())
+			->method('addActivity');
 
 		$subdir = $this->root->newFolder('subdir');
 		$testFile = $subdir->newFile('test.txt');
@@ -123,6 +148,28 @@ class TagServiceTest extends \Test\TestCase {
 			$caught = true;
 		}
 		$this->assertTrue($caught);
+
+		$subdir->delete();
+	}
+
+	public function testFavoriteActivity() {
+
+		$subdir = $this->root->newFolder('subdir');
+		$file = $subdir->newFile('test.txt');
+
+		$this->tagService->expects($this->exactly(2))
+			->method('addActivity')
+			->withConsecutive(
+				[true, $file->getId(), 'subdir/test.txt'],
+				[false, $file->getId(), 'subdir/test.txt']
+			);
+
+		// set tags
+		$this->tagService->updateFileTags('subdir/test.txt', [Tags::TAG_FAVORITE]);
+
+		// remove tag
+		$this->tagService->updateFileTags('subdir/test.txt', []);
+
 
 		$subdir->delete();
 	}

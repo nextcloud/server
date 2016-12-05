@@ -25,35 +25,42 @@
 
 namespace OCA\Files\Service;
 
-use OC\Files\FileInfo;
-use OCP\Files\Node;
+use OC\Tags;
+use OCA\Files\Activity\FavoriteProvider;
+use OCP\Activity\IManager;
+use OCP\Files\Folder;
+use OCP\ITags;
+use OCP\IUser;
+use OCP\IUserSession;
 
 /**
  * Service class to manage tags on files.
  */
 class TagService {
 
-	/**
-	 * @var \OCP\IUserSession
-	 */
+	/** @var IUserSession */
 	private $userSession;
-
-	/**
-	 * @var \OCP\ITags
-	 */
+	/** @var IManager */
+	private $activityManager;
+	/** @var ITags */
 	private $tagger;
-
-	/**
-	 * @var \OCP\Files\Folder
-	 */
+	/** @var Folder */
 	private $homeFolder;
 
+	/**
+	 * @param IUserSession $userSession
+	 * @param IManager $activityManager
+	 * @param ITags $tagger
+	 * @param Folder $homeFolder
+	 */
 	public function __construct(
-		\OCP\IUserSession $userSession,
-		\OCP\ITags $tagger,
-		\OCP\Files\Folder $homeFolder
+		IUserSession $userSession,
+		IManager $activityManager,
+		ITags $tagger,
+		Folder $homeFolder
 	) {
 		$this->userSession = $userSession;
+		$this->activityManager = $activityManager;
 		$this->tagger = $tagger;
 		$this->homeFolder = $homeFolder;
 	}
@@ -79,16 +86,44 @@ class TagService {
 
 		$newTags = array_diff($tags, $currentTags);
 		foreach ($newTags as $tag) {
+			if ($tag === Tags::TAG_FAVORITE) {
+				$this->addActivity(true, $fileId, $path);
+			}
 			$this->tagger->tagAs($fileId, $tag);
 		}
 		$deletedTags = array_diff($currentTags, $tags);
 		foreach ($deletedTags as $tag) {
+			if ($tag === Tags::TAG_FAVORITE) {
+				$this->addActivity(false, $fileId, $path);
+			}
 			$this->tagger->unTag($fileId, $tag);
 		}
 
 		// TODO: re-read from tagger to make sure the
 		// list is up to date, in case of concurrent changes ?
 		return $tags;
+	}
+
+	/**
+	 * @param bool $addToFavorite
+	 * @param int $fileId
+	 * @param string $path
+	 */
+	protected function addActivity($addToFavorite, $fileId, $path) {
+		$user = $this->userSession->getUser();
+		if (!$user instanceof IUser) {
+			return;
+		}
+
+		$event = $this->activityManager->generateEvent();
+		$event->setApp('files')
+			->setObject('files', $fileId, $path)
+			->setType('favorite')
+			->setAuthor($user->getUID())
+			->setAffectedUser($user->getUID())
+			->setTimestamp(time())
+			->setSubject($addToFavorite ? FavoriteProvider::SUBJECT_ADDED : FavoriteProvider::SUBJECT_REMOVED);
+		$this->activityManager->publish($event);
 	}
 }
 
