@@ -262,6 +262,11 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	},
 
 	enableApp:function(appId, active, element, groups) {
+		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.enableApp, this, appId, active, element, groups));
+			return;
+		}
+
 		var self = this;
 		OC.Settings.Apps.hideErrorMessage(appId);
 		groups = groups || [];
@@ -402,6 +407,11 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	},
 
 	uninstallApp:function(appId, element) {
+		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.uninstallApp, this, appId, element));
+			return;
+		}
+
 		OC.Settings.Apps.hideErrorMessage(appId);
 		element.val(t('settings','Uninstalling ....'));
 		$.post(OC.filePath('settings','ajax','uninstallapp.php'),{appid:appId},function(result) {

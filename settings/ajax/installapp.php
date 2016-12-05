@@ -24,6 +24,13 @@
 OCP\JSON::checkAdminUser();
 OCP\JSON::callCheck();
 
+$lastConfirm = (int) \OC::$server->getSession()->get('last-password-confirm');
+if ($lastConfirm < (time() - 30 * 60 + 15)) { // allow 15 seconds delay
+	$l = \OC::$server->getL10N('core');
+	OC_JSON::error(array( 'data' => array( 'message' => $l->t('Password confirmation is required'))));
+	exit();
+}
+
 if (!array_key_exists('appid', $_POST)) {
 	OC_JSON::error();
 	exit;
