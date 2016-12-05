@@ -27,7 +27,9 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 	State: {
 		currentCategory: null,
-		apps: null
+		apps: null,
+		$updateNotification: null,
+		availableUpdates: 0
 	},
 
 	loadCategories: function() {
@@ -77,8 +79,9 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		$('#app-category-' + OC.Settings.Apps.State.currentCategory).removeClass('active');
 		$('#app-category-' + categoryId).addClass('active');
 		OC.Settings.Apps.State.currentCategory = categoryId;
+		OC.Settings.Apps.State.availableUpdates = 0;
 
-		this._loadCategoryCall = $.ajax(OC.generateUrl('settings/apps/list?category={categoryId}&includeUpdateInfo=0', {
+		this._loadCategoryCall = $.ajax(OC.generateUrl('settings/apps/list?category={categoryId}', {
 			categoryId: categoryId
 		}), {
 			type:'GET',
@@ -109,7 +112,18 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						} else {
 							OC.Settings.Apps.renderApp(app, template, null, false);
 						}
+
+						if (app.update) {
+							var $update = $('#app-' + app.id + ' .update');
+							$update.removeClass('hidden');
+							$update.val(t('settings', 'Update to %s').replace(/%s/g, app.update));
+							OC.Settings.Apps.State.availableUpdates++;
+						}
 					});
+
+					if (OC.Settings.Apps.State.availableUpdates > 0) {
+						OC.Settings.Apps.State.$updateNotification = OC.Notification.show(n('settings', 'You have %n app update pending', 'You have %n app updates pending', OC.Settings.Apps.State.availableUpdates));
+					}
 				} else {
 					$('#apps-list').addClass('hidden');
 					$('#apps-list-empty').removeClass('hidden').find('h2').text(t('settings', 'No apps found for your version'));
@@ -138,28 +152,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				});
 			},
 			complete: function() {
-				var availableUpdates = 0;
 				$('#apps-list').removeClass('icon-loading');
-				$.ajax(OC.generateUrl('settings/apps/list?category={categoryId}&includeUpdateInfo=1', {
-					categoryId: categoryId
-				}), {
-					type: 'GET',
-					success: function (apps) {
-						_.each(apps.apps, function(app) {
-							if (app.update) {
-								var $update = $('#app-' + app.id + ' .update');
-								$update.removeClass('hidden');
-								$update.val(t('settings', 'Update to %s').replace(/%s/g, app.update));
-								availableUpdates++;
-								OC.Settings.Apps.State.apps[app.id].update = true;
-							}
-						});
-
-						if (availableUpdates > 0) {
-							OC.Notification.show(n('settings', 'You have %n app update pending', 'You have %n app updates pending', availableUpdates));
-						}
-					}
-				});
 			}
 		});
 	},
@@ -390,6 +383,20 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			else {
 				element.val(t('settings','Updated'));
 				element.hide();
+
+				var $update = $('#app-' + appId + ' .update');
+				$update.addClass('hidden');
+				var $version = $('#app-' + appId + ' .app-version');
+				$version.text(OC.Settings.Apps.State.apps[appId]['update']);
+
+				if (OC.Settings.Apps.State.$updateNotification) {
+					OC.Notification.hide(OC.Settings.Apps.State.$updateNotification);
+				}
+
+				OC.Settings.Apps.State.availableUpdates--;
+				if (OC.Settings.Apps.State.availableUpdates > 0) {
+					OC.Settings.Apps.State.$updateNotification = OC.Notification.show(n('settings', 'You have %n app update pending', 'You have %n app updates pending', OC.Settings.Apps.State.availableUpdates));
+				}
 			}
 		},'json');
 	},
