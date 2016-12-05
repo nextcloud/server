@@ -46,61 +46,6 @@ jQuery.fn.keyUpDelayedOrEnter = function (callback, allowEmptyValue) {
 	});
 };
 
-
-/**
- * Post the email address change to the server.
- */
-function changeEmailAddress () {
-	var emailInfo = $('#email');
-	if (emailInfo.val() === emailInfo.defaultValue) {
-		return;
-	}
-	emailInfo.defaultValue = emailInfo.val();
-	OC.msg.startSaving('#lostpassword .msg');
-	var post = $("#lostpassword").serializeArray();
-	$.ajax({
-		type: 'PUT',
-		url: OC.generateUrl('/settings/users/{id}/mailAddress', {id: OC.currentUser}),
-		data: {
-			mailAddress: post[0].value
-		}
-	}).done(function(result){
-		// I know the following 4 lines look weird, but that is how it works
-		// in jQuery -  for success the first parameter is the result
-		//              for failure the first parameter is the result object
-		OC.msg.finishedSaving('#lostpassword .msg', result);
-	}).fail(function(result){
-		OC.msg.finishedError('#lostpassword .msg', result.responseJSON.message);
-	});
-}
-
-/**
- * Post the display name change to the server.
- */
-function changeDisplayName () {
-	if ($('#displayName').val() !== '') {
-		OC.msg.startSaving('#displaynameform .msg');
-		// Serialize the data
-		var post = $("#displaynameform").serialize();
-		// Ajax foo
-		$.post(OC.generateUrl('/settings/users/{id}/displayName', {id: OC.currentUser}), post, function (data) {
-			if (data.status === "success") {
-				$('#oldDisplayName').val($('#displayName').val());
-				// update displayName on the top right expand button
-				$('#expandDisplayName').text($('#displayName').val());
-				// update avatar if avatar is available
-				if(!$('#removeavatar').hasClass('hidden')) {
-					updateAvatar();
-				}
-			}
-			else {
-				$('#newdisplayname').val(data.data.displayName);
-			}
-			OC.msg.finishedSaving('#displaynameform .msg', data);
-		});
-	}
-}
-
 function updateAvatar (hidedefault) {
 	var $headerdiv = $('#header .avatardiv');
 	var $displaydiv = $('#displayavatar .avatardiv');
