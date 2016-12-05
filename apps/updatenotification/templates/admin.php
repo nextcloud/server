@@ -14,6 +14,13 @@
 	$currentChannel = $_['currentChannel'];
 ?>
 <form id="oca_updatenotification_section" class="followupsection">
+
+	<?php if($_['outdatedPHP'] === true) { ?>
+		<p class="warning" style="margin-bottom: 15px;">
+			<?php p($l->t('You are running PHP %s. To allow you to upgrade to Nextcloud 11 and higher you need to run at least PHP 5.6. Once you upgraded your PHP version you will be able to receive update notifications for these newer versions.', [PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION])); ?>
+		</p>
+	<?php } ?>
+
 	<?php if($isNewVersionAvailable === true) { ?>
 		<strong><?php p($l->t('A new version is available: %s', [$newVersionString])); ?></strong>
 		<?php if ($_['updaterEnabled']) { ?>
