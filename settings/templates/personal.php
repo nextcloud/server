@@ -97,8 +97,10 @@
 			<?php if(!$_['displayNameChangeSupported']) { ?>
 				<span><?php if(isset($_['email']) && !empty($_['email'])) { p($_['email']); } else { p($l->t('No email address set')); }?></span>
 			<?php } ?>
-			<br />
-			<em><?php p($l->t('For password recovery and notifications')); ?></em>
+			<?php if($_['displayNameChangeSupported']) { ?>
+				<br />
+				<em><?php p($l->t('For password recovery and notifications')); ?></em>
+			<?php } ?>
 			<span class="icon-checkmark hidden"/>
 			<input type="hidden" id="emailscope" value="<?php p($_['emailScope']) ?>">
 		</form>
