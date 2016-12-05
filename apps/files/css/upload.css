@@ -118,7 +118,7 @@
 	margin-right: 3px;
 }
 .oc-dialog .fileexists th:first-child {
-	width: 230px;
+	width: 225px;
 }
 .oc-dialog .fileexists th label {
 	font-weight: normal;
@@ -147,16 +147,14 @@
 	background-size: 64px 64px;
 	float: left;
 }
+
+.oc-dialog .fileexists .original,
 .oc-dialog .fileexists .replacement {
 	float: left;
-	width: 230px;
-}
-.oc-dialog .fileexists .original {
-	float: left;
-	width: 230px;
+	width: 225px;
 }
 .oc-dialog .fileexists .conflicts {
-	overflow-y:scroll;
+	overflow-y: auto;
 	max-height: 225px;
 }
 .oc-dialog .fileexists .conflict input[type='checkbox'] {
