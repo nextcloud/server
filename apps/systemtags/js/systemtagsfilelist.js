@@ -35,6 +35,7 @@
 		 * @type Array.<string>
 		 */
 		_systemTagIds: [],
+		_lastUsedTags: [],
 
 		_clientSideSort: true,
 		_allowSelection: false,
@@ -58,6 +59,7 @@
 
 			var $controls = this.$el.find('#controls').empty();
 
+			_.defer(_.bind(this._getLastUsedTags, this));
 			this._initFilterField($controls);
 		},
 		
@@ -67,7 +69,19 @@
 			OCA.Files.FileList.prototype.destroy.apply(this, arguments);
 		},
 
+		_getLastUsedTags: function() {
+			var self = this;
+			$.ajax({
+				type: 'GET',
+				url: OC.generateUrl('/apps/systemtags/lastused'),
+				success: function (response) {
+					self._lastUsedTags = response;
+				}
+			});
+		},
+
 		_initFilterField: function($container) {
+			var self = this;
 			this.$filterField = $('<input type="hidden" name="tags"/>');
 			$container.append(this.$filterField);
 			this.$filterField.select2({
@@ -110,6 +124,27 @@
 
 				formatSelection: function (tag) {
 					return OC.SystemTags.getDescriptiveTag(tag)[0].outerHTML;
+				},
+
+				sortResults: function(results) {
+					results.sort(function(a, b) {
+						var aLastUsed = self._lastUsedTags.indexOf(a.id);
+						var bLastUsed = self._lastUsedTags.indexOf(b.id);
+
+						if (aLastUsed !== bLastUsed) {
+							if (bLastUsed === -1) {
+								return -1;
+							}
+							if (aLastUsed === -1) {
+								return 1;
+							}
+							return aLastUsed < bLastUsed ? -1 : 1;
+						}
+
+						// Both not found
+						return OC.Util.naturalSortCompare(a.name, b.name);
+					});
+					return results;
 				},
 
 				escapeMarkup: function(m) {

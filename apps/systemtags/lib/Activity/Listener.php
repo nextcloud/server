@@ -28,6 +28,7 @@ use OCP\App\IAppManager;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -46,6 +47,8 @@ class Listener {
 	protected $activityManager;
 	/** @var IUserSession */
 	protected $session;
+	/** @var IConfig */
+	protected $config;
 	/** @var \OCP\SystemTag\ISystemTagManager */
 	protected $tagManager;
 	/** @var \OCP\App\IAppManager */
@@ -61,6 +64,7 @@ class Listener {
 	 * @param IGroupManager $groupManager
 	 * @param IManager $activityManager
 	 * @param IUserSession $session
+	 * @param IConfig $config
 	 * @param ISystemTagManager $tagManager
 	 * @param IAppManager $appManager
 	 * @param IMountProviderCollection $mountCollection
@@ -69,6 +73,7 @@ class Listener {
 	public function __construct(IGroupManager $groupManager,
 								IManager $activityManager,
 								IUserSession $session,
+								IConfig $config,
 								ISystemTagManager $tagManager,
 								IAppManager $appManager,
 								IMountProviderCollection $mountCollection,
@@ -76,6 +81,7 @@ class Listener {
 		$this->groupManager = $groupManager;
 		$this->activityManager = $activityManager;
 		$this->session = $session;
+		$this->config = $config;
 		$this->tagManager = $tagManager;
 		$this->appManager = $appManager;
 		$this->mountCollection = $mountCollection;
@@ -125,6 +131,11 @@ class Listener {
 				$activity->setAffectedUser($user->getUID());
 				$this->activityManager->publish($activity);
 			}
+		}
+
+
+		if ($actor !== '' && ($event->getEvent() === ManagerEvent::EVENT_CREATE || $event->getEvent() === ManagerEvent::EVENT_UPDATE)) {
+			$this->updateLastUsedTags($actor, $event->getTag());
 		}
 	}
 
@@ -213,6 +224,27 @@ class Listener {
 				$this->activityManager->publish($activity);
 			}
 		}
+
+		if ($actor !== '' && $event->getEvent() === MapperEvent::EVENT_ASSIGN) {
+			foreach ($tags as $tag) {
+				$this->updateLastUsedTags($actor, $tag);
+			}
+		}
+	}
+
+	/**
+	 * @param string $actor
+	 * @param ISystemTag $tag
+	 */
+	protected function updateLastUsedTags($actor, ISystemTag $tag) {
+		$lastUsedTags = $this->config->getUserValue($actor, 'systemtags', 'last_used', '[]');
+		$lastUsedTags = json_decode($lastUsedTags, true);
+
+		array_unshift($lastUsedTags, $tag->getId());
+		array_unique($lastUsedTags);
+		$lastUsedTags = array_slice($lastUsedTags, 0, 10);
+
+		$this->config->setUserValue($actor, 'systemtags', 'last_used', json_encode($lastUsedTags));
 	}
 
 	/**

@@ -57,6 +57,8 @@
 
 		_newTag: null,
 
+		_lastUsedTags: [],
+
 		className: 'systemTagsInputFieldContainer',
 
 		template: function(data) {
@@ -97,6 +99,8 @@
 				_.defer(self._refreshSelection);
 			});
 
+			_.defer(_.bind(this._getLastUsedTags, this));
+
 			_.bindAll(
 				this,
 				'_refreshSelection',
@@ -106,6 +110,17 @@
 				'_onDeselectTag',
 				'_onSubmitRenameTag'
 			);
+		},
+
+		_getLastUsedTags: function() {
+			var self = this;
+			$.ajax({
+				type: 'GET',
+				url: OC.generateUrl('/apps/systemtags/lastused'),
+				success: function (response) {
+					self._lastUsedTags = response;
+				}
+			});
 		},
 
 		/**
@@ -211,6 +226,7 @@
 				}, {
 					success: function(model) {
 						self._addToSelect2Selection(model.toJSON());
+						self._lastUsedTags.unshift(model.id);
 						self.trigger('select', model);
 					},
 					error: function(model, xhr) {
@@ -238,6 +254,7 @@
 				return false;
 			} else {
 				tag = this.collection.get(e.object.id);
+				this._lastUsedTags.unshift(tag.id);
 			}
 			this._newTag = null;
 			this.trigger('select', tag);
@@ -400,6 +417,20 @@
 						var aSelected = selectedItems.indexOf(a.id) >= 0;
 						var bSelected = selectedItems.indexOf(b.id) >= 0;
 						if (aSelected === bSelected) {
+							var aLastUsed = self._lastUsedTags.indexOf(a.id);
+							var bLastUsed = self._lastUsedTags.indexOf(b.id);
+
+							if (aLastUsed !== bLastUsed) {
+								if (bLastUsed === -1) {
+									return -1;
+								}
+								if (aLastUsed === -1) {
+									return 1;
+								}
+								return aLastUsed < bLastUsed ? -1 : 1;
+							}
+
+							// Both not found
 							return OC.Util.naturalSortCompare(a.name, b.name);
 						}
 						if (aSelected && !bSelected) {
