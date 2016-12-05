@@ -37,8 +37,13 @@
 }
 
 .systemtags-select2-dropdown .systemtags-rename-form {
-	display: inline;
-	margin-left: 10px;
+	display: inline-block;
+	width: calc(100% - 20px);
+}
+
+.systemtags-select2-dropdown .systemtags-rename-form input {
+	display: inline-block;
+	width: calc(100% - 40px);
 }
 
 .systemtags-select2-container {
@@ -56,6 +61,7 @@
 .systemtags-select2-dropdown .systemtags-item {
 	display: inline-block;
 	height: 25px;
+	width: 100%;
 }
 
 .systemtags-select2-dropdown .select2-result-label {
