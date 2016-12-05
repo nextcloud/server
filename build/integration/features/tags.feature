@@ -70,12 +70,13 @@ Feature: tags
     When "user0" edits the tag with name "TagWithGroups" and sets its groups to "group1|group3"
     Then The response should have a status code "403"
 
-  Scenario: Deleting a normal tag as regular user should work
+  Scenario: Deleting a normal tag as regular user should fail
     Given user "user0" exists
     Given "admin" creates a "normal" tag with name "MySuperAwesomeTagName"
     When "user0" deletes the tag with name "MySuperAwesomeTagName"
-    Then The response should have a status code "204"
-    And "0" tags should exist for "admin"
+    Then The response should have a status code "403"
+    And The following tags should exist for "admin"
+      |MySuperAwesomeTagName|true|true|
 
   Scenario: Deleting a not user-assignable tag as regular user should fail
     Given user "user0" exists
@@ -92,6 +93,12 @@ Feature: tags
     Then The response should have a status code "404"
     And The following tags should exist for "admin"
       |MySuperAwesomeTagName|false|true|
+
+  Scenario: Deleting a normal tag as admin should work
+    Given "admin" creates a "normal" tag with name "MySuperAwesomeTagName"
+    When "admin" deletes the tag with name "MySuperAwesomeTagName"
+    Then The response should have a status code "204"
+    And "0" tags should exist for "admin"
 
   Scenario: Deleting a not user-assignable tag as admin should work
     Given "admin" creates a "not user-assignable" tag with name "MySuperAwesomeTagName"
