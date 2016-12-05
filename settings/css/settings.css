@@ -629,6 +629,10 @@ span.version {
 	white-space: pre-line;
 }
 
+#apps-list .groups-enable {
+	margin-top: 8px;
+}
+
 #app-category-1 {
 	margin-bottom: 18px;
 }
