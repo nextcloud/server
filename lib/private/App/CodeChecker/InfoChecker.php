@@ -86,7 +86,10 @@ class InfoChecker extends BasicEmitter {
 				'type' => 'duplicateRequirement',
 				'field' => 'min',
 			];
-		} else if (!isset($info['dependencies']['owncloud']['@attributes']['min-version'])) {
+		} else if (
+			!isset($info['dependencies']['owncloud']['@attributes']['min-version']) &&
+			!isset($info['dependencies']['nextcloud']['@attributes']['min-version'])
+		) {
 			$this->emit('InfoChecker', 'missingRequirement', ['min']);
 		}
 
@@ -96,7 +99,10 @@ class InfoChecker extends BasicEmitter {
 				'type' => 'duplicateRequirement',
 				'field' => 'max',
 			];
-		} else if (!isset($info['dependencies']['owncloud']['@attributes']['max-version'])) {
+		} else if (
+			!isset($info['dependencies']['owncloud']['@attributes']['max-version']) &&
+			!isset($info['dependencies']['nextcloud']['@attributes']['max-version'])
+		) {
 			$this->emit('InfoChecker', 'missingRequirement', ['max']);
 		}
 

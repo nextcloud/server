@@ -135,7 +135,7 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 			});
 
 			$infoChecker->listen('InfoChecker', 'missingRequirement', function($minMax) use ($output) {
-				$output->writeln("<comment>ownCloud $minMax version requirement missing (will be an error in ownCloud 11 and later)</comment>");
+				$output->writeln("<comment>Nextcloud $minMax version requirement missing (will be an error in Nextcloud 12 and later)</comment>");
 			});
 
 			$infoChecker->listen('InfoChecker', 'duplicateRequirement', function($minMax) use ($output) {
