@@ -586,6 +586,9 @@ span.version {
 	margin-bottom: 8px;
 	display: inline;
 }
+form.section {
+	position: relative;
+}
 .followupsection {
 	display: block;
 	padding: 0 30px 30px 30px;
