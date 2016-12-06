@@ -31,7 +31,15 @@ OCP\JSON::checkLoggedIn();
 $file = $_GET['file'];
 $revision=(int)$_GET['revision'];
 
-list($uid, $filename) = OCA\Files_Versions\Storage::getUidAndFilename($file);
+try {
+	list($uid, $filename) = OCA\Files_Versions\Storage::getUidAndFilename($file);
+} catch(\OCP\Files\NotFoundException $e) {
+	header("HTTP/1.1 404 Not Found");
+	$tmpl = new OCP\Template('', '404', 'guest');
+	$tmpl->assign('file', '');
+	$tmpl->printPage();
+	exit();
+}
 
 $versionName = '/'.$uid.'/files_versions/'.$filename.'.v'.$revision;
 
