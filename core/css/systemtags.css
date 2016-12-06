@@ -39,6 +39,8 @@
 .systemtags-select2-dropdown .systemtags-rename-form {
 	display: inline-block;
 	width: calc(100% - 20px);
+	top: -6px;
+	position: relative;
 }
 
 .systemtags-select2-dropdown .systemtags-rename-form input {
