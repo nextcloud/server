@@ -263,6 +263,11 @@ table.nostyle td { padding: 0.2em 0; }
 	padding: 10px;
 }
 
+#sessions .token-list div.configure:after,
+#apppasswords .token-list div.configure:after {
+	right: 13px;
+}
+
 #sessions .token-list tr.active div.configure > *,
 #apppasswords .token-list tr.active div.configure > *{
 	margin-top: 5px;
