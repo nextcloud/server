@@ -507,15 +507,13 @@ span.version {
 	opacity: .5;
 }
 
-.app-level {
-	margin-top: 8px;
-}
 .app-level span {
 	color: #555;
 	background-color: transparent;
 	border: 1px solid #555;
 	border-radius: 3px;
 	padding: 3px 6px;
+	display: block
 }
 .app-level .official {
 	border-color: #37ce02;
@@ -540,6 +538,8 @@ span.version {
 	position: relative;
 	flex: 0 0 auto;
 	margin-left: 20px;
+	flex-flow: column wrap;
+	display: flex;
 }
 #apps-list .section.apps-experimental {
 	flex-basis: 90%;
@@ -586,9 +586,6 @@ span.version {
 	margin-bottom: 8px;
 	display: inline;
 }
-form.section {
-	position: relative;
-}
 .followupsection {
 	display: block;
 	padding: 0 30px 30px 30px;
@@ -597,18 +594,20 @@ form.section {
 	margin-top: -30px;
 	position: relative;
 }
+.app-info-container,
+.app-details-container {
+	width: calc(100% - 90px);
+}
+.app-details-container {
+	flex-basis: 50%;
+}
 .app-image {
 	float: left;
-	padding-right: 10px;
-	width: 80px;
-	height: 80px;
+	margin-right: 10px;
+	width: 40px;
+	height: 40px;
 	opacity: 0.8;
-}
-.app-name,
-.app-version,
-.app-score,
-.app-level {
-	display: inline-block;
+	overflow: hidden;
 }
 
 .app-description-toggle-show,
@@ -630,10 +629,6 @@ form.section {
 }
 .app-description pre {
 	white-space: pre-line;
-}
-
-#apps-list .groups-enable {
-	margin-top: 8px;
 }
 
 #app-category-1 {
@@ -664,7 +659,17 @@ form.section {
 	margin-top: 1em;
 	margin-bottom: 1em;
 }
-
+.app-actions-container {
+	display: flex;
+	flex-direction: column;
+	width: 80px;
+	flex-grow: 0;
+	flex-basis: 50%;
+}
+.app-actions-container > div,
+.app-actions-container > input:not([type='hidden']) {
+	margin: 0 0 3px 0;
+}
 
 /* LOG */
 #log {
