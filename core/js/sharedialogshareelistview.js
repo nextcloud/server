@@ -367,6 +367,9 @@
 					checked = $element.is(':checked');
 					// Check/uncheck Create, Update, and Delete checkboxes if Edit is checked/unck
 					$($checkboxes).prop('checked', checked);
+					if (checked) {
+						permissions |= OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE | OC.PERMISSION_DELETE;
+					}
 				} else {
 					var numberChecked = $checkboxes.filter(':checked').length;
 					checked = numberChecked > 0;
