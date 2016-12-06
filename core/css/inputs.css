@@ -351,24 +351,24 @@ select:hover {
 
 /* jQuery UI fixes */
 .ui-menu {
-	padding: 0 !important;
+	padding: 0;
 }
 .ui-menu .ui-menu-item a.ui-state-focus, .ui-menu .ui-menu-item a.ui-state-active {
-    font-weight: inherit !important;
-    margin: 0 !important;
+    font-weight: inherit;
+    margin: 0;
 }
 .ui-widget-content {
-	background: #fff !important;
-	border-top: none !important;
+	background: #fff;
+	border-top: none;
 }
 .ui-corner-all {
-	border-radius: 0 !important;
-	border-bottom-left-radius: 3px !important;
-	border-bottom-right-radius: 3px !important;
+	border-radius: 0;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
 }
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
-    border: none !important;
-    background: #f8f8f8 !important;
+    border: none;
+    background: #f8f8f8;
 }
 
 
