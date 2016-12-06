@@ -5,6 +5,7 @@
     "Channel updated" : "Канал обновлен.",
     "Update to %1$s is available." : "Доступно обновлений: %1$s",
     "Update for %1$s to version %2$s is available." : "Доступно обновление для %1$s до версии %2$s.",
+    "Update for {app} to version %s is available." : "Доступно обновление для {app} до версии %s",
     "A new version is available: %s" : "Доступна новая версия: %s",
     "Open updater" : "Открыть окно обновления",
     "Download now" : "Скачать сейчас",
