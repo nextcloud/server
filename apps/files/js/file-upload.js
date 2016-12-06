@@ -151,7 +151,7 @@ OC.FileUpload.prototype = {
 	/**
 	 * Returns whether the upload is in progress
 	 *
-	 * @return {bool}
+	 * @return {boolean}
 	 */
 	isPending: function() {
 		return this.data.state() === 'pending';
