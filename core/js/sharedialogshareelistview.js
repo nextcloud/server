@@ -288,7 +288,8 @@
 							$this.css({width: 32, height: 32});
 							$this.imageplaceholder($this.data('seed'));
 						} else {
-							$this.avatar($this.data('username'), 32);
+						    //                         user,   size,  ie8fix, hidedefault,  callback, displayname
+							$this.avatar($this.data('username'), 32, undefined, undefined, undefined, $this.data('displayname'));
 						}
 					});
 				}
@@ -304,7 +305,9 @@
 				var $li = this.$('li[data-share-id=' + permissionChangeShareId + ']');
 				$li.find('.popovermenu').replaceWith(this.popoverMenuTemplate(sharee));
 
-				var $edit = $li.parent().find('#canEdit-' + this.cid + '-' + sharee.shareWith);
+				var checkBoxId = 'canEdit-' + this.cid + '-' + sharee.shareWith;
+				checkBoxId = '#' + checkBoxId.replace( /(:|\.|\[|\]|,|=|@)/g, "\\$1");
+				var $edit = $li.parent().find(checkBoxId);
 				if($edit.length === 1) {
 					$edit.prop('checked', sharee.hasEditPermission);
 				}
