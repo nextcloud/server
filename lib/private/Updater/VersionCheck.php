@@ -73,6 +73,9 @@ class VersionCheck {
 		$version['updatechannel'] = \OC_Util::getChannel();
 		$version['edition'] = '';
 		$version['build'] = \OC_Util::getBuild();
+		$version['php_major'] = PHP_MAJOR_VERSION;
+		$version['php_minor'] = PHP_MINOR_VERSION;
+		$version['php_release'] = PHP_RELEASE_VERSION;
 		$versionString = implode('x', $version);
 
 		//fetch xml data from updater
