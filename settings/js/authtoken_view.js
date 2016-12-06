@@ -217,6 +217,10 @@
 				}));
 
 				var $el = $(el);
+				$('body').on('click', _.bind(_this._hideConfigureToken, _this));
+				$el.on('click', '.popovermenu', function(event) {
+					event.stopPropagation();
+				});
 				$el.on('click', 'a.icon-delete', _.bind(_this._onDeleteToken, _this));
 				$el.on('click', '.icon-more', _.bind(_this._onConfigureToken, _this));
 				$el.on('change', 'input.filesystem', _.bind(_this._onSetTokenScope, _this));
@@ -355,10 +359,16 @@
 		},
 
 		_onConfigureToken: function (event) {
+			event.stopPropagation();
+			this._hideConfigureToken();
 			var $target = $(event.target);
 			var $row = $target.closest('tr');
 			$row.toggleClass('active');
 			var id = $row.data('id');
+		},
+
+		_hideConfigureToken: function() {
+			$('.token-list tr').removeClass('active');
 		},
 
 		_onDeleteToken: function (event) {
