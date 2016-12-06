@@ -37,22 +37,18 @@
 
 		<div class="hostPortCombinator">
 			<div class="tablerow">
-				<div class="tablecell">
-					<div class="table">
-						<input type="text" class="host" id="ldap_host"
-							name="ldap_host"
-							placeholder="<?php p($l->t('Host'));?>"
-							title="<?php p($l->t('You can omit the protocol, except you require SSL. Then start with ldaps://'));?>"
-							/>
-						<span class="hostPortCombinatorSpan">
-							<input type="number" id="ldap_port" name="ldap_port"
-								placeholder="<?php p($l->t('Port'));?>" />
-							<button class="ldapDetectPort" name="ldapDetectPort" type="button">
-								<?php p($l->t('Detect Port'));?>
-							</button>
-						</span>
-					</div>
-				</div>
+				<input type="text" class="host tablecell" id="ldap_host"
+					name="ldap_host"
+					placeholder="<?php p($l->t('Host'));?>"
+					title="<?php p($l->t('You can omit the protocol, except you require SSL. Then start with ldaps://'));?>"
+					/>
+				<span class="hostPortCombinatorSpan">
+					<input type="number" id="ldap_port" name="ldap_port"
+						placeholder="<?php p($l->t('Port'));?>" />
+				</span>
+				<button class="ldapDetectPort" name="ldapDetectPort" type="button">
+					<?php p($l->t('Detect Port'));?>
+				</button>
 			</div>
 			<div class="tablerow">
 				<input type="text" id="ldap_dn" name="ldap_dn"

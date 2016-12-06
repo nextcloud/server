@@ -15,7 +15,7 @@
 }
 
 .tablerow input, .tablerow textarea {
-	width: 100% !important;
+	width: 100%;
 }
 
 .tablerow textarea {
@@ -57,20 +57,25 @@
 }
 
 #ldapWizard1 .hostPortCombinator {
-	width: 60%;
-	display: table;
+	width: 100%;
 }
 
-#ldapWizard1 .hostPortCombinatorSpan {
-	width: 14.5%;
-	display: inline-block;
-	text-align: right;
+#ldapWizard1 .hostPortCombinator .tablerow {
+	display: flex;
+}
+
+#ldapWizard1 .hostPortCombinatorSpan input {
+	width: 70px;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
 }
 
 #ldapWizard1 .host {
 	width: 100%;
-	margin-left: 0;
 	margin-right: 0;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	border-right: 0;
 }
 
 .tableCellInput {
@@ -137,13 +142,17 @@
 	height: 150px;
 	width: 200px;
 }
-
-#ldap fieldset input, #ldap fieldset textarea {
- 	width: 60%;
-}
-
 #ldap fieldset textarea ~ button {
 	vertical-align: text-bottom;
+}
+
+#ldap fieldset button {
+	flex-shrink: 0;
+	flex-grow: 0;
+	cursor: pointer;
+}
+#ldap fieldset button > span {
+	cursor: pointer;
 }
 
 input.ldapVerifyInput {
