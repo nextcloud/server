@@ -14,6 +14,8 @@ class System {
 
 	private $net;
 
+	private $stdbuf;
+
 	public static function getFD($num) {
 		$folders = array(
 			'/proc/self/fd',
@@ -39,5 +41,15 @@ class System {
 			$this->net = trim(`which net`);
 		}
 		return $this->net;
+	}
+
+	public function hasStdBuf() {
+		if (!$this->stdbuf) {
+			$result = null;
+			$output = array();
+			exec('which stdbuf 2>&1', $output, $result);
+			$this->stdbuf = $result === 0;
+		}
+		return $this->stdbuf;
 	}
 }

@@ -60,6 +60,7 @@ class NativeShare extends AbstractShare {
 	}
 
 	private function buildUrl($path) {
+		$this->connect();
 		$this->verifyPath($path);
 		$url = sprintf('smb://%s/%s', $this->server->getHost(), $this->name);
 		if ($path) {
@@ -80,7 +81,6 @@ class NativeShare extends AbstractShare {
 	 * @throws \Icewind\SMB\Exception\InvalidTypeException
 	 */
 	public function dir($path) {
-		$this->connect();
 		$files = array();
 
 		$dh = $this->state->opendir($this->buildUrl($path));
@@ -104,7 +104,6 @@ class NativeShare extends AbstractShare {
 	}
 
 	public function getStat($path) {
-		$this->connect();
 		return $this->state->stat($this->buildUrl($path));
 	}
 
@@ -118,7 +117,6 @@ class NativeShare extends AbstractShare {
 	 * @throws \Icewind\SMB\Exception\AlreadyExistsException
 	 */
 	public function mkdir($path) {
-		$this->connect();
 		return $this->state->mkdir($this->buildUrl($path));
 	}
 
@@ -132,7 +130,6 @@ class NativeShare extends AbstractShare {
 	 * @throws \Icewind\SMB\Exception\InvalidTypeException
 	 */
 	public function rmdir($path) {
-		$this->connect();
 		return $this->state->rmdir($this->buildUrl($path));
 	}
 
@@ -146,7 +143,6 @@ class NativeShare extends AbstractShare {
 	 * @throws \Icewind\SMB\Exception\InvalidTypeException
 	 */
 	public function del($path) {
-		$this->connect();
 		return $this->state->unlink($this->buildUrl($path));
 	}
 
@@ -161,7 +157,6 @@ class NativeShare extends AbstractShare {
 	 * @throws \Icewind\SMB\Exception\AlreadyExistsException
 	 */
 	public function rename($from, $to) {
-		$this->connect();
 		return $this->state->rename($this->buildUrl($from), $this->buildUrl($to));
 	}
 
@@ -176,7 +171,6 @@ class NativeShare extends AbstractShare {
 	 * @throws \Icewind\SMB\Exception\InvalidTypeException
 	 */
 	public function put($source, $target) {
-		$this->connect();
 		$sourceHandle = fopen($source, 'rb');
 		$targetHandle = $this->state->create($this->buildUrl($target));
 
@@ -214,7 +208,6 @@ class NativeShare extends AbstractShare {
 			throw new InvalidResourceException('Failed opening local file "' . $target . '" for writing: ' . $reason);
 		}
 
-		$this->connect();
 		$sourceHandle = $this->state->open($this->buildUrl($source), 'r');
 		if (!$sourceHandle) {
 			fclose($targetHandle);
@@ -238,7 +231,6 @@ class NativeShare extends AbstractShare {
 	 * @throws \Icewind\SMB\Exception\InvalidTypeException
 	 */
 	public function read($source) {
-		$this->connect();
 		$url = $this->buildUrl($source);
 		$handle = $this->state->open($url, 'r');
 		return NativeStream::wrap($this->state, $handle, 'r', $url);
@@ -254,7 +246,6 @@ class NativeShare extends AbstractShare {
 	 * @throws \Icewind\SMB\Exception\InvalidTypeException
 	 */
 	public function write($source) {
-		$this->connect();
 		$url = $this->buildUrl($source);
 		$handle = $this->state->create($url);
 		return NativeStream::wrap($this->state, $handle, 'w', $url);
@@ -268,10 +259,7 @@ class NativeShare extends AbstractShare {
 	 * @return string the attribute value
 	 */
 	public function getAttribute($path, $attribute) {
-		$this->connect();
-
-		$result = $this->state->getxattr($this->buildUrl($path), $attribute);
-		return $result;
+		return $this->state->getxattr($this->buildUrl($path), $attribute);
 	}
 
 	/**
@@ -283,7 +271,6 @@ class NativeShare extends AbstractShare {
 	 * @return string the attribute value
 	 */
 	public function setAttribute($path, $attribute, $value) {
-		$this->connect();
 
 		if ($attribute === 'system.dos_attr.mode' and is_int($value)) {
 			$value = '0x' . dechex($value);
