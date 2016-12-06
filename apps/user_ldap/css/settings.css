@@ -68,6 +68,7 @@
 	width: 70px;
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
+	background-position: center right;
 }
 
 #ldapWizard1 .host {
@@ -239,4 +240,10 @@ select[multiple=multiple] + button {
 
 #ldapSettings div.ui-accordion-content {
 	background: white;
+}
+
+#ldapSettings .icon-loading-small {
+	background-position: center;
+	background-repeat: no-repeat;
+	background-origin: content-box;
 }
