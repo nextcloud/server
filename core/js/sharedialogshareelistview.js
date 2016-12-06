@@ -372,10 +372,9 @@
 					checked = numberChecked > 0;
 					$('input[name="edit"]', $li).prop('checked', checked);
 				}
-			} else {
-				if ($element.attr('name') === 'edit' && $element.is(':checked')) {
-					permissions |= OC.PERMISSION_UPDATE;
-				}
+			}
+			if ($element.attr('name') === 'edit' && $element.is(':checked')) {
+				permissions |= OC.PERMISSION_UPDATE;
 			}
 
 			$('.permissions', $li).not('input[name="edit"]').filter(':checked').each(function(index, checkbox) {
