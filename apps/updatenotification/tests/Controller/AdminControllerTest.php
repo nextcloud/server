@@ -125,6 +125,7 @@ class AdminControllerTest extends TestCase {
 			'newVersionString' => '8.1.2',
 			'downloadLink' => 'https://downloads.nextcloud.org/server',
 			'updaterEnabled' => true,
+			'outdatedPHP' => version_compare(PHP_VERSION, '5.6') === -1,
 			'notify_groups' => 'admin',
 		];
 
@@ -171,6 +172,7 @@ class AdminControllerTest extends TestCase {
 			'newVersionString' => '',
 			'downloadLink' => '',
 			'updaterEnabled' => 0,
+			'outdatedPHP' => version_compare(PHP_VERSION, '5.6') === -1,
 			'notify_groups' => 'admin',
 		];
 
