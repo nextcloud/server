@@ -5,6 +5,7 @@
     "Channel updated" : "Csatorna frissítve",
     "Update to %1$s is available." : "%1$s frissítés elérhető.",
     "Update for %1$s to version %2$s is available." : "%1$s frissíthető %2$s verzióra.",
+    "Update for {app} to version %s is available." : "{app} %s verzió frissítése elérhető",
     "A new version is available: %s" : "Új verzió érhető el: %s",
     "Open updater" : "Frissítő megnyitása",
     "Download now" : "Letöltés most",
