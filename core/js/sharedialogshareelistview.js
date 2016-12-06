@@ -367,14 +367,18 @@
 					checked = $element.is(':checked');
 					// Check/uncheck Create, Update, and Delete checkboxes if Edit is checked/unck
 					$($checkboxes).prop('checked', checked);
+					if (checked) {
+						permissions |= OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE | OC.PERMISSION_DELETE;
+					}
 				} else {
 					var numberChecked = $checkboxes.filter(':checked').length;
 					checked = numberChecked > 0;
 					$('input[name="edit"]', $li).prop('checked', checked);
 				}
-			}
-			if ($element.attr('name') === 'edit' && $element.is(':checked')) {
-				permissions |= OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE | OC.PERMISSION_READ | OC.PERMISSION_DELETE;
+			} else {
+				if ($element.attr('name') === 'edit' && $element.is(':checked')) {
+					permissions |= OC.PERMISSION_UPDATE;
+				}
 			}
 
 			$('.permissions', $li).not('input[name="edit"]').filter(':checked').each(function(index, checkbox) {
