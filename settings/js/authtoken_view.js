@@ -357,6 +357,7 @@
 		_onConfigureToken: function (event) {
 			var $target = $(event.target);
 			var $row = $target.closest('tr');
+			$('.token-list tr').removeClass('active');
 			$row.toggleClass('active');
 			var id = $row.data('id');
 		},
