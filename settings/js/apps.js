@@ -116,7 +116,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						if (app.update) {
 							var $update = $('#app-' + app.id + ' .update');
 							$update.removeClass('hidden');
-							$update.val(t('settings', 'Update to %s').replace(/%s/g, app.update));
+							$update.val(t('settings', 'Update (%s)').replace(/%s/g, app.update));
 							OC.Settings.Apps.State.availableUpdates++;
 						}
 					});
@@ -420,8 +420,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				element.val(t('settings','Uninstall'));
 			} else {
 				OC.Settings.Apps.rebuildNavigation();
-				element.parent().fadeOut(function() {
-					element.remove();
+				element.parents('.section').fadeOut(function() {
+					element.parents('.section').remove();
 				});
 			}
 		},'json');

@@ -132,11 +132,11 @@ script(
 		<input class="update hidden" type="submit" value="<?php p($l->t('Update to %s', array('{{update}}'))); ?>" data-appid="{{id}}" />
 		{{#if active}}
 		<input class="enable" type="submit" data-appid="{{id}}" data-active="true" value="<?php p($l->t("Disable"));?>"/>
+		<input type="hidden" id="group_select" title="<?php p($l->t('All')); ?>">
 		<div class="groups-enable">
 			<input type="checkbox" class="groups-enable__checkbox checkbox" id="groups_enable-{{id}}"/>
 			<label for="groups_enable-{{id}}"><?php p($l->t('Enable only for specific groups')); ?></label>
 		</div>
-		<input type="hidden" id="group_select" title="<?php p($l->t('All')); ?>" style="width: 200px">
 		{{else}}
 		<input class="enable{{#if needsDownload}} needs-download{{/if}}" type="submit" data-appid="{{id}}" data-active="false" {{#unless canInstall}}disabled="disabled"{{/unless}} value="<?php p($l->t("Enable"));?>"/>
 		{{/if}}

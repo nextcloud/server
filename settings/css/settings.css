@@ -512,14 +512,14 @@ span.version {
 	background-color: transparent;
 	border: 1px solid #555;
 	border-radius: 3px;
-	padding: 3px 6px;
+	padding: 4px 6px;
 	display: block
 }
 .app-level .official {
 	border-color: #37ce02;
 	background-position: left center;
 	background-position: 5px center;
-	padding-left: 25px;
+	text-align: center;
 }
 
 .app-score {
@@ -540,45 +540,47 @@ span.version {
 	margin-left: 20px;
 	flex-flow: column wrap;
 	display: flex;
+	padding: 0;
 }
 #apps-list .section.apps-experimental {
 	flex-basis: 90%;
 }
-
+/* 4 columns */
 @media (min-width: 1601px) {
 	#apps-list .section {
-		width: 22%;
+		width: calc(25% - 25px); /* 5margins*20/4 */
 		box-sizing: border-box;
 	}
 	#apps-list .section:nth-child(4n) {
 		margin-right: 20px;
 	}
 }
-
+/* 3 columns */
 @media (min-width: 1201px) and (max-width: 1600px) {
 	#apps-list .section {
-		width: 30%;
+		width: calc(33% - 26px); /* 4margins*20/3 */
 		box-sizing: border-box;
 	}
 	#apps-list .section:nth-child(3n) {
 		margin-right: 20px;
 	}
 }
-
-@media (min-width: 901px) and (max-width: 1200px), (min-width: 601px) and (max-width: 770px) {
+/* 2 columns */
+@media (min-width: 951px) and (max-width: 1200px), (min-width: 701px) and (max-width: 770px) {
 	#apps-list .section {
-		width: 40%;
+		width: calc(50% - 30px);/* 3margins*20/2 */
 		box-sizing: border-box;
 	}
 	#apps-list .section:nth-child(2n) {
 		margin-right: 20px;
 	}
 }
-
-@media (max-width: 600px), (min-width: 771px) and (max-width: 900px) {
+/* 1 column */
+@media (max-width: 700px), (min-width: 769px) and (max-width: 950px) {
 	#apps-list .section {
-		width: 100%;
+		width: calc(100% - 40px);
 		box-sizing: border-box;
+		margin-right: 20px;
 	}
 }
 
@@ -596,7 +598,7 @@ span.version {
 }
 .app-info-container,
 .app-details-container {
-	width: calc(100% - 90px);
+	width: calc(100% - 110px);
 }
 .app-details-container {
 	flex-basis: 50%;
@@ -662,13 +664,21 @@ span.version {
 .app-actions-container {
 	display: flex;
 	flex-direction: column;
-	width: 80px;
+	width: 100px;
 	flex-grow: 0;
 	flex-basis: 50%;
 }
 .app-actions-container > div,
 .app-actions-container > input:not([type='hidden']) {
 	margin: 0 0 3px 0;
+	flex-shrink: 0;
+}
+.app-actions-container .select2-container-multi .select2-choices {
+	padding: 0;
+}
+.app-actions-container .select2-container-multi .select2-choices .select2-search-choice {
+	margin: 2px;
+	margin-right: 0;
 }
 
 /* LOG */
