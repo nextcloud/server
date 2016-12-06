@@ -374,7 +374,7 @@
 				}
 			}
 			if ($element.attr('name') === 'edit' && $element.is(':checked')) {
-				permissions |= OC.PERMISSION_UPDATE;
+				permissions |= OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE | OC.PERMISSION_READ | OC.PERMISSION_DELETE;
 			}
 
 			$('.permissions', $li).not('input[name="edit"]').filter(':checked').each(function(index, checkbox) {
