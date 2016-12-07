@@ -486,6 +486,7 @@ class Manager implements IManager {
 		if (method_exists($share, 'setParent')) {
 			$storage = $share->getNode()->getStorage();
 			if ($storage->instanceOfStorage('\OCA\Files_Sharing\ISharedStorage')) {
+				/** @var \OCA\Files_Sharing\SharedStorage $storage */
 				$share->setParent($storage->getShareId());
 			}
 		};
@@ -1040,6 +1041,7 @@ class Manager implements IManager {
 	 * @return Share[]
 	 */
 	public function getSharesByPath(\OCP\Files\Node $path, $page=0, $perPage=50) {
+		return [];
 	}
 
 	/**
@@ -1051,27 +1053,22 @@ class Manager implements IManager {
 	 * @throws ShareNotFound
 	 */
 	public function getShareByToken($token) {
+		$share = null;
 		try {
 			$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_LINK);
+			$share = $provider->getShareByToken($token);
 		} catch (ProviderException $e) {
+		} catch (ShareNotFound $e) {
 		}
 
-		try {
-			$share = $provider->getShareByToken($token);
-		} catch (ShareNotFound $e) {
-			$share = null;
-		}
 
 		// If it is not a link share try to fetch a federated share by token
 		if ($share === null) {
 			try {
 				$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_REMOTE);
-			} catch (ProviderException $e) {
-			}
-			try {
 				$share = $provider->getShareByToken($token);
+			} catch (ProviderException $e) {
 			} catch (ShareNotFound $e) {
-				$share = null;
 			}
 		}
 
@@ -1079,9 +1076,14 @@ class Manager implements IManager {
 		if ($share === null && $this->shareProviderExists(\OCP\Share::SHARE_TYPE_EMAIL)) {
 			try {
 				$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_EMAIL);
+				$share = $provider->getShareByToken($token);
 			} catch (ProviderException $e) {
+			} catch (ShareNotFound $e) {
 			}
-			$share = $provider->getShareByToken($token);
+		}
+
+		if ($share === null) {
+			throw new ShareNotFound();
 		}
 
 		if ($share->getExpirationDate() !== null &&
