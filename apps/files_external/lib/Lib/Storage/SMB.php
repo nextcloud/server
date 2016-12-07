@@ -457,9 +457,11 @@ class SMB extends Common implements INotifyStorage {
 			if (is_null($type)) {
 				return true;
 			}
-			if ($type === INotifyStorage::NOTIFY_RENAMED && !is_null($oldRenamePath)) {
-				$result = $callback($type, $path, $oldRenamePath);
-				$oldRenamePath = null;
+			if ($type === INotifyStorage::NOTIFY_RENAMED) {
+				if (!is_null($oldRenamePath)) {
+					$result = $callback($type, $oldRenamePath, $path);
+					$oldRenamePath = null;
+				}
 			} else {
 				$result = $callback($type, $path);
 			}
