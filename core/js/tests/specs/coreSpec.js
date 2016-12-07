@@ -593,6 +593,8 @@ describe('Core base tests', function() {
 		describe('computerFileSize', function() {
 			it('correctly parses file sizes from a human readable formated string', function() {
 				var data = [
+					['125', 125],
+					['125.25', 125.25],
 					['0 B', 0],
 					['125 B', 125],
 					['125b', 125],
@@ -603,12 +605,19 @@ describe('Core base tests', function() {
 					['119.2 GB', 127990025421],
 					['119.2gb', 127990025421],
 					['116.4 TB', 127983153473126],
-					['116.4tb', 127983153473126],
-					['foobar', null]
+					['116.4tb', 127983153473126]
 				];
 				for (var i = 0; i < data.length; i++) {
 					expect(OC.Util.computerFileSize(data[i][0])).toEqual(data[i][1]);
 				}
+			});
+			it('returns null if the parameter is not a string', function() {
+				expect(OC.Util.computerFileSize(NaN)).toEqual(null);
+				expect(OC.Util.computerFileSize(125)).toEqual(null);
+			});
+			it('returns null if the string is unparsable', function() {
+				expect(OC.Util.computerFileSize('')).toEqual(null);
+				expect(OC.Util.computerFileSize('foobar')).toEqual(null);
 			});
 		});
 		describe('stripTime', function() {

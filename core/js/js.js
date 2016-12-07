@@ -1670,21 +1670,26 @@ OC.Util = {
 
 	/**
 	 * Returns a file size in bytes from a humanly readable string
+	 * Makes 2kB to 2048.
+	 * Inspired by computerFileSize in helper.php
 	 * @param  {string} string file size in human readable format
 	 * @return {number} or null if string could not be parsed
 	 *
-	 * Makes 2kB to 2048.
 	 *
-	 * Inspired by computerFileSize in helper.php
 	 */
 	computerFileSize: function (string) {
-		var s = string.toLowerCase();
-
-		if (!isNaN(parseFloat(s)) && isFinite(s)) {
-			return parseFloat(s);
+		if (typeof string != 'string') {
+			return null;
 		}
 
-		var bytes_array = {
+		var s = string.toLowerCase();
+		var bytes = parseFloat(s)
+
+		if (!isNaN(bytes) && isFinite(s)) {
+			return bytes;
+		}
+
+		var bytesArray = {
 			'b' : 1,
 			'k' : 1024,
 			'kb': 1024,
@@ -1698,13 +1703,10 @@ OC.Util = {
 			'p' : 1024 * 1024 * 1024 * 1024 * 1024
 		};
 
-		var bytes = parseFloat(s);
-
 		var matches = s.match(/([kmgtp]?b?)$/i);
 		if (matches[1]) {
-			bytes = bytes * bytes_array[matches[1]];
-		}
-		else {
+			bytes = bytes * bytesArray[matches[1]];
+		} else {
 			return null;
 		}
 
