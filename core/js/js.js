@@ -1626,51 +1626,6 @@ function humanFileSize(size, skipSmallSizes) {
 }
 
 /**
- * Returns a file size in bytes from a humanly readable string
- * @param  {string} string file size in human readable format
- * @return {number}
- *
- * Makes 2kB to 2048.
- *
- * Inspired by computerFileSize in helper.php
- */
-function computerFileSize(string) {
-		var s = string.toLowerCase();
-
-		if (!isNaN(parseFloat(s)) && isFinite(s)) {
-			return parseFloat(s);
-		}
-
-		var bytes_array = {
-			'b' : 1,
-			'k' : 1024,
-			'kb': 1024,
-			'mb': 1024 * 1024,
-			'm' : 1024 * 1024,
-			'gb': 1024 * 1024 * 1024,
-			'g' : 1024 * 1024 * 1024,
-			'tb': 1024 * 1024 * 1024 * 1024,
-			't' : 1024 * 1024 * 1024 * 1024,
-			'pb': 1024 * 1024 * 1024 * 1024 * 1024,
-			'p' : 1024 * 1024 * 1024 * 1024 * 1024
-		};
-
-		var bytes = parseFloat(s);
-
-		var matches = s.match(/([kmgtp]?b?)$/i);
-		if (matches[1]) {
-			bytes = bytes * bytes_array[matches[1]];
-		}
-		else {
-			return false;
-		}
-
-		bytes = Math.round(bytes);
-		console.log(bytes);
-		return bytes;
-}
-
-/**
  * Format an UNIX timestamp to a human understandable format
  * @param {number} timestamp UNIX timestamp
  * @return {string} Human readable format
@@ -1712,7 +1667,50 @@ function relative_modified_date(timestamp) {
 OC.Util = {
 	// TODO: remove original functions from global namespace
 	humanFileSize: humanFileSize,
-	computerFileSize: computerFileSize,
+
+	/**
+	 * Returns a file size in bytes from a humanly readable string
+	 * @param  {string} string file size in human readable format
+	 * @return {number} or null if string could not be parsed
+	 *
+	 * Makes 2kB to 2048.
+	 *
+	 * Inspired by computerFileSize in helper.php
+	 */
+	computerFileSize: function (string) {
+		var s = string.toLowerCase();
+
+		if (!isNaN(parseFloat(s)) && isFinite(s)) {
+			return parseFloat(s);
+		}
+
+		var bytes_array = {
+			'b' : 1,
+			'k' : 1024,
+			'kb': 1024,
+			'mb': 1024 * 1024,
+			'm' : 1024 * 1024,
+			'gb': 1024 * 1024 * 1024,
+			'g' : 1024 * 1024 * 1024,
+			'tb': 1024 * 1024 * 1024 * 1024,
+			't' : 1024 * 1024 * 1024 * 1024,
+			'pb': 1024 * 1024 * 1024 * 1024 * 1024,
+			'p' : 1024 * 1024 * 1024 * 1024 * 1024
+		};
+
+		var bytes = parseFloat(s);
+
+		var matches = s.match(/([kmgtp]?b?)$/i);
+		if (matches[1]) {
+			bytes = bytes * bytes_array[matches[1]];
+		}
+		else {
+			return null;
+		}
+
+		bytes = Math.round(bytes);
+		return bytes;
+	},
 
 	/**
 	 * @param timestamp
