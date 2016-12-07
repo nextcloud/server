@@ -603,7 +603,8 @@ describe('Core base tests', function() {
 					['119.2 GB', 127990025421],
 					['119.2gb', 127990025421],
 					['116.4 TB', 127983153473126],
-					['116.4tb', 127983153473126]
+					['116.4tb', 127983153473126],
+					['foobar', null]
 				];
 				for (var i = 0; i < data.length; i++) {
 					expect(OC.Util.computerFileSize(data[i][0])).toEqual(data[i][1]);
