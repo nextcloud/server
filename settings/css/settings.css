@@ -110,6 +110,7 @@ input#openid, input#webdav { width:20em; }
 }
 .federationScopeMenu {
 	top: 44px;
+	margin: -5px 0px 0;
 }
 .federationScopeMenu.bubble::after {
 	right: 50%;
