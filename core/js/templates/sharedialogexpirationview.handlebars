@@ -1,0 +1,11 @@
+{{#if isLinkShare}}
+	<input type="checkbox" name="expirationCheckbox" class="expirationCheckbox checkbox" id="expirationCheckbox-{{cid}}" value="1" {{#if isExpirationSet}}checked="checked"{{/if}} {{#if disableCheckbox}}disabled="disabled"{{/if}} />
+	<label for="expirationCheckbox-{{cid}}">{{setExpirationLabel}}</label>
+	<div class="expirationDateContainer {{#unless isExpirationSet}}hidden{{/unless}}">
+		<label for="expirationDate" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>
+		<input id="expirationDate" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{expirationValue}}" />
+	</div>
+	{{#if isExpirationEnforced}}
+		<em id="defaultExpireMessage">{{defaultExpireMessage}}</em>
+	{{/if}}
+{{/if}}
