@@ -293,6 +293,7 @@
 	border-radius: 3px;
 	border-top-right-radius: 0;
 	z-index: 110;
+	margin: 5px;
 	margin-top: -5px;
 	right: 0;
 	-webkit-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
@@ -316,7 +317,7 @@
 .bubble:after,
 #app-navigation .app-navigation-entry-menu:after {
 	bottom: 100%;
-	right: 0; /* change this to adjust the arrow position */
+	right: 6px; /* change this to adjust the arrow position */
 	border: solid transparent;
 	content: " ";
 	height: 0;
@@ -329,7 +330,6 @@
 	border-color: rgba(238, 238, 238, 0);
 	border-bottom-color: #fff;
 	border-width: 10px;
-	margin-left: -10px;
 }
 .bubble .action {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)" !important;

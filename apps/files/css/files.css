@@ -549,14 +549,6 @@ html.ie8 #fileList tr.selected td.filename>.selectCheckBox {
 	border-top-right-radius: 3px;
 	min-width: 100px;
 }
-.bubble:after,
-#app-navigation .app-navigation-entry-menu:after {
-	right: 12px;
-}
-.bubble:before,
-#app-navigation .app-navigation-entry-menu:before {
-	right: 6px;
-}
 
 /* force show the loading icon, not only on hover */
 #fileList .icon-loading-small {
