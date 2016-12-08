@@ -111,7 +111,7 @@ class PostgreSQL extends AbstractDatabase {
 	private function createDatabase(IDBConnection $connection) {
 		if (!$this->databaseExists($connection)) {
 			//The database does not exists... let's create it
-			$query = $connection->prepare("CREATE DATABASE " . addslashes($this->dbName) . " OWNER " . addslashes($this->dbUser));
+			$query = $connection->prepare("CREATE DATABASE \"" . addslashes($this->dbName) . "\" OWNER '" . addslashes($this->dbUser) . "'");
 			try {
 				$query->execute();
 			} catch (DatabaseException $e) {
@@ -119,7 +119,7 @@ class PostgreSQL extends AbstractDatabase {
 				$this->logger->logException($e);
 			}
 		} else {
-			$query = $connection->prepare("REVOKE ALL PRIVILEGES ON DATABASE " . addslashes($this->dbName) . " FROM PUBLIC");
+			$query = $connection->prepare("REVOKE ALL PRIVILEGES ON DATABASE \"" . addslashes($this->dbName) . "\" FROM PUBLIC");
 			try {
 				$query->execute();
 			} catch (DatabaseException $e) {
@@ -153,10 +153,10 @@ class PostgreSQL extends AbstractDatabase {
 		try {
 			if ($this->userExists($connection)) {
 				// change the password
-				$query = $connection->prepare("ALTER ROLE " . addslashes($this->dbUser) . " WITH CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
+				$query = $connection->prepare("ALTER ROLE \"" . addslashes($this->dbUser) . "\" WITH CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
 			} else {
 				// create the user
-				$query = $connection->prepare("CREATE USER " . addslashes($this->dbUser) . " CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
+				$query = $connection->prepare("CREATE USER \"" . addslashes($this->dbUser) . "\" CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
 			}
 			$query->execute();
 		} catch (DatabaseException $e) {
