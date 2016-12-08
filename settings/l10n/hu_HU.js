@@ -231,7 +231,7 @@ OC.L10N.register(
     "Performance tuning" : "Teljesítmény hangolás",
     "Improving the config.php" : "config.php javítása",
     "Theming" : "Témázás",
-    "Hardening and security guidance" : "Erősítési és biztonsági útmutató",
+    "Hardening and security guidance" : "Megerősítési és biztonsági útmutató",
     "Developer documentation" : "Fejlesztői dokumentáció",
     "by %s" : "készítő: %s",
     "%s-licensed" : "%s-licencelt",

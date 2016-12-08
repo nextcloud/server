@@ -7,6 +7,7 @@ OC.L10N.register(
     "Remote share password" : "Passord for ekstern ressurs",
     "Cancel" : "Avbryt",
     "Add remote share" : "Legg til ekstern ressurs",
+    "Copy" : "Kopier",
     "Copied!" : "Kopiert!",
     "Not supported!" : "Ikke støttet!",
     "Press ⌘-C to copy." : "Trykk ⌘-C for å kopiere",
