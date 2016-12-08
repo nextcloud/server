@@ -30,6 +30,7 @@
 
 namespace OC\Core\Controller;
 
+use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -154,7 +155,7 @@ class LostController extends Controller {
 	 * @param string $userId
 	 * @throws \Exception
 	 */
-	private function checkPasswordResetToken($token, $userId) {
+	protected function checkPasswordResetToken($token, $userId) {
 		$user = $this->userManager->get($userId);
 		if($user === null) {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
@@ -241,6 +242,11 @@ class LostController extends Controller {
 
 			$this->config->deleteUserValue($userId, 'core', 'lostpassword');
 			@\OC_User::unsetMagicInCookie();
+		} catch (PrivateKeyMissingException $e) {
+			// in this case it is OK if we couldn't reset the users private key
+			// They chose explicitely to continue at the password reset dialog
+			// (see $proceed flag)
+			return $this->success();
 		} catch (\Exception $e){
 			return $this->error($e->getMessage());
 		}
