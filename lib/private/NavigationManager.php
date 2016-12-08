@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud GmbH
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Joas Schilling <coding@schilljs.com>
@@ -26,13 +26,45 @@
 
 namespace OC;
 
+use OCP\App\IAppManager;
+use OCP\IGroupManager;
+use OCP\INavigationManager;
+use OCP\IURLGenerator;
+use OCP\IUserSession;
+use OCP\L10N\IFactory;
+
 /**
  * Manages the ownCloud navigation
  */
-class NavigationManager implements \OCP\INavigationManager {
-	protected $entries = array();
-	protected $closureEntries = array();
+
+class NavigationManager implements INavigationManager {
+	protected $entries = [];
+	protected $closureEntries = [];
 	protected $activeEntry;
+	/** @var bool */
+	protected $init = false;
+	/** @var IAppManager */
+	protected $appManager;
+	/** @var IURLGenerator */
+	private $urlGenerator;
+	/** @var IFactory */
+	private $l10nFac;
+	/** @var IUserSession */
+	private $userSession;
+	/** @var IGroupManager */
+	private $groupManager;
+
+	function __construct(IAppManager $appManager = null,
+						 IURLGenerator $urlGenerator = null,
+						 IFactory $l10nFac = null,
+						 IUserSession $userSession = null,
+						 IGroupManager$groupManager = null) {
+		$this->appManager = $appManager;
+		$this->urlGenerator = $urlGenerator;
+		$this->l10nFac = $l10nFac;
+		$this->userSession = $userSession;
+		$this->groupManager = $groupManager;
+	}
 
 	/**
 	 * Creates a new navigation entry
@@ -60,6 +92,7 @@ class NavigationManager implements \OCP\INavigationManager {
 	 * @return array an array of the added entries
 	 */
 	public function getAll() {
+		$this->init();
 		foreach ($this->closureEntries as $c) {
 			$this->add($c());
 		}
@@ -71,8 +104,9 @@ class NavigationManager implements \OCP\INavigationManager {
 	 * removes all the entries
 	 */
 	public function clear() {
-		$this->entries = array();
-		$this->closureEntries = array();
+		$this->entries = [];
+		$this->closureEntries = [];
+		$this->init = false;
 	}
 
 	/**
@@ -93,4 +127,62 @@ class NavigationManager implements \OCP\INavigationManager {
 	public function getActiveEntry() {
 		return $this->activeEntry;
 	}
+
+	private function init() {
+		if ($this->init) {
+			return;
+		}
+		$this->init = true;
+		if (is_null($this->appManager)) {
+			return;
+		}
+		foreach ($this->appManager->getInstalledApps() as $app) {
+			// load plugins and collections from info.xml
+			$info = $this->appManager->getAppInfo($app);
+			if (!isset($info['navigation'])) {
+				continue;
+			}
+			$nav = $info['navigation'];
+			if (!isset($nav['route'])) {
+				continue;
+			}
+			$role = isset($nav['@attributes']['role']) ? $nav['@attributes']['role'] : 'all';
+			if ($role === 'admin' && !$this->isAdmin()) {
+				continue;
+			}
+			$l = $this->l10nFac->get($app);
+			$order = isset($nav['order']) ? $nav['order'] : 100;
+			$route = $this->urlGenerator->linkToRoute($nav['route']);
+			$name = isset($nav['name']) ? $nav['name'] : ucfirst($app);
+			$icon = isset($nav['icon']) ? $nav['icon'] : 'app.svg';
+			foreach ([$icon, "$app.svg"] as $i) {
+				try {
+					$icon = $this->urlGenerator->imagePath($app, $i);
+					break;
+				} catch (\RuntimeException $ex) {
+					// no icon? - ignore it then
+				}
+			}
+			if (is_null($icon)) {
+				$icon = $this->urlGenerator->imagePath('core', 'default-app-icon');
+			}
+
+			$this->add([
+				'id' => $app,
+				'order' => $order,
+				'href' => $route,
+				'icon' => $icon,
+				'name' => $l->t($name),
+			]);
+		}
+	}
+
+	private function isAdmin() {
+		$user = $this->userSession->getUser();
+		if ($user !== null) {
+			return $this->groupManager->isAdmin($user->getUID());
+		}
+		return false;
+	}
+
 }
