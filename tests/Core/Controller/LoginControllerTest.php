@@ -330,6 +330,12 @@ class LoginControllerTest extends TestCase {
 	public function testLoginWithValidCredentials() {
 		/** @var IUser | \PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('uid'));
+		$user->expects($this->any())
+			->method('getLastLogin')
+			->willReturn(123456);
 		$password = 'secret';
 		$indexPageUrl = \OC_Util::getDefaultPageUrl();
 
@@ -363,9 +369,15 @@ class LoginControllerTest extends TestCase {
 			->method('isTwoFactorAuthenticated')
 			->with($user)
 			->will($this->returnValue(false));
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('uid', 'core', 'timezone', 'Europe/Berlin');
+		$this->session->expects($this->once())
+			->method('set')
+			->with('timezone', '1');
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($indexPageUrl);
-		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, null));
+		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, null, 'Europe/Berlin', '1'));
 	}
 
 	public function testLoginWithoutPassedCsrfCheckAndNotLoggedIn() {
