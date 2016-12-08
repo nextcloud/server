@@ -337,6 +337,9 @@ class LoginControllerTest extends TestCase {
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('uid'));
+		$user->expects($this->any())
+			->method('getLastLogin')
+			->willReturn(123456);
 		$password = 'secret';
 		$indexPageUrl = \OC_Util::getDefaultPageUrl();
 
@@ -373,11 +376,21 @@ class LoginControllerTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('deleteUserValue')
 			->with('uid', 'core', 'lostpassword');
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('uid', 'core', 'timezone', 'Europe/Berlin');
 		$this->userSession->expects($this->never())
 			->method('createRememberMeToken');
 
+		$this->session->expects($this->exactly(2))
+			->method('set')
+			->withConsecutive(
+				['last-password-confirm', 123456],
+				['timezone', '1']
+			);
+
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($indexPageUrl);
-		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, null));
+		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, null, false, 'Europe/Berlin', '1'));
 	}
 
 	public function testLoginWithValidCredentialsAndRememberMe() {
