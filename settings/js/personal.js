@@ -65,16 +65,9 @@ function updateAvatar (hidedefault) {
 	$displaydiv.avatar(OC.currentUser, 145, true, null, function() {
 		$displaydiv.removeClass('loading');
 		$('#displayavatar img').show();
-	});
-	$.get(OC.generateUrl(
-		'/avatar/{user}/{size}',
-		{
-			user: OC.currentUser,
-			size: 1
-		}
-	), function (result) {
-		if (typeof(result) === 'string') {
-			// Show the delete button when the avatar is custom
+		if($('#displayavatar img').length === 0) {
+			$('#removeavatar').removeClass('inlineblock').addClass('hidden');
+		} else {
 			$('#removeavatar').removeClass('hidden').addClass('inlineblock');
 		}
 	});
@@ -314,7 +307,6 @@ $(document).ready(function () {
 			url: OC.generateUrl('/avatar/'),
 			success: function () {
 				updateAvatar(true);
-				$('#removeavatar').addClass('hidden').removeClass('inlineblock');
 			}
 		});
 	});
@@ -341,24 +333,17 @@ $(document).ready(function () {
 		drawTitles: true,
 	});
 
-	// does the user have a custom avatar? if he does show #removeavatar
-	$.get(OC.generateUrl(
-		'/avatar/{user}/{size}',
-		{
-			user: OC.currentUser,
-			size: 1
-		}
-	), function (result) {
-		if (typeof(result) === 'string') {
-			// Show the delete button when the avatar is custom
-			$('#removeavatar').removeClass('hidden').addClass('inlineblock');
-		}
-	});
-
 	// Load the big avatar
 	if (oc_config.enable_avatars) {
-		$('#avatarform .avatardiv').avatar(OC.currentUser, 145);
+		$('#avatarform .avatardiv').avatar(OC.currentUser, 145, true, null, function() {
+			if($('#displayavatar img').length === 0) {
+				$('#removeavatar').removeClass('inlineblock').addClass('hidden');
+			} else {
+				$('#removeavatar').removeClass('hidden').addClass('inlineblock');
+			}
+		});
 	}
+	
 
 	// Show token views
 	var collection = new OC.Settings.AuthTokenCollection();
