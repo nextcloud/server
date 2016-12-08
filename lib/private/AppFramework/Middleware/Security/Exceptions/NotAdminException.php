@@ -34,7 +34,7 @@ use OCP\AppFramework\Http;
  * @package OC\AppFramework\Middleware\Security\Exceptions
  */
 class NotAdminException extends SecurityException {
-	public function __construct() {
-		parent::__construct('Logged in user must be an admin', Http::STATUS_FORBIDDEN);
+	public function __construct($message = 'Logged in user must be an admin') {
+		parent::__construct($message, Http::STATUS_FORBIDDEN);
 	}
 }
