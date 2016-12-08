@@ -69,6 +69,7 @@ class PersonalController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @NoSubadminRequired
 	 * @param string $lang
 	 * @return JSONResponse
 	 */
