@@ -33,7 +33,7 @@ class OC_Theme {
 	 * @return string URL
 	 */
 	public function getSyncClientUrl() {
-		return 'https://nextcloud.com/install';
+		return 'https://nextcloud.com/install/#install-clients';
 	}
 
 	/**

@@ -678,7 +678,7 @@ $CONFIG = array(
  * seen in the first-run wizard and on Personal pages.
  */
 'customclient_desktop' =>
-	'https://nextcloud.com/install/',
+	'https://nextcloud.com/install/#install-clients',
 'customclient_android' =>
 	'https://play.google.com/store/apps/details?id=com.nextcloud.client',
 'customclient_ios' =>
