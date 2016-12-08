@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = $vendorDir;
 
 return array(
+    'Office365\\PHP\\Client\\' => array($vendorDir . '/vgrem/php-spo/src'),
     'Icewind\\Streams\\Tests\\' => array($vendorDir . '/icewind/streams/tests'),
     'Icewind\\Streams\\' => array($vendorDir . '/icewind/streams/src'),
     'Icewind\\SMB\\Test\\' => array($vendorDir . '/icewind/smb/tests'),

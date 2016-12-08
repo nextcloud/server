@@ -84,5 +84,51 @@
             }
         ],
         "description": "A set of generic stream wrappers"
+    },
+    {
+        "name": "vgrem/php-spo",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/vgrem/phpSPO.git",
+            "reference": "68413b42ff18c96a3a4e097b47c905eeab30305b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/vgrem/phpSPO/zipball/68413b42ff18c96a3a4e097b47c905eeab30305b",
+            "reference": "68413b42ff18c96a3a4e097b47c905eeab30305b",
+            "shasum": ""
+        },
+        "require": {
+            "ext-curl": "*",
+            "php": ">=5.4"
+        },
+        "time": "2016-11-22 15:34:47",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Office365\\PHP\\Client\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-3.0+"
+        ],
+        "authors": [
+            {
+                "name": "Vadim Gremyachev",
+                "email": "vvgrem@gmail.com"
+            }
+        ],
+        "description": "The library provides a Office 365 REST client for PHP. It allows to performs CRUD operations against Office 365 resources via an REST/OData based API",
+        "keywords": [
+            "Office365",
+            "api",
+            "curl",
+            "rest",
+            "sharepoint"
+        ]
     }
 ]
