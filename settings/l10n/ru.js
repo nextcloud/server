@@ -74,7 +74,6 @@ OC.L10N.register(
     "Experimental" : "Экспериментальное",
     "No apps found for {query}" : "Приложения не найдены по {query}",
     "Disconnect" : "Отключить",
-    "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",
     "Google Chrome" : "Google Chrome",
