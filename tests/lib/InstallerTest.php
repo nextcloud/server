@@ -73,6 +73,9 @@ class InstallerTest extends TestCase {
 	}
 
 	public function testInstallApp() {
+		// Read the current version of the app to check for bug #2572
+		\OC_App::getAppVersion('testapp');
+
 		// Extract app
 		$pathOfTestApp  = __DIR__ . '/../data/testapp.zip';
 		$tar = new ZIP($pathOfTestApp);
@@ -88,6 +91,7 @@ class InstallerTest extends TestCase {
 		$installer->installApp(self::$appid);
 		$isInstalled = Installer::isInstalled(self::$appid);
 		$this->assertTrue($isInstalled);
+		$this->assertSame('0.9', \OC::$server->getConfig()->getAppValue('testapp', 'installed_version'));
 		$installer->removeApp(self::$appid);
 	}
 

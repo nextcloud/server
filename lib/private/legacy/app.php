@@ -653,13 +653,16 @@ class OC_App {
 	 * get the last version of the app from appinfo/info.xml
 	 *
 	 * @param string $appId
+	 * @param bool $useCache
 	 * @return string
 	 */
-	public static function getAppVersion($appId) {
-		if (!isset(self::$appVersion[$appId])) {
-			$file = self::getAppPath($appId);
-			self::$appVersion[$appId] = ($file !== false) ? self::getAppVersionByPath($file) : '0';
+	public static function getAppVersion($appId, $useCache = true) {
+		if($useCache && isset(self::$appVersion[$appId])) {
+			return self::$appVersion[$appId];
 		}
+
+		$file = self::getAppPath($appId);
+		self::$appVersion[$appId] = ($file !== false) ? self::getAppVersionByPath($file) : '0';
 		return self::$appVersion[$appId];
 	}
 

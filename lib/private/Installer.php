@@ -121,7 +121,7 @@ class Installer {
 		OC_App::executeRepairSteps($appId, $appData['repair-steps']['install']);
 
 		//set the installed version
-		\OC::$server->getConfig()->setAppValue($info['id'], 'installed_version', OC_App::getAppVersion($info['id']));
+		\OC::$server->getConfig()->setAppValue($info['id'], 'installed_version', OC_App::getAppVersion($info['id'], false));
 		\OC::$server->getConfig()->setAppValue($info['id'], 'enabled', 'no');
 
 		//set remote/public handlers
