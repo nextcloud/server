@@ -296,6 +296,15 @@ class AppSettingsController extends Controller {
 				$apps = array_filter($apps, function ($app) {
 					return !$app['active'];
 				});
+
+				$apps = array_map(function ($app) {
+					$newVersion = \OC\Installer::isUpdateAvailable($app['id'], $this->appFetcher);
+					if ($newVersion !== false) {
+						$app['update'] = $newVersion;
+					}
+					return $app;
+				}, $apps);
+
 				usort($apps, function ($a, $b) {
 					$a = (string)$a['name'];
 					$b = (string)$b['name'];
