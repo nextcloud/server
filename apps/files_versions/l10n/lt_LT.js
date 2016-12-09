@@ -1,11 +1,12 @@
 OC.L10N.register(
     "files_versions",
     {
-    "Could not revert: %s" : "Nepavyko atstatyti: %s",
+    "Could not revert: %s" : "Nepavyko sugrąžinti: %s",
     "Versions" : "Versijos",
-    "Failed to revert {file} to revision {timestamp}." : "Nepavyko atstatyti {file} į būseną {timestamp}.",
+    "Failed to revert {file} to revision {timestamp}." : "Nepavyko sugrąžinti {file} į {timestamp} būseną.",
     "_%n byte_::_%n bytes_" : ["%n baitas","%n baitai","%n baitų"],
     "Restore" : "Atkurti",
+    "No versions available" : "Nėra prieinama jokių versijų",
     "More versions..." : "Daugiau versijų...",
     "No other versions available" : "Daugiau nėra prieinama kitų versijų"
 },
