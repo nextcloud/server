@@ -159,7 +159,12 @@ class IconBuilder {
 		$finalIconFile->setImageArtifact('compose:args', "1,0,-0.5,0.5");
 		$finalIconFile->compositeImage($appIconFile, Imagick::COMPOSITE_ATOP, $offset_w, $offset_h);
 		$finalIconFile->setImageFormat('png24');
-		$finalIconFile->resizeImage($size, $size, Imagick::INTERPOLATE_BICUBIC, 1, false);
+		if (defined("Imagick::INTERPOLATE_BICUBIC") === true) {
+			$filter = Imagick::INTERPOLATE_BICUBIC;
+		} else {
+			$filter = Imagick::FILTER_LANCZOS;
+		}
+		$finalIconFile->resizeImage($size, $size, $filter, 1, false);
 
 		$appIconFile->destroy();
 		return $finalIconFile;
