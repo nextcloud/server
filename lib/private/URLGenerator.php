@@ -158,7 +158,7 @@ class URLGenerator implements IURLGenerator {
 
 		// Check if the app is in the app folder
 		$path = '';
-		$themingEnabled = $this->config->getSystemValue('installed', false) && \OCP\App::isEnabled('theming');
+		$themingEnabled = $this->config->getSystemValue('installed', false) && \OCP\App::isEnabled('theming') && \OC_App::isAppLoaded('theming');
 		if($themingEnabled && $image === "favicon.ico" && \OC::$server->getThemingDefaults()->shouldReplaceIcons()) {
 			$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
 			if($app==="") { $app = "core"; }
