@@ -486,25 +486,15 @@ class Installer {
 
 		//install the database
 		$appPath = OC_App::getAppPath($app);
-<<<<<<< HEAD
-		if(is_file("$appPath/appinfo/database.xml")) {
-			try {
-				OC_DB::createDbFromStructure("$appPath/appinfo/database.xml");
-			} catch (TableExistsException $e) {
-				throw new HintException(
-					'Failed to enable app ' . $app,
-					'Please ask for help via one of our <a href="https://nextcloud.com/support/" target="_blank" rel="noreferrer">support channels</a>.',
-					0, $e
-				);
-=======
 		if (isset($info['use-migrations']) && $info['use-migrations'] === 'true') {
 			$ms = new \OC\DB\MigrationService();
 			$mc = $ms->buildConfiguration($app, \OC::$server->getDatabaseConnection());
 			$ms->migrate($mc);
 		} else {
-			if(is_file($appPath.'/appinfo/database.xml')) {
-				OC_DB::createDbFromStructure($appPath . '/appinfo/database.xml');
->>>>>>> 87aa059... Integrate doctrine migrations with core and app upgrade
+			if (\OC::$server->getAppConfig()->getValue($info['id'], 'installed_version') === null) {
+				if (is_file($appPath . '/appinfo/database.xml')) {
+					OC_DB::createDbFromStructure($appPath . '/appinfo/database.xml');
+				}
 			}
 		}
 

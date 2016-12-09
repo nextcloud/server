@@ -26,12 +26,9 @@
  */
 namespace OC\Setup;
 
-<<<<<<< HEAD
 use OC\AllConfig;
 use OC\DB\ConnectionFactory;
-=======
 use OC\DB\MigrationService;
->>>>>>> 87aa059... Integrate doctrine migrations with core and app upgrade
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
