@@ -172,7 +172,7 @@ class IconBuilder {
 			return false;
 		}
 		$svg = file_get_contents($imageFile);
-		if ($svg !== false) {
+		if ($svg !== false && $svg !== "") {
 			$color = $this->util->elementColor($this->themingDefaults->getMailHeaderColor());
 			$svg = $this->util->colorizeSvg($svg, $color);
 			return $svg;

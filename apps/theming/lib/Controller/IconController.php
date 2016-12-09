@@ -94,6 +94,9 @@ class IconController extends Controller {
 			$iconFile = $this->imageManager->getCachedImage("icon-" . $app . '-' . str_replace("/","_",$image));
 		} catch (NotFoundException $exception) {
 			$icon = $this->iconBuilder->colorSvg($app, $image);
+			if ($icon === false || $icon === "") {
+				return new NotFoundResponse();
+			}
 			$iconFile = $this->imageManager->setCachedImage("icon-" . $app . '-' . str_replace("/","_",$image), $icon);
 		}
 		if ($iconFile !== false) {
