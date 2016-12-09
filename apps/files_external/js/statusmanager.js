@@ -539,7 +539,11 @@ OCA.External.StatusManager.Utils = {
 	 * of the tr matching the folder name
 	 */
 	getIconRoute: function (tr) {
-		var icon = OC.imagePath('core', 'filetypes/folder-external');
+		if (OCA.Theming) {
+			var icon = OC.generateUrl('/apps/theming/img/core/filetypes/folder-external.svg?v=' + OCA.Theming.cacheBuster);
+		} else {
+			var icon = OC.imagePath('core', 'filetypes/folder-external');
+		}
 		var backend = null;
 
 		if (tr instanceof $) {
