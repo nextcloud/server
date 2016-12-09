@@ -80,7 +80,7 @@ script('core', [
 			<?php endif; ?>
 		</div>
 
-		<input type="hidden" name="timezone-offset" id="timezone-offset"/>
+		<input type="hidden" name="timezone_offset" id="timezone_offset"/>
 		<input type="hidden" name="timezone" id="timezone"/>
 		<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>">
 	</fieldset>
