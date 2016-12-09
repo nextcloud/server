@@ -47,7 +47,9 @@ class MigrationService {
 		}
 
 		if (!is_dir($migrationsPath)) {
-			mkdir($migrationsPath);
+			if (!mkdir($migrationsPath)) {
+				throw new \Exception("Could not create migration folder \"$migrationsPath\"");
+			};
 		}
 		$prefix = $connection->getPrefix();
 		$mc = new MigrationConfiguration($connection);
