@@ -195,9 +195,11 @@ class LoginController extends Controller {
 	 * @param string $user
 	 * @param string $password
 	 * @param string $redirect_url
+	 * @param string $timezone
+	 * @param string $timezone_offset
 	 * @return RedirectResponse
 	 */
-	public function tryLogin($user, $password, $redirect_url) {
+	public function tryLogin($user, $password, $redirect_url, $timezone = '', $timezone_offset = '') {
 		$currentDelay = $this->throttler->getDelay($this->request->getRemoteAddress());
 		$this->throttler->sleepDelay($this->request->getRemoteAddress());
 
@@ -236,6 +238,11 @@ class LoginController extends Controller {
 		// requires https://github.com/owncloud/core/pull/24616
 		$this->userSession->login($user, $password);
 		$this->userSession->createSessionToken($this->request, $loginResult->getUID(), $user, $password);
+
+		if ($timezone_offset !== '') {
+			$this->config->setUserValue($loginResult->getUID(), 'core', 'timezone', $timezone);
+			$this->session->set('timezone', $timezone_offset);
+		}
 
 		if ($this->twoFactorManager->isTwoFactorAuthenticated($loginResult)) {
 			$this->twoFactorManager->prepareTwoFactorLogin($loginResult);
