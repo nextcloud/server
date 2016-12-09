@@ -124,6 +124,14 @@ var OCdialogs = {
 				modal = false;
 			}
 			$('body').append($dlg);
+
+			// wrap callback in _.once():
+			// only call callback once and not twice (button handler and close
+			// event) but call it for the close event, if ESC or the x is hit
+			if (callback !== undefined) {
+				callback = _.once(callback);
+			}
+
 			var buttonlist = [{
 					text : t('core', 'No'),
 					click: function () {
@@ -147,7 +155,13 @@ var OCdialogs = {
 			$(dialogId).ocdialog({
 				closeOnEscape: true,
 				modal        : modal,
-				buttons      : buttonlist
+				buttons      : buttonlist,
+				close        : function() {
+					// callback is already fired if Yes/No is clicked directly
+					if (callback !== undefined) {
+						callback(false, input.val());
+					}
+				}
 			});
 			input.focus();
 			OCdialogs.dialogsCounter++;
