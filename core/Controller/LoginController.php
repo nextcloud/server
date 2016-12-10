@@ -216,6 +216,9 @@ class LoginController extends Controller {
 		}
 
 		$originalUser = $user;
+
+        $this->userManager->emit('\OC\User', 'preLoginValidation', array($user, $password));
+
 		// TODO: Add all the insane error handling
 		/* @var $loginResult IUser */
 		$loginResult = $this->userManager->checkPassword($user, $password);
