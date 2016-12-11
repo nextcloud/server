@@ -295,9 +295,9 @@ class Server extends ServerContainer implements IServerContainer {
 				/** @var $user \OC\User\User */
 				\OC_Hook::emit('OC_User', 'post_setPassword', array('run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword));
 			});
-            $userSession->listen('\OC\User', 'preLoginValidation', function ($uid, $password) {
-                \OC_Hook::emit('OC_User', 'pre_loginValidation', array('run' => true, 'uid' => $uid, 'password' => $password));
-            });
+			$userSession->listen('\OC\User', 'preLoginValidation', function ($uid, $password) {
+				\OC_Hook::emit('OC_User', 'pre_loginValidation', array('run' => true, 'uid' => $uid, 'password' => $password));
+			});
 			$userSession->listen('\OC\User', 'preLogin', function ($uid, $password) {
 				\OC_Hook::emit('OC_User', 'pre_login', array('run' => true, 'uid' => $uid, 'password' => $password));
 			});
