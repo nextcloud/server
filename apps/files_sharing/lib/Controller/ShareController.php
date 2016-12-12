@@ -487,7 +487,7 @@ class ShareController extends Controller {
 				// Single file download
 				$this->singleFileDownloaded($share, $share->getNode());
 			} else if (!empty($files_list)) {
-				$this->fileListDownloaded($share, $files_list);
+				$this->fileListDownloaded($share, $files_list, $node);
 			} else {
 				// The folder is downloaded
 				$this->singleFileDownloaded($share, $share->getNode());
@@ -541,10 +541,11 @@ class ShareController extends Controller {
 	 *
 	 * @param Share\IShare $share
 	 * @param array $files_list
+	 * @param \OCP\Files\Folder $node
 	 */
-	protected function fileListDownloaded(Share\IShare $share, array $files_list) {
+	protected function fileListDownloaded(Share\IShare $share, array $files_list, \OCP\Files\Folder $node) {
 		foreach ($files_list as $file) {
-			$subNode = $share->getNode()->get($file);
+			$subNode = $node->get($file);
 			$this->singleFileDownloaded($share, $subNode);
 		}
 
