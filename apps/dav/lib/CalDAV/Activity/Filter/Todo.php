@@ -79,7 +79,7 @@ class Todo implements IFilter {
 	 * @since 11.0.0
 	 */
 	public function filterTypes(array $types) {
-		return array_intersect(['calendar_todo'], $types);
+		return array_intersect(['calendar_todos'], $types);
 	}
 
 	/**
