@@ -297,8 +297,8 @@ class DependencyAnalyzer {
 		$minVersion = null;
 		if (isset($dependencies['nextcloud']['@attributes']['min-version'])) {
 			$minVersion = $dependencies['nextcloud']['@attributes']['min-version'];
-		} elseif (isset($dependencies['owncloud']['@attributes']['min-version'])) {
-			$minVersion = $dependencies['owncloud']['@attributes']['min-version'];
+		} elseif (isset($dependencies['nextcloud']['@attributes']['min-version'])) {
+			$minVersion = $dependencies['nextcloud']['@attributes']['min-version'];
 		} elseif (isset($appInfo['requiremin'])) {
 			$minVersion = $appInfo['requiremin'];
 		} elseif (isset($appInfo['require'])) {
@@ -307,8 +307,8 @@ class DependencyAnalyzer {
 		$maxVersion = null;
 		if (isset($dependencies['nextcloud']['@attributes']['max-version'])) {
 			$maxVersion = $dependencies['nextcloud']['@attributes']['max-version'];
-		} elseif (isset($dependencies['owncloud']['@attributes']['max-version'])) {
-			$maxVersion = $dependencies['owncloud']['@attributes']['max-version'];
+		} elseif (isset($dependencies['nextcloud']['@attributes']['max-version'])) {
+			$maxVersion = $dependencies['nextcloud']['@attributes']['max-version'];
 		} elseif (isset($appInfo['requiremax'])) {
 			$maxVersion = $appInfo['requiremax'];
 		}
