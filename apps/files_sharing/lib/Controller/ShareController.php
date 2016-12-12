@@ -541,6 +541,7 @@ class ShareController extends Controller {
 	 *
 	 * @param Share\IShare $share
 	 * @param array $files_list
+	 * @param \OCP\Files\Folder $node
 	 */
 	protected function fileListDownloaded(Share\IShare $share, array $files_list, \OCP\Files\Folder $node) {
 		foreach ($files_list as $file) {
