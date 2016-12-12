@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Generate backup codes" : "Générer des codes de récupération",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Les codes de récupération ont été générés. {{used}} codes sur {{total}} ont été utilisés.",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Voici vos codes de récupération. Veuillez les sauvegarder et/ou les imprimer car vous ne pouvez plus y avoir accès ultérieurement",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Voici vos codes de récupération. Veuillez les sauvegarder et/ou les imprimer car vous ne pourrez plus y avoir accès ultérieurement",
     "Save backup codes" : "Sauvegarder les codes de récupération",
     "Print backup codes" : "Imprimer les codes de récupération",
     "Regenerate backup codes" : "Régénérer les codes de récupération",
