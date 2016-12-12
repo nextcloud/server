@@ -24,6 +24,7 @@
 namespace OCA\Files_External\Lib\Backend;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\Auth\OAuth2\OAuth2;
 use OCA\Files_External\Lib\Auth\Password\Password;
 use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\Storage\SharePoint as SharePointStorage;
@@ -31,7 +32,7 @@ use OCP\IL10N;
 
 class SharePoint extends Backend {
 
-	public function __construct(IL10N $l, Password $legacyAuth) {
+	public function __construct(IL10N $l, OAuth2 $legacyAuth, Password $legacyAuth2) {
 		$this
 			->setIdentifier('sharepoint')
 			->setStorageClass(SharePointStorage::class)
@@ -40,8 +41,9 @@ class SharePoint extends Backend {
 				(new DefinitionParameter('host', $l->t('Host'))),
 				(new DefinitionParameter('root', $l->t('Document Library'))),
 			])
+			->addAuthScheme(AuthMechanism::SCHEME_OAUTH2)
 			->addAuthScheme(AuthMechanism::SCHEME_PASSWORD)
-			->setLegacyAuthMechanism($legacyAuth)
+			->setLegacyAuthMechanism($legacyAuth2)
 		;
 	}
 
