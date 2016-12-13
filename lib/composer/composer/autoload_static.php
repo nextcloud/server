@@ -711,7 +711,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Repair\\NC11\\CleanPreviews' => __DIR__ . '/../../..' . '/lib/private/Repair/NC11/CleanPreviews.php',
         'OC\\Repair\\NC11\\CleanPreviewsBackgroundJob' => __DIR__ . '/../../..' . '/lib/private/Repair/NC11/CleanPreviewsBackgroundJob.php',
         'OC\\Repair\\NC11\\MoveAvatars' => __DIR__ . '/../../..' . '/lib/private/Repair/NC11/MoveAvatars.php',
-        'OC\\Repair\\NC11\\MoveAvatarsBackgroundJob' => __DIR__ . '/../../..' . '/lib/private/Repair/NC11/MoveAvatarBackgroundJob.php',
+        'OC\\Repair\\NC11\\MoveAvatarsBackgroundJob' => __DIR__ . '/../../..' . '/lib/private/Repair/NC11/MoveAvatarsBackgroundJob.php',
         'OC\\Repair\\OldGroupMembershipShares' => __DIR__ . '/../../..' . '/lib/private/Repair/OldGroupMembershipShares.php',
         'OC\\Repair\\Preview' => __DIR__ . '/../../..' . '/lib/private/Repair/Preview.php',
         'OC\\Repair\\RemoveGetETagEntries' => __DIR__ . '/../../..' . '/lib/private/Repair/RemoveGetETagEntries.php',
