@@ -24,6 +24,7 @@ namespace OCA\TwoFactorBackupCodes\Service;
 
 use OCA\TwoFactorBackupCodes\Db\BackupCode;
 use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
+use OCP\Activity\IManager;
 use OCP\IUser;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
@@ -39,10 +40,14 @@ class BackupCodeStorage {
 	/** @var ISecureRandom */
 	private $random;
 
-	public function __construct(BackupCodeMapper $mapper, ISecureRandom $random, IHasher $hasher) {
+	/** @var IManager */
+	private $activityManager;
+
+	public function __construct(BackupCodeMapper $mapper, ISecureRandom $random, IHasher $hasher, IManager $activityManager) {
 		$this->mapper = $mapper;
 		$this->hasher = $hasher;
 		$this->random = $random;
+		$this->activityManager = $activityManager;
 	}
 
 	/**
@@ -68,7 +73,25 @@ class BackupCodeStorage {
 			array_push($result, $code);
 		}
 
+		$this->publishEvent($user, 'codes_generated');
+
 		return $result;
+	}
+
+	/**
+	 * Push an event the user's activity stream
+	 *
+	 * @param IUser $user
+	 * @param string $event
+	 */
+	private function publishEvent(IUser $user, $event) {
+		$activity = $this->activityManager->generateEvent();
+		$activity->setApp('twofactor_backupcodes')
+			->setType('twofactor')
+			->setAuthor($user->getUID())
+			->setAffectedUser($user->getUID());
+		$activity->setSubject($event);
+		$this->activityManager->publish($activity);
 	}
 
 	/**

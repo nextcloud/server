@@ -29,7 +29,7 @@ use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory as L10nFactory;
 
-class GenericProvider implements IProvider {
+class Provider implements IProvider {
 
 	/** @var L10nFactory */
 	private $l10n;
@@ -47,25 +47,15 @@ class GenericProvider implements IProvider {
 	}
 
 	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
-		if ($event->getType() !== 'twofactor') {
+		if ($event->getApp() !== 'twofactor_backupcodes') {
 			throw new InvalidArgumentException();
 		}
 
-		$l = $this->l10n->get('core', $language);
+		$l = $this->l10n->get('twofactor_backupcodes', $language);
 
 		switch ($event->getSubject()) {
-			case 'twofactor_success':
-				$params = $event->getSubjectParameters();
-				$event->setParsedSubject($l->t('You successfully logged in using two-factor authentication (%1$s)', [
-							$params['provider'],
-					]));
-				$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/password.svg')));
-				break;
-			case 'twofactor_failed':
-				$params = $event->getSubjectParameters();
-				$event->setParsedSubject($l->t('A login attempt using two-factor authenticatoin failed (%1$s)', [
-							$params['provider'],
-					]));
+			case 'codes_generated':
+				$event->setParsedSubject($l->t('You created backup codes for your account'));
 				$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/password.svg')));
 				break;
 			default:

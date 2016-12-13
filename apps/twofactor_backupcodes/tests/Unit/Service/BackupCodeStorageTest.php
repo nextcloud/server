@@ -25,6 +25,8 @@ namespace OCA\TwoFactorBackupCodes\Tests\Unit\Service;
 use OCA\TwoFactorBackupCodes\Db\BackupCode;
 use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
+use OCP\Activity\IEvent;
+use OCP\Activity\IManager;
 use OCP\IUser;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
@@ -41,6 +43,9 @@ class BackupCodeStorageTest extends TestCase {
 	/** @var IHasher|\PHPUnit_Framework_MockObject_MockObject */
 	private $hasher;
 
+	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $activityManager;
+
 	/** @var BackupCodeStorage */
 	private $storage;
 
@@ -52,14 +57,16 @@ class BackupCodeStorageTest extends TestCase {
 			->getMock();
 		$this->random = $this->getMockBuilder(ISecureRandom::class)->getMock();
 		$this->hasher = $this->getMockBuilder(IHasher::class)->getMock();
-		$this->storage = new BackupCodeStorage($this->mapper, $this->random, $this->hasher);
+		$this->activityManager = $this->createMock(IManager::class);
+		$this->storage = new BackupCodeStorage($this->mapper, $this->random, $this->hasher, $this->activityManager);
 	}
 
 	public function testCreateCodes() {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$number = 5;
+		$event = $this->createMock(IEvent::class);
 
-		$user->expects($this->once())
+		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('fritz'));
 		$this->random->expects($this->exactly($number))
@@ -77,6 +84,28 @@ class BackupCodeStorageTest extends TestCase {
 		$this->mapper->expects($this->exactly($number))
 			->method('insert')
 			->with($this->equalTo($row));
+		$this->activityManager->expects($this->once())
+			->method('generateEvent')
+			->will($this->returnValue($event));
+		$event->expects($this->once())
+			->method('setApp')
+			->with('twofactor_backupcodes')
+			->will($this->returnSelf());
+		$event->expects($this->once())
+			->method('setType')
+			->with('twofactor')
+			->will($this->returnSelf());
+		$event->expects($this->once())
+			->method('setAuthor')
+			->with('fritz')
+			->will($this->returnSelf());
+		$event->expects($this->once())
+			->method('setAffectedUser')
+			->with('fritz')
+			->will($this->returnSelf());
+		$this->activityManager->expects($this->once())
+			->method('publish')
+			->will($this->returnValue($event));
 
 		$codes = $this->storage->createCodes($user, $number);
 		$this->assertCount($number, $codes);

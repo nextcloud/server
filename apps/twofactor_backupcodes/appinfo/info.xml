@@ -26,6 +26,7 @@
 		</settings>
 		<providers>
 			<provider>OCA\TwoFactorBackupCodes\Activity\GenericProvider</provider>
+			<provider>OCA\TwoFactorBackupCodes\Activity\Provider</provider>
 		</providers>
 	</activity>
 </info>
