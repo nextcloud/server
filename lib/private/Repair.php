@@ -37,6 +37,7 @@ use OC\Repair\Collation;
 use OC\Repair\DropOldJobs;
 use OC\Repair\MoveUpdaterStepFile;
 use OC\Repair\NC11\CleanPreviews;
+use OC\Repair\NC11\FixMountStorages;
 use OC\Repair\NC11\MoveAvatars;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\RemoveGetETagEntries;
@@ -161,6 +162,7 @@ class Repair implements IOutput{
 				\OC::$server->getUserManager(),
 				\OC::$server->getConfig()
 			),
+			new FixMountStorages(\OC::$server->getDatabaseConnection()),
 		];
 	}
 
