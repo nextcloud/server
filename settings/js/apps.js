@@ -271,7 +271,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		OC.Settings.Apps.hideErrorMessage(appId);
 		groups = groups || [];
 		var appItem = $('div#app-'+appId+'');
-		element.val(t('settings','Please wait....'));
+		element.val(t('settings','Enabling app …'));
 		if(active && !groups.length) {
 			$.post(OC.filePath('settings','ajax','disableapp.php'),{appid:appId},function(result) {
 				if(!result || result.status !== 'success') {
