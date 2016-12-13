@@ -116,7 +116,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						if (app.update) {
 							var $update = $('#app-' + app.id + ' .update');
 							$update.removeClass('hidden');
-							$update.val(t('settings', 'Update to %s').replace(/%s/g, app.update));
+							$update.val(t('settings', 'Update (%s)').replace(/%s/g, app.update));
 							OC.Settings.Apps.State.availableUpdates++;
 						}
 					});
@@ -236,12 +236,12 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	 */
 
 	imageUrl : function (url, appfromstore) {
-		var img = '<svg width="72" height="72" viewBox="0 0 72 72">';
+		var img = '<svg width="40" height="40" viewBox="0 0 40 40">';
 
 		if (appfromstore) {
-			img += '<image x="0" y="0" width="72" height="72" preserveAspectRatio="xMinYMin meet" xlink:href="' + url  + '"  class="app-icon" /></svg>';
+			img += '<image x="0" y="0" width="40" height="40" preserveAspectRatio="xMinYMin meet" xlink:href="' + url  + '"  class="app-icon" /></svg>';
 		} else {
-			img += '<image x="0" y="0" width="72" height="72" preserveAspectRatio="xMinYMin meet" filter="url(#invertIcon)" xlink:href="' + url + '?v=' + oc_config.version + '" class="app-icon"></image></svg>';
+			img += '<image x="0" y="0" width="40" height="40" preserveAspectRatio="xMinYMin meet" filter="url(#invertIcon)" xlink:href="' + url + '?v=' + oc_config.version + '" class="app-icon"></image></svg>';
 		}
 		return img;
 	},
@@ -420,8 +420,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				element.val(t('settings','Uninstall'));
 			} else {
 				OC.Settings.Apps.rebuildNavigation();
-				element.parent().fadeOut(function() {
-					element.remove();
+				element.parents('.section').fadeOut(function() {
+					element.parents('.section').remove();
 				});
 			}
 		},'json');
