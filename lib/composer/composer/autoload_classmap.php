@@ -680,6 +680,7 @@ return array(
     'OC\\Repair\\MoveUpdaterStepFile' => $baseDir . '/lib/private/Repair/MoveUpdaterStepFile.php',
     'OC\\Repair\\NC11\\CleanPreviews' => $baseDir . '/lib/private/Repair/NC11/CleanPreviews.php',
     'OC\\Repair\\NC11\\CleanPreviewsBackgroundJob' => $baseDir . '/lib/private/Repair/NC11/CleanPreviewsBackgroundJob.php',
+    'OC\\Repair\\NC11\\FixMountStorages' => $baseDir . '/lib/private/Repair/NC11/FixMountStorages.php',
     'OC\\Repair\\NC11\\MoveAvatars' => $baseDir . '/lib/private/Repair/NC11/MoveAvatars.php',
     'OC\\Repair\\NC11\\MoveAvatarsBackgroundJob' => $baseDir . '/lib/private/Repair/NC11/MoveAvatarsBackgroundJob.php',
     'OC\\Repair\\OldGroupMembershipShares' => $baseDir . '/lib/private/Repair/OldGroupMembershipShares.php',

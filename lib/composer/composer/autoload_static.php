@@ -710,6 +710,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Repair\\MoveUpdaterStepFile' => __DIR__ . '/../../..' . '/lib/private/Repair/MoveUpdaterStepFile.php',
         'OC\\Repair\\NC11\\CleanPreviews' => __DIR__ . '/../../..' . '/lib/private/Repair/NC11/CleanPreviews.php',
         'OC\\Repair\\NC11\\CleanPreviewsBackgroundJob' => __DIR__ . '/../../..' . '/lib/private/Repair/NC11/CleanPreviewsBackgroundJob.php',
+        'OC\\Repair\\NC11\\FixMountStorages' => __DIR__ . '/../../..' . '/lib/private/Repair/NC11/FixMountStorages.php',
         'OC\\Repair\\NC11\\MoveAvatars' => __DIR__ . '/../../..' . '/lib/private/Repair/NC11/MoveAvatars.php',
         'OC\\Repair\\NC11\\MoveAvatarsBackgroundJob' => __DIR__ . '/../../..' . '/lib/private/Repair/NC11/MoveAvatarsBackgroundJob.php',
         'OC\\Repair\\OldGroupMembershipShares' => __DIR__ . '/../../..' . '/lib/private/Repair/OldGroupMembershipShares.php',
