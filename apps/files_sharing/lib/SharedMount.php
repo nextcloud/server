@@ -115,9 +115,9 @@ class SharedMount extends MountPoint implements MoveableMount {
 	private function updateFileTarget($newPath, &$share) {
 		$share->setTarget($newPath);
 
-		foreach ($this->groupedShares as $share) {
-			$share->setTarget($newPath);
-			\OC::$server->getShareManager()->moveShare($share, $this->user);
+		foreach ($this->groupedShares as $tmpShare) {
+			$tmpShare->setTarget($newPath);
+			\OC::$server->getShareManager()->moveShare($tmpShare, $this->user);
 		}
 	}
 
