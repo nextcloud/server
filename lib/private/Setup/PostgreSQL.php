@@ -58,7 +58,7 @@ class PostgreSQL extends AbstractDatabase {
 			//use the admin login data for the new database user
 
 			//add prefix to the postgresql user name to prevent collisions
-			$this->dbUser='oc_'.$username;
+			$this->dbUser='oc_'.strtolower($username);
 			//create a new password so we don't need to store the admin config in the config file
 			$this->dbPassword = \OC::$server->getSecureRandom()->generate(30, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
 
