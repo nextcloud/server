@@ -141,7 +141,11 @@ class UserMountCache implements IUserMountCache {
 			foreach ($cachedMounts as $cachedMount) {
 				if (
 					$newMount->getRootId() === $cachedMount->getRootId() &&
-					($newMount->getMountPoint() !== $cachedMount->getMountPoint() || $newMount->getMountId() !== $cachedMount->getMountId())
+					(
+						$newMount->getMountPoint() !== $cachedMount->getMountPoint() ||
+						$newMount->getStorageId() !== $cachedMount->getStorageId() ||
+						$newMount->getMountId() !== $cachedMount->getMountId()
+					)
 				) {
 					$changed[] = $newMount;
 				}
@@ -169,6 +173,7 @@ class UserMountCache implements IUserMountCache {
 		$builder = $this->connection->getQueryBuilder();
 
 		$query = $builder->update('mounts')
+			->set('storage_id', $builder->createNamedParameter($mount->getStorageId()))
 			->set('mount_point', $builder->createNamedParameter($mount->getMountPoint()))
 			->set('mount_id', $builder->createNamedParameter($mount->getMountId(), IQueryBuilder::PARAM_INT))
 			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($mount->getUser()->getUID())))
