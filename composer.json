@@ -1,7 +1,16 @@
 {
+    "name": "nextcloud/server",
+    "description": "Media gallery for ownCloud which includes previews for all media types supported by your ownCloud installation.",
+    "license": "AGPL-3.0",
+    "homepage": "https://github.com/nextcloud/server",
     "config" : {
         "vendor-dir": "lib/composer",
         "optimize-autoloader": true
+    },
+    "support": {
+      "issues": "https://github.com/nextcloud/server/issues",
+      "wiki": "https://github.com/nextcloud/server/wiki",
+      "source": "https://github.com/nextcloud/server"
     },
     "autoload" : {
         "psr-4": {
