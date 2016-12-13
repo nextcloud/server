@@ -7,9 +7,9 @@
 	<licence>AGPL</licence>
 	<author>Vincent Petry, Joas Schilling</author>
 	<default_enable/>
-	<version>1.1.3</version>
+	<version>1.2.0</version>
 	<dependencies>
-		<nextcloud min-version="11" max-version="11" />
+		<nextcloud min-version="12" max-version="12" />
 	</dependencies>
 	<namespace>SystemTags</namespace>
 	<types>

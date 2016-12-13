@@ -9,7 +9,7 @@ A user logs into ownCloud with their LDAP or AD credentials, and is granted acce
 	</description>
 	<licence>AGPL</licence>
 	<author>Dominik Schmidt and Arthur Schiwon</author>
-	<version>1.1.1</version>
+	<version>1.2.0</version>
 	<types>
 		<authentication/>
 	</types>
@@ -18,7 +18,7 @@ A user logs into ownCloud with their LDAP or AD credentials, and is granted acce
 	</documentation>
 	<dependencies>
 		<lib>ldap</lib>
-		<nextcloud min-version="11" max-version="11" />
+		<nextcloud min-version="12" max-version="12" />
 	</dependencies>
 
 	<namespace>User_LDAP</namespace>

@@ -10,13 +10,13 @@ To prevent a user from running out of disk space, the Deleted files app will not
 	<licence>AGPL</licence>
 	<author>Bjoern Schiessle</author>
 	<default_enable/>
-	<version>1.1.0</version>
+	<version>1.2.0</version>
 	<types>
 		<filesystem/>
 	</types>
 	<namespace>Files_Trashbin</namespace>
 	<dependencies>
-		<nextcloud min-version="11" max-version="11" />
+		<nextcloud min-version="12" max-version="12" />
 	</dependencies>
 	<documentation>
 		<user>user-trashbin</user>
