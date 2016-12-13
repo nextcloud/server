@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -26,6 +27,7 @@ use Exception;
 use OC;
 use OC\App\AppManager;
 use OC_App;
+use OCP\Activity\IManager;
 use OCP\AppFramework\QueryException;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IConfig;
@@ -48,15 +50,19 @@ class Manager {
 	/** @var IConfig */
 	private $config;
 
+	/** @var IManager */
+	private $activityManager;
+
 	/**
 	 * @param AppManager $appManager
 	 * @param ISession $session
 	 * @param IConfig $config
 	 */
-	public function __construct(AppManager $appManager, ISession $session, IConfig $config) {
+	public function __construct(AppManager $appManager, ISession $session, IConfig $config, IManager $activityManager) {
 		$this->appManager = $appManager;
 		$this->session = $session;
 		$this->config = $config;
+		$this->activityManager = $activityManager;
 	}
 
 	/**
@@ -184,8 +190,32 @@ class Manager {
 			}
 			$this->session->remove(self::SESSION_UID_KEY);
 			$this->session->remove(self::REMEMBER_LOGIN);
+
+			$this->publishEvent($user, 'twofactor_success', [
+				'provider' => $provider->getDisplayName(),
+			]);
+		} else {
+			$this->publishEvent($user, 'twofactor_failed', [
+				'provider' => $provider->getDisplayName(),
+			]);
 		}
 		return $passed;
+	}
+
+	/**
+	 * Push a 2fa event the user's activity stream
+	 *
+	 * @param IUser $user
+	 * @param string $event
+	 */
+	private function publishEvent(IUser $user, $event, array $params) {
+		$activity = $this->activityManager->generateEvent();
+		$activity->setApp('twofactor_generic')
+			->setType('twofactor_generic')
+			->setAuthor($user->getUID())
+			->setAffectedUser($user->getUID());
+		$activity->setSubject($event, $params);
+		$this->activityManager->publish($activity);
 	}
 
 	/**
