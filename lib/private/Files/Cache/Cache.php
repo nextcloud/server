@@ -163,6 +163,7 @@ class Cache implements ICache {
 		$data['storage_mtime'] = (int)$data['storage_mtime'];
 		$data['encryptedVersion'] = (int)$data['encrypted'];
 		$data['encrypted'] = (bool)$data['encrypted'];
+		$data['storage_id'] = $data['storage'];
 		$data['storage'] = $storageId;
 		$data['mimetype'] = $mimetypeLoader->getMimetypeById($data['mimetype']);
 		$data['mimepart'] = $mimetypeLoader->getMimetypeById($data['mimepart']);

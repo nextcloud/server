@@ -62,7 +62,7 @@ class CacheEntry implements ICacheEntry, \ArrayAccess {
 	}
 
 	public function getStorageId() {
-		return $this->data['storage'];
+		return $this->data['storage_id'];
 	}
 
 
