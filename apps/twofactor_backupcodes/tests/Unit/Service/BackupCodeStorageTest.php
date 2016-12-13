@@ -27,6 +27,7 @@ use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
+use OCP\ILogger;
 use OCP\IUser;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
@@ -46,6 +47,9 @@ class BackupCodeStorageTest extends TestCase {
 	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $activityManager;
 
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	private $logger;
+
 	/** @var BackupCodeStorage */
 	private $storage;
 
@@ -58,7 +62,9 @@ class BackupCodeStorageTest extends TestCase {
 		$this->random = $this->getMockBuilder(ISecureRandom::class)->getMock();
 		$this->hasher = $this->getMockBuilder(IHasher::class)->getMock();
 		$this->activityManager = $this->createMock(IManager::class);
-		$this->storage = new BackupCodeStorage($this->mapper, $this->random, $this->hasher, $this->activityManager);
+		$this->logger = $this->createMock(ILogger::class);
+
+		$this->storage = new BackupCodeStorage($this->mapper, $this->random, $this->hasher, $this->activityManager, $this->logger);
 	}
 
 	public function testCreateCodes() {

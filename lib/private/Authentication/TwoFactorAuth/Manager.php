@@ -31,6 +31,7 @@ use OCP\Activity\IManager;
 use OCP\AppFramework\QueryException;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\ISession;
 use OCP\IUser;
 
@@ -53,16 +54,23 @@ class Manager {
 	/** @var IManager */
 	private $activityManager;
 
+	/** @var ILogger */
+	private $logger;
+
 	/**
 	 * @param AppManager $appManager
 	 * @param ISession $session
 	 * @param IConfig $config
+	 * @param IManager $activityManager
+	 * @param ILogger $logger
 	 */
-	public function __construct(AppManager $appManager, ISession $session, IConfig $config, IManager $activityManager) {
+	public function __construct(AppManager $appManager, ISession $session, IConfig $config, IManager $activityManager,
+		ILogger $logger) {
 		$this->appManager = $appManager;
 		$this->session = $session;
 		$this->config = $config;
 		$this->activityManager = $activityManager;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -211,11 +219,16 @@ class Manager {
 	private function publishEvent(IUser $user, $event, array $params) {
 		$activity = $this->activityManager->generateEvent();
 		$activity->setApp('twofactor_generic')
-			->setType('twofactor_generic')
+			->setType('twofactor')
 			->setAuthor($user->getUID())
-			->setAffectedUser($user->getUID());
-		$activity->setSubject($event, $params);
-		$this->activityManager->publish($activity);
+			->setAffectedUser($user->getUID())
+			->setSubject($event, $params);
+		try {
+			$this->activityManager->publish($activity);
+		} catch (Exception $e) {
+			$this->logger->warning('could not publish backup code creation activity', ['app' => 'twofactor_backupcodes']);
+			$this->logger->logException($e, ['app' => 'twofactor_backupcodes']);
+		}
 	}
 
 	/**

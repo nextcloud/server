@@ -26,7 +26,6 @@ use OCA\TwoFactorBackupCodes\Activity\GenericFilter;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use Test\TestCase;
-use function returnValue;
 
 class GenericFilterTest extends TestCase {
 
@@ -46,7 +45,7 @@ class GenericFilterTest extends TestCase {
 	}
 
 	public function testAllowedApps() {
-		$this->assertEquals(0, $this->filter->allowedApps());
+		$this->assertEquals([], $this->filter->allowedApps());
 	}
 
 	public function testFilterTypes() {

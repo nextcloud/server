@@ -40,7 +40,7 @@ class GenericFilter implements IFilter {
 	}
 
 	public function allowedApps() {
-		return null;
+		return [];
 	}
 
 	public function filterTypes(array $types) {

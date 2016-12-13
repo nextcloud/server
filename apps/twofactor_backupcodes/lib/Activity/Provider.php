@@ -55,7 +55,7 @@ class Provider implements IProvider {
 
 		switch ($event->getSubject()) {
 			case 'codes_generated':
-				$event->setParsedSubject($l->t('You created backup codes for your account'));
+				$event->setParsedSubject($l->t('You created two-factor backup codes for your account'));
 				$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/password.svg')));
 				break;
 			default:
