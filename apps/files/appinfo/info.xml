@@ -6,12 +6,12 @@
 	<licence>AGPL</licence>
 	<author>Robin Appelman, Vincent Petry</author>
 	<default_enable/>
-	<version>1.6.1</version>
+	<version>1.7.0</version>
 	<types>
 		<filesystem/>
 	</types>
 	<dependencies>
-		<nextcloud min-version="11" max-version="11" />
+		<nextcloud min-version="12" max-version="12" />
 	</dependencies>
 	<documentation>
 		<user>user-files</user>
