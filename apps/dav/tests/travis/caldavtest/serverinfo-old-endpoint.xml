@@ -48,6 +48,7 @@
 		<feature>brief</feature>					    <!-- Brief header for PROPFIND, REPORT -->
 		<feature>bulk-post</feature>					<!-- Bulk POST requests -->
 		<feature>ctag</feature>							<!-- ctag extension -->
+		<feature>current-user-principal</feature>		<!-- current-user-principal extension -->
 		<feature>directory listing</feature> 			<!-- GET on collection -->
 		<feature>extended-principal-search</feature>	<!-- Extended principal-property-search REPORT extension -->
 		<feature>expand-property</feature>				<!-- Expand property REPORT -->
@@ -101,6 +102,8 @@
 		<feature>recurrence-splitting</feature>			<!-- Recurring components can be split -->
 		<feature>remove-duplicate-alarms</feature>   	<!-- Server removes any duplicate alarms on PUT -->
 		<feature>query-extended</feature>				<!-- calendar-query-extended extension -->
+		<feature>shared-calendars</feature>				<!-- Shared calendars extension -->
+		<feature>share-calendars-to-groups</feature>	<!-- Share calendars to groups extension -->
 		<feature>schedule-changes</feature>				<!-- schedule-changes property extension -->
 		<feature>split-calendars</feature>				<!-- Calendars are split by component type -->
 		<feature>supported-component-sets</feature>		<!-- CALDAV:supported-calendar-component-sets on calendar homes -->
