@@ -86,24 +86,42 @@ pipeline:
     when:
       matrix:
         TESTS: litmus-v2
-  caldavtester:
+  caldavtester-new-endpoint:
     image: nextcloudci/litmus-php7.0:litmus-php7.0-4
     commands:
       - bash tests/travis/install.sh sqlite
       - bash apps/dav/tests/travis/caldav/install.sh
-      - bash apps/dav/tests/travis/caldav/script.sh
+      - bash apps/dav/tests/travis/caldav/script-new-endpoint.sh
     when:
       matrix:
-        TESTS: caldavtester
-  carddavtester:
+        TESTS: caldavtester-new-endpoint
+  caldavtester-old-endpoint:
+    image: nextcloudci/litmus-php7.0:litmus-php7.0-4
+    commands:
+      - bash tests/travis/install.sh sqlite
+      - bash apps/dav/tests/travis/caldav/install.sh
+      - bash apps/dav/tests/travis/caldav/script-old-endpoint.sh
+    when:
+      matrix:
+        TESTS: caldavtester-old-endpoint
+  carddavtester-new-endpoint:
     image: nextcloudci/litmus-php7.0:litmus-php7.0-4
     commands:
       - bash tests/travis/install.sh sqlite
       - bash apps/dav/tests/travis/carddav/install.sh
-      - bash apps/dav/tests/travis/carddav/script.sh
+      - bash apps/dav/tests/travis/carddav/script-new-endpoint.sh
     when:
       matrix:
-        TESTS: carddavtester
+        TESTS: carddavtester-new-endpoint
+  carddavtester-old-endpoint:
+    image: nextcloudci/litmus-php7.0:litmus-php7.0-4
+    commands:
+      - bash tests/travis/install.sh sqlite
+      - bash apps/dav/tests/travis/carddav/install.sh
+      - bash apps/dav/tests/travis/carddav/script-old-endpoint.sh
+    when:
+      matrix:
+        TESTS: carddavtester-old-endpoint
   nodb-php5.6:
     image: nextcloudci/php5.6:php5.6-7
     commands:
@@ -400,8 +418,10 @@ matrix:
     - TESTS: syntax-php7.1
     - TESTS: litmus-v1
     - TESTS: litmus-v2
-    - TESTS: caldavtester
-    - TESTS: carddavtester
+    - TESTS: caldavtester-old-endpoint
+    - TESTS: caldavtester-new-endpoint
+    - TESTS: carddavtester-new-endpoint
+    - TESTS: carddavtester-old-endpoint
     - DB: NODB
       PHP: 5.6
     - DB: NODB
