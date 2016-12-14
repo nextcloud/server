@@ -190,7 +190,7 @@
 		</substitution>
 		<substitution>
 			<key>$userstype:</key>
-			<value>users</value>
+			<value></value>
 		</substitution>
 		<substitution>
 			<key>$groupstype:</key>
