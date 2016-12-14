@@ -31,10 +31,12 @@
 
 namespace OCA\Files_External\Lib\Storage;
 
+use Icewind\SMB\Change;
 use Icewind\SMB\Exception\ConnectException;
 use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\ForbiddenException;
 use Icewind\SMB\Exception\NotFoundException;
+use Icewind\SMB\INotifyHandler;
 use Icewind\SMB\IFileInfo;
 use Icewind\SMB\IShare;
 use Icewind\SMB\NativeServer;
@@ -486,16 +488,16 @@ class SMB extends Common implements INotifyStorage {
 	public function listen($path, callable $callback) {
 		$fullPath = $this->buildPath($path);
 		$oldRenamePath = null;
-		$this->share->notify($fullPath, function ($smbType, $fullPath) use (&$oldRenamePath, $callback) {
-			$path = $this->relativePath($fullPath);
+		$this->share->notify($fullPath)->listen(function (Change $change) use (&$oldRenamePath, $callback) {
+			$path = $this->relativePath($change->getPath());
 			if (is_null($path)) {
 				return true;
 			}
-			if ($smbType === IShare::NOTIFY_RENAMED_OLD) {
+			if ($change->getCode() === INotifyHandler::NOTIFY_RENAMED_OLD) {
 				$oldRenamePath = $path;
 				return true;
 			}
-			$type = $this->mapNotifyType($smbType);
+			$type = $this->mapNotifyType($change->getCode());
 			if (is_null($type)) {
 				return true;
 			}
@@ -513,16 +515,16 @@ class SMB extends Common implements INotifyStorage {
 
 	private function mapNotifyType($smbType) {
 		switch ($smbType) {
-			case IShare::NOTIFY_ADDED:
+			case INotifyHandler::NOTIFY_ADDED:
 				return INotifyStorage::NOTIFY_ADDED;
-			case IShare::NOTIFY_REMOVED:
+			case INotifyHandler::NOTIFY_REMOVED:
 				return INotifyStorage::NOTIFY_REMOVED;
-			case IShare::NOTIFY_MODIFIED:
-			case IShare::NOTIFY_ADDED_STREAM:
-			case IShare::NOTIFY_MODIFIED_STREAM:
-			case IShare::NOTIFY_REMOVED_STREAM:
+			case INotifyHandler::NOTIFY_MODIFIED:
+			case INotifyHandler::NOTIFY_ADDED_STREAM:
+			case INotifyHandler::NOTIFY_MODIFIED_STREAM:
+			case INotifyHandler::NOTIFY_REMOVED_STREAM:
 				return INotifyStorage::NOTIFY_MODIFIED;
-			case IShare::NOTIFY_RENAMED_NEW:
+			case INotifyHandler::NOTIFY_RENAMED_NEW:
 				return INotifyStorage::NOTIFY_RENAMED;
 			default:
 				return null;

@@ -8,6 +8,7 @@
 namespace Icewind\SMB;
 
 use Icewind\SMB\Exception\ConnectionException;
+use Icewind\SMB\Exception\DependencyException;
 use Icewind\SMB\Exception\FileInUseException;
 use Icewind\SMB\Exception\InvalidTypeException;
 use Icewind\SMB\Exception\NotFoundException;
@@ -42,24 +43,30 @@ class Share extends AbstractShare {
 	/**
 	 * @param Server $server
 	 * @param string $name
+	 * @param System $system
 	 */
-	public function __construct($server, $name) {
+	public function __construct($server, $name, System $system = null) {
 		parent::__construct();
 		$this->server = $server;
 		$this->name = $name;
-		$this->system = new System();
+		$this->system = (!is_null($system)) ? $system : new System();
 		$this->parser = new Parser(new TimeZoneProvider($this->server->getHost(), $this->system));
 	}
 
 	protected function getConnection() {
 		$workgroupArgument = ($this->server->getWorkgroup()) ? ' -W ' . escapeshellarg($this->server->getWorkgroup()) : '';
-		$command = sprintf('stdbuf -o0 %s %s --authentication-file=%s %s',
+		$smbClientPath = $this->system->getSmbclientPath();
+		if (!$smbClientPath) {
+			throw new DependencyException('Can\'t find smbclient binary in path');
+		}
+		$command = sprintf('%s%s %s --authentication-file=%s %s',
+			$this->system->hasStdBuf() ? 'stdbuf -o0 ' : '',
 			$this->system->getSmbclientPath(),
 			$workgroupArgument,
 			System::getFD(3),
 			escapeshellarg('//' . $this->server->getHost() . '/' . $this->name)
 		);
-		$connection = new Connection($command);
+		$connection = new Connection($command, $this->parser);
 		$connection->writeAuthentication($this->server->getUser(), $this->server->getPassword());
 		if (!$connection->isValid()) {
 			throw new ConnectionException();
@@ -97,8 +104,8 @@ class Share extends AbstractShare {
 	}
 
 	protected function simpleCommand($command, $path) {
-		$path = $this->escapePath($path);
-		$cmd = $command . ' ' . $path;
+		$escapedPath = $this->escapePath($path);
+		$cmd = $command . ' ' . $escapedPath;
 		$output = $this->execute($cmd);
 		return $this->parseOutput($output, $path);
 	}
@@ -125,7 +132,7 @@ class Share extends AbstractShare {
 
 	/**
 	 * @param string $path
-	 * @return \Icewind\SMB\IFileInfo[]
+	 * @return \Icewind\SMB\IFileInfo
 	 */
 	public function stat($path) {
 		$escapedPath = $this->escapePath($path);
@@ -216,8 +223,7 @@ class Share extends AbstractShare {
 	public function rename($from, $to) {
 		$path1 = $this->escapePath($from);
 		$path2 = $this->escapePath($to);
-		$cmd = 'rename ' . $path1 . ' ' . $path2;
-		$output = $this->execute($cmd);
+		$output = $this->execute('rename ' . $path1 . ' ' . $path2);
 		return $this->parseOutput($output, $to);
 	}
 
@@ -268,15 +274,8 @@ class Share extends AbstractShare {
 		$source = $this->escapePath($source);
 		// since returned stream is closed by the caller we need to create a new instance
 		// since we can't re-use the same file descriptor over multiple calls
-		$workgroupArgument = ($this->server->getWorkgroup()) ? ' -W ' . escapeshellarg($this->server->getWorkgroup()) : '';
-		$command = sprintf('%s %s --authentication-file=%s %s',
-			$this->system->getSmbclientPath(),
-			$workgroupArgument,
-			System::getFD(3),
-			escapeshellarg('//' . $this->server->getHost() . '/' . $this->name)
-		);
-		$connection = new Connection($command);
-		$connection->writeAuthentication($this->server->getUser(), $this->server->getPassword());
+		$connection = $this->getConnection();
+
 		$connection->write('get ' . $source . ' ' . System::getFD(5));
 		$connection->write('exit');
 		$fh = $connection->getFileOutputStream();
@@ -297,17 +296,9 @@ class Share extends AbstractShare {
 		$target = $this->escapePath($target);
 		// since returned stream is closed by the caller we need to create a new instance
 		// since we can't re-use the same file descriptor over multiple calls
-		$workgroupArgument = ($this->server->getWorkgroup()) ? ' -W ' . escapeshellarg($this->server->getWorkgroup()) : '';
-		$command = sprintf('%s %s --authentication-file=%s %s',
-			$this->system->getSmbclientPath(),
-			$workgroupArgument,
-			System::getFD(3),
-			escapeshellarg('//' . $this->server->getHost() . '/' . $this->name)
-		);
-		$connection = new Connection($command);
-		$connection->writeAuthentication($this->server->getUser(), $this->server->getPassword());
-		$fh = $connection->getFileInputStream();
+		$connection = $this->getConnection();
 
+		$fh = $connection->getFileInputStream();
 		$connection->write('put ' . System::getFD(4) . ' ' . $target);
 		$connection->write('exit');
 
@@ -343,30 +334,30 @@ class Share extends AbstractShare {
 		$output = $this->execute($cmd);
 		$this->parseOutput($output, $path);
 
-		// then set the modes we want
-		$cmd = 'setmode ' . $path . ' ' . $modeString;
-		$output = $this->execute($cmd);
-		return $this->parseOutput($output, $path);
+		if ($mode !== FileInfo::MODE_NORMAL) {
+			// then set the modes we want
+			$cmd = 'setmode ' . $path . ' ' . $modeString;
+			$output = $this->execute($cmd);
+			return $this->parseOutput($output, $path);
+		} else {
+			return true;
+		}
 	}
 
 	/**
 	 * @param string $path
-	 * @param callable $callback callable which will be called for each received change
-	 * @return mixed
+	 * @return INotifyHandler
+	 * @throws ConnectionException
+	 * @throws DependencyException
 	 */
-	public function notify($path, callable $callback) {
+	public function notify($path) {
+		if (!$this->system->hasStdBuf()) { //stdbuf is required to disable smbclient's output buffering
+			throw new DependencyException('stdbuf is required for usage of the notify command');
+		}
 		$connection = $this->getConnection(); // use a fresh connection since the notify command blocks the process
 		$command = 'notify ' . $this->escapePath($path);
 		$connection->write($command . PHP_EOL);
-		$connection->read(function ($line) use ($callback, $path) {
-			$code = (int)substr($line, 0, 4);
-			$subPath = substr($line, 5);
-			if ($path === '') {
-				return $callback($code, $subPath);
-			} else {
-				return $callback($code, $path . '/' . $subPath);
-			}
-		});
+		return new NotifyHandler($connection, $path);
 	}
 
 	/**
@@ -395,7 +386,12 @@ class Share extends AbstractShare {
 	 * @return bool
 	 */
 	protected function parseOutput($lines, $path = '') {
-		return $this->parser->checkForError($lines, $path);
+		if (count($lines) === 0) {
+			return true;
+		} else {
+			$this->parser->checkForError($lines, $path);
+			return false;
+		}
 	}
 
 	/**
