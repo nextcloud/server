@@ -531,4 +531,32 @@ class SharedStorageTest extends TestCase {
 		$this->shareManager->deleteShare($share1);
 		$this->shareManager->deleteShare($share2);
 	}
+
+	public function testOwnerPermissions() {
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		$share = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_DELETE
+		);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$view = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
+		$this->assertTrue($view->file_exists($this->folder));
+
+		$view->file_put_contents($this->folder . '/newfile.txt', 'asd');
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		$this->assertTrue($this->view->file_exists($this->folder . '/newfile.txt'));
+		$this->assertEquals(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE,
+			$this->view->getFileInfo($this->folder . '/newfile.txt')->getPermissions());
+
+		$this->view->unlink($this->folder);
+		$this->shareManager->deleteShare($share);
+
+	}
 }
