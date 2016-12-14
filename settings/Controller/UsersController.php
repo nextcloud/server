@@ -259,11 +259,34 @@ class UsersController extends Controller {
 			if($gid !== '') {
 				$batch = $this->getUsersForUID($this->groupManager->displayNamesInGroup($gid, $pattern, $limit, $offset));
 			} else {
-                //TODO: allow partial strings for email matches
+
+                
                 $batch = array();
                 $arrays = array();
+
+                //split display name into individual words for flexible matching
                 $arrays[0] = $this->userManager->search($pattern, $limit, $offset);
-                $arrays[1] = $this->userManager->searchDisplayName($pattern, $limit, $offset);
+                $subPatterns = explode(" ", $pattern);
+
+                //if the pattern to search for isn't potentially complex, just call searchDisplayName with it
+                if (count($subPatterns) == 1)
+                    $arrays[1] = $this->userManager->searchDisplayName($pattern, $limit, $offset);
+                else {
+                    //get array of matches for each substring
+                    $subMatch = array();
+                    $subMatches = array();
+                    foreach ($subPatterns as $sub) {
+                        $subMatch = $this->userManager->searchDisplayName($sub, $limit, $offset);
+                        if(is_array($subMatch)) {
+                            array_push($subMatches,$subMatch);
+                        }
+                    }
+
+                    //only keep users with display names matched by all substrings
+                    $arrays[1] = call_user_func_array('array_intersect', $subMatches);
+                }
+
+                // TODO: allow partial strings for email matches
                 $arrays[2] = $this->userManager->getByEmail($pattern);
                 foreach ($arrays as $arr) {
                     if(is_array($arr)) {
