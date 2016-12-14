@@ -37,13 +37,11 @@ $authBackend = new Auth(
 	\OC::$server->getUserSession(),
 	\OC::$server->getRequest(),
 	\OC::$server->getTwoFactorAuthManager(),
-	\OC::$server->getBruteForceThrottler(),
-	'principals/'
+	\OC::$server->getBruteForceThrottler()
 );
 $principalBackend = new Principal(
 	\OC::$server->getUserManager(),
-	\OC::$server->getGroupManager(),
-	'principals/'
+	\OC::$server->getGroupManager()
 );
 $db = \OC::$server->getDatabaseConnection();
 $userManager = \OC::$server->getUserManager();
@@ -54,14 +52,16 @@ $calDavBackend = new CalDavBackend($db, $principalBackend, $userManager, $random
 $debugging = \OC::$server->getConfig()->getSystemValue('debug', false);
 
 // Root nodes
-$principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
+$principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend, 'principals/users/');
 $principalCollection->disableListing = !$debugging; // Disable listing
 
-$addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend);
+$addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend, 'principals/users/');
 $addressBookRoot->disableListing = !$debugging; // Disable listing
 
+$principals = new \Sabre\DAV\SimpleCollection('principals', [$principalCollection]);
+
 $nodes = array(
-	$principalCollection,
+	$principals,
 	$addressBookRoot,
 );
 

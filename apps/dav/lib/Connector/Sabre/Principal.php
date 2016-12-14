@@ -101,6 +101,7 @@ class Principal implements BackendInterface {
 	 */
 	public function getPrincipalByPath($path) {
 		list($prefix, $name) = URLUtil::splitPath($path);
+		$prefix = trim($prefix, '/');
 
 		if ($prefix === $this->principalPrefix) {
 			$user = $this->userManager->get($name);
