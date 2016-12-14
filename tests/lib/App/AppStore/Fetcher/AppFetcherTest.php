@@ -58,6 +58,12 @@ EOD;
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->config = $this->createMock(IConfig::class);
 
+		$this->config
+			->expects($this->atLeastOnce())
+			->method('getSystemValue')
+			->with('version')
+			->willReturn('11.0.0.2');
+
 		$this->fetcher = new AppFetcher(
 			$this->appData,
 			$this->clientService,
@@ -103,11 +109,6 @@ EOD;
 			->expects($this->once())
 			->method('getTime')
 			->willReturn(1234);
-		$this->config
-			->expects($this->once())
-			->method('getSystemValue')
-			->with('version')
-			->willReturn('11.0.0.2');
 
 		$expected = array (
 			'data' =>
