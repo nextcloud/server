@@ -446,7 +446,8 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	}
 
 	public function getSourceStorage() {
-		return $this->getWrapperStorage();
+		$this->init();
+		return $this->nonMaskedStorage;
 	}
 
 	public function getWrapperStorage() {
