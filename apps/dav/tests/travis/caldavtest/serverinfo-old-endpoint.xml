@@ -208,7 +208,7 @@
 		</substitution>
 		<substitution>
 			<key>$principals_users:</key>
-			<value>$principalcollection:/</value>
+			<value>$principalcollection</value>
 		</substitution>
 		<substitution>
 			<key>$principals_groups:</key>
