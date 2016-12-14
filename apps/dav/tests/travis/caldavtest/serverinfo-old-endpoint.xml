@@ -101,8 +101,6 @@
 		<feature>recurrence-splitting</feature>			<!-- Recurring components can be split -->
 		<feature>remove-duplicate-alarms</feature>   	<!-- Server removes any duplicate alarms on PUT -->
 		<feature>query-extended</feature>				<!-- calendar-query-extended extension -->
-		<feature>shared-calendars</feature>				<!-- Shared calendars extension -->
-		<feature>share-calendars-to-groups</feature>	<!-- Share calendars to groups extension -->
 		<feature>schedule-changes</feature>				<!-- schedule-changes property extension -->
 		<feature>split-calendars</feature>				<!-- Calendars are split by component type -->
 		<feature>supported-component-sets</feature>		<!-- CALDAV:supported-calendar-component-sets on calendar homes -->
