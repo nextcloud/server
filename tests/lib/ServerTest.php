@@ -79,8 +79,6 @@ class ServerTest extends \Test\TestCase {
 			['DateTimeFormatter', '\OCP\IDateTimeFormatter'],
 			['DateTimeZone', '\OC\DateTimeZone'],
 			['DateTimeZone', '\OCP\IDateTimeZone'],
-			['Db', '\OC\AppFramework\Db\Db'],
-			['Db', '\OCP\IDb'],
 
 			['EncryptionFileHelper', '\OC\Encryption\File'],
 			['EncryptionFileHelper', '\OCP\Encryption\IFile'],

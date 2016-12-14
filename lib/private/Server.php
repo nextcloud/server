@@ -45,7 +45,6 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\AppFramework\Http\Request;
-use OC\AppFramework\Db\Db;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Command\AsyncBus;
 use OC\Diagnostics\EventLogger;
@@ -469,9 +468,6 @@ class Server extends ServerContainer implements IServerContainer {
 			$connection = $factory->getConnection($type, $connectionParams);
 			$connection->getConfiguration()->setSQLLogger($c->getQueryLogger());
 			return $connection;
-		});
-		$this->registerService('Db', function (Server $c) {
-			return new Db($c->getDatabaseConnection());
 		});
 		$this->registerService('HTTPHelper', function (Server $c) {
 			$config = $c->getConfig();
@@ -1196,16 +1192,6 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getCredentialsManager() {
 		return $this->query('CredentialsManager');
-	}
-
-	/**
-	 * Returns an instance of the db facade
-	 *
-	 * @deprecated use getDatabaseConnection, will be removed in ownCloud 10
-	 * @return \OCP\IDb
-	 */
-	public function getDb() {
-		return $this->query('Db');
 	}
 
 	/**
