@@ -202,4 +202,115 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 		}
 	}
 
+	/**
+	 * @Given :user uploads the contact :fileName to the addressbook :addressbook
+	 */
+	public function uploadsTheContactToTheAddressbook($user, $fileName, $addressBook)  {
+		$davUrl = $this->baseUrl . '/remote.php/dav/addressbooks/users/'.$user.'/'.$addressBook . '/' . $fileName;
+		$password = ($user === 'admin') ? 'admin' : '123456';
+
+		$request = $this->client->createRequest(
+			'PUT',
+			$davUrl,
+			[
+				'body' => file_get_contents(__DIR__ . '/../../data/' . $fileName),
+				'auth' => [
+					$user,
+					$password,
+				],
+				'headers' => [
+					'Content-Type' => 'application/xml;charset=UTF-8',
+				],
+			]
+		);
+
+		$this->response = $this->client->send($request);
+
+		if($this->response->getStatusCode() !== 201) {
+			throw new \Exception(
+				sprintf(
+					'Expected %s got %s',
+					201,
+					$this->response->getStatusCode()
+				)
+			);
+		}
+	}
+
+	/**
+	 * @When Exporting the picture of contact :fileName from addressbook :addressBook as user :user
+	 */
+	public function whenExportingThePictureOfContactFromAddressbookAsUser($fileName, $addressBook, $user)  {
+		$davUrl = $this->baseUrl . '/remote.php/dav/addressbooks/users/'.$user.'/'.$addressBook . '/' . $fileName . '?photo=true';
+		$password = ($user === 'admin') ? 'admin' : '123456';
+
+		try {
+			$request = $this->client->createRequest(
+				'GET',
+				$davUrl,
+				[
+					'auth' => [
+						$user,
+						$password,
+					],
+					'headers' => [
+						'Content-Type' => 'application/xml;charset=UTF-8',
+					],
+				]
+			);
+			$this->response = $this->client->send($request);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @When Downloading the contact :fileName from addressbook :addressBook as user :user
+	 */
+	public function whenDownloadingTheContactFromAddressbookAsUser($fileName, $addressBook, $user)  {
+		$davUrl = $this->baseUrl . '/remote.php/dav/addressbooks/users/'.$user.'/'.$addressBook . '/' . $fileName;
+		$password = ($user === 'admin') ? 'admin' : '123456';
+
+		try {
+			$request = $this->client->createRequest(
+				'GET',
+				$davUrl,
+				[
+					'auth' => [
+						$user,
+						$password,
+					],
+					'headers' => [
+						'Content-Type' => 'application/xml;charset=UTF-8',
+					],
+				]
+			);
+			$this->response = $this->client->send($request);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+				$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @Then The following HTTP headers should be set
+	 * @param \Behat\Gherkin\Node\TableNode $table
+	 * @throws \Exception
+	 */
+	public function theFollowingHttpHeadersShouldBeSet(\Behat\Gherkin\Node\TableNode $table) {
+		foreach($table->getTable() as $header) {
+			$headerName = $header[0];
+			$expectedHeaderValue = $header[1];
+			$returnedHeader = $this->response->getHeader($headerName);
+			if($returnedHeader !== $expectedHeaderValue) {
+				throw new \Exception(
+					sprintf(
+						"Expected value '%s' for header '%s', got '%s'",
+						$expectedHeaderValue,
+						$headerName,
+						$returnedHeader
+					)
+				);
+			}
+		}
+	}
 }
