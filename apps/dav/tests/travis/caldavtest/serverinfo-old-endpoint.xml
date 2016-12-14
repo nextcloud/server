@@ -48,7 +48,6 @@
 		<feature>brief</feature>					    <!-- Brief header for PROPFIND, REPORT -->
 		<feature>bulk-post</feature>					<!-- Bulk POST requests -->
 		<feature>ctag</feature>							<!-- ctag extension -->
-		<feature>current-user-principal</feature>		<!-- current-user-principal extension -->
 		<feature>directory listing</feature> 			<!-- GET on collection -->
 		<feature>extended-principal-search</feature>	<!-- Extended principal-property-search REPORT extension -->
 		<feature>expand-property</feature>				<!-- Expand property REPORT -->
