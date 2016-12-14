@@ -35,7 +35,7 @@ class MySQL extends AbstractDatabase {
 
 	public function setupDatabase($username) {
 		//check if the database user has admin right
-		$connection = $this->connect();
+		$connection = $this->connect(['dbname' => null]);
 
 		$this->createSpecificUser($username, $connection);
 
