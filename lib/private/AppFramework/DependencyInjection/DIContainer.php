@@ -134,10 +134,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getDateTimeFormatter();
 		});
 
-		$this->registerService('OCP\\IDb', function($c) {
-			return $this->getServer()->getDb();
-		});
-
 		$this->registerService('OCP\\IDBConnection', function($c) {
 			return $this->getServer()->getDatabaseConnection();
 		});
