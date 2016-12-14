@@ -1,6 +1,6 @@
 {
     "name": "nextcloud/server",
-    "description": "Media gallery for ownCloud which includes previews for all media types supported by your ownCloud installation.",
+    "description": "A safe home for all your data. Access, share and protect your files, calendars, contacts, communication & more at home and in your enterprise.",
     "license": "AGPL-3.0",
     "homepage": "https://github.com/nextcloud/server",
     "config" : {
