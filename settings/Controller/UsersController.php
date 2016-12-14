@@ -260,11 +260,16 @@ class UsersController extends Controller {
 				$batch = $this->getUsersForUID($this->groupManager->displayNamesInGroup($gid, $pattern, $limit, $offset));
 			} else {
                 //TODO: allow partial strings for email matches
-                $batch = array_merge(
-                    $this->userManager->search($pattern, $limit, $offset),
-                    $this->userManager->searchDisplayName($pattern, $limit, $offset),
-                    $this->userManager->getByEmail($pattern)
-                );
+                $batch = array();
+                $arrays = array();
+                $arrays[0] = $this->userManager->search($pattern, $limit, $offset);
+                $arrays[1] = $this->userManager->searchDisplayName($pattern, $limit, $offset);
+                $arrays[2] = $this->userManager->getByEmail($pattern);
+                foreach ($arrays as $arr) {
+                    if(is_array($arr)) {
+                        $batch = array_merge($batch, $arr);
+                    }
+                }
 			}
 
 			foreach ($batch as $user) {
