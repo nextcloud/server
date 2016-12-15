@@ -77,7 +77,6 @@ class CheckerTest extends TestCase {
 
 	/**
 	 * @expectedException \Exception
-	 * @expectedExceptionMessage Directory does not exist.
 	 */
 	public function testWriteAppSignatureOfNotExistingApp() {
 		$keyBundle = file_get_contents(__DIR__ .'/../../data/integritycheck/SomeApp.crt');
@@ -87,6 +86,24 @@ class CheckerTest extends TestCase {
 		$x509 = new X509();
 		$x509->loadX509($keyBundle);
 		$this->checker->writeAppSignature('NotExistingApp', $x509, $rsa);
+	}
+
+	/**
+	 * @expectedException \Exception
+	 */
+	public function testWriteAppSignatureWrongPermissions(){
+		$this->fileAccessHelper
+			->expects($this->once())
+			->method('file_put_contents')
+			->will($this->throwException(new \Exception))
+		;
+		$keyBundle = file_get_contents(__DIR__ .'/../../data/integritycheck/SomeApp.crt');
+		$rsaPrivateKey = file_get_contents(__DIR__ .'/../../data/integritycheck/SomeApp.key');
+		$rsa = new RSA();
+		$rsa->loadKey($rsaPrivateKey);
+		$x509 = new X509();
+		$x509->loadX509($keyBundle);
+		$this->checker->writeAppSignature(\OC::$SERVERROOT . '/tests/data/integritycheck/app/', $x509, $rsa);
 	}
 
 	public function testWriteAppSignature() {
