@@ -427,3 +427,23 @@ Feature: webdav-related
 		And User "user0" uploads file with content "copytest" to "/copytest.txt"
 		When User "user0" copies file "/copytest.txt" to "/testcopypermissionsNotAllowed/copytest.txt"
 		Then the HTTP status code should be "403"
+
+	Scenario: Uploading a file as recipient with limited permissions
+		Given using new dav path
+		And As an "admin"
+		And user "user0" exists
+		And user "user1" exists
+		And user "user0" has a quota of "10 MB"
+		And user "user1" has a quota of "10 MB"
+		And As an "user1"
+		And user "user1" created a folder "/testfolder"
+		And as "user1" creating a share with
+			| path        | testfolder |
+			| shareType   | 0          |
+			| permissions | 23         |
+			| shareWith   | user0      |
+		And As an "user0"
+		And User "user0" uploads file "data/textfile.txt" to "/testfolder/asdf.txt"
+		And As an "user1"
+		When User "user1" deletes file "/testfolder/asdf.txt"
+		Then the HTTP status code should be "204"
