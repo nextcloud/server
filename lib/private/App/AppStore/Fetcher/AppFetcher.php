@@ -28,9 +28,6 @@ use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 
 class AppFetcher extends Fetcher {
-	/** @var IConfig */
-	private $config;
-
 	/**
 	 * @param IAppData $appData
 	 * @param IClientService $clientService
@@ -44,11 +41,11 @@ class AppFetcher extends Fetcher {
 		parent::__construct(
 			$appData,
 			$clientService,
-			$timeFactory
+			$timeFactory,
+			$config
 		);
 
 		$this->fileName = 'apps.json';
-		$this->config = $config;
 
 		$versionArray = explode('.', $this->config->getSystemValue('version'));
 		$this->endpointUrl = sprintf(
@@ -65,12 +62,8 @@ class AppFetcher extends Fetcher {
 	 * @return array
 	 */
 	protected function fetch() {
-		$client = $this->clientService->newClient();
-		$response = $client->get($this->endpointUrl);
-		$responseJson = [];
-		$responseJson['data'] = json_decode($response->getBody(), true);
-		$responseJson['timestamp'] = $this->timeFactory->getTime();
-		$response = $responseJson;
+		/** @var mixed[] $response */
+		$response = parent::fetch();
 
 		$ncVersion = $this->config->getSystemValue('version');
 		$ncMajorVersion = explode('.', $ncVersion)[0];

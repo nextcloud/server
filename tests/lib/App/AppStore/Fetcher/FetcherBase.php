@@ -55,9 +55,16 @@ abstract class FetcherBase extends TestCase {
 		$this->clientService = $this->createMock(IClientService::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->config = $this->createMock(IConfig::class);
+
+		$this->config
+			->method('getSystemValue')
+			->with(
+				$this->equalTo('version'),
+				$this->anything()
+			)->willReturn('11.0.0.2');
 	}
 
-	public function testGetWithAlreadyExistingFileAndUpToDateTimestamp() {
+	public function testGetWithAlreadyExistingFileAndUpToDateTimestampAndVersion() {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
 		$this->appData
@@ -73,7 +80,7 @@ abstract class FetcherBase extends TestCase {
 		$file
 			->expects($this->once())
 			->method('getContent')
-			->willReturn('{"timestamp":1200,"data":[{"id":"MyApp"}]}');
+			->willReturn('{"timestamp":1200,"data":[{"id":"MyApp"}],"ncversion":"11.0.0.2"}');
 		$this->timeFactory
 			->expects($this->once())
 			->method('getTime')
@@ -87,7 +94,7 @@ abstract class FetcherBase extends TestCase {
 		$this->assertSame($expected, $this->fetcher->get());
 	}
 
-	public function testGetWithNotExistingFileAndUpToDateTimestamp() {
+	public function testGetWithNotExistingFileAndUpToDateTimestampAndVersion() {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
 		$this->appData
@@ -120,7 +127,7 @@ abstract class FetcherBase extends TestCase {
 			->expects($this->once())
 			->method('getBody')
 			->willReturn('[{"id":"MyNewApp", "foo": "foo"}, {"id":"bar"}]');
-		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1502}';
+		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1502,"ncversion":"11.0.0.2"}';
 		$file
 			->expects($this->at(0))
 			->method('putContent')
@@ -162,7 +169,7 @@ abstract class FetcherBase extends TestCase {
 		$file
 			->expects($this->at(0))
 			->method('getContent')
-			->willReturn('{"timestamp":1200,"data":{"MyApp":{"id":"MyApp"}}}');
+			->willReturn('{"timestamp":1200,"data":{"MyApp":{"id":"MyApp"}},"ncversion":"11.0.0.2"}');
 		$this->timeFactory
 			->expects($this->at(0))
 			->method('getTime')
@@ -182,7 +189,7 @@ abstract class FetcherBase extends TestCase {
 			->expects($this->once())
 			->method('getBody')
 			->willReturn('[{"id":"MyNewApp", "foo": "foo"}, {"id":"bar"}]');
-		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1502}';
+		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1502,"ncversion":"11.0.0.2"}';
 		$file
 			->expects($this->at(1))
 			->method('putContent')
@@ -195,6 +202,121 @@ abstract class FetcherBase extends TestCase {
 			->expects($this->at(1))
 			->method('getTime')
 			->willReturn(1502);
+
+		$expected = [
+			[
+				'id' => 'MyNewApp',
+				'foo' => 'foo',
+			],
+			[
+				'id' => 'bar',
+			],
+		];
+		$this->assertSame($expected, $this->fetcher->get());
+	}
+
+	public function testGetWithAlreadyExistingFileAndNoVersion() {
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('/')
+			->willReturn($folder);
+		$folder
+			->expects($this->once())
+			->method('getFile')
+			->with($this->fileName)
+			->willReturn($file);
+		$file
+			->expects($this->at(0))
+			->method('getContent')
+			->willReturn('{"timestamp":1200,"data":{"MyApp":{"id":"MyApp"}}');
+		$this->timeFactory
+			->expects($this->at(0))
+			->method('getTime')
+			->willReturn(1201);
+		$client = $this->createMock(IClient::class);
+		$this->clientService
+			->expects($this->once())
+			->method('newClient')
+			->willReturn($client);
+		$response = $this->createMock(IResponse::class);
+		$client
+			->expects($this->once())
+			->method('get')
+			->with($this->endpoint)
+			->willReturn($response);
+		$response
+			->expects($this->once())
+			->method('getBody')
+			->willReturn('[{"id":"MyNewApp", "foo": "foo"}, {"id":"bar"}]');
+		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1201,"ncversion":"11.0.0.2"}';
+		$file
+			->expects($this->at(1))
+			->method('putContent')
+			->with($fileData);
+		$file
+			->expects($this->at(2))
+			->method('getContent')
+			->willReturn($fileData);
+
+		$expected = [
+			[
+				'id' => 'MyNewApp',
+				'foo' => 'foo',
+			],
+			[
+				'id' => 'bar',
+			],
+		];
+		$this->assertSame($expected, $this->fetcher->get());
+	}
+
+	public function testGetWithAlreadyExistingFileAndOutdatedVersion() {
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('/')
+			->willReturn($folder);
+		$folder
+			->expects($this->once())
+			->method('getFile')
+			->with($this->fileName)
+			->willReturn($file);
+		$file
+			->expects($this->at(0))
+			->method('getContent')
+			->willReturn('{"timestamp":1200,"data":{"MyApp":{"id":"MyApp"}},"ncversion":"11.0.0.1"}');
+		$this->timeFactory
+			->method('getTime')
+			->willReturn(1201);
+		$client = $this->createMock(IClient::class);
+		$this->clientService
+			->expects($this->once())
+			->method('newClient')
+			->willReturn($client);
+		$response = $this->createMock(IResponse::class);
+		$client
+			->expects($this->once())
+			->method('get')
+			->with($this->endpoint)
+			->willReturn($response);
+		$response
+			->expects($this->once())
+			->method('getBody')
+			->willReturn('[{"id":"MyNewApp", "foo": "foo"}, {"id":"bar"}]');
+		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1201,"ncversion":"11.0.0.2"}';
+		$file
+			->expects($this->at(1))
+			->method('putContent')
+			->with($fileData);
+		$file
+			->expects($this->at(2))
+			->method('getContent')
+			->willReturn($fileData);
 
 		$expected = [
 			[

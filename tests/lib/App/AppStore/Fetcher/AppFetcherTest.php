@@ -1883,6 +1883,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 						),
 				),
 			'timestamp' => 1234,
+			'ncversion' => '11.0.0.2',
 		);
 
 		$dataToPut = $expected;
