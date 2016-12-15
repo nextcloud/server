@@ -361,7 +361,8 @@ class Server extends ServerContainer implements IServerContainer {
 			return new CategoryFetcher(
 				$this->getAppDataDir('appstore'),
 				$this->getHTTPClientService(),
-				$this->query(TimeFactory::class)
+				$this->query(TimeFactory::class),
+				$this->getConfig()
 			);
 		});
 		$this->registerService('UserCache', function ($c) {
