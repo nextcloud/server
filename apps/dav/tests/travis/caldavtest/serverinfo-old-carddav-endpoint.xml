@@ -189,6 +189,10 @@
 			<value>__uids__</value>
 		</substitution>
 		<substitution>
+			<key>$userstype:</key>
+			<value>users</value>
+		</substitution>
+		<substitution>
 			<key>$groupstype:</key>
 			<value>groups</value>
 		</substitution>
@@ -208,7 +212,7 @@
 		</substitution>
 		<substitution>
 			<key>$principals_users:</key>
-			<value>$principalcollection:</value>
+			<value>$principalcollection:$userstype:/</value>
 		</substitution>
 		<substitution>
 			<key>$principals_groups:</key>
