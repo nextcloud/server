@@ -49,7 +49,7 @@ $db = \OC::$server->getDatabaseConnection();
 $userManager = \OC::$server->getUserManager();
 $random = \OC::$server->getSecureRandom();
 $dispatcher = \OC::$server->getEventDispatcher();
-$calDavBackend = new CalDavBackend($db, $principalBackend, $userManager, $random, $dispatcher);
+$calDavBackend = new CalDavBackend($db, $principalBackend, $userManager, $random, $dispatcher, true);
 
 $debugging = \OC::$server->getConfig()->getSystemValue('debug', false);
 

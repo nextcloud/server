@@ -33,24 +33,9 @@ use Sabre\DAVACL\Xml\Property\Principal;
 class LegacyDAVACL extends DavAclPlugin {
 
 	/**
-	 * Converts the v1 principal `principal/<username>` to the new v2
-	 * `principal/users/<username>` which is required for permission checks
-	 *
 	 * @inheritdoc
 	 */
-	function getCurrentUserPrincipal() {
-		$principalV1 = parent::getCurrentUserPrincipal();
-		if (is_null($principalV1)) {
-			return $principalV1;
-		}
-		return $this->convertPrincipal($principalV1, true);
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
-	function getCurrentUserPrincipals() {
+	public function getCurrentUserPrincipals() {
 		$principalV2 = $this->getCurrentUserPrincipal();
 
 		if (is_null($principalV2)) return [];
@@ -73,7 +58,7 @@ class LegacyDAVACL extends DavAclPlugin {
 		return "principals/$name";
 	}
 
-	function propFind(PropFind $propFind, INode $node) {
+	public function propFind(PropFind $propFind, INode $node) {
 		/* Overload current-user-principal */
 		$propFind->handle('{DAV:}current-user-principal', function () {
 			if ($url = parent::getCurrentUserPrincipal()) {
