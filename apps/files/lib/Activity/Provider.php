@@ -201,7 +201,7 @@ class Provider implements IProvider {
 		foreach ($parameters as $placeholder => $parameter) {
 			$placeholders[] = '{' . $placeholder . '}';
 			if ($parameter['type'] === 'file') {
-				$replacements[] = trim($parameter['path'], '/');
+				$replacements[] = $parameter['path'];
 			} else {
 				$replacements[] = $parameter['name'];
 			}
@@ -253,7 +253,8 @@ class Provider implements IProvider {
 			'type' => 'file',
 			'id' => $id,
 			'name' => basename($path),
-			'path' => $path,
+			'path' => trim($path, '/'),
+			'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $id]),
 		];
 	}
 
