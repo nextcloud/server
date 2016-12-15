@@ -130,6 +130,16 @@ OC.FileUpload.prototype = {
 	},
 
 	/**
+	 * Get full path for the target file, 
+	 * including relative path and file name.
+	 *
+	 * @return {String} full path
+	 */
+	getFullFilePath: function() {
+		return OC.joinPaths(this.getFullPath(), this.getFile().name);
+	},
+
+	/**
 	 * Returns conflict resolution mode.
 	 *
 	 * @return {int} conflict mode
@@ -508,9 +518,10 @@ OC.Uploader.prototype = _.extend({
 			return;
 		}
 		// retrieve more info about this file
-		this.filesClient.getFileInfo(fileUpload.getFullPath()).then(function(status, fileInfo) {
+		this.filesClient.getFileInfo(fileUpload.getFullFilePath()).then(function(status, fileInfo) {
 			var original = fileInfo;
 			var replacement = file;
+			original.directory = original.path;
 			OC.dialogs.fileexists(fileUpload, original, replacement, self);
 		});
 	},
