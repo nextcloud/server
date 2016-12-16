@@ -196,7 +196,7 @@ $tmpl->assign('groups', $groups2);
 
 // add hardcoded forms from the template
 $formsAndMore = [];
-$formsAndMore[]= ['anchor' => 'avatar', 'section-name' => $l->t('Personal info')];
+$formsAndMore[]= ['anchor' => 'personal-settings', 'section-name' => $l->t('Personal info')];
 $formsAndMore[]= ['anchor' => 'sessions', 'section-name' => $l->t('Sessions')];
 $formsAndMore[]= ['anchor' => 'apppasswords', 'section-name' => $l->t('App passwords')];
 $formsAndMore[]= ['anchor' => 'clientsbox', 'section-name' => $l->t('Sync clients')];
