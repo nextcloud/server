@@ -15,15 +15,6 @@
 		OC.Share = {};
 	}
 
-	var TEMPLATE =
-		'<span class="reshare">' +
-		'    {{#if avatarEnabled}}' +
-		'    <div class="avatar" data-userName="{{reshareOwner}}"></div>' +
-		'    {{/if}}' +
-		'    {{sharedByText}}' +
-		'</span><br/>'
-		;
-
 	/**
 	 * @class OCA.Share.ShareDialogView
 	 * @member {OC.Share.ShareItemModel} model
@@ -46,9 +37,6 @@
 
 		/** @type {OC.Share.ShareConfigModel} **/
 		configModel: undefined,
-
-		/** @type {Function} **/
-		_template: undefined,
 
 		initialize: function(options) {
 			var view = this;
@@ -113,10 +101,7 @@
 		 * @private
 		 */
 		template: function () {
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
-			}
-			return this._template;
+			return OC.Core.Templates.sharedialogresharerinfoview;
 		}
 
 	});

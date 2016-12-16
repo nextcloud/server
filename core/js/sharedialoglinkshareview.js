@@ -18,46 +18,6 @@
 	var PASSWORD_PLACEHOLDER = '**********';
 	var PASSWORD_PLACEHOLDER_MESSAGE = t('core', 'Choose a password for the public link');
 
-	var TEMPLATE =
-			'{{#if shareAllowed}}' +
-			'<span class="icon-loading-small hidden"></span>' +
-			'<input type="checkbox" name="linkCheckbox" id="linkCheckbox-{{cid}}" class="checkbox linkCheckbox" value="1" {{#if isLinkShare}}checked="checked"{{/if}} />' +
-			'<label for="linkCheckbox-{{cid}}">{{linkShareLabel}}</label>' +
-			'<br />' +
-			'<div class="oneline">' +
-			'<label for="linkText-{{cid}}" class="hidden-visually">{{urlLabel}}</label>' +
-			'<input id="linkText-{{cid}}" class="linkText {{#unless isLinkShare}}hidden{{/unless}}" type="text" readonly="readonly" value="{{shareLinkURL}}" />' +
-			'<a class="{{#unless isLinkShare}}hidden-visually{{/unless}} clipboardButton icon icon-clippy" data-clipboard-target="#linkText-{{cid}}"></a>' +
-			'</div>' +
-			'    {{#if publicUpload}}' +
-			'<div id="allowPublicUploadWrapper">' +
-			'    <span class="icon-loading-small hidden"></span>' +
-			'    <input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload-{{cid}}" class="checkbox publicUploadCheckbox" {{{publicUploadChecked}}} />' +
-			'<label for="sharingDialogAllowPublicUpload-{{cid}}">{{publicUploadLabel}}</label>' +
-			'</div>' +
-			'        {{#if hideFileList}}' +
-			'<div id="hideFileListWrapper">' +
-			'    <span class="icon-loading-small hidden"></span>' +
-			'    <input type="checkbox" value="1" name="hideFileList" id="sharingDialogHideFileList-{{cid}}" class="checkbox hideFileListCheckbox" {{{hideFileListChecked}}} />' +
-			'<label for="sharingDialogHideFileList-{{cid}}">{{hideFileListLabel}}</label>' +
-			'</div>' +
-			'        {{/if}}' +
-			'    {{/if}}' +
-			'    {{#if showPasswordCheckBox}}' +
-			'<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" class="checkbox showPasswordCheckbox" {{#if isPasswordSet}}checked="checked"{{/if}} value="1" />' +
-			'<label for="showPassword-{{cid}}">{{enablePasswordLabel}}</label>' +
-			'    {{/if}}' +
-			'<div id="linkPass" class="linkPass {{#unless isPasswordSet}}hidden{{/unless}}">' +
-			'    <label for="linkPassText-{{cid}}" class="hidden-visually">{{passwordLabel}}</label>' +
-			'    <input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" />' +
-			'    <span class="icon-loading-small hidden"></span>' +
-			'</div>' +
-			'{{else}}' +
-			// FIXME: this doesn't belong in this view
-			'{{#if noSharingPlaceholder}}<input id="shareWith-{{cid}}" class="shareWithField" type="text" placeholder="{{noSharingPlaceholder}}" disabled="disabled"/>{{/if}}' +
-			'{{/if}}'
-		;
-
 	/**
 	 * @class OCA.Share.ShareDialogLinkShareView
 	 * @member {OC.Share.ShareItemModel} model
@@ -74,9 +34,6 @@
 
 		/** @type {OC.Share.ShareConfigModel} **/
 		configModel: undefined,
-
-		/** @type {Function} **/
-		_template: undefined,
 
 		/** @type {boolean} **/
 		showLink: true,
@@ -354,10 +311,7 @@
 		 * @private
 		 */
 		template: function () {
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
-			}
-			return this._template;
+			return OC.Core.Templates.sharedialoglinkshareview;
 		}
 
 	});

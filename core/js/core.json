@@ -23,6 +23,8 @@
 		"jquery.ocdialog.js",
 		"oc-dialogs.js",
 		"js.js",
+		"templates/templates_pre.js",
+		"templates/templates.js",
 		"oc-backbone.js",
 		"oc-backbone-webdav.js",
 		"l10n.js",

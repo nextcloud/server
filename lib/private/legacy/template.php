@@ -144,6 +144,8 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addScript("octemplate", null, true);
 			OC_Util::addTranslations("core", null, true);
 			OC_Util::addScript("l10n", null, true);
+			OC_Util::addScript('templates/templates', null, true);
+			OC_Util::addScript('templates/templates_pre', null, true);
 			OC_Util::addScript("js", null, true);
 			OC_Util::addScript("oc-dialogs", null, true);
 			OC_Util::addScript("jquery.ocdialog", null, true);

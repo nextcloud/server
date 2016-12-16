@@ -17,83 +17,6 @@
 		OC.Share = {};
 	}
 
-	var TEMPLATE =
-			'<ul id="shareWithList" class="shareWithList">' +
-			'{{#each sharees}}' +
-				'<li data-share-id="{{shareId}}" data-share-type="{{shareType}}" data-share-with="{{shareWith}}">' +
-					'{{#if avatarEnabled}}' +
-					'<div class="avatar {{#if modSeed}}imageplaceholderseed{{/if}}" data-username="{{shareWith}}" data-displayname="{{shareWithDisplayName}}" {{#if modSeed}}data-seed="{{shareWith}} {{shareType}}"{{/if}}></div>' +
-					'{{/if}}' +
-					'<span class="has-tooltip username" title="{{shareWithTitle}}">{{shareWithDisplayName}}</span>' +
-					'<span class="sharingOptionsGroup">' +
-						'{{#if editPermissionPossible}}' +
-						'{{#unless isFileSharedByMail}}' +
-						'<span class="shareOption">' +
-							'<input id="canEdit-{{cid}}-{{shareWith}}" type="checkbox" name="edit" class="permissions checkbox" {{#if hasEditPermission}}checked="checked"{{/if}} />' +
-							'<label for="canEdit-{{cid}}-{{shareWith}}">{{canEditLabel}}</label>' +
-						'</span>' +
-						'{{/unless}}' +
-						'{{/if}}' +
-						'<a href="#"><span class="icon icon-more"></span></a>' +
-						'<div class="popovermenu bubble hidden menu">' +
-							'<ul>' +
-								'{{#if isResharingAllowed}} {{#if sharePermissionPossible}} {{#unless isMailShare}}' +
-								'<li>' +
-									'<span class="shareOption">' +
-										'<input id="canShare-{{cid}}-{{shareWith}}" type="checkbox" name="share" class="permissions checkbox" {{#if hasSharePermission}}checked="checked"{{/if}} data-permissions="{{sharePermission}}" />' +
-										'<label for="canShare-{{cid}}-{{shareWith}}">{{canShareLabel}}</label>' +
-									'</span>' +
-								'</li>' +
-								'{{/unless}} {{/if}} {{/if}}' +
-								'{{#if isFolder}}' +
-									'{{#if createPermissionPossible}}{{#unless isMailShare}}' +
-									'<li>' +
-										'<span class="shareOption">' +
-											'<input id="canCreate-{{cid}}-{{shareWith}}" type="checkbox" name="create" class="permissions checkbox" {{#if hasCreatePermission}}checked="checked"{{/if}} data-permissions="{{createPermission}}"/>' +
-											'<label for="canCreate-{{cid}}-{{shareWith}}">{{createPermissionLabel}}</label>' +
-										'</span>' +
-									'</li>' +
-									'{{/unless}}{{/if}}' +
-									'{{#if updatePermissionPossible}}{{#unless isMailShare}}' +
-									'<li>' +
-										'<span class="shareOption">' +
-											'<input id="canUpdate-{{cid}}-{{shareWith}}" type="checkbox" name="update" class="permissions checkbox" {{#if hasUpdatePermission}}checked="checked"{{/if}} data-permissions="{{updatePermission}}"/>' +
-											'<label for="canUpdate-{{cid}}-{{shareWith}}">{{updatePermissionLabel}}</label>' +
-										'</span>' +
-									'</li>' +
-									'{{/unless}}{{/if}}' +
-									'{{#if deletePermissionPossible}}{{#unless isMailShare}}' +
-									'<li>' +
-										'<span class="shareOption">' +
-											'<input id="canDelete-{{cid}}-{{shareWith}}" type="checkbox" name="delete" class="permissions checkbox" {{#if hasDeletePermission}}checked="checked"{{/if}} data-permissions="{{deletePermission}}"/>' +
-											'<label for="canDelete-{{cid}}-{{shareWith}}">{{deletePermissionLabel}}</label>' +
-										'</span>' +
-									'</li>' +
-									'{{/unless}}{{/if}}' +
-								'{{/if}}' +
-								'<li>' +
-									'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span>{{unshareLabel}}</span></a>' +
-								'</li>' +
-							'</ul>' +
-						'</div>' +
-					'</span>' +
-				'</li>' +
-			'{{/each}}' +
-			'{{#each linkReshares}}' +
-				'<li data-share-id="{{shareId}}" data-share-type="{{shareType}}">' +
-					'{{#if avatarEnabled}}' +
-					'<div class="avatar" data-username="{{shareInitiator}}"></div>' +
-					'{{/if}}' +
-					'<span class="has-tooltip username" title="{{shareInitiator}}">' + t('core', '{{shareInitiatorDisplayName}} shared via link') + '</span>' +
-
-					'<span class="sharingOptionsGroup">' +
-						'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span class="hidden-visually">{{unshareLabel}}</span></a>' +
-					'</span>' +
-				'</li>' +
-			'{{/each}}' +
-			'</ul>'
-		;
-
 	/**
 	 * @class OCA.Share.ShareDialogShareeListView
 	 * @member {OC.Share.ShareItemModel} model
@@ -110,9 +33,6 @@
 
 		/** @type {OC.Share.ShareConfigModel} **/
 		configModel: undefined,
-
-		/** @type {Function} **/
-		_template: undefined,
 
 		_menuOpen: false,
 
@@ -302,10 +222,7 @@
 		 * @private
 		 */
 		template: function (data) {
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
-			}
-			return this._template(data);
+			return OC.Core.Templates.sharedialogshareelistview(data);
 		},
 
 		onUnshare: function(event) {

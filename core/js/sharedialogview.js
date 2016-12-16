@@ -15,25 +15,6 @@
 		OC.Share = {};
 	}
 
-	var TEMPLATE_BASE =
-		'<div class="resharerInfoView subView"></div>' +
-		'{{#if isSharingAllowed}}' +
-		'<label for="shareWith-{{cid}}" class="hidden-visually">{{shareLabel}}</label>' +
-		'<div class="oneline">' +
-		'    <input id="shareWith-{{cid}}" class="shareWithField" type="text" placeholder="{{sharePlaceholder}}" />' +
-		'    <span class="shareWithLoading icon-loading-small hidden"></span>'+
-		'{{{remoteShareInfo}}}' +
-		'</div>' +
-		'{{/if}}' +
-		'<div class="shareeListView subView"></div>' +
-		'<div class="linkShareView subView"></div>' +
-		'<div class="expirationView subView"></div>' +
-		'<div class="loading hidden" style="height: 50px"></div>';
-
-	var TEMPLATE_REMOTE_SHARE_INFO =
-		'<a target="_blank" class="icon icon-info shareWithRemoteInfo hasTooltip" href="{{docLink}}" ' +
-		'title="{{tooltip}}"></a>';
-
 	/**
 	 * @class OCA.Share.ShareDialogView
 	 * @member {OC.Share.ShareItemModel} model
@@ -45,9 +26,6 @@
 	 *
 	 */
 	var ShareDialogView = OC.Backbone.View.extend({
-		/** @type {Object} **/
-		_templates: {},
-
 		/** @type {boolean} **/
 		_showLink: true,
 
@@ -347,7 +325,7 @@
 		},
 
 		render: function() {
-			var baseTemplate = this._getTemplate('base', TEMPLATE_BASE);
+			var baseTemplate = OC.Core.Templates.sharedialogview_base;
 
 			this.$el.html(baseTemplate({
 				cid: this.cid,
@@ -442,27 +420,13 @@
 		},
 
 		/**
-		 *
-		 * @param {string} key - an identifier for the template
-		 * @param {string} template - the HTML to be compiled by Handlebars
-		 * @returns {Function} from Handlebars
-		 * @private
-		 */
-		_getTemplate: function (key, template) {
-			if (!this._templates[key]) {
-				this._templates[key] = Handlebars.compile(template);
-			}
-			return this._templates[key];
-		},
-
-		/**
 		 * returns the info template for remote sharing
 		 *
 		 * @returns {Function}
 		 * @private
 		 */
 		_getRemoteShareInfoTemplate: function() {
-			return this._getTemplate('remoteShareInfo', TEMPLATE_REMOTE_SHARE_INFO);
+			return OC.Core.Templates.sharedialogview_remote_share_info;
 		}
 	});
 
