@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-NC 11 (????-??-??)
+NC 11 (2016-12-13)
 ------------------
 * PHP 5.4 and 5.5 no longer supported
 * PHP 7.1 support
