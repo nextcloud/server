@@ -25,6 +25,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 
 abstract class Fetcher {
 	const INVALIDATE_AFTER_SECONDS = 300;
@@ -35,6 +36,8 @@ abstract class Fetcher {
 	protected $clientService;
 	/** @var ITimeFactory */
 	protected $timeFactory;
+	/** @var IConfig */
+	protected $config;
 	/** @var string */
 	protected $fileName;
 	/** @var string */
@@ -44,13 +47,16 @@ abstract class Fetcher {
 	 * @param IAppData $appData
 	 * @param IClientService $clientService
 	 * @param ITimeFactory $timeFactory
+	 * @param IConfig $config
 	 */
 	public function __construct(IAppData $appData,
 								IClientService $clientService,
-								ITimeFactory $timeFactory) {
+								ITimeFactory $timeFactory,
+								IConfig $config) {
 		$this->appData = $appData;
 		$this->clientService = $clientService;
 		$this->timeFactory = $timeFactory;
+		$this->config = $config;
 	}
 
 	/**
@@ -64,6 +70,7 @@ abstract class Fetcher {
 		$responseJson = [];
 		$responseJson['data'] = json_decode($response->getBody(), true);
 		$responseJson['timestamp'] = $this->timeFactory->getTime();
+		$responseJson['ncversion'] = $this->config->getSystemValue('version');
 		return $responseJson;
 	}
 
@@ -80,8 +87,12 @@ abstract class Fetcher {
 			$file = $rootFolder->getFile($this->fileName);
 			$jsonBlob = json_decode($file->getContent(), true);
 			if(is_array($jsonBlob)) {
-				// If the timestamp is older than 300 seconds request the files new
-				if((int)$jsonBlob['timestamp'] > ($this->timeFactory->getTime() - self::INVALIDATE_AFTER_SECONDS)) {
+				/*
+				 * If the timestamp is older than 300 seconds request the files new
+				 * If the version changed (update!) also refresh
+				 */
+				if((int)$jsonBlob['timestamp'] > ($this->timeFactory->getTime() - self::INVALIDATE_AFTER_SECONDS) &&
+					isset($jsonBlob['ncversion']) && $jsonBlob['ncversion'] === $this->config->getSystemValue('version', '0.0.0')) {
 					return $jsonBlob['data'];
 				}
 			}
