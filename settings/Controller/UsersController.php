@@ -269,8 +269,9 @@ class UsersController extends Controller {
                 $subPatterns = explode(" ", $pattern);
 
                 //if the pattern to search for isn't potentially complex, just call searchDisplayName with it
-                if (count($subPatterns) == 1)
+                if (count($subPatterns) == 1) {
                     $arrays[1] = $this->userManager->searchDisplayName($pattern, $limit, $offset);
+                }
                 else {
                     //get array of matches for each substring
                     $subMatch = array();
