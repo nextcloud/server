@@ -35,47 +35,7 @@
 						'{{/unless}}' +
 						'{{/if}}' +
 						'<a href="#"><span class="icon icon-more"></span></a>' +
-						'<div class="popovermenu bubble hidden menu">' +
-							'<ul>' +
-								'{{#if isResharingAllowed}} {{#if sharePermissionPossible}} {{#unless isMailShare}}' +
-								'<li>' +
-									'<span class="shareOption">' +
-										'<input id="canShare-{{cid}}-{{shareWith}}" type="checkbox" name="share" class="permissions checkbox" {{#if hasSharePermission}}checked="checked"{{/if}} data-permissions="{{sharePermission}}" />' +
-										'<label for="canShare-{{cid}}-{{shareWith}}">{{canShareLabel}}</label>' +
-									'</span>' +
-								'</li>' +
-								'{{/unless}} {{/if}} {{/if}}' +
-								'{{#if isFolder}}' +
-									'{{#if createPermissionPossible}}{{#unless isMailShare}}' +
-									'<li>' +
-										'<span class="shareOption">' +
-											'<input id="canCreate-{{cid}}-{{shareWith}}" type="checkbox" name="create" class="permissions checkbox" {{#if hasCreatePermission}}checked="checked"{{/if}} data-permissions="{{createPermission}}"/>' +
-											'<label for="canCreate-{{cid}}-{{shareWith}}">{{createPermissionLabel}}</label>' +
-										'</span>' +
-									'</li>' +
-									'{{/unless}}{{/if}}' +
-									'{{#if updatePermissionPossible}}{{#unless isMailShare}}' +
-									'<li>' +
-										'<span class="shareOption">' +
-											'<input id="canUpdate-{{cid}}-{{shareWith}}" type="checkbox" name="update" class="permissions checkbox" {{#if hasUpdatePermission}}checked="checked"{{/if}} data-permissions="{{updatePermission}}"/>' +
-											'<label for="canUpdate-{{cid}}-{{shareWith}}">{{updatePermissionLabel}}</label>' +
-										'</span>' +
-									'</li>' +
-									'{{/unless}}{{/if}}' +
-									'{{#if deletePermissionPossible}}{{#unless isMailShare}}' +
-									'<li>' +
-										'<span class="shareOption">' +
-											'<input id="canDelete-{{cid}}-{{shareWith}}" type="checkbox" name="delete" class="permissions checkbox" {{#if hasDeletePermission}}checked="checked"{{/if}} data-permissions="{{deletePermission}}"/>' +
-											'<label for="canDelete-{{cid}}-{{shareWith}}">{{deletePermissionLabel}}</label>' +
-										'</span>' +
-									'</li>' +
-									'{{/unless}}{{/if}}' +
-								'{{/if}}' +
-								'<li>' +
-									'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span>{{unshareLabel}}</span></a>' +
-								'</li>' +
-							'</ul>' +
-						'</div>' +
+						'{{{popoverMenu}}}' +
 					'</span>' +
 				'</li>' +
 			'{{/each}}' +
@@ -93,6 +53,49 @@
 			'{{/each}}' +
 			'</ul>'
 		;
+
+	var TEMPLATE_POPOVER_MENU =
+		'<div class="popovermenu bubble hidden menu">' +
+			'<ul>' +
+				'{{#if isResharingAllowed}} {{#if sharePermissionPossible}} {{#unless isMailShare}}' +
+				'<li>' +
+					'<span class="shareOption">' +
+						'<input id="canShare-{{cid}}-{{shareWith}}" type="checkbox" name="share" class="permissions checkbox" {{#if hasSharePermission}}checked="checked"{{/if}} data-permissions="{{sharePermission}}" />' +
+						'<label for="canShare-{{cid}}-{{shareWith}}">{{canShareLabel}}</label>' +
+					'</span>' +
+				'</li>' +
+				'{{/unless}} {{/if}} {{/if}}' +
+				'{{#if isFolder}}' +
+					'{{#if createPermissionPossible}}{{#unless isMailShare}}' +
+					'<li>' +
+						'<span class="shareOption">' +
+							'<input id="canCreate-{{cid}}-{{shareWith}}" type="checkbox" name="create" class="permissions checkbox" {{#if hasCreatePermission}}checked="checked"{{/if}} data-permissions="{{createPermission}}"/>' +
+							'<label for="canCreate-{{cid}}-{{shareWith}}">{{createPermissionLabel}}</label>' +
+						'</span>' +
+					'</li>' +
+					'{{/unless}}{{/if}}' +
+					'{{#if updatePermissionPossible}}{{#unless isMailShare}}' +
+					'<li>' +
+						'<span class="shareOption">' +
+							'<input id="canUpdate-{{cid}}-{{shareWith}}" type="checkbox" name="update" class="permissions checkbox" {{#if hasUpdatePermission}}checked="checked"{{/if}} data-permissions="{{updatePermission}}"/>' +
+							'<label for="canUpdate-{{cid}}-{{shareWith}}">{{updatePermissionLabel}}</label>' +
+						'</span>' +
+					'</li>' +
+					'{{/unless}}{{/if}}' +
+					'{{#if deletePermissionPossible}}{{#unless isMailShare}}' +
+					'<li>' +
+						'<span class="shareOption">' +
+							'<input id="canDelete-{{cid}}-{{shareWith}}" type="checkbox" name="delete" class="permissions checkbox" {{#if hasDeletePermission}}checked="checked"{{/if}} data-permissions="{{deletePermission}}"/>' +
+							'<label for="canDelete-{{cid}}-{{shareWith}}">{{deletePermissionLabel}}</label>' +
+						'</span>' +
+					'</li>' +
+					'{{/unless}}{{/if}}' +
+				'{{/if}}' +
+				'<li>' +
+					'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span>{{unshareLabel}}</span></a>' +
+				'</li>' +
+			'</ul>' +
+		'</div>';
 
 	/**
 	 * @class OCA.Share.ShareDialogShareeListView
@@ -114,7 +117,13 @@
 		/** @type {Function} **/
 		_template: undefined,
 
+		/** @type {Function} **/
+		_popoverMenuTemplate: undefined,
+
 		_menuOpen: false,
+
+		/** @type {boolean|number} **/
+		_renderPermissionChange: false,
 
 		events: {
 			'click .unshare': 'onUnshare',
@@ -182,8 +191,8 @@
 			});
 		},
 
-		getShareeList: function() {
-			var universal = {
+		getShareProperties: function() {
+			return {
 				avatarEnabled: this.configModel.areAvatarsEnabled(),
 				unshareLabel: t('core', 'Unshare'),
 				canShareLabel: t('core', 'can reshare'),
@@ -205,6 +214,15 @@
 				deletePermission: OC.PERMISSION_DELETE,
 				isFolder: this.model.isFolder()
 			};
+		},
+
+		/**
+		 * get an array of sharees' share properties
+		 *
+		 * @returns {Array}
+		 */
+		getShareeList: function() {
+			var universal = this.getShareProperties();
 
 			if(!this.model.hasUserShares()) {
 				return [];
@@ -256,28 +274,44 @@
 		},
 
 		render: function() {
-			this.$el.html(this.template({
-				cid: this.cid,
-				sharees: this.getShareeList(),
-				linkReshares: this.getLinkReshares()
-			}));
+			if(!this._renderPermissionChange) {
+				this.$el.html(this.template({
+					cid: this.cid,
+					sharees: this.getShareeList(),
+					linkReshares: this.getLinkReshares()
+				}));
 
-			if(this.configModel.areAvatarsEnabled()) {
-				this.$('.avatar').each(function() {
-					var $this = $(this);
-					if ($this.hasClass('imageplaceholderseed')) {
-						$this.css({width: 32, height: 32});
-						$this.imageplaceholder($this.data('seed'));
-					} else {
-						//                         user,   size,  ie8fix, hidedefault,  callback, displayname
-						$this.avatar($this.data('username'), 32, undefined, undefined, undefined, $this.data('displayname'));
-					}
+				if (this.configModel.areAvatarsEnabled()) {
+					this.$('.avatar').each(function () {
+						var $this = $(this);
+						if ($this.hasClass('imageplaceholderseed')) {
+							$this.css({width: 32, height: 32});
+							$this.imageplaceholder($this.data('seed'));
+						} else {
+						    //                         user,   size,  ie8fix, hidedefault,  callback, displayname
+							$this.avatar($this.data('username'), 32, undefined, undefined, undefined, $this.data('displayname'));
+						}
+					});
+				}
+
+				this.$('.has-tooltip').tooltip({
+					placement: 'bottom'
 				});
-			}
+			} else {
+				var permissionChangeShareId = parseInt(this._renderPermissionChange, 10);
+				var shareWithIndex = this.model.findShareWithIndex(permissionChangeShareId);
+				var sharee = this.getShareeObject(shareWithIndex);
+				$.extend(sharee, this.getShareProperties());
+				var $li = this.$('li[data-share-id=' + permissionChangeShareId + ']');
+				$li.find('.popovermenu').replaceWith(this.popoverMenuTemplate(sharee));
 
-			this.$('.has-tooltip').tooltip({
-				placement: 'bottom'
-			});
+				var checkBoxId = 'canEdit-' + this.cid + '-' + sharee.shareWith;
+				checkBoxId = '#' + checkBoxId.replace( /(:|\.|\[|\]|,|=|@)/g, "\\$1");
+				var $edit = $li.parent().find(checkBoxId);
+				if($edit.length === 1) {
+					$edit.prop('checked', sharee.hasEditPermission);
+				}
+			}
 
 			var _this = this;
 			this.$('.popovermenu').on('afterHide', function() {
@@ -292,6 +326,8 @@
 				}
 			}
 
+			this._renderPermissionChange = false;
+
 			this.delegateEvents();
 
 			return this;
@@ -305,7 +341,26 @@
 			if (!this._template) {
 				this._template = Handlebars.compile(TEMPLATE);
 			}
+			var sharees = data.sharees;
+			if(_.isArray(sharees)) {
+				for (var i = 0; i < sharees.length; i++) {
+					data.sharees[i].popoverMenu = this.popoverMenuTemplate(sharees[i]);
+				}
+			}
 			return this._template(data);
+		},
+
+		/**
+		 * renders the popover template and returns the resulting HTML
+		 *
+		 * @param {Object} data
+		 * @returns {string}
+		 */
+		popoverMenuTemplate: function(data) {
+			if(!this._popoverMenuTemplate) {
+				this._popoverMenuTemplate = Handlebars.compile(TEMPLATE_POPOVER_MENU);
+			}
+			return this._popoverMenuTemplate(data);
 		},
 
 		onUnshare: function(event) {
@@ -385,7 +440,20 @@
 				permissions |= $(checkbox).data('permissions');
 			});
 
-			this.model.updateShare(shareId, {permissions: permissions});
+
+			/** disable checkboxes during save operation to avoid race conditions **/
+			$li.find('input[type=checkbox]').prop('disabled', true);
+			var enableCb = function() {
+				$li.find('input[type=checkbox]').prop('disabled', false);
+			};
+			var errorCb = function(elem, msg) {
+				OC.dialogs.alert(msg, t('core', 'Error while sharing'));
+				enableCb();
+			};
+
+			this.model.updateShare(shareId, {permissions: permissions}, {error: errorCb, success: enableCb});
+
+			this._renderPermissionChange = shareId;
 		},
 	});
 
