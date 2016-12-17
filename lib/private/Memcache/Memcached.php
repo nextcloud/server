@@ -110,7 +110,9 @@ class Memcached extends Cache implements IMemcache {
 		} else {
 			$result = self::$cache->set($this->getNamespace() . $key, $value);
 		}
-		$this->verifyReturnCode();
+		if ($result !== true) {
+			$this->verifyReturnCode();
+		}
 		return $result;
 	}
 
