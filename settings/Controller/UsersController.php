@@ -261,39 +261,37 @@ class UsersController extends Controller {
 			} else {
 
                 
-                $batch = array();
-                $arrays = array();
+				$batch = array();
 
-                //split display name into individual words for flexible matching
-                $arrays[0] = $this->userManager->search($pattern, $limit, $offset);
-                $subPatterns = explode(" ", $pattern);
+				$uidSearchResult = $this->userManager->search($pattern, $limit, $offset);
+				//split display name into individual words for flexible matching
+				$subPatterns = explode(" ", $pattern);
+				//if the pattern to search for isn't potentially complex, just call searchDisplayName with it
+				if (count($subPatterns) == 1) {
+					$displayNameSearchResult = $this->userManager->searchDisplayName($pattern, $limit, $offset);
+				} else {
+					//get array of matches for each substring
+					$subMatch = array();
+					$subMatches = array();
+					foreach ($subPatterns as $sub) {
+						$subMatch = $this->userManager->searchDisplayName($sub, $limit, $offset);
+						if(is_array($subMatch)) { 
+							array_push($subMatches,$subMatch);
+						}
+					}
 
-                //if the pattern to search for isn't potentially complex, just call searchDisplayName with it
-                if (count($subPatterns) == 1) {
-                    $arrays[1] = $this->userManager->searchDisplayName($pattern, $limit, $offset);
-                }
-                else {
-                    //get array of matches for each substring
-                    $subMatch = array();
-                    $subMatches = array();
-                    foreach ($subPatterns as $sub) {
-                        $subMatch = $this->userManager->searchDisplayName($sub, $limit, $offset);
-                        if(is_array($subMatch)) {
-                            array_push($subMatches,$subMatch);
-                        }
-                    }
+					//only keep users with display names matched by all substrings
+					$displayNameSearchResult = call_user_func_array('array_intersect', $subMatches);
+				}
 
-                    //only keep users with display names matched by all substrings
-                    $arrays[1] = call_user_func_array('array_intersect', $subMatches);
-                }
-
-                // TODO: allow partial strings for email matches
-                $arrays[2] = $this->userManager->getByEmail($pattern);
-                foreach ($arrays as $arr) {
-                    if(is_array($arr)) {
-                        $batch = array_merge($batch, $arr);
-                    }
-                }
+				// TODO: allow partial strings for email matches
+				$emailSearchResult = $this->userManager->getByEmail($pattern);
+				$searchResults = array($uidSearchResult, $displayNameSearchResult, $emailSearchResults);
+				foreach ($searchResults as $arr) {
+					if(is_array($arr)) {
+						$batch = array_merge($batch, $arr);
+					}
+				}
 			}
 
 			foreach ($batch as $user) {
