@@ -152,7 +152,7 @@
 	margin-top: 0;
 	padding-bottom: 10px;
 	background-color: rgba(255, 255, 255, .97);
-	box-shadow: 0 1px 10px rgba(50, 50, 50, .7);
+	box-shadow: 0 1px 10px rgba(150, 150, 150, .75);
 	border-radius: 3px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
@@ -339,13 +339,12 @@
 }
 #expanddiv {
 	position: absolute;
-	right: 10px;
+	right: 13px;
 	top: 45px;
 	z-index: 2000;
 	display: none;
 	background: rgb(255, 255, 255);
-	border: 1px solid rgb(204, 204, 204);
-	box-shadow: 0 1px 10px rgba(50, 50, 50, .7);
+	box-shadow: 0 1px 10px rgba(150, 150, 150, .75);
 	border-radius: 3px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
