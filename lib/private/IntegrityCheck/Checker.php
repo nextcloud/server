@@ -96,12 +96,8 @@ class Checker {
 	 * @return bool
 	 */
 	public function isCodeCheckEnforced() {
-		$signedChannels = [
-			'daily',
-			'testing',
-			'stable',
-		];
-		if(!in_array($this->environmentHelper->getChannel(), $signedChannels, true)) {
+		$notSignedChannels = [ '', 'git'];
+		if (in_array($this->environmentHelper->getChannel(), $notSignedChannels, true)) {
 			return false;
 		}
 
@@ -115,7 +111,7 @@ class Checker {
 		} else {
 			$isIntegrityCheckDisabled = false;
 		}
-		if($isIntegrityCheckDisabled === true) {
+		if ($isIntegrityCheckDisabled === true) {
 			return false;
 		}
 
