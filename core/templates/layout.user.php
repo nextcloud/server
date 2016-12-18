@@ -58,9 +58,54 @@
 					</h1>
 					<div class="icon-caret"></div>
 				</a>
+
+				<div id="appmenu">
+					<ul>
+						<?php $navigation = array_slice($_['navigation'], 0, 3); ?>
+						<?php foreach($navigation as $entry): ?>
+							<li data-id="<?php p($entry['id']); ?>">
+								<a href="<?php print_unescaped($entry['href']); ?>" tabindex="3"
+									<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
+									<img src="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"  class="app-icon" />
+									<div class="icon-loading-dark" style="display:none;"></div>
+									<span>
+								<?php p($entry['name']); ?>
+							</span>
+								</a>
+							</li>
+						<?php endforeach; ?>
+						<?php if (count($_['navigation'])>3): ?>
+							<li id="more-apps" class="menutoggle">
+								<a href="#">
+									<div class="icon-more-white"></div>
+									<span>More apps
+							</span>
+								</a>
+							</li>
+						<?php endif; ?>
+						<?php if (count($_['navigation'])<=3): ?>
+							<?php
+							/* show "More apps" link to app administration directly in app navigation, as last entry */
+							if(OC_User::isAdminUser(OC_User::getUser())):
+								?>
+								<li id="apps-management">
+									<a href="<?php print_unescaped(\OC::$server->getURLGenerator()->linkToRoute('settings.AppSettings.viewApps')); ?>" tabindex="4"
+										<?php if( $_['appsmanagement_active'] ): ?> class="active"<?php endif; ?>>
+										<img src="<?php print_unescaped(image_path('settings', 'apps.svg') . '?v=' . $_['versionHash']); ?>" />
+										</svg>
+										<div class="icon-loading-dark" style="display:none;"></div>
+										<span>
+								<?php p($l->t('Apps')); ?>
+							</span>
+									</a>
+								</li>
+							<?php endif; ?>
+						<?php endif; ?>
+					</ul>
+				</div>
+
 			</div>
 
-			<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 			<div id="header-right">
 				<form class="searchbox" action="#" method="post" role="search" novalidate>
 					<label for="searchbox" class="hidden-visually">
@@ -102,6 +147,7 @@
 							</a>
 						</li>
 					</ul>
+
 					</div>
 				</div>
 			</div>
@@ -110,7 +156,8 @@
 		<nav role="navigation"><div id="navigation">
 			<div id="apps">
 				<ul>
-				<?php foreach($_['navigation'] as $entry): ?>
+					<?php $navigation = array_slice($_['navigation'], 3); ?>
+					<?php foreach($navigation as $entry): ?>
 					<li data-id="<?php p($entry['id']); ?>">
 						<a href="<?php print_unescaped($entry['href']); ?>" tabindex="3"
 							<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>

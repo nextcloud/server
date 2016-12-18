@@ -113,6 +113,7 @@
 		padding-top: 22px;
 		padding-right: 10px;
 		flex-shrink: 0;
+		display: none !important;
 	}
 	/* show caret indicator next to logo to make clear it is tappable */
 	.icon-caret {
@@ -181,7 +182,7 @@
 	font-size: 16px;
 	font-weight: 300;
 	margin: 0;
-	margin-top: -27px;
+	margin-top: -26px;
 	padding: 7px 0 7px 5px;
 	vertical-align: middle;
 }
@@ -212,7 +213,48 @@
 	z-index: 2000;
 	&:after {
 		left: 47%;
+		bottom: 100%;
+		border: solid transparent;
+		content: ' ';
+		height: 0;
+		width: 0;
+		position: absolute;
+		pointer-events: none;
+		border-color: rgba(0, 0, 0, 0);
+		border-bottom-color: rgba(255, 255, 255, 0.97);
+		border-width: 9px;
+		margin-left: -9px;
 	}
+}
+
+/* arrow look */
+
+#expanddiv:after {
+	bottom: 100%;
+	border: solid transparent;
+	content: ' ';
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(0, 0, 0, 0);
+	border-bottom-color: rgba(255, 255, 255, 0.97);
+	border-width: 10px;
+	margin-left: -10px;
+}
+
+/* position of dropdown arrow */
+
+#navigation:after {
+	left: 214px;
+}
+
+#expanddiv:after {
+	right: 15px;
+}
+
+#navigation {
+	box-sizing: border-box;
 	* {
 		box-sizing: border-box;
 	}
@@ -404,4 +446,116 @@
 			opacity: 1;
 		}
 	}
+}
+
+/* do not show display name when profile picture is present */
+
+#header {
+	.avatardiv.avatardiv-shown + #expandDisplayName {
+		display: none;
+	}
+	#expand {
+		display: block;
+	}
+}
+
+#appmenu {
+	display: inline-block;
+	width: auto;
+	clear: both;
+	height: 44px;
+}
+
+#appmenu ul {
+}
+
+#appmenu li {
+	float: left;
+	display: inline-block;
+	vertical-align: top !important;
+    height: 20px;
+	padding: 12px;
+}
+
+#appmenu li a {
+	opacity: 0.6;
+	margin: 0;
+	text-align: center;
+	vertical-align: top !important;
+    position: relative;
+	height: 44px;
+}
+
+#appmenu li:hover a,
+#appmenu li a.active {
+	opacity: 1;
+}
+
+#appmenu li img,
+#appmenu .icon-more-white {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+}
+
+#appmenu li span {
+	display: none;
+	position: absolute;
+	overflow: visible;
+	left: 0;
+	background-color: #FFF;
+	border: 1px solid #000;
+	color: #000;
+}
+
+#appmenu li:hover a {
+	position: relative
+}
+
+#appmenu li:hover span {
+	display: inline-block;
+	white-space: nowrap;
+	position: absolute;
+}
+
+#appmenu li:hover span {
+	background-color: white;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	margin-top: 0;
+	border: none;
+	color: #333;
+	width: auto;
+	left: 50%;
+	top: 31px;
+	transform: translateX(-50%);
+	padding: 2px 10px;
+	-webkit-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
+	-moz-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
+	-ms-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
+	-o-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
+	filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
+}
+
+#appmenu li:hover span {
+	display: block;
+}
+
+#appmenu li:hover a:before,
+#appmenu li a.active:before {
+    content: " ";
+    border: solid transparent;
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-bottom-color: white;
+    border-width: 8px;
+    transform: translateX(-50%);
+    left: 50%;
+	top: 17px;
+    z-index: 100;
 }

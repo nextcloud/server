@@ -1370,7 +1370,7 @@ function initCore() {
 	 */
 	function setupMainMenu() {
 		// toggle the navigation
-		var $toggle = $('#header .header-appname-container');
+		var $toggle = $('#more-apps');
 		var $navigation = $('#navigation');
 
 		// init the menu
@@ -1439,7 +1439,7 @@ function initCore() {
 	// 2 is the additional offset between the triangles
 	if($('#navigation').length) {
 		$('#header #nextcloud + .menutoggle').one('click', function(){
-			var caretPosition = $('.header-appname + .icon-caret').offset().left - 2;
+			var caretPosition = $('#more-apps').offset().left - 2;
 			if(caretPosition > 255) {
 				// if the app name is longer than the menu, just put the triangle in the middle
 				return;
