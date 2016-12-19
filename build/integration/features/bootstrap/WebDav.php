@@ -31,6 +31,7 @@
 use GuzzleHttp\Client as GClient;
 use GuzzleHttp\Message\ResponseInterface;
 use Sabre\DAV\Client as SClient;
+use Sabre\DAV\Xml\Property\ResourceType;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -328,6 +329,14 @@ trait WebDav {
 		}
 
 		$value = $keys[$key];
+		if ($value instanceof ResourceType) {
+			$value = $value->getValue();
+			if (empty($value)) {
+				$value = '';
+			} else {
+				$value = $value[0];
+			}
+		}
 		if ($value != $expectedValue) {
 			throw new \Exception("Property \"$key\" found with value \"$value\", expected \"$expectedValue\"");
 		}
