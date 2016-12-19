@@ -58,7 +58,7 @@ class FileAccessHelper {
 	 * @throws \Exception
 	 */
 	public function file_put_contents($filename, $data) {
-		$bytesWritten = file_put_contents($filename, $data);
+		$bytesWritten = @file_put_contents($filename, $data);
 		if ($bytesWritten === false || $bytesWritten !== strlen($data)){
 			throw new \Exception('Failed to write into ' . $filename);
 		}
@@ -69,15 +69,15 @@ class FileAccessHelper {
 	 * @param string $path
 	 * @return bool
 	 */
-	public function is_writeable($path){
-		return is_writeable($path);
+	public function is_writable($path) {
+		return is_writable($path);
 	}
 
 	/**
 	 * @param string $path
 	 * @throws \Exception
 	 */
-	public function assertDirectoryExists($path){
+	public function assertDirectoryExists($path) {
 		if (!is_dir($path)) {
 			throw new \Exception('Directory ' . $path . ' does not exist.');
 		}

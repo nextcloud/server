@@ -272,19 +272,18 @@ class Checker {
 									  X509 $certificate,
 									  RSA $privateKey) {
 		$appInfoDir = $path . '/appinfo';
-		$this->fileAccessHelper->assertDirectoryExists($path);
-		$this->fileAccessHelper->assertDirectoryExists($appInfoDir);
-
-		$iterator = $this->getFolderIterator($path);
-		$hashes = $this->generateHashes($iterator, $path);
-		$signature = $this->createSignatureData($hashes, $certificate, $privateKey);
 		try {
-			$this->fileAccessHelper->file_put_contents(
-				$appInfoDir . '/signature.json',
+			$this->fileAccessHelper->assertDirectoryExists($appInfoDir);
+
+			$iterator = $this->getFolderIterator($path);
+			$hashes = $this->generateHashes($iterator, $path);
+			$signature = $this->createSignatureData($hashes, $certificate, $privateKey);
+				$this->fileAccessHelper->file_put_contents(
+					$appInfoDir . '/signature.json',
 				json_encode($signature, JSON_PRETTY_PRINT)
 			);
 		} catch (\Exception $e){
-			if (!$this->fileAccessHelper->is_writeable($appInfoDir)){
+			if (!$this->fileAccessHelper->is_writable($appInfoDir)) {
 				throw new \Exception($appInfoDir . ' is not writable');
 			}
 			throw $e;
@@ -303,19 +302,18 @@ class Checker {
 									   RSA $rsa,
 									   $path) {
 		$coreDir = $path . '/core';
-		$this->fileAccessHelper->assertDirectoryExists($path);
-		$this->fileAccessHelper->assertDirectoryExists($coreDir);
-
-		$iterator = $this->getFolderIterator($path, $path);
-		$hashes = $this->generateHashes($iterator, $path);
-		$signatureData = $this->createSignatureData($hashes, $certificate, $rsa);
 		try {
+
+			$this->fileAccessHelper->assertDirectoryExists($coreDir);
+			$iterator = $this->getFolderIterator($path, $path);
+			$hashes = $this->generateHashes($iterator, $path);
+			$signatureData = $this->createSignatureData($hashes, $certificate, $rsa);
 			$this->fileAccessHelper->file_put_contents(
 				$coreDir . '/signature.json',
 				json_encode($signatureData, JSON_PRETTY_PRINT)
 			);
 		} catch (\Exception $e){
-			if (!$this->fileAccessHelper->is_writeable($coreDir)){
+			if (!$this->fileAccessHelper->is_writable($coreDir)) {
 				throw new \Exception($coreDir . ' is not writable');
 			}
 			throw $e;

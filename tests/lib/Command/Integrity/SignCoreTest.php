@@ -28,12 +28,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class SignCoreTest extends TestCase {
-	/** @var Checker */
+	/** @var Checker|\PHPUnit_Framework_MockObject_MockObject */
 	private $checker;
+	/** @var FileAccessHelper|\PHPUnit_Framework_MockObject_MockObject */
+	private $fileAccessHelper;
 	/** @var SignCore */
 	private $signCore;
-	/** @var FileAccessHelper */
-	private $fileAccessHelper;
 
 	public function setUp() {
 		parent::setUp();
@@ -65,7 +65,7 @@ class SignCoreTest extends TestCase {
 			->method('writeln')
 			->with('--privateKey, --certificate and --path are required.');
 
-		$this->invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]);
+		$this->assertNull(self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
 	}
 
 	public function testExecuteWithMissingCertificate() {
@@ -88,7 +88,7 @@ class SignCoreTest extends TestCase {
 			->method('writeln')
 			->with('--privateKey, --certificate and --path are required.');
 
-		$this->invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]);
+		$this->assertNull(self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
 	}
 
 	public function testExecuteWithNotExistingPrivateKey() {
@@ -122,7 +122,7 @@ class SignCoreTest extends TestCase {
 			->method('writeln')
 			->with('Private key "privateKey" does not exists.');
 
-		$this->invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]);
+		$this->assertNull(self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
 	}
 
 	public function testExecuteWithNotExistingCertificate() {
@@ -161,7 +161,51 @@ class SignCoreTest extends TestCase {
 			->method('writeln')
 			->with('Certificate "certificate" does not exists.');
 
-		$this->invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]);
+		$this->assertNull(self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
+	}
+
+	public function testExecuteWithException() {
+		$inputInterface = $this->createMock(InputInterface::class);
+		$outputInterface = $this->createMock(OutputInterface::class);
+
+		$inputInterface
+			->expects($this->at(0))
+			->method('getOption')
+			->with('privateKey')
+			->will($this->returnValue('privateKey'));
+		$inputInterface
+			->expects($this->at(1))
+			->method('getOption')
+			->with('certificate')
+			->will($this->returnValue('certificate'));
+		$inputInterface
+			->expects($this->at(2))
+			->method('getOption')
+			->with('path')
+			->will($this->returnValue('certificate'));
+
+		$this->fileAccessHelper
+			->expects($this->at(0))
+			->method('file_get_contents')
+			->with('privateKey')
+			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
+		$this->fileAccessHelper
+			->expects($this->at(1))
+			->method('file_get_contents')
+			->with('certificate')
+			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt'));
+
+		$this->checker
+			->expects($this->once())
+			->method('writeCoreSignature')
+			->willThrowException(new \Exception('My exception message'));
+
+		$outputInterface
+			->expects($this->at(0))
+			->method('writeln')
+			->with('Error: My exception message');
+
+		$this->assertEquals(1, self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
 	}
 
 	public function testExecute() {
@@ -204,6 +248,6 @@ class SignCoreTest extends TestCase {
 			->method('writeln')
 			->with('Successfully signed "core"');
 
-		$this->invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]);
+		$this->assertEquals(0, self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
 	}
 }
