@@ -67,9 +67,9 @@ class TodoTest extends TestCase {
 	public function dataFilterTypes() {
 		return [
 			[[], []],
-			[['calendar_todo'], ['calendar_todo']],
-			[['calendar', 'calendar_event', 'calendar_todo'], ['calendar_todo']],
-			[['calendar', 'calendar_todo', 'files'], ['calendar_todo']],
+			[['calendar_todos'], ['calendar_todos']],
+			[['calendar', 'calendar_event', 'calendar_todos'], ['calendar_todos']],
+			[['calendar', 'calendar_todos', 'files'], ['calendar_todos']],
 		];
 	}
 
