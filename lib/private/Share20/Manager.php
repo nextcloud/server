@@ -1053,6 +1053,10 @@ class Manager implements IManager {
 	 * @throws ShareNotFound
 	 */
 	public function getShareByToken($token) {
+		if(!$this->shareApiAllowLinks()) {
+			throw new ShareNotFound();
+		}
+
 		$share = null;
 		try {
 			$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_LINK);
