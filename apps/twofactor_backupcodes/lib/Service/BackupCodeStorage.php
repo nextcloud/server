@@ -22,7 +22,7 @@
 
 namespace OCA\TwoFactorBackupCodes\Service;
 
-use Exception;
+use BadMethodCallException;
 use OCA\TwoFactorBackupCodes\Db\BackupCode;
 use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
 use OCP\Activity\IManager;
@@ -100,7 +100,7 @@ class BackupCodeStorage {
 			->setSubject($event);
 		try {
 			$this->activityManager->publish($activity);
-		} catch (Exception $e) {
+		} catch (BadMethodCallException $e) {
 			$this->logger->warning('could not publish backup code creation activity', ['app' => 'twofactor_backupcodes']);
 			$this->logger->logException($e, ['app' => 'twofactor_backupcodes']);
 		}
