@@ -65,8 +65,10 @@ try {
 } catch (MethodNotAllowedException $e) {
 	OC_API::setContentType();
 	OC_Response::setStatus(405);
-} catch (\OC\OCS\Exception $ex) {
+	exit();
+} catch (Exception $ex) {
 	OC_API::respond($ex->getResult(), OC_API::requestedFormat());
+	exit();
 }
 
 /*
