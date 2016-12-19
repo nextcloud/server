@@ -31,6 +31,7 @@ use OC\Files\Filesystem;
 use OC\ForbiddenException;
 use OC\Hooks\PublicEmitter;
 use OC\Lock\DBLockingProvider;
+use OCA\Files_Sharing\SharedStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ILogger;
@@ -128,7 +129,7 @@ class Scanner extends PublicEmitter {
 			}
 
 			// don't scan received local shares, these can be scanned when scanning the owner's storage
-			if ($storage->instanceOfStorage('OCA\Files_Sharing\ISharedStorage')) {
+			if ($storage->instanceOfStorage(SharedStorage::class)) {
 				continue;
 			}
 			$scanner = $storage->getScanner();
@@ -178,7 +179,7 @@ class Scanner extends PublicEmitter {
 			}
 
 			// don't scan received local shares, these can be scanned when scanning the owner's storage
-			if ($storage->instanceOfStorage('OCA\Files_Sharing\ISharedStorage')) {
+			if ($storage->instanceOfStorage(SharedStorage::class)) {
 				continue;
 			}
 			$relativePath = $mount->getInternalPath($dir);
