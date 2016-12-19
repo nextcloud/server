@@ -104,6 +104,22 @@ pipeline:
     when:
       matrix:
         TESTS: carddavtester
+  sqlite-php7.0-samba-native:
+      image: nextcloudci/samba-native-php7.0:samba-native-php7.0-1
+      commands:
+        - smbd -D -FS &
+        - NOCOVERAGE=true ./autotest-external.sh sqlite smb-linux
+      when:
+        matrix:
+          TESTS: sqlite-php7.0-samba-native
+  sqlite-php7.0-samba-non-native:
+      image: nextcloudci/samba-non-native-php7.0:samba-non-native-php7.0-2
+      commands:
+        - smbd -D -FS &
+        - NOCOVERAGE=true ./autotest-external.sh sqlite smb-linux
+      when:
+        matrix:
+          TESTS: sqlite-php7.0-samba-non-native
   nodb-php5.6:
     image: nextcloudci/php5.6:php5.6-7
     commands:
@@ -381,7 +397,7 @@ matrix:
     - TESTS: signed-off-check
     - TESTS: htaccess-checker
     - TESTS: nodb-codecov
-    - TESTS: db-codecov    
+    - TESTS: db-codecov
     - TESTS: integration-capabilities_features
     - TESTS: integration-federation_features
     - TESTS: integration-auth
@@ -412,6 +428,8 @@ matrix:
     - TESTS: litmus-v2
     - TESTS: caldavtester
     - TESTS: carddavtester
+    - TESTS: sqlite-php7.0-samba-native
+    - TESTS: sqlite-php7.0-samba-non-native
     - DB: NODB
       PHP: 5.6
     - DB: NODB
