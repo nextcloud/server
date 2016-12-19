@@ -46,7 +46,7 @@ class ExcludeFileByNameFilterIterator extends \RecursiveFilterIterator {
 	/**
 	 * Array of excluded file names. Those are not scanned by the integrity checker.
          * This is used to exclude files which administrators could upload by mistakes
-	 ￼* such as .DS_Store files. These strings are submatched, so any file names
+	 * such as .DS_Store files. These strings are submatched, so any file names
 	 * containing these strings, are ignored.
          *
          * @var array
