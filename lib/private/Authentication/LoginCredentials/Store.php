@@ -66,7 +66,7 @@ class Store implements IStore {
 	}
 
 	/**
-	 * @since 9.2
+	 * @since 12
 	 *
 	 * @return ICredentials the login credentials of the current user
 	 * @throws CredentialsUnavailableException

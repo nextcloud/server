@@ -27,7 +27,7 @@ namespace OCP\Authentication\Exceptions;
 use Exception;
 
 /**
- * @since 9.2
+ * @since 12
  */
 class CredentialsUnavailableException extends Exception {
 

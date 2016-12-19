@@ -27,14 +27,14 @@ namespace OCP\Authentication\LoginCredentials;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 
 /**
- * @since 9.2
+ * @since 12
  */
 interface IStore {
 	
 	/**
 	 * Get login credentials of the currently logged in user
 	 *
-	 * @since 9.2
+	 * @since 12
 	 *
 	 * @throws CredentialsUnavailableException
 	 * @return ICredentials the login credentials of the current user

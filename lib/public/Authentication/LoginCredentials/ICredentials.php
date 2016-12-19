@@ -25,14 +25,14 @@
 namespace OCP\Authentication\LoginCredentials;
 
 /**
- * @since 9.2
+ * @since 12
  */
 interface ICredentials {
 
 	/**
 	 * Get the user UID
 	 *
-	 * @since 9.2
+	 * @since 12
 	 *
 	 * @return string
 	 */
@@ -41,7 +41,7 @@ interface ICredentials {
 	/**
 	 * Get the login name the users used to login
 	 *
-	 * @since 9.2
+	 * @since 12
 	 *
 	 * @return string
 	 */
@@ -50,7 +50,7 @@ interface ICredentials {
 	/**
 	 * Get the password
 	 *
-	 * @since 9.2
+	 * @since 12
 	 *
 	 * @return string
 	 */
