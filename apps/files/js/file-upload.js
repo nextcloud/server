@@ -1040,43 +1040,9 @@ OC.Uploader.prototype = _.extend({
 						bufferIndex = (bufferIndex + 1) % bufferSize;
 					}
 					var smoothRemainingSeconds = (bufferTotal / bufferSize); //seconds
-					var date = new Date(smoothRemainingSeconds * 1000);
-					var timeStringDesktop = "";
-					var timeStringMobile = "";
-					if(date.getUTCHours() > 0){
-						timeStringDesktop = t('files', '{hours}:{minutes}:{seconds} hour{plural_s} left' , {
-							hours:date.getUTCHours(),
-							minutes: ('0' + date.getUTCMinutes()).slice(-2),
-							seconds: ('0' + date.getUTCSeconds()).slice(-2),
-							plural_s: ( smoothRemainingSeconds === 3600  ? "": "s") // 1 hour = 1*60m*60s = 3600s
-						});
-						timeStringMobile = t('files', '{hours}:{minutes}h' , {
-							hours:date.getUTCHours(),
-							minutes: ('0' + date.getUTCMinutes()).slice(-2),
-							seconds: ('0' + date.getUTCSeconds()).slice(-2)
-						});
-					} else if(date.getUTCMinutes() > 0){
-						timeStringDesktop = t('files', '{minutes}:{seconds} minute{plural_s} left' , {
-							minutes: date.getUTCMinutes(),
-							seconds: ('0' + date.getUTCSeconds()).slice(-2),
-							plural_s: (smoothRemainingSeconds === 60 ? "": "s") // 1 minute = 1*60s = 60s
-						});
-						timeStringMobile = t('files', '{minutes}:{seconds}m' , {
-							minutes: date.getUTCMinutes(),
-							seconds: ('0' + date.getUTCSeconds()).slice(-2)
-						});
-					} else if(date.getUTCSeconds() > 0){
-						timeStringDesktop = t('files', '{seconds} second{plural_s} left' , {
-							seconds: date.getUTCSeconds(),
-							plural_s: (smoothRemainingSeconds === 1 ? "": "s") // 1 second = 1s = 1s
-						});
-						timeStringMobile = t('files', '{seconds}s' , {seconds: date.getUTCSeconds()});
-					} else {
-						timeStringDesktop = t('files', 'Any moment now...');
-						timeStringMobile = t('files', 'Soon...');
-					}
-					$('#uploadprogressbar .label .mobile').text(timeStringMobile);
-					$('#uploadprogressbar .label .desktop').text(timeStringDesktop);
+					var h = moment.duration(smoothRemainingSeconds, "seconds").humanize();
+					$('#uploadprogressbar .label .mobile').text(h);
+					$('#uploadprogressbar .label .desktop').text(h);
 					$('#uploadprogressbar').attr('original-title',
 						t('files', '{loadedSize} of {totalSize} ({bitrate})' , {
 							loadedSize: humanFileSize(data.loaded),
