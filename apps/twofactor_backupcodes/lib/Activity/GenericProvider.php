@@ -63,7 +63,7 @@ class GenericProvider implements IProvider {
 				break;
 			case 'twofactor_failed':
 				$params = $event->getSubjectParameters();
-				$event->setParsedSubject($l->t('A login attempt using two-factor authenticatoin failed (%1$s)', [
+				$event->setParsedSubject($l->t('A login attempt using two-factor authentication failed (%1$s)', [
 							$params['provider'],
 					]));
 				$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/password.svg')));
