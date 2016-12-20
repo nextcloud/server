@@ -8,4 +8,4 @@
  */
 
 //$argv = $_SERVER['argv'];
-require_once __DIR__ . '/console.php';
+require_once __DIR__ . '/core/console.php';
