@@ -22,7 +22,7 @@ OC.L10N.register(
     "Admin defined" : "Përcaktuar nga përgjegjësi",
     "Saved" : "U ruajt",
     "Save" : "Ruaje",
-    "Empty response from the server" : "Përgjigje e zbrazët prej shërbyesit",
+    "Empty response from the server" : "Përgjigje e zbrazët prej serverit",
     "Couldn't access. Please logout and login to activate this mount point" : "S’fut dot. Ju lutemi, dilni dhe hyni që të aktivizohet kjo pikë montimi",
     "Couldn't get the list of external mount points: {type}" : "S’u mor dot lista e pikave të jashtme të montimit: {type}",
     "There was an error with message: " : "Pati një gabim me këtë mesazh:",
