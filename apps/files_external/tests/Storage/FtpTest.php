@@ -43,12 +43,10 @@ class FtpTest extends \Test\Files\Storage\Storage {
 	protected function setUp() {
 		parent::setUp();
 
-		$id = self::getUniqueID();
 		$this->config = include('files_external/tests/config.ftp.php');
 		if ( ! is_array($this->config) or ! $this->config['run']) {
 			$this->markTestSkipped('FTP backend not configured');
 		}
-		$this->config['root'] .= '/' . $id; //make sure we have an new empty folder to work in
 		$this->instance = new FTP($this->config);
 		$this->instance->mkdir('/');
 	}
