@@ -2,6 +2,9 @@
 SCRIPT=`realpath $0`
 SCRIPTPATH=`dirname $SCRIPT`
 
+# Move the endpoint to the serverinfo file
+cp "$SCRIPTPATH/../caldavtest/serverinfo-new-endpoint.xml" "$SCRIPTPATH/../caldavtest/serverinfo.xml"
+
 # start the server
 php -S 127.0.0.1:8888 -t "$SCRIPTPATH/../../../../.." &
 
