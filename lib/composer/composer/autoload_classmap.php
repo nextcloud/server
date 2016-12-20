@@ -687,7 +687,6 @@ return array(
     'OC\\Repair\\RemoveOldShares' => $baseDir . '/lib/private/Repair/RemoveOldShares.php',
     'OC\\Repair\\RemoveRootShares' => $baseDir . '/lib/private/Repair/RemoveRootShares.php',
     'OC\\Repair\\RepairInvalidShares' => $baseDir . '/lib/private/Repair/RepairInvalidShares.php',
-    'OC\\Repair\\RepairLegacyStorages' => $baseDir . '/lib/private/Repair/RepairLegacyStorages.php',
     'OC\\Repair\\RepairMimeTypes' => $baseDir . '/lib/private/Repair/RepairMimeTypes.php',
     'OC\\Repair\\RepairUnmergedShares' => $baseDir . '/lib/private/Repair/RepairUnmergedShares.php',
     'OC\\Repair\\SearchLuceneTables' => $baseDir . '/lib/private/Repair/SearchLuceneTables.php',

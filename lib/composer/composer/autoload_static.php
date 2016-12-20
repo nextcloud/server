@@ -717,7 +717,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Repair\\RemoveOldShares' => __DIR__ . '/../../..' . '/lib/private/Repair/RemoveOldShares.php',
         'OC\\Repair\\RemoveRootShares' => __DIR__ . '/../../..' . '/lib/private/Repair/RemoveRootShares.php',
         'OC\\Repair\\RepairInvalidShares' => __DIR__ . '/../../..' . '/lib/private/Repair/RepairInvalidShares.php',
-        'OC\\Repair\\RepairLegacyStorages' => __DIR__ . '/../../..' . '/lib/private/Repair/RepairLegacyStorages.php',
         'OC\\Repair\\RepairMimeTypes' => __DIR__ . '/../../..' . '/lib/private/Repair/RepairMimeTypes.php',
         'OC\\Repair\\RepairUnmergedShares' => __DIR__ . '/../../..' . '/lib/private/Repair/RepairUnmergedShares.php',
         'OC\\Repair\\SearchLuceneTables' => __DIR__ . '/../../..' . '/lib/private/Repair/SearchLuceneTables.php',
