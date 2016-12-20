@@ -28,6 +28,7 @@ return array(
     'user'=>'test',
     'password'=>'12345',
     'root'=>'',
+    'secure' => false,
 );
 
 DELIM
