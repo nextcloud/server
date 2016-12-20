@@ -204,7 +204,7 @@ pipeline:
         DB: mysqlmb4
         PHP: 5.6
   integration-capabilities_features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
@@ -213,7 +213,7 @@ pipeline:
       matrix:
         TESTS: integration-capabilities_features
   integration-federation_features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
@@ -222,7 +222,7 @@ pipeline:
       matrix:
         TESTS: integration-federation_features
   integration-auth:
-    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
@@ -231,7 +231,7 @@ pipeline:
       matrix:
         TESTS: integration-auth
   integration-carddav:
-    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
@@ -240,7 +240,7 @@ pipeline:
       matrix:
         TESTS: integration-carddav
   integration-dav-v2:
-    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
@@ -249,7 +249,7 @@ pipeline:
       matrix:
         TESTS: integration-dav-v2
   integration-ocs-v1:
-    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
@@ -258,7 +258,7 @@ pipeline:
       matrix:
         TESTS: integration-ocs-v1
   integration-sharing-v1:
-    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
@@ -267,7 +267,7 @@ pipeline:
       matrix:
         TESTS: integration-sharing-v1
   integration-checksums-v1:
-    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
@@ -276,7 +276,7 @@ pipeline:
       matrix:
         TESTS: integration-checksums
   integration-external-storage:
-    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
@@ -285,7 +285,7 @@ pipeline:
       matrix:
         TESTS: integration-external-storage
   integration-provisioning-v1:
-    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
@@ -294,7 +294,7 @@ pipeline:
       matrix:
         TESTS: integration-provisioning-v1
   integration-tags:
-    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
@@ -303,7 +303,7 @@ pipeline:
       matrix:
         TESTS: integration-tags
   integration-caldav:
-    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
@@ -312,7 +312,7 @@ pipeline:
       matrix:
         TESTS: integration-caldav
   integration-comments:
-    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
@@ -321,7 +321,7 @@ pipeline:
       matrix:
         TESTS: integration-comments
   integration-favorites:
-    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
@@ -330,7 +330,7 @@ pipeline:
       matrix:
         TESTS: integration-favorites
   integration-provisioning-v2:
-    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
@@ -339,7 +339,7 @@ pipeline:
       matrix:
         TESTS: integration-provisioning-v2
   integration-webdav-related:
-    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
@@ -348,7 +348,7 @@ pipeline:
       matrix:
         TESTS: integration-webdav-related
   integration-sharees-features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
@@ -357,7 +357,7 @@ pipeline:
       matrix:
         TESTS: integration-sharees-features
   integration-setup-features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
       - cd build/integration
       - ./run.sh setup_features/setup.feature
@@ -365,7 +365,7 @@ pipeline:
       matrix:
         TESTS: integration-setup-features
   integration-filesdrop-features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
@@ -374,7 +374,7 @@ pipeline:
       matrix:
         TESTS: integration-filesdrop-features
   integration-transfer-ownership-features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
