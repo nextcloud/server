@@ -104,6 +104,19 @@ pipeline:
     when:
       matrix:
         TESTS: carddavtester
+  sqlite-php7.0-ftp:
+      image: nextcloudci/ftp-php7.0:ftp-php7.0-1
+      commands:
+        - /launch &
+        - ./autotest-external.sh sqlite ftp-linux
+        - wget https://codecov.io/bash -O codecov.sh
+        - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
+        - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
+        - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-ftp-linux.xml; fi"
+        - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-ftp-linux.xml; fi"
+      when:
+        matrix:
+          TESTS: sqlite-php7.0-ftp
   sqlite-php7.0-samba-native:
       image: nextcloudci/samba-native-php7.0:samba-native-php7.0-1
       commands:
@@ -474,6 +487,7 @@ matrix:
     - TESTS: carddavtester
     - TESTS: object-store
       OBJECT_STORE: s3
+    - TESTS: sqlite-php7.0-ftp
     - TESTS: sqlite-php7.0-samba-native
     - TESTS: sqlite-php7.0-samba-non-native
     - TEST: memcache-memcached
