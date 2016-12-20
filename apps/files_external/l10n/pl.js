@@ -43,6 +43,7 @@ OC.L10N.register(
     "Objectstore forbidden" : "Zabroniony obiekt sklepu",
     "Invalid storage backend \"%s\"" : "Nieprawidłowy magazyn zaplecza \"%s\"",
     "Not permitted to use backend \"%s\"" : "Nie można używać powrotu \"%s\"",
+    "Insufficient data: %s" : "Niewystarczające dane: %s",
     "%s" : "%s",
     "Access key" : "Klucz dostępu",
     "Secret key" : "Sekretny klucz",

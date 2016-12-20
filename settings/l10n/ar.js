@@ -21,7 +21,6 @@ OC.L10N.register(
     "Couldn't update app." : "تعذر تحديث التطبيق.",
     "Sending..." : "جاري الارسال ...",
     "All" : "الكل",
-    "Please wait...." : "الرجاء الانتظار ...",
     "Error while disabling app" : "خطا عند تعطيل البرنامج",
     "Disable" : "إيقاف",
     "Enable" : "تفعيل",
@@ -66,7 +65,6 @@ OC.L10N.register(
     "days" : "أيام",
     "Allow resharing" : "السماح بإعادة المشاركة ",
     "Documentation:" : "التوثيق",
-    "Uninstall App" : "أزالة تطبيق",
     "Valid until" : "صالح حتى",
     "Forum" : "منتدى",
     "Profile picture" : "صورة الملف الشخصي",
@@ -98,6 +96,7 @@ OC.L10N.register(
     "Default" : "افتراضي",
     "Language changed" : "تم تغيير اللغة",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "هل أنت متأكد انك تريد إضافة \"{domain}\" كنطاق موثوق فيه.",
+    "Please wait...." : "الرجاء الانتظار ...",
     "Everything (fatal issues, errors, warnings, info, debug)" : "كل شيء (مشاكل فادحة, اخطاء , تحذيرات , معلومات , تصحيح الاخطاء)",
     "Info, warnings, errors and fatal issues" : "معلومات , تحذيرات , اخطاء , مشاكل فادحة ",
     "Warnings, errors and fatal issues" : "تحذيرات , اخطاء , مشاكل فادحة ",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "Less" : "أقل",
     "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "قاعدة البيانات المستخدمة هي SQLite. ننصح باستخدام قاعدة بيانات أخرى للحصول على أداء افضل.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "استخدام SQLite غير مناسب خاصتا اذا تم استخدام برنامج المزامنة على الجهاز الشخصي.",
+    "Uninstall App" : "أزالة تطبيق",
     "Group" : "مجموعة"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

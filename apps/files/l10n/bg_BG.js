@@ -80,7 +80,7 @@ OC.L10N.register(
     "Folder" : "Папка",
     "New folder" : "Нова папка",
     "Upload" : "Качване",
-    "An error occurred while trying to update the tags" : "Възникна грешка при опита за промяна на етикети",
+    "An error occurred while trying to update the tags" : "Възникна грешка при опита за промяна на тагове",
     "Added to favorites" : "Добавено към предпочитани",
     "Removed from favorites" : "Премахнато от предпочитани",
     "You added {file} to your favorites" : "Добавихте {file} към предпочитани",
