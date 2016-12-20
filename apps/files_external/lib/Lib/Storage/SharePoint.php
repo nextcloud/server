@@ -24,7 +24,7 @@
 namespace OCA\Files_External\Lib\Storage;
 
 use OC\Files\Storage\Common;
-use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
+use OCA\Files_External\Lib\SharePoint\ContextsFactory;
 use Office365\PHP\Client\SharePoint\ClientContext;
 
 class SharePoint extends Common {
@@ -37,10 +37,13 @@ class SharePoint extends Common {
 
 	protected $authPwd;
 
+	/** @var  ClientContext */
 	protected $context;
 
+	/** @var  ContextsFactory */
+	protected $contextsFactory;
+
 	public function __construct($parameters) {
-		$s = 'sadf';
 		$this->server = $parameters['host'];
 		$this->documentLibrary = $parameters['root'];
 
@@ -48,9 +51,8 @@ class SharePoint extends Common {
 		$this->authUser = $parameters['user'];
 		$this->authPwd = $parameters['password'];
 
-		$authContext = new AuthenticationContext($this->server);
-		$authContext->acquireTokenForUser($this->authUser, $this->authPwd);
-		$this->context = new ClientContext($this->server, $authContext);
+		$this->fixDI($parameters);
+		$this->initConnection($this->authUser, $this->authPwd);
 
 		$web  = $this->context->getWeb();
 		$list = $web->getLists()->getByTitle($this->documentLibrary);
@@ -184,5 +186,38 @@ class SharePoint extends Common {
 	public function touch($path, $mtime = null) {
 		// TODO: Implement touch() method.
 		return true;
+	}
+
+	/**
+	 * work around dependency injection issues so we can test this class properly
+	 *
+	 * @param array $parameters
+	 */
+	private function fixDI(array $parameters) {
+		if(isset($parameters['authContextFactory'])
+			&& $parameters['authContextFactory'] instanceof ContextsFactory)
+		{
+			$this->contextsFactory = $parameters['authContextFactory'];
+		} else {
+			$this->contextsFactory = new ContextsFactory();
+		}
+	}
+
+	/**
+	 * Set up necessary contexts for authentication and access to SharePoint
+	 *
+	 * @param string $user
+	 * @param string $password
+	 * @throws \InvalidArgumentException
+	 */
+	private function initConnection($user, $password) {
+		if(!is_string($user) || empty($user)) {
+			throw new \InvalidArgumentException('No user given');
+		}
+		if(!is_string($password) || empty($password)) {
+			throw new \InvalidArgumentException('No password given');
+		}
+		$authContext = $this->contextsFactory ->getAuthContext($user, $password);
+		$this->context = $this->contextsFactory->getClientContext($this->server, $authContext);
 	}
 }
