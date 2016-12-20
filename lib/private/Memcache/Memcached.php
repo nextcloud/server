@@ -61,7 +61,7 @@ class Memcached extends Cache implements IMemcache {
 				\Memcached::OPT_LIBKETAMA_COMPATIBLE => true,
 
 				// Enable Binary Protocol
-				\Memcached::OPT_BINARY_PROTOCOL =>      true,
+				//\Memcached::OPT_BINARY_PROTOCOL =>      true,
 			];
 			// by default enable igbinary serializer if available
 			if (\Memcached::HAVE_IGBINARY) {
