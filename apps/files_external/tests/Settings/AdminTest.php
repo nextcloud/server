@@ -34,21 +34,21 @@ use Test\TestCase;
 class AdminTest extends TestCase {
 	/** @var Admin */
 	private $admin;
-	/** @var IManager */
+	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $encryptionManager;
-	/** @var GlobalStoragesService */
+	/** @var GlobalStoragesService|\PHPUnit_Framework_MockObject_MockObject */
 	private $globalStoragesService;
-	/** @var BackendService */
+	/** @var BackendService|\PHPUnit_Framework_MockObject_MockObject */
 	private $backendService;
-	/** @var GlobalAuth */
+	/** @var GlobalAuth|\PHPUnit_Framework_MockObject_MockObject */
 	private $globalAuth;
 
 	public function setUp() {
 		parent::setUp();
-		$this->encryptionManager = $this->getMockBuilder('\OCP\Encryption\IManager')->getMock();
-		$this->globalStoragesService = $this->getMockBuilder('\OCA\Files_External\Service\GlobalStoragesService')->disableOriginalConstructor()->getMock();
-		$this->backendService = $this->getMockBuilder('\OCA\Files_External\Service\BackendService')->disableOriginalConstructor()->getMock();
-		$this->globalAuth = $this->getMockBuilder('\OCA\Files_External\Lib\Auth\Password\GlobalAuth')->disableOriginalConstructor()->getMock();
+		$this->encryptionManager = $this->createMock(IManager::class);
+		$this->globalStoragesService = $this->createMock(GlobalStoragesService::class);
+		$this->backendService = $this->createMock(BackendService::class);
+		$this->globalAuth = $this->createMock(GlobalAuth::class);
 
 		$this->admin = new Admin(
 			$this->encryptionManager,
@@ -79,6 +79,10 @@ class AdminTest extends TestCase {
 			->expects($this->once())
 			->method('isUserMountingAllowed')
 			->willReturn(true);
+		$this->backendService
+			->expects($this->exactly(2))
+			->method('getBackends')
+			->willReturn([]);
 		$this->globalAuth
 			->expects($this->once())
 			->method('getAuth')

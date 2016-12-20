@@ -29,6 +29,9 @@ use OCA\Files_External\Lib\Auth\Password\Password;
 use OCA\Files_External\Lib\Auth\Password\SessionCredentials;
 use OCA\Files_External\Lib\Backend\Local;
 use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\Service\GlobalStoragesService;
+use OCA\Files_External\Service\UserStoragesService;
+use OCP\IL10N;
 use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -41,9 +44,9 @@ class ListCommandTest extends CommandTest {
 	 */
 	private function getInstance() {
 		/** @var \OCA\Files_External\Service\GlobalStoragesService|\PHPUnit_Framework_MockObject_MockObject $globalService */
-		$globalService = $this->getMock('\OCA\Files_External\Service\GlobalStoragesService', null, [], '', false);
+		$globalService = $this->createMock(GlobalStoragesService::class);
 		/** @var \OCA\Files_External\Service\UserStoragesService|\PHPUnit_Framework_MockObject_MockObject $userService */
-		$userService = $this->getMock('\OCA\Files_External\Service\UserStoragesService', null, [], '', false);
+		$userService = $this->createMock(UserStoragesService::class);
 		/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject $userManager */
 		$userManager = $this->createMock(IUserManager::class);
 		/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject $userSession */
@@ -53,7 +56,7 @@ class ListCommandTest extends CommandTest {
 	}
 
 	public function testListAuthIdentifier() {
-		$l10n = $this->getMock('\OPC\IL10N', null, [], '', false);
+		$l10n = $this->createMock(IL10N::class);
 		$session = $this->createMock(ISession::class);
 		$crypto = $this->createMock(ICrypto::class);
 		$instance = $this->getInstance();
