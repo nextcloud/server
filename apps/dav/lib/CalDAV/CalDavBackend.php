@@ -581,7 +581,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 */
 	function createCalendar($principalUri, $calendarUri, array $properties) {
 		$values = [
-			'principaluri' => $principalUri,
+			'principaluri' => $this->convertPrincipal($principalUri, true),
 			'uri'          => $calendarUri,
 			'synctoken'    => 1,
 			'transparent'  => 0,

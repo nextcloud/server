@@ -81,6 +81,7 @@ class Principal implements BackendInterface {
 	 */
 	public function getPrincipalsByPrefix($prefixPath) {
 		$principals = [];
+		$prefixPath = trim($prefixPath, '/');
 
 		if ($prefixPath === $this->principalPrefix) {
 			foreach($this->userManager->search('') as $user) {
@@ -101,6 +102,7 @@ class Principal implements BackendInterface {
 	 */
 	public function getPrincipalByPath($path) {
 		list($prefix, $name) = URLUtil::splitPath($path);
+		$prefix = trim($prefix, '/');
 
 		if ($prefix === $this->principalPrefix) {
 			$user = $this->userManager->get($name);

@@ -39,13 +39,11 @@ $authBackend = new Auth(
 	\OC::$server->getUserSession(),
 	\OC::$server->getRequest(),
 	\OC::$server->getTwoFactorAuthManager(),
-	\OC::$server->getBruteForceThrottler(),
-	'principals/'
+	\OC::$server->getBruteForceThrottler()
 );
 $principalBackend = new Principal(
 	\OC::$server->getUserManager(),
-	\OC::$server->getGroupManager(),
-	'principals/'
+	\OC::$server->getGroupManager()
 );
 $db = \OC::$server->getDatabaseConnection();
 $cardDavBackend = new CardDavBackend($db, $principalBackend, \OC::$server->getUserManager());
@@ -53,14 +51,16 @@ $cardDavBackend = new CardDavBackend($db, $principalBackend, \OC::$server->getUs
 $debugging = \OC::$server->getConfig()->getSystemValue('debug', false);
 
 // Root nodes
-$principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
+$principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend, 'principals/users/');
 $principalCollection->disableListing = !$debugging; // Disable listing
 
-$addressBookRoot = new AddressBookRoot($principalBackend, $cardDavBackend);
+$addressBookRoot = new AddressBookRoot($principalBackend, $cardDavBackend, 'principals/users/');
 $addressBookRoot->disableListing = !$debugging; // Disable listing
 
+$principals = new \Sabre\DAV\SimpleCollection('principals', [$principalCollection]);
+
 $nodes = array(
-	$principalCollection,
+	$principals,
 	$addressBookRoot,
 );
 
@@ -78,6 +78,7 @@ if ($debugging) {
 	$server->addPlugin(new Sabre\DAV\Browser\Plugin());
 }
 
+$server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 $server->addPlugin(new \Sabre\CardDAV\VCFExportPlugin());
 $server->addPlugin(new \OCA\DAV\CardDAV\ImageExportPlugin(\OC::$server->getLogger()));
 $server->addPlugin(new ExceptionLoggerPlugin('carddav', \OC::$server->getLogger()));
