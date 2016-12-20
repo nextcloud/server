@@ -200,6 +200,38 @@ class UserTest extends TestCase {
 		$this->assertTrue($user->delete());
 	}
 
+	public function testDeleteWithDifferentHome() {
+		/**
+		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 */
+		$backend = $this->createMock(Dummy::class);
+
+		$backend->expects($this->at(0))
+			->method('implementsActions')
+			->will($this->returnCallback(function ($actions) {
+				if ($actions === Backend::GET_HOME) {
+					return true;
+				} else {
+					return false;
+				}
+			}));
+
+		// important: getHome MUST be called before deleteUser because
+		// once the user is deleted, getHome implementations might not
+		// return anything
+		$backend->expects($this->at(1))
+			->method('getHome')
+			->with($this->equalTo('foo'))
+			->will($this->returnValue('/home/foo'));
+
+		$backend->expects($this->at(2))
+			->method('deleteUser')
+			->with($this->equalTo('foo'));
+
+		$user = new User('foo', $backend);
+		$this->assertTrue($user->delete());
+	}
+
 	public function testGetHome() {
 		/**
 		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
