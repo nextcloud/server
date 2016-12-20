@@ -327,11 +327,6 @@ class Connection extends LDAPUtility {
 		foreach(array('ldapBaseUsers', 'ldapBaseGroups') as $keyBase) {
 			$val = $this->configuration->$keyBase;
 			if(empty($val)) {
-				$obj = strpos('Users', $keyBase) !== false ? 'Users' : 'Groups';
-				\OCP\Util::writeLog('user_ldap',
-									'Base tree for '.$obj.
-									' is empty, using Base DN',
-									\OCP\Util::INFO);
 				$this->configuration->$keyBase = $this->configuration->ldapBase;
 			}
 		}
