@@ -347,6 +347,15 @@ pipeline:
     when:
       matrix:
         TESTS: integration-filesdrop-features
+  integration-transfer-ownership-features:
+    image: nextcloudci/integration-php7.0:integration-php7.0-2
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/transfer-ownership.feature
+    when:
+      matrix:
+        TESTS: integration-transfer-ownership-features
   nodb-codecov:
     image: nextcloudci/php7.0:php7.0-6
     commands:
@@ -392,6 +401,7 @@ matrix:
     - TESTS: integration-sharees-features
     - TESTS: integration-setup-features
     - TESTS: integration-filesdrop-features
+    - TESTS: integration-transfer-ownership-features
     - TESTS: jsunit
     - TESTS: check-autoloader
     - TESTS: app-check-code
