@@ -34,7 +34,7 @@ pipeline:
       matrix:
         TESTS: syntax-php5.6
   syntax-php7.0:
-    image: nextcloudci/php7.0:php7.0-6
+    image: nextcloudci/php7.0:php7.0-7
     commands:
       - composer install
       - vendor/bin/parallel-lint --exclude vendor/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude vendor/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
