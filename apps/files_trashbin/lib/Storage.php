@@ -28,7 +28,6 @@ namespace OCA\Files_Trashbin;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OC\Files\View;
-use OCA\Files_Sharing\SharedStorage;
 use OCP\IUserManager;
 
 class Storage extends Wrapper {
@@ -87,7 +86,7 @@ class Storage extends Wrapper {
 			$targetOwner = $view->getOwner($newPath);
 
 			if($sourceOwner !== $targetOwner
-				&& $sourceStorage->instanceOfStorage(SharedStorage::class)
+				&& $sourceStorage->instanceOfStorage('OCA\Files_Sharing\SharedStorage')
 			) {
 				$fileMovedOutOfSharedFolder = true;
 			}
