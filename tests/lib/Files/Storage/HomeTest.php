@@ -89,14 +89,6 @@ class HomeTest extends Storage {
 	}
 
 	/**
-	 * Tests that the legacy home id is in the format local::/path/to/datadir/user1/
-	 */
-	public function testLegacyId() {
-		$this->instance = new \OC\Files\Storage\Home(array('user' => $this->user, 'legacy' => true));
-		$this->assertEquals('local::' . $this->tmpDir . '/', $this->instance->getId());
-	}
-
-	/**
 	 * Tests that getCache() returns an instance of HomeCache
 	 */
 	public function testGetCacheReturnsHomeCache() {

@@ -39,9 +39,6 @@ class LocalHomeMountProvider implements IHomeMountProvider {
 	 */
 	public function getHomeMountForUser(IUser $user, IStorageFactory $loader) {
 		$arguments = ['user' => $user];
-		if (\OC\Files\Cache\Storage::exists('local::' . $user->getHome() . '/')) {
-			$arguments['legacy'] = true;
-		}
 		return new MountPoint('\OC\Files\Storage\Home', '/' . $user->getUID(), $arguments, $loader);
 	}
 }
