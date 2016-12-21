@@ -2,7 +2,7 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Комментарии",
-    "Unknown user" : "Пользователь неизвестен",
+    "Unknown user" : "Неизвестный пользователь",
     "New comment …" : "Новый комментарий...",
     "Delete comment" : "Удалить комментарий",
     "Post" : "Опубликовать",

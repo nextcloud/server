@@ -246,6 +246,7 @@ OC.L10N.register(
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Cette application n'a pas de version maximum Nextcloud exigée. Ce sera considéré comme une erreur à l'avenir.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Cette application ne peut être installée à cause de ces dépendances non satisfaites :",
     "Enable only for specific groups" : "Activer uniquement pour certains groupes",
+    "Uninstall app" : "Désinstaller l'application",
     "SSL Root Certificates" : "Certificats Racines SSL",
     "Common Name" : "Nom d'usage",
     "Valid until" : "Valide jusqu'à",
