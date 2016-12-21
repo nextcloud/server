@@ -298,14 +298,10 @@ class LoginController extends Controller {
 		$currentDelay = $this->throttler->getDelay($this->request->getRemoteAddress());
 		$this->throttler->sleepDelay($this->request->getRemoteAddress());
 
-		$user = $this->userSession->getUser();
-		if (!$user instanceof IUser) {
-			return new DataResponse([], Http::STATUS_UNAUTHORIZED);
-		}
-
-		$loginResult = $this->userManager->checkPassword($user->getUID(), $password);
+		$loginName = $this->userSession->getLoginName();
+		$loginResult = $this->userManager->checkPassword($loginName, $password);
 		if ($loginResult === false) {
-			$this->throttler->registerAttempt('sudo', $this->request->getRemoteAddress(), ['user' => $user->getUID()]);
+			$this->throttler->registerAttempt('sudo', $this->request->getRemoteAddress(), ['user' => $loginName]);
 			if ($currentDelay === 0) {
 				$this->throttler->sleepDelay($this->request->getRemoteAddress());
 			}
