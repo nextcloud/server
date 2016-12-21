@@ -267,16 +267,23 @@ class Checker {
 	public function writeAppSignature($path,
 									  X509 $certificate,
 									  RSA $privateKey) {
-		if(!is_dir($path)) {
-			throw new \Exception('Directory does not exist.');
-		}
-		$iterator = $this->getFolderIterator($path);
-		$hashes = $this->generateHashes($iterator, $path);
-		$signature = $this->createSignatureData($hashes, $certificate, $privateKey);
-		$this->fileAccessHelper->file_put_contents(
-				$path . '/appinfo/signature.json',
+		$appInfoDir = $path . '/appinfo';
+		try {
+			$this->fileAccessHelper->assertDirectoryExists($appInfoDir);
+
+			$iterator = $this->getFolderIterator($path);
+			$hashes = $this->generateHashes($iterator, $path);
+			$signature = $this->createSignatureData($hashes, $certificate, $privateKey);
+				$this->fileAccessHelper->file_put_contents(
+					$appInfoDir . '/signature.json',
 				json_encode($signature, JSON_PRETTY_PRINT)
-		);
+			);
+		} catch (\Exception $e){
+			if (!$this->fileAccessHelper->is_writable($appInfoDir)) {
+				throw new \Exception($appInfoDir . ' is not writable');
+			}
+			throw $e;
+		}
 	}
 
 	/**
@@ -285,17 +292,28 @@ class Checker {
 	 * @param X509 $certificate
 	 * @param RSA $rsa
 	 * @param string $path
+	 * @throws \Exception
 	 */
 	public function writeCoreSignature(X509 $certificate,
 									   RSA $rsa,
 									   $path) {
-		$iterator = $this->getFolderIterator($path, $path);
-		$hashes = $this->generateHashes($iterator, $path);
-		$signatureData = $this->createSignatureData($hashes, $certificate, $rsa);
-		$this->fileAccessHelper->file_put_contents(
-				$path . '/core/signature.json',
+		$coreDir = $path . '/core';
+		try {
+
+			$this->fileAccessHelper->assertDirectoryExists($coreDir);
+			$iterator = $this->getFolderIterator($path, $path);
+			$hashes = $this->generateHashes($iterator, $path);
+			$signatureData = $this->createSignatureData($hashes, $certificate, $rsa);
+			$this->fileAccessHelper->file_put_contents(
+				$coreDir . '/signature.json',
 				json_encode($signatureData, JSON_PRETTY_PRINT)
-		);
+			);
+		} catch (\Exception $e){
+			if (!$this->fileAccessHelper->is_writable($coreDir)) {
+				throw new \Exception($coreDir . ' is not writable');
+			}
+			throw $e;
+		}
 	}
 
 	/**

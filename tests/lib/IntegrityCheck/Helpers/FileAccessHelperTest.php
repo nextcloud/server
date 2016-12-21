@@ -40,4 +40,29 @@ class FileAccessHelperTest extends TestCase {
 		$this->fileAccessHelper->file_put_contents($filePath, $data);
 		$this->assertSame($data, $this->fileAccessHelper->file_get_contents($filePath));
 	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage Failed to write into /anabsolutelynotexistingfolder/on/the/system.txt
+	 */
+	public function testFile_put_contentsWithException() {
+		$this->fileAccessHelper->file_put_contents('/anabsolutelynotexistingfolder/on/the/system.txt', 'MyFiles');
+	}
+
+	public function testIs_writable() {
+		$this->assertFalse($this->fileAccessHelper->is_writable('/anabsolutelynotexistingfolder/on/the/system.txt'));
+		$this->assertTrue($this->fileAccessHelper->is_writable(\OC::$server->getTempManager()->getTemporaryFile('MyFile')));
+	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage Directory /anabsolutelynotexistingfolder/on/the/system does not exist.
+	 */
+	public function testAssertDirectoryExistsWithException() {
+		$this->fileAccessHelper->assertDirectoryExists('/anabsolutelynotexistingfolder/on/the/system');
+	}
+
+	public function testAssertDirectoryExists() {
+		$this->fileAccessHelper->assertDirectoryExists(\OC::$server->getTempManager()->getTemporaryFolder('/testfolder/'));
+	}
 }
