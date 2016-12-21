@@ -44,6 +44,12 @@ class Storage extends Wrapper {
 	 */
 	private static $disableTrash = false;
 
+	/**
+	 * remember which file/folder was moved out of s shared folder
+	 * in this case we want to add a copy to the owners trash bin
+	 *
+	 * @var array
+	 */
 	private static $moveOutOfSharedFolder = [];
 
 	/** @var  IUserManager */
@@ -77,19 +83,28 @@ class Storage extends Wrapper {
 
 		$fileMovedOutOfSharedFolder = false;
 
-		if ($currentUser) {
-			$currentUserId = $currentUser->getUID();
+		try {
+			if ($currentUser) {
+				$currentUserId = $currentUser->getUID();
 
-			$view = new View($currentUserId . '/files');
-			$sourceStorage = $view->getFileInfo($oldPath)->getStorage();
-			$sourceOwner = $view->getOwner($oldPath);
-			$targetOwner = $view->getOwner($newPath);
+				$view = new View($currentUserId . '/files');
+				$fileInfo = $view->getFileInfo($oldPath);
+				if ($fileInfo) {
+					$sourceStorage = $fileInfo->getStorage();
+					$sourceOwner = $view->getOwner($oldPath);
+					$targetOwner = $view->getOwner($newPath);
 
-			if($sourceOwner !== $targetOwner
-				&& $sourceStorage->instanceOfStorage('OCA\Files_Sharing\SharedStorage')
-			) {
-				$fileMovedOutOfSharedFolder = true;
+					if ($sourceOwner !== $targetOwner
+						&& $sourceStorage->instanceOfStorage('OCA\Files_Sharing\SharedStorage')
+					) {
+						$fileMovedOutOfSharedFolder = true;
+					}
+				}
 			}
+		} catch (\Exception $e) {
+			// do nothing, in this case we just disable the trashbin and continue
+			$logger = \OC::$server->getLogger();
+			$logger->debug('Trashbin storage could not check if a file was moved out of a shared folder: ' . $e->getMessage());
 		}
 
 		if($fileMovedOutOfSharedFolder) {
