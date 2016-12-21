@@ -32,18 +32,17 @@ use OCP\IL10N;
 
 class SharePoint extends Backend {
 
-	public function __construct(IL10N $l, OAuth2 $legacyAuth, Password $legacyAuth2) {
+	public function __construct(IL10N $l, Password $legacyAuth) {
 		$this
 			->setIdentifier('sharepoint')
 			->setStorageClass(SharePointStorage::class)
 			->setText($l->t('SharePoint'))
 			->addParameters([
 				(new DefinitionParameter('host', $l->t('Host'))),
-				(new DefinitionParameter('root', $l->t('Document Library'))),
+				(new DefinitionParameter('documentLibrary', $l->t('Document Library'))),
 			])
-			->addAuthScheme(AuthMechanism::SCHEME_OAUTH2)
 			->addAuthScheme(AuthMechanism::SCHEME_PASSWORD)
-			->setLegacyAuthMechanism($legacyAuth2)
+			->setLegacyAuthMechanism($legacyAuth)
 		;
 	}
 

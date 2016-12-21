@@ -27,7 +27,6 @@ use OC\Files\Storage\Common;
 use OCA\Files_External\Lib\SharePoint\ContextsFactory;
 use OCA\Files_External\Lib\SharePoint\NotFoundException;
 use Office365\PHP\Client\SharePoint\ClientContext;
-use Office365\PHP\Client\SharePoint\ListItem;
 use Office365\PHP\Client\SharePoint\SPList;
 
 class SharePoint extends Common {
@@ -51,20 +50,22 @@ class SharePoint extends Common {
 
 	public function __construct($parameters) {
 		$this->server = $parameters['host'];
-		$this->documentLibrary = $parameters['root'];
+		$this->documentLibrary = $parameters['documentLibrary'];
 
-		// FIXME: perhaps not set
+		if(strpos($this->documentLibrary, '"') !== false) {
+			// they are, amongst others, not allowed and we use it in the filter
+			// cf. https://support.microsoft.com/en-us/kb/2933738
+			// TODO: verify, it talks about files and folders mostly
+			throw new \InvalidArgumentException('Illegal character in Document Library Name');
+		}
+
+		if(!isset($parameters['user']) || !isset($parameters['password'])) {
+			throw new \UnexpectedValueException('No user or password given');
+		}
 		$this->authUser = $parameters['user'];
-		$this->authPwd = $parameters['password'];
+		$this->authPwd  = $parameters['password'];
 
 		$this->fixDI($parameters);
-		$this->initConnection($this->authUser, $this->authPwd);
-
-		$web  = $this->context->getWeb();
-		$list = $web->getLists()->getByTitle($this->documentLibrary);
-		$s = 'asdf';
-
-		# TODO: test this ^
 	}
 
 	/**
@@ -125,24 +126,31 @@ class SharePoint extends Common {
 	 * @since 6.0.0
 	 */
 	public function stat($path) {
-		// TODO: Implement stat() method.
+		$this->ensureConnection();
+
 		$path = trim($path, '/');
 
-		$rootFolder = $documentLibrary = $this->getDocumentLibrary()->getRootFolder();
+		$rootFolder = $this->getDocumentLibrary()->getRootFolder();
 		if($path === '/' || $path === '') {
-			$properties = $rootFolder->getProperties();
+			$properties = $rootFolder->getProperties(); // TODO: see what we retrieve here
+			// FIXME: getProperty may return null
+			// FIXME: Folder does not have such properties, according to doc
 			$stat = [
-				'size'  => $rootFolder->getProperty('Size'), // int32
-				'mtime' => $rootFolder->getProperty('TimeLastModified'), // returns DateTime
-				'atime' => time(), // other storages do the same  :speak_no_evil:
+				// int64, size in bytes, excluding the size of any Web Parts that are used in the file.
+				'size'  => $rootFolder->getProperty('Length'),
+				'mtime' => $rootFolder->getProperty('TimeLastModified'),
+				// no property in SP 2013, other storages do the same  :speak_no_evil:
+				'atime' => time(),
 			];
 		}
+		// TODO handle path cases
 
-
-		if(isset($stat)) {
+		if(isset($stat) && !is_null($stat['size']) && !is_null($stat['mtime'])) {
 			return $stat;
 		}
 
+		// If we do not get a size or mtime from SP, we treat it as an error
+		// thus returning false, according to PHP documentation on stat()
 		return false;
 	}
 
@@ -218,8 +226,7 @@ class SharePoint extends Common {
 			return $this->documentLibraryItem;
 		}
 
-		//FIXME: ensure documentLibrary is not evil
-		$lists = $this->context->getWeb()->getLists()->filter('Title eq \'' . $this->documentLibrary . '\'')->top(1);
+		$lists = $this->context->getWeb()->getLists()->filter('Title eq "' . $this->documentLibrary . '"')->top(1);
 		$this->context->load($lists)->executeQuery();
 		if ($lists->getCount() == 1) {
 			$this->documentLibraryItem = $lists->getData()[0];
@@ -235,10 +242,10 @@ class SharePoint extends Common {
 	 * @param array $parameters
 	 */
 	private function fixDI(array $parameters) {
-		if(isset($parameters['authContextFactory'])
-			&& $parameters['authContextFactory'] instanceof ContextsFactory)
+		if(isset($parameters['contextFactory'])
+			&& $parameters['contextFactory'] instanceof ContextsFactory)
 		{
-			$this->contextsFactory = $parameters['authContextFactory'];
+			$this->contextsFactory = $parameters['contextFactory'];
 		} else {
 			$this->contextsFactory = new ContextsFactory();
 		}
@@ -247,18 +254,20 @@ class SharePoint extends Common {
 	/**
 	 * Set up necessary contexts for authentication and access to SharePoint
 	 *
-	 * @param string $user
-	 * @param string $password
 	 * @throws \InvalidArgumentException
 	 */
-	private function initConnection($user, $password) {
-		if(!is_string($user) || empty($user)) {
+	private function ensureConnection() {
+		if($this->context instanceof ClientContext) {
+			return;
+		}
+
+		if(!is_string($this->authUser) || empty($this->authUser)) {
 			throw new \InvalidArgumentException('No user given');
 		}
-		if(!is_string($password) || empty($password)) {
+		if(!is_string($this->authPwd) || empty($this->authPwd)) {
 			throw new \InvalidArgumentException('No password given');
 		}
-		$authContext = $this->contextsFactory ->getAuthContext($user, $password);
+		$authContext   = $this->contextsFactory->getAuthContext($this->authUser, $this->authPwd);
 		$this->context = $this->contextsFactory->getClientContext($this->server, $authContext);
 	}
 }
