@@ -25,13 +25,19 @@ namespace OCA\Files_External\Lib\Storage;
 
 use OC\Files\Storage\Common;
 use OCA\Files_External\Lib\SharePoint\ContextsFactory;
+use OCA\Files_External\Lib\SharePoint\NotFoundException;
 use Office365\PHP\Client\SharePoint\ClientContext;
+use Office365\PHP\Client\SharePoint\ListItem;
+use Office365\PHP\Client\SharePoint\SPList;
 
 class SharePoint extends Common {
 
 	protected $server;
 
 	protected $documentLibrary;
+
+	/** @var  SPList */
+	protected $documentLibraryItem;
 
 	protected $authUser;
 
@@ -122,6 +128,21 @@ class SharePoint extends Common {
 		// TODO: Implement stat() method.
 		$path = trim($path, '/');
 
+		$rootFolder = $documentLibrary = $this->getDocumentLibrary()->getRootFolder();
+		if($path === '/' || $path === '') {
+			$properties = $rootFolder->getProperties();
+			$stat = [
+				'size'  => $rootFolder->getProperty('Size'), // int32
+				'mtime' => $rootFolder->getProperty('TimeLastModified'), // returns DateTime
+				'atime' => time(), // other storages do the same  :speak_no_evil:
+			];
+		}
+
+
+		if(isset($stat)) {
+			return $stat;
+		}
+
 		return false;
 	}
 
@@ -186,6 +207,26 @@ class SharePoint extends Common {
 	public function touch($path, $mtime = null) {
 		// TODO: Implement touch() method.
 		return true;
+	}
+
+	/**
+	 * @return SPList
+	 * @throws NotFoundException
+	 */
+	private function getDocumentLibrary() {
+		if(!is_null($this->documentLibraryItem)) {
+			return $this->documentLibraryItem;
+		}
+
+		//FIXME: ensure documentLibrary is not evil
+		$lists = $this->context->getWeb()->getLists()->filter('Title eq \'' . $this->documentLibrary . '\'')->top(1);
+		$this->context->load($lists)->executeQuery();
+		if ($lists->getCount() == 1) {
+			$this->documentLibraryItem = $lists->getData()[0];
+			return $this->documentLibraryItem;
+		}
+
+		throw new NotFoundException('List not found');
 	}
 
 	/**
