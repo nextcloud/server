@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright (c) 2016 Thomas Müller <thomas.mueller@tmit.eu>
  * This file is licensed under the Affero General Public License version 3 or
@@ -20,7 +19,6 @@ use OC\DB\MigrationService;
  * @package Test\DB
  */
 class MigrationsTest extends \Test\TestCase {
-
 	public function testMigrationTableCreation() {
 		$m = new MigrationService();
 		$appName = 'testing';
@@ -28,5 +26,4 @@ class MigrationsTest extends \Test\TestCase {
 		$this->assertTrue($conf->createMigrationTable());
 		$this->assertFalse($conf->createMigrationTable());
 	}
-
 }

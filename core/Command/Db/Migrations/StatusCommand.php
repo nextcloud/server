@@ -21,26 +21,23 @@
 
 namespace OC\Core\Command\Db\Migrations;
 
-
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand as DBALStatusCommand;
 use OC\DB\MigrationService;
-use OCP\IConfig;
+use OCP\IDBConnection;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class StatusCommand extends DBALStatusCommand {
 
-	/** @var Connection */
-	private $ocConnection;
+	/** @var IDBConnection */
+	private $dbConnection;
 
 	/**
-	 * @param \OCP\IConfig $config
+	 * @param IDBConnection $connection
 	 */
-	public function __construct(IConfig $config, Connection $connection) {
-		$this->config = $config;
-		$this->ocConnection = $connection;
+	public function __construct(IDBConnection $connection) {
+		$this->dbConnection = $connection;
 
 		parent::__construct();
 	}
@@ -54,7 +51,7 @@ class StatusCommand extends DBALStatusCommand {
 	public function execute(InputInterface $input, OutputInterface $output) {
 		$appName = $input->getArgument('app');
 		$ms = new MigrationService();
-		$mc = $ms->buildConfiguration($appName, $this->ocConnection);
+		$mc = $ms->buildConfiguration($appName, $this->dbConnection);
 		$this->setMigrationConfiguration($mc);
 
 		parent::execute($input, $output);

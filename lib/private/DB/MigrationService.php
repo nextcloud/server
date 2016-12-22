@@ -31,9 +31,10 @@ class MigrationService {
 	/**
 	 * @param string $appName
 	 * @param IDBConnection $connection
-	 * @return Configuration
+	 * @return MigrationConfiguration
+	 * @throws \Exception
 	 */
-	public function buildConfiguration($appName, $connection) {
+	public function buildConfiguration($appName, IDBConnection $connection) {
 		if ($appName === 'core') {
 			$migrationsPath = \OC::$SERVERROOT . '/core/Migrations';
 			$migrationsNamespace = 'OC\\Migrations';
