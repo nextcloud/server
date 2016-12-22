@@ -105,6 +105,9 @@ EOD;
 			->expects($this->once())
 			->method('getBody')
 			->willReturn(self::$responseJson);
+		$response->method('getHeader')
+			->with($this->equalTo('ETag'))
+			->willReturn('"myETag"');
 		$this->timeFactory
 			->expects($this->once())
 			->method('getTime')
@@ -1884,6 +1887,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 				),
 			'timestamp' => 1234,
 			'ncversion' => '11.0.0.2',
+			'ETag' => '"myETag"',
 		);
 
 		$dataToPut = $expected;
