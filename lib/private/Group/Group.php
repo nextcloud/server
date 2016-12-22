@@ -31,6 +31,9 @@ namespace OC\Group;
 use OCP\IGroup;
 
 class Group implements IGroup {
+	/** @var null|string  */
+	protected $displayName;
+
 	/**
 	 * @var string $id
 	 */
