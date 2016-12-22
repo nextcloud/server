@@ -9,4 +9,7 @@
 	<dependencies>
 		<nextcloud min-version="12" max-version="12" />
 	</dependencies>
+	<types>
+		<type>prelogin</type>
+	</types>
 </info>
