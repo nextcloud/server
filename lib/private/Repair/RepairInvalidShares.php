@@ -167,7 +167,7 @@ class RepairInvalidShares implements IRepairStep {
 			// this situation was only possible before 9.1
 			$this->addShareLinkDeletePermission($out);
 		}
-		if (version_compare($ocVersionFromBeforeUpdate, '9.2.0.2', '<')) {
+		if (version_compare($ocVersionFromBeforeUpdate, '12.0.0.11', '<')) {
 			$this->adjustFileSharePermissions($out);
 		}
 
