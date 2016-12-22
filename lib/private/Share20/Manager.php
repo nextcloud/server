@@ -1055,11 +1055,10 @@ class Manager implements IManager {
 	public function getShareByToken($token) {
 		$share = null;
 		try {
-			if(!$this->shareApiAllowLinks()) {
-				throw new ShareNotFound();
+			if($this->shareApiAllowLinks()) {
+				$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_LINK);
+				$share = $provider->getShareByToken($token);
 			}
-			$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_LINK);
-			$share = $provider->getShareByToken($token);
 		} catch (ProviderException $e) {
 		} catch (ShareNotFound $e) {
 		}
@@ -1075,7 +1074,7 @@ class Manager implements IManager {
 			}
 		}
 
-		// If it is not a link share try to fetch a federated share by token
+		// If it is not a link share try to fetch a mail share by token
 		if ($share === null && $this->shareProviderExists(\OCP\Share::SHARE_TYPE_EMAIL)) {
 			try {
 				$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_EMAIL);
