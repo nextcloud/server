@@ -1,0 +1,454 @@
+[class^='icon-'], [class*=' icon-'] {
+	background-repeat: no-repeat;
+	background-position: center;
+	min-width: 16px;
+	min-height: 16px;
+}
+
+/* general assets */
+
+.icon-breadcrumb {
+	background-image: url('../img/breadcrumb.svg?v=1');
+}
+
+.loading, .loading-small, .icon-loading, .icon-loading-dark, .icon-loading-small, .icon-loading-small-dark {
+	position: relative;
+}
+
+.loading:after, .loading-small:after, .icon-loading:after, .icon-loading-dark:after, .icon-loading-small:after, .icon-loading-small-dark:after {
+	z-index: 2;
+	content: '';
+	height: 30px;
+	width: 30px;
+	margin: -16px 0 0 -16px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	border-radius: 100%;
+	-webkit-animation: rotate .8s infinite linear;
+	animation: rotate .8s infinite linear;
+	-webkit-transform-origin: center;
+	-ms-transform-origin: center;
+	transform-origin: center;
+}
+
+.loading:after, .loading-small:after, .icon-loading:after, .icon-loading-dark:after, .icon-loading-small:after, .icon-loading-small-dark:after {
+	border: 2px solid rgba(150, 150, 150, 0.5);
+	border-top-color: rgb(100, 100, 100);
+}
+
+.icon-loading-dark:after, .icon-loading-small-dark:after {
+	border: 2px solid rgba(187, 187, 187, 0.5);
+	border-top-color: #bbb;
+}
+
+.icon-loading-small:after, .icon-loading-small-dark:after {
+	height: 14px;
+	width: 14px;
+	margin: -8px 0 0 -8px;
+}
+
+/* Css replaced elements don't have ::after nor ::before */
+
+img.icon-loading, object.icon-loading, video.icon-loading, button.icon-loading, textarea.icon-loading, input.icon-loading, select.icon-loading {
+	background-image: url('../img/loading.gif');
+}
+
+img.icon-loading-dark, object.icon-loading-dark, video.icon-loading-dark, button.icon-loading-dark, textarea.icon-loading-dark, input.icon-loading-dark, select.icon-loading-dark {
+	background-image: url('../img/loading-dark.gif');
+}
+
+img.icon-loading-small, object.icon-loading-small, video.icon-loading-small, button.icon-loading-small, textarea.icon-loading-small, input.icon-loading-small, select.icon-loading-small {
+	background-image: url('../img/loading-small.gif');
+}
+
+img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-small-dark, button.icon-loading-small-dark, textarea.icon-loading-small-dark, input.icon-loading-small-dark, select.icon-loading-small-dark {
+	background-image: url('../img/loading-small-dark.gif');
+}
+
+@-webkit-keyframes rotate {
+	from {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+
+	to {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+
+@keyframes rotate {
+	from {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+
+	to {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+
+.icon-32 {
+	background-size: 32px !important;
+}
+
+/* action icons */
+
+.icon-add {
+	background-image: url('../img/actions/add.svg?v=1');
+}
+
+.icon-audio {
+	background-image: url('../img/actions/audio.svg?v=1');
+}
+
+.icon-audio-white {
+	background-image: url('../img/actions/audio-white.svg?v=2');
+}
+
+.icon-audio-off {
+	background-image: url('../img/actions/audio-off.svg?v=1');
+}
+
+.icon-audio-off-white {
+	background-image: url('../img/actions/audio-off-white.svg?v=1');
+}
+
+.icon-caret {
+	background-image: url('../img/actions/caret.svg?v=1');
+}
+
+.icon-caret-dark {
+	background-image: url('../img/actions/caret-dark.svg?v=1');
+}
+
+.icon-checkmark {
+	background-image: url('../img/actions/checkmark.svg?v=1');
+}
+
+.icon-checkmark-white {
+	background-image: url('../img/actions/checkmark-white.svg?v=1');
+}
+
+.icon-checkmark-color {
+	background-image: url('../img/actions/checkmark-color.svg?v=1');
+}
+
+.icon-clippy {
+	background-image: url('../img/actions/clippy.svg?v=2');
+}
+
+.icon-close {
+	background-image: url('../img/actions/close.svg?v=1');
+}
+
+.icon-comment {
+	background-image: url('../img/actions/comment.svg?v=1');
+}
+
+.icon-confirm {
+	background-image: url('../img/actions/confirm.svg?v=2');
+}
+
+.icon-confirm-white {
+	background-image: url('../img/actions/confirm-white.svg?v=2');
+}
+
+.icon-delete {
+	background-image: url('../img/actions/delete.svg?v=1');
+	&.no-permission {
+		&:hover, &:focus {
+			background-image: url('../img/actions/delete.svg?v=1');
+		}
+	}
+	&:hover, &:focus {
+		background-image: url('../img/actions/delete-hover.svg?v=1');
+	}
+}
+
+.icon-delete-white {
+	background-image: url('../img/actions/delete-white.svg?v=1');
+}
+
+.icon-details {
+	background-image: url('../img/actions/details.svg?v=1');
+}
+
+.icon-download {
+	background-image: url('../img/actions/download.svg?v=1');
+}
+
+.icon-download-white {
+	background-image: url('../img/actions/download-white.svg?v=1');
+}
+
+.icon-edit {
+	background-image: url('../img/actions/edit.svg?v=1');
+}
+
+.icon-error {
+	background-image: url('../img/actions/error.svg?v=1');
+}
+
+.icon-error-white {
+	background-image: url('../img/actions/error-white.svg?v=1');
+}
+
+.icon-error-color {
+	background-image: url('../img/actions/error-color.svg?v=1');
+}
+
+.icon-external {
+	background-image: url('../img/actions/external.svg?v=1');
+}
+
+.icon-fullscreen {
+	background-image: url('../img/actions/fullscreen.svg?v=1');
+}
+
+.icon-fullscreen-white {
+	background-image: url('../img/actions/fullscreen-white.svg?v=2');
+}
+
+.icon-history {
+	background-image: url('../img/actions/history.svg?v=1');
+}
+
+.icon-info {
+	background-image: url('../img/actions/info.svg?v=1');
+}
+
+.icon-info-white {
+	background-image: url('../img/actions/info-white.svg?v=1');
+}
+
+.icon-logout {
+	background-image: url('../img/actions/logout.svg?v=1');
+}
+
+.icon-mail {
+	background-image: url('../img/actions/mail.svg?v=1');
+}
+
+.icon-menu {
+	background-image: url('../img/actions/menu.svg?v=1');
+}
+
+.icon-more {
+	background-image: url('../img/actions/more.svg?v=1');
+}
+
+.icon-more-white {
+	background-image: url('../img/actions/more-white.svg?v=1');
+}
+
+.icon-password {
+	background-image: url('../img/actions/password.svg?v=1');
+}
+
+.icon-pause {
+	background-image: url('../img/actions/pause.svg?v=1');
+}
+
+.icon-pause-big {
+	background-image: url('../img/actions/pause-big.svg?v=1');
+}
+
+.icon-play {
+	background-image: url('../img/actions/play.svg?v=1');
+}
+
+.icon-play-add {
+	background-image: url('../img/actions/play-add.svg?v=1');
+}
+
+.icon-play-big {
+	background-image: url('../img/actions/play-big.svg?v=1');
+}
+
+.icon-play-next {
+	background-image: url('../img/actions/play-next.svg?v=1');
+}
+
+.icon-play-previous {
+	background-image: url('../img/actions/play-previous.svg?v=1');
+}
+
+.icon-public {
+	background-image: url('../img/actions/public.svg?v=1');
+}
+
+.icon-rename {
+	background-image: url('../img/actions/rename.svg?v=1');
+}
+
+.icon-search {
+	background-image: url('../img/actions/search.svg?v=1');
+}
+
+.icon-search-white {
+	background-image: url('../img/actions/search-white.svg?v=1');
+}
+
+.icon-settings {
+	background-image: url('../img/actions/settings.svg?v=1');
+}
+
+.icon-share {
+	background-image: url('../img/actions/share.svg?v=1');
+}
+
+.icon-shared {
+	background-image: url('../img/actions/shared.svg?v=1');
+}
+
+.icon-sound {
+	background-image: url('../img/actions/sound.svg?v=1');
+}
+
+.icon-sound-off {
+	background-image: url('../img/actions/sound-off.svg?v=1');
+}
+
+.icon-favorite {
+	background-image: url('../img/actions/star-dark.svg?v=1');
+}
+
+.icon-star {
+	background-image: url('../img/actions/star.svg?v=1');
+}
+
+.icon-starred {
+	&:hover, &:focus {
+		background-image: url('../img/actions/star.svg?v=1');
+	}
+	background-image: url('../img/actions/starred.svg?v=1');
+}
+
+.icon-star {
+	&:hover, &:focus {
+		background-image: url('../img/actions/starred.svg?v=1');
+	}
+}
+
+.icon-tag {
+	background-image: url('../img/actions/tag.svg?v=1');
+}
+
+.icon-toggle {
+	background-image: url('../img/actions/toggle.svg?v=1');
+}
+
+.icon-triangle-e {
+	background-image: url('../img/actions/triangle-e.svg?v=1');
+}
+
+.icon-triangle-n {
+	background-image: url('../img/actions/triangle-n.svg?v=1');
+}
+
+.icon-triangle-s {
+	background-image: url('../img/actions/triangle-s.svg?v=1');
+}
+
+.icon-upload {
+	background-image: url('../img/actions/upload.svg?v=1');
+}
+
+.icon-upload-white {
+	background-image: url('../img/actions/upload-white.svg?v=1');
+}
+
+.icon-user {
+	background-image: url('../img/actions/user.svg?v=1');
+}
+
+.icon-video {
+	background-image: url('../img/actions/video.svg?v=1');
+}
+
+.icon-video-white {
+	background-image: url('../img/actions/video-white.svg?v=2');
+}
+
+.icon-video-off {
+	background-image: url('../img/actions/video-off.svg?v=1');
+}
+
+.icon-video-off-white {
+	background-image: url('../img/actions/video-off-white.svg?v=1');
+}
+
+.icon-view-close {
+	background-image: url('../img/actions/view-close.svg?v=1');
+}
+
+.icon-view-download {
+	background-image: url('../img/actions/view-download.svg?v=1');
+}
+
+.icon-view-next {
+	background-image: url('../img/actions/view-next.svg?v=1');
+}
+
+.icon-view-pause {
+	background-image: url('../img/actions/view-pause.svg?v=1');
+}
+
+.icon-view-play {
+	background-image: url('../img/actions/view-play.svg?v=1');
+}
+
+.icon-view-previous {
+	background-image: url('../img/actions/view-previous.svg?v=1');
+}
+
+/* places icons */
+
+.icon-calendar-dark {
+	background-image: url('../img/places/calendar-dark.svg?v=1');
+}
+
+.icon-contacts-dark {
+	background-image: url('../img/places/contacts-dark.svg?v=1');
+}
+
+.icon-files {
+	background-image: url('../img/places/files.svg?v=1');
+}
+
+.icon-files-dark {
+	background-image: url('../img/places/files-dark.svg?v=1');
+}
+
+.icon-file, .icon-filetype-text {
+	background-image: url('../img/filetypes/text.svg?v=1');
+}
+
+.icon-folder, .icon-filetype-folder {
+	background-image: url('../img/filetypes/folder.svg?v=1');
+}
+
+.icon-filetype-folder-drag-accept {
+	background-image: url('../img/filetypes/folder-drag-accept.svg?v=1') !important;
+}
+
+.icon-home {
+	background-image: url('../img/places/home.svg?v=1');
+}
+
+.icon-link {
+	background-image: url('../img/places/link.svg?v=1');
+}
+
+.icon-music {
+	background-image: url('../img/places/music.svg?v=1');
+}
+
+.icon-picture {
+	background-image: url('../img/places/picture.svg?v=1');
+}
