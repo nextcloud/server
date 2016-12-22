@@ -499,8 +499,8 @@ trait WebDav {
 		PHPUnit_Framework_Assert::assertEquals(1, file_exists("work/$filename"));
 		$this->userUploadsAFileTo($user, "work/$filename", $destination);
 		$this->removeFile("work/", $filename);
-		$userHome = $this->getUserHome($user);
-		PHPUnit_Framework_Assert::assertEquals(1, file_exists($userHome . "/files$destination"));
+		$expectedElements = new \Behat\Gherkin\Node\TableNode([["$destination"]]);
+		$this->checkElementList($user, $expectedElements);
 	}
 
 	/**
