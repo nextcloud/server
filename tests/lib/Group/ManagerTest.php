@@ -22,10 +22,20 @@
  */
 namespace Test\Group;
 
+use OC\User\Manager;
 use OCP\IUser;
 use OCP\GroupInterface;
 
 class ManagerTest extends \Test\TestCase {
+	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject $userManager */
+	protected $userManager;
+
+	protected function setUp() {
+		parent::setUp();
+
+		$this->userManager = $this->createMock(Manager::class);
+	}
+
 	private function getTestUser($userId) {
 		$mockUser = $this->createMock(IUser::class);
 		$mockUser->expects($this->any())
@@ -306,9 +316,6 @@ class ManagerTest extends \Test\TestCase {
 			->with('group1')
 			->will($this->returnValue(true));
 
-		$userBackend = $this->getMockBuilder('\OC\Group\Database')
-			->disableOriginalConstructor()
-			->getMock();
 		$manager = new \OC\Group\Manager($this->userManager);
 		$manager->addBackend($backend);
 
@@ -426,9 +433,6 @@ class ManagerTest extends \Test\TestCase {
 			->method('groupExists')
 			->will($this->returnValue(true));
 
-		$userBackend = $this->getMockBuilder('\OC\User\Backend')
-			->disableOriginalConstructor()
-			->getMock();
 		$manager = new \OC\Group\Manager($this->userManager);
 		$manager->addBackend($backend1);
 		$manager->addBackend($backend2);
@@ -477,8 +481,8 @@ class ManagerTest extends \Test\TestCase {
 									'user33' => $this->getTestUser('user33')];
 					case 2 : return [];
 				}
+				return null;
 			}));
-
 		$this->userManager->expects($this->any())
 			->method('get')
 			->will($this->returnCallback(function($uid) use ($userBackend) {
@@ -540,8 +544,8 @@ class ManagerTest extends \Test\TestCase {
 									'user33' => $this->getTestUser('user33')];
 					case 2 : return ['user333' => $this->getTestUser('user333')];
 				}
+				return null;
 			}));
-
 		$this->userManager->expects($this->any())
 			->method('get')
 			->will($this->returnCallback(function($uid) use ($userBackend) {
@@ -600,16 +604,16 @@ class ManagerTest extends \Test\TestCase {
 			->method('searchDisplayName')
 			->with('user3')
 			->will($this->returnCallback(function($search, $limit, $offset) use ($userBackend) {
-					switch($offset) {
-						case 0 :
-							return [
-								'user3' => $this->getTestUser('user3'),
-								'user33' => $this->getTestUser('user33'),
-								'user333' => $this->getTestUser('user333')
-							];
-					}
+				switch($offset) {
+					case 0 :
+						return [
+							'user3' => $this->getTestUser('user3'),
+							'user33' => $this->getTestUser('user33'),
+							'user333' => $this->getTestUser('user333')
+						];
+				}
+				return null;
 			}));
-
 		$this->userManager->expects($this->any())
 			->method('get')
 			->will($this->returnCallback(function($uid) use ($userBackend) {
@@ -793,7 +797,7 @@ class ManagerTest extends \Test\TestCase {
 		// add user
 		$group = $manager->get('group1');
 		$group->addUser($user1);
-		$expectedGroups = array('group1');
+		$expectedGroups = ['group1'];
 
 		// check result
 		$groups = $manager->getUserGroups($user1);
@@ -881,11 +885,7 @@ class ManagerTest extends \Test\TestCase {
 				['group2', ['gid' => 'group2']],
 			]));
 
-		/**
-		 * @var \OC\User\Manager $userManager
-		 */
-		$userManager = $this->createMock('\OC\User\Manager');
-		$manager = new \OC\Group\Manager($userManager);
+		$manager = new \OC\Group\Manager($this->userManager);
 		$manager->addBackend($backend);
 
 		// group with display name
