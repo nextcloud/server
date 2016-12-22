@@ -1381,12 +1381,12 @@ class OC_Util {
 	}
 
 	/**
-	 * A human readable string is generated based on version, channel and build number
+	 * A human readable string is generated based on version and build number
 	 *
 	 * @return string
 	 */
 	public static function getHumanVersion() {
-		$version = OC_Util::getVersionString() . ' (' . OC_Util::getChannel() . ')';
+		$version = OC_Util::getVersionString();
 		$build = OC_Util::getBuild();
 		if (!empty($build) and OC_Util::getChannel() === 'daily') {
 			$version .= ' Build:' . $build;
