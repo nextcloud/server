@@ -59,11 +59,14 @@ class AppFetcher extends Fetcher {
 	/**
 	 * Only returns the latest compatible app release in the releases array
 	 *
+	 * @param string $ETag
+	 * @param string $content
+	 *
 	 * @return array
 	 */
-	protected function fetch() {
+	protected function fetch($ETag, $content) {
 		/** @var mixed[] $response */
-		$response = parent::fetch();
+		$response = parent::fetch($ETag, $content);
 
 		$ncVersion = $this->config->getSystemValue('version');
 		$ncMajorVersion = explode('.', $ncVersion)[0];

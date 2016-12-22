@@ -21,6 +21,7 @@
 
 namespace OC\App\AppStore\Fetcher;
 
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -62,15 +63,37 @@ abstract class Fetcher {
 	/**
 	 * Fetches the response from the server
 	 *
+	 * @param string $ETag
+	 * @param string $content
+	 *
 	 * @return array
 	 */
-	protected function fetch() {
+	protected function fetch($ETag, $content) {
+		$options = [];
+
+		if ($ETag !== '') {
+			$options['headers'] = [
+				'If-None-Match' => $ETag,
+			];
+		}
+
 		$client = $this->clientService->newClient();
-		$response = $client->get($this->endpointUrl);
+		$response = $client->get($this->endpointUrl, $options);
+
 		$responseJson = [];
-		$responseJson['data'] = json_decode($response->getBody(), true);
+		if ($response->getStatusCode() === Http::STATUS_NOT_MODIFIED) {
+			$responseJson['data'] = json_decode($content, true);
+		} else {
+			$responseJson['data'] = json_decode($response->getBody(), true);
+			$ETag = $response->getHeader('ETag');
+		}
+
 		$responseJson['timestamp'] = $this->timeFactory->getTime();
 		$responseJson['ncversion'] = $this->config->getSystemValue('version');
+		if ($ETag !== '') {
+			$responseJson['ETag'] = $ETag;
+		}
+
 		return $responseJson;
 	}
 
@@ -81,6 +104,9 @@ abstract class Fetcher {
 	 */
 	 public function get() {
 		$rootFolder = $this->appData->getFolder('/');
+
+		$ETag = '';
+		$content = '';
 
 		try {
 			// File does already exists
@@ -95,6 +121,11 @@ abstract class Fetcher {
 					isset($jsonBlob['ncversion']) && $jsonBlob['ncversion'] === $this->config->getSystemValue('version', '0.0.0')) {
 					return $jsonBlob['data'];
 				}
+
+				if (isset($jsonBlob['ETag'])) {
+					$ETag = $jsonBlob['ETag'];
+					$content = json_encode($jsonBlob['data']);
+				}
 			}
 		} catch (NotFoundException $e) {
 			// File does not already exists
@@ -103,7 +134,7 @@ abstract class Fetcher {
 
 		// Refresh the file content
 		try {
-			$responseJson = $this->fetch();
+			$responseJson = $this->fetch($ETag, $content);
 			$file->putContent(json_encode($responseJson));
 			return json_decode($file->getContent(), true)['data'];
 		} catch (\Exception $e) {
