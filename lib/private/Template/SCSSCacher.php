@@ -175,7 +175,8 @@ class SCSSCacher {
 	 * @return string
 	 */
 	public function getCachedSCSS($appName, $fileName) {
-		$fileName = array_pop(explode('/', $fileName));
+		$tmpfileLoc = explode('/', $fileName);
+		$fileName = array_pop($tmpfileLoc);
 		$fileName = str_replace('.scss', '.css', $fileName);
 
 		return substr($this->urlGenerator->linkToRoute('core.Css.getCss', array('fileName' => $fileName, 'appName' => $appName)), 1);
