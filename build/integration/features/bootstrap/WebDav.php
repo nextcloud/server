@@ -499,7 +499,8 @@ trait WebDav {
 		PHPUnit_Framework_Assert::assertEquals(1, file_exists("data/$filename"));
 		$this->userUploadsAFileTo($user, "data/$filename", $destination);
 		$this->removeFile("data/", $filename);
-		PHPUnit_Framework_Assert::assertEquals(1, file_exists("../../data/$user/files$destination"));
+		$userHome = $this->getUserHome($user);
+		PHPUnit_Framework_Assert::assertEquals(1, file_exists($userHome . "/files$destination"));
 	}
 
 	/**

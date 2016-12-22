@@ -704,6 +704,15 @@ trait Provisioning {
 		$this->userHasAQuotaOf($user, 'none');
 	}
 
+	public function getUserHome($user) {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
+		$client = new Client();
+		$options = [];
+		$options['auth'] = $this->adminUser;
+		$this->response = $client->get($fullUrl, $options);
+		return $this->response->xml()->data[0]->home;
+	}
+
 	/**
 	 * @BeforeScenario
 	 * @AfterScenario
