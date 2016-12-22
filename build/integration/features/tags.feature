@@ -425,3 +425,12 @@ Feature: tags
     Then The response should have a status code "201"
     And the user "user0" cannot assign the "not user-assignable" tag with name "TagWithGroups"
 
+  Scenario: Assign a normal tag to a file
+    Given user "user0" exists
+    And "admin" creates a "normal" tag with name "Etiqueta"
+    And As an "user0"
+    When "user0" adds the tag "Etiqueta" to "/textfile0.txt" owned by "user0"
+    Then The response should have a status code "201"
+    And "textfile0.txt" owned by "user0" has the following tags
+      | Etiqueta |
+

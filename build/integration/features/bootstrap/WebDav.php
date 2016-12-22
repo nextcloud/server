@@ -406,6 +406,30 @@ trait WebDav {
 		return $response;
 	}
 
+	/* Returns the elements of a report command
+	 * @param string $user
+	 * @param string $path
+	 * @param string $properties properties which needs to be included in the report
+	 * @param string $filterRules filter-rules to choose what needs to appear in the report
+	 */
+	public function reportFolder($user, $path, $properties, $filterRules){
+		$client = $this->getSabreClient($user);
+
+		$body = '<?xml version="1.0" encoding="utf-8" ?>
+							 <oc:filter-files xmlns:a="DAV:" xmlns:oc="http://owncloud.org/ns" >
+								 <a:prop>
+									' . $properties . '
+								 </a:prop>
+								 <oc:filter-rules>
+									' . $filterRules . '
+								 </oc:filter-rules>
+							 </oc:filter-files>';
+
+		$response = $client->request('REPORT', $this->makeSabrePath($user, $path), $body);
+		$parsedResponse = $client->parseMultistatus($response['body']);
+		return $parsedResponse;
+	}
+
 	public function makeSabrePath($user, $path) {
 		return $this->encodePath($this->getDavFilesPath($user) . $path);
 	}
@@ -637,7 +661,6 @@ trait WebDav {
 		$this->asGetsPropertiesOfFolderWith($user, 'entry', $path, $propertiesTable);
 		$pathETAG[$path] = $this->response['{DAV:}getetag'];
 		$this->storedETAG[$user]= $pathETAG;
-		print_r($this->storedETAG[$user][$path]);
 	}
 
 	/**
@@ -681,4 +704,28 @@ trait WebDav {
 			}
 		}
     }
+
+    /**
+	 * @Then /^user "([^"]*)" in folder "([^"]*)" should have favorited the following elements$/
+	 * @param string $user
+	 * @param string $folder
+	 * @param \Behat\Gherkin\Node\TableNode|null $expectedElements
+	 */
+	public function checkFavoritedElements($user, $folder, $expectedElements){
+		$elementList = $this->reportFolder($user,
+											$folder,
+											'<oc:favorite/>',
+											'<oc:favorite>1</oc:favorite>');
+		if ($expectedElements instanceof \Behat\Gherkin\Node\TableNode) {
+			$elementRows = $expectedElements->getRows();
+			$elementsSimplified = $this->simplifyArray($elementRows);
+			foreach($elementsSimplified as $expectedElement) {
+				$webdavPath = "/" . $this->getDavFilesPath($user) . $expectedElement;
+				if (!array_key_exists($webdavPath,$elementList)){
+					PHPUnit_Framework_Assert::fail("$webdavPath" . " is not in report answer");
+				}
+			}
+		}
+	}
+
 }
