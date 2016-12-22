@@ -61,25 +61,25 @@ class ManagerTest extends \Test\TestCase {
 
 	/** @var Manager */
 	protected $manager;
-	/** @var ILogger */
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
-	/** @var IConfig */
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
-	/** @var ISecureRandom */
+	/** @var ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
 	protected $secureRandom;
-	/** @var IHasher */
+	/** @var IHasher|\PHPUnit_Framework_MockObject_MockObject */
 	protected $hasher;
-	/** @var IShareProvider | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IShareProvider|\PHPUnit_Framework_MockObject_MockObject */
 	protected $defaultProvider;
-	/** @var  IMountManager */
+	/** @var  IMountManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $mountManager;
-	/** @var  IGroupManager */
+	/** @var  IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $groupManager;
-	/** @var IL10N */
+	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
 	protected $l;
 	/** @var DummyFactory */
 	protected $factory;
-	/** @var IUserManager */
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
 	/** @var IRootFolder | \PHPUnit_Framework_MockObject_MockObject */
 	protected $rootFolder;
@@ -488,7 +488,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('delete')
 			->withConsecutive($child1, $child2, $child3);
 
-		$result = $this->invokePrivate($manager, 'deleteChildren', [$share]);
+		$result = self::invokePrivate($manager, 'deleteChildren', [$share]);
 		$this->assertSame($shares, $result);
 	}
 
@@ -532,7 +532,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException        InvalidArgumentException
+	 * @expectedException \InvalidArgumentException
 	 * @expectedExceptionMessage Passwords are enforced for link shares
 	 */
 	public function testVerifyPasswordNullButEnforced() {
@@ -540,7 +540,7 @@ class ManagerTest extends \Test\TestCase {
 			['core', 'shareapi_enforce_links_password', 'no', 'yes'],
 		]));
 
-		$this->invokePrivate($this->manager, 'verifyPassword', [null]);
+		self::invokePrivate($this->manager, 'verifyPassword', [null]);
 	}
 
 	public function testVerifyPasswordNull() {
@@ -548,7 +548,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_enforce_links_password', 'no', 'no'],
 		]));
 
-		$result = $this->invokePrivate($this->manager, 'verifyPassword', [null]);
+		$result = self::invokePrivate($this->manager, 'verifyPassword', [null]);
 		$this->assertNull($result);
 	}
 
@@ -564,12 +564,12 @@ class ManagerTest extends \Test\TestCase {
 			}
 			);
 
-		$result = $this->invokePrivate($this->manager, 'verifyPassword', ['password']);
+		$result = self::invokePrivate($this->manager, 'verifyPassword', ['password']);
 		$this->assertNull($result);
 	}
 
 	/**
-	 * @expectedException        Exception
+	 * @expectedException \Exception
 	 * @expectedExceptionMessage password not accepted
 	 */
 	public function testVerifyPasswordHookFails() {
@@ -585,7 +585,7 @@ class ManagerTest extends \Test\TestCase {
 			}
 			);
 
-		$this->invokePrivate($this->manager, 'verifyPassword', ['password']);
+		self::invokePrivate($this->manager, 'verifyPassword', ['password']);
 	}
 
 	public function createShare($id, $type, $path, $sharedWith, $sharedBy, $shareOwner,
@@ -699,6 +699,7 @@ class ManagerTest extends \Test\TestCase {
 	 *
 	 * @param $share
 	 * @param $exceptionMessage
+	 * @param $exception
 	 */
 	public function testGeneralChecks($share, $exceptionMessage, $exception) {
 		$thrown = null;
@@ -718,7 +719,7 @@ class ManagerTest extends \Test\TestCase {
 
 
 		try {
-			$this->invokePrivate($this->manager, 'generalCreateChecks', [$share]);
+			self::invokePrivate($this->manager, 'generalCreateChecks', [$share]);
 			$thrown = false;
 		} catch (\OCP\Share\Exceptions\GenericShareException $e) {
 			$this->assertEquals($exceptionMessage, $e->getHint());
@@ -754,7 +755,7 @@ class ManagerTest extends \Test\TestCase {
 			->setSharedBy('user1')
 			->setNode($userFolder);
 
-		$this->invokePrivate($this->manager, 'generalCreateChecks', [$share]);
+		self::invokePrivate($this->manager, 'generalCreateChecks', [$share]);
 	}
 
 	/**
@@ -770,11 +771,11 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($past);
 
-		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 	}
 
 	/**
-	 * @expectedException InvalidArgumentException
+	 * @expectedException \InvalidArgumentException
 	 * @expectedExceptionMessage Expiration date is enforced
 	 */
 	public function testvalidateExpirationDateEnforceButNotSet() {
@@ -787,7 +788,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
 			]));
 
-		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 	}
 
 	public function testvalidateExpirationDateEnforceButNotEnabledAndNotSet() {
@@ -799,7 +800,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
 			]));
 
-		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
 		$this->assertNull($share->getExpirationDate());
 	}
@@ -818,7 +819,7 @@ class ManagerTest extends \Test\TestCase {
 		$expected->setTime(0,0,0);
 		$expected->add(new \DateInterval('P3D'));
 
-		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
 		$this->assertNotNull($share->getExpirationDate());
 		$this->assertEquals($expected, $share->getExpirationDate());
@@ -839,7 +840,7 @@ class ManagerTest extends \Test\TestCase {
 			]));
 
 		try {
-			$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+			self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 		} catch (\OCP\Share\Exceptions\GenericShareException $e) {
 			$this->assertEquals('Cannot set expiration date more than 3 days in the future', $e->getMessage());
 			$this->assertEquals('Cannot set expiration date more than 3 days in the future', $e->getHint());
@@ -871,7 +872,7 @@ class ManagerTest extends \Test\TestCase {
 			return $data['expirationDate'] == $future;
 		}));
 
-		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
 		$this->assertEquals($expected, $share->getExpirationDate());
 	}
@@ -892,7 +893,7 @@ class ManagerTest extends \Test\TestCase {
 			return $data['expirationDate'] == $expected && $data['passwordSet'] === false;
 		}));
 
-		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
 		$this->assertEquals($expected, $share->getExpirationDate());
 	}
@@ -907,7 +908,7 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->manager->newShare();
 		$share->setPassword('password');
 
-		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
 		$this->assertNull($share->getExpirationDate());
 	}
@@ -934,7 +935,7 @@ class ManagerTest extends \Test\TestCase {
 			return $data['expirationDate'] == $expected;
 		}));
 
-		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
 		$this->assertEquals($expected, $share->getExpirationDate());
 	}
@@ -955,7 +956,7 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($nextWeek);
 
-		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
 		$save->sub(new \DateInterval('P2D'));
 		$this->assertEquals($save, $share->getExpirationDate());
@@ -980,7 +981,7 @@ class ManagerTest extends \Test\TestCase {
 			$data['message'] = 'Invalid date!';
 		}));
 
-		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 	}
 
 	public function testValidateExpirationDateExistingShareNoDefault() {
@@ -994,7 +995,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_expire_after_n_days', '7', '6'],
 			]));
 
-		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
 		$this->assertEquals(null, $share->getExpirationDate());
 	}
@@ -1030,7 +1031,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
 			]));
 
-		$this->invokePrivate($this->manager, 'userCreateChecks', [$share]);
+		self::invokePrivate($this->manager, 'userCreateChecks', [$share]);
 	}
 
 	public function testUserCreateChecksShareWithGroupMembersOnlySharedGroup() {
@@ -1068,7 +1069,7 @@ class ManagerTest extends \Test\TestCase {
 			->with($path)
 			->willReturn([]);
 
-		$this->invokePrivate($this->manager, 'userCreateChecks', [$share]);
+		self::invokePrivate($this->manager, 'userCreateChecks', [$share]);
 	}
 
 	/**
@@ -1093,7 +1094,7 @@ class ManagerTest extends \Test\TestCase {
 			->with($path)
 			->willReturn([$share2]);
 
-		$this->invokePrivate($this->manager, 'userCreateChecks', [$share]);
+		self::invokePrivate($this->manager, 'userCreateChecks', [$share]);
 	}
 
 	/**
@@ -1135,7 +1136,7 @@ class ManagerTest extends \Test\TestCase {
 			->with($path)
 			->willReturn([$share2]);
 
-		$this->invokePrivate($this->manager, 'userCreateChecks', [$share]);
+		self::invokePrivate($this->manager, 'userCreateChecks', [$share]);
 	}
 
 	public function testUserCreateChecksIdenticalPathNotSharedWithUser() {
@@ -1170,7 +1171,7 @@ class ManagerTest extends \Test\TestCase {
 			->with($path)
 			->willReturn([$share2]);
 
-		$this->invokePrivate($this->manager, 'userCreateChecks', [$share]);
+		self::invokePrivate($this->manager, 'userCreateChecks', [$share]);
 	}
 
 	/**
@@ -1186,7 +1187,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_allow_group_sharing', 'yes', 'no'],
 			]));
 
-		$this->invokePrivate($this->manager, 'groupCreateChecks', [$share]);
+		self::invokePrivate($this->manager, 'groupCreateChecks', [$share]);
 	}
 
 	/**
@@ -1212,7 +1213,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
 			]));
 
-		$this->invokePrivate($this->manager, 'groupCreateChecks', [$share]);
+		self::invokePrivate($this->manager, 'groupCreateChecks', [$share]);
 	}
 
 	public function testGroupCreateChecksShareWithGroupMembersOnlyInGroup() {
@@ -1241,7 +1242,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
 			]));
 
-		$this->invokePrivate($this->manager, 'groupCreateChecks', [$share]);
+		self::invokePrivate($this->manager, 'groupCreateChecks', [$share]);
 	}
 
 	/**
@@ -1272,7 +1273,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
 			]));
 
-		$this->invokePrivate($this->manager, 'groupCreateChecks', [$share]);
+		self::invokePrivate($this->manager, 'groupCreateChecks', [$share]);
 	}
 
 	public function testGroupCreateChecksPathAlreadySharedWithDifferentGroup() {
@@ -1296,7 +1297,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
 			]));
 
-		$this->invokePrivate($this->manager, 'groupCreateChecks', [$share]);
+		self::invokePrivate($this->manager, 'groupCreateChecks', [$share]);
 	}
 
 	/**
@@ -1312,7 +1313,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_allow_links', 'yes', 'no'],
 			]));
 
-		$this->invokePrivate($this->manager, 'linkCreateChecks', [$share]);
+		self::invokePrivate($this->manager, 'linkCreateChecks', [$share]);
 	}
 
 	/**
@@ -1330,7 +1331,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
 			]));
 
-		$this->invokePrivate($this->manager, 'linkCreateChecks', [$share]);
+		self::invokePrivate($this->manager, 'linkCreateChecks', [$share]);
 	}
 
 	/**
@@ -1349,7 +1350,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_allow_public_upload', 'yes', 'no']
 			]));
 
-		$this->invokePrivate($this->manager, 'linkCreateChecks', [$share]);
+		self::invokePrivate($this->manager, 'linkCreateChecks', [$share]);
 	}
 
 	public function testLinkCreateChecksPublicUpload() {
@@ -1364,7 +1365,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_allow_public_upload', 'yes', 'yes']
 			]));
 
-		$this->invokePrivate($this->manager, 'linkCreateChecks', [$share]);
+		self::invokePrivate($this->manager, 'linkCreateChecks', [$share]);
 	}
 
 	public function testLinkCreateChecksReadOnly() {
@@ -1379,7 +1380,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_allow_public_upload', 'yes', 'no']
 			]));
 
-		$this->invokePrivate($this->manager, 'linkCreateChecks', [$share]);
+		self::invokePrivate($this->manager, 'linkCreateChecks', [$share]);
 	}
 
 	/**
@@ -1397,7 +1398,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->mountManager->method('findIn')->with('path')->willReturn([$mount]);
 
-		$this->invokePrivate($this->manager, 'pathCreateChecks', [$path]);
+		self::invokePrivate($this->manager, 'pathCreateChecks', [$path]);
 	}
 
 	public function testPathCreateChecksContainsNoSharedMount() {
@@ -1411,13 +1412,13 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->mountManager->method('findIn')->with('path')->willReturn([$mount]);
 
-		$this->invokePrivate($this->manager, 'pathCreateChecks', [$path]);
+		self::invokePrivate($this->manager, 'pathCreateChecks', [$path]);
 	}
 
 	public function testPathCreateChecksContainsNoFolder() {
 		$path = $this->createMock(File::class);
 
-		$this->invokePrivate($this->manager, 'pathCreateChecks', [$path]);
+		self::invokePrivate($this->manager, 'pathCreateChecks', [$path]);
 	}
 
 	public function dataIsSharingDisabledForUser() {
@@ -1528,7 +1529,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$exception = false;
 		try {
-			$res = $this->invokePrivate($manager, 'canShare', [$share]);
+			$res = self::invokePrivate($manager, 'canShare', [$share]);
 		} catch (\Exception $e) {
 			$exception = true;
 		}
@@ -2008,6 +2009,12 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetShareByToken() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_links', 'yes')
+			->willReturn('yes');
+
 		$factory = $this->createMock(IProviderFactory::class);
 
 		$manager = new Manager(
@@ -2041,6 +2048,12 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetShareByTokenWithException() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_links', 'yes')
+			->willReturn('yes');
+
 		$factory = $this->createMock(IProviderFactory::class);
 
 		$manager = new Manager(
@@ -2085,6 +2098,12 @@ class ManagerTest extends \Test\TestCase {
 	 * @expectedException \OCP\Share\Exceptions\ShareNotFound
 	 */
 	public function testGetShareByTokenExpired() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_links', 'yes')
+			->willReturn('yes');
+
 		$manager = $this->createManagerMock()
 			->setMethods(['deleteShare'])
 			->getMock();
@@ -2107,6 +2126,12 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetShareByTokenNotExpired() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_links', 'yes')
+			->willReturn('yes');
+
 		$date = new \DateTime();
 		$date->setTime(0,0,0);
 		$date->add(new \DateInterval('P2D'));
@@ -2123,12 +2148,33 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertSame($share, $res);
 	}
 
-	public function testGetShareByTokenPublicSharingDisabled() {
+	/**
+	 * @expectedException \OCP\Share\Exceptions\ShareNotFound
+	 */
+	public function testGetShareByTokenWithPublicLinksDisabled() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_links', 'yes')
+			->willReturn('no');
+		$this->manager->getShareByToken('validToken');
+	}
+
+	public function testGetShareByTokenPublicUploadDisabled() {
+		$this->config
+			->expects($this->at(0))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_links', 'yes')
+			->willReturn('yes');
+
 		$share = $this->manager->newShare();
 		$share->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
 
-		$this->config->method('getAppValue')->will($this->returnValueMap([
+		$this->config
+			->expects($this->at(1))
+			->method('getAppValue')
+			->will($this->returnValueMap([
 			['core', 'shareapi_allow_public_upload', 'yes', 'no'],
 		]));
 
