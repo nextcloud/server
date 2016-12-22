@@ -196,9 +196,11 @@ class Trashbin {
 	 * move file to the trash bin
 	 *
 	 * @param string $file_path path to the deleted file/directory relative to the files root directory
+	 * @param bool $ownerOnly delete for owner only (if file gets moved out of a shared folder)
+	 *
 	 * @return bool
 	 */
-	public static function move2trash($file_path) {
+	public static function move2trash($file_path, $ownerOnly = false) {
 		// get the user for which the filesystem is setup
 		$root = Filesystem::getRoot();
 		list(, $user) = explode('/', $root);
@@ -261,8 +263,8 @@ class Trashbin {
 
 			self::retainVersions($filename, $owner, $ownerPath, $timestamp);
 
-			// if owner !== user we need to also add a copy to the owners trash
-			if ($user !== $owner) {
+			// if owner !== user we need to also add a copy to the users trash
+			if ($user !== $owner && $ownerOnly === false) {
 				self::copyFilesToUser($ownerPath, $owner, $file_path, $user, $timestamp);
 			}
 		}
