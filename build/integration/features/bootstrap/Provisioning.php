@@ -704,6 +704,10 @@ trait Provisioning {
 		$this->userHasAQuotaOf($user, 'none');
 	}
 
+	/**
+	 * Returns home path of the given user
+	 * @param string $user
+	 */
 	public function getUserHome($user) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
 		$client = new Client();
