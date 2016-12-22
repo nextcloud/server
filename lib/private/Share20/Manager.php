@@ -1200,69 +1200,50 @@ class Manager implements IManager {
 	 *
 	 * @param \OCP\Files\Node $path
 	 * @param bool $recursive Should we check all parent folders as well
+	 * @param bool $currentAccess Should the user have currently access to the file
 	 * @return array
 	 */
-	public function getAccessList(\OCP\Files\Node $path, $recursive = true) {
+	public function getAccessList(\OCP\Files\Node $path, $recursive = true, $currentAccess = false) {
 		$owner = $path->getOwner()->getUID();
+
+		$al = ['users' => [], 'public' => false, 'remote' => false];
+		if (!$this->userManager->userExists($owner)) {
+			return $al;
+		}
 
 		//Get node for the owner
 		$userFolder = $this->rootFolder->getUserFolder($owner);
-
 		if (!$userFolder->isSubNode($path)) {
 			$path = $userFolder->getById($path->getId())[0];
 		}
 
 		$providers = $this->factory->getAllProviders();
 
-		/** @var IShare[] $shares */
-		$shares = [];
+		/** @var Node[] $nodes */
+		$nodes = [];
+
+		$al['users'][] = $owner;
 
 		// Collect all the shares
 		while ($path->getPath() !== $userFolder->getPath()) {
-			foreach ($providers as $provider) {
-				$shares = array_merge($shares, $provider->getSharesByPath($path));
-			}
+			$nodes[] = $path;
 			if (!$recursive) {
 				break;
 			}
 			$path = $path->getParent();
 		}
 
-		$users = [$owner => 'null'];
-		$public = false;
-		$remote = false;
-		foreach ($shares as $share) {
-			if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
-				$uid = $share->getSharedWith();
+		foreach ($providers as $provider) {
+			$tmp = $provider->getAccessList($nodes, $currentAccess);
 
-				// Skip if user does not exist
-				if (!$this->userManager->userExists($uid)) {
-					continue;
-				}
-
-				$users[$uid] = null;
-			} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
-				$group = $this->groupManager->get($share->getSharedWith());
-
-				// If group does not exist skip
-				if ($group === null) {
-					continue;
-				}
-
-				$groupUsers = $group->getUsers();
-				foreach ($groupUsers as $groupUser) {
-					$users[$groupUser->getUID()] = null;
-				}
-			} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
-				$public = true;
-			} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_REMOTE) {
-				$remote = true;
-			}
+			$al['users'] = array_merge($al['users'], $tmp['users']);
+			$al['public'] = $al['public'] || $tmp['public'];
+			$al['remote'] = $al['remote'] || $tmp['remote'];
 		}
 
-		$users = array_keys($users);
+		$al['users'] = array_unique($al['users']);
 
-		return ['users' => $users, 'public' => $public, 'remote' => $remote];
+		return $al;
 	}
 
 	/**

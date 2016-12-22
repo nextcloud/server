@@ -28,6 +28,7 @@ namespace OCA\FederatedFileSharing;
 
 use OC\Share20\Share;
 use OCP\Federation\ICloudIdManager;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
@@ -973,5 +974,29 @@ class FederatedShareProvider implements IShareProvider {
 	public function isLookupServerUploadEnabled() {
 		$result = $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes');
 		return ($result === 'yes');
+	}
+
+	public function getAccessList($nodes, $currentAccess) {
+		$ids = [];
+		foreach ($nodes as $node) {
+			$ids[] = $node->getId();
+		}
+
+		$qb = $this->dbConnection->getQueryBuilder();
+		$qb->select('share_with')
+			->from('share')
+			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_REMOTE)))
+			->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)))
+			->andWhere($qb->expr()->orX(
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
+			))
+			->setMaxResults(1);
+		$cursor = $qb->execute();
+
+		$remote = $cursor->fetch() !== false;
+		$cursor->closeCursor();
+
+		return ['users' => [], 'remote' => $remote, 'public' => false];
 	}
 }

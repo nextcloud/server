@@ -2738,6 +2738,26 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetAccessList() {
+		$factory = new DummyFactory2($this->createMock(IServerContainer::class));
+
+		$manager = new Manager(
+			$this->logger,
+			$this->config,
+			$this->secureRandom,
+			$this->hasher,
+			$this->mountManager,
+			$this->groupManager,
+			$this->l,
+			$factory,
+			$this->userManager,
+			$this->rootFolder,
+			$this->eventDispatcher
+		);
+
+		$factory->setProvider($this->defaultProvider);
+		$extraProvider = $this->createMock(IShareProvider::class);
+		$factory->setSecondProvider($extraProvider);
+
 		$owner = $this->createMock(IUser::class);
 		$owner->expects($this->once())
 			->method('getUID')
@@ -2769,60 +2789,56 @@ class ManagerTest extends \Test\TestCase {
 		$userFolder->method('getPath')
 			->willReturn('/owner/files');
 
-		$userShare = $this->createMock(IShare::class);
-		$userShare->method('getShareType')
-			->willReturn(\OCP\Share::SHARE_TYPE_USER);
-		$userShare->method('getSharedWith')
-			->willReturn('user1');
-		$groupShare = $this->createMock(IShare::class);
-		$groupShare->method('getShareType')
-			->willReturn(\OCP\Share::SHARE_TYPE_GROUP);
-		$groupShare->method('getSharedWith')
-			->willReturn('group1');
-		$publicShare = $this->createMock(IShare::class);
-		$publicShare->method('getShareType')
-			->willReturn(\OCP\Share::SHARE_TYPE_LINK);
-		$remoteShare = $this->createMock(IShare::class);
-		$remoteShare->method('getShareType')
-			->willReturn(\OCP\Share::SHARE_TYPE_REMOTE);
-
 		$this->userManager->method('userExists')
-			->with($this->equalTo('user1'))
+			->with($this->equalTo('owner'))
 			->willReturn(true);
 
-		$user2 = $this->createMock(IUser::class);
-		$user2->method('getUID')
-			->willReturn('user2');
-		$group1 = $this->createMock(IGroup::class);
-		$this->groupManager->method('get')
-			->with($this->equalTo('group1'))
-			->willReturn($group1);
-		$group1->method('getUsers')
-			->willReturn([$user2]);
+		$this->defaultProvider->method('getAccessList')
+			->with(
+				$this->equalTo([$file, $folder]),
+				true
+			)
+			->willReturn([
+				'users' => [
+					'user1',
+					'user2',
+					'user3',
+				],
+				'remote' => false,
+				'public' => true,
+			]);
 
-		$this->defaultProvider->expects($this->any())
-			->method('getSharesByPath')
-			->will($this->returnCallback(function(Node $path) use ($file, $folder, $userShare, $groupShare, $publicShare, $remoteShare) {
-				if ($path === $file) {
-					return [$userShare, $publicShare];
-				} else if ($path === $folder) {
-					return [$groupShare, $remoteShare];
-				} else {
-					return [];
-				}
-			}));
+		$extraProvider->method('getAccessList')
+			->with(
+				$this->equalTo([$file, $folder]),
+				true
+			)
+			->willReturn([
+				'users' => [
+					'user3',
+					'user4',
+					'user5',
+				],
+				'remote' => true,
+				'public' => false,
+			]);
 
 		$this->rootFolder->method('getUserFolder')
 			->with($this->equalTo('owner'))
 			->willReturn($userFolder);
 
 		$expected = [
-			'users' => ['owner', 'user1', 'user2'],
+			'users' => ['owner', 'user1', 'user2', 'user3', 'user4', 'user5'],
 			'public' => true,
 			'remote' => true,
 		];
 
-		$this->assertEquals($expected, $this->manager->getAccessList($node));
+		$result = $manager->getAccessList($node, true, true);
+
+		$this->assertSame($expected['public'], $result['public']);
+		$this->assertSame($expected['remote'], $result['remote']);
+		$this->assertSame(array_values($expected['users']), array_values($result['users']));
+
 	}
 }
 

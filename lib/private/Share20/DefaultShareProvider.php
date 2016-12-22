@@ -362,7 +362,7 @@ class DefaultShareProvider implements IShareProvider {
 			if ($data === false) {
 				$qb = $this->dbConn->getQueryBuilder();
 
-				$type = $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder';
+				$type = $share->getNodeType();
 
 				//Insert new share
 				$qb->insert('share')
@@ -373,8 +373,8 @@ class DefaultShareProvider implements IShareProvider {
 						'uid_initiator' => $qb->createNamedParameter($share->getSharedBy()),
 						'parent' => $qb->createNamedParameter($share->getId()),
 						'item_type' => $qb->createNamedParameter($type),
-						'item_source' => $qb->createNamedParameter($share->getNode()->getId()),
-						'file_source' => $qb->createNamedParameter($share->getNode()->getId()),
+						'item_source' => $qb->createNamedParameter($share->getNodeId()),
+						'file_source' => $qb->createNamedParameter($share->getNodeId()),
 						'file_target' => $qb->createNamedParameter($share->getTarget()),
 						'permissions' => $qb->createNamedParameter(0),
 						'stime' => $qb->createNamedParameter($share->getShareTime()->getTimestamp()),
@@ -1069,5 +1069,75 @@ class DefaultShareProvider implements IShareProvider {
 				$qb->execute();
 			}
 		}
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getAccessList($nodes, $currentAccess) {
+		$ids = [];
+		foreach ($nodes as $node) {
+			$ids[] = $node->getId();
+		}
+
+		$qb = $this->dbConn->getQueryBuilder();
+
+		$or = $qb->expr()->orX(
+			$qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_USER)),
+			$qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_GROUP)),
+			$qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_LINK))
+		);
+
+		if ($currentAccess) {
+			$or->add($qb->expr()->eq('share_type', $qb->createNamedParameter(self::SHARE_TYPE_USERGROUP)));
+		}
+
+		$qb->select('share_type', 'share_with')
+			->from('share')
+			->where(
+				$or
+			)
+			->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)))
+			->andWhere($qb->expr()->orX(
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
+			));
+		$cursor = $qb->execute();
+
+		$users = [];
+		$link = false;
+		while($row = $cursor->fetch()) {
+			$type = (int)$row['share_type'];
+			if ($type === \OCP\Share::SHARE_TYPE_USER) {
+				$uid = $row['share_with'];
+				$users[$uid] = isset($users[$uid]) ? $users[$uid] + 1 : 1;
+			} else if ($type === \OCP\Share::SHARE_TYPE_GROUP) {
+				$gid = $row['share_with'];
+				$group = $this->groupManager->get($gid);
+
+				if ($gid === null) {
+					continue;
+				}
+
+				$userList = $group->getUsers();
+				foreach ($userList as $user) {
+					$users[$user->getUID()] = isset($users[$user->getUID()]) ? $users[$user->getUID()] + 1 : 1;
+				}
+			} else if ($type === \OCP\Share::SHARE_TYPE_LINK) {
+				$link = true;
+			} else if ($type === self::SHARE_TYPE_USERGROUP) {
+				if ($currentAccess === true) {
+					$uid = $row['share_with'];
+					$users[$uid] = isset($users[$uid]) ? $users[$uid] - 1 : -1;
+				}
+			}
+		}
+		$cursor->closeCursor();
+
+		$users = array_filter($users, function($count) {
+			return $count > 0;
+		});
+
+		return ['users' => array_keys($users), 'public' => $link, 'remote' => false];
 	}
 }
