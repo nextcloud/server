@@ -975,16 +975,35 @@ describe('OC.Share.ShareDialogView', function() {
 			dialog.render();
 			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(true);
 		});
-		it('shows reshare owner', function() {
+		it('shows reshare owner for single user share', function() {
 			shareModel.set({
 				reshare: {
-					uid_owner: 'user1'
+					uid_owner: 'user1',
+					displayname_owner: 'User One',
+					share_type: OC.Share.SHARE_TYPE_USER
 				},
 				shares: [],
 				permissions: OC.PERMISSION_READ
 			});
 			dialog.render();
 			expect(dialog.$el.find('.resharerInfoView .reshare').length).toEqual(1);
+			expect(dialog.$el.find('.resharerInfoView .reshare').text().trim()).toEqual('Shared with you by User One');
+		});
+		it('shows reshare owner for single user share', function() {
+			shareModel.set({
+				reshare: {
+					uid_owner: 'user1',
+					displayname_owner: 'User One',
+					share_with: 'group2',
+					share_with_displayname: 'Group Two',
+					share_type: OC.Share.SHARE_TYPE_GROUP
+				},
+				shares: [],
+				permissions: OC.PERMISSION_READ
+			});
+			dialog.render();
+			expect(dialog.$el.find('.resharerInfoView .reshare').length).toEqual(1);
+			expect(dialog.$el.find('.resharerInfoView .reshare').text().trim()).toEqual('Shared with you and the group Group Two by User One');
 		});
 		it('does not show reshare owner if owner is current user', function() {
 			shareModel.set({
