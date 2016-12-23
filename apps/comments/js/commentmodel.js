@@ -19,7 +19,8 @@
 		PROPERTY_OBJECTID:	'{' + OC.Files.Client.NS_OWNCLOUD + '}objectId',
 		PROPERTY_OBJECTTYPE:	'{' + OC.Files.Client.NS_OWNCLOUD + '}objectType',
 		PROPERTY_ACTORDISPLAYNAME:	'{' + OC.Files.Client.NS_OWNCLOUD + '}actorDisplayName',
-		PROPERTY_CREATIONDATETIME:	'{' + OC.Files.Client.NS_OWNCLOUD + '}creationDateTime'
+		PROPERTY_CREATIONDATETIME:	'{' + OC.Files.Client.NS_OWNCLOUD + '}creationDateTime',
+		PROPERTY_MENTIONS: '{' + OC.Files.Client.NS_OWNCLOUD + '}mentions'
 	});
 
 	/**
@@ -47,8 +48,8 @@
 			'creationDateTime':	OC.Files.Client.PROPERTY_CREATIONDATETIME,
 			'objectType':	OC.Files.Client.PROPERTY_OBJECTTYPE,
 			'objectId':	OC.Files.Client.PROPERTY_OBJECTID,
-			'isUnread':	OC.Files.Client.PROPERTY_ISUNREAD
-			'mentions': '{' + NS_OWNCLOUD + '}mentions'
+			'isUnread':	OC.Files.Client.PROPERTY_ISUNREAD,
+			'mentions': OC.Files.Client.PROPERTY_MENTIONS
 		},
 
 		parse: function(data) {
