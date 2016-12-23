@@ -210,7 +210,9 @@ class SharePoint extends Common {
 	 * @since 6.0.0
 	 */
 	public function file_exists($path) {
-		// TODO: Implement file_exists() method.
+		if($this->filetype($path) === false) {
+			return false;
+		}
 		return true;
 	}
 
@@ -222,8 +224,20 @@ class SharePoint extends Common {
 	 * @since 6.0.0
 	 */
 	public function unlink($path) {
-		// TODO: Implement unlink() method.
-		return true;
+		$path = trim($path);
+		if($path === '/' || $path === '') {
+			return false;
+		}
+		foreach([true, false] as $asFile) {
+			try {
+				$fsObject = $this->fetchFileOrFolder($path, $asFile);
+				$fsObject->deleteObject();
+				return true;
+			} catch(\Exception $e) {
+				// NOOP
+			}
+		}
+		return false;
 	}
 
 	/**
