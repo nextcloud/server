@@ -22,9 +22,21 @@
 namespace OCA\Testing;
 
 use OCP\AppFramework\App;
+use OCA\Testing\AlternativeHomeUserBackend;
 
 class Application extends App {
 	public function __construct (array $urlParams = array()) {
-		parent::__construct('testing', $urlParams);
+		$appName = 'testing';
+		parent::__construct($appName, $urlParams);
+
+		$c = $this->getContainer();
+		$config = $c->getServer()->getConfig();
+		if ($config->getAppValue($appName, 'enable_alt_user_backend', 'no') === 'yes') {
+			$userManager = $c->getServer()->getUserManager();
+
+			// replace all user backends with this one
+			$userManager->clearBackends();
+			$userManager->registerBackend($c->query(AlternativeHomeUserBackend::class));
+		}
 	}
 }
