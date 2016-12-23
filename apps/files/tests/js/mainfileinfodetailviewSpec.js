@@ -70,13 +70,13 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 		it('displays favorite icon', function() {
 			testFileInfo.set('tags', [OC.TAG_FAVORITE]);
 			view.setFileInfo(testFileInfo);
-			expect(view.$el.find('.favorite img').attr('src'))
-				.toEqual(OC.imagePath('core', 'actions/starred'));
+			expect(view.$el.find('.action-favorite > span').hasClass('icon-starred')).toEqual(true);
+			expect(view.$el.find('.action-favorite > span').hasClass('icon-star')).toEqual(false);
 
 			testFileInfo.set('tags', []);
 			view.setFileInfo(testFileInfo);
-			expect(view.$el.find('.favorite img').attr('src'))
-				.toEqual(OC.imagePath('core', 'actions/star'));
+			expect(view.$el.find('.action-favorite > span').hasClass('icon-starred')).toEqual(false);
+			expect(view.$el.find('.action-favorite > span').hasClass('icon-star')).toEqual(true);
 		});
 		it('displays mime icon', function() {
 			// File
@@ -187,13 +187,13 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 
 			testFileInfo.set('tags', [OC.TAG_FAVORITE]);
 
-			expect(view.$el.find('.favorite img').attr('src'))
-				.toEqual(OC.imagePath('core', 'actions/starred'));
+			expect(view.$el.find('.action-favorite > span').hasClass('icon-starred')).toEqual(true);
+			expect(view.$el.find('.action-favorite > span').hasClass('icon-star')).toEqual(false);
 
 			testFileInfo.set('tags', []);
 
-			expect(view.$el.find('.favorite img').attr('src'))
-				.toEqual(OC.imagePath('core', 'actions/star'));
+			expect(view.$el.find('.action-favorite > span').hasClass('icon-starred')).toEqual(false);
+			expect(view.$el.find('.action-favorite > span').hasClass('icon-star')).toEqual(true);
 		});
 		it('unbinds change listener from model', function() {
 			view.setFileInfo(testFileInfo);
@@ -207,8 +207,8 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 			testFileInfo.set('tags', [OC.TAG_FAVORITE]);
 
 			// no change
-			expect(view.$el.find('.favorite img').attr('src'))
-				.toEqual(OC.imagePath('core', 'actions/star'));
+			expect(view.$el.find('.action-favorite > span').hasClass('icon-starred')).toEqual(false);
+			expect(view.$el.find('.action-favorite > span').hasClass('icon-star')).toEqual(true);
 		});
 	});
 	describe('events', function() {
