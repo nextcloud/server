@@ -44,19 +44,12 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 	/**
 	 * Construct a Home storage instance
 	 * @param array $arguments array with "user" containing the
-	 * storage owner and "legacy" containing "true" if the storage is
-	 * a legacy storage with "local::" URL instead of the new "home::" one.
+	 * storage owner
 	 */
 	public function __construct($arguments) {
 		$this->user = $arguments['user'];
 		$datadir = $this->user->getHome();
-		if (isset($arguments['legacy']) && $arguments['legacy']) {
-			// legacy home id (<= 5.0.12)
-			$this->id = 'local::' . $datadir . '/';
-		}
-		else {
-		    $this->id = 'home::' . $this->user->getUID();
-		}
+		$this->id = 'home::' . $this->user->getUID();
 
 		parent::__construct(array('datadir' => $datadir));
 	}

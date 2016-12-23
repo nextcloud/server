@@ -426,37 +426,6 @@ class FilesystemTest extends \Test\TestCase {
 		if ($user !== null) { $user->delete(); }
 	}
 
-	/**
-	 * Tests that the home storage is used in legacy mode
-	 * for the user's mount point
-	 */
-	public function testLegacyHomeMount() {
-		if (getenv('RUN_OBJECTSTORE_TESTS')) {
-			$this->markTestSkipped('legacy storage unrelated to objectstore environments');
-		}
-		$datadir = \OC::$server->getConfig()->getSystemValue("datadirectory", \OC::$SERVERROOT . "/data");
-		$userId = $this->getUniqueID('user_');
-
-		// insert storage into DB by constructing it
-		// to make initMountsPoint find its existence
-		$localStorage = new \OC\Files\Storage\Local(array('datadir' => $datadir . '/' . $userId . '/'));
-		// this will trigger the insert
-		$cache = $localStorage->getCache();
-
-		\OC::$server->getUserManager()->createUser($userId, $userId);
-		\OC\Files\Filesystem::initMountPoints($userId);
-
-		$homeMount = \OC\Files\Filesystem::getStorage('/' . $userId . '/');
-
-		$this->assertTrue($homeMount->instanceOfStorage('\OC\Files\Storage\Home'));
-		$this->assertEquals('local::' . $datadir . '/' . $userId . '/', $homeMount->getId());
-
-		$user = \OC::$server->getUserManager()->get($userId);
-		if ($user !== null) { $user->delete(); }
-		// delete storage entry
-		$cache->clear();
-	}
-
 	public function dummyHook($arguments) {
 		$path = $arguments['path'];
 		$this->assertEquals($path, \OC\Files\Filesystem::normalizePath($path)); //the path passed to the hook should already be normalized
