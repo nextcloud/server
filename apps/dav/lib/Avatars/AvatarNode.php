@@ -83,11 +83,16 @@ class AvatarNode extends File {
 		return 'image/jpeg';
 	}
 
-//	function getSize() {
-//		return $this->avatar->getFile($this->size)->getSize();
-//	}
-
 	function getETag() {
 		return $this->avatar->getFile($this->size)->getEtag();
+	}
+
+	function getLastModified() {
+		$timestamp = $this->avatar->getFile($this->size)->getMTime();
+		if (!empty($timestamp)) {
+			return (int)$timestamp;
+		}
+		return $timestamp;
+
 	}
 }
