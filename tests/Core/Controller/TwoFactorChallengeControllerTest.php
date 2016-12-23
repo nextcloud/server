@@ -143,6 +143,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			'backupProvider' => $backupProvider,
 			'logout_attribute' => 'logoutAttribute',
 			'template' => '<html/>',
+			'redirect_url' => '/re/dir/ect/url',
 			], 'guest');
 
 		$this->assertEquals($expected, $this->controller->showChallenge('myprovider', '/re/dir/ect/url'));
