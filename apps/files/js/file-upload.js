@@ -158,15 +158,6 @@ OC.FileUpload.prototype = {
 		this._conflictMode = mode;
 	},
 
-	/**
-	 * Returns whether the upload is in progress
-	 *
-	 * @return {boolean}
-	 */
-	isPending: function() {
-		return this.data.state() === 'pending';
-	},
-
 	deleteUpload: function() {
 		delete this.data.jqXHR;
 	},
@@ -560,21 +551,6 @@ OC.Uploader.prototype = _.extend({
 	showUploadCancelMessage: _.debounce(function() {
 		OC.Notification.showTemporary(t('files', 'Upload cancelled.'), {timeout: 10});
 	}, 500),
-	/**
-	 * Checks the currently known uploads.
-	 * returns true if any hxr has the state 'pending'
-	 * @returns {boolean}
-	 */
-	isProcessing:function() {
-		var count = 0;
-
-		jQuery.each(this._uploads, function(i, upload) {
-			if (upload.isPending()) {
-				count++;
-			}
-		});
-		return count > 0;
-	},
 	/**
 	 * callback for the conflicts dialog
 	 */
@@ -1167,13 +1143,6 @@ OC.Uploader.prototype = _.extend({
 
 			}
 		}
-
-		// warn user not to leave the page while upload is in progress
-		$(window).on('beforeunload', function(e) {
-			if (self.isProcessing()) {
-				return t('files', 'File upload is in progress. Leaving the page now will cancel the upload.');
-			}
-		});
 
 		//add multiply file upload attribute to all browsers except konqueror (which crashes when it's used)
 		if (navigator.userAgent.search(/konqueror/i) === -1) {
