@@ -2247,7 +2247,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->l,
 			$factory,
 			$this->userManager,
-			$this->rootFolder
+			$this->rootFolder,
+			$this->createMock(EventDispatcher::class)
 		);
 
 		$provider1 = $this->getMockBuilder('\OC\Share20\DefaultShareProvider')
