@@ -496,10 +496,11 @@ trait WebDav {
 	public function userAddsAFileTo($user, $bytes, $destination){
 		$filename = "filespecificSize.txt";
 		$this->createFileSpecificSize($filename, $bytes);
-		PHPUnit_Framework_Assert::assertEquals(1, file_exists("data/$filename"));
-		$this->userUploadsAFileTo($user, "data/$filename", $destination);
-		$this->removeFile("data/", $filename);
-		PHPUnit_Framework_Assert::assertEquals(1, file_exists("../../data/$user/files$destination"));
+		PHPUnit_Framework_Assert::assertEquals(1, file_exists("work/$filename"));
+		$this->userUploadsAFileTo($user, "work/$filename", $destination);
+		$this->removeFile("work/", $filename);
+		$expectedElements = new \Behat\Gherkin\Node\TableNode([["$destination"]]);
+		$this->checkElementList($user, $expectedElements);
 	}
 
 	/**
