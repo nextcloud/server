@@ -27,6 +27,8 @@ use OC\Files\Storage\Common;
 use OCA\Files_External\Lib\SharePoint\ContextsFactory;
 use OCA\Files_External\Lib\SharePoint\NotFoundException;
 use Office365\PHP\Client\SharePoint\ClientContext;
+use Office365\PHP\Client\SharePoint\File;
+use Office365\PHP\Client\SharePoint\Folder;
 use Office365\PHP\Client\SharePoint\SPList;
 
 class SharePoint extends Common {
@@ -130,20 +132,27 @@ class SharePoint extends Common {
 
 		$path = trim($path, '/');
 
-		$rootFolder = $this->getDocumentLibrary()->getRootFolder();
 		if($path === '/' || $path === '') {
-			$properties = $rootFolder->getProperties(); // TODO: see what we retrieve here
-			// FIXME: getProperty may return null
-			// FIXME: Folder does not have such properties, according to doc
-			$stat = [
-				// int64, size in bytes, excluding the size of any Web Parts that are used in the file.
-				'size'  => $rootFolder->getProperty('Length'),
-				'mtime' => $rootFolder->getProperty('TimeLastModified'),
-				// no property in SP 2013, other storages do the same  :speak_no_evil:
-				'atime' => time(),
-			];
+			$fsObject = $this->getDocumentLibrary()->getRootFolder();
+			$properties = $fsObject->getProperties(); // TODO: see what we retrieve here
+		} else {
+			// TODO: verify that try-catch approach works
+			try {
+				$fsObject = $this->fetchFileOrFolder($path, true);	// likely we need to modify path since we are not operating on the document library
+			} catch (\Exception $e) {
+				// it can be a folder, too
+				$fsObject = $this->fetchFileOrFolder($path, false);
+			}
 		}
-		// TODO handle path cases
+		// FIXME: getProperty may return null
+		// FIXME: Folder does not have such properties, according to doc – traversing through all files needed
+		$stat = [
+			// int64, size in bytes, excluding the size of any Web Parts that are used in the file.
+			'size'  => $fsObject->getProperty('Length'),
+			'mtime' => $fsObject->getProperty('TimeLastModified'),
+			// no property in SP 2013, other storages do the same  :speak_no_evil:
+			'atime' => time(),
+		];
 
 		if(isset($stat) && !is_null($stat['size']) && !is_null($stat['mtime'])) {
 			return $stat;
@@ -155,6 +164,19 @@ class SharePoint extends Common {
 	}
 
 	/**
+	 * @param string $path
+	 * @param bool $tryFile
+	 * @return File|Folder
+	 */
+	private function fetchFileOrFolder($path, $tryFile) {
+		if($tryFile) {
+			return $this->context->getWeb()->getFileByServerRelativeUrl($path);
+		} else {
+			return $this->context->getWeb()->getFolderByServerRelativeUrl($path);
+		}
+	}
+
+	/**
 	 * see http://php.net/manual/en/function.filetype.php
 	 *
 	 * @param string $path
@@ -162,7 +184,21 @@ class SharePoint extends Common {
 	 * @since 6.0.0
 	 */
 	public function filetype($path) {
-		// TODO: Implement filetype() method.
+		$path = trim($path);
+		if($path === '/' || $path === '') {
+			return 'dir';
+		}
+		try {
+			$this->fetchFileOrFolder($path, true);
+			return 'file';
+		} catch(\Exception $e) {
+			try {
+				$this->fetchFileOrFolder($path, false);
+				return 'dir';
+			} catch (\Exception $e) {
+				// NOOP
+			}
+		}
 		return false;
 	}
 
