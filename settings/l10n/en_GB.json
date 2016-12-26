@@ -51,7 +51,6 @@
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Official apps are developed by the community. They offer additional functionality and are ready for production use.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "This app is not checked for security issues and is new or known to be unstable. Install at your own risk.",
-    "Please wait...." : "Please wait....",
     "Error while disabling app" : "Error whilst disabling app",
     "Disable" : "Disable",
     "Enable" : "Enable",
@@ -199,7 +198,6 @@
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "This app has no maximum Nextcloud version assigned. This will cause an error in the future.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "This app cannot be installed because the following dependencies are not fulfilled:",
     "Enable only for specific groups" : "Enable only for specific groups",
-    "Uninstall App" : "Uninstall App",
     "SSL Root Certificates" : "SSL Root Certificates",
     "Common Name" : "Common Name",
     "Valid until" : "Valid until",
@@ -265,6 +263,7 @@
     "log-level out of allowed range" : "log-level out of allowed range",
     "Language changed" : "Language changed",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Are you really sure you want add \"{domain}\" as a trusted domain?",
+    "Please wait...." : "Please wait....",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Everything (fatal issues, errors, warnings, info, debug)",
     "Info, warnings, errors and fatal issues" : "Info, warnings, errors and fatal issues",
     "Warnings, errors and fatal issues" : "Warnings, errors and fatal issues",
@@ -282,14 +281,10 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Especially when using the desktop client for file syncing, the use of SQLite is discouraged.",
     "Experimental applications ahead" : "Experimental applications ahead",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches.",
+    "Uninstall App" : "Uninstall App",
     "Enable experimental apps" : "Enable experimental apps",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n",
-    "Group" : "Group",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "External Storage",
-    "Updates" : "Updates",
-    "An error occurred: {message}" : "An error occurred: {message}"
+    "Group" : "Group"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

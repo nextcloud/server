@@ -16,7 +16,6 @@ OC.L10N.register(
     "Couldn't update app." : "មិន​អាច​ធ្វើ​បច្ចុប្បន្នភាព​កម្មវិធី។",
     "Sending..." : "កំពុង​ផ្ញើ...",
     "All" : "ទាំងអស់",
-    "Please wait...." : "សូម​រង់​ចាំ....",
     "Error while disabling app" : "មាន​កំហុស​ពេល​កំពុង​បិទកម្មវិធី",
     "Disable" : "បិទ",
     "Enable" : "បើក",
@@ -74,9 +73,9 @@ OC.L10N.register(
     "set new password" : "កំណត់​ពាក្យ​សម្ងាត់​ថ្មី",
     "Default" : "លំនាំ​ដើម",
     "Language changed" : "បាន​ប្ដូរ​ភាសា",
+    "Please wait...." : "សូម​រង់​ចាំ....",
     "Log" : "Log",
     "More" : "ច្រើន​ទៀត",
-    "Less" : "តិច",
-    "External Storage" : "ឃ្លាំងផ្ទុក​ខាងក្រៅ"
+    "Less" : "តិច"
 },
 "nplurals=1; plural=0;");

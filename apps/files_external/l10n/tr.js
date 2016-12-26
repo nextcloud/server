@@ -119,13 +119,6 @@ OC.L10N.register(
     "Delete" : "Sil",
     "Allow users to mount external storage" : "Kullanıcılara harici depolama bağlamalarına izin ver",
     "Allow users to mount the following external storage" : "Kullanıcıların aşağıdaki harici depolamayı bağlamalarına izin ver",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "ownCloud sunucusundan bilgi alınamadı: {code} {type}",
-    "Global Credentials" : "Genel Kimlik Bilgileri",
-    "ownCloud" : "ownCloud",
-    "<b>Note:</b> " : "<b>Not:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Not:</b> PHP'de cURL desteği etkin veya kurulu değil. %s bağlaması mümkün olmayacak. Lütfen kurulumu için sistem yöneticilerinizle iletişime geçin.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Not:</b> PHP'de FTP desteği etkin veya kurulu değil. %s bağlaması mümkün olmayacak. Lütfen kurulumu için sistem yöneticilerinizle iletişime geçin.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Not:</b> \"%s\" kurulu değil. %s bağlaması mümkün olmayacak. Lütfen kurulumu için sistem yöneticilerinizle iletişime geçin.",
-    "External Storage" : "Harici Depolama"
+    "Couldn't get the information from the ownCloud server: {code} {type}" : "ownCloud sunucusundan bilgi alınamadı: {code} {type}"
 },
 "nplurals=2; plural=(n > 1);");

@@ -14,10 +14,6 @@ OC.L10N.register(
     "Add" : "Hozzáadás",
     "Trusted Servers" : "Megbízható szerverek",
     "+ Add Nextcloud server" : "+ Nextcloud szerver hozzáadása",
-    "Nextcloud Server" : "Nextcloud szerver",
-    "Server added to the list of trusted Nextclouds" : "A szerver hozzáadva a megbízható Nextcloud szerverek listájához",
-    "No Nextcloud server found" : "Nem található Nextloud szerver",
-    "Nextcloud Federation allows you to connect with other trusted Nextclouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "A Nextcloud Egyesítés lehetővé teszi a kapcsolódást más megbízható szerverekhez a felhasználói könyvtárak kicseréléséhez. Például ennek segítségével lesznek automatikusan kiegészítve a külső felhasználók az egyesített megosztáshoz.",
-    "Trusted Nextcloud Servers" : "Megbízható Nextcloud szerverek"
+    "Nextcloud Server" : "Nextcloud szerver"
 },
 "nplurals=2; plural=(n != 1);");

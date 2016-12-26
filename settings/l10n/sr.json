@@ -46,7 +46,6 @@
     "No apps found for your version" : "Нема апликација за вашу верзију",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Одобрене апликације су развили проверени програмери и апликације су прошле основне безбедносне провере. Оне се активно одржавају у репозиторијуму за апликације отвореног кода и њихови одржаватељи сматрају да су стабилне за уобичајену употребу.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "Ова апликација није проверена по питању безбедности и нова је или зна да буде нестабилна. Инсталирате је на сопствену одговорност.",
-    "Please wait...." : "Сачекајте…",
     "Error while disabling app" : "Грешка при искључивању апликације",
     "Disable" : "Искључи",
     "Enable" : "Укључи",
@@ -159,7 +158,6 @@
     "Hide description …" : "Сакриј опис…",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Апликација се не може инсталирати јер следеће зависности нису испуњене:",
     "Enable only for specific groups" : "Укључи само за одређене групе",
-    "Uninstall App" : "Деинсталирај апликацију",
     "Common Name" : "Уобичајено име",
     "Valid until" : "Важи до",
     "Issued By" : "Издавач",
@@ -215,6 +213,7 @@
     "log-level out of allowed range" : "ниво бележења је ван дозвољеног опсега",
     "Language changed" : "Језик је промењен",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Да ли заиста желите да додате „{domain}“ као поуздан домен?",
+    "Please wait...." : "Сачекајте…",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Све (фаталне проблеме, грешке, упозорења, информације, отклањање грешака)",
     "Info, warnings, errors and fatal issues" : "Информације, упозорења, грешке и фатални проблеми",
     "Warnings, errors and fatal issues" : "Упозорења, грешке и фатални проблеми",
@@ -231,13 +230,10 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Нарочито ако се користи клијент програм у графичком окружењу, коришћење СКуЛајта није препоручљиво.",
     "Experimental applications ahead" : "Експериментална апликација",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Експерименталне апликације се непроверене што се тиче безбедности и могу бити нестабилне и недовршене. Инсталирање може довести до губитка података или нарушавања безбедности.",
+    "Uninstall App" : "Деинсталирај апликацију",
     "Enable experimental apps" : "Укључи експерименталне апликације",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Поздрав,<br><br>само вас обавештавам да сад имате %s налог.<br><br>Ваше корисничко име: %s<br>Приступите му на: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Поздрав.\n\nСамо да знате да сада имате %s налог.\n\nВаше корисничко име: %s\nПриступите му на: %s\n",
-    "Group" : "Група",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "Спољашње складиште",
-    "Updates" : "Ажурирања"
+    "Group" : "Група"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

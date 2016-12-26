@@ -2,7 +2,7 @@ OC.L10N.register(
     "user_ldap",
     {
     "Failed to clear the mappings." : "Dështoi në heqjen e përshoqërimeve.",
-    "Failed to delete the server configuration" : "Dështoi në fshirjen e formësimit të shërbyesit",
+    "Failed to delete the server configuration" : "Dështoi në fshirjen e formësimit të serverit",
     "The configuration is invalid: anonymous bind is not allowed." : "Formësimi është i pavlefshëm: nuk lejohen bind-e anonimë.",
     "The configuration is valid and the connection could be established!" : "Formësimi është i vlefshëm dhe lidhja mund të vendoset!",
     "The configuration is valid, but the Bind failed. Please check the server settings and credentials." : "Formësimi është i vlefshëm, por Bind-i dështoi. Ju lutemi, kontrolloni rregullimet dhe kredencialet e shërbyesit.",
@@ -21,13 +21,13 @@ OC.L10N.register(
     "Select object classes" : "Përzgjidhni klasa objektesh",
     "Please check the credentials, they seem to be wrong." : "Ju lutemi, kontrolloni kredencialet, duket se janë gabim.",
     "Please specify the port, it could not be auto-detected." : "Ju lutemi, përcaktoni portën, s’u arrit të vetëzbulohet.",
-    "Base DN could not be auto-detected, please revise credentials, host and port." : "DN-ja Bazë s’u vetëzbulua dot, ju lutemi, rishikoni kredencialet, strehën dhe portën.",
+    "Base DN could not be auto-detected, please revise credentials, host and port." : "DN-ja Bazë s’u vetëzbulua dot, ju lutemi, rishikoni kredencialet, hostin dhe portën.",
     "Could not detect Base DN, please enter it manually." : "S’u zbulua dot DN Bazë, ju lutemi, jepeni dorazi.",
-    "{nthServer}. Server" : "{nthServer}. Shërbyes",
+    "{nthServer}. Server" : "{nthServer}. Server",
     "No object found in the given Base DN. Please revise." : "Në DN Bazë të dhën s’u gjet objekt. Ju lutemi, rishikojeni.",
     "More than 1,000 directory entries available." : "Më shumë se 1000 zëra të gatshëm.",
     " entries available within the provided Base DN" : " zëra të gatshëm brenda DN-së Bazë të dhënë",
-    "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Ndodhi një gabim. Ju lutemi, kontrolloni DN-në Bazë, sie dhe rregullimet për lidhjen dhe kredencialet.",
+    "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Ndodhi një gabim. Ju lutemi, kontrolloni DN-në Bazë, si edhe rregullimet për lidhjen dhe kredencialet.",
     "Do you really want to delete the current Server Configuration?" : "Doni vërtet të fshihet Formësimi i tanishëm i Shërbyesit?",
     "Confirm Deletion" : "Ripohoni Fshirjen",
     "Mappings cleared successfully!" : "Përshoqërimet u hoqën me sukses!",
@@ -40,7 +40,6 @@ OC.L10N.register(
     "Select attributes" : "Përzgjidhni atribute",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command line validation): <br/>" : "S’u gjet përdorues. Ju lutemi, kontrolloni atributet tuaja për hyrje dhe emrin e përdoruesit. Filtër efektiv (për kopjim dhe hedhje në rresht urdhrash për vleftësim): <br/>",
     "User found and settings verified." : "Përdoruesi u gjet dhe rregullimet u verifikuan.",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Rregullimet u verifikuan, por u gjet një përdorues. Vetëm i pari do të jetë në gjendje të bëjë hyrje. Shihni mundësinë e një filtri më të ngushtë.",
     "An unspecified error occurred. Please check the settings and the log." : "Ndodhi një gabim i papërcaktuar. Ju lutemi, kontrolloni rregullimet dhe regjistrin.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "Filtri i kërkimit është i pavlefshëm, ndoshta për shkak problemesh sintakse, të tillë si një numër jo i njëjtë kllpash të hapura dhe mbyllura. Ju lutemi, rishikojeni.",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Ndodhi një gabim lidhje te LDAP / AD, ju lutemi, kontrolloni strehën, portën dhe kredencialet.",
@@ -157,6 +156,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Përshoqërim Emër përdoruesi-Përdorues LDAP",
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Emrat e përdoruesve përdoren për të depozituar dhe shpërndarë (tej) të dhëna. Që të mund të identifikohen dhe pranohen saktësisht përdoruesit, çdo përdorues LDAP do të ketë një emër të brendshëm përdoruesi. Kjo kërkon përshoqërim nga emër përdoruesi te përdorues LDAP. Emri i përdoruesit i krijuar i përshoqërohet UUID-së së përdoruesit LDAP. Tej kësaj, edhe DN-ja ruhet në fshehtinë, për të zvogëluar ndërveprim LDAP, por s’përdoret për identifikim. Nëse ndryshon DN-ja, ndryshimet do të gjenden. Emri i brendshëm i përdoruesi përdoret gjithandej. Heqja e përshoqërimeve do të lërë thërrime ngado. Heqja e përshoqërimeve nuk preket nga formësimi, prek krejt formësimet për LDAP-në! Mos i hiqni kurrë përshoqërimet në një mjedis prodhimi, vetëm në një faqë testimi ose eksperimetale.",
     "Clear Username-LDAP User Mapping" : "Pastro Përshoqërimin Emër përdoruesi-Përdorues LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Pastro Përshoqërimin Emër grupi-Grup LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Pastro Përshoqërimin Emër grupi-Grup LDAP",
+    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Rregullimet u verifikuan, por u gjet një përdorues. Vetëm i pari do të jetë në gjendje të bëjë hyrje. Shihni mundësinë e një filtri më të ngushtë."
 },
 "nplurals=2; plural=(n != 1);");

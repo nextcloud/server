@@ -38,7 +38,6 @@ OC.L10N.register(
     "Sending..." : "Sūta...",
     "All" : "Visi",
     "No apps found for your version" : "Neatrada aplikāciju jūsu versijai",
-    "Please wait...." : "Lūdzu, uzgaidiet....",
     "Error while disabling app" : "Kļūda, atvienojot lietotni",
     "Disable" : "Deaktivēt",
     "Enable" : "Aktivēt",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "Default" : "Noklusējuma",
     "Language changed" : "Valoda tika nomainīta",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Vai esat pārliecināts, ka vēlaties pievienot \"{domain}\" kā uzticamu domēnu?",
+    "Please wait...." : "Lūdzu, uzgaidiet....",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Viss (letālas problēmas, kļūdas, brīdinājumi, informatīvas ziņas, atkļūdošanas paziņojumi)",
     "Info, warnings, errors and fatal issues" : "Informatīvas ziņas, brīdinājumi, kļūdas un letālas problēmas",
     "Warnings, errors and fatal issues" : "Brīdinājumi, kļūdas un letālas problēmas",
@@ -146,9 +146,6 @@ OC.L10N.register(
     "Log" : "Žurnāls",
     "More" : "Vairāk",
     "Less" : "Mazāk",
-    "Group" : "Grupa",
-    "External Storage" : "Ārējā krātuve",
-    "Updates" : "Atjauninājumi",
-    "An error occurred: {message}" : "Notika kļūda: {message}"
+    "Group" : "Grupa"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

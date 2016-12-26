@@ -25,7 +25,6 @@ OC.L10N.register(
     "Add trusted domain" : "Amestar dominiu de confianza",
     "Sending..." : "Unviando...",
     "All" : "Toos",
-    "Please wait...." : "Espera, por favor....",
     "Error while disabling app" : "Fallu mientres se desactivaba l'aplicación",
     "Disable" : "Desactivar",
     "Enable" : "Activar",
@@ -99,7 +98,6 @@ OC.L10N.register(
     "These groups will still be able to receive shares, but not to initiate them." : "Estos grupos van poder siguir recibiendo conteníos compartíos, pero nun van poder anicialos",
     "Documentation:" : "Documentación:",
     "Enable only for specific groups" : "Habilitar namái pa grupos específicos",
-    "Uninstall App" : "Desinstalar aplicación",
     "Cheers!" : "¡Salú!",
     "Forum" : "Foru",
     "Profile picture" : "Semeya de perfil",
@@ -134,6 +132,7 @@ OC.L10N.register(
     "Default" : "Predetermináu",
     "Language changed" : "Camudóse la llingua",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "¿De xuru que quies amestar \"{domain}\" como dominiu de confianza?",
+    "Please wait...." : "Espera, por favor....",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Too (Información, Avisos, Fallos, debug y problemes fatales)",
     "Info, warnings, errors and fatal issues" : "Información, Avisos, Fallos y problemes fatales",
     "Warnings, errors and fatal issues" : "Avisos, fallos y problemes fatales",
@@ -143,8 +142,7 @@ OC.L10N.register(
     "More" : "Más",
     "Less" : "Menos",
     "Allow users to send mail notification for shared files" : "Permitir a los usuarios unviar mensaxes de notificación pa ficheros compartíos",
-    "Group" : "Grupu",
-    "External Storage" : "Almacenamientu esternu",
-    "Updates" : "Anovamientos"
+    "Uninstall App" : "Desinstalar aplicación",
+    "Group" : "Grupu"
 },
 "nplurals=2; plural=(n != 1);");

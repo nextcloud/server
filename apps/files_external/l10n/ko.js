@@ -120,14 +120,6 @@ OC.L10N.register(
     "Delete" : "삭제",
     "Allow users to mount external storage" : "사용자가 외부 저장소를 마운트하도록 허용",
     "Allow users to mount the following external storage" : "사용자가 다음 외부 저장소를 마운트할 수 있도록 허용",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "ownCloud 서버에서 정보를 가져올 수 없음: {code} {type}",
-    "Access granted" : "접근 부여",
-    "Global Credentials" : "글로벌 자격 증명",
-    "ownCloud" : "ownCloud",
-    "<b>Note:</b> " : "<b>메모:</b>",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>메모:</b> PHP cURL 모듈이 비활성화되어 있거나 설치되어 있지 않습니다. %s을(를) 마운트할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>메모:</b> PHP FTP 모듈이 비활성화되어 있거나 설치되어 있지 않습니다. %s을(를) 마운트할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>메모:</b> \"%s\"이(가) 설치되어 있지 않습니다. %s을(를) 마운트할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오.",
-    "External Storage" : "외부 저장소"
+    "Couldn't get the information from the ownCloud server: {code} {type}" : "ownCloud 서버에서 정보를 가져올 수 없음: {code} {type}"
 },
 "nplurals=1; plural=0;");

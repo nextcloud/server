@@ -20,7 +20,6 @@
     "Couldn't update app." : "No se pudo actualizar la App.",
     "Sending..." : "Enviando...",
     "All" : "Todos",
-    "Please wait...." : "Por favor, esperá....",
     "Error while disabling app" : "Se ha producido un error mientras se deshabilitaba la aplicación",
     "Disable" : "Desactivar",
     "Enable" : "Activar",
@@ -102,6 +101,7 @@
     "set new password" : "Configurar nueva contraseña",
     "Default" : "Predeterminado",
     "Language changed" : "Idioma cambiado",
+    "Please wait...." : "Por favor, esperá....",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Todo (notificaciones fatales, errores, advertencias, info, debug)",
     "Info, warnings, errors and fatal issues" : "Info, advertencias, errores y notificaciones fatales",
     "Warnings, errors and fatal issues" : "Advertencias, errores y notificaciones fatales",
@@ -111,9 +111,6 @@
     "More" : "Más",
     "Less" : "Menos",
     "Allow users to send mail notification for shared files" : "Habilitar a los usuarios para enviar notificaciones por correo para archivos compartidos",
-    "Group" : "Grupo",
-    "APCu" : "APCu",
-    "External Storage" : "Almacenamiento externo",
-    "Updates" : "Actualizaciones"
+    "Group" : "Grupo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

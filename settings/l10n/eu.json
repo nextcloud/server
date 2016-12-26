@@ -35,7 +35,6 @@
     "Sending..." : "Bidaltzen...",
     "All" : "Denak",
     "Update to %s" : "Eguneratu %sra",
-    "Please wait...." : "Itxoin mesedez...",
     "Error while disabling app" : "Erroea izan da aplikazioa desgaitzerakoan",
     "Disable" : "Ez-gaitu",
     "Enable" : "Gaitu",
@@ -116,7 +115,6 @@
     "Documentation:" : "Dokumentazioa:",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Aplikazioa ezin da instalatu hurrengo menpekotasunak betetzen ez direlako:",
     "Enable only for specific groups" : "Baimendu bakarri talde espezifikoetarako",
-    "Uninstall App" : "Desinstalatu aplikazioa",
     "Common Name" : "Izen arrunta",
     "Valid until" : "Data hau arte baliogarria",
     "Issued By" : "Honek bidalita",
@@ -166,6 +164,7 @@
     "log-level out of allowed range" : "erregistro-maila baimendutako tartetik at",
     "Language changed" : "Hizkuntza aldatuta",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Ziur zaude gehitu nahi duzula  \"{domain}\" domeinu fidagarri gisa?",
+    "Please wait...." : "Itxoin mesedez...",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Dena (arazo larriak, erroreak, abisuak, informazioa, arazketa)",
     "Info, warnings, errors and fatal issues" : "Informazioa, abisuak, erroreak eta arazo larriak.",
     "Warnings, errors and fatal issues" : "Abisuak, erroreak eta arazo larriak",
@@ -177,10 +176,9 @@
     "Less" : "Gutxiago",
     "Allow users to send mail notification for shared files" : "Baimendu erabiltzaileak epostako jakinarazpenak bidaltzen partekatutako fitxategientzat",
     "Allow users to send mail notification for shared files to other users" : "Baimendu erabiltzaileak beste erabiltzaileei epostako jakinarazpenak bidaltzen partekatutako fitxategientzat",
+    "Uninstall App" : "Desinstalatu aplikazioa",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Kaixo,<br><br>orain %s kontu bat duzula esateko besterik ez.<br><br>Zure erabiltzailea: %s<br>Sar zaitez: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Kaixo,\n\norain %s kontu bat duzula esateko besterik ez.\n\nZure erabiltzailea: %s\nSar zaitez: %s\n\n",
-    "Group" : "Taldea",
-    "External Storage" : "Kanpoko biltegiratzea",
-    "Updates" : "Eguneraketak"
+    "Group" : "Taldea"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -39,7 +39,7 @@
     "Open documentation" : "Documentación abierta",
     "Allow users on this server to send shares to other servers" : "Permitir a usuarios de este servidor compartir con usuarios de otros servidores",
     "Allow users on this server to receive shares from other servers" : "Permitir a usuarios de este servidor recibir archivos de usuarios de otros servidores",
-    "Enable lookups on lookup server" : "Activa búsquedas en servidor de búsqueda",
+    "Search global and public address book for users" : "Buscar libretas de contactos globales y públicas para usuarios",
     "Federated Cloud" : "Nube Federada",
     "Your Federated Cloud ID:" : "Su ID Nube Federada:",
     "Share it:" : "Compartir:",

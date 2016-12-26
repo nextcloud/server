@@ -125,14 +125,6 @@ OC.L10N.register(
     "Delete" : "Slett",
     "Allow users to mount external storage" : "Tillat at brukere kobler opp eksterne lagre",
     "Allow users to mount the following external storage" : "Tillat brukere å koble opp følgende eksterne lagring",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Klarte ikke å hente informasjon fra Nextcloud tjeneren: {code} {type}",
-    "Access granted" : "Tilgang gitt",
-    "Global Credentials" : "Globale pålogginsdetaljer",
-    "ownCloud" : "ownCloud",
-    "<b>Note:</b> " : "<b>Merk:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Merk:</b> Støtte for cURL i PHP er ikke aktivert eller installert. Oppkobling av %s er ikke mulig. Be systemadministratoren om å installere det.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Merk:</b> FTP-støtte i PHP er ikke slått på eller installert. Kan ikke koble opp %s. Ta kontakt med systemadministratoren for å få dette installert.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Merk:</b> \"%s\" er ikke installert. Oppkobling av %s er ikke mulig. Spør systemadministratoren om å installere det.",
-    "External Storage" : "Ekstern lagring"
+    "Couldn't get the information from the ownCloud server: {code} {type}" : "Klarte ikke å hente informasjon fra Nextcloud tjeneren: {code} {type}"
 },
 "nplurals=2; plural=(n != 1);");

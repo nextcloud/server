@@ -9,7 +9,6 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "ئىشلەتكۈچىنى %s گۇرۇپپىدىن چىقىرىۋېتەلمەيدۇ",
     "Couldn't update app." : "ئەپنى يېڭىلىيالمايدۇ.",
     "All" : "ھەممىسى",
-    "Please wait...." : "سەل كۈتۈڭ…",
     "Disable" : "چەكلە",
     "Enable" : "قوزغات",
     "Updating...." : "يېڭىلاۋاتىدۇ…",
@@ -47,6 +46,7 @@ OC.L10N.register(
     "set new password" : "يېڭى ئىم تەڭشە",
     "Default" : "كۆڭۈلدىكى",
     "Language changed" : "تىل ئۆزگەردى",
+    "Please wait...." : "سەل كۈتۈڭ…",
     "Log" : "خاتىرە",
     "More" : "تېخىمۇ كۆپ",
     "Less" : "ئاز"

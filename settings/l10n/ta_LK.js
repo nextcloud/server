@@ -36,7 +36,6 @@ OC.L10N.register(
     "Quota" : "பங்கு",
     "Language changed" : "மொழி மாற்றப்பட்டது",
     "More" : "மேலதிக",
-    "Less" : "குறைவான",
-    "External Storage" : "வெளி சேமிப்பு"
+    "Less" : "குறைவான"
 },
 "nplurals=2; plural=(n != 1);");

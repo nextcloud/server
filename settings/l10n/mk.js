@@ -44,7 +44,6 @@ OC.L10N.register(
     "All" : "Сите",
     "Update to %s" : "Надгради на %s",
     "No apps found for your version" : "За вашата верзија не се пронајдени апликации",
-    "Please wait...." : "Ве молам почекајте ...",
     "Error while disabling app" : "Грешка при исклучувањето на апликацијата",
     "Disable" : "Оневозможи",
     "Enable" : "Овозможи",
@@ -164,6 +163,7 @@ OC.L10N.register(
     "Default" : "Предефиниран",
     "log-level out of allowed range" : "нивото на логирање е надвор од дозволениот опсег",
     "Language changed" : "Јазикот е сменет",
+    "Please wait...." : "Ве молам почекајте ...",
     "Info, warnings, errors and fatal issues" : "Информации, предупредувања, грешки и фатални работи",
     "Warnings, errors and fatal issues" : "Предупредувања, грешки и фатални работи",
     "Errors and fatal issues" : "Грешки и фатални работи",
@@ -173,9 +173,6 @@ OC.L10N.register(
     "Download logfile" : "Преземи ја датотеката со логови",
     "More" : "Повеќе",
     "Less" : "Помалку",
-    "Group" : "Група",
-    "External Storage" : "Надворешно складиште",
-    "Updates" : "Ажурирања",
-    "An error occurred: {message}" : "Се случи грешка: {message}"
+    "Group" : "Група"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

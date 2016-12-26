@@ -32,7 +32,6 @@ OC.L10N.register(
     "Couldn't update app." : "﻿ ಕಾಯಕ್ರಮವನ್ನು ನವೀಕರಿಸಲ ಸಾದ್ಯವಾಗುತ್ತಿಲ್ಲ.",
     "Sending..." : "﻿ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ ...",
     "All" : "﻿ಎಲ್ಲಾ",
-    "Please wait...." : "﻿ದಯವಿಟ್ಟು ನಿರೀಕ್ಷಿಸಿ ....",
     "Error while disabling app" : "ಕಾರ್ಯಕ್ರಮವನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸುವಾಗ ಏನೊ ಲೋಪವಾಗಿದೆ",
     "Disable" : "﻿ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿ",
     "Enable" : "ಸಕ್ರಿಯಗೊಳಿಸು",
@@ -84,7 +83,6 @@ OC.L10N.register(
     "Enforce expiration date" : "﻿ಮುಕ್ತಾಯ ದಿನಾಂಕವನ್ನು ಬಲವ೦ತವಾಗಿ ಜಾರಿಗೆ ಮಾಡಿ",
     "Documentation:" : "﻿ದಾಖಲೆ:",
     "Enable only for specific groups" : "﻿ಕೇವಲ ನಿರ್ದಿಷ್ಟ ಗುಂಪುಗಳಿಗೆ ಸಕ್ರಿಯಗೊಳಿಸಿ",
-    "Uninstall App" : "ಅಳಿಸಿ",
     "Cheers!" : "ಆನಂದಿಸಿ !",
     "Forum" : "﻿ವೇದಿಕೆ",
     "Cancel" : "﻿ರದ್ದು",
@@ -109,6 +107,7 @@ OC.L10N.register(
     "change email address" : "﻿ಇ-ಅಂಚೆ ವಿಳಾಸ ಬದಲಾಯಿಸಿ",
     "Default" : "ಆರಂಭದ ಪ್ರತಿ",
     "Language changed" : "﻿ಭಾಷೆಯನ್ನು ಬದಲಾಯಿಸಲಾಗಿದೆ",
+    "Please wait...." : "﻿ದಯವಿಟ್ಟು ನಿರೀಕ್ಷಿಸಿ ....",
     "Everything (fatal issues, errors, warnings, info, debug)" : "﻿ಎಲ್ಲ ರೀತಿಗಳು (ವಿನಾಶಕ ಸಮಸ್ಯೆಗಳು, ದೋಷಗಳು, ಎಚ್ಚರಿಕೆಗಳನ್ನು, ಮಾಹಿತಿ, ಇತರೆ )",
     "Info, warnings, errors and fatal issues" : "﻿ಮಾಹಿತಿ, ಎಚ್ಚರಿಕೆ, ದೋಷಗಳು ಮತ್ತು ಮಾರಕ ಸಮಸ್ಯೆಗಳು",
     "Warnings, errors and fatal issues" : "﻿ಎಚ್ಚರಿಕೆ, ದೋಷಗಳು ಮತ್ತು ಮಾರಕ ಸಮಸ್ಯೆಗಳು",
@@ -117,6 +116,7 @@ OC.L10N.register(
     "Log" : "ಹಿನ್ನೆಲೆಯ ದಾಖಲೆ",
     "More" : "﻿ಇನ್ನಷ್ಟು",
     "Less" : "﻿ಕಡಿಮೆ",
+    "Uninstall App" : "ಅಳಿಸಿ",
     "Group" : "﻿ಗುಂಪು"
 },
 "nplurals=1; plural=0;");

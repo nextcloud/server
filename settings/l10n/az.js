@@ -41,7 +41,6 @@ OC.L10N.register(
     "All" : "Hamısı",
     "Update to %s" : "Yenilə bunadək %s",
     "No apps found for your version" : "Sizin versiya üçün proqram tapılmadı",
-    "Please wait...." : "Xahiş olunur gözləyəsiniz.",
     "Error while disabling app" : "Proqram təminatını dayandırdıqda səhv baş verdi",
     "Disable" : "Dayandır",
     "Enable" : "İşə sal",
@@ -134,7 +133,6 @@ OC.L10N.register(
     "Hide description …" : "Açıqlamanı gizlət ...",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Bu proqram yüklənə bilməz ona görə ki, göstərilən asılılıqlar yerinə yetirilməyib:",
     "Enable only for specific groups" : "Yalnız spesifik qruplara izin ver",
-    "Uninstall App" : "Proqram təminatını sil",
     "Common Name" : "Ümumi ad",
     "Valid until" : "Vaxtadək keçərlidir",
     "Issued By" : "Tərəfindən yaradılıb",
@@ -187,6 +185,7 @@ OC.L10N.register(
     "log-level out of allowed range" : "jurnal-səviyyəsi izin verilən aralıqdan kənardır",
     "Language changed" : "Dil dəyişdirildi",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "\"{domain}\" adını inamlı domainlər siyahısına əlavə etməyinizdən əminsinizmi?",
+    "Please wait...." : "Xahiş olunur gözləyəsiniz.",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Hər şey(ən pis hadisələr, səhvlər, xəbərdarlıqlar, məlmat, araşdırma səhvləri)",
     "Info, warnings, errors and fatal issues" : "Məlmat, xəbərdarlıqlar, səhvlər və ən pis hadisələr",
     "Warnings, errors and fatal issues" : "Xəbərdarlıqlar, səhvlər və ən pis hadisələr",
@@ -201,10 +200,9 @@ OC.L10N.register(
     "Allow users to send mail notification for shared files to other users" : "İstifadəçilərə etdikləri paylaşımı digər istifadəçilərə mail vasitəsilə xəbərdarlıq göndərilməsinə izin verin",
     "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "SQLinte verilənlər bazası kimi istifadə edilir. Geniş tətbiq üçün,  biz məsləhət görürük ki, arxa sonluqda fərqli verilənlər bazasından istifadə edəsiniz. ",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Xüsusilə fayl sinxronizasiyası üçün desktop client-dən istifadə edilərsə, SQLite məsləhət görülmür.",
+    "Uninstall App" : "Proqram təminatını sil",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Ey ora,<br><br>ancaq deyirik ki, sizin artiq %s hesabınız var.<br><br>Sizin istifadəçi adınız: %s<br>Yetkilidir: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Ey ora,\n\nancaq deyirik ki, sizin artiq %s hesabınız var.\n\nizin istifadəçi adınız: %s\nYetkilidir: %s\n\n",
-    "Group" : "Qrup",
-    "External Storage" : "Kənar depo",
-    "Updates" : "Yenilənmələr"
+    "Group" : "Qrup"
 },
 "nplurals=2; plural=(n != 1);");

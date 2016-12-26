@@ -50,7 +50,6 @@
     "The app will be downloaded from the app store" : "แอพฯจะดาวน์โหลดได้จากแอพสโตร์",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "แอพพลิเคชันได้รับการอนุมัติและพัฒนาโดยนักพัฒนาที่น่าเชื่อถือและได้ผ่านการตรวจสอบความปลอดภัยคร่าวๆ พวกเขาจะได้รับการบำรุงรักษาอย่างดีในการเก็บข้อมูลรหัสเปิด มันอาจยังไม่เสถียรพอสำหรับการเปิดใช้งานปกติ",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "แอพฯ นี้ไม่ได้ตรวจสอบปัญหาด้านความปลอดภัยและเป็นแอพฯใหม่หรือที่รู้จักกันคือจะไม่เสถียร ติดตั้งบนความเสี่ยงของคุณเอง",
-    "Please wait...." : "กรุณารอสักครู่...",
     "Error while disabling app" : "เกิดข้อผิดพลาดขณะปิดการใช้งานแอพพลิเคชัน",
     "Disable" : "ปิดใช้งาน",
     "Enable" : "เปิดใช้งาน",
@@ -182,7 +181,6 @@
     "Hide description …" : "ซ่อนรายละเอียด ...",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "ไม่สามารถติดตั้งแอพฯนี้เพราะไม่มีตัวอ้างอิงต่อไปนี้:",
     "Enable only for specific groups" : "เปิดใช้งานเพียงเฉพาะกลุ่ม",
-    "Uninstall App" : "ถอนการติดตั้งแอพฯ",
     "SSL Root Certificates" : "ใบรับรอง SSL",
     "Common Name" : "ชื่อทั่วไป",
     "Valid until" : "ใช้ได้จนถึง",
@@ -245,6 +243,7 @@
     "log-level out of allowed range" : "ระดับ-บันทึก ไม่ได้อยู่ในช่วงที่ได้รับอนุญาต",
     "Language changed" : "เปลี่ยนภาษาเรียบร้อยแล้ว",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "คุณแน่ใจจริงๆ ว่าคุณต้องการเพิ่ม \"{domain}\" เป็นโดเมนที่เชื่อถือได้?",
+    "Please wait...." : "กรุณารอสักครู่...",
     "Everything (fatal issues, errors, warnings, info, debug)" : "ทุกอย่าง (ปัญหาร้ายแรง ข้อผิดพลาด คำเตือน ข้อมูล การแก้ปัญหา)",
     "Info, warnings, errors and fatal issues" : "ข้อมูล คำเตือน ข้อผิดพลาดและปัญหาร้ายแรง",
     "Warnings, errors and fatal issues" : "คำเตือนข้อผิดพลาดและปัญหาที่ร้ายแรง",
@@ -262,14 +261,10 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "โดยเฉพาะอย่างยิ่งเมื่อใช้ไคลเอนต์เดสก์ทอปสำหรับการประสานข้อมูลโดย SQLite",
     "Experimental applications ahead" : "การใช้งานก่อนการทดลอง",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "การทดลองแอพพลิเคชันไม่ได้ถูกตรวจสอบปัญหาด้านความปลอดภัย การติดตั้งพวกเขาสามารถก่อให้เกิดการสูญเสียข้อมูลหรือการละเมิดความปลอดภัย",
+    "Uninstall App" : "ถอนการติดตั้งแอพฯ",
     "Enable experimental apps" : "เปิดใช้งานแอพพลิเคชั่นทดลอง",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "นี่คุณ<br><br>อยากจะแจ้งให้คุณทราบว่าขณะนี้คุณมีบัญชี %s<br><br>ชื่อผู้ใช้ของคุณคือ: %s<br>เข้าไปงานได้ที่: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "นี่คุณ\n\nอยากให้คุณทราบว่าขณะนี้คุณมี %s บัญชี\n\nชื่อผู้ใช้ของคุณ: %s\nดูได้ที่: %s\n",
-    "Group" : "กลุ่ม",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "พื้นทีจัดเก็บข้อมูลจากภายนอก",
-    "Updates" : "อัพเดท",
-    "An error occurred: {message}" : "เกิดข้อผิดพลาด: {message}"
+    "Group" : "กลุ่ม"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

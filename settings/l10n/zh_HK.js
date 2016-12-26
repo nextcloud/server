@@ -9,7 +9,6 @@ OC.L10N.register(
     "Email sent" : "郵件已傳",
     "Sending..." : "發送中...",
     "All" : "所有",
-    "Please wait...." : "請稍候....",
     "Disable" : "停用",
     "Enable" : "啟用",
     "Updating...." : "更新中....",
@@ -49,9 +48,9 @@ OC.L10N.register(
     "Everyone" : "所有人",
     "Other" : "其他",
     "Default" : "預設",
+    "Please wait...." : "請稍候....",
     "Log" : "日誌",
     "More" : "更多",
-    "Group" : "群組",
-    "Updates" : "更新"
+    "Group" : "群組"
 },
 "nplurals=1; plural=0;");

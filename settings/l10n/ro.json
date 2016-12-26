@@ -43,7 +43,6 @@
     "_You have %n app update pending_::_You have %n app updates pending_" : ["Ai %n actualizare de aplicație în așteptare","Ai %n actualizări de aplicație în așteptare","Ai %n actualizări de aplicație în așteptare"],
     "No apps found for your version" : "Nu au fost găsite aplicații pentru versiunea ta",
     "The app will be downloaded from the app store" : "Aplicația va fi descărcată din magazin",
-    "Please wait...." : "Aşteptaţi vă rog....",
     "Error while disabling app" : "Eroare în timpul dezactivării aplicației",
     "Disable" : "Dezactivați",
     "Enable" : "Activare",
@@ -143,7 +142,6 @@
     "Hide description …" : "Ascunde descriere ...",
     "This app has an update available." : "Este disponibilă o actualizare pentru această aplicație.",
     "Enable only for specific groups" : "Activează doar pentru grupuri specifice",
-    "Uninstall App" : "Dezinstalează aplicația",
     "SSL Root Certificates" : "Certificate SSL rădăcină",
     "Common Name" : "Nume comun",
     "Valid until" : "Valabil până la",
@@ -188,6 +186,7 @@
     "Default" : "Implicită",
     "log-level out of allowed range" : "NIvelul de logare este în afara plajei admise",
     "Language changed" : "Limba a fost schimbată",
+    "Please wait...." : "Aşteptaţi vă rog....",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Tot (erori fatale, erori, avertizări, informări, depanare)",
     "Info, warnings, errors and fatal issues" : "Informări, avertizări, erori și erori fatale",
     "Warnings, errors and fatal issues" : "Avertizări, erori și erori fatale",
@@ -202,11 +201,8 @@
     "Allow users to send mail notification for shared files" : "Permite utilizatorilor sa expedieze notificări prin e-mail pentru dosarele comune",
     "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "SQLite e folosit ca o bază de date. Pentru instalări mari recomandăm folosirea unei alte baze de date.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "În special atunci când este folosit clientul desktop pentru sincronizarea fișierelor, utilizarea SQLite este nerecomandată.",
+    "Uninstall App" : "Dezinstalează aplicația",
     "Enable experimental apps" : "Activează aplicațiile experimentale",
-    "Group" : "Grup",
-    "Redis" : "Redis",
-    "External Storage" : "Stocare externă",
-    "Updates" : "Actualizări",
-    "An error occurred: {message}" : "A apărut o eroare: {message}"
+    "Group" : "Grup"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

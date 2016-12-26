@@ -42,7 +42,6 @@ OC.L10N.register(
     "All" : "Kõik",
     "Update to %s" : "Uuenda versioonile %s",
     "No apps found for your version" : "Sinu versiooni jaoks ei leitud ühtegi rakendust",
-    "Please wait...." : "Palun oota...",
     "Error while disabling app" : "Viga rakenduse keelamisel",
     "Disable" : "Lülita välja",
     "Enable" : "Lülita sisse",
@@ -145,7 +144,6 @@ OC.L10N.register(
     "Show description …" : "Näita kirjeldist ...",
     "Hide description …" : "Peida kirjeldus ...",
     "Enable only for specific groups" : "Luba ainult kindlad grupid",
-    "Uninstall App" : "Eemada rakend",
     "SSL Root Certificates" : "SLL Juur sertifikaadid",
     "Common Name" : "Üldnimetus",
     "Valid until" : "Kehtib kuni",
@@ -200,6 +198,7 @@ OC.L10N.register(
     "Default" : "Vaikeväärtus",
     "Language changed" : "Keel on muudetud",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Oled sa kindel, et soovid lisada domeeni \"{domain}\" usaldusväärseks domeeniks?",
+    "Please wait...." : "Palun oota...",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Kõik (tõsised probleemid, veateated, hoiatused, info, veatuvastus)",
     "Info, warnings, errors and fatal issues" : "Info, hoiatused, veateted ja tõsised probleemid",
     "Warnings, errors and fatal issues" : "Hoiatused, veateated ja tõsised probleemid",
@@ -213,11 +212,8 @@ OC.L10N.register(
     "The logfile is bigger than 100 MB. Downloading it may take some time!" : "Logifail on suurem kui 100 MB. Allalaadimine võib veidi aega võtta!",
     "Allow users to send mail notification for shared files" : "Luba kasutajatel saata e-posti teavitusi jagatud failide kohta",
     "Experimental applications ahead" : "Ees on katsetusjärgus rakendused",
+    "Uninstall App" : "Eemada rakend",
     "Enable experimental apps" : "Luba katsetusjärgus rakenduste kasutamine",
-    "Group" : "Grupp",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "Väline salvestuskoht",
-    "Updates" : "Uuendused"
+    "Group" : "Grupp"
 },
 "nplurals=2; plural=(n != 1);");

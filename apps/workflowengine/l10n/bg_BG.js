@@ -13,7 +13,6 @@ OC.L10N.register(
     "less" : "по-малко",
     "less or equals" : "по-малко или равно",
     "greater or equals" : "по-голямо или равно",
-    "greater" : "равно",
     "File system tag" : "Таг на файлова система",
     "is tagged with" : "е тагнат с",
     "is not tagged with" : "не е тагнат с",

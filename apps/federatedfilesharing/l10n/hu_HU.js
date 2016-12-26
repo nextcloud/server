@@ -41,7 +41,7 @@ OC.L10N.register(
     "Open documentation" : "Dokumentáció megnyitása",
     "Allow users on this server to send shares to other servers" : "Engedélyezze ezen szerver felhasználóinak, hogy fájlokat osszanak meg más szerverekkel.",
     "Allow users on this server to receive shares from other servers" : "Engedélyezze ezen szerver felhasználóinak, hogy megosztásokat fogadjanak más szerverektől",
-    "Enable lookups on lookup server" : "Keresések engedélyezése a kereső szerveren",
+    "Search global and public address book for users" : "Felhasználók keresése a globális és a nyilvános névjegyekben",
     "Federated Cloud" : "Egyesített felhő",
     "Your Federated Cloud ID:" : "Egyesített felhő azonosító:",
     "Share it:" : "Oszd meg:",

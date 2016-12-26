@@ -38,7 +38,6 @@
     "Select attributes" : "Esbillar atributos",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command line validation): <br/>" : "Nun s'alcuentra l'usuariu. Encamiéntase consultar los atributos d'accesu y nome d'usuariu. Filtru efectivu (copiar y pegar pa la validación de llínea de comandos): <br/>",
     "User found and settings verified." : "Usuariu atopáu y la configuración verificada.",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Axustes verificaos, pero atopose un usuariu . Namá'l primeru d'ellos va ser capaz d'empecipiar sesión. Considere un filtru más acutáu.",
     "An unspecified error occurred. Please check the settings and the log." : "Asocedió un erru. Por favor, compruebe la configuración y el rexistru.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "El filtru de busca nun ye válidu , probablemente por cuenta de problemes de sintaxis como'l númberu impar de soportes abiertos y zarraos. Por favor revisalo.",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Asocedió un erru de conexón a LDAP / AD, por favor, comprueba'l host, el puertu y les credenciales.",
@@ -155,6 +154,7 @@
     "Username-LDAP User Mapping" : "Asignación del Nome d'usuariu LDAP",
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Los nomes d'usuariu usense p'atroxar (meta) datos. En cuenta d'identificar y reconocer usuarios, cada usuariu de LDAP tendrá'l so nome d'usuariu internu polo que rique un mapéu dende'l so nome d'usuariu al usuariu de LDAP. El nome d'usuariu creáu mapeáse al UUID del usuariu de LDAP. Amás cacheamos tamién la DN p'amenorgar la intecractividá de LDAP, pero ensin usala pa la identificación. Si la DN camuda, atoparanse los cambios. L'usu internu del nome d'usuariu ye perdayures. ",
     "Clear Username-LDAP User Mapping" : "Llimpiar l'asignación de los Nomes d'usuariu de los usuarios LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Llimpiar l'asignación de los Nomes de grupu de los grupos de LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Llimpiar l'asignación de los Nomes de grupu de los grupos de LDAP",
+    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Axustes verificaos, pero atopose un usuariu . Namá'l primeru d'ellos va ser capaz d'empecipiar sesión. Considere un filtru más acutáu."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

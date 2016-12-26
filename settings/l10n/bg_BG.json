@@ -39,7 +39,6 @@
     "All" : "Всички",
     "Update to %s" : "Обнови до %s",
     "No apps found for your version" : "Няма намерени приложения за версията, която ползвате",
-    "Please wait...." : "Моля, изчакайте....",
     "Error while disabling app" : "Грешка при изключване на приложението",
     "Disable" : "Изключване",
     "Enable" : "Включване",
@@ -161,7 +160,6 @@
     "Hide description …" : "Скрии описание ...",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Приложението не може да бъде инсталирано, защото следните зависимости не са удовлетворени:",
     "Enable only for specific groups" : "Включи само за определени групи",
-    "Uninstall App" : "Премахни приложението",
     "Common Name" : "Познато Име",
     "Valid until" : "Валиден до",
     "Issued By" : "Издаден от",
@@ -229,6 +227,7 @@
     "log-level out of allowed range" : "Ниво на проследяване \\(log-level\\) e извън допустимия обхват",
     "Language changed" : "Езикът е променен",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Сигурен/на ли сте, че искате \"{domain}\"  да бъде добавен като сигурен домейн?",
+    "Please wait...." : "Моля, изчакайте....",
     "iPhone" : "iPhone",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Всичко (фатални проблеми, грешки, предупреждения, информация, дебъгване)",
     "Info, warnings, errors and fatal issues" : "информация, предупреждения, грешки и фатални проблеми",
@@ -244,16 +243,13 @@
     "Allow users to send mail notification for shared files to other users" : "Разреши на потребителите да изпращат уведомителни писма за споделени файлове към други потребители.",
     "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "SQLite е използваната база данни. За по-големи инсталации Ви препоръчваме да изберете друг сървър за бази данни.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Използването на SQLite не се препоръчва, особено ако ползвате клиента за настолен компютър.",
+    "Uninstall App" : "Премахни приложението",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Здрасти,<br><br>Само да ти кажа, че имаш %s профил<br><br> Потребителя ти е: %s<br>Достъпи го: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Здрасти,\n\nСамо да ти кажа, че имаш %s профил.\n\nПотребителя ти е: %s\nДостъпи го: %s\n",
     "Group" : "Група",
     "Default Quota" : "Стандартна квота",
     "Group Admin for" : "Групов Администратор за",
     "Storage Location" : "Дисково пространство",
-    "Last Login" : "Последно вписване",
-    "Redis" : "Redis",
-    "External Storage" : "Външно хранилище",
-    "Updates" : "Обновления",
-    "An error occurred: {message}" : "Възникна грешка: {message}"
+    "Last Login" : "Последно вписване"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

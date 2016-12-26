@@ -49,7 +49,6 @@
     "No apps found for your version" : "未找到适合当前版本的应用",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "已认可的应用是由值得信赖的开发商开发，并已通过了一个粗略的安全检查。他们放在一个开放的代码库并且维护人员认为他们是稳定的差不多可以正常使用。",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "此应用未检查安全问题，它是新的或已知是不稳定的。安装风险自担。",
-    "Please wait...." : "请稍等....",
     "Error while disabling app" : "禁用应用时出错",
     "Disable" : "禁用",
     "Enable" : "开启",
@@ -179,7 +178,6 @@
     "This app has an update available." : "此应用有可用的更新。",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "此应用程序无法安装，因为以下依赖性不满足：",
     "Enable only for specific groups" : "仅对特定的组开放",
-    "Uninstall App" : "卸载应用",
     "SSL Root Certificates" : "SSL 根证书",
     "Common Name" : "通用名称",
     "Valid until" : "有效期至",
@@ -240,6 +238,7 @@
     "log-level out of allowed range" : "日志级别超出允许的范围",
     "Language changed" : "语言已修改",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "你真的希望添加 \"{domain}\" 为信任域？",
+    "Please wait...." : "请稍等....",
     "Everything (fatal issues, errors, warnings, info, debug)" : "所有（灾难性问题，错误，警告，信息，调试）",
     "Info, warnings, errors and fatal issues" : "信息，警告，错误和灾难性问题",
     "Warnings, errors and fatal issues" : "警告，错误和灾难性问题",
@@ -257,14 +256,10 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "特别当使用桌面客户端来同步文件时，不鼓励使用 SQLite 。",
     "Experimental applications ahead" : "未来的实验应用",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "实验应用程序没有在安全性的问题上作过多检查，新的或已知的不稳定 BUG 都在开发中。安装它们可能会导致数据丢失或安全漏洞。",
+    "Uninstall App" : "卸载应用",
     "Enable experimental apps" : "启用实验性应用程序",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "亲，<br><br>现在我们为你开通了 %s 私有云帐户。<br><br>你的用户名： %s<br>访问网址： <a href=\\\"%s\\\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "亲，\\n\\n 现在我们为你开通了 %s 私有去帐户。\\n\\n 你的用户名： %s\\n 访问网址： %s\\n 你的初始密码需要咨询系统管理员。或者你也可以在登录页面输入任意密码登录，\\n登录窗口将出现忘记密码链接，点击通过注册邮箱重设初始密码。\\n\\n",
-    "Group" : "分组",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "外部存储",
-    "Updates" : "更新",
-    "An error occurred: {message}" : "发生错误： {message}"
+    "Group" : "分组"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

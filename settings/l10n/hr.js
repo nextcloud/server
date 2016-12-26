@@ -24,7 +24,6 @@ OC.L10N.register(
     "Add trusted domain" : "Dodajte pouzdanu domenu",
     "Sending..." : "Slanje...",
     "All" : "Sve",
-    "Please wait...." : "Molimo pričekajte...",
     "Error while disabling app" : "Pogreška pri onemogućavanju app",
     "Disable" : "Onemogućite",
     "Enable" : "Omogućite",
@@ -98,7 +97,6 @@ OC.L10N.register(
     "These groups will still be able to receive shares, but not to initiate them." : "Ove će grupe još uvijek moći primati dijeljene resurse, ali ne i inicirati ih",
     "Documentation:" : "Dokumentacija:",
     "Enable only for specific groups" : "Omogućite samo za specifične grupe",
-    "Uninstall App" : "Deinstalirajte app",
     "Common Name" : "Common Name",
     "Valid until" : "Valid until",
     "Issued By" : "Issued By",
@@ -136,6 +134,7 @@ OC.L10N.register(
     "Default" : "Zadano",
     "Language changed" : "Promjena jezika",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Jeste li doista sigurni da želite dodati \"{domain}\" kao pouzdanu domenu?",
+    "Please wait...." : "Molimo pričekajte...",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Sve (kobni problemi, pogreške, upozorenja, ispravljanje pogrešaka)",
     "Info, warnings, errors and fatal issues" : "Informacije, upozorenja, pogreške i kobni problemi",
     "Warnings, errors and fatal issues" : "Upozorenja, pogreške i kobni problemi",
@@ -145,8 +144,7 @@ OC.L10N.register(
     "More" : "Više",
     "Less" : "Manje",
     "Allow users to send mail notification for shared files" : "Dopustite korisnicima slanje notifikacijske e-pošte za podijeljene datoteke",
-    "Group" : "Grupa",
-    "External Storage" : "Vanjsko spremište",
-    "Updates" : "nadogradnje"
+    "Uninstall App" : "Deinstalirajte app",
+    "Group" : "Grupa"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

@@ -20,7 +20,6 @@ OC.L10N.register(
     "Couldn't update app." : "Ne eblis ĝisdatigi la aplikaĵon.",
     "Sending..." : "Sendante...",
     "All" : "Ĉio",
-    "Please wait...." : "Bonvolu atendi...",
     "Error while disabling app" : "Eraris malkapabligo de aplikaĵo",
     "Disable" : "Malkapabligi",
     "Enable" : "Kapabligi",
@@ -85,7 +84,6 @@ OC.L10N.register(
     "Show description …" : "Montri priskribon...",
     "Hide description …" : "Malmontri priskribon...",
     "Enable only for specific groups" : "Kapabligi nur por specifajn grupojn",
-    "Uninstall App" : "Malinstali aplikaĵon",
     "Common Name" : "Komuna nomo",
     "Valid until" : "Valida ĝis",
     "Valid until %s" : "Valida ĝis %s",
@@ -126,6 +124,7 @@ OC.L10N.register(
     "change email address" : "ŝanĝi retpoŝtadreson",
     "Default" : "Defaŭlta",
     "Language changed" : "La lingvo estas ŝanĝita",
+    "Please wait...." : "Bonvolu atendi...",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Ĉio (fatalaĵoj, eraroj, avertoj, informoj, sencimigaj mesaĝoj)",
     "Info, warnings, errors and fatal issues" : "Informoj, avertoj, eraroj kaj fatalaĵoj",
     "Warnings, errors and fatal issues" : "Avertoj, eraroj kaj fatalaĵoj",
@@ -137,8 +136,7 @@ OC.L10N.register(
     "More" : "Pli",
     "Less" : "Malpli",
     "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "SQLite uziĝas kiel datumbazo. Por pli grandaj instaloj ni rekomendas ŝanĝi ĝin per malsama datumbazomotoro.",
-    "Group" : "Grupo",
-    "External Storage" : "Malena memorilo",
-    "Updates" : "Ĝisdatigoj"
+    "Uninstall App" : "Malinstali aplikaĵon",
+    "Group" : "Grupo"
 },
 "nplurals=2; plural=(n != 1);");

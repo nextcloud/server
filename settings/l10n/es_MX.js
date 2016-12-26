@@ -19,7 +19,6 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "No se pudo eliminar al usuario del grupo %s",
     "Couldn't update app." : "No se pudo actualizar la aplicación.",
     "All" : "Todos",
-    "Please wait...." : "Espere, por favor....",
     "Error while disabling app" : "Error mientras se desactivaba la aplicación",
     "Disable" : "Desactivar",
     "Enable" : "Activar",
@@ -80,6 +79,7 @@ OC.L10N.register(
     "set new password" : "establecer nueva contraseña",
     "Default" : "Predeterminado",
     "Language changed" : "Idioma cambiado",
+    "Please wait...." : "Espere, por favor....",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Todo (Información, Avisos, Errores, debug y problemas fatales)",
     "Info, warnings, errors and fatal issues" : "Información, Avisos, Errores y problemas fatales",
     "Warnings, errors and fatal issues" : "Advertencias, errores y problemas fatales",
@@ -87,7 +87,6 @@ OC.L10N.register(
     "Fatal issues only" : "Problemas fatales solamente",
     "Log" : "Registro",
     "More" : "Más",
-    "Less" : "Menos",
-    "External Storage" : "Almacenamiento externo"
+    "Less" : "Menos"
 },
 "nplurals=2; plural=(n != 1);");

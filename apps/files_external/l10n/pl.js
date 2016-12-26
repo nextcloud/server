@@ -43,6 +43,7 @@ OC.L10N.register(
     "Objectstore forbidden" : "Zabroniony obiekt sklepu",
     "Invalid storage backend \"%s\"" : "Nieprawidłowy magazyn zaplecza \"%s\"",
     "Not permitted to use backend \"%s\"" : "Nie można używać powrotu \"%s\"",
+    "Insufficient data: %s" : "Niewystarczające dane: %s",
     "%s" : "%s",
     "Access key" : "Klucz dostępu",
     "Secret key" : "Sekretny klucz",
@@ -111,14 +112,6 @@ OC.L10N.register(
     "Delete" : "Usuń",
     "Allow users to mount external storage" : "Pozwól użytkownikom montować zewnętrzne zasoby dyskowe",
     "Allow users to mount the following external storage" : "Pozwól użytkownikom montować następujące zewnętrzne zasoby dyskowe",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Nie udało się uzyskać informacje z serwera ownCloud: {code} {type}",
-    "Access granted" : "Dostęp uzyskany",
-    "Global Credentials" : "Globalne Poświadczenia",
-    "ownCloud" : "ownCloud",
-    "<b>Note:</b> " : "<b>Uwaga:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Uwaga:</b> Wsparcie dla cURL w PHP nie zostało włączone lub zainstalowane. Zamontowanie %s nie jest możliwe. Proszę poproś Twojego administratora o zainstalowanie go.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Uwaga:</b> Wsparcie dla FTP w PHP nie zostało włączone lub zainstalowane. Zamontowanie %s nie jest możliwe. Proszę poproś Twojego administratora o zainstalowanie go.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Uwaga:</b> \"%s\" nie jest zainstalowane. Zamontowanie %s nie jest możliwe. Proszę poproś Twojego administratora o zainstalowanie go.",
-    "External Storage" : "Zewnętrzna zasoby dyskowe"
+    "Couldn't get the information from the ownCloud server: {code} {type}" : "Nie udało się uzyskać informacje z serwera ownCloud: {code} {type}"
 },
 "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

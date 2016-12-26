@@ -40,7 +40,6 @@ OC.L10N.register(
     "All" : "همه",
     "Update to %s" : "بروزرسانی به  %s",
     "No apps found for your version" : "هیچ برنامه‌ای برای نسخه‌ی شما یافت نشد",
-    "Please wait...." : "لطفا صبر کنید ...",
     "Error while disabling app" : "خطا در هنگام غیر فعال سازی برنامه",
     "Disable" : "غیرفعال",
     "Enable" : "فعال",
@@ -139,7 +138,6 @@ OC.L10N.register(
     "Hide description …" : "عدم نمایش توضیحات...",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "امکان نصب این برنامه وجود ندارد، این پیش‌نیازها انجام نشده‌اند:",
     "Enable only for specific groups" : "فعال سازی تنها برای گروه های خاص",
-    "Uninstall App" : "حذف برنامه",
     "Common Name" : "نام مشترک",
     "Valid until" : "متعبر تا",
     "Issued By" : "صدور توسط",
@@ -191,6 +189,7 @@ OC.L10N.register(
     "change email address" : "تغییر آدرس ایمیل ",
     "Default" : "پیش فرض",
     "Language changed" : "زبان تغییر کرد",
+    "Please wait...." : "لطفا صبر کنید ...",
     "Everything (fatal issues, errors, warnings, info, debug)" : "همه موارد (مشکلات مهلک، خطاها، اخطارها، اطلاعات، خطایابی)",
     "Info, warnings, errors and fatal issues" : "اطلاعات، اخطارها، خطاها، مشکلات اساسی",
     "Warnings, errors and fatal issues" : "اخطارها، خطاها، مشکلات مهلک",
@@ -201,12 +200,8 @@ OC.L10N.register(
     "More" : "بیش‌تر",
     "Less" : "کم‌تر",
     "Allow users to send mail notification for shared files" : "اجازه به کاربران برای ارسال ایمیل نوتیفیکیشن برای فایل‌های به اشتراک‌گذاشته شده",
+    "Uninstall App" : "حذف برنامه",
     "Enable experimental apps" : "فعال‌سازی برنامه‌های آزمایشی",
-    "Group" : "گروه",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "حافظه خارجی",
-    "Updates" : "به روز رسانی ها",
-    "An error occurred: {message}" : "یک خطا رخ‌داده است: {message}"
+    "Group" : "گروه"
 },
 "nplurals=1; plural=0;");

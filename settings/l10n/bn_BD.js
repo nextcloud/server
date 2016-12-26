@@ -74,7 +74,6 @@ OC.L10N.register(
     "Language changed" : "ভাষা পরিবর্তন করা হয়েছে",
     "More" : "বেশী",
     "Less" : "কম",
-    "Group" : "গোষ্ঠীসমূহ",
-    "External Storage" : "বাহ্যিক সংরক্ষণাগার"
+    "Group" : "গোষ্ঠীসমূহ"
 },
 "nplurals=2; plural=(n != 1);");

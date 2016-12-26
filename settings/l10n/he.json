@@ -50,7 +50,6 @@
     "The app will be downloaded from the app store" : "היישום ירד מחנות היישומים",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "יישומים מאושרים מפותחים על ידי מפתחים מהימנים ועברו בדיקת הבטחה ראשונית. הם נשמרים באופן פעיל במאגר קוד פתוח והמתזקים שלהם מייעדים אותם לשימוש מזדמן ורגיל.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "יישום זה לא נבדק לבעיות אבטחה והוא חדש או ידוע כלא יציב. התקנת יישום זה הנה על אחריותך בלבד.",
-    "Please wait...." : "נא להמתין…",
     "Error while disabling app" : "אירעה שגיאה בעת נטרול היישום",
     "Disable" : "ניטרול",
     "Enable" : "הפעלה",
@@ -194,7 +193,6 @@
     "This app has an update available." : "ליישום זה קיים עדכון זמין.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "לא ניתן להתקין את יישום זה כיוון שייחסי התלות הבאים לא התקיימו:",
     "Enable only for specific groups" : "אפשר רק לקבוצות מסויימות",
-    "Uninstall App" : "הסרת יישום",
     "SSL Root Certificates" : "אישורי אבטחת SSL לנתיב יסוד",
     "Common Name" : "שם משותף",
     "Valid until" : "בתוקף עד",
@@ -259,6 +257,7 @@
     "log-level out of allowed range" : "גודל הלוג מעבר לרמה המותרת",
     "Language changed" : "שפה השתנתה",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "האם באמת להוסיף \"{domain}\" כשם מתחם מהימן?",
+    "Please wait...." : "נא להמתין…",
     "Everything (fatal issues, errors, warnings, info, debug)" : "הכול (נושאים חמורים, שגיאות, אזהרות, מידע, ניפוי שגיאות)",
     "Info, warnings, errors and fatal issues" : "מידע, אזהרות, שגיאות ונושאים חמורים",
     "Warnings, errors and fatal issues" : "אזהרות, שגיאות ונושאים חמורים",
@@ -276,14 +275,10 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "במיוחד כאשר משתמשים במחשב שולחני לסנכרון קבצים השימוש ב SQLite אינו מומלץ.",
     "Experimental applications ahead" : "ישומים ניסיוניים לפנים",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "יישומים ניסיוניים לא נבדקו לבעיות אבטחה, חדשים או ידועים כלא יציבים ותחת פיתוח כבד. התקנה שלהם עלולה להוביל לאיבוד מידע או לפרצות אבטחה.",
+    "Uninstall App" : "הסרת יישום",
     "Enable experimental apps" : "אפשר יישומים ניסיוניים",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "שלום,<br><br>רק רצינו להודיע שעכשיו יש לך %s חשבון.<br><br>Your שם משתמש: %s<br>כניסה: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "שלום,\n\nרק רצינו להודיע שעכשיו יש לך %s חשבון.\n\nשם המשתמש שלך: %s\nכניסה: %s\n\n",
-    "Group" : "קבוצה",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "אחסון חיצוני",
-    "Updates" : "עדכונים",
-    "An error occurred: {message}" : "אירעה שגיאה: {message}"
+    "Group" : "קבוצה"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

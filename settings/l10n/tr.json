@@ -51,7 +51,6 @@
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Resmi uygulamalar topluluk tarafından geliştirilmiştir. Merkezi işlevleri yerine getirdikleri gibi kullanıma da hazırdırlar.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Onaylanan uygulamalar güvenilir geliştiriciler tarafından geliştirilir ve detaylı olmayan bir güvenlik kontrolünden geçirilir. Bunlar açık kaynak kod deposunda bulunmakta ve normal kullanım için kararlı oldukları varsayılmaktadır.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "Bu uygulama güvenlik kontrolünden geçmedi veya yeni ya da kararsız olarak bilinmektedir. Kendiniz bu riski alarak yükleyebilirsiniz.",
-    "Please wait...." : "Lütfen bekleyin....",
     "Error while disabling app" : "Uygulama devre dışı bırakılırken hata",
     "Disable" : "Devre Dışı Bırak",
     "Enable" : "Etkinleştir",
@@ -211,7 +210,6 @@
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Bu uygulama için atanan en yüksek Nextcloud sürümü bulunmuyor. Bu ileride bir hata olacaktır.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Bu uygulama, aşağıdaki bağımlılıklar sağlanmadığından yüklenemiyor:",
     "Enable only for specific groups" : "Sadece belirli gruplar için etkinleştir",
-    "Uninstall App" : "Uygulamayı Kaldır",
     "SSL Root Certificates" : "SSL Kök Sertifikaları",
     "Common Name" : "Ortak Ad",
     "Valid until" : "Geçerlilik",
@@ -286,6 +284,7 @@
     "log-level out of allowed range" : "günlük seviyesi izin verilen aralık dışında",
     "Language changed" : "Dil değiştirildi",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "\"{domain}\" alan adını güvenilir alan adı olarak eklemek istediğinizden emin misiniz?",
+    "Please wait...." : "Lütfen bekleyin....",
     "iPhone" : "iPhone",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Her şey (Ciddi sorunlar, hatalar, uyarılar, bilgi, hata ayıklama)",
     "Info, warnings, errors and fatal issues" : "Bilgi, uyarılar, hatalar ve ciddi sorunlar",
@@ -304,14 +303,10 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Özellikle dosya eşitleme için masaüstü istemcisi kullanılırken SQLite kullanımı önerilmez.",
     "Experimental applications ahead" : "İlerideki deneysel uygulamalar",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Deneysel uygulamalar güvenlik açısından denetlenmemiş, yeni veya kararsız olmaya açık ya da geliştirilme aşamasında olan uygulamalardır. Yüklemek veri kaybı veya güvenlik açıklarına sebep olabilir.",
+    "Uninstall App" : "Uygulamayı Kaldır",
     "Enable experimental apps" : "Deneysel uygulamaları etkinleştir",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Merhaba,<br><br>Sadece artık bir %s hesabınızın olduğunu söylemek istedim.<br><br>Kullanıcı adınız: %s<br>Şuradan erişin: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Merhaba,\n\nSadece, artık bir %s hesabınızın olduğunu söylemek istedim.\n\nKullanıcı adınız: %s\nErişim: %s\n\n",
-    "Group" : "Grup",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "Harici Depolama",
-    "Updates" : "Güncellemeler",
-    "An error occurred: {message}" : "Bir hata oluştu: {message}"
+    "Group" : "Grup"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

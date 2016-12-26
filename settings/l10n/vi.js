@@ -14,7 +14,6 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "Không thể xóa người dùng từ nhóm %s",
     "Couldn't update app." : "Không thể cập nhật ứng dụng",
     "All" : "Tất cả",
-    "Please wait...." : "Xin hãy đợi...",
     "Disable" : "Tắt",
     "Enable" : "Bật",
     "Updating...." : "Đang cập nhật...",
@@ -63,10 +62,10 @@ OC.L10N.register(
     "set new password" : "đặt mật khẩu mới",
     "Default" : "Mặc định",
     "Language changed" : "Ngôn ngữ đã được thay đổi",
+    "Please wait...." : "Xin hãy đợi...",
     "Log" : "Log",
     "More" : "hơn",
     "Less" : "ít",
-    "Group" : "N",
-    "External Storage" : "Lưu trữ ngoài"
+    "Group" : "N"
 },
 "nplurals=1; plural=0;");
