@@ -124,14 +124,6 @@
     "Delete" : "Smazat",
     "Allow users to mount external storage" : "Povolit uživatelům připojení externího úložiště",
     "Allow users to mount the following external storage" : "Povolit uživatelů připojit následující externí úložiště",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Nelze obdržet informaci z ownCloud serveru: {code} {type}",
-    "Access granted" : "Přístup povolen",
-    "Global Credentials" : "Globální přihlašovací údaje",
-    "ownCloud" : "ownCloud",
-    "<b>Note:</b> " : "<b>Poznámka:</b>",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Poznámka:</b> cURL podpora v PHP není povolena nebo nainstalována. Není možné připojení %s. Prosím požádejte svého správce systému ať ji nainstaluje.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Poznámka:</b> FTP podpora v PHP není povolena nebo nainstalována. Není možné připojení %s. Prosím požádejte svého správce systému ať ji nainstaluje.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Poznámka:</b> \"%s\" není instalováno. Není možné připojení %s. Prosím požádejte svého správce systému o instalaci.",
-    "External Storage" : "Externí úložiště"
+    "Couldn't get the information from the ownCloud server: {code} {type}" : "Nelze obdržet informaci z ownCloud serveru: {code} {type}"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

@@ -170,7 +170,6 @@
     "Allow users to send mail notification for shared files to other users" : "Dozvoli korisnicima slanje notifikacijske e-pošte za podijeljene datoteke ka ostalim korisnicima",
     "Uninstall App" : "Deinstaliraj aplikaciju",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Hej,<br><br>samo da javim da sad imate %s račum.<br><br>Vaše korisničko ime: %s<br>Pristupite mu: <a href=\"%s\">%s</a><br><br>",
-    "Group" : "Grupa",
-    "Updates" : "Ažuriranja"
+    "Group" : "Grupa"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

@@ -203,10 +203,6 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "În special atunci când este folosit clientul desktop pentru sincronizarea fișierelor, utilizarea SQLite este nerecomandată.",
     "Uninstall App" : "Dezinstalează aplicația",
     "Enable experimental apps" : "Activează aplicațiile experimentale",
-    "Group" : "Grup",
-    "Redis" : "Redis",
-    "External Storage" : "Stocare externă",
-    "Updates" : "Actualizări",
-    "An error occurred: {message}" : "A apărut o eroare: {message}"
+    "Group" : "Grup"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

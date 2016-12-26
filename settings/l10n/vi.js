@@ -66,7 +66,6 @@ OC.L10N.register(
     "Log" : "Log",
     "More" : "hơn",
     "Less" : "ít",
-    "Group" : "N",
-    "External Storage" : "Lưu trữ ngoài"
+    "Group" : "N"
 },
 "nplurals=1; plural=0;");

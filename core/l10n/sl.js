@@ -327,11 +327,6 @@ OC.L10N.register(
     "Enhanced security has been enabled for your account. Please authenticate using a second factor." : "Za vaš račun je določena napredna varnost. Prosim, prijavite se z drugo metodo.",
     "Cancel login" : "Prekliči prijavo",
     "Please authenticate using the selected factor." : "Prijavite se z izbrano metodo.",
-    "An error occured while verifying the token" : "Napaka se je zgodila med preverjanjem ključa",
-    "An error occured. Please try again" : "Zgodila se je napaka. Poskusi ponovno",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Souporaba z uporabniki, ki so na drugih oblakih ownCloud s povezavo uporabnik@domena.si/owncloud",
-    "not assignable" : "ni nastavljivo",
-    "Updating {productName} to version {version}, this may take a while." : "Posodabljanje {productName} na različico {version}, lahko traja nekaj časa.",
-    "An internal error occured." : "Zgodila se je interna napaka."
+    "An error occured while verifying the token" : "Napaka se je zgodila med preverjanjem ključa"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

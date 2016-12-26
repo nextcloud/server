@@ -119,13 +119,6 @@ OC.L10N.register(
     "Delete" : "Izbriši",
     "Allow users to mount external storage" : "Dovoli uporabnikom priklapljanje zunanje shrambe",
     "Allow users to mount the following external storage" : "Dovoli uporabnikom priklapljanje navedenih zunanjih shramb.",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Ni mogoče pridobiti podrobnosti s strežnika ownCloud:{koda} {vrsta}",
-    "Global Credentials" : "Globalne poverilnice",
-    "ownCloud" : "ownCloud",
-    "<b>Note:</b> " : "<b>Opomba:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Opomba:</b> Podpora za naslove cURL v PHP ni omogočena, ali pa ni ustrezno nameščenih programov. Priklapljanje %s ni mogoče. Za pomoč pri namestitvi se obrnite na sistemskega skrbnika.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Opomba:</b> Podpora za protokol FTP v PHP ni omogočena, ali pa ni ustrezno nameščenih programov. Priklapljanje %s ni mogoče. Za pomoč pri namestitvi se obrnite na sistemskega skrbnika.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Opomba:</b> Program \"%s\" ni nameščen. Priklapljanje %s ni mogoče. Za pomoč pri namestitvi se obrnite na sistemskega skrbnika.",
-    "External Storage" : "Zunanja podatkovna shramba"
+    "Couldn't get the information from the ownCloud server: {code} {type}" : "Ni mogoče pridobiti podrobnosti s strežnika ownCloud:{koda} {vrsta}"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

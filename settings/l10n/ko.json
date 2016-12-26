@@ -368,24 +368,6 @@
     "Group Admin for" : "다음 그룹의 관리자:",
     "Storage Location" : "저장소 위치",
     "User Backend" : "사용자 백엔드",
-    "Last Login" : "마지막 로그인",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "외부 저장소",
-    "Updates" : "업데이트",
-    "Official apps are developed by and within the Nextcloud community. They offer functionality central to Nextcloud and are ready for production use." : "Nextcloud 커뮤니티가 개발한 공식 앱입니다. 이 앱은 Nextcloud의 핵심 기능이며 프로덕션 환경에서 사용할 수 있습니다.",
-    "No apps found for \"{query}\"" : "\"{query}\"에 대한 앱을 찾을 수 없습니다",
-    "An error occurred: {message}" : "오류 발생: {message}",
-    "Please check the <a target=\"_blank\" href=\"%s\">installation documentation ↗</a> for php configuration notes and the php configuration of your server, especially when using php-fpm." : "서버 PHP 설정(특히 php-fpm 사용시)에 관한 내용은 <a target=\"_blank\" href=\"%s\">설치 가이드 ↗</a>를 참고하십시오.",
-    "Your database does not run with \"READ COMMITED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "데이터베이스가 \"READ COMMITTED\" 트랜잭션 격리 수준에서 실행되고 있지 않습니다. 여러 작업이 동시에 실행될 때 문제가 발생할 수 있습니다.",
-    "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "서버가 Microsoft Windows 환경에서 동작하고 있습니다. 최적의 사용자 경험을 위해서는 리눅스를 사용할 것을 권장합니다.",
-    "Transactional file locking is disabled, this might lead to issues with race conditions. Enable 'filelocking.enabled' in config.php to avoid these problems. See the <a target=\"_blank\" href=\"%s\">documentation ↗</a> for more information." : "트랜잭션 파일 잠금이 비활성화되어있어 동시 접근시 문제가 발생할 수 있습니다. config.php에서 'filelocking.enabled'를 활성화하여 이 문제를 해결할 수 있습니다. 자세한 내용은 <a target=\"_blank\" href=\"%s\">사용 설명서 ↗</a>를 참고하십시오.",
-    "Please double check the <a target=\"_blank\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"#log-section\">log</a>." : "<a target=\"_blank\" href=\"%s\">설치 가이드 ↗</a>를 확인하고 <a href=\"#log-section\">로그</a>에 표시되는 오류 또는 경고를 확인하시기 바랍니다.",
-    "Encryption alone does not guarantee security of the system. Please see Nextcloud documentation for more information about how the encryption app works, and the supported use cases." : "암호화만으로 시스템의 보안을 보장할 수 없습니다. 암호화 응용 프로그램 작동 방식 및 지원되는 사용 사례에 대한 자세한 내용은 Nextcloud 설명서를 참조하십시오.",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" href=\"%s\">documentation ↗</a>." : "다른 데이터베이스로 마이그레이션하려면 'occ db:convert-type' 명령행 도구를 사용하거나 <a target=\"_blank\" href=\"%s\">사용 설명서 ↗</a>를 참고하시기 바랍니다.",
-    "This app has no minimum Nextcloud version assigned. This will be an error in Nextcloud 11 and later." : "이 앱은 Nextcloud 최소 버전을 지정하지 않았습니다. Nextcloud 11 이후에는 오류로 처리됩니다.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in Nextcloud 11 and later." : "이 앱은 Nextcloud 최대 버전을 지정하지 않았습니다. Nextcloud 11 이후에는 오류로 처리됩니다.",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://help.nextcloud.com/\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">help other users</a>!" : "이 프로젝트를 지원하려면 <a href=\"https://nextcloud.com/contribute\" target=\"_blank\" rel=\"noreferrer\">개발에 참여</a>하거나 <a href=\"https://help.nextcloud.com/\" target=\"_blank\" rel=\"noreferrer\">다른 유저들을 도와주세요</a>!",
-    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "{communityopen}Nextcloud 커뮤니티{linkclose}에서 개발, {githubopen}소스 코드{linkclose}는 {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose} 라이선스를 따릅니다."
+    "Last Login" : "마지막 로그인"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

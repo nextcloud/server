@@ -145,8 +145,6 @@ OC.L10N.register(
     "Less" : "Manje",
     "Allow users to send mail notification for shared files" : "Dopustite korisnicima slanje notifikacijske e-pošte za podijeljene datoteke",
     "Uninstall App" : "Deinstalirajte app",
-    "Group" : "Grupa",
-    "External Storage" : "Vanjsko spremište",
-    "Updates" : "nadogradnje"
+    "Group" : "Grupa"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

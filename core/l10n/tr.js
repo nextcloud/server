@@ -319,7 +319,6 @@ OC.L10N.register(
     "Enhanced security has been enabled for your account. Please authenticate using a second factor." : "Hesabınız için gelişmiş güvenlik etkinleştirildi. Lütfen ikinci etkeni kullanarak kimlik doğrulaması yapın.",
     "Cancel login" : "Girişi iptal et",
     "Please authenticate using the selected factor." : "Lütfen seçilen etkeni kullanarak kimlik doğrulaması yapın.",
-    "An error occured while verifying the token" : "Anahtarı(token) doğrularken bir hata oluştu",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "kullanıcı@example.com/owncloud şeklinde diğer ownCloud kullanan diğer kullanıcılarla paylaş"
+    "An error occured while verifying the token" : "Anahtarı(token) doğrularken bir hata oluştu"
 },
 "nplurals=2; plural=(n > 1);");

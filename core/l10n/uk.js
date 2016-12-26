@@ -296,7 +296,6 @@ OC.L10N.register(
     "Error while sending notification" : "Помилка під час надсилання повідомлення",
     "No search results in other folders" : "В інших теках нічого не знайдено",
     "Two-step verification" : "Дворівнева перевірка",
-    "An error occured while verifying the token" : "При верифікації токена виникла помилка",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Поширити серед людей інших ownCloud'ів, використовуючи синтаксис ім'я_користувача@файли.укр/owncloud"
+    "An error occured while verifying the token" : "При верифікації токена виникла помилка"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

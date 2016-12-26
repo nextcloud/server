@@ -267,11 +267,6 @@ OC.L10N.register(
     "Enable experimental apps" : "เปิดใช้งานแอพพลิเคชั่นทดลอง",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "นี่คุณ<br><br>อยากจะแจ้งให้คุณทราบว่าขณะนี้คุณมีบัญชี %s<br><br>ชื่อผู้ใช้ของคุณคือ: %s<br>เข้าไปงานได้ที่: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "นี่คุณ\n\nอยากให้คุณทราบว่าขณะนี้คุณมี %s บัญชี\n\nชื่อผู้ใช้ของคุณ: %s\nดูได้ที่: %s\n",
-    "Group" : "กลุ่ม",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "พื้นทีจัดเก็บข้อมูลจากภายนอก",
-    "Updates" : "อัพเดท",
-    "An error occurred: {message}" : "เกิดข้อผิดพลาด: {message}"
+    "Group" : "กลุ่ม"
 },
 "nplurals=1; plural=0;");

@@ -338,24 +338,6 @@
     "Group Admin for" : "Gruppeadministrator for",
     "Storage Location" : "Lagringsplassering",
     "User Backend" : "Bruker-tjener",
-    "Last Login" : "Siste innlogging",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "Ekstern lagring",
-    "Updates" : "Oppdateringer",
-    "Official apps are developed by and within the Nextcloud community. They offer functionality central to Nextcloud and are ready for production use." : "Offisielle apper er utviklet av og innenfor miljøet, de byr på sentral funksjonalitet og er klare for bruk i produksjon.",
-    "No apps found for \"{query}\"" : "Ingen apper funnet for \"{query}\"",
-    "An error occurred: {message}" : "Det oppstod en feil: {message}",
-    "Please check the <a target=\"_blank\" href=\"%s\">installation documentation ↗</a> for php configuration notes and the php configuration of your server, especially when using php-fpm." : "Vennligst sjekk <a target=\"_blank\" href=\"%s\">installasjonsdokumentasjonen ↗</a> etter php konfigurasjonsnotater og konfigurering av php på tjeneren din, særlig om du bruker php-fpm.",
-    "Your database does not run with \"READ COMMITED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Din database kjører ikke med \"READ COMMITED\" transaksjonsisolering. Dette kan lage problemer når flere handlinger kjøres i paralell.",
-    "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Serveren din kjører på Microsoft Windows. Vi anbefaler sterkt Linux for en optimal brukeropplevelse.",
-    "Transactional file locking is disabled, this might lead to issues with race conditions. Enable 'filelocking.enabled' in config.php to avoid these problems. See the <a target=\"_blank\" href=\"%s\">documentation ↗</a> for more information." : "Transaksjonsbasert fil-låsing er deaktivert. Dette kan føre til konflikt. Aktiver \"filelocking.enabled\" i config.php for å unngå disse problemene. Se <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentasjonen ↗</a> for mer informasjon.",
-    "Please double check the <a target=\"_blank\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"#log-section\">log</a>." : "Vennligst dobbeltsjekk <a target=\"_blank\" href=\"%s\">installasjonsveiledningen ↗</a>, og se etter feil og advarsler i <a href=\"#log-section\">loggen</a>.",
-    "Encryption alone does not guarantee security of the system. Please see Nextcloud documentation for more information about how the encryption app works, and the supported use cases." : "Krypteringen alene gir ikke noen garanti for systemets sikkerhet. Vennligst se i Nextcloud dokumentasjonen for mer informasjon om hvordan krypteringsappen virker, og de fungerende brukeeksemplene.",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" href=\"%s\">documentation ↗</a>." : "For å migrere til en annen database, bruk kommandolinjeverktøyet: 'occ db:convert-type', eller les i <a target=\"_blank\" href=\"%s\">dokumentasjonen ↗</a>.",
-    "This app has no minimum Nextcloud version assigned. This will be an error in Nextcloud 11 and later." : "Denne appen har ingen laveste versjon av Nextcloud definert. Dette vil være en feil i Nextcloud 11 og senere.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in Nextcloud 11 and later." : "Denne appen har ingen maksimum versjon av Nextcloud definert. Dette vil være en feil i Nextcloud 11 og senere.",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://help.nextcloud.com/\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">help other users</a>!" : "Hvis du vil støtte prosjektet \n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">delta i utviklingen</a>\n\t\tor\n\t\t<a href=\"https://help.nextcloud.com/\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">hjelp andre brukere</a>!",
-    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "Utviklet av {communityopen}Nextcloud mijøet{linkclose},  {githubopen}kildekoden{linkclose} er lisensiert under {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}."
+    "Last Login" : "Siste innlogging"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

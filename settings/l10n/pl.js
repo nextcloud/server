@@ -338,15 +338,6 @@ OC.L10N.register(
     "Group Admin for" : "Grupa Admin dla",
     "Storage Location" : "Lokalizacja magazynu",
     "User Backend" : "Moduł użytkownika",
-    "Last Login" : "Ostatnio zalogowany",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "Zewnętrzne zasoby dyskowe",
-    "Updates" : "Aktualizacje",
-    "No apps found for \"{query}\"" : "Nie znaleziono aplikacji dla \"{query}\"",
-    "An error occurred: {message}" : "Wystąpił błąd: {message}",
-    "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Twój serwer działa na platformie Windows. Zalecamy Linuxa dla optymalnych doświadczeń użytkownika.",
-    "This app has no minimum Nextcloud version assigned. This will be an error in Nextcloud 11 and later." : "Ta aplikacja nie ma przypisanej minimalnej wersji Nextcloud. W przyszłości będzie to błąd w Nextcloud 11 i późniejszych.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in Nextcloud 11 and later." : "Ta aplikacja nie ma przypisanej minimalnej wersji Nextcloud. W przyszłości będzie to błąd w Nextcloud 11 i późniejszych."
+    "Last Login" : "Ostatnio zalogowany"
 },
 "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

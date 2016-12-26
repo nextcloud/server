@@ -347,19 +347,6 @@ OC.L10N.register(
     "Enhanced security has been enabled for your account. Please authenticate using a second factor." : "강화된 보안 계정을 사용할 수 있습니다. 두 번째 인자를 사용하여 인증하시기 바랍니다.",
     "Cancel login" : "로그인 취소",
     "Please authenticate using the selected factor." : "선택한 요소를 사용하여 인증하시기 바랍니다.",
-    "An error occured while verifying the token" : "토큰을 확인하는 중 오류 발생",
-    "Your web server is not set up properly to resolve \"{url}\". Further information can be found in our <a target=\"_blank\" href=\"{docLink}\">documentation</a>." : "웹 서버가 \"{url}\"을 처리할 수 있도록 구성되어있지 않습니다. 자세한 내용은 <a target=\"_blank\" href=\"{docLink}\">설명서</a>를 참고하십시오.",
-    "No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target=\"_blank\" href=\"{docLink}\">documentation</a>." : "메모리 캐시가 구성되지 않았습니다. 가능한 경우 memcache를 구성하여 성능을 향상시킬 수 있습니다. 자세한 내용은 <a target=\"_blank\" href=\"{docLink}\">사용 설명서</a>를 참고하십시오.",
-    "/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a target=\"_blank\" href=\"{docLink}\">documentation</a>." : "PHP가 안전한 난수 발생기(/dev/urandom)를 사용할 수 없어 보안에 취약합니다. 자세한 내용은 <a target=\"_blank\" href=\"{docLink}\">사용 설명서</a>를 참고하십시오.",
-    "The reverse proxy headers configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If you are not accessing Nextcloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to Nextcloud. Further information can be found in our <a target=\"_blank\" href=\"{docLink}\">documentation</a>." : "역방향 프록시 헤더 설정이 올바르지 않거나 Trusted Proxy를 통해 ownCloud에 접근하고 있을 수 있습니다. 만약 ownCloud를 Trusted Proxy를 통해 접근하고 있지 않다면 이는 보안 문제이며 공격자가 IP 주소를 속이고 있을 수 있습니다. 자세한 내용은 <a target=\"_blank\" href=\"{docLink}\">사용 설명서</a>를 참고하십시오.",
-    "Memcached is configured as distributed cache, but the wrong PHP module \"memcache\" is installed. \\OC\\Memcache\\Memcached only supports \"memcached\" and not \"memcache\". See the <a target=\"_blank\" href=\"{wikiLink}\">memcached wiki about both modules</a>." : "Memcached가 분산 캐시로 구성되어 있지만 잘못된 PHP 모듈 \"memcache\"가 설치되어 있습니다. \\OC\\Memcache\\Memcached는 \"memcache\"가 아닌 \"memcached\"만 지원합니다. 자세한 내용은 <a target=\"_blank\" href=\"{wikiLink}\">이 두 모듈에 대한 memcached 위키</a>를 참고하십시오.",
-    "Some files have not passed the integrity check. Further information on how to resolve this issue can be found in our <a target=\"_blank\" href=\"{docLink}\">documentation</a>. (<a href=\"{codeIntegrityDownloadEndpoint}\">List of invalid files…</a> / <a href=\"{rescanEndpoint}\">Rescan…</a>)" : "일부 파일에 대한 무결성 검사를 통과하지 않았습니다. 이 문제를 해결하는 방법에 대한 자세한 내용은 우리의 <a target=\"_blank\" href=\"{docLink}\">문서</a>에서 찾을 수 있습니다. (<a href=\"{codeIntegrityDownloadEndpoint}\">잘못된 파일 목록...</a> / <a href=\"{rescanEndpoint}\">재검색...</a>)",
-    "The \"Strict-Transport-Security\" HTTP header is not configured to at least \"{seconds}\" seconds. For enhanced security we recommend enabling HSTS as described in our <a href=\"{docUrl}\">security tips</a>." : "\"엄격한 - 전송 보안\" HTTP 헤더에 적어도 \"{seconds}\"초로 설정되어 있지 않습니다. <a href=\"{docUrl}\">보안 팁</a>에 언급 된 바와 같이 보안을 강화하기 위해, HSTS를 사용하는 것이 좋습니다.",
-    "An error occured. Please try again" : "오류가 발생했습니다. 다시 시도하십시오.",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "username@example.com/nextcloud 형식으로 다른 nextcloud 사용자와 공유할 수 있습니다",
-    "not assignable" : "할당할 수 없음",
-    "Updating {productName} to version {version}, this may take a while." : "{productName} 버전 {version}(으)로 업데이트 중 입니다. 시간이 다소 걸릴 수 있습니다.",
-    "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." : "서버를 올바르게 구성하는 방법에 대한 자세한 내용은 <a href=\"%s\" target=\"_blank\">설명서</a>를 참조하시기 바랍니다.",
-    "An internal error occured." : "내부 오류가 발생했습니다."
+    "An error occured while verifying the token" : "토큰을 확인하는 중 오류 발생"
 },
 "nplurals=1; plural=0;");

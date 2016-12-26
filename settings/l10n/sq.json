@@ -279,11 +279,6 @@
     "Enable experimental apps" : "Aktivizo aplikacione eksperimentale",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Njatjeta,<br><br>thjesht po ju bëjmë të ditur që tani keni një llogar %s.<br><br>Emri juaj i përdoruesit: %s<br>Hyni në të te: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Njatjeta,\n\nthjesht po ju bëjmë të ditur që tani keni një llogari %s.\n\nEmri juaj i përdoruesit: %s\nHyni në të te: %s\n\n",
-    "Group" : "Grup",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "Kujtesë e Jashtëme",
-    "Updates" : "Përditësime",
-    "An error occurred: {message}" : "Ndodhi një gabim: {message}"
+    "Group" : "Grup"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -246,11 +246,6 @@ OC.L10N.register(
     "Enable experimental apps" : "Aktiver eksperimentale programmer",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Hejsa,<br><br>dette er blot en besked om, at du nu har en %s-konto.<br><br>Dit brugernavn: %s<br>Tilgå den: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Hejsa,\n\ndette er blot en besked om, at du nu har en %s-konto.\n\nDit brugernavn: %s\nTilgå den: %s\n\n",
-    "Group" : "Gruppe",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "Ekstern opbevaring",
-    "Updates" : "Opdateringer",
-    "An error occurred: {message}" : "Der opstod en fejl:{message}"
+    "Group" : "Gruppe"
 },
 "nplurals=2; plural=(n != 1);");

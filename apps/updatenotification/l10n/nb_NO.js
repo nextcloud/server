@@ -17,7 +17,6 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "Informer medlemmene i følgende grupper om tilgjengelig oppdateringer:",
     "Only notification for app updates are available." : "Kun varsler for app oppdateringer er tilgjengelig.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Den valgte oppdateringskanalen gjør at dedikerte varsler til denne serveren utdatert.",
-    "The selected update channel does not support updates of the server." : "Den valgte oppdateringskanalen tilbyr ikke oppdateringer av tjeneren.",
-    "Updater" : "Oppdaterer"
+    "The selected update channel does not support updates of the server." : "Den valgte oppdateringskanalen tilbyr ikke oppdateringer av tjeneren."
 },
 "nplurals=2; plural=(n != 1);");

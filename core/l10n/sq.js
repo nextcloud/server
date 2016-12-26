@@ -311,7 +311,6 @@ OC.L10N.register(
     "Enhanced security has been enabled for your account. Please authenticate using a second factor." : "Siguria e zgjeruar është aktivizuar për llogarinë tuaj. Ju lutemi, bëni mirëfilltësimin duke përdorur një faktor të dytë.",
     "Cancel login" : "Anuloje hyrjen",
     "Please authenticate using the selected factor." : "Ju lutemi, bëni identifikimin duke përdorur faktorin e përzgjedhur.",
-    "An error occured while verifying the token" : "Ndodhi një gabim gjatë verifikimit të token-it",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Ndajeni me persona në ownCloud-e të tjera duke përdorur sintaksën username@example.com/owncloud"
+    "An error occured while verifying the token" : "Ndodhi një gabim gjatë verifikimit të token-it"
 },
 "nplurals=2; plural=(n != 1);");

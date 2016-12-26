@@ -62,7 +62,6 @@ OC.L10N.register(
     "You assigned system tag %3$s to %2$s" : "Je wees systeemmarkering %3$s aan %2$s toe",
     "%1$s assigned system tag %3$s to %2$s" : "%1$s wees systeemmarkering %3$s aan %2$s toe",
     "You unassigned system tag %3$s from %2$s" : "Je maakte de toewijzing van systeem markering %3$s van %2$s ongedaan",
-    "%1$s unassigned system tag %3$s from %2$s" : "%1$s verwijderde systeemmarkering %3$s van %2$s",
-    "%s (not-assignable)" : "%s (niet-toewijsbaar)"
+    "%1$s unassigned system tag %3$s from %2$s" : "%1$s verwijderde systeemmarkering %3$s van %2$s"
 },
 "nplurals=2; plural=(n != 1);");

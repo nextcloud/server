@@ -14,10 +14,6 @@ OC.L10N.register(
     "Add" : "追加",
     "Trusted Servers" : "信頼済サーバー",
     "+ Add Nextcloud server" : "Nextcloudサーバーを追加",
-    "Nextcloud Server" : "Nextcloud サーバー",
-    "Server added to the list of trusted Nextclouds" : "信頼済Nextcloudサーバーとして登録済",
-    "No Nextcloud server found" : "Nextcloud サーバーがありません。",
-    "Nextcloud Federation allows you to connect with other trusted Nextclouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Nextcloudサーバー連携では、他の信頼できるNextcloudサーバーと接続して、ユーザーリストを交換することができます。これを使えば、サーバー連携共有時に他のサーバーのユーザーのIDを自動補完します。",
-    "Trusted Nextcloud Servers" : "信頼済のNextcloudサーバー"
+    "Nextcloud Server" : "Nextcloud サーバー"
 },
 "nplurals=1; plural=0;");

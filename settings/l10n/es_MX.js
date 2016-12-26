@@ -87,7 +87,6 @@ OC.L10N.register(
     "Fatal issues only" : "Problemas fatales solamente",
     "Log" : "Registro",
     "More" : "Más",
-    "Less" : "Menos",
-    "External Storage" : "Almacenamiento externo"
+    "Less" : "Menos"
 },
 "nplurals=2; plural=(n != 1);");

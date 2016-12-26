@@ -38,7 +38,6 @@ OC.L10N.register(
     "Language changed" : "භාෂාව ාවනස් කිරීම",
     "Log" : "ලඝුව",
     "More" : "වැඩි",
-    "Less" : "අඩු",
-    "External Storage" : "භාහිර ගබඩාව"
+    "Less" : "අඩු"
 },
 "nplurals=2; plural=(n != 1);");

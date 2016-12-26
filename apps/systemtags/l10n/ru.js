@@ -62,7 +62,6 @@ OC.L10N.register(
     "You assigned system tag %3$s to %2$s" : "Вы назначили системную метку %3$s на %2$s",
     "%1$s assigned system tag %3$s to %2$s" : "%1$s назначил системную метку %3$s для %2$s",
     "You unassigned system tag %3$s from %2$s" : "Вы назначили системную метку %3$s из %2$s",
-    "%1$s unassigned system tag %3$s from %2$s" : "%1$s убрал системную метку %3$s с %2$s",
-    "%s (not-assignable)" : "%s (not-assignable)"
+    "%1$s unassigned system tag %3$s from %2$s" : "%1$s убрал системную метку %3$s с %2$s"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

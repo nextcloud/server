@@ -126,14 +126,6 @@ OC.L10N.register(
     "Delete" : "Удалить",
     "Allow users to mount external storage" : "Разрешить пользователями монтировать внешние накопители",
     "Allow users to mount the following external storage" : "Разрешить пользователям монтировать следующие сервисы хранения данных",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Не удалось получить информацию от сервера Nextcloud: {code} {type}",
-    "Access granted" : "Доступ предоставлен",
-    "Global Credentials" : "Глобальные Учетные данные",
-    "ownCloud" : "ownCloud",
-    "<b>Note:</b> " : "<b>Примечание:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Примечание:</b> Поддержка cURL в PHP не включена или не установлена. Монтирование %s невозможно. Обратитесь к вашему системному администратору.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Примечание:</b> Поддержка FTP в PHP не включена или не установлена. Монтирование %s невозможно. Пожалуйста, обратитесь к системному администратору.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Примечание:</b> \"%s\" не установлен. Монтирование %s невозможно. Пожалуйста, обратитесь к системному администратору.",
-    "External Storage" : "Внешнее хранилище"
+    "Couldn't get the information from the ownCloud server: {code} {type}" : "Не удалось получить информацию от сервера Nextcloud: {code} {type}"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

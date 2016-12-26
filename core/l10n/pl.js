@@ -351,14 +351,6 @@ OC.L10N.register(
     "Enhanced security has been enabled for your account. Please authenticate using a second factor." : "Dla Twojego konta uruchomiono wzmocnioną ochronę. Uwierzytelnij przy pomocy drugiego składnika.",
     "Cancel login" : "Anuluj logowanie",
     "Please authenticate using the selected factor." : "Uwierzytelnij przy pomocy wybranego składnika",
-    "An error occured while verifying the token" : "Wystąpił błąd podczas weryfikacji tokena",
-    "Your web server is not set up properly to resolve \"{url}\". Further information can be found in our <a target=\"_blank\" href=\"{docLink}\">documentation</a>." : "Serwer WWW nie jest poprawnie skonfigurowany, aby wyświetlić \"{url}\". Więcej informacji można znaleźć w naszej <a target=\"_blank\" href=\"{docLink}\">dokumentacji</a>.",
-    "No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target=\"_blank\" href=\"{docLink}\">documentation</a>." : "Pamięć podręczna nie została skonfigurowana. Aby zwiększyć wydajność należy skonfigurować memcache jeśli jest dostępny. Więcej informacji można znaleźć w naszej <a target=\"_blank\" href=\"{docLink}\">dokumentacji</a>.",
-    "An error occured. Please try again" : "Wystąpił błąd. Proszę spróbować ponownie.",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Współdziel z użytkownikami innych chmur ownCloud używając wzorca uzytkownik@example.com/owncloud",
-    "not assignable" : "nie przypisane",
-    "Updating {productName} to version {version}, this may take a while." : "AKtualizowanie {productName} do wersji {version}, może to trochę potrwać.",
-    "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." : "Aby uzyskać informację jak poprawnie skonfigurować Twój serwer, zajrzyj do <a href=\"%s\" target=\"_blank\">dokumentacji</a>.",
-    "An internal error occured." : "Wystąpił wewnętrzny błąd."
+    "An error occured while verifying the token" : "Wystąpił błąd podczas weryfikacji tokena"
 },
 "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

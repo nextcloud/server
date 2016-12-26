@@ -277,11 +277,6 @@ OC.L10N.register(
     "Enable experimental apps" : "啟用實驗性質的應用程式",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "嗨，<br><br>通知您一聲，您現在有了 %s 的帳號。<br><br>您的帳號： %s<br>開通帳號： <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "嗨，\n\n通知您一聲，您現在有了 %s 的帳號。\n\n您的帳號：%s\n開通帳號：%s\n\n",
-    "Group" : "群組",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "外部儲存",
-    "Updates" : "更新",
-    "An error occurred: {message}" : "發生錯誤：{message}"
+    "Group" : "群組"
 },
 "nplurals=1; plural=0;");

@@ -332,17 +332,6 @@
     "Enhanced security has been enabled for your account. Please authenticate using a second factor." : "Tililläsi on käytössä lisäturvatoimia. Tunnistaudu käyttäen kaksivaiheista vahvistusta.",
     "Cancel login" : "Peru kirjautuminen",
     "Please authenticate using the selected factor." : "Tunnistaudu käyttäen valittua vahvistusta.",
-    "An error occured while verifying the token" : "Valtuutusta tarkistettaessa tapahtui virhe",
-    "Your web server is not set up properly to resolve \"{url}\". Further information can be found in our <a target=\"_blank\" href=\"{docLink}\">documentation</a>." : "HTTP-palvelinta ei ole määritelty oikein tunnistamaan osoitetta \"{url}\". Lisätietoja löytyy meidän <a target=\"_blank\" href=\"{docLink}\">ohjeissa</a>.",
-    "/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a target=\"_blank\" href=\"{docLink}\">documentation</a>." : "dev/urandom ei ole PHP:n luettavissa, mitä ei voi suositella tietoturvasyistä. Lisätietoja löytyy meidän <a target=\"_blank\" href=\"{docLink}\">ohjeista</a>.",
-    "You are currently running PHP {version}. We encourage you to upgrade your PHP version to take advantage of <a target=\"_blank\" href=\"{phpLink}\">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it." : "Sinulla on käytössä PHP {version}. Suosittelemme päivittämään PHP versiosi saadaksesi <a target=\"_blank\" href=\"{phpLink}\">PHP Group:n suorituskyky ja tietoturvapäivityksiä</a> niin pian kuin jakelusi sitä tukee.",
-    "Some files have not passed the integrity check. Further information on how to resolve this issue can be found in our <a target=\"_blank\" href=\"{docLink}\">documentation</a>. (<a href=\"{codeIntegrityDownloadEndpoint}\">List of invalid files…</a> / <a href=\"{rescanEndpoint}\">Rescan…</a>)" : "Jotkin tiedostot eivät ole läpäisseet eheystarkistusta. Lisätietoa ongelman korjaamiseksi löytyy meidän <a target=\"_blank\" href=\"{docLink}\">documentation</a>. (<a href=\"{codeIntegrityDownloadEndpoint}\">List of invalid files…</a> / <a href=\"{rescanEndpoint}\">Rescan…</a>)",
-    "The \"Strict-Transport-Security\" HTTP header is not configured to at least \"{seconds}\" seconds. For enhanced security we recommend enabling HSTS as described in our <a href=\"{docUrl}\">security tips</a>." : "\"Strict-Transport-Security\" HTTP otsake ei ole määritelty vähintään \"{seconds}\" sekuntiin. Paremman tietoturvan vuoksi suosittelemme määrittelemään HSTS:n kuten kerrottu <a href=\"{docUrl}\">tietoturvaohjeissa</a>.",
-    "An error occured. Please try again" : "Tapahtui virhe, yritä uudelleen",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Jaa toisia ownCloud-järjestelmiä käyttävien kesken käyttäen merkintää käyttäjätunnus@example.com/owncloud",
-    "not assignable" : "ei liitettävissä",
-    "Updating {productName} to version {version}, this may take a while." : "Päivittämässä sovellusta {productName} versioon {version}, tämä voi kestää hetken.",
-    "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." : "Lisätietoja palvelimen oikeaoppiseen määritykseen on saatavilla <a href=\"%s\" target=\"_blank\">dokumentaatiossa</a>.",
-    "An internal error occured." : "Tapahtui sisäinen virhe."
+    "An error occured while verifying the token" : "Valtuutusta tarkistettaessa tapahtui virhe"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

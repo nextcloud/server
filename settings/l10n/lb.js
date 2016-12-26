@@ -52,9 +52,6 @@ OC.L10N.register(
     "Log" : "Log",
     "More" : "Méi",
     "Less" : "Manner",
-    "Group" : "Grupp",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "Updates" : "Updates"
+    "Group" : "Grupp"
 },
 "nplurals=2; plural=(n != 1);");

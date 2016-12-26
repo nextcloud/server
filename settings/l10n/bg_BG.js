@@ -252,10 +252,6 @@ OC.L10N.register(
     "Default Quota" : "Стандартна квота",
     "Group Admin for" : "Групов Администратор за",
     "Storage Location" : "Дисково пространство",
-    "Last Login" : "Последно вписване",
-    "Redis" : "Redis",
-    "External Storage" : "Външно хранилище",
-    "Updates" : "Обновления",
-    "An error occurred: {message}" : "Възникна грешка: {message}"
+    "Last Login" : "Последно вписване"
 },
 "nplurals=2; plural=(n != 1);");

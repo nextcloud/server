@@ -58,12 +58,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Habilitar recuperação de senha:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ativar essa opção vai permitir que você obtenha novamente acesso aos seus arquivos criptografados em caso de perda de senha",
     "Enabled" : "Habilitado",
-    "Disabled" : "Desabilitado",
-    "You need to migrate your encryption keys from the old encryption (Nextcloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Voce precisará migrar suas chaves de criptografia de uma chave antiga (Nextcloud <=8.0) para uma nova. Por favor execute 'occ encryption:migrate' ou contate seu administrador",
-    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chave privada inválida para criptografia do App. Por favor, atualize a senha da sua chave privada no menu de configurações pessoais para recuperar o acesso dos seus arquivos criptografamos",
-    "Encryption App is enabled and ready" : "Criptografia de App esta habilitada e pronta",
-    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'Nextcloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Ola\n\nO admin habilitou a criptografia do lado-servidor. Seus arquivos serão criptografados usando a senha '%s'\n\nPor favor, acessa a interface web, vá até a sessão criptografia básica Nexcloud, atualize seus dados e senha\n",
-    "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"Nextcloud basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Ola<br><br>,O admin habilitou a criptografia do lado-servidor. Seus arquivos serão criptografados usando a senha<strong> '%s'</strong>. Por favor, acessa a interface web, vá até a sessão criptografia básica Nexcloud, atualize seus dados e senha.<br><br>",
-    "Nextcloud basic encryption module" : "Módulo de criptografia básico"
+    "Disabled" : "Desabilitado"
 },
 "nplurals=2; plural=(n > 1);");

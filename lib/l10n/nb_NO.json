@@ -220,14 +220,6 @@
     "Recommended" : "Anbefalt",
     "Microsoft Windows Platform is not supported" : "Microsoft Windows-plattform støttes ikke",
     "Running Nextcloud Server on the Microsoft Windows platform is not supported. We suggest you use a Linux server in a virtual machine if you have no option for migrating the server itself." : "Kjøring av Nextcloud tjeneren på en Microsoft Windows plattform er ikke støttet. Vi foreslår at du bruker en Linux tjener i en virtuell maskin hvis du ikke har mulighet til å migrere tjeneren selv.",
-    "Storage not available" : "Lagringsplass ikke tilgjengelig",
-    "ownCloud %s or higher is required." : "Nextcloud %s eller høyere er påkrevd.",
-    "ownCloud %s or lower is required." : "Nextcloud %s eller lavere er påkrevd.",
-    "App \"%s\" cannot be installed because it is not compatible with this version of Nextcloud." : "Appen \"%s\" kan ikke installeres da den ikke er kompatibel med denne versjonen av Nextcloud",
-    "App can't be installed because it is not compatible with this version of Nextcloud" : "Appen kan ikke installeres da den ikke er kompatibel med denne versjonen av Nextcloud",
-    "App can't be installed because the version in info.xml/version is not the same as the version reported from the app store" : "App kan ikke installeres fordi versjonen i info.xml/version ikke er den samme som versjonen som rapporteres fra app-butikken",
-    "Hint: You can speed up the upgrade by executing this SQL command manually: ALTER TABLE %s ADD COLUMN checksum varchar(255) DEFAULT NULL AFTER permissions;" : "Hint: Du kan øke hastigheten på oppgraderingen ved å kjøre denne SQL kommandoen manuelt: ALTER TABLE %s ADD COLUMN checksum varchar(255) DEFAULT NULL AFTER permissions;",
-    "Running Nextcloud Server on the Microsoft Windows platform is not supported. We suggest you use a Linux server in a virtual machine if you have no option for migrating the server itself. Find Linux packages as well as easy to deploy virtual machine images on <a href=\"%s\">%s</a>. For migrating existing installations to Linux you can find some tips and a migration script in <a href=\"%s\">our documentation</a>." : "Kjøring av Nextcloud tjeneren på en Microsoft Windows plattform er ikke støttet. Vi foreslår at du bruker en Linux tjener i en virtuell maskin hvis du ikke har mulighet til å migrere selve tjeneren. Finn Linuxpakker og virtuelle maskiner på <a href=\"%s\">%s</a>. For å migrere eksisterende installasjon til Linux kan du finne gode tips og migreringsskript i vår <a href=\"%s\">dokumentasjon</a>.",
-    "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the webserver write access to the root directory</a>." : "Dette fikses vanligvis ved å <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">gi webtjeneren skrivetilgang til rotmappen</a>."
+    "Storage not available" : "Lagringsplass ikke tilgjengelig"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

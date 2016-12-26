@@ -51,7 +51,6 @@ OC.L10N.register(
     "Please wait...." : "請稍候....",
     "Log" : "日誌",
     "More" : "更多",
-    "Group" : "群組",
-    "Updates" : "更新"
+    "Group" : "群組"
 },
 "nplurals=1; plural=0;");

@@ -268,11 +268,6 @@ OC.L10N.register(
     "Enable experimental apps" : "Käytä kokeiluasteella olevia sovelluksia",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Hei<br><br>Sinulla on nyt %s-tili.<br><br>Käyttäjätunnus: %s<br>Aloita käyttö: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Hei\n\nSinulla on nyt %s-tili.\n\nKäyttäjätunnuksesi: %s\nAloita käyttö: %s\n\n",
-    "Group" : "Ryhmä",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "Erillinen tallennusväline",
-    "Updates" : "Päivitykset",
-    "An error occurred: {message}" : "Tapahtui virhe: {message}"
+    "Group" : "Ryhmä"
 },
 "nplurals=2; plural=(n != 1);");

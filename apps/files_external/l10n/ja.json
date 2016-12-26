@@ -124,14 +124,6 @@
     "Delete" : "削除",
     "Allow users to mount external storage" : "ユーザーに外部ストレージの接続を許可する",
     "Allow users to mount the following external storage" : "ユーザーに以下の外部ストレージのマウントを許可する",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "ownCloud サーバーから情報を取得出来ませんでした。: {code} {type}",
-    "Access granted" : "アクセス権の付与",
-    "Global Credentials" : "グローバル認証情報",
-    "ownCloud" : "ownCloud",
-    "<b>Note:</b> " : "<b>注意:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>注意:</b> PHPにcURLのエクステンションが入っていないか、有効ではありません。%s をマウントすることができません。このシステムの管理者にインストールをお願いしてください。",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>注意:</b> PHPにFTPのエクステンションが入っていないか、有効ではありません。%s をマウントすることができません。このシステムの管理者にインストールをお願いしてください。",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>注意:</b> \"%s\" がインストールされていません。%sをマウントできません。このシステムの管理者にインストールをお願いしてください。",
-    "External Storage" : "外部ストレージ"
+    "Couldn't get the information from the ownCloud server: {code} {type}" : "ownCloud サーバーから情報を取得出来ませんでした。: {code} {type}"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

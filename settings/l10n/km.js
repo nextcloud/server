@@ -76,7 +76,6 @@ OC.L10N.register(
     "Please wait...." : "សូម​រង់​ចាំ....",
     "Log" : "Log",
     "More" : "ច្រើន​ទៀត",
-    "Less" : "តិច",
-    "External Storage" : "ឃ្លាំងផ្ទុក​ខាងក្រៅ"
+    "Less" : "តិច"
 },
 "nplurals=1; plural=0;");

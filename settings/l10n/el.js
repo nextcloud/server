@@ -310,17 +310,6 @@ OC.L10N.register(
     "Full Name" : "Πλήρες όνομα",
     "Storage Location" : "Τοποθεσία αποθηκευτικού χώρου",
     "User Backend" : "Σύστημα υποστήριξης χρήστη",
-    "Last Login" : "Τελευταία είσοδος",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "Εξωτερικό Αποθηκευτικό Μέσο",
-    "Updates" : "Ενημερώσεις",
-    "No apps found for \"{query}\"" : "Δεν βρέθηκαν εφαρμογές για \"{query}\"",
-    "An error occurred: {message}" : "Παρουσιάστηκε σφάλμα: {message}",
-    "Please check the <a target=\"_blank\" href=\"%s\">installation documentation ↗</a> for php configuration notes and the php configuration of your server, especially when using php-fpm." : "Παρακαλούμε ελέγξτε την <a target=\"_blank\" href=\"%s\">τεκμηρίωση εγκατάστασης ↗</a> για τις σημειώσεις ρυθμίσεων php και για τις ρυθμίσεις της php του διακομιστή, ειδικότερα όταν χρησιμοποιείτε το php-fpm.",
-    "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Ο διακομιστής σας εκτελείται σε Microsoft Windows. Σας συνιστούμε το Linux για μια βέλτιστη εμπειρία χρήστη.",
-    "Please double check the <a target=\"_blank\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"#log-section\">log</a>." : "Παρακαλώ ελέγξτε διπλά τα <a target=\"_blank\" href=\"%s\">εγχειρίδια εγκατάστασης ↗</a>, και ελέγξτε για σφάλματα ή προειδοποιήσεις στο <a href=\"#log-section\">ιστορικό</a>.",
-    "Encryption alone does not guarantee security of the system. Please see Nextcloud documentation for more information about how the encryption app works, and the supported use cases." : "Μονάχα η κρυπτογράφηση δεν σας εγγυάται την ασφάλεια του συστήματος. Παρακαλώ δείτε στην τεκμηρίωση του Nextcloud για περισσότερες πληροφορίες σχετικά με τον τρόπο που δουλεύει η εφαρμογή κρυπτογράφησης, και τις υποστηριζόμενες περιπτώσεις.",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" href=\"%s\">documentation ↗</a>." : "Για να μεταφερθείτε σε άλλη βάση δεδομένων χρησιμοποιήστε το εργαλείο της γραμμής εντολών: 'occ db:convert-type', ή δείτε στην <a target=\"_blank\" href=\"%s\">τεκμηρίωση ↗</a>."
+    "Last Login" : "Τελευταία είσοδος"
 },
 "nplurals=2; plural=(n != 1);");

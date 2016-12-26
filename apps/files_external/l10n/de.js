@@ -126,14 +126,6 @@ OC.L10N.register(
     "Delete" : "Löschen",
     "Allow users to mount external storage" : "Benutzern erlauben, externen Speicher einzubinden",
     "Allow users to mount the following external storage" : "Benutzern erlauben, den oder die folgenden externen Speicher einzubinden:",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Die gewünschten Informationen konnten nicht vom Server gelesen werden: {code} {type}",
-    "Access granted" : "Zugriff gewährt",
-    "Global Credentials" : "Globale Anmeldeinformationen",
-    "ownCloud" : "ownCloud",
-    "<b>Note:</b> " : "<b>Hinweis:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Hinweis:</b> Die cURL-Unterstützung von PHP ist nicht aktiviert oder installiert. Das Hinzufügen von %s ist nicht möglich. Bitte wende Dich zur Installation an Deinen Systemadministrator.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Hinweis:</b> Die FTP Unterstützung von PHP ist nicht aktiviert oder installiert. Das Hinzufügen von %s ist nicht möglich. Bitte wende Dich sich zur Installation an Deinen Systemadministrator.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Hinweis:</b> \"%s\" ist nicht installiert. Das Hinzufügen von %s ist nicht möglich. Bitte wende Dich sich zur Installation an Deinen Systemadministrator.",
-    "External Storage" : "Externer Speicher"
+    "Couldn't get the information from the ownCloud server: {code} {type}" : "Die gewünschten Informationen konnten nicht vom Server gelesen werden: {code} {type}"
 },
 "nplurals=2; plural=(n != 1);");

@@ -173,9 +173,6 @@ OC.L10N.register(
     "Download logfile" : "Преземи ја датотеката со логови",
     "More" : "Повеќе",
     "Less" : "Помалку",
-    "Group" : "Група",
-    "External Storage" : "Надворешно складиште",
-    "Updates" : "Ажурирања",
-    "An error occurred: {message}" : "Се случи грешка: {message}"
+    "Group" : "Група"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

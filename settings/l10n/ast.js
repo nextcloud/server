@@ -143,8 +143,6 @@ OC.L10N.register(
     "Less" : "Menos",
     "Allow users to send mail notification for shared files" : "Permitir a los usuarios unviar mensaxes de notificación pa ficheros compartíos",
     "Uninstall App" : "Desinstalar aplicación",
-    "Group" : "Grupu",
-    "External Storage" : "Almacenamientu esternu",
-    "Updates" : "Anovamientos"
+    "Group" : "Grupu"
 },
 "nplurals=2; plural=(n != 1);");

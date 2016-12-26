@@ -113,9 +113,6 @@ OC.L10N.register(
     "More" : "Más",
     "Less" : "Menos",
     "Allow users to send mail notification for shared files" : "Habilitar a los usuarios para enviar notificaciones por correo para archivos compartidos",
-    "Group" : "Grupo",
-    "APCu" : "APCu",
-    "External Storage" : "Almacenamiento externo",
-    "Updates" : "Actualizaciones"
+    "Group" : "Grupo"
 },
 "nplurals=2; plural=(n != 1);");
