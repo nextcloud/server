@@ -320,11 +320,6 @@
     "Enhanced security has been enabled for your account. Please authenticate using a second factor." : "您的帳號已啟用進階安全機制，請使用第二階段來認證",
     "Cancel login" : "取消登入",
     "Please authenticate using the selected factor." : "請以選擇的二階段方式認證",
-    "An error occured while verifying the token" : "驗證 token 時發生錯誤",
-    "An error occured. Please try again" : "發生錯誤，請重試",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "與其他在ownCloud上的人們分享，請使用此格式 username@example.com/owncloud",
-    "not assignable" : "不可指定",
-    "Updating {productName} to version {version}, this may take a while." : "正在更新 {productName} 至版本 {version} ，需要一些時間",
-    "An internal error occured." : "發生內部錯誤"
+    "An error occured while verifying the token" : "驗證 token 時發生錯誤"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

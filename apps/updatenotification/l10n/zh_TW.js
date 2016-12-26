@@ -16,7 +16,6 @@ OC.L10N.register(
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "您可以隨時更新至較新的版本 / 實驗通道，但您不能降版至更穩定的通道。",
     "Notify members of the following groups about available updates:" : "有可用更新時通知這些群組：",
     "Only notification for app updates are available." : "僅提供應用程式更新的通知",
-    "The selected update channel does not support updates of the server." : "所選的更新頻道不提供伺服器軟體的更新",
-    "Updater" : "更新者"
+    "The selected update channel does not support updates of the server." : "所選的更新頻道不提供伺服器軟體的更新"
 },
 "nplurals=1; plural=0;");

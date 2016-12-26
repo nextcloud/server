@@ -224,11 +224,6 @@ OC.L10N.register(
     "Uninstall App" : "Desinstal·la l'aplicació",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Què tal?,<br><br>aquest missatge és per fer-li saber que ara té uncompte %s.<br><br>El seu nom d'usuari: %s<br>Accedeixi en: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Hola, què tal?,\n\nAquest missatge és per fer-li saber que ara té un compte %s.\n\n El seu nom d'usuari: %s\nAccedeixi en: %s\n\n",
-    "Group" : "Grup",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "Emmagatzemament extern",
-    "Updates" : "Actualitzacions",
-    "An error occurred: {message}" : "S'ha produït un error: {message}"
+    "Group" : "Grup"
 },
 "nplurals=2; plural=(n != 1);");

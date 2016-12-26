@@ -240,10 +240,6 @@ OC.L10N.register(
     "Enable experimental apps" : "Увімкнути експериментальні застосунки",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Агов,<br><br>просто щоб ви знали, у вас є аккаунт %s.<br><br>Ваше ім'я користувача: %s<br>Перейдіть сюди: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Агов,\n\nпросто щоб ви знали, у вас є аккаунт %s.\n\nВаше ім'я користувача: %s\nПерейдіть сюди: %s\n\n",
-    "Group" : "Група",
-    "Redis" : "Redis",
-    "External Storage" : "Зовнішні сховища",
-    "Updates" : "Оновлення",
-    "An error occurred: {message}" : "Сталася помилка: {message}"
+    "Group" : "Група"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

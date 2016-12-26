@@ -226,14 +226,6 @@
     "Recommended" : "Recomendado",
     "Microsoft Windows Platform is not supported" : "La plataforma Microsoft Windows no está soportada",
     "Running Nextcloud Server on the Microsoft Windows platform is not supported. We suggest you use a Linux server in a virtual machine if you have no option for migrating the server itself." : "Ejecutar el servidor Nextcloud en la plataforma MIcrosoft Windows no está soportado. Sugerimos usar un servidor Linux en una máquina virtual si no existe la opción de migrar el propio servidor.",
-    "Storage not available" : "Almacenamiento no disponible",
-    "ownCloud %s or higher is required." : "Se necesita la versión %s o superior.",
-    "ownCloud %s or lower is required." : "Se necesita la versión %s o inferior.",
-    "App \"%s\" cannot be installed because it is not compatible with this version of Nextcloud." : "La aplicación \"%s\" no se puede instalar porque no es compatible con esta versión de Nextcloud.",
-    "App can't be installed because it is not compatible with this version of Nextcloud" : "La aplicación no se puede instalar porque no es compatible con esta versión de Nextcloud",
-    "App can't be installed because the version in info.xml/version is not the same as the version reported from the app store" : "La App no se puede instalar debido a que la versión de info.xml no es la misma que la versión informada por la app store.",
-    "Hint: You can speed up the upgrade by executing this SQL command manually: ALTER TABLE %s ADD COLUMN checksum varchar(255) DEFAULT NULL AFTER permissions;" : "Truco: Se puede acelerar la actualización ejecutando este comando SQL de forma manual: ALTER TABLE %s ADD COLUMN checksum varchar(255) DEFAULT NULL AFTER permissions;",
-    "Running Nextcloud Server on the Microsoft Windows platform is not supported. We suggest you use a Linux server in a virtual machine if you have no option for migrating the server itself. Find Linux packages as well as easy to deploy virtual machine images on <a href=\"%s\">%s</a>. For migrating existing installations to Linux you can find some tips and a migration script in <a href=\"%s\">our documentation</a>." : "Ejecutar el servidor Nextcloud en la plataforma Microsoft Windows no está soportado. Sugerimos usar una servidor Linux en una máquina virtual si no existe la opción de migrar el propio servidor.  Se encuentran paquetes, así como imágenes en de máquina virtual fáciles de desplegar en <a href=\"%s\">%s</a>. Para migrar instalaciones existentes a Linux se pueden encontrar algunas pistas y un script de migración en  <a href=\"%s\">nuestra documentación</a>.",
-    "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the webserver write access to the root directory</a>." : "Esto normalmente puede arreglarse <a href=\"%s\" target=\"_blank\">dando al servidor web acceso de escritura al directorio raíz</a>."
+    "Storage not available" : "Almacenamiento no disponible"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

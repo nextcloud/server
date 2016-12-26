@@ -24,7 +24,6 @@ OC.L10N.register(
     "Username" : "Օգտանուն",
     "Other" : "Այլ",
     "Language changed" : "Լեզուն փոխվեց",
-    "Group" : "Խումբ",
-    "Updates" : "Թարմացումներ"
+    "Group" : "Խումբ"
 },
 "nplurals=2; plural=(n != 1);");

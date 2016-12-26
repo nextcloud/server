@@ -214,10 +214,6 @@ OC.L10N.register(
     "Experimental applications ahead" : "Ees on katsetusjärgus rakendused",
     "Uninstall App" : "Eemada rakend",
     "Enable experimental apps" : "Luba katsetusjärgus rakenduste kasutamine",
-    "Group" : "Grupp",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "Väline salvestuskoht",
-    "Updates" : "Uuendused"
+    "Group" : "Grupp"
 },
 "nplurals=2; plural=(n != 1);");

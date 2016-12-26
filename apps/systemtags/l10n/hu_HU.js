@@ -62,7 +62,6 @@ OC.L10N.register(
     "You assigned system tag %3$s to %2$s" : "%3$s rendszer címkét hozzárendelte: %2$s",
     "%1$s assigned system tag %3$s to %2$s" : "%1$s hozzárendelte ezt a rendszer címkét: %3$s neki: %2$s",
     "You unassigned system tag %3$s from %2$s" : "%3$s rendszer címke hozzárendelést elvette tőle: %2$s",
-    "%1$s unassigned system tag %3$s from %2$s" : "%1$s elvette ezt a rendszer címkét %3$s tőle: %2$s",
-    "%s (not-assignable)" : "%s (nem hozzárendelhető)"
+    "%1$s unassigned system tag %3$s from %2$s" : "%1$s elvette ezt a rendszer címkét %3$s tőle: %2$s"
 },
 "nplurals=2; plural=(n != 1);");

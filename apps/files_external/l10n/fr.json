@@ -124,14 +124,6 @@
     "Delete" : "Supprimer",
     "Allow users to mount external storage" : "Autoriser les utilisateurs à monter des espaces de stockage externes",
     "Allow users to mount the following external storage" : "Autoriser les utilisateurs à monter les stockages externes suivants",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Impossible d'obtenir l'information depuis le serveur Nextcloud : {code} {type}",
-    "Access granted" : "Accès autorisé",
-    "Global Credentials" : "Informations d'identification globales",
-    "ownCloud" : "ownCloud",
-    "<b>Note:</b> " : "<b>Attention :</b>",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Attention :</b> La prise en charge de cURL par PHP n'est pas activée ou installée. Le montage de %s n'est pas possible. Contactez votre administrateur système pour l'installer.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Attention : </b> La prise en charge du FTP par PHP n'est pas activée ou installée. Le montage de %s n'est pas possible. Contactez votre administrateur système pour l'installer.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Attention : </b> \"%s\" n'est pas installé. Le montage de %s n'est pas possible. Contactez votre administrateur système pour l'installer.",
-    "External Storage" : "Stockage externe"
+    "Couldn't get the information from the ownCloud server: {code} {type}" : "Impossible d'obtenir l'information depuis le serveur Nextcloud : {code} {type}"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

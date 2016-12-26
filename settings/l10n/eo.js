@@ -137,8 +137,6 @@ OC.L10N.register(
     "Less" : "Malpli",
     "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "SQLite uziĝas kiel datumbazo. Por pli grandaj instaloj ni rekomendas ŝanĝi ĝin per malsama datumbazomotoro.",
     "Uninstall App" : "Malinstali aplikaĵon",
-    "Group" : "Grupo",
-    "External Storage" : "Malena memorilo",
-    "Updates" : "Ĝisdatigoj"
+    "Group" : "Grupo"
 },
 "nplurals=2; plural=(n != 1);");

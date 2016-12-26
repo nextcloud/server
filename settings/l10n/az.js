@@ -203,8 +203,6 @@ OC.L10N.register(
     "Uninstall App" : "Proqram təminatını sil",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Ey ora,<br><br>ancaq deyirik ki, sizin artiq %s hesabınız var.<br><br>Sizin istifadəçi adınız: %s<br>Yetkilidir: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Ey ora,\n\nancaq deyirik ki, sizin artiq %s hesabınız var.\n\nizin istifadəçi adınız: %s\nYetkilidir: %s\n\n",
-    "Group" : "Qrup",
-    "External Storage" : "Kənar depo",
-    "Updates" : "Yenilənmələr"
+    "Group" : "Qrup"
 },
 "nplurals=2; plural=(n != 1);");

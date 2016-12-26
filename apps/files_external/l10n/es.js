@@ -126,14 +126,6 @@ OC.L10N.register(
     "Delete" : "Eliminar",
     "Allow users to mount external storage" : "Permitir a los usuarios montar un almacenamiento externo",
     "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamiento externo",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "No se puede obtener información acerca del servidor de OwnCloud: {code} {type}",
-    "Access granted" : "Acceso permitido",
-    "Global Credentials" : "Credenciales Globales",
-    "ownCloud" : "ownCloud",
-    "<b>Note:</b> " : "<b>Nota:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Nota:</b> El soporte de cURL en PHP no está activado o instalado. No se puede montar %s. Pídale al administrador del sistema que lo instale.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Nota:</b> El soporte de FTP en PHP no está activado o instalado. No se puede montar %s. Pídale al administrador del sistema que lo instale.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Nota:</b> \"%s\" no está instalado. No se puede montar %s. Pídale al administrador del sistema que lo instale.",
-    "External Storage" : "Almacenamiento externo"
+    "Couldn't get the information from the ownCloud server: {code} {type}" : "No se puede obtener información acerca del servidor de OwnCloud: {code} {type}"
 },
 "nplurals=2; plural=(n != 1);");

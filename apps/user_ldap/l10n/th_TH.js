@@ -40,7 +40,6 @@ OC.L10N.register(
     "Select attributes" : "เลือกคุณลักษณะ",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command line validation): <br/>" : "ไม่พบผู้ใช้ กรุณาตรวจสอบคุณลักษณะการเข้าสู่ระบบและชื่อผู้ใช้ของคุณ ตัวกรองที่มีประสิทธิภาพ (การคัดลอกและวางสำหรับการตรวจสอบคำสั่งทีละบรรทัด): <br/>",
     "User found and settings verified." : "พบผู้ใช้และการตั้งค่าได้รับการตรวจสอบแล้ว",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "การตั้งค่าได้รับการตรวจสอบแล้ว แต่ผู้ใช้คนหนึ่งพบว่า มีเพียงครั้งแรกที่จะสามารถที่จะเข้าสู่ระบบ กรุณาพิจารณาตัวกรองที่จำกัดมากขึ้น",
     "An unspecified error occurred. Please check the settings and the log." : "เกิดข้อผิดพลาดที่ระบุไม่ได้ กรุณาตรวจสอบการตั้งค่าและบันทึกของคุณ",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "ตัวกรองการค้นหาไม่ถูกต้องอาจเป็นเพราะปัญหาไวยากรณ์เช่นหมายเลขที่ไม่สม่ำเสมอของวงเล็บเปิดและปิด กรุณาแก้ไข",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "เกิดข้อผิดพลาดขณะเชื่อมต่อไปยัง LDAP/AD โปรดตรวจสอบโฮสต์พอร์ตและข้อมูลอื่นๆ",
@@ -153,6 +152,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Username-LDAP ผู้ใช้ Mapping",
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "ชื่อผู้ใช้จะใช้ในการจัดเก็บและกำหนดข้อมูล (เมตา)  เพื่อรู้จักกับผู้ใช้และสามารถระบุได้อย่างแม่นยำ แต่ละ LDAP จะมีชื่อผู้ใช้ภายใน จึงต้องทำ Mapping ให้กับผู้ใช้ LDAP ชื่อผู้ใช้ที่ถูกสร้างขึ้นจะถูกแมปเข้ากับ UUID ของผู้ใช้ LDAP นอกจากนี้ DN ก็จะถูกแคชเช่นกันเพื่อลดการทำงานร่วมกันของ LDAP แต่มันก็ไม่ได้ใช้เพื่อระบุตัวตน หากมีการเปลี่ยนแปลง DN การเปลี่ยนแปลงจะถูกพบในทันที ชื่อผู้ใช้ภายในจะถูกใช้กับทั้งหมด การล้างแมปไม่มีผลต่อการกำหนดค่า LDAP ทั้งหมด! \nและจะเกิดขึ้นเฉพาะในการทดสอบหรือขั้นตอนการทดลอง",
     "Clear Username-LDAP User Mapping" : "ล้าง Username-LDAP ผู้ใช้ Mapping",
-    "Clear Groupname-LDAP Group Mapping" : "ล้าง Groupname-LDAP กลุ่ม Mapping"
+    "Clear Groupname-LDAP Group Mapping" : "ล้าง Groupname-LDAP กลุ่ม Mapping",
+    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "การตั้งค่าได้รับการตรวจสอบแล้ว แต่ผู้ใช้คนหนึ่งพบว่า มีเพียงครั้งแรกที่จะสามารถที่จะเข้าสู่ระบบ กรุณาพิจารณาตัวกรองที่จำกัดมากขึ้น"
 },
 "nplurals=1; plural=0;");

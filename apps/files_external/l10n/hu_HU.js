@@ -119,14 +119,6 @@ OC.L10N.register(
     "Delete" : "Törlés",
     "Allow users to mount external storage" : "Külső tárolók csatolásának  engedélyezése a felhasználók részére",
     "Allow users to mount the following external storage" : "A felhasználók számára engedélyezett külső tárolók csatolása:",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Nem sikerült lekérdezni az információkat az ownCloud szerverről: {code} {type}",
-    "Access granted" : "Hozzáférés biztosítva",
-    "Global Credentials" : "Globális azonosítók",
-    "ownCloud" : "ownCloud",
-    "<b>Note:</b> " : "<b>Megjegyzés:</b>",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Megjegyzés:</b> A cURL támogatás, a PHP-ban nincs engedélyezve vagy telepítve. %s csatolása lehetetlen. Kérd meg a rendszergazdádat, hogy telepítse.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Megjegyzés:</b> Az FTP támogatás, a PHP-ban nincs engedélyezve vagy telepítve. %s csatolása lehetetlen. Kérd meg a rendszergazdádat, hogy telepítse.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Megjegyzés:</b> %s nincs telepítve. %s csatolása lehetetlen. Kérd meg a rendszergazdádat, hogy telepítse.",
-    "External Storage" : "Külső tárolási szolgáltatások becsatolása"
+    "Couldn't get the information from the ownCloud server: {code} {type}" : "Nem sikerült lekérdezni az információkat az ownCloud szerverről: {code} {type}"
 },
 "nplurals=2; plural=(n != 1);");

@@ -311,7 +311,6 @@ OC.L10N.register(
     "Enhanced security has been enabled for your account. Please authenticate using a second factor." : "אבטחה מורחבת הופעלה בחשבון שלך. יש לאמת באמצעות גורם שני.",
     "Cancel login" : "ביטול התחברות",
     "Please authenticate using the selected factor." : "יש לאמת באמצעות גורם נבחר.",
-    "An error occured while verifying the token" : "שגיאה אירעה בזמן אימות המחרוזת",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "ניתן לשתף עם אנשים אחרים המשתמשים ב- ownClouds בעזרת הפורמט הבא username@example.com/owncloud"
+    "An error occured while verifying the token" : "שגיאה אירעה בזמן אימות המחרוזת"
 },
 "nplurals=2; plural=(n != 1);");

@@ -327,23 +327,6 @@
     "Group Admin for" : "Hópstjóri fyrir",
     "Storage Location" : "Staðsetning gagnageymslu",
     "User Backend" : "Bakendi notanda",
-    "Last Login" : "Síðasta innskráning",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "Ytri gagnageymsla",
-    "Updates" : "Uppfærslur",
-    "Official apps are developed by and within the Nextcloud community. They offer functionality central to Nextcloud and are ready for production use." : "Opinber forrit eru þróuð af og innan Nextcloud samfélagsins. Þau virka með kjarnaeiginleikum Nextcloud og eru tilbúin til notkunar í raunvinnslu.",
-    "No apps found for \"{query}\"" : "Engin forrit fundust fyrir \"{query}\"",
-    "An error occurred: {message}" : "Villa kom upp: {message}",
-    "Please check the <a target=\"_blank\" href=\"%s\">installation documentation ↗</a> for php configuration notes and the php configuration of your server, especially when using php-fpm." : "Endilega skoðaðu <a target=\"_blank\" href=\"%s\">hjálparskjöl uppsetningarinnar ↗</a> varðandi athugasemdir vegna uppsetningar PHP og sjálfa uppsetningu PHP-þjónsins, Sérstaklega ef þú notar php-fpm.",
-    "Your database does not run with \"READ COMMITED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Gagnagrunnurinn keyrir ekki með \"READ COMMITED\" færsluaðgreiningarstiginu. Þetta getur valdið vandamálum þegar margar aðgerðir eru keyrðar í einu.",
-    "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Þjónninn þinn er keyrandi á Microsoft Windows. Við mælum sterklega með Linux til að njóta sem best allra eiginleika fyrir notendurna.",
-    "Please double check the <a target=\"_blank\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"#log-section\">log</a>." : "Yfirfarðu vandlega <a target=\"_blank\" href=\"%s\">uppsetningarleiðbeiningarnar ↗</a>, og athugaðu hvort nokkrar villumeldingar eða aðvaranir séu í <a href=\"#log-section\">annálnum</a>.",
-    "Encryption alone does not guarantee security of the system. Please see Nextcloud documentation for more information about how the encryption app works, and the supported use cases." : "Dulritun ein og sér tryggir ekki öryggi kerfisins. Endilega skoðaðu hjálparskjölin um hvernig dulritunarforritið virkar, og dæmi um hvaða uppsetningar eru studdar.",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" href=\"%s\">documentation ↗</a>." : "Til að yfirfæra í annan gagnagrunn skaltu nota skipanalínutólið: 'occ db:convert-type', eða lesa <a target=\"_blank\" href=\"%s\">hjálparskjölin ↗</a>.",
-    "This app has no minimum Nextcloud version assigned. This will be an error in Nextcloud 11 and later." : "Þetta vorrit er ekki með tiltekna neina lágmarksútgáfu Nextcloud. Þetta mun gefa villu í Nextcloud 11 og nýrri.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in Nextcloud 11 and later." : "Þetta vorrit er ekki með tiltekna neina hámarksútgáfu Nextcloud. Þetta mun gefa villu í Nextcloud 11 og nýrri.",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://help.nextcloud.com/\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">help other users</a>!" : "Ef þú vilt styðja við verkefnið\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">taktu þátt í þróuninni</a>\n\t\teða\n\t\t<a href=\"https://help.nextcloud.com\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">hjálpaðu öðrum notendum</a>!",
-    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "Þróað af {communityopen}Nextcloud samfélaginu{linkclose}, {githubopen}grunnkóðinn{linkclose} er gefinn út með {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose} notkunarleyfinu."
+    "Last Login" : "Síðasta innskráning"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

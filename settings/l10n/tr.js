@@ -309,11 +309,6 @@ OC.L10N.register(
     "Enable experimental apps" : "Deneysel uygulamaları etkinleştir",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Merhaba,<br><br>Sadece artık bir %s hesabınızın olduğunu söylemek istedim.<br><br>Kullanıcı adınız: %s<br>Şuradan erişin: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Merhaba,\n\nSadece, artık bir %s hesabınızın olduğunu söylemek istedim.\n\nKullanıcı adınız: %s\nErişim: %s\n\n",
-    "Group" : "Grup",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "Harici Depolama",
-    "Updates" : "Güncellemeler",
-    "An error occurred: {message}" : "Bir hata oluştu: {message}"
+    "Group" : "Grup"
 },
 "nplurals=2; plural=(n > 1);");

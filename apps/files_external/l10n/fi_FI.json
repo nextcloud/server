@@ -104,13 +104,6 @@
     "Delete" : "Poista",
     "Allow users to mount external storage" : "Salli käyttäjien liittää erillisiä tallennustiloja",
     "Allow users to mount the following external storage" : "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Tietojen saaminen ownCloud-palvelimelta epäonnistui: {code} {type}",
-    "Access granted" : "Pääsy myönnetty",
-    "ownCloud" : "ownCloud",
-    "<b>Note:</b> " : "<b>Huomio:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Huomio:</b> PHP:n cURL-tuki ei ole käytössä tai sitä ei ole asennettu. Kohteen %s liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää ottamaan cURL-tuki käyttöön.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Huomio:</b> PHP:n FTP-tuki ei ole käytössä tai sitä ei ole asennettu. Kohteen %s liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää ottamaan FTP-tuki käyttöön.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Huomio:</b> \"%s\" ei ole asennettu. Kohteen %s liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää asentamaan puuttuva kohde.",
-    "External Storage" : "Erillinen tallennusväline"
+    "Couldn't get the information from the ownCloud server: {code} {type}" : "Tietojen saaminen ownCloud-palvelimelta epäonnistui: {code} {type}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -19,7 +19,6 @@ OC.L10N.register(
     "Only notification for app updates are available." : "Só está disponível notificação para atualizações de aplicativos.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "O canal de atualização selecionado fornece notificações dedicadas para o servidor desatualizado.",
     "The selected update channel does not support updates of the server." : "O canal de atualização selecionado não fornece suporte a atualizações do servidor.",
-    "You are running PHP %s. To allow you to upgrade to Nextcloud 11 and higher you need to run at least PHP 5.6. Once you upgraded your PHP version you will be able to receive update notifications for these newer versions." : "Você está rodando o PHP %s. Para poder atualizar para Nextcloud11 ou maior é necessário a utilização a partir do PHP 5.6. Assim que você atualizar seu PHP será possível receber avisos de atualização para novas versões.",
-    "Updater" : "Atualizador"
+    "You are running PHP %s. To allow you to upgrade to Nextcloud 11 and higher you need to run at least PHP 5.6. Once you upgraded your PHP version you will be able to receive update notifications for these newer versions." : "Você está rodando o PHP %s. Para poder atualizar para Nextcloud11 ou maior é necessário a utilização a partir do PHP 5.6. Assim que você atualizar seu PHP será possível receber avisos de atualização para novas versões."
 },
 "nplurals=2; plural=(n > 1);");

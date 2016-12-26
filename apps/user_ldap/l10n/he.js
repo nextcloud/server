@@ -40,7 +40,6 @@ OC.L10N.register(
     "Select attributes" : "בחירת מאפיינים",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command line validation): <br/>" : "משתמש לא אותר. יש לבדוק את מאפייני ההתחברות ושם המשתמש. מסנן אפקטיבי (העתקה והדבקה לאימות שורת פקודה):<br/>",
     "User found and settings verified." : "משתמש אותר והגדרות אומתו.",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "הגדרות אומתו, אך רק משתמש אחד אותר. רק הראשון יוכל להתחבר. יש לבחון שימוש בסינון צר יותר.",
     "An unspecified error occurred. Please check the settings and the log." : "אירעה שגיאה לא מזוהה. יש לבדוק את ההגדרות ואת הלוג.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "סינון החיפוש אינו חוקי. ככל הנראה בשל שיאה תחבירית כגון מספר לא שווה של פתח-סוגריים וסגור-סוגריים. יש לתקן.",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "אירעה שגיאת חיבור ל- LDAP / AD, יש לבדוק את השרת, שער החיבור - פורט ופרטי הכניסה. ",
@@ -149,6 +148,7 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "מאפייני UUID לקבוצות:",
     "Username-LDAP User Mapping" : "מיפוי שם משתמש LDAP:",
     "Clear Username-LDAP User Mapping" : "ניקוי מיפוי שם משתמש LDAP:",
-    "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:"
+    "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:",
+    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "הגדרות אומתו, אך רק משתמש אחד אותר. רק הראשון יוכל להתחבר. יש לבחון שימוש בסינון צר יותר."
 },
 "nplurals=2; plural=(n != 1);");

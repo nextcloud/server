@@ -260,11 +260,6 @@
     "Enable experimental apps" : "启用实验性应用程序",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "亲，<br><br>现在我们为你开通了 %s 私有云帐户。<br><br>你的用户名： %s<br>访问网址： <a href=\\\"%s\\\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "亲，\\n\\n 现在我们为你开通了 %s 私有去帐户。\\n\\n 你的用户名： %s\\n 访问网址： %s\\n 你的初始密码需要咨询系统管理员。或者你也可以在登录页面输入任意密码登录，\\n登录窗口将出现忘记密码链接，点击通过注册邮箱重设初始密码。\\n\\n",
-    "Group" : "分组",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "外部存储",
-    "Updates" : "更新",
-    "An error occurred: {message}" : "发生错误： {message}"
+    "Group" : "分组"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

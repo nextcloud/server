@@ -59,7 +59,6 @@ OC.L10N.register(
     "Please wait...." : "დაიცადეთ....",
     "Log" : "ლოგი",
     "More" : "უფრო მეტი",
-    "Less" : "უფრო ნაკლები",
-    "External Storage" : "ექსტერნალ საცავი"
+    "Less" : "უფრო ნაკლები"
 },
 "nplurals=1; plural=0;");

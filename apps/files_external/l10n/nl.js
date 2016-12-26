@@ -126,14 +126,6 @@ OC.L10N.register(
     "Delete" : "Verwijder",
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
     "Allow users to mount the following external storage" : "Sta gebruikers toe de volgende externe opslag aan te koppelen",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Kon geen informatie van de ownCloud server krijgen: {code} {type}",
-    "Access granted" : "Toegang verleend",
-    "Global Credentials" : "Algemene inloggegevens",
-    "ownCloud" : "ownCloud",
-    "<b>Note:</b> " : "<b>Let op:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Let op:</b> Curl ondersteuning in PHP is niet geactiveerd of geïnstalleerd. Mounten van %s is niet mogelijk. Vraag je systeembeheerder dit te installeren.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Let op:</b> FTP ondersteuning in PHP is niet geactiveerd of geïnstalleerd. Mounten van %s is niet mogelijk. Vraag je beheerder dit te installeren.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Let op:</b> \"%s\" is niet geïnstalleerd. Mounten van %s is niet mogelijk. Vraag uw beheerder om dit te installeren.",
-    "External Storage" : "Externe opslag"
+    "Couldn't get the information from the ownCloud server: {code} {type}" : "Kon geen informatie van de ownCloud server krijgen: {code} {type}"
 },
 "nplurals=2; plural=(n != 1);");

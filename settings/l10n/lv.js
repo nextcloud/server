@@ -146,9 +146,6 @@ OC.L10N.register(
     "Log" : "Žurnāls",
     "More" : "Vairāk",
     "Less" : "Mazāk",
-    "Group" : "Grupa",
-    "External Storage" : "Ārējā krātuve",
-    "Updates" : "Atjauninājumi",
-    "An error occurred: {message}" : "Notika kļūda: {message}"
+    "Group" : "Grupa"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

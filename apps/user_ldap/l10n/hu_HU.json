@@ -35,7 +35,6 @@
     "Mode switch" : "Üzemmód váltás",
     "Select attributes" : "Attribútumok kiválasztása",
     "User found and settings verified." : "Felhasználó megtalálva, beállítások ellenőrizve.",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Beállítások ellenőrizve, de egy felhasználó található. Csak az első léphet be automatikusan. Próbálj egy pontosabb szűrőt.",
     "An unspecified error occurred. Please check the settings and the log." : "Meghatározatlan hiba történt. Kérlek ellenőrizd a beállításokat és a naplót.",
     "Password change rejected. Hint: " : "Jelszó módosítás elutasítva. Tipp:",
     "LDAP / AD integration" : "LDAP / AD integráció",
@@ -128,6 +127,7 @@
     "UUID Attribute for Groups:" : "A csoportok UUID attribútuma:",
     "Username-LDAP User Mapping" : "Felhasználó - LDAP felhasználó hozzárendelés",
     "Clear Username-LDAP User Mapping" : "A felhasználó - LDAP felhasználó hozzárendelés törlése",
-    "Clear Groupname-LDAP Group Mapping" : "A csoport - LDAP csoport hozzárendelés törlése"
+    "Clear Groupname-LDAP Group Mapping" : "A csoport - LDAP csoport hozzárendelés törlése",
+    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Beállítások ellenőrizve, de egy felhasználó található. Csak az első léphet be automatikusan. Próbálj egy pontosabb szűrőt."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

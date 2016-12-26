@@ -296,7 +296,6 @@ OC.L10N.register(
     "Warning" : "Advarsel",
     "Error while sending notification" : "Fejl ved afsendelse af notifikation",
     "No search results in other folders" : "Søgning gav ingen resultater in andre mapper",
-    "Cancel login" : "Annuller login",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Del med andre på ownCloud ved hjælp af syntaxen username@example.com/owncloud"
+    "Cancel login" : "Annuller login"
 },
 "nplurals=2; plural=(n != 1);");

@@ -58,11 +58,6 @@ OC.L10N.register(
     "Enable password recovery:" : "암호 복구 사용:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "이 옵션을 사용하면 암호를 잊었을 때 암호화된 파일에 다시 접근할 수 있습니다",
     "Enabled" : "활성화",
-    "Disabled" : "비활성화",
-    "You need to migrate your encryption keys from the old encryption (Nextcloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "과거에 사용하였던(ownCloud <= 8.0) 암호화된 데이터에서 키를 이전해야 합니다. 'occ encryption:migrate'를 실행하거나 시스템 관리자에게 연락하십시오",
-    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "암호화 앱의 개인 키가 잘못되었습니다. 암호화된 파일에 다시 접근하려면 개인 설정에서 개인 키 암호를 업데이트해야 합니다.",
-    "Encryption App is enabled and ready" : "암호화 앱이 활성화되었고 준비됨",
-    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'Nextcloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "안녕하세요,\n\n시스템 관리자가 서버 측 암호화를 활성화했습니다. 저장된 파일이 암호 '%s'으(로) 암호화되었습니다.\n\n웹 인터페이스에 로그인하여 개인 설정의 '기본 암호화 모듈'로 이동한 다음, '이전 로그인 암호' 필드에 위 암호를 입력하고 현재 로그인 암호로 변경하여 암호화 암호를 업데이트하십시오.\n\n",
-    "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"Nextcloud basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "안녕하세요,<br><br>시스템 관리자가 서버 측 암호화를 활성화했습니다. 저장된 파일이 암호 <strong>%s</strong>으(로) 암호화되었습니다.<br><br>웹 인터페이스에 로그인하여 개인 설정의 '기본 암호화 모듈'로 이동한 다음, '이전 로그인 암호' 필드에 위 암호를 입력하고 현재 로그인 암호로 변경하여 암호화 암호를 업데이트하십시오.<br><br>"
+    "Disabled" : "비활성화"
 },
 "nplurals=1; plural=0;");

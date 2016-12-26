@@ -279,11 +279,6 @@
     "Enable experimental apps" : "אפשר יישומים ניסיוניים",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "שלום,<br><br>רק רצינו להודיע שעכשיו יש לך %s חשבון.<br><br>Your שם משתמש: %s<br>כניסה: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "שלום,\n\nרק רצינו להודיע שעכשיו יש לך %s חשבון.\n\nשם המשתמש שלך: %s\nכניסה: %s\n\n",
-    "Group" : "קבוצה",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "אחסון חיצוני",
-    "Updates" : "עדכונים",
-    "An error occurred: {message}" : "אירעה שגיאה: {message}"
+    "Group" : "קבוצה"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

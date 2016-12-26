@@ -62,7 +62,6 @@ OC.L10N.register(
     "You assigned system tag %3$s to %2$s" : "Hai assegnato l'etichetta di sistema %3$s a %2$s",
     "%1$s assigned system tag %3$s to %2$s" : "%1$s ha assegnato l'etichetta di sistema %3$s a %2$s",
     "You unassigned system tag %3$s from %2$s" : "Hai rimosso l'etichetta di sistema %3$s da %2$s",
-    "%1$s unassigned system tag %3$s from %2$s" : "%1$s ha rimosso l'etichetta di sistema %3$s da %2$s",
-    "%s (not-assignable)" : "%s (non assegnabile)"
+    "%1$s unassigned system tag %3$s from %2$s" : "%1$s ha rimosso l'etichetta di sistema %3$s da %2$s"
 },
 "nplurals=2; plural=(n != 1);");

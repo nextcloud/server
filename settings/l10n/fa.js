@@ -202,11 +202,6 @@ OC.L10N.register(
     "Allow users to send mail notification for shared files" : "اجازه به کاربران برای ارسال ایمیل نوتیفیکیشن برای فایل‌های به اشتراک‌گذاشته شده",
     "Uninstall App" : "حذف برنامه",
     "Enable experimental apps" : "فعال‌سازی برنامه‌های آزمایشی",
-    "Group" : "گروه",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "حافظه خارجی",
-    "Updates" : "به روز رسانی ها",
-    "An error occurred: {message}" : "یک خطا رخ‌داده است: {message}"
+    "Group" : "گروه"
 },
 "nplurals=1; plural=0;");

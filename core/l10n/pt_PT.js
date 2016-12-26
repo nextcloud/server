@@ -310,7 +310,6 @@ OC.L10N.register(
     "Two-step verification" : "Verificação de dois passos:",
     "Enhanced security has been enabled for your account. Please authenticate using a second factor." : "A segurança reforçada foi ativada para a sua conta. Por favor, autentique utilizando um segundo fator.",
     "Please authenticate using the selected factor." : "Por favor, autentique utilizando um segundo fator.",
-    "An error occured while verifying the token" : "Ocorreu um erro durante a verificação da senha",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Compartilhe com as pessoas nas outras ownClouds utilizando a sintaxe username@example.com/owncloud"
+    "An error occured while verifying the token" : "Ocorreu um erro durante a verificação da senha"
 },
 "nplurals=2; plural=(n != 1);");

@@ -85,7 +85,6 @@
     "Fatal issues only" : "Problemas fatales solamente",
     "Log" : "Registro",
     "More" : "Más",
-    "Less" : "Menos",
-    "External Storage" : "Almacenamiento externo"
+    "Less" : "Menos"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

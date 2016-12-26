@@ -238,11 +238,6 @@ OC.L10N.register(
     "Enable experimental apps" : "Activar as aplicacións experimentais",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Ola,<br><br>Só facerlle saber que dispón da conta %s.<br><br>O seu nome de usuario: %s<br>Para acceder a ela: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Ola,\n\nSó facerlle saber que dispón da conta %s.\n\nO seu nome de usuario: %s\nPara acceder a ela: %s\n",
-    "Group" : "Grupo",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "External Storage" : "Almacenamento externo",
-    "Updates" : "Actualizacións",
-    "An error occurred: {message}" : "Produciuse un erro: {message}"
+    "Group" : "Grupo"
 },
 "nplurals=2; plural=(n != 1);");

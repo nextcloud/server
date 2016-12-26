@@ -104,12 +104,6 @@ OC.L10N.register(
     "Delete" : "刪除",
     "Allow users to mount external storage" : "允許使用者能自行掛載外部儲存",
     "Allow users to mount the following external storage" : "允許使用者自行掛載以下的外部儲存",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "無法從ownCloud伺服器得到資訊: {code} {type}",
-    "ownCloud" : "ownCloud",
-    "<b>Note:</b> " : "<b>警告:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>警告:</b> PHP 並未啓用 Curl 的支援，因此無法掛載 %s 。請洽您的系統管理員將其安裝並啓用。",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>警告</b>：PHP 並未啓用 FTP 的支援，因此無法掛載 %s，請洽您的系統管理員將其安裝並啓用。",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>警告</b>並未安裝 \"%s\"，因此無法掛載 %s。請洽您的系統管理員將其安裝並啓用。",
-    "External Storage" : "外部儲存"
+    "Couldn't get the information from the ownCloud server: {code} {type}" : "無法從ownCloud伺服器得到資訊: {code} {type}"
 },
 "nplurals=1; plural=0;");

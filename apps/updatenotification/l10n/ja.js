@@ -17,7 +17,6 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "次のグループのメンバーに対してアップデートのメッセージが表示されます:",
     "Only notification for app updates are available." : "アプリ更新情報があるときのみ通知する。",
     "The selected update channel makes dedicated notifications for the server obsolete." : "選択した更新チャネルでは、廃止サーバーについて専用の通知を行います。",
-    "The selected update channel does not support updates of the server." : "選択したチャンネルでは、サーバーのアップデートをサポートしていません。",
-    "Updater" : "アップデート"
+    "The selected update channel does not support updates of the server." : "選択したチャンネルでは、サーバーのアップデートをサポートしていません。"
 },
 "nplurals=1; plural=0;");
