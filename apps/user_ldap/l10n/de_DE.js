@@ -40,6 +40,7 @@ OC.L10N.register(
     "Select attributes" : "Attribute auswählen",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command line validation): <br/>" : "Benutzer nicht gefunden. Bitte überprüfen Sie Ihre Loginattribute und Ihren Benutzernamen. Gültiger Filter (zum Kopieren und Einfügen bei der Überprüfung auf der Kommandozeile): <br/>",
     "User found and settings verified." : "Benutzer gefunden und Einstellungen überprüft.",
+    "Settings verified, but more than one user found. Only the first will be able to login. Consider a more narrow filter." : "Einstellungen geprüft, es wurde mehr als ein Nutzer gefunden. Nur. der ersten Nutzer wird in der Lage sein, sich anzumelden. Verwenden Sie einen weiter einschränkenenden Filter.",
     "An unspecified error occurred. Please check the settings and the log." : "Ein nicht näher spezifizierter Fehler ist aufgetreten. Bitte überprüfe die Einstellungen und die Logdatei.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "Der Suchfilter ist ungültig, möglicherweise bestehen Eingabefehler wie z.B. eine ungerade Anzahl von geöffneten und geschlossenen Klammern. Bitte überarbeiten.",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Es ist ein Verbindungsfehler zum LDAP/AD aufgetreten, bitte überprüfen Sie Host, Port und Anmeldeinformationen.",
