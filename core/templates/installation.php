@@ -142,6 +142,9 @@ script('core', [
 					value="<?php p($_['dbhost']); ?>"
 					autocomplete="off" autocapitalize="off" autocorrect="off">
 			</p>
+			<p class="info">
+				<?php p($l->t( 'Please specify the port number along with the host name (e.g., localhost:5432).' )); ?>
+			</p>
 		</div>
 		</fieldset>
 		<?php endif; ?>
