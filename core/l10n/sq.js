@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Please select a file." : "Ju lutemi, përzgjidhni një kartelë.",
     "File is too big" : "Kartela është shumë e madhe",
+    "The selected file is not an image." : "Skedari i zgjedhur nuk është një imazh",
+    "The selected file cannot be read." : "Skedari i zgjedhur nuk mund të lexohet",
     "Invalid file provided" : "U dha kartelë e pavlefshme",
     "No image or file provided" : "S’u dha figurë apo kartelë",
     "Unknown filetype" : "Lloj i panjohur kartele",
