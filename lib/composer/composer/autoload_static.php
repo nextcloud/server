@@ -782,6 +782,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Settings\\Controller\\SecuritySettingsController' => __DIR__ . '/../../..' . '/settings/Controller/SecuritySettingsController.php',
         'OC\\Settings\\Controller\\UsersController' => __DIR__ . '/../../..' . '/settings/Controller/UsersController.php',
         'OC\\Settings\\Manager' => __DIR__ . '/../../..' . '/lib/private/Settings/Manager.php',
+        'OC\\Settings\\Mapper' => __DIR__ . '/../../..' . '/lib/private/Settings/Mapper.php',
         'OC\\Settings\\Middleware\\SubadminMiddleware' => __DIR__ . '/../../..' . '/settings/Middleware/SubadminMiddleware.php',
         'OC\\Settings\\RemoveOrphaned' => __DIR__ . '/../../..' . '/lib/private/Settings/RemoveOrphaned.php',
         'OC\\Settings\\Section' => __DIR__ . '/../../..' . '/lib/private/Settings/Section.php',

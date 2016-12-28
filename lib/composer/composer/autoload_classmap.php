@@ -752,6 +752,7 @@ return array(
     'OC\\Settings\\Controller\\SecuritySettingsController' => $baseDir . '/settings/Controller/SecuritySettingsController.php',
     'OC\\Settings\\Controller\\UsersController' => $baseDir . '/settings/Controller/UsersController.php',
     'OC\\Settings\\Manager' => $baseDir . '/lib/private/Settings/Manager.php',
+    'OC\\Settings\\Mapper' => $baseDir . '/lib/private/Settings/Mapper.php',
     'OC\\Settings\\Middleware\\SubadminMiddleware' => $baseDir . '/settings/Middleware/SubadminMiddleware.php',
     'OC\\Settings\\RemoveOrphaned' => $baseDir . '/lib/private/Settings/RemoveOrphaned.php',
     'OC\\Settings\\Section' => $baseDir . '/lib/private/Settings/Section.php',
