@@ -128,6 +128,7 @@ class TwoFactorChallengeController extends Controller {
 			'provider' => $provider,
 			'backupProvider' => $backupProvider,
 			'logout_attribute' => $this->getLogoutAttribute(),
+			'redirect_url' => $redirect_url,
 			'template' => $tmpl->fetchPage(),
 		];
 		return new TemplateResponse($this->appName, 'twofactorshowchallenge', $data, 'guest');
