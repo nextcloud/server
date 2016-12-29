@@ -6,7 +6,7 @@ OC.L10N.register(
     "Unknown error" : "Unbekannter Fehler",
     "Files" : "Dateien",
     "All files" : "Alle Dateien",
-    "Recent" : "Akuelle",
+    "Recent" : "Aktuelle",
     "File could not be found" : "Datei konnte nicht gefunden werden",
     "Home" : "Home",
     "Close" : "Schließen",

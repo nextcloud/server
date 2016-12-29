@@ -228,6 +228,7 @@
     "Database name" : "Nom de la base de données",
     "Database tablespace" : "Tablespace de la base de données",
     "Database host" : "Hôte de la base de données",
+    "Please specify the port number along with the host name (e.g., localhost:5432)." : "Veuillez spécifier le numéro du port avec le nom de l'hôte (ex: localhost:5432).",
     "Performance warning" : "Avertissement à propos des performances",
     "SQLite will be used as database." : "SQLite sera utilisé comme gestionnaire de base de données.",
     "For larger installations we recommend to choose a different database backend." : "Pour des installations plus volumineuses, nous vous conseillons d'utiliser un autre gestionnaire de base de données.",
