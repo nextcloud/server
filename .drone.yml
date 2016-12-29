@@ -130,6 +130,19 @@ pipeline:
       when:
         matrix:
           TESTS: sqlite-php7.0-samba-non-native
+  sqlite-php7.0-webdav-apache:
+    image: nextcloudci/webdav-apache-php7.0
+    commands:
+      - apache2
+      - ./autotest-external.sh sqlite webdav-apachedrone
+      - wget https://codecov.io/bash -O codecov.sh
+      - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
+      - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
+      - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-results-sqlite-webdav-apachedrone.xml; fi"
+      - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-results-sqlite-webdav-apachedrone.xml; fi"
+      when:
+        matrix:
+          TESTS: sqlite-php7.0-webdav-apache
   nodb-php5.6:
     image: nextcloudci/php5.6:php5.6-7
     commands:
@@ -452,6 +465,7 @@ matrix:
     - TESTS: sqlite-php7.0-samba-native
     - TESTS: sqlite-php7.0-samba-non-native
     - TEST: memcache-memcached
+    - TESTS: sqlite-php7.0-webdav-apache
     - DB: NODB
       PHP: 5.6
     - DB: NODB
