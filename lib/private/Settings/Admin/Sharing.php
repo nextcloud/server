@@ -51,6 +51,7 @@ class Sharing implements ISettings {
 		$parameters = [
 			// Built-In Sharing
 			'allowGroupSharing'               => $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes'),
+			'preserveFullName'                => $this->config->getAppValue('core', 'shareapi_preserve_full_name', 'no'),
 			'allowLinks'                      => $this->config->getAppValue('core', 'shareapi_allow_links', 'yes'),
 			'allowPublicUpload'               => $this->config->getAppValue('core', 'shareapi_allow_public_upload', 'yes'),
 			'allowResharing'                  => $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes'),

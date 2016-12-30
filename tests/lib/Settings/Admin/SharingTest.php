@@ -104,6 +104,11 @@ class SharingTest extends TestCase {
 			->method('getAppValue')
 			->with('core', 'shareapi_public_link_disclaimertext', null)
 			->willReturn('Lorem ipsum');
+		$this->config
+			->expects($this->at(12))
+			->method('getAppValue')
+			->with('core', 'shareapi_preserve_full_name', 'no')
+			->willReturn('no');
 
 		$expected = new TemplateResponse(
 			'settings',
