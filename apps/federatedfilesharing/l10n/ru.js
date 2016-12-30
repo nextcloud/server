@@ -7,6 +7,7 @@ OC.L10N.register(
     "Remote share password" : "Пароль для удаленного общего ресурса",
     "Cancel" : "Отмена",
     "Add remote share" : "Добавить удалённый общий ресурс",
+    "Copy" : "Копировать",
     "Copied!" : "Скопировано!",
     "Not supported!" : "Не поддерживается!",
     "Press ⌘-C to copy." : "Нажмите ⌘-C для копирования.",

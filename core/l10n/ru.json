@@ -228,6 +228,7 @@
     "Database name" : "Название базы данных",
     "Database tablespace" : "Табличое пространство базы данных",
     "Database host" : "Хост базы данных",
+    "Please specify the port number along with the host name (e.g., localhost:5432)." : "Пожалуйста укажите номер порта вместе с именем хоста (напр. localhost:5432)",
     "Performance warning" : "Предупреждение о производительности",
     "SQLite will be used as database." : "В качестве базы данных будет использована SQLite.",
     "For larger installations we recommend to choose a different database backend." : "Для крупных проектов мы советуем выбрать другой тип базы данных.",
