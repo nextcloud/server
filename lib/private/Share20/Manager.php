@@ -1224,7 +1224,7 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function shareApiEnabled() {
-		return $this->config->getAppValue('core', 'shareapi_enabled', 'no') === 'yes';
+		return $this->config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes';
 	}
 
 	/**
@@ -1233,7 +1233,7 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function shareApiPreserveFullName() {
-		return $this->config->getAppValue('core', 'shareapi_preserve_full_name', 'yes') === 'yes';
+		return $this->config->getAppValue('core', 'shareapi_preserve_full_name', 'no') === 'yes';
 	}
 
 	/**
