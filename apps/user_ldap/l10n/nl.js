@@ -40,6 +40,7 @@ OC.L10N.register(
     "Select attributes" : "Selecteer attributen",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command line validation): <br/>" : "Gebruiker niet gevonden. Verifieer je inloggegevens en gebruikersnaam. Geldig filter (kopiëren en plakken voor commandoregel validatie): <br/>",
     "User found and settings verified." : "Gebruiker gevonden en instellingen geverifieerd.",
+    "Settings verified, but more than one user found. Only the first will be able to login. Consider a more narrow filter." : "Instellingen geverifieerd, slechts één gebruiker gevonden. Alleen de eerste kan inloggen. Overweeg een krapper filter.",
     "An unspecified error occurred. Please check the settings and the log." : "Er trad een ongedefinieerde fout op. Controleer de instellingen en de logging.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "Het zoekfilter is ongeldig, waarschijnlijk door syntax problemen zoals een ongelijk aantal open- en sluithaakjes. Graag aanpassen.",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Er trad een verbindingsfout naar LDAP / AD op, verifieer servernaam, poort en inloggegevens.",
