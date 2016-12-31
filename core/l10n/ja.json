@@ -228,6 +228,7 @@
     "Database name" : "データベース名",
     "Database tablespace" : "データベースの表領域",
     "Database host" : "データベースのホスト名",
+    "Please specify the port number along with the host name (e.g., localhost:5432)." : "ポート番号をホスト名とともに指定してください(例：localhost：5432)。",
     "Performance warning" : "パフォーマンス警告",
     "SQLite will be used as database." : "SQLiteをデータベースとして使用しています。",
     "For larger installations we recommend to choose a different database backend." : "大規模な運用では別のデータベースを選択することをお勧めします。",
