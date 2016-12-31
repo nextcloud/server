@@ -67,7 +67,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n Byte","%n Bytes"],
     "Favorited" : "Favorisiert",
     "Favorite" : "Favorit",
-    "Copy local link" : "Kopiere lokale Verknüpfung",
+    "Copy local link" : "Lokalen Link kopieren",
     "Folder" : "Ordner",
     "New folder" : "Neuer Ordner",
     "Upload" : "Hochladen",
