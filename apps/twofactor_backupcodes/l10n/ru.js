@@ -1,17 +1,21 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "Generate backup codes" : "Генерировать код восстановления",
+    "Generate backup codes" : "Создать резервные коды",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Резервные коды были созданы. Использовано {{used}} из {{total}} кодов.",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Это ваши резервные коды доступа. Пожалуйста, сохраните и/или распечатайте их, так как вы не сможете увидеть эти коды снова.",
-    "Save backup codes" : "Сохранить код восстановления",
+    "Save backup codes" : "Сохранить резервные коды",
     "Print backup codes" : "Распечатать резервные коды",
-    "Regenerate backup codes" : "Пересоздать коды восстановления",
-    "If you regenerate backup codes, you automatically invalidate old codes." : "Если перевыпустить коды восстановления, то старые автоматически становятся не активными.",
+    "Regenerate backup codes" : "Перевыпустить резервные коды",
+    "If you regenerate backup codes, you automatically invalidate old codes." : "При перевыпуске резервных кодов, старые автоматически становятся недействительными.",
     "An error occurred while generating your backup codes" : "Произошла ошибка при создании резервных кодов",
     "Nextcloud backup codes" : "Резервные коды Nextcloud",
-    "Backup code" : "Код восстановления",
-    "Use backup code" : "Использовать код восстановления",
+    "Two-factor authentication" : "Двухфакторная аутентификация",
+    "You successfully logged in using two-factor authentication (%1$s)" : "Вы успешно вошли в систему используя двухфакторную аутентификацию (%1$s)",
+    "A login attempt using two-factor authentication failed (%1$s)" : "Сбой при попытке входа с использованием двухфакторной аутентификации (%1$s)",
+    "You created two-factor backup codes for your account" : "Вы создали двухфакторные резервные коды для своего аккаунта",
+    "Backup code" : "Резервный код",
+    "Use backup code" : "Использовать резервный код",
     "Second-factor backup codes" : "Резервные коды двухфакторной аутентификации"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
