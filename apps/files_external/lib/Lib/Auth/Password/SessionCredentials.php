@@ -32,27 +32,17 @@ use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\LoginCredentials\IStore as CredentialsStore;
 use OCP\Files\Storage;
 use OCP\IL10N;
-use OCP\ISession;
 use OCP\IUser;
-use OCP\Security\ICrypto;
 
 /**
  * Username and password from login credentials, saved in session
  */
 class SessionCredentials extends AuthMechanism {
 
-	/** @var ISession */
-	protected $session;
-
-	/** @var ICrypto */
-	protected $crypto;
-
 	/** @var CredentialsStore */
 	private $credentialsStore;
 
-	public function __construct(IL10N $l, ISession $session, ICrypto $crypto, CredentialsStore $credentialsStore) {
-		$this->session = $session;
-		$this->crypto = $crypto;
+	public function __construct(IL10N $l, CredentialsStore $credentialsStore) {
 		$this->credentialsStore = $credentialsStore;
 
 		$this->setIdentifier('password::sessioncredentials')

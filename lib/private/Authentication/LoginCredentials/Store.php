@@ -33,6 +33,7 @@ use OCP\Authentication\LoginCredentials\IStore;
 use OCP\ILogger;
 use OCP\ISession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use OCP\Util;
 
 class Store implements IStore {
 
@@ -54,6 +55,17 @@ class Store implements IStore {
 		$this->session = $session;
 		$this->tokenProvider = $tokenProvider;
 		$this->logger = $logger;
+
+		Util::connectHook('OC_User', 'post_login', $this, 'authenticate');
+	}
+
+	/**
+	 * Hook listener on post login
+	 *
+	 * @param array $params
+	 */
+	public function authenticate(array $params) {
+		$this->session->set('login_credentials', json_encode($params));
 	}
 
 	/**
@@ -72,6 +84,7 @@ class Store implements IStore {
 	 * @throws CredentialsUnavailableException
 	 */
 	public function getLoginCredentials() {
+		$trySession = false;
 		try {
 			$sessionId = $this->session->getId();
 			$token = $this->tokenProvider->getToken($sessionId);
@@ -85,9 +98,17 @@ class Store implements IStore {
 			$this->logger->debug('could not get login credentials because session is unavailable', ['app' => 'core']);
 		} catch (InvalidTokenException $ex) {
 			$this->logger->debug('could not get login credentials because the token is invalid', ['app' => 'core']);
+			$trySession = true;
 		} catch (PasswordlessTokenException $ex) {
 			$this->logger->debug('could not get login credentials because the token has no password', ['app' => 'core']);
+			$trySession = true;
 		}
+
+		if ($trySession && $this->session->exists('login_credentials')) {
+			$creds = json_decode($this->session->get('login_credentials'));
+			return new Credentials($creds->uid, $creds->uid, $creds->password);
+		}
+
 		// If we reach this line, an exception was thrown.
 		throw new CredentialsUnavailableException();
 	}

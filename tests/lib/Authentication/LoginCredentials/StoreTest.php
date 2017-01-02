@@ -34,6 +34,7 @@ use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\ILogger;
 use OCP\ISession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
 class StoreTest extends TestCase {
@@ -60,6 +61,26 @@ class StoreTest extends TestCase {
 		$this->store = new Store($this->session, $this->tokenProvider, $this->logger);
 	}
 
+	public function testAuthenticate() {
+		$params = [
+			'run' => true,
+			'uid' => 'user123',
+			'password' => 123456,
+		];
+
+		$this->session->expects($this->once())
+			->method('set')
+			->with($this->equalTo('login_credentials'), $this->equalTo(json_encode($params)));
+
+		$this->store->authenticate($params);
+	}
+
+	public function testSetSession() {
+		$session = $this->createMock(ISession::class);
+
+		$this->store->setSession($session);
+	}
+
 	public function testGetLoginCredentials() {
 		$uid = 'uid';
 		$user = 'user123';
@@ -67,21 +88,21 @@ class StoreTest extends TestCase {
 		$token = $this->createMock(IToken::class);
 		$this->session->expects($this->once())
 			->method('getId')
-			->will($this->returnValue('sess2233'));
+			->willReturn('sess2233');
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
-			->will($this->returnValue($token));
+			->willReturn($token);
 		$token->expects($this->once())
 			->method('getUID')
-			->will($this->returnValue($uid));
+			->willReturn($uid);
 		$token->expects($this->once())
 			->method('getLoginName')
-			->will($this->returnValue($user));
+			->willReturn($user);
 		$this->tokenProvider->expects($this->once())
 			->method('getPassword')
 			->with($token, 'sess2233')
-			->will($this->returnValue($password));
+			->willReturn($password);
 		$expected = new Credentials($uid, $user, $password);
 
 		$creds = $this->store->getLoginCredentials();
@@ -101,7 +122,7 @@ class StoreTest extends TestCase {
 	public function testGetLoginCredentialsInvalidToken() {
 		$this->session->expects($this->once())
 			->method('getId')
-			->will($this->returnValue('sess2233'));
+			->willReturn('sess2233');
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
@@ -110,11 +131,37 @@ class StoreTest extends TestCase {
 
 		$this->store->getLoginCredentials();
 	}
-	
+
+	public function testGetLoginCredentialsInvalidTokenLoginCredentials() {
+		$uid = 'user987';
+		$password = '7389374';
+
+		$this->session->expects($this->once())
+			->method('getId')
+			->willReturn('sess2233');
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('sess2233')
+			->will($this->throwException(new InvalidTokenException()));
+		$this->session->expects($this->once())
+			->method('exists')
+			->with($this->equalTo('login_credentials'))
+			->willReturn(true);
+		$this->session->expects($this->once())
+			->method('get')
+			->with($this->equalTo('login_credentials'))
+			->willReturn('{"run":true,"uid":"user987","password":"7389374"}');
+		$expected = new Credentials('user987', 'user987', '7389374');
+
+		$actual = $this->store->getLoginCredentials();
+
+		$this->assertEquals($expected, $actual);
+	}
+
 	public function testGetLoginCredentialsPasswordlessToken() {
 		$this->session->expects($this->once())
 			->method('getId')
-			->will($this->returnValue('sess2233'));
+			->willReturn('sess2233');
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
