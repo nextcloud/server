@@ -25,6 +25,7 @@ namespace Tests\Settings;
 
 use OC\Settings\Admin\Sharing;
 use OC\Settings\Manager;
+use OC\Settings\Mapper;
 use OC\Settings\Section;
 use OCP\Encryption\IManager;
 use OCP\IConfig;
@@ -36,22 +37,24 @@ use OCP\Lock\ILockingProvider;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
-	/** @var Manager */
+	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject */
 	private $manager;
-	/** @var ILogger */
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	private $logger;
-	/** @var IDBConnection */
+	/** @var IDBConnection|\PHPUnit_Framework_MockObject_MockObject */
 	private $dbConnection;
-	/** @var IL10N */
+	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
 	private $l10n;
-	/** @var IConfig */
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
-	/** @var IManager */
+	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $encryptionManager;
-	/** @var IUserManager */
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
-	/** @var ILockingProvider */
+	/** @var ILockingProvider|\PHPUnit_Framework_MockObject_MockObject */
 	private $lockingProvider;
+	/** @var Mapper|\PHPUnit_Framework_MockObject_MockObject */
+	private $mapper;
 
 	public function setUp() {
 		parent::setUp();
@@ -63,6 +66,7 @@ class ManagerTest extends TestCase {
 		$this->encryptionManager = $this->getMockBuilder('\OCP\Encryption\IManager')->getMock();
 		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')->getMock();
 		$this->lockingProvider = $this->getMockBuilder('\OCP\Lock\ILockingProvider')->getMock();
+		$this->mapper = $this->getMockBuilder(Mapper::class)->disableOriginalConstructor()->getMock();
 
 		$this->manager = new Manager(
 			$this->logger,
@@ -71,63 +75,49 @@ class ManagerTest extends TestCase {
 			$this->config,
 			$this->encryptionManager,
 			$this->userManager,
-			$this->lockingProvider
+			$this->lockingProvider,
+			$this->mapper
 		);
 	}
 
-	public function testSetupSettings() {
-		$qb = $this->getMockBuilder('\OCP\DB\QueryBuilder\IQueryBuilder')->getMock();
-		$qb
-			->expects($this->once())
-			->method('select')
-			->with('class')
-			->willReturn($qb);
-		$this->dbConnection
-			->expects($this->at(0))
-			->method('getQueryBuilder')
-			->willReturn($qb);
-		$qb
-			->expects($this->once())
-			->method('from')
-			->with('admin_settings')
-			->willReturn($qb);
-		$expressionBuilder = $this->getMockBuilder('\OCP\DB\QueryBuilder\IExpressionBuilder')->getMock();
-		$qb
-			->expects($this->once())
-			->method('expr')
-			->willReturn($expressionBuilder);
-		$param = $this->getMockBuilder('\OCP\DB\QueryBuilder\IParameter')->getMock();
-		$qb
-			->expects($this->once())
-			->method('createNamedParameter')
-			->with('OCA\Files\Settings\Admin')
-			->willReturn($param);
-		$expressionBuilder
-			->expects($this->once())
-			->method('eq')
-			->with('class', $param)
-			->willReturn('myString');
-		$qb
-			->expects($this->once())
-			->method('where')
-			->with('myString')
-			->willReturn($qb);
-		$stmt = $this->getMockBuilder('\Doctrine\DBAL\Driver\Statement')->getMock();
-		$qb
-			->expects($this->once())
-			->method('execute')
-			->willReturn($stmt);
+	public function testSetupSettingsUpdate() {
+		$this->mapper->expects($this->any())
+			->method('has')
+			->with('admin_settings', 'OCA\Files\Settings\Admin')
+			->will($this->returnValue(true));
 
-		$qb1 = $this->getMockBuilder('\OCP\DB\QueryBuilder\IQueryBuilder')->getMock();
-		$qb1
-			->expects($this->once())
-			->method('insert')
-			->with('admin_settings')
-			->willReturn($qb1);
-		$this->dbConnection
-			->expects($this->at(1))
-			->method('getQueryBuilder')
-			->willReturn($qb1);
+		$this->mapper->expects($this->once())
+			->method('update')
+			->with('admin_settings',
+				'class',
+				'OCA\Files\Settings\Admin', [
+					'section' => 'additional',
+					'priority' => 5
+				]);
+		$this->mapper->expects($this->never())
+			->method('add');
+
+		$this->manager->setupSettings([
+			'admin' => 'OCA\Files\Settings\Admin',
+		]);
+	}
+
+	public function testSetupSettingsAdd() {
+		$this->mapper->expects($this->any())
+			->method('has')
+			->with('admin_settings', 'OCA\Files\Settings\Admin')
+			->will($this->returnValue(false));
+
+		$this->mapper->expects($this->once())
+			->method('add')
+			->with('admin_settings', [
+				'class' => 'OCA\Files\Settings\Admin',
+				'section' => 'additional',
+				'priority' => 5
+			]);
+
+		$this->mapper->expects($this->never())
+			->method('update');
 
 		$this->manager->setupSettings([
 			'admin' => 'OCA\Files\Settings\Admin',
@@ -135,43 +125,48 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetAdminSections() {
-		$qb = $this->getMockBuilder('\OCP\DB\QueryBuilder\IQueryBuilder')->getMock();
-		$expr = $this->getMockBuilder('OCP\DB\QueryBuilder\IExpressionBuilder')->getMock();
-		$qb
-			->expects($this->once())
-			->method('selectDistinct')
-			->with('s.class')
-			->willReturn($qb);
-		$qb
-			->expects($this->once())
-			->method('addSelect')
-			->with('s.priority')
-			->willReturn($qb);
-		$qb
-			->expects($this->exactly(2))
-			->method('from')
-			->willReturn($qb);
-		$qb
-			->expects($this->once())
-			->method('expr')
-			->willReturn($expr);
-		$qb
-			->expects($this->once())
-			->method('where')
-			->willReturn($qb);
-		$stmt = $this->getMockBuilder('\Doctrine\DBAL\Driver\Statement')->getMock();
-		$qb
-			->expects($this->once())
-			->method('execute')
-			->willReturn($stmt);
-		$this->dbConnection
-			->expects($this->once())
-			->method('getQueryBuilder')
-			->willReturn($qb);
 		$this->l10n
 			->expects($this->any())
 			->method('t')
 			->will($this->returnArgument(0));
+
+		$this->mapper->expects($this->once())
+			->method('getAdminSectionsFromDB')
+			->will($this->returnValue([
+				['class' => '\OCA\LogReader\Settings\Section', 'priority' => 90]
+			]));
+
+		$this->mapper->expects($this->once())
+			->method('getAdminSettingsCountFromDB')
+			->will($this->returnValue([
+				'logging' => 1
+			]));
+
+		$this->assertEquals([
+			0 => [new Section('server', 'Server settings', 0)],
+			5 => [new Section('sharing', 'Sharing', 0)],
+			45 => [new Section('encryption', 'Encryption', 0)],
+			90 => [new \OCA\LogReader\Settings\Section(\OC::$server->getL10N('logreader'))],
+			98 => [new Section('additional', 'Additional settings', 0)],
+			99 => [new Section('tips-tricks', 'Tips & tricks', 0)],
+		], $this->manager->getAdminSections());
+	}
+
+	public function testGetAdminSectionsEmptySection() {
+		$this->l10n
+			->expects($this->any())
+			->method('t')
+			->will($this->returnArgument(0));
+
+		$this->mapper->expects($this->once())
+			->method('getAdminSectionsFromDB')
+			->will($this->returnValue([
+				['class' => '\OCA\LogReader\Settings\Section', 'priority' => 90]
+			]));
+
+		$this->mapper->expects($this->once())
+			->method('getAdminSettingsCountFromDB')
+			->will($this->returnValue([]));
 
 		$this->assertEquals([
 			0 => [new Section('server', 'Server settings', 0)],
@@ -183,47 +178,9 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetAdminSettings() {
-		$qb = $this->getMockBuilder('\OCP\DB\QueryBuilder\IQueryBuilder')->getMock();
-		$qb
-			->expects($this->once())
-			->method('select')
-			->with(['class', 'priority'])
-			->willReturn($qb);
-		$qb
-			->expects($this->once())
-			->method('from')
-			->with('admin_settings')
-			->willReturn($qb);
-		$expressionBuilder = $this->getMockBuilder('\OCP\DB\QueryBuilder\IExpressionBuilder')->getMock();
-		$qb
-			->expects($this->once())
-			->method('expr')
-			->willReturn($expressionBuilder);
-		$param = $this->getMockBuilder('\OCP\DB\QueryBuilder\IParameter')->getMock();
-		$qb
-			->expects($this->once())
-			->method('createParameter')
-			->with('section')
-			->willReturn($param);
-		$expressionBuilder
-			->expects($this->once())
-			->method('eq')
-			->with('section', $param)
-			->willReturn('myString');
-		$qb
-			->expects($this->once())
-			->method('where')
-			->with('myString')
-			->willReturn($qb);
-		$stmt = $this->getMockBuilder('\Doctrine\DBAL\Driver\Statement')->getMock();
-		$qb
-			->expects($this->once())
-			->method('execute')
-			->willReturn($stmt);
-		$this->dbConnection
-			->expects($this->exactly(2))
-			->method('getQueryBuilder')
-			->willReturn($qb);
+		$this->mapper->expects($this->any())
+			->method('getAdminSettingsFromDB')
+			->will($this->returnValue([]));
 
 		$this->assertEquals([
 			0 => [new Sharing($this->config)],
