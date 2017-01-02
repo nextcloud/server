@@ -80,8 +80,10 @@ class MDB2SchemaReader {
 	 * @return \Doctrine\DBAL\Schema\Schema
 	 * @throws \DomainException
 	 */
-	public function loadSchemaFromFile($file) {
-		$schema = new \Doctrine\DBAL\Schema\Schema();
+	public function loadSchemaFromFile($file, $schema = null) {
+		if (is_null($schema)) {
+			$schema = new \Doctrine\DBAL\Schema\Schema();
+		}
 		$loadEntities = libxml_disable_entity_loader(false);
 		$xml = simplexml_load_file($file);
 		libxml_disable_entity_loader($loadEntities);
