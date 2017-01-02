@@ -9,7 +9,20 @@
  */
 
 (function(OC, OCA) {
-	var NS_OWNCLOUD = 'http://owncloud.org/ns';
+
+	_.extend(OC.Files.Client, {
+		PROPERTY_FILEID:	'{' + OC.Files.Client.NS_OWNCLOUD + '}id',
+		PROPERTY_MESSAGE: 	'{' + OC.Files.Client.NS_OWNCLOUD + '}message',
+		PROPERTY_ACTORTYPE:	'{' + OC.Files.Client.NS_OWNCLOUD + '}actorType',
+		PROPERTY_ACTORID:	'{' + OC.Files.Client.NS_OWNCLOUD + '}actorId',
+		PROPERTY_ISUNREAD:	'{' + OC.Files.Client.NS_OWNCLOUD + '}isUnread',
+		PROPERTY_OBJECTID:	'{' + OC.Files.Client.NS_OWNCLOUD + '}objectId',
+		PROPERTY_OBJECTTYPE:	'{' + OC.Files.Client.NS_OWNCLOUD + '}objectType',
+		PROPERTY_ACTORDISPLAYNAME:	'{' + OC.Files.Client.NS_OWNCLOUD + '}actorDisplayName',
+		PROPERTY_CREATIONDATETIME:	'{' + OC.Files.Client.NS_OWNCLOUD + '}creationDateTime',
+		PROPERTY_MENTIONS: '{' + OC.Files.Client.NS_OWNCLOUD + '}mentions'
+	});
+
 	/**
 	 * @class OCA.Comments.CommentModel
 	 * @classdesc
@@ -27,16 +40,16 @@
 		},
 
 		davProperties: {
-			'id': '{' + NS_OWNCLOUD + '}id',
-			'message': '{' + NS_OWNCLOUD + '}message',
-			'actorType': '{' + NS_OWNCLOUD + '}actorType',
-			'actorId': '{' + NS_OWNCLOUD + '}actorId',
-			'actorDisplayName': '{' + NS_OWNCLOUD + '}actorDisplayName',
-			'creationDateTime': '{' + NS_OWNCLOUD + '}creationDateTime',
-			'objectType': '{' + NS_OWNCLOUD + '}objectType',
-			'objectId': '{' + NS_OWNCLOUD + '}objectId',
-			'isUnread': '{' + NS_OWNCLOUD + '}isUnread',
-			'mentions': '{' + NS_OWNCLOUD + '}mentions'
+			'id':	OC.Files.Client.PROPERTY_FILEID,
+			'message':	OC.Files.Client.PROPERTY_MESSAGE,
+			'actorType':	OC.Files.Client.PROPERTY_ACTORTYPE,
+			'actorId':	OC.Files.Client.PROPERTY_ACTORID,
+			'actorDisplayName':	OC.Files.Client.PROPERTY_ACTORDISPLAYNAME,
+			'creationDateTime':	OC.Files.Client.PROPERTY_CREATIONDATETIME,
+			'objectType':	OC.Files.Client.PROPERTY_OBJECTTYPE,
+			'objectId':	OC.Files.Client.PROPERTY_OBJECTID,
+			'isUnread':	OC.Files.Client.PROPERTY_ISUNREAD,
+			'mentions': OC.Files.Client.PROPERTY_MENTIONS
 		},
 
 		parse: function(data) {
@@ -78,4 +91,3 @@
 
 	OCA.Comments.CommentModel = CommentModel;
 })(OC, OCA);
-

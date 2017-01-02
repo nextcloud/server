@@ -130,6 +130,19 @@
 			if (this.model) {
 				this.model.on('change', this._onModelChanged, this);
 			}
+
+			if (this.model) {
+				var properties = [];
+				if( !this.model.has('size') ) {
+					properties.push(OC.Files.Client.PROPERTY_SIZE);
+					properties.push(OC.Files.Client.PROPERTY_GETCONTENTLENGTH);
+				}
+
+				if( properties.length > 0){
+					this.model.reloadProperties(properties);
+				}
+			}
+
 			this.render();
 		},
 
