@@ -344,6 +344,9 @@ function execute_tests {
 	if [ "$TEST_SELECTION" == "NODB" ]; then
 		GROUP='--exclude-group DB,SLOWDB'
 	fi
+	if [ "$TEST_SELECTION" == "PRIMARY-s3" ]; then
+		GROUP='--group PRIMARY-s3'
+	fi
 
 	COVER=''
 	if [ -z "$NOCOVERAGE" ]; then

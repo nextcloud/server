@@ -414,11 +414,9 @@ class FilesystemTest extends \Test\TestCase {
 		$homeMount = \OC\Files\Filesystem::getStorage('/' . $userId . '/');
 
 		$this->assertTrue($homeMount->instanceOfStorage('\OCP\Files\IHomeStorage'));
-		if (getenv('RUN_OBJECTSTORE_TESTS')) {
-			$this->assertTrue($homeMount->instanceOfStorage('\OC\Files\ObjectStore\HomeObjectStoreStorage'));
+		if ($homeMount->instanceOfStorage('\OC\Files\ObjectStore\HomeObjectStoreStorage')) {
 			$this->assertEquals('object::user:' . $userId, $homeMount->getId());
-		} else {
-			$this->assertTrue($homeMount->instanceOfStorage('\OC\Files\Storage\Home'));
+		} else if ($homeMount->instanceOfStorage('\OC\Files\Storage\Home')) {
 			$this->assertEquals('home::' . $userId, $homeMount->getId());
 		}
 

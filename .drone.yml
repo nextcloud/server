@@ -415,6 +415,16 @@ pipeline:
     when:
       matrix:
         TESTS: db-codecov
+  object-store:
+      image: nextcloudci/php7.0:php7.0-7
+      commands:
+        - TEST_SELECTION=PRIMARY-${OBJECT_STORE} ./autotest.sh sqlite
+        - wget https://codecov.io/bash -O codecov.sh
+        - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
+        - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
+      when:
+        matrix:
+          TESTS: object-store
   memcache-memcached:
     image: nextcloudci/php7.0-memcached:php7.0-memcached-6
     commands:
@@ -462,6 +472,8 @@ matrix:
     - TESTS: litmus-v2
     - TESTS: caldavtester
     - TESTS: carddavtester
+    - TESTS: object-store
+      OBJECT_STORE: s3
     - TESTS: sqlite-php7.0-samba-native
     - TESTS: sqlite-php7.0-samba-non-native
     - TEST: memcache-memcached
@@ -517,3 +529,8 @@ services:
     when:
       matrix:
         DB: mysqlmb4
+  fake-s3:
+      image: lphoward/fake-s3
+      when:
+        matrix:
+          OBJECT_STORE: s3
