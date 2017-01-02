@@ -179,6 +179,6 @@ class SCSSCacher {
 		$fileName = array_pop($tmpfileLoc);
 		$fileName = str_replace('.scss', '.css', $fileName);
 
-		return substr($this->urlGenerator->linkToRoute('core.Css.getCss', array('fileName' => $fileName, 'appName' => $appName)), 1);
+		return substr($this->urlGenerator->linkToRoute('core.Css.getCss', array('fileName' => $fileName, 'appName' => $appName)), strlen(\OC::$WEBROOT) + 1);
 	}
 }
