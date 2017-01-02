@@ -77,9 +77,10 @@ class Client implements IClient {
 			}
 		}
 
-		$this->client->setDefaultOption('headers/User-Agent', 'ownCloud Server Crawler');
-		if ($this->getProxyUri() !== '') {
-			$this->client->setDefaultOption('proxy', $this->getProxyUri());
+		$this->client->setDefaultOption('headers/User-Agent', 'Nextcloud Server Crawler');
+		$proxyUri = $this->getProxyUri();
+		if ($proxyUri !== '') {
+			$this->client->setDefaultOption('proxy', $proxyUri);
 		}
 	}
 
@@ -93,10 +94,10 @@ class Client implements IClient {
 		$proxyUserPwd = $this->config->getSystemValue('proxyuserpwd', null);
 		$proxyUri = '';
 
-		if (!is_null($proxyUserPwd)) {
+		if ($proxyUserPwd !== null) {
 			$proxyUri .= $proxyUserPwd . '@';
 		}
-		if (!is_null($proxyHost)) {
+		if ($proxyHost !== null) {
 			$proxyUri .= $proxyHost;
 		}
 

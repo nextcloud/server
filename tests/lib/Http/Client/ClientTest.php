@@ -10,6 +10,7 @@ namespace Test\Http\Client;
 
 use GuzzleHttp\Message\Response;
 use OC\Http\Client\Client;
+use OC\Security\CertificateManager;
 use OCP\ICertificateManager;
 use OCP\IConfig;
 
@@ -17,11 +18,13 @@ use OCP\IConfig;
  * Class ClientTest
  */
 class ClientTest extends \Test\TestCase {
-	/** @var \GuzzleHttp\Client */
+	/** @var \GuzzleHttp\Client|\PHPUnit_Framework_MockObject_MockObject */
 	private $guzzleClient;
+	/** @var CertificateManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $certificateManager;
 	/** @var Client */
 	private $client;
-	/** @var IConfig */
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
 
 	public function setUp() {
@@ -30,10 +33,10 @@ class ClientTest extends \Test\TestCase {
 		$this->guzzleClient = $this->getMockBuilder('\GuzzleHttp\Client')
 			->disableOriginalConstructor()
 			->getMock();
-		$certificateManager = $this->createMock(ICertificateManager::class);
+		$this->certificateManager = $this->createMock(ICertificateManager::class);
 		$this->client = new Client(
 			$this->config,
-			$certificateManager,
+			$this->certificateManager,
 			$this->guzzleClient
 		);
 	}
@@ -108,5 +111,65 @@ class ClientTest extends \Test\TestCase {
 		$this->guzzleClient->method('options')
 			->willReturn(new Response(1337));
 		$this->assertEquals(1337, $this->client->options('http://localhost/', [])->getStatusCode());
+	}
+
+	public function testHead() {
+		$this->guzzleClient->method('head')
+			->willReturn(new Response(1337));
+		$this->assertEquals(1337, $this->client->head('http://localhost/', [])->getStatusCode());
+	}
+
+	public function testSetDefaultOptionsWithNotInstalled() {
+		$this->config
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('installed', false)
+			->willReturn(false);
+		$this->certificateManager
+			->expects($this->once())
+			->method('listCertificates')
+			->willReturn([]);
+		$this->guzzleClient
+			->expects($this->at(0))
+			->method('setDefaultOption')
+			->with('verify', \OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
+		$this->guzzleClient
+			->expects($this->at(1))
+			->method('setDefaultOption')
+			->with('headers/User-Agent', 'Nextcloud Server Crawler');
+
+		self::invokePrivate($this->client, 'setDefaultOptions');
+	}
+
+	public function testSetDefaultOptionsWithProxy() {
+		$this->config
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('proxy', null)
+			->willReturn('foo');
+		$this->config
+			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('proxyuserpwd', null)
+			->willReturn(null);
+		$this->certificateManager
+			->expects($this->once())
+			->method('getAbsoluteBundlePath')
+			->with(null)
+			->willReturn('/my/path.crt');
+		$this->guzzleClient
+			->expects($this->at(0))
+			->method('setDefaultOption')
+			->with('verify', '/my/path.crt');
+		$this->guzzleClient
+			->expects($this->at(1))
+			->method('setDefaultOption')
+			->with('headers/User-Agent', 'Nextcloud Server Crawler');
+		$this->guzzleClient
+			->expects($this->at(2))
+			->method('setDefaultOption')
+			->with('proxy', 'foo');
+
+		self::invokePrivate($this->client, 'setDefaultOptions');
 	}
 }
