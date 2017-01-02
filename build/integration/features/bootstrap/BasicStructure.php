@@ -24,7 +24,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\CookieJar;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Message\ResponseInterface;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -48,7 +51,7 @@ trait BasicStructure {
 	/** @var ResponseInterface */
 	private $response = null;
 
-	/** @var \GuzzleHttp\Cookie\CookieJar */
+	/** @var CookieJar */
 	private $cookieJar;
 
 	/** @var string */
@@ -63,7 +66,7 @@ trait BasicStructure {
 		$this->localBaseUrl = $this->baseUrl;
 		$this->remoteBaseUrl = $this->baseUrl;
 		$this->currentServer = 'LOCAL';
-		$this->cookieJar = new \GuzzleHttp\Cookie\CookieJar();
+		$this->cookieJar = new CookieJar();
 
 		// in case of ci deployment we take the server url from the environment
 		$testServerUrl = getenv('TEST_SERVER_URL');
@@ -174,7 +177,7 @@ trait BasicStructure {
 
 		try {
 			$this->response = $client->send($client->createRequest($verb, $fullUrl, $options));
-		} catch (\GuzzleHttp\Exception\ClientException $ex) {
+		} catch (ClientException $ex) {
 			$this->response = $ex->getResponse();
 		}
 	}
@@ -204,7 +207,7 @@ trait BasicStructure {
 
 		try {
 			$this->response = $client->send($client->createRequest($verb, $fullUrl, $options));
-		} catch (\GuzzleHttp\Exception\ClientException $ex) {
+		} catch (ClientException $ex) {
 			$this->response = $ex->getResponse();
 		}
 	}
@@ -298,7 +301,7 @@ trait BasicStructure {
 		$request->addHeader('requesttoken', $this->requestToken);
 		try {
 			$this->response = $client->send($request);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (ClientException $e) {
 			$this->response = $e->getResponse();
 		}
 	}
@@ -321,7 +324,7 @@ trait BasicStructure {
 		);
 		try {
 			$this->response = $client->send($request);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (ClientException $e) {
 			$this->response = $e->getResponse();
 		}
 	}

@@ -76,3 +76,11 @@ Feature: auth
 		Given a new browser session is started
 		When requesting "/ocs/v1.php/apps/files_sharing/api/v1/remote_shares" with "GET" using browser session
 		Then the OCS status code should be "100"
+
+	# REMEMBER ME
+	Scenario: remember login
+		Given a new remembered browser session is started
+		When the session cookie expires
+		And requesting "/index.php/apps/files" with "GET" using browser session
+		Then the HTTP status code should be "200"
+
