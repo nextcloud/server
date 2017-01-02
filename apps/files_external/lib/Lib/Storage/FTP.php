@@ -50,7 +50,11 @@ class FTP extends StreamWrapper{
 			$this->user=$params['user'];
 			$this->password=$params['password'];
 			if (isset($params['secure'])) {
-				$this->secure = $params['secure'];
+				$this->secure = false;
+				if($params['secure'] === 'true' ||
+					$params['secure'] === true) {
+					$this->secure = true;
+				}
 			} else {
 				$this->secure = false;
 			}
