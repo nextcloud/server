@@ -250,9 +250,13 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerService(Store::class, function(Server $c) {
 			$session = $c->getSession();
-			$tokenProvider = $c->query('OC\Authentication\Token\DefaultTokenProvider');
+			if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
+				$tokenProvider = $c->query('OC\Authentication\Token\IProvider');
+			} else {
+				$tokenProvider = null;
+			}
 			$logger = $c->getLogger();
-			return new Store($session, $tokenProvider, $logger);
+			return new Store($session, $logger, $tokenProvider);
 		});
 		$this->registerAlias(IStore::class, Store::class);
 		$this->registerService('OC\Authentication\Token\DefaultTokenMapper', function (Server $c) {

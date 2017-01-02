@@ -58,7 +58,7 @@ class StoreTest extends TestCase {
 		$this->tokenProvider = $this->createMock(IProvider::class);
 		$this->logger = $this->createMock(ILogger::class);
 
-		$this->store = new Store($this->session, $this->tokenProvider, $this->logger);
+		$this->store = new Store($this->session, $this->logger, $this->tokenProvider);
 	}
 
 	public function testAuthenticate() {
@@ -79,6 +79,14 @@ class StoreTest extends TestCase {
 		$session = $this->createMock(ISession::class);
 
 		$this->store->setSession($session);
+	}
+
+	public function testGetLoginCredentialsNoTokenProvider() {
+		$this->store = new Store($this->session, $this->logger, null);
+
+		$this->expectException(CredentialsUnavailableException::class);
+
+		$this->store->getLoginCredentials();
 	}
 
 	public function testGetLoginCredentials() {

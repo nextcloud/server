@@ -40,21 +40,21 @@ class Store implements IStore {
 	/** @var ISession */
 	private $session;
 
-	/** @var IProvider */
-	private $tokenProvider;
-
 	/** @var ILogger */
 	private $logger;
 
+	/** @var IProvider|null */
+	private $tokenProvider;
+
 	/**
 	 * @param ISession $session
-	 * @param IProvider $tokenProvider
 	 * @param ILogger $logger
+	 * @param IProvider $tokenProvider
 	 */
-	public function __construct(ISession $session, IProvider $tokenProvider, ILogger $logger) {
+	public function __construct(ISession $session, ILogger $logger, IProvider $tokenProvider = null) {
 		$this->session = $session;
-		$this->tokenProvider = $tokenProvider;
 		$this->logger = $logger;
+		$this->tokenProvider = $tokenProvider;
 
 		Util::connectHook('OC_User', 'post_login', $this, 'authenticate');
 	}
@@ -84,6 +84,10 @@ class Store implements IStore {
 	 * @throws CredentialsUnavailableException
 	 */
 	public function getLoginCredentials() {
+		if (is_null($this->tokenProvider)) {
+			throw new CredentialsUnavailableException();
+		}
+
 		$trySession = false;
 		try {
 			$sessionId = $this->session->getId();
