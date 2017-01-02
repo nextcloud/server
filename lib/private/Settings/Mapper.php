@@ -39,6 +39,12 @@ class Mapper {
 		$this->dbc = $dbc;
 	}
 
+	/**
+	 * Get the configured admin settings from the database for the provided section
+	 *
+	 * @param string $section
+	 * @return array[] [['class' => string, 'priority' => int], ...]
+	 */
 	public function getAdminSettingsFromDB($section) {
 		$query = $this->dbc->getQueryBuilder();
 		$query->select(['class', 'priority'])
@@ -50,6 +56,11 @@ class Mapper {
 		return $result->fetchAll();
 	}
 
+	/**
+	 * Get the configured admin sections from the database
+	 *
+	 * @return array[] [['class' => string, 'priority' => int], ...]
+	 */
 	public function getAdminSectionsFromDB() {
 		$query = $this->dbc->getQueryBuilder();
 		$query->selectDistinct('s.class')
@@ -65,7 +76,7 @@ class Mapper {
 	}
 
 	/**
-	 * @param string $table
+	 * @param string $table Mapper::TABLE_ADMIN_SECTIONS or Mapper::TABLE_ADMIN_SETTINGS
 	 * @param array $values
 	 */
 	public function add($table, array $values) {
@@ -80,7 +91,7 @@ class Mapper {
 	/**
 	 * returns the registered classes in the given table
 	 *
-	 * @param $table
+	 * @param $table Mapper::TABLE_ADMIN_SECTIONS or Mapper::TABLE_ADMIN_SETTINGS
 	 * @return string[]
 	 */
 	public function getClasses($table) {
@@ -97,7 +108,9 @@ class Mapper {
 	}
 
 	/**
-	 * @param string $table
+	 * Check if a class is configured in the database
+	 *
+	 * @param string $table Mapper::TABLE_ADMIN_SECTIONS or Mapper::TABLE_ADMIN_SETTINGS
 	 * @param string $className
 	 * @return bool
 	 */
@@ -118,7 +131,7 @@ class Mapper {
 	/**
 	 * deletes an settings or admin entry from the given table
 	 *
-	 * @param $table
+	 * @param $table Mapper::TABLE_ADMIN_SECTIONS or Mapper::TABLE_ADMIN_SETTINGS
 	 * @param $className
 	 */
 	public function remove($table, $className) {
@@ -129,6 +142,12 @@ class Mapper {
 		$query->execute();
 	}
 
+	/**
+	 * @param $table Mapper::TABLE_ADMIN_SECTIONS or Mapper::TABLE_ADMIN_SETTINGS
+	 * @param $idCol
+	 * @param $id
+	 * @param $values
+	 */
 	public function update($table, $idCol, $id, $values) {
 		$query = $this->dbc->getQueryBuilder();
 		$query->update($table);
