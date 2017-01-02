@@ -8,7 +8,7 @@
 
 namespace Test\Http\Client;
 
-use Guzzle\Stream\Stream;
+use GuzzleHttp\Stream\Stream;
 use GuzzleHttp\Message\Response as GuzzleResponse;
 use OC\Http\Client\Response;
 
@@ -27,12 +27,33 @@ class ResponseTest extends \Test\TestCase {
 		$this->response = new Response($this->guzzleResponse);
 	}
 
+	public function testGetBody() {
+		$this->guzzleResponse->setBody(Stream::factory('MyResponse'));
+		$this->assertSame('MyResponse', $this->response->getBody());
+	}
+
 	public function testGetStatusCode() {
-		$this->assertEquals(1337, $this->response->getStatusCode());
+		$this->assertSame(1337, $this->response->getStatusCode());
 	}
 
 	public function testGetHeader() {
 		$this->guzzleResponse->setHeader('bar', 'foo');
-		$this->assertEquals('foo', $this->response->getHeader('bar'));
+		$this->assertSame('foo', $this->response->getHeader('bar'));
+	}
+
+	public function testGetHeaders() {
+		$this->guzzleResponse->setHeader('bar', 'foo');
+		$this->guzzleResponse->setHeader('x-awesome', 'yes');
+
+		$expected = [
+			'bar' => [
+				0 => 'foo',
+			],
+			'x-awesome' => [
+				0 => 'yes',
+			],
+		];
+		$this->assertSame($expected, $this->response->getHeaders());
+		$this->assertSame('yes', $this->response->getHeader('x-awesome'));
 	}
 }
