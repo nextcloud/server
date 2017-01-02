@@ -31,25 +31,27 @@ use OCA\Files_External\Lib\Backend\Local;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
+use OCP\Authentication\LoginCredentials\IStore;
 use OCP\IL10N;
 use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Security\ICrypto;
+use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 class ListCommandTest extends CommandTest {
 	/**
-	 * @return \OCA\Files_External\Command\ListCommand|\PHPUnit_Framework_MockObject_MockObject
+	 * @return ListCommand|PHPUnit_Framework_MockObject_MockObject
 	 */
 	private function getInstance() {
-		/** @var \OCA\Files_External\Service\GlobalStoragesService|\PHPUnit_Framework_MockObject_MockObject $globalService */
+		/** @var GlobalStoragesService|PHPUnit_Framework_MockObject_MockObject $globalService */
 		$globalService = $this->createMock(GlobalStoragesService::class);
-		/** @var \OCA\Files_External\Service\UserStoragesService|\PHPUnit_Framework_MockObject_MockObject $userService */
+		/** @var UserStoragesService|PHPUnit_Framework_MockObject_MockObject $userService */
 		$userService = $this->createMock(UserStoragesService::class);
-		/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject $userManager */
+		/** @var IUserManager|PHPUnit_Framework_MockObject_MockObject $userManager */
 		$userManager = $this->createMock(IUserManager::class);
-		/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject $userSession */
+		/** @var IUserSession|PHPUnit_Framework_MockObject_MockObject $userSession */
 		$userSession = $this->createMock(IUserSession::class);
 
 		return new ListCommand($globalService, $userService, $userSession, $userManager);
@@ -64,7 +66,8 @@ class ListCommandTest extends CommandTest {
 		$mount1->setAuthMechanism(new Password($l10n));
 		$mount1->setBackend(new Local($l10n, new NullMechanism($l10n)));
 		$mount2 = new StorageConfig();
-		$mount2->setAuthMechanism(new SessionCredentials($l10n, $session, $crypto));
+		$credentialStore = $this->createMock(IStore::class);
+		$mount2->setAuthMechanism(new SessionCredentials($l10n, $credentialStore));
 		$mount2->setBackend(new Local($l10n, new NullMechanism($l10n)));
 		$input = $this->getInput($instance, [], [
 			'output' => 'json'
