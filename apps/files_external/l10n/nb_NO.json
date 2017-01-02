@@ -23,6 +23,7 @@
     "Save" : "Lagre",
     "Empty response from the server" : "Tomt svar fra tjeneren",
     "Couldn't access. Please logout and login to activate this mount point" : "Fikk ikke tilgang. Vennligst logg ut og inn igjen for å aktivere dette oppkoblingspunktet.",
+    "Couldn't get the information from the remote server: {code} {type}" : "Kunne ikke få informasjon fra fjerntjeneren/ remote server: {code} {type}",
     "Couldn't get the list of external mount points: {type}" : "Klarte ikke å hente listen over eksterne oppkoblingspunkter: {type}",
     "There was an error with message: " : "Det oppstod en feil med melding: ",
     "External mount error" : "Ekstern oppkoblingsfeil",
