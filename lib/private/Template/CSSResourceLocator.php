@@ -37,7 +37,7 @@ class CSSResourceLocator extends ResourceLocator {
 	 * @param string $theme
 	 * @param array $core_map
 	 * @param array $party_map
-	 * @param SCSSCacher $scssCcacher
+	 * @param SCSSCacher $scssCacher
 	 */
 	public function __construct(ILogger $logger, $theme, $core_map, $party_map, SCSSCacher $scssCacher) {
 		$this->scssCacher = $scssCacher;
