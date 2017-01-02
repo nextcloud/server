@@ -103,7 +103,7 @@ class Backend {
 		}
 
 		$principal = explode('/', $calendarData['principaluri']);
-		$owner = $principal[2];
+		$owner = array_pop($principal);
 
 		$currentUser = $this->userSession->getUser();
 		if ($currentUser instanceof IUser) {
@@ -369,7 +369,7 @@ class Backend {
 		}
 
 		$principal = explode('/', $calendarData['principaluri']);
-		$owner = $principal[2];
+		$owner = array_pop($principal);
 
 		$currentUser = $this->userSession->getUser();
 		if ($currentUser instanceof IUser) {
