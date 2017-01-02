@@ -21,32 +21,30 @@
 
 namespace OC\Core\Controller;
 
-use OC\AppFramework\Utility\TimeFactory;
-use OC\CssManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\IRequest;
-use OCP\Notification\IApp;
 
 class CssController extends Controller {
 
 	/** @var IAppData */
 	protected $appData;
 
-	/** @var TimeFactory */
+	/** @var ITimeFactory */
 	protected $timeFactory;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IAppData $appData
-	 * @param TimeFactory $timeFactory
+	 * @param ITimeFactory $timeFactory
 	 */
-	public function __construct($appName, IRequest $request, IAppData $appData, TimeFactory $timeFactory) {
+	public function __construct($appName, IRequest $request, IAppData $appData, ITimeFactory $timeFactory) {
 		parent::__construct($appName, $request);
 
 		$this->appData = $appData;
@@ -69,16 +67,13 @@ class CssController extends Controller {
 			return new NotFoundResponse();
 		}
 
-		if ($cssFile !== false) {
-			$response = new FileDisplayResponse($cssFile, Http::STATUS_OK, ['Content-Type' => 'text/css']);
-			$response->cacheFor(86400);
-			$expires = new \DateTime();
-			$expires->setTimestamp($this->timeFactory->getTime());
-			$expires->add(new \DateInterval('PT24H'));
-			$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-			$response->addHeader('Pragma', 'cache');
-			return $response;
-		}
-		return new NotFoundResponse();
+		$response = new FileDisplayResponse($cssFile, Http::STATUS_OK, ['Content-Type' => 'text/css']);
+		$response->cacheFor(86400);
+		$expires = new \DateTime();
+		$expires->setTimestamp($this->timeFactory->getTime());
+		$expires->add(new \DateInterval('PT24H'));
+		$response->addHeader('Expires', $expires->format(\DateTime::RFC1123));
+		$response->addHeader('Pragma', 'cache');
+		return $response;
 	}
 }
