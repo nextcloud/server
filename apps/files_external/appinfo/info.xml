@@ -12,7 +12,6 @@
 	<documentation>
 		<admin>admin-external-storage</admin>
 	</documentation>
-	<rememberlogin>false</rememberlogin>
 	<version>1.2.0</version>
 	<types>
 		<filesystem/>

@@ -13,7 +13,6 @@
 		"user": "user-encryption",
 		"admin": "admin-encryption"
 	},
-	"rememberlogin": "false",
 	"types": ["filesystem"],
 	"ocsid": "166047",
 	"dependencies": {

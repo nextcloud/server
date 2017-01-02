@@ -18,7 +18,6 @@
 		<user>user-encryption</user>
 		<admin>admin-encryption</admin>
 	</documentation>
-	<rememberlogin>false</rememberlogin>
 	<version>1.5.0</version>
 	<types>
 		<filesystem/>
