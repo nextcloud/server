@@ -657,4 +657,10 @@ class KeyManagerTest extends TestCase {
 		$this->instance->setVersion('/admin/files/myfile.txt', 5, $view);
 	}
 
+	public function testBackupUserKeys() {
+		$this->keyStorageMock->expects($this->once())->method('backupUserKeys')
+			->with('OC_DEFAULT_MODULE', 'test', 'user1');
+		$this->instance->backupUserKeys('test', 'user1');
+	}
+
 }

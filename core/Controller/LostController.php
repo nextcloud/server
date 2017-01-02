@@ -234,6 +234,8 @@ class LostController extends Controller {
 			$this->checkPasswordResetToken($token, $userId);
 			$user = $this->userManager->get($userId);
 
+			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'pre_passwordReset', array('uid' => $userId, 'password' => $password));
+
 			if (!$user->setPassword($password)) {
 				throw new \Exception();
 			}
@@ -242,11 +244,6 @@ class LostController extends Controller {
 
 			$this->config->deleteUserValue($userId, 'core', 'lostpassword');
 			@\OC_User::unsetMagicInCookie();
-		} catch (PrivateKeyMissingException $e) {
-			// in this case it is OK if we couldn't reset the users private key
-			// They chose explicitely to continue at the password reset dialog
-			// (see $proceed flag)
-			return $this->success();
 		} catch (\Exception $e){
 			return $this->error($e->getMessage());
 		}

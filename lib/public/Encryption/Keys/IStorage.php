@@ -170,4 +170,14 @@ interface IStorage {
 	 */
 	public function copyKeys($source, $target);
 
+	/**
+	 * backup keys of a given encryption module
+	 *
+	 * @param string $encryptionModuleId
+	 * @param string $purpose
+	 * @param string $uid
+	 * @return bool
+	 * @since 12.0.0
+	 */
+	public function backupUserKeys($encryptionModuleId, $purpose, $uid);
 }

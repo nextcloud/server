@@ -51,6 +51,9 @@ class Storage implements IStorage {
 	/** @var string */
 	private $encryption_base_dir;
 
+	/** @var string */
+	private $backup_base_dir;
+
 	/** @var array */
 	private $keyCache = [];
 
@@ -64,6 +67,7 @@ class Storage implements IStorage {
 
 		$this->encryption_base_dir = '/files_encryption';
 		$this->keys_base_dir = $this->encryption_base_dir .'/keys';
+		$this->backup_base_dir = $this->encryption_base_dir .'/backup';
 		$this->root_dir = $this->util->getKeyStorageRoot();
 	}
 
@@ -284,6 +288,37 @@ class Storage implements IStorage {
 		}
 
 		return false;
+	}
+
+	/**
+	 * backup keys of a given encryption module
+	 *
+	 * @param string $encryptionModuleId
+	 * @param string $purpose
+	 * @param string $uid
+	 * @return bool
+	 * @since 12.0.0
+	 */
+	public function backupUserKeys($encryptionModuleId, $purpose, $uid) {
+		$source = $uid . $this->encryption_base_dir . '/' . $encryptionModuleId;
+		$backupDir = $uid . $this->backup_base_dir;
+		if (!$this->view->file_exists($backupDir)) {
+			$this->view->mkdir($backupDir);
+		}
+
+		$backupDir = $backupDir . '/' . $purpose . '.' . $encryptionModuleId . '.' . $this->getTimestamp();
+		$this->view->mkdir($backupDir);
+
+		return $this->view->copy($source, $backupDir);
+	}
+
+	/**
+	 * get the current timestamp
+	 *
+	 * @return int
+	 */
+	protected function getTimestamp() {
+		return time();
 	}
 
 	/**

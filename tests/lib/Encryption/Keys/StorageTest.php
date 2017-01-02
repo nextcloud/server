@@ -510,4 +510,47 @@ class StorageTest extends TestCase {
 		];
 	}
 
+
+	/**
+	 * @dataProvider dataTestBackupUserKeys
+	 * @param bool $createBackupDir
+	 */
+	public function testBackupUserKeys($createBackupDir) {
+
+		$storage = $this->getMockBuilder('OC\Encryption\Keys\Storage')
+			->setConstructorArgs([$this->view, $this->util])
+			->setMethods(['getTimestamp'])
+			->getMock();
+
+		$storage->expects($this->any())->method('getTimestamp')->willReturn('1234567');
+
+		$this->view->expects($this->once())->method('file_exists')
+			->with('user1/files_encryption/backup')->willReturn(!$createBackupDir);
+
+		if ($createBackupDir) {
+			$this->view->expects($this->at(1))->method('mkdir')
+				->with('user1/files_encryption/backup');
+			$this->view->expects($this->at(2))->method('mkdir')
+				->with('user1/files_encryption/backup/test.encryptionModule.1234567');
+		} else {
+			$this->view->expects($this->once())->method('mkdir')
+				->with('user1/files_encryption/backup/test.encryptionModule.1234567');
+		}
+
+		$this->view->expects($this->once())->method('copy')
+			->with(
+				'user1/files_encryption/encryptionModule',
+				'user1/files_encryption/backup/test.encryptionModule.1234567'
+			)->willReturn(true);
+
+		$this->assertTrue($storage->backupUserKeys('encryptionModule', 'test', 'user1'));
+
+	}
+
+	public function dataTestBackupUserKeys() {
+		return [
+			[true], [false]
+		];
+	}
+
 }
