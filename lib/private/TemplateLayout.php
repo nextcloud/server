@@ -35,14 +35,6 @@
  */
 namespace OC;
 
-use Assetic\Asset\AssetCollection;
-use Assetic\Asset\FileAsset;
-use Assetic\AssetWriter;
-use Assetic\Filter\CssImportFilter;
-use Assetic\Filter\CssMinFilter;
-use Assetic\Filter\CssRewriteFilter;
-use Assetic\Filter\JSqueezeFilter;
-use Assetic\Filter\SeparatorFilter;
 use OC\Template\JSConfigHelper;
 
 class TemplateLayout extends \OC_Template {
