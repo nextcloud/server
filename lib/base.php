@@ -669,9 +669,6 @@ class OC {
 			OC\Log\ErrorHandler::register($debug);
 		}
 
-		// register the stream wrappers
-		stream_wrapper_register('close', 'OC\Files\Stream\Close');
-
 		\OC::$server->getEventLogger()->start('init_session', 'Initialize session');
 		OC_App::loadApps(array('session'));
 		if (!self::$CLI) {
