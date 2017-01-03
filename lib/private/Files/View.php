@@ -931,37 +931,34 @@ class View {
 
 	/**
 	 * @param string $path
-	 * @param string $mode
+	 * @param string $mode 'r' or 'w'
 	 * @return resource
 	 */
 	public function fopen($path, $mode) {
+		$mode = str_replace('b', '', $mode); // the binary flag is a windows only feature which we do not support
 		$hooks = array();
 		switch ($mode) {
 			case 'r':
-			case 'rb':
 				$hooks[] = 'read';
 				break;
 			case 'r+':
-			case 'rb+':
 			case 'w+':
-			case 'wb+':
 			case 'x+':
-			case 'xb+':
 			case 'a+':
-			case 'ab+':
 				$hooks[] = 'read';
 				$hooks[] = 'write';
 				break;
 			case 'w':
-			case 'wb':
 			case 'x':
-			case 'xb':
 			case 'a':
-			case 'ab':
 				$hooks[] = 'write';
 				break;
 			default:
 				\OCP\Util::writeLog('core', 'invalid mode (' . $mode . ') for ' . $path, \OCP\Util::ERROR);
+		}
+
+		if ($mode !== 'r' && $mode !== 'w') {
+			\OC::$server->getLogger()->info('Trying to open a file with a mode other than "r" or "w" can cause severe performance issues with some backends');
 		}
 
 		return $this->basicOperation('fopen', $path, $hooks, $mode);
@@ -1005,7 +1002,7 @@ class View {
 			// Create the directories if any
 			if (!$this->file_exists($filePath)) {
 				$result = $this->createParentDirectories($filePath);
-				if($result === false) {
+				if ($result === false) {
 					return false;
 				}
 			}
@@ -1357,7 +1354,7 @@ class View {
 					//add the sizes of other mount points to the folder
 					$extOnly = ($includeMountPoints === 'ext');
 					$mounts = Filesystem::getMountManager()->findIn($path);
-					$info->setSubMounts(array_filter($mounts, function(IMountPoint $mount) use ($extOnly) {
+					$info->setSubMounts(array_filter($mounts, function (IMountPoint $mount) use ($extOnly) {
 						$subStorage = $mount->getStorage();
 						return !($extOnly && $subStorage instanceof \OCA\Files_Sharing\SharedStorage);
 					}));
@@ -2106,13 +2103,13 @@ class View {
 	private function createParentDirectories($filePath) {
 		$directoryParts = explode('/', $filePath);
 		$directoryParts = array_filter($directoryParts);
-		foreach($directoryParts as $key => $part) {
+		foreach ($directoryParts as $key => $part) {
 			$currentPathElements = array_slice($directoryParts, 0, $key);
 			$currentPath = '/' . implode('/', $currentPathElements);
-			if($this->is_file($currentPath)) {
+			if ($this->is_file($currentPath)) {
 				return false;
 			}
-			if(!$this->file_exists($currentPath)) {
+			if (!$this->file_exists($currentPath)) {
 				$this->mkdir($currentPath);
 			}
 		}
