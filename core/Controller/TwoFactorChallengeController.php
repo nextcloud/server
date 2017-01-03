@@ -26,10 +26,10 @@ namespace OC\Core\Controller;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC_User;
 use OC_Util;
-use OCP\Authentication\TwoFactorAuth\TwoFactorException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Authentication\TwoFactorAuth\TwoFactorException;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
@@ -116,20 +116,19 @@ class TwoFactorChallengeController extends Controller {
 			$backupProvider = null;
 		}
 
-		$error_message = "";
+		$errorMessage = '';
+		$error = false;
 		if ($this->session->exists('two_factor_auth_error')) {
 			$this->session->remove('two_factor_auth_error');
 			$error = true;
-			$error_message = $this->session->get("two_factor_auth_error_message");
+			$errorMessage = $this->session->get("two_factor_auth_error_message");
 			$this->session->remove('two_factor_auth_error_message');
-		} else {
-			$error = false;
 		}
 		$tmpl = $provider->getTemplate($user);
 		$tmpl->assign('redirect_url', $redirect_url);
 		$data = [
 			'error' => $error,
-			'error_message' => $error_message,
+			'error_message' => $errorMessage,
 			'provider' => $provider,
 			'backupProvider' => $backupProvider,
 			'logout_attribute' => $this->getLogoutAttribute(),
@@ -161,7 +160,7 @@ class TwoFactorChallengeController extends Controller {
 				if (!is_null($redirect_url)) {
 					return new RedirectResponse($this->urlGenerator->getAbsoluteURL(urldecode($redirect_url)));
 				}
-				return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index'));
+				return new RedirectResponse(OC_Util::getDefaultPageUrl());
 			}
 		} catch (TwoFactorException $e) {
 			/*
@@ -169,8 +168,7 @@ class TwoFactorChallengeController extends Controller {
 			 * information to the user. The exception text is stored in the
 			 * session to be used in showChallenge()
 			 */
-			$this->session->set('two_factor_auth_error_message',
-				$e->getMessage());
+			$this->session->set('two_factor_auth_error_message', $e->getMessage());
 		}
 
 		$this->session->set('two_factor_auth_error', true);
