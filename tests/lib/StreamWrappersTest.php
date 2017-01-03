@@ -42,18 +42,6 @@ class StreamWrappersTest extends \Test\TestCase {
 		}
 	}
 
-	public function testFakeDir() {
-		$items = array('foo', 'bar');
-		\OC\Files\Stream\Dir::register('test', $items);
-		$dh = opendir('fakedir://test');
-		$result = array();
-		while ($file = readdir($dh)) {
-			$result[] = $file;
-			$this->assertContains($file, $items);
-		}
-		$this->assertEquals(count($items), count($result));
-	}
-
 	public function testCloseStream() {
 		//ensure all basic stream stuff works
 		$sourceFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
