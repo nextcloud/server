@@ -169,7 +169,6 @@ body {
 	border: 0;
 	border-radius: 3px;
 	margin-top: 9px;
-	float: right;
 	width: 0;
 	cursor: pointer;
 	-webkit-transition: all 100ms;
@@ -179,7 +178,6 @@ body {
 	&:focus, &:active, &:valid {
 		color: #fff;
 		width: 155px;
-		max-width: 50%;
 		cursor: text;
 		background-color: #0082c9;
 		border: 1px solid rgba(255, 255, 255, 0.5);

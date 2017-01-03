@@ -38,6 +38,7 @@
 #body-user #header,
 #body-settings #header,
 #body-public #header {
+	display: inline-flex;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -47,13 +48,11 @@
 	line-height: 2.5em;
 	background-color: #0082c9;
 	box-sizing: border-box;
+	justify-content: space-between;
 }
 
 /* LOGO and APP NAME -------------------------------------------------------- */
 #nextcloud {
-	position: absolute;
-	top: 0;
-	left: 0;
 	padding: 5px;
 	padding-bottom: 0;
 	height: 45px;
@@ -92,8 +91,6 @@
 	}
 	.header-appname-container {
 		display: inline-block;
-		position: absolute;
-		left: 70px;
 		height: 27px;
 		padding-top: 18px;
 		padding-right: 10px;
@@ -107,6 +104,19 @@
 		margin-top: -21px;
 		padding: 0;
 		vertical-align: middle;
+	}
+
+	#header-left #header-right {
+		display: flex;
+	}
+
+	div.header-left {
+		flex: 0 0 50%;
+	}
+
+	#header-right {
+		display: flex;
+		justify-content: flex-end;
 	}
 }
 
@@ -306,7 +316,7 @@
 }
 
 #settings {
-	float: right;
+	display: inline-block;
 	color: #ddd;
 	cursor: pointer;
 	.icon-loading-small-dark {
@@ -315,6 +325,7 @@
 		margin-right: 6px;
 		background-size: 16px 16px;
 	}
+	flex: 0 0 auto;
 }
 
 /* User menu on the right */
