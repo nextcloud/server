@@ -25,6 +25,8 @@
 
 namespace OCA\Files_Sharing\Middleware;
 
+use OCA\Files_Sharing\Controller\ExternalSharesController;
+use OCA\Files_Sharing\Controller\ShareController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Middleware;
@@ -33,6 +35,8 @@ use OCP\IConfig;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCA\Files_Sharing\Exceptions\S2SException;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\IRequest;
+use OCP\Share\IManager;
 
 /**
  * Checks whether the "sharing check" is enabled
@@ -49,21 +53,32 @@ class SharingCheckMiddleware extends Middleware {
 	protected $appManager;
 	/** @var IControllerMethodReflector */
 	protected $reflector;
+	/** @var IManager */
+	protected $shareManager;
+	/** @var IRequest */
+	protected $request;
 
 	/***
 	 * @param string $appName
 	 * @param IConfig $config
 	 * @param IAppManager $appManager
+	 * @param IControllerMethodReflector $reflector
+	 * @param IManager $shareManager
+	 * @param IRequest $request
 	 */
 	public function __construct($appName,
 								IConfig $config,
 								IAppManager $appManager,
-								IControllerMethodReflector $reflector
+								IControllerMethodReflector $reflector,
+								IManager $shareManager,
+								IRequest $request
 								) {
 		$this->appName = $appName;
 		$this->config = $config;
 		$this->appManager = $appManager;
 		$this->reflector = $reflector;
+		$this->shareManager = $shareManager;
+		$this->request = $request;
 	}
 
 	/**
@@ -72,18 +87,23 @@ class SharingCheckMiddleware extends Middleware {
 	 * @param \OCP\AppFramework\Controller $controller
 	 * @param string $methodName
 	 * @throws NotFoundException
+	 * @throws S2SException
 	 */
 	public function beforeController($controller, $methodName) {
 		if(!$this->isSharingEnabled()) {
 			throw new NotFoundException('Sharing is disabled.');
 		}
 
-		if ($controller instanceof \OCA\Files_Sharing\Controller\ExternalSharesController &&
+		if ($controller instanceof ExternalSharesController &&
 			!$this->externalSharesChecks()) {
 			throw new S2SException('Federated sharing not allowed');
-		} else if ($controller instanceof \OCA\Files_Sharing\Controller\ShareController &&
-			!$this->isLinkSharingEnabled()) {
-			throw new NotFoundException('Link sharing is disabled');
+		} else if ($controller instanceof ShareController) {
+			$token = $this->request->getParam('token');
+			$share = $this->shareManager->getShareByToken($token);
+			if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK
+				&& !$this->isLinkSharingEnabled()) {
+				throw new NotFoundException('Link sharing is disabled');
+			}
 		}
 	}
 
