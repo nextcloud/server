@@ -1,7 +1,7 @@
 SMB
 ===
 
-[![Coverage Status](https://img.shields.io/coveralls/icewind1991/SMB.svg)](https://coveralls.io/r/icewind1991/SMB?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/icewind1991/SMB/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/icewind1991/SMB/?branch=master)
 [![Build Status](https://travis-ci.org/icewind1991/SMB.svg?branch=master)](https://travis-ci.org/icewind1991/SMB)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/icewind1991/SMB/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/icewind1991/SMB/?branch=master)
 

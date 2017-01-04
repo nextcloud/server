@@ -26,7 +26,7 @@ class NativeFileInfo implements IFileInfo {
 	protected $share;
 
 	/**
-	 * @var array | null
+	 * @var array|null
 	 */
 	protected $statCache;
 
@@ -66,7 +66,7 @@ class NativeFileInfo implements IFileInfo {
 	 * @return array
 	 */
 	protected function stat() {
-		if (!$this->statCache) {
+		if (is_null($this->statCache)) {
 			$this->statCache = $this->share->getStat($this->getPath());
 		}
 		return $this->statCache;

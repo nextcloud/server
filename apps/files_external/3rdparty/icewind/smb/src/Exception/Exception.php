@@ -7,4 +7,13 @@
 
 namespace Icewind\SMB\Exception;
 
-class Exception extends \Exception {}
+class Exception extends \Exception {
+	static public function unknown($path, $error) {
+		$message = 'Unknown error (' . $error . ')';
+		if ($path) {
+			$message .= ' for ' . $path;
+		}
+
+		return new Exception($message, $error);
+	}
+}

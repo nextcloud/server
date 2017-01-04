@@ -4,26 +4,26 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8ed3150b0b3e916ad66558242b4cf2a0",
-    "content-hash": "70722dcee13b3ac1c1951479b7431c97",
+    "hash": "598ff5de250247f9f7c0e21063752c3d",
+    "content-hash": "887fbf3d9531b7d5122edc02ed08db63",
     "packages": [
         {
             "name": "icewind/smb",
-            "version": "v1.1.0",
+            "version": "v1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icewind1991/SMB.git",
-                "reference": "822f924967c68228555cea84ea44765f8e85c601"
+                "reference": "5e073449ee3b4b8142c4eeb265f27ce72ebe3932"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/822f924967c68228555cea84ea44765f8e85c601",
-                "reference": "822f924967c68228555cea84ea44765f8e85c601",
+                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/5e073449ee3b4b8142c4eeb265f27ce72ebe3932",
+                "reference": "5e073449ee3b4b8142c4eeb265f27ce72ebe3932",
                 "shasum": ""
             },
             "require": {
                 "icewind/streams": ">=0.2.0",
-                "php": ">=5.3"
+                "php": ">=5.4"
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.8",
@@ -47,7 +47,7 @@
                 }
             ],
             "description": "php wrapper for smbclient and libsmbclient-php",
-            "time": "2016-04-26 13:26:39"
+            "time": "2016-12-01 12:44:23"
         },
         {
             "name": "icewind/streams",

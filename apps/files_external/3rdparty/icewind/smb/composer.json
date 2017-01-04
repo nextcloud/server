@@ -9,7 +9,7 @@
 		}
 	],
 	"require"          : {
-		"php": ">=5.3",
+		"php": ">=5.4",
 		"icewind/streams": ">=0.2.0"
 	},
 	"require-dev": {

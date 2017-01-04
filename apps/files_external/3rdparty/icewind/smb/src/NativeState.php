@@ -59,16 +59,19 @@ class NativeState {
 			case 113:
 				throw new NoRouteToHostException($path, $error);
 			default:
-				$message = 'Unknown error (' . $error . ')';
-				if ($path) {
-					$message .= ' for ' . $path;
-				}
-				throw new Exception($message, $error);
+				throw Exception::unknown($path, $error);
 		}
 	}
 
-	protected function testResult($result, $path) {
+	protected function testResult($result, $uri) {
 		if ($result === false or $result === null) {
+			// smb://host/share/path
+			if (is_string($uri)) {
+				list(, , , , $path) = explode('/', $uri, 5);
+				$path = '/' . $path;
+			} else {
+				$path = null;
+			}
 			$this->handleError($path);
 		}
 	}
