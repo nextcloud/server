@@ -1768,6 +1768,116 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals('hashed', $share->getPassword());
 	}
 
+	public function testCreateShareMail() {
+		$manager = $this->createManagerMock()
+			->setMethods([
+				'canShare',
+				'generalCreateChecks',
+				'linkCreateChecks',
+				'pathCreateChecks',
+				'validateExpirationDate',
+				'verifyPassword',
+				'setLinkParent',
+			])
+			->getMock();
+
+		$shareOwner = $this->createMock(IUser::class);
+		$shareOwner->method('getUID')->willReturn('shareOwner');
+
+		$storage = $this->createMock(Storage::class);
+		$path = $this->createMock(File::class);
+		$path->method('getOwner')->willReturn($shareOwner);
+		$path->method('getName')->willReturn('target');
+		$path->method('getId')->willReturn(1);
+		$path->method('getStorage')->willReturn($storage);
+
+		$share = $this->manager->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_EMAIL)
+			->setNode($path)
+			->setSharedBy('sharedBy')
+			->setPermissions(\OCP\Constants::PERMISSION_ALL);
+
+		$manager->expects($this->once())
+			->method('canShare')
+			->with($share)
+			->willReturn(true);
+		$manager->expects($this->once())
+			->method('generalCreateChecks')
+			->with($share);;
+		$manager->expects($this->never())
+			->method('linkCreateChecks');
+		$manager->expects($this->once())
+			->method('pathCreateChecks')
+			->with($path);
+		$manager->expects($this->never())
+			->method('validateExpirationDate');
+		$manager->expects($this->never())
+			->method('verifyPassword');
+		$manager->expects($this->never())
+			->method('setLinkParent');
+
+		$this->secureRandom->method('getMediumStrengthGenerator')
+			->will($this->returnSelf());
+		$this->secureRandom->method('generate')
+			->willReturn('token');
+
+		$this->defaultProvider
+			->expects($this->once())
+			->method('create')
+			->with($share)
+			->will($this->returnCallback(function(Share $share) {
+				return $share->setId(42);
+			}));
+
+		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['pre', 'post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'pre_shared',  $hookListner, 'pre');
+		\OCP\Util::connectHook('OCP\Share', 'post_shared', $hookListner, 'post');
+
+		$hookListnerExpectsPre = [
+			'itemType' => 'file',
+			'itemSource' => 1,
+			'shareType' => \OCP\Share::SHARE_TYPE_EMAIL,
+			'uidOwner' => 'sharedBy',
+			'permissions' => 31,
+			'fileSource' => 1,
+			'expiration' => null,
+			'token' => 'token',
+			'run' => true,
+			'error' => '',
+			'itemTarget' => '/target',
+			'shareWith' => null,
+		];
+
+		$hookListnerExpectsPost = [
+			'itemType' => 'file',
+			'itemSource' => 1,
+			'shareType' => \OCP\Share::SHARE_TYPE_EMAIL,
+			'uidOwner' => 'sharedBy',
+			'permissions' => 31,
+			'fileSource' => 1,
+			'expiration' => null,
+			'token' => 'token',
+			'id' => 42,
+			'itemTarget' => '/target',
+			'fileTarget' => '/target',
+			'shareWith' => null,
+		];
+
+		$hookListner->expects($this->once())
+			->method('pre')
+			->with($this->equalTo($hookListnerExpectsPre));
+		$hookListner->expects($this->once())
+			->method('post')
+			->with($this->equalTo($hookListnerExpectsPost));
+
+		/** @var IShare $share */
+		$share = $manager->createShare($share);
+
+		$this->assertSame('shareOwner', $share->getShareOwner());
+		$this->assertEquals('/target', $share->getTarget());
+		$this->assertEquals('token', $share->getToken());
+	}
+
 	/**
 	 * @expectedException Exception
 	 * @expectedExceptionMessage I won't let you share

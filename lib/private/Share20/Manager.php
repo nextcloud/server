@@ -587,7 +587,6 @@ class Manager implements IManager {
 				$share->setPassword($this->hasher->hash($share->getPassword()));
 			}
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
-			$this->linkCreateChecks($share);
 			$share->setToken(
 				$this->secureRandom->generate(
 					\OC\Share\Constants::TOKEN_LENGTH,
