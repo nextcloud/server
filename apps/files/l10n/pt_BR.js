@@ -28,6 +28,7 @@ OC.L10N.register(
     "Delete" : "Excluir",
     "Disconnect storage" : "Desconectar armazenamento",
     "Unshare" : "Descompartilhar",
+    "Could not load info for file \"{file}\"" : "Não foi possível carregar informações para o arquivo \"{file}\" ",
     "Details" : "Detalhes",
     "Select" : "Selecionar",
     "Pending" : "Pendente",

@@ -28,6 +28,7 @@ OC.L10N.register(
     "Delete" : "Radera",
     "Disconnect storage" : "Koppla bort lagring",
     "Unshare" : "Sluta dela",
+    "Could not load info for file \"{file}\"" : "Kunde inte ladda information för fil \"{file}\"",
     "Details" : "Detaljer",
     "Select" : "Välj",
     "Pending" : "Väntar",
