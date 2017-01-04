@@ -10,6 +10,7 @@ namespace Test\DB;
 
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OC_DB;
+use OCP\ITempManager;
 use OCP\Security\ISecureRandom;
 use Test\TestCase;
 
@@ -19,13 +20,19 @@ use Test\TestCase;
  * @group DB
  */
 class DBSchemaTest extends TestCase {
-	protected $schema_file = 'static://test_db_scheme';
-	protected $schema_file2 = 'static://test_db_scheme2';
+	protected $schema_file;
+	protected $schema_file2;
 	protected $table1;
 	protected $table2;
+	/** @var ITempManager */
+	protected $tempManager;
 
 	protected function setUp() {
 		parent::setUp();
+
+		$this->tempManager = \OC::$server->getTempManager();
+		$this->schema_file = $this->tempManager->getTemporaryFile();
+		$this->schema_file2 = $this->tempManager->getTemporaryFile();
 
 		$dbfile = \OC::$SERVERROOT.'/tests/data/db_structure.xml';
 		$dbfile2 = \OC::$SERVERROOT.'/tests/data/db_structure2.xml';
@@ -73,7 +80,7 @@ class DBSchemaTest extends TestCase {
 	}
 
 	public function doTestSchemaDumping() {
-		$outfile = 'static://db_out.xml';
+		$outfile = $this->tempManager->getTemporaryFile();
 		OC_DB::getDbStructure($outfile);
 		$content = file_get_contents($outfile);
 		$this->assertContains($this->table1, $content);
