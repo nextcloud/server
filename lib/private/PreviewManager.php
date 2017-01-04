@@ -68,6 +68,9 @@ class PreviewManager implements IPreview {
 	/** @var array */
 	protected $defaultProviders;
 
+	/** @var string */
+	protected $userId;
+
 	/**
 	 * PreviewManager constructor.
 	 *
@@ -75,15 +78,18 @@ class PreviewManager implements IPreview {
 	 * @param IRootFolder $rootFolder
 	 * @param IAppData $appData
 	 * @param EventDispatcherInterface $eventDispatcher
+	 * @param string $userId
 	 */
 	public function __construct(IConfig $config,
 								IRootFolder $rootFolder,
 								IAppData $appData,
-								EventDispatcherInterface $eventDispatcher) {
+								EventDispatcherInterface $eventDispatcher,
+								$userId) {
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
 		$this->appData = $appData;
 		$this->eventDispatcher = $eventDispatcher;
+		$this->userId = $userId;
 	}
 
 	/**
@@ -144,10 +150,22 @@ class PreviewManager implements IPreview {
 	 * @param int $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
 	 * @param boolean $scaleUp Scale smaller images up to the thumbnail size or not. Might look ugly
 	 * @return \OCP\IImage
+	 * @deprecated 11 Use getPreview
 	 */
 	public function createPreview($file, $maxX = 100, $maxY = 75, $scaleUp = false) {
-		$preview = new \OC\Preview('', '/', $file, $maxX, $maxY, $scaleUp);
-		return $preview->getPreview();
+		try {
+			$userRoot = $this->rootFolder->getUserFolder($this->userId)->getParent();
+			$node = $userRoot->get($file);
+			if (!($file instanceof File)) {
+				throw new NotFoundException();
+			}
+
+			$preview = $this->getPreview($node, $maxX, $maxY);
+		} catch (\Exception $e) {
+			return new \OC_Image();
+		}
+
+		return new \OC_Image($preview->getContent());
 	}
 
 	/**

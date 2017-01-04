@@ -124,7 +124,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getConfig(),
 				$c->getRootFolder(),
 				$c->getAppDataDir('preview'),
-				$c->getEventDispatcher()
+				$c->getEventDispatcher(),
+				$c->getSession()->get('user_id')
 			);
 		});
 
