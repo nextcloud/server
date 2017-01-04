@@ -158,10 +158,30 @@ class Storage {
 	}
 
 	/**
+	 * check if files folder or any of its parent folders contains 
+	 * .noversion placeholder
+	 */
+	private static function is_noversion($filename) {
+		if(basename($filename) == ".noversion")
+			return true;
+
+		$path = dirname($filename);
+		while($path != "/") {
+			if (Filesystem::file_exists($path."/.noversion")){
+				\OCP\Util::writeLog('files_versions', $filename.' will not be versioned', \OCP\Util::DEBUG);
+				return true;
+			}
+			$path = dirname($path);
+		}
+		\OCP\Util::writeLog('files_versions', $filename.' will be versioned', \OCP\Util::DEBUG);
+		return false;
+	}
+
+	/**
 	 * store a new version of a file.
 	 */
 	public static function store($filename) {
-		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' && !self::is_noversion($filename)) {
 
 			// if the file gets streamed we need to remove the .part extension
 			// to get the right target
