@@ -788,4 +788,32 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$u1->delete();
 		$u2->delete();
 	}
+
+	public function testGetAccessList() {
+		$userManager = \OC::$server->getUserManager();
+		$rootFolder = \OC::$server->getRootFolder();
+
+		$u1 = $userManager->createUser('testFed', md5(time()));
+
+		$folder1 = $rootFolder->getUserFolder($u1->getUID())->newFolder('foo');
+		$file1 = $folder1->newFile('bar1');
+
+		$this->tokenHandler->method('generateToken')->willReturn('token');
+		$this->notifications
+			->method('sendRemoteShare')
+			->willReturn(true);
+
+		$share1 = $this->shareManager->newShare();
+		$share1->setSharedWith('user@server.com')
+			->setSharedBy($u1->getUID())
+			->setShareOwner($u1->getUID())
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file1);
+		$this->provider->create($share1);
+
+		$result = $this->provider->getAccessList([$file1], true);
+
+		$this->assertSame(['remote' => true], $result);
+		$u1->delete();
+	}
 }

@@ -1236,9 +1236,17 @@ class Manager implements IManager {
 		foreach ($providers as $provider) {
 			$tmp = $provider->getAccessList($nodes, $currentAccess);
 
-			$al['users'] = array_merge($al['users'], $tmp['users']);
-			$al['public'] = $al['public'] || $tmp['public'];
-			$al['remote'] = $al['remote'] || $tmp['remote'];
+			foreach ($tmp as $k => $v) {
+				if (isset($al[$k])) {
+					if (is_array($al[$k])) {
+						$al[$k] = array_merge($al[$k], $v);
+					} else {
+						$al[$k] = $al[$k] || $v;
+					}
+				} else {
+					$al[$k] = $v;
+				}
+			}
 		}
 
 		$al['users'] = array_unique($al['users']);
