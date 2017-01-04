@@ -32,7 +32,7 @@ OC.L10N.register(
     "{user} mentioned you in a comment on “{file}”" : "{user} nämnde dig i en kommentar på \"{file}\"",
     "Type in a new comment..." : "Skriv en ny kommentar",
     "No other comments available" : "Inga andra kommentarer tillgängliga",
-    "More comments..." : "Fler kommentarter,,,",
+    "More comments..." : "Fler kommentarer...",
     "{count} unread comments" : "{count} olästa kommentarer",
     "You commented on %2$s" : "Du kommenterade %2$s"
 },

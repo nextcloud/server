@@ -28,6 +28,7 @@ OC.L10N.register(
     "Delete" : "Verwijderen",
     "Disconnect storage" : "Verbinding met opslag verbreken",
     "Unshare" : "Stop met delen",
+    "Could not load info for file \"{file}\"" : "Kon geen informatie laden voor bestand \"{file}\"",
     "Details" : "Details",
     "Select" : "Selecteer",
     "Pending" : "In behandeling",

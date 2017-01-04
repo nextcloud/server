@@ -28,6 +28,7 @@ OC.L10N.register(
     "Delete" : "Löschen",
     "Disconnect storage" : "Speicher trennen",
     "Unshare" : "Freigabe aufheben",
+    "Could not load info for file \"{file}\"" : "Die Informationen zur Datei \"{file}\" konnten nicht geladen werden",
     "Details" : "Details",
     "Select" : "Auswählen",
     "Pending" : "Ausstehend",
