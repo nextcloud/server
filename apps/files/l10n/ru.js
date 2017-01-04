@@ -28,6 +28,7 @@ OC.L10N.register(
     "Delete" : "Удалить",
     "Disconnect storage" : "Отсоединить хранилище",
     "Unshare" : "Закрыть доступ",
+    "Could not load info for file \"{file}\"" : "Не удаётся загрузить информацию для файла \"{file}\"",
     "Details" : "Подробно",
     "Select" : "Выбрать",
     "Pending" : "Ожидается",
