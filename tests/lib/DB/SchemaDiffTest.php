@@ -47,8 +47,12 @@ class SchemaDiffTest extends TestCase {
 	/** @var string */
 	private $testPrefix;
 
+	private $schemaFile;
+
 	protected function setUp() {
 		parent::setUp();
+
+		$this->schemaFile = \OC::$server->getTempManager()->getTemporaryFile();
 
 		$this->config = \OC::$server->getConfig();
 		$this->connection = \OC::$server->getDatabaseConnection();
@@ -57,7 +61,7 @@ class SchemaDiffTest extends TestCase {
 	}
 
 	protected function tearDown() {
-		$this->manager->removeDBStructure('static://test_db_scheme');
+		$this->manager->removeDBStructure($this->schemaFile);
 		parent::tearDown();
 	}
 
@@ -68,7 +72,7 @@ class SchemaDiffTest extends TestCase {
 	public function testZeroChangeOnSchemaMigrations($xml) {
 
 		$xml = str_replace( '*dbprefix*', $this->testPrefix, $xml );
-		$schemaFile = 'static://test_db_scheme';
+		$schemaFile = $this->schemaFile;
 		file_put_contents($schemaFile, $xml);
 
 		// apply schema
