@@ -273,9 +273,17 @@ class OC_App {
 			$appTypes = implode(',', $appData['types']);
 		} else {
 			$appTypes = '';
+			$appData['types'] = [];
 		}
 
 		\OC::$server->getAppConfig()->setValue($app, 'types', $appTypes);
+
+		if (\OC::$server->getAppManager()->hasProtectedAppType($appData['types'])) {
+			$enabled = \OC::$server->getAppConfig()->getValue($app, 'enabled', 'yes');
+			if ($enabled !== 'yes' && $enabled !== 'no') {
+				\OC::$server->getAppConfig()->setValue($app, 'enabled', 'yes');
+			}
+		}
 	}
 
 	/**
