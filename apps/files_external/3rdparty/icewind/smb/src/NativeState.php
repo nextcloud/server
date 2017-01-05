@@ -7,16 +7,7 @@
 
 namespace Icewind\SMB;
 
-use Icewind\SMB\Exception\AlreadyExistsException;
-use Icewind\SMB\Exception\ConnectionRefusedException;
 use Icewind\SMB\Exception\Exception;
-use Icewind\SMB\Exception\ForbiddenException;
-use Icewind\SMB\Exception\HostDownException;
-use Icewind\SMB\Exception\InvalidTypeException;
-use Icewind\SMB\Exception\NoRouteToHostException;
-use Icewind\SMB\Exception\NotEmptyException;
-use Icewind\SMB\Exception\NotFoundException;
-use Icewind\SMB\Exception\TimedOutException;
 
 /**
  * Low level wrapper for libsmbclient-php for error handling
@@ -31,44 +22,39 @@ class NativeState {
 
 	protected $connected = false;
 
+	// todo replace with static once <5.6 support is dropped
+	// see error.h
+	private static $exceptionMap = [
+		1   => '\Icewind\SMB\Exception\ForbiddenException',
+		2   => '\Icewind\SMB\Exception\NotFoundException',
+		13  => '\Icewind\SMB\Exception\ForbiddenException',
+		17  => '\Icewind\SMB\Exception\AlreadyExistsException',
+		20  => '\Icewind\SMB\Exception\InvalidTypeException',
+		21  => '\Icewind\SMB\Exception\InvalidTypeException',
+		39  => '\Icewind\SMB\Exception\NotEmptyException',
+		110 => '\Icewind\SMB\Exception\TimedOutException',
+		111 => '\Icewind\SMB\Exception\ConnectionRefusedException',
+		112 => '\Icewind\SMB\Exception\HostDownException',
+		113 => '\Icewind\SMB\Exception\NoRouteToHostException'
+	];
+
 	protected function handleError($path) {
 		$error = smbclient_state_errno($this->state);
-		switch ($error) {
-			// see error.h
-			case 0;
-				return;
-			case 1:
-			case 13:
-				throw new ForbiddenException($path, $error);
-			case 2:
-				throw new NotFoundException($path, $error);
-			case 17:
-				throw new AlreadyExistsException($path, $error);
-			case 20:
-				throw new InvalidTypeException($path, $error);
-			case 21:
-				throw new InvalidTypeException($path, $error);
-			case 39:
-				throw new NotEmptyException($path, $error);
-			case 110:
-				throw new TimedOutException($path, $error);
-			case 111:
-				throw new ConnectionRefusedException($path, $error);
-			case 112:
-				throw new HostDownException($path, $error);
-			case 113:
-				throw new NoRouteToHostException($path, $error);
-			default:
-				$message = 'Unknown error (' . $error . ')';
-				if ($path) {
-					$message .= ' for ' . $path;
-				}
-				throw new Exception($message, $error);
+		if ($error === 0) {
+			return;
 		}
+		throw Exception::fromMap(self::$exceptionMap, $error, $path);
 	}
 
-	protected function testResult($result, $path) {
+	protected function testResult($result, $uri) {
 		if ($result === false or $result === null) {
+			// smb://host/share/path
+			if (is_string($uri)) {
+				list(, , , , $path) = explode('/', $uri, 5);
+				$path = '/' . $path;
+			} else {
+				$path = null;
+			}
 			$this->handleError($path);
 		}
 	}
@@ -246,7 +232,7 @@ class NativeState {
 	 * @param resource $file
 	 * @param int $offset
 	 * @param int $whence SEEK_SET | SEEK_CUR | SEEK_END
-	 * @return int | bool new file offset as measured from the start of the file on success, false on failure.
+	 * @return int|bool new file offset as measured from the start of the file on success, false on failure.
 	 */
 	public function lseek($file, $offset, $whence = SEEK_SET) {
 		$result = @smbclient_lseek($this->state, $file, $offset, $whence);

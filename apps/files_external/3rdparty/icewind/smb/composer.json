@@ -9,11 +9,10 @@
 		}
 	],
 	"require"          : {
-		"php": ">=5.3",
+		"php": ">=5.4",
 		"icewind/streams": ">=0.2.0"
 	},
 	"require-dev": {
-		"satooshi/php-coveralls"  : "v1.0.0",
 		"phpunit/phpunit": "^4.8"
 	},
 	"autoload"         : {

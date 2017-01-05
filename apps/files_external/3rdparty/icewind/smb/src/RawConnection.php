@@ -88,7 +88,7 @@ class RawConnection {
 	/**
 	 * read a line of output
 	 *
-	 * @return string
+	 * @return string|false
 	 */
 	public function readLine() {
 		return stream_get_line($this->getOutputStream(), 4086, "\n");
