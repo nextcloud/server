@@ -164,7 +164,12 @@ class SCSSCacher {
 	 */
 	private function rebaseUrls($css, $webDir) {
 		$re = '/url\([\'"]([\.\w?=\/-]*)[\'"]\)/x';
-		$subst = 'url(\'../../../'.$webDir.'/$1\')';
+		// OC\Route\Router:75
+		if(($this->systemConfig->getValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
+			$subst = 'url(\'../../'.$webDir.'/$1\')';	
+		} else {
+			$subst = 'url(\'../../../'.$webDir.'/$1\')';
+		}
 		return preg_replace($re, $subst, $css);
 	}
 
