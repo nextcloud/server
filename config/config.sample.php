@@ -909,7 +909,6 @@ $CONFIG = array(
  *
  * Available cache backends:
  *
- * * ``\OC\Memcache\APC``        Alternative PHP Cache backend
  * * ``\OC\Memcache\APCu``       APC user backend
  * * ``\OC\Memcache\ArrayCache`` In-memory array-based backend (not recommended)
  * * ``\OC\Memcache\Memcached``  Memcached backend

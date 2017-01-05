@@ -605,7 +605,6 @@ return array(
     'OC\\Log\\Syslog' => $baseDir . '/lib/private/Log/Syslog.php',
     'OC\\Mail\\Mailer' => $baseDir . '/lib/private/Mail/Mailer.php',
     'OC\\Mail\\Message' => $baseDir . '/lib/private/Mail/Message.php',
-    'OC\\Memcache\\APC' => $baseDir . '/lib/private/Memcache/APC.php',
     'OC\\Memcache\\APCu' => $baseDir . '/lib/private/Memcache/APCu.php',
     'OC\\Memcache\\ArrayCache' => $baseDir . '/lib/private/Memcache/ArrayCache.php',
     'OC\\Memcache\\CADTrait' => $baseDir . '/lib/private/Memcache/CADTrait.php',

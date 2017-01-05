@@ -635,7 +635,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Log\\Syslog' => __DIR__ . '/../../..' . '/lib/private/Log/Syslog.php',
         'OC\\Mail\\Mailer' => __DIR__ . '/../../..' . '/lib/private/Mail/Mailer.php',
         'OC\\Mail\\Message' => __DIR__ . '/../../..' . '/lib/private/Mail/Message.php',
-        'OC\\Memcache\\APC' => __DIR__ . '/../../..' . '/lib/private/Memcache/APC.php',
         'OC\\Memcache\\APCu' => __DIR__ . '/../../..' . '/lib/private/Memcache/APCu.php',
         'OC\\Memcache\\ArrayCache' => __DIR__ . '/../../..' . '/lib/private/Memcache/ArrayCache.php',
         'OC\\Memcache\\CADTrait' => __DIR__ . '/../../..' . '/lib/private/Memcache/CADTrait.php',
