@@ -528,7 +528,7 @@ class SessionTest extends \Test\TestCase {
 			->getMock();
 		$userSession = $this->getMockBuilder(Session::class)
 			//override, otherwise tests will fail because of setcookie()
-			->setMethods(['setMagicInCookie'])
+			->setMethods(['setMagicInCookie', 'setLoginName'])
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random])
 			->getMock();
 
@@ -566,6 +566,15 @@ class SessionTest extends \Test\TestCase {
 			->with($oldSessionId, $sessionId)
 			->will($this->returnValue(true));
 
+		$tokenObject = $this->createMock(IToken::class);
+		$tokenObject->expects($this->once())
+			->method('getLoginName')
+			->willReturn('foobar');
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with($sessionId)
+			->willReturn($tokenObject);
+
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('foo'));
@@ -576,6 +585,9 @@ class SessionTest extends \Test\TestCase {
 		$session->expects($this->once())
 			->method('set')
 			->with('user_id', 'foo');
+		$userSession->expects($this->once())
+			->method('setLoginName')
+			->willReturn('foobar');
 
 		$granted = $userSession->loginWithCookie('foo', $token, $oldSessionId);
 
