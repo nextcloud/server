@@ -57,7 +57,7 @@ OC.L10N.register(
     "You unassigned system tag %3$s" : "Du tog bort tilldelning av systemtag %3$s",
     "%1$s unassigned system tag %3$s" : "%1$s tog bort tilldelad systemtagg %3$s",
     "You created system tag %2$s" : "Du skapade systemtagg %2$s",
-    "You deleted system tag %2$s" : "Du tog bort systemtagg %2$s",
+    "You deleted system tag %2$s" : "Du raderade systemtagg %2$s",
     "You updated system tag %3$s to %2$s" : "Du uppdaterade systemtagg %3$s till %2$s",
     "You assigned system tag %3$s to %2$s" : "Du tilldelade systemtagg %3$s till %2$s",
     "%1$s assigned system tag %3$s to %2$s" : "%1$s tilldelade systemtagg %3$s till %2$s",
