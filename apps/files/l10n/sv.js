@@ -21,7 +21,7 @@ OC.L10N.register(
     "..." : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} av {totalSize} ({bitrate})",
     "Actions" : "Åtgärder",
-    "Download" : "Ladda ner",
+    "Download" : "Ladda ned",
     "Rename" : "Byt namn",
     "Move" : "Flytta",
     "Target folder" : "Målmapp",

@@ -43,7 +43,7 @@ OC.L10N.register(
     "Personal" : "Personligt",
     "Contacts" : "Kontakter",
     "Technical details" : "Tekniska detaljer",
-    "Remote Address: %s" : "Fjärradress: %s",
+    "Remote Address: %s" : "Extern adress: %s",
     "Request ID: %s" : "Begär ID: %s"
 },
 "nplurals=2; plural=(n != 1);");
