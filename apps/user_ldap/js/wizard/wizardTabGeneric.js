@@ -38,7 +38,6 @@ OCA = OCA || {};
 		init: function(tabIndex, tabID) {
 			this.tabIndex = tabIndex;
 			this.tabID = tabID;
-			this.spinner = $('.ldapSpinner').first().clone().removeClass('hidden');
 			_.bindAll(this, '_toggleRawFilterMode', '_toggleRawFilterModeConfirmation');
 		},
 
@@ -278,15 +277,7 @@ OCA = OCA || {};
 		 * @param {string} elementID
 		 */
 		attachSpinner: function(elementID) {
-			if($('#' + elementID + ' + .ldapSpinner').length == 0) {
-				var spinner = this.spinner.clone();
-				var $element = $('#' + elementID);
-				$(spinner).insertAfter($element);
-				// and special treatment for multiselects:
-				if ($element.is('select[multiple]')) {
-					$('#' + elementID + " + img + button").css('display', 'none');
-				}
-			}
+			$('#' + elementID).addClass('icon-loading-small');
 		},
 
 		/**
@@ -295,9 +286,7 @@ OCA = OCA || {};
 		 * @param {string} elementID
 		 */
 		removeSpinner: function(elementID) {
-			$('#' + elementID+' + .ldapSpinner').remove();
-			// and special treatment for multiselects:
-			$('#' + elementID + " + button").css('display', 'inline');
+			$('#' + elementID).removeClass('icon-loading-small');
 		},
 
 		/**

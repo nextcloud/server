@@ -115,10 +115,10 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addStyle("global",null,true);
 			OC_Util::addStyle("apps",null,true);
 			OC_Util::addStyle("fonts",null,true);
-			OC_Util::addStyle("icons",null,true);
 			OC_Util::addStyle("header",null,true);
-			OC_Util::addStyle("inputs");
 			OC_Util::addStyle("styles",null,true);
+			OC_Util::addStyle("inputs");
+			OC_Util::addStyle("icons");
 
 			// avatars
 			if (\OC::$server->getSystemConfig()->getValue('enable_avatars', true) === true) {

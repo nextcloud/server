@@ -50,6 +50,7 @@
 	font-weight: bold;
 	color: #333;
 }
+
 .ui-state-hover a,
 .ui-state-hover a:hover,
 .ui-state-hover a:link,
@@ -139,4 +140,32 @@
 
 .ui-menu .ui-menu-item a {
 	padding: 6px;
+}
+
+
+
+
+/* Dropdown menu fixes
+----------------------------------*/
+.ui-menu {
+	padding: 0;
+}
+.ui-menu .ui-menu-item a.ui-state-focus,
+.ui-menu .ui-menu-item a.ui-state-active {
+	font-weight: inherit;
+	margin: 0;
+}
+.ui-menu.ui-widget-content {
+	background: #fff;
+	border-top: none;
+}
+.ui-menu.ui-corner-all,
+.ui-menu .ui-corner-all {
+	border-radius: 0;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+.ui-menu .ui-state-hover, .ui-menu .ui-state-focus {
+	border: none;
+	background: #f8f8f8;
 }
