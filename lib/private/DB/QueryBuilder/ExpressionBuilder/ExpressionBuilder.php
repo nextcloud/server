@@ -30,6 +30,8 @@ use OC\DB\QueryBuilder\Literal;
 use OC\DB\QueryBuilder\QueryFunction;
 use OC\DB\QueryBuilder\QuoteHelper;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
+use OCP\DB\QueryBuilder\ILiteral;
+use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
 
 class ExpressionBuilder implements IExpressionBuilder {
@@ -39,12 +41,16 @@ class ExpressionBuilder implements IExpressionBuilder {
 	/** @var QuoteHelper */
 	protected $helper;
 
+	/** @var IDBConnection */
+	protected $connection;
+
 	/**
 	 * Initializes a new <tt>ExpressionBuilder</tt>.
 	 *
 	 * @param \OCP\IDBConnection $connection
 	 */
 	public function __construct(IDBConnection $connection) {
+		$this->connection = $connection;
 		$this->helper = new QuoteHelper();
 		$this->expressionBuilder = new DoctrineExpressionBuilder($connection);
 	}
@@ -345,12 +351,42 @@ class ExpressionBuilder implements IExpressionBuilder {
 	}
 
 	/**
+	 * Binary AND Operator copies a bit to the result if it exists in both operands.
+	 *
+	 * @param string|ILiteral $x The field or value to check
+	 * @param int $y Bitmap that must be set
+	 * @return IQueryFunction
+	 * @since 12.0.0
+	 */
+	public function bitwiseAnd($x, $y) {
+		return new QueryFunction($this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
+			$this->helper->quoteColumnName($x),
+			$y
+		));
+	}
+
+	/**
+	 * Binary OR Operator copies a bit if it exists in either operand.
+	 *
+	 * @param string|ILiteral $x The field or value to check
+	 * @param int $y Bitmap that must be set
+	 * @return IQueryFunction
+	 * @since 12.0.0
+	 */
+	public function bitwiseOr($x, $y) {
+		return new QueryFunction($this->connection->getDatabasePlatform()->getBitOrComparisonExpression(
+			$this->helper->quoteColumnName($x),
+			$y
+		));
+	}
+
+	/**
 	 * Quotes a given input parameter.
 	 *
 	 * @param mixed $input The parameter to be quoted.
 	 * @param mixed|null $type One of the IQueryBuilder::PARAM_* constants
 	 *
-	 * @return Literal
+	 * @return ILiteral
 	 */
 	public function literal($input, $type = null) {
 		return new Literal($this->expressionBuilder->literal($input, $type));
