@@ -499,6 +499,7 @@ class SMB extends Common implements INotifyStorage {
 	}
 
 	public function notify($path) {
+		$path = '/' . ltrim($path, '/');
 		$shareNotifyHandler = $this->share->notify($this->buildPath($path));
 		return new SMBNotifyHandler($shareNotifyHandler, $this->root);
 	}
