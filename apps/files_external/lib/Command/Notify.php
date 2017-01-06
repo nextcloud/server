@@ -28,8 +28,10 @@ use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\Files\Notify\IChange;
+use OCP\Files\Notify\INotifyHandler;
 use OCP\Files\Notify\IRenameChange;
 use OCP\Files\Storage\INotifyStorage;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Input\InputArgument;
@@ -125,7 +127,9 @@ class Notify extends Base {
 		$verbose = $input->getOption('verbose');
 
 		$path = trim($input->getOption('path'), '/');
-		$storage->notify($path)->listen(function (IChange $change) use ($mount, $verbose, $output) {
+		$notifyHandler = $storage->notify($path);
+		$this->selfTest($storage, $notifyHandler, $verbose, $output);
+		$notifyHandler->listen(function (IChange $change) use ($mount, $verbose, $output) {
 			if ($verbose) {
 				$this->logUpdate($change, $output);
 			}
@@ -173,5 +177,36 @@ class Notify extends Base {
 		}
 
 		$output->writeln($text);
+	}
+
+	private function selfTest(IStorage $storage, INotifyHandler $notifyHandler, $verbose, OutputInterface $output) {
+		usleep(100 * 1000); //give time for the notify to start
+		$storage->file_put_contents('/.nc_test_file.txt', 'test content');
+		$storage->mkdir('/.nc_test_folder');
+		$storage->file_put_contents('/.nc_test_folder/subfile.txt', 'test content');
+		$storage->unlink('/.nc_test_file.txt');
+		$storage->unlink('/.nc_test_folder/subfile.txt');
+		$storage->rmdir('/.nc_test_folder');
+		usleep(100 * 1000); //time for all changes to be processed
+
+		$foundRootChange = false;
+		$foundSubfolderChange = false;
+
+		$changes = $notifyHandler->getChanges();
+		foreach ($changes as $change) {
+			if ($change->getPath() === '/.nc_test_file.txt') {
+				$foundRootChange = true;
+			} else if ($change->getPath() === '/.nc_test_folder/subfile.txt') {
+				$foundSubfolderChange = true;
+			}
+		}
+
+		if ($foundRootChange && $foundSubfolderChange && $verbose) {
+			$output->writeln('<info>Self-test successful</info>');
+		} else if ($foundRootChange && !$foundSubfolderChange) {
+			$output->writeln('<error>Error while running self-test, change is subfolder not detected</error>');
+		} else if (!$foundRootChange) {
+			$output->writeln('<error>Error while running self-test, no changes detected</error>');
+		}
 	}
 }
