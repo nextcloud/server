@@ -194,6 +194,10 @@ body {
 	overflow-x: auto;
 }
 
+strong {
+	font-weight: 600;
+}
+
 #emptycontent,
 .emptycontent {
 	color: #888;
