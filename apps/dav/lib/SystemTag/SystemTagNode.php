@@ -157,11 +157,12 @@ class SystemTagNode implements \Sabre\DAV\INode {
 
 	public function delete() {
 		try {
+			if (!$this->isAdmin) {
+				throw new Forbidden('No permission to delete tag ' . $this->tag->getId());
+			}
+
 			if (!$this->tagManager->canUserSeeTag($this->tag, $this->user)) {
 				throw new NotFound('Tag with id ' . $this->tag->getId() . ' not found');
-			}
-			if (!$this->tagManager->canUserAssignTag($this->tag, $this->user)) {
-				throw new Forbidden('No permission to delete tag ' . $this->tag->getId());
 			}
 
 			$this->tagManager->deleteTags($this->tag->getId());
