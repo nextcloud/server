@@ -9,14 +9,11 @@
 namespace Test\Files\Stream;
 
 class QuotaTest extends \Test\TestCase {
-	protected function tearDown() {
-		\OC\Files\Stream\Quota::clear();
-		parent::tearDown();
-	}
 
 	/**
 	 * @param string $mode
 	 * @param integer $limit
+	 * @return resource
 	 */
 	protected function getStream($mode, $limit) {
 		$source = fopen('php://temp', $mode);

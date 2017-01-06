@@ -671,7 +671,6 @@ class OC {
 
 		// register the stream wrappers
 		stream_wrapper_register('close', 'OC\Files\Stream\Close');
-		stream_wrapper_register('quota', 'OC\Files\Stream\Quota');
 
 		\OC::$server->getEventLogger()->start('init_session', 'Initialize session');
 		OC_App::loadApps(array('session'));
