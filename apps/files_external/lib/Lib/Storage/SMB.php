@@ -46,6 +46,9 @@ use Icewind\Streams\IteratorDirectory;
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Common;
+use OCA\Files_External\Lib\Notify\SMBNotifyHandler;
+use OCP\Files\Notify\IChange;
+use OCP\Files\Notify\IRenameChange;
 use OCP\Files\Storage\INotifyStorage;
 use OCP\Files\StorageNotAvailableException;
 
@@ -149,7 +152,7 @@ class SMB extends Common implements INotifyStorage {
 			foreach ($files as $file) {
 				$this->statCache[$path . '/' . $file->getName()] = $file;
 			}
-			return array_filter($files, function(IFileInfo $file) {
+			return array_filter($files, function (IFileInfo $file) {
 				return !$file->isHidden();
 			});
 		} catch (ConnectException $e) {
@@ -486,48 +489,17 @@ class SMB extends Common implements INotifyStorage {
 	}
 
 	public function listen($path, callable $callback) {
-		$fullPath = $this->buildPath($path);
-		$oldRenamePath = null;
-		$this->share->notify($fullPath)->listen(function (Change $change) use (&$oldRenamePath, $callback) {
-			$path = $this->relativePath($change->getPath());
-			if (is_null($path)) {
-				return true;
-			}
-			if ($change->getCode() === INotifyHandler::NOTIFY_RENAMED_OLD) {
-				$oldRenamePath = $path;
-				return true;
-			}
-			$type = $this->mapNotifyType($change->getCode());
-			if (is_null($type)) {
-				return true;
-			}
-			if ($type === INotifyStorage::NOTIFY_RENAMED) {
-				if (!is_null($oldRenamePath)) {
-					$result = $callback($type, $oldRenamePath, $path);
-					$oldRenamePath = null;
-				}
+		$this->notify($path)->listen(function (IChange $change) use ($callback) {
+			if ($change instanceof IRenameChange) {
+				return $callback($change->getType(), $change->getPath(), $change->getTargetPath());
 			} else {
-				$result = $callback($type, $path);
+				return $callback($change->getType(), $change->getPath());
 			}
-			return $result;
 		});
 	}
 
-	private function mapNotifyType($smbType) {
-		switch ($smbType) {
-			case INotifyHandler::NOTIFY_ADDED:
-				return INotifyStorage::NOTIFY_ADDED;
-			case INotifyHandler::NOTIFY_REMOVED:
-				return INotifyStorage::NOTIFY_REMOVED;
-			case INotifyHandler::NOTIFY_MODIFIED:
-			case INotifyHandler::NOTIFY_ADDED_STREAM:
-			case INotifyHandler::NOTIFY_MODIFIED_STREAM:
-			case INotifyHandler::NOTIFY_REMOVED_STREAM:
-				return INotifyStorage::NOTIFY_MODIFIED;
-			case INotifyHandler::NOTIFY_RENAMED_NEW:
-				return INotifyStorage::NOTIFY_RENAMED;
-			default:
-				return null;
-		}
+	public function notify($path) {
+		$shareNotifyHandler = $this->share->notify($this->buildPath($path));
+		return new SMBNotifyHandler($shareNotifyHandler, $this->root);
 	}
 }

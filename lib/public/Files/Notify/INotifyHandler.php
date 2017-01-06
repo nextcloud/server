@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
+ * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
  *
  * @author Robin Appelman <robin@icewind.nl>
  *
@@ -21,46 +21,32 @@
  *
  */
 
-namespace OCP\Files\Storage;
+namespace OCP\Files\Notify;
 
-use OCP\Files\Notify\INotifyHandler;
-
-/**
- * Storage backend that support active notifications
- *
- * @since 9.1.0
- */
-interface INotifyStorage {
-	const NOTIFY_ADDED = 1;
-	const NOTIFY_REMOVED = 2;
-	const NOTIFY_MODIFIED = 3;
-	const NOTIFY_RENAMED = 4;
-
+interface INotifyHandler {
 	/**
 	 * Start listening for update notifications
 	 *
 	 * The provided callback will be called for every incoming notification with the following parameters
-	 *  - int $type the type of update, one of the INotifyStorage::NOTIFY_* constants
-	 *  - string $path the path of the update
-	 *  - string $renameTarget the target of the rename operation, only provided for rename updates
+	 *  - IChange|IRenameChange $change
 	 *
 	 * Note that this call is blocking and will not exit on it's own, to stop listening for notifications return `false` from the callback
 	 *
-	 * @param string $path
 	 * @param callable $callback
-	 *
-	 * @since 9.1.0
-	 * @deprecated 12.0.0 use INotifyStorage::notify()->listen() instead
 	 */
-	public function listen($path, callable $callback);
+	public function listen(callable $callback);
 
 	/**
-	 * Start the notification handler for this storage
+	 * Get all changes detected since the start of the notify process or the last call to getChanges
 	 *
-	 * @param $path
-	 * @return INotifyHandler
-	 *
-	 * @since 12.0.0
+	 * @return IChange[]
 	 */
-	public function notify($path);
+	public function getChanges();
+
+	/**
+	 * Stop listening for changes
+	 *
+	 * Note that any pending changes will be discarded
+	 */
+	public function stop();
 }
