@@ -1,23 +1,33 @@
 #!/usr/bin/env bash
 
-#Make sure we are on the latest composer
-if [ -e "composer.phar" ]
+COMPOSER_COMMAND=$(which "composer")
+if [ "$COMPOSER_COMMAND" = '' ]
 then
-    echo "Composer found: checking for update"
-    php composer.phar self-update
+	#No global composer found, try local or download it
+	if [ -e "composer.phar" ]
+	then
+		echo "Composer found: checking for update"
+	else
+		echo "Composer not found: fetching"
+		php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+		php composer-setup.php
+		php -r "unlink('composer-setup.php');"
+	fi
+
+	COMPOSER_COMMAND="php composer.phar"
 else
-    echo "Composer not found: fetching"
-    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-    php composer-setup.php
-    php -r "unlink('composer-setup.php');"
+	echo "Global composer found: checking for update"
 fi
+
+#Make sure we are on the latest composer
+$COMPOSER_COMMAND self-update
 
 REPODIR=`git rev-parse --show-toplevel`
 
 #Redump the autoloader
 echo
 echo "Regenerating autoloader"
-php composer.phar dump-autoload -d $REPODIR
+$COMPOSER_COMMAND dump-autoload -d $REPODIR
 
 files=`git diff --name-only`
 composerfile=false
