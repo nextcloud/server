@@ -27,6 +27,8 @@ use OC\Core\Command\Base;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\GlobalStoragesService;
+use OCP\Files\Notify\IChange;
+use OCP\Files\Notify\IRenameChange;
 use OCP\Files\Storage\INotifyStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
@@ -123,14 +125,14 @@ class Notify extends Base {
 		$verbose = $input->getOption('verbose');
 
 		$path = trim($input->getOption('path'), '/');
-		$storage->listen($path, function ($type, $path, $renameTarget) use ($mount, $verbose, $output) {
+		$storage->notify($path)->listen(function (IChange $change) use ($mount, $verbose, $output) {
 			if ($verbose) {
-				$this->logUpdate($type, $path, $renameTarget, $output);
+				$this->logUpdate($change, $output);
 			}
-			if ($type == INotifyStorage::NOTIFY_RENAMED) {
-				$this->markParentAsOutdated($mount->getId(), $renameTarget);
+			if ($change instanceof IRenameChange) {
+				$this->markParentAsOutdated($mount->getId(), $change->getTargetPath());
 			}
-			$this->markParentAsOutdated($mount->getId(), $path);
+			$this->markParentAsOutdated($mount->getId(), $change->getPath());
 		});
 	}
 
@@ -147,8 +149,8 @@ class Notify extends Base {
 		$this->updateQuery->execute([$parent, $mountId]);
 	}
 
-	private function logUpdate($type, $path, $renameTarget, OutputInterface $output) {
-		switch ($type) {
+	private function logUpdate(IChange $change, OutputInterface $output) {
+		switch ($change->getType()) {
 			case INotifyStorage::NOTIFY_ADDED:
 				$text = 'added';
 				break;
@@ -165,9 +167,9 @@ class Notify extends Base {
 				return;
 		}
 
-		$text .= ' ' . $path;
-		if ($type === INotifyStorage::NOTIFY_RENAMED) {
-			$text .= ' to ' . $renameTarget;
+		$text .= ' ' . $change->getPath();
+		if ($change instanceof IRenameChange) {
+			$text .= ' to ' . $change->getTargetPath();
 		}
 
 		$output->writeln($text);
