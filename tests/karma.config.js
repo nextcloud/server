@@ -223,6 +223,7 @@ module.exports = function(config) {
 	
 	// include core CSS
 	files.push({pattern: 'core/css/*.css', watched: true, included: true, served: true});
+	files.push({pattern: 'tests/css/*.css', watched: true, included: true, served: true});
 
 	config.set({
 

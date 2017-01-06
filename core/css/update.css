@@ -31,3 +31,419 @@
 #body-login .warning.hidden {
 	display: none;
 }
+
+/**
+ * Below this is a copy of the original CSS because we moved to on-the-fly
+ * generated CSS from SCSS which doesn't work during update
+ */
+
+/** HEADER **/
+
+/* prevent ugly selection effect on accidental selection */
+#header {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+/* removed until content-focusing issue is fixed */
+#skip-to-content a {
+	position: absolute;
+	left: -10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+#skip-to-content a:focus {
+	left: 76px;
+	top: -9px;
+	color: #fff;
+	width: auto;
+	height: auto;
+}
+
+/* HEADERS ------------------------------------------------------------------ */
+
+#header .logo {
+	background-image: url('../img/logo-icon.svg?v=1');
+	background-repeat: no-repeat;
+	background-size: 175px;
+	background-position: center;
+	width: 252px;
+	height: 120px;
+	margin: 0 auto;
+}
+
+/** STYLES **/
+
+/* Copyright (c) 2011, Jan-Christoph Borchardt, http://jancborchardt.net
+ This file is licensed under the Affero General Public License version 3 or later.
+ See the COPYING-README file. */
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section { margin:0; padding:0; border:0; outline:0; font-weight:inherit; font-size:100%; font-family:inherit; vertical-align:baseline; cursor:default; }
+html, body { height:100%; }
+article, aside, dialog, figure, footer, header, hgroup, nav, section { display:block; }
+body { line-height:1.5; }
+table { border-collapse:separate; border-spacing:0; white-space:nowrap; }
+caption, th, td { text-align:left; font-weight:normal; }
+table, td, th { vertical-align:middle; }
+a { border:0; color:#000; text-decoration:none;}
+a, a *, input, input *, select, .button span, label { cursor:pointer; }
+ul { list-style:none; }
+
+body {
+	background-color: #ffffff;
+	font-weight: 400;
+	font-size: .8em;
+	line-height: 1.6em;
+	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
+	color: #000;
+	height: auto;
+}
+
+#body-login {
+	text-align: center;
+	background-color: #0082c9;
+	background-image: url('../img/background.jpg?v=1');
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+#nojavascript {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 9000;
+	text-align: center;
+	background-color: rgba(0,0,0,0.5);
+	color: #fff;
+	line-height: 125%;
+	font-size: 24px;
+}
+#nojavascript div {
+	display: block;
+	position: relative;
+	width: 50%;
+	top: 35%;
+	margin: 0px auto;
+}
+#nojavascript a {
+	color: #fff;
+	border-bottom: 2px dotted #fff;
+}
+#nojavascript a:hover,
+#nojavascript a:focus {
+	color: #ddd;
+}
+
+/* SCROLLING */
+::-webkit-scrollbar {
+	width: 5px;
+}
+::-webkit-scrollbar-track-piece {
+	background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+	background: #ddd;
+	border-radius: 3px;
+}
+
+/* LOG IN & INSTALLATION ------------------------------------------------------------ */
+
+/* Some whitespace to the top */
+#body-login #header {
+	padding-top: 100px;
+}
+#body-login {
+	background-attachment: fixed; /* fix background gradient */
+	height: 100%; /* fix sticky footer */
+}
+
+/* Dark subtle label text */
+#body-login p.info {
+	text-align: center;
+	color: #fff;
+}
+
+#body-login .update h2 {
+	margin: 0 0 20px;
+}
+
+#body-login .update a {
+	color: #fff;
+	border-bottom: 1px solid #aaa;
+}
+
+#body-login .infogroup {
+	margin-bottom: 15px;
+}
+
+#body-login p#message img {
+	vertical-align: middle;
+	padding: 5px;
+}
+
+#body-login p.info {
+	margin: 0 auto;
+	padding-top: 20px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+#body-login p.info a {
+	font-weight: 600;
+	padding: 13px;
+	margin: -13px;
+	color: #fff;
+}
+
+#body-login .success {
+	background:#d7fed7;
+	border:1px solid #0f0;
+	width: 35%;
+	margin: 30px auto;
+	padding:1em;
+	text-align: center;
+}
+
+#body-login p.info a:hover,
+#body-login p.info a:focus  {
+	opacity: .6;
+}
+
+/* Warnings and errors are the same */
+#body-login .warning,
+#body-login .update,
+#body-login .error {
+	display: block;
+	padding: 10px;
+	background-color: rgba(0,0,0,.3);
+	color: #fff;
+	text-align: left;
+	border-radius: 3px;
+	cursor: default;
+}
+
+#body-login .update {
+	width: inherit;
+	text-align: center;
+}
+
+#body-login .update .appList {
+	list-style: disc;
+	text-align: left;
+	margin-left: 25px;
+	margin-right: 25px;
+}
+
+#body-login .v-align {
+	width: inherit;
+}
+
+.error a {
+	color: #fff !important;
+	font-weight: 600 !important;
+}
+.error a.button {
+	color: #555 !important;
+	display: inline-block;
+	text-align: center;
+}
+.error pre {
+	white-space: pre-wrap;
+	text-align: left;
+}
+
+/* fixes for update page TODO should be fixed some time in a proper way */
+/* this is just for an error while updating the ownCloud instance */
+#body-login .updateProgress .error {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+/* Log in and install button */
+#body-login input {
+	font-size: 20px;
+	margin: 5px;
+	padding: 11px 10px 9px;
+}
+#body-login input.login {
+	width: 269px;
+	background-position: right 16px center;
+}
+
+/* Sticky footer */
+#body-login .wrapper {
+	min-height: 100%;
+	margin: 0 auto -70px;
+	width: 300px;
+}
+#body-login footer, #body-login .push {
+	height: 70px;
+}
+
+code { font-family:"Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", monospace; }
+
+/* for IE10 */
+@-ms-viewport {
+	width: device-width;
+}
+
+/** APPS **/
+
+/* buttons */
+button.loading {
+	background-image: url('../img/loading.gif');
+	background-position: right 10px center; background-repeat: no-repeat;
+	background-size: 16px;
+	padding-right: 30px;
+}
+
+/* heading styles */
+h2 {
+	font-size: 20px;
+	font-weight: 300;
+	margin-bottom: 12px;
+	line-height: 140%;
+}
+h3 {
+	font-size: 15px;
+	font-weight: 300;
+	margin: 12px 0;
+}
+
+/* do not use italic typeface style, instead lighter color */
+em {
+	font-style: normal;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	opacity: .5;
+}
+
+/** ICONS **/
+
+[class^="icon-"], [class*=" icon-"] {
+	background-repeat: no-repeat;
+	background-position: center;
+	min-width: 16px;
+	min-height: 16px;
+}
+
+/* general assets */
+
+.icon-loading-dark {
+	position: relative;
+}
+.icon-loading-dark:after {
+	z-index: 2;
+	content: "";
+	height: 30px;
+	width: 30px;
+	margin: -16px 0 0 -16px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	border-radius: 100%;
+	-webkit-animation: rotate .8s infinite linear;
+	animation: rotate .8s infinite linear;
+	-webkit-transform-origin: center;
+	-ms-transform-origin: center;
+	transform-origin: center;
+}
+.icon-loading-dark:after {
+	border: 2px solid rgba(150, 150, 150, .5);
+	border-top-color: rgb(100, 100, 100);
+}
+
+.icon-loading-dark:after,
+.icon-loading-small-dark:after {
+	border: 2px solid rgba(187, 187, 187, .5);
+	border-top-color: #bbb;
+}
+
+/* Css replaced elements don't have ::after nor ::before */
+img.icon-loading-dark, object.icon-loading-dark, video.icon-loading-dark, button.icon-loading-dark, textarea.icon-loading-dark, input.icon-loading-dark, select.icon-loading-dark {
+	background-image: url("../img/loading-dark.gif");
+}
+
+@-webkit-keyframes rotate {
+	from {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	to {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+@keyframes rotate {
+	from {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	to {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+.icon-32 {
+	background-size: 32px !important;
+}
+
+.icon-checkmark-white {
+	background-image: url('../img/actions/checkmark-white.svg?v=1');
+}
+
+.icon-error-white {
+	background-image: url('../img/actions/error-white.svg?v=1');
+}
+
+/* INPUTS */
+
+/* specifically override browser styles */
+input {
+	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
+}
+
+input[type="button"] {
+	width: 130px;
+	margin: 3px 3px 3px 0;
+	padding: 7px 6px 5px;
+	font-size: 13px;
+	background-color: #fff;
+	color: #333;
+	border: 1px solid #ddd;
+	outline: none;
+	border-radius: 3px;
+}
+
+/* correctly align images inside of buttons */
+input img {
+	vertical-align: text-bottom;
+}
+
+/* BUTTONS */
+input[type="button"] {
+	width: auto;
+	min-width: 25px;
+	padding: 5px;
+	background-color: rgba(240,240,240,.9);
+	font-weight: 600;
+	color: #555;
+	border: 1px solid rgba(240,240,240,.9);
+	cursor: pointer;
+}
+
+input[type="button"]:hover, input[type="button"]:focus {
+	background-color: rgba(255, 255, 255, .95);
+	color: #111;
+}
+input[type="button"] img {
+	border: none;
+	box-shadow: none;
+}

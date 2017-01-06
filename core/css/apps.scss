@@ -1,0 +1,689 @@
+/* APP STYLING -------------------------------------------------------------- */
+
+#app {
+	height: 100%;
+	width: 100%;
+	* {
+		box-sizing: border-box;
+	}
+}
+
+/* APP-NAVIGATION ------------------------------------------------------------*/
+
+/* Navigation: folder like structure */
+
+#app-navigation {
+	width: 250px;
+	height: 100%;
+	float: left;
+	box-sizing: border-box;
+	background-color: #fff;
+	padding-bottom: 44px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border-right: 1px solid #eee;
+	> ul {
+		position: relative;
+		height: 100%;
+		width: inherit;
+		overflow: auto;
+		box-sizing: border-box;
+	}
+	li {
+		position: relative;
+		width: 100%;
+		box-sizing: border-box;
+	}
+	&.without-app-settings {
+		padding-bottom: 0;
+	}
+	.active.with-menu > a, .with-counter > a {
+		padding-right: 50px;
+	}
+	.active.with-menu.with-counter > a {
+		padding-right: 90px;
+	}
+	.with-icon a, .app-navigation-entry-loading a {
+		padding-left: 44px;
+		background-size: 16px 16px;
+		background-position: 14px center;
+		background-repeat: no-repeat;
+	}
+	li > a {
+		display: block;
+		width: 100%;
+		line-height: 44px;
+		min-height: 44px;
+		padding: 0 12px;
+		overflow: hidden;
+		box-sizing: border-box;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		color: #000;
+		opacity: .57;
+	}
+	.active {
+		opacity: 1;
+		a {
+			opacity: 1;
+		}
+	}
+	li {
+		&:hover > a, &:focus > a {
+			opacity: 1;
+		}
+	}
+	a:focus {
+		opacity: 1;
+	}
+	.selected {
+		opacity: 1;
+		a {
+			opacity: 1;
+		}
+	}
+	.collapse {
+		display: none;
+		/* hide collapse button initially */
+	}
+	.collapsible {
+		> .collapse {
+			position: absolute;
+			height: 44px;
+			width: 44px;
+			margin: 0;
+			padding: 0;
+			background: none;
+			background-image: url('../img/actions/triangle-s.svg?v=1');
+			background-size: 16px;
+			background-repeat: no-repeat;
+			background-position: center;
+			border: none;
+			border-radius: 0;
+			outline: none !important;
+			box-shadow: none;
+		}
+		&:hover > a, &:focus > a {
+			background-image: none;
+		}
+		&:hover > .collapse, &:focus > .collapse {
+			display: block;
+		}
+		.collapse {
+			-webkit-transform: rotate(-90deg);
+			-ms-transform: rotate(-90deg);
+			transform: rotate(-90deg);
+		}
+		&.open {
+			.collapse {
+				-webkit-transform: rotate(0);
+				-ms-transform: rotate(0);
+				transform: rotate(0);
+			}
+			background-image: linear-gradient(top, rgb(238, 238, 238) 0%, rgb(245, 245, 245) 100%);
+			background-image: -webkit-linear-gradient(top, rgb(238, 238, 238) 0%, rgb(245, 245, 245) 100%);
+			background-image: -ms-linear-gradient(top, rgb(238, 238, 238) 0%, rgb(245, 245, 245) 100%);
+		}
+	}
+	> {
+		ul ul {
+			display: none;
+			li > a {
+				padding-left: 32px;
+			}
+		}
+		.with-icon ul li {
+			> a, &.app-navigation-entry-loading > a {
+				padding-left: 68px;
+				background-position: 44px center;
+			}
+		}
+	}
+	> ul .collapsible.open {
+		&:hover, &:focus {
+			box-shadow: inset 0 0 3px #ddd;
+		}
+		ul {
+			display: block;
+		}
+	}
+	.app-navigation-entry-deleted {
+		display: inline-block;
+		height: 44px;
+		width: 100%;
+	}
+	.app-navigation-entry-deleted-description {
+		padding-left: 12px;
+		position: relative;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		display: inline-block;
+		width: calc(100% - 49px);
+		line-height: 44px;
+		float: left;
+	}
+	.app-navigation-entry-deleted-button {
+		margin: 0;
+		height: 44px;
+		width: 44px;
+		line-height: 44px;
+		border: 0;
+		display: inline-block;
+		background-color: transparent;
+		opacity: .5;
+		&:hover, &:focus {
+			opacity: 1;
+		}
+	}
+	.utils {
+		position: absolute;
+		padding: 7px 7px 0 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		font-size: 12px;
+		button, .counter {
+			width: 44px;
+			height: 44px;
+			padding-top: 12px;
+		}
+	}
+	.drag-and-drop {
+		-webkit-transition: padding-bottom 500ms ease 0s;
+		transition: padding-bottom 500ms ease 0s;
+		padding-bottom: 40px;
+	}
+	.error {
+		color: #dd1144;
+	}
+	.app-navigation-separator {
+		border-bottom: 1px solid #ddd;
+	}
+	.app-navigation-entry-utils {
+		position: absolute;
+		top: 0;
+		right: 0;
+		z-index: 105;
+		ul {
+			display: block !important;
+		}
+		li {
+			float: left;
+			width: 44px !important;
+			height: 44px;
+			line-height: 44px;
+		}
+	}
+	.active > .app-navigation-entry-utils li {
+		display: inline-block;
+	}
+	.app-navigation-entry-utils button {
+		height: 38px;
+		width: 38px;
+		line-height: 38px;
+		float: left;
+	}
+	.app-navigation-entry-utils-menu-button {
+		display: none;
+		button {
+			border: 0;
+			opacity: .5;
+			background-color: transparent;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-image: url('../img/actions/more.svg?v=1');
+		}
+		&:hover button, &:focus button {
+			background-color: transparent;
+			opacity: 1;
+		}
+	}
+	.app-navigation-entry-utils-counter {
+		overflow: hidden;
+		text-overflow: hidden;
+		text-align: right;
+		font-size: 9pt;
+		width: 38px;
+		line-height: 44px;
+		padding: 0 10px;
+	}
+	.app-navigation-entry-utils ul, .app-navigation-entry-menu ul {
+		list-style-type: none;
+	}
+}
+
+/* Second level nesting for lists */
+
+/* Deleted entries with undo button */
+
+/* counter and actions, legacy code */
+
+/* drag and drop */
+
+/**
+ * App navigation utils, buttons and counters for drop down menu
+ */
+
+/* menu bubble / popover */
+
+.bubble, #app-navigation .app-navigation-entry-menu {
+	position: absolute;
+	background-color: #fff;
+	color: #333;
+	border-radius: 3px;
+	border-top-right-radius: 0;
+	z-index: 110;
+	margin: 5px;
+	margin-top: -5px;
+	right: 0;
+	-webkit-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
+	-moz-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
+	-ms-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
+	-o-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
+	filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
+}
+
+.ie {
+	.bubble, #app-navigation .app-navigation-entry-menu, .bubble:after, #app-navigation .app-navigation-entry-menu:after {
+		border: 1px solid #eee;
+	}
+}
+
+.edge {
+	.bubble, #app-navigation .app-navigation-entry-menu, .bubble:after, #app-navigation .app-navigation-entry-menu:after {
+		border: 1px solid #eee;
+	}
+}
+
+/* miraculous border arrow stuff */
+
+.bubble:after, #app-navigation .app-navigation-entry-menu:after {
+	bottom: 100%;
+	right: 6px;
+	/* change this to adjust the arrow position */
+	border: solid transparent;
+	content: ' ';
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.bubble:after, #app-navigation .app-navigation-entry-menu:after {
+	border-color: rgba(238, 238, 238, 0);
+	border-bottom-color: #fff;
+	border-width: 10px;
+}
+
+.bubble .action {
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)' !important;
+	filter: alpha(opacity = 50) !important;
+	opacity: .5 !important;
+	&:hover, &:focus, &.active {
+		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)' !important;
+		filter: alpha(opacity = 100) !important;
+		opacity: 1 !important;
+	}
+}
+
+#app-navigation {
+	.app-navigation-entry-menu {
+		display: none;
+		&.open {
+			display: block;
+		}
+		ul {
+			display: block !important;
+		}
+		li {
+			float: left;
+			width: 38px !important;
+			button {
+				float: right;
+				width: 36px !important;
+				height: 36px;
+				line-height: 36px;
+				border: 0;
+				opacity: .5;
+				background-color: transparent;
+				&:hover, &:focus {
+					opacity: 1;
+					background-color: transparent;
+				}
+			}
+		}
+	}
+	.app-navigation-entry-edit {
+		padding-left: 5px;
+		padding-right: 5px;
+		display: inline-block;
+		height: 39px;
+		width: 100%;
+		input {
+			border-bottom-right-radius: 0;
+			border-top-right-radius: 0;
+			width: calc(100% - 36px);
+			padding: 5px;
+			margin-right: 0;
+			height: 38px;
+			float: left;
+			border: 1px solid rgba(190, 190, 190, 0.9);
+		}
+		button, input[type='submit'] {
+			width: 36px;
+			height: 38px;
+			float: left;
+		}
+		.icon-checkmark {
+			border-bottom-left-radius: 0;
+			border-top-left-radius: 0;
+			border-left: 0;
+			margin-right: 0;
+		}
+	}
+}
+
+/* list of options for an entry */
+
+/* editing an entry */
+
+/* APP-CONTENT ---------------------------------------------------------------*/
+
+/* Part where the content will be loaded into */
+
+#app-content {
+	position: relative;
+	height: 100%;
+	overflow-y: auto;
+}
+
+#app-content-wrapper {
+	min-width: 100%;
+	min-height: 100%;
+}
+
+/* APP-SIDEBAR ----------------------------------------------------------------*/
+
+/*
+	Sidebar: a sidebar to be used within #app-content
+	 have it as first element within app-content in order to shrink other
+	 sibling containers properly. Compare Files app for example.
+*/
+
+#app-sidebar {
+	position: fixed;
+	top: 45px;
+	right: 0;
+	left: auto;
+	bottom: 0;
+	width: 27%;
+	min-width: 300px;
+	display: block;
+	background: #fff;
+	border-left: 1px solid #eee;
+	-webkit-transition: margin-right 300ms;
+	transition: margin-right 300ms;
+	overflow-x: hidden;
+	overflow-y: auto;
+	visibility: visible;
+	z-index: 500;
+}
+
+#app-content.with-app-sidebar {
+	margin-right: 27%;
+}
+
+#app-sidebar.disappear {
+	visibility: hidden;
+}
+
+/* APP-SETTINGS ---------------------------------------------------------------*/
+
+/* settings area */
+
+#app-settings {
+	position: fixed;
+	width: 250px;
+	/* change to 100% when layout positions are absolute */
+	bottom: 0;
+	z-index: 140;
+	&.open #app-settings-content, &.opened #app-settings-content {
+		display: block;
+	}
+}
+
+#app-settings-content {
+	display: none;
+	padding: 10px;
+	background-color: #fff;
+	/* restrict height of settings and make scrollable */
+	max-height: 300px;
+	overflow-y: auto;
+	border-right: 1px solid #eee;
+	width: 250px;
+	box-sizing: border-box;
+}
+
+#app-settings-header {
+	border-right: 1px solid #eee;
+	width: 250px;
+	box-sizing: border-box;
+}
+
+/* display input fields at full width */
+
+#app-settings-content input[type='text'] {
+	width: 93%;
+}
+
+.settings-button {
+	display: block;
+	height: 44px;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	background-color: #fff;
+	background-image: url('../img/actions/settings.svg?v=1');
+	background-position: 14px center;
+	background-repeat: no-repeat;
+	box-shadow: none;
+	border: 0;
+	border-radius: 0;
+	text-align: left;
+	padding-left: 42px;
+	font-weight: normal;
+	&:hover, &:focus {
+		background-color: #fff;
+	}
+	&.opened {
+		&:hover, &:focus {
+			background-color: #fff;
+		}
+	}
+}
+
+/* buttons */
+
+button.loading {
+	background-image: url('../img/loading.gif');
+	background-position: right 10px center;
+	background-repeat: no-repeat;
+	background-size: 16px;
+	padding-right: 30px;
+}
+
+/* general styles for the content area */
+
+.section {
+	display: block;
+	padding: 30px;
+	color: #555;
+	margin-bottom: 24px;
+	&.hidden {
+		display: none !important;
+	}
+}
+
+.sub-section {
+	position: relative;
+	margin-top: 10px;
+	margin-left: 27px;
+	margin-bottom: 10px;
+}
+
+/* no top border for first settings item */
+
+#app-content > .section:first-child {
+	border-top: none;
+}
+
+/* heading styles */
+
+h2 {
+	font-size: 20px;
+	font-weight: 300;
+	margin-bottom: 12px;
+	line-height: 140%;
+}
+
+h3 {
+	font-size: 15px;
+	font-weight: 300;
+	margin: 12px 0;
+}
+
+/* slight position correction of checkboxes and radio buttons */
+
+.section input {
+	&[type='checkbox'], &[type='radio'] {
+		vertical-align: -2px;
+		margin-right: 4px;
+	}
+}
+
+.appear {
+	opacity: 1;
+	-webkit-transition: opacity 500ms ease 0s;
+	-moz-transition: opacity 500ms ease 0s;
+	-ms-transition: opacity 500ms ease 0s;
+	-o-transition: opacity 500ms ease 0s;
+	transition: opacity 500ms ease 0s;
+	&.transparent {
+		opacity: 0;
+	}
+}
+
+/* do not use italic typeface style, instead lighter color */
+
+em {
+	font-style: normal;
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
+	opacity: .5;
+}
+
+/* generic dropdown style */
+
+.dropdown {
+	background: #eee;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	box-shadow: 0 1px 1px #777;
+	display: block;
+	margin-right: 0;
+	position: absolute;
+	right: 0;
+	width: 420px;
+	z-index: 500;
+	padding: 16px;
+}
+
+/* generic tab styles */
+
+.tabHeaders {
+	display: inline-block;
+	margin: 15px;
+	.tabHeader {
+		float: left;
+		padding: 5px;
+		cursor: pointer;
+		color: #888;
+		margin-bottom: 1px;
+		a {
+			color: #888;
+			margin-bottom: 1px;
+		}
+		&.selected {
+			font-weight: 600;
+			border-bottom: 1px solid #333;
+		}
+		&:hover {
+			border-bottom: 1px solid #333;
+		}
+		&.selected, &:hover {
+			margin-bottom: 0px;
+			color: #000;
+			a {
+				margin-bottom: 0px;
+				color: #000;
+			}
+		}
+	}
+}
+
+.tabsContainer {
+	clear: left;
+	.tab {
+		padding: 0 15px 15px;
+	}
+}
+
+/* popover menu styles (use together with 'bubble' class) */
+
+.popovermenu {
+	.menuitem {
+		cursor: pointer;
+		vertical-align: middle;
+		> span {
+			cursor: pointer;
+			vertical-align: middle;
+		}
+		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
+		filter: alpha(opacity = 50);
+		opacity: .5;
+		&:hover, &:focus, &.active {
+			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
+			filter: alpha(opacity = 100);
+			opacity: 1;
+		}
+		img {
+			padding: initial;
+		}
+	}
+	a.menuitem, label.menuitem, .menuitem {
+		padding: 10px !important;
+		width: auto;
+	}
+	&.hidden {
+		display: none;
+	}
+	.menuitem {
+		display: flex !important;
+		line-height: 30px;
+		color: #000;
+		align-items: center;
+		.icon, .no-icon {
+			display: inline-block;
+			width: 16px;
+			height: 16px;
+			margin-right: 10px;
+			vertical-align: middle;
+		}
+		opacity: 0.5;
+	}
+	li:hover .menuitem {
+		opacity: 1;
+	}
+}

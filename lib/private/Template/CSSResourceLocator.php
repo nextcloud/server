@@ -25,13 +25,34 @@
 
 namespace OC\Template;
 
+use OCP\ILogger;
+
 class CSSResourceLocator extends ResourceLocator {
+
+	/** @var SCSSCacher */
+	protected $scssCacher;
+
+	/**
+	 * @param ILogger $logger
+	 * @param string $theme
+	 * @param array $core_map
+	 * @param array $party_map
+	 * @param SCSSCacher $scssCacher
+	 */
+	public function __construct(ILogger $logger, $theme, $core_map, $party_map, SCSSCacher $scssCacher) {
+		$this->scssCacher = $scssCacher;
+
+		parent::__construct($logger, $theme, $core_map, $party_map);
+	}
+
 	/**
 	 * @param string $style
 	 */
 	public function doFind($style) {
 		if (strpos($style, '3rdparty') === 0
 			&& $this->appendIfExist($this->thirdpartyroot, $style.'.css')
+			|| $this->cacheAndAppendScssIfExist($this->serverroot, $style.'.scss')
+			|| $this->cacheAndAppendScssIfExist($this->serverroot, 'core/'.$style.'.scss')
 			|| $this->appendIfExist($this->serverroot, $style.'.css')
 			|| $this->appendIfExist($this->serverroot, 'core/'.$style.'.css')
 		) {
@@ -52,5 +73,26 @@ class CSSResourceLocator extends ResourceLocator {
 		$this->appendIfExist($this->serverroot, $theme_dir.'apps/'.$style.'.css')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.$style.'.css')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.'core/'.$style.'.css');
+	}
+
+	/**
+	 * cache and append the scss $file if exist at $root
+	 *
+	 * @param string $root path to check
+	 * @param string $file the filename
+	 * @param string|null $webRoot base for path, default map $root to $webRoot
+	 * @return bool True if the resource was found and cached, false otherwise
+	 */
+	protected function cacheAndAppendScssIfExist($root, $file, $webRoot = null) {
+		if (is_file($root.'/'.$file)) {
+			if($this->scssCacher->process($root, $file)) {
+				$this->append($root, $this->scssCacher->getCachedSCSS('core', $file), $webRoot, false);
+				return true;
+			} else {
+				$this->logger->error('Failed to compile and/or save '.$root.'/'.$file, ['app' => 'core']);
+				return false;
+			}
+		}
+		return false;
 	}
 }

@@ -1,0 +1,1274 @@
+/* Copyright (c) 2011, Jan-Christoph Borchardt, http://jancborchardt.net
+ This file is licensed under the Affero General Public License version 3 or later.
+ See the COPYING-README file. */
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+	cursor: default;
+}
+
+html, body {
+	height: 100%;
+}
+
+article, aside, dialog, figure, footer, header, hgroup, nav, section {
+	display: block;
+}
+
+body {
+	line-height: 1.5;
+}
+
+table {
+	border-collapse: separate;
+	border-spacing: 0;
+	white-space: nowrap;
+}
+
+caption, th, td {
+	text-align: left;
+	font-weight: normal;
+}
+
+table, td, th {
+	vertical-align: middle;
+}
+
+a {
+	border: 0;
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+	* {
+		cursor: pointer;
+	}
+}
+
+input {
+	cursor: pointer;
+	* {
+		cursor: pointer;
+	}
+}
+
+select, .button span, label {
+	cursor: pointer;
+}
+
+ul {
+	list-style: none;
+}
+
+body {
+	background-color: #ffffff;
+	font-weight: 400;
+	font-size: .8em;
+	line-height: 1.6em;
+	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
+	color: #000;
+	height: auto;
+}
+
+#body-login {
+	text-align: center;
+	background-color: #0082c9;
+	background-image: url('../img/background.jpg?v=1');
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.two-factor-header {
+	text-align: center;
+}
+
+.two-factor-provider {
+	text-align: center;
+	width: 258px !important;
+	display: inline-block;
+	margin-bottom: 0 !important;
+	background-color: rgba(0, 0, 0, 0.3) !important;
+	border: none !important;
+}
+
+.two-factor-link {
+	display: inline-block;
+	padding: 12px;
+	color: rgba(255, 255, 255, 0.75);
+}
+
+.float-spinner {
+	height: 32px;
+	display: none;
+}
+
+#body-login .float-spinner {
+	margin-top: -32px;
+	padding-top: 32px;
+}
+
+#nojavascript {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 9000;
+	text-align: center;
+	background-color: rgba(0, 0, 0, 0.5);
+	color: #fff;
+	line-height: 125%;
+	font-size: 24px;
+	div {
+		display: block;
+		position: relative;
+		width: 50%;
+		top: 35%;
+		margin: 0px auto;
+	}
+	a {
+		color: #fff;
+		border-bottom: 2px dotted #fff;
+		&:hover, &:focus {
+			color: #ddd;
+		}
+	}
+}
+
+/* SCROLLING */
+
+::-webkit-scrollbar {
+	width: 5px;
+}
+
+::-webkit-scrollbar-track-piece {
+	background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #ddd;
+	border-radius: 3px;
+}
+
+/* Searchbox */
+
+.searchbox input[type='search'] {
+	position: relative;
+	font-size: 1.2em;
+	padding: 3px;
+	padding-left: 25px;
+	background: transparent url('../img/actions/search-white.svg?v=1') no-repeat 6px center;
+	color: #fff;
+	border: 0;
+	border-radius: 3px;
+	margin-top: 9px;
+	float: right;
+	width: 0;
+	cursor: pointer;
+	-webkit-transition: all 100ms;
+	transition: all 100ms;
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)';
+	opacity: .7;
+	&:focus, &:active, &:valid {
+		color: #fff;
+		width: 155px;
+		max-width: 50%;
+		cursor: text;
+		background-color: #0082c9;
+		border: 1px solid rgba(255, 255, 255, 0.5);
+	}
+}
+
+/* CONTENT ------------------------------------------------------------------ */
+
+#controls {
+	box-sizing: border-box;
+	position: fixed;
+	top: 45px;
+	right: 0;
+	left: 0;
+	height: 44px;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	background-color: rgba(255, 255, 255, 0.95);
+	z-index: 50;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/* position controls for apps with app-navigation */
+
+#app-navigation + #app-content #controls {
+	left: 250px;
+}
+
+.viewer-mode #app-navigation + #app-content #controls {
+	left: 0;
+}
+
+#controls {
+	.button, button {
+		box-sizing: border-box;
+		display: inline-block;
+		height: 36px;
+		padding: 7px 10px;
+	}
+	input {
+		&[type='submit'], &[type='text'], &[type='password'] {
+			box-sizing: border-box;
+			display: inline-block;
+			height: 36px;
+			padding: 7px 10px;
+		}
+	}
+	select {
+		box-sizing: border-box;
+		display: inline-block;
+		height: 36px;
+		padding: 7px 10px;
+	}
+	.button.hidden {
+		display: none;
+	}
+}
+
+#content {
+	position: relative;
+	height: 100%;
+	width: 100%;
+	.hascontrols {
+		margin-top: 45px;
+	}
+}
+
+#content-wrapper {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	overflow-x: hidden;
+	/* prevent horizontal scrollbar */
+	padding-top: 45px;
+	box-sizing: border-box;
+}
+
+/* allow horizontal scrollbar for personal and admin settings */
+
+#body-settings:not(.snapjs-left) .app-settings {
+	overflow-x: auto;
+}
+
+#emptycontent, .emptycontent {
+	color: #888;
+	text-align: center;
+	margin-top: 30vh;
+	width: 100%;
+}
+
+#emptycontent.emptycontent-search, .emptycontent.emptycontent-search {
+	position: static;
+}
+
+#emptycontent h2, .emptycontent h2 {
+	margin-bottom: 10px;
+	line-height: 150%;
+}
+
+#emptycontent [class^='icon-'], .emptycontent [class^='icon-'], #emptycontent [class*=' icon-'], .emptycontent [class*=' icon-'] {
+	background-size: 64px;
+	height: 64px;
+	width: 64px;
+	margin: 0 auto 15px;
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=40)';
+	opacity: .4;
+}
+
+/* LOG IN & INSTALLATION ------------------------------------------------------------ */
+
+/* Some whitespace to the top */
+
+#body-login {
+	#header {
+		padding-top: 100px;
+	}
+	background-attachment: fixed;
+	/* fix background gradient */
+	height: 100%;
+	/* fix sticky footer */
+	p.info, form fieldset legend, #datadirContent label {
+		text-align: center;
+		color: #fff;
+	}
+	form {
+		fieldset .warning-info, input[type='checkbox'] + label {
+			text-align: center;
+			color: #fff;
+		}
+		.warning input[type='checkbox'] {
+			&:hover + label, &:focus + label, + label {
+				color: #fff !important;
+			}
+		}
+	}
+	.update {
+		h2 {
+			margin: 0 0 20px;
+		}
+		a {
+			color: #fff;
+			border-bottom: 1px solid #aaa;
+		}
+	}
+	.infogroup {
+		margin-bottom: 15px;
+	}
+	p#message img {
+		vertical-align: middle;
+		padding: 5px;
+	}
+	div.buttons {
+		text-align: center;
+	}
+	p.info {
+		margin: 0 auto;
+		padding-top: 20px;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		a {
+			font-weight: 600;
+			padding: 13px;
+			margin: -13px;
+		}
+	}
+	form {
+		position: relative;
+		width: 280px;
+		margin: 16px auto;
+		padding: 0;
+		fieldset {
+			margin-bottom: 20px;
+			text-align: left;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+		#sqliteInformation {
+			margin-top: -20px;
+			margin-bottom: 20px;
+		}
+		#adminaccount {
+			margin-bottom: 15px;
+		}
+		fieldset legend {
+			width: 100%;
+		}
+	}
+}
+
+/* Dark subtle label text */
+
+/* overrides another !important statement that sets this to unreadable black */
+
+#datadirContent label {
+	width: 100%;
+}
+
+#body-login {
+	#datadirContent label {
+		display: block;
+		margin: 0;
+	}
+	form #datadirField legend {
+		margin-bottom: 15px;
+	}
+	#showAdvanced {
+		padding: 13px;
+		/* increase clickable area of Advanced dropdown */
+		img {
+			vertical-align: bottom;
+			/* adjust position of Advanced dropdown arrow */
+			margin-left: -4px;
+		}
+	}
+	.icon-info-white {
+		padding: 10px;
+	}
+	.strengthify-wrapper {
+		display: inline-block;
+		position: relative;
+		left: 15px;
+		top: -23px;
+		width: 250px;
+	}
+	.tipsy-inner {
+		font-weight: bold;
+		color: #ccc;
+	}
+	input {
+		&[type='text'], &[type='password'], &[type='email'] {
+			border: none;
+			font-weight: 300;
+		}
+	}
+}
+
+/* strengthify wrapper */
+
+/* tipsy for the strengthify wrapper looks better with following font settings */
+
+/* General new input field look */
+
+/* Nicely grouping input field sets */
+
+.grouptop, .groupmiddle, .groupbottom {
+	position: relative;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+#body-login .grouptop input, .grouptop input {
+	margin-bottom: 0 !important;
+	border-bottom: 0 !important;
+	border-bottom-left-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
+}
+
+#body-login .groupmiddle input, .groupmiddle input {
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+	border-top: 0 !important;
+	border-bottom: 0 !important;
+	border-radius: 0 !important;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1) inset !important;
+}
+
+#body-login .groupbottom input, .groupbottom input {
+	margin-top: 0 !important;
+	border-top: 0 !important;
+	border-top-right-radius: 0 !important;
+	border-top-left-radius: 0 !important;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1) inset !important;
+}
+
+#body-login .groupbottom input[type=submit] {
+	box-shadow: none !important;
+}
+
+/* keep the labels for screen readers but hide them since we use placeholders */
+
+label.infield {
+	display: none;
+}
+
+#body-login {
+	form {
+		input[type='checkbox'] + label {
+			position: relative;
+			margin: 0;
+			padding: 14px;
+			vertical-align: middle;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+		.errors {
+			background: #fed7d7;
+			border: 1px solid #f00;
+			list-style-indent: inside;
+			margin: 0 0 2em;
+			padding: 1em;
+		}
+	}
+	.success {
+		background: #d7fed7;
+		border: 1px solid #0f0;
+		width: 35%;
+		margin: 30px auto;
+		padding: 1em;
+		text-align: center;
+	}
+	#showAdvanced > img {
+		padding: 4px;
+		box-sizing: border-box;
+	}
+	p.info a, #showAdvanced {
+		color: #fff;
+	}
+	#remember_login {
+		&:hover + label, &:focus + label {
+			opacity: .6;
+		}
+	}
+	#forgot-password {
+		&:hover, &:focus {
+			opacity: .6;
+		}
+	}
+	p.info a {
+		&:hover, &:focus {
+			opacity: .6;
+		}
+	}
+}
+
+/* Show password toggle */
+
+#show, #dbpassword {
+	position: absolute;
+	right: 1em;
+	top: .8em;
+	float: right;
+}
+
+#show, #dbpassword, #personal-show {
+	display: none;
+}
+
+#show + label, #dbpassword + label {
+	right: 21px;
+	top: 15px !important;
+	margin: -14px !important;
+	padding: 14px !important;
+}
+
+#show:checked + label, #dbpassword:checked + label, #personal-show:checked + label {
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=80)';
+	opacity: .8;
+}
+
+#show + label, #dbpassword + label, #personal-show + label {
+	position: absolute !important;
+	height: 20px;
+	width: 24px;
+	background-image: url('../img/actions/toggle.svg?v=1');
+	background-repeat: no-repeat;
+	background-position: center;
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=30)';
+	opacity: .3;
+}
+
+#show + label:before, #dbpassword + label:before, #personal-show + label:before {
+	display: none;
+}
+
+#pass2, input[name='personal-password-clone'] {
+	padding: .6em 2.5em .4em .4em;
+	width: 8em;
+}
+
+#personal-show + label {
+	height: 14px;
+	margin-top: -25px;
+	left: 295px;
+	display: block;
+}
+
+#passwordbutton {
+	margin-left: .5em;
+}
+
+/* Database selector */
+
+#body-login {
+	form #selectDbType {
+		text-align: center;
+		white-space: nowrap;
+		margin: 0;
+		.info {
+			white-space: normal;
+		}
+		label {
+			position: static;
+			margin: 0 -3px 5px;
+			font-size: 12px;
+			background: #f8f8f8;
+			color: #888;
+			cursor: pointer;
+			border: 1px solid #ddd;
+			span {
+				cursor: pointer;
+				padding: 10px 20px;
+			}
+			&.ui-state-hover, &.ui-state-active {
+				color: #000;
+				background-color: #e8e8e8;
+			}
+		}
+	}
+	.warning, .update, .error {
+		display: block;
+		padding: 10px;
+		background-color: rgba(0, 0, 0, 0.3);
+		color: #fff;
+		text-align: left;
+		border-radius: 3px;
+		cursor: default;
+	}
+	.update {
+		width: inherit;
+		text-align: center;
+		.appList {
+			list-style: disc;
+			text-align: left;
+			margin-left: 25px;
+			margin-right: 25px;
+		}
+	}
+	.v-align {
+		width: inherit;
+	}
+	.update img.float-spinner {
+		float: left;
+	}
+}
+
+/* Warnings and errors are the same */
+
+#body-user .warning, #body-settings .warning {
+	margin-top: 8px;
+	padding: 5px;
+	background: #fdd;
+	border-radius: 3px;
+}
+
+.warning {
+	legend, a {
+		color: #fff !important;
+		font-weight: 600 !important;
+	}
+}
+
+.error {
+	a {
+		color: #fff !important;
+		font-weight: 600 !important;
+		&.button {
+			color: #555 !important;
+			display: inline-block;
+			text-align: center;
+		}
+	}
+	pre {
+		white-space: pre-wrap;
+		text-align: left;
+	}
+}
+
+.error-wide {
+	width: 700px;
+	margin-left: -200px !important;
+	.button {
+		color: black !important;
+	}
+}
+
+.warning-input {
+	border-color: #ce3702 !important;
+}
+
+/* Fixes for log in page, TODO should be removed some time */
+
+#body-login {
+	ul.error-wide {
+		margin-top: 35px;
+	}
+	.warning {
+		margin: 0 7px 5px 4px;
+		legend {
+			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
+			opacity: 1;
+		}
+	}
+	a.warning {
+		cursor: pointer;
+	}
+	.updateProgress .error {
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+}
+
+/* fixes for update page TODO should be fixed some time in a proper way */
+/* this is just for an error while updating the ownCloud instance */
+
+/* Alternative Logins */
+
+#alternative-logins {
+	legend {
+		margin-bottom: 10px;
+	}
+	li {
+		height: 40px;
+		display: inline-block;
+		white-space: nowrap;
+	}
+}
+
+/* Log in and install button */
+
+#body-login input {
+	font-size: 20px;
+	margin: 5px;
+	padding: 11px 10px 9px;
+	&[type='text'], &[type='password'] {
+		width: 249px;
+	}
+	&.login {
+		width: 269px;
+		background-position: right 16px center;
+	}
+	&[type='submit'] {
+		padding: 10px 20px;
+		/* larger log in and installation buttons */
+	}
+}
+
+#remember_login {
+	margin: 18px 5px 0 16px !important;
+}
+
+#body-login {
+	.remember-login-container {
+		display: inline-block;
+		margin: 10px 0;
+		text-align: center;
+		width: 100%;
+	}
+	#forgot-password {
+		padding: 11px;
+		float: right;
+		color: #fff;
+	}
+	.wrapper {
+		min-height: 100%;
+		margin: 0 auto -70px;
+		width: 300px;
+	}
+	footer, .push {
+		height: 70px;
+	}
+}
+
+/* Sticky footer */
+
+/* round profile photos */
+
+.avatar, .avatardiv {
+	border-radius: 50%;
+	flex-shrink: 0;
+	img {
+		border-radius: 50%;
+		flex-shrink: 0;
+	}
+}
+
+td.avatar {
+	border-radius: 0;
+}
+
+#notification-container {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	text-align: center;
+}
+
+#notification {
+	margin: 0 auto;
+	max-width: 60%;
+	z-index: 8000;
+	background-color: #fff;
+	border: 0;
+	padding: 1px 8px;
+	display: none;
+	position: relative;
+	top: 0;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=90)';
+	opacity: .9;
+	span {
+		cursor: pointer;
+		margin-left: 1em;
+	}
+	overflow-x: hidden;
+	overflow-y: auto;
+	max-height: 100px;
+	.row {
+		position: relative;
+		.close {
+			display: inline-block;
+			vertical-align: middle;
+			position: absolute;
+			right: 0;
+			top: 0;
+			margin-top: 2px;
+		}
+		&.closeable {
+			padding-right: 20px;
+		}
+	}
+}
+
+tr .action:not(.permanent), .selectedActions a {
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
+	opacity: 0;
+}
+
+tr {
+	&:hover .action, &:focus .action, .action.permanent {
+		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
+		opacity: .5;
+	}
+}
+
+.selectedActions a {
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
+	opacity: .5;
+}
+
+tr .action {
+	width: 16px;
+	height: 16px;
+}
+
+.header-action {
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=80)';
+	opacity: .8;
+}
+
+tr {
+	&:hover .action:hover, &:focus .action:focus {
+		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
+		opacity: 1;
+	}
+}
+
+.selectedActions a {
+	&:hover, &:focus {
+		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
+		opacity: 1;
+	}
+}
+
+.header-action {
+	&:hover, &:focus {
+		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
+		opacity: 1;
+	}
+}
+
+tbody tr {
+	&:hover, &:focus, &:active {
+		background-color: #f8f8f8;
+	}
+}
+
+code {
+	font-family: 'Lucida Console', 'Lucida Sans Typewriter', 'DejaVu Sans Mono', monospace;
+}
+
+#quota {
+	cursor: default;
+	margin: 30px !important;
+	position: relative;
+	padding: 0 !important;
+	div {
+		padding: 0;
+		background-color: rgb(220, 220, 220);
+		font-weight: normal;
+		white-space: nowrap;
+		border-bottom-left-radius: 3px;
+		border-top-left-radius: 3px;
+		min-width: 1%;
+		max-width: 100%;
+	}
+}
+
+#quotatext {
+	padding: .6em 1em;
+}
+
+#quota div.quota-warning {
+	background-color: #fc4;
+}
+
+.pager {
+	list-style: none;
+	float: right;
+	display: inline;
+	margin: .7em 13em 0 0;
+	li {
+		display: inline-block;
+	}
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.separator {
+	display: inline;
+	border-left: 1px solid #d3d3d3;
+	border-right: 1px solid #fff;
+	height: 10px;
+	width: 0px;
+	margin: 4px;
+}
+
+a.bookmarklet {
+	background-color: #ddd;
+	border: 1px solid #ccc;
+	padding: 5px;
+	padding-top: 0px;
+	padding-bottom: 2px;
+	text-decoration: none;
+	margin-top: 5px;
+}
+
+.exception {
+	color: #000;
+	textarea {
+		width: 95%;
+		height: 200px;
+		background: #ffe;
+		border: 0;
+	}
+}
+
+.ui-icon-circle-triangle-e {
+	background-image: url('../img/actions/play-next.svg?v=1');
+}
+
+.ui-icon-circle-triangle-w {
+	background-image: url('../img/actions/play-previous.svg?v=1');
+}
+
+.ui-datepicker-prev, .ui-datepicker-next {
+	border: 1px solid #ddd;
+	background: #fff;
+}
+
+/* ---- DIALOGS ---- */
+
+#oc-dialog-filepicker-content {
+	.dirtree {
+		width: 92%;
+		float: left;
+		margin-left: 15px;
+		overflow: hidden;
+		div:first-child a {
+			background-image: url('../img/places/home.svg?v=1');
+			background-repeat: no-repeat;
+			background-position: left center;
+		}
+		span {
+			&:not(:last-child) {
+				cursor: pointer;
+			}
+			&:last-child {
+				font-weight: bold;
+			}
+			&:not(:last-child)::after {
+				content: '>';
+				padding: 3px;
+			}
+		}
+	}
+	.filelist-container {
+		box-sizing: border-box;
+		display: inline-block;
+		overflow-y: auto;
+		height: 100%;
+		/** overflow under the button row */
+		width: 100%;
+	}
+	.emptycontent {
+		color: #888;
+		text-align: center;
+		margin-top: 80px;
+		width: 100%;
+		display: none;
+	}
+	.filelist {
+		background-color: white;
+		width: 100%;
+	}
+	#filestable.filelist {
+		/* prevent the filepicker to overflow */
+		min-width: initial;
+		margin-bottom: 50px;
+	}
+	.filelist {
+		td {
+			padding: 14px;
+			border-bottom: 1px solid #eee;
+		}
+		tr:last-child td {
+			border-bottom: none;
+		}
+		.filename {
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			background-size: 32px;
+			background-repeat: no-repeat;
+			padding-left: 51px;
+			background-position: 7px 7px;
+			cursor: pointer;
+		}
+		.filesize, .date {
+			width: 80px;
+		}
+		.filesize {
+			text-align: right;
+		}
+	}
+	.filepicker_element_selected {
+		background-color: lightblue;
+	}
+}
+
+.ui-dialog {
+	position: fixed !important;
+}
+
+span.ui-icon {
+	float: left;
+	margin: 3px 7px 30px 0;
+}
+
+.move2trash {
+	/* decrease spinner size */
+	width: 16px;
+	height: 16px;
+}
+
+/* ---- TOOLTIPS ---- */
+
+.extra-data {
+	padding-right: 5px !important;
+}
+
+.tipsy-inner {
+	max-width: 400px !important;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* ---- TAGS ---- */
+
+#tagsdialog {
+	.content {
+		width: 100%;
+		height: 280px;
+	}
+	.scrollarea {
+		overflow: auto;
+		border: 1px solid #ddd;
+		width: 100%;
+		height: 240px;
+	}
+	.bottombuttons {
+		width: 100%;
+		height: 30px;
+		* {
+			float: left;
+		}
+	}
+	.taglist li {
+		background: #f8f8f8;
+		padding: .3em .8em;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		-webkit-transition: background-color 500ms;
+		transition: background-color 500ms;
+		&:hover, &:active {
+			background: #eee;
+		}
+	}
+	.addinput {
+		width: 90%;
+		clear: both;
+	}
+}
+
+/* ---- APP SETTINGS - LEGACY, DO NOT USE THE POPUP! ---- */
+
+.popup {
+	background-color: #fff;
+	border-radius: 3px;
+	box-shadow: 0 0 10px #aaa;
+	color: #333;
+	padding: 10px;
+	position: fixed !important;
+	z-index: 100;
+	&.topright {
+		top: 7em;
+		right: 1em;
+	}
+	&.bottomleft {
+		bottom: 1em;
+		left: 33em;
+	}
+	.close {
+		position: absolute;
+		top: 0.2em;
+		right: 0.2em;
+		height: 20px;
+		width: 20px;
+		background: url('../img/actions/close.svg?v=1') no-repeat center;
+	}
+	h2 {
+		font-size: 20px;
+	}
+}
+
+.arrow {
+	border-bottom: 10px solid white;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	display: block;
+	height: 0;
+	position: absolute;
+	width: 0;
+	z-index: 201;
+	&.left {
+		left: -13px;
+		bottom: 1.2em;
+		-webkit-transform: rotate(270deg);
+		-ms-transform: rotate(270deg);
+		transform: rotate(270deg);
+	}
+	&.up {
+		top: -8px;
+		right: 6px;
+	}
+	&.down {
+		-webkit-transform: rotate(180deg);
+		-ms-transform: rotate(180deg);
+		transform: rotate(180deg);
+	}
+}
+
+/* ---- BREADCRUMB ---- */
+
+div.crumb {
+	float: left;
+	display: block;
+	background-image: url('../img/breadcrumb.svg?v=1');
+	background-repeat: no-repeat;
+	background-position: right center;
+	height: 44px;
+	background-size: auto 24px;
+	&.hidden {
+		display: none;
+	}
+	a, > span {
+		position: relative;
+		top: 12px;
+		padding: 14px 24px 14px 17px;
+		color: #555;
+	}
+	&.last a {
+		padding-right: 0;
+	}
+	&:first-child a {
+		position: relative;
+		top: 13px;
+		padding-right: 14px;
+	}
+	&.last {
+		font-weight: 600;
+		margin-right: 10px;
+	}
+	&.ellipsized {
+		padding: 0 10px 0 5px;
+	}
+	a.ellipsislink {
+		padding: 0 !important;
+		position: relative;
+		top: 8px !important;
+	}
+	&:hover, &:focus, a:focus, &:active {
+		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)';
+		opacity: .7;
+	}
+}
+
+/* some feedback for hover/tap on breadcrumbs */
+
+.appear {
+	opacity: 1;
+	-webkit-transition: opacity 500ms ease 0s;
+	-moz-transition: opacity 500ms ease 0s;
+	-ms-transition: opacity 500ms ease 0s;
+	-o-transition: opacity 500ms ease 0s;
+	transition: opacity 500ms ease 0s;
+	&.transparent {
+		opacity: 0;
+	}
+}
+
+/* public footer */
+
+#body-public footer {
+	position: relative;
+	text-align: center;
+	.info {
+		color: #777;
+		text-align: center;
+		margin: 0 auto;
+		padding: 20px 0;
+		a {
+			color: #777;
+			font-weight: 600;
+			padding: 13px;
+			margin: -13px;
+		}
+	}
+}
+
+/* LEGACY FIX only - do not use fieldsets for settings */
+
+fieldset {
+	&.warning legend, &.update legend {
+		top: 18px;
+		position: relative;
+	}
+	&.warning legend + p, &.update legend + p {
+		margin-top: 12px;
+	}
+}
+
+/* for IE10 */
+@-ms-viewport {
+	width: device-width;
+}
+
+
+/* hidden input type=file field */
+
+.hiddenuploadfield {
+	width: 0;
+	height: 0;
+	opacity: 0;
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
+}

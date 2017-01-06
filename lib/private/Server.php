@@ -898,7 +898,6 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->query('SystemTagObjectMapper');
 	}
 
-
 	/**
 	 * Returns the avatar manager, used for avatar functionality
 	 *
