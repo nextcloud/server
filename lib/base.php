@@ -281,6 +281,7 @@ class OC {
 			// render error page
 			$template = new OC_Template('', 'update.user', 'guest');
 			OC_Util::addScript('maintenance-check');
+			OC_Util::addStyle('update');
 			$template->printPage();
 			die();
 		}
@@ -353,6 +354,8 @@ class OC {
 			header('HTTP/1.1 503 Service Temporarily Unavailable');
 			header('Status: 503 Service Temporarily Unavailable');
 			header('Retry-After: 120');
+
+			\OCP\Util::addStyle('update');
 
 			// render error page
 			$template = new OC_Template('', 'update.use-cli', 'guest');
