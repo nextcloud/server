@@ -54,7 +54,7 @@ class BackgroundJob extends TimedJob {
 	/** @var IURLGenerator */
 	protected $urlGenerator;
 
-	/** @var IUser[] */
+	/** @var string[] */
 	protected $users;
 
 	/**
@@ -97,8 +97,7 @@ class BackgroundJob extends TimedJob {
 
 		$status = $updater->check();
 		if (isset($status['version'])) {
-			$url = $this->urlGenerator->linkToRouteAbsolute('settings.AdminSettings.index') . '#updater';
-			$this->createNotifications('core', $status['version'], $url, $status['versionstring']);
+			$this->createNotifications('core', $status['version'], $status['versionstring']);
 		}
 	}
 
@@ -110,8 +109,7 @@ class BackgroundJob extends TimedJob {
 		foreach ($apps as $app) {
 			$update = $this->isUpdateAvailable($app);
 			if ($update !== false) {
-				$url = $this->urlGenerator->linkToRouteAbsolute('settings.AppSettings.viewApps') . '#app-' . $app;
-				$this->createNotifications($app, $update, $url);
+				$this->createNotifications($app, $update);
 			}
 		}
 	}
@@ -121,10 +119,9 @@ class BackgroundJob extends TimedJob {
 	 *
 	 * @param string $app
 	 * @param string $version
-	 * @param string $url
 	 * @param string $visibleVersion
 	 */
-	protected function createNotifications($app, $version, $url, $visibleVersion = '') {
+	protected function createNotifications($app, $version, $visibleVersion = '') {
 		$lastNotification = $this->config->getAppValue('updatenotification', $app, false);
 		if ($lastNotification === $version) {
 			// We already notified about this update
@@ -138,8 +135,7 @@ class BackgroundJob extends TimedJob {
 		$notification = $this->notificationManager->createNotification();
 		$notification->setApp('updatenotification')
 			->setDateTime(new \DateTime())
-			->setObject($app, $version)
-			->setLink($url);
+			->setObject($app, $version);
 
 		if ($visibleVersion !== '') {
 			$notification->setSubject('update_available', ['version' => $visibleVersion]);

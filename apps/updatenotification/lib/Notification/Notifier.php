@@ -76,6 +76,7 @@ class Notifier implements INotifier {
 
 			$parameters = $notification->getSubjectParameters();
 			$notification->setParsedSubject($l->t('Update to %1$s is available.', [$parameters['version']]));
+			$notification->setLink($this->url->linkToRouteAbsolute('settings.AdminSettings.index') . '#updater');
 		} else {
 			$appInfo = $this->getAppInfo($notification->getObjectType());
 			$appName = ($appInfo === null) ? $notification->getObjectType() : $appInfo['name'];
@@ -92,6 +93,8 @@ class Notifier implements INotifier {
 						'name' => $appName,
 					]
 				]);
+
+			$notification->setLink($this->url->linkToRouteAbsolute('settings.AppSettings.viewApps') . '#app-' . $notification->getObjectType());
 		}
 
 		$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('updatenotification', 'notification.svg')));
