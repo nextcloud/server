@@ -1018,12 +1018,29 @@ class OC {
 		}
 
 		// Handle WebDAV
-		if ($_SERVER['REQUEST_METHOD'] == 'PROPFIND') {
+		if ($_SERVER['REQUEST_METHOD'] === 'PROPFIND') {
 			// not allowed any more to prevent people
 			// mounting this root directly.
 			// Users need to mount remote.php/webdav instead.
 			header('HTTP/1.1 405 Method Not Allowed');
 			header('Status: 405 Method Not Allowed');
+			return;
+		}
+
+		$isOptionsRequestByWindows = false;
+		if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS' && isset($_SERVER['HTTP_USER_AGENT'])) {
+			$isOptionsRequestByWindowsWebClient =
+				strpos($_SERVER['HTTP_USER_AGENT'], 'DavClnt') !== false;
+		}
+
+		// Handle WebDAV for native Windows mounts on discovery when Windows
+		// webclient is not yet running
+		//
+		// they request then the root of the domain, so this is not needed when
+		// installed into subdirectory (therefore the check for REQUEST_URI ===
+		// '/')
+		if ($isOptionsRequestByWindowsWebClient && isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] === '/') {
+			header('HTTP/1.1 200 OK');
 			return;
 		}
 
