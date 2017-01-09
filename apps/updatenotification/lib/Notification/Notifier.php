@@ -24,7 +24,10 @@
 namespace OCA\UpdateNotification\Notification;
 
 
+use OCP\IGroupManager;
 use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
@@ -41,6 +44,12 @@ class Notifier implements INotifier {
 	/** @var IFactory */
 	protected $l10NFactory;
 
+	/** @var IUserSession */
+	protected $userSession;
+
+	/** @var IGroupManager */
+	protected $groupManager;
+
 	/** @var string[] */
 	protected $appVersions;
 
@@ -50,11 +59,15 @@ class Notifier implements INotifier {
 	 * @param IURLGenerator $url
 	 * @param IManager $notificationManager
 	 * @param IFactory $l10NFactory
+	 * @param IUserSession $userSession
+	 * @param IGroupManager $groupManager
 	 */
-	public function __construct(IURLGenerator $url, IManager $notificationManager, IFactory $l10NFactory) {
+	public function __construct(IURLGenerator $url, IManager $notificationManager, IFactory $l10NFactory, IUserSession $userSession, IGroupManager $groupManager) {
 		$this->url = $url;
 		$this->notificationManager = $notificationManager;
 		$this->l10NFactory = $l10NFactory;
+		$this->userSession = $userSession;
+		$this->groupManager = $groupManager;
 		$this->appVersions = $this->getAppVersions();
 	}
 
@@ -76,7 +89,10 @@ class Notifier implements INotifier {
 
 			$parameters = $notification->getSubjectParameters();
 			$notification->setParsedSubject($l->t('Update to %1$s is available.', [$parameters['version']]));
-			$notification->setLink($this->url->linkToRouteAbsolute('settings.AdminSettings.index') . '#updater');
+
+			if ($this->isAdmin()) {
+				$notification->setLink($this->url->linkToRouteAbsolute('settings.AdminSettings.index') . '#updater');
+			}
 		} else {
 			$appInfo = $this->getAppInfo($notification->getObjectType());
 			$appName = ($appInfo === null) ? $notification->getObjectType() : $appInfo['name'];
@@ -94,7 +110,9 @@ class Notifier implements INotifier {
 					]
 				]);
 
-			$notification->setLink($this->url->linkToRouteAbsolute('settings.AppSettings.viewApps') . '#app-' . $notification->getObjectType());
+			if ($this->isAdmin()) {
+				$notification->setLink($this->url->linkToRouteAbsolute('settings.AppSettings.viewApps') . '#app-' . $notification->getObjectType());
+			}
 		}
 
 		$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('updatenotification', 'notification.svg')));
@@ -114,6 +132,19 @@ class Notifier implements INotifier {
 			$this->notificationManager->markProcessed($notification);
 			throw new \InvalidArgumentException();
 		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function isAdmin() {
+		$user = $this->userSession->getUser();
+
+		if ($user instanceof IUser) {
+			return $this->groupManager->isAdmin($user->getUID());
+		}
+
+		return false;
 	}
 
 	protected function getCoreVersions() {
