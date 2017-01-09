@@ -23,7 +23,6 @@ namespace OCA\Comments\Notification;
 
 use OCP\Comments\CommentsEvent;
 use OCP\Comments\IComment;
-use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
 
@@ -34,25 +33,19 @@ class Listener {
 	/** @var IUserManager */
 	protected $userManager;
 
-	/** @var IURLGenerator */
-	protected $urlGenerator;
-
 	/**
 	 * Listener constructor.
 	 *
 	 * @param IManager $notificationManager
 	 * @param IUserManager $userManager
-	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct(
 		IManager $notificationManager,
-		IUserManager $userManager,
-		IURLGenerator $urlGenerator
+		IUserManager $userManager
 	) {
 
 		$this->notificationManager = $notificationManager;
 		$this->userManager = $userManager;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
