@@ -127,7 +127,10 @@ abstract class FetcherBase extends TestCase {
 			->expects($this->once())
 			->method('getBody')
 			->willReturn('[{"id":"MyNewApp", "foo": "foo"}, {"id":"bar"}]');
-		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1502,"ncversion":"11.0.0.2"}';
+		$response->method('getHeader')
+			->with($this->equalTo('ETag'))
+			->willReturn('"myETag"');
+		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1502,"ncversion":"11.0.0.2","ETag":"\"myETag\""}';
 		$file
 			->expects($this->at(0))
 			->method('putContent')
@@ -189,7 +192,10 @@ abstract class FetcherBase extends TestCase {
 			->expects($this->once())
 			->method('getBody')
 			->willReturn('[{"id":"MyNewApp", "foo": "foo"}, {"id":"bar"}]');
-		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1502,"ncversion":"11.0.0.2"}';
+		$response->method('getHeader')
+			->with($this->equalTo('ETag'))
+			->willReturn('"myETag"');
+		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1502,"ncversion":"11.0.0.2","ETag":"\"myETag\""}';
 		$file
 			->expects($this->at(1))
 			->method('putContent')
@@ -251,7 +257,10 @@ abstract class FetcherBase extends TestCase {
 			->expects($this->once())
 			->method('getBody')
 			->willReturn('[{"id":"MyNewApp", "foo": "foo"}, {"id":"bar"}]');
-		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1201,"ncversion":"11.0.0.2"}';
+		$response->method('getHeader')
+			->with($this->equalTo('ETag'))
+			->willReturn('"myETag"');
+		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1201,"ncversion":"11.0.0.2","ETag":"\"myETag\""}';
 		$file
 			->expects($this->at(1))
 			->method('putContent')
@@ -289,7 +298,7 @@ abstract class FetcherBase extends TestCase {
 		$file
 			->expects($this->at(0))
 			->method('getContent')
-			->willReturn('{"timestamp":1200,"data":{"MyApp":{"id":"MyApp"}},"ncversion":"11.0.0.1"}');
+			->willReturn('{"timestamp":1200,"data":{"MyApp":{"id":"MyApp"}},"ncversion":"11.0.0.1"');
 		$this->timeFactory
 			->method('getTime')
 			->willReturn(1201);
@@ -308,7 +317,10 @@ abstract class FetcherBase extends TestCase {
 			->expects($this->once())
 			->method('getBody')
 			->willReturn('[{"id":"MyNewApp", "foo": "foo"}, {"id":"bar"}]');
-		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1201,"ncversion":"11.0.0.2"}';
+		$response->method('getHeader')
+			->with($this->equalTo('ETag'))
+			->willReturn('"myETag"');
+		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1201,"ncversion":"11.0.0.2","ETag":"\"myETag\""}';
 		$file
 			->expects($this->at(1))
 			->method('putContent')
@@ -363,5 +375,148 @@ abstract class FetcherBase extends TestCase {
 			->willThrowException(new \Exception());
 
 		$this->assertSame([], $this->fetcher->get());
+	}
+
+	public function testGetMatchingETag() {
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('/')
+			->willReturn($folder);
+		$folder
+			->expects($this->once())
+			->method('getFile')
+			->with($this->fileName)
+			->willReturn($file);
+		$origData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1200,"ncversion":"11.0.0.2","ETag":"\"myETag\""}';
+		$file
+			->expects($this->at(0))
+			->method('getContent')
+			->willReturn($origData);
+		$this->timeFactory
+			->expects($this->at(0))
+			->method('getTime')
+			->willReturn(1501);
+		$this->timeFactory
+			->expects($this->at(1))
+			->method('getTime')
+			->willReturn(1502);
+		$client = $this->createMock(IClient::class);
+		$this->clientService
+			->expects($this->once())
+			->method('newClient')
+			->willReturn($client);
+		$response = $this->createMock(IResponse::class);
+		$client
+			->expects($this->once())
+			->method('get')
+			->with(
+				$this->equalTo($this->endpoint),
+				$this->equalTo([
+					'headers' => [
+						'If-None-Match' => '"myETag"'
+					]
+				])
+			)->willReturn($response);
+		$response->method('getStatusCode')
+			->willReturn(304);
+
+		$newData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1502,"ncversion":"11.0.0.2","ETag":"\"myETag\""}';
+		$file
+			->expects($this->at(1))
+			->method('putContent')
+			->with($newData);
+		$file
+			->expects($this->at(2))
+			->method('getContent')
+			->willReturn($newData);
+
+		$expected = [
+			[
+				'id' => 'MyNewApp',
+				'foo' => 'foo',
+			],
+			[
+				'id' => 'bar',
+			],
+		];
+
+		$this->assertSame($expected, $this->fetcher->get());
+	}
+
+	public function testGetNoMatchingETag() {
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('/')
+			->willReturn($folder);
+		$folder
+			->expects($this->at(0))
+			->method('getFile')
+			->with($this->fileName)
+			->willReturn($file);
+		$file
+			->expects($this->at(0))
+			->method('getContent')
+			->willReturn('{"data":[{"id":"MyOldApp","abc":"def"}],"timestamp":1200,"ncversion":"11.0.0.2","ETag":"\"myETag\""}');
+		$client = $this->createMock(IClient::class);
+		$this->clientService
+			->expects($this->once())
+			->method('newClient')
+			->willReturn($client);
+		$response = $this->createMock(IResponse::class);
+		$client
+			->expects($this->once())
+			->method('get')
+			->with(
+				$this->equalTo($this->endpoint),
+				$this->equalTo([
+					'headers' => [
+						'If-None-Match' => '"myETag"',
+					]
+				])
+			)
+			->willReturn($response);
+		$response->method('getStatusCode')
+			->willReturn(200);
+		$response
+			->expects($this->once())
+			->method('getBody')
+			->willReturn('[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}]');
+		$response->method('getHeader')
+			->with($this->equalTo('ETag'))
+			->willReturn('"newETag"');
+		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1502,"ncversion":"11.0.0.2","ETag":"\"newETag\""}';
+		$file
+			->expects($this->at(1))
+			->method('putContent')
+			->with($fileData);
+		$file
+			->expects($this->at(2))
+			->method('getContent')
+			->willReturn($fileData);
+		$this->timeFactory
+			->expects($this->at(0))
+			->method('getTime')
+			->willReturn(1501);
+		$this->timeFactory
+			->expects($this->at(1))
+			->method('getTime')
+			->willReturn(1502);
+
+		$expected = [
+			[
+				'id' => 'MyNewApp',
+				'foo' => 'foo',
+			],
+			[
+				'id' => 'bar',
+			],
+		];
+		$this->assertSame($expected, $this->fetcher->get());
 	}
 }
