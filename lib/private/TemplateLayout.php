@@ -166,9 +166,9 @@ class TemplateLayout extends \OC_Template {
 			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
 		} else {
 			$cssFiles = array(
-				[\OC::$SERVERROOT, '', 'core/css/global.css'],
-				[\OC::$SERVERROOT, '', 'core/css/fonts.css'],
-				[\OC::$SERVERROOT, '', 'core/css/installation.css']
+				[\OC::$SERVERROOT, \OC::$WEBROOT, 'core/css/global.css'],
+				[\OC::$SERVERROOT, \OC::$WEBROOT, 'core/css/fonts.css'],
+				[\OC::$SERVERROOT, \OC::$WEBROOT, 'core/css/installation.css']
 			);
 		}
 		$this->assign('cssfiles', array());
