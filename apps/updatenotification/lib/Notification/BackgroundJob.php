@@ -30,8 +30,6 @@ use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\Notification\IManager;
 
 class BackgroundJob extends TimedJob {
@@ -51,9 +49,6 @@ class BackgroundJob extends TimedJob {
 	/** @var IClientService */
 	protected $client;
 
-	/** @var IURLGenerator */
-	protected $urlGenerator;
-
 	/** @var string[] */
 	protected $users;
 
@@ -65,9 +60,8 @@ class BackgroundJob extends TimedJob {
 	 * @param IGroupManager $groupManager
 	 * @param IAppManager $appManager
 	 * @param IClientService $client
-	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct(IConfig $config, IManager $notificationManager, IGroupManager $groupManager, IAppManager $appManager, IClientService $client, IURLGenerator $urlGenerator) {
+	public function __construct(IConfig $config, IManager $notificationManager, IGroupManager $groupManager, IAppManager $appManager, IClientService $client) {
 		// Run once a day
 		$this->setInterval(60 * 60 * 24);
 
@@ -76,7 +70,6 @@ class BackgroundJob extends TimedJob {
 		$this->groupManager = $groupManager;
 		$this->appManager = $appManager;
 		$this->client = $client;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	protected function run($argument) {
