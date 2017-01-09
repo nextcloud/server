@@ -339,7 +339,7 @@ class Log implements ILogger {
 		$logClass = 'OC\\Log\\' . ucfirst($logType);
 
 		if (!class_exists($logClass)) {
-			$logClass = 'OC\\Log\\File';
+			$logClass = \OC\Log\File::class;
 		}
 
 		return $logClass;
