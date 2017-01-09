@@ -30,6 +30,7 @@ namespace OC\Security;
 use OC\Files\Filesystem;
 use OCP\ICertificateManager;
 use OCP\IConfig;
+use OCP\ILogger;
 
 /**
  * Manage trusted certificates for users
@@ -51,14 +52,21 @@ class CertificateManager implements ICertificateManager {
 	protected $config;
 
 	/**
+	 * @var ILogger
+	 */
+	protected $logger;
+
+	/**
 	 * @param string $uid
 	 * @param \OC\Files\View $view relative to data/
 	 * @param IConfig $config
+	 * @param ILogger $logger
 	 */
-	public function __construct($uid, \OC\Files\View $view, IConfig $config) {
+	public function __construct($uid, \OC\Files\View $view, IConfig $config, ILogger $logger) {
 		$this->uid = $uid;
 		$this->view = $view;
 		$this->config = $config;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -104,6 +112,13 @@ class CertificateManager implements ICertificateManager {
 			$this->view->mkdir($path);
 		}
 
+		$defaultCertificates = file_get_contents(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
+		if (strlen($defaultCertificates) < 1024) { // sanity check to verify that we have some content for our bundle
+			// log as exception so we have a stacktrace
+			$this->logger->logException(new \Exception('Shipped ca-bundle is empty, refusing to create certificate bundle'));
+			return;
+		}
+
 		$fhCerts = $this->view->fopen($path . '/rootcerts.crt', 'w');
 
 		// Write user certificates
@@ -117,7 +132,6 @@ class CertificateManager implements ICertificateManager {
 		}
 
 		// Append the default certificates
-		$defaultCertificates = file_get_contents(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
 		fwrite($fhCerts, $defaultCertificates);
 
 		// Append the system certificate bundle
@@ -203,7 +217,7 @@ class CertificateManager implements ICertificateManager {
 		}
 		if ($this->needsRebundling($uid)) {
 			if (is_null($uid)) {
-				$manager = new CertificateManager(null, $this->view, $this->config);
+				$manager = new CertificateManager(null, $this->view, $this->config, $this->logger);
 				$manager->createCertificateBundle();
 			} else {
 				$this->createCertificateBundle();
