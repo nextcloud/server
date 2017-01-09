@@ -111,7 +111,8 @@
 	}
 
 	div.header-left {
-		flex: 0 0 50%;
+		flex: 0 0;
+		flex-grow: 1;
 	}
 
 	#header-right {
