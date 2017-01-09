@@ -100,11 +100,7 @@ class Listener {
 			->setApp('comments')
 			->setObject('comment', $comment->getId())
 			->setSubject('mention', [ $comment->getObjectType(), $comment->getObjectId() ])
-			->setDateTime($comment->getCreationDateTime())
-			->setLink($this->urlGenerator->linkToRouteAbsolute(
-				'comments.Notifications.view',
-				['id' => $comment->getId()])
-			);
+			->setDateTime($comment->getCreationDateTime());
 
 		return $notification;
 	}
