@@ -45,8 +45,6 @@ class BackgroundJobTest extends TestCase {
 	protected $appManager;
 	/** @var IClientService|\PHPUnit_Framework_MockObject_MockObject */
 	protected $client;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
-	protected $urlGenerator;
 
 	public function setUp() {
 		parent::setUp();
@@ -56,7 +54,6 @@ class BackgroundJobTest extends TestCase {
 		$this->groupManager = $this->getMockBuilder('OCP\IGroupManager')->getMock();
 		$this->appManager = $this->getMockBuilder('OCP\App\IAppManager')->getMock();
 		$this->client = $this->getMockBuilder('OCP\Http\Client\IClientService')->getMock();
-		$this->urlGenerator = $this->getMockBuilder('OCP\IURLGenerator')->getMock();
 	}
 
 	/**
@@ -70,8 +67,7 @@ class BackgroundJobTest extends TestCase {
 				$this->notificationManager,
 				$this->groupManager,
 				$this->appManager,
-				$this->client,
-				$this->urlGenerator
+				$this->client
 			);
 		} {
 			return $this->getMockBuilder('OCA\UpdateNotification\Notification\BackgroundJob')
@@ -81,7 +77,6 @@ class BackgroundJobTest extends TestCase {
 					$this->groupManager,
 					$this->appManager,
 					$this->client,
-					$this->urlGenerator,
 				])
 				->setMethods($methods)
 				->getMock();
@@ -160,20 +155,12 @@ class BackgroundJobTest extends TestCase {
 		}
 
 		if ($notification === null) {
-			$this->urlGenerator->expects($this->never())
-				->method('linkToRouteAbsolute');
-
 			$job->expects($this->never())
 				->method('createNotifications');
 		} else {
-			$this->urlGenerator->expects($this->once())
-				->method('linkToRouteAbsolute')
-				->with('settings.AdminSettings.index')
-				->willReturn('admin-url');
-
 			$job->expects($this->once())
 				->method('createNotifications')
-				->willReturn('core', $notification, 'admin-url#updater', $readableVersion);
+				->willReturn('core', $notification, $readableVersion);
 		}
 
 		$this->invokePrivate($job, 'checkCoreUpdate');
@@ -188,7 +175,7 @@ class BackgroundJobTest extends TestCase {
 					['app2', '1.9.2'],
 				],
 				[
-					['app2', '1.9.2', 'apps-url#app-app2'],
+					['app2', '1.9.2'],
 				],
 			],
 		];
@@ -214,11 +201,6 @@ class BackgroundJobTest extends TestCase {
 		$job->expects($this->exactly(sizeof($apps)))
 			->method('isUpdateAvailable')
 			->willReturnMap($isUpdateAvailable);
-
-		$this->urlGenerator->expects($this->exactly(sizeof($notifications)))
-			->method('linkToRouteAbsolute')
-			->with('settings.AppSettings.viewApps')
-			->willReturn('apps-url');
 
 		$mockedMethod = $job->expects($this->exactly(sizeof($notifications)))
 			->method('createNotifications');
@@ -298,10 +280,6 @@ class BackgroundJobTest extends TestCase {
 			$notification->expects($this->once())
 				->method('setSubject')
 				->with('update_available')
-				->willReturnSelf();
-			$notification->expects($this->once())
-				->method('setLink')
-				->with($url)
 				->willReturnSelf();
 
 			if ($userNotifications !== null) {

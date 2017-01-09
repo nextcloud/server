@@ -24,7 +24,9 @@ namespace OCA\UpdateNotification\Tests\Notification;
 
 
 use OCA\UpdateNotification\Notification\Notifier;
+use OCP\IGroupManager;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
@@ -32,6 +34,10 @@ use Test\TestCase;
 
 class NotifierTest extends TestCase {
 
+	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	protected $userSession;
+	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $groupManager;
 	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	protected $urlGenerator;
 	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
@@ -42,6 +48,8 @@ class NotifierTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->notificationManager = $this->createMock(IManager::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
@@ -54,6 +62,8 @@ class NotifierTest extends TestCase {
 	protected function getNotifier(array $methods = []) {
 		if (empty($methods)) {
 			return new Notifier(
+				$this->userSession,
+				$this->groupManager,
 				$this->urlGenerator,
 				$this->notificationManager,
 				$this->l10nFactory
@@ -61,6 +71,8 @@ class NotifierTest extends TestCase {
 		} {
 			return $this->getMockBuilder(Notifier::class)
 				->setConstructorArgs([
+					$this->userSession,
+					$this->groupManager,
 					$this->urlGenerator,
 					$this->notificationManager,
 					$this->l10nFactory,

@@ -24,13 +24,22 @@
 namespace OCA\UpdateNotification\Notification;
 
 
+use OCP\IGroupManager;
 use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 
 class Notifier implements INotifier {
+
+	/** @var IUserSession */
+	protected $userSession;
+
+	/** @var IGroupManager */
+	protected $groupManager;
 
 	/** @var IURLGenerator */
 	protected $url;
@@ -47,11 +56,15 @@ class Notifier implements INotifier {
 	/**
 	 * Notifier constructor.
 	 *
+	 * @param IUserSession $userSession
+	 * @param IGroupManager $groupManager
 	 * @param IURLGenerator $url
 	 * @param IManager $notificationManager
 	 * @param IFactory $l10NFactory
 	 */
-	public function __construct(IURLGenerator $url, IManager $notificationManager, IFactory $l10NFactory) {
+	public function __construct(IUserSession $userSession, IGroupManager $groupManager, IURLGenerator $url, IManager $notificationManager, IFactory $l10NFactory) {
+		$this->userSession = $userSession;
+		$this->groupManager = $groupManager;
 		$this->url = $url;
 		$this->notificationManager = $notificationManager;
 		$this->l10NFactory = $l10NFactory;
@@ -72,11 +85,21 @@ class Notifier implements INotifier {
 
 		$l = $this->l10NFactory->get('updatenotification', $languageCode);
 		if ($notification->getObjectType() === 'core') {
+			$currentUser = $this->userSession->getUser();
+			if ($currentUser instanceof IUser && $this->groupManager->isAdmin($currentUser->getUID())) {
+				$notification->setLink($this->url->linkToRouteAbsolute('settings.AdminSettings.index') . '#updater');
+			}
+
 			$this->updateAlreadyInstalledCheck($notification, $this->getCoreVersions());
 
 			$parameters = $notification->getSubjectParameters();
 			$notification->setParsedSubject($l->t('Update to %1$s is available.', [$parameters['version']]));
 		} else {
+			$currentUser = $this->userSession->getUser();
+			if ($currentUser instanceof IUser && $this->groupManager->isAdmin($currentUser->getUID())) {
+				$notification->setLink($this->url->linkToRouteAbsolute('settings.AppSettings.viewApps') . '#app-' . $notification->getObjectType());
+			}
+
 			$appInfo = $this->getAppInfo($notification->getObjectType());
 			$appName = ($appInfo === null) ? $notification->getObjectType() : $appInfo['name'];
 
