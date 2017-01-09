@@ -144,6 +144,8 @@ OC.L10N.register(
     "Total file size {size1} exceeds upload limit {size2}" : "Celková veľkosť súboru {size1} prekračuje upload limit {size2}",
     "Error uploading file \"{fileName}\": {message}" : "Chyba pri nahrávaní súboru \"{fileName}\": {message}",
     "Could not get result from server." : "Nepodarilo sa dostať výsledky zo servera.",
+    "Any moment now..." : "Už každú chvíľu…",
+    "Soon..." : "Čoskoro…",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Opustenie stránky zruší práve prebiehajúce odosielanie súboru.",
     "No entries in this folder match '{filter}'" : "V tomto priečinku nič nezodpovedá '{filter}'",
     "Local link" : "Lokálny odkaz",
