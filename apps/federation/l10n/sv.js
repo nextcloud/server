@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Added to the list of trusted servers" : "Tillagd i listan med betrodda servrar",
     "Server is already in the list of trusted servers." : "Servern finns redan i listan",
-    "No server to federate with found" : "Ingen server att federerad med hittad",
+    "No server to federate with found" : "Ingen server att federera med hittades",
     "Could not add server" : "Kunde inte lägga till server",
     "Federation" : "Federerad delning",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federation låter dig ansluta till andra betrodda servrar för att utbyta användarinformation. Till exempel kommer detta användas för att auto-komplettera externa användare för federerad delning.",

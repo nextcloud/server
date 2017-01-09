@@ -40,7 +40,7 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "En kalender <strong>händelse</strong> modifierades",
     "A calendar <strong>todo</strong> was modified" : "En kalender <strong>att-göra</strong> modifierades",
     "Contact birthdays" : "Kontaktfödelsedagar",
-    "Personal" : "Personligt",
+    "Personal" : "Privat",
     "Contacts" : "Kontakter",
     "Technical details" : "Tekniska detaljer",
     "Remote Address: %s" : "Extern adress: %s",
