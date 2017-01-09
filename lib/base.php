@@ -791,23 +791,31 @@ class OC {
 			&& !\OC::$server->getTrustedDomainHelper()->isTrustedDomain($host)
 			&& self::$server->getConfig()->getSystemValue('installed', false)
 		) {
-			header('HTTP/1.1 400 Bad Request');
-			header('Status: 400 Bad Request');
+			// Allow access to CSS resources
+			$isScssRequest = false;
+			if(strpos($request->getPathInfo(), '/css/') === 0) {
+				$isScssRequest = true;
+			}
 
-			\OC::$server->getLogger()->warning(
+			if (!$isScssRequest) {
+				header('HTTP/1.1 400 Bad Request');
+				header('Status: 400 Bad Request');
+
+				\OC::$server->getLogger()->warning(
 					'Trusted domain error. "{remoteAddress}" tried to access using "{host}" as host.',
 					[
 						'app' => 'core',
 						'remoteAddress' => $request->getRemoteAddress(),
 						'host' => $host,
 					]
-			);
+				);
 
-			$tmpl = new OCP\Template('core', 'untrustedDomain', 'guest');
-			$tmpl->assign('domain', $host);
-			$tmpl->printPage();
+				$tmpl = new OCP\Template('core', 'untrustedDomain', 'guest');
+				$tmpl->assign('domain', $host);
+				$tmpl->printPage();
 
-			exit();
+				exit();
+			}
 		}
 		\OC::$server->getEventLogger()->end('boot');
 	}
