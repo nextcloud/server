@@ -33,13 +33,24 @@ if (version_compare(PHP_VERSION, '5.6.0') === -1) {
 	return;
 }
 
+// serving the compiled css is just serving a static file
+// setting up the full universe to just serve a single file is a massive waste of resources
+// so instead we use some basic plain css to serve it
+$requestUri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+if (preg_match('%css/([^/]+)/([^/]+.css)%', $requestUri, $matches)) {
+	require 'core/css.php';
+	if (serveCachedCss($matches[1], $matches[2])) {
+		exit;
+	}
+}
+
 try {
 
 	require_once __DIR__ . '/lib/base.php';
 
 	OC::handleRequest();
 
-} catch(\OC\ServiceUnavailableException $ex) {
+} catch (\OC\ServiceUnavailableException $ex) {
 	\OC::$server->getLogger()->logException($ex, array('app' => 'index'));
 
 	//show the user a detailed error page
