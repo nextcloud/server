@@ -24,7 +24,7 @@ script(
 
 <?php if($_['appstoreEnabled']): ?>
 	<li>
-		<a class="app-external" target="_blank" rel="noreferrer" href="https://docs.nextcloud.org/server/11/developer_manual/"><?php p($l->t('Developer documentation'));?> ↗</a>
+		<a class="app-external" target="_blank" rel="noreferrer" href="https://docs.nextcloud.org/server/12/developer_manual/"><?php p($l->t('Developer documentation'));?> ↗</a>
 	</li>
 <?php endif; ?>
 </script>
