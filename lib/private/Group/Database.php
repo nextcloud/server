@@ -203,7 +203,7 @@ class Database extends \OC\Group\Backend {
 	 */
 	public function getUserGroups( $uid ) {
 		//guests has empty or null $uid
-		if ($uid===null || $uid==='') {
+		if ($uid === null || $uid === '') {
 			return [];
 		}
 
