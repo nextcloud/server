@@ -138,4 +138,22 @@ class LoggerTest extends TestCase {
 		}
 	}
 
+	public function dataGetLogClass() {
+		return [
+			['file', \OC\Log\File::class],
+			['errorlog', \OC\Log\Errorlog::class],
+			['syslog', \OC\Log\Syslog::class],
+
+			['owncloud', \OC\Log\File::class],
+			['nextcloud', \OC\Log\File::class],
+			['foobar', \OC\Log\File::class],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetLogClass
+	 */
+	public function testGetLogClass($type, $class) {
+		$this->assertEquals($class, Log::getLogClass($type));
+	}
 }
