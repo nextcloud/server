@@ -629,7 +629,6 @@ return array(
     'OC\\OCS\\PrivateData' => $baseDir . '/lib/private/OCS/PrivateData.php',
     'OC\\OCS\\Provider' => $baseDir . '/lib/private/OCS/Provider.php',
     'OC\\OCS\\Result' => $baseDir . '/lib/private/OCS/Result.php',
-    'OC\\Preview' => $baseDir . '/lib/private/Preview.php',
     'OC\\PreviewManager' => $baseDir . '/lib/private/PreviewManager.php',
     'OC\\PreviewNotAvailableException' => $baseDir . '/lib/private/PreviewNotAvailableException.php',
     'OC\\Preview\\BMP' => $baseDir . '/lib/private/Preview/BMP.php',
