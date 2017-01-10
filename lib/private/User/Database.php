@@ -75,6 +75,7 @@ class Database extends Backend implements IUserBackend {
 	 */
 	public function __construct($eventDispatcher = null) {
 		$this->cache = new CappedMemoryCache();
+		$this->cache[null] = false;
 		$this->eventDispatcher = $eventDispatcher ? $eventDispatcher : \OC::$server->getEventDispatcher();
 	}
 
