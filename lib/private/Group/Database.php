@@ -202,8 +202,11 @@ class Database extends \OC\Group\Backend {
 	 * if the user exists at all.
 	 */
 	public function getUserGroups( $uid ) {
+		//guests has empty $uid
+		if (empty($uid)) return [];
+		
 		$this->fixDI();
-
+		
 		// No magic!
 		$qb = $this->dbConn->getQueryBuilder();
 		$cursor = $qb->select('gid')
