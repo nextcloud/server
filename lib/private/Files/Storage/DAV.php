@@ -36,6 +36,7 @@ namespace OC\Files\Storage;
 use Exception;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Message\ResponseInterface;
+use Icewind\Streams\CallbackWrapper;
 use OC\Files\Filesystem;
 use OC\Files\Stream\Close;
 use Icewind\Streams\IteratorDirectory;
@@ -77,8 +78,6 @@ class DAV extends Common {
 	private $client;
 	/** @var ArrayCache */
 	private $statCache;
-	/** @var array */
-	private static $tempFiles = [];
 	/** @var \OCP\Http\Client\IClientService */
 	private $httpClientService;
 
@@ -409,20 +408,19 @@ class DAV extends Common {
 					}
 					$tmpFile = $tempManager->getTemporaryFile($ext);
 				}
-				Close::registerCallback($tmpFile, array($this, 'writeBack'));
-				self::$tempFiles[$tmpFile] = $path;
-				return fopen('close://' . $tmpFile, $mode);
+				$handle = fopen($tmpFile, $mode);
+				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
+					$this->writeBack($tmpFile, $path);
+				});
 		}
 	}
 
 	/**
 	 * @param string $tmpFile
 	 */
-	public function writeBack($tmpFile) {
-		if (isset(self::$tempFiles[$tmpFile])) {
-			$this->uploadFile($tmpFile, self::$tempFiles[$tmpFile]);
-			unlink($tmpFile);
-		}
+	public function writeBack($tmpFile, $path) {
+		$this->uploadFile($tmpFile, $path);
+		unlink($tmpFile);
 	}
 
 	/** {@inheritdoc} */

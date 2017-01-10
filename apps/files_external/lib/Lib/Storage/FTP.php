@@ -33,6 +33,7 @@
 
 namespace OCA\Files_External\Lib\Storage;
 
+use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\RetryWrapper;
 
 class FTP extends StreamWrapper{
@@ -127,21 +128,20 @@ class FTP extends StreamWrapper{
 					$ext='';
 				}
 				$tmpFile=\OCP\Files::tmpFile($ext);
-				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				if ($this->file_exists($path)) {
 					$this->getFile($path, $tmpFile);
 				}
-				self::$tempFiles[$tmpFile]=$path;
-				return fopen('close://'.$tmpFile, $mode);
+				$handle = fopen($tmpFile, $mode);
+				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
+					$this->writeBack($tmpFile, $path);
+				});
 		}
 		return false;
 	}
 
-	public function writeBack($tmpFile) {
-		if (isset(self::$tempFiles[$tmpFile])) {
-			$this->uploadFile($tmpFile, self::$tempFiles[$tmpFile]);
-			unlink($tmpFile);
-		}
+	public function writeBack($tmpFile, $path) {
+		$this->uploadFile($tmpFile, $path);
+		unlink($tmpFile);
 	}
 
 	/**

@@ -42,6 +42,7 @@ require_once 'aws-autoloader.php';
 
 use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
+use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\ObjectStore\S3ConnectionTrait;
 
@@ -366,14 +367,15 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 					$ext = '';
 				}
 				$tmpFile = \OCP\Files::tmpFile($ext);
-				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
 					file_put_contents($tmpFile, $source);
 				}
-				self::$tmpFiles[$tmpFile] = $path;
 
-				return fopen('close://' . $tmpFile, $mode);
+				$handle = fopen($tmpFile, $mode);
+				return CallbackWrapper::wrap($handle, null, null, function() use ($path, $tmpFile) {
+					$this->writeBack($tmpFile, $path);
+				});
 		}
 		return false;
 	}
@@ -514,15 +516,11 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return $this->id;
 	}
 
-	public function writeBack($tmpFile) {
-		if (!isset(self::$tmpFiles[$tmpFile])) {
-			return false;
-		}
-
+	public function writeBack($tmpFile, $path) {
 		try {
 			$this->getConnection()->putObject(array(
 				'Bucket' => $this->bucket,
-				'Key' => $this->cleanKey(self::$tmpFiles[$tmpFile]),
+				'Key' => $this->cleanKey($path),
 				'SourceFile' => $tmpFile,
 				'ContentType' => \OC::$server->getMimeTypeDetector()->detect($tmpFile),
 				'ContentLength' => filesize($tmpFile)
