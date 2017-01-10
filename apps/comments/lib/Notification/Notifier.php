@@ -139,7 +139,11 @@ class Notifier implements INotifier {
 							]
 						);
 				}
-				$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/comment.svg')));
+				$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/comment.svg')))
+					->setLink($this->url->linkToRouteAbsolute(
+						'comments.Notifications.view',
+						['id' => $comment->getId()])
+					);
 
 				return $notification;
 				break;

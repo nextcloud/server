@@ -45,18 +45,15 @@ class BackgroundJobTest extends TestCase {
 	protected $appManager;
 	/** @var IClientService|\PHPUnit_Framework_MockObject_MockObject */
 	protected $client;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
-	protected $urlGenerator;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->config = $this->getMockBuilder('OCP\IConfig')->getMock();
-		$this->notificationManager = $this->getMockBuilder('OCP\Notification\IManager')->getMock();
-		$this->groupManager = $this->getMockBuilder('OCP\IGroupManager')->getMock();
-		$this->appManager = $this->getMockBuilder('OCP\App\IAppManager')->getMock();
-		$this->client = $this->getMockBuilder('OCP\Http\Client\IClientService')->getMock();
-		$this->urlGenerator = $this->getMockBuilder('OCP\IURLGenerator')->getMock();
+		$this->config = $this->createMock(\OCP\IConfig::class);
+		$this->notificationManager = $this->createMock(\OCP\Notification\IManager::class);
+		$this->groupManager = $this->createMock(\OCP\IGroupManager::class);
+		$this->appManager = $this->createMock(\OCP\App\IAppManager::class);
+		$this->client = $this->createMock(\OCP\Http\Client\IClientService::class);
 	}
 
 	/**
@@ -70,8 +67,7 @@ class BackgroundJobTest extends TestCase {
 				$this->notificationManager,
 				$this->groupManager,
 				$this->appManager,
-				$this->client,
-				$this->urlGenerator
+				$this->client
 			);
 		} {
 			return $this->getMockBuilder('OCA\UpdateNotification\Notification\BackgroundJob')
@@ -81,7 +77,6 @@ class BackgroundJobTest extends TestCase {
 					$this->groupManager,
 					$this->appManager,
 					$this->client,
-					$this->urlGenerator,
 				])
 				->setMethods($methods)
 				->getMock();
@@ -160,20 +155,12 @@ class BackgroundJobTest extends TestCase {
 		}
 
 		if ($notification === null) {
-			$this->urlGenerator->expects($this->never())
-				->method('linkToRouteAbsolute');
-
 			$job->expects($this->never())
 				->method('createNotifications');
 		} else {
-			$this->urlGenerator->expects($this->once())
-				->method('linkToRouteAbsolute')
-				->with('settings.AdminSettings.index')
-				->willReturn('admin-url');
-
 			$job->expects($this->once())
 				->method('createNotifications')
-				->willReturn('core', $notification, 'admin-url#updater', $readableVersion);
+				->willReturn('core', $notification, $readableVersion);
 		}
 
 		$this->invokePrivate($job, 'checkCoreUpdate');
@@ -188,7 +175,7 @@ class BackgroundJobTest extends TestCase {
 					['app2', '1.9.2'],
 				],
 				[
-					['app2', '1.9.2', 'apps-url#app-app2'],
+					['app2', '1.9.2'],
 				],
 			],
 		];
@@ -215,11 +202,6 @@ class BackgroundJobTest extends TestCase {
 			->method('isUpdateAvailable')
 			->willReturnMap($isUpdateAvailable);
 
-		$this->urlGenerator->expects($this->exactly(sizeof($notifications)))
-			->method('linkToRouteAbsolute')
-			->with('settings.AppSettings.viewApps')
-			->willReturn('apps-url');
-
 		$mockedMethod = $job->expects($this->exactly(sizeof($notifications)))
 			->method('createNotifications');
 		call_user_func_array([$mockedMethod, 'withConsecutive'], $notifications);
@@ -229,9 +211,9 @@ class BackgroundJobTest extends TestCase {
 
 	public function dataCreateNotifications() {
 		return [
-			['app1', '1.0.0', 'link1', '1.0.0', false, false, null, null],
-			['app2', '1.0.1', 'link2', '1.0.0', '1.0.0', true, ['user1'], [['user1']]],
-			['app3', '1.0.1', 'link3', false, false, true, ['user2', 'user3'], [['user2'], ['user3']]],
+			['app1', '1.0.0', '1.0.0', false, false, null, null],
+			['app2', '1.0.1', '1.0.0', '1.0.0', true, ['user1'], [['user1']]],
+			['app3', '1.0.1', false, false, true, ['user2', 'user3'], [['user2'], ['user3']]],
 		];
 	}
 
@@ -240,14 +222,13 @@ class BackgroundJobTest extends TestCase {
 	 *
 	 * @param string $app
 	 * @param string $version
-	 * @param string $url
 	 * @param string|false $lastNotification
 	 * @param string|false $callDelete
 	 * @param bool $createNotification
 	 * @param string[]|null $users
 	 * @param array|null $userNotifications
 	 */
-	public function testCreateNotifications($app, $version, $url, $lastNotification, $callDelete, $createNotification, $users, $userNotifications) {
+	public function testCreateNotifications($app, $version, $lastNotification, $callDelete, $createNotification, $users, $userNotifications) {
 		$job = $this->getJob([
 			'deleteOutdatedNotifications',
 			'getUsersToNotify',
@@ -299,10 +280,6 @@ class BackgroundJobTest extends TestCase {
 				->method('setSubject')
 				->with('update_available')
 				->willReturnSelf();
-			$notification->expects($this->once())
-				->method('setLink')
-				->with($url)
-				->willReturnSelf();
 
 			if ($userNotifications !== null) {
 				$mockedMethod = $notification->expects($this->exactly(sizeof($userNotifications)))
@@ -323,7 +300,7 @@ class BackgroundJobTest extends TestCase {
 				->method('createNotification');
 		}
 
-		$this->invokePrivate($job, 'createNotifications', [$app, $version, $url]);
+		$this->invokePrivate($job, 'createNotifications', [$app, $version]);
 	}
 
 	public function dataGetUsersToNotify() {

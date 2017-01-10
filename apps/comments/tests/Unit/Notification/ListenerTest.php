@@ -46,14 +46,12 @@ class ListenerTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->notificationManager = $this->getMockBuilder('\OCP\Notification\IManager')->getMock();
-		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')->getMock();
-		$this->urlGenerator = $this->getMockBuilder('OCP\IURLGenerator')->getMock();
+		$this->notificationManager = $this->createMock(\OCP\Notification\IManager::class);
+		$this->userManager = $this->createMock(\OCP\IUserManager::class);
 
 		$this->listener = new Listener(
 			$this->notificationManager,
-			$this->userManager,
-			$this->urlGenerator
+			$this->userManager
 		);
 	}
 
