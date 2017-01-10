@@ -203,8 +203,10 @@ class Database extends \OC\Group\Backend {
 	 */
 	public function getUserGroups( $uid ) {
 		//guests has empty $uid
-		if (empty($uid)) return [];
-		
+		if (empty($uid)) {
+			return [];
+		}
+
 		$this->fixDI();
 		
 		// No magic!
