@@ -75,7 +75,6 @@ class Database extends Backend implements IUserBackend {
 	 */
 	public function __construct($eventDispatcher = null) {
 		$this->cache = new CappedMemoryCache();
-		$this->cache[null] = false;
 		$this->eventDispatcher = $eventDispatcher ? $eventDispatcher : \OC::$server->getEventDispatcher();
 	}
 
@@ -239,6 +238,12 @@ class Database extends Backend implements IUserBackend {
 	 */
 	private function loadUser($uid) {
 		if (!isset($this->cache[$uid])) {
+			//guests $uid could be NULL or ''
+			if (empty($uid)) {
+				$this->cache[$uid]=false;
+				return true;
+			}
+
 			$query = \OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users` WHERE LOWER(`uid`) = LOWER(?)');
 			$result = $query->execute(array($uid));
 
