@@ -358,12 +358,17 @@ class AllConfig implements \OCP\IConfig {
 	 *     ]
 	 */
 	private function getUserValues($userId) {
-		// TODO - FIXME
-		$this->fixDIInit();
-
 		if (isset($this->userCache[$userId])) {
 			return $this->userCache[$userId];
 		}
+		if ($userId === null || $userId === '') {
+			$this->userCache[$userId]=array();
+			return $this->userCache[$userId];
+		}
+
+		// TODO - FIXME
+		$this->fixDIInit();
+
 		$data = array();
 		$query = 'SELECT `appid`, `configkey`, `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ?';
 		$result = $this->connection->executeQuery($query, array($userId));
