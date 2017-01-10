@@ -39,7 +39,7 @@ class CSSResourceLocator extends ResourceLocator {
 	 * @param array $party_map
 	 * @param SCSSCacher $scssCacher
 	 */
-	public function __construct(ILogger $logger, $theme, $core_map, $party_map, SCSSCacher $scssCacher) {
+	public function __construct(ILogger $logger, $theme, $core_map, $party_map, $scssCacher) {
 		$this->scssCacher = $scssCacher;
 
 		parent::__construct($logger, $theme, $core_map, $party_map);
@@ -85,12 +85,17 @@ class CSSResourceLocator extends ResourceLocator {
 	 */
 	protected function cacheAndAppendScssIfExist($root, $file, $webRoot = null) {
 		if (is_file($root.'/'.$file)) {
-			if($this->scssCacher->process($root, $file)) {
-				$this->append($root, $this->scssCacher->getCachedSCSS('core', $file), $webRoot, false);
-				return true;
+			if($this->scssCacher !== null) {
+				if($this->scssCacher->process($root, $file)) {
+					$this->append($root, $this->scssCacher->getCachedSCSS('core', $file), $webRoot, false);
+					return true;
+				} else {
+					$this->logger->error('Failed to compile and/or save '.$root.'/'.$file, ['app' => 'core']);
+					return false;
+				}
 			} else {
-				$this->logger->error('Failed to compile and/or save '.$root.'/'.$file, ['app' => 'core']);
-				return false;
+				$this->logger->error('Scss is disabled for '.$root.'/'.$file.', ignoring', ['app' => 'core']);
+				return true;
 			}
 		}
 		return false;

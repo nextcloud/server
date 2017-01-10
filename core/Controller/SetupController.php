@@ -92,6 +92,7 @@ class SetupController {
 
 		\OC_Util::addVendorScript('strengthify/jquery.strengthify');
 		\OC_Util::addVendorStyle('strengthify/strengthify');
+		\OC_Util::addStyle('setup');
 		\OC_Util::addScript('setup');
 		\OC_Template::printGuestPage('', 'installation', $parameters);
 	}
