@@ -111,7 +111,9 @@ class Application extends App {
 				$c->query('AppName'),
 				$server->getConfig(),
 				$server->getAppManager(),
-				$c['ControllerMethodReflector']
+				$c['ControllerMethodReflector'],
+				$server->getShareManager(),
+				$server->getRequest()
 			);
 		});
 

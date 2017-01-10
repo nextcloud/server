@@ -34,6 +34,9 @@ use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCA\Files_Sharing\Exceptions\S2SException;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IConfig;
+use OCP\IRequest;
+use OCP\Share\IManager;
+use OCP\Share\IShare;
 
 /**
  * @package OCA\Files_Sharing\Middleware\SharingCheckMiddleware
@@ -50,6 +53,10 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	private $controllerMock;
 	/** @var IControllerMethodReflector|\PHPUnit_Framework_MockObject_MockObject */
 	private $reflector;
+	/** @var  IManager | \PHPUnit_Framework_MockObject_MockObject */
+	private $shareManager;
+	/** @var  IRequest | \PHPUnit_Framework_MockObject_MockObject */
+	private $request;
 
 	protected function setUp() {
 		parent::setUp();
@@ -58,12 +65,16 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->controllerMock = $this->createMock(Controller::class);
 		$this->reflector = $this->createMock(IControllerMethodReflector::class);
+		$this->shareManager = $this->createMock(IManager::class);
+		$this->request = $this->createMock(IRequest::class);
 
 		$this->sharingCheckMiddleware = new SharingCheckMiddleware(
 			'files_sharing',
 			$this->config,
 			$this->appManager,
-			$this->reflector);
+			$this->reflector,
+			$this->shareManager,
+			$this->request);
 	}
 
 	public function testIsSharingEnabledWithAppEnabled() {
@@ -215,6 +226,9 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testBeforeControllerWithShareControllerWithSharingEnabled() {
+
+		$share = $this->createMock(IShare::class);
+
 		$this->appManager
 			->expects($this->once())
 			->method('isEnabledForUser')
@@ -233,6 +247,13 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 			->with('core', 'shareapi_allow_links', 'yes')
 			->will($this->returnValue('yes'));
 
+		$this->request->expects($this->once())->method('getParam')->with('token')
+			->willReturn('token');
+		$this->shareManager->expects($this->once())->method('getShareByToken')
+			->with('token')->willReturn($share);
+
+		$share->expects($this->once())->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_LINK);
+
 		$controller = $this->createMock(ShareController::class);
 
 		$this->sharingCheckMiddleware->beforeController($controller, 'myMethod');
@@ -243,6 +264,9 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	 * @expectedExceptionMessage Link sharing is disabled
 	 */
 	public function testBeforeControllerWithShareControllerWithSharingEnabledAPIDisabled() {
+
+		$share = $this->createMock(IShare::class);
+
 		$this->appManager
 			->expects($this->once())
 			->method('isEnabledForUser')
@@ -250,6 +274,14 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 			->will($this->returnValue(true));
 
 		$controller = $this->createMock(ShareController::class);
+
+		$this->request->expects($this->once())->method('getParam')->with('token')
+			->willReturn('token');
+		$this->shareManager->expects($this->once())->method('getShareByToken')
+			->with('token')->willReturn($share);
+
+		$share->expects($this->once())->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_LINK);
+
 
 		$this->sharingCheckMiddleware->beforeController($controller, 'myMethod');
 	}
