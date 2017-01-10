@@ -208,7 +208,7 @@ class Database extends \OC\Group\Backend {
 		}
 
 		$this->fixDI();
-		
+
 		// No magic!
 		$qb = $this->dbConn->getQueryBuilder();
 		$cursor = $qb->select('gid')
