@@ -330,18 +330,19 @@ class Log implements ILogger {
 	 * @internal
 	 */
 	public static function getLogClass($logType) {
-		// TODO: Drop backwards compatibility for config in the future
 		switch (strtolower($logType)) {
+			case 'errorlog':
+				return \OC\Log\Errorlog::class;
+			case 'syslog':
+				return \OC\Log\Syslog::class;
+			case 'file':
+				return \OC\Log\File::class;
+
+			// Backwards compatibility for old and fallback for unknown log types
 			case 'owncloud':
 			case 'nextcloud':
-				$logType = 'file';
+			default:
+				return \OC\Log\File::class;
 		}
-		$logClass = 'OC\\Log\\' . ucfirst($logType);
-
-		if (!class_exists($logClass)) {
-			$logClass = \OC\Log\File::class;
-		}
-
-		return $logClass;
 	}
 }
