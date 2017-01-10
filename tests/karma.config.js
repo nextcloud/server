@@ -243,8 +243,9 @@ module.exports = function(config) {
 
 		proxies: {
 			// prevent warnings for images
-			'/context.html//core/img/': 'http://localhost:9876/base/core/img/',
-			'/context.html//core/css/': 'http://localhost:9876/base/core/css/',
+			'/base/tests/img/': 'http://localhost:9876/base/core/img/',
+			'/base/tests/css/': 'http://localhost:9876/base/core/css/',
+			'/actions/': 'http://localhost:9876/base/core/img/actions/',
 			'/context.html//core/fonts/': 'http://localhost:9876/base/core/fonts/'
 		},
 
