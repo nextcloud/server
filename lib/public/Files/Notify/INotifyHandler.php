@@ -23,6 +23,12 @@
 
 namespace OCP\Files\Notify;
 
+/**
+ * Provides access to detected changes in the storage by either actively listening
+ * or getting the list of changes that happened in the background
+ *
+ * @since 12.0.0
+ */
 interface INotifyHandler {
 	/**
 	 * Start listening for update notifications
@@ -33,6 +39,8 @@ interface INotifyHandler {
 	 * Note that this call is blocking and will not exit on it's own, to stop listening for notifications return `false` from the callback
 	 *
 	 * @param callable $callback
+	 *
+	 * @since 12.0.0
 	 */
 	public function listen(callable $callback);
 
@@ -40,6 +48,8 @@ interface INotifyHandler {
 	 * Get all changes detected since the start of the notify process or the last call to getChanges
 	 *
 	 * @return IChange[]
+	 *
+	 * @since 12.0.0
 	 */
 	public function getChanges();
 
@@ -47,6 +57,8 @@ interface INotifyHandler {
 	 * Stop listening for changes
 	 *
 	 * Note that any pending changes will be discarded
+	 *
+	 * @since 12.0.0
 	 */
 	public function stop();
 }

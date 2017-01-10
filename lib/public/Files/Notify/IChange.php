@@ -23,6 +23,11 @@
 
 namespace OCP\Files\Notify;
 
+/**
+ * Represents a detected change in the storage
+ *
+ * @since 12.0.0
+ */
 interface IChange {
 	const ADDED = 1;
 	const REMOVED = 2;
@@ -33,6 +38,8 @@ interface IChange {
 	 * Get the type of the change
 	 *
 	 * @return int IChange::ADDED, IChange::REMOVED, IChange::MODIFIED or IChange::RENAMED
+	 *
+	 * @since 12.0.0
 	 */
 	public function getType();
 
@@ -42,6 +49,8 @@ interface IChange {
 	 * Note, for rename changes this path is the old path for the file
 	 *
 	 * @return mixed
+	 *
+	 * @since 12.0.0
 	 */
 	public function getPath();
 }
