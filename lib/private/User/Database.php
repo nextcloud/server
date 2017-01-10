@@ -239,7 +239,7 @@ class Database extends Backend implements IUserBackend {
 	private function loadUser($uid) {
 		if (!isset($this->cache[$uid])) {
 			//guests $uid could be NULL or ''
-			if (empty($uid)) {
+			if ($uid===null || $uid==='') {
 				$this->cache[$uid]=false;
 				return true;
 			}
