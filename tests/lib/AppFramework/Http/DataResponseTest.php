@@ -67,7 +67,7 @@ class DataResponseTest extends \Test\TestCase {
 		$response = new DataResponse($data, $code, $headers);
 
 		$expectedHeaders = [
-			'Cache-Control' => 'no-cache, must-revalidate',
+			'Cache-Control' => 'no-cache, no-store, must-revalidate',
 			'Content-Security-Policy' => "default-src 'none';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self';connect-src 'self';media-src 'self'",
 		];
 		$expectedHeaders = array_merge($expectedHeaders, $headers);
