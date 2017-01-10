@@ -124,8 +124,7 @@ class ConnectionTest extends \Test\TestCase {
 		$this->connection->setValues('table', [
 			'integerfield' => 1
 		], [
-			'textfield' => 'foo',
-			'clobfield' => 'not_null'
+			'textfield' => 'foo'
 		]);
 
 		$this->connection->setValues('table', [
