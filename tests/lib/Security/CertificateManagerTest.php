@@ -8,8 +8,10 @@
 
 namespace Test\Security;
 
+use OC\Files\Storage\Temporary;
 use \OC\Security\CertificateManager;
 use OCP\IConfig;
+use OCP\ILogger;
 
 /**
  * Class CertificateManagerTest
@@ -43,7 +45,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		$config->expects($this->any())->method('getSystemValue')
 			->with('installed', false)->willReturn(true);
 
-		$this->certificateManager = new CertificateManager($this->username, new \OC\Files\View(), $config);
+		$this->certificateManager = new CertificateManager($this->username, new \OC\Files\View(), $config, $this->createMock(ILogger::class));
 	}
 
 	protected function tearDown() {
@@ -143,7 +145,7 @@ class CertificateManagerTest extends \Test\TestCase {
 
 		/** @var CertificateManager | \PHPUnit_Framework_MockObject_MockObject $certificateManager */
 		$certificateManager = $this->getMockBuilder('OC\Security\CertificateManager')
-			->setConstructorArgs([$uid, $view, $config])
+			->setConstructorArgs([$uid, $view, $config, $this->createMock(ILogger::class)])
 			->setMethods(['getFilemtimeOfCaBundle', 'getCertificateBundle'])
 			->getMock();
 
@@ -210,5 +212,4 @@ class CertificateManagerTest extends \Test\TestCase {
 			[null, 10, 5, 8, false, true],
 		];
 	}
-
 }
