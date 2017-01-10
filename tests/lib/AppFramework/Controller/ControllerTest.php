@@ -182,7 +182,7 @@ class ControllerTest extends \Test\TestCase {
 	public function testFormatDataResponseJSON() {
 		$expectedHeaders = [
 			'test' => 'something',
-			'Cache-Control' => 'no-cache, must-revalidate',
+			'Cache-Control' => 'no-cache, no-store, must-revalidate',
 			'Content-Type' => 'application/json; charset=utf-8',
 			'Content-Security-Policy' => "default-src 'none';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self';connect-src 'self';media-src 'self'",
 		];
