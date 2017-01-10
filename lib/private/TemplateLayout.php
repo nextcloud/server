@@ -160,10 +160,11 @@ class TemplateLayout extends \OC_Template {
 			$this->append( 'jsfiles', $web.'/'.$file . '?v=' . self::$versionHash);
 		}
 
-		// Add the css files and check if server is already installed to prevent
-		// appdata initialisation before database configuration
-		// Prevent scss initialisation if an update is needed
-		if(\OC::$server->getSystemConfig()->getValue('installed', false) && !\OCP\Util::needUpgrade()) {
+		// Do not initialise scss appdata until we have a fully installed instance
+		// Do not load scss for update, errors, installation or login page
+		if(\OC::$server->getSystemConfig()->getValue('installed', false)
+			&& !\OCP\Util::needUpgrade()
+			&& \OC_User::isLoggedIn()) {
 			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
 		} else {
 			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles, false);
