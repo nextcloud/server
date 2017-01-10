@@ -42,7 +42,7 @@ class Todo implements ISetting {
 	 * @since 11.0.0
 	 */
 	public function getIdentifier() {
-		return 'calendar_todos';
+		return 'calendar_todo';
 	}
 
 	/**
