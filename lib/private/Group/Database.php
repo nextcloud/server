@@ -202,8 +202,8 @@ class Database extends \OC\Group\Backend {
 	 * if the user exists at all.
 	 */
 	public function getUserGroups( $uid ) {
-		//guests has empty $uid
-		if (empty($uid)) {
+		//guests has empty or null $uid
+		if ($uid===null || $uid==='') {
 			return [];
 		}
 
