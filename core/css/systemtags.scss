@@ -1,10 +1,7 @@
-/*
- * Copyright (c) 2016
+/**
+ * @copyright Copyright (c) 2017
  *
- * This file is licensed under the Affero General Public License version 3
- * or later.
- *
- * See the COPYING-README file.
+ * @license GNU AGPL version 3 or any later version
  *
  */
 
@@ -44,17 +41,16 @@
 			width: calc(100% - 40px);
 		}
 	}
-}
-
-.systemtags-select2-container {
-	width: 100%;
-}
-
-#select2-drop.systemtags-select2-dropdown .select2-results li.select2-result {
-	padding: 5px;
-}
-
-.systemtags-select2-dropdown {
+	.label {
+		width: 85%;
+		display: -moz-inline-box;
+		display: inline-block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		&.hidden {
+			display: none;
+		}
+	}
 	span {
 		line-height: 25px;
 	}
@@ -68,17 +64,13 @@
 	}
 }
 
-.systemtags-select2-container .select2-choices .select2-search-choice.select2-locked .label {
-	opacity: 0.5;
+.systemtags-select2-container {
+	width: 100%;
+	.select2-choices .select2-search-choice.select2-locked .label {
+		opacity: 0.5;
+	}
 }
 
-.systemtags-select2-dropdown .label {
-	width: 85%;
-	display: -moz-inline-box;
-	display: inline-block;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	&.hidden {
-		display: none;
-	}
+#select2-drop.systemtags-select2-dropdown .select2-results li.select2-result {
+	padding: 5px;
 }
