@@ -86,6 +86,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\App\\ManagerEvent' => __DIR__ . '/../../..' . '/lib/public/App/ManagerEvent.php',
         'OCP\\Authentication\\IApacheBackend' => __DIR__ . '/../../..' . '/lib/public/Authentication/IApacheBackend.php',
         'OCP\\Authentication\\TwoFactorAuth\\IProvider' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/IProvider.php',
+        'OCP\\Authentication\\TwoFactorAuth\\TwoFactorException' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/TwoFactorException.php',
         'OCP\\AutoloadNotAllowedException' => __DIR__ . '/../../..' . '/lib/public/AutoloadNotAllowedException.php',
         'OCP\\BackgroundJob' => __DIR__ . '/../../..' . '/lib/public/BackgroundJob.php',
         'OCP\\BackgroundJob\\IJob' => __DIR__ . '/../../..' . '/lib/public/BackgroundJob/IJob.php',

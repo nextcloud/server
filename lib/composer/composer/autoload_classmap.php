@@ -56,6 +56,7 @@ return array(
     'OCP\\App\\ManagerEvent' => $baseDir . '/lib/public/App/ManagerEvent.php',
     'OCP\\Authentication\\IApacheBackend' => $baseDir . '/lib/public/Authentication/IApacheBackend.php',
     'OCP\\Authentication\\TwoFactorAuth\\IProvider' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/IProvider.php',
+    'OCP\\Authentication\\TwoFactorAuth\\TwoFactorException' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/TwoFactorException.php',
     'OCP\\AutoloadNotAllowedException' => $baseDir . '/lib/public/AutoloadNotAllowedException.php',
     'OCP\\BackgroundJob' => $baseDir . '/lib/public/BackgroundJob.php',
     'OCP\\BackgroundJob\\IJob' => $baseDir . '/lib/public/BackgroundJob/IJob.php',
