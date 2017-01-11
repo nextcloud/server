@@ -185,23 +185,27 @@ describe('OC.Settings.Apps tests', function() {
 						{
 							id: 'foo',
 							name: 'Foo app',
+							description: 'Hello',
 							level: 0,
 							author: 'foo'
 						},
 						{
 							id: 'alpha',
 							name: 'Alpha app',
+							description: 'Hello',
 							level: 300,
 							author: ['alpha', 'beta']
 						},
 						{
 							id: 'nolevel',
 							name: 'No level',
+							description: 'Hello',
 							author: 'bar'
 						},
 						{
 							id: 'zork',
 							name: 'Some famous adventure game',
+							description: 'Hello',
 							level: 200,
 							author: 'baz'
 
@@ -209,6 +213,7 @@ describe('OC.Settings.Apps tests', function() {
 						{
 							id: 'delta',
 							name: 'Mathematical symbol',
+							description: 'Hello',
 							level: 200,
 							author: 'foobar'
 						}
@@ -223,29 +228,34 @@ describe('OC.Settings.Apps tests', function() {
 				'foo': {
 					id: 'foo',
 					name: 'Foo app',
+					description: 'Hello',
 					level: 0,
 					author: 'foo'
 				},
 				'alpha': {
 					id: 'alpha',
 					name: 'Alpha app',
+					description: 'Hello',
 					level: 300,
 					author: ['alpha', 'beta']
 				},
 				'nolevel': {
 					id: 'nolevel',
 					name: 'No level',
+					description: 'Hello',
 					author: 'bar'
 				},
 				'zork': {
 					id: 'zork',
 					name: 'Some famous adventure game',
+					description: 'Hello',
 					level: 200,
 					author: 'baz',
 				},
 				'delta': {
 					id: 'delta',
 					name: 'Mathematical symbol',
+					description: 'Hello',
 					level: 200,
 					author: 'foobar'
 				}
