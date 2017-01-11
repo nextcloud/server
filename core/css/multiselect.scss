@@ -1,6 +1,9 @@
-/* Copyright (c) 2011, Jan-Christoph Borchardt, http: //jancborchardt.net
-This file is licensed under the Affero General Public License version 3 or later.
-See the COPYING-README file. */
+/**
+ * @copyright Copyright (c) 2011, Jan-Christoph Borchardt <hey@jancborchardt.net>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ */
 
 ul.multiselectoptions {
 	background-color: #fff;
@@ -45,9 +48,26 @@ ul.multiselectoptions {
 			}
 		}
 	}
+	input.new {
+		padding-bottom: 3px;
+		padding-top: 3px;
+		margin: 0;
+	}
+	> li.creator {
+		padding: 10px;
+		margin: 0;
+		font-weight: bold;
+		> input {
+			width: 95% !important;
+			/* do not constrain size of text input */
+			padding: 5px;
+			margin: -5px;
+		}
+	}
 }
 
-div.multiselect {
+div.multiselect,
+select.multiselect {
 	display: inline-block;
 	max-width: 200px;
 	min-width: 150px !important;
@@ -58,19 +78,11 @@ div.multiselect {
 }
 
 select.multiselect {
-	display: inline-block;
-	max-width: 200px;
-	min-width: 150px !important;
-	padding-right: 10px;
-	min-height: 20px;
-	position: relative;
-	vertical-align: bottom;
 	height: 30px;
 	min-width: 113px;
 }
 
 /* To make a select look like a multiselect until it's initialized */
-
 div.multiselect {
 	&.active {
 		background-color: #fff;
@@ -100,25 +112,6 @@ div.multiselect {
 			position: absolute;
 			right: 8px;
 			top: 8px;
-		}
-	}
-}
-
-ul.multiselectoptions {
-	input.new {
-		padding-bottom: 3px;
-		padding-top: 3px;
-		margin: 0;
-	}
-	> li.creator {
-		padding: 10px;
-		margin: 0;
-		font-weight: bold;
-		> input {
-			width: 95% !important;
-			/* do not constrain size of text input */
-			padding: 5px;
-			margin: -5px;
 		}
 	}
 }
