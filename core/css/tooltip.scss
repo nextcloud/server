@@ -30,21 +30,79 @@
 		opacity: 0.9;
 		filter: alpha(opacity = 90);
 	}
+
 	&.top {
 		margin-top: -3px;
 		padding: 5px 0;
-	}
-	&.right {
-		margin-left: 3px;
-		padding: 0 5px;
 	}
 	&.bottom {
 		margin-top: 3px;
 		padding: 5px 0;
 	}
+
+	&.right {
+		margin-left: 3px;
+		padding: 0 5px;
+		.tooltip-arrow {
+			top: 50%;
+			left: 0;
+			margin-top: -5px;
+			border-width: 5px 5px 5px 0;
+			border-right-color: #000000;
+		}
+	}
 	&.left {
 		margin-left: -3px;
 		padding: 0 5px;
+		.tooltip-arrow {
+			top: 50%;
+			right: 0;
+			margin-top: -5px;
+			border-width: 5px 0 5px 5px;
+			border-left-color: #000000;
+		}
+	}
+
+	/* TOP */
+	&.top .tooltip-arrow,
+	&.top-left .tooltip-arrow,
+	&.top-right .tooltip-arrow  {
+		bottom: 0;
+		border-width: 5px 5px 0;
+		border-top-color: #000000;
+	}
+	&.top .tooltip-arrow {
+		left: 50%;
+		margin-left: -5px;
+	}
+	&.top-left .tooltip-arrow {
+		right: 5px;
+		margin-bottom: -5px;
+	}
+	&.top-right .tooltip-arrow {
+		left: 5px;
+		margin-bottom: -5px;
+	}
+
+	/* BOTTOM */
+	&.bottom .tooltip-arrow,
+	&.bottom-left .tooltip-arrow,
+	&.bottom-right .tooltip-arrow  {
+		top: 0;
+		border-width: 0 5px 5px;
+		border-bottom-color: #000000;
+	}
+	&.bottom .tooltip-arrow {
+		left: 50%;
+		margin-left: -5px;
+	}
+	&.bottom-left .tooltip-arrow {
+		right: 5px;
+		margin-top: -5px;
+	}
+	&.bottom-right .tooltip-arrow {
+		left: 5px;
+		margin-top: -5px;
 	}
 }
 
@@ -63,63 +121,4 @@
 	height: 0;
 	border-color: transparent;
 	border-style: solid;
-}
-
-.tooltip {
-	&.top .tooltip-arrow {
-		bottom: 0;
-		left: 50%;
-		margin-left: -5px;
-		border-width: 5px 5px 0;
-		border-top-color: #000000;
-	}
-	&.top-left .tooltip-arrow {
-		bottom: 0;
-		right: 5px;
-		margin-bottom: -5px;
-		border-width: 5px 5px 0;
-		border-top-color: #000000;
-	}
-	&.top-right .tooltip-arrow {
-		bottom: 0;
-		left: 5px;
-		margin-bottom: -5px;
-		border-width: 5px 5px 0;
-		border-top-color: #000000;
-	}
-	&.right .tooltip-arrow {
-		top: 50%;
-		left: 0;
-		margin-top: -5px;
-		border-width: 5px 5px 5px 0;
-		border-right-color: #000000;
-	}
-	&.left .tooltip-arrow {
-		top: 50%;
-		right: 0;
-		margin-top: -5px;
-		border-width: 5px 0 5px 5px;
-		border-left-color: #000000;
-	}
-	&.bottom .tooltip-arrow {
-		top: 0;
-		left: 50%;
-		margin-left: -5px;
-		border-width: 0 5px 5px;
-		border-bottom-color: #000000;
-	}
-	&.bottom-left .tooltip-arrow {
-		top: 0;
-		right: 5px;
-		margin-top: -5px;
-		border-width: 0 5px 5px;
-		border-bottom-color: #000000;
-	}
-	&.bottom-right .tooltip-arrow {
-		top: 0;
-		left: 5px;
-		margin-top: -5px;
-		border-width: 0 5px 5px;
-		border-bottom-color: #000000;
-	}
 }
