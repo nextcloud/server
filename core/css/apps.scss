@@ -1,3 +1,25 @@
+/* HEADING STYLING ---------------------------------------------------------- */
+
+h2 {
+	font-size: 20px;
+	font-weight: 300;
+	margin-bottom: 12px;
+	line-height: 140%;
+}
+
+h3 {
+	font-size: 15px;
+	font-weight: 300;
+	margin: 12px 0;
+}
+
+/* do not use italic typeface style, instead lighter color */
+em {
+	font-style: normal;
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
+	opacity: .5;
+}
+
 /* APP STYLING -------------------------------------------------------------- */
 
 #app {
@@ -128,6 +150,7 @@
 		}
 	}
 	> {
+		/* Second level nesting for lists */
 		ul ul {
 			display: none;
 			li > a {
@@ -149,6 +172,7 @@
 			display: block;
 		}
 	}
+	/* Deleted entries with undo button */
 	.app-navigation-entry-deleted {
 		display: inline-block;
 		height: 44px;
@@ -178,6 +202,7 @@
 			opacity: 1;
 		}
 	}
+	/* counter and actions, legacy code */
 	.utils {
 		position: absolute;
 		padding: 7px 7px 0 0;
@@ -191,6 +216,7 @@
 			padding-top: 12px;
 		}
 	}
+	/* drag and drop */
 	.drag-and-drop {
 		-webkit-transition: padding-bottom 500ms ease 0s;
 		transition: padding-bottom 500ms ease 0s;
@@ -202,6 +228,10 @@
 	.app-navigation-separator {
 		border-bottom: 1px solid #ddd;
 	}
+
+	/**
+	 * App navigation utils, buttons and counters for drop down menu
+	 */
 	.app-navigation-entry-utils {
 		position: absolute;
 		top: 0;
@@ -253,36 +283,51 @@
 	.app-navigation-entry-utils ul, .app-navigation-entry-menu ul {
 		list-style-type: none;
 	}
+	
+	/* editing an entry */
+	.app-navigation-entry-edit {
+		padding-left: 5px;
+		padding-right: 5px;
+		display: inline-block;
+		height: 39px;
+		width: 100%;
+		input {
+			border-bottom-right-radius: 0;
+			border-top-right-radius: 0;
+			width: calc(100% - 36px);
+			padding: 5px;
+			margin-right: 0;
+			height: 38px;
+			float: left;
+			border: 1px solid rgba(190, 190, 190, 0.9);
+		}
+		button, input[type='submit'] {
+			width: 36px;
+			height: 38px;
+			float: left;
+		}
+		.icon-checkmark {
+			border-bottom-left-radius: 0;
+			border-top-left-radius: 0;
+			border-left: 0;
+			margin-right: 0;
+		}
+	}
 }
 
-/* Second level nesting for lists */
-
-/* Deleted entries with undo button */
-
-/* counter and actions, legacy code */
-
-/* drag and drop */
-
-/**
- * App navigation utils, buttons and counters for drop down menu
- */
-
-/* menu bubble / popover */
-
-
-
-/* list of options for an entry */
-
-/* editing an entry */
-
 /* APP-CONTENT ---------------------------------------------------------------*/
-
 /* Part where the content will be loaded into */
-
 #app-content {
 	position: relative;
 	height: 100%;
 	overflow-y: auto;
+	/* no top border for first settings item */
+	> .section:first-child {
+		border-top: none;
+	}
+	&.with-app-sidebar {
+		margin-right: 27%;
+	}
 }
 
 #app-content-wrapper {
@@ -297,7 +342,6 @@
 	 have it as first element within app-content in order to shrink other
 	 sibling containers properly. Compare Files app for example.
 */
-
 #app-sidebar {
 	position: fixed;
 	top: 45px;
@@ -315,26 +359,21 @@
 	overflow-y: auto;
 	visibility: visible;
 	z-index: 500;
-}
-
-#app-content.with-app-sidebar {
-	margin-right: 27%;
-}
-
-#app-sidebar.disappear {
-	visibility: hidden;
+	&.disappear {
+		visibility: hidden;
+	}
 }
 
 /* APP-SETTINGS ---------------------------------------------------------------*/
 
 /* settings area */
-
 #app-settings {
 	position: fixed;
 	width: 250px;
 	/* change to 100% when layout positions are absolute */
 	bottom: 0;
 	z-index: 140;
+
 	&.open #app-settings-content, &.opened #app-settings-content {
 		display: block;
 	}
@@ -350,18 +389,17 @@
 	border-right: 1px solid #eee;
 	width: 250px;
 	box-sizing: border-box;
+
+	/* display input fields at full width */
+	input[type='text'] {
+		width: 93%;
+	}
 }
 
 #app-settings-header {
 	border-right: 1px solid #eee;
 	width: 250px;
 	box-sizing: border-box;
-}
-
-/* display input fields at full width */
-
-#app-settings-content input[type='text'] {
-	width: 93%;
 }
 
 .settings-button {
@@ -408,27 +446,6 @@
 	margin-bottom: 10px;
 }
 
-/* no top border for first settings item */
-
-#app-content > .section:first-child {
-	border-top: none;
-}
-
-/* heading styles */
-
-h2 {
-	font-size: 20px;
-	font-weight: 300;
-	margin-bottom: 12px;
-	line-height: 140%;
-}
-
-h3 {
-	font-size: 15px;
-	font-weight: 300;
-	margin: 12px 0;
-}
-
 /* slight position correction of checkboxes and radio buttons */
 
 .section input {
@@ -448,14 +465,6 @@ h3 {
 	&.transparent {
 		opacity: 0;
 	}
-}
-
-/* do not use italic typeface style, instead lighter color */
-
-em {
-	font-style: normal;
-	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
-	opacity: .5;
 }
 
 /* generic dropdown style */
@@ -515,7 +524,7 @@ em {
 }
 
 
-/* Popover/bubble/app-navigation dropdown menu */
+/* POPOVER MENU ------------------------------------------------------------- */
 .ie,
 .edge {
 	.bubble, .bubble:after,
@@ -586,8 +595,10 @@ em {
 	&.open {
 		display: block;
 	}
+
 	ul {
-		display: flex;
+		/* Overwrite #app-navigation > ul ul */
+		display: flex !important;
 		flex-direction: column;
 	}
 	li {
@@ -605,7 +616,7 @@ em {
 			align-items: center;
 			width: auto;
 			height: auto;
-			padding: 0;
+			padding: 0 !important;
 			/* prevent .action class to break the design */
 			&.action {
 				padding: inherit !important;
@@ -646,29 +657,6 @@ em {
 			min-width: 0; /* Overwrite icons*/
 			min-height: 0;
 			background-position: 10px center
-		}
-	}
-	
-	.app-navigation-entry-edit {
-		padding-left: 5px;
-		padding-right: 5px;
-		display: inline-block;
-		height: 39px;
-		width: 100%;
-		input {
-			border-bottom-right-radius: 0;
-			border-top-right-radius: 0;
-			width: calc(100% - 36px);
-			padding: 5px;
-			margin-right: 0;
-			height: 38px;
-			float: left;
-			border: 1px solid rgba(190, 190, 190, 0.9);
-		}
-		button, input[type='submit'] {
-			width: 36px;
-			height: 38px;
-			float: left;
 		}
 	}
 }
