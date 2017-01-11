@@ -31,6 +31,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
@@ -167,14 +168,14 @@ class ShareByMailProvider implements IShareProvider {
 		if ($share->getShareOwner() !== $share->getSharedBy()) {
 			$ownerFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
 			$fileId = $share->getNode()->getId();
-			$node = $ownerFolder->getById($fileId);
-			$ownerPath = $node[0]->getPath();
+			$nodes = $ownerFolder->getById($fileId);
+			$ownerPath = $nodes[0]->getPath();
 			$this->publishActivity(
 				Activity::SUBJECT_SHARED_EMAIL_BY,
 				[$ownerFolder->getRelativePath($ownerPath), $share->getSharedWith(), $share->getSharedBy()],
 				$share->getShareOwner(),
 				$fileId,
-				$userFolder->getRelativePath($ownerPath)
+				$ownerFolder->getRelativePath($ownerPath)
 			);
 		}
 
@@ -240,15 +241,19 @@ class ShareByMailProvider implements IShareProvider {
 	}
 
 	protected function sendMailNotification($filename, $link, $owner, $initiator, $shareWith) {
+		$ownerUser = $this->userManager->get($owner);
+		$initiatorUser = $this->userManager->get($initiator);
+		$ownerDisplayName = ($ownerUser instanceof IUser) ? $ownerUser->getDisplayName() : $owner;
+		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
 		if ($owner === $initiator) {
-			$subject = (string)$this->l->t('%s shared »%s« with you', array($owner, $filename));
+			$subject = (string)$this->l->t('%s shared »%s« with you', array($ownerDisplayName, $filename));
 		} else {
-			$subject = (string)$this->l->t('%s shared »%s« with you on behalf of %s', array($owner, $filename, $initiator));
+			$subject = (string)$this->l->t('%s shared »%s« with you on behalf of %s', array($ownerDisplayName, $filename, $initiatorDisplayName));
 		}
 
 		$message = $this->mailer->createMessage();
-		$htmlBody = $this->createMailBody('mail', $filename, $link, $owner, $initiator);
-		$textBody = $this->createMailBody('altmail', $filename, $link, $owner, $initiator);
+		$htmlBody = $this->createMailBody('mail', $filename, $link, $ownerDisplayName, $initiatorDisplayName);
+		$textBody = $this->createMailBody('altmail', $filename, $link, $ownerDisplayName, $initiatorDisplayName);
 		$message->setTo([$shareWith]);
 		$message->setSubject($subject);
 		$message->setBody($textBody, 'text/plain');
