@@ -13,13 +13,11 @@ h2 {
 	margin-bottom: 12px;
 	line-height: 140%;
 }
-
 h3 {
 	font-size: 15px;
 	font-weight: 300;
 	margin: 12px 0;
 }
-
 /* do not use italic typeface style, instead lighter color */
 em {
 	font-style: normal;
@@ -68,13 +66,15 @@ em {
 	&.without-app-settings {
 		padding-bottom: 0;
 	}
-	.active.with-menu > a, .with-counter > a {
+	.active.with-menu > a,
+	.with-counter > a {
 		padding-right: 50px;
 	}
 	.active.with-menu.with-counter > a {
 		padding-right: 90px;
 	}
-	.with-icon a, .app-navigation-entry-loading a {
+	.with-icon a,
+	.app-navigation-entry-loading a {
 		padding-left: 44px;
 		background-size: 16px 16px;
 		background-position: 14px center;
@@ -93,25 +93,14 @@ em {
 		color: #000;
 		opacity: .57;
 	}
-	.active {
+	li:hover > a,
+	li:focus > a,
+	a:focus,
+	.selected,
+	.selected a,
+	.active,
+	.active a {
 		opacity: 1;
-		a {
-			opacity: 1;
-		}
-	}
-	li {
-		&:hover > a, &:focus > a {
-			opacity: 1;
-		}
-	}
-	a:focus {
-		opacity: 1;
-	}
-	.selected {
-		opacity: 1;
-		a {
-			opacity: 1;
-		}
 	}
 	.collapse {
 		display: none;
@@ -134,11 +123,15 @@ em {
 			outline: none !important;
 			box-shadow: none;
 		}
-		&:hover > a, &:focus > a {
+		&:hover > a,
+		&:focus > a {
 			background-image: none;
 		}
-		&:hover > .collapse, &:focus > .collapse {
-			display: block;
+		&:hover,
+		&:focus {
+			> .collapse {
+				display: block;
+			}
 		}
 		.collapse {
 			-webkit-transform: rotate(-90deg);
@@ -165,14 +158,16 @@ em {
 			}
 		}
 		.with-icon ul li {
-			> a, &.app-navigation-entry-loading > a {
+			> a,
+			&.app-navigation-entry-loading > a {
 				padding-left: 68px;
 				background-position: 44px center;
 			}
 		}
 	}
 	> ul .collapsible.open {
-		&:hover, &:focus {
+		&:hover,
+		&:focus {
 			box-shadow: inset 0 0 3px #ddd;
 		}
 		ul {
@@ -273,7 +268,8 @@ em {
 			background-position: center;
 			background-image: url('../img/actions/more.svg?v=1');
 		}
-		&:hover button, &:focus button {
+		&:hover button,
+		&:focus button {
 			background-color: transparent;
 			opacity: 1;
 		}
@@ -308,7 +304,8 @@ em {
 			float: left;
 			border: 1px solid rgba(190, 190, 190, 0.9);
 		}
-		button, input[type='submit'] {
+		button,
+		input[type='submit'] {
 			width: 36px;
 			height: 38px;
 			float: left;
@@ -380,8 +377,8 @@ em {
 	/* change to 100% when layout positions are absolute */
 	bottom: 0;
 	z-index: 140;
-
-	&.open #app-settings-content, &.opened #app-settings-content {
+	&.open #app-settings-content,
+	&.opened #app-settings-content {
 		display: block;
 	}
 }
@@ -425,7 +422,8 @@ em {
 	text-align: left;
 	padding-left: 42px;
 	font-weight: normal;
-	&:hover, &:focus {
+	&:hover,
+	&:focus {
 		background-color: #fff;
 	}
 	&.opened {
@@ -435,7 +433,7 @@ em {
 	}
 }
 
-/* general styles for the content area */
+/* GENERAL SECTION ---------------------------------------------------------- */
 .section {
 	display: block;
 	padding: 30px;
@@ -444,22 +442,20 @@ em {
 	&.hidden {
 		display: none !important;
 	}
+	/* slight position correction of checkboxes and radio buttons */
+	input {
+		&[type='checkbox'],
+		&[type='radio'] {
+			vertical-align: -2px;
+			margin-right: 4px;
+		}
+	}
 }
-
 .sub-section {
 	position: relative;
 	margin-top: 10px;
 	margin-left: 27px;
 	margin-bottom: 10px;
-}
-
-/* slight position correction of checkboxes and radio buttons */
-
-.section input {
-	&[type='checkbox'], &[type='radio'] {
-		vertical-align: -2px;
-		margin-right: 4px;
-	}
 }
 
 .appear {
@@ -474,8 +470,7 @@ em {
 	}
 }
 
-/* generic dropdown style */
-
+/* DROPDOWN ----------------------------------------------------------------- */
 .dropdown {
 	background: #eee;
 	border-bottom-left-radius: 5px;
@@ -490,8 +485,7 @@ em {
 	padding: 16px;
 }
 
-/* generic tab styles */
-
+/* TABS --------------------------------------------------------------------- */
 .tabHeaders {
 	display: inline-block;
 	margin: 15px;
@@ -522,14 +516,12 @@ em {
 		}
 	}
 }
-
 .tabsContainer {
 	clear: left;
 	.tab {
 		padding: 0 15px 15px;
 	}
 }
-
 
 /* POPOVER MENU ------------------------------------------------------------- */
 .ie,
