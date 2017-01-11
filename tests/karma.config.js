@@ -110,7 +110,8 @@ module.exports = function(config) {
 				name: 'settings',
 				srcFiles: [
 					'settings/js/apps.js',
-					'settings/js/users/deleteHandler.js'
+					'settings/js/users/deleteHandler.js',
+					'core/vendor/marked/marked.min.js'
 				],
 				testFiles: [
 					'settings/tests/js/appsSpec.js',
