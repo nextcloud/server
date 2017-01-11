@@ -1,3 +1,11 @@
+/**
+ * @copyright Copyright (c) 2017, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ */
+
+/* GLOBAL ------------------------------------------------------------------- */
 [class^='icon-'], [class*=' icon-'] {
 	background-repeat: no-repeat;
 	background-position: center;
@@ -5,12 +13,11 @@
 	min-height: 16px;
 }
 
-/* general assets */
-
 .icon-breadcrumb {
 	background-image: url('../img/breadcrumb.svg?v=1');
 }
 
+/* LOADING ------------------------------------------------------------------ */
 .loading, .loading-small, .icon-loading, .icon-loading-dark, .icon-loading-small, .icon-loading-small-dark {
 	position: relative;
 	&:after {
@@ -71,13 +78,11 @@ img, object, video, button, textarea, input, select {
 	}
 }
 
-
 .icon-32 {
 	background-size: 32px !important;
 }
 
-/* action icons */
-
+/* ICONS -------------------------------------------------------------------- */
 .icon-add {
 	background-image: url('../img/actions/add.svg?v=1');
 }
@@ -152,6 +157,14 @@ img, object, video, button, textarea, input, select {
 
 .icon-delete-white {
 	background-image: url('../img/actions/delete-white.svg?v=1');
+	&.no-permission {
+		&:hover, &:focus {
+			background-image: url('../img/actions/delete-white.svg?v=1');
+		}
+	}
+	&:hover, &:focus {
+		background-image: url('../img/actions/delete-hover.svg?v=1');
+	}
 }
 
 .icon-details {
@@ -387,8 +400,7 @@ img, object, video, button, textarea, input, select {
 	background-image: url('../img/actions/view-previous.svg?v=1');
 }
 
-/* places icons */
-
+/* PLACES ------------------------------------------------------------------- */
 .icon-calendar-dark {
 	background-image: url('../img/places/calendar-dark.svg?v=1');
 }
