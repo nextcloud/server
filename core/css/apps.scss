@@ -615,7 +615,8 @@ em {
 			align-items: center;
 			width: auto;
 			height: auto;
-			padding: 0 !important;
+			margin: 0;
+			font-weight: inherit;
 			/* prevent .action class to break the design */
 			&.action {
 				padding: inherit !important;
@@ -641,6 +642,7 @@ em {
 			}
 			/* Add padding if contains icon+text */
 			&:not(:empty) {
+				padding: 0 !important;
 				padding-right: 10px !important;
 			}
 			> img {
