@@ -29,7 +29,9 @@
 
 namespace OC;
 
+use OC\DB\OracleConnection;
 use OCP\IAppConfig;
+use OCP\IConfig;
 use OCP\IDBConnection;
 
 /**
@@ -37,12 +39,22 @@ use OCP\IDBConnection;
  * database.
  */
 class AppConfig implements IAppConfig {
-	/**
-	 * @var \OCP\IDBConnection $conn
-	 */
+
+	/** @var array[] */
+	protected $sensitiveValues = [
+		'user_ldap' => [
+			'ldap_agent_password',
+		],
+	];
+
+	/** @var \OCP\IDBConnection */
 	protected $conn;
 
-	private $cache = array();
+	/** @var array[] */
+	private $cache = [];
+
+	/** @var bool */
+	private $configLoaded = false;
 
 	/**
 	 * @param IDBConnection $conn
@@ -85,6 +97,7 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @param string $app the app we are looking for
 	 * @return array an array of key names
+	 * @deprecated 8.0.0 use method getAppKeys of \OCP\IConfig
 	 *
 	 * This function gets all keys of an app. Please note that the values are
 	 * not returned.
@@ -112,6 +125,7 @@ class AppConfig implements IAppConfig {
 	 * @param string $key key
 	 * @param string $default = null, default value if the key does not exist
 	 * @return string the value or $default
+	 * @deprecated 8.0.0 use method getAppValue of \OCP\IConfig
 	 *
 	 * This function gets a value from the appconfig table. If the key does
 	 * not exist the default value will be returned
@@ -146,6 +160,7 @@ class AppConfig implements IAppConfig {
 	 * @param string $key key
 	 * @param string|float|int $value value
 	 * @return bool True if the value was inserted or updated, false if the value was the same
+	 * @deprecated 8.0.0 use method setAppValue of \OCP\IConfig
 	 */
 	public function setValue($app, $key, $value) {
 		if (!$this->hasKey($app, $key)) {
@@ -182,7 +197,7 @@ class AppConfig implements IAppConfig {
 		 * http://docs.oracle.com/cd/E11882_01/server.112/e26088/conditions002.htm#i1033286
 		 * > Large objects (LOBs) are not supported in comparison conditions.
 		 */
-		if (!($this->conn instanceof \OC\DB\OracleConnection)) {
+		if (!($this->conn instanceof OracleConnection)) {
 			// Only update the value when it is not the same
 			$sql->andWhere($sql->expr()->neq('configvalue', $sql->createParameter('configvalue')))
 				->setParameter('configvalue', $value);
@@ -200,7 +215,8 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @param string $app app
 	 * @param string $key key
-	 * @return boolean|null
+	 * @return boolean
+	 * @deprecated 8.0.0 use method deleteAppValue of \OCP\IConfig
 	 */
 	public function deleteKey($app, $key) {
 		$this->loadConfigValues();
@@ -214,13 +230,15 @@ class AppConfig implements IAppConfig {
 		$sql->execute();
 
 		unset($this->cache[$app][$key]);
+		return false;
 	}
 
 	/**
 	 * Remove app from appconfig
 	 *
 	 * @param string $app app
-	 * @return boolean|null
+	 * @return boolean
+	 * @deprecated 8.0.0 use method deleteAppValue of \OCP\IConfig
 	 *
 	 * Removes all keys in appconfig belonging to the app.
 	 */
@@ -234,6 +252,7 @@ class AppConfig implements IAppConfig {
 		$sql->execute();
 
 		unset($this->cache[$app]);
+		return false;
 	}
 
 	/**
@@ -262,10 +281,30 @@ class AppConfig implements IAppConfig {
 	}
 
 	/**
+	 * get all values of the app or and filters out sensitive data
+	 *
+	 * @param string $app
+	 * @return array
+	 */
+	public function getFilteredValues($app) {
+		$values = $this->getValues($app, false);
+
+		foreach ($this->sensitiveValues[$app] as $sensitiveKey) {
+			if (isset($values[$sensitiveKey])) {
+				$values[$sensitiveKey] = IConfig::SENSITIVE_VALUE;
+			}
+		}
+
+		return $values;
+	}
+
+	/**
 	 * Load all the app config values
 	 */
 	protected function loadConfigValues() {
-		if ($this->configLoaded) return;
+		if ($this->configLoaded) {
+			return;
+		}
 
 		$this->cache = [];
 
