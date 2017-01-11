@@ -31,6 +31,7 @@ use OC\Files\Filesystem;
 use OC\ForbiddenException;
 use OC\Hooks\PublicEmitter;
 use OC\Lock\DBLockingProvider;
+use OCA\Files_Sharing\SharedStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ILogger;
@@ -118,14 +119,19 @@ class Scanner extends PublicEmitter {
 	public function backgroundScan($dir) {
 		$mounts = $this->getMounts($dir);
 		foreach ($mounts as $mount) {
-			if (is_null($mount->getStorage())) {
+			$storage = $mount->getStorage();
+			if (is_null($storage)) {
 				continue;
 			}
 			// don't scan the root storage
-			if ($mount->getStorage()->instanceOfStorage('\OC\Files\Storage\Local') && $mount->getMountPoint() === '/') {
+			if ($storage->instanceOfStorage('\OC\Files\Storage\Local') && $mount->getMountPoint() === '/') {
 				continue;
 			}
-			$storage = $mount->getStorage();
+
+			// don't scan received local shares, these can be scanned when scanning the owner's storage
+			if ($storage->instanceOfStorage(SharedStorage::class)) {
+				continue;
+			}
 			$scanner = $storage->getScanner();
 			$this->attachListener($mount);
 
@@ -156,10 +162,10 @@ class Scanner extends PublicEmitter {
 		}
 		$mounts = $this->getMounts($dir);
 		foreach ($mounts as $mount) {
-			if (is_null($mount->getStorage())) {
+			$storage = $mount->getStorage();
+			if (is_null($storage)) {
 				continue;
 			}
-			$storage = $mount->getStorage();
 			// if the home storage isn't writable then the scanner is run as the wrong user
 			if ($storage->instanceOfStorage('\OC\Files\Storage\Home') and
 				(!$storage->isCreatable('') or !$storage->isCreatable('files'))
@@ -170,6 +176,11 @@ class Scanner extends PublicEmitter {
 					break;
 				}
 
+			}
+
+			// don't scan received local shares, these can be scanned when scanning the owner's storage
+			if ($storage->instanceOfStorage(SharedStorage::class)) {
+				continue;
 			}
 			$relativePath = $mount->getInternalPath($dir);
 			$scanner = $storage->getScanner();

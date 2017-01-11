@@ -11,6 +11,7 @@ namespace Test\Files\Utils;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Temporary;
+use OCA\Files_Sharing\SharedStorage;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
@@ -187,5 +188,25 @@ class ScannerTest extends \Test\TestCase {
 		$newRoot = $cache->get('');
 
 		$this->assertNotEquals($oldRoot->getEtag(), $newRoot->getEtag());
+	}
+
+	public function testSkipLocalShares() {
+		$sharedStorage = $this->createMock(SharedStorage::class);
+		$sharedMount = new MountPoint($sharedStorage, '/share');
+		Filesystem::getMountManager()->addMount($sharedMount);
+
+		$sharedStorage->expects($this->any())
+			->method('instanceOfStorage')
+			->will($this->returnValueMap([
+				[SharedStorage::class, true],
+			]));
+		$sharedStorage->expects($this->never())
+			->method('getScanner');
+
+		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
+		$scanner->addMount($sharedMount);
+		$scanner->scan('');
+
+		$scanner->backgroundScan('');
 	}
 }
