@@ -1304,10 +1304,10 @@ class OC_App {
 			$data['summary'] = self::findBestL10NOption($data['summary'], $lang);
 		}
 		if ($lang && isset($data['description']) && is_array($data['description'])) {
-			$data['description'] = self::findBestL10NOption($data['description'], $lang);
-		}
-
-		if (!isset($data['description'])) {
+			$data['description'] = trim(self::findBestL10NOption($data['description'], $lang));
+		} else if (isset($data['description']) && is_string($data['description'])) {
+			$data['description'] = trim($data['description']);
+		} else  {
 			$data['description'] = '';
 		}
 
@@ -1315,10 +1315,10 @@ class OC_App {
 	}
 
 	/**
-	 * @param $config
-	 * @param $l
-	 * @param $info
-	 * @throws Exception
+	 * @param \OCP\IConfig $config
+	 * @param \OCP\IL10N $l
+	 * @param array $info
+	 * @throws \Exception
 	 */
 	protected static function checkAppDependencies($config, $l, $info) {
 		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($config), $l);

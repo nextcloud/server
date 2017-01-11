@@ -8,6 +8,7 @@
  */
 
 namespace Test;
+
 use OC\AppConfig;
 use OCP\IAppConfig;
 
@@ -24,7 +25,7 @@ class AppTest extends \Test\TestCase {
 	const TEST_GROUP1 = 'group1';
 	const TEST_GROUP2 = 'group2';
 
-	function appVersionsProvider() {
+	public function appVersionsProvider() {
 		return array(
 			// exact match
 			array(
@@ -338,7 +339,7 @@ class AppTest extends \Test\TestCase {
 	/**
 	 * Providers for the app config values
 	 */
-	function appConfigValuesProvider() {
+	public function appConfigValuesProvider() {
 		return array(
 			// logged in user1
 			array(
@@ -561,27 +562,30 @@ class AppTest extends \Test\TestCase {
 	/**
 	 * Providers for the app data values
 	 */
-	function appDataProvider() {
+	public function appDataProvider() {
 		return [
 			[
 				['description' => " \t  This is a multiline \n test with \n \t \n \n some new lines   "],
-				['description' => "This is a multiline test with\n\nsome new lines"]
+				['description' => "This is a multiline \n test with \n \t \n \n some new lines"],
 			],
 			[
 				['description' => " \t  This is a multiline \n test with \n \t   some new lines   "],
-				['description' => "This is a multiline test with some new lines"]
+				['description' => "This is a multiline \n test with \n \t   some new lines"],
 			],
 			[
 				['description' => hex2bin('5065726d657420646520732761757468656e7469666965722064616e732070697769676f20646972656374656d656e74206176656320736573206964656e74696669616e7473206f776e636c6f75642073616e73206c65732072657461706572206574206d657420c3a0206a6f757273206365757820636920656e20636173206465206368616e67656d656e74206465206d6f742064652070617373652e0d0a0d')],
-				['description' => "Permet de s'authentifier dans piwigo directement avec ses identifiants owncloud sans les retaper et met à jours ceux ci en cas de changement de mot de passe."]
+				['description' => "Permet de s'authentifier dans piwigo directement avec ses identifiants owncloud sans les retaper et met à jours ceux ci en cas de changement de mot de passe."],
 			],
 			[
 				['not-a-description' => " \t  This is a multiline \n test with \n \t   some new lines   "],
-				['not-a-description' => " \t  This is a multiline \n test with \n \t   some new lines   "]
+				[
+					'not-a-description' => " \t  This is a multiline \n test with \n \t   some new lines   ",
+					'description' => '',
+				],
 			],
 			[
 				['description' => [100, 'bla']],
-				['description' => ""]
+				['description' => ''],
 			],
 		];
 	}
