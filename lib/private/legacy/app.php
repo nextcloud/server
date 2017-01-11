@@ -529,15 +529,7 @@ class OC_App {
 
 	// This is private as well. It simply works, so don't ask for more details
 	private static function proceedNavigation($list) {
-		$activeApp = OC::$server->getNavigationManager()->getActiveEntry();
-		foreach ($list as &$navEntry) {
-			if ($navEntry['id'] == $activeApp) {
-				$navEntry['active'] = true;
-			} else {
-				$navEntry['active'] = false;
-			}
-		}
-		unset($navEntry);
+
 
 		usort($list, function($a, $b) {
 			if (isset($a['order']) && isset($b['order'])) {
@@ -548,6 +540,24 @@ class OC_App {
 				return ($a['name'] < $b['name']) ? -1 : 1;
 			}
 		});
+
+		$activeApp = OC::$server->getNavigationManager()->getActiveEntry();
+		foreach ($list as $index => &$navEntry) {
+			if ($navEntry['id'] == $activeApp) {
+				$navEntry['active'] = true;
+				$activeAppIndex = $index;
+			} else {
+				$navEntry['active'] = false;
+			}
+		}
+		unset($navEntry);
+
+		// Move active app to the first position
+		if($activeAppIndex > 2) {
+			$active = $list[$activeAppIndex];
+			unset($list[$activeAppIndex]);
+			array_unshift($list, $active);
+		}
 
 		return $list;
 	}
