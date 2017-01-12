@@ -37,7 +37,7 @@
 	 */
 	var FederationScopeMenu = OC.Backbone.View.extend({
 		tagName: 'div',
-		className: 'federationScopeMenu popovermenu bubble hidden open menu',
+		className: 'federationScopeMenu popovermenu bubble hidden menu',
 		field: undefined,
 		_scopes: undefined,
 
