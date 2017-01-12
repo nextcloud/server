@@ -1,20 +1,23 @@
 /**
  * @copyright Copyright (c) 2017, John Molakvoæ (skjnldsv@protonmail.com)
+ * @copyright Copyright (c) 2016, Lukas Reschke (lukas@statuscode.ch)
+ * @copyright Copyright (c) 2016, Julius Härtl (jus@bitgrid.net)
+ * @copyright Copyright (c) 2016, Jos Poortvliet (jospoortvliet@gmail.com)
  *
  * @license GNU AGPL version 3 or any later version
  *
  */
 
 /* prevent ugly selection effect on accidental selection */
-
-#header, #navigation, #expanddiv {
+#header,
+#navigation,
+#expanddiv {
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 }
 
 /* removed until content-focusing issue is fixed */
-
 #skip-to-content a {
 	position: absolute;
 	left: -10000px;
@@ -32,7 +35,9 @@
 }
 
 /* HEADERS ------------------------------------------------------------------ */
-#body-user #header, #body-settings #header, #body-public #header {
+#body-user #header,
+#body-settings #header,
+#body-public #header {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -215,7 +220,8 @@
 			overflow: hidden;
 			text-overflow: ellipsis;
 		}
-		svg, span {
+		svg,
+		span {
 			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
 			opacity: .5;
 		}
@@ -262,7 +268,8 @@
 	height: initial;
 	margin: 0;
 	a {
-		svg, span {
+		svg,
+		span {
 			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=30)';
 			opacity: .3;
 		}
@@ -318,17 +325,19 @@
 	* {
 		cursor: pointer;
 	}
-	&:hover, &:focus, &:active {
-		color: #fff;
-	}
 	img {
 		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)';
 		opacity: .7;
 		margin-bottom: -2px;
 	}
-	&:hover img, &:focus img, &:active img {
-		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
-		opacity: 1;
+	&:hover,
+	&:focus,
+	&:active {
+		color: #fff;
+		img {
+			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
+			opacity: 1;
+		}
 	}
 	.icon-caret {
 		margin-top: 0;
@@ -392,7 +401,10 @@
 			margin-bottom: -3px;
 			margin-right: 6px;
 		}
-		&:hover, &:focus, &:active, &.active {
+		&:hover,
+		&:focus,
+		&:active,
+		&.active {
 			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
 			opacity: 1;
 		}
