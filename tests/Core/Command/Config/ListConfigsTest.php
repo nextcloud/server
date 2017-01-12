@@ -285,10 +285,16 @@ class ListConfigsTest extends TestCase {
 			$this->systemConfig->expects($this->any())
 				->method('getValue')
 				->willReturnMap($systemConfigMap);
+			$this->appConfig->expects($this->any())
+				->method('getValues')
+				->willReturnMap($appConfig);
 		} else {
 			$this->systemConfig->expects($this->any())
 				->method('getFilteredValue')
 				->willReturnMap($systemConfigMap);
+			$this->appConfig->expects($this->any())
+				->method('getFilteredValues')
+				->willReturnMap($appConfig);
 		}
 
 		$this->appConfig->expects($this->any())
