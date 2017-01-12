@@ -75,6 +75,18 @@ class Collation implements IRepairStep {
 
 		$tables = $this->getAllNonUTF8BinTables($this->connection);
 		foreach ($tables as $table) {
+			$output->info("Change row format for $table ...");
+			$query = $this->connection->prepare('ALTER TABLE `' . $table . '` ROW_FORMAT = DYNAMIC;');
+			try {
+				$query->execute();
+			} catch (DriverException $e) {
+				// Just log this
+				$this->logger->logException($e);
+				if (!$this->ignoreFailures) {
+					throw $e;
+				}
+			}
+
 			$output->info("Change collation for $table ...");
 			$query = $this->connection->prepare('ALTER TABLE `' . $table . '` CONVERT TO CHARACTER SET ' . $characterSet . ' COLLATE ' . $characterSet . '_bin;');
 			try {
