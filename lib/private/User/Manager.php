@@ -185,9 +185,27 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return mixed the User object on success, false otherwise
 	 */
 	public function checkPassword($loginName, $password) {
+		$result = $this->checkPasswordNoLogging($loginName, $password);
+
+		if ($result === false) {
+			\OC::$server->getLogger()->warning('Login failed: \''. $loginName .'\' (Remote IP: \''. \OC::$server->getRequest()->getRemoteAddress(). '\')', ['app' => 'core']);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Check if the password is valid for the user
+	 *
+	 * @internal
+	 * @param string $loginName
+	 * @param string $password
+	 * @return mixed the User object on success, false otherwise
+	 */
+	public function checkPasswordNoLogging($loginName, $password) {
 		$loginName = str_replace("\0", '', $loginName);
 		$password = str_replace("\0", '', $password);
-		
+
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(Backend::CHECK_PASSWORD)) {
 				$uid = $backend->checkPassword($loginName, $password);
@@ -197,7 +215,6 @@ class Manager extends PublicEmitter implements IUserManager {
 			}
 		}
 
-		\OC::$server->getLogger()->warning('Login failed: \''. $loginName .'\' (Remote IP: \''. \OC::$server->getRequest()->getRemoteAddress(). '\')', ['app' => 'core']);
 		return false;
 	}
 
