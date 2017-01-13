@@ -591,42 +591,4 @@ class LostControllerTest extends \Test\TestCase {
 		$this->assertSame($expectedResponse, $response);
 	}
 
-	public function testSetPasswordEncryptionProceed() {
-
-		/** @var LostController | PHPUnit_Framework_MockObject_MockObject $lostController */
-		$lostController = $this->getMockBuilder(LostController::class)
-			->setConstructorArgs(
-				[
-					'Core',
-					$this->request,
-					$this->urlGenerator,
-					$this->userManager,
-					$this->defaults,
-					$this->l10n,
-					$this->config,
-					$this->secureRandom,
-					'lostpassword-noreply@localhost',
-					$this->encryptionManager,
-					$this->mailer,
-					$this->timeFactory,
-					$this->crypto
-				]
-			)->setMethods(['checkPasswordResetToken'])->getMock();
-
-		$lostController->expects($this->once())->method('checkPasswordResetToken')->willReturn(true);
-
-		$user = $this->createMock(IUser::class);
-		$user->method('setPassword')->willReturnCallback(
-			function() {
-				throw new PrivateKeyMissingException('user');
-			}
-		);
-		$this->userManager->method('get')->with('user')->willReturn($user);
-
-		$response = $lostController->setPassword('myToken', 'user', 'newpass', true);
-
-		$expectedResponse = ['status' => 'success'];
-		$this->assertSame($expectedResponse, $response);
-	}
-
 }
