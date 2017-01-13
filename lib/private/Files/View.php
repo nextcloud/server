@@ -1149,6 +1149,8 @@ class View {
 				$unlockLater = false;
 				if ($this->lockingEnabled && $operation === 'fopen' && is_resource($result)) {
 					$unlockLater = true;
+					// make sure our unlocking callback will still be called if connection is aborted
+					ignore_user_abort(true);
 					$result = CallbackWrapper::wrap($result, null, null, function () use ($hooks, $path) {
 						if (in_array('write', $hooks)) {
 							$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
