@@ -21,6 +21,7 @@ describe('OC.L10N tests', function() {
 
 	describe('text translation', function() {
 		beforeEach(function() {
+			spyOn(console, 'warn');
 			OC.L10N.register(TEST_APP, {
 				'Hello world!': 'Hallo Welt!',
 				'Hello {name}, the weather is {weather}': 'Hallo {name}, das Wetter ist {weather}',
@@ -78,8 +79,10 @@ describe('OC.L10N tests', function() {
 		}
 
 		it('generates plural for default text when translation does not exist', function() {
+			spyOn(console, 'warn');
 			OC.L10N.register(TEST_APP, {
 			});
+			expect(console.warn).toHaveBeenCalled();
 			expect(
 				n(TEST_APP, 'download %n file', 'download %n files', 0)
 			).toEqual('download 0 files');
@@ -94,10 +97,12 @@ describe('OC.L10N tests', function() {
 			).toEqual('download 1024 files');
 		});
 		it('generates plural with default function when no forms specified', function() {
+			spyOn(console, 'warn');
 			OC.L10N.register(TEST_APP, {
 				'_download %n file_::_download %n files_':
 					['%n Datei herunterladen', '%n Dateien herunterladen']
 			});
+			expect(console.warn).toHaveBeenCalled();
 			checkPlurals();
 		});
 		it('generates plural with generated function when forms is specified', function() {
@@ -150,9 +155,11 @@ describe('OC.L10N tests', function() {
 		it('calls callback if translation already available', function() {
 			var promiseStub = sinon.stub();
 			var callbackStub = sinon.stub();
+			spyOn(console, 'warn');
 			OC.L10N.register(TEST_APP, {
 				'Hello world!': 'Hallo Welt!'
 			});
+			expect(console.warn).toHaveBeenCalled();
 			OC.L10N.load(TEST_APP, callbackStub).then(promiseStub);
 			expect(callbackStub.calledOnce).toEqual(true);
 			expect(promiseStub.calledOnce).toEqual(true);
