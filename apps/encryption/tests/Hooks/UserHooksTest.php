@@ -111,12 +111,12 @@ class UserHooksTest extends TestCase {
 		$this->assertTrue(true);
 	}
 
-	public function testPostDeleteUser() {
+	public function testPreDeleteUser() {
 		$this->keyManagerMock->expects($this->once())
 			->method('deletePublicKey')
 			->with('testUser');
 
-		$this->instance->postDeleteUser($this->params);
+		$this->instance->preDeleteUser($this->params);
 		$this->assertTrue(true);
 	}
 
