@@ -624,6 +624,7 @@ class Manager implements IManager {
 			'shareWith' => $share->getSharedWith(),
 			'run' => &$run,
 			'error' => &$error,
+			'share' => &$share
 		];
 		\OC_Hook::emit('OCP\Share', 'pre_shared', $preHookData);
 
