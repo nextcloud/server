@@ -225,6 +225,9 @@ module.exports = function(config) {
 	files.push({pattern: 'core/css/*.css', watched: true, included: true, served: true});
 	files.push({pattern: 'tests/css/*.css', watched: true, included: true, served: true});
 
+	// Allow fonts
+	files.push({pattern: 'core/fonts/*', watched: false, included: false, served: true});
+
 	config.set({
 
 		// base path, that will be used to resolve files and exclude
@@ -246,7 +249,7 @@ module.exports = function(config) {
 			'/base/tests/img/': 'http://localhost:9876/base/core/img/',
 			'/base/tests/css/': 'http://localhost:9876/base/core/css/',
 			'/actions/': 'http://localhost:9876/base/core/img/actions/',
-			'/context.html//core/fonts/': 'http://localhost:9876/base/core/fonts/'
+			'/base/core/fonts/': 'http://localhost:9876/base/core/fonts/'
 		},
 
 		// test results reporter to use
