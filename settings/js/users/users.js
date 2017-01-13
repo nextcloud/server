@@ -704,9 +704,9 @@ $(document).ready(function () {
 		blurFunction = _.bind(blurFunction, $input);
 		if(isRestoreDisabled) {
 			$tr.addClass('row-warning');
-			// add tipsy if the password change could cause data loss - no recovery enabled
-			$input.tipsy({gravity:'s'});
+			// add tooltip if the password change could cause data loss - no recovery enabled
 			$input.attr('title', t('settings', 'Changing the password will result in data loss, because data recovery is not available for this user'));
+			$input.tooltip({placement:'bottom'});
 		}
 		$td.find('img').hide();
 		$td.children('span').replaceWith($input);
