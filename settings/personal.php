@@ -88,7 +88,7 @@ foreach($languageCodes as $lang) {
 	if($l->getLanguageCode() === $lang && substr($potentialName, 0, 1) !== '_') {//first check if the language name is in the translation file
 		$ln = array('code' => $lang, 'name' => $potentialName);
 	} elseif ($lang === 'en') {
-		$ln = ['code' => $lang, 'name' => 'English'];
+		$ln = ['code' => $lang, 'name' => 'English (US)'];
 	}else{//fallback to language code
 		$ln=array('code'=>$lang, 'name'=>$lang);
 	}
