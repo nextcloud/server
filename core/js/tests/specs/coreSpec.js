@@ -967,8 +967,9 @@ describe('Core base tests', function() {
 			fadeOutStub.restore();
 		});
 		it('hides the first notification when calling hide without arguments', function() {
-			var $row1 = OC.Notification.show('One');
+			OC.Notification.show('One');
 			var $row2 = OC.Notification.show('Two');
+			spyOn(console, 'warn');
 
 			var $el = $('#notification');
 			var $rows = $el.find('.row');
@@ -976,6 +977,7 @@ describe('Core base tests', function() {
 
 			OC.Notification.hide();
 
+			expect(console.warn).toHaveBeenCalled();
 			$rows = $el.find('.row');
 			expect($rows.length).toEqual(1);
 			expect($rows.eq(0).is($row2)).toEqual(true);
