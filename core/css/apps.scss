@@ -241,12 +241,12 @@ em {
 		z-index: 105;
 		ul {
 			display: flex !important;
-			align-items: flex-end;
+			align-items: center;
+			justify-content: flex-end;
 		}
 		li {
 			width: 44px !important;
 			height: 44px;
-			line-height: 44px;
 		}
 	}
 	.active > .app-navigation-entry-utils li {
@@ -568,7 +568,7 @@ em {
 		border-width: 10px;
 	}
 	/* Center the popover */
-	&.center {
+	&.menu-center {
 		transform: translateX(50%);
 		right: 50%;
 		margin-right: 0;
@@ -579,7 +579,7 @@ em {
 		}
 	}
 	/* Align the popover to the left */
-	&.left {
+	&.menu-left {
 		right: auto;
 		left: 0;
 		margin-right: 0;
