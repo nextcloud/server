@@ -111,7 +111,8 @@ module.exports = function(config) {
 				srcFiles: [
 					'settings/js/apps.js',
 					'settings/js/users/deleteHandler.js',
-					'core/vendor/marked/marked.min.js'
+					'core/vendor/marked/marked.min.js',
+					'core/vendor/DOMPurify/dist/purify.min.js'
 				],
 				testFiles: [
 					'settings/tests/js/appsSpec.js',

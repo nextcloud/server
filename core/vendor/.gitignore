@@ -165,3 +165,10 @@ marked/doc
 marked/index.js
 marked/lib
 marked/man
+
+# DOMPurity
+DOMPurify/**
+!DOMPurify/dist
+!DOMPurify/dist/purify.min.js
+!DOMPurify/.bower.json
+!DOMPurify/LICENSE
