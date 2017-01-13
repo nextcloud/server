@@ -189,7 +189,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}
 
 		// Parse markdown in app description
-		app.description = marked(app.description.trim(), OC.Settings.Apps.markedOptions);
+		app.description = DOMPurify.sanitize(marked(app.description.trim(), OC.Settings.Apps.markedOptions));
 
 		var html = template(app);
 		if (selector) {
@@ -653,7 +653,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				return '';
 			}
 
-			var out = '<a href="' + href + '"';
+			var out = '<a href="' + href + '" rel="noreferrer noopener"';
 			if (title) {
 				out += ' title="' + title + '"';
 			}
