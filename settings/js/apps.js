@@ -189,7 +189,22 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}
 
 		// Parse markdown in app description
-		app.description = DOMPurify.sanitize(marked(app.description.trim(), OC.Settings.Apps.markedOptions));
+		app.description = DOMPurify.sanitize(
+			marked(app.description.trim(), OC.Settings.Apps.markedOptions),
+			{
+				SAFE_FOR_JQUERY: true,
+				ALLOWED_TAGS: [
+					'strong',
+					'p',
+					'a',
+					'ul',
+					'li',
+					'em',
+					's',
+					'blockquote'
+				]
+			}
+		);
 
 		var html = template(app);
 		if (selector) {
