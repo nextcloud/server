@@ -220,6 +220,7 @@ module.exports = function(config) {
 
 	// serve images to avoid warnings
 	files.push({pattern: 'core/img/**/*', watched: false, included: false, served: true});
+	files.push({pattern: 'core/css/images/*', watched: false, included: false, served: true});
 	
 	// include core CSS
 	files.push({pattern: 'core/css/*.css', watched: true, included: true, served: true});
@@ -248,6 +249,7 @@ module.exports = function(config) {
 			// prevent warnings for images
 			'/base/tests/img/': 'http://localhost:9876/base/core/img/',
 			'/base/tests/css/': 'http://localhost:9876/base/core/css/',
+			'/base/core/css/images/': 'http://localhost:9876/base/core/css/images/',
 			'/actions/': 'http://localhost:9876/base/core/img/actions/',
 			'/base/core/fonts/': 'http://localhost:9876/base/core/fonts/'
 		},
@@ -270,7 +272,7 @@ module.exports = function(config) {
 			reporters: [
 				{ type: 'html' },
 				{ type: 'cobertura' },
-				{ type: 'lcovonly' },
+				{ type: 'lcovonly' }
 			]
 		},
 
