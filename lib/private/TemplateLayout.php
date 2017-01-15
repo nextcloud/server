@@ -157,7 +157,7 @@ class TemplateLayout extends \OC_Template {
 		foreach($jsFiles as $info) {
 			$web = $info[1];
 			$file = $info[2];
-			$this->append( 'jsfiles', $web.'/'.$file . '?v=' . self::$versionHash);
+			$this->append( 'jsfiles', $web.'/'.$file . $this->getVersionHashSuffix() );
 		}
 
 		// Add the css files and check if server is already installed to prevent
@@ -179,11 +179,20 @@ class TemplateLayout extends \OC_Template {
 			$file = $info[2];
 
 			if (substr($file, -strlen('print.css')) === 'print.css') {
-				$this->append( 'printcssfiles', $web.'/'.$file . '?v=' . self::$versionHash);
+				$this->append( 'printcssfiles', $web.'/'.$file . $this->getVersionHashSuffix() );
 			} else {
-				$this->append( 'cssfiles', $web.'/'.$file . '?v=' . self::$versionHash);
+				$this->append( 'cssfiles', $web.'/'.$file . $this->getVersionHashSuffix()  );
 			}
 		}
+	}
+
+	protected function getVersionHashSuffix() {
+		if(\OC::$server->getConfig()->getSystemValue('debug', false)) {
+			// allows chrome workspace mapping in debug mode
+			return "";
+		}
+
+		return '?v=' . self::$versionHash;
 	}
 
 	/**
