@@ -77,7 +77,7 @@ class BackupCodeStorageTest extends TestCase {
 			->will($this->returnValue('fritz'));
 		$this->random->expects($this->exactly($number))
 			->method('generate')
-			->with(10, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
+			->with(16, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
 			->will($this->returnValue('CODEABCDEF'));
 		$this->hasher->expects($this->exactly($number))
 			->method('hash')

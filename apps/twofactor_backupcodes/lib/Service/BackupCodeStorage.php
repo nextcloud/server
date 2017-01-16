@@ -33,6 +33,8 @@ use OCP\Security\ISecureRandom;
 
 class BackupCodeStorage {
 
+	private static $CODE_LENGTH = 16;
+
 	/** @var BackupCodeMapper */
 	private $mapper;
 
@@ -48,6 +50,13 @@ class BackupCodeStorage {
 	/** @var ILogger */
 	private $logger;
 
+	/**
+	 * @param BackupCodeMapper $mapper
+	 * @param ISecureRandom $random
+	 * @param IHasher $hasher
+	 * @param IManager $activityManager
+	 * @param ILogger $logger
+	 */
 	public function __construct(BackupCodeMapper $mapper, ISecureRandom $random, IHasher $hasher,
 		IManager $activityManager, ILogger $logger) {
 		$this->mapper = $mapper;
@@ -69,7 +78,7 @@ class BackupCodeStorage {
 
 		$uid = $user->getUID();
 		foreach (range(1, min([$number, 20])) as $i) {
-			$code = $this->random->generate(10, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789');
+			$code = $this->random->generate(self::$CODE_LENGTH, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789');
 
 			$dbCode = new BackupCode();
 			$dbCode->setUserId($uid);
