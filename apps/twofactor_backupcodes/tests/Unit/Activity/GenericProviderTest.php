@@ -29,12 +29,18 @@ use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
-class ProviderTest extends TestCase {
+class GenericProviderTest extends TestCase {
 
+	/** @var IL10N|PHPUnit_Framework_MockObject_MockObject */
 	private $l10n;
+
+	/** @var IURLGenerator|PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
+
+	/** @var ILogger|PHPUnit_Framework_MockObject_MockObject */
 	private $logger;
 
 	/** @var GenericProvider */
@@ -55,7 +61,7 @@ class ProviderTest extends TestCase {
 		$event = $this->createMock(IEvent::class);
 		$event->expects($this->once())
 			->method('getType')
-			->will($this->returnValue('comments'));
+			->willReturn('comments');
 		$this->setExpectedException(InvalidArgumentException::class);
 
 		$this->provider->parse($lang, $event);
@@ -63,8 +69,8 @@ class ProviderTest extends TestCase {
 
 	public function subjectData() {
 		return [
-				['twofactor_success'],
-				['twofactor_failed'],
+			['twofactor_success'],
+			['twofactor_failed'],
 		];
 	}
 
@@ -78,28 +84,48 @@ class ProviderTest extends TestCase {
 
 		$event->expects($this->once())
 			->method('getType')
-			->will($this->returnValue('twofactor'));
+			->willReturn('twofactor');
 		$this->l10n->expects($this->once())
 			->method('get')
 			->with('core', $lang)
-			->will($this->returnValue($l));
+			->willReturn($l);
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')
 			->with('core', 'actions/password.svg')
-			->will($this->returnValue('path/to/image'));
+			->willReturn('path/to/image');
 		$this->urlGenerator->expects($this->once())
 			->method('getAbsoluteURL')
 			->with('path/to/image')
-			->will($this->returnValue('absolute/path/to/image'));
+			->willReturn('absolute/path/to/image');
 		$event->expects($this->once())
 			->method('setIcon')
 			->with('absolute/path/to/image');
 		$event->expects($this->once())
 			->method('getSubject')
-			->will($this->returnValue($subject));
+			->willReturn($subject);
 		$event->expects($this->once())
 			->method('setParsedSubject');
 
+		$this->provider->parse($lang, $event);
+	}
+
+	public function testParseInvalidSubject() {
+		$lang = 'ru';
+		$l = $this->createMock(IL10N::class);
+		$event = $this->createMock(IEvent::class);
+
+		$event->expects($this->once())
+			->method('getType')
+			->willReturn('twofactor');
+		$this->l10n->expects($this->once())
+			->method('get')
+			->with('core', $lang)
+			->willReturn($l);
+		$event->expects($this->once())
+			->method('getSubject')
+			->willReturn('unrelated');
+
+		$this->expectException(InvalidArgumentException::class);
 		$this->provider->parse($lang, $event);
 	}
 
