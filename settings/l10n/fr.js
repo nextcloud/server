@@ -203,7 +203,7 @@ OC.L10N.register(
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "Utilisez un service webcron pour exécuter cron.php toutes les 15 minutes par HTTP",
     "Use system's cron service to call the cron.php file every 15 minutes." : "Utilisez le service cron du système pour appeler le fichier cron.php toutes les 15 minutes.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Le cron.php doit être exécuté par l'utilisateur système \"%s\".",
-    "To run this you need the PHP posix extension. See {linkstart}PHP documentation{linkend} for more details." : "Pour l'executer, vous devez avoir l'extension PHP posix. Regarder la {linkstart}documentation PHP{linkend} pour plus de détails.",
+    "To run this you need the PHP posix extension. See {linkstart}PHP documentation{linkend} for more details." : "Pour l'exécuter, vous devez avoir l'extension PHP posix. Regarder la {linkstart}documentation PHP{linkend} pour plus de détails.",
     "Version" : "Version",
     "Sharing" : "Partage",
     "Allow apps to use the Share API" : "Autoriser les applications à utiliser l'API de partage",
