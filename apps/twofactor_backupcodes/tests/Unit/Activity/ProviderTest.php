@@ -60,7 +60,7 @@ class ProviderTest extends TestCase {
 		$lang = 'ru';
 		$event = $this->createMock(IEvent::class);
 		$event->expects($this->once())
-			->method('getType')
+			->method('getApp')
 			->willReturn('comments');
 		$this->setExpectedException(InvalidArgumentException::class);
 
