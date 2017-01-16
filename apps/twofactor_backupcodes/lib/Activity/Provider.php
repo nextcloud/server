@@ -40,6 +40,11 @@ class Provider implements IProvider {
 	/** @var ILogger */
 	private $logger;
 
+	/**
+	 * @param L10nFactory $l10n
+	 * @param IURLGenerator $urlGenerator
+	 * @param ILogger $logger
+	 */
 	public function __construct(L10nFactory $l10n, IURLGenerator $urlGenerator, ILogger $logger) {
 		$this->logger = $logger;
 		$this->urlGenerator = $urlGenerator;
