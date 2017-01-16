@@ -26,11 +26,15 @@ namespace OC\DB\QueryBuilder;
 
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OC\DB\OracleConnection;
 use OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\MySqlExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\OCIExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\PgSqlExpressionBuilder;
+use OC\DB\QueryBuilder\ExpressionBuilder\SqliteExpressionBuilder;
+use OC\DB\QueryBuilder\FunctionBuilder\FunctionBuilder;
+use OC\DB\QueryBuilder\FunctionBuilder\SqliteFunctionBuilder;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
@@ -110,6 +114,8 @@ class QueryBuilder implements IQueryBuilder {
 			return new PgSqlExpressionBuilder($this->connection);
 		} else if ($this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
 			return new MySqlExpressionBuilder($this->connection);
+		} else if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
+			return new SqliteExpressionBuilder($this->connection);
 		} else {
 			return new ExpressionBuilder($this->connection);
 		}
