@@ -34,6 +34,8 @@ use OC\DB\QueryBuilder\ExpressionBuilder\OCIExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\PgSqlExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\SqliteExpressionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\FunctionBuilder;
+use OC\DB\QueryBuilder\FunctionBuilder\OCIFunctionBuilder;
+use OC\DB\QueryBuilder\FunctionBuilder\PgSqlFunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\SqliteFunctionBuilder;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -118,6 +120,34 @@ class QueryBuilder implements IQueryBuilder {
 			return new SqliteExpressionBuilder($this->connection);
 		} else {
 			return new ExpressionBuilder($this->connection);
+		}
+	}
+
+	/**
+	 * Gets an FunctionBuilder used for object-oriented construction of query functions.
+	 * This producer method is intended for convenient inline usage. Example:
+	 *
+	 * <code>
+	 *     $qb = $conn->getQueryBuilder()
+	 *         ->select('u')
+	 *         ->from('users', 'u')
+	 *         ->where($qb->fun()->md5('u.id'));
+	 * </code>
+	 *
+	 * For more complex function construction, consider storing the function
+	 * builder object in a local variable.
+	 *
+	 * @return \OCP\DB\QueryBuilder\IFunctionBuilder
+	 */
+	public function fun() {
+		if ($this->connection instanceof OracleConnection) {
+			return new OCIFunctionBuilder($this->helper);
+		} else if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
+			return new SqliteFunctionBuilder($this->helper);
+		} else if ($this->connection->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+			return new PgSqlFunctionBuilder($this->helper);
+		} else {
+			return new FunctionBuilder($this->helper);
 		}
 	}
 

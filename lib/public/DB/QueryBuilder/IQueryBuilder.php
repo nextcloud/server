@@ -95,6 +95,25 @@ interface IQueryBuilder {
 	public function expr();
 
 	/**
+	 * Gets an FunctionBuilder used for object-oriented construction of query functions.
+	 * This producer method is intended for convenient inline usage. Example:
+	 *
+	 * <code>
+	 *     $qb = $conn->getQueryBuilder()
+	 *         ->select('u')
+	 *         ->from('users', 'u')
+	 *         ->where($qb->fun()->md5('u.id'));
+	 * </code>
+	 *
+	 * For more complex function construction, consider storing the function
+	 * builder object in a local variable.
+	 *
+	 * @return \OCP\DB\QueryBuilder\IFunctionBuilder
+	 * @since 12.0.0
+	 */
+	public function fun();
+
+	/**
 	 * Gets the type of the currently built query.
 	 *
 	 * @return integer
