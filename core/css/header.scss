@@ -106,11 +106,12 @@
 		vertical-align: middle;
 	}
 
-	#header-left #header-right {
+	#header-left,
+	#header-right {
 		display: flex;
 	}
 
-	div.header-left {
+	#header-left {
 		flex: 0 0;
 		flex-grow: 1;
 	}

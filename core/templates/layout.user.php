@@ -42,7 +42,7 @@
 		<div id="notification"></div>
 	</div>
 	<header role="banner"><div id="header">
-			<div class="header-left">
+			<div id="header-left">
 				<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
 					id="nextcloud" tabindex="1">
 					<div class="logo-icon">
