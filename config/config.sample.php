@@ -74,7 +74,7 @@ $CONFIG = array(
 
 
 /**
- * Where user files are stored.The SQLite database is also stored here, when
+ * Where user files are stored. The SQLite database is also stored here, when
  * you use SQLite.
  *
  * Default to ``data/`` in the Nextcloud directory.
@@ -283,7 +283,7 @@ $CONFIG = array(
  * FROM address that overrides the built-in ``sharing-noreply`` and
  * ``lostpassword-noreply`` FROM addresses.
  *
- * Defaults to ``nextcloud``
+ * Defaults to different from addresses depending on the feature.
  */
 'mail_from_address' => 'nextcloud',
 
@@ -762,6 +762,11 @@ $CONFIG = array(
 /**
  * This section is for configuring the download links for Nextcloud clients, as
  * seen in the first-run wizard and on Personal pages.
+ *
+ * Defaults to
+ * * Desktop client: ```https://nextcloud.com/install/#install-clients```
+ * * Android client: ```https://play.google.com/store/apps/details?id=com.nextcloud.client```
+ * * iOS client    : ```https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8```
  */
 'customclient_desktop' =>
 	'https://nextcloud.com/install/#install-clients',
