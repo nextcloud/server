@@ -198,9 +198,10 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					'p',
 					'a',
 					'ul',
+					'ol',
 					'li',
 					'em',
-					's',
+					'del',
 					'blockquote'
 				]
 			}
