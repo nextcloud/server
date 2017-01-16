@@ -114,7 +114,7 @@ OC.L10N.register(
     "Enable encryption" : "Verschlüsselung aktivieren",
     "Enable previews" : "Vorschau aktivieren",
     "Enable sharing" : "Teilen aktivieren",
-    "Check for changes" : "Auf Änderungen überprüfen",
+    "Check for changes" : "Auf Änderungen prüfen",
     "Never" : "Nie",
     "Once every direct access" : "Einmal bei jedem Direktzugriff",
     "Folder name" : "Ordnername",

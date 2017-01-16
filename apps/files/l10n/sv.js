@@ -75,7 +75,7 @@ OC.L10N.register(
     "An error occurred while trying to update the tags" : "Ett fel uppstod när uppdatera taggarna",
     "Added to favorites" : "Lades till i favoriter",
     "Removed from favorites" : "Togs bort från favoriter",
-    "You added {file} to your favorites" : "Du lade till {file} till dina favoriter",
+    "You added {file} to your favorites" : "Du la till {file} till dina favoriter",
     "You removed {file} from your favorites" : "Du tog bort {file} från dina favoriter",
     "File changes" : "Filändringar",
     "Created by {user}" : "Skapad av {user}",

@@ -156,7 +156,7 @@
     "Login canceled by app" : "Inloggningen avbruten av appen",
     "User disabled" : "Användare inaktiverad",
     "Help" : "Hjälp",
-    "Personal" : "Personligt",
+    "Personal" : "Personliga Inställningar",
     "Users" : "Användare",
     "Admin" : "Administration",
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "Applikationen \"%s\" kan ej installeras eftersom informationen från appen ej kunde läsas.",
