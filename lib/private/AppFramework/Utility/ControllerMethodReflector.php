@@ -55,7 +55,7 @@ class ControllerMethodReflector implements IControllerMethodReflector{
 		$docs = $reflection->getDocComment();
 
 		// extract everything prefixed by @ and first letter uppercase
-		preg_match_all('/@([A-Z]\w+)/', $docs, $matches);
+		preg_match_all('/^\h+\*\h+@(?P<annotation>[A-Z]\w+)(\h+(?P<parameter>\w+))?$/m', $docs, $matches);
 		$this->annotations = $matches[1];
 
 		// extract type parameter information
