@@ -603,7 +603,8 @@ em {
 	li {
 		display: flex;
 		> button,
-		> a {
+		> a,
+		> .menuitem {
 			cursor: pointer;
 			line-height: 36px;
 			border: 0;
