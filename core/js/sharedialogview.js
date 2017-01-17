@@ -260,6 +260,9 @@
 						var suggestions = users.concat(groups).concat(remotes).concat(emails).concat(lookup);
 
 						if (suggestions.length > 0) {
+							suggestions.sort(function (a, b) {
+								return OC.Util.naturalSortCompare(a.label, b.label);
+							});
 							$shareWithField
 								.autocomplete("option", "autoFocus", true);
 
