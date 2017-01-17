@@ -44,7 +44,6 @@ class SystemConfig {
 		'passwordsalt' => true,
 		'secret' => true,
 		'updater.secret' => true,
-		'ldap_agent_password' => true,
 		'proxyuserpwd' => true,
 		'log.condition' => [
 			'shared_secret' => true,
