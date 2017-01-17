@@ -123,8 +123,7 @@ form #datadirField legend {
 	padding: 13px; /* increase clickable area of Advanced dropdown */
 }
 #showAdvanced img {
-	vertical-align: bottom; /* adjust position of Advanced dropdown arrow */
-	margin-left: -4px;
+	vertical-align: middle; /* adjust position of Advanced dropdown arrow */
 }
 
 /* Buttons and input */
