@@ -152,6 +152,31 @@ class Definitions {
 				],
 			],
 		],
+		'call' => [
+			'author' => 'Nextcloud',
+			'app' => 'spreed',
+			'since' => '11.0.2',
+			'parameters' => [
+				'id' => [
+					'since' => '11.0.2',
+					'required' => true,
+					'description' => 'The id used to identify the call on the instance',
+					'example' => '42',
+				],
+				'name' => [
+					'since' => '11.0.2',
+					'required' => true,
+					'description' => 'The display name of the call which should be used in the visual representation',
+					'example' => 'Company call',
+				],
+				'call-type' => [
+					'since' => '11.0.2',
+					'required' => true,
+					'description' => 'The type of the call: one2one, group or public',
+					'example' => 'one2one',
+				],
+			],
+		],
 		'email' => [
 			'author' => 'Nextcloud',
 			'app' => 'sharebymail',
