@@ -551,6 +551,9 @@ span.version {
 	flex-basis: 90%;
 }
 
+#apps-list .app-description p {
+	margin: 10px 0;
+}
 #apps-list .app-description ul {
 	list-style: disc;
 }
