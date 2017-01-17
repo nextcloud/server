@@ -551,6 +551,26 @@ span.version {
 	flex-basis: 90%;
 }
 
+#apps-list .app-description p {
+	margin: 10px 0;
+}
+#apps-list .app-description ul {
+	list-style: disc;
+}
+#apps-list .app-description ol {
+	list-style: decimal;
+}
+#apps-list .app-description > ul,
+#apps-list .app-description > ol {
+	margin-left: 19px;
+}
+#apps-list .app-description ol ol,
+#apps-list .app-description ol ul,
+#apps-list .app-description ul ol,
+#apps-list .app-description ul ul {
+	padding-left: 15px;
+}
+
 @media (min-width: 1601px) {
 	#apps-list .section {
 		width: 22%;
@@ -633,9 +653,6 @@ form.section {
 
 .app-description {
 	clear: both;
-}
-.app-description pre {
-	white-space: pre-line;
 }
 
 #apps-list .groups-enable {

@@ -20,6 +20,7 @@
     "jquery-migrate": "~1.4.0",
     "jquery-ui": "1.10.0",
     "jsTimezoneDetect": "~1.0.5",
+    "marked": "^0.3.6",
     "moment": "^2.15.0",
     "select2": "~3.4.8",
     "zxcvbn": "*",

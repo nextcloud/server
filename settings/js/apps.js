@@ -19,6 +19,8 @@ Handlebars.registerHelper('level', function() {
 
 OC.Settings = OC.Settings || {};
 OC.Settings.Apps = OC.Settings.Apps || {
+	markedOptions: {},
+
 	setupGroupsSelect: function($elements) {
 		OC.Settings.setupGroupsSelect($elements, {
 			placeholder: t('core', 'All')
@@ -185,6 +187,25 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		} else if (typeof app.author !== 'string') {
 			app.author = app.author['@value'];
 		}
+
+		// Parse markdown in app description
+		app.description = DOMPurify.sanitize(
+			marked(app.description.trim(), OC.Settings.Apps.markedOptions),
+			{
+				SAFE_FOR_JQUERY: true,
+				ALLOWED_TAGS: [
+					'strong',
+					'p',
+					'a',
+					'ul',
+					'ol',
+					'li',
+					'em',
+					'del',
+					'blockquote'
+				]
+			}
+		);
 
 		var html = template(app);
 		if (selector) {
@@ -633,6 +654,50 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	 * Initializes the apps list
 	 */
 	initialize: function($el) {
+
+		var renderer = new marked.Renderer();
+		renderer.link = function(href, title, text) {
+			try {
+				var prot = decodeURIComponent(unescape(href))
+					.replace(/[^\w:]/g, '')
+					.toLowerCase();
+			} catch (e) {
+				return '';
+			}
+
+			if (prot.indexOf('http:') !== 0 && prot.indexOf('https:') !== 0) {
+				return '';
+			}
+
+			var out = '<a href="' + href + '" rel="noreferrer noopener"';
+			if (title) {
+				out += ' title="' + title + '"';
+			}
+			out += '>' + text + '</a>';
+			return out;
+		};
+		renderer.image = function(href, title, text) {
+			if (text) {
+				return text;
+			}
+			return title;
+		};
+		renderer.blockquote = function(quote) {
+			return quote;
+		};
+
+		OC.Settings.Apps.markedOptions = {
+			renderer: renderer,
+			gfm: false,
+			highlight: false,
+			tables: false,
+			breaks: false,
+			pedantic: false,
+			sanitize: true,
+			smartLists: true,
+			smartypants: false
+		};
+
 		OC.Plugins.register('OCA.Search', OC.Settings.Apps.Search);
 		OC.Settings.Apps.loadCategories();
 		OC.Util.History.addOnPopStateHandler(_.bind(this._onPopState, this));
