@@ -1148,8 +1148,6 @@ $CONFIG = array(
  * to be fetched in addition to any requested file.
  *
  * One way to test is applying for a trystack account at http://trystack.org/
- *
- * Defaults to ``''`` (empty string)
  */
 'objectstore' => [
 	'class' => 'OC\\Files\\ObjectStore\\Swift',
@@ -1272,8 +1270,6 @@ $CONFIG = array(
  * use.
  *
  * The Web server user must have write access to this directory.
- *
- * Defaults to ``''`` (empty string)
  */
 'tempdirectory' => '/tmp/nextcloudtemp',
 
@@ -1303,7 +1299,7 @@ $CONFIG = array(
  * If you are applying a theme to Nextcloud, enter the name of the theme here.
  * The default location for themes is ``nextcloud/themes/``.
  *
- * Default to ``themes/`` in Nextcloud directory
+ * Defaults to the theming app which is shipped since Nextcloud 9
  */
 'theme' => '',
 
@@ -1323,7 +1319,7 @@ $CONFIG = array(
  * client may not function as expected, and could lead to permanent data loss for
  * clients or other unexpected results.
  *
- * Defaults to ``2.2.0``
+ * Defaults to ``2.0.0``
  */
 'minimum.supported.desktop.version' => '2.0.0',
 
