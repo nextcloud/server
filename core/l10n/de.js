@@ -60,6 +60,7 @@ OC.L10N.register(
     "seconds ago" : "Gerade eben",
     "Logging in …" : "Melde an ...",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Der Link zum Rücksetzen deines Passwortes ist an deine E-Mail-Adresse versandt worden. Solltest du in Kürze keine entsprechende E-Mail erhalten, überprüfe bitte deinen Spam-Ordner.<br>Ansonsten kannst du dich bei deinem lokalen Administrator melden.",
+    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Deine Dateien sind verschlüsselt. Es gibt keinen Weg Deine Dateien nach dem Rücksetzen des Passwortes wiederherzustellen.<br />Falls Du Dir nicht sicher bist, kontaktiere Deinen Administrator.<br />Möchtest Du wirklich fortfahren?",
     "I know what I'm doing" : "Ich weiß, was ich mache",
     "Password can not be changed. Please contact your administrator." : "Passwort kann nicht geändert werden. Bitte kontaktiere deinen Administrator.",
     "No" : "Nein",
