@@ -169,6 +169,12 @@ class Definitions {
 					'description' => 'The display name of the call which should be used in the visual representation',
 					'example' => 'Company call',
 				],
+				'call-type' => [
+					'since' => '11.0.2',
+					'required' => true,
+					'description' => 'The type of the call: one2one, group or public',
+					'example' => 'one2one',
+				],
 			],
 		],
 		'email' => [
