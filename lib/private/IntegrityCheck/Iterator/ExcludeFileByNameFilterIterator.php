@@ -25,7 +25,7 @@ namespace OC\IntegrityCheck\Iterator;
 
 /**
  * Class ExcludeFileByNameFilterIterator provides a custom iterator which excludes
- * entries with the specified file name from the file list.
+ * entries with the specified file name from the file list. These file names are matched exactly.
  *
  * @package OC\Integritycheck\Iterator
  */
@@ -41,8 +41,19 @@ class ExcludeFileByNameFilterIterator extends \RecursiveFilterIterator {
 		'.DS_Store', // Mac OS X
 		'Thumbs.db', // Microsoft Windows
 		'.directory', // Dolphin (KDE)
-		'.webapp', // Gentoo/Funtoo & derivatives use a tool known as webapp-config to manager wep-apps.
+		'.webapp', // Gentoo/Funtoo & derivatives use a tool known as webapp-config to manage wep-apps.
 	];
+
+	/**
+	 * Array of excluded file name parts. Those are not scanned by the integrity checker.
+	 * These strings are regular expressions and any file names
+	 * matching these expressions are ignored.
+	 *
+	 * @var array
+	 */
+	private $excludedFileNamePatterns = [
+		'/^\.webapp-nextcloud-.*/', // Gentoo/Funtoo & derivatives use a tool known as webapp-config to manage wep-apps.
+ 	];
 
 	/**
 	 * @return bool
@@ -52,10 +63,17 @@ class ExcludeFileByNameFilterIterator extends \RecursiveFilterIterator {
 			return true;
 		}
 
-		return !in_array(
-			$this->current()->getFilename(),
-			$this->excludedFilenames,
-			true
-		);
+		$currentFileName = $this->current()->getFilename();
+		if (in_array($currentFileName, $this->excludedFilenames, true)){
+			return false;
+		}
+
+		foreach ($this->excludedFileNamePatterns as $pattern){
+			if (preg_match($pattern, $currentFileName) > 0){
+				return false;
+			}
+		}
+
+		return true;
 	}
 }
