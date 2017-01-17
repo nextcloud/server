@@ -77,6 +77,19 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 
 
 	/**
+	 * @Annotation parameter
+	 */
+	public function testGetAnnotationParameter(){
+		$reader = new ControllerMethodReflector();
+		$reader->reflect(
+			'\Test\AppFramework\Utility\ControllerMethodReflectorTest',
+			'testGetAnnotationParameter'
+		);
+
+		$this->assertSame('parameter', $reader->getAnnotationParameter('Annotation'));
+	}
+
+	/**
 	 * @Annotation
 	 * @param test
 	 */
