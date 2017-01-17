@@ -189,9 +189,10 @@ class Throttler {
 	 * Get the throttling delay (in milliseconds)
 	 *
 	 * @param string $ip
+	 * @param string $action optionally filter by action
 	 * @return int
 	 */
-	public function getDelay($ip) {
+	public function getDelay($ip, $action = '') {
 		$cutoffTime = (new \DateTime())
 			->sub($this->getCutoff(43200))
 			->getTimestamp();
@@ -201,6 +202,11 @@ class Throttler {
 			->from('bruteforce_attempts')
 			->where($qb->expr()->gt('occurred', $qb->createNamedParameter($cutoffTime)))
 			->andWhere($qb->expr()->eq('subnet', $qb->createNamedParameter($this->getSubnet($ip))));
+
+		if ($action !== '') {
+			$qb->andWhere($qb->expr()->eq('action', $qb->createNamedParameter($action)));
+		}
+
 		$attempts = count($qb->execute()->fetchAll());
 
 		if ($attempts === 0) {
@@ -225,10 +231,11 @@ class Throttler {
 	 * Will sleep for the defined amount of time
 	 *
 	 * @param string $ip
+	 * @param string $action optionally filter by action
 	 * @return int the time spent sleeping
 	 */
-	public function sleepDelay($ip) {
-		$delay = $this->getDelay($ip);
+	public function sleepDelay($ip, $action = '') {
+		$delay = $this->getDelay($ip, $action);
 		usleep($delay * 1000);
 		return $delay;
 	}

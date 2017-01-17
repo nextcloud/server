@@ -43,8 +43,10 @@ use OC\AppFramework\Middleware\OCSMiddleware;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\Utility\SimpleContainer;
+use OC\AppFramework\Utility\TimeFactory;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\RichObjectStrings\Validator;
+use OC\Security\Bruteforce\Throttler;
 use OCP\AppFramework\IApi;
 use OCP\AppFramework\IAppContainer;
 use OCP\Files\IAppData;
@@ -376,20 +378,25 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		 */
 		$app = $this;
 		$this->registerService('SecurityMiddleware', function($c) use ($app){
+			/** @var \OC\Server $server */
+			$server = $app->getServer();
+
 			return new SecurityMiddleware(
 				$c['Request'],
 				$c['ControllerMethodReflector'],
-				$app->getServer()->getNavigationManager(),
-				$app->getServer()->getURLGenerator(),
-				$app->getServer()->getLogger(),
-				$app->getServer()->getSession(),
+				$server->getNavigationManager(),
+				$server->getURLGenerator(),
+				$server->getLogger(),
+				$server->getSession(),
 				$c['AppName'],
 				$app->isLoggedIn(),
 				$app->isAdminUser(),
-				$app->getServer()->getContentSecurityPolicyManager(),
-				$app->getServer()->getCsrfTokenManager(),
-				$app->getServer()->getContentSecurityPolicyNonceManager()
+				$server->getContentSecurityPolicyManager(),
+				$server->getCsrfTokenManager(),
+				$server->getContentSecurityPolicyNonceManager(),
+				$server->getBruteForceThrottler()
 			);
+
 		});
 
 		$this->registerService('CORSMiddleware', function($c) {
