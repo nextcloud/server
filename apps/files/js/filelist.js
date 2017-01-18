@@ -1180,7 +1180,7 @@
 			var innernameSpan = $('<span></span>').addClass('innernametext').text(basename);
 
 			if (path && path !== '/') {
-				var conflictingItems = this.$fileList.find('tr[data-file="' + name.replace( /(:|\.|\[|\]|,|=)/g, "\\$1") + '"]');
+				var conflictingItems = this.$fileList.find('tr[data-file="' + this._jqSelEscape(name) + '"]');
 				if (conflictingItems.length !== 0) {
 					if (conflictingItems.length === 1) {
 						// Update the path on the first conflicting item
@@ -1264,6 +1264,14 @@
 			tr.find('.filesize').text(simpleSize);
 			tr.append(td);
 			return tr;
+		},
+
+		/* escape a selector expression for jQuery */
+		_jqSelEscape: function (expression) {
+			if (expression) {
+				return expression.replace(/[!"#$%&'()*+,.\/:;<=>?@\[\\\]^`{|}~]/g, '\\$&');
+			}
+			return null;
 		},
 
 		/**
