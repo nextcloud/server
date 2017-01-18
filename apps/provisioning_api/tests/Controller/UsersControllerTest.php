@@ -1826,6 +1826,68 @@ class UsersControllerTest extends OriginalTest {
 		$this->api->removeFromGroup('subadmin', 'subadmin');
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 105
+	 * @expectedExceptionMessage Cannot remove user from this group as this is the only remaining group you are a SubAdmin of
+	 */
+	public function testRemoveFromGroupAsSubAdminFromLastSubAdminGroup() {
+		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
+		$loggedInUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('subadmin'));
+		$targetUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
+		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
+		$targetGroup
+			->expects($this->any())
+			->method('getGID')
+			->will($this->returnValue('subadmin'));
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->groupManager
+			->expects($this->once())
+			->method('get')
+			->with('subadmin')
+			->will($this->returnValue($targetGroup));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('AnotherUser')
+			->will($this->returnValue($targetUser));
+		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
+			->disableOriginalConstructor()->getMock();
+		$subAdminManager
+			->expects($this->once())
+			->method('isSubAdminofGroup')
+			->with($loggedInUser, $targetGroup)
+			->will($this->returnValue(true));
+		$this->groupManager
+			->expects($this->once())
+			->method('getSubAdmin')
+			->will($this->returnValue($subAdminManager));
+		$subAdminManager
+			->expects($this->once())
+			->method('getSubAdminsGroups')
+			->with($loggedInUser)
+			->will($this->returnValue([$targetGroup]));
+
+		$this->groupManager
+			->expects($this->any())
+			->method('isAdmin')
+			->with('subadmin')
+			->will($this->returnValue(false));
+		$this->groupManager
+			->expects($this->once())
+			->method('getUserGroupIds')
+			->with($targetUser)
+			->willReturn(['subadmin', 'other group']);
+
+		$this->api->removeFromGroup('AnotherUser', 'subadmin');
+	}
+
 	public function testRemoveFromGroupSuccessful() {
 		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$loggedInUser

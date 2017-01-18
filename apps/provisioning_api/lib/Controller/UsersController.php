@@ -507,6 +507,20 @@ class UsersController extends OCSController {
 				// Not an admin, so the user must be a subadmin of this group, but that is not allowed.
 				throw new OCSException('Cannot remove yourself from this group as you are a SubAdmin', 105);
 			}
+
+		} else if (!$this->groupManager->isAdmin($loggedInUser->getUID())) {
+			/** @var IGroup[] $subAdminGroups */
+			$subAdminGroups = $subAdminManager->getSubAdminsGroups($loggedInUser);
+			$subAdminGroups = array_map(function (IGroup $subAdminGroup) {
+				return $subAdminGroup->getGID();
+			}, $subAdminGroups);
+			$userGroups = $this->groupManager->getUserGroupIds($targetUser);
+			$userSubAdminGroups = array_intersect($subAdminGroups, $userGroups);
+
+			if (count($userSubAdminGroups) <= 1) {
+				// Subadmin must not be able to remove a user from all their subadmin groups.
+				throw new OCSException('Cannot remove user from this group as this is the only remaining group you are a SubAdmin of', 105);
+			}
 		}
 
 		// Remove user from group
