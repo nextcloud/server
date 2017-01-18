@@ -441,6 +441,8 @@ class UsersController extends OCSController {
 
 	/**
 	 * @PasswordConfirmationRequired
+	 * @NoAdminRequired
+	 *
 	 * @param string $userId
 	 * @param string $groupid
 	 * @return DataResponse
@@ -458,6 +460,13 @@ class UsersController extends OCSController {
 		}
 		if($targetUser === null) {
 			throw new OCSException('', 103);
+		}
+
+		// If they're not an admin, check they are a subadmin of the group in question
+		$loggedInUser = $this->userSession->getUser();
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		if (!$this->groupManager->isAdmin($loggedInUser->getUID()) && !$subAdminManager->isSubAdminOfGroup($loggedInUser, $group)) {
+			throw new OCSException('', 104);
 		}
 
 		// Add user to group
