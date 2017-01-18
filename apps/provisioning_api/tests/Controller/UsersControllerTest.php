@@ -1813,11 +1813,6 @@ class UsersControllerTest extends OriginalTest {
 			->method('isSubAdminofGroup')
 			->with($loggedInUser, $targetGroup)
 			->will($this->returnValue(true));
-		$subAdminManager
-			->expects($this->once())
-			->method('getSubAdminsGroups')
-			->with($loggedInUser)
-			->will($this->returnValue([$targetGroup]));
 		$this->groupManager
 			->expects($this->once())
 			->method('getSubAdmin')
