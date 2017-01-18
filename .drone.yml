@@ -365,6 +365,16 @@ pipeline:
     when:
       matrix:
         TESTS: integration-filesdrop-features
+  integration-ldap-features:
+      image: nextcloudci/integration-php7.0:integration-php7.0-3
+      commands:
+        - ./occ maintenance:install --admin-pass=admin
+        - ./occ app:enable user_ldap
+        - cd build/integration
+        - ./run.sh ldap_features/ldap-ocs.feature
+      when:
+        matrix:
+          TESTS: integration-ldap-features
   nodb-codecov:
     image: nextcloudci/php7.0:php7.0-7
     commands:
@@ -410,6 +420,7 @@ matrix:
     - TESTS: integration-sharees-features
     - TESTS: integration-setup-features
     - TESTS: integration-filesdrop-features
+    - TESTS: integration-ldap-features
     - TESTS: jsunit
     - TESTS: check-autoloader
     - TESTS: app-check-code

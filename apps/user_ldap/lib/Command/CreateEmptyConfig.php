@@ -29,6 +29,7 @@ use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Helper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateEmptyConfig extends Command {
@@ -47,29 +48,24 @@ class CreateEmptyConfig extends Command {
 		$this
 			->setName('ldap:create-empty-config')
 			->setDescription('creates an empty LDAP configuration')
+			->addOption(
+				'only-print-prefix',
+				'p',
+				InputOption::VALUE_NONE,
+				'outputs only the prefix'
+			)
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$configPrefix = $this->getNewConfigurationPrefix();
-		$output->writeln("Created new configuration with configID '{$configPrefix}'");
-
+		$configPrefix = $this->helper->getNextServerConfigurationPrefix();
 		$configHolder = new Configuration($configPrefix);
 		$configHolder->saveConfiguration();
-	}
 
-	protected function getNewConfigurationPrefix() {
-		$serverConnections = $this->helper->getServerConfigurationPrefixes();
-
-		// first connection uses no prefix
-		if(sizeof($serverConnections) == 0) {
-			return '';
+		$prose = '';
+		if(!$input->getOption('only-print-prefix')) {
+			$prose = 'Created new configuration with configID ';
 		}
-
-		sort($serverConnections);
-		$lastKey = array_pop($serverConnections);
-		$lastNumber = intval(str_replace('s', '', $lastKey));
-		$nextPrefix = 's' . str_pad($lastNumber + 1, 2, '0', STR_PAD_LEFT);
-		return $nextPrefix;
+		$output->writeln($prose . "{$configPrefix}");
 	}
 }

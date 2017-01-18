@@ -393,9 +393,12 @@ class Configuration {
 	 * @return bool
 	 */
 	protected function saveValue($varName, $value) {
-		return \OCP\Config::setAppValue('user_ldap',
-										$this->configPrefix.$varName,
-										$value);
+		\OC::$server->getConfig()->setAppValue(
+			'user_ldap',
+			$this->configPrefix.$varName,
+			$value
+		);
+		return true;
 	}
 
 	/**
