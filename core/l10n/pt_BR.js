@@ -60,6 +60,7 @@ OC.L10N.register(
     "seconds ago" : "segundos atrás",
     "Logging in …" : "Logando ...",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "O link para redefinir sua senha foi enviado para seu e-mail. Se você não recebê-lo dentro de um período razoável de tempo, verifique suas pastas de spam/lixo.<br> Se ele não estiver lá, pergunte ao administrador do local.",
+    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Seus arquivos são criptografados. Não existe nenhuma maneira de ter seus dados de volta depois que sua senha seja redefinida.<br /> Se você não tem certeza do que fazer, por favor contate seu administrador antes de continuar.<br />Você realmente deseja continuar?",
     "I know what I'm doing" : "Eu sei o que estou fazendo",
     "Password can not be changed. Please contact your administrator." : "A senha não pode ser alterada. Por favor, contate o administrador.",
     "No" : "Não",
