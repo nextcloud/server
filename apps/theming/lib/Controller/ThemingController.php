@@ -445,8 +445,7 @@ class ThemingController extends Controller {
 		cacheBuster: ' . json_encode($cacheBusterValue). '
 	};
 })();';
-		$response = new Http\DataDisplayResponse($responseJS);
-		$response->addHeader('Content-type', 'text/javascript');
+		$response = new DataDownloadResponse($responseJS, 'javascript', 'text/javascript');
 		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
 		$response->addHeader('Pragma', 'cache');
 		$response->cacheFor(3600);

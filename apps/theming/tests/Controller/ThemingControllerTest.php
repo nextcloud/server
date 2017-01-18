@@ -910,7 +910,6 @@ class ThemingControllerTest extends TestCase {
 			'background-image: url(\'./img/core/filetypes/folder.svg?v=0\');' . "}\n" .
 			'.icon-filetype-folder-drag-accept {' .
 			'background-image: url(\'./img/core/filetypes/folder-drag-accept.svg?v=0\')!important;' . "}\n";
-		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
 
 		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
 		$expected->cacheFor(3600);
@@ -948,8 +947,7 @@ class ThemingControllerTest extends TestCase {
 		cacheBuster: null
 	};
 })();';
-		$expected = new Http\DataDisplayResponse($expectedResponse);
-		$expected->addHeader("Content-type","text/javascript");
+		$expected = new Http\DataDownloadResponse($expectedResponse, 'javascript', 'text/javascript');
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
 		$expected->addHeader('Pragma', 'cache');
 		$expected->cacheFor(3600);
@@ -983,8 +981,7 @@ class ThemingControllerTest extends TestCase {
 		cacheBuster: null
 	};
 })();';
-		$expected = new Http\DataDisplayResponse($expectedResponse);
-		$expected->addHeader("Content-type","text/javascript");
+		$expected = new Http\DataDownloadResponse($expectedResponse, 'javascript', 'text/javascript');
 		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
 		$expected->addHeader('Pragma', 'cache');
 		$expected->cacheFor(3600);
