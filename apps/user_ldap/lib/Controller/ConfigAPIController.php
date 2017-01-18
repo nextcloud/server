@@ -30,7 +30,9 @@ use OC\Security\IdentityProof\Manager;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Helper;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
+use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserManager;
@@ -122,5 +124,54 @@ class ConfigAPIController extends OCSController {
 			throw new OCSException('An issue occurred when creating the new config.');
 		}
 		return new DataResponse(['prefix' => $configPrefix]);
+	}
+
+	/**
+	 * Deletes a LDAP configuration, if present.
+	 *
+	 * Example:
+	 *   curl -X DELETE -H "OCS-APIREQUEST: true" -u $admin:$password \
+	 *    https://nextcloud.server/ocs/v1.php/apps/user_ldap/api/v1/config/s60
+	 *
+	 * <?xml version="1.0"?>
+	 * <ocs>
+	 *   <meta>
+	 *     <status>ok</status>
+	 *     <statuscode>100</statuscode>
+	 *     <message>OK</message>
+	 *     <totalitems></totalitems>
+	 *     <itemsperpage></itemsperpage>
+	 *   </meta>
+	 *   <data/>
+	 * </ocs>
+	 *
+	 * @param $configID
+	 * @return DataResponse
+	 * @throws OCSBadRequestException
+	 * @throws OCSException
+	 */
+	public function delete($configID) {
+		$initial = substr($configID, 0, 1);
+		$number  = substr($configID, 1);
+		if($initial !== 's' || $number !== strval(intval($number))) {
+			throw new OCSBadRequestException('Not a valid config ID');
+		}
+
+		try {
+			$prefixes = $this->ldapHelper->getServerConfigurationPrefixes();
+			if(!in_array($configID, $prefixes)) {
+				throw new OCSNotFoundException('Config ID not found');
+			}
+			if(!$this->ldapHelper->deleteServerConfiguration($configID)) {
+				throw new OCSException('Could not delete configuration');
+			}
+		} catch(OCSException $e) {
+			throw $e;
+		} catch(\Exception $e) {
+			$this->logger->logException($e);
+			throw new OCSException('An issue occurred when deleting the config.');
+		}
+
+		return new DataResponse();
 	}
 }

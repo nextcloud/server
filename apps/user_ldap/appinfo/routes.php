@@ -41,5 +41,6 @@ $application = new \OCP\AppFramework\App('user_ldap');
 $application->registerRoutes($this, [
 	'ocs' => [
 		['name' => 'ConfigAPI#create', 'url' => '/api/v1/config', 'verb' => 'POST'],
+		['name' => 'ConfigAPI#delete', 'url' => '/api/v1/config/{configID}', 'verb' => 'DELETE'],
 	]
 ]);
