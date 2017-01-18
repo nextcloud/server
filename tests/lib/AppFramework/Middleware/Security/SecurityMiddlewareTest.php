@@ -34,6 +34,7 @@ use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\Appframework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\Security\Bruteforce\Throttler;
 use OC\Security\CSP\ContentSecurityPolicy;
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
@@ -82,6 +83,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	private $csrfTokenManager;
 	/** @var ContentSecurityPolicyNonceManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $cspNonceManager;
+	/** @var  Throttler|\PHPUnit_Framework_MockObject_MockObject */
+	private $bruteForceThrottler;
 
 	protected function setUp() {
 		parent::setUp();
@@ -96,6 +99,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->contentSecurityPolicyManager = $this->createMock(ContentSecurityPolicyManager::class);
 		$this->csrfTokenManager = $this->createMock(CsrfTokenManager::class);
 		$this->cspNonceManager = $this->createMock(ContentSecurityPolicyNonceManager::class);
+		$this->bruteForceThrottler = $this->getMockBuilder(Throttler::class)->disableOriginalConstructor()->getMock();
 		$this->middleware = $this->getMiddleware(true, true);
 		$this->secException = new SecurityException('hey', false);
 		$this->secAjaxException = new SecurityException('hey', true);
@@ -119,7 +123,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$isAdminUser,
 			$this->contentSecurityPolicyManager,
 			$this->csrfTokenManager,
-			$this->cspNonceManager
+			$this->cspNonceManager,
+			$this->bruteForceThrottler
 		);
 	}
 
@@ -651,5 +656,71 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->with($mergedPolicy);
 
 		$this->assertEquals($response, $this->middleware->afterController($this->controller, 'test', $response));
+	}
+
+	/**
+	 * @dataProvider dataTestBeforeControllerBruteForce
+	 */
+	public function testBeforeControllerBruteForce($bruteForceProtectionEnabled) {
+		/** @var ControllerMethodReflector|\PHPUnit_Framework_MockObject_MockObject $reader */
+		$reader = $this->getMockBuilder(ControllerMethodReflector::class)->disableOriginalConstructor()->getMock();
+
+		$middleware = new SecurityMiddleware(
+			$this->request,
+			$reader,
+			$this->navigationManager,
+			$this->urlGenerator,
+			$this->logger,
+			$this->session,
+			'files',
+			false,
+			false,
+			$this->contentSecurityPolicyManager,
+			$this->csrfTokenManager,
+			$this->cspNonceManager,
+			$this->bruteForceThrottler
+		);
+
+		$reader->expects($this->any())->method('hasAnnotation')
+			->willReturnCallback(
+				function($annotation) use ($bruteForceProtectionEnabled) {
+
+					switch ($annotation) {
+						case 'BruteForceProtection':
+							return $bruteForceProtectionEnabled;
+						case 'PasswordConfirmationRequired':
+						case 'StrictCookieRequired':
+							return false;
+						case 'PublicPage':
+						case 'NoCSRFRequired':
+							return true;
+					}
+
+					return true;
+			}
+			);
+
+		$reader->expects($this->any())->method('getAnnotationParameter')->willReturn('action');
+		$this->request->expects($this->any())->method('getRemoteAddress')->willReturn('remoteAddress');
+
+		if ($bruteForceProtectionEnabled) {
+			$this->bruteForceThrottler->expects($this->once())->method('sleepDelay')
+				->with('remoteAddress', 'action');
+			$this->bruteForceThrottler->expects($this->once())->method('registerAttempt')
+				->with('action', 'remoteAddress');
+		} else {
+			$this->bruteForceThrottler->expects($this->never())->method('sleepDelay');
+			$this->bruteForceThrottler->expects($this->never())->method('registerAttempt');
+		}
+
+		$middleware->beforeController($this->controller, 'test');
+
+	}
+
+	public function dataTestBeforeControllerBruteForce() {
+		return [
+			[true],
+			[false]
+		];
 	}
 }

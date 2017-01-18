@@ -128,7 +128,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 */
 	public function personCheck($login = '', $password = '') {
 		if ($login !== '' && $password !== '') {
-			$this->throttler->sleepDelay($this->request->getRemoteAddress());
+			$this->throttler->sleepDelay($this->request->getRemoteAddress(), 'login');
 			if ($this->userManager->checkPassword($login, $password)) {
 				return new DataResponse([
 					'person' => [

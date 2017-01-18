@@ -317,7 +317,7 @@ class Session implements IUserSession, Emitter {
 								$password,
 								IRequest $request,
 								OC\Security\Bruteforce\Throttler $throttler) {
-		$currentDelay = $throttler->sleepDelay($request->getRemoteAddress());
+		$currentDelay = $throttler->sleepDelay($request->getRemoteAddress(), 'login');
 
 		$isTokenPassword = $this->isTokenPassword($password);
 		if (!$isTokenPassword && $this->isTokenAuthEnforced()) {
@@ -334,7 +334,7 @@ class Session implements IUserSession, Emitter {
 
 			$throttler->registerAttempt('login', $request->getRemoteAddress(), ['uid' => $user]);
 			if($currentDelay === 0) {
-				$throttler->sleepDelay($request->getRemoteAddress());
+				$throttler->sleepDelay($request->getRemoteAddress(), 'login');
 			}
 			return false;
 		}
@@ -768,7 +768,7 @@ class Session implements IUserSession, Emitter {
 			try {
 				$this->tokenProvider->invalidateToken($this->session->getId());
 			} catch (SessionNotAvailableException $ex) {
-				
+
 			}
 		}
 		$this->setUser(null);
