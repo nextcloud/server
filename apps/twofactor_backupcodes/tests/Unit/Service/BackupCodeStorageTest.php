@@ -31,23 +31,24 @@ use OCP\ILogger;
 use OCP\IUser;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
+use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
 class BackupCodeStorageTest extends TestCase {
 
-	/** @var BackupCodeMapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var BackupCodeMapper|PHPUnit_Framework_MockObject_MockObject */
 	private $mapper;
 
-	/** @var ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISecureRandom|PHPUnit_Framework_MockObject_MockObject */
 	private $random;
 
-	/** @var IHasher|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IHasher|PHPUnit_Framework_MockObject_MockObject */
 	private $hasher;
 
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|PHPUnit_Framework_MockObject_MockObject */
 	private $activityManager;
 
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|PHPUnit_Framework_MockObject_MockObject */
 	private $logger;
 
 	/** @var BackupCodeStorage */
@@ -56,11 +57,9 @@ class BackupCodeStorageTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->mapper = $this->getMockBuilder(BackupCodeMapper::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->random = $this->getMockBuilder(ISecureRandom::class)->getMock();
-		$this->hasher = $this->getMockBuilder(IHasher::class)->getMock();
+		$this->mapper = $this->createMock(BackupCodeMapper::class);
+		$this->random = $this->createMock(ISecureRandom::class);
+		$this->hasher = $this->createMock(IHasher::class);
 		$this->activityManager = $this->createMock(IManager::class);
 		$this->logger = $this->createMock(ILogger::class);
 
@@ -68,7 +67,7 @@ class BackupCodeStorageTest extends TestCase {
 	}
 
 	public function testCreateCodes() {
-		$user = $this->getMockBuilder(IUser::class)->getMock();
+		$user = $this->createMock(IUser::class);
 		$number = 5;
 		$event = $this->createMock(IEvent::class);
 
@@ -77,7 +76,7 @@ class BackupCodeStorageTest extends TestCase {
 			->will($this->returnValue('fritz'));
 		$this->random->expects($this->exactly($number))
 			->method('generate')
-			->with(10, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
+			->with(16, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
 			->will($this->returnValue('CODEABCDEF'));
 		$this->hasher->expects($this->exactly($number))
 			->method('hash')
@@ -121,7 +120,7 @@ class BackupCodeStorageTest extends TestCase {
 	}
 
 	public function testHasBackupCodes() {
-		$user = $this->getMockBuilder(IUser::class)->getMock();
+		$user = $this->createMock(IUser::class);
 		$codes = [
 			new BackupCode(),
 			new BackupCode(),
@@ -136,7 +135,7 @@ class BackupCodeStorageTest extends TestCase {
 	}
 
 	public function testHasBackupCodesNoCodes() {
-		$user = $this->getMockBuilder(IUser::class)->getMock();
+		$user = $this->createMock(IUser::class);
 		$codes = [];
 
 		$this->mapper->expects($this->once())
@@ -148,7 +147,7 @@ class BackupCodeStorageTest extends TestCase {
 	}
 
 	public function testGetBackupCodeState() {
-		$user = $this->getMockBuilder(IUser::class)->getMock();
+		$user = $this->createMock(IUser::class);
 
 		$code1 = new BackupCode();
 		$code1->setUsed(1);
@@ -173,7 +172,7 @@ class BackupCodeStorageTest extends TestCase {
 	}
 
 	public function testGetBackupCodeDisabled() {
-		$user = $this->getMockBuilder(IUser::class)->getMock();
+		$user = $this->createMock(IUser::class);
 
 		$codes = [];
 
@@ -191,7 +190,7 @@ class BackupCodeStorageTest extends TestCase {
 	}
 
 	public function testValidateCode() {
-		$user = $this->getMockBuilder(IUser::class)->getMock();
+		$user = $this->createMock(IUser::class);
 		$code = new BackupCode();
 		$code->setUsed(0);
 		$code->setCode('HASHEDVALUE');
@@ -217,7 +216,7 @@ class BackupCodeStorageTest extends TestCase {
 	}
 
 	public function testValidateUsedCode() {
-		$user = $this->getMockBuilder(IUser::class)->getMock();
+		$user = $this->createMock(IUser::class);
 		$code = new BackupCode();
 		$code->setUsed('1');
 		$code->setCode('HASHEDVALUE');
@@ -238,7 +237,7 @@ class BackupCodeStorageTest extends TestCase {
 	}
 
 	public function testValidateCodeWithWrongHash() {
-		$user = $this->getMockBuilder(IUser::class)->getMock();
+		$user = $this->createMock(IUser::class);
 		$code = new BackupCode();
 		$code->setUsed(0);
 		$code->setCode('HASHEDVALUE');
