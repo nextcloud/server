@@ -28,6 +28,7 @@ use OC\Encryption\Util;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\Encryption\Keys\IStorage;
+use OC\User\NoUserException;
 
 class Storage implements IStorage {
 
@@ -134,8 +135,21 @@ class Storage implements IStorage {
 	 * @inheritdoc
 	 */
 	public function deleteUserKey($uid, $keyId, $encryptionModuleId) {
-		$path = $this->constructUserKeyPath($encryptionModuleId, $keyId, $uid);
-		return !$this->view->file_exists($path) || $this->view->unlink($path);
+		try {
+			$path = $this->constructUserKeyPath($encryptionModuleId, $keyId, $uid);
+			return !$this->view->file_exists($path) || $this->view->unlink($path);
+		} catch (NoUserException $e) {
+			// this exception can come from initMountPoints() from setupUserMounts()
+			// for a deleted user.
+			//
+			// It means, that:
+			// - we are not running in alternative storage mode because we don't call
+			// initMountPoints() in that mode
+			// - the keys were in the user's home but since the user was deleted, the
+			// user's home is gone and so are the keys
+			//
+			// So there is nothing to do, just ignore.
+		}
 	}
 
 	/**
