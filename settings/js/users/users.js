@@ -420,42 +420,63 @@ var UserList = {
 
 		var $element = $(element);
 
-		var checkHandler = null;
+		var addUserToGroup = null,
+			removeUserFromGroup = null;
 		if(user) { // Only if in a user row, and not the #newusergroups select
-			checkHandler = function (group) {
-				if (user === OC.currentUser && group === 'admin') {
+			var handleUserGroupMembership = function (group, add) {
+				if (user === OC.getCurrentUser().uid && group === 'admin') {
 					return false;
 				}
 				if (!OC.isUserAdmin() && checked.length === 1 && checked[0] === group) {
 					return false;
 				}
-				$.post(
-					OC.filePath('settings', 'ajax', 'togglegroups.php'),
-					{
-						username: user,
-						group: group
-					},
-					function (response) {
-						if (response.status === 'success') {
-							GroupList.update();
-							var groupName = response.data.groupname;
-							if (UserList.availableGroups.indexOf(groupName) === -1 &&
-								response.data.action === 'add'
-							) {
-								UserList.availableGroups.push(groupName);
-							}
 
-							if (response.data.action === 'add') {
-								GroupList.incGroupCount(groupName);
-							} else {
-								GroupList.decGroupCount(groupName);
-							}
+				if (add && OC.isUserAdmin() && UserList.availableGroups.indexOf(group) === -1) {
+					GroupList.createGroup(group);
+					if (UserList.availableGroups.indexOf(group) === -1) {
+						UserList.availableGroups.push(group);
+					}
+				}
+
+				$.ajax({
+					url: OC.linkToOCS('cloud/users/' + user , 2) + 'groups',
+					data: {
+						groupid: group
+					},
+					type: add ? 'POST' : 'DELETE',
+					beforeSend: function (request) {
+						request.setRequestHeader('Accept', 'application/json');
+					},
+					success: function() {
+						GroupList.update();
+						if (add && UserList.availableGroups.indexOf(group) === -1) {
+							UserList.availableGroups.push(group);
 						}
-						if (response.data.message) {
-							OC.Notification.show(response.data.message);
+
+						if (add) {
+							GroupList.incGroupCount(group);
+						} else {
+							GroupList.decGroupCount(group);
+						}
+					},
+					error: function() {
+						if (add) {
+							OC.Notification.show(t('settings', 'Unable to add user to group {group}', {
+								group: group
+							}));
+						} else {
+							OC.Notification.show(t('settings', 'Unable to remove user from group {group}', {
+								group: group
+							}));
 						}
 					}
-				);
+				});
+			};
+			addUserToGroup = function (group) {
+				return handleUserGroupMembership(group, true);
+			};
+			removeUserFromGroup = function (group) {
+				return handleUserGroupMembership(group, false);
 			};
 		}
 		var addGroup = function (select, group) {
@@ -473,8 +494,8 @@ var UserList = {
 			createText: label,
 			selectedFirst: true,
 			checked: checked,
-			oncheck: checkHandler,
-			onuncheck: checkHandler,
+			oncheck: addUserToGroup,
+			onuncheck: removeUserFromGroup,
 			minWidth: 100
 		});
 	},
