@@ -538,7 +538,7 @@ $CONFIG = array(
  *
  * Supported values:
  *   - ``daily``
- *   - ``beta`
+ *   - ``beta``
  *   - ``stable``
  *   - ``production``
  */
