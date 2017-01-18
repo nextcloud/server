@@ -188,7 +188,7 @@ class SubAdmin extends PublicEmitter {
 	 * @param IGroup $group
 	 * @return bool
 	 */
-	public function isSubAdminofGroup(IUser $user, IGroup $group) {
+	public function isSubAdminOfGroup(IUser $user, IGroup $group) {
 		$qb = $this->dbConn->getQueryBuilder();
 
 		/*
