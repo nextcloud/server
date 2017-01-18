@@ -60,7 +60,7 @@ OC.L10N.register(
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "Это приложение не проверялось на наличие проблем с безопасностью, также оно может работать нестабильно. Устанавливайте на свой страх и риск.",
     "Enabling app …" : "Включение приложения",
     "Error while disabling app" : "Ошибка при отключении приложения",
-    "Disable" : "Выключить",
+    "Disable" : "Отключить",
     "Enable" : "Включить",
     "Error while enabling app" : "Ошибка при включении приложения",
     "Error: this app cannot be enabled because it makes the server unstable" : "Ошибка: это приложение не может быть включено, так как оно делает сервер нестабильным",
