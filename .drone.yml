@@ -413,15 +413,15 @@ pipeline:
     when:
       matrix:
         TESTS: integration-transfer-ownership-features
-    integration-ldap-features:
-        image: nextcloudci/integration-php7.0:integration-php7.0-3
-        commands:
-          - ./occ maintenance:install --admin-pass=admin
-          - cd build/integration
-          - ./run.sh ldap_features/ldap-ocs.feature
-        when:
-          matrix:
-            TESTS: integration-ldap-features
+  integration-ldap-features:
+      image: nextcloudci/integration-php7.0:integration-php7.0-3
+      commands:
+        - ./occ maintenance:install --admin-pass=admin
+        - cd build/integration
+        - ./run.sh ldap_features/ldap-ocs.feature
+      when:
+        matrix:
+          TESTS: integration-ldap-features
   nodb-codecov:
     image: nextcloudci/php7.0:php7.0-7
     commands:
