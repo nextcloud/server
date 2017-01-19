@@ -56,7 +56,7 @@ class Path {
 
 	protected function register() {
 		if (!$this->registered) {
-			$this->appendDefaultContent($this->contextOptions);
+			$this->appendDefaultContent($this->getProtocol(), $this->contextOptions);
 			stream_wrapper_register($this->getProtocol(), $this->class);
 			$this->registered = true;
 		}
@@ -71,17 +71,13 @@ class Path {
 	/**
 	 * Add values to the default stream context
 	 *
+	 * @param string $key
 	 * @param array $values
 	 */
-	protected function appendDefaultContent($values) {
-		if (!is_array(current($values))) {
-			$values = array($this->getProtocol() => $values);
-		}
+	protected function appendDefaultContent($key, $values) {
 		$context = stream_context_get_default();
 		$defaults = stream_context_get_options($context);
-		foreach ($values as $key => $value) {
-			$defaults[$key] = $value;
-		}
+		$defaults[$key] = $values;
 		stream_context_set_default($defaults);
 	}
 
