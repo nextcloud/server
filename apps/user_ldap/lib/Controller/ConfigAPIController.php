@@ -76,7 +76,7 @@ class ConfigAPIController extends OCSController {
 	 * creates a new (empty) configuration and returns the resulting prefix
 	 *
 	 * Example: curl -X POST -H "OCS-APIREQUEST: true"  -u $admin:$password \
-	 *   https://nextcloud.server/ocs/v1.php/apps/user_ldap/api/v1/config
+	 *   https://nextcloud.server/ocs/v2.php/apps/user_ldap/api/v1/config
 	 *
 	 * results in:
 	 *
@@ -84,10 +84,8 @@ class ConfigAPIController extends OCSController {
 	 * <ocs>
 	 *   <meta>
 	 *     <status>ok</status>
-	 *     <statuscode>100</statuscode>
+	 *     <statuscode>200</statuscode>
 	 *     <message>OK</message>
-	 *     <totalitems></totalitems>
-	 *     <itemsperpage></itemsperpage>
 	 *   </meta>
 	 *   <data>
 	 *     <configID>s40</configID>
@@ -103,8 +101,6 @@ class ConfigAPIController extends OCSController {
 	 *     <status>failure</status>
 	 *     <statuscode>999</statuscode>
 	 *     <message>An issue occurred when creating the new config.</message>
-	 *     <totalitems></totalitems>
-	 *     <itemsperpage></itemsperpage>
 	 *   </meta>
 	 *   <data/>
 	 * </ocs>
@@ -131,7 +127,7 @@ class ConfigAPIController extends OCSController {
 	 *
 	 * Example:
 	 *   curl -X DELETE -H "OCS-APIREQUEST: true" -u $admin:$password \
-	 *    https://nextcloud.server/ocs/v1.php/apps/user_ldap/api/v1/config/s60
+	 *    https://nextcloud.server/ocs/v2.php/apps/user_ldap/api/v1/config/s60
 	 *
 	 * <?xml version="1.0"?>
 	 * <ocs>
@@ -139,8 +135,6 @@ class ConfigAPIController extends OCSController {
 	 *     <status>ok</status>
 	 *     <statuscode>100</statuscode>
 	 *     <message>OK</message>
-	 *     <totalitems></totalitems>
-	 *     <itemsperpage></itemsperpage>
 	 *   </meta>
 	 *   <data/>
 	 * </ocs>
@@ -178,7 +172,7 @@ class ConfigAPIController extends OCSController {
 	 * Example:
 	 *   curl -X PUT -d "key=ldapHost&value=ldaps://my.ldap.server" \
 	 *    -H "OCS-APIREQUEST: true" -u $admin:$password \
-	 *    https://nextcloud.server/ocs/v1.php/apps/user_ldap/api/v1/config/s60
+	 *    https://nextcloud.server/ocs/v2.php/apps/user_ldap/api/v1/config/s60
 	 *
 	 * <?xml version="1.0"?>
 	 * <ocs>
@@ -186,8 +180,6 @@ class ConfigAPIController extends OCSController {
 	 *     <status>ok</status>
 	 *     <statuscode>100</statuscode>
 	 *     <message>OK</message>
-	 *     <totalitems></totalitems>
-	 *     <itemsperpage></itemsperpage>
 	 *   </meta>
 	 *   <data/>
 	 * </ocs>
