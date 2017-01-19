@@ -302,6 +302,32 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals('group12', $group12->getGID());
 	}
 
+	public function testSearchResultExistsButGroupDoesNot() {
+		/**
+		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 */
+		$backend = $this->createMock('\OC\Group\Database');
+		$backend->expects($this->once())
+			->method('getGroups')
+			->with('1')
+			->will($this->returnValue(['group1']));
+		$backend->expects($this->once())
+			->method('groupExists')
+			->with('group1')
+			->will($this->returnValue(false));
+
+		/**
+		 * @var \OC\User\Manager $userManager
+		 */
+		$userManager = $this->createMock('\OC\User\Manager');
+
+		$manager = new \OC\Group\Manager($userManager);
+		$manager->addBackend($backend);
+
+		$groups = $manager->search('1');
+		$this->assertEmpty($groups);
+	}
+
 	public function testGetUserGroups() {
 		/**
 		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
@@ -349,6 +375,36 @@ class ManagerTest extends \Test\TestCase {
 		foreach ($groups as $group) {
 			$this->assertInternalType('string', $group);
 		}
+	}
+
+	public function testGetUserGroupsWithDeletedGroup() {
+		/**
+		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 */
+		$backend = $this->createMock('\OC\Group\Database');
+		$backend->expects($this->once())
+			->method('getUserGroups')
+			->with('user1')
+			->will($this->returnValue(array('group1')));
+		$backend->expects($this->any())
+			->method('groupExists')
+			->with('group1')
+			->will($this->returnValue(false));
+
+		/**
+		 * @var \OC\User\Manager $userManager
+		 */
+		$userManager = $this->createMock('\OC\User\Manager');
+		$userBackend = $this->createMock('\OC_User_Backend');
+		$manager = new \OC\Group\Manager($userManager);
+		$manager->addBackend($backend);
+
+		/** @var \OC\User\User $user */
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user1');
+
+		$groups = $manager->getUserGroups($user);
+		$this->assertEmpty($groups);
 	}
 
 	public function testInGroup() {

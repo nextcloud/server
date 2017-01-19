@@ -1524,6 +1524,48 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->provider->deleteFromSelf($share, 'user2');
 	}
 
+	/**
+	 * @expectedException \OC\Share20\Exception\ProviderException
+	 * @expectedExceptionMessage Group "group" does not exist
+	 */
+	public function testDeleteFromSelfGroupDoesNotExist() {
+		$qb = $this->dbConn->getQueryBuilder();
+		$stmt = $qb->insert('share')
+			->values([
+				'share_type'    => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
+				'share_with'    => $qb->expr()->literal('group'),
+				'uid_owner'     => $qb->expr()->literal('user1'),
+				'uid_initiator' => $qb->expr()->literal('user1'),
+				'item_type'     => $qb->expr()->literal('file'),
+				'file_source'   => $qb->expr()->literal(1),
+				'file_target'   => $qb->expr()->literal('myTarget1'),
+				'permissions'   => $qb->expr()->literal(2)
+			])->execute();
+		$this->assertEquals(1, $stmt);
+		$id = $qb->getLastInsertId();
+
+		$user1 = $this->getMock('\OCP\IUser');
+		$user1->method('getUID')->willReturn('user1');
+		$user2 = $this->getMock('\OCP\IUser');
+		$user2->method('getUID')->willReturn('user2');
+		$this->userManager->method('get')->will($this->returnValueMap([
+			['user1', $user1],
+			['user2', $user2],
+		]));
+
+		$this->groupManager->method('get')->with('group')->willReturn(null);
+
+		$file = $this->getMock('\OCP\Files\File');
+		$file->method('getId')->willReturn(1);
+
+		$this->rootFolder->method('getUserFolder')->with('user1')->will($this->returnSelf());
+		$this->rootFolder->method('getById')->with(1)->willReturn([$file]);
+
+		$share = $this->provider->getShareById($id);
+
+		$this->provider->deleteFromSelf($share, 'user2');
+	}
+
 	public function testDeleteFromSelfUser() {
 		$qb = $this->dbConn->getQueryBuilder();
 		$stmt = $qb->insert('share')

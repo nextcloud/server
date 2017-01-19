@@ -393,10 +393,12 @@ class Manager implements IManager {
 			// The share is already shared with this user via a group share
 			if ($existingShare->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 				$group = $this->groupManager->get($existingShare->getSharedWith());
-				$user = $this->userManager->get($share->getSharedWith());
+				if (!is_null($group)) {
+					$user = $this->userManager->get($share->getSharedWith());
 
-				if ($group->inGroup($user) && $existingShare->getShareOwner() !== $share->getShareOwner()) {
-					throw new \Exception('Path already shared with this user');
+					if ($group->inGroup($user) && $existingShare->getShareOwner() !== $share->getShareOwner()) {
+						throw new \Exception('Path already shared with this user');
+					}
 				}
 			}
 		}
@@ -418,7 +420,7 @@ class Manager implements IManager {
 		if ($this->shareWithGroupMembersOnly()) {
 			$sharedBy = $this->userManager->get($share->getSharedBy());
 			$sharedWith = $this->groupManager->get($share->getSharedWith());
-			if (!$sharedWith->inGroup($sharedBy)) {
+			if (is_null($sharedWith) || !$sharedWith->inGroup($sharedBy)) {
 				throw new \Exception('Only sharing within your own groups is allowed');
 			}
 		}
@@ -886,6 +888,9 @@ class Manager implements IManager {
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$sharedWith = $this->groupManager->get($share->getSharedWith());
+			if (is_null($sharedWith)) {
+				throw new \InvalidArgumentException('Group "' . $share->getSharedWith() . '" does not exist');
+			}
 			$recipient = $this->userManager->get($recipientId);
 			if (!$sharedWith->inGroup($recipient)) {
 				throw new \InvalidArgumentException('Invalid recipient');

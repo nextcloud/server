@@ -779,7 +779,7 @@ class ShareAPIController extends OCSController {
 		if ($checkGroups && $share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$sharedWith = $this->groupManager->get($share->getSharedWith());
 			$user = $this->userManager->get($this->currentUser);
-			if ($user !== null && $sharedWith->inGroup($user)) {
+			if ($user !== null && $sharedWith !== null && $sharedWith->inGroup($user)) {
 				return true;
 			}
 		}
