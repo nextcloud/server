@@ -737,35 +737,6 @@ table.grid td.date{
 	padding-left: 25px;
 }
 
-/* icons for sidebar */
-.nav-icon-server {
-	background-image: url('../img/admin.svg?v=1');
-}
-.nav-icon-sharing {
-	background-image: url('../img/share.svg?v=1');
-}
-.nav-icon-theming {
-	background-image: url('../img/theming.svg?v=1');
-}
-.nav-icon-encryption {
-	background-image: url('../img/password.svg?v=1');
-}
-.nav-icon-workflow {
-	background-image: url('../img/tag.svg?v=1');
-}
-.nav-icon-survey_client {
-	background-image: url('../img/toggle.svg?v=1');
-}
-.nav-icon-logging {
-	background-image: url('../img/edit.svg?v=1');
-}
-.nav-icon-additional {
-	background-image: url('../img/settings.svg?v=1');
-}
-.nav-icon-tips-tricks {
-	background-image: url('../img/help.svg?v=1');
-}
-
 #security-warning li {
 	list-style: initial;
 	margin: 10px 0;

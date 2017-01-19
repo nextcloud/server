@@ -23,25 +23,29 @@
 
 namespace OC\Settings;
 
-use OCP\Settings\ISection;
+use OCP\Settings\IIconSection;
 
-class Section implements ISection {
+class Section implements IIconSection {
 	/** @var string */
 	private $id;
 	/** @var string */
 	private $name;
 	/** @var int */
 	private $priority;
+	/** @var string */
+	private $icon;
 
 	/**
 	 * @param string $id
 	 * @param string $name
 	 * @param int $priority
+	 * @param string $icon
 	 */
-	public function __construct($id, $name, $priority) {
+	public function __construct($id, $name, $priority, $icon = '') {
 		$this->id = $id;
 		$this->name = $name;
 		$this->priority = $priority;
+		$this->icon = $icon;
 	}
 
 	/**
@@ -73,5 +77,16 @@ class Section implements ISection {
 	 */
 	public function getPriority() {
 		return $this->priority;
+	}
+
+	/**
+	 * returns the relative path to an 16*16 icon describing the section.
+	 * e.g. '/core/img/places/files.svg'
+	 *
+	 * @returns string
+	 * @since 12
+	 */
+	public function getIcon() {
+		return $this->icon;
 	}
 }
