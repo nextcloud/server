@@ -487,6 +487,7 @@ class ThemingControllerTest extends TestCase {
 				';
 		$expectedData .= sprintf('.nc-theming-main-background {background-color: %s}' . "\n", $color);
 		$expectedData .= sprintf('.nc-theming-main-text {color: %s}' . "\n", $color);
+		$expectedData .= sprintf('#app-navigation li:hover > a, #app-navigation li:focus > a, #app-navigation a:focus, #app-navigation .selected, #app-navigation .selected a, #app-navigation .active, #app-navigation .active a {box-shadow: inset 2px 0 %s}' . "\n", $color);
 		$expectedData .= '.nc-theming-contrast {color: #ffffff}' . "\n";
 		$expectedData .= '.icon-file,.icon-filetype-text {' .
 			'background-image: url(\'./img/core/filetypes/text.svg?v=0\');' . "}\n" .
@@ -581,6 +582,7 @@ class ThemingControllerTest extends TestCase {
 				';
 		$expectedData .= sprintf('.nc-theming-main-background {background-color: %s}' . "\n", $color);
 		$expectedData .= sprintf('.nc-theming-main-text {color: %s}' . "\n", $color);
+		$expectedData .= sprintf('#app-navigation li:hover > a, #app-navigation li:focus > a, #app-navigation a:focus, #app-navigation .selected, #app-navigation .selected a, #app-navigation .active, #app-navigation .active a {box-shadow: inset 2px 0 %s}' . "\n", $color);
 		$expectedData .= '#header .header-appname, #expandDisplayName { color: #000000; }' . "\n";
 		$expectedData .= '#header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); }' . "\n";
 		$expectedData .= '.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }' . "\n";
@@ -768,6 +770,7 @@ class ThemingControllerTest extends TestCase {
 				';
 		$expectedData .= sprintf('.nc-theming-main-background {background-color: %s}' . "\n", $color);
 		$expectedData .= sprintf('.nc-theming-main-text {color: %s}' . "\n", $color);
+		$expectedData .= sprintf('#app-navigation li:hover > a, #app-navigation li:focus > a, #app-navigation a:focus, #app-navigation .selected, #app-navigation .selected a, #app-navigation .active, #app-navigation .active a {box-shadow: inset 2px 0 %s}' . "\n", $color);
 		$expectedData .= sprintf(
 			'#header .logo {' .
 			'background-image: url(\'./logo?v=0\');' .
@@ -879,6 +882,7 @@ class ThemingControllerTest extends TestCase {
 				';
 		$expectedData .= sprintf('.nc-theming-main-background {background-color: %s}' . "\n", $color);
 		$expectedData .= sprintf('.nc-theming-main-text {color: %s}' . "\n", $color);
+		$expectedData .= sprintf('#app-navigation li:hover > a, #app-navigation li:focus > a, #app-navigation a:focus, #app-navigation .selected, #app-navigation .selected a, #app-navigation .active, #app-navigation .active a {box-shadow: inset 2px 0 %s}' . "\n", $color);
 		$expectedData .= sprintf(
 			'#header .logo {' .
 			'background-image: url(\'./logo?v=0\');' .
