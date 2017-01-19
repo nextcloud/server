@@ -40,9 +40,9 @@ class LDAPContext implements Context {
 	}
 
 	/**
-	 * @Given /^creating a configuration at "([^"]*)"$/
+	 * @Given /^creating an LDAP configuration at "([^"]*)"$/
 	 */
-	public function creatingAConfigurationAt($apiUrl) {
+	public function creatingAnLDAPConfigurationAt($apiUrl) {
 		$this->apiUrl = $apiUrl;
 		$this->sendingToWith('POST', $this->apiUrl, null);
 		$configElements = $this->response->xml()->data[0]->configID;
@@ -50,9 +50,20 @@ class LDAPContext implements Context {
 	}
 
 	/**
-	 * @When /^deleting the configuration$/
+	 * @When /^deleting the LDAP configuration$/
 	 */
-	public function deletingTheConfiguration() {
+	public function deletingTheLDAPConfiguration() {
 		$this->sendingToWith('DELETE', $this->apiUrl . '/' . $this->configID, null);
+	}
+
+	/**
+	 * @When /^setting "([^"]*)" of the LDAP configuration to "([^"]*)"$/
+	 */
+	public function settingOfTheLDAPConfigurationTo($key, $value) {
+		$this->sendingToWith(
+			'PUT',
+			$this->apiUrl . '/' . $this->configID,
+			new \Behat\Gherkin\Node\TableNode([['key', $key], ['value', $value]])
+		);
 	}
 }

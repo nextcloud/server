@@ -145,7 +145,7 @@ class ConfigAPIController extends OCSController {
 	 *   <data/>
 	 * </ocs>
 	 *
-	 * @param $configID
+	 * @param string $configID
 	 * @return DataResponse
 	 * @throws OCSBadRequestException
 	 * @throws OCSException
@@ -158,10 +158,7 @@ class ConfigAPIController extends OCSController {
 		}
 
 		try {
-			$prefixes = $this->ldapHelper->getServerConfigurationPrefixes();
-			if(!in_array($configID, $prefixes)) {
-				throw new OCSNotFoundException('Config ID not found');
-			}
+			$this->ensureConfigIDExists($configID);
 			if(!$this->ldapHelper->deleteServerConfiguration($configID)) {
 				throw new OCSException('Could not delete configuration');
 			}
@@ -173,5 +170,67 @@ class ConfigAPIController extends OCSController {
 		}
 
 		return new DataResponse();
+	}
+
+	/**
+	 * modifies a configuration
+	 *
+	 * Example:
+	 *   curl -X PUT -d "key=ldapHost&value=ldaps://my.ldap.server" \
+	 *    -H "OCS-APIREQUEST: true" -u $admin:$password \
+	 *    https://nextcloud.server/ocs/v1.php/apps/user_ldap/api/v1/config/s60
+	 *
+	 * <?xml version="1.0"?>
+	 * <ocs>
+	 *   <meta>
+	 *     <status>ok</status>
+	 *     <statuscode>100</statuscode>
+	 *     <message>OK</message>
+	 *     <totalitems></totalitems>
+	 *     <itemsperpage></itemsperpage>
+	 *   </meta>
+	 *   <data/>
+	 * </ocs>
+	 *
+	 * @param string $configID
+	 * @param string $key
+	 * @param string $value
+	 * @return DataResponse
+	 * @throws OCSException
+	 */
+	public function modify($configID, $key, $value) {
+		$this->ensureConfigIDExists($configID);
+
+		try {
+			$config = new Configuration($configID);
+
+			$configKeys = $config->getConfigTranslationArray();
+			if(!isset($configKeys[$key]) && !in_array($key, $configKeys, true)) {
+				throw new OCSBadRequestException('Invalid config key');
+			}
+
+			$config->$key = $value;
+			$config->saveConfiguration();
+		} catch(OCSException $e) {
+			throw $e;
+		} catch (\Exception $e) {
+			$this->logger->logException($e);
+			throw new OCSException('An issue occurred when modifying the config.');
+		}
+
+		return new DataResponse();
+	}
+
+	/**
+	 * if the given config ID is not available, an exception is thrown
+	 *
+	 * @param string $configID
+	 * @throws OCSNotFoundException
+	 */
+	private function ensureConfigIDExists($configID) {
+		$prefixes = $this->ldapHelper->getServerConfigurationPrefixes();
+		if(!in_array($configID, $prefixes)) {
+			throw new OCSNotFoundException('Config ID not found');
+		}
 	}
 }
