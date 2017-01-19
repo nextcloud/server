@@ -90,7 +90,7 @@ class ConfigAPIController extends OCSController {
 	 *     <itemsperpage></itemsperpage>
 	 *   </meta>
 	 *   <data>
-	 *     <prefix>s40</prefix>
+	 *     <configID>s40</configID>
 	 *   </data>
 	 * </ocs>
 	 *
@@ -123,7 +123,7 @@ class ConfigAPIController extends OCSController {
 			$this->logger->logException($e);
 			throw new OCSException('An issue occurred when creating the new config.');
 		}
-		return new DataResponse(['prefix' => $configPrefix]);
+		return new DataResponse(['configID' => $configPrefix]);
 	}
 
 	/**

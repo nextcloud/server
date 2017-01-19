@@ -5,6 +5,7 @@ Feature: LDAP
     When sending "POST" to "/apps/user_ldap/api/v1/config"
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
+    And the response should contain a tag "configID"
 
   Scenario: Delete a non-existing configuration
     Given As an "admin"
@@ -18,4 +19,9 @@ Feature: LDAP
     Then the OCS status code should be "400"
     And the HTTP status code should be "200"
 
-  # TODO: Scenario deleting an existing config ID (needs to be created before)
+  Scenario: Create and delete a configuration
+    Given As an "admin"
+    And creating a configuration at "/apps/user_ldap/api/v1/config"
+    When deleting the configuration
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
