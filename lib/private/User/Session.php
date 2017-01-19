@@ -346,6 +346,9 @@ class Session implements IUserSession, Emitter {
 			$this->createSessionToken($request, $this->getUser()->getUID(), $user, $password);
 		}
 
+		// Login success clear brute force table for this ip
+		$throttler->clearAttempts($request->getRemoteAddress());
+
 		return true;
 	}
 
