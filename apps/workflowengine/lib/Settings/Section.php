@@ -24,13 +24,21 @@
 namespace OCA\WorkflowEngine\Settings;
 
 use OCP\IL10N;
-use OCP\Settings\ISection;
+use OCP\IURLGenerator;
+use OCP\Settings\IIconSection;
 
-class Section implements ISection {
+class Section implements IIconSection {
 	/** @var IL10N */
 	private $l;
+	/** @var IURLGenerator */
+	private $url;
 
-	public function __construct(IL10N $l) {
+	/**
+	 * @param IURLGenerator $url
+	 * @param IL10N $l
+	 */
+	public function __construct(IURLGenerator $url, IL10N $l) {
+		$this->url = $url;
 		$this->l = $l;
 	}
 
@@ -53,5 +61,12 @@ class Section implements ISection {
 	 */
 	public function getPriority() {
 		return 55;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getIcon() {
+		return $this->url->imagePath('core', 'actions/tag.svg');
 	}
 }
