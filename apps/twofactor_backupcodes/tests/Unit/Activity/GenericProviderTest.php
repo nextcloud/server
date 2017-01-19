@@ -2,7 +2,7 @@
 
 /**
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @copyright Copyright (c) 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright Copyright (c) 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * Two-factor backup codes
  *
@@ -23,7 +23,7 @@
 namespace OCA\TwoFactorBackupCodes\Test\Unit\Activity;
 
 use InvalidArgumentException;
-use OCA\TwoFactorBackupCodes\Activity\Provider;
+use OCA\TwoFactorBackupCodes\Activity\GenericProvider;
 use OCP\Activity\IEvent;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -32,7 +32,7 @@ use OCP\L10N\IFactory;
 use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
-class ProviderTest extends TestCase {
+class GenericProviderTest extends TestCase {
 
 	/** @var IL10N|PHPUnit_Framework_MockObject_MockObject */
 	private $l10n;
@@ -43,7 +43,7 @@ class ProviderTest extends TestCase {
 	/** @var ILogger|PHPUnit_Framework_MockObject_MockObject */
 	private $logger;
 
-	/** @var Provider */
+	/** @var GenericProvider */
 	private $provider;
 
 	protected function setUp() {
@@ -53,14 +53,14 @@ class ProviderTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->logger = $this->createMock(ILogger::class);
 
-		$this->provider = new Provider($this->l10n, $this->urlGenerator, $this->logger);
+		$this->provider = new GenericProvider($this->l10n, $this->urlGenerator, $this->logger);
 	}
 
 	public function testParseUnrelated() {
 		$lang = 'ru';
 		$event = $this->createMock(IEvent::class);
 		$event->expects($this->once())
-			->method('getApp')
+			->method('getType')
 			->willReturn('comments');
 		$this->setExpectedException(InvalidArgumentException::class);
 
@@ -69,7 +69,8 @@ class ProviderTest extends TestCase {
 
 	public function subjectData() {
 		return [
-			['codes_generated'],
+			['twofactor_success'],
+			['twofactor_failed'],
 		];
 	}
 
@@ -82,11 +83,11 @@ class ProviderTest extends TestCase {
 		$l = $this->createMock(IL10N::class);
 
 		$event->expects($this->once())
-			->method('getApp')
-			->willReturn('twofactor_backupcodes');
+			->method('getType')
+			->willReturn('twofactor');
 		$this->l10n->expects($this->once())
 			->method('get')
-			->with('twofactor_backupcodes', $lang)
+			->with('core', $lang)
 			->willReturn($l);
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')
@@ -114,11 +115,11 @@ class ProviderTest extends TestCase {
 		$event = $this->createMock(IEvent::class);
 
 		$event->expects($this->once())
-			->method('getApp')
-			->willReturn('twofactor_backupcodes');
+			->method('getType')
+			->willReturn('twofactor');
 		$this->l10n->expects($this->once())
 			->method('get')
-			->with('twofactor_backupcodes', $lang)
+			->with('core', $lang)
 			->willReturn($l);
 		$event->expects($this->once())
 			->method('getSubject')
