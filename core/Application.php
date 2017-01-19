@@ -30,10 +30,10 @@
 
 namespace OC\Core;
 
-use OC\AppFramework\Utility\SimpleContainer;
+use OC\Core\Controller\OCJSController;
 use OC\Security\IdentityProof\Manager;
+use OC\Server;
 use OCP\AppFramework\App;
-use OCP\Files\IAppData;
 use OCP\Util;
 
 /**
@@ -55,6 +55,26 @@ class Application extends App {
 			return new Manager(
 				\OC::$server->getAppDataDir('identityproof'),
 				\OC::$server->getCrypto()
+			);
+		});
+
+		$container->registerService(OCJSController::class, function () use ($container) {
+			/** @var Server $server */
+			$server = $container->getServer();
+			return new OCJSController(
+				$container->query('appName'),
+				$server->getRequest(),
+				$server->getL10N('core'),
+				// This is required for the theming to overwrite the `OC_Defaults`, see
+				// https://github.com/nextcloud/server/issues/3148
+				$server->getThemingDefaults(),
+				$server->getAppManager(),
+				$server->getSession(),
+				$server->getUserSession(),
+				$server->getConfig(),
+				$server->getGroupManager(),
+				$server->getIniWrapper(),
+				$server->getURLGenerator()
 			);
 		});
 	}
