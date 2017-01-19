@@ -13,7 +13,7 @@ OC.L10N.register(
     "Two-factor authentication" : "Zwei-Faktor Authentifizierung",
     "You successfully logged in using two-factor authentication (%1$s)" : "Erfolgreich mittels Zwei-Faktorauthentifizierung angemeldet (%1$s)",
     "A login attempt using two-factor authentication failed (%1$s)" : "Ein Anmeldeversuch mittels Zwei-Faktorauthentifizierung gescheitert (%1$s)",
-    "You created two-factor backup codes for your account" : "Du hast Zwei-Faktor Sicherungs-Codes für Ihr Konto erstellt",
+    "You created two-factor backup codes for your account" : "Du hast Zwei-Faktor Sicherungs-Codes für Dein Konto erstellt",
     "Backup code" : "Backup-Code",
     "Use backup code" : "Backup-Code verwenden",
     "Second-factor backup codes" : "Zweitfaktor-Backup-Codes"
