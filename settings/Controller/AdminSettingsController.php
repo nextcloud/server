@@ -28,7 +28,9 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\INavigationManager;
 use OCP\IRequest;
+use OCP\Settings\IIconSection;
 use OCP\Settings\IManager as ISettingsManager;
+use OCP\Settings\ISection;
 use OCP\Template;
 
 /**
@@ -133,10 +135,16 @@ class AdminSettingsController extends Controller {
 		/** @var \OC\Settings\Section[] $prioritizedSections */
 		foreach($sections as $prioritizedSections) {
 			foreach ($prioritizedSections as $section) {
+				$icon = '';
+				if ($section instanceof IIconSection) {
+					$icon = $section->getIcon();
+				}
+
 				$templateParameters[] = [
 					'anchor'       => $section->getID(),
 					'section-name' => $section->getName(),
 					'active'       => $section->getID() === $currentSection,
+					'icon'         => $icon,
 				];
 			}
 		}

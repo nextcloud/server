@@ -727,6 +727,16 @@ table.grid td.date{
 
 /* ADMIN */
 
+/* Navigation icons */
+#app-navigation img {
+	margin-bottom: -3px;
+	margin-right: 6px;
+	width: 16px;
+}
+#app-navigation li span.no-icon {
+	padding-left: 25px;
+}
+
 /* icons for sidebar */
 .nav-icon-server {
 	background-image: url('../img/admin.svg?v=1');
