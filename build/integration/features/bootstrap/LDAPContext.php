@@ -66,4 +66,23 @@ class LDAPContext implements Context {
 			new \Behat\Gherkin\Node\TableNode([['key', $key], ['value', $value]])
 		);
 	}
+
+	/**
+	 * @Given /^the response should contain a tag "([^"]*)" with value "([^"]*)"$/
+	 */
+	public function theResponseShouldContainATagWithValue($tagName, $expectedValue) {
+		$data = $this->response->xml()->data[0]->$tagName;
+		PHPUnit_Framework_Assert::assertEquals($expectedValue, $data[0]);
+	}
+
+	/**
+	 * @When /^getting the LDAP configuration with showPassword "([^"]*)"$/
+	 */
+	public function gettingTheLDAPConfigurationWithShowPassword($showPassword) {
+		$this->sendingToWith(
+			'GET',
+			$this->apiUrl . '/' . $this->configID . '?showPassword=' . $showPassword,
+			null
+		);
+	}
 }

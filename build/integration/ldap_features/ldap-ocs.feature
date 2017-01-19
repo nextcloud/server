@@ -46,3 +46,25 @@ Feature: LDAP
       | value | ldaps://my.ldap.server |
     Then the OCS status code should be "404"
     And the HTTP status code should be "404"
+
+  Scenario: create, modify and get a configuration
+    Given As an "admin"
+    And creating an LDAP configuration at "/apps/user_ldap/api/v1/config"
+    And setting "ldapHost" of the LDAP configuration to "ldaps://my.ldap.server"
+    And setting "ldapLoginFilter" of the LDAP configuration to "(&(|(objectclass=inetOrgPerson))(uid=%uid))"
+    And setting "ldapAgentPassword" of the LDAP configuration to "psst,secret"
+    When getting the LDAP configuration with showPassword "0"
+    Then the OCS status code should be "200"
+    And the HTTP status code should be "200"
+    And the response should contain a tag "ldapHost" with value "ldaps://my.ldap.server"
+    And the response should contain a tag "ldapLoginFilter" with value "(&(|(objectclass=inetOrgPerson))(uid=%uid))"
+    And the response should contain a tag "ldapAgentPassword" with value "***"
+
+  Scenario: receiving password in plain text
+    Given As an "admin"
+    And creating an LDAP configuration at "/apps/user_ldap/api/v1/config"
+    And setting "ldapAgentPassword" of the LDAP configuration to "psst,secret"
+    When getting the LDAP configuration with showPassword "1"
+    Then the OCS status code should be "200"
+    And the HTTP status code should be "200"
+    And the response should contain a tag "ldapAgentPassword" with value "psst,secret"
