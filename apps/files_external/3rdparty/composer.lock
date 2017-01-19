@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a8b4080027a432533f6d0597ad527fe7",
-    "content-hash": "8165981792437b03b39c11d28b061eda",
+    "content-hash": "0bbca3fe2d180fbc5681985bdf6b22e7",
     "packages": [
         {
             "name": "icewind/smb",
@@ -46,20 +45,20 @@
                 }
             ],
             "description": "php wrapper for smbclient and libsmbclient-php",
-            "time": "2016-12-13 13:56:55"
+            "time": "2016-12-13T13:56:55+00:00"
         },
         {
             "name": "icewind/streams",
-            "version": "0.4.1",
+            "version": "0.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icewind1991/Streams.git",
-                "reference": "d3620e8dc410c86c2ba55579803679c4e0b289ac"
+                "reference": "6bfd2fdbd99319f5e010d0a684409189a562cb1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icewind1991/Streams/zipball/d3620e8dc410c86c2ba55579803679c4e0b289ac",
-                "reference": "d3620e8dc410c86c2ba55579803679c4e0b289ac",
+                "url": "https://api.github.com/repos/icewind1991/Streams/zipball/6bfd2fdbd99319f5e010d0a684409189a562cb1e",
+                "reference": "6bfd2fdbd99319f5e010d0a684409189a562cb1e",
                 "shasum": ""
             },
             "require": {
@@ -87,7 +86,7 @@
                 }
             ],
             "description": "A set of generic stream wrappers",
-            "time": "2016-06-02 14:37:52"
+            "time": "2016-12-02T14:21:23+00:00"
         }
     ],
     "packages-dev": [],
