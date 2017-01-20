@@ -199,9 +199,10 @@ class OC_User {
 				if($setUidAsDisplayName) {
 					self::setDisplayName($uid);
 				}
-				self::getUserSession()->setLoginName($uid);
+				$userSession = self::getUserSession();
+				$userSession->setLoginName($uid);
 				$request = OC::$server->getRequest();
-				self::getUserSession()->createSessionToken($request, $uid, $uid);
+				$userSession->createSessionToken($request, $uid, $uid);
 				// setup the filesystem
 				OC_Util::setupFS($uid);
 				// first call the post_login hooks, the login-process needs to be
