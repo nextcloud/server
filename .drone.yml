@@ -417,6 +417,7 @@ pipeline:
       image: nextcloudci/integration-php7.0:integration-php7.0-3
       commands:
         - ./occ maintenance:install --admin-pass=admin
+        - ./occ app:enable user_ldap
         - cd build/integration
         - ./run.sh ldap_features/ldap-ocs.feature
       when:

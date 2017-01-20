@@ -39,7 +39,7 @@ Feature: LDAP
     Then the OCS status code should be "400"
     And the HTTP status code should be "400"
 
-  Scenario: Modiying a non-existing configuration
+  Scenario: Modifying a non-existing configuration
     Given As an "admin"
     When sending "PUT" to "/apps/user_ldap/api/v1/config/s666" with
       | key | ldapHost |
