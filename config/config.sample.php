@@ -716,7 +716,7 @@ $CONFIG = array(
 /**
  * This uses PHP.date formatting; see http://php.net/manual/en/function.date.php
  *
- * Defaults to ``Y-m-d\TH:i:sO`` (ISO8601)
+ * Defaults to ``Y-m-d\TH:i:sO`` (ISO8601) - see \DateTime::ISO8601
  */
 'logdateformat' => 'F d, Y H:i:s',
 
