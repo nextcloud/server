@@ -15,12 +15,6 @@ Feature: LDAP
     Then the OCS status code should be "404"
     And the HTTP status code should be "404"
 
-  Scenario: Delete an invalid configuration
-    Given As an "admin"
-    When sending "DELETE" to "/apps/user_ldap/api/v1/config/hack0r"
-    Then the OCS status code should be "400"
-    And the HTTP status code should be "400"
-
   Scenario: Create and delete a configuration
     Given As an "admin"
     And creating an LDAP configuration at "/apps/user_ldap/api/v1/config"
