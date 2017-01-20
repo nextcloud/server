@@ -44,6 +44,7 @@ OC.L10N.register(
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Ett anslutningsfel till LDAP / AD uppstod. Var god granska värd, port och inloggningsuppgifter.",
     "Please provide a login name to test against" : "Vänligen ange ett inloggningsnamn att försöka ansluta med",
     "Password change rejected. Hint: " : "Lösenordsbyte nekad. Anledning/tips: ",
+    "LDAP / AD integration" : "LDAP / AD integration",
     "_%s group found_::_%s groups found_" : ["%s grupp hittad","%s grupper hittade"],
     "_%s user found_::_%s users found_" : ["%s användare hittad","%s användare hittade"],
     "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Kunde inte upptäcka attributet användarvisningsnamn. Vänligen ange det själv i de avancerade LDAP-inställningarna.",
