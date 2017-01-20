@@ -310,9 +310,9 @@ $CONFIG = array(
  * For ``qmail`` the binary is /var/qmail/bin/sendmail, and it must be installed
  * on your Unix system.
  *
- * Defaults to ``sendmail``
+ * Defaults to ``php``
  */
-'mail_smtpmode' => 'sendmail',
+'mail_smtpmode' => 'php',
 
 /**
  * This depends on ``mail_smtpmode``. Specify the IP address of your mail
