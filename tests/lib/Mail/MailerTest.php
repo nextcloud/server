@@ -44,7 +44,7 @@ class MailerTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
-			->with('mail_smtpmode', 'sendmail')
+			->with('mail_smtpmode', 'php')
 			->will($this->returnValue('sendmail'));
 
 		$this->assertEquals(\Swift_SendmailTransport::newInstance('/usr/sbin/sendmail -bs'), self::invokePrivate($this->mailer, 'getSendMailInstance'));
@@ -54,7 +54,7 @@ class MailerTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
-			->with('mail_smtpmode', 'sendmail')
+			->with('mail_smtpmode', 'php')
 			->will($this->returnValue('qmail'));
 
 		$this->assertEquals(\Swift_SendmailTransport::newInstance('/var/qmail/bin/sendmail -bs'), self::invokePrivate($this->mailer, 'getSendMailInstance'));

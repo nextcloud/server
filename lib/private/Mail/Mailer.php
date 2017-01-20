@@ -200,7 +200,7 @@ class Mailer implements IMailer {
 	 * @return \Swift_SendmailTransport
 	 */
 	protected function getSendMailInstance() {
-		switch ($this->config->getSystemValue('mail_smtpmode', 'sendmail')) {
+		switch ($this->config->getSystemValue('mail_smtpmode', 'php')) {
 			case 'qmail':
 				$binaryPath = '/var/qmail/bin/sendmail';
 				break;
