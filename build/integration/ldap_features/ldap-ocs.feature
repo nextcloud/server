@@ -31,28 +31,33 @@ Feature: LDAP
   Scenario: Create and modify a configuration
     Given As an "admin"
     And creating an LDAP configuration at "/apps/user_ldap/api/v1/config"
-    When setting "ldapHost" of the LDAP configuration to "ldaps://my.ldap.server"
+    When setting the LDAP configuration to
+      | configData[ldapHost] | ldaps://my.ldap.server |
     Then the OCS status code should be "200"
     And the HTTP status code should be "200"
-    # Testing an invalid config key
-    When setting "crack0r" of the LDAP configuration to "foobar"
-    Then the OCS status code should be "400"
-    And the HTTP status code should be "400"
 
   Scenario: Modifying a non-existing configuration
     Given As an "admin"
     When sending "PUT" to "/apps/user_ldap/api/v1/config/s666" with
-      | key | ldapHost |
-      | value | ldaps://my.ldap.server |
+      | configData[ldapHost] | ldaps://my.ldap.server |
     Then the OCS status code should be "404"
     And the HTTP status code should be "404"
+
+  Scenario: Modifying an existing configuration with malformed configData
+    Given As an "admin"
+    And creating an LDAP configuration at "/apps/user_ldap/api/v1/config"
+    When setting the LDAP configuration to
+      | configData | ldapHost=ldaps://my.ldap.server |
+    Then the OCS status code should be "400"
+    And the HTTP status code should be "400"
 
   Scenario: create, modify and get a configuration
     Given As an "admin"
     And creating an LDAP configuration at "/apps/user_ldap/api/v1/config"
-    And setting "ldapHost" of the LDAP configuration to "ldaps://my.ldap.server"
-    And setting "ldapLoginFilter" of the LDAP configuration to "(&(|(objectclass=inetOrgPerson))(uid=%uid))"
-    And setting "ldapAgentPassword" of the LDAP configuration to "psst,secret"
+    And setting the LDAP configuration to
+      | configData[ldapHost] | ldaps://my.ldap.server |
+      | configData[ldapLoginFilter] | (&(\|(objectclass=inetOrgPerson))(uid=%uid)) |
+      | configData[ldapAgentPassword] | psst,secret |
     When getting the LDAP configuration with showPassword "0"
     Then the OCS status code should be "200"
     And the HTTP status code should be "200"
@@ -63,7 +68,8 @@ Feature: LDAP
   Scenario: receiving password in plain text
     Given As an "admin"
     And creating an LDAP configuration at "/apps/user_ldap/api/v1/config"
-    And setting "ldapAgentPassword" of the LDAP configuration to "psst,secret"
+    And setting the LDAP configuration to
+      | configData[ldapAgentPassword] | psst,secret |
     When getting the LDAP configuration with showPassword "1"
     Then the OCS status code should be "200"
     And the HTTP status code should be "200"

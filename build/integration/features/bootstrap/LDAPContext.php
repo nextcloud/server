@@ -23,6 +23,7 @@
  */
 
 use Behat\Behat\Context\Context;
+use Behat\Gherkin\Node\TableNode;
 
 class LDAPContext implements Context {
 	use BasicStructure;
@@ -57,17 +58,6 @@ class LDAPContext implements Context {
 	}
 
 	/**
-	 * @When /^setting "([^"]*)" of the LDAP configuration to "([^"]*)"$/
-	 */
-	public function settingOfTheLDAPConfigurationTo($key, $value) {
-		$this->sendingToWith(
-			'PUT',
-			$this->apiUrl . '/' . $this->configID,
-			new \Behat\Gherkin\Node\TableNode([['key', $key], ['value', $value]])
-		);
-	}
-
-	/**
 	 * @Given /^the response should contain a tag "([^"]*)" with value "([^"]*)"$/
 	 */
 	public function theResponseShouldContainATagWithValue($tagName, $expectedValue) {
@@ -84,5 +74,12 @@ class LDAPContext implements Context {
 			$this->apiUrl . '/' . $this->configID . '?showPassword=' . $showPassword,
 			null
 		);
+	}
+
+	/**
+	 * @Given /^setting the LDAP configuration to$/
+	 */
+	public function settingTheLDAPConfigurationTo(TableNode $configData) {
+		$this->sendingToWith('PUT', $this->apiUrl . '/' . $this->configID, $configData);
 	}
 }

@@ -133,7 +133,7 @@ class ConfigAPIController extends OCSController {
 	 * <ocs>
 	 *   <meta>
 	 *     <status>ok</status>
-	 *     <statuscode>100</statuscode>
+	 *     <statuscode>200</statuscode>
 	 *     <message>OK</message>
 	 *   </meta>
 	 *   <data/>
@@ -170,7 +170,7 @@ class ConfigAPIController extends OCSController {
 	 * modifies a configuration
 	 *
 	 * Example:
-	 *   curl -X PUT -d "key=ldapHost&value=ldaps://my.ldap.server" \
+	 *   curl -X PUT -d "configData[ldapHost]=ldaps://my.ldap.server&configData[ldapPort]=636" \
 	 *    -H "OCS-APIREQUEST: true" -u $admin:$password \
 	 *    https://nextcloud.server/ocs/v2.php/apps/user_ldap/api/v1/config/s60
 	 *
@@ -178,33 +178,35 @@ class ConfigAPIController extends OCSController {
 	 * <ocs>
 	 *   <meta>
 	 *     <status>ok</status>
-	 *     <statuscode>100</statuscode>
+	 *     <statuscode>200</statuscode>
 	 *     <message>OK</message>
 	 *   </meta>
 	 *   <data/>
 	 * </ocs>
 	 *
 	 * @param string $configID
-	 * @param string $key
-	 * @param string $value
+	 * @param array $configData
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function modify($configID, $key, $value) {
+	public function modify($configID, $configData) {
 		$this->ensureConfigIDExists($configID);
 
-		try {
-			$config = new Configuration($configID);
+		if(!is_array($configData)) {
+			throw new OCSBadRequestException('configData is not properly set');
+		}
 
-			$configKeys = $config->getConfigTranslationArray();
-			if(!isset($configKeys[$key]) && !in_array($key, $configKeys, true)) {
-				throw new OCSBadRequestException('Invalid config key');
+		try {
+			$configuration = new Configuration($configID);
+			$configKeys = $configuration->getConfigTranslationArray();
+
+			foreach ($configKeys as $i => $key) {
+				if(isset($configData[$key])) {
+					$configuration->$key = $configData[$key];
+				}
 			}
 
-			$config->$key = $value;
-			$config->saveConfiguration();
-		} catch(OCSException $e) {
-			throw $e;
+			$configuration->saveConfiguration();
 		} catch (\Exception $e) {
 			$this->logger->logException($e);
 			throw new OCSException('An issue occurred when modifying the config.');
