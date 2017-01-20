@@ -200,6 +200,7 @@ class OC_User {
 					self::setDisplayName($uid);
 				}
 				$userSession = self::getUserSession();
+				$userSession->getSession()->regenerateId();
 				$userSession->setLoginName($uid);
 				$request = OC::$server->getRequest();
 				$userSession->createSessionToken($request, $uid, $uid);

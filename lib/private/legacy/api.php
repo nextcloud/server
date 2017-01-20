@@ -332,7 +332,9 @@ class OC_API {
 		$userSession = \OC::$server->getUserSession();
 		$request = \OC::$server->getRequest();
 		try {
-			if ($userSession->tryTokenLogin($request)
+			if (OC_User::handleApacheAuth()) {
+				self::$logoutRequired = false;
+			} else if ($userSession->tryTokenLogin($request)
 				|| $userSession->tryBasicAuthLogin($request, \OC::$server->getBruteForceThrottler())) {
 				self::$logoutRequired = true;
 			} else {
