@@ -492,6 +492,12 @@ input.userFilter {width: 200px;}
 
 /* APPS */
 
+#app-content > svg {
+	float: left;
+	height: 0;
+	width: 0;
+}
+
 .appinfo { margin: 1em 40px; }
 #app-navigation .appwarning {
 	background: #fcc;
@@ -542,6 +548,10 @@ span.version {
 	flex-wrap: wrap;
 	align-content: flex-start;
 }
+#apps-list.hidden {
+	display: none;
+}
+
 #apps-list .section {
 	position: relative;
 	flex: 0 0 auto;

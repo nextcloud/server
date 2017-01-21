@@ -150,7 +150,7 @@ script(
 	</ul>
 </div>
 <div id="app-content">
-	<svg height="0">
+	<svg>
 		<defs><filter id="invertIcon"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>
 	</svg>
 	<div id="apps-list" class="icon-loading"></div>
