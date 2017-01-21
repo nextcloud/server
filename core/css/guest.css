@@ -294,6 +294,21 @@ label.infield {
 	display: none;
 }
 
+/* Password strength meter */
+.strengthify-wrapper {
+	display: inline-block;
+	position: relative;
+	left: 15px;
+	top: -23px;
+	width: 250px;
+}
+.tooltip-inner {
+	font-weight: bold;
+	color: #ccc;
+	padding: 3px 6px;
+	text-align: center;
+}
+
 /* Show password toggle */
 #show, #dbpassword {
 	position: absolute;
