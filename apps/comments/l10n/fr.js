@@ -9,7 +9,7 @@ OC.L10N.register(
     "Cancel" : "Annuler",
     "Edit comment" : "Modifier le commentaire",
     "[Deleted user]" : "[Utilisateur supprimé]",
-    "No comments yet, start the conversation!" : "Il n'y a aucun commentaire, démarrer la conversation!",
+    "No comments yet, start the conversation!" : "Aucun commentaire actuellement, débutez une conversation !",
     "More comments …" : "Plus de commentaires ...",
     "Save" : "Enregistrer",
     "Allowed characters {count} of {max}" : "{count} sur {max} caractères autorisés",
