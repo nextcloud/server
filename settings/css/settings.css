@@ -804,9 +804,9 @@ span.indeterminate {
 /* PASSWORD */
 #passwordform .strengthify-wrapper {
 	position: absolute;
-	left: 186px;
-	width: 131px;
-	margin-top: -7px;
+	left: 166px;
+	width: 130px;
+	margin-top: -6px;
 }
 
 /* OPERA hack for strengthify*/
