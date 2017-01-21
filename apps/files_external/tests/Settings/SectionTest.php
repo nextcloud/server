@@ -25,19 +25,24 @@ namespace OCA\Files_External\Tests\Settings;
 
 use OCA\Files_External\Settings\Section;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use Test\TestCase;
 
 class SectionTest extends TestCase {
 	/** @var IL10N */
 	private $l;
+	/** @var IURLGenerator */
+	private $urlGenerator;
 	/** @var Section */
 	private $section;
 
 	public function setUp() {
 		parent::setUp();
+		$this->urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')->disableOriginalConstructor()->getMock();
 		$this->l = $this->getMockBuilder('\OCP\IL10N')->disableOriginalConstructor()->getMock();
 
 		$this->section = new Section(
+			$this->urlGenerator,
 			$this->l
 		);
 	}
