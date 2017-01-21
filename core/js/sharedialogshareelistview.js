@@ -59,7 +59,7 @@
 			'<ul>' +
 				'{{#if isResharingAllowed}} {{#if sharePermissionPossible}} {{#unless isMailShare}}' +
 				'<li>' +
-					'<span class="shareOption">' +
+					'<span class="shareOption menuitem">' +
 						'<input id="canShare-{{cid}}-{{shareWith}}" type="checkbox" name="share" class="permissions checkbox" {{#if hasSharePermission}}checked="checked"{{/if}} data-permissions="{{sharePermission}}" />' +
 						'<label for="canShare-{{cid}}-{{shareWith}}">{{canShareLabel}}</label>' +
 					'</span>' +
@@ -68,7 +68,7 @@
 				'{{#if isFolder}}' +
 					'{{#if createPermissionPossible}}{{#unless isMailShare}}' +
 					'<li>' +
-						'<span class="shareOption">' +
+						'<span class="shareOption menuitem">' +
 							'<input id="canCreate-{{cid}}-{{shareWith}}" type="checkbox" name="create" class="permissions checkbox" {{#if hasCreatePermission}}checked="checked"{{/if}} data-permissions="{{createPermission}}"/>' +
 							'<label for="canCreate-{{cid}}-{{shareWith}}">{{createPermissionLabel}}</label>' +
 						'</span>' +
@@ -76,7 +76,7 @@
 					'{{/unless}}{{/if}}' +
 					'{{#if updatePermissionPossible}}{{#unless isMailShare}}' +
 					'<li>' +
-						'<span class="shareOption">' +
+						'<span class="shareOption menuitem">' +
 							'<input id="canUpdate-{{cid}}-{{shareWith}}" type="checkbox" name="update" class="permissions checkbox" {{#if hasUpdatePermission}}checked="checked"{{/if}} data-permissions="{{updatePermission}}"/>' +
 							'<label for="canUpdate-{{cid}}-{{shareWith}}">{{updatePermissionLabel}}</label>' +
 						'</span>' +
@@ -84,7 +84,7 @@
 					'{{/unless}}{{/if}}' +
 					'{{#if deletePermissionPossible}}{{#unless isMailShare}}' +
 					'<li>' +
-						'<span class="shareOption">' +
+						'<span class="shareOption menuitem">' +
 							'<input id="canDelete-{{cid}}-{{shareWith}}" type="checkbox" name="delete" class="permissions checkbox" {{#if hasDeletePermission}}checked="checked"{{/if}} data-permissions="{{deletePermission}}"/>' +
 							'<label for="canDelete-{{cid}}-{{shareWith}}">{{deletePermissionLabel}}</label>' +
 						'</span>' +
