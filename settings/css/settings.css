@@ -541,9 +541,7 @@ span.version {
 
 #app-navigation .app-external,
 .app-version {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	filter: alpha(opacity=50);
-	opacity: .5;
+	color: rgba(85,85,85,.5);
 }
 
 .app-level {
@@ -725,6 +723,40 @@ form.section {
 	margin-bottom: 1em;
 }
 
+#apps-list.installed {
+	display: table;
+	width: 100%;
+	height: auto;
+}
+
+#apps-list.installed .section {
+	display: table-row;
+	padding: 0;
+	margin: 0;
+}
+
+#apps-list.installed .section > *{
+	display: table-cell;
+	width: auto;
+	height: 3em;
+	vertical-align: middle;
+	float: none;
+	border-bottom: 1px solid #eee;
+	padding: .5em 1em;
+	box-sizing: border-box;
+}
+
+#apps-list.installed .app-image {
+	text-align: center;
+}
+
+.installed .actions {
+	text-align: right;
+}
+
+#apps-list.installed .groups-enable {
+	margin-top: 0
+}
 
 /* LOG */
 #log {
