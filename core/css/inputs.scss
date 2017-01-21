@@ -205,6 +205,7 @@ input {
 				vertical-align: middle;
 				border-radius: 50%;
 				margin: 3px;
+				margin-top: 1px;
 				border: 1px solid #888;
 			}
 			&:not(:disabled):not(:checked) + label:hover:before,
@@ -231,35 +232,16 @@ input {
 		&.checkbox {
 			+ label:before {
 				border-radius: 1px;
-				height: 11px;
-				width: 11px;
+				height: 10px;
+				width: 10px;
 				box-shadow: none !important;
+				background-position: center;
 			}
-			&:checked + label,
-			&:indeterminate + label {
-				position: relative;
+			&:checked + label:before {
+				background-image: url('../img/actions/checkbox-mark.svg');
 			}
-			&:checked + label:after,
-			&:indeterminate + label:after {
-				content: '';
-				display: inline-block;
-				position: absolute;
-			}
-			&:checked + label:after {
-				width: 7px;
-				height: 3px;
-				border: 1px solid #fff;
-				top: 7px;
-				left: 5px;
-				border-width: 0 0 2px 2px;
-				transform: rotate(-45deg);
-			}
-			&:indeterminate + label:after {
-				width: 9px;
-				height: 3px;
-				top: 9px;
-				left: 5px;
-				background-color: #fff;
+			&:indeterminate + label:before {
+				background-image: url('../img/actions/checkbox-mixed.svg');
 			}
 			&:indeterminate:disabled + label:before {
 				border-color: #888;
@@ -293,14 +275,14 @@ input {
 			}
 		}
 		&.checkbox--white {
-			&:checked + label:after {
-				border-color: #000;
+			&:checked + label:before {
+				background-image: url('../img/actions/checkbox-mark.svg');
+			}
+			&:indeterminate + label:before {
+				background-image: url('../img/actions/checkbox-mixed.svg');
 			}
 			&:checked:disabled + label:after {
 				border-color: #aaa;
-			}
-			&:indeterminate + label:after {
-				background-color: #000;
 			}
 			&:indeterminate:disabled + label:after {
 				background-color: #aaa;
