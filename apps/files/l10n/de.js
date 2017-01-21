@@ -76,7 +76,7 @@ OC.L10N.register(
     "Added to favorites" : "Zu den Favoriten hinzugefügt",
     "Removed from favorites" : "Aus den Favoriten entfernt",
     "You added {file} to your favorites" : "Du hast {file} zu deinen Favoriten hinzugefügt",
-    "You removed {file} from your favorites" : "Du hast {file} aus deinen Favoriten hentfernt",
+    "You removed {file} from your favorites" : "Du hast {file} aus deinen Favoriten entfernt",
     "File changes" : "Dateiänderungen",
     "Created by {user}" : "Erstellt durch {user}",
     "Changed by {user}" : "Geändert durch {user}",
