@@ -32,14 +32,13 @@ textarea,
 	border-radius: 3px;
 	&:not(:disabled):not(.primary) {
 		&:not(#quota):hover,
-		&:focus {
+		&:focus,
+		&.active {
 			border-color: #0082c9;
 			outline: none;
 		}
 		&:active {
 			outline: none;
-		}
-		&:active {
 			background-color: #fff;
 		}
 	}
@@ -116,7 +115,8 @@ input[type='reset'] {
 	box-sizing: border-box;
 	background-color: #fafafa;
 	box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.15);
-	&:active {
+	&:active,
+	&.active {
 		box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.15);
 	}
 }
