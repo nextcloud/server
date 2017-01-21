@@ -41,7 +41,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 		var categories = [
 			{displayName: t('settings', 'Enabled'), ident: 'enabled', id: '0'},
-			{displayName: t('settings', 'Not enabled'), ident: 'disabled', id: '1'}
+			{displayName: t('settings', 'Not enabled'), ident: 'disabled', id: '1'},
+			{displayName: t('settings', 'All installed'), ident: 'installed', id: '2'}
 		];
 
 		var source   = $("#categories-template").html();
@@ -95,7 +96,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					return _.extend({level: 0}, app);
 				});
 				var source
-				if (categoryId === 'enabled' || categoryId === 'disabled') {
+				if (categoryId === 'enabled' || categoryId === 'disabled' || categoryId === 'installed') {
 					source = $("#app-template-installed").html();
 					$('#apps-list').addClass('installed');
 				} else {
@@ -106,11 +107,15 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 				if (appList.length) {
 					appList.sort(function(a,b) {
-						var levelDiff = b.level - a.level;
-						if (levelDiff === 0) {
-							return OC.Util.naturalSortCompare(a.name, b.name);
+						if (a.active !== b.active) {
+							return (a.active ? -1 : 1)
+						} else {
+							var levelDiff = b.level - a.level;
+							if (levelDiff === 0) {
+								return OC.Util.naturalSortCompare(a.name, b.name);
+							}
+							return levelDiff;
 						}
-						return levelDiff;
 					});
 
 					var firstExperimental = false;

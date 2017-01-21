@@ -49,6 +49,7 @@ use OCP\L10N\IFactory;
 class AppSettingsController extends Controller {
 	const CAT_ENABLED = 0;
 	const CAT_DISABLED = 1;
+	const CAT_ALL_INSTALLED = 2;
 
 	/** @var \OCP\IL10N */
 	private $l10n;
@@ -103,7 +104,7 @@ class AppSettingsController extends Controller {
 	 */
 	public function viewApps($category = '') {
 		if ($category === '') {
-			$category = 'enabled';
+			$category = 'installed';
 		}
 
 		$params = [];
@@ -128,6 +129,7 @@ class AppSettingsController extends Controller {
 		$currentLanguage = substr($this->l10nFactory->findLanguage(), 0, 2);
 
 		$formattedCategories = [
+			['id' => self::CAT_ALL_INSTALLED, 'ident' => 'installed', 'displayName' => (string)$this->l10n->t('All installed')],
 			['id' => self::CAT_ENABLED, 'ident' => 'enabled', 'displayName' => (string)$this->l10n->t('Enabled')],
 			['id' => self::CAT_DISABLED, 'ident' => 'disabled', 'displayName' => (string)$this->l10n->t('Not enabled')],
 		];
@@ -270,6 +272,24 @@ class AppSettingsController extends Controller {
 
 		switch ($category) {
 			// installed apps
+			case 'installed':
+				$apps = $appClass->listAllApps();
+
+				foreach($apps as $key => $app) {
+					$newVersion = \OC\Installer::isUpdateAvailable($app['id'], $this->appFetcher);
+					$apps[$key]['update'] = $newVersion;
+				}
+
+				usort($apps, function ($a, $b) {
+					$a = (string)$a['name'];
+					$b = (string)$b['name'];
+					if ($a === $b) {
+						return 0;
+					}
+					return ($a < $b) ? -1 : 1;
+				});
+				break;
+			// enabled apps
 			case 'enabled':
 				$apps = $appClass->listAllApps();
 				$apps = array_filter($apps, function ($app) {
