@@ -39,7 +39,7 @@
 	var NewFileMenu = OC.Backbone.View.extend({
 		tagName: 'div',
 		// Menu is opened by default because it's rendered on "add-button" click
-		className: 'newFileMenu popovermenu bubble menu open menu-center',
+		className: 'newFileMenu popovermenu bubble menu open menu-left',
 
 		events: {
 			'click .menuitem': '_onClickAction'
