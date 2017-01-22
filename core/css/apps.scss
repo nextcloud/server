@@ -620,6 +620,7 @@ em {
 			height: auto;
 			margin: 0;
 			font-weight: inherit;
+			box-shadow: none;
 			/* prevent .action class to break the design */
 			&.action {
 				padding: inherit !important;

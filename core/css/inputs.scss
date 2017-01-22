@@ -140,6 +140,7 @@ button, .button {
 		&[class*=' icon-'] {
 			display: inline-block;
 			vertical-align: text-bottom;
+			opacity: 0.5;
 		}
 	}
 }
