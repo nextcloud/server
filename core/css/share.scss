@@ -73,7 +73,7 @@
 #shareWithList {
 	list-style-type: none;
 	padding: 8px;
-	li {
+	> li {
 		padding-top: 10px;
 		padding-bottom: 10px;
 		font-weight: bold;
@@ -85,8 +85,8 @@
 		flex-shrink: 0;
 		position: relative;
 		.popovermenu {
-			right: -6px;
-			top: 40px;
+			right: -11px;
+			top: 35px;
 			padding: 3px 6px;
 		}
 	}
@@ -111,9 +111,6 @@
 		overflow: hidden;
 		vertical-align: middle;
 		flex-grow: 5;
-	}
-	li label {
-		margin-right: 8px;
 	}
 }
 
