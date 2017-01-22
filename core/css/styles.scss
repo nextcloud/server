@@ -725,7 +725,7 @@ label.infield {
 	margin: 5px;
 	padding: 11px 10px 9px;
 	&[type='text'], &[type='password'] {
-		width: 249px;
+		width: calc(100% - 10px); /* 5px margin */
 	}
 	&.login {
 		width: 269px;
