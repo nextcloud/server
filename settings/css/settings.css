@@ -748,6 +748,11 @@ form.section {
 
 #apps-list.installed .app-image {
 	text-align: center;
+	opacity: .5;
+}
+
+#apps-list.installed .app-image-icon svg {
+	margin-top: 5px;
 }
 
 .installed .actions {
@@ -755,7 +760,7 @@ form.section {
 }
 
 #apps-list.installed .groups-enable {
-	margin-top: 0
+	margin-top: 0;
 }
 
 /* LOG */

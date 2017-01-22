@@ -32,7 +32,7 @@ script(
 
 <script id="app-template-installed" type="text/x-handlebars">
 <div class="section" id="app-{{id}}">
-	<div class="app-image app-image-icon hidden"></div>
+	<div class="app-image app-image-icon"></div>
 	<h2 class="app-name">
 		{{#if detailpage}}
 			<a href="{{detailpage}}" target="_blank" rel="noreferrer">{{name}}</a>
