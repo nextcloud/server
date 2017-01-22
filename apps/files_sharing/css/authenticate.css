@@ -9,12 +9,8 @@ input[type='submit'] {
 	margin:	6px;
 }
 
-#body-login input[type='submit'] {
-	position: absolute;
-	top: 0;
-	border: none;
-}
-
 fieldset > p {
 	position: relative;
+	display: flex;
+	align-items: center;
 }
