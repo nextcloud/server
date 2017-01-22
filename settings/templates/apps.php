@@ -42,7 +42,7 @@ script(
 	</h2>
 	<div class="app-version"> {{version}}</div>
 	<div class="app-level">
-		{{{level}}}
+		{{{level}}}{{#unless internal}}<a href="https://apps.nextcloud.com/apps/{{id}}">View in Store</a>{{/unless}}
 	</div>
 
 	<div>
