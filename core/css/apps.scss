@@ -214,7 +214,8 @@ em {
 		top: 0;
 		bottom: 0;
 		font-size: 12px;
-		button, .counter {
+		button,
+		.counter {
 			width: 44px;
 			height: 44px;
 			padding-top: 12px;
@@ -258,6 +259,7 @@ em {
 		height: 100%;
 		width: 100%;
 		margin: 0;
+		box-shadow: none;
 	}
 	.app-navigation-entry-utils-menu-button {
 		button {
