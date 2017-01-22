@@ -29,7 +29,7 @@ OC.L10N.register(
     "File is already shared with %s" : "Le fichier est déjà partagé avec %s",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Le partage de %s a échoué, impossible de trouver %s, le serveur est peut-être momentanément injoignable ou utilise un certificat auto-signé.",
     "Could not find share" : "Impossible de trouver le partage",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Vous avez reçu  \"%3$s\" en tant que partage distant de %1$s (de la part de %2$s)",
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Vous avez reçu \"%3$s\" en tant que partage distant de %1$s (de la part de %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Vous avez reçu {share} comme partage distant de la part de {user} (de la part de {behalf})",
     "You received \"%3$s\" as a remote share from %1$s" : "Vous avez reçu \"%3$s\" comme partage distant de %1$s",
     "You received {share} as a remote share from {user}" : "Vous avez reçu {share} comme partage distant de la part de {user}",

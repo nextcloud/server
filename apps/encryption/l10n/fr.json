@@ -10,7 +10,7 @@
     "Please provide the old recovery password" : "Veuillez entrer l'ancien mot de passe de récupération",
     "Please provide a new recovery password" : "Veuillez entrer un nouveau mot de passe de récupération",
     "Please repeat the new recovery password" : "Veuillez répéter le nouveau mot de passe de récupération",
-    "Password successfully changed." : "Mot de passe changé avec succès.",
+    "Password successfully changed." : "Mot de passe modifié avec succès.",
     "Could not change the password. Maybe the old password was not correct." : "Erreur lors du changement de mot de passe. L'ancien mot de passe est peut-être incorrect.",
     "Recovery Key disabled" : "Clé de récupération désactivée",
     "Recovery Key enabled" : "Clef de récupération activée",
