@@ -170,6 +170,8 @@ class LoginController extends Controller {
 			$parameters['user_autofocus'] = true;
 		}
 
+		\OC_Util::addStyle('guest');
+
 		return new TemplateResponse(
 			$this->appName, 'login', $parameters, 'guest'
 		);

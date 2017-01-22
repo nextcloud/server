@@ -160,16 +160,14 @@ class TemplateLayout extends \OC_Template {
 			$this->append( 'jsfiles', $web.'/'.$file . $this->getVersionHashSuffix() );
 		}
 
-		// Add the css files and check if server is already installed to prevent
-		// appdata initialisation before database configuration
-		if(\OC::$server->getSystemConfig()->getValue('installed', false)) {
+		// Do not initialise scss appdata until we have a fully installed instance
+		// Do not load scss for update, errors, installation or login page
+		if(\OC::$server->getSystemConfig()->getValue('installed', false)
+			&& !\OCP\Util::needUpgrade()
+			&& \OC_User::isLoggedIn()) {
 			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
 		} else {
-			$cssFiles = array(
-				[\OC::$SERVERROOT, \OC::$WEBROOT, 'core/css/global.css'],
-				[\OC::$SERVERROOT, \OC::$WEBROOT, 'core/css/fonts.css'],
-				[\OC::$SERVERROOT, \OC::$WEBROOT, 'core/css/installation.css']
-			);
+			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles, false);
 		}
 		$this->assign('cssfiles', array());
 		$this->assign('printcssfiles', []);
@@ -199,16 +197,20 @@ class TemplateLayout extends \OC_Template {
 	 * @param array $styles
 	 * @return array
 	 */
-	static public function findStylesheetFiles($styles) {
+	static public function findStylesheetFiles($styles, $compileScss = true) {
 		// Read the selected theme from the config file
 		$theme = \OC_Util::getTheme();
 
-		$SCSSCacher = new SCSSCacher(
-			\OC::$server->getLogger(),
-			\OC::$server->getAppDataDir('css'),
-			\OC::$server->getURLGenerator(),
-			\OC::$server->getSystemConfig()
-		);
+		if($compileScss) {
+			$SCSSCacher = new SCSSCacher(
+				\OC::$server->getLogger(),
+				\OC::$server->getAppDataDir('css'),
+				\OC::$server->getURLGenerator(),
+				\OC::$server->getSystemConfig()
+			);
+		} else {
+			$SCSSCacher = null;
+		}
 
 		$locator = new \OC\Template\CSSResourceLocator(
 			\OC::$server->getLogger(),
