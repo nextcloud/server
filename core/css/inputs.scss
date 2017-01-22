@@ -274,10 +274,10 @@ input {
 		}
 		&.checkbox--white {
 			&:checked + label:before {
-				background-image: url('../img/actions/checkbox-mark.svg');
+				background-image: url('../img/actions/checkbox-mark-white.svg');
 			}
 			&:indeterminate + label:before {
-				background-image: url('../img/actions/checkbox-mixed.svg');
+				background-image: url('../img/actions/checkbox-mixed-white.svg');
 			}
 			&:checked:disabled + label:after {
 				border-color: #aaa;
