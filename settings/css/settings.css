@@ -399,7 +399,7 @@ table.grid th, table.grid td {
 	font-weight: normal;
 }
 td.name, td.password { padding-left:.8em; }
-td.password>img,td.displayName>img, td.remove>a, td.quota>img { visibility:hidden; }
+td.password>img,td.displayName>img, td.remove>a, td.quota>img { visibility:hidden; vertical-align: middle;}
 td.password, td.quota, td.displayName { width:12em; cursor:pointer; }
 td.password>span, td.quota>span, rd.displayName>span { margin-right: 1.2em; color: #C7C7C7; }
 span.usersLastLoginTooltip { white-space: nowrap; }
@@ -804,9 +804,9 @@ span.indeterminate {
 /* PASSWORD */
 #passwordform .strengthify-wrapper {
 	position: absolute;
-	left: 186px;
-	width: 131px;
-	margin-top: -7px;
+	left: 166px;
+	width: 130px;
+	margin-top: -6px;
 }
 
 /* OPERA hack for strengthify*/

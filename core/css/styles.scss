@@ -567,14 +567,13 @@ label.infield {
 }
 
 #pass2, input[name='personal-password-clone'] {
-	padding: .6em 2.5em .4em .4em;
-	width: 8em;
+	padding-right: 30px;
 }
 
 #personal-show + label {
 	height: 14px;
 	margin-top: -25px;
-	left: 295px;
+	left: 267px;
 	display: block;
 }
 
@@ -724,9 +723,9 @@ label.infield {
 #body-login input {
 	font-size: 20px;
 	margin: 5px;
-	padding: 11px 10px 9px;
+	padding: 10px 10px 8px;
 	&[type='text'], &[type='password'] {
-		width: 249px;
+		width: calc(100% - 10px); /* 5px margin */
 	}
 	&.login {
 		width: 269px;

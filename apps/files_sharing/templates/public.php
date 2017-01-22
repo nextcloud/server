@@ -58,13 +58,13 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 							  data-owner-display-name="<?php p($_['displayName']) ?>" data-owner="<?php p($_['owner']) ?>" data-name="<?php p($_['filename']) ?>">
 						<button id="save-button"><?php p($l->t('Add to your Nextcloud')) ?></button>
 						<form class="save-form hidden" action="#">
-							<input type="text" id="remote_address" placeholder="user@yourNextcloud.org"/>
+							<input type="email" id="remote_address" placeholder="user@yourNextcloud.org"/>
 							<button id="save-button-confirm" class="icon-confirm svg" disabled></button>
 						</form>
 					</span>
 					<?php } ?>
 					<a href="<?php p($_['downloadURL']); ?>" id="download" class="button">
-						<img class="svg" alt="" src="<?php print_unescaped(image_path("core", "actions/download.svg")); ?>"/>
+						<span class="icon icon-download"></span>
 						<span id="download-text"><?php p($l->t('Download'))?></span>
 					</a>
 				<?php } ?>
@@ -89,8 +89,8 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 					<div id="imgframe"></div>
 				<?php endif; ?>
 				<div class="directDownload">
-					<a href="<?php p($_['downloadURL']); ?>" id="downloadFile" class="button">
-						<img class="svg" alt="" src="<?php print_unescaped(image_path("core", "actions/download.svg")); ?>"/>
+					<a href="<?php p($_['downloadURL']); ?>" id="downloadFile" class="button primary">
+						<span class="icon icon-download"></span>
 						<?php p($l->t('Download %s', array($_['filename'])))?> (<?php p($_['fileSize']) ?>)
 					</a>
 				</div>
