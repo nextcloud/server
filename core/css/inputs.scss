@@ -31,6 +31,7 @@ textarea,
 	outline: none;
 	border-radius: 3px;
 	&:not(:disabled):not(.primary) {
+		/* no border on quota */
 		&:not(#quota):hover,
 		&:focus,
 		&.active {
@@ -104,8 +105,7 @@ input {
 
 /* 'Click' inputs */
 select,
-button,
-.button,
+button, .button,
 input[type='button'],
 input[type='submit'],
 input[type='reset'] {
@@ -123,8 +123,7 @@ input[type='reset'] {
 }
 
 /* Buttons */
-button,
-.button,
+button, .button,
 input[type='button'],
 input[type='submit'],
 input[type='reset'] {
@@ -134,6 +133,17 @@ input[type='reset'] {
 		border: 0;
 	}
 }
+button, .button {
+	> span { 
+		/* icon position inside buttons */
+		&[class^='icon-'],
+		&[class*=' icon-'] {
+			display: inline-block;
+			vertical-align: text-bottom;
+		}
+	}
+}
+
 textarea {
 	color: #555;
 	cursor: text;
