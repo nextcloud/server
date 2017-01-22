@@ -34,6 +34,7 @@ textarea,
 		&:not(#quota):hover,
 		&:focus,
 		&.active {
+		/* active class used for multiselect */
 			border-color: #0082c9;
 			outline: none;
 		}
@@ -43,10 +44,10 @@ textarea,
 		}
 	}
 	&:disabled {
-		background-color: rgba(0, 0, 0, 0.1);
+		background-color: #eee;
 		color: #999;
 		cursor: default;
-		opacity: 0.9;
+		opacity: 0.5;
 	}
 	/* Primary action button, use sparingly */
 	&.primary {
