@@ -164,7 +164,7 @@ class TemplateLayout extends \OC_Template {
 		// Do not load scss for update, errors, installation or login page
 		if(\OC::$server->getSystemConfig()->getValue('installed', false)
 			&& !\OCP\Util::needUpgrade()
-			&& \OC_User::isLoggedIn()) {
+			&& strpos(\OC::$server->getRequest()->getRequestUri(), \OC::$server->getURLGenerator()->linkToRoute('core.login.tryLogin')) !== 0) {
 			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
 		} else {
 			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles, false);
