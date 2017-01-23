@@ -167,6 +167,12 @@ class Detection implements IMimeTypeDetector {
 		$this->loadMappings();
 
 		$fileName = basename($path);
+
+		// remove leading dot on hidden files with a file extension
+		if (strpos($fileName, '.') === 0 && strpos($fileName, '.', 1)) {
+			$fileName = substr($fileName, 1);
+		}
+
 		// note: leading dot doesn't qualify as extension
 		if (strpos($fileName, '.') > 0) {
 			//try to guess the type by the file extension

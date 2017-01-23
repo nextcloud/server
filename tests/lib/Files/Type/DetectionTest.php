@@ -74,9 +74,13 @@ class DetectionTest extends \Test\TestCase {
 		$this->assertEquals('text/plain', $this->detection->detectPath('foo.txt'));
 		$this->assertEquals('image/png', $this->detection->detectPath('foo.png'));
 		$this->assertEquals('image/png', $this->detection->detectPath('foo.bar.png'));
+		$this->assertEquals('image/png', $this->detection->detectPath('.hidden.png'));
+		$this->assertEquals('image/png', $this->detection->detectPath('.hidden.foo.png'));
 		$this->assertEquals('image/png', $this->detection->detectPath('.hidden/foo.png'));
+		$this->assertEquals('image/png', $this->detection->detectPath('.hidden/.hidden.png'));
 		$this->assertEquals('image/png', $this->detection->detectPath('test.jpg/foo.png'));
 		$this->assertEquals('application/octet-stream', $this->detection->detectPath('.png'));
+		$this->assertEquals('application/octet-stream', $this->detection->detectPath('..hidden'));
 		$this->assertEquals('application/octet-stream', $this->detection->detectPath('foo'));
 		$this->assertEquals('application/octet-stream', $this->detection->detectPath(''));
 	}
