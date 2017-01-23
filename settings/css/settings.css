@@ -763,6 +763,10 @@ form.section {
 	margin-top: 0;
 }
 
+#apps-list.installed .groups-enable label {
+    margin-right: 3px;
+}
+
 /* LOG */
 #log {
 	white-space:normal;
