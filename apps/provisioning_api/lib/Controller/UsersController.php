@@ -33,10 +33,10 @@ use \OC_Helper;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
-use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IRequest;
@@ -275,9 +275,9 @@ class UsersController extends OCSController {
 				break;
 			case 'quota':
 				$quota = $value;
-				if($quota !== 'none' and $quota !== 'default') {
+				if($quota !== 'none' && $quota !== 'default') {
 					if (is_numeric($quota)) {
-						$quota = floatval($quota);
+						$quota = (float) $quota;
 					} else {
 						$quota = \OCP\Util::computerFileSize($quota);
 					}
@@ -421,6 +421,7 @@ class UsersController extends OCSController {
 			// Looking up someone else
 			if($subAdminManager->isUserAccessible($loggedInUser, $targetUser)) {
 				// Return the group that the method caller is subadmin of for the user in question
+				/** @var IGroup[] $getSubAdminsGroups */
 				$getSubAdminsGroups = $subAdminManager->getSubAdminsGroups($loggedInUser);
 				foreach ($getSubAdminsGroups as $key => $group) {
 					$getSubAdminsGroups[$key] = $group->getGID();
@@ -440,6 +441,8 @@ class UsersController extends OCSController {
 
 	/**
 	 * @PasswordConfirmationRequired
+	 * @NoAdminRequired
+	 *
 	 * @param string $userId
 	 * @param string $groupid
 	 * @return DataResponse
@@ -457,6 +460,13 @@ class UsersController extends OCSController {
 		}
 		if($targetUser === null) {
 			throw new OCSException('', 103);
+		}
+
+		// If they're not an admin, check they are a subadmin of the group in question
+		$loggedInUser = $this->userSession->getUser();
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		if (!$this->groupManager->isAdmin($loggedInUser->getUID()) && !$subAdminManager->isSubAdminOfGroup($loggedInUser, $group)) {
+			throw new OCSException('', 104);
 		}
 
 		// Add user to group
@@ -492,25 +502,33 @@ class UsersController extends OCSController {
 
 		// If they're not an admin, check they are a subadmin of the group in question
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		if(!$this->groupManager->isAdmin($loggedInUser->getUID()) && !$subAdminManager->isSubAdminofGroup($loggedInUser, $group)) {
+		if (!$this->groupManager->isAdmin($loggedInUser->getUID()) && !$subAdminManager->isSubAdminOfGroup($loggedInUser, $group)) {
 			throw new OCSException('', 104);
 		}
+
 		// Check they aren't removing themselves from 'admin' or their 'subadmin; group
-		if($userId === $loggedInUser->getUID()) {
-			if($this->groupManager->isAdmin($loggedInUser->getUID())) {
-				if($group->getGID() === 'admin') {
+		if ($userId === $loggedInUser->getUID()) {
+			if ($this->groupManager->isAdmin($loggedInUser->getUID())) {
+				if ($group->getGID() === 'admin') {
 					throw new OCSException('Cannot remove yourself from the admin group', 105);
 				}
 			} else {
-				// Not an admin, check they are not removing themself from their subadmin group
-				$subAdminGroups = $subAdminManager->getSubAdminsGroups($loggedInUser);
-				foreach ($subAdminGroups as $key => $group) {
-					$subAdminGroups[$key] = $group->getGID();
-				}
+				// Not an admin, so the user must be a subadmin of this group, but that is not allowed.
+				throw new OCSException('Cannot remove yourself from this group as you are a SubAdmin', 105);
+			}
 
-				if(in_array($group->getGID(), $subAdminGroups, true)) {
-					throw new OCSException('Cannot remove yourself from this group as you are a SubAdmin', 105);
-				}
+		} else if (!$this->groupManager->isAdmin($loggedInUser->getUID())) {
+			/** @var IGroup[] $subAdminGroups */
+			$subAdminGroups = $subAdminManager->getSubAdminsGroups($loggedInUser);
+			$subAdminGroups = array_map(function (IGroup $subAdminGroup) {
+				return $subAdminGroup->getGID();
+			}, $subAdminGroups);
+			$userGroups = $this->groupManager->getUserGroupIds($targetUser);
+			$userSubAdminGroups = array_intersect($subAdminGroups, $userGroups);
+
+			if (count($userSubAdminGroups) <= 1) {
+				// Subadmin must not be able to remove a user from all their subadmin groups.
+				throw new OCSException('Cannot remove user from this group as this is the only remaining group you are a SubAdmin of', 105);
 			}
 		}
 
