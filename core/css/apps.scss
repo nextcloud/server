@@ -104,6 +104,12 @@ em {
 		opacity: 1;
 		box-shadow: inset 2px 0 #0082c9;
 	}
+	li > a:first-child img {
+	    margin-bottom: -3px;
+	    margin-right: 11px;
+	    width: 16px;
+	    margin-left: 2px;
+	}
 	.collapse {
 		display: none;
 		/* hide collapse button initially */
