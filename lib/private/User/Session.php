@@ -743,6 +743,7 @@ class Session implements IUserSession, Emitter {
 
 		//login
 		$this->setUser($user);
+		$this->setLoginName($this->tokenProvider->getToken($sessionId)->getLoginName());
 		$user->updateLastLoginTimestamp();
 		$this->manager->emit('\OC\User', 'postRememberedLogin', [$user]);
 		return true;
