@@ -318,7 +318,8 @@
 
 /* User menu on the right */
 #expand {
-	display: block;
+	display: flex;
+	align-items: center;
 	padding: 7px 30px 6px 10px;
 	cursor: pointer;
 	* {
@@ -344,8 +345,6 @@
 
 	/* Profile picture in header */
 	.avatardiv {
-		float: left;
-		display: inline-block;
 		margin-right: 8px;
 		cursor: pointer;
 		height: 32px;
@@ -376,23 +375,22 @@
 	&:after {
 		/* position of dropdown arrow */
 		right: 15px;
-		border-color: rgba(0, 0, 0, 0);
-		border-bottom-color: rgba(255, 255, 255, 1);
+		border: 10px solid transparent;
+		border-color: transparent;
+		border-bottom-color: #fff;
 		bottom: 100%;
-		border: solid transparent;
 		content: ' ';
 		height: 0;
 		width: 0;
 		position: absolute;
 		pointer-events: none;
-		border-width: 10px;
 		margin-left: -10px;
 	}
 	a {
 		display: block;
 		height: 40px;
 		color: #000;
-		padding: 4px 12px 0;
+		padding: 10px 12px 0;
 		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
 		opacity: .5;
 		box-sizing: border-box;
