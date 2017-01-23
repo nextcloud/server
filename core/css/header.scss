@@ -92,6 +92,7 @@
 		display: inline-block;
 		padding-top: 22px;
 		padding-right: 10px;
+		flex-shrink: 0;
 	}
 	/* show caret indicator next to logo to make clear it is tappable */
 	.icon-caret {
