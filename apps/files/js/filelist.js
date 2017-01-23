@@ -2478,6 +2478,11 @@
 			if (!_.isArray(file)) {
 				file = [file];
 			}
+			if (file.length === 1) {
+				_.defer(function() {
+					this.showDetailsView(file[0]);
+				}.bind(this));
+			}
 			this.highlightFiles(file, function($tr) {
 				$tr.addClass('searchresult');
 				$tr.one('hover', function() {
