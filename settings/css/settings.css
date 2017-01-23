@@ -492,7 +492,7 @@ input.userFilter {width: 200px;}
 
 /* APPS */
 
-#app-content > svg {
+#app-content > svg.app-filter {
 	float: left;
 	height: 0;
 	width: 0;
