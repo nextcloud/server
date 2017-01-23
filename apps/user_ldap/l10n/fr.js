@@ -122,7 +122,7 @@ OC.L10N.register(
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Non recommandé, à utiliser à des fins de tests uniquement. Si la connexion ne fonctionne qu'avec cette option, importez le certificat SSL du serveur LDAP dans le serveur %s.",
     "Cache Time-To-Live" : "Durée de vie du cache (TTL)",
     "in seconds. A change empties the cache." : "en secondes. Tout changement vide le cache.",
-    "Directory Settings" : "Paramètres du répertoire",
+    "Directory Settings" : "Paramètres du dossier",
     "User Display Name Field" : "Champ \"nom d'affichage\" de l'utilisateur",
     "The LDAP attribute to use to generate the user's display name." : "L'attribut LDAP utilisé pour générer le nom d'affichage de l'utilisateur.",
     "2nd User Display Name Field" : "Second attribut pour le nom d'affichage",
