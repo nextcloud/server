@@ -38,22 +38,20 @@
 #body-user #header,
 #body-settings #header,
 #body-public #header {
+	display: inline-flex;
 	position: fixed;
 	top: 0;
 	left: 0;
 	right: 0;
 	z-index: 2000;
 	height: 45px;
-	line-height: 2.5em;
 	background-color: #0082c9;
 	box-sizing: border-box;
+	justify-content: space-between;
 }
 
 /* LOGO and APP NAME -------------------------------------------------------- */
 #nextcloud {
-	position: absolute;
-	top: 0;
-	left: 0;
 	padding: 5px;
 	padding-bottom: 0;
 	height: 45px;
@@ -92,10 +90,7 @@
 	}
 	.header-appname-container {
 		display: inline-block;
-		position: absolute;
-		left: 70px;
-		height: 27px;
-		padding-top: 18px;
+		padding-top: 22px;
 		padding-right: 10px;
 	}
 	/* show caret indicator next to logo to make clear it is tappable */
@@ -107,6 +102,21 @@
 		margin-top: -21px;
 		padding: 0;
 		vertical-align: middle;
+	}
+
+	#header-left,
+	#header-right {
+		display: inline-flex;
+		align-items: center;
+	}
+
+	#header-left {
+		flex: 0 0;
+		flex-grow: 1;
+	}
+
+	#header-right {
+		justify-content: flex-end;
 	}
 }
 
@@ -150,7 +160,7 @@
 	font-size: 16px;
 	font-weight: 300;
 	margin: 0;
-	margin-top: -24px;
+	margin-top: -27px;
 	padding: 7px 0 7px 5px;
 	vertical-align: middle;
 }
@@ -293,20 +303,8 @@
 
 /* USER MENU -----------------------------------------------------------------*/
 
-/* info part on the right, used e.g. for info on who shared something */
-.header-right {
-	position: absolute;
-	right: 0;
-	padding: 7px 5px;
-	color: #fff;
-	height: 100%;
-	max-width: 80%;
-	white-space: nowrap;
-	box-sizing: border-box;
-}
-
 #settings {
-	float: right;
+	display: inline-block;
 	color: #ddd;
 	cursor: pointer;
 	.icon-loading-small-dark {
@@ -315,6 +313,7 @@
 		margin-right: 6px;
 		background-size: 16px 16px;
 	}
+	flex: 0 0 auto;
 }
 
 /* User menu on the right */

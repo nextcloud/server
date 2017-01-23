@@ -131,6 +131,9 @@ thead {
 
 #remote_address {
 	width: 200px;
+
+	margin-right: 4px;
+	height: 31px;
 }
 
 #save-button-confirm {
@@ -138,8 +141,8 @@ thead {
 	background-color: transparent;
 	border: none;
 	margin: 2px 4px !important;
-	right: 4px;
-	box-shadow: none;
+	right: 7px;
+	top: -8px;
 	height: 30px;
 }
 
