@@ -60,14 +60,14 @@ script(
 			<p><?php p($l->t('This app has an update available.')); ?></p>
 		</div>
 		<div class="warning hidden"></div>
+		<input class="update hidden" type="submit" value="<?php p($l->t('Update to %s', array('{{update}}'))); ?>" data-appid="{{id}}" />
+		{{#if canUnInstall}}
+		<input class="uninstall" type="submit" value="<?php p($l->t('Uninstall')); ?>" data-appid="{{id}}" />
+		{{/if}}
 		{{#if active}}
 		<input class="enable" type="submit" data-appid="{{id}}" data-active="true" value="<?php p($l->t("Disable"));?>"/>
 		{{else}}
 		<input class="enable{{#if needsDownload}} needs-download{{/if}}" type="submit" data-appid="{{id}}" data-active="false" {{#unless canInstall}}disabled="disabled"{{/unless}} value="<?php p($l->t("Enable"));?>"/>
-		{{/if}}
-		<input class="update hidden" type="submit" value="<?php p($l->t('Update to %s', array('{{update}}'))); ?>" data-appid="{{id}}" />
-		{{#if canUnInstall}}
-		<input class="uninstall" type="submit" value="<?php p($l->t('Uninstall app')); ?>" data-appid="{{id}}" />
 		{{/if}}
 	</div>
 </div>

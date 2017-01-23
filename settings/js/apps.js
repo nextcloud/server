@@ -455,8 +455,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				element.val(t('settings','Uninstall'));
 			} else {
 				OC.Settings.Apps.rebuildNavigation();
-				element.parent().fadeOut(function() {
-					element.remove();
+				element.parents('#apps-list > .section').fadeOut(function() {
+					this.remove();
 				});
 			}
 		},'json');
