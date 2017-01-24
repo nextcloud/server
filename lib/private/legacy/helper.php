@@ -541,7 +541,8 @@ class OC_Helper {
 	 */
 	public static function getStorageInfo($path, $rootInfo = null) {
 		$memcache = \OC::$server->getMemCacheFactory()->create('storageInfo');
-		$cached = $memcache->get($rootInfo ? '__root__' : $path);
+		$cacheKey = $rootInfo ? '__root__' . md5($path) : md5($path);
+		$cached = $memcache->get($cacheKey);
 		if (is_array($cached)) {
 			return $cached;
 		}
@@ -613,7 +614,7 @@ class OC_Helper {
 			$ownerDisplayName = $owner->getDisplayName();
 		}
 
-		$memcache->set($rootInfo ? '__root__' : $path, [
+		$memcache->set($cacheKey, [
 			'free' => $free,
 			'used' => $used,
 			'quota' => $quota,
