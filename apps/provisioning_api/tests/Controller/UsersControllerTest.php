@@ -29,6 +29,7 @@
 
 namespace OCA\Provisioning_API\Tests\Controller;
 
+use OC\Accounts\AccountManager;
 use OCA\Provisioning_API\Controller\UsersController;
 use OCP\IUserManager;
 use OCP\IConfig;
@@ -38,7 +39,7 @@ use Test\TestCase as OriginalTest;
 use OCP\ILogger;
 
 class UsersControllerTest extends OriginalTest {
-	
+
 	/** @var IUserManager | PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
 	/** @var IConfig | PHPUnit_Framework_MockObject_MockObject */
@@ -51,6 +52,8 @@ class UsersControllerTest extends OriginalTest {
 	protected $logger;
 	/** @var UsersController | PHPUnit_Framework_MockObject_MockObject */
 	protected $api;
+	/** @var  AccountManager | PHPUnit_Framework_MockObject_MockObject */
+	protected $accountManager;
 
 	protected function tearDown() {
 		parent::tearDown();
@@ -77,6 +80,9 @@ class UsersControllerTest extends OriginalTest {
 		$request = $this->getMockBuilder('OCP\IRequest')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->accountManager = $this->getMockBuilder(AccountManager::class)
+			->disableOriginalConstructor()
+			->getMock();
 		$this->api = $this->getMockBuilder('OCA\Provisioning_API\Controller\UsersController')
 			->setConstructorArgs([
 				'provisioning_api',
@@ -85,6 +91,7 @@ class UsersControllerTest extends OriginalTest {
 				$this->config,
 				$this->groupManager,
 				$this->userSession,
+				$this->accountManager,
 				$this->logger,
 			])
 			->setMethods(['fillStorageInfo'])
@@ -649,6 +656,16 @@ class UsersControllerTest extends OriginalTest {
 			->method('isAdmin')
 			->with('admin')
 			->will($this->returnValue(true));
+		$this->accountManager->expects($this->any())->method('getUser')
+			->with($targetUser)
+			->willReturn(
+				[
+					AccountManager::PROPERTY_ADDRESS => ['value' => 'address'],
+					AccountManager::PROPERTY_PHONE => ['value' => 'phone'],
+					AccountManager::PROPERTY_TWITTER => ['value' => 'twitter'],
+					AccountManager::PROPERTY_WEBSITE => ['value' => 'website'],
+				]
+			);
 		$this->config
 			->expects($this->at(0))
 			->method('getUserValue')
@@ -669,6 +686,10 @@ class UsersControllerTest extends OriginalTest {
 			'quota' => ['DummyValue'],
 			'email' => 'demo@owncloud.org',
 			'displayname' => 'Demo User',
+			'phone' => 'phone',
+			'address' => 'address',
+			'webpage' => 'website',
+			'twitter' => 'twitter'
 		];
 		$this->assertEquals($expected, $this->api->getUser('UserToGet')->getData());
 	}
@@ -728,12 +749,26 @@ class UsersControllerTest extends OriginalTest {
 			->expects($this->once())
 			->method('getDisplayName')
 			->will($this->returnValue('Demo User'));
+		$this->accountManager->expects($this->any())->method('getUser')
+			->with($targetUser)
+			->willReturn(
+				[
+					AccountManager::PROPERTY_ADDRESS => ['value' => 'address'],
+					AccountManager::PROPERTY_PHONE => ['value' => 'phone'],
+					AccountManager::PROPERTY_TWITTER => ['value' => 'twitter'],
+					AccountManager::PROPERTY_WEBSITE => ['value' => 'website'],
+				]
+			);
 
 		$expected = [
 			'enabled' => 'true',
 			'quota' => ['DummyValue'],
 			'email' => 'demo@owncloud.org',
 			'displayname' => 'Demo User',
+			'phone' => 'phone',
+			'address' => 'address',
+			'webpage' => 'website',
+			'twitter' => 'twitter'
 		];
 		$this->assertEquals($expected, $this->api->getUser('UserToGet')->getData());
 	}
@@ -834,11 +869,25 @@ class UsersControllerTest extends OriginalTest {
 			->expects($this->once())
 			->method('getEMailAddress')
 			->will($this->returnValue('subadmin@owncloud.org'));
+		$this->accountManager->expects($this->any())->method('getUser')
+			->with($targetUser)
+			->willReturn(
+				[
+					AccountManager::PROPERTY_ADDRESS => ['value' => 'address'],
+					AccountManager::PROPERTY_PHONE => ['value' => 'phone'],
+					AccountManager::PROPERTY_TWITTER => ['value' => 'twitter'],
+					AccountManager::PROPERTY_WEBSITE => ['value' => 'website'],
+				]
+			);
 
 		$expected = [
 			'quota' => ['DummyValue'],
 			'email' => 'subadmin@owncloud.org',
 			'displayname' => 'Subadmin User',
+			'phone' => 'phone',
+			'address' => 'address',
+			'webpage' => 'website',
+			'twitter' => 'twitter'
 		];
 		$this->assertEquals($expected, $this->api->getUser('subadmin')->getData());
 	}
