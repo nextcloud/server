@@ -255,6 +255,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Security\\ISecureRandom' => __DIR__ . '/../../..' . '/lib/public/Security/ISecureRandom.php',
         'OCP\\Security\\StringUtils' => __DIR__ . '/../../..' . '/lib/public/Security/StringUtils.php',
         'OCP\\Session\\Exceptions\\SessionNotAvailableException' => __DIR__ . '/../../..' . '/lib/public/Session/Exceptions/SessionNotAvailableException.php',
+        'OCP\\Settings\\IIconSection' => __DIR__ . '/../../..' . '/lib/public/Settings/IIconSection.php',
         'OCP\\Settings\\IManager' => __DIR__ . '/../../..' . '/lib/public/Settings/IManager.php',
         'OCP\\Settings\\ISection' => __DIR__ . '/../../..' . '/lib/public/Settings/ISection.php',
         'OCP\\Settings\\ISettings' => __DIR__ . '/../../..' . '/lib/public/Settings/ISettings.php',

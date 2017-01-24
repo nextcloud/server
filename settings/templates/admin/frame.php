@@ -30,14 +30,28 @@ script('files', 'jquery.fileupload');
 
 <div id="app-navigation">
 	<ul>
-		<?php foreach($_['forms'] as $form) {
+		<?php
+		foreach($_['forms'] as $form) {
 			if (isset($form['anchor'])) {
 				$anchor = \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => $form['anchor']]);
+				$class = 'nav-icon-' . $form['anchor'];
 				$sectionName = $form['section-name'];
 				$active = $form['active'] ? ' class="active"' : '';
-				print_unescaped(sprintf("<li%s><a href='%s'>%s</a></li>", $active, \OCP\Util::sanitizeHTML($anchor), \OCP\Util::sanitizeHTML($sectionName)));
+		?>
+				<li <?php print_unescaped($form['active'] ? ' class="active"' : ''); ?>>
+					<a href="<?php p($anchor); ?>">
+						<?php if (!empty($form['icon'])) { ?>
+							<img alt="" src="<?php print_unescaped($form['icon']); ?>">
+							<span><?php p($form['section-name']); ?></span>
+						<?php } else { ?>
+							<span class="no-icon"><?php p($form['section-name']); ?></span>
+						<?php } ?>
+					</a>
+				</li>
+		<?php
 			}
-		}?>
+		}
+		?>
 	</ul>
 </div>
 

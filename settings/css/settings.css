@@ -7,6 +7,29 @@ input#openid, input#webdav { width:20em; }
 
 /* PERSONAL */
 
+/* icons for sidebar */
+.nav-icon-personal-settings {
+	background-image: url('../img/personal.svg?v=1');
+}
+.nav-icon-sessions {
+	background-image: url('../img/toggle-filelist.svg?v=1');
+}
+.nav-icon-apppasswords {
+	background-image: url('../img/password.svg?v=1');
+}
+.nav-icon-clientsbox {
+	background-image: url('../img/change.svg?v=1');
+}
+.nav-icon-activity {
+	background-image: url('../img/activity-dark.svg?v=1');
+}
+.nav-icon-federated-cloud {
+	background-image: url('../img/share.svg?v=1');
+}
+.nav-icon-second-factor-backup-codes {
+	background-image: url('../img/password.svg?v=1');
+}
+
 #avatarform {
 	width: 160px;
 	padding-right: 0;
@@ -713,6 +736,17 @@ table.grid td.date{
 }
 
 /* ADMIN */
+
+/* Navigation icons */
+#app-navigation img {
+	margin-bottom: -3px;
+	margin-right: 6px;
+	width: 16px;
+}
+#app-navigation li span.no-icon {
+	padding-left: 25px;
+}
+
 #security-warning li {
 	list-style: initial;
 	margin: 10px 0;

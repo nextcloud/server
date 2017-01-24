@@ -29,6 +29,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Settings\ISettings;
@@ -55,6 +56,8 @@ class Manager implements IManager {
 	private $userManager;
 	/** @var ILockingProvider */
 	private $lockingProvider;
+	/** @var IURLGenerator */
+	private $url;
 
 	/**
 	 * @param ILogger $log
@@ -65,7 +68,7 @@ class Manager implements IManager {
 	 * @param IUserManager $userManager
 	 * @param ILockingProvider $lockingProvider
 	 * @param Mapper $mapper
-	 * @internal param IDBConnection $dbc
+	 * @param IURLGenerator $url
 	 */
 	public function __construct(
 		ILogger $log,
@@ -75,7 +78,8 @@ class Manager implements IManager {
 		EncryptionManager $encryptionManager,
 		IUserManager $userManager,
 		ILockingProvider $lockingProvider,
-		Mapper $mapper
+		Mapper $mapper,
+		IURLGenerator $url
 	) {
 		$this->log = $log;
 		$this->dbc = $dbc;
@@ -85,6 +89,7 @@ class Manager implements IManager {
 		$this->encryptionManager = $encryptionManager;
 		$this->userManager = $userManager;
 		$this->lockingProvider = $lockingProvider;
+		$this->url = $url;
 	}
 
 	/**
@@ -260,11 +265,11 @@ class Manager implements IManager {
 	public function getAdminSections() {
 		// built-in sections
 		$sections = [
-			0 => [new Section('server', $this->l->t('Server settings'), 0)],
-			5 => [new Section('sharing', $this->l->t('Sharing'), 0)],
-			45 => [new Section('encryption', $this->l->t('Encryption'), 0)],
-			98 => [new Section('additional', $this->l->t('Additional settings'), 0)],
-			99 => [new Section('tips-tricks', $this->l->t('Tips & tricks'), 0)],
+			0 => [new Section('server', $this->l->t('Server settings'), 0, $this->url->imagePath('settings', 'admin.svg'))],
+			5 => [new Section('sharing', $this->l->t('Sharing'), 0, $this->url->imagePath('core', 'actions/share.svg'))],
+			45 => [new Section('encryption', $this->l->t('Encryption'), 0, $this->url->imagePath('core', 'actions/password.svg'))],
+			98 => [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))],
+			99 => [new Section('tips-tricks', $this->l->t('Tips & tricks'), 0, $this->url->imagePath('settings', 'help.svg'))],
 		];
 
 		$rows = $this->mapper->getAdminSectionsFromDB();

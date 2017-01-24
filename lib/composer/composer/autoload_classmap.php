@@ -225,6 +225,7 @@ return array(
     'OCP\\Security\\ISecureRandom' => $baseDir . '/lib/public/Security/ISecureRandom.php',
     'OCP\\Security\\StringUtils' => $baseDir . '/lib/public/Security/StringUtils.php',
     'OCP\\Session\\Exceptions\\SessionNotAvailableException' => $baseDir . '/lib/public/Session/Exceptions/SessionNotAvailableException.php',
+    'OCP\\Settings\\IIconSection' => $baseDir . '/lib/public/Settings/IIconSection.php',
     'OCP\\Settings\\IManager' => $baseDir . '/lib/public/Settings/IManager.php',
     'OCP\\Settings\\ISection' => $baseDir . '/lib/public/Settings/ISection.php',
     'OCP\\Settings\\ISettings' => $baseDir . '/lib/public/Settings/ISettings.php',

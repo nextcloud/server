@@ -9,12 +9,14 @@
 ?>
 
 <div id="app-navigation">
-	<ul>
+	<ul class="with-icon">
 	<?php foreach($_['forms'] as $form) {
 		if (isset($form['anchor'])) {
 			$anchor = '#' . $form['anchor'];
+			$class = 'nav-icon-' . $form['anchor'];
 			$sectionName = $form['section-name'];
-			print_unescaped(sprintf("<li><a href='%s'>%s</a></li>", \OCP\Util::sanitizeHTML($anchor), \OCP\Util::sanitizeHTML($sectionName)));
+			print_unescaped(sprintf("<li><a href='%s' class='%s'>%s</a></li>", \OCP\Util::sanitizeHTML($anchor),
+			\OCP\Util::sanitizeHTML($class), \OCP\Util::sanitizeHTML($sectionName)));
 		}
 	}?>
 	</ul>
