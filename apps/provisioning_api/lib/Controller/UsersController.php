@@ -218,6 +218,7 @@ class UsersController extends OCSController {
 		$userAccount = $this->accountManager->getUser($targetUserObject);
 
 		// Find the data
+		$data['id'] = $targetUserObject->getUID();
 		$data['quota'] = $this->fillStorageInfo($userId);
 		$data['email'] = $targetUserObject->getEMailAddress();
 		$data['displayname'] = $targetUserObject->getDisplayName();
@@ -227,6 +228,30 @@ class UsersController extends OCSController {
 		$data['twitter'] = $userAccount[\OC\Accounts\AccountManager::PROPERTY_TWITTER]['value'];
 
 		return new DataResponse($data);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoSubAdminRequired
+	 *
+	 * gets user info from the currently logged in user
+	 *
+	 * @return DataResponse
+	 * @throws OCSException
+	 */
+	public function getCurrentUser() {
+		$user = $this->userSession->getUser();
+		if ($user) {
+			$result =  $this->getUser($user->getUID());
+			// rename "displayname" to "display-name" only for this call to keep
+			// the API stable.
+			$result['display-name'] = $result['displayname'];
+			unset($result['displayname']);
+			return $result;
+
+		}
+
+		throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
 	}
 
 	/**

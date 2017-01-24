@@ -106,20 +106,6 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @return DataResponse
-	 */
-	public function getCurrentUser() {
-		$userObject = $this->userSession->getUser();
-		$data  = [
-			'id' => $userObject->getUID(),
-			'display-name' => $userObject->getDisplayName(),
-			'email' => $userObject->getEMailAddress(),
-		];
-		return new DataResponse($data);
-	}
-
-	/**
 	 * @PublicPage
 	 *
 	 * @param string $login
