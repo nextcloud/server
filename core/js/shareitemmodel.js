@@ -272,6 +272,10 @@
 			return this.get('allowPublicUploadStatus');
 		},
 
+		isPublicEditingAllowed: function() {
+			return this.get('allowPublicEditingStatus');
+		},
+
 		/**
 		 * @returns {boolean}
 		 */
@@ -679,6 +683,17 @@
 				});
 			}
 
+			var allowPublicEditingStatus = true;
+			if(!_.isUndefined(data.shares)) {
+				$.each(data.shares, function (key, value) {
+					if (value.share_type === OC.Share.SHARE_TYPE_LINK) {
+						allowPublicEditingStatus = (value.permissions & OC.PERMISSION_UPDATE) ? true : false;
+						return true;
+					}
+				});
+			}
+
+
 			var hideFileListStatus = false;
 			if(!_.isUndefined(data.shares)) {
 				$.each(data.shares, function (key, value) {
@@ -762,6 +777,7 @@
 				linkShare: linkShare,
 				permissions: permissions,
 				allowPublicUploadStatus: allowPublicUploadStatus,
+				allowPublicEditingStatus: allowPublicEditingStatus,
 				hideFileListStatus: hideFileListStatus
 			};
 		},
