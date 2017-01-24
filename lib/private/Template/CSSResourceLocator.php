@@ -58,10 +58,17 @@ class CSSResourceLocator extends ResourceLocator {
 		) {
 			return;
 		}
+
+
 		$app = substr($style, 0, strpos($style, '/'));
 		$style = substr($style, strpos($style, '/')+1);
 		$app_path = \OC_App::getAppPath($app);
 		$app_url = \OC_App::getAppWebPath($app);
+
+		if ($this->cacheAndAppendScssIfExist($app_path, $style.'.scss', null, $app)) {
+			return;
+		}
+
 		$this->append($app_path, $style.'.css', $app_url);
 	}
 
@@ -81,13 +88,14 @@ class CSSResourceLocator extends ResourceLocator {
 	 * @param string $root path to check
 	 * @param string $file the filename
 	 * @param string|null $webRoot base for path, default map $root to $webRoot
+	 * @param string $app
 	 * @return bool True if the resource was found and cached, false otherwise
 	 */
-	protected function cacheAndAppendScssIfExist($root, $file, $webRoot = null) {
+	protected function cacheAndAppendScssIfExist($root, $file, $webRoot = null, $app = 'core') {
 		if (is_file($root.'/'.$file)) {
 			if($this->scssCacher !== null) {
-				if($this->scssCacher->process($root, $file)) {
-					$this->append($root, $this->scssCacher->getCachedSCSS('core', $file), $webRoot, false);
+				if($this->scssCacher->process($root, $file, $app)) {
+					$this->append($root, $this->scssCacher->getCachedSCSS($app, $file), $webRoot, false);
 					return true;
 				} else {
 					$this->logger->error('Failed to compile and/or save '.$root.'/'.$file, ['app' => 'core']);
