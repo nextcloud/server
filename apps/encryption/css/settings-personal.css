@@ -8,3 +8,8 @@
 , #recoveryEnabledSuccess {
 	display: none;
 }
+
+/* icons for sidebar */
+.nav-icon-basic-encryption-module {
+	background-image: url('../img/app.svg?v=1');
+}
