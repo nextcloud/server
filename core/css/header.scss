@@ -20,10 +20,21 @@
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
+}
 
-	/* Dropdown menu arrow */
-	&.menu:after,
-	.menu:after {
+/* Header menu */
+.menu {
+	position: absolute;
+	top: 45px;
+	background-color: #fff;
+	box-shadow: 0 1px 10px rgba(150, 150, 150, 0.75);
+	border-radius: 0 0 3px 3px;
+	display: none;
+	box-sizing: border-box;
+	z-index: 2000;
+
+	/* Dropdown arrow */
+	&:after {
 		border: 10px solid transparent;
 		border-bottom-color: $color-main-background;
 		bottom: 100%;
@@ -199,19 +210,12 @@ nav {
 
 #navigation {
 	position: relative;
-	top: 45px;
 	left: -100%;
 	width: 160px;
-	margin-top: 0;
 	background-color: $color-main-background;
 	box-shadow: 0 1px 10px $color-box-shadow;
-	border-radius: 3px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-	display: none;
-	box-sizing: border-box;
-	z-index: 2000;
 	&:after {
+		/* position of dropdown arrow */
 		left: 47%;
 		bottom: 100%;
 		border: solid transparent;
@@ -407,17 +411,9 @@ nav {
 }
 
 #expanddiv {
-	position: absolute;
 	right: 13px;
-	top: 45px;
-	z-index: 2000;
-	display: none;
 	background: $color-main-background;
 	box-shadow: 0 1px 10px $color-box-shadow;
-	border-radius: 3px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-	box-sizing: border-box;
 	&:after {
 		/* position of dropdown arrow */
 		right: 13px;

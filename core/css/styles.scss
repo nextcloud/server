@@ -1057,6 +1057,121 @@ span.ui-icon {
 	margin: 3px 7px 30px 0;
 }
 
+/* ---- CONTACTS MENU ---- */
+
+#contactsmenu {
+	.menutoggle {
+		background-size: 16px 16px;
+		padding: 14px;
+		cursor: pointer;
+		opacity: .7;
+	}
+}
+
+#contactsmenu > .menu {
+	/* show ~4.5 entries */
+	height: 278px;
+	width: 350px;
+	right: 13px;
+
+	&::after {
+		right: 61px;
+	}
+
+	.emptycontent {
+		margin-top: 5vh !important;
+		margin-bottom: 2vh;
+		.icon-loading {
+			position: inherit;
+		}
+		.icon-search {
+			display: inline-block;
+		}
+	}
+
+	.content {
+		max-height: calc(100% - 50px);
+		overflow-y: auto;
+
+		.footer {
+			text-align: center;
+
+			a {
+				display: block;
+				width: 100%;
+				padding: 12px 0;
+				opacity: .5;
+			}
+		}
+	}
+
+	.contact {
+		display: flex;
+		position: relative;
+		align-items: center;
+		padding: 3px 3px 3px 10px;
+		border-bottom: 1px solid #eeeeee;
+
+		:last-of-type {
+			border-bottom: none;
+		}
+
+		.avatar {
+			height: 32px;
+			width: 32px;
+			display: inline-block;
+		}
+
+		.body {
+			flex-grow: 1;
+			padding-left: 8px;
+
+			div {
+				position: relative;
+				width: 100%;
+			}
+
+			.full-name, .last-message {
+				/* TODO: don't use fixed width */
+				max-width: 204px;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+			.last-message {
+				opacity: .5;
+			}
+		}
+
+		.top-action, .second-action, .other-actions {
+			width: 16px;
+			height: 16px;
+			padding: 14px;
+			opacity: .5;
+			cursor: pointer;
+
+			:hover {
+				opacity: 1;
+			}
+		}
+
+		/* actions menu */
+		.menu {
+			top: 47px;
+			margin-right: 13px;
+		}
+		.popovermenu::after {
+			right: 2px;
+		}
+	}
+}
+
+
+#contactsmenu-search {
+	width: calc(100% - 16px);
+	margin: 8px;
+}
+
 /* ---- TOOLTIPS ---- */
 
 .extra-data {

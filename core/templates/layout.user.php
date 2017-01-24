@@ -118,6 +118,10 @@
 						autocomplete="off" tabindex="5">
 					<button class="icon-close-white" type="reset"></button>
 				</form>
+				<div id="contactsmenu">
+					<div class="icon-contacts menutoggle"></div>
+					<div class="menu"></div>
+				</div>
 				<div id="settings">
 					<div id="expand" tabindex="6" role="link" class="menutoggle">
 						<div class="avatardiv<?php if ($_['userAvatarSet']) { print_unescaped(' avatardiv-shown'); } else { print_unescaped('" style="display: none'); } ?>">
@@ -161,5 +165,6 @@
 				<?php print_unescaped($_['content']); ?>
 			</div>
 		</div>
+
 	</body>
 </html>
