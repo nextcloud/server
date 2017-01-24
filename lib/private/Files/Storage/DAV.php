@@ -569,8 +569,8 @@ class DAV extends Common {
 	public function stat($path) {
 		try {
 			$response = $this->propfind($path);
-			if ($response === false) {
-				return [];
+			if (!$response) {
+				return false;
 			}
 			return [
 				'mtime' => strtotime($response['{DAV:}getlastmodified']),
