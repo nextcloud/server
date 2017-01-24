@@ -62,7 +62,7 @@ class CSSResourceLocator extends ResourceLocator {
 		$style = substr($style, strpos($style, '/')+1);
 		$app_path = \OC_App::getAppPath($app);
 		$app_url = \OC_App::getAppWebPath($app);
-		if(!$this->cacheAndAppendScssIfExist($this->serverroot.'/apps', $app.'/'.$style.'.scss', $app)) {
+		if(!$this->cacheAndAppendScssIfExist($app_path, $style.'.scss', $app)) {
 			$this->append($app_path, $style.'.css', $app_url);
 		}
 	}
