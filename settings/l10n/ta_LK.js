@@ -4,8 +4,6 @@ OC.L10N.register(
     "Authentication error" : "அத்தாட்சிப்படுத்தலில் வழு",
     "Invalid request" : "செல்லுபடியற்ற வேண்டுகோள்",
     "Email saved" : "மின்னஞ்சல் சேமிக்கப்பட்டது",
-    "Unable to add user to group %s" : "குழு %s இல் பயனாளரை சேர்க்க முடியாது",
-    "Unable to remove user from group %s" : "குழு %s இலிருந்து பயனாளரை நீக்கமுடியாது",
     "All" : "எல்லாம்",
     "Disable" : "இயலுமைப்ப",
     "Enable" : "இயலுமைப்படுத்துக",
@@ -35,6 +33,8 @@ OC.L10N.register(
     "Other" : "மற்றவை",
     "Quota" : "பங்கு",
     "Language changed" : "மொழி மாற்றப்பட்டது",
+    "Unable to add user to group %s" : "குழு %s இல் பயனாளரை சேர்க்க முடியாது",
+    "Unable to remove user from group %s" : "குழு %s இலிருந்து பயனாளரை நீக்கமுடியாது",
     "More" : "மேலதிக",
     "Less" : "குறைவான"
 },
