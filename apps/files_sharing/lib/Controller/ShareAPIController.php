@@ -668,6 +668,7 @@ class ShareAPIController extends OCSController {
 					\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE, // legacy
 					\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE, // correct
 					\OCP\Constants::PERMISSION_CREATE, // hidden file list
+					\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE, // allow to edit single files
 				])
 			) {
 				throw new OCSBadRequestException($this->l->t('Can\'t change permissions for public share links'));
