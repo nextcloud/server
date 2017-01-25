@@ -52,6 +52,8 @@ em {
 	-ms-user-select: none;
 	user-select: none;
 	border-right: 1px solid #eee;
+	display: flex;
+	flex-direction: column;
 	> ul {
 		position: relative;
 		height: 100%;
