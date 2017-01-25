@@ -43,7 +43,7 @@ p.info a:hover {
 }
 em {
 	font-style: normal;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
 	opacity: .5;
 }
 
@@ -134,8 +134,8 @@ input {
 	outline: none;
 	border-radius: 3px;
 }
-input[type="submit"],
-input[type="button"],
+input[type='submit'],
+input[type='button'],
 button, .button,
 select {
 	width: auto;
@@ -147,8 +147,8 @@ select {
 	border: 1px solid rgba(240,240,240,.9);
 	cursor: pointer;
 }
-input[type="text"],
-input[type="password"],
+input[type='text'],
+input[type='password'],
 input[type='email'] {
 	width: 249px;
 	background: #fff;
@@ -165,7 +165,7 @@ input.login {
 	width: 269px;
 	background-position: right 16px center;
 }
-input[type="submit"],
+input[type='submit'],
 input.updateButton,
 input.update-continue {
 	padding: 10px 20px; /* larger log in and installation buttons */
@@ -177,64 +177,59 @@ button.primary {
 	color: #fff;
 }
 
-/* Checkboxes */
+/* Checkboxes - white only for login */
 input[type='checkbox'].checkbox {
-	height:1px;
-	left:-10000px;
-	overflow:hidden;
-	position:absolute;
-	top:auto;
-	width:1px;
+	position: absolute;
+	left: -10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
 }
 input[type='checkbox'].checkbox + label {
-	user-select:none;
+	user-select: none;
 }
 input[type='checkbox'].checkbox:disabled + label,
 input[type='checkbox'].checkbox:disabled + label:before {
-	cursor:default;
+	cursor: default;
 }
 input[type='checkbox'].checkbox + label:before {
-	background-position:center;
-	border:1px solid #888;
-	border-radius:1px;
-	content:'';
-	display:inline-block;
-	height:10px;
-	margin:3px;
-	margin-top:1px;
-	vertical-align:middle;
-	width:10px;
+	content: '';
+	display: inline-block;
+	vertical-align: middle;
+	margin: 3px;
+	margin-top: 1px;
+	border: 1px solid #888;
+	border-radius: 1px;
+	height: 10px;
+	width: 10px;
+	background-position: center;
+}
+input[type='checkbox'].checkbox--white + label:before {
+	border-color: #ddd;
 }
 input[type='checkbox'].checkbox--white:not(:disabled):not(:checked) + label:hover:before,
 input[type='checkbox'].checkbox--white:focus + label:before {
-	border-color:#fff;
-}
-input[type='checkbox'].checkbox--white:checked + label:before,
-input[type='checkbox'].checkbox--white.checkbox:indeterminate + label:before {
-	border-color:#fff;
-	background-color: #eee;
-}
-input[type='checkbox'].checkbox--white:disabled + label:before {
-	background-color:#666;
-	border-color:#999;
-}
-input[type='checkbox'].checkbox--white:checked:disabled + label:before {
-	border-color:#666;
+	border-color: #fff;
 }
 input[type='checkbox'].checkbox--white:checked + label:before {
-	background-image:url('../img/actions/checkbox-mark-white.svg');
+	background-color: #eee;
+	border-color: #eee;
 }
-input[type='checkbox'].checkbox--white:indeterminate + label:before {
-	background-image:url('../img/actions/checkbox-mixed-white.svg');
+input[type='checkbox'].checkbox--white:disabled + label:before {
+	background-color: #666 !important;
+	border-color: #999 !important;
 }
-input[type='checkbox'].checkbox--white:indeterminate:disabled + label:after {
-	background-color:#aaa;
-	border-color:#888;
+input[type='checkbox'].checkbox--white:checked:disabled + label:before {
+	border-color: #666;
+	background-color: #222;
 }
-input[type='checkbox'].checkbox--white + label:before,
-input[type='checkbox'].checkbox--white:checked:disabled + label:after {
-	border-color:#aaa;
+input[type='checkbox'].checkbox--white:checked + label:before {
+	background-color: transparent !important;
+	border-color: #fff !important;
+	background-image: url('../img/actions/checkbox-mark-white.svg');
 }
+
 
 /* keep the labels for screen readers but hide them since we use placeholders */
 label.infield {
@@ -273,7 +268,7 @@ label.infield {
 	padding: 14px !important;
 }
 #show:checked + label, #dbpassword-toggle:checked + label, #personal-show:checked + label {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=80)';
 	opacity: .8;
 }
 #show + label, #dbpassword-toggle + label, #personal-show + label {
@@ -283,13 +278,13 @@ label.infield {
 	background-image: url('../img/actions/toggle.svg?v=1');
 	background-repeat: no-repeat;
 	background-position: center;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=30)';
 	opacity: .3;
 }
 #show + label:before, #dbpassword-toggle + label:before, #personal-show + label:before {
 	display: none;
 }
-#pass2, input[name="personal-password-clone"] {
+#pass2, input[name='personal-password-clone'] {
 	padding: .6em 2.5em .4em .4em;
 	width: 8em;
 }
@@ -308,14 +303,14 @@ p.info,
 form fieldset legend,
 #datadirContent label,
 form fieldset .warning-info,
-form input[type="checkbox"]+label {
+form input[type='checkbox']+label {
 	text-align: center;
 	color: #fff;
 }
 /* overrides another !important statement that sets this to unreadable black */
-form .warning input[type="checkbox"]:hover+label,
-form .warning input[type="checkbox"]:focus+label,
-form .warning input[type="checkbox"]+label {
+form .warning input[type='checkbox']:hover+label,
+form .warning input[type='checkbox']:focus+label,
+form .warning input[type='checkbox']+label {
 	color: #fff !important;
 }
 
@@ -449,7 +444,7 @@ form #selectDbType label.ui-state-active {
 .error a {
 	color: #fff !important;
 	font-weight: 600 !important;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
 	opacity: 1;
 }
 .error a.button {
@@ -593,16 +588,16 @@ p.info {
 }
 /* Css replaced elements don't have ::after nor ::before */
 img.icon-loading, object.icon-loading, video.icon-loading, button.icon-loading, textarea.icon-loading, input.icon-loading, select.icon-loading {
-	background-image: url("../img/loading.gif");
+	background-image: url('../img/loading.gif');
 }
 img.icon-loading-dark, object.icon-loading-dark, video.icon-loading-dark, button.icon-loading-dark, textarea.icon-loading-dark, input.icon-loading-dark, select.icon-loading-dark {
-	background-image: url("../img/loading-dark.gif");
+	background-image: url('../img/loading-dark.gif');
 }
 img.icon-loading-small, object.icon-loading-small, video.icon-loading-small, button.icon-loading-small, textarea.icon-loading-small, input.icon-loading-small, select.icon-loading-small {
-	background-image: url("../img/loading-small.gif");
+	background-image: url('../img/loading-small.gif');
 }
 img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-small-dark, button.icon-loading-small-dark, textarea.icon-loading-small-dark, input.icon-loading-small-dark, select.icon-loading-small-dark {
-	background-image: url("../img/loading-small-dark.gif");
+	background-image: url('../img/loading-small-dark.gif');
 }
 @-webkit-keyframes rotate {
 	from {
