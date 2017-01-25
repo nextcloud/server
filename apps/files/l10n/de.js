@@ -98,7 +98,7 @@ OC.L10N.register(
     "You moved {oldfile} to {newfile}" : "Du hast {oldfile} nach {newfile} verschoben",
     "{user} moved {oldfile} to {newfile}" : "{user} hat {oldfile} nach {newfile} verschoben",
     "A file has been added to or removed from your <strong>favorites</strong>" : "Eine Datei wurde deinen <strong>Favoriten</strong> hinzugefügt oder daraus entfernt",
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Eine Datei oder Ordner wurden <strong>geändert</strong> oder <strong>umbenannt</strong>",
+    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Eine Datei / Ordner wurde <strong>geändert</strong> oder <strong>umbenannt</strong>",
     "A new file or folder has been <strong>created</strong>" : "Eine neue Datei oder ein neuer Ordner wurde <strong>erstellt</strong>",
     "A new file or folder has been <strong>deleted</strong>" : "Neue Datei oder Verzeichnis wurde  <strong>gelöscht</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Benachrichtigungen über Neues und Änderungen auf deine <strong>favorisierten Dateien</strong> beschränken <em>(nur im Stream)</em>",
