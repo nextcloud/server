@@ -29,9 +29,11 @@
 
 namespace OCA\Provisioning_API\Tests\Controller;
 
+use OC\Accounts\AccountManager;
 use OCA\Provisioning_API\Controller\UsersController;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IGroup;
+use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IConfig;
@@ -41,7 +43,7 @@ use Test\TestCase as OriginalTest;
 use OCP\ILogger;
 
 class UsersControllerTest extends OriginalTest {
-	
+
 	/** @var IUserManager | PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
 	/** @var IConfig | PHPUnit_Framework_MockObject_MockObject */
@@ -54,6 +56,10 @@ class UsersControllerTest extends OriginalTest {
 	protected $logger;
 	/** @var UsersController | PHPUnit_Framework_MockObject_MockObject */
 	protected $api;
+	/** @var  AccountManager | PHPUnit_Framework_MockObject_MockObject */
+	protected $accountManager;
+	/** @var  IRequest | PHPUnit_Framework_MockObject_MockObject */
+	protected $request;
 
 	protected function tearDown() {
 		parent::tearDown();
@@ -77,17 +83,21 @@ class UsersControllerTest extends OriginalTest {
 		$this->logger = $this->getMockBuilder('OCP\ILogger')
 			->disableOriginalConstructor()
 			->getMock();
-		$request = $this->getMockBuilder('OCP\IRequest')
+		$this->request = $this->getMockBuilder('OCP\IRequest')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->accountManager = $this->getMockBuilder(AccountManager::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->api = $this->getMockBuilder('OCA\Provisioning_API\Controller\UsersController')
 			->setConstructorArgs([
 				'provisioning_api',
-				$request,
+				$this->request,
 				$this->userManager,
 				$this->config,
 				$this->groupManager,
 				$this->userSession,
+				$this->accountManager,
 				$this->logger,
 			])
 			->setMethods(['fillStorageInfo'])
@@ -652,6 +662,16 @@ class UsersControllerTest extends OriginalTest {
 			->method('isAdmin')
 			->with('admin')
 			->will($this->returnValue(true));
+		$this->accountManager->expects($this->any())->method('getUser')
+			->with($targetUser)
+			->willReturn(
+				[
+					AccountManager::PROPERTY_ADDRESS => ['value' => 'address'],
+					AccountManager::PROPERTY_PHONE => ['value' => 'phone'],
+					AccountManager::PROPERTY_TWITTER => ['value' => 'twitter'],
+					AccountManager::PROPERTY_WEBSITE => ['value' => 'website'],
+				]
+			);
 		$this->config
 			->expects($this->at(0))
 			->method('getUserValue')
@@ -666,12 +686,21 @@ class UsersControllerTest extends OriginalTest {
 			->expects($this->once())
 			->method('getDisplayName')
 			->will($this->returnValue('Demo User'));
+		$targetUser
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('UID'));
 
 		$expected = [
+			'id' => 'UID',
 			'enabled' => 'true',
 			'quota' => ['DummyValue'],
 			'email' => 'demo@owncloud.org',
 			'displayname' => 'Demo User',
+			'phone' => 'phone',
+			'address' => 'address',
+			'webpage' => 'website',
+			'twitter' => 'twitter'
 		];
 		$this->assertEquals($expected, $this->api->getUser('UserToGet')->getData());
 	}
@@ -731,12 +760,31 @@ class UsersControllerTest extends OriginalTest {
 			->expects($this->once())
 			->method('getDisplayName')
 			->will($this->returnValue('Demo User'));
+		$targetUser
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('UID'));
+		$this->accountManager->expects($this->any())->method('getUser')
+			->with($targetUser)
+			->willReturn(
+				[
+					AccountManager::PROPERTY_ADDRESS => ['value' => 'address'],
+					AccountManager::PROPERTY_PHONE => ['value' => 'phone'],
+					AccountManager::PROPERTY_TWITTER => ['value' => 'twitter'],
+					AccountManager::PROPERTY_WEBSITE => ['value' => 'website'],
+				]
+			);
 
 		$expected = [
+			'id' => 'UID',
 			'enabled' => 'true',
 			'quota' => ['DummyValue'],
 			'email' => 'demo@owncloud.org',
 			'displayname' => 'Demo User',
+			'phone' => 'phone',
+			'address' => 'address',
+			'webpage' => 'website',
+			'twitter' => 'twitter'
 		];
 		$this->assertEquals($expected, $this->api->getUser('UserToGet')->getData());
 	}
@@ -837,11 +885,30 @@ class UsersControllerTest extends OriginalTest {
 			->expects($this->once())
 			->method('getEMailAddress')
 			->will($this->returnValue('subadmin@owncloud.org'));
+		$targetUser
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('UID'));
+		$this->accountManager->expects($this->any())->method('getUser')
+			->with($targetUser)
+			->willReturn(
+				[
+					AccountManager::PROPERTY_ADDRESS => ['value' => 'address'],
+					AccountManager::PROPERTY_PHONE => ['value' => 'phone'],
+					AccountManager::PROPERTY_TWITTER => ['value' => 'twitter'],
+					AccountManager::PROPERTY_WEBSITE => ['value' => 'website'],
+				]
+			);
 
 		$expected = [
+			'id' => 'UID',
 			'quota' => ['DummyValue'],
 			'email' => 'subadmin@owncloud.org',
 			'displayname' => 'Subadmin User',
+			'phone' => 'phone',
+			'address' => 'address',
+			'webpage' => 'website',
+			'twitter' => 'twitter'
 		];
 		$this->assertEquals($expected, $this->api->getUser('subadmin')->getData());
 	}
@@ -2485,4 +2552,70 @@ class UsersControllerTest extends OriginalTest {
 
 		$this->assertEquals([], $this->api->disableUser('RequestedUser')->getData());
 	}
+
+	public function testGetCurrentUserLoggedIn() {
+
+		$user = $this->getMock(IUser::class);
+		$user->expects($this->once())->method('getUID')->willReturn('UID');
+
+		$this->userSession->expects($this->once())->method('getUser')
+			->willReturn($user);
+
+		/** @var UsersController | PHPUnit_Framework_MockObject_MockObject $api */
+		$api = $this->getMockBuilder('OCA\Provisioning_API\Controller\UsersController')
+			->setConstructorArgs([
+				'provisioning_api',
+				$this->request,
+				$this->userManager,
+				$this->config,
+				$this->groupManager,
+				$this->userSession,
+				$this->accountManager,
+				$this->logger,
+			])
+			->setMethods(['getUser'])
+			->getMock();
+
+		$api->expects($this->once())->method('getUser')->with('UID')
+			->willReturn(
+				[
+					'id' => 'UID',
+					'enabled' => 'true',
+					'quota' => ['DummyValue'],
+					'email' => 'demo@owncloud.org',
+					'displayname' => 'Demo User',
+					'phone' => 'phone',
+					'address' => 'address',
+					'webpage' => 'website',
+					'twitter' => 'twitter'
+				]
+			);
+
+		$expected = [
+			'id' => 'UID',
+			'enabled' => 'true',
+			'quota' => ['DummyValue'],
+			'email' => 'demo@owncloud.org',
+			'phone' => 'phone',
+			'address' => 'address',
+			'webpage' => 'website',
+			'twitter' => 'twitter',
+			'display-name' => 'Demo User'
+		];
+
+		$this->assertSame($expected, $api->getCurrentUser());
+	}
+
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 */
+	public function testGetCurrentUserNotLoggedIn() {
+
+		$this->userSession->expects($this->once())->method('getUser')
+			->willReturn(null);
+
+		$this->api->getCurrentUser();
+	}
+
+
 }
