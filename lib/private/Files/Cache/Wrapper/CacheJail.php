@@ -142,11 +142,7 @@ class CacheJail extends CacheWrapper {
 	 * @return int
 	 */
 	public function getParentId($file) {
-		if ($file === '') {
-			return -1;
-		} else {
-			return $this->getCache()->getParentId($this->getSourcePath($file));
-		}
+		return $this->getCache()->getParentId($this->getSourcePath($file));
 	}
 
 	/**
