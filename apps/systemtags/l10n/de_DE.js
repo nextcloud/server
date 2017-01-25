@@ -40,7 +40,7 @@ OC.L10N.register(
     "{actor} removed system tag {systemtag} from {file}" : "{actor} hat den System-Tag {systemtag} von {file} entfernt",
     "%s (restricted)" : "%s (eingeschränkt)",
     "%s (invisible)" : "%s (unsichtbar)",
-    "<strong>System tags</strong> for a file have been modified" : "<strong>System-Tags</strong> für eine Datei sind geändert worden",
+    "<strong>System tags</strong> for a file have been modified" : "<strong>System-Tags</strong> für eine Datei wurden geändert",
     "Collaborative tags" : "Gemeinsame Tags",
     "Name" : "Name",
     "Delete" : "Löschen",

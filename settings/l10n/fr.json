@@ -120,6 +120,8 @@
     "undo" : "annuler",
     "never" : "jamais",
     "deleted {userName}" : "{userName} supprimé",
+    "Unable to add user to group {group}" : "Impossible d'ajouter l'utilisateur au groupe {group}",
+    "Unable to remove user from group {group}" : "Impossible de supprimer l'utilisateur du groupe {group}",
     "Add group" : "Ajouter un groupe",
     "Invalid quota value \"{val}\"" : "Valeur de quota invalide \"{val}\"",
     "no group" : "aucun groupe",

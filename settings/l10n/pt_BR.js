@@ -122,6 +122,8 @@ OC.L10N.register(
     "undo" : "desfazer",
     "never" : "nunca",
     "deleted {userName}" : "eliminado {userName}",
+    "Unable to add user to group {group}" : "Não é possível adicionar usuário ao grupo {group}",
+    "Unable to remove user from group {group}" : "Não é possível remover usuário do grupo {group}",
     "Add group" : "Adicionar grupo",
     "Invalid quota value \"{val}\"" : "Valor da quota inválido \"{val}\"",
     "no group" : "nenhum grupo",
