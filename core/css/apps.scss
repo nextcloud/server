@@ -549,7 +549,6 @@ em {
 	background-color: #fff;
 	color: #333;
 	border-radius: 3px;
-	border-top-right-radius: 0;
 	z-index: 110;
 	margin: 5px;
 	margin-top: -5px;
@@ -582,7 +581,6 @@ em {
 		transform: translateX(50%);
 		right: 50%;
 		margin-right: 0;
-		border-top-right-radius: 3px;
 		&:after {
 			right: 50%;
 			transform: translateX(50%);
@@ -593,8 +591,6 @@ em {
 		right: auto;
 		left: 0;
 		margin-right: 0;
-		border-top-left-radius: 0;
-		border-top-right-radius: 3px;
 		&:after {
 			left: 6px;
 			right: auto;
