@@ -33,6 +33,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 
+// FIXME: this class really should be abstract
 class Node implements \OCP\Files\Node {
 	/**
 	 * @var \OC\Files\View $view
@@ -56,7 +57,7 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param \OC\Files\View $view
-	 * @param \OC\Files\Node\Root $root
+	 * @param \OCP\Files\IRootFolder $root
 	 * @param string $path
 	 * @param FileInfo $fileInfo
 	 */
@@ -65,6 +66,16 @@ class Node implements \OCP\Files\Node {
 		$this->root = $root;
 		$this->path = $path;
 		$this->fileInfo = $fileInfo;
+	}
+
+	/**
+	 * Creates a Node of the same type that represents a non-existing path
+	 *
+	 * @param string $path path
+	 * @return string non-existing node class
+	 */
+	protected function createNonExistingNode($path) {
+		throw new \Exception('Must be implemented by subclasses');
 	}
 
 	/**
@@ -106,24 +117,7 @@ class Node implements \OCP\Files\Node {
 		return ($this->getPermissions() & $permissions) === $permissions;
 	}
 
-	/**
-	 * @param string $targetPath
-	 * @throws \OCP\Files\NotPermittedException
-	 * @return \OC\Files\Node\Node
-	 */
-	public function move($targetPath) {
-		return;
-	}
-
 	public function delete() {
-		return;
-	}
-
-	/**
-	 * @param string $targetPath
-	 * @return \OC\Files\Node\Node
-	 */
-	public function copy($targetPath) {
 		return;
 	}
 
@@ -381,4 +375,54 @@ class Node implements \OCP\Files\Node {
 	public function unlock($type) {
 		$this->view->unlockFile($this->path, $type);
 	}
+
+	/**
+	 * @param string $targetPath
+	 * @throws \OCP\Files\NotPermittedException if copy not allowed or failed
+	 * @return \OC\Files\Node\Node
+	 */
+	public function copy($targetPath) {
+		$targetPath = $this->normalizePath($targetPath);
+		$parent = $this->root->get(dirname($targetPath));
+		if ($parent instanceof Folder and $this->isValidPath($targetPath) and $parent->isCreatable()) {
+			$nonExisting = $this->createNonExistingNode($targetPath);
+			$this->root->emit('\OC\Files', 'preCopy', [$this, $nonExisting]);
+			$this->root->emit('\OC\Files', 'preWrite', [$nonExisting]);
+			if (!$this->view->copy($this->path, $targetPath)) {
+				throw new NotPermittedException('Could not copy ' . $this->path . ' to ' . $targetPath);
+			}
+			$targetNode = $this->root->get($targetPath);
+			$this->root->emit('\OC\Files', 'postCopy', [$this, $targetNode]);
+			$this->root->emit('\OC\Files', 'postWrite', [$targetNode]);
+			return $targetNode;
+		} else {
+			throw new NotPermittedException('No permission to copy to path ' . $targetPath);
+		}
+	}
+
+	/**
+	 * @param string $targetPath
+	 * @throws \OCP\Files\NotPermittedException if move not allowed or failed
+	 * @return \OC\Files\Node\Node
+	 */
+	public function move($targetPath) {
+		$targetPath = $this->normalizePath($targetPath);
+		$parent = $this->root->get(dirname($targetPath));
+		if ($parent instanceof Folder and $this->isValidPath($targetPath) and $parent->isCreatable()) {
+			$nonExisting = $this->createNonExistingNode($targetPath);
+			$this->root->emit('\OC\Files', 'preRename', [$this, $nonExisting]);
+			$this->root->emit('\OC\Files', 'preWrite', [$nonExisting]);
+			if (!$this->view->rename($this->path, $targetPath)) {
+				throw new NotPermittedException('Could not move ' . $this->path . ' to ' . $targetPath);
+			}
+			$targetNode = $this->root->get($targetPath);
+			$this->root->emit('\OC\Files', 'postRename', [$this, $targetNode]);
+			$this->root->emit('\OC\Files', 'postWrite', [$targetNode]);
+			$this->path = $targetPath;
+			return $targetNode;
+		} else {
+			throw new NotPermittedException('No permission to move to path ' . $targetPath);
+		}
+	}
+
 }
