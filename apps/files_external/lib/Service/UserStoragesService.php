@@ -36,7 +36,7 @@ use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Service\UserTrait;
 
 /**
- * Service class to manage user external storages
+ * Service class to manage user external storage
  * (aka personal storages)
  */
 class UserStoragesService extends StoragesService {

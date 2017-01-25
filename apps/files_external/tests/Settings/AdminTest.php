@@ -104,7 +104,7 @@ class AdminTest extends TestCase {
 	}
 
 	public function testGetSection() {
-		$this->assertSame('externalstorages', $this->admin->getSection());
+		$this->assertSame('externalstorage', $this->admin->getSection());
 	}
 
 	public function testGetPriority() {

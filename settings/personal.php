@@ -135,7 +135,7 @@ $clients = array(
 	'ios'     => $config->getSystemValue('customclient_ios', $defaults->getiOSClientUrl())
 );
 
-// only show root certificate import if external storages are enabled
+// only show root certificate import if external storage is enabled
 $enableCertImport = false;
 $externalStorageEnabled = \OC::$server->getAppManager()->isEnabledForUser('files_external');
 if ($externalStorageEnabled) {
