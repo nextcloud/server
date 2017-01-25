@@ -32,15 +32,14 @@
 namespace OCA\Files_Sharing;
 
 use OC\Files\Filesystem;
-use OC\Files\Cache\FailedCache;
 use OC\Files\Storage\Wrapper\PermissionsMask;
-use OCA\Files_Sharing\ISharedStorage;
 use OC\Files\Storage\FailedStorage;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\Lock\ILockingProvider;
+use OC\User\NoUserException;
 
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
@@ -121,6 +120,11 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 				'mask' => $this->superShare->getPermissions()
 			]);
 		} catch (NotFoundException $e) {
+			// original file not accessible or deleted, set FailedStorage
+			$this->storage = new FailedStorage(['exception' => $e]);
+			$this->rootPath = '';
+		} catch (NoUserException $e) {
+			// sharer user deleted, set FailedStorage
 			$this->storage = new FailedStorage(['exception' => $e]);
 			$this->rootPath = '';
 		} catch (\Exception $e) {
