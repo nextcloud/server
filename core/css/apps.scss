@@ -625,6 +625,7 @@ em {
 			margin: 0;
 			font-weight: inherit;
 			box-shadow: none;
+			color: #333 !important; /* Overwrite app-navigation li */
 			/* prevent .action class to break the design */
 			&.action {
 				padding: inherit !important;
@@ -639,15 +640,15 @@ em {
 				cursor: pointer;
 				white-space: nowrap;
 			}
+			span {
+				-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)' !important;
+				filter: alpha(opacity = 70) !important;
+				opacity: .7 !important;
+			}
 			> p {
 				width: 150px;
 				line-height: 1.6em;
 				padding: 8px 0;
-				> span {
-					-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)' !important;
-					filter: alpha(opacity = 70) !important;
-					opacity: .7 !important;
-				}
 			}
 			/* Add padding if contains icon+text */
 			&:not(:empty) {
@@ -666,7 +667,8 @@ em {
 			padding: 18px 0 18px 36px;
 			min-width: 0; /* Overwrite icons*/
 			min-height: 0;
-			background-position: 10px center
+			background-position: 10px center;
+			opacity: 0.7; /* Default button icon override */
 		}
 	}
 }
