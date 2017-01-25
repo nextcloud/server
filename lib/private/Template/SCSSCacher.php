@@ -65,7 +65,7 @@ class SCSSCacher {
 	 * @param string $file
 	 * @return boolean
 	 */
-	public function process($root, $file) {
+	public function process($root, $file, $app = 'core') {
 		$path = explode('/', $root . '/' . $file);
 
 		$fileNameSCSS = array_pop($path);
@@ -78,10 +78,10 @@ class SCSSCacher {
 		$webDir = implode('/', $webDir);
 
 		try {
-			$folder = $this->appData->getFolder('core');
+			$folder = $this->appData->getFolder($app);
 		} catch(NotFoundException $e) {
 			// creating css appdata folder
-			$folder = $this->appData->newFolder('core');
+			$folder = $this->appData->newFolder($app);
 		}
 
 		if($this->isCached($fileNameCSS, $fileNameSCSS, $folder, $path)) {
