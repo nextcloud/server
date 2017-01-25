@@ -160,6 +160,7 @@ class ShareController extends Controller {
 	/**
 	 * @PublicPage
 	 * @UseSession
+	 * @BruteForceProtection publicLinkAuth
 	 *
 	 * Authenticates against password-protected shares
 	 * @param string $token
