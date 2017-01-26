@@ -96,13 +96,12 @@ em {
 		color: #000;
 		opacity: .57;
 	}
-	li:hover > a,
-	li:focus > a,
-	a:focus,
+	> ul > li:hover > a,
+	> ul > li:focus > a,
 	.selected,
-	.selected a,
+	.selected > a,
 	.active,
-	.active a {
+	.active > a {
 		opacity: 1;
 		box-shadow: inset 2px 0 #0082c9;
 	}
