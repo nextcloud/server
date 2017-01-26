@@ -634,7 +634,7 @@ class UsersControllerTest extends OriginalTest {
 		$this->api->getUser('UserToGet');
 	}
 
-	public function testGetUserAsAdmin() {
+	public function testGetUserDataAsAdmin() {
 		$loggedInUser = $this->getMockBuilder('OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
@@ -702,10 +702,10 @@ class UsersControllerTest extends OriginalTest {
 			'webpage' => 'website',
 			'twitter' => 'twitter'
 		];
-		$this->assertEquals($expected, $this->api->getUser('UserToGet')->getData());
+		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UserToGet']));
 	}
 
-	public function testGetUserAsSubAdminAndUserIsAccessible() {
+	public function testGetUserDataAsSubAdminAndUserIsAccessible() {
 		$loggedInUser = $this->getMockBuilder('OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
@@ -786,7 +786,7 @@ class UsersControllerTest extends OriginalTest {
 			'webpage' => 'website',
 			'twitter' => 'twitter'
 		];
-		$this->assertEquals($expected, $this->api->getUser('UserToGet')->getData());
+		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UserToGet']));
 	}
 
 
@@ -794,7 +794,7 @@ class UsersControllerTest extends OriginalTest {
 	 * @expectedException \OCP\AppFramework\OCS\OCSException
 	 * @expectedExceptionCode 997
 	 */
-	public function testGetUserAsSubAdminAndUserIsNotAccessible() {
+	public function testGetUserDataAsSubAdminAndUserIsNotAccessible() {
 		$loggedInUser = $this->getMockBuilder('OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
@@ -832,10 +832,10 @@ class UsersControllerTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$this->api->getUser('UserToGet');
+		$this->invokePrivate($this->api, 'getUserData', ['UserToGet']);
 	}
 
-	public function testGetUserAsSubAdminSelfLookup() {
+	public function testGetUserDataAsSubAdminSelfLookup() {
 		$loggedInUser = $this->getMockBuilder('OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
@@ -910,7 +910,7 @@ class UsersControllerTest extends OriginalTest {
 			'webpage' => 'website',
 			'twitter' => 'twitter'
 		];
-		$this->assertEquals($expected, $this->api->getUser('subadmin')->getData());
+		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['subadmin']));
 	}
 
 	public function testEditUserRegularUserSelfEditChangeDisplayName() {
@@ -2573,10 +2573,10 @@ class UsersControllerTest extends OriginalTest {
 				$this->accountManager,
 				$this->logger,
 			])
-			->setMethods(['getUser'])
+			->setMethods(['getUserData'])
 			->getMock();
 
-		$api->expects($this->once())->method('getUser')->with('UID')
+		$api->expects($this->once())->method('getUserData')->with('UID')
 			->willReturn(
 				[
 					'id' => 'UID',
@@ -2603,7 +2603,7 @@ class UsersControllerTest extends OriginalTest {
 			'display-name' => 'Demo User'
 		];
 
-		$this->assertSame($expected, $api->getCurrentUser());
+		$this->assertSame($expected, $api->getCurrentUser()->getData());
 	}
 
 	/**
@@ -2617,5 +2617,40 @@ class UsersControllerTest extends OriginalTest {
 		$this->api->getCurrentUser();
 	}
 
+
+	public function testGetUser() {
+		/** @var UsersController | PHPUnit_Framework_MockObject_MockObject $api */
+		$api = $this->getMockBuilder('OCA\Provisioning_API\Controller\UsersController')
+			->setConstructorArgs([
+				'provisioning_api',
+				$this->request,
+				$this->userManager,
+				$this->config,
+				$this->groupManager,
+				$this->userSession,
+				$this->accountManager,
+				$this->logger,
+			])
+			->setMethods(['getUserData'])
+			->getMock();
+
+		$expected = [
+			'id' => 'UID',
+			'enabled' => 'true',
+			'quota' => ['DummyValue'],
+			'email' => 'demo@owncloud.org',
+			'phone' => 'phone',
+			'address' => 'address',
+			'webpage' => 'website',
+			'twitter' => 'twitter',
+			'displayname' => 'Demo User'
+		];
+
+		$api->expects($this->once())->method('getUserData')
+			->with('uid')
+			->willReturn($expected);
+
+		$this->assertSame($expected, $api->getUser('uid')->getData());
+	}
 
 }
