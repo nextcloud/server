@@ -28,6 +28,7 @@ OC.L10N.register(
     "Delete" : "Slett",
     "Disconnect storage" : "Koble fra lagring",
     "Unshare" : "Avslutt deling",
+    "Could not load info for file \"{file}\"" : "Klarte ikke å hente informasjon som filen \"{file}\"",
     "Details" : "Detaljer",
     "Select" : "Velg",
     "Pending" : "Venter",
