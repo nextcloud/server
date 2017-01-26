@@ -106,7 +106,8 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 		list($mapper, $data) = $this->initTest();
 
 		// test that mapping will not happen when it shall not
-		$paramKeys = array('', 'dn', 'name', 'uuid');
+		$tooLongDN = 'uid=joann,ou=Secret Small Specialized Department,ou=Some Tremendously Important Department,ou=Another Very Important Department,ou=Pretty Meaningful Derpartment,ou=Quite Broad And General Department,ou=The Topmost Department,dc=hugelysuccessfulcompany,dc=com';
+		$paramKeys = array('', 'dn', 'name', 'uuid', $tooLongDN);
 		foreach($paramKeys as $key) {
 			$failEntry = $data[0];
 			if(!empty($key)) {
