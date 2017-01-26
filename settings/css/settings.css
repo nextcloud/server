@@ -20,9 +20,6 @@ input#openid, input#webdav { width:20em; }
 .nav-icon-clientsbox {
 	background-image: url('../img/change.svg?v=1');
 }
-.nav-icon-activity {
-	background-image: url('../img/activity-dark.svg?v=1');
-}
 .nav-icon-federated-cloud {
 	background-image: url('../img/share.svg?v=1');
 }
