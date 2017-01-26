@@ -36,3 +36,13 @@ $this->create('user_ldap_ajax_testConfiguration', 'ajax/testConfiguration.php')
 	->actionInclude('user_ldap/ajax/testConfiguration.php');
 $this->create('user_ldap_ajax_wizard', 'ajax/wizard.php')
 	->actionInclude('user_ldap/ajax/wizard.php');
+
+$application = new \OCP\AppFramework\App('user_ldap');
+$application->registerRoutes($this, [
+	'ocs' => [
+		['name' => 'ConfigAPI#create', 'url' => '/api/v1/config', 'verb' => 'POST'],
+		['name' => 'ConfigAPI#show',   'url' => '/api/v1/config/{configID}', 'verb' => 'GET'],
+		['name' => 'ConfigAPI#modify', 'url' => '/api/v1/config/{configID}', 'verb' => 'PUT'],
+		['name' => 'ConfigAPI#delete', 'url' => '/api/v1/config/{configID}', 'verb' => 'DELETE'],
+	]
+]);
