@@ -334,16 +334,14 @@ EOD;
 			->willReturn($calObject1)->with(666, 'event-1');
 
 		$calendarInfo = [
+			'{http://owncloud.org/ns}owner-principal' => $isShared ? 'user1' : 'user2',
 			'principaluri' => 'user2',
 			'id' => 666,
 			'uri' => 'cal',
 		];
-
-		if ($isShared) {
-			$calendarInfo['{http://owncloud.org/ns}owner-principal'] = 'user1';
-
-		}
 		$c = new Calendar($backend, $calendarInfo, $this->l10n);
+
+		$this->assertEquals(count($c->getChildren()), $expectedChildren);
 
 		// test private event
 		$privateEvent = $c->getChild('event-1');
