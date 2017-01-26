@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files",
     {
+    "Storage is temporarily not available" : "Glabātuve īslaicīgi nav pieejama",
     "Storage invalid" : "Nepareiza glabātuve",
     "Unknown error" : "Nezināma kļūda",
     "Files" : "Datnes",
@@ -64,6 +65,7 @@ OC.L10N.register(
     "New folder" : "Jauna mape",
     "Upload" : "Augšupielādēt",
     "An error occurred while trying to update the tags" : "Notika kļūda atjaunojot atzīmi",
+    "You restored {file}" : "Tu atjaunoji {file}",
     "A new file or folder has been <strong>created</strong>" : "<strong>Izveidota</strong> jauna datne vai mape",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitēt ziņojumus par jūsu <strong>iecienīto datņu</strong> izveidošanu un izmaiņām <em>(tikai datu straumei)</em>",
     "Upload (max. %s)" : "Augšupielādēt (maks. %s)",
@@ -85,6 +87,10 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Augšupielādējamās datnes pārsniedz servera pieļaujamo datņu augšupielādes apjomu",
     "No favorites" : "Nav favorītu",
     "Files and folders you mark as favorite will show up here" : "Datnes un mapes, ko atzīmēsiet kā favorītus, tiks rādīti šeit",
+    "Shared with you" : "Koplietots ar tevi",
+    "Shared by link" : "Koplietots ar saiti",
+    "Tags" : "Atzīmes",
+    "Deleted files" : "Dzēstās datnes",
     "Text file" : "Teksta datne",
     "New text file.txt" : "Jauna teksta datne.txt",
     "Storage not available" : "Glabātuve nav pieejama",
