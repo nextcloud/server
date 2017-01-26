@@ -28,6 +28,7 @@ OC.L10N.register(
     "Delete" : "Törlés",
     "Disconnect storage" : "Tároló leválasztása",
     "Unshare" : "A megosztás visszavonása",
+    "Could not load info for file \"{file}\"" : "Nem sikerült betölteni az információs fájl ehhez: \"{file}\"",
     "Details" : "Részletek",
     "Select" : "Kiválaszt",
     "Pending" : "Folyamatban",

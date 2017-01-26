@@ -122,6 +122,8 @@ OC.L10N.register(
     "undo" : "vrátit zpět",
     "never" : "nikdy",
     "deleted {userName}" : "smazán {userName}",
+    "Unable to add user to group {group}" : "Nelze přidat uživatele do skupiny {group}",
+    "Unable to remove user from group {group}" : "Nelze odebrat uživatele ze skupiny {group}",
     "Add group" : "Přidat skupinu",
     "Invalid quota value \"{val}\"" : "Neplatná hodnota kvóty \"{val}\"",
     "no group" : "není ve skupině",
