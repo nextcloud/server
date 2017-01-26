@@ -19,6 +19,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\IAvatar;
 use OCP\IAvatarManager;
 use OCP\IConfig;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -852,95 +853,6 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testCreateSuccessfulWithoutGroupSubAdmin() {
-		$controller = $this->getController(false);
-		$user = $this->getMockBuilder('\OC\User\User')
-			->disableOriginalConstructor()->getMock();
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue($user));
-
-		$newUser = $this->getMockBuilder('\OC\User\User')
-			->disableOriginalConstructor()->getMock();
-		$newUser
-			->method('getUID')
-			->will($this->returnValue('foo'));
-		$newUser
-			->method('getHome')
-			->will($this->returnValue('/home/user'));
-		$newUser
-			->method('getHome')
-			->will($this->returnValue('/home/user'));
-		$newUser
-			->expects($this->once())
-			->method('getBackendClassName')
-			->will($this->returnValue('bar'));
-		$user = $this->getMockBuilder('\OC\User\User')
-			->disableOriginalConstructor()->getMock();
-		$subGroup1 = $this->getMockBuilder('\OCP\IGroup')
-			->disableOriginalConstructor()->getMock();
-		$subGroup1
-			->expects($this->once())
-			->method('addUser')
-			->with($newUser);
-		$subGroup2 = $this->getMockBuilder('\OCP\IGroup')
-			->disableOriginalConstructor()->getMock();
-		$subGroup2
-			->expects($this->once())
-			->method('addUser')
-			->with($newUser);
-
-		$this->userManager
-			->expects($this->once())
-			->method('createUser')
-			->will($this->returnValue($newUser));
-		$this->groupManager
-			->expects($this->exactly(2))
-			->method('get')
-			->will($this->onConsecutiveCalls($subGroup1, $subGroup2));
-		$this->groupManager
-			->expects($this->once())
-			->method('getUserGroupIds')
-			->with($user)
-			->will($this->onConsecutiveCalls(['SubGroup1', 'SubGroup2']));
-
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
-			->disableOriginalConstructor()
-			->getMock();
-		$subadmin
-			->expects($this->at(0))
-			->method('getSubAdminsGroups')
-			->will($this->returnValue([$subGroup1, $subGroup2]));
-		$subadmin
-			->expects($this->at(1))
-			->method('getSubAdminsGroups')
-			->will($this->returnValue([]));
-		$this->groupManager
-			->expects($this->any())
-			->method('getSubAdmin')
-			->will($this->returnValue($subadmin));
-
-		$expectedResponse = new DataResponse(
-			array(
-				'name' => 'foo',
-				'groups' => ['SubGroup1', 'SubGroup2'],
-				'storageLocation' => '/home/user',
-				'backend' => 'bar',
-				'lastLogin' => 0,
-				'displayname' => null,
-				'quota' => null,
-				'subadmin' => [],
-				'email' => null,
-				'isRestoreDisabled' => false,
-				'isAvatarAvailable' => true,
-			),
-			Http::STATUS_CREATED
-		);
-		$response = $controller->create('foo', 'password');
-		$this->assertEquals($expectedResponse, $response);
-	}
-
 	public function testCreateSuccessfulWithGroupAdmin() {
 		$controller = $this->getController(true);
 
@@ -1026,16 +938,12 @@ class UsersControllerTest extends \Test\TestCase {
 
 	public function testCreateSuccessfulWithGroupSubAdmin() {
 		$controller = $this->getController(false);
-		$user = $this->getMockBuilder('\OC\User\User')
-			->disableOriginalConstructor()->getMock();
+		$user = $this->createMock(IUser::class);
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
 			->will($this->returnValue($user));
-		$user = $this->getMockBuilder('\OC\User\User')
-			->disableOriginalConstructor()->getMock();
-		$newUser = $this->getMockBuilder('\OC\User\User')
-			->disableOriginalConstructor()->getMock();
+		$newUser = $this->createMock(IUser::class);
 		$newUser
 			->method('getHome')
 			->will($this->returnValue('/home/user'));
@@ -1049,8 +957,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getBackendClassName')
 			->will($this->returnValue('bar'));
-		$subGroup1 = $this->getMockBuilder('\OCP\IGroup')
-			->disableOriginalConstructor()->getMock();
+		$subGroup1 = $this->createMock(IGroup::class);
 		$subGroup1
 			->expects($this->any())
 			->method('getGID')
@@ -1064,16 +971,6 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('createUser')
 			->will($this->returnValue($newUser));
 		$this->groupManager
-			->expects($this->at(0))
-			->method('get')
-			->with('SubGroup1')
-			->will($this->returnValue($subGroup1));
-		$this->groupManager
-			->expects($this->at(4))
-			->method('get')
-			->with('SubGroup1')
-			->will($this->returnValue($subGroup1));
-		$this->groupManager
 			->expects($this->once())
 			->method('getUserGroupIds')
 			->with($user)
@@ -1084,21 +981,28 @@ class UsersControllerTest extends \Test\TestCase {
 			->with($newUser)
 			->will($this->onConsecutiveCalls(['SubGroup1']));
 
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
-			->disableOriginalConstructor()
-			->getMock();
-		$subadmin->expects($this->at(1))
+		$subadmin = $this->createMock(\OC\SubAdmin::class);
+		$subadmin->expects($this->atLeastOnce())
 			->method('getSubAdminsGroups')
 			->with($user)
-			->will($this->returnValue([$subGroup1]));
-		$subadmin->expects($this->at(2))
-			->method('getSubAdminsGroups')
-			->with($newUser)
-			->will($this->returnValue([]));
+			->willReturnMap([
+				[$user, [$subGroup1]],
+				[$newUser, []],
+			]);
+		$subadmin->expects($this->atLeastOnce())
+			->method('isSubAdminofGroup')
+			->willReturnMap([
+				[$user, $subGroup1, true],
+			]);
 		$this->groupManager
 			->expects($this->any())
 			->method('getSubAdmin')
 			->will($this->returnValue($subadmin));
+		$this->groupManager->expects($this->atLeastOnce())
+			->method('get')
+			->willReturnMap([
+				['SubGroup1', $subGroup1],
+			]);
 
 		$expectedResponse = new DataResponse(
 			array(
@@ -1137,16 +1041,36 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testCreateUnsuccessfulSubAdmin() {
+	public function testCreateUnsuccessfulSubAdminNoGroup() {
 		$controller = $this->getController(false);
-		$user = $this->getMockBuilder('\OC\User\User')
-			->disableOriginalConstructor()->getMock();
-		$user
-			->expects($this->any())
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('username'));
-		$this->userSession
-			->expects($this->once())
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+
+		$this->userManager->expects($this->never())
+			->method('createUser');
+
+		$expectedResponse = new DataResponse(
+			[
+				'message' => 'No valid group selected'
+			],
+			Http::STATUS_FORBIDDEN
+		);
+		$response = $controller->create('foo', 'password', []);
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testCreateUnsuccessfulSubAdmin() {
+		$controller = $this->getController(false);
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('username'));
+		$this->userSession->expects($this->once())
 			->method('getUser')
 			->will($this->returnValue($user));
 
@@ -1154,29 +1078,24 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('createUser')
 			->will($this->throwException(new \Exception()));
 
-		$subgroup1 = $this->getMockBuilder('\OCP\IGroup')
-			->disableOriginalConstructor()
-			->getMock();
-		$subgroup1->expects($this->once())
-			->method('getGID')
-			->will($this->returnValue('SubGroup1'));
-		$subgroup2 = $this->getMockBuilder('\OCP\IGroup')
-			->disableOriginalConstructor()
-			->getMock();
-		$subgroup2->expects($this->once())
-			->method('getGID')
-			->will($this->returnValue('SubGroup2'));
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
-			->disableOriginalConstructor()
-			->getMock();
-		$subadmin->expects($this->once())
-			->method('getSubAdminsGroups')
-			->with($user)
-			->will($this->returnValue([$subgroup1, $subgroup2]));
-		$this->groupManager
-			->expects($this->any())
+		$subgroup1 = $this->createMock(IGroup::class);
+		$subgroup2 = $this->createMock(IGroup::class);
+		$subadmin = $this->createMock(\OC\SubAdmin::class);
+		$subadmin->expects($this->atLeastOnce())
+			->method('isSubAdminofGroup')
+			->willReturnMap([
+				[$user, $subgroup1, true],
+				[$user, $subgroup2, true],
+			]);
+		$this->groupManager->expects($this->any())
 			->method('getSubAdmin')
-			->will($this->returnValue($subadmin));
+			->willReturn($subadmin);
+		$this->groupManager->expects($this->atLeastOnce())
+			->method('get')
+			->willReturnMap([
+				['SubGroup1', $subgroup1],
+				['SubGroup2', $subgroup2],
+			]);
 
 		$expectedResponse = new DataResponse(
 			[
@@ -1184,7 +1103,7 @@ class UsersControllerTest extends \Test\TestCase {
 			],
 			Http::STATUS_FORBIDDEN
 		);
-		$response = $controller->create('foo', 'password', array());
+		$response = $controller->create('foo', 'password', array('SubGroup1', 'SubGroup2'));
 		$this->assertEquals($expectedResponse, $response);
 	}
 
