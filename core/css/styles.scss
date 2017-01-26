@@ -579,15 +579,16 @@ label.infield {
 	padding-right: 30px;
 }
 
-#personal-show + label {
-	height: 14px;
-	margin-top: -25px;
-	left: 267px;
-	display: block;
+.personal-show-container {
+	position: relative;
+	display: inline-block;
+	margin-right: 6px;
 }
-
-#passwordbutton {
-	margin-left: .5em;
+#personal-show + label {
+	display: block;
+	right: 0;
+	margin-top: -36px;
+    padding: 6px 4px;
 }
 
 /* Database selector */

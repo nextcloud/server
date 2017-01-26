@@ -848,7 +848,7 @@ span.indeterminate {
 /* PASSWORD */
 #passwordform .strengthify-wrapper {
 	position: absolute;
-	left: 166px;
+	left: 0;
 	width: 130px;
 	margin-top: -6px;
 }
