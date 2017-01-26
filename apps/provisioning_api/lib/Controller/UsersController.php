@@ -194,6 +194,42 @@ class UsersController extends OCSController {
 	 * @throws OCSException
 	 */
 	public function getUser($userId) {
+		$data = $this->getUserData($userId);
+		return new DataResponse($data);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoSubAdminRequired
+	 *
+	 * gets user info from the currently logged in user
+	 *
+	 * @return DataResponse
+	 * @throws OCSException
+	 */
+	public function getCurrentUser() {
+		$user = $this->userSession->getUser();
+		if ($user) {
+			$data =  $this->getUserData($user->getUID());
+			// rename "displayname" to "display-name" only for this call to keep
+			// the API stable.
+			$data['display-name'] = $data['displayname'];
+			unset($data['displayname']);
+			return new DataResponse($data);
+
+		}
+
+		throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+	}
+
+	/**
+	 * creates a array with all user data
+	 *
+	 * @param $userId
+	 * @return array
+	 * @throws OCSException
+	 */
+	protected function getUserData($userId) {
 		$currentLoggedInUser = $this->userSession->getUser();
 
 		$data = [];
@@ -227,31 +263,7 @@ class UsersController extends OCSController {
 		$data['webpage'] = $userAccount[\OC\Accounts\AccountManager::PROPERTY_WEBSITE]['value'];
 		$data['twitter'] = $userAccount[\OC\Accounts\AccountManager::PROPERTY_TWITTER]['value'];
 
-		return new DataResponse($data);
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @NoSubAdminRequired
-	 *
-	 * gets user info from the currently logged in user
-	 *
-	 * @return DataResponse
-	 * @throws OCSException
-	 */
-	public function getCurrentUser() {
-		$user = $this->userSession->getUser();
-		if ($user) {
-			$result =  $this->getUser($user->getUID());
-			// rename "displayname" to "display-name" only for this call to keep
-			// the API stable.
-			$result['display-name'] = $result['displayname'];
-			unset($result['displayname']);
-			return $result;
-
-		}
-
-		throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+		return $data;
 	}
 
 	/**
