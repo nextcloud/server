@@ -72,6 +72,16 @@ default:
               - admin
               - admin
             regular_user_password: 123456
+    ldap:
+      paths:
+        - %paths.base%/../ldap_features
+      contexts:
+        - LDAPContext:
+            baseUrl: http://localhost:8080
+            admin:
+              - admin
+              - admin
+            regular_user_password: what_for
 
 
 
