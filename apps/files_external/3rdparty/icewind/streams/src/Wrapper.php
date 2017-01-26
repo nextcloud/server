@@ -53,7 +53,7 @@ abstract class Wrapper implements File, Directory {
 		if (isset($context[$name])) {
 			$context = $context[$name];
 		} else {
-			throw new \BadMethodCallException('Invalid context, "callable" options not set');
+			throw new \BadMethodCallException('Invalid context, "' . $name . '" options not set');
 		}
 		if (isset($context['source']) and is_resource($context['source'])) {
 			$this->setSourceStream($context['source']);
