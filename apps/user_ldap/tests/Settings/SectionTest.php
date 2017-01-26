@@ -68,7 +68,7 @@ class SectionTest extends TestCase {
 	public function testGetIcon() {
 		$this->url->expects($this->once())
 			->method('imagePath')
-			->with('user_ldap', 'app.svg')
+			->with('user_ldap', 'app-dark.svg')
 			->willReturn('icon');
 
 		$this->assertSame('icon', $this->section->getIcon());
