@@ -405,6 +405,10 @@ $(document).ready(function() {
 			OC.Search = new OCA.Search($('#searchbox'), $('#searchresults'));
 		});
 	}
+	$('#searchbox + .icon-close-white').click(function() {
+		OC.Search.clear();
+		$('#searchbox').focus();
+	});
 });
 
 /**
