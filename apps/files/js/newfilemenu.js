@@ -38,7 +38,8 @@
 	 */
 	var NewFileMenu = OC.Backbone.View.extend({
 		tagName: 'div',
-		className: 'newFileMenu popovermenu bubble hidden open menu',
+		// Menu is opened by default because it's rendered on "add-button" click
+		className: 'newFileMenu popovermenu bubble menu open menu-left',
 
 		events: {
 			'click .menuitem': '_onClickAction'
@@ -235,13 +236,6 @@
 		 */
 		showAt: function($target) {
 			this.render();
-			var targetOffset = $target.offset();
-			this.$el.css({
-				left: targetOffset.left,
-				top: targetOffset.top + $target.height()
-			});
-			this.$el.removeClass('hidden');
-
 			OC.showMenu(null, this.$el);
 		}
 	});
