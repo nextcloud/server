@@ -436,10 +436,14 @@ abstract class Common implements Storage, ILockingStorage {
 	 * @return bool
 	 */
 	public function test() {
-		if ($this->stat('')) {
-			return true;
+		try {
+			if ($this->stat('')) {
+				return true;
+			}
+			return false;
+		} catch (\Exception $e) {
+			return false;
 		}
-		return false;
 	}
 
 	/**
