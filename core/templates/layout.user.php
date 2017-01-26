@@ -69,6 +69,7 @@
 					<input id="searchbox" type="search" name="query"
 						value="" required
 						autocomplete="off" tabindex="5">
+					<button class="icon-close-white" type="reset"></button>
 				</form>
 				<div id="settings">
 					<div id="expand" tabindex="6" role="link" class="menutoggle">
