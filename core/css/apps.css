@@ -284,66 +284,6 @@
 		list-style-type: none;
 	}
 
-/* menu bubble / popover */
-.bubble,
-#app-navigation .app-navigation-entry-menu {
-	position: absolute;
-	background-color: #fff;
-	color: #333;
-	border-radius: 3px;
-	border-top-right-radius: 0;
-	z-index: 110;
-	margin: 5px;
-	margin-top: -5px;
-	right: 0;
-	-webkit-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
-	-moz-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
-	-ms-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
-	-o-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
-	filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
-}
-
-.ie .bubble,
-.ie #app-navigation .app-navigation-entry-menu,
-.ie .bubble:after,
-.ie #app-navigation .app-navigation-entry-menu:after,
-.edge .bubble,
-.edge #app-navigation .app-navigation-entry-menu,
-.edge .bubble:after,
-.edge #app-navigation .app-navigation-entry-menu:after {
-	border: 1px solid #eee;
-}
-/* miraculous border arrow stuff */
-.bubble:after,
-#app-navigation .app-navigation-entry-menu:after {
-	bottom: 100%;
-	right: 6px; /* change this to adjust the arrow position */
-	border: solid transparent;
-	content: " ";
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
-}
-.bubble:after,
-#app-navigation .app-navigation-entry-menu:after {
-	border-color: rgba(238, 238, 238, 0);
-	border-bottom-color: #fff;
-	border-width: 10px;
-}
-.bubble .action {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)" !important;
-	filter: alpha(opacity=50) !important;
-	opacity: .5 !important;
-}
-.bubble .action:hover,
-.bubble .action:focus,
-.bubble .action.active {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)" !important;
-	filter: alpha(opacity=100) !important;
-	opacity: 1 !important;
-}
-
 #app-navigation .app-navigation-entry-menu {
 	display: none;
 }
@@ -639,62 +579,234 @@ em {
 	padding: 0 15px 15px;
 }
 
-/* popover menu styles (use together with "bubble" class) */
-.popovermenu .menuitem,
-.popovermenu .menuitem>span {
-	cursor: pointer;
-	vertical-align: middle;
+/* POPOVER MENU ------------------------------------------------------------- */
+.ie .bubble, .ie .bubble:after,
+.ie .popovermenu, .ie .popovermenu:after,
+.ie #app-navigation .app-navigation-entry-menu,
+.ie #app-navigation .app-navigation-entry-menu:after,
+.edge .bubble,
+.edge .bubble:after,
+.edge .popovermenu,
+.edge .popovermenu:after,
+.edge #app-navigation .app-navigation-entry-menu,
+.edge #app-navigation .app-navigation-entry-menu:after {
+	border: 1px solid #eee;
 }
 
-.popovermenu .menuitem {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	filter: alpha(opacity=50);
-	opacity: .5;
-}
-
-.popovermenu .menuitem:hover,
-.popovermenu .menuitem:focus,
-.popovermenu .menuitem.active {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-	filter: alpha(opacity=100);
-	opacity: 1;
-}
-
-.popovermenu .menuitem img {
-	padding: initial;
-}
-
-.popovermenu a.menuitem,
-.popovermenu label.menuitem,
-.popovermenu .menuitem {
-	padding: 10px !important;
-	width: auto;
-}
-
-.popovermenu.hidden {
+.bubble,
+.app-navigation-entry-menu,
+.popovermenu {
+	position: absolute;
+	background-color: #fff;
+	color: #333;
+	border-radius: 3px;
+	border-top-right-radius: 0;
+	z-index: 110;
+	margin: 5px;
+	margin-top: -5px;
+	right: 0;
+	-webkit-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
+	-moz-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
+	-ms-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
+	-o-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
+	filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
 	display: none;
 }
-
-.popovermenu .menuitem {
+.bubble:after,
+.app-navigation-entry-menu:after,
+.popovermenu:after {
+	bottom: 100%;
+ /* Min-width of popover is 36px and arrow width is 20px
+	wich leaves us 8px right and 8px left */
+	right: 8px;	/* change this to adjust the arrow position */
+	border: solid transparent;
+	content: ' ';
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(238, 238, 238, 0);
+	border-bottom-color: #fff;
+	border-width: 10px;
+}
+/* Center the popover */
+.bubble.menu-center,
+.app-navigation-entry-menu.menu-center,
+.popovermenu.menu-center {
+	transform: translateX(50%);
+	right: 50%;
+	margin-right: 0;
+	border-top-right-radius: 3px;
+}
+.bubble.menu-center:after,
+.app-navigation-entry-menu.menu-center:after,
+.popovermenu.menu-center:after {
+	right: 50%;
+	transform: translateX(50%);
+}
+/* Align the popover to the left */
+.bubble.menu-left,
+.app-navigation-entry-menu.menu-left,
+.popovermenu.menu-left {
+	right: auto;
+	left: 0;
+	margin-right: 0;
+	border-top-left-radius: 0;
+	border-top-right-radius: 3px;
+}
+.bubble.menu-left:after,
+.app-navigation-entry-menu.menu-left:after,
+.popovermenu.menu-left:after {
+	left: 6px;
+	right: auto;
+}
+.bubble.open,
+.app-navigation-entry-menu.open,
+.popovermenu.open {
+	display: block;
+}
+.bubble ul,
+.app-navigation-entry-menu ul,
+.popovermenu ul {
+	/* Overwrite #app-navigation > ul ul */
 	display: flex !important;
-	line-height: 30px;
-	color: #000;
+	flex-direction: column;
+}
+.bubble li,
+.app-navigation-entry-menu li,
+.popovermenu li {
+	display: flex;
+}
+.bubble li > button,
+.bubble li > a,
+.bubble li > .menuitem,
+.app-navigation-entry-menu li > button,
+.app-navigation-entry-menu li > a,
+.app-navigation-entry-menu li > .menuitem,
+.popovermenu li > button,
+.popovermenu li > a,
+.popovermenu li > .menuitem {
+	cursor: pointer;
+	line-height: 36px;
+	border: 0;
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)' !important;
+	filter: alpha(opacity=50) !important;
+	opacity: .5 !important;
+	background-color: transparent;
+	display: flex;
 	align-items: center;
+	width: auto;
+	height: auto;
+	margin: 0;
+	font-weight: inherit;
+	box-shadow: none;
 }
-
-.popovermenu .menuitem .icon,
-.popovermenu .menuitem .no-icon {
-	display: inline-block;
+.bubble li > button.action,
+.bubble li > a.action,
+.bubble li > .menuitem.action,
+.app-navigation-entry-menu li > button.action,
+.app-navigation-entry-menu li > a.action,
+.app-navigation-entry-menu li > .menuitem.action,
+.popovermenu li > button.action,
+.popovermenu li > a.action,
+.popovermenu li > .menuitem.action {
+	padding: inherit !important;
+}
+.bubble li > button:hover, .bubble li > button:focus,
+.bubble li > a:hover,
+.bubble li > a:focus,
+.bubble li > .menuitem:hover,
+.bubble li > .menuitem:focus,
+.app-navigation-entry-menu li > button:hover,
+.app-navigation-entry-menu li > button:focus,
+.app-navigation-entry-menu li > a:hover,
+.app-navigation-entry-menu li > a:focus,
+.app-navigation-entry-menu li > .menuitem:hover,
+.app-navigation-entry-menu li > .menuitem:focus,
+.popovermenu li > button:hover,
+.popovermenu li > button:focus,
+.popovermenu li > a:hover,
+.popovermenu li > a:focus,
+.popovermenu li > .menuitem:hover,
+.popovermenu li > .menuitem:focus {
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)' !important;
+	filter: alpha(opacity=100) !important;
+	opacity: 1 !important;
+	background-color: transparent;
+}
+.bubble li > button > span,
+.bubble li > a > span,
+.bubble li > .menuitem > span,
+.app-navigation-entry-menu li > button > span,
+.app-navigation-entry-menu li > a > span,
+.app-navigation-entry-menu li > .menuitem > span,
+.popovermenu li > button > span,
+.popovermenu li > a > span,
+.popovermenu li > .menuitem > span {
+	cursor: pointer;
+	white-space: nowrap;
+}
+.bubble li > button > p,
+.bubble li > a > p,
+.bubble li > .menuitem > p,
+.app-navigation-entry-menu li > button > p,
+.app-navigation-entry-menu li > a > p,
+.app-navigation-entry-menu li > .menuitem > p,
+.popovermenu li > button > p,
+.popovermenu li > a > p,
+.popovermenu li > .menuitem > p {
+	width: 150px;
+	line-height: 1.6em;
+	padding: 8px 0;
+}
+.bubble li > button > p > span,
+.bubble li > a > p > span,
+.bubble li > .menuitem > p > span,
+.app-navigation-entry-menu li > button > p > span,
+.app-navigation-entry-menu li > a > p > span,
+.app-navigation-entry-menu li > .menuitem > p > span,
+.popovermenu li > button > p > span,
+.popovermenu li > a > p > span,
+.popovermenu li > .menuitem > p > span {
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)' !important;
+	filter: alpha(opacity=70) !important;
+	opacity: .7 !important;
+}
+.bubble li > button:not(:empty),
+.bubble li > a:not(:empty),
+.bubble li > .menuitem:not(:empty),
+.app-navigation-entry-menu li > button:not(:empty),
+.app-navigation-entry-menu li > a:not(:empty),
+.app-navigation-entry-menu li > .menuitem:not(:empty),
+.popovermenu li > button:not(:empty),
+.popovermenu li > a:not(:empty),
+.popovermenu li > .menuitem:not(:empty) {
+	padding: 0 !important;
+	padding-right: 10px !important;
+}
+.bubble li > button > img,
+.bubble li > a > img,
+.bubble li > .menuitem > img,
+.app-navigation-entry-menu li > button > img,
+.app-navigation-entry-menu li > a > img,
+.app-navigation-entry-menu li > .menuitem > img,
+.popovermenu li > button > img,
+.popovermenu li > a > img,
+.popovermenu li > .menuitem > img {
 	width: 16px;
-	height: 16px;
-	margin-right: 10px;
-	vertical-align: middle;
+	padding: 0 10px;
 }
-
-.popovermenu .menuitem {
-	opacity: 0.5;
-}
-
-.popovermenu li:hover .menuitem {
-	opacity: 1;
+.bubble li [class^='icon-'],
+.bubble li [class*=' icon-'],
+.app-navigation-entry-menu li [class^='icon-'],
+.app-navigation-entry-menu li [class*=' icon-'],
+.popovermenu li [class^='icon-'],
+.popovermenu li [class*=' icon-'] {
+	/* Keep padding to define the width to
+	 assure correct position of a possible text */
+	padding: 18px 0 18px 36px;
+	min-width: 0;
+	/* Overwrite icons*/
+	min-height: 0;
+	background-position: 10px center;
 }
