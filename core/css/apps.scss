@@ -60,6 +60,18 @@ em {
 		width: inherit;
 		overflow: auto;
 		box-sizing: border-box;
+		> li {
+			&:focus,
+			&:hover,
+			&.active,
+			a.selected {
+				&,
+				> a {
+					opacity: 1;
+					box-shadow: inset 2px 0 #0082c9;
+				}
+			}
+		}
 	}
 	li {
 		position: relative;
@@ -95,15 +107,6 @@ em {
 		text-overflow: ellipsis;
 		color: #000;
 		opacity: .57;
-	}
-	> ul > li:hover > a,
-	> ul > li:focus > a,
-	.selected,
-	.selected > a,
-	.active,
-	.active > a {
-		opacity: 1;
-		box-shadow: inset 2px 0 #0082c9;
 	}
 	li > a:first-child img {
 	    margin-bottom: -3px;
