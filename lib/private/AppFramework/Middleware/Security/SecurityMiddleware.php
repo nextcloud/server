@@ -192,8 +192,9 @@ class SecurityMiddleware extends Middleware {
 		}
 
 		if($this->reflector->hasAnnotation('BruteForceProtection')) {
+			$timeout = $this->getTimeout();
 			$action = $this->reflector->getAnnotationParameter('BruteForceProtection');
-			$this->throttler->sleepDelay($this->request->getRemoteAddress(), $action);
+			$this->throttler->sleepDelay($this->request->getRemoteAddress(), $action, $timeout);
 			$this->throttler->registerAttempt($action, $this->request->getRemoteAddress());
 		}
 
@@ -208,6 +209,24 @@ class SecurityMiddleware extends Middleware {
 		}
 
 	}
+
+	/**
+	 * get timeout for brute force protection in minutes
+	 * @return int timeout in seconds
+	 */
+	protected function getTimeout() {
+		// default timeout: 10 minutes
+		$timeout = 600;
+		if($this->reflector->hasAnnotation('BruteForceProtectionTimeout')) {
+			$parameter = $this->reflector->getAnnotationParameter('BruteForceProtectionTimeout');
+			if (is_int($parameter) || ctype_digit($parameter)) {
+				$timeout = (int)$parameter;
+			}
+		}
+
+		return $timeout;
+	}
+
 
 	/**
 	 * Performs the default CSP modifications that may be injected by other
