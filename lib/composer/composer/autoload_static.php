@@ -696,7 +696,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Repair' => __DIR__ . '/../../..' . '/lib/private/Repair.php',
         'OC\\RepairException' => __DIR__ . '/../../..' . '/lib/private/RepairException.php',
         'OC\\Repair\\AssetCache' => __DIR__ . '/../../..' . '/lib/private/Repair/AssetCache.php',
-        'OC\\Repair\\AvatarPermissions' => __DIR__ . '/../../..' . '/lib/private/Repair/AvatarPermissions.php',
         'OC\\Repair\\CleanTags' => __DIR__ . '/../../..' . '/lib/private/Repair/CleanTags.php',
         'OC\\Repair\\Collation' => __DIR__ . '/../../..' . '/lib/private/Repair/Collation.php',
         'OC\\Repair\\DropOldJobs' => __DIR__ . '/../../..' . '/lib/private/Repair/DropOldJobs.php',

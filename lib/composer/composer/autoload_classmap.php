@@ -666,7 +666,6 @@ return array(
     'OC\\Repair' => $baseDir . '/lib/private/Repair.php',
     'OC\\RepairException' => $baseDir . '/lib/private/RepairException.php',
     'OC\\Repair\\AssetCache' => $baseDir . '/lib/private/Repair/AssetCache.php',
-    'OC\\Repair\\AvatarPermissions' => $baseDir . '/lib/private/Repair/AvatarPermissions.php',
     'OC\\Repair\\CleanTags' => $baseDir . '/lib/private/Repair/CleanTags.php',
     'OC\\Repair\\Collation' => $baseDir . '/lib/private/Repair/Collation.php',
     'OC\\Repair\\DropOldJobs' => $baseDir . '/lib/private/Repair/DropOldJobs.php',
