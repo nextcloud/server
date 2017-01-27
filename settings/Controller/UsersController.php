@@ -286,12 +286,7 @@ class UsersController extends Controller {
 
 				// TODO: allow partial strings for email matches
 				$emailSearchResult = $this->userManager->getByEmail($pattern);
-				$searchResults = array($uidSearchResult, $displayNameSearchResult, $emailSearchResult);
-				foreach ($searchResults as $arr) {
-					if(is_array($arr)) {
-						$batch = array_merge($batch, $arr);
-					}
-				}
+				$batch = array_merge($uidSearchResult, $displayNameSearchResult, $emailSearchResult);
 			}
 
 			foreach ($batch as $user) {
