@@ -27,6 +27,7 @@
 namespace OCA\FederatedFileSharing;
 
 use OC\Share20\Share;
+use OCP\Federation\ICloudIdManager;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
@@ -80,6 +81,9 @@ class FederatedShareProvider implements IShareProvider {
 	/** @var IUserManager */
 	private $userManager;
 
+	/** @var ICloudIdManager */
+	private $cloudIdManager;
+
 	/**
 	 * DefaultShareProvider constructor.
 	 *
@@ -92,6 +96,7 @@ class FederatedShareProvider implements IShareProvider {
 	 * @param IRootFolder $rootFolder
 	 * @param IConfig $config
 	 * @param IUserManager $userManager
+	 * @param ICloudIdManager $cloudIdManager
 	 */
 	public function __construct(
 			IDBConnection $connection,
@@ -102,7 +107,8 @@ class FederatedShareProvider implements IShareProvider {
 			ILogger $logger,
 			IRootFolder $rootFolder,
 			IConfig $config,
-			IUserManager $userManager
+			IUserManager $userManager,
+			ICloudIdManager $cloudIdManager
 	) {
 		$this->dbConnection = $connection;
 		$this->addressHandler = $addressHandler;
@@ -113,6 +119,7 @@ class FederatedShareProvider implements IShareProvider {
 		$this->rootFolder = $rootFolder;
 		$this->config = $config;
 		$this->userManager = $userManager;
+		$this->cloudIdManager = $cloudIdManager;
 	}
 
 	/**
@@ -153,17 +160,18 @@ class FederatedShareProvider implements IShareProvider {
 
 
 		// don't allow federated shares if source and target server are the same
-		list($user, $remote) = $this->addressHandler->splitUserRemote($shareWith);
+		$cloudId = $this->cloudIdManager->resolveCloudId($shareWith);
 		$currentServer = $this->addressHandler->generateRemoteURL();
 		$currentUser = $sharedBy;
-		if ($this->addressHandler->compareAddresses($user, $remote, $currentUser, $currentServer)) {
+		if ($this->addressHandler->compareAddresses($cloudId->getUser(), $cloudId->getRemote(), $currentUser, $currentServer)) {
 			$message = 'Not allowed to create a federated share with the same user.';
 			$message_t = $this->l->t('Not allowed to create a federated share with the same user');
 			$this->logger->debug($message, ['app' => 'Federated File Sharing']);
 			throw new \Exception($message_t);
 		}
 
-		$share->setSharedWith($user . '@' . $remote);
+
+		$share->setSharedWith(rtrim($cloudId->getId(), '/'));
 
 		try {
 			$remoteShare = $this->getShareFromExternalShareTable($share);
@@ -173,8 +181,8 @@ class FederatedShareProvider implements IShareProvider {
 
 		if ($remoteShare) {
 			try {
-				$uidOwner = $remoteShare['owner'] . '@' . $remoteShare['remote'];
-				$shareId = $this->addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $uidOwner, $permissions, 'tmp_token_' . time());
+				$ownerCloudId = $this->cloudIdManager->getCloudId($remoteShare['owner'], $remoteShare['remote']);
+				$shareId = $this->addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $ownerCloudId->getId(), $permissions, 'tmp_token_' . time());
 				$share->setId($shareId);
 				list($token, $remoteId) = $this->askOwnerToReShare($shareWith, $share, $shareId);
 				// remote share was create successfully if we get a valid token as return
@@ -227,15 +235,17 @@ class FederatedShareProvider implements IShareProvider {
 		try {
 			$sharedByFederatedId = $share->getSharedBy();
 			if ($this->userManager->userExists($sharedByFederatedId)) {
-				$sharedByFederatedId = $sharedByFederatedId . '@' . $this->addressHandler->generateRemoteURL();
+				$cloudId = $this->cloudIdManager->getCloudId($sharedByFederatedId, $this->addressHandler->generateRemoteURL());
+				$sharedByFederatedId = $cloudId->getId();
 			}
+			$ownerCloudId = $this->cloudIdManager->getCloudId($share->getShareOwner(), $this->addressHandler->generateRemoteURL());
 			$send = $this->notifications->sendRemoteShare(
 				$token,
 				$share->getSharedWith(),
 				$share->getNode()->getName(),
 				$shareId,
 				$share->getShareOwner(),
-				$share->getShareOwner() . '@' . $this->addressHandler->generateRemoteURL(),
+				$ownerCloudId->getId(),
 				$share->getSharedBy(),
 				$sharedByFederatedId
 			);

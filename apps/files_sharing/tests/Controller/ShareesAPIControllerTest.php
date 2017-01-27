@@ -25,10 +25,12 @@
 
 namespace OCA\Files_Sharing\Tests\Controller;
 
+use OC\Federation\CloudIdManager;
 use OCA\Files_Sharing\Controller\ShareesAPIController;
 use OCA\Files_Sharing\Tests\TestCase;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\OCS\OCSBadRequestException;
+use OCP\Federation\ICloudIdManager;
 use OCP\Http\Client\IClientService;
 use OCP\Share;
 
@@ -64,6 +66,9 @@ class ShareesAPIControllerTest extends TestCase {
 	/** @var IClientService|\PHPUnit_Framework_MockObject_MockObject */
 	private $clientService;
 
+	/** @var  ICloudIdManager */
+	private $cloudIdManager;
+
 	protected function setUp() {
 		parent::setUp();
 
@@ -93,6 +98,8 @@ class ShareesAPIControllerTest extends TestCase {
 
 		$this->clientService = $this->createMock(IClientService::class);
 
+		$this->cloudIdManager = new CloudIdManager();
+
 		$this->sharees = new ShareesAPIController(
 			'files_sharing',
 			$this->request,
@@ -104,7 +111,8 @@ class ShareesAPIControllerTest extends TestCase {
 			$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
 			$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock(),
 			$this->shareManager,
-			$this->clientService
+			$this->clientService,
+			$this->cloudIdManager
 		);
 	}
 
@@ -1434,7 +1442,8 @@ class ShareesAPIControllerTest extends TestCase {
 				$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
 				$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock(),
 				$this->shareManager,
-				$this->clientService
+				$this->clientService,
+				$this->cloudIdManager
 			])
 			->setMethods(array('searchSharees', 'isRemoteSharingAllowed', 'shareProviderExists'))
 			->getMock();
@@ -1526,7 +1535,8 @@ class ShareesAPIControllerTest extends TestCase {
 				$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
 				$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock(),
 				$this->shareManager,
-				$this->clientService
+				$this->clientService,
+				$this->cloudIdManager
 			])
 			->setMethods(array('searchSharees', 'isRemoteSharingAllowed'))
 			->getMock();
@@ -1692,7 +1702,8 @@ class ShareesAPIControllerTest extends TestCase {
 				$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
 				$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock(),
 				$this->shareManager,
-				$this->clientService
+				$this->clientService,
+				$this->cloudIdManager
 			])
 			->setMethods(array('getShareesForShareIds', 'getUsers', 'getGroups', 'getRemote'))
 			->getMock();

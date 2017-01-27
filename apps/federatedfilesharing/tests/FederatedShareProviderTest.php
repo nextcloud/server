@@ -25,10 +25,12 @@
 namespace OCA\FederatedFileSharing\Tests;
 
 
+use OC\Federation\CloudIdManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\TokenHandler;
+use OCP\Federation\ICloudIdManager;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -69,6 +71,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	/** @var FederatedShareProvider */
 	protected $provider;
 
+	/** @var  ICloudIdManager */
+	private $cloudIdManager;
+
 
 	public function setUp() {
 		parent::setUp();
@@ -94,6 +99,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
 
+		$this->cloudIdManager = new CloudIdManager();
+
 		$this->provider = new FederatedShareProvider(
 			$this->connection,
 			$this->addressHandler,
@@ -103,7 +110,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$this->logger,
 			$this->rootFolder,
 			$this->config,
-			$this->userManager
+			$this->userManager,
+			$this->cloudIdManager
 		);
 
 		$this->shareManager = \OC::$server->getShareManager();
@@ -400,7 +408,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 					$this->logger,
 					$this->rootFolder,
 					$this->config,
-					$this->userManager
+					$this->userManager,
+					$this->cloudIdManager
 				]
 			)->setMethods(['sendPermissionUpdate'])->getMock();
 

@@ -65,7 +65,8 @@ class RetryJob extends Job {
 		} else {
 			$addressHandler = new AddressHandler(
 				\OC::$server->getURLGenerator(),
-				\OC::$server->getL10N('federatedfilesharing')
+				\OC::$server->getL10N('federatedfilesharing'),
+				\OC::$server->getCloudIdManager()
 			);
 			$discoveryManager = new DiscoveryManager(
 				\OC::$server->getMemCacheFactory(),

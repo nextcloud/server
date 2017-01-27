@@ -24,7 +24,9 @@
  */
 namespace OCA\Files_Sharing\Tests\External;
 
+use OC\Federation\CloudIdManager;
 use OCA\Files_Sharing\Tests\TestCase;
+use OCP\Federation\ICloudIdManager;
 
 /**
  * Class Cache
@@ -50,9 +52,13 @@ class CacheTest extends TestCase {
 	 */
 	private $remoteUser;
 
+	/** @var  ICloudIdManager */
+	private $cloudIdManager;
+
 	protected function setUp() {
 		parent::setUp();
 
+		$this->cloudIdManager = new CloudIdManager();
 		$this->remoteUser = $this->getUniqueID('remoteuser');
 
 		$this->storage = $this->getMockBuilder('\OCA\Files_Sharing\External\Storage')
@@ -64,8 +70,7 @@ class CacheTest extends TestCase {
 			->will($this->returnValue('dummystorage::'));
 		$this->cache = new \OCA\Files_Sharing\External\Cache(
 			$this->storage,
-			'http://example.com/owncloud',
-			$this->remoteUser
+			$this->cloudIdManager->getCloudId($this->remoteUser, 'http://example.com/owncloud')
 		);
 		$this->cache->put(
 			'test.txt',

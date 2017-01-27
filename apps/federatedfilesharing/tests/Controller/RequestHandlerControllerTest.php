@@ -27,10 +27,12 @@
 
 namespace OCA\FederatedFileSharing\Tests;
 
+use OC\Federation\CloudIdManager;
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Controller\RequestHandlerController;
+use OCP\Federation\ICloudIdManager;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
@@ -72,6 +74,9 @@ class RequestHandlerControllerTest extends TestCase {
 	/** @var  IShare|\PHPUnit_Framework_MockObject_MockObject */
 	private $share;
 
+	/** @var  ICloudIdManager */
+	private $cloudIdManager;
+
 	protected function setUp() {
 		parent::setUp();
 
@@ -100,6 +105,8 @@ class RequestHandlerControllerTest extends TestCase {
 		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')
 			->disableOriginalConstructor()->getMock();
 		$this->userManager = $this->getMockBuilder('OCP\IUserManager')->getMock();
+
+		$this->cloudIdManager = new CloudIdManager();
 		
 		$this->registerHttpHelper($httpHelperMock);
 
@@ -111,7 +118,8 @@ class RequestHandlerControllerTest extends TestCase {
 			\OC::$server->getShareManager(),
 			$this->notifications,
 			$this->addressHandler,
-			$this->userManager
+			$this->userManager,
+			$this->cloudIdManager
 		);
 
 		$this->connection = \OC::$server->getDatabaseConnection();
@@ -190,7 +198,8 @@ class RequestHandlerControllerTest extends TestCase {
 					\OC::$server->getShareManager(),
 					$this->notifications,
 					$this->addressHandler,
-					$this->userManager
+					$this->userManager,
+					$this->cloudIdManager
 				]
 			)->setMethods(['executeDeclineShare', 'verifyShare'])->getMock();
 

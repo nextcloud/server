@@ -28,6 +28,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCSController;
 use OCP\Contacts\IManager;
+use OCP\Federation\ICloudIdManager;
 use OCP\Http\Client\IClientService;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -68,6 +69,9 @@ class ShareesAPIController extends OCSController {
 
 	/** @var IClientService */
 	protected $clientService;
+
+	/** @var ICloudIdManager  */
+	protected $cloudIdManager;
 
 	/** @var bool */
 	protected $shareWithGroupOnly = false;
@@ -110,6 +114,7 @@ class ShareesAPIController extends OCSController {
 	 * @param ILogger $logger
 	 * @param \OCP\Share\IManager $shareManager
 	 * @param IClientService $clientService
+	 * @param ICloudIdManager $cloudIdManager
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -121,7 +126,9 @@ class ShareesAPIController extends OCSController {
 								IURLGenerator $urlGenerator,
 								ILogger $logger,
 								\OCP\Share\IManager $shareManager,
-								IClientService $clientService) {
+								IClientService $clientService,
+								ICloudIdManager $cloudIdManager
+	) {
 		parent::__construct($appName, $request);
 
 		$this->groupManager = $groupManager;
@@ -133,6 +140,7 @@ class ShareesAPIController extends OCSController {
 		$this->logger = $logger;
 		$this->shareManager = $shareManager;
 		$this->clientService = $clientService;
+		$this->cloudIdManager = $cloudIdManager;
 	}
 
 	/**
@@ -339,7 +347,7 @@ class ShareesAPIController extends OCSController {
 			$result['results'] = [];
 		}
 
-		if (!$result['exactIdMatch'] && substr_count($search, '@') >= 1 && $this->offset === 0) {
+		if (!$result['exactIdMatch'] && $this->cloudIdManager->isValidCloudId($search) && $this->offset === 0) {
 			$result['exact'][] = [
 				'label' => $search,
 				'value' => [
@@ -362,42 +370,12 @@ class ShareesAPIController extends OCSController {
 	 * @throws \Exception
 	 */
 	public function splitUserRemote($address) {
-		if (strpos($address, '@') === false) {
-			throw new \Exception('Invalid Federated Cloud ID');
+		try {
+			$cloudId = $this->cloudIdManager->resolveCloudId($address);
+			return [$cloudId->getUser(), $cloudId->getRemote()];
+		} catch (\InvalidArgumentException $e) {
+			throw new \Exception('Invalid Federated Cloud ID', 0, $e);
 		}
-
-		// Find the first character that is not allowed in user names
-		$id = str_replace('\\', '/', $address);
-		$posSlash = strpos($id, '/');
-		$posColon = strpos($id, ':');
-
-		if ($posSlash === false && $posColon === false) {
-			$invalidPos = strlen($id);
-		} else if ($posSlash === false) {
-			$invalidPos = $posColon;
-		} else if ($posColon === false) {
-			$invalidPos = $posSlash;
-		} else {
-			$invalidPos = min($posSlash, $posColon);
-		}
-
-		// Find the last @ before $invalidPos
-		$pos = $lastAtPos = 0;
-		while ($lastAtPos !== false && $lastAtPos <= $invalidPos) {
-			$pos = $lastAtPos;
-			$lastAtPos = strpos($id, '@', $pos + 1);
-		}
-
-		if ($pos !== false) {
-			$user = substr($id, 0, $pos);
-			$remote = substr($id, $pos + 1);
-			$remote = $this->fixRemoteURL($remote);
-			if (!empty($user) && !empty($remote)) {
-				return array($user, $remote);
-			}
-		}
-
-		throw new \Exception('Invalid Federated Cloud ID');
 	}
 
 	/**

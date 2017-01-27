@@ -38,6 +38,7 @@ use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\Constants;
+use OCP\Federation\ICloudIdManager;
 use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
 use OCP\IRequest;
@@ -68,6 +69,9 @@ class RequestHandlerController extends OCSController {
 	/** @var string */
 	private $shareTable = 'share';
 
+	/** @var ICloudIdManager  */
+	private $cloudIdManager;
+
 	/**
 	 * Server2Server constructor.
 	 *
@@ -79,6 +83,7 @@ class RequestHandlerController extends OCSController {
 	 * @param Notifications $notifications
 	 * @param AddressHandler $addressHandler
 	 * @param IUserManager $userManager
+	 * @param ICloudIdManager $cloudIdManager
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -87,7 +92,8 @@ class RequestHandlerController extends OCSController {
 								Share\IManager $shareManager,
 								Notifications $notifications,
 								AddressHandler $addressHandler,
-								IUserManager $userManager
+								IUserManager $userManager,
+								ICloudIdManager $cloudIdManager
 	) {
 		parent::__construct($appName, $request);
 
@@ -97,6 +103,7 @@ class RequestHandlerController extends OCSController {
 		$this->notifications = $notifications;
 		$this->addressHandler = $addressHandler;
 		$this->userManager = $userManager;
+		$this->cloudIdManager = $cloudIdManager;
 	}
 
 	/**
@@ -164,7 +171,7 @@ class RequestHandlerController extends OCSController {
 				$shareId = \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*share_external');
 
 				if ($ownerFederatedId === null) {
-					$ownerFederatedId = $owner . '@' . $this->cleanupRemote($remote);
+					$ownerFederatedId = $this->cloudIdManager->getCloudId($owner, $this->cleanupRemote($remote))->getId();
 				}
 				// if the owner of the share and the initiator are the same user
 				// we also complete the federated share ID for the initiator
@@ -424,7 +431,7 @@ class RequestHandlerController extends OCSController {
 
 			$remote = $this->cleanupRemote($share['remote']);
 
-			$owner = $share['owner'] . '@' . $remote;
+			$owner = $this->cloudIdManager->getCloudId($share['owner'], $remote);
 			$mountpoint = $share['mountpoint'];
 			$user = $share['user'];
 

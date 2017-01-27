@@ -35,6 +35,7 @@ use OCA\Files_Sharing\External\Manager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Federation\ICloudIdManager;
 use OCP\Files\StorageInvalidException;
 use OCP\Http\Client\IClientService;
 use OCP\IL10N;
@@ -74,6 +75,9 @@ class MountPublicLinkController extends Controller {
 	/** @var IClientService */
 	private $clientService;
 
+	/** @var ICloudIdManager  */
+	private $cloudIdManager;
+
 	/**
 	 * MountPublicLinkController constructor.
 	 *
@@ -86,6 +90,7 @@ class MountPublicLinkController extends Controller {
 	 * @param IL10N $l
 	 * @param IUserSession $userSession
 	 * @param IClientService $clientService
+	 * @param ICloudIdManager $cloudIdManager
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -95,7 +100,8 @@ class MountPublicLinkController extends Controller {
 								ISession $session,
 								IL10N $l,
 								IUserSession $userSession,
-								IClientService $clientService
+								IClientService $clientService,
+								ICloudIdManager $cloudIdManager
 	) {
 		parent::__construct($appName, $request);
 
@@ -106,6 +112,7 @@ class MountPublicLinkController extends Controller {
 		$this->l = $l;
 		$this->userSession = $userSession;
 		$this->clientService = $clientService;
+		$this->cloudIdManager = $cloudIdManager;
 	}
 
 	/**
@@ -177,7 +184,7 @@ class MountPublicLinkController extends Controller {
 			return new JSONResponse(['message' => $this->l->t('Server to server sharing is not enabled on this server')], Http::STATUS_BAD_REQUEST);
 		}
 
-		$shareWith = $this->userSession->getUser()->getUID() . '@' . $this->addressHandler->generateRemoteURL();
+		$cloudId = $this->cloudIdManager->getCloudId($this->userSession->getUser()->getUID(), $this->addressHandler->generateRemoteURL());
 
 		$httpClient = $this->clientService->newClient();
 
@@ -187,7 +194,7 @@ class MountPublicLinkController extends Controller {
 					'body' =>
 						[
 							'token' => $token,
-							'shareWith' => rtrim($shareWith, '/'),
+							'shareWith' => rtrim($cloudId->getId(), '/'),
 							'password' => $password
 						],
 					'connect_timeout' => 10,

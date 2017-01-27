@@ -96,7 +96,8 @@ class ProviderFactory implements IProviderFactory {
 			$l = $this->serverContainer->getL10N('federatedfilessharing');
 			$addressHandler = new AddressHandler(
 				$this->serverContainer->getURLGenerator(),
-				$l
+				$l,
+				$this->serverContainer->getCloudIdManager()
 			);
 			$discoveryManager = new DiscoveryManager(
 				$this->serverContainer->getMemCacheFactory(),
@@ -121,7 +122,8 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getLogger(),
 				$this->serverContainer->getLazyRootFolder(),
 				$this->serverContainer->getConfig(),
-				$this->serverContainer->getUserManager()
+				$this->serverContainer->getUserManager(),
+				$this->serverContainer->getCloudIdManager()
 			);
 		}
 

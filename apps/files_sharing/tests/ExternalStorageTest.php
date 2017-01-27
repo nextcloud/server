@@ -25,6 +25,7 @@
  */
 
 namespace OCA\Files_Sharing\Tests;
+use OC\Federation\CloudId;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
@@ -90,6 +91,7 @@ class ExternalStorageTest extends \Test\TestCase {
 
 		return new TestSharingExternalStorage(
 			array(
+				'cloudId' => new CloudId('testOwner@' . $uri, 'testOwner', $uri),
 				'remote' => $uri,
 				'owner' => 'testOwner',
 				'mountpoint' => 'remoteshare',

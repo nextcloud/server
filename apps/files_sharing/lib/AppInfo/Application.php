@@ -145,7 +145,8 @@ class Application extends App {
 				$server->getDatabaseConnection(),
 				function() use ($c) {
 					return $c->query('ExternalManager');
-				}
+				},
+				$server->getCloudIdManager()
 			);
 		});
 
