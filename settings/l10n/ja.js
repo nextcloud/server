@@ -122,6 +122,8 @@ OC.L10N.register(
     "undo" : "元に戻す",
     "never" : "なし",
     "deleted {userName}" : "{userName} を削除しました",
+    "Unable to add user to group {group}" : "ユーザーを {group} グループに追加できません",
+    "Unable to remove user from group {group}" : "ユーザーを {group} グループから削除できません",
     "Add group" : "グループを追加する",
     "Invalid quota value \"{val}\"" : "クオータ値 \"{val}\" は不正な値です。",
     "no group" : "グループなし",

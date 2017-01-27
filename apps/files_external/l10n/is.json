@@ -23,6 +23,7 @@
     "Save" : "Vista",
     "Empty response from the server" : "Tómt svar frá þjóni móttekið",
     "Couldn't access. Please logout and login to activate this mount point" : "Náði ekki aðgangi. Skráðu þig út og svo aftur inn til að virkja þennan tengipunkt",
+    "Couldn't get the information from the remote server: {code} {type}" : "Gat ekki lesið upplýsingar frá fjartengda þjóninum: {code} {type}",
     "Couldn't get the list of external mount points: {type}" : "Gat ekki fengið lista yfir fjartengda tengipunkta: {type}",
     "There was an error with message: " : "Það kom upp villa með skilaboðunum: ",
     "External mount error" : "Villa við tengingu í fjartengdu skráakerfi",
