@@ -768,6 +768,10 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		return [
 			[true, 60, 60],
 			[true, '60', 60],
+			[true, '60.3', 600],
+			[true, 60.3, 600],
+			[true, '60f', 600],
+			[true, true, 600],
 			[true, 'foo', 600],
 			[false, 60, 600],
 		];
