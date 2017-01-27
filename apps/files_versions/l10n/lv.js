@@ -4,7 +4,9 @@ OC.L10N.register(
     "Could not revert: %s" : "Nevarēja atgriezt — %s",
     "Versions" : "Versijas",
     "Failed to revert {file} to revision {timestamp}." : "Neizdevās atjaunot {file} no rediģējuma {timestamp} ",
+    "_%n byte_::_%n bytes_" : ["%n baiti","%n baiti","%n baiti"],
     "Restore" : "Atjaunot",
+    "No versions available" : "Nav versijas",
     "More versions..." : "Vairāk versiju...",
     "No other versions available" : "Citas versijas nav pieejamas"
 },
