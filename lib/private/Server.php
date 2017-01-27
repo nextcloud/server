@@ -377,7 +377,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$version = implode(',', $v);
 				$instanceId = \OC_Util::getInstanceId();
 				$path = \OC::$SERVERROOT;
-				$prefix = md5($instanceId . '-' . $version . '-' . $path);
+				$prefix = md5($instanceId . '-' . $version . '-' . $path . '-' . \OC::$WEBROOT);
 				return new \OC\Memcache\Factory($prefix, $c->getLogger(),
 					$config->getSystemValue('memcache.local', null),
 					$config->getSystemValue('memcache.distributed', null),
