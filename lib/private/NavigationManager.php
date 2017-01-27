@@ -26,6 +26,7 @@
 
 namespace OC;
 
+use OC\App\AppManager;
 use OCP\App\IAppManager;
 use OCP\IGroupManager;
 use OCP\INavigationManager;
@@ -43,7 +44,7 @@ class NavigationManager implements INavigationManager {
 	protected $activeEntry;
 	/** @var bool */
 	protected $init = false;
-	/** @var IAppManager */
+	/** @var IAppManager|AppManager */
 	protected $appManager;
 	/** @var IURLGenerator */
 	private $urlGenerator;
@@ -54,7 +55,7 @@ class NavigationManager implements INavigationManager {
 	/** @var IGroupManager */
 	private $groupManager;
 
-	function __construct(IAppManager $appManager = null,
+	public function __construct(IAppManager $appManager = null,
 						 IURLGenerator $urlGenerator = null,
 						 IFactory $l10nFac = null,
 						 IUserSession $userSession = null,
@@ -143,6 +144,9 @@ class NavigationManager implements INavigationManager {
 				continue;
 			}
 			$nav = $info['navigation'];
+			if (!isset($nav['name'])) {
+				continue;
+			}
 			if (!isset($nav['route'])) {
 				continue;
 			}
@@ -153,7 +157,6 @@ class NavigationManager implements INavigationManager {
 			$l = $this->l10nFac->get($app);
 			$order = isset($nav['order']) ? $nav['order'] : 100;
 			$route = $this->urlGenerator->linkToRoute($nav['route']);
-			$name = isset($nav['name']) ? $nav['name'] : ucfirst($app);
 			$icon = isset($nav['icon']) ? $nav['icon'] : 'app.svg';
 			foreach ([$icon, "$app.svg"] as $i) {
 				try {
@@ -172,7 +175,7 @@ class NavigationManager implements INavigationManager {
 				'order' => $order,
 				'href' => $route,
 				'icon' => $icon,
-				'name' => $l->t($name),
+				'name' => $l->t($nav['name']),
 			]);
 		}
 	}

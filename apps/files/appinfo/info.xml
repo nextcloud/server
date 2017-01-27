@@ -55,6 +55,7 @@
 	</commands>
 
 	<navigation>
+		<name>Files</name>
 		<route>files.view.index</route>
 		<order>0</order>
 	</navigation>

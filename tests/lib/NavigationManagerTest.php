@@ -12,6 +12,7 @@
 
 namespace Test;
 
+use OC\App\AppManager;
 use OC\NavigationManager;
 use OCP\App\IAppManager;
 use OCP\IGroupManager;
@@ -170,7 +171,7 @@ class NavigationManagerTest extends TestCase {
 	 */
 	public function testWithAppManager($expected, $config, $isAdmin = false) {
 
-		$appManager = $this->createMock(IAppManager::class);
+		$appManager = $this->createMock(AppManager::class);
 		$urlGenerator = $this->createMock(IURLGenerator::class);
 		$l10nFac = $this->createMock(IFactory::class);
 		$userSession = $this->createMock(IUserSession::class);
@@ -209,7 +210,7 @@ class NavigationManagerTest extends TestCase {
 				'icon' => '/apps/test/img/app.svg',
 				'name' => 'Test',
 				'active' => false
-			]], ['navigation' => ['route' => 'test.page.index']]],
+			]], ['navigation' => ['route' => 'test.page.index', 'name' => 'Test']]],
 			'no admin' => [[[
 				'id' => 'test',
 				'order' => 100,
@@ -217,8 +218,9 @@ class NavigationManagerTest extends TestCase {
 				'icon' => '/apps/test/img/app.svg',
 				'name' => 'Test',
 				'active' => false
-			]], ['navigation' => ['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index']], true],
-			'admin' => [[], ['navigation' => ['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index']]]
+			]], ['navigation' => ['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index', 'name' => 'Test']], true],
+			'no name' => [[], ['navigation' => ['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index']], true],
+			'admin' => [[], ['navigation' => ['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index', 'name' => 'Test']]]
 		];
 	}
 }
