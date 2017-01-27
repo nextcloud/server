@@ -107,6 +107,8 @@ class CallbackWrapper extends Wrapper {
 		$result = parent::stream_close();
 		if (is_callable($this->closeCallback)) {
 			call_user_func($this->closeCallback);
+			// prevent further calls by potential PHP 7 GC ghosts
+			$this->closeCallback = null;
 		}
 		return $result;
 	}
