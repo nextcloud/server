@@ -116,7 +116,9 @@ class File {
 		);
 		$entry = json_encode($entry);
 		$handle = @fopen(self::$logFile, 'a');
-		@chmod(self::$logFile, 0640);
+		if ((fileperms(self::$logFile) & 0777) != 0640) {
+			@chmod(self::$logFile, 0640);
+		}
 		if ($handle) {
 			fwrite($handle, $entry."\n");
 			fclose($handle);
