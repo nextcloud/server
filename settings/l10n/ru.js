@@ -25,6 +25,7 @@ OC.L10N.register(
     "You need to set your user email before being able to send test emails." : "Вы должны настроить свой адрес электронной почты прежде чем отправлять тестовые сообщения.",
     "Invalid request" : "Неправильный запрос",
     "Invalid mail address" : "Некорректный адрес электронной почты",
+    "No valid group selected" : "Не выбрана верная группа",
     "A user with that name already exists." : "Пользователь с таким именем уже существует.",
     "Unable to create user." : "Невозможно создать пользователя.",
     "Your %s account was created" : "Учетная запись %s создана",

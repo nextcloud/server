@@ -1,7 +1,6 @@
 { "translations": {
     "Storage invalid" : "Storage invalid",
     "Unknown error" : "Unknown error",
-    "Files" : "Files",
     "All files" : "All files",
     "File could not be found" : "File could not be found",
     "Home" : "Home",
@@ -20,6 +19,7 @@
     "Delete" : "Delete",
     "Disconnect storage" : "Disconnect storage",
     "Unshare" : "Unshare",
+    "Files" : "Files",
     "Details" : "Details",
     "Select" : "Select",
     "Pending" : "Pending",

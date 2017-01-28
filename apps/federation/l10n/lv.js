@@ -1,0 +1,16 @@
+OC.L10N.register(
+    "federation",
+    {
+    "Added to the list of trusted servers" : "Sarakstam pievieno uzticamo serveri",
+    "Server is already in the list of trusted servers." : "Serveris jau ir uzticamo serveru sarakstā .",
+    "No server to federate with found" : "Nav atrasts neviens serveris",
+    "Federation" : "Federācija",
+    "Trusted servers" : "Uzticami serveri",
+    "+ Add trusted server" : "+ pievietot uzticamiem serveriem",
+    "Trusted server" : "Uzticams serveris",
+    "Add" : "Pievienot",
+    "Trusted Servers" : "Uzticami serveri",
+    "+ Add Nextcloud server" : "+ pievienot Nextcloud serveri",
+    "Nextcloud Server" : "Nextcloud Serveris"
+},
+"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");
