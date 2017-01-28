@@ -95,7 +95,7 @@
     "Wrong share ID, share doesn't exist" : "Mauvais ID de partage, le partage n'existe pas",
     "could not delete share" : "impossible de supprimer le partage",
     "Could not delete share" : "Impossible de supprimer le partage",
-    "Please specify a file or folder path" : "Veuillez spécifier un fichier ou dossier",
+    "Please specify a file or folder path" : "Veuillez indiquer un fichier ou un chemin",
     "Wrong path, file/folder doesn't exist" : "Mauvais chemin, Le fichier/dossier n'existe pas",
     "Could not create share" : "Impossible de créer le partage",
     "invalid permissions" : "permissions invalides",

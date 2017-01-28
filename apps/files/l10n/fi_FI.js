@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Storage invalid" : "Virheellinen tallennustila",
     "Unknown error" : "Tuntematon virhe",
-    "Files" : "Tiedostot",
     "All files" : "Kaikki tiedostot",
     "Recent" : "Viimeaikaiset",
     "File could not be found" : "TIedostoa ei löytynyt",
@@ -23,6 +22,7 @@ OC.L10N.register(
     "Delete" : "Poista",
     "Disconnect storage" : "Katkaise yhteys tallennustilaan",
     "Unshare" : "Peru jakaminen",
+    "Files" : "Tiedostot",
     "Details" : "Tiedot",
     "Select" : "Valitse",
     "Pending" : "Odottaa",

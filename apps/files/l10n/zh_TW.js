@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Storage invalid" : "無效的儲存空間",
     "Unknown error" : "未知的錯誤",
-    "Files" : "檔案",
     "All files" : "所有檔案",
     "Recent" : "近期",
     "File could not be found" : "找不到檔案",
@@ -23,6 +22,7 @@ OC.L10N.register(
     "Delete" : "刪除",
     "Disconnect storage" : "斷開儲存空間連接",
     "Unshare" : "取消分享",
+    "Files" : "檔案",
     "Details" : "詳細資料",
     "Select" : "選擇",
     "Pending" : "等候中",

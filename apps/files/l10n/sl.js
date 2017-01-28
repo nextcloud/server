@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Storage invalid" : "Določen prostor ni veljaven",
     "Unknown error" : "Neznana napaka",
-    "Files" : "Datoteke",
     "All files" : "Vse datoteke",
     "Recent" : "Nedavno",
     "File could not be found" : "Datoteke ne najdem",
@@ -23,6 +22,7 @@ OC.L10N.register(
     "Delete" : "Izbriši",
     "Disconnect storage" : "Odklopi shrambo",
     "Unshare" : "Prekini souporabo",
+    "Files" : "Datoteke",
     "Details" : "Podrobnosti",
     "Select" : "Izberi",
     "Pending" : "V čakanju ...",

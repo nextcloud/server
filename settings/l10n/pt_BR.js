@@ -25,6 +25,7 @@ OC.L10N.register(
     "You need to set your user email before being able to send test emails." : "Você precisa configurar seu e-mail de usuário antes de ser capaz de enviar e-mails de teste.",
     "Invalid request" : "Pedido inválido",
     "Invalid mail address" : "Endereço de e-mail inválido",
+    "No valid group selected" : "Nenhum grupo válido foi selecionado",
     "A user with that name already exists." : "Um usuário com esse nome já existe.",
     "Unable to create user." : "Não é possível criar usuário.",
     "Your %s account was created" : "Sua conta %s foi criada",

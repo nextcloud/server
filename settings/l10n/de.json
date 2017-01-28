@@ -23,6 +23,7 @@
     "You need to set your user email before being able to send test emails." : "Zunächst muss die Benutzer-E-Mail-Adresse angegeben werden, bevor Test-E-Mails verschickt werden können.",
     "Invalid request" : "Fehlerhafte Anfrage",
     "Invalid mail address" : "Ungültige E-Mail-Adresse",
+    "No valid group selected" : "Keine gültige Gruppe ausgewählt",
     "A user with that name already exists." : "Ein Benutzer mit diesem Namen existiert bereits.",
     "Unable to create user." : "Benutzer konnte nicht erstellt werden.",
     "Your %s account was created" : "Dein %s-Konto wurde erstellt",
