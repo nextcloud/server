@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Storage invalid" : "Ógild geymsla",
     "Unknown error" : "Óþekkt villa",
-    "Files" : "Skrár",
     "All files" : "Allar skrár",
     "Recent" : "Nýlegt",
     "File could not be found" : "Skrá finnst ekki",
@@ -23,6 +22,7 @@ OC.L10N.register(
     "Delete" : "Eyða",
     "Disconnect storage" : "Aftengja geymslu",
     "Unshare" : "Hætta deilingu",
+    "Files" : "Skrár",
     "Details" : "Nánar",
     "Select" : "Velja",
     "Pending" : "Í bið",

@@ -1,7 +1,6 @@
 { "translations": {
     "Storage invalid" : "Virheellinen tallennustila",
     "Unknown error" : "Tuntematon virhe",
-    "Files" : "Tiedostot",
     "All files" : "Kaikki tiedostot",
     "Recent" : "Viimeaikaiset",
     "File could not be found" : "TIedostoa ei löytynyt",
@@ -21,6 +20,7 @@
     "Delete" : "Poista",
     "Disconnect storage" : "Katkaise yhteys tallennustilaan",
     "Unshare" : "Peru jakaminen",
+    "Files" : "Tiedostot",
     "Details" : "Tiedot",
     "Select" : "Valitse",
     "Pending" : "Odottaa",

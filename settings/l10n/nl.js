@@ -25,6 +25,7 @@ OC.L10N.register(
     "You need to set your user email before being able to send test emails." : "Je moet je e-mailadres invoeren voordat je testberichten kunt versturen.",
     "Invalid request" : "Ongeldige aanvraag",
     "Invalid mail address" : "Ongeldig e-mailadres",
+    "No valid group selected" : "Geen geldige groep geselecteerd",
     "A user with that name already exists." : "Er bestaat al een gebruiker met die naam.",
     "Unable to create user." : "Kan gebruiker niet aanmaken.",
     "Your %s account was created" : "Je %s account is aangemaakt",

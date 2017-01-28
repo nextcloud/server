@@ -1,7 +1,6 @@
 { "translations": {
     "Storage invalid" : "Ógild geymsla",
     "Unknown error" : "Óþekkt villa",
-    "Files" : "Skrár",
     "All files" : "Allar skrár",
     "Recent" : "Nýlegt",
     "File could not be found" : "Skrá finnst ekki",
@@ -21,6 +20,7 @@
     "Delete" : "Eyða",
     "Disconnect storage" : "Aftengja geymslu",
     "Unshare" : "Hætta deilingu",
+    "Files" : "Skrár",
     "Details" : "Nánar",
     "Select" : "Velja",
     "Pending" : "Í bið",
