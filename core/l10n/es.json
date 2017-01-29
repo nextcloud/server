@@ -39,7 +39,7 @@
     "Reset log level" : "Restablecer el nivel de registro",
     "Starting code integrity check" : "Comenzando comprobación de integridad de código",
     "Finished code integrity check" : "Terminando comprobación de integridad de código",
-    "%s (3rdparty)" : "%s (tercer parte)",
+    "%s (3rdparty)" : "%s (tercero)",
     "%s (incompatible)" : "%s (incompatible)",
     "Following apps have been disabled: %s" : "Siguiendo aplicaciones ha sido deshabilitado: %s",
     "Already up to date" : "Ya actualizado",
