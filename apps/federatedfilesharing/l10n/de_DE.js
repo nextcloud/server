@@ -45,7 +45,7 @@ OC.L10N.register(
     "Federated Cloud" : "Federated Cloud",
     "Your Federated Cloud ID:" : "Ihre Federated-Cloud-ID:",
     "Share it:" : "Zum Teilen:",
-    "Add to your website" : "Zu Ihrer Website hinzufügen",
+    "Add to your website" : "Zu Ihrer Web-Seite hinzufügen",
     "Share with me via Nextcloud" : "Teilen Sie mit mir über Nextcloud",
     "HTML Code:" : "HTML-Code:",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Die Freigabe von %s ist fehlgeschlagen, da %s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar.",

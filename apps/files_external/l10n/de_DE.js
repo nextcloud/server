@@ -52,7 +52,7 @@ OC.L10N.register(
     "Storage with id \"%i\" is not user editable" : "Der Speicher mit der ID „%i“ ist nicht bearbeitbar durch Benutzer",
     "Access key" : "Zugangsschlüssel",
     "Secret key" : "geheimer Schlüssel",
-    "Builtin" : "Builtin",
+    "Builtin" : "Eingebaut",
     "None" : "Keine",
     "OAuth1" : "OAuth1",
     "App key" : "App-Schlüssel",
