@@ -258,6 +258,31 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
+	 * Checks whether the return value from LDAP is wrong or not.
+	 *
+	 * When using ldap_search we provide an array, in case multiple bases are
+	 * configured. Thus, we need to check the array elements.
+	 *
+	 * @param $result
+	 * @return bool
+	 */
+	protected function isResultFalse($result) {
+		if($result === false) {
+			return true;
+		}
+
+		if($this->curFunc === 'ldap_search' && is_array($result)) {
+			foreach ($result as $singleResult) {
+				if($singleResult === false) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * @return mixed
 	 */
 	protected function invokeLDAPMethod() {
@@ -266,7 +291,7 @@ class LDAP implements ILDAPWrapper {
 		if(function_exists($func)) {
 			$this->preFunctionCall($func, $arguments);
 			$result = call_user_func_array($func, $arguments);
-			if ($result === FALSE) {
+			if ($this->isResultFalse($result)) {
 				$this->postFunctionCall();
 			}
 			return $result;
@@ -283,37 +308,66 @@ class LDAP implements ILDAPWrapper {
 		$this->curArgs = $args;
 	}
 
+	/**
+	 * Analyzes the returned LDAP error and acts accordingly if not 0
+	 *
+	 * @param resource $resource the LDAP Connection resource
+	 * @throws ConstraintViolationException
+	 * @throws ServerNotAvailableException
+	 * @throws \Exception
+	 */
+	private function processLDAPError($resource) {
+		$errorCode = ldap_errno($resource);
+		if($errorCode === 0) {
+			return;
+		}
+		$errorMsg  = ldap_error($resource);
+
+		if($this->curFunc === 'ldap_get_entries'
+			&& $errorCode === -4) {
+		} else if ($errorCode === 32) {
+			//for now
+		} else if ($errorCode === 10) {
+			//referrals, we switch them off, but then there is AD :)
+		} else if ($errorCode === -1) {
+			throw new ServerNotAvailableException('Lost connection to LDAP server.');
+		} else if ($errorCode === 48) {
+			throw new \Exception('LDAP authentication method rejected', $errorCode);
+		} else if ($errorCode === 1) {
+			throw new \Exception('LDAP Operations error', $errorCode);
+		} else if ($errorCode === 19) {
+			ldap_get_option($this->curArgs[0], LDAP_OPT_ERROR_STRING, $extended_error);
+			throw new ConstraintViolationException(!empty($extended_error)?$extended_error:$errorMsg, $errorCode);
+		} else {
+			\OCP\Util::writeLog('user_ldap',
+				'LDAP error '.$errorMsg.' (' .
+				$errorCode.') after calling '.
+				$this->curFunc,
+				\OCP\Util::DEBUG);
+		}
+	}
+
+	/**
+	 * Called after an ldap method is run to act on LDAP error if necessary
+	 */
 	private function postFunctionCall() {
 		if($this->isResource($this->curArgs[0])) {
-			$errorCode = ldap_errno($this->curArgs[0]);
-			$errorMsg  = ldap_error($this->curArgs[0]);
-			if($errorCode !== 0) {
-				if($this->curFunc === 'ldap_get_entries'
-						  && $errorCode === -4) {
-				} else if ($errorCode === 32) {
-					//for now
-				} else if ($errorCode === 10) {
-					//referrals, we switch them off, but then there is AD :)
-				} else if ($errorCode === -1) {
-					throw new ServerNotAvailableException('Lost connection to LDAP server.');
-				} else if ($errorCode === 48) {
-					throw new \Exception('LDAP authentication method rejected', $errorCode);
-				} else if ($errorCode === 1) {
-					throw new \Exception('LDAP Operations error', $errorCode);
-				} else if ($errorCode === 19) {
-					ldap_get_option($this->curArgs[0], LDAP_OPT_ERROR_STRING, $extended_error);
-					throw new ConstraintViolationException(!empty($extended_error)?$extended_error:$errorMsg, $errorCode);
-				} else {
-					\OCP\Util::writeLog('user_ldap',
-										'LDAP error '.$errorMsg.' (' .
-											$errorCode.') after calling '.
-											$this->curFunc,
-										\OCP\Util::DEBUG);
-				}
-			}
+			$resource = $this->curArgs[0];
+		} else if(
+			   $this->curFunc === 'ldap_search'
+			&& is_array($this->curArgs[0])
+			&& $this->isResource($this->curArgs[0][0])
+		) {
+			// we use always the same LDAP connection resource, is enough to
+			// take the first one.
+			$resource = $this->curArgs[0][0];
+		} else {
+			return;
 		}
 
+		$this->processLDAPError($resource);
+
 		$this->curFunc = '';
-		$this->curArgs = array();
+		$this->curArgs = [];
 	}
 }
