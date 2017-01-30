@@ -50,7 +50,7 @@ OC.L10N.register(
     "Official" : "Offiziell",
     "All" : "Alle",
     "Update to %s" : "Aktualisierung auf %s",
-    "_You have %n app update pending_::_You have %n app updates pending_" : ["Sie haben %n Aktualisierung verfügbar","Es sind %n App-Aktualisierungen für Sie verfügbar"],
+    "_You have %n app update pending_::_You have %n app updates pending_" : ["Es ist %n App-Aktualisierung verfügbar","Es sind %n App-Aktualisierungen verfügbar"],
     "No apps found for your version" : "Es wurden keine Apps für Ihre Version gefunden",
     "The app will be downloaded from the app store" : "Die App wird aus dem App-Store heruntergeladen",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Offizielle Apps werden von und innerhalb der Community entwickelt. Sie stellen die zentralen Funktionen bereit und sind für den produktiven Einsatz geeignet.",
