@@ -128,7 +128,7 @@ class Util {
 		} catch (AppPathNotFoundException $e) {}
 
 		if($this->config->getAppValue('theming', 'logoMime', '') !== '' && $this->rootFolder->nodeExists('/themedinstancelogo')) {
-			return $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/') . '/themedinstancelogo';
+			return $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/themedinstancelogo';
 		}
 		return \OC::$SERVERROOT . '/core/img/logo.svg';
 	}
