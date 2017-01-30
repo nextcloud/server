@@ -311,13 +311,17 @@ abstract class TestCase extends TestCasePhpUnitCompatibility {
 	 * @param string $dataDir
 	 */
 	static protected function tearDownAfterClassCleanStrayDataFiles($dataDir) {
-		$knownEntries = array(
+		$knownEntries = [
 			'nextcloud.log' => true,
 			'owncloud.db' => true,
 			'.ocdata' => true,
 			'..' => true,
 			'.' => true,
-		);
+		];
+		$instanceId = \OC::$server->getSystemConfig()->getValue('instanceid', null);
+		if (!is_null($instanceId)) {
+			$knownEntries['appdata_' . $instanceId] = true;
+		}
 
 		if ($dh = opendir($dataDir)) {
 			while (($file = readdir($dh)) !== false) {
