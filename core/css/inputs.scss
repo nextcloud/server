@@ -265,16 +265,13 @@ input {
 		&.radio--white,
 		&.checkbox--white {
 			+ label:before {
-				border-color: #aaa;
+				border-color: #ddd;
 			}
 			&:not(:disabled):not(:checked) + label:hover:before,
 			&:focus + label:before {
 				border-color: #fff;
 			}
-			&:checked + label:before,
-			&.checkbox:indeterminate + label:before {
-			/* ^ :indeterminate have a strange behavior on radio,
-			so we respecified the checkbox class again to be safe */
+			&:checked + label:before {
 				box-shadow: inset 0px 0px 0px 2px #000;
 				background-color: #eee;
 				border-color: #eee
@@ -290,7 +287,10 @@ input {
 			}
 		}
 		&.checkbox--white {
-			&:checked + label:before {
+			&:checked + label:before,
+			&:indeterminate + label:before {
+				background-color: transparent !important; /* Override default checked */
+				border-color: #fff !important; /* Override default checked */
 				background-image: url('../img/actions/checkbox-mark-white.svg');
 			}
 			&:indeterminate + label:before {
