@@ -201,7 +201,7 @@
     "To run this you need the PHP posix extension. See {linkstart}PHP documentation{linkend} for more details." : "För att köra detta behöver du PHP posix tillägget. Se {linkstart}PHP dokumentationen{linkend} för ytterligare detaljer.",
     "Version" : "Version",
     "Sharing" : "Dela",
-    "Allow apps to use the Share API" : "Tillåt applikationer att använda delat API",
+    "Allow apps to use the Share API" : "Tillåt applikationer att använda API för delning",
     "Allow users to share via link" : "Tillåt användare att dela via länk",
     "Allow public uploads" : "Tillåt offentlig uppladdning",
     "Enforce password protection" : "Tillämpa lösenordskydd",
