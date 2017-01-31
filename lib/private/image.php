@@ -738,12 +738,12 @@ class OC_Image implements \OCP\IImage {
 						break;
 					case 8:
 						$color = @unpack('n', $vide . substr($data, $p, 1));
-						$color[1] = $palette[$color[1] + 1];
+						$color[1] = (isset($palette[$color[1] + 1])) ? $palette[$color[1] + 1] : $palette[1];
 						break;
 					case 4:
 						$color = @unpack('n', $vide . substr($data, floor($p), 1));
 						$color[1] = ($p * 2) % 2 == 0 ? $color[1] >> 4 : $color[1] & 0x0F;
-						$color[1] = $palette[$color[1] + 1];
+						$color[1] = (isset($palette[$color[1] + 1])) ? $palette[$color[1] + 1] : $palette[1];
 						break;
 					case 1:
 						$color = @unpack('n', $vide . substr($data, floor($p), 1));
@@ -773,7 +773,7 @@ class OC_Image implements \OCP\IImage {
 								$color[1] = ($color[1] & 0x1);
 								break;
 						}
-						$color[1] = $palette[$color[1] + 1];
+						$color[1] = (isset($palette[$color[1] + 1])) ? $palette[$color[1] + 1] : $palette[1];
 						break;
 					default:
 						fclose($fh);
