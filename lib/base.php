@@ -338,18 +338,10 @@ class OC {
 		$systemConfig = \OC::$server->getSystemConfig();
 
 		$disableWebUpdater = $systemConfig->getValue('upgrade.disable-web', false);
-		$tooBig = false;
 		if (!$disableWebUpdater) {
 			$apps = \OC::$server->getAppManager();
-			$tooBig = $apps->isInstalled('user_ldap') || $apps->isInstalled('user_shibboleth');
-			if (!$tooBig) {
-				// count users
-				$stats = \OC::$server->getUserManager()->countUsers();
-				$totalUsers = array_sum($stats);
-				$tooBig = ($totalUsers > 50);
-			}
 		}
-		if ($disableWebUpdater || $tooBig) {
+		if ($disableWebUpdater) {
 			// send http status 503
 			header('HTTP/1.1 503 Service Temporarily Unavailable');
 			header('Status: 503 Service Temporarily Unavailable');
@@ -361,7 +353,7 @@ class OC {
 			$template = new OC_Template('', 'update.use-cli', 'guest');
 			$template->assign('productName', 'nextcloud'); // for now
 			$template->assign('version', OC_Util::getVersionString());
-			$template->assign('tooBig', $tooBig);
+			$template->assign('tooBig', false);
 
 			$template->printPage();
 			die();
