@@ -902,7 +902,7 @@ class Trashbin {
 	 * @return integer size of the folder
 	 */
 	private static function calculateSize($view) {
-		$root = \OC::$server->getConfig()->getSystemValue('datadirectory') . $view->getAbsolutePath('');
+		$root = \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . $view->getAbsolutePath('');
 		if (!file_exists($root)) {
 			return 0;
 		}

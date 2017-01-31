@@ -62,12 +62,26 @@ em {
 	-ms-user-select: none;
 	user-select: none;
 	border-right: 1px solid #eee;
+	display: flex;
+	flex-direction: column;
 	> ul {
 		position: relative;
 		height: 100%;
 		width: inherit;
 		overflow: auto;
 		box-sizing: border-box;
+		> li {
+			&:focus,
+			&:hover,
+			&.active,
+			a.selected {
+				&,
+				> a {
+					opacity: 1;
+					box-shadow: inset 2px 0 #0082c9;
+				}
+			}
+		}
 	}
 	li {
 		position: relative;
@@ -103,16 +117,6 @@ em {
 		text-overflow: ellipsis;
 		color: #000;
 		opacity: .57;
-	}
-	li:hover > a,
-	li:focus > a,
-	a:focus,
-	.selected,
-	.selected a,
-	.active,
-	.active a {
-		opacity: 1;
-		box-shadow: inset 2px 0 #0082c9;
 	}
 	li > a:first-child img {
 	    margin-bottom: -3px;
@@ -559,7 +563,6 @@ em {
 	background-color: #fff;
 	color: #333;
 	border-radius: 3px;
-	border-top-right-radius: 0;
 	z-index: 110;
 	margin: 5px;
 	margin-top: -5px;
@@ -592,7 +595,6 @@ em {
 		transform: translateX(50%);
 		right: 50%;
 		margin-right: 0;
-		border-top-right-radius: 3px;
 		&:after {
 			right: 50%;
 			transform: translateX(50%);
@@ -603,8 +605,6 @@ em {
 		right: auto;
 		left: 0;
 		margin-right: 0;
-		border-top-left-radius: 0;
-		border-top-right-radius: 3px;
 		&:after {
 			left: 6px;
 			right: auto;
@@ -639,6 +639,7 @@ em {
 			margin: 0;
 			font-weight: inherit;
 			box-shadow: none;
+			color: #333 !important; /* Overwrite app-navigation li */
 			/* prevent .action class to break the design */
 			&.action {
 				padding: inherit !important;
@@ -653,15 +654,15 @@ em {
 				cursor: pointer;
 				white-space: nowrap;
 			}
+			span {
+				-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)' !important;
+				filter: alpha(opacity = 70) !important;
+				opacity: .7 !important;
+			}
 			> p {
 				width: 150px;
 				line-height: 1.6em;
 				padding: 8px 0;
-				> span {
-					-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)' !important;
-					filter: alpha(opacity = 70) !important;
-					opacity: .7 !important;
-				}
 			}
 			/* Add padding if contains icon+text */
 			&:not(:empty) {
@@ -680,7 +681,8 @@ em {
 			padding: 18px 0 18px 36px;
 			min-width: 0; /* Overwrite icons*/
 			min-height: 0;
-			background-position: 10px center
+			background-position: 10px center;
+			opacity: 0.7; /* Default button icon override */
 		}
 	}
 }

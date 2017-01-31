@@ -20,6 +20,21 @@
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
+
+	/* Dropdown menu arrow */
+	&.menu:after,
+	.menu:after {
+		border: 10px solid transparent;
+		border-color: transparent;
+		border-bottom-color: #fff;
+		bottom: 100%;
+		content: ' ';
+		height: 0;
+		width: 0;
+		position: absolute;
+		pointer-events: none;
+		margin-left: -10px;
+	}
 }
 
 /* removed until content-focusing issue is fixed */
@@ -194,21 +209,8 @@
 	border-top-right-radius: 0;
 	display: none;
 	box-sizing: border-box;
-	/*overflow-y: auto;
-	overflow-x: hidden;*/
 	z-index: 2000;
 	&:after {
-		bottom: 100%;
-		border: solid transparent;
-		content: ' ';
-		height: 0;
-		width: 0;
-		position: absolute;
-		pointer-events: none;
-		border-color: rgba(0, 0, 0, 0);
-		border-bottom-color: rgba(255, 255, 255, 0.97);
-		border-width: 10px;
-		margin-left: -10px;
 		left: 47%;
 	}
 	* {
@@ -381,16 +383,6 @@
 	&:after {
 		/* position of dropdown arrow */
 		right: 15px;
-		border: 10px solid transparent;
-		border-color: transparent;
-		border-bottom-color: #fff;
-		bottom: 100%;
-		content: ' ';
-		height: 0;
-		width: 0;
-		position: absolute;
-		pointer-events: none;
-		margin-left: -10px;
 	}
 	a {
 		display: block;

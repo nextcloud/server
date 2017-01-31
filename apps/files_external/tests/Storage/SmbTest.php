@@ -27,7 +27,10 @@
 
 namespace OCA\Files_External\Tests\Storage;
 
+use OC\Files\Notify\Change;
+use OC\Files\Notify\RenameChange;
 use \OCA\Files_External\Lib\Storage\SMB;
+use OCP\Files\Notify\IChange;
 
 /**
  * Class SmbTest
@@ -37,6 +40,10 @@ use \OCA\Files_External\Lib\Storage\SMB;
  * @package OCA\Files_External\Tests\Storage
  */
 class SmbTest extends \Test\Files\Storage\Storage {
+	/**
+	 * @var SMB instance
+	 */
+	protected $instance;
 
 	protected function setUp() {
 		parent::setUp();
@@ -84,5 +91,45 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		]);
 		$this->assertEquals('smb::testuser@testhost//someshare//someroot/', $this->instance->getId());
 		$this->instance = null;
+	}
+
+	public function testNotifyGetChanges() {
+		$notifyHandler = $this->instance->notify('');
+		usleep(100 * 1000); //give time for the notify to start
+		$this->instance->file_put_contents('/newfile.txt', 'test content');
+		$this->instance->rename('/newfile.txt', 'renamed.txt');
+		$this->instance->unlink('/renamed.txt');
+		usleep(100 * 1000); //time for all changes to be processed
+
+		$changes = $notifyHandler->getChanges();
+		$notifyHandler->stop();
+
+		$expected = [
+			new Change(IChange::ADDED, 'newfile.txt'),
+			new RenameChange(IChange::RENAMED, 'newfile.txt', 'renamed.txt'),
+			new Change(IChange::REMOVED, 'renamed.txt')
+		];
+
+		foreach ($expected as $expectedChange) {
+			$this->assertContains($expectedChange, $changes, '', false, false); // dont check object identity
+		}
+	}
+
+	public function testNotifyListen() {
+		$notifyHandler = $this->instance->notify('');
+		usleep(100 * 1000); //give time for the notify to start
+		$this->instance->file_put_contents('/newfile.txt', 'test content');
+		$this->instance->unlink('/newfile.txt');
+		usleep(100 * 1000); //time for all changes to be processed
+
+		$result = null;
+
+		// since the notify handler buffers untill we start listening we will get the above changes
+		$notifyHandler->listen(function (IChange $change) use (&$result) {
+			$result = $change;
+			return false;//stop listening
+		});
+
+		$this->assertEquals(new Change(IChange::ADDED, 'newfile.txt'), $result);
 	}
 }
