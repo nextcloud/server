@@ -46,6 +46,7 @@ use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Utility\TimeFactory;
+use OC\Authentication\LoginCredentials\Store;
 use OC\Command\AsyncBus;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\NullEventLogger;
@@ -89,6 +90,7 @@ use OC\Security\TrustedDomainHelper;
 use OC\Session\CryptoWrapper;
 use OC\Tagging\TagMapper;
 use OCA\Theming\ThemingDefaults;
+use OCP\Authentication\LoginCredentials\IStore;
 use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\RichObjectStrings\IValidator;
@@ -246,6 +248,17 @@ class Server extends ServerContainer implements IServerContainer {
 			});
 			return $groupManager;
 		});
+		$this->registerService(Store::class, function(Server $c) {
+			$session = $c->getSession();
+			if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
+				$tokenProvider = $c->query('OC\Authentication\Token\IProvider');
+			} else {
+				$tokenProvider = null;
+			}
+			$logger = $c->getLogger();
+			return new Store($session, $logger, $tokenProvider);
+		});
+		$this->registerAlias(IStore::class, Store::class);
 		$this->registerService('OC\Authentication\Token\DefaultTokenMapper', function (Server $c) {
 			$dbConnection = $c->getDatabaseConnection();
 			return new Authentication\Token\DefaultTokenMapper($dbConnection);
@@ -1000,7 +1013,8 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function setSession(\OCP\ISession $session) {
 		$this->query(SessionStorage::class)->setSession($session);
-		return $this->query('UserSession')->setSession($session);
+		$this->query('UserSession')->setSession($session);
+		$this->query(Store::class)->setSession($session);
 	}
 
 	/**

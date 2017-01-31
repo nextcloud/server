@@ -1002,27 +1002,6 @@ class OC_Util {
 	}
 
 	/**
-	 * Check if it is allowed to remember login.
-	 *
-	 * @note Every app can set 'rememberlogin' to 'false' to disable the remember login feature
-	 *
-	 * @return bool
-	 */
-	public static function rememberLoginAllowed() {
-
-		$apps = OC_App::getEnabledApps();
-
-		foreach ($apps as $app) {
-			$appInfo = OC_App::getAppInfo($app);
-			if (isset($appInfo['rememberlogin']) && $appInfo['rememberlogin'] === 'false') {
-				return false;
-			}
-
-		}
-		return true;
-	}
-
-	/**
 	 * Check if the user is a subadmin, redirects to home if not
 	 *
 	 * @return null|boolean $groups where the current user is subadmin
