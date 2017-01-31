@@ -11,6 +11,8 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "Radās kļūda, ģenerējot jūsu dublējuma kodus",
     "Nextcloud backup codes" : "Nextcloud dublēšanas kodi",
     "Two-factor authentication" : "Divpakāpju autentifikācija",
+    "You successfully logged in using two-factor authentication (%1$s)" : "Esat veiksmīgi pieteicies, izmantojot divpakāpju autentifikācija (%1$s)",
+    "You created two-factor backup codes for your account" : "Jūs izveidojāt divpakāpju dublējumu kodus savam kontam",
     "Backup code" : "Dublēšanas kods",
     "Use backup code" : "Izmantojiet dublēšanas kodu"
 },
