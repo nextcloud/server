@@ -988,3 +988,33 @@ Feature: sharing
     And Updating last share with
       | publicUpload | true |
     Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
+
+  Scenario: deleting file out of a share as recipient creates a backup for the owner
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And user "user0" created a folder "/shared"
+    And User "user0" moved file "/textfile0.txt" to "/shared/shared_file.txt"
+    And folder "/shared" of user "user0" is shared with user "user1"
+    When User "user1" deletes file "/shared/shared_file.txt"
+    Then as "user1" the file "/shared/shared_file.txt" does not exist
+    And as "user0" the file "/shared/shared_file.txt" does not exist
+    And as "user0" the file "/shared_file.txt" exists in trash
+    And as "user1" the file "/shared_file.txt" exists in trash
+
+  Scenario: deleting folder out of a share as recipient creates a backup for the owner
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And user "user0" created a folder "/shared"
+    And user "user0" created a folder "/shared/sub"
+    And User "user0" moved file "/textfile0.txt" to "/shared/sub/shared_file.txt"
+    And folder "/shared" of user "user0" is shared with user "user1"
+    When User "user1" deletes folder "/shared/sub"
+    Then as "user1" the folder "/shared/sub" does not exist
+    And as "user0" the folder "/shared/sub" does not exist
+    And as "user0" the folder "/sub" exists in trash
+    And as "user0" the file "/sub/shared_file.txt" exists in trash
+    And as "user1" the folder "/sub" exists in trash
+    And as "user1" the file "/sub/shared_file.txt" exists in trash

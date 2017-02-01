@@ -134,3 +134,16 @@ Feature: favorite
             | /subfolder/textfile0.txt |
             | /subfolder/textfile2.txt |
 
+    Scenario: moving a favorite file out of a share keeps favorite state
+        Given using old dav path
+        And As an "admin"
+        And user "user0" exists
+        And user "user1" exists
+        And user "user0" created a folder "/shared"
+        And User "user0" moved file "/textfile0.txt" to "/shared/shared_file.txt"
+        And folder "/shared" of user "user0" is shared with user "user1"
+        And user "user1" favorites element "/shared/shared_file.txt"
+        When User "user1" moved file "/shared/shared_file.txt" to "/taken_out.txt"
+        Then user "user1" in folder "/" should have favorited the following elements
+            | /taken_out.txt |
+
