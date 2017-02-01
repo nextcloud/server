@@ -254,7 +254,7 @@ class Database extends Backend implements IUserBackend {
 
 			$this->cache[$uid] = false;
 
-			while ($row = $result->fetchRow()) {
+			if ($row = $result->fetchRow()) {
 				$this->cache[$uid]['uid'] = $row['uid'];
 				$this->cache[$uid]['displayname'] = $row['displayname'];
 			}
