@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Please select a file." : "Izberite datoteko",
     "File is too big" : "Datoteka je prevelika",
+    "The selected file is not an image." : "Izbrana datoteka ni slika.",
+    "The selected file cannot be read." : "Izbrane datoteke ni mogoče prebrati.",
     "Invalid file provided" : "Predložena je neveljavna datoteka",
     "No image or file provided" : "Ni podane datoteke ali slike",
     "Unknown filetype" : "Neznana vrsta datoteke",

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files",
     {
+    "Storage is temporarily not available" : "Shramba trenutno ni na voljo",
     "Storage invalid" : "Določen prostor ni veljaven",
     "Unknown error" : "Neznana napaka",
     "All files" : "Vse datoteke",
@@ -13,6 +14,7 @@ OC.L10N.register(
     "Upload cancelled." : "Pošiljanje je preklicano.",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Ni mogoče poslati datoteke {filename}, saj je to ali mapa ali pa je velikost datoteke 0 bajtov.",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Na voljo ni dovolj prostora. Velikost poslane datoteke je {size1}, na voljo pa je je {size2}.",
+    "Not enough free space" : "Ni dovolj prostora",
     "Uploading..." : "Poteka pošiljanje ...",
     "..." : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} od {totalSize} ({bitrate})",
