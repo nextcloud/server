@@ -202,6 +202,7 @@ OC.L10N.register(
     "Name" : "Име",
     "Username" : "Потребител",
     "Done" : "Завършен",
+    "Subscribe to our newsletter!" : "Абонирайте се за нашата емисия!",
     "Show storage location" : "Покажи мястото на хранилището",
     "Show last log in" : "Покажи последно вписване",
     "Send email to new user" : "Изпращай писмо към нов потребител",
