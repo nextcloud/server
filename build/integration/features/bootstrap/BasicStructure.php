@@ -35,6 +35,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 trait BasicStructure {
 
 	use Auth;
+	use Trashbin;
 
 	/** @var string */
 	private $currentUser = '';
@@ -375,16 +376,6 @@ trait BasicStructure {
 	 */
 	public function fileIsCreatedInLocalStorageWithText($filename, $text) {
 		$this->createFileWithText("local_storage/$filename", $text);
-	}
-
-	/**
-	 * @When User :user empties trashbin
-	 * @param string $user
-	 */
-	public function emptyTrashbin($user) {
-		$body = new \Behat\Gherkin\Node\TableNode([['allfiles', 'true'], ['dir', '%2F']]);
-		$this->sendingToWithDirectUrl('POST', "/index.php/apps/files_trashbin/ajax/delete.php", $body);
-		$this->theHTTPStatusCodeShouldBe('200');
 	}
 
 	/**
