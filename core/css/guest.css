@@ -37,11 +37,8 @@ p.info a,
 	color: #fff;
 }
 #remember_login:hover+label,
-#remember_login:focus+label,
 #forgot-password:hover,
-#forgot-password:focus,
-p.info a:hover,
-p.info a:focus  {
+p.info a:hover {
 	opacity: .6;
 }
 em {
@@ -68,7 +65,7 @@ h3 {
 	padding-top: 100px;
 }
 #header .logo {
-	background-image: url(../img/logo-icon.svg?v=1);
+	background-image: url('../img/logo-icon.svg?v=1');
 	background-repeat: no-repeat;
 	background-size: 175px;
 	background-position: center;
@@ -180,113 +177,63 @@ button.primary {
 	color: #fff;
 }
 
-/* Radio and Checkbox */
-input[type="checkbox"].checkbox {
-	position: absolute;
+/* Checkboxes */
+input[type='checkbox'].checkbox {
+	height:1px;
 	left:-10000px;
-	top: auto;
-	width: 1px;
-	height: 1px;
-	overflow: hidden;
+	overflow:hidden;
+	position:absolute;
+	top:auto;
+	width:1px;
 }
-input[type="checkbox"].checkbox + label:before {
-	content: "";
-	display: inline-block;
-
-	height: 20px;
-	width: 20px;
-	vertical-align: middle;
-
-	background: url('../img/actions/checkbox.svg') left top no-repeat;
+input[type='checkbox'].checkbox + label {
+	user-select:none;
 }
-input[type="checkbox"].checkbox:disabled +label:before { opacity: .6; }
-input[type="checkbox"].checkbox.u-left +label:before { float: left; }
-input[type="checkbox"].checkbox.u-hidden + label:before { display: none; }
-input[type="checkbox"].checkbox:checked + label:before {
-	background-image: url('../img/actions/checkbox-checked.svg');
+input[type='checkbox'].checkbox:disabled + label,
+input[type='checkbox'].checkbox:disabled + label:before {
+	cursor:default;
 }
-input[type="checkbox"].checkbox:indeterminate + label:before {
-	background-image: url('../img/actions/checkbox-mixed.svg');
+input[type='checkbox'].checkbox + label:before {
+	background-position:center;
+	border:1px solid #888;
+	border-radius:1px;
+	content:'';
+	display:inline-block;
+	height:10px;
+	margin:3px;
+	margin-top:1px;
+	vertical-align:middle;
+	width:10px;
 }
-input[type="checkbox"].checkbox:disabled + label:before {
-	background-image: url('../img/actions/checkbox-disabled.svg');
+input[type='checkbox'].checkbox--white:not(:disabled):not(:checked) + label:hover:before,
+input[type='checkbox'].checkbox--white:focus + label:before {
+	border-color:#fff;
 }
-input[type="checkbox"].checkbox:checked:disabled + label:before {
-	background-image: url('../img/actions/checkbox-checked-disabled.svg');
+input[type='checkbox'].checkbox--white:checked + label:before,
+input[type='checkbox'].checkbox--white.checkbox:indeterminate + label:before {
+	border-color:#fff;
+	background-color: #eee;
 }
-input[type="checkbox"].checkbox:indeterminate:disabled + label:before {
-	background-image: url('../img/actions/checkbox-mixed-disabled.svg');
+input[type='checkbox'].checkbox--white:disabled + label:before {
+	background-color:#666;
+	border-color:#999;
 }
-input[type="checkbox"].checkbox--white + label:before {
-	background-image: url('../img/actions/checkbox-white.svg');
+input[type='checkbox'].checkbox--white:checked:disabled + label:before {
+	border-color:#666;
 }
-input[type="checkbox"].checkbox--white:checked + label:before {
-	background-image: url('../img/actions/checkbox-checked-white.svg');
+input[type='checkbox'].checkbox--white:checked + label:before {
+	background-image:url('../img/actions/checkbox-mark-white.svg');
 }
-input[type="checkbox"].checkbox--white:indeterminate + label:before {
-	background-image: url('../img/actions/checkbox-mixed-white.svg');
+input[type='checkbox'].checkbox--white:indeterminate + label:before {
+	background-image:url('../img/actions/checkbox-mixed-white.svg');
 }
-input[type="checkbox"].checkbox--white:disabled + label:before {
-	background-image: url('../img/actions/checkbox-disabled-white.svg');
+input[type='checkbox'].checkbox--white:indeterminate:disabled + label:after {
+	background-color:#aaa;
+	border-color:#888;
 }
-input[type="checkbox"].checkbox--white:checked:disabled + label:before {
-	background-image: url('../img/actions/checkbox-checked-disabled.svg');
-}
-input[type="checkbox"].checkbox--white:indeterminate:disabled + label:before {
-	background-image: url('../img/actions/checkbox-mixed-disabled.svg');
-}
-input[type="checkbox"].checkbox:hover+label:before, input[type="checkbox"]:focus+label:before {
-	color:#111 !important;
-}
-input[type="checkbox"]+label {
-	position: relative;
-	margin: 0;
-	padding: 14px;
-	vertical-align: middle;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
-
-input[type="radio"].radio {
-	position: absolute;
-	left:-10000px;
-	top: auto;
-	width: 1px;
-	height: 1px;
-	overflow: hidden;
-}
-input[type="radio"].radio + label:before {
-	content: "";
-	display: inline-block;
-
-	height: 20px;
-	width: 20px;
-	vertical-align: middle;
-
-	background: url('../img/actions/radio.svg') left top no-repeat;
-}
-input[type="radio"].radio:checked + label:before {
-	background-image: url('../img/actions/radio-checked.svg');
-}
-input[type="radio"].radio:disabled + label:before {
-	background-image: url('../img/actions/radio-disabled.svg');
-}
-input[type="radio"].radio:checked:disabled + label:before {
-	background-image: url('../img/actions/radio-checked-disabled.svg');
-}
-input[type="radio"].radio--white + label:before {
-	background-image: url('../img/actions/radio-white.svg');
-}
-input[type="radio"].radio--white:checked + label:before {
-	background-image: url('../img/actions/radio-checked-white.svg');
-}
-input[type="radio"].radio--white:disabled + label:before {
-	background-image: url('../img/actions/radio-disabled.svg');
-}
-input[type="radio"].radio--white:checked:disabled + label:before {
-	background-image: url('../img/actions/radio-checked-disabled.svg');
+input[type='checkbox'].checkbox--white + label:before,
+input[type='checkbox'].checkbox--white:checked:disabled + label:after {
+	border-color:#aaa;
 }
 
 /* keep the labels for screen readers but hide them since we use placeholders */
@@ -573,8 +520,15 @@ p.info {
 
 /* Icons */
 .icon-info-white {
-	background-image: url(../img/actions/info-white.svg?v=1);
+	background-image: url('../img/actions/info-white.svg?v=2');
 }
+.icon-confirm {
+	background-image: url('../img/actions/confirm.svg?v=2');
+}
+.icon-confirm-white {
+	background-image: url('../img/actions/confirm-white.svg?v=2');
+}
+
 
 /* Loading */
 .float-spinner {
