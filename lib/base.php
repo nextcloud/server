@@ -281,7 +281,6 @@ class OC {
 			// render error page
 			$template = new OC_Template('', 'update.user', 'guest');
 			OC_Util::addScript('maintenance-check');
-			OC_Util::addStyle('guest');
 			$template->printPage();
 			die();
 		}
@@ -355,8 +354,6 @@ class OC {
 			header('Status: 503 Service Temporarily Unavailable');
 			header('Retry-After: 120');
 
-			OC_Util::addStyle('guest');
-
 			// render error page
 			$template = new OC_Template('', 'update.use-cli', 'guest');
 			$template->assign('productName', 'nextcloud'); // for now
@@ -378,7 +375,6 @@ class OC {
 		$systemConfig->setValue('theme', '');
 		OC_Util::addScript('config'); // needed for web root
 		OC_Util::addScript('update');
-		OC_Util::addStyle('guest');
 
 		/** @var \OC\App\AppManager $appManager */
 		$appManager = \OC::$server->getAppManager();
