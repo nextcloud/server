@@ -215,7 +215,9 @@ class LoginController extends Controller {
 			return $this->generateRedirect($redirect_url);
 		}
 
-		$this->userManager->emit('\OC\User', 'preLogin', array($user, $password));
+		if ($this->manager instanceof PublicEmitter) {
+			$this->userManager->emit('\OC\User', 'preLogin', array($user, $password));
+		}
 
 		$originalUser = $user;
 		// TODO: Add all the insane error handling

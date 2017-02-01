@@ -319,7 +319,9 @@ class Session implements IUserSession, Emitter {
 								OC\Security\Bruteforce\Throttler $throttler) {
 		$currentDelay = $throttler->sleepDelay($request->getRemoteAddress());
 
-		$this->manager->emit('\OC\User', 'preLogin', array($user, $password));
+		if ($this->manager instanceof PublicEmitter) {
+			$this->manager->emit('\OC\User', 'preLogin', array($user, $password));
+		}
 
 		$isTokenPassword = $this->isTokenPassword($password);
 		if (!$isTokenPassword && $this->isTokenAuthEnforced()) {
