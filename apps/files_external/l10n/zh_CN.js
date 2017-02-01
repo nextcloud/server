@@ -116,7 +116,7 @@ OC.L10N.register(
     "Enable sharing" : "启用分享",
     "Check for changes" : "检查修改",
     "Never" : "从不",
-    "Once every direct access" : "每次直接访问",
+    "Once every direct access" : "每次访问时",
     "Folder name" : "目录名称",
     "Authentication" : "认证",
     "Configuration" : "配置",
