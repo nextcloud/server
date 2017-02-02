@@ -48,7 +48,7 @@ OC.L10N.register(
     "Official" : "Oficjalny",
     "All" : "Wszystkie",
     "Update to %s" : "Uaktualnij do %s",
-    "_You have %n app update pending_::_You have %n app updates pending_" : ["Masz %n oczekującą aktualizację aplikacji","Masz %n oczekujące aktualizacje aplikacji","Masz %n oczekujących aktualizacji aplikacji"],
+    "_You have %n app update pending_::_You have %n app updates pending_" : ["Masz %n oczekującą aktualizację aplikacji","Masz %n oczekujące aktualizacje aplikacji","Masz %n oczekujących aktualizacji aplikacji","Masz %n oczekujących aktualizacji aplikacji"],
     "No apps found for your version" : "Nie znaleziono aplikacji dla twojej wersji",
     "The app will be downloaded from the app store" : "Aplikacja zostanie pobrana z App Store",
     "Error while disabling app" : "Błąd podczas wyłączania aplikacji",
