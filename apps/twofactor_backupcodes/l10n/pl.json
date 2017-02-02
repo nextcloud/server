@@ -8,6 +8,10 @@
     "If you regenerate backup codes, you automatically invalidate old codes." : "Jeśli generujesz kody zapasowe ponownie, automatycznie unieważnia stare kody.",
     "An error occurred while generating your backup codes" : "Wystąpił błąd podczas generowania kodów zapasowych.",
     "Nextcloud backup codes" : "Kody zapasowe Nextcloud",
+    "Two-factor authentication" : "Uwierzytelnienie dwuetapowe",
+    "You successfully logged in using two-factor authentication (%1$s)" : "Zalogowałeś się z wykorzystaniem uwierzytelnienia dwuetapowego (%1$s)",
+    "A login attempt using two-factor authentication failed (%1$s)" : "Próba zalogowania się z użyciem uwierzytelnienia dwuetapowego nie udała się (%1$s)",
+    "You created two-factor backup codes for your account" : "Stworzyłeś zapasowe kody uwierzytelnienia dwuetapowego swojego konta",
     "Backup code" : "Kopia zapasowa kodów",
     "Use backup code" : "Użyj kodu zapasowego",
     "Second-factor backup codes" : "Druga opcja kodów zapasowych"

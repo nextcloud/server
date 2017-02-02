@@ -25,6 +25,7 @@ OC.L10N.register(
     "You need to set your user email before being able to send test emails." : "Pro možnost odeslání zkušebních emailů musíte nejprve nastavit svou emailovou adresu.",
     "Invalid request" : "Neplatný požadavek",
     "Invalid mail address" : "Neplatná emailová adresa",
+    "No valid group selected" : "Není vybrána platná skupina",
     "A user with that name already exists." : "Uživatel tohoto jména již existuje.",
     "Unable to create user." : "Nelze vytvořit uživatele.",
     "Your %s account was created" : "Účet %s byl vytvořen",

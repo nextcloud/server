@@ -11,9 +11,9 @@
     "Two-factor authentication" : "To-trinns bekreftelse",
     "You successfully logged in using two-factor authentication (%1$s)" : "Din innlogging med to-trinns bekreftelse var velykket (%1$s)",
     "A login attempt using two-factor authentication failed (%1$s)" : "En innlogging med to-trinns bekreftelse mislyktes (%1$s)",
-    "You created two-factor backup codes for your account" : "Du opprettet to-trinns bekreftelses sikkerhetskopi-koder",
+    "You created two-factor backup codes for your account" : "Du opprettet to-trinns bekreftelse sikkerhetskopi-koder",
     "Backup code" : "Sikkerhetskopi-kode",
     "Use backup code" : "Bruker sikkerhetskopi-kode",
-    "Second-factor backup codes" : "To-trinns bekreftelses sikkerhetskopi-koder"
+    "Second-factor backup codes" : "To-trinns bekreftelse sikkerhetskopi-koder"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
