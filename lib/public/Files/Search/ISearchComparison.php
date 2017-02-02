@@ -33,6 +33,7 @@ interface ISearchComparison extends ISearchOperator {
 	 * Get the type of comparison, one of the ISearchComparison::COMPARE_* constants
 	 *
 	 * @return string
+	 * @since 12.0.0
 	 */
 	public function getType();
 
@@ -42,6 +43,7 @@ interface ISearchComparison extends ISearchOperator {
 	 * i.e. 'size', 'name' or 'mimetype'
 	 *
 	 * @return string
+	 * @since 12.0.0
 	 */
 	public function getField();
 
@@ -49,6 +51,7 @@ interface ISearchComparison extends ISearchOperator {
 	 * Get the value to compare the field with
 	 *
 	 * @return string|integer|\DateTime
+	 * @since 12.0.0
 	 */
 	public function getValue();
 }

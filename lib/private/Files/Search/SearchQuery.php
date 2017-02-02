@@ -21,3 +21,60 @@
 
 namespace OC\Files\Search;
 
+use OCP\Files\Search\ISearchOperator;
+use OCP\Files\Search\ISearchOrder;
+use OCP\Files\Search\ISearchQuery;
+
+class SearchQuery implements ISearchQuery {
+	/** @var  ISearchOperator */
+	private $searchOperation;
+	/** @var  integer */
+	private $limit;
+	/** @var  integer */
+	private $offset;
+	/** @var  ISearchOrder[] */
+	private $order;
+
+	/**
+	 * SearchQuery constructor.
+	 *
+	 * @param ISearchOperator $searchOperation
+	 * @param int $limit
+	 * @param int $offset
+	 * @param array $order
+	 */
+	public function __construct(ISearchOperator $searchOperation, $limit, $offset, array $order) {
+		$this->searchOperation = $searchOperation;
+		$this->limit = $limit;
+		$this->offset = $offset;
+		$this->order = $order;
+	}
+
+	/**
+	 * @return ISearchOperator
+	 */
+	public function getSearchOperation() {
+		return $this->searchOperation;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getLimit() {
+		return $this->limit;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getOffset() {
+		return $this->offset;
+	}
+
+	/**
+	 * @return ISearchOrder[]
+	 */
+	public function getOrder() {
+		return $this->order;
+	}
+}

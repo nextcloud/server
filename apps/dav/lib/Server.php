@@ -51,6 +51,7 @@ use OCP\SabrePluginEvent;
 use Sabre\CardDAV\VCFExportPlugin;
 use Sabre\DAV\Auth\Plugin;
 use OCA\DAV\Connector\Sabre\TagsPlugin;
+use SearchDAV\DAV\SearchPlugin;
 
 class Server {
 
@@ -222,6 +223,13 @@ class Server {
 						\OC::$server->getGroupManager(),
 						$userFolder
 					));
+					$this->server->addPlugin(new SearchPlugin(new \OCA\DAV\Files\FileSearchBackend(
+						$this->server->tree,
+						$user,
+						\OC::$server->getRootFolder(),
+						\OC::$server->getShareManager(),
+						$view
+					)));
 				}
 			}
 		});

@@ -30,4 +30,28 @@ interface ISearchQuery {
 	 * @since 12.0.0
 	 */
 	public function getSearchOperation();
+
+	/**
+	 * Get the maximum number of results to return
+	 *
+	 * @return integer
+	 * @since 12.0.0
+	 */
+	public function getLimit();
+
+	/**
+	 * Get the offset for returned results
+	 *
+	 * @return integer
+	 * @since 12.0.0
+	 */
+	public function getOffset();
+
+	/**
+	 * The fields and directions to order by
+	 *
+	 * @return ISearchOrder[]
+	 * @since 12.0.0
+	 */
+	public function getOrder();
 }

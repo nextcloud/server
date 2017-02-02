@@ -21,6 +21,9 @@
 
 namespace OCP\Files\Search;
 
-interface ISearchCondition {
+/**
+ * @since 12.0.0
+ */
+interface ISearchOperator {
 
 }

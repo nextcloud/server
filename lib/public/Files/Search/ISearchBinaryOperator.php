@@ -21,6 +21,9 @@
 
 namespace OCP\Files\Search;
 
+/**
+ * @since 12.0.0
+ */
 interface ISearchBinaryOperator extends ISearchOperator {
 	const OPERATOR_AND = 'and';
 	const OPERATOR_OR = 'or';
@@ -32,6 +35,7 @@ interface ISearchBinaryOperator extends ISearchOperator {
 	 * One of the ISearchBinaryOperator::OPERATOR_* constants
 	 *
 	 * @return string
+	 * @since 12.0.0
 	 */
 	public function getType();
 
@@ -41,6 +45,7 @@ interface ISearchBinaryOperator extends ISearchOperator {
 	 * One argument for the 'not' operator and two for 'and' and 'or'
 	 *
 	 * @return ISearchOperator[]
+	 * @since 12.0.0
 	 */
 	public function getArguments();
 }

@@ -18,3 +18,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+namespace OC\Files\Search;
+
+use OCP\Files\Search\ISearchBinaryOperator;
+use OCP\Files\Search\ISearchOperator;
+
+class SearchBinaryOperator implements ISearchBinaryOperator {
+	/** @var string */
+	private $type;
+	/** @var ISearchOperator[] */
+	private $arguments;
+
+	/**
+	 * SearchBinaryOperator constructor.
+	 *
+	 * @param string $type
+	 * @param ISearchOperator[] $arguments
+	 */
+	public function __construct($type, array $arguments) {
+		$this->type = $type;
+		$this->arguments = $arguments;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getType() {
+		return $this->type;
+	}
+
+	/**
+	 * @return ISearchOperator[]
+	 */
+	public function getArguments() {
+		return $this->arguments;
+	}
+}

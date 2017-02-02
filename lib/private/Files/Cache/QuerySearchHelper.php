@@ -30,7 +30,7 @@ use OCP\Files\Search\ISearchOperator;
 /**
  * Tools for transforming search queries into database queries
  */
-class QuerySearchUtil {
+class QuerySearchHelper {
 	static protected $searchOperatorMap = [
 		ISearchComparison::COMPARE_LIKE => 'iLike',
 		ISearchComparison::COMPARE_EQUAL => 'eq',
@@ -73,9 +73,9 @@ class QuerySearchUtil {
 						throw new \InvalidArgumentException('Binary operators inside "not" is not supported');
 					}
 				case ISearchBinaryOperator::OPERATOR_AND:
-					return $expr->andX($this->searchOperatorToDBExpr($operator->getArguments()[0], $operator->getArguments()[1]));
+					return $expr->andX($this->searchOperatorToDBExpr($builder, $operator->getArguments()[0]), $this->searchOperatorToDBExpr($builder, $operator->getArguments()[1]));
 				case ISearchBinaryOperator::OPERATOR_OR:
-					return $expr->orX($this->searchOperatorToDBExpr($operator->getArguments()[0], $operator->getArguments()[1]));
+					return $expr->orX($this->searchOperatorToDBExpr($builder, $operator->getArguments()[0]), $this->searchOperatorToDBExpr($builder, $operator->getArguments()[1]));
 				default:
 					throw new \InvalidArgumentException('Invalid operator type: ' . $operator->getType());
 			}
@@ -87,13 +87,11 @@ class QuerySearchUtil {
 	}
 
 	private function searchComparisonToDBExpr(IQueryBuilder $builder, ISearchComparison $comparison, array $operatorMap) {
-		if (!$this->isValidComparison($comparison)) {
-			throw new \InvalidArgumentException('Invalid comparison ' . $operator->getType() . ' on field ' . $operator->getField());
-		}
+		$this->validateComparison($comparison);
 
-		list($field, $value) = $this->getOperatorFieldAndValue($comparison);
-		if (isset($operatorMap[$comparison->getType()])) {
-			$queryOperator = $operatorMap[$comparison->getType()];
+		list($field, $value, $type) = $this->getOperatorFieldAndValue($comparison);
+		if (isset($operatorMap[$type])) {
+			$queryOperator = $operatorMap[$type];
 			return $builder->expr()->$queryOperator($field, $this->getParameterForValue($builder, $value));
 		} else {
 			throw new \InvalidArgumentException('Invalid operator type: ' . $comparison->getType());
@@ -103,6 +101,7 @@ class QuerySearchUtil {
 	private function getOperatorFieldAndValue(ISearchComparison $operator) {
 		$field = $operator->getField();
 		$value = $operator->getValue();
+		$type = $operator->getType();
 		if ($field === 'mimetype') {
 			if ($operator->getType() === ISearchComparison::COMPARE_EQUAL) {
 				$value = $this->mimetypeLoader->getId($value);
@@ -111,16 +110,20 @@ class QuerySearchUtil {
 				if (preg_match('|(.+)/%|', $value, $matches)) {
 					$field = 'mimepart';
 					$value = $this->mimetypeLoader->getId($matches[1]);
+					$type = ISearchComparison::COMPARE_EQUAL;
+				}
+				if (strpos($value, '%') !== false) {
+					throw new \InvalidArgumentException('Unsupported query value for mimetype: ' . $value . ', only values in the format "mime/type" or "mime/%" are supported');
 				}
 			}
 		}
-		return [$field, $value];
+		return [$field, $value, $type];
 	}
 
-	private function isValidComparison(ISearchComparison $operator) {
+	private function validateComparison(ISearchComparison $operator) {
 		$types = [
 			'mimetype' => 'string',
-			'mtime' => \DateTime::class,
+			'mtime' => 'integer',
 			'name' => 'string',
 			'size' => 'integer'
 		];
@@ -132,13 +135,15 @@ class QuerySearchUtil {
 		];
 
 		if (!isset($types[$operator->getField()])) {
-			return false;
+			throw new \InvalidArgumentException('Unsupported comparison field ' . $operator->getField());
 		}
 		$type = $types[$operator->getField()];
-		if (gettype($operator->getValue()) !== $type && !(is_a($operator->getValue(), $type))) {
-			return false;
+		if (gettype($operator->getValue()) !== $type) {
+			throw new \InvalidArgumentException('Invalid type for field ' . $operator->getField());
 		}
-		return in_array($operator->getType(), $comparisons[$operator->getField()]);
+		if (!in_array($operator->getType(), $comparisons[$operator->getField()])) {
+			throw new \InvalidArgumentException('Unsupported comparison for field  ' . $operator->getField() . ': ' . $operator->getType());
+		}
 	}
 
 	private function getParameterForValue(IQueryBuilder $builder, $value) {
