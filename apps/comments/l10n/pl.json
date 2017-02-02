@@ -1,7 +1,7 @@
 { "translations": {
     "Comments" : "Komentarze",
     "Unknown user" : "Nieznany użytkownik",
-    "New comment …" : "Nowy komentarz ...",
+    "New comment …" : "Nowy komentarz...",
     "Delete comment" : "Skasuj komentarz",
     "Post" : "Zapisz",
     "Cancel" : "Anuluj",
@@ -14,9 +14,9 @@
     "Error occurred while retrieving comment with id {id}" : "W trakcie otrzymywania komentarza o identyfikatorze {id} wystąpił błąd.",
     "Error occurred while updating comment with id {id}" : "W trakcie aktualizacji komentarza o identyfikatorze {id} wystąpił błąd.",
     "Error occurred while posting comment" : "Podczas wysyłania komentarza wystąpił błąd",
-    "_%n unread comment_::_%n unread comments_" : ["%n nieprzeczytany komentarz","%n nieprzeczytane komentarze","%n nieprzeczytanych komentarzy"],
+    "_%n unread comment_::_%n unread comments_" : ["%n nieprzeczytany komentarz","%n nieprzeczytane komentarze","%n nieprzeczytanych komentarzy","%n nieprzeczytanych komentarzy"],
     "Comment" : "Komentarz",
-    "You commented" : "Skomentowałeś/łaś",
+    "You commented" : "Skomentowałeś",
     "%1$s commented" : "%1$s skomentował",
     "{author} commented" : "{author} skomentował",
     "You commented on %1$s" : "Skomentowałeś w %1$s",
@@ -32,6 +32,6 @@
     "No other comments available" : "Nie ma więcej komentarzy",
     "More comments..." : "Więcej komentarzy...",
     "{count} unread comments" : "{count} nieprzeczytanych komentarzy",
-    "You commented on %2$s" : "Skomentowałeś/łaś %2$s"
+    "You commented on %2$s" : "Skomentowałeś %2$s"
 },"pluralForm" :"nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

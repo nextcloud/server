@@ -17,6 +17,7 @@
     "is not tagged with" : "未标记为",
     "Select tag…" : "选择标签...",
     "Request remote address" : "要求远程地址",
+    "matches IPv4" : "匹配 IPv4",
     "does not match IPv4" : "不匹配IPv4",
     "matches IPv6" : "匹配IPv6",
     "does not match IPv6" : "不匹配IPv6",

@@ -59,7 +59,7 @@
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Lagringsplass for {owner} er full, filer kan ikke oppdateres eller synkroniseres lenger!",
     "Your storage is full, files can not be updated or synced anymore!" : "Lagringsplass er oppbrukt, filer kan ikke lenger oppdateres eller synkroniseres!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Lagringsplass for {owner} er nesten full ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Lagringsplass er nesten brukt opp ([usedSpacePercent}%)",
+    "Your storage is almost full ({usedSpacePercent}%)" : "Lagringsplass er nesten brukt opp ({usedSpacePercent}%)",
     "_matches '{filter}'_::_match '{filter}'_" : [" stemmer med '{filter}'"," stemmer med '{filter}'"],
     "View in folder" : "Vis i mappe",
     "Path" : "Sti",
