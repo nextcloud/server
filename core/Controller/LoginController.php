@@ -98,7 +98,7 @@ class LoginController extends Controller {
 	 * @return RedirectResponse
 	 */
 	public function logout() {
-		$loginToken = $this->request->getCookie('oc_token');
+		$loginToken = $this->request->getCookie('nc_token');
 		if (!is_null($loginToken)) {
 			$this->config->deleteUserValue($this->userSession->getUser()->getUID(), 'login_token', $loginToken);
 		}
