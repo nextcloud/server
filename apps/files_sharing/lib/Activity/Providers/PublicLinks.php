@@ -114,10 +114,10 @@ class PublicLinks implements IProvider {
 			$event->setParsedSubject($this->l->t('Removed public link'))
 				->setRichSubject($this->l->t('Removed public link'))
 				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
-//		} else if ($event->getSubject() === self::SUBJECT_LINK_EXPIRED) {
-//			$event->setParsedSubject($this->l->t('Public link expired'))
-//				->setRichSubject($this->l->t('Public link expired'))
-//				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
+		} else if ($event->getSubject() === self::SUBJECT_LINK_EXPIRED) {
+			$event->setParsedSubject($this->l->t('Public link expired'))
+				->setRichSubject($this->l->t('Public link expired'))
+				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_RESHARED_LINK_BY) {
 			$event->setParsedSubject($this->l->t('%1$s shared as public link', [
 					$parsedParameters['actor']['name'],
@@ -171,10 +171,12 @@ class PublicLinks implements IProvider {
 				]))
 				->setRichSubject($this->l->t('You removed public link for {file}'), $parsedParameters)
 				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
-//		} else if ($event->getSubject() === self::SUBJECT_LINK_EXPIRED) {
-//			$event->setParsedSubject($this->l->t('Public link expired'))
-//				->setRichSubject($this->l->t('Public link expired'))
-//				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
+		} else if ($event->getSubject() === self::SUBJECT_LINK_EXPIRED) {
+			$event->setParsedSubject($this->l->t('Your public link for %1$s expired', [
+					$parsedParameters['file']['path'],
+				]))
+				->setRichSubject($this->l->t('Your public link for {file} expired'), $parsedParameters)
+				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_RESHARED_LINK_BY) {
 			$event->setParsedSubject($this->l->t('%2$s shared %1$s as public link', [
 					$parsedParameters['file']['path'],
