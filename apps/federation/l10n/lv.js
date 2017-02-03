@@ -7,6 +7,7 @@ OC.L10N.register(
     "Could not add server" : "Nevarēja pievienot serveri",
     "Federation" : "Federācija",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federācija ļauj savienot ar citiem uzticamiem serveriem ar Exchange lietotāja direktoriju. Piemēram, tas tiks izmantots, lai automātiski pieslēgtu ārējiem lietotājiem integrēto koplietošanu.",
+    "Add server automatically once a federated share was created successfully" : "Automātiski pievienots serveris federācijas koplietojumam, veiksmīgi",
     "Trusted servers" : "Uzticami serveri",
     "+ Add trusted server" : "+ pievietot uzticamiem serveriem",
     "Trusted server" : "Uzticams serveris",

@@ -16,6 +16,7 @@
     "Couldn't establish a federated share, maybe the password was wrong." : "无法建立分享，可能密码是错误的。",
     "Federated Share request was successful, you will receive a invitation. Check your notifications." : "联合共享请求已成功，您将会收到邀请信息，请检查您的通知。",
     "The mountpoint name contains invalid characters." : "挂载点的名称包含无效字符。",
+    "Not allowed to create a federated share with the owner." : "不允许与所有者创建联合共享.",
     "Invalid or untrusted SSL certificate" : "无效或是不被信任的 SSL 证书",
     "Could not authenticate to remote share, password might be wrong" : "无法验证远程共享，可能是密码错误",
     "Storage not valid" : "存储不可用",
