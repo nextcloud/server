@@ -22,6 +22,7 @@
 namespace OC\Core\Command\Db;
 
 use Doctrine\DBAL\Platforms\MySqlPlatform;
+use OC\DB\MySqlTools;
 use OC\Migration\ConsoleOutput;
 use OC\Repair\Collation;
 use OCP\IConfig;
@@ -71,17 +72,16 @@ class ConvertMysqlToMB4 extends Command {
 			return 1;
 		}
 
-		$oldValue = $this->config->getSystemValue('mysql.utf8mb4', false);
-		// enable charset
-		$this->config->setSystemValue('mysql.utf8mb4', true);
-
-		if (!$this->connection->supports4ByteText()) {
+		$tools = new MySqlTools();
+		if (!$tools->supports4ByteCharset($this->connection)) {
 			$url = $this->urlGenerator->linkToDocs('admin-mysql-utf8mb4');
 			$output->writeln("The database is not properly setup to use the charset utf8mb4.");
 			$output->writeln("For more information please read the documentation at $url");
-			$this->config->setSystemValue('mysql.utf8mb4', $oldValue);
 			return 1;
 		}
+
+		// enable charset
+		$this->config->setSystemValue('mysql.utf8mb4', true);
 
 		// run conversion
 		$coll = new Collation($this->config, $this->logger, $this->connection, false);
