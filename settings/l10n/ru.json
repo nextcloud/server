@@ -20,7 +20,7 @@
     "test email settings" : "проверить настройки почты",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Во время отправки письма произошла ошибка. Пожалуйста проверьте настройки. (Ошибка: %s)",
     "Email sent" : "Письмо отправлено",
-    "You need to set your user email before being able to send test emails." : "Вы должны настроить свой адрес электронной почты прежде чем отправлять тестовые сообщения.",
+    "You need to set your user email before being able to send test emails." : "Вы должны настроить ваш собственный адрес электронной почты прежде чем отправлять тестовые сообщения.",
     "Invalid request" : "Неправильный запрос",
     "Invalid mail address" : "Некорректный адрес электронной почты",
     "No valid group selected" : "Не выбрана верная группа",
