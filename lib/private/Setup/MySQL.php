@@ -27,6 +27,7 @@
  */
 namespace OC\Setup;
 
+use OC\DB\ConnectionFactory;
 use OCP\IDBConnection;
 
 class MySQL extends AbstractDatabase {
@@ -35,6 +36,12 @@ class MySQL extends AbstractDatabase {
 	public function setupDatabase($username) {
 		//check if the database user has admin right
 		$connection = $this->connect(['dbname' => null]);
+
+		// detect mb4
+		if (is_null($this->config->getSValue('mysql.utf8mb4', null)) && $this->supports4ByteCharset($connection)) {
+			$this->config->setValue('mysql.utf8mb4', true);
+			$connection = $this->connect();
+		}
 
 		$this->createSpecificUser($username, $connection);
 
@@ -161,5 +168,24 @@ class MySQL extends AbstractDatabase {
 			'dbuser' => $this->dbUser,
 			'dbpassword' => $this->dbPassword,
 		]);
+	}
+
+	/**
+	 * @param IDBConnection $connection
+	 * @return bool
+	 */
+	private function supports4ByteCharset(IDBConnection $connection) {
+		foreach (['innodb_file_format' => 'Barracuda', 'innodb_large_prefix' => 'ON', 'innodb_file_per_table' => 'ON'] as $var => $val) {
+			$result = $connection->executeQuery("SHOW VARIABLES LIKE '$var'");
+			$rows = $result->fetch();
+			$result->closeCursor();
+			if ($rows === false) {
+				return false;
+			}
+			if (strcasecmp($rows['Value'], $val) === 0) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
