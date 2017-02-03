@@ -1241,9 +1241,9 @@ $CONFIG = array(
  * needed:
  *
  * [mysqld]
- * innodb_large_prefix=true
- * innodb_file_format=barracuda
- * innodb_file_per_table=true
+ * innodb_large_prefix=ON
+ * innodb_file_format=Barracuda
+ * innodb_file_per_table=ON
  *
  * Tables will be created with
  *  * character set: utf8mb4
@@ -1256,8 +1256,6 @@ $CONFIG = array(
  * https://mariadb.com/kb/en/mariadb/xtradbinnodb-server-system-variables/#innodb_large_prefix
  * http://www.tocker.ca/2013/10/31/benchmarking-innodb-page-compression-performance.html
  * http://mechanics.flite.com/blog/2014/07/29/using-innodb-large-prefix-to-avoid-error-1071/
- *
- * WARNING: EXPERIMENTAL
  */
 'mysql.utf8mb4' => false,
 
