@@ -1,4 +1,7 @@
-@media only screen and (max-width: 768px) {
+/* 938 = table min-width(688) + app-navigation width: 250
+   769 = size where app-navigation (768) is hidden +1
+   688 = table min-width */
+@media only screen and (max-width: 938px) and (min-width: 769px), only screen and (max-width: 688px) {
 
 .app-files #app-content.dir-drop{
 	background-color: rgba(255, 255, 255, 1)!important;
