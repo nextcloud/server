@@ -1000,7 +1000,7 @@ describe('Core base tests', function() {
 	describe('global ajax errors', function() {
 		var reloadStub, ajaxErrorStub, clock;
 		var notificationStub;
-		var waitTimeMs = 6000;
+		var waitTimeMs = 6500;
 		var oldCurrentUser;
 
 		beforeEach(function() {
@@ -1075,10 +1075,12 @@ describe('Core base tests', function() {
 		it('displays notification', function() {
 			var xhr = { status: 401 };
 
+			notificationUpdateStub = sinon.stub(OC.Notification, 'showUpdate');
+
 			$(document).trigger(new $.Event('ajaxError'), xhr);
 
 			clock.tick(waitTimeMs);
-			expect(notificationStub.calledOnce).toEqual(true);
+			expect(notificationUpdateStub.notCalled).toEqual(false);
 		});
 		it('shows a temporary notification if the connection is lost', function() {
 			var xhr = { status: 0 };
