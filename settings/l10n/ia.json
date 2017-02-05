@@ -1,0 +1,8 @@
+{ "translations": {
+    "Enabled" : "Activate",
+    "Wrong password" : "Contrasigno incorrecte",
+    "Saved" : "Salveguardate",
+    "Authentication error" : "Error in authentication",
+    "Email sent" : "Message de e-posta inviate"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
