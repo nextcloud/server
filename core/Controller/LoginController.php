@@ -44,6 +44,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OC\Hooks\PublicEmitter;
 
 class LoginController extends Controller {
 	/** @var IUserManager */
