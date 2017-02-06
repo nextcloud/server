@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Please select a file." : "Παρακαλώ επιλέξτε αρχείο.",
     "File is too big" : "Το αρχείο είναι πολύ μεγάλο",
+    "The selected file is not an image." : "Το επιλεγμένο αρχείο δεν είναι εικόνας.",
+    "The selected file cannot be read." : "Το επιλεγμένο αρχείο δεν μπορεί να αναγνωσθεί",
     "Invalid file provided" : "Έχει δοθεί μη έγκυρο αρχείο",
     "No image or file provided" : "Δεν δόθηκε εικόνα ή αρχείο",
     "Unknown filetype" : "Άγνωστος τύπος αρχείου",
