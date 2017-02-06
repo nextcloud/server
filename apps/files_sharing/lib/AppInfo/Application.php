@@ -35,6 +35,7 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OCA\Files_Sharing\Controller\ExternalSharesController;
 use OCA\Files_Sharing\Controller\ShareController;
 use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
+use OCP\Federation\ICloudIdManager;
 use \OCP\IContainer;
 use OCP\IServerContainer;
 
@@ -83,6 +84,9 @@ class Application extends App {
 		 */
 		$container->registerService('HttpClientService', function (SimpleContainer $c) use ($server) {
 			return $server->getHTTPClientService();
+		});
+		$container->registerService(ICloudIdManager::class, function (SimpleContainer $c) use ($server) {
+			return $server->getCloudIdManager();
 		});
 		$container->registerService('ExternalManager', function (SimpleContainer $c) use ($server) {
 			$user = $server->getUserSession()->getUser();
