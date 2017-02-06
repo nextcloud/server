@@ -1,0 +1,512 @@
+/**
+ * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2016, Morris Jobke <hey@morrisjobke.de>
+ * @copyright Copyright (c) 2016, Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @copyright Copyright (c) 2016, Joas Schilling <coding@schilljs.com>
+ * @copyright Copyright (c) 2016, Julius Haertl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2016, jowi <sjw@gmx.ch>
+ * @copyright Copyright (c) 2015, Joas Schilling <nickvergessen@owncloud.com>
+ * @copyright Copyright (c) 2015, Hendrik Leppelsack <hendrik@leppelsack.de>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ */
+
+ /* Specifically override browser styles */
+input, textarea, select, button {
+	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
+}
+.select2-container-multi .select2-choices .select2-search-field input, .select2-search input, .ui-widget {
+	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif !important;
+}
+
+/* Simple selector to allow easy overriding */
+select,
+button,
+input,
+textarea {
+	width: 130px;
+	min-height: 32px;
+	box-sizing: border-box;
+}
+
+/* Default global values */
+select,
+button, .button,
+input:not([type='range']),
+textarea,
+#quota,	.pager li a {
+	margin: 3px 3px 3px 0;
+	padding: 7px 6px;
+	font-size: 13px;
+	background-color: #fff;
+	color: #333;
+	border: 1px solid #ddd;
+	outline: none;
+	border-radius: 3px;
+	&:not(:disabled):not(.primary) {
+		/* no border on quota */
+		&:not(#quota):hover,
+		&:focus,
+		&.active {
+		/* active class used for multiselect */
+			border-color: #0082c9;
+			outline: none;
+		}
+		&:active {
+			outline: none;
+			background-color: #fff;
+		}
+	}
+	&:disabled {
+		background-color: #eee;
+		color: #999;
+		cursor: default;
+		opacity: 0.5;
+	}
+	/* Primary action button, use sparingly */
+	&.primary {
+		border: 1px solid #0082c9;
+		background-color: #00a2e9;
+		color: #fff;
+		cursor: pointer;
+		&:not(:disabled) {
+			&:hover,
+			&:focus {
+				background-color: #0092d9;
+			}
+			&:active {
+				background-color: #00a2e9;
+			}
+		}
+		&:disabled {
+			background-color: #00a2e9;
+			color: #bbb;
+		}
+	}
+}
+
+/* Specific override */
+input {
+	&:not([type='radio']):not([type='checkbox']):not([type='range']):not([type='submit']):not([type='button']):not([type='reset']):not([type='color']):not([type='file']):not([type='image']) {
+		-webkit-appearance: textfield;
+		-moz-appearance: textfield;
+	}
+	&[type='radio'],
+	&[type='checkbox'],
+	&[type='file'],
+	&[type='image'] {
+		height: auto;
+		width: auto;
+	}
+	/* Color input doesn't respect the initial height
+ so we need to set a custom one */
+	&[type='color'] {
+		margin: 3px;
+		padding: 0 2px;
+		min-height: 30px;
+		width: 40px;
+		cursor: pointer;
+	}
+	&[type='hidden'] {
+		height: 0;
+		width: 0;
+	}
+	&[type='time'] {
+		width: initial;
+	}
+}
+
+/* 'Click' inputs */
+select,
+button, .button,
+input[type='button'],
+input[type='submit'],
+input[type='reset'] {
+	padding: 6px 12px;
+	width: auto;
+	min-height: 34px;
+	cursor: pointer;
+	box-sizing: border-box;
+	background-color: #fafafa;
+}
+
+/* Buttons */
+button, .button,
+input[type='button'],
+input[type='submit'],
+input[type='reset'] {
+	font-weight: bold;
+	/* Get rid of the ugly firefox dotted line */
+	&::-moz-focus-inner {
+		border: 0;
+	}
+}
+button, .button {
+	> span {
+		/* icon position inside buttons */
+		&[class^='icon-'],
+		&[class*=' icon-'] {
+			display: inline-block;
+			vertical-align: text-bottom;
+			opacity: 0.5;
+		}
+	}
+}
+
+textarea {
+	color: #555;
+	cursor: text;
+	font-family: inherit;
+	height: auto;
+	&:not(:disabled) {
+		&:active,
+		&:hover,
+		&:focus {
+			border-color: #ddd !important;
+			background-color: #fff !important;
+		}
+	}
+}
+
+/* Override the ugly select arrow */
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background: url('../img/actions/triangle-s.svg') no-repeat right 4px center;
+	background-color: inherit;
+	outline: 0;
+	padding-right: 24px !important;
+}
+
+/* Various Fixes */
+button img,
+.button img {
+	cursor: pointer;
+}
+#quota {
+	color: #555;
+}
+select,
+.button.multiselect {
+	font-weight: 400;
+}
+
+/* Radio & Checkboxes */
+input {
+	&[type='checkbox'],
+	&[type='radio'] {
+		&.radio,
+		&.checkbox {
+			position: absolute;
+			left: -10000px;
+			top: auto;
+			width: 1px;
+			height: 1px;
+			overflow: hidden;
+			+ label {
+				user-select: none;
+			}
+			&:disabled + label,
+			&:disabled + label:before {
+				cursor: default;
+			}
+			+ label:before {
+				content: '';
+				display: inline-block;
+				height: 12px;
+				width: 12px;
+				vertical-align: middle;
+				border-radius: 50%;
+				margin: 3px;
+				margin-top: 1px;
+				border: 1px solid #888;
+			}
+			&:not(:disabled):not(:checked) + label:hover:before,
+			&:focus + label:before {
+				border-color: #0082c9;
+			}
+			&:checked + label:before,
+			&.checkbox:indeterminate + label:before {
+			/* ^ :indeterminate have a strange behavior on radio,
+			so we respecified the checkbox class again to be safe */
+				box-shadow: inset 0px 0px 0px 2px #fff;
+				background-color: #0082c9;
+				border-color: #0082c9
+			}
+			&:disabled + label:before {
+				background-color: #ccc !important; /* override other status */
+			}
+			&:checked:disabled + label:before {
+				box-shadow: inset 0px 0px 0px 2px #fff;
+				border-color: #aaa;
+				background-color: #bbb;
+			}
+		}
+		&.checkbox {
+			+ label:before {
+				border-radius: 1px;
+				height: 10px;
+				width: 10px;
+				box-shadow: none !important;
+				background-position: center;
+			}
+			&:checked + label:before {
+				background-image: url('../img/actions/checkbox-mark.svg');
+			}
+			&:indeterminate + label:before {
+				background-image: url('../img/actions/checkbox-mixed.svg');
+			}
+			&:indeterminate:disabled + label:before {
+				border-color: #888;
+			}
+		}
+		&.radio--white,
+		&.checkbox--white {
+			+ label:before {
+				border-color: #aaa;
+			}
+			&:not(:disabled):not(:checked) + label:hover:before,
+			&:focus + label:before {
+				border-color: #fff;
+			}
+			&:checked + label:before,
+			&.checkbox:indeterminate + label:before {
+			/* ^ :indeterminate have a strange behavior on radio,
+			so we respecified the checkbox class again to be safe */
+				box-shadow: inset 0px 0px 0px 2px #000;
+				background-color: #eee;
+				border-color: #eee
+			}
+			&:disabled + label:before {
+				background-color: #666 !important; /* override other status */
+				border-color: #999 !important; /* override other status */
+			}
+			&:checked:disabled + label:before {
+				box-shadow: inset 0px 0px 0px 2px #000;
+				border-color: #666;
+				background-color: #222;
+			}
+		}
+		&.checkbox--white {
+			&:checked + label:before {
+				background-image: url('../img/actions/checkbox-mark-white.svg');
+			}
+			&:indeterminate + label:before {
+				background-image: url('../img/actions/checkbox-mixed-white.svg');
+			}
+			&:checked:disabled + label:after {
+				border-color: #aaa;
+			}
+			&:indeterminate:disabled + label:after {
+				background-color: #aaa;
+			}
+		}
+	}
+}
+
+/* Select2 overriding. Merged to core with vendor stylesheet */
+.select2-drop {
+	margin-top: -2px;
+	&.select2-drop-active {
+		border-color: #ddd;
+	}
+	.avatar {
+		display: inline-block;
+		margin-right: 8px;
+		vertical-align: middle;
+		img {
+			cursor: pointer;
+		}
+	}
+	.select2-search input {
+		min-height: auto;
+		background: url('../img/actions/search.svg') no-repeat right center !important;
+		background-origin: content-box !important;
+	}
+	.select2-results {
+		max-height: 250px;
+		margin: 0;
+		padding: 0;
+		.select2-result-label {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			span {
+				cursor: pointer;
+			}
+		}
+		.select2-result,
+		.select2-no-results,
+		.select2-searching {
+			position: relative;
+			display: list-item;
+			padding: 12px;
+			background-color: #fff;
+			cursor: pointer;
+			color: #222;
+		}
+		.select2-result {
+			&.select2-selected {
+				background-color: #f8f8f8;
+			}
+			&.select2-highlighted {
+				background-color: #f8f8f8;
+				color: #000;
+			}
+		}
+	}
+}
+.select2-chosen,
+#select2-drop {
+	.avatar,
+	.avatar img {
+		cursor: pointer;
+	}
+}
+.select2-container-multi {
+	.select2-choices,
+	&.select2-container-active .select2-choices {
+		box-shadow: none;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		background: #fff;
+		color: #555;
+		box-sizing: content-box;
+		border-radius: 3px;
+		border: 1px solid #ddd;
+		margin: 0;
+		padding: 2px 0;
+		min-height: auto;
+		.select2-search-choice {
+			line-height: 20px;
+			padding-left: 5px;
+			&.select2-search-choice-focus,
+			&:hover,
+			&:active,
+			& {
+				background-image: none;
+				background-color: #fff;
+				color: #333;
+				border: 1px solid #ddd;
+			}
+			.select2-search-choice-close {
+				display: none;
+			}
+		}
+		.select2-search-field input {
+			line-height: 20px;
+		}
+	}
+}
+.select2-container {
+	margin: 3px 3px 3px 0;
+	&.select2-container-multi .select2-choices {
+		display: flex;
+		flex-wrap: wrap;
+		li {
+			float: none;
+		}
+	}
+	.select2-choice {
+		box-shadow: none;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		background: #fff;
+		color: #555;
+		box-sizing: content-box;
+		border-radius: 3px;
+		border: 1px solid #ddd;
+		margin: 0;
+		padding: 2px 0;
+		padding-left: 6px;
+		min-height: auto;
+		.select2-search-choice {
+			line-height: 20px;
+			padding-left: 5px;
+			background-image: none;
+			background-color: #f8f8f8;
+			border-color: #f8f8f8;
+			.select2-search-choice-close {
+				display: none;
+			}
+			&.select2-search-choice-focus,
+			&:hover {
+				background-color: #f0f0f0;
+				border-color: #f0f0f0;
+			}
+		}
+		.select2-arrow {
+			background: none;
+			border-radius: 0;
+			border: none;
+			b {
+				background: url('../img/actions/triangle-s.svg') no-repeat center !important;
+				opacity: .5;
+			}
+		}
+		&:hover .select2-arrow b,
+		&:focus .select2-arrow b,
+		&:active .select2-arrow b {
+			opacity: .7;
+		}
+		.select2-search-field input {
+			line-height: 20px;
+		}
+	}
+}
+
+/* Select menus - TODO: move to jquery-ui-fixes.css
+----------------------------------*/
+.ui-menu {
+	padding: 0;
+	.ui-menu-item a {
+		&.ui-state-focus, &.ui-state-active {
+			font-weight: inherit;
+			margin: 0;
+		}
+	}
+}
+
+.ui-widget-content {
+	background: #fff;
+	border-top: none;
+}
+
+.ui-corner-all {
+	border-radius: 0;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+	border: none;
+	background: #f8f8f8;
+}
+
+/* Animation */
+@keyframes shake {
+	10%,
+	90% {
+		transform: translate(-1px);
+	}
+	20%,
+	80% {
+		transform: translate(2px);
+	}
+	30%,
+	50%,
+	70% {
+		transform: translate(-4px);
+	}
+	40%,
+	60% {
+		transform: translate(4px);
+	}
+}
+.shake {
+	animation-name: shake;
+	animation-duration: .7s;
+	animation-timing-function: ease-out;
+}

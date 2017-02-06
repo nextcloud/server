@@ -50,7 +50,6 @@
     "Cancel" : "Скасувати",
     "seconds ago" : "секунди тому",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Посилання для скидання вашого паролю було надіслано на ваш email. Якщо ви не отримали його найближчим часом, перевірте теку зі спамом.<br>Якщо і там немає, спитайте вашого місцевого адміністратора.",
-    "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Ваші файли зашифровані. Якщо ви не зробили ключ відновлення, після скидання паролю відновити ваші дані буде неможливо.<br /> Якщо ви не знаєте, що робити, будь ласка, зверніться до адміністратора перед продовженням.<br /> Ви дійсно хочете продовжити?",
     "I know what I'm doing" : "Я знаю що роблю",
     "Password can not be changed. Please contact your administrator." : "Пароль не може бути змінено. Будь ласка, зверніться до вашого адміністратора",
     "No" : "Ні",
@@ -94,6 +93,7 @@
     "Share link" : "Поділитись посиланням",
     "Link" : "Посилання",
     "Password protect" : "Захистити паролем",
+    "Allow editing" : "Дозволити редагування",
     "Email link to person" : "Надіслати посилання електронною поштою",
     "Send" : "Надіслати",
     "Shared with you and the group {group} by {owner}" : " {owner} опублікував для Вас та для групи {group}",
@@ -185,8 +185,8 @@
     "Need help?" : "Потрібна допомога?",
     "See the documentation" : "Дивіться документацію",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Ця програма вимагає увімкнений JavaScript для коректної роботи. Будь ласка, {linkstart} Увімкніть JavaScript {linkend}  та перезавантажте сторінку.",
-    "Log out" : "Вихід",
     "Search" : "Пошук",
+    "Log out" : "Вихід",
     "Server side authentication failed!" : "Невдала аутентифікація з сервером!",
     "Please contact your administrator." : "Будь ласка, зверніться до вашого Адміністратора.",
     "An internal error occurred." : "Виникла внутрішня помилка.",
@@ -276,7 +276,7 @@
     "Oct." : "Жов.",
     "Nov." : "Лис.",
     "Dec." : "Гру.",
-    "Allow editing" : "Дозволити редагування",
+    "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Ваші файли зашифровані. Якщо ви не зробили ключ відновлення, після скидання паролю відновити ваші дані буде неможливо.<br /> Якщо ви не знаєте, що робити, будь ласка, зверніться до адміністратора перед продовженням.<br /> Ви дійсно хочете продовжити?",
     "Sending ..." : "Надсилання...",
     "Email sent" : "Лист надіслано",
     "Send link via email" : "Надіслати посилання електронною поштою",
@@ -294,7 +294,6 @@
     "Error while sending notification" : "Помилка під час надсилання повідомлення",
     "No search results in other folders" : "В інших теках нічого не знайдено",
     "Two-step verification" : "Дворівнева перевірка",
-    "An error occured while verifying the token" : "При верифікації токена виникла помилка",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Поширити серед людей інших ownCloud'ів, використовуючи синтаксис ім'я_користувача@файли.укр/owncloud"
+    "An error occured while verifying the token" : "При верифікації токена виникла помилка"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

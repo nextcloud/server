@@ -4,6 +4,7 @@ OC.L10N.register(
     "Could not revert: %s" : "Невозможно откатить: %s",
     "Versions" : "Версии",
     "Failed to revert {file} to revision {timestamp}." : "Не удалось откатить {file} к ревизии {timestamp}.",
+    "_%n byte_::_%n bytes_" : ["%n байт","%n байта","%n байт","%n байт"],
     "Restore" : "Откатить",
     "No versions available" : "Нет доступных версий",
     "More versions..." : "Ещё версии...",

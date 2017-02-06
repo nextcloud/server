@@ -88,7 +88,7 @@ foreach($languageCodes as $lang) {
 	if($l->getLanguageCode() === $lang && substr($potentialName, 0, 1) !== '_') {//first check if the language name is in the translation file
 		$ln = array('code' => $lang, 'name' => $potentialName);
 	} elseif ($lang === 'en') {
-		$ln = ['code' => $lang, 'name' => 'English'];
+		$ln = ['code' => $lang, 'name' => 'English (US)'];
 	}else{//fallback to language code
 		$ln=array('code'=>$lang, 'name'=>$lang);
 	}
@@ -196,7 +196,7 @@ $tmpl->assign('groups', $groups2);
 
 // add hardcoded forms from the template
 $formsAndMore = [];
-$formsAndMore[]= ['anchor' => 'avatar', 'section-name' => $l->t('Personal info')];
+$formsAndMore[]= ['anchor' => 'personal-settings', 'section-name' => $l->t('Personal info')];
 $formsAndMore[]= ['anchor' => 'sessions', 'section-name' => $l->t('Sessions')];
 $formsAndMore[]= ['anchor' => 'apppasswords', 'section-name' => $l->t('App passwords')];
 $formsAndMore[]= ['anchor' => 'clientsbox', 'section-name' => $l->t('Sync clients')];

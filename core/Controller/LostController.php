@@ -30,6 +30,7 @@
 
 namespace OC\Core\Controller;
 
+use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -154,7 +155,7 @@ class LostController extends Controller {
 	 * @param string $userId
 	 * @throws \Exception
 	 */
-	private function checkPasswordResetToken($token, $userId) {
+	protected function checkPasswordResetToken($token, $userId) {
 		$user = $this->userManager->get($userId);
 		if($user === null) {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
@@ -201,6 +202,7 @@ class LostController extends Controller {
 
 	/**
 	 * @PublicPage
+	 * @BruteForceProtection passwordResetEmail
 	 *
 	 * @param string $user
 	 * @return array
@@ -232,6 +234,8 @@ class LostController extends Controller {
 		try {
 			$this->checkPasswordResetToken($token, $userId);
 			$user = $this->userManager->get($userId);
+
+			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'pre_passwordReset', array('uid' => $userId, 'password' => $password));
 
 			if (!$user->setPassword($password)) {
 				throw new \Exception();

@@ -346,13 +346,12 @@ class UsersController extends Controller {
 			}
 
 			if (empty($groups)) {
-				$groups = $this->groupManager->getSubAdmin()->getSubAdminsGroups($currentUser);
-				// New class returns IGroup[] so convert back
-				$gids = [];
-				foreach ($groups as $group) {
-					$gids[] = $group->getGID();
-				}
-				$groups = $gids;
+				return new DataResponse(
+					array(
+						'message' => $this->l10n->t('No valid group selected'),
+					),
+					Http::STATUS_FORBIDDEN
+				);
 			}
 		}
 
@@ -380,7 +379,7 @@ class UsersController extends Controller {
 			);
 		}
 
-		if($user instanceof User) {
+		if($user instanceof IUser) {
 			if($groups !== null) {
 				foreach($groups as $groupName) {
 					$group = $this->groupManager->get($groupName);

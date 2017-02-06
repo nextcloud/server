@@ -374,6 +374,7 @@ class ThemingController extends Controller {
 				';
 			$responseCss .= sprintf('.nc-theming-main-background {background-color: %s}' . "\n", $color);
 			$responseCss .= sprintf('.nc-theming-main-text {color: %s}' . "\n", $color);
+			$responseCss .= sprintf('#app-navigation li:hover > a, #app-navigation li:focus > a, #app-navigation a:focus, #app-navigation .selected, #app-navigation .selected a, #app-navigation .active, #app-navigation .active a {box-shadow: inset 2px 0 %s}' . "\n", $color);
 
 		}
 		$logo = $this->config->getAppValue($this->appName, 'logoMime');
@@ -445,8 +446,7 @@ class ThemingController extends Controller {
 		cacheBuster: ' . json_encode($cacheBusterValue). '
 	};
 })();';
-		$response = new Http\DataDisplayResponse($responseJS);
-		$response->addHeader('Content-type', 'text/javascript');
+		$response = new DataDownloadResponse($responseJS, 'javascript', 'text/javascript');
 		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
 		$response->addHeader('Pragma', 'cache');
 		$response->cacheFor(3600);

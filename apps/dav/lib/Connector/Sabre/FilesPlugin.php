@@ -247,8 +247,10 @@ class FilesPlugin extends ServerPlugin {
 		$node = $this->tree->getNodeForPath($request->getPath());
 		if (!($node instanceof IFile)) return;
 
-		// adds a 'Content-Disposition: attachment' header
-		if ($this->downloadAttachment) {
+		// adds a 'Content-Disposition: attachment' header in case no disposition
+		// header has been set before
+		if ($this->downloadAttachment &&
+			$response->getHeader('Content-Disposition') === null) {
 			$filename = $node->getName();
 			if ($this->request->isUserAgent(
 				[
@@ -325,6 +327,9 @@ class FilesPlugin extends ServerPlugin {
 
 			$propFind->handle(self::HAS_PREVIEW_PROPERTYNAME, function () use ($node) {
 				return json_encode($this->previewManager->isAvailable($node->getFileInfo()));
+			});
+			$propFind->handle(self::SIZE_PROPERTYNAME, function() use ($node) {
+				return $node->getSize();
 			});
 		}
 

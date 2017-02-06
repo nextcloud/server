@@ -86,7 +86,7 @@ interface IPreview {
 	 * @param boolean $scaleUp Scale smaller images up to the thumbnail size or not. Might look ugly
 	 * @return \OCP\IImage
 	 * @since 6.0.0
-	 * @deprecated 9.2.0 Use getPreview
+	 * @deprecated 11 Use getPreview
 	 */
 	public function createPreview($file, $maxX = 100, $maxY = 75, $scaleUp = false);
 

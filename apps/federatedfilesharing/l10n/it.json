@@ -39,7 +39,7 @@
     "Open documentation" : "Apri la documentazione",
     "Allow users on this server to send shares to other servers" : "Consenti agli utenti su questo server di inviare condivisioni ad altri server",
     "Allow users on this server to receive shares from other servers" : "Consenti agli utenti su questo server di ricevere condivisioni da altri server",
-    "Enable lookups on lookup server" : "Abilita le ricerche sul server di ricerca",
+    "Search global and public address book for users" : "Cerca gli utenti nella rubrica globale e pubblica",
     "Federated Cloud" : "Cloud federata",
     "Your Federated Cloud ID:" : "Il tuo ID di cloud federata:",
     "Share it:" : "Condividilo:",

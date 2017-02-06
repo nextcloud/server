@@ -34,19 +34,19 @@ use OCP\ICacheFactory;
 use OCP\App\IAppManager;
 
 class CheckerTest extends TestCase {
-	/** @var EnvironmentHelper */
+	/** @var EnvironmentHelper|\PHPUnit_Framework_MockObject_MockObject */
 	private $environmentHelper;
-	/** @var AppLocator */
+	/** @var AppLocator|\PHPUnit_Framework_MockObject_MockObject */
 	private $appLocator;
 	/** @var Checker */
 	private $checker;
-	/** @var FileAccessHelper */
+	/** @var FileAccessHelper|\PHPUnit_Framework_MockObject_MockObject */
 	private $fileAccessHelper;
-	/** @var IConfig */
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
-	/** @var ICacheFactory */
+	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
 	private $cacheFactory;
-	/** @var IAppManager */
+	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $appManager;
 
 	public function setUp() {
@@ -77,9 +77,20 @@ class CheckerTest extends TestCase {
 
 	/**
 	 * @expectedException \Exception
-	 * @expectedExceptionMessage Directory does not exist.
+	 * @expectedExceptionMessage Exception message
 	 */
 	public function testWriteAppSignatureOfNotExistingApp() {
+		$this->fileAccessHelper
+			->expects($this->at(0))
+			->method('assertDirectoryExists')
+			->with('NotExistingApp/appinfo')
+			->willThrowException(new \Exception('Exception message'));
+		$this->fileAccessHelper
+			->expects($this->at(1))
+			->method('is_writable')
+			->with('NotExistingApp/appinfo')
+			->willReturn(true);
+
 		$keyBundle = file_get_contents(__DIR__ .'/../../data/integritycheck/SomeApp.crt');
 		$rsaPrivateKey = file_get_contents(__DIR__ .'/../../data/integritycheck/SomeApp.key');
 		$rsa = new RSA();
@@ -87,6 +98,25 @@ class CheckerTest extends TestCase {
 		$x509 = new X509();
 		$x509->loadX509($keyBundle);
 		$this->checker->writeAppSignature('NotExistingApp', $x509, $rsa);
+	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessageRegExp /[a-zA-Z\/_-]+ is not writable/
+	 */
+	public function testWriteAppSignatureWrongPermissions() {
+		$this->fileAccessHelper
+			->expects($this->once())
+			->method('file_put_contents')
+			->will($this->throwException(new \Exception('Exception message')));
+
+		$keyBundle = file_get_contents(__DIR__ .'/../../data/integritycheck/SomeApp.crt');
+		$rsaPrivateKey = file_get_contents(__DIR__ .'/../../data/integritycheck/SomeApp.key');
+		$rsa = new RSA();
+		$rsa->loadKey($rsaPrivateKey);
+		$x509 = new X509();
+		$x509->loadX509($keyBundle);
+		$this->checker->writeAppSignature(\OC::$SERVERROOT . '/tests/data/integritycheck/app/', $x509, $rsa);
 	}
 
 	public function testWriteAppSignature() {
@@ -441,6 +471,54 @@ class CheckerTest extends TestCase {
 				->will($this->returnValue(file_get_contents(__DIR__ .'/../../data/integritycheck/root.crt')));
 
 		$this->assertSame([], $this->checker->verifyAppSignature('SomeApp'));
+	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage Exception message
+	 */
+	public function testWriteCoreSignatureWithException() {
+		$this->fileAccessHelper
+			->expects($this->at(0))
+			->method('assertDirectoryExists')
+			->will($this->throwException(new \Exception('Exception message')));
+		$this->fileAccessHelper
+			->expects($this->at(1))
+			->method('is_writable')
+			->with(__DIR__ . '/core')
+			->willReturn(true);
+
+		$keyBundle = file_get_contents(__DIR__ .'/../../data/integritycheck/SomeApp.crt');
+		$rsaPrivateKey = file_get_contents(__DIR__ .'/../../data/integritycheck/SomeApp.key');
+		$rsa = new RSA();
+		$rsa->loadKey($rsaPrivateKey);
+		$x509 = new X509();
+		$x509->loadX509($keyBundle);
+		$this->checker->writeCoreSignature($x509, $rsa, __DIR__);
+	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessageRegExp /[a-zA-Z\/_-]+ is not writable/
+	 */
+	public function testWriteCoreSignatureWrongPermissions() {
+		$this->fileAccessHelper
+			->expects($this->at(0))
+			->method('assertDirectoryExists')
+			->will($this->throwException(new \Exception('Exception message')));
+		$this->fileAccessHelper
+			->expects($this->at(1))
+			->method('is_writable')
+			->with(__DIR__ . '/core')
+			->willReturn(false);
+
+		$keyBundle = file_get_contents(__DIR__ .'/../../data/integritycheck/SomeApp.crt');
+		$rsaPrivateKey = file_get_contents(__DIR__ .'/../../data/integritycheck/SomeApp.key');
+		$rsa = new RSA();
+		$rsa->loadKey($rsaPrivateKey);
+		$x509 = new X509();
+		$x509->loadX509($keyBundle);
+		$this->checker->writeCoreSignature($x509, $rsa, __DIR__);
 	}
 
 	public function testWriteCoreSignature() {
@@ -948,7 +1026,7 @@ class CheckerTest extends TestCase {
 			->method('verifyCoreSignature');
 		$this->appLocator
 			->expects($this->at(0))
-			->Method('getAllApps')
+			->method('getAllApps')
 			->will($this->returnValue([
 				'files',
 				'calendar',
@@ -1074,7 +1152,6 @@ class CheckerTest extends TestCase {
 				->with('integrity.check.disabled', false)
 				->will($this->returnValue(true));
 
-		$result = $this->invokePrivate($this->checker, 'isCodeCheckEnforced');
-		$this->assertSame(false, $result);
+		$this->assertFalse(self::invokePrivate($this->checker, 'isCodeCheckEnforced'));
 	}
 }

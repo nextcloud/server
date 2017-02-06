@@ -219,8 +219,6 @@
     "Recommended" : "建議",
     "Microsoft Windows Platform is not supported" : "不支援微軟Windows系統",
     "Running Nextcloud Server on the Microsoft Windows platform is not supported. We suggest you use a Linux server in a virtual machine if you have no option for migrating the server itself." : "微軟Windows不支援Nextcloud伺服器，如果您一定要使用，我們建議您在虛擬機中安裝Linux版本伺服器。",
-    "Storage not available" : "無法存取儲存空間",
-    "App \"%s\" cannot be installed because it is not compatible with this version of Nextcloud." : "應用程式 \"%s\" 無法安裝，因為與此版本 Nextcloud 不相容",
-    "App can't be installed because it is not compatible with this version of Nextcloud" : "應用程式無法安裝，因為與此版本 Nextcloud 不相容"
+    "Storage not available" : "無法存取儲存空間"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

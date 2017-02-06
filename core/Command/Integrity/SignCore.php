@@ -23,12 +23,10 @@
 namespace OC\Core\Command\Integrity;
 
 use OC\IntegrityCheck\Checker;
-use OC\IntegrityCheck\Helpers\EnvironmentHelper;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use phpseclib\Crypt\RSA;
 use phpseclib\File\X509;
 use Symfony\Component\Console\Command\Command;
-use OCP\IConfig;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -94,8 +92,14 @@ class SignCore extends Command {
 		$x509 = new X509();
 		$x509->loadX509($keyBundle);
 		$x509->setPrivateKey($rsa);
-		$this->checker->writeCoreSignature($x509, $rsa, $path);
 
-		$output->writeln('Successfully signed "core"');
+		try {
+			$this->checker->writeCoreSignature($x509, $rsa, $path);
+			$output->writeln('Successfully signed "core"');
+		} catch (\Exception $e){
+			$output->writeln('Error: ' . $e->getMessage());
+			return 1;
+		}
+		return 0;
 	}
 }

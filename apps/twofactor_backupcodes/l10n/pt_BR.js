@@ -10,6 +10,10 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "Se você regenerar os códigos de backup, invalidara automaticamente os códigos antigos.",
     "An error occurred while generating your backup codes" : "Ocorreu um erro ao gerar os códigos de backup",
     "Nextcloud backup codes" : "Nextcloud códigos de backup",
+    "Two-factor authentication" : "Autenticação de dois fatores",
+    "You successfully logged in using two-factor authentication (%1$s)" : "Você está logado utilizando usando autenticação de dois fatores com sucesso (%1$s)",
+    "A login attempt using two-factor authentication failed (%1$s)" : "A tentativa de logar usando autenticação de dois fatores falhou (%1$s)",
+    "You created two-factor backup codes for your account" : "Você criou backup de códigos de dois fatores para sua conta.",
     "Backup code" : "Código de backup",
     "Use backup code" : "Usar o código de backup",
     "Second-factor backup codes" : "Códigos de backup de segundo fator"

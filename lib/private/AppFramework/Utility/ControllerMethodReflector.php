@@ -55,8 +55,10 @@ class ControllerMethodReflector implements IControllerMethodReflector{
 		$docs = $reflection->getDocComment();
 
 		// extract everything prefixed by @ and first letter uppercase
-		preg_match_all('/@([A-Z]\w+)/', $docs, $matches);
-		$this->annotations = $matches[1];
+		preg_match_all('/^\h+\*\h+@(?P<annotation>[A-Z]\w+)(\h+(?P<parameter>\w+))?$/m', $docs, $matches);
+		foreach($matches['annotation'] as $key => $annontation) {
+			$this->annotations[$annontation] = $matches['parameter'][$key];
+		}
 
 		// extract type parameter information
 		preg_match_all('/@param\h+(?P<type>\w+)\h+\$(?P<var>\w+)/', $docs, $matches);
@@ -112,7 +114,22 @@ class ControllerMethodReflector implements IControllerMethodReflector{
 	 * @return bool true if the annotation is found
 	 */
 	public function hasAnnotation($name){
-		return in_array($name, $this->annotations);
+		return array_key_exists($name, $this->annotations);
+	}
+
+
+	/**
+	 * Get optional annotation parameter
+	 * @param string $name the name of the annotation
+	 * @return string
+	 */
+	public function getAnnotationParameter($name){
+		$parameter = '';
+		if($this->hasAnnotation($name)) {
+			$parameter = $this->annotations[$name];
+		}
+
+		return $parameter;
 	}
 
 

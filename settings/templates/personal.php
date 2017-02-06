@@ -9,12 +9,14 @@
 ?>
 
 <div id="app-navigation">
-	<ul>
+	<ul class="with-icon">
 	<?php foreach($_['forms'] as $form) {
 		if (isset($form['anchor'])) {
 			$anchor = '#' . $form['anchor'];
+			$class = 'nav-icon-' . $form['anchor'];
 			$sectionName = $form['section-name'];
-			print_unescaped(sprintf("<li><a href='%s'>%s</a></li>", \OCP\Util::sanitizeHTML($anchor), \OCP\Util::sanitizeHTML($sectionName)));
+			print_unescaped(sprintf("<li><a href='%s' class='%s'>%s</a></li>", \OCP\Util::sanitizeHTML($anchor),
+			\OCP\Util::sanitizeHTML($class), \OCP\Util::sanitizeHTML($sectionName)));
 		}
 	}?>
 	</ul>
@@ -184,12 +186,14 @@ if($_['passwordChangeSupported']) {
 	<input type="password" id="pass1" name="oldpassword"
 		placeholder="<?php p($l->t('Current password'));?>"
 		autocomplete="off" autocapitalize="off" autocorrect="off" />
-	<label for="pass2" class="hidden-visually"><?php p($l->t('New password'));?>: </label>
-	<input type="password" id="pass2" name="newpassword"
-		placeholder="<?php p($l->t('New password')); ?>"
-		data-typetoggle="#personal-show"
-		autocomplete="off" autocapitalize="off" autocorrect="off" />
-	<input type="checkbox" id="personal-show" name="show" /><label for="personal-show" class="personal-show-label"></label>
+	<div class="personal-show-container">
+		<label for="pass2" class="hidden-visually"><?php p($l->t('New password'));?>: </label>
+		<input type="password" id="pass2" name="newpassword"
+			placeholder="<?php p($l->t('New password')); ?>"
+			data-typetoggle="#personal-show"
+			autocomplete="off" autocapitalize="off" autocorrect="off" />
+		<input type="checkbox" id="personal-show" name="show" /><label for="personal-show" class="personal-show-label"></label>
+	</div>
 	<input id="passwordbutton" type="submit" value="<?php p($l->t('Change password')); ?>" />
 	<br/>
 </form>

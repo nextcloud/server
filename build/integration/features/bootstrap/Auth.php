@@ -1,4 +1,5 @@
 <?php
+
 /**
 
  *
@@ -47,7 +48,7 @@ trait Auth {
 		try {
 			if ($useCookies) {
 				$request = $this->client->createRequest($method, $fullUrl, [
-				    'cookies' => $this->cookieJar,
+					'cookies' => $this->cookieJar,
 				]);
 			} else {
 				$request = $this->client->createRequest($method, $fullUrl);
@@ -116,30 +117,43 @@ trait Auth {
 	/**
 	 * @Given a new browser session is started
 	 */
-	public function aNewBrowserSessionIsStarted() {
+	public function aNewBrowserSessionIsStarted($remember = false) {
 		$loginUrl = substr($this->baseUrl, 0, -5) . '/login';
 		// Request a new session and extract CSRF token
 		$client = new Client();
-		$response = $client->get(
-			$loginUrl, [
-		    'cookies' => $this->cookieJar,
-			]
-		);
+		$response = $client->get($loginUrl, [
+			'cookies' => $this->cookieJar,
+		]);
 		$this->extracRequestTokenFromResponse($response);
 
 		// Login and extract new token
 		$client = new Client();
 		$response = $client->post(
 			$loginUrl, [
-		    'body' => [
-			'user' => 'user0',
-			'password' => '123456',
-			'requesttoken' => $this->requestToken,
-		    ],
-		    'cookies' => $this->cookieJar,
+			'body' => [
+				'user' => 'user0',
+				'password' => '123456',
+				'remember_login' => $remember ? '1' : '0',
+				'requesttoken' => $this->requestToken,
+			],
+			'cookies' => $this->cookieJar,
 			]
 		);
 		$this->extracRequestTokenFromResponse($response);
+	}
+
+	/**
+	 * @Given a new remembered browser session is started
+	 */
+	public function aNewRememberedBrowserSessionIsStarted() {
+		$this->aNewBrowserSessionIsStarted(true);
+	}
+
+	/**
+	 * @When the session cookie expires
+	 */
+	public function whenTheSessionCookieExpires() {
+		$this->cookieJar->clearSessionCookies();
 	}
 
 }

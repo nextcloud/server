@@ -130,6 +130,16 @@ OC.FileUpload.prototype = {
 	},
 
 	/**
+	 * Get full path for the target file, 
+	 * including relative path and file name.
+	 *
+	 * @return {String} full path
+	 */
+	getFullFilePath: function() {
+		return OC.joinPaths(this.getFullPath(), this.getFile().name);
+	},
+
+	/**
 	 * Returns conflict resolution mode.
 	 *
 	 * @return {int} conflict mode
@@ -146,15 +156,6 @@ OC.FileUpload.prototype = {
 	 */
 	setConflictMode: function(mode) {
 		this._conflictMode = mode;
-	},
-
-	/**
-	 * Returns whether the upload is in progress
-	 *
-	 * @return {boolean}
-	 */
-	isPending: function() {
-		return this.data.state() === 'pending';
 	},
 
 	deleteUpload: function() {
@@ -508,9 +509,10 @@ OC.Uploader.prototype = _.extend({
 			return;
 		}
 		// retrieve more info about this file
-		this.filesClient.getFileInfo(fileUpload.getFullPath()).then(function(status, fileInfo) {
+		this.filesClient.getFileInfo(fileUpload.getFullFilePath()).then(function(status, fileInfo) {
 			var original = fileInfo;
 			var replacement = file;
+			original.directory = original.path;
 			OC.dialogs.fileexists(fileUpload, original, replacement, self);
 		});
 	},
@@ -549,21 +551,6 @@ OC.Uploader.prototype = _.extend({
 	showUploadCancelMessage: _.debounce(function() {
 		OC.Notification.showTemporary(t('files', 'Upload cancelled.'), {timeout: 10});
 	}, 500),
-	/**
-	 * Checks the currently known uploads.
-	 * returns true if any hxr has the state 'pending'
-	 * @returns {boolean}
-	 */
-	isProcessing:function() {
-		var count = 0;
-
-		jQuery.each(this._uploads, function(i, upload) {
-			if (upload.isPending()) {
-				count++;
-			}
-		});
-		return count > 0;
-	},
 	/**
 	 * callback for the conflicts dialog
 	 */
@@ -1029,43 +1016,9 @@ OC.Uploader.prototype = _.extend({
 						bufferIndex = (bufferIndex + 1) % bufferSize;
 					}
 					var smoothRemainingSeconds = (bufferTotal / bufferSize); //seconds
-					var date = new Date(smoothRemainingSeconds * 1000);
-					var timeStringDesktop = "";
-					var timeStringMobile = "";
-					if(date.getUTCHours() > 0){
-						timeStringDesktop = t('files', '{hours}:{minutes}:{seconds} hour{plural_s} left' , {
-							hours:date.getUTCHours(),
-							minutes: ('0' + date.getUTCMinutes()).slice(-2),
-							seconds: ('0' + date.getUTCSeconds()).slice(-2),
-							plural_s: ( smoothRemainingSeconds === 3600  ? "": "s") // 1 hour = 1*60m*60s = 3600s
-						});
-						timeStringMobile = t('files', '{hours}:{minutes}h' , {
-							hours:date.getUTCHours(),
-							minutes: ('0' + date.getUTCMinutes()).slice(-2),
-							seconds: ('0' + date.getUTCSeconds()).slice(-2)
-						});
-					} else if(date.getUTCMinutes() > 0){
-						timeStringDesktop = t('files', '{minutes}:{seconds} minute{plural_s} left' , {
-							minutes: date.getUTCMinutes(),
-							seconds: ('0' + date.getUTCSeconds()).slice(-2),
-							plural_s: (smoothRemainingSeconds === 60 ? "": "s") // 1 minute = 1*60s = 60s
-						});
-						timeStringMobile = t('files', '{minutes}:{seconds}m' , {
-							minutes: date.getUTCMinutes(),
-							seconds: ('0' + date.getUTCSeconds()).slice(-2)
-						});
-					} else if(date.getUTCSeconds() > 0){
-						timeStringDesktop = t('files', '{seconds} second{plural_s} left' , {
-							seconds: date.getUTCSeconds(),
-							plural_s: (smoothRemainingSeconds === 1 ? "": "s") // 1 second = 1s = 1s
-						});
-						timeStringMobile = t('files', '{seconds}s' , {seconds: date.getUTCSeconds()});
-					} else {
-						timeStringDesktop = t('files', 'Any moment now...');
-						timeStringMobile = t('files', 'Soon...');
-					}
-					$('#uploadprogressbar .label .mobile').text(timeStringMobile);
-					$('#uploadprogressbar .label .desktop').text(timeStringDesktop);
+					var h = moment.duration(smoothRemainingSeconds, "seconds").humanize();
+					$('#uploadprogressbar .label .mobile').text(h);
+					$('#uploadprogressbar .label .desktop').text(h);
 					$('#uploadprogressbar').attr('original-title',
 						t('files', '{loadedSize} of {totalSize} ({bitrate})' , {
 							loadedSize: humanFileSize(data.loaded),
@@ -1156,13 +1109,6 @@ OC.Uploader.prototype = _.extend({
 
 			}
 		}
-
-		// warn user not to leave the page while upload is in progress
-		$(window).on('beforeunload', function(e) {
-			if (self.isProcessing()) {
-				return t('files', 'File upload is in progress. Leaving the page now will cancel the upload.');
-			}
-		});
 
 		//add multiply file upload attribute to all browsers except konqueror (which crashes when it's used)
 		if (navigator.userAgent.search(/konqueror/i) === -1) {

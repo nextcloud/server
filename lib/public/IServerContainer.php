@@ -192,14 +192,6 @@ interface IServerContainer {
 	public function getCredentialsManager();
 
 	/**
-	 * Returns an instance of the db facade
-	 * @deprecated 8.1.0 use getDatabaseConnection, will be removed in ownCloud 10
-	 * @return \OCP\IDb
-	 * @since 7.0.0
-	 */
-	public function getDb();
-
-	/**
 	 * Returns the app config manager
 	 *
 	 * @return \OCP\IAppConfig

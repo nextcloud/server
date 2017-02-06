@@ -27,7 +27,7 @@ class TimeZoneProvider {
 	 * @param string $host
 	 * @param System $system
 	 */
-	function __construct($host, System $system) {
+	public function __construct($host, System $system) {
 		$this->host = $host;
 		$this->system = $system;
 	}

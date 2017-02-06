@@ -27,6 +27,7 @@ namespace OC\Repair;
 
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use Doctrine\DBAL\Platforms\OraclePlatform;
 
 /**
  * Repairs shares with invalid data
@@ -92,6 +93,26 @@ class RepairInvalidShares implements IRepairStep {
 	}
 
 	/**
+	 * Adjust file share permissions
+	 */
+	private function adjustFileSharePermissions(IOutput $out) {
+		$mask = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE;
+		$builder = $this->connection->getQueryBuilder();
+
+		$permsFunc = $builder->expr()->bitwiseAnd('permissions', $mask);
+		$builder
+			->update('share')
+			->set('permissions', $permsFunc)
+			->where($builder->expr()->eq('item_type', $builder->expr()->literal('file')))
+			->andWhere($builder->expr()->neq('permissions', $permsFunc));
+
+		$updatedEntries = $builder->execute();
+		if ($updatedEntries > 0) {
+			$out->info('Fixed file share permissions for ' . $updatedEntries . ' shares');
+		}
+	}
+
+	/**
 	 * Remove shares where the parent share does not exist anymore
 	 */
 	private function removeSharesNonExistingParent(IOutput $out) {
@@ -136,6 +157,9 @@ class RepairInvalidShares implements IRepairStep {
 		if (version_compare($ocVersionFromBeforeUpdate, '9.1.0.9', '<')) {
 			// this situation was only possible before 9.1
 			$this->addShareLinkDeletePermission($out);
+		}
+		if (version_compare($ocVersionFromBeforeUpdate, '12.0.0.11', '<')) {
+			$this->adjustFileSharePermissions($out);
 		}
 
 		$this->removeSharesNonExistingParent($out);

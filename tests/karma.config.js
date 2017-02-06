@@ -110,7 +110,9 @@ module.exports = function(config) {
 				name: 'settings',
 				srcFiles: [
 					'settings/js/apps.js',
-					'settings/js/users/deleteHandler.js'
+					'settings/js/users/deleteHandler.js',
+					'core/vendor/marked/marked.min.js',
+					'core/vendor/DOMPurify/dist/purify.min.js'
 				],
 				testFiles: [
 					'settings/tests/js/appsSpec.js',
@@ -220,9 +222,14 @@ module.exports = function(config) {
 
 	// serve images to avoid warnings
 	files.push({pattern: 'core/img/**/*', watched: false, included: false, served: true});
+	files.push({pattern: 'core/css/images/*', watched: false, included: false, served: true});
 	
 	// include core CSS
 	files.push({pattern: 'core/css/*.css', watched: true, included: true, served: true});
+	files.push({pattern: 'tests/css/*.css', watched: true, included: true, served: true});
+
+	// Allow fonts
+	files.push({pattern: 'core/fonts/*', watched: false, included: false, served: true});
 
 	config.set({
 
@@ -242,9 +249,11 @@ module.exports = function(config) {
 
 		proxies: {
 			// prevent warnings for images
-			'/context.html//core/img/': 'http://localhost:9876/base/core/img/',
-			'/context.html//core/css/': 'http://localhost:9876/base/core/css/',
-			'/context.html//core/fonts/': 'http://localhost:9876/base/core/fonts/'
+			'/base/tests/img/': 'http://localhost:9876/base/core/img/',
+			'/base/tests/css/': 'http://localhost:9876/base/core/css/',
+			'/base/core/css/images/': 'http://localhost:9876/base/core/css/images/',
+			'/actions/': 'http://localhost:9876/base/core/img/actions/',
+			'/base/core/fonts/': 'http://localhost:9876/base/core/fonts/'
 		},
 
 		// test results reporter to use
@@ -265,7 +274,7 @@ module.exports = function(config) {
 			reporters: [
 				{ type: 'html' },
 				{ type: 'cobertura' },
-				{ type: 'lcovonly' },
+				{ type: 'lcovonly' }
 			]
 		},
 

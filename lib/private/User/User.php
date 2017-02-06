@@ -197,6 +197,8 @@ class User implements IUser {
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'preDelete', array($this));
 		}
+		// get the home now because it won't return it after user deletion
+		$homePath = $this->getHome();
 		$result = $this->backend->deleteUser($this->uid);
 		if ($result) {
 
@@ -210,7 +212,11 @@ class User implements IUser {
 			\OC::$server->getConfig()->deleteAllUserValues($this->uid);
 
 			// Delete user files in /data/
-			\OC_Helper::rmdirr($this->getHome());
+			if ($homePath !== false) {
+				// FIXME: this operates directly on FS, should use View instead...
+				// also this is not testable/mockable...
+				\OC_Helper::rmdirr($homePath);
+			}
 
 			// Delete the users entry in the storage table
 			Storage::remove('home::' . $this->uid);
@@ -261,7 +267,7 @@ class User implements IUser {
 			if ($this->backend->implementsActions(Backend::GET_HOME) and $home = $this->backend->getHome($this->uid)) {
 				$this->home = $home;
 			} elseif ($this->config) {
-				$this->home = $this->config->getSystemValue('datadirectory') . '/' . $this->uid;
+				$this->home = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $this->uid;
 			} else {
 				$this->home = \OC::$SERVERROOT . '/data/' . $this->uid;
 			}

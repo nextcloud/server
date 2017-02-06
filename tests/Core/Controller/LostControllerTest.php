@@ -23,6 +23,7 @@ namespace Tests\Core\Controller;
 
 use OC\Core\Controller\LostController;
 use OC\Mail\Message;
+use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Encryption\IManager;

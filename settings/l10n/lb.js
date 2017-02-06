@@ -8,8 +8,6 @@ OC.L10N.register(
     "Email sent" : "Email geschéckt",
     "Invalid request" : "Ongülteg Requête",
     "Email saved" : "E-mail gespäichert",
-    "Admins can't remove themself from the admin group" : "Admins kennen sech selwer net aus enger Admin Group läschen.",
-    "Unable to add user to group %s" : "Onmeiglech User an Grupp ze sätzen %s",
     "All" : "All",
     "Disable" : "Ofschalten",
     "Enable" : "Aschalten",
@@ -49,12 +47,11 @@ OC.L10N.register(
     "Other" : "Aner",
     "Quota" : "Quota",
     "Language changed" : "Sprooch huet geännert",
+    "Admins can't remove themself from the admin group" : "Admins kennen sech selwer net aus enger Admin Group läschen.",
+    "Unable to add user to group %s" : "Onmeiglech User an Grupp ze sätzen %s",
     "Log" : "Log",
     "More" : "Méi",
     "Less" : "Manner",
-    "Group" : "Grupp",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "Updates" : "Updates"
+    "Group" : "Grupp"
 },
 "nplurals=2; plural=(n != 1);");

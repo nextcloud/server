@@ -1,20 +1,20 @@
 ##
 ## Bundle of CA Root Certificates
 ##
-## Certificate data from Mozilla as of: Wed Sep  7 08:44:30 2016
+## Certificate data from Mozilla as of: Wed Nov  2 04:12:05 2016 GMT
 ##
 ## This is a bundle of X.509 certificates of public Certificate Authorities
 ## (CA). These were automatically extracted from Mozilla's root certificates
 ## file (certdata.txt).  This file can be found in the mozilla source tree:
-## http://hg.mozilla.org/releases/mozilla-release/raw-file/default/security/nss/lib/ckfw/builtins/certdata.txt
+## https://hg.mozilla.org/releases/mozilla-release/raw-file/default/security/nss/lib/ckfw/builtins/certdata.txt
 ##
 ## It contains the certificates in PEM format and therefore
 ## can be directly used with curl / libcurl / php_curl, or with
 ## an Apache+mod_ssl webserver for SSL client authentication.
 ## Just configure this file as the SSLCACertificateFile.
 ##
-## Conversion done with mk-ca-bundle.pl version 1.26.
-## SHA256: 01bbf1ecdd693f554ff4dcbe15880b3e6c33188a956c15ff845d313ca69cfeb8
+## Conversion done with mk-ca-bundle.pl version 1.27.
+## SHA256: 17e2a90c8a5cfd6a675b3475d3d467e1ab1fe0d5397e907b08206182389caa08
 ##
 
 
@@ -1764,7 +1764,7 @@ AJw9SDkjOVgaFRJZap7v1VmyHVIsmXHNxynfGyphe3HR3vPA5Q06Sqotp9iGKt0uEA==
 -----END CERTIFICATE-----
 
 NetLock Arany (Class Gold) Főtanúsítvány
-============================================
+========================================
 -----BEGIN CERTIFICATE-----
 MIIEFTCCAv2gAwIBAgIGSUEs5AAQMA0GCSqGSIb3DQEBCwUAMIGnMQswCQYDVQQGEwJIVTERMA8G
 A1UEBwwIQnVkYXBlc3QxFTATBgNVBAoMDE5ldExvY2sgS2Z0LjE3MDUGA1UECwwuVGFuw7pzw610
@@ -2280,7 +2280,7 @@ Zt3hrvJBW8qYVoNzcOSGGtIxQbovvi0TWnZvTuhOgQ4/WwMioBK+ZlgRSssDxLQqKi2WF+A5VLxI
 -----END CERTIFICATE-----
 
 Certinomis - Autorité Racine
-=============================
+============================
 -----BEGIN CERTIFICATE-----
 MIIFnDCCA4SgAwIBAgIBATANBgkqhkiG9w0BAQUFADBjMQswCQYDVQQGEwJGUjETMBEGA1UEChMK
 Q2VydGlub21pczEXMBUGA1UECxMOMDAwMiA0MzM5OTg5MDMxJjAkBgNVBAMMHUNlcnRpbm9taXMg
@@ -3675,7 +3675,7 @@ ekD6819kR5LLU7m7Wc5P/dAVUwHY3+vZ5nbv0CO7O6l5s9UCKc2Jo5YPSjXnTkLAdc0Hz+Ys63su
 -----END CERTIFICATE-----
 
 TÜRKTRUST Elektronik Sertifika Hizmet Sağlayıcısı H5
-=========================================================
+====================================================
 -----BEGIN CERTIFICATE-----
 MIIEJzCCAw+gAwIBAgIHAI4X/iQggTANBgkqhkiG9w0BAQsFADCBsTELMAkGA1UEBhMCVFIxDzAN
 BgNVBAcMBkFua2FyYTFNMEsGA1UECgxEVMOcUktUUlVTVCBCaWxnaSDEsGxldGnFn2ltIHZlIEJp
@@ -3699,7 +3699,7 @@ B59OTj+RdPsnnRHM3eaxynFNExc5JsUpISuTKWqW+qtB4Uu2NQvAmxU=
 -----END CERTIFICATE-----
 
 TÜRKTRUST Elektronik Sertifika Hizmet Sağlayıcısı H6
-=========================================================
+====================================================
 -----BEGIN CERTIFICATE-----
 MIIEJjCCAw6gAwIBAgIGfaHyZeyKMA0GCSqGSIb3DQEBCwUAMIGxMQswCQYDVQQGEwJUUjEPMA0G
 A1UEBwwGQW5rYXJhMU0wSwYDVQQKDERUw5xSS1RSVVNUIEJpbGdpIMSwbGV0acWfaW0gdmUgQmls
@@ -4033,4 +4033,34 @@ ta1doYXM6h0UZqNnfkbilPPntlahFVmhTzeXuSIevRHr9LIfXsMUmuXZl5mjYzBhMA4GA1UdDwEB
 BgNVHSMEGDAWgBRHd8MUi2I5DMlv4VBN0BBY3JWIbTAKBggqhkjOPQQDAwNpADBmAjEAj6jcnboM
 BBf6Fek9LykBl7+BFjNAk2z8+e2AcG+qj9uEwov1NcoG3GRvaBbhj5G5AjEA2Euly8LQCGzpGPta
 3U1fJAuwACEl74+nBCZx4nxp5V2a+EEfOzmTk51V6s2N8fvB
+-----END CERTIFICATE-----
+
+ISRG Root X1
+============
+-----BEGIN CERTIFICATE-----
+MIIFazCCA1OgAwIBAgIRAIIQz7DSQONZRGPgu2OCiwAwDQYJKoZIhvcNAQELBQAwTzELMAkGA1UE
+BhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2VhcmNoIEdyb3VwMRUwEwYDVQQD
+EwxJU1JHIFJvb3QgWDEwHhcNMTUwNjA0MTEwNDM4WhcNMzUwNjA0MTEwNDM4WjBPMQswCQYDVQQG
+EwJVUzEpMCcGA1UEChMgSW50ZXJuZXQgU2VjdXJpdHkgUmVzZWFyY2ggR3JvdXAxFTATBgNVBAMT
+DElTUkcgUm9vdCBYMTCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAK3oJHP0FDfzm54r
+Vygch77ct984kIxuPOZXoHj3dcKi/vVqbvYATyjb3miGbESTtrFj/RQSa78f0uoxmyF+0TM8ukj1
+3Xnfs7j/EvEhmkvBioZxaUpmZmyPfjxwv60pIgbz5MDmgK7iS4+3mX6UA5/TR5d8mUgjU+g4rk8K
+b4Mu0UlXjIB0ttov0DiNewNwIRt18jA8+o+u3dpjq+sWT8KOEUt+zwvo/7V3LvSye0rgTBIlDHCN
+Aymg4VMk7BPZ7hm/ELNKjD+Jo2FR3qyHB5T0Y3HsLuJvW5iB4YlcNHlsdu87kGJ55tukmi8mxdAQ
+4Q7e2RCOFvu396j3x+UCB5iPNgiV5+I3lg02dZ77DnKxHZu8A/lJBdiB3QW0KtZB6awBdpUKD9jf
+1b0SHzUvKBds0pjBqAlkd25HN7rOrFleaJ1/ctaJxQZBKT5ZPt0m9STJEadao0xAH0ahmbWnOlFu
+hjuefXKnEgV4We0+UXgVCwOPjdAvBbI+e0ocS3MFEvzG6uBQE3xDk3SzynTnjh8BCNAw1FtxNrQH
+usEwMFxIt4I7mKZ9YIqioymCzLq9gwQbooMDQaHWBfEbwrbwqHyGO0aoSCqI3Haadr8faqU9GY/r
+OPNk3sgrDQoo//fb4hVC1CLQJ13hef4Y53CIrU7m2Ys6xt0nUW7/vGT1M0NPAgMBAAGjQjBAMA4G
+A1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBR5tFnme7bl5AFzgAiIyBpY
+9umbbjANBgkqhkiG9w0BAQsFAAOCAgEAVR9YqbyyqFDQDLHYGmkgJykIrGF1XIpu+ILlaS/V9lZL
+ubhzEFnTIZd+50xx+7LSYK05qAvqFyFWhfFQDlnrzuBZ6brJFe+GnY+EgPbk6ZGQ3BebYhtF8GaV
+0nxvwuo77x/Py9auJ/GpsMiu/X1+mvoiBOv/2X/qkSsisRcOj/KKNFtY2PwByVS5uCbMiogziUwt
+hDyC3+6WVwW6LLv3xLfHTjuCvjHIInNzktHCgKQ5ORAzI4JMPJ+GslWYHb4phowim57iaztXOoJw
+TdwJx4nLCgdNbOhdjsnvzqvHu7UrTkXWStAmzOVyyghqpZXjFaH3pO3JLF+l+/+sKAIuvtd7u+Nx
+e5AW0wdeRlN8NwdCjNPElpzVmbUq4JUagEiuTDkHzsxHpFKVK7q4+63SM1N95R1NbdWhscdCb+ZA
+JzVcoyi3B43njTOQ5yOf+1CceWxG1bQVs5ZufpsMljq4Ui0/1lvh+wjChP4kqKOJ2qxq4RgqsahD
+YVvTH9w7jXbyLeiNdd8XM2w9U/t7y0Ff/9yi0GE44Za4rF2LN9d11TPAmRGunUHBcnWEvgJBQl9n
+JEiU0Zsnvgc/ubhPgXRR4Xq37Z0j4r7g1SgEEzwxA57demyPxgcYxn/eR44/KJ4EBs+lVDR3veyJ
+m+kXQ99b21/+jh5Xos1AnX5iItreGCc=
 -----END CERTIFICATE-----

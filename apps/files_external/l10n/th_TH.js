@@ -113,12 +113,6 @@ OC.L10N.register(
     "Delete" : "ลบ",
     "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก",
     "Allow users to mount the following external storage" : "อนุญาตให้ผู้ใช้ติดตั้งจัดเก็บข้อมูลภายนอกต่อไปนี้",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "ไม่สามารถรับข้อมูลจากเซิร์ฟเวอร์ ownCloud: {code} {type}",
-    "ownCloud" : "ownCloud",
-    "<b>Note:</b> " : "<b>หมายเหตุ:</b>",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>หมายเหตุ:</b> การสนับสนุน cURL ใน PHP ไม่ได้เปิดใช้งานหรือติดตั้ง %s เป็นไปไม่ได้ กรุณาขอให้ผู้ดูแลระบบของคุณติดตั้งมัน",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>หมายเหตุ:</b> การสนับสนุน FTP ใน PHP ไม่ได้เปิดใช้งานหรือติดตั้ง %s เป็นไปไม่ได้ กรุณาขอให้ผู้ดูแลระบบของคุณติดตั้งมัน",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>หมายเหตุ:</b> %s ไม่ได้ติดตั้ง การติดตั้ง %s เป็นไปไม่ได้ กรุณาขอให้ผู้ดูแลระบบของคุณติดตั้งมัน",
-    "External Storage" : "พื้นทีจัดเก็บข้อมูลจากภายนอก"
+    "Couldn't get the information from the ownCloud server: {code} {type}" : "ไม่สามารถรับข้อมูลจากเซิร์ฟเวอร์ ownCloud: {code} {type}"
 },
 "nplurals=1; plural=0;");

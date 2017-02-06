@@ -32,7 +32,9 @@ namespace OC\Log;
  */
 class Rotate extends \OC\BackgroundJob\Job {
 	private $max_log_size;
-	public function run($logFile) {
+	public function run($dummy) {
+		$systemConfig = \OC::$server->getSystemConfig();
+		$logFile = $systemConfig->getValue('logfile', $systemConfig->getValue('datadirectory', \OC::$SERVERROOT . '/data') . '/nextcloud.log');
 		$this->max_log_size = \OC::$server->getConfig()->getSystemValue('log_rotate_size', false);
 		if ($this->max_log_size) {
 			$filesize = @filesize($logFile);

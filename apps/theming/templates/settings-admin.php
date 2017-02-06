@@ -74,7 +74,7 @@ style('theming', 'settings-admin');
 	<div>
 		<form class="uploadButton inlineblock" method="post" action="<?php p($_['uploadLogoRoute']) ?>">
 			<input type="hidden" id="current-backgroundMime" name="current-backgroundMime" value="<?php p($_['backgroundMime']); ?>" />
-			<label for="upload-login-background"><span><?php p($l->t('Log in image')) ?></span></label>
+			<label for="upload-login-background"><span><?php p($l->t('Login image')) ?></span></label>
 			<input id="upload-login-background" class="upload-logo-field" name="upload-login-background" type="file">
 			<label for="upload-login-background" class="button icon-upload svg" id="upload-login-background" title="<?php p($l->t("Upload new login background")) ?>"></label>
 			<div data-setting="backgroundMime" data-toggle="tooltip" data-original-title="<?php p($l->t('reset to default')); ?>" class="theme-undo icon icon-history"></div>

@@ -7,6 +7,26 @@ input#openid, input#webdav { width:20em; }
 
 /* PERSONAL */
 
+/* icons for sidebar */
+.nav-icon-personal-settings {
+	background-image: url('../img/personal.svg?v=1');
+}
+.nav-icon-sessions {
+	background-image: url('../img/toggle-filelist.svg?v=1');
+}
+.nav-icon-apppasswords {
+	background-image: url('../img/password.svg?v=1');
+}
+.nav-icon-clientsbox {
+	background-image: url('../img/change.svg?v=1');
+}
+.nav-icon-federated-cloud {
+	background-image: url('../img/share.svg?v=1');
+}
+.nav-icon-second-factor-backup-codes {
+	background-image: url('../img/password.svg?v=1');
+}
+
 #avatarform {
 	width: 160px;
 	padding-right: 0;
@@ -104,7 +124,7 @@ input#openid, input#webdav { width:20em; }
 }
 #personal-settings-container > div > form span[class^="icon-checkmark"] {
 	position: absolute;
-	left: 239px;
+	left: 228px;
 	top: 82px;
 	pointer-events: none;
 }
@@ -399,7 +419,7 @@ table.grid th, table.grid td {
 	font-weight: normal;
 }
 td.name, td.password { padding-left:.8em; }
-td.password>img,td.displayName>img, td.remove>a, td.quota>img { visibility:hidden; }
+td.password>img,td.displayName>img, td.remove>a, td.quota>img { visibility:hidden; vertical-align: middle;}
 td.password, td.quota, td.displayName { width:12em; cursor:pointer; }
 td.password>span, td.quota>span, rd.displayName>span { margin-right: 1.2em; color: #C7C7C7; }
 span.usersLastLoginTooltip { white-space: nowrap; }
@@ -492,6 +512,12 @@ input.userFilter {width: 200px;}
 
 /* APPS */
 
+#app-content > svg.app-filter {
+	float: left;
+	height: 0;
+	width: 0;
+}
+
 .appinfo { margin: 1em 40px; }
 #app-navigation .appwarning {
 	background: #fcc;
@@ -542,6 +568,10 @@ span.version {
 	flex-wrap: wrap;
 	align-content: flex-start;
 }
+#apps-list.hidden {
+	display: none;
+}
+
 #apps-list .section {
 	position: relative;
 	flex: 0 0 auto;
@@ -549,6 +579,26 @@ span.version {
 }
 #apps-list .section.apps-experimental {
 	flex-basis: 90%;
+}
+
+#apps-list .app-description p {
+	margin: 10px 0;
+}
+#apps-list .app-description ul {
+	list-style: disc;
+}
+#apps-list .app-description ol {
+	list-style: decimal;
+}
+#apps-list .app-description > ul,
+#apps-list .app-description > ol {
+	margin-left: 19px;
+}
+#apps-list .app-description ol ol,
+#apps-list .app-description ol ul,
+#apps-list .app-description ul ol,
+#apps-list .app-description ul ul {
+	padding-left: 15px;
 }
 
 @media (min-width: 1601px) {
@@ -634,9 +684,6 @@ form.section {
 .app-description {
 	clear: both;
 }
-.app-description pre {
-	white-space: pre-line;
-}
 
 #apps-list .groups-enable {
 	margin-top: 8px;
@@ -686,6 +733,17 @@ table.grid td.date{
 }
 
 /* ADMIN */
+
+/* Navigation icons */
+#app-navigation img {
+	margin-bottom: -3px;
+	margin-right: 6px;
+	width: 16px;
+}
+#app-navigation li span.no-icon {
+	padding-left: 32px;
+}
+
 #security-warning li {
 	list-style: initial;
 	margin: 10px 0;
@@ -787,9 +845,9 @@ span.indeterminate {
 /* PASSWORD */
 #passwordform .strengthify-wrapper {
 	position: absolute;
-	left: 186px;
-	width: 131px;
-	margin-top: -7px;
+	left: 0;
+	width: 130px;
+	margin-top: -6px;
 }
 
 /* OPERA hack for strengthify*/

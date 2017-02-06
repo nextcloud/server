@@ -24,6 +24,7 @@
 namespace OCP\Settings;
 
 /**
+ * @deprecated 12 Use IIconSection instead
  * @since 9.1
  */
 interface ISection {

@@ -160,7 +160,6 @@ class LoginController extends Controller {
 		}
 
 		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
-		$parameters['rememberLoginAllowed'] = OC_Util::rememberLoginAllowed();
 		$parameters['rememberLoginState'] = !empty($remember_login) ? $remember_login : 0;
 
 		if (!is_null($user) && $user !== '') {
@@ -170,6 +169,8 @@ class LoginController extends Controller {
 			$parameters['loginName'] = '';
 			$parameters['user_autofocus'] = true;
 		}
+
+		\OC_Util::addStyle('guest');
 
 		return new TemplateResponse(
 			$this->appName, 'login', $parameters, 'guest'
@@ -206,8 +207,8 @@ class LoginController extends Controller {
 	 * @return RedirectResponse
 	 */
 	public function tryLogin($user, $password, $redirect_url, $remember_login = false, $timezone = '', $timezone_offset = '') {
-		$currentDelay = $this->throttler->getDelay($this->request->getRemoteAddress());
-		$this->throttler->sleepDelay($this->request->getRemoteAddress());
+		$currentDelay = $this->throttler->getDelay($this->request->getRemoteAddress(), 'login');
+		$this->throttler->sleepDelay($this->request->getRemoteAddress(), 'login');
 
 		// If the user is already logged in and the CSRF check does not pass then
 		// simply redirect the user to the correct page as required. This is the
@@ -235,7 +236,7 @@ class LoginController extends Controller {
 		if ($loginResult === false) {
 			$this->throttler->registerAttempt('login', $this->request->getRemoteAddress(), ['user' => $originalUser]);
 			if($currentDelay === 0) {
-				$this->throttler->sleepDelay($this->request->getRemoteAddress());
+				$this->throttler->sleepDelay($this->request->getRemoteAddress(), 'login');
 			}
 			$this->session->set('loginMessages', [
 				['invalidpassword'], []
@@ -300,19 +301,15 @@ class LoginController extends Controller {
 	 * @return DataResponse
 	 */
 	public function confirmPassword($password) {
-		$currentDelay = $this->throttler->getDelay($this->request->getRemoteAddress());
-		$this->throttler->sleepDelay($this->request->getRemoteAddress());
+		$currentDelay = $this->throttler->getDelay($this->request->getRemoteAddress(), 'sudo');
+		$this->throttler->sleepDelay($this->request->getRemoteAddress(), 'sudo');
 
-		$user = $this->userSession->getUser();
-		if (!$user instanceof IUser) {
-			return new DataResponse([], Http::STATUS_UNAUTHORIZED);
-		}
-
-		$loginResult = $this->userManager->checkPassword($user->getUID(), $password);
+		$loginName = $this->userSession->getLoginName();
+		$loginResult = $this->userManager->checkPassword($loginName, $password);
 		if ($loginResult === false) {
-			$this->throttler->registerAttempt('sudo', $this->request->getRemoteAddress(), ['user' => $user->getUID()]);
+			$this->throttler->registerAttempt('sudo', $this->request->getRemoteAddress(), ['user' => $loginName]);
 			if ($currentDelay === 0) {
-				$this->throttler->sleepDelay($this->request->getRemoteAddress());
+				$this->throttler->sleepDelay($this->request->getRemoteAddress(), 'sudo');
 			}
 
 			return new DataResponse([], Http::STATUS_FORBIDDEN);

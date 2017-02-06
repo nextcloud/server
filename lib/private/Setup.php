@@ -125,8 +125,8 @@ class Setup {
 	public function getSupportedDatabases($allowAllDatabases = false) {
 		$availableDatabases = array(
 			'sqlite' =>  array(
-				'type' => 'class',
-				'call' => 'SQLite3',
+				'type' => 'pdo',
+				'call' => 'sqlite',
 				'name' => 'SQLite'
 			),
 			'mysql' => array(
@@ -163,9 +163,7 @@ class Setup {
 				$type = $availableDatabases[$database]['type'];
 				$call = $availableDatabases[$database]['call'];
 
-				if($type === 'class') {
-					$working = $this->class_exists($call);
-				} elseif ($type === 'function') {
+				if ($type === 'function') {
 					$working = $this->is_callable($call);
 				} elseif($type === 'pdo') {
 					$working = in_array($call, $this->getAvailableDbDriversForPdo(), TRUE);

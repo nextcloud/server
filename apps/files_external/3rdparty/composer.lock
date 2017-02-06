@@ -4,30 +4,28 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8ed3150b0b3e916ad66558242b4cf2a0",
-    "content-hash": "70722dcee13b3ac1c1951479b7431c97",
+    "content-hash": "0bbca3fe2d180fbc5681985bdf6b22e7",
     "packages": [
         {
             "name": "icewind/smb",
-            "version": "v1.1.0",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icewind1991/SMB.git",
-                "reference": "822f924967c68228555cea84ea44765f8e85c601"
+                "reference": "95a5ecbaf92617f9800ad7d6070ef31d8ff28c3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/822f924967c68228555cea84ea44765f8e85c601",
-                "reference": "822f924967c68228555cea84ea44765f8e85c601",
+                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/95a5ecbaf92617f9800ad7d6070ef31d8ff28c3a",
+                "reference": "95a5ecbaf92617f9800ad7d6070ef31d8ff28c3a",
                 "shasum": ""
             },
             "require": {
                 "icewind/streams": ">=0.2.0",
-                "php": ">=5.3"
+                "php": ">=5.4"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8",
-                "satooshi/php-coveralls": "v1.0.0"
+                "phpunit/phpunit": "^4.8"
             },
             "type": "library",
             "autoload": {
@@ -47,20 +45,20 @@
                 }
             ],
             "description": "php wrapper for smbclient and libsmbclient-php",
-            "time": "2016-04-26 13:26:39"
+            "time": "2016-12-13T13:56:55+00:00"
         },
         {
             "name": "icewind/streams",
-            "version": "0.4.1",
+            "version": "0.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icewind1991/Streams.git",
-                "reference": "d3620e8dc410c86c2ba55579803679c4e0b289ac"
+                "reference": "6bfd2fdbd99319f5e010d0a684409189a562cb1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icewind1991/Streams/zipball/d3620e8dc410c86c2ba55579803679c4e0b289ac",
-                "reference": "d3620e8dc410c86c2ba55579803679c4e0b289ac",
+                "url": "https://api.github.com/repos/icewind1991/Streams/zipball/6bfd2fdbd99319f5e010d0a684409189a562cb1e",
+                "reference": "6bfd2fdbd99319f5e010d0a684409189a562cb1e",
                 "shasum": ""
             },
             "require": {
@@ -88,7 +86,7 @@
                 }
             ],
             "description": "A set of generic stream wrappers",
-            "time": "2016-06-02 14:37:52"
+            "time": "2016-12-02T14:21:23+00:00"
         }
     ],
     "packages-dev": [],

@@ -305,6 +305,27 @@ interface IExpressionBuilder {
 	 */
 	public function notIn($x, $y, $type = null);
 
+
+	/**
+	 * Creates a bitwise AND comparison
+	 *
+	 * @param string|ILiteral $x The field or value to check
+	 * @param int $y Bitmap that must be set
+	 * @return IQueryFunction
+	 * @since 12.0.0
+	 */
+	public function bitwiseAnd($x, $y);
+
+	/**
+	 * Creates a bitwise OR comparison
+	 *
+	 * @param string|ILiteral $x The field or value to check
+	 * @param int $y Bitmap that must be set
+	 * @return IQueryFunction
+	 * @since 12.0.0
+	 */
+	public function bitwiseOr($x, $y);
+
 	/**
 	 * Quotes a given input parameter.
 	 *

@@ -12,10 +12,6 @@
     "Add" : "Añadir",
     "Trusted Servers" : "Servidores de confianza",
     "+ Add Nextcloud server" : "+ Añadir servidor Nextcloud",
-    "Nextcloud Server" : "Servidor Nexcloud",
-    "Server added to the list of trusted Nextclouds" : "Servidor Nextcloud añadido a la lista de servidores de confianza",
-    "No Nextcloud server found" : "No se ha encontrado ningún servidor Nextcloud",
-    "Nextcloud Federation allows you to connect with other trusted Nextclouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "La federación de Nextcloud te permite conectarte con otros servidores de confianza para intercambiar directorios. Por ejemplo, ésto se usará para autocompletar la selección de usuarios externos al compartir en federación. ",
-    "Trusted Nextcloud Servers" : "Servidores Nextcloud de confianza"
+    "Nextcloud Server" : "Servidor Nexcloud"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

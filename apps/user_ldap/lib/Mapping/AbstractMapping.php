@@ -209,6 +209,17 @@ abstract class AbstractMapping {
 	 * @return bool
 	 */
 	public function map($fdn, $name, $uuid) {
+		if(mb_strlen($fdn) > 255) {
+			\OC::$server->getLogger()->error(
+				'Cannot map, because the DN exceeds 255 characters: {dn}',
+				[
+					'app' => 'user_ldap',
+					'dn' => $fdn,
+				]
+			);
+			return false;
+		}
+
 		$row = array(
 			'ldap_dn'        => $fdn,
 			'owncloud_name'  => $name,

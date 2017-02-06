@@ -272,6 +272,10 @@
 			return this.get('allowPublicUploadStatus');
 		},
 
+		isPublicEditingAllowed: function() {
+			return this.get('allowPublicEditingStatus');
+		},
+
 		/**
 		 * @returns {boolean}
 		 */
@@ -345,6 +349,14 @@
 		},
 
 		/**
+		 * @returns {string}
+		 */
+		getReshareWithDisplayName: function() {
+			var reshare = this.get('reshare');
+			return reshare.share_with_displayname || reshare.share_with;
+		},
+
+		/**
 		 * @returns {number}
 		 */
 		getReshareType: function() {
@@ -389,6 +401,26 @@
 				throw "Unknown Share";
 			}
 			return share.share_with_displayname;
+		},
+
+		/**
+		 * returns the array index of a sharee for a provided shareId
+		 *
+		 * @param shareId
+		 * @returns {number}
+		 */
+		findShareWithIndex: function(shareId) {
+			var shares = this.get('shares');
+			if(!_.isArray(shares)) {
+				throw "Unknown Share";
+			}
+			for(var i = 0; i < shares.length; i++) {
+				var shareWith = shares[i];
+				if(shareWith.id === shareId) {
+					return i;
+				}
+			}
+			throw "Unknown Sharee";
 		},
 
 		getShareType: function(shareIndex) {
@@ -553,7 +585,7 @@
 			return superShare;
 		},
 
-		fetch: function() {
+		fetch: function(options) {
 			var model = this;
 			this.trigger('request', this);
 
@@ -577,6 +609,10 @@
 					shares: sharesMap,
 					reshare: reshare
 				}));
+
+				if(!_.isUndefined(options) && _.isFunction(options.success)) {
+					options.success();
+				}
 			});
 
 			return deferred;
@@ -646,6 +682,17 @@
 					}
 				});
 			}
+
+			var allowPublicEditingStatus = true;
+			if(!_.isUndefined(data.shares)) {
+				$.each(data.shares, function (key, value) {
+					if (value.share_type === OC.Share.SHARE_TYPE_LINK) {
+						allowPublicEditingStatus = (value.permissions & OC.PERMISSION_UPDATE) ? true : false;
+						return true;
+					}
+				});
+			}
+
 
 			var hideFileListStatus = false;
 			if(!_.isUndefined(data.shares)) {
@@ -730,6 +777,7 @@
 				linkShare: linkShare,
 				permissions: permissions,
 				allowPublicUploadStatus: allowPublicUploadStatus,
+				allowPublicEditingStatus: allowPublicEditingStatus,
 				hideFileListStatus: hideFileListStatus
 			};
 		},

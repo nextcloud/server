@@ -25,16 +25,12 @@
 
 namespace OC\Files\ObjectStore;
 
+use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Cache\CacheEntry;
 use OCP\Files\ObjectStore\IObjectStore;
 
 class ObjectStoreStorage extends \OC\Files\Storage\Common {
-
-	/**
-	 * @var array
-	 */
-	private static $tmpFiles = array();
 	/**
 	 * @var \OCP\Files\ObjectStore\IObjectStore $objectStore
 	 */
@@ -291,14 +287,14 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 					$ext = '';
 				}
 				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
-				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
 					file_put_contents($tmpFile, $source);
 				}
-				self::$tmpFiles[$tmpFile] = $path;
-
-				return fopen('close://' . $tmpFile, $mode);
+				$handle = fopen($tmpFile, $mode);
+				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
+					$this->writeBack($tmpFile, $path);
+				});
 		}
 		return false;
 	}
@@ -368,12 +364,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		return true;
 	}
 
-	public function writeBack($tmpFile) {
-		if (!isset(self::$tmpFiles[$tmpFile])) {
-			return;
-		}
-
-		$path = self::$tmpFiles[$tmpFile];
+	public function writeBack($tmpFile, $path) {
 		$stat = $this->stat($path);
 		if (empty($stat)) {
 			// create new file

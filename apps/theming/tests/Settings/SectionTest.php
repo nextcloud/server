@@ -25,19 +25,24 @@ namespace OCA\Theming\Tests\Settings;
 
 use OCA\Theming\Settings\Section;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use Test\TestCase;
 
 class SectionTest extends TestCase {
-	/** @var IL10N */
+	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	private $url;
+	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
 	private $l;
 	/** @var Section */
 	private $section;
 
 	public function setUp() {
 		parent::setUp();
-		$this->l = $this->getMockBuilder('\OCP\IL10N')->getMock();
+		$this->url = $this->createMock(IURLGenerator::class);
+		$this->l = $this->createMock(IL10N::class);
 
 		$this->section = new Section(
+			$this->url,
 			$this->l
 		);
 	}
@@ -58,5 +63,14 @@ class SectionTest extends TestCase {
 
 	public function testGetPriority() {
 		$this->assertSame(30, $this->section->getPriority());
+	}
+
+	public function testGetIcon() {
+		$this->url->expects($this->once())
+			->method('imagePath')
+			->with('theming', 'app-dark.svg')
+			->willReturn('icon');
+
+		$this->assertSame('icon', $this->section->getIcon());
 	}
 }

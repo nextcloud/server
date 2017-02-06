@@ -1,0 +1,660 @@
+/* Copyright (c) 2011, Jan-Christoph Borchardt, http://jancborchardt.net
+ This file is licensed under the Affero General Public License version 3 or later.
+ See the COPYING-README file. */
+
+/* Default and reset */
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section { margin:0; padding:0; border:0; outline:0; font-weight:inherit; font-size:100%; font-family:inherit; vertical-align:baseline; cursor:default; }
+html, body { height:100%; }
+article, aside, dialog, figure, footer, header, hgroup, nav, section { display:block; }
+body { line-height:1.5; }
+table { border-collapse:separate; border-spacing:0; white-space:nowrap; }
+caption, th, td { text-align:left; font-weight:normal; }
+table, td, th { vertical-align:middle; }
+a { border:0; color:#000; text-decoration:none;}
+a, a *, input, input *, select, .button span, label { cursor:pointer; }
+ul { list-style:none; }
+
+body {
+	background-color: #ffffff;
+	font-weight: 400;
+	font-size: .8em;
+	line-height: 1.6em;
+	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
+	color: #000;
+	text-align: center;
+	background-color: #0082c9;
+	background-image: url('../img/background.jpg?v=1');
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-attachment: fixed; /* fix background gradient */
+	height: 100%; /* fix sticky footer */
+}
+
+/* Various fonts settings */
+p.info a,
+#showAdvanced {
+	color: #fff;
+}
+#remember_login:hover+label,
+#remember_login:focus+label,
+#forgot-password:hover,
+#forgot-password:focus,
+p.info a:hover,
+p.info a:focus  {
+	opacity: .6;
+}
+em {
+	font-style: normal;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	opacity: .5;
+}
+
+/* heading styles */
+h2 {
+	font-size: 20px;
+	font-weight: 300;
+	margin-bottom: 12px;
+	line-height: 140%;
+}
+h3 {
+	font-size: 15px;
+	font-weight: 300;
+	margin: 12px 0;
+}
+
+/* Global content */
+#header {
+	padding-top: 100px;
+}
+#header .logo {
+	background-image: url(../img/logo-icon.svg?v=1);
+	background-repeat: no-repeat;
+	background-size: 175px;
+	background-position: center;
+	width: 252px;
+	height: 120px;
+	margin: 0 auto;
+}
+.wrapper {
+	min-height: 100%;
+	margin: 0 auto -70px;
+	width: 300px;
+}
+.v-align {
+	width: inherit;
+}
+
+/* Default FORM */
+form {
+	position: relative;
+	width: 280px;
+	margin: 16px auto;
+	padding: 0;
+}
+form fieldset {
+	margin-bottom: 20px;
+	text-align: left;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+form #sqliteInformation {
+	margin-top: -20px;
+	margin-bottom: 20px;
+}
+form #adminaccount {
+	margin-bottom: 15px;
+}
+form fieldset legend, #datadirContent label {
+	width: 100%;
+}
+#datadirContent label {
+	display: block;
+	margin: 0;
+}
+form #datadirField legend {
+	margin-bottom: 15px;
+}
+
+/* View more button */
+#showAdvanced {
+	padding: 13px; /* increase clickable area of Advanced dropdown */
+}
+#showAdvanced img {
+	vertical-align: middle; /* adjust position of Advanced dropdown arrow */
+}
+
+/* Buttons and input */
+input, textarea, select, button {
+	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
+}
+input {
+	font-size: 20px;
+	margin: 5px;
+	padding: 11px 10px 9px;
+	outline: none;
+	border-radius: 3px;
+}
+input[type="submit"],
+input[type="button"],
+button, .button,
+select {
+	width: auto;
+	min-width: 25px;
+	padding: 5px;
+	background-color: rgba(240,240,240,.9);
+	font-weight: 600;
+	color: #555;
+	border: 1px solid rgba(240,240,240,.9);
+	cursor: pointer;
+}
+input[type="text"],
+input[type="password"],
+input[type='email'] {
+	width: 249px;
+	background: #fff;
+	color: #555;
+	cursor: text;
+	font-family: inherit;
+	-webkit-appearance: textfield;
+	-moz-appearance: textfield;
+	box-sizing: content-box;
+	border: none;
+	font-weight: 300;
+}
+input.login {
+	width: 269px;
+	background-position: right 16px center;
+}
+input[type="submit"],
+input.updateButton,
+input.update-continue {
+	padding: 10px 20px; /* larger log in and installation buttons */
+}
+input.primary,
+button.primary {
+	border: 1px solid #0082c9;
+	background-color: #00a2e9;
+	color: #fff;
+}
+
+/* Radio and Checkbox */
+input[type="checkbox"].checkbox {
+	position: absolute;
+	left:-10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+input[type="checkbox"].checkbox + label:before {
+	content: "";
+	display: inline-block;
+
+	height: 20px;
+	width: 20px;
+	vertical-align: middle;
+
+	background: url('../img/actions/checkbox.svg') left top no-repeat;
+}
+input[type="checkbox"].checkbox:disabled +label:before { opacity: .6; }
+input[type="checkbox"].checkbox.u-left +label:before { float: left; }
+input[type="checkbox"].checkbox.u-hidden + label:before { display: none; }
+input[type="checkbox"].checkbox:checked + label:before {
+	background-image: url('../img/actions/checkbox-checked.svg');
+}
+input[type="checkbox"].checkbox:indeterminate + label:before {
+	background-image: url('../img/actions/checkbox-mixed.svg');
+}
+input[type="checkbox"].checkbox:disabled + label:before {
+	background-image: url('../img/actions/checkbox-disabled.svg');
+}
+input[type="checkbox"].checkbox:checked:disabled + label:before {
+	background-image: url('../img/actions/checkbox-checked-disabled.svg');
+}
+input[type="checkbox"].checkbox:indeterminate:disabled + label:before {
+	background-image: url('../img/actions/checkbox-mixed-disabled.svg');
+}
+input[type="checkbox"].checkbox--white + label:before {
+	background-image: url('../img/actions/checkbox-white.svg');
+}
+input[type="checkbox"].checkbox--white:checked + label:before {
+	background-image: url('../img/actions/checkbox-checked-white.svg');
+}
+input[type="checkbox"].checkbox--white:indeterminate + label:before {
+	background-image: url('../img/actions/checkbox-mixed-white.svg');
+}
+input[type="checkbox"].checkbox--white:disabled + label:before {
+	background-image: url('../img/actions/checkbox-disabled-white.svg');
+}
+input[type="checkbox"].checkbox--white:checked:disabled + label:before {
+	background-image: url('../img/actions/checkbox-checked-disabled.svg');
+}
+input[type="checkbox"].checkbox--white:indeterminate:disabled + label:before {
+	background-image: url('../img/actions/checkbox-mixed-disabled.svg');
+}
+input[type="checkbox"].checkbox:hover+label:before, input[type="checkbox"]:focus+label:before {
+	color:#111 !important;
+}
+input[type="checkbox"]+label {
+	position: relative;
+	margin: 0;
+	padding: 14px;
+	vertical-align: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+input[type="radio"].radio {
+	position: absolute;
+	left:-10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+input[type="radio"].radio + label:before {
+	content: "";
+	display: inline-block;
+
+	height: 20px;
+	width: 20px;
+	vertical-align: middle;
+
+	background: url('../img/actions/radio.svg') left top no-repeat;
+}
+input[type="radio"].radio:checked + label:before {
+	background-image: url('../img/actions/radio-checked.svg');
+}
+input[type="radio"].radio:disabled + label:before {
+	background-image: url('../img/actions/radio-disabled.svg');
+}
+input[type="radio"].radio:checked:disabled + label:before {
+	background-image: url('../img/actions/radio-checked-disabled.svg');
+}
+input[type="radio"].radio--white + label:before {
+	background-image: url('../img/actions/radio-white.svg');
+}
+input[type="radio"].radio--white:checked + label:before {
+	background-image: url('../img/actions/radio-checked-white.svg');
+}
+input[type="radio"].radio--white:disabled + label:before {
+	background-image: url('../img/actions/radio-disabled.svg');
+}
+input[type="radio"].radio--white:checked:disabled + label:before {
+	background-image: url('../img/actions/radio-checked-disabled.svg');
+}
+
+/* keep the labels for screen readers but hide them since we use placeholders */
+label.infield {
+	display: none;
+}
+
+/* Password strength meter */
+.strengthify-wrapper {
+	display: inline-block;
+	position: relative;
+	left: 15px;
+	top: -23px;
+	width: 250px;
+}
+.tooltip-inner {
+	font-weight: bold;
+	color: #ccc;
+	padding: 3px 6px;
+	text-align: center;
+}
+
+/* Show password toggle */
+#show, #dbpassword {
+	position: absolute;
+	right: 1em;
+	top: .8em;
+	float: right;
+}
+#show, #dbpassword, #personal-show {
+	display: none;
+}
+#show + label, #dbpassword + label {
+	right: 21px;
+	top: 15px !important;
+	margin: -14px !important;
+	padding: 14px !important;
+}
+#show:checked + label, #dbpassword:checked + label, #personal-show:checked + label {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+	opacity: .8;
+}
+#show + label, #dbpassword + label, #personal-show + label {
+	position: absolute !important;
+	height: 20px;
+	width: 24px;
+	background-image: url('../img/actions/toggle.svg?v=1');
+	background-repeat: no-repeat;
+	background-position: center;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	opacity: .3;
+}
+#show + label:before, #dbpassword + label:before, #personal-show + label:before {
+	display: none;
+}
+#pass2, input[name="personal-password-clone"] {
+	padding: .6em 2.5em .4em .4em;
+	width: 8em;
+}
+#personal-show + label {
+	height: 14px;
+	margin-top: -25px;
+	left: 295px;
+	display: block;
+}
+#passwordbutton {
+	margin-left: .5em;
+}
+
+/* Dark subtle label text */
+p.info,
+form fieldset legend,
+#datadirContent label,
+form fieldset .warning-info,
+form input[type="checkbox"]+label {
+	text-align: center;
+	color: #fff;
+}
+/* overrides another !important statement that sets this to unreadable black */
+form .warning input[type="checkbox"]:hover+label,
+form .warning input[type="checkbox"]:focus+label,
+form .warning input[type="checkbox"]+label {
+	color: #fff !important;
+}
+
+/* Additional login options */
+#remember_login {
+	margin: 18px 5px 0 16px !important;
+}
+.remember-login-container {
+	display: inline-block;
+	margin: 10px 0;
+	text-align: center;
+	width: 100%;
+}
+#forgot-password {
+	padding: 11px;
+	float: right;
+	color: #fff;
+}
+
+/* Alternative Logins */
+#alternative-logins legend { margin-bottom:10px; }
+#alternative-logins li { height:40px; display:inline-block; white-space:nowrap; }
+
+/* fixes for update page TODO should be fixed some time in a proper way */
+/* this is just for an error while updating the ownCloud instance */
+.updateProgress .error {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+/* Database selector on install page */
+form #selectDbType {
+	text-align:center;
+	white-space: nowrap; 
+	margin: 0;
+}
+form #selectDbType .info {
+	white-space: normal;
+}
+form #selectDbType label {
+	position: static;
+	margin: 0 -3px 5px;
+	font-size: 12px;
+	background:#f8f8f8;
+	color:#888;
+	cursor:pointer;
+	border: 1px solid #ddd;
+}
+form #selectDbType label span {
+	cursor: pointer;
+	padding: 10px 20px;
+}
+form #selectDbType label.ui-state-hover,
+form #selectDbType label.ui-state-active {
+	color:#000;
+	background-color:#e8e8e8; }
+
+/* Nicely grouping input field sets */
+.grouptop,
+.groupmiddle,
+.groupbottom {
+	position: relative;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.grouptop input {
+	margin-bottom: 0 !important;
+	border-bottom: 0 !important;
+	border-bottom-left-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
+}
+.groupmiddle input {
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+	border-top: 0 !important;
+	border-bottom: 0 !important;
+	border-radius: 0 !important;
+	box-shadow: 0 1px 0 rgba(0,0,0,.1) inset !important;
+}
+.groupbottom input {
+	margin-top: 0 !important;
+	border-top: 0 !important;
+	border-top-right-radius: 0 !important;
+	border-top-left-radius: 0 !important;
+	box-shadow: 0 1px 0 rgba(0,0,0,.1) inset !important;
+}
+.groupbottom input[type=submit] {
+	box-shadow: none !important;
+}
+
+/* Errors */
+/* Warnings and errors are the same */
+.warning,
+.update,
+.error {
+	display: block;
+	padding: 10px;
+	background-color: rgba(0,0,0,.3);
+	color: #fff;
+	text-align: left;
+	border-radius: 3px;
+	cursor: default;
+}
+.warning, {
+	padding: 5px;
+	background: #fdd;
+	margin: 0 7px 5px 4px;
+}
+.warning legend,
+.warning a,
+.error a {
+	color: #fff !important;
+	font-weight: 600 !important;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	opacity: 1;
+}
+.error a.button {
+	color: #555 !important;
+	display: inline-block;
+	text-align: center;
+}
+.error pre {
+	white-space: pre-wrap;
+	text-align: left;
+}
+.error-wide {
+	width: 700px;
+	margin-left: -200px !important;
+	margin-top: 35px;
+}
+.error-wide .button {
+	color: black !important;
+}
+.warning-input {
+	border-color: #ce3702 !important;
+}
+a.warning {
+	cursor: pointer;
+}
+fieldset.warning legend,
+fieldset.update legend {
+	top: 18px;
+	position: relative;
+}
+fieldset.warning legend + p,
+fieldset.update legend + p {
+	margin-top: 12px;
+}
+
+/* Various paragraph styles */
+.infogroup {
+	margin-bottom: 15px;
+}
+p.info {
+	margin: 0 auto;
+	padding-top: 20px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/* Update */
+.update {
+	width: inherit;
+	text-align: center;
+}
+.update .appList {
+	list-style: disc;
+	text-align: left;
+	margin-left: 25px;
+	margin-right: 25px;
+}
+.update img.float-spinner {
+	float: left;
+}
+.update h2 {
+	margin: 0 0 20px;
+}
+.update a {
+	color: #fff;
+	border-bottom: 1px solid #aaa;
+}
+.update a.update-show-detailed {
+	border-bottom: inherit;
+}
+#update-progress-detailed {
+	text-align: left;
+}
+.update-show-detailed {
+	padding: 13px;
+	display: block;
+	opacity: .75;
+}
+#update-progress-icon {
+	height: 32px;
+	margin: 10px;
+	background-size: 32px;
+}
+
+/* Icons */
+.icon-info-white {
+	background-image: url(../img/actions/info-white.svg?v=1);
+}
+
+/* Loading */
+.float-spinner {
+	margin-top: -32px;
+	padding-top: 32px;
+}
+[class^='icon-'], [class*=' icon-'] {
+	background-repeat: no-repeat;
+	background-position: center;
+	min-width: 16px;
+	min-height: 16px;
+}
+.loading, .loading-small, .icon-loading, .icon-loading-dark, .icon-loading-small, .icon-loading-small-dark {
+	position: relative;
+}
+.loading:after, .loading-small:after, .icon-loading:after, .icon-loading-dark:after, .icon-loading-small:after, .icon-loading-small-dark:after {
+	z-index: 2;
+	content: '';
+	height: 32px;
+	width: 32px;
+	margin: -17px 0 0 -17px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	border-radius: 100%;
+	-webkit-animation: rotate .8s infinite linear;
+	animation: rotate .8s infinite linear;
+	-webkit-transform-origin: center;
+	-ms-transform-origin: center;
+	transform-origin: center;
+}
+.loading:after, .loading-small:after, .icon-loading:after, .icon-loading-dark:after, .icon-loading-small:after, .icon-loading-small-dark:after {
+	border: 2px solid rgba(150, 150, 150, 0.5);
+	border-top-color: #646464;
+}
+.icon-loading-dark:after, .icon-loading-small-dark:after {
+	border: 2px solid rgba(187, 187, 187, 0.5);
+	border-top-color: #bbb;
+}
+.icon-loading-small:after, .icon-loading-small-dark:after {
+	height: 16px;
+	width: 16px;
+	margin: -9px 0 0 -9px;
+}
+/* Css replaced elements don't have ::after nor ::before */
+img.icon-loading, object.icon-loading, video.icon-loading, button.icon-loading, textarea.icon-loading, input.icon-loading, select.icon-loading {
+	background-image: url("../img/loading.gif");
+}
+img.icon-loading-dark, object.icon-loading-dark, video.icon-loading-dark, button.icon-loading-dark, textarea.icon-loading-dark, input.icon-loading-dark, select.icon-loading-dark {
+	background-image: url("../img/loading-dark.gif");
+}
+img.icon-loading-small, object.icon-loading-small, video.icon-loading-small, button.icon-loading-small, textarea.icon-loading-small, input.icon-loading-small, select.icon-loading-small {
+	background-image: url("../img/loading-small.gif");
+}
+img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-small-dark, button.icon-loading-small-dark, textarea.icon-loading-small-dark, input.icon-loading-small-dark, select.icon-loading-small-dark {
+	background-image: url("../img/loading-small-dark.gif");
+}
+@-webkit-keyframes rotate {
+	from {
+	-webkit-transform: rotate(0deg);
+	transform: rotate(0deg);
+	}
+	to {
+	-webkit-transform: rotate(360deg);
+	transform: rotate(360deg);
+	}
+}
+@keyframes rotate {
+	from {
+	-webkit-transform: rotate(0deg);
+	transform: rotate(0deg);
+	}
+	to {
+	-webkit-transform: rotate(360deg);
+	transform: rotate(360deg);
+	}
+}
+
+/* FOOTER */
+footer,
+.push {
+	height: 70px;
+}

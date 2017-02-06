@@ -3,8 +3,13 @@
     "This can usually be fixed by giving the webserver write access to the config directory" : "Обычно это можно исправить, предоставив веб-серверу права на запись в каталог конфигурации",
     "See %s" : "Смотрите %s",
     "This can usually be fixed by %sgiving the webserver write access to the config directory%s." : "Обычно это можно исправить %sпредоставив веб-серверу права на запись в каталоге конфигурации%s.",
+    "The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server." : "Файлы приложения %$1s не заменены корректно. Проверьте что его версия совместима с версией сервера.",
     "Sample configuration detected" : "Обнаружена конфигурация из примера",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Была обнаружена конфигурация из примера. Такая конфигурация не поддерживается и может повредить вашей системе. Прочтите документацию перед внесением изменений в файл config.php",
+    "%1$s and %2$s" : "%1$s и %2$s",
+    "%1$s, %2$s and %3$s" : "%1$s, %2$s и %3$s",
+    "%1$s, %2$s, %3$s and %4$s" : "%1$s, %2$s, %3$s и %4$s",
+    "%1$s, %2$s, %3$s, %4$s and %5$s" : "%1$s, %2$s, %3$s, %4$s и %5$s",
     "PHP %s or higher is required." : "Требуется PHP %s или выше",
     "PHP with a version lower than %s is required." : "Требуется версия PHP ниже %s.",
     "%sbit or higher PHP required." : "Требуется PHP с разрядностью %s бит или более.",
@@ -204,7 +209,7 @@
     "4-byte characters are not supported in file names" : "4-х байтовые символы в имени файлов не допускаются",
     "App directory already exists" : "Каталог приложения уже существует",
     "Can't create app folder. Please fix permissions. %s" : "Не удалось создать каталог приложения. Исправьте права доступа. %s",
-    "Archive does not contain a directory named %s" : "Архив не содержит папки с именем %s",
+    "Archive does not contain a directory named %s" : "Архив не содержит каталога с именем %s",
     "No source specified when installing app" : "Не указан источник при установке приложения",
     "No href specified when installing app from http" : "Не указан атрибут href при установке приложения через http",
     "No path specified when installing app from local file" : "Не указан путь при установке приложения из локального файла",
@@ -221,14 +226,6 @@
     "Recommended" : "Рекомендовано",
     "Microsoft Windows Platform is not supported" : "Платформа Microsoft Windows не поддерживается",
     "Running Nextcloud Server on the Microsoft Windows platform is not supported. We suggest you use a Linux server in a virtual machine if you have no option for migrating the server itself." : "Работа Nextcloud Server на платформе Microsoft Windows не поддерживается. Мы рекомендуем использовать Linux в качестве виртуальный машины, если у вас нет возможности перевести сам сервер.",
-    "Storage not available" : "Хранилище недоступно",
-    "ownCloud %s or higher is required." : "Требуется NextCloud версии %s или выше.",
-    "ownCloud %s or lower is required." : "Требуется NextCloud версии %s или ниже.",
-    "App \"%s\" cannot be installed because it is not compatible with this version of Nextcloud." : "Приложение \"%s\" не может быть установлено, так как оно несовместимо с этой версией Nextcloud.",
-    "App can't be installed because it is not compatible with this version of Nextcloud" : "Приложение не может быть установлено, так как оно несовместимо с этой версией Nextcloud.",
-    "App can't be installed because the version in info.xml/version is not the same as the version reported from the app store" : "Приложение не может быть установлено, поскольку версия в файле info.xml/version не совпадает с версией, заявленной в магазине приложений",
-    "Hint: You can speed up the upgrade by executing this SQL command manually: ALTER TABLE %s ADD COLUMN checksum varchar(255) DEFAULT NULL AFTER permissions;" : "Совет: вы можете ускорить процесс обновления, выполнив SQL-запрос самостоятельно: ALTER TABLE %s ADD COLUMN checksum varchar(255) DEFAULT NULL AFTER permissions;",
-    "Running Nextcloud Server on the Microsoft Windows platform is not supported. We suggest you use a Linux server in a virtual machine if you have no option for migrating the server itself. Find Linux packages as well as easy to deploy virtual machine images on <a href=\"%s\">%s</a>. For migrating existing installations to Linux you can find some tips and a migration script in <a href=\"%s\">our documentation</a>." : "Nextcloud Server на платформе Microsoft Windows не поддерживается. Если у вас нет возможности установить на сервер Linux, рекомендуем воспользоваться виртуальной машиной. Соответствующие пакеты можно найти на странице <a href=\"%s\">%s</a>. Для переноса на Linux уже имеющейся установки некоторые советы и рекомендации есть в <a href=\"%s\">нашей документации</a>.",
-    "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the webserver write access to the root directory</a>." : "Как правило, это можно исправить, <a href=\"%s\" target=\"_blank\">предоставив веб-серверу права на запись в корневой каталог</a>."
+    "Storage not available" : "Хранилище недоступно"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

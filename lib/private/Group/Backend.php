@@ -31,23 +31,14 @@ abstract class Backend implements \OCP\GroupInterface {
 	 */
 	const NOT_IMPLEMENTED = -501;
 
-	/**
-	 * actions that user backends can define
-	 */
-	const CREATE_GROUP		= 0x00000001;
-	const DELETE_GROUP		= 0x00000010;
-	const ADD_TO_GROUP		= 0x00000100;
-	const REMOVE_FROM_GOUP	= 0x00001000;
-	//OBSOLETE const GET_DISPLAYNAME	= 0x00010000;
-	const COUNT_USERS		= 0x00100000;
-
-	protected $possibleActions = array(
+	protected $possibleActions = [
 		self::CREATE_GROUP => 'createGroup',
 		self::DELETE_GROUP => 'deleteGroup',
 		self::ADD_TO_GROUP => 'addToGroup',
 		self::REMOVE_FROM_GOUP => 'removeFromGroup',
 		self::COUNT_USERS => 'countUsersInGroup',
-	);
+		self::GROUP_DETAILS => 'getGroupDetails',
+	];
 
 	/**
 	* Get all supported actions

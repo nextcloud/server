@@ -383,7 +383,7 @@ interface IStorage {
 	public function verifyPath($path, $fileName);
 
 	/**
-	 * @param \OCP\Files\Storage $sourceStorage
+	 * @param \OCP\Files\Storage|\OCP\Files\Storage\IStorage $sourceStorage
 	 * @param string $sourceInternalPath
 	 * @param string $targetInternalPath
 	 * @return bool
@@ -392,7 +392,7 @@ interface IStorage {
 	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath);
 
 	/**
-	 * @param \OCP\Files\Storage $sourceStorage
+	 * @param \OCP\Files\Storage|\OCP\Files\Storage\IStorage $sourceStorage
 	 * @param string $sourceInternalPath
 	 * @param string $targetInternalPath
 	 * @return bool

@@ -29,6 +29,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Settings\ISettings;
@@ -43,6 +44,8 @@ class Manager implements IManager {
 	private $log;
 	/** @var IDBConnection */
 	private $dbc;
+	/** @var Mapper */
+	private $mapper;
 	/** @var IL10N */
 	private $l;
 	/** @var IConfig */
@@ -53,6 +56,8 @@ class Manager implements IManager {
 	private $userManager;
 	/** @var ILockingProvider */
 	private $lockingProvider;
+	/** @var IURLGenerator */
+	private $url;
 
 	/**
 	 * @param ILogger $log
@@ -62,6 +67,8 @@ class Manager implements IManager {
 	 * @param EncryptionManager $encryptionManager
 	 * @param IUserManager $userManager
 	 * @param ILockingProvider $lockingProvider
+	 * @param Mapper $mapper
+	 * @param IURLGenerator $url
 	 */
 	public function __construct(
 		ILogger $log,
@@ -70,25 +77,29 @@ class Manager implements IManager {
 		IConfig $config,
 		EncryptionManager $encryptionManager,
 		IUserManager $userManager,
-		ILockingProvider $lockingProvider
+		ILockingProvider $lockingProvider,
+		Mapper $mapper,
+		IURLGenerator $url
 	) {
 		$this->log = $log;
 		$this->dbc = $dbc;
+		$this->mapper = $mapper;
 		$this->l = $l;
 		$this->config = $config;
 		$this->encryptionManager = $encryptionManager;
 		$this->userManager = $userManager;
 		$this->lockingProvider = $lockingProvider;
+		$this->url = $url;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function setupSettings(array $settings) {
-		if(isset($settings[IManager::KEY_ADMIN_SECTION])) {
+		if (isset($settings[IManager::KEY_ADMIN_SECTION])) {
 			$this->setupAdminSection($settings[IManager::KEY_ADMIN_SECTION]);
 		}
-		if(isset($settings[IManager::KEY_ADMIN_SETTINGS])) {
+		if (isset($settings[IManager::KEY_ADMIN_SETTINGS])) {
 			$this->setupAdminSettings($settings[IManager::KEY_ADMIN_SETTINGS]);
 		}
 	}
@@ -104,50 +115,33 @@ class Manager implements IManager {
 	public function onAppDisabled($appId) {
 		$appInfo = \OC_App::getAppInfo($appId); // hello static legacy
 
-		if(isset($appInfo['settings'][IManager::KEY_ADMIN_SECTION])) {
-			$this->remove(self::TABLE_ADMIN_SECTIONS, trim($appInfo['settings'][IManager::KEY_ADMIN_SECTION], '\\'));
+		if (isset($appInfo['settings'][IManager::KEY_ADMIN_SECTION])) {
+			$this->mapper->remove(self::TABLE_ADMIN_SECTIONS, trim($appInfo['settings'][IManager::KEY_ADMIN_SECTION], '\\'));
 		}
-		if(isset($appInfo['settings'][IManager::KEY_ADMIN_SETTINGS])) {
-			$this->remove(self::TABLE_ADMIN_SETTINGS, trim($appInfo['settings'][IManager::KEY_ADMIN_SETTINGS], '\\'));
+		if (isset($appInfo['settings'][IManager::KEY_ADMIN_SETTINGS])) {
+			$this->mapper->remove(self::TABLE_ADMIN_SETTINGS, trim($appInfo['settings'][IManager::KEY_ADMIN_SETTINGS], '\\'));
 		}
 	}
 
 	public function checkForOrphanedClassNames() {
-		$tables = [ self::TABLE_ADMIN_SECTIONS, self::TABLE_ADMIN_SETTINGS ];
+		$tables = [self::TABLE_ADMIN_SECTIONS, self::TABLE_ADMIN_SETTINGS];
 		foreach ($tables as $table) {
-			$classes = $this->getClasses($table);
-			foreach($classes as $className) {
+			$classes = $this->mapper->getClasses($table);
+			foreach ($classes as $className) {
 				try {
 					\OC::$server->query($className);
 				} catch (QueryException $e) {
-					$this->remove($table, $className);
+					$this->mapper->remove($table, $className);
 				}
 			}
 		}
 	}
 
 	/**
-	 * returns the registerd classes in the given table
-	 *
-	 * @param $table
-	 * @return string[]
-	 */
-	private function getClasses($table) {
-		$q = $this->dbc->getQueryBuilder();
-		$resultStatement = $q->select('class')
-			->from($table)
-			->execute();
-		$data = $resultStatement->fetchAll();
-		$resultStatement->closeCursor();
-
-		return array_map(function($row) { return $row['class']; }, $data);
-	}
-
-	/**
 	 * @param string $sectionClassName
 	 */
 	private function setupAdminSection($sectionClassName) {
-		if(!class_exists($sectionClassName)) {
+		if (!class_exists($sectionClassName)) {
 			$this->log->debug('Could not find admin section class ' . $sectionClassName);
 			return;
 		}
@@ -158,14 +152,14 @@ class Manager implements IManager {
 			return;
 		}
 
-		if(!$section instanceof ISection) {
+		if (!$section instanceof ISection) {
 			$this->log->error(
 				'Admin section instance must implement \OCP\ISection. Invalid class: {class}',
 				['class' => $sectionClassName]
 			);
 			return;
 		}
-		if(!$this->hasAdminSection(get_class($section))) {
+		if (!$this->hasAdminSection(get_class($section))) {
 			$this->addAdminSection($section);
 		} else {
 			$this->updateAdminSection($section);
@@ -173,7 +167,7 @@ class Manager implements IManager {
 	}
 
 	private function addAdminSection(ISection $section) {
-		$this->add(self::TABLE_ADMIN_SECTIONS, [
+		$this->mapper->add(self::TABLE_ADMIN_SECTIONS, [
 			'id' => $section->getID(),
 			'class' => get_class($section),
 			'priority' => $section->getPriority(),
@@ -181,28 +175,15 @@ class Manager implements IManager {
 	}
 
 	private function addAdminSettings(ISettings $settings) {
-		$this->add(self::TABLE_ADMIN_SETTINGS, [
+		$this->mapper->add(self::TABLE_ADMIN_SETTINGS, [
 			'class' => get_class($settings),
 			'section' => $settings->getSection(),
 			'priority' => $settings->getPriority(),
 		]);
 	}
 
-	/**
-	 * @param string $table
-	 * @param array $values
-	 */
-	private function add($table, array $values) {
-		$query = $this->dbc->getQueryBuilder();
-		$values = array_map(function($value) use ($query) {
-			return $query->createNamedParameter($value);
-		}, $values);
-		$query->insert($table)->values($values);
-		$query->execute();
-	}
-
 	private function updateAdminSettings(ISettings $settings) {
-		$this->update(
+		$this->mapper->update(
 			self::TABLE_ADMIN_SETTINGS,
 			'class',
 			get_class($settings),
@@ -214,27 +195,15 @@ class Manager implements IManager {
 	}
 
 	private function updateAdminSection(ISection $section) {
-		$this->update(
+		$this->mapper->update(
 			self::TABLE_ADMIN_SECTIONS,
 			'class',
 			get_class($section),
 			[
-				'id'       => $section->getID(),
+				'id' => $section->getID(),
 				'priority' => $section->getPriority(),
 			]
 		);
-	}
-
-	private function update($table, $idCol, $id, $values) {
-		$query = $this->dbc->getQueryBuilder();
-		$query->update($table);
-		foreach($values as $key => $value) {
-			$query->set($key, $query->createNamedParameter($value));
-		}
-		$query
-			->where($query->expr()->eq($idCol, $query->createParameter($idCol)))
-			->setParameter($idCol, $id)
-			->execute();
 	}
 
 	/**
@@ -242,7 +211,7 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	private function hasAdminSection($className) {
-		return $this->has(self::TABLE_ADMIN_SECTIONS, $className);
+		return $this->mapper->has(self::TABLE_ADMIN_SECTIONS, $className);
 	}
 
 	/**
@@ -250,44 +219,11 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	private function hasAdminSettings($className) {
-		return $this->has(self::TABLE_ADMIN_SETTINGS, $className);
-	}
-
-	/**
-	 * @param string $table
-	 * @param string $className
-	 * @return bool
-	 */
-	private function has($table, $className) {
-		$query = $this->dbc->getQueryBuilder();
-		$query->select('class')
-			->from($table)
-			->where($query->expr()->eq('class', $query->createNamedParameter($className)))
-			->setMaxResults(1);
-
-		$result = $query->execute();
-		$row = $result->fetch();
-		$result->closeCursor();
-
-		return (bool) $row;
-	}
-
-	/**
-	 * deletes an settings or admin entry from the given table
-	 *
-	 * @param $table
-	 * @param $className
-	 */
-	private function remove($table, $className) {
-		$query = $this->dbc->getQueryBuilder();
-		$query->delete($table)
-			->where($query->expr()->eq('class', $query->createNamedParameter($className)));
-
-		$query->execute();
+		return $this->mapper->has(self::TABLE_ADMIN_SETTINGS, $className);
 	}
 
 	private function setupAdminSettings($settingsClassName) {
-		if(!class_exists($settingsClassName)) {
+		if (!class_exists($settingsClassName)) {
 			$this->log->debug('Could not find admin section class ' . $settingsClassName);
 			return;
 		}
@@ -300,14 +236,14 @@ class Manager implements IManager {
 			return;
 		}
 
-		if(!$settings instanceof ISettings) {
+		if (!$settings instanceof ISettings) {
 			$this->log->error(
 				'Admin section instance must implement \OCP\Settings\ISection. Invalid class: {class}',
 				['class' => $settingsClassName]
 			);
 			return;
 		}
-		if(!$this->hasAdminSettings(get_class($settings))) {
+		if (!$this->hasAdminSettings(get_class($settings))) {
 			$this->addAdminSettings($settings);
 		} else {
 			$this->updateAdminSettings($settings);
@@ -329,24 +265,17 @@ class Manager implements IManager {
 	public function getAdminSections() {
 		// built-in sections
 		$sections = [
-			 0 => [new Section('server',        $this->l->t('Server settings'), 0)],
-			 5 => [new Section('sharing',       $this->l->t('Sharing'), 0)],
-			45 => [new Section('encryption',    $this->l->t('Encryption'), 0)],
-			98 => [new Section('additional',    $this->l->t('Additional settings'), 0)],
-			99 => [new Section('tips-tricks',   $this->l->t('Tips & tricks'), 0)],
+			0 => [new Section('server', $this->l->t('Server settings'), 0, $this->url->imagePath('settings', 'admin.svg'))],
+			5 => [new Section('sharing', $this->l->t('Sharing'), 0, $this->url->imagePath('core', 'actions/share.svg'))],
+			45 => [new Section('encryption', $this->l->t('Encryption'), 0, $this->url->imagePath('core', 'actions/password.svg'))],
+			98 => [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))],
+			99 => [new Section('tips-tricks', $this->l->t('Tips & tricks'), 0, $this->url->imagePath('settings', 'help.svg'))],
 		];
 
-		$query = $this->dbc->getQueryBuilder();
-		$query->selectDistinct('s.class')
-			->addSelect('s.priority')
-			->from(self::TABLE_ADMIN_SECTIONS, 's')
-			->from(self::TABLE_ADMIN_SETTINGS, 'f')
-			->where($query->expr()->eq('s.id', 'f.section'))
-		;
-		$result = $query->execute();
+		$rows = $this->mapper->getAdminSectionsFromDB();
 
-		while($row = $result->fetch()) {
-			if(!isset($sections[$row['priority']])) {
+		foreach ($rows as $row) {
+			if (!isset($sections[$row['priority']])) {
 				$sections[$row['priority']] = [];
 			}
 			try {
@@ -355,38 +284,42 @@ class Manager implements IManager {
 				// skip
 			}
 		}
-		$result->closeCursor();
 
 		ksort($sections);
+
 		return $sections;
 	}
 
+	/**
+	 * @param string $section
+	 * @return ISection[]
+	 */
 	private function getBuiltInAdminSettings($section) {
 		$forms = [];
 		try {
-			if($section === 'server') {
+			if ($section === 'server') {
 				/** @var ISettings $form */
 				$form = new Admin\Server($this->dbc, $this->config, $this->lockingProvider, $this->l);
 				$forms[$form->getPriority()] = [$form];
 				$form = new Admin\ServerDevNotice();
 				$forms[$form->getPriority()] = [$form];
 			}
-			if($section === 'encryption') {
+			if ($section === 'encryption') {
 				/** @var ISettings $form */
 				$form = new Admin\Encryption($this->encryptionManager, $this->userManager);
 				$forms[$form->getPriority()] = [$form];
 			}
-			if($section === 'sharing') {
+			if ($section === 'sharing') {
 				/** @var ISettings $form */
 				$form = new Admin\Sharing($this->config);
 				$forms[$form->getPriority()] = [$form];
 			}
-			if($section === 'additional') {
+			if ($section === 'additional') {
 				/** @var ISettings $form */
 				$form = new Admin\Additional($this->config);
 				$forms[$form->getPriority()] = [$form];
 			}
-			if($section === 'tips-tricks') {
+			if ($section === 'tips-tricks') {
 				/** @var ISettings $form */
 				$form = new Admin\TipsTricks($this->config);
 				$forms[$form->getPriority()] = [$form];
@@ -397,16 +330,15 @@ class Manager implements IManager {
 		return $forms;
 	}
 
-	private function getAdminSettingsFromDB($section, &$settings) {
-		$query = $this->dbc->getQueryBuilder();
-		$query->select(['class', 'priority'])
-			->from(self::TABLE_ADMIN_SETTINGS)
-			->where($query->expr()->eq('section', $this->dbc->getQueryBuilder()->createParameter('section')))
-			->setParameter('section', $section);
+	/**
+	 * @inheritdoc
+	 */
+	public function getAdminSettings($section) {
+		$settings = $this->getBuiltInAdminSettings($section);
+		$dbRows = $this->mapper->getAdminSettingsFromDB($section);
 
-		$result = $query->execute();
-		while($row = $result->fetch()) {
-			if(!isset($settings[$row['priority']])) {
+		foreach ($dbRows as $row) {
+			if (!isset($settings[$row['priority']])) {
 				$settings[$row['priority']] = [];
 			}
 			try {
@@ -415,17 +347,8 @@ class Manager implements IManager {
 				// skip
 			}
 		}
-		$result->closeCursor();
 
 		ksort($settings);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getAdminSettings($section) {
-		$settings = $this->getBuiltInAdminSettings($section);
-		$this->getAdminSettingsFromDB($section, $settings);
 		return $settings;
 	}
 }

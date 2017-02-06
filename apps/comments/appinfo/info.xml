@@ -6,9 +6,9 @@
 	<licence>AGPL</licence>
 	<author>Arthur Schiwon, Vincent Petry</author>
 	<default_enable/>
-	<version>1.1.0</version>
+	<version>1.2.0</version>
 	<dependencies>
-		<nextcloud min-version="11" max-version="11" />
+		<nextcloud min-version="12" max-version="12" />
 	</dependencies>
 	<types>
 		<logging/>

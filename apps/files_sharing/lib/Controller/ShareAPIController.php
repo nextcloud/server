@@ -168,8 +168,9 @@ class ShareAPIController extends OCSController {
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $sharedWith !== null ? $sharedWith->getDisplayName() : $share->getSharedWith();
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+			$group = $this->groupManager->get($share->getSharedWith());
 			$result['share_with'] = $share->getSharedWith();
-			$result['share_with_displayname'] = $share->getSharedWith();
+			$result['share_with_displayname'] = $group !== null ? $group->getDisplayName() : $share->getSharedWith();
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
 
 			$result['share_with'] = $share->getPassword();
@@ -667,6 +668,7 @@ class ShareAPIController extends OCSController {
 					\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE, // legacy
 					\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE, // correct
 					\OCP\Constants::PERMISSION_CREATE, // hidden file list
+					\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE, // allow to edit single files
 				])
 			) {
 				throw new OCSBadRequestException($this->l->t('Can\'t change permissions for public share links'));

@@ -4,6 +4,7 @@
  *
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Vincent Petry <PVince81@owncloud.com>
  *
  * @license AGPL-3.0
  *
@@ -35,6 +36,14 @@ interface IGroup {
 	 * @since 8.0.0
 	 */
 	public function getGID();
+
+	/**
+	 * Returns the group display name
+	 *
+	 * @return string
+	 * @since 9.2
+	 */
+	public function getDisplayName();
 
 	/**
 	 * get all users in the group

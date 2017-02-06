@@ -18,14 +18,13 @@
 		<user>user-encryption</user>
 		<admin>admin-encryption</admin>
 	</documentation>
-	<rememberlogin>false</rememberlogin>
-	<version>1.4.1</version>
+	<version>1.6.0</version>
 	<types>
 		<filesystem/>
 	</types>
 	<dependencies>
 		<lib>openssl</lib>
-		<nextcloud min-version="11" max-version="11" />
+		<nextcloud min-version="12" max-version="12" />
 	</dependencies>
 	<settings>
 		<admin>OCA\Encryption\Settings\Admin</admin>

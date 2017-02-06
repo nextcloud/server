@@ -31,6 +31,7 @@
 use GuzzleHttp\Client as GClient;
 use GuzzleHttp\Message\ResponseInterface;
 use Sabre\DAV\Client as SClient;
+use Sabre\DAV\Xml\Property\ResourceType;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -328,6 +329,14 @@ trait WebDav {
 		}
 
 		$value = $keys[$key];
+		if ($value instanceof ResourceType) {
+			$value = $value->getValue();
+			if (empty($value)) {
+				$value = '';
+			} else {
+				$value = $value[0];
+			}
+		}
 		if ($value != $expectedValue) {
 			throw new \Exception("Property \"$key\" found with value \"$value\", expected \"$expectedValue\"");
 		}
@@ -397,6 +406,30 @@ trait WebDav {
 		return $response;
 	}
 
+	/* Returns the elements of a report command
+	 * @param string $user
+	 * @param string $path
+	 * @param string $properties properties which needs to be included in the report
+	 * @param string $filterRules filter-rules to choose what needs to appear in the report
+	 */
+	public function reportFolder($user, $path, $properties, $filterRules){
+		$client = $this->getSabreClient($user);
+
+		$body = '<?xml version="1.0" encoding="utf-8" ?>
+							 <oc:filter-files xmlns:a="DAV:" xmlns:oc="http://owncloud.org/ns" >
+								 <a:prop>
+									' . $properties . '
+								 </a:prop>
+								 <oc:filter-rules>
+									' . $filterRules . '
+								 </oc:filter-rules>
+							 </oc:filter-files>';
+
+		$response = $client->request('REPORT', $this->makeSabrePath($user, $path), $body);
+		$parsedResponse = $client->parseMultistatus($response['body']);
+		return $parsedResponse;
+	}
+
 	public function makeSabrePath($user, $path) {
 		return $this->encodePath($this->getDavFilesPath($user) . $path);
 	}
@@ -463,10 +496,11 @@ trait WebDav {
 	public function userAddsAFileTo($user, $bytes, $destination){
 		$filename = "filespecificSize.txt";
 		$this->createFileSpecificSize($filename, $bytes);
-		PHPUnit_Framework_Assert::assertEquals(1, file_exists("data/$filename"));
-		$this->userUploadsAFileTo($user, "data/$filename", $destination);
-		$this->removeFile("data/", $filename);
-		PHPUnit_Framework_Assert::assertEquals(1, file_exists("../../data/$user/files$destination"));
+		PHPUnit_Framework_Assert::assertEquals(1, file_exists("work/$filename"));
+		$this->userUploadsAFileTo($user, "work/$filename", $destination);
+		$this->removeFile("work/", $filename);
+		$expectedElements = new \Behat\Gherkin\Node\TableNode([["$destination"]]);
+		$this->checkElementList($user, $expectedElements);
 	}
 
 	/**
@@ -505,6 +539,7 @@ trait WebDav {
 	 */
 	public function userCreatedAFolder($user, $destination) {
 		try {
+			$destination = '/' . ltrim($destination, '/');
 			$this->response = $this->makeDavRequest($user, "MKCOL", $destination, []);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
 			// 4xx and 5xx responses cause an exception
@@ -627,7 +662,6 @@ trait WebDav {
 		$this->asGetsPropertiesOfFolderWith($user, 'entry', $path, $propertiesTable);
 		$pathETAG[$path] = $this->response['{DAV:}getetag'];
 		$this->storedETAG[$user]= $pathETAG;
-		print_r($this->storedETAG[$user][$path]);
 	}
 
 	/**
@@ -647,4 +681,52 @@ trait WebDav {
 		$this->asGetsPropertiesOfFolderWith($user, 'entry', $path, $propertiesTable);
 		PHPUnit_Framework_Assert::assertNotEquals($this->response['{DAV:}getetag'], $this->storedETAG[$user][$path]);
 	}
+
+	/**
+	 * @When Connecting to dav endpoint
+	 */
+	public function connectingToDavEndpoint() {
+		try {
+			$this->response = $this->makeDavRequest(null, 'PROPFIND', '', []);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @Then there are no duplicate headers
+	 */
+	public function thereAreNoDuplicateHeaders() {
+		$headers = $this->response->getHeaders();
+		foreach ($headers as $headerName => $headerValues) {
+			// if a header has multiple values, they must be different
+			if (count($headerValues) > 1 && count(array_unique($headerValues)) < count($headerValues)) {
+				throw new \Exception('Duplicate header found: ' . $headerName);
+			}
+		}
+    }
+
+    /**
+	 * @Then /^user "([^"]*)" in folder "([^"]*)" should have favorited the following elements$/
+	 * @param string $user
+	 * @param string $folder
+	 * @param \Behat\Gherkin\Node\TableNode|null $expectedElements
+	 */
+	public function checkFavoritedElements($user, $folder, $expectedElements){
+		$elementList = $this->reportFolder($user,
+											$folder,
+											'<oc:favorite/>',
+											'<oc:favorite>1</oc:favorite>');
+		if ($expectedElements instanceof \Behat\Gherkin\Node\TableNode) {
+			$elementRows = $expectedElements->getRows();
+			$elementsSimplified = $this->simplifyArray($elementRows);
+			foreach($elementsSimplified as $expectedElement) {
+				$webdavPath = "/" . $this->getDavFilesPath($user) . $expectedElement;
+				if (!array_key_exists($webdavPath,$elementList)){
+					PHPUnit_Framework_Assert::fail("$webdavPath" . " is not in report answer");
+				}
+			}
+		}
+	}
+
 }

@@ -74,8 +74,10 @@ $CONFIG = array(
 
 
 /**
- * Where user files are stored; this defaults to ``data/`` in the Nextcloud
- * directory. The SQLite database is also stored here, when you use SQLite.
+ * Where user files are stored. The SQLite database is also stored here, when
+ * you use SQLite.
+ *
+ * Default to ``data/`` in the Nextcloud directory.
  */
 'datadirectory' => '/var/www/nextcloud/data',
 
@@ -93,7 +95,8 @@ $CONFIG = array(
  * 	- sqlite (SQLite3)
  * 	- mysql (MySQL/MariaDB)
  * 	- pgsql (PostgreSQL)
- * 	- oci (Oracle)
+ *
+ * Defaults to ``sqlite``
  */
 'dbtype' => 'sqlite',
 
@@ -126,6 +129,8 @@ $CONFIG = array(
 
 /**
  * Prefix for the Nextcloud tables in the database.
+ *
+ * Default to ``oc_``
  */
 'dbtableprefix' => '',
 
@@ -134,6 +139,8 @@ $CONFIG = array(
  * Indicates whether the Nextcloud instance was installed successfully; ``true``
  * indicates a successful installation, and ``false`` indicates an unsuccessful
  * installation.
+ *
+ * Defaults to ``false``
  */
 'installed' => false,
 
@@ -151,6 +158,8 @@ $CONFIG = array(
  * French. It overrides automatic language detection on public pages like login
  * or shared items. User's language preferences configured under "personal ->
  * language" override this setting after they have logged in.
+ *
+ * Defaults to ``en``
  */
 'default_language' => 'en',
 
@@ -160,6 +169,8 @@ $CONFIG = array(
  * gallery. You can use a comma-separated list of app names, so if the first
  * app is not enabled for a user then Nextcloud will try the second one, and so
  * on. If no enabled apps are found it defaults to the Files app.
+ *
+ * Defaults to ``files``
  */
 'defaultapp' => 'files',
 
@@ -173,6 +184,8 @@ $CONFIG = array(
  * ``true`` enables avatars, or user profile photos. These appear on the User
  * page, on user's Personal pages and are used by some apps (contacts, mail,
  * etc). ``false`` disables them.
+ *
+ * Defaults to ``true``
  */
 'enable_avatars' => true,
 
@@ -183,21 +196,25 @@ $CONFIG = array(
 'allow_user_to_change_display_name' => true,
 
 /**
- * Lifetime of the remember login cookie, which is set when the user clicks the
- * ``remember`` checkbox on the login screen. The default is 15 days, expressed
- * in seconds.
+ * Lifetime of the remember login cookie, which is set when the user clicks
+ * the ``remember`` checkbox on the login screen. 
+ *
+ * Defaults to ``60*60*24*15`` seconds (15 days)
  */
 'remember_login_cookie_lifetime' => 60*60*24*15,
 
 /**
- * The lifetime of a session after inactivity; the default is 24 hours,
- * expressed in seconds.
+ * The lifetime of a session after inactivity.
+ *
+ * Defaults to ``60*60*24`` seconds (24 hours)
  */
 'session_lifetime' => 60 * 60 * 24,
 
 /**
  * Enable or disable session keep-alive when a user is logged in to the Web UI.
  * Enabling this sends a "heartbeat" to the server to keep it from timing out.
+ *
+ * Defaults to ``true``
  */
 'session_keepalive' => true,
 
@@ -205,6 +222,8 @@ $CONFIG = array(
  * Enforce token authentication for clients, which blocks requests using the user
  * password for enhanced security. Users need to generate tokens in personal settings
  * which can be used as passwords on their clients.
+ *
+ * Defaults to ``false``
  */
 'token_auth_enforced' => false,
 
@@ -212,6 +231,8 @@ $CONFIG = array(
  * Whether the bruteforce protection shipped with Nextcloud should be enabled or not.
  *
  * Disabling this is discouraged for security reasons.
+ *
+ * Defaults to ``true``
  */
 'auth.bruteforce.protection.enabled' => true,
 
@@ -219,6 +240,8 @@ $CONFIG = array(
  * The directory where the skeleton files are located. These files will be
  * copied to the data directory of new users. Leave empty to not copy any
  * skeleton files.
+ *
+ * Defaults to ``core/skeleton`` in the Nextcloud directory.
  */
 'skeletondirectory' => '/path/to/nextcloud/core/skeleton',
 
@@ -259,11 +282,15 @@ $CONFIG = array(
 /**
  * FROM address that overrides the built-in ``sharing-noreply`` and
  * ``lostpassword-noreply`` FROM addresses.
+ *
+ * Defaults to different from addresses depending on the feature.
  */
 'mail_from_address' => 'nextcloud',
 
 /**
  * Enable SMTP class debugging.
+ *
+ * Defaults to ``false``
  */
 'mail_smtpdebug' => false,
 
@@ -282,19 +309,25 @@ $CONFIG = array(
  *
  * For ``qmail`` the binary is /var/qmail/bin/sendmail, and it must be installed
  * on your Unix system.
+ *
+ * Defaults to ``php``
  */
-'mail_smtpmode' => 'sendmail',
+'mail_smtpmode' => 'php',
 
 /**
  * This depends on ``mail_smtpmode``. Specify the IP address of your mail
  * server host. This may contain multiple hosts separated by a semi-colon. If
  * you need to specify the port number append it to the IP address separated by
  * a colon, like this: ``127.0.0.1:24``.
+ *
+ * Defaults to ``127.0.0.1``
  */
 'mail_smtphost' => '127.0.0.1',
 
 /**
  * This depends on ``mail_smtpmode``. Specify the port for sending mail.
+ *
+ * Defaults to ``25``
  */
 'mail_smtpport' => 25,
 
@@ -302,36 +335,48 @@ $CONFIG = array(
  * This depends on ``mail_smtpmode``. This sets the SMTP server timeout, in
  * seconds. You may need to increase this if you are running an anti-malware or
  * spam scanner.
+ *
+ * Defaults to ``10`` seconds
  */
 'mail_smtptimeout' => 10,
 
 /**
  * This depends on ``mail_smtpmode``. Specify when you are using ``ssl`` or
  * ``tls``, or leave empty for no encryption.
+ *
+ * Defaults to ``''`` (empty string)
  */
 'mail_smtpsecure' => '',
 
 /**
  * This depends on ``mail_smtpmode``. Change this to ``true`` if your mail
  * server requires authentication.
+ *
+ * Defaults to ``false``
  */
 'mail_smtpauth' => false,
 
 /**
  * This depends on ``mail_smtpmode``. If SMTP authentication is required, choose
- * the authentication type as ``LOGIN`` (default) or ``PLAIN``.
+ * the authentication type as ``LOGIN`` or ``PLAIN``.
+ *
+ * Defaults to ``LOGIN``
  */
 'mail_smtpauthtype' => 'LOGIN',
 
 /**
  * This depends on ``mail_smtpauth``. Specify the username for authenticating to
  * the SMTP server.
+ *
+ * Defaults to ``''`` (empty string)
  */
 'mail_smtpname' => '',
 
 /**
  * This depends on ``mail_smtpauth``. Specify the password for authenticating to
  * the SMTP server.
+ *
+ * Default to ``''`` (empty string)
  */
 'mail_smtppassword' => '',
 
@@ -371,6 +416,8 @@ $CONFIG = array(
  * expression for the remote IP address. For example, defining a range of IP
  * addresses starting with ``10.0.0.`` and ending with 1 to 3:
  * ``^10\.0\.0\.[1-3]$``
+ *
+ * Defaults to ``''`` (empty string)
  */
 'overwritecondaddr' => '',
 
@@ -379,6 +426,8 @@ $CONFIG = array(
  * are generated within Nextcloud using any kind of command line tools (cron or
  * occ). The value should contain the full base URL:
  * ``https://www.example.com/nextcloud``
+ *
+ * Defaults to ``''`` (empty string)
  */
 'overwrite.cli.url' => '',
 
@@ -404,6 +453,8 @@ $CONFIG = array(
  *
  * - `mod_rewrite` is installed
  * - `mod_env` is installed
+ *
+ * Defaults to ``''`` (empty string)
  */
 'htaccess.RewriteBase' => '/',
 
@@ -420,12 +471,16 @@ $CONFIG = array(
 
 /**
  * The URL of your proxy server, for example ``proxy.example.com:8081``.
+ *
+ * Defaults to ``''`` (empty string)
  */
 'proxy' => '',
 
 /**
  * The optional authentication for the proxy to use to connect to the internet.
  * The format is: ``username:password``.
+ *
+ * Defaults to ``''`` (empty string)
  */
 'proxyuserpwd' => '',
 
@@ -466,6 +521,8 @@ $CONFIG = array(
  *     delete when exceeds D2 days
  * * ``disabled``  
  *     trash bin auto clean disabled, files and folders will be kept forever
+ *
+ * Defaults to ``auto``
  */
 'trashbin_retention_obligation' => 'auto',
 
@@ -505,6 +562,8 @@ $CONFIG = array(
  *     keep versions for at least D1 days and delete when exceeds D2 days
  * * ``disabled``  
  *     versions auto clean disabled, versions will be kept forever
+ *
+ * Defaults to ``auto``
  */
 'versions_retention_obligation' => 'auto',
 
@@ -519,17 +578,23 @@ $CONFIG = array(
  * Checks an app before install whether it uses private APIs instead of the
  * proper public APIs. If this is set to true it will only allow to install or
  * enable apps that pass this check.
+ *
+ * Defaults to ``false``
  */
 'appcodechecker' => true,
 
 /**
  * Check if Nextcloud is up-to-date and shows a notification if a new version is
  * available.
+ *
+ * Defaults to ``true``
  */
 'updatechecker' => true,
 
 /**
  * URL that Nextcloud should use to look for updates
+ *
+ * Defaults to ``https://updates.nextcloud.com/updater_server/``
  */
 'updater.server.url' => 'https://updates.nextcloud.com/updater_server/',
 
@@ -538,7 +603,7 @@ $CONFIG = array(
  *
  * Supported values:
  *   - ``daily``
- *   - ``beta`
+ *   - ``beta``
  *   - ``stable``
  *   - ``production``
  */
@@ -546,6 +611,8 @@ $CONFIG = array(
 
 /**
  * Is Nextcloud connected to the Internet or running in a closed network?
+ *
+ * Defaults to ``true``
  */
 'has_internet_connection' => true,
 
@@ -559,6 +626,8 @@ $CONFIG = array(
  * Allows Nextcloud to verify a working .well-known URL redirects. This is done
  * by attempting to make a request from JS to
  * https://your-domain.com/.well-known/caldav/
+ *
+ * Defaults to ``true``
  */
 'check_for_working_wellknown_setup' => true,
 
@@ -568,6 +637,8 @@ $CONFIG = array(
  * If it is not, then any options controlled by ``.htaccess``, such as large
  * file uploads, will not work. It also runs checks on the ``data/`` directory,
  * which verifies that it can't be accessed directly through the Web server.
+ *
+ * Defaults to ``true``
  */
 'check_for_working_htaccess' => true,
 
@@ -578,6 +649,8 @@ $CONFIG = array(
  * all options via the Web interface. Furthermore, when updating Nextcloud
  * it is required to make the configuration file writable again for the update
  * process.
+ *
+ * Defaults to ``false``
  */
 'config_is_read_only' => false,
 
@@ -591,11 +664,14 @@ $CONFIG = array(
  * If syslogging is desired, set this parameter to ``syslog``.
  * Setting this parameter to ``errorlog`` will use the PHP error_log function
  * for logging.
+ *
+ * Defaults to ``file``
  */
 'log_type' => 'file',
 
 /**
  * Log file path for the Nextcloud logging type.
+ *
  * Defaults to ``[datadirectory]/nextcloud.log``
  */
 'logfile' => '/var/log/nextcloud.log',
@@ -603,6 +679,8 @@ $CONFIG = array(
 /**
  * Loglevel to start logging at. Valid values are: 0 = Debug, 1 = Info, 2 =
  * Warning, 3 = Error, and 4 = Fatal. The default value is Warning.
+ *
+ * Defaults to ``2``
  */
 'loglevel' => 2,
 
@@ -637,12 +715,17 @@ $CONFIG = array(
 
 /**
  * This uses PHP.date formatting; see http://php.net/manual/en/function.date.php
+ *
+ * Defaults to ISO 8601 ``2005-08-15T15:52:01+00:00`` - see \DateTime::ATOM
+ * (https://secure.php.net/manual/en/class.datetime.php#datetime.constants.atom)
  */
 'logdateformat' => 'F d, Y H:i:s',
 
 /**
- * The default timezone for logfiles is UTC. You may change this; see
+ * The timezone for logfiles. You may change this; see
  * http://php.net/manual/en/timezones.php
+ *
+ * Defaults to ``UTC``
  */
 'logtimezone' => 'Europe/Berlin',
 
@@ -654,6 +737,8 @@ $CONFIG = array(
 
 /**
  * Log successful cron runs.
+ *
+ * Defaults to ``true``
  */
 'cron_log' => true,
 
@@ -663,6 +748,8 @@ $CONFIG = array(
  * = 100 * 1024 * 1024 bytes). A new logfile is created with a new name when the
  * old logfile reaches your limit. If a rotated log file is already present, it
  * will be overwritten.
+ *
+ * Defaults to ``0`` (no rotation)
  */
 'log_rotate_size' => false,
 
@@ -676,6 +763,11 @@ $CONFIG = array(
 /**
  * This section is for configuring the download links for Nextcloud clients, as
  * seen in the first-run wizard and on Personal pages.
+ *
+ * Defaults to
+ * * Desktop client: ``https://nextcloud.com/install/#install-clients``
+ * * Android client: ``https://play.google.com/store/apps/details?id=com.nextcloud.client``
+ * * iOS client    : ``https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8``
  */
 'customclient_desktop' =>
 	'https://nextcloud.com/install/#install-clients',
@@ -692,6 +784,8 @@ $CONFIG = array(
 
 /**
  * When enabled, admins may install apps from the Nextcloud app store.
+ *
+ * Defaults to ``true``
  */
 'appstoreenabled' => true,
 
@@ -733,16 +827,22 @@ $CONFIG = array(
  *
  * Valid values are ``true``, to enable previews, or
  * ``false``, to disable previews
+ *
+ * Defaults to ``true``
  */
 'enable_previews' => true,
 /**
  * The maximum width, in pixels, of a preview. A value of ``null`` means there
  * is no limit.
+ *
+ * Defaults to ``2048``
  */
 'preview_max_x' => 2048,
 /**
  * The maximum height, in pixels, of a preview. A value of ``null`` means there
  * is no limit.
+ *
+ * Defaults to ``2048``
  */
 'preview_max_y' => 2048,
 /**
@@ -750,26 +850,30 @@ $CONFIG = array(
  * preview system generates blurry previews, you might want to consider setting
  * a maximum scale factor. By default, pictures are upscaled to 10 times the
  * original size. A value of ``1`` or ``null`` disables scaling.
+ *
+ * Defaults to ``2``
  */
 'preview_max_scale_factor' => 10,
 
 /**
  * max file size for generating image previews with imagegd (default behaviour)
- * If the image is bigger, it'll try other preview generators,
- * but will most likely show the default mimetype icon
+ * If the image is bigger, it'll try other preview generators, but will most
+ * likely show the default mimetype icon. Set to -1 for no limit.
  *
- * Value represents the maximum filesize in megabytes
- * Default is 50
- * Set to -1 for no limit
+ * Defaults to ``50`` megabytes
  */
 'preview_max_filesize_image' => 50,
 
 /**
  * custom path for LibreOffice/OpenOffice binary
+ *
+ * Defaults to ``''`` (empty string)
  */
 'preview_libreoffice_path' => '/usr/bin/libreoffice',
 /**
  * Use this if LibreOffice/OpenOffice requires additional arguments.
+ *
+ * Defaults to ``''`` (empty string)
  */
 'preview_office_cl_parameters' =>
 	' --headless --nologo --nofirststartwizard --invisible --norestore '.
@@ -777,17 +881,6 @@ $CONFIG = array(
 
 /**
  * Only register providers that have been explicitly enabled
- *
- * The following providers are enabled by default:
- *
- *  - OC\Preview\PNG
- *  - OC\Preview\JPEG
- *  - OC\Preview\GIF
- *  - OC\Preview\BMP
- *  - OC\Preview\XBitmap
- *  - OC\Preview\MarkDown
- *  - OC\Preview\MP3
- *  - OC\Preview\TXT
  *
  * The following providers are disabled by default due to performance or privacy
  * concerns:
@@ -818,6 +911,17 @@ $CONFIG = array(
  *  - OC\Preview\MSOffice2007
  *  - OC\Preview\OpenDocument
  *  - OC\Preview\StarOffice
+ *
+ * Defaults to the following providers:
+ *
+ *  - OC\Preview\BMP
+ *  - OC\Preview\GIF
+ *  - OC\Preview\JPEG
+ *  - OC\Preview\MarkDown
+ *  - OC\Preview\MP3
+ *  - OC\Preview\PNG
+ *  - OC\Preview\TXT
+ *  - OC\Preview\XBitmap
  */
 'enabledPreviewProviders' => array(
 	'OC\Preview\PNG',
@@ -841,6 +945,8 @@ $CONFIG = array(
  * existence and marks them as ready to be cleaned up. The number is always
  * minutes. Setting it to 0 disables the feature.
  * See command line (occ) methods ``ldap:show-remnants`` and ``user:delete``
+ *
+ * Defaults to ``51`` minutes
  */
 'ldapUserCleanupInterval' => 51,
 
@@ -854,6 +960,8 @@ $CONFIG = array(
  * Replaces the default Comments Manager Factory. This can be utilized if an
  * own or 3rdParty CommentsManager should be used that – for instance – uses the
  * filesystem instead of the database to keep the comments.
+ *
+ * Defaults to ``\OC\Comments\ManagerFactory``
  */
 'comments.managerFactory' => '\OC\Comments\ManagerFactory',
 
@@ -861,6 +969,8 @@ $CONFIG = array(
  * Replaces the default System Tags Manager Factory. This can be utilized if an
  * own or 3rdParty SystemTagsManager should be used that – for instance – uses the
  * filesystem instead of the database to keep the comments.
+ *
+ * Defaults to ``\OC\SystemTag\ManagerFactory``
  */
 'systemtags.managerFactory' => '\OC\SystemTag\ManagerFactory',
 
@@ -878,12 +988,16 @@ $CONFIG = array(
  * doing some maintenance work, you need to set the value of the maintenance
  * parameter to true. Please keep in mind that users who are already logged-in
  * are kicked out of Nextcloud instantly.
+ *
+ * Defaults to ``false``
  */
 'maintenance' => false,
 
 /**
  * When set to ``true``, the Nextcloud instance will be unavailable for all
  * users who are not in the ``admin`` group.
+ *
+ * Defaults to ``false``
  */
 'singleuser' => false,
 
@@ -894,6 +1008,8 @@ $CONFIG = array(
 
 /**
  * Extra SSL options to be used for configuration.
+  *
+ * Defaults to an empty array.
  */
 'openssl' => array(
 	'config' => '/absolute/location/of/openssl.cnf',
@@ -909,7 +1025,6 @@ $CONFIG = array(
  *
  * Available cache backends:
  *
- * * ``\OC\Memcache\APC``        Alternative PHP Cache backend
  * * ``\OC\Memcache\APCu``       APC user backend
  * * ``\OC\Memcache\ArrayCache`` In-memory array-based backend (not recommended)
  * * ``\OC\Memcache\Memcached``  Memcached backend
@@ -928,6 +1043,8 @@ $CONFIG = array(
  * Memory caching backend for locally stored data
  *
  * * Used for host-specific data, e.g. file paths
+ *
+ * Defaults to ``none``
  */
 'memcache.local' => '\OC\Memcache\APCu',
 
@@ -936,6 +1053,8 @@ $CONFIG = array(
  *
  * * Used for installation-specific data, e.g. database caching
  * * If unset, defaults to the value of memcache.local
+ *
+ * Defaults to ``none``
  */
 'memcache.distributed' => '\OC\Memcache\Memcached',
 
@@ -995,6 +1114,8 @@ $CONFIG = array(
  * ``$user`` is the current user. When specified, the format will change to
  * ``$cache_path/$user`` where ``$cache_path`` is the configured cache directory
  * and ``$user`` is the user.
+ *
+ * Defaults to ``''`` (empty string)
  */
 'cache_path' => '',
 
@@ -1003,8 +1124,10 @@ $CONFIG = array(
  * garbage collection (in seconds). Increase this value if users have
  * issues uploading very large files via the Nextcloud Client as upload isn't
  * completed within one day.
+ *
+ * Defaults to ``60*60*24`` (1 day)
  */
-'cache_chunk_gc_ttl' => 86400, // 60*60*24 = 1 day
+'cache_chunk_gc_ttl' => 60*60*24,
 
 /**
  * Using Object Store with Nextcloud
@@ -1066,6 +1189,8 @@ $CONFIG = array(
  * Replaces the default Share Provider Factory. This can be utilized if
  * own or 3rdParty Share Providers be used that – for instance – uses the
  * filesystem instead of the database to keep the share information.
+ *
+ * Defaults to ``\OC\Share20\ProviderFactory``
  */
 'sharing.managerFactory' => '\OC\Share20\ProviderFactory',
 
@@ -1126,6 +1251,11 @@ $CONFIG = array(
  * 	- mysql (MySQL)
  * 	- pgsql (PostgreSQL)
  * 	- oci (Oracle)
+ *
+ * Defaults to the following databases:
+ *  - sqlite (SQLite3)
+ *  - mysql (MySQL)
+ *  - pgsql (PostgreSQL)
  */
 'supportedDatabases' => array(
 	'sqlite',
@@ -1154,17 +1284,23 @@ $CONFIG = array(
  * Blacklist a specific file or files and disallow the upload of files
  * with this name. ``.htaccess`` is blocked by default.
  * WARNING: USE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING.
+ *
+ * Defaults to ``array('.htaccess')``
  */
 'blacklisted_files' => array('.htaccess'),
 
 /**
  * Define a default folder for shared files and folders other than root.
+ *
+ * Defaults to ``/``
  */
 'share_folder' => '/',
 
 /**
  * If you are applying a theme to Nextcloud, enter the name of the theme here.
  * The default location for themes is ``nextcloud/themes/``.
+ *
+ * Defaults to the theming app which is shipped since Nextcloud 9
  */
 'theme' => '',
 
@@ -1183,12 +1319,16 @@ $CONFIG = array(
  * When changing this, note that older unsupported versions of the Nextcloud desktop
  * client may not function as expected, and could lead to permanent data loss for
  * clients or other unexpected results.
+ *
+ * Defaults to ``2.0.0``
  */
 'minimum.supported.desktop.version' => '2.0.0',
 
 /**
  * EXPERIMENTAL: option whether to include external storage in quota
  * calculation, defaults to false.
+ *
+ * Defaults to ``false``
  */
 'quota_include_external_storage' => false,
 
@@ -1203,6 +1343,8 @@ $CONFIG = array(
  *
  * 1 -> Check each file or folder at most once per request, recommended for
  * general use if outside changes might happen.
+ *
+ * Defaults to ``0``
  */
 'filesystem_check_changes' => 0,
 
@@ -1211,18 +1353,24 @@ $CONFIG = array(
  * same storage as the upload target. Setting this to false will store the part
  * files in the root of the users folder which might be required to work with certain
  * external storage setups that have limited rename capabilities.
+ *
+ * Defaults to ``true``
  */
 'part_file_in_storage' => true,
 
 /**
  * Where ``mount.json`` file should be stored, defaults to ``data/mount.json``
  * in the Nextcloud directory.
+ *
+ * Defaults to ``data/mount.json`` in the Nextcloud directory.
  */
 'mount_file' => '/var/www/nextcloud/data/mount.json',
 
 /**
  * When ``true``, prevent Nextcloud from changing the cache due to changes in
  * the filesystem for all storage.
+ *
+ * Defaults to ``false``
  */
 'filesystem_cache_readonly' => false,
 
@@ -1237,6 +1385,7 @@ $CONFIG = array(
  *
  * If you configure these also consider setting `forwarded_for_headers` which
  * otherwise defaults to `HTTP_X_FORWARDED_FOR` (the `X-Forwarded-For` header).
+ * Defaults to an empty array.
  */
 'trusted_proxies' => array('203.0.113.45', '198.51.100.128'),
 
@@ -1248,7 +1397,7 @@ $CONFIG = array(
  * If set incorrectly, a client can spoof their IP address as visible to
  * Nextcloud, bypassing access controls and making logs useless!
  *
- * Defaults to 'HTTP_X_FORWARED_FOR' if unset
+ * Defaults to ``'HTTP_X_FORWARED_FOR'``
  */
 'forwarded_for_headers' => array('HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR'),
 
@@ -1256,8 +1405,10 @@ $CONFIG = array(
  * max file size for animating gifs on public-sharing-site.
  * If the gif is bigger, it'll show a static preview
  *
- * Value represents the maximum filesize in megabytes. Default is ``10``. Set to
- * ``-1`` for no limit.
+ * Value represents the maximum filesize in megabytes. Set to ``-1`` for
+ * no limit.
+ *
+ * Defaults to ``10`` megabytes
  */
 'max_filesize_animated_gifs_public_sharing' => 10,
 
@@ -1271,6 +1422,8 @@ $CONFIG = array(
  * be caused by concurrent operations. Mainly relevant for
  * very large installations with many users working with
  * shared files.
+ *
+ * Defaults to ``true``
  */
 'filelocking.enabled' => true,
 
@@ -1279,15 +1432,18 @@ $CONFIG = array(
  *
  * Any lock older than this will be automatically cleaned up.
  *
- * If not set this defaults to either 1 hour or the php max_execution_time, whichever is higher.
+ * Defaults to ``60*60`` seconds (1 hour) or the php
+ *             max_execution_time, whichever is higher.
  */
-'filelocking.ttl' => 3600,
+'filelocking.ttl' => 60*60,
 
 /**
  * Memory caching backend for file locking
  *
  * Because most memcache backends can clean values without warning using redis
  * is highly recommended to *avoid data loss*.
+ *
+ * Defaults to ``none``
  */
 'memcache.locking' => '\\OC\\Memcache\\Redis',
 
@@ -1301,6 +1457,8 @@ $CONFIG = array(
  *
  * Only enable this for local development and not in production environments
  * This will disable the minifier and outputs some additional debug information
+ *
+ * Defaults to ``false``
  */
 'debug' => false,
 
@@ -1314,6 +1472,8 @@ $CONFIG = array(
  *
  * Updating/Deleting this value can make connected clients stall until
  * the user has resolved conflicts.
+ *
+ * Defaults to ``''`` (empty string)
  */
 'data-fingerprint' => '',
 

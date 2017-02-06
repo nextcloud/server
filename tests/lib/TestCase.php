@@ -184,7 +184,9 @@ abstract class TestCase extends TestCasePhpUnitCompatibility {
 		// fail hard if xml errors have not been cleaned up
 		$errors = libxml_get_errors();
 		libxml_clear_errors();
-		$this->assertEquals([], $errors);
+		if (!empty($errors)) {
+			self::assertEquals([], $errors, "There have been xml parsing errors");
+		}
 
 		\OC\Files\Cache\Storage::getGlobalCache()->clearCache();
 

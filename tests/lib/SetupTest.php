@@ -55,16 +55,12 @@ class SetupTest extends \Test\TestCase {
 			));
 		$this->setupClass
 			->expects($this->once())
-			->method('class_exists')
-			->will($this->returnValue(true));
-		$this->setupClass
-			->expects($this->once())
 			->method('is_callable')
 			->will($this->returnValue(false));
 		$this->setupClass
 			->expects($this->any())
 			->method('getAvailableDbDriversForPdo')
-			->will($this->returnValue([]));
+			->will($this->returnValue(['sqlite']));
 		$result = $this->setupClass->getSupportedDatabases();
 		$expectedResult = array(
 			'sqlite' => 'SQLite'
@@ -80,10 +76,6 @@ class SetupTest extends \Test\TestCase {
 			->will($this->returnValue(
 				array('sqlite', 'mysql', 'oci', 'pgsql')
 			));
-		$this->setupClass
-			->expects($this->any())
-			->method('class_exists')
-			->will($this->returnValue(false));
 		$this->setupClass
 			->expects($this->any())
 			->method('is_callable')
@@ -106,16 +98,12 @@ class SetupTest extends \Test\TestCase {
 			));
 		$this->setupClass
 			->expects($this->any())
-			->method('class_exists')
-			->will($this->returnValue(true));
-		$this->setupClass
-			->expects($this->any())
 			->method('is_callable')
 			->will($this->returnValue(true));
 		$this->setupClass
 			->expects($this->any())
 			->method('getAvailableDbDriversForPdo')
-			->will($this->returnValue(['mysql', 'pgsql']));
+			->will($this->returnValue(['sqlite', 'mysql', 'pgsql']));
 		$result = $this->setupClass->getSupportedDatabases();
 		$expectedResult = array(
 			'sqlite' => 'SQLite',

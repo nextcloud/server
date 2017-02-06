@@ -26,12 +26,12 @@
 // between betas, final and RCs. This is _not_ the public version number. Reset minor/patchlevel
 // when updating major/minor version number.
 
-$OC_Version = array(11, 0, 0, 6);
+$OC_Version = array(12, 0, 0, 12);
 
 // The human readable string
-$OC_VersionString = '11.0 RC1';
+$OC_VersionString = '12.0 alpha';
 
-$OC_VersionCanBeUpgradedFrom = array(9, 1);
+$OC_VersionCanBeUpgradedFrom = array(11);
 
 // default Nextcloud channel
 $OC_Channel = 'git';

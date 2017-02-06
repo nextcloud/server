@@ -23,6 +23,8 @@
 
 namespace OCP\Files\Storage;
 
+use OCP\Files\Notify\INotifyHandler;
+
 /**
  * Storage backend that support active notifications
  *
@@ -48,6 +50,17 @@ interface INotifyStorage {
 	 * @param callable $callback
 	 *
 	 * @since 9.1.0
+	 * @deprecated 12.0.0 use INotifyStorage::notify()->listen() instead
 	 */
 	public function listen($path, callable $callback);
+
+	/**
+	 * Start the notification handler for this storage
+	 *
+	 * @param $path
+	 * @return INotifyHandler
+	 *
+	 * @since 12.0.0
+	 */
+	public function notify($path);
 }

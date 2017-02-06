@@ -20,9 +20,8 @@
 			'</a>' +
 		'</div>' +
 		'	<div class="file-details ellipsis">' +
-		'		<a href="#" ' +
-		'		class="action action-favorite favorite">' +
-		'			<img class="svg" alt="{{starAltText}}" src="{{starIcon}}" />' +
+		'		<a href="#" class="action action-favorite favorite permanent">' +
+		'			<span class="icon {{starClass}}" title="{{starAltText}}"></span>' +
 		'		</a>' +
 		'		{{#if hasSize}}<span class="size" title="{{altSize}}">{{size}}</span>, {{/if}}<span class="date live-relative-timestamp" data-timestamp="{{timestamp}}" title="{{altDate}}">{{date}}</span>' +
 		'	</div>' +
@@ -131,6 +130,19 @@
 			if (this.model) {
 				this.model.on('change', this._onModelChanged, this);
 			}
+
+			if (this.model) {
+				var properties = [];
+				if( !this.model.has('size') ) {
+					properties.push(OC.Files.Client.PROPERTY_SIZE);
+					properties.push(OC.Files.Client.PROPERTY_GETCONTENTLENGTH);
+				}
+
+				if( properties.length > 0){
+					this.model.reloadProperties(properties);
+				}
+			}
+
 			this.render();
 		},
 
@@ -155,7 +167,7 @@
 					timestamp: this.model.get('mtime'),
 					date: OC.Util.relativeModifiedDate(this.model.get('mtime')),
 					starAltText: isFavorite ? t('files', 'Favorited') : t('files', 'Favorite'),
-					starIcon: OC.imagePath('core', isFavorite ? 'actions/starred' : 'actions/star'),
+					starClass: isFavorite ? 'icon-starred' : 'icon-star',
 					permalink: this._makePermalink(this.model.get('id')),
 					permalinkTitle: t('files', 'Copy local link')
 				}));

@@ -51,10 +51,9 @@
 	padding: 0 0 16px;
 }
 
-#shareWithList li {
+#shareWithList > li {
 	padding-top: 5px;
 	padding-bottom: 5px;
-	font-weight: bold;
 	white-space: normal;
 	display: inline-flex;
 	align-items: center;
@@ -70,18 +69,17 @@
 	opacity: .5;
 }
 
+#shareWithList .shareOption.menuitem > label:before {
+	/* Checkboxes positionning */
+    margin: 0 12px !important;
+}
+
 #shareWithList .unshare {
 	padding: 1px 6px;
 	vertical-align: text-bottom;
 }
 #shareWithList .unshare .icon {
 	vertical-align: text-top;
-}
-
-#shareWithList .unshare .icon-delete {
-	padding-right: 4px;
-	background-position-x: 0;
-	display: inline-block;
 }
 
 #shareWithList .sharingOptionsGroup .popovermenu:after {
@@ -100,7 +98,7 @@
 	overflow: hidden;
 	vertical-align: middle;
 }
-#shareWithList li label {
+#shareWithList li .sharingOptionsGroup > .shareOption > label {
 	padding: 6px;
 	margin-right: 8px;
 	vertical-align: text-top;

@@ -35,15 +35,8 @@
  */
 namespace OC;
 
-use Assetic\Asset\AssetCollection;
-use Assetic\Asset\FileAsset;
-use Assetic\AssetWriter;
-use Assetic\Filter\CssImportFilter;
-use Assetic\Filter\CssMinFilter;
-use Assetic\Filter\CssRewriteFilter;
-use Assetic\Filter\JSqueezeFilter;
-use Assetic\Filter\SeparatorFilter;
 use OC\Template\JSConfigHelper;
+use OC\Template\SCSSCacher;
 
 class TemplateLayout extends \OC_Template {
 
@@ -164,11 +157,18 @@ class TemplateLayout extends \OC_Template {
 		foreach($jsFiles as $info) {
 			$web = $info[1];
 			$file = $info[2];
-			$this->append( 'jsfiles', $web.'/'.$file . '?v=' . self::$versionHash);
+			$this->append( 'jsfiles', $web.'/'.$file . $this->getVersionHashSuffix() );
 		}
 
-		// Add the css files
-		$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
+		// Do not initialise scss appdata until we have a fully installed instance
+		// Do not load scss for update, errors, installation or login page
+		if(\OC::$server->getSystemConfig()->getValue('installed', false)
+			&& !\OCP\Util::needUpgrade()
+			&& strpos(\OC::$server->getRequest()->getRequestUri(), \OC::$server->getURLGenerator()->linkToRoute('core.login.tryLogin')) !== 0) {
+			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
+		} else {
+			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles, false);
+		}
 		$this->assign('cssfiles', array());
 		$this->assign('printcssfiles', []);
 		$this->assign('versionHash', self::$versionHash);
@@ -177,26 +177,47 @@ class TemplateLayout extends \OC_Template {
 			$file = $info[2];
 
 			if (substr($file, -strlen('print.css')) === 'print.css') {
-				$this->append( 'printcssfiles', $web.'/'.$file . '?v=' . self::$versionHash);
+				$this->append( 'printcssfiles', $web.'/'.$file . $this->getVersionHashSuffix() );
 			} else {
-				$this->append( 'cssfiles', $web.'/'.$file . '?v=' . self::$versionHash);
+				$this->append( 'cssfiles', $web.'/'.$file . $this->getVersionHashSuffix()  );
 			}
 		}
+	}
+
+	protected function getVersionHashSuffix() {
+		if(\OC::$server->getConfig()->getSystemValue('debug', false)) {
+			// allows chrome workspace mapping in debug mode
+			return "";
+		}
+
+		return '?v=' . self::$versionHash;
 	}
 
 	/**
 	 * @param array $styles
 	 * @return array
 	 */
-	static public function findStylesheetFiles($styles) {
+	static public function findStylesheetFiles($styles, $compileScss = true) {
 		// Read the selected theme from the config file
 		$theme = \OC_Util::getTheme();
+
+		if($compileScss) {
+			$SCSSCacher = new SCSSCacher(
+				\OC::$server->getLogger(),
+				\OC::$server->getAppDataDir('css'),
+				\OC::$server->getURLGenerator(),
+				\OC::$server->getSystemConfig()
+			);
+		} else {
+			$SCSSCacher = null;
+		}
 
 		$locator = new \OC\Template\CSSResourceLocator(
 			\OC::$server->getLogger(),
 			$theme,
 			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
-			array( \OC::$SERVERROOT => \OC::$WEBROOT ));
+			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
+			$SCSSCacher);
 		$locator->find($styles);
 		return $locator->getResources();
 	}

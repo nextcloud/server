@@ -117,13 +117,6 @@
     "Delete" : "Delete",
     "Allow users to mount external storage" : "Allow users to mount external storage",
     "Allow users to mount the following external storage" : "Allow users to mount the following external storage",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Couldn't get the information from the ownCloud server: {code} {type}",
-    "Global Credentials" : "Global Credentials",
-    "ownCloud" : "ownCloud",
-    "<b>Note:</b> " : "<b>Note:</b> ",
-    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.",
-    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.",
-    "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it.",
-    "External Storage" : "External Storage"
+    "Couldn't get the information from the ownCloud server: {code} {type}" : "Couldn't get the information from the ownCloud server: {code} {type}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

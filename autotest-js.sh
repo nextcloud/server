@@ -22,6 +22,10 @@ fi
 # update/install test packages
 mkdir -p "$PREFIX" && $NPM install --link --prefix "$PREFIX" || exit 3
 
+# create scss test
+mkdir -p tests/css
+./build/bin/node-sass --output tests/css core/css
+
 KARMA="$PREFIX/node_modules/karma/bin/karma"
 
 NODE_PATH='build/node_modules' KARMA_TESTSUITE="$1" $KARMA start tests/karma.config.js --single-run

@@ -9,7 +9,7 @@
 	<version>1.0.0</version>
 	<category>other</category>
 	<dependencies>
-		<owncloud min-version="11.0" max-version="11.0" />
+		<nextcloud min-version="12.0" max-version="12.0" />
 	</dependencies>
 	<default_enable/>
 	<types>

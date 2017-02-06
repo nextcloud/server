@@ -40,7 +40,9 @@
 		'<form class="systemtags-rename-form">' +
 		'    <label class="hidden-visually" for="{{cid}}-rename-input">{{renameLabel}}</label>' +
 		'    <input id="{{cid}}-rename-input" type="text" value="{{name}}">' +
-		'    <a href="#" class="delete icon icon-delete" title="{{deleteTooltip}}"></a>' +
+		'    {{#if isAdmin}}' +
+		'      <a href="#" class="delete icon icon-delete" title="{{deleteTooltip}}"></a>' +
+		'    {{/if}}' +
 		'</form>';
 
 	/**
@@ -148,7 +150,8 @@
 				cid: this.cid,
 				name: oldName,
 				deleteTooltip: t('core', 'Delete'),
-				renameLabel: t('core', 'Rename')
+				renameLabel: t('core', 'Rename'),
+				isAdmin: this._isAdmin
 			}));
 			$item.find('.label').after($renameForm);
 			$item.find('.label, .systemtags-actions').addClass('hidden');

@@ -120,6 +120,31 @@ class UserHooksTest extends TestCase {
 		$this->assertTrue(true);
 	}
 
+	public function testPrePasswordReset() {
+		$params = ['uid' => 'user1'];
+		$expected = ['user1' => true];
+		$this->instance->prePasswordReset($params);
+		$passwordResetUsers = $this->invokePrivate($this->instance, 'passwordResetUsers');
+
+		$this->assertSame($expected, $passwordResetUsers);
+	}
+
+	public function testPostPasswordReset() {
+		$params = ['uid' => 'user1', 'password' => 'password'];
+		$this->invokePrivate($this->instance, 'passwordResetUsers', [['user1' => true]]);
+		$this->keyManagerMock->expects($this->once())->method('backupUserKeys')
+			->with('passwordReset', 'user1');
+		$this->keyManagerMock->expects($this->once())->method('deleteUserKeys')
+			->with('user1');
+		$this->userSetupMock->expects($this->once())->method('setupUser')
+			->with('user1', 'password');
+
+		$this->instance->postPasswordReset($params);
+		$passwordResetUsers = $this->invokePrivate($this->instance, 'passwordResetUsers');
+		$this->assertEmpty($passwordResetUsers);
+
+	}
+
 	/**
 	 * @dataProvider dataTestPreSetPassphrase
 	 */
@@ -252,6 +277,15 @@ class UserHooksTest extends TestCase {
 		$this->assertNull($this->instance->setPassphrase($this->params));
 	}
 
+	public function testSetPassphraseResetUserMode() {
+		$params = ['uid' => 'user1', 'password' => 'password'];
+		$this->invokePrivate($this->instance, 'passwordResetUsers', [[$params['uid'] => true]]);
+		$this->sessionMock->expects($this->never())->method('getPrivateKey');
+		$this->keyManagerMock->expects($this->never())->method('setPrivateKey');
+		$this->assertTrue($this->instance->setPassphrase($params));
+		$this->invokePrivate($this->instance, 'passwordResetUsers', [[]]);
+	}
+
 	public function testSetPasswordNoUser() {
 		$this->sessionMock->expects($this->once())
 			->method('getPrivateKey')
@@ -285,19 +319,6 @@ class UserHooksTest extends TestCase {
 
 		/** @var \OCA\Encryption\Hooks\UserHooks $userHooks */
 		$this->assertNull($userHooks->setPassphrase($this->params));
-	}
-
-	public function testPostPasswordReset() {
-		$this->keyManagerMock->expects($this->once())
-			->method('deleteUserKeys')
-			->with('testUser');
-
-		$this->userSetupMock->expects($this->once())
-			->method('setupUser')
-			->with('testUser', 'password');
-
-		$this->instance->postPasswordReset($this->params);
-		$this->assertTrue(true);
 	}
 
 	protected function setUp() {

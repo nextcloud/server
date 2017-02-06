@@ -1002,27 +1002,6 @@ class OC_Util {
 	}
 
 	/**
-	 * Check if it is allowed to remember login.
-	 *
-	 * @note Every app can set 'rememberlogin' to 'false' to disable the remember login feature
-	 *
-	 * @return bool
-	 */
-	public static function rememberLoginAllowed() {
-
-		$apps = OC_App::getEnabledApps();
-
-		foreach ($apps as $app) {
-			$appInfo = OC_App::getAppInfo($app);
-			if (isset($appInfo['rememberlogin']) && $appInfo['rememberlogin'] === 'false') {
-				return false;
-			}
-
-		}
-		return true;
-	}
-
-	/**
 	 * Check if the user is a subadmin, redirects to home if not
 	 *
 	 * @return null|boolean $groups where the current user is subadmin
@@ -1381,12 +1360,12 @@ class OC_Util {
 	}
 
 	/**
-	 * A human readable string is generated based on version, channel and build number
+	 * A human readable string is generated based on version and build number
 	 *
 	 * @return string
 	 */
 	public static function getHumanVersion() {
-		$version = OC_Util::getVersionString() . ' (' . OC_Util::getChannel() . ')';
+		$version = OC_Util::getVersionString();
 		$build = OC_Util::getBuild();
 		if (!empty($build) and OC_Util::getChannel() === 'daily') {
 			$version .= ' Build:' . $build;

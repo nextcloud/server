@@ -9,18 +9,37 @@ namespace Icewind\SMB;
 
 use Icewind\SMB\Exception\AccessDeniedException;
 use Icewind\SMB\Exception\AlreadyExistsException;
+use Icewind\SMB\Exception\AuthenticationException;
 use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\FileInUseException;
+use Icewind\SMB\Exception\InvalidHostException;
 use Icewind\SMB\Exception\InvalidResourceException;
 use Icewind\SMB\Exception\InvalidTypeException;
+use Icewind\SMB\Exception\NoLoginServerException;
 use Icewind\SMB\Exception\NotEmptyException;
 use Icewind\SMB\Exception\NotFoundException;
 
 class Parser {
+	const MSG_NOT_FOUND = 'Error opening local file ';
+
 	/**
 	 * @var \Icewind\SMB\TimeZoneProvider
 	 */
 	protected $timeZoneProvider;
+
+	// todo replace with static once <5.6 support is dropped
+	// see error.h
+	private static $exceptionMap = [
+		ErrorCodes::PathNotFound      => '\Icewind\SMB\Exception\NotFoundException',
+		ErrorCodes::ObjectNotFound    => '\Icewind\SMB\Exception\NotFoundException',
+		ErrorCodes::NoSuchFile        => '\Icewind\SMB\Exception\NotFoundException',
+		ErrorCodes::NameCollision     => '\Icewind\SMB\Exception\AlreadyExistsException',
+		ErrorCodes::AccessDenied      => '\Icewind\SMB\Exception\AccessDeniedException',
+		ErrorCodes::DirectoryNotEmpty => '\Icewind\SMB\Exception\NotEmptyException',
+		ErrorCodes::FileIsADirectory  => '\Icewind\SMB\Exception\InvalidTypeException',
+		ErrorCodes::NotADirectory     => '\Icewind\SMB\Exception\InvalidTypeException',
+		ErrorCodes::SharingViolation  => '\Icewind\SMB\Exception\FileInUseException'
+	];
 
 	/**
 	 * @param \Icewind\SMB\TimeZoneProvider $timeZoneProvider
@@ -29,50 +48,54 @@ class Parser {
 		$this->timeZoneProvider = $timeZoneProvider;
 	}
 
+	private function getErrorCode($line) {
+		$parts = explode(' ', $line);
+		foreach ($parts as $part) {
+			if (substr($part, 0, 9) === 'NT_STATUS') {
+				return $part;
+			}
+		}
+		return false;
+	}
+
 	public function checkForError($output, $path) {
-		if (count($output) === 0) {
-			return true;
-		} else {
-			if (strpos($output[0], 'does not exist')) {
-				throw new NotFoundException($path);
-			}
-			$parts = explode(' ', $output[0]);
-			$error = false;
-			foreach ($parts as $part) {
-				if (substr($part, 0, 9) === 'NT_STATUS') {
-					$error = $part;
-				}
-			}
+		if (strpos($output[0], 'does not exist')) {
+			throw new NotFoundException($path);
+		}
+		$error = $this->getErrorCode($output[0]);
 
-			$notFoundMsg = 'Error opening local file ';
-			if (substr($output[0], 0, strlen($notFoundMsg)) === $notFoundMsg) {
-				$localPath = substr($output[0], strlen($notFoundMsg));
-				throw new InvalidResourceException('Failed opening local file "' . $localPath . '" for writing');
-			}
+		if (substr($output[0], 0, strlen(self::MSG_NOT_FOUND)) === self::MSG_NOT_FOUND) {
+			$localPath = substr($output[0], strlen(self::MSG_NOT_FOUND));
+			throw new InvalidResourceException('Failed opening local file "' . $localPath . '" for writing');
+		}
 
-			switch ($error) {
-				case ErrorCodes::PathNotFound:
-				case ErrorCodes::ObjectNotFound:
-				case ErrorCodes::NoSuchFile:
-					throw new NotFoundException($path);
-				case ErrorCodes::NameCollision:
-					throw new AlreadyExistsException($path);
-				case ErrorCodes::AccessDenied:
-					throw new AccessDeniedException($path);
-				case ErrorCodes::DirectoryNotEmpty:
-					throw new NotEmptyException($path);
-				case ErrorCodes::FileIsADirectory:
-				case ErrorCodes::NotADirectory:
-					throw new InvalidTypeException($path);
-				case ErrorCodes::SharingViolation:
-					throw new FileInUseException($path);
-				default:
-					$message = 'Unknown error (' . $error . ')';
-					if ($path) {
-						$message .= ' for ' . $path;
-					}
-					throw new Exception($message);
-			}
+		throw Exception::fromMap(self::$exceptionMap, $error, $path);
+	}
+
+	/**
+	 * check if the first line holds a connection failure
+	 *
+	 * @param $line
+	 * @throws AuthenticationException
+	 * @throws InvalidHostException
+	 * @throws NoLoginServerException
+	 */
+	public function checkConnectionError($line) {
+		$line = rtrim($line, ')');
+		if (substr($line, -23) === ErrorCodes::LogonFailure) {
+			throw new AuthenticationException('Invalid login');
+		}
+		if (substr($line, -26) === ErrorCodes::BadHostName) {
+			throw new InvalidHostException('Invalid hostname');
+		}
+		if (substr($line, -22) === ErrorCodes::Unsuccessful) {
+			throw new InvalidHostException('Connection unsuccessful');
+		}
+		if (substr($line, -28) === ErrorCodes::ConnectionRefused) {
+			throw new InvalidHostException('Connection refused');
+		}
+		if (substr($line, -26) === ErrorCodes::NoLogonServers) {
+			throw new NoLoginServerException('No login server');
 		}
 	}
 
@@ -95,9 +118,7 @@ class Parser {
 	}
 
 	public function parseStat($output) {
-		$mtime = 0;
-		$mode = 0;
-		$size = 0;
+		$data = [];
 		foreach ($output as $line) {
 			// A line = explode statement may not fill all array elements
 			// properly. May happen when accessing non Windows Fileservers
@@ -105,20 +126,13 @@ class Parser {
 			$name = isset($words[0]) ? $words[0] : '';
 			$value = isset($words[1]) ? $words[1] : '';
 			$value = trim($value);
-			if ($name === 'write_time') {
-				$mtime = strtotime($value);
-			} else if ($name === 'attributes') {
-				$mode = hexdec(substr($value, 1, -1));
-			} else if ($name === 'stream') {
-				list(, $size,) = explode(' ', $value);
-				$size = intval($size);
-			}
+			$data[$name] = $value;
 		}
-		return array(
-			'mtime' => $mtime,
-			'mode' => $mode,
-			'size' => $size
-		);
+		return [
+			'mtime' => strtotime($data['write_time']),
+			'mode'  => hexdec(substr($data['attributes'], strpos($data['attributes'], '('), -1)),
+			'size'  => isset($data['stream']) ? intval(explode(' ', $data['stream'])[1]) : 0
+		];
 	}
 
 	public function parseDir($output, $basePath) {
@@ -138,5 +152,18 @@ class Parser {
 			}
 		}
 		return $content;
+	}
+
+	public function parseListShares($output) {
+		$shareNames = array();
+		foreach ($output as $line) {
+			if (strpos($line, '|')) {
+				list($type, $name, $description) = explode('|', $line);
+				if (strtolower($type) === 'disk') {
+					$shareNames[$name] = $description;
+				}
+			}
+		}
+		return $shareNames;
 	}
 }

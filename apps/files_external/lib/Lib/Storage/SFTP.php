@@ -207,7 +207,7 @@ class SFTP extends \OC\Files\Storage\Common {
 		try {
 			$storage_view = \OCP\Files::getStorage('files_external');
 			if ($storage_view) {
-				return \OC::$server->getConfig()->getSystemValue('datadirectory') .
+				return \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') .
 					$storage_view->getAbsolutePath('') .
 					'ssh_hostKeys';
 			}

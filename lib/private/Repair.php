@@ -31,12 +31,12 @@
 namespace OC;
 
 use OC\Repair\AssetCache;
-use OC\Repair\AvatarPermissions;
 use OC\Repair\CleanTags;
 use OC\Repair\Collation;
 use OC\Repair\DropOldJobs;
 use OC\Repair\MoveUpdaterStepFile;
 use OC\Repair\NC11\CleanPreviews;
+use OC\Repair\NC11\FixMountStorages;
 use OC\Repair\NC11\MoveAvatars;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\RemoveGetETagEntries;
@@ -47,7 +47,6 @@ use OC\Repair\SqliteAutoincrement;
 use OC\Repair\DropOldTables;
 use OC\Repair\FillETags;
 use OC\Repair\InnoDB;
-use OC\Repair\RepairLegacyStorages;
 use OC\Repair\RepairMimeTypes;
 use OC\Repair\SearchLuceneTables;
 use OC\Repair\UpdateOutdatedOcsIds;
@@ -132,7 +131,6 @@ class Repair implements IOutput{
 		return [
 			new Collation(\OC::$server->getConfig(), \OC::$server->getLogger(), \OC::$server->getDatabaseConnection(), false),
 			new RepairMimeTypes(\OC::$server->getConfig()),
-			new RepairLegacyStorages(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 			new AssetCache(),
 			new FillETags(\OC::$server->getDatabaseConnection()),
 			new CleanTags(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager()),
@@ -143,7 +141,6 @@ class Repair implements IOutput{
 			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 			new SharePropagation(\OC::$server->getConfig()),
 			new RemoveOldShares(\OC::$server->getDatabaseConnection()),
-			new AvatarPermissions(\OC::$server->getDatabaseConnection()),
 			new RemoveRootShares(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager(), \OC::$server->getLazyRootFolder()),
 			new RepairUnmergedShares(
 				\OC::$server->getConfig(),
@@ -161,6 +158,7 @@ class Repair implements IOutput{
 				\OC::$server->getUserManager(),
 				\OC::$server->getConfig()
 			),
+			new FixMountStorages(\OC::$server->getDatabaseConnection()),
 		];
 	}
 

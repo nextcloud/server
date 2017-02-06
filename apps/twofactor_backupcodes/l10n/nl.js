@@ -10,6 +10,10 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "Als je backup codes opnieuw genereert, worden oude codes automatisch ongeldig gemaakt.",
     "An error occurred while generating your backup codes" : "Er trad een fout op bij het genereren van je backup codes",
     "Nextcloud backup codes" : "Nextcloud backup codes",
+    "Two-factor authentication" : "Tweefactor authenticatie",
+    "You successfully logged in using two-factor authentication (%1$s)" : "Je bent succesvol ingelogd via tweefactot authenticatie (%1$s)",
+    "A login attempt using two-factor authentication failed (%1$s)" : "Een inlogpoging via tweefactor authenticatie is mislukt (%1$s)",
+    "You created two-factor backup codes for your account" : "Je creëerde tweefactor back-up codes voor je account",
     "Backup code" : "Backup code",
     "Use backup code" : "Gebruik backup code",
     "Second-factor backup codes" : "Twee-factor backup code"

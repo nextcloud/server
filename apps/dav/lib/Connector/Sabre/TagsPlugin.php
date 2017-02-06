@@ -250,7 +250,11 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin
 			if (is_null($isFav)) {
 				list(, $isFav) = $this->getTagsAndFav($node->getId());
 			}
-			return $isFav;
+			if ($isFav) {
+				return 1;
+			} else {
+				return 0;
+			}
 		});
 	}
 

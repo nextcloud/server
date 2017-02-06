@@ -162,7 +162,6 @@ class DefaultShareProvider implements IShareProvider {
 		$this->dbConn->beginTransaction();
 		$qb->execute();
 		$id = $this->dbConn->lastInsertId('*PREFIX*share');
-		$this->dbConn->commit();
 
 		// Now fetch the inserted share and create a complete share object
 		$qb = $this->dbConn->getQueryBuilder();
@@ -172,6 +171,7 @@ class DefaultShareProvider implements IShareProvider {
 
 		$cursor = $qb->execute();
 		$data = $cursor->fetch();
+		$this->dbConn->commit();
 		$cursor->closeCursor();
 
 		if ($data === false) {
@@ -853,7 +853,6 @@ class DefaultShareProvider implements IShareProvider {
 			$entryData['permissions'] = $entryData['f_permissions'];
 			$entryData['parent'] = $entryData['f_parent'];;
 			$share->setNodeCacheEntry(Cache::cacheEntryFromData($entryData,
-				$entryData['storage_string_id'],
 				\OC::$server->getMimeTypeLoader()));
 		}
 

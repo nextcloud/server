@@ -3,7 +3,9 @@ style('settings', 'settings');
 vendor_script(
 	'core',
 	[
-		'handlebars/handlebars'
+		'handlebars/handlebars',
+		'marked/marked.min',
+		'DOMPurify/dist/purify.min',
 	]
 );
 script(
@@ -24,7 +26,7 @@ script(
 
 <?php if($_['appstoreEnabled']): ?>
 	<li>
-		<a class="app-external" target="_blank" rel="noreferrer" href="https://docs.nextcloud.org/server/11/developer_manual/"><?php p($l->t('Developer documentation'));?> ↗</a>
+		<a class="app-external" target="_blank" rel="noreferrer" href="https://docs.nextcloud.org/server/12/developer_manual/"><?php p($l->t('Developer documentation'));?> ↗</a>
 	</li>
 <?php endif; ?>
 </script>
@@ -59,7 +61,7 @@ script(
 	<div class="app-detailpage"></div>
 
 	<div class="app-description-container hidden">
-		<div class="app-description"><pre>{{description}}</pre></div>
+		<div class="app-description">{{{description}}}</div>
 		<!--<div class="app-changed">{{changed}}</div>-->
 		{{#if documentation}}
 		<p class="documentation">
@@ -134,7 +136,7 @@ script(
 	<input class="enable{{#if needsDownload}} needs-download{{/if}}" type="submit" data-appid="{{id}}" data-active="false" {{#unless canInstall}}disabled="disabled"{{/unless}} value="<?php p($l->t("Enable"));?>"/>
 	{{/if}}
 	{{#if canUnInstall}}
-	<input class="uninstall" type="submit" value="<?php p($l->t('Uninstall App')); ?>" data-appid="{{id}}" />
+	<input class="uninstall" type="submit" value="<?php p($l->t('Uninstall app')); ?>" data-appid="{{id}}" />
 	{{/if}}
 
 	<div class="warning hidden"></div>
@@ -148,7 +150,7 @@ script(
 	</ul>
 </div>
 <div id="app-content">
-	<svg height="0">
+	<svg class="app-filter">
 		<defs><filter id="invertIcon"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>
 	</svg>
 	<div id="apps-list" class="icon-loading"></div>

@@ -35,7 +35,7 @@ class MySQL extends AbstractDatabase {
 
 	public function setupDatabase($username) {
 		//check if the database user has admin right
-		$connection = $this->connect();
+		$connection = $this->connect(['dbname' => null]);
 
 		$this->createSpecificUser($username, $connection);
 
@@ -152,7 +152,7 @@ class MySQL extends AbstractDatabase {
 				};
 			}
 		} catch (\Exception $ex) {
-			$this->logger->error('Specific user creation failed: {error}', [
+			$this->logger->info('Can not create a new MySQL user, will continue with the provided user: {error}', [
 				'app' => 'mysql.setup',
 				'error' => $ex->getMessage()
 			]);

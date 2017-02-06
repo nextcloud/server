@@ -69,8 +69,6 @@ class ContentSecurityPolicyNonceManager {
 			Request::USER_AGENT_CHROME,
 			// Firefox 45+
 			'/^Mozilla\/5\.0 \([^)]+\) Gecko\/[0-9.]+ Firefox\/(4[5-9]|[5-9][0-9])\.[0-9.]+$/',
-			// Safari 10+
-			'/^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Version\/1[0-9.]+ Safari\/[0-9.A-Z]+$/',
 		];
 
 		if($this->request->isUserAgent($browserWhitelist)) {

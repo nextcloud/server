@@ -40,6 +40,13 @@ use OCA\Encryption\Session;
 use OCA\Encryption\Recovery;
 
 class UserHooks implements IHook {
+
+	/**
+	 * list of user for which we perform a password reset
+	 * @var array
+	 */
+	protected static $passwordResetUsers = [];
+
 	/**
 	 * @var KeyManager
 	 */
@@ -132,6 +139,16 @@ class UserHooks implements IHook {
 				$this,
 				'preSetPassphrase');
 
+			OCUtil::connectHook('\OC\Core\LostPassword\Controller\LostController',
+				'post_passwordReset',
+				$this,
+				'postPasswordReset');
+
+			OCUtil::connectHook('\OC\Core\LostPassword\Controller\LostController',
+				'pre_passwordReset',
+				$this,
+				'prePasswordReset');
+
 			OCUtil::connectHook('OC_User',
 				'post_createUser',
 				$this,
@@ -202,6 +219,22 @@ class UserHooks implements IHook {
 		}
 	}
 
+	public function prePasswordReset($params) {
+		if (App::isEnabled('encryption')) {
+			$user = $params['uid'];
+			self::$passwordResetUsers[$user] = true;
+		}
+	}
+
+	public function postPasswordReset($params) {
+		$uid = $params['uid'];
+		$password = $params['password'];
+		$this->keyManager->backupUserKeys('passwordReset', $uid);
+		$this->keyManager->deleteUserKeys($uid);
+		$this->userSetup->setupUser($uid, $password);
+		unset(self::$passwordResetUsers[$uid]);
+	}
+
 	/**
 	 * If the password can't be changed within ownCloud, than update the key password in advance.
 	 *
@@ -209,13 +242,10 @@ class UserHooks implements IHook {
 	 * @return boolean|null
 	 */
 	public function preSetPassphrase($params) {
-		if (App::isEnabled('encryption')) {
+		$user = $this->userManager->get($params['uid']);
 
-			$user = $this->userManager->get($params['uid']);
-
-			if ($user && !$user->canChangePassword()) {
-				$this->setPassphrase($params);
-			}
+		if ($user && !$user->canChangePassword()) {
+			$this->setPassphrase($params);
 		}
 	}
 
@@ -226,6 +256,12 @@ class UserHooks implements IHook {
 	 * @return boolean|null
 	 */
 	public function setPassphrase($params) {
+
+		// if we are in the process to resetting a user password, we have nothing
+		// to do here
+		if (isset(self::$passwordResetUsers[$params['uid']])) {
+			return true;
+		}
 
 		// Get existing decrypted private key
 		$privateKey = $this->session->getPrivateKey();
@@ -297,19 +333,6 @@ class UserHooks implements IHook {
 	 */
 	protected function initMountPoints($user) {
 		Filesystem::initMountPoints($user);
-	}
-
-
-	/**
-	 * after password reset we create a new key pair for the user
-	 *
-	 * @param array $params
-	 */
-	public function postPasswordReset($params) {
-		$password = $params['password'];
-
-		$this->keyManager->deleteUserKeys($params['uid']);
-		$this->userSetup->setupUser($params['uid'], $password);
 	}
 
 	/**

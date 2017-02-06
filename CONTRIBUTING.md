@@ -58,7 +58,7 @@ like `git config --global alias.ci 'commit -s'`. Now you can commit with
 
 In case you are not sure how to add or update the license header correctly please have a look at [contribute/HowToApplyALicense.md][applyalicense]
 
-[devmanual]: https://docs.nextcloud.org/server/11/developer_manual/
+[devmanual]: https://docs.nextcloud.org/server/12/developer_manual/
 [dcofile]: https://github.com/nextcloud/server/blob/master/contribute/developer-certificate-of-origin
 [applyalicense]: https://github.com/nextcloud/server/blob/master/contribute/HowToApplyALicense.md
 

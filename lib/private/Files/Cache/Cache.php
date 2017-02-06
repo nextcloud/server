@@ -142,7 +142,7 @@ class Cache implements ICache {
 			}
 			return $data;
 		} else {
-			return self::cacheEntryFromData($data, $this->storageId, $this->mimetypeLoader);
+			return self::cacheEntryFromData($data, $this->mimetypeLoader);
 		}
 	}
 
@@ -150,11 +150,10 @@ class Cache implements ICache {
 	 * Create a CacheEntry from database row
 	 *
 	 * @param array $data
-	 * @param string $storageId
 	 * @param IMimeTypeLoader $mimetypeLoader
 	 * @return CacheEntry
 	 */
-	public static function cacheEntryFromData($data, $storageId, IMimeTypeLoader $mimetypeLoader) {
+	public static function cacheEntryFromData($data, IMimeTypeLoader $mimetypeLoader) {
 		//fix types
 		$data['fileid'] = (int)$data['fileid'];
 		$data['parent'] = (int)$data['parent'];
@@ -163,7 +162,7 @@ class Cache implements ICache {
 		$data['storage_mtime'] = (int)$data['storage_mtime'];
 		$data['encryptedVersion'] = (int)$data['encrypted'];
 		$data['encrypted'] = (bool)$data['encrypted'];
-		$data['storage'] = $storageId;
+		$data['storage_id'] = $data['storage'];
 		$data['mimetype'] = $mimetypeLoader->getMimetypeById($data['mimetype']);
 		$data['mimepart'] = $mimetypeLoader->getMimetypeById($data['mimepart']);
 		if ($data['storage_mtime'] == 0) {

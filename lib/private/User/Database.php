@@ -238,6 +238,12 @@ class Database extends Backend implements IUserBackend {
 	 */
 	private function loadUser($uid) {
 		if (!isset($this->cache[$uid])) {
+			//guests $uid could be NULL or ''
+			if ($uid === null || $uid === '') {
+				$this->cache[$uid]=false;
+				return true;
+			}
+
 			$query = \OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users` WHERE LOWER(`uid`) = LOWER(?)');
 			$result = $query->execute(array($uid));
 

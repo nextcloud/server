@@ -5,7 +5,7 @@
 	<description>A two-factor auth backup codes provider</description>
 	<licence>agpl</licence>
 	<author>Christoph Wurst</author>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<namespace>TwoFactorBackupCodes</namespace>
 	<category>other</category>
 
@@ -14,6 +14,19 @@
 	</two-factor-providers>
 
 	<dependencies>
-		<nextcloud min-version="11" max-version="11" />
+		<nextcloud min-version="12" max-version="12" />
 	</dependencies>
+
+	<activity>
+		<filters>
+			<filter>OCA\TwoFactorBackupCodes\Activity\GenericFilter</filter>
+		</filters>
+		<settings>
+			<setting>OCA\TwoFactorBackupCodes\Activity\GenericSetting</setting>
+		</settings>
+		<providers>
+			<provider>OCA\TwoFactorBackupCodes\Activity\GenericProvider</provider>
+			<provider>OCA\TwoFactorBackupCodes\Activity\Provider</provider>
+		</providers>
+	</activity>
 </info>

@@ -281,6 +281,7 @@ class OC {
 			// render error page
 			$template = new OC_Template('', 'update.user', 'guest');
 			OC_Util::addScript('maintenance-check');
+			OC_Util::addStyle('guest');
 			$template->printPage();
 			die();
 		}
@@ -354,6 +355,8 @@ class OC {
 			header('Status: 503 Service Temporarily Unavailable');
 			header('Retry-After: 120');
 
+			OC_Util::addStyle('guest');
+
 			// render error page
 			$template = new OC_Template('', 'update.use-cli', 'guest');
 			$template->assign('productName', 'nextcloud'); // for now
@@ -373,9 +376,9 @@ class OC {
 
 		$oldTheme = $systemConfig->getValue('theme');
 		$systemConfig->setValue('theme', '');
-		\OCP\Util::addScript('config'); // needed for web root
-		\OCP\Util::addScript('update');
-		\OCP\Util::addStyle('update');
+		OC_Util::addScript('config'); // needed for web root
+		OC_Util::addScript('update');
+		OC_Util::addStyle('guest');
 
 		/** @var \OC\App\AppManager $appManager */
 		$appManager = \OC::$server->getAppManager();
@@ -666,12 +669,6 @@ class OC {
 			OC\Log\ErrorHandler::register($debug);
 		}
 
-		// register the stream wrappers
-		stream_wrapper_register('fakedir', 'OC\Files\Stream\Dir');
-		stream_wrapper_register('static', 'OC\Files\Stream\StaticStream');
-		stream_wrapper_register('close', 'OC\Files\Stream\Close');
-		stream_wrapper_register('quota', 'OC\Files\Stream\Quota');
-
 		\OC::$server->getEventLogger()->start('init_session', 'Initialize session');
 		OC_App::loadApps(array('session'));
 		if (!self::$CLI) {
@@ -711,6 +708,7 @@ class OC {
 					exit(1);
 				} else {
 					OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
+					OC_Util::addStyle('guest');
 					OC_Template::printGuestPage('', 'error', array('errors' => $errors));
 					exit;
 				}
@@ -750,9 +748,6 @@ class OC {
 
 		self::registerCacheHooks();
 		self::registerFilesystemHooks();
-		if ($systemConfig->getValue('enable_previews', true)) {
-			self::registerPreviewHooks();
-		}
 		self::registerShareHooks();
 		self::registerLogRotate();
 		self::registerEncryptionWrapper();
@@ -791,23 +786,31 @@ class OC {
 			&& !\OC::$server->getTrustedDomainHelper()->isTrustedDomain($host)
 			&& self::$server->getConfig()->getSystemValue('installed', false)
 		) {
-			header('HTTP/1.1 400 Bad Request');
-			header('Status: 400 Bad Request');
+			// Allow access to CSS resources
+			$isScssRequest = false;
+			if(strpos($request->getPathInfo(), '/css/') === 0) {
+				$isScssRequest = true;
+			}
 
-			\OC::$server->getLogger()->warning(
+			if (!$isScssRequest) {
+				header('HTTP/1.1 400 Bad Request');
+				header('Status: 400 Bad Request');
+
+				\OC::$server->getLogger()->warning(
 					'Trusted domain error. "{remoteAddress}" tried to access using "{host}" as host.',
 					[
 						'app' => 'core',
 						'remoteAddress' => $request->getRemoteAddress(),
 						'host' => $host,
 					]
-			);
+				);
 
-			$tmpl = new OCP\Template('core', 'untrustedDomain', 'guest');
-			$tmpl->assign('domain', $host);
-			$tmpl->printPage();
+				$tmpl = new OCP\Template('core', 'untrustedDomain', 'guest');
+				$tmpl->assign('domain', $host);
+				$tmpl->printPage();
 
-			exit();
+				exit();
+			}
 		}
 		\OC::$server->getEventLogger()->end('boot');
 	}
@@ -881,7 +884,7 @@ class OC {
 		if ($systemConfig->getValue('installed', false) && $systemConfig->getValue('log_rotate_size', false) && !self::checkUpgrade(false)) {
 			//don't try to do this before we are properly setup
 			//use custom logfile path if defined, otherwise use default of nextcloud.log in data directory
-			\OCP\BackgroundJob::registerJob('OC\Log\Rotate', $systemConfig->getValue('logfile', $systemConfig->getValue('datadirectory', OC::$SERVERROOT . '/data') . '/nextcloud.log'));
+			\OC::$server->getJobList()->add('OC\Log\Rotate');
 		}
 	}
 
@@ -892,20 +895,6 @@ class OC {
 		// Check for blacklisted files
 		OC_Hook::connect('OC_Filesystem', 'write', 'OC\Files\Filesystem', 'isBlacklisted');
 		OC_Hook::connect('OC_Filesystem', 'rename', 'OC\Files\Filesystem', 'isBlacklisted');
-	}
-
-	/**
-	 * register hooks for previews
-	 */
-	public static function registerPreviewHooks() {
-		OC_Hook::connect('OC_Filesystem', 'post_write', 'OC\Preview', 'post_write');
-		OC_Hook::connect('OC_Filesystem', 'delete', 'OC\Preview', 'prepare_delete_files');
-		OC_Hook::connect('\OCP\Versions', 'preDelete', 'OC\Preview', 'prepare_delete');
-		OC_Hook::connect('\OCP\Trashbin', 'preDelete', 'OC\Preview', 'prepare_delete');
-		OC_Hook::connect('OC_Filesystem', 'post_delete', 'OC\Preview', 'post_delete_files');
-		OC_Hook::connect('\OCP\Versions', 'delete', 'OC\Preview', 'post_delete_versions');
-		OC_Hook::connect('\OCP\Trashbin', 'delete', 'OC\Preview', 'post_delete');
-		OC_Hook::connect('\OCP\Versions', 'rollback', 'OC\Preview', 'post_delete_versions');
 	}
 
 	/**

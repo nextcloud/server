@@ -22,13 +22,18 @@
 
 namespace OCA\TwoFactorBackupCodes\Service;
 
+use BadMethodCallException;
 use OCA\TwoFactorBackupCodes\Db\BackupCode;
 use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
+use OCP\Activity\IManager;
+use OCP\ILogger;
 use OCP\IUser;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 
 class BackupCodeStorage {
+
+	private static $CODE_LENGTH = 16;
 
 	/** @var BackupCodeMapper */
 	private $mapper;
@@ -39,10 +44,26 @@ class BackupCodeStorage {
 	/** @var ISecureRandom */
 	private $random;
 
-	public function __construct(BackupCodeMapper $mapper, ISecureRandom $random, IHasher $hasher) {
+	/** @var IManager */
+	private $activityManager;
+
+	/** @var ILogger */
+	private $logger;
+
+	/**
+	 * @param BackupCodeMapper $mapper
+	 * @param ISecureRandom $random
+	 * @param IHasher $hasher
+	 * @param IManager $activityManager
+	 * @param ILogger $logger
+	 */
+	public function __construct(BackupCodeMapper $mapper, ISecureRandom $random, IHasher $hasher,
+		IManager $activityManager, ILogger $logger) {
 		$this->mapper = $mapper;
 		$this->hasher = $hasher;
 		$this->random = $random;
+		$this->activityManager = $activityManager;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -57,7 +78,7 @@ class BackupCodeStorage {
 
 		$uid = $user->getUID();
 		foreach (range(1, min([$number, 20])) as $i) {
-			$code = $this->random->generate(10, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789');
+			$code = $this->random->generate(self::$CODE_LENGTH, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS);
 
 			$dbCode = new BackupCode();
 			$dbCode->setUserId($uid);
@@ -68,7 +89,30 @@ class BackupCodeStorage {
 			array_push($result, $code);
 		}
 
+		$this->publishEvent($user, 'codes_generated');
+
 		return $result;
+	}
+
+	/**
+	 * Push an event the user's activity stream
+	 *
+	 * @param IUser $user
+	 * @param string $event
+	 */
+	private function publishEvent(IUser $user, $event) {
+		$activity = $this->activityManager->generateEvent();
+		$activity->setApp('twofactor_backupcodes')
+			->setType('twofactor')
+			->setAuthor($user->getUID())
+			->setAffectedUser($user->getUID())
+			->setSubject($event);
+		try {
+			$this->activityManager->publish($activity);
+		} catch (BadMethodCallException $e) {
+			$this->logger->warning('could not publish backup code creation activity', ['app' => 'twofactor_backupcodes']);
+			$this->logger->logException($e, ['app' => 'twofactor_backupcodes']);
+		}
 	}
 
 	/**

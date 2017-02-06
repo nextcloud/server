@@ -75,8 +75,8 @@ class File {
 		$config = \OC::$server->getSystemConfig();
 
 		// default to ISO8601
-		$format = $config->getValue('logdateformat', 'c');
-		$logTimeZone = $config->getValue( "logtimezone", 'UTC' );
+		$format = $config->getValue('logdateformat', \DateTime::ATOM);
+		$logTimeZone = $config->getValue('logtimezone', 'UTC');
 		try {
 			$timezone = new \DateTimeZone($logTimeZone);
 		} catch (\Exception $e) {

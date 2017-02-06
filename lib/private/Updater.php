@@ -82,6 +82,12 @@ class Updater extends BasicEmitter {
 		$this->log = $log;
 		$this->config = $config;
 		$this->checker = $checker;
+
+		// If at least PHP 7.0.0 is used we don't need to disable apps as we catch
+		// fatal errors and exceptions and disable the app just instead.
+		if(version_compare(phpversion(), '7.0.0', '>=')) {
+			$this->skip3rdPartyAppsDisable = true;
+		}
 	}
 
 	/**

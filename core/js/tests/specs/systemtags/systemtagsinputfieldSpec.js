@@ -267,20 +267,6 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 
 				saveStub.restore();
 			});
-			it('deletes model and submits change when clicking delete', function() {
-				var destroyStub = sinon.stub(OC.SystemTags.SystemTagModel.prototype, 'destroy');
-
-				expect($dropdown.find('.delete').length).toEqual(0);
-				$dropdown.find('.rename').mouseup();
-				// delete button appears
-				expect($dropdown.find('.delete').length).toEqual(1);
-				$dropdown.find('.delete').mouseup();
-
-				expect(destroyStub.calledOnce).toEqual(true);
-				expect(destroyStub.calledOn(view.collection.get('1')));
-
-				destroyStub.restore();
-			});
 		});
 		describe('setting data', function() {
 			it('sets value when calling setValues', function() {
@@ -299,12 +285,18 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 	});
 
 	describe('as admin', function() {
+		var $dropdown;
+
 		beforeEach(function() {
 			view = new OC.SystemTags.SystemTagsInputField({
 				isAdmin: true
 			});
-			view.render();
 			$('.testInputContainer').append(view.$el);
+			$dropdown = $('<div class="select2-dropdown"></div>');
+			select2Stub.withArgs('dropdown').returns($dropdown);
+			$('#testArea').append($dropdown);
+
+			view.render();
 		});
 		it('formatResult renders tag name with visibility', function() {
 			var opts = select2Stub.getCall(0).args[0];
@@ -431,15 +423,50 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 				]);
 			});
 		});
+		describe('tag actions', function() {
+			var opts;
+
+			beforeEach(function() {
+
+				opts = select2Stub.getCall(0).args[0];
+
+				view.collection.add([
+					new OC.SystemTags.SystemTagModel({id: '1', name: 'abc'}),
+				]);
+
+				$dropdown.append(opts.formatResult(view.collection.get('1').toJSON()));
+
+			});
+			it('deletes model and submits change when clicking delete', function() {
+				var destroyStub = sinon.stub(OC.SystemTags.SystemTagModel.prototype, 'destroy');
+
+				expect($dropdown.find('.delete').length).toEqual(0);
+				$dropdown.find('.rename').mouseup();
+				// delete button appears
+				expect($dropdown.find('.delete').length).toEqual(1);
+				$dropdown.find('.delete').mouseup();
+
+				expect(destroyStub.calledOnce).toEqual(true);
+				expect(destroyStub.calledOn(view.collection.get('1')));
+
+				destroyStub.restore();
+			});
+		});
 	});
 
 	describe('as user', function() {
+		var $dropdown;
+
 		beforeEach(function() {
 			view = new OC.SystemTags.SystemTagsInputField({
 				isAdmin: false
 			});
-			view.render();
 			$('.testInputContainer').append(view.$el);
+			$dropdown = $('<div class="select2-dropdown"></div>');
+			select2Stub.withArgs('dropdown').returns($dropdown);
+			$('#testArea').append($dropdown);
+
+			view.render();
 		});
 		it('formatResult renders tag name only', function() {
 			var opts = select2Stub.getCall(0).args[0];
@@ -568,6 +595,34 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 						canAssign: true
 					}
 				]);
+			});
+		});
+		describe('tag actions', function() {
+			var opts;
+
+			beforeEach(function() {
+
+				opts = select2Stub.getCall(0).args[0];
+
+				view.collection.add([
+					new OC.SystemTags.SystemTagModel({id: '1', name: 'abc'}),
+				]);
+
+				$dropdown.append(opts.formatResult(view.collection.get('1').toJSON()));
+
+			});
+			it('deletes model and submits change when clicking delete', function() {
+				var destroyStub = sinon.stub(OC.SystemTags.SystemTagModel.prototype, 'destroy');
+
+				expect($dropdown.find('.delete').length).toEqual(0);
+				$dropdown.find('.rename').mouseup();
+				// delete button appears only for admins
+				expect($dropdown.find('.delete').length).toEqual(0);
+				$dropdown.find('.delete').mouseup();
+
+				expect(destroyStub.notCalled).toEqual(true);
+
+				destroyStub.restore();
 			});
 		});
 	});

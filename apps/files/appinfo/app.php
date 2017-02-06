@@ -26,19 +26,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+// required for translation purpose
+// t('Files')
 $l = \OC::$server->getL10N('files');
-
-\OC::$server->getNavigationManager()->add(function () {
-	$urlGenerator = \OC::$server->getURLGenerator();
-	$l = \OC::$server->getL10N('files');
-	return [
-		'id' => 'files_index',
-		'order' => 0,
-		'href' => $urlGenerator->linkToRoute('files.view.index'),
-		'icon' => $urlGenerator->imagePath('core', 'places/files.svg'),
-		'name' => $l->t('Files'),
-	];
-});
 
 \OC::$server->getSearch()->registerProvider('OC\Search\Provider\File', array('apps' => array('files')));
 

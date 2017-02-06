@@ -48,7 +48,6 @@
     "Cancel" : "Annuller",
     "seconds ago" : "sekunder siden",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Linket til at nulstille dit kodeord er blevet sendt til din e-post: hvis du ikke modtager den inden for en rimelig tid, så tjek dine spam/junk-mapper.<br> Hvis det ikke er der, så spørg din lokale administrator.",
-    "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Dine filer er krypterede. Hvis du ikke har aktiveret gendannelsesnøglen kan du ikke få dine data tilbage efter at du har ændret adgangskode.<br />Hvis du ikke er sikker på, hvad du skal gøre så kontakt din administrator før du fortsætter.<br />Vil du fortsætte?",
     "I know what I'm doing" : "Jeg ved, hvad jeg har gang i",
     "Password can not be changed. Please contact your administrator." : "Adgangskoden kunne ikke ændres. Kontakt venligst din administrator.",
     "No" : "Nej",
@@ -99,6 +98,7 @@
     "Share link" : "Del link",
     "Link" : "Link",
     "Password protect" : "Beskyt med adgangskode",
+    "Allow editing" : "Tillad redigering",
     "Email link to person" : "E-mail link til person",
     "Send" : "Send",
     "Shared with you and the group {group} by {owner}" : "Delt med dig og gruppen {group} af {owner}",
@@ -190,8 +190,8 @@
     "Need help?" : "Brug for hjælp?",
     "See the documentation" : "Se dokumentationen",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Denne applikation kræver JavaScript for at fungere korrekt. {linkstart}Slå venligst JavaScript til{linkend} og genindlæs siden. ",
-    "Log out" : "Log ud",
     "Search" : "Søg",
+    "Log out" : "Log ud",
     "Server side authentication failed!" : "Server side godkendelse mislykkedes!",
     "Please contact your administrator." : "Kontakt venligst din administrator",
     "An internal error occurred." : "Der opstod en intern fejl.",
@@ -277,8 +277,8 @@
     "Oct." : "Okt.",
     "Nov." : "Nov.",
     "Dec." : "Dec.",
+    "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Dine filer er krypterede. Hvis du ikke har aktiveret gendannelsesnøglen kan du ikke få dine data tilbage efter at du har ændret adgangskode.<br />Hvis du ikke er sikker på, hvad du skal gøre så kontakt din administrator før du fortsætter.<br />Vil du fortsætte?",
     "The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "Konfigurationen af reverse proxy-headere er ikke korrekt eller du tilgår ownCloud fra en betroet proxy. Hvis du ikke tilgår ownCloud fra en betroet proxy, så er dette et sikkerhedsproblem og kan tillade en angriber af forfalske deres IP-adresse som synlig for ownCloud. Yderligere information kan findes i vores <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">dokumentation</a>.",
-    "Allow editing" : "Tillad redigering",
     "Sending ..." : "Sender ...",
     "Email sent" : "E-mail afsendt",
     "Send link via email" : "Send link via e-mail",
@@ -294,7 +294,6 @@
     "Warning" : "Advarsel",
     "Error while sending notification" : "Fejl ved afsendelse af notifikation",
     "No search results in other folders" : "Søgning gav ingen resultater in andre mapper",
-    "Cancel login" : "Annuller login",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Del med andre på ownCloud ved hjælp af syntaxen username@example.com/owncloud"
+    "Cancel login" : "Annuller login"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

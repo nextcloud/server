@@ -142,10 +142,11 @@ class FavoriteProvider implements IProvider {
 			'type' => 'file',
 			'id' => $event->getObjectId(),
 			'name' => basename($event->getObjectName()),
-			'path' => $event->getObjectName(),
+			'path' => trim($event->getObjectName(), '/'),
+			'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $event->getObjectId()]),
 		];
 
-		$event->setParsedSubject(str_replace('{file}', trim($parameter['path'], '/'), $subject))
+		$event->setParsedSubject(str_replace('{file}', $parameter['path'], $subject))
 			->setRichSubject($subject, ['file' => $parameter]);
 	}
 }

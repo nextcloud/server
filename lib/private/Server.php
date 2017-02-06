@@ -45,8 +45,8 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\AppFramework\Http\Request;
-use OC\AppFramework\Db\Db;
 use OC\AppFramework\Utility\TimeFactory;
+use OC\Authentication\LoginCredentials\Store;
 use OC\Command\AsyncBus;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\NullEventLogger;
@@ -90,6 +90,7 @@ use OC\Security\TrustedDomainHelper;
 use OC\Session\CryptoWrapper;
 use OC\Tagging\TagMapper;
 use OCA\Theming\ThemingDefaults;
+use OCP\Authentication\LoginCredentials\IStore;
 use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\RichObjectStrings\IValidator;
@@ -125,7 +126,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getConfig(),
 				$c->getRootFolder(),
 				$c->getAppDataDir('preview'),
-				$c->getEventDispatcher()
+				$c->getEventDispatcher(),
+				$c->getSession()->get('user_id')
 			);
 		});
 
@@ -246,6 +248,17 @@ class Server extends ServerContainer implements IServerContainer {
 			});
 			return $groupManager;
 		});
+		$this->registerService(Store::class, function(Server $c) {
+			$session = $c->getSession();
+			if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
+				$tokenProvider = $c->query('OC\Authentication\Token\IProvider');
+			} else {
+				$tokenProvider = null;
+			}
+			$logger = $c->getLogger();
+			return new Store($session, $logger, $tokenProvider);
+		});
+		$this->registerAlias(IStore::class, Store::class);
 		$this->registerService('OC\Authentication\Token\DefaultTokenMapper', function (Server $c) {
 			$dbConnection = $c->getDatabaseConnection();
 			return new Authentication\Token\DefaultTokenMapper($dbConnection);
@@ -313,11 +326,15 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerService(\OC\Authentication\TwoFactorAuth\Manager::class, function (Server $c) {
-			return new \OC\Authentication\TwoFactorAuth\Manager($c->getAppManager(), $c->getSession(), $c->getConfig());
+			return new \OC\Authentication\TwoFactorAuth\Manager($c->getAppManager(), $c->getSession(), $c->getConfig(), $c->getActivityManager(), $c->getLogger());
 		});
 
-		$this->registerService('NavigationManager', function ($c) {
-			return new \OC\NavigationManager();
+		$this->registerService('NavigationManager', function (Server $c) {
+			return new \OC\NavigationManager($c->getAppManager(),
+				$c->getURLGenerator(),
+				$c->getL10NFactory(),
+				$c->getUserSession(),
+				$c->getGroupManager());
 		});
 		$this->registerService('AllConfig', function (Server $c) {
 			return new \OC\AllConfig(
@@ -361,7 +378,8 @@ class Server extends ServerContainer implements IServerContainer {
 			return new CategoryFetcher(
 				$this->getAppDataDir('appstore'),
 				$this->getHTTPClientService(),
-				$this->query(TimeFactory::class)
+				$this->query(TimeFactory::class),
+				$this->getConfig()
 			);
 		});
 		$this->registerService('UserCache', function ($c) {
@@ -376,7 +394,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$version = implode(',', $v);
 				$instanceId = \OC_Util::getInstanceId();
 				$path = \OC::$SERVERROOT;
-				$prefix = md5($instanceId . '-' . $version . '-' . $path);
+				$prefix = md5($instanceId . '-' . $version . '-' . $path . '-' . \OC::$WEBROOT);
 				return new \OC\Memcache\Factory($prefix, $c->getLogger(),
 					$config->getSystemValue('memcache.local', null),
 					$config->getSystemValue('memcache.distributed', null),
@@ -418,9 +436,8 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 		$this->registerService('Logger', function (Server $c) {
-			$logClass = $c->query('AllConfig')->getSystemValue('log_type', 'file');
-			// TODO: Drop backwards compatibility for config in the future
-			$logger = 'OC\\Log\\' . ucfirst($logClass=='owncloud' ? 'file' : $logClass);
+			$logType = $c->query('AllConfig')->getSystemValue('log_type', 'file');
+			$logger = Log::getLogClass($logType);
 			call_user_func(array($logger, 'init'));
 
 			return new Log($logger);
@@ -470,9 +487,6 @@ class Server extends ServerContainer implements IServerContainer {
 			$connection->getConfiguration()->setSQLLogger($c->getQueryLogger());
 			return $connection;
 		});
-		$this->registerService('Db', function (Server $c) {
-			return new Db($c->getDatabaseConnection());
-		});
 		$this->registerService('HTTPHelper', function (Server $c) {
 			$config = $c->getConfig();
 			return new HTTPHelper(
@@ -485,7 +499,7 @@ class Server extends ServerContainer implements IServerContainer {
 			$uid = $user ? $user : null;
 			return new ClientService(
 				$c->getConfig(),
-				new \OC\Security\CertificateManager($uid, new View(), $c->getConfig())
+				new \OC\Security\CertificateManager($uid, new View(), $c->getConfig(), $c->getLogger())
 			);
 		});
 		$this->registerService('EventLogger', function (Server $c) {
@@ -794,7 +808,9 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getConfig(),
 				$c->getEncryptionManager(),
 				$c->getUserManager(),
-				$c->getLockingProvider()
+				$c->getLockingProvider(),
+				new \OC\Settings\Mapper($c->getDatabaseConnection()),
+				$c->getURLGenerator()
 			);
 			return $manager;
 		});
@@ -900,7 +916,6 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->query('SystemTagObjectMapper');
 	}
 
-
 	/**
 	 * Returns the avatar manager, used for avatar functionality
 	 *
@@ -998,7 +1013,8 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function setSession(\OCP\ISession $session) {
 		$this->query(SessionStorage::class)->setSession($session);
-		return $this->query('UserSession')->setSession($session);
+		$this->query('UserSession')->setSession($session);
+		$this->query(Store::class)->setSession($session);
 	}
 
 	/**
@@ -1199,16 +1215,6 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	/**
-	 * Returns an instance of the db facade
-	 *
-	 * @deprecated use getDatabaseConnection, will be removed in ownCloud 10
-	 * @return \OCP\IDb
-	 */
-	public function getDb() {
-		return $this->query('Db');
-	}
-
-	/**
 	 * Returns an instance of the HTTP helper class
 	 *
 	 * @deprecated Use getHTTPClientService()
@@ -1233,7 +1239,7 @@ class Server extends ServerContainer implements IServerContainer {
 			}
 			$userId = $user->getUID();
 		}
-		return new CertificateManager($userId, new View(), $this->getConfig());
+		return new CertificateManager($userId, new View(), $this->getConfig(), $this->getLogger());
 	}
 
 	/**

@@ -5,11 +5,11 @@
     <description>Provide federated file sharing across servers</description>
     <licence>AGPL</licence>
     <author>Bjoern Schiessle, Roeland Jago Douma</author>
-    <version>1.1.1</version>
+    <version>1.2.0</version>
     <namespace>FederatedFileSharing</namespace>
     <category>other</category>
     <dependencies>
-        <nextcloud min-version="11" max-version="11" />
+        <nextcloud min-version="12" max-version="12" />
     </dependencies>
     <settings>
         <admin>OCA\FederatedFileSharing\Settings\Admin</admin>

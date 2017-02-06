@@ -23,6 +23,9 @@ namespace Test\Files\ObjectStore;
 
 use OC\Files\ObjectStore\S3;
 
+/**
+ * @group PRIMARY-s3
+ */
 class S3Test extends ObjectStoreTest {
 	/**
 	 * @return \OCP\Files\ObjectStore\IObjectStore

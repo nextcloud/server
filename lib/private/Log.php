@@ -106,12 +106,8 @@ class Log implements ILogger {
 
 		// FIXME: Add this for backwards compatibility, should be fixed at some point probably
 		if($logger === null) {
-			// TODO: Drop backwards compatibility for config in the future
 			$logType = $this->config->getValue('log_type', 'file');
-			if($logType==='owncloud') {
-				$logType = 'file';
-			}
-			$this->logger = 'OC\\Log\\'.ucfirst($logType);
+			$this->logger = static::getLogClass($logType);
 			call_user_func(array($this->logger, 'init'));
 		} else {
 			$this->logger = $logger;
@@ -326,5 +322,27 @@ class Log implements ILogger {
 		$msg = isset($context['message']) ? $context['message'] : 'Exception';
 		$msg .= ': ' . json_encode($exception);
 		$this->error($msg, $context);
+	}
+
+	/**
+	 * @param string $logType
+	 * @return string
+	 * @internal
+	 */
+	public static function getLogClass($logType) {
+		switch (strtolower($logType)) {
+			case 'errorlog':
+				return \OC\Log\Errorlog::class;
+			case 'syslog':
+				return \OC\Log\Syslog::class;
+			case 'file':
+				return \OC\Log\File::class;
+
+			// Backwards compatibility for old and fallback for unknown log types
+			case 'owncloud':
+			case 'nextcloud':
+			default:
+				return \OC\Log\File::class;
+		}
 	}
 }

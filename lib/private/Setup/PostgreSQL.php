@@ -150,14 +150,16 @@ class PostgreSQL extends AbstractDatabase {
 	}
 
 	private function createDBUser(IDBConnection $connection) {
+		$dbUser = $this->dbUser;
 		try {
-			if ($this->userExists($connection)) {
-				// change the password
-				$query = $connection->prepare("ALTER ROLE " . addslashes($this->dbUser) . " WITH CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
-			} else {
-				// create the user
-				$query = $connection->prepare("CREATE USER " . addslashes($this->dbUser) . " CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
-			}
+			$i = 1;
+			while ($this->userExists($connection)) {
+				$i++;
+				$this->dbUser = $dbUser . $i;
+			};
+
+			// create the user
+			$query = $connection->prepare("CREATE USER " . addslashes($this->dbUser) . " CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
 			$query->execute();
 		} catch (DatabaseException $e) {
 			$this->logger->error('Error while trying to create database user');

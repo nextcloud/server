@@ -75,7 +75,7 @@ abstract class ResourceLocator {
 				$this->doFind($resource);
 			} catch (ResourceNotFoundException $e) {
 				$resourceApp = substr($resource, 0, strpos($resource, '/'));
-				$this->logger->error('Could not find resource file "' . $e->getResourcePath() . '"', ['app' => $resourceApp]);
+				$this->logger->debug('Could not find resource file "' . $e->getResourcePath() . '"', ['app' => $resourceApp]);
 			}
 		}
 		if (!empty($this->theme)) {
@@ -84,7 +84,7 @@ abstract class ResourceLocator {
 					$this->doFindTheme($resource);
 				} catch (ResourceNotFoundException $e) {
 					$resourceApp = substr($resource, 0, strpos($resource, '/'));
-					$this->logger->error('Could not find resource file "' . $e->getResourcePath() . '"', ['app' => $resourceApp]);
+					$this->logger->debug('Could not find resource file "' . $e->getResourcePath() . '"', ['app' => $resourceApp]);
 				}
 			}
 		}

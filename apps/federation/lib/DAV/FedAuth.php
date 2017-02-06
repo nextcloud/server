@@ -24,6 +24,8 @@ namespace OCA\Federation\DAV;
 
 use OCA\Federation\DbHandler;
 use Sabre\DAV\Auth\Backend\AbstractBasic;
+use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface;
 
 class FedAuth extends AbstractBasic {
 
@@ -56,5 +58,11 @@ class FedAuth extends AbstractBasic {
 	 */
 	protected function validateUserPass($username, $password) {
 		return $this->db->auth($username, $password);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	function challenge(RequestInterface $request, ResponseInterface $response) {
 	}
 }
