@@ -116,6 +116,7 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addStyle("apps",null,true);
 			OC_Util::addStyle("fonts",null,true);
 			OC_Util::addStyle("icons",null,true);
+			OC_Util::addStyle("actions",null,true);
 			OC_Util::addStyle("header",null,true);
 			OC_Util::addStyle("inputs");
 			OC_Util::addStyle("styles",null,true);
