@@ -202,26 +202,4 @@ class AddressHandlerTest extends \Test\TestCase {
 			['httpserver.com', false],
 		];
 	}
-
-	/**
-	 * @dataProvider dataTestFixRemoteUrl
-	 *
-	 * @param string $url
-	 * @param string $expected
-	 */
-	public function testFixRemoteUrl($url, $expected) {
-		$this->assertSame($expected,
-			$this->invokePrivate($this->addressHandler, 'fixRemoteURL', [$url])
-		);
-	}
-
-	public function dataTestFixRemoteUrl() {
-		return [
-			['http://localhost', 'http://localhost'],
-			['http://localhost/', 'http://localhost'],
-			['http://localhost/index.php', 'http://localhost'],
-			['http://localhost/index.php/s/AShareToken', 'http://localhost'],
-		];
-	}
-
 }
