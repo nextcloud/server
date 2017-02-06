@@ -319,6 +319,24 @@ form .warning input[type="checkbox"]+label {
 	color: #fff !important;
 }
 
+/* TOTP */
+.two-factor-header {
+	text-align: center;
+}
+.two-factor-provider {
+	text-align: center;
+	width: 258px !important;
+	display: inline-block;
+	margin-bottom: 0 !important;
+	background-color: rgba(0, 0, 0, 0.3) !important;
+	border: none !important;
+}
+.two-factor-link {
+	display: inline-block;
+	padding: 12px;
+	color: rgba(255, 255, 255, 0.75);
+}
+
 /* Additional login options */
 #remember_login {
 	margin: 18px 5px 0 16px !important;
