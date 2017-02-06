@@ -91,11 +91,11 @@ class CSSResourceLocator extends ResourceLocator {
 					$this->append($root, $this->scssCacher->getCachedSCSS($app, $file), false);
 					return true;
 				} else {
-					$this->logger->error('Failed to compile and/or save '.$root.'/'.$file, ['app' => 'core']);
+					$this->logger->warning('Failed to compile and/or save '.$root.'/'.$file, ['app' => 'core']);
 					return false;
 				}
 			} else {
-				$this->logger->error('Scss is disabled for '.$root.'/'.$file.', ignoring', ['app' => 'core']);
+				$this->logger->debug('Scss is disabled for '.$root.'/'.$file.', ignoring', ['app' => 'core']);
 				return true;
 			}
 		}
