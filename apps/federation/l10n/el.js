@@ -1,10 +1,16 @@
 OC.L10N.register(
     "federation",
     {
-    "Server added to the list of trusted ownClouds" : "Ο διακομιστής προστέθηκε στην λίστα των έμπιστων ownCloud",
+    "Added to the list of trusted servers" : "Προσθήκη στην λίστα των έμπιστων διακομιστών",
     "Server is already in the list of trusted servers." : "Ο διακομιστής περιλαμβάνεται ήδη στην λίστα των έμπιστων ownCloud",
-    "No ownCloud server found" : "Δεν βρέθηκε διακομιστής ownCloud",
     "Could not add server" : "Αδυναμία προσθήκης διακομιστή",
-    "ownCloud Server" : "Διακομιστής ownCloud"
+    "Federation" : "Federation",
+    "Trusted servers" : "Έμπιστοι διακομιστές",
+    "+ Add trusted server" : "+Προσθήκη έμπιστων διακομιστών",
+    "Trusted server" : "Έμπιστοι διακομιστές",
+    "Add" : "Προσθήκη",
+    "Trusted Servers" : "Έμπιστοι διακομιστές",
+    "+ Add Nextcloud server" : "+ Προσθήκη διακομιστή Nextcloud",
+    "Nextcloud Server" : "Διακομιστής Nextcloud"
 },
 "nplurals=2; plural=(n != 1);");
