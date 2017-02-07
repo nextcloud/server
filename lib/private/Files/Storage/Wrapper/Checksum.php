@@ -72,6 +72,10 @@ class Checksum extends Wrapper {
 	 * @return bool
 	 */
 	public function file_put_contents($path, $data) {
+		$stream = fopen('occhecksum://','r+');
+		fwrite($stream, $data);
+		fclose($stream);
+
 		return parent::file_put_contents($path, $data);
 	}
 
