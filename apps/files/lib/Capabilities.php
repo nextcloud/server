@@ -53,6 +53,10 @@ class Capabilities implements ICapability {
 	 */
 	public function getCapabilities() {
 		return [
+			'checksums' => [
+				'supportedTypes' => ['SHA1'],
+				'preferredUploadType' => 'SHA1'
+			],
 			'files' => [
 				'bigfilechunking' => true,
 				'blacklisted_files' => $this->config->getSystemValue('blacklisted_files', ['.htaccess']),

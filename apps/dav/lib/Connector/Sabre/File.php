@@ -34,6 +34,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\Filesystem;
+use OC\Files\Storage\Storage;
 use OCA\DAV\Connector\Sabre\Exception\EntityTooLarge;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden as DAVForbiddenException;
@@ -132,6 +133,10 @@ class File extends Node implements IFile {
 			}
 			list($count, $result) = \OC_Helper::streamCopy($data, $target);
 			fclose($target);
+
+			if (!self::isChecksumValid($partStorage, $internalPartPath)) {
+				throw new BadRequest('The computed checksum does not match the one received from the client.');
+			}
 
 			if ($result === false) {
 				$expected = -1;
@@ -441,6 +446,10 @@ class File extends Node implements IFile {
 
 					$chunk_handler->file_assemble($partStorage, $partInternalPath);
 
+					if (!self::isChecksumValid($partStorage, $partInternalPath)) {
+						throw new BadRequest('The computed checksum does not match the one received from the client.');
+					}
+
 					// here is the final atomic rename
 					$renameOkay = $targetStorage->moveFromStorage($partStorage, $partInternalPath, $targetInternalPath);
 					$fileExists = $targetStorage->file_exists($targetInternalPath);
@@ -498,6 +507,33 @@ class File extends Node implements IFile {
 		}
 
 		return null;
+	}
+
+	/**
+	 * will return true if checksum was not provided in request
+	 *
+	 * @param Storage $storage
+	 * @param $path
+	 * @return bool
+	 */
+	private static function isChecksumValid(Storage $storage, $path) {
+		$meta = $storage->getMetaData($path);
+		$request = \OC::$server->getRequest();
+
+
+		if (!isset($request->server['HTTP_OC_CHECKSUM']) || !isset($meta['checksum'])) {
+			// No comparison possible, skip the check
+			return true;
+		}
+
+		$expectedChecksum = trim($request->server['HTTP_OC_CHECKSUM']);
+		$computedChecksum = $meta['checksum'];
+
+		if ($expectedChecksum !== $computedChecksum) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
