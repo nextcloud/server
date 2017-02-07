@@ -97,6 +97,7 @@ OC.L10N.register(
     "Scope" : "Εύρος",
     "Enable encryption" : "Ενεργοποίηση κρυπτογράφησης",
     "Enable previews" : "Ενεργοποίηση προεπισκοπήσεων",
+    "Enable sharing" : "Ενεργοποίηση διαμοιρασμού",
     "Check for changes" : "Έλεγχος για αλλαγές",
     "Never" : "Ποτέ",
     "Once every direct access" : "Σε κάθε απευθείας πρόσβαση",
