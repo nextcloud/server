@@ -38,6 +38,7 @@
     "User found and settings verified." : "Użytkownik nie znalazł ustawienia zweryfikowanego.",
     "Settings verified, but more than one user found. Only the first will be able to login. Consider a more narrow filter." : "Ustawienia są poprawne, ale znaleziono więcej niż jednego użytkownika. Tylko pierwszy będzie mógł się zalogować. Rozważ większe zawężenie filtrami.",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Błąd połączenia do LDAP / AD, proszę sprawdzić adres hosta, port i poświadczenia.",
+    "Please provide a login name to test against" : "Wprowadź nazwę użytkownika, aby wykonać test ponownie",
     "Password change rejected. Hint: " : "Zmiana hasła odrzucona: Wskazówka:",
     "LDAP / AD integration" : "Integracja z LDAP / AD",
     "_%s group found_::_%s groups found_" : ["%s znaleziona grupa","%s znalezionych grup","%s znalezionych grup","%s znalezionych grup"],
