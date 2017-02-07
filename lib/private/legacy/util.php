@@ -183,7 +183,7 @@ class OC_Util {
 		// install storage checksum wrapper
 		\OC\Files\Filesystem::addStorageWrapper('oc_checksum', function ($mountPoint, $storage) {
 			return new \OC\Files\Storage\Wrapper\Checksum(['storage' => $storage]);
-		});
+		}, 1);
 
 
 		\OC\Files\Filesystem::addStorageWrapper('oc_encoding', function ($mountPoint, \OCP\Files\Storage $storage, \OCP\Files\Mount\IMountPoint $mount) {
