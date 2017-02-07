@@ -223,28 +223,28 @@ class Provider implements IProvider {
 			case 'deleted_self':
 			case 'restored_self':
 				return [
-					'file' => $this->getRichFileParameter($parameters[0], $event),
+					'file' => $this->getFile($parameters[0], $event),
 				];
 			case 'created_by':
 			case 'changed_by':
 			case 'deleted_by':
 			case 'restored_by':
 				return [
-					'file' => $this->getRichFileParameter($parameters[0], $event),
-					'user' => $this->getRichUserParameter($parameters[1]),
+					'file' => $this->getFile($parameters[0], $event),
+					'user' => $this->getUser($parameters[1]),
 				];
 			case 'renamed_self':
 			case 'moved_self':
 				return [
-					'newfile' => $this->getRichFileParameter($parameters[0]),
-					'oldfile' => $this->getRichFileParameter($parameters[1]),
+					'newfile' => $this->getFile($parameters[0]),
+					'oldfile' => $this->getFile($parameters[1]),
 				];
 			case 'renamed_by':
 			case 'moved_by':
 				return [
-					'newfile' => $this->getRichFileParameter($parameters[0]),
-					'user' => $this->getRichUserParameter($parameters[1]),
-					'oldfile' => $this->getRichFileParameter($parameters[2]),
+					'newfile' => $this->getFile($parameters[0]),
+					'user' => $this->getUser($parameters[1]),
+					'oldfile' => $this->getFile($parameters[2]),
 				];
 		}
 		return [];
@@ -256,10 +256,10 @@ class Provider implements IProvider {
 	 * @return array
 	 * @throws \InvalidArgumentException
 	 */
-	protected function getRichFileParameter($parameter, IEvent $event = null) {
+	protected function getFile($parameter, IEvent $event = null) {
 		if (is_array($parameter)) {
 			$path = reset($parameter);
-			$id = key($parameter);
+			$id = (string) key($parameter);
 		} else if ($event !== null) {
 			// Legacy from before ownCloud 8.2
 			$path = $parameter;
@@ -267,6 +267,7 @@ class Provider implements IProvider {
 		} else {
 			throw new \InvalidArgumentException('Could not generate file parameter');
 		}
+
 		return [
 			'type' => 'file',
 			'id' => $id,
@@ -276,7 +277,7 @@ class Provider implements IProvider {
 		];
 	}
 
-	protected function getRichUserParameter($uid) {
+	protected function getUser($uid) {
 		if (!isset($this->displayNames[$uid])) {
 			$this->displayNames[$uid] = $this->getDisplayName($uid);
 		}
