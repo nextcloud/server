@@ -180,6 +180,17 @@ class OC_Util {
 			return $storage;
 		});
 
+		// install storage checksum wrapper
+		\OC\Files\Filesystem::addStorageWrapper('oc_checksum', function ($mountPoint, \OCP\Files\Storage\IStorage $storage) {
+			if (!$storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
+				return new \OC\Files\Storage\Wrapper\Checksum(['storage' => $storage]);
+			}
+
+			return $storage;
+
+		}, 1);
+
+
 		\OC\Files\Filesystem::addStorageWrapper('oc_encoding', function ($mountPoint, \OCP\Files\Storage $storage, \OCP\Files\Mount\IMountPoint $mount) {
 			if ($mount->getOption('encoding_compatibility', false) && !$storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage') && !$storage->isLocal()) {
 				return new \OC\Files\Storage\Wrapper\Encoding(['storage' => $storage]);

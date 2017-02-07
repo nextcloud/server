@@ -34,6 +34,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\Filesystem;
+use OC\Files\Storage\Storage;
 use OCA\DAV\Connector\Sabre\Exception\EntityTooLarge;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden as DAVForbiddenException;
@@ -133,6 +134,10 @@ class File extends Node implements IFile {
 			list($count, $result) = \OC_Helper::streamCopy($data, $target);
 			fclose($target);
 
+			if (!self::isChecksumValid($partStorage, $internalPartPath)) {
+				throw new BadRequest('The computed checksum does not match the one received from the client.');
+			}
+
 			if ($result === false) {
 				$expected = -1;
 				if (isset($_SERVER['CONTENT_LENGTH'])) {
@@ -222,14 +227,16 @@ class File extends Node implements IFile {
 
 			$this->refreshInfo();
 
-			if (isset($request->server['HTTP_OC_CHECKSUM'])) {
-				$checksum = trim($request->server['HTTP_OC_CHECKSUM']);
-				$this->fileView->putFileInfo($this->path, ['checksum' => $checksum]);
-				$this->refreshInfo();
-			} else if ($this->getChecksum() !== null && $this->getChecksum() !== '') {
-				$this->fileView->putFileInfo($this->path, ['checksum' => '']);
-				$this->refreshInfo();
+			$meta = $partStorage->getMetaData($internalPartPath);
+
+			if (isset($meta['checksum'])) {
+				$this->fileView->putFileInfo(
+					$this->path,
+					['checksum' => $meta['checksum']]
+				);
 			}
+
+			$this->refreshInfo();
 
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable("Failed to check file size: " . $e->getMessage());
@@ -441,6 +448,10 @@ class File extends Node implements IFile {
 
 					$chunk_handler->file_assemble($partStorage, $partInternalPath);
 
+					if (!self::isChecksumValid($partStorage, $partInternalPath)) {
+						throw new BadRequest('The computed checksum does not match the one received from the client.');
+					}
+
 					// here is the final atomic rename
 					$renameOkay = $targetStorage->moveFromStorage($partStorage, $partInternalPath, $targetInternalPath);
 					$fileExists = $targetStorage->file_exists($targetInternalPath);
@@ -479,12 +490,19 @@ class File extends Node implements IFile {
 				// FIXME: should call refreshInfo but can't because $this->path is not the of the final file
 				$info = $this->fileView->getFileInfo($targetPath);
 
-				if (isset($request->server['HTTP_OC_CHECKSUM'])) {
-					$checksum = trim($request->server['HTTP_OC_CHECKSUM']);
-					$this->fileView->putFileInfo($targetPath, ['checksum' => $checksum]);
-				} else if ($info->getChecksum() !== null && $info->getChecksum() !== '') {
-					$this->fileView->putFileInfo($this->path, ['checksum' => '']);
+
+				if (isset($partStorage) && isset($partInternalPath)) {
+					$checksums = $partStorage->getMetaData($partInternalPath)['checksum'];
+				} else {
+					$checksums = $targetStorage->getMetaData($targetInternalPath)['checksum'];
 				}
+
+				$this->fileView->putFileInfo(
+					$targetPath,
+					['checksum' => $checksums]
+				);
+
+				$this->refreshInfo();
 
 				$this->fileView->unlockFile($targetPath, ILockingProvider::LOCK_SHARED);
 
@@ -498,6 +516,29 @@ class File extends Node implements IFile {
 		}
 
 		return null;
+	}
+
+	/**
+	 * will return true if checksum was not provided in request
+	 *
+	 * @param Storage $storage
+	 * @param $path
+	 * @return bool
+	 */
+	private static function isChecksumValid(Storage $storage, $path) {
+		$meta = $storage->getMetaData($path);
+		$request = \OC::$server->getRequest();
+
+		if (!isset($request->server['HTTP_OC_CHECKSUM']) || !isset($meta['checksum'])) {
+			// No comparison possible, skip the check
+			return true;
+		}
+
+		$expectedChecksum = trim($request->server['HTTP_OC_CHECKSUM']);
+		$computedChecksums = $meta['checksum'];
+
+		return strpos($computedChecksums, $expectedChecksum) !== false;
+
 	}
 
 	/**
@@ -562,12 +603,30 @@ class File extends Node implements IFile {
 		throw new \Sabre\DAV\Exception($e->getMessage(), 0, $e);
 	}
 
+
 	/**
-	 * Get the checksum for this file
-	 *
+	 * Set $algo to get a specific checksum, leave null to get all checksums
+	 * (space seperated)
+	 * @param null $algo
 	 * @return string
 	 */
-	public function getChecksum() {
-		return $this->info->getChecksum();
+	public function getChecksum($algo = null) {
+		$allChecksums = $this->info->getChecksum();
+
+		if (!$algo) {
+			return $allChecksums;
+		}
+
+		$checksums = explode(' ', $allChecksums);
+		$algoPrefix = strtoupper($algo) . ':';
+
+		foreach ($checksums as $checksum) {
+			// starts with $algoPrefix
+			if (substr($checksum, 0, strlen($algoPrefix)) === $algoPrefix) {
+				return $checksum;
+			}
+		}
+
+		return '';
 	}
 }
