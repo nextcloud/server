@@ -27,6 +27,7 @@ use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use Test\TestCase;
@@ -133,5 +134,75 @@ class ProviderTest extends TestCase {
 	public function testGetFileThrows() {
 		$provider = $this->getProvider();
 		self::invokePrivate($provider, 'getFile', ['/Foo/Bar.txt', null]);
+	}
+
+	public function dataGetUser() {
+		return [
+			['test', [], false, 'Test'],
+			['foo', ['admin' => 'Admin'], false, 'Bar'],
+			['admin', ['admin' => 'Administrator'], true, 'Administrator'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetUser
+	 * @param string $uid
+	 * @param array $cache
+	 * @param bool $cacheHit
+	 * @param string $name
+	 */
+	public function testGetUser($uid, $cache, $cacheHit, $name) {
+		$provider = $this->getProvider(['getDisplayName']);
+
+		self::invokePrivate($provider, 'displayNames', [$cache]);
+
+		if (!$cacheHit) {
+			$provider->expects($this->once())
+				->method('getDisplayName')
+				->with($uid)
+				->willReturn($name);
+		} else {
+			$provider->expects($this->never())
+				->method('getDisplayName');
+		}
+
+		$result = self::invokePrivate($provider, 'getUser', [$uid]);
+		$this->assertSame('user', $result['type']);
+		$this->assertSame($uid, $result['id']);
+		$this->assertSame($name, $result['name']);
+	}
+
+	public function dataGetDisplayName() {
+		return [
+			['test', true, 'Test'],
+			['foo', false, 'foo'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetDisplayName
+	 * @param string $uid
+	 * @param string $name
+	 */
+	public function testGetDisplayNamer($uid, $validUser, $name) {
+		$provider = $this->getProvider();
+
+		if ($validUser) {
+			$user = $this->createMock(IUser::class);
+			$user->expects($this->once())
+				->method('getDisplayName')
+				->willReturn($name);
+			$this->userManager->expects($this->once())
+				->method('get')
+				->with($uid)
+				->willReturn($user);
+		} else {
+			$this->userManager->expects($this->once())
+				->method('get')
+				->with($uid)
+				->willReturn(null);
+		}
+
+		$this->assertSame($name, self::invokePrivate($provider, 'getDisplayName', [$uid]));
 	}
 }
