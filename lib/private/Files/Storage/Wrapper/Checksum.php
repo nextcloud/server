@@ -72,9 +72,11 @@ class Checksum extends Wrapper {
 	 * @return bool
 	 */
 	public function file_put_contents($path, $data) {
-		$stream = $this->fopen('php://memory','r+');
-		fwrite($stream, $data);
-		fclose($stream);
+		$memoryStream = fopen('php://memory', 'r+');
+		$checksumStream = \OC\Files\Stream\Checksum::wrap($memoryStream, $path);
+
+		fwrite($checksumStream, $data);
+		fclose($checksumStream);
 
 		return parent::file_put_contents($path, $data);
 	}
