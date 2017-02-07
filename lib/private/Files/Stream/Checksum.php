@@ -25,6 +25,13 @@ namespace OC\Files\Stream;
 
 use Icewind\Streams\Wrapper;
 
+/**
+ * Computes the checksum of the wrapped stream. The checksum can be retrieved with
+ * getChecksum after the stream is closed.
+ *
+ *
+ * @package OC\Files\Stream
+ */
 class Checksum extends Wrapper {
 
 	private static $algo = 'sha1';
