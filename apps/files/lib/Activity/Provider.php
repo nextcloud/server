@@ -103,7 +103,7 @@ class Provider implements IProvider {
 	 * @since 11.0.0
 	 */
 	public function parseShortVersion(IEvent $event, IEvent $previousEvent = null) {
-		$parsedParameters = $this->getParameters($event->getSubject(), $event->getSubjectParameters());
+		$parsedParameters = $this->getParameters($event);
 
 		if ($event->getSubject() === 'created_by') {
 			$subject = $this->l->t('Created by {user}');
@@ -128,9 +128,7 @@ class Provider implements IProvider {
 
 		$this->setSubjects($event, $subject, $parsedParameters);
 
-		$event = $this->eventMerger->mergeEvents('user', $event, $previousEvent);
-
-		return $event;
+		return $this->eventMerger->mergeEvents('user', $event, $previousEvent);
 	}
 
 	/**
@@ -141,7 +139,7 @@ class Provider implements IProvider {
 	 * @since 11.0.0
 	 */
 	public function parseLongVersion(IEvent $event, IEvent $previousEvent = null) {
-		$parsedParameters = $this->getParameters($event->getSubject(), $event->getSubjectParameters());
+		$parsedParameters = $this->getParameters($event);
 
 		if ($event->getSubject() === 'created_self') {
 			$subject = $this->l->t('You created {file}');
@@ -211,22 +209,28 @@ class Provider implements IProvider {
 			->setRichSubject($subject, $parameters);
 	}
 
-	protected function getParameters($subject, array $parameters) {
-		switch ($subject) {
+	/**
+	 * @param IEvent $event
+	 * @return array
+	 * @throws \InvalidArgumentException
+	 */
+	protected function getParameters(IEvent $event) {
+		$parameters = $event->getSubjectParameters();
+		switch ($event->getSubject()) {
 			case 'created_self':
 			case 'created_public':
 			case 'changed_self':
 			case 'deleted_self':
 			case 'restored_self':
 				return [
-					'file' => $this->getRichFileParameter($parameters[0]),
+					'file' => $this->getRichFileParameter($parameters[0], $event),
 				];
 			case 'created_by':
 			case 'changed_by':
 			case 'deleted_by':
 			case 'restored_by':
 				return [
-					'file' => $this->getRichFileParameter($parameters[0]),
+					'file' => $this->getRichFileParameter($parameters[0], $event),
 					'user' => $this->getRichUserParameter($parameters[1]),
 				];
 			case 'renamed_self':
@@ -246,9 +250,23 @@ class Provider implements IProvider {
 		return [];
 	}
 
-	protected function getRichFileParameter($parameter) {
-		$path = reset($parameter);
-		$id = key($parameter);
+	/**
+	 * @param $parameter
+	 * @param IEvent|null $event
+	 * @return array
+	 * @throws \InvalidArgumentException
+	 */
+	protected function getRichFileParameter($parameter, IEvent $event = null) {
+		if (is_array($parameter)) {
+			$path = reset($parameter);
+			$id = key($parameter);
+		} else if ($event !== null) {
+			// Legacy from before ownCloud 8.2
+			$path = $parameter;
+			$id = $event->getObjectId();
+		} else {
+			throw new \InvalidArgumentException('Could not generate file parameter');
+		}
 		return [
 			'type' => 'file',
 			'id' => $id,
