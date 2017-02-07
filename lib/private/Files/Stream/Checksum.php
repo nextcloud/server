@@ -77,7 +77,7 @@ class Checksum extends Wrapper {
 	 */
 	public function stream_open($path, $mode, $options, &$opened_path) {
 		$context = parent::loadContext('occhecksum');
-        $this->setSourceStream($context['source']);
+		$this->setSourceStream($context['source']);
 
 		return true;
 	}
@@ -107,7 +107,7 @@ class Checksum extends Wrapper {
 	 * @return bool
 	 */
 	public function stream_close() {
-        self::$checksums[$this->getPathFromContext()] = sprintf(
+		self::$checksums[$this->getPathFromContext()] = sprintf(
         	'%s:%s', strtoupper(self::$algo), hash_final($this->hashCtx)
 		);
 
@@ -156,6 +156,4 @@ class Checksum extends Wrapper {
 	public static function setAlgo($algo) {
 		self::$algo = $algo;
 	}
-
-
 }
