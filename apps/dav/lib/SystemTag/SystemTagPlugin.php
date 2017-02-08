@@ -268,17 +268,17 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @return void
 	 */
 	public function handleUpdateProperties($path, PropPatch $propPatch) {
+		$node = $this->server->tree->getNodeForPath($path);
+		if (!($node instanceof SystemTagNode)) {
+			return;
+		}
+
 		$propPatch->handle([
 			self::DISPLAYNAME_PROPERTYNAME,
 			self::USERVISIBLE_PROPERTYNAME,
 			self::USERASSIGNABLE_PROPERTYNAME,
 			self::GROUPS_PROPERTYNAME,
-		], function($props) use ($path) {
-			$node = $this->server->tree->getNodeForPath($path);
-			if (!($node instanceof SystemTagNode)) {
-				return;
-			}
-
+		], function($props) use ($node) {
 			$tag = $node->getSystemTag();
 			$name = $tag->getName();
 			$userVisible = $tag->isUserVisible();
