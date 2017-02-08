@@ -108,13 +108,13 @@ script('core', [
 					autocomplete="off" autocapitalize="off" autocorrect="off">
 			</p>
 			<p class="groupmiddle">
-				<input type="password" name="dbpass" id="dbpass" data-typetoggle="#dbpassword"
+				<input type="password" name="dbpass" id="dbpass" data-typetoggle="#dbpassword-toggle"
 					placeholder="<?php p($l->t( 'Database password' )); ?>"
 					value="<?php p($_['dbpass']); ?>"
 					autocomplete="off" autocapitalize="off" autocorrect="off">
 				<label for="dbpass" class="infield"><?php p($l->t( 'Database password' )); ?></label>
-				<input type="checkbox" id="dbpassword" name="dbpassword">
-				<label for="dbpassword"></label>
+				<input type="checkbox" id="dbpassword-toggle" name="dbpassword-toggle">
+				<label for="dbpassword-toggle"></label>
 			</p>
 			<p class="groupmiddle">
 				<label for="dbname" class="infield"><?php p($l->t( 'Database name' )); ?></label>
