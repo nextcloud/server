@@ -783,11 +783,11 @@ var OCP = {},
 					var timer = 0;
 					var seconds = 5;
 					var interval = setInterval( function() {
-						OC.Notification.showUpdate(t('core', 'Problem loading page, reloading in ' + (seconds - timer) + ' seconds'));
+						OC.Notification.showUpdate(n('core', 'Problem loading page, reloading in %n second', 'Problem loading page, reloading in %n seconds', seconds - timer));
 						if (timer >= seconds) {
-           				 	clearInterval(interval);
+							clearInterval(interval);
 							OC.reload();
-     					}
+						}
 						timer++;
 						}, 1000 // 1 second interval
 					);
