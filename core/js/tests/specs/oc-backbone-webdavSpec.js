@@ -386,5 +386,360 @@ describe('Backbone Webdav extension', function() {
 			});
 		});
 	});
+
+
+	describe('WebdavNode', function() {
+		var NodeModel;
+
+		beforeEach(function() {
+			NodeModel = OC.Backbone.WebdavNode.extend({
+				url: function() {
+					return 'http://example.com/owncloud/remote.php/dav/endpoint/nodemodel/' + this.id;
+				},
+				davProperties: {
+					'firstName': '{http://owncloud.org/ns}first-name',
+					'lastName': '{http://owncloud.org/ns}last-name'
+				}
+			});
+		});
+		it('isNew at creation time even with an id set', function() {
+			var model = new NodeModel({
+				id: 'someuri'
+			});
+			expect(model.isNew()).toEqual(true);
+		});
+		it('is not new as soon as fetched', function() {
+			var model = new NodeModel({
+				id: 'someuri'
+			});
+			model.fetch();
+
+			expect(davClientPropFindStub.calledOnce).toEqual(true);
+			expect(davClientPropFindStub.getCall(0).args[0])
+				.toEqual('http://example.com/owncloud/remote.php/dav/endpoint/nodemodel/someuri');
+			expect(davClientPropFindStub.getCall(0).args[1])
+				.toEqual([
+					'{http://owncloud.org/ns}first-name',
+					'{http://owncloud.org/ns}last-name'
+				]);
+			expect(davClientPropFindStub.getCall(0).args[2])
+				.toEqual(0);
+			expect(davClientPropFindStub.getCall(0).args[3]['X-Requested-With'])
+				.toEqual('XMLHttpRequest');
+
+			deferredRequest.resolve({
+				status: 207,
+				body: {
+					href: 'http://example.org/owncloud/remote.php/dav/endpoint/nodemodel/someuri',
+					propStat: [{
+						status: 'HTTP/1.1 200 OK',
+						properties: {
+							'{http://owncloud.org/ns}first-name': 'Hello',
+							'{http://owncloud.org/ns}last-name': 'World'
+						}
+					}]
+				}
+			});
+			expect(model.isNew()).toEqual(false);
+		});
+		it('saves new model with PUT', function() {
+			var model = new NodeModel({
+				id: 'someuri'
+			});
+			model.save({
+				firstName: 'Hello',
+				lastName: 'World',
+			});
+
+			// PUT
+			expect(davClientRequestStub.calledOnce).toEqual(true);
+			expect(davClientRequestStub.getCall(0).args[0])
+				.toEqual('PUT');
+			expect(davClientRequestStub.getCall(0).args[1])
+				.toEqual('http://example.com/owncloud/remote.php/dav/endpoint/nodemodel/someuri');
+			expect(davClientRequestStub.getCall(0).args[2]['X-Requested-With'])
+				.toEqual('XMLHttpRequest');
+			expect(davClientRequestStub.getCall(0).args[3])
+				.toEqual(JSON.stringify({
+					id: 'someuri',
+					firstName: 'Hello',
+					lastName: 'World'
+				}));
+
+			deferredRequest.resolve({
+				status: 201,
+				body: '',
+				xhr: {
+					getResponseHeader: _.noop
+				}
+			});
+
+			expect(model.id).toEqual('someuri');
+			expect(model.isNew()).toEqual(false);
+		});
+		it('updates existing model with PROPPATCH', function() {
+			var model = new NodeModel({
+				id: 'someuri'
+			});
+
+			model.fetch();
+
+			// from here, the model will exist
+			expect(davClientPropFindStub.calledOnce).toEqual(true);
+			expect(davClientPropFindStub.getCall(0).args[0])
+				.toEqual('http://example.com/owncloud/remote.php/dav/endpoint/nodemodel/someuri');
+			expect(davClientPropFindStub.getCall(0).args[1])
+				.toEqual([
+					'{http://owncloud.org/ns}first-name',
+					'{http://owncloud.org/ns}last-name'
+				]);
+			expect(davClientPropFindStub.getCall(0).args[2])
+				.toEqual(0);
+			expect(davClientPropFindStub.getCall(0).args[3]['X-Requested-With'])
+				.toEqual('XMLHttpRequest');
+
+			deferredRequest.resolve({
+				status: 207,
+				body: {
+					href: 'http://example.com/owncloud/remote.php/dav/endpoint/nodemodel/someuri',
+					propStat: [{
+						status: 'HTTP/1.1 200 OK',
+						properties: {
+							'{http://owncloud.org/ns}first-name': 'Hello',
+							'{http://owncloud.org/ns}last-name': 'World'
+						}
+					}]
+				}
+			});
+
+			expect(model.isNew()).toEqual(false);
+
+			model.save({
+				firstName: 'Hey',
+			});
+
+			expect(davClientPropPatchStub.calledOnce).toEqual(true);
+			expect(davClientPropPatchStub.getCall(0).args[0])
+				.toEqual('http://example.com/owncloud/remote.php/dav/endpoint/nodemodel/someuri');
+			expect(davClientPropPatchStub.getCall(0).args[1])
+				.toEqual({
+					'{http://owncloud.org/ns}first-name': 'Hey'
+				});
+			expect(davClientPropPatchStub.getCall(0).args[2]['X-Requested-With'])
+				.toEqual('XMLHttpRequest');
+
+			deferredRequest.resolve({
+				status: 201,
+				body: '',
+				xhr: {
+					getResponseHeader: _.noop
+				}
+			});
+
+			expect(model.isNew()).toEqual(false);
+		});
+	});
+
+	describe('WebdavCollectionNode and WebdavChildrenCollection', function() {
+		var NodeModel;
+		var ChildrenCollection;
+
+		beforeEach(function() {
+			ChildModel = OC.Backbone.WebdavNode.extend({
+				url: function() {
+					return 'http://example.com/owncloud/remote.php/dav/davcol/' + this.id;
+				},
+				davProperties: {
+					'firstName': '{http://owncloud.org/ns}first-name',
+					'lastName': '{http://owncloud.org/ns}last-name'
+				}
+			});
+			ChildrenCollection = OC.Backbone.WebdavChildrenCollection.extend({
+				model: ChildModel
+			});
+
+			NodeModel = OC.Backbone.WebdavCollectionNode.extend({
+				childrenCollectionClass: ChildrenCollection,
+				url: function() {
+					return 'http://example.com/owncloud/remote.php/dav/' + this.id;
+				},
+				davProperties: {
+					'firstName': '{http://owncloud.org/ns}first-name',
+					'lastName': '{http://owncloud.org/ns}last-name'
+				}
+			});
+		});
+
+		it('returns the children collection pointing to the same url', function() {
+			var model = new NodeModel({
+				id: 'davcol'
+			});
+
+			var collection = model.getChildrenCollection();
+			expect(collection instanceof ChildrenCollection).toEqual(true);
+
+			collection.instanceCheck = true;
+
+			// returns the same instance
+			var collection2 = model.getChildrenCollection();
+			expect(collection2.instanceCheck).toEqual(true);
+
+			expect(collection.url()).toEqual(model.url());
+		});
+
+		it('resets isNew to false for every model after fetching', function() {
+			var model = new NodeModel({
+				id: 'davcol'
+			});
+
+			var collection = model.getChildrenCollection();
+			collection.fetch();
+
+			expect(davClientPropFindStub.calledOnce).toEqual(true);
+			expect(davClientPropFindStub.getCall(0).args[0])
+				.toEqual('http://example.com/owncloud/remote.php/dav/davcol');
+			expect(davClientPropFindStub.getCall(0).args[1])
+				.toEqual([
+					'{http://owncloud.org/ns}first-name',
+					'{http://owncloud.org/ns}last-name'
+				]);
+			expect(davClientPropFindStub.getCall(0).args[2])
+				.toEqual(1);
+			expect(davClientPropFindStub.getCall(0).args[3]['X-Requested-With'])
+				.toEqual('XMLHttpRequest');
+
+			deferredRequest.resolve({
+				status: 207,
+				body: [
+					// root element
+					{
+						href: 'http://example.com/owncloud/remote.php/dav/davcol/',
+						propStat: []
+					},
+					// first model
+					{
+						href: 'http://example.com/owncloud/remote.php/dav/davcol/hello',
+						propStat: [{
+							status: 'HTTP/1.1 200 OK',
+							properties: {
+								'{http://owncloud.org/ns}first-name': 'Hello',
+								'{http://owncloud.org/ns}last-name': 'World'
+							}
+						}]
+					},
+					// second model
+					{
+						href: 'http://example.com/owncloud/remote.php/dav/davcol/test',
+						propStat: [{
+							status: 'HTTP/1.1 200 OK',
+							properties: {
+								'{http://owncloud.org/ns}first-name': 'Test',
+								'{http://owncloud.org/ns}last-name': 'Person'
+							}
+						}]
+					}
+				]
+			});
+
+			expect(collection.length).toEqual(2);
+
+			expect(collection.at(0).url()).toEqual('http://example.com/owncloud/remote.php/dav/davcol/hello');
+			expect(collection.at(0).isNew()).toEqual(false);
+			expect(collection.at(1).url()).toEqual('http://example.com/owncloud/remote.php/dav/davcol/test');
+			expect(collection.at(1).isNew()).toEqual(false);
+		});
+
+		it('creates the Webdav collection with MKCOL', function() {
+			var model = new NodeModel({
+				id: 'davcol'
+			});
+			model.save({
+				firstName: 'Hello',
+				lastName: 'World',
+			});
+
+			expect(davClientRequestStub.calledOnce).toEqual(true);
+			expect(davClientRequestStub.getCall(0).args[0])
+				.toEqual('MKCOL');
+			expect(davClientRequestStub.getCall(0).args[1])
+				.toEqual('http://example.com/owncloud/remote.php/dav/davcol');
+			expect(davClientRequestStub.getCall(0).args[2]['X-Requested-With'])
+				.toEqual('XMLHttpRequest');
+			expect(davClientRequestStub.getCall(0).args[3])
+				.toEqual(null);
+
+			deferredRequest.resolve({
+				status: 201,
+				body: '',
+				xhr: {
+					getResponseHeader: _.noop
+				}
+			});
+
+			expect(model.id).toEqual('davcol');
+			expect(model.isNew()).toEqual(false);
+		});
+		it('updates Webdav collection properties with PROPPATCH', function() {
+			var model = new NodeModel({
+				id: 'davcol'
+			});
+
+			model.fetch();
+
+			// from here, the model will exist
+			expect(davClientPropFindStub.calledOnce).toEqual(true);
+			expect(davClientPropFindStub.getCall(0).args[0])
+				.toEqual('http://example.com/owncloud/remote.php/dav/davcol');
+			expect(davClientPropFindStub.getCall(0).args[1])
+				.toEqual([
+					'{http://owncloud.org/ns}first-name',
+					'{http://owncloud.org/ns}last-name'
+				]);
+			expect(davClientPropFindStub.getCall(0).args[2])
+				.toEqual(0);
+			expect(davClientPropFindStub.getCall(0).args[3]['X-Requested-With'])
+				.toEqual('XMLHttpRequest');
+
+			deferredRequest.resolve({
+				status: 207,
+				body: {
+					href: 'http://example.com/owncloud/remote.php/dav/davcol',
+					propStat: [{
+						status: 'HTTP/1.1 200 OK',
+						properties: {
+							'{http://owncloud.org/ns}first-name': 'Hello',
+							'{http://owncloud.org/ns}last-name': 'World'
+						}
+					}]
+				}
+			});
+
+			expect(model.isNew()).toEqual(false);
+
+			model.save({
+				firstName: 'Hey',
+			});
+
+			expect(davClientPropPatchStub.calledOnce).toEqual(true);
+			expect(davClientPropPatchStub.getCall(0).args[0])
+				.toEqual('http://example.com/owncloud/remote.php/dav/davcol');
+			expect(davClientPropPatchStub.getCall(0).args[1])
+				.toEqual({
+					'{http://owncloud.org/ns}first-name': 'Hey'
+				});
+			expect(davClientPropPatchStub.getCall(0).args[2]['X-Requested-With'])
+				.toEqual('XMLHttpRequest');
+
+			deferredRequest.resolve({
+				status: 201,
+				body: '',
+				xhr: {
+					getResponseHeader: _.noop
+				}
+			});
+
+			expect(model.isNew()).toEqual(false);
+		});
+	});
 });
 
