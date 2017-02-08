@@ -89,6 +89,11 @@ class Checksum extends Wrapper {
 		$parentMetaData = parent::getMetaData($path);
 		$parentMetaData['checksum'] = ChecksumStream::getChecksum($path);
 
+		// Need to investigate more
+		if (!isset($parentMetaData['mimetype'])) {
+			$parentMetaData['mimetype'] = '';
+		}
+
 		return $parentMetaData;
 	}
 }
