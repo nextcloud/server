@@ -24,6 +24,7 @@ namespace OC\Files\Stream;
 
 
 use Icewind\Streams\Wrapper;
+use OC\Cache\CappedMemoryCache;
 
 /**
  * Computes the checksum of the wrapped stream. The checksum can be retrieved with
@@ -39,11 +40,16 @@ class Checksum extends Wrapper {
 	/** @var  resource */
 	private $hashCtx;
 
-	/** @var array Key is path, value is the checksum */
-	private static $checksums = [];
+	/** @var CappedMemoryCache Key is path, value is the checksum */
+	private static $checksums;
+
 
 	public function __construct() {
 		$this->hashCtx = hash_init(self::$algo);
+
+		if (!self::$checksums) {
+			self::$checksums = new CappedMemoryCache();
+		}
 	}
 
 
@@ -144,9 +150,13 @@ class Checksum extends Wrapper {
 	}
 
 	/**
-	 * @return array
+	 * @return CappedMemoryCache
 	 */
 	public static function getChecksums() {
+		if (!self::$checksums) {
+			self::$checksums = new CappedMemoryCache();
+		}
+
 		return self::$checksums;
 	}
 

@@ -181,8 +181,13 @@ class OC_Util {
 		});
 
 		// install storage checksum wrapper
-		\OC\Files\Filesystem::addStorageWrapper('oc_checksum', function ($mountPoint, $storage) {
-			return new \OC\Files\Storage\Wrapper\Checksum(['storage' => $storage]);
+		\OC\Files\Filesystem::addStorageWrapper('oc_checksum', function ($mountPoint, \OCP\Files\Storage\IStorage $storage) {
+			if (!$storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
+				return new \OC\Files\Storage\Wrapper\Checksum(['storage' => $storage]);
+			}
+
+			return $storage;
+
 		}, 1);
 
 
