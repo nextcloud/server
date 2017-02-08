@@ -87,6 +87,15 @@ interface IAppConfig {
 	public function getValues($app, $key);
 
 	/**
+	 * get all values of the app or and filters out sensitive data
+	 *
+	 * @param string $app
+	 * @return array
+	 * @since 12.0.0
+	 */
+	public function getFilteredValues($app);
+
+	/**
 	 * sets a value in the appconfig
 	 * @param string $app app
 	 * @param string $key key

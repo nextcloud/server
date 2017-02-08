@@ -8,6 +8,7 @@
  */
 
 namespace Test;
+use OCP\IConfig;
 
 /**
  * Class AppConfigTest
@@ -303,6 +304,28 @@ class AppConfigTest extends TestCase {
 
 		$values = $config->getValues(false, 'enabled');
 		$this->assertEquals($expected, $values);
+	}
+
+	public function testGetFilteredValues() {
+		/** @var \OC\AppConfig|\PHPUnit_Framework_MockObject_MockObject $config */
+		$config = $this->getMockBuilder(\OC\AppConfig::class)
+			->setConstructorArgs([\OC::$server->getDatabaseConnection()])
+			->setMethods(['getValues'])
+			->getMock();
+
+		$config->expects($this->once())
+			->method('getValues')
+			->with('user_ldap', false)
+			->willReturn([
+				'ldap_agent_password' => 'secret',
+				'ldap_dn' => 'dn',
+			]);
+
+		$values = $config->getFilteredValues('user_ldap');
+		$this->assertEquals([
+			'ldap_agent_password' => IConfig::SENSITIVE_VALUE,
+			'ldap_dn' => 'dn',
+		], $values);
 	}
 
 	public function testSettingConfigParallel() {

@@ -89,14 +89,14 @@ class ListConfigs extends Base {
 					'apps' => [],
 				];
 				foreach ($apps as $appName) {
-					$configs['apps'][$appName] = $this->appConfig->getValues($appName, false);
+					$configs['apps'][$appName] = $this->getAppConfigs($appName, $noSensitiveValues);
 				}
 			break;
 
 			default:
 				$configs = [
 					'apps' => [
-						$app => $this->appConfig->getValues($app, false),
+						$app => $this->getAppConfigs($app, $noSensitiveValues),
 					],
 				];
 		}
@@ -127,6 +127,21 @@ class ListConfigs extends Base {
 		}
 
 		return $configs;
+	}
+
+	/**
+	 * Get the app configs
+	 *
+	 * @param string $app
+	 * @param bool $noSensitiveValues
+	 * @return array
+	 */
+	protected function getAppConfigs($app, $noSensitiveValues) {
+		if ($noSensitiveValues) {
+			return $this->appConfig->getFilteredValues($app, false);
+		} else {
+			return $this->appConfig->getValues($app, false);
+		}
 	}
 
 	/**
