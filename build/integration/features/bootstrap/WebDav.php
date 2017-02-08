@@ -84,7 +84,7 @@ trait WebDav {
 			$fullUrl = substr($this->baseUrl, 0, -4) . $this->getDavFilesPath($user) . "$path";
 		} else if ( $type === "uploads" ){
 			$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath . "$path";
-		} 
+		}
 		$client = new GClient();
 		$options = [];
 		if ($user === 'admin') {
@@ -481,6 +481,44 @@ trait WebDav {
 		try {
 			$this->response = $this->makeDavRequest($user, "PUT", $destination, [], $file);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			// 4xx and 5xx responses cause an exception
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @When user :user uploads file with checksum :checksum and content :content to :destination
+	 * @param $user
+	 * @param $checksum
+	 * @param $content
+	 * @param $destination
+	 */
+	public function userUploadsAFileWithChecksumAndContentTo($user, $checksum, $content, $destination)
+	{
+		$file = \GuzzleHttp\Stream\Stream::factory($content);
+		try {
+			$this->response = $this->makeDavRequest(
+				$user,
+				"PUT",
+				$destination,
+				['OC-Checksum' => $checksum],
+				$file
+			);
+		} catch (\GuzzleHttp\Exception\BadResponseException $e) {
+			// 4xx and 5xx responses cause an exception
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @Given file :file  does not exist for user :user
+	 * @param string $file
+	 * @param $user
+	 */
+	public function fileDoesNotExist($file, $user)  {
+		try {
+			$this->response = $this->makeDavRequest($user, 'DELETE', $file, []);
+		} catch (\GuzzleHttp\Exception\BadResponseException $e) {
 			// 4xx and 5xx responses cause an exception
 			$this->response = $e->getResponse();
 		}

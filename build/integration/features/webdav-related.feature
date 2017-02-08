@@ -407,6 +407,18 @@ Feature: webdav-related
 		And Downloading file "/myChunkedFile.txt"
 		Then Downloaded content should be "AAAAABBBBBCCCCC"
 
+	Scenario: Upload a file where checksum does not match
+		Given user "user0" exists
+		And file "/chksumtst.txt"  does not exist for user "user0"
+		And user "user0" uploads file with checksum "SHA1:f005ba11" and content "Some Text" to "/chksumtst.txt"
+		Then the HTTP status code should be "400"
+
+	Scenario: Upload a file where checksum does match
+		Given user "user0" exists
+		And file "/chksumtst.txt"  does not exist for user "user0"
+		And user "user0" uploads file with checksum "SHA1:ce5582148c6f0c1282335b87df5ed4be4b781399" and content "Some Text" to "/chksumtst.txt"
+		Then the HTTP status code should be "201"
+
 	Scenario: A disabled user cannot use webdav
 		Given user "userToBeDisabled" exists
 		And As an "admin"
