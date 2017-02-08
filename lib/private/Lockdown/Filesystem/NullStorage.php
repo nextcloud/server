@@ -20,6 +20,7 @@
 namespace OC\Lockdown\Filesystem;
 
 use Icewind\Streams\IteratorDirectory;
+use OC\Files\FileInfo;
 use OC\Files\Storage\Common;
 
 class NullStorage extends Common {
@@ -128,7 +129,7 @@ class NullStorage extends Common {
 	}
 
 	public function free_space($path) {
-		return 0;
+		return FileInfo::SPACE_UNKNOWN;
 	}
 
 	public function touch($path, $mtime = null) {
