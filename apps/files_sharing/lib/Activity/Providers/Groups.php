@@ -232,7 +232,7 @@ class Groups implements IProvider {
 			'type' => 'file',
 			'id' => $id,
 			'name' => basename($path),
-			'path' => $path,
+			'path' => trim($path, '/'),
 			'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $id]),
 		];
 	}
