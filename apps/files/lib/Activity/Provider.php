@@ -251,7 +251,7 @@ class Provider implements IProvider {
 	}
 
 	/**
-	 * @param $parameter
+	 * @param array|string $parameter
 	 * @param IEvent|null $event
 	 * @return array
 	 * @throws \InvalidArgumentException
@@ -276,6 +276,10 @@ class Provider implements IProvider {
 		];
 	}
 
+	/**
+	 * @param string $uid
+	 * @return array
+	 */
 	protected function getUser($uid) {
 		if (!isset($this->displayNames[$uid])) {
 			$this->displayNames[$uid] = $this->getDisplayName($uid);
