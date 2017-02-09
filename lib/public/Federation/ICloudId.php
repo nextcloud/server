@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2017, Robin Appelman <robin@icewind.nl>
  *
+ * @license GNU AGPL version 3 or any later version
+ *
  * This code is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License, version 3,
  * as published by the Free Software Foundation.
