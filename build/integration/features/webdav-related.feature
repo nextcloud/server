@@ -419,6 +419,14 @@ Feature: webdav-related
 		And user "user0" uploads file with checksum "SHA1:ce5582148c6f0c1282335b87df5ed4be4b781399" and content "Some Text" to "/chksumtst.txt"
 		Then the HTTP status code should be "201"
 
+	Scenario: Uploaded file should have the same checksum when downloaded
+		Given user "user0" exists
+		And file "/chksumtst.txt"  does not exist for user "user0"
+		And user "user0" uploads file with checksum "SHA1:ce5582148c6f0c1282335b87df5ed4be4b781399" and content "Some Text" to "/chksumtst.txt"
+		When Downloading file "/chksumtst.txt" as "user0"
+		Then The following headers should be set
+			| OC-Checksum |	SHA1:ce5582148c6f0c1282335b87df5ed4be4b781399 |
+
 	Scenario: A disabled user cannot use webdav
 		Given user "userToBeDisabled" exists
 		And As an "admin"
