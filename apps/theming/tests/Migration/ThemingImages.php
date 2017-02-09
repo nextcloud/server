@@ -47,11 +47,11 @@ class ThemingImagesTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->appData = $this->getMockBuilder(IAppData::class)->getMock();
-		$this->rootFolder = $this->getMockBuilder(IRootFolder::class)->getMock();
+		$this->appData = $this->createMock(IAppData::class);
+		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->repairStep = new ThemingImages($this->appData, $this->rootFolder);
-		$this->imageFolder = $this->getMockBuilder(ISimpleFolder::class)->getMock();
-		$this->output = $this->getMockBuilder(IOutput::class)->getMock();
+		$this->imageFolder = $this->createMock(ISimpleFolder::class);
+		$this->output = $this->createMock(IOutput::class);
 	}
 
 	public function testGetName() {
@@ -76,8 +76,8 @@ class ThemingImagesTest extends TestCase {
 	}
 
 	public function testRunLogo() {
-		$oldFile = $this->getMockBuilder(File::class)->getMock();
-		$newFile = $this->getMockBuilder(ISimpleFile::class)->getMock();
+		$oldFile = $this->createMock(File::class);
+		$newFile = $this->createMock(ISimpleFile::class);
 
 		$this->appData->expects($this->once())
 			->method('newFolder')
@@ -107,8 +107,8 @@ class ThemingImagesTest extends TestCase {
 	}
 
 	public function testRunBackground() {
-		$oldFile = $this->getMockBuilder(File::class)->getMock();
-		$newFile = $this->getMockBuilder(ISimpleFile::class)->getMock();
+		$oldFile = $this->createMock(File::class);
+		$newFile = $this->createMock(ISimpleFile::class);
 		
 		$this->appData->expects($this->once())
 			->method('newFolder')

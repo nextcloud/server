@@ -68,22 +68,19 @@ class ThemingControllerTest extends TestCase {
 	private $appData;
 
 	public function setUp() {
-		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
-		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
-		$this->template = $this->getMockBuilder(ThemingDefaults::class)
-			->disableOriginalConstructor()->getMock();
-		$this->timeFactory = $this->getMockBuilder(ITimeFactory::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->l10n = $this->getMockBuilder(L10N::class)->getMock();
-		$this->rootFolder = $this->getMockBuilder(IRootFolder::class)->getMock();
-		$this->appManager = $this->getMockBuilder(IAppManager::class)->getMock();
+		$this->request = $this->createMock(IRequest::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->template = $this->createMock(ThemingDefaults::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->l10n = $this->createMock(L10N::class);
+		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 		$this->util = new Util($this->config, $this->rootFolder, $this->appManager);
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
 			->willReturn(123);
 		$this->tempManager = \OC::$server->getTempManager();
-		$this->appData = $this->getMockBuilder(IAppData::class)->getMock();
+		$this->appData = $this->createMock(IAppData::class);
 
 		$this->themingController = new ThemingController(
 			'theming',
@@ -200,12 +197,8 @@ class ThemingControllerTest extends TestCase {
 			->willReturn('Saved');
 
 
-		$file = $this->getMockBuilder(ISimpleFile::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$folder = $this->getMockBuilder(ISimpleFolder::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$file = $this->createMock(ISimpleFile::class);
+		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData
 			->expects($this->once())
 			->method('getFolder')
@@ -255,12 +248,8 @@ class ThemingControllerTest extends TestCase {
 			->with('Saved')
 			->willReturn('Saved');
 
-		$file = $this->getMockBuilder(ISimpleFile::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$folder = $this->getMockBuilder(ISimpleFolder::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$file = $this->createMock(ISimpleFile::class);
+		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData
 			->expects($this->once())
 			->method('getFolder')
@@ -309,9 +298,7 @@ class ThemingControllerTest extends TestCase {
 			->with('Unsupported image type')
 			->willReturn('Unsupported image type');
 
-		$folder = $this->getMockBuilder(ISimpleFolder::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData
 			->expects($this->once())
 			->method('getFolder')
@@ -366,12 +353,8 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	public function testGetLogo() {
-		$file = $this->getMockBuilder(ISimpleFile::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$folder = $this->getMockBuilder(ISimpleFolder::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$file = $this->createMock(ISimpleFile::class);
+		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData
 			->expects($this->once())
 			->method('getFolder')
@@ -409,12 +392,8 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	public function testGetLoginBackground() {
-		$file = $this->getMockBuilder(ISimpleFile::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$folder = $this->getMockBuilder(ISimpleFolder::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$file = $this->createMock(ISimpleFile::class);
+		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData
 			->expects($this->once())
 			->method('getFolder')
