@@ -1651,7 +1651,7 @@ class RequestTest extends \Test\TestCase {
 						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
 					],
 					'cookies' => [
-						'oc_token' => 'asdf',
+						'nc_token' => 'asdf',
 					],
 				],
 				$this->secureRandom,
