@@ -49,7 +49,7 @@ class Checksum extends Wrapper {
 	 */
 	public function fopen($path, $mode) {
 		$stream = $this->getWrapperStorage()->fopen($path, $mode);
-		if (!self::requiresChecksum($path)) {
+		if (!self::requiresChecksum($path, $mode)) {
 			return $stream;
 		}
 
@@ -59,11 +59,12 @@ class Checksum extends Wrapper {
 
 	/**
 	 * Checksum is only required for everything under files/
+	 * @param $mode
 	 * @param $path
 	 * @return bool
 	 */
-	private static function requiresChecksum($path) {
-		return substr($path, 0, 6) === 'files/';
+	private static function requiresChecksum($path, $mode) {
+		return substr($path, 0, 6) === 'files/' &&  $mode != 'r';
 	}
 
 	/**
@@ -78,7 +79,7 @@ class Checksum extends Wrapper {
 		fwrite($checksumStream, $data);
 		fclose($checksumStream);
 
-		return parent::file_put_contents($path, $data);
+		return $this->getWrapperStorage()->file_put_contents($path, $data);
 	}
 
 	/**
@@ -86,7 +87,7 @@ class Checksum extends Wrapper {
 	 * @return array
 	 */
 	public function getMetaData($path) {
-		$parentMetaData = parent::getMetaData($path);
+		$parentMetaData = $this->getWrapperStorage()->getMetaData($path);
 		$parentMetaData['checksum'] = ChecksumStream::getChecksum($path);
 
 		// Need to investigate more
