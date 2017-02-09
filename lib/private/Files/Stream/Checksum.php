@@ -78,7 +78,7 @@ class Checksum extends Wrapper {
 	 * @return bool
 	 */
 	public function dir_opendir($path, $options) {
-		return false;
+		return true;
 	}
 
 	/**
