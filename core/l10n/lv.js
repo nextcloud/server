@@ -160,6 +160,7 @@ OC.L10N.register(
     "The specified document has not been found on the server." : "Norādītais dokuments nav atrasts serverī.",
     "You can click here to return to %s." : "Jūs varat noklikšķināt šeit, lai atgrieztos uz %s.",
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Sveiki,\n\ninformējam, ka %s koplietoja ar jums %s.\nApskati to: %s\n",
+    "The share will expire on %s." : "Koplietošana beigsies %s.",
     "Cheers!" : "Priekā!",
     "Internal Server Error" : "Iekšēja servera kļūda",
     "The server encountered an internal error and was unable to complete your request." : "Serverī radās iekšēja kļūda, un tas nevarēja pabeigt jūsu pieprasījumu.",

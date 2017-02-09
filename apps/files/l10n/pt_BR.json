@@ -60,7 +60,7 @@
     "Your storage is full, files can not be updated or synced anymore!" : "Seu armazenamento está cheio, arquivos não podem mais ser atualizados ou sincronizados!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Armazenamento do {owner} está quase cheio ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "Seu armazenamento está quase cheio ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["coincide com '{filter}'","coincide com '{filter}'"],
+    "_matches '{filter}'_::_match '{filter}'_" : ["coincide com '{filter}'","coincidem com '{filter}'"],
     "View in folder" : "Exibir na pasta",
     "Path" : "Caminho",
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
