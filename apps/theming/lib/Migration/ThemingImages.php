@@ -37,7 +37,7 @@ class ThemingImages implements IRepairStep {
 	private $appData;
 	private $rootFolder;
 
-	public function __construct(IAppData $appData, ThemingDefaults $defaults, IRootFolder $rootFolder) {
+	public function __construct(IAppData $appData, IRootFolder $rootFolder) {
 		$this->appData = $appData;
 		$this->rootFolder = $rootFolder;
 	}
@@ -58,21 +58,20 @@ class ThemingImages implements IRepairStep {
 		$file = null;
 		try {
 			$file = $this->rootFolder->get('themedinstancelogo');
-			$logo = $folder->newFile("logo");
+			$logo = $folder->newFile('logo');
 			$logo->putContent($file->getContent());
 			$file->delete();
 		} catch (NotFoundException $e) {
-			$output->info("No theming logo image to migrate");
+			$output->info('No theming logo image to migrate');
 		}
 
 		try {
 			$file = $this->rootFolder->get('themedbackgroundlogo');
-			$background = $folder->newFile("background");
+			$background = $folder->newFile('background');
 			$background->putContent($file->getContent());
 			$file->delete();
 		} catch (NotFoundException $e) {
-			$output->info("No theming background image to migrate");
+			$output->info('No theming background image to migrate');
 		}
-
 	}
 }
