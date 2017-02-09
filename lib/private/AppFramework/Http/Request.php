@@ -490,7 +490,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return bool
 	 */
 	private function cookieCheckRequired() {
-		if($this->getCookie(session_name()) === null && $this->getCookie('oc_token') === null) {
+		if($this->getCookie(session_name()) === null && $this->getCookie('oc_token') === null || (isset($this->items['server']['PHP_AUTH_USER']) && isset($this->items['server']['PHP_AUTH_PW']) )) {
 			return false;
 		}
 
