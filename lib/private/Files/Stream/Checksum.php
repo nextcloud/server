@@ -127,6 +127,13 @@ class Checksum extends Wrapper {
 		return parent::stream_close();
 	}
 
+	public function dir_closedir() {
+		if (!isset($this->source)) {
+			return false;
+		}
+		return parent::dir_closedir();
+	}
+
 	/**
 	 * @return mixed
 	 * @return string
