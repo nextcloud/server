@@ -35,15 +35,14 @@ use OC\ForbiddenException;
 use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\Files_Sharing\ISharedStorage;
 use OCP\AppFramework\Http;
+use OCP\Federation\ICloudId;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 
 class Storage extends DAV implements ISharedStorage {
-	/** @var string */
-	private $remoteUser;
-	/** @var string */
-	private $remote;
+	/** @var ICloudId */
+	private $cloudId;
 	/** @var string */
 	private $mountPoint;
 	/** @var string */
@@ -72,9 +71,8 @@ class Storage extends DAV implements ISharedStorage {
 
 		$this->manager = $options['manager'];
 		$this->certificateManager = $options['certificateManager'];
-		$this->remote = $options['remote'];
-		$this->remoteUser = $options['owner'];
-		list($protocol, $remote) = explode('://', $this->remote);
+		$this->cloudId = $options['cloudId'];
+		list($protocol, $remote) = explode('://', $this->cloudId->getRemote());
 		if (strpos($remote, '/')) {
 			list($host, $root) = explode('/', $remote, 2);
 		} else {
@@ -82,7 +80,7 @@ class Storage extends DAV implements ISharedStorage {
 			$root = '';
 		}
 		$secure = $protocol === 'https';
-		$root = rtrim($root, '/') . $discoveryManager->getWebDavEndpoint($this->remote);
+		$root = rtrim($root, '/') . $discoveryManager->getWebDavEndpoint($this->cloudId->getRemote());
 		$this->mountPoint = $options['mountpoint'];
 		$this->token = $options['token'];
 		parent::__construct(array(
@@ -106,11 +104,11 @@ class Storage extends DAV implements ISharedStorage {
 	}
 
 	public function getRemoteUser() {
-		return $this->remoteUser;
+		return $this->cloudId->getUser();
 	}
 
 	public function getRemote() {
-		return $this->remote;
+		return $this->cloudId->getRemote();
 	}
 
 	public function getMountPoint() {
@@ -130,12 +128,12 @@ class Storage extends DAV implements ISharedStorage {
 	 * @return string
 	 */
 	public function getId() {
-		return 'shared::' . md5($this->token . '@' . $this->remote);
+		return 'shared::' . md5($this->token . '@' . $this->getRemote());
 	}
 
 	public function getCache($path = '', $storage = null) {
 		if (is_null($this->cache)) {
-			$this->cache = new Cache($this, $this->remote, $this->remoteUser);
+			$this->cache = new Cache($this, $this->cloudId);
 		}
 		return $this->cache;
 	}
@@ -251,9 +249,9 @@ class Storage extends DAV implements ISharedStorage {
 	 */
 	protected function testRemote() {
 		try {
-			return $this->testRemoteUrl($this->remote . '/ocs-provider/index.php')
-				|| $this->testRemoteUrl($this->remote . '/ocs-provider/')
-				|| $this->testRemoteUrl($this->remote . '/status.php');
+			return $this->testRemoteUrl($this->getRemote() . '/ocs-provider/index.php')
+				|| $this->testRemoteUrl($this->getRemote() . '/ocs-provider/')
+				|| $this->testRemoteUrl($this->getRemote() . '/status.php');
 		} catch (\Exception $e) {
 			return false;
 		}
@@ -343,8 +341,7 @@ class Storage extends DAV implements ISharedStorage {
 	}
 
 	public function getOwner($path) {
-		list(, $remote) = explode('://', $this->remote, 2);
-		return $this->remoteUser . '@' . $remote;
+		return $this->cloudId->getDisplayId();
 	}
 
 	public function isSharable($path) {

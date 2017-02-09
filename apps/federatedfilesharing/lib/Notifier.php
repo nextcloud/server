@@ -27,6 +27,8 @@ namespace OCA\FederatedFileSharing;
 use OC\HintException;
 use OC\Share\Helper;
 use OCP\Contacts\IManager;
+use OCP\Federation\ICloudId;
+use OCP\Federation\ICloudIdManager;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
@@ -41,16 +43,20 @@ class Notifier implements INotifier {
 	protected $url;
 	/** @var array */
 	protected $federatedContacts;
+	/** @var ICloudIdManager */
+	protected $cloudIdManager;
 
 	/**
 	 * @param IFactory $factory
 	 * @param IManager $contactsManager
 	 * @param IURLGenerator $url
+	 * @param ICloudIdManager $cloudIdManager
 	 */
-	public function __construct(IFactory $factory, IManager $contactsManager, IURLGenerator $url) {
+	public function __construct(IFactory $factory, IManager $contactsManager, IURLGenerator $url, ICloudIdManager $cloudIdManager) {
 		$this->factory = $factory;
 		$this->contactsManager = $contactsManager;
 		$this->url = $url;
+		$this->cloudIdManager = $cloudIdManager;
 	}
 
 	/**
@@ -140,8 +146,10 @@ class Notifier implements INotifier {
 	protected function createRemoteUser($cloudId) {
 		$displayName = $cloudId;
 		try {
-			list($user, $server) = Helper::splitUserRemote($cloudId);
-			$displayName = $this->getDisplayName($user, $server);
+			$resolvedId = $this->cloudIdManager->resolveCloudId($cloudId);
+			$displayName = $this->getDisplayName($resolvedId);
+			$user = $resolvedId->getUser();
+			$server = $resolvedId->getRemote();
 		} catch (HintException $e) {
 			$user = $cloudId;
 			$server = '';
@@ -158,14 +166,12 @@ class Notifier implements INotifier {
 	/**
 	 * Try to find the user in the contacts
 	 *
-	 * @param string $user
-	 * @param string $server
+	 * @param ICloudId $cloudId
 	 * @return string
-	 * @throws \OutOfBoundsException when there is no contact for the id
 	 */
-	protected function getDisplayName($user, $server) {
-		$server = strtolower(rtrim($server, '/'));
-
+	protected function getDisplayName(ICloudId $cloudId) {
+		$server = $cloudId->getRemote();
+		$user = $cloudId->getUser();
 		if (strpos($server, 'http://') === 0) {
 			$server = substr($server, strlen('http://'));
 		} else if (strpos($server, 'https://') === 0) {
@@ -173,7 +179,7 @@ class Notifier implements INotifier {
 		}
 
 		try {
-			return $this->getDisplayNameFromContact($user . '@' . $server);
+			return $this->getDisplayNameFromContact($cloudId->getId());
 		} catch (\OutOfBoundsException $e) {
 		}
 
@@ -187,7 +193,7 @@ class Notifier implements INotifier {
 		} catch (\OutOfBoundsException $e) {
 		}
 
-		return $user . '@' . $server;
+		return $cloudId->getId();
 	}
 
 	/**

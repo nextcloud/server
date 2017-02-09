@@ -525,4 +525,10 @@ interface IServerContainer {
 	 * @since 8.0.0
 	 */
 	public function getDateTimeFormatter();
+
+	/**
+	 * @return \OCP\Federation\ICloudIdManager
+	 * @since 12.0.0
+	 */
+	public function getCloudIdManager();
 }

@@ -45,7 +45,8 @@ class Application extends App {
 		$container->registerService('RequestHandlerController', function(SimpleContainer $c) use ($server) {
 			$addressHandler = new AddressHandler(
 				$server->getURLGenerator(),
-				$server->getL10N('federatedfilesharing')
+				$server->getL10N('federatedfilesharing'),
+				$server->getCloudIdManager()
 			);
 			$notification = new Notifications(
 				$addressHandler,
@@ -64,7 +65,8 @@ class Application extends App {
 				$server->getShareManager(),
 				$notification,
 				$addressHandler,
-				$server->getUserManager()
+				$server->getUserManager(),
+				$server->getCloudIdManager()
 			);
 		});
 	}
@@ -94,7 +96,8 @@ class Application extends App {
 	protected function initFederatedShareProvider() {
 		$addressHandler = new \OCA\FederatedFileSharing\AddressHandler(
 			\OC::$server->getURLGenerator(),
-			\OC::$server->getL10N('federatedfilesharing')
+			\OC::$server->getL10N('federatedfilesharing'),
+			\OC::$server->getCloudIdManager()
 		);
 		$discoveryManager = new \OCA\FederatedFileSharing\DiscoveryManager(
 			\OC::$server->getMemCacheFactory(),
@@ -119,7 +122,8 @@ class Application extends App {
 			\OC::$server->getLogger(),
 			\OC::$server->getLazyRootFolder(),
 			\OC::$server->getConfig(),
-			\OC::$server->getUserManager()
+			\OC::$server->getUserManager(),
+			\OC::$server->getCloudIdManager()
 		);
 	}
 

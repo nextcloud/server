@@ -25,6 +25,7 @@
 
 namespace OCA\Files_Sharing\Tests\External;
 
+use OC\Federation\CloudIdManager;
 use OC\Files\Storage\StorageFactory;
 use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\Files_Sharing\External\Manager;
@@ -84,7 +85,7 @@ class ManagerTest extends TestCase {
 		);
 		$this->testMountProvider = new MountProvider(\OC::$server->getDatabaseConnection(), function() {
 			return $this->manager;
-		});
+		}, new CloudIdManager());
 	}
 
 	private function setupMounts() {

@@ -90,6 +90,7 @@ try {
 } catch (\OC\User\LoginException $e) {
 	OC_API::respond(new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED, 'Unauthorised'));
 } catch (\Exception $e) {
+	\OC::$server->getLogger()->logException($e);
 	OC_API::setContentType();
 	OC_OCS::notFound();
 }
