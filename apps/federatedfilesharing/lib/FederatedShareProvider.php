@@ -171,7 +171,7 @@ class FederatedShareProvider implements IShareProvider {
 		}
 
 
-		$share->setSharedWith(rtrim($cloudId->getId(), '/'));
+		$share->setSharedWith($cloudId->getId());
 
 		try {
 			$remoteShare = $this->getShareFromExternalShareTable($share);

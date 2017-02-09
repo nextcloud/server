@@ -34,7 +34,7 @@ class CloudIdManager implements ICloudIdManager {
 		}
 
 		// Find the first character that is not allowed in user names
-		$id = str_replace('\\', '/', $cloudId);
+		$id = $this->fixRemoteURL($cloudId);
 		$posSlash = strpos($id, '/');
 		$posColon = strpos($id, ':');
 
@@ -58,9 +58,8 @@ class CloudIdManager implements ICloudIdManager {
 		if ($pos !== false) {
 			$user = substr($id, 0, $pos);
 			$remote = substr($id, $pos + 1);
-			$remote = $this->fixRemoteURL($remote);
 			if (!empty($user) && !empty($remote)) {
-				return new CloudId($cloudId, $user, $remote);
+				return new CloudId($id, $user, $remote);
 			}
 		}
 		throw new \InvalidArgumentException('Invalid cloud id');

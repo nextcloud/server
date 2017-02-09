@@ -35,12 +35,11 @@ class CloudIdManagerTest extends TestCase {
 
 	public function cloudIdProvider() {
 		return [
-			['test@example.com', 'test', 'example.com'],
-			['test@example.com/cloud', 'test', 'example.com/cloud'],
-			['test@example.com/cloud/', 'test', 'example.com/cloud'],
-			['test@example.com/cloud/index.php', 'test', 'example.com/cloud'],
-			['test@example.com@example.com', 'test@example.com', 'example.com'],
-			['test@example.com@example.com', 'test@example.com', 'example.com'],
+			['test@example.com', 'test', 'example.com', 'test@example.com'],
+			['test@example.com/cloud', 'test', 'example.com/cloud', 'test@example.com/cloud'],
+			['test@example.com/cloud/', 'test', 'example.com/cloud', 'test@example.com/cloud'],
+			['test@example.com/cloud/index.php', 'test', 'example.com/cloud', 'test@example.com/cloud'],
+			['test@example.com@example.com', 'test@example.com', 'example.com', 'test@example.com@example.com'],
 		];
 	}
 
@@ -51,11 +50,12 @@ class CloudIdManagerTest extends TestCase {
 	 * @param string $user
 	 * @param string $remote
 	 */
-	public function testResolveCloudId($cloudId, $user, $remote) {
+	public function testResolveCloudId($cloudId, $user, $remote, $cleanId) {
 		$cloudId = $this->cloudIdManager->resolveCloudId($cloudId);
 
 		$this->assertEquals($user, $cloudId->getUser());
 		$this->assertEquals($remote, $cloudId->getRemote());
+		$this->assertEquals($cleanId, $cloudId->getId());
 	}
 
 	public function invalidCloudIdProvider() {
