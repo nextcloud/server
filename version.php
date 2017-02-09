@@ -31,7 +31,15 @@ $OC_Version = array(12, 0, 0, 12);
 // The human readable string
 $OC_VersionString = '12.0 alpha';
 
-$OC_VersionCanBeUpgradedFrom = array(11);
+$OC_VersionCanBeUpgradedFrom = [
+	'nextcloud' => [
+		'11.0' => true,
+		'12.0' => true,
+	],
+	'owncloud' => [
+		'10.0' => true,
+	],
+];
 
 // default Nextcloud channel
 $OC_Channel = 'git';

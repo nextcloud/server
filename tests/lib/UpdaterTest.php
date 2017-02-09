@@ -57,92 +57,31 @@ class UpdaterTest extends TestCase {
 	}
 
 	/**
-	 * @param string $baseUrl
-	 * @return string
-	 */
-	private function buildUpdateUrl($baseUrl) {
-		return $baseUrl . '?version='.implode('x', \OCP\Util::getVersion()).'xinstalledatxlastupdatedatx'.\OC_Util::getChannel().'xx';
-	}
-
-	/**
 	 * @return array
 	 */
 	public function versionCompatibilityTestData() {
 		return [
-			['1', '2', '1', true],
-			['2', '2', '2', true],
-			['6.0.5.0', '6.0.6.0', '5.0', true],
-			['5.0.6.0', '7.0.4.0', '6.0', false],
-			// allow upgrading within the same major release
-			['8.0.0.0', '8.0.0.0', '8.0', true],
-			['8.0.0.0', '8.0.0.4', '8.0', true],
-			['8.0.0.0', '8.0.1.0', '8.0', true],
-			['8.0.0.0', '8.0.2.0', '8.0', true],
-			// does not allow downgrading within the same major release
-			['8.0.1.0', '8.0.0.0', '8.0', false],
-			['8.0.2.0', '8.0.1.0', '8.0', false],
-			['8.0.0.4', '8.0.0.0', '8.0', false],
-			// allows upgrading within the patch version
-			['8.0.0.0', '8.0.0.1', '8.0', true],
-			['8.0.0.0', '8.0.0.2', '8.0', true],
-			// does not allow downgrading within the same major release
-			['8.0.0.1', '8.0.0.0', '8.0', false],
-			['8.0.0.2', '8.0.0.0', '8.0', false],
-			// allow upgrading to the next major release
-			['8.0.0.0', '8.1.0.0', '8.0', true],
-			['8.0.0.0', '8.1.1.0', '8.0', true],
-			['8.0.0.0', '8.1.1.5', '8.0', true],
-			['8.0.0.2', '8.1.1.5', '8.0', true],
-			['8.1.0.0', '8.2.0.0', '8.1', true],
-			['8.1.0.2', '8.2.0.4', '8.1', true],
-			['8.1.0.5', '8.2.0.1', '8.1', true],
-			['8.1.0.0', '8.2.1.0', '8.1', true],
-			['8.1.0.2', '8.2.1.5', '8.1', true],
-			['8.1.0.5', '8.2.1.1', '8.1', true],
-			// does not allow downgrading to the previous major release
-			['8.1.0.0', '8.0.0.0', '7.0', false],
-			['8.1.1.0', '8.0.0.0', '7.0', false],
-			// does not allow skipping major releases
-			['8.0.0.0', '8.2.0.0', '8.1', false],
-			['8.0.0.0', '8.2.1.0', '8.1', false],
-			['8.0.0.0', '9.0.1.0', '8.2', false],
-			['8.0.0.0', '10.0.0.0', '9.3', false],
-			// allows updating to the next major release
-			['8.2.0.0', '9.0.0.0', '8.2', true],
-			['8.2.0.0', '9.0.0.0', '8.2', true],
-			['8.2.0.0', '9.0.1.0', '8.2', true],
-			['8.2.0.0', '9.0.1.1', '8.2', true],
-			['8.2.0.2', '9.0.1.1', '8.2', true],
-			['8.2.2.0', '9.0.1.0', '8.2', true],
-			['8.2.2.2', '9.0.1.1', '8.2', true],
-			['9.0.0.0', '9.1.0.0', '9.0', true],
-			['9.0.0.0', '9.1.0.2', '9.0', true],
-			['9.0.0.2', '9.1.0.1', '9.0', true],
-			['9.1.0.0', '9.2.0.0', '9.1', true],
-			['9.2.0.0', '9.3.0.0', '9.2', true],
-			['9.3.0.0', '10.0.0.0', '9.3', true],
-			// does not allow updating to the next major release (first number)
-			['9.0.0.0', '8.2.0.0', '8.1', false],
-			// other cases
-			['8.0.0.0', '8.1.5.0', '8.0', true],
-			['8.2.0.0', '9.0.0.0', '8.2', true],
-			['8.2.0.0', '9.1.0.0', '9.0', false],
-			['9.0.0.0', '8.1.0.0', '8.0', false],
-			['9.0.0.0', '8.0.0.0', '7.0', false],
-			['9.1.0.0', '8.0.0.0', '7.0', false],
-			['8.2.0.0', '8.1.0.0', '8.0', false],
+			// Upgrade with invalid version
+			['9.1.1.13', '11.0.2.25', ['nextcloud' => ['11.0' => true]], false],
+			['10.0.1.13', '11.0.2.25', ['nextcloud' => ['11.0' => true]], false],
+			// Upgrad with valid version
+			['11.0.1.13', '11.0.2.25', ['nextcloud' => ['11.0' => true]], true],
+			// Downgrade with valid version
+			['11.0.2.25', '11.0.1.13', ['nextcloud' => ['11.0' => true]], false],
+			['11.0.2.25', '11.0.1.13', ['nextcloud' => ['11.0' => true]], true, true],
+			// Downgrade with invalid version
+			['11.0.2.25', '10.0.1.13', ['nextcloud' => ['10.0' => true]], false],
+			['11.0.2.25', '10.0.1.13', ['nextcloud' => ['10.0' => true]], false, true],
 
-			// With debug enabled
-			['8.0.0.0', '8.2.0.0', '8.1', false, true],
-			['8.1.0.0', '8.2.0.0', '8.1', true, true],
-			['8.2.0.1', '8.2.0.1', '8.1', true, true],
-			['8.3.0.0', '8.2.0.0', '8.1', true, true],
-
-			// Downgrade of maintenance
-			['9.0.53.0', '9.0.4.0', '8.1', false, false, 'nextcloud'],
-			// with vendor switch
-			['9.0.53.0', '9.0.4.0', '8.1', true, false, ''],
-			['9.0.53.0', '9.0.4.0', '8.1', true, false, 'owncloud'],
+			// Migration with unknown vendor
+			['9.1.1.13', '11.0.2.25', ['nextcloud' => ['9.1' => true]], false, false, 'owncloud'],
+			['9.1.1.13', '11.0.2.25', ['nextcloud' => ['9.1' => true]], false, true, 'owncloud'],
+			// Migration with unsupported vendor version
+			['9.1.1.13', '11.0.2.25', ['owncloud' => ['10.0' => true]], false, false, 'owncloud'],
+			['9.1.1.13', '11.0.2.25', ['owncloud' => ['10.0' => true]], false, true, 'owncloud'],
+			// Migration with valid vendor version
+			['9.1.1.13', '11.0.2.25', ['owncloud' => ['9.1' => true]], true, false, 'owncloud'],
+			['9.1.1.13', '11.0.2.25', ['owncloud' => ['9.1' => true]], true, true, 'owncloud'],
 		];
 	}
 
@@ -151,12 +90,12 @@ class UpdaterTest extends TestCase {
 	 *
 	 * @param string $oldVersion
 	 * @param string $newVersion
-	 * @param string $allowedVersion
+	 * @param array $allowedVersions
 	 * @param bool $result
 	 * @param bool $debug
 	 * @param string $vendor
 	 */
-	public function testIsUpgradePossible($oldVersion, $newVersion, $allowedVersion, $result, $debug = false, $vendor = 'nextcloud') {
+	public function testIsUpgradePossible($oldVersion, $newVersion, $allowedVersions, $result, $debug = false, $vendor = 'nextcloud') {
 		$this->config->expects($this->any())
 			->method('getSystemValue')
 			->with('debug', false)
@@ -166,7 +105,7 @@ class UpdaterTest extends TestCase {
 			->with('core', 'vendor', '')
 			->willReturn($vendor);
 
-		$this->assertSame($result, $this->updater->isUpgradePossible($oldVersion, $newVersion, $allowedVersion));
+		$this->assertSame($result, $this->updater->isUpgradePossible($oldVersion, $newVersion, $allowedVersions));
 	}
 
 	public function testSetSkip3rdPartyAppsDisable() {
