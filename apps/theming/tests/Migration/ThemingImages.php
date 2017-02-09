@@ -23,7 +23,9 @@
 
 namespace OCA\Theming\Tests\Migration;
 
+use OCP\Files\File;
 use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Migration\IOutput;
 use Test\TestCase;
@@ -45,11 +47,11 @@ class ThemingImagesTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->appData = $this->getMockBuilder('OCP\Files\IAppData')->getMock();
-		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
+		$this->appData = $this->getMockBuilder(IAppData::class)->getMock();
+		$this->rootFolder = $this->getMockBuilder(IRootFolder::class)->getMock();
 		$this->repairStep = new ThemingImages($this->appData, $this->rootFolder);
-		$this->imageFolder = $this->getMockBuilder('OCP\Files\SimpleFS\ISimpleFolder')->getMock();
-		$this->output = $this->getMockBuilder('OCP\Migration\IOutput')->getMock();
+		$this->imageFolder = $this->getMockBuilder(ISimpleFolder::class)->getMock();
+		$this->output = $this->getMockBuilder(IOutput::class)->getMock();
 	}
 
 	public function testGetName() {
@@ -74,8 +76,8 @@ class ThemingImagesTest extends TestCase {
 	}
 
 	public function testRunLogo() {
-		$oldFile = $this->getMockBuilder('OCP\Files\File')->getMock();
-		$newFile = $this->getMockBuilder('OCP\Files\SimpleFS\ISimpleFile')->getMock();
+		$oldFile = $this->getMockBuilder(File::class)->getMock();
+		$newFile = $this->getMockBuilder(ISimpleFile::class)->getMock();
 
 		$this->appData->expects($this->once())
 			->method('newFolder')
@@ -105,9 +107,9 @@ class ThemingImagesTest extends TestCase {
 	}
 
 	public function testRunBackground() {
-		$oldFile = $this->getMockBuilder('OCP\Files\File')->getMock();
-		$newFile = $this->getMockBuilder('OCP\Files\SimpleFS\ISimpleFile')->getMock();
-
+		$oldFile = $this->getMockBuilder(File::class)->getMock();
+		$newFile = $this->getMockBuilder(ISimpleFile::class)->getMock();
+		
 		$this->appData->expects($this->once())
 			->method('newFolder')
 			->willReturn($this->imageFolder);

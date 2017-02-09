@@ -24,14 +24,18 @@
  */
 namespace OCA\Theming\Tests\Controller;
 
+use OC\L10N\L10N;
 use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -64,22 +68,22 @@ class ThemingControllerTest extends TestCase {
 	private $appData;
 
 	public function setUp() {
-		$this->request = $this->getMockBuilder('OCP\IRequest')->getMock();
-		$this->config = $this->getMockBuilder('OCP\IConfig')->getMock();
-		$this->template = $this->getMockBuilder('OCA\Theming\ThemingDefaults')
+		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
+		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
+		$this->template = $this->getMockBuilder(ThemingDefaults::class)
 			->disableOriginalConstructor()->getMock();
-		$this->timeFactory = $this->getMockBuilder('OCP\AppFramework\Utility\ITimeFactory')
+		$this->timeFactory = $this->getMockBuilder(ITimeFactory::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->l10n = $this->getMockBuilder('OCP\IL10N')->getMock();
-		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
-		$this->appManager = $this->getMockBuilder('OCP\App\IAppManager')->getMock();
+		$this->l10n = $this->getMockBuilder(L10N::class)->getMock();
+		$this->rootFolder = $this->getMockBuilder(IRootFolder::class)->getMock();
+		$this->appManager = $this->getMockBuilder(IAppManager::class)->getMock();
 		$this->util = new Util($this->config, $this->rootFolder, $this->appManager);
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
 			->willReturn(123);
 		$this->tempManager = \OC::$server->getTempManager();
-		$this->appData = $this->getMockBuilder('OCP\Files\IAppData')->getMock();
+		$this->appData = $this->getMockBuilder(IAppData::class)->getMock();
 
 		$this->themingController = new ThemingController(
 			'theming',
@@ -196,10 +200,10 @@ class ThemingControllerTest extends TestCase {
 			->willReturn('Saved');
 
 
-		$file = $this->getMockBuilder('OCP\Files\SimpleFS\ISimpleFile')
+		$file = $this->getMockBuilder(ISimpleFile::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$folder = $this->getMockBuilder('OCP\Files\SimpleFS\ISimpleFolder')
+		$folder = $this->getMockBuilder(ISimpleFolder::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->appData
@@ -251,10 +255,10 @@ class ThemingControllerTest extends TestCase {
 			->with('Saved')
 			->willReturn('Saved');
 
-		$file = $this->getMockBuilder('OCP\Files\SimpleFS\ISimpleFile')
+		$file = $this->getMockBuilder(ISimpleFile::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$folder = $this->getMockBuilder('OCP\Files\SimpleFS\ISimpleFolder')
+		$folder = $this->getMockBuilder(ISimpleFolder::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->appData
@@ -305,7 +309,7 @@ class ThemingControllerTest extends TestCase {
 			->with('Unsupported image type')
 			->willReturn('Unsupported image type');
 
-		$folder = $this->getMockBuilder('OCP\Files\SimpleFS\ISimpleFolder')
+		$folder = $this->getMockBuilder(ISimpleFolder::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->appData
@@ -362,10 +366,10 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	public function testGetLogo() {
-		$file = $this->getMockBuilder('OCP\Files\SimpleFS\ISimpleFile')
+		$file = $this->getMockBuilder(ISimpleFile::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$folder = $this->getMockBuilder('OCP\Files\SimpleFS\ISimpleFolder')
+		$folder = $this->getMockBuilder(ISimpleFolder::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->appData
@@ -405,10 +409,10 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	public function testGetLoginBackground() {
-		$file = $this->getMockBuilder('OCP\Files\SimpleFS\ISimpleFile')
+		$file = $this->getMockBuilder(ISimpleFile::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$folder = $this->getMockBuilder('OCP\Files\SimpleFS\ISimpleFolder')
+		$folder = $this->getMockBuilder(ISimpleFolder::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->appData

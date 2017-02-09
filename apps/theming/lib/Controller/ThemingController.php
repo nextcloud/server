@@ -31,9 +31,9 @@ use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDownloadResponse;
+use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
-use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
 use OCP\Files\IAppData;
@@ -266,7 +266,7 @@ class ThemingController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
-	 * @return Http\FileDisplayResponse|NotFoundResponse
+	 * @return FileDisplayResponse|NotFoundResponse
 	 */
 	public function getLogo() {
 		try {
