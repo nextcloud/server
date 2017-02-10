@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "Compartido con usted",
+    "Shared with you" : "Compartido contigo",
     "Shared with others" : "Compartido con otros",
     "Shared by link" : "Compartido por medio de enlaces",
     "Nothing shared with you yet" : "Todavía no han compartido nada contigo",
@@ -36,10 +36,13 @@ OC.L10N.register(
     "Public link expired" : "El enlace público ha expirado",
     "{actor} shared as public link" : "{actor} compartió como enlace público",
     "{actor} removed public link" : "{actor} eliminó el enlace público",
+    "Public link of {actor} expired" : "Enlace público de {actor} caducado",
     "You shared {file} as public link" : "Compartió {file} como un enlace público",
     "You removed public link for {file}" : "Eliminó el enlace público para {file}",
+    "Public link expired for {file}" : "Enlace público caducado para {file}",
     "{actor} shared {file} as public link" : "{actor} compartió {file} como enlace público",
     "{actor} removed public link for {file}" : "{actor} eliminó el enlace público para {file}",
+    "Public link of {actor} for {file} expired" : "Enlace público de {actor} para {file} caducado",
     "{user} accepted the remote share" : "{user} aceptó el recurso compartido remotamente",
     "{user} declined the remote share" : "{user} rechazó el recurso compartido",
     "You received a new remote share {file} from {user}" : "Ha recibido un nuevo recurso compartido remoto {file} de {user}",

@@ -34,6 +34,7 @@ OC.L10N.register(
     "%s (invisible)" : "%s (e padukshme)",
     "<strong>System tags</strong> for a file have been modified" : "U ndryshyan <strong>etiketa sistemi</strong>për një kartelë",
     "Name" : "Emër",
+    "Invisible" : "I padukshëm",
     "No files in here" : "S’ka kartela këtu",
     "No entries found in this folder" : "S’u gjetën zëra në këtë dosje",
     "Size" : "Madhësi",
