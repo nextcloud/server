@@ -32,15 +32,6 @@ use OC\Files\Stream\Checksum as ChecksumStream;
  */
 class Checksum extends Wrapper {
 
-	/**
-	 * @param array $parameters
-	 */
-	public function __construct($parameters) {
-		if (isset($parameters['algo'])) {
-			ChecksumStream::setAlgo($parameters['algo']);
-		}
-		parent::__construct($parameters);
-	}
 
 	/**
 	 * @param string $path
@@ -87,8 +78,14 @@ class Checksum extends Wrapper {
 	 * @return array
 	 */
 	public function getMetaData($path) {
+		$checksumString = '';
+
+		foreach (ChecksumStream::getChecksums($path) as $algo => $checksum) {
+			$checksumString .= sprintf('%s:%s ', strtoupper($algo), $checksum);
+		}
+
 		$parentMetaData = $this->getWrapperStorage()->getMetaData($path);
-		$parentMetaData['checksum'] = ChecksumStream::getChecksum($path);
+		$parentMetaData['checksum'] = rtrim($checksumString);
 
 		// Need to investigate more
 		if (!isset($parentMetaData['mimetype'])) {
