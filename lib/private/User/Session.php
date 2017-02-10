@@ -284,6 +284,19 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
+	 * set the token id
+	 *
+	 * @param int|null $token that was used to log in
+	 */
+	protected function setToken($token) {
+		if ($token === null) {
+			$this->session->remove('token-id');
+		} else {
+			$this->session->set('token-id', $token);
+		}
+	}
+
+	/**
 	 * try to log in with the provided credentials
 	 *
 	 * @param string $uid
@@ -473,6 +486,7 @@ class Session implements IUserSession, Emitter {
 		if ($user->isEnabled()) {
 			$this->setUser($user);
 			$this->setLoginName($uid);
+			$this->setToken(null);
 			$firstTimeLogin = $user->updateLastLoginTimestamp();
 			$this->manager->emit('\OC\User', 'postLogin', [$user, $password]);
 			if ($this->isLoggedIn()) {
@@ -495,7 +509,7 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * @param string $token
 	 * @return boolean
-	 * @throws LoginException if an app canceld the login process or the user is not enabled
+	 * @throws LoginException if an app canceled the login process or the user is not enabled
 	 */
 	private function loginWithToken($token) {
 		try {
@@ -530,6 +544,7 @@ class Session implements IUserSession, Emitter {
 		//login
 		$this->setUser($user);
 		$this->setLoginName($dbToken->getLoginName());
+		$this->setToken($dbToken->getId());
 		\OC::$server->getLockdownManager()->setToken($dbToken);
 		$this->manager->emit('\OC\User', 'postLogin', array($user, $password));
 
@@ -740,10 +755,12 @@ class Session implements IUserSession, Emitter {
 		}
 
 		$this->setMagicInCookie($user->getUID(), $newToken);
+		$token = $this->tokenProvider->getToken($sessionId);
 
 		//login
 		$this->setUser($user);
-		$this->setLoginName($this->tokenProvider->getToken($sessionId)->getLoginName());
+		$this->setLoginName($token->getLoginName());
+		$this->setToken($token->getId());
 		$user->updateLastLoginTimestamp();
 		$this->manager->emit('\OC\User', 'postRememberedLogin', [$user]);
 		return true;
@@ -773,6 +790,7 @@ class Session implements IUserSession, Emitter {
 		}
 		$this->setUser(null);
 		$this->setLoginName(null);
+		$this->setToken(null);
 		$this->unsetMagicInCookie();
 		$this->session->clear();
 	}
