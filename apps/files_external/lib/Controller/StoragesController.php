@@ -143,7 +143,7 @@ abstract class StoragesController extends Controller {
 	 */
 	protected function validate(StorageConfig $storage) {
 		$mountPoint = $storage->getMountPoint();
-		if ($mountPoint === '' || $mountPoint === '/') {
+		if ($mountPoint === '') {
 			return new DataResponse(
 				array(
 					'message' => (string)$this->l10n->t('Invalid mount point')
