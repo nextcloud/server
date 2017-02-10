@@ -93,7 +93,7 @@ EOD;
 		$client
 			->expects($this->once())
 			->method('get')
-			->with('https://apps.nextcloud.com/api/v1/platform/11.0.1/apps.json')
+			->with('https://apps.nextcloud.com/api/v1/platform/11.0.2/apps.json')
 			->willReturn($response);
 		$response
 			->expects($this->once())
