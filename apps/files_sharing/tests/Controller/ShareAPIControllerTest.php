@@ -38,6 +38,7 @@ use OCP\Files\IRootFolder;
 use OCP\Lock\LockedException;
 use OCP\Share\IManager;
 use OCP\Share;
+use Test\TestCase;
 
 /**
  * Class ShareAPIControllerTest
@@ -45,7 +46,7 @@ use OCP\Share;
  * @package OCA\Files_Sharing\Tests\Controller
  * @group DB
  */
-class ShareAPIControllerTest extends \Test\TestCase {
+class ShareAPIControllerTest extends TestCase {
 
 	/** @var string */
 	private $appName = 'files_sharing';

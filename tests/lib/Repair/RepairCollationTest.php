@@ -8,10 +8,15 @@
 
 namespace Test\Repair;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Platforms\MySqlPlatform;
+use OC\Repair\Collation;
+use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\Migration\IOutput;
+use Test\TestCase;
 
-class TestCollationRepair extends \OC\Repair\Collation {
+class TestCollationRepair extends Collation {
 	/**
 	 * @param \Doctrine\DBAL\Connection $connection
 	 * @return string[]
@@ -28,7 +33,7 @@ class TestCollationRepair extends \OC\Repair\Collation {
  *
  * @see \OC\Repair\RepairMimeTypes
  */
-class RepairCollationTest extends \Test\TestCase {
+class RepairCollationTest extends TestCase {
 
 	/**
 	 * @var TestCollationRepair
@@ -36,7 +41,7 @@ class RepairCollationTest extends \Test\TestCase {
 	private $repair;
 
 	/**
-	 * @var \Doctrine\DBAL\Connection
+	 * @var Connection|IDBConnection
 	 */
 	private $connection;
 
@@ -59,7 +64,7 @@ class RepairCollationTest extends \Test\TestCase {
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->logger = $this->createMock(ILogger::class);
 		$this->config = \OC::$server->getConfig();
-		if (!$this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\MySqlPlatform) {
+		if (!$this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
 			$this->markTestSkipped("Test only relevant on MySql");
 		}
 

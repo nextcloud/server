@@ -48,6 +48,9 @@ class FileTest extends \Test\TestCase {
 
 	public function setUp() {
 		parent::setUp();
+		unset($_SERVER['HTTP_OC_CHUNKED']);
+		unset($_SERVER['CONTENT_LENGTH']);
+		unset($_SERVER['REQUEST_METHOD']);
 
 		\OC_Hook::clear();
 
