@@ -72,20 +72,21 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 		} catch (\GuzzleHttp\Exception\ClientException $e) {}
 	}
 
-
 	/**
-	 * @When :user requests addressbook :addressBook with statuscode :statusCode
+	 * @When :user requests addressbook :addressBook with statuscode :statusCode on the endpoint :endpoint
 	 * @param string $user
 	 * @param string $addressBook
 	 * @param int $statusCode
+	 * @param string $endpoint
 	 * @throws \Exception
 	 */
-	public function requestsAddressbookWithStatuscode($user, $addressBook, $statusCode) {
-		$davUrl = $this->baseUrl . '/remote.php/dav/addressbooks/users/'.$addressBook;
+	public function requestsAddressbookWithStatuscodeOnTheEndpoint($user, $addressBook, $statusCode, $endpoint) {
+		$davUrl = $this->baseUrl . $endpoint . $addressBook;
 
 		$password = ($user === 'admin') ? 'admin' : '123456';
 		try {
-			$this->response = $this->client->get(
+			$request = $this->client->createRequest(
+				'PROPFIND',
 				$davUrl,
 				[
 					'auth' => [
@@ -94,6 +95,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 					],
 				]
 			);
+			$this->response = $this->client->send($request);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}

@@ -66,6 +66,7 @@ $nodes = array(
 
 // Fire up server
 $server = new \Sabre\DAV\Server($nodes);
+$server::$exposeVersion = false;
 $server->httpRequest->setUrl(\OC::$server->getRequest()->getRequestUri());
 $server->setBaseUri($baseuri);
 // Add plugins
