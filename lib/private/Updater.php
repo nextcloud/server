@@ -163,7 +163,7 @@ class Updater extends BasicEmitter {
 		// this should really be a JSON file
 		require \OC::$SERVERROOT . '/version.php';
 		/** @var array $OC_VersionCanBeUpgradedFrom */
-		return implode('.', $OC_VersionCanBeUpgradedFrom);
+		return $OC_VersionCanBeUpgradedFrom;
 	}
 
 	/**
