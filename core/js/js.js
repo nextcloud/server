@@ -780,8 +780,18 @@ var OCP = {},
 			// sometimes "beforeunload" happens later, so need to defer the reload a bit
 			setTimeout(function() {
 				if (!self._userIsNavigatingAway && !self._reloadCalled) {
-					OC.Notification.show(t('core', 'Problem loading page, reloading in 5 seconds'));
-					setTimeout(OC.reload, 5000);
+					var timer = 0;
+					var seconds = 5;
+					var interval = setInterval( function() {
+						OC.Notification.showUpdate(n('core', 'Problem loading page, reloading in %n second', 'Problem loading page, reloading in %n seconds', seconds - timer));
+						if (timer >= seconds) {
+							clearInterval(interval);
+							OC.reload();
+						}
+						timer++;
+						}, 1000 // 1 second interval
+					);
+
 					// only call reload once
 					self._reloadCalled = true;
 				}
@@ -1171,6 +1181,30 @@ OC.Notification={
 	 */
 	show: function(text, options) {
 		return this.showHtml($('<div/>').text(text).html(), options);
+	},
+
+	/**
+	 * Updates (replaces) a sanitized notification.
+	 * 
+	 * @param {string} text Message to display
+	 * @return {jQuery} JQuery element for notificaiton row
+	 */
+	showUpdate: function(text) {
+		var $notification = $('#notification');
+		// sanitise
+		var $html = $('<div/>').text(text).html();
+
+		// new notification
+		if (text && $notification.find('.row').length == 0) {
+			return this.showHtml($html);
+		}
+
+		var $row = $('<div class="row"></div>').prepend($html);
+
+		// just update html in notification
+		$notification.html($row);
+
+		return $row;
 	},
 
 	/**
