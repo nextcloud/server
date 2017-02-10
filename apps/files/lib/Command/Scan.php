@@ -30,6 +30,7 @@ namespace OCA\Files\Command;
 
 use Doctrine\DBAL\Connection;
 use OC\Core\Command\Base;
+use OC\Core\Command\InterruptedException;
 use OC\ForbiddenException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
@@ -117,14 +118,14 @@ class Scan extends Base {
 				$output->writeln("\tFile   <info>$path</info>");
 				$this->filesCounter += 1;
 				if ($this->hasBeenInterrupted()) {
-					throw new \Exception('ctrl-c');
+					throw new InterruptedException();
 				}
 			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
 				$output->writeln("\tFolder <info>$path</info>");
 				$this->foldersCounter += 1;
 				if ($this->hasBeenInterrupted()) {
-					throw new \Exception('ctrl-c');
+					throw new InterruptedException();
 				}
 			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'StorageNotAvailable', function (StorageNotAvailableException $e) use ($output) {
@@ -135,13 +136,13 @@ class Scan extends Base {
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function () use ($output) {
 				$this->filesCounter += 1;
 				if ($this->hasBeenInterrupted()) {
-					throw new \Exception('ctrl-c');
+					throw new InterruptedException();
 				}
 			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function () use ($output) {
 				$this->foldersCounter += 1;
 				if ($this->hasBeenInterrupted()) {
-					throw new \Exception('ctrl-c');
+					throw new InterruptedException();
 				}
 			});
 		}
@@ -161,11 +162,12 @@ class Scan extends Base {
 		} catch (ForbiddenException $e) {
 			$output->writeln("<error>Home storage for user $user not writable</error>");
 			$output->writeln("Make sure you're running the scan command only as the user the web server runs as");
+		} catch (InterruptedException $e) {
+			# exit the function if ctrl-c has been pressed
+			$output->writeln('Interrupted by user');
 		} catch (\Exception $e) {
-			if ($e->getMessage() !== 'ctrl-c') {
-				$output->writeln('<error>Exception while scanning: ' . $e->getMessage() . "\n" . $e->getTraceAsString() . '</error>');
-			}
-			return;
+			$output->writeln('<error>Exception during scan: ' . $e->getMessage() . '</error>');
+			$output->writeln('<error>' . $e->getTraceAsString() . '</error>');
 		}
 	}
 
