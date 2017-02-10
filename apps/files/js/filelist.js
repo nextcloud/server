@@ -2947,7 +2947,7 @@
 				this._newFileMenu = new OCA.Files.NewFileMenu({
 					fileList: this
 				});
-				$('body').append(this._newFileMenu.$el);
+				$('.actions').append(this._newFileMenu.$el);
 			}
 			this._newFileMenu.showAt($target);
 
