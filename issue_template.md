@@ -104,6 +104,7 @@ Eventually replace sensitive data as the name/IP-address of your LDAP server or 
 #### Web server error log
 <details>
 <summary>Web server error log</summary>
+
 ```
 Insert your webserver log here
 ```
@@ -112,6 +113,7 @@ Insert your webserver log here
 #### Nextcloud log (data/nextcloud.log)
 <details>
 <summary>Nextcloud log</summary>
+
 ```
 Insert your Nextcloud log here
 ```
@@ -120,6 +122,7 @@ Insert your Nextcloud log here
 #### Browser log
 <details>
 <summary>Browser log</summary>
+
 ```
 Insert your browser log here, this could for example include:
 
