@@ -25,6 +25,7 @@ namespace OC\Core\Command\User;
 use OC\Core\Command\Base;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IUser;
 use OCP\IUserManager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -174,6 +175,14 @@ class Setting extends Base {
 					return 1;
 				}
 
+				if ($app === 'settings' && $key === 'email') {
+					$user = $this->userManager->get($uid);
+					if ($user instanceof IUser) {
+						$user->setEMailAddress($input->getArgument('value'));
+						return 0;
+					}
+				}
+
 				$this->config->setUserValue($uid, $app, $key, $input->getArgument('value'));
 				return 0;
 
@@ -181,6 +190,14 @@ class Setting extends Base {
 				if ($input->hasParameterOption('--error-if-not-exists') && $value === null) {
 					$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
 					return 1;
+				}
+
+				if ($app === 'settings' && $key === 'email') {
+					$user = $this->userManager->get($uid);
+					if ($user instanceof IUser) {
+						$user->setEMailAddress('');
+						return 0;
+					}
 				}
 
 				$this->config->deleteUserValue($uid, $app, $key);
