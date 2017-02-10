@@ -302,7 +302,7 @@ class AuthTest extends TestCase {
 			->with([
 				'/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/',
 				'/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/',
-				'/^Mozilla\/5\.0 \(iOS\) ownCloud\-iOS.*$/',
+				'/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/',
 			])
 			->willReturn(false);
 		$this->session
@@ -352,7 +352,7 @@ class AuthTest extends TestCase {
 			->with([
 				'/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/',
 				'/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/',
-				'/^Mozilla\/5\.0 \(iOS\) ownCloud\-iOS.*$/',
+				'/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/',
 			])
 			->willReturn(false);
 		$this->session
@@ -406,7 +406,7 @@ class AuthTest extends TestCase {
 			->with([
 				'/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/',
 				'/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/',
-				'/^Mozilla\/5\.0 \(iOS\) ownCloud\-iOS.*$/',
+				'/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/',
 			])
 			->willReturn(false);
 		$this->session
@@ -452,7 +452,7 @@ class AuthTest extends TestCase {
 			->with([
 				'/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/',
 				'/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/',
-				'/^Mozilla\/5\.0 \(iOS\) ownCloud\-iOS.*$/',
+				'/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/',
 			])
 			->willReturn(true);
 		$this->session

@@ -32,7 +32,6 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use Exception;
-use OC\AppFramework\Http\Request;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Security\Bruteforce\Throttler;
@@ -177,9 +176,9 @@ class Auth extends AbstractBasic {
 
 		// Official ownCloud clients require no checks
 		if($this->request->isUserAgent([
-			Request::USER_AGENT_OWNCLOUD_DESKTOP,
-			Request::USER_AGENT_OWNCLOUD_ANDROID,
-			Request::USER_AGENT_OWNCLOUD_IOS,
+			IRequest::USER_AGENT_CLIENT_DESKTOP,
+			IRequest::USER_AGENT_CLIENT_ANDROID,
+			IRequest::USER_AGENT_CLIENT_IOS,
 		])) {
 			return false;
 		}
