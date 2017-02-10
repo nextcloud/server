@@ -138,11 +138,21 @@ class FavoriteProvider implements IProvider {
 	 * @param string $subject
 	 */
 	protected function setSubjects(IEvent $event, $subject) {
+		$subjectParams = $event->getSubjectParameters();
+		if (empty($subjectParams)) {
+			// Try to fall back to the old way, but this does not work for emails.
+			// But at least old activities still work.
+			$subjectParams = [
+				'id' => $event->getObjectId(),
+				'path' => $event->getObjectName(),
+			];
+		}
 		$parameter = [
 			'type' => 'file',
-			'id' => $event->getObjectId(),
-			'name' => basename($event->getObjectName()),
-			'path' => $event->getObjectName(),
+			'id' => $subjectParams['id'],
+			'name' => basename($subjectParams['path']),
+			'path' => trim($subjectParams['path'], '/'),
+			'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $subjectParams['id']]),
 		];
 
 		$event->setParsedSubject(str_replace('{file}', trim($parameter['path'], '/'), $subject))

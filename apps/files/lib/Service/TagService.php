@@ -116,14 +116,21 @@ class TagService {
 		}
 
 		$event = $this->activityManager->generateEvent();
-		$event->setApp('files')
-			->setObject('files', $fileId, $path)
-			->setType('favorite')
-			->setAuthor($user->getUID())
-			->setAffectedUser($user->getUID())
-			->setTimestamp(time())
-			->setSubject($addToFavorite ? FavoriteProvider::SUBJECT_ADDED : FavoriteProvider::SUBJECT_REMOVED);
-		$this->activityManager->publish($event);
+		try {
+			$event->setApp('files')
+				->setObject('files', $fileId, $path)
+				->setType('favorite')
+				->setAuthor($user->getUID())
+				->setAffectedUser($user->getUID())
+				->setTimestamp(time())
+				->setSubject(
+					$addToFavorite ? FavoriteProvider::SUBJECT_ADDED : FavoriteProvider::SUBJECT_REMOVED,
+					['id' => $fileId, 'path' => $path]
+				);
+			$this->activityManager->publish($event);
+		} catch (\InvalidArgumentException $e) {
+		} catch (\BadMethodCallException $e) {
+		}
 	}
 }
 
