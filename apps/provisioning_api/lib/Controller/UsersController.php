@@ -29,6 +29,7 @@
 
 namespace OCA\Provisioning_API\Controller;
 
+use OC\Accounts\AccountManager;
 use \OC_Helper;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
@@ -53,6 +54,8 @@ class UsersController extends OCSController {
 	private $groupManager;
 	/** @var IUserSession */
 	private $userSession;
+	/** @var AccountManager */
+	private $accountManager;
 	/** @var ILogger */
 	private $logger;
 
@@ -63,6 +66,7 @@ class UsersController extends OCSController {
 	 * @param IConfig $config
 	 * @param IGroupManager $groupManager
 	 * @param IUserSession $userSession
+	 * @param AccountManager $accountManager
 	 * @param ILogger $logger
 	 */
 	public function __construct($appName,
@@ -71,6 +75,7 @@ class UsersController extends OCSController {
 								IConfig $config,
 								IGroupManager $groupManager,
 								IUserSession $userSession,
+								AccountManager $accountManager,
 								ILogger $logger) {
 		parent::__construct($appName, $request);
 
@@ -78,6 +83,7 @@ class UsersController extends OCSController {
 		$this->config = $config;
 		$this->groupManager = $groupManager;
 		$this->userSession = $userSession;
+		$this->accountManager = $accountManager;
 		$this->logger = $logger;
 	}
 
@@ -107,7 +113,7 @@ class UsersController extends OCSController {
 			}
 
 			if($offset === null) {
-				$offset = 0; 
+				$offset = 0;
 			}
 
 			$users = [];
@@ -159,7 +165,7 @@ class UsersController extends OCSController {
 				throw new OCSException('no group specified (required for subadmins)', 106);
 			}
 		}
-		
+
 		try {
 			$newUser = $this->userManager->createUser($userid, $password);
 			$this->logger->info('Successful addUser call with userid: '.$userid, ['app' => 'ocs_api']);
@@ -188,6 +194,42 @@ class UsersController extends OCSController {
 	 * @throws OCSException
 	 */
 	public function getUser($userId) {
+		$data = $this->getUserData($userId);
+		return new DataResponse($data);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoSubAdminRequired
+	 *
+	 * gets user info from the currently logged in user
+	 *
+	 * @return DataResponse
+	 * @throws OCSException
+	 */
+	public function getCurrentUser() {
+		$user = $this->userSession->getUser();
+		if ($user) {
+			$data =  $this->getUserData($user->getUID());
+			// rename "displayname" to "display-name" only for this call to keep
+			// the API stable.
+			$data['display-name'] = $data['displayname'];
+			unset($data['displayname']);
+			return new DataResponse($data);
+
+		}
+
+		throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+	}
+
+	/**
+	 * creates a array with all user data
+	 *
+	 * @param $userId
+	 * @return array
+	 * @throws OCSException
+	 */
+	protected function getUserData($userId) {
 		$currentLoggedInUser = $this->userSession->getUser();
 
 		$data = [];
@@ -209,12 +251,19 @@ class UsersController extends OCSController {
 			}
 		}
 
+		$userAccount = $this->accountManager->getUser($targetUserObject);
+
 		// Find the data
+		$data['id'] = $targetUserObject->getUID();
 		$data['quota'] = $this->fillStorageInfo($userId);
 		$data['email'] = $targetUserObject->getEMailAddress();
 		$data['displayname'] = $targetUserObject->getDisplayName();
+		$data['phone'] = $userAccount[\OC\Accounts\AccountManager::PROPERTY_PHONE]['value'];
+		$data['address'] = $userAccount[\OC\Accounts\AccountManager::PROPERTY_ADDRESS]['value'];
+		$data['webpage'] = $userAccount[\OC\Accounts\AccountManager::PROPERTY_WEBSITE]['value'];
+		$data['twitter'] = $userAccount[\OC\Accounts\AccountManager::PROPERTY_TWITTER]['value'];
 
-		return new DataResponse($data);
+		return $data;
 	}
 
 	/**
@@ -435,7 +484,7 @@ class UsersController extends OCSController {
 				throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
 			}
 		}
-		
+
 	}
 
 	/**

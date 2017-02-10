@@ -116,24 +116,6 @@ class OCSControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->getCapabilities());
 	}
 
-	public function testGetCurrentUser() {
-		$user = $this->createMock(IUser::class);
-		$user->method('getUID')->willReturn('uid');
-		$user->method('getDisplayName')->willReturn('displayName');
-		$user->method('getEMailAddress')->willReturn('e@mail.com');
-
-
-		$this->userSession->method('getUser')
-			->willReturn($user);
-
-		$expected = new DataResponse([
-			'id' => 'uid',
-			'display-name' => 'displayName',
-			'email' => 'e@mail.com',
-		]);
-		$this->assertEquals($expected, $this->controller->getCurrentUser());
-	}
-
 	public function testPersonCheckValid() {
 		$this->request->method('getRemoteAddress')
 			->willReturn('1.2.3.4');
