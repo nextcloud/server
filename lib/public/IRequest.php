@@ -76,7 +76,7 @@ interface IRequest {
 	/**
 	 * @since 9.1.0
 	 */
-	const USER_AGENT_CLIENT_IOS = '/^Mozilla\/5\.0 \(iOS\) ownCloud\-iOS.*$/';
+	const USER_AGENT_CLIENT_IOS = '/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/';
 
 	/**
 	 * @param string $name
