@@ -1,7 +1,7 @@
 {
-	"_comment" : "Array mapping file extensions to mimetypes (in alphabetical order]",
+	"_comment" : "Array mapping file extensions to mimetypes (in alphabetical order)",
 	"_comment2": "The first index in the mime type array is the assumed correct mimetype",
-	"_comment3": "and the second (if present] is a secure alternative",
+	"_comment3": "and the second (if present) is a secure alternative",
 
 	"_comment4": "Any changes you make here will be overwritten on an update of Nextcloud",
 	"_comment5": "Put any custom mappings in a new file mimetypemapping.json in the config/ folder of Nextcloud",
@@ -15,6 +15,7 @@
 	"arw": ["image/x-dcraw"],
 	"avi": ["video/x-msvideo"],
 	"bash": ["text/x-shellscript"],
+	"bat": ["application/x-msdos-program"],
 	"blend": ["application/x-blender"],
 	"bin": ["application/x-bin"],
 	"bmp": ["image/bmp"],
@@ -29,6 +30,7 @@
 	"cc": ["text/x-c"],
 	"cdr": ["application/coreldraw"],
 	"class": ["application/java"],
+	"cmd": ["application/cmd"],
 	"cnf": ["text/plain"],
 	"conf": ["text/plain"],
 	"cpp": ["text/x-c++src"],
@@ -61,6 +63,7 @@
 	"h": ["text/x-h"],
 	"hh": ["text/x-h"],
 	"hpp": ["text/x-h"],
+	"htaccess": ["text/plain"],
 	"html": ["text/html", "text/plain"],
 	"htm": ["text/html", "text/plain"],
 	"ical": ["text/calendar"],

@@ -308,6 +308,16 @@ class RepairMimeTypes implements IRepairStep {
 		self::updateMimetypes($updatedMimetypes);
 	}
 
+	private function introduceWindowsProgramTypes() {
+		$updatedMimetypes = array(
+			'htaccess' => 'text/plain',
+			'bat' => 'application/x-msdos-program',
+			'cmd' => 'application/cmd',
+		);
+
+		$this->updateMimetypes($updatedMimetypes);
+	}
+
 	/**
 	 * Fix mime types
 	 */
@@ -376,6 +386,10 @@ class RepairMimeTypes implements IRepairStep {
 			if ($this->introduceRichDocumentsMimeTypes()) {
 				$out->info('Fixed richdocuments additional office mime types');
 			}
+		}
+
+		if (version_compare($ocVersionFromBeforeUpdate, '12.0.0.13', '<') && $this->introduceWindowsProgramTypes()) {
+			$out->info('Fixed windows program mime types');
 		}
 	}
 }
