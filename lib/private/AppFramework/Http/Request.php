@@ -72,7 +72,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	/**
 	 * @deprecated use \OCP\IRequest::USER_AGENT_CLIENT_IOS instead
 	 */
-	const USER_AGENT_OWNCLOUD_IOS = '/^Mozilla\/5\.0 \(iOS\) ownCloud\-iOS.*$/';
+	const USER_AGENT_OWNCLOUD_IOS = '/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/';
 	/**
 	 * @deprecated use \OCP\IRequest::USER_AGENT_CLIENT_ANDROID instead
 	 */
