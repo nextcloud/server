@@ -203,7 +203,7 @@ class DAV extends Common {
 		try {
 			$response = $this->client->propFind(
 				$this->encodePath($path),
-				[],
+				['{DAV:}href'],
 				1
 			);
 			if ($response === false) {
