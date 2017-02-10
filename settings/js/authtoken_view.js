@@ -131,7 +131,7 @@
 				androidChrome: /Android.*(?:; (.*) Build\/).*Chrome\/(\d+)[0-9.]+/,
 				iphone: / *CPU +iPhone +OS +([0-9]+)_(?:[0-9_])+ +like +Mac +OS +X */,
 				ipad: /\(iPad\; *CPU +OS +([0-9]+)_(?:[0-9_])+ +like +Mac +OS +X */,
-				iosClient: /^Mozilla\/5\.0 \(iOS\) ownCloud\-iOS.*$/,
+				iosClient: /^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/,
 				androidClient:/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/,
 				// DAVdroid/1.2 (2016/07/03; dav4android; okhttp3) Android/6.0.1
 				davDroid: /DAVdroid\/([0-9.]+)/,
