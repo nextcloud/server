@@ -199,9 +199,9 @@ class Notify extends Base {
 		$foundSubfolderChange = false;
 
 		foreach ($changes as $change) {
-			if ($change->getPath() === '/.nc_test_file.txt') {
+			if ($change->getPath() === '/.nc_test_file.txt' || $change->getPath() === '.nc_test_file.txt') {
 				$foundRootChange = true;
-			} else if ($change->getPath() === '/.nc_test_folder/subfile.txt') {
+			} else if ($change->getPath() === '/.nc_test_folder/subfile.txt' || $change->getPath() === '.nc_test_folder/subfile.txt') {
 				$foundSubfolderChange = true;
 			}
 		}
