@@ -60,7 +60,7 @@ OC.L10N.register(
     "Check #%s does not exist" : "Sprawdź, czy #%s nie istnieje",
     "Workflow" : "Wpływ na pracę",
     "Open documentation" : "Otwórz dokumentację",
-    "Add rule group" : "Dodaj regułę grupy",
+    "Add rule group" : "Dodaj grupę reguł",
     "Short rule description" : "Krótki opis reguły",
     "Add rule" : "Dodaj regułę",
     "Reset" : "Zresetuj",
