@@ -72,16 +72,18 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @When :user requests calendar :calendar
+	 * @When :user requests calendar :calendar on the endpoint :endpoint
 	 * @param string $user
 	 * @param string $calendar
+	 * @param string $endpoint
 	 */
-	public function requestsCalendar($user, $calendar)  {
-		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/'.$calendar;
+	public function requestsCalendar($user, $calendar, $endpoint)  {
+		$davUrl = $this->baseUrl . $endpoint . $calendar;
 
 		$password = ($user === 'admin') ? 'admin' : '123456';
 		try {
-			$this->response = $this->client->get(
+			$request = $this->client->createRequest(
+				'PROPFIND',
 				$davUrl,
 				[
 					'auth' => [
@@ -90,6 +92,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 					]
 				]
 			);
+			$this->response = $this->client->send($request);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}
