@@ -86,6 +86,12 @@ source_file = templates/federation.pot
 source_lang = en
 type = PO
 
+[nextcloud.sharebymail]
+file_filter = <lang>/sharebymail.po
+source_file = templates/sharebymail.pot
+source_lang = en
+type = PO
+
 [nextcloud.systemtags]
 file_filter = <lang>/systemtags.po
 source_file = templates/systemtags.pot
