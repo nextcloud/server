@@ -359,6 +359,7 @@ class Setup {
 			$config = \OC::$server->getConfig();
 			$config->setAppValue('core', 'installedat', microtime(true));
 			$config->setAppValue('core', 'lastupdatedat', microtime(true));
+			$config->setAppValue('core', 'vendor', $this->getVendor());
 
 			$group =\OC::$server->getGroupManager()->createGroup('admin');
 			$group->addUser($user);
@@ -498,5 +499,19 @@ class Setup {
 		$baseDir = \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
 		file_put_contents($baseDir . '/.htaccess', $content);
 		file_put_contents($baseDir . '/index.html', '');
+	}
+
+	/**
+	 * Return vendor from which this version was published
+	 *
+	 * @return string Get the vendor
+	 *
+	 * Copy of \OC\Updater::getVendor()
+	 */
+	private function getVendor() {
+		// this should really be a JSON file
+		require \OC::$SERVERROOT . '/version.php';
+		/** @var string $vendor */
+		return (string) $vendor;
 	}
 }
