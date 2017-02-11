@@ -121,20 +121,6 @@ OC.L10N.register(
     "%2$s removed public link" : "%2$s 移除了公共链接",
     "Public link of %2$s expired" : "%2$s 的公开链接已过期",
     "Shared by %2$s" : "由 %2$s 共享",
-    "Shares" : "共享",
-    "Downloaded by %1$s" : "已被 %1$s 下载",
-    "%1$s downloaded via public link" : "已被 %1$s 通过公开链接下载",
-    "%1$s downloaded %2$s" : "%1$s 已下载 %2$s",
-    "Shared with group %1$s" : "分享到群组 %1$s",
-    "Removed share for group %1$s" : "到群组 %1$s 的分享已被移除",
-    "%2$s shared with group %1$s" : "%2$s 被分享到群组 %1$s",
-    "You removed group %2$s from %1$s" : "你移除了群组 %2$s 在 %1$s",
-    "%1$s shared as public link" : "%1$s 公共链接分享",
-    "%1$s removed public link" : "%1$s 删除公共链接",
-    "You shared %1$s as public link" : "你共享了 %1$s 为公开链接",
-    "You removed public link for %1$s" : "你移除了 %1$s 的公开链接",
-    "Shared with %1$s" : "与 %1$s 分享",
-    "Shared by %1$s" : "由 %1$s 共享",
-    "%1$s removed share" : "%1$s 移除共享"
+    "Shares" : "共享"
 },
 "nplurals=1; plural=0;");

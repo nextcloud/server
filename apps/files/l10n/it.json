@@ -172,6 +172,9 @@
     "%2$s restored %1$s" : "%2$s ha ripristinato %1$s",
     "Changed by %2$s" : "Modificata da %2$s",
     "Deleted by %2$s" : "Eliminata da %2$s",
-    "Restored by %2$s" : "Ripristinata da %2$s"
+    "Restored by %2$s" : "Ripristinata da %2$s",
+    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["{hours}:{minutes}:{seconds} ora rimanente","{hours}:{minutes}:{seconds} ore rimanenti"],
+    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["{minutes}:{seconds} minuto rimanente","{minutes}:{seconds} minuti rimanenti"],
+    "_{seconds} second left_::_{seconds} seconds left_" : ["{seconds} secondo rimanente","{seconds} secondi rimanenti"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

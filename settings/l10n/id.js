@@ -294,7 +294,6 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "Tidak dapat menghapus pengguna dari grup %s",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Apakah Anda yakin ingin menambahkan \"{domain}\" sebagai domain terpercaya?",
     "Please wait...." : "Mohon tunggu....",
-    "iPhone" : "iPhone",
     "add group" : "tambah grup",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Semuanya (Masalah fatal, kesalahan, peringatan, info, debug)",
     "Info, warnings, errors and fatal issues" : "Info, peringatan, kesalahan dan masalah fatal",

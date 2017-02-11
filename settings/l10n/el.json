@@ -300,7 +300,6 @@
     "Unable to remove user from group %s" : "Αδυναμία αφαίρεσης χρήστη από την ομάδα %s",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Είστε πραγματικά σίγουροι ότι θέλετε να προσθέσετε το \"{domain}\" σαν αξιόπιστη περιοχή;",
     "Please wait...." : "Παρακαλώ περιμένετε...",
-    "iPhone" : "iPhone",
     "add group" : "προσθήκη ομάδας",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Όλα (καίρια ζητήματα, σφάλματα, προειδοποιήσεις, πληροφορίες, αποσφαλμάτωση)",
     "Info, warnings, errors and fatal issues" : "Πληροφορίες, προειδοποιήσεις, σφάλματα και καίρια ζητήματα",

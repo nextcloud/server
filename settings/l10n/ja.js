@@ -345,7 +345,6 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "ユーザーをグループ %s から削除できません",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "\"{domain}\" を信頼するドメインに追加してもよろしいでしょうか？",
     "Please wait...." : "しばらくお待ちください...",
-    "iPhone" : "iPhone",
     "add group" : "グループを追加する",
     "Everything (fatal issues, errors, warnings, info, debug)" : "すべて (致命的な問題、エラー、警告、情報、デバッグ)",
     "Info, warnings, errors and fatal issues" : "情報、警告、エラー、致命的な問題",

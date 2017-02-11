@@ -287,7 +287,6 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "%s grubundan kullanıcı kaldırılamıyor",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "\"{domain}\" alan adını güvenilir alan adı olarak eklemek istediğinizden emin misiniz?",
     "Please wait...." : "Lütfen bekleyin....",
-    "iPhone" : "iPhone",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Her şey (Ciddi sorunlar, hatalar, uyarılar, bilgi, hata ayıklama)",
     "Info, warnings, errors and fatal issues" : "Bilgi, uyarılar, hatalar ve ciddi sorunlar",
     "Warnings, errors and fatal issues" : "Uyarılar, hatalar ve ciddi sorunlar",

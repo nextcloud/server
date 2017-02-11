@@ -11,6 +11,7 @@
     "Press Ctrl-C to copy." : "Shtypni Ctrl-C për të kopjuar",
     "Invalid Federated Cloud ID" : "ID Federated Cloud e pavlefshme",
     "Server to server sharing is not enabled on this server" : "Shpërndarja server në server nuk është e mundësuar në këtë server",
+    "Not allowed to create a federated share with the owner." : "Nuk lejohet te krijoni një shpërndarje të federuar me zotëruesin",
     "Invalid or untrusted SSL certificate" : "Çertifikatë SSL e pavlefshme ose e dyshimtë",
     "Storage not valid" : "memorja nuk është e vlefshme",
     "Couldn't add remote share" : "Nuk mund të shtohet ndarja në largësi",

@@ -229,7 +229,6 @@
     "Unable to remove user from group %s" : "Неуспешно премахване на потребител от групата %s.",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Сигурен/на ли сте, че искате \"{domain}\"  да бъде добавен като сигурен домейн?",
     "Please wait...." : "Моля, изчакайте....",
-    "iPhone" : "iPhone",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Всичко (фатални проблеми, грешки, предупреждения, информация, дебъгване)",
     "Info, warnings, errors and fatal issues" : "информация, предупреждения, грешки и фатални проблеми",
     "Warnings, errors and fatal issues" : "Предупреждения, грешки и фатални проблеми",
