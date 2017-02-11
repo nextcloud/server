@@ -275,7 +275,6 @@
     "Unable to remove user from group %s" : "Nevar izņemt lietotāju no grupas %s",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Vai esat pārliecināts, ka vēlaties pievienot \"{domain}\" kā uzticamu domēnu?",
     "Please wait...." : "Lūdzu, uzgaidiet....",
-    "iPhone" : "iPhone",
     "add group" : "pievienot grupu",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Viss (letālas problēmas, kļūdas, brīdinājumi, informatīvas ziņas, atkļūdošanas paziņojumi)",
     "Info, warnings, errors and fatal issues" : "Informatīvas ziņas, brīdinājumi, kļūdas un letālas problēmas",

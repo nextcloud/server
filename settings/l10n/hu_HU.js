@@ -343,7 +343,6 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "A felhasználó nem távolítható el ebből a csoportból: %s",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Biztos abban, hogy hozzá akarja adni \"{domain}\"-t a megbízható tartományokhoz?",
     "Please wait...." : "Kérlek várj...",
-    "iPhone" : "iPhone",
     "add group" : "csoport hozzáadása",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Minden (végzetes hibák, hibák, figyelmeztetések, információk, hibakeresési üzenetek)",
     "Info, warnings, errors and fatal issues" : "Információk, figyelmeztetések, hibák és végzetes hibák",

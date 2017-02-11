@@ -255,7 +255,6 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "無法將使用者移出群組 %s",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "您確定要新增 \"{domain}' 為信任的網域？",
     "Please wait...." : "請稍候…",
-    "iPhone" : "iPhone",
     "Everything (fatal issues, errors, warnings, info, debug)" : "全部（嚴重問題、錯誤、警告、資訊、除錯訊息）",
     "Info, warnings, errors and fatal issues" : "嚴重問題、錯誤、警告、資訊",
     "Warnings, errors and fatal issues" : "嚴重問題、錯誤、警告",

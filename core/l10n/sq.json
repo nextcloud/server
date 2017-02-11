@@ -1,5 +1,5 @@
 { "translations": {
-    "Please select a file." : "Ju lutemi, përzgjidhni një kartelë.",
+    "Please select a file." : "Ju lutem përzgjidhni një kartelë.",
     "File is too big" : "Kartela është shumë e madhe",
     "The selected file is not an image." : "Skedari i zgjedhur nuk është një imazh",
     "The selected file cannot be read." : "Skedari i zgjedhur nuk mund të lexohet",
@@ -46,7 +46,6 @@
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Pati probleme me kontrollin e integritetit të kodit. Më tepër të dhëna…</a>",
     "Settings" : "Rregullime",
     "Connection to server lost" : "Lidhja me serverin u shkëput",
-    "Problem loading page, reloading in 5 seconds" : "Gabim në ngarkimin e faqes, do të ringarkohet pas 5 sekondash",
     "Saving..." : "Po ruhet …",
     "Dismiss" : "Mos e merr parasysh",
     "This action requires you to confirm your password" : "Ky veprim kërkon që të konfirmoni fjalëkalimin tuaj.",
@@ -338,6 +337,7 @@
     "Oct." : "Tet.",
     "Nov." : "Nën.",
     "Dec." : "Dhj.",
+    "Problem loading page, reloading in 5 seconds" : "Gabim në ngarkimin e faqes, do të ringarkohet pas 5 sekondash",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Kartelat tuaja janë të fshehtëzuara. Nëse s’keni aktivizuar kyçin e rimarrjeve, nuk do të ketë ndonjë rrugë për të marrë sërish të dhënat tuaja pasi të jetë ricaktuar fjalëkalimi juaj.<br />Nëse s’jeni i sigurt se ç’duhet bërë, ju lutemi, përpara se të vazhdoni, lidhuni me përgjegjësin tuaj. <br />Doni vërtet të vazhdoni?",
     "This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features." : "Ky shërbyes nuk ka lidhje Internet funksionale. Kjo do të  thotë që disa nga karakteristikat e lidhjes së ngarkesës së jashtme, njoftimet rreth përditësimit ose instalimit të aplikacioneve të palës së tretë nuk do të punojnë. Duke aksesuar skedarët në distancë dhe duke dërguar njoftimin me postë elektronike mund të mos punojë. Ne sygjerojmë të aktivizoni lidhjen e Internet për këtë shërbyes nëse doni të keni të gjitha karakteristikat.",
     "The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "Formësimi për krye ndërmjetësi prapësor është i pasaktë, ose jeni duke hyrë në ownCloud prej një ndërmjetësi të besuar. Nëse s’jeni duke hyrë në ownCloud prej një ndërmjetësi të besuar, ky është një problem sigurie dhe mund t’i lejojë një agresori të maskojë adresën e vet IP si një të pranueshme nga ownCloud-i. Të dhëna të mëtejshme mund të gjeni te <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">dokumentimi</a> ynë.",

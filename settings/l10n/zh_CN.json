@@ -344,7 +344,6 @@
     "Unable to remove user from group %s" : "无法从分组 %s 中移除用户",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "您确定将 \"{domain}\" 添加为信任的域名么？",
     "Please wait...." : "请稍等....",
-    "iPhone" : "iPhone",
     "add group" : "添加分组",
     "Everything (fatal issues, errors, warnings, info, debug)" : "全部 (灾难性问题, 错误, 警告, 信息, 调试)",
     "Info, warnings, errors and fatal issues" : "信息, 警告, 错误和灾难性问题",

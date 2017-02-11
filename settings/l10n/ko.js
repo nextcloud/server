@@ -339,7 +339,6 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "그룹 %s에서 사용자를 삭제할 수 없음",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "신뢰할 수 있는 도메인 목록에 \"{domain}\"을(를) 추가하시겠습니까?",
     "Please wait...." : "기다려 주십시오....",
-    "iPhone" : "아이폰",
     "add group" : "그룹 추가",
     "Everything (fatal issues, errors, warnings, info, debug)" : "모두 (치명적 문제, 오류, 경고, 정보, 디버그)",
     "Info, warnings, errors and fatal issues" : "정보, 경고, 오류, 치명적 문제",

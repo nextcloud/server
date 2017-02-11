@@ -341,7 +341,6 @@
     "Unable to remove user from group %s" : "Kan inte radera användare från gruppen %s",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Är du verkligen säker på att du vill lägga till \"{domain}\" som en trusted domian?",
     "Please wait...." : "Var god vänta ...",
-    "iPhone" : "iPhone",
     "add group" : "lägg till grupp",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Allting (allvarliga fel, fel, varningar, info, debug)",
     "Info, warnings, errors and fatal issues" : "Info, varningar och allvarliga fel",
