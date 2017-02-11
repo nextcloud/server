@@ -4,7 +4,7 @@ OC.L10N.register(
     "Tags" : "Етикети",
     "Update" : "Обнови",
     "Create" : "Създай",
-    "Select tag…" : "Избери етикет...",
+    "Select tag…" : "Изберете етикет...",
     "Tagged files" : "Отбелязани файлове",
     "Select tags to filter by" : "Моля изберете таг по който да филтрирате",
     "No tags found" : "Няма открити етикети",

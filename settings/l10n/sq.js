@@ -343,7 +343,6 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "S’arrin të heqë përdorues nga grupi %s",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Jeni vërtet i sigurt se doni të shtoni \"{domain}\" si përkatësi të besuar?",
     "Please wait...." : "Ju lutemi, prisni…",
-    "iPhone" : "iPhone",
     "add group" : "shtoni grup",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Gjithçka (probleme fatale, gabime, sinjalizime, të dhëna, diagnostikim)",
     "Info, warnings, errors and fatal issues" : "Të dhëna, sinjalizime, gabime dhe probleme fatale",

@@ -296,7 +296,6 @@
     "Unable to remove user from group %s" : "Ekki tókst að fjarlægja notanda úr hópnum %s",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Ertu viss um að þú viljir bæta \"{domain}\" við sem treystu léni?",
     "Please wait...." : "Andartak....",
-    "iPhone" : "iPhone",
     "add group" : "bæta við hópi",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Allt (aflúsun, upplýsingar, viðvaranir, villur og alvarlegar aðvaranir)",
     "Info, warnings, errors and fatal issues" : "Upplýsingar, viðvaranir, villur og alvarlegar aðvaranir",

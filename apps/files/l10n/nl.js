@@ -174,6 +174,9 @@ OC.L10N.register(
     "%2$s restored %1$s" : "%2$s herstelde %1$s",
     "Changed by %2$s" : "Gewijzigd door %2$s",
     "Deleted by %2$s" : "Verwijderd door %2$s",
-    "Restored by %2$s" : "Hersteld door %2$s"
+    "Restored by %2$s" : "Hersteld door %2$s",
+    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["nog {hours}:{minutes}:{seconds} uur","nog {hours}:{minutes}:{seconds} uren"],
+    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["nog {minutes}:{seconds} minuut","nog {minutes}:{seconds} minuten"],
+    "_{seconds} second left_::_{seconds} seconds left_" : ["nog {seconds} seconde","nog {seconds} seconden"]
 },
 "nplurals=2; plural=(n != 1);");
