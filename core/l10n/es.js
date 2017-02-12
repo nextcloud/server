@@ -48,6 +48,7 @@ OC.L10N.register(
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Ha habido problemas durante la comprobación de la integridad del código. Más información…</a>",
     "Settings" : "Ajustes",
     "Connection to server lost" : "Perdida la conexión al server",
+    "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Problema al cargar la página, volverá a cargar en %n segundo","Problema al cagar la página, volverá a cargar en %n segundos"],
     "Saving..." : "Guardando...",
     "Dismiss" : "Descartar",
     "This action requires you to confirm your password" : "Esta acción requiere que confirmes tu contraseña",
