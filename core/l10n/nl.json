@@ -46,6 +46,7 @@
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Er traden problemen op tijdens de code betrouwbaarheidscontrole. Meer informatie…</a>",
     "Settings" : "Instellingen",
     "Connection to server lost" : "Verbinding met server verbroken",
+    "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Probleem met laden pagina, herladen over %n seconde","Probleem met laden pagina, herladen over %n seconden"],
     "Saving..." : "Opslaan",
     "Dismiss" : "Terzijde leggen",
     "This action requires you to confirm your password" : "Deze actie vereist dat je je wachtwoord bevestigt",

@@ -173,7 +173,7 @@
     "Changed by %2$s" : "Geändert von %2$s",
     "Deleted by %2$s" : "Gelöscht von %2$s",
     "Restored by %2$s" : "Wiederhergestellt von %2$s",
-    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["{hours}:{minutes}:{seconds} Stunde verbleiben","{hours}:{minutes}:{seconds} Stunden übrig"],
+    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["{hours}:{minutes}:{seconds} Stunde verbleiben","{hours}:{minutes}:{seconds} Stunden verbleiben"],
     "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["{minutes}:{seconds} Minute verbleibend","{minutes}:{seconds} Minuten verbleiben"],
     "_{seconds} second left_::_{seconds} seconds left_" : ["{seconds} Sekunde verbleiben","{seconds} Sekunden verbleiben"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

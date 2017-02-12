@@ -1,8 +1,21 @@
 OC.L10N.register(
     "files_trashbin",
     {
+    "Couldn't delete %s permanently" : "Impossibile deler %s permanentemente",
+    "Couldn't restore %s" : "Impossibile restaurar %s",
+    "Deleted files" : "Files delite",
+    "Restore" : "Restaurar",
     "Delete" : "Deler",
+    "Delete permanently" : "Deler permanentemente",
     "Error" : "Error",
-    "Name" : "Nomine"
+    "This operation is forbidden" : "Iste operation es prohibite",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Iste directorio non es disponibile, per favor verifica le registros o contacta le administrator",
+    "restored" : "restaurate",
+    "No deleted files" : "Nulle files delite",
+    "You will be able to recover deleted files from here" : "Tu potera recuperar files delite desde ci",
+    "No entries found in this folder" : "Nulle entratas trovate in iste dossier",
+    "Select all" : "Seliger toto",
+    "Name" : "Nomine",
+    "Deleted" : "Delite"
 },
 "nplurals=2; plural=(n != 1);");
