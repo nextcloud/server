@@ -88,9 +88,13 @@ class Checksum extends Wrapper {
 		$parentMetaData['checksum'] = rtrim($checksumString);
 
 		// Need to investigate more
+
+
 		if (!isset($parentMetaData['mimetype'])) {
-			$parentMetaData['mimetype'] = '';
+			$parentMetaData['mimetype'] = 'application/octet-stream';
 		}
+
+
 
 		return $parentMetaData;
 	}
