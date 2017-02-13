@@ -8,6 +8,7 @@
     "If you regenerate backup codes, you automatically invalidate old codes." : "Yedek kodlarını yeniden oluşturursanız, eski kodlar geçersiz olur.",
     "An error occurred while generating your backup codes" : "Yedek kodlar oluşturulurken bir sorun çıktı",
     "Nextcloud backup codes" : "Nextcloud yedek kodları",
+    "Two-factor authentication" : "Iki faktörlü kimlik doğrulama",
     "Backup code" : "Yedek kodu",
     "Use backup code" : "Yedek kodunu kullan",
     "Second-factor backup codes" : "İki aşamalı yedek kodları"

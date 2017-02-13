@@ -174,6 +174,9 @@ OC.L10N.register(
     "%2$s restored %1$s" : "%2$s obnovil %1$s",
     "Changed by %2$s" : "Zmenené %2$s",
     "Deleted by %2$s" : "Zmazané %2$s",
-    "Restored by %2$s" : "Obnovené %2$s"
+    "Restored by %2$s" : "Obnovené %2$s",
+    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["zostáva {hours}:{minutes}:{seconds} hodina","zostáva {hours}:{minutes}:{seconds} hodín","zostáva {hours}:{minutes}:{seconds} hodín"],
+    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["zostáva {minutes}:{seconds} minúta","zostáva {minutes}:{seconds} minút","zostáva {minutes}:{seconds} minút"],
+    "_{seconds} second left_::_{seconds} seconds left_" : ["zostáva {seconds} sekunda","zostáva {seconds} sekúnd","zostáva {seconds} sekúnd"]
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
