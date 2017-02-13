@@ -11,6 +11,7 @@
     "%1$s, %2$s, %3$s, %4$s and %5$s" : "%1$s, %2$s, %3$s, %4$s και %5$s",
     "PHP %s or higher is required." : "PHP %s ή νεώτερη απαιτείται.",
     "PHP with a version lower than %s is required." : "Απαιτείται PHP παλαιότερη από την έκδοση %s.",
+    "%sbit or higher PHP required." : "%sbit απαιτείται νεώτερη έκδοση PHP.",
     "Following databases are supported: %s" : " Υποστηρίζονται οι ακόλουθες βάσεις δεδομένων: %s",
     "The command line tool %s could not be found" : "Το εργαλείο γραμμής εντολών %s δεν μπορεί να βρεθεί",
     "The library %s is not available." : "Το %s της βιβλιοθήκης δεν είναι διαθέσιμο.",
