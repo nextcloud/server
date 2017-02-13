@@ -1454,6 +1454,7 @@ $CONFIG = array(
  * to performance degradation and large log files on busy instance.
  *
  * Thus enabling this in production for longer periods of time is not recommended
+ * or should be used together with the ``log.condition`` setting.
  */
 'filelocking.debug' => false,
 
