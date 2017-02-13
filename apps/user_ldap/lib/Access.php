@@ -965,10 +965,6 @@ class Access extends LDAPUtility implements IUserTools {
 		$sr = $this->ldap->search($linkResources, $base, $filter, $attr);
 		$error = $this->ldap->errno($cr);
 		if(!is_array($sr) || $error !== 0) {
-			\OCP\Util::writeLog('user_ldap',
-				'Error when searching: '.$this->ldap->error($cr).
-					' code '.$this->ldap->errno($cr),
-				\OCP\Util::ERROR);
 			\OCP\Util::writeLog('user_ldap', 'Attempt for Paging?  '.print_r($pagedSearchOK, true), \OCP\Util::ERROR);
 			return false;
 		}
