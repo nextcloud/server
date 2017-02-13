@@ -688,7 +688,17 @@ abstract class Common implements Storage, ILockingStorage {
 		$logger = $this->getLockLogger();
 		if ($logger) {
 			$typeString = ($type === ILockingProvider::LOCK_SHARED) ? 'shared' : 'exclusive';
-			$logger->info('acquire ' . $typeString . ' lock on ' . $path, ['app' => 'locking']);
+			$logger->info(
+				sprintf(
+					'acquire %s lock on "%s" on storage "%s"',
+					$typeString,
+					$path,
+					$this->getId()
+				),
+				[
+					'app' => 'locking',
+				]
+			);
 		}
 		try {
 			$provider->acquireLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
@@ -708,7 +718,17 @@ abstract class Common implements Storage, ILockingStorage {
 		$logger = $this->getLockLogger();
 		if ($logger) {
 			$typeString = ($type === ILockingProvider::LOCK_SHARED) ? 'shared' : 'exclusive';
-			$logger->info('release ' . $typeString . ' lock on ' . $path, ['app' => 'locking']);
+			$logger->info(
+				sprintf(
+					'release %s lock on "%s" on storage "%s"',
+					$typeString,
+					$path,
+					$this->getId()
+				),
+				[
+					'app' => 'locking',
+				]
+			);
 		}
 		try {
 			$provider->releaseLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
@@ -728,7 +748,17 @@ abstract class Common implements Storage, ILockingStorage {
 		$logger = $this->getLockLogger();
 		if ($logger) {
 			$typeString = ($type === ILockingProvider::LOCK_SHARED) ? 'shared' : 'exclusive';
-			$logger->info('change lock on ' . $path . ' to ' . $typeString, ['app' => 'locking']);
+			$logger->info(
+				sprintf(
+					'change lock on "%s" to %s on storage "%s"',
+					$path,
+					$typeString,
+					$this->getId()
+				),
+				[
+					'app' => 'locking',
+				]
+			);
 		}
 		try {
 			$provider->changeLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
