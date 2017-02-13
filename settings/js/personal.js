@@ -334,15 +334,13 @@ $(document).ready(function () {
 	});
 
 	// Load the big avatar
-	if (oc_config.enable_avatars) {
-		$('#avatarform .avatardiv').avatar(OC.currentUser, 145, true, null, function() {
-			if($('#displayavatar img').length === 0) {
-				$('#removeavatar').removeClass('inlineblock').addClass('hidden');
-			} else {
-				$('#removeavatar').removeClass('hidden').addClass('inlineblock');
-			}
-		});
-	}
+	$('#avatarform .avatardiv').avatar(OC.currentUser, 145, true, null, function() {
+		if($('#displayavatar img').length === 0) {
+			$('#removeavatar').removeClass('inlineblock').addClass('hidden');
+		} else {
+			$('#removeavatar').removeClass('hidden').addClass('inlineblock');
+		}
+	});
 	
 
 	// Show token views

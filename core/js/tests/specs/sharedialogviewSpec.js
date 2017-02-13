@@ -24,7 +24,6 @@ describe('OC.Share.ShareDialogView', function() {
 	var $container;
 	var oldAppConfig;
 	var autocompleteStub;
-	var oldEnableAvatars;
 	var avatarStub;
 	var placeholderStub;
 	var oldCurrentUser;
@@ -103,8 +102,6 @@ describe('OC.Share.ShareDialogView', function() {
 			return $el;
 		});
 
-		oldEnableAvatars = oc_config.enable_avatars;
-		oc_config.enable_avatars = false;
 		avatarStub = sinon.stub($.fn, 'avatar');
 		placeholderStub = sinon.stub($.fn, 'imageplaceholder');
 
@@ -123,7 +120,6 @@ describe('OC.Share.ShareDialogView', function() {
 		autocompleteStub.restore();
 		avatarStub.restore();
 		placeholderStub.restore();
-		oc_config.enable_avatars = oldEnableAvatars;
 	});
 	describe('Share with link', function() {
 		// TODO: test ajax calls
@@ -440,18 +436,13 @@ describe('OC.Share.ShareDialogView', function() {
 
 		describe('avatars enabled', function() {
 			beforeEach(function() {
-				oc_config.enable_avatars = true;
 				avatarStub.reset();
 				dialog.render();
 			});
 
-			afterEach(function() {
-				oc_config.enable_avatars = false;
-			});
-
 			it('test correct function calls', function() {
 				expect(avatarStub.calledTwice).toEqual(true);
-				expect(placeholderStub.calledTwice).toEqual(true);
+				expect(placeholderStub.callCount).toEqual(4);
 				expect(dialog.$('.shareWithList').children().length).toEqual(3);
 				expect(dialog.$('.avatar').length).toEqual(4);
 			});
@@ -479,18 +470,6 @@ describe('OC.Share.ShareDialogView', function() {
 				var args = placeholderStub.getCall(1).args;
 				expect(args.length).toEqual(1);
 				expect(args[0]).toEqual('foo@bar.com/baz ' + OC.Share.SHARE_TYPE_REMOTE);
-			});
-		});
-
-		describe('avatars disabled', function() {
-			beforeEach(function() {
-				dialog.render();
-			});
-
-			it('no avatar classes', function() {
-				expect($('.avatar').length).toEqual(0);
-				expect(avatarStub.callCount).toEqual(0);
-				expect(placeholderStub.callCount).toEqual(0);
 			});
 		});
 	});

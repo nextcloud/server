@@ -33,9 +33,10 @@
 
 		/**
 		 * @returns {boolean}
+		 * @deprecated here for legacy reasons - will always return true
 		 */
 		areAvatarsEnabled: function() {
-			return oc_config.enable_avatars === true;
+			return true;
 		},
 
 		/**

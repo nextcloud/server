@@ -73,7 +73,6 @@
 				</form>
 				<div id="settings">
 					<div id="expand" tabindex="6" role="link" class="menutoggle">
-						<?php if ($_['enableAvatars']): ?>
 						<div class="avatardiv<?php if ($_['userAvatarSet']) { print_unescaped(' avatardiv-shown'); } else { print_unescaped('" style="display: none'); } ?>">
 							<?php if ($_['userAvatarSet']): ?>
 								<img alt="" width="32" height="32"
@@ -82,7 +81,6 @@
 								>
 							<?php endif; ?>
 						</div>
-						<?php endif; ?>
 						<span id="expandDisplayName"><?php  p(trim($_['user_displayname']) != '' ? $_['user_displayname'] : $_['user_uid']) ?></span>
 						<div class="icon-caret"></div>
 					</div>
