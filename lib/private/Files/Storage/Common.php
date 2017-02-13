@@ -53,6 +53,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Lock\ILockingProvider;
+use OCP\Lock\LockedException;
 
 /**
  * Storage backend class for providing common filesystem operation methods
@@ -78,6 +79,9 @@ abstract class Common implements Storage, ILockingStorage {
 
 	protected $mountOptions = [];
 	protected $owner = null;
+
+	private $shouldLogLocks = null;
+	private $logger;
 
 	public function __construct($parameters) {
 	}
@@ -681,7 +685,18 @@ abstract class Common implements Storage, ILockingStorage {
 	 * @throws \OCP\Lock\LockedException
 	 */
 	public function acquireLock($path, $type, ILockingProvider $provider) {
-		$provider->acquireLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
+		$logger = $this->getLockLogger();
+		if ($logger) {
+			$typeString = ($type === ILockingProvider::LOCK_SHARED) ? 'shared' : 'exclusive';
+			$logger->info('acquire ' . $typeString . ' lock on ' . $path, ['app' => 'locking']);
+		}
+		try {
+			$provider->acquireLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
+		} catch (LockedException $e) {
+			if ($logger) {
+				$logger->logException($e);
+			}
+		}
 	}
 
 	/**
@@ -690,7 +705,18 @@ abstract class Common implements Storage, ILockingStorage {
 	 * @param \OCP\Lock\ILockingProvider $provider
 	 */
 	public function releaseLock($path, $type, ILockingProvider $provider) {
-		$provider->releaseLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
+		$logger = $this->getLockLogger();
+		if ($logger) {
+			$typeString = ($type === ILockingProvider::LOCK_SHARED) ? 'shared' : 'exclusive';
+			$logger->info('release ' . $typeString . ' lock on ' . $path, ['app' => 'locking']);
+		}
+		try {
+			$provider->releaseLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
+		} catch (LockedException $e) {
+			if ($logger) {
+				$logger->logException($e);
+			}
+		}
 	}
 
 	/**
@@ -699,7 +725,26 @@ abstract class Common implements Storage, ILockingStorage {
 	 * @param \OCP\Lock\ILockingProvider $provider
 	 */
 	public function changeLock($path, $type, ILockingProvider $provider) {
-		$provider->changeLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
+		$logger = $this->getLockLogger();
+		if ($logger) {
+			$typeString = ($type === ILockingProvider::LOCK_SHARED) ? 'shared' : 'exclusive';
+			$logger->info('change lock on ' . $path . ' to ' . $typeString, ['app' => 'locking']);
+		}
+		try {
+			$provider->changeLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
+		} catch (LockedException $e) {
+			if ($logger) {
+				$logger->logException($e);
+			}
+		}
+	}
+
+	private function getLockLogger() {
+		if (is_null($this->shouldLogLocks)) {
+			$this->shouldLogLocks = \OC::$server->getConfig()->getSystemValue('filelocking.debug', false);
+			$this->logger = $this->shouldLogLocks ? \OC::$server->getLogger() : null;
+		}
+		return $this->logger;
 	}
 
 	/**

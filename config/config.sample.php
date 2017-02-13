@@ -1448,6 +1448,16 @@ $CONFIG = array(
 'memcache.locking' => '\\OC\\Memcache\\Redis',
 
 /**
+ * Enable locking debug logging
+ *
+ * Note that this can lead to a very large volume of log items being written which can lead
+ * to performance degradation and large log files on busy instance.
+ *
+ * Thus enabling this in production for longer periods of time is not recommended
+ */
+'filelocking.debug' => false,
+
+/**
  * Disable the web based updater
  */
 'upgrade.disable-web' => false,
