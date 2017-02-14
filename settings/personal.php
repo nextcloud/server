@@ -57,10 +57,8 @@ OC_Util::addStyle( 'settings', 'settings' );
 \OC_Util::addVendorScript('strengthify/jquery.strengthify');
 \OC_Util::addVendorStyle('strengthify/strengthify');
 \OC_Util::addScript('files', 'jquery.fileupload');
-if ($config->getSystemValue('enable_avatars', true) === true) {
-	\OC_Util::addVendorScript('jcrop/js/jquery.Jcrop');
-	\OC_Util::addVendorStyle('jcrop/css/jquery.Jcrop');
-}
+\OC_Util::addVendorScript('jcrop/js/jquery.Jcrop');
+\OC_Util::addVendorStyle('jcrop/css/jquery.Jcrop');
 
 \OC::$server->getEventDispatcher()->dispatch('OC\Settings\Personal::loadAdditionalScripts');
 
@@ -182,7 +180,6 @@ $tmpl->assign('websiteScope', $userData[\OC\Accounts\AccountManager::PROPERTY_WE
 $tmpl->assign('twitterScope', $userData[\OC\Accounts\AccountManager::PROPERTY_TWITTER]['scope']);
 $tmpl->assign('addressScope', $userData[\OC\Accounts\AccountManager::PROPERTY_ADDRESS]['scope']);
 
-$tmpl->assign('enableAvatars', $config->getSystemValue('enable_avatars', true) === true);
 $tmpl->assign('avatarChangeSupported', OC_User::canUserChangeAvatar(OC_User::getUser()));
 $tmpl->assign('certs', $certificateManager->listCertificates());
 $tmpl->assign('showCertificates', $enableCertImport);

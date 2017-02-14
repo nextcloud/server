@@ -1,9 +1,7 @@
 <table id="userlist" class="hascontrols grid" data-groups="<?php p($_['allGroups']);?>">
 	<thead>
 		<tr>
-		<?php if ($_['enableAvatars']): ?>
 			<th id="headerAvatar" scope="col"></th>
-		<?php endif; ?>
 			<th id="headerName" scope="col"><?php p($l->t('Username'))?></th>
 			<th id="headerDisplayName" scope="col"><?php p($l->t( 'Full name' )); ?></th>
 			<th id="headerPassword" scope="col"><?php p($l->t( 'Password' )); ?></th>
@@ -22,9 +20,7 @@
 	<tbody>
 		<!-- the following <tr> is used as a template for the JS part -->
 		<tr style="display:none">
-		<?php if ($_['enableAvatars']): ?>
 			<td class="avatar"><div class="avatardiv"></div></td>
-		<?php endif; ?>
 			<th class="name" scope="row"></th>
 			<td class="displayName"><span></span> <img class="action"
 				src="<?php p(image_path('core', 'actions/rename.svg'))?>"

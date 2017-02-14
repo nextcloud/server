@@ -35,7 +35,6 @@
 </div>
 
 <div id="personal-settings">
-<?php if ($_['enableAvatars']): ?>
 <div id="personal-settings-avatar-container">
 	<form id="avatarform" class="section" method="post" action="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.postAvatar')); ?>">
 		<h2>
@@ -66,7 +65,6 @@
 		<input type="hidden" id="avatarscope" value="<?php p($_['avatarScope']) ?>">
 	</form>
 </div>
-<?php endif; ?>
 
 <div id="personal-settings-container">
 	<div class="personal-settings-setting-box">

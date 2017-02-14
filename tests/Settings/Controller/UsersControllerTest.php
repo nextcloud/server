@@ -96,10 +96,6 @@ class UsersControllerTest extends \Test\TestCase {
 				['bar', $avatarExists],
 				['admin', $avatarNotExists],
 			]));
-
-		$this->config->method('getSystemValue')
-			->with('enable_avatars', true)
-			->willReturn(true);
 	}
 
 	/**

@@ -181,15 +181,6 @@ $CONFIG = array(
 'knowledgebaseenabled' => true,
 
 /**
- * ``true`` enables avatars, or user profile photos. These appear on the User
- * page, on user's Personal pages and are used by some apps (contacts, mail,
- * etc). ``false`` disables them.
- *
- * Defaults to ``true``
- */
-'enable_avatars' => true,
-
-/**
  * ``true`` allows users to change their display names (on their Personal
  * pages), and ``false`` prevents them from changing their display names.
  */

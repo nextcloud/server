@@ -204,7 +204,7 @@ class JSConfigHelper {
 				'session_keepalive'	=> $this->config->getSystemValue('session_keepalive', true),
 				'version'			=> implode('.', \OCP\Util::getVersion()),
 				'versionstring'		=> \OC_Util::getVersionString(),
-				'enable_avatars'	=> $this->config->getSystemValue('enable_avatars', true) === true,
+				'enable_avatars'	=> true, // here for legacy reasons - to not crash existing code that relies on this value
 				'lost_password_link'=> $this->config->getSystemValue('lost_password_link', null),
 				'modRewriteWorking'	=> (\OC::$server->getConfig()->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true'),
 			]),

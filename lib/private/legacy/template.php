@@ -121,10 +121,8 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addStyle("styles",null,true);
 
 			// avatars
-			if (\OC::$server->getSystemConfig()->getValue('enable_avatars', true) === true) {
-				\OC_Util::addScript('jquery.avatar', null, true);
-				\OC_Util::addScript('placeholder', null, true);
-			}
+			\OC_Util::addScript('jquery.avatar', null, true);
+			\OC_Util::addScript('placeholder', null, true);
 
 			OC_Util::addVendorScript('select2/select2');
 			OC_Util::addVendorStyle('select2/select2', null, true);

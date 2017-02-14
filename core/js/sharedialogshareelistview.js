@@ -21,9 +21,7 @@
 			'<ul id="shareWithList" class="shareWithList">' +
 			'{{#each sharees}}' +
 				'<li data-share-id="{{shareId}}" data-share-type="{{shareType}}" data-share-with="{{shareWith}}">' +
-					'{{#if avatarEnabled}}' +
 					'<div class="avatar {{#if modSeed}}imageplaceholderseed{{/if}}" data-username="{{shareWith}}" data-displayname="{{shareWithDisplayName}}" {{#if modSeed}}data-seed="{{shareWith}} {{shareType}}"{{/if}}></div>' +
-					'{{/if}}' +
 					'<span class="has-tooltip username" title="{{shareWithTitle}}">{{shareWithDisplayName}}</span>' +
 					'<span class="sharingOptionsGroup">' +
 						'{{#if editPermissionPossible}}' +
@@ -41,9 +39,7 @@
 			'{{/each}}' +
 			'{{#each linkReshares}}' +
 				'<li data-share-id="{{shareId}}" data-share-type="{{shareType}}">' +
-					'{{#if avatarEnabled}}' +
 					'<div class="avatar" data-username="{{shareInitiator}}"></div>' +
-					'{{/if}}' +
 					'<span class="has-tooltip username" title="{{shareInitiator}}">' + t('core', '{{shareInitiatorDisplayName}} shared via link') + '</span>' +
 
 					'<span class="sharingOptionsGroup">' +
@@ -193,7 +189,6 @@
 
 		getShareProperties: function() {
 			return {
-				avatarEnabled: this.configModel.areAvatarsEnabled(),
 				unshareLabel: t('core', 'Unshare'),
 				canShareLabel: t('core', 'can reshare'),
 				canEditLabel: t('core', 'can edit'),
@@ -247,7 +242,6 @@
 		getLinkReshares: function() {
 			var universal = {
 				unshareLabel: t('core', 'Unshare'),
-				avatarEnabled: this.configModel.areAvatarsEnabled(),
 			};
 
 			if(!this.model.hasUserShares()) {
@@ -281,18 +275,16 @@
 					linkReshares: this.getLinkReshares()
 				}));
 
-				if (this.configModel.areAvatarsEnabled()) {
-					this.$('.avatar').each(function () {
-						var $this = $(this);
-						if ($this.hasClass('imageplaceholderseed')) {
-							$this.css({width: 32, height: 32});
-							$this.imageplaceholder($this.data('seed'));
-						} else {
-						    //                         user,   size,  ie8fix, hidedefault,  callback, displayname
-							$this.avatar($this.data('username'), 32, undefined, undefined, undefined, $this.data('displayname'));
-						}
-					});
-				}
+				this.$('.avatar').each(function () {
+					var $this = $(this);
+					if ($this.hasClass('imageplaceholderseed')) {
+						$this.css({width: 32, height: 32});
+						$this.imageplaceholder($this.data('seed'));
+					} else {
+						//                         user,   size,  ie8fix, hidedefault,  callback, displayname
+						$this.avatar($this.data('username'), 32, undefined, undefined, undefined, $this.data('displayname'));
+					}
+				});
 
 				this.$('.has-tooltip').tooltip({
 					placement: 'bottom'
