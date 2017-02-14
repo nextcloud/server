@@ -68,7 +68,7 @@ describe('OCA.Files.FileList tests', function() {
 			useHTTPS: false
 		});
 		redirectStub = sinon.stub(OC, 'redirect');
-		notificationStub = sinon.stub(OC.Notification, 'showTemporary');
+		notificationStub = sinon.stub(OC.Notification, 'show');
 		// prevent resize algo to mess up breadcrumb order while
 		// testing
 		bcResizeStub = sinon.stub(OCA.Files.BreadCrumb.prototype, '_resize');

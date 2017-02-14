@@ -482,9 +482,9 @@
 			$form.find('.message').prop('disabled', false);
 
 			if(!_.isUndefined(commentId)) {
-				OC.Notification.showTemporary(t('comments', 'Error occurred while updating comment with id {id}', {id: commentId}));
+				OC.Notification.show(t('comments', 'Error occurred while updating comment with id {id}', {id: commentId}), {type: 'error'});
 			} else {
-				OC.Notification.showTemporary(t('comments', 'Error occurred while posting comment'));
+				OC.Notification.show(t('comments', 'Error occurred while posting comment'), {type: 'error'});
 			}
 		},
 

@@ -112,7 +112,7 @@
 					deferred.resolve(status, data);
 				})
 				.fail(function(status) {
-					OC.Notification.showTemporary(t('files', 'Could not load info for file "{file}"', {file: self.get('name')}));
+					OC.Notification.show(t('files', 'Could not load info for file "{file}"', {file: self.get('name')}), {type: 'error'});
 					deferred.reject(status);
 				});
 
