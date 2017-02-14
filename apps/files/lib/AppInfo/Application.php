@@ -57,7 +57,6 @@ class Application extends App {
 				$c->query('AppName'),
 				$c->query('Request'),
 				$server->getURLGenerator(),
-				$server->getNavigationManager(),
 				$c->query('L10N'),
 				$server->getConfig(),
 				$server->getEventDispatcher(),

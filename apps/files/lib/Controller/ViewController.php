@@ -55,8 +55,6 @@ class ViewController extends Controller {
 	protected $request;
 	/** @var IURLGenerator */
 	protected $urlGenerator;
-	/** @var INavigationManager */
-	protected $navigationManager;
 	/** @var IL10N */
 	protected $l10n;
 	/** @var IConfig */
@@ -74,7 +72,6 @@ class ViewController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IURLGenerator $urlGenerator
-	 * @param INavigationManager $navigationManager
 	 * @param IL10N $l10n
 	 * @param IConfig $config
 	 * @param EventDispatcherInterface $eventDispatcherInterface
@@ -85,7 +82,6 @@ class ViewController extends Controller {
 	public function __construct($appName,
 								IRequest $request,
 								IURLGenerator $urlGenerator,
-								INavigationManager $navigationManager,
 								IL10N $l10n,
 								IConfig $config,
 								EventDispatcherInterface $eventDispatcherInterface,
@@ -97,7 +93,6 @@ class ViewController extends Controller {
 		$this->appName = $appName;
 		$this->request = $request;
 		$this->urlGenerator = $urlGenerator;
-		$this->navigationManager = $navigationManager;
 		$this->l10n = $l10n;
 		$this->config = $config;
 		$this->eventDispatcher = $eventDispatcherInterface;
@@ -244,7 +239,6 @@ class ViewController extends Controller {
 		$params['fileNotFound'] = $fileNotFound ? 1 : 0;
 		$params['appNavigation'] = $nav;
 		$params['appContents'] = $contentItems;
-		$this->navigationManager->setActiveEntry('files_index');
 
 		$response = new TemplateResponse(
 			$this->appName,
