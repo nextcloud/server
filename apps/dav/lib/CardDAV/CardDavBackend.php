@@ -195,7 +195,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		return array_values($addressBooks);
 	}
 
-	function getUsersOwnAddressBooks($principalUri) {
+	public function getUsersOwnAddressBooks($principalUri) {
 		$principalUriOriginal = $principalUri;
 		$principalUri = $this->convertPrincipal($principalUri, true);
 		$query = $this->db->getQueryBuilder();
