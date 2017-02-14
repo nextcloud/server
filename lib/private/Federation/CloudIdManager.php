@@ -27,6 +27,7 @@ class CloudIdManager implements ICloudIdManager {
 	/**
 	 * @param string $cloudId
 	 * @return ICloudId
+	 * @throws \InvalidArgumentException
 	 */
 	public function resolveCloudId($cloudId) {
 		// TODO magic here to get the url and user instead of just splitting on @

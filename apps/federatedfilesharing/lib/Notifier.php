@@ -25,7 +25,6 @@ namespace OCA\FederatedFileSharing;
 
 
 use OC\HintException;
-use OC\Share\Helper;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
@@ -63,6 +62,7 @@ class Notifier implements INotifier {
 	 * @param INotification $notification
 	 * @param string $languageCode The code of the language that should be used to prepare the notification
 	 * @return INotification
+	 * @throws \InvalidArgumentException
 	 */
 	public function prepare(INotification $notification, $languageCode) {
 		if ($notification->getApp() !== 'files_sharing') {
