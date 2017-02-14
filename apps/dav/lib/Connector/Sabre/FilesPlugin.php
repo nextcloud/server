@@ -265,7 +265,7 @@ class FilesPlugin extends ServerPlugin {
 		if ($node instanceof \OCA\DAV\Connector\Sabre\File) {
 			//Add OC-Checksum header
 			/** @var $node File */
-			$checksum = $node->getChecksum();
+			$checksum = $node->getChecksum('sha1');
 			if ($checksum !== null && $checksum !== '') {
 				$response->addHeader('OC-Checksum', $checksum);
 			}
@@ -360,7 +360,7 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			$propFind->handle(self::CHECKSUMS_PROPERTYNAME, function() use ($node) {
-				$checksum = $node->getChecksum();
+				$checksum = $node->getChecksum('SHA1');
 				if ($checksum === NULL || $checksum === '') {
 					return null;
 				}

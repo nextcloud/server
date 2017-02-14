@@ -599,12 +599,30 @@ class File extends Node implements IFile {
 		throw new \Sabre\DAV\Exception($e->getMessage(), 0, $e);
 	}
 
+
 	/**
-	 * Get the checksum for this file
-	 *
+	 * Set $algo to get a specific checksum, leave null to get all checksums
+	 * (space seperated)
+	 * @param null $algo
 	 * @return string
 	 */
-	public function getChecksum() {
-		return $this->info->getChecksum();
+	public function getChecksum($algo = null) {
+		$allChecksums = $this->info->getChecksum();
+
+		if (!$algo) {
+			return $allChecksums;
+		}
+
+		$checksums = explode(' ', $allChecksums);
+		$algo = strtoupper($algo);
+
+		foreach ($checksums as $checksum) {
+			// starts with $algo
+			if (substr($checksum, 0, strlen($algo)) === $algo) {
+				return $checksum;
+			}
+		}
+
+		return '';
 	}
 }

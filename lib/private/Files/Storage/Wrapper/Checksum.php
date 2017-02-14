@@ -87,14 +87,9 @@ class Checksum extends Wrapper {
 		$parentMetaData = $this->getWrapperStorage()->getMetaData($path);
 		$parentMetaData['checksum'] = rtrim($checksumString);
 
-		// Need to investigate more
-
-
 		if (!isset($parentMetaData['mimetype'])) {
 			$parentMetaData['mimetype'] = 'application/octet-stream';
 		}
-
-
 
 		return $parentMetaData;
 	}
