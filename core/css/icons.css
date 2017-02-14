@@ -277,6 +277,22 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 	background-image: url('../img/actions/rename.svg?v=1');
 }
 
+.icon-screen {
+	background-image: url('../img/actions/screen.svg?v=1');
+}
+
+.icon-screen-white {
+	background-image: url('../img/actions/screen-white.svg?v=1');
+}
+
+.icon-screen-off {
+	background-image: url('../img/actions/screen-off.svg?v=1');
+}
+
+.icon-screen-off-white {
+	background-image: url('../img/actions/screen-off-white.svg?v=1');
+}
+
 .icon-search {
 	background-image: url('../img/actions/search.svg?v=1');
 }
