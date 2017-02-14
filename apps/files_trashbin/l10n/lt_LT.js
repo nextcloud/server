@@ -15,6 +15,7 @@ OC.L10N.register(
     "You will be able to recover deleted files from here" : "Iš čia galėsite atkurti ištrintus failus",
     "No entries found in this folder" : "Šiame aplanke įrašų nerasta",
     "Select all" : "Pažymėti viską",
-    "Name" : "Pavadinimas"
+    "Name" : "Pavadinimas",
+    "Deleted" : "Ištrinta"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");

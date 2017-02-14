@@ -174,6 +174,9 @@ OC.L10N.register(
     "%2$s restored %1$s" : "%2$s 恢复了 %1$s",
     "Changed by %2$s" : "被 %2$s 更改",
     "Deleted by %2$s" : "被 %2$s 删除",
-    "Restored by %2$s" : "被 %2$s 恢复"
+    "Restored by %2$s" : "被 %2$s 恢复",
+    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["剩余 {hours}:{minutes}:{seconds} 小时"],
+    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["剩余 {minutes}:{seconds} 分钟"],
+    "_{seconds} second left_::_{seconds} seconds left_" : ["剩余 {seconds} 秒"]
 },
 "nplurals=1; plural=0;");
