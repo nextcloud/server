@@ -706,6 +706,7 @@ abstract class Common implements Storage, ILockingStorage {
 			if ($logger) {
 				$logger->logException($e);
 			}
+			throw $e;
 		}
 	}
 
@@ -713,6 +714,7 @@ abstract class Common implements Storage, ILockingStorage {
 	 * @param string $path
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
 	 * @param \OCP\Lock\ILockingProvider $provider
+	 * @throws \OCP\Lock\LockedException
 	 */
 	public function releaseLock($path, $type, ILockingProvider $provider) {
 		$logger = $this->getLockLogger();
@@ -736,6 +738,7 @@ abstract class Common implements Storage, ILockingStorage {
 			if ($logger) {
 				$logger->logException($e);
 			}
+			throw $e;
 		}
 	}
 
@@ -743,6 +746,7 @@ abstract class Common implements Storage, ILockingStorage {
 	 * @param string $path
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
 	 * @param \OCP\Lock\ILockingProvider $provider
+	 * @throws \OCP\Lock\LockedException
 	 */
 	public function changeLock($path, $type, ILockingProvider $provider) {
 		$logger = $this->getLockLogger();
@@ -766,6 +770,7 @@ abstract class Common implements Storage, ILockingStorage {
 			if ($logger) {
 				$logger->logException($e);
 			}
+			throw $e;
 		}
 	}
 
