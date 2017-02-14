@@ -47,6 +47,10 @@
     "Encryption" : "Szyfrowanie",
     "Additional settings" : "Ustawienia dodatkowe",
     "Tips & tricks" : "Porady i wskazówki",
+    "%s enter the database username and name." : "Podaj nazwę bazy danych i nazwę użytkownika %s",
+    "%s enter the database username." : "Podaj nazwę użytkownika %s",
+    "%s enter the database name." : "Podaj nazwę bazy danych %s",
+    "%s you may not use dots in the database name" : "Nie możesz używać kropek w nazwie bazy danych %s",
     "Oracle connection could not be established" : "Nie można ustanowić połączenia z bazą Oracle",
     "Oracle username and/or password not valid" : "Oracle: Nazwa użytkownika i/lub hasło jest niepoprawne",
     "DB Error: \"%s\"" : "Błąd DB: \"%s\"",
@@ -64,6 +68,7 @@
     "Invalid Federated Cloud ID" : "Nieprawidłowy ID Stowarzyszonej Chmury",
     "%s shared »%s« with you" : "%s współdzieli »%s« z tobą",
     "%s via %s" : "%s przez %s",
+    "Sharing %s failed, because the backend does not allow shares from type %i" : "Współdzielenie %s nie udało się, ponieważ backend nie pozwala na współdzielenie takiego typu jak %i.",
     "Sharing %s failed, because the file does not exist" : "Wspóldzielenie %s nie powiodło się. ponieważ plik nie istnieje",
     "You are not allowed to share %s" : "Nie masz uprawnień aby udostępnić %s",
     "Sharing %s failed, because you can not share with yourself" : "Współdzielenie %s nie udało się, ponieważ nie możesz współdzielić sam ze sobą",
@@ -86,6 +91,7 @@
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Zaplecze do współdzielenia %s musi implementować interfejs OCP\\Share_Backend",
     "Sharing backend %s not found" : "Zaplecze %s do współdzielenia nie zostało znalezione",
     "Sharing backend for %s not found" : "Zaplecze do współdzielenia %s nie zostało znalezione",
+    "Sharing failed, because the user %s is the original sharer" : "Współdzielenie z użytkownikiem %s się nie udało, ponieważ już jest współdzielenie z tym użytkownikiem.",
     "Sharing %s failed, because the permissions exceed permissions granted to %s" : "Współdzielenie %s nie powiodło się, ponieważ uprawnienia przekraczają te udzielone %s",
     "Sharing %s failed, because resharing is not allowed" : "Współdzielenie %s nie powiodło się, ponieważ ponowne współdzielenie nie jest dozwolone",
     "Sharing %s failed, because the sharing backend for %s could not find its source" : "Współdzielenie %s nie powiodło się, ponieważ zaplecze współdzielenia dla %s nie mogło znaleźć jego źródła",
@@ -170,7 +176,7 @@
     "Cannot write into \"apps\" directory" : "Nie można zapisać do katalogu \"apps\"",
     "This can usually be fixed by %sgiving the webserver write access to the apps directory%s or disabling the appstore in the config file." : "Można to zwykle rozwiązać przez %sdodanie serwerowi www uprawnień zapisu do katalogu apps%s lub wyłączenie appstore w pliku konfiguracyjnym.",
     "Cannot create \"data\" directory (%s)" : "Nie można utworzyć katalogu \"data\" (%s)",
-    "This can usually be fixed by <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">giving the webserver write access to the root directory</a>." : "Z reguły to może zostać naprawione <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">poprzez danie serwerowi web praw zapisu do katalogu root</a>.",
+    "This can usually be fixed by <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">giving the webserver write access to the root directory</a>." : "Z reguły to może zostać naprawione <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">poprzez danie serwerowi web praw zapisu do katalogu domowego aplikacji</a>.",
     "Permissions can usually be fixed by %sgiving the webserver write access to the root directory%s." : "Problemy z uprawnieniami można zwykle naprawić  przez %sdodanie serwerowi www uprawnień zapisu do katalogu głównego%s.",
     "Setting locale to %s failed" : "Nie udało się zmienić języka na %s",
     "Please install one of these locales on your system and restart your webserver." : "Proszę zainstalować jedno z poniższych locale w Twoim systemie i uruchomić ponownie serwer www.",
@@ -221,5 +227,5 @@
     "Microsoft Windows Platform is not supported" : "Platforma Microsoft Windows nie jest wspierana",
     "Running Nextcloud Server on the Microsoft Windows platform is not supported. We suggest you use a Linux server in a virtual machine if you have no option for migrating the server itself." : "Uruchomienie serwera Nextcloud na platformie Microsoft Windows nie jest wspierane. Jeśli nie masz możliwości migracji samego systemu sugerujemy, żebyś użył wirtualnego serwera z Linuksem.",
     "Storage not available" : "Pamięć nie dostępna"
-},"pluralForm" :"nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
+},"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }
