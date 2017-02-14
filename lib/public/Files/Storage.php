@@ -425,6 +425,7 @@ interface Storage extends IStorage {
 	 * @param string $path The path of the file to acquire the lock for
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
 	 * @param \OCP\Lock\ILockingProvider $provider
+	 * @throws \OCP\Lock\LockedException
 	 * @since 8.1.0
 	 */
 	public function releaseLock($path, $type, ILockingProvider $provider);
