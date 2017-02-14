@@ -273,7 +273,7 @@ class CardDavBackendTest extends TestCase {
 
 		// create a new address book
 		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
-		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
+		$books = $this->backend->getUsersOwnAddressBooks(self::UNIT_TEST_USER);
 		$this->assertEquals(1, count($books));
 
 		$bookId = $books[0]['id'];
