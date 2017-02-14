@@ -49,6 +49,7 @@ use OC\RichObjectStrings\Validator;
 use OC\Security\Bruteforce\Throttler;
 use OCP\AppFramework\IApi;
 use OCP\AppFramework\IAppContainer;
+use OCP\Federation\ICloudIdManager;
 use OCP\Files\IAppData;
 use OCP\Files\Mount\IMountManager;
 use OCP\RichObjectStrings\IValidator;
@@ -150,6 +151,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		$this->registerService('OCP\\Diagnostics\\IQueryLogger', function($c) {
 			return $this->getServer()->getQueryLogger();
+		});
+
+		$this->registerService(ICloudIdManager::class, function($c) {
+			return $this->getServer()->getCloudIdManager();
 		});
 
 		$this->registerService('OCP\\Files\\IMimeTypeDetector', function($c) {
