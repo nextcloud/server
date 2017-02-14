@@ -10,6 +10,10 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "Ef þú endurnýjar öryggisafritunarkóða, gerir þú sjálfkrafa eldri kóða ógilda.",
     "An error occurred while generating your backup codes" : "Villa kom upp við að búa til öryggisafritunarkóðana þína",
     "Nextcloud backup codes" : "Nextcloud öryggisafritunarkóðar",
+    "Two-factor authentication" : "Tveggja-þrepa auðkenning",
+    "You successfully logged in using two-factor authentication (%1$s)" : "Þér tókst að skrá þig inn með tveggja-þrepa auðkenningu (%1$s)",
+    "A login attempt using two-factor authentication failed (%1$s)" : "Innskráning með tveggja-þrepa auðkenningu mistókst (%1$s)",
+    "You created two-factor backup codes for your account" : "Þú útbjóst tveggja-þrepa öryggisafritunarkóða fyrir aðganginn þinn",
     "Backup code" : "Öryggisafritunarkóði",
     "Use backup code" : "Nota öryggisafritunarkóða",
     "Second-factor backup codes" : "Tveggja-þrepa öryggisafritunarkóðar"

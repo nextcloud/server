@@ -46,6 +46,7 @@
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">代码完整性检查出现异常, 点击查看详细信息...</a>",
     "Settings" : "设置",
     "Connection to server lost" : "与服务器的连接断开",
+    "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["加载页面出现问题，将在 %n 秒后重新加载"],
     "Saving..." : "保存中...",
     "Dismiss" : "忽略",
     "This action requires you to confirm your password" : "请您确认您的密码",
