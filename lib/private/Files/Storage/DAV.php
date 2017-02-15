@@ -74,11 +74,11 @@ class DAV extends Common {
 	/** @var bool */
 	protected $ready;
 	/** @var Client */
-	private $client;
+	protected $client;
 	/** @var ArrayCache */
-	private $statCache;
+	protected $statCache;
 	/** @var \OCP\Http\Client\IClientService */
-	private $httpClientService;
+	protected $httpClientService;
 
 	/**
 	 * @param array $params
@@ -127,7 +127,7 @@ class DAV extends Common {
 		}
 	}
 
-	private function init() {
+	protected function init() {
 		if ($this->ready) {
 			return;
 		}
@@ -627,7 +627,7 @@ class DAV extends Common {
 	 * @param string $path to encode
 	 * @return string encoded path
 	 */
-	private function encodePath($path) {
+	protected function encodePath($path) {
 		// slashes need to stay
 		return str_replace('%2F', '/', rawurlencode($path));
 	}
@@ -641,7 +641,7 @@ class DAV extends Common {
 	 * @throws StorageInvalidException
 	 * @throws StorageNotAvailableException
 	 */
-	private function simpleResponse($method, $path, $body, $expected) {
+	protected function simpleResponse($method, $path, $body, $expected) {
 		$path = $this->cleanPath($path);
 		try {
 			$response = $this->client->request($method, $this->encodePath($path), $body);
@@ -815,7 +815,7 @@ class DAV extends Common {
 	 * @throws StorageNotAvailableException if the storage is not available,
 	 * which might be temporary
 	 */
-	private function convertException(Exception $e, $path = '') {
+	protected function convertException(Exception $e, $path = '') {
 		\OC::$server->getLogger()->logException($e);
 		Util::writeLog('files_external', $e->getMessage(), Util::ERROR);
 		if ($e instanceof ClientHttpException) {
