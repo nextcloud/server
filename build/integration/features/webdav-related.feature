@@ -407,6 +407,16 @@ Feature: webdav-related
 		And Downloading file "/myChunkedFile.txt"
 		Then Downloaded content should be "AAAAABBBBBCCCCC"
 
+	Scenario: Upload chunked file where checksum does not match
+		Given using new dav path
+		And user "user0" exists
+		And user "user0" creates a new chunking upload with id "chunking-42"
+		And user "user0" uploads new chunk file "2" with "BBBBB" to id "chunking-42"
+		And user "user0" uploads new chunk file "3" with "CCCCC" to id "chunking-42" with checksum "SHA1:f005ba11"
+		And user "user0" uploads new chunk file "1" with "AAAAA" to id "chunking-42"
+		And user "user0" moves new chunk file with id "chunking-42" to "/myChunkedFile.txt"
+		Then the HTTP status code should be "400"
+
 	Scenario: Upload a file where checksum does not match
 		Given user "user0" exists
 		And file "/chksumtst.txt"  does not exist for user "user0"

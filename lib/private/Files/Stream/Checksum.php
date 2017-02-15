@@ -35,7 +35,16 @@ use OC\Cache\CappedMemoryCache;
  */
 class Checksum extends Wrapper {
 
-	/** @var  resource[] */
+	/**
+	 * To stepwise compute a hash on a continuous stream
+	 * of data a "context" is required which stores the intermediate
+	 * hash result while the stream has not finished.
+	 *
+	 * After the stream ends the hashing contexts needs to be finalized
+	 * to compute the final checksum.
+	 *
+	 * @var  resource[]
+	 */
  	private $hashingContexts;
 
 	/** @var CappedMemoryCache Key is path, value is array of checksums */
@@ -113,6 +122,7 @@ class Checksum extends Wrapper {
 	 */
 	public function stream_write($data) {
 		$this->updateHashingContexts($data);
+
 		return parent::stream_write($data);
 	}
 

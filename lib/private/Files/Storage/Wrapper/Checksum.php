@@ -55,7 +55,8 @@ class Checksum extends Wrapper {
 	 * @return bool
 	 */
 	private static function requiresChecksum($path, $mode) {
-		return substr($path, 0, 6) === 'files/' &&  $mode !== 'r';
+		return substr($path, 0, 6) === 'files/'
+			&&  $mode !== 'r' && $mode !== 'rb';
 	}
 
 	/**
