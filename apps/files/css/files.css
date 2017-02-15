@@ -759,10 +759,6 @@ table.dragshadow td.size {
 	opacity: 0;
 }
 
-#fileList .popovermenu a.action img {
-	padding: initial;
-}
-
 html.ie8 #controls .button.new {
 	padding-right: 0;
 }
