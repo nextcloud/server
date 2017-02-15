@@ -168,7 +168,7 @@ class Scanner extends BasicEmitter implements IScanner {
 					$parent = '';
 				}
 				if ($parentId === -1) {
-					$parentId = $this->cache->getId($parent);
+					$parentId = $this->cache->getParentId($file);
 				}
 
 				// scan the parent if it's not in the cache (id -1) and the current file is not the root folder

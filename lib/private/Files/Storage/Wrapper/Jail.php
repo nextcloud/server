@@ -58,7 +58,7 @@ class Jail extends Wrapper {
 	}
 
 	public function getId() {
-		return 'link:' . parent::getId() . ':' . $this->rootPath;
+		return parent::getId();
 	}
 
 	/**
