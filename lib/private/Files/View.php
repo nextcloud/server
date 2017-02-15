@@ -2068,7 +2068,7 @@ class View {
 		$parts = explode('/', trim($path, '/'), 3);
 		// "$user", "files", "path/to/dir"
 		if (!isset($parts[1]) || $parts[1] !== 'files') {
-			throw new \InvalidArgumentException('$absolutePath must be relative to "files"');
+			throw new \InvalidArgumentException('"' . $absolutePath . '" must be relative to "files"');
 		}
 		if (isset($parts[2])) {
 			return $parts[2];
