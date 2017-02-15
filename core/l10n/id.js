@@ -48,6 +48,7 @@ OC.L10N.register(
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Ada permasalahan dengan pengecekan integrasi kode. Informasi selanjutnya…</a>",
     "Settings" : "Pengaturan",
     "Connection to server lost" : "Koneksi ke server gagal",
+    "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Tidak dapat memuat laman, muat ulang dalam %n detik"],
     "Saving..." : "Menyimpan...",
     "Dismiss" : "Buang",
     "This action requires you to confirm your password" : "Aksi ini membutuhkan konfirmasi kata sandi Anda",
