@@ -1,8 +1,10 @@
 <?php
 /**
+ * @copyright Copyright (c) 2017, Sandro Lutz <sandro.lutz@temparus.ch>
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Sandro Lutz <sandro.lutz@temparus.ch>
  * @author Christoph Wurst <christoph@owncloud.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -44,6 +46,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OC\Hooks\PublicEmitter;
 
 class LoginController extends Controller {
 	/** @var IUserManager */
@@ -212,6 +215,10 @@ class LoginController extends Controller {
 		// case when an user has already logged-in, in another tab.
 		if(!$this->request->passesCSRFCheck()) {
 			return $this->generateRedirect($redirect_url);
+		}
+
+		if ($this->userManager instanceof PublicEmitter) {
+			$this->userManager->emit('\OC\User', 'preLogin', array($user, $password));
 		}
 
 		$originalUser = $user;

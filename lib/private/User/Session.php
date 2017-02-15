@@ -1,7 +1,9 @@
 <?php
 /**
+ * @copyright Copyright (c) 2017, Sandro Lutz <sandro.lutz@temparus.ch>
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Sandro Lutz <sandro.lutz@temparus.ch>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christoph Wurst <christoph@owncloud.com>
@@ -332,6 +334,10 @@ class Session implements IUserSession, Emitter {
 								OC\Security\Bruteforce\Throttler $throttler) {
 		$currentDelay = $throttler->sleepDelay($request->getRemoteAddress(), 'login');
 
+		if ($this->manager instanceof PublicEmitter) {
+			$this->manager->emit('\OC\User', 'preLogin', array($user, $password));
+		}
+
 		$isTokenPassword = $this->isTokenPassword($password);
 		if (!$isTokenPassword && $this->isTokenAuthEnforced()) {
 			throw new PasswordLoginForbiddenException();
@@ -476,7 +482,6 @@ class Session implements IUserSession, Emitter {
 	 * @throws LoginException if an app canceld the login process or the user is not enabled
 	 */
 	private function loginWithPassword($uid, $password) {
-		$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
 		$user = $this->manager->checkPassword($uid, $password);
 		if ($user === false) {
 			// Password check failed
@@ -526,8 +531,6 @@ class Session implements IUserSession, Emitter {
 		} catch (PasswordlessTokenException $ex) {
 			// Ignore and use empty string instead
 		}
-
-		$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
 
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
