@@ -73,7 +73,7 @@ translation('settings');
 					</label>
 				</p>
 				<p class="info-text">
-					When the password of the new user is left empty an activation email with a link to set the password is send to the user.
+					<?php p($l->t('When the password of the new user is left empty an activation email with a link to set the password is send to the user')) ?>
 				</p>
 				<p>
 					<input type="checkbox" name="EmailAddress" value="EmailAddress" id="CheckboxEmailAddress"
