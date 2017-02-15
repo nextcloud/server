@@ -33,8 +33,6 @@ use OCP\Template;
 use Test\TestCase;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use OCP\AppFramework\Http\RedirectResponse;
-use OCP\INavigationManager;
 use OCP\IL10N;
 use OCP\IConfig;
 use OCP\IUserSession;
@@ -51,8 +49,6 @@ class ViewControllerTest extends TestCase {
 	private $request;
 	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
-	/** @var INavigationManager */
-	private $navigationManager;
 	/** @var IL10N */
 	private $l10n;
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
@@ -74,7 +70,6 @@ class ViewControllerTest extends TestCase {
 		parent::setUp();
 		$this->request = $this->getMockBuilder('\OCP\IRequest')->getMock();
 		$this->urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')->getMock();
-		$this->navigationManager = $this->getMockBuilder('\OCP\INavigationManager')->getMock();
 		$this->l10n = $this->getMockBuilder('\OCP\IL10N')->getMock();
 		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
 		$this->eventDispatcher = $this->getMockBuilder('\Symfony\Component\EventDispatcher\EventDispatcherInterface')->getMock();
@@ -93,7 +88,6 @@ class ViewControllerTest extends TestCase {
 			'files',
 			$this->request,
 			$this->urlGenerator,
-			$this->navigationManager,
 			$this->l10n,
 			$this->config,
 			$this->eventDispatcher,
