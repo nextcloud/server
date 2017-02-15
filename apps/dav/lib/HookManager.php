@@ -96,7 +96,7 @@ class HookManager {
 		$uid = $params['uid'];
 		$this->usersToDelete[$uid] = $this->userManager->get($uid);
 		$this->calendarsToDelete = $this->calDav->getUsersOwnCalendars('principals/users/' . $uid);
-		$this->addressBooksToDelete = $this->cardDav->getAddressBooksForUser('principals/users/' . $uid);
+		$this->addressBooksToDelete = $this->cardDav->getUsersOwnAddressBooks('principals/users/' . $uid);
 	}
 
 	public function postDeleteUser($params) {
