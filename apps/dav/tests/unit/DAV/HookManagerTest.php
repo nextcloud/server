@@ -195,7 +195,7 @@ class HookManagerTest extends TestCase {
 		$card = $this->getMockBuilder(CardDavBackend::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$card->expects($this->once())->method('getAddressBooksForUser')->willReturn([
+		$card->expects($this->once())->method('getUsersOwnAddressBooks')->willReturn([
 			['id' => 'personal']
 		]);
 		$card->expects($this->once())->method('deleteAddressBook');
