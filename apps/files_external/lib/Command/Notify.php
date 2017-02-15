@@ -184,19 +184,24 @@ class Notify extends Base {
 		$storage->file_put_contents('/.nc_test_file.txt', 'test content');
 		$storage->mkdir('/.nc_test_folder');
 		$storage->file_put_contents('/.nc_test_folder/subfile.txt', 'test content');
+
+		usleep(100 * 1000); //time for all changes to be processed
+		$changes = $notifyHandler->getChanges();
+
 		$storage->unlink('/.nc_test_file.txt');
 		$storage->unlink('/.nc_test_folder/subfile.txt');
 		$storage->rmdir('/.nc_test_folder');
+
 		usleep(100 * 1000); //time for all changes to be processed
+		$notifyHandler->getChanges(); // flush
 
 		$foundRootChange = false;
 		$foundSubfolderChange = false;
 
-		$changes = $notifyHandler->getChanges();
 		foreach ($changes as $change) {
-			if ($change->getPath() === '/.nc_test_file.txt') {
+			if ($change->getPath() === '/.nc_test_file.txt' || $change->getPath() === '.nc_test_file.txt') {
 				$foundRootChange = true;
-			} else if ($change->getPath() === '/.nc_test_folder/subfile.txt') {
+			} else if ($change->getPath() === '/.nc_test_folder/subfile.txt' || $change->getPath() === '.nc_test_folder/subfile.txt') {
 				$foundSubfolderChange = true;
 			}
 		}
