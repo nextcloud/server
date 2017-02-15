@@ -148,6 +148,18 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
 					}
+					if(!data.isOpcacheProperlySetup) {
+						messages.push({
+							msg: t(
+								'core',
+								'The PHP Opcache is not properly configured. <a target="_blank" rel="noreferrer" href="{docLink}">For better performance we recommend ↗</a> to use following settings in the <code>php.ini</code>:',
+								{
+									docLink: data.phpOpcacheDocumentation,
+								}
+							) + "<pre><code>opcache.enable=On\nopcache.enable_cli=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						});
+					}
 				} else {
 					messages.push({
 						msg: t('core', 'Error occurred while checking server setup'),

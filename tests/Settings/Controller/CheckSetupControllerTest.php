@@ -311,6 +311,14 @@ class CheckSetupControllerTest extends TestCase {
 			->method('linkToDocs')
 			->with('admin-reverse-proxy')
 			->willReturn('reverse-proxy-doc-link');
+		$this->urlGenerator->expects($this->at(3))
+			->method('linkToDocs')
+			->with('admin-code-integrity')
+			->willReturn('http://doc.owncloud.org/server/go.php?to=admin-code-integrity');
+		$this->urlGenerator->expects($this->at(4))
+			->method('linkToDocs')
+			->with('admin-php-opcache')
+			->willReturn('http://doc.owncloud.org/server/go.php?to=admin-php-opcache');
 
 		$expected = new DataResponse(
 			[
@@ -328,7 +336,9 @@ class CheckSetupControllerTest extends TestCase {
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
 				'isCorrectMemcachedPHPModuleInstalled' => true,
 				'hasPassedCodeIntegrityCheck' => null,
-				'codeIntegrityCheckerDocumentation' => null,
+				'codeIntegrityCheckerDocumentation' => 'http://doc.owncloud.org/server/go.php?to=admin-code-integrity',
+				'isOpcacheProperlySetup' => false,
+				'phpOpcacheDocumentation' => 'http://doc.owncloud.org/server/go.php?to=admin-php-opcache',
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
