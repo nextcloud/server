@@ -92,6 +92,7 @@ OC.L10N.register(
     "Valid until {date}" : "Έγκυρο έως {date}",
     "Delete" : "Διαγραφή",
     "Local" : "Τοπικά",
+    "Only visible to you" : "Εμφανές μόνο σε εσάς",
     "Contacts" : "Επαφές",
     "Public" : "Δημόσιο",
     "Select a profile picture" : "Επιλογή εικόνας προφίλ",
