@@ -29,6 +29,7 @@ use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
@@ -84,6 +85,37 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		}, array());
 	}
 
+	public function addMountForUser(IUser $user, IMountManager $mountManager) {
+		// shared mount provider gets to go last since it needs to know existing files
+		// to check for name collisions
+		$firstMounts = [];
+		$firstProviders = array_filter($this->providers, function (IMountProvider $provider) {
+			return (get_class($provider) !== 'OCA\Files_Sharing\MountProvider');
+		});
+		$lastProviders = array_filter($this->providers, function (IMountProvider $provider) {
+			return (get_class($provider) === 'OCA\Files_Sharing\MountProvider');
+		});
+		foreach ($firstProviders as $provider) {
+			$mounts = $provider->getMountsForUser($user, $this->loader);
+			if (is_array($mounts)) {
+				$firstMounts = array_merge($firstMounts, $mounts);
+			}
+		}
+		array_walk($firstMounts, [$mountManager, 'addMount']);
+
+		$lateMounts = [];
+		foreach ($lastProviders as $provider) {
+			$mounts = $provider->getMountsForUser($user, $this->loader);
+			if (is_array($mounts)) {
+				$lateMounts = array_merge($lateMounts, $mounts);
+			}
+		}
+
+		array_walk($lateMounts, [$mountManager, 'addMount']);
+
+		return array_merge($lateMounts, $firstMounts);
+	}
+
 	/**
 	 * Get the configured home mount for this user
 	 *
@@ -110,6 +142,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	 */
 	public function registerProvider(IMountProvider $provider) {
 		$this->providers[] = $provider;
+
 		$this->emit('\OC\Files\Config', 'registerMountProvider', [$provider]);
 	}
 

@@ -443,8 +443,7 @@ class Filesystem {
 
 			// Chance to mount for other storages
 			if ($userObject) {
-				$mounts = $mountConfigManager->getMountsForUser($userObject);
-				array_walk($mounts, array(self::$mounts, 'addMount'));
+				$mounts = $mountConfigManager->addMountForUser($userObject, self::getMountManager());
 				$mounts[] = $homeMount;
 				$mountConfigManager->registerMounts($userObject, $mounts);
 			}
