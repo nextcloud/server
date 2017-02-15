@@ -259,7 +259,9 @@
 					password: ''
 				});
 			} else {
-				this.$el.find('.linkPassText').focus();
+				if (!OC.Util.isIE()) {
+					this.$el.find('.linkPassText').focus();
+				}
 			}
 		},
 
