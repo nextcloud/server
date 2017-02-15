@@ -379,6 +379,21 @@ class UsersController extends Controller {
 			);
 		}
 
+		$generatedPassword = false;
+		if ($password === '') {
+			if ($email === '') {
+				return new DataResponse(
+					array(
+						'message' => (string)$this->l10n->t('To send a password link to the user an email address is required.')
+					),
+					Http::STATUS_UNPROCESSABLE_ENTITY
+				);
+			}
+
+			$password = $this->secureRandom->generate(32);
+			$generatedPassword = true;
+		}
+
 		try {
 			$user = $this->userManager->createUser($username, $password);
 		} catch (\Exception $exception) {
@@ -411,7 +426,7 @@ class UsersController extends Controller {
 			if($email !== '') {
 				$user->setEMailAddress($email);
 
-				if ($this->config->getAppValue('core', 'umgmt_send_passwordlink', 'false') === 'true') {
+				if ($generatedPassword) {
 					$token = $this->secureRandom->generate(
 						21,
 						ISecureRandom::CHAR_DIGITS .
@@ -431,7 +446,7 @@ class UsersController extends Controller {
 				// data for the mail template
 				$mailData = array(
 					'username' => $username,
-					'url' =>$link
+					'url' => $link
 				);
 
 				$mail = new TemplateResponse('settings', 'email.new_user', $mailData, 'blank');

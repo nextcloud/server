@@ -72,12 +72,8 @@ translation('settings');
 						<?php p($l->t('Send email to new user')) ?>
 					</label>
 				</p>
-				<p style="padding-left: 20px" id="MailPasswordOnUserCreateSetting">
-					<input type="checkbox" name="MailPasswordOnUserCreate" value="MailPasswordOnUserCreate" id="CheckboxMailPasswordOnUserCreate"
-						   class="checkbox" <?php if ($_['send_passwordlink'] === 'true') print_unescaped('checked="checked"'); ?> />
-					<label for="CheckboxMailPasswordOnUserCreate">
-						<?php p($l->t('Send password link')) ?>
-					</label>
+				<p class="info-text">
+					When the password of the new user is left empty an activation email with a link to set the password is send to the user.
 				</p>
 				<p>
 					<input type="checkbox" name="EmailAddress" value="EmailAddress" id="CheckboxEmailAddress"

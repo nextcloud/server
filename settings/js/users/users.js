@@ -918,7 +918,7 @@ $(document).ready(function () {
 			}));
 			return false;
 		}
-		if ($.trim(password) === '' && !$('#CheckboxMailPasswordOnUserCreate').is(':checked')) {
+		if ($.trim(password) === '' && !$('#CheckboxMailOnUserCreate').is(':checked')) {
 			OC.Notification.showTemporary(t('settings', 'Error creating user: {message}', {
 				message: t('settings', 'A valid password must be provided')
 			}));
@@ -1044,37 +1044,15 @@ $(document).ready(function () {
 
 	if ($('#CheckboxMailOnUserCreate').is(':checked')) {
 		$("#newemail").show();
-		$("#MailPasswordOnUserCreateSetting").show();
 	}
-
-	if ($('#CheckboxMailPasswordOnUserCreate').is(':checked')) {
-		$("#newuserpassword").hide();
-	} else {
-		$("#newuserpassword").show();
-	}
-
 	// Option to display/hide the "E-Mail" input field
 	$('#CheckboxMailOnUserCreate').click(function() {
 		if ($('#CheckboxMailOnUserCreate').is(':checked')) {
 			$("#newemail").show();
-			$("#MailPasswordOnUserCreateSetting").show();
 			OCP.AppConfig.setValue('core', 'umgmt_send_email', 'true');
 		} else {
 			$("#newemail").hide();
-			$("#MailPasswordOnUserCreateSetting").hide();
 			OCP.AppConfig.setValue('core', 'umgmt_send_email', 'false');
-			OCP.AppConfig.setValue('core', 'umgmt_send_passwordlink', 'false');
-			$('#CheckboxMailPasswordOnUserCreate').removeAttr('checked');
-		}
-	});
-
-	$('#CheckboxMailPasswordOnUserCreate').click(function() {
-		if ($('#CheckboxMailPasswordOnUserCreate').is(':checked')) {
-			OCP.AppConfig.setValue('core', 'umgmt_send_passwordlink', 'true');
-			$("#newuserpassword").hide();
-		} else {
-			OCP.AppConfig.setValue('core', 'umgmt_send_passwordlink', 'false');
-			$("#newuserpassword").show();
 		}
 	});
 
