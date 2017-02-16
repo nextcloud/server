@@ -106,9 +106,9 @@ style('user_ldap', 'settings');
 			</div>
 			<h3><?php p($l->t('Special Attributes'));?></h3>
 			<div>
-				<p><label for="ldap_quota_attr"><?php p($l->t('Quota Field'));?></label><input type="text" id="ldap_quota_attr" name="ldap_quota_attr" data-default="<?php p($_['ldap_quota_attr_default']); ?>"/></p>
-				<p><label for="ldap_quota_def"><?php p($l->t('Quota Default'));?></label><input type="text" id="ldap_quota_def" name="ldap_quota_def" data-default="<?php p($_['ldap_quota_def_default']); ?>" title="<?php p($l->t('in bytes'));?>" /></p>
-				<p><label for="ldap_email_attr"><?php p($l->t('Email Field'));?></label><input type="text" id="ldap_email_attr" name="ldap_email_attr" data-default="<?php p($_['ldap_email_attr_default']); ?>" /></p>
+				<p><label for="ldap_quota_attr"><?php p($l->t('Quota Field'));?></label><input type="text" id="ldap_quota_attr" name="ldap_quota_attr" data-default="<?php p($_['ldap_quota_attr_default']); ?>" title="<?php p($l->t('Leave empty for user\'s default quota. Otherwise, specify an LDAP/AD attribute.'));?>" /></p>
+				<p><label for="ldap_quota_def"><?php p($l->t('Quota Default'));?></label><input type="text" id="ldap_quota_def" name="ldap_quota_def" data-default="<?php p($_['ldap_quota_def_default']); ?>" title="<?php p($l->t('Override default quota for LDAP users who do not have a quota set in the Quota Field.'));?>" /></p>
+				<p><label for="ldap_email_attr"><?php p($l->t('Email Field'));?></label><input type="text" id="ldap_email_attr" name="ldap_email_attr" data-default="<?php p($_['ldap_email_attr_default']); ?>" title="<?php p($l->t('Set the user\'s email from their LDAP attribute. Leave it empty for default behaviour.'));?>" /></p>
 				<p><label for="home_folder_naming_rule"><?php p($l->t('User Home Folder Naming Rule'));?></label><input type="text" id="home_folder_naming_rule" name="home_folder_naming_rule" title="<?php p($l->t('Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute.'));?>" data-default="<?php p($_['home_folder_naming_rule_default']); ?>" /></p>
 			</div>
 		</div>
