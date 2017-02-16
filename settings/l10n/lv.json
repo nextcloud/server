@@ -172,6 +172,7 @@
     "Allow sharing with groups" : "Atļaut koplietošanu ar grupu",
     "Restrict users to only share with users in their groups" : "Ierobežot lietotājiem koplietot tikai ar lietotājiem savās grupās",
     "Exclude groups from sharing" : "Izslēgt grupu no koplietošanas",
+    "Tips & tricks" : "Padomi un ieteikumi",
     "This is particularly recommended when using the desktop client for file synchronisation." : "Tas ir īpaši ieteicams, ja, izmantojot darbvirsmas klientu, lai veiktu failu sinhronizāciju.",
     "How to do backups" : "Kā veikt dublēšanu",
     "Advanced monitoring" : "Papildu uzraudzība",
