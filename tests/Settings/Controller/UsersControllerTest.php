@@ -16,6 +16,7 @@ use OC\Settings\Controller\UsersController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IAvatar;
 use OCP\IAvatarManager;
 use OCP\IConfig;
@@ -29,6 +30,8 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
+use OCP\Security\ICrypto;
+use OCP\Security\ISecureRandom;
 
 /**
  * @group DB
@@ -59,8 +62,14 @@ class UsersControllerTest extends \Test\TestCase {
 	private $avatarManager;
 	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
 	private $l;
-	/** @var  AccountManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var AccountManager | \PHPUnit_Framework_MockObject_MockObject */
 	private $accountManager;
+	/** @var ISecureRandom | \PHPUnit_Framework_MockObject_MockObject  */
+	private $secureRandom;
+	/** @var ITimeFactory | \PHPUnit_Framework_MockObject_MockObject */
+	private $timeFactory;
+	/** @var ICrypto | \PHPUnit_Framework_MockObject_MockObject */
+	private $crypto;
 
 	protected function setUp() {
 		parent::setUp();
@@ -76,6 +85,9 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->avatarManager = $this->createMock(IAvatarManager::class);
 		$this->accountManager = $this->createMock(AccountManager::class);
+		$this->secureRandom = $this->createMock(ISecureRandom::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->crypto = $this->createMock(ICrypto::class);
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')
 			->will($this->returnCallback(function ($text, $parameters = []) {
@@ -120,7 +132,10 @@ class UsersControllerTest extends \Test\TestCase {
 				$this->urlGenerator,
 				$this->appManager,
 				$this->avatarManager,
-				$this->accountManager
+				$this->accountManager,
+				$this->secureRandom,
+				$this->timeFactory,
+				$this->crypto
 			);
 		} else {
 			return $this->getMockBuilder(UsersController::class)
@@ -141,7 +156,10 @@ class UsersControllerTest extends \Test\TestCase {
 						$this->urlGenerator,
 						$this->appManager,
 						$this->avatarManager,
-						$this->accountManager
+						$this->accountManager,
+						$this->secureRandom,
+						$this->timeFactory,
+						$this->crypto
 					]
 				)->setMethods($mockedMethods)->getMock();
 		}
@@ -2226,5 +2244,149 @@ class UsersControllerTest extends \Test\TestCase {
 		$controller = $this->getController(true);
 		$response = $controller->setEMailAddress($user->getUID(), $mailAddress);
 		$this->assertSame($responseCode, $response->getStatus());
+	}
+
+	public function testCreateUnsuccessfulWithoutPasswordAndEmail() {
+		$controller = $this->getController(true);
+
+		$expectedResponse = new DataResponse(
+			array(
+				'message' => 'To send a password link to the user an email address is required.'
+			),
+			Http::STATUS_UNPROCESSABLE_ENTITY
+		);
+		$response = $controller->create('foo', '', array(), '');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+
+
+	public function testCreateSuccessfulWithoutPasswordAndWithEmail() {
+		$controller = $this->getController(true);
+
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user
+			->method('getHome')
+			->will($this->returnValue('/home/user'));
+		$user
+			->method('getUID')
+			->will($this->returnValue('foo'));
+		$user
+			->expects($this->once())
+			->method('getBackendClassName')
+			->will($this->returnValue('bar'));
+
+		$this->userManager
+			->expects($this->once())
+			->method('createUser')
+			->will($this->onConsecutiveCalls($user));
+
+		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+			->disableOriginalConstructor()
+			->getMock();
+		$subadmin
+			->expects($this->any())
+			->method('getSubAdminsGroups')
+			->with($user)
+			->will($this->returnValue([]));
+		$this->groupManager
+			->expects($this->any())
+			->method('getSubAdmin')
+			->will($this->returnValue($subadmin));
+
+		$this->secureRandom
+			->expects($this->at(0))
+			->method('generate')
+			->with(32)
+			->will($this->returnValue('abc123'));
+		$this->secureRandom
+			->expects($this->at(1))
+			->method('generate')
+			->with(21,
+				ISecureRandom::CHAR_DIGITS .
+				ISecureRandom::CHAR_LOWER .
+				ISecureRandom::CHAR_UPPER)
+			->will($this->returnValue('mytoken'));
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkToRouteAbsolute')
+			->with('core.lost.resetform', ['userId' => 'foo', 'token' => 'mytoken'])
+			->will($this->returnValue('link-with-my-token'));
+
+		$controller = $this->getController(true);
+		$message = $this->getMockBuilder('\OC\Mail\Message')
+			->disableOriginalConstructor()->getMock();
+		$message
+			->expects($this->at(0))
+			->method('setTo')
+			->with(['abc@example.org' => 'foo']);
+		$message
+			->expects($this->at(1))
+			->method('setSubject')
+			->with('Your  account was created');
+		$htmlBody = new Http\TemplateResponse(
+			'settings',
+			'email.new_user',
+			[
+				'username' => 'foo',
+				'url' => 'link-with-my-token',
+			],
+			'blank'
+		);
+		$message
+			->expects($this->at(2))
+			->method('setHtmlBody')
+			->with($htmlBody->render());
+		$plainBody = new Http\TemplateResponse(
+			'settings',
+			'email.new_user_plain_text',
+			[
+				'username' => 'foo',
+				'url' => 'link-with-my-token',
+			],
+			'blank'
+		);
+		$message
+			->expects($this->at(3))
+			->method('setPlainBody')
+			->with($plainBody->render());
+		$message
+			->expects($this->at(4))
+			->method('setFrom')
+			->with(['no-reply@owncloud.com' => null]);
+
+		$this->mailer
+			->expects($this->at(0))
+			->method('validateMailAddress')
+			->with('abc@example.org')
+			->will($this->returnValue(true));
+		$this->mailer
+			->expects($this->at(1))
+			->method('createMessage')
+			->will($this->returnValue($message));
+		$this->mailer
+			->expects($this->at(2))
+			->method('send')
+			->with($message);
+
+		$expectedResponse = new DataResponse(
+			array(
+				'name' => 'foo',
+				'groups' => null,
+				'storageLocation' => '/home/user',
+				'backend' => 'bar',
+				'lastLogin' => null,
+				'displayname' => null,
+				'quota' => null,
+				'subadmin' => array(),
+				'email' => null,
+				'isRestoreDisabled' => false,
+				'isAvatarAvailable' => true,
+			),
+			Http::STATUS_CREATED
+		);
+		$response = $controller->create('foo', '', array(), 'abc@example.org');
+		$this->assertEquals($expectedResponse, $response);
 	}
 }

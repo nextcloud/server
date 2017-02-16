@@ -438,7 +438,7 @@ class UsersController extends Controller {
 					$encryptedValue = $this->crypto->encrypt($tokenValue, $mailAddress . $this->config->getSystemValue('secret'));
 					$this->config->setUserValue($username, 'core', 'lostpassword', $encryptedValue);
 
-					$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', array('userId' => $username, 'token' => $token));
+					$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', ['userId' => $username, 'token' => $token]);
 				} else {
 					$link = $this->urlGenerator->getAbsoluteURL('/');
 				}
