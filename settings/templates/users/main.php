@@ -72,6 +72,9 @@ translation('settings');
 						<?php p($l->t('Send email to new user')) ?>
 					</label>
 				</p>
+				<p class="info-text">
+					<?php p($l->t('When the password of the new user is left empty an activation email with a link to set the password is send to the user')) ?>
+				</p>
 				<p>
 					<input type="checkbox" name="EmailAddress" value="EmailAddress" id="CheckboxEmailAddress"
 						class="checkbox" <?php if ($_['show_email'] === 'true') print_unescaped('checked="checked"'); ?> />

@@ -918,7 +918,7 @@ $(document).ready(function () {
 			}));
 			return false;
 		}
-		if ($.trim(password) === '') {
+		if ($.trim(password) === '' && !$('#CheckboxMailOnUserCreate').is(':checked')) {
 			OC.Notification.showTemporary(t('settings', 'Error creating user: {message}', {
 				message: t('settings', 'A valid password must be provided')
 			}));
