@@ -56,6 +56,7 @@ $application->registerRoutes($this, [
 		['name' => 'Preview#getPreview', 'url' => '/core/preview', 'verb' => 'GET'],
 		['name' => 'Preview#getPreview', 'url' => '/core/preview.png', 'verb' => 'GET'],
 		['name' => 'Css#getCss', 'url' => '/css/{appName}/{fileName}', 'verb' => 'GET'],
+		['name' => 'LegacyShare#link2Mail', 'url' => '/core/ajax/share.php', 'verb' => 'POST'],
 	],
 	'ocs' => [
 		['root' => '/cloud', 'name' => 'OCS#getCapabilities', 'url' => '/capabilities', 'verb' => 'GET'],
