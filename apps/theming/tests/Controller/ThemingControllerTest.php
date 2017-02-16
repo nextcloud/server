@@ -171,7 +171,15 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->updateLogo());
 	}
 
-	public function testUpdateLogoNormalLogoUpload() {
+	public function dataUpdateImages() {
+		return [
+			[false],
+			[true]
+		];
+	}
+
+	/** @dataProvider dataUpdateImages */
+	public function testUpdateLogoNormalLogoUpload($folderExists) {
 		$tmpLogo = \OC::$server->getTempManager()->getTemporaryFolder() . '/logo.svg';
 		$destination = \OC::$server->getTempManager()->getTemporaryFolder();
 
@@ -199,16 +207,28 @@ class ThemingControllerTest extends TestCase {
 
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);
-		$this->appData
-			->expects($this->once())
-			->method('getFolder')
-			->with('images')
-			->willReturn($folder);
+		if($folderExists) {
+			$this->appData
+				->expects($this->once())
+				->method('getFolder')
+				->with('images')
+				->willReturn($folder);
+		} else {
+			$this->appData
+				->expects($this->at(0))
+				->method('getFolder')
+				->with('images')
+				->willThrowException(new NotFoundException());
+			$this->appData
+				->expects($this->at(1))
+				->method('newFolder')
+				->with('images')
+				->willReturn($folder);
+		}
 		$folder->expects($this->once())
 			->method('newFile')
 			->with('logo')
 			->willReturn($file);
-
 		$expected = new DataResponse(
 			[
 				'data' =>
@@ -223,7 +243,8 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->updateLogo());
 	}
 
-	public function testUpdateLogoLoginScreenUpload() {
+	/** @dataProvider dataUpdateImages */
+	public function testUpdateLogoLoginScreenUpload($folderExists) {
 		$tmpLogo = \OC::$server->getTempManager()->getTemporaryFolder() . '/logo.svg';
 
 		touch($tmpLogo);
@@ -250,11 +271,24 @@ class ThemingControllerTest extends TestCase {
 
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);
-		$this->appData
-			->expects($this->once())
-			->method('getFolder')
-			->with('images')
-			->willReturn($folder);
+		if($folderExists) {
+			$this->appData
+				->expects($this->once())
+				->method('getFolder')
+				->with('images')
+				->willReturn($folder);
+		} else {
+			$this->appData
+				->expects($this->at(0))
+				->method('getFolder')
+				->with('images')
+				->willThrowException(new NotFoundException());
+			$this->appData
+				->expects($this->at(1))
+				->method('newFolder')
+				->with('images')
+				->willReturn($folder);
+		}
 		$folder->expects($this->once())
 			->method('newFile')
 			->with('background')
