@@ -23,7 +23,6 @@ Feature: external-storage
       | token | A_TOKEN |
       | mimetype | httpd/unix-directory |
 
-  @local_storage
   Scenario: Shares dont overwrite external storages
     Given user "user0" exists
     And user "user1" exists
@@ -40,3 +39,23 @@ Feature: external-storage
     And folder "/test" of user "user1" is shared with user "user0"
     And As an "user0"
     Then as "user0" the file "/test/textfile1.txt" does not exist
+
+  Scenario: Move a file into storage works
+    Given user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And user "user0" created a folder "/local_storage/foo1"
+    When User "user0" moved file "/textfile0.txt" to "/local_storage/foo1/textfile0.txt"
+    Then as "user1" the file "/local_storage/foo1/textfile0.txt" exists
+    And as "user0" the file "/local_storage/foo1/textfile0.txt" exists
+
+  Scenario: Move a file out of the storage works
+    Given user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And user "user0" created a folder "/local_storage/foo2"
+    And User "user0" moved file "/textfile0.txt" to "/local_storage/foo2/textfile0.txt"
+    When User "user1" moved file "/local_storage/foo2/textfile0.txt" to "/local.txt"
+    Then as "user1" the file "/local_storage/foo2/textfile0.txt" does not exist
+    And as "user0" the file "/local_storage/foo2/textfile0.txt" does not exist
+    And as "user1" the file "/local.txt" exists
