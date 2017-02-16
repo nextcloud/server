@@ -492,7 +492,9 @@ class Setup {
 		$content.= "Satisfy All\n";
 		$content.= "</ifModule>\n\n";
 		$content.= "# section for Apache 2.2 and 2.4\n";
+		$content.= "<ifModule mod_autoindex.c>\n";
 		$content.= "IndexIgnore *\n";
+		$content.= "</ifModule>\n";
 
 		$baseDir = \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
 		file_put_contents($baseDir . '/.htaccess', $content);

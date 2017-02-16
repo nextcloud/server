@@ -11,4 +11,6 @@ Satisfy All
 </ifModule>
 
 # section for Apache 2.2 and 2.4
+<ifModule mod_autoindex.c>
 IndexIgnore *
+</ifModule>
