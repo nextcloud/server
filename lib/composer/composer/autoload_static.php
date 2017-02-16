@@ -733,7 +733,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Repair\\SearchLuceneTables' => __DIR__ . '/../../..' . '/lib/private/Repair/SearchLuceneTables.php',
         'OC\\Repair\\SharePropagation' => __DIR__ . '/../../..' . '/lib/private/Repair/SharePropagation.php',
         'OC\\Repair\\SqliteAutoincrement' => __DIR__ . '/../../..' . '/lib/private/Repair/SqliteAutoincrement.php',
-        'OC\\Repair\\UpdateCertificateStore' => __DIR__ . '/../../..' . '/lib/private/Repair/UpdateCertificateStore.php',
         'OC\\Repair\\UpdateOutdatedOcsIds' => __DIR__ . '/../../..' . '/lib/private/Repair/UpdateOutdatedOcsIds.php',
         'OC\\RichObjectStrings\\Validator' => __DIR__ . '/../../..' . '/lib/private/RichObjectStrings/Validator.php',
         'OC\\Route\\CachingRouter' => __DIR__ . '/../../..' . '/lib/private/Route/CachingRouter.php',

@@ -703,7 +703,6 @@ return array(
     'OC\\Repair\\SearchLuceneTables' => $baseDir . '/lib/private/Repair/SearchLuceneTables.php',
     'OC\\Repair\\SharePropagation' => $baseDir . '/lib/private/Repair/SharePropagation.php',
     'OC\\Repair\\SqliteAutoincrement' => $baseDir . '/lib/private/Repair/SqliteAutoincrement.php',
-    'OC\\Repair\\UpdateCertificateStore' => $baseDir . '/lib/private/Repair/UpdateCertificateStore.php',
     'OC\\Repair\\UpdateOutdatedOcsIds' => $baseDir . '/lib/private/Repair/UpdateOutdatedOcsIds.php',
     'OC\\RichObjectStrings\\Validator' => $baseDir . '/lib/private/RichObjectStrings/Validator.php',
     'OC\\Route\\CachingRouter' => $baseDir . '/lib/private/Route/CachingRouter.php',
