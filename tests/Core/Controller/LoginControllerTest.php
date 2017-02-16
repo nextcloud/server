@@ -89,7 +89,7 @@ class LoginControllerTest extends TestCase {
 		$this->request
 			->expects($this->once())
 			->method('getCookie')
-			->with('oc_token')
+			->with('nc_token')
 			->willReturn(null);
 		$this->config
 			->expects($this->never())
@@ -108,7 +108,7 @@ class LoginControllerTest extends TestCase {
 		$this->request
 			->expects($this->once())
 			->method('getCookie')
-			->with('oc_token')
+			->with('nc_token')
 			->willReturn('MyLoginToken');
 		$user = $this->getMockBuilder('\\OCP\\IUser')->getMock();
 		$user
