@@ -187,7 +187,18 @@ class OC_User {
 		if ($uid) {
 			if (self::getUser() !== $uid) {
 				self::setUserId($uid);
-				self::setDisplayName($uid);
+				$setUidAsDisplayName = true;
+				if($backend instanceof \OCP\UserInterface
+					&& $backend->implementsActions(OC_User_Backend::GET_DISPLAYNAME)) {
+
+					$backendDisplayName = $backend->getDisplayName($uid);
+					if(is_string($backendDisplayName) && trim($backendDisplayName) !== '') {
+						$setUidAsDisplayName = false;
+					}
+				}
+				if($setUidAsDisplayName) {
+					self::setDisplayName($uid);
+				}
 				self::getUserSession()->setLoginName($uid);
 				$request = OC::$server->getRequest();
 				self::getUserSession()->createSessionToken($request, $uid, $uid);
