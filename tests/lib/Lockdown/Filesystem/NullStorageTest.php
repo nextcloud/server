@@ -27,6 +27,7 @@ use Icewind\Streams\IteratorDirectory;
 use OC\ForbiddenException;
 use OC\Lockdown\Filesystem\NullCache;
 use OC\Lockdown\Filesystem\NullStorage;
+use OC\Files\FileInfo;
 use OCP\Files\Storage;
 use Test\TestCase;
 
@@ -182,7 +183,7 @@ class NullStorageTest extends TestCase  {
 	}
 
 	public function testFree_space() {
-		$this->assertSame(0, $this->storage->free_space('foo'));
+		$this->assertSame(FileInfo::SPACE_UNKNOWN, $this->storage->free_space('foo'));
 	}
 
 	public function testTouch() {
