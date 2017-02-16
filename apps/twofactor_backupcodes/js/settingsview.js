@@ -59,16 +59,16 @@
 				total: this._total,
 				used: this._used,
 				codes: this._codes,
-				download: this._getDownloadDataHref()
+				download: this._getDownloadData()
 			}));
 		},
-		_getDownloadDataHref: function () {
+		_getDownloadData: function () {
 			if (!this._codes) {
 				return '';
 			}
-			return 'data:text/plain,' + encodeURIComponent(_.reduce(this._codes, function (prev, code) {
-				return prev + code + "\r\n";
-			}, ''));
+			return _.reduce(this._codes, function (prev, code) {
+				return prev + code + "<br>";
+			}, '');
 		},
 		_load: function () {
 			this._loading = true;
@@ -113,10 +113,12 @@
 			});
 		},
 		_onPrintBackupCodes: function () {
-			var url = this._getDownloadDataHref();
-			window.open(url, t('twofactor_backupcodes', 'Nextcloud backup codes'));
-			window.print();
-			window.close();
+			var data = this._getDownloadData();
+			var newTab = window.open('', t('twofactor_backupcodes', 'Nextcloud backup codes'));
+			newTab.document.write('<h1>' + t('twofactor_backupcodes', 'Nextcloud backup codes') + '</h1>');
+			newTab.document.write(data);
+			newTab.print();
+			newTab.close();
 		}
 	});
 
