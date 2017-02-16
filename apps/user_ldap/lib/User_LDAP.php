@@ -136,17 +136,16 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	}
 
 	/**
-	 * Check if the password is correct
+	 * Check if the password is correct without logging in the user
+	 *
 	 * @param string $uid The username
 	 * @param string $password The password
 	 * @return false|string
-	 *
-	 * Check if the password is correct without logging in the user
 	 */
 	public function checkPassword($uid, $password) {
 		try {
 			$ldapRecord = $this->getLDAPUserByLoginName($uid);
-		} catch(\Exception $e) {
+		} catch(NotOnLDAP $e) {
 			if($this->ocConfig->getSystemValue('loglevel', Util::WARN) === Util::DEBUG) {
 				\OC::$server->getLogger()->logException($e, ['app' => 'user_ldap']);
 			}
