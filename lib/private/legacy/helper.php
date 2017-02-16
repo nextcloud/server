@@ -52,7 +52,6 @@ class OC_Helper {
 
 	/**
 	 * Creates an absolute url for public use
-	 *
 	 * @param string $service id
 	 * @param bool $add_slash
 	 * @return string the url
@@ -63,14 +62,13 @@ class OC_Helper {
 		if ($service === 'files') {
 			$url = OC::$server->getURLGenerator()->getAbsoluteURL('/s');
 		} else {
-			$url = OC::$server->getURLGenerator()->getAbsoluteURL(OC::$server->getURLGenerator()->linkTo('', 'public.php') . '?service=' . $service);
+			$url = OC::$server->getURLGenerator()->getAbsoluteURL(OC::$server->getURLGenerator()->linkTo('', 'public.php').'?service='.$service);
 		}
 		return $url . (($add_slash && $service[strlen($service) - 1] != '/') ? '/' : '');
 	}
 
 	/**
 	 * Make a human file size
-	 *
 	 * @param int $bytes file size in bytes
 	 * @return string a human readable file size
 	 *
@@ -106,7 +104,6 @@ class OC_Helper {
 
 	/**
 	 * Make a php file size
-	 *
 	 * @param int $bytes file size in bytes
 	 * @return string a php parseable file size
 	 *
@@ -133,7 +130,6 @@ class OC_Helper {
 
 	/**
 	 * Make a computer file size
-	 *
 	 * @param string $str file size in human readable format
 	 * @return float a file size in bytes
 	 *
@@ -176,7 +172,6 @@ class OC_Helper {
 
 	/**
 	 * Recursive copying of folders
-	 *
 	 * @param string $src source folder
 	 * @param string $dest target folder
 	 *
@@ -199,7 +194,6 @@ class OC_Helper {
 
 	/**
 	 * Recursive deletion of folders
-	 *
 	 * @param string $dir path to the folder
 	 * @param bool $deleteSelf if set to false only the content of the folder will be deleted
 	 * @return bool
@@ -399,7 +393,6 @@ class OC_Helper {
 
 	/**
 	 * performs a search in a nested array
-	 *
 	 * @param array $haystack the array to be searched
 	 * @param string $needle the search string
 	 * @param string $index optional, only search this key name
@@ -432,7 +425,7 @@ class OC_Helper {
 	 * @return int number of bytes representing
 	 */
 	public static function maxUploadFilesize($dir, $freeSpace = null) {
-		if (is_null($freeSpace) || $freeSpace < 0) {
+		if (is_null($freeSpace) || $freeSpace < 0){
 			$freeSpace = self::freeSpace($dir);
 		}
 		return min($freeSpace, self::uploadLimit());
@@ -450,7 +443,7 @@ class OC_Helper {
 			$freeSpace = max($freeSpace, 0);
 			return $freeSpace;
 		} else {
-			return (INF > 0) ? INF : PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
+			return (INF > 0)? INF: PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
 		}
 	}
 
@@ -517,7 +510,7 @@ class OC_Helper {
 				if (empty($paths)) {
 					$paths = '/usr/local/bin /usr/bin /opt/bin /bin';
 				} else {
-					$paths = str_replace(':', ' ', getenv('PATH'));
+					$paths = str_replace(':',' ',getenv('PATH'));
 				}
 				$command = 'find ' . $paths . ' -name ' . escapeshellarg($program) . ' 2> /dev/null';
 				exec($command, $output, $returnCode);
@@ -540,12 +533,6 @@ class OC_Helper {
 	 * @throws \OCP\Files\NotFoundException
 	 */
 	public static function getStorageInfo($path, $rootInfo = null) {
-		$memcache = \OC::$server->getMemCacheFactory()->create('storageInfo');
-		$cacheKey = $rootInfo ? '__root__' . md5($path) : md5($path);
-		$cached = $memcache->get($cacheKey);
-		if (is_array($cached)) {
-			return $cached;
-		}
 		// return storage info without adding mount points
 		$includeExtStorage = \OC::$server->getSystemConfig()->getValue('quota_include_external_storage', false);
 
@@ -610,19 +597,9 @@ class OC_Helper {
 		$ownerId = $storage->getOwner($path);
 		$ownerDisplayName = '';
 		$owner = \OC::$server->getUserManager()->get($ownerId);
-		if ($owner) {
+		if($owner) {
 			$ownerDisplayName = $owner->getDisplayName();
 		}
-
-		$memcache->set($cacheKey, [
-			'free' => $free,
-			'used' => $used,
-			'quota' => $quota,
-			'total' => $total,
-			'relative' => $relative,
-			'owner' => $ownerId,
-			'ownerDisplayName' => $ownerDisplayName,
-		], 5 * 60);
 
 		return [
 			'free' => $free,
@@ -668,7 +645,6 @@ class OC_Helper {
 
 	/**
 	 * Returns whether the config file is set manually to read-only
-	 *
 	 * @return bool
 	 */
 	public static function isReadOnlyConfigEnabled() {
