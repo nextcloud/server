@@ -28,6 +28,12 @@ use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\Tests\Migration\AbstractUUIDFixTest;
 
+/**
+ * Class UUIDFixGroupTest
+ *
+ * @package OCA\Group_LDAP\Tests\Migration
+ * @group DB
+ */
 class UUIDFixGroupTest extends AbstractUUIDFixTest {
 	public function setUp() {
 		$this->isUser = false;
