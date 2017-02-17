@@ -196,4 +196,13 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 		//it's the same across all our user backends obviously
 		return $this->refBackend->implementsActions($actions);
 	}
+
+	/**
+	 * Return access for LDAP interaction.
+	 * @param string $gid
+	 * @return Access instance of Access for LDAP interaction
+	 */
+	public function getLDAPAccess($gid) {
+		return $this->handleRequest($gid, 'getLDAPAccess', []);
+	}
 }

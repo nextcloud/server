@@ -9,7 +9,7 @@ A user logs into ownCloud with their LDAP or AD credentials, and is granted acce
 	</description>
 	<licence>AGPL</licence>
 	<author>Dominik Schmidt and Arthur Schiwon</author>
-	<version>1.1.1</version>
+	<version>1.1.2</version>
 	<types>
 		<authentication/>
 	</types>
@@ -32,4 +32,10 @@ A user logs into ownCloud with their LDAP or AD credentials, and is granted acce
 		<admin>OCA\User_LDAP\Settings\Admin</admin>
 		<admin-section>OCA\User_LDAP\Settings\Section</admin-section>
 	</settings>
+
+	<repair-steps>
+		<post-migration>
+			<step>OCA\User_LDAP\Migration\UUIDFixInsert</step>
+		</post-migration>
+	</repair-steps>
 </info>
