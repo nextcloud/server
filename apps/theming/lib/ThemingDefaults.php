@@ -28,7 +28,6 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\Util;
 
 class ThemingDefaults extends \OC_Defaults {
 
@@ -50,6 +49,8 @@ class ThemingDefaults extends \OC_Defaults {
 	private $slogan;
 	/** @var string */
 	private $color;
+	/** @var Util */
+	private $util;
 
 	/**
 	 * ThemingDefaults constructor.
@@ -60,20 +61,22 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @param \OC_Defaults $defaults
 	 * @param IAppData $appData
 	 * @param ICacheFactory $cacheFactory
+	 * @param Util $util
 	 */
 	public function __construct(IConfig $config,
 								IL10N $l,
 								IURLGenerator $urlGenerator,
 								\OC_Defaults $defaults,
 								IAppData $appData,
-								ICacheFactory $cacheFactory
+								ICacheFactory $cacheFactory,
+								Util $util
 	) {
-		parent::__construct();
 		$this->config = $config;
 		$this->l = $l;
 		$this->urlGenerator = $urlGenerator;
 		$this->appData = $appData;
 		$this->cacheFactory = $cacheFactory;
+		$this->util = $util;
 
 		$this->name = $defaults->getName();
 		$this->url = $defaults->getBaseUrl();
@@ -102,7 +105,7 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	public function getSlogan() {
-		return Util::sanitizeHTML($this->config->getAppValue('theming', 'slogan', $this->slogan));
+		return \OCP\Util::sanitizeHTML($this->config->getAppValue('theming', 'slogan', $this->slogan));
 	}
 
 	public function getShortFooter() {
@@ -129,7 +132,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return string
 	 */
 	public function getLogo() {
-		$logo = $this->config->getAppValue('theming', 'logoMime');
+		$logo = $this->config->getAppValue('theming', 'logoMime', false);
 
 		$logoExists = true;
 		try {
@@ -141,10 +144,10 @@ class ThemingDefaults extends \OC_Defaults {
 		$cacheBusterCounter = $this->config->getAppValue('theming', 'cachebuster', '0');
 
 		if(!$logo || !$logoExists) {
-			return $this->urlGenerator->imagePath('core','logo.svg') . '?v=' . $cacheBusterCounter;
+			return $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core','logo.svg') . '?v=' . $cacheBusterCounter);
 		}
 
-		return $this->urlGenerator->linkToRoute('theming.Theming.getLogo') . '?v=' . $cacheBusterCounter;
+		return $this->urlGenerator->linkToRouteAbsolute('theming.Theming.getLogo') . '?v=' . $cacheBusterCounter;
 	}
 
 	/**
@@ -153,7 +156,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return string
 	 */
 	public function getBackground() {
-		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime');
+		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime',false);
 
 		$backgroundExists = true;
 		try {
@@ -167,6 +170,36 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 
 		return $this->urlGenerator->linkToRoute('theming.Theming.getLoginBackground');
+	}
+
+
+	/**
+	 * @return array scss variables to overwrite
+	 */
+	public function getScssVariables() {
+		$cache = $this->cacheFactory->create('theming');
+		if ($value = $cache->get('getScssVariables')) {
+			return $value;
+		}
+
+		$variables = [
+			'theming-cachebuster' => "'" . $this->config->getAppValue('theming', 'cachebuster', '0') . "'",
+		];
+
+		$variables['image-logo'] = "'".$this->getLogo()."'";
+		$variables['image-login-background'] = "'".$this->getBackground()."'";
+
+		if ($this->config->getAppValue('theming', 'color', null) !== null) {
+			if ($this->util->invertTextColor($this->getColorPrimary())) {
+				$colorPrimaryText = '#000000';
+			} else {
+				$colorPrimaryText = '#ffffff';
+			}
+			$variables['color-primary'] = $this->getColorPrimary();
+			$variables['color-primary-text'] = $colorPrimaryText;
+		}
+		$cache->set('getScssVariables', $variables);
+		return $variables;
 	}
 
 	/**
@@ -198,6 +231,7 @@ class ThemingDefaults extends \OC_Defaults {
 	private function increaseCacheBuster() {
 		$cacheBusterKey = $this->config->getAppValue('theming', 'cachebuster', '0');
 		$this->config->setAppValue('theming', 'cachebuster', (int)$cacheBusterKey+1);
+		$this->cacheFactory->create('theming')->clear('getScssVariables');
 	}
 
 	/**

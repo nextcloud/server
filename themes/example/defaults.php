@@ -151,4 +151,14 @@ class OC_Theme {
 		return '#745bca';
 	}
 
+	/**
+	 * Returns variables to overload defaults from core/css/variables.scss
+	 * @return array
+	 */
+	public function getScssVariables() {
+		return [
+			'color-primary' => '#745bca'
+		];
+	}
+
 }
