@@ -68,6 +68,7 @@ class LegacyShareController extends Controller {
 	}
 
 	/**
+	 * @NoAdminRequired
 	 * @param string $action
 	 * @param string $toaddress
 	 * @param string $link
