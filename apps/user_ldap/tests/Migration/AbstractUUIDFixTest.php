@@ -23,10 +23,10 @@
 
 namespace OCA\User_LDAP\Tests\Migration;
 
+use OCA\User_LDAP\LDAP;
 use Test\TestCase;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\Migration\UUIDFixUser;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Mapping\GroupMapping;
@@ -40,7 +40,7 @@ abstract class AbstractUUIDFixTest extends TestCase {
 	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
 
-	/** @var  ILDAPWrapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  LDAP|\PHPUnit_Framework_MockObject_MockObject */
 	protected $ldap;
 
 	/** @var  UserMapping|GroupMapping|\PHPUnit_Framework_MockObject_MockObject */
@@ -61,7 +61,7 @@ abstract class AbstractUUIDFixTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->ldap = $this->createMock(ILDAPWrapper::class);
+		$this->ldap = $this->createMock(LDAP::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->access = $this->createMock(Access::class);
 

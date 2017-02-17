@@ -58,7 +58,7 @@ class UUIDFixInsert implements IRepairStep {
 	 * @since 9.1.0
 	 */
 	public function getName() {
-		return 'Insert UUIDFix background job for user and group batches of 500';
+		return 'Insert UUIDFix background job for user and group in batches';
 	}
 
 	/**
@@ -75,15 +75,26 @@ class UUIDFixInsert implements IRepairStep {
 			return;
 		}
 
-		$batchSize = 500;
 		foreach ([$this->userMapper, $this->groupMapper] as $mapper) {
 			$offset = 0;
+			$batchSize = 50;
 			$jobClass = $mapper instanceof UserMapping ? UUIDFixUser::class : UUIDFixGroup::class;
 			do {
+				$retry = false;
 				$records = $mapper->getList($offset, $batchSize);
-				$this->jobList->add($jobClass, ['records' => $records]);
-				$offset += $batchSize;
-			} while (count($records) === $batchSize);
+				if(count($records) === 0){
+					continue;
+				}
+				try {
+					$this->jobList->add($jobClass, ['records' => $records]);
+					$offset += $batchSize;
+				} catch (\InvalidArgumentException $e) {
+					if(strpos($e->getMessage(), 'Background job arguments can\'t exceed 4000') !== false) {
+						$batchSize = intval(floor(count($records) * 0.8));
+						$retry = true;
+					}
+				}
+			} while (count($records) === $batchSize || $retry);
 		}
 
 	}

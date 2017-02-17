@@ -63,7 +63,7 @@ class UUIDFixInsertTest extends TestCase {
 	}
 
 	public function testGetName() {
-		$this->assertSame('Insert UUIDFix background job for user and group batches of 500', $this->job->getName());
+		$this->assertSame('Insert UUIDFix background job for user and group in batches', $this->job->getName());
 	}
 
 	public function recordProvider() {
@@ -72,17 +72,40 @@ class UUIDFixInsertTest extends TestCase {
 			'name' => 'Something',
 			'uuid' => 'AB12-3456-CDEF7-8GH9'
 		];
-		array_fill(0, 500, $record);
+		array_fill(0, 50, $record);
 
 		$userBatches = [
-			0 => array_fill(0, 500, $record),
-			1 => array_fill(0, 500, $record),
+			0 => array_fill(0, 50, $record),
+			1 => array_fill(0, 50, $record),
 			2 => array_fill(0,  13, $record),
 		];
 
 		$groupBatches = [
 			0 => array_fill(0, 7, $record),
 		];
+
+		return [
+			['userBatches' => $userBatches, 'groupBatches' => $groupBatches]
+		];
+	}
+
+	public function recordProviderTooLongAndNone() {
+		$record = [
+			'dn' => 'cn=somerecord,dc=somewhere',
+			'name' => 'Something',
+			'uuid' => 'AB12-3456-CDEF7-8GH9'
+		];
+		array_fill(0, 50, $record);
+
+		$userBatches = [
+			0 => array_fill(0, 50, $record),
+			1 => array_fill(0, 40, $record),
+			2 => array_fill(0, 32, $record),
+			3 => array_fill(0, 32, $record),
+			4 => array_fill(0, 23, $record),
+		];
+
+		$groupBatches = [0 => []];
 
 		return [
 			['userBatches' => $userBatches, 'groupBatches' => $groupBatches]
@@ -100,15 +123,52 @@ class UUIDFixInsertTest extends TestCase {
 
 		$this->userMapper->expects($this->exactly(3))
 			->method('getList')
-			->withConsecutive([0, 500], [500, 500], [1000, 500])
+			->withConsecutive([0, 50], [50, 50], [100, 50])
 			->willReturnOnConsecutiveCalls($userBatches[0], $userBatches[1], $userBatches[2]);
 
 		$this->groupMapper->expects($this->exactly(1))
 			->method('getList')
-			->with(0, 500)
+			->with(0, 50)
 			->willReturn($groupBatches[0]);
 
 		$this->jobList->expects($this->exactly(4))
+			->method('add');
+
+		/** @var IOutput $out */
+		$out = $this->createMock(IOutput::class);
+		$this->job->run($out);
+	}
+
+	/**
+	 * @dataProvider recordProviderTooLongAndNone
+	 */
+	public function testRunWithManyAndNone($userBatches, $groupBatches) {
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('user_ldap', 'installed_version', '1.2.1')
+			->willReturn('1.2.0');
+
+		$this->userMapper->expects($this->exactly(5))
+			->method('getList')
+			->withConsecutive([0, 50], [0, 40], [0, 32], [32, 32], [64, 32])
+			->willReturnOnConsecutiveCalls($userBatches[0], $userBatches[1], $userBatches[2],  $userBatches[3],  $userBatches[4]);
+
+		$this->groupMapper->expects($this->once())
+			->method('getList')
+			->with(0, 50)
+			->willReturn($groupBatches[0]);
+
+		$this->jobList->expects($this->at(0))
+			->method('add')
+			->willThrowException(new \InvalidArgumentException('Background job arguments can\'t exceed 4000 etc'));
+		$this->jobList->expects($this->at(1))
+			->method('add')
+			->willThrowException(new \InvalidArgumentException('Background job arguments can\'t exceed 4000 etc'));
+		$this->jobList->expects($this->at(2))
+			->method('add');
+		$this->jobList->expects($this->at(3))
+			->method('add');
+		$this->jobList->expects($this->at(4))
 			->method('add');
 
 		/** @var IOutput $out */

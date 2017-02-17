@@ -24,13 +24,13 @@
 namespace OCA\User_LDAP\Migration;
 
 use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\ILDAPWrapper;
+use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Group_Proxy;
 use OCP\IConfig;
 
 class UUIDFixUser extends UUIDFix {
-	public function __construct(UserMapping $mapper, ILDAPWrapper $ldap, IConfig $config, Helper $helper) {
+	public function __construct(UserMapping $mapper, LDAP $ldap, IConfig $config, Helper $helper) {
 		$this->mapper = $mapper;
 		$this->proxy = new Group_Proxy($helper->getServerConfigurationPrefixes(true), $ldap, $config);
 	}
