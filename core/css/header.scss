@@ -25,8 +25,7 @@
 	&.menu:after,
 	.menu:after {
 		border: 10px solid transparent;
-		border-color: transparent;
-		border-bottom-color: #fff;
+		border-bottom-color: $color-main-background;
 		bottom: 100%;
 		content: ' ';
 		height: 0;
@@ -48,7 +47,7 @@
 	&:focus {
 		left: 76px;
 		top: -9px;
-		color: #fff;
+		color: $color-primary-text;
 		width: auto;
 		height: auto;
 	}
@@ -65,7 +64,7 @@
 	right: 0;
 	z-index: 2000;
 	height: 45px;
-	background-color: #0082c9;
+	background-color: $color-primary;
 	box-sizing: border-box;
 	justify-content: space-between;
 }
@@ -91,7 +90,7 @@
 
 #header {
 	.logo {
-		background-image: url('../img/logo-icon.svg?v=1');
+		background-image: url('#{$image-logo}');
 		background-repeat: no-repeat;
 		background-size: 175px;
 		background-position: center;
@@ -102,7 +101,7 @@
 	.logo-icon {
 		/* display logo so appname can be shown next to it */
 		display: inline-block;
-		background-image: url('../img/logo-icon.svg?v=1');
+		background-image: url($image-logo);
 		background-repeat: no-repeat;
 		background-position: center center;
 		width: 62px;
@@ -177,7 +176,7 @@
 .header-appname {
 	display: inline-block;
 	position: relative;
-	color: #fff;
+	color: $color-primary-text;
 	font-size: 16px;
 	font-weight: 300;
 	margin: 0;
@@ -204,8 +203,8 @@ nav {
 	max-height: 85%;
 	margin-top: 0;
 	padding-bottom: 10px;
-	background-color: rgba(255, 255, 255, .97);
-	box-shadow: 0 1px 10px rgba(150, 150, 150, .75);
+	background-color: $color-main-background;
+	box-shadow: 0 1px 10px rgba(lighten($color-main-text, 25%), 0.75);
 	border-radius: 3px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
@@ -276,7 +275,7 @@ nav {
 			padding-left: 0;
 			width: 80px;
 			text-align: center;
-			color: #000;
+			color: $color-main-text;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -359,7 +358,7 @@ nav {
 
 #settings {
 	display: inline-block;
-	color: #ddd;
+	color: rgba($color-primary-text, 0.7);
 	cursor: pointer;
 	.icon-loading-small-dark {
 		display: inline-block;
@@ -387,7 +386,7 @@ nav {
 	&:hover,
 	&:focus,
 	&:active {
-		color: #fff;
+		color: $color-primary-text;
 		img {
 			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
 			opacity: 1;
@@ -419,8 +418,8 @@ nav {
 	top: 45px;
 	z-index: 2000;
 	display: none;
-	background: rgb(255, 255, 255);
-	box-shadow: 0 1px 10px rgba(150, 150, 150, .75);
+	background: $color-main-background;
+	box-shadow: 0 1px 10px rgba(lighten($color-main-text-dimmed, 25%), 0.75);
 	border-radius: 3px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
@@ -432,10 +431,10 @@ nav {
 	a {
 		display: block;
 		height: 40px;
-		color: #000;
+		color: $color-main-text;
+		opacity: .5;
 		padding: 10px 12px 0;
 		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
-		opacity: .5;
 		box-sizing: border-box;
 		img {
 			margin-bottom: -3px;
