@@ -27,7 +27,10 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
+use OCP\IUserSession;
+use OCP\Share;
 use OCP\Share\IManager;
+use OCP\Share\IShare;
 
 /**
  * Class LegacyShareController
@@ -45,16 +48,23 @@ class LegacyShareController extends Controller {
 	/** @var IManager */
 	private $shareManager;
 
+	/** @var IUserSession */
+	private $userSession;
+
 	/**
 	 * LegacyShareController constructor.
 	 *
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IManager $shareManager
+	 * @param IUserSession $userSession
 	 */
-	public function __construct($appName, IRequest $request, IManager $shareManager) {
+	public function __construct($appName, IRequest $request,
+								IManager $shareManager,
+								IUserSession $userSession) {
 		parent::__construct($appName, $request);
 		$this->shareManager = $shareManager;
+		$this->userSession = $userSession;
 	}
 
 	/**
@@ -73,7 +83,8 @@ class LegacyShareController extends Controller {
 		try {
 			$token = $this->getTokenFromUrl($link);
 			$share = $this->shareManager->getShareByToken($token);
-			$share->setShareType(\OCP\Share::SHARE_TYPE_EMAIL);
+			$this->checkPermissions($share);
+			$share->setShareType(Share::SHARE_TYPE_EMAIL);
 			foreach ($recipients as $to) {
 				$share->setSharedWith($to);
 				$this->shareManager->createShare($share);
@@ -104,6 +115,29 @@ class LegacyShareController extends Controller {
 	 */
 	protected function getEmailAddresses($addresses) {
 		return explode(',' , $addresses);
+	}
+
+	/**
+	 * check if the user has enough permission to send the share by mail
+	 *
+	 * @param IShare $share
+	 * @return bool
+	 * @throws \Exception
+	 */
+	protected function checkPermissions(IShare $share) {
+		$currentUser = $this->userSession->getUser();
+
+		if ($currentUser === null) {
+			throw new \Exception('no Permission to send share my mail');
+		}
+
+		$uid = $currentUser->getUID();
+
+		if ($share->getShareOwner() === $uid || $share->getSharedBy() === $uid) {
+			return true;
+		}
+
+		throw new \Exception('no Permission to send share my mail');
 	}
 
 }
