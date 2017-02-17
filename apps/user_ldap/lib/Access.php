@@ -1473,7 +1473,7 @@ class Access extends LDAPUtility implements IUserTools {
 			return true;
 		}
 
-		if ($uuidOverride !== '' && !$force) {
+		if (is_string($uuidOverride) && trim($uuidOverride) !== '' && !$force) {
 			$this->connection->$uuidAttr = $uuidOverride;
 			return true;
 		}
