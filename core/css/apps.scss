@@ -55,13 +55,13 @@ em {
 	height: 100%;
 	float: left;
 	box-sizing: border-box;
-	background-color: #fff;
+	background-color: $color-main-background;
 	padding-bottom: 44px;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	border-right: 1px solid #eee;
+	border-right: 1px solid $color-main-old-eeeeee;
 	display: flex;
 	flex-direction: column;
 	> ul {
@@ -78,7 +78,7 @@ em {
 				&,
 				> a {
 					opacity: 1;
-					box-shadow: inset 2px 0 #0082c9;
+					box-shadow: inset 2px 0 $color-primary;
 				}
 			}
 		}
@@ -115,7 +115,7 @@ em {
 		box-sizing: border-box;
 		white-space: nowrap;
 		text-overflow: ellipsis;
-		color: #000;
+		color: $color-main-text;
 		opacity: .57;
 	}
 	li > a:first-child img {
@@ -166,9 +166,9 @@ em {
 				-ms-transform: rotate(0);
 				transform: rotate(0);
 			}
-			background-image: linear-gradient(top, rgb(238, 238, 238) 0%, rgb(245, 245, 245) 100%);
-			background-image: -webkit-linear-gradient(top, rgb(238, 238, 238) 0%, rgb(245, 245, 245) 100%);
-			background-image: -ms-linear-gradient(top, rgb(238, 238, 238) 0%, rgb(245, 245, 245) 100%);
+			background-image: linear-gradient(top, $color-main-old-238 0%, $color-main-old-245 100%);
+			background-image: -webkit-linear-gradient(top, $color-main-old-238 0%, $color-main-old-245 100%);
+			background-image: -ms-linear-gradient(top, $color-main-old-238 0%, $color-main-old-245 100%);
 		}
 	}
 	> {
@@ -190,7 +190,7 @@ em {
 	> ul .collapsible.open {
 		&:hover,
 		&:focus {
-			box-shadow: inset 0 0 3px #ddd;
+			box-shadow: inset 0 0 3px $color-main-old-dddddd;
 		}
 		ul {
 			display: block;
@@ -248,10 +248,10 @@ em {
 		padding-bottom: 40px;
 	}
 	.error {
-		color: #dd1144;
+		color: $color-error;
 	}
 	.app-navigation-separator {
-		border-bottom: 1px solid #ddd;
+		border-bottom: 1px solid $color-main-old-dddddd;
 	}
 
 	/**
@@ -324,7 +324,7 @@ em {
 			margin-right: 0;
 			height: 38px;
 			float: left;
-			border: 1px solid rgba(190, 190, 190, 0.9);
+			border: 1px solid rgba($color-main-old-190, 0.9);
 		}
 		button,
 		input[type='submit'] {
@@ -377,8 +377,8 @@ em {
 	width: 27%;
 	min-width: 300px;
 	display: block;
-	background: #fff;
-	border-left: 1px solid #eee;
+	background: $color-main-background;
+	border-left: 1px solid $color-main-old-eeeeee;
 	-webkit-transition: margin-right 300ms;
 	transition: margin-right 300ms;
 	overflow-x: hidden;
@@ -408,11 +408,11 @@ em {
 #app-settings-content {
 	display: none;
 	padding: 10px;
-	background-color: #fff;
+	background-color: $color-main-background;
 	/* restrict height of settings and make scrollable */
 	max-height: 300px;
 	overflow-y: auto;
-	border-right: 1px solid #eee;
+	border-right: 1px solid $color-main-old-eeeeee;
 	width: 250px;
 	box-sizing: border-box;
 
@@ -423,12 +423,12 @@ em {
 
 	.info-text {
 		padding: 5px 0 7px 22px;
-		color: #999;
+		color: rgba($color-main-text, .4);
 	}
 }
 
 #app-settings-header {
-	border-right: 1px solid #eee;
+	border-right: 1px solid $color-main-old-eeeeee;
 	width: 250px;
 	box-sizing: border-box;
 }
@@ -439,7 +439,7 @@ em {
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	background-color: #fff;
+	background-color: $color-main-background;
 	background-image: url('../img/actions/settings.svg?v=1');
 	background-position: 14px center;
 	background-repeat: no-repeat;
@@ -451,11 +451,11 @@ em {
 	font-weight: normal;
 	&:hover,
 	&:focus {
-		background-color: #fff;
+		background-color: $color-main-background;
 	}
 	&.opened {
 		&:hover, &:focus {
-			background-color: #fff;
+			background-color: $color-main-background;
 		}
 	}
 }
@@ -464,7 +464,7 @@ em {
 .section {
 	display: block;
 	padding: 30px;
-	color: #555;
+	color: $color-main-text-dimmed;
 	margin-bottom: 24px;
 	&.hidden {
 		display: none !important;
@@ -499,10 +499,10 @@ em {
 
 /* DROPDOWN ----------------------------------------------------------------- */
 .dropdown {
-	background: #eee;
+	background: $color-main-old-eeeeee;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
-	box-shadow: 0 1px 1px #777;
+	box-shadow: 0 1px 1px $color-main-old-777777;
 	display: block;
 	margin-right: 0;
 	position: absolute;
@@ -520,25 +520,25 @@ em {
 		float: left;
 		padding: 5px;
 		cursor: pointer;
-		color: #888;
+		color: $color-main-text-dimmed;
 		margin-bottom: 1px;
 		a {
-			color: #888;
+			color: $color-main-text-dimmed;
 			margin-bottom: 1px;
 		}
 		&.selected {
 			font-weight: 600;
-			border-bottom: 1px solid #333;
+			border-bottom: 1px solid $color-main-old-333333;
 		}
 		&:hover {
-			border-bottom: 1px solid #333;
+			border-bottom: 1px solid $color-main-old-333333;
 		}
 		&.selected, &:hover {
 			margin-bottom: 0px;
-			color: #000;
+			color: $color-main-text;
 			a {
 				margin-bottom: 0px;
-				color: #000;
+				color: $color-main-text;
 			}
 		}
 	}
@@ -557,7 +557,7 @@ em {
 	.popovermenu, .popovermenu:after,
 	#app-navigation .app-navigation-entry-menu,
 	#app-navigation .app-navigation-entry-menu:after {
-		border: 1px solid #eee;
+		border: 1px solid $color-main-old-eeeeee;
 	}
 }
 
@@ -565,18 +565,18 @@ em {
 .app-navigation-entry-menu,
 .popovermenu {
 	position: absolute;
-	background-color: #fff;
-	color: #333;
+	background-color: $color-main-background;
+	color: $color-main-old-333333;
 	border-radius: 3px;
 	z-index: 110;
 	margin: 5px;
 	margin-top: -5px;
 	right: 0;
-	-webkit-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
-	-moz-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
-	-ms-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
-	-o-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
-	filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
+	-webkit-filter: drop-shadow(0 0 5px $color-box-shadow);
+	-moz-filter: drop-shadow(0 0 5px $color-box-shadow);
+	-ms-filter: drop-shadow(0 0 5px $color-box-shadow);
+	-o-filter: drop-shadow(0 0 5px $color-box-shadow);
+	filter: drop-shadow(0 0 5px $color-box-shadow);
 	display: none;
 
 	&:after {
@@ -591,8 +591,8 @@ em {
 		width: 0;
 		position: absolute;
 		pointer-events: none;
-		border-color: rgba(238, 238, 238, 0);
-		border-bottom-color: #fff;
+		border-color: rgba($color-main-old-238, 0);
+		border-bottom-color: $color-main-background;
 		border-width: 10px;
 	}
 	/* Center the popover */
@@ -644,7 +644,7 @@ em {
 			margin: 0;
 			font-weight: inherit;
 			box-shadow: none;
-			color: #333 !important; /* Overwrite app-navigation li */
+			color: $color-main-old-333333 !important; /* Overwrite app-navigation li */
 			/* prevent .action class to break the design */
 			&.action {
 				padding: inherit !important;
