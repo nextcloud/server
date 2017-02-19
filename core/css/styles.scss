@@ -54,7 +54,7 @@ table, td, th {
 
 a {
 	border: 0;
-	color: #000;
+	color: $color-main-text;
 	text-decoration: none;
 	cursor: pointer;
 	* {
@@ -78,18 +78,18 @@ ul {
 }
 
 body {
-	background-color: #ffffff;
+	background-color: $color-main-background;
 	font-weight: 400;
 	font-size: .8em;
 	line-height: 1.6em;
 	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
-	color: #000;
+	color: $color-main-text;
 	height: auto;
 }
 
 #body-login {
 	text-align: center;
-	background-color: #0082c9;
+	background-color: $color-primary;
 	background-image: url('../img/background.jpg?v=1');
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
@@ -105,14 +105,14 @@ body {
 	width: 258px !important;
 	display: inline-block;
 	margin-bottom: 0 !important;
-	background-color: rgba(0, 0, 0, 0.3) !important;
+	background-color: rgba($color-main-text, 0.3) !important;
 	border: none !important;
 }
 
 .two-factor-link {
 	display: inline-block;
 	padding: 12px;
-	color: rgba(255, 255, 255, 0.75);
+	color: rgba($color-main-background, 0.75);
 }
 
 .float-spinner {
@@ -133,8 +133,8 @@ body {
 	width: 100%;
 	z-index: 9000;
 	text-align: center;
-	background-color: rgba(0, 0, 0, 0.5);
-	color: #fff;
+	background-color: rgba($color-main-text, 0.5);
+	color: $color-primary-text;
 	line-height: 125%;
 	font-size: 24px;
 	div {
@@ -145,10 +145,10 @@ body {
 		margin: 0px auto;
 	}
 	a {
-		color: #fff;
-		border-bottom: 2px dotted #fff;
+		color: $color-primary-text;
+		border-bottom: 2px dotted $color-main-background;
 		&:hover, &:focus {
-			color: #ddd;
+			color: $color-main-old-dddddd;
 		}
 	}
 }
@@ -164,7 +164,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-	background: #ddd;
+	background: $color-main-old-dddddd;
 	border-radius: 3px;
 }
 
@@ -178,7 +178,7 @@ body {
 		padding: 3px;
 		padding-left: 25px;
 		background: transparent url('../img/actions/search-white.svg?v=1') no-repeat 6px center;
-		color: #fff;
+		color: $color-primary-text;
 		border: 0;
 		border-radius: 3px;
 		margin-top: 3px;
@@ -189,11 +189,11 @@ body {
 		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)';
 		opacity: .7;
 		&:focus, &:active, &:valid {
-			color: #fff;
+			color: $color-primary-text;
 			width: 155px;
 			cursor: text;
-			background-color: #0082c9 !important;
-			border: 1px solid rgba(255, 255, 255, 0.5) !important;
+			background-color: $color-primary !important;
+			border: 1px solid rgba($color-primary-text, 0.5) !important;
 		}
 		& ~ .icon-close-white {
 			display: inline;
@@ -228,7 +228,7 @@ body {
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	background-color: rgba(255, 255, 255, 0.95);
+	background-color: rgba($color-main-background, 0.95);
 	z-index: 50;
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -298,7 +298,7 @@ body {
 }
 
 #emptycontent, .emptycontent {
-	color: #888;
+	color: $color-main-old-888888;
 	text-align: center;
 	margin-top: 30vh;
 	width: 100%;
@@ -336,16 +336,16 @@ body {
 	/* fix sticky footer */
 	p.info, form fieldset legend, #datadirContent label {
 		text-align: center;
-		color: #fff;
+		color: $color-primary-text;
 	}
 	form {
 		fieldset .warning-info, input[type='checkbox'] + label {
 			text-align: center;
-			color: #fff;
+			color: $color-primary-text;
 		}
 		.warning input[type='checkbox'] {
 			&:hover + label, &:focus + label, + label {
-				color: #fff !important;
+				color: $color-primary-text !important;
 			}
 		}
 	}
@@ -354,8 +354,8 @@ body {
 			margin: 0 0 20px;
 		}
 		a {
-			color: #fff;
-			border-bottom: 1px solid #aaa;
+			color: $color-primary-text;
+			border-bottom: 1px solid $color-main-old-aaaaaa;
 		}
 	}
 	.infogroup {
@@ -444,7 +444,7 @@ body {
 	}
 	.tipsy-inner {
 		font-weight: bold;
-		color: #ccc;
+		color: $color-main-old-cccccc;
 	}
 	input {
 		&[type='text'], &[type='password'], &[type='email'] {
@@ -483,7 +483,7 @@ body {
 	border-top: 0 !important;
 	border-bottom: 0 !important;
 	border-radius: 0 !important;
-	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1) inset !important;
+	box-shadow: 0 1px 0 rgba($color-main-text, 0.1) inset !important;
 }
 
 #body-login .groupbottom input, .groupbottom input {
@@ -491,7 +491,7 @@ body {
 	border-top: 0 !important;
 	border-top-right-radius: 0 !important;
 	border-top-left-radius: 0 !important;
-	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1) inset !important;
+	box-shadow: 0 1px 0 rgba($color-main-text, 0.1) inset !important;
 }
 
 #body-login .groupbottom input[type=submit] {
@@ -517,16 +517,16 @@ label.infield {
 			user-select: none;
 		}
 		.errors {
-			background: #fed7d7;
-			border: 1px solid #f00;
+			background: rgba($color-error, .35);
+			border: 1px solid $color-main-old-ff0000;
 			list-style-indent: inside;
 			margin: 0 0 2em;
 			padding: 1em;
 		}
 	}
 	.success {
-		background: #d7fed7;
-		border: 1px solid #0f0;
+		background: rgba($color-success, .35);
+		border: 1px solid $color-success;
 		width: 35%;
 		margin: 30px auto;
 		padding: 1em;
@@ -537,7 +537,7 @@ label.infield {
 		box-sizing: border-box;
 	}
 	p.info a, #showAdvanced {
-		color: #fff;
+		color: $color-primary-text;
 	}
 	#remember_login {
 		&:hover + label, &:focus + label {
@@ -626,25 +626,25 @@ label.infield {
 			position: static;
 			margin: 0 -3px 5px;
 			font-size: 12px;
-			background: #f8f8f8;
-			color: #888;
+			background: $color-main-old-f8f8f8;
+			color: $color-main-old-888888;
 			cursor: pointer;
-			border: 1px solid #ddd;
+			border: 1px solid $color-main-old-dddddd;
 			span {
 				cursor: pointer;
 				padding: 10px 20px;
 			}
 			&.ui-state-hover, &.ui-state-active {
-				color: #000;
-				background-color: #e8e8e8;
+				color: $color-main-text;
+				background-color: $color-main-old-e8e8e8;
 			}
 		}
 	}
 	.warning, .update, .error {
 		display: block;
 		padding: 10px;
-		background-color: rgba(0, 0, 0, 0.3);
-		color: #fff;
+		background-color: rgba($color-main-text, 0.3);
+		color: $color-primary-text;
 		text-align: left;
 		border-radius: 3px;
 		cursor: default;
@@ -672,23 +672,23 @@ label.infield {
 #body-user .warning, #body-settings .warning {
 	margin-top: 8px;
 	padding: 5px;
-	background: #fdd;
+	background: $color-main-old-ffdddd;
 	border-radius: 3px;
 }
 
 .warning {
 	legend, a {
-		color: #fff !important;
+		color: $color-primary-text !important;
 		font-weight: 600 !important;
 	}
 }
 
 .error {
 	a {
-		color: #fff !important;
+		color: $color-primary-text !important;
 		font-weight: 600 !important;
 		&.button {
-			color: #555 !important;
+			color: $color-main-old-555555 !important;
 			display: inline-block;
 			text-align: center;
 		}
@@ -708,7 +708,7 @@ label.infield {
 }
 
 .warning-input {
-	border-color: #ce3702 !important;
+	border-color: $color-error !important;
 }
 
 /* Fixes for log in page, TODO should be removed some time */
@@ -782,7 +782,7 @@ label.infield {
 	#forgot-password {
 		padding: 11px;
 		float: right;
-		color: #fff;
+		color: $color-primary-text;
 	}
 	.wrapper {
 		min-height: 100%;
@@ -822,7 +822,7 @@ td.avatar {
 	margin: 0 auto;
 	max-width: 60%;
 	z-index: 8000;
-	background-color: #fff;
+	background-color: $color-main-background;
 	border: 0;
 	padding: 1px 8px;
 	display: none;
@@ -905,7 +905,7 @@ tr {
 
 tbody tr {
 	&:hover, &:focus, &:active {
-		background-color: #f8f8f8;
+		background-color: $color-main-old-f8f8f8;
 	}
 }
 
@@ -920,7 +920,7 @@ code {
 	padding: 0 !important;
 	div {
 		padding: 0;
-		background-color: rgb(220, 220, 220);
+		background-color: $color-main-old-220;
 		font-weight: normal;
 		white-space: nowrap;
 		border-bottom-left-radius: 3px;
@@ -935,7 +935,7 @@ code {
 }
 
 #quota div.quota-warning {
-	background-color: #fc4;
+	background-color: $color-warning;
 }
 
 .pager {
@@ -955,16 +955,16 @@ code {
 
 .separator {
 	display: inline;
-	border-left: 1px solid #d3d3d3;
-	border-right: 1px solid #fff;
+	border-left: 1px solid $color-main-old-d3d3d3;
+	border-right: 1px solid $color-main-background;
 	height: 10px;
 	width: 0px;
 	margin: 4px;
 }
 
 a.bookmarklet {
-	background-color: #ddd;
-	border: 1px solid #ccc;
+	background-color: $color-main-old-dddddd;
+	border: 1px solid $color-main-old-cccccc;
 	padding: 5px;
 	padding-top: 0px;
 	padding-bottom: 2px;
@@ -973,11 +973,11 @@ a.bookmarklet {
 }
 
 .exception {
-	color: #000;
+	color: $color-main-text;
 	textarea {
 		width: 95%;
 		height: 200px;
-		background: #ffe;
+		background: $color-main-old-ffffee;
 		border: 0;
 	}
 }
@@ -991,8 +991,8 @@ a.bookmarklet {
 }
 
 .ui-datepicker-prev, .ui-datepicker-next {
-	border: 1px solid #ddd;
-	background: #fff;
+	border: $color-main-old-dddddd;
+	background: $color-main-background;
 }
 
 /* ---- DIALOGS ---- */
@@ -1030,7 +1030,7 @@ a.bookmarklet {
 		width: 100%;
 	}
 	.emptycontent {
-		color: #888;
+		color: $color-main-old-888888;
 		text-align: center;
 		margin-top: 80px;
 		width: 100%;
@@ -1048,7 +1048,7 @@ a.bookmarklet {
 	.filelist {
 		td {
 			padding: 14px;
-			border-bottom: 1px solid #eee;
+			border-bottom: 1px solid $color-main-old-eeeeee;
 		}
 		tr:last-child td {
 			border-bottom: none;
@@ -1111,7 +1111,7 @@ span.ui-icon {
 	}
 	.scrollarea {
 		overflow: auto;
-		border: 1px solid #ddd;
+		border: 1px solid $color-main-old-dddddd;
 		width: 100%;
 		height: 240px;
 	}
@@ -1123,7 +1123,7 @@ span.ui-icon {
 		}
 	}
 	.taglist li {
-		background: #f8f8f8;
+		background: $color-main-old-f8f8f8;
 		padding: .3em .8em;
 		white-space: nowrap;
 		overflow: hidden;
@@ -1131,7 +1131,7 @@ span.ui-icon {
 		-webkit-transition: background-color 500ms;
 		transition: background-color 500ms;
 		&:hover, &:active {
-			background: #eee;
+			background: $color-main-old-eeeeee;
 		}
 	}
 	.addinput {
@@ -1143,10 +1143,10 @@ span.ui-icon {
 /* ---- APP SETTINGS - LEGACY, DO NOT USE THE POPUP! ---- */
 
 .popup {
-	background-color: #fff;
+	background-color: $color-main-background;
 	border-radius: 3px;
-	box-shadow: 0 0 10px #aaa;
-	color: #333;
+	box-shadow: 0 0 10px $color-main-old-aaaaaa;
+	color: $color-main-old-333333;
 	padding: 10px;
 	position: fixed !important;
 	z-index: 100;
@@ -1215,7 +1215,7 @@ div.crumb {
 		position: relative;
 		top: 12px;
 		padding: 14px 24px 14px 17px;
-		color: #555;
+		color: $color-main-old-555555;
 	}
 	&.last a {
 		padding-right: 0;
@@ -1263,12 +1263,12 @@ div.crumb {
 	position: relative;
 	text-align: center;
 	.info {
-		color: #777;
+		color: $color-main-old-777777;
 		text-align: center;
 		margin: 0 auto;
 		padding: 20px 0;
 		a {
-			color: #777;
+			color: $color-main-old-777777;
 			font-weight: 600;
 			padding: 13px;
 			margin: -13px;
