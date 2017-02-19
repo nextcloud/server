@@ -56,9 +56,9 @@
 		margin-right: 0;
 	}
 	.error {
-		color: #e9322d;
-		border-color: #e9322d;
-		box-shadow: 0 0 6px #f8b9b7;
+		color: $color-error;
+		border-color: $color-error;
+		box-shadow: 0 0 6px rgba($color-error, 0.35);
 	}
 	.mailView .icon-mail {
 		opacity: 0.5;
@@ -144,7 +144,7 @@ a {
 }
 
 #link {
-	border-top: 1px solid #ddd;
+	border-top: 1px solid $color-main-old-dddddd;
 	padding-top: 8px;
 	#showPassword img {
 		padding-left: 5px;
@@ -182,5 +182,5 @@ a {
 .notCreatable {
 	padding-left: 12px;
 	padding-top: 12px;
-	color: #999;
+	color: rgba($color-main-text, .4);
 }
