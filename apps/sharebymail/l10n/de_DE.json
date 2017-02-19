@@ -14,7 +14,7 @@
     "Failed to create the E-mail" : "Erstellen der E-Mail fehlgeschlagen",
     "Could not find share" : "Freigabe konnte nicht gefunden werden",
     "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Hallo,\n\n%s hat »%s« im Auftrag von %s mit Ihnen geteilt.\n\n%s\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Hallo,\n\n%s hat »%s« mit Dir geteilt.\n\n%s\n",
+    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Hallo,\n\n%s hat »%s« mit Ihnen geteilt.\n\n%s\n",
     "Cheers!" : "Noch einen schönen Tag!",
     "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hallo,<br><br>%s hat <a href=\"%s\">%s</a> im Auftrag von %s mit Ihnen geteilt.<br><br>",
     "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hallo,<br><br>%s hat <a href=\"%s\">%s</a> mit Ihnen geteilt.<br><br>"
