@@ -6,3 +6,38 @@ $color-primary-text: #ffffff;
 $color-error: #e9322d;
 $color-warning: #ffcc44;
 $color-success: #46ba61;
+
+$color-box-shadow: rgba(lighten($color-main-text-dimmed, 25%), 0.75);
+
+$image-logo: '../img/logo-icon.svg?v=1';
+$image-login-background: '../img/background.jpg?v=1';
+
+
+// Variables with old color values
+// Need simplification once the merge is looking good so far
+$color-main-old-333333: #333333;
+$color-main-old-eeeeee: #eee;
+$color-main-old-fafafa: #fafafa;
+$color-main-old-f8f8f8: #f8f8f8;
+$color-main-old-bbbbbb: #bbb;
+$color-main-old-888888: #888;
+$color-main-old-999999: #999;
+$color-main-old-dddddd: #ddd;
+$color-main-old-666666: #666;
+$color-main-old-777777: #777;
+$color-main-old-555555: #555;
+$color-main-old-cccccc: #ccc;
+$color-main-old-aaaaaa: #aaa;
+$color-main-old-222222: #222;
+$color-main-old-f0f0f0: #f0f0f0;
+$color-main-old-e8e8e8: #e8e8e8;
+$color-main-old-ffdddd: #fdd;
+$color-main-old-ffffee: #fee;
+$color-main-old-ff0000: #f00;
+$color-main-old-d3d3d3: #d3d3d3;
+$color-main-old-190: rgb(190, 190, 190);
+$color-main-old-238: rgb(238, 238, 238);
+$color-main-old-150: rgb(150, 150, 150);
+$color-main-old-187: rgb(198, 198, 198);
+$color-main-old-220: rgb(220, 220, 220);
+$color-main-old-245: rgb(245, 245, 245);
