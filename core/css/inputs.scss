@@ -39,9 +39,9 @@ textarea,
 	margin: 3px 3px 3px 0;
 	padding: 7px 6px;
 	font-size: 13px;
-	background-color: #fff;
-	color: #333;
-	border: 1px solid #ddd;
+	background-color: $color-main-background;
+	color: $color-main-old-333333;
+	border: 1px solid $color-main-old-dddddd;
 	outline: none;
 	border-radius: 3px;
 	&:not(:disabled):not(.primary) {
@@ -50,38 +50,38 @@ textarea,
 		&:focus,
 		&.active {
 		/* active class used for multiselect */
-			border-color: #0082c9;
+			border-color: $color-primary;
 			outline: none;
 		}
 		&:active {
 			outline: none;
-			background-color: #fff;
+			background-color: $color-main-background;
 		}
 	}
 	&:disabled {
-		background-color: #eee;
-		color: #999;
+		background-color: $color-main-old-eeeeee;
+		color: rgba($color-main-text, 0.4);
 		cursor: default;
 		opacity: 0.5;
 	}
 	/* Primary action button, use sparingly */
 	&.primary {
-		border: 1px solid #0082c9;
-		background-color: #00a2e9;
-		color: #fff;
+		border: 1px solid $color-primary;
+		background-color: rgba($color-primary, .7);
+		color: $color-primary-text;
 		cursor: pointer;
 		&:not(:disabled) {
 			&:hover,
 			&:focus {
-				background-color: #0092d9;
+				background-color: rgba($color-primary, .85);
 			}
 			&:active {
-				background-color: #00a2e9;
+				background-color: rgba($color-primary, .7);
 			}
 		}
 		&:disabled {
-			background-color: #00a2e9;
-			color: #bbb;
+			background-color: rgba($color-primary, .7);
+			color: color-main-old-bbbbbb;
 		}
 	}
 }
@@ -128,7 +128,7 @@ input[type='reset'] {
 	min-height: 34px;
 	cursor: pointer;
 	box-sizing: border-box;
-	background-color: #fafafa;
+	background-color: $color-main-old-fafafa;
 }
 
 /* Buttons */
@@ -155,7 +155,7 @@ button, .button {
 }
 
 textarea {
-	color: #555;
+	color: $color-main-old-555555;
 	cursor: text;
 	font-family: inherit;
 	height: auto;
@@ -163,8 +163,8 @@ textarea {
 		&:active,
 		&:hover,
 		&:focus {
-			border-color: #ddd !important;
-			background-color: #fff !important;
+			border-color: $color-main-old-dddddd !important;
+			background-color: $color-main-background !important;
 		}
 	}
 }
@@ -186,7 +186,7 @@ button img,
 	cursor: pointer;
 }
 #quota {
-	color: #555;
+	color: $color-main-old-555555;
 }
 select,
 .button.multiselect {
@@ -221,27 +221,27 @@ input {
 				border-radius: 50%;
 				margin: 3px;
 				margin-top: 1px;
-				border: 1px solid #888;
+				border: 1px solid $color-main-old-888888;
 			}
 			&:not(:disabled):not(:checked) + label:hover:before,
 			&:focus + label:before {
-				border-color: #0082c9;
+				border-color: $color-primary;
 			}
 			&:checked + label:before,
 			&.checkbox:indeterminate + label:before {
 			/* ^ :indeterminate have a strange behavior on radio,
 			so we respecified the checkbox class again to be safe */
-				box-shadow: inset 0px 0px 0px 2px #fff;
-				background-color: #0082c9;
-				border-color: #0082c9
+				box-shadow: inset 0px 0px 0px 2px $color-main-background;
+				background-color: $color-primary;
+				border-color: $color-primary
 			}
 			&:disabled + label:before {
-				background-color: #ccc !important; /* override other status */
+				background-color: $color-main-old-cccccc !important; /* override other status */
 			}
 			&:checked:disabled + label:before {
-				box-shadow: inset 0px 0px 0px 2px #fff;
-				border-color: #aaa;
-				background-color: #bbb;
+				box-shadow: inset 0px 0px 0px 2px $color-main-background;
+				border-color: $color-main-old-aaaaaa;
+				background-color: $color-main-old-bbbbbb;
 			}
 		}
 		&.checkbox {
@@ -259,48 +259,48 @@ input {
 				background-image: url('../img/actions/checkbox-mixed.svg');
 			}
 			&:indeterminate:disabled + label:before {
-				border-color: #888;
+				border-color: $color-main-old-888888;
 			}
 		}
 		&.radio--white,
 		&.checkbox--white {
 			+ label:before {
-				border-color: #ddd;
+				border-color: $color-main-old-dddddd;
 			}
 			&:not(:disabled):not(:checked) + label:hover:before,
 			&:focus + label:before {
-				border-color: #fff;
+				border-color: $color-main-background;
 			}
 			&:checked + label:before {
-				box-shadow: inset 0px 0px 0px 2px #000;
-				background-color: #eee;
-				border-color: #eee
+				box-shadow: inset 0px 0px 0px 2px $color-main-text;
+				background-color: $color-main-old-eeeeee;
+				border-color: $color-main-old-eeeeee
 			}
 			&:disabled + label:before {
-				background-color: #666 !important; /* override other status */
-				border-color: #999 !important; /* override other status */
+				background-color: $color-main-old-666666 !important; /* override other status */
+				border-color: rgba($color-main-text, 0.4) !important; /* override other status */
 			}
 			&:checked:disabled + label:before {
-				box-shadow: inset 0px 0px 0px 2px #000;
-				border-color: #666;
-				background-color: #222;
+				box-shadow: inset 0px 0px 0px 2px $color-main-text;
+				border-color: $color-main-old-666666;
+				background-color: $color-main-old-222222;
 			}
 		}
 		&.checkbox--white {
 			&:checked + label:before,
 			&:indeterminate + label:before {
 				background-color: transparent !important; /* Override default checked */
-				border-color: #fff !important; /* Override default checked */
+				border-color: $color-main-background !important; /* Override default checked */
 				background-image: url('../img/actions/checkbox-mark-white.svg');
 			}
 			&:indeterminate + label:before {
 				background-image: url('../img/actions/checkbox-mixed-white.svg');
 			}
 			&:checked:disabled + label:after {
-				border-color: #aaa;
+				border-color: $color-main-old-aaaaaa;
 			}
 			&:indeterminate:disabled + label:after {
-				background-color: #aaa;
+				background-color: $color-main-old-aaaaaa;
 			}
 		}
 	}
@@ -310,7 +310,7 @@ input {
 .select2-drop {
 	margin-top: -2px;
 	&.select2-drop-active {
-		border-color: #ddd;
+		border-color: $color-main-old-dddddd;
 	}
 	.avatar {
 		display: inline-block;
@@ -343,17 +343,17 @@ input {
 			position: relative;
 			display: list-item;
 			padding: 12px;
-			background-color: #fff;
+			background-color: $color-main-background;
 			cursor: pointer;
-			color: #222;
+			color: $color-main-old-222222;
 		}
 		.select2-result {
 			&.select2-selected {
-				background-color: #f8f8f8;
+				background-color: $color-main-old-f8f8f8;
 			}
 			&.select2-highlighted {
-				background-color: #f8f8f8;
-				color: #000;
+				background-color: $color-main-old-f8f8f8;
+				color: $color-main-text;
 			}
 		}
 	}
@@ -371,11 +371,11 @@ input {
 		box-shadow: none;
 		white-space: nowrap;
 		text-overflow: ellipsis;
-		background: #fff;
-		color: #555;
+		background: $color-main-background;
+		color: $color-main-old-555555;
 		box-sizing: content-box;
 		border-radius: 3px;
-		border: 1px solid #ddd;
+		border: 1px solid $color-main-old-dddddd;
 		margin: 0;
 		padding: 2px 0;
 		min-height: auto;
@@ -387,9 +387,9 @@ input {
 			&:active,
 			& {
 				background-image: none;
-				background-color: #fff;
-				color: #333;
-				border: 1px solid #ddd;
+				background-color: $color-main-background;
+				color: $color-main-old-333333;
+				border: 1px solid $color-main-old-dddddd;
 			}
 			.select2-search-choice-close {
 				display: none;
@@ -413,11 +413,11 @@ input {
 		box-shadow: none;
 		white-space: nowrap;
 		text-overflow: ellipsis;
-		background: #fff;
-		color: #555;
+		background: $color-main-background;
+		color: $color-main-old-555555;
 		box-sizing: content-box;
 		border-radius: 3px;
-		border: 1px solid #ddd;
+		border: 1px solid $color-main-old-dddddd;
 		margin: 0;
 		padding: 2px 0;
 		padding-left: 6px;
@@ -426,15 +426,15 @@ input {
 			line-height: 20px;
 			padding-left: 5px;
 			background-image: none;
-			background-color: #f8f8f8;
-			border-color: #f8f8f8;
+			background-color: $color-main-old-f8f8f8;
+			border-color: $color-main-old-f8f8f8;
 			.select2-search-choice-close {
 				display: none;
 			}
 			&.select2-search-choice-focus,
 			&:hover {
-				background-color: #f0f0f0;
-				border-color: #f0f0f0;
+				background-color: $color-main-old-f0f0f0;
+				border-color: $color-main-old-f0f0f0;
 			}
 		}
 		.select2-arrow {
@@ -470,7 +470,7 @@ input {
 }
 
 .ui-widget-content {
-	background: #fff;
+	background: $color-main-background;
 	border-top: none;
 }
 
@@ -482,7 +482,7 @@ input {
 
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
 	border: none;
-	background: #f8f8f8;
+	background: $color-main-old-f8f8f8;
 }
 
 /* Animation */
