@@ -17,27 +17,27 @@
  */
 
 ul.multiselectoptions {
-	background-color: #fff;
-	border: 1px solid #ddd;
+	background-color: $color-main-background;
+	border: 1px solid $color-primary;
 	border-top: none;
-	box-shadow: 0 1px 1px #ddd;
+	box-shadow: 0 1px 10px $color-box-shadow;
 	padding-top: 8px;
 	position: absolute;
 	max-height: 20em;
 	overflow-y: auto;
 	z-index: 49;
 	&.down {
-		border-bottom-left-radius: 8px;
-		border-bottom-right-radius: 8px;
+		border-bottom-left-radius: 3px;
+		border-bottom-right-radius: 3px;
 		width: 100%;
 		/* do not cut off group names */
-		-webkit-box-shadow: 0px 0px 20px rgba(29, 45, 68, 0.4);
-		-moz-box-shadow: 0px 0px 20px rgba(29, 45, 68, 0.4);
-		box-shadow: 0px 0px 20px rgba(29, 45, 68, 0.4);
+		-webkit-box-shadow: 0 1px 10px $color-box-shadow;
+		-moz-box-shadow: 0 1px 10px $color-box-shadow;
+		box-shadow: 0 1px 10px $color-box-shadow;
 	}
 	&.up {
-		border-top-left-radius: 8px;
-		border-top-right-radius: 8px;
+		border-top-left-radius: 3px;
+		border-top-right-radius: 3px;
 	}
 	> li {
 		overflow: hidden;
@@ -96,7 +96,7 @@ select.multiselect {
 /* To make a select look like a multiselect until it's initialized */
 div.multiselect {
 	&.active {
-		background-color: #fff;
+		background-color: $color-main-background;
 		position: relative;
 		z-index: 50;
 	}
