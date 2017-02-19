@@ -54,7 +54,7 @@
 			left: 0;
 			margin-top: -5px;
 			border-width: 5px 5px 5px 0;
-			border-right-color: #000000;
+			border-right-color: $color-main-text;
 		}
 	}
 	&.left {
@@ -65,7 +65,7 @@
 			right: 0;
 			margin-top: -5px;
 			border-width: 5px 0 5px 5px;
-			border-left-color: #000000;
+			border-left-color: $color-main-text;
 		}
 	}
 
@@ -75,7 +75,7 @@
 	&.top-right .tooltip-arrow  {
 		bottom: 0;
 		border-width: 5px 5px 0;
-		border-top-color: #000000;
+		border-top-color: $color-main-text;
 	}
 	&.top .tooltip-arrow {
 		left: 50%;
@@ -96,7 +96,7 @@
 	&.bottom-right .tooltip-arrow  {
 		top: 0;
 		border-width: 0 5px 5px;
-		border-bottom-color: #000000;
+		border-bottom-color: $color-main-text;
 	}
 	&.bottom .tooltip-arrow {
 		left: 50%;
@@ -115,9 +115,9 @@
 .tooltip-inner {
 	max-width: 350px;
 	padding: 3px 8px;
-	color: #ffffff;
+	color: $color-main-background;
 	text-align: center;
-	background-color: #000000;
+	background-color: $color-main-text;
 	border-radius: 4px;
 }
 
