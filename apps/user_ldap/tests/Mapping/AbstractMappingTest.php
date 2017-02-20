@@ -26,6 +26,7 @@
 
 namespace OCA\User_LDAP\Tests\Mapping;
 
+use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCP\IDBConnection;
 
 abstract class AbstractMappingTest extends \Test\TestCase {
@@ -181,7 +182,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	/**
 	 * tests setDNbyUUID() for successful and unsuccessful update.
 	 */
-	public function testSetMethod() {
+	public function testSetDNMethod() {
 		list($mapper, $data) = $this->initTest();
 
 		$newDN = 'uid=modified,dc=example,dc=org';
@@ -195,7 +196,26 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 		$this->assertFalse($done);
 		$name = $mapper->getNameByDN($newDN);
 		$this->assertFalse($name);
+	}
 
+	/**
+	 * tests setUUIDbyDN() for successful and unsuccessful update.
+	 */
+	public function testSetUUIDMethod() {
+		/** @var AbstractMapping $mapper */
+		list($mapper, $data) = $this->initTest();
+
+		$newUUID = 'ABC737-DEF754';
+
+		$done = $mapper->setUUIDbyDN($newUUID, 'uid=notme,dc=example,dc=org');
+		$this->assertFalse($done);
+		$name = $mapper->getNameByUUID($newUUID);
+		$this->assertFalse($name);
+
+		$done = $mapper->setUUIDbyDN($newUUID, $data[0]['dn']);
+		$this->assertTrue($done);
+		$uuid = $mapper->getUUIDByDN($data[0]['dn']);
+		$this->assertSame($uuid, $newUUID);
 	}
 
 	/**

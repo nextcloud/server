@@ -129,6 +129,25 @@ abstract class AbstractMapping {
 	}
 
 	/**
+	 * Updates the UUID based on the given DN
+	 *
+	 * required by Migration/UUIDFix
+	 *
+	 * @param $uuid
+	 * @param $fdn
+	 * @return bool
+	 */
+	public function setUUIDbyDN($uuid, $fdn) {
+		$query = $this->dbc->prepare('
+			UPDATE `' . $this->getTableName() . '`
+			SET `directory_uuid` = ?
+			WHERE `ldap_dn` = ?
+		');
+
+		return $this->modify($query, [$uuid, $fdn]);
+	}
+
+	/**
 	 * Gets the name based on the provided LDAP DN.
 	 * @param string $fdn
 	 * @return string|false

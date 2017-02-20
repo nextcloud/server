@@ -128,6 +128,12 @@ abstract class Proxy {
 	abstract protected function walkBackends($id, $method, $parameters);
 
 	/**
+	 * @param string $id
+	 * @return Access
+	 */
+	abstract public function getLDAPAccess($id);
+
+	/**
 	 * Takes care of the request to the User backend
 	 * @param string $id
 	 * @param string $method string, the method of the user backend that shall be called

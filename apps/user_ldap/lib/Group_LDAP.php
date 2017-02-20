@@ -902,4 +902,12 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	public function implementsActions($actions) {
 		return (bool)(\OC\Group\Backend::COUNT_USERS & $actions);
 	}
+
+	/**
+	 * Return access for LDAP interaction.
+	 * @return Access instance of Access for LDAP interaction
+	 */
+	public function getLDAPAccess() {
+		return $this->access;
+	}
 }
