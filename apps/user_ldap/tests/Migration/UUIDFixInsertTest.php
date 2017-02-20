@@ -118,8 +118,8 @@ class UUIDFixInsertTest extends TestCase {
 	public function testRun($userBatches, $groupBatches) {
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('user_ldap', 'installed_version', '1.2.1')
-			->willReturn('1.2.0');
+			->with('user_ldap', 'installed_version', '1.1.2')
+			->willReturn('1.1.1');
 
 		$this->userMapper->expects($this->exactly(3))
 			->method('getList')
@@ -145,8 +145,8 @@ class UUIDFixInsertTest extends TestCase {
 	public function testRunWithManyAndNone($userBatches, $groupBatches) {
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('user_ldap', 'installed_version', '1.2.1')
-			->willReturn('1.2.0');
+			->with('user_ldap', 'installed_version', '1.1.2')
+			->willReturn('1.1.1');
 
 		$this->userMapper->expects($this->exactly(5))
 			->method('getList')
@@ -179,8 +179,8 @@ class UUIDFixInsertTest extends TestCase {
 	public function testDonNotRun() {
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('user_ldap', 'installed_version', '1.2.1')
-			->willReturn('1.2.1');
+			->with('user_ldap', 'installed_version', '1.1.2')
+			->willReturn('1.1.2');
 		$this->userMapper->expects($this->never())
 			->method('getList');
 		$this->groupMapper->expects($this->never())
