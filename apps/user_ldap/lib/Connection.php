@@ -47,6 +47,8 @@ use OC\ServerNotAvailableException;
  * @property string[] ldapBaseUsers
  * @property int|string ldapPagingSize holds an integer
  * @property bool|mixed|void ldapGroupMemberAssocAttr
+ * @property string ldapUuidUserAttribute
+ * @property string ldapUuidGroupAttribute
  */
 class Connection extends LDAPUtility {
 	private $ldapConnectionRes = null;
