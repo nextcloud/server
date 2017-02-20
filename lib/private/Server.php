@@ -217,8 +217,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 			return $root;
 		});
-		$this->registerService('LazyRootFolder', function(Server $c) {
-			return new LazyRoot(function() use ($c) {
+		$this->registerService('LazyRootFolder', function (Server $c) {
+			return new LazyRoot(function () use ($c) {
 				return $c->query('RootFolder');
 			});
 		});
@@ -250,7 +250,7 @@ class Server extends ServerContainer implements IServerContainer {
 			});
 			return $groupManager;
 		});
-		$this->registerService(Store::class, function(Server $c) {
+		$this->registerService(Store::class, function (Server $c) {
 			$session = $c->getSession();
 			if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
 				$tokenProvider = $c->query('OC\Authentication\Token\IProvider');
@@ -556,7 +556,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('MountConfigManager', function (Server $c) {
 			$loader = \OC\Files\Filesystem::getLoader();
 			$mountCache = $c->query('UserMountCache');
-			$manager =  new \OC\Files\Config\MountProviderCollection($loader, $mountCache);
+			$manager = new \OC\Files\Config\MountProviderCollection($loader, $mountCache);
 
 			// builtin providers
 
@@ -577,7 +577,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('TrustedDomainHelper', function ($c) {
 			return new TrustedDomainHelper($this->getConfig());
 		});
-		$this->registerService('Throttler', function(Server $c) {
+		$this->registerService('Throttler', function (Server $c) {
 			return new Throttler(
 				$c->getDatabaseConnection(),
 				new TimeFactory(),
@@ -588,7 +588,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('IntegrityCodeChecker', function (Server $c) {
 			// IConfig and IAppManager requires a working database. This code
 			// might however be called when ownCloud is not yet setup.
-			if(\OC::$server->getSystemConfig()->getValue('installed', false)) {
+			if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
 				$config = $c->getConfig();
 				$appManager = $c->getAppManager();
 			} else {
@@ -597,13 +597,13 @@ class Server extends ServerContainer implements IServerContainer {
 			}
 
 			return new Checker(
-					new EnvironmentHelper(),
-					new FileAccessHelper(),
-					new AppLocator(),
-					$config,
-					$c->getMemCacheFactory(),
-					$appManager,
-					$c->getTempManager()
+				new EnvironmentHelper(),
+				new FileAccessHelper(),
+				new AppLocator(),
+				$config,
+				$c->getMemCacheFactory(),
+				$appManager,
+				$c->getTempManager()
 			);
 		});
 		$this->registerService('Request', function ($c) {
@@ -647,10 +647,10 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getThemingDefaults()
 			);
 		});
-		$this->registerService('LDAPProvider', function(Server $c) {
+		$this->registerService('LDAPProvider', function (Server $c) {
 			$config = $c->getConfig();
 			$factoryClass = $config->getSystemValue('ldapProviderFactory', null);
-			if(is_null($factoryClass)) {
+			if (is_null($factoryClass)) {
 				throw new \Exception('ldapProviderFactory not set');
 			}
 			/** @var \OCP\LDAP\ILDAPProviderFactory $factory */
@@ -699,14 +699,14 @@ class Server extends ServerContainer implements IServerContainer {
 			});
 			return $manager;
 		});
-		$this->registerService('CommentsManager', function(Server $c) {
+		$this->registerService('CommentsManager', function (Server $c) {
 			$config = $c->getConfig();
 			$factoryClass = $config->getSystemValue('comments.managerFactory', '\OC\Comments\ManagerFactory');
 			/** @var \OCP\Comments\ICommentsManagerFactory $factory */
 			$factory = new $factoryClass($this);
 			return $factory->getManager();
 		});
-		$this->registerService('ThemingDefaults', function(Server $c) {
+		$this->registerService('ThemingDefaults', function (Server $c) {
 			/*
 			 * Dark magic for autoloader.
 			 * If we do a class_exists it will try to load the class which will
@@ -774,13 +774,13 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('ContentSecurityPolicyManager', function (Server $c) {
 			return new ContentSecurityPolicyManager();
 		});
-		$this->registerService('ContentSecurityPolicyNonceManager', function(Server $c) {
+		$this->registerService('ContentSecurityPolicyNonceManager', function (Server $c) {
 			return new ContentSecurityPolicyNonceManager(
 				$c->getCsrfTokenManager(),
 				$c->getRequest()
 			);
 		});
-		$this->registerService('ShareManager', function(Server $c) {
+		$this->registerService('ShareManager', function (Server $c) {
 			$config = $c->getConfig();
 			$factoryClass = $config->getSystemValue('sharing.managerFactory', '\OC\Share20\ProviderFactory');
 			/** @var \OCP\Share\IProviderFactory $factory */
@@ -802,7 +802,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 			return $manager;
 		});
-		$this->registerService('SettingsManager', function(Server $c) {
+		$this->registerService('SettingsManager', function (Server $c) {
 			$manager = new \OC\Settings\Manager(
 				$c->getLogger(),
 				$c->getDatabaseConnection(),
@@ -828,7 +828,10 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerService(ICloudIdManager::class, function (Server $c) {
-			return new CloudIdManager();
+			return new CloudIdManager(
+				$c->getHTTPClientService(),
+				$c->getMemCacheFactory()->create('cloudid_manager')
+			);
 		});
 
 		/* To trick DI since we don't extend the DIContainer here */

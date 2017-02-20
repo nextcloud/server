@@ -22,15 +22,25 @@
 namespace Test\Federation;
 
 use OC\Federation\CloudIdManager;
+use OCP\Http\Client\IClientService;
+use OCP\ICache;
 use Test\TestCase;
 
 class CloudIdManagerTest extends TestCase {
 	/** @var CloudIdManager */
 	private $cloudIdManager;
 
+	/** @var IClientService|\PHPUnit_Framework_MockObject_MockObject */
+	private $clientService;
+
+	/** @var ICache|\PHPUnit_Framework_MockObject_MockObject */
+	private $cache;
+
 	protected function setUp() {
 		parent::setUp();
-		$this->cloudIdManager = new CloudIdManager();
+		$this->clientService = $this->createMock(IClientService::class);
+		$this->cache = $this->createMock(ICache::class);
+		$this->cloudIdManager = new CloudIdManager($this->clientService, $this->cache);
 	}
 
 	public function cloudIdProvider() {

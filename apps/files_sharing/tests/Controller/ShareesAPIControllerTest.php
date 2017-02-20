@@ -32,6 +32,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\Federation\ICloudIdManager;
 use OCP\Http\Client\IClientService;
+use OCP\ICache;
 use OCP\Share;
 
 /**
@@ -98,7 +99,7 @@ class ShareesAPIControllerTest extends TestCase {
 
 		$this->clientService = $this->createMock(IClientService::class);
 
-		$this->cloudIdManager = new CloudIdManager();
+		$this->cloudIdManager = new CloudIdManager($this->createMock(IClientService::class), $this->createMock(ICache::class));
 
 		$this->sharees = new ShareesAPIController(
 			'files_sharing',

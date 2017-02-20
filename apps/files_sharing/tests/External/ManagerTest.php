@@ -32,6 +32,7 @@ use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider;
 use OCA\Files_Sharing\Tests\TestCase;
 use OCP\Http\Client\IClientService;
+use OCP\ICache;
 use Test\Traits\UserTrait;
 
 /**
@@ -85,7 +86,7 @@ class ManagerTest extends TestCase {
 		);
 		$this->testMountProvider = new MountProvider(\OC::$server->getDatabaseConnection(), function() {
 			return $this->manager;
-		}, new CloudIdManager());
+		}, new CloudIdManager($this->createMock(IClientService::class), $this->createMock(ICache::class)));
 	}
 
 	private function setupMounts() {
