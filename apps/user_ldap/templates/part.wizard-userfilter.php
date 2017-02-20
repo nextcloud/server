@@ -1,7 +1,7 @@
 <fieldset id="ldapWizard2">
 	<div>
 		<p>
-			<?php p($l->t('%s access is limited to users meeting these criteria:', $theme->getName()));?>
+			<?php p($l->t('Listing and searching for users is constrained by these criteria:'));?>
 		</p>
 		<p>
 			<label for="ldap_userfilter_objectclass">
