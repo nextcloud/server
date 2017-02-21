@@ -427,6 +427,18 @@ class ShareesAPIController extends OCSController {
 	 * @throws OCSBadRequestException
 	 */
 	public function search($search = '', $itemType = null, $page = 1, $perPage = 200, $shareType = null, $lookup = true) {
+
+		// only search for string larger than a given threshold
+		$threshold = $this->config->getSystemValue('sharing.minSearchStringLength', 0);
+		if (strlen($search) < $threshold) {
+			return new Http\DataResponse($this->result);
+		}
+
+		// never return more than the max. number of results configured in the config.php
+		$maxResults = $this->config->getSystemValue('sharing.maxAutocompleteResults', 0);
+		if ($maxResults > 0) {
+			$perPage = min($perPage, $maxResults);
+		}
 		if ($perPage <= 0) {
 			throw new OCSBadRequestException('Invalid perPage argument');
 		}
