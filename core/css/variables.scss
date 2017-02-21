@@ -14,6 +14,9 @@ $color-main-text-dimmed: #555555;
 $color-main-background-dimmed: #f0f0f0;
 
 $color-box-shadow: rgba(lighten($color-main-text-dimmed, 25%), 0.75);
+$color-loading: #969696;
+$color-loading-dark: #bbbbbb;
+
 
 // need to be reduced/replaced
 $color-main-old-ff0000: $color-error;
@@ -29,12 +32,8 @@ $color-main-old-bbbbbb: rgb(198, 198, 198);
 $color-main-old-bebebe: rgb(190, 190, 190);
 $color-main-old-bbbbbb: #bbb;
 $color-main-old-aaaaaa: #aaa;
-$color-main-old-969696: rgb(150, 150, 150);
 $color-main-old-888888: #888;
-$color-main-old-555555: #777;
-$color-main-old-555555: #666;
 $color-main-old-555555: #555;
-$color-main-old-333333: #222;
 $color-main-old-333333: #333333;
 
 // warning color (.exception class) not sure where it exists

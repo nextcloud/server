@@ -42,15 +42,15 @@
 		-webkit-transform-origin: center;
 		-ms-transform-origin: center;
 		transform-origin: center;
-		border: 2px solid rgba($color-main-old-969696, 0.5);
-		border-top-color: rgb($color-main-old-969696);
+		border: 2px solid rgba($color-loading, 0.5);
+		border-top-color: $color-loading;
 	}
 }
 
 .icon-loading-dark:after,
 .icon-loading-small-dark:after {
-	border: 2px solid rgba($color-main-old-bbbbbb, 0.5);
-	border-top-color: $color-main-old-bbbbbb;
+	border: 2px solid rgba($color-loading-dark, 0.5);
+	border-top-color: $color-loading-dark;
 }
 
 .icon-loading-small:after,
