@@ -24,7 +24,7 @@
  */
 namespace OCA\Files_Sharing\Controller;
 
-use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCSController;
 use OCP\Contacts\IManager;
@@ -423,7 +423,7 @@ class ShareesAPIController extends OCSController {
 	 * @param int $perPage
 	 * @param int|int[] $shareType
 	 * @param bool $lookup
-	 * @return Http\DataResponse
+	 * @return DataResponse
 	 * @throws OCSBadRequestException
 	 */
 	public function search($search = '', $itemType = null, $page = 1, $perPage = 200, $shareType = null, $lookup = true) {
@@ -431,7 +431,7 @@ class ShareesAPIController extends OCSController {
 		// only search for string larger than a given threshold
 		$threshold = intval($this->config->getSystemValue('sharing.minSearchStringLength', 0));
 		if (strlen($search) < $threshold) {
-			return new Http\DataResponse($this->result);
+			return new DataResponse($this->result);
 		}
 
 		// never return more than the max. number of results configured in the config.php
@@ -507,7 +507,7 @@ class ShareesAPIController extends OCSController {
 	 * @param int $page
 	 * @param int $perPage
 	 * @param bool $lookup
-	 * @return Http\DataResponse
+	 * @return DataResponse
 	 * @throws OCSBadRequestException
 	 */
 	protected function searchSharees($search, $itemType, array $shareTypes, $page, $perPage, $lookup) {
@@ -559,7 +559,7 @@ class ShareesAPIController extends OCSController {
 			$this->result['exact']['emails'] = $mailResults['exact'];
 		}
 
-		$response = new Http\DataResponse($this->result);
+		$response = new DataResponse($this->result);
 
 		if (sizeof($this->reachedEndFor) < 3) {
 			$response->addHeader('Link', $this->getPaginationLink($page, [
