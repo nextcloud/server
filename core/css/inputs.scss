@@ -81,7 +81,7 @@ textarea,
 		}
 		&:disabled {
 			background-color: rgba($color-primary, .7);
-			color: color-main-old-bbbbbb;
+			color: $color-main-old-bbbbbb;
 		}
 	}
 }

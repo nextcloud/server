@@ -166,9 +166,9 @@ em {
 				-ms-transform: rotate(0);
 				transform: rotate(0);
 			}
-			background-image: linear-gradient(top, $color-main-old-238 0%, $color-main-old-245 100%);
-			background-image: -webkit-linear-gradient(top, $color-main-old-238 0%, $color-main-old-245 100%);
-			background-image: -ms-linear-gradient(top, $color-main-old-238 0%, $color-main-old-245 100%);
+			background-image: linear-gradient(top, $color-main-old-eeeeee 0%, $color-main-old-f5f5f5 100%);
+			background-image: -webkit-linear-gradient(top, $color-main-old-eeeeee 0%, $color-main-old-f5f5f5 100%);
+			background-image: -ms-linear-gradient(top, $color-main-old-eeeeee 0%, $color-main-old-f5f5f5 100%);
 		}
 	}
 	> {
@@ -324,7 +324,7 @@ em {
 			margin-right: 0;
 			height: 38px;
 			float: left;
-			border: 1px solid rgba($color-main-old-190, 0.9);
+			border: 1px solid rgba($color-main-old-bebebe, 0.9);
 		}
 		button,
 		input[type='submit'] {
@@ -591,7 +591,6 @@ em {
 		width: 0;
 		position: absolute;
 		pointer-events: none;
-		border-color: rgba($color-main-old-238, 0);
 		border-bottom-color: $color-main-background;
 		border-width: 10px;
 	}
