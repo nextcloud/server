@@ -1297,6 +1297,7 @@ fieldset {
 /* hidden input type=file field */
 
 .hiddenuploadfield {
+	display: none;
 	width: 0;
 	height: 0;
 	opacity: 0;
