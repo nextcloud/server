@@ -204,7 +204,7 @@ nav {
 	margin-top: 0;
 	padding-bottom: 10px;
 	background-color: $color-main-background;
-	box-shadow: 0 1px 10px rgba(lighten($color-main-text, 25%), 0.75);
+	box-shadow: 0 1px 10px $color-box-shadow;
 	border-radius: 3px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
@@ -419,7 +419,7 @@ nav {
 	z-index: 2000;
 	display: none;
 	background: $color-main-background;
-	box-shadow: 0 1px 10px rgba(lighten($color-main-text-dimmed, 25%), 0.75);
+	box-shadow: 0 1px 10px $color-box-shadow;
 	border-radius: 3px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
