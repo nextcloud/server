@@ -63,7 +63,7 @@
 				 show size and last modified date on the right */
 				this.updateLegacyMimetype(result);
 
-				var $pathDiv = $('<div class="path"></div>').text(result.path.substr(1));
+				var $pathDiv = $('<div class="path"></div>').text(result.path.substr(1, result.path.lastIndexOf("/")));
 				$row.find('td.info div.name').after($pathDiv).text(result.name);
 
 				$row.find('td.result a').attr('href', result.link);
@@ -80,7 +80,7 @@
 				 show size and last modified date on the right */
 				this.updateLegacyMimetype(result);
 
-				var $pathDiv = $('<div class="path"></div>').text(result.path.substr(1));
+				var $pathDiv = $('<div class="path"></div>').text(result.path.substr(1, result.path.lastIndexOf("/")));
 				$row.find('td.info div.name').after($pathDiv).text(result.name);
 
 				$row.find('td.result a').attr('href', result.link);
