@@ -89,7 +89,6 @@
     "Test Base DN" : "Preizkus osnovnega enoznačnega imena (DN)",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "Preusmeri samodejne zahteve LDAP. Nastavitev je priporočljiva za obsežnejše namestitve, vendar zahteva nekaj znanja o delu z LDAP.",
     "Manually enter LDAP filters (recommended for large directories)" : "Ročno vstavi filtre za LDAP (priporočljivo za obsežnejše mape).",
-    "%s access is limited to users meeting these criteria:" : "%s dostop je omejen na uporabnike, ki zadostijo tem zahtevam:",
     "The filter specifies which LDAP users shall have access to the %s instance." : "Filter določa, kateri uporabniki LDAP bodo imeli dostop do %s.",
     "Verify settings and count users" : "Preveri nastavitve in preštej uporabnike",
     "Saving" : "Poteka shranjevanje ...",
@@ -151,6 +150,7 @@
     "Username-LDAP User Mapping" : "Uporabniška preslikava uporabniškega imena na LDAP",
     "Clear Username-LDAP User Mapping" : "Izbriši preslikavo uporabniškega imena na LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Izbriši preslikavo skupine na LDAP",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Nastavitve so overjene, najden pa je le en uporabnik. Le prvi se bo lahko prijavil. Priporočljivo je navesti ožji filter."
+    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Nastavitve so overjene, najden pa je le en uporabnik. Le prvi se bo lahko prijavil. Priporočljivo je navesti ožji filter.",
+    "%s access is limited to users meeting these criteria:" : "%s dostop je omejen na uporabnike, ki zadostijo tem zahtevam:"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

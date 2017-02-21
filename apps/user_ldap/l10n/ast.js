@@ -91,7 +91,6 @@ OC.L10N.register(
     "Test Base DN" : "Probar Base DN",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "Evita peticiones automátiques de LDAP. Meyor pa grandes configuraciones, pero rique mayor conocimientu de LDAP.",
     "Manually enter LDAP filters (recommended for large directories)" : "Inxerta manualmente los filtros de LDAP (recomendáu pa direutorios llargos)",
-    "%s access is limited to users meeting these criteria:" : "%s accesos llendaos a los usuarios que cumplan estos criterios:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Les clases d'oxetos más comunes pa los usuarios d'Internet son organizationalPerson, persona, usuariu y inetOrgPerson . Si nun ta seguro de qué clase d'oxetu escoyer, por favor consulte al so alministrador de directorios.",
     "The filter specifies which LDAP users shall have access to the %s instance." : "El filtru especifica qué usuarios LDAP puen tener accesu a %s.",
     "Verify settings and count users" : "Comprobar la configuración y usuarios de recuentu",
@@ -157,6 +156,7 @@ OC.L10N.register(
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Los nomes d'usuariu usense p'atroxar (meta) datos. En cuenta d'identificar y reconocer usuarios, cada usuariu de LDAP tendrá'l so nome d'usuariu internu polo que rique un mapéu dende'l so nome d'usuariu al usuariu de LDAP. El nome d'usuariu creáu mapeáse al UUID del usuariu de LDAP. Amás cacheamos tamién la DN p'amenorgar la intecractividá de LDAP, pero ensin usala pa la identificación. Si la DN camuda, atoparanse los cambios. L'usu internu del nome d'usuariu ye perdayures. ",
     "Clear Username-LDAP User Mapping" : "Llimpiar l'asignación de los Nomes d'usuariu de los usuarios LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Llimpiar l'asignación de los Nomes de grupu de los grupos de LDAP",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Axustes verificaos, pero atopose un usuariu . Namá'l primeru d'ellos va ser capaz d'empecipiar sesión. Considere un filtru más acutáu."
+    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Axustes verificaos, pero atopose un usuariu . Namá'l primeru d'ellos va ser capaz d'empecipiar sesión. Considere un filtru más acutáu.",
+    "%s access is limited to users meeting these criteria:" : "%s accesos llendaos a los usuarios que cumplan estos criterios:"
 },
 "nplurals=2; plural=(n != 1);");
