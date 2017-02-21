@@ -89,14 +89,17 @@ img, object, video, button, textarea, input, select {
 }
 
 .icon-delete {
-	background-image: url('../img/actions/delete.svg?v=1');
 	&.no-permission {
 		&:hover, &:focus {
+			/** TODO: add to svg sprite */
 			background-image: url('../img/actions/delete.svg?v=1');
+			background-position: initial;
 		}
 	}
 	&:hover, &:focus {
+		/** TODO: add to svg sprite */
 		background-image: url('../img/actions/delete-hover.svg?v=1');
+		background-position: initial;
 	}
 }
 
@@ -104,11 +107,15 @@ img, object, video, button, textarea, input, select {
 	background-image: url('../img/actions/delete-white.svg?v=1');
 	&.no-permission {
 		&:hover, &:focus {
+			/** TODO: add to svg sprite */
 			background-image: url('../img/actions/delete-white.svg?v=1');
+			background-position: initial;
 		}
 	}
 	&:hover, &:focus {
+		/** TODO: add to svg sprite */
 		background-image: url('../img/actions/delete-hover.svg?v=1');
+		background-position: initial;
 	}
 }
 
