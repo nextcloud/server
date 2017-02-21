@@ -196,6 +196,9 @@ class QuerySearchHelperTest extends TestCase {
 
 		$results = $this->search($operator);
 
+		sort($fileIds);
+		sort($results);
+
 		$this->assertEquals($fileIds, $results);
 	}
 }

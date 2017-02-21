@@ -130,6 +130,10 @@ class FileSearchBackend implements ISearchBackend {
 		];
 	}
 
+	/**
+	 * @param BasicSearch $search
+	 * @return SearchResult[]
+	 */
 	public function search(BasicSearch $search) {
 		if (count($search->from) !== 1) {
 			throw new \InvalidArgumentException('Searching more than one folder is not supported');
@@ -225,13 +229,6 @@ class FileSearchBackend implements ISearchBackend {
 	 * @return string
 	 */
 	private function mapPropertyNameToCollumn($propertyName) {
-		/**
-		 * new SearchPropertyDefinition('{DAV:}displayname', true, false, true),
-		 * new SearchPropertyDefinition('{DAV:}getcontenttype', true, true, true),
-		 * new SearchPropertyDefinition('{DAV:}getlastmodifed', true, true, true, SearchPropertyDefinition::DATATYPE_DATETIME),
-		 * new SearchPropertyDefinition(FilesPlugin::SIZE_PROPERTYNAME, true, true, true, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
-		 */
-
 		switch ($propertyName) {
 			case '{DAV:}displayname':
 				return 'name';
