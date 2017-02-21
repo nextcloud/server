@@ -14,7 +14,7 @@ OC.L10N.register(
     "No deleted files" : "Nulle files delite",
     "You will be able to recover deleted files from here" : "Tu potera recuperar files delite desde ci",
     "No entries found in this folder" : "Nulle entratas trovate in iste dossier",
-    "Select all" : "Seliger toto",
+    "Select all" : "Selectionar toto",
     "Name" : "Nomine",
     "Deleted" : "Delite"
 },

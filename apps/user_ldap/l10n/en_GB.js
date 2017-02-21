@@ -91,7 +91,6 @@ OC.L10N.register(
     "Test Base DN" : "Test Base DN",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge.",
     "Manually enter LDAP filters (recommended for large directories)" : "Manually enter LDAP filters (recommended for large directories)",
-    "%s access is limited to users meeting these criteria:" : "%s access is limited to users meeting these criteria:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin.",
     "The filter specifies which LDAP users shall have access to the %s instance." : "The filter specifies which LDAP users shall have access to the %s instance.",
     "Verify settings and count users" : "Verify settings and count users",
@@ -158,6 +157,7 @@ OC.L10N.register(
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Usernames are used to store and assign (meta) data. In order to precisely identify and recognise users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage.",
     "Clear Username-LDAP User Mapping" : "Clear Username-LDAP User Mapping",
     "Clear Groupname-LDAP Group Mapping" : "Clear Groupname-LDAP Group Mapping",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter."
+    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter.",
+    "%s access is limited to users meeting these criteria:" : "%s access is limited to users meeting these criteria:"
 },
 "nplurals=2; plural=(n != 1);");

@@ -91,7 +91,6 @@ OC.L10N.register(
     "Test Base DN" : "בדיקת DN בסיסי",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "נמנע מבקשות אוטומטיות של LDAP. מועדף עבור התקנות גדולות, אבל מחייב ידע מסויים של LDAP.",
     "Manually enter LDAP filters (recommended for large directories)" : "הכנסת מסנני LDAP ידנית (מומלץ עבוק תיקיות גדולות)",
-    "%s access is limited to users meeting these criteria:" : "%s גישה מוגבלת למשתמשים שעונים על קריטריונים אלו:",
     "The filter specifies which LDAP users shall have access to the %s instance." : "הסינון קובע לאיזו משתמשי LDAP תהיה יכולת כניסה למקרה %s.",
     "Verify settings and count users" : "מאמת הגדרות וסופר משתמשים",
     "Saving" : "שמירה",
@@ -149,6 +148,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "מיפוי שם משתמש LDAP:",
     "Clear Username-LDAP User Mapping" : "ניקוי מיפוי שם משתמש LDAP:",
     "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "הגדרות אומתו, אך רק משתמש אחד אותר. רק הראשון יוכל להתחבר. יש לבחון שימוש בסינון צר יותר."
+    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "הגדרות אומתו, אך רק משתמש אחד אותר. רק הראשון יוכל להתחבר. יש לבחון שימוש בסינון צר יותר.",
+    "%s access is limited to users meeting these criteria:" : "%s גישה מוגבלת למשתמשים שעונים על קריטריונים אלו:"
 },
 "nplurals=2; plural=(n != 1);");
