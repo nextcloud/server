@@ -1,30 +1,26 @@
 $color-main-text: #000000;
-$color-main-text-dimmed: #555555;
 $color-main-background: #ffffff;
-$color-main-background-dimmed: #f0f0f0;
-
 $color-primary: #0082c9;
 $color-primary-text: #ffffff;
 $color-error: #e9322d;
 $color-warning: #ffcc44;
 $color-success: #46ba61;
 
-$color-box-shadow: rgba(lighten($color-main-text-dimmed, 25%), 0.75);
 
 $image-logo: '../img/logo-icon.svg?v=1';
 $image-login-background: '../img/background.jpg?v=1';
+
+$color-main-text-dimmed: #555555;
+$color-main-background-dimmed: #f0f0f0;
+
+$color-box-shadow: rgba(lighten($color-main-text-dimmed, 25%), 0.75);
 
 // need to be reduced/replaced
 $color-main-old-ff0000: $color-error;
 $color-main-old-ffdddd: rgba($color-error, .15);
 
-$color-main-old-fafafa: #fafafa;
 $color-main-old-f8f8f8: #f8f8f8;
-$color-main-old-f5f5f5: rgb(245,245,245);
-$color-main-old-f0f0f0: f0f0f0;
-$color-main-old-eeeeee: rgb(238, 238, 238);
 $color-main-old-eeeeee: #eee;
-$color-main-old-e8e8e8: #e8e8e8;
 $color-main-old-dddddd: #ddd;
 $color-main-old-dcdcdc: rgb(220, 220, 200);
 $color-main-old-d3d3d3: #d3d3d3;

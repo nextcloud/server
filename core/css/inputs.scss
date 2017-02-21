@@ -128,7 +128,7 @@ input[type='reset'] {
 	min-height: 34px;
 	cursor: pointer;
 	box-sizing: border-box;
-	background-color: $color-main-old-fafafa;
+	background-color: $color-main-old-f8f8f8;
 }
 
 /* Buttons */
@@ -433,8 +433,8 @@ input {
 			}
 			&.select2-search-choice-focus,
 			&:hover {
-				background-color: $color-main-old-f0f0f0;
-				border-color: $color-main-old-f0f0f0;
+				background-color: $color-main-old-eeeeee;
+				border-color: $color-main-old-eeeeee;
 			}
 		}
 		.select2-arrow {
