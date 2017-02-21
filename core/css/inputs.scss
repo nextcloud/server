@@ -277,12 +277,12 @@ input {
 				border-color: $color-main-old-eeeeee
 			}
 			&:disabled + label:before {
-				background-color: $color-main-old-666666 !important; /* override other status */
+				background-color: $color-main-old-555555 !important; /* override other status */
 				border-color: rgba($color-main-text, 0.4) !important; /* override other status */
 			}
 			&:checked:disabled + label:before {
 				box-shadow: inset 0px 0px 0px 2px $color-main-text;
-				border-color: $color-main-old-666666;
+				border-color: $color-main-old-555555;
 				background-color: $color-main-old-333333;
 			}
 		}
