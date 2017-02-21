@@ -1,17 +1,17 @@
 %svg-common {
-	background: url("images/actions-aa4ed911.svg") no-repeat;
+	background: url("images/actions-4c60c81d.svg") no-repeat;
 }
 
 .icon-add {
 	@extend %svg-common;
-	background-position: 10% 89.33333333333333%;
+	background-position: 50% 89.33333333333333%;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-audio {
 	@extend %svg-common;
-	background-position: 80% 53.333333333333336%;
+	background-position: 0 78.66666666666667%;
 	width: 16px;
 	height: 16px;
 }
@@ -25,14 +25,14 @@
 
 .icon-audio-off-white {
 	@extend %svg-common;
-	background-position: 90% 74.66666666666667%;
+	background-position: 30% 89.33333333333333%;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-audio-white {
 	@extend %svg-common;
-	background-position: 0 89.33333333333333%;
+	background-position: 40% 89.33333333333333%;
 	width: 16px;
 	height: 16px;
 }
@@ -46,28 +46,28 @@
 
 .icon-caret-dark {
 	@extend %svg-common;
-	background-position: 100% 64%;
+	background-position: 10% 100%;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-checkbox-mark {
 	@extend %svg-common;
-	background-position: 100% 74.66666666666667%;
+	background-position: 20% 100%;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-checkbox-mark-white {
 	@extend %svg-common;
-	background-position: 100% 85.33333333333333%;
+	background-position: 30% 100%;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-checkbox-mixed {
 	@extend %svg-common;
-	background-position: 0 100%;
+	background-position: 40% 100%;
 	width: 16px;
 	height: 16px;
 }
@@ -291,7 +291,7 @@
 
 .icon-password {
 	@extend %svg-common;
-	background-position: 10% 100%;
+	background-position: 80% 53.333333333333336%;
 	width: 16px;
 	height: 16px;
 }
@@ -305,7 +305,7 @@
 
 .icon-pause-big {
 	@extend %svg-common;
-	background-position: 0 78.66666666666667%;
+	background-position: 50% 100%;
 	width: 16px;
 	height: 16px;
 }
@@ -359,58 +359,86 @@
 	height: 16px;
 }
 
-.icon-search {
+.icon-screen {
 	@extend %svg-common;
 	background-position: 80% 78.66666666666667%;
 	width: 16px;
 	height: 16px;
 }
 
-.icon-search-white {
+.icon-screen-off {
 	@extend %svg-common;
 	background-position: 90% 0;
 	width: 16px;
 	height: 16px;
 }
 
-.icon-settings {
+.icon-screen-off-white {
 	@extend %svg-common;
 	background-position: 90% 10.666666666666666%;
 	width: 16px;
 	height: 16px;
 }
 
-.icon-settings-dark {
+.icon-screen-white {
 	@extend %svg-common;
 	background-position: 90% 21.333333333333332%;
 	width: 16px;
 	height: 16px;
 }
 
-.icon-share {
+.icon-search {
 	@extend %svg-common;
 	background-position: 90% 32%;
 	width: 16px;
 	height: 16px;
 }
 
-.icon-shared {
+.icon-search-white {
 	@extend %svg-common;
 	background-position: 90% 42.666666666666664%;
 	width: 16px;
 	height: 16px;
 }
 
-.icon-sound {
+.icon-settings {
 	@extend %svg-common;
 	background-position: 90% 53.333333333333336%;
 	width: 16px;
 	height: 16px;
 }
 
-.icon-sound-off {
+.icon-settings-dark {
 	@extend %svg-common;
 	background-position: 90% 64%;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-share {
+	@extend %svg-common;
+	background-position: 90% 74.66666666666667%;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-shared {
+	@extend %svg-common;
+	background-position: 0 89.33333333333333%;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-sound {
+	@extend %svg-common;
+	background-position: 10% 89.33333333333333%;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-sound-off {
+	@extend %svg-common;
+	background-position: 20% 89.33333333333333%;
 	width: 16px;
 	height: 16px;
 }
@@ -438,98 +466,98 @@
 
 .icon-tag {
 	@extend %svg-common;
-	background-position: 20% 89.33333333333333%;
+	background-position: 60% 89.33333333333333%;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-toggle {
 	@extend %svg-common;
-	background-position: 30% 89.33333333333333%;
+	background-position: 70% 89.33333333333333%;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-toggle-filelist {
 	@extend %svg-common;
-	background-position: 40% 89.33333333333333%;
+	background-position: 80% 89.33333333333333%;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-toggle-pictures {
 	@extend %svg-common;
-	background-position: 50% 89.33333333333333%;
+	background-position: 90% 89.33333333333333%;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-triangle-e {
 	@extend %svg-common;
-	background-position: 60% 89.33333333333333%;
+	background-position: 100% 0;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-triangle-n {
 	@extend %svg-common;
-	background-position: 70% 89.33333333333333%;
+	background-position: 100% 10.666666666666666%;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-triangle-s {
 	@extend %svg-common;
-	background-position: 80% 89.33333333333333%;
+	background-position: 100% 21.333333333333332%;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-upload {
 	@extend %svg-common;
-	background-position: 90% 89.33333333333333%;
+	background-position: 100% 32%;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-upload-white {
 	@extend %svg-common;
-	background-position: 100% 0;
+	background-position: 100% 42.666666666666664%;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-user {
 	@extend %svg-common;
-	background-position: 100% 10.666666666666666%;
+	background-position: 100% 53.333333333333336%;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-video {
 	@extend %svg-common;
-	background-position: 100% 21.333333333333332%;
+	background-position: 100% 64%;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-video-off {
 	@extend %svg-common;
-	background-position: 100% 32%;
+	background-position: 100% 74.66666666666667%;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-video-off-white {
 	@extend %svg-common;
-	background-position: 100% 42.666666666666664%;
+	background-position: 100% 85.33333333333333%;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-video-white {
 	@extend %svg-common;
-	background-position: 100% 53.333333333333336%;
+	background-position: 0 100%;
 	width: 16px;
 	height: 16px;
 }
