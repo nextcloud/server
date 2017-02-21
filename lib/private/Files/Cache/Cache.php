@@ -543,7 +543,7 @@ class Cache implements ICache {
 
 				try {
 					$query->execute();
-				} catch (\Exception $e) {
+				} catch (\OC\DatabaseException $e) {
 					$this->connection->rollBack();
 					throw $e;
 				}
