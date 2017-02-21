@@ -21,6 +21,9 @@
 
 namespace OCP\Files\Search;
 
+/**
+ * @since 12.0.0
+ */
 interface ISearchComparison extends ISearchOperator {
 	const COMPARE_EQUAL = 'eq';
 	const COMPARE_GREATER_THAN = 'gt';

@@ -11,6 +11,9 @@ namespace Test\Files\Cache;
 
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use OC\Files\Cache\Cache;
+use OC\Files\Search\SearchComparison;
+use OC\Files\Search\SearchQuery;
+use OCP\Files\Search\ISearchComparison;
 
 class LongId extends \OC\Files\Storage\Temporary {
 	public function getId() {
@@ -111,15 +114,15 @@ class CacheTest extends \Test\TestCase {
 	 * @dataProvider folderDataProvider
 	 */
 	public function testFolder($folder) {
-		if(strpos($folder, 'F09F9890')) {
+		if (strpos($folder, 'F09F9890')) {
 			// 4 byte UTF doesn't work on mysql
 			$params = \OC::$server->getDatabaseConnection()->getParams();
-			if(\OC::$server->getDatabaseConnection()->getDatabasePlatform() instanceof MySqlPlatform && $params['charset'] !== 'utf8mb4') {
+			if (\OC::$server->getDatabaseConnection()->getDatabasePlatform() instanceof MySqlPlatform && $params['charset'] !== 'utf8mb4') {
 				$this->markTestSkipped('MySQL doesn\'t support 4 byte UTF-8');
 			}
 		}
-		$file2 = $folder.'/bar';
-		$file3 = $folder.'/foo';
+		$file2 = $folder . '/bar';
+		$file3 = $folder . '/foo';
 		$data1 = array('size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory');
 		$fileData = array();
 		$fileData['bar'] = array('size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file');
@@ -138,7 +141,7 @@ class CacheTest extends \Test\TestCase {
 			}
 		}
 
-		$file4 = $folder.'/unkownSize';
+		$file4 = $folder . '/unkownSize';
 		$fileData['unkownSize'] = array('size' => -1, 'mtime' => 25, 'mimetype' => 'foo/file');
 		$this->cache->put($file4, $fileData['unkownSize']);
 
@@ -155,8 +158,8 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals(0, $this->cache->calculateFolderSize($folder));
 
 		$this->cache->remove($folder);
-		$this->assertFalse($this->cache->inCache($folder.'/foo'));
-		$this->assertFalse($this->cache->inCache($folder.'/bar'));
+		$this->assertFalse($this->cache->inCache($folder . '/foo'));
+		$this->assertFalse($this->cache->inCache($folder . '/bar'));
 	}
 
 	public function testRemoveRecursive() {
@@ -165,7 +168,7 @@ class CacheTest extends \Test\TestCase {
 		$folders = ['folder', 'folder/subfolder', 'folder/sub2', 'folder/sub2/sub3'];
 		$files = ['folder/foo.txt', 'folder/bar.txt', 'folder/subfolder/asd.txt', 'folder/sub2/qwerty.txt', 'folder/sub2/sub3/foo.txt'];
 
-		foreach($folders as $folder){
+		foreach ($folders as $folder) {
 			$this->cache->put($folder, $folderData);
 		}
 		foreach ($files as $file) {
@@ -360,7 +363,9 @@ class CacheTest extends \Test\TestCase {
 
 		$this->assertEquals(2, count($results));
 
-		usort($results, function($value1, $value2) { return $value1['name'] >= $value2['name']; });
+		usort($results, function ($value1, $value2) {
+			return $value1['name'] >= $value2['name'];
+		});
 
 		$this->assertEquals('folder', $results[0]['name']);
 		$this->assertEquals('foo', $results[1]['name']);
@@ -368,11 +373,15 @@ class CacheTest extends \Test\TestCase {
 		// use tag id
 		$tags = $tagManager->getTagsForUser($userId);
 		$this->assertNotEmpty($tags);
-		$tags = array_filter($tags, function($tag) { return $tag->getName() === 'tag2'; });
+		$tags = array_filter($tags, function ($tag) {
+			return $tag->getName() === 'tag2';
+		});
 		$results = $this->cache->searchByTag(current($tags)->getId(), $userId);
 		$this->assertEquals(3, count($results));
 
-		usort($results, function($value1, $value2) { return $value1['name'] >= $value2['name']; });
+		usort($results, function ($value1, $value2) {
+			return $value1['name'] >= $value2['name'];
+		});
 
 		$this->assertEquals('folder', $results[0]['name']);
 		$this->assertEquals('foo2', $results[1]['name']);
@@ -383,7 +392,42 @@ class CacheTest extends \Test\TestCase {
 
 		$this->logout();
 		$user = \OC::$server->getUserManager()->get($userId);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
+	}
+
+	function testSearchByQuery() {
+		$file1 = 'folder';
+		$file2 = 'folder/foobar';
+		$file3 = 'folder/foo';
+		$data1 = array('size' => 100, 'mtime' => 50, 'mimetype' => 'foo/folder');
+		$fileData = array();
+		$fileData['foobar'] = array('size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file');
+		$fileData['foo'] = array('size' => 20, 'mtime' => 25, 'mimetype' => 'foo/file');
+
+		$this->cache->put($file1, $data1);
+		$this->cache->put($file2, $fileData['foobar']);
+		$this->cache->put($file3, $fileData['foo']);
+
+		$this->assertCount(1, $this->cache->searchQuery(new SearchQuery(
+			new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'name', 'foo')
+			, 10, 0, [])));
+		$this->assertCount(2, $this->cache->searchQuery(new SearchQuery(
+			new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', 'foo%')
+			, 10, 0, [])));
+		$this->assertCount(2, $this->cache->searchQuery(new SearchQuery(
+			new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', 'foo/file')
+			, 10, 0, [])));
+		$this->assertCount(3, $this->cache->searchQuery(new SearchQuery(
+			new SearchComparison(ISearchComparison::COMPARE_LIKE, 'mimetype', 'foo/%')
+			, 10, 0, [])));
+		$this->assertCount(1, $this->cache->searchQuery(new SearchQuery(
+			new SearchComparison(ISearchComparison::COMPARE_GREATER_THAN, 'size', 100)
+			, 10, 0, [])));
+		$this->assertCount(2, $this->cache->searchQuery(new SearchQuery(
+			new SearchComparison(ISearchComparison::COMPARE_GREATER_THAN_EQUAL, 'size', 100)
+			, 10, 0, [])));
 	}
 
 	function testMove() {
@@ -626,9 +670,9 @@ class CacheTest extends \Test\TestCase {
 
 	public function escapingProvider() {
 		return [
-				['foo'],
-				['o%'],
-				['oth_r'],
+			['foo'],
+			['o%'],
+			['oth_r'],
 		];
 	}
 
