@@ -130,18 +130,46 @@
 		},
 
 		autocompleteHandler: function (search, response) {
-			var view = this;
-			var $loading = this.$el.find('.shareWithLoading');
+			var $shareWithField = $('.shareWithField'),
+				view = this,
+				$loading = this.$el.find('.shareWithLoading'),
+				$remoteShareInfo = this.$el.find('.shareWithRemoteInfo');
+
+			var count = oc_config['sharing.minSearchStringLength'];
+			if (search.term.trim().length < count) {
+				var title = n('core',
+					'At least {count} character are needed for autocompletion',
+					'At least {count} characters are needed for autocompletion',
+					count,
+					{ count: count }
+				);
+				$shareWithField.addClass('error')
+					.attr('data-original-title', title)
+					.tooltip('hide')
+					.tooltip({
+						placement: 'bottom',
+						trigger: 'manual'
+					})
+					.tooltip('fixTitle')
+					.tooltip('show');
+				response();
+				return;
+			}
+
 			$loading.removeClass('hidden');
 			$loading.addClass('inlineblock');
-			var $remoteShareInfo = this.$el.find('.shareWithRemoteInfo');
 			$remoteShareInfo.addClass('hidden');
+
+			$shareWithField.removeClass('error')
+				.tooltip('hide');
+
+			var perPage = 200;
 			$.get(
 				OC.linkToOCS('apps/files_sharing/api/v1') + 'sharees',
 				{
 					format: 'json',
 					search: search.term.trim(),
-					perPage: 200,
+					perPage: perPage,
 					itemType: view.model.get('itemType')
 				},
 				function (result) {
@@ -232,16 +260,24 @@
 						var suggestions = users.concat(groups).concat(remotes).concat(emails).concat(lookup);
 
 						if (suggestions.length > 0) {
-							$('.shareWithField').removeClass('error')
-								.tooltip('hide')
+							$shareWithField
 								.autocomplete("option", "autoFocus", true);
+
 							response(suggestions);
+
+							// show a notice that the list is truncated
+							// this is the case if one of the search results is at least as long as the max result config option
+							if(Math.min(perPage, oc_config['sharing.maxAutocompleteResults']) <= Math.max(users.length, groups.length, remotes.length, emails.length, lookup.length)) {
+								var message = t('core', 'This list is maybe truncated - please refine your search term to see more results.');
+								$('.ui-autocomplete').append('<li class="autocomplete-note">' + message + '</li>');
+							}
+
 						} else {
-							var title = t('core', 'No users or groups found for {search}', {search: $('.shareWithField').val()});
+							var title = t('core', 'No users or groups found for {search}', {search: $shareWithField.val()});
 							if (!view.configModel.get('allowGroupSharing')) {
 								title = t('core', 'No users found for {search}', {search: $('.shareWithField').val()});
 							}
-							$('.shareWithField').addClass('error')
+							$shareWithField.addClass('error')
 								.attr('data-original-title', title)
 								.tooltip('hide')
 								.tooltip({
