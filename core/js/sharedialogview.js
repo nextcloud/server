@@ -267,7 +267,10 @@
 
 							// show a notice that the list is truncated
 							// this is the case if one of the search results is at least as long as the max result config option
-							if(Math.min(perPage, oc_config['sharing.maxAutocompleteResults']) <= Math.max(users.length, groups.length, remotes.length, emails.length, lookup.length)) {
+							if(oc_config['sharing.maxAutocompleteResults'] > 0 &&
+								Math.min(perPage, oc_config['sharing.maxAutocompleteResults'])
+								<= Math.max(users.length, groups.length, remotes.length, emails.length, lookup.length)) {
+
 								var message = t('core', 'This list is maybe truncated - please refine your search term to see more results.');
 								$('.ui-autocomplete').append('<li class="autocomplete-note">' + message + '</li>');
 							}
