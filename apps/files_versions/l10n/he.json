@@ -1,9 +1,0 @@
-{ "translations": {
-    "Could not revert: %s" : "לא ניתן להחזיר: %s",
-    "Versions" : "גרסאות",
-    "Failed to revert {file} to revision {timestamp}." : "נכשל אחזור {file} לגרסה {timestamp}.",
-    "Restore" : "שחזור",
-    "More versions..." : "גרסאות נוספות...",
-    "No other versions available" : "אין גרסאות אחרות זמינות"
-},"pluralForm" :"nplurals=2; plural=(n != 1);"
-}

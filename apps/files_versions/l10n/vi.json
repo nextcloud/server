@@ -1,9 +1,0 @@
-{ "translations": {
-    "Could not revert: %s" : "Không thể khôi phục: %s",
-    "Versions" : "Phiên bản",
-    "Failed to revert {file} to revision {timestamp}." : "Thất bại khi trở lại {file} khi sử đổi {timestamp}.",
-    "Restore" : "Khôi phục",
-    "More versions..." : "Nhiều phiên bản ...",
-    "No other versions available" : "Không có các phiên bản khác có sẵn"
-},"pluralForm" :"nplurals=1; plural=0;"
-}

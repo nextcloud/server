@@ -1,3 +1,0 @@
-<?php
-
-$a = new stdClass();
