@@ -518,7 +518,7 @@ label.infield {
 		}
 		.errors {
 			background: rgba($color-error, .35);
-			border: 1px solid $color-main-old-ff0000;
+			border: 1px solid $color-error;
 			list-style-indent: inside;
 			margin: 0 0 2em;
 			padding: 1em;
@@ -672,7 +672,7 @@ label.infield {
 #body-user .warning, #body-settings .warning {
 	margin-top: 8px;
 	padding: 5px;
-	background: $color-main-old-ffdddd;
+	background: rgba($color-error, .15);
 	border-radius: 3px;
 }
 
