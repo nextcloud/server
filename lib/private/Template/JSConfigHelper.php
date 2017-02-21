@@ -207,8 +207,8 @@ class JSConfigHelper {
 				'enable_avatars'	=> true, // here for legacy reasons - to not crash existing code that relies on this value
 				'lost_password_link'=> $this->config->getSystemValue('lost_password_link', null),
 				'modRewriteWorking'	=> ($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true'),
-				'sharing.maxAutocompleteResults' => $this->config->getSystemValue('sharing.maxAutocompleteResults', 0),
-				'sharing.minSearchStringLength' => $this->config->getSystemValue('sharing.minSearchStringLength', 0),
+				'sharing.maxAutocompleteResults' => intval($this->config->getSystemValue('sharing.maxAutocompleteResults', 0)),
+				'sharing.minSearchStringLength' => intval($this->config->getSystemValue('sharing.minSearchStringLength', 0)),
 			]),
 			"oc_appconfig" => json_encode([
 				'core' => [
