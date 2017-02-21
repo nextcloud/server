@@ -163,6 +163,7 @@ class Cache implements ICache {
 		$data['encryptedVersion'] = (int)$data['encrypted'];
 		$data['encrypted'] = (bool)$data['encrypted'];
 		$data['storage_id'] = $data['storage'];
+		$data['storage'] = (int)$data['storage'];
 		$data['mimetype'] = $mimetypeLoader->getMimetypeById($data['mimetype']);
 		$data['mimepart'] = $mimetypeLoader->getMimetypeById($data['mimepart']);
 		if ($data['storage_mtime'] == 0) {
@@ -206,6 +207,7 @@ class Cache implements ICache {
 				$file['mtime'] = (int)$file['mtime'];
 				$file['storage_mtime'] = (int)$file['storage_mtime'];
 				$file['size'] = 0 + $file['size'];
+				$file['storage'] = (int)$file['storage'];
 			}
 			return array_map(function (array $data) {
 				return new CacheEntry($data);
