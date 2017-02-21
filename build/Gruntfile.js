@@ -19,7 +19,8 @@ module.exports = function (grunt) {
 							dimensions: true,
 							render: {
 								scss: {
-									dest: 'actions'
+									dest: 'actions',
+									template: 'sprite.scss'
 								}
 							}
 						}
@@ -31,9 +32,13 @@ module.exports = function (grunt) {
 							 * @param {string} name
 							 * @returns {string}
 							 */
-							generator: function(name) {
+							generator: function (name) {
 								return name.substring('actions/'.length, name.indexOf('.svg'));
 							}
+						},
+
+						spacing: {
+							padding: 100
 						}
 					}
 				}
