@@ -28,18 +28,20 @@ $dispatcher->addListener('OC\AccountManager::userUpdated', function(\Symfony\Com
 		\OC::$server->getAppDataDir('identityproof'),
 		\OC::$server->getCrypto()
 	);
+
+	$config = \OC::$server->getConfig();
+	$lookupServer = $config->getSystemValue('lookup_server', '');
+
 	$updateLookupServer = new \OCA\LookupServerConnector\UpdateLookupServer(
 		new \OC\Accounts\AccountManager(\OC::$server->getDatabaseConnection(), \OC::$server->getEventDispatcher()),
-		\OC::$server->getConfig(),
-		\OC::$server->getSecureRandom(),
 		\OC::$server->getHTTPClientService(),
-		$keyManager,
 		new \OC\Security\IdentityProof\Signer(
 			$keyManager,
 			new \OC\AppFramework\Utility\TimeFactory(),
 			\OC::$server->getUserManager()
 		),
-		\OC::$server->getJobList()
+		\OC::$server->getJobList(),
+		$lookupServer
 	);
 	$updateLookupServer->userUpdated($user);
 });

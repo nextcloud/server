@@ -23,14 +23,11 @@
 namespace OCA\LookupServerConnector;
 
 use OC\Accounts\AccountManager;
-use OC\Security\IdentityProof\Manager;
 use OC\Security\IdentityProof\Signer;
 use OCA\LookupServerConnector\BackgroundJobs\RetryJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClientService;
-use OCP\IConfig;
 use OCP\IUser;
-use OCP\Security\ISecureRandom;
 
 /**
  * Class UpdateLookupServer
@@ -40,44 +37,36 @@ use OCP\Security\ISecureRandom;
 class UpdateLookupServer {
 	/** @var AccountManager */
 	private $accountManager;
-	/** @var IConfig */
-	private $config;
-	/** @var ISecureRandom */
-	private $secureRandom;
 	/** @var IClientService */
 	private $clientService;
-	/** @var Manager */
-	private $keyManager;
 	/** @var Signer */
 	private $signer;
 	/** @var IJobList */
 	private $jobList;
 	/** @var string URL point to lookup server */
-	private $lookupServer = 'https://lookup.nextcloud.com/users';
+	private $lookupServer = 'https://lookup.nextcloud.com';
 
 	/**
 	 * @param AccountManager $accountManager
-	 * @param IConfig $config
-	 * @param ISecureRandom $secureRandom
 	 * @param IClientService $clientService
-	 * @param Manager $manager
 	 * @param Signer $signer
 	 * @param IJobList $jobList
+	 * @param string $lookupServer if nothing is given we use the default lookup server
 	 */
 	public function __construct(AccountManager $accountManager,
-								IConfig $config,
-								ISecureRandom $secureRandom,
 								IClientService $clientService,
-								Manager $manager,
 								Signer $signer,
-								IJobList $jobList) {
+								IJobList $jobList,
+								$lookupServer = '') {
 		$this->accountManager = $accountManager;
-		$this->config = $config;
-		$this->secureRandom = $secureRandom;
 		$this->clientService = $clientService;
-		$this->keyManager = $manager;
 		$this->signer = $signer;
 		$this->jobList = $jobList;
+		if ($lookupServer !== '') {
+			$this->lookupServer = $lookupServer;
+		}
+		$this->lookupServer = rtrim($this->lookupServer, '/');
+		$this->lookupServer .= '/users';
 	}
 
 	/**
