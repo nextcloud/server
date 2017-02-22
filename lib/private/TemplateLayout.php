@@ -159,11 +159,18 @@ class TemplateLayout extends \OC_Template {
 			$this->append( 'jsfiles', $web.'/'.$file . $this->getVersionHashSuffix() );
 		}
 
+		try {
+			$pathInfo = \OC::$server->getRequest()->getPathInfo();
+		} catch (\Exception $e) {
+			$pathInfo = '';
+		}
+
 		// Do not initialise scss appdata until we have a fully installed instance
 		// Do not load scss for update, errors, installation or login page
 		if(\OC::$server->getSystemConfig()->getValue('installed', false)
 			&& !\OCP\Util::needUpgrade()
-			&& !preg_match('/^\/login/', \OC::$server->getRequest()->getPathInfo())) {
+			&& $pathInfo !== ''
+			&& !preg_match('/^\/login/', $pathInfo)) {
 			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
 		} else {
 			// If we ignore the scss compiler,
