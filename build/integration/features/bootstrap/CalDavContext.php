@@ -50,7 +50,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	}
 
 	/** @BeforeScenario */
-	public function tearUpScenario() {
+	public function setUpScenario() {
 		$this->client = new Client();
 		$this->responseXml = '';
 	}
