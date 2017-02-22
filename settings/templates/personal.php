@@ -99,7 +99,7 @@
 			<?php } ?>
 			<?php if($_['displayNameChangeSupported']) { ?>
 				<br />
-				<em><?php p($l->t('For password recovery and notifications')); ?></em>
+				<em><?php p($l->t('For password reset and notifications')); ?></em>
 			<?php } ?>
 			<span class="icon-checkmark hidden"/>
 			<input type="hidden" id="emailscope" value="<?php p($_['emailScope']) ?>">
