@@ -54,6 +54,8 @@ class OC_Image implements \OCP\IImage {
 	private $fileInfo;
 	/** @var \OCP\ILogger */
 	private $logger;
+	/** @var \OCP\IConfig */
+	private $config;
 	/** @var array */
 	private $exif;
 
@@ -79,11 +81,16 @@ class OC_Image implements \OCP\IImage {
 	 * @param resource|string $imageRef The path to a local file, a base64 encoded string or a resource created by
 	 * an imagecreate* function.
 	 * @param \OCP\ILogger $logger
+	 * @param \OCP\IConfig $config
 	 */
-	public function __construct($imageRef = null, $logger = null) {
+	public function __construct($imageRef = null, $logger = null, \OCP\IConfig $config = null) {
 		$this->logger = $logger;
 		if (is_null($logger)) {
 			$this->logger = \OC::$server->getLogger();
+		}
+		$this->config = $config;
+		if ($config === null) {
+			$this->config = \OC::$server->getConfig();
 		}
 
 		if (\OC_Util::fileInfoLoaded()) {
@@ -267,7 +274,7 @@ class OC_Image implements \OCP\IImage {
 				$retVal = imagegif($this->resource, $filePath);
 				break;
 			case IMAGETYPE_JPEG:
-				$retVal = imagejpeg($this->resource, $filePath);
+				$retVal = imagejpeg($this->resource, $filePath, $this->getJpegQuality());
 				break;
 			case IMAGETYPE_PNG:
 				$retVal = imagepng($this->resource, $filePath);
@@ -319,7 +326,12 @@ class OC_Image implements \OCP\IImage {
 				$res = imagepng($this->resource);
 				break;
 			case "image/jpeg":
-				$res = imagejpeg($this->resource);
+				$quality = $this->getJpegQuality();
+				if ($quality !== null) {
+					$res = imagejpeg($this->resource, null, $quality);
+				} else {
+					$res = imagejpeg($this->resource);
+				}
 				break;
 			case "image/gif":
 				$res = imagegif($this->resource);
@@ -340,6 +352,17 @@ class OC_Image implements \OCP\IImage {
 	 */
 	function __toString() {
 		return base64_encode($this->data());
+	}
+
+	/**
+	 * @return int|null
+	 */
+	protected function getJpegQuality() {
+		$quality = $this->config->getAppValue('preview', 'jpeg_quality', 90);
+		if ($quality !== null) {
+			$quality = min(100, max(10, (int) $quality));
+		}
+		return $quality;
 	}
 
 	/**
