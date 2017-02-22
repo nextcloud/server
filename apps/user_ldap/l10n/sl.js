@@ -152,7 +152,6 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Uporabniška preslikava uporabniškega imena na LDAP",
     "Clear Username-LDAP User Mapping" : "Izbriši preslikavo uporabniškega imena na LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Izbriši preslikavo skupine na LDAP",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Nastavitve so overjene, najden pa je le en uporabnik. Le prvi se bo lahko prijavil. Priporočljivo je navesti ožji filter.",
-    "%s access is limited to users meeting these criteria:" : "%s dostop je omejen na uporabnike, ki zadostijo tem zahtevam:"
+    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Nastavitve so overjene, najden pa je le en uporabnik. Le prvi se bo lahko prijavil. Priporočljivo je navesti ožji filter."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

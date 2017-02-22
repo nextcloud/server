@@ -148,7 +148,6 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "מיפוי שם משתמש LDAP:",
     "Clear Username-LDAP User Mapping" : "ניקוי מיפוי שם משתמש LDAP:",
     "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "הגדרות אומתו, אך רק משתמש אחד אותר. רק הראשון יוכל להתחבר. יש לבחון שימוש בסינון צר יותר.",
-    "%s access is limited to users meeting these criteria:" : "%s גישה מוגבלת למשתמשים שעונים על קריטריונים אלו:"
+    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "הגדרות אומתו, אך רק משתמש אחד אותר. רק הראשון יוכל להתחבר. יש לבחון שימוש בסינון צר יותר."
 },
 "nplurals=2; plural=(n != 1);");
