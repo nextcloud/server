@@ -635,6 +635,9 @@ class UsersControllerTest extends OriginalTest {
 	}
 
 	public function testGetUserDataAsAdmin() {
+		$group = $this->getMockBuilder(IGroup::class)
+			->disableOriginalConstructor()
+			->getMock();
 		$loggedInUser = $this->getMockBuilder('OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
@@ -662,6 +665,19 @@ class UsersControllerTest extends OriginalTest {
 			->method('isAdmin')
 			->with('admin')
 			->will($this->returnValue(true));
+		$this->groupManager
+			->expects($this->any())
+			->method('getUserGroups')
+			->willReturn([$group, $group, $group]);
+		$group->expects($this->at(0))
+			->method('getDisplayName')
+			->willReturn('group0');
+		$group->expects($this->at(1))
+			->method('getDisplayName')
+			->willReturn('group1');
+		$group->expects($this->at(2))
+			->method('getDisplayName')
+			->willReturn('group2');
 		$this->accountManager->expects($this->any())->method('getUser')
 			->with($targetUser)
 			->willReturn(
@@ -700,7 +716,8 @@ class UsersControllerTest extends OriginalTest {
 			'phone' => 'phone',
 			'address' => 'address',
 			'webpage' => 'website',
-			'twitter' => 'twitter'
+			'twitter' => 'twitter',
+			'groups' => ['group0', 'group1', 'group2']
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UserToGet']));
 	}
@@ -734,6 +751,10 @@ class UsersControllerTest extends OriginalTest {
 			->method('isAdmin')
 			->with('subadmin')
 			->will($this->returnValue(false));
+		$this->groupManager
+			->expects($this->any())
+			->method('getUserGroups')
+			->willReturn([]);
 		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
 			->disableOriginalConstructor()
 			->getMock();
@@ -784,7 +805,8 @@ class UsersControllerTest extends OriginalTest {
 			'phone' => 'phone',
 			'address' => 'address',
 			'webpage' => 'website',
-			'twitter' => 'twitter'
+			'twitter' => 'twitter',
+			'groups' => []
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UserToGet']));
 	}
@@ -872,6 +894,10 @@ class UsersControllerTest extends OriginalTest {
 			->expects($this->once())
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
+		$this->groupManager
+			->expects($this->any())
+			->method('getUserGroups')
+			->willReturn([]);
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
@@ -908,7 +934,8 @@ class UsersControllerTest extends OriginalTest {
 			'phone' => 'phone',
 			'address' => 'address',
 			'webpage' => 'website',
-			'twitter' => 'twitter'
+			'twitter' => 'twitter',
+			'groups' => []
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['subadmin']));
 	}
