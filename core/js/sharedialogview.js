@@ -138,7 +138,7 @@
 			var count = oc_config['sharing.minSearchStringLength'];
 			if (search.term.trim().length < count) {
 				var title = n('core',
-					'At least {count} character are needed for autocompletion',
+					'At least {count} character is needed for autocompletion',
 					'At least {count} characters are needed for autocompletion',
 					count,
 					{ count: count }
