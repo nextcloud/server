@@ -64,6 +64,8 @@ class DAV extends Common {
 	/** @var string */
 	protected $user;
 	/** @var string */
+	protected $authType;
+	/** @var string */
 	protected $host;
 	/** @var bool */
 	protected $secure;
@@ -95,6 +97,9 @@ class DAV extends Common {
 			$this->host = $host;
 			$this->user = $params['user'];
 			$this->password = $params['password'];
+			if (isset($params['authType'])) {
+				$this->authType = $params['authType'];
+			}
 			if (isset($params['secure'])) {
 				if (is_string($params['secure'])) {
 					$this->secure = ($params['secure'] === 'true');
@@ -133,11 +138,14 @@ class DAV extends Common {
 		}
 		$this->ready = true;
 
-		$settings = array(
+		$settings = [
 			'baseUri' => $this->createBaseUri(),
 			'userName' => $this->user,
 			'password' => $this->password,
-		);
+		];
+		if (isset($this->authType)) {
+			$settings['authType'] = $this->authType;
+		}
 
 		$proxy = \OC::$server->getConfig()->getSystemValue('proxy', '');
 		if($proxy !== '') {
