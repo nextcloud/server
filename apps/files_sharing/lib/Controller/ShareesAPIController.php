@@ -415,13 +415,13 @@ class ShareesAPIController extends OCSController {
 	public function search($search = '', $itemType = null, $page = 1, $perPage = 200, $shareType = null, $lookup = true) {
 
 		// only search for string larger than a given threshold
-		$threshold = intval($this->config->getSystemValue('sharing.minSearchStringLength', 0));
+		$threshold = (int)$this->config->getSystemValue('sharing.minSearchStringLength', 0);
 		if (strlen($search) < $threshold) {
 			return new DataResponse($this->result);
 		}
 
 		// never return more than the max. number of results configured in the config.php
-		$maxResults = intval($this->config->getSystemValue('sharing.maxAutocompleteResults', 0));
+		$maxResults = (int)$this->config->getSystemValue('sharing.maxAutocompleteResults', 0);
 		if ($maxResults > 0) {
 			$perPage = min($perPage, $maxResults);
 		}
