@@ -24,14 +24,18 @@
  */
 namespace OCA\Theming\Tests\Controller;
 
+use OC\L10N\L10N;
 use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\Files\File;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -58,25 +62,25 @@ class ThemingControllerTest extends TestCase {
 	private $rootFolder;
 	/** @var ITempManager */
 	private $tempManager;
-	/** @var IAppManager */
+	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $appManager;
+	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	private $appData;
 
 	public function setUp() {
-		$this->request = $this->getMockBuilder('OCP\IRequest')->getMock();
-		$this->config = $this->getMockBuilder('OCP\IConfig')->getMock();
-		$this->template = $this->getMockBuilder('OCA\Theming\ThemingDefaults')
-			->disableOriginalConstructor()->getMock();
-		$this->timeFactory = $this->getMockBuilder('OCP\AppFramework\Utility\ITimeFactory')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->l10n = $this->getMockBuilder('OCP\IL10N')->getMock();
-		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
-		$this->appManager = $this->getMockBuilder('OCP\App\IAppManager')->getMock();
+		$this->request = $this->createMock(IRequest::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->template = $this->createMock(ThemingDefaults::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->l10n = $this->createMock(L10N::class);
+		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 		$this->util = new Util($this->config, $this->rootFolder, $this->appManager);
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
 			->willReturn(123);
 		$this->tempManager = \OC::$server->getTempManager();
+		$this->appData = $this->createMock(IAppData::class);
 
 		$this->themingController = new ThemingController(
 			'theming',
@@ -86,8 +90,8 @@ class ThemingControllerTest extends TestCase {
 			$this->util,
 			$this->timeFactory,
 			$this->l10n,
-			$this->rootFolder,
-			$this->tempManager
+			$this->tempManager,
+			$this->appData
 		);
 
 		return parent::setUp();
@@ -167,7 +171,15 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->updateLogo());
 	}
 
-	public function testUpdateLogoNormalLogoUpload() {
+	public function dataUpdateImages() {
+		return [
+			[false],
+			[true]
+		];
+	}
+
+	/** @dataProvider dataUpdateImages */
+	public function testUpdateLogoNormalLogoUpload($folderExists) {
 		$tmpLogo = \OC::$server->getTempManager()->getTemporaryFolder() . '/logo.svg';
 		$destination = \OC::$server->getTempManager()->getTemporaryFolder();
 
@@ -191,20 +203,32 @@ class ThemingControllerTest extends TestCase {
 			->method('t')
 			->with('Saved')
 			->willReturn('Saved');
-		$file = $this->getMockBuilder('\\OCP\\Files\\File')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->rootFolder
-			->expects($this->once())
-			->method('newFile')
-			->with('themedinstancelogo')
-			->willReturn($file);
-		$file
-			->expects($this->once())
-			->method('fopen')
-			->with('w')
-			->willReturn(fopen($destination . '/themedinstancelogo', 'w'));
 
+
+		$file = $this->createMock(ISimpleFile::class);
+		$folder = $this->createMock(ISimpleFolder::class);
+		if($folderExists) {
+			$this->appData
+				->expects($this->once())
+				->method('getFolder')
+				->with('images')
+				->willReturn($folder);
+		} else {
+			$this->appData
+				->expects($this->at(0))
+				->method('getFolder')
+				->with('images')
+				->willThrowException(new NotFoundException());
+			$this->appData
+				->expects($this->at(1))
+				->method('newFolder')
+				->with('images')
+				->willReturn($folder);
+		}
+		$folder->expects($this->once())
+			->method('newFile')
+			->with('logo')
+			->willReturn($file);
 		$expected = new DataResponse(
 			[
 				'data' =>
@@ -219,9 +243,9 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->updateLogo());
 	}
 
-	public function testUpdateLogoLoginScreenUpload() {
+	/** @dataProvider dataUpdateImages */
+	public function testUpdateLogoLoginScreenUpload($folderExists) {
 		$tmpLogo = \OC::$server->getTempManager()->getTemporaryFolder() . '/logo.svg';
-		$destination = \OC::$server->getTempManager()->getTemporaryFolder();
 
 		touch($tmpLogo);
 		file_put_contents($tmpLogo, file_get_contents(__DIR__  . '/../../../../tests/data/desktopapp.png'));
@@ -244,20 +268,31 @@ class ThemingControllerTest extends TestCase {
 			->method('t')
 			->with('Saved')
 			->willReturn('Saved');
-		$file = $this->getMockBuilder('\\OCP\\Files\\File')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->rootFolder
-			->expects($this->once())
-			->method('newFile')
-			->with('themedbackgroundlogo')
-			->willReturn($file);
-		$file
-			->expects($this->once())
-			->method('fopen')
-			->with('w')
-			->willReturn(fopen($destination . '/themedbackgroundlogo', 'w'));
 
+		$file = $this->createMock(ISimpleFile::class);
+		$folder = $this->createMock(ISimpleFolder::class);
+		if($folderExists) {
+			$this->appData
+				->expects($this->once())
+				->method('getFolder')
+				->with('images')
+				->willReturn($folder);
+		} else {
+			$this->appData
+				->expects($this->at(0))
+				->method('getFolder')
+				->with('images')
+				->willThrowException(new NotFoundException());
+			$this->appData
+				->expects($this->at(1))
+				->method('newFolder')
+				->with('images')
+				->willReturn($folder);
+		}
+		$folder->expects($this->once())
+			->method('newFile')
+			->with('background')
+			->willReturn($file);
 
 		$expected = new DataResponse(
 			[
@@ -274,7 +309,6 @@ class ThemingControllerTest extends TestCase {
 
 	public function testUpdateLogoLoginScreenUploadWithInvalidImage() {
 		$tmpLogo = \OC::$server->getTempManager()->getTemporaryFolder() . '/logo.svg';
-		$destination = \OC::$server->getTempManager()->getTemporaryFolder();
 
 		touch($tmpLogo);
 		file_put_contents($tmpLogo, file_get_contents(__DIR__  . '/../../../../tests/data/data.zip'));
@@ -297,14 +331,14 @@ class ThemingControllerTest extends TestCase {
 			->method('t')
 			->with('Unsupported image type')
 			->willReturn('Unsupported image type');
-		$file = $this->getMockBuilder('\\OCP\\Files\\File')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->rootFolder
+
+		$folder = $this->createMock(ISimpleFolder::class);
+		$this->appData
 			->expects($this->once())
-			->method('newFile')
-			->with('themedbackgroundlogo')
-			->willReturn($file);
+			->method('getFolder')
+			->with('images')
+			->willReturn($folder);
+
 		$expected = new DataResponse(
 			[
 				'data' =>
@@ -344,8 +378,8 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	public function testGetLogoNotExistent() {
-		$this->rootFolder->method('get')
-			->with($this->equalTo('themedinstancelogo'))
+		$this->appData->method('getFolder')
+			->with($this->equalTo('images'))
 			->willThrowException(new NotFoundException());
 
 		$expected = new Http\NotFoundResponse();
@@ -353,13 +387,17 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	public function testGetLogo() {
-		$file = $this->createMock(File::class);
-		$this->rootFolder->method('get')
-			->with('themedinstancelogo')
+		$file = $this->createMock(ISimpleFile::class);
+		$folder = $this->createMock(ISimpleFolder::class);
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('images')
+			->willReturn($folder);
+		$folder->expects($this->once())
+			->method('getFile')
+			->with('logo')
 			->willReturn($file);
-		$file->method('fopen')
-			->with('r')
-			->willReturn('mypath');
 
 		$this->config
 			->expects($this->once())
@@ -367,32 +405,38 @@ class ThemingControllerTest extends TestCase {
 			->with('theming', 'logoMime', '')
 			->willReturn('text/svg');
 
-		@$expected = new Http\StreamResponse('mypath');
+		@$expected = new Http\FileDisplayResponse($file);
 		$expected->cacheFor(3600);
-		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
-		$expected->addHeader('Content-Disposition', 'attachment');
-		$expected->addHeader('Content-Type', 'text/svg');
+		$expires = new \DateTime();
+		$expires->setTimestamp($this->timeFactory->getTime());
+		$expires->add(new \DateInterval('PT24H'));
+		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
 		$expected->addHeader('Pragma', 'cache');
+		$expected->addHeader('Content-Type', 'text/svg');
 		@$this->assertEquals($expected, $this->themingController->getLogo());
 	}
 
 
 	public function testGetLoginBackgroundNotExistent() {
-		$this->rootFolder->method('get')
-			->with('themedbackgroundlogo')
+		$this->appData->method('getFolder')
+			->with($this->equalTo('images'))
 			->willThrowException(new NotFoundException());
 		$expected = new Http\NotFoundResponse();
 		$this->assertEquals($expected, $this->themingController->getLoginBackground());
 	}
 
 	public function testGetLoginBackground() {
-		$file = $this->createMock(File::class);
-		$this->rootFolder->method('get')
-			->with('themedbackgroundlogo')
+		$file = $this->createMock(ISimpleFile::class);
+		$folder = $this->createMock(ISimpleFolder::class);
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('images')
+			->willReturn($folder);
+		$folder->expects($this->once())
+			->method('getFile')
+			->with('background')
 			->willReturn($file);
-		$file->method('fopen')
-			->with('r')
-			->willReturn('mypath');
 
 		$this->config
 			->expects($this->once())
@@ -400,12 +444,14 @@ class ThemingControllerTest extends TestCase {
 			->with('theming', 'backgroundMime', '')
 			->willReturn('image/png');
 
-		@$expected = new Http\StreamResponse('mypath');
+		@$expected = new Http\FileDisplayResponse($file);
 		$expected->cacheFor(3600);
-		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
-		$expected->addHeader('Content-Disposition', 'attachment');
-		$expected->addHeader('Content-Type', 'image/png');
+		$expires = new \DateTime();
+		$expires->setTimestamp($this->timeFactory->getTime());
+		$expires->add(new \DateInterval('PT24H'));
+		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
 		$expected->addHeader('Pragma', 'cache');
+		$expected->addHeader('Content-Type', 'image/png');
 		@$this->assertEquals($expected, $this->themingController->getLoginBackground());
 	}
 

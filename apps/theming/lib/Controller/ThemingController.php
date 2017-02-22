@@ -31,12 +31,12 @@ use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDownloadResponse;
+use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
-use OCP\AppFramework\Http\StreamResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
-use OCP\Files\IRootFolder;
+use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -62,10 +62,10 @@ class ThemingController extends Controller {
 	private $l;
 	/** @var IConfig */
 	private $config;
-	/** @var IRootFolder */
-	private $rootFolder;
 	/** @var ITempManager */
 	private $tempManager;
+	/** @var IAppData */
+	private $appData;
 
 	/**
 	 * ThemingController constructor.
@@ -77,8 +77,8 @@ class ThemingController extends Controller {
 	 * @param Util $util
 	 * @param ITimeFactory $timeFactory
 	 * @param IL10N $l
-	 * @param IRootFolder $rootFolder
 	 * @param ITempManager $tempManager
+	 * @param IAppData $appData
 	 */
 	public function __construct(
 		$appName,
@@ -88,8 +88,8 @@ class ThemingController extends Controller {
 		Util $util,
 		ITimeFactory $timeFactory,
 		IL10N $l,
-		IRootFolder $rootFolder,
-		ITempManager $tempManager
+		ITempManager $tempManager,
+		IAppData $appData
 	) {
 		parent::__construct($appName, $request);
 
@@ -98,8 +98,8 @@ class ThemingController extends Controller {
 		$this->timeFactory = $timeFactory;
 		$this->l = $l;
 		$this->config = $config;
-		$this->rootFolder = $rootFolder;
 		$this->tempManager = $tempManager;
+		$this->appData = $appData;
 	}
 
 	/**
@@ -183,16 +183,22 @@ class ThemingController extends Controller {
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
+
 		$name = '';
+		try {
+			$folder = $this->appData->getFolder('images');
+		} catch (NotFoundException $e) {
+			$folder = $this->appData->newFolder('images');
+		}
+
 		if(!empty($newLogo)) {
-			$target = $this->rootFolder->newFile('themedinstancelogo');
-			stream_copy_to_stream(fopen($newLogo['tmp_name'], 'r'), $target->fopen('w'));
+			$target = $folder->newFile('logo');
+			$target->putContent(file_get_contents($newLogo['tmp_name'], 'r'));
 			$this->template->set('logoMime', $newLogo['type']);
 			$name = $newLogo['name'];
 		}
 		if(!empty($newBackgroundLogo)) {
-			$target = $this->rootFolder->newFile('themedbackgroundlogo');
-
+			$target = $folder->newFile('background');
 			$image = @imagecreatefromstring(file_get_contents($newBackgroundLogo['tmp_name'], 'r'));
 			if($image === false) {
 				return new DataResponse(
@@ -219,7 +225,7 @@ class ThemingController extends Controller {
 			imagejpeg($image, $tmpFile, 75);
 			imagedestroy($image);
 
-			stream_copy_to_stream(fopen($tmpFile, 'r'), $target->fopen('w'));
+			$target->putContent(file_get_contents($tmpFile, 'r'));
 			$this->template->set('backgroundMime', $newBackgroundLogo['type']);
 			$name = $newBackgroundLogo['name'];
 		}
@@ -260,22 +266,24 @@ class ThemingController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
-	 * @return StreamResponse|NotFoundResponse
+	 * @return FileDisplayResponse|NotFoundResponse
 	 */
 	public function getLogo() {
 		try {
 			/** @var File $file */
-			$file = $this->rootFolder->get('themedinstancelogo');
+			$file = $this->appData->getFolder('images')->getFile('logo');
 		} catch (NotFoundException $e) {
 			return new NotFoundResponse();
 		}
 
-		$response = new Http\StreamResponse($file->fopen('r'));
+		$response = new FileDisplayResponse($file);
 		$response->cacheFor(3600);
-		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
-		$response->addHeader('Content-Disposition', 'attachment');
-		$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, 'logoMime', ''));
+		$expires = new \DateTime();
+		$expires->setTimestamp($this->timeFactory->getTime());
+		$expires->add(new \DateInterval('PT24H'));
+		$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
 		$response->addHeader('Pragma', 'cache');
+		$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, 'logoMime', ''));
 		return $response;
 	}
 
@@ -283,22 +291,24 @@ class ThemingController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
-	 * @return StreamResponse|NotFoundResponse
+	 * @return FileDisplayResponse|NotFoundResponse
 	 */
 	public function getLoginBackground() {
 		try {
 			/** @var File $file */
-			$file = $this->rootFolder->get('themedbackgroundlogo');
+			$file = $this->appData->getFolder('images')->getFile('background');
 		} catch (NotFoundException $e) {
 			return new NotFoundResponse();
 		}
 
-		$response = new StreamResponse($file->fopen('r'));
+		$response = new FileDisplayResponse($file);
 		$response->cacheFor(3600);
-		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
-		$response->addHeader('Content-Disposition', 'attachment');
-		$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, 'backgroundMime', ''));
+		$expires = new \DateTime();
+		$expires->setTimestamp($this->timeFactory->getTime());
+		$expires->add(new \DateInterval('PT24H'));
+		$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
 		$response->addHeader('Pragma', 'cache');
+		$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, 'backgroundMime', ''));
 		return $response;
 	}
 

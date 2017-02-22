@@ -104,7 +104,7 @@ class ImageManager {
 		$currentFolder = $this->getCacheFolder();
 		$folders = $this->appData->getDirectoryListing();
 		foreach ($folders as $folder) {
-			if ($folder->getName() !== $currentFolder->getName()) {
+			if ($folder->getName() !== 'images' && $folder->getName() !== $currentFolder->getName()) {
 				$folder->delete();
 			}
 		}
