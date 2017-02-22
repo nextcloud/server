@@ -60,3 +60,10 @@ Feature: checksums
     And user "user0" uploads chunk file "3" of "3" with "CCCCC" to "/myChecksumFile.txt" with checksum "MD5:45a72715acdd5019c5be30bdbb75233e"
     When user "user0" downloads the file "/myChecksumFile.txt"
     Then The header checksum should match "SHA1:acfa6b1565f9710d4d497c6035d5c069bd35a8e8"
+
+  Scenario: Downloading a file from local storage has correct checksum
+    Given user "user0" exists
+    And file "prueba_cksum.txt" with text "Test file for checksums" is created in local storage
+    When user "user0" downloads the file "/local_storage/prueba_cksum.txt"
+    When user "user0" downloads the file "/local_storage/prueba_cksum.txt"
+    Then The header checksum should match "SHA1:b14628561796cb8bd049f036bff7948d39a0180a"
