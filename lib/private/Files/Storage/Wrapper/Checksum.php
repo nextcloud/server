@@ -23,6 +23,7 @@ namespace OC\Files\Storage\Wrapper;
 use Icewind\Streams\CallbackWrapper;
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Stream\Checksum as ChecksumStream;
+use OCP\ILogger;
 
 /**
  * Class Checksum
@@ -44,7 +45,6 @@ class Checksum extends Wrapper {
 	/** File needs to be checksummed on first read because it is already in cache but has no checksum */
 	const PATH_IN_CACHE_WITHOUT_CHECKSUM = 2;
 
-
 	/** @var array */
 	private $pathsInCacheWithoutChecksum = [];
 
@@ -62,12 +62,11 @@ class Checksum extends Wrapper {
 		}
 
 		// If file is without checksum we save the path and create
-		// a callback becaause we can only calculate the checksum
+		// a callback because we can only calculate the checksum
 		// after the client has read the entire filestream once.
 		// the checksum is then saved to oc_filecache for subsequent
 		// retrieval (see onClose())
 		if ($requirement == self::PATH_IN_CACHE_WITHOUT_CHECKSUM) {
-			$this->pathsInCacheWithoutChecksum[] = $path;
 			$checksumStream = \OC\Files\Stream\Checksum::wrap($stream, $path);
 			return CallbackWrapper::wrap(
 				$checksumStream,
@@ -96,12 +95,11 @@ class Checksum extends Wrapper {
 		// file could be in cache but without checksum for example
 		// if mounted from ext. storage
 		$cache = $this->getCache($path);
+		$cacheEntry = $cache->get($path);
 
-		if ($cache->inCache($path)) {
-			$cacheEntry = $cache->get($path);
-			if (empty($cacheEntry['checksum'])) {
-				return self::PATH_IN_CACHE_WITHOUT_CHECKSUM;
-			}
+		if ($cacheEntry && empty($cacheEntry['checksum'])) {
+			$this->pathsInCacheWithoutChecksum[$cacheEntry->getId()] = $path;
+			return self::PATH_IN_CACHE_WITHOUT_CHECKSUM;
 		}
 
 		return self::NOT_REQUIRED;
@@ -112,10 +110,9 @@ class Checksum extends Wrapper {
 	 */
 	public function onClose() {
 		$cache = $this->getCache();
-		foreach ($this->pathsInCacheWithoutChecksum as $path) {
-			$entry = $cache->get($path);
+		foreach ($this->pathsInCacheWithoutChecksum as $cacheId => $path) {
 			$cache->update(
-				$entry->getId(),
+				$cacheId,
 				['checksum' => self::getChecksumsInDbFormat($path)]
 			);
 		}
