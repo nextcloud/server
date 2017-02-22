@@ -59,7 +59,7 @@
     "{actor} shared {file} with you" : "{actor} deildi {file} með þér",
     "{actor} removed you from {file}" : "{actor} fjarlægði þig af {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Skrá eða mappa sem deilt var með tölvupósti eða almenningstengli var <strong>sótt</strong>",
-    "A file or folder was shared from <strong>another server</strong>" : "Skjali eð  möppu hefur verið deilt <strong>frá öðrum þjóni</strong>",
+    "A file or folder was shared from <strong>another server</strong>" : "Skjali eða möppu hefur verið deilt <strong>frá öðrum þjóni</strong>",
     "A file or folder has been <strong>shared</strong>" : "Skjali eða  möppu hefur verið <strong>deilt</strong>",
     "Wrong share ID, share doesn't exist" : "Rangt auðkenni sameignar, sameign er ekki til",
     "could not delete share" : "tókst ekki að eyða sameign",
