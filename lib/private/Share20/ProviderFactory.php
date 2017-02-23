@@ -48,9 +48,13 @@ class ProviderFactory implements IProviderFactory {
 	private $federatedProvider = null;
 	/** @var  ShareByMailProvider */
 	private $shareByMailProvider;
+	/** @var  \OCA\Circles\ShareByCircleProvider;
+	 * ShareByCircleProvider */
+	private $shareByCircleProvider;
 
 	/**
 	 * IProviderFactory constructor.
+	 *
 	 * @param IServerContainer $serverContainer
 	 */
 	public function __construct(IServerContainer $serverContainer) {
@@ -165,6 +169,36 @@ class ProviderFactory implements IProviderFactory {
 
 
 	/**
+	 * Create the circle share provider
+	 *
+	 * @return FederatedShareProvider
+	 */
+	protected function getSharedByCircleProvider() {
+
+		$appManager = $this->serverContainer->getAppManager();
+		if (!$appManager->isEnabledForUser('circles')) {
+			return null;
+		}
+
+
+		if ($this->shareByCircleProvider === null) {
+
+			$this->shareByCircleProvider = new \OCA\Circles\ShareByCircleProvider(
+				$this->serverContainer->getDatabaseConnection(),
+				$this->serverContainer->getSecureRandom(),
+				$this->serverContainer->getUserManager(),
+				$this->serverContainer->getLazyRootFolder(),
+				$this->serverContainer->getL10N('circles'),
+				$this->serverContainer->getLogger(),
+				$this->serverContainer->getURLGenerator()
+			);
+		}
+
+		return $this->shareByCircleProvider;
+	}
+
+
+	/**
 	 * @inheritdoc
 	 */
 	public function getProvider($id) {
@@ -190,15 +224,19 @@ class ProviderFactory implements IProviderFactory {
 	public function getProviderForType($shareType) {
 		$provider = null;
 
-		if ($shareType === \OCP\Share::SHARE_TYPE_USER  ||
+		if ($shareType === \OCP\Share::SHARE_TYPE_USER ||
 			$shareType === \OCP\Share::SHARE_TYPE_GROUP ||
-			$shareType === \OCP\Share::SHARE_TYPE_LINK) {
+			$shareType === \OCP\Share::SHARE_TYPE_LINK
+		) {
 			$provider = $this->defaultShareProvider();
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE) {
 			$provider = $this->federatedShareProvider();
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_EMAIL) {
 			$provider = $this->getShareByMailProvider();
+		} else if ($shareType === \OCP\Share::SHARE_TYPE_CIRCLE) {
+			$provider = $this->getSharedByCircleProvider();
 		}
+
 
 		if ($provider === null) {
 			throw new ProviderException('No share provider for share type ' . $shareType);
