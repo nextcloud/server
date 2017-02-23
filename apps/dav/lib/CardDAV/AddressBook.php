@@ -29,6 +29,12 @@ use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
 
+/**
+ * Class AddressBook
+ *
+ * @package OCA\DAV\CardDAV
+ * @property BackendInterface|CardDavBackend $carddavBackend
+ */
 class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 
 	/**
@@ -41,8 +47,8 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 	public function __construct(BackendInterface $carddavBackend, array $addressBookInfo, IL10N $l10n) {
 		parent::__construct($carddavBackend, $addressBookInfo);
 
-		if ($this->getName() === CardDavBackend::PERSONAL_ADDRESSBOOK_URI &&
-			$this->addressBookInfo['{DAV:}displayname'] === CardDavBackend::PERSONAL_ADDRESSBOOK_NAME) {
+		if ($this->addressBookInfo['{DAV:}displayname'] === CardDavBackend::PERSONAL_ADDRESSBOOK_NAME &&
+			$this->getName() === CardDavBackend::PERSONAL_ADDRESSBOOK_URI) {
 			$this->addressBookInfo['{DAV:}displayname'] = $l10n->t('Contacts');
 		}
 	}
@@ -70,9 +76,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 		if ($this->isShared()) {
 			throw new Forbidden();
 		}
-		/** @var CardDavBackend $carddavBackend */
-		$carddavBackend = $this->carddavBackend;
-		$carddavBackend->updateShares($this, $add, $remove);
+		$this->carddavBackend->updateShares($this, $add, $remove);
 	}
 
 	/**
@@ -91,9 +95,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 		if ($this->isShared()) {
 			return [];
 		}
-		/** @var CardDavBackend $carddavBackend */
-		$carddavBackend = $this->carddavBackend;
-		return $carddavBackend->getShares($this->getResourceId());
+		return $this->carddavBackend->getShares($this->getResourceId());
 	}
 
 	public function getACL() {
@@ -134,9 +136,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 			return $acl;
 		}
 
-		/** @var CardDavBackend $carddavBackend */
-		$carddavBackend = $this->carddavBackend;
-		return $carddavBackend->applyShareAcl($this->getResourceId(), $acl);
+		return $this->carddavBackend->applyShareAcl($this->getResourceId(), $acl);
 	}
 
 	public function getChildACL() {
@@ -179,9 +179,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 				throw new Forbidden();
 			}
 
-			/** @var CardDavBackend $cardDavBackend */
-			$cardDavBackend = $this->carddavBackend;
-			$cardDavBackend->updateShares($this, [], [
+			$this->carddavBackend->updateShares($this, [], [
 				'href' => $principal
 			]);
 			return;
@@ -197,10 +195,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 	}
 
 	public function getContactsGroups() {
-		/** @var CardDavBackend $cardDavBackend */
-		$cardDavBackend = $this->carddavBackend;
-
-		return $cardDavBackend->collectCardProperties($this->getResourceId(), 'CATEGORIES');
+		return $this->carddavBackend->collectCardProperties($this->getResourceId(), 'CATEGORIES');
 	}
 
 	private function isShared() {
