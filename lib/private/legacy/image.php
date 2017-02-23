@@ -54,6 +54,8 @@ class OC_Image implements \OCP\IImage {
 	private $fileInfo;
 	/** @var \OCP\ILogger */
 	private $logger;
+	/** @var \OCP\IConfig */
+	private $config;
 	/** @var array */
 	private $exif;
 
@@ -79,18 +81,23 @@ class OC_Image implements \OCP\IImage {
 	 * @param resource|string $imageRef The path to a local file, a base64 encoded string or a resource created by
 	 * an imagecreate* function.
 	 * @param \OCP\ILogger $logger
+	 * @param \OCP\IConfig $config
 	 */
-	public function __construct($imageRef = null, $logger = null) {
+	public function __construct($imageRef = null, \OCP\ILogger $logger = null, \OCP\IConfig $config = null) {
 		$this->logger = $logger;
-		if (is_null($logger)) {
+		if ($logger === null) {
 			$this->logger = \OC::$server->getLogger();
+		}
+		$this->config = $config;
+		if ($config === null) {
+			$this->config = \OC::$server->getConfig();
 		}
 
 		if (\OC_Util::fileInfoLoaded()) {
 			$this->fileInfo = new finfo(FILEINFO_MIME_TYPE);
 		}
 
-		if (!is_null($imageRef)) {
+		if ($imageRef !== null) {
 			$this->load($imageRef);
 		}
 	}
@@ -205,11 +212,13 @@ class OC_Image implements \OCP\IImage {
 		if ($mimeType === null) {
 			$mimeType = $this->mimeType();
 		}
-		if ($filePath === null && $this->filePath === null) {
-			$this->logger->error(__METHOD__ . '(): called with no path.', array('app' => 'core'));
-			return false;
-		} elseif ($filePath === null && $this->filePath !== null) {
-			$filePath = $this->filePath;
+		if ($filePath === null) {
+			if ($this->filePath === null) {
+				$this->logger->error(__METHOD__ . '(): called with no path.', array('app' => 'core'));
+				return false;
+			} else {
+				$filePath = $this->filePath;
+			}
 		}
 		return $this->_output($filePath, $mimeType);
 	}
@@ -224,12 +233,14 @@ class OC_Image implements \OCP\IImage {
 	 */
 	private function _output($filePath = null, $mimeType = null) {
 		if ($filePath) {
-			if (!file_exists(dirname($filePath)))
+			if (!file_exists(dirname($filePath))) {
 				mkdir(dirname($filePath), 0777, true);
-			if (!is_writable(dirname($filePath))) {
+			}
+			$isWritable = is_writable(dirname($filePath));
+			if (!$isWritable) {
 				$this->logger->error(__METHOD__ . '(): Directory \'' . dirname($filePath) . '\' is not writable.', array('app' => 'core'));
 				return false;
-			} elseif (is_writable(dirname($filePath)) && file_exists($filePath) && !is_writable($filePath)) {
+			} elseif ($isWritable && file_exists($filePath) && !is_writable($filePath)) {
 				$this->logger->error(__METHOD__ . '(): File \'' . $filePath . '\' is not writable.', array('app' => 'core'));
 				return false;
 			}
@@ -267,7 +278,7 @@ class OC_Image implements \OCP\IImage {
 				$retVal = imagegif($this->resource, $filePath);
 				break;
 			case IMAGETYPE_JPEG:
-				$retVal = imagejpeg($this->resource, $filePath);
+				$retVal = imagejpeg($this->resource, $filePath, $this->getJpegQuality());
 				break;
 			case IMAGETYPE_PNG:
 				$retVal = imagepng($this->resource, $filePath);
@@ -319,7 +330,12 @@ class OC_Image implements \OCP\IImage {
 				$res = imagepng($this->resource);
 				break;
 			case "image/jpeg":
-				$res = imagejpeg($this->resource);
+				$quality = $this->getJpegQuality();
+				if ($quality !== null) {
+					$res = imagejpeg($this->resource, null, $quality);
+				} else {
+					$res = imagejpeg($this->resource);
+				}
 				break;
 			case "image/gif":
 				$res = imagegif($this->resource);
@@ -338,8 +354,19 @@ class OC_Image implements \OCP\IImage {
 	/**
 	 * @return string - base64 encoded, which is suitable for embedding in a VCard.
 	 */
-	function __toString() {
+	public function __toString() {
 		return base64_encode($this->data());
+	}
+
+	/**
+	 * @return int|null
+	 */
+	protected function getJpegQuality() {
+		$quality = $this->config->getAppValue('preview', 'jpeg_quality', 90);
+		if ($quality !== null) {
+			$quality = min(100, max(10, (int) $quality));
+		}
+		return $quality;
 	}
 
 	/**
@@ -478,7 +505,7 @@ class OC_Image implements \OCP\IImage {
 	 */
 	public function load($imageRef) {
 		if (is_resource($imageRef)) {
-			if (get_resource_type($imageRef) == 'gd') {
+			if (get_resource_type($imageRef) === 'gd') {
 				$this->resource = $imageRef;
 				return $this->resource;
 			} elseif (in_array(get_resource_type($imageRef), array('file', 'stream'))) {
