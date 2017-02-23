@@ -69,9 +69,7 @@ abstract class Fetcher {
 	 * @return array
 	 */
 	protected function fetch($ETag, $content) {
-
-		$systemConfig = \OC::$server->getSystemConfig();
-		$appstoreenabled = $systemConfig->getValue('appstoreenabled', true);
+		$appstoreenabled = $this->config->getSystemValue('appstoreenabled', true);
 
 		if (!$appstoreenabled) {
 			return [];
@@ -111,8 +109,7 @@ abstract class Fetcher {
 	 * @return array
 	 */
 	public function get() {
-		$systemConfig = \OC::$server->getSystemConfig();
-		$appstoreenabled = $systemConfig->getValue('appstoreenabled', true);
+		$appstoreenabled = $this->config->getSystemValue('appstoreenabled', true);
 
 		if (!$appstoreenabled) {
 			return [];
