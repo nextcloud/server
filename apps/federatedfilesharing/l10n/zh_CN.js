@@ -27,6 +27,7 @@ OC.L10N.register(
     "Sharing %s failed, because this item is already shared with %s" : "共享 %s 失败，因为它已经共享给 %s",
     "Not allowed to create a federated share with the same user" : "不能给你自己分享文件",
     "File is already shared with %s" : "文件已经共享与 %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "共享 %s 失败, 无法找到 %s, 可能该服务器当前无法访问或者使用自签名证书.",
     "Could not find share" : "没有发现共享",
     "Accept" : "接受",
     "Decline" : "拒绝",
@@ -41,6 +42,8 @@ OC.L10N.register(
     "Add to your website" : "添加到您的网站",
     "Share with me via Nextcloud" : "通过联合云与我共享",
     "HTML Code:" : "HTML 代码:",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "共享 %s 失败，联合云无法找到 %s，请检查设置或联系管理员。"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "共享 %s 失败，联合云无法找到 %s，请检查设置或联系管理员。",
+    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "你接收到 \"/%3$s\"  做为远程共享来自于 %1$s (代表 %2$s)",
+    "You received \"/%3$s\" as a remote share from %1$s" : "你接收到 \"/%3$s\"  做为远程共享来自于 %1$s"
 },
 "nplurals=1; plural=0;");

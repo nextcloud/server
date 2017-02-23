@@ -137,7 +137,6 @@
     "Cancel" : "Atsisakyti",
     "Email" : "El. Paštas",
     "Your email address" : "Jūsų el. pašto adresas",
-    "For password recovery and notifications" : "Skirtas slaptažodžio atkūrimui ir pranešimams",
     "Phone number" : "Telefono numeris",
     "Your phone number" : "Jūsų telefono numeris",
     "Address" : "Adresas",
@@ -185,6 +184,7 @@
     "More" : "Daugiau",
     "Less" : "Mažiau",
     "The logfile is bigger than 100 MB. Downloading it may take some time!" : "Žurnalo failo dydis yra daugiau nei 100 MB. Jo atsiuntimas gali šiek tiek užtrukti!",
+    "For password recovery and notifications" : "Skirtas slaptažodžio atkūrimui ir pranešimams",
     "Add Group" : "Pridėti grupę",
     "Group" : "Grupė"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);"

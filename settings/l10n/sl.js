@@ -201,7 +201,6 @@ OC.L10N.register(
     "Email" : "Elektronski naslov",
     "Your email address" : "Osebni elektronski naslov",
     "No email address set" : "Poštni naslov ni nastavljen",
-    "For password recovery and notifications" : "Za obnovo gesla in obveščanje",
     "You are member of the following groups:" : "Ste član naslednjih skupin:",
     "Password" : "Geslo",
     "Current password" : "Trenutno geslo",
@@ -264,6 +263,7 @@ OC.L10N.register(
     "Enable experimental apps" : "Omogoči preizkusne programe",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Pozdravljeni,<br><br>obveščamo vas, da je račun %s pripravljen.<br><br>Uporabniško ime: %s<br>Dostop: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Pozdravljeni,\n\nobveščamo vas, da je račun %s pripravljen.\n\nUporabniško ime: %s\nDostop: %s\n",
+    "For password recovery and notifications" : "Za obnovo gesla in obveščanje",
     "Group" : "Skupina"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

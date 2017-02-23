@@ -29,7 +29,7 @@
     "_%n year ago_::_%n years ago_" : ["orain dela urte %n","orain dela %n urte"],
     "_%n hour ago_::_%n hours ago_" : ["orain dela ordu %n","orain dela %n ordu"],
     "_%n minute ago_::_%n minutes ago_" : ["orain dela minutu %n","orain dela %n minutu"],
-    "seconds ago" : "segundu",
+    "seconds ago" : "duela segundu batzuk",
     "Module with id: %s does not exist. Please enable it in your apps settings or contact your administrator." : "%s id duen modulua ez da existitzen. Mesedez, gaitu ezazu zure aplikazio ezarpenetan, edo jarri harremanetan administratzailearekin.",
     "File name is a reserved word" : "Fitxategi izena hitz erreserbatua da",
     "File name contains at least one invalid character" : "Fitxategi izenak behintzat baliogabeko karaktere bat du",
