@@ -66,7 +66,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 	 * @return void
 	 * @throws Forbidden
 	 */
-	function updateShares(array $add, array $remove) {
+	public function updateShares(array $add, array $remove) {
 		if ($this->isShared()) {
 			throw new Forbidden();
 		}
@@ -87,7 +87,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 	 *
 	 * @return array
 	 */
-	function getShares() {
+	public function getShares() {
 		if ($this->isShared()) {
 			return [];
 		}
@@ -96,7 +96,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 		return $carddavBackend->getShares($this->getResourceId());
 	}
 
-	function getACL() {
+	public function getACL() {
 		$acl =  [
 			[
 				'privilege' => '{DAV:}read',
@@ -139,11 +139,11 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 		return $carddavBackend->applyShareAcl($this->getResourceId(), $acl);
 	}
 
-	function getChildACL() {
+	public function getChildACL() {
 		return $this->getACL();
 	}
 
-	function getChild($name) {
+	public function getChild($name) {
 
 		$obj = $this->carddavBackend->getCard($this->addressBookInfo['id'], $name);
 		if (!$obj) {
@@ -161,14 +161,14 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 		return $this->addressBookInfo['id'];
 	}
 
-	function getOwner() {
+	public function getOwner() {
 		if (isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
 			return $this->addressBookInfo['{http://owncloud.org/ns}owner-principal'];
 		}
 		return parent::getOwner();
 	}
 
-	function delete() {
+	public function delete() {
 		if (isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
 			$principal = 'principal:' . parent::getOwner();
 			$shares = $this->carddavBackend->getShares($this->getResourceId());
@@ -189,7 +189,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 		parent::delete();
 	}
 
-	function propPatch(PropPatch $propPatch) {
+	public function propPatch(PropPatch $propPatch) {
 		if (isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
 			throw new Forbidden();
 		}
