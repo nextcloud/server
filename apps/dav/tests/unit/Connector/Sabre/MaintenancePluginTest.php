@@ -48,27 +48,13 @@ class MaintenancePluginTest extends TestCase {
 
 	/**
 	 * @expectedException \Sabre\DAV\Exception\ServiceUnavailable
-	 * @expectedExceptionMessage System in single user mode.
-	 */
-	public function testSingleUserMode() {
-		$this->config
-			->expects($this->once())
-			->method('getSystemValue')
-			->with('singleuser', false)
-			->will($this->returnValue(true));
-
-		$this->maintenancePlugin->checkMaintenanceMode();
-	}
-
-	/**
-	 * @expectedException \Sabre\DAV\Exception\ServiceUnavailable
-	 * @expectedExceptionMessage System in single user mode.
+	 * @expectedExceptionMessage System in maintenance mode.
 	 */
 	public function testMaintenanceMode() {
 		$this->config
 			->expects($this->exactly(1))
 			->method('getSystemValue')
-			->will($this->onConsecutiveCalls([false, true]));
+			->will($this->returnValue(true));
 
 		$this->maintenancePlugin->checkMaintenanceMode();
 	}

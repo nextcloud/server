@@ -984,14 +984,6 @@ $CONFIG = array(
  */
 'maintenance' => false,
 
-/**
- * When set to ``true``, the Nextcloud instance will be unavailable for all
- * users who are not in the ``admin`` group.
- *
- * Defaults to ``false``
- */
-'singleuser' => false,
-
 
 /**
  * SSL

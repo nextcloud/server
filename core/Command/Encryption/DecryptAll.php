@@ -54,7 +54,7 @@ class DecryptAll extends Command {
 	protected $wasTrashbinEnabled;
 
 	/** @var  bool */
-	protected $wasSingleUserModeEnabled;
+	protected $wasMaintenanceModeEnabled;
 
 	/** @var \OC\Encryption\DecryptAll */
 	protected $decryptAll;
@@ -83,20 +83,20 @@ class DecryptAll extends Command {
 	}
 
 	/**
-	 * Set single user mode and disable the trashbin app
+	 * Set maintenance mode and disable the trashbin app
 	 */
-	protected function forceSingleUserAndTrashbin() {
+	protected function forceMaintenanceAndTrashbin() {
 		$this->wasTrashbinEnabled = $this->appManager->isEnabledForUser('files_trashbin');
-		$this->wasSingleUserModeEnabled = $this->config->getSystemValue('singleuser', false);
-		$this->config->setSystemValue('singleuser', true);
+		$this->wasMaintenanceModeEnabled = $this->config->getSystemValue('maintenance', false);
+		$this->config->setSystemValue('maintenance', true);
 		$this->appManager->disableApp('files_trashbin');
 	}
 
 	/**
-	 * Reset the single user mode and re-enable the trashbin app
+	 * Reset the maintenance mode and re-enable the trashbin app
 	 */
-	protected function resetSingleUserAndTrashbin() {
-		$this->config->setSystemValue('singleuser', $this->wasSingleUserModeEnabled);
+	protected function resetMaintenanceAndTrashbin() {
+		$this->config->setSystemValue('maintenance', $this->wasMaintenanceModeEnabled);
 		if ($this->wasTrashbinEnabled) {
 			$this->appManager->enableApp('files_trashbin');
 		}
@@ -147,7 +147,7 @@ class DecryptAll extends Command {
 			$output->writeln('');
 			$question = new ConfirmationQuestion('Do you really want to continue? (y/n) ', false);
 			if ($this->questionHelper->ask($input, $output, $question)) {
-				$this->forceSingleUserAndTrashbin();
+				$this->forceMaintenanceAndTrashbin();
 				$user = $input->getArgument('user');
 				$result = $this->decryptAll->decryptAll($input, $output, $user);
 				if ($result === false) {
@@ -158,7 +158,7 @@ class DecryptAll extends Command {
 					$output->writeln('Server side encryption remains enabled');
 					$this->config->setAppValue('core', 'encryption_enabled', 'yes');
 				}
-				$this->resetSingleUserAndTrashbin();
+				$this->resetMaintenanceAndTrashbin();
 			} else {
 				$output->write('Enable server side encryption... ');
 				$this->config->setAppValue('core', 'encryption_enabled', 'yes');
@@ -168,7 +168,7 @@ class DecryptAll extends Command {
 		} catch (\Exception $e) {
 			// enable server side encryption again if something went wrong
 			$this->config->setAppValue('core', 'encryption_enabled', 'yes');
-			$this->resetSingleUserAndTrashbin();
+			$this->resetMaintenanceAndTrashbin();
 			throw $e;
 		}
 

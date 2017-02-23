@@ -286,32 +286,6 @@ class OC {
 		}
 	}
 
-	public static function checkSingleUserMode($lockIfNoUserLoggedIn = false) {
-		if (!\OC::$server->getSystemConfig()->getValue('singleuser', false)) {
-			return;
-		}
-		$user = OC_User::getUserSession()->getUser();
-		if ($user) {
-			$group = \OC::$server->getGroupManager()->get('admin');
-			if ($group->inGroup($user)) {
-				return;
-			}
-		} else {
-			if(!$lockIfNoUserLoggedIn) {
-				return;
-			}
-		}
-		// send http status 503
-		header('HTTP/1.1 503 Service Temporarily Unavailable');
-		header('Status: 503 Service Temporarily Unavailable');
-		header('Retry-After: 120');
-
-		// render error page
-		$template = new OC_Template('', 'singleuser.user', 'guest');
-		$template->printPage();
-		die();
-	}
-
 	/**
 	 * Checks if the version requires an update and shows
 	 * @param bool $showTemplate Whether an update screen should get shown
@@ -990,7 +964,6 @@ class OC {
 					OC_App::loadApps(array('filesystem', 'logging'));
 					OC_App::loadApps();
 				}
-				self::checkSingleUserMode();
 				OC_Util::setupFS();
 				OC::$server->getRouter()->match(\OC::$server->getRequest()->getRawPathInfo());
 				return;

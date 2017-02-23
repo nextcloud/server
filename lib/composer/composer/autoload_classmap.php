@@ -411,7 +411,6 @@ return array(
     'OC\\Core\\Command\\Maintenance\\Mimetype\\UpdateJS' => $baseDir . '/core/Command/Maintenance/Mimetype/UpdateJS.php',
     'OC\\Core\\Command\\Maintenance\\Mode' => $baseDir . '/core/Command/Maintenance/Mode.php',
     'OC\\Core\\Command\\Maintenance\\Repair' => $baseDir . '/core/Command/Maintenance/Repair.php',
-    'OC\\Core\\Command\\Maintenance\\SingleUser' => $baseDir . '/core/Command/Maintenance/SingleUser.php',
     'OC\\Core\\Command\\Maintenance\\UpdateHtaccess' => $baseDir . '/core/Command/Maintenance/UpdateHtaccess.php',
     'OC\\Core\\Command\\Security\\ImportCertificate' => $baseDir . '/core/Command/Security/ImportCertificate.php',
     'OC\\Core\\Command\\Security\\ListCertificates' => $baseDir . '/core/Command/Security/ListCertificates.php',
