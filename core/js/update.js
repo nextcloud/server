@@ -85,10 +85,6 @@
 
 				$('#update-progress-message').hide();
 
-				$('#update-progress-icon')
-					.addClass('icon-checkmark-white')
-					.removeClass('icon-loading-dark');
-
 				if (hasWarnings) {
 					$el.find('.update-show-detailed').before(
 						$('<input type="button" class="update-continue" value="'+t('core', 'Continue to Nextcloud')+'">').on('click', function() {
