@@ -292,8 +292,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		OC.Settings.Apps.hideErrorMessage(appId);
 		groups = groups || [];
 		var appItem = $('div#app-'+appId+'');
-		element.val(t('settings','Enabling app …'));
 		if(active && !groups.length) {
+			element.val(t('settings','Disabling app …'));
 			$.post(OC.filePath('settings','ajax','disableapp.php'),{appid:appId},function(result) {
 				if(!result || result.status !== 'success') {
 					if (result.data && result.data.message) {
@@ -320,6 +320,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		} else {
 			// TODO: display message to admin to not refresh the page!
 			// TODO: lock UI to prevent further operations
+			element.val(t('settings','Enabling app …'));
 			$.post(OC.filePath('settings','ajax','enableapp.php'),{appid: appId, groups: groups},function(result) {
 				if(!result || result.status !== 'success') {
 					if (result.data && result.data.message) {
