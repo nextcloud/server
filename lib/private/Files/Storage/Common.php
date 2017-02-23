@@ -711,4 +711,11 @@ abstract class Common implements Storage, ILockingStorage {
 	public function setAvailability($isAvailable) {
 		$this->getStorageCache()->setAvailability($isAvailable);
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function needsPartFile() {
+		return true;
+	}
 }
