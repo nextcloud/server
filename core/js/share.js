@@ -9,6 +9,7 @@ OC.Share = _.extend(OC.Share || {}, {
 	SHARE_TYPE_LINK:3,
 	SHARE_TYPE_EMAIL:4,
 	SHARE_TYPE_REMOTE:6,
+	SHARE_TYPE_CIRCLE:7,
 
 	/**
 	 * Regular expression for splitting parts of remote share owners:

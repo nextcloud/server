@@ -145,7 +145,8 @@ describe('OCA.Sharing.ShareBreadCrumbView tests', function() {
 					OC.Share.SHARE_TYPE_GROUP,
 					OC.Share.SHARE_TYPE_LINK,
 					OC.Share.SHARE_TYPE_EMAIL,
-					OC.Share.SHARE_TYPE_REMOTE
+					OC.Share.SHARE_TYPE_REMOTE,
+					OC.Share.SHARE_TYPE_CIRCLE
 				]
 			});
 			bc.setDirectoryInfo(dirInfo);
