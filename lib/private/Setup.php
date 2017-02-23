@@ -373,11 +373,6 @@ class Setup {
 			Setup::updateHtaccess();
 			Setup::protectDataDirectory();
 
-			//try to write logtimezone
-			if (date_default_timezone_get()) {
-				$config->setSystemValue('logtimezone', date_default_timezone_get());
-			}
-
 			self::installBackgroundJobs();
 
 			//and we are done
