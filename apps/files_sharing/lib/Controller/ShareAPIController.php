@@ -443,6 +443,16 @@ class ShareAPIController extends OCSController {
 					\OCP\Constants::PERMISSION_DELETE);
 			}
 			$share->setSharedWith($shareWith);
+		} else if ($shareType === \OCP\Share::SHARE_TYPE_CIRCLE) {
+
+			$circle = \OCA\Circles\Api\Circles::detailsCircle($shareWith);
+
+			// Valid circle is required to share
+			if ($circle === null) {
+				throw new OCSNotFoundException($this->l->t('Please specify a valid circle'));
+			}
+			$share->setSharedWith($shareWith);
+			$share->setPermissions($permissions);
 		} else {
 			throw new OCSBadRequestException($this->l->t('Unknown share type'));
 		}
