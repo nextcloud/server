@@ -120,6 +120,21 @@ describe('OCA.Sharing.ShareBreadCrumbView tests', function() {
 			expect(bc.$el.find('.shared').length).toEqual(1);
 			expect(bc.$el.find('.icon-public').length).toEqual(1);
 		});
+		it('Render shared if dir is shared by circle', function() {
+			var dirInfo = new OC.Files.FileInfo({
+				id: 42,
+				path: '/foo',
+				type: 'dir',
+				shareTypes: [OC.Share.SHARE_TYPE_CIRCLE]
+			});
+			bc.setDirectoryInfo(dirInfo);
+			bc.setDirectory('/foo');
+			bc.render();
+			expect(bc.$el.hasClass('breadcrumb')).toEqual(true);
+			expect(bc.$el.find('.icon-share').length).toEqual(1);
+			expect(bc.$el.find('.shared').length).toEqual(1);
+			expect(bc.$el.find('.icon-public').length).toEqual(0);
+		});
 		it('Render shared if dir is shared with remote', function() {
 			var dirInfo = new OC.Files.FileInfo({
 				id: 42,
@@ -145,7 +160,8 @@ describe('OCA.Sharing.ShareBreadCrumbView tests', function() {
 					OC.Share.SHARE_TYPE_GROUP,
 					OC.Share.SHARE_TYPE_LINK,
 					OC.Share.SHARE_TYPE_EMAIL,
-					OC.Share.SHARE_TYPE_REMOTE
+					OC.Share.SHARE_TYPE_REMOTE,
+					OC.Share.SHARE_TYPE_CIRCLE
 				]
 			});
 			bc.setDirectoryInfo(dirInfo);

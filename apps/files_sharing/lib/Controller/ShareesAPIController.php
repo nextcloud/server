@@ -92,12 +92,14 @@ class ShareesAPIController extends OCSController {
 			'groups' => [],
 			'remotes' => [],
 			'emails' => [],
+			'circles' => [],
 		],
 		'users' => [],
 		'groups' => [],
 		'remotes' => [],
 		'emails' => [],
 		'lookup' => [],
+		'circles' => [],
 	];
 
 	protected $reachedEndFor = [];
@@ -294,6 +296,23 @@ class ShareesAPIController extends OCSController {
 		}
 	}
 
+
+	/**
+	 * @param string $search
+	 */
+	protected function getCircles($search) {
+		$this->result['circles'] = $this->result['exact']['circles'] = [];
+
+		$result = \OCA\Circles\Api\Sharees::search($search, $this->limit, $this->offset);
+		if (array_key_exists('circles', $result['exact'])) {
+			$this->result['exact']['circles'] = $result['exact']['circles'];
+		}
+		if (array_key_exists('circles', $result)) {
+			$this->result['circles'] = $result['circles'];
+		}
+	}
+
+
 	/**
 	 * @param string $search
 	 * @return array
@@ -453,6 +472,10 @@ class ShareesAPIController extends OCSController {
 			$shareTypes[] = Share::SHARE_TYPE_EMAIL;
 		}
 
+		if (\OCP\App::isEnabled('circles')) {
+			$shareTypes[] = Share::SHARE_TYPE_CIRCLE;
+		}
+
 		if (isset($_GET['shareType']) && is_array($_GET['shareType'])) {
 			$shareTypes = array_intersect($shareTypes, $_GET['shareType']);
 			sort($shareTypes);
@@ -511,6 +534,12 @@ class ShareesAPIController extends OCSController {
 		if (in_array(Share::SHARE_TYPE_GROUP, $shareTypes)) {
 			$this->getGroups($search);
 		}
+
+		// Get circles
+		if (in_array(Share::SHARE_TYPE_CIRCLE, $shareTypes)) {
+			$this->getCircles($search);
+		}
+
 
 		// Get remote
 		$remoteResults = ['results' => [], 'exact' => [], 'exactIdMatch' => false];

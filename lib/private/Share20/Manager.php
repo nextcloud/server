@@ -190,9 +190,14 @@ class Manager implements IManager {
 			if ($share->getSharedWith() === null) {
 				throw new \InvalidArgumentException('SharedWith should not be empty');
 			}
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_CIRCLE) {
+			$circle = \OCA\Circles\Api\Circles::detailsCircle($share->getSharedWith());
+			if ($circle === null) {
+				throw new \InvalidArgumentException('SharedWith is not a valid circle');
+			}
 		} else {
 			// We can't handle other types yet
-			throw new \InvalidArgumentException('unkown share type');
+			throw new \InvalidArgumentException('unknown share type');
 		}
 
 		// Verify the initiator of the share is set
