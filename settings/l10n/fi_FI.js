@@ -204,7 +204,6 @@ OC.L10N.register(
     "Email" : "Sähköpostiosoite",
     "Your email address" : "Sähköpostiosoitteesi",
     "No email address set" : "Sähköpostiosoitetta ei ole asetettu",
-    "For password recovery and notifications" : "Salasanan nollausta ja ilmoituksia varten",
     "You are member of the following groups:" : "Olet jäsenenä seuraavissa ryhmissä:",
     "Password" : "Salasana",
     "Current password" : "Nykyinen salasana",
@@ -268,6 +267,7 @@ OC.L10N.register(
     "Enable experimental apps" : "Käytä kokeiluasteella olevia sovelluksia",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Hei<br><br>Sinulla on nyt %s-tili.<br><br>Käyttäjätunnus: %s<br>Aloita käyttö: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Hei\n\nSinulla on nyt %s-tili.\n\nKäyttäjätunnuksesi: %s\nAloita käyttö: %s\n\n",
+    "For password recovery and notifications" : "Salasanan nollausta ja ilmoituksia varten",
     "Group" : "Ryhmä"
 },
 "nplurals=2; plural=(n != 1);");

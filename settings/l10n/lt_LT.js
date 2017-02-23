@@ -139,7 +139,6 @@ OC.L10N.register(
     "Cancel" : "Atsisakyti",
     "Email" : "El. Paštas",
     "Your email address" : "Jūsų el. pašto adresas",
-    "For password recovery and notifications" : "Skirtas slaptažodžio atkūrimui ir pranešimams",
     "Phone number" : "Telefono numeris",
     "Your phone number" : "Jūsų telefono numeris",
     "Address" : "Adresas",
@@ -187,6 +186,7 @@ OC.L10N.register(
     "More" : "Daugiau",
     "Less" : "Mažiau",
     "The logfile is bigger than 100 MB. Downloading it may take some time!" : "Žurnalo failo dydis yra daugiau nei 100 MB. Jo atsiuntimas gali šiek tiek užtrukti!",
+    "For password recovery and notifications" : "Skirtas slaptažodžio atkūrimui ir pranešimams",
     "Add Group" : "Pridėti grupę",
     "Group" : "Grupė"
 },

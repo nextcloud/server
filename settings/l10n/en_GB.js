@@ -222,7 +222,6 @@ OC.L10N.register(
     "Email" : "Email",
     "Your email address" : "Your email address",
     "No email address set" : "No email address set",
-    "For password recovery and notifications" : "For password recovery and notifications",
     "You are member of the following groups:" : "You are member of the following groups:",
     "Password" : "Password",
     "Current password" : "Current password",
@@ -287,6 +286,7 @@ OC.L10N.register(
     "Enable experimental apps" : "Enable experimental apps",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n",
+    "For password recovery and notifications" : "For password recovery and notifications",
     "Group" : "Group"
 },
 "nplurals=2; plural=(n != 1);");
