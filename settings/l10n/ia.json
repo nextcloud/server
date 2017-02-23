@@ -113,6 +113,7 @@
     "Unable to add user to group {group}" : "Impossibile adder usator a gruppo {group}",
     "Unable to remove user from group {group}" : "Impossibile remover usator de gruppo {group}",
     "Add group" : "Adder gruppo",
+    "Invalid quota value \"{val}\"" : "Valor de quota non valide \"{val}\"",
     "A valid password must be provided" : "Un contrasigno valide debe esser providite",
     "A valid email must be provided" : "Un adresse de e-posta valide debe esser providite",
     "__language_name__" : "Interlingua de IALA",

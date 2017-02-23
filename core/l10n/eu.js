@@ -57,7 +57,7 @@ OC.L10N.register(
     "Cancel" : "Ezeztatu",
     "Confirm" : "Baieztatu",
     "Failed to authenticate, try again" : "Huts egindu  autentifikazioa, berriz saiatu",
-    "seconds ago" : "segundu",
+    "seconds ago" : "duela segundo batzuk",
     "Logging in …" : "Saioa hasten ...",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Zure pasahitza berrezartzeko lotura zure postara bidalia izan da.<br>Ez baduzu arrazoizko denbora epe batean jasotzen begiratu zure zabor-posta karpetan.<br>Hor ere ez badago kudeatzailearekin harremanetan jarri.",
     "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Zure fitxategiak zifratzen dira. Pasahitza aldatuz gero, ez dago zure datuak berreskuratzeko modurik.<br />Ziur ez bazaude, jarri harremanetan administratzailearekin jarraitu baino lehen. <br />Ziur zaude jarraitu nahi duzula?",

@@ -185,7 +185,6 @@ OC.L10N.register(
     "Email" : "E-mail",
     "Your email address" : "Din e-mailadresse",
     "No email address set" : "Der er ikke angivet e-mailadresse",
-    "For password recovery and notifications" : "Angiv en e-mailadresse for at aktivere gendannelse af adgangskode og modtage notifikationer",
     "You are member of the following groups:" : "Der er medlem af følgende grupper:",
     "Password" : "Kodeord",
     "Current password" : "Nuværende adgangskode",
@@ -246,6 +245,7 @@ OC.L10N.register(
     "Enable experimental apps" : "Aktiver eksperimentale programmer",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Hejsa,<br><br>dette er blot en besked om, at du nu har en %s-konto.<br><br>Dit brugernavn: %s<br>Tilgå den: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Hejsa,\n\ndette er blot en besked om, at du nu har en %s-konto.\n\nDit brugernavn: %s\nTilgå den: %s\n\n",
+    "For password recovery and notifications" : "Angiv en e-mailadresse for at aktivere gendannelse af adgangskode og modtage notifikationer",
     "Group" : "Gruppe"
 },
 "nplurals=2; plural=(n != 1);");

@@ -213,7 +213,6 @@
     "Email" : "信箱",
     "Your email address" : "您的電子郵件信箱",
     "No email address set" : "未設定電子郵件信箱",
-    "For password recovery and notifications" : "用於密碼重設和通知",
     "You are member of the following groups:" : "您的帳號屬於這些群組：",
     "Password" : "密碼",
     "Current password" : "目前密碼",
@@ -274,6 +273,7 @@
     "Enable experimental apps" : "啟用實驗性質的應用程式",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "嗨，<br><br>通知您一聲，您現在有了 %s 的帳號。<br><br>您的帳號： %s<br>開通帳號： <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "嗨，\n\n通知您一聲，您現在有了 %s 的帳號。\n\n您的帳號：%s\n開通帳號：%s\n\n",
+    "For password recovery and notifications" : "用於密碼重設和通知",
     "Group" : "群組"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
