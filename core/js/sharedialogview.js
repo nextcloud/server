@@ -186,18 +186,24 @@
 						} else {
 							var emails = [];
 						}
+						if (typeof(result.ocs.data.circles) !== 'undefined') {
+							var circles = result.ocs.data.exact.circles.concat(result.ocs.data.circles);
+						} else {
+							var circles = [];
+						}
 
 						var usersLength;
 						var groupsLength;
 						var remotesLength;
 						var emailsLength;
+						var circlesLength;
 						var lookupLength;
 
 						var i, j;
 
 						//Filter out the current user
 						usersLength = users.length;
-						for (i = 0 ; i < usersLength; i++) {
+						for (i = 0; i < usersLength; i++) {
 							if (users[i].value.shareWith === OC.currentUser) {
 								users.splice(i, 1);
 								break;
@@ -254,10 +260,18 @@
 										break;
 									}
 								}
+							} else if (share.share_type === OC.Share.SHARE_TYPE_CIRCLE) {
+								circlesLength = circles.length;
+								for (j = 0; j < circlesLength; j++) {
+									if (circles[j].value.shareWith === share.share_with) {
+										circles.splice(j, 1);
+										break;
+									}
+								}
 							}
 						}
 
-						var suggestions = users.concat(groups).concat(remotes).concat(emails).concat(lookup);
+						var suggestions = users.concat(groups).concat(remotes).concat(emails).concat(circles).concat(lookup);
 
 						if (suggestions.length > 0) {
 							$shareWithField
@@ -313,6 +327,8 @@
 				text = t('core', '{sharee} (remote)', { sharee: text }, undefined, { escape: false });
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_EMAIL) {
 				text = t('core', '{sharee} (email)', { sharee: text }, undefined, { escape: false });
+			} else if (item.value.shareType === OC.Share.SHARE_TYPE_CIRCLE) {
+				text = t('core', '{sharee} (circle)', {sharee: text}, undefined, {escape: false});
 			}
 			var insert = $("<div class='share-autocomplete-item'/>");
 			var avatar = $("<div class='avatardiv'></div>").appendTo(insert);

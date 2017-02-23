@@ -158,6 +158,8 @@
 				shareWithDisplayName = shareWithDisplayName + " (" + t('core', 'remote') + ')';
 			} else if (shareType === OC.Share.SHARE_TYPE_EMAIL) {
 				shareWithDisplayName = shareWithDisplayName + " (" + t('core', 'email') + ')';
+			} else if (shareType === OC.Share.SHARE_TYPE_CIRCLE) {
+				shareWithDisplayName = shareWithDisplayName + " (" + t('core', 'circle') + ')';
 			}
 
 			if (shareType === OC.Share.SHARE_TYPE_GROUP) {
@@ -166,6 +168,8 @@
 				shareWithTitle = shareWith + " (" + t('core', 'remote') + ')';
 			} else if (shareType === OC.Share.SHARE_TYPE_EMAIL) {
 				shareWithTitle = shareWith + " (" + t('core', 'email') + ')';
+			}else if (shareType === OC.Share.SHARE_TYPE_CIRCLE) {
+				shareWithTitle = shareWith + " (" + t('core', 'circle') + ')';
 			}
 
 			return _.extend(hasPermissionOverride, {
@@ -183,6 +187,7 @@
 				modSeed: shareType !== OC.Share.SHARE_TYPE_USER,
 				isRemoteShare: shareType === OC.Share.SHARE_TYPE_REMOTE,
 				isMailShare: shareType === OC.Share.SHARE_TYPE_EMAIL,
+				isCircleShare: shareType === OC.Share.SHARE_TYPE_CIRCLE,
 				isFileSharedByMail: shareType === OC.Share.SHARE_TYPE_EMAIL && !this.model.isFolder()
 			});
 		},
