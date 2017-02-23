@@ -197,20 +197,8 @@ class Cache implements ICache {
 					FROM `*PREFIX*filecache` WHERE `parent` = ? ORDER BY `name` ASC';
 			$result = $this->connection->executeQuery($sql, [$fileId]);
 			$files = $result->fetchAll();
-			foreach ($files as &$file) {
-				$file['mimetype'] = $this->mimetypeLoader->getMimetypeById($file['mimetype']);
-				$file['mimepart'] = $this->mimetypeLoader->getMimetypeById($file['mimepart']);
-				if ($file['storage_mtime'] == 0) {
-					$file['storage_mtime'] = $file['mtime'];
-				}
-				$file['permissions'] = (int)$file['permissions'];
-				$file['mtime'] = (int)$file['mtime'];
-				$file['storage_mtime'] = (int)$file['storage_mtime'];
-				$file['size'] = 0 + $file['size'];
-				$file['storage'] = (int)$file['storage'];
-			}
 			return array_map(function (array $data) {
-				return new CacheEntry($data);
+				return self::cacheEntryFromData($data, $this->mimetypeLoader);;
 			}, $files);
 		} else {
 			return array();
@@ -603,22 +591,18 @@ class Cache implements ICache {
 
 		$sql = '
 			SELECT `fileid`, `storage`, `path`, `parent`, `name`,
-				`mimetype`, `mimepart`, `size`, `mtime`, `encrypted`,
-				`etag`, `permissions`, `checksum`
+				`mimetype`, `storage_mtime`, `mimepart`, `size`, `mtime`,
+				 `encrypted`, `etag`, `permissions`, `checksum`
 			FROM `*PREFIX*filecache`
 			WHERE `storage` = ? AND `name` ILIKE ?';
 		$result = $this->connection->executeQuery($sql,
 			[$this->getNumericStorageId(), $pattern]
 		);
 
-		$files = [];
-		while ($row = $result->fetch()) {
-			$row['mimetype'] = $this->mimetypeLoader->getMimetypeById($row['mimetype']);
-			$row['mimepart'] = $this->mimetypeLoader->getMimetypeById($row['mimepart']);
-			$files[] = $row;
-		}
+		$files = $result->fetchAll();
+
 		return array_map(function(array $data) {
-			return new CacheEntry($data);
+			return self::cacheEntryFromData($data, $this->mimetypeLoader);
 		}, $files);
 	}
 
@@ -635,18 +619,15 @@ class Cache implements ICache {
 		} else {
 			$where = '`mimepart` = ?';
 		}
-		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `etag`, `permissions`, `checksum`
+		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `storage_mtime`, `mtime`, `encrypted`, `etag`, `permissions`, `checksum`
 				FROM `*PREFIX*filecache` WHERE ' . $where . ' AND `storage` = ?';
 		$mimetype = $this->mimetypeLoader->getId($mimetype);
 		$result = $this->connection->executeQuery($sql, array($mimetype, $this->getNumericStorageId()));
-		$files = array();
-		while ($row = $result->fetch()) {
-			$row['mimetype'] = $this->mimetypeLoader->getMimetypeById($row['mimetype']);
-			$row['mimepart'] = $this->mimetypeLoader->getMimetypeById($row['mimepart']);
-			$files[] = $row;
-		}
+
+		$files = $result->fetchAll();
+
 		return array_map(function (array $data) {
-			return new CacheEntry($data);
+			return self::cacheEntryFromData($data, $this->mimetypeLoader);
 		}, $files);
 	}
 
@@ -661,7 +642,7 @@ class Cache implements ICache {
 	 */
 	public function searchByTag($tag, $userId) {
 		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, ' .
-			'`mimetype`, `mimepart`, `size`, `mtime`, ' .
+			'`mimetype`, `mimepart`, `size`, `mtime`, `storage_mtime`, ' .
 			'`encrypted`, `etag`, `permissions`, `checksum` ' .
 			'FROM `*PREFIX*filecache` `file`, ' .
 			'`*PREFIX*vcategory_to_object` `tagmap`, ' .
@@ -688,12 +669,11 @@ class Cache implements ICache {
 				$tag
 			]
 		);
-		$files = array();
-		while ($row = $result->fetch()) {
-			$files[] = $row;
-		}
+
+		$files = $result->fetchAll();
+
 		return array_map(function (array $data) {
-			return new CacheEntry($data);
+			return self::cacheEntryFromData($data, $this->mimetypeLoader);
 		}, $files);
 	}
 
