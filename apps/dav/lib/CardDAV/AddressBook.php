@@ -64,8 +64,12 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 	 * @param array $add
 	 * @param array $remove
 	 * @return void
+	 * @throws Forbidden
 	 */
 	function updateShares(array $add, array $remove) {
+		if ($this->isShared()) {
+			throw new Forbidden();
+		}
 		/** @var CardDavBackend $carddavBackend */
 		$carddavBackend = $this->carddavBackend;
 		$carddavBackend->updateShares($this, $add, $remove);
@@ -84,6 +88,9 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 	 * @return array
 	 */
 	function getShares() {
+		if ($this->isShared()) {
+			return [];
+		}
 		/** @var CardDavBackend $carddavBackend */
 		$carddavBackend = $this->carddavBackend;
 		return $carddavBackend->getShares($this->getResourceId());
@@ -123,6 +130,10 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 			];
 		}
 
+		if ($this->isShared()) {
+			return $acl;
+		}
+
 		/** @var CardDavBackend $carddavBackend */
 		$carddavBackend = $this->carddavBackend;
 		return $carddavBackend->applyShareAcl($this->getResourceId(), $acl);
@@ -160,7 +171,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 	function delete() {
 		if (isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
 			$principal = 'principal:' . parent::getOwner();
-			$shares = $this->getShares();
+			$shares = $this->carddavBackend->getShares($this->getResourceId());
 			$shares = array_filter($shares, function($share) use ($principal){
 				return $share['href'] === $principal;
 			});
@@ -190,6 +201,14 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 		$cardDavBackend = $this->carddavBackend;
 
 		return $cardDavBackend->collectCardProperties($this->getResourceId(), 'CATEGORIES');
+	}
+
+	private function isShared() {
+		if (!isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
+			return false;
+		}
+
+		return $this->addressBookInfo['{http://owncloud.org/ns}owner-principal'] !== $this->addressBookInfo['principaluri'];
 	}
 
 	private function canWrite() {

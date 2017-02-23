@@ -143,8 +143,6 @@ class CalDavBackendTest extends AbstractCalDavBackendTest {
 		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}write', $acl);
 		$this->assertAccess($userCanRead, self::UNIT_TEST_USER1, '{DAV:}read', $acl);
 		$this->assertAccess($userCanWrite, self::UNIT_TEST_USER1, '{DAV:}write', $acl);
-		$this->assertAccess($groupCanRead, self::UNIT_TEST_GROUP, '{DAV:}read', $acl);
-		$this->assertAccess($groupCanWrite, self::UNIT_TEST_GROUP, '{DAV:}write', $acl);
 		$this->assertEquals(self::UNIT_TEST_USER, $calendar->getOwner());
 
 		// test acls on the child
@@ -178,8 +176,6 @@ EOD;
 		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}write', $acl);
 		$this->assertAccess($userCanRead, self::UNIT_TEST_USER1, '{DAV:}read', $acl);
 		$this->assertAccess($userCanWrite, self::UNIT_TEST_USER1, '{DAV:}write', $acl);
-		$this->assertAccess($groupCanRead, self::UNIT_TEST_GROUP, '{DAV:}read', $acl);
-		$this->assertAccess($groupCanWrite, self::UNIT_TEST_GROUP, '{DAV:}write', $acl);
 
 		// delete the address book
 		$this->dispatcher->expects($this->at(0))

@@ -61,8 +61,12 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	 * @param array $add
 	 * @param array $remove
 	 * @return void
+	 * @throws Forbidden
 	 */
-	function updateShares(array $add, array $remove) {
+	public function updateShares(array $add, array $remove) {
+		if ($this->isShared()) {
+			throw new Forbidden();
+		}
 		/** @var CalDavBackend $calDavBackend */
 		$calDavBackend = $this->caldavBackend;
 		$calDavBackend->updateShares($this, $add, $remove);
@@ -80,7 +84,10 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	 *
 	 * @return array
 	 */
-	function getShares() {
+	public function getShares() {
+		if ($this->isShared()) {
+			return [];
+		}
 		/** @var CalDavBackend $calDavBackend */
 		$calDavBackend = $this->caldavBackend;
 		return $calDavBackend->getShares($this->getResourceId());
@@ -136,6 +143,10 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 			];
 		}
 
+		if ($this->isShared()) {
+			return $acl;
+		}
+
 		/** @var CalDavBackend $calDavBackend */
 		$calDavBackend = $this->caldavBackend;
 		return $calDavBackend->applyShareAcl($this->getResourceId(), $acl);
@@ -156,7 +167,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		if (isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal']) &&
 			$this->calendarInfo['{http://owncloud.org/ns}owner-principal'] !== $this->calendarInfo['principaluri']) {
 			$principal = 'principal:' . parent::getOwner();
-			$shares = $this->getShares();
+			$shares = $this->caldavBackend->getShares($this->getResourceId());
 			$shares = array_filter($shares, function($share) use ($principal){
 				return $share['href'] === $principal;
 			});
