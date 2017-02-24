@@ -344,6 +344,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return Util::getDefaultEmailAddress('no-reply');
 		});
 
+		$this->registerService('OC_Defaults', function ($c) {
+			return $c->getServer()->getThemingDefaults();
+		});
+
 		$this->registerService('OCP\Encryption\IManager', function ($c) {
 			return $this->getServer()->getEncryptionManager();
 		});
