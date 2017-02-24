@@ -32,6 +32,7 @@ namespace OCA\Provisioning_API\Controller;
 use OC\Accounts\AccountManager;
 use \OC_Helper;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
@@ -41,8 +42,11 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
+use OCP\Mail\IMailer;
 
 class UsersController extends OCSController {
 
@@ -58,6 +62,16 @@ class UsersController extends OCSController {
 	private $accountManager;
 	/** @var ILogger */
 	private $logger;
+	/** @var string */
+	private $fromMailAddress;
+	/** @var IURLGenerator */
+	private $urlGenerator;
+	/** @var IMailer */
+	private $mailer;
+	/** @var \OC_Defaults */
+	private $defaults;
+	/** @var IFactory */
+	private $l10nFactory;
 
 	/**
 	 * @param string $appName
@@ -68,6 +82,11 @@ class UsersController extends OCSController {
 	 * @param IUserSession $userSession
 	 * @param AccountManager $accountManager
 	 * @param ILogger $logger
+	 * @param string $fromMailAddress
+	 * @param IURLGenerator $urlGenerator
+	 * @param IMailer $mailer
+	 * @param \OC_Defaults $defaults
+	 * @param IFactory $l10nFactory
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -76,7 +95,12 @@ class UsersController extends OCSController {
 								IGroupManager $groupManager,
 								IUserSession $userSession,
 								AccountManager $accountManager,
-								ILogger $logger) {
+								ILogger $logger,
+								$fromMailAddress,
+								IURLGenerator $urlGenerator,
+								IMailer $mailer,
+								\OC_Defaults $defaults,
+								IFactory $l10nFactory) {
 		parent::__construct($appName, $request);
 
 		$this->userManager = $userManager;
@@ -85,6 +109,11 @@ class UsersController extends OCSController {
 		$this->userSession = $userSession;
 		$this->accountManager = $accountManager;
 		$this->logger = $logger;
+		$this->fromMailAddress = $fromMailAddress;
+		$this->urlGenerator = $urlGenerator;
+		$this->mailer = $mailer;
+		$this->defaults = $defaults;
+		$this->l10nFactory = $l10nFactory;
 	}
 
 	/**
@@ -717,5 +746,75 @@ class UsersController extends OCSController {
 			$data = [];
 		}
 		return $data;
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @PasswordConfirmationRequired
+	 *
+	 * resend welcome message
+	 *
+	 * @param string $userId
+	 * @return DataResponse
+	 * @throws OCSException
+	 */
+	public function resendWelcomeMessage($userId) {
+		$currentLoggedInUser = $this->userSession->getUser();
+
+		$targetUser = $this->userManager->get($userId);
+		if($targetUser === null) {
+			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+		}
+
+		// Check if admin / subadmin
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		if(!$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
+			&& !$this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
+			// No rights
+			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+		}
+
+		$email = $targetUser->getEMailAddress();
+		if ($email === '' || $email === null) {
+			throw new OCSException('Email address not available', 101);
+		}
+		$username = $targetUser->getUID();
+		$lang = $this->config->getUserValue($username, 'core', 'lang', 'en');
+		if (!$this->l10nFactory->languageExists('settings', $lang)) {
+			$lang = 'en';
+		}
+
+		$l10n = $this->l10nFactory->get('settings', $lang);
+
+		// data for the mail template
+		$mailData = [
+			'username' => $username,
+			'url' => $this->urlGenerator->getAbsoluteURL('/')
+		];
+
+		// FIXME: set users language in email
+		$mail = new TemplateResponse('settings', 'email.new_user', $mailData, 'blank');
+		$mailContent = $mail->render();
+
+		// FIXME: set users language in email
+		$mail = new TemplateResponse('settings', 'email.new_user_plain_text', $mailData, 'blank');
+		$plainTextMailContent = $mail->render();
+
+		$subject = $l10n->t('Your %s account was created', [$this->defaults->getName()]);
+
+		try {
+			$message = $this->mailer->createMessage();
+			$message->setTo([$email => $username]);
+			$message->setSubject($subject);
+			$message->setHtmlBody($mailContent);
+			$message->setPlainBody($plainTextMailContent);
+			$message->setFrom([$this->fromMailAddress => $this->defaults->getName()]);
+			$this->mailer->send($message);
+		} catch(\Exception $e) {
+			$this->logger->error("Can't send new user mail to $email: " . $e->getMessage(), array('app' => 'settings'));
+			throw new OCSException('Sending email failed', 102);
+		}
+
+		return new DataResponse();
 	}
 }
