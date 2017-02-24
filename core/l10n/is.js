@@ -141,6 +141,8 @@ OC.L10N.register(
     "access control" : "aðgangsstýring",
     "Could not unshare" : "Gat ekki hætt deilingu",
     "Share details could not be loaded for this item." : "Ekki tókst að hlaða inn upplýsingum um sameign varðandi þetta atriði.",
+    "_At least {count} character is needed for autocompletion_::_At least {count} characters are needed for autocompletion_" : ["Það þarf a.m.k. {count} staf til að sjálfvirk útfylling virki","Það þarf a.m.k. {count} stafi til að sjálfvirk útfylling virki"],
+    "This list is maybe truncated - please refine your search term to see more results." : "Þessi listi gæti verið stytt útgáfa - þrengdu leitarskilyrðin til að sjá fleiri niðurstöður.",
     "No users or groups found for {search}" : "Engir notendur eða hópar fundust í {search}",
     "No users found for {search}" : "Engir notendur fundust með {search}",
     "An error occurred. Please try again" : "Villa kom upp. Endilega reyndu aftur",

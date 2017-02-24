@@ -141,6 +141,8 @@ OC.L10N.register(
     "access control" : "contrôle d'accès",
     "Could not unshare" : "Impossible d'arrêter de partager",
     "Share details could not be loaded for this item." : "Les informations de partage n'ont pu être chargées pour cet élément.",
+    "_At least {count} character is needed for autocompletion_::_At least {count} characters are needed for autocompletion_" : ["Au moins {count} caractère est nécessaire pour l'autocomplétion","Au moins {count} caractères sont nécessaires pour l'autocomplétion"],
+    "This list is maybe truncated - please refine your search term to see more results." : "Des résultats peuvent avoir été omis. Affinez votre recherche pour en voir plus.",
     "No users or groups found for {search}" : "Pas d'utilisateur ou de groupe trouvé pour {search}",
     "No users found for {search}" : "Aucun utilisateur trouvé pour {search}",
     "An error occurred. Please try again" : "Une erreur est survenue. Merci de réessayer",

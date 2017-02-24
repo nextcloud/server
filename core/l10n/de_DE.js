@@ -141,6 +141,8 @@ OC.L10N.register(
     "access control" : "Zugriffskontrolle",
     "Could not unshare" : "Freigabe konnte nicht aufgehoben werden",
     "Share details could not be loaded for this item." : "Die Freigabedetails konnten für dieses Element nicht geladen werden.",
+    "_At least {count} character is needed for autocompletion_::_At least {count} characters are needed for autocompletion_" : ["Mindestens {count} Zeichen wird für die Autovervollständigung benötigt","Mindestens {count} Zeichen werden für die Autovervollständigung benötigt"],
+    "This list is maybe truncated - please refine your search term to see more results." : "Die Liste ist unter Umständen gekürzt - Bitte verfeinern Sie Ihre Suche um mehr Ergebnisse zu erhalten.",
     "No users or groups found for {search}" : "Keine Benutzer oder Gruppen für {search} gefunden",
     "No users found for {search}" : "Keine Benutzer für {search} gefunden",
     "An error occurred. Please try again" : "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es noch einmal",

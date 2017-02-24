@@ -54,6 +54,7 @@ OC.L10N.register(
     "Error while disabling app" : "Kļūda, atvienojot programmu",
     "Disable" : "Deaktivēt",
     "Enable" : "Aktivēt",
+    "Enabling app …" : "Iespējojot programmu …",
     "Error while enabling app" : "Kļūda, pievienojot programmu",
     "Updating...." : "Atjaunina....",
     "Error while updating app" : "Kļūda, atjauninot programmu",

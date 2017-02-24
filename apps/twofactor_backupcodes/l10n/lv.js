@@ -15,6 +15,7 @@ OC.L10N.register(
     "A login attempt using two-factor authentication failed (%1$s)" : "Pieteikšanās mēģinājums, izmantojot divpakāpju autentifikāciju neizdevās (%1$s)",
     "You created two-factor backup codes for your account" : "Jūs izveidojāt divpakāpju dublējumu kodus savam kontam",
     "Backup code" : "Dublēšanas kods",
-    "Use backup code" : "Izmantojiet dublēšanas kodu"
+    "Use backup code" : "Izmantojiet dublēšanas kodu",
+    "Second-factor backup codes" : "Second-factor dublēšanas kodi"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");
