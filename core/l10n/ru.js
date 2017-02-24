@@ -141,6 +141,8 @@ OC.L10N.register(
     "access control" : "контроль доступа",
     "Could not unshare" : "Не удалось отменить доступ",
     "Share details could not be loaded for this item." : "Не удалось загрузить информацию об общем доступе для этого элемента.",
+    "_At least {count} character is needed for autocompletion_::_At least {count} characters are needed for autocompletion_" : ["Для автозавершения требуется как минимум {count} символ.","Для автозавершения требуется как минимум {count} символа.","Для автозавершения требуется как минимум {count} символов.","Для автозавершения требуется как минимум {count} символа."],
+    "This list is maybe truncated - please refine your search term to see more results." : "Этот список может быть показан не полностью - уточните запрос что бы просмотреть больше результатов.",
     "No users or groups found for {search}" : "Не найдено пользователей или групп по запросу {search}",
     "No users found for {search}" : "Не найдено пользователей по запросу {search}",
     "An error occurred. Please try again" : "Произошла ошибка. Попробуйте ещё раз",

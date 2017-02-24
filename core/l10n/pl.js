@@ -141,6 +141,8 @@ OC.L10N.register(
     "access control" : "kontrola dostępu",
     "Could not unshare" : "Nie udało się usunąć udostępnienia",
     "Share details could not be loaded for this item." : "Szczegóły udziału nie mogły zostać wczytane dla tego obiektu.",
+    "_At least {count} character is needed for autocompletion_::_At least {count} characters are needed for autocompletion_" : ["Do automatycznego uzupełnienia potrzebny jest co najmniej {count} znak","Do automatycznego uzupełnienia potrzebnych jest co najmniej {count} znaków","Do automatycznego uzupełnienia potrzebnych jest co najmniej {count} znaków","Do automatycznego uzupełnienia potrzebnych jest co najmniej {count} znaków"],
+    "This list is maybe truncated - please refine your search term to see more results." : "Ta lista może być obcięta - proszę bardziej określić fraze wyszukiwania, aby zobaczyć więcej wyników.",
     "No users or groups found for {search}" : "Nie znaleziono użytkowników lub grup dla {search}",
     "No users found for {search}" : "Nie znaleziono użytkowników dla {search}",
     "An error occurred. Please try again" : "Wystąpił błąd. Proszę spróbować ponownie.",

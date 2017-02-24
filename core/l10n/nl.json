@@ -139,6 +139,8 @@
     "access control" : "toegangscontrole",
     "Could not unshare" : "Kon delen niet ongedaan maken",
     "Share details could not be loaded for this item." : "Details van shares voor dit object konden niet worden geladen.",
+    "_At least {count} character is needed for autocompletion_::_At least {count} characters are needed for autocompletion_" : ["Minimaal {count} karakter benodigd voor automatisch aanvullen","Minimaal {count} karakters benodigd voor automatisch aanvullen"],
+    "This list is maybe truncated - please refine your search term to see more results." : "Deze lijst is misschien afgekapt - verfijn de zoekterm om meer resultaten te zien.",
     "No users or groups found for {search}" : "Geen gebruikers of groepen gevonden voor {search}",
     "No users found for {search}" : "Geen gebruikers gevonden voor {search}",
     "An error occurred. Please try again" : "Er trad een fout op. Probeer het opnieuw",
