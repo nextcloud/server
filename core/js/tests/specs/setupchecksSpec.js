@@ -155,6 +155,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
+					isOpcacheProperlySetup: true,
 				})
 			);
 
@@ -186,6 +187,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
+					isOpcacheProperlySetup: true,
 				})
 			);
 
@@ -218,6 +220,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
+					isOpcacheProperlySetup: true,
 				})
 			);
 
@@ -248,6 +251,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
+					isOpcacheProperlySetup: true,
 				})
 			);
 
@@ -276,6 +280,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: false,
 					hasPassedCodeIntegrityCheck: true,
+					isOpcacheProperlySetup: true,
 				})
 			);
 
@@ -304,6 +309,7 @@ describe('OC.SetupChecks tests', function() {
 					reverseProxyDocs: 'https://docs.owncloud.org/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
+					isOpcacheProperlySetup: true,
 				})
 			);
 
@@ -353,6 +359,7 @@ describe('OC.SetupChecks tests', function() {
 					phpSupported: {eol: true, version: '5.4.0'},
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
+					isOpcacheProperlySetup: true,
 				})
 			);
 
@@ -361,6 +368,36 @@ describe('OC.SetupChecks tests', function() {
 					msg: 'You are currently running PHP 5.4.0. We encourage you to upgrade your PHP version to take advantage of <a target="_blank" rel="noreferrer" href="https://secure.php.net/supported-versions.php">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
 				}]);
+				done();
+			});
+		});
+
+		it('should return an info if server has no proper opcache', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json'
+				},
+				JSON.stringify({
+					isUrandomAvailable: true,
+					securityDocs: 'https://docs.owncloud.org/myDocs.html',
+					serverHasInternetConnection: true,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					isOpcacheProperlySetup: false,
+					phpOpcacheDocumentation: 'https://example.org/link/to/doc',
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+						msg: 'The PHP Opcache is not properly configured. <a target="_blank" rel="noreferrer" href="https://example.org/link/to/doc">For better performance we recommend ↗</a> to use following settings in the <code>php.ini</code>:' + "<pre><code>opcache.enable=On\nopcache.enable_cli=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
+						type: OC.SetupChecks.MESSAGE_TYPE_INFO
+					}]);
 				done();
 			});
 		});
