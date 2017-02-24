@@ -59,11 +59,10 @@ EOD;
 		$this->config = $this->createMock(IConfig::class);
 
 		$this->config
-			->expects($this->atLeastOnce())
+			->expects($this->at(0))
 			->method('getSystemValue')
 			->with('version')
 			->willReturn('11.0.0.2');
-
 		$this->fetcher = new AppFetcher(
 			$this->appData,
 			$this->clientService,
@@ -73,6 +72,27 @@ EOD;
 	}
 
 	public function testGetWithFilter() {
+		$this->config
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->willReturn(true);
+		$this->config
+			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->willReturn(true);
+		$this->config
+			->expects($this->at(2))
+			->method('getSystemValue')
+			->with('version')
+			->willReturn('11.0.0.2');
+		$this->config
+			->expects($this->at(3))
+			->method('getSystemValue')
+			->with('version')
+			->willReturn('11.0.0.2');
+
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);
 		$folder
@@ -1919,5 +1939,18 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			->willReturn(json_encode($expected));
 
 		$this->assertEquals($expected['data'], $this->fetcher->get());
+	}
+
+	public function testAppstoreDisabled() {
+		$this->config
+			->expects($this->once())
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->willReturn(false);
+		$this->appData
+			->expects($this->never())
+			->method('getFolder');
+
+		$this->assertEquals([], $this->fetcher->get());
 	}
 }

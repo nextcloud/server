@@ -69,6 +69,12 @@ abstract class Fetcher {
 	 * @return array
 	 */
 	protected function fetch($ETag, $content) {
+		$appstoreenabled = $this->config->getSystemValue('appstoreenabled', true);
+
+		if (!$appstoreenabled) {
+			return [];
+		}
+
 		$options = [];
 
 		if ($ETag !== '') {
@@ -102,7 +108,13 @@ abstract class Fetcher {
 	 *
 	 * @return array
 	 */
-	 public function get() {
+	public function get() {
+		$appstoreenabled = $this->config->getSystemValue('appstoreenabled', true);
+
+		if (!$appstoreenabled) {
+			return [];
+		}
+
 		$rootFolder = $this->appData->getFolder('/');
 
 		$ETag = '';
@@ -112,13 +124,14 @@ abstract class Fetcher {
 			// File does already exists
 			$file = $rootFolder->getFile($this->fileName);
 			$jsonBlob = json_decode($file->getContent(), true);
-			if(is_array($jsonBlob)) {
+			if (is_array($jsonBlob)) {
 				/*
 				 * If the timestamp is older than 300 seconds request the files new
 				 * If the version changed (update!) also refresh
 				 */
-				if((int)$jsonBlob['timestamp'] > ($this->timeFactory->getTime() - self::INVALIDATE_AFTER_SECONDS) &&
-					isset($jsonBlob['ncversion']) && $jsonBlob['ncversion'] === $this->config->getSystemValue('version', '0.0.0')) {
+				if ((int)$jsonBlob['timestamp'] > ($this->timeFactory->getTime() - self::INVALIDATE_AFTER_SECONDS) &&
+					isset($jsonBlob['ncversion']) && $jsonBlob['ncversion'] === $this->config->getSystemValue('version', '0.0.0')
+				) {
 					return $jsonBlob['data'];
 				}
 
