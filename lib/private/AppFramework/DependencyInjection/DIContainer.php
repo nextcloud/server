@@ -56,6 +56,8 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IServerContainer;
 use OCP\IUserSession;
+use OCP\Files\Mount\IMountManager;
+use OCP\OCS\IDiscoveryService;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Util;
 
@@ -135,6 +137,13 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		$this->registerService(\OCP\AppFramework\IAppContainer::class, function ($c) {
 			return $c;
+		});
+
+		$this->registerService(IMountManager::class, function () {
+			return $this->getServer()->getMountManager();
+		});
+		$this->registerService(IDiscoveryService::class, function($c) {
+			return $this->getServer()->getOCSDiscoveryService();
 		});
 
 		// commonly used attributes
