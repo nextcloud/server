@@ -77,12 +77,11 @@ class DirectoryTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->view = $this->getMockBuilder('OC\Files\View')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->info = $this->getMockBuilder('OC\Files\FileInfo')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->view = $this->createMock('OC\Files\View');
+		$this->info = $this->createMock('OC\Files\FileInfo');
+		$this->info->expects($this->any())
+			->method('isReadable')
+			->will($this->returnValue(true));
 	}
 
 	private function getDir($path = '/') {
