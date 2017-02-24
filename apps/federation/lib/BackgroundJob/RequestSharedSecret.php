@@ -37,6 +37,7 @@ use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClient;
 use OCP\ILogger;
 use OCP\IURLGenerator;
+use OCP\OCS\IDiscoveryService;
 
 /**
  * Class RequestSharedSecret
@@ -62,13 +63,18 @@ class RequestSharedSecret extends Job {
 	/** @var TrustedServers */
 	private $trustedServers;
 
-	private $endPoint = '/ocs/v2.php/apps/federation/api/v1/request-shared-secret?format=json';
+	/** @var IDiscoveryService  */
+	private $ocsDiscoveryService;
 
 	/** @var ILogger */
 	private $logger;
 
 	/** @var bool */
 	protected $retainJob = false;
+
+	private $format = '?format=json';
+
+	private $defaultEndPoint = '/ocs/v2.php/apps/federation/api/v1/request-shared-secret';
 
 	/**
 	 * RequestSharedSecret constructor.
@@ -78,19 +84,22 @@ class RequestSharedSecret extends Job {
 	 * @param IJobList $jobList
 	 * @param TrustedServers $trustedServers
 	 * @param DbHandler $dbHandler
+	 * @param IDiscoveryService $ocsDiscoveryService
 	 */
 	public function __construct(
 		IClient $httpClient = null,
 		IURLGenerator $urlGenerator = null,
 		IJobList $jobList = null,
 		TrustedServers $trustedServers = null,
-		DbHandler $dbHandler = null
+		DbHandler $dbHandler = null,
+		IDiscoveryService $ocsDiscoveryService
 	) {
 		$this->httpClient = $httpClient ? $httpClient : \OC::$server->getHTTPClientService()->newClient();
 		$this->jobList = $jobList ? $jobList : \OC::$server->getJobList();
 		$this->urlGenerator = $urlGenerator ? $urlGenerator : \OC::$server->getURLGenerator();
 		$this->dbHandler = $dbHandler ? $dbHandler : new DbHandler(\OC::$server->getDatabaseConnection(), \OC::$server->getL10N('federation'));
 		$this->logger = \OC::$server->getLogger();
+		$this->ocsDiscoveryService = $ocsDiscoveryService ? $ocsDiscoveryService : \OC::$server->getOCSDiscoveryService();
 		if ($trustedServers) {
 			$this->trustedServers = $trustedServers;
 		} else {
@@ -142,9 +151,15 @@ class RequestSharedSecret extends Job {
 		$source = rtrim($source, '/');
 		$token = $argument['token'];
 
+		$endPoints = $this->ocsDiscoveryService->discover($target, 'FEDERATED_SHARING');
+		$endPoint = isset($endPoints['shared-secret']) ? $endPoints['shared-secret'] : $this->defaultEndPoint;
+
+		// make sure that we have a well formated url
+		$url = rtrim($target, '/') . '/' . trim($endPoint, '/') . $this->format;
+
 		try {
 			$result = $this->httpClient->post(
-				$target . $this->endPoint,
+				$url,
 				[
 					'body' => [
 						'url' => $source,
