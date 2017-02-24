@@ -112,10 +112,10 @@
 			});
 		},
 
-		updateCountdown: function (i) {
+		updateCountdown: function(i) {
 			setTimeout(function(){
 				 $("#countdown").html(i + " second");
-				 if( i > 1 ) {  $("#countdown").append("s");  }
+				 if(i > 1) {  $("#countdown").append("s");  }
 			}, (4 - i) * 1000);
 		},
 
