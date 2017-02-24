@@ -304,6 +304,7 @@ class ShareesAPIController extends OCSController {
 		$this->result['circles'] = $this->result['exact']['circles'] = [];
 
 		$result = \OCA\Circles\Api\Sharees::search($search, $this->limit, $this->offset);
+		$this->result['exact']['circles'] = $result['exact']['circles'];
 		$this->result['circles'] = $result['circles'];
 	}
 
