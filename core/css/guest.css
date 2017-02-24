@@ -434,7 +434,7 @@ form #selectDbType label.ui-state-active {
 	border-radius: 3px;
 	cursor: default;
 }
-.warning, {
+.warning {
 	padding: 5px;
 	background: #fdd;
 	margin: 0 7px 5px 4px;
@@ -540,6 +540,9 @@ p.info {
 }
 .icon-confirm-white {
 	background-image: url('../img/actions/confirm-white.svg?v=2');
+}
+.icon-checkmark-white {
+	background-image: url('../img/actions/checkmark-white.svg?v=1');
 }
 
 
