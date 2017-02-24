@@ -54,6 +54,7 @@ use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotImplemented;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\IFile;
+use Sabre\DAV\Exception\NotFound;
 
 class File extends Node implements IFile {
 
@@ -307,6 +308,10 @@ class File extends Node implements IFile {
 	public function get() {
 		//throw exception if encryption is disabled but files are still encrypted
 		try {
+			if (!$this->info->isReadable()) {
+				// do a if the file did not exist
+				throw new NotFound();
+			}
 			$res = $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
 			if ($res === false) {
 				throw new ServiceUnavailable("Could not open file");

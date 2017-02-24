@@ -37,6 +37,7 @@ use OCP\Files\ForbiddenException;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use Sabre\DAV\Exception\Locked;
+use Sabre\DAV\Exception\NotFound;
 
 class Directory extends \OCA\DAV\Connector\Sabre\Node
 	implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota {
@@ -188,6 +189,11 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 */
 	public function getChild($name, $info = null) {
+		if (!$this->info->isReadable()) {
+			// avoid detecting files through this way
+			throw new NotFound();
+		}
+
 		$path = $this->path . '/' . $name;
 		if (is_null($info)) {
 			try {
@@ -227,6 +233,11 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 			return $this->dirContent;
 		}
 		try {
+			if (!$this->info->isReadable()) {
+				// return 403 instead of 404 because a 404 would make
+				// the caller believe that the collection itself does not exist
+				throw new Forbidden('No read permissions');
+			}
 			$folderContent = $this->fileView->getDirectoryContent($this->path);
 		} catch (LockedException $e) {
 			throw new Locked();
