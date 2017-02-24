@@ -135,7 +135,8 @@ class Application extends \OCP\AppFramework\App {
 	public function getSyncService() {
 		$syncService = \OC::$server->query('CardDAVSyncService');
 		$dbHandler = $this->getContainer()->query('DbHandler');
-		return new SyncFederationAddressBooks($dbHandler, $syncService);
+		$discoveryService = \OC::$server->getOCSDiscoveryService();
+		return new SyncFederationAddressBooks($dbHandler, $syncService, $discoveryService);
 	}
 
 }
