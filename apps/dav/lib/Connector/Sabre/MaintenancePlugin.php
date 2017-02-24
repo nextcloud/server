@@ -78,9 +78,6 @@ class MaintenancePlugin extends ServerPlugin {
 	 * @return bool
 	 */
 	public function checkMaintenanceMode() {
-		if ($this->config->getSystemValue('singleuser', false)) {
-			throw new ServiceUnavailable('System in single user mode.');
-		}
 		if ($this->config->getSystemValue('maintenance', false)) {
 			throw new ServiceUnavailable('System in maintenance mode.');
 		}

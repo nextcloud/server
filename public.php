@@ -39,7 +39,6 @@ try {
 	}
 
 	OC::checkMaintenanceMode();
-	OC::checkSingleUserMode(true);
 	$request = \OC::$server->getRequest();
 	$pathInfo = $request->getPathInfo();
 
