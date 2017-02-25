@@ -1,9 +1,11 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2017, Georg Ehrke <oc.list@georgehrke.com>
  *
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license AGPL-3.0
  *
@@ -101,6 +103,26 @@ class CustomPropertiesBackend implements BackendInterface {
 			$requestedProps,
 			$this->ignoredProperties
 		);
+
+		// substr of calendars/ => path is inside the CalDAV component
+		// two '/' => this a calendar (no calendar-home nor calendar object)
+		if (substr($path, 0, 10) === 'calendars/' && substr_count($path, '/') === 2) {
+			$allRequestedProps = $propFind->getRequestedProperties();
+			$customPropertiesForShares = [
+				'{DAV:}displayname',
+				'{urn:ietf:params:xml:ns:caldav}calendar-description',
+				'{urn:ietf:params:xml:ns:caldav}calendar-timezone',
+				'{http://apple.com/ns/ical/}calendar-order',
+				'{http://apple.com/ns/ical/}calendar-color',
+				'{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp',
+			];
+
+			foreach ($customPropertiesForShares as $customPropertyForShares) {
+				if (in_array($customPropertyForShares, $allRequestedProps)) {
+					$requestedProps[] = $customPropertyForShares;
+				}
+			}
+		}
 
 		if (empty($requestedProps)) {
 			return;
