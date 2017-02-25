@@ -192,7 +192,11 @@ class ShareAPIController extends OCSController {
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $this->getDisplayNameFromAddressBook($share->getSharedWith(), 'EMAIL');
 			$result['token'] = $share->getToken();
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_CIRCLE) {
+			$result['share_with'] = $share->getSharedWith();
+			$result['share_with_displayname'] = $share->getSharedWith();
 		}
+
 
 		$result['mail_send'] = $share->getMailSend() ? 1 : 0;
 

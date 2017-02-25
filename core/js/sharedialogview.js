@@ -328,7 +328,7 @@
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_EMAIL) {
 				text = t('core', '{sharee} (email)', { sharee: text }, undefined, { escape: false });
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_CIRCLE) {
-				text = t('core', '{sharee} (circle)', {sharee: text}, undefined, {escape: false});
+				text = t('core', '{sharee} ({type})', {sharee: text, type: item.value.circleInfo}, undefined, {escape: false});
 			}
 			var insert = $("<div class='share-autocomplete-item'/>");
 			var avatar = $("<div class='avatardiv'></div>").appendTo(insert);
