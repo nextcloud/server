@@ -120,6 +120,21 @@ describe('OCA.Sharing.ShareBreadCrumbView tests', function() {
 			expect(bc.$el.find('.shared').length).toEqual(1);
 			expect(bc.$el.find('.icon-public').length).toEqual(1);
 		});
+		it('Render shared if dir is shared by link', function() {
+			var dirInfo = new OC.Files.FileInfo({
+				id: 42,
+				path: '/foo',
+				type: 'dir',
+				shareTypes: [OC.Share.SHARE_TYPE_CIRCLE]
+			});
+			bc.setDirectoryInfo(dirInfo);
+			bc.setDirectory('/foo');
+			bc.render();
+			expect(bc.$el.hasClass('breadcrumb')).toEqual(true);
+			expect(bc.$el.find('.icon-share').length).toEqual(1);
+			expect(bc.$el.find('.shared').length).toEqual(1);
+			expect(bc.$el.find('.icon-public').length).toEqual(0);
+		});
 		it('Render shared if dir is shared with remote', function() {
 			var dirInfo = new OC.Files.FileInfo({
 				id: 42,
