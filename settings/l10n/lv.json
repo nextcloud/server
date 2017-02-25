@@ -146,6 +146,8 @@
     "Store credentials" : "Saglabāt akreditācijas datus",
     "Test email settings" : "Izmēģināt e-pasta iestatījumus",
     "Send email" : "Sūtīt e-pastu",
+    "Server-side encryption" : "Servera šifrēšana",
+    "Enable server-side encryption" : "Ieslēgt servera šifrēšanu",
     "Please read carefully before activating server-side encryption: " : "Lūdzu, izlasiet uzmanīgi pirms aktivējiet servera šifrēšanu:",
     "Encryption alone does not guarantee security of the system. Please see documentation for more information about how the encryption app works, and the supported use cases." : "Šifrēšana vien negarantē sistēmas drošību. Skatiet dokumentāciju, lai iegūtu papildinformāciju par šifrēšanas programmu izmantošana, kā arī citu darbību gadījumos.",
     "Be aware that encryption always increases the file size." : "Jāapzinās, ka šifrēšanas vienmēr palielina faila lielumu.",

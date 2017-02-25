@@ -55,6 +55,7 @@
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "官方应用由社区和内部开发. 其可以提供核心功能并保证生产用途.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "认证应用由值得信赖的开发者开发, 并通过了一个粗略的安全检查. 其在开放的代码库中活跃地维护, 他们的维护者认为在普通用途足够稳定.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "此应用没有检查安全问题, 它是新的或已知不稳定的. 安装风险自担.",
+    "Disabling app …" : "禁用应用程序...",
     "Error while disabling app" : "禁用应用时出错",
     "Disable" : "禁用",
     "Enable" : "启用",
