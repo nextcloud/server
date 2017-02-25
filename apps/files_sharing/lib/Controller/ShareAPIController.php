@@ -602,7 +602,14 @@ class ShareAPIController extends OCSController {
 		} else {
 			$mailShares = [];
 		}
-		$shares = array_merge($userShares, $groupShares, $linkShares, $mailShares);
+//		if (\OCP\App::isEnabled('circles')) {
+		if ($this->shareManager->shareProviderExists(\OCP\Share::SHARE_TYPE_CIRCLE)) {
+			$circleShares = $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_CIRCLE, $path, $reshares, -1, 0);
+		} else {
+			$circleShares = [];
+		}
+
+		$shares = array_merge($userShares, $groupShares, $linkShares, $mailShares, $circleShares);
 
 		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
 			$federatedShares = $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_REMOTE, $path, $reshares, -1, 0);
