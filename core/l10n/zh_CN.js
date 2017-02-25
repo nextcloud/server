@@ -141,6 +141,8 @@ OC.L10N.register(
     "access control" : "访问控制",
     "Could not unshare" : "无法共享",
     "Share details could not be loaded for this item." : "无法加载这个项目的分享详情",
+    "_At least {count} character is needed for autocompletion_::_At least {count} characters are needed for autocompletion_" : ["{count}字符需要自动完成"],
+    "This list is maybe truncated - please refine your search term to see more results." : "此列表可能会被截断 - 请缩短您的搜索词以查看更多结果",
     "No users or groups found for {search}" : "{search} 条件下没有找到用户或用户组",
     "No users found for {search}" : "没有找到 {search} 用户",
     "An error occurred. Please try again" : "发生错误. 请重试.",

@@ -281,7 +281,7 @@
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Bitte stelle vor dem Fortsetzen sicher, dass die Datenbank, der Konfigurationsordner und der Datenordner gesichert wurden.",
     "Start update" : "Aktualisierung starten",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Zur Vermeidung von Zeitüberschreitungen bei größeren Installationen kannst Du stattdessen den folgenden Befehl in deinem Installationsverzeichnis ausführen:",
-    "Detailed logs" : "Detaillierte Fehlermeldungen",
+    "Detailed logs" : "Detaillierte Protokollmeldungen",
     "Update needed" : "Update wird benötigt",
     "Please use the command line updater because you have a big instance." : "Da Du eine große Instanz nutzt, verwende bitte das Aktualisierungsprogramm über die Kommandozeile.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Für weitere Hilfen, schaue bitte in die <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">Dokumentation</a>.",
