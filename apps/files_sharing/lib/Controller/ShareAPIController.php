@@ -853,6 +853,16 @@ class ShareAPIController extends OCSController {
 			// Do nothing, just try the other share type
 		}
 
+
+		try {
+			if ($this->shareManager->shareProviderExists(\OCP\Share::SHARE_TYPE_CIRCLE)) {
+				$share = $this->shareManager->getShareById('ocCircleShare:' . $id);
+				return $share;
+			}
+		} catch (ShareNotFound $e) {
+			// Do nothing, just try the other share type
+		}
+
 		try {
 			if ($this->shareManager->shareProviderExists(\OCP\Share::SHARE_TYPE_EMAIL)) {
 				$share = $this->shareManager->getShareById('ocMailShare:' . $id);

@@ -207,8 +207,10 @@ class ProviderFactory implements IProviderFactory {
 			$provider = $this->defaultShareProvider();
 		} else if ($id === 'ocFederatedSharing') {
 			$provider = $this->federatedShareProvider();
-		} else if ($id = 'ocMailShare') {
+		} else if ($id === 'ocMailShare') {
 			$provider = $this->getShareByMailProvider();
+		} else if ($id === 'ocCircleShare') {
+			$provider = $this->getShareByCircleProvider();
 		}
 
 		if ($provider === null) {
