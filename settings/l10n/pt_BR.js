@@ -57,6 +57,7 @@ OC.L10N.register(
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Aplicativos oficiais são desenvolvidos pela comunidade e dentro da comunidade. Eles oferecem funcionalidades centrais e estão prontos para uso em produção.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Aplicativos aprovados são desenvolvidos pelos desenvolvedores confiáveis e passaram por uma verificação de segurança superficial. Eles são ativamente mantidos em um repositório de código aberto e seus mantenedores consideram que eles para sejam estáveis para um casual uso normal.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "Este aplicativo não foi verificado para as questões de segurança e é novo ou conhecido por ser instável. Instale por seu próprio risco.",
+    "Disabling app …" : "Desabilitando aplicativo ...",
     "Error while disabling app" : "Erro enquanto desabilitava o aplicativo",
     "Disable" : "Desabilitar",
     "Enable" : "Habilitar",
