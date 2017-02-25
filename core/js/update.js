@@ -87,7 +87,7 @@
 
 				$('#update-progress-icon')
 					.addClass('icon-checkmark-white')
-					.removeClass('icon-loading-dark');
+				  	.removeClass('icon-loading-dark');
 
 				if (hasWarnings) {
 					$el.find('.update-show-detailed').before(
@@ -98,13 +98,25 @@
 				} else {
 					// FIXME: use product name
 					$el.find('.update-show-detailed').before(
-						$('<p>'+t('core', 'The update was successful. Redirecting you to Nextcloud now.')+'</p>')
+						$('<p>'+t('core', 'The update was successful. Redirecting you to Nextcloud in ')+'<span id="countdown"></span></p>')
 					);
+
+					for(var i = 4; i >= 0; i--) {
+						self.updateCountdown(i);
+					}
+
 					setTimeout(function () {
 						OC.redirect(OC.webroot + '/');
 					}, 3000);
 				}
 			});
+		},
+
+		updateCountdown: function (i) {
+			setTimeout(function(){
+				 $("#countdown").html(i + " second");
+				 if(i > 1) {  $("#countdown").append("s");  }
+			}, (4 - i) * 1000);
 		},
 
 		setMessage: function(message) {
