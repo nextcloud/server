@@ -173,7 +173,7 @@ class ProviderFactory implements IProviderFactory {
 	 *
 	 * @return FederatedShareProvider
 	 */
-	protected function getSharedByCircleProvider() {
+	protected function getShareByCircleProvider() {
 
 		$appManager = $this->serverContainer->getAppManager();
 		if (!$appManager->isEnabledForUser('circles')) {
@@ -234,7 +234,7 @@ class ProviderFactory implements IProviderFactory {
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_EMAIL) {
 			$provider = $this->getShareByMailProvider();
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_CIRCLE) {
-			$provider = $this->getSharedByCircleProvider();
+			$provider = $this->getShareByCircleProvider();
 		}
 
 
@@ -251,7 +251,7 @@ class ProviderFactory implements IProviderFactory {
 		if ($shareByMail !== null) {
 			$shares[] = $shareByMail;
 		}
-		$shareByCircle = $this->getSharedByCircleProvider();
+		$shareByCircle = $this->getShareByCircleProvider();
 		if ($shareByCircle !== null) {
 			$shares[] = $shareByCircle;
 		}
