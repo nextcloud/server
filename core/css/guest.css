@@ -434,11 +434,6 @@ form #selectDbType label.ui-state-active {
 	border-radius: 3px;
 	cursor: default;
 }
-.warning {
-	padding: 5px;
-	background: #fdd;
-	margin: 0 7px 5px 4px;
-}
 .warning legend,
 .warning a,
 .error a {
