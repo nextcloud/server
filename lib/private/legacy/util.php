@@ -1388,6 +1388,12 @@ class OC_Util {
 		if (\OC\Files\Filesystem::isIgnoredDir($trimmed)) {
 			return false;
 		}
+
+		$path_parts = pathinfo($trimmed);
+		if ($path_parts['extension'] === 'part') {
+			return false;
+		}
+
 		foreach (str_split($trimmed) as $char) {
 			if (strpos(\OCP\Constants::FILENAME_INVALID_CHARS, $char) !== false) {
 				return false;
