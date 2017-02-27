@@ -158,6 +158,7 @@ $userData = $accountManager->getUser($user);
 
 $tmpl->assign('total_space', $totalSpace);
 $tmpl->assign('usage_relative', $storageInfo['relative']);
+$tmpl->assign('quota', $storageInfo['quota']);
 $tmpl->assign('clients', $clients);
 $tmpl->assign('email', $userData[\OC\Accounts\AccountManager::PROPERTY_EMAIL]['value']);
 $tmpl->assign('languages', $languages);
