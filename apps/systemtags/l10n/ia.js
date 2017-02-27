@@ -54,10 +54,14 @@ OC.L10N.register(
     "Modified" : "Modificate",
     "You assigned system tag %3$s" : "Tu assignava le etiquetta de systema %3$s",
     "%1$s assigned system tag %3$s" : "%1$s assignava le etiquetta de systema %3$s",
+    "You unassigned system tag %3$s" : "Tu removeva le assignation del etiquetta de systema %3$s",
+    "%1$s unassigned system tag %3$s" : "%1$s removeva le assignation del etiquetta de systema %3$s",
     "You created system tag %2$s" : "Tu creava le etiquetta de systema %2$s",
     "You deleted system tag %2$s" : "Tu deleva le etiquetta de systema %2$s",
     "You updated system tag %3$s to %2$s" : "Tu actualisava le etiquetta de systema %3$s a %2$s",
     "You assigned system tag %3$s to %2$s" : "Tu assignava le etiquetta de systema %3$s a  %2$s",
-    "%1$s assigned system tag %3$s to %2$s" : "%1$s assignava le etiquetta de systema %3$s a %2$s"
+    "%1$s assigned system tag %3$s to %2$s" : "%1$s assignava le etiquetta de systema %3$s a %2$s",
+    "You unassigned system tag %3$s from %2$s" : "Tu removeva le assignation del etiquetta de systema %3$s de %2$s",
+    "%1$s unassigned system tag %3$s from %2$s" : "%1$s removeva le assignation del etiquetta de systema %3$s de %2$s"
 },
 "nplurals=2; plural=(n != 1);");
