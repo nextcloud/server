@@ -405,7 +405,7 @@ class KeyManager {
 			return '';
 		}
 
-		if ($this->util->isMasterKeyEnabled()) {
+		if (!is_null($uid) && $this->util->isMasterKeyEnabled()) {
 			$uid = $this->getMasterKeyId();
 		}
 
