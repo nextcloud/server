@@ -1678,16 +1678,12 @@ OC.Util = {
 	 *
 	 */
 	computerFileSize: function (string) {
-		if (typeof string != 'string') {
+		if (typeof string !== 'string') {
 			return null;
 		}
 
 		var s = string.toLowerCase();
-		var bytes = parseFloat(s)
-
-		if (!isNaN(bytes) && isFinite(s)) {
-			return bytes;
-		}
+		var bytes = null;
 
 		var bytesArray = {
 			'b' : 1,
@@ -1703,11 +1699,17 @@ OC.Util = {
 			'p' : 1024 * 1024 * 1024 * 1024 * 1024
 		};
 
-		var matches = s.match(/([kmgtp]?b?)$/i);
-		if (matches[1]) {
-			bytes = bytes * bytesArray[matches[1]];
+		var matches = s.match(/^[\s+]?([0-9]*)(\.([0-9]+))?( +)?([kmgtp]?b?)$/i);
+		if (matches !== null) {
+			bytes = parseFloat(s);
+			if (!isFinite(bytes)) {
+				return null;
+			}
 		} else {
 			return null;
+		}
+		if (matches[5]) {
+			bytes = bytes * bytesArray[matches[5]];
 		}
 
 		bytes = Math.round(bytes);
