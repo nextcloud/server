@@ -302,7 +302,7 @@ OC.Share = _.extend(OC.Share || {}, {
 			}
 			action.html('<span> ' + message + '</span>').prepend(icon);
 			if (owner || recipients) {
-				action.find('.remoteAddress').tipsy({gravity: 's'});
+				action.find('.remoteAddress').tooltip({placement: 'top'});
 			}
 		}
 		else {

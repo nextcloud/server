@@ -895,7 +895,7 @@ OC.Uploader.prototype = _.extend({
 				start: function(e) {
 					self.log('start', e, null);
 					//hide the tooltip otherwise it covers the progress bar
-					$('#upload').tipsy('hide');
+					$('#upload').tooltip('hide');
 				},
 				fail: function(e, data) {
 					var upload = self.getUpload(data);
@@ -991,7 +991,7 @@ OC.Uploader.prototype = _.extend({
 							+ '</span><span class="mobile">'
 							+ t('files', '...')
 							+ '</span></em>');
-                    $('#uploadprogressbar').tipsy({gravity:'n', fade:true, live:true});
+					$('#uploadprogressbar').toopltip({placement: 'bottom'});
 					self._showProgressBar();
 					self.trigger('start', e, data);
 				});
