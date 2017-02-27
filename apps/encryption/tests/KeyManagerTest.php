@@ -418,7 +418,11 @@ class KeyManagerTest extends TestCase {
 			['', false, 'privateKey', true],
 			['', false, false, ''],
 			['', true, 'privateKey', true],
-			['', true, false, '']
+			['', true, false, ''],
+			[null, false, 'privateKey', true],
+			[null, false, false, ''],
+			[null, true, 'privateKey', true],
+			[null, true, false, '']
 		];
 	}
 
