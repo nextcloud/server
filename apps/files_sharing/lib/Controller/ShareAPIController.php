@@ -483,10 +483,12 @@ class ShareAPIController extends OCSController {
 	 * @return DataResponse
 	 */
 	private function getSharedWithMe($node = null) {
+
 		$userShares = $this->shareManager->getSharedWith($this->currentUser, \OCP\Share::SHARE_TYPE_USER, $node, -1, 0);
 		$groupShares = $this->shareManager->getSharedWith($this->currentUser, \OCP\Share::SHARE_TYPE_GROUP, $node, -1, 0);
+		$circleShares = $this->shareManager->getSharedWith($this->currentUser, \OCP\Share::SHARE_TYPE_CIRCLE, $node, -1, 0);
 
-		$shares = array_merge($userShares, $groupShares);
+		$shares = array_merge($userShares, $groupShares, $circleShares);
 
 		$shares = array_filter($shares, function (IShare $share) {
 			return $share->getShareOwner() !== $this->currentUser;
