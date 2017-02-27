@@ -55,6 +55,7 @@
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Officiële apps worden ontwikkeld door en binnen de community. Ze bieden centrale functionaliteit en zijn klaar voor productie.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Goedgekeurde apps zijn ontwikkeld door vertrouwde ontwikkelaars en hebben een beveiligingscontrole ondergaan. Ze worden actief onderhouden in een open code repository en hun ontwikkelaars vinden ze stabiel genoeg voor informeel of normaal gebruik.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "Deze app is niet gecontroleerd op beveiligingsproblemen en is nieuw of staat  bekend als onstabiel. Installeren op eigen risico.",
+    "Disabling app …" : "Uitschakelen app ...",
     "Error while disabling app" : "Fout tijdens het uitschakelen van de app",
     "Disable" : "Uitschakelen",
     "Enable" : "Activeer",

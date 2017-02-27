@@ -54,7 +54,7 @@ OC.L10N.register(
     "Modified" : "Modificado",
     "You assigned system tag %3$s" : "Você atribuiu uma etiqueta ao sistema %3$s",
     "%1$s assigned system tag %3$s" : "%1$s etiqueta de sistema atribuída %3$s",
-    "You unassigned system tag %3$s" : "Você dasatribuiu uma etiqueta ao sistema %3$s",
+    "You unassigned system tag %3$s" : "Você desatribuiu uma etiqueta ao sistema %3$s",
     "%1$s unassigned system tag %3$s" : "%1$s etiqueta de sistema não atribuída %3$s",
     "You created system tag %2$s" : "Você criou uma etiqueta de sistema %2$s",
     "You deleted system tag %2$s" : "Você eliminou uma etiqueta de sistema %2$s",

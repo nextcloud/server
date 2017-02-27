@@ -39,7 +39,7 @@ OC.L10N.register(
     "Invalid user" : "Ungültiger Benutzer",
     "Unable to change mail address" : "E-Mail-Adresse konnte nicht geändert werden",
     "Email saved" : "E-Mail-Adresse gespeichert",
-    "Password confirmation is required" : "Passwortbestätigung ist erforderlich",
+    "Password confirmation is required" : "Passwortbestätigung erforderlich",
     "Couldn't remove app." : "Die App konnte nicht entfernt werden.",
     "Couldn't update app." : "Die App konnte nicht aktualisiert werden.",
     "Are you really sure you want add {domain} as trusted domain?" : "Sind Sie sich wirklich sicher, dass Sie {domain} als vertrauenswürdige Domain hinzufügen möchten?",
