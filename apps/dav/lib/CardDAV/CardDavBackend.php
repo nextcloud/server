@@ -180,7 +180,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				$addressBooks[$row['id']] = [
 					'id'  => $row['id'],
 					'uri' => $uri,
-					'principaluri' => $principalUri,
+					'principaluri' => $principalUriOriginal,
 					'{DAV:}displayname' => $displayName,
 					'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
 					'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
