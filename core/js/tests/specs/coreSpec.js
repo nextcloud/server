@@ -619,6 +619,13 @@ describe('Core base tests', function() {
 					['B', null],
 					['40/0', null],
 					['40,30 kb', null],
+					[' 122.1 MB ', 128031130],
+					['122.1 MB ', 128031130],
+					[' 122.1 MB ', 128031130],
+					['	122.1 MB ', 128031130],
+					['122.1    MB ', 128031130],
+					[' 125', 125],
+					[' 125 ', 125],
 				];
 				for (var i = 0; i < data.length; i++) {
 					expect(OC.Util.computerFileSize(data[i][0])).toEqual(data[i][1]);

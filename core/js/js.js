@@ -1682,7 +1682,7 @@ OC.Util = {
 			return null;
 		}
 
-		var s = string.toLowerCase();
+		var s = string.toLowerCase().trim();
 		var bytes = null;
 
 		var bytesArray = {
