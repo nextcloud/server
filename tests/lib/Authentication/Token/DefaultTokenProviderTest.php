@@ -294,7 +294,7 @@ class DefaultTokenProviderTest extends TestCase {
 			->willReturn('MyTokenName');
 		$token
 			->expects($this->at(3))
-			->method('getRememberMe')
+			->method('getRemember')
 			->willReturn(IToken::DO_NOT_REMEMBER);
 		$this->config
 			->expects($this->exactly(2))
@@ -349,7 +349,7 @@ class DefaultTokenProviderTest extends TestCase {
 			->willReturn('MyTokenName');
 		$token
 			->expects($this->at(3))
-			->method('getRememberMe')
+			->method('getRemember')
 			->willReturn(IToken::REMEMBER);
 		$this->crypto
 			->expects($this->any(0))
