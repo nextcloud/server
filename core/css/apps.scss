@@ -684,8 +684,6 @@ em {
 			/* Keep padding to define the width to
 			 assure correct position of a possible text */
 			margin: 14px 13px 15px 16px;
-			min-width: 0; /* Overwrite icons*/
-			min-height: 0;
 			opacity: 0.7; /* Default button icon override */
 		}
 	}
