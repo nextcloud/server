@@ -511,7 +511,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 			)
 		));
 		$response = file_get_contents($url, false, $context);
-		preg_match_all('/\<oc:fileid\>(.*)\<\/oc:fileid\>/', $response, $matches);
+		preg_match_all('/\<oc:fileid\>(.*?)\<\/oc:fileid\>/', $response, $matches);
 		return (int)$matches[1][0];
 	}
 
@@ -576,7 +576,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 			]
 		);
 		$response = $this->client->send($request)->getBody()->getContents();
-		preg_match_all('/\<oc:display-name\>(.*)\<\/oc:display-name\>/', $response, $realTags);
+		preg_match_all('/\<oc:display-name\>(.*?)\<\/oc:display-name\>/', $response, $realTags);
 
 		foreach($expectedTags as $key => $row) {
 			foreach($realTags as $tag) {
@@ -631,7 +631,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}
-		preg_match_all('/\<oc:display-name\>(.*)\<\/oc:display-name\>/', $this->response, $realTags);
+		preg_match_all('/\<oc:display-name\>(.*?)\<\/oc:display-name\>/', $this->response, $realTags);
 		$realTags = array_filter($realTags);
 		$expectedTags = array_filter($expectedTags);
 
