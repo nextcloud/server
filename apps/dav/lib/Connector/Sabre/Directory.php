@@ -247,6 +247,8 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 		}
 		try {
 			if (!$this->info->isReadable()) {
+				// return 403 instead of 404 because a 404 would make
+				// the caller believe that the collection itself does not exist
 				throw new Forbidden('No read permissions');
 			}
 			$folderContent = $this->fileView->getDirectoryContent($this->path);
