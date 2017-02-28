@@ -201,12 +201,9 @@ class FilesReportPlugin extends ServerPlugin {
 		}
 
 		$filesUri = $this->getFilesBaseUri($uri, $reportTargetNode->getPath());
-		$responses = $this->prepareResponses($filesUri, $requestedProps, $results);
+		$results = $this->prepareResponses($filesUri, $requestedProps, $results);
 
-		$xml = $this->server->xml->write(
-			'{DAV:}multistatus',
-			new MultiStatus($responses)
-		);
+		$xml = $this->server->generateMultiStatus($results);
 
 		$this->server->httpResponse->setStatus(207);
 		$this->server->httpResponse->setHeader('Content-Type', 'application/xml; charset=utf-8');
@@ -324,7 +321,7 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @return Response[]
 	 */
 	public function prepareResponses($filesUri, $requestedProps, $nodes) {
-		$responses = [];
+		$results = [];
 		foreach ($nodes as $node) {
 			$propFind = new PropFind($filesUri . $node->getPath(), $requestedProps);
 
@@ -338,13 +335,9 @@ class FilesReportPlugin extends ServerPlugin {
 				$result['href'] .= '/';
 			}
 
-			$responses[] = new Response(
-				rtrim($this->server->getBaseUri(), '/') . $filesUri . $node->getPath(),
-				$result,
-				200
-			);
+			$results[] = $result;
 		}
-		return $responses;
+		return $results;
 	}
 
 	/**
