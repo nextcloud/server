@@ -991,7 +991,7 @@ OC.Uploader.prototype = _.extend({
 							+ '</span><span class="mobile">'
 							+ t('files', '...')
 							+ '</span></em>');
-					$('#uploadprogressbar').toopltip({placement: 'bottom'});
+					$('#uploadprogressbar').tooltip({placement: 'bottom'});
 					self._showProgressBar();
 					self.trigger('start', e, data);
 				});
