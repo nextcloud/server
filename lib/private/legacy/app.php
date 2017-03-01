@@ -529,7 +529,7 @@ class OC_App {
 
 	// This is private as well. It simply works, so don't ask for more details
 	private static function proceedNavigation($list) {
-
+		$headerIconCount = 8;
 		usort($list, function($a, $b) {
 			if (isset($a['order']) && isset($b['order'])) {
 				return ($a['order'] < $b['order']) ? -1 : 1;
@@ -540,6 +540,7 @@ class OC_App {
 			}
 		});
 
+		$activeAppIndex = -1;
 		$activeApp = OC::$server->getNavigationManager()->getActiveEntry();
 		foreach ($list as $index => &$navEntry) {
 			if ($navEntry['id'] == $activeApp) {
@@ -551,18 +552,28 @@ class OC_App {
 		}
 		unset($navEntry);
 
+		if($activeAppIndex > ($headerIconCount-1)) {
+			$active = $list[$activeAppIndex];
+			$lastInHeader = $list[$headerIconCount-1];
+			$list[$headerIconCount-1] = $active;
+			$list[$activeAppIndex] = $lastInHeader;
+		}
 
 		foreach ($list as $index => &$navEntry) {
 			$navEntry['showInHeader'] = false;
-			if($index < 4) {
+			if($index < $headerIconCount) {
 				$navEntry['showInHeader'] = true;
 			}
 		}
+
+
 
 		return $list;
 	}
 
 	public static function proceedAppNavigation($entries) {
+		$headerIconCount = 8;
+		$activeAppIndex = -1;
 		$list = self::proceedNavigation($entries);
 
 		$activeApp = OC::$server->getNavigationManager()->getActiveEntry();
@@ -574,13 +585,15 @@ class OC_App {
 				$navEntry['active'] = false;
 			}
 		}
-		$list = array_slice($list, 0, 4);
 		// move active item to last position
-		if($activeAppIndex > 2) {
+		if($activeAppIndex > ($headerIconCount-1)) {
 			$active = $list[$activeAppIndex];
-			unset($list[$activeAppIndex]);
-			array_unshift($list, $active);
+			$lastInHeader = $list[$headerIconCount-1];
+			$list[$headerIconCount-1] = $active;
+			$list[$activeAppIndex] = $lastInHeader;
 		}
+		$list = array_slice($list, 0, $headerIconCount);
+
 		return $list;
 	}
 

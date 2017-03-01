@@ -109,11 +109,10 @@
 		height: 34px;
 	}
 	.header-appname-container {
-		display: inline-block;
+		display: none;
 		padding-top: 22px;
 		padding-right: 10px;
 		flex-shrink: 0;
-		display: none !important;
 	}
 	/* show caret indicator next to logo to make clear it is tappable */
 	.icon-caret {
@@ -176,7 +175,6 @@
 
 /* show appname next to logo */
 .header-appname {
-	display: inline-block;
 	position: relative;
 	color: #fff;
 	font-size: 16px;
@@ -196,9 +194,9 @@
 
 /* NAVIGATION --------------------------------------------------------------- */
 #navigation {
-	position: fixed;
-	top: 45px;
-	left: 10px;
+	position: relative;
+	top: 69px;
+	left: -100%;
 	width: 265px;
 	max-height: 85%;
 	margin-top: 0;
@@ -246,7 +244,7 @@
 /* position of dropdown arrow */
 
 #navigation:after {
-	left: 214px;
+	left: 242px;
 }
 
 #expanddiv:after {
@@ -567,4 +565,29 @@
 // do not show active indicator when hovering other icons
 #appmenu:hover li:not(:hover) a:before {
 	display:none;
+}
+@media only screen and (max-width: 768px) {
+
+	#header .header-appname-container {
+		display: inline-block !important;
+	}
+	#appmenu {
+		display: none;
+	}
+
+	#apps {
+		.in-header {
+			display: inline-block;
+		}
+	}
+
+	#navigation {
+		position: fixed;
+		top: 45px;
+		left: 10px;
+	}
+	#navigation:after {
+		left: 214px;
+	}
+
 }

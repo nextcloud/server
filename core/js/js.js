@@ -1369,8 +1369,11 @@ function initCore() {
 	 * If the screen is bigger, the main menu is not a toggle any more.
 	 */
 	function setupMainMenu() {
+
+    // init the more-apps menu
+    OC.registerMenu($('#more-apps'), $('#navigation'));
 		// toggle the navigation
-		var $toggle = $('#more-apps');
+		var $toggle = $('#header .header-appname-container');
 		var $navigation = $('#navigation');
 
 		// init the menu
