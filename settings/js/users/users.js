@@ -383,6 +383,7 @@ var UserList = {
 		}
 		UserList.currentGid = gid;
 		var pattern = this.filter;
+		var emptyContainer = $userList.siblings('.emptycontent');
 		$.get(
 			OC.generateUrl('/settings/users/users'),
 			{ offset: UserList.offset, limit: limit, gid: gid, pattern: pattern },
@@ -396,15 +397,22 @@ var UserList = {
 					}
 					UserList.add(user);
 				});
+
 				if (result.length > 0) {
 					UserList.doSort();
 					$userList.siblings('.loading').css('visibility', 'hidden');
 					// reset state on load
 					UserList.noMoreEntries = false;
+					$userListHead.show();
+					emptyContainer.hide();
+					emptyContainer.find('h2 strong').html();
 				}
 				else {
 					UserList.noMoreEntries = true;
 					$userList.siblings('.loading').remove();
+					$userListHead.hide();
+					emptyContainer.show();
+					emptyContainer.find('h2 strong').html(pattern);
 				}
 				UserList.offset += limit;
 			}).always(function() {
@@ -668,6 +676,7 @@ var UserList = {
 $(document).ready(function () {
 	$userList = $('#userlist');
 	$userListBody = $userList.find('tbody');
+	$userListHead = $userList.find('thead');
 
 	UserList.initDeleteHandling();
 
