@@ -53,8 +53,9 @@ class ClassLoader
 
     private $useIncludePath = false;
     private $classMap = array();
-
     private $classMapAuthoritative = false;
+    private $missingClasses = array();
+    private $apcuPrefix;
 
     public function getPrefixes()
     {
@@ -272,6 +273,26 @@ class ClassLoader
     }
 
     /**
+     * APCu prefix to use to cache found/not-found classes, if the extension is enabled.
+     *
+     * @param string|null $apcuPrefix
+     */
+    public function setApcuPrefix($apcuPrefix)
+    {
+        $this->apcuPrefix = function_exists('apcu_fetch') && ini_get('apc.enabled') ? $apcuPrefix : null;
+    }
+
+    /**
+     * The APCu prefix in use, or null if APCu caching is not enabled.
+     *
+     * @return string|null
+     */
+    public function getApcuPrefix()
+    {
+        return $this->apcuPrefix;
+    }
+
+    /**
      * Registers this instance as an autoloader.
      *
      * @param bool $prepend Whether to prepend the autoloader or not
@@ -313,29 +334,34 @@ class ClassLoader
      */
     public function findFile($class)
     {
-        // work around for PHP 5.3.0 - 5.3.2 https://bugs.php.net/50731
-        if ('\\' == $class[0]) {
-            $class = substr($class, 1);
-        }
-
         // class map lookup
         if (isset($this->classMap[$class])) {
             return $this->classMap[$class];
         }
-        if ($this->classMapAuthoritative) {
+        if ($this->classMapAuthoritative || isset($this->missingClasses[$class])) {
             return false;
+        }
+        if (null !== $this->apcuPrefix) {
+            $file = apcu_fetch($this->apcuPrefix.$class, $hit);
+            if ($hit) {
+                return $file;
+            }
         }
 
         $file = $this->findFileWithExtension($class, '.php');
 
         // Search for Hack files if we are running on HHVM
-        if ($file === null && defined('HHVM_VERSION')) {
+        if (false === $file && defined('HHVM_VERSION')) {
             $file = $this->findFileWithExtension($class, '.hh');
         }
 
-        if ($file === null) {
+        if (null !== $this->apcuPrefix) {
+            apcu_add($this->apcuPrefix.$class, $file);
+        }
+
+        if (false === $file) {
             // Remember that this class does not exist.
-            return $this->classMap[$class] = false;
+            $this->missingClasses[$class] = true;
         }
 
         return $file;
@@ -399,6 +425,8 @@ class ClassLoader
         if ($this->useIncludePath && $file = stream_resolve_include_path($logicalPathPsr0)) {
             return $file;
         }
+
+        return false;
     }
 }
 
