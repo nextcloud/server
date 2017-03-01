@@ -61,8 +61,7 @@
 
 				<div id="appmenu">
 					<ul>
-						<?php $navigation = array_slice($_['navigation'], 0, 3); ?>
-						<?php foreach($navigation as $entry): ?>
+						<?php foreach($_['headernavigation'] as $entry): ?>
 							<li data-id="<?php p($entry['id']); ?>">
 								<a href="<?php print_unescaped($entry['href']); ?>" tabindex="3"
 									<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
@@ -74,7 +73,7 @@
 								</a>
 							</li>
 						<?php endforeach; ?>
-						<?php if (count($_['navigation'])>3): ?>
+						<?php if (count($_['navigation'])>4): ?>
 							<li id="more-apps" class="menutoggle">
 								<a href="#">
 									<div class="icon-more-white"></div>
@@ -83,7 +82,7 @@
 								</a>
 							</li>
 						<?php endif; ?>
-						<?php if (count($_['navigation'])<=3): ?>
+						<?php if (count($_['navigation'])<=4): ?>
 							<?php
 							/* show "More apps" link to app administration directly in app navigation, as last entry */
 							if(OC_User::isAdminUser(OC_User::getUser())):
@@ -156,21 +155,24 @@
 		<nav role="navigation"><div id="navigation">
 			<div id="apps">
 				<ul>
-					<?php $navigation = array_slice($_['navigation'], 3); ?>
-					<?php foreach($navigation as $entry): ?>
-					<li data-id="<?php p($entry['id']); ?>">
-						<a href="<?php print_unescaped($entry['href']); ?>" tabindex="3"
-							<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
-							<svg width="32" height="32" viewBox="0 0 32 32">
-								<defs><filter id="invert"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>
-								<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" filter="url(#invert)" xlink:href="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"  class="app-icon"></image>
-							</svg>
-							<div class="icon-loading-dark" style="display:none;"></div>
-							<span>
+					<?php foreach($_['navigation'] as $entry): ?>
+						<?php if($entry['showInHeader']): ?>
+							<li data-id="<?php p($entry['id']); ?>" class="in-header">
+						<?php else: ?>
+							<li data-id="<?php p($entry['id']); ?>">
+						<?php endif; ?>
+								<a href="<?php print_unescaped($entry['href']); ?>" tabindex="3"
+									<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
+									<svg width="32" height="32" viewBox="0 0 32 32">
+										<defs><filter id="invert"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>
+										<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" filter="url(#invert)" xlink:href="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"  class="app-icon"></image>
+									</svg>
+									<div class="icon-loading-dark" style="display:none;"></div>
+									<span>
 								<?php p($entry['name']); ?>
 							</span>
-						</a>
-					</li>
+								</a>
+							</li>
 				<?php endforeach; ?>
 				<?php
 					/* show "More apps" link to app administration directly in app navigation, as last entry */

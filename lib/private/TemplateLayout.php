@@ -76,6 +76,8 @@ class TemplateLayout extends \OC_Template {
 			$this->assign( 'appid', $appId );
 			$navigation = \OC_App::getNavigation();
 			$this->assign( 'navigation', $navigation);
+			$navigation = \OC_App::getHeaderNavigation();
+			$this->assign( 'headernavigation', $navigation);
 			$settingsNavigation = \OC_App::getSettingsNavigation();
 			$this->assign( 'settingsnavigation', $settingsNavigation);
 			foreach($navigation as $entry) {

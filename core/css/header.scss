@@ -349,6 +349,9 @@
 #apps {
 	max-height: calc(100vh - 100px);
 	overflow: auto;
+	.in-header {
+		display: none;
+	}
 }
 
 /* USER MENU -----------------------------------------------------------------*/
@@ -553,9 +556,15 @@
     position: absolute;
     pointer-events: none;
     border-bottom-color: white;
-    border-width: 8px;
+    border-width: 10px;
     transform: translateX(-50%);
     left: 50%;
-	top: 17px;
+	top: 14px;
     z-index: 100;
+	display: block;
+}
+
+// do not show active indicator when hovering other icons
+#appmenu:hover li:not(:hover) a:before {
+	display:none;
 }

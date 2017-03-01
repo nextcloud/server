@@ -530,7 +530,6 @@ class OC_App {
 	// This is private as well. It simply works, so don't ask for more details
 	private static function proceedNavigation($list) {
 
-
 		usort($list, function($a, $b) {
 			if (isset($a['order']) && isset($b['order'])) {
 				return ($a['order'] < $b['order']) ? -1 : 1;
@@ -552,13 +551,36 @@ class OC_App {
 		}
 		unset($navEntry);
 
-		// Move active app to the first position
+
+		foreach ($list as $index => &$navEntry) {
+			$navEntry['showInHeader'] = false;
+			if($index < 4) {
+				$navEntry['showInHeader'] = true;
+			}
+		}
+
+		return $list;
+	}
+
+	public static function proceedAppNavigation($entries) {
+		$list = self::proceedNavigation($entries);
+
+		$activeApp = OC::$server->getNavigationManager()->getActiveEntry();
+		foreach ($list as $index => &$navEntry) {
+			if ($navEntry['id'] == $activeApp) {
+				$navEntry['active'] = true;
+				$activeAppIndex = $index;
+			} else {
+				$navEntry['active'] = false;
+			}
+		}
+		$list = array_slice($list, 0, 4);
+		// move active item to last position
 		if($activeAppIndex > 2) {
 			$active = $list[$activeAppIndex];
 			unset($list[$activeAppIndex]);
 			array_unshift($list, $active);
 		}
-
 		return $list;
 	}
 
@@ -748,6 +770,22 @@ class OC_App {
 	public static function getNavigation() {
 		$entries = OC::$server->getNavigationManager()->getAll();
 		$navigation = self::proceedNavigation($entries);
+		return $navigation;
+	}
+
+	/**
+	 * Returns the navigation inside the header bar
+	 *
+	 * @return array
+	 *
+	 * This function returns an array containing all entries added. The
+	 * entries are sorted by the key 'order' ascending. Additional to the keys
+	 * given for each app the following keys exist:
+	 *   - active: boolean, signals if the user is on this navigation entry
+	 */
+	public static function getHeaderNavigation() {
+		$entries = OC::$server->getNavigationManager()->getAll();
+		$navigation = self::proceedAppNavigation($entries);
 		return $navigation;
 	}
 
