@@ -43,7 +43,7 @@ OC.L10N.register(
     "Finished code integrity check" : "Terminando comprobación de integridad de código",
     "%s (3rdparty)" : "%s (tercero)",
     "%s (incompatible)" : "%s (incompatible)",
-    "Following apps have been disabled: %s" : "Siguiendo aplicaciones ha sido deshabilitado: %s",
+    "Following apps have been disabled: %s" : "Las siguientes aplicaciones han sido deshabilitadas: %s",
     "Already up to date" : "Ya actualizado",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Ha habido problemas durante la comprobación de la integridad del código. Más información…</a>",
     "Settings" : "Ajustes",

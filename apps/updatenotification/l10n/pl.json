@@ -12,7 +12,7 @@
     "Your version is up to date." : "Posiadasz aktualną wersję.",
     "Checked on %s" : "Sprawdzone na %s",
     "Update channel:" : "Kanał aktualizacji:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Możesz zawsze zaktualizować swoją wersję do nowego / ekperymentalnego kanału. Jednakże nie możesz powrócić do poprzedniej stabilniejszej wersji.  ",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Zawsze możesz zaktualizować do nowszej wersji z eksperymentalnego kanału. Ale nigdy nie możesz powrócić do wersji ze stabilnego kanału.",
     "Notify members of the following groups about available updates:" : "Powiadom członków następujących grup o dostępnych aktualizacjach: ",
     "Only notification for app updates are available." : "Tylko powiadomienia o aktualizacjach aplikacji są dostępne.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Wybrany kanał aktualizacji dla dedykowanych powiadomień dla serwera jest nieaktualny.",
