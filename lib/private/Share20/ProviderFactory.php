@@ -131,7 +131,7 @@ class ProviderFactory implements IProviderFactory {
 	/**
 	 * Create the federated share provider
 	 *
-	 * @return FederatedShareProvider
+	 * @return ShareByMailProvider
 	 */
 	protected function getShareByMailProvider() {
 		if ($this->shareByMailProvider === null) {
@@ -171,7 +171,7 @@ class ProviderFactory implements IProviderFactory {
 			$provider = $this->defaultShareProvider();
 		} else if ($id === 'ocFederatedSharing') {
 			$provider = $this->federatedShareProvider();
-		} else if ($id = 'ocMailShare') {
+		} else if ($id === 'ocMailShare') {
 			$provider = $this->getShareByMailProvider();
 		}
 
