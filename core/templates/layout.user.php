@@ -74,7 +74,8 @@
 								</a>
 							</li>
 						<?php endforeach; ?>
-						<?php if (count($_['navigation'])>$headerIconCount): ?>
+						<?php if (count($_['navigation'])>$headerIconCount
+							|| (OC_User::isAdminUser(OC_User::getUser()) && count($_['navigation'])>=$headerIconCount)): ?>
 							<li id="more-apps" class="menutoggle">
 								<a href="#">
 									<div class="icon-more-white"></div>
@@ -83,7 +84,7 @@
 								</a>
 							</li>
 						<?php endif; ?>
-						<?php if (count($_['navigation'])<=$headerIconCount): ?>
+						<?php if (count($_['navigation'])<$headerIconCount): ?>
 							<?php
 							/* show "More apps" link to app administration directly in app navigation, as last entry */
 							if(OC_User::isAdminUser(OC_User::getUser())):

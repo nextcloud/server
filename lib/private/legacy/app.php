@@ -530,6 +530,9 @@ class OC_App {
 	// This is private as well. It simply works, so don't ask for more details
 	private static function proceedNavigation($list) {
 		$headerIconCount = 8;
+		if(OC_User::isAdminUser(OC_User::getUser())) {
+			$headerIconCount--;
+		}
 		usort($list, function($a, $b) {
 			if (isset($a['order']) && isset($b['order'])) {
 				return ($a['order'] < $b['order']) ? -1 : 1;
@@ -573,6 +576,9 @@ class OC_App {
 
 	public static function proceedAppNavigation($entries) {
 		$headerIconCount = 8;
+		if(OC_User::isAdminUser(OC_User::getUser())) {
+			$headerIconCount--;
+		}
 		$activeAppIndex = -1;
 		$list = self::proceedNavigation($entries);
 
