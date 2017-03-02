@@ -367,7 +367,6 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "こんにちは、<br><br>あなたのアカウント %s が利用可能になったことをお知らせします。<br><br>ユーザー名: %s<br>以下のURLからアクセス: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "こんにちは、\n\nあなたのアカウント %s が利用可能になったことをお知らせします。\n\nユーザー名: %s\n接続URL: %s\n\n",
     "For password recovery and notifications" : "パスワード回復と通知用",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "プロジェクトをサポートしたい場合\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">開発に参加</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">もしくは拡散</a>!",
     "Add Group" : "グループを追加する",
     "Group" : "グループ",
     "Default Quota" : "デフォルトのクオータ",

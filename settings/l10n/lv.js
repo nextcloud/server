@@ -300,7 +300,6 @@ OC.L10N.register(
     "Uninstall App" : "Atinstalēt programmu",
     "Enable experimental apps" : "Atļaut eksperimentālās programmas",
     "For password recovery and notifications" : "Paroles atjaunošanai un paziņojumiem",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Ja vēlaties atbalstīt projektu\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">pievienoties attīstībai</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">izplatīt vārdu</a>!",
     "Add Group" : "Pievienot grupu",
     "Group" : "Grupa",
     "Default Quota" : "Apjoms pēc noklusējuma",

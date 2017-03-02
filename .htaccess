@@ -55,6 +55,8 @@
 </IfModule>
 <IfModule mod_rewrite.c>
   RewriteEngine on
+  RewriteCond %{HTTP_USER_AGENT}  DavClnt
+  RewriteRule ^$         /remote.php/webdav/          [L,R=302]
   RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
   RewriteRule ^\.well-known/host-meta /public.php?service=host-meta [QSA,L]
   RewriteRule ^\.well-known/host-meta\.json /public.php?service=host-meta-json [QSA,L]

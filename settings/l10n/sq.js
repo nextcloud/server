@@ -365,7 +365,6 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Njatjeta,<br><br>thjesht po ju bëjmë të ditur që tani keni një llogar %s.<br><br>Emri juaj i përdoruesit: %s<br>Hyni në të te: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Njatjeta,\n\nthjesht po ju bëjmë të ditur që tani keni një llogari %s.\n\nEmri juaj i përdoruesit: %s\nHyni në të te: %s\n\n",
     "For password recovery and notifications" : "Për rimarrje fjalëkalimesh dhe njoftime ",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Nëse doni të mbështesni projektin\n⇥⇥<a href=\"https://nextcloud.com/contribute\"\n⇥⇥⇥target=\"_blank\" rel=\"noreferrer\">bashkohu skuadrës së zhvillimit</a>\n⇥⇥<or></or>\n⇥⇥<a href=\"https://nextcloud.com/contribute\"\n⇥⇥⇥target=\"_blank\" rel=\"noreferrer\">shpërndaj fjalën</a>!",
     "Add Group" : "Shtoni Grup",
     "Group" : "Grup",
     "Default Quota" : "Kuota Parazgjedhje",
