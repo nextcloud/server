@@ -400,6 +400,9 @@ class SystemTagManager implements ISystemTagManager {
 					'gid' => $query->createParameter('gid'),
 				]);
 			foreach ($groupIds as $groupId) {
+				if ($groupId === '') {
+					continue;
+				}
 				$query->setParameter('gid', $groupId);
 				$query->execute();
 			}
