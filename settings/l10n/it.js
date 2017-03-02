@@ -368,7 +368,6 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Ciao,<br><br>volevo informarti che ora hai un account %s.<br><br>Il tuo nome utente: %s<br>Accedi: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Ciao,\n\nvolevo informarti che ora hai un account %s.\n\nIl tuo nome utente: %s\nAccedi: %s\n\n",
     "For password recovery and notifications" : "Per il ripristino della password e per le notifiche",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Se desideri supportare il progetto\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">contribuisci allo sviluppo</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">diffondi il verbo</a>!",
     "Add Group" : "Aggiungi gruppo",
     "Group" : "Gruppo",
     "Default Quota" : "Quota predefinita",

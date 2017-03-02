@@ -372,7 +372,6 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Hallo daar,<br><br>we willen je laten weten dat je nu een %s account hebt.<br><br>Je gebruikersnaam: %s<br>Ga naar: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Hallo,\n\nwe willen je laten weten dat je nu een %s account hebt.\n\nJe gebruikersnaam: %s\nGa naar: %s\n\n",
     "For password recovery and notifications" : "Voor wachtwoordherstel en meldingen",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Ondersteun het project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">ontwikkel het mee</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">verkondig het woord</a>!",
     "Add Group" : "Groep toevoegen",
     "Group" : "Groep",
     "Default Quota" : "Standaard limiet",
