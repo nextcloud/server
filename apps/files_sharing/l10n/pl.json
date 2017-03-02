@@ -26,7 +26,7 @@
     "{actor} shared with group {group}" : "{actor} udostępnił(-a) grupie {group}",
     "{actor} removed share for group {group}" : "{actor} zakończył(-a) udostępnianie grupie {group}",
     "You shared {file} with group {group}" : "Udostępniłeś(-łaś) {file} grupie {group}",
-    "You removed group {group} from {file}" : "Usunąłeś(-ęłaś) grupę {group} z {file}",
+    "You removed group {group} from {file}" : "Usunąłeś/-ęłaś grupę {group} z {file}",
     "{actor} shared {file} with group {group}" : "{actor} udostępnił(-a) {file} grupie {group}",
     "{actor} removed group {group} from {file}" : "{actor} usunął(-ęła) grupę {group} z {file}",
     "Shared as public link" : "Udostępnione jako publiczny link",

@@ -45,6 +45,8 @@ OC.L10N.register(
     "The given file size is invalid" : "给定的文件大小无效",
     "The given tag id is invalid" : "给定的标签ID无效",
     "The given IP range is invalid" : "给定的IP范围无效",
+    "The given IP range is not valid for IPv4" : "填写的IP范围不是有效的IPv4格式",
+    "The given IP range is not valid for IPv6" : "填写的IP范围不是有效的IPv6格式",
     "The given end time is invalid" : "输入的截止时间无效",
     "The given group does not exist" : "输入的群组不存在",
     "Operation #%s does not exist" : "操作 %s 不存在",
