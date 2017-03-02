@@ -69,7 +69,7 @@ class UpdateLanguageCodes implements IRepairStep {
 				->andWhere($qb->expr()->eq('configvalue', $qb->createNamedParameter($oldCode)))
 				->execute();
 
-			$output->info('Changed ' . $affectedRows . ' setting(s) from "' . $oldCode . '" to "' . $newCode . '" in properties table.');
+			$output->info('Changed ' . $affectedRows . ' setting(s) from "' . $oldCode . '" to "' . $newCode . '" in preferences table.');
 		}
 	}
 }

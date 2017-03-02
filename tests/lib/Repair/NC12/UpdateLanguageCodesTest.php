@@ -54,20 +54,25 @@ class UpdateLanguageCodesTest extends TestCase {
 			['userid' => 'user5', 'configvalue' => 'bg_BG'],
 			['userid' => 'user6', 'configvalue' => 'ja'],
 			['userid' => 'user7', 'configvalue' => 'th_TH'],
+			['userid' => 'user8', 'configvalue' => 'th_TH'],
 		];
 
 		// insert test data
 		$qb = $this->connection->getQueryBuilder();
-		$sql = $qb->insert('preferences')
+		$qb->insert('preferences')
 				->values([
-					'userid' => '?',
-					'appid' => '?',
-					'configkey' => '?',
-					'configvalue' => '?',
-				])
-				->getSQL();
+					'userid' => $qb->createParameter('userid'),
+					'appid' => $qb->createParameter('appid'),
+					'configkey' => $qb->createParameter('configkey'),
+					'configvalue' => $qb->createParameter('configvalue'),
+				]);
 		foreach ($users as $user) {
-			$this->connection->executeUpdate($sql, [$user['userid'], 'core', 'lang', $user['configvalue']]);
+			$qb->setParameters([
+				'userid' => $user['userid'],
+				'appid' => 'core',
+				'configkey' => 'lang',
+				'configvalue' => $user['configvalue'],
+			])->execute();
 		}
 
 		// check if test data is written to DB
@@ -83,32 +88,29 @@ class UpdateLanguageCodesTest extends TestCase {
 
 		$this->assertSame($users, $rows, 'Asserts that the entries are the ones from the test data set');
 
-		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $outputMock */
-		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
-			->disableOriginalConstructor()
-			->getMock();
-
+		/** @var IOutput|\PHPUnit_Framework_MockObject_MockObject $outputMock */
+		$outputMock = $this->createMock(IOutput::class);
 		$outputMock->expects($this->at(0))
 			->method('info')
-			->with('Changed 1 setting(s) from "bg_BG" to "bg" in properties table.');
+			->with('Changed 1 setting(s) from "bg_BG" to "bg" in preferences table.');
 		$outputMock->expects($this->at(1))
 			->method('info')
-			->with('Changed 0 setting(s) from "cs_CZ" to "cs" in properties table.');
+			->with('Changed 0 setting(s) from "cs_CZ" to "cs" in preferences table.');
 		$outputMock->expects($this->at(2))
 			->method('info')
-			->with('Changed 1 setting(s) from "fi_FI" to "fi" in properties table.');
+			->with('Changed 1 setting(s) from "fi_FI" to "fi" in preferences table.');
 		$outputMock->expects($this->at(3))
 			->method('info')
-			->with('Changed 0 setting(s) from "hu_HU" to "hu" in properties table.');
+			->with('Changed 0 setting(s) from "hu_HU" to "hu" in preferences table.');
 		$outputMock->expects($this->at(4))
 			->method('info')
-			->with('Changed 0 setting(s) from "nb_NO" to "nb" in properties table.');
+			->with('Changed 0 setting(s) from "nb_NO" to "nb" in preferences table.');
 		$outputMock->expects($this->at(5))
 			->method('info')
-			->with('Changed 0 setting(s) from "sk_SK" to "sk" in properties table.');
+			->with('Changed 0 setting(s) from "sk_SK" to "sk" in preferences table.');
 		$outputMock->expects($this->at(6))
 			->method('info')
-			->with('Changed 1 setting(s) from "th_TH" to "th" in properties table.');
+			->with('Changed 2 setting(s) from "th_TH" to "th" in preferences table.');
 
 		// run repair step
 		$repair = new UpdateLanguageCodes($this->connection);
@@ -130,6 +132,7 @@ class UpdateLanguageCodesTest extends TestCase {
 		$users[0]['configvalue'] = 'fi';
 		$users[4]['configvalue'] = 'bg';
 		$users[6]['configvalue'] = 'th';
+		$users[7]['configvalue'] = 'th';
 		$this->assertSame($users, $rows, 'Asserts that the entries are updated correctly.');
 
 		// remove test data
