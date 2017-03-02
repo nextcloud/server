@@ -57,18 +57,18 @@ class CalDavBackendTest extends AbstractCalDavBackendTest {
 		$this->backend->updateCalendar($calendarId, $patch);
 		$patch->commit();
 		$this->assertEquals(1, $this->backend->getCalendarsForUserCount(self::UNIT_TEST_USER));
-		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(1, count($books));
-		$this->assertEquals('Unit test', $books[0]['{DAV:}displayname']);
-		$this->assertEquals('Calendar used for unit testing', $books[0]['{urn:ietf:params:xml:ns:caldav}calendar-description']);
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertCount(1, $calendars);
+		$this->assertEquals('Unit test', $calendars[0]['{DAV:}displayname']);
+		$this->assertEquals('Calendar used for unit testing', $calendars[0]['{urn:ietf:params:xml:ns:caldav}calendar-description']);
 
 		// delete the address book
 		$this->dispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar');
-		$this->backend->deleteCalendar($books[0]['id']);
-		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(0, count($books));
+		$this->backend->deleteCalendar($calendars[0]['id']);
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertCount(0, $calendars);
 	}
 
 	public function providesSharingData() {
@@ -98,9 +98,8 @@ class CalDavBackendTest extends AbstractCalDavBackendTest {
 	 */
 	public function testCalendarSharing($userCanRead, $userCanWrite, $groupCanRead, $groupCanWrite, $add) {
 
-		/** @var IL10N | \PHPUnit_Framework_MockObject_MockObject $l10n */
-		$l10n = $this->getMockBuilder('\OCP\IL10N')
-			->disableOriginalConstructor()->getMock();
+		/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject $l10n */
+		$l10n = $this->createMock(IL10N::class);
 		$l10n
 			->expects($this->any())
 			->method('t')
@@ -109,16 +108,16 @@ class CalDavBackendTest extends AbstractCalDavBackendTest {
 			}));
 
 		$calendarId = $this->createTestCalendar();
-		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(1, count($books));
-		$calendar = new Calendar($this->backend, $books[0], $l10n);
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertCount(1, $calendars);
+		$calendar = new Calendar($this->backend, $calendars[0], $l10n);
 		$this->dispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::updateShares');
 		$this->backend->updateShares($calendar, $add, []);
-		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER1);
-		$this->assertEquals(1, count($books));
-		$calendar = new Calendar($this->backend, $books[0], $l10n);
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER1);
+		$this->assertCount(1, $calendars);
+		$calendar = new Calendar($this->backend, $calendars[0], $l10n);
 		$acl = $calendar->getACL();
 		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}read', $acl);
 		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}write', $acl);
@@ -129,7 +128,7 @@ class CalDavBackendTest extends AbstractCalDavBackendTest {
 		$this->assertEquals(self::UNIT_TEST_USER, $calendar->getOwner());
 
 		// test acls on the child
-		$uri = $this->getUniqueID('calobj');
+		$uri = static::getUniqueID('calobj');
 		$calData = <<<'EOD'
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -166,9 +165,9 @@ EOD;
 		$this->dispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar');
-		$this->backend->deleteCalendar($books[0]['id']);
-		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(0, count($books));
+		$this->backend->deleteCalendar($calendars[0]['id']);
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertCount(0, $calendars);
 	}
 
 	public function testCalendarObjectsOperations() {
@@ -176,7 +175,7 @@ EOD;
 		$calendarId = $this->createTestCalendar();
 
 		// create a card
-		$uri = $this->getUniqueID('calobj');
+		$uri = static::getUniqueID('calobj');
 		$calData = <<<'EOD'
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -201,7 +200,7 @@ EOD;
 
 		// get all the cards
 		$calendarObjects = $this->backend->getCalendarObjects($calendarId);
-		$this->assertEquals(1, count($calendarObjects));
+		$this->assertCount(1, $calendarObjects);
 		$this->assertEquals($calendarId, $calendarObjects[0]['calendarid']);
 		$this->assertArrayHasKey('classification', $calendarObjects[0]);
 
@@ -245,7 +244,7 @@ EOD;
 			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject');
 		$this->backend->deleteCalendarObject($calendarId, $uri);
 		$calendarObjects = $this->backend->getCalendarObjects($calendarId);
-		$this->assertEquals(0, count($calendarObjects));
+		$this->assertCount(0, $calendarObjects);
 	}
 
 	public function testMultiCalendarObjects() {
@@ -269,17 +268,17 @@ CLASS:PUBLIC
 END:VEVENT
 END:VCALENDAR
 EOD;
-		$uri0 = $this->getUniqueID('card');
+		$uri0 = static::getUniqueID('card');
 		$this->dispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
 		$this->backend->createCalendarObject($calendarId, $uri0, $calData);
-		$uri1 = $this->getUniqueID('card');
+		$uri1 = static::getUniqueID('card');
 		$this->dispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
 		$this->backend->createCalendarObject($calendarId, $uri1, $calData);
-		$uri2 = $this->getUniqueID('card');
+		$uri2 = static::getUniqueID('card');
 		$this->dispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
@@ -287,11 +286,11 @@ EOD;
 
 		// get all the cards
 		$calendarObjects = $this->backend->getCalendarObjects($calendarId);
-		$this->assertEquals(3, count($calendarObjects));
+		$this->assertCount(3, $calendarObjects);
 
 		// get the cards
 		$calendarObjects = $this->backend->getMultipleCalendarObjects($calendarId, [$uri1, $uri2]);
-		$this->assertEquals(2, count($calendarObjects));
+		$this->assertCount(2, $calendarObjects);
 		foreach($calendarObjects as $card) {
 			$this->assertArrayHasKey('id', $card);
 			$this->assertArrayHasKey('uri', $card);
@@ -316,7 +315,7 @@ EOD;
 			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject');
 		$this->backend->deleteCalendarObject($calendarId, $uri2);
 		$calendarObjects = $this->backend->getCalendarObjects($calendarId);
-		$this->assertEquals(0, count($calendarObjects));
+		$this->assertCount(0, $calendarObjects);
 	}
 
 	/**
@@ -385,15 +384,15 @@ EOD;
 
 		$calendarInfo = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER)[0];
 
-		$l10n = $this->getMockBuilder('\OCP\IL10N')
-			->disableOriginalConstructor()->getMock();
+		/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject $l10n */
+		$l10n = $this->createMock(IL10N::class);
 
 		$calendar = new Calendar($this->backend, $calendarInfo, $l10n);
 		$calendar->setPublishStatus(true);
 		$this->assertNotEquals(false, $calendar->getPublishStatus());
 
 		$publicCalendars = $this->backend->getPublicCalendars();
-		$this->assertEquals(1, count($publicCalendars));
+		$this->assertCount(1, $publicCalendars);
 		$this->assertEquals(true, $publicCalendars[0]['{http://owncloud.org/ns}public']);
 
 		$publicCalendarURI = $publicCalendars[0]['uri'];
@@ -415,7 +414,7 @@ EOD;
 		]);
 
 		$subscriptions = $this->backend->getSubscriptionsForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(1, count($subscriptions));
+		$this->assertCount(1, $subscriptions);
 		$this->assertEquals('#1C4587', $subscriptions[0]['{http://apple.com/ns/ical/}calendar-color']);
 		$this->assertEquals(true, $subscriptions[0]['{http://calendarserver.org/ns/}subscribed-strip-todos']);
 		$this->assertEquals($id, $subscriptions[0]['id']);
@@ -428,21 +427,21 @@ EOD;
 		$patch->commit();
 
 		$subscriptions = $this->backend->getSubscriptionsForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(1, count($subscriptions));
+		$this->assertCount(1, $subscriptions);
 		$this->assertEquals($id, $subscriptions[0]['id']);
 		$this->assertEquals('Unit test', $subscriptions[0]['{DAV:}displayname']);
 		$this->assertEquals('#ac0606', $subscriptions[0]['{http://apple.com/ns/ical/}calendar-color']);
 
 		$this->backend->deleteSubscription($id);
 		$subscriptions = $this->backend->getSubscriptionsForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(0, count($subscriptions));
+		$this->assertCount(0, $subscriptions);
 	}
 
 	public function testScheduling() {
 		$this->backend->createSchedulingObject(self::UNIT_TEST_USER, 'Sample Schedule', '');
 
 		$sos = $this->backend->getSchedulingObjects(self::UNIT_TEST_USER);
-		$this->assertEquals(1, count($sos));
+		$this->assertCount(1, $sos);
 
 		$so = $this->backend->getSchedulingObject(self::UNIT_TEST_USER, 'Sample Schedule');
 		$this->assertNotNull($so);
@@ -450,7 +449,7 @@ EOD;
 		$this->backend->deleteSchedulingObject(self::UNIT_TEST_USER, 'Sample Schedule');
 
 		$sos = $this->backend->getSchedulingObjects(self::UNIT_TEST_USER);
-		$this->assertEquals(0, count($sos));
+		$this->assertCount(0, $sos);
 	}
 
 	/**
