@@ -361,7 +361,6 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "안녕하세요.<br><br>%s 계정을 사용할 수 있음을 알려 드립니다.<br><br>사용자 이름: %s<br>접근 링크: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "안녕하세요.\n\n%s 계정을 사용할 수 있음을 알려 드립니다.\n\n사용자 이름: %s\n접근 링크: %s\n\n",
     "For password recovery and notifications" : "암호 복구와 알림에 사용",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "이 프로젝트를 지원하려면 <a href=\"https://nextcloud.com/contribute\" target=\"_blank\" rel=\"noreferrer\">개발에 참여</a>하거나 <a href=\"https://nextcloud.com/contribute\" target=\"_blank\" rel=\"noreferrer\">주변에 알려주세요</a>!",
     "Add Group" : "그룹 추가",
     "Group" : "그룹",
     "Default Quota" : "기본 할당량",

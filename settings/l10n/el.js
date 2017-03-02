@@ -324,7 +324,6 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Χαίρεται,<br><br>απλά σας κάνουμε γνωστό ότι διαθέτετε έναν %s λογαριασμό.<br><br>Το όνομά σας είναι: %s<br>Έχετε πρόσβαση: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Χαίρεται, \nαπλά σας κάνουμε γνωστό ότι διαθέτετε έναν %s λογαριασμό.\nΤο όνομά σας είναι: %s\nΈχετε πρόσβαση: %s\n",
     "For password recovery and notifications" : "Η ανάκτηση του συνθηματικού και οι ειδοποιήσεις",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Εάν θέλετε να υποστηρίξετε το έργο\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">συνεργαστείτε με τους προγραμματιστές</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">προωθήστε το</a>!",
     "Add Group" : "Προσθήκη ομάδας",
     "Group" : "Ομάδα",
     "Default Quota" : "Προεπιλεγμένη χωρητικότητα",

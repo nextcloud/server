@@ -367,7 +367,6 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Hæ þú,<br><br>bara að láta þig vita að þú átt núna %s aðgang.<br><br>Notandanafnið þitt: %s<br>Tengstu honum: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Hæ þú,\n\nbara að láta þig vita að þú átt núna %s aðgang.\n\nNotandanafnið þitt: %s\nTengstu honum: %s\n\n",
     "For password recovery and notifications" : "Fyrir tilkynningar og endurheimtingu lykilorðs",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Ef þú vilt styðja við verkefnið\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">taktu þátt í þróuninni</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">láttu orð út ganga</a>!",
     "Add Group" : "Bæta við hópi",
     "Group" : "Hópur",
     "Default Quota" : "Sjálfgefinn kvóti",
