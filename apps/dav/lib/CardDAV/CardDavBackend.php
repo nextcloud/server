@@ -172,9 +172,19 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->setParameter('principaluri', $principals, IQueryBuilder::PARAM_STR_ARRAY)
 			->execute();
 
+		$readOnlyPropertyName = '{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only';
 		while($row = $result->fetch()) {
+			$readOnly = (int) $row['access'] === Backend::ACCESS_READ;
 			if (isset($addressBooks[$row['id']])) {
-				continue;
+				if ($readOnly) {
+					// New share can not have more permissions then the old one.
+					continue;
+				}
+				if (isset($addressBooks[$row['id']][$readOnlyPropertyName]) &&
+					$addressBooks[$row['id']][$readOnlyPropertyName] === 0) {
+					// Old share is already read-write, no more permissions can be gained
+					continue;
+				}
 			}
 
 			list(, $name) = URLUtil::splitPath($row['principaluri']);
@@ -190,7 +200,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
 				'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
 				'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => $row['principaluri'],
-				'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only' => (int)$row['access'] === Backend::ACCESS_READ,
+				$readOnlyPropertyName => $readOnly,
 			];
 		}
 		$result->closeCursor();
