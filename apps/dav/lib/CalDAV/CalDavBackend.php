@@ -278,6 +278,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->execute();
 
 		while($row = $result->fetch()) {
+			if (isset($calendars[$row['id']])) {
+				continue;
+			}
+
 			list(, $name) = URLUtil::splitPath($row['principaluri']);
 			$uri = $row['uri'] . '_shared_by_' . $name;
 			$row['displayname'] = $row['displayname'] . ' (' . $this->getUserDisplayName($name) . ')';
@@ -301,9 +305,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$calendar[$xmlName] = $row[$dbName];
 			}
 
-			if (!isset($calendars[$calendar['id']])) {
-				$calendars[$calendar['id']] = $calendar;
-			}
+			$calendars[$calendar['id']] = $calendar;
 		}
 		$result->closeCursor();
 

@@ -173,22 +173,25 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->execute();
 
 		while($row = $result->fetch()) {
+			if (isset($addressBooks[$row['id']])) {
+				continue;
+			}
+
 			list(, $name) = URLUtil::splitPath($row['principaluri']);
 			$uri = $row['uri'] . '_shared_by_' . $name;
 			$displayName = $row['displayname'] . ' (' . $this->getUserDisplayName($name) . ')';
-			if (!isset($addressBooks[$row['id']])) {
-				$addressBooks[$row['id']] = [
-					'id'  => $row['id'],
-					'uri' => $uri,
-					'principaluri' => $principalUriOriginal,
-					'{DAV:}displayname' => $displayName,
-					'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
-					'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
-					'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
-					'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => $row['principaluri'],
-					'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only' => (int)$row['access'] === Backend::ACCESS_READ,
-				];
-			}
+
+			$addressBooks[$row['id']] = [
+				'id'  => $row['id'],
+				'uri' => $uri,
+				'principaluri' => $principalUriOriginal,
+				'{DAV:}displayname' => $displayName,
+				'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
+				'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
+				'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
+				'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => $row['principaluri'],
+				'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only' => (int)$row['access'] === Backend::ACCESS_READ,
+			];
 		}
 		$result->closeCursor();
 
