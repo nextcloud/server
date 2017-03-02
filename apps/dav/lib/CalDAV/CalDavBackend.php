@@ -277,9 +277,19 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->setParameter('principaluri', $principals, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
 			->execute();
 
+		$readOnlyPropertyName = '{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only';
 		while($row = $result->fetch()) {
+			$readOnly = (int) $row['access'] === Backend::ACCESS_READ;
 			if (isset($calendars[$row['id']])) {
-				continue;
+				if ($readOnly) {
+					// New share can not have more permissions then the old one.
+					continue;
+				}
+				if (isset($calendars[$row['id']][$readOnlyPropertyName]) &&
+					$calendars[$row['id']][$readOnlyPropertyName] === 0) {
+					// Old share is already read-write, no more permissions can be gained
+					continue;
+				}
 			}
 
 			list(, $name) = URLUtil::splitPath($row['principaluri']);
@@ -298,7 +308,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				'{' . Plugin::NS_CALDAV . '}supported-calendar-component-set' => new SupportedCalendarComponentSet($components),
 				'{' . Plugin::NS_CALDAV . '}schedule-calendar-transp' => new ScheduleCalendarTransp($row['transparent']?'transparent':'opaque'),
 				'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => $this->convertPrincipal($row['principaluri'], !$this->legacyEndpoint),
-				'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only' => (int)$row['access'] === Backend::ACCESS_READ,
+				$readOnlyPropertyName => $readOnly,
 			];
 
 			foreach($this->propertyMap as $xmlName=>$dbName) {
