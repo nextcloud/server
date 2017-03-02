@@ -104,6 +104,12 @@ source_file = templates/updatenotification.pot
 source_lang = en
 type = PO
 
+[nextcloud.theming]
+file_filter = <lang>/theming.po
+source_file = templates/theming.pot
+source_lang = en
+type = PO
+
 [nextcloud.twofactor_backupcodes]
 file_filter = <lang>/twofactor_backupcodes.po
 source_file = templates/twofactor_backupcodes.pot
