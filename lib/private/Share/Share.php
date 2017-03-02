@@ -94,8 +94,10 @@ class Share extends Constants {
 				if(count(self::$backendTypes) === 1) {
 					\OC_Util::addScript('core', 'shareconfigmodel');
 					\OC_Util::addScript('core', 'shareitemmodel');
+					\OC_Util::addScript('core', 'sharesocialmanager');
 					\OC_Util::addScript('core', 'sharedialogresharerinfoview');
 					\OC_Util::addScript('core', 'sharedialoglinkshareview');
+					\OC_Util::addScript('core', 'sharedialoglinksocialview');
 					\OC_Util::addScript('core', 'sharedialogexpirationview');
 					\OC_Util::addScript('core', 'sharedialogshareelistview');
 					\OC_Util::addScript('core', 'sharedialogview');
