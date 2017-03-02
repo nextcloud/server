@@ -100,7 +100,7 @@ class User {
 	 * @since 5.0.0
 	 */
 	public static function isLoggedIn() {
-		return \OC_User::isLoggedIn();
+		return \OC::$server->getUserSession()->isLoggedIn();
 	}
 
 	/**

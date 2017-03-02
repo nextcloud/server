@@ -47,7 +47,7 @@ class File implements ICache {
 		if (isset($this->storage)) {
 			return $this->storage;
 		}
-		if (\OC_User::isLoggedIn()) {
+		if (\OC::$server->getUserSession()->isLoggedIn()) {
 			$rootView = new View();
 			$user = \OC::$server->getUserSession()->getUser();
 			Filesystem::initMountPoints($user->getUID());

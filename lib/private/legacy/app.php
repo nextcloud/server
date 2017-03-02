@@ -488,7 +488,7 @@ class OC_App {
 		}
 
 		// if the user is logged-in
-		if (OC_User::isLoggedIn()) {
+		if (\OC::$server->getUserSession()->isLoggedIn()) {
 			// personal menu
 			$settings[] = array(
 				"id" => "personal",
@@ -1227,7 +1227,7 @@ class OC_App {
 	 */
 	public static function getStorage($appId) {
 		if (OC_App::isEnabled($appId)) { //sanity check
-			if (OC_User::isLoggedIn()) {
+			if (\OC::$server->getUserSession()->isLoggedIn()) {
 				$view = new \OC\Files\View('/' . OC_User::getUser());
 				if (!$view->file_exists($appId)) {
 					$view->mkdir($appId);
