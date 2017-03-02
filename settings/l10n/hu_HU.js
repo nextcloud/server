@@ -365,7 +365,6 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Üdv!<br><br>Értesítünk, hogy van egy %s fiókja.<br><br>Felhasználónév: %s<br>Hozzáférés: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Üdv!\n\nÉrtesítünk, hogy van egy %s fiókja.\n\nFelhasználónév: %s\nHozzáférés: %s\n\n",
     "For password recovery and notifications" : "Jelszó helyreállításhoz és értesítésekhez",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Ha támogatni szeretnéd a projektet\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">csatlakozz a fejlesztőkhöz</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">terjeszd</a>!",
     "Add Group" : "csoport hozzáadása",
     "Group" : "Csoport",
     "Default Quota" : "Alapértelmezett kvóta",

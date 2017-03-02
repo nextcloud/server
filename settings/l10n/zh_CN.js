@@ -372,7 +372,6 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "亲，<br><br>现在我们为你开通了 %s 私有云帐户。<br><br>你的用户名： %s<br>访问网址： <a href=\\\"%s\\\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "亲，\\n\\n 现在我们为你开通了 %s 私有去帐户。\\n\\n 你的用户名： %s\\n 访问网址： %s\\n 你的初始密码需要咨询系统管理员。或者你也可以在登录页面输入任意密码登录，\\n登录窗口将出现忘记密码链接，点击通过注册邮箱重设初始密码。\\n\\n",
     "For password recovery and notifications" : "用于密码恢复和通知",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "如果您想支持这个项目\n\t<a href=\"https://nextcloud.com/contribute\" target=\"_blank\" rel=\"noreferrer\">一起开发</a>\n\t<or></or>\n\t<a href=\"https://nextcloud.com/contribute\" target=\"_blank\" rel=\"noreferrer\">帮助传播</a>!",
     "Add Group" : "添加分组",
     "Group" : "分组",
     "Default Quota" : "默认配额",

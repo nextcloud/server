@@ -372,7 +372,6 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Здравствуйте,<br><br>просто хотим сообщить, что теперь у вас есть учетная запись на %s.<br><br>Ваше имя пользователя: %s<br>Зайти: <a href=\"%s\">%s</a><br><br>",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Здравствуйте,\n\nПросто хотим сообщить, что теперь у вас есть учетная запись на %s.\n\nИмя пользователя: %s\nЗайти: %s\n",
     "For password recovery and notifications" : "Для восстановления пароля и уведомлений",
-    "If you want to support the project\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\t<or></or>\n\t\t<a href=\"https://nextcloud.com/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Если вы хотите поддержать проект\n\t<a href=\"https://nextcloud.com/contribute\"\n\ttarget=\"_blank\" rel=\"noreferrer\">присоединяйтесь к разработке</a>\n\tили\n\t<a href=\"https://nextcloud.com/contribute\"\n\ttarget=\"_blank\" rel=\"noreferrer\">расскажите о нас</a>!",
     "Add Group" : "Добавить группу",
     "Group" : "Группа",
     "Default Quota" : "Квота по умолчанию",
