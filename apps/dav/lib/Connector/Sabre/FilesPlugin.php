@@ -317,12 +317,19 @@ class FilesPlugin extends ServerPlugin {
 
 			$propFind->handle(self::OWNER_ID_PROPERTYNAME, function() use ($node) {
 				$owner = $node->getOwner();
-				return $owner->getUID();
+				if (!$owner) {
+					return null;
+				} else {
+					return $owner->getUID();
+				}
 			});
 			$propFind->handle(self::OWNER_DISPLAY_NAME_PROPERTYNAME, function() use ($node) {
 				$owner = $node->getOwner();
-				$displayName = $owner->getDisplayName();
-				return $displayName;
+				if (!$owner) {
+					return null;
+				} else {
+					return $owner->getDisplayName();
+				}
 			});
 
 			$propFind->handle(self::HAS_PREVIEW_PROPERTYNAME, function () use ($node) {
