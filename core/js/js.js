@@ -1351,7 +1351,7 @@ function initCore() {
 		var url = OC.generateUrl('/heartbeat');
 		var heartBeatTimeout = null;
 		var heartBeat = function() {
-			clearTimeout(heartBeatTimeout);
+			clearInterval(heartBeatTimeout);
 			heartBeatTimeout = setInterval(function() {
 				$.post(url);
 			}, interval * 1000);
