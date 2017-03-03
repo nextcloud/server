@@ -36,7 +36,8 @@ class UpdateLanguageCodes implements IRepairStep {
 	private $config;
 
 	/**
-	 * @param IDBConnection $db
+	 * @param IDBConnection $connection
+	 * @param IConfig $config
 	 */
 	public function __construct(IDBConnection $connection,
 								IConfig $config) {

@@ -135,7 +135,7 @@ class Repair implements IOutput{
 				\OC::$server->getConfig()
 			),
 			new FixMountStorages(\OC::$server->getDatabaseConnection()),
-			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection()),
+			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
 		];
 	}
 
