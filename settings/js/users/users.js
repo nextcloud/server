@@ -10,6 +10,7 @@
 
 var $userList;
 var $userListBody;
+var $emptyContainer;
 
 var UserDeleteHandler;
 var UserList = {
@@ -383,7 +384,6 @@ var UserList = {
 		}
 		UserList.currentGid = gid;
 		var pattern = this.filter;
-		var emptyContainer = $userList.siblings('.emptycontent');
 		$.get(
 			OC.generateUrl('/settings/users/users'),
 			{ offset: UserList.offset, limit: limit, gid: gid, pattern: pattern },
@@ -404,15 +404,18 @@ var UserList = {
 					// reset state on load
 					UserList.noMoreEntries = false;
 					$userListHead.show();
-					emptyContainer.hide();
-					emptyContainer.find('h2 strong').html();
+					$emptyContainer.hide();
+					$emptyContainer.find('h2').text('');
 				}
 				else {
 					UserList.noMoreEntries = true;
 					$userList.siblings('.loading').remove();
-					$userListHead.hide();
-					emptyContainer.show();
-					emptyContainer.find('h2 strong').html(pattern);
+
+					if (pattern !== ""){
+						$userListHead.hide();
+						$emptyContainer.show();
+						$emptyContainer.find('h2').html(t('settings', 'No user found for <strong>{pattern}</strong>', {pattern: pattern}));
+					}
 				}
 				UserList.offset += limit;
 			}).always(function() {
@@ -677,6 +680,7 @@ $(document).ready(function () {
 	$userList = $('#userlist');
 	$userListBody = $userList.find('tbody');
 	$userListHead = $userList.find('thead');
+	$emptyContainer = $userList.siblings('.emptycontent');
 
 	UserList.initDeleteHandling();
 
@@ -906,6 +910,13 @@ $(document).ready(function () {
 	// init the quota field select box after it is shown the first time
 	$('#app-settings').one('show', function() {
 		$(this).find('#default_quota').singleSelect().on('change', UserList.onQuotaSelect);
+	});
+
+	$('#newuser input').click(function() {
+		// empty the container also here to avoid visual delay
+		$emptyContainer.hide();
+		OC.Search = new OCA.Search($('#searchbox'), $('#searchresults'));
+		OC.Search.clear();
 	});
 
 	UserList._updateGroupListLabel($('#newuser .groups'), []);

@@ -70,5 +70,5 @@
 
 <div class="emptycontent" style="display:none">
 	<div class="icon-search"></div>
-	<h2><?php p($l->t("No user found for '"));?><strong></strong>' </h2>
+	<h2></h2>
 </div>
