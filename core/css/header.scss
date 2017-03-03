@@ -175,6 +175,7 @@
 
 /* show appname next to logo */
 .header-appname {
+	display: inline-block;
 	position: relative;
 	color: #fff;
 	font-size: 16px;
@@ -184,8 +185,6 @@
 	padding: 7px 0 7px 5px;
 	vertical-align: middle;
 }
-
-
 
 /* do not show menu toggle on public share links as there is no menu */
 #body-public #header .icon-caret {
@@ -201,8 +200,8 @@
 	max-height: 85%;
 	margin-top: 0;
 	padding-bottom: 10px;
-	background-color: rgba(255, 255, 255, 0.97);
-	box-shadow: 0 1px 10px rgba(150, 150, 150, 0.75);
+	background-color: rgba(255, 255, 255, .97);
+	box-shadow: 0 1px 10px rgba(150, 150, 150, .75);
 	border-radius: 3px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
@@ -219,7 +218,7 @@
 		position: absolute;
 		pointer-events: none;
 		border-color: rgba(0, 0, 0, 0);
-		border-bottom-color: rgba(255, 255, 255, 0.97);
+		border-bottom-color: rgba(255, 255, 255, .97);
 		border-width: 9px;
 		margin-left: -9px;
 	}
@@ -236,7 +235,7 @@
 	position: absolute;
 	pointer-events: none;
 	border-color: rgba(0, 0, 0, 0);
-	border-bottom-color: rgba(255, 255, 255, 0.97);
+	border-bottom-color: rgba(255, 255, 255, .97);
 	border-width: 10px;
 	margin-left: -10px;
 }
@@ -418,7 +417,7 @@
 	z-index: 2000;
 	display: none;
 	background: rgb(255, 255, 255);
-	box-shadow: 0 1px 10px rgba(150, 150, 150, 0.75);
+	box-shadow: 0 1px 10px rgba(150, 150, 150, .75);
 	border-radius: 3px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
@@ -465,129 +464,118 @@
 	width: auto;
 	clear: both;
 	height: 44px;
+
+	li {
+		float: left;
+		display: inline-block;
+		vertical-align: top !important;
+		height: 20px;
+		padding: 12px;
+
+		a {
+			opacity: 0.6;
+			margin: 0;
+			text-align: center;
+			vertical-align: top !important;
+			position: relative;
+			height: 44px;
+		}
+	}
+
+	li:hover a,
+	li a.active {
+		opacity: 1;
+
+	}
+
+	li img,
+	.icon-more-white {
+		display: inline-block;
+		width: 20px;
+		height: 20px;
+	}
+
+	li span {
+		display: none;
+		position: absolute;
+		overflow: visible;
+		background-color: rgba(255, 255, 255, .97);
+		white-space: nowrap;
+		border: none;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+		margin-top: 0;
+		color: rgba(0, 0, 0, .6);
+		width: auto;
+		left: 50%;
+		top: 31px;
+		transform: translateX(-50%);
+		padding: 4px 10px;
+		-webkit-filter: drop-shadow(0 0 5px rgba(150, 150, 150, .75));
+		-moz-filter: drop-shadow(0 0 5px rgba(150, 150, 150, .75));
+		-ms-filter: drop-shadow(0 0 5px rgba(150, 150, 150, .75));
+		-o-filter: drop-shadow(0 0 5px rgba(150, 150, 150, .75));
+		filter: drop-shadow(0 0 5px rgba(150, 150, 150, .75));
+	}
+
+	li:hover span {
+		display: inline-block;
+	}
+
+
+	li:hover a:before,
+	li a.active:before {
+		content: ' ';
+		height: 0;
+		width: 0;
+		position: absolute;
+		pointer-events: none;
+		border: 0 solid transparent;
+		border-bottom-color: white;
+		border-width: 10px;
+		transform: translateX(-50%);
+		left: 50%;
+		top: 14px;
+		z-index: 100;
+		display: block;
+	}
+	&.menu-open li:hover a:before,
+	&.menu-open li a.active:before {
+		display: none !important;
+	}
+
+	/* do not show active indicator when hovering other icons */
+	&:hover li:not(:hover) a:before {
+		display: none;
+	}
+
 }
 
-#appmenu ul {
-}
-
-#appmenu li {
-	float: left;
-	display: inline-block;
-	vertical-align: top !important;
-    height: 20px;
-	padding: 12px;
-}
-
-#appmenu li a {
-	opacity: 0.6;
-	margin: 0;
-	text-align: center;
-	vertical-align: top !important;
-    position: relative;
-	height: 44px;
-}
-
-#appmenu li:hover a,
-#appmenu li a.active {
-	opacity: 1;
-}
-
-#appmenu li img,
-#appmenu .icon-more-white {
-	display: inline-block;
-	width: 20px;
-	height: 20px;
-}
-
-#appmenu li span {
-	display: none;
-	position: absolute;
-	overflow: visible;
-	left: 0;
-	background-color: #FFF;
-	border: 1px solid #000;
-	color: #000;
-}
-
-#appmenu li:hover a {
-	position: relative
-}
-
-#appmenu li:hover span {
-	display: inline-block;
-	white-space: nowrap;
-	position: absolute;
-}
-
-#appmenu li:hover span {
-	background-color: white;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-	margin-top: 0;
-	border: none;
-	color: #333;
-	width: auto;
-	left: 50%;
-	top: 31px;
-	transform: translateX(-50%);
-	padding: 2px 10px;
-	-webkit-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
-	-moz-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
-	-ms-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
-	-o-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
-	filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
-}
-
-#appmenu li:hover span {
-	display: block;
-}
-
-#appmenu li:hover a:before,
-#appmenu li a.active:before {
-    content: " ";
-    border: solid transparent;
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-    border-bottom-color: white;
-    border-width: 10px;
-    transform: translateX(-50%);
-    left: 50%;
-	top: 14px;
-    z-index: 100;
-	display: block;
-}
-
-// do not show active indicator when hovering other icons
-#appmenu:hover li:not(:hover) a:before {
-	display:none;
-}
+/* use popover menu on mobile and small screens */
 @media only screen and (max-width: 768px) {
 
 	#header .header-appname-container {
 		display: inline-block !important;
 	}
+
 	#appmenu {
 		display: none;
 	}
 
-	#apps {
-		.in-header {
-			display: inline-block;
-		}
+	#apps .in-header {
+		display: inline-block;
 	}
 
 	#navigation {
 		position: fixed;
 		top: 45px;
 		left: 10px;
-	}
-	#navigation:after {
-		left: 214px;
+		&:after {
+			left: 214px;
+		}
 	}
 
 }
