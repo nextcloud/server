@@ -23,6 +23,7 @@
 namespace OCA\FederatedFileSharing\Tests;
 
 use OC\Files\Filesystem;
+use OC\Group\Database;
 
 /**
  * Class Test_Files_Sharing_Base
@@ -76,7 +77,7 @@ abstract class TestCase extends \Test\TestCase {
 		\OC_User::clearBackends();
 		\OC_User::useBackend('database');
 		\OC_Group::clearBackends();
-		\OC_Group::useBackend(new \OC_Group_Database());
+		\OC_Group::useBackend(new Database());
 
 		parent::tearDownAfterClass();
 	}
