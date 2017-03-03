@@ -40,7 +40,7 @@ script('core', [
 		</div>
 		<p class="grouptop<?php if (!empty($_['invalidpassword'])) { ?> shake<?php } ?>">
 			<input type="text" name="user" id="user"
-				placeholder="<?php p($l->t('Username or email')); ?>"
+				placeholder="<?php p($_['email_allowed'] ? $l->t('Username or email') : $l->t('Username')); ?>"
 				value="<?php p($_['loginName']); ?>"
 				<?php p($_['user_autofocus'] ? 'autofocus' : ''); ?>
 				autocomplete="on" autocapitalize="off" autocorrect="off" required>

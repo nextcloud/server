@@ -181,6 +181,7 @@ class LoginControllerTest extends TestCase {
 				'alt_login' => [],
 				'rememberLoginState' => 0,
 				'resetPasswordLink' => null,
+				'email_allowed' => null,
 			],
 			'guest'
 		);
@@ -239,6 +240,7 @@ class LoginControllerTest extends TestCase {
 				'alt_login' => [],
 				'rememberLoginState' => 0,
 				'resetPasswordLink' => false,
+				'email_allowed' => null,
 			],
 			'guest'
 		);
@@ -277,6 +279,7 @@ class LoginControllerTest extends TestCase {
 				'alt_login' => [],
 				'rememberLoginState' => 0,
 				'resetPasswordLink' => false,
+				'email_allowed' => null,
 			],
 			'guest'
 		);
