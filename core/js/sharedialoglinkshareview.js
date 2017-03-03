@@ -180,8 +180,13 @@
 					.tooltip({placement: 'bottom', trigger: 'manual'})
 					.tooltip('show');
 				_.delay(function() {
-					$input.tooltip('hide')
-						.tooltip("destroy");
+					$input.tooltip('hide');
+					if (OC.Share.Social.Collection.size() == 0) {
+						$input.attr('data-original-title', t('core', 'Copy'))
+							.tooltip('fixTitle');
+					} else {
+						$input.tooltip("destroy");
+					}
 				}, 3000);
 			});
 			clipboard.on('error', function (e) {
@@ -201,9 +206,13 @@
 					.tooltip({placement: 'bottom', trigger: 'manual'})
 					.tooltip('show');
 				_.delay(function () {
-					$input.tooltip('hide')
-						.attr('data-original-title', t('core', 'Copy'))
-						.tooltip("destroy");
+					$input.tooltip('hide');
+					if (OC.Share.Social.Collection.size() == 0) {
+						$input.attr('data-original-title', t('core', 'Copy'))
+							.tooltip('fixTitle');
+					} else {
+						$input.tooltip("destroy");
+					}
 				}, 3000);
 			});
 
@@ -430,6 +439,14 @@
 				singleAction: OC.Share.Social.Collection.size() == 0,
 				popoverMenu: popover
 			}));
+
+			if (OC.Share.Social.Collection.size() == 0) {
+				this.$el.find('.clipboardButton').tooltip({
+					placement: 'bottom',
+					title: t('core', 'Copy'),
+					trigger: 'hover'
+				});
+			}
 
 			this.delegateEvents();
 
