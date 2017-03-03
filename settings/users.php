@@ -40,7 +40,7 @@ OC_Util::checkSubAdminUser();
 \OC::$server->getNavigationManager()->setActiveEntry('core_users');
 
 $userManager = \OC::$server->getUserManager();
-$groupManager = \OC_Group::getManager();
+$groupManager = \OC::$server->getGroupManager();
 
 // Set the sort option: SORT_USERCOUNT or SORT_GROUPNAME
 $sortGroupsBy = \OC\Group\MetaData::SORT_USERCOUNT;

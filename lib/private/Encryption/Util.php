@@ -273,8 +273,18 @@ class Util {
 			$result = \OCP\User::getUsers();
 		} else {
 			$result = array_merge($result, $users);
+
+			$groupManager = \OC::$server->getGroupManager();
 			foreach ($groups as $group) {
-				$result = array_merge($result, \OC_Group::usersInGroup($group));
+				$groupObject = $groupManager->get($group);
+				if ($groupObject) {
+					$foundUsers = $groupObject->searchUsers('', -1, 0);
+					$userIds = [];
+					foreach ($foundUsers as $user) {
+						$userIds[] = $user->getUID();
+					}
+					$result = array_merge($result, $userIds);
+				}
 			}
 		}
 

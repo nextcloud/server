@@ -42,7 +42,7 @@ abstract class TestCase extends \Test\TestCase {
 
 		// reset backend
 		\OC_User::clearBackends();
-		\OC_Group::clearBackends();
+		\OC::$server->getGroupManager()->clearBackends();
 
 		// create users
 		$backend = new \Test\Util\User\Dummy();
@@ -76,8 +76,8 @@ abstract class TestCase extends \Test\TestCase {
 		// reset backend
 		\OC_User::clearBackends();
 		\OC_User::useBackend('database');
-		\OC_Group::clearBackends();
-		\OC_Group::useBackend(new Database());
+		\OC::$server->getGroupManager()->clearBackends();
+		\OC::$server->getGroupManager()->addBackend(new Database());
 
 		parent::tearDownAfterClass();
 	}
@@ -94,9 +94,15 @@ abstract class TestCase extends \Test\TestCase {
 		}
 
 		if ($create) {
-			\OC::$server->getUserManager()->createUser($user, $password);
-			\OC_Group::createGroup('group');
-			\OC_Group::addToGroup($user, 'group');
+			$userManager = \OC::$server->getUserManager();
+			$groupManager = \OC::$server->getGroupManager();
+
+			$userObject = $userManager->createUser($user, $password);
+			$group = $groupManager->createGroup('group');
+
+			if ($group and $userObject) {
+				$group->addUser($userObject);
+			}
 		}
 
 		self::resetStorage();

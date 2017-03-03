@@ -64,7 +64,7 @@ class User_LDAPTest extends TestCase {
 		parent::setUp();
 
 		\OC_User::clearBackends();
-		\OC_Group::clearBackends();
+		\OC::$server->getGroupManager()->clearBackends();
 	}
 
 	/**
