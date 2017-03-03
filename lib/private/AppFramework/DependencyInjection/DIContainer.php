@@ -53,6 +53,7 @@ use OCP\Federation\ICloudIdManager;
 use OCP\Files\IAppData;
 use OCP\Files\Mount\IMountManager;
 use OCP\RichObjectStrings\IValidator;
+use OCP\Util;
 
 class DIContainer extends SimpleContainer implements IAppContainer {
 
@@ -337,6 +338,14 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		$this->registerService('WebRoot', function ($c) {
 			return $c->query('ServerContainer')->getWebRoot();
+		});
+
+		$this->registerService('fromMailAddress', function() {
+			return Util::getDefaultEmailAddress('no-reply');
+		});
+
+		$this->registerService('OC_Defaults', function ($c) {
+			return $c->getServer()->getThemingDefaults();
 		});
 
 		$this->registerService('OCP\Encryption\IManager', function ($c) {

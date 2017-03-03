@@ -38,10 +38,15 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\ILogger;
+use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
+use OCP\Mail\IMailer;
 use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
@@ -71,6 +76,18 @@ class UsersControllerTest extends TestCase {
 	/** @var  IRequest|PHPUnit_Framework_MockObject_MockObject */
 	protected $request;
 
+	/** @var IURLGenerator | PHPUnit_Framework_MockObject_MockObject */
+	private $urlGenerator;
+
+	/** @var IMailer | PHPUnit_Framework_MockObject_MockObject */
+	private $mailer;
+
+	/** @var \OC_Defaults | PHPUnit_Framework_MockObject_MockObject */
+	private $defaults;
+
+	/** @var IFactory | PHPUnit_Framework_MockObject_MockObject */
+	private $l10nFactory;
+
 	protected function setUp() {
 		parent::setUp();
 
@@ -81,6 +98,11 @@ class UsersControllerTest extends TestCase {
 		$this->logger = $this->createMock(ILogger::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->accountManager = $this->createMock(AccountManager::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->mailer = $this->createMock(IMailer::class);
+		$this->defaults = $this->createMock(\OC_Defaults::class);
+		$this->l10nFactory = $this->createMock(IFactory::class);
+
 		$this->api = $this->getMockBuilder(UsersController::class)
 			->setConstructorArgs([
 				'provisioning_api',
@@ -91,6 +113,11 @@ class UsersControllerTest extends TestCase {
 				$this->userSession,
 				$this->accountManager,
 				$this->logger,
+				'test@example.org',
+				$this->urlGenerator,
+				$this->mailer,
+				$this->defaults,
+				$this->l10nFactory
 			])
 			->setMethods(['fillStorageInfo'])
 			->getMock();
@@ -2590,6 +2617,11 @@ class UsersControllerTest extends TestCase {
 				$this->userSession,
 				$this->accountManager,
 				$this->logger,
+				'',
+				$this->urlGenerator,
+				$this->mailer,
+				$this->defaults,
+				$this->l10nFactory
 			])
 			->setMethods(['getUserData'])
 			->getMock();
@@ -2648,6 +2680,11 @@ class UsersControllerTest extends TestCase {
 				$this->userSession,
 				$this->accountManager,
 				$this->logger,
+				'',
+				$this->urlGenerator,
+				$this->mailer,
+				$this->defaults,
+				$this->l10nFactory
 			])
 			->setMethods(['getUserData'])
 			->getMock();
@@ -2671,4 +2708,485 @@ class UsersControllerTest extends TestCase {
 		$this->assertSame($expected, $api->getUser('uid')->getData());
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 997
+	 */
+	public function testResendWelcomeMessageWithNotExistingTargetUser() {
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('NotExistingUser')
+			->will($this->returnValue(null));
+
+		$this->api->resendWelcomeMessage('NotExistingUser');
+	}
+
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 997
+	 */
+	public function testResendWelcomeMessageAsSubAdminAndUserIsNotAccessible() {
+		$loggedInUser = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$loggedInUser
+			->expects($this->exactly(1))
+			->method('getUID')
+			->will($this->returnValue('subadmin'));
+		$targetUser = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToGet')
+			->will($this->returnValue($targetUser));
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('subadmin')
+			->will($this->returnValue(false));
+		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
+			->disableOriginalConstructor()
+			->getMock();
+		$subAdminManager
+			->expects($this->once())
+			->method('isUserAccessible')
+			->with($loggedInUser, $targetUser)
+			->will($this->returnValue(false));
+		$this->groupManager
+			->expects($this->once())
+			->method('getSubAdmin')
+			->will($this->returnValue($subAdminManager));
+
+		$this->api->resendWelcomeMessage('UserToGet');
+	}
+
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 101
+	 * @expectedExceptionMessage Email address not available
+	 */
+	public function testResendWelcomeMessageNoEmail() {
+		$loggedInUser = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$targetUser = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToGet')
+			->will($this->returnValue($targetUser));
+		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
+			->disableOriginalConstructor()
+			->getMock();
+		$subAdminManager
+			->expects($this->once())
+			->method('isUserAccessible')
+			->with($loggedInUser, $targetUser)
+			->will($this->returnValue(true));
+		$this->groupManager
+			->expects($this->once())
+			->method('getSubAdmin')
+			->will($this->returnValue($subAdminManager));
+		$targetUser
+			->expects($this->once())
+			->method('getEmailAddress')
+			->will($this->returnValue(''));
+
+		$this->api->resendWelcomeMessage('UserToGet');
+	}
+
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 101
+	 * @expectedExceptionMessage Email address not available
+	 */
+	public function testResendWelcomeMessageNullEmail() {
+		$loggedInUser = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$targetUser = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToGet')
+			->will($this->returnValue($targetUser));
+		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
+			->disableOriginalConstructor()
+			->getMock();
+		$subAdminManager
+			->expects($this->once())
+			->method('isUserAccessible')
+			->with($loggedInUser, $targetUser)
+			->will($this->returnValue(true));
+		$this->groupManager
+			->expects($this->once())
+			->method('getSubAdmin')
+			->will($this->returnValue($subAdminManager));
+		$targetUser
+			->expects($this->once())
+			->method('getEmailAddress')
+			->will($this->returnValue(null));
+
+		$this->api->resendWelcomeMessage('UserToGet');
+	}
+
+	public function testResendWelcomeMessageSuccess() {
+		$loggedInUser = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$targetUser = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$targetUser
+			->method('getUID')
+			->willReturn('user-id');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToGet')
+			->will($this->returnValue($targetUser));
+		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
+			->disableOriginalConstructor()
+			->getMock();
+		$subAdminManager
+			->expects($this->once())
+			->method('isUserAccessible')
+			->with($loggedInUser, $targetUser)
+			->will($this->returnValue(true));
+		$this->groupManager
+			->expects($this->once())
+			->method('getSubAdmin')
+			->will($this->returnValue($subAdminManager));
+		$targetUser
+			->expects($this->once())
+			->method('getEmailAddress')
+			->will($this->returnValue('abc@example.org'));
+		$message = $this->getMockBuilder('\OC\Mail\Message')
+			->disableOriginalConstructor()->getMock();
+		$message
+			->expects($this->at(0))
+			->method('setTo')
+			->with(['abc@example.org' => 'user-id']);
+		$message
+			->expects($this->at(1))
+			->method('setSubject')
+			->with('Your  account was created');
+		$htmlBody = new TemplateResponse(
+			'settings',
+			'email.new_user',
+			[
+				'username' => 'user-id',
+				'url' => null,
+			],
+			'blank'
+		);
+		$message
+			->expects($this->at(2))
+			->method('setHtmlBody')
+			->with($htmlBody->render());
+		$plainBody = new TemplateResponse(
+			'settings',
+			'email.new_user_plain_text',
+			[
+				'username' => 'user-id',
+				'url' => null,
+			],
+			'blank'
+		);
+		$message
+			->expects($this->at(3))
+			->method('setPlainBody')
+			->with($plainBody->render());
+		$message
+			->expects($this->at(4))
+			->method('setFrom')
+			->with(['test@example.org' => null]);
+
+		$this->mailer
+			->expects($this->at(0))
+			->method('createMessage')
+			->will($this->returnValue($message));
+		$this->mailer
+			->expects($this->at(1))
+			->method('send')
+			->with($message);
+
+		$this->config
+			->expects($this->at(0))
+			->method('getUserValue')
+			->with('user-id', 'core', 'lang')
+			->willReturn('es');
+		$l10n = $this->getMockBuilder(IL10N::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$l10n
+			->expects($this->at(0))
+			->method('t')
+			->with('Your %s account was created', [null])
+			->willReturn('Your  account was created');
+		$this->l10nFactory
+			->expects($this->at(0))
+			->method('languageExists')
+			->with('settings', 'es')
+			->willReturn(true);
+		$this->l10nFactory
+			->expects($this->at(1))
+			->method('get')
+			->with('settings', 'es')
+			->willReturn($l10n);
+
+		$this->api->resendWelcomeMessage('UserToGet');
+	}
+
+	public function testResendWelcomeMessageSuccessWithFallbackLanguage() {
+		$loggedInUser = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$targetUser = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$targetUser
+			->method('getUID')
+			->willReturn('user-id');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToGet')
+			->will($this->returnValue($targetUser));
+		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
+			->disableOriginalConstructor()
+			->getMock();
+		$subAdminManager
+			->expects($this->once())
+			->method('isUserAccessible')
+			->with($loggedInUser, $targetUser)
+			->will($this->returnValue(true));
+		$this->groupManager
+			->expects($this->once())
+			->method('getSubAdmin')
+			->will($this->returnValue($subAdminManager));
+		$targetUser
+			->expects($this->once())
+			->method('getEmailAddress')
+			->will($this->returnValue('abc@example.org'));
+		$message = $this->getMockBuilder('\OC\Mail\Message')
+			->disableOriginalConstructor()->getMock();
+		$message
+			->expects($this->at(0))
+			->method('setTo')
+			->with(['abc@example.org' => 'user-id']);
+		$message
+			->expects($this->at(1))
+			->method('setSubject')
+			->with('Your  account was created');
+		$htmlBody = new TemplateResponse(
+			'settings',
+			'email.new_user',
+			[
+				'username' => 'user-id',
+				'url' => null,
+			],
+			'blank'
+		);
+		$message
+			->expects($this->at(2))
+			->method('setHtmlBody')
+			->with($htmlBody->render());
+		$plainBody = new TemplateResponse(
+			'settings',
+			'email.new_user_plain_text',
+			[
+				'username' => 'user-id',
+				'url' => null,
+			],
+			'blank'
+		);
+		$message
+			->expects($this->at(3))
+			->method('setPlainBody')
+			->with($plainBody->render());
+		$message
+			->expects($this->at(4))
+			->method('setFrom')
+			->with(['test@example.org' => null]);
+
+		$this->mailer
+			->expects($this->at(0))
+			->method('createMessage')
+			->will($this->returnValue($message));
+		$this->mailer
+			->expects($this->at(1))
+			->method('send')
+			->with($message);
+
+		$this->config
+			->expects($this->at(0))
+			->method('getUserValue')
+			->with('user-id', 'core', 'lang')
+			->willReturn('es');
+		$l10n = $this->getMockBuilder(IL10N::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$l10n
+			->expects($this->at(0))
+			->method('t')
+			->with('Your %s account was created', [null])
+			->willReturn('Your  account was created');
+		$this->l10nFactory
+			->expects($this->at(0))
+			->method('languageExists')
+			->with('settings', 'es')
+			->willReturn(false);
+		$this->l10nFactory
+			->expects($this->at(1))
+			->method('get')
+			->with('settings', 'en')
+			->willReturn($l10n);
+
+		$this->api->resendWelcomeMessage('UserToGet');
+	}
+
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 102
+	 * @expectedExceptionMessage Sending email failed
+	 */
+	public function testResendWelcomeMessageFailed() {
+		$loggedInUser = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$targetUser = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$targetUser
+			->method('getUID')
+			->willReturn('user-id');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToGet')
+			->will($this->returnValue($targetUser));
+		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
+			->disableOriginalConstructor()
+			->getMock();
+		$subAdminManager
+			->expects($this->once())
+			->method('isUserAccessible')
+			->with($loggedInUser, $targetUser)
+			->will($this->returnValue(true));
+		$this->groupManager
+			->expects($this->once())
+			->method('getSubAdmin')
+			->will($this->returnValue($subAdminManager));
+		$targetUser
+			->expects($this->once())
+			->method('getEmailAddress')
+			->will($this->returnValue('abc@example.org'));
+		$message = $this->getMockBuilder('\OC\Mail\Message')
+			->disableOriginalConstructor()->getMock();
+		$message
+			->expects($this->at(0))
+			->method('setTo')
+			->with(['abc@example.org' => 'user-id']);
+		$message
+			->expects($this->at(1))
+			->method('setSubject')
+			->with('Your  account was created');
+		$htmlBody = new TemplateResponse(
+			'settings',
+			'email.new_user',
+			[
+				'username' => 'user-id',
+				'url' => null,
+			],
+			'blank'
+		);
+		$message
+			->expects($this->at(2))
+			->method('setHtmlBody')
+			->with($htmlBody->render());
+		$plainBody = new TemplateResponse(
+			'settings',
+			'email.new_user_plain_text',
+			[
+				'username' => 'user-id',
+				'url' => null,
+			],
+			'blank'
+		);
+		$message
+			->expects($this->at(3))
+			->method('setPlainBody')
+			->with($plainBody->render());
+		$message
+			->expects($this->at(4))
+			->method('setFrom')
+			->with(['test@example.org' => null]);
+
+		$this->mailer
+			->expects($this->at(0))
+			->method('createMessage')
+			->will($this->returnValue($message));
+		$this->mailer
+			->expects($this->at(1))
+			->method('send')
+			->will($this->throwException(new \Exception()));
+
+		$this->config
+			->expects($this->at(0))
+			->method('getUserValue')
+			->with('user-id', 'core', 'lang')
+			->willReturn('es');
+		$l10n = $this->getMockBuilder(IL10N::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$l10n
+			->expects($this->at(0))
+			->method('t')
+			->with('Your %s account was created', [null])
+			->willReturn('Your  account was created');
+		$this->l10nFactory
+			->expects($this->at(0))
+			->method('languageExists')
+			->with('settings', 'es')
+			->willReturn(true);
+		$this->l10nFactory
+			->expects($this->at(1))
+			->method('get')
+			->with('settings', 'es')
+			->willReturn($l10n);
+
+		$this->api->resendWelcomeMessage('UserToGet');
+	}
 }
