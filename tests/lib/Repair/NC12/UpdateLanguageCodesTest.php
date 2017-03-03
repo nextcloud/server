@@ -160,6 +160,8 @@ class UpdateLanguageCodesTest extends TestCase {
 	public function testSecondRun() {
 		/** @var IOutput|\PHPUnit_Framework_MockObject_MockObject $outputMock */
 		$outputMock = $this->createMock(IOutput::class);
+		$outputMock->expects($this->never())
+			->method('info');
 
 		$this->config->expects($this->once())
 			->method('getSystemValue')
