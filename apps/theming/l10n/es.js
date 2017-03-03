@@ -1,0 +1,27 @@
+OC.L10N.register(
+    "theming",
+    {
+    "Admin" : "Administración",
+    "a safe home for all your data" : "un hogar seguro para todos tus datos",
+    "The given name is too long" : "El nombre provisto es muy largo",
+    "The given web address is too long" : "La dirección provista es muy larga",
+    "The given slogan is too long" : "El eslogan provisto es muy largo",
+    "The given color is invalid" : "El color provisto es inválido",
+    "Saved" : "Guardado",
+    "No file uploaded" : "No se ha subido archivo",
+    "Unsupported image type" : "Tipo de imagen no soportado",
+    "You are already using a custom theme" : "Usted ya usa un tema personalizado",
+    "Theming" : "Tema",
+    "Name" : "Nombre",
+    "reset to default" : "restaurar a configuración inicial",
+    "Web address" : "Dirección web",
+    "Web address https://…" : "Dirección web https://",
+    "Slogan" : "Eslogan",
+    "Color" : "Color",
+    "Logo" : "Logo",
+    "Upload new logo" : "Subir nuevo logo",
+    "Login image" : "Imagen de inicio",
+    "Upload new login background" : "Subir una nueva imagen de fondo",
+    "Log in image" : "Imagen de inicio"
+},
+"nplurals=2; plural=(n != 1);");
