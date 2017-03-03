@@ -192,9 +192,13 @@
 }
 
 /* NAVIGATION --------------------------------------------------------------- */
+nav {
+	margin-top: auto;
+}
+
 #navigation {
 	position: relative;
-	top: 69px;
+	top: 45px;
 	left: -100%;
 	width: 265px;
 	max-height: 85%;
@@ -538,7 +542,7 @@
 		border-width: 10px;
 		transform: translateX(-50%);
 		left: 50%;
-		top: 14px;
+		top: 12px;
 		z-index: 100;
 		display: block;
 	}
