@@ -24,6 +24,7 @@
 namespace Test\Repair\NC12;
 
 use OC\Repair\NC12\UpdateLanguageCodes;
+use OCP\IConfig;
 use OCP\Migration\IOutput;
 use Test\TestCase;
 
@@ -38,10 +39,14 @@ class UpdateLanguageCodesTest extends TestCase {
 	/** @var \OCP\IDBConnection */
 	protected $connection;
 
+	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	private $config;
+
 	protected function setUp() {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->config = $this->createMock(IConfig::class);
 	}
 
 	public function testRun() {
@@ -112,8 +117,13 @@ class UpdateLanguageCodesTest extends TestCase {
 			->method('info')
 			->with('Changed 2 setting(s) from "th_TH" to "th" in preferences table.');
 
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('version', '0.0.0')
+			->willReturn('12.0.0.13');
+
 		// run repair step
-		$repair = new UpdateLanguageCodes($this->connection);
+		$repair = new UpdateLanguageCodes($this->connection, $this->config);
 		$repair->run($outputMock);
 
 		// check if test data is correctly modified in DB
@@ -145,6 +155,22 @@ class UpdateLanguageCodesTest extends TestCase {
 				->andWhere($qb->expr()->eq('configvalue', $qb->createNamedParameter($user['configvalue'])))
 				->execute();
 		}
+	}
+
+	public function testSecondRun() {
+		/** @var IOutput|\PHPUnit_Framework_MockObject_MockObject $outputMock */
+		$outputMock = $this->createMock(IOutput::class);
+		$outputMock->expects($this->never())
+			->method('info');
+
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('version', '0.0.0')
+			->willReturn('12.0.0.14');
+
+		// run repair step
+		$repair = new UpdateLanguageCodes($this->connection, $this->config);
+		$repair->run($outputMock);
 	}
 
 }

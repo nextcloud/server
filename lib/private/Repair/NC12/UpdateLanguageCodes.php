@@ -23,6 +23,7 @@
 
 namespace OC\Repair\NC12;
 
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -31,11 +32,17 @@ class UpdateLanguageCodes implements IRepairStep {
 	/** @var IDBConnection */
 	private $connection;
 
+	/** @var IConfig */
+	private $config;
+
 	/**
-	 * @param IDBConnection $db
+	 * @param IDBConnection $connection
+	 * @param IConfig $config
 	 */
-	public function __construct(IDBConnection $connection) {
+	public function __construct(IDBConnection $connection,
+								IConfig $config) {
 		$this->connection = $connection;
+		$this->config = $config;
 	}
 
 	/**
@@ -49,6 +56,13 @@ class UpdateLanguageCodes implements IRepairStep {
 	 * {@inheritdoc}
 	 */
 	public function run(IOutput $output) {
+
+		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
+
+		if (version_compare($versionFromBeforeUpdate, '12.0.0.13', '>')) {
+			return;
+		}
+
 		$languages = [
 			'bg_BG' => 'bg',
 			'cs_CZ' => 'cs',
