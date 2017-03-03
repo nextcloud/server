@@ -505,7 +505,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @return boolean
 	 */
 	function isLoggedIn() {
-		return \OC_User::isLoggedIn();
+		return \OC::$server->getUserSession()->isLoggedIn();
 	}
 
 	/**
