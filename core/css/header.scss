@@ -547,7 +547,8 @@ nav {
 		display: block;
 	}
 	&.menu-open li:hover a:before,
-	&.menu-open li a.active:before {
+	&.menu-open li a.active:before,
+	&.menu-open li:hover span {
 		display: none !important;
 	}
 
@@ -563,7 +564,7 @@ nav {
 }
 
 /* use popover menu on mobile and small screens */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 600px) {
 
 	#header .header-appname-container {
 		display: inline-block !important;
