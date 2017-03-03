@@ -21,6 +21,17 @@
 	padding: 14px;
 }
 
+.shareTabView .linkMore {
+	position: absolute;
+	right: -7px;
+	top: -4px;
+	padding: 14px;
+}
+
+.shareTabView .popovermenu .clipboardButton {
+	position: relative;
+}
+
 .shareTabView label {
 	white-space: nowrap;
 }
