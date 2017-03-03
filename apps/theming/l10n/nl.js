@@ -1,0 +1,27 @@
+OC.L10N.register(
+    "theming",
+    {
+    "Admin" : "Beheer",
+    "a safe home for all your data" : "een veilige plek voor al je gegevens",
+    "The given name is too long" : "De opgegeven naam is te lang",
+    "The given web address is too long" : "Het opgegeven internetadres is te lang",
+    "The given slogan is too long" : "De opgegeven slagzin is te lang",
+    "The given color is invalid" : "De opgegeven kleur is ongeldig",
+    "Saved" : "Opgeslagen",
+    "No file uploaded" : "Geen bestand geüpload",
+    "Unsupported image type" : "Afbeeldingstype wordt niet ondersteund",
+    "You are already using a custom theme" : "Je gebruikt al een maatwerkthema",
+    "Theming" : "Thema's",
+    "Name" : "Naam",
+    "reset to default" : "herstellen naar standaard",
+    "Web address" : "Webadres",
+    "Web address https://…" : "Webadres https://…",
+    "Slogan" : "Slagzin",
+    "Color" : "Kleur",
+    "Logo" : "Logo",
+    "Upload new logo" : "Upload nieuw logo",
+    "Login image" : "Inlog afbeelding",
+    "Upload new login background" : "Uploaden nieuwe inlog achtergrond",
+    "Log in image" : "Inlog afbeelding"
+},
+"nplurals=2; plural=(n != 1);");
