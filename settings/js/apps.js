@@ -452,26 +452,27 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	rebuildNavigation: function() {
 		$.getJSON(OC.filePath('settings', 'ajax', 'navigationdetect.php')).done(function(response){
 			if(response.status === 'success') {
-				var idsToKeep = {};
+				var addedApps = {};
 				var navEntries = response.nav_entries;
 				var container = $('#apps ul');
 
 				// remove disabled apps
 				for (var i = 0; i < navEntries.length; i++) {
 					var entry = navEntries[i];
-					idsToKeep[entry.id] = true;
+					if(container.children('li[data-id="' + entry.id + '"]').length === 0) {
+						addedApps[entry.id] = true;
+					}
 				}
 				container.children('li[data-id]').each(function (index, el) {
-					if (!idsToKeep[$(el).data('id')]) {
+					var id = $(el).data('id');
+					// remove all apps that are not in the correct order
+					if ((navEntries[index] && navEntries[index].id !== $(el).data('id'))) {
 						$(el).remove();
-					}
-				});
-				$('#appmenu ul').children('li[data-id]').each(function (index, el) {
-					if (!idsToKeep[$(el).data('id')]) {
-						$(el).remove();
+						$('#appmenu li[data-id='+id+']').remove();
 					}
 				});
 
+				var previousEntry;
 				// add enabled apps to #navigation and #appmenu
 				for (var i = 0; i < navEntries.length; i++) {
 					var entry = navEntries[i];
@@ -490,25 +491,21 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						a.prepend(img);
 						li.append(a);
 
-						// append the new app as last item in the list
-						// which is the "add apps" entry with the id
-						// #apps-management
-						$('#navigation #apps-management').before(li);
+						$('#navigation li[data-id=' + previousEntry.id + ']').after(li);
 
 						// draw attention to the newly added app entry
 						// by flashing it twice
-						$('#header .menutoggle')
-							.animate({opacity: 0.5})
-							.animate({opacity: 1})
-							.animate({opacity: 0.5})
-							.animate({opacity: 1})
-							.animate({opacity: 0.75});
-
-						// do not show apps from #appmenu in #navigation
-						if(i < 7) {
-							$('#navigation li').eq(i).addClass('in-header');
+						if(addedApps[entry.id]) {
+							$('#header .menutoggle')
+								.animate({opacity: 0.5})
+								.animate({opacity: 1})
+								.animate({opacity: 0.5})
+								.animate({opacity: 1})
+								.animate({opacity: 0.75});
 						}
+					}
 
+					if ($('#appmenu ul').children('li[data-id="' + entry.id + '"]').length === 0) {
 						// add apps to #appmenu until it is full
 						if ($('#appmenu li').not('.hidden').length < 8) {
 							var li = $('<li></li>');
@@ -522,15 +519,25 @@ OC.Settings.Apps = OC.Settings.Apps || {
 							a.prepend(loading);
 							a.prepend(img);
 							li.append(a);
-							$('#appmenu li#more-apps').before(li);
-							li.animate({opacity: 0.5})
-								.animate({opacity: 1})
-								.animate({opacity: 0.5})
-								.animate({opacity: 1})
-								.animate({opacity: 0.75});
+							$('#appmenu li[data-id='+ previousEntry.id+']').after(li);
+							if(addedApps[entry.id]) {
+								li.animate({opacity: 0.5})
+									.animate({opacity: 1})
+									.animate({opacity: 0.5})
+									.animate({opacity: 1});
+							}
 						}
 					}
+					previousEntry = entry;
+					// do not show apps from #appmenu in #navigation
+					if(i < 7) {
+						$('#navigation li').eq(i).addClass('in-header');
+					} else {
+						$('#navigation li').eq(i).removeClass('in-header');
+					}
 				}
+
+
 
 				if (navEntries.length > 7) {
 					$('#more-apps').show();
