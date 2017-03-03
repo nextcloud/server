@@ -93,9 +93,7 @@ class UpdateLookupServer {
 			}
 		}
 
-		if (!empty($publicData)) {
-			$this->sendToLookupServer($user, $publicData);
-		}
+		$this->sendToLookupServer($user, $publicData);
 	}
 
 	/**
@@ -105,25 +103,38 @@ class UpdateLookupServer {
 	 * @param array $publicData
 	 */
 	protected function sendToLookupServer(IUser $user, array $publicData) {
-		$dataArray = [
-			'federationId' => $user->getCloudId(),
-			'name' => isset($publicData[AccountManager::PROPERTY_DISPLAYNAME]) ? $publicData[AccountManager::PROPERTY_DISPLAYNAME]['value'] : '',
-			'email' => isset($publicData[AccountManager::PROPERTY_EMAIL]) ? $publicData[AccountManager::PROPERTY_EMAIL]['value'] : '',
-			'address' => isset($publicData[AccountManager::PROPERTY_ADDRESS]) ? $publicData[AccountManager::PROPERTY_ADDRESS]['value'] : '',
-			'website' => isset($publicData[AccountManager::PROPERTY_WEBSITE]) ? $publicData[AccountManager::PROPERTY_WEBSITE]['value'] : '',
-			'twitter' => isset($publicData[AccountManager::PROPERTY_TWITTER]) ? $publicData[AccountManager::PROPERTY_TWITTER]['value'] : '',
-			'phone' => isset($publicData[AccountManager::PROPERTY_PHONE]) ? $publicData[AccountManager::PROPERTY_PHONE]['value'] : '',
-		];
+
+		$dataArray = ['federationId' => $user->getCloudId()];
+
+		if (!empty($publicData)) {
+			$dataArray['name'] = isset($publicData[AccountManager::PROPERTY_DISPLAYNAME]) ? $publicData[AccountManager::PROPERTY_DISPLAYNAME]['value'] : '';
+			$dataArray['email'] = isset($publicData[AccountManager::PROPERTY_EMAIL]) ? $publicData[AccountManager::PROPERTY_EMAIL]['value'] : '';
+			$dataArray['address'] = isset($publicData[AccountManager::PROPERTY_ADDRESS]) ? $publicData[AccountManager::PROPERTY_ADDRESS]['value'] : '';
+			$dataArray['website'] = isset($publicData[AccountManager::PROPERTY_WEBSITE]) ? $publicData[AccountManager::PROPERTY_WEBSITE]['value'] : '';
+			$dataArray['twitter'] = isset($publicData[AccountManager::PROPERTY_TWITTER]) ? $publicData[AccountManager::PROPERTY_TWITTER]['value'] : '';
+			$dataArray['phone'] = isset($publicData[AccountManager::PROPERTY_PHONE]) ? $publicData[AccountManager::PROPERTY_PHONE]['value'] : '';
+		}
+
 		$dataArray = $this->signer->sign('lookupserver', $dataArray, $user);
 		$httpClient = $this->clientService->newClient();
 		try {
-			$httpClient->post($this->lookupServer,
-				[
-					'body' => json_encode($dataArray),
-					'timeout' => 10,
-					'connect_timeout' => 3,
-				]
-			);
+			if (empty($publicData)) {
+				$httpClient->delete($this->lookupServer,
+					[
+						'body' => json_encode($dataArray),
+						'timeout' => 10,
+						'connect_timeout' => 3,
+					]
+				);
+			} else {
+				$httpClient->post($this->lookupServer,
+					[
+						'body' => json_encode($dataArray),
+						'timeout' => 10,
+						'connect_timeout' => 3,
+					]
+				);
+			}
 		} catch (\Exception $e) {
 			$this->jobList->add(RetryJob::class,
 				[
