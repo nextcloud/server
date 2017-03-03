@@ -451,22 +451,38 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 	rebuildNavigation: function() {
 		$.getJSON(OC.filePath('settings', 'ajax', 'navigationdetect.php')).done(function(response){
-			if(response.status === 'success'){
+			if(response.status === 'success') {
 				var idsToKeep = {};
-				var navEntries=response.nav_entries;
+				var navEntries = response.nav_entries;
 				var container = $('#apps ul');
-				for(var i=0; i< navEntries.length; i++){
+
+				// remove disabled apps
+				for (var i = 0; i < navEntries.length; i++) {
 					var entry = navEntries[i];
 					idsToKeep[entry.id] = true;
+				}
+				container.children('li[data-id]').each(function (index, el) {
+					if (!idsToKeep[$(el).data('id')]) {
+						$(el).remove();
+					}
+				});
+				$('#appmenu ul').children('li[data-id]').each(function (index, el) {
+					if (!idsToKeep[$(el).data('id')]) {
+						$(el).remove();
+					}
+				});
 
-					if(container.children('li[data-id="'+entry.id+'"]').length === 0){
-						var li=$('<li></li>');
+				// add enabled apps to #navigation and #appmenu
+				for (var i = 0; i < navEntries.length; i++) {
+					var entry = navEntries[i];
+					if (container.children('li[data-id="' + entry.id + '"]').length === 0) {
+						var li = $('<li></li>');
 						li.attr('data-id', entry.id);
 						var img = '<svg width="32" height="32" viewBox="0 0 32 32">';
 						img += '<defs><filter id="invert"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0" /></filter></defs>';
 						img += '<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" filter="url(#invert)" xlink:href="' + entry.icon + '"  class="app-icon" /></svg>';
-						var a=$('<a></a>').attr('href', entry.href);
-						var filename=$('<span></span>');
+						var a = $('<a></a>').attr('href', entry.href);
+						var filename = $('<span></span>');
 						var loading = $('<div class="icon-loading-dark"></div>').css('display', 'none');
 						filename.text(entry.name);
 						a.prepend(filename);
@@ -477,13 +493,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						// append the new app as last item in the list
 						// which is the "add apps" entry with the id
 						// #apps-management
-						$('#apps-management').before(li);
-
-						// scroll the app navigation down
-						// so the newly added app is seen
-						$('#navigation').animate({
-							scrollTop: $('#navigation').height()
-						}, 'slow');
+						$('#navigation #apps-management').before(li);
 
 						// draw attention to the newly added app entry
 						// by flashing it twice
@@ -493,14 +503,42 @@ OC.Settings.Apps = OC.Settings.Apps || {
 							.animate({opacity: 0.5})
 							.animate({opacity: 1})
 							.animate({opacity: 0.75});
+
+						// do not show apps from #appmenu in #navigation
+						if(i < 7) {
+							$('#navigation li').eq(i).addClass('in-header');
+						}
+
+						// add apps to #appmenu until it is full
+						if ($('#appmenu li').not('.hidden').length < 8) {
+							var li = $('<li></li>');
+							li.attr('data-id', entry.id);
+							var img = '<img src="' + entry.icon + '" class="app-icon">';
+							var a = $('<a></a>').attr('href', entry.href);
+							var filename = $('<span></span>');
+							var loading = $('<div class="icon-loading-dark"></div>').css('display', 'none');
+							filename.text(entry.name);
+							a.prepend(filename);
+							a.prepend(loading);
+							a.prepend(img);
+							li.append(a);
+							$('#appmenu li#more-apps').before(li);
+							li.animate({opacity: 0.5})
+								.animate({opacity: 1})
+								.animate({opacity: 0.5})
+								.animate({opacity: 1})
+								.animate({opacity: 0.75});
+						}
 					}
 				}
 
-				container.children('li[data-id]').each(function(index, el) {
-					if (!idsToKeep[$(el).data('id')]) {
-						$(el).remove();
-					}
-				});
+				if (navEntries.length > 7) {
+					$('#more-apps').show();
+					$('#apps-management').hide();
+				} else {
+					$('#more-apps').hide();
+					$('#apps-management').show();
+				}
 			}
 		});
 	},

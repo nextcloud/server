@@ -74,22 +74,19 @@
 								</a>
 							</li>
 						<?php endforeach; ?>
-						<?php if (count($_['navigation'])>$headerIconCount
-							|| (OC_User::isAdminUser(OC_User::getUser()) && count($_['navigation'])>=$headerIconCount)): ?>
-							<li id="more-apps" class="menutoggle">
+							<li id="more-apps" class="menutoggle<?php
+							if ( !(count($_['navigation']) > $headerIconCount
+									|| (OC_User::isAdminUser(OC_User::getUser()) && count($_['navigation'])>=$headerIconCount))): ?> hidden<?php endif; ?>">
 								<a href="#">
 									<div class="icon-more-white"></div>
-									<span>More apps
+									<span><?php p($l->t('More apps')); ?>
 							</span>
 								</a>
 							</li>
-						<?php endif; ?>
-						<?php if (count($_['navigation'])<$headerIconCount): ?>
 							<?php
 							/* show "More apps" link to app administration directly in app navigation, as last entry */
-							if(OC_User::isAdminUser(OC_User::getUser())):
-								?>
-								<li id="apps-management">
+							?>
+								<li id="apps-management" <?php if(OC_User::isAdminUser(OC_User::getUser()) && count($_['navigation'])>$headerIconCount-1): ?>class="hidden"<?php endif; ?>>
 									<a href="<?php print_unescaped(\OC::$server->getURLGenerator()->linkToRoute('settings.AppSettings.viewApps')); ?>" tabindex="4"
 										<?php if( $_['appsmanagement_active'] ): ?> class="active"<?php endif; ?>>
 										<img src="<?php print_unescaped(image_path('settings', 'apps.svg') . '?v=' . $_['versionHash']); ?>" />
@@ -100,8 +97,6 @@
 							</span>
 									</a>
 								</li>
-							<?php endif; ?>
-						<?php endif; ?>
 					</ul>
 				</div>
 
