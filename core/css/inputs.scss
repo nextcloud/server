@@ -236,11 +236,10 @@ input {
 				border-color: $color-primary
 			}
 			&:disabled + label:before {
-				background-color: $color-main-old-cccccc !important; /* override other status */
+				border: 1px solid $color-main-old-888888;
+				background-color: $color-main-old-bbbbbb !important; /* override other status */
 			}
 			&:checked:disabled + label:before {
-				box-shadow: inset 0px 0px 0px 2px $color-main-background;
-				border-color: $color-main-old-aaaaaa;
 				background-color: $color-main-old-bbbbbb;
 			}
 		}
@@ -257,9 +256,6 @@ input {
 			}
 			&:indeterminate + label:before {
 				background-image: url('../img/actions/checkbox-mixed.svg');
-			}
-			&:indeterminate:disabled + label:before {
-				border-color: $color-main-old-888888;
 			}
 		}
 		&.radio--white,
@@ -297,10 +293,10 @@ input {
 				background-image: url('../img/actions/checkbox-mixed-white.svg');
 			}
 			&:checked:disabled + label:after {
-				border-color: $color-main-old-aaaaaa;
+				border-color: $color-main-old-bbbbbb;
 			}
 			&:indeterminate:disabled + label:after {
-				background-color: $color-main-old-aaaaaa;
+				background-color: $color-main-old-bbbbbb;
 			}
 		}
 	}
