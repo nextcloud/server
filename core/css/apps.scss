@@ -61,7 +61,7 @@ em {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	border-right: 1px solid $color-main-old-eeeeee;
+	border-right: 1px solid nc-darken($color-main-background, 8%);
 	display: flex;
 	flex-direction: column;
 	> ul {
@@ -166,9 +166,9 @@ em {
 				-ms-transform: rotate(0);
 				transform: rotate(0);
 			}
-			background-image: linear-gradient(top, $color-main-old-eeeeee 0%, $color-main-old-f8f8f8 100%);
-			background-image: -webkit-linear-gradient(top, $color-main-old-eeeeee 0%, $color-main-old-f8f8f8 100%);
-			background-image: -ms-linear-gradient(top, $color-main-old-eeeeee 0%, $color-main-old-f8f8f8 100%);
+			background-image: linear-gradient(top, nc-darken($color-main-background, 8%) 0%, nc-darken($color-main-background, 3%) 100%);
+			background-image: -webkit-linear-gradient(top, nc-darken($color-main-background, 8%) 0%, nc-darken($color-main-background, 3%) 100%);
+			background-image: -ms-linear-gradient(top, nc-darken($color-main-background, 8%) 0%, nc-darken($color-main-background, 3%) 100%);
 		}
 	}
 	> {
@@ -251,7 +251,7 @@ em {
 		color: $color-error;
 	}
 	.app-navigation-separator {
-		border-bottom: 1px solid $color-main-old-dddddd;
+		border-bottom: 1px solid nc-lighten($color-main-text, 86%);
 	}
 
 	/**
@@ -324,7 +324,7 @@ em {
 			margin-right: 0;
 			height: 38px;
 			float: left;
-			border: 1px solid rgba($color-main-old-bbbbbb, 0.9);
+			border: 1px solid rgba(nc-lighten($color-main-text, 73%), 0.9);
 		}
 		button,
 		input[type='submit'] {
@@ -378,7 +378,7 @@ em {
 	min-width: 300px;
 	display: block;
 	background: $color-main-background;
-	border-left: 1px solid $color-main-old-eeeeee;
+	border-left: 1px solid nc-darken($color-main-background, 8%);
 	-webkit-transition: margin-right 300ms;
 	transition: margin-right 300ms;
 	overflow-x: hidden;
@@ -412,7 +412,7 @@ em {
 	/* restrict height of settings and make scrollable */
 	max-height: 300px;
 	overflow-y: auto;
-	border-right: 1px solid $color-main-old-eeeeee;
+	border-right: 1px solid nc-darken($color-main-background, 8%);
 	width: 250px;
 	box-sizing: border-box;
 
@@ -428,7 +428,7 @@ em {
 }
 
 #app-settings-header {
-	border-right: 1px solid $color-main-old-eeeeee;
+	border-right: 1px solid nc-darken($color-main-background, 8%);
 	width: 250px;
 	box-sizing: border-box;
 }
@@ -464,7 +464,7 @@ em {
 .section {
 	display: block;
 	padding: 30px;
-	color: $color-main-old-555555;
+	color: nc-lighten($color-main-text, 33%);
 	margin-bottom: 24px;
 	&.hidden {
 		display: none !important;
@@ -499,7 +499,7 @@ em {
 
 /* DROPDOWN ----------------------------------------------------------------- */
 .dropdown {
-	background: $color-main-old-eeeeee;
+	background: nc-darken($color-main-background, 8%);
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 	box-shadow: 0 1px 1px $color-box-shadow;
@@ -520,18 +520,18 @@ em {
 		float: left;
 		padding: 5px;
 		cursor: pointer;
-		color: $color-main-old-555555;
+		color: nc-lighten($color-main-text, 33%);
 		margin-bottom: 1px;
 		a {
-			color: $color-main-old-555555;
+			color: nc-lighten($color-main-text, 33%);
 			margin-bottom: 1px;
 		}
 		&.selected {
 			font-weight: 600;
-			border-bottom: 1px solid $color-main-old-333333;
+			border-bottom: 1px solid nc-lighten($color-main-text, 20%);
 		}
 		&:hover {
-			border-bottom: 1px solid $color-main-old-333333;
+			border-bottom: 1px solid nc-lighten($color-main-text, 20%);
 		}
 		&.selected, &:hover {
 			margin-bottom: 0px;
@@ -557,7 +557,7 @@ em {
 	.popovermenu, .popovermenu:after,
 	#app-navigation .app-navigation-entry-menu,
 	#app-navigation .app-navigation-entry-menu:after {
-		border: 1px solid $color-main-old-eeeeee;
+		border: 1px solid nc-darken($color-main-background, 8%);
 	}
 }
 
@@ -566,7 +566,7 @@ em {
 .popovermenu {
 	position: absolute;
 	background-color: $color-main-background;
-	color: $color-main-old-333333;
+	color: nc-lighten($color-main-text, 20%);
 	border-radius: 3px;
 	z-index: 110;
 	margin: 5px;
@@ -643,7 +643,7 @@ em {
 			margin: 0;
 			font-weight: inherit;
 			box-shadow: none;
-			color: $color-main-old-333333 !important; /* Overwrite app-navigation li */
+			color: nc-lighten($color-main-text, 20%) !important; /* Overwrite app-navigation li */
 			/* prevent .action class to break the design */
 			&.action {
 				padding: inherit !important;

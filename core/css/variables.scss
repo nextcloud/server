@@ -19,13 +19,4 @@ $image-login-background: '../img/background.jpg?v=1';
 
 $color-loading: #969696;
 $color-loading-dark: #bbbbbb;
-
-$color-main-old-f8f8f8: nc-darken($color-main-background, 3%);
-$color-main-old-eeeeee: nc-lighten($color-main-text, 93%);
-$color-main-old-dddddd: nc-lighten($color-main-text, 86%);
-$color-main-old-bbbbbb: nc-lighten($color-main-text, 73%);
-$color-main-old-888888: nc-lighten($color-main-text, 53%);
-$color-main-old-555555: nc-lighten($color-main-text, 33%);
-$color-main-old-333333: nc-lighten($color-main-text, 20%);
-
-$color-box-shadow: rgba($color-main-old-333333, 0.75);
+$color-box-shadow: rgba(nc-lighten($color-main-text, 20%), 0.75);

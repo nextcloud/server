@@ -148,7 +148,7 @@ body {
 		color: $color-primary-text;
 		border-bottom: 2px dotted $color-main-background;
 		&:hover, &:focus {
-			color: $color-main-old-dddddd;
+			color: nc-lighten($color-main-text, 86%);
 		}
 	}
 }
@@ -164,7 +164,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-	background: $color-main-old-dddddd;
+	background: nc-lighten($color-main-text, 86%);
 	border-radius: 3px;
 }
 
@@ -298,7 +298,7 @@ body {
 }
 
 #emptycontent, .emptycontent {
-	color: $color-main-old-888888;
+	color: nc-darken($color-main-background, 8%);
 	text-align: center;
 	margin-top: 30vh;
 	width: 100%;
@@ -355,7 +355,7 @@ body {
 		}
 		a {
 			color: $color-primary-text;
-			border-bottom: 1px solid $color-main-old-bbbbbb;
+			border-bottom: 1px solid nc-lighten($color-main-text, 73%);
 		}
 	}
 	.infogroup {
@@ -620,17 +620,17 @@ label.infield {
 			position: static;
 			margin: 0 -3px 5px;
 			font-size: 12px;
-			background: $color-main-old-f8f8f8;
-			color: $color-main-old-888888;
+			background: nc-darken($color-main-background, 3%);
+			color: nc-lighten($color-main-text, 53%);
 			cursor: pointer;
-			border: 1px solid $color-main-old-dddddd;
+			border: 1px solid nc-lighten($color-main-text, 86%);
 			span {
 				cursor: pointer;
 				padding: 10px 20px;
 			}
 			&.ui-state-hover, &.ui-state-active {
 				color: $color-main-text;
-				background-color: $color-main-old-eeeeee;
+				background-color: nc-darken($color-main-background, 8%);
 			}
 		}
 	}
@@ -682,7 +682,7 @@ label.infield {
 		color: $color-primary-text !important;
 		font-weight: 600 !important;
 		&.button {
-			color: $color-main-old-555555 !important;
+			color: nc-lighten($color-main-text, 33%) !important;
 			display: inline-block;
 			text-align: center;
 		}
@@ -899,7 +899,7 @@ tr {
 
 tbody tr {
 	&:hover, &:focus, &:active {
-		background-color: $color-main-old-f8f8f8;
+		background-color: nc-darken($color-main-background, 3%);
 	}
 }
 
@@ -956,7 +956,7 @@ code {
 }
 
 .ui-datepicker-prev, .ui-datepicker-next {
-	border: $color-main-old-dddddd;
+	border: nc-lighten($color-main-text, 86%);
 	background: $color-main-background;
 }
 
@@ -995,7 +995,7 @@ code {
 		width: 100%;
 	}
 	.emptycontent {
-		color: $color-main-old-888888;
+		color: nc-lighten($color-main-text, 53%);
 		text-align: center;
 		margin-top: 80px;
 		width: 100%;
@@ -1013,7 +1013,7 @@ code {
 	.filelist {
 		td {
 			padding: 14px;
-			border-bottom: 1px solid $color-main-old-eeeeee;
+			border-bottom: 1px solid nc-darken($color-main-background, 8%);
 		}
 		tr:last-child td {
 			border-bottom: none;
@@ -1070,7 +1070,7 @@ span.ui-icon {
 	}
 	.scrollarea {
 		overflow: auto;
-		border: 1px solid $color-main-old-dddddd;
+		border: 1px solid nc-lighten($color-main-text, 86%);
 		width: 100%;
 		height: 240px;
 	}
@@ -1082,7 +1082,7 @@ span.ui-icon {
 		}
 	}
 	.taglist li {
-		background: $color-main-old-f8f8f8;
+		background: nc-darken($color-main-background, 3%);
 		padding: .3em .8em;
 		white-space: nowrap;
 		overflow: hidden;
@@ -1090,7 +1090,7 @@ span.ui-icon {
 		-webkit-transition: background-color 500ms;
 		transition: background-color 500ms;
 		&:hover, &:active {
-			background: $color-main-old-eeeeee;
+			background: nc-darken($color-main-background, 8%);
 		}
 	}
 	.addinput {
@@ -1105,7 +1105,7 @@ span.ui-icon {
 	background-color: $color-main-background;
 	border-radius: 3px;
 	box-shadow: 0 0 10px $color-box-shadow;
-	color: $color-main-old-333333;
+	color: nc-lighten($color-main-text, 20%);
 	padding: 10px;
 	position: fixed !important;
 	z-index: 100;
@@ -1174,7 +1174,7 @@ div.crumb {
 		position: relative;
 		top: 12px;
 		padding: 14px 24px 14px 17px;
-		color: $color-main-old-555555;
+		color: nc-lighten($color-main-text, 33%);
 	}
 	&.last a {
 		padding-right: 0;
@@ -1222,12 +1222,12 @@ div.crumb {
 	position: relative;
 	text-align: center;
 	.info {
-		color: $color-main-old-555555;
+		color: nc-lighten($color-main-text, 33%);
 		text-align: center;
 		margin: 0 auto;
 		padding: 20px 0;
 		a {
-			color: $color-main-old-555555;
+			color: nc-lighten($color-main-text, 33%);
 			font-weight: 600;
 			padding: 13px;
 			margin: -13px;
