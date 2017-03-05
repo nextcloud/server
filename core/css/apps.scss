@@ -464,7 +464,7 @@ em {
 .section {
 	display: block;
 	padding: 30px;
-	color: $color-main-text-dimmed;
+	color: $color-main-old-555555;
 	margin-bottom: 24px;
 	&.hidden {
 		display: none !important;
@@ -520,10 +520,10 @@ em {
 		float: left;
 		padding: 5px;
 		cursor: pointer;
-		color: $color-main-text-dimmed;
+		color: $color-main-old-555555;
 		margin-bottom: 1px;
 		a {
-			color: $color-main-text-dimmed;
+			color: $color-main-old-555555;
 			margin-bottom: 1px;
 		}
 		&.selected {

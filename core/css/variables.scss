@@ -6,28 +6,26 @@ $color-error: #e9322d;
 $color-warning: #ffcc44;
 $color-success: #46ba61;
 
+@function nc-darken($color, $value) {
+  @return darken($color, $value);
+}
+
+@function nc-lighten($color, $value) {
+  @return lighten($color, $value);
+}
 
 $image-logo: '../img/logo-icon.svg?v=1';
 $image-login-background: '../img/background.jpg?v=1';
 
-$color-main-text-dimmed: #555555;
-$color-main-background-dimmed: #f0f0f0;
-
-$color-box-shadow: rgba(lighten($color-main-text-dimmed, 25%), 0.75);
 $color-loading: #969696;
 $color-loading-dark: #bbbbbb;
 
+$color-main-old-f8f8f8: nc-darken($color-main-background, 3%);
+$color-main-old-eeeeee: nc-lighten($color-main-text, 93%);
+$color-main-old-dddddd: nc-lighten($color-main-text, 86%);
+$color-main-old-bbbbbb: nc-lighten($color-main-text, 73%);
+$color-main-old-888888: nc-lighten($color-main-text, 53%);
+$color-main-old-555555: nc-lighten($color-main-text, 33%);
+$color-main-old-333333: nc-lighten($color-main-text, 20%);
 
-// need to be reduced/replaced
-
-$color-main-old-f8f8f8: #f8f8f8;
-$color-main-old-eeeeee: #eee;
-
-$color-main-old-dddddd: #ddd;
-$color-main-old-d3d3d3: #d3d3d3;
-
-$color-main-old-bbbbbb: #bbb;
-
-$color-main-old-888888: #888;
-$color-main-old-555555: #555;
-$color-main-old-333333: #333333;
+$color-box-shadow: rgba($color-main-old-333333, 0.75);
