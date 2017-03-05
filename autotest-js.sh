@@ -24,7 +24,7 @@ mkdir -p "$PREFIX" && $NPM install --link --prefix "$PREFIX" || exit 3
 
 # create scss test
 mkdir -p tests/css
-./build/bin/node-sass --output tests/css core/css
+cat core/css/variables.scss core/css/*.scss | ./build/bin/node-sass > tests/css/combined.css
 
 KARMA="$PREFIX/node_modules/karma/bin/karma"
 
