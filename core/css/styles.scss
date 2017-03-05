@@ -442,10 +442,6 @@ body {
 		top: -23px;
 		width: 250px;
 	}
-	.tipsy-inner {
-		font-weight: bold;
-		color: $color-main-old-bbbbbb;
-	}
 	input {
 		&[type='text'], &[type='password'], &[type='email'] {
 			border: none;
@@ -455,8 +451,6 @@ body {
 }
 
 /* strengthify wrapper */
-
-/* tipsy for the strengthify wrapper looks better with following font settings */
 
 /* General new input field look */
 
@@ -953,35 +947,6 @@ code {
 	text-overflow: ellipsis;
 }
 
-.separator {
-	display: inline;
-	border-left: 1px solid $color-main-old-d3d3d3;
-	border-right: 1px solid $color-main-background;
-	height: 10px;
-	width: 0px;
-	margin: 4px;
-}
-
-a.bookmarklet {
-	background-color: $color-main-old-dddddd;
-	border: 1px solid $color-main-old-cccccc;
-	padding: 5px;
-	padding-top: 0px;
-	padding-bottom: 2px;
-	text-decoration: none;
-	margin-top: 5px;
-}
-
-.exception {
-	color: $color-main-text;
-	textarea {
-		width: 95%;
-		height: 200px;
-		background: $color-main-old-ffffee;
-		border: 0;
-	}
-}
-
 .ui-icon-circle-triangle-e {
 	background-image: url('../img/actions/play-next.svg?v=1');
 }
@@ -1094,12 +1059,6 @@ span.ui-icon {
 
 .extra-data {
 	padding-right: 5px !important;
-}
-
-.tipsy-inner {
-	max-width: 400px !important;
-	overflow: hidden;
-	text-overflow: ellipsis;
 }
 
 /* ---- TAGS ---- */
