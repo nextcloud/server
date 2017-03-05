@@ -7,8 +7,8 @@
     "The given color is invalid" : "Die gewählte Farbe ist ungültig",
     "Saved" : "Gespeichert",
     "No file uploaded" : "Keine Datei hochgeladen",
-    "Unsupported image type" : "Nicht unterstützte Bilddatei",
-    "You are already using a custom theme" : "Du nutzt bereits ein Custom Theme",
+    "Unsupported image type" : "Nicht unterstütztes Bild-Format",
+    "You are already using a custom theme" : "Sie benutzen bereits ein eigenes Thema",
     "Theming" : "Theming",
     "Name" : "Name",
     "reset to default" : "Auf Standard zurücksetzen",
@@ -18,8 +18,8 @@
     "Color" : "Farbe",
     "Logo" : "Logo",
     "Upload new logo" : "Neues Logo hochladen",
-    "Login image" : "Login-Bild",
-    "Upload new login background" : "Neues Login-Hintergrundbild hochladen",
-    "Log in image" : "Login-Bild"
+    "Login image" : "Anmelde-Bild",
+    "Upload new login background" : "Neuen Anmelde-Hintergrund hochladen",
+    "Log in image" : "Anmelde-Bild"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
