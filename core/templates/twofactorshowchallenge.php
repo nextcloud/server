@@ -22,10 +22,9 @@ $template = $_['template'];
 	<?php endif; ?>
 	<?php print_unescaped($template); ?>
 	<p class="two-factor-link">
-		<a <?php print_unescaped($_['logout_attribute']); ?>><?php p($l->t('Cancel log in')) ?></a>
+		<a class="button" <?php print_unescaped($_['logout_attribute']); ?>><?php p($l->t('Cancel log in')) ?></a>
 		<?php if (!is_null($_['backupProvider'])): ?>
-		<br>
-		<a href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.showChallenge',
+		<a class="button" href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.showChallenge',
 												[
 													'challengeProviderId' => $_['backupProvider']->getId(),
 													'redirect_url' => $_['redirect_url'],
