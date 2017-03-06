@@ -3,9 +3,9 @@ OC.L10N.register(
     {
     "Admin" : "管理",
     "a safe home for all your data" : "给您所有的数据一个安全的家",
-    "The given name is too long" : "文件名过长",
-    "The given web address is too long" : "提供的网址过长",
-    "The given slogan is too long" : "提供的标语过长",
+    "The given name is too long" : "输入的名称过长",
+    "The given web address is too long" : "输入的地址过长",
+    "The given slogan is too long" : "输入的标语过长",
     "The given color is invalid" : "提供的颜色无效",
     "Saved" : "已保存",
     "No file uploaded" : "文件没有上传",
