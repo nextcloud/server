@@ -28,6 +28,7 @@
 		"l10n.js",
 		"apps.js",
 		"share.js",
+		"sharesocialmanager.js",
 		"shareconfigmodel.js",
 		"shareitemmodel.js",
 		"sharedialogview.js",
