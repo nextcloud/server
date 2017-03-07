@@ -148,6 +148,7 @@ select {
 	cursor: pointer;
 }
 input[type='text'],
+input[type='tel'],
 input[type='password'],
 input[type='email'] {
 	width: 249px;
