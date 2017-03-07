@@ -67,3 +67,8 @@
 		</tr>
 	</tbody>
 </table>
+
+<div class="emptycontent" style="display:none">
+	<div class="icon-search"></div>
+	<h2></h2>
+</div>
