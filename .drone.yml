@@ -565,3 +565,5 @@ services:
       when:
         matrix:
           OBJECT_STORE: s3
+
+branches: [ master, stable* ]
