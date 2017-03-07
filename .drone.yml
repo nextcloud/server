@@ -478,6 +478,54 @@ matrix:
       PHP: 5.6
     - DB: mysql
       PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
 
 services:
   cache:
