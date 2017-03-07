@@ -66,4 +66,4 @@ Feature: checksums
     And file "prueba_cksum.txt" with text "Test file for checksums" is created in local storage
     When user "user0" downloads the file "/local_storage/prueba_cksum.txt"
     When user "user0" downloads the file "/local_storage/prueba_cksum.txt"
-    Then The header checksum should match "SHA1:b14628561796cb8bd049f036bff7948d39a0180a"
+    Then The header checksum should match "SHA1:a35b7605c8f586d735435535c337adc066c2ccb6"
