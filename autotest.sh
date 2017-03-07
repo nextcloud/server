@@ -362,8 +362,8 @@ function execute_tests {
 			RESULT=$?
 	    done;
 	else
-	    echo "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
-	    "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
+	    echo "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --debug --verbose --log-junit "autotest-results-$DB.xml" "$2" "$3"
+	    "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --debug --verbose --log-junit "autotest-results-$DB.xml" "$2" "$3"
 		RESULT=$?
 	fi
 
