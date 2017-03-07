@@ -528,7 +528,7 @@ class OC {
 			//
 			// Questions about this code? Ask Lukas ;-)
 			$currentUrl = substr(explode('?',$request->getRequestUri(), 2)[0], strlen(\OC::$WEBROOT));
-			if($currentUrl === '/index.php/apps/user_saml/saml/acs') {
+			if($currentUrl === '/index.php/apps/user_saml/saml/acs' || $currentUrl === '/apps/user_saml/saml/acs') {
 				return;
 			}
 			// For the "index.php" endpoint only a lax cookie is required.
