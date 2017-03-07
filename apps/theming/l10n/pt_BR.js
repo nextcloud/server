@@ -1,7 +1,7 @@
 OC.L10N.register(
     "theming",
     {
-    "Admin" : "Admin",
+    "Admin" : "Administrador",
     "a safe home for all your data" : "um lugar seguro para todos os seus dados",
     "The given name is too long" : "O nome é demasiado longo",
     "The given web address is too long" : "O endereço da Web fornecido é muito longo",
@@ -11,7 +11,7 @@ OC.L10N.register(
     "No file uploaded" : "Nenhum arquivo enviado",
     "Unsupported image type" : "Tipo de imagem não suportado",
     "You are already using a custom theme" : "Você já está usando um tema personalizado",
-    "Theming" : "Dando formato",
+    "Theming" : "Personalizando",
     "Name" : "Nome",
     "reset to default" : "restaurar ao padrão",
     "Web address" : "Endereço da Web",
@@ -21,7 +21,7 @@ OC.L10N.register(
     "Logo" : "Logo",
     "Upload new logo" : "Enviar novo logotipo",
     "Login image" : "Imagem de login",
-    "Upload new login background" : "Enviar novo login em background",
-    "Log in image" : "Log em imagem"
+    "Upload new login background" : "Enviar novo fundo para o login",
+    "Log in image" : "Imagem do login"
 },
 "nplurals=2; plural=(n > 1);");
