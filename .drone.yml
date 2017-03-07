@@ -212,7 +212,7 @@ pipeline:
   mysql-php5.6:
     image: nextcloudci/php5.6:php5.6-7
     commands:
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql apps/files_sharing/tests/Controller/ShareesAPIControllerTest.php
     when:
       matrix:
         DB: mysql
@@ -466,6 +466,186 @@ pipeline:
         TEST: memcache-memcached
 matrix:
   include:
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
+    - DB: mysql
+      PHP: 5.6
     - DB: mysql
       PHP: 5.6
     - DB: mysql
