@@ -55,6 +55,7 @@ abstract class AbstractCalDavBackendTest extends TestCase {
 	const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
 	const UNIT_TEST_USER1 = 'principals/users/caldav-unit-test1';
 	const UNIT_TEST_GROUP = 'principals/groups/caldav-unit-test-group';
+	const UNIT_TEST_GROUP2 = 'principals/groups/caldav-unit-test-group2';
 
 	public function setUp() {
 		parent::setUp();
@@ -71,7 +72,7 @@ abstract class AbstractCalDavBackendTest extends TestCase {
 			]);
 		$this->principal->expects($this->any())->method('getGroupMembership')
 			->withAnyParameters()
-			->willReturn([self::UNIT_TEST_GROUP]);
+			->willReturn([self::UNIT_TEST_GROUP, self::UNIT_TEST_GROUP2]);
 
 		$db = \OC::$server->getDatabaseConnection();
 		$this->random = \OC::$server->getSecureRandom();

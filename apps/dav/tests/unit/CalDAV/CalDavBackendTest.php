@@ -83,6 +83,26 @@ class CalDavBackendTest extends AbstractCalDavBackendTest {
 					'readOnly' => true
 				]
 			]],
+			[true, true, true, false, [
+				[
+					'href' => 'principal:' . self::UNIT_TEST_GROUP,
+					'readOnly' => true,
+				],
+				[
+					'href' => 'principal:' . self::UNIT_TEST_GROUP2,
+					'readOnly' => false,
+				],
+			]],
+			[true, true, true, true, [
+				[
+					'href' => 'principal:' . self::UNIT_TEST_GROUP,
+					'readOnly' => false,
+				],
+				[
+					'href' => 'principal:' . self::UNIT_TEST_GROUP2,
+					'readOnly' => true,
+				],
+			]],
 			[true, false, false, false, [
 				[
 					'href' => 'principal:' . self::UNIT_TEST_USER1,
