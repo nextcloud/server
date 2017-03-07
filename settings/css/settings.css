@@ -28,7 +28,7 @@ input#openid, input#webdav { width:20em; }
 }
 
 #avatarform {
-	width: 160px;
+	width: 145px;
 	padding-right: 0;
 }
 #avatarform .avatardiv {
@@ -37,6 +37,13 @@ input#openid, input#webdav { width:20em; }
 #avatarform .warning {
 	width: 100%;
 }
+#displayavatar {
+	text-align: center;
+}
+#displayavatar p {
+	text-align: left;
+}
+
 #uploadavatarbutton,
 #selectavatar,
 #removeavatar {
