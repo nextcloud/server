@@ -100,6 +100,11 @@ class ResetPassword extends Command {
 			$question->setHidden(true);
 			$password = $helper->ask($input, $output, $question);
 
+			if ($password === null) {
+				$output->writeln("<error>Password cannot be empty!</error>");
+				return 1;
+			}
+
 			$question = new Question('Confirm the new password: ');
 			$question->setHidden(true);
 			$confirm = $helper->ask($input, $output, $question);
