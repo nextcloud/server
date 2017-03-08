@@ -212,7 +212,7 @@ pipeline:
   mysql-php5.6:
     image: nextcloudci/php5.6:php5.6-7
     commands:
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql apps/files_sharing/tests/Controller/ShareesAPIControllerTest.php
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
       matrix:
         DB: mysql
