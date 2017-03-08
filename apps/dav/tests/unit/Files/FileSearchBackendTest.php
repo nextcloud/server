@@ -122,7 +122,8 @@ class FileSearchBackendTest extends TestCase {
 				),
 				0,
 				0,
-				[]
+				[],
+				$this->user
 			))
 			->will($this->returnValue([
 				new \OC\Files\Node\Folder($this->rootFolder, $this->view, '/test/path')
@@ -150,7 +151,8 @@ class FileSearchBackendTest extends TestCase {
 				),
 				0,
 				0,
-				[]
+				[],
+				$this->user
 			))
 			->will($this->returnValue([
 				new \OC\Files\Node\Folder($this->rootFolder, $this->view, '/test/path')
@@ -178,7 +180,8 @@ class FileSearchBackendTest extends TestCase {
 				),
 				0,
 				0,
-				[]
+				[],
+				$this->user
 			))
 			->will($this->returnValue([
 				new \OC\Files\Node\Folder($this->rootFolder, $this->view, '/test/path')
@@ -206,7 +209,8 @@ class FileSearchBackendTest extends TestCase {
 				),
 				0,
 				0,
-				[]
+				[],
+				$this->user
 			))
 			->will($this->returnValue([
 				new \OC\Files\Node\Folder($this->rootFolder, $this->view, '/test/path')
@@ -234,7 +238,8 @@ class FileSearchBackendTest extends TestCase {
 				),
 				0,
 				0,
-				[]
+				[],
+				$this->user
 			))
 			->will($this->returnValue([
 				new \OC\Files\Node\Folder($this->rootFolder, $this->view, '/test/path')

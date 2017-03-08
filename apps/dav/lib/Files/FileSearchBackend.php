@@ -28,6 +28,7 @@ use OC\Files\Search\SearchQuery;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
+use OCA\DAV\Connector\Sabre\TagsPlugin;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -114,6 +115,7 @@ class FileSearchBackend implements ISearchBackend {
 			new SearchPropertyDefinition('{DAV:}getcontenttype', true, true, true),
 			new SearchPropertyDefinition('{DAV:}getlastmodifed', true, true, true, SearchPropertyDefinition::DATATYPE_DATETIME),
 			new SearchPropertyDefinition(FilesPlugin::SIZE_PROPERTYNAME, true, true, true, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
+			new SearchPropertyDefinition(TagsPlugin::FAVORITE_PROPERTYNAME, true, true, true, SearchPropertyDefinition::DATATYPE_BOOLEAN),
 
 			// select only properties
 			new SearchPropertyDefinition('{DAV:}resourcetype', false, true, false),
@@ -178,7 +180,7 @@ class FileSearchBackend implements ISearchBackend {
 	private function transformQuery(BasicSearch $query) {
 		// TODO offset, limit
 		$orders = array_map([$this, 'mapSearchOrder'], $query->orderBy);
-		return new SearchQuery($this->transformSearchOperation($query->where), 0, 0, $orders);
+		return new SearchQuery($this->transformSearchOperation($query->where), 0, 0, $orders, $this->user);
 	}
 
 	/**
@@ -186,7 +188,7 @@ class FileSearchBackend implements ISearchBackend {
 	 * @return ISearchOrder
 	 */
 	private function mapSearchOrder(Order $order) {
-		return new SearchOrder($order->order === Order::ASC ? ISearchOrder::DIRECTION_ASCENDING : ISearchOrder::DIRECTION_DESCENDING, $this->mapPropertyNameToCollumn($order->property));
+		return new SearchOrder($order->order === Order::ASC ? ISearchOrder::DIRECTION_ASCENDING : ISearchOrder::DIRECTION_DESCENDING, $this->mapPropertyNameToColumn($order->property));
 	}
 
 	/**
@@ -210,13 +212,13 @@ class FileSearchBackend implements ISearchBackend {
 				if (count($operator->arguments) !== 2) {
 					throw new \InvalidArgumentException('Invalid number of arguments for ' . $trimmedType . ' operation');
 				}
-				if (gettype($operator->arguments[0]) !== 'string') {
+				if (!is_string($operator->arguments[0])) {
 					throw new \InvalidArgumentException('Invalid argument 1 for ' . $trimmedType . ' operation, expected property');
 				}
 				if (!($operator->arguments[1] instanceof Literal)) {
 					throw new \InvalidArgumentException('Invalid argument 2 for ' . $trimmedType . ' operation, expected literal');
 				}
-				return new SearchComparison($trimmedType, $this->mapPropertyNameToCollumn($operator->arguments[0]), $this->castValue($operator->arguments[0], $operator->arguments[1]->value));
+				return new SearchComparison($trimmedType, $this->mapPropertyNameToColumn($operator->arguments[0]), $this->castValue($operator->arguments[0], $operator->arguments[1]->value));
 			case Operator::OPERATION_IS_COLLECTION:
 				return new SearchComparison('eq', 'mimetype', ICacheEntry::DIRECTORY_MIMETYPE);
 			default:
@@ -228,7 +230,7 @@ class FileSearchBackend implements ISearchBackend {
 	 * @param string $propertyName
 	 * @return string
 	 */
-	private function mapPropertyNameToCollumn($propertyName) {
+	private function mapPropertyNameToColumn($propertyName) {
 		switch ($propertyName) {
 			case '{DAV:}displayname':
 				return 'name';
@@ -238,6 +240,10 @@ class FileSearchBackend implements ISearchBackend {
 				return 'mtime';
 			case FilesPlugin::SIZE_PROPERTYNAME:
 				return 'size';
+			case TagsPlugin::FAVORITE_PROPERTYNAME:
+				return 'favorite';
+			case TagsPlugin::TAGS_PROPERTYNAME:
+				return 'tagname';
 			default:
 				throw new \InvalidArgumentException('Unsupported property for search or order: ' . $propertyName);
 		}
