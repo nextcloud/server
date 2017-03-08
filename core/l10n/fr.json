@@ -187,7 +187,7 @@
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "La mise à jour a échoué. Pour plus d'informations <a href=\"{url}\">consultez notre publication sur le forum</a> à propos de ce problème.",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "La mise à jour a échoué. Veuillez reporter le problème à la <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">communauté Nextcloud</a>.",
     "Continue to Nextcloud" : "Continuer sur Nextcloud",
-    "The update was successful. Redirecting you to Nextcloud now." : "La mise à jour a réussi. Vous allez être redirigé vers votre Nextcloud.",
+    "The update was successful. Redirecting you to Nextcloud now." : "La mise à jour est terminée. Vous allez être redirigé vers Nextcloud.",
     "Searching other places" : "Recherche en cours dans d'autres emplacements",
     "No search results in other folders for '{tag}{filter}{endtag}'" : "Aucun résultat dans d'autres dossiers n'a été trouvé pour  '{tag}{filter}{endtag}'",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} résultat dans un autre dossier","{count} résultats dans d'autres dossiers"],
