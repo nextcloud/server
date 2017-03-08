@@ -32,6 +32,7 @@
 namespace OC\App;
 
 use OCP\App\AppPathNotFoundException;
+use OC_App;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
 use OCP\IAppConfig;
@@ -212,6 +213,9 @@ class AppManager implements IAppManager {
 	 * @param string $appId
 	 */
 	public function enableApp($appId) {
+		if(OC_App::getAppPath($appId) === false) {
+			throw new \Exception("$appId can't be enabled since it is not installed.");
+		}
 		$this->installedAppsCache[$appId] = 'yes';
 		$this->appConfig->setValue($appId, 'enabled', 'yes');
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(

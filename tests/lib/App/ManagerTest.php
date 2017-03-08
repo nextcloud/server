@@ -116,15 +116,29 @@ class ManagerTest extends TestCase {
 
 	public function testEnableApp() {
 		$this->expectClearCache();
-		$this->manager->enableApp('test');
-		$this->assertEquals('yes', $this->appConfig->getValue('test', 'enabled', 'no'));
+		// making sure "files_trashbin" is disabled
+		if ($this->manager->isEnabledForUser('files_trashbin')) {
+			$this->manager->disableApp('files_trashbin');
+		}
+		$this->manager->enableApp('files_trashbin');
+		$this->assertEquals('yes', $this->appConfig->getValue('files_trashbin', 'enabled', 'no'));
 	}
 
 	public function testDisableApp() {
 		$this->expectClearCache();
-		$this->manager->disableApp('test');
-		$this->assertEquals('no', $this->appConfig->getValue('test', 'enabled', 'no'));
+		$this->manager->disableApp('files_trashbin');
+		$this->assertEquals('no', $this->appConfig->getValue('files_trashbin', 'enabled', 'no'));
 	}
+
+	/**
+	 * @expectedException \Exception
+	 */
+	public function testNotEnableIfNotInstalled() {
+		$this->manager->enableApp('some_random_name_which_i_hope_is_not_an_app');
+		$this->assertEquals('no', $this->appConfig->getValue(
+			'some_random_name_which_i_hope_is_not_an_app', 'enabled', 'no'
+		));
+  	}
 
 	public function testEnableAppForGroups() {
 		$groups = array(
