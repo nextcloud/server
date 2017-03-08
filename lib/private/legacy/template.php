@@ -223,6 +223,9 @@ class OC_Template extends \OC\Template\Base {
 			$headers = '';
 			foreach(OC_Util::$headers as $header) {
 				$headers .= '<'.\OCP\Util::sanitizeHTML($header['tag']);
+				if ( strcasecmp($header['tag'], 'script') === 0 && in_array('src', array_map('strtolower', array_keys($header['attributes']))) ) {
+					$headers .= ' defer';
+				}
 				foreach($header['attributes'] as $name=>$value) {
 					$headers .= ' '.\OCP\Util::sanitizeHTML($name).'="'.\OCP\Util::sanitizeHTML($value).'"';
 				}
