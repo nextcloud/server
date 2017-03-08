@@ -153,6 +153,7 @@ class Server {
 		if($request->isUserAgent([
 			'/WebDAVFS/',
 			'/Microsoft Office OneNote 2013/',
+			'/^Microsoft-WebDAV/',// Microsoft-WebDAV-MiniRedir/6.1.7601
 		])) {
 			$this->server->addPlugin(new FakeLockerPlugin());
 		}
