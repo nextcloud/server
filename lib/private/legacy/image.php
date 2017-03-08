@@ -562,7 +562,11 @@ class OC_Image implements \OCP\IImage {
 				break;
 			case IMAGETYPE_JPEG:
 				if (imagetypes() & IMG_JPG) {
-					$this->resource = imagecreatefromjpeg($imagePath);
+					if (getimagesize($imagePath) !== false) {
+						$this->resource = imagecreatefromjpeg($imagePath);
+					} else {
+						$this->logger->debug('OC_Image->loadFromFile, JPG image not valid: ' . $imagePath, array('app' => 'core'));
+					}
 				} else {
 					$this->logger->debug('OC_Image->loadFromFile, JPG images not supported: ' . $imagePath, array('app' => 'core'));
 				}
