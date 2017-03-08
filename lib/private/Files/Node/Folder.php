@@ -33,6 +33,7 @@ use OCP\Files\FileInfo;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\Search\ISearchOperator;
 
 class Folder extends Node implements \OCP\Files\Folder {
 	/**
@@ -190,11 +191,15 @@ class Folder extends Node implements \OCP\Files\Folder {
 	/**
 	 * search for files with the name matching $query
 	 *
-	 * @param string $query
+	 * @param string|ISearchOperator $query
 	 * @return \OC\Files\Node\Node[]
 	 */
 	public function search($query) {
-		return $this->searchCommon('search', array('%' . $query . '%'));
+		if (is_string($query)) {
+			return $this->searchCommon('search', array('%' . $query . '%'));
+		} else {
+			return $this->searchCommon('searchQuery', array($query));
+		}
 	}
 
 	/**

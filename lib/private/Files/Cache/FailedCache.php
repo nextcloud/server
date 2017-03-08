@@ -24,6 +24,7 @@ namespace OC\Files\Cache;
 
 use OCP\Constants;
 use OCP\Files\Cache\ICache;
+use OCP\Files\Search\ISearchQuery;
 
 /**
  * Storage placeholder to represent a missing precondition, storage unavailable
@@ -122,6 +123,10 @@ class FailedCache implements ICache {
 	}
 
 	public function searchByTag($tag, $userId) {
+		return [];
+	}
+
+	public function searchQuery(ISearchQuery $query) {
 		return [];
 	}
 
