@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\DAV\Comments;
+namespace OCA\Comments\Dav;
 
 use OCP\Comments\ICommentsManager;
 use OCP\ILogger;
@@ -39,7 +39,7 @@ use Sabre\DAV\Exception\NotFound;
  * Its children are instances of EntityCollection (representing a specific
  * object, for example the file by id).
  *
- * @package OCA\DAV\Comments
+ * @package OCA\Comments\Dav
  */
 class EntityTypeCollection extends RootCollection {
 

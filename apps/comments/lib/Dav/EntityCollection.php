@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\DAV\Comments;
+namespace OCA\Comments\Dav;
 
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
@@ -38,7 +38,7 @@ use Sabre\DAV\PropPatch;
  * this represents a specific holder of comments, identified by an entity type
  * (class member $name) and an entity id (class member $id).
  *
- * @package OCA\DAV\Comments
+ * @package OCA\Comments\Dav
  */
 class EntityCollection extends RootCollection implements IProperties {
 	const PROPERTY_NAME_READ_MARKER  = '{http://owncloud.org/ns}readMarker';

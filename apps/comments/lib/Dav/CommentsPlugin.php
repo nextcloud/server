@@ -22,7 +22,7 @@
  *
  */
 
-namespace OCA\DAV\Comments;
+namespace OCA\Comments\Dav;
 
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
@@ -85,6 +85,10 @@ class CommentsPlugin extends ServerPlugin {
 	function initialize(Server $server) {
 		$this->server = $server;
 		if(strpos($this->server->getRequestUri(), 'comments/') !== 0) {
+			return;
+		}
+
+		if ($this->userSession === null || $this->userSession->getUser() === null) {
 			return;
 		}
 

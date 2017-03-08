@@ -12,8 +12,8 @@
 	</dependencies>
 	<types>
 		<logging/>
+		<dav/>
 	</types>
-
 	<activity>
 		<settings>
 			<setting>OCA\Comments\Activity\Setting</setting>
@@ -27,4 +27,12 @@
 			<provider>OCA\Comments\Activity\Provider</provider>
 		</providers>
 	</activity>
+	<sabre>
+		<plugins>
+			<plugin>OCA\Comments\Dav\CommentsPlugin</plugin>
+		</plugins>
+		<collections>
+			<collection>OCA\Comments\Dav\RootCollection</collection>
+		</collections>
+	</sabre>
 </info>

@@ -24,7 +24,7 @@
 
 namespace OCA\DAV\Tests\unit\Comments;
 
-use OCA\DAV\Comments\EntityTypeCollection as EntityTypeCollectionImplementation;
+use OCA\Comments\Dav\EntityTypeCollection as EntityTypeCollectionImplementation;
 use OCP\Comments\CommentsEntityEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
@@ -36,7 +36,7 @@ class RootCollectionTest extends \Test\TestCase {
 	protected $userManager;
 	/** @var \OCP\ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
-	/** @var \OCA\DAV\Comments\RootCollection */
+	/** @var \OCA\Comments\Dav\RootCollection */
 	protected $collection;
 	/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userSession;
@@ -66,7 +66,7 @@ class RootCollectionTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->collection = new \OCA\DAV\Comments\RootCollection(
+		$this->collection = new \OCA\Comments\Dav\RootCollection(
 			$this->commentsManager,
 			$this->userManager,
 			$this->userSession,
