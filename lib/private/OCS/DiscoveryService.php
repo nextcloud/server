@@ -94,7 +94,7 @@ class DiscoveryService implements IDiscoveryService {
 	 * @param $service
 	 * @return array
 	 */
-	private function getEndpoints($decodedServices, $service) {
+	protected function getEndpoints($decodedServices, $service) {
 
 		$discoveredServices = [];
 
@@ -118,8 +118,8 @@ class DiscoveryService implements IDiscoveryService {
 	 * @param string $url
 	 * @return bool
 	 */
-	private function isSafeUrl($url) {
-		return (bool)preg_match('/^[\/\.A-Za-z0-9]+$/', $url);
+	protected function isSafeUrl($url) {
+		return (bool)preg_match('/^[\/\.\-A-Za-z0-9]+$/', $url);
 	}
 
 }
