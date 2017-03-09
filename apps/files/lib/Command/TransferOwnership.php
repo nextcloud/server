@@ -34,6 +34,7 @@ use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -66,6 +67,9 @@ class TransferOwnership extends Command {
 	private $destinationUser;
 
 	/** @var string */
+	private $inputPath;
+
+	/** @var string */
 	private $finalTarget;
 
 	public function __construct(IUserManager $userManager, IManager $shareManager, IMountManager $mountManager) {
@@ -88,6 +92,12 @@ class TransferOwnership extends Command {
 				'destination-user',
 				InputArgument::REQUIRED,
 				'user who will be the new owner of the files'
+			)
+			->addOption(
+				'path',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'selectively provide the path to transfer. For example --path="folder_name"'
 			);
 	}
 
@@ -107,6 +117,8 @@ class TransferOwnership extends Command {
 
 		$this->sourceUser = $sourceUserObject->getUID();
 		$this->destinationUser = $destinationUserObject->getUID();
+		$this->inputPath = $input->getOption('path');
+		$this->inputPath = ltrim($this->inputPath, '/');
 
 		// target user has to be ready
 		if (!\OC::$server->getEncryptionManager()->isReadyForUser($this->destinationUser)) {
@@ -120,6 +132,16 @@ class TransferOwnership extends Command {
 		// setup filesystem
 		Filesystem::initMountPoints($this->sourceUser);
 		Filesystem::initMountPoints($this->destinationUser);
+
+		if (strlen($this->inputPath) >= 1) {
+			$view = new View();
+			$unknownDir = $this->inputPath;
+			$this->inputPath = $this->sourceUser . "/files/" . $this->inputPath;
+			if (!$view->is_dir($this->inputPath)) {
+				$output->writeln("<error>Unknown path provided: $unknownDir</error>");
+				return 1;
+			}
+		}
 
 		// analyse source folder
 		$this->analyse($output);
@@ -155,7 +177,14 @@ class TransferOwnership extends Command {
 		$progress = new ProgressBar($output);
 		$progress->start();
 		$self = $this;
-		$this->walkFiles($view, "$this->sourceUser/files",
+		$walkPath = "$this->sourceUser/files";
+		if ( strlen($this->inputPath) > 0) {
+			if ($this->inputPath !== "$this->sourceUser/files") {
+				$walkPath = $this->inputPath;
+			}
+		}
+
+		$this->walkFiles($view, $walkPath,
 				function (FileInfo $fileInfo) use ($progress, $self) {
 					if ($fileInfo->getType() === FileInfo::TYPE_FOLDER) {
 						// only analyze into folders from main storage,
@@ -216,9 +245,20 @@ class TransferOwnership extends Command {
 	protected function transfer(OutputInterface $output) {
 		$view = new View();
 		$output->writeln("Transferring files to $this->finalTarget ...");
-		$view->rename("$this->sourceUser/files", $this->finalTarget);
-		// because the files folder is moved away we need to recreate it
-		$view->mkdir("$this->sourceUser/files");
+		$sourcePath = (strlen($this->inputPath) > 0) ? $this->inputPath : "$this->sourceUser/files";
+		// This change will help user to transfer the folder specified using --path option.
+		// Else only the content inside folder is transferred which is not correct.
+		if (strlen($this->inputPath) > 0) {
+			if($this->inputPath !== ltrim("$this->sourceUser/files", '/')) {
+				$view->mkdir($this->finalTarget);
+				$this->finalTarget = $this->finalTarget . '/' . basename($sourcePath);
+			}
+		}
+		$view->rename($sourcePath, $this->finalTarget);
+		if (!is_dir("$this->sourceUser/files")) {
+			// because the files folder is moved away we need to recreate it
+			$view->mkdir("$this->sourceUser/files");
+		}
 	}
 
 	/**
