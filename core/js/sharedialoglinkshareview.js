@@ -34,20 +34,23 @@
 				'{{{popoverMenu}}}' +
 			'{{/if}}' +
 			'</div>' +
-			'    {{#if publicUpload}}' +
-			'<div id="allowPublicUploadWrapper">' +
-			'    <span class="icon-loading-small hidden"></span>' +
-			'    <input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload-{{cid}}" class="checkbox publicUploadCheckbox" {{{publicUploadChecked}}} />' +
-			'<label for="sharingDialogAllowPublicUpload-{{cid}}">{{publicUploadLabel}}</label>' +
-			'</div>' +
-			'        {{#if hideFileList}}' +
-			'<div id="hideFileListWrapper">' +
-			'    <span class="icon-loading-small hidden"></span>' +
-			'    <input type="checkbox" value="1" name="hideFileList" id="sharingDialogHideFileList-{{cid}}" class="checkbox hideFileListCheckbox" {{{hideFileListChecked}}} />' +
-			'<label for="sharingDialogHideFileList-{{cid}}">{{hideFileListLabel}}</label>' +
-			'</div>' +
-			'        {{/if}}' +
-			'    {{/if}}' +
+			'{{#if publicUpload}}' +
+				'<div>' +
+					'<span class="icon-loading-small hidden"></span>' +
+					'<input type="radio" name="publicUpload" value="{{publicUploadRValue}}" id="sharingDialogAllowPublicUpload-r-{{cid}}" class="publicUploadRadio" {{{publicUploadRChecked}}} />' +
+					'<label for="sharingDialogAllowPublicUpload-rw-{{cid}}">{{publicUploadRLabel}}</label>' +
+				'</div>' +
+				'<div>' +
+					'<span class="icon-loading-small hidden"></span>' +
+					'<input type="radio" name="publicUpload" value="{{publicUploadRWValue}}" id="sharingDialogAllowPublicUpload-rw-{{cid}}" class="publicUploadRadio" {{{publicUploadRWChecked}}} />' +
+					'<label for="sharingDialogAllowPublicUpload-rw-{{cid}}">{{publicUploadRWLabel}}</label>' +
+				'</div>' +
+				'<div>' +
+					'<span class="icon-loading-small hidden"></span>' +
+					'<input type="radio" name="publicUpload" value="{{publicUploadWValue}}" id="sharingDialogAllowPublicUpload-w-{{cid}}" class="publicUploadRadio" {{{publicUploadWChecked}}} />' +
+					'<label for="sharingDialogAllowPublicUpload-w-{{cid}}">{{publicUploadWLabel}}</label>' +
+				'</div>' +
+			'{{/if}}' +
 			'     {{#if publicEditing}}' +
 			'<div id="allowPublicEditingWrapper">' +
 			'    <span class="icon-loading-small hidden"></span>' +
@@ -121,12 +124,11 @@
 			'keyup input.linkPassText': 'onPasswordKeyUp',
 			'click .linkCheckbox': 'onLinkCheckBoxChange',
 			'click .linkText': 'onLinkTextClick',
-			'change .publicUploadCheckbox': 'onAllowPublicUploadChange',
 			'change .publicEditingCheckbox': 'onAllowPublicEditingChange',
-			'change .hideFileListCheckbox': 'onHideFileListChange',
 			'click .showPasswordCheckbox': 'onShowPasswordClick',
 			'click .icon-more': 'onToggleMenu',
-			'click .pop-up': 'onPopUpClick'
+			'click .pop-up': 'onPopUpClick',
+			'change .publicUploadRadio': 'onPublicUploadChange'
 		},
 
 		initialize: function(options) {
@@ -165,9 +167,8 @@
 				'onPasswordKeyUp',
 				'onLinkTextClick',
 				'onShowPasswordClick',
-				'onHideFileListChange',
-				'onAllowPublicUploadChange',
-				'onAllowPublicEditingChange'
+				'onAllowPublicEditingChange',
+				'onPublicUploadChange'
 			);
 
 			var clipboard = new Clipboard('.clipboardButton');
@@ -304,20 +305,6 @@
 			});
 		},
 
-		onAllowPublicUploadChange: function() {
-			var $checkbox = this.$('.publicUploadCheckbox');
-			$checkbox.siblings('.icon-loading-small').removeClass('hidden').addClass('inlineblock');
-
-			var permissions = OC.PERMISSION_READ;
-			if($checkbox.is(':checked')) {
-				permissions = OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ | OC.PERMISSION_DELETE;
-			}
-
-			this.model.saveLinkShare({
-				permissions: permissions
-			});
-		},
-
 		onAllowPublicEditingChange: function() {
 			var $checkbox = this.$('.publicEditingCheckbox');
 			$checkbox.siblings('.icon-loading-small').removeClass('hidden').addClass('inlineblock');
@@ -332,15 +319,9 @@
 			});
 		},
 
-		onHideFileListChange: function () {
-			var $checkbox = this.$('.hideFileListCheckbox');
-			$checkbox.siblings('.icon-loading-small').removeClass('hidden').addClass('inlineblock');
 
-			var permissions = OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ | OC.PERMISSION_DELETE;
-			if ($checkbox.is(':checked')) {
-				permissions = OC.PERMISSION_CREATE;
-			}
-
+	onPublicUploadChange: function(e) {
+			var permissions = e.currentTarget.value;
 			this.model.saveLinkShare({
 				permissions: permissions
 			});
@@ -368,22 +349,25 @@
 				&& this.model.createPermissionPossible()
 				&& this.configModel.isPublicUploadEnabled();
 
-			var publicUploadChecked = '';
-			if(this.model.isPublicUploadAllowed()) {
-				publicUploadChecked = 'checked="checked"';
+			var publicUploadRWChecked = '';
+			var publicUploadRChecked = '';
+			var publicUploadWChecked = '';
+
+			switch (this.model.linkSharePermissions()) {
+				case OC.PERMISSION_READ:
+					publicUploadRChecked = 'checked';
+					break;
+				case OC.PERMISSION_CREATE:
+					publicUploadWChecked = 'checked';
+					break;
+				case OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ | OC.PERMISSION_DELETE:
+					publicUploadRWChecked = 'checked';
+					break;
 			}
 
 			var publicEditingChecked = '';
 			if(this.model.isPublicEditingAllowed()) {
 				publicEditingChecked = 'checked="checked"';
-			}
-
-
-			var hideFileList = publicUploadChecked;
-
-			var hideFileListChecked = '';
-			if(this.model.isHideFileListSet()) {
-				hideFileListChecked = 'checked="checked"';
 			}
 
 			var isLinkShare = this.model.get('linkShare').isLinkShare;
@@ -420,7 +404,6 @@
 			this.$el.html(linkShareTemplate({
 				cid: this.cid,
 				shareAllowed: true,
-				hideFileList: hideFileList,
 				isLinkShare: isLinkShare,
 				shareLinkURL: this.model.get('linkShare').link,
 				linkShareLabel: t('core', 'Share link'),
@@ -431,17 +414,22 @@
 				isPasswordSet: isPasswordSet,
 				showPasswordCheckBox: showPasswordCheckBox,
 				publicUpload: publicUpload && isLinkShare,
-				publicUploadChecked: publicUploadChecked,
-				hideFileListChecked: hideFileListChecked,
-				publicUploadLabel: t('core', 'Allow upload and editing'),
 				publicEditing: publicEditable,
 				publicEditingChecked: publicEditingChecked,
 				publicEditingLabel: t('core', 'Allow editing'),
-				hideFileListLabel: 'Secure drop (' + t('core', 'upload only') + ')',
 				mailPrivatePlaceholder: t('core', 'Email link to person'),
 				mailButtonText: t('core', 'Send'),
 				singleAction: OC.Share.Social.Collection.size() == 0,
-				popoverMenu: popover
+				popoverMenu: popover,
+				publicUploadRWLabel: t('core', 'Allow upload and editing'),
+				publicUploadRLabel: t('core', 'Read only'),
+				publicUploadWLabel: t('core', 'Secure drop (upload only)'),
+				publicUploadRWValue: OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ | OC.PERMISSION_DELETE,
+				publicUploadRValue: OC.PERMISSION_READ,
+				publicUploadWValue: OC.PERMISSION_CREATE,
+				publicUploadRWChecked: publicUploadRWChecked,
+				publicUploadRChecked: publicUploadRChecked,
+				publicUploadWChecked: publicUploadWChecked
 			}));
 
 			if (OC.Share.Social.Collection.size() == 0) {

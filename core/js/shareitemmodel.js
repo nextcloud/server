@@ -450,6 +450,13 @@
 		},
 
 		/**
+		 * @return {int}
+		 */
+		getPermissions: function() {
+			return this.get('permissions');
+		},
+
+		/**
 		 * @returns {boolean}
 		 */
 		sharePermissionPossible: function() {
@@ -525,6 +532,17 @@
 			return    this.hasCreatePermission(shareIndex)
 				   || this.hasUpdatePermission(shareIndex)
 				   || this.hasDeletePermission(shareIndex);
+		},
+
+		/**
+		 * @returns {int}
+		 */
+		linkSharePermissions: function() {
+			if (!this.hasLinkShare()) {
+				return -1;
+			} else {
+				return this.get('linkShare').permissions;
+			}
 		},
 
 		_getUrl: function(base, params) {
