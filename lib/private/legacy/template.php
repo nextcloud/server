@@ -117,8 +117,7 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addStyle("fonts",null,true);
 			OC_Util::addStyle("icons",null,true);
 			OC_Util::addStyle("header",null,true);
-			OC_Util::addStyle("inputs");
-			OC_Util::addStyle("styles",null,true);
+			OC_Util::addStyle('server', null, true);
 
 			// avatars
 			\OC_Util::addScript('jquery.avatar', null, true);
