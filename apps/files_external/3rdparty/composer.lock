@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0bbca3fe2d180fbc5681985bdf6b22e7",
+    "content-hash": "687c46336601ae737f169ba14a534bdb",
     "packages": [
         {
             "name": "icewind/smb",
@@ -94,12 +94,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vgrem/phpSPO.git",
-                "reference": "68413b42ff18c96a3a4e097b47c905eeab30305b"
+                "reference": "59a2956f94f694592e3d3c6252f0e753f73a1686"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vgrem/phpSPO/zipball/68413b42ff18c96a3a4e097b47c905eeab30305b",
-                "reference": "68413b42ff18c96a3a4e097b47c905eeab30305b",
+                "url": "https://api.github.com/repos/vgrem/phpSPO/zipball/59a2956f94f694592e3d3c6252f0e753f73a1686",
+                "reference": "59a2956f94f694592e3d3c6252f0e753f73a1686",
                 "shasum": ""
             },
             "require": {
@@ -130,7 +130,7 @@
                 "rest",
                 "sharepoint"
             ],
-            "time": "2016-11-22 15:34:47"
+            "time": "2017-02-22 10:52:00"
         }
     ],
     "packages-dev": [],

@@ -9,7 +9,7 @@
 	},
 	"require": {
 		"icewind/smb": "2.0.0",
-		"icewind/streams": "0.5.2"
+		"icewind/streams": "0.5.2",
 		"vgrem/php-spo": "dev-master"
 	}
 }
