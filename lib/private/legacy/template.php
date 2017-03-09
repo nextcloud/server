@@ -106,17 +106,8 @@ class OC_Template extends \OC\Template\Base {
 				}
 			}
 
-			OC_Util::addStyle("tooltip",null,true);
 			OC_Util::addStyle('jquery-ui-fixes',null,true);
 			OC_Util::addVendorStyle('jquery-ui/themes/base/jquery-ui',null,true);
-			OC_Util::addStyle("mobile",null,true);
-			OC_Util::addStyle("multiselect",null,true);
-			OC_Util::addStyle("fixes",null,true);
-			OC_Util::addStyle("global",null,true);
-			OC_Util::addStyle("apps",null,true);
-			OC_Util::addStyle("fonts",null,true);
-			OC_Util::addStyle("icons",null,true);
-			OC_Util::addStyle("header",null,true);
 			OC_Util::addStyle('server', null, true);
 
 			// avatars
