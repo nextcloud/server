@@ -74,6 +74,10 @@ class Action {
 			}
 			$replaceArray[] = $params[$element];
 		}
+		
+		//log the User-Agent
+		$text = $text.' with User-Agent: "%s"';
+		$replaceArray[] = $_SERVER['HTTP_USER_AGENT'];	
 
 		$this->logger->info(
 			vsprintf(
