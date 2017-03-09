@@ -125,6 +125,7 @@ OC.L10N.register(
     "undo" : "cofnij",
     "never" : "nigdy",
     "deleted {userName}" : "usunięto {userName}",
+    "No user found for <strong>{pattern}</strong>" : "Nie znaleziono użytkownika dla <strong>{pattern}</strong>",
     "Unable to add user to group {group}" : "Nie mogę dodać użytkownika do grupy {group}",
     "Unable to remove user from group {group}" : "Nie mogę usunąć użytkownika z grupy {group}",
     "Add group" : "Dodaj grupę",
