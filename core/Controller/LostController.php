@@ -10,6 +10,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Ujjwal Bhardwaj <ujjwalb1996@gmail.com>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @license AGPL-3.0
@@ -267,6 +268,17 @@ class LostController extends Controller {
 			);
 		}
 
+		$token = $this->config->getUserValue($user, 'core', 'lostpassword');
+		if ($token !== '') {
+			$token = $this->crypto->decrypt($token, $email.$this->config->getSystemValue('secret'));
+			$splittedToken = explode(':', $token);
+			if ((count($splittedToken)) === 2 && $splittedToken[0] > ($this->timeFactory->getTime() - 60 * 5)) {
+				throw new \Exception(
+					$this->l10n->t('The email is not sent because a password reset email was sent recently.')
+				);
+			}
+		}
+
 		// Generate the token. It is stored encrypted in the database with the
 		// secret being the users' email address appended with the system secret.
 		// This makes the token automatically invalidate once the user changes
@@ -278,8 +290,8 @@ class LostController extends Controller {
 			ISecureRandom::CHAR_UPPER
 		);
 		$tokenValue = $this->timeFactory->getTime() .':'. $token;
-		$encryptedValue = $this->crypto->encrypt($tokenValue, $email . $this->config->getSystemValue('secret'));
-		$this->config->setUserValue($user->getUID(), 'core', 'lostpassword', $encryptedValue);
+		$encryptedValue = $this->crypto->encrypt($tokenValue, $email.$this->config->getSystemValue('secret'));
+		$this->config->setUserValue($user, 'core', 'lostpassword', $encryptedValue);
 
 		$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', array('userId' => $user->getUID(), 'token' => $token));
 
