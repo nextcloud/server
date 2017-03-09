@@ -70,6 +70,23 @@ class Provider extends \OCP\AppFramework\Controller {
 			];
 		}
 
+		if ($this->appManager->isEnabledForUser('federation')) {
+			if (isset($services['FEDERATED_SHARING'])) {
+				$services['FEDERATED_SHARING']['endpoints']['shared-secret'] = '/ocs/v2.php/cloud/shared-secret';
+				$services['FEDERATED_SHARING']['endpoints']['system-address-book'] = '/remote.php/dav/addressbooks/system/system/system';
+				$services['FEDERATED_SHARING']['endpoints']['carddav-user'] = 'system';
+			} else {
+				$services['FEDERATED_SHARING'] = [
+					'version' => 1,
+					'endpoints' => [
+						'shared-secret' => '/ocs/v2.php/cloud/shared-secret',
+						'system-address-book' => '/remote.php/dav/addressbooks/system/system/system',
+						'carddav-user' => 'system'
+					],
+				];
+			}
+		}
+
 		if($this->appManager->isEnabledForUser('activity')) {
 			$services['ACTIVITY'] = [
 				'version' => 1,
