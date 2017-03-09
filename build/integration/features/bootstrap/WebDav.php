@@ -231,6 +231,19 @@ trait WebDav {
 	}
 
 	/**
+	 * @When user :user downloads the file :fileName
+	 * @param string $user
+	 * @param string $fileName
+	 */
+	public function userDownloadsTheFile($user, $fileName) {
+		try {
+			$this->response = $this->makeDavRequest($user, 'GET', $fileName, []);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
 	 * @Then The following headers should be set
 	 * @param \Behat\Gherkin\Node\TableNode $table
 	 * @throws \Exception

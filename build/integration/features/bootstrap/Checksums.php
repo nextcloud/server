@@ -29,26 +29,13 @@ trait Checksums {
 	 * @param string $checksum
 	 */
 	public function userUploadsFileToWithChecksum($user, $source, $destination, $checksum) {
-		$client = new Client();
 		$file = \GuzzleHttp\Stream\Stream::factory(fopen($source, 'r'));
-		try {
-			$this->response = $client->put(
-				substr($this->baseUrl, 0, -4) . $this->davPath . $destination,
-				[
-					'auth' => [
-						$user,
-						$this->getPasswordForUser($user)
-					],
-					'body' => $file,
-					'headers' => [
-						'OC-Checksum' => $checksum
-					]
-				]
-			);
-		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			// 4xx and 5xx responses cause an exception
-			$this->response = $e->getResponse();
-		}
+		$this->response = $this->makeDavRequest($user,
+							  'PUT',
+							  $destination,
+							  ['OC-Checksum' => $checksum],
+							  $file,
+							  "files");
 	}
 
 	/**
@@ -71,7 +58,7 @@ trait Checksums {
 		$client = new Client();
 		$request = $client->createRequest(
 			'PROPFIND',
-			substr($this->baseUrl, 0, -4) . $this->davPath . $path,
+			substr($this->baseUrl, 0, -4) . $this->getDavFilesPath($user) . $path,
 			[
 				'body' => '<?xml version="1.0"?>
 <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
@@ -107,24 +94,6 @@ trait Checksums {
 		if ($checksums['value'][0]['value'] !== $checksum) {
 			throw new \Exception("Expected $checksum, got ".$checksums['value'][0]['value']);
 		}
-	}
-
-	/**
-	 * @When user :user downloads the file :path
-	 * @param string $user
-	 * @param string $path
-	 */
-	public function userDownloadsTheFile($user, $path) {
-		$client = new Client();
-		$this->response = $client->get(
-			substr($this->baseUrl, 0, -4) . $this->davPath . $path,
-			[
-				'auth' => [
-					$user,
-					$this->getPasswordForUser($user),
-				]
-			]
-		);
 	}
 
 	/**
@@ -201,24 +170,16 @@ trait Checksums {
 	 * @param string $destination
 	 * @param string $checksum
 	 */
-	public function userUploadsChunkFileOfWithToWithChecksum($user, $num, $total, $data, $destination, $checksum)
-	{
-		$client = new Client();
+	public function userUploadsChunkFileOfWithToWithChecksum($user, $num, $total, $data, $destination, $checksum) {
+		//$client = new Client();
 		$num -= 1;
-		$this->response = $client->put(
-			substr($this->baseUrl, 0, -4) . $this->davPath . $destination . '-chunking-42-'.$total.'-'.$num,
-			[
-				'auth' => [
-					$user,
-					$this->getPasswordForUser($user)
-				],
-				'body' => $data,
-				'headers' => [
-					'OC-Checksum' => $checksum,
-					'OC-Chunked' => '1',
-				]
-			]
-		);
-
+		$data = \GuzzleHttp\Stream\Stream::factory($data);
+		$file = $destination . '-chunking-42-' . $total . '-' . $num;
+		$this->response = $this->makeDavRequest($user,
+							  'PUT',
+							  $file,
+							  ['OC-Checksum' => $checksum, 'OC-Chunked' => '1'],
+							  $data,
+							  "files");
 	}
 }
