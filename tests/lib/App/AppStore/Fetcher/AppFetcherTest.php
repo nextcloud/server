@@ -67,6 +67,27 @@ EOD;
 	}
 
 	public function testGetWithFilter() {
+		$this->config
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->willReturn(true);
+		$this->config
+			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->willReturn(true);
+		$this->config
+			->expects($this->at(2))
+			->method('getSystemValue')
+			->with('version')
+			->willReturn('11.0.0.2');
+		$this->config
+			->expects($this->at(3))
+			->method('getSystemValue')
+			->with('version')
+			->willReturn('11.0.0.2');
+
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);
 		$folder
@@ -99,15 +120,13 @@ EOD;
 			->expects($this->once())
 			->method('getBody')
 			->willReturn(self::$responseJson);
+		$response->method('getHeader')
+			->with($this->equalTo('ETag'))
+			->willReturn('"myETag"');
 		$this->timeFactory
 			->expects($this->once())
 			->method('getTime')
 			->willReturn(1234);
-		$this->config
-			->expects($this->once())
-			->method('getSystemValue')
-			->with('version')
-			->willReturn('11.0.0.2');
 
 		$expected = array (
 			'data' =>
@@ -1882,6 +1901,8 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 						),
 				),
 			'timestamp' => 1234,
+			'ncversion' => '11.0.0.2',
+			'ETag' => '"myETag"',
 		);
 
 		$dataToPut = $expected;
@@ -1913,5 +1934,18 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			->willReturn(json_encode($expected));
 
 		$this->assertEquals($expected['data'], $this->fetcher->get());
+	}
+
+	public function testAppstoreDisabled() {
+		$this->config
+			->expects($this->once())
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->willReturn(false);
+		$this->appData
+			->expects($this->never())
+			->method('getFolder');
+
+		$this->assertEquals([], $this->fetcher->get());
 	}
 }

@@ -32,7 +32,22 @@ class CategoryFetcherTest extends FetcherBase  {
 		$this->fetcher = new CategoryFetcher(
 			$this->appData,
 			$this->clientService,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->config
 		);
+	}
+
+	public function testAppstoreDisabled() {
+		$this->config
+			->expects($this->once())
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->willReturn(false);
+		$this->appData
+			->expects($this->never())
+			->method('getFolder');
+
+		$this->assertEquals([], $this->fetcher->get());
+
 	}
 }

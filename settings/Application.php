@@ -106,7 +106,8 @@ class Application extends App {
 			return new CategoryFetcher(
 				$server->getAppDataDir('appstore'),
 				$server->getHTTPClientService(),
-				$server->query(TimeFactory::class)
+				$server->query(TimeFactory::class),
+				$server->getConfig()
 			);
 		});
 	}
