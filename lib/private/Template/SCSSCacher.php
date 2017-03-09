@@ -103,10 +103,17 @@ class SCSSCacher {
 	private function isCached($fileNameCSS, $fileNameSCSS, ISimpleFolder $folder, $path) {
 		try{
 			$cachedFile = $folder->getFile($fileNameCSS);
-			if( $cachedFile->getMTime() > filemtime($path.'/'.$fileNameSCSS)
-				&& $cachedFile->getSize() > 0 ) {
-				return true;
+			if ($cachedFile->getSize() > 0) {
+				$depFile = $folder->getFile($fileNameCSS . '.deps');
+				$deps = json_decode($depFile->getContent(), true);
+
+				foreach ($deps as $file=>$mtime) {
+					if (!file_exists($file) || filemtime($file) > $mtime) {
+						return false;
+					}
+				}
 			}
+			return true;
 		} catch(NotFoundException $e) {
 			return false;
 		}
@@ -140,6 +147,13 @@ class SCSSCacher {
 			$cachedfile = $folder->newFile($fileNameCSS);
 		}
 
+		$depFileName = $fileNameCSS . '.deps';
+		try {
+			$depFile = $folder->getFile($depFileName);
+		} catch (NotFoundException $e) {
+			$depFile = $folder->newFile($depFileName);
+		}
+
 		// Compile
 		try {
 			$compiledScss = $scss->compile('@import "'.$fileNameSCSS.'";');
@@ -150,6 +164,7 @@ class SCSSCacher {
 
 		try {
 			$cachedfile->putContent($this->rebaseUrls($compiledScss, $webDir));
+			$depFile->putContent(json_encode($scss->getParsedFiles()));
 			$this->logger->debug($webDir.'/'.$fileNameSCSS.' compiled and successfully cached', ['app' => 'core']);
 			return true;
 		} catch(NotFoundException $e) {
