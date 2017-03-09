@@ -138,6 +138,7 @@ class FakeLockerPlugin extends ServerPlugin {
 
 		$response->setStatus(200);
 		$response->setBody($body);
+		$response->setStatus(200);
 
 		return false;
 	}
