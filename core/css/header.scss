@@ -117,12 +117,7 @@
 	/* show caret indicator next to logo to make clear it is tappable */
 	.icon-caret {
 		display: inline-block;
-		width: 12px;
-		height: 12px;
-		margin: 0;
-		margin-top: -21px;
-		padding: 0;
-		vertical-align: middle;
+		vertical-align: super;
 	}
 
 	#header-left,
@@ -134,6 +129,10 @@
 	#header-left {
 		flex: 0 0;
 		flex-grow: 1;
+
+		.icon-caret {
+			margin-bottom: 6px;
+		}
 	}
 
 	#header-right {
@@ -152,6 +151,10 @@
 	.icon-caret {
 		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=75)';
 		opacity: .75;
+		min-width: 10px;
+		min-height: 10px;
+		margin-left: 3px;
+		margin-right: 3px;
 	}
 	&:hover {
 		.header-appname, .icon-caret {
@@ -346,9 +349,6 @@
 			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
 			opacity: 1;
 		}
-	}
-	.icon-caret {
-		margin-top: 0;
 	}
 
 	/* Profile picture in header */

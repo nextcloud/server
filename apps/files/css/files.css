@@ -789,7 +789,6 @@ html.ie8 #controls .button.new {
 #controls .actions .button .icon {
 	display: inline-block;
 	vertical-align: middle;
-	background-size: 16px 16px;
 }
 
 #filestable .filename .action .icon.hidden,

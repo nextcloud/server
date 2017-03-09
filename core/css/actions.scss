@@ -1,0 +1,606 @@
+%svg-common {
+	background: url("images/actions-c8f299d2.svg") no-repeat;
+}
+
+.icon-add {
+	@extend %svg-common;
+	background-position: (-1777px - (216px - 16px)/2) (-216px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-audio {
+	@extend %svg-common;
+	background-position: (-216px - (216px - 16px)/2) (-1334px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-audio-off {
+	@extend %svg-common;
+	background-position: (-648px - (216px - 16px)/2) (-1118px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-audio-off-white {
+	@extend %svg-common;
+	background-position: (-1512px - (216px - 16px)/2) (-1550px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-audio-white {
+	@extend %svg-common;
+	background-position: (-1777px - (216px - 16px)/2) (0px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-caret {
+	@extend %svg-common;
+	background-position: (-1993px - (210px - 10px)/2) (-864px - (210px - 10px)/2);
+	width: 10px;
+	height: 10px;
+}
+
+.icon-caret-dark {
+	@extend %svg-common;
+	background-position: (-1728px - (216px - 16px)/2) (-1766px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-checkbox-mark {
+	@extend %svg-common;
+	background-position: (-1993px - (216px - 16px)/2) (0px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-checkbox-mark-white {
+	@extend %svg-common;
+	background-position: (-1993px - (216px - 16px)/2) (-216px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-checkbox-mixed {
+	@extend %svg-common;
+	background-position: (-1993px - (216px - 16px)/2) (-432px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-checkbox-mixed-white {
+	@extend %svg-common;
+	background-position: (-696px - (216px - 16px)/2) (-217px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-checkmark {
+	@extend %svg-common;
+	background-position: (-696px - (216px - 16px)/2) (-433px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-checkmark-color {
+	@extend %svg-common;
+	background-position: (0px - (216px - 16px)/2) (-686px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-checkmark-white {
+	@extend %svg-common;
+	background-position: (-216px - (216px - 16px)/2) (-686px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-clippy {
+	@extend %svg-common;
+	background-position: (-432px - (216px - 16px)/2) (-686px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-close {
+	@extend %svg-common;
+	background-position: (-648px - (216px - 16px)/2) (-686px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-close-white {
+	@extend %svg-common;
+	background-position: (-913px - (216px - 16px)/2) (0px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-comment {
+	@extend %svg-common;
+	background-position: (-913px - (216px - 16px)/2) (-216px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-confirm {
+	@extend %svg-common;
+	background-position: (-913px - (216px - 16px)/2) (-432px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-confirm-white {
+	@extend %svg-common;
+	background-position: (-913px - (216px - 16px)/2) (-648px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-delete {
+	@extend %svg-common;
+	background-position: (0px - (216px - 16px)/2) (-902px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-delete-hover {
+	@extend %svg-common;
+	background-position: (-216px - (216px - 16px)/2) (-902px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-delete-white {
+	@extend %svg-common;
+	background-position: (-432px - (216px - 16px)/2) (-902px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-details {
+	@extend %svg-common;
+	background-position: (-648px - (216px - 16px)/2) (-902px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-download {
+	@extend %svg-common;
+	background-position: (-864px - (216px - 16px)/2) (-902px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-download-white {
+	@extend %svg-common;
+	background-position: (-1129px - (216px - 16px)/2) (0px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-edit {
+	@extend %svg-common;
+	background-position: (-1129px - (216px - 16px)/2) (-216px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-error {
+	@extend %svg-common;
+	background-position: (-1129px - (216px - 16px)/2) (-432px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-error-color {
+	@extend %svg-common;
+	background-position: (-1129px - (216px - 16px)/2) (-648px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-error-white {
+	@extend %svg-common;
+	background-position: (-1129px - (216px - 16px)/2) (-864px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-external {
+	@extend %svg-common;
+	background-position: (0px - (216px - 16px)/2) (-1118px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-fullscreen {
+	@extend %svg-common;
+	background-position: (-216px - (216px - 16px)/2) (-1118px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-fullscreen-white {
+	@extend %svg-common;
+	background-position: (-432px - (216px - 16px)/2) (-1118px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-history {
+	@extend %svg-common;
+	background-position: (-696px - (217px - 17px)/2) (0px - (217px - 17px)/2);
+	width: 17px;
+	height: 17px;
+}
+
+.icon-info {
+	@extend %svg-common;
+	background-position: (-864px - (216px - 16px)/2) (-1118px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-info-white {
+	@extend %svg-common;
+	background-position: (-1080px - (216px - 16px)/2) (-1118px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-logout {
+	@extend %svg-common;
+	background-position: (-1345px - (216px - 16px)/2) (0px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-mail {
+	@extend %svg-common;
+	background-position: (-1345px - (216px - 16px)/2) (-216px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-menu {
+	@extend %svg-common;
+	background-position: (-1345px - (216px - 16px)/2) (-432px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-more {
+	@extend %svg-common;
+	background-position: (-1345px - (216px - 16px)/2) (-648px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-more-white {
+	@extend %svg-common;
+	background-position: (-1345px - (216px - 16px)/2) (-864px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-password {
+	@extend %svg-common;
+	background-position: (-1345px - (216px - 16px)/2) (-1080px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-pause {
+	@extend %svg-common;
+	background-position: (0px - (216px - 16px)/2) (-1334px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-pause-big {
+	@extend %svg-common;
+	background-position: (-1993px - (216px - 16px)/2) (-648px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-play {
+	@extend %svg-common;
+	background-position: (-432px - (216px - 16px)/2) (-1334px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-play-add {
+	@extend %svg-common;
+	background-position: (-648px - (216px - 16px)/2) (-1334px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-play-big {
+	@extend %svg-common;
+	background-position: (-864px - (216px - 16px)/2) (-1334px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-play-next {
+	@extend %svg-common;
+	background-position: (-1080px - (216px - 16px)/2) (-1334px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-play-previous {
+	@extend %svg-common;
+	background-position: (-1296px - (216px - 16px)/2) (-1334px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-public {
+	@extend %svg-common;
+	background-position: (-1561px - (216px - 16px)/2) (0px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-rename {
+	@extend %svg-common;
+	background-position: (-1561px - (216px - 16px)/2) (-216px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-screen {
+	@extend %svg-common;
+	background-position: (-1561px - (216px - 16px)/2) (-432px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-screen-off {
+	@extend %svg-common;
+	background-position: (-1561px - (216px - 16px)/2) (-648px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-screen-off-white {
+	@extend %svg-common;
+	background-position: (-1561px - (216px - 16px)/2) (-864px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-screen-white {
+	@extend %svg-common;
+	background-position: (-1561px - (216px - 16px)/2) (-1080px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-search {
+	@extend %svg-common;
+	background-position: (-1561px - (216px - 16px)/2) (-1296px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-search-white {
+	@extend %svg-common;
+	background-position: (0px - (216px - 16px)/2) (-1550px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-settings {
+	@extend %svg-common;
+	background-position: (-216px - (216px - 16px)/2) (-1550px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-settings-dark {
+	@extend %svg-common;
+	background-position: (-432px - (216px - 16px)/2) (-1550px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-share {
+	@extend %svg-common;
+	background-position: (-648px - (216px - 16px)/2) (-1550px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-shared {
+	@extend %svg-common;
+	background-position: (-864px - (216px - 16px)/2) (-1550px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-sound {
+	@extend %svg-common;
+	background-position: (-1080px - (216px - 16px)/2) (-1550px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-sound-off {
+	@extend %svg-common;
+	background-position: (-1296px - (216px - 16px)/2) (-1550px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-star {
+	@extend %svg-common;
+	background-position: (0px - (222px - 22px)/2) (-464px - (222px - 22px)/2);
+	width: 22px;
+	height: 22px;
+}
+
+.icon-star-dark {
+	@extend %svg-common;
+	background-position: (-222px - (222px - 22px)/2) (-464px - (222px - 22px)/2);
+	width: 22px;
+	height: 22px;
+}
+
+.icon-starred {
+	@extend %svg-common;
+	background-position: (-444px - (222px - 22px)/2) (-464px - (222px - 22px)/2);
+	width: 22px;
+	height: 22px;
+}
+
+.icon-tag {
+	@extend %svg-common;
+	background-position: (-1777px - (216px - 16px)/2) (-432px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-toggle {
+	@extend %svg-common;
+	background-position: (-1777px - (216px - 16px)/2) (-648px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-toggle-filelist {
+	@extend %svg-common;
+	background-position: (-1777px - (216px - 16px)/2) (-864px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-toggle-pictures {
+	@extend %svg-common;
+	background-position: (-1777px - (216px - 16px)/2) (-1080px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-triangle-e {
+	@extend %svg-common;
+	background-position: (-1777px - (216px - 16px)/2) (-1296px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-triangle-n {
+	@extend %svg-common;
+	background-position: (-1777px - (216px - 16px)/2) (-1512px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-triangle-s {
+	@extend %svg-common;
+	background-position: (0px - (216px - 16px)/2) (-1766px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-upload {
+	@extend %svg-common;
+	background-position: (-216px - (216px - 16px)/2) (-1766px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-upload-white {
+	@extend %svg-common;
+	background-position: (-432px - (216px - 16px)/2) (-1766px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-user {
+	@extend %svg-common;
+	background-position: (-648px - (216px - 16px)/2) (-1766px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-video {
+	@extend %svg-common;
+	background-position: (-864px - (216px - 16px)/2) (-1766px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-video-off {
+	@extend %svg-common;
+	background-position: (-1080px - (216px - 16px)/2) (-1766px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-video-off-white {
+	@extend %svg-common;
+	background-position: (-1296px - (216px - 16px)/2) (-1766px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-video-white {
+	@extend %svg-common;
+	background-position: (-1512px - (216px - 16px)/2) (-1766px - (216px - 16px)/2);
+	width: 16px;
+	height: 16px;
+}
+
+.icon-view-close {
+	@extend %svg-common;
+	background-position: (0px - (232px - 32px)/2) (-232px - (232px - 32px)/2);
+	width: 32px;
+	height: 32px;
+}
+
+.icon-view-download {
+	@extend %svg-common;
+	background-position: (-232px - (232px - 32px)/2) (-232px - (232px - 32px)/2);
+	width: 32px;
+	height: 32px;
+}
+
+.icon-view-next {
+	@extend %svg-common;
+	background-position: (-464px - (232px - 32px)/2) (0px - (232px - 32px)/2);
+	width: 32px;
+	height: 32px;
+}
+
+.icon-view-pause {
+	@extend %svg-common;
+	background-position: (-464px - (232px - 32px)/2) (-232px - (232px - 32px)/2);
+	width: 32px;
+	height: 32px;
+}
+
+.icon-view-play {
+	@extend %svg-common;
+	background-position: (-232px - (232px - 32px)/2) (0px - (232px - 32px)/2);
+	width: 32px;
+	height: 32px;
+}
+
+.icon-view-previous {
+	@extend %svg-common;
+	background-position: (0px - (232px - 32px)/2) (0px - (232px - 32px)/2);
+	width: 32px;
+	height: 32px;
+}
+

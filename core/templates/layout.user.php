@@ -56,7 +56,7 @@
 					<h1 class="header-appname">
 						<?php p(!empty($_['application'])?$_['application']: $l->t('Apps')); ?>
 					</h1>
-					<div class="icon-caret"></div>
+					<span class="icon-caret"></span>
 				</a>
 			</div>
 
@@ -82,7 +82,7 @@
 							<?php endif; ?>
 						</div>
 						<span id="expandDisplayName"><?php  p(trim($_['user_displayname']) != '' ? $_['user_displayname'] : $_['user_uid']) ?></span>
-						<div class="icon-caret"></div>
+						<span class="icon-caret"></span>
 					</div>
 					<div id="expanddiv">
 					<ul>

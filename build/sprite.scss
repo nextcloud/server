@@ -1,0 +1,13 @@
+%svg-common {
+	background: url("{{{sprite}}}") no-repeat;
+}
+
+{{#shapes}}
+{{#selector.shape}}{{expression}}{{^last}},{{/last}}{{/selector.shape}} {
+	@extend %svg-common;
+	background-position: ({{position.absolute.x}}px - ({{width.outer}}px - {{width.inner}}px)/2) ({{position.absolute.y}}px - ({{height.outer}}px - {{height.inner}}px)/2);
+	width: {{width.inner}}px;
+	height: {{height.inner}}px;
+}
+
+{{/shapes}}
