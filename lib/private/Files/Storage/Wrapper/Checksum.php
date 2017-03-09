@@ -55,6 +55,11 @@ class Checksum extends Wrapper {
 	 */
 	public function fopen($path, $mode) {
 		$stream = $this->getWrapperStorage()->fopen($path, $mode);
+		if (!is_resource($stream)) {
+			// don't wrap on error
+			return $stream;
+		}
+
 		$requirement = $this->getChecksumRequirement($path, $mode);
 
 		if ($requirement === self::PATH_NEW_OR_UPDATED) {
