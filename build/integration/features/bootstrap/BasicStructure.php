@@ -35,6 +35,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 trait BasicStructure {
 
 	use Auth;
+	use Checksums;
 	use Trashbin;
 
 	/** @var string */

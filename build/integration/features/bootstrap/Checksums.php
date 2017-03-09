@@ -1,71 +1,24 @@
 <?php
-/**
 
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../../../../lib/composer/autoload.php';
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 
-class ChecksumsContext implements \Behat\Behat\Context\Context {
-	/** @var string  */
-	private $baseUrl;
-	/** @var Client */
-	private $client;
-	/** @var ResponseInterface */
-	private $response;
+trait Checksums {
 
-	/**
-	 * @param string $baseUrl
-	 */
-	public function __construct($baseUrl) {
-		$this->baseUrl = $baseUrl;
-
-		// in case of ci deployment we take the server url from the environment
-		$testServerUrl = getenv('TEST_SERVER_URL');
-		if ($testServerUrl !== false) {
-			$this->baseUrl = substr($testServerUrl, 0, -5);
-		}
-	}
-
-	/** @BeforeScenario */
-	public function setUpScenario() {
-		$this->client = new Client();
-	}
-
-	/** @AfterScenario */
-	public function tearDownScenario() {
-	}
-
+	use Webdav;
 
 	/**
 	 * @param string $userName
 	 * @return string
 	 */
 	private function getPasswordForUser($userName) {
-		if($userName === 'admin') {
-			return 'admin';
+		if ($userName === 'admin') {
+			return $this->adminUser;
+		} else {
+			return $this->regularUser;
 		}
-		return '123456';
 	}
 
 	/**
@@ -75,12 +28,12 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 * @param string $destination
 	 * @param string $checksum
 	 */
-	public function userUploadsFileToWithChecksum($user, $source, $destination, $checksum)
-	{
+	public function userUploadsFileToWithChecksum($user, $source, $destination, $checksum) {
+		$client = new Client();
 		$file = \GuzzleHttp\Stream\Stream::factory(fopen($source, 'r'));
 		try {
-			$this->response = $this->client->put(
-				$this->baseUrl . '/remote.php/webdav' . $destination,
+			$this->response = $client->put(
+				substr($this->baseUrl, 0, -4) . $this->davPath . $destination,
 				[
 					'auth' => [
 						$user,
@@ -114,11 +67,11 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 * @param string $user
 	 * @param string $path
 	 */
-	public function userRequestTheChecksumOfViaPropfind($user, $path)
-	{
-		$request = $this->client->createRequest(
+	public function userRequestTheChecksumOfViaPropfind($user, $path) {
+		$client = new Client();
+		$request = $client->createRequest(
 			'PROPFIND',
-			$this->baseUrl . '/remote.php/webdav' . $path,
+			substr($this->baseUrl, 0, -4) . $this->davPath . $path,
 			[
 				'body' => '<?xml version="1.0"?>
 <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
@@ -132,7 +85,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 				]
 			]
 		);
-		$this->response = $this->client->send($request);
+		$this->response = $client->send($request);
 	}
 
 	/**
@@ -161,10 +114,10 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 * @param string $user
 	 * @param string $path
 	 */
-	public function userDownloadsTheFile($user, $path)
-	{
-		$this->response = $this->client->get(
-			$this->baseUrl . '/remote.php/webdav' . $path,
+	public function userDownloadsTheFile($user, $path) {
+		$client = new Client();
+		$this->response = $client->get(
+			substr($this->baseUrl, 0, -4) . $this->davPath . $path,
 			[
 				'auth' => [
 					$user,
@@ -192,22 +145,22 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 * @param string $source
 	 * @param string $destination
 	 */
-	public function userCopiedFileTo($user, $source, $destination)
-	{
-		$request = $this->client->createRequest(
+	public function userCopiedFileTo($user, $source, $destination) {
+		$client = new Client();
+		$request = $client->createRequest(
 			'MOVE',
-			$this->baseUrl . '/remote.php/webdav' . $source,
+			substr($this->baseUrl, 0, -4) . $this->davPath . $source,
 			[
 				'auth' => [
 					$user,
 					$this->getPasswordForUser($user),
 				],
 				'headers' => [
-					'Destination' => $this->baseUrl . '/remote.php/webdav' . $destination,
+					'Destination' => substr($this->baseUrl, 0, -4) . $this->davPath . $destination,
 				],
 			]
 		);
-		$this->response = $this->client->send($request);
+		$this->response = $client->send($request);
 	}
 
 	/**
@@ -250,9 +203,10 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 */
 	public function userUploadsChunkFileOfWithToWithChecksum($user, $num, $total, $data, $destination, $checksum)
 	{
+		$client = new Client();
 		$num -= 1;
-		$this->response = $this->client->put(
-			$this->baseUrl . '/remote.php/webdav' . $destination . '-chunking-42-'.$total.'-'.$num,
+		$this->response = $client->put(
+			substr($this->baseUrl, 0, -4) . $this->davPath . $destination . '-chunking-42-'.$total.'-'.$num,
 			[
 				'auth' => [
 					$user,

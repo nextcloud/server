@@ -20,8 +20,6 @@ default:
             baseUrl: http://localhost:8080
         - CalDavContext:
             baseUrl: http://localhost:8080
-        - ChecksumsContext:
-            baseUrl: http://localhost:8080
         - CommandLineContext:
             baseUrl: http://localhost:8080
             ocPath: ../../

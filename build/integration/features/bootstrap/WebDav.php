@@ -613,7 +613,7 @@ trait WebDav {
 	 * @param string $data
 	 * @param string $destination
 	 */
-	public function userUploadsChunkFileOfWithToWithChecksum($user, $num, $total, $data, $destination)
+	public function userUploadsChunkedFile($user, $num, $total, $data, $destination)
 	{
 		$num -= 1;
 		$data = \GuzzleHttp\Stream\Stream::factory($data);
