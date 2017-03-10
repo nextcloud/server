@@ -44,6 +44,7 @@
 		<li><a target="_blank" rel="noreferrer" href="<?php p(link_to_docs('admin-performance')); ?>"><?php p($l->t('Performance tuning'));?> ↗</a></li>
 		<li><a target="_blank" rel="noreferrer" href="<?php p(link_to_docs('admin-config')); ?>"><?php p($l->t('Improving the config.php'));?> ↗</a></li>
 		<li><a target="_blank" rel="noreferrer" href="<?php p(link_to_docs('developer-theming')); ?>"><?php p($l->t('Theming'));?> ↗</a></li>
+		<li><a target="_blank" rel="noreferrer" href="https://scan.nextcloud.com"><?php p($l->t('Check the security of your Nextcloud over our security scan'));?> ↗</a></li>
 		<li><a target="_blank" rel="noreferrer" href="<?php p(link_to_docs('admin-security')); ?>"><?php p($l->t('Hardening and security guidance'));?> ↗</a></li>
 	</ul>
 </div>
