@@ -101,7 +101,7 @@ class File {
 		} else {
 			$user = '--';
 		}
-		$userAgent = ($request->getHeader('User-Agent') !== '') ? $request->getHeader('User-Agent') : '--';
+		$userAgent = $request->getHeader('User-Agent') ?: '--';
 		$version = $config->getValue('version', '');
 		$entry = compact(
 			'reqId',
