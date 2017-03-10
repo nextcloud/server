@@ -407,36 +407,6 @@ Feature: webdav-related
 		And Downloading file "/myChunkedFile.txt"
 		Then Downloaded content should be "AAAAABBBBBCCCCC"
 
-	Scenario: Upload chunked file where checksum does not match
-		Given using new dav path
-		And user "user0" exists
-		And user "user0" creates a new chunking upload with id "chunking-42"
-		And user "user0" uploads new chunk file "2" with "BBBBB" to id "chunking-42"
-		And user "user0" uploads new chunk file "3" with "CCCCC" to id "chunking-42" with checksum "SHA1:f005ba11"
-		And user "user0" uploads new chunk file "1" with "AAAAA" to id "chunking-42"
-		And user "user0" moves new chunk file with id "chunking-42" to "/myChunkedFile.txt"
-		Then the HTTP status code should be "400"
-
-	Scenario: Upload a file where checksum does not match
-		Given user "user0" exists
-		And file "/chksumtst.txt"  does not exist for user "user0"
-		And user "user0" uploads file with checksum "SHA1:f005ba11" and content "Some Text" to "/chksumtst.txt"
-		Then the HTTP status code should be "400"
-
-	Scenario: Upload a file where checksum does match
-		Given user "user0" exists
-		And file "/chksumtst.txt"  does not exist for user "user0"
-		And user "user0" uploads file with checksum "SHA1:ce5582148c6f0c1282335b87df5ed4be4b781399" and content "Some Text" to "/chksumtst.txt"
-		Then the HTTP status code should be "201"
-
-	Scenario: Uploaded file should have the same checksum when downloaded
-		Given user "user0" exists
-		And file "/chksumtst.txt"  does not exist for user "user0"
-		And user "user0" uploads file with checksum "SHA1:ce5582148c6f0c1282335b87df5ed4be4b781399" and content "Some Text" to "/chksumtst.txt"
-		When Downloading file "/chksumtst.txt" as "user0"
-		Then The following headers should be set
-			| OC-Checksum |	SHA1:ce5582148c6f0c1282335b87df5ed4be4b781399 |
-
 	Scenario: A disabled user cannot use webdav
 		Given user "userToBeDisabled" exists
 		And As an "admin"
