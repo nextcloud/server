@@ -85,6 +85,7 @@ OC.L10N.register(
     "{user} created {file}" : "{user} tarafından {file} oluşturuldu",
     "You changed {file}" : "Siz {file} dosyasını değiştirdiniz",
     "You deleted {file}" : "Siz {file} dosyasını sildiniz",
+    "{user} deleted {file}" : "{user} tarafından {file} silindi",
     "A new file or folder has been <strong>created</strong>" : "Yeni bir dosya veya klasör <strong>oluşturuldu</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "<strong>Sık kullanılan dosyalarınızın</strong> oluşturulma ve değiştirilme hakkındaki bildirimlerini sınırla <em>(Sadece akışta)</em>",
     "Upload (max. %s)" : "Yükle (azami: %s)",

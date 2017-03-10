@@ -1,0 +1,25 @@
+{ "translations": {
+    "Admin" : "Adminisztrátor",
+    "a safe home for all your data" : "biztonságos hely az adataid számára",
+    "The given name is too long" : "A bevitt név túl hosszú",
+    "The given web address is too long" : "A bevitt webcím túl hosszú",
+    "The given slogan is too long" : "A bevitt szlogen túl hosszú",
+    "The given color is invalid" : "A bevitt szín érvénytelen",
+    "Saved" : "Mentve!",
+    "No file uploaded" : "Nincs fájl feltöltve",
+    "Unsupported image type" : "Nem támogatott képtípus",
+    "You are already using a custom theme" : "Már egyedi témát használ",
+    "Theming" : "Témázás",
+    "Name" : "Név",
+    "reset to default" : "Visszaállítás alapértelmezettre",
+    "Web address" : "Webcím",
+    "Web address https://…" : "Webcím https://...",
+    "Slogan" : "Szlogen",
+    "Color" : "Szín",
+    "Logo" : "Logó",
+    "Upload new logo" : "Új logó feltöltése",
+    "Login image" : "Bejelentkező kép",
+    "Upload new login background" : "Új bejelentkező kép feltöltése",
+    "Log in image" : "Bejelentkező kép"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
