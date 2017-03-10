@@ -19,6 +19,13 @@ pipeline:
     when:
       matrix:
         TESTS: check-autoloader
+  check-mergejs:
+    image: nextcloudci/php7.0:php7.0-7
+    commands:
+      - bash ./build/mergejschecker.sh
+    when:
+      matrix:
+        TESTS: check-mergejs
   app-check-code:
     image: nextcloudci/php7.0:php7.0-7
     commands:
@@ -493,6 +500,7 @@ matrix:
     - TESTS: integration-ldap-features
     - TESTS: jsunit
     - TESTS: check-autoloader
+    - TESTS: check-mergejs
     - TESTS: app-check-code
     - TESTS: syntax-php5.6
     - TESTS: syntax-php7.0
