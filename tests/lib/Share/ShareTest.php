@@ -1064,11 +1064,11 @@ class ShareTest extends \Test\TestCase {
 
 		$httpHelperMock->expects($this->at(0))
 			->method('post')
-			->with($this->stringStartsWith('https://' . $urlHost . '/ocs/v1.php/cloud/shares'), $this->anything())
+			->with($this->stringStartsWith('https://' . $urlHost . '/ocs/v2.php/cloud/shares'), $this->anything())
 			->willReturn(['success' => false, 'result' => 'Exception']);
 		$httpHelperMock->expects($this->at(1))
 			->method('post')
-			->with($this->stringStartsWith('http://' . $urlHost . '/ocs/v1.php/cloud/shares'), $this->anything())
+			->with($this->stringStartsWith('http://' . $urlHost . '/ocs/v2.php/cloud/shares'), $this->anything())
 			->willReturn(['success' => true, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 100]]])]);
 
 		\OCP\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, $shareWith, \OCP\Constants::PERMISSION_READ);
@@ -1077,11 +1077,11 @@ class ShareTest extends \Test\TestCase {
 
 		$httpHelperMock->expects($this->at(0))
 			->method('post')
-			->with($this->stringStartsWith('https://' . $urlHost . '/ocs/v1.php/cloud/shares/' . $share['id'] . '/unshare'), $this->anything())
+			->with($this->stringStartsWith('https://' . $urlHost . '/ocs/v2.php/cloud/shares/' . $share['id'] . '/unshare'), $this->anything())
 			->willReturn(['success' => false, 'result' => 'Exception']);
 		$httpHelperMock->expects($this->at(1))
 			->method('post')
-			->with($this->stringStartsWith('http://' . $urlHost . '/ocs/v1.php/cloud/shares/' . $share['id'] . '/unshare'), $this->anything())
+			->with($this->stringStartsWith('http://' . $urlHost . '/ocs/v2.php/cloud/shares/' . $share['id'] . '/unshare'), $this->anything())
 			->willReturn(['success' => true, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 100]]])]);
 
 		\OCP\Share::unshare('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, $shareWith);
@@ -1490,7 +1490,7 @@ class ShareTest extends \Test\TestCase {
 
 		$httpHelperMock->expects($this->at(0))
 			->method('post')
-			->with($this->stringStartsWith('https://localhost/ocs/v1.php/cloud/shares'), $this->anything())
+			->with($this->stringStartsWith('https://localhost/ocs/v2.php/cloud/shares'), $this->anything())
 			->willReturn(['success' => true, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 100]]])]);
 
 		\OCP\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, 'foo@localhost', \OCP\Constants::PERMISSION_READ);
@@ -1507,7 +1507,7 @@ class ShareTest extends \Test\TestCase {
 
 		$httpHelperMock->expects($this->at(0))
 			->method('post')
-			->with($this->stringStartsWith('https://localhost/ocs/v1.php/cloud/shares/' . $share['id'] . '/unshare'), $this->anything())
+			->with($this->stringStartsWith('https://localhost/ocs/v2.php/cloud/shares/' . $share['id'] . '/unshare'), $this->anything())
 			->willReturn(['success' => true, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 100]]])]);
 
 		\OCP\Share::unshare('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, 'foo@localhost');

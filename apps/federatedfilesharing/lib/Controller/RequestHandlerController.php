@@ -152,19 +152,15 @@ class RequestHandlerController extends OCSController {
 
 			\OC_Util::setupFS($shareWith);
 
-			$discoveryManager = new DiscoveryManager(
-				\OC::$server->getMemCacheFactory(),
-				\OC::$server->getHTTPClientService()
-			);
 			$externalManager = new \OCA\Files_Sharing\External\Manager(
-				\OC::$server->getDatabaseConnection(),
-				\OC\Files\Filesystem::getMountManager(),
-				\OC\Files\Filesystem::getLoader(),
-				\OC::$server->getHTTPClientService(),
-				\OC::$server->getNotificationManager(),
-				$discoveryManager,
-				$shareWith
-			);
+					\OC::$server->getDatabaseConnection(),
+					\OC\Files\Filesystem::getMountManager(),
+					\OC\Files\Filesystem::getLoader(),
+					\OC::$server->getHTTPClientService(),
+					\OC::$server->getNotificationManager(),
+					\OC::$server->getOCSDiscoveryService(),
+					$shareWith
+				);
 
 			try {
 				$externalManager->addShare($remote, $token, '', $name, $owner, false, $shareWith, $remoteId);

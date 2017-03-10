@@ -2742,12 +2742,10 @@ class Share extends Constants {
 			'result' => '',
 		];
 		$try = 0;
-		$discoveryManager = new DiscoveryManager(
-			\OC::$server->getMemCacheFactory(),
-			\OC::$server->getHTTPClientService()
-		);
+		$discoveryService = \OC::$server->getOCSDiscoveryService();
 		while ($result['success'] === false && $try < 2) {
-			$endpoint = $discoveryManager->getShareEndpoint($protocol . $remoteDomain);
+			$federationEndpoints = $discoveryService->discover($protocol . $remoteDomain, 'FEDERATED_SHARING');
+			$endpoint = isset($federationEndpoints['share']) ? $federationEndpoints['share'] : '/ocs/v2.php/cloud/shares';
 			$result = \OC::$server->getHTTPHelper()->post($protocol . $remoteDomain . $endpoint . $urlSuffix . '?format=' . self::RESPONSE_FORMAT, $fields);
 			$try++;
 			$protocol = 'http://';

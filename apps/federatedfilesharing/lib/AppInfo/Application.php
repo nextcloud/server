@@ -51,10 +51,7 @@ class Application extends App {
 			$notification = new Notifications(
 				$addressHandler,
 				$server->getHTTPClientService(),
-				new \OCA\FederatedFileSharing\DiscoveryManager(
-					$server->getMemCacheFactory(),
-					$server->getHTTPClientService()
-				),
+				$server->getOCSDiscoveryService(),
 				\OC::$server->getJobList()
 			);
 			return new RequestHandlerController(
@@ -99,14 +96,10 @@ class Application extends App {
 			\OC::$server->getL10N('federatedfilesharing'),
 			\OC::$server->getCloudIdManager()
 		);
-		$discoveryManager = new \OCA\FederatedFileSharing\DiscoveryManager(
-			\OC::$server->getMemCacheFactory(),
-			\OC::$server->getHTTPClientService()
-		);
 		$notifications = new \OCA\FederatedFileSharing\Notifications(
 			$addressHandler,
 			\OC::$server->getHTTPClientService(),
-			$discoveryManager,
+			\OC::$server->getOCSDiscoveryService(),
 			\OC::$server->getJobList()
 		);
 		$tokenHandler = new \OCA\FederatedFileSharing\TokenHandler(

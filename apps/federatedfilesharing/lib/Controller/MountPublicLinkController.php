@@ -248,17 +248,13 @@ class MountPublicLinkController extends Controller {
 		if (Helper::isSameUserOnSameServer($owner, $remote, $currentUser, $currentServer)) {
 			return new JSONResponse(['message' => $this->l->t('Not allowed to create a federated share with the owner.')], Http::STATUS_BAD_REQUEST);
 		}
-		$discoveryManager = new DiscoveryManager(
-			\OC::$server->getMemCacheFactory(),
-			\OC::$server->getHTTPClientService()
-		);
 		$externalManager = new Manager(
 			\OC::$server->getDatabaseConnection(),
 			Filesystem::getMountManager(),
 			Filesystem::getLoader(),
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getNotificationManager(),
-			$discoveryManager,
+			\OC::$server->getOCSDiscoveryService(),
 			\OC::$server->getUserSession()->getUser()->getUID()
 		);
 

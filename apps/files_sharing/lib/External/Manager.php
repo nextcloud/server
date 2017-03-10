@@ -32,8 +32,11 @@ namespace OCA\Files_Sharing\External;
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\DiscoveryManager;
 use OCP\Files;
+use OCP\Files\Storage\IStorageFactory;
 use OCP\Http\Client\IClientService;
+use OCP\IDBConnection;
 use OCP\Notification\IManager;
+use OCP\OCS\IDiscoveryService;
 
 class Manager {
 	const STORAGE = '\OCA\Files_Sharing\External\Storage';
@@ -44,7 +47,7 @@ class Manager {
 	private $uid;
 
 	/**
-	 * @var \OCP\IDBConnection
+	 * @var IDBConnection
 	 */
 	private $connection;
 
@@ -54,7 +57,7 @@ class Manager {
 	private $mountManager;
 
 	/**
-	 * @var \OCP\Files\Storage\IStorageFactory
+	 * @var IStorageFactory
 	 */
 	private $storageLoader;
 
@@ -67,24 +70,27 @@ class Manager {
 	 * @var IManager
 	 */
 	private $notificationManager;
-	/** @var DiscoveryManager */
-	private $discoveryManager;
 
 	/**
-	 * @param \OCP\IDBConnection $connection
+	 * @var IDiscoveryService
+	 */
+	private $discoveryService;
+
+	/**
+	 * @param IDBConnection $connection
 	 * @param \OC\Files\Mount\Manager $mountManager
-	 * @param \OCP\Files\Storage\IStorageFactory $storageLoader
+	 * @param IStorageFactory $storageLoader
 	 * @param IClientService $clientService
 	 * @param IManager $notificationManager
-	 * @param DiscoveryManager $discoveryManager
+	 * @param IDiscoveryService $discoveryService
 	 * @param string $uid
 	 */
-	public function __construct(\OCP\IDBConnection $connection,
+	public function __construct(IDBConnection $connection,
 								\OC\Files\Mount\Manager $mountManager,
-								\OCP\Files\Storage\IStorageFactory $storageLoader,
+								IStorageFactory $storageLoader,
 								IClientService $clientService,
 								IManager $notificationManager,
-								DiscoveryManager $discoveryManager,
+								IDiscoveryService $discoveryService,
 								$uid) {
 		$this->connection = $connection;
 		$this->mountManager = $mountManager;
@@ -92,7 +98,7 @@ class Manager {
 		$this->clientService = $clientService;
 		$this->uid = $uid;
 		$this->notificationManager = $notificationManager;
-		$this->discoveryManager = $discoveryManager;
+		$this->discoveryService = $discoveryService;
 	}
 
 	/**
@@ -260,7 +266,10 @@ class Manager {
 	 */
 	private function sendFeedbackToRemote($remote, $token, $remoteId, $feedback) {
 
-		$url = rtrim($remote, '/') . $this->discoveryManager->getShareEndpoint($remote) . '/' . $remoteId . '/' . $feedback . '?format=' . \OCP\Share::RESPONSE_FORMAT;
+		$federationEndpoints = $this->discoveryService->discover($remote, 'FEDERATED_SHARING');
+		$endpoint = isset($federationEndpoints['share']) ? $federationEndpoints['share'] : '/ocs/v2.php/cloud/shares';
+
+		$url = rtrim($remote, '/') . $endpoint . '/' . $remoteId . '/' . $feedback . '?format=' . \OCP\Share::RESPONSE_FORMAT;
 		$fields = array('token' => $token);
 
 		$client = $this->clientService->newClient();
@@ -376,7 +385,7 @@ class Manager {
 
 	/**
 	 * remove re-shares from share table and mapping in the federated_reshares table
-	 * 
+	 *
 	 * @param $mountPointId
 	 */
 	protected function removeReShares($mountPointId) {

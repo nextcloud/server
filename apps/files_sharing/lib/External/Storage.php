@@ -51,8 +51,6 @@ class Storage extends DAV implements ISharedStorage {
 	private $memcacheFactory;
 	/** @var \OCP\Http\Client\IClientService */
 	private $httpClient;
-	/** @var \OCP\ICertificateManager */
-	private $certificateManager;
 	/** @var bool */
 	private $updateChecked = false;
 
@@ -64,14 +62,11 @@ class Storage extends DAV implements ISharedStorage {
 	public function __construct($options) {
 		$this->memcacheFactory = \OC::$server->getMemCacheFactory();
 		$this->httpClient = $options['HttpClientService'];
-		$discoveryManager = new DiscoveryManager(
-			$this->memcacheFactory,
-			$this->httpClient
-		);
 
 		$this->manager = $options['manager'];
-		$this->certificateManager = $options['certificateManager'];
 		$this->cloudId = $options['cloudId'];
+		$discoveryService = \OC::$server->getOCSDiscoveryService();
+
 		list($protocol, $remote) = explode('://', $this->cloudId->getRemote());
 		if (strpos($remote, '/')) {
 			list($host, $root) = explode('/', $remote, 2);
@@ -80,9 +75,12 @@ class Storage extends DAV implements ISharedStorage {
 			$root = '';
 		}
 		$secure = $protocol === 'https';
-		$root = rtrim($root, '/') . $discoveryManager->getWebDavEndpoint($this->cloudId->getRemote());
+		$federatedSharingEndpoints = $discoveryService->discover($this->cloudId->getRemote(), 'FEDERATED_SHARING');
+		$webDavEndpoint = isset($federatedSharingEndpoints['webdav']) ? $federatedSharingEndpoints['webdav'] : '/public.php/webdav';
+		$root = rtrim($root, '/') . $webDavEndpoint;
 		$this->mountPoint = $options['mountpoint'];
 		$this->token = $options['token'];
+
 		parent::__construct(array(
 			'secure' => $secure,
 			'host' => $host,
@@ -350,7 +348,7 @@ class Storage extends DAV implements ISharedStorage {
 		}
 		return ($this->getPermissions($path) & \OCP\Constants::PERMISSION_SHARE);
 	}
-	
+
 	public function getPermissions($path) {
 		$response = $this->propfind($path);
 		if (isset($response['{http://open-collaboration-services.org/ns}share-permissions'])) {
