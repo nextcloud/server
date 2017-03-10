@@ -114,13 +114,10 @@ class OC_Template extends \OC\Template\Base {
 			\OC_Util::addScript('jquery.avatar', null, true);
 			\OC_Util::addScript('placeholder', null, true);
 
-			OC_Util::addVendorScript('select2/select2');
 			OC_Util::addVendorStyle('select2/select2', null, true);
 			OC_Util::addScript('select2-toggleselect');
 
 			OC_Util::addScript('oc-backbone', null, true);
-			OC_Util::addVendorScript('core', 'backbone/backbone', true);
-			OC_Util::addVendorScript('snapjs/dist/latest/snap', null, true);
 			OC_Util::addScript('mimetypelist', null, true);
 			OC_Util::addScript('mimetype', null, true);
 			OC_Util::addScript("apps", null, true);
