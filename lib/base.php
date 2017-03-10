@@ -698,7 +698,7 @@ class OC {
 		}
 
 		OC_User::useBackend(new \OC\User\Database());
-		OC_Group::useBackend(new \OC\Group\Database());
+		\OC::$server->getGroupManager()->addBackend(new \OC\Group\Database());
 
 		// Subscribe to the hook
 		\OCP\Util::connectHook(

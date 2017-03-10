@@ -75,7 +75,7 @@ abstract class TestCase extends \Test\TestCase {
 		
 		// reset backend
 		\OC_User::clearBackends();
-		\OC_Group::clearBackends();
+		\OC::$server->getGroupManager()->clearBackends();
 
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
@@ -103,7 +103,7 @@ abstract class TestCase extends \Test\TestCase {
 		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER3, 'group2');
 		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER4, 'group3');
 		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_GROUP1);
-		\OC_Group::useBackend($groupBackend);
+		\OC::$server->getGroupManager()->addBackend($groupBackend);
 	}
 
 	protected function setUp() {
@@ -136,7 +136,10 @@ abstract class TestCase extends \Test\TestCase {
 		if ($user !== null) { $user->delete(); }
 
 		// delete group
-		\OC_Group::deleteGroup(self::TEST_FILES_SHARING_API_GROUP1);
+		$group = \OC::$server->getGroupManager()->get(self::TEST_FILES_SHARING_API_GROUP1);
+		if ($group) {
+			$group->delete();
+		}
 
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');
@@ -145,8 +148,8 @@ abstract class TestCase extends \Test\TestCase {
 		// reset backend
 		\OC_User::clearBackends();
 		\OC_User::useBackend('database');
-		\OC_Group::clearBackends();
-		\OC_Group::useBackend(new \OC\Group\Database());
+		\OC::$server->getGroupManager()->clearBackends();
+		\OC::$server->getGroupManager()->addBackend(new \OC\Group\Database());
 
 		parent::tearDownAfterClass();
 	}
@@ -163,9 +166,15 @@ abstract class TestCase extends \Test\TestCase {
 		}
 
 		if ($create) {
-			\OC::$server->getUserManager()->createUser($user, $password);
-			\OC_Group::createGroup('group');
-			\OC_Group::addToGroup($user, 'group');
+			$userManager = \OC::$server->getUserManager();
+			$groupManager = \OC::$server->getGroupManager();
+
+			$userObject = $userManager->createUser($user, $password);
+			$group = $groupManager->createGroup('group');
+
+			if ($group and $userObject) {
+				$group->addUser($userObject);
+			}
 		}
 
 		self::resetStorage();
