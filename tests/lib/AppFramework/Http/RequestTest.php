@@ -1787,6 +1787,31 @@ class RequestTest extends \Test\TestCase {
 		$this->assertFalse($request->passesLaxCookieCheck());
 	}
 
+	public function testSkipCookieCheckForOCSRequests() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'server' => [
+						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
+						'HTTP_OCS_APIREQUEST' => 'true',
+					],
+					'cookies' => [
+						session_name() => 'asdf',
+						'nc_sameSiteCookiestrict' => 'false',
+					],
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+
+		$this->assertTrue($request->passesStrictCookieCheck());
+	}
+
 	/**
 	 * @return array
 	 */
