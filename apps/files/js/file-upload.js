@@ -130,6 +130,16 @@ OC.FileUpload.prototype = {
 	},
 
 	/**
+	 * Get full path for the target file, 
+	 * including relative path and file name.
+	 *
+	 * @return {String} full path
+	 */
+	getFullFilePath: function() {
+		return OC.joinPaths(this.getFullPath(), this.getFile().name);
+	},
+
+	/**
 	 * Returns conflict resolution mode.
 	 *
 	 * @return {int} conflict mode
@@ -146,15 +156,6 @@ OC.FileUpload.prototype = {
 	 */
 	setConflictMode: function(mode) {
 		this._conflictMode = mode;
-	},
-
-	/**
-	 * Returns whether the upload is in progress
-	 *
-	 * @return {boolean}
-	 */
-	isPending: function() {
-		return this.data.state() === 'pending';
 	},
 
 	deleteUpload: function() {
@@ -508,9 +509,10 @@ OC.Uploader.prototype = _.extend({
 			return;
 		}
 		// retrieve more info about this file
-		this.filesClient.getFileInfo(fileUpload.getFullPath()).then(function(status, fileInfo) {
+		this.filesClient.getFileInfo(fileUpload.getFullFilePath()).then(function(status, fileInfo) {
 			var original = fileInfo;
 			var replacement = file;
+			original.directory = original.path;
 			OC.dialogs.fileexists(fileUpload, original, replacement, self);
 		});
 	},
@@ -549,21 +551,6 @@ OC.Uploader.prototype = _.extend({
 	showUploadCancelMessage: _.debounce(function() {
 		OC.Notification.showTemporary(t('files', 'Upload cancelled.'), {timeout: 10});
 	}, 500),
-	/**
-	 * Checks the currently known uploads.
-	 * returns true if any hxr has the state 'pending'
-	 * @returns {boolean}
-	 */
-	isProcessing:function() {
-		var count = 0;
-
-		jQuery.each(this._uploads, function(i, upload) {
-			if (upload.isPending()) {
-				count++;
-			}
-		});
-		return count > 0;
-	},
 	/**
 	 * callback for the conflicts dialog
 	 */
@@ -908,7 +895,7 @@ OC.Uploader.prototype = _.extend({
 				start: function(e) {
 					self.log('start', e, null);
 					//hide the tooltip otherwise it covers the progress bar
-					$('#upload').tipsy('hide');
+					$('#upload').tooltip('hide');
 				},
 				fail: function(e, data) {
 					var upload = self.getUpload(data);
@@ -1005,7 +992,7 @@ OC.Uploader.prototype = _.extend({
 							+ '</span><span class="mobile">'
 							+ t('files', '...')
 							+ '</span></em>');
-                    $('#uploadprogressbar').tipsy({gravity:'n', fade:true, live:true});
+					$('#uploadprogressbar').tooltip({placement: 'bottom'});
 					self._showProgressBar();
 					self.trigger('start', e, data);
 				});
@@ -1024,53 +1011,26 @@ OC.Uploader.prototype = _.extend({
 					lastSize = data.loaded;
 					diffSize = diffSize / diffUpdate; // apply timing factor, eg. 1mb/2s = 0.5mb/s
 					var remainingSeconds = ((data.total - data.loaded) / diffSize);
-					if(remainingSeconds >= 0) {
+					if(remainingSeconds >= 0) 
+					{
 						bufferTotal = bufferTotal - (buffer[bufferIndex]) + remainingSeconds;
 						buffer[bufferIndex] = remainingSeconds; //buffer to make it smoother
 						bufferIndex = (bufferIndex + 1) % bufferSize;
 						bufferIndex2 = (bufferIndex2 + 1);
-
-
 					}
 					var smoothRemainingSeconds;
 					if(bufferIndex2<20)
-						smoothRemainingSeconds = (bufferTotal/bufferIndex2);
-					else
-						 smoothRemainingSeconds = (bufferTotal / bufferSize); 
-					var date = new Date(smoothRemainingSeconds * 1000);
-					var timeStringDesktop = "";
-					var timeStringMobile = "";
-					if(date.getUTCHours() > 0){
-						timeStringDesktop = n('files', '{hours}:{minutes}:{seconds} hour left', '{hours}:{minutes}:{seconds} hours left', date.getUTCHours(), {
-							hours:date.getUTCHours(),
-							minutes: ('0' + date.getUTCMinutes()).slice(-2),
-							seconds: ('0' + date.getUTCSeconds()).slice(-2)
-						});
-						timeStringMobile = t('files', '{hours}:{minutes}h' , {
-							hours:date.getUTCHours(),
-							minutes: ('0' + date.getUTCMinutes()).slice(-2),
-							seconds: ('0' + date.getUTCSeconds()).slice(-2)
-						});
-					} else if(date.getUTCMinutes() > 0){
-						timeStringDesktop = n('files', '{minutes}:{seconds} minute left', '{minutes}:{seconds} minutes left', date.getUTCMinutes(), {
-							minutes: date.getUTCMinutes(),
-							seconds: ('0' + date.getUTCSeconds()).slice(-2)
-						});
-						timeStringMobile = t('files', '{minutes}:{seconds}m' , {
-							minutes: date.getUTCMinutes(),
-							seconds: ('0' + date.getUTCSeconds()).slice(-2)
-						});
-					} else if(date.getUTCSeconds() > 0){
-						timeStringDesktop = n('files', '{seconds} second left', '{seconds} seconds left', date.getUTCSeconds(), {
-							seconds: date.getUTCSeconds()
-						});
-						timeStringMobile = t('files', '{seconds}s' , {seconds: date.getUTCSeconds()});
-					} else {
-						timeStringDesktop = t('files', 'Any moment now...');
-						timeStringMobile = t('files', 'Soon...');
+					{
+							smoothRemainingSeconds = (bufferTotal/bufferIndex2);
 					}
-					$('#uploadprogressbar .label .mobile').text(timeStringMobile);
-					$('#uploadprogressbar .label .desktop').text(timeStringDesktop);
+					else
+					{
+						 smoothRemainingSeconds = (bufferTotal / bufferSize); 
+					}
+
+					var h = moment.duration(smoothRemainingSeconds, "seconds").humanize();
+					$('#uploadprogressbar .label .mobile').text(h);
+					$('#uploadprogressbar .label .desktop').text(h);
 					$('#uploadprogressbar').attr('original-title',
 						t('files', '{loadedSize} of {totalSize} ({bitrate})' , {
 							loadedSize: humanFileSize(data.loaded),
@@ -1161,13 +1121,6 @@ OC.Uploader.prototype = _.extend({
 
 			}
 		}
-
-		// warn user not to leave the page while upload is in progress
-		$(window).on('beforeunload', function(e) {
-			if (self.isProcessing()) {
-				return t('files', 'File upload is in progress. Leaving the page now will cancel the upload.');
-			}
-		});
 
 		//add multiply file upload attribute to all browsers except konqueror (which crashes when it's used)
 		if (navigator.userAgent.search(/konqueror/i) === -1) {
