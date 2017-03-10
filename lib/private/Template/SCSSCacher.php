@@ -46,17 +46,26 @@ class SCSSCacher {
 	/** @var SystemConfig */
 	protected $systemConfig;
 
+	/** @var string */
+	protected $serverRoot;
+
 	/**
 	 * @param ILogger $logger
 	 * @param IAppData $appData
 	 * @param IURLGenerator $urlGenerator
 	 * @param SystemConfig $systemConfig
+	 * @param string $serverRoot
 	 */
-	public function __construct(ILogger $logger, IAppData $appData, IURLGenerator $urlGenerator, SystemConfig $systemConfig) {
+	public function __construct(ILogger $logger,
+								IAppData $appData,
+								IURLGenerator $urlGenerator,
+								SystemConfig $systemConfig,
+								$serverRoot) {
 		$this->logger = $logger;
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
 		$this->systemConfig = $systemConfig;
+		$this->serverRoot = $serverRoot;
 	}
 
 	/**
@@ -74,9 +83,7 @@ class SCSSCacher {
 
 		$path = implode('/', $path);
 
-		$webDir = explode('/', $file);
-		array_pop($webDir);
-		$webDir = implode('/', $webDir);
+		$webDir = substr($path, strlen($this->serverRoot)+1);
 
 		try {
 			$folder = $this->appData->getFolder($app);
