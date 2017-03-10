@@ -8,9 +8,12 @@
     "If you regenerate backup codes, you automatically invalidate old codes." : "Yedek kodlarını yeniden oluşturursanız, eski kodlar geçersiz olur.",
     "An error occurred while generating your backup codes" : "Yedek kodlar oluşturulurken bir sorun çıktı",
     "Nextcloud backup codes" : "Nextcloud yedek kodları",
-    "Two-factor authentication" : "Iki faktörlü kimlik doğrulama",
-    "Backup code" : "Yedek kodu",
-    "Use backup code" : "Yedek kodunu kullan",
+    "Two-factor authentication" : "Iki aşamalı kimlik doğrulama",
+    "You successfully logged in using two-factor authentication (%1$s)" : "İki aşamalı kimlik doğrulama ile oturum açtınız (%1$s)",
+    "A login attempt using two-factor authentication failed (%1$s)" : "İki aşamalı kimlik doğrulama ile oturum açma girişimi reddedildi (%1$s)",
+    "You created two-factor backup codes for your account" : "İki aşamalı kimlik doğrulama için yedek kodlarınızı oluşturdunuz",
+    "Backup code" : "Yedek kod",
+    "Use backup code" : "Yedek kodu kullan",
     "Second-factor backup codes" : "İki aşamalı yedek kodları"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
