@@ -88,7 +88,8 @@ class CSSResourceLocator extends ResourceLocator {
 		if (is_file($root.'/'.$file)) {
 			if($this->scssCacher !== null) {
 				if($this->scssCacher->process($root, $file, $app)) {
-					$this->append($root, $this->scssCacher->getCachedSCSS($app, $file), false);
+
+					$this->append($root, $this->scssCacher->getCachedSCSS($app, $file), false, true, true);
 					return true;
 				} else {
 					$this->logger->warning('Failed to compile and/or save '.$root.'/'.$file, ['app' => 'core']);
@@ -100,5 +101,52 @@ class CSSResourceLocator extends ResourceLocator {
 			}
 		}
 		return false;
+	}
+
+	public function append($root, $file, $webRoot = null, $throw = true, $scss = false) {
+		if (!$scss) {
+			parent::append($root, $file, $webRoot, $throw);
+		} else {
+			if (!$webRoot) {
+				$tmpRoot = $root;
+				/*
+				 * traverse the potential web roots upwards in the path
+				 *
+				 * example:
+				 *   - root: /srv/www/apps/myapp
+				 *   - available mappings: ['/srv/www']
+				 *
+				 * First we check if a mapping for /srv/www/apps/myapp is available,
+				 * then /srv/www/apps, /srv/www/apps, /srv/www, ... until we find a
+				 * valid web root
+				 */
+				do {
+					if (isset($this->mapping[$tmpRoot])) {
+						$webRoot = $this->mapping[$tmpRoot];
+						break;
+					}
+
+					if ($tmpRoot === '/') {
+						$webRoot = '';
+						$this->logger->error('ResourceLocator can not find a web root (root: {root}, file: {file}, webRoot: {webRoot}, throw: {throw})', [
+							'app' => 'lib',
+							'root' => $root,
+							'file' => $file,
+							'webRoot' => $webRoot,
+							'throw' => $throw ? 'true' : 'false'
+						]);
+						break;
+					}
+					$tmpRoot = dirname($tmpRoot);
+				} while(true);
+
+			}
+
+			if ($throw && $tmpRoot === '/') {
+				throw new ResourceNotFoundException($file, $webRoot);
+			}
+
+			$this->resources[] = array($tmpRoot, $webRoot, $file);
+		}
 	}
 }
