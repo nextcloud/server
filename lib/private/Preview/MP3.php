@@ -61,24 +61,6 @@ class MP3 extends Provider {
 			}
 		}
 
-		return $this->getNoCoverThumbnail();
+		return false;
 	}
-
-	/**
-	 * Generates a default image when the file has no cover
-	 *
-	 * @return bool|\OCP\IImage false if the default image is missing or invalid
-	 */
-	private function getNoCoverThumbnail() {
-		$icon = \OC::$SERVERROOT . '/core/img/filetypes/audio.svg';
-
-		if(!file_exists($icon)) {
-			return false;
-		}
-
-		$image = new \OC_Image();
-		$image->loadFromFile($icon);
-		return $image->valid() ? $image : false;
-	}
-
 }
