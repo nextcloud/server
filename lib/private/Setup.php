@@ -451,6 +451,7 @@ class Setup {
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/status.php";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/ocs/v1.php";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/ocs/v2.php";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/robots.txt";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/updater/";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/ocs-provider/";
 			$content .= "\n  RewriteCond %{REQUEST_URI} !^/.well-known/acme-challenge/.*";
