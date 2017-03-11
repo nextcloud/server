@@ -131,10 +131,15 @@ class SharePoint extends Common {
 		$this->ensureConnection();
 
 		$path = trim($path, '/');
+		$sizeProperty = 'Length';
 
 		if($path === '/' || $path === '') {
-			$fsObject = $this->getDocumentLibrary()->getRootFolder();
-			$properties = $fsObject->getProperties(); // TODO: see what we retrieve here
+			$sizeProperty = 'ItemCount';	// FIXME: temporary, since SP does not return a size for folders
+			$docLib = $this->getDocumentLibrary();
+			$fsObject = $docLib->getRootFolder();	// TODO: save one line, now it's easier for debugging
+			$this->context->load($fsObject, ['Length', 'TimeLastModified', 'ItemCount']);
+			$this->context->executeQuery();
+			$properties = $fsObject->getProperties(); // FIXME: dev shortcut, remove when not needed anymore
 		} else {
 			// TODO: verify that try-catch approach works
 			try {
@@ -148,7 +153,7 @@ class SharePoint extends Common {
 		// FIXME: Folder does not have such properties, according to doc – traversing through all files needed
 		$stat = [
 			// int64, size in bytes, excluding the size of any Web Parts that are used in the file.
-			'size'  => $fsObject->getProperty('Length'),
+			'size'  => $fsObject->getProperty($sizeProperty),
 			'mtime' => $fsObject->getProperty('TimeLastModified'),
 			// no property in SP 2013, other storages do the same  :speak_no_evil:
 			'atime' => time(),
@@ -276,7 +281,7 @@ class SharePoint extends Common {
 			return $this->documentLibraryItem;
 		}
 
-		$lists = $this->context->getWeb()->getLists()->filter('Title eq "' . $this->documentLibrary . '"')->top(1);
+		$lists = $this->context->getWeb()->getLists()->filter('Title eq \'' . $this->documentLibrary . '\'')->top(1);
 		$this->context->load($lists)->executeQuery();
 		if ($lists->getCount() == 1) {
 			$this->documentLibraryItem = $lists->getData()[0];
@@ -318,6 +323,11 @@ class SharePoint extends Common {
 			throw new \InvalidArgumentException('No password given');
 		}
 		$authContext   = $this->contextsFactory->getAuthContext($this->authUser, $this->authPwd);
+		$authContext->AuthType = CURLAUTH_NTLM;		# Basic auth does not work somehow…
 		$this->context = $this->contextsFactory->getClientContext($this->server, $authContext);
+		# Auth is not triggered yet. This will happen when something is requested from Sharepoint (on demand), e.g.:
+		#$site = $this->context->getSite();
+		#$this->context->load($site);
+		#$this->context->executeQuery();
 	}
 }
