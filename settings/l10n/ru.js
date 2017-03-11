@@ -125,6 +125,7 @@ OC.L10N.register(
     "undo" : "отмена",
     "never" : "никогда",
     "deleted {userName}" : "удалён {userName}",
+    "No user found for <strong>{pattern}</strong>" : "По шаблону <strong>{pattern}</strong> пользователей не найдено",
     "Unable to add user to group {group}" : "Невозможно добавить пользователя в группу {group}",
     "Unable to remove user from group {group}" : "Невозможно удалить пользователя из группы {group}",
     "Add group" : "Добавить группу",
