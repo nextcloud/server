@@ -172,6 +172,9 @@
     "%2$s restored %1$s" : "%2$s は、 %1$s を復元しました",
     "Changed by %2$s" : "%2$s により更新",
     "Deleted by %2$s" : "%2$s により削除",
-    "Restored by %2$s" : "%2$s により復元"
+    "Restored by %2$s" : "%2$s により復元",
+    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["残り {hours}:{minutes}:{seconds} 時間"],
+    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["残り {minutes}:{seconds} 分"],
+    "_{seconds} second left_::_{seconds} seconds left_" : ["残り {seconds} 秒"]
 },"pluralForm" :"nplurals=1; plural=0;"
 }
