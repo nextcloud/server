@@ -194,7 +194,7 @@ class ShareAPIController extends OCSController {
 			$result['token'] = $share->getToken();
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_CIRCLE) {
 			$result['share_with_displayname'] = $share->getSharedWith();
-			$result['share_with'] = $share->getId();
+			$result['share_with'] = explode(' ', $share->getSharedWith(), 2)[0];
 		}
 
 
