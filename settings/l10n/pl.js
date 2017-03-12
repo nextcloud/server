@@ -234,6 +234,7 @@ OC.L10N.register(
     "Performance tuning" : "Podnoszenie wydajności",
     "Improving the config.php" : "Udoskonalać się w config.php",
     "Theming" : "Motyw",
+    "Check the security of your Nextcloud over our security scan" : "Sprawdź bezpieczeństwo swojego Nextclouda przez nasz skan zabezpieczeń",
     "Hardening and security guidance" : "Kierowanie i wzmacnianie bezpieczeństwa",
     "Developer documentation" : "Dokumentacja dewelopera",
     "by %s" : "autorstwa %s",
