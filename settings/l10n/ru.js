@@ -234,6 +234,7 @@ OC.L10N.register(
     "Performance tuning" : "Настройка производительности",
     "Improving the config.php" : "Улучшение config.php",
     "Theming" : "Темы оформления",
+    "Check the security of your Nextcloud over our security scan" : "Проверить безопасность вашего Nextcloud нашем сканером",
     "Hardening and security guidance" : "Руководство по безопасности и защите",
     "Developer documentation" : "Документация для разработчиков",
     "by %s" : "от %s",
