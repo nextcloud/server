@@ -55,7 +55,8 @@ class Converter {
 		$image = $this->getAvatarImage($user);
 
 		$vCard = new VCard();
-		$vCard->add(new Text($vCard, 'UID', $uid));
+		$vCard->VERSION = '3.0';
+		$vCard->UID = $uid;
 
 		$publish = false;
 
