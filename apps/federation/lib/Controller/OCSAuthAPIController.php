@@ -94,6 +94,37 @@ class OCSAuthAPIController extends OCSController{
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 *
+	 * request received to ask remote server for a shared secret, for legacy end-points
+	 *
+	 * @param string $url
+	 * @param string $token
+	 * @return Http\DataResponse
+	 * @throws OCSForbiddenException
+	 */
+	public function requestSharedSecretLegacy($url, $token) {
+		return $this->requestSharedSecret($url, $token);
+	}
+
+
+	/**
+	 * @NoCSRFRequired
+	 * @PublicPage
+	 *
+	 * create shared secret and return it, for legacy end-points
+	 *
+	 * @param string $url
+	 * @param string $token
+	 * @return Http\DataResponse
+	 * @throws OCSForbiddenException
+	 */
+	public function getSharedSecretLegacy($url, $token) {
+		return $this->getSharedSecret($url, $token);
+	}
+
+	/**
+	 * @NoCSRFRequired
+	 * @PublicPage
+	 *
 	 * request received to ask remote server for a shared secret
 	 *
 	 * @param string $url
