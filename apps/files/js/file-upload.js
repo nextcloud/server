@@ -220,11 +220,6 @@ OC.FileUpload.prototype = {
 			this.data.headers['If-None-Match'] = '*';
 		}
 
-		if (file.lastModified) {
-			// preserve timestamp
-			this.data.headers['X-OC-Mtime'] = (file.lastModified / 1000).toFixed(0);
-		}
-
 		var userName = this.uploader.filesClient.getUserName();
 		var password = this.uploader.filesClient.getPassword();
 		if (userName) {
