@@ -143,7 +143,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 		$shares = $this->shareManager->getSharesInFolder(
 			$this->userId,
 			$node,
-			false
+			true
 		);
 
 		$shareTypesByFileId = [];
