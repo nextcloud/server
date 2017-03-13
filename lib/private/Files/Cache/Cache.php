@@ -645,9 +645,22 @@ class Cache implements ICache {
 		$builder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 
 		$query = $builder->select(['fileid', 'storage', 'path', 'parent', 'name', 'mimetype', 'mimepart', 'size', 'mtime', 'storage_mtime', 'encrypted', 'etag', 'permissions', 'checksum'])
-			->from('filecache')
-			->where($builder->expr()->eq('storage', $builder->createNamedParameter($this->getNumericStorageId())))
-			->andWhere($this->querySearchHelper->searchOperatorToDBExpr($builder, $searchQuery->getSearchOperation()));
+			->from('filecache', 'file');
+
+		$query->where($builder->expr()->eq('storage', $builder->createNamedParameter($this->getNumericStorageId())));
+
+		if ($this->querySearchHelper->shouldJoinTags($searchQuery->getSearchOperation())) {
+			$query
+				->innerJoin('file', 'vcategory_to_object', 'tagmap', $builder->expr()->eq('file.fileid', 'tagmap.objid'))
+				->innerJoin('tagmap', 'vcategory', 'tag', $builder->expr()->andX(
+					$builder->expr()->eq('tagmap.type', 'tag.type'),
+					$builder->expr()->eq('tagmap.categoryid', 'tag.id')
+				))
+				->andWhere($builder->expr()->eq('tag.type', $builder->createNamedParameter('files')))
+				->andWhere($builder->expr()->eq('tag.uid', $builder->createNamedParameter($searchQuery->getUser()->getUID())));
+		}
+
+		$query->andWhere($this->querySearchHelper->searchOperatorToDBExpr($builder, $searchQuery->getSearchOperation()));
 
 		if ($searchQuery->getLimit()) {
 			$query->setMaxResults($searchQuery->getLimit());
@@ -660,7 +673,7 @@ class Cache implements ICache {
 		return $this->searchResultToCacheEntries($result);
 	}
 
-		/**
+	/**
 	 * Search for files by tag of a given users.
 	 *
 	 * Note that every user can tag files differently.

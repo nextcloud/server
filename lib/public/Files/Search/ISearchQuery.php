@@ -21,6 +21,8 @@
 
 namespace OCP\Files\Search;
 
+use OCP\IUser;
+
 /**
  * @since 12.0.0
  */
@@ -54,4 +56,12 @@ interface ISearchQuery {
 	 * @since 12.0.0
 	 */
 	public function getOrder();
+
+	/**
+	 * The user that issued the search
+	 *
+	 * @return IUser
+	 * @since 12.0.0
+	 */
+	public function getUser();
 }
