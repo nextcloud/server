@@ -38,6 +38,7 @@ OCP.AppConfig = {
 			return;
 		}
 
+		options = options || {};
 		$.ajax({
 			type: method.toUpperCase(),
 			url: OC.linkToOCS('apps/provisioning_api/api/v1', 2) + 'config/apps' + endpoint,
