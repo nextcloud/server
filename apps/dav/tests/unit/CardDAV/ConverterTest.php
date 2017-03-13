@@ -173,6 +173,16 @@ class ConverterTest extends  TestCase {
 				null,
 				"foo@cloud.net"
 			],
+			[
+				[
+					'cloud' => 'foo@cloud.net',
+					'fn' => 'Dr. Foo Bar',
+					'photo' => 'data:image/jpeg;base64,MTIzNDU2Nzg5',
+				],
+				'Dr. Foo Bar',
+				'',
+				'foo@cloud.net'
+			],
 		];
 	}
 

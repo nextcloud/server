@@ -61,9 +61,15 @@ class Converter {
 		$publish = false;
 
 		foreach ($userData as $property => $value) {
-			if ($value['scope'] === AccountManager::VISIBILITY_CONTACTS_ONLY ||
-				$value['scope'] === AccountManager::VISIBILITY_PUBLIC
-			) {
+
+			$shareWithTrustedServers =
+				$value['scope'] === AccountManager::VISIBILITY_CONTACTS_ONLY ||
+				$value['scope'] === AccountManager::VISIBILITY_PUBLIC;
+
+			$emptyValue = !isset($value['value']) || $value['value'] === '';
+			$noImage = $image === null;
+
+			if ($shareWithTrustedServers && (!$emptyValue || !$noImage)) {
 				$publish = true;
 				switch ($property) {
 					case AccountManager::PROPERTY_DISPLAYNAME:
