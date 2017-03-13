@@ -48,6 +48,7 @@ OC.L10N.register(
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Има проблем с проверката за цялостта на кода. Повече информация…</a>",
     "Settings" : "Настройки",
     "Connection to server lost" : "Връзката със сървъра е загубена",
+    "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Проблем при зареждане на страницата, презареждане след %n секунда","Проблем при зареждане на страницата, презареждане след %n секунди"],
     "Saving..." : "Запазване...",
     "Dismiss" : "Отхвърляне",
     "This action requires you to confirm your password" : "Това действие изисква да потвърдите паролата си",

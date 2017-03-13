@@ -46,6 +46,7 @@
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\"> Ett problem uppstod under integritetskontrollen av koden. Mer information ... </a>",
     "Settings" : "Inställningar",
     "Connection to server lost" : "Anslutning till server förlorad",
+    "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Problem med att ladda sidan, laddar om sidan om %n sekund","Problem med att ladda sidan, laddar om sidan om %n sekunder"],
     "Saving..." : "Sparar...",
     "Dismiss" : "Avfärda",
     "This action requires you to confirm your password" : "Denna åtgärd kräver att du bekräftar ditt lösenord",

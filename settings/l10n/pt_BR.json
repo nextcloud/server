@@ -232,6 +232,7 @@
     "Performance tuning" : "Aprimorando performance",
     "Improving the config.php" : "Melhorando o config.php",
     "Theming" : "Elaborar um tema",
+    "Check the security of your Nextcloud over our security scan" : "Verifique a segurança da sua Nextcloud sobre a nossa análise de segurança",
     "Hardening and security guidance" : "Orientações de proteção e segurança",
     "Developer documentation" : "Documentação do desenvolvedor",
     "by %s" : "por %s",
