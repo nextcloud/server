@@ -94,7 +94,7 @@ class GetSharedSecret extends Job{
 		TrustedServers $trustedServers = null,
 		ILogger $logger = null,
 		DbHandler $dbHandler = null,
-		IDiscoveryService $ocsDiscoveryService
+		IDiscoveryService $ocsDiscoveryService = null
 	) {
 		$this->logger = $logger ? $logger : \OC::$server->getLogger();
 		$this->httpClient = $httpClient ? $httpClient : \OC::$server->getHTTPClientService()->newClient();

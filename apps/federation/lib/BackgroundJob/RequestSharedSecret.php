@@ -92,7 +92,7 @@ class RequestSharedSecret extends Job {
 		IJobList $jobList = null,
 		TrustedServers $trustedServers = null,
 		DbHandler $dbHandler = null,
-		IDiscoveryService $ocsDiscoveryService
+		IDiscoveryService $ocsDiscoveryService = null
 	) {
 		$this->httpClient = $httpClient ? $httpClient : \OC::$server->getHTTPClientService()->newClient();
 		$this->jobList = $jobList ? $jobList : \OC::$server->getJobList();
