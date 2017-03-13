@@ -46,9 +46,12 @@ $(document).ready(function(){
 		if($(this).is(':checked')){
 			var mode = $(this).val();
 			if (mode === 'ajax' || mode === 'webcron' || mode === 'cron') {
-				OCP.AppConfig.setValue('core', 'backgroundjobs_mode', mode);
-				// clear cron errors on background job mode change
-				OCP.AppConfig.deleteKey('core', 'cronErrors');
+				OCP.AppConfig.setValue('core', 'backgroundjobs_mode', mode, {
+					success: function() {
+						// clear cron errors on background job mode change
+						OCP.AppConfig.deleteKey('core', 'cronErrors');
+					}
+				});
 			}
 		}
 	});
