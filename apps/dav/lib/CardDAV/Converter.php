@@ -78,7 +78,7 @@ class Converter {
 						break;
 					case AccountManager::PROPERTY_AVATAR:
 						if ($image !== null) {
-							$vCard->add('PHOTO', 'data:'.$image->mimeType().';base64,' . base64_encode($image->data()));
+							$vCard->add('PHOTO', $image->data(), ['ENCODING' => 'b', 'TYPE' => $image->mimeType()]);
 						}
 						break;
 					case AccountManager::PROPERTY_EMAIL:
