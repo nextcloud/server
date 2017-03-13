@@ -806,6 +806,11 @@ class ShareAPIController extends OCSController {
 			}
 		}
 
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_CIRCLE) {
+			// TODO: have a sanity check like above?
+			return true;
+		}
+
 		return false;
 	}
 
