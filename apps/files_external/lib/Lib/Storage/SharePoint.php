@@ -26,23 +26,35 @@ namespace OCA\Files_External\Lib\Storage;
 use OC\Files\Storage\Common;
 use OCA\Files_External\Lib\SharePoint\ContextsFactory;
 use OCA\Files_External\Lib\SharePoint\NotFoundException;
+use OCP\Files\FileInfo;
+use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
+use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\SharePoint\ClientContext;
 use Office365\PHP\Client\SharePoint\File;
 use Office365\PHP\Client\SharePoint\Folder;
 use Office365\PHP\Client\SharePoint\SPList;
 
 class SharePoint extends Common {
+	const SP_PROPERTY_SIZE = 'Length';
+	const SP_PROPERTY_MTIME = 'TimeLastModified';
 
+	/** @var  string */
 	protected $server;
 
+	/** @var  string */
 	protected $documentLibrary;
 
 	/** @var  SPList */
 	protected $documentLibraryItem;
 
+	/** @var  string */
 	protected $authUser;
 
+	/** @var  string */
 	protected $authPwd;
+
+	/** @var  AuthenticationContext */
+	protected $authContext;
 
 	/** @var  ClientContext */
 	protected $context;
@@ -131,35 +143,21 @@ class SharePoint extends Common {
 		$this->ensureConnection();
 
 		$path = trim($path, '/');
-		$sizeProperty = 'Length';
-
-		if($path === '/' || $path === '') {
-			$sizeProperty = 'ItemCount';	// FIXME: temporary, since SP does not return a size for folders
-			$docLib = $this->getDocumentLibrary();
-			$fsObject = $docLib->getRootFolder();	// TODO: save one line, now it's easier for debugging
-			$this->context->load($fsObject, ['Length', 'TimeLastModified', 'ItemCount']);
-			$this->context->executeQuery();
-			$properties = $fsObject->getProperties(); // FIXME: dev shortcut, remove when not needed anymore
-		} else {
-			// TODO: verify that try-catch approach works
-			try {
-				$fsObject = $this->fetchFileOrFolder($path, true);	// likely we need to modify path since we are not operating on the document library
-			} catch (\Exception $e) {
-				// it can be a folder, too
-				$fsObject = $this->fetchFileOrFolder($path, false);
-			}
+		$serverUrl = '/' . $this->documentLibrary;
+		if($path !== '') {
+			$serverUrl .= '/' . $path;
 		}
-		// FIXME: getProperty may return null
-		// FIXME: Folder does not have such properties, according to doc – traversing through all files needed
+
+		$file = $this->fetchFileOrFolder($serverUrl, [self::SP_PROPERTY_SIZE, self::SP_PROPERTY_MTIME]);
 		$stat = [
 			// int64, size in bytes, excluding the size of any Web Parts that are used in the file.
-			'size'  => $fsObject->getProperty($sizeProperty),
-			'mtime' => $fsObject->getProperty('TimeLastModified'),
-			// no property in SP 2013, other storages do the same  :speak_no_evil:
+			'size'  => $file->getProperty(self::SP_PROPERTY_SIZE) ?: FileInfo::SPACE_UNKNOWN,
+			'mtime' => $file->getProperty(self::SP_PROPERTY_MTIME),
+			// no property in SP 2013 & 2016, other storages do the same  :speak_no_evil:
 			'atime' => time(),
 		];
 
-		if(isset($stat) && !is_null($stat['size']) && !is_null($stat['mtime'])) {
+		if(!is_null($stat['mtime'])) {
 			return $stat;
 		}
 
@@ -170,15 +168,38 @@ class SharePoint extends Common {
 
 	/**
 	 * @param string $path
+	 * @param array $properties
 	 * @param bool $tryFile
 	 * @return File|Folder
+	 * @throws \Exception
 	 */
-	private function fetchFileOrFolder($path, $tryFile) {
+	private function fetchFileOrFolder($path, array $properties = null, $tryFile = true) {
 		if($tryFile) {
-			return $this->context->getWeb()->getFileByServerRelativeUrl($path);
+			try {
+				$file = $this->context->getWeb()->getFileByServerRelativeUrl($path);
+				$this->loadAndExecute($file, $properties);
+				return $file;
+			} catch (\Exception $e) {
+				if(preg_match('/^The file \/.* does not exist\.$/', $e->getMessage()) !== 1) {
+					throw $e;
+				}
+				$this->createClientContext();	// otherwise the old query will be repeated
+				return $this->fetchFolder($path, $properties);
+			}
 		} else {
-			return $this->context->getWeb()->getFolderByServerRelativeUrl($path);
+			return $this->fetchFolder($path, $properties);
 		}
+	}
+
+	private function fetchFolder($relativeServerPath, array $properties = null) {
+		$folder = $this->context->getWeb()->getFolderByServerRelativeUrl($relativeServerPath);
+		$this->loadAndExecute($folder, $properties);
+		return $folder;
+	}
+
+	private function loadAndExecute(ClientObject $object, array $properties = null) {
+		$this->context->load($object, $properties);
+		$this->context->executeQuery();
 	}
 
 	/**
@@ -322,12 +343,17 @@ class SharePoint extends Common {
 		if(!is_string($this->authPwd) || empty($this->authPwd)) {
 			throw new \InvalidArgumentException('No password given');
 		}
-		$authContext   = $this->contextsFactory->getAuthContext($this->authUser, $this->authPwd);
-		$authContext->AuthType = CURLAUTH_NTLM;		# Basic auth does not work somehow…
-		$this->context = $this->contextsFactory->getClientContext($this->server, $authContext);
+		$this->authContext = $this->contextsFactory->getAuthContext($this->authUser, $this->authPwd);
+		$this->authContext->AuthType = CURLAUTH_NTLM;		# Basic auth does not work somehow…
+		$this->createClientContext();
 		# Auth is not triggered yet. This will happen when something is requested from Sharepoint (on demand), e.g.:
-		#$site = $this->context->getSite();
-		#$this->context->load($site);
-		#$this->context->executeQuery();
+	}
+
+	/**
+	 * (re)creates the sharepoint client context
+	 */
+	private function createClientContext() {
+		$this->context = null;
+		$this->context = $this->contextsFactory->getClientContext($this->server, $this->authContext);
 	}
 }
