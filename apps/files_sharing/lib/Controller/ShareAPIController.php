@@ -448,6 +448,9 @@ class ShareAPIController extends OCSController {
 			}
 			$share->setSharedWith($shareWith);
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_CIRCLE) {
+			if (\OCP\App::isEnabled('circles')) {
+				throw new OCSNotFoundException($this->l->t('You cannot share to a Circle if the app is not enabled'));
+			}
 
 			$circle = \OCA\Circles\Api\Circles::detailsCircle($shareWith);
 
