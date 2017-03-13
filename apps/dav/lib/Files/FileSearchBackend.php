@@ -113,7 +113,7 @@ class FileSearchBackend implements ISearchBackend {
 			// queryable properties
 			new SearchPropertyDefinition('{DAV:}displayname', true, false, true),
 			new SearchPropertyDefinition('{DAV:}getcontenttype', true, true, true),
-			new SearchPropertyDefinition('{DAV:}getlastmodifed', true, true, true, SearchPropertyDefinition::DATATYPE_DATETIME),
+			new SearchPropertyDefinition('{DAV:}getlastmodified', true, true, true, SearchPropertyDefinition::DATATYPE_DATETIME),
 			new SearchPropertyDefinition(FilesPlugin::SIZE_PROPERTYNAME, true, true, true, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
 			new SearchPropertyDefinition(TagsPlugin::FAVORITE_PROPERTYNAME, true, true, true, SearchPropertyDefinition::DATATYPE_BOOLEAN),
 
@@ -236,7 +236,7 @@ class FileSearchBackend implements ISearchBackend {
 				return 'name';
 			case '{DAV:}getcontenttype':
 				return 'mimetype';
-			case '{DAV:}getlastmodifed':
+			case '{DAV:}getlastmodified':
 				return 'mtime';
 			case FilesPlugin::SIZE_PROPERTYNAME:
 				return 'size';
@@ -261,6 +261,8 @@ class FileSearchBackend implements ISearchBackend {
 					case SearchPropertyDefinition::DATATYPE_INTEGER:
 					case SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER:
 						return 0 + $value;
+					case SearchPropertyDefinition::DATATYPE_DATETIME:
+						return \DateTime::createFromFormat(\DateTime::ATOM, $value)->getTimestamp();
 					default:
 						return $value;
 				}
