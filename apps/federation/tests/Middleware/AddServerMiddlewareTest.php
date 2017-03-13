@@ -26,8 +26,8 @@ namespace OCA\Federation\Tests\Middleware;
 
 
 use OC\HintException;
+use OCA\Federation\Controller\SettingsController;
 use OCA\Federation\Middleware\AddServerMiddleware;
-use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -44,7 +44,7 @@ class AddServerMiddlewareTest extends TestCase {
 	/** @var  AddServerMiddleware */
 	private $middleware;
 
-	/** @var  \PHPUnit_Framework_MockObject_MockObject | Controller */
+	/** @var  \PHPUnit_Framework_MockObject_MockObject | SettingsController */
 	private $controller;
 
 	public function setUp() {
@@ -52,7 +52,7 @@ class AddServerMiddlewareTest extends TestCase {
 
 		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
 		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
-		$this->controller = $this->getMockBuilder(Controller::class)
+		$this->controller = $this->getMockBuilder(SettingsController::class)
 			->disableOriginalConstructor()->getMock();
 
 		$this->middleware = new AddServerMiddleware(
