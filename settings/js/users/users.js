@@ -425,7 +425,7 @@ var UserList = {
 
 	applyGroupSelect: function (element, user, checked) {
 		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
-			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.applySubadminSelect, this, element, user, checked));
+			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.applyGroupSelect, this, element, user, checked));
 			return;
 		}
 
