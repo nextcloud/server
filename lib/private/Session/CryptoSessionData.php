@@ -129,7 +129,11 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * Reset and recreate the session
 	 */
 	public function clear() {
+		$requesttoken = $this->get('requesttoken');
 		$this->sessionValues = [];
+		if ($requesttoken !== null) {
+			$this->set('requesttoken', $requesttoken);
+		}
 		$this->isModified = true;
 		$this->session->clear();
 	}
