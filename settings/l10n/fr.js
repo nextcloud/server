@@ -68,7 +68,7 @@ OC.L10N.register(
     "Error while disabling broken app" : "Erreur lors de la désactivation de l'application cassé  .",
     "Updating...." : "Mise à jour...",
     "Error while updating app" : "Erreur lors de la mise à jour de l'application",
-    "Updated" : "Mise à jour effectuée",
+    "Updated" : "Mise à jour terminée",
     "Uninstalling ...." : "Désinstallation...",
     "Error while uninstalling app" : "Erreur lors de la désinstallation de l'application",
     "Uninstall" : "Désinstaller",
