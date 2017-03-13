@@ -216,7 +216,7 @@ class FileSearchBackendTest extends TestCase {
 				new \OC\Files\Node\Folder($this->rootFolder, $this->view, '/test/path')
 			]));
 
-		$query = $this->getBasicQuery(Operator::OPERATION_GREATER_THAN, '{DAV:}getlastmodifed', 10);
+		$query = $this->getBasicQuery(Operator::OPERATION_GREATER_THAN, '{DAV:}getlastmodified', 10);
 		$result = $this->search->search($query);
 
 		$this->assertCount(1, $result);
