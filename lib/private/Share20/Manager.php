@@ -803,6 +803,9 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('Share does not have a full id');
 		}
 
+		$event = new GenericEvent($share);
+		$this->eventDispatcher->dispatch('OCP\Share::preUnshare', $event);
+
 		$formatHookParams = function(\OCP\Share\IShare $share) {
 			// Prepare hook
 			$shareType = $share->getShareType();
@@ -852,6 +855,8 @@ class Manager implements IManager {
 		$hookParams['deletedShares'] = $formattedDeletedShares;
 
 		// Emit post hook
+		$event->setArgument('deletedShares', $deletedShares);
+		$this->eventDispatcher->dispatch('OCP\Share::postUnshare', $event);
 		\OC_Hook::emit('OCP\Share', 'post_unshare', $hookParams);
 	}
 
