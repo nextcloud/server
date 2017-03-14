@@ -262,7 +262,11 @@ class FileSearchBackend implements ISearchBackend {
 					case SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER:
 						return 0 + $value;
 					case SearchPropertyDefinition::DATATYPE_DATETIME:
-						return \DateTime::createFromFormat(\DateTime::ATOM, $value)->getTimestamp();
+						if (is_numeric($value)) {
+							return 0 + $value;
+						}
+						$date = \DateTime::createFromFormat(\DateTime::ATOM, $value);
+						return ($date instanceof  \DateTime) ? $date->getTimestamp() : 0;
 					default:
 						return $value;
 				}
