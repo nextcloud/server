@@ -27,6 +27,8 @@
     "You updated system tag %2$s to %1$s" : "您已将系统标签 %2$s 更新为 %1$s",
     "You updated system tag {oldsystemtag} to {newsystemtag}" : "您已将系统标签 {oldsystemtag} 更新为 {newsystemtag}",
     "%1$s updated system tag %3$s to %2$s" : "%1$s 更新了系统标签 %3$s 为 %2$s",
+    "{actor} updated system tag {oldsystemtag} to {newsystemtag}" : "{actor}更新系统标签{oldsystemtag}到{newsystemtag}",
+    "You added system tag %2$s to %1$s" : "你填加系统标签%2$s到%1$s",
     "%s (restricted)" : "%s (受限)",
     "%s (invisible)" : "%s (不可见)",
     "<strong>System tags</strong> for a file have been modified" : "已更改的文件的<strong>系统标签</strong> ",
