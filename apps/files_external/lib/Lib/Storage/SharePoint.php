@@ -80,6 +80,7 @@ class SharePoint extends Common {
 		$this->authPwd  = $parameters['password'];
 
 		$this->fixDI($parameters);
+		$this->ensureConnection();
 	}
 
 	/**
@@ -140,14 +141,7 @@ class SharePoint extends Common {
 	 * @since 6.0.0
 	 */
 	public function stat($path) {
-		$this->ensureConnection();
-
-		$path = trim($path, '/');
-		$serverUrl = '/' . $this->documentLibrary;
-		if($path !== '') {
-			$serverUrl .= '/' . $path;
-		}
-
+		$serverUrl = $this->formatPath($path);
 		$file = $this->fetchFileOrFolder($serverUrl, [self::SP_PROPERTY_SIZE, self::SP_PROPERTY_MTIME]);
 		$stat = [
 			// int64, size in bytes, excluding the size of any Web Parts that are used in the file.
@@ -169,26 +163,37 @@ class SharePoint extends Common {
 	/**
 	 * @param string $path
 	 * @param array $properties
-	 * @param bool $tryFile
 	 * @return File|Folder
 	 * @throws \Exception
 	 */
-	private function fetchFileOrFolder($path, array $properties = null, $tryFile = true) {
-		if($tryFile) {
-			try {
-				$file = $this->context->getWeb()->getFileByServerRelativeUrl($path);
-				$this->loadAndExecute($file, $properties);
-				return $file;
-			} catch (\Exception $e) {
-				if(preg_match('/^The file \/.* does not exist\.$/', $e->getMessage()) !== 1) {
-					throw $e;
-				}
-				$this->createClientContext();	// otherwise the old query will be repeated
-				return $this->fetchFolder($path, $properties);
+	private function fetchFileOrFolder($path, array $properties = null) {
+		# room for optimization: if "." present in path, try file first,
+		# otherwise folder
+
+		# Attempt 1: fetch a file
+		try {
+			$file = $this->context->getWeb()->getFileByServerRelativeUrl($path);
+			$this->loadAndExecute($file, $properties);
+			return $file;
+		} catch (\Exception $e) {
+			if(preg_match('/^The file \/.* does not exist\.$/', $e->getMessage()) !== 1) {
+				# Unexpected Exception, pass it on
+				throw $e;
 			}
-		} else {
-			return $this->fetchFolder($path, $properties);
 		}
+
+		# Attempt 2: fetch a folder
+		try {
+			$this->createClientContext();	// otherwise the old query will be repeated
+			return $this->fetchFolder($path, $properties);
+		} catch (\Exception $e) {
+			if($e->getMessage() !== 'Unknown Error') { // yes, SP returns this
+				throw $e;
+			}
+		}
+
+		# Nothing succeeded, quit with not found
+		throw new NotFoundException('File or Folder not found');
 	}
 
 	private function fetchFolder($relativeServerPath, array $properties = null) {
@@ -206,26 +211,24 @@ class SharePoint extends Common {
 	 * see http://php.net/manual/en/function.filetype.php
 	 *
 	 * @param string $path
-	 * @return string|false
+	 * @return false|string
+	 * @throws \Exception
 	 * @since 6.0.0
 	 */
 	public function filetype($path) {
-		$path = trim($path);
-		if($path === '/' || $path === '') {
-			return 'dir';
-		}
 		try {
-			$this->fetchFileOrFolder($path, true);
-			return 'file';
-		} catch(\Exception $e) {
-			try {
-				$this->fetchFileOrFolder($path, false);
-				return 'dir';
-			} catch (\Exception $e) {
-				// NOOP
-			}
+			$serverUrl = $this->formatPath($path);
+			$object = $this->fetchFileOrFolder($serverUrl, []);
+		} catch (NotFoundException $e) {
+			return false;
 		}
-		return false;
+		if($object instanceof File) {
+			return 'file';
+		} else if($object instanceof Folder) {
+			return 'dir';
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -236,10 +239,17 @@ class SharePoint extends Common {
 	 * @since 6.0.0
 	 */
 	public function file_exists($path) {
-		if($this->filetype($path) === false) {
+		try {
+			$serverUrl = $this->formatPath($path);
+			// alternative approach is to use a CAML query instead of querying
+			// for file and folder. It is not necessarily faster, though.
+			// Would need evaluation of typical use cases (I assume most often
+			// exisiting files are checked) and measurements.
+			$this->fetchFileOrFolder($serverUrl);
+			return true;
+		} catch (NotFoundException $e) {
 			return false;
 		}
-		return true;
 	}
 
 	/**
@@ -356,4 +366,20 @@ class SharePoint extends Common {
 		$this->context = null;
 		$this->context = $this->contextsFactory->getClientContext($this->server, $this->authContext);
 	}
+
+	/**
+	 * creates the relative server "url" out of the provided path
+	 *
+	 * @param $path
+	 * @return string
+	 */
+	private function formatPath($path) {
+		$path = trim($path, '/');
+		$serverUrl = '/' . $this->documentLibrary;
+		if($path !== '') {
+			$serverUrl .= '/' . $path;
+		}
+		return $serverUrl;
+	}
+
 }
