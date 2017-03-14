@@ -26,7 +26,7 @@ OC.L10N.register(
     "Target folder" : "Paskirties aplankas",
     "Delete" : "Ištrinti",
     "Disconnect storage" : "Atjungti saugyklą",
-    "Unshare" : "Nebesidalinti",
+    "Unshare" : "Nebebendrinti",
     "Could not load info for file \"{file}\"" : "Nepavyko įkelti informacijos failui \"{file}\"",
     "Files" : "Failai",
     "Details" : "Informacija",
