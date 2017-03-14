@@ -247,7 +247,7 @@ class CryptTest extends TestCase {
 
 	/**
 	 * @dataProvider dataTestHasSignatureFail
-	 * @expectedException \OC\HintException
+	 * @expectedException \OCP\Encryption\Exceptions\GenericEncryptionException
 	 */
 	public function testHasSignatureFail($cipher) {
 		$data = 'encryptedContent00iv001234567890123456xx';
