@@ -117,7 +117,7 @@ trait Checksums {
 	public function userCopiedFileTo($user, $source, $destination) {
 		$client = new Client();
 		$request = $client->createRequest(
-			'MOVE',
+			'COPY',
 			substr($this->baseUrl, 0, -4) . $this->davPath . $source,
 			[
 				'auth' => [
@@ -171,7 +171,6 @@ trait Checksums {
 	 * @param string $checksum
 	 */
 	public function userUploadsChunkFileOfWithToWithChecksum($user, $num, $total, $data, $destination, $checksum) {
-		//$client = new Client();
 		$num -= 1;
 		$data = \GuzzleHttp\Stream\Stream::factory($data);
 		$file = $destination . '-chunking-42-' . $total . '-' . $num;
