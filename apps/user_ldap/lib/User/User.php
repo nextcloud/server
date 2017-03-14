@@ -498,11 +498,16 @@ class User {
 			}
 		}
 
-		if($quota !== false) {
-			$this->userManager->get($this->uid)->setQuota($quota);
+		$targetUser = $this->userManager->get($this->uid);
+		if ($targetUser) {
+			if($quota !== false) {
+				$targetUser->setQuota($quota);
+			} else {
+				$this->log->log('not suitable default quota found for user ' . $this->uid . ': [' . $defaultQuota . ']', \OCP\Util::WARN);
+				$targetUser->setQuota('default');
+			}
 		} else {
-			$this->log->log('not suitable default quota found for user ' . $this->uid . ': [' . $defaultQuota . ']', \OCP\Util::WARN);
-			$this->userManager->get($this->uid)->setQuota('default');
+			$this->log->log('trying to set a quota for user ' . $this->uid . ' but the user is missing', \OCP\Util::ERROR);
 		}
 	}
 
