@@ -258,10 +258,10 @@ class Share extends Constants {
 				$query = \OC_DB::prepare('
 					SELECT `share_with`
 					FROM `*PREFIX*share`
-					WHERE `item_source` = ? AND `share_type` = ? AND `item_type` IN (\'file\', \'folder\')', 1
+					WHERE `item_source` = ? AND `share_type` IN (?, ?) AND `item_type` IN (\'file\', \'folder\')', 1
 				);
 
-				$result = $query->execute(array($source, self::SHARE_TYPE_LINK));
+				$result = $query->execute(array($source, self::SHARE_TYPE_LINK, self::SHARE_TYPE_EMAIL));
 
 				if (\OCP\DB::isError($result)) {
 					\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage(), \OCP\Util::ERROR);
@@ -2811,7 +2811,7 @@ class Share extends Constants {
 
 	/**
 	 * @param IConfig $config
-	 * @return bool 
+	 * @return bool
 	 */
 	public static function enforcePassword(IConfig $config) {
 		$enforcePassword = $config->getAppValue('core', 'shareapi_enforce_links_password', 'no');
