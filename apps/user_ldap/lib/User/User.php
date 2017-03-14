@@ -169,6 +169,10 @@ class User {
 		$attr = strtolower($this->connection->ldapQuotaAttribute);
 		if(isset($ldapEntry[$attr])) {
 			$this->updateQuota($ldapEntry[$attr][0]);
+		} else {
+			if ($this->connection->ldapQuotaDefault !== '') {
+				$this->updateQuota();
+			}
 		}
 		unset($attr);
 
@@ -464,23 +468,46 @@ class User {
 		if($this->wasRefreshed('quota')) {
 			return;
 		}
-		//can be null
-		$quotaDefault = $this->connection->ldapQuotaDefault;
-		$quota = $quotaDefault !== '' ? $quotaDefault : null;
-		$quota = !is_null($valueFromLDAP) ? $valueFromLDAP : $quota;
 
+		$quota = false;
 		if(is_null($valueFromLDAP)) {
 			$quotaAttribute = $this->connection->ldapQuotaAttribute;
 			if ($quotaAttribute !== '') {
 				$aQuota = $this->access->readAttribute($this->dn, $quotaAttribute);
 				if($aQuota && (count($aQuota) > 0)) {
-					$quota = $aQuota[0];
+					if ($this->verifyQuotaValue($aQuota[0])) {
+						$quota = $aQuota[0];
+					} else {
+						$this->log->log('not suitable LDAP quota found for user ' . $this->uid . ': [' . $aQuota[0] . ']', \OCP\Util::WARN);
+					}
 				}
 			}
+		} else {
+			if ($this->verifyQuotaValue($valueFromLDAP)) {
+				$quota = $valueFromLDAP;
+			} else {
+				$this->log->log('not suitable LDAP quota found for user ' . $this->uid . ': [' . $valueFromLDAP . ']', \OCP\Util::WARN);
+			}
 		}
-		if(!is_null($quota)) {
+
+		if ($quota === false) {
+			// quota not found using the LDAP attribute (or not parseable). Try the default quota
+			$defaultQuota = $this->connection->ldapQuotaDefault;
+			if ($this->verifyQuotaValue($defaultQuota)) {
+				$quota = $defaultQuota;
+			}
+		}
+
+		if($quota !== false) {
 			$this->userManager->get($this->uid)->setQuota($quota);
+		} else {
+			$this->log->log('not suitable default quota found for user ' . $this->uid . ': [' . $defaultQuota . ']', \OCP\Util::WARN);
+			$this->userManager->get($this->uid)->setQuota('default');
 		}
+	}
+
+	private function verifyQuotaValue($quotaValue) {
+		return $quotaValue === 'none' || $quotaValue === 'default' || \OC_Helper::computerFileSize($quotaValue) !== false;
 	}
 
 	/**
