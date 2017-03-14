@@ -196,56 +196,23 @@ class ManagerTest extends \Test\TestCase {
 			->method('delete')
 			->with($share);
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['pre', 'post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'pre_unshare', $hookListner, 'pre');
-		\OCP\Util::connectHook('OCP\Share', 'post_unshare', $hookListner, 'post');
-
-		$hookListnerExpectsPre = [
-			'id' => 42,
-			'itemType' => 'file',
-			'itemSource' => 1,
-			'shareType' => $shareType,
-			'shareWith' => $sharedWith,
-			'itemparent' => null,
-			'uidOwner' => 'sharedBy',
-			'fileSource' => 1,
-			'fileTarget' => 'myTarget',
-		];
-
-		$hookListnerExpectsPost = [
-			'id' => 42,
-			'itemType' => 'file',
-			'itemSource' => 1,
-			'shareType' => $shareType,
-			'shareWith' => $sharedWith,
-			'itemparent' => null,
-			'uidOwner' => 'sharedBy',
-			'fileSource' => 1,
-			'fileTarget' => 'myTarget',
-			'deletedShares' => [
-				[
-					'id' => 42,
-					'itemType' => 'file',
-					'itemSource' => 1,
-					'shareType' => $shareType,
-					'shareWith' => $sharedWith,
-					'itemparent' => null,
-					'uidOwner' => 'sharedBy',
-					'fileSource' => 1,
-					'fileTarget' => 'myTarget',
-				],
-			],
-		];
-
-
-		$hookListner
-			->expects($this->exactly(1))
-			->method('pre')
-			->with($hookListnerExpectsPre);
-		$hookListner
-			->expects($this->exactly(1))
-			->method('post')
-			->with($hookListnerExpectsPost);
+		$this->eventDispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with(
+				'OCP\Share::preUnshare',
+				$this->callBack(function(GenericEvent $e) use ($share) {
+					return $e->getSubject() === $share;
+				})
+			);
+		$this->eventDispatcher->expects($this->at(1))
+			->method('dispatch')
+			->with(
+				'OCP\Share::postUnshare',
+				$this->callBack(function(GenericEvent $e) use ($share) {
+					return $e->getSubject() === $share &&
+						$e->getArgument('deletedShares') === [$share];
+				})
+			);
 
 		$manager->deleteShare($share);
 	}
@@ -275,56 +242,23 @@ class ManagerTest extends \Test\TestCase {
 			->method('delete')
 			->with($share);
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['pre', 'post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'pre_unshare', $hookListner, 'pre');
-		\OCP\Util::connectHook('OCP\Share', 'post_unshare', $hookListner, 'post');
-
-		$hookListnerExpectsPre = [
-			'id' => 42,
-			'itemType' => 'file',
-			'itemSource' => 1,
-			'shareType' => \OCP\Share::SHARE_TYPE_USER,
-			'shareWith' => 'sharedWith',
-			'itemparent' => null,
-			'uidOwner' => 'sharedBy',
-			'fileSource' => 1,
-			'fileTarget' => 'myTarget',
-		];
-
-		$hookListnerExpectsPost = [
-			'id' => 42,
-			'itemType' => 'file',
-			'itemSource' => 1,
-			'shareType' => \OCP\Share::SHARE_TYPE_USER,
-			'shareWith' => 'sharedWith',
-			'itemparent' => null,
-			'uidOwner' => 'sharedBy',
-			'fileSource' => 1,
-			'fileTarget' => 'myTarget',
-			'deletedShares' => [
-				[
-					'id' => 42,
-					'itemType' => 'file',
-					'itemSource' => 1,
-					'shareType' => \OCP\Share::SHARE_TYPE_USER,
-					'shareWith' => 'sharedWith',
-					'itemparent' => null,
-					'uidOwner' => 'sharedBy',
-					'fileSource' => 1,
-					'fileTarget' => 'myTarget',
-				],
-			],
-		];
-
-
-		$hookListner
-			->expects($this->exactly(1))
-			->method('pre')
-			->with($hookListnerExpectsPre);
-		$hookListner
-			->expects($this->exactly(1))
-			->method('post')
-			->with($hookListnerExpectsPost);
+		$this->eventDispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with(
+				'OCP\Share::preUnshare',
+				$this->callBack(function(GenericEvent $e) use ($share) {
+					return $e->getSubject() === $share;
+				})
+			);
+		$this->eventDispatcher->expects($this->at(1))
+			->method('dispatch')
+			->with(
+				'OCP\Share::postUnshare',
+				$this->callBack(function(GenericEvent $e) use ($share) {
+					return $e->getSubject() === $share &&
+						$e->getArgument('deletedShares') === [$share];
+				})
+			);
 
 		$manager->deleteShare($share);
 	}
@@ -377,77 +311,23 @@ class ManagerTest extends \Test\TestCase {
 			->method('delete')
 			->withConsecutive($share3, $share2, $share1);
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['pre', 'post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'pre_unshare', $hookListner, 'pre');
-		\OCP\Util::connectHook('OCP\Share', 'post_unshare', $hookListner, 'post');
-
-		$hookListnerExpectsPre = [
-			'id' => 42,
-			'itemType' => 'file',
-			'itemSource' => 1,
-			'shareType' => \OCP\Share::SHARE_TYPE_USER,
-			'shareWith' => 'sharedWith1',
-			'itemparent' => null,
-			'uidOwner' => 'sharedBy1',
-			'fileSource' => 1,
-			'fileTarget' => 'myTarget1',
-		];
-
-		$hookListnerExpectsPost = [
-			'id' => 42,
-			'itemType' => 'file',
-			'itemSource' => 1,
-			'shareType' => \OCP\Share::SHARE_TYPE_USER,
-			'shareWith' => 'sharedWith1',
-			'itemparent' => null,
-			'uidOwner' => 'sharedBy1',
-			'fileSource' => 1,
-			'fileTarget' => 'myTarget1',
-			'deletedShares' => [
-				[
-					'id' => 44,
-					'itemType' => 'file',
-					'itemSource' => 1,
-					'shareType' => \OCP\Share::SHARE_TYPE_LINK,
-					'shareWith' => '',
-					'itemparent' => 43,
-					'uidOwner' => 'sharedBy3',
-					'fileSource' => 1,
-					'fileTarget' => 'myTarget3',
-				],
-				[
-					'id' => 43,
-					'itemType' => 'file',
-					'itemSource' => 1,
-					'shareType' => \OCP\Share::SHARE_TYPE_GROUP,
-					'shareWith' => 'sharedWith2',
-					'itemparent' => 42,
-					'uidOwner' => 'sharedBy2',
-					'fileSource' => 1,
-					'fileTarget' => 'myTarget2',
-				],
-				[
-					'id' => 42,
-					'itemType' => 'file',
-					'itemSource' => 1,
-					'shareType' => \OCP\Share::SHARE_TYPE_USER,
-					'shareWith' => 'sharedWith1',
-					'itemparent' => null,
-					'uidOwner' => 'sharedBy1',
-					'fileSource' => 1,
-					'fileTarget' => 'myTarget1',
-				],
-			],
-		];
-
-		$hookListner
-			->expects($this->exactly(1))
-			->method('pre')
-			->with($hookListnerExpectsPre);
-		$hookListner
-			->expects($this->exactly(1))
-			->method('post')
-			->with($hookListnerExpectsPost);
+		$this->eventDispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with(
+				'OCP\Share::preUnshare',
+				$this->callBack(function(GenericEvent $e) use ($share1) {
+					return $e->getSubject() === $share1;
+				})
+			);
+		$this->eventDispatcher->expects($this->at(1))
+			->method('dispatch')
+			->with(
+				'OCP\Share::postUnshare',
+				$this->callBack(function(GenericEvent $e) use ($share1, $share2, $share3) {
+					return $e->getSubject() === $share1 &&
+						$e->getArgument('deletedShares') === [$share3, $share2, $share1];
+				})
+			);
 
 		$manager->deleteShare($share1);
 	}

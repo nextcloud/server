@@ -81,6 +81,8 @@ class Manager implements IManager {
 	private $sharingDisabledForUsersCache;
 	/** @var EventDispatcher */
 	private $eventDispatcher;
+	/** @var LegacyHooks */
+	private $legacyHooks;
 
 
 	/**
@@ -123,6 +125,7 @@ class Manager implements IManager {
 		$this->rootFolder = $rootFolder;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->sharingDisabledForUsersCache = new CappedMemoryCache();
+		$this->legacyHooks = new LegacyHooks($this->eventDispatcher);
 	}
 
 	/**
@@ -806,37 +809,6 @@ class Manager implements IManager {
 		$event = new GenericEvent($share);
 		$this->eventDispatcher->dispatch('OCP\Share::preUnshare', $event);
 
-		$formatHookParams = function(\OCP\Share\IShare $share) {
-			// Prepare hook
-			$shareType = $share->getShareType();
-			$sharedWith = '';
-			if ($shareType === \OCP\Share::SHARE_TYPE_USER) {
-				$sharedWith = $share->getSharedWith();
-			} else if ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
-				$sharedWith = $share->getSharedWith();
-			} else if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE) {
-				$sharedWith = $share->getSharedWith();
-			}
-
-			$hookParams = [
-				'id'         => $share->getId(),
-				'itemType'   => $share->getNodeType(),
-				'itemSource' => $share->getNodeId(),
-				'shareType'  => $shareType,
-				'shareWith'  => $sharedWith,
-				'itemparent' => method_exists($share, 'getParent') ? $share->getParent() : '',
-				'uidOwner'   => $share->getSharedBy(),
-				'fileSource' => $share->getNodeId(),
-				'fileTarget' => $share->getTarget()
-			];
-			return $hookParams;
-		};
-
-		$hookParams = $formatHookParams($share);
-
-		// Emit pre-hook
-		\OC_Hook::emit('OCP\Share', 'pre_unshare', $hookParams);
-
 		// Get all children and delete them as well
 		$deletedShares = $this->deleteChildren($share);
 
@@ -847,17 +819,9 @@ class Manager implements IManager {
 		// All the deleted shares caused by this delete
 		$deletedShares[] = $share;
 
-		//Format hook info
-		$formattedDeletedShares = array_map(function($share) use ($formatHookParams) {
-			return $formatHookParams($share);
-		}, $deletedShares);
-
-		$hookParams['deletedShares'] = $formattedDeletedShares;
-
 		// Emit post hook
 		$event->setArgument('deletedShares', $deletedShares);
 		$this->eventDispatcher->dispatch('OCP\Share::postUnshare', $event);
-		\OC_Hook::emit('OCP\Share', 'post_unshare', $hookParams);
 	}
 
 
