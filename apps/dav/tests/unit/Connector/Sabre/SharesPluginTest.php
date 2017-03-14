@@ -235,7 +235,7 @@ class SharesPluginTest extends \Test\TestCase {
 			->with(
 				$this->equalTo('user1'),
 				$this->anything(),
-				$this->equalTo(false)
+				$this->equalTo(true)
 			)
 			->will($this->returnCallback(function ($userId, $node, $flag) use ($shareTypes, $dummyShares) {
 				return [111 => $dummyShares];
