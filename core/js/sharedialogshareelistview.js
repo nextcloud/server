@@ -159,7 +159,6 @@
 			} else if (shareType === OC.Share.SHARE_TYPE_EMAIL) {
 				shareWithDisplayName = shareWithDisplayName + " (" + t('core', 'email') + ')';
 			} else if (shareType === OC.Share.SHARE_TYPE_CIRCLE) {
-				shareWithDisplayName = shareWithDisplayName;
 			}
 
 			if (shareType === OC.Share.SHARE_TYPE_GROUP) {
