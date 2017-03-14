@@ -299,6 +299,8 @@ class MountProviderTest extends \Test\TestCase {
 			->method('getUID')
 			->will($this->returnValue('user1'));
 
+		// tests regarding circles are made in the app itself.
+		$circleShares = [];
 		$this->shareManager->expects($this->at(0))
 			->method('getSharedWith')
 			->with('user1', \OCP\Share::SHARE_TYPE_USER)
@@ -307,6 +309,10 @@ class MountProviderTest extends \Test\TestCase {
 			->method('getSharedWith')
 			->with('user1', \OCP\Share::SHARE_TYPE_GROUP, null, -1)
 			->will($this->returnValue($groupShares));
+		$this->shareManager->expects($this->at(2))
+			->method('getSharedWith')
+			->with('user1', \OCP\Share::SHARE_TYPE_CIRCLE, null, -1)
+			->will($this->returnValue($circleShares));
 		$this->shareManager->expects($this->any())
 			->method('newShare')
 			->will($this->returnCallback(function() use ($rootFolder, $userManager) {
