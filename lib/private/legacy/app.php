@@ -134,10 +134,8 @@ class OC_App {
 	 * load a single app
 	 *
 	 * @param string $app
-	 * @param bool $checkUpgrade whether an upgrade check should be done
-	 * @throws \OC\NeedsUpdateException
 	 */
-	public static function loadApp($app, $checkUpgrade = true) {
+	public static function loadApp($app) {
 		self::$loadedApps[] = $app;
 		$appPath = self::getAppPath($app);
 		if($appPath === false) {
@@ -149,9 +147,6 @@ class OC_App {
 
 		if (is_file($appPath . '/appinfo/app.php')) {
 			\OC::$server->getEventLogger()->start('load_app_' . $app, 'Load app: ' . $app);
-			if ($checkUpgrade and self::shouldUpgrade($app)) {
-				throw new \OC\NeedsUpdateException();
-			}
 			self::requireAppFile($app);
 			if (self::isType($app, array('authentication'))) {
 				// since authentication apps affect the "is app enabled for group" check,
@@ -1138,7 +1133,7 @@ class OC_App {
 		unset(self::$appVersion[$appId]);
 		// run upgrade code
 		if (file_exists($appPath . '/appinfo/update.php')) {
-			self::loadApp($appId, false);
+			self::loadApp($appId);
 			include $appPath . '/appinfo/update.php';
 		}
 		self::setupBackgroundJobs($appData['background-jobs']);
@@ -1183,7 +1178,7 @@ class OC_App {
 			return;
 		}
 		// load the app
-		self::loadApp($appId, false);
+		self::loadApp($appId);
 
 		$dispatcher = OC::$server->getEventDispatcher();
 

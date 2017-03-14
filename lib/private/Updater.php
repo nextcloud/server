@@ -365,7 +365,7 @@ class Updater extends BasicEmitter {
 					// load authentication, filesystem and logging apps after
 					// upgrading them. Other apps my need to rely on modifying
 					// user and/or filesystem aspects.
-					\OC_App::loadApp($appId, false);
+					\OC_App::loadApp($appId);
 				}
 			}
 		}
