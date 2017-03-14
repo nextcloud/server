@@ -138,6 +138,16 @@ input#openid, input#webdav { width:20em; }
 	top: 82px;
 	pointer-events: none;
 }
+
+#personal-settings-container .verify {
+	float: right;
+	padding-top: 10px;
+}
+
+#personal-settings-container .verify:hover {
+	cursor: pointer;
+}
+
 .federationScopeMenu {
 	top: 44px;
 	margin: -5px 0px 0;
@@ -1016,4 +1026,49 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	margin-top: -12px;
 	margin-bottom: 12px;
 	opacity: .7;
+/* verify accounts */
+#verification-dialog {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.verification-dialog-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%; /* Could be more or less, depending on screen size */
+}
+
+#verify-dialog-close {
+	float: right;
+	width: 34px;
+	border: none;
+	background-color: transparent;
+	margin: 0 !important;
+	border-radius: 0;
+	right: 0;
+	opacity: 0.3;
+}
+
+#verify-dialog-close:hover {
+	cursor: pointer;
+	opacity: 1;
+}
+
+#verification-dialog .verificationCode {
+	font-family: monospace;
+	white-space: nowrap;
+	display: block;
+	overflow-y: scroll;
+	padding: 10px;
+	margin: 20px 20px 20px 0;
 }

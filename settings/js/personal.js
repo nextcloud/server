@@ -201,6 +201,42 @@ $(document).ready(function () {
 		}
 	});
 
+	var showVerifyDialog = function(howToVerify, verificationCode) {
+		var dialog = document.getElementById('verification-dialog');
+		$(".verification-dialog-content span.explainVerification").text(howToVerify);
+		$(".verification-dialog-content span.verificationCode").text(verificationCode);
+		dialog.style.display = "block";
+	};
+
+	$(".verify").click(function () {
+		var account = $(this).attr('id');
+
+		// Add: make call to get content for verify dialog
+
+		$.ajax(
+			OC.generateUrl('/settings/users/{account}/verify', {account: account}),
+			{method: 'GET'}
+		).done(function(data) {
+			showVerifyDialog(data.msg, data.code);
+		});
+
+	});
+
+	// When the user clicks on <span> (x), close the modal
+	$("#verify-dialog-close").click(function() {
+		var dialog = document.getElementById('verification-dialog');
+		dialog.style.display = "none";
+	});
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+		var dialog = document.getElementById('verification-dialog');
+		if (event.target === dialog) {
+			dialog.style.display = "none";
+		}
+	};
+
+
 	var federationSettingsView = new OC.Settings.FederationSettingsView({
 		el: '#personal-settings'
 	});
@@ -334,7 +370,7 @@ $(document).ready(function () {
 			$('#removeavatar').removeClass('hidden').addClass('inlineblock');
 		}
 	});
-	
+
 
 	// Show token views
 	var collection = new OC.Settings.AuthTokenCollection();

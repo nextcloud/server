@@ -8,6 +8,18 @@
 /** @var \OCP\Defaults $theme */
 ?>
 
+<div id="verification-dialog">
+
+	<!-- dialog used to verify personal information such as the users website, email address, etc -->
+	<div class="verification-dialog-content">
+		<button id="verify-dialog-close" class="icon-close svg"></button>
+		<span class="explainVerification">How to verify your account details</span><br />
+		<span class="verificationCode">verification code</span>
+		<p>It can take up to 24 hours before the account is displayed as verified.</p>
+	</div>
+
+</div>
+
 <div id="app-navigation">
 	<ul class="with-icon">
 	<?php foreach($_['forms'] as $form) {
@@ -99,6 +111,7 @@
 				<label for="email"><?php p($l->t('Email')); ?></label>
 				<span class="icon-password"/>
 			</h2>
+			<span class="verify" id="verify-email">Verify</span>
 			<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
 				<?php if(!$_['displayNameChangeSupported']) { print_unescaped('class="hidden"'); } ?>
 				placeholder="<?php p($l->t('Your email address')); ?>"
@@ -151,6 +164,7 @@
 				<label for="website"><?php p($l->t('Website')); ?></label>
 				<span class="icon-password"/>
 			</h2>
+			<span class="verify" id="verify-website">Verify</span>
 			<input type="text" name="website" id="website" value="<?php p($_['website']); ?>"
 			       placeholder="<?php p($l->t('Your website')); ?>"
 			       autocomplete="on" autocapitalize="none" autocorrect="off" />
@@ -164,6 +178,7 @@
 				<label for="twitter"><?php p($l->t('Twitter')); ?></label>
 				<span class="icon-password"/>
 			</h2>
+			<span class="verify" id="verify-twitter">Verify</span>
 			<input type="text" name="twitter" id="twitter" value="<?php p($_['twitter']); ?>"
 				   placeholder="<?php p($l->t('Your Twitter handle')); ?>"
 				   autocomplete="on" autocapitalize="none" autocorrect="off" />
