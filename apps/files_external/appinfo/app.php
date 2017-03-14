@@ -37,15 +37,16 @@ $appContainer = \OC_Mount_Config::$app->getContainer();
 
 \OC_Mount_Config::$app->registerSettings();
 
-$l = \OC::$server->getL10N('files_external');
-
-\OCA\Files\App::getNavigationManager()->add([
-	"id" => 'extstoragemounts',
-	"appname" => 'files_external',
-	"script" => 'list.php',
-	"order" => 30,
-	"name" => $l->t('External storage')
-]);
+\OCA\Files\App::getNavigationManager()->add(function () {
+	$l = \OC::$server->getL10N('files_external');
+	return [
+		'id' => 'extstoragemounts',
+		'appname' => 'files_external',
+		'script' => 'list.php',
+		'order' => 30,
+		'name' => $l->t('External storage'),
+	];
+});
 
 $mountProvider = $appContainer->query('OCA\Files_External\Config\ConfigAdapter');
 \OC::$server->getMountProviderCollection()->registerProvider($mountProvider);

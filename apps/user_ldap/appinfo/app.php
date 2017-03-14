@@ -58,7 +58,7 @@ if(count($configPrefixes) === 1) {
 if(count($configPrefixes) > 0) {
 	// register user backend
 	OC_User::useBackend($userBackend);
-	OC_Group::useBackend($groupBackend);
+	\OC::$server->getGroupManager()->addBackend($groupBackend);
 }
 
 \OCP\Util::connectHook(

@@ -570,7 +570,7 @@ class Access extends LDAPUtility implements IUserTools {
 		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(array('ldapCacheTTL' => 0));
 		if(($isUser && !\OCP\User::userExists($intName))
-			|| (!$isUser && !\OC_Group::groupExists($intName))) {
+			|| (!$isUser && !\OC::$server->getGroupManager()->groupExists($intName))) {
 			if($mapper->map($fdn, $intName, $uuid)) {
 				$this->connection->setConfiguration(array('ldapCacheTTL' => $originalTTL));
 				return $intName;
@@ -737,7 +737,7 @@ class Access extends LDAPUtility implements IUserTools {
 			// Check to be really sure it is unique
 			// while loop is just a precaution. If a name is not generated within
 			// 20 attempts, something else is very wrong. Avoids infinite loop.
-			if(!\OC_Group::groupExists($altName)) {
+			if(!\OC::$server->getGroupManager()->groupExists($altName)) {
 				return $altName;
 			}
 			$altName = $name . '_' . ($lastNo + $attempts);

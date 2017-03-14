@@ -80,7 +80,11 @@ try {
 	OC::$server->getRouter()->match('/ocsapp'.\OC::$server->getRequest()->getRawPathInfo());
 } catch (ResourceNotFoundException $e) {
 	OC_API::setContentType();
-	OC_OCS::notFound();
+
+	$format = \OC::$server->getRequest()->getParam('format', 'xml');
+	$txt='Invalid query, please check the syntax. API specifications are here:'
+		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
+	OC_API::respond(new OC_OCS_Result(null, \OCP\API::RESPOND_NOT_FOUND, $txt), $format);
 } catch (MethodNotAllowedException $e) {
 	OC_API::setContentType();
 	OC_Response::setStatus(405);
@@ -91,6 +95,10 @@ try {
 } catch (\Exception $e) {
 	\OC::$server->getLogger()->logException($e);
 	OC_API::setContentType();
-	OC_OCS::notFound();
+
+	$format = \OC::$server->getRequest()->getParam('format', 'xml');
+	$txt='Invalid query, please check the syntax. API specifications are here:'
+		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
+	OC_API::respond(new OC_OCS_Result(null, \OCP\API::RESPOND_NOT_FOUND, $txt), $format);
 }
 

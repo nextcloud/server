@@ -36,6 +36,7 @@ use OC\Repair\MoveUpdaterStepFile;
 use OC\Repair\NC11\CleanPreviews;
 use OC\Repair\NC11\FixMountStorages;
 use OC\Repair\NC11\MoveAvatars;
+use OC\Repair\NC12\UpdateLanguageCodes;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\RemoveRootShares;
 use OC\Repair\SqliteAutoincrement;
@@ -134,6 +135,7 @@ class Repair implements IOutput{
 				\OC::$server->getConfig()
 			),
 			new FixMountStorages(\OC::$server->getDatabaseConnection()),
+			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
 		];
 	}
 

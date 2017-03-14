@@ -206,7 +206,12 @@ class File extends Node implements IFile {
 			// allow sync clients to send the mtime along in a header
 			$request = \OC::$server->getRequest();
 			if (isset($request->server['HTTP_X_OC_MTIME'])) {
-				if ($this->fileView->touch($this->path, $request->server['HTTP_X_OC_MTIME'])) {
+				$mtimeStr = $request->server['HTTP_X_OC_MTIME'];
+				if (!is_numeric($mtimeStr)) {
+					throw new \InvalidArgumentException('X-OC-Mtime header must be an integer (unix timestamp).');
+				}
+				$mtime = intval($mtimeStr);
+				if ($this->fileView->touch($this->path, $mtime)) {
 					header('X-OC-MTime: accepted');
 				}
 			}
@@ -505,9 +510,9 @@ class File extends Node implements IFile {
 	 */
 	private function needsPartFile($storage) {
 		// TODO: in the future use ChunkHandler provided by storage
-		// and/or add method on Storage called "needsPartFile()"
 		return !$storage->instanceOfStorage('OCA\Files_Sharing\External\Storage') &&
-		!$storage->instanceOfStorage('OC\Files\Storage\OwnCloud');
+			!$storage->instanceOfStorage('OC\Files\Storage\OwnCloud') &&
+			$storage->needsPartFile();
 	}
 
 	/**

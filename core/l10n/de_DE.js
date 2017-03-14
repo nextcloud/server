@@ -48,7 +48,7 @@ OC.L10N.register(
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Es gab Probleme bei der Code Integritätsprüfung. Mehr Informationen...</a>",
     "Settings" : "Einstellungen",
     "Connection to server lost" : "Verbindung zum Server verloren",
-    "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Problem beim Laden der Seite, Seite wird in %n Sekunde nochmals geladen","Problem beim Laden der Seite, Seite wird in %n Sekunden nochmals geladen"],
+    "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Problem beim Laden der Seite, Seite wird in %n Sekunde nochmals geladen","Problem beim Laden der Seite, Seite wird in 5 Sekunden erneut geladen"],
     "Saving..." : "Speichere...",
     "Dismiss" : "Ausblenden",
     "This action requires you to confirm your password" : "Dieser Vorgang benötigt eine Passwortbestätigung von Ihnen",

@@ -28,6 +28,7 @@ use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
 use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -41,41 +42,33 @@ class NotifierTest extends TestCase {
 
 	/** @var Notifier */
 	protected $notifier;
-
 	/** @var IFactory|\PHPUnit_Framework_MockObject_MockObject */
 	protected $l10nFactory;
-
-	/** @var  Folder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	protected $l;
+	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
 	protected $folder;
-
-	/** @var  ICommentsManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICommentsManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $commentsManager;
 	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	protected $url;
-	/** @var  IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
-
-
+	/** @var INotification|\PHPUnit_Framework_MockObject_MockObject */
+	protected $notification;
+	/** @var IComment|\PHPUnit_Framework_MockObject_MockObject */
+	protected $comment;
 	/** @var string */
 	protected $lc = 'tlh_KX';
-
-	/** @var  INotification|\PHPUnit_Framework_MockObject_MockObject */
-	protected $notification;
-
-	/** @var  IL10N|\PHPUnit_Framework_MockObject_MockObject */
-	protected $l;
-
-	/** @var  IComment|\PHPUnit_Framework_MockObject_MockObject */
-	protected $comment;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$this->l10nFactory = $this->getMockBuilder('OCP\L10N\IFactory')->getMock();
-		$this->folder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
-		$this->commentsManager = $this->getMockBuilder('OCP\Comments\ICommentsManager')->getMock();
+		$this->l10nFactory = $this->createMock(IFactory::class);
+		$this->folder = $this->createMock(IRootFolder::class);
+		$this->commentsManager = $this->createMock(ICommentsManager::class);
 		$this->url = $this->createMock(IURLGenerator::class);
-		$this->userManager = $this->getMockBuilder('OCP\IUserManager')->getMock();
+		$this->userManager = $this->createMock(IUserManager::class);
 
 		$this->notifier = new Notifier(
 			$this->l10nFactory,
@@ -92,8 +85,8 @@ class NotifierTest extends TestCase {
 				return vsprintf($text, $parameters);
 			}));
 
-		$this->notification = $this->getMockBuilder('OCP\Notification\INotification')->getMock();
-		$this->comment = $this->getMockBuilder('OCP\Comments\IComment')->getMock();
+		$this->notification = $this->createMock(INotification::class);
+		$this->comment = $this->createMock(IComment::class);
 	}
 
 	public function testPrepareSuccess() {
@@ -102,24 +95,31 @@ class NotifierTest extends TestCase {
 		$message = 'Huraga mentioned you in a comment on “Gre\'thor.odp”';
 
 		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
-		$user = $this->getMockBuilder('OCP\IUser')->getMock();
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getDisplayName')
 			->willReturn($displayName);
 
-		/** @var Node|\PHPUnit_Framework_MockObject_MockObject */
-		$node = $this->getMockBuilder('OCP\Files\Node')->getMock();
+		/** @var Node|\PHPUnit_Framework_MockObject_MockObject $node */
+		$node = $this->createMock(Node::class);
 		$node
 			->expects($this->atLeastOnce())
 			->method('getName')
 			->willReturn($fileName);
 
-		$this->folder
-			->expects($this->once())
+		$userFolder = $this->createMock(Folder::class);
+		$this->folder->expects($this->once())
+			->method('getUserFolder')
+			->with('you')
+			->willReturn($userFolder);
+		$userFolder->expects($this->once())
 			->method('getById')
 			->with('678')
 			->willReturn([$node]);
 
+		$this->notification->expects($this->once())
+			->method('getUser')
+			->willReturn('you');
 		$this->notification
 			->expects($this->once())
 			->method('getApp')
@@ -172,7 +172,7 @@ class NotifierTest extends TestCase {
 			->willReturn('users');
 
 		$this->commentsManager
-			->expects(($this->once()))
+			->expects($this->once())
 			->method('get')
 			->willReturn($this->comment);
 
@@ -189,19 +189,26 @@ class NotifierTest extends TestCase {
 		$fileName = 'Gre\'thor.odp';
 		$message = 'A (now) deleted user mentioned you in a comment on “Gre\'thor.odp”';
 
-		/** @var Node|\PHPUnit_Framework_MockObject_MockObject */
-		$node = $this->getMockBuilder('OCP\Files\Node')->getMock();
+		/** @var Node|\PHPUnit_Framework_MockObject_MockObject $node */
+		$node = $this->createMock(Node::class);
 		$node
 			->expects($this->atLeastOnce())
 			->method('getName')
 			->willReturn($fileName);
 
-		$this->folder
-			->expects($this->once())
+		$userFolder = $this->createMock(Folder::class);
+		$this->folder->expects($this->once())
+			->method('getUserFolder')
+			->with('you')
+			->willReturn($userFolder);
+		$userFolder->expects($this->once())
 			->method('getById')
 			->with('678')
 			->willReturn([$node]);
 
+		$this->notification->expects($this->once())
+			->method('getUser')
+			->willReturn('you');
 		$this->notification
 			->expects($this->once())
 			->method('getApp')
@@ -254,7 +261,7 @@ class NotifierTest extends TestCase {
 			->willReturn(ICommentsManager::DELETED_USER);
 
 		$this->commentsManager
-			->expects(($this->once()))
+			->expects($this->once())
 			->method('get')
 			->willReturn($this->comment);
 
@@ -292,7 +299,7 @@ class NotifierTest extends TestCase {
 			->method('get');
 
 		$this->commentsManager
-			->expects(($this->never()))
+			->expects($this->never())
 			->method('get');
 
 		$this->userManager
@@ -329,7 +336,7 @@ class NotifierTest extends TestCase {
 			->method('get');
 
 		$this->commentsManager
-			->expects(($this->once()))
+			->expects($this->once())
 			->method('get')
 			->willThrowException(new NotFoundException());
 
@@ -347,7 +354,7 @@ class NotifierTest extends TestCase {
 		$displayName = 'Huraga';
 
 		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
-		$user = $this->getMockBuilder('OCP\IUser')->getMock();
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getDisplayName')
 			->willReturn($displayName);
@@ -390,7 +397,7 @@ class NotifierTest extends TestCase {
 			->willReturn('users');
 
 		$this->commentsManager
-			->expects(($this->once()))
+			->expects($this->once())
 			->method('get')
 			->willReturn($this->comment);
 
@@ -410,7 +417,7 @@ class NotifierTest extends TestCase {
 		$displayName = 'Huraga';
 
 		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
-		$user = $this->getMockBuilder('OCP\IUser')->getMock();
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getDisplayName')
 			->willReturn($displayName);
@@ -454,7 +461,7 @@ class NotifierTest extends TestCase {
 			->willReturn('users');
 
 		$this->commentsManager
-			->expects(($this->once()))
+			->expects($this->once())
 			->method('get')
 			->willReturn($this->comment);
 
@@ -474,17 +481,24 @@ class NotifierTest extends TestCase {
 		$displayName = 'Huraga';
 
 		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
-		$user = $this->getMockBuilder('OCP\IUser')->getMock();
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getDisplayName')
 			->willReturn($displayName);
 
-		$this->folder
-			->expects($this->once())
+		$userFolder = $this->createMock(Folder::class);
+		$this->folder->expects($this->once())
+			->method('getUserFolder')
+			->with('you')
+			->willReturn($userFolder);
+		$userFolder->expects($this->once())
 			->method('getById')
 			->with('678')
 			->willReturn([]);
 
+		$this->notification->expects($this->once())
+			->method('getUser')
+			->willReturn('you');
 		$this->notification
 			->expects($this->once())
 			->method('getApp')
@@ -520,7 +534,7 @@ class NotifierTest extends TestCase {
 			->willReturn('users');
 
 		$this->commentsManager
-			->expects(($this->once()))
+			->expects($this->once())
 			->method('get')
 			->willReturn($this->comment);
 

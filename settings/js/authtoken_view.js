@@ -230,6 +230,12 @@
 			this._tokenName = $('#app-password-name');
 			this._addAppPasswordBtn = $('#add-app-password');
 			this._addAppPasswordBtn.click(_.bind(this._addAppPassword, this));
+			this._appPasswordName = $('#app-password-name');
+			this._appPasswordName.on('keypress', function(event) {
+				if (event.which === 13) {
+					_this._addAppPassword();
+				}
+			});
 
 			this._result = $('#app-password-result');
 			this._newAppLoginName = $('#new-app-login-name');

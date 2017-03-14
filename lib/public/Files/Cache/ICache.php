@@ -21,6 +21,8 @@
  */
 
 namespace OCP\Files\Cache;
+use OCP\Files\Search\ISearchOperator;
+use OCP\Files\Search\ISearchQuery;
 
 /**
  * Metadata cache for a storage
@@ -211,6 +213,16 @@ interface ICache {
 	 * @deprecated 9.0.0 due to lack of pagination, not all backends might implement this
 	 */
 	public function searchByMime($mimetype);
+
+	/**
+	 * Search for files with a flexible query
+	 *
+	 * @param ISearchQuery $query
+	 * @return ICacheEntry[]
+	 * @throw \InvalidArgumentException if the cache is unable to perform the query
+	 * @since 12.0.0
+	 */
+	public function searchQuery(ISearchQuery $query);
 
 	/**
 	 * Search for files by tag of a given users.

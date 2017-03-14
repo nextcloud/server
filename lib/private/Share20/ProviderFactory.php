@@ -137,7 +137,7 @@ class ProviderFactory implements IProviderFactory {
 	/**
 	 * Create the federated share provider
 	 *
-	 * @return FederatedShareProvider
+	 * @return ShareByMailProvider
 	 */
 	protected function getShareByMailProvider() {
 		if ($this->shareByMailProvider === null) {

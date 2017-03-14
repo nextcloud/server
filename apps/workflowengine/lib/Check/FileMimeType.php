@@ -76,12 +76,21 @@ class FileMimeType extends AbstractStringCheck {
 			return $this->mimeType[$this->storage->getId()][$this->path];
 		}
 
-		$this->mimeType[$this->storage->getId()][$this->path] = '';
 		if ($this->isWebDAVRequest()) {
 			if ($this->request->getMethod() === 'PUT') {
 				$path = $this->request->getPathInfo();
 				$this->mimeType[$this->storage->getId()][$this->path] = $this->mimeTypeDetector->detectPath($path);
 				return $this->mimeType[$this->storage->getId()][$this->path];
+			}
+		} else if ($this->isPublicWebDAVRequest()) {
+			if ($this->request->getMethod() === 'PUT') {
+				$path = $this->request->getPathInfo();
+				if (strpos($path, '/webdav/') === 0) {
+					$path = substr($path, strlen('/webdav'));
+				}
+				$path = $this->path . $path;
+				$this->mimeType[$this->storage->getId()][$path] = $this->mimeTypeDetector->detectPath($path);
+				return $this->mimeType[$this->storage->getId()][$path];
 			}
 		}
 
@@ -157,6 +166,16 @@ class FileMimeType extends AbstractStringCheck {
 			strpos($this->request->getPathInfo(), '/webdav/') === 0 ||
 			$this->request->getPathInfo() === '/dav/files' ||
 			strpos($this->request->getPathInfo(), '/dav/files/') === 0
+		);
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function isPublicWebDAVRequest() {
+		return substr($this->request->getScriptName(), 0 - strlen('/public.php')) === '/public.php' && (
+			$this->request->getPathInfo() === '/webdav' ||
+			strpos($this->request->getPathInfo(), '/webdav/') === 0
 		);
 	}
 }

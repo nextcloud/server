@@ -528,7 +528,7 @@ class OC {
 			//
 			// Questions about this code? Ask Lukas ;-)
 			$currentUrl = substr(explode('?',$request->getRequestUri(), 2)[0], strlen(\OC::$WEBROOT));
-			if($currentUrl === '/index.php/apps/user_saml/saml/acs') {
+			if($currentUrl === '/index.php/apps/user_saml/saml/acs' || $currentUrl === '/apps/user_saml/saml/acs') {
 				return;
 			}
 			// For the "index.php" endpoint only a lax cookie is required.
@@ -698,7 +698,7 @@ class OC {
 		}
 
 		OC_User::useBackend(new \OC\User\Database());
-		OC_Group::useBackend(new \OC\Group\Database());
+		\OC::$server->getGroupManager()->addBackend(new \OC\Group\Database());
 
 		// Subscribe to the hook
 		\OCP\Util::connectHook(
@@ -949,7 +949,7 @@ class OC {
 		if (!self::checkUpgrade(false)
 			&& !$systemConfig->getValue('maintenance', false)) {
 			// For logged-in users: Load everything
-			if(OC_User::isLoggedIn()) {
+			if(\OC::$server->getUserSession()->isLoggedIn()) {
 				OC_App::loadApps();
 			} else {
 				// For guests: Load only filesystem and logging
@@ -986,7 +986,7 @@ class OC {
 		}
 
 		// Someone is logged in
-		if (OC_User::isLoggedIn()) {
+		if (\OC::$server->getUserSession()->isLoggedIn()) {
 			OC_App::loadApps();
 			OC_User::setupBackends();
 			OC_Util::setupFS();

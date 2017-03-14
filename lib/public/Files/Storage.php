@@ -458,4 +458,6 @@ interface Storage extends IStorage {
 	 * @param bool $isAvailable
 	 */
 	public function setAvailability($isAvailable);
+
+	public function needsPartFile();
 }

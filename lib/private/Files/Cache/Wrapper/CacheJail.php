@@ -28,6 +28,7 @@
 namespace OC\Files\Cache\Wrapper;
 use OC\Files\Cache\Cache;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Search\ISearchQuery;
 
 /**
  * Jail to a subdirectory of the wrapped cache
@@ -215,6 +216,11 @@ class CacheJail extends CacheWrapper {
 	 */
 	public function searchByMime($mimetype) {
 		$results = $this->getCache()->searchByMime($mimetype);
+		return $this->formatSearchResults($results);
+	}
+
+	public function searchQuery(ISearchQuery $query) {
+		$results = $this->getCache()->searchQuery($query);
 		return $this->formatSearchResults($results);
 	}
 

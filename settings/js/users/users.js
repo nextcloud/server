@@ -10,6 +10,7 @@
 
 var $userList;
 var $userListBody;
+var $emptyContainer;
 
 var UserDeleteHandler;
 var UserList = {
@@ -396,15 +397,25 @@ var UserList = {
 					}
 					UserList.add(user);
 				});
+
 				if (result.length > 0) {
 					UserList.doSort();
 					$userList.siblings('.loading').css('visibility', 'hidden');
 					// reset state on load
 					UserList.noMoreEntries = false;
+					$userListHead.show();
+					$emptyContainer.hide();
+					$emptyContainer.find('h2').text('');
 				}
 				else {
 					UserList.noMoreEntries = true;
 					$userList.siblings('.loading').remove();
+
+					if (pattern !== ""){
+						$userListHead.hide();
+						$emptyContainer.show();
+						$emptyContainer.find('h2').html(t('settings', 'No user found for <strong>{pattern}</strong>', {pattern: pattern}));
+					}
 				}
 				UserList.offset += limit;
 			}).always(function() {
@@ -414,7 +425,7 @@ var UserList = {
 
 	applyGroupSelect: function (element, user, checked) {
 		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
-			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.applySubadminSelect, this, element, user, checked));
+			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.applyGroupSelect, this, element, user, checked));
 			return;
 		}
 
@@ -554,7 +565,7 @@ var UserList = {
 		if (quota === 'other') {
 			return;
 		}
-		if ((quota !== 'default' && quota !=="none") && (isNaN(parseInt(quota, 10)) || parseInt(quota, 10) < 0)) {
+		if ((quota !== 'default' && quota !=="none") && (!OC.Util.computerFileSize(quota))) {
 			// the select component has added the bogus value, delete it again
 			$select.find('option[selected]').remove();
 			OC.Notification.showTemporary(t('core', 'Invalid quota value "{val}"', {val: quota}));
@@ -668,6 +679,8 @@ var UserList = {
 $(document).ready(function () {
 	$userList = $('#userlist');
 	$userListBody = $userList.find('tbody');
+	$userListHead = $userList.find('thead');
+	$emptyContainer = $userList.siblings('.emptycontent');
 
 	UserList.initDeleteHandling();
 
@@ -897,6 +910,13 @@ $(document).ready(function () {
 	// init the quota field select box after it is shown the first time
 	$('#app-settings').one('show', function() {
 		$(this).find('#default_quota').singleSelect().on('change', UserList.onQuotaSelect);
+	});
+
+	$('#newuser input').click(function() {
+		// empty the container also here to avoid visual delay
+		$emptyContainer.hide();
+		OC.Search = new OCA.Search($('#searchbox'), $('#searchresults'));
+		OC.Search.clear();
 	});
 
 	UserList._updateGroupListLabel($('#newuser .groups'), []);

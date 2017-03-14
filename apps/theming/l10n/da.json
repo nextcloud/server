@@ -1,0 +1,25 @@
+{ "translations": {
+    "Admin" : "Admin",
+    "a safe home for all your data" : "Et sikket hjem til alt dit data",
+    "The given name is too long" : "Navnet er for langt",
+    "The given web address is too long" : "Webadressen er for lang",
+    "The given slogan is too long" : "Sloganet er for langt",
+    "The given color is invalid" : "Farven er ikke gyldig",
+    "Saved" : "Gemt",
+    "No file uploaded" : "Ingen fil uploadet",
+    "Unsupported image type" : "Ikke-understøttet billede format",
+    "You are already using a custom theme" : "Du bruger allerede et brugerdefineret tema",
+    "Theming" : "Temaer",
+    "Name" : "Navn",
+    "reset to default" : "nulstil til standardindstillinger ",
+    "Web address" : "Web adresse",
+    "Web address https://…" : "Web adresse http://...",
+    "Slogan" : "Slogan",
+    "Color" : "Farve",
+    "Logo" : "Logo",
+    "Upload new logo" : "Upload nyt logo",
+    "Login image" : "Login billede",
+    "Upload new login background" : "Upload nyt login billede",
+    "Log in image" : "Log ind billede"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

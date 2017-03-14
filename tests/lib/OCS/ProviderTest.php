@@ -48,10 +48,15 @@ class ProviderTest extends \Test\TestCase {
 		$this->appManager
 			->expects($this->at(1))
 			->method('isEnabledForUser')
-			->with('activity')
+			->with('federation')
 			->will($this->returnValue(false));
 		$this->appManager
 			->expects($this->at(2))
+			->method('isEnabledForUser')
+			->with('activity')
+			->will($this->returnValue(false));
+		$this->appManager
+			->expects($this->at(3))
 			->method('isEnabledForUser')
 			->with('provisioning_api')
 			->will($this->returnValue(false));
@@ -84,10 +89,15 @@ class ProviderTest extends \Test\TestCase {
 		$this->appManager
 			->expects($this->at(1))
 			->method('isEnabledForUser')
-			->with('activity')
+			->with('federation')
 			->will($this->returnValue(false));
 		$this->appManager
 			->expects($this->at(2))
+			->method('isEnabledForUser')
+			->with('activity')
+			->will($this->returnValue(false));
+		$this->appManager
+			->expects($this->at(3))
 			->method('isEnabledForUser')
 			->with('provisioning_api')
 			->will($this->returnValue(false));
@@ -124,6 +134,55 @@ class ProviderTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->ocsProvider->buildProviderList());
 	}
 
+	public function testBuildProviderListWithFederationEnabled() {
+		$this->appManager
+			->expects($this->at(0))
+			->method('isEnabledForUser')
+			->with('files_sharing')
+			->will($this->returnValue(false));
+		$this->appManager
+			->expects($this->at(1))
+			->method('isEnabledForUser')
+			->with('federation')
+			->will($this->returnValue(true));
+		$this->appManager
+			->expects($this->at(2))
+			->method('isEnabledForUser')
+			->with('activity')
+			->will($this->returnValue(false));
+		$this->appManager
+			->expects($this->at(3))
+			->method('isEnabledForUser')
+			->with('provisioning_api')
+			->will($this->returnValue(false));
+
+		$expected = new \OCP\AppFramework\Http\JSONResponse(
+			[
+				'version' => 2,
+				'services' => [
+					'PRIVATE_DATA' => [
+						'version' => 1,
+						'endpoints' => [
+							'store' => '/ocs/v2.php/privatedata/setattribute',
+							'read' => '/ocs/v2.php/privatedata/getattribute',
+							'delete' => '/ocs/v2.php/privatedata/deleteattribute',
+						],
+					],
+					'FEDERATED_SHARING' => [
+						'version' => 1,
+						'endpoints' => [
+							'shared-secret' => '/ocs/v2.php/cloud/shared-secret',
+							'system-address-book' => '/remote.php/dav/addressbooks/system/system/system',
+							'carddav-user' => 'system'
+						],
+					],
+				],
+			]
+		);
+
+		$this->assertEquals($expected, $this->ocsProvider->buildProviderList());
+	}
+
 	public function testBuildProviderListWithEverythingEnabled() {
 		$this->appManager
 			->expects($this->any())
@@ -147,6 +206,9 @@ class ProviderTest extends \Test\TestCase {
 						'endpoints' => [
 							'share' => '/ocs/v2.php/cloud/shares',
 							'webdav' => '/public.php/webdav/',
+							'shared-secret' => '/ocs/v2.php/cloud/shared-secret',
+							'system-address-book' => '/remote.php/dav/addressbooks/system/system/system',
+							'carddav-user' => 'system'
 						],
 					],
 					'SHARING' => [

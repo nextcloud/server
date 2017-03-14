@@ -272,7 +272,7 @@
 						// set the path of this one as title for the ellipsis
 						this.$el.find('.crumb.ellipsized')
 							.attr('title', $crumb.attr('data-dir'))
-							.tipsy();
+							.tooltip();
 						this.$el.find('.ellipsis')
 							.wrap('<a class="ellipsislink" href="' + encodeURI(OC.generateUrl('apps/files/?dir=' + $crumb.attr('data-dir'))) + '"></a>');
 					}

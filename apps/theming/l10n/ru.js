@@ -1,0 +1,27 @@
+OC.L10N.register(
+    "theming",
+    {
+    "Admin" : "Администратор",
+    "a safe home for all your data" : "надежный дом для всех ваших данных",
+    "The given name is too long" : "Указанное название слишком длинное",
+    "The given web address is too long" : "Указанный веб адрес слишком длинный",
+    "The given slogan is too long" : "Указанный слоган слишком длинный",
+    "The given color is invalid" : "Задан неправильный цвет",
+    "Saved" : "Сохранено",
+    "No file uploaded" : "Нет загруженных файлов",
+    "Unsupported image type" : "Неподдерживаемый тип изображения",
+    "You are already using a custom theme" : "Вы уже используете настраиваемую тему",
+    "Theming" : "Темы оформления",
+    "Name" : "Название",
+    "reset to default" : "сброс до настроек по-умолчанию",
+    "Web address" : "Веб адрес",
+    "Web address https://…" : "Веб адрес  https://…",
+    "Slogan" : "Слоган",
+    "Color" : "Цвет",
+    "Logo" : "Логотип",
+    "Upload new logo" : "Загрузить новый логотип",
+    "Login image" : "Изображение экрана входа в систему",
+    "Upload new login background" : "Загрузить новый фон для экрана входа в систему",
+    "Log in image" : "Изображение экрана входа в систему"
+},
+"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

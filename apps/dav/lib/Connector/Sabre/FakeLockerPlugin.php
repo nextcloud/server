@@ -136,7 +136,9 @@ class FakeLockerPlugin extends ServerPlugin {
 						new LockDiscovery([$lockInfo])
 		]);
 
+		$response->setStatus(200);
 		$response->setBody($body);
+		$response->setStatus(200);
 
 		return false;
 	}

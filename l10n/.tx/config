@@ -1,6 +1,6 @@
 [main]
 host = https://www.transifex.com
-lang_map = ja_JP: ja
+lang_map = bg_BG: bg, cs_CZ: cs, fi_FI: fi, hu_HU: hu, nb_NO: nb, sk_SK: sk, th_TH: th, ja_JP: ja
 
 [nextcloud.core]
 file_filter = <lang>/core.po
@@ -101,6 +101,12 @@ type = PO
 [nextcloud.updatenotification]
 file_filter = <lang>/updatenotification.po
 source_file = templates/updatenotification.pot
+source_lang = en
+type = PO
+
+[nextcloud.theming]
+file_filter = <lang>/theming.po
+source_file = templates/theming.pot
 source_lang = en
 type = PO
 

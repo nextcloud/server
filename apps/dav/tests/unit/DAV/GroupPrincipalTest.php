@@ -23,6 +23,7 @@
 
 namespace OCA\DAV\Tests\unit\DAV;
 
+use OC\Group\Group;
 use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCP\IGroupManager;
 use PHPUnit_Framework_MockObject_MockObject;
@@ -37,8 +38,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 	private $connector;
 
 	public function setUp() {
-		$this->groupManager = $this->getMockBuilder('\OCP\IGroupManager')
-			->disableOriginalConstructor()->getMock();
+		$this->groupManager = $this->createMock(IGroupManager::class);
 
 		$this->connector = new GroupPrincipalBackend($this->groupManager);
 		parent::setUp();
@@ -126,6 +126,22 @@ class GroupPrincipalTest extends \Test\TestCase {
 		$this->assertSame(null, $response);
 	}
 
+	public function testGetPrincipalsByPathGroupWithSlash() {
+		$group1 = $this->mockGroup('foo/bar');
+		$this->groupManager
+			->expects($this->once())
+			->method('get')
+			->with('foo/bar')
+			->will($this->returnValue($group1));
+
+		$expectedResponse = [
+			'uri' => 'principals/groups/foo%2Fbar',
+			'{DAV:}displayname' => 'foo/bar'
+		];
+		$response = $this->connector->getPrincipalByPath('principals/groups/foo/bar');
+		$this->assertSame($expectedResponse, $response);
+	}
+
 	public function testGetGroupMemberSet() {
 		$response = $this->connector->getGroupMemberSet('principals/groups/foo');
 		$this->assertSame([], $response);
@@ -153,15 +169,14 @@ class GroupPrincipalTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @return PHPUnit_Framework_MockObject_MockObject
+	 * @return Group|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	private function mockGroup($gid) {
-		$fooUser = $this->getMockBuilder('\OC\Group\Group')
-			->disableOriginalConstructor()->getMock();
-		$fooUser
+		$fooGroup = $this->createMock(Group::class);
+		$fooGroup
 			->expects($this->exactly(1))
 			->method('getGID')
 			->will($this->returnValue($gid));
-		return $fooUser;
+		return $fooGroup;
 	}
 }

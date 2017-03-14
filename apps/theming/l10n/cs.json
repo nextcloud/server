@@ -1,0 +1,25 @@
+{ "translations": {
+    "Admin" : "Administrace",
+    "a safe home for all your data" : "bezpečný domov pro všechna vaše data",
+    "The given name is too long" : "Zadaný název je příliš dlouhý",
+    "The given web address is too long" : "Zadaná webová adresa je příliš dlouhá",
+    "The given slogan is too long" : "Zadaný slogan je příliš dlouhý",
+    "The given color is invalid" : "Zadaná barva je neplatná",
+    "Saved" : "Uloženo",
+    "No file uploaded" : "Nenahrán žádný soubor",
+    "Unsupported image type" : "Nepodporovaný typ obrázku",
+    "You are already using a custom theme" : "Již používáte vlastní motiv",
+    "Theming" : "Motivy",
+    "Name" : "Název",
+    "reset to default" : "obnovit výchozí",
+    "Web address" : "Webová adresa",
+    "Web address https://…" : "Webová adresa https://",
+    "Slogan" : "Slogan",
+    "Color" : "Barva",
+    "Logo" : "Logo",
+    "Upload new logo" : "Nahrát nové logo",
+    "Login image" : "Přihlašovací obrázek",
+    "Upload new login background" : "Nahrát nové přihlašovací pozadí",
+    "Log in image" : "Přihlašovací obrázek"
+},"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
+}

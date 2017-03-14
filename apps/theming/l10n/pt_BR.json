@@ -1,0 +1,25 @@
+{ "translations": {
+    "Admin" : "Administrador",
+    "a safe home for all your data" : "um lugar seguro para todos os seus dados",
+    "The given name is too long" : "O nome é demasiado longo",
+    "The given web address is too long" : "O endereço da Web fornecido é muito longo",
+    "The given slogan is too long" : "O slogan dado é muito longo",
+    "The given color is invalid" : "A cor dada é inválida",
+    "Saved" : "Salva",
+    "No file uploaded" : "Nenhum arquivo enviado",
+    "Unsupported image type" : "Tipo de imagem não suportado",
+    "You are already using a custom theme" : "Você já está usando um tema personalizado",
+    "Theming" : "Personalizando",
+    "Name" : "Nome",
+    "reset to default" : "restaurar ao padrão",
+    "Web address" : "Endereço da Web",
+    "Web address https://…" : "Endereço da Web https://...",
+    "Slogan" : "Slogan",
+    "Color" : "Cor",
+    "Logo" : "Logo",
+    "Upload new logo" : "Enviar novo logotipo",
+    "Login image" : "Imagem de login",
+    "Upload new login background" : "Enviar novo fundo para o login",
+    "Log in image" : "Imagem do login"
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
+}

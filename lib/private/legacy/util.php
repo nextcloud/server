@@ -137,7 +137,7 @@ class OC_Util {
 		// If we are not forced to load a specific user we load the one that is logged in
 		if ($user === null) {
 			$user = '';
-		} else if ($user == "" && OC_User::isLoggedIn()) {
+		} else if ($user == "" && \OC::$server->getUserSession()->isLoggedIn()) {
 			$user = OC_User::getUser();
 		}
 
@@ -971,7 +971,7 @@ class OC_Util {
 	 */
 	public static function checkLoggedIn() {
 		// Check if we are a user
-		if (!OC_User::isLoggedIn()) {
+		if (!\OC::$server->getUserSession()->isLoggedIn()) {
 			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute(
 						'core.login.showLoginForm',
 						[
