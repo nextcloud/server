@@ -273,7 +273,7 @@ class Manager implements IManager {
 		$sections = [
 			0 => [new Section('server', $this->l->t('Server settings'), 0, $this->url->imagePath('settings', 'admin.svg'))],
 			5 => [new Section('sharing', $this->l->t('Sharing'), 0, $this->url->imagePath('core', 'actions/share.svg'))],
-			10 => [new Section('security', $this->l->t('Security'), 0)],
+			10 => [new Section('security', $this->l->t('Security'), 0, $this->url->imagePath('core', 'actions/password.svg'))],
 			45 => [new Section('encryption', $this->l->t('Encryption'), 0, $this->url->imagePath('core', 'actions/password.svg'))],
 			98 => [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))],
 			99 => [new Section('tips-tricks', $this->l->t('Tips & tricks'), 0, $this->url->imagePath('settings', 'help.svg'))],

@@ -27,7 +27,7 @@
 	var TEMPLATE_WHITELIST =
 		'<tr data-id="{{id}}">'
 		+ '<td><span>{{ip}}/{{mask}}</span></td>'
-		+ '<td><a class="icon-delete has-tooltip" title="' + t('bruteforcesettings', 'Delete') + '">BAD CSS</a></td>'
+		+ '<td class="action-column"><span><a class="icon-delete has-tooltip" title="' + t('bruteforcesettings', 'Delete') + '"></a></span></td>'
 		+ '</tr>';
 
 	OCA.BruteForceSettings.WhitelistView = OC.Backbone.View.extend({

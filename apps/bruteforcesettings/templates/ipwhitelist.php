@@ -30,16 +30,17 @@ script('bruteforcesettings', [
 	'IPWhitelistCollection',
 	'IPWhitelistView',
 ]);
+style('bruteforcesettings', [
+	'settings'
+])
 
 /** @var \OCP\IL10N $l */
 ?>
 <form id="IPWhiteList" class="section">
 	<h2><?php p($l->t('Brute force ip whitelist')); ?></h2>
 
-	<table>
-		<tbody id="whitelist-list">
+	<table id="whitelist-list">
 
-		</tbody>
 	</table>
 
 	<input type="text" name="whitelist_ip" id="whitelist_ip" placeholder="1.2.3.4" style="width: 200px;" />/
