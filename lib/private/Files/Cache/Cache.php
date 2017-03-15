@@ -588,6 +588,10 @@ class Cache implements ICache {
 		// normalize pattern
 		$pattern = $this->normalize($pattern);
 
+		if ($pattern === '%%') {
+			return [];
+		}
+
 
 		$sql = '
 			SELECT `fileid`, `storage`, `path`, `parent`, `name`,
