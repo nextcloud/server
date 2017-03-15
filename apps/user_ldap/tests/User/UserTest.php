@@ -211,15 +211,17 @@ class UserTest extends \Test\TestCase {
 
 		$connection->expects($this->at(0))
 			->method('__get')
-			->with($this->equalTo('ldapQuotaDefault'))
-			->will($this->returnValue('23 GB'));
-
-		$connection->expects($this->at(1))
-			->method('__get')
 			->with($this->equalTo('ldapQuotaAttribute'))
 			->will($this->returnValue('myquota'));
 
-		$connection->expects($this->exactly(2))
+		/* Having a quota defined, the ldapQuotaDefault won't be used
+		$connection->expects($this->at(1))
+			->method('__get')
+			->with($this->equalTo('ldapQuotaDefault'))
+			->will($this->returnValue('23 GB'));
+		*/
+
+		$connection->expects($this->exactly(1))
 			->method('__get');
 
 		$access->expects($this->once())
@@ -256,13 +258,13 @@ class UserTest extends \Test\TestCase {
 
 		$connection->expects($this->at(0))
 			->method('__get')
-			->with($this->equalTo('ldapQuotaDefault'))
-			->will($this->returnValue('25 GB'));
+			->with($this->equalTo('ldapQuotaAttribute'))
+			->will($this->returnValue('myquota'));
 
 		$connection->expects($this->at(1))
 			->method('__get')
-			->with($this->equalTo('ldapQuotaAttribute'))
-			->will($this->returnValue('myquota'));
+			->with($this->equalTo('ldapQuotaDefault'))
+			->will($this->returnValue('25 GB'));
 
 		$connection->expects($this->exactly(2))
 			->method('__get');
@@ -301,15 +303,17 @@ class UserTest extends \Test\TestCase {
 
 		$connection->expects($this->at(0))
 			->method('__get')
-			->with($this->equalTo('ldapQuotaDefault'))
-			->will($this->returnValue(''));
-
-		$connection->expects($this->at(1))
-			->method('__get')
 			->with($this->equalTo('ldapQuotaAttribute'))
 			->will($this->returnValue('myquota'));
 
-		$connection->expects($this->exactly(2))
+		/* Having a quota set this won't be used
+		$connection->expects($this->at(1))
+			->method('__get')
+			->with($this->equalTo('ldapQuotaDefault'))
+			->will($this->returnValue(''));
+		*/
+
+		$connection->expects($this->exactly(1))
 			->method('__get');
 
 		$access->expects($this->once())
@@ -346,13 +350,13 @@ class UserTest extends \Test\TestCase {
 
 		$connection->expects($this->at(0))
 			->method('__get')
-			->with($this->equalTo('ldapQuotaDefault'))
-			->will($this->returnValue(''));
+			->with($this->equalTo('ldapQuotaAttribute'))
+			->will($this->returnValue('myquota'));
 
 		$connection->expects($this->at(1))
 			->method('__get')
-			->with($this->equalTo('ldapQuotaAttribute'))
-			->will($this->returnValue('myquota'));
+			->with($this->equalTo('ldapQuotaDefault'))
+			->will($this->returnValue(''));
 
 		$connection->expects($this->exactly(2))
 			->method('__get');
@@ -384,12 +388,12 @@ class UserTest extends \Test\TestCase {
 
 		$connection->expects($this->at(0))
 			->method('__get')
-			->with($this->equalTo('ldapQuotaDefault'))
+			->with($this->equalTo('ldapQuotaAttribute'))
 			->will($this->returnValue(''));
 
 		$connection->expects($this->at(1))
 			->method('__get')
-			->with($this->equalTo('ldapQuotaAttribute'))
+			->with($this->equalTo('ldapQuotaDefault'))
 			->will($this->returnValue(''));
 
 		$connection->expects($this->exactly(2))
@@ -419,15 +423,9 @@ class UserTest extends \Test\TestCase {
 
 		$readQuota = '19 GB';
 
-		$connection->expects($this->at(0))
+		$connection->expects($this->never())
 			->method('__get')
-			->with($this->equalTo('ldapQuotaDefault'))
-			->will($this->returnValue(''));
-
-		$connection->expects($this->once(1))
-			->method('__get')
-			->with($this->equalTo('ldapQuotaDefault'))
-			->will($this->returnValue(null));
+			->with($this->equalTo('ldapQuotaDefault'));
 
 		$access->expects($this->never())
 			->method('readAttribute');
