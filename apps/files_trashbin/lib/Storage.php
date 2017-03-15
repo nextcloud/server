@@ -28,6 +28,8 @@ namespace OCA\Files_Trashbin;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OC\Files\View;
+use OCP\Encryption\Exceptions\GenericEncryptionException;
+use OCP\ILogger;
 use OCP\IUserManager;
 
 class Storage extends Wrapper {
@@ -55,15 +57,21 @@ class Storage extends Wrapper {
 	/** @var  IUserManager */
 	private $userManager;
 
+	/** @var ILogger */
+	private $logger;
+
 	/**
 	 * Storage constructor.
 	 *
 	 * @param array $parameters
 	 * @param IUserManager|null $userManager
 	 */
-	public function __construct($parameters, IUserManager $userManager = null) {
+	public function __construct($parameters,
+								IUserManager $userManager = null,
+								ILogger $logger = null) {
 		$this->mountPoint = $parameters['mountPoint'];
 		$this->userManager = $userManager;
+		$this->logger = $logger;
 		parent::__construct($parameters);
 	}
 
@@ -147,11 +155,20 @@ class Storage extends Wrapper {
 	 * @return bool true if the operation succeeded, false otherwise
 	 */
 	public function unlink($path) {
-		if (isset(self::$moveOutOfSharedFolder[$this->mountPoint . $path])) {
-			$result = $this->doDelete($path, 'unlink', true);
-			unset(self::$moveOutOfSharedFolder[$this->mountPoint . $path]);
-		} else {
-			$result = $this->doDelete($path, 'unlink');
+		try {
+			if (isset(self::$moveOutOfSharedFolder[$this->mountPoint . $path])) {
+				$result = $this->doDelete($path, 'unlink', true);
+				unset(self::$moveOutOfSharedFolder[$this->mountPoint . $path]);
+			} else {
+				$result = $this->doDelete($path, 'unlink');
+			}
+		} catch (GenericEncryptionException $e) {
+			// in case of a encryption exception we delete the file right away
+			$this->logger->info(
+				"Can't move file" .  $path .
+				"to the trash bin, therefore it was deleted right away");
+
+			$result = $this->storage->unlink($path);
 		}
 
 		return $result;
@@ -251,7 +268,8 @@ class Storage extends Wrapper {
 		\OC\Files\Filesystem::addStorageWrapper('oc_trashbin', function ($mountPoint, $storage) {
 			return new \OCA\Files_Trashbin\Storage(
 				array('storage' => $storage, 'mountPoint' => $mountPoint),
-				\OC::$server->getUserManager()
+				\OC::$server->getUserManager(),
+				\OC::$server->getLogger()
 			);
 		}, 1);
 	}
