@@ -479,3 +479,41 @@ Feature: webdav-related
 		When as "user0" gets properties of folder "/test_folder:5" with
 		  |{DAV:}resourcetype|
 		Then the single response should contain a property "{DAV:}resourcetype" with value "{DAV:}collection"
+
+	Scenario: Removing everything of a folder
+		Given using old dav path
+		And As an "admin"
+		And user "user0" exists
+		And As an "user0"
+		And User "user0" moves file "/welcome.txt" to "/FOLDER/welcome.txt"
+		And user "user0" created a folder "/FOLDER/SUBFOLDER"
+		And User "user0" copies file "/textfile0.txt" to "/FOLDER/SUBFOLDER/testfile0.txt"
+		When User "user0" deletes everything from folder "/FOLDER/"
+		Then user "user0" should see following elements
+			| /FOLDER/ |
+			| /PARENT/ |
+			| /PARENT/parent.txt |
+			| /textfile0.txt |
+			| /textfile1.txt |
+			| /textfile2.txt |
+			| /textfile3.txt |
+			| /textfile4.txt |
+
+	Scenario: Removing everything of a folder using new dav path
+		Given using new dav path
+		And As an "admin"
+		And user "user0" exists
+		And As an "user0"
+		And User "user0" moves file "/welcome.txt" to "/FOLDER/welcome.txt"
+		And user "user0" created a folder "/FOLDER/SUBFOLDER"
+		And User "user0" copies file "/textfile0.txt" to "/FOLDER/SUBFOLDER/testfile0.txt"
+		When User "user0" deletes everything from folder "/FOLDER/"
+		Then user "user0" should see following elements
+			| /FOLDER/ |
+			| /PARENT/ |
+			| /PARENT/parent.txt |
+			| /textfile0.txt |
+			| /textfile1.txt |
+			| /textfile2.txt |
+			| /textfile3.txt |
+			| /textfile4.txt |
