@@ -35,5 +35,6 @@ return [
 		['root' => '/cloud', 'name' => 'RequestHandler#declineShare', 'url' => '/shares/{id}/decline', 'verb' => 'POST'],
 		['root' => '/cloud', 'name' => 'RequestHandler#unshare', 'url' => '/shares/{id}/unshare', 'verb' => 'POST'],
 		['root' => '/cloud', 'name' => 'RequestHandler#revoke', 'url' => '/shares/{id}/revoke', 'verb' => 'POST'],
+		['root' => '/cloud', 'name' => 'RequestHandler#move', 'url' => '/shares/{id}/move', 'verb' => 'POST'],
 	],
 ];
