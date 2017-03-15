@@ -30,18 +30,29 @@
 
 namespace OC;
 
+use OC\Repair\AssetCache;
 use OC\Repair\CleanTags;
 use OC\Repair\Collation;
+use OC\Repair\DropOldJobs;
 use OC\Repair\MoveUpdaterStepFile;
 use OC\Repair\NC11\CleanPreviews;
 use OC\Repair\NC11\FixMountStorages;
 use OC\Repair\NC11\MoveAvatars;
 use OC\Repair\NC12\UpdateLanguageCodes;
 use OC\Repair\OldGroupMembershipShares;
+use OC\Repair\RemoveGetETagEntries;
+use OC\Repair\RemoveOldShares;
 use OC\Repair\RemoveRootShares;
+use OC\Repair\SharePropagation;
 use OC\Repair\SqliteAutoincrement;
+use OC\Repair\DropOldTables;
+use OC\Repair\FillETags;
+use OC\Repair\InnoDB;
 use OC\Repair\RepairMimeTypes;
+use OC\Repair\SearchLuceneTables;
+use OC\Repair\UpdateOutdatedOcsIds;
 use OC\Repair\RepairInvalidShares;
+use OC\Repair\RepairUnmergedShares;
 use OCP\AppFramework\QueryException;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -121,9 +132,23 @@ class Repair implements IOutput{
 		return [
 			new Collation(\OC::$server->getConfig(), \OC::$server->getLogger(), \OC::$server->getDatabaseConnection(), false),
 			new RepairMimeTypes(\OC::$server->getConfig()),
+			new AssetCache(),
+			new FillETags(\OC::$server->getDatabaseConnection()),
 			new CleanTags(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager()),
+			new DropOldTables(\OC::$server->getDatabaseConnection()),
+			new DropOldJobs(\OC::$server->getJobList()),
+			new RemoveGetETagEntries(\OC::$server->getDatabaseConnection()),
+			new UpdateOutdatedOcsIds(\OC::$server->getConfig()),
 			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
+			new SharePropagation(\OC::$server->getConfig()),
+			new RemoveOldShares(\OC::$server->getDatabaseConnection()),
 			new RemoveRootShares(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager(), \OC::$server->getLazyRootFolder()),
+			new RepairUnmergedShares(
+				\OC::$server->getConfig(),
+				\OC::$server->getDatabaseConnection(),
+				\OC::$server->getUserManager(),
+				\OC::$server->getGroupManager()
+			),
 			new MoveUpdaterStepFile(\OC::$server->getConfig()),
 			new MoveAvatars(
 				\OC::$server->getJobList(),
@@ -160,9 +185,19 @@ class Repair implements IOutput{
 	public static function getBeforeUpgradeRepairSteps() {
 		$connection = \OC::$server->getDatabaseConnection();
 		$steps = [
+			new InnoDB(),
 			new Collation(\OC::$server->getConfig(), \OC::$server->getLogger(), $connection, true),
 			new SqliteAutoincrement($connection),
+			new SearchLuceneTables(),
 		];
+
+		//There is no need to delete all previews on every single update
+		//only 7.0.0 through 7.0.2 generated broken previews
+		$currentVersion = \OC::$server->getConfig()->getSystemValue('version');
+		if (version_compare($currentVersion, '7.0.0.0', '>=') &&
+			version_compare($currentVersion, '7.0.3.4', '<=')) {
+			$steps[] = new \OC\Repair\Preview();
+		}
 
 		return $steps;
 	}
