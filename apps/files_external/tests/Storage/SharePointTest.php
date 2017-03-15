@@ -23,15 +23,17 @@
 
 namespace OCA\Files_External\Tests\Storage;
 
+use OCA\Files_External\Lib\SharePoint\NotFoundException;
+use OCP\Files\FileInfo;
 use OCA\Files_External\Lib\SharePoint\ContextsFactory;
+use OCA\Files_External\Lib\SharePoint\SharePointClient;
+use OCA\Files_External\Lib\SharePoint\SharePointClientFactory;
 use OCA\Files_External\Lib\Storage\SharePoint;
 use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
-use Office365\PHP\Client\Runtime\ClientObjectCollection;
 use Office365\PHP\Client\SharePoint\ClientContext;
+use Office365\PHP\Client\SharePoint\File;
 use Office365\PHP\Client\SharePoint\Folder;
-use Office365\PHP\Client\SharePoint\ListCollection;
 use Office365\PHP\Client\SharePoint\SPList;
-use Office365\PHP\Client\SharePoint\Web;
 use Test\TestCase;
 
 class SharePointTest extends TestCase {
@@ -46,7 +48,7 @@ class SharePointTest extends TestCase {
 	protected $clientContextMock;
 
 	/** @var  string */
-	protected $documentLibraryName = 'Fancy Documents';
+	protected $documentLibraryTitle = 'Fancy Documents';
 
 	/** @var  SPList|\PHPUnit_Framework_MockObject_MockObject */
 	protected $sharePointList;
@@ -60,17 +62,30 @@ class SharePointTest extends TestCase {
 	/** @var string */
 	protected $examplePwd = 'a123456';
 
+	/** @var  SharePointClientFactory|\PHPUnit_Framework_MockObject_MockObject */
+	protected $clientFactory;
+
+	/** @var  SharePointClient|\PHPUnit_Framework_MockObject_MockObject */
+	protected $client;
+
 	public function setUp() {
 		parent::setUp();
 
 		$this->factory = $this->createMock(ContextsFactory::class);
+		$this->clientFactory = $this->createMock(SharePointClientFactory::class);
+		$this->client = $this->createMock(SharePointClient::class);
+
+		$this->clientFactory->expects($this->any())
+			->method('getClient')
+			->willReturn($this->client);
 
 		$parameters = [
-			'host'            => $this->exampleHost,
-			'documentLibrary' => $this->documentLibraryName,
-			'user'            => $this->exampleUser,
-			'password'        => $this->examplePwd,
-			'contextFactory'  => $this->factory,
+			'host'                    => $this->exampleHost,
+			'documentLibrary'         => $this->documentLibraryTitle,
+			'user'                    => $this->exampleUser,
+			'password'                => $this->examplePwd,
+			'contextFactory'          => $this->factory,
+			'sharePointClientFactory' => $this->clientFactory,
 		];
 
 		$this->storage = new SharePoint($parameters);
@@ -88,48 +103,7 @@ class SharePointTest extends TestCase {
 			->method('getClientContext')
 			->with($this->exampleHost, $authContextMock)
 			->willReturn($this->clientContextMock);
-	}
 
-	/**
-	 * prepare Mocks for SharePoint::getDocumentLibrary() call
-	 */
-	private function prepareMockForGetDocumentLibrary() {
-		$this->prepareFactoryMocks(); // precondition
-
-		$this->sharePointList = $this->createMock(SPList::class);
-
-		$clientObjectCollectionMock = $this->createMock(ClientObjectCollection::class);
-		$clientObjectCollectionMock->expects($this->once())
-			->method('top')
-			->with(1)
-			->willReturnSelf();
-		$clientObjectCollectionMock->expects($this->once())
-			->method('getCount')
-			->willReturn(1);
-		$clientObjectCollectionMock->expects($this->once())
-			->method('getData')
-			->willReturn([$this->sharePointList]);
-
-		$listCollectionMock = $this->createMock(ListCollection::class);
-		$listCollectionMock->expects($this->once())
-			->method('filter')
-			->with('Title eq "' . $this->documentLibraryName . '"')
-			->willReturn($clientObjectCollectionMock);
-
-		$webMock = $this->createMock(Web::class);
-		$webMock->expects($this->once())
-			->method('getLists')
-			->willReturn($listCollectionMock);
-
-		$this->clientContextMock->expects($this->once())
-			->method('getWeb')
-			->willReturn($webMock);
-		$this->clientContextMock->expects($this->once())
-			->method('load')
-			->with($clientObjectCollectionMock)
-			->willReturnSelf();
-		$this->clientContextMock->expects($this->once())
-			->method('executeQuery');
 	}
 
 	/**
@@ -146,27 +120,132 @@ class SharePointTest extends TestCase {
 		new SharePoint($parameters);
 	}
 
-	public function testStat() {
-		$this->prepareMockForGetDocumentLibrary();
+	public function pathProvider() {
+		return [
+			['/', null],
+			['', null],
+			['Paperwork', null],
+			['Paperwork/', null],
+			['/Paperwork/', null],
+			['My Documents', null],
+			['Paperwork/This and That/Bills/', null],
+			['Textfile.txt', 26624],
+			['Paperwork/Letter Template.ott', 26624],
+			['Paperwork/This and That/Foobar.ora', 26624],
+		];
+	}
 
+	/**
+	 * @dataProvider pathProvider
+	 */
+	public function testStatExisting($path, $returnSize) {
 		$mtime = new \DateTime('yesterday');
-		$size = 4096;
+		$size = $returnSize ?: FileInfo::SPACE_UNKNOWN;
 
 		$folderMock = $this->createMock(Folder::class);
 		$folderMock->expects($this->exactly(2))
 			->method('getProperty')
 			->withConsecutive(['Length'], ['TimeLastModified'])
-			->willReturnOnConsecutiveCalls($size, $mtime);
+			->willReturnOnConsecutiveCalls($returnSize, $mtime);
 
-		$this->sharePointList->expects($this->once())
-			->method('getRootFolder')
+		$serverPath = '/' . $this->documentLibraryTitle;
+		if(trim($path, '/') !== '') {
+			$serverPath .= '/' . trim($path, '/');
+		}
+
+		$this->client->expects($this->once())
+			->method('fetchFileOrFolder')
+			->with($serverPath, [SharePoint::SP_PROPERTY_SIZE, SharePoint::SP_PROPERTY_MTIME])
 			->willReturn($folderMock);
 
-		$rootData = $this->storage->stat('/');
+		$data = $this->storage->stat($path);
 
-		$this->assertSame($mtime, $rootData['mtime']);
-		$this->assertSame($size, $rootData['size']);
-		$this->assertTrue($mtime->getTimestamp() < $rootData['atime']);
+		$this->assertSame($mtime, $data['mtime']);
+		$this->assertSame($size, $data['size']);
+		$this->assertTrue($mtime->getTimestamp() < $data['atime']);
+	}
+
+	public function testStatNotExisting() {
+		$path = '/foobar/bar.foo';
+		$serverPath = '/' . $this->documentLibraryTitle . '/' . trim($path, '/');
+
+		$this->client->expects($this->once())
+			->method('fetchFileOrFolder')
+			->with($serverPath, [SharePoint::SP_PROPERTY_SIZE, SharePoint::SP_PROPERTY_MTIME])
+			->willThrowException(new NotFoundException());
+
+		$this->assertFalse($this->storage->stat($path));
+	}
+
+	/**
+	 * @dataProvider pathProvider
+	 */
+	public function testFileType($path, $returnSize) {
+		if($returnSize === null) {
+			$return = $this->createMock(Folder::class);
+			$expectedType = 'dir';
+		} else {
+			$return = $this->createMock(File::class);
+			$expectedType = 'file';
+		}
+
+		$serverPath = '/' . $this->documentLibraryTitle;
+		if(trim($path, '/') !== '') {
+			$serverPath .= '/' . trim($path, '/');
+		}
+
+		$this->client->expects($this->once())
+			->method('fetchFileOrFolder')
+			->with($serverPath, [])
+			->willReturn($return);
+
+		$this->assertSame($expectedType, $this->storage->filetype($path));
+	}
+
+	public function testFileTypeNotExisting() {
+		$path = '/dingdong/nothing.sh';
+
+		$serverPath = '/' . $this->documentLibraryTitle;
+		if(trim($path, '/') !== '') {
+			$serverPath .= '/' . trim($path, '/');
+		}
+
+		$this->client->expects($this->once())
+			->method('fetchFileOrFolder')
+			->with($serverPath, [])
+			->willThrowException(new NotFoundException());
+
+		$this->assertFalse($this->storage->filetype($path));
+	}
+
+	public function  boolProvider() {
+		return [
+			[ true ],
+			[ false ]
+		];
+	}
+
+	/**
+	 * @dataProvider boolProvider
+	 */
+	public function testFileExists($exists) {
+		$path = '/dingdong/nothing.sh';
+
+		$serverPath = '/' . $this->documentLibraryTitle;
+		if(trim($path, '/') !== '') {
+			$serverPath .= '/' . trim($path, '/');
+		}
+
+		$invocationMocker = $this->client->expects($this->once())
+			->method('fetchFileOrFolder')
+			->with($serverPath, []);
+		if($exists) {
+			$invocationMocker->willReturn($this->createMock(File::class));
+		} else {
+			$invocationMocker->willThrowException(new NotFoundException());
+		}
+
+		$this->assertSame($exists, $this->storage->file_exists($path));
 	}
 
 }
