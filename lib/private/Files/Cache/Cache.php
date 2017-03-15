@@ -666,6 +666,8 @@ class Cache implements ICache {
 
 		$query->andWhere($this->querySearchHelper->searchOperatorToDBExpr($builder, $searchQuery->getSearchOperation()));
 
+		$this->querySearchHelper->addSearchOrdersToQuery($query, $searchQuery->getOrder());
+
 		if ($searchQuery->getLimit()) {
 			$query->setMaxResults($searchQuery->getLimit());
 		}

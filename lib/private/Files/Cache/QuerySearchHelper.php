@@ -26,6 +26,7 @@ use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
+use OCP\Files\Search\ISearchOrder;
 
 /**
  * Tools for transforming search queries into database queries
@@ -184,5 +185,15 @@ class QuerySearchHelper {
 			$type = IQueryBuilder::PARAM_STR;
 		}
 		return $builder->createNamedParameter($value, $type);
+	}
+
+	/**
+	 * @param IQueryBuilder $query
+	 * @param ISearchOrder[] $orders
+	 */
+	public function addSearchOrdersToQuery(IQueryBuilder $query, array $orders) {
+		foreach ($orders as $order) {
+			$query->addOrderBy($order->getField(), $order->getDirection());
+		}
 	}
 }
