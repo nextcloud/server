@@ -87,7 +87,7 @@
 
 				$('#update-progress-icon')
 					.addClass('icon-checkmark-white')
-				  .removeClass('icon-loading-dark');
+				        .removeClass('icon-loading-dark');
 
 				if (hasWarnings) {
 					$el.find('.update-show-detailed').before(
