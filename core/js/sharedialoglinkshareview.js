@@ -70,22 +70,21 @@
 			'{{/if}}'
 		;
 	var TEMPLATE_POPOVER_MENU =
-		'<div class="popovermenu bubble hidden menu">' +
+		'<div class="popovermenu bubble hidden menu socialSharingMenu">' +
 			'<ul>' +
 				'<li>' +
-					'<span class="shareOption menuitem">' +
-						'<button class="icon clipboardButton icon-clippy"' +
-							'data-clipboard-target="#linkText-{{cid}}">{{copyLabel}}' +
-						'</button>' +
-					'</span>' +
+					'<a href="#" class="shareOption menuitem clipboardButton" data-clipboard-target="#linkText-{{cid}}">' +
+						'<span class="icon icon-clippy" ></span>' +
+						'<span>{{copyLabel}}</span>' +
+					'</a>' +
 				'</li>' +
 				'{{#each social}}' +
 					'<li>' +
-						'<span class="shareOption menuitem">' +
-							'<button class="icon {{iconClass}} pop-up"' +
-								'data-url="{{url}}">{{label}}' +
-							'</button>' +
-						'</span>' +
+						'<a href="#" class="shareOption menuitem pop-up" data-url="{{url}}">' +
+							'<span class="icon {{iconClass}}"' +
+								'></span><span>{{label}}' +
+							'</span>' +
+						'</a>' +
 					'</li>' +
 				'{{/each}}' +
 			'</ul>' +
@@ -173,6 +172,9 @@
 
 			var clipboard = new Clipboard('.clipboardButton');
 			clipboard.on('success', function(e) {
+				event.preventDefault();
+				event.stopPropagation();
+
 				var $input = $(e.trigger);
 				$input.tooltip('hide')
 					.attr('data-original-title', t('core', 'Copied!'))
@@ -489,8 +491,11 @@
 		},
 
 		onPopUpClick: function(event) {
-			var url = $(event.target).data('url');
-			$(event.target).tooltip('hide');
+			event.preventDefault();
+			event.stopPropagation();
+
+			var url = $(event.currentTarget).data('url');
+			$(event.currentTarget).tooltip('hide');
 			if (url) {
 				var width = 600;
 				var height = 400;
