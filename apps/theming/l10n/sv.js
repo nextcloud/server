@@ -1,6 +1,7 @@
 OC.L10N.register(
     "theming",
     {
+    "Admin" : "Admin",
     "a safe home for all your data" : "En säker plats för alla dina filer och data",
     "The given name is too long" : "Det angivna namnet är för långt",
     "The given web address is too long" : "Den angivna adressen är för lång",
