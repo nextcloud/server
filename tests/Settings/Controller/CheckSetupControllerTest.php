@@ -339,6 +339,7 @@ class CheckSetupControllerTest extends TestCase {
 				'codeIntegrityCheckerDocumentation' => 'http://doc.owncloud.org/server/go.php?to=admin-code-integrity',
 				'isOpcacheProperlySetup' => false,
 				'phpOpcacheDocumentation' => 'http://doc.owncloud.org/server/go.php?to=admin-php-opcache',
+				'isSettimelimitAvailable' => true,
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());

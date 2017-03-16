@@ -156,6 +156,7 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
+					isSettimelimitAvailable: true
 				})
 			);
 
@@ -188,6 +189,7 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
+					isSettimelimitAvailable: true
 				})
 			);
 
@@ -221,6 +223,7 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
+					isSettimelimitAvailable: true
 				})
 			);
 
@@ -252,6 +255,7 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
+					isSettimelimitAvailable: true
 				})
 			);
 
@@ -281,6 +285,7 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: false,
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
+					isSettimelimitAvailable: true
 				})
 			);
 
@@ -310,12 +315,43 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
+					isSettimelimitAvailable: true
 				})
 			);
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
 					msg: 'The reverse proxy headers configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If you are not accessing Nextcloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to Nextcloud. Further information can be found in our <a target="_blank" rel="noreferrer" href="https://docs.owncloud.org/foo/bar.html">documentation</a>.',
+					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+				}]);
+				done();
+			});
+		});
+
+		it('should return an error if set_time_limit is unavailable', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json',
+				},
+				JSON.stringify({
+					isUrandomAvailable: true,
+					serverHasInternetConnection: true,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					reverseProxyDocs: 'https://docs.owncloud.org/foo/bar.html',
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					isOpcacheProperlySetup: true,
+					isSettimelimitAvailable: false
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'The PHP function "set_time_limit" is not available. This could result in scripts being halted mid-execution, breaking your installation. We strongly recommend enabling this function.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
@@ -360,6 +396,7 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
+					isSettimelimitAvailable: true
 				})
 			);
 
@@ -390,6 +427,7 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: false,
 					phpOpcacheDocumentation: 'https://example.org/link/to/doc',
+					isSettimelimitAvailable: true
 				})
 			);
 
