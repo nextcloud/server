@@ -633,6 +633,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Http\\Client\\Client' => __DIR__ . '/../../..' . '/lib/private/Http/Client/Client.php',
         'OC\\Http\\Client\\ClientService' => __DIR__ . '/../../..' . '/lib/private/Http/Client/ClientService.php',
         'OC\\Http\\Client\\Response' => __DIR__ . '/../../..' . '/lib/private/Http/Client/Response.php',
+        'OC\\Image\\BmpToResource' => __DIR__ . '/../../..' . '/lib/private/Image/BmpToResource.php',
         'OC\\Installer' => __DIR__ . '/../../..' . '/lib/private/Installer.php',
         'OC\\IntegrityCheck\\Checker' => __DIR__ . '/../../..' . '/lib/private/IntegrityCheck/Checker.php',
         'OC\\IntegrityCheck\\Exceptions\\InvalidSignatureException' => __DIR__ . '/../../..' . '/lib/private/IntegrityCheck/Exceptions/InvalidSignatureException.php',
