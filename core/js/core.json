@@ -12,7 +12,8 @@
 		"es6-promise/dist/es6-promise.js",
 		"davclient.js/lib/client.js",
 		"clipboard/dist/clipboard.js",
-		"autosize/dist/autosize.js"
+		"autosize/dist/autosize.js",
+		"DOMPurify/dist/purify.min.js"
 	],
 	"libraries": [
 		"jquery-showpassword.js",

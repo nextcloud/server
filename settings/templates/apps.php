@@ -5,7 +5,6 @@ vendor_script(
 	[
 		'handlebars/handlebars',
 		'marked/marked.min',
-		'DOMPurify/dist/purify.min',
 	]
 );
 script(

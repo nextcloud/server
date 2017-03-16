@@ -155,12 +155,12 @@ OC.L10N = {
 					var r = vars[b];
 					if(typeof r === 'string' || typeof r === 'number') {
 						if(allOptions.escape) {
-							return escapeHTML(r);
+							return DOMPurify.sanitize(escapeHTML(r));
 						} else {
-							return r;
+							return DOMPurify.sanitize(r);
 						}
 					} else {
-						return a;
+						return DOMPurify.sanitize(a);
 					}
 				}
 			);
@@ -173,9 +173,9 @@ OC.L10N = {
 		}
 
 		if(typeof vars === 'object' || count !== undefined ) {
-			return _build(translation, vars, count);
+			return DOMPurify.sanitize(_build(translation, vars, count));
 		} else {
-			return translation;
+			return DOMPurify.sanitize(translation);
 		}
 	},
 

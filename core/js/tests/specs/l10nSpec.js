@@ -53,6 +53,11 @@ describe('OC.L10N tests', function() {
 				t(TEST_APP, 'Hello {name}', {name: '<strong>Steve</strong>'}, null, {escape: false})
 			).toEqual('Hello <strong>Steve</strong>');
 		});
+		it('uses DOMPurify to escape the text', function() {
+			expect(
+				t(TEST_APP, '<strong>These are your search results<script>alert(1)</script></strong>', null, {escape: false})
+			).toEqual('<strong>These are your search results</strong>');
+		});
 		it('keeps old texts when registering existing bundle', function() {
 			OC.L10N.register(TEST_APP, {
 				'sunny': 'sonnig',
