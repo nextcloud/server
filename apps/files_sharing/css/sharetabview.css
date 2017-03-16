@@ -21,6 +21,25 @@
 	padding: 14px;
 }
 
+.shareTabView .linkMore {
+	position: absolute;
+	right: -7px;
+	top: -4px;
+	padding: 14px;
+}
+
+/* fix the popup menu because the button is shifted and then the menu is not aligned */
+.shareTabView .popovermenu.socialSharingMenu {
+	right: -7px;
+}
+
+.shareTabView .popovermenu .clipboardButton {
+	position: relative;
+	top: initial;
+	right: initial;
+	padding: 18px 0 18px 36px;
+}
+
 .shareTabView label {
 	white-space: nowrap;
 }

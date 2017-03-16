@@ -27,7 +27,12 @@
 			'<div class="oneline">' +
 			'<label for="linkText-{{cid}}" class="hidden-visually">{{urlLabel}}</label>' +
 			'<input id="linkText-{{cid}}" class="linkText {{#unless isLinkShare}}hidden{{/unless}}" type="text" readonly="readonly" value="{{shareLinkURL}}" />' +
-			'<a class="{{#unless isLinkShare}}hidden-visually{{/unless}} clipboardButton icon icon-clippy" data-clipboard-target="#linkText-{{cid}}"></a>' +
+			'{{#if singleAction}}' +
+				'<a class="{{#unless isLinkShare}}hidden-visually{{/unless}} clipboardButton icon icon-clippy" data-clipboard-target="#linkText-{{cid}}"></a>' +
+			'{{else}}' +
+				'<a href="#"><span class="linkMore icon icon-more"></span></a>' +
+				'{{{popoverMenu}}}' +
+			'{{/if}}' +
 			'</div>' +
 			'    {{#if publicUpload}}' +
 			'<div id="allowPublicUploadWrapper">' +
@@ -64,6 +69,26 @@
 			'{{#if noSharingPlaceholder}}<input id="shareWith-{{cid}}" class="shareWithField" type="text" placeholder="{{noSharingPlaceholder}}" disabled="disabled"/>{{/if}}' +
 			'{{/if}}'
 		;
+	var TEMPLATE_POPOVER_MENU =
+		'<div class="popovermenu bubble hidden menu socialSharingMenu">' +
+			'<ul>' +
+				'<li>' +
+					'<a href="#" class="shareOption menuitem clipboardButton" data-clipboard-target="#linkText-{{cid}}">' +
+						'<span class="icon icon-clippy" ></span>' +
+						'<span>{{copyLabel}}</span>' +
+					'</a>' +
+				'</li>' +
+				'{{#each social}}' +
+					'<li>' +
+						'<a href="#" class="shareOption menuitem pop-up" data-url="{{url}}">' +
+							'<span class="icon {{iconClass}}"' +
+								'></span><span>{{label}}' +
+							'</span>' +
+						'</a>' +
+					'</li>' +
+				'{{/each}}' +
+			'</ul>' +
+		'</div>';
 
 	/**
 	 * @class OCA.Share.ShareDialogLinkShareView
@@ -85,6 +110,9 @@
 		/** @type {Function} **/
 		_template: undefined,
 
+		/** @type {Function} **/
+		_popoverMenuTemplate: undefined,
+
 		/** @type {boolean} **/
 		showLink: true,
 
@@ -96,7 +124,9 @@
 			'change .publicUploadCheckbox': 'onAllowPublicUploadChange',
 			'change .publicEditingCheckbox': 'onAllowPublicEditingChange',
 			'change .hideFileListCheckbox': 'onHideFileListChange',
-			'click .showPasswordCheckbox': 'onShowPasswordClick'
+			'click .showPasswordCheckbox': 'onShowPasswordClick',
+			'click .icon-more': 'onToggleMenu',
+			'click .pop-up': 'onPopUpClick'
 		},
 
 		initialize: function(options) {
@@ -142,6 +172,9 @@
 
 			var clipboard = new Clipboard('.clipboardButton');
 			clipboard.on('success', function(e) {
+				event.preventDefault();
+				event.stopPropagation();
+
 				var $input = $(e.trigger);
 				$input.tooltip('hide')
 					.attr('data-original-title', t('core', 'Copied!'))
@@ -149,9 +182,13 @@
 					.tooltip({placement: 'bottom', trigger: 'manual'})
 					.tooltip('show');
 				_.delay(function() {
-					$input.tooltip('hide')
-						.attr('data-original-title', t('core', 'Copy'))
-						.tooltip('fixTitle');
+					$input.tooltip('hide');
+					if (OC.Share.Social.Collection.size() == 0) {
+						$input.attr('data-original-title', t('core', 'Copy'))
+							.tooltip('fixTitle');
+					} else {
+						$input.tooltip("destroy");
+					}
 				}, 3000);
 			});
 			clipboard.on('error', function (e) {
@@ -171,9 +208,13 @@
 					.tooltip({placement: 'bottom', trigger: 'manual'})
 					.tooltip('show');
 				_.delay(function () {
-					$input.tooltip('hide')
-						.attr('data-original-title', t('core', 'Copy'))
-						.tooltip('fixTitle');
+					$input.tooltip('hide');
+					if (OC.Share.Social.Collection.size() == 0) {
+						$input.attr('data-original-title', t('core', 'Copy'))
+							.tooltip('fixTitle');
+					} else {
+						$input.tooltip("destroy");
+					}
 				}, 3000);
 			});
 
@@ -354,6 +395,26 @@
 				&& isLinkShare
 				&& this.model.updatePermissionPossible();
 
+			var link = this.model.get('linkShare').link;
+			var social = [];
+			OC.Share.Social.Collection.each(function(model) {
+				var url = model.get('url');
+				url = url.replace('{{reference}}', link);
+
+				social.push({
+					url: url,
+					label: t('core', 'Share to {name}', {name: model.get('name')}),
+					name: model.get('name'),
+					iconClass: model.get('iconClass')
+				});
+			});
+
+			var popover = this.popoverMenuTemplate({
+				cid: this.cid,
+				copyLabel: t('core', 'Copy'),
+				social: social
+			});
+
 			this.$el.html(linkShareTemplate({
 				cid: this.cid,
 				shareAllowed: true,
@@ -376,14 +437,33 @@
 				publicEditingLabel: t('core', 'Allow editing'),
 				hideFileListLabel: t('core', 'File drop (upload only)'),
 				mailPrivatePlaceholder: t('core', 'Email link to person'),
-				mailButtonText: t('core', 'Send')
+				mailButtonText: t('core', 'Send'),
+				singleAction: OC.Share.Social.Collection.size() == 0,
+				popoverMenu: popover
 			}));
 
-			this.$el.find('.clipboardButton').tooltip({placement: 'bottom', title: t('core', 'Copy'), trigger: 'hover'});
+			if (OC.Share.Social.Collection.size() == 0) {
+				this.$el.find('.clipboardButton').tooltip({
+					placement: 'bottom',
+					title: t('core', 'Copy'),
+					trigger: 'hover'
+				});
+			}
 
 			this.delegateEvents();
 
 			return this;
+		},
+
+		onToggleMenu: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			var $element = $(event.target);
+			var $li = $element.closest('.oneline');
+			var $menu = $li.find('.popovermenu');
+
+			OC.showMenu(null, $menu);
+			this._menuOpen = $li.data('share-id');
 		},
 
 		/**
@@ -395,6 +475,35 @@
 				this._template = Handlebars.compile(TEMPLATE);
 			}
 			return this._template;
+		},
+
+		/**
+		 * renders the popover template and returns the resulting HTML
+		 *
+		 * @param {Object} data
+		 * @returns {string}
+		 */
+		popoverMenuTemplate: function(data) {
+			if(!this._popoverMenuTemplate) {
+				this._popoverMenuTemplate = Handlebars.compile(TEMPLATE_POPOVER_MENU);
+			}
+			return this._popoverMenuTemplate(data);
+		},
+
+		onPopUpClick: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+
+			var url = $(event.currentTarget).data('url');
+			$(event.currentTarget).tooltip('hide');
+			if (url) {
+				var width = 600;
+				var height = 400;
+				var left = (screen.width/2)-(width/2);
+				var top = (screen.height/2)-(height/2);
+
+				window.open(url, 'name', 'width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
+			}
 		}
 
 	});
