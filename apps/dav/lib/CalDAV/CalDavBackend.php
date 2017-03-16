@@ -617,7 +617,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 		$transp = '{' . Plugin::NS_CALDAV . '}schedule-calendar-transp';
 		if (isset($properties[$transp])) {
-			$values['transparent'] = $properties[$transp]->getValue()==='transparent';
+			$values['transparent'] = $properties[$transp]->getValue()==='transparent' ? 1 : 0;
 		}
 
 		foreach($this->propertyMap as $xmlName=>$dbName) {
@@ -670,7 +670,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				switch ($propertyName) {
 					case '{' . Plugin::NS_CALDAV . '}schedule-calendar-transp' :
 						$fieldName = 'transparent';
-						$newValues[$fieldName] = $propertyValue->getValue() === 'transparent';
+						$newValues[$fieldName] = $propertyValue->getValue() === 'transparent' ? 1 : 0;
 						break;
 					default :
 						$fieldName = $this->propertyMap[$propertyName];
