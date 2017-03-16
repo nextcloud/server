@@ -81,7 +81,7 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	public function getName() {
-		return $this->config->getAppValue('theming', 'name', $this->name);
+		return strip_tags($this->config->getAppValue('theming', 'name', $this->name));
 	}
 
 	public function getHTMLName() {
@@ -89,11 +89,11 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	public function getTitle() {
-		return $this->config->getAppValue('theming', 'name', $this->name);
+		return $this->getName();
 	}
 
 	public function getEntity() {
-		return $this->config->getAppValue('theming', 'name', $this->name);
+		return $this->getName();
 	}
 
 	public function getBaseUrl() {
@@ -101,7 +101,7 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	public function getSlogan() {
-		return $this->config->getAppValue('theming', 'slogan', $this->slogan);
+		return \OC_Util::sanitizeHTML($this->config->getAppValue('theming', 'slogan', $this->slogan));
 	}
 
 	public function getShortFooter() {
