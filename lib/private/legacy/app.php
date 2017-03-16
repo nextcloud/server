@@ -529,16 +529,10 @@ class OC_App {
 
 	// This is private as well. It simply works, so don't ask for more details
 	private static function proceedNavigation($list) {
-		$activeApp = OC::$server->getNavigationManager()->getActiveEntry();
-		foreach ($list as &$navEntry) {
-			if ($navEntry['id'] == $activeApp) {
-				$navEntry['active'] = true;
-			} else {
-				$navEntry['active'] = false;
-			}
+		$headerIconCount = 8;
+		if(OC_User::isAdminUser(OC_User::getUser())) {
+			$headerIconCount--;
 		}
-		unset($navEntry);
-
 		usort($list, function($a, $b) {
 			if (isset($a['order']) && isset($b['order'])) {
 				return ($a['order'] < $b['order']) ? -1 : 1;
@@ -548,6 +542,63 @@ class OC_App {
 				return ($a['name'] < $b['name']) ? -1 : 1;
 			}
 		});
+
+		$activeAppIndex = -1;
+		$activeApp = OC::$server->getNavigationManager()->getActiveEntry();
+		foreach ($list as $index => &$navEntry) {
+			if ($navEntry['id'] == $activeApp) {
+				$navEntry['active'] = true;
+				$activeAppIndex = $index;
+			} else {
+				$navEntry['active'] = false;
+			}
+		}
+		unset($navEntry);
+
+		if($activeAppIndex > ($headerIconCount-1)) {
+			$active = $list[$activeAppIndex];
+			$lastInHeader = $list[$headerIconCount-1];
+			$list[$headerIconCount-1] = $active;
+			$list[$activeAppIndex] = $lastInHeader;
+		}
+
+		foreach ($list as $index => &$navEntry) {
+			$navEntry['showInHeader'] = false;
+			if($index < $headerIconCount) {
+				$navEntry['showInHeader'] = true;
+			}
+		}
+
+
+
+		return $list;
+	}
+
+	public static function proceedAppNavigation($entries) {
+		$headerIconCount = 8;
+		if(OC_User::isAdminUser(OC_User::getUser())) {
+			$headerIconCount--;
+		}
+		$activeAppIndex = -1;
+		$list = self::proceedNavigation($entries);
+
+		$activeApp = OC::$server->getNavigationManager()->getActiveEntry();
+		foreach ($list as $index => &$navEntry) {
+			if ($navEntry['id'] == $activeApp) {
+				$navEntry['active'] = true;
+				$activeAppIndex = $index;
+			} else {
+				$navEntry['active'] = false;
+			}
+		}
+		// move active item to last position
+		if($activeAppIndex > ($headerIconCount-1)) {
+			$active = $list[$activeAppIndex];
+			$lastInHeader = $list[$headerIconCount-1];
+			$list[$headerIconCount-1] = $active;
+			$list[$activeAppIndex] = $lastInHeader;
+		}
+		$list = array_slice($list, 0, $headerIconCount);
 
 		return $list;
 	}
@@ -738,6 +789,22 @@ class OC_App {
 	public static function getNavigation() {
 		$entries = OC::$server->getNavigationManager()->getAll();
 		$navigation = self::proceedNavigation($entries);
+		return $navigation;
+	}
+
+	/**
+	 * Returns the navigation inside the header bar
+	 *
+	 * @return array
+	 *
+	 * This function returns an array containing all entries added. The
+	 * entries are sorted by the key 'order' ascending. Additional to the keys
+	 * given for each app the following keys exist:
+	 *   - active: boolean, signals if the user is on this navigation entry
+	 */
+	public static function getHeaderNavigation() {
+		$entries = OC::$server->getNavigationManager()->getAll();
+		$navigation = self::proceedAppNavigation($entries);
 		return $navigation;
 	}
 

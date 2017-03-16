@@ -109,7 +109,7 @@
 		height: 34px;
 	}
 	.header-appname-container {
-		display: inline-block;
+		display: none;
 		padding-top: 22px;
 		padding-right: 10px;
 		flex-shrink: 0;
@@ -181,12 +181,10 @@
 	font-size: 16px;
 	font-weight: 300;
 	margin: 0;
-	margin-top: -27px;
+	margin-top: -26px;
 	padding: 7px 0 7px 5px;
 	vertical-align: middle;
 }
-
-
 
 /* do not show menu toggle on public share links as there is no menu */
 #body-public #header .icon-caret {
@@ -194,16 +192,20 @@
 }
 
 /* NAVIGATION --------------------------------------------------------------- */
+nav {
+	margin-top: auto;
+}
+
 #navigation {
-	position: fixed;
+	position: relative;
 	top: 45px;
-	left: 10px;
+	left: -100%;
 	width: 265px;
 	max-height: 85%;
 	margin-top: 0;
 	padding-bottom: 10px;
-	background-color: rgba(255, 255, 255, 0.97);
-	box-shadow: 0 1px 10px rgba(150, 150, 150, 0.75);
+	background-color: rgba(255, 255, 255, .97);
+	box-shadow: 0 1px 10px rgba(150, 150, 150, .75);
 	border-radius: 3px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
@@ -212,7 +214,48 @@
 	z-index: 2000;
 	&:after {
 		left: 47%;
+		bottom: 100%;
+		border: solid transparent;
+		content: ' ';
+		height: 0;
+		width: 0;
+		position: absolute;
+		pointer-events: none;
+		border-color: rgba(0, 0, 0, 0);
+		border-bottom-color: rgba(255, 255, 255, .97);
+		border-width: 9px;
+		margin-left: -9px;
 	}
+}
+
+/* arrow look */
+
+#expanddiv:after {
+	bottom: 100%;
+	border: solid transparent;
+	content: ' ';
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(0, 0, 0, 0);
+	border-bottom-color: rgba(255, 255, 255, .97);
+	border-width: 10px;
+	margin-left: -10px;
+}
+
+/* position of dropdown arrow */
+
+#navigation:after {
+	left: 242px;
+}
+
+#expanddiv:after {
+	right: 15px;
+}
+
+#navigation {
+	box-sizing: border-box;
 	* {
 		box-sizing: border-box;
 	}
@@ -307,6 +350,9 @@
 #apps {
 	max-height: calc(100vh - 100px);
 	overflow: auto;
+	.in-header {
+		display: none;
+	}
 }
 
 /* USER MENU -----------------------------------------------------------------*/
@@ -375,7 +421,7 @@
 	z-index: 2000;
 	display: none;
 	background: rgb(255, 255, 255);
-	box-shadow: 0 1px 10px rgba(150, 150, 150, 0.75);
+	box-shadow: 0 1px 10px rgba(150, 150, 150, .75);
 	border-radius: 3px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
@@ -404,4 +450,141 @@
 			opacity: 1;
 		}
 	}
+}
+
+/* do not show display name when profile picture is present */
+
+#header {
+	.avatardiv.avatardiv-shown + #expandDisplayName {
+		display: none;
+	}
+	#expand {
+		display: block;
+	}
+}
+
+#appmenu {
+	display: inline-block;
+	width: auto;
+	clear: both;
+	height: 44px;
+
+	li {
+		float: left;
+		display: inline-block;
+		vertical-align: top !important;
+		height: 20px;
+		padding: 12px;
+
+		a {
+			opacity: 0.6;
+			margin: 0;
+			text-align: center;
+			vertical-align: top !important;
+			position: relative;
+			height: 44px;
+		}
+	}
+
+	li:hover a,
+	li a.active {
+		opacity: 1;
+
+	}
+
+	li img,
+	.icon-more-white {
+		display: inline-block;
+		width: 20px;
+		height: 20px;
+	}
+
+	li span {
+		display: none;
+		position: absolute;
+		overflow: visible;
+		background-color: rgba(255, 255, 255, .97);
+		white-space: nowrap;
+		border: none;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+		margin-top: 0;
+		color: rgba(0, 0, 0, .6);
+		width: auto;
+		left: 50%;
+		top: 31px;
+		transform: translateX(-50%);
+		padding: 4px 10px;
+		-webkit-filter: drop-shadow(0 0 5px rgba(150, 150, 150, .75));
+		-moz-filter: drop-shadow(0 0 5px rgba(150, 150, 150, .75));
+		-ms-filter: drop-shadow(0 0 5px rgba(150, 150, 150, .75));
+		-o-filter: drop-shadow(0 0 5px rgba(150, 150, 150, .75));
+		filter: drop-shadow(0 0 5px rgba(150, 150, 150, .75));
+	}
+
+	li:hover span {
+		display: inline-block;
+	}
+
+
+	li:hover a:before,
+	li a.active:before {
+		content: ' ';
+		height: 0;
+		width: 0;
+		position: absolute;
+		pointer-events: none;
+		border: 0 solid transparent;
+		border-bottom-color: white;
+		border-width: 10px;
+		transform: translateX(-50%);
+		left: 50%;
+		top: 12px;
+		z-index: 100;
+		display: block;
+	}
+	&.menu-open li:hover a:before,
+	&.menu-open li a.active:before,
+	&.menu-open li:hover span {
+		display: none !important;
+	}
+
+	/* do not show active indicator when hovering other icons */
+	&:hover li:not(:hover) a:before {
+		display: none;
+	}
+
+	li.hidden {
+		display: none;
+	}
+
+}
+
+/* use popover menu on mobile and small screens */
+@media only screen and (max-width: 600px) {
+
+	#header .header-appname-container {
+		display: inline-block !important;
+	}
+
+	#appmenu {
+		display: none;
+	}
+
+	#apps .in-header {
+		display: inline-block;
+	}
+
+	#navigation {
+		position: fixed;
+		top: 45px;
+		left: 10px;
+		&:after {
+			left: 214px;
+		}
+	}
+
 }
