@@ -191,7 +191,6 @@ OC.L10N.register(
     "Continue to Nextcloud" : "Lanjutkan ke Nextcloud",
     "The update was successful. Redirecting you to Nextcloud now." : "Pembaruan berhasil. Mengarahkan Anda ke Nextcloud.",
     "Searching other places" : "Mencari tempat lainnya",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "Hasil pencarian tidak ditemukan difolder lainnya untuk '{tag}{filter}{endtag}'",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} hasil pencarian di folder lain"],
     "Personal" : "Pribadi",
     "Users" : "Pengguna",

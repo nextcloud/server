@@ -187,7 +187,6 @@ OC.L10N.register(
     "Continue to Nextcloud" : "Vazhdoni tek Nextcloud",
     "The update was successful. Redirecting you to Nextcloud now." : "Përditësimi ishte i suksesshëm. Ju ridrejtojmë në Nextcloud tani.",
     "Searching other places" : "Po kërkohet në vende të tjera",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "Jo rezultate nga kërkimi në dosjet e tjera për '{etiketim}{filtrim}{përfundoetiketimin}'",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} përfundim kërkimi në një tjetër dosje","{count} përfundime kërkimi në dosje të tjera"],
     "Personal" : "Personale",
     "Users" : "Përdorues",

@@ -45,7 +45,6 @@ OC.L10N.register(
     "Could not create file \"{file}\" because it already exists" : "Nie je možné vytvoriť súbor \"{file}\" lebo už existuje",
     "Could not create folder \"{dir}\" because it already exists" : "Nie je možné vytvoriť priečinok \"{dir}\" lebo už existuje",
     "Error deleting file \"{fileName}\"." : "Chyba pri mazaní súboru \"{fileName}\".",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "Žiadne výsledky vyhľadávania v ostatných priečinkoch pre '{tag}{filter}{endtag}'",
     "Name" : "Názov",
     "Size" : "Veľkosť",
     "Modified" : "Upravené",

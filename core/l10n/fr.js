@@ -191,7 +191,6 @@ OC.L10N.register(
     "Continue to Nextcloud" : "Continuer sur Nextcloud",
     "The update was successful. Redirecting you to Nextcloud now." : "La mise à jour est terminée. Vous allez être redirigé vers Nextcloud.",
     "Searching other places" : "Recherche en cours dans d'autres emplacements",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "Aucun résultat dans d'autres dossiers n'a été trouvé pour  '{tag}{filter}{endtag}'",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} résultat dans un autre dossier","{count} résultats dans d'autres dossiers"],
     "Personal" : "Personnel",
     "Users" : "Utilisateurs",

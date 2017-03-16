@@ -189,7 +189,6 @@
     "Continue to Nextcloud" : "Nextcloud kullanmaya geç",
     "The update was successful. Redirecting you to Nextcloud now." : "Uygulama güncellendi. Nextcloud kullanmaya yönlendiriliyorsunuz.",
     "Searching other places" : "Diğer konumlarda aranıyor",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "'{tag}{filter}{endtag}' araması için diğer klasörlerde uygun bir sonuç yok",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["Diğer klasörlerde {count} arama sonucu","Diğer klasörlerde {count} arama sonucu"],
     "Personal" : "Kişisel",
     "Users" : "Kullanıcılar",

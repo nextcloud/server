@@ -182,7 +182,6 @@ OC.L10N.register(
     "Continue to Nextcloud" : "Fortsett til Nextcloud",
     "The update was successful. Redirecting you to Nextcloud now." : "Oppdateringen var vellykket. Videresender deg til Nextcloud nå.",
     "Searching other places" : "Søker andre steder",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "Tomt søkeresultat i andre mapper for '{tag}{filter}{endtag}'",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} søkeresultat i en annen mappe","{count} søkeresultater i andre mapper"],
     "Personal" : "Personlig",
     "Users" : "Brukere",

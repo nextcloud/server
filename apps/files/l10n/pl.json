@@ -43,7 +43,6 @@
     "Could not create file \"{file}\" because it already exists" : "Nie można było utworzyć pliku \"{file}\", ponieważ ten plik już istnieje.",
     "Could not create folder \"{dir}\" because it already exists" : "Nie można utworzyć folderu „{dir}”, ponieważ już istnieje.",
     "Error deleting file \"{fileName}\"." : "Błąd podczas usuwania pliku „{fileName}”.",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "Brak wyników wyszukiwania w innych folderach dla '{tag}{filter}{endtag}'",
     "Name" : "Nazwa",
     "Size" : "Rozmiar",
     "Modified" : "Modyfikacja",
