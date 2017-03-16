@@ -367,6 +367,16 @@ class UserTest extends \Test\TestCase {
 				$this->equalTo('myquota'))
 			->will($this->returnValue(false));
 
+		$user = $this->createMock('\OCP\IUser');
+		$user->expects($this->once())
+			->method('setQuota')
+			->with('default');
+
+		$userMgr->expects($this->once())
+			->method('get')
+			->with('alice')
+			->will($this->returnValue($user));
+
 		$config->expects($this->never())
 			->method('setUserValue');
 
@@ -398,6 +408,17 @@ class UserTest extends \Test\TestCase {
 
 		$connection->expects($this->exactly(2))
 			->method('__get');
+
+		$user = $this->createMock('\OCP\IUser');
+		$user->expects($this->once())
+			->method('setQuota')
+			->with('default');
+
+		$userMgr->expects($this->once())
+			->method('get')
+			->with('alice')
+			->will($this->returnValue($user));
+
 
 		$access->expects($this->never())
 			->method('readAttribute');
@@ -447,6 +468,195 @@ class UserTest extends \Test\TestCase {
 			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$user->updateQuota($readQuota);
+	}
+
+	/**
+	 * Unparseable quota will fallback to use the LDAP default
+	 */
+	public function testUpdateWrongQuotaAllProvided() {
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+			$this->getTestInstances();
+
+		list($access, $connection) =
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
+
+		$connection->expects($this->at(0))
+			->method('__get')
+			->with($this->equalTo('ldapQuotaAttribute'))
+			->will($this->returnValue('myquota'));
+
+		$connection->expects($this->at(1))
+			->method('__get')
+			->with($this->equalTo('ldapQuotaDefault'))
+			->will($this->returnValue('23 GB'));
+
+		$connection->expects($this->exactly(2))
+			->method('__get');
+
+		$access->expects($this->once())
+			->method('readAttribute')
+			->with($this->equalTo('uid=alice,dc=foo,dc=bar'),
+				$this->equalTo('myquota'))
+			->will($this->returnValue(array('42 GBwos')));
+
+		$user = $this->createMock('\OCP\IUser');
+		$user->expects($this->once())
+			->method('setQuota')
+			->with('23 GB');
+
+		$userMgr->expects($this->once())
+			->method('get')
+			->with('alice')
+			->will($this->returnValue($user));
+
+		$uid = 'alice';
+		$dn  = 'uid=alice,dc=foo,dc=bar';
+
+		$user = new User(
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+
+		$user->updateQuota();
+	}
+
+	/**
+	 * No user quota and wrong default will set 'default' as quota
+	 */
+	public function testUpdateWrongDefaultQuotaProvided() {
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+			$this->getTestInstances();
+
+		list($access, $connection) =
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
+
+		$connection->expects($this->at(0))
+			->method('__get')
+			->with($this->equalTo('ldapQuotaAttribute'))
+			->will($this->returnValue('myquota'));
+
+		$connection->expects($this->at(1))
+			->method('__get')
+			->with($this->equalTo('ldapQuotaDefault'))
+			->will($this->returnValue('23 GBwowowo'));
+
+		$connection->expects($this->exactly(2))
+			->method('__get');
+
+		$access->expects($this->once())
+			->method('readAttribute')
+			->with($this->equalTo('uid=alice,dc=foo,dc=bar'),
+				$this->equalTo('myquota'))
+			->will($this->returnValue(false));
+
+		$user = $this->createMock('\OCP\IUser');
+		$user->expects($this->once())
+			->method('setQuota')
+			->with('default');
+
+		$userMgr->expects($this->once())
+			->method('get')
+			->with('alice')
+			->will($this->returnValue($user));
+
+		$uid = 'alice';
+		$dn  = 'uid=alice,dc=foo,dc=bar';
+
+		$user = new User(
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+
+		$user->updateQuota();
+	}
+
+	/**
+	 * Wrong user quota and wrong default will set 'default' as quota
+	 */
+	public function testUpdateWrongQuotaAndDefaultAllProvided() {
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+			$this->getTestInstances();
+
+		list($access, $connection) =
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
+
+		$connection->expects($this->at(0))
+			->method('__get')
+			->with($this->equalTo('ldapQuotaAttribute'))
+			->will($this->returnValue('myquota'));
+
+		$connection->expects($this->at(1))
+			->method('__get')
+			->with($this->equalTo('ldapQuotaDefault'))
+			->will($this->returnValue('23 GBwowowo'));
+
+		$connection->expects($this->exactly(2))
+			->method('__get');
+
+		$access->expects($this->once())
+			->method('readAttribute')
+			->with($this->equalTo('uid=alice,dc=foo,dc=bar'),
+				$this->equalTo('myquota'))
+			->will($this->returnValue(array('23 flush')));
+
+		$user = $this->createMock('\OCP\IUser');
+		$user->expects($this->once())
+			->method('setQuota')
+			->with('default');
+
+		$userMgr->expects($this->once())
+			->method('get')
+			->with('alice')
+			->will($this->returnValue($user));
+
+		$uid = 'alice';
+		$dn  = 'uid=alice,dc=foo,dc=bar';
+
+		$user = new User(
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+
+		$user->updateQuota();
+	}
+
+	/**
+	 * No quota attribute set and wrong default will set 'default' as quota
+	 */
+	public function testUpdateWrongDefaultQuotaNotProvided() {
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+			$this->getTestInstances();
+
+		list($access, $connection) =
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
+
+		$connection->expects($this->at(0))
+			->method('__get')
+			->with($this->equalTo('ldapQuotaAttribute'))
+			->will($this->returnValue(''));
+
+		$connection->expects($this->at(1))
+			->method('__get')
+			->with($this->equalTo('ldapQuotaDefault'))
+			->will($this->returnValue('23 GBwowowo'));
+
+		$connection->expects($this->exactly(2))
+			->method('__get');
+
+		$access->expects($this->never())
+			->method('readAttribute');
+
+		$user = $this->createMock('\OCP\IUser');
+		$user->expects($this->once())
+			->method('setQuota')
+			->with('default');
+
+		$userMgr->expects($this->once())
+			->method('get')
+			->with('alice')
+			->will($this->returnValue($user));
+
+		$uid = 'alice';
+		$dn  = 'uid=alice,dc=foo,dc=bar';
+
+		$user = new User(
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+
+		$user->updateQuota();
 	}
 
 	//the testUpdateAvatar series also implicitely tests getAvatarImage
