@@ -191,7 +191,6 @@ OC.L10N.register(
     "Continue to Nextcloud" : "Pokračovat do Nextcloud",
     "The update was successful. Redirecting you to Nextcloud now." : "Aktualizace byla úspěšná. Probíhá přesměrování na Nexcloud.",
     "Searching other places" : "Prohledávání ostatních umístění",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "Hledání '{tag}{filter}{endtag}' v dalších adresářích nevrátilo žádné výsledky",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} nález v dalším adresáři","{count} nálezy v dalších adresářích","{count} nálezů v dalších adresářích"],
     "Personal" : "Osobní",
     "Users" : "Uživatelé",

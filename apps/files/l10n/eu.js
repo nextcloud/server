@@ -45,7 +45,6 @@ OC.L10N.register(
     "Could not create file \"{file}\" because it already exists" : "Ezin izan da \"{file}\" fitxategia sortu, dagoeneko existitzen delako",
     "Could not create folder \"{dir}\" because it already exists" : "Ezin izan da \"{dir}\" karpeta sortu, dagoeneko existitzen delako",
     "Error deleting file \"{fileName}\"." : "Akatsa \"{fileName}\" fitxategia ezabatzerakoan.",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "Ez da '{tag}{filter}{endtag}' bilaketarako emaitzik aurkitu beste karpetetan",
     "Name" : "Izena",
     "Size" : "Tamaina",
     "Modified" : "Aldatuta",

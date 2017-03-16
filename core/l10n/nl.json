@@ -189,7 +189,6 @@
     "Continue to Nextcloud" : "Ga door naar Nextcloud",
     "The update was successful. Redirecting you to Nextcloud now." : "De update is geslaagd. Je wordt nu doorgeleid naar Nextcloud.",
     "Searching other places" : "Zoeken op andere plaatsen",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "Geen zoekresultaten voor '{tag}{filter}{endtag}' in andere mappen",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} zoekresultaat in een andere map","{count} zoekresultaten in andere mappen"],
     "Personal" : "Persoonlijk",
     "Users" : "Gebruikers",

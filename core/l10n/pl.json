@@ -189,7 +189,6 @@
     "Continue to Nextcloud" : "Kontynuuj w Nextcloud",
     "The update was successful. Redirecting you to Nextcloud now." : "Aktualizacja przebiegła pomyślnie. Trwa przekierowywanie do Nextcloud.",
     "Searching other places" : "Przeszukaj inne miejsca",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "Brak wyników wyszukiwania w innych folderach '{tag}{filter}{endtag}'",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["Liczba wyników wyszukiwania w innych folderach - {count} ","Liczba wyników wyszukiwania w innych folderach - {count} ","Liczba wyników wyszukiwania w innych folderach - {count} ","Liczba wyników wyszukiwania w innych folderach - {count} "],
     "Personal" : "Osobiste",
     "Users" : "Użytkownicy",

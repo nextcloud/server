@@ -191,7 +191,6 @@ OC.L10N.register(
     "Continue to Nextcloud" : "Halda áfram í Nextcloud",
     "The update was successful. Redirecting you to Nextcloud now." : "Uppfærslan heppnaðist. Beini þér til Nextcloud nú.",
     "Searching other places" : "Leitað á öðrum stöðum",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "Engar leitarniðurstöður í öðrum möppum fyrir '{tag}{filter}{endtag}'",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} leitarniðurstöður í annarri möppu","{count} leitarniðurstöður í öðrum möppum"],
     "Personal" : "Einka",
     "Users" : "Notendur",

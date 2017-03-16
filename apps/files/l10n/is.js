@@ -45,7 +45,6 @@ OC.L10N.register(
     "Could not create file \"{file}\" because it already exists" : "Gat ekki búið til skrána \"{file}\" vegna þess að hún er þegar til",
     "Could not create folder \"{dir}\" because it already exists" : "Gat ekki búið til möppuna \"{dir}\" vegna þess að hún er þegar til",
     "Error deleting file \"{fileName}\"." : "Villa við að eyða skránni \"{fileName}\".",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "Engar leitarniðurstöður í öðrum möppum fyrir '{tag}{filter}{endtag}'",
     "Name" : "Heiti",
     "Size" : "Stærð",
     "Modified" : "Breytt",

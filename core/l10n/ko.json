@@ -166,7 +166,6 @@
     "Continue to Nextcloud" : "Nextcloud 계속",
     "The update was successful. Redirecting you to Nextcloud now." : "업데이트가 성공했습니다. 지금 Nextcloud로 리디렉션합니다.",
     "Searching other places" : "다른 장소 찾는 중",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "폴더의 검색 결과 없음 '{tag}{filter}{endtag}'",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["다른 폴더의 검색 결과 {count}개"],
     "Personal" : "개인",
     "Users" : "사용자",

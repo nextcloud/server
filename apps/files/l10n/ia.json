@@ -43,7 +43,6 @@
     "Could not create file \"{file}\" because it already exists" : "Impossibile crear file \"{file}\" proque illo ja existe",
     "Could not create folder \"{dir}\" because it already exists" : "Impossibile crear dossier \"{dir}\" proque illo ja existe",
     "Error deleting file \"{fileName}\"." : "Error durante deletion del file \"{fileName}\".",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "Nulle resultatos in altere dossiers pro le cerca '{tag}{filter}{endtag}'",
     "Name" : "Nomine",
     "Size" : "Dimension",
     "Modified" : "Modificate",

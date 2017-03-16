@@ -191,7 +191,6 @@ OC.L10N.register(
     "Continue to Nextcloud" : "继续访问 Nextcloud",
     "The update was successful. Redirecting you to Nextcloud now." : "升级成功. 正在重新访问 Nextcloud.",
     "Searching other places" : "搜索其他位置",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "在其他文件夹内未找到含有 '{tag}{filter}{endtag}' 的结果",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["在其他文件夹中找到 {count} 条搜索结果"],
     "Personal" : "个人",
     "Users" : "用户",

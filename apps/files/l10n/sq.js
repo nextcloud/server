@@ -45,7 +45,6 @@ OC.L10N.register(
     "Could not create file \"{file}\" because it already exists" : "S’u krijua dot kartela \"{file}\" ngaqë ka një të tillë",
     "Could not create folder \"{dir}\" because it already exists" : "S’u krijua dot dosja \"{dir}\" ngaqë ka një të tillë",
     "Error deleting file \"{fileName}\"." : "Gabim në fshirjen e kartelës \"{fileName}\".",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "Asnjë rezultat kërkimi në dosjet e tjera për '{tag}{filter}{endtag}'",
     "Name" : "Emër",
     "Size" : "Madhësi",
     "Modified" : "Ndryshuar më",

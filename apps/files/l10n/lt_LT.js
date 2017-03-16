@@ -45,7 +45,6 @@ OC.L10N.register(
     "Could not create file \"{file}\" because it already exists" : "Nepavyko sukurti failo \"{file}\" - failas su tokiu pavadinimu jau egzistuoja",
     "Could not create folder \"{dir}\" because it already exists" : "Nepavyko sukurti aplanko \"{dir}\"- aplankas su tokiu pavadinimu jau egzistuoja",
     "Error deleting file \"{fileName}\"." : "Klaida trinant failą \"{fileName}\".",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "Paieškos rezultatų atitinkančių '{tag}{filter}{endtag}' kituose aplankuose nėra",
     "Name" : "Pavadinimas",
     "Size" : "Dydis",
     "Modified" : "Pakeista",
