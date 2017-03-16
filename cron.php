@@ -84,7 +84,9 @@ try {
 
 	if (OC::$CLI) {
 		// set to run indefinitely if needed
-		set_time_limit(0);
+		if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+			@set_time_limit(0);
+		}
 
 		// the cron job must be executed with the right user
 		if (!function_exists('posix_getuid')) {

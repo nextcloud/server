@@ -147,7 +147,9 @@ class OC_Files {
 
 			$streamer->sendHeaders($name);
 			$executionTime = intval(OC::$server->getIniWrapper()->getNumeric('max_execution_time'));
-			set_time_limit(0);
+			if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+				@set_time_limit(0);
+			}
 			ignore_user_abort(true);
 			if ($getType === self::ZIP_FILES) {
 				foreach ($files as $file) {

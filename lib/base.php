@@ -616,7 +616,9 @@ class OC {
 		//Let´s try to overwrite some defaults anyway
 
 		//try to set the maximum execution time to 60min
-		@set_time_limit(3600);
+		if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+			@set_time_limit(3600);
+		}
 		@ini_set('max_execution_time', 3600);
 		@ini_set('max_input_time', 3600);
 
