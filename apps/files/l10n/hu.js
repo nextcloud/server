@@ -45,7 +45,6 @@ OC.L10N.register(
     "Could not create file \"{file}\" because it already exists" : "{file} fájl nem létrehozható, mert már létezik",
     "Could not create folder \"{dir}\" because it already exists" : "{dir} mappa nem hozható létre, mert már létezik",
     "Error deleting file \"{fileName}\"." : "Hiba történt {fileName} fájl törlése közben.",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "Ehhez nincsenek keresési eredmények más mappákban: '{tag}{filter}{endtag}'",
     "Name" : "Név",
     "Size" : "Méret",
     "Modified" : "Módosítva",

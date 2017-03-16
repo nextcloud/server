@@ -186,7 +186,6 @@
     "Continue to Nextcloud" : "Fortsätt till Nextcloud",
     "The update was successful. Redirecting you to Nextcloud now." : "Uppdateringen lyckades. Omdirigerar nu till Nextcloud.",
     "Searching other places" : "Söker på andra platser",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "Inga sökresultat i andra mappar för '{tag}{filter}{endtag}'",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} sökresultat i en annan mapp","{count} sökresultat i andra mappar"],
     "Personal" : "Personliga Inställningar",
     "Users" : "Användare",

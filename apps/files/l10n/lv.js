@@ -45,7 +45,6 @@ OC.L10N.register(
     "Could not create file \"{file}\" because it already exists" : "Nevarēja izveidot datni \"{file}\", jo tā jau eksistē",
     "Could not create folder \"{dir}\" because it already exists" : "Nevarēja izveidot mapi \"{dir}\", jo tā jau eksistē",
     "Error deleting file \"{fileName}\"." : "Kļūda dzēšot datni \"{fileName}\".",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "Nav nekas atrasts citā mapēs '{tag}{filter}{endtag}'",
     "Name" : "Nosaukums",
     "Size" : "Izmērs",
     "Modified" : "Mainīts",

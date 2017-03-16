@@ -189,7 +189,6 @@
     "Continue to Nextcloud" : "Продолжить в Nextcloud",
     "The update was successful. Redirecting you to Nextcloud now." : "Обновление прошло успешно. Перенаправляем вас на Nextcloud прямо сейчас.",
     "Searching other places" : "Идет поиск в других местах",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "Нет результатов поиска в других папках для '{tag}{filter}{endtag}'",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} результат в другой папке","{count} результата в другой папке","{count} результатов в другой папке","{count} результатов в других папках"],
     "Personal" : "Личное",
     "Users" : "Пользователи",

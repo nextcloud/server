@@ -41,7 +41,6 @@
     "Could not create file \"{file}\" because it already exists" : "파일이 이미 존재하므로 \"{file}\"을(를) 만들 수 없음",
     "Could not create folder \"{dir}\" because it already exists" : "폴더가 이미 존재하므로 폴더 \"{dir}\"을(를) 만들 수 없음",
     "Error deleting file \"{fileName}\"." : "파일 \"{fileName}\"을(를) 삭제할 수 없습니다.",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "폴더의 검색 결과 없음 '{tag}{filter}{endtag}'",
     "Name" : "이름",
     "Size" : "크기",
     "Modified" : "수정됨",

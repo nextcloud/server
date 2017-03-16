@@ -43,7 +43,6 @@
     "Could not create file \"{file}\" because it already exists" : "Klarte ikke å opprette fil \"{file}\" fordi den finnes allerede",
     "Could not create folder \"{dir}\" because it already exists" : "Klarete ikke å opprette mappe \"{dir}\" fordi den finnes allerede",
     "Error deleting file \"{fileName}\"." : "Feil ved sletting av fil \"{fileName}\".",
-    "No search results in other folders for '{tag}{filter}{endtag}'" : "Tomt søkeresultat i andre mapper for '{tag}{filter}{endtag}'",
     "Name" : "Navn",
     "Size" : "Størrelse",
     "Modified" : "Endret",
