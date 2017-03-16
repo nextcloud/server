@@ -45,7 +45,30 @@ function exceptionHandler($exception) {
 	exit(1);
 }
 try {
-	require_once __DIR__ . '/lib/base.php';
+
+	$serverRoot = str_replace("\\", '/', substr(__DIR__, 0, -5));
+	if (defined('PHPUNIT_CONFIG_DIR')) {
+		$configDir = $serverRoot. '/' . PHPUNIT_CONFIG_DIR . '/';
+	} else if (defined('PHPUNIT_RUN') && PHPUNIT_RUN && is_dir($serverRoot . '/tests/config/')) {
+		$configDir = $serverRoot . '/tests/config/';
+	} else if ($dir = getenv('NEXTCLOUD_CONFIG_DIR')) {
+		$configDir = rtrim($dir, '/') . '/';
+	} else {
+		$configDir = $serverRoot . '/config/';
+	}
+
+	$user = posix_getpwuid(posix_getuid());
+	$configUser = posix_getpwuid(fileowner($configDir . 'config.php'));
+	if ($user['name'] !== $configUser['name']) {
+		// Call it with the correct user automatically, so people can call "./occ"
+		// without sudo-ing themselves. This also allows the autocompletion to work correctly
+		$arguments = $argv;
+		array_shift($arguments);
+		echo shell_exec('sudo -E -u ' . $configUser['name'] . ' php ' . __FILE__ . ' ' . implode(' ', $arguments) . ' ');
+		exit;
+	}
+
+	require_once __DIR__ . '/../lib/base.php';
 
 	// set to run indefinitely if needed
 	set_time_limit(0);
@@ -59,25 +82,6 @@ try {
 
 	if (!function_exists('posix_getuid')) {
 		echo "The posix extensions are required - see http://php.net/manual/en/book.posix.php" . PHP_EOL;
-		exit(1);
-	}
-	$user = posix_getpwuid(posix_getuid());
-	$configUser = posix_getpwuid(fileowner(OC::$configDir . 'config.php'));
-	if ($user['name'] !== $configUser['name']) {
-		echo "Console has to be executed with the user that owns the file config/config.php" . PHP_EOL;
-		echo "Current user: " . $user['name'] . PHP_EOL;
-		echo "Owner of config.php: " . $configUser['name'] . PHP_EOL;
-		echo "Try adding 'sudo -u " . $configUser['name'] . " ' to the beginning of the command (without the single quotes)" . PHP_EOL;
-		exit(1);
-	}
-
-	$oldWorkingDir = getcwd();
-	if ($oldWorkingDir === false) {
-		echo "This script can be run from the ownCloud root directory only." . PHP_EOL;
-		echo "Can't determine current working dir - the script will continue to work but be aware of the above fact." . PHP_EOL;
-	} else if ($oldWorkingDir !== __DIR__ && !chdir(__DIR__)) {
-		echo "This script can be run from the ownCloud root directory only." . PHP_EOL;
-		echo "Can't change to ownCloud root directory." . PHP_EOL;
 		exit(1);
 	}
 
