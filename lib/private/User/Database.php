@@ -68,9 +68,6 @@ class Database extends Backend implements IUserBackend {
 	/** @var EventDispatcher */
 	private $eventDispatcher;
 
-	/** @var \OCP\IDBConnection */
-	private $connection;
-
 	/**
 	 * \OC\User\Database constructor.
 	 *
@@ -79,7 +76,6 @@ class Database extends Backend implements IUserBackend {
 	public function __construct($eventDispatcher = null) {
 		$this->cache = new CappedMemoryCache();
 		$this->eventDispatcher = $eventDispatcher ? $eventDispatcher : \OC::$server->getEventDispatcher();
-		$this->connection = \OC::$server->getDatabaseConnection();
 	}
 
 	/**
@@ -189,8 +185,8 @@ class Database extends Backend implements IUserBackend {
 		$parameters = [];
 		$searchLike = '';
 		if ($search !== '') {
-			$parameters[] = '%' . $this->connection->escapeLikeParameter($search) . '%';
-			$parameters[] = '%' . $this->connection->escapeLikeParameter($search) . '%';
+			$parameters[] = '%' . \OC::$server->getDatabaseConnection()->escapeLikeParameter($search) . '%';
+			$parameters[] = '%' . \OC::$server->getDatabaseConnection()->escapeLikeParameter($search) . '%';
 			$searchLike = ' WHERE LOWER(`displayname`) LIKE LOWER(?) OR '
 				. 'LOWER(`uid`) LIKE LOWER(?)';
 		}
@@ -279,7 +275,7 @@ class Database extends Backend implements IUserBackend {
 		$parameters = [];
 		$searchLike = '';
 		if ($search !== '') {
-			$parameters[] = '%' . $this->connection->escapeLikeParameter($search) . '%';
+			$parameters[] = '%' . \OC::$server->getDatabaseConnection()->escapeLikeParameter($search) . '%';
 			$searchLike = ' WHERE LOWER(`uid`) LIKE LOWER(?)';
 		}
 
