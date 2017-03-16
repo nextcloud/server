@@ -286,6 +286,20 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
+	 * Checks if set_time_limit is not disabled.
+	 *
+	 * @return bool
+	 */
+	private function isSettimelimitAvailable() {
+		if (function_exists('set_time_limit')
+			&& strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * @return RedirectResponse
 	 */
 	public function rescanFailedIntegrityCheck() {
@@ -411,6 +425,7 @@ Raw output
 				'codeIntegrityCheckerDocumentation' => $this->urlGenerator->linkToDocs('admin-code-integrity'),
 				'isOpcacheProperlySetup' => $this->isOpcacheProperlySetup(),
 				'phpOpcacheDocumentation' => $this->urlGenerator->linkToDocs('admin-php-opcache'),
+				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
 			]
 		);
 	}
