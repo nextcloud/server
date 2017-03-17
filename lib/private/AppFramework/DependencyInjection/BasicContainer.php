@@ -21,6 +21,15 @@ class BasicContainer extends SimpleContainer {
 	public function __construct() {
 		parent::__construct();
 
+
+		// aliases
+		$this->registerAlias('appName', 'AppName');
+		$this->registerAlias('webRoot', 'WebRoot');
+		$this->registerAlias('userId', 'UserId');
+
+		/**
+		 * Core services
+		 */
 		$this->registerService(IAppConfig::class, function() {
 			return $this->getServer()->getAppConfig();
 		});

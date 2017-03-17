@@ -66,10 +66,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		parent::__construct();
 
 		$this->basicContainer = $basicContainer;
-		$keys = $basicContainer->keys();
-		foreach ($keys as $key) {
-	//		$this->offsetSet($key, $basicContainer->raw($key));
-		}
 
 		$this['AppName'] = $appName;
 		$this['urlParams'] = $urlParams;
@@ -77,17 +73,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		/** @var \OC\ServerContainer $server */
 		$server = $this->getServer();
 		$server->registerAppContainer($appName, $this);
-
-		// aliases
-		$this->registerAlias('appName', 'AppName');
-		$this->registerAlias('webRoot', 'WebRoot');
-		$this->registerAlias('userId', 'UserId');
-
-		/**
-		 * Core services
-		 */
-
-
 
 		/**
 		 * App Framework APIs
