@@ -83,11 +83,11 @@ trait BasicStructure {
 	}
 
 	/**
-	 * @Given /^using api version "([^"]*)"$/
+	 * @Given /^using api version "(\d+)"$/
 	 * @param string $version
 	 */
 	public function usingApiVersion($version) {
-		$this->apiVersion = $version;
+		$this->apiVersion = (int) $version;
 	}
 
 	/**

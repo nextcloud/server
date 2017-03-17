@@ -62,7 +62,7 @@ trait AppConfiguration {
 		$body = new \Behat\Gherkin\Node\TableNode([['value', $value]]);
 		$this->sendingToWith('post', "/apps/testing/api/v1/app/{$app}/{$parameter}", $body);
 		$this->theHTTPStatusCodeShouldBe('200');
-		if ($this->apiVersion == 1) {
+		if ($this->apiVersion === 1) {
 			$this->theOCSStatusCodeShouldBe('100');
 		}
 	}
@@ -70,7 +70,7 @@ trait AppConfiguration {
 	protected function setStatusTestingApp($enabled) {
 		$this->sendingTo(($enabled ? 'post' : 'delete'), '/cloud/apps/testing');
 		$this->theHTTPStatusCodeShouldBe('200');
-		if ($this->apiVersion == 1) {
+		if ($this->apiVersion === 1) {
 			$this->theOCSStatusCodeShouldBe('100');
 		}
 
