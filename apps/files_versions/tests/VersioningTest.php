@@ -612,7 +612,19 @@ class VersioningTest extends \Test\TestCase {
 		// needed to have a FS setup (the background job does this)
 		\OC_Util::setupFS(self::TEST_VERSIONS_USER);
 
-		$this->assertFalse(\OCA\Files_Versions\Storage::expire('/void/unexist.txt'));
+		$this->assertFalse(\OCA\Files_Versions\Storage::expire('/void/unexist.txt', self::TEST_VERSIONS_USER));
+	}
+
+	/**
+	 * @expectedException \OC\User\NoUserException
+	 */
+	public function testExpireNonexistingUser() {
+		$this->logout();
+		// needed to have a FS setup (the background job does this)
+		\OC_Util::setupFS(self::TEST_VERSIONS_USER);
+		\OC\Files\Filesystem::file_put_contents("test.txt", "test file");
+
+		$this->assertFalse(\OCA\Files_Versions\Storage::expire('test.txt', 'unexist'));
 	}
 
 	public function testRestoreSameStorage() {
