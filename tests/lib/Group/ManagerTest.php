@@ -9,12 +9,15 @@
 
 namespace Test\Group;
 
+use OC\Group\Database;
 use OC\User\Manager;
 use OC\User\User;
 use OCP\ILogger;
 use OCP\IUser;
+use Test\TestCase;
+use Test\Util\Group\Dummy;
 
-class ManagerTest extends \Test\TestCase {
+class ManagerTest extends TestCase {
 	/** @var Manager */
 	private $userManager;
 	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject $userManager */
@@ -90,7 +93,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetDeleted() {
-		$backend = new \Test\Util\Group\Dummy();
+		$backend = new Dummy();
 		$backend->createGroup('group1');
 
 		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
@@ -134,9 +137,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testCreate() {
-		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
-		 */
+		/**@var \PHPUnit_Framework_MockObject_MockObject|\OC\Group\Backend $backend */
 		$backendGroupCreated = false;
 		$backend = $this->getMockBuilder('\OC\Group\Database')
 			->disableOriginalConstructor()
@@ -154,7 +155,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('createGroup')
 			->will($this->returnCallback(function () use (&$backendGroupCreated) {
 				$backendGroupCreated = true;
-			}));;
+			}));
 
 		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
@@ -164,9 +165,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testCreateExists() {
-		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
-		 */
+		/** @var \PHPUnit_Framework_MockObject_MockObject|\OC\Group\Backend $backend */
 		$backend = $this->getMockBuilder('\OC\Group\Database')
 			->disableOriginalConstructor()
 			->getMock();
@@ -204,7 +203,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->addBackend($backend);
 
 		$groups = $manager->search('1');
-		$this->assertEquals(1, count($groups));
+		$this->assertCount(1, $groups);
 		$group1 = reset($groups);
 		$this->assertEquals('group1', $group1->getGID());
 	}
@@ -243,7 +242,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->addBackend($backend2);
 
 		$groups = $manager->search('1');
-		$this->assertEquals(2, count($groups));
+		$this->assertCount(2, $groups);
 		$group1 = reset($groups);
 		$group12 = next($groups);
 		$this->assertEquals('group1', $group1->getGID());
@@ -284,7 +283,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->addBackend($backend2);
 
 		$groups = $manager->search('1', 2, 1);
-		$this->assertEquals(2, count($groups));
+		$this->assertCount(2, $groups);
 		$group1 = reset($groups);
 		$group12 = next($groups);
 		$this->assertEquals('group1', $group1->getGID());
@@ -292,10 +291,8 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testSearchResultExistsButGroupDoesNot() {
-		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
-		 */
-		$backend = $this->createMock('\OC\Group\Database');
+		/** @var \PHPUnit_Framework_MockObject_MockObject|\OC\Group\Backend $backend */
+		$backend = $this->createMock(Database::class);
 		$backend->expects($this->once())
 			->method('getGroups')
 			->with('1')
@@ -305,10 +302,8 @@ class ManagerTest extends \Test\TestCase {
 			->with('group1')
 			->will($this->returnValue(false));
 
-		/**
-		 * @var \OC\User\Manager $userManager
-		 */
-		$userManager = $this->createMock('\OC\User\Manager');
+		/** @var \OC\User\Manager $userManager */
+		$userManager = $this->createMock(Manager::class);
 
 		$manager = new \OC\Group\Manager($userManager, $this->logger);
 		$manager->addBackend($backend);
@@ -340,14 +335,14 @@ class ManagerTest extends \Test\TestCase {
 		$manager->addBackend($backend);
 
 		$groups = $manager->getUserGroups($this->newUser('user1', $userBackend));
-		$this->assertEquals(1, count($groups));
+		$this->assertCount(1, $groups);
 		$group1 = reset($groups);
 		$this->assertEquals('group1', $group1->getGID());
 	}
 
 	public function testGetUserGroupIds() {
 		/** @var \PHPUnit_Framework_MockObject_MockObject|\OC\Group\Manager $manager */
-		$manager = $this->getMockBuilder('OC\Group\Manager')
+		$manager = $this->getMockBuilder(\OC\Group\Manager::class)
 			->disableOriginalConstructor()
 			->setMethods(['getUserGroups'])
 			->getMock();
@@ -358,13 +353,11 @@ class ManagerTest extends \Test\TestCase {
 				'abc' => 'abc',
 			]);
 
-		/** @var \OC\User\User $user */
-		$user = $this->getMockBuilder('OC\User\User')
-			->disableOriginalConstructor()
-			->getMock();
+		/** @var \OC\User\User|\PHPUnit_Framework_MockObject_MockObject $user */
+		$user = $this->createMock(IUser::class);
 
 		$groups = $manager->getUserGroupIds($user);
-		$this->assertEquals(2, count($groups));
+		$this->assertCount(2, $groups);
 
 		foreach ($groups as $group) {
 			$this->assertInternalType('string', $group);
@@ -375,7 +368,7 @@ class ManagerTest extends \Test\TestCase {
 		/**
 		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
 		 */
-		$backend = $this->createMock('\OC\Group\Database');
+		$backend = $this->createMock(Database::class);
 		$backend->expects($this->once())
 			->method('getUserGroups')
 			->with('user1')
@@ -385,17 +378,14 @@ class ManagerTest extends \Test\TestCase {
 			->with('group1')
 			->will($this->returnValue(false));
 
-		/**
-		 * @var \OC\User\Manager $userManager
-		 */
-		$userManager = $this->createMock('\OC\User\Manager');
-		$userBackend = $this->createMock('\OC_User_Backend');
-		$manager = new \OC\Group\Manager($userManager, $this->logger);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
-		/** @var \OC\User\User $user */
+		/** @var \OC\User\User|\PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->createMock(IUser::class);
-		$user->method('getUID')->willReturn('user1');
+		$user->expects($this->atLeastOnce())
+			->method('getUID')
+			->willReturn('user1');
 
 		$groups = $manager->getUserGroups($user);
 		$this->assertEmpty($groups);
@@ -501,7 +491,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->addBackend($backend2);
 
 		$groups = $manager->getUserGroups($this->newUser('user1', $userBackend));
-		$this->assertEquals(2, count($groups));
+		$this->assertCount(2, $groups);
 		$group1 = reset($groups);
 		$group2 = next($groups);
 		$this->assertEquals('group1', $group1->getGID());
@@ -565,7 +555,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->addBackend($backend);
 
 		$users = $manager->displayNamesInGroup('testgroup', 'user3');
-		$this->assertEquals(1, count($users));
+		$this->assertCount(1, $users);
 		$this->assertFalse(isset($users['user1']));
 		$this->assertFalse(isset($users['user2']));
 		$this->assertFalse(isset($users['user3']));
@@ -631,7 +621,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->addBackend($backend);
 
 		$users = $manager->displayNamesInGroup('testgroup', 'user3', 1);
-		$this->assertEquals(1, count($users));
+		$this->assertCount(1, $users);
 		$this->assertFalse(isset($users['user1']));
 		$this->assertFalse(isset($users['user2']));
 		$this->assertFalse(isset($users['user3']));
@@ -701,7 +691,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->addBackend($backend);
 
 		$users = $manager->displayNamesInGroup('testgroup', 'user3', 1, 1);
-		$this->assertEquals(1, count($users));
+		$this->assertCount(1, $users);
 		$this->assertFalse(isset($users['user1']));
 		$this->assertFalse(isset($users['user2']));
 		$this->assertFalse(isset($users['user3']));
@@ -747,7 +737,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->addBackend($backend);
 
 		$users = $manager->displayNamesInGroup('testgroup', '');
-		$this->assertEquals(2, count($users));
+		$this->assertCount(2, $users);
 		$this->assertFalse(isset($users['user1']));
 		$this->assertTrue(isset($users['user2']));
 		$this->assertFalse(isset($users['user3']));
@@ -792,7 +782,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->addBackend($backend);
 
 		$users = $manager->displayNamesInGroup('testgroup', '', 1);
-		$this->assertEquals(1, count($users));
+		$this->assertCount(1, $users);
 		$this->assertFalse(isset($users['user1']));
 		$this->assertTrue(isset($users['user2']));
 		$this->assertFalse(isset($users['user3']));
@@ -837,7 +827,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->addBackend($backend);
 
 		$users = $manager->displayNamesInGroup('testgroup', '', 1, 1);
-		$this->assertEquals(1, count($users));
+		$this->assertCount(1, $users);
 		$this->assertFalse(isset($users['user1']));
 		$this->assertFalse(isset($users['user2']));
 		$this->assertFalse(isset($users['user3']));
@@ -877,11 +867,11 @@ class ManagerTest extends \Test\TestCase {
 		// add user
 		$group = $manager->get('group1');
 		$group->addUser($user1);
-		$expectedGroups = array('group1');
+		$expectedGroups[] = 'group1';
 
 		// check result
 		$groups = $manager->getUserGroups($user1);
-		$this->assertEquals(1, count($groups));
+		$this->assertCount(1, $groups);
 		$group1 = reset($groups);
 		$this->assertEquals('group1', $group1->getGID());
 	}
@@ -920,7 +910,7 @@ class ManagerTest extends \Test\TestCase {
 		// prime cache
 		$user1 = $this->newUser('user1', null);
 		$groups = $manager->getUserGroups($user1);
-		$this->assertEquals(1, count($groups));
+		$this->assertCount(1, $groups);
 		$group1 = reset($groups);
 		$this->assertEquals('group1', $group1->getGID());
 
