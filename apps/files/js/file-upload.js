@@ -1006,14 +1006,15 @@ OC.Uploader.prototype = _.extend({
 						bufferTotal = bufferTotal - (buffer[bufferIndex]) + remainingSeconds;
 						buffer[bufferIndex] = remainingSeconds; //buffer to make it smoother
 						bufferIndex = (bufferIndex + 1) % bufferSize;
-						bufferIndex2 = bufferIndex2++;
+						bufferIndex2++;
 					}
 					var smoothRemainingSeconds;
-					if(bufferIndex2<20) {
-							smoothRemainingSeconds = bufferTotal / bufferIndex2;
-					}
-					else {
-						 smoothRemainingSeconds = bufferTotal / bufferSize; 
+					if (bufferIndex2 > 0 && bufferIndex2 < 20) {
+						smoothRemainingSeconds = bufferTotal / bufferIndex2;
+					} else if (bufferSize > 0) {
+						smoothRemainingSeconds = bufferTotal / bufferSize;
+					} else {
+						smoothRemainingSeconds = 1;
 					}
 
 					var h = moment.duration(smoothRemainingSeconds, "seconds").humanize();
