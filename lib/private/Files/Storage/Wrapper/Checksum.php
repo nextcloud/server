@@ -23,6 +23,7 @@ namespace OC\Files\Storage\Wrapper;
 use Icewind\Streams\CallbackWrapper;
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Stream\Checksum as ChecksumStream;
+use OC\OCS\Exception;
 use OCP\ILogger;
 
 /**
@@ -100,9 +101,12 @@ class Checksum extends Wrapper {
 		// file could be in cache but without checksum for example
 		// if mounted from ext. storage
 		$cache = $this->getCache($path);
+
 		$cacheEntry = $cache->get($path);
 
-		if ($cacheEntry && empty($cacheEntry['checksum'])) {
+		// Cache entry is sometimes an array (partial) when encryption is enabled without id so
+		// we ignore it.
+		if ($cacheEntry && empty($cacheEntry['checksum']) && is_object($cacheEntry)) {
 			$this->pathsInCacheWithoutChecksum[$cacheEntry->getId()] = $path;
 			return self::PATH_IN_CACHE_WITHOUT_CHECKSUM;
 		}
