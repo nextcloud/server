@@ -280,6 +280,7 @@ return array(
     'OC\\AppConfig' => $baseDir . '/lib/private/AppConfig.php',
     'OC\\AppFramework\\App' => $baseDir . '/lib/private/AppFramework/App.php',
     'OC\\AppFramework\\Core\\API' => $baseDir . '/lib/private/AppFramework/Core/API.php',
+    'OC\\AppFramework\\DependencyInjection\\BasicContainer' => $baseDir . '/lib/private/AppFramework/DependencyInjection/BasicContainer.php',
     'OC\\AppFramework\\DependencyInjection\\DIContainer' => $baseDir . '/lib/private/AppFramework/DependencyInjection/DIContainer.php',
     'OC\\AppFramework\\Http' => $baseDir . '/lib/private/AppFramework/Http.php',
     'OC\\AppFramework\\Http\\Dispatcher' => $baseDir . '/lib/private/AppFramework/Http/Dispatcher.php',

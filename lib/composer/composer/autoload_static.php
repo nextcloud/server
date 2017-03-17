@@ -310,6 +310,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\AppConfig' => __DIR__ . '/../../..' . '/lib/private/AppConfig.php',
         'OC\\AppFramework\\App' => __DIR__ . '/../../..' . '/lib/private/AppFramework/App.php',
         'OC\\AppFramework\\Core\\API' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Core/API.php',
+        'OC\\AppFramework\\DependencyInjection\\BasicContainer' => __DIR__ . '/../../..' . '/lib/private/AppFramework/DependencyInjection/BasicContainer.php',
         'OC\\AppFramework\\DependencyInjection\\DIContainer' => __DIR__ . '/../../..' . '/lib/private/AppFramework/DependencyInjection/DIContainer.php',
         'OC\\AppFramework\\Http' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http.php',
         'OC\\AppFramework\\Http\\Dispatcher' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Dispatcher.php',
