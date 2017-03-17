@@ -293,15 +293,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 	}
 
-	public function query($name) {
-		$name = $this->sanitizeName($name);
-		if (!$this->offsetExists($name) && $this->basicContainer->offsetExists($name)) {
-			$this->offsetSet($name, $this->basicContainer->raw($name));
-		}
-
-		return parent::query($name);
-	}
-
 	public function offsetExists($id) {
 		return parent::offsetExists($id) || $this->basicContainer->offsetExists($id);
 	}

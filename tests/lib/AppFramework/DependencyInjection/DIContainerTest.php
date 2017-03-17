@@ -27,6 +27,7 @@
 namespace Test\AppFramework\DependencyInjection;
 
 
+use OC\AppFramework\DependencyInjection\DIContainer;
 use \OC\AppFramework\Http\Request;
 
 /**
@@ -39,9 +40,9 @@ class DIContainerTest extends \Test\TestCase {
 
 	protected function setUp(){
 		parent::setUp();
-		$this->container = $this->getMockBuilder('OC\AppFramework\DependencyInjection\DIContainer')
+		$this->container = $this->getMockBuilder(DIContainer::class)
 			->setMethods(['isAdminUser'])
-			->setConstructorArgs(['name'])
+			->setConstructorArgs(['name', [], \OC::$server->getBasicContainer()])
 			->getMock();
 		$this->api = $this->getMockBuilder('OC\AppFramework\Core\API')
 			->setConstructorArgs(['hi'])
