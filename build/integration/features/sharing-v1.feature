@@ -14,7 +14,7 @@ Feature: sharing
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And The following headers should be set
-      | Content-Security-Policy | default-src 'none' |
+      | Content-Security-Policy | default-src 'none';base-uri 'none' |
 
   Scenario: Creating a share with a group
     Given user "user0" exists

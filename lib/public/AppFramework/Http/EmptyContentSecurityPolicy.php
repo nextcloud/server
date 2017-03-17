@@ -335,6 +335,7 @@ class EmptyContentSecurityPolicy {
 	 */
 	public function buildPolicy() {
 		$policy = "default-src 'none';";
+		$policy .= "base-uri 'none';";
 
 		if(!empty($this->allowedScriptDomains) || $this->inlineScriptAllowed || $this->evalScriptAllowed) {
 			$policy .= 'script-src ';
