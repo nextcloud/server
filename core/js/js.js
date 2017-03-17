@@ -1265,6 +1265,15 @@ function initCore() {
 	});
 
 	/**
+	 * Disable execution of eval in jQuery. We do require an allowed eval CSP
+	 * configuration at the moment for handlebars et al. But for jQuery there is
+	 * not much of a reason to execute JavaScript directly via eval.
+	 *
+	 * This thus mitigates some unexpected XSS vectors.
+	 */
+	jQuery.globalEval = function(){};
+
+	/**
 	 * Set users locale to moment.js as soon as possible
 	 */
 	moment.locale(OC.getLocale());
