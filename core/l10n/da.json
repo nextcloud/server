@@ -173,7 +173,6 @@
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Opdateringen blev ikke udført korrekt. For mere information <a href=\"{url}\">tjek vores indlæg på forumet</a>, som dækker dette problem.",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Opdateringen blev ikke udført korrekt. Rapporter venligst problemet til <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud fællesskabet</a>.",
     "Continue to Nextcloud" : "Forsæt til Nextcloud",
-    "The update was successful. Redirecting you to Nextcloud now." : "Opdateringen blev udført korrekt. Du bliver nu viderestillet til Nextcloud.",
     "Searching other places" : "Søger på andre steder",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} søgeresultat fundet i andre mapper","{count} søgeresultater fundet i andre mapper"],
     "Personal" : "Personligt",
@@ -337,6 +336,7 @@
     "Warning" : "Advarsel",
     "Error while sending notification" : "Fejl ved afsendelse af notifikation",
     "Updating to {version}" : "Opdatere til {version}",
+    "The update was successful. Redirecting you to Nextcloud now." : "Opdateringen blev udført korrekt. Du bliver nu viderestillet til Nextcloud.",
     "No search results in other folders" : "Søgning gav ingen resultater in andre mapper",
     "Cancel login" : "Annuller login"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

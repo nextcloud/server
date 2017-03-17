@@ -155,7 +155,6 @@ OC.L10N.register(
     "Please reload the page." : "Obnovte prosím stránku.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Aktualizácia neprebehla úspešne. Pre viac informácií <a href=\"{url}\">navštívte príspevok na našom fóre</a>, ktorý pokrýva tento problém.",
     "Continue to Nextcloud" : "Pokračovať na Nextcloud",
-    "The update was successful. Redirecting you to Nextcloud now." : "Aktualizácia bola úspešná. Presmerovávam na Nextcloud.",
     "Searching other places" : "Prehľadanie ostatných umiestnení",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} výsledok vyhľadávania v ostatných priečinkoch","{count} výsledky vyhľadávania v ostatných priečinkoch","{count} výsledkov vyhľadávania v ostatných priečinkoch"],
     "Personal" : "Osobné",
@@ -315,6 +314,7 @@ OC.L10N.register(
     "Error while sending notification" : "Chyba pri posielaní oznámenia",
     "Updating to {version}" : "Aktualizuje sa na {version}",
     "The update was successful. There were warnings." : "Aktualizácia bola úspešná. Vyskytli sa upozornenia.",
+    "The update was successful. Redirecting you to Nextcloud now." : "Aktualizácia bola úspešná. Presmerovávam na Nextcloud.",
     "No search results in other folders" : "Žiadne výsledky vyhľadávania v ostatných priečinkoch",
     "Cancel login" : "Zruš prihlasovanie"
 },
