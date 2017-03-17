@@ -331,6 +331,12 @@ trait Provisioning {
 		];
 
 		$this->response = $client->send($client->createRequest("DELETE", $fullUrl, $options));
+
+		if ($this->currentServer === 'LOCAL'){
+			unset($this->createdGroups[$group]);
+		} elseif ($this->currentServer === 'REMOTE') {
+			unset($this->createdRemoteGroups[$group]);
+		}
 	}
 
 	/**
@@ -748,7 +754,7 @@ trait Provisioning {
 		}
 		$this->usingServer('REMOTE');
 		foreach($this->createdRemoteGroups as $remoteGroup) {
-			$this->deleteUser($remoteGroup);
+			$this->deleteGroup($remoteGroup);
 		}
 		$this->usingServer($previousServer);
 	}
