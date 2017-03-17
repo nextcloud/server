@@ -98,11 +98,13 @@ class BackgroundJob extends TimedJob {
 			if (in_array($errors, $this->connectionNotifications, true)) {
 				$this->sendErrorNotifications($errors);
 			}
-		} else if (isset($status['version'])) {
+		} else if (is_array($status)) {
 			$this->config->setAppValue('updatenotification', 'update_check_errors', 0);
 			$this->clearErrorNotifications();
 
-			$this->createNotifications('core', $status['version'], $status['versionstring']);
+			if (isset($status['version'])) {
+				$this->createNotifications('core', $status['version'], $status['versionstring']);
+			}
 		}
 	}
 
