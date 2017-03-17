@@ -23,17 +23,21 @@
 namespace Test\Group;
 
 use OC\User\Manager;
+use OCP\ILogger;
 use OCP\IUser;
 use OCP\GroupInterface;
 
 class ManagerTest extends \Test\TestCase {
 	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject $userManager */
 	protected $userManager;
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject $userManager */
+	protected $logger;
 
 	protected function setUp() {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(Manager::class);
+		$this->logger = $this->createMock(ILogger::class);
 	}
 
 	private function getTestUser($userId) {
@@ -91,7 +95,7 @@ class ManagerTest extends \Test\TestCase {
 			->with('group1')
 			->will($this->returnValue(true));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		$group = $manager->get('group1');
@@ -100,7 +104,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetNoBackend() {
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 
 		$this->assertNull($manager->get('group1'));
 	}
@@ -115,7 +119,7 @@ class ManagerTest extends \Test\TestCase {
 			->with('group1')
 			->will($this->returnValue(false));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		$this->assertNull($manager->get('group1'));
@@ -125,7 +129,7 @@ class ManagerTest extends \Test\TestCase {
 		$backend = new \Test\Util\Group\Dummy();
 		$backend->createGroup('group1');
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		$group = $manager->get('group1');
@@ -152,7 +156,7 @@ class ManagerTest extends \Test\TestCase {
 			->with('group1')
 			->will($this->returnValue(true));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend1);
 		$manager->addBackend($backend2);
 
@@ -179,7 +183,7 @@ class ManagerTest extends \Test\TestCase {
 				$backendGroupCreated = true;
 			}));;
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		$group = $manager->createGroup('group1');
@@ -198,7 +202,7 @@ class ManagerTest extends \Test\TestCase {
 		$backend->expects($this->never())
 			->method('createGroup');
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		$group = $manager->createGroup('group1');
@@ -219,7 +223,7 @@ class ManagerTest extends \Test\TestCase {
 			->with('group1')
 			->will($this->returnValue(true));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		$groups = $manager->search('1');
@@ -253,7 +257,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('groupExists')
 			->will($this->returnValue(true));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend1);
 		$manager->addBackend($backend2);
 
@@ -290,7 +294,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('groupExists')
 			->will($this->returnValue(true));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend1);
 		$manager->addBackend($backend2);
 
@@ -321,7 +325,7 @@ class ManagerTest extends \Test\TestCase {
 		 */
 		$userManager = $this->createMock('\OC\User\Manager');
 
-		$manager = new \OC\Group\Manager($userManager);
+		$manager = new \OC\Group\Manager($userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		$groups = $manager->search('1');
@@ -342,7 +346,7 @@ class ManagerTest extends \Test\TestCase {
 			->with('group1')
 			->will($this->returnValue(true));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		$groups = $manager->getUserGroups($this->getTestUser('user1'));
@@ -396,7 +400,7 @@ class ManagerTest extends \Test\TestCase {
 		 */
 		$userManager = $this->createMock('\OC\User\Manager');
 		$userBackend = $this->createMock('\OC_User_Backend');
-		$manager = new \OC\Group\Manager($userManager);
+		$manager = new \OC\Group\Manager($userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		/** @var \OC\User\User $user */
@@ -420,7 +424,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('groupExists')
 			->will($this->returnValue(true));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		$this->assertTrue($manager->isInGroup('user1', 'group1'));
@@ -439,7 +443,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('groupExists')
 			->will($this->returnValue(true));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		$this->assertTrue($manager->isAdmin('user1'));
@@ -458,7 +462,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('groupExists')
 			->will($this->returnValue(true));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		$this->assertFalse($manager->isAdmin('user1'));
@@ -489,7 +493,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('groupExists')
 			->will($this->returnValue(true));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend1);
 		$manager->addBackend($backend2);
 
@@ -552,7 +556,7 @@ class ManagerTest extends \Test\TestCase {
 				}
 			}));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		$users = $manager->displayNamesInGroup('testgroup', 'user3');
@@ -616,7 +620,7 @@ class ManagerTest extends \Test\TestCase {
 				}
 			}));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		$users = $manager->displayNamesInGroup('testgroup', 'user3', 1);
@@ -684,7 +688,7 @@ class ManagerTest extends \Test\TestCase {
 				}
 			}));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		$users = $manager->displayNamesInGroup('testgroup', 'user3', 1, 1);
@@ -728,7 +732,7 @@ class ManagerTest extends \Test\TestCase {
 				}
 			}));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		$users = $manager->displayNamesInGroup('testgroup', '');
@@ -771,7 +775,7 @@ class ManagerTest extends \Test\TestCase {
 				}
 			}));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		$users = $manager->displayNamesInGroup('testgroup', '', 1);
@@ -814,7 +818,7 @@ class ManagerTest extends \Test\TestCase {
 				}
 			}));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		$users = $manager->displayNamesInGroup('testgroup', '', 1, 1);
@@ -842,7 +846,7 @@ class ManagerTest extends \Test\TestCase {
 			->with('group1')
 			->will($this->returnValue(true));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		// prime cache
@@ -885,7 +889,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('removeFromGroup')
 			->will($this->returnValue(true));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		// prime cache
@@ -915,7 +919,7 @@ class ManagerTest extends \Test\TestCase {
 			->with('user1')
 			->will($this->returnValue(null));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		$groups = $manager->getUserIdGroups('user1');
@@ -941,7 +945,7 @@ class ManagerTest extends \Test\TestCase {
 				['group2', ['gid' => 'group2']],
 			]));
 
-		$manager = new \OC\Group\Manager($this->userManager);
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
 		$manager->addBackend($backend);
 
 		// group with display name

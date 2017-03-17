@@ -37,7 +37,10 @@ namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
 use OCP\GroupInterface;
+use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\ILogger;
+use OCP\IUser;
 
 /**
  * Class Manager
@@ -78,11 +81,16 @@ class Manager extends PublicEmitter implements IGroupManager {
 	/** @var \OC\SubAdmin */
 	private $subAdmin = null;
 
+	/** @var ILogger */
+	private $logger;
+
 	/**
 	 * @param \OC\User\Manager $userManager
+	 * @param ILogger $logger
 	 */
-	public function __construct(\OC\User\Manager $userManager) {
+	public function __construct(\OC\User\Manager $userManager, ILogger $logger) {
 		$this->userManager = $userManager;
+		$this->logger = $logger;
 		$cachedGroups = & $this->cachedGroups;
 		$cachedUserGroups = & $this->cachedUserGroups;
 		$this->listen('\OC\Group', 'postDelete', function ($group) use (&$cachedGroups, &$cachedUserGroups) {
@@ -186,7 +194,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return bool
 	 */
 	public function groupExists($gid) {
-		return !is_null($this->get($gid));
+		return $this->get($gid) instanceof IGroup;
 	}
 
 	/**
@@ -194,7 +202,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return \OC\Group\Group
 	 */
 	public function createGroup($gid) {
-		if ($gid === '' || is_null($gid)) {
+		if ($gid === '' || $gid === null) {
 			return false;
 		} else if ($group = $this->get($gid)) {
 			return $group;
@@ -224,10 +232,10 @@ class Manager extends PublicEmitter implements IGroupManager {
 			$groupIds = $backend->getGroups($search, $limit, $offset);
 			foreach ($groupIds as $groupId) {
 				$aGroup = $this->get($groupId);
-				if (!is_null($aGroup)) {
+				if ($aGroup instanceof IGroup) {
 					$groups[$groupId] = $aGroup;
 				} else {
-					\OC::$server->getLogger()->debug('Group "' . $groupId . '" was returned by search but not found through direct access', array('app' => 'core'));
+					$this->logger->debug('Group "' . $groupId . '" was returned by search but not found through direct access', ['app' => 'core']);
 				}
 			}
 			if (!is_null($limit) and $limit <= 0) {
@@ -242,7 +250,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return \OC\Group\Group[]
 	 */
 	public function getUserGroups($user) {
-		if (is_null($user)) {
+		if (!$user instanceof IUser) {
 			return [];
 		}
 		return $this->getUserIdGroups($user->getUID());
@@ -262,10 +270,10 @@ class Manager extends PublicEmitter implements IGroupManager {
 			if (is_array($groupIds)) {
 				foreach ($groupIds as $groupId) {
 					$aGroup = $this->get($groupId);
-					if (!is_null($aGroup)) {
+					if ($aGroup instanceof IGroup) {
 						$groups[$groupId] = $aGroup;
 					} else {
-						\OC::$server->getLogger()->debug('User "' . $uid . '" belongs to deleted group: "' . $groupId . '"', array('app' => 'core'));
+						$this->logger->debug('User "' . $uid . '" belongs to deleted group: "' . $groupId . '"', ['app' => 'core']);
 					}
 				}
 			}
