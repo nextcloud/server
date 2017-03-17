@@ -811,6 +811,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getEncryptionManager(),
 				$c->getUserManager(),
 				$c->getLockingProvider(),
+				$c->getRequest(),
 				new \OC\Settings\Mapper($c->getDatabaseConnection()),
 				$c->getURLGenerator()
 			);

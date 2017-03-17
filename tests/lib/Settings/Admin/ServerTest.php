@@ -29,6 +29,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IRequest;
 use OCP\Lock\ILockingProvider;
 use Test\TestCase;
 
@@ -37,6 +38,8 @@ class ServerTest extends TestCase {
 	private $admin;
 	/** @var IDBConnection */
 	private $dbConnection;
+	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	private $request;
 	/** @var IConfig */
 	private $config;
 	/** @var ILockingProvider */
@@ -47,12 +50,14 @@ class ServerTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
+		$this->request = $this->createMock(IRequest::class);
 		$this->dbConnection = $this->getMockBuilder('\OCP\IDBConnection')->getMock();
 		$this->lockingProvider = $this->getMockBuilder('\OCP\Lock\ILockingProvider')->getMock();
 		$this->l10n = $this->getMockBuilder('\OCP\IL10N')->getMock();
 
 		$this->admin = new Server(
 			$this->dbConnection,
+			$this->request,
 			$this->config,
 			$this->lockingProvider,
 			$this->l10n
@@ -66,9 +71,9 @@ class ServerTest extends TestCase {
 			->willReturn(new SqlitePlatform());
 		$this->config
 			->expects($this->at(0))
-			->method('getAppValue')
-			->with('core', 'backgroundjobs_mode', 'ajax')
-			->willReturn('ajax');
+			->method('getSystemValue')
+			->with('overwrite.cli.url', '')
+			->willReturn(true);
 		$this->config
 			->expects($this->at(2))
 			->method('getAppValue')

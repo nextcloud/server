@@ -32,6 +32,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
+use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
@@ -54,6 +55,8 @@ class ManagerTest extends TestCase {
 	private $userManager;
 	/** @var ILockingProvider|\PHPUnit_Framework_MockObject_MockObject */
 	private $lockingProvider;
+	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	private $request;
 	/** @var Mapper|\PHPUnit_Framework_MockObject_MockObject */
 	private $mapper;
 	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
@@ -69,6 +72,7 @@ class ManagerTest extends TestCase {
 		$this->encryptionManager = $this->createMock(IManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->lockingProvider = $this->createMock(ILockingProvider::class);
+		$this->request = $this->createMock(IRequest::class);
 		$this->mapper = $this->createMock(Mapper::class);
 		$this->url = $this->createMock(IURLGenerator::class);
 
@@ -80,6 +84,7 @@ class ManagerTest extends TestCase {
 			$this->encryptionManager,
 			$this->userManager,
 			$this->lockingProvider,
+			$this->request,
 			$this->mapper,
 			$this->url
 		);
