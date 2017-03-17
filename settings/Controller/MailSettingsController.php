@@ -153,7 +153,10 @@ class MailSettingsController extends Controller {
 				$message->setFrom([$this->defaultMailAddress]);
 				$message->setSubject($this->l10n->t('test email settings'));
 				$message->setPlainBody('If you received this email, the settings seem to be correct.');
-				$this->mailer->send($message);
+				$errors = $this->mailer->send($message);
+				if (!empty($errors)) {
+					throw new \RuntimeException($this->l10n->t('Mail could not be sent. Check your mail server log'));
+				}
 			} catch (\Exception $e) {
 				return [
 					'data' => [
