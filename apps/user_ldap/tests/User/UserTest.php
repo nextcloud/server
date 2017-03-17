@@ -249,6 +249,86 @@ class UserTest extends \Test\TestCase {
 		$user->updateQuota();
 	}
 
+	public function testUpdateQuotaToDefaultAllProvided() {
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+			$this->getTestInstances();
+
+		list($access, $connection) =
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
+
+		$connection->expects($this->at(0))
+			->method('__get')
+			->with($this->equalTo('ldapQuotaAttribute'))
+			->will($this->returnValue('myquota'));
+
+		$connection->expects($this->exactly(1))
+			->method('__get');
+
+		$access->expects($this->once())
+			->method('readAttribute')
+			->with($this->equalTo('uid=alice,dc=foo,dc=bar'),
+				$this->equalTo('myquota'))
+			->will($this->returnValue(array('default')));
+
+		$user = $this->createMock('\OCP\IUser');
+		$user->expects($this->once())
+			->method('setQuota')
+			->with('default');
+
+		$userMgr->expects($this->once())
+			->method('get')
+			->with('alice')
+			->will($this->returnValue($user));
+
+		$uid = 'alice';
+		$dn  = 'uid=alice,dc=foo,dc=bar';
+
+		$user = new User(
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+
+		$user->updateQuota();
+	}
+
+	public function testUpdateQuotaToNoneAllProvided() {
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+			$this->getTestInstances();
+
+		list($access, $connection) =
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
+
+		$connection->expects($this->at(0))
+			->method('__get')
+			->with($this->equalTo('ldapQuotaAttribute'))
+			->will($this->returnValue('myquota'));
+
+		$connection->expects($this->exactly(1))
+			->method('__get');
+
+		$access->expects($this->once())
+			->method('readAttribute')
+			->with($this->equalTo('uid=alice,dc=foo,dc=bar'),
+				$this->equalTo('myquota'))
+			->will($this->returnValue(array('none')));
+
+		$user = $this->createMock('\OCP\IUser');
+		$user->expects($this->once())
+			->method('setQuota')
+			->with('none');
+
+		$userMgr->expects($this->once())
+			->method('get')
+			->with('alice')
+			->will($this->returnValue($user));
+
+		$uid = 'alice';
+		$dn  = 'uid=alice,dc=foo,dc=bar';
+
+		$user = new User(
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+
+		$user->updateQuota();
+	}
+
 	public function testUpdateQuotaDefaultProvided() {
 		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
