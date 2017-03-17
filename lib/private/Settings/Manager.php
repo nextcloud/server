@@ -29,6 +29,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
+use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
@@ -56,6 +57,8 @@ class Manager implements IManager {
 	private $userManager;
 	/** @var ILockingProvider */
 	private $lockingProvider;
+	/** @var IRequest */
+	private $request;
 	/** @var IURLGenerator */
 	private $url;
 
@@ -67,6 +70,7 @@ class Manager implements IManager {
 	 * @param EncryptionManager $encryptionManager
 	 * @param IUserManager $userManager
 	 * @param ILockingProvider $lockingProvider
+	 * @param IRequest $request
 	 * @param Mapper $mapper
 	 * @param IURLGenerator $url
 	 */
@@ -78,6 +82,7 @@ class Manager implements IManager {
 		EncryptionManager $encryptionManager,
 		IUserManager $userManager,
 		ILockingProvider $lockingProvider,
+		IRequest $request,
 		Mapper $mapper,
 		IURLGenerator $url
 	) {
@@ -89,6 +94,7 @@ class Manager implements IManager {
 		$this->encryptionManager = $encryptionManager;
 		$this->userManager = $userManager;
 		$this->lockingProvider = $lockingProvider;
+		$this->request = $request;
 		$this->url = $url;
 	}
 
@@ -299,7 +305,7 @@ class Manager implements IManager {
 		try {
 			if ($section === 'server') {
 				/** @var ISettings $form */
-				$form = new Admin\Server($this->dbc, $this->config, $this->lockingProvider, $this->l);
+				$form = new Admin\Server($this->dbc, $this->request, $this->config, $this->lockingProvider, $this->l);
 				$forms[$form->getPriority()] = [$form];
 				$form = new Admin\ServerDevNotice();
 				$forms[$form->getPriority()] = [$form];

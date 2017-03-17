@@ -32,12 +32,15 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IRequest;
 use OCP\Lock\ILockingProvider;
 use OCP\Settings\ISettings;
 
 class Server implements ISettings {
 	/** @var IDBConnection|Connection */
 	private $db;
+	/** @var IRequest */
+	private $request;
 	/** @var IConfig */
 	private $config;
 	/** @var ILockingProvider */
@@ -47,15 +50,18 @@ class Server implements ISettings {
 
 	/**
 	 * @param IDBConnection $db
+	 * @param IRequest $request
 	 * @param IConfig $config
 	 * @param ILockingProvider $lockingProvider
 	 * @param IL10N $l
 	 */
 	public function __construct(IDBConnection $db,
+								IRequest $request,
 								IConfig $config,
 								ILockingProvider $lockingProvider,
 								IL10N $l) {
 		$this->db = $db;
+		$this->request = $request;
 		$this->config = $config;
 		$this->lockingProvider = $lockingProvider;
 		$this->l = $l;
@@ -99,12 +105,15 @@ class Server implements ISettings {
 			$fileLockingType = 'cache';
 		}
 
-		// If the current web root is non-empty but the web root from the config is,
-		// and system cron is used, the URL generator fails to build valid URLs.
-		$shouldSuggestOverwriteCliUrl = $this->config->getAppValue('core', 'backgroundjobs_mode', 'ajax') === 'cron'
-			&& \OC::$WEBROOT && \OC::$WEBROOT !== '/'
-			&& !$this->config->getSystemValue('overwrite.cli.url', '');
-		$suggestedOverwriteCliUrl = ($shouldSuggestOverwriteCliUrl) ? \OC::$WEBROOT : '';
+		$suggestedOverwriteCliUrl = '';
+		if ($this->config->getSystemValue('overwrite.cli.url', '') === '') {
+			$suggestedOverwriteCliUrl = $this->request->getServerProtocol() . '://' . $this->request->getInsecureServerHost() . \OC::$WEBROOT;
+			if (!$this->config->getSystemValue('config_is_read_only', false)) {
+				// Set the overwrite URL when it was not set yet.
+				$this->config->setSystemValue('overwrite.cli.url', $suggestedOverwriteCliUrl);
+				$suggestedOverwriteCliUrl = '';
+			}
+		}
 
 		$parameters = [
 			// Diagnosis
