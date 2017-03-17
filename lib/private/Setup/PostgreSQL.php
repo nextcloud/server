@@ -35,7 +35,6 @@ class PostgreSQL extends AbstractDatabase {
 	public $dbprettyname = 'PostgreSQL';
 
 	public function setupDatabase($username) {
-		$systemConfig = $this->config->getSystemConfig();
 		try {
 			$connection = $this->connect([
 				'dbname' => 'postgres'
@@ -67,7 +66,7 @@ class PostgreSQL extends AbstractDatabase {
 				$this->createDBUser($connection);
 			}
 
-			$systemConfig->setValues([
+			$this->config->setValues([
 				'dbuser' => $this->dbUser,
 				'dbpassword' => $this->dbPassword,
 			]);
@@ -84,15 +83,15 @@ class PostgreSQL extends AbstractDatabase {
 			$this->logger->logException($e);
 			$this->logger->warning('Error trying to connect as "postgres", assuming database is setup and tables need to be created');
 			$tablesSetup = false;
-			$systemConfig->setValues([
+			$this->config->setValues([
 				'dbuser' => $this->dbUser,
 				'dbpassword' => $this->dbPassword,
 			]);
 		}
 
 		// connect to the ownCloud database (dbname=$this->dbname) and check if it needs to be filled
-		$this->dbUser = $systemConfig->getValue('dbuser');
-		$this->dbPassword = $systemConfig->getValue('dbpassword');
+		$this->dbUser = $this->config->getValue('dbuser');
+		$this->dbPassword = $this->config->getValue('dbpassword');
 		$connection = $this->connect();
 		try {
 			$connection->connect();

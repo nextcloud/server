@@ -35,7 +35,7 @@
 /** @var $application Symfony\Component\Console\Application */
 $application->add(new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand());
 $application->add(new OC\Core\Command\Status);
-$application->add(new OC\Core\Command\Check(\OC::$server->getConfig()));
+$application->add(new OC\Core\Command\Check(\OC::$server->getSystemConfig()));
 $infoParser = new \OC\App\InfoParser();
 $application->add(new OC\Core\Command\App\CheckCode($infoParser));
 $application->add(new OC\Core\Command\L10n\CreateJs());
@@ -83,7 +83,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Config\System\SetConfig(\OC::$server->getSystemConfig()));
 
 	$application->add(new OC\Core\Command\Db\GenerateChangeScript());
-	$application->add(new OC\Core\Command\Db\ConvertType(\OC::$server->getConfig(), new \OC\DB\ConnectionFactory(\OC::$server->getConfig())));
+	$application->add(new OC\Core\Command\Db\ConvertType(\OC::$server->getConfig(), new \OC\DB\ConnectionFactory(\OC::$server->getSystemConfig())));
 
 	$application->add(new OC\Core\Command\Encryption\Disable(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Encryption\Enable(\OC::$server->getConfig(), \OC::$server->getEncryptionManager()));
@@ -149,5 +149,5 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Security\ImportCertificate(\OC::$server->getCertificateManager(null)));
 	$application->add(new OC\Core\Command\Security\RemoveCertificate(\OC::$server->getCertificateManager(null)));
 } else {
-	$application->add(new OC\Core\Command\Maintenance\Install(\OC::$server->getConfig()));
+	$application->add(new OC\Core\Command\Maintenance\Install(\OC::$server->getSystemConfig()));
 }

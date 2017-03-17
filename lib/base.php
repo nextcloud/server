@@ -658,7 +658,7 @@ class OC {
 		self::performSameSiteCookieProtection();
 
 		if (!defined('OC_CONSOLE')) {
-			$errors = OC_Util::checkServer(\OC::$server->getConfig());
+			$errors = OC_Util::checkServer(\OC::$server->getSystemConfig());
 			if (count($errors) > 0) {
 				if (self::$CLI) {
 					// Convert l10n string into regular string for usage in database
@@ -911,7 +911,7 @@ class OC {
 		// Check if Nextcloud is installed or in maintenance (update) mode
 		if (!$systemConfig->getValue('installed', false)) {
 			\OC::$server->getSession()->clear();
-			$setupHelper = new OC\Setup(\OC::$server->getConfig(), \OC::$server->getIniWrapper(),
+			$setupHelper = new OC\Setup(\OC::$server->getSystemConfig(), \OC::$server->getIniWrapper(),
 				\OC::$server->getL10N('lib'), \OC::$server->getThemingDefaults(), \OC::$server->getLogger(),
 				\OC::$server->getSecureRandom());
 			$controller = new OC\Core\Controller\SetupController($setupHelper);
