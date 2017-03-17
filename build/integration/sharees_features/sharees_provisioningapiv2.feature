@@ -11,7 +11,7 @@ Feature: sharees_provisioningapiv2
     When getting sharees for
       | search | Sharee |
       | itemType | file |
-    Then the OCS status code should be "100"
+    Then the OCS status code should be "200"
     And the HTTP status code should be "200"
     And "exact users" sharees returned is empty
     And "users" sharees returned are
@@ -27,7 +27,7 @@ Feature: sharees_provisioningapiv2
     When getting sharees for
       | search | sharee |
       | itemType | file |
-    Then the OCS status code should be "100"
+    Then the OCS status code should be "200"
     And the HTTP status code should be "200"
     And "exact users" sharees returned is empty
     And "users" sharees returned are
@@ -44,7 +44,7 @@ Feature: sharees_provisioningapiv2
     When getting sharees for
       | search | sharee |
       | itemType | file |
-    Then the OCS status code should be "100"
+    Then the OCS status code should be "200"
     And the HTTP status code should be "200"
     And "exact users" sharees returned is empty
     And "users" sharees returned is empty
@@ -61,7 +61,7 @@ Feature: sharees_provisioningapiv2
     When getting sharees for
       | search | sharee |
       | itemType | file |
-    Then the OCS status code should be "100"
+    Then the OCS status code should be "200"
     And the HTTP status code should be "200"
     And "exact users" sharees returned is empty
     And "users" sharees returned are
@@ -78,7 +78,7 @@ Feature: sharees_provisioningapiv2
     When getting sharees for
       | search | sharee |
       | itemType | file |
-    Then the OCS status code should be "100"
+    Then the OCS status code should be "200"
     And the HTTP status code should be "200"
     And "exact users" sharees returned is empty
     And "users" sharees returned is empty
@@ -93,7 +93,7 @@ Feature: sharees_provisioningapiv2
     When getting sharees for
       | search | Sharee |
       | itemType | file |
-    Then the OCS status code should be "100"
+    Then the OCS status code should be "200"
     And the HTTP status code should be "200"
     And "exact users" sharees returned is empty
     And "users" sharees returned is empty
@@ -108,7 +108,7 @@ Feature: sharees_provisioningapiv2
     When getting sharees for
       | search | Sharee1 |
       | itemType | file |
-    Then the OCS status code should be "100"
+    Then the OCS status code should be "200"
     And the HTTP status code should be "200"
     And "exact users" sharees returned are
       | Sharee1 | 0 | Sharee1 |
@@ -124,7 +124,7 @@ Feature: sharees_provisioningapiv2
     When getting sharees for
       | search | ShareeGroup |
       | itemType | file |
-    Then the OCS status code should be "100"
+    Then the OCS status code should be "200"
     And the HTTP status code should be "200"
     And "exact users" sharees returned is empty
     And "users" sharees returned is empty
@@ -139,7 +139,7 @@ Feature: sharees_provisioningapiv2
     When getting sharees for
       | search | Sharee1 |
       | itemType | file |
-    Then the OCS status code should be "100"
+    Then the OCS status code should be "200"
     And the HTTP status code should be "200"
     Then "exact users" sharees returned are
       | Sharee1 | 0 | Sharee1 |
@@ -154,7 +154,7 @@ Feature: sharees_provisioningapiv2
     When getting sharees for
       | search | sharee1 |
       | itemType | file |
-    Then the OCS status code should be "100"
+    Then the OCS status code should be "200"
     And the HTTP status code should be "200"
     Then "exact users" sharees returned are
       | Sharee1 | 0 | Sharee1 |
@@ -169,7 +169,7 @@ Feature: sharees_provisioningapiv2
     When getting sharees for
       | search | shareegroup |
       | itemType | file |
-    Then the OCS status code should be "100"
+    Then the OCS status code should be "200"
     And the HTTP status code should be "200"
     Then "exact users" sharees returned is empty
     Then "users" sharees returned is empty
@@ -184,7 +184,7 @@ Feature: sharees_provisioningapiv2
     When getting sharees for
       | search | Sharee1 |
       | itemType | file |
-    Then the OCS status code should be "100"
+    Then the OCS status code should be "200"
     And the HTTP status code should be "200"
     Then "exact users" sharees returned are
       | Sharee1 | 0 | Sharee1 |
@@ -199,7 +199,7 @@ Feature: sharees_provisioningapiv2
     When getting sharees for
       | search | test@localhost |
       | itemType | file |
-    Then the OCS status code should be "100"
+    Then the OCS status code should be "200"
     And the HTTP status code should be "200"
     Then "exact users" sharees returned is empty
     Then "users" sharees returned is empty
@@ -214,7 +214,7 @@ Feature: sharees_provisioningapiv2
     When getting sharees for
       | search | test@localhost |
       | itemType | calendar |
-    Then the OCS status code should be "100"
+    Then the OCS status code should be "200"
     And the HTTP status code should be "200"
     Then "exact users" sharees returned is empty
     Then "users" sharees returned is empty
@@ -229,7 +229,7 @@ Feature: sharees_provisioningapiv2
     When getting sharees for
       | search | sharee |
       | itemType | file |
-    Then the OCS status code should be "100"
+    Then the OCS status code should be "200"
     And the HTTP status code should be "200"
     And "exact users" sharees returned is empty
     And "users" sharees returned are
