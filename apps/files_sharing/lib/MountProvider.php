@@ -182,7 +182,7 @@ class MountProvider implements IMountProvider {
 						// such issue can usually happen when dealing with
 						// null groups which usually appear with group backend
 						// caching inconsistencies
-						\OC::$server->getLogger()->debug(
+						$this->logger->debug(
 							'Could not adjust share target for share ' . $share->getId() . ' to make it consistent: ' . $e->getMessage(),
 							['app' => 'files_sharing']
 						);
