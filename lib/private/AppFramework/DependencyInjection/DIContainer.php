@@ -82,10 +82,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		/**
 		 * Core services
 		 */
-		$this->registerService('OCP\\IAppConfig', function($c) {
-			return $this->getServer()->getAppConfig();
-		});
-
 		$this->registerService('OCP\\App\\IAppManager', function($c) {
 			return $this->getServer()->getAppManager();
 		});
@@ -123,10 +119,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		$this->registerService('OCP\Comments\ICommentsManager', function($c) {
 			return $this->getServer()->getCommentsManager();
-		});
-
-		$this->registerService('OCP\\IConfig', function($c) {
-			return $this->getServer()->getConfig();
 		});
 
 		$this->registerService('OCP\\Contacts\\IManager', function($c) {

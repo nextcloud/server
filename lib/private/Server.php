@@ -338,17 +338,25 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getUserSession(),
 				$c->getGroupManager());
 		});
-		$this->registerService('AllConfig', function (Server $c) {
+
+		$this->registerService(\OC\AllConfig::class, function (Server $c) {
 			return new \OC\AllConfig(
 				$c->getSystemConfig()
 			);
 		});
+		$this->registerAlias('AllConfig', \OC\AllConfig::class);
+		$this->registerAlias(\OCP\IConfig::class, \OC\AllConfig::class);
+
 		$this->registerService('SystemConfig', function ($c) use ($config) {
 			return new \OC\SystemConfig($config);
 		});
-		$this->registerService('AppConfig', function (Server $c) {
+
+		$this->registerService(\OC\AppConfig::class, function (Server $c) {
 			return new \OC\AppConfig($c->getDatabaseConnection());
 		});
+		$this->registerAlias('AppConfig', \OC\AppConfig::class);
+		$this->registerAlias(\OCP\IAppConfig::class, \OC\AppConfig::class);
+
 		$this->registerService('L10NFactory', function (Server $c) {
 			return new \OC\L10N\Factory(
 				$c->getConfig(),
