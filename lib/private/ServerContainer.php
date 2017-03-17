@@ -79,7 +79,7 @@ class ServerContainer extends SimpleContainer {
 			$segments = explode('\\', $name);
 			$appContainer = $this->getAppContainer(strtolower($segments[1]));
 			try {
-				return $appContainer->query($name);
+				return $appContainer->query($name, false);
 			} catch (QueryException $e) {
 				// Didn't find the service in the respective app container,
 				// ignore it and fall back to the core container.

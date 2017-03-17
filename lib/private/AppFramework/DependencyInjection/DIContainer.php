@@ -43,12 +43,11 @@ use OC\AppFramework\Middleware\OCSMiddleware;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\Utility\SimpleContainer;
-use OC\AppFramework\Utility\TimeFactory;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\RichObjectStrings\Validator;
-use OC\Security\Bruteforce\Throttler;
 use OCP\AppFramework\IApi;
 use OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\QueryException;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\IAppData;
 use OCP\Files\Mount\IMountManager;
@@ -568,7 +567,16 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 	}
 
-	public function query($name) {
-		return parent::query($name);
+	public function query($name, $checkServerContainer = true) {
+		$name = $this->sanitizeName($name);
+		try {
+			return parent::query($name);
+		} catch (QueryException $e) {
+			if ($checkServerContainer === false) {
+				throw $e;
+			}
+		}
+
+		return $this->getServer()->query($name);
 	}
 }
