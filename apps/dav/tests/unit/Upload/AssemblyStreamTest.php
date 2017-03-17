@@ -52,6 +52,15 @@ class AssemblyStreamTest extends \Test\TestCase {
 	function providesNodes() {
 		$data8k = $this->makeData(8192);
 		$dataLess8k = $this->makeData(8191);
+
+		$tonofnodes = [];
+		$tonofdata = "";
+		for ($i = 0; $i < 101; $i++) {
+			$thisdata =  rand(0,100); // variable length and content
+			$tonofdata .= $thisdata;
+			array_push($tonofnodes, $this->buildNode($i,$thisdata));
+		}
+
 		return[
 			'one node zero bytes' => [
 				'', [
@@ -90,6 +99,9 @@ class AssemblyStreamTest extends \Test\TestCase {
 				$this->buildNode('1', $data8k . 'X'),
 				$this->buildNode('0', $data8k)
 			]],
+			'a ton of nodes' => [
+				$tonofdata, $tonofnodes
+			]
 		];
 	}
 
