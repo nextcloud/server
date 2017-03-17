@@ -47,7 +47,7 @@ class CleanupRemoteStorages extends Command {
 	protected function configure() {
 		$this
 			->setName('sharing:cleanup-remote-storages')
-			->setDescription('Cleanup \'shared::\' storage entries that have no matching entries in the shares_external table')
+			->setDescription('Cleanup shared storage entries that have no matching entry in the shares_external table')
 			->addOption(
 				'dry-run',
 				null,
@@ -68,20 +68,23 @@ class CleanupRemoteStorages extends Command {
 
 		foreach ($remoteShareIds as $id => $remoteShareId) {
 			if (isset($remoteStorages[$remoteShareId])) {
-				$output->writeln("$remoteShareId belongs to remote share $id");
+				if ($input->getOption('dry-run') || $output->isVerbose()) {
+					$output->writeln("<info>$remoteShareId belongs to remote share $id</info>");
+				}
+
 				unset($remoteStorages[$remoteShareId]);
 			} else {
-				$output->writeln("$remoteShareId for share $id has no matching storage, yet");
+				$output->writeln("<comment>$remoteShareId for share $id has no matching storage, yet</comment>");
 			}
 		}
 
 		if (empty($remoteStorages)) {
-			$output->writeln("no storages deleted");
+			$output->writeln("<info>no storages deleted</info>");
 		} else {
 			$dryRun = $input->getOption('dry-run');
 			foreach ($remoteStorages as $id => $numericId) {
 				if ($dryRun) {
-					$output->writeln("$id [$numericId] can be deleted");
+					$output->writeln("<error>$id [$numericId] can be deleted</error>");
 					$this->countFiles($numericId, $output);
 				} else {
 					$this->deleteStorage($id, $numericId, $output);
@@ -90,7 +93,7 @@ class CleanupRemoteStorages extends Command {
 		}
 	}
 
-	public function countFiles ($numericId, OutputInterface $output) {
+	public function countFiles($numericId, OutputInterface $output) {
 		$queryBuilder = $this->connection->getQueryBuilder();
 		$queryBuilder->select($queryBuilder->createFunction('count(fileid)'))
 			->from('filecache')
@@ -104,7 +107,7 @@ class CleanupRemoteStorages extends Command {
 		$output->writeln("$count files can be deleted for storage $numericId");
 	}
 
-	public function deleteStorage ($id, $numericId, OutputInterface $output) {
+	public function deleteStorage($id, $numericId, OutputInterface $output) {
 		$queryBuilder = $this->connection->getQueryBuilder();
 		$queryBuilder->delete('storages')
 			->where($queryBuilder->expr()->eq(
@@ -114,11 +117,11 @@ class CleanupRemoteStorages extends Command {
 			);
 		$output->write("deleting $id [$numericId] ... ");
 		$count = $queryBuilder->execute();
-		$output->writeln("deleted $count");
+		$output->writeln("deleted $count storage");
 		$this->deleteFiles($numericId, $output);
 	}
 
-	public function deleteFiles ($numericId, OutputInterface $output) {
+	public function deleteFiles($numericId, OutputInterface $output) {
 		$queryBuilder = $this->connection->getQueryBuilder();
 		$queryBuilder->delete('filecache')
 			->where($queryBuilder->expr()->eq(
@@ -128,7 +131,7 @@ class CleanupRemoteStorages extends Command {
 			);
 		$output->write("deleting files for storage $numericId ... ");
 		$count = $queryBuilder->execute();
-		$output->writeln("deleted $count");
+		$output->writeln("deleted $count files");
 	}
 
 	public function getRemoteStorages() {
