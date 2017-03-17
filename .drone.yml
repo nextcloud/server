@@ -423,6 +423,15 @@ pipeline:
       when:
         matrix:
           TESTS: integration-ldap-features
+  integration-trashbin:
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/trashbin.feature
+    when:
+      matrix:
+        TESTS: integration-trashbin
   nodb-codecov:
     image: nextcloudci/php7.0:php7.0-7
     commands:
@@ -491,6 +500,7 @@ matrix:
     - TESTS: integration-filesdrop-features
     - TESTS: integration-transfer-ownership-features
     - TESTS: integration-ldap-features
+    - TESTS: integration-trashbin
     - TESTS: jsunit
     - TESTS: check-autoloader
     - TESTS: app-check-code
