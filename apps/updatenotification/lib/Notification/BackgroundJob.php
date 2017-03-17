@@ -34,6 +34,8 @@ use OCP\Notification\IManager;
 
 class BackgroundJob extends TimedJob {
 
+	protected $connectionNotifications = [3, 7, 14, 30];
+
 	/** @var IConfig */
 	protected $config;
 
@@ -81,7 +83,7 @@ class BackgroundJob extends TimedJob {
 	 * Check for ownCloud update
 	 */
 	protected function checkCoreUpdate() {
-		if (in_array($this->getChannel(), ['daily', 'git'])) {
+		if (in_array($this->getChannel(), ['daily', 'git'], true)) {
 			// "These aren't the update channels you're looking for." - Ben Obi-Wan Kenobi
 			return;
 		}
@@ -89,9 +91,57 @@ class BackgroundJob extends TimedJob {
 		$updater = $this->createVersionCheck();
 
 		$status = $updater->check();
-		if (isset($status['version'])) {
+		if ($status === false) {
+			$errors = 1 + (int) $this->config->getAppValue('updatenotification', 'update_check_errors', 0);
+			$this->config->setAppValue('updatenotification', 'update_check_errors', $errors);
+
+			if (in_array($errors, $this->connectionNotifications, true)) {
+				$this->sendErrorNotifications($errors);
+			}
+		} else if (isset($status['version'])) {
+			$this->config->setAppValue('updatenotification', 'update_check_errors', 0);
+			$this->clearErrorNotifications();
+
 			$this->createNotifications('core', $status['version'], $status['versionstring']);
 		}
+	}
+
+	/**
+	 * Send a message to the admin when the update server could not be reached
+	 * @param int $numDays
+	 */
+	protected function sendErrorNotifications($numDays) {
+		$this->clearErrorNotifications();
+
+		$notification = $this->notificationManager->createNotification();
+		try {
+			$notification->setApp('updatenotification')
+				->setDateTime(new \DateTime())
+				->setObject('updatenotification', 'error')
+				->setSubject('connection_error', ['days' => $numDays]);
+
+			foreach ($this->getUsersToNotify() as $uid) {
+				$notification->setUser($uid);
+				$this->notificationManager->notify($notification);
+			}
+		} catch (\InvalidArgumentException $e) {
+			return;
+		}
+	}
+
+	/**
+	 * Remove error notifications again
+	 */
+	protected function clearErrorNotifications() {
+		$notification = $this->notificationManager->createNotification();
+		try {
+			$notification->setApp('updatenotification')
+				->setSubject('connection_error')
+				->setObject('updatenotification', 'error');
+		} catch (\InvalidArgumentException $e) {
+			return;
+		}
+		$this->notificationManager->markProcessed($notification);
 	}
 
 	/**

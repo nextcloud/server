@@ -24,6 +24,7 @@
 namespace OCA\UpdateNotification\Notification;
 
 
+use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -37,6 +38,9 @@ class Notifier implements INotifier {
 
 	/** @var IURLGenerator */
 	protected $url;
+
+	/** @var IConfig */
+	protected $config;
 
 	/** @var IManager */
 	protected $notificationManager;
@@ -57,14 +61,16 @@ class Notifier implements INotifier {
 	 * Notifier constructor.
 	 *
 	 * @param IURLGenerator $url
+	 * @param IConfig $config
 	 * @param IManager $notificationManager
 	 * @param IFactory $l10NFactory
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
 	 */
-	public function __construct(IURLGenerator $url, IManager $notificationManager, IFactory $l10NFactory, IUserSession $userSession, IGroupManager $groupManager) {
+	public function __construct(IURLGenerator $url, IConfig $config, IManager $notificationManager, IFactory $l10NFactory, IUserSession $userSession, IGroupManager $groupManager) {
 		$this->url = $url;
 		$this->notificationManager = $notificationManager;
+		$this->config = $config;
 		$this->l10NFactory = $l10NFactory;
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
@@ -84,7 +90,16 @@ class Notifier implements INotifier {
 		}
 
 		$l = $this->l10NFactory->get('updatenotification', $languageCode);
-		if ($notification->getObjectType() === 'core') {
+		if ($notification->getSubject() === 'connection_error') {
+			$errors = (int) $this->config->getAppValue('updatenotification', 'update_check_errors', 0);
+			if ($errors === 0) {
+				$this->notificationManager->markProcessed($notification);
+				throw new \InvalidArgumentException();
+			}
+
+			$notification->setParsedSubject($l->t('The update server could not be reached since %d days to check for new updates.', [$errors]))
+				->setParsedMessage($l->t('Please check the nextcloud and server log files for errors.'));
+		} elseif ($notification->getObjectType() === 'core') {
 			$this->updateAlreadyInstalledCheck($notification, $this->getCoreVersions());
 
 			$parameters = $notification->getSubjectParameters();
