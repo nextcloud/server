@@ -27,9 +27,7 @@ use OC\User\Manager;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\GroupInterface;
-use OCP\IUserManager;
 use Test\TestCase;
-use Test\Util\Group\Dummy;
 
 class ManagerTest extends TestCase {
 	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject $userManager */
@@ -134,7 +132,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetDeleted() {
-		$backend = new Dummy();
+		$backend = new \Test\Util\Group\Dummy();
 		$backend->createGroup('group1');
 
 		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
