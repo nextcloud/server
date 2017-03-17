@@ -26,6 +26,7 @@ namespace OCA\Files_External\Lib\SharePoint;
 
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\Runtime\ClientObject;
+use Office365\PHP\Client\Runtime\ClientObjectCollection;
 use Office365\PHP\Client\SharePoint\ClientContext;
 use Office365\PHP\Client\SharePoint\File;
 use Office365\PHP\Client\SharePoint\Folder;
@@ -106,7 +107,35 @@ class SharePointClient {
 		return $folder;
 	}
 
-	private function loadAndExecute(ClientObject $object, array $properties = null) {
+	/**
+	 * @param $relativeServerPath
+	 * @param null $properties
+	 * @return ClientObjectCollection[]
+	 */
+	public function fetchFolderContents($relativeServerPath, $properties = null) {
+		$this->ensureConnection();
+		$folder = $this->context->getWeb()->getFolderByServerRelativeUrl($relativeServerPath);
+		$folderCollection = $folder->getFolders();
+		$fileCollection = $folder->getFiles();
+		$this->context->load($folderCollection, $properties);
+		$this->context->load($fileCollection, $properties);
+		$this->context->executeQuery();
+
+		$collections = ['folders' => $folderCollection, 'files' => $fileCollection];
+
+		foreach ($collections as $collection) {
+			foreach ($collection->getData() as $item) {
+				/** @var File|Folder $item */
+				$fields = $item->getListItemAllFields();
+				$this->context->load($fields, ['Id', 'Hidden']);
+			}
+		}
+		$this->context->executeQuery();
+
+		return $collections;
+	}
+
+	public function loadAndExecute(ClientObject $object, array $properties = null) {
 		$this->context->load($object, $properties);
 		$this->context->executeQuery();
 	}

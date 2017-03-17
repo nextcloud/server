@@ -23,6 +23,7 @@
 
 namespace OCA\Files_External\Lib\Storage;
 
+use Icewind\Streams\IteratorDirectory;
 use OC\Files\Storage\Common;
 use OCA\Files_External\Lib\SharePoint\ContextsFactory;
 use OCA\Files_External\Lib\SharePoint\NotFoundException;
@@ -31,6 +32,7 @@ use OCA\Files_External\Lib\SharePoint\SharePointClientFactory;
 use OCP\Files\FileInfo;
 use Office365\PHP\Client\SharePoint\File;
 use Office365\PHP\Client\SharePoint\Folder;
+use Office365\PHP\Client\SharePoint\ListItem;
 
 class SharePoint extends Common {
 	const SP_PROPERTY_SIZE = 'Length';
@@ -119,8 +121,33 @@ class SharePoint extends Common {
 	 * @since 6.0.0
 	 */
 	public function opendir($path) {
-		// TODO: Implement opendir() method.
-		return false;
+		try {
+			$serverUrl = $this->formatPath($path);
+			//$collections = $this->spClient->fetchFolderContents($serverUrl, ['Name', 'ListItemAllFields']);	// does not work for some reason :(
+			$collections = $this->spClient->fetchFolderContents($serverUrl);
+			$files = [];
+
+			foreach ($collections as $collection) {
+				/** @var File[]|Folder[] $items */
+				$items = $collection->getData();
+				foreach ($items as $item) {
+					/** @var ListItem $fields */
+					$id = $item->getListItemAllFields()->getProperty('Id');
+					$hidden = $item->getListItemAllFields()->getProperty('Hidden'); // TODO: get someone to test this in SP 2013
+					if($hidden === false || $id !== null) {
+						// avoids listing hidden "Forms" folder (and its contents).
+						// Have not found a different mechanism to detect whether
+						// a file or folder is hidden. There used to be a Hidden
+						// field, but seems to have gone (since SP 2016?).
+						$files[] = $item->getProperty('Name');
+					}
+				}
+			}
+
+			return IteratorDirectory::wrap($files);
+		} catch (NotFoundException $e) {
+			return false;
+		}
 	}
 
 	/**
