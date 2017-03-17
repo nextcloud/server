@@ -1011,20 +1011,17 @@ OC.Uploader.prototype = _.extend({
 					lastSize = data.loaded;
 					diffSize = diffSize / diffUpdate; // apply timing factor, eg. 1mb/2s = 0.5mb/s
 					var remainingSeconds = ((data.total - data.loaded) / diffSize);
-					if(remainingSeconds >= 0) 
-					{
+					if(remainingSeconds >= 0) {
 						bufferTotal = bufferTotal - (buffer[bufferIndex]) + remainingSeconds;
 						buffer[bufferIndex] = remainingSeconds; //buffer to make it smoother
 						bufferIndex = (bufferIndex + 1) % bufferSize;
 						bufferIndex2 = bufferIndex2++;
 					}
 					var smoothRemainingSeconds;
-					if(bufferIndex2<20)
-					{
+					if(bufferIndex2<20) {
 							smoothRemainingSeconds = bufferTotal / bufferIndex2;
 					}
-					else
-					{
+					else {
 						 smoothRemainingSeconds = bufferTotal / bufferSize; 
 					}
 
