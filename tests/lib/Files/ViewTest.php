@@ -524,8 +524,7 @@ class ViewTest extends \Test\TestCase {
 	 */
 	public function testRmdir($method) {
 		$storage1 = $this->getTestStorage();
-		$storage2 = $this->getTestStorage();
-		Filesystem::mount($storage1, [], '/');
+		\OC\Files\Filesystem::mount($storage1, [], '/');
 
 		$rootView = new View('');
 		$rootView->mkdir('sub');
