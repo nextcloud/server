@@ -15,7 +15,6 @@ use OC\User\User;
 use OCP\ILogger;
 use OCP\IUser;
 use Test\TestCase;
-use Test\Util\Group\Dummy;
 
 class ManagerTest extends TestCase {
 	/** @var Manager */
@@ -93,7 +92,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetDeleted() {
-		$backend = new Dummy();
+		$backend = new \Test\Util\Group\Dummy();
 		$backend->createGroup('group1');
 
 		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
