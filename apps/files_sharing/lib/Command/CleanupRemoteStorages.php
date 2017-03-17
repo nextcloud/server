@@ -142,13 +142,13 @@ class CleanupRemoteStorages extends Command {
 			->where($queryBuilder->expr()->like(
 				'id',
 				// match all 'shared::' + 32 characters storages
-				$queryBuilder->createNamedParameter('shared::________________________________', IQueryBuilder::PARAM_STR),
+				$queryBuilder->createNamedParameter($this->connection->escapeLikeParameter('shared::') . str_repeat('_', 32)),
 				IQueryBuilder::PARAM_STR)
 			)
 			->andWhere($queryBuilder->expr()->notLike(
 				'id',
 				// but not the ones starting with a '/', they are for normal shares
-				$queryBuilder->createNamedParameter('shared::/%', IQueryBuilder::PARAM_STR),
+				$queryBuilder->createNamedParameter($this->connection->escapeLikeParameter('shared::/') . '%'),
 				IQueryBuilder::PARAM_STR)
 			)->orderBy('numeric_id');
 		$query = $queryBuilder->execute();
