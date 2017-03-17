@@ -24,7 +24,7 @@ class FilterRequest implements XmlDeserializable {
 	/**
 	 * @var array
 	 */
-	public $limit;
+	public $search;
 
 	/**
 	 * The deserialize method is called during xml parsing.
@@ -51,7 +51,7 @@ class FilterRequest implements XmlDeserializable {
 		$elems = (array)$reader->parseInnerTree([
 			'{DAV:}prop' => KeyValue::class,
 			'{http://owncloud.org/ns}filter-rules' => Base::class,
-			'{http://owncloud.org/ns}limit' => Base::class
+			'{http://owncloud.org/ns}search' => KeyValue::class,
 		]);
 
 		$newProps = [
@@ -60,7 +60,7 @@ class FilterRequest implements XmlDeserializable {
 				'favorite' => null
 			],
 			'properties' => [],
-			'limit'      => null,
+			'search' => null,
 		];
 
 		if (!is_array($elems)) {
@@ -85,13 +85,19 @@ class FilterRequest implements XmlDeserializable {
 						}
 					}
 					break;
-				case '{http://owncloud.org/ns}limit' :
-					// TODO verify page and size
-					$newProps['limit'] = $elem['attributes'];
+				case '{http://owncloud.org/ns}search' :
+					$value = $elem['value'];
+					if (isset($value['{http://owncloud.org/ns}pattern'])) {
+						$newProps['search']['pattern'] = $value['{http://owncloud.org/ns}pattern'];
+					}
+					if (isset($value['{http://owncloud.org/ns}limit'])) {
+						$newProps['search']['limit'] = (int)$value['{http://owncloud.org/ns}limit'];
+					}
+					if (isset($value['{http://owncloud.org/ns}offset'])) {
+						$newProps['search']['offset'] = (int)$value['{http://owncloud.org/ns}offset'];
+					}
 					break;
-
 			}
-
 		}
 
 		$obj = new self();

@@ -179,10 +179,16 @@ class FilesReportPlugin extends ServerPlugin {
 		$requestedProps = $report->properties;
 		$filterRules = $report->filters;
 
+		// "systemtag" is always an array of tags, favorite a string/int/null
 		if (empty($filterRules['systemtag']) && is_null($filterRules['favorite'])) {
-			// load all
-			$results = $reportTargetNode->getChildren();
+			// FIXME: search currently not possible because results are missing properties!
+			throw new BadRequest('No filter criteria specified');
 		} else {
+			if (isset($report->search['pattern'])) {
+				// TODO: implement this at some point...
+				throw new BadRequest('Search pattern cannot be combined with filter');
+			}
+
 			// gather all file ids matching filter
 			try {
 				$resultFileIds = $this->processFilterRules($filterRules);
@@ -190,14 +196,12 @@ class FilesReportPlugin extends ServerPlugin {
 				throw new PreconditionFailed('Cannot filter by non-existing tag', 0, $e);
 			}
 
+			// pre-slice the results if needed for pagination to not waste
+			// time resolving nodes that will not be returned anyway
+			$resultFileIds = $this->slice($resultFileIds, $report);
+
 			// find sabre nodes by file id, restricted to the root node path
 			$results = $this->findNodesByFileIds($reportTargetNode, $resultFileIds);
-		}
-
-		if (!is_null($report->limit)) {
-			$length = $report->limit['size'];
-			$offset = $report->limit['page'] * $length;
-			$results = array_slice($results, $offset, $length);
 		}
 
 		$filesUri = $this->getFilesBaseUri($uri, $reportTargetNode->getPath());
@@ -210,6 +214,15 @@ class FilesReportPlugin extends ServerPlugin {
 		$this->server->httpResponse->setBody($xml);
 
 		return false;
+	}
+
+	private function slice($results, $report) {
+		if (!is_null($report->search)) {
+			$length = $report->search['limit'];
+			$offset = $report->search['offset'];
+			$results = array_slice($results, $offset, $length);
+		}
+		return $results;
 	}
 
 	/**
@@ -330,11 +343,6 @@ class FilesReportPlugin extends ServerPlugin {
 			$result = $propFind->getResultForMultiStatus();
 			$result['href'] = $propFind->getPath();
 
-			$resourceType = $this->server->getResourceTypeForNode($node);
-			if (in_array('{DAV:}collection', $resourceType) || in_array('{DAV:}principal', $resourceType)) {
-				$result['href'] .= '/';
-			}
-
 			$results[] = $result;
 		}
 		return $results;
@@ -358,15 +366,23 @@ class FilesReportPlugin extends ServerPlugin {
 			$entry = $folder->getById($fileId);
 			if ($entry) {
 				$entry = current($entry);
-				if ($entry instanceof \OCP\Files\File) {
-					$results[] = new File($this->fileView, $entry);
-				} else if ($entry instanceof \OCP\Files\Folder) {
-					$results[] = new Directory($this->fileView, $entry);
+				$node = $this->makeSabreNode($entry);
+				if ($node) {
+					$results[] = $node;
 				}
 			}
 		}
 
 		return $results;
+	}
+
+	private function makeSabreNode(\OCP\Files\Node $filesNode) {
+		if ($filesNode instanceof \OCP\Files\File) {
+			return new File($this->fileView, $filesNode);
+		} else if ($filesNode instanceof \OCP\Files\Folder) {
+			return new Directory($this->fileView, $filesNode);
+		}
+		throw new \Exception('Unrecognized Files API node returned, aborting');
 	}
 
 	/**

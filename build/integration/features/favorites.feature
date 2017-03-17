@@ -146,3 +146,25 @@ Feature: favorite
         When User "user1" moved file "/shared/shared_file.txt" to "/taken_out.txt"
         Then user "user1" in folder "/" should have favorited the following elements
             | /taken_out.txt |
+
+    Scenario: Get favorited elements paginated
+        Given using old dav path
+        And As an "admin"
+        And user "user0" exists
+        And user "user0" created a folder "/subfolder"
+        And User "user0" copies file "/textfile0.txt" to "/subfolder/textfile0.txt"
+        And User "user0" copies file "/textfile0.txt" to "/subfolder/textfile1.txt"
+        And User "user0" copies file "/textfile0.txt" to "/subfolder/textfile2.txt"
+        And User "user0" copies file "/textfile0.txt" to "/subfolder/textfile3.txt"
+        And User "user0" copies file "/textfile0.txt" to "/subfolder/textfile4.txt"
+        And User "user0" copies file "/textfile0.txt" to "/subfolder/textfile5.txt"
+        When user "user0" favorites element "/subfolder/textfile0.txt"
+        And user "user0" favorites element "/subfolder/textfile1.txt"
+        And user "user0" favorites element "/subfolder/textfile2.txt"
+        And user "user0" favorites element "/subfolder/textfile3.txt"
+        And user "user0" favorites element "/subfolder/textfile4.txt"
+        And user "user0" favorites element "/subfolder/textfile5.txt"
+        Then user "user0" in folder "/subfolder" should have favorited the following elements from offset 3 and limit 2
+            | /subfolder/textfile2.txt |
+            | /subfolder/textfile3.txt |
+

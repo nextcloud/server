@@ -412,18 +412,33 @@ trait WebDav {
 	 * @param string $properties properties which needs to be included in the report
 	 * @param string $filterRules filter-rules to choose what needs to appear in the report
 	 */
-	public function reportFolder($user, $path, $properties, $filterRules){
+	public function reportFolder($user, $path, $properties, $filterRules, $offset = null, $limit = null){
 		$client = $this->getSabreClient($user);
 
 		$body = '<?xml version="1.0" encoding="utf-8" ?>
-							 <oc:filter-files xmlns:a="DAV:" xmlns:oc="http://owncloud.org/ns" >
-								 <a:prop>
-									' . $properties . '
-								 </a:prop>
-								 <oc:filter-rules>
-									' . $filterRules . '
-								 </oc:filter-rules>
-							 </oc:filter-files>';
+					<oc:filter-files xmlns:a="DAV:" xmlns:oc="http://owncloud.org/ns" >
+						<a:prop>
+							' . $properties . '
+						</a:prop>
+						<oc:filter-rules>
+							' . $filterRules . '
+						</oc:filter-rules>';
+		if (is_int($offset) || is_int($limit)) {
+			$body .=	'
+						<oc:search>';
+			if (is_int($offset)) {
+				$body .= "
+							<oc:offset>${offset}</oc:offset>";
+			}
+			if (is_int($limit)) {
+				$body .= "
+							<oc:limit>${limit}</oc:limit>";
+			}
+			$body .=	'
+						</oc:search>';
+		}
+		$body .= '
+					</oc:filter-files>';
 
 		$response = $client->request('REPORT', $this->makeSabrePath($user, $path), $body);
 		$parsedResponse = $client->parseMultistatus($response['body']);
@@ -716,6 +731,18 @@ trait WebDav {
 	 * @param \Behat\Gherkin\Node\TableNode|null $expectedElements
 	 */
 	public function checkFavoritedElements($user, $folder, $expectedElements){
+		$this->checkFavoritedElementsPaginated($user, $folder, $expectedElements, null, null);
+	}
+
+    /**
+	 * @Then /^user "([^"]*)" in folder "([^"]*)" should have favorited the following elements from offset ([\d*]) and limit ([\d*])$/
+	 * @param string $user
+	 * @param string $folder
+	 * @param \Behat\Gherkin\Node\TableNode|null $expectedElements
+	 * @param int $offset
+	 * @param int $limit
+	 */
+	public function checkFavoritedElementsPaginated($user, $folder, $expectedElements, $offset, $limit){
 		$elementList = $this->reportFolder($user,
 											$folder,
 											'<oc:favorite/>',
