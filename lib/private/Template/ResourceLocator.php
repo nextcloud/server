@@ -117,7 +117,38 @@ abstract class ResourceLocator {
 	 */
 	protected function append($root, $file, $webRoot = null, $throw = true) {
 		if (!$webRoot) {
-			$webRoot = $this->mapping[$root];
+			$tmpRoot = $root;
+			/*
+			 * traverse the potential web roots upwards in the path
+			 *
+			 * example:
+			 *   - root: /srv/www/apps/myapp
+			 *   - available mappings: ['/srv/www']
+			 *
+			 * First we check if a mapping for /srv/www/apps/myapp is available,
+			 * then /srv/www/apps, /srv/www/apps, /srv/www, ... until we find a
+			 * valid web root
+			 */
+			do {
+				if (isset($this->mapping[$tmpRoot])) {
+					$webRoot = $this->mapping[$tmpRoot];
+					break;
+				}
+
+				if ($tmpRoot === '/') {
+					$webRoot = '';
+					$this->logger->error('ResourceLocator can not find a web root (root: {root}, file: {file}, webRoot: {webRoot}, throw: {throw})', [
+						'app' => 'lib',
+						'root' => $root,
+						'file' => $file,
+						'webRoot' => $webRoot,
+						'throw' => $throw ? 'true' : 'false'
+					]);
+					break;
+				}
+				$tmpRoot = dirname($tmpRoot);
+			} while(true);
+
 		}
 		$this->resources[] = array($root, $webRoot, $file);
 

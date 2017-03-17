@@ -218,7 +218,8 @@ class TemplateLayout extends \OC_Template {
 				\OC::$server->getLogger(),
 				\OC::$server->getAppDataDir('css'),
 				\OC::$server->getURLGenerator(),
-				\OC::$server->getSystemConfig()
+				\OC::$server->getSystemConfig(),
+				\OC::$SERVERROOT
 			);
 		} else {
 			$SCSSCacher = null;
