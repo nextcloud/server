@@ -56,6 +56,7 @@
     "seconds ago" : "pred sekundami",
     "Logging in …" : "Prihlasujem ...",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Odkaz na obnovu hesla bol odoslaný na váš email. Pokiaľ ho neobdržíte v primeranom čase, skontrolujte spam / priečinok nevyžiadanej pošty. <br> Ak tam nie je, kontaktujte svojho administrátora.",
+    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Vaše súbory sú zašifrované. Po zresetovaní vášho hesla nebude možné vaše dáta obnoviť.<br />Ak si nie ste istý, pred pokračovaním kontaktujte administrátora.<br />Skutočne si prajete pokračovať?",
     "I know what I'm doing" : "Viem, čo robím",
     "Password can not be changed. Please contact your administrator." : "Heslo nemožno zmeniť. Kontaktujte prosím vášho administrátora.",
     "No" : "Nie",
