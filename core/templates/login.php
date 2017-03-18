@@ -43,7 +43,7 @@ script('core', [
 				placeholder="<?php p($l->t('Username or email')); ?>"
 				value="<?php p($_['loginName']); ?>"
 				<?php p($_['user_autofocus'] ? 'autofocus' : ''); ?>
-				autocomplete="on" autocapitalize="off" autocorrect="off" required>
+				autocomplete="on" autocapitalize="none" autocorrect="off" required>
 			<label for="user" class="infield"><?php p($l->t('Username or email')); ?></label>
 		</p>
 
@@ -51,7 +51,7 @@ script('core', [
 			<input type="password" name="password" id="password" value=""
 				placeholder="<?php p($l->t('Password')); ?>"
 				<?php p($_['user_autofocus'] ? '' : 'autofocus'); ?>
-				autocomplete="on" autocapitalize="off" autocorrect="off" required>
+				autocomplete="on" autocapitalize="off" autocorrect="none" required>
 			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
 		</p>
 
