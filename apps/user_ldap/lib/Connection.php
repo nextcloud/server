@@ -12,6 +12,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roger Szabo <roger.szabo@web.de>
+ * @author Xuanwo <xuanwo@yunify.com>
  *
  * @license AGPL-3.0
  *
@@ -63,6 +64,11 @@ class Connection extends LDAPUtility {
 	 * @var bool runtime flag that indicates whether supported primary groups are available
 	 */
 	public $hasPrimaryGroups = true;
+
+	/**
+	 * @var bool runtime flag that indicates whether supported POSIX gidNumber are available
+	 */
+	public $hasGidNumber = true;
 
 	//cache handler
 	protected $cache;

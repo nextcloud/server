@@ -15,6 +15,7 @@
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
+ * @author Xuanwo <xuanwo@yunify.com>
  *
  * @license AGPL-3.0
  *
@@ -775,12 +776,12 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * tries to detect the group member association attribute which is
-	 * one of 'uniqueMember', 'memberUid', 'member'
+	 * one of 'uniqueMember', 'memberUid', 'member', 'gidNumber'
 	 * @return string|false, string with the attribute name, false on error
 	 * @throws \Exception
 	 */
 	private function detectGroupMemberAssoc() {
-		$possibleAttrs = array('uniqueMember', 'memberUid', 'member');
+		$possibleAttrs = array('uniqueMember', 'memberUid', 'member', 'gidNumber');
 		$filter = $this->configuration->ldapGroupFilter;
 		if(empty($filter)) {
 			return false;

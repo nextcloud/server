@@ -18,6 +18,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Xuanwo <xuanwo@yunify.com>
  *
  * @license AGPL-3.0
  *
@@ -229,9 +230,9 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 				}
 			}
 		}
-		
+
 		$allMembers = array_merge($allMembers, $this->getDynamicGroupMembers($dnGroup));
-		
+
 		$this->access->connection->writeToCache($cacheKey, $allMembers);
 		return $allMembers;
 	}
@@ -263,7 +264,167 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 				$allGroups = array_merge($allGroups, $subGroups);
 			}
 		}
-		return $allGroups;	
+		return $allGroups;
+	}
+
+	/**
+	 * translates a gidNumber into an ownCloud internal name
+	 * @param string $gid as given by gidNumber on POSIX LDAP
+	 * @param string $dn a DN that belongs to the same domain as the group
+	 * @return string|bool
+	 */
+	public function gidNumber2Name($gid, $dn) {
+		$cacheKey = 'gidNumberToName' . $gid;
+		$groupName = $this->access->connection->getFromCache($cacheKey);
+		if(!is_null($groupName) && isset($groupName)) {
+			return $groupName;
+		}
+
+		//we need to get the DN from LDAP
+		$filter = $this->access->combineFilterWithAnd([
+			$this->access->connection->ldapGroupFilter,
+			'objectClass=posixGroup',
+			$this->access->connection->ldapGidNumber . '=' . $gid
+		]);
+		$result = $this->access->searchGroups($filter, array('dn'), 1);
+		if(empty($result)) {
+			return false;
+		}
+		$dn = $result[0]['dn'][0];
+
+		//and now the group name
+		//NOTE once we have separate ownCloud group IDs and group names we can
+		//directly read the display name attribute instead of the DN
+		$name = $this->access->dn2groupname($dn);
+
+		$this->access->connection->writeToCache($cacheKey, $name);
+
+		return $name;
+	}
+
+	/**
+	 * returns the entry's gidNumber
+	 * @param string $dn
+	 * @param string $attribute
+	 * @return string|bool
+	 */
+	private function getEntryGidNumber($dn, $attribute) {
+		$value = $this->access->readAttribute($dn, $attribute);
+		if(is_array($value) && !empty($value)) {
+			return $value[0];
+		}
+		return false;
+	}
+
+	/**
+	 * returns the group's primary ID
+	 * @param string $dn
+	 * @return string|bool
+	 */
+	public function getGroupGidNumber($dn) {
+		return $this->getEntryGidNumber($dn, 'gidNumber');
+	}
+
+	/**
+	 * returns the user's gidNumber
+	 * @param string $dn
+	 * @return string|bool
+	 */
+	public function getUserGidNumber($dn) {
+		$gidNumber = false;
+		if($this->access->connection->hasGidNumber) {
+			$gidNumber = $this->getEntryGidNumber($dn, 'gidNumber');
+			if($gidNumber === false) {
+				$this->access->connection->hasGidNumber = false;
+			}
+		}
+		return $gidNumber;
+	}
+
+	/**
+	 * returns a filter for a "users has specific gid" search or count operation
+	 *
+	 * @param string $groupDN
+	 * @param string $search
+	 * @return string
+	 * @throws \Exception
+	 */
+	private function prepareFilterForUsersHasGidNumber($groupDN, $search = '') {
+		$groupID = $this->getGroupGidNumber($groupDN);
+		if($groupID === false) {
+			throw new \Exception('Not a valid group');
+		}
+
+		$filterParts = [];
+		$filterParts[] = $this->access->getFilterForUserCount();
+		if ($search !== '') {
+			$filterParts[] = $this->access->getFilterPartForUserSearch($search);
+		}
+		$filterParts[] = $this->access->connection->ldapGidNumber .'=' . $groupID;
+
+		$filter = $this->access->combineFilterWithAnd($filterParts);
+
+		return $filter;
+	}
+
+	/**
+	 * returns a list of users that have the given group as gid number
+	 *
+	 * @param string $groupDN
+	 * @param string $search
+	 * @param int $limit
+	 * @param int $offset
+	 * @return string[]
+	 */
+	public function getUsersInGidNumber($groupDN, $search = '', $limit = -1, $offset = 0) {
+		try {
+			$filter = $this->prepareFilterForUsersHasGidNumber($groupDN, $search);
+			$users = $this->access->fetchListOfUsers(
+				$filter,
+				[$this->access->connection->ldapUserDisplayName, 'dn'],
+				$limit,
+				$offset
+			);
+			return $this->access->ownCloudUserNames($users);
+		} catch (\Exception $e) {
+			return [];
+		}
+	}
+
+	/**
+	 * returns the number of users that have the given group as gid number
+	 *
+	 * @param string $groupDN
+	 * @param string $search
+	 * @param int $limit
+	 * @param int $offset
+	 * @return int
+	 */
+	public function countUsersInGidNumber($groupDN, $search = '', $limit = -1, $offset = 0) {
+		try {
+			$filter = $this->prepareFilterForUsersHasGidNumber($groupDN, $search);
+			$users = $this->access->countUsers($filter, ['dn'], $limit, $offset);
+			return (int)$users;
+		} catch (\Exception $e) {
+			return 0;
+		}
+	}
+
+	/**
+	 * gets the gidNumber of a user
+	 * @param string $dn
+	 * @return string
+	 */
+	public function getUserGroupByGid($dn) {
+		$groupID = $this->getUserGidNumber($dn);
+		if($groupID !== false) {
+			$groupName = $this->gidNumber2Name($groupID, $dn);
+			if($groupName !== false) {
+				return $groupName;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -457,6 +618,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 
 		$groups = [];
 		$primaryGroup = $this->getUserPrimaryGroup($userDN);
+		$gidGroupName = $this->getUserGroupByGid($userDN);
 
 		$dynamicGroupMemberURL = strtolower($this->access->connection->ldapDynamicGroupMemberURL);
 
@@ -510,9 +672,12 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 					}
 				}
 			}
-			
+
 			if($primaryGroup !== false) {
 				$groups[] = $primaryGroup;
+			}
+			if($gidGroupName !== false) {
+				$groups[] = $gidGroupName;
 			}
 			$this->access->connection->writeToCache($cacheKey, $groups);
 			return $groups;
@@ -546,6 +711,9 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 
 		if($primaryGroup !== false) {
 			$groups[] = $primaryGroup;
+		}
+		if($gidGroupName !== false) {
+			$groups[] = $gidGroupName;
 		}
 
 		$groups = array_unique($groups, SORT_LOCALE_STRING);
@@ -641,6 +809,14 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			return array();
 		}
 
+		$posixGroupUsers = $this->getUsersInGidNumber($groupDN, $search, $limit, $offset);
+		$members = array_keys($this->_groupMembers($groupDN));
+		if(!$members && empty($posixGroupUsers)) {
+			//in case users could not be retrieved, return empty result set
+			$this->access->connection->writeToCache($cacheKey, []);
+			return [];
+		}
+
 		$groupUsers = array();
 		$isMemberUid = (strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'memberuid');
 		$attrs = $this->access->userManager->getAttributes(true);
@@ -677,6 +853,10 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		$this->access->connection->writeToCache('usersInGroup-'.$gid.'-'.$search, $groupUsers);
 		$groupUsers = array_slice($groupUsers, $offset, $limit);
 
+		$groupUsers = array_unique(array_merge($groupUsers, $posixGroupUsers));
+		natsort($groupUsers);
+		$this->access->connection->writeToCache('usersInGroup-'.$gid.'-'.$search, $groupUsers);
+		$groupUsers = array_slice($groupUsers, $offset, $limit);
 
 		$this->access->connection->writeToCache($cacheKey, $groupUsers);
 
