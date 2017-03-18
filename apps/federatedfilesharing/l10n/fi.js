@@ -7,6 +7,7 @@ OC.L10N.register(
     "Remote share password" : "Etäjaon salasana",
     "Cancel" : "Peruuta",
     "Add remote share" : "Lisää etäjako",
+    "Copy" : "Kopioi",
     "Copied!" : "Kopioitu!",
     "Not supported!" : "Ei tuettu!",
     "Press ⌘-C to copy." : "Paina ⌘-C kopioidaksesi.",
