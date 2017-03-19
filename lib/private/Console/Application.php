@@ -134,7 +134,7 @@ class Application {
 		}
 
 		if ($input->getFirstArgument() !== 'check') {
-			$errors = \OC_Util::checkServer(\OC::$server->getConfig());
+			$errors = \OC_Util::checkServer(\OC::$server->getSystemConfig());
 			if (!empty($errors)) {
 				foreach ($errors as $error) {
 					$output->writeln((string)$error['error']);

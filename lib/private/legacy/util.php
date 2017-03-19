@@ -631,15 +631,15 @@ class OC_Util {
 	/**
 	 * check if the current server configuration is suitable for ownCloud
 	 *
-	 * @param \OCP\IConfig $config
+	 * @param \OC\SystemConfig $config
 	 * @return array arrays with error messages and hints
 	 */
-	public static function checkServer(\OCP\IConfig $config) {
+	public static function checkServer(\OC\SystemConfig $config) {
 		$l = \OC::$server->getL10N('lib');
 		$errors = array();
-		$CONFIG_DATADIRECTORY = $config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data');
+		$CONFIG_DATADIRECTORY = $config->getValue('datadirectory', OC::$SERVERROOT . '/data');
 
-		if (!self::needUpgrade($config) && $config->getSystemValue('installed', false)) {
+		if (!self::needUpgrade($config) && $config->getValue('installed', false)) {
 			// this check needs to be done every time
 			$errors = self::checkDataDirectoryValidity($CONFIG_DATADIRECTORY);
 		}
@@ -677,7 +677,7 @@ class OC_Util {
 		}
 
 		// Check if there is a writable install folder.
-		if ($config->getSystemValue('appstoreenabled', true)) {
+		if ($config->getValue('appstoreenabled', true)) {
 			if (OC_App::getInstallPath() === null
 				|| !is_writable(OC_App::getInstallPath())
 				|| !is_readable(OC_App::getInstallPath())
@@ -692,7 +692,7 @@ class OC_Util {
 			}
 		}
 		// Create root dir.
-		if ($config->getSystemValue('installed', false)) {
+		if ($config->getValue('installed', false)) {
 			if (!is_dir($CONFIG_DATADIRECTORY)) {
 				$success = @mkdir($CONFIG_DATADIRECTORY);
 				if ($success) {
@@ -1401,18 +1401,18 @@ class OC_Util {
 	 * either when the core version is higher or any app requires
 	 * an upgrade.
 	 *
-	 * @param \OCP\IConfig $config
+	 * @param \OC\SystemConfig $config
 	 * @return bool whether the core or any app needs an upgrade
 	 * @throws \OC\HintException When the upgrade from the given version is not allowed
 	 */
-	public static function needUpgrade(\OCP\IConfig $config) {
-		if ($config->getSystemValue('installed', false)) {
-			$installedVersion = $config->getSystemValue('version', '0.0.0');
+	public static function needUpgrade(\OC\SystemConfig $config) {
+		if ($config->getValue('installed', false)) {
+			$installedVersion = $config->getValue('version', '0.0.0');
 			$currentVersion = implode('.', \OCP\Util::getVersion());
 			$versionDiff = version_compare($currentVersion, $installedVersion);
 			if ($versionDiff > 0) {
 				return true;
-			} else if ($config->getSystemValue('debug', false) && $versionDiff < 0) {
+			} else if ($config->getValue('debug', false) && $versionDiff < 0) {
 				// downgrade with debug
 				$installedMajor = explode('.', $installedVersion);
 				$installedMajor = $installedMajor[0] . '.' . $installedMajor[1];

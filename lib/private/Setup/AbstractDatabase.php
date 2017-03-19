@@ -28,7 +28,7 @@ namespace OC\Setup;
 
 use OC\AllConfig;
 use OC\DB\ConnectionFactory;
-use OCP\IConfig;
+use OC\SystemConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\Security\ISecureRandom;
@@ -51,14 +51,14 @@ abstract class AbstractDatabase {
 	protected $dbPort;
 	/** @var string */
 	protected $tablePrefix;
-	/** @var AllConfig */
+	/** @var SystemConfig */
 	protected $config;
 	/** @var ILogger */
 	protected $logger;
 	/** @var ISecureRandom */
 	protected $random;
 
-	public function __construct(IL10N $trans, $dbDefinitionFile, IConfig $config, ILogger $logger, ISecureRandom $random) {
+	public function __construct(IL10N $trans, $dbDefinitionFile, SystemConfig $config, ILogger $logger, ISecureRandom $random) {
 		$this->trans = $trans;
 		$this->dbDefinitionFile = $dbDefinitionFile;
 		$this->config = $config;
@@ -89,7 +89,7 @@ abstract class AbstractDatabase {
 		$dbPort = !empty($config['dbport']) ? $config['dbport'] : '';
 		$dbTablePrefix = isset($config['dbtableprefix']) ? $config['dbtableprefix'] : 'oc_';
 
-		$this->config->setSystemValues([
+		$this->config->setValues([
 			'dbname'		=> $dbName,
 			'dbhost'		=> $dbHost,
 			'dbport' => $dbPort,
@@ -137,7 +137,7 @@ abstract class AbstractDatabase {
 
 		$connectionParams = array_merge($connectionParams, $configOverwrite);
 		$cf = new ConnectionFactory($this->config);
-		return $cf->getConnection($this->config->getSystemValue('dbtype', 'sqlite'), $connectionParams);
+		return $cf->getConnection($this->config->getValue('dbtype', 'sqlite'), $connectionParams);
 	}
 
 	/**

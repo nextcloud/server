@@ -29,7 +29,7 @@ namespace OC\Core\Command\Maintenance;
 
 use InvalidArgumentException;
 use OC\Setup;
-use OCP\IConfig;
+use OC\SystemConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -40,11 +40,11 @@ use Symfony\Component\Console\Question\Question;
 class Install extends Command {
 
 	/**
-	 * @var IConfig
+	 * @var SystemConfig
 	 */
 	private $config;
 
-	public function __construct(IConfig $config) {
+	public function __construct(SystemConfig $config) {
 		parent::__construct();
 		$this->config = $config;
 	}

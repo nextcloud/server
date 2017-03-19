@@ -47,7 +47,7 @@ use OCP\ILogger;
 use OCP\Security\ISecureRandom;
 
 class Setup {
-	/** @var \OCP\IConfig */
+	/** @var SystemConfig */
 	protected $config;
 	/** @var IniGetWrapper */
 	protected $iniWrapper;
@@ -61,11 +61,11 @@ class Setup {
 	protected $random;
 
 	/**
-	 * @param IConfig $config
+	 * @param SystemConfig $config
 	 * @param IniGetWrapper $iniWrapper
 	 * @param \OC_Defaults $defaults
 	 */
-	function __construct(IConfig $config,
+	function __construct(SystemConfig $config,
 						 IniGetWrapper $iniWrapper,
 						 IL10N $l10n,
 						 \OC_Defaults $defaults,
@@ -148,7 +148,7 @@ class Setup {
 		if ($allowAllDatabases) {
 			$configuredDatabases = array_keys($availableDatabases);
 		} else {
-			$configuredDatabases = $this->config->getSystemValue('supportedDatabases',
+			$configuredDatabases = $this->config->getValue('supportedDatabases',
 				array('sqlite', 'mysql', 'pgsql'));
 		}
 		if(!is_array($configuredDatabases)) {
@@ -187,7 +187,7 @@ class Setup {
 	public function getSystemInfo($allowAllDatabases = false) {
 		$databases = $this->getSupportedDatabases($allowAllDatabases);
 
-		$dataDir = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT.'/data');
+		$dataDir = $this->config->getValue('datadirectory', \OC::$SERVERROOT.'/data');
 
 		$errors = array();
 
@@ -315,7 +315,7 @@ class Setup {
 		$secret = $this->random->generate(48);
 
 		//write the config file
-		$this->config->setSystemValues([
+		$this->config->setValues([
 			'passwordsalt'		=> $salt,
 			'secret'			=> $secret,
 			'trusted_domains'	=> $trustedDomains,
@@ -407,11 +407,11 @@ class Setup {
 	 * @return bool True when success, False otherwise
 	 */
 	public static function updateHtaccess() {
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->getSystemConfig();
 
 		// For CLI read the value from overwrite.cli.url
 		if(\OC::$CLI) {
-			$webRoot = $config->getSystemValue('overwrite.cli.url', '');
+			$webRoot = $config->getValue('overwrite.cli.url', '');
 			if($webRoot === '') {
 				return false;
 			}
@@ -436,7 +436,7 @@ class Setup {
 		$content.= "\nErrorDocument 404 ".$webRoot."/core/templates/404.php";
 
 		// Add rewrite rules if the RewriteBase is configured
-		$rewriteBase = $config->getSystemValue('htaccess.RewriteBase', '');
+		$rewriteBase = $config->getValue('htaccess.RewriteBase', '');
 		if($rewriteBase !== '') {
 			$content .= "\n<IfModule mod_rewrite.c>";
 			$content .= "\n  Options -MultiViews";

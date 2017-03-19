@@ -19,17 +19,17 @@ class UtilCheckServerTest extends \Test\TestCase {
 
 	/**
 	 * @param array $systemOptions
-	 * @return \OCP\IConfig | \PHPUnit_Framework_MockObject_MockObject
+	 * @return \OC\SystemConfig | \PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function getConfig($systemOptions) {
 		$systemOptions['datadirectory'] = $this->datadir;
 		$systemOptions['appstoreenabled'] = false; //it's likely that there is no app folder we can write in
-		$config = $this->getMockBuilder('\OCP\IConfig')
+		$config = $this->getMockBuilder('\OC\SystemConfig')
 			->disableOriginalConstructor()
 			->getMock();
 
 		$config->expects($this->any())
-			->method('getSystemValue')
+			->method('getValue')
 			->will($this->returnCallback(function ($key, $default) use ($systemOptions) {
 				return isset($systemOptions[$key]) ? $systemOptions[$key] : $default;
 			}));

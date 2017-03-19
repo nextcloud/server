@@ -30,7 +30,7 @@ use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Event\Listeners\OracleSessionInit;
 use Doctrine\DBAL\Event\Listeners\SQLSessionInit;
-use OCP\IConfig;
+use OC\SystemConfig;
 
 /**
 * Takes care of creating and configuring Doctrine connections.
@@ -67,8 +67,17 @@ class ConnectionFactory {
 		],
 	];
 
-	public function __construct(IConfig $config) {
-		if($config->getSystemValue('mysql.utf8mb4', false)) {
+	/** @var SystemConfig */
+	private $config;
+
+	/**
+	 * ConnectionFactory constructor.
+	 *
+	 * @param SystemConfig $systemConfig
+	 */
+	public function __construct(SystemConfig $systemConfig) {
+		$this->config = $systemConfig;
+		if($this->config->getValue('mysql.utf8mb4', false)) {
 			$this->defaultConnectionParams['mysql']['charset'] = 'utf8mb4';
 		}
 	}
@@ -154,23 +163,22 @@ class ConnectionFactory {
 	/**
 	 * Create the connection parameters for the config
 	 *
-	 * @param \OC\SystemConfig $config
 	 * @return array
 	 */
-	public function createConnectionParams($config) {
-		$type = $config->getValue('dbtype', 'sqlite');
+	public function createConnectionParams() {
+		$type = $this->config->getValue('dbtype', 'sqlite');
 
 		$connectionParams = [
-			'user' => $config->getValue('dbuser', ''),
-			'password' => $config->getValue('dbpassword', ''),
+			'user' => $this->config->getValue('dbuser', ''),
+			'password' => $this->config->getValue('dbpassword', ''),
 		];
-		$name = $config->getValue('dbname', 'owncloud');
+		$name = $this->config->getValue('dbname', 'owncloud');
 
 		if ($this->normalizeType($type) === 'sqlite3') {
-			$dataDir = $config->getValue("datadirectory", \OC::$SERVERROOT . '/data');
+			$dataDir = $this->config->getValue("datadirectory", \OC::$SERVERROOT . '/data');
 			$connectionParams['path'] = $dataDir . '/' . $name . '.db';
 		} else {
-			$host = $config->getValue('dbhost', '');
+			$host = $this->config->getValue('dbhost', '');
 			if (strpos($host, ':')) {
 				// Host variable may carry a port or socket.
 				list($host, $portOrSocket) = explode(':', $host, 2);
@@ -184,11 +192,11 @@ class ConnectionFactory {
 			$connectionParams['dbname'] = $name;
 		}
 
-		$connectionParams['tablePrefix'] = $config->getValue('dbtableprefix', 'oc_');
-		$connectionParams['sqlite.journal_mode'] = $config->getValue('sqlite.journal_mode', 'WAL');
+		$connectionParams['tablePrefix'] = $this->config->getValue('dbtableprefix', 'oc_');
+		$connectionParams['sqlite.journal_mode'] = $this->config->getValue('sqlite.journal_mode', 'WAL');
 
 		//additional driver options, eg. for mysql ssl
-		$driverOptions = $config->getValue('dbdriveroptions', null);
+		$driverOptions = $this->config->getValue('dbdriveroptions', null);
 		if ($driverOptions) {
 			$connectionParams['driverOptions'] = $driverOptions;
 		}
