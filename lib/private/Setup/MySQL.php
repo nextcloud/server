@@ -27,7 +27,6 @@
  */
 namespace OC\Setup;
 
-use OC\DB\ConnectionFactory;
 use OCP\IDBConnection;
 
 class MySQL extends AbstractDatabase {

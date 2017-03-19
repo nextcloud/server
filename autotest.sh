@@ -143,6 +143,8 @@ function cleanup_config {
 	if [ -f config/autotest-storage-swift.config.php ]; then
 		rm config/autotest-storage-swift.config.php
 	fi
+	# Remove mysqlmb4.config.php
+	rm -f config/mysqlmb4.config.php
 }
 
 # restore config on exit

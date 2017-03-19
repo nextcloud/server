@@ -34,6 +34,7 @@ namespace OC\DB;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\SchemaConfig;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Schema\Schema;
 use OCP\IConfig;
 
 class MDB2SchemaReader {
@@ -77,7 +78,7 @@ class MDB2SchemaReader {
 
 	/**
 	 * @param string $file
-	 * @return \Doctrine\DBAL\Schema\Schema
+	 * @return Schema
 	 * @throws \DomainException
 	 */
 	public function loadSchemaFromFile($file) {
@@ -284,6 +285,7 @@ class MDB2SchemaReader {
 			) {
 				$options['primary'] = true;
 			}
+
 			$table->addColumn($name, $type, $options);
 			if (!empty($options['primary']) && $options['primary']) {
 				$table->setPrimaryKey(array($name));
