@@ -111,6 +111,11 @@ class Generator {
 		// Calculate the preview size
 		list($width, $height) = $this->calculateSize($width, $height, $crop, $mode, $maxWidth, $maxHeight);
 
+		// No need to generate a preview that is just the max preview
+		if ($width === $maxWidth && $height === $maxHeight) {
+			return $maxPreview;
+		}
+
 		// Try to get a cached preview. Else generate (and store) one
 		try {
 			$file = $this->getCachedPreview($previewFolder, $width, $height, $crop);
