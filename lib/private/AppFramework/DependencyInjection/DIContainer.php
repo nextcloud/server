@@ -51,6 +51,7 @@ use OCP\AppFramework\QueryException;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\IAppData;
 use OCP\Files\Mount\IMountManager;
+use OCP\IServerContainer;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Util;
 
@@ -61,18 +62,25 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 */
 	private $middleWares = array();
 
+	/** @var IServerContainer */
+	private $server;
+
 	/**
 	 * Put your class dependencies in here
 	 * @param string $appName the name of the app
+	 * @param array $urlParams
+	 * @param IServerContainer $server
 	 */
-	public function __construct($appName, $urlParams = array()){
+	public function __construct($appName, $urlParams = array(), IServerContainer $server = null){
 		parent::__construct();
 		$this['AppName'] = $appName;
 		$this['urlParams'] = $urlParams;
 
 		/** @var \OC\ServerContainer $server */
-		$server = $this->getServer();
-		$server->registerAppContainer($appName, $this);
+		if ($server === null) {
+			$this->server = \OC::$server;
+		}
+		$this->server->registerAppContainer($appName, $this);
 
 		// aliases
 		$this->registerAlias('appName', 'AppName');
@@ -481,7 +489,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 */
 	function getServer()
 	{
-		return OC::$server;
+		return $this->server;
 	}
 
 	/**
