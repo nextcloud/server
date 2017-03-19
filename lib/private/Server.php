@@ -93,6 +93,7 @@ use OC\Tagging\TagMapper;
 use OCA\Theming\ThemingDefaults;
 use OCP\Federation\ICloudIdManager;
 use OCP\Authentication\LoginCredentials\IStore;
+use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\RichObjectStrings\IValidator;
@@ -485,7 +486,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('CredentialsManager', function (Server $c) {
 			return new CredentialsManager($c->getCrypto(), $c->getDatabaseConnection());
 		});
-		$this->registerService('DatabaseConnection', function (Server $c) {
+		$this->registerService(IDBConnection::class, function (Server $c) {
 			$systemConfig = $c->getSystemConfig();
 			$factory = new \OC\DB\ConnectionFactory($systemConfig);
 			$type = $systemConfig->getValue('dbtype', 'sqlite');
@@ -497,6 +498,7 @@ class Server extends ServerContainer implements IServerContainer {
 			$connection->getConfiguration()->setSQLLogger($c->getQueryLogger());
 			return $connection;
 		});
+		$this->registerAlias('DatabaseConnection', IDBConnection::class);
 		$this->registerService('HTTPHelper', function (Server $c) {
 			$config = $c->getConfig();
 			return new HTTPHelper(
@@ -740,9 +742,12 @@ class Server extends ServerContainer implements IServerContainer {
 			}
 			return new \OC_Defaults();
 		});
-		$this->registerService('EventDispatcher', function () {
+		$this->registerService(EventDispatcher::class, function () {
 			return new EventDispatcher();
 		});
+		$this->registerAlias('EventDispatcher', EventDispatcher::class);
+		$this->registerAlias(EventDispatcherInterface::class, EventDispatcher::class);
+
 		$this->registerService('CryptoWrapper', function (Server $c) {
 			// FIXME: Instantiiated here due to cyclic dependency
 			$request = new Request(

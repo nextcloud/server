@@ -45,6 +45,7 @@ use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\RichObjectStrings\Validator;
+use OC\ServerContainer;
 use OCP\AppFramework\IApi;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\QueryException;
@@ -62,24 +63,25 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 */
 	private $middleWares = array();
 
-	/** @var IServerContainer */
+	/** @var ServerContainer */
 	private $server;
 
 	/**
 	 * Put your class dependencies in here
 	 * @param string $appName the name of the app
 	 * @param array $urlParams
-	 * @param IServerContainer $server
+	 * @param ServerContainer $server
 	 */
-	public function __construct($appName, $urlParams = array(), IServerContainer $server = null){
+	public function __construct($appName, $urlParams = array(), ServerContainer $server = null){
 		parent::__construct();
 		$this['AppName'] = $appName;
 		$this['urlParams'] = $urlParams;
 
 		/** @var \OC\ServerContainer $server */
 		if ($server === null) {
-			$this->server = \OC::$server;
+			$server = \OC::$server;
 		}
+		$this->server = $server;
 		$this->server->registerAppContainer($appName, $this);
 
 		// aliases
@@ -570,13 +572,13 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	public function query($name) {
 		$name = $this->sanitizeName($name);
 
-		try {
+		if ($this->offsetExists($name)) {
 			return parent::query($name);
-		} catch (QueryException $e) {
+		} else {
 			if (strpos($name, 'OCA\\') === 0 && substr_count($name, '\\') >= 2) {
 				$segments = explode('\\', $name);
 				if (strtolower($segments[1]) === strtolower($this['AppName'])) {
-					throw new QueryException();
+					return parent::query($name);
 				}
 			}
 		}
