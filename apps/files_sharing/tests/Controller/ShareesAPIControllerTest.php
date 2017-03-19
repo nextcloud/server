@@ -1576,20 +1576,22 @@ class ShareesAPIControllerTest extends TestCase {
 		return [
 			['test', 'folder', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE], 1, 2, false, [], [], ['results' => [], 'exact' => [], 'exactIdMatch' => false],
 				[
-					'exact' => ['users' => [], 'groups' => [], 'remotes' => [], 'emails' => []],
+					'exact' => ['users' => [], 'groups' => [], 'remotes' => [], 'circles' => [], 'emails' => []],
 					'users' => [],
 					'groups' => [],
 					'remotes' => [],
 					'emails' => [],
+					'circles' => [],
 					'lookup' => [],
 				], false],
 			['test', 'folder', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE], 1, 2, false, [], [], ['results' => [], 'exact' => [], 'exactIdMatch' => false],
 				[
-					'exact' => ['users' => [], 'groups' => [], 'remotes' => [], 'emails' => []],
+					'exact' => ['users' => [], 'groups' => [], 'remotes' => [], 'circles' => [], 'emails' => []],
 					'users' => [],
 					'groups' => [],
 					'remotes' => [],
 					'emails' => [],
+					'circles' => [],
 					'lookup' => [],
 				], false],
 			[
@@ -1601,7 +1603,7 @@ class ShareesAPIControllerTest extends TestCase {
 					'results' => [['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']]], 'exact' => [], 'exactIdMatch' => false,
 				],
 				[
-					'exact' => ['users' => [], 'groups' => [], 'remotes' => [], 'emails' => []],
+					'exact' => ['users' => [], 'groups' => [], 'remotes' => [], 'circles' => [], 'emails' => []],
 					'users' => [
 						['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
 					],
@@ -1612,6 +1614,7 @@ class ShareesAPIControllerTest extends TestCase {
 						['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
 					],
 					'emails' => [],
+					'circles' => [],
 					'lookup' => [],
 				], true,
 			],
@@ -1623,7 +1626,7 @@ class ShareesAPIControllerTest extends TestCase {
 					'results' => [['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']]], 'exact' => [], 'exactIdMatch' => false
 				],
 				[
-					'exact' => ['users' => [], 'groups' => [], 'remotes' => [], 'emails' => []],
+					'exact' => ['users' => [], 'groups' => [], 'remotes' => [], 'circles' => [], 'emails' => []],
 					'users' => [
 						['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
 					],
@@ -1632,6 +1635,7 @@ class ShareesAPIControllerTest extends TestCase {
 						['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
 					],
 					'emails' => [],
+					'circles' => [],
 					'lookup' => [],
 				], false,
 			],
@@ -1641,13 +1645,14 @@ class ShareesAPIControllerTest extends TestCase {
 					['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
 				], null, null,
 				[
-					'exact' => ['users' => [], 'groups' => [], 'remotes' => [], 'emails' => []],
+					'exact' => ['users' => [], 'groups' => [], 'remotes' => [], 'circles' => [], 'emails' => []],
 					'users' => [
 						['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
 					],
 					'groups' => [],
 					'remotes' => [],
 					'emails' => [],
+					'circles' => [],
 					'lookup' => [],
 				], false,
 			],
@@ -1658,7 +1663,7 @@ class ShareesAPIControllerTest extends TestCase {
 					['label' => 'test 2', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
 				], null, null,
 				[
-					'exact' => ['users' => [], 'groups' => [], 'remotes' => [], 'emails' => []],
+					'exact' => ['users' => [], 'groups' => [], 'remotes' => [], 'circles' => [], 'emails' => []],
 					'users' => [
 						['label' => 'test 1', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
 						['label' => 'test 2', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
@@ -1666,6 +1671,7 @@ class ShareesAPIControllerTest extends TestCase {
 					'groups' => [],
 					'remotes' => [],
 					'emails' => [],
+					'circles' => [],
 					'lookup' => [],
 				], true,
 			],
