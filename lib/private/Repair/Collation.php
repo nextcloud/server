@@ -67,7 +67,7 @@ class Collation implements IRepairStep {
 	 */
 	public function run(IOutput $output) {
 		if (!$this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
-			$output->info('Not a mysql database -> nothing to no');
+			$output->info('Not a mysql database -> nothing to do');
 			return;
 		}
 

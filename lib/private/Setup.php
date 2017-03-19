@@ -80,13 +80,13 @@ class Setup {
 		$this->random = $random;
 	}
 
-	static $dbSetupClasses = array(
-		'mysql' => '\OC\Setup\MySQL',
-		'pgsql' => '\OC\Setup\PostgreSQL',
-		'oci'   => '\OC\Setup\OCI',
-		'sqlite' => '\OC\Setup\Sqlite',
-		'sqlite3' => '\OC\Setup\Sqlite',
-	);
+	static $dbSetupClasses = [
+		'mysql' => \OC\Setup\MySQL::class,
+		'pgsql' => \OC\Setup\PostgreSQL::class,
+		'oci'   => \OC\Setup\OCI::class,
+		'sqlite' => \OC\Setup\Sqlite::class,
+		'sqlite3' => \OC\Setup\Sqlite::class,
+	];
 
 	/**
 	 * Wrapper around the "class_exists" PHP function to be able to mock it
