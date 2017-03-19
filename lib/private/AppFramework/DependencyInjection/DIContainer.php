@@ -559,13 +559,17 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 	}
 
-	public function query($name, $checkServerContainer = true) {
+	public function query($name) {
 		$name = $this->sanitizeName($name);
+
 		try {
 			return parent::query($name);
 		} catch (QueryException $e) {
-			if ($checkServerContainer === false) {
-				throw $e;
+			if (strpos($name, 'OCA\\') === 0 && substr_count($name, '\\') >= 2) {
+				$segments = explode('\\', $name);
+				if (strtolower($segments[1]) === strtolower($this['AppName'])) {
+					throw new QueryException();
+				}
 			}
 		}
 
