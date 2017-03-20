@@ -26,6 +26,7 @@ namespace OC\Preview;
 use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
@@ -111,6 +112,11 @@ class Generator {
 		// Calculate the preview size
 		list($width, $height) = $this->calculateSize($width, $height, $crop, $mode, $maxWidth, $maxHeight);
 
+		// No need to generate a preview that is just the max preview
+		if ($width === $maxWidth && $height === $maxHeight) {
+			return $maxPreview;
+		}
+
 		// Try to get a cached preview. Else generate (and store) one
 		try {
 			$file = $this->getCachedPreview($previewFolder, $width, $height, $crop);
@@ -158,9 +164,13 @@ class Generator {
 					continue;
 				}
 
-				$path = strval($preview->width()) . '-' . strval($preview->height()) . '-max.png';
-				$file = $previewFolder->newFile($path);
-				$file->putContent($preview->data());
+				$path = (string)$preview->width() . '-' . (string)$preview->height() . '-max.png';
+				try {
+					$file = $previewFolder->newFile($path);
+					$file->putContent($preview->data());
+				} catch (NotPermittedException $e) {
+					throw new NotFoundException();
+				}
 
 				return $file;
 			}
@@ -185,7 +195,7 @@ class Generator {
 	 * @return string
 	 */
 	private function generatePath($width, $height, $crop) {
-		$path = strval($width) . '-' . strval($height);
+		$path = (string)$width . '-' . (string)$height;
 		if ($crop) {
 			$path .= '-crop';
 		}
@@ -246,18 +256,18 @@ class Generator {
 			/*
 			 * Scale to the nearest power of two
 			 */
-			$pow2height = pow(2, ceil(log($height) / log(2)));
-			$pow2width = pow(2, ceil(log($width) / log(2)));
+			$pow2height = 2 ** ceil(log($height) / log(2));
+			$pow2width = 2 ** ceil(log($width) / log(2));
 
 			$ratioH = $height / $pow2height;
 			$ratioW = $width / $pow2width;
 
 			if ($ratioH < $ratioW) {
 				$width = $pow2width;
-				$height = $height / $ratioW;
+				$height /= $ratioW;
 			} else {
 				$height = $pow2height;
-				$width = $width / $ratioH;
+				$width /= $ratioH;
 			}
 		}
 
@@ -268,12 +278,12 @@ class Generator {
 		if ($height > $maxHeight) {
 			$ratio = $height / $maxHeight;
 			$height = $maxHeight;
-			$width = $width / $ratio;
+			$width /= $ratio;
 		}
 		if ($width > $maxWidth) {
 			$ratio = $width / $maxWidth;
 			$width = $maxWidth;
-			$height = $height / $ratio;
+			$height /= $ratio;
 		}
 
 		return [(int)round($width), (int)round($height)];
@@ -316,8 +326,12 @@ class Generator {
 		}
 
 		$path = $this->generatePath($width, $height, $crop);
-		$file = $previewFolder->newFile($path);
-		$file->putContent($preview->data());
+		try {
+			$file = $previewFolder->newFile($path);
+			$file->putContent($preview->data());
+		} catch (NotPermittedException $e) {
+			throw new NotFoundException();
+		}
 
 		return $file;
 	}
