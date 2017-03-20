@@ -729,4 +729,23 @@ trait WebDav {
 		}
 	}
 
+	/**
+	 * @When /^User "([^"]*)" deletes everything from folder "([^"]*)"$/
+	 * @param string $user
+	 * @param string $folder
+	 */
+	public function userDeletesEverythingInFolder($user, $folder)  {
+		$elementList = $this->listFolder($user, $folder, 1);
+		$elementListKeys = array_keys($elementList);
+		array_shift($elementListKeys);
+		$davPrefix =  "/" . $this->getDavFilesPath($user);
+		foreach($elementListKeys as $element) {
+			if (substr($element, 0, strlen($davPrefix)) == $davPrefix) {
+				$element = substr($element, strlen($davPrefix));
+			}
+			$this->userDeletesFile($user, "element", $element);
+		}
+	}
+
+
 }
