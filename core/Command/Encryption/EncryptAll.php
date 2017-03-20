@@ -109,10 +109,10 @@ class EncryptAll extends Command {
 		}
 
 		$output->writeln("\n");
-		$output->writeln('You are about to start to encrypt all files stored in your ownCloud.');
-		$output->writeln('It will depend on the encryption module you use which files get encrypted.');
-		$output->writeln('Depending on the number and size of your files this can take some time');
-		$output->writeln('Please make sure that no user access his files during this process!');
+		$output->writeln('You are about to encrypt all files stored in your Nextcloud installation.');
+		$output->writeln('Depending on the number of available files, and their size, this may take quite some time.');
+		$output->writeln('Please ensure that no user accesses their files during this time!');
+		$output->writeln('Note: The encryption module you use determines which files get encrypted.');
 		$output->writeln('');
 		$question = new ConfirmationQuestion('Do you really want to continue? (y/n) ', false);
 		if ($this->questionHelper->ask($input, $output, $question)) {
