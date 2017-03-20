@@ -64,6 +64,12 @@ interface FileInfo {
 	const MIMETYPE_FOLDER = 'httpd/unix-directory';
 
 	/**
+	 * @const \OCP\Files\FileInfo::BLACKLIST_FILES_REGEX Return regular expression to test filenames against (blacklisting)
+	 * @since 12.0.0
+	 */
+	const BLACKLIST_FILES_REGEX = '\.(part|filepart)$';
+
+	/**
 	 * Get the Etag of the file or folder
 	 *
 	 * @return string
