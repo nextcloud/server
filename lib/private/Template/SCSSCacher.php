@@ -28,6 +28,7 @@ use Leafo\ScssPhp\Formatter\Expanded;
 use OC\SystemConfig;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -93,7 +94,7 @@ class SCSSCacher {
 			$folder = $this->appData->newFolder($app);
 		}
 
-		if($this->isCached($fileNameCSS, $fileNameSCSS, $folder, $path) && !$this->variablesChanged($fileNameCSS, $folder)) {
+		if($this->isCached($fileNameCSS, $fileNameSCSS, $folder, $path)) {
 			return true;
 		}
 		return $this->cache($path, $fileNameCSS, $fileNameSCSS, $folder, $webDir);
@@ -124,28 +125,6 @@ class SCSSCacher {
 		} catch(NotFoundException $e) {
 			return false;
 		}
-		return false;
-	}
-
-	/**
-	 * Check if the variables file has changed
-	 * @param string $fileNameCSS
-	 * @param ISimpleFolder $folder
-	 * @return bool
-	 */
-	private function variablesChanged($fileNameCSS, ISimpleFolder $folder) {
-		$variablesFile = \OC::$SERVERROOT . '/core/css/variables.scss';
-		try {
-			$cachedFile = $folder->getFile($fileNameCSS);
-			if ($cachedFile->getMTime() < filemtime($variablesFile)
-				|| $cachedFile->getSize() === 0
-			) {
-				return true;
-			}
-		} catch (NotFoundException $e) {
-			return true;
-		}
-		return false;
 	}
 
 	/**
@@ -200,7 +179,7 @@ class SCSSCacher {
 			$depFile->putContent(json_encode($scss->getParsedFiles()));
 			$this->logger->debug($webDir.'/'.$fileNameSCSS.' compiled and successfully cached', ['app' => 'core']);
 			return true;
-		} catch(NotFoundException $e) {
+		} catch(NotPermittedException $e) {
 			return false;
 		}
 	}
