@@ -109,7 +109,7 @@ class EncryptAll extends Command {
 		}
 
 		$output->writeln("\n");
-		$output->writeln('You are about to encrypt all files stored in your ownCloud installation.');
+		$output->writeln('You are about to encrypt all files stored in your Nextcloud installation.');
 		$output->writeln('Depending on the number of available files, and their size, this may take quite some time.');
 		$output->writeln('Please ensure that no user accesses their files during this time!');
 		$output->writeln('Note: The encryption module you use determines which files get encrypted.');
