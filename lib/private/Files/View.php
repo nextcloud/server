@@ -96,7 +96,11 @@ class View {
 
 	private $updaterEnabled = true;
 
+	/** @var \OC\User\Manager */
 	private $userManager;
+
+	/** @var \OCP\ILogger */
+	private $logger;
 
 	/**
 	 * @param string $root
@@ -114,6 +118,7 @@ class View {
 		$this->lockingProvider = \OC::$server->getLockingProvider();
 		$this->lockingEnabled = !($this->lockingProvider instanceof \OC\Lock\NoopLockingProvider);
 		$this->userManager = \OC::$server->getUserManager();
+		$this->logger = \OC::$server->getLogger();
 	}
 
 	public function getAbsolutePath($path = '/') {
@@ -2068,6 +2073,12 @@ class View {
 		$parts = explode('/', trim($path, '/'), 3);
 		// "$user", "files", "path/to/dir"
 		if (!isset($parts[1]) || $parts[1] !== 'files') {
+			$this->logger->error(
+				'$absolutePath must be relative to "files", value is "%s"',
+				[
+					$absolutePath
+				]
+			);
 			throw new \InvalidArgumentException('$absolutePath must be relative to "files"');
 		}
 		if (isset($parts[2])) {

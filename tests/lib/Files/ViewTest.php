@@ -1488,6 +1488,8 @@ class ViewTest extends \Test\TestCase {
 	/**
 	 * @dataProvider pathRelativeToFilesProviderExceptionCases
 	 * @expectedException \InvalidArgumentException
+	 * @expectedExceptionMessage $absolutePath must be relative to "files"
+	 * @param string $path
 	 */
 	public function testGetPathRelativeToFilesWithInvalidArgument($path) {
 		$view = new View();
