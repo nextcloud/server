@@ -134,4 +134,23 @@ class Files extends Action {
 			]
 		);
 	}
+
+	/**
+	 * Logs preview access to a file
+	 *
+	 * @param array $params
+	 */
+	public function preview(array $params) {
+		$this->log(
+			'Preview accessed: "%s" (width: "%s", height: "%s" crop: "%s", mode: "%s")',
+			$params,
+			[
+				'path',
+				'width',
+				'height',
+				'crop',
+				'mode'
+			]
+		);
+	}
 }
