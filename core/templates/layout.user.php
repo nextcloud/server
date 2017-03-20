@@ -81,7 +81,7 @@
 								</a>
 							</li>
 							<?php if(OC_User::isAdminUser(OC_User::getUser())):	?>
-								<li id="apps-management" <?php if(count($_['navigation'])>$headerIconCount-1): ?>class="hidden"<?php endif; ?>>
+								<li <?php if(count($_['navigation'])>$headerIconCount-1): ?> class="hidden apps-management"<?php else: ?> class="apps-management"  <?php endif; ?>>
 									<a href="<?php print_unescaped(\OC::$server->getURLGenerator()->linkToRoute('settings.AppSettings.viewApps')); ?>" tabindex="4"
 										<?php if( $_['appsmanagement_active'] ): ?> class="active"<?php endif; ?>>
 										<img src="<?php print_unescaped(image_path('settings', 'apps.svg') . '?v=' . $_['versionHash']); ?>" />
@@ -119,7 +119,7 @@
 								/* show "More apps" link to app administration directly in app navigation, as last entry */
 								if(OC_User::isAdminUser(OC_User::getUser())):
 									?>
-									<li id="apps-management">
+									<li class="apps-management">
 										<a href="<?php print_unescaped(\OC::$server->getURLGenerator()->linkToRoute('settings.AppSettings.viewApps')); ?>" tabindex="4"
 											<?php if( $_['appsmanagement_active'] ): ?> class="active"<?php endif; ?>>
 											<svg width="32" height="32" viewBox="0 0 32 32" class="app-icon">

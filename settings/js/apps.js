@@ -541,10 +541,10 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 				if (navEntries.length > 7) {
 					$('#more-apps').show();
-					$('#apps-management').hide();
+					$('.apps-management').hide();
 				} else {
 					$('#more-apps').hide();
-					$('#apps-management').show();
+					$('.apps-management').show();
 				}
 			}
 		});
