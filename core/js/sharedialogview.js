@@ -120,6 +120,8 @@
 				'_onSelectRecipient',
 				'onShareWithFieldChanged'
 			);
+
+			OC.Plugins.attach('OCA.Share.ShareDialogView', this);
 		},
 
 		onShareWithFieldChanged: function() {
