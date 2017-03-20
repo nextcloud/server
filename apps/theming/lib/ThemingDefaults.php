@@ -28,6 +28,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Files\IRootFolder;
+use OCP\Util;
 
 class ThemingDefaults extends \OC_Defaults {
 
@@ -101,7 +102,7 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	public function getSlogan() {
-		return \OC_Util::sanitizeHTML($this->config->getAppValue('theming', 'slogan', $this->slogan));
+		return Util::sanitizeHTML($this->config->getAppValue('theming', 'slogan', $this->slogan));
 	}
 
 	public function getShortFooter() {
