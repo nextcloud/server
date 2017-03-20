@@ -211,6 +211,7 @@ class AppManager implements IAppManager {
 	 * Enable an app for every user
 	 *
 	 * @param string $appId
+	 * @throws \Exception
 	 */
 	public function enableApp($appId) {
 		if(OC_App::getAppPath($appId) === false) {
