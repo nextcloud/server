@@ -216,10 +216,11 @@ interface IManager {
 	 *
 	 * @param \OCP\Files\Node $path
 	 * @param bool $recursive Should we check all parent folders as well
+	 * @param bool $currentAccess Should the user have currently access to the file
 	 * @return array
-	 * @since 9.2.0
+	 * @since 12
 	 */
-	public function getAccessList(\OCP\Files\Node $path, $recursive = true);
+	public function getAccessList(\OCP\Files\Node $path, $recursive = true, $currentAccess = false);
 
 	/**
 	 * Instantiates a new share object. This is to be passed to

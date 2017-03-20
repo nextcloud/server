@@ -101,7 +101,7 @@ class File implements \OCP\Encryption\IFile {
 		// Find out who, if anyone, is sharing the file
 		if ($file !== null) {
 			$resultForFile = $this->shareManager->getAccessList($file, false);
-			$userIds = \array_merge($userIds, $resultForFile['users']);
+			$userIds = array_merge($userIds, $resultForFile['users']);
 			$public = $resultForFile['public'] || $resultForFile['remote'] || $public;
 		}
 
