@@ -517,6 +517,15 @@ class SystemTagManagerTest extends TestCase {
 	}
 
 	/**
+	 * empty groupIds should be ignored
+	 */
+	public function testEmptyTagGroup() {
+		$tag1 = $this->tagManager->createTag('tag1', true, false);
+		$this->tagManager->setTagGroups($tag1, ['']);
+		$this->assertEquals([], $this->tagManager->getTagGroups($tag1));
+	}
+
+	/**
 	 * @param ISystemTag $tag1
 	 * @param ISystemTag $tag2
 	 */
