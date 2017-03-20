@@ -31,6 +31,7 @@
 
 namespace OCA\Files_Sharing;
 
+use OC\Files\Cache\FailedCache;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\Storage\FailedStorage;
@@ -352,6 +353,9 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		}
 		if (!$storage) {
 			$storage = $this;
+		}
+		if ($this->storage instanceof FailedStorage) {
+			return new FailedCache();
 		}
 		$this->cache = new \OCA\Files_Sharing\Cache($storage, $this->getSourceRootInfo(), $this->superShare);
 		return $this->cache;
