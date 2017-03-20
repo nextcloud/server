@@ -437,6 +437,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Command\\Integrity\\CheckCore' => __DIR__ . '/../../..' . '/core/Command/Integrity/CheckCore.php',
         'OC\\Core\\Command\\Integrity\\SignApp' => __DIR__ . '/../../..' . '/core/Command/Integrity/SignApp.php',
         'OC\\Core\\Command\\Integrity\\SignCore' => __DIR__ . '/../../..' . '/core/Command/Integrity/SignCore.php',
+        'OC\\Core\\Command\\InterruptedException' => __DIR__ . '/../../..' . '/core/Command/InterruptedException.php',
         'OC\\Core\\Command\\L10n\\CreateJs' => __DIR__ . '/../../..' . '/core/Command/L10n/CreateJs.php',
         'OC\\Core\\Command\\Log\\File' => __DIR__ . '/../../..' . '/core/Command/Log/File.php',
         'OC\\Core\\Command\\Log\\Manage' => __DIR__ . '/../../..' . '/core/Command/Log/Manage.php',
