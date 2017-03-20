@@ -173,6 +173,9 @@ OC.L10N.register(
     "%2$s restored %1$s" : "%1$s visszatöltötte %2$s",
     "Changed by %2$s" : "Megváltoztatta: %2$s",
     "Deleted by %2$s" : "Törölte: %2$s",
-    "Restored by %2$s" : "Visszaállította: %2$s"
+    "Restored by %2$s" : "Visszaállította: %2$s",
+    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["{hours}:{minutes}:{seconds} óra van hátra","{hours}:{minutes}:{seconds} óra van hátra"],
+    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["{minutes}:{seconds} perc van hátra","{minutes}:{seconds} perc van hátra"],
+    "_{seconds} second left_::_{seconds} seconds left_" : ["{seconds} másodperc van hátra","{seconds} másodperc van hátra"]
 },
 "nplurals=2; plural=(n != 1);");
