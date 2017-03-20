@@ -33,7 +33,6 @@
 		width: 0;
 		position: absolute;
 		pointer-events: none;
-		margin-left: -10px;
 	}
 }
 
@@ -479,6 +478,7 @@ nav {
 			vertical-align: top !important;
 			position: relative;
 			height: 44px;
+			display: inline-block;
 		}
 	}
 
@@ -511,7 +511,7 @@ nav {
 		color: rgba(0, 0, 0, .6);
 		width: auto;
 		left: 50%;
-		top: 31px;
+		top: 32px;
 		transform: translateX(-50%);
 		padding: 4px 10px;
 		-webkit-filter: drop-shadow(0 0 5px rgba(150, 150, 150, .75));
