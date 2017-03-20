@@ -399,7 +399,6 @@ nav {
 
 	/* Profile picture in header */
 	.avatardiv {
-		margin-right: 8px;
 		cursor: pointer;
 		height: 32px;
 		width: 32px;
@@ -457,9 +456,6 @@ nav {
 #header {
 	.avatardiv.avatardiv-shown + #expandDisplayName {
 		display: none;
-	}
-	#expand {
-		display: block;
 	}
 }
 
