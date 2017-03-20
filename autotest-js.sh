@@ -24,7 +24,12 @@ mkdir -p "$PREFIX" && $NPM install --link --prefix "$PREFIX" || exit 3
 
 # create scss test
 mkdir -p tests/css
-./build/bin/node-sass --output tests/css core/css
+for SCSSFILE in core/css/*.scss
+do
+    FILE=$(basename $SCSSFILE)
+    FILENAME="${FILE%.*}"
+    printf "@import 'variables.scss'; @import '${FILE}';" | ./build/bin/node-sass --include-path core/css/ > tests/css/${FILE}.css
+done
 
 KARMA="$PREFIX/node_modules/karma/bin/karma"
 

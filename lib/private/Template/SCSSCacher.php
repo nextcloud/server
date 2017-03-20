@@ -28,7 +28,9 @@ use Leafo\ScssPhp\Formatter\Expanded;
 use OC\SystemConfig;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 
@@ -43,8 +45,8 @@ class SCSSCacher {
 	/** @var IURLGenerator */
 	protected $urlGenerator;
 
-	/** @var SystemConfig */
-	protected $systemConfig;
+	/** @var IConfig */
+	protected $config;
 
 	/** @var string */
 	protected $serverRoot;
@@ -59,12 +61,12 @@ class SCSSCacher {
 	public function __construct(ILogger $logger,
 								IAppData $appData,
 								IURLGenerator $urlGenerator,
-								SystemConfig $systemConfig,
+								IConfig $config,
 								$serverRoot) {
 		$this->logger = $logger;
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
-		$this->systemConfig = $systemConfig;
+		$this->config = $config;
 		$this->serverRoot = $serverRoot;
 	}
 
@@ -94,9 +96,8 @@ class SCSSCacher {
 
 		if($this->isCached($fileNameCSS, $fileNameSCSS, $folder, $path)) {
 			return true;
-		} else {
-			return $this->cache($path, $fileNameCSS, $fileNameSCSS, $folder, $webDir);
 		}
+		return $this->cache($path, $fileNameCSS, $fileNameSCSS, $folder, $webDir);
 	}
 
 	/**
@@ -108,7 +109,7 @@ class SCSSCacher {
 	 * @return boolean
 	 */
 	private function isCached($fileNameCSS, $fileNameSCSS, ISimpleFolder $folder, $path) {
-		try{
+		try {
 			$cachedFile = $folder->getFile($fileNameCSS);
 			if ($cachedFile->getSize() > 0) {
 				$depFile = $folder->getFile($fileNameCSS . '.deps');
@@ -124,7 +125,6 @@ class SCSSCacher {
 		} catch(NotFoundException $e) {
 			return false;
 		}
-		return false;
 	}
 
 	/**
@@ -138,8 +138,11 @@ class SCSSCacher {
 	 */
 	private function cache($path, $fileNameCSS, $fileNameSCSS, ISimpleFolder $folder, $webDir) {
 		$scss = new Compiler();
-		$scss->setImportPaths($path);
-		if($this->systemConfig->getValue('debug')) {
+		$scss->setImportPaths([
+			$path,
+			\OC::$SERVERROOT . '/core/css/',
+		]);
+		if($this->config->getSystemValue('debug')) {
 			// Debug mode
 			$scss->setFormatter(Expanded::class);
 			$scss->setLineNumberStyle(Compiler::LINE_COMMENTS);
@@ -163,7 +166,9 @@ class SCSSCacher {
 
 		// Compile
 		try {
-			$compiledScss = $scss->compile('@import "'.$fileNameSCSS.'";');
+			$compiledScss = $scss->compile(
+				'@import "variables.scss";' .
+				'@import "'.$fileNameSCSS.'";');
 		} catch(ParserException $e) {
 			$this->logger->error($e, ['app' => 'core']);
 			return false;
@@ -174,7 +179,7 @@ class SCSSCacher {
 			$depFile->putContent(json_encode($scss->getParsedFiles()));
 			$this->logger->debug($webDir.'/'.$fileNameSCSS.' compiled and successfully cached', ['app' => 'core']);
 			return true;
-		} catch(NotFoundException $e) {
+		} catch(NotPermittedException $e) {
 			return false;
 		}
 	}
@@ -188,7 +193,7 @@ class SCSSCacher {
 	private function rebaseUrls($css, $webDir) {
 		$re = '/url\([\'"]([\.\w?=\/-]*)[\'"]\)/x';
 		// OC\Route\Router:75
-		if(($this->systemConfig->getValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
+		if(($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
 			$subst = 'url(\'../../'.$webDir.'/$1\')';	
 		} else {
 			$subst = 'url(\'../../../'.$webDir.'/$1\')';

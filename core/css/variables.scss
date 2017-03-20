@@ -1,0 +1,22 @@
+$color-main-text: #000000;
+$color-main-background: #ffffff;
+$color-primary: #0082c9;
+$color-primary-text: #ffffff;
+$color-error: #e9322d;
+$color-warning: #ffcc44;
+$color-success: #46ba61;
+
+@function nc-darken($color, $value) {
+  @return darken($color, $value);
+}
+
+@function nc-lighten($color, $value) {
+  @return lighten($color, $value);
+}
+
+$image-logo: '../img/logo-icon.svg?v=1';
+$image-login-background: '../img/background.jpg?v=1';
+
+$color-loading: #969696;
+$color-loading-dark: #bbbbbb;
+$color-box-shadow: rgba(nc-lighten($color-main-text, 20%), 0.75);
