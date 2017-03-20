@@ -407,6 +407,7 @@ return array(
     'OC\\Core\\Command\\Integrity\\CheckCore' => $baseDir . '/core/Command/Integrity/CheckCore.php',
     'OC\\Core\\Command\\Integrity\\SignApp' => $baseDir . '/core/Command/Integrity/SignApp.php',
     'OC\\Core\\Command\\Integrity\\SignCore' => $baseDir . '/core/Command/Integrity/SignCore.php',
+    'OC\\Core\\Command\\InterruptedException' => $baseDir . '/core/Command/InterruptedException.php',
     'OC\\Core\\Command\\L10n\\CreateJs' => $baseDir . '/core/Command/L10n/CreateJs.php',
     'OC\\Core\\Command\\Log\\File' => $baseDir . '/core/Command/Log/File.php',
     'OC\\Core\\Command\\Log\\Manage' => $baseDir . '/core/Command/Log/Manage.php',
