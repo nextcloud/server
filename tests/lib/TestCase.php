@@ -139,7 +139,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 			if (is_null(self::$realDatabase)) {
 				self::$realDatabase = \OC::$server->getDatabaseConnection();
 			}
-			\OC::$server->registerService('DatabaseConnection', function () {
+			\OC::$server->registerService(IDBConnection::class, function () {
 				$this->fail('Your test case is not allowed to access the database.');
 			});
 		}
@@ -158,7 +158,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
 		// restore database connection
 		if (!$this->IsDatabaseAccessAllowed()) {
-			\OC::$server->registerService('DatabaseConnection', function () {
+			\OC::$server->registerService(IDBConnection::class, function () {
 				return self::$realDatabase;
 			});
 		}
@@ -171,7 +171,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
 		// restore database connection
 		if (!$this->IsDatabaseAccessAllowed()) {
-			\OC::$server->registerService('DatabaseConnection', function () {
+			\OC::$server->registerService(IDBConnection::class, function () {
 				return self::$realDatabase;
 			});
 		}
@@ -259,7 +259,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		if (!self::$wasDatabaseAllowed && self::$realDatabase !== null) {
 			// in case an error is thrown in a test, PHPUnit jumps straight to tearDownAfterClass,
 			// so we need the database again
-			\OC::$server->registerService('DatabaseConnection', function () {
+			\OC::$server->registerService(IDBConnection::class, function () {
 				return self::$realDatabase;
 			});
 		}
