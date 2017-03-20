@@ -87,7 +87,7 @@ class DatabaseTest extends Backend {
 		$this->eventDispatcher->expects($this->once())->method('dispatch')
 			->willReturnCallback(
 				function ($eventName, GenericEvent $event) {
-					$this->assertSame('OCP\PasswordPolicy::validate',  $eventName);
+					$this->assertSame('OCP\PasswordPolicy::validate', $eventName);
 					$this->assertSame('newpass', $event->getSubject());
 					throw new HintException('password change failed', 'password change failed');
 				}
@@ -95,5 +95,22 @@ class DatabaseTest extends Backend {
 
 		$this->backend->setPassword($user, 'newpass');
 		$this->assertSame($user, $this->backend->checkPassword($user, 'newpass'));
+	}
+
+	public function testCreateUserInvalidatesCache() {
+		$user1 = $this->getUniqueID('test_');
+		$this->assertFalse($this->backend->userExists($user1));
+		$this->backend->createUser($user1, 'pw');
+		$this->assertTrue($this->backend->userExists($user1));
+	}
+
+	public function testDeleteUserInvalidatesCache() {
+		$user1 = $this->getUniqueID('test_');
+		$this->backend->createUser($user1, 'pw');
+		$this->assertTrue($this->backend->userExists($user1));
+		$this->backend->deleteUser($user1);
+		$this->assertFalse($this->backend->userExists($user1));
+		$this->backend->createUser($user1, 'pw2');
+		$this->assertTrue($this->backend->userExists($user1));
 	}
 }

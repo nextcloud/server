@@ -234,7 +234,7 @@ class Database extends Backend implements IUserBackend {
 	/**
 	 * Load an user in the cache
 	 * @param string $uid the username
-	 * @return boolean
+	 * @return boolean true if user was found, false otherwise
 	 */
 	private function loadUser($uid) {
 		if (!isset($this->cache[$uid])) {
@@ -254,9 +254,14 @@ class Database extends Backend implements IUserBackend {
 
 			$this->cache[$uid] = false;
 
-			while ($row = $result->fetchRow()) {
+			// "uid" is primary key, so there can only be a single result
+			if ($row = $result->fetchRow()) {
 				$this->cache[$uid]['uid'] = $row['uid'];
 				$this->cache[$uid]['displayname'] = $row['displayname'];
+				$result->closeCursor();
+			} else {
+				$result->closeCursor();
+				return false;
 			}
 		}
 
