@@ -99,7 +99,7 @@ class Application {
 				} elseif ($this->config->getSystemValue('maintenance', false)) {
 					if ($input->getArgument('command') !== '_completion') {
 						$errOutput = $output->getErrorOutput();
-						$errOutput->writeln('<comment>ownCloud is in maintenance mode - no app have been loaded</comment>' . PHP_EOL);
+						$errOutput->writeln('<comment>Nextcloud is in maintenance mode - no app have been loaded</comment>' . PHP_EOL);
 					}
 				} else {
 					OC_App::loadApps();
