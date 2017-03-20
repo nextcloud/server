@@ -98,6 +98,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	private function getSourceRootInfo() {
 		if (is_null($this->sourceRootInfo)) {
 			if (is_null($this->superShare->getNodeCacheEntry())) {
+				$this->init();
 				$this->sourceRootInfo = $this->nonMaskedStorage->getCache()->get($this->rootPath);
 			} else {
 				$this->sourceRootInfo = $this->superShare->getNodeCacheEntry();
@@ -131,6 +132,10 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 			$this->storage = new FailedStorage(['exception' => $e]);
 			$this->rootPath = '';
 			$this->logger->logException($e);
+		}
+
+		if (!$this->nonMaskedStorage) {
+			$this->nonMaskedStorage = $this->storage;
 		}
 	}
 
