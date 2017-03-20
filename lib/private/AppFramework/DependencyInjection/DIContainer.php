@@ -92,10 +92,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		/**
 		 * Core services
 		 */
-		$this->registerService('OCP\\App\\IAppManager', function($c) {
-			return $this->getServer()->getAppManager();
-		});
-
 		$this->registerService('OCP\\AppFramework\\Http\\IOutput', function($c){
 			return new Output($this->getServer()->getWebRoot());
 		});
@@ -117,10 +113,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		$this->registerService('OCP\\ICache', function($c) {
 			return $this->getServer()->getCache();
-		});
-
-		$this->registerService('OCP\\ICacheFactory', function($c) {
-			return $this->getServer()->getMemCacheFactory();
 		});
 
 		$this->registerService('OC\\CapabilitiesManager', function($c) {
@@ -241,10 +233,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		$this->registerService('OCP\\ITagManager', function($c) {
 			return $this->getServer()->getTagManager();
-		});
-
-		$this->registerService('OCP\\ITempManager', function($c) {
-			return $this->getServer()->getTempManager();
 		});
 
 		$this->registerAlias('OCP\\AppFramework\\Utility\\ITimeFactory', 'OC\AppFramework\Utility\TimeFactory');
@@ -580,6 +568,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				if (strtolower($segments[1]) === strtolower($this['AppName'])) {
 					return parent::query($name);
 				}
+			} else if ($this['AppName'] === 'settings' && strpos($name, 'OC\\Settings\\') === 0) {
+				return parent::query($name);
 			}
 		}
 

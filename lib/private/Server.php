@@ -42,6 +42,7 @@
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\App\AppManager;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\AppFramework\Http\Request;
@@ -73,6 +74,7 @@ use OC\Lock\NoopLockingProvider;
 use OC\Lockdown\LockdownManager;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
+use OC\Memcache\Factory;
 use OC\Notification\Manager;
 use OC\Repair\NC11\CleanPreviewsBackgroundJob;
 use OC\RichObjectStrings\Validator;
@@ -91,11 +93,14 @@ use OC\Security\TrustedDomainHelper;
 use OC\Session\CryptoWrapper;
 use OC\Tagging\TagMapper;
 use OCA\Theming\ThemingDefaults;
+use OCP\App\IAppManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\Authentication\LoginCredentials\IStore;
+use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IServerContainer;
+use OCP\ITempManager;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Security\IContentSecurityPolicyManager;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -396,7 +401,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('UserCache', function ($c) {
 			return new Cache\File();
 		});
-		$this->registerService('MemCacheFactory', function (Server $c) {
+		$this->registerService(Factory::class, function (Server $c) {
 			$config = $c->getConfig();
 
 			if ($config->getSystemValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
@@ -419,6 +424,9 @@ class Server extends ServerContainer implements IServerContainer {
 				'\\OC\\Memcache\\ArrayCache'
 			);
 		});
+		$this->registerAlias('MemCacheFactory', Factory::class);
+		$this->registerAlias(ICacheFactory::class, Factory::class);
+
 		$this->registerService('RedisFactory', function (Server $c) {
 			$systemConfig = $c->getSystemConfig();
 			return new RedisFactory($systemConfig);
@@ -528,13 +536,16 @@ class Server extends ServerContainer implements IServerContainer {
 				return new NullQueryLogger();
 			}
 		});
-		$this->registerService('TempManager', function (Server $c) {
+		$this->registerService(TempManager::class, function (Server $c) {
 			return new TempManager(
 				$c->getLogger(),
 				$c->getConfig()
 			);
 		});
-		$this->registerService('AppManager', function (Server $c) {
+		$this->registerAlias('TempManager', TempManager::class);
+		$this->registerAlias(ITempManager::class, TempManager::class);
+
+		$this->registerService(AppManager::class, function (Server $c) {
 			return new \OC\App\AppManager(
 				$c->getUserSession(),
 				$c->getAppConfig(),
@@ -543,6 +554,9 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getEventDispatcher()
 			);
 		});
+		$this->registerAlias('AppManager', AppManager::class);
+		$this->registerAlias(IAppManager::class, AppManager::class);
+
 		$this->registerService('DateTimeZone', function (Server $c) {
 			return new DateTimeZone(
 				$c->getConfig(),
