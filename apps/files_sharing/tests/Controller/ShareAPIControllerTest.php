@@ -544,14 +544,19 @@ class ShareAPIControllerTest extends \Test\TestCase {
 		$this->groupManager->method('get')->will($this->returnValueMap([
 			['group', $group],
 			['group2', $group2],
+			['groupnull', null],
 		]));
 		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
 		$share = $this->getMockBuilder('OCP\Share\IShare')->getMock();
 		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_GROUP);
 		$share->method('getSharedWith')->willReturn('group2');
+		$this->assertFalse($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
-		$this->groupManager->method('get')->with('group2')->willReturn($group);
+		// null group
+		$share = $this->getMock('OCP\Share\IShare');
+		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_GROUP);
+		$share->method('getSharedWith')->willReturn('groupnull');
 		$this->assertFalse($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
 		$share = $this->getMockBuilder('OCP\Share\IShare')->getMock();

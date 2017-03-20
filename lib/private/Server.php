@@ -227,7 +227,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new \OC\User\Manager($config);
 		});
 		$this->registerService('GroupManager', function (Server $c) {
-			$groupManager = new \OC\Group\Manager($this->getUserManager());
+			$groupManager = new \OC\Group\Manager($this->getUserManager(), $this->getLogger());
 			$groupManager->listen('\OC\Group', 'preCreate', function ($gid) {
 				\OC_Hook::emit('OC_Group', 'pre_createGroup', array('run' => true, 'gid' => $gid));
 			});
