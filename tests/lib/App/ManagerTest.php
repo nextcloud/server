@@ -130,11 +130,14 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('no', $this->appConfig->getValue('files_trashbin', 'enabled', 'no'));
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
 	public function testNotEnableIfNotInstalled() {
-		$this->manager->enableApp('some_random_name_which_i_hope_is_not_an_app');
+		try {
+			$this->manager->enableApp('some_random_name_which_i_hope_is_not_an_app');
+			$this->assertFalse(true, 'If this line is reached the expected exception is not thrown.');
+		} catch (\Exception $e) {
+			// excpetion is expected
+			$this->assertEquals("some_random_name_which_i_hope_is_not_an_app can't be enabled since it is not installed.", $e->getMessage());
+		}
 		$this->assertEquals('no', $this->appConfig->getValue(
 			'some_random_name_which_i_hope_is_not_an_app', 'enabled', 'no'
 		));
