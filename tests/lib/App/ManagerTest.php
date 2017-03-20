@@ -134,10 +134,11 @@ class ManagerTest extends TestCase {
 		try {
 			$this->manager->enableApp('some_random_name_which_i_hope_is_not_an_app');
 			$this->assertFalse(true, 'If this line is reached the expected exception is not thrown.');
-		} catch (\Exception $e) {
-			// excpetion is expected
-			$this->assertEquals("some_random_name_which_i_hope_is_not_an_app can't be enabled since it is not installed.", $e->getMessage());
+		} catch (AppPathNotFoundException $e) {
+			// Exception is expected
+			$this->assertEquals('Could not find path for some_random_name_which_i_hope_is_not_an_app', $e->getMessage());
 		}
+
 		$this->assertEquals('no', $this->appConfig->getValue(
 			'some_random_name_which_i_hope_is_not_an_app', 'enabled', 'no'
 		));
