@@ -170,7 +170,6 @@ trait WebDav {
 	public function downloadPublicFileWithRange($range){
 		$token = $this->lastShareData->data->token;
 		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/webdav";
-		$headers['Range'] = $range;
 
 		$client = new GClient();
 		$options = [];
@@ -189,7 +188,6 @@ trait WebDav {
 	public function downloadPublicFileInsideAFolderWithRange($path, $range){
 		$token = $this->lastShareData->data->token;
 		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/webdav" . "$path";
-		$headers['Range'] = $range;
 
 		$client = new GClient();
 		$options = [];
@@ -437,16 +435,17 @@ trait WebDav {
 	public function getSabreClient($user) {
 		$fullUrl = substr($this->baseUrl, 0, -4);
 
-		$settings = array(
+		$settings = [
 			'baseUri' => $fullUrl,
 			'userName' => $user,
-		);
+		];
 
 		if ($user === 'admin') {
 			$settings['password'] = $this->adminUser[1];
 		} else {
 			$settings['password'] = $this->regularUser;
 		}
+		$settings['authType'] = SClient::AUTH_BASIC;
 
 		return new SClient($settings);
 	}
@@ -634,15 +633,17 @@ trait WebDav {
 	/*Set the elements of a proppatch, $folderDepth requires 1 to see elements without children*/
 	public function changeFavStateOfAnElement($user, $path, $favOrUnfav, $folderDepth, $properties = null){
 		$fullUrl = substr($this->baseUrl, 0, -4);
-		$settings = array(
+		$settings = [
 			'baseUri' => $fullUrl,
 			'userName' => $user,
-		);
+		];
 		if ($user === 'admin') {
 			$settings['password'] = $this->adminUser[1];
 		} else {
 			$settings['password'] = $this->regularUser;
 		}
+		$settings['authType'] = SClient::AUTH_BASIC;
+
 		$client = new SClient($settings);
 		if (!$properties) {
 			$properties = [
