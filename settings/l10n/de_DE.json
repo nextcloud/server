@@ -18,6 +18,7 @@
     "Unable to add group." : "Gruppe konnte nicht angelegt werden.",
     "Unable to delete group." : "Gruppe konnte nicht gelöscht werden.",
     "test email settings" : "E-Mail-Einstellungen testen",
+    "Mail could not be sent. Check your mail server log" : "E-Mail konnte nicht versendet werden. Bitte die Logs des Mail-Servers prüfen.",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Beim Senden der E-Mail ist ein Problem aufgetreten. Bitte überprüfen Sie Ihre Einstellungen. (Fehler: %s)",
     "Email sent" : "E-Mail gesendet",
     "You need to set your user email before being able to send test emails." : "Sie müssen Ihre Benutzer-E-Mail-Adresse einstellen, bevor Sie Test-E-Mails versenden können.",

@@ -20,6 +20,7 @@ OC.L10N.register(
     "Unable to add group." : "Impossible d'ajouter le groupe.",
     "Unable to delete group." : "Impossible de supprimer le groupe.",
     "test email settings" : "Test des paramètres e-mail",
+    "Mail could not be sent. Check your mail server log" : "L'email n'a pu être envoyé. Vérifiez le journal du serveur de messagerie",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Une erreur est survenue lors de l'envoi de l'e-mail. Veuillez vérifier vos paramètres. (Erreur: %s)",
     "Email sent" : "E-mail envoyé",
     "You need to set your user email before being able to send test emails." : "Vous devez définir une adresse e-mail dans vos paramètres personnels avant de pouvoir envoyer des e-mails de test.",

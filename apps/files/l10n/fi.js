@@ -44,6 +44,7 @@ OC.L10N.register(
     "Could not create file \"{file}\" because it already exists" : "Tiedostoa \"{file}\" ei voitu luoda, koska se on jo olemassa",
     "Could not create folder \"{dir}\" because it already exists" : "Kansiota \"{dir}\" ei voitu luoda, koska se on jo olemassa",
     "Error deleting file \"{fileName}\"." : "Virhe poistaessa tiedostoa \"{fileName}\".",
+    "No search results in other folders for {tag}{filter}{endtag}" : "Ei hakutuloksia muissa kansioissa haulla {tag}{filter}{endtag}",
     "Name" : "Nimi",
     "Size" : "Koko",
     "Modified" : "Muokattu",
@@ -164,6 +165,9 @@ OC.L10N.register(
     "%2$s restored %1$s" : "%2$s palautti kohteen %1$s",
     "Changed by %2$s" : "Muuttanut %2$s",
     "Deleted by %2$s" : "Poistanut %2$s",
-    "Restored by %2$s" : "Palauttanut %2$s"
+    "Restored by %2$s" : "Palauttanut %2$s",
+    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["{hours}:{minutes}:{seconds} tunti jäljellä","{hours}:{minutes}:{seconds} tuntia jäljellä"],
+    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["{minutes}:{seconds} minuutti jäljellä","{minutes}:{seconds} minuuttia jäljellä"],
+    "_{seconds} second left_::_{seconds} seconds left_" : ["{seconds} sekunti jäljellä","{seconds} sekuntia jäljellä"]
 },
 "nplurals=2; plural=(n != 1);");
