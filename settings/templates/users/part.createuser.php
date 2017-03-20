@@ -2,14 +2,14 @@
 	<form id="newuser" autocomplete="off">
 		<input id="newusername" type="text"
 			placeholder="<?php p($l->t('Username'))?>"
-			autocomplete="off" autocapitalize="off" autocorrect="off" />
+			autocomplete="off" autocapitalize="none" autocorrect="off" />
 		<input
 			type="password" id="newuserpassword"
 			placeholder="<?php p($l->t('Password'))?>"
-			autocomplete="off" autocapitalize="off" autocorrect="off" />
+			autocomplete="off" autocapitalize="none" autocorrect="off" />
 		<input id="newemail" type="text" style="display:none"
 			   placeholder="<?php p($l->t('E-Mail'))?>"
-			   autocomplete="off" autocapitalize="off" autocorrect="off" />
+			   autocomplete="off" autocapitalize="none" autocorrect="off" />
 		<div class="groups"><div class="groupsListContainer multiselect button" data-placeholder="<?php p($l->t('Groups'))?>"><span class="title groupsList"></span><span class="icon-triangle-s"></span></div></div>
 		<input type="submit" class="button" value="<?php p($l->t('Create'))?>" />
 	</form>
