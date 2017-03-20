@@ -253,10 +253,10 @@ class DefaultTokenProvider implements IProvider {
 	 */
 	public function invalidateOldTokens() {
 		$olderThan = $this->time->getTime() - (int) $this->config->getSystemValue('session_lifetime', 60 * 60 * 24);
-		$this->logger->debug('Invalidating session tokens older than ' . date('c', $olderThan));
+		$this->logger->debug('Invalidating session tokens older than ' . date('c', $olderThan), ['app' => 'cron']);
 		$this->mapper->invalidateOld($olderThan, IToken::DO_NOT_REMEMBER);
 		$rememberThreshold = $this->time->getTime() - (int) $this->config->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
-		$this->logger->debug('Invalidating remembered session tokens older than ' . date('c', $rememberThreshold));
+		$this->logger->debug('Invalidating remembered session tokens older than ' . date('c', $rememberThreshold), ['app' => 'cron']);
 		$this->mapper->invalidateOld($rememberThreshold, IToken::REMEMBER);
 	}
 
