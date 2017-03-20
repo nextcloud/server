@@ -32,7 +32,6 @@
 namespace OC\App;
 
 use OCP\App\AppPathNotFoundException;
-use OC_App;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
 use OCP\IAppConfig;
@@ -56,17 +55,20 @@ class AppManager implements IAppManager {
 		'prevent_group_restriction',
 	];
 
-	/** @var \OCP\IUserSession */
+	/** @var IUserSession */
 	private $userSession;
 
-	/** @var \OCP\IAppConfig */
+	/** @var IAppConfig */
 	private $appConfig;
 
-	/** @var \OCP\IGroupManager */
+	/** @var IGroupManager */
 	private $groupManager;
 
-	/** @var \OCP\ICacheFactory */
+	/** @var ICacheFactory */
 	private $memCacheFactory;
+
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
 
 	/** @var string[] $appId => $enabled */
 	private $installedAppsCache;
@@ -77,14 +79,12 @@ class AppManager implements IAppManager {
 	/** @var string[] */
 	private $alwaysEnabled;
 
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
-
 	/**
-	 * @param \OCP\IUserSession $userSession
-	 * @param \OCP\IAppConfig $appConfig
-	 * @param \OCP\IGroupManager $groupManager
-	 * @param \OCP\ICacheFactory $memCacheFactory
+	 * @param IUserSession $userSession
+	 * @param IAppConfig $appConfig
+	 * @param IGroupManager $groupManager
+	 * @param ICacheFactory $memCacheFactory
+	 * @param EventDispatcherInterface $dispatcher
 	 */
 	public function __construct(IUserSession $userSession,
 								IAppConfig $appConfig,
@@ -152,7 +152,7 @@ class AppManager implements IAppManager {
 		if ($this->isAlwaysEnabled($appId)) {
 			return true;
 		}
-		if (is_null($user)) {
+		if ($user === null) {
 			$user = $this->userSession->getUser();
 		}
 		$installedApps = $this->getInstalledAppsValues();
@@ -171,7 +171,7 @@ class AppManager implements IAppManager {
 	private function checkAppForUser($enabled, $user) {
 		if ($enabled === 'yes') {
 			return true;
-		} elseif (is_null($user)) {
+		} elseif ($user === null) {
 			return false;
 		} else {
 			if(empty($enabled)){
@@ -188,7 +188,7 @@ class AppManager implements IAppManager {
 
 			$userGroups = $this->groupManager->getUserGroupIds($user);
 			foreach ($userGroups as $groupId) {
-				if (array_search($groupId, $groupIds) !== false) {
+				if (in_array($groupId, $groupIds, true)) {
 					return true;
 				}
 			}
@@ -211,12 +211,12 @@ class AppManager implements IAppManager {
 	 * Enable an app for every user
 	 *
 	 * @param string $appId
-	 * @throws \Exception
+	 * @throws AppPathNotFoundException
 	 */
 	public function enableApp($appId) {
-		if(OC_App::getAppPath($appId) === false) {
-			throw new \Exception("$appId can't be enabled since it is not installed.");
-		}
+		// Check if app exists
+		$this->getAppPath($appId);
+
 		$this->installedAppsCache[$appId] = 'yes';
 		$this->appConfig->setValue($appId, 'enabled', 'yes');
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(
@@ -312,12 +312,12 @@ class AppManager implements IAppManager {
 	/**
 	 * Returns a list of apps that need upgrade
 	 *
-	 * @param array $version ownCloud version as array of version components
+	 * @param string $version Nextcloud version as array of version components
 	 * @return array list of app info from apps that need an upgrade
 	 *
 	 * @internal
 	 */
-	public function getAppsNeedingUpgrade($ocVersion) {
+	public function getAppsNeedingUpgrade($version) {
 		$appsToUpgrade = [];
 		$apps = $this->getInstalledApps();
 		foreach ($apps as $appId) {
@@ -326,7 +326,7 @@ class AppManager implements IAppManager {
 			if ($appDbVersion
 				&& isset($appInfo['version'])
 				&& version_compare($appInfo['version'], $appDbVersion, '>')
-				&& \OC_App::isAppCompatible($ocVersion, $appInfo)
+				&& \OC_App::isAppCompatible($version, $appInfo)
 			) {
 				$appsToUpgrade[] = $appInfo;
 			}
@@ -356,7 +356,7 @@ class AppManager implements IAppManager {
 	/**
 	 * Returns a list of apps incompatible with the given version
 	 *
-	 * @param array $version ownCloud version as array of version components
+	 * @param string $version Nextcloud version as array of version components
 	 *
 	 * @return array list of app info from incompatible apps
 	 *
@@ -379,16 +379,16 @@ class AppManager implements IAppManager {
 	 */
 	public function isShipped($appId) {
 		$this->loadShippedJson();
-		return in_array($appId, $this->shippedApps);
+		return in_array($appId, $this->shippedApps, true);
 	}
 
 	private function isAlwaysEnabled($appId) {
 		$alwaysEnabled = $this->getAlwaysEnabledApps();
-		return in_array($appId, $alwaysEnabled);
+		return in_array($appId, $alwaysEnabled, true);
 	}
 
 	private function loadShippedJson() {
-		if (is_null($this->shippedApps)) {
+		if ($this->shippedApps === null) {
 			$shippedJson = \OC::$SERVERROOT . '/core/shipped.json';
 			if (!file_exists($shippedJson)) {
 				throw new \Exception("File not found: $shippedJson");

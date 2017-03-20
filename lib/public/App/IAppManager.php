@@ -57,6 +57,7 @@ interface IAppManager {
 	 * Enable an app for every user
 	 *
 	 * @param string $appId
+	 * @throws AppPathNotFoundException
 	 * @since 8.0.0
 	 */
 	public function enableApp($appId);

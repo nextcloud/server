@@ -306,6 +306,12 @@ Feature: provisioning
 		Then the OCS status code should be "100"
 		And the HTTP status code should be "200"
 
+	Scenario: get app info from app that does not exist
+		Given As an "admin"
+		When sending "GET" to "/cloud/apps/this_app_should_never_exist"
+		Then the OCS status code should be "998"
+		And the HTTP status code should be "200"
+
 	Scenario: enable an app
 		Given As an "admin"
 		And app "testing" is disabled
@@ -313,6 +319,12 @@ Feature: provisioning
 		Then the OCS status code should be "100"
 		And the HTTP status code should be "200"
 		And app "testing" is enabled
+
+	Scenario: enable an app that does not exist
+		Given As an "admin"
+		When sending "POST" to "/cloud/apps/this_app_should_never_exist"
+		Then the OCS status code should be "998"
+		And the HTTP status code should be "200"
 
 	Scenario: disable an app
 		Given As an "admin"
