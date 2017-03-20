@@ -35,9 +35,7 @@ class AppManagerTest extends TestCase {
 	 */
 	protected function getAppConfig() {
 		$appConfig = array();
-		$config = $this->getMockBuilder(IAppConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$config = $this->createMock(IAppConfig::class);
 
 		$config->expects($this->any())
 			->method('getValue')
@@ -95,22 +93,12 @@ class AppManagerTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->userSession = $this->getMockBuilder(IUserSession::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->groupManager = $this->getMockBuilder(IGroupManager::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->appConfig = $this->getAppConfig();
-		$this->cacheFactory = $this->getMockBuilder(ICacheFactory::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->cache = $this->getMockBuilder(ICache::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->eventDispatcher = $this->getMockBuilder(EventDispatcherInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->cache = $this->createMock(ICache::class);
+		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->cacheFactory->expects($this->any())
 			->method('create')
 			->with('settings')
@@ -267,12 +255,8 @@ class AppManagerTest extends TestCase {
 	}
 
 	private function newUser($uid) {
-		$config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$urlgenerator = $this->getMockBuilder(IURLGenerator::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$config = $this->createMock(IConfig::class);
+		$urlgenerator = $this->createMock(IURLGenerator::class);
 
 		return new User($uid, null, null, $config, $urlgenerator);
 	}
