@@ -24,6 +24,7 @@ namespace Test;
 
 use DOMDocument;
 use DOMNode;
+use OC\Cache\CappedMemoryCache;
 use OC\Command\QueueBus;
 use OC\Files\Filesystem;
 use OC\Template\Base;
@@ -33,7 +34,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\Security\ISecureRandom;
 
-abstract class TestCase extends TestCasePhpUnitCompatibility {
+abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	/** @var \OC\Command\QueueBus */
 	private $commandBus;
 
@@ -152,7 +153,7 @@ abstract class TestCase extends TestCasePhpUnitCompatibility {
 		}
 	}
 
-	protected function realOnNotSuccessfulTest() {
+	protected function onNotSuccessfulTest($e) {
 		$this->restoreAllServices();
 
 		// restore database connection
@@ -161,6 +162,8 @@ abstract class TestCase extends TestCasePhpUnitCompatibility {
 				return self::$realDatabase;
 			});
 		}
+
+		parent::onNotSuccessfulTest($e);
 	}
 
 	protected function tearDown() {
