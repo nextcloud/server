@@ -177,6 +177,10 @@ window.isPhantom = /phantom/i.test(navigator.userAgent);
 		delete($.fn.select2);
 
 		ajaxErrorStub.restore();
+
+		// reset pop state handlers
+		OC.Util.History._handlers = [];
+
 	});
 })();
 
