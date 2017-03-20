@@ -116,15 +116,32 @@ class ManagerTest extends TestCase {
 
 	public function testEnableApp() {
 		$this->expectClearCache();
-		$this->manager->enableApp('test');
-		$this->assertEquals('yes', $this->appConfig->getValue('test', 'enabled', 'no'));
+		// making sure "files_trashbin" is disabled
+		if ($this->manager->isEnabledForUser('files_trashbin')) {
+			$this->manager->disableApp('files_trashbin');
+		}
+		$this->manager->enableApp('files_trashbin');
+		$this->assertEquals('yes', $this->appConfig->getValue('files_trashbin', 'enabled', 'no'));
 	}
 
 	public function testDisableApp() {
 		$this->expectClearCache();
-		$this->manager->disableApp('test');
-		$this->assertEquals('no', $this->appConfig->getValue('test', 'enabled', 'no'));
+		$this->manager->disableApp('files_trashbin');
+		$this->assertEquals('no', $this->appConfig->getValue('files_trashbin', 'enabled', 'no'));
 	}
+
+	public function testNotEnableIfNotInstalled() {
+		try {
+			$this->manager->enableApp('some_random_name_which_i_hope_is_not_an_app');
+			$this->assertFalse(true, 'If this line is reached the expected exception is not thrown.');
+		} catch (\Exception $e) {
+			// excpetion is expected
+			$this->assertEquals("some_random_name_which_i_hope_is_not_an_app can't be enabled since it is not installed.", $e->getMessage());
+		}
+		$this->assertEquals('no', $this->appConfig->getValue(
+			'some_random_name_which_i_hope_is_not_an_app', 'enabled', 'no'
+		));
+  	}
 
 	public function testEnableAppForGroups() {
 		$groups = array(
