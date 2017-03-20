@@ -269,7 +269,7 @@ class SCSSCacherTest extends \Test\TestCase {
 				'fileName' => 'styles.css',
 				'appName' => $appName
 			])
-			->willReturn($result);
+			->willReturn(\OC::$WEBROOT . $result);
 		$actual = $this->scssCacher->getCachedSCSS($appName, $fileName);
 		$this->assertEquals(substr($result, 1), $actual);
 	}
