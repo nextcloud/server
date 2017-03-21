@@ -76,6 +76,8 @@
     "Public upload is only possible for publicly shared folders" : "Herkese açık yükleme ancak herkese açık paylaşılmış klasörlere yapılabilir",
     "Invalid date, date format must be YYYY-MM-DD" : "Tarih geçersiz. Tarih biçimi YYYY-AA-GG olmalıdır",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Arka uç %s türündeki paylaşımlara izin vermediğinden %s paylaşılamadı",
+    "You cannot share to a Circle if the app is not enabled" : "Uygulama etkinleştirilmemiş ise bir Çevre ile paylaşamazsınız",
+    "Please specify a valid circle" : "Lütfen geçerli bir çevre belirtin",
     "Unknown share type" : "Paylaşım türü bilinmiyor",
     "Not a directory" : "Bir klasör değil",
     "Could not lock path" : "Yol kilitlenemedi",

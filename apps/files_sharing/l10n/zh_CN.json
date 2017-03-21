@@ -76,6 +76,8 @@
     "Public upload is only possible for publicly shared folders" : "公共上传仅适用于公共共享文件夹",
     "Invalid date, date format must be YYYY-MM-DD" : "无效的日期，日期格式必须是 YYYY-MM-DD",
     "Sharing %s failed because the back end does not allow shares from type %s" : "共享 %s 失败，后端不允许共享 %s 类型",
+    "You cannot share to a Circle if the app is not enabled" : "如果这个应用程序不可用，你不能分享到圈子",
+    "Please specify a valid circle" : "请指明一个可用圈子",
     "Unknown share type" : "未知共享类型",
     "Not a directory" : "不是一个目录",
     "Could not lock path" : "无法锁定路径",

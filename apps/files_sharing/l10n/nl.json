@@ -76,6 +76,8 @@
     "Public upload is only possible for publicly shared folders" : "Publieke upload is alleen mogelijk voor publiek gedeelde mappen",
     "Invalid date, date format must be YYYY-MM-DD" : "Ongeldige datum, datumnotatie moet in de vorm YYYY-MM-DD",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Delen van %s mislukte omdat de backend het delen van type %s niet ondersteunt",
+    "You cannot share to a Circle if the app is not enabled" : "Je kunt niets met een cirkel delen als de app aan staat.",
+    "Please specify a valid circle" : "Geef een geldige circel op",
     "Unknown share type" : "Onbekend type share",
     "Not a directory" : "Geen directory",
     "Could not lock path" : "Kon pad niet blokkeren",

@@ -126,6 +126,6 @@ OC.L10N.register(
     "Delete" : "Verwijder",
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
     "Allow users to mount the following external storage" : "Sta gebruikers toe de volgende externe opslag aan te koppelen",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Kon geen informatie van de ownCloud server krijgen: {code} {type}"
+    "Couldn't get the information from the ownCloud server: {code} {type}" : "Kon geen informatie van de Nextcloud server krijgen: {code} {type}"
 },
 "nplurals=2; plural=(n != 1);");

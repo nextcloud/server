@@ -78,6 +78,8 @@ OC.L10N.register(
     "Public upload is only possible for publicly shared folders" : "Le téléversement public est possible uniquement pour les dossiers partagés publiquement",
     "Invalid date, date format must be YYYY-MM-DD" : "Date invalide, le format doit être YYYY-MM-DD",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Le partage %s a échoué parce que l'infrastructure n'autorise pas les partages du type %s",
+    "You cannot share to a Circle if the app is not enabled" : "Vous ne pouvez pas partager au Cercle si l'application n'est pas activée",
+    "Please specify a valid circle" : "Veuillez entrer un cercle valide",
     "Unknown share type" : "Type de partage inconnu",
     "Not a directory" : "N'est pas un répertoire",
     "Could not lock path" : "Impossible de verrouiller le chemin",
