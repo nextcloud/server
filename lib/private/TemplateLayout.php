@@ -213,12 +213,15 @@ class TemplateLayout extends \OC_Template {
 		$theme = \OC_Util::getTheme();
 
 		if($compileScss) {
+			/** @var \OC\Memcache\Factory $cache */
+			$cache = \OC::$server->query('MemCacheFactory');
 			$SCSSCacher = new SCSSCacher(
 				\OC::$server->getLogger(),
 				\OC::$server->getAppDataDir('css'),
 				\OC::$server->getURLGenerator(),
 				\OC::$server->getConfig(),
-				\OC::$SERVERROOT
+				\OC::$SERVERROOT,
+				$cache->createLocal('SCSS')
 			);
 		} else {
 			$SCSSCacher = null;

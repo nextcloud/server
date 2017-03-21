@@ -28,6 +28,7 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\ICache;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IURLGenerator;
@@ -57,7 +58,8 @@ class SCSSCacherTest extends \Test\TestCase {
 			$this->appData,
 			$this->urlGenerator,
 			$this->config,
-			\OC::$SERVERROOT
+			\OC::$SERVERROOT,
+			$this->createMock(ICache::class)
 		);
 	}
 

@@ -30,6 +30,7 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\ICache;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IURLGenerator;
@@ -51,23 +52,29 @@ class SCSSCacher {
 	/** @var string */
 	protected $serverRoot;
 
+	/** @var ICache */
+	protected $depsCache;
+
 	/**
 	 * @param ILogger $logger
 	 * @param IAppData $appData
 	 * @param IURLGenerator $urlGenerator
-	 * @param SystemConfig $systemConfig
+	 * @param IConfig $config
 	 * @param string $serverRoot
+	 * @param ICache $depsCache
 	 */
 	public function __construct(ILogger $logger,
 								IAppData $appData,
 								IURLGenerator $urlGenerator,
 								IConfig $config,
-								$serverRoot) {
+								$serverRoot,
+								ICache $depsCache) {
 		$this->logger = $logger;
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
 		$this->config = $config;
 		$this->serverRoot = $serverRoot;
+		$this->depsCache = $depsCache;
 	}
 
 	/**
@@ -94,7 +101,7 @@ class SCSSCacher {
 			$folder = $this->appData->newFolder($app);
 		}
 
-		if($this->isCached($fileNameCSS, $fileNameSCSS, $folder, $path)) {
+		if($this->isCached($fileNameCSS, $folder)) {
 			return true;
 		}
 		return $this->cache($path, $fileNameCSS, $fileNameSCSS, $folder, $webDir);
@@ -103,17 +110,22 @@ class SCSSCacher {
 	/**
 	 * Check if the file is cached or not
 	 * @param string $fileNameCSS
-	 * @param string $fileNameSCSS
 	 * @param ISimpleFolder $folder
-	 * @param string $path
 	 * @return boolean
 	 */
-	private function isCached($fileNameCSS, $fileNameSCSS, ISimpleFolder $folder, $path) {
+	private function isCached($fileNameCSS, ISimpleFolder $folder) {
 		try {
 			$cachedFile = $folder->getFile($fileNameCSS);
 			if ($cachedFile->getSize() > 0) {
-				$depFile = $folder->getFile($fileNameCSS . '.deps');
-				$deps = json_decode($depFile->getContent(), true);
+				$depFileName = $fileNameCSS . '.deps';
+				$deps = $this->depsCache->get($folder->getName() . '-' . $depFileName);
+				if ($deps === null) {
+					$depFile = $folder->getFile($depFileName);
+					$deps = $depFile->getContent();
+					//Set to memcache for next run
+					$this->depsCache->set($folder->getName() . '-' . $depFileName, $deps);
+				}
+				$deps = json_decode($deps, true);
 
 				foreach ($deps as $file=>$mtime) {
 					if (!file_exists($file) || filemtime($file) > $mtime) {
