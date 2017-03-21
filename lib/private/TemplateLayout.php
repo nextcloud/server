@@ -150,7 +150,6 @@ class TemplateLayout extends \OC_Template {
 					\OC::$server->getURLGenerator()
 				);
 				$this->assign('inline_ocjs', $jsConfigHelper->getConfig());
-				$this->assign('foo', 'bar');
 			} else {
 				$this->append('jsfiles', \OC::$server->getURLGenerator()->linkToRoute('core.OCJS.getConfig', ['v' => self::$versionHash]));
 			}
