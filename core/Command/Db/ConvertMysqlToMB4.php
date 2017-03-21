@@ -72,7 +72,7 @@ class ConvertMysqlToMB4 extends Command {
 		}
 
 		if (!$this->connection->supports4ByteText()) {
-			$url = $this->urlGenerator->linkToDocs('admin-db-conversion');
+			$url = $this->urlGenerator->linkToDocs('admin-mysql-utf8mb4');
 			$output->writeln("The database is not properly setup to use the charset utf8mb4.");
 			$output->writeln("Also check that the setting 'mysql.utf8mb4' is set to true in the config.php.");
 			$output->writeln("For more information please read the documentation at $url");
