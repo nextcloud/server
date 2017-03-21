@@ -80,7 +80,7 @@ class Users extends Base {
 		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_USER_SELF) {
 			$subject = $this->l->t('You removed {user} from {file}');
 		} else if ($event->getSubject() === self::SUBJECT_RESHARED_USER_BY) {
-			$subject = $this->l->t('{actor} removed {user} from {file}');
+			$subject = $this->l->t('{actor} shared {file} with {user}');
 		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_USER_BY) {
 			$subject = $this->l->t('{actor} removed {user} from {file}');
 		} else if ($event->getSubject() === self::SUBJECT_SHARED_WITH_BY) {
