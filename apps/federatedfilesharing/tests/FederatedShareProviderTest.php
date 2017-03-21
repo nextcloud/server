@@ -32,6 +32,8 @@ use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\TokenHandler;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\IRootFolder;
+use OCP\Http\Client\IClientService;
+use OCP\ICache;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -99,7 +101,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
 
-		$this->cloudIdManager = new CloudIdManager();
+		$this->cloudIdManager = new CloudIdManager($this->createMock(IClientService::class), $this->createMock(ICache::class));
 
 		$this->provider = new FederatedShareProvider(
 			$this->connection,

@@ -106,7 +106,7 @@ class RequestHandlerControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->userManager = $this->getMockBuilder('OCP\IUserManager')->getMock();
 
-		$this->cloudIdManager = new CloudIdManager();
+		$this->cloudIdManager = new CloudIdManager($this->createMock(IClientService::class), $this->createMock(ICache::class));
 		
 		$this->registerHttpHelper($httpHelperMock);
 

@@ -98,7 +98,7 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 		$this->l10n = $this->getMockBuilder('OCP\IL10N')->disableOriginalConstructor()->getMock();
 		$this->userSession = $this->getMockBuilder('OCP\IUserSession')->disableOriginalConstructor()->getMock();
 		$this->clientService = $this->getMockBuilder('OCP\Http\Client\IClientService')->disableOriginalConstructor()->getMock();
-		$this->cloudIdManager = new CloudIdManager();
+		$this->cloudIdManager = new CloudIdManager($this->createMock(IClientService::class), $this->createMock(ICache::class));
 
 		$this->controller = new MountPublicLinkController(
 			'federatedfilesharing', $this->request,

@@ -22,8 +22,29 @@ namespace OC\Federation;
 
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
+use OCP\Http\Client\IClientService;
+use OCP\ICache;
 
 class CloudIdManager implements ICloudIdManager {
+	/** @var IClientService */
+	private $clientService;
+
+	/** @var ICache */
+	private $cache;
+
+	const CACHE_TTL = 5 * 60;
+
+	/**
+	 * CloudIdManager constructor.
+	 *
+	 * @param IClientService $clientService
+	 * @param ICache $cache
+	 */
+	public function __construct($clientService, $cache) {
+		$this->clientService = $clientService;
+		$this->cache = $cache;
+	}
+
 	/**
 	 * @param string $cloudId
 	 * @return ICloudId
@@ -61,6 +82,12 @@ class CloudIdManager implements ICloudIdManager {
 		if ($pos !== false) {
 			$user = substr($id, 0, $pos);
 			$remote = substr($id, $pos + 1);
+
+			$wellKnownResult = $this->resolveWellKnown($remote, $id);
+			if ($wellKnownResult instanceof ICloudId) {
+				return $wellKnownResult;
+			}
+
 			if (!empty($user) && !empty($remote)) {
 				return new CloudId($id, $user, $remote);
 			}
@@ -75,7 +102,7 @@ class CloudIdManager implements ICloudIdManager {
 	 */
 	public function getCloudId($user, $remote) {
 		// TODO check what the correct url is for remote (asking the remote)
-		return new CloudId($user. '@' . $remote, $user, $remote);
+		return new CloudId($user . '@' . $remote, $user, $remote);
 	}
 
 	/**
@@ -106,5 +133,53 @@ class CloudIdManager implements ICloudIdManager {
 	 */
 	public function isValidCloudId($cloudId) {
 		return strpos($cloudId, '@') !== false;
+	}
+
+	private function resolveWellKnown($remote, $id) {
+		$cachedEntry = $this->cache->get($id);
+		if ($cachedEntry === false) {
+			return false;
+		}
+		if (is_array($cachedEntry)) {
+			return new CloudId($id, $cachedEntry['user'], $cachedEntry['remote']);
+		}
+
+		if (strpos($remote, '://')) {
+			$result = $this->tryWellKnown($remote, $id);
+		} else {
+			$result = $this->tryWellKnown('https://' . $remote, $id);
+			if (!$result) {
+				$result = $this->tryWellKnown('http://' . $remote, $id);
+			}
+		}
+
+		if ($result && $result['found']) {
+			$this->cache->set($id, $result, self::CACHE_TTL);
+			return new CloudId($id, $result['user'], $result['remote']);
+		} else {
+			$this->cache->set($id, false, self::CACHE_TTL);
+			return false;
+		}
+	}
+
+	private function tryWellKnown($remote, $id) {
+		$client = $this->clientService->newClient();
+		if (!$client) {
+			return false;
+		}
+		try {
+			$response = $client->get($remote . '/.well-known/cloud-id', [
+				'query' => [
+					'id' => $id
+				]
+			]);
+			if (!$response) {
+				return false;
+			}
+			$body = $response->getBody();
+			return @json_decode($body, true);
+		} catch (\Exception $e) {
+			return false;
+		}
 	}
 }

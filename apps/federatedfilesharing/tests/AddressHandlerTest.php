@@ -52,7 +52,7 @@ class AddressHandlerTest extends \Test\TestCase {
 		$this->il10n = $this->getMockBuilder('OCP\IL10N')
 			->getMock();
 
-		$this->cloudIdManager = new CloudIdManager();
+		$this->cloudIdManager = new CloudIdManager($this->createMock(IClientService::class), $this->createMock(ICache::class));
 
 		$this->addressHandler = new AddressHandler($this->urlGenerator, $this->il10n, $this->cloudIdManager);
 	}
