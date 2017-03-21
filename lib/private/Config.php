@@ -40,7 +40,7 @@ namespace OC;
  */
 class Config {
 
-	const ENV_PREFIX = 'OC_';
+	const ENV_PREFIX = 'NC_';
 
 	/** @var array Associative array ($key => $value) */
 	protected $cache = array();
@@ -76,7 +76,7 @@ class Config {
 	/**
 	 * Returns a config value
 	 *
-	 * gets its value from an `OC_` prefixed environment variable
+	 * gets its value from an `NC_` prefixed environment variable
 	 * if it doesn't exist from config.php
 	 * if this doesn't exist either, it will return the given `$default`
 	 *

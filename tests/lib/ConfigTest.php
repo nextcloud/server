@@ -50,7 +50,7 @@ class ConfigTest extends TestCase {
 
 	public function testGetValueReturnsEnvironmentValueIfSet() {
 		$this->assertEquals('bar', $this->config->getValue('foo'));
-		putenv('OC_foo=baz');
+		putenv('NC_foo=baz');
 		$this->assertEquals('baz', $this->config->getValue('foo'));
 	}
 
