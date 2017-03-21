@@ -23,7 +23,6 @@
 namespace OCA\DAV\Avatars;
 
 
-use OCA\DAV\IPublicNode;
 use OCP\IAvatar;
 use Sabre\DAV\File;
 
