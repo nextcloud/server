@@ -76,6 +76,8 @@
     "Public upload is only possible for publicly shared folders" : "Julkinen lähettäminen on mahdollista vain julkisesti jaetuille kansioille",
     "Invalid date, date format must be YYYY-MM-DD" : "Virheellinen päiväys, päivämäärän muodon tulee olla YYYY-MM-DD",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Kohteen %s jakaminen epäonnistui, koska tietovarasto ei salli %s tyyppisiä jakoja",
+    "You cannot share to a Circle if the app is not enabled" : "Et voi jakaa piiriin, jos sovellusta ei ole aktivoitu",
+    "Please specify a valid circle" : "Määritä kelvollinen piiri",
     "Unknown share type" : "Tuntematon jaon tyyppi",
     "Not a directory" : "Ei hakemisto",
     "Could not lock path" : "Polun lukitseminen ei onnistunut",

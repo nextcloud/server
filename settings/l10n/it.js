@@ -377,7 +377,7 @@ OC.L10N.register(
     "Group" : "Gruppo",
     "Default Quota" : "Quota predefinita",
     "Full Name" : "Nome completo",
-    "Group Admin for" : "Gruppo di amministrazione per",
+    "Group Admin for" : "Amministratore per il gruppo",
     "Storage Location" : "Posizione di archiviazione",
     "User Backend" : "Motore utente",
     "Last Login" : "Ultimo accesso"

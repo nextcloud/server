@@ -152,6 +152,7 @@ OC.L10N.register(
     "{sharee} (group)" : "{sharee} (grup)",
     "{sharee} (remote)" : "{sharee} (uzak)",
     "{sharee} (email)" : "{sharee} (e-posta)",
+    "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
     "Share" : "Paylaş",
     "Share with people on other servers using their Federated Cloud ID username@example.com/nextcloud" : "Birleşmiş Bulut Kodu ile diğer sunucular üzerindeki kişiler ile paylaş username@example.com/nextcloud",
     "Share with users or by mail..." : "Kullanıcılar ya da e-posta ile paylaş...",

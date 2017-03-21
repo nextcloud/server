@@ -86,6 +86,8 @@
     "{user} restored {file}" : "{user} palautti tiedoston {file}",
     "You renamed {oldfile} to {newfile}" : "Uudelleennimesit tiedoston {oldfile} tiedostoksi {newfile}",
     "{user} renamed {oldfile} to {newfile}" : "{user} uudelleennimesi tiedoston {oldfile} tiedostoksi {newfile}",
+    "You moved {oldfile} to {newfile}" : "Siirsit tiedoston {oldfile} tiedostoksi {newfile}",
+    "{user} moved {oldfile} to {newfile}" : "{user} siirsi tiedoston {oldfile} tiedostoksi {newfile}",
     "A file has been added to or removed from your <strong>favorites</strong>" : "Tiedosto on lisätty tai poistettu <strong>suosikeista</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Tiedostoa tai kansiota on <strong>muutettu</strong> tai se on <strong>uudelleennimetty</strong>",
     "A new file or folder has been <strong>created</strong>" : "Uusi tiedosto tai kansio on <strong>luotu</strong>",
