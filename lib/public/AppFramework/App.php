@@ -65,7 +65,7 @@ class App {
 	 * @since 6.0.0
 	 */
 	public function __construct($appName, $urlParams = array()) {
-		$this->container = new \OC\AppFramework\DependencyInjection\DIContainer($appName, $urlParams);
+		$this->container = new \OC\AppFramework\DependencyInjection\DIContainer($appName, $urlParams, \OC::$server->getBasicContainer());
 	}
 
 	private $container;

@@ -24,6 +24,7 @@ namespace OC;
 
 
 use OC\AppFramework\App;
+use OC\AppFramework\DependencyInjection\BasicContainer;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Utility\SimpleContainer;
 use OCP\AppFramework\QueryException;
@@ -36,6 +37,9 @@ use OCP\AppFramework\QueryException;
 class ServerContainer extends SimpleContainer {
 	/** @var DIContainer[] */
 	protected $appContainers;
+
+	/** @var BasicContainer */
+	protected $basicContainer;
 
 	/**
 	 * ServerContainer constructor.
@@ -62,7 +66,7 @@ class ServerContainer extends SimpleContainer {
 			return $this->appContainers[$appName];
 		}
 
-		return new DIContainer($appName);
+		return new DIContainer($appName, [], $this->getBasicContainer());
 	}
 
 	/**
@@ -87,5 +91,12 @@ class ServerContainer extends SimpleContainer {
 		}
 
 		return parent::query($name);
+	}
+
+	public function getBasicContainer() {
+		if ($this->basicContainer === null) {
+			$this->basicContainer = new BasicContainer();
+		}
+		return $this->basicContainer;
 	}
 }

@@ -36,24 +36,15 @@ use OC;
 use OC\AppFramework\Core\API;
 use OC\AppFramework\Http;
 use OC\AppFramework\Http\Dispatcher;
-use OC\AppFramework\Http\Output;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Middleware\Security\CORSMiddleware;
 use OC\AppFramework\Middleware\OCSMiddleware;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\Utility\SimpleContainer;
-use OC\AppFramework\Utility\TimeFactory;
 use OC\Core\Middleware\TwoFactorMiddleware;
-use OC\RichObjectStrings\Validator;
-use OC\Security\Bruteforce\Throttler;
 use OCP\AppFramework\IApi;
 use OCP\AppFramework\IAppContainer;
-use OCP\Federation\ICloudIdManager;
-use OCP\Files\IAppData;
-use OCP\Files\Mount\IMountManager;
-use OCP\RichObjectStrings\IValidator;
-use OCP\Util;
 
 class DIContainer extends SimpleContainer implements IAppContainer {
 
@@ -62,307 +53,26 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 */
 	private $middleWares = array();
 
+	/** @var BasicContainer */
+	private $basicContainer;
+
 	/**
 	 * Put your class dependencies in here
 	 * @param string $appName the name of the app
+	 * @param array $urlParams
+	 * @param BasicContainer $basicContainer
 	 */
-	public function __construct($appName, $urlParams = array()){
+	public function __construct($appName, $urlParams = array(), BasicContainer $basicContainer){
 		parent::__construct();
+
+		$this->basicContainer = $basicContainer;
+
 		$this['AppName'] = $appName;
 		$this['urlParams'] = $urlParams;
 
 		/** @var \OC\ServerContainer $server */
 		$server = $this->getServer();
 		$server->registerAppContainer($appName, $this);
-
-		// aliases
-		$this->registerAlias('appName', 'AppName');
-		$this->registerAlias('webRoot', 'WebRoot');
-		$this->registerAlias('userId', 'UserId');
-
-		/**
-		 * Core services
-		 */
-		$this->registerService('OCP\\IAppConfig', function($c) {
-			return $this->getServer()->getAppConfig();
-		});
-
-		$this->registerService('OCP\\App\\IAppManager', function($c) {
-			return $this->getServer()->getAppManager();
-		});
-
-		$this->registerService('OCP\\AppFramework\\Http\\IOutput', function($c){
-			return new Output($this->getServer()->getWebRoot());
-		});
-
-		$this->registerService(\OCP\Authentication\LoginCredentials\IStore::class, function() {
-			return $this->getServer()->query(\OCP\Authentication\LoginCredentials\IStore::class);
-		});
-
-		$this->registerService('OCP\\IAvatarManager', function($c) {
-			return $this->getServer()->getAvatarManager();
-		});
-
-		$this->registerService('OCP\\Activity\\IManager', function($c) {
-			return $this->getServer()->getActivityManager();
-		});
-		$this->registerService(\OCP\Activity\IEventMerger::class, function($c) {
-			return $this->getServer()->query(\OCP\Activity\IEventMerger::class);
-		});
-
-		$this->registerService('OCP\\ICache', function($c) {
-			return $this->getServer()->getCache();
-		});
-
-		$this->registerService('OCP\\ICacheFactory', function($c) {
-			return $this->getServer()->getMemCacheFactory();
-		});
-
-		$this->registerService('OC\\CapabilitiesManager', function($c) {
-			return $this->getServer()->getCapabilitiesManager();
-		});
-
-		$this->registerService('OCP\Comments\ICommentsManager', function($c) {
-			return $this->getServer()->getCommentsManager();
-		});
-
-		$this->registerService('OCP\\IConfig', function($c) {
-			return $this->getServer()->getConfig();
-		});
-
-		$this->registerService('OCP\\Contacts\\IManager', function($c) {
-			return $this->getServer()->getContactsManager();
-		});
-
-		$this->registerService('OCP\\IDateTimeZone', function($c) {
-			return $this->getServer()->getDateTimeZone();
-		});
-
-		$this->registerService('OCP\\IDateTimeFormatter', function($c) {
-			return $this->getServer()->getDateTimeFormatter();
-		});
-
-		$this->registerService('OCP\\IDBConnection', function($c) {
-			return $this->getServer()->getDatabaseConnection();
-		});
-
-		$this->registerService('OCP\\Diagnostics\\IEventLogger', function($c) {
-			return $this->getServer()->getEventLogger();
-		});
-
-		$this->registerService('OCP\\Diagnostics\\IQueryLogger', function($c) {
-			return $this->getServer()->getQueryLogger();
-		});
-
-		$this->registerService(ICloudIdManager::class, function($c) {
-			return $this->getServer()->getCloudIdManager();
-		});
-
-		$this->registerService('OCP\\Files\\IMimeTypeDetector', function($c) {
-			return $this->getServer()->getMimeTypeDetector();
-		});
-
-		$this->registerService('OCP\\Files\\Config\\IMountProviderCollection', function($c) {
-			return $this->getServer()->getMountProviderCollection();
-		});
-
-		$this->registerService('OCP\\Files\\Config\\IUserMountCache', function($c) {
-			return $this->getServer()->getUserMountCache();
-		});
-
-		$this->registerService('OCP\\Files\\IRootFolder', function($c) {
-			return $this->getServer()->getRootFolder();
-		});
-
-		$this->registerService('OCP\\Files\\Folder', function() {
-			return $this->getServer()->getUserFolder();
-		});
-
-		$this->registerService('OCP\\Http\\Client\\IClientService', function($c) {
-			return $this->getServer()->getHTTPClientService();
-		});
-
-		$this->registerService(IAppData::class, function (SimpleContainer $c) {
-			return $this->getServer()->getAppDataDir($c->query('AppName'));
-		});
-
-		$this->registerService('OCP\\IGroupManager', function($c) {
-			return $this->getServer()->getGroupManager();
-		});
-
-		$this->registerService('OCP\\Http\\Client\\IClientService', function() {
-			return $this->getServer()->getHTTPClientService();
-		});
-
-		$this->registerService('OCP\\IL10N', function($c) {
-			return $this->getServer()->getL10N($c->query('AppName'));
-		});
-
-		$this->registerService('OCP\\L10N\\IFactory', function($c) {
-			return $this->getServer()->getL10NFactory();
-		});
-
-		$this->registerService('OCP\\ILogger', function($c) {
-			return $this->getServer()->getLogger();
-		});
-
-		$this->registerService('OCP\\BackgroundJob\\IJobList', function($c) {
-			return $this->getServer()->getJobList();
-		});
-
-		$this->registerAlias('OCP\\AppFramework\\Utility\\IControllerMethodReflector', 'OC\AppFramework\Utility\ControllerMethodReflector');
-		$this->registerAlias('ControllerMethodReflector', 'OCP\\AppFramework\\Utility\\IControllerMethodReflector');
-
-		$this->registerService('OCP\\Files\\IMimeTypeDetector', function($c) {
-			return $this->getServer()->getMimeTypeDetector();
-		});
-
-		$this->registerService('OCP\\Mail\\IMailer', function() {
-			return $this->getServer()->getMailer();
-		});
-
-		$this->registerService('OCP\\INavigationManager', function($c) {
-			return $this->getServer()->getNavigationManager();
-		});
-
-		$this->registerService('OCP\\Notification\IManager', function($c) {
-			return $this->getServer()->getNotificationManager();
-		});
-
-		$this->registerService('OCP\\IPreview', function($c) {
-			return $this->getServer()->getPreviewManager();
-		});
-
-		$this->registerService('OCP\\IRequest', function () {
-			return $this->getServer()->getRequest();
-		});
-		$this->registerAlias('Request', 'OCP\\IRequest');
-
-		$this->registerService('OCP\\ITagManager', function($c) {
-			return $this->getServer()->getTagManager();
-		});
-
-		$this->registerService('OCP\\ITempManager', function($c) {
-			return $this->getServer()->getTempManager();
-		});
-
-		$this->registerAlias('OCP\\AppFramework\\Utility\\ITimeFactory', 'OC\AppFramework\Utility\TimeFactory');
-		$this->registerAlias('TimeFactory', 'OCP\\AppFramework\\Utility\\ITimeFactory');
-
-
-		$this->registerService('OCP\\Route\\IRouter', function($c) {
-			return $this->getServer()->getRouter();
-		});
-
-		$this->registerService('OCP\\ISearch', function($c) {
-			return $this->getServer()->getSearch();
-		});
-
-		$this->registerService('OCP\\ISearch', function($c) {
-			return $this->getServer()->getSearch();
-		});
-
-		$this->registerService('OCP\\Security\\ICrypto', function($c) {
-			return $this->getServer()->getCrypto();
-		});
-
-		$this->registerService('OCP\\Security\\IHasher', function($c) {
-			return $this->getServer()->getHasher();
-		});
-
-		$this->registerService('OCP\\Security\\ICredentialsManager', function($c) {
-			return $this->getServer()->getCredentialsManager();
-		});
-
-		$this->registerService('OCP\\Security\\ISecureRandom', function($c) {
-			return $this->getServer()->getSecureRandom();
-		});
-
-		$this->registerService('OCP\\Share\\IManager', function($c) {
-			return $this->getServer()->getShareManager();
-		});
-
-		$this->registerService('OCP\\SystemTag\\ISystemTagManager', function() {
-			return $this->getServer()->getSystemTagManager();
-		});
-
-		$this->registerService('OCP\\SystemTag\\ISystemTagObjectMapper', function() {
-			return $this->getServer()->getSystemTagObjectMapper();
-		});
-
-		$this->registerService('OCP\\IURLGenerator', function($c) {
-			return $this->getServer()->getURLGenerator();
-		});
-
-		$this->registerService('OCP\\IUserManager', function($c) {
-			return $this->getServer()->getUserManager();
-		});
-
-		$this->registerService('OCP\\IUserSession', function($c) {
-			return $this->getServer()->getUserSession();
-		});
-		$this->registerAlias(\OC\User\Session::class, \OCP\IUserSession::class);
-
-		$this->registerService('OCP\\ISession', function($c) {
-			return $this->getServer()->getSession();
-		});
-
-		$this->registerService('OCP\\Security\\IContentSecurityPolicyManager', function($c) {
-			return $this->getServer()->getContentSecurityPolicyManager();
-		});
-
-		$this->registerService('ServerContainer', function ($c) {
-			return $this->getServer();
-		});
-		$this->registerAlias('OCP\\IServerContainer', 'ServerContainer');
-
-		$this->registerService('Symfony\Component\EventDispatcher\EventDispatcherInterface', function ($c) {
-			return $this->getServer()->getEventDispatcher();
-		});
-
-		$this->registerService('OCP\WorkflowEngine\IManager', function ($c) {
-			return $c->query('OCA\WorkflowEngine\Manager');
-		});
-
-		$this->registerService('OCP\\AppFramework\\IAppContainer', function ($c) {
-			return $c;
-		});
-		$this->registerService(IMountManager::class, function () {
-			return $this->getServer()->getMountManager();
-		});
-
-		// commonly used attributes
-		$this->registerService('UserId', function ($c) {
-			return $c->query('OCP\\IUserSession')->getSession()->get('user_id');
-		});
-
-		$this->registerService('WebRoot', function ($c) {
-			return $c->query('ServerContainer')->getWebRoot();
-		});
-
-		$this->registerService('fromMailAddress', function() {
-			return Util::getDefaultEmailAddress('no-reply');
-		});
-
-		$this->registerService('OC_Defaults', function ($c) {
-			return $c->getServer()->getThemingDefaults();
-		});
-
-		$this->registerService('OCP\Encryption\IManager', function ($c) {
-			return $this->getServer()->getEncryptionManager();
-		});
-
-		$this->registerService(IValidator::class, function($c) {
-			return $c->query(Validator::class);
-		});
-
-		$this->registerService(\OC\Security\IdentityProof\Manager::class, function ($c) {
-			return new \OC\Security\IdentityProof\Manager(
-				$this->getServer()->getAppDataDir('identityproof'),
-				$this->getServer()->getCrypto()
-			);
-		});
-
 
 		/**
 		 * App Framework APIs
@@ -568,7 +278,14 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 	}
 
-	public function query($name) {
-		return parent::query($name);
+	public function offsetExists($id) {
+		return parent::offsetExists($id) || $this->basicContainer->offsetExists($id);
+	}
+
+	public function offsetGet($id) {
+		if (!parent::offsetExists($id) && $this->basicContainer->offsetExists($id)) {
+			$this->offsetSet($id, $this->basicContainer->raw($id));
+		}
+		return parent::offsetGet($id);
 	}
 }
