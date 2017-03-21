@@ -86,7 +86,7 @@ class Config {
 	 */
 	public function getValue($key, $default = null) {
 		$envValue = getenv(self::ENV_PREFIX . $key);
-		if ($envValue) {
+		if ($envValue !== false) {
 			return $envValue;
 		}
 
