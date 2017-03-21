@@ -1234,8 +1234,12 @@ $CONFIG = array(
 'sqlite.journal_mode' => 'DELETE',
 
 /**
- * If this setting is set to true MySQL can handle 4 byte characters instead of
- * 3 byte characters
+ * If requirements are met (see below) this setting is set to true during setup
+ * and MySQL can handle 4 byte characters instead of 3 byte characters.
+ *
+ * If you want to convert a 3-byte setup into a 4-byte setup please run the
+ * migration command:
+ * ./occ db:convert-mysql-charset
  *
  * MySQL requires a special setup for longer indexes (> 767 bytes) which are
  * needed:
