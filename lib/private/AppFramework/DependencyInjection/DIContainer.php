@@ -373,20 +373,27 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 	}
 
+	private function getFallbackNamespace($name) {
+		$segments = explode('\\', $name);
+		if (count($segments) >= 2) {
+			return $segments[0] . '\\' . ucfirst(strtolower($segments[1]));
+		} else {
+			return null;
+		}
+	}
+
 	public function query($name) {
 		$name = $this->sanitizeName($name);
 
 		if ($this->offsetExists($name)) {
 			return parent::query($name);
 		} else {
-			if (strpos($name, 'OCA\\') === 0 && substr_count($name, '\\') >= 2) {
-				$segments = explode('\\', $name);
-				if (strtolower($segments[1]) === strtolower($this['AppName'])) {
-					return parent::query($name);
-				}
-			} else if ($this['AppName'] === 'settings' && strpos($name, 'OC\\Settings\\') === 0) {
+			if ($this['AppName'] === 'settings' && strpos($name, 'OC\\Settings\\') === 0) {
 				return parent::query($name);
 			} else if ($this['AppName'] === 'core' && strpos($name, 'OC\\Core\\') === 0) {
+				return parent::query($name);
+			} else if (strpos($name, \OC\AppFramework\App::buildAppNamespace($this['AppName'])) === 0 ||
+				$this->getFallbackNamespace($name) === \OC\AppFramework\App::buildAppNamespace($this['AppName'])) {
 				return parent::query($name);
 			}
 		}
