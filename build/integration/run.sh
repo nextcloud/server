@@ -58,7 +58,7 @@ RESULT=$?
 kill $PHPPID
 kill $PHPPID_FED
 
-if [ "$INSTALLED" -eq "true" ]; then
+if [ "$INSTALLED" == "true" ]; then
 
     $OCC files_external:delete -y $ID_STORAGE
 
