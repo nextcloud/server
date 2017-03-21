@@ -23,6 +23,7 @@
 namespace OCA\DAV\Avatars;
 
 
+use OCP\IAvatarManager;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
@@ -30,15 +31,20 @@ use Sabre\DAV\ICollection;
 use Sabre\HTTP\URLUtil;
 
 class AvatarHome implements ICollection {
+
+	/** @var array */
 	private $principalInfo;
+	/** @var IAvatarManager */
+	private $avatarManager;
 
 	/**
 	 * AvatarHome constructor.
 	 *
 	 * @param array $principalInfo
 	 */
-	public function __construct($principalInfo) {
+	public function __construct($principalInfo, IAvatarManager $avatarManager) {
 		$this->principalInfo = $principalInfo;
+		$this->avatarManager = $avatarManager;
 	}
 
 	function createFile($name, $data = null) {
@@ -59,8 +65,8 @@ class AvatarHome implements ICollection {
 		if ($size <= 0 || $size > 1024) {
 			throw new MethodNotAllowed('Invalid image size');
 		}
-		$avatar = \OC::$server->getAvatarManager()->getAvatar($this->getName());
-		if (!$avatar->exists()) {
+		$avatar = $this->avatarManager->getAvatar($this->getName());
+		if ($avatar === null || !$avatar->exists()) {
 			throw new NotFound();
 		}
 		return new AvatarNode($size, $ext, $avatar);
@@ -77,8 +83,14 @@ class AvatarHome implements ICollection {
 	}
 
 	function childExists($name) {
-		$ret = $this->getChild($name);
-		return !is_null($ret);
+		try {
+			$ret = $this->getChild($name);
+			return !is_null($ret);
+		} catch (NotFound $ex) {
+			return false;
+		} catch (MethodNotAllowed $ex) {
+			return false;
+		}
 	}
 
 	function delete() {

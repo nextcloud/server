@@ -15,10 +15,11 @@ class RootCollection extends AbstractPrincipalCollection {
 	 * supplied by the authentication backend.
 	 *
 	 * @param array $principalInfo
-	 * @return IPrincipal
+	 * @return AvatarHome
 	 */
 	function getChildForPrincipal(array $principalInfo) {
-		return new AvatarHome($principalInfo);
+		$avatarManager = \OC::$server->getAvatarManager();
+		return new AvatarHome($principalInfo, $avatarManager);
 	}
 
 	function getName() {
