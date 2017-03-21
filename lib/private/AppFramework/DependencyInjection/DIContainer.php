@@ -386,6 +386,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				}
 			} else if ($this['AppName'] === 'settings' && strpos($name, 'OC\\Settings\\') === 0) {
 				return parent::query($name);
+			} else if ($this['AppName'] === 'core' && strpos($name, 'OC\\Core\\') === 0) {
+				return parent::query($name);
 			}
 		}
 
