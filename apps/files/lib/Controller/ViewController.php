@@ -152,9 +152,6 @@ class ViewController extends Controller {
 		$nav = new \OCP\Template('files', 'appnavigation', '');
 
 		// Load the files we need
-		\OCP\Util::addStyle('files', 'files');
-		\OCP\Util::addStyle('files', 'upload');
-		\OCP\Util::addStyle('files', 'mobile');
 		\OCP\Util::addScript('files', 'app');
 		\OCP\Util::addScript('files', 'file-upload');
 		\OCP\Util::addScript('files', 'newfilemenu');
@@ -179,7 +176,7 @@ class ViewController extends Controller {
 		\OCP\Util::addScript('files', 'detailtabview');
 		\OCP\Util::addScript('files', 'mainfileinfodetailview');
 		\OCP\Util::addScript('files', 'detailsview');
-		\OCP\Util::addStyle('files', 'detailsView');
+		\OCP\Util::addStyle('files', 'merged');
 
 		\OC_Util::addVendorScript('core', 'handlebars/handlebars');
 

@@ -379,8 +379,7 @@ class ShareController extends Controller {
 
 		// Load files we need
 		\OCP\Util::addScript('files', 'file-upload');
-		\OCP\Util::addStyle('files_sharing', 'public');
-		\OCP\Util::addStyle('files_sharing', 'mobile');
+		\OCP\Util::addStyle('files_sharing', 'publicView');
 		\OCP\Util::addScript('files_sharing', 'public');
 		\OCP\Util::addScript('files', 'fileactions');
 		\OCP\Util::addScript('files', 'fileactionsmenu');
@@ -389,8 +388,7 @@ class ShareController extends Controller {
 
 		if (isset($shareTmpl['folder'])) {
 			// JS required for folders
-			\OCP\Util::addStyle('files', 'files');
-			\OCP\Util::addStyle('files', 'upload');
+			\OCP\Util::addStyle('files', 'merged');
 			\OCP\Util::addScript('files', 'filesummary');
 			\OCP\Util::addScript('files', 'breadcrumb');
 			\OCP\Util::addScript('files', 'fileinfomodel');
