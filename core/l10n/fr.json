@@ -150,6 +150,7 @@
     "{sharee} (group)" : "{sharee} (groupe)",
     "{sharee} (remote)" : "{sharee} (distant)",
     "{sharee} (email)" : "{sharee} (email)",
+    "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
     "Share" : "Partager",
     "Share with people on other servers using their Federated Cloud ID username@example.com/nextcloud" : "Partager avec des personnes sur d'autres serveurs en utilisant leur identifiant du Cloud Fédéré (utilisateur@exemple.com/nextcloud)",
     "Share with users or by mail..." : "Partager avec des utilisateurs ou par courriel…",

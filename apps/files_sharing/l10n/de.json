@@ -76,6 +76,8 @@
     "Public upload is only possible for publicly shared folders" : "Das öffentliche Hochladen ist nur für öffentlich freigegebene Ordner erlaubt",
     "Invalid date, date format must be YYYY-MM-DD" : "Ungültiges Datum, das Datumsformat muss JJJJ-MM-TT sein",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Freigabe von %s fehlgeschlagen, da das Backend die Freigabe vom Typ %s nicht erlaubt.",
+    "You cannot share to a Circle if the app is not enabled" : "Sie können nichts mit einem Kreis teilen, wenn die App nicht aktiviert ist",
+    "Please specify a valid circle" : "Bitte einen gültigen Kreis angeben",
     "Unknown share type" : "Unbekannter Freigabetyp",
     "Not a directory" : "Kein Verzeichnis",
     "Could not lock path" : "Pfad konnte nicht gesperrt werden",

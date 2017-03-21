@@ -81,6 +81,7 @@
     "Not allowed to create a federated share with the same user" : "Saman käyttäjän kanssa ei ole sallittua luoda federoitua jakoa",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Kohteen %s jakaminen epäonnistui, kohdetta %s ei löytynyt. Kenties palvelin ei ole juuri nyt tavoitettavissa.",
     "Setting permissions for %s failed, because the item was not found" : "Kohteen %s oikeuksien asettaminen epäonnistui, koska kohdetta ei löytynyt",
+    "Cannot set expiration date. Shares cannot expire later than %s after they have been shared" : "Vanhenemispäivää ei voi asettaa. Jako ei voi vanhentua myöhemmin kuin %s päivää sen jälkeen kun se on jaettu",
     "Cannot set expiration date. Expiration date is in the past" : "Vanhenemispäivää ei voi asettaa. Vanhenemispäivä on jo mennyt",
     "Cannot clear expiration date. Shares are required to have an expiration date." : "Vanhenemispäivän tyhjentäminen ei onnistu. Jaoille on määritelty pakolliseksi vanhenemispäivä.",
     "Sharing backend %s not found" : "Jakamisen taustaosaa %s ei löytynyt",
