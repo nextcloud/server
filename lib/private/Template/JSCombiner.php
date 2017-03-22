@@ -22,6 +22,7 @@
  */
 namespace OC\Template;
 
+use OC\SystemConfig;
 use OCP\ICache;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -40,6 +41,9 @@ class JSCombiner {
 	/** @var ICache */
 	protected $depsCache;
 
+	/** @var SystemConfig */
+	protected $config;
+
 	/**
 	 * JSCombiner constructor.
 	 *
@@ -49,10 +53,12 @@ class JSCombiner {
 	 */
 	public function __construct(IAppData $appData,
 								IURLGenerator $urlGenerator,
-								ICache $depsCache) {
+								ICache $depsCache,
+								SystemConfig $config) {
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
 		$this->depsCache = $depsCache;
+		$this->config = $config;
 	}
 
 	/**
@@ -62,6 +68,10 @@ class JSCombiner {
 	 * @return bool
 	 */
 	public function process($root, $file, $app) {
+		if ($this->config->getValue('debug')) {
+			return false;
+		}
+
 		$path = explode('/', $root . '/' . $file);
 
 		$fileName = array_pop($path);
@@ -165,5 +175,25 @@ class JSCombiner {
 		$fileName = str_replace('.json', '.js', $fileName);
 
 		return substr($this->urlGenerator->linkToRoute('core.Js.getJs', array('fileName' => $fileName, 'appName' => $appName)), strlen(\OC::$WEBROOT) + 1);
+	}
+
+	/**
+	 * @param string $root
+	 * @param string $file
+	 * @return string[]
+	 */
+	public function getContent($root, $file) {
+		$data = json_decode(file_get_contents($root . '/' . $file));
+
+		$path = explode('/', $file);
+		array_pop($path);
+		$path = implode('/', $path);
+
+		$result = [];
+		foreach ($data as $f) {
+			$result[] = $path . '/' . $f;
+		}
+
+		return $result;
 	}
 }
