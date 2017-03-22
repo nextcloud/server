@@ -17,7 +17,6 @@ do
         echo "The merged vendor file is not up to date"
         echo "Please run: php build/mergejs.php"
         echo "And commit the result"
-        exit 1
         break
     fi
 done
