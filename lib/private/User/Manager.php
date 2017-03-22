@@ -254,7 +254,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			 * @var \OC\User\User $a
 			 * @var \OC\User\User $b
 			 */
-			return strcmp($a->getDisplayName(), $b->getDisplayName());
+			return strcmp(strtolower($a->getDisplayName()), strtolower($b->getDisplayName()));
 		});
 		return $users;
 	}
