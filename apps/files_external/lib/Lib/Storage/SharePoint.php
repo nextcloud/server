@@ -165,10 +165,15 @@ class SharePoint extends Common {
 		} catch (\Exception $e) {
 			return false;
 		}
+
+		$size = $file->getProperty(self::SP_PROPERTY_SIZE) ?: FileInfo::SPACE_UNKNOWN;
+		$mtimeValue = $file->getProperty(self::SP_PROPERTY_MTIME);
+		$mtime = $mtimeValue ? new \DateTime($mtimeValue) : null;
+
 		$stat = [
 			// int64, size in bytes, excluding the size of any Web Parts that are used in the file.
-			'size'  => $file->getProperty(self::SP_PROPERTY_SIZE) ?: FileInfo::SPACE_UNKNOWN,
-			'mtime' => $file->getProperty(self::SP_PROPERTY_MTIME),
+			'size'  => $size,
+			'mtime' => $mtime->getTimestamp(),
 			// no property in SP 2013 & 2016, other storages do the same  :speak_no_evil:
 			'atime' => time(),
 		];

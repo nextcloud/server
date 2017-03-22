@@ -139,14 +139,17 @@ class SharePointTest extends TestCase {
 	 * @dataProvider pathProvider
 	 */
 	public function testStatExisting($path, $returnSize) {
-		$mtime = new \DateTime('yesterday');
+		$mtime = new \DateTime(null, new \DateTimeZone('Z'));
+		$mtime->sub(new \DateInterval('P2D'));
+		// a SP time string looks like: 2017-03-22T16:17:23Z
+		$returnMTime = $mtime->format('o-m-d\TH:i:se');
 		$size = $returnSize ?: FileInfo::SPACE_UNKNOWN;
 
 		$folderMock = $this->createMock(Folder::class);
 		$folderMock->expects($this->exactly(2))
 			->method('getProperty')
 			->withConsecutive(['Length'], ['TimeLastModified'])
-			->willReturnOnConsecutiveCalls($returnSize, $mtime);
+			->willReturnOnConsecutiveCalls($returnSize, $returnMTime);
 
 		$serverPath = '/' . $this->documentLibraryTitle;
 		if(trim($path, '/') !== '') {
@@ -160,7 +163,7 @@ class SharePointTest extends TestCase {
 
 		$data = $this->storage->stat($path);
 
-		$this->assertSame($mtime, $data['mtime']);
+		$this->assertSame($mtime->getTimestamp(), $data['mtime']);
 		$this->assertSame($size, $data['size']);
 		$this->assertTrue($mtime->getTimestamp() < $data['atime']);
 	}
