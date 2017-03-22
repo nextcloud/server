@@ -46,7 +46,7 @@ if [ "$INSTALLED" == "true" ]; then
     mkdir -p work/local_storage
     OUTPUT_CREATE_STORAGE=`$OCC files_external:create local_storage local null::null -c datadir=./build/integration/work/local_storage`
 
-    ID_STORAGE=`echo $OUTPUT_CREATE_STORAGE | awk {'print $5'}`
+    ID_STORAGE=`echo $OUTPUT_CREATE_STORAGE | tr ' ' '\n' | tail -n1`
 
     $OCC files_external:option $ID_STORAGE enable_sharing true
 
