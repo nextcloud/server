@@ -268,6 +268,7 @@ OC.L10N.register(
     "Getting help" : "Hulp krijgen",
     "Commercial support" : "Commerciële ondersteuning",
     "You are using <strong>%s</strong> of <strong>%s</strong>" : "Je gebruikt <strong>%s</strong> van <strong>%s</strong>",
+    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Je gebruikt <strong>%s</strong> van <strong>%s</strong> (<strong>%s %%</strong>)",
     "Profile picture" : "Profielafbeelding",
     "Upload new" : "Upload een nieuwe",
     "Select from Files" : "Kies uit bestanden",

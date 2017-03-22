@@ -46,7 +46,7 @@
     "You received a new remote share {file} from {user}" : "Du hast eine neue Remotefreigabe {file} von {user} erhalten",
     "{user} accepted the remote share of {file}" : "{user} hat die Remotefreigabe von {file} akzeptiert",
     "{user} declined the remote share of {file}" : "{user} hat die Remotefreigabe von {file} abgelehnt",
-    "{user} unshared {file} from you" : "{user} teilt {file} nicht mehr mit Ihnen",
+    "{user} unshared {file} from you" : "{user} hat die Freigabe für {file} entfernt",
     "Shared with {user}" : "Geteilt mit {user}",
     "Removed share for {user}" : "Freigabe für {user} entfernt",
     "{actor} shared with {user}" : "{actor} hat mit {user} geteilt",

@@ -56,6 +56,7 @@
     "New" : "Nový",
     "\"{name}\" is an invalid file name." : "\"{name}\" je neplatné meno súboru.",
     "File name cannot be empty." : "Meno súboru nemôže byť prázdne",
+    "\"{name}\" is not an allowed filetype" : "\"{name}\" nie je povolený typ súboru",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Úložisko používateľa {owner} je plné, súbory sa viac nedajú aktualizovať ani synchronizovať.",
     "Your storage is full, files can not be updated or synced anymore!" : "Vaše úložisko je plné. Súbory nemožno aktualizovať ani synchronizovať!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Úloisko používateľa {owner} je takmer plné ({usedSpacePercent}%)",
