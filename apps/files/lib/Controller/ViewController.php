@@ -178,8 +178,6 @@ class ViewController extends Controller {
 		\OCP\Util::addScript('files', 'detailsview');
 		\OCP\Util::addStyle('files', 'merged');
 
-		\OC_Util::addVendorScript('core', 'handlebars/handlebars');
-
 		\OCP\Util::addScript('files', 'fileactions');
 		\OCP\Util::addScript('files', 'fileactionsmenu');
 		\OCP\Util::addScript('files', 'files');
