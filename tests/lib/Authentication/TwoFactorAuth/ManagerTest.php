@@ -68,7 +68,7 @@ class ManagerTest extends TestCase {
 		parent::setUp();
 
 		$this->user = $this->createMock(IUser::class);
-		$this->appManager = $this->createMock('\OC\App\AppManager');
+		$this->appManager = $this->createMock(AppManager::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->activityManager = $this->createMock(IManager::class);

@@ -63,6 +63,14 @@ class InfoXmlTest extends TestCase {
 		$appPath = \OC_App::getAppPath($app);
 		\OC_App::registerAutoloading($app, $appPath);
 
+		//Add the appcontainer
+		$applicationClassName = \OCP\AppFramework\App::buildAppNamespace($app) . '\\AppInfo\\Application';
+		if (class_exists($applicationClassName)) {
+			$application = new $applicationClassName();
+		} else {
+			$application = new \OCP\AppFramework\App($app);
+		}
+
 		if (isset($appInfo['background-jobs'])) {
 			foreach ($appInfo['background-jobs'] as $job) {
 				$this->assertTrue(class_exists($job), 'Asserting background job "' . $job . '" exists');

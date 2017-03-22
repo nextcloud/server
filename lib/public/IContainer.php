@@ -62,6 +62,7 @@ interface IContainer {
 	 *
 	 * @param string $name
 	 * @return mixed
+	 * @throws QueryException if the query could not be resolved
 	 * @since 6.0.0
 	 */
 	public function query($name);

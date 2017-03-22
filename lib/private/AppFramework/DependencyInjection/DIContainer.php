@@ -49,6 +49,7 @@ use OC\ServerContainer;
 use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\IApi;
 use OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\QueryException;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\IL10N;
@@ -373,24 +374,40 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 	}
 
+	/**
+	 * @param string $name
+	 * @return mixed
+	 * @throws QueryException if the query could not be resolved
+	 */
 	public function query($name) {
+		try {
+			return $this->queryNoFallback($name);
+		} catch (QueryException $e) {
+			return $this->getServer()->query($name);
+		}
+	}
+
+	/**
+	 * @param string $name
+	 * @return mixed
+	 * @throws QueryException if the query could not be resolved
+	 */
+	public function queryNoFallback($name) {
 		$name = $this->sanitizeName($name);
 
 		if ($this->offsetExists($name)) {
 			return parent::query($name);
 		} else {
-			if (strpos($name, 'OCA\\') === 0 && substr_count($name, '\\') >= 2) {
-				$segments = explode('\\', $name);
-				if (strtolower($segments[1]) === strtolower($this['AppName'])) {
-					return parent::query($name);
-				}
-			} else if ($this['AppName'] === 'settings' && strpos($name, 'OC\\Settings\\') === 0) {
+			if ($this['AppName'] === 'settings' && strpos($name, 'OC\\Settings\\') === 0) {
 				return parent::query($name);
 			} else if ($this['AppName'] === 'core' && strpos($name, 'OC\\Core\\') === 0) {
+				return parent::query($name);
+			} else if (strpos($name, \OC\AppFramework\App::buildAppNamespace($this['AppName']) . '\\') === 0) {
 				return parent::query($name);
 			}
 		}
 
-		return $this->getServer()->query($name);
+		throw new QueryException('Could not resolve ' . $name . '!' .
+			' Class can not be instantiated');
 	}
 }

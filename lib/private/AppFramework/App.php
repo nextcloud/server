@@ -61,11 +61,12 @@ class App {
 
 		$appInfo = \OC_App::getAppInfo($appId);
 		if (isset($appInfo['namespace'])) {
-			return $topNamespace . trim($appInfo['namespace']);
+			self::$nameSpaceCache[$appId] = trim($appInfo['namespace']);
+		} else {
+			// if the tag is not found, fall back to uppercasing the first letter
+			self::$nameSpaceCache[$appId] = ucfirst($appId);
 		}
 
-		// if the tag is not found, fall back to uppercasing the first letter
-		self::$nameSpaceCache[$appId] = ucfirst($appId);
 		return $topNamespace . self::$nameSpaceCache[$appId];
 	}
 
