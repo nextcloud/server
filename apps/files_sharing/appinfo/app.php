@@ -38,10 +38,8 @@ $eventDispatcher = \OC::$server->getEventDispatcher();
 $eventDispatcher->addListener(
 	'OCA\Files::loadAdditionalScripts',
 	function() {
-		\OCP\Util::addScript('files_sharing', 'share');
-		\OCP\Util::addScript('files_sharing', 'sharetabview');
-		\OCP\Util::addScript('files_sharing', 'sharebreadcrumbview');
 		\OCP\Util::addStyle('files_sharing', 'mergedAdditionalStyles');
+		\OCP\Util::addScript('files_sharing', 'additionalScripts');
 	}
 );
 
