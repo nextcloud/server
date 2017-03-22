@@ -91,7 +91,11 @@ class Helper {
 				'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_SHARE
 			);
 			if ($originalPath) {
-				$i['extraData'] = $originalPath . '/' . $originalName;
+				if ($originalPath !== '.') {
+					$i['extraData'] = $originalPath . '/' . $originalName;
+				} else {
+					$i['extraData'] = $originalName;
+				}
 			}
 			$result[] = new FileInfo($absoluteDir . '/' . $i['name'], $storage, $internalPath . '/' . $i['name'], $i, $mount);
 		}
