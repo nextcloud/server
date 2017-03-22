@@ -30,6 +30,8 @@
 
 namespace OC\Core;
 
+use OC\AppFramework\Utility\SimpleContainer;
+use OC\Core\Controller\JsController;
 use OC\Core\Controller\OCJSController;
 use OC\Security\IdentityProof\Manager;
 use OC\Server;
@@ -85,6 +87,14 @@ class Application extends App {
 				$server->getGroupManager(),
 				$server->getIniWrapper(),
 				$server->getURLGenerator()
+			);
+		});
+		$container->registerService(JsController::class, function () use ($container) {
+			return new JsController(
+				$container->query('AppName'),
+				$container->query(IRequest::class),
+				$container->getServer()->getAppDataDir('js'),
+				$container->query(ITimeFactory::class)
 			);
 		});
 	}
