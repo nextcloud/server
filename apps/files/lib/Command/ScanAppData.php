@@ -43,7 +43,7 @@ class ScanAppData extends Base {
 		parent::configure();
 
 		$this
-			->setName('files:scanAppData')
+			->setName('files:scan-app-data')
 			->setDescription('rescan the AppData folder')
 			->addOption(
 				'quiet',
@@ -146,7 +146,7 @@ class ScanAppData extends Base {
 		$verbose = $input->getOption('verbose');
 		$quiet = $input->getOption('quiet');
 		# restrict the verbosity level to VERBOSITY_VERBOSE
-		if ($output->getVerbosity()>OutputInterface::VERBOSITY_VERBOSE) {
+		if ($output->getVerbosity() > OutputInterface::VERBOSITY_VERBOSE) {
 			$output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
 		}
 		if ($quiet) {
