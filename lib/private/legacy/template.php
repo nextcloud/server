@@ -114,10 +114,13 @@ class OC_Template extends \OC\Template\Base {
 			\OC_Util::addScript('jquery.avatar', null, true);
 			\OC_Util::addScript('placeholder', null, true);
 
+			OC_Util::addVendorScript('select2/select2');
 			OC_Util::addVendorStyle('select2/select2', null, true);
 			OC_Util::addScript('select2-toggleselect');
 
 			OC_Util::addScript('oc-backbone', null, true);
+			OC_Util::addVendorScript('core', 'backbone/backbone', true);
+			OC_Util::addVendorScript('snapjs/dist/latest/snap', null, true);
 			OC_Util::addScript('mimetypelist', null, true);
 			OC_Util::addScript('mimetype', null, true);
 			OC_Util::addScript("apps", null, true);
@@ -137,24 +140,19 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addScript('files/fileinfo');
 			OC_Util::addScript('files/client');
 
-			if (\OC::$server->getConfig()->getSystemValue('debug')) {
-				// Add the stuff we need always
-				// following logic will import all vendor libraries that are
-				// specified in core/js/core.json
-				$fileContent = file_get_contents(OC::$SERVERROOT . '/core/js/core.json');
-				if($fileContent !== false) {
-					$coreDependencies = json_decode($fileContent, true);
-					foreach(array_reverse($coreDependencies['vendor']) as $vendorLibrary) {
-						//remove trailing ".js" as addVendorScript will append it
-						OC_Util::addVendorScript(
+			// Add the stuff we need always
+			// following logic will import all vendor libraries that are
+			// specified in core/js/core.json
+			$fileContent = file_get_contents(OC::$SERVERROOT . '/core/js/core.json');
+			if($fileContent !== false) {
+				$coreDependencies = json_decode($fileContent, true);
+				foreach(array_reverse($coreDependencies['vendor']) as $vendorLibrary) {
+					// remove trailing ".js" as addVendorScript will append it
+					OC_Util::addVendorScript(
 							substr($vendorLibrary, 0, strlen($vendorLibrary) - 3),null,true);
-						}
- 				} else {
-					throw new \Exception('Cannot read core/js/core.json');
 				}
 			} else {
-				// Import all (combined) default vendor libraries
-				OC_Util::addVendorScript('core', null, true);
+				throw new \Exception('Cannot read core/js/core.json');
 			}
 
 			if (\OC::$server->getRequest()->isUserAgent([\OC\AppFramework\Http\Request::USER_AGENT_IE])) {
