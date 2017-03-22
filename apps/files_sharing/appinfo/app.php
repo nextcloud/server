@@ -41,12 +41,9 @@ $eventDispatcher->addListener(
 		\OCP\Util::addScript('files_sharing', 'share');
 		\OCP\Util::addScript('files_sharing', 'sharetabview');
 		\OCP\Util::addScript('files_sharing', 'sharebreadcrumbview');
-		\OCP\Util::addStyle('files_sharing', 'sharetabview');
-		\OCP\Util::addStyle('files_sharing', 'sharebreadcrumb');
+		\OCP\Util::addStyle('files_sharing', 'mergedAdditionalStyles');
 	}
 );
-
-// \OCP\Util::addStyle('files_sharing', 'sharetabview');
 
 $config = \OC::$server->getConfig();
 if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
