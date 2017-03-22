@@ -95,7 +95,6 @@ class JSResourceLocator extends ResourceLocator {
 		if (is_file($root.'/'.$file)) {
 			if ($this->jsCombiner->process($root, $file, $app)) {
 				$this->append($this->serverroot, $this->jsCombiner->getCachedJS($app, $file), false, false);
-				return true;
 			} else {
 				// Add all the files from the json
 				$files = $this->jsCombiner->getContent($root, $file);
@@ -105,6 +104,7 @@ class JSResourceLocator extends ResourceLocator {
 					$this->append($root, $jsFile, $app_url);
 				}
 			}
+			return true;
 		}
 
 		return false;
