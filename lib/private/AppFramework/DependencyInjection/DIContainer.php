@@ -49,6 +49,7 @@ use OC\ServerContainer;
 use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\IApi;
 use OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\QueryException;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\IL10N;
@@ -373,7 +374,25 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 	}
 
+	/**
+	 * @param string $name
+	 * @return mixed
+	 * @throws QueryException if the query could not be resolved
+	 */
 	public function query($name) {
+		try {
+			return $this->queryNoFallback($name);
+		} catch (QueryException $e) {
+			return $this->getServer()->query($name);
+		}
+	}
+
+	/**
+	 * @param string $name
+	 * @return mixed
+	 * @throws QueryException if the query could not be resolved
+	 */
+	public function queryNoFallback($name) {
 		$name = $this->sanitizeName($name);
 
 		if ($this->offsetExists($name)) {
@@ -388,6 +407,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			}
 		}
 
-		return $this->getServer()->query($name);
+		throw new QueryException('Could not resolve ' . $name . '!' .
+			' Class can not be instantiated');
 	}
 }
