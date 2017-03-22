@@ -22,6 +22,7 @@
  */
 namespace OC\Template;
 
+use OCP\ICache;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -36,16 +37,22 @@ class JSCombiner {
 	/** @var IURLGenerator */
 	protected $urlGenerator;
 
+	/** @var ICache */
+	protected $depsCache;
+
 	/**
 	 * JSCombiner constructor.
 	 *
 	 * @param IAppData $appData
 	 * @param IURLGenerator $urlGenerator
+	 * @param ICache $depsCache
 	 */
 	public function __construct(IAppData $appData,
-								IURLGenerator $urlGenerator) {
+								IURLGenerator $urlGenerator,
+								ICache $depsCache) {
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
+		$this->depsCache = $depsCache;
 	}
 
 	/**
@@ -79,7 +86,26 @@ class JSCombiner {
 	 * @return bool
 	 */
 	protected function isCached($fileName, ISimpleFolder $folder) {
-		return false;
+		$fileName = str_replace('.json', '.js', $fileName) . '.deps';
+		try {
+			$deps = $this->depsCache->get($folder->getName() . '-' . $fileName);
+			if ($deps === null) {
+				$depFile = $folder->getFile($fileName);
+				$deps = $depFile->getContent();
+				$this->depsCache->set($folder->getName() . '-' . $fileName, $deps);
+			}
+			$deps = json_decode($deps, true);
+
+			foreach ($deps as $file=>$mtime) {
+				if (!file_exists($file) || filemtime($file) > $mtime) {
+					return false;
+				}
+			}
+
+			return true;
+		} catch(NotFoundException $e) {
+			return false;
+		}
 	}
 
 	/**
@@ -89,17 +115,19 @@ class JSCombiner {
 	 * @return bool
 	 */
 	protected function cache($path, $fileName, ISimpleFolder $folder) {
-		$data = json_decode(file_get_contents($path . '/' . $fileName));
+		$deps = [];
+		$fullPath = $path . '/' . $fileName;
+		$data = json_decode(file_get_contents($fullPath));
+		$deps[$fullPath] = filemtime($fullPath);
 
 		$res = '';
-		$deps = [];
 		foreach ($data as $file) {
 			$filePath = $path . '/' . $file;
 
 			if (is_file($filePath)) {
-				$res .= file_get_contents($path . '/' . $file);
+				$res .= file_get_contents($filePath);
 				$res .= PHP_EOL . PHP_EOL;
-				$deps[$file] = filemtime($path . '/' . $file);
+				$deps[$filePath] = filemtime($filePath);
 			}
 		}
 
@@ -110,8 +138,16 @@ class JSCombiner {
 			$cachedfile = $folder->newFile($fileName);
 		}
 
+		$depFileName = $fileName . '.deps';
+		try {
+			$depFile = $folder->getFile($depFileName);
+		} catch (NotFoundException $e) {
+			$depFile = $folder->newFile($depFileName);
+		}
+
 		try {
 			$cachedfile->putContent($res);
+			$depFile->putContent(json_encode($deps));
 			return true;
 		} catch (NotPermittedException $e) {
 			return false;
