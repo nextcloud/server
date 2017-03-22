@@ -1,0 +1,27 @@
+OC.L10N.register(
+    "theming",
+    {
+    "Admin" : "Yönetici",
+    "a safe home for all your data" : "verileriniz için güvenli bir barınak",
+    "The given name is too long" : "Belirtilen ad çok uzun",
+    "The given web address is too long" : "Belirtilen web adresi çok uzun",
+    "The given slogan is too long" : "Belirtilen slogan çok uzun",
+    "The given color is invalid" : "Belirtilen renk geçersiz",
+    "Saved" : "Kaydedildi",
+    "No file uploaded" : "Herhangi bir dosya yüklenmemiş",
+    "Unsupported image type" : "Görsel türü desteklenmiyor",
+    "You are already using a custom theme" : "Zaten özel bir tema kullanıyorsunuz",
+    "Theming" : "Tema",
+    "Name" : "Ad",
+    "reset to default" : "varsayılana dön",
+    "Web address" : "Web adresi",
+    "Web address https://…" : "Web adresi https://...",
+    "Slogan" : "Slogan",
+    "Color" : "Renk",
+    "Logo" : "Logo",
+    "Upload new logo" : "Yeni logo yükle",
+    "Login image" : "Oturum açma görseli",
+    "Upload new login background" : "Yeni oturum açma art alanı yükle",
+    "Log in image" : "Oturum açma görseli"
+},
+"nplurals=2; plural=(n > 1);");

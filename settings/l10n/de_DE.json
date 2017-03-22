@@ -266,6 +266,7 @@
     "Getting help" : "Hilfe bekommen",
     "Commercial support" : "Kommerzieller Support",
     "You are using <strong>%s</strong> of <strong>%s</strong>" : "Sie verwenden <strong>%s</strong> der verfügbaren <strong>%s</strong>",
+    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Sie verwenden <strong>%s</strong> von <strong>%s</strong> (<strong>%s %%</strong>)",
     "Profile picture" : "Profilbild",
     "Upload new" : "Neues hochladen",
     "Select from Files" : "Aus Dateien wählen",

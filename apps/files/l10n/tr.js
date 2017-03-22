@@ -58,6 +58,7 @@ OC.L10N.register(
     "New" : "Yeni",
     "\"{name}\" is an invalid file name." : "\"{name}\" geçersiz bir dosya adı.",
     "File name cannot be empty." : "Dosya adı boş olamaz.",
+    "\"{name}\" is not an allowed filetype" : "\"{name}\" dosya türüne izin verilmiyor",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} için boş depolama alanı kalmadı. Artık dosyalar güncellenmeyecek ya da eşitlenmeyecek!",
     "Your storage is full, files can not be updated or synced anymore!" : "Boş depolama alanınız kalmadı. Artık dosyalar güncellenmeyecek ya da eşitlenmeyecek!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "{owner} boş depolama alanı bitmek üzere ({usedSpacePercent}%)",
