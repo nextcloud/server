@@ -55,6 +55,7 @@
     "{actor} removed share" : "{actor} 移除共享",
     "You shared {file} with {user}" : "您与 {user} 分享了 {file} ",
     "You removed {user} from {file}" : "您从 {file} 移除了 {user} ",
+    "{actor} shared {file} with {user}" : "{actor} 共享 {file} 与 {user}",
     "{actor} removed {user} from {file}" : "{actor} 移除 {user} 从 {file}",
     "{actor} shared {file} with you" : "{actor} 与您共享了 {file} ",
     "{actor} removed you from {file}" : "{actor} 将您从 {file} 移除",

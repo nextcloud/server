@@ -57,6 +57,7 @@ OC.L10N.register(
     "{actor} removed share" : "{actor} hat die Freigabe entfernt",
     "You shared {file} with {user}" : "Du hast {file} mit {user} geteilt",
     "You removed {user} from {file}" : "Du hast {user} von {file} entfernt",
+    "{actor} shared {file} with {user}" : "{actor} hat {file} mit {user} geteilt",
     "{actor} removed {user} from {file}" : "{actor} hat {user} von {file} entfernt",
     "{actor} shared {file} with you" : "{actor} hat {file} mit dir geteilt",
     "{actor} removed you from {file}" : "Du wurdest durch {actor} von {file} entfernt",
