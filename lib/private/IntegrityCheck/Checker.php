@@ -347,14 +347,7 @@ class Checker {
 		$x509->loadCA($rootCertificatePublicKey);
 		$x509->loadX509($certificate);
 		if(!$x509->validateSignature()) {
-			// FIXME: Once Nextcloud has it's own appstore we should remove the ownCloud Root Authority from here
-			$x509 = new \phpseclib\File\X509();
-			$rootCertificatePublicKey = $this->fileAccessHelper->file_get_contents($this->environmentHelper->getServerRoot().'/resources/codesigning/owncloud.crt');
-			$x509->loadCA($rootCertificatePublicKey);
-			$x509->loadX509($certificate);
-			if(!$x509->validateSignature()) {
-				throw new InvalidSignatureException('Certificate is not valid.');
-			}
+			throw new InvalidSignatureException('Certificate is not valid.');
 		}
 		// Verify if certificate has proper CN. "core" CN is always trusted.
 		if($x509->getDN(X509::DN_OPENSSL)['CN'] !== $certificateCN && $x509->getDN(X509::DN_OPENSSL)['CN'] !== 'core') {
