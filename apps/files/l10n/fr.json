@@ -56,6 +56,7 @@
     "New" : "Nouveau",
     "\"{name}\" is an invalid file name." : "\"{name}\" n'est pas un nom de fichier valide.",
     "File name cannot be empty." : "Le nom de fichier ne peut être vide.",
+    "\"{name}\" is not an allowed filetype" : "\"{name}\" n'est pas un nom de fichier autorisé.",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "L'espace de stockage de {owner} est plein. Les fichiers ne peuvent plus être mis à jour ni synchronisés !",
     "Your storage is full, files can not be updated or synced anymore!" : "Votre espace de stockage est plein. Les fichiers ne peuvent plus être mis à jour ni synchronisés !",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "L'espace de stockage de {owner} est presque plein ({usedSpacePercent}%)",

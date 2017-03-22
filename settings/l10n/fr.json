@@ -266,6 +266,7 @@
     "Getting help" : "Obtenir de l'aide",
     "Commercial support" : "Support commercial",
     "You are using <strong>%s</strong> of <strong>%s</strong>" : "Vous utilisez <strong>%s</strong> sur <strong>%s<strong>",
+    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Vous utilisez <strong>%s</strong> sur <strong>%s</strong> (<strong>%s %%</strong>)",
     "Profile picture" : "Photo de profil",
     "Upload new" : "Nouvelle depuis votre ordinateur",
     "Select from Files" : "Sélectionner depuis les Fichiers",

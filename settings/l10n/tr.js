@@ -268,6 +268,7 @@ OC.L10N.register(
     "Getting help" : "Yardım alın",
     "Commercial support" : "Ticari destek",
     "You are using <strong>%s</strong> of <strong>%s</strong>" : "Kullandığınız alan: <strong>%s</strong>. Kullanabileceğiniz alan: <strong>%s</strong>",
+    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Kullandığınız: <strong>%s</strong> Kullanabileceğiniz: <strong>%s</strong> (<strong>%s %%</strong>)",
     "Profile picture" : "Profil görseli",
     "Upload new" : "Yeni yükle",
     "Select from Files" : "Dosyalardan seç",

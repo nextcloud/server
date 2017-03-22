@@ -78,6 +78,8 @@ OC.L10N.register(
     "Public upload is only possible for publicly shared folders" : "Общедоступная загрузка возможна только в папки с общим доступом",
     "Invalid date, date format must be YYYY-MM-DD" : "Неверная дата, формат даты должен быть ГГГГ-ММ-ДД",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Не удалось поделиться %s, поскольку механизм удалённого обмена не разрешает публикации типа %s",
+    "You cannot share to a Circle if the app is not enabled" : "Вы не можите поделиться через приложение Круг, если это приложение не включено",
+    "Please specify a valid circle" : "Укажите правильный круг",
     "Unknown share type" : "Предоставление доступа неизвестного типа",
     "Not a directory" : "Это не каталог",
     "Could not lock path" : "Не удалось заблокировать путь",
