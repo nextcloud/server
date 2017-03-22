@@ -199,7 +199,7 @@ class SharePointTest extends TestCase {
 
 		$this->client->expects($this->once())
 			->method('fetchFileOrFolder')
-			->with($serverPath, [])
+			->with($serverPath)
 			->willReturn($return);
 
 		$this->assertSame($expectedType, $this->storage->filetype($path));
@@ -215,7 +215,7 @@ class SharePointTest extends TestCase {
 
 		$this->client->expects($this->once())
 			->method('fetchFileOrFolder')
-			->with($serverPath, [])
+			->with($serverPath)
 			->willThrowException(new NotFoundException());
 
 		$this->assertFalse($this->storage->filetype($path));
@@ -241,7 +241,7 @@ class SharePointTest extends TestCase {
 
 		$invocationMocker = $this->client->expects($this->once())
 			->method('fetchFileOrFolder')
-			->with($serverPath, []);
+			->with($serverPath);
 		if($exists) {
 			$invocationMocker->willReturn($this->createMock(File::class));
 		} else {

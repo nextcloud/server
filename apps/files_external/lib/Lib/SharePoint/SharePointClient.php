@@ -103,7 +103,12 @@ class SharePointClient {
 	public function fetchFolder($relativeServerPath, array $properties = null) {
 		$this->ensureConnection();
 		$folder = $this->context->getWeb()->getFolderByServerRelativeUrl($relativeServerPath);
-		$this->loadAndExecute($folder, $properties);
+		$folderCollection = $folder->getFolders();
+		$fileCollection = $folder->getFiles();
+		$this->context->load($folder, $properties);
+		$this->context->load($folderCollection, null);
+		$this->context->load($fileCollection, null);
+		$this->context->executeQuery();
 		return $folder;
 	}
 
@@ -112,14 +117,19 @@ class SharePointClient {
 	 * @param null $properties
 	 * @return ClientObjectCollection[]
 	 */
-	public function fetchFolderContents($relativeServerPath, $properties = null) {
+	public function fetchFolderContents($relativeServerPath, $properties = null, Folder $folder = null) {
 		$this->ensureConnection();
-		$folder = $this->context->getWeb()->getFolderByServerRelativeUrl($relativeServerPath);
-		$folderCollection = $folder->getFolders();
-		$fileCollection = $folder->getFiles();
-		$this->context->load($folderCollection, $properties);
-		$this->context->load($fileCollection, $properties);
-		$this->context->executeQuery();
+		if($folder === null) {
+			$folder = $this->context->getWeb()->getFolderByServerRelativeUrl($relativeServerPath);
+			$folderCollection = $folder->getFolders();
+			$fileCollection = $folder->getFiles();
+			$this->context->load($folderCollection, $properties);
+			$this->context->load($fileCollection, $properties);
+			$this->context->executeQuery();
+		} else {
+			$folderCollection = $folder->getFolders();
+			$fileCollection = $folder->getFiles();
+		}
 
 		$collections = ['folders' => $folderCollection, 'files' => $fileCollection];
 

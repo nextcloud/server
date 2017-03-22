@@ -30,7 +30,9 @@ use OCA\Files_External\Lib\SharePoint\SharePointClient;
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\SharePoint\ClientContext;
 use Office365\PHP\Client\SharePoint\File;
+use Office365\PHP\Client\SharePoint\FileCollection;
 use Office365\PHP\Client\SharePoint\Folder;
+use Office365\PHP\Client\SharePoint\FolderCollection;
 use Office365\PHP\Client\SharePoint\Web;
 use Test\TestCase;
 
@@ -102,7 +104,16 @@ class SharePointClientTest extends TestCase {
 			->willReturn($this->createMock(AuthenticationContext::class));
 
 		$fileMock = $this->createMock(File::class);
+		$folderCollectionMock = $this->createMock(FolderCollection::class);
+		$fileCollectionMock = $this->createMock(FileCollection::class);
+
 		$folderMock = $this->createMock(Folder::class);
+		$folderMock->expects($this->once())
+			->method('getFolders')
+			->willReturn($folderCollectionMock);
+		$folderMock->expects($this->once())
+			->method('getFiles')
+			->willReturn($fileCollectionMock);
 
 		$webMock = $this->createMock(Web::class);
 		$webMock->expects($this->once())
@@ -118,15 +129,14 @@ class SharePointClientTest extends TestCase {
 		$clientContextMock->expects($this->exactly(2))
 			->method('getWeb')
 			->willReturn($webMock);
-		$clientContextMock->expects($this->exactly(2))
+		$clientContextMock->expects($this->exactly(4))
 			->method('load')
 			->withConsecutive([$fileMock, $properties], [$folderMock, $properties]);
 		$clientContextMock->expects($this->at(2))
 			->method('executeQuery')
 			->willThrowException(new \Exception('The file /whatwasitsname does not exist.'));
-		$clientContextMock->expects($this->at(5))
+		$clientContextMock->expects($this->at(7))
 			->method('executeQuery');
-
 
 		$this->contextsFactory->expects($this->exactly(2))
 			->method('getClientContext')
@@ -150,7 +160,16 @@ class SharePointClientTest extends TestCase {
 			->willReturn($this->createMock(AuthenticationContext::class));
 
 		$fileMock = $this->createMock(File::class);
+		$folderCollectionMock = $this->createMock(FolderCollection::class);
+		$fileCollectionMock = $this->createMock(FileCollection::class);
+
 		$folderMock = $this->createMock(Folder::class);
+		$folderMock->expects($this->once())
+			->method('getFolders')
+			->willReturn($folderCollectionMock);
+		$folderMock->expects($this->once())
+			->method('getFiles')
+			->willReturn($fileCollectionMock);
 
 		$webMock = $this->createMock(Web::class);
 		$webMock->expects($this->once())
@@ -166,13 +185,13 @@ class SharePointClientTest extends TestCase {
 		$clientContextMock->expects($this->exactly(2))
 			->method('getWeb')
 			->willReturn($webMock);
-		$clientContextMock->expects($this->exactly(2))
+		$clientContextMock->expects($this->exactly(4))
 			->method('load')
 			->withConsecutive([$fileMock, $properties], [$folderMock, $properties]);
 		$clientContextMock->expects($this->at(2))
 			->method('executeQuery')
 			->willThrowException(new \Exception('The file /whatwasitsname does not exist.'));
-		$clientContextMock->expects($this->at(5))
+		$clientContextMock->expects($this->at(7))
 			->method('executeQuery')
 			->willThrowException(new \Exception('Unknown Error'));
 

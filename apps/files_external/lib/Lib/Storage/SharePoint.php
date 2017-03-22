@@ -24,12 +24,14 @@
 namespace OCA\Files_External\Lib\Storage;
 
 use Icewind\Streams\IteratorDirectory;
+use OC\Cache\CappedMemoryCache;
 use OC\Files\Storage\Common;
 use OCA\Files_External\Lib\SharePoint\ContextsFactory;
 use OCA\Files_External\Lib\SharePoint\NotFoundException;
 use OCA\Files_External\Lib\SharePoint\SharePointClient;
 use OCA\Files_External\Lib\SharePoint\SharePointClientFactory;
 use OCP\Files\FileInfo;
+use Office365\PHP\Client\Runtime\ClientObjectCollection;
 use Office365\PHP\Client\SharePoint\File;
 use Office365\PHP\Client\SharePoint\Folder;
 use Office365\PHP\Client\SharePoint\ListItem;
@@ -52,6 +54,9 @@ class SharePoint extends Common {
 
 	/** @var  SharePointClient */
 	protected $spClient;
+
+	/** @var  CappedMemoryCache */
+	protected $fileCache;
 
 	/** @var ContextsFactory */
 	private $contextsFactory;
@@ -124,7 +129,7 @@ class SharePoint extends Common {
 		try {
 			$serverUrl = $this->formatPath($path);
 			//$collections = $this->spClient->fetchFolderContents($serverUrl, ['Name', 'ListItemAllFields']);	// does not work for some reason :(
-			$collections = $this->spClient->fetchFolderContents($serverUrl);
+			$collections = $this->getFolderContents($serverUrl);
 			$files = [];
 
 			foreach ($collections as $collection) {
@@ -161,7 +166,7 @@ class SharePoint extends Common {
 	public function stat($path) {
 		$serverUrl = $this->formatPath($path);
 		try {
-			$file = $this->spClient->fetchFileOrFolder($serverUrl, [self::SP_PROPERTY_SIZE, self::SP_PROPERTY_MTIME]);
+			$file = $this->getFileOrFolder($serverUrl);
 		} catch (\Exception $e) {
 			return false;
 		}
@@ -198,7 +203,7 @@ class SharePoint extends Common {
 	public function filetype($path) {
 		try {
 			$serverUrl = $this->formatPath($path);
-			$object = $this->spClient->fetchFileOrFolder($serverUrl, []);
+			$object = $this->getFileOrFolder($serverUrl);
 		} catch (NotFoundException $e) {
 			return false;
 		}
@@ -225,7 +230,7 @@ class SharePoint extends Common {
 			// for file and folder. It is not necessarily faster, though.
 			// Would need evaluation of typical use cases (I assume most often
 			// existing files are checked) and measurements.
-			$this->spClient->fetchFileOrFolder($serverUrl, []);
+			$this->getFileOrFolder($serverUrl);
 			return true;
 		} catch (NotFoundException $e) {
 			return false;
@@ -240,6 +245,7 @@ class SharePoint extends Common {
 	 * @since 6.0.0
 	 */
 	public function unlink($path) {
+		//  FIXME:: all is totally wrong
 		$path = trim($path);
 		if($path === '/' || $path === '') {
 			return false;
@@ -311,6 +317,47 @@ class SharePoint extends Common {
 			[ 'user' => $this->authUser, 'password' => $this->authPwd],
 			$this->documentLibrary
 		);
+
+		if(isset($parameters['cappedMemoryCache'])) {
+			$this->fileCache = $parameters['cappedMemoryCache'];
+		} else {
+			$this->fileCache = new CappedMemoryCache('256');
+		}
+	}
+
+	/**
+	 * @param $serverUrl
+	 * @return ClientObjectCollection[]
+	 */
+	private function getFolderContents($serverUrl) {
+		$entry = $this->fileCache->get($serverUrl);
+		if($entry === null || !isset($entry['children'])) {
+			$folder = isset($entry['instance']) ? $entry['instance'] : null;
+			$contents = $this->spClient->fetchFolderContents($serverUrl, null, $folder);
+			$cacheItem = $entry ?: [];
+			$cacheItem['children'] = $contents;
+			$this->fileCache->set($serverUrl, $cacheItem);
+		} else {
+			$contents = $entry['children'];
+		}
+		return $contents;
+	}
+
+	/**
+	 * @param $serverUrl
+	 * @return File|Folder
+	 */
+	private function getFileOrFolder($serverUrl) {
+		$entry = $this->fileCache->get($serverUrl);
+		if($entry === null || !isset($entry['instance'])) {
+			$file = $this->spClient->fetchFileOrFolder($serverUrl, [self::SP_PROPERTY_SIZE, self::SP_PROPERTY_MTIME]);
+			$cacheItem = $entry ?: [];
+			$cacheItem['instance'] = $file;
+			$this->fileCache->set($serverUrl, $cacheItem);
+		} else {
+			$file = $entry['instance'];
+		}
+		return $file;
 	}
 
 	/**
