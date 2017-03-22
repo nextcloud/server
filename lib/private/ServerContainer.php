@@ -37,12 +37,26 @@ class ServerContainer extends SimpleContainer {
 	/** @var DIContainer[] */
 	protected $appContainers;
 
+	/** @var string[] */
+	protected $namespaces;
+
 	/**
 	 * ServerContainer constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
 		$this->appContainers = [];
+		$this->namespaces = [];
+	}
+
+	/**
+	 * @param string $appName
+	 * @param string $appNamespace
+	 */
+	public function registerNamespace($appName, $appNamespace) {
+		// Cut of OCA\ and lowercase
+		$appNamespace = strtolower(substr($appNamespace, strrpos($appNamespace, '\\') + 1));
+		$this->namespaces[$appNamespace] = $appName;
 	}
 
 	/**
@@ -54,15 +68,19 @@ class ServerContainer extends SimpleContainer {
 	}
 
 	/**
-	 * @param string $appName
+	 * @param string $namespace
 	 * @return DIContainer
+	 * @throws QueryException
 	 */
-	public function getAppContainer($appName) {
-		if (isset($this->appContainers[$appName])) {
-			return $this->appContainers[$appName];
+	protected function getAppContainer($namespace) {
+		if (isset($this->appContainers[$namespace])) {
+			return $this->appContainers[$namespace];
 		}
 
-		return new DIContainer($appName);
+		if (isset($this->namespaces[$namespace])) {
+			return new DIContainer($this->namespaces[$namespace]);
+		}
+		throw new QueryException();
 	}
 
 	/**
@@ -77,11 +95,11 @@ class ServerContainer extends SimpleContainer {
 		// the apps container first.
 		if (strpos($name, 'OCA\\') === 0 && substr_count($name, '\\') >= 2) {
 			$segments = explode('\\', $name);
-			$appContainer = $this->getAppContainer(strtolower($segments[1]));
 			try {
+				$appContainer = $this->getAppContainer(strtolower($segments[1]));
 				return $appContainer->queryNoFallback($name);
 			} catch (QueryException $e) {
-				// Didn't find the service in the respective app container,
+				// Didn't find the service or the respective app container,
 				// ignore it and fall back to the core container.
 			}
 		}
