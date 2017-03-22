@@ -57,6 +57,7 @@ OC.L10N.register(
     "{actor} removed share" : "{actor} закрыл общий доступ",
     "You shared {file} with {user}" : "Вы поделились {file} с {user}",
     "You removed {user} from {file}" : "Вы удалили {user} из {file}",
+    "{actor} shared {file} with {user}" : "{actor} поделился {file} с {user}",
     "{actor} removed {user} from {file}" : "{actor} удалил {user} из {file}",
     "{actor} shared {file} with you" : "{actor} поделился {file} с вами",
     "{actor} removed you from {file}" : "{actor} удалил вас из {file}",

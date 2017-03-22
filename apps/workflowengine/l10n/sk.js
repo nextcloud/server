@@ -8,6 +8,7 @@ OC.L10N.register(
     "is not" : "nie je",
     "matches" : "súhlasí",
     "does not match" : "nesúhlasí",
+    "Example: {placeholder}" : "Napríklad: {placeholder}",
     "File size (upload)" : "Veľkosť súboru (upload)",
     "less" : "menej",
     "less or equals" : "menej alebo rovné",

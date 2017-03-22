@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Successfully saved" : "Erfolgreich gespeichert",
     "Saving failed:" : "Speichern fehlgeschlagen:",
-    "File mime type" : "Datei Mime-Typ",
+    "File mime type" : "Datei MIME-Typ",
     "is" : "ist",
     "is not" : "ist nicht",
     "matches" : "passt zu",
