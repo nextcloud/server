@@ -268,6 +268,7 @@ OC.L10N.register(
     "Getting help" : "Obtener ayuda",
     "Commercial support" : "Soporte Comercial",
     "You are using <strong>%s</strong> of <strong>%s</strong>" : "Estas usando <strong>%s</strong> de <strong>%s</strong> ",
+    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Está usando <strong>%s</strong> de <strong>%s</strong> (<strong>%s %%</strong>)",
     "Profile picture" : "Foto de perfil",
     "Upload new" : "Subir otra",
     "Select from Files" : "Seleccionar desde Archivos",

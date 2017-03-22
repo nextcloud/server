@@ -57,6 +57,7 @@ OC.L10N.register(
     "{actor} removed share" : "{actor} paylaşımı kaldırdı",
     "You shared {file} with {user}" : "{file} dosyasını {user} kullanıcısıyla paylaştınız",
     "You removed {user} from {file}" : "{file} dosyasının {user} kullanıcısıyla paylaşımını kaldırdınız",
+    "{actor} shared {file} with {user}" : "{actor} {file} dosyasını {user} kullanıcısı ile paylaştı",
     "{actor} removed {user} from {file}" : "{actor} {file} dosyasının {user} kullanıcısıyla paylaşımını kaldırdı",
     "{actor} shared {file} with you" : "{actor} {file} dosyasını sizinle paylaştı",
     "{actor} removed you from {file}" : "{actor} {file} dosyasının sizinle paylaşımını kaldırdı",
