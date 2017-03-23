@@ -133,4 +133,3 @@ Feature: favorite
         Then user "user0" in folder "/subfolder" should have favorited the following elements
             | /subfolder/textfile0.txt |
             | /subfolder/textfile2.txt |
-

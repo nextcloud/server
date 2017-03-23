@@ -387,6 +387,15 @@ pipeline:
     when:
       matrix:
         TESTS: integration-sharees-features
+  integration-sharees-v2-features:
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh sharees_features/sharees_provisioningapiv2.feature
+    when:
+      matrix:
+        TESTS: integration-sharees-v2-features
   integration-setup-features:
     image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
@@ -487,6 +496,7 @@ matrix:
     - TESTS: integration-provisioning-v2
     - TESTS: integration-webdav-related
     - TESTS: integration-sharees-features
+    - TESTS: integration-sharees-v2-features
     - TESTS: integration-setup-features
     - TESTS: integration-filesdrop-features
     - TESTS: integration-transfer-ownership-features

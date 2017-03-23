@@ -164,7 +164,7 @@ class GroupsController extends OCSController {
 			throw new OCSException('', 102);
 		}
 
-		return new DataResponse(null, 100);
+		return new DataResponse();
 	}
 
 	/**
