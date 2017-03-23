@@ -28,6 +28,7 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\ICache;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IURLGenerator;
@@ -45,6 +46,8 @@ class SCSSCacherTest extends \Test\TestCase {
 	protected $defaults;
 	/** @var SCSSCacher */
 	protected $scssCacher;
+	/** @var ICache|\PHPUnit_Framework_MockObject_MockObject */
+	protected $depsCache;
 
 	protected function setUp() {
 		parent::setUp();
@@ -52,12 +55,14 @@ class SCSSCacherTest extends \Test\TestCase {
 		$this->appData = $this->createMock(IAppData::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->depsCache = $this->createMock(ICache::class);
 		$this->scssCacher = new SCSSCacher(
 			$this->logger,
 			$this->appData,
 			$this->urlGenerator,
 			$this->config,
-			\OC::$SERVERROOT
+			\OC::$SERVERROOT,
+			$this->depsCache
 		);
 	}
 
@@ -68,11 +73,22 @@ class SCSSCacherTest extends \Test\TestCase {
 		$file = $this->createMock(ISimpleFile::class);
 		$file->expects($this->any())->method('getSize')->willReturn(1);
 		$fileDeps = $this->createMock(ISimpleFile::class);
-		$folder->expects($this->at(0))->method('getFile')->with('styles.css')->willReturn($file);
-		$folder->expects($this->at(1))->method('getFile')->with('styles.css.deps')->willThrowException(new NotFoundException());
-		$folder->expects($this->at(2))->method('getFile')->with('styles.css')->willReturn($file);
-		$folder->expects($this->at(3))->method('getFile')->with('styles.css.deps')->willThrowException(new NotFoundException());
-		$folder->expects($this->at(4))->method('newFile')->with('styles.css.deps')->willReturn($fileDeps);
+
+		$folder->method('getFile')
+			->will($this->returnCallback(function($path) use ($file) {
+				if ($path === 'styles.css') {
+					return $file;
+				} else if ($path === 'styles.css.deps') {
+					throw new NotFoundException();
+				} else {
+					$this->fail();
+				}
+			}));
+		$folder->expects($this->once())
+			->method('newFile')
+			->with('styles.css.deps')
+			->willReturn($fileDeps);
+
 		$actual = $this->scssCacher->process(\OC::$SERVERROOT, '/core/css/styles.scss', 'core');
 		$this->assertTrue($actual);
 	}
@@ -83,25 +99,22 @@ class SCSSCacherTest extends \Test\TestCase {
 		$file = $this->createMock(ISimpleFile::class);
 		$file->expects($this->any())->method('getSize')->willReturn(1);
 		$fileDeps = $this->createMock(ISimpleFile::class);
-		$folder->expects($this->at(0))->method('getFile')->with('styles.css')->willReturn($file);
-		$folder->expects($this->at(1))->method('getFile')->with('styles.css.deps')->willThrowException(new NotFoundException());
-		$folder->expects($this->at(2))->method('getFile')->with('styles.css')->willReturn($file);
-		$folder->expects($this->at(3))->method('getFile')->with('styles.css.deps')->willThrowException(new NotFoundException());
-		$folder->expects($this->at(4))->method('newFile')->with('styles.css.deps')->willReturn($fileDeps);
-		$actual = $this->scssCacher->process(\OC::$SERVERROOT, '/core/css/styles.scss', 'core');
-		$this->assertTrue($actual);
-	}
 
-	public function testProcessCacheFile() {
-		$folder = $this->createMock(ISimpleFolder::class);
-		$this->appData->expects($this->once())->method('getFolder')->with('core')->willReturn($folder);
-		$file = $this->createMock(ISimpleFile::class);
-		$file->expects($this->any())->method('getSize')->willReturn(1);
-		$fileDeps = $this->createMock(ISimpleFile::class);
-		$fileDeps->expects($this->any())->method('getSize')->willReturn(1);
-		$fileDeps->expects($this->once())->method('getContent')->willReturn('{}');
-		$folder->expects($this->at(0))->method('getFile')->with('styles.css')->willReturn($file);
-		$folder->expects($this->at(1))->method('getFile')->with('styles.css.deps')->willReturn($fileDeps);
+		$folder->method('getFile')
+			->will($this->returnCallback(function($path) use ($file) {
+				if ($path === 'styles.css') {
+					return $file;
+				} else if ($path === 'styles.css.deps') {
+					throw new NotFoundException();
+				} else {
+					$this->fail();
+				}
+			}));
+		$folder->expects($this->once())
+			->method('newFile')
+			->with('styles.css.deps')
+			->willReturn($fileDeps);
+
 		$actual = $this->scssCacher->process(\OC::$SERVERROOT, '/core/css/styles.scss', 'core');
 		$this->assertTrue($actual);
 	}
@@ -114,35 +127,82 @@ class SCSSCacherTest extends \Test\TestCase {
 		$fileDeps = $this->createMock(ISimpleFile::class);
 		$fileDeps->expects($this->any())->method('getSize')->willReturn(1);
 		$fileDeps->expects($this->once())->method('getContent')->willReturn('{}');
-		$folder->expects($this->at(0))->method('getFile')->with('styles.css')->willReturn($file);
-		$folder->expects($this->at(1))->method('getFile')->with('styles.css.deps')->willReturn($fileDeps);
+
+		$folder->method('getFile')
+			->will($this->returnCallback(function($path) use ($file, $fileDeps) {
+				if ($path === 'styles.css') {
+					return $file;
+				} else if ($path === 'styles.css.deps') {
+					return $fileDeps;
+				} else {
+					$this->fail();
+				}
+			}));
+
+		$actual = $this->scssCacher->process(\OC::$SERVERROOT, '/core/css/styles.scss', 'core');
+		$this->assertTrue($actual);
+	}
+
+	public function testProcessCachedFileMemcache() {
+		$folder = $this->createMock(ISimpleFolder::class);
+		$this->appData->expects($this->once())
+			->method('getFolder')
+			->with('core')
+			->willReturn($folder);
+		$folder->method('getName')
+			->willReturn('core');
+
+		$file = $this->createMock(ISimpleFile::class);
+		$file->expects($this->once())
+			->method('getSize')
+			->willReturn(1);
+
+		$this->depsCache->method('get')
+			->with('core-styles.css.deps')
+			->willReturn('{}');
+
+		$folder->method('getFile')
+			->will($this->returnCallback(function($path) use ($file) {
+				if ($path === 'styles.css') {
+					return $file;
+				} else if ($path === 'styles.css.deps') {
+					$this->fail();
+				} else {
+					$this->fail();
+				}
+			}));
+
 		$actual = $this->scssCacher->process(\OC::$SERVERROOT, '/core/css/styles.scss', 'core');
 		$this->assertTrue($actual);
 	}
 
 	public function testIsCachedNoFile() {
 		$fileNameCSS = "styles.css";
-		$fileNameSCSS = "styles.scss";
 		$folder = $this->createMock(ISimpleFolder::class);
-		$path = \OC::$SERVERROOT . '/core/css/';
 
 		$folder->expects($this->at(0))->method('getFile')->with($fileNameCSS)->willThrowException(new NotFoundException());
-		$actual = self::invokePrivate($this->scssCacher, 'isCached', [$fileNameCSS, $fileNameSCSS, $folder, $path]);
+		$actual = self::invokePrivate($this->scssCacher, 'isCached', [$fileNameCSS, $folder]);
 		$this->assertFalse($actual);
 	}
 
 	public function testIsCachedNoDepsFile() {
 		$fileNameCSS = "styles.css";
-		$fileNameSCSS = "styles.scss";
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
-		$path = \OC::$SERVERROOT . '/core/css/';
 
 		$file->expects($this->once())->method('getSize')->willReturn(1);
-		$folder->expects($this->at(0))->method('getFile')->with($fileNameCSS)->willReturn($file);
-		$folder->expects($this->at(1))->method('getFile')->with($fileNameCSS . '.deps')->willThrowException(new NotFoundException());
+		$folder->method('getFile')
+			->will($this->returnCallback(function($path) use ($file) {
+				if ($path === 'styles.css') {
+					return $file;
+				} else if ($path === 'styles.css.deps') {
+					throw new NotFoundException();
+				} else {
+					$this->fail();
+				}
+			}));
 
-		$actual = self::invokePrivate($this->scssCacher, 'isCached', [$fileNameCSS, $fileNameSCSS, $folder, $path]);
+		$actual = self::invokePrivate($this->scssCacher, 'isCached', [$fileNameCSS, $folder]);
 		$this->assertFalse($actual);
 	}
 	public function testCacheNoFile() {
