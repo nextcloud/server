@@ -23,7 +23,6 @@
 
 namespace OCA\Files_External\Lib\SharePoint;
 
-
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
@@ -68,36 +67,38 @@ class SharePointClient {
 	 * @throws \Exception
 	 */
 	public function fetchFileOrFolder($path, array $properties = null) {
-		$this->ensureConnection();
-
-		# room for optimization: if "." present in path, try file first,
-		# otherwise folder
-
-		# Attempt 1: fetch a file
-		try {
-			$file = $this->context->getWeb()->getFileByServerRelativeUrl($path);
-			$this->loadAndExecute($file, $properties);
-			return $file;
-		} catch (\Exception $e) {
-			if(preg_match('/^The file \/.* does not exist\.$/', $e->getMessage()) !== 1) {
-				# Unexpected Exception, pass it on
-				throw $e;
-			}
+		$fetchFileFunc = function ($path, $props) { return $this->fetchFile($path, $props);};
+		$fetchFolderFunc = function ($path, $props) { return $this->fetchFolder($path, $props);};
+		$fetchers = [ $fetchFileFunc, $fetchFolderFunc ];
+		if(strpos($path, '.') === false) {
+			$fetchers = array_reverse($fetchers);
 		}
 
-		# Attempt 2: fetch a folder
-		try {
-			$this->createClientContext();	// otherwise the old query will be repeated
-			return $this->fetchFolder($path, $properties);
-		} catch (\Exception $e) {
-			if($e->getMessage() !== 'Unknown Error') { // yes, SP returns this
-				throw $e;
+		foreach ($fetchers as $fetchFunction) {
+			try {
+				$instance = call_user_func_array($fetchFunction, [$path, $properties]);
+				return $instance;
+			} catch (\Exception $e) {
+				if(preg_match('/^The file \/.* does not exist\.$/', $e->getMessage()) !== 1
+					&& $e->getMessage() !== 'Unknown Error'
+				) {
+					$this->createClientContext();
+					# Unexpected Exception, pass it on
+					throw $e;
+				}
 			}
+			$this->createClientContext();
 		}
 
 		# Nothing succeeded, quit with not found
-		$this->createClientContext();	// otherwise the old query will be repeated
 		throw new NotFoundException('File or Folder not found');
+	}
+
+	public function fetchFile($relativeServerPath, array $properties = null) {
+		$this->ensureConnection();
+		$file = $this->context->getWeb()->getFileByServerRelativeUrl($relativeServerPath);
+		$this->loadAndExecute($file, $properties);
+		return $file;
 	}
 
 	public function fetchFolder($relativeServerPath, array $properties = null) {

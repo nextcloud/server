@@ -23,9 +23,7 @@
 
 namespace OCA\Files_External\Tests\SharePoint;
 
-
 use OCA\Files_External\Lib\SharePoint\ContextsFactory;
-use OCA\Files_External\Lib\SharePoint\NotFoundException;
 use OCA\Files_External\Lib\SharePoint\SharePointClient;
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\SharePoint\ClientContext;
@@ -103,7 +101,6 @@ class SharePointClientTest extends TestCase {
 			->method('getAuthContext')
 			->willReturn($this->createMock(AuthenticationContext::class));
 
-		$fileMock = $this->createMock(File::class);
 		$folderCollectionMock = $this->createMock(FolderCollection::class);
 		$fileCollectionMock = $this->createMock(FileCollection::class);
 
@@ -116,29 +113,24 @@ class SharePointClientTest extends TestCase {
 			->willReturn($fileCollectionMock);
 
 		$webMock = $this->createMock(Web::class);
-		$webMock->expects($this->once())
-			->method('getFileByServerRelativeUrl')
-			->with($path)
-			->willReturn($fileMock);
+		$webMock->expects($this->never())
+			->method('getFileByServerRelativeUrl');
 		$webMock->expects($this->once())
 			->method('getFolderByServerRelativeUrl')
 			->with($path)
 			->willReturn($folderMock);
 
 		$clientContextMock = $this->createMock(ClientContext::class);
-		$clientContextMock->expects($this->exactly(2))
+		$clientContextMock->expects($this->once())
 			->method('getWeb')
 			->willReturn($webMock);
-		$clientContextMock->expects($this->exactly(4))
+		$clientContextMock->expects($this->exactly(3))
 			->method('load')
-			->withConsecutive([$fileMock, $properties], [$folderMock, $properties]);
-		$clientContextMock->expects($this->at(2))
-			->method('executeQuery')
-			->willThrowException(new \Exception('The file /whatwasitsname does not exist.'));
-		$clientContextMock->expects($this->at(7))
+			->withConsecutive([$folderMock, $properties]);
+		$clientContextMock->expects($this->at(4))
 			->method('executeQuery');
 
-		$this->contextsFactory->expects($this->exactly(2))
+		$this->contextsFactory->expects($this->once())
 			->method('getClientContext')
 			->willReturn($clientContextMock);
 
