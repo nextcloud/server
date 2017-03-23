@@ -173,6 +173,9 @@
     "%2$s restored %1$s" : "%2$s gjenopprettet %1$s",
     "Changed by %2$s" : "Endret av %2$s",
     "Deleted by %2$s" : "Slettet av %2$s",
-    "Restored by %2$s" : "Gjenopprettet av %2$s"
+    "Restored by %2$s" : "Gjenopprettet av %2$s",
+    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["{hours}:{minutes}:{seconds} time igjen","{hours}:{minutes}:{seconds} timer igjen"],
+    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["{minutes}:{seconds} minutt igjen","{minutes}:{seconds} minutter igjen"],
+    "_{seconds} second left_::_{seconds} seconds left_" : ["{seconds} sekund igjen","{seconds} sekunder igjen"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
