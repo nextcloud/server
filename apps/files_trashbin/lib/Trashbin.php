@@ -256,7 +256,11 @@ class Trashbin {
 		}
 
 		if ($sourceStorage->file_exists($sourceInternalPath)) { // failed to delete the original file, abort
-			$sourceStorage->unlink($sourceInternalPath);
+			if ($sourceStorage->is_dir($sourceInternalPath)) {
+				$sourceStorage->rmdir($sourceInternalPath);
+			} else {
+				$sourceStorage->unlink($sourceInternalPath);
+			}
 			return false;
 		}
 
