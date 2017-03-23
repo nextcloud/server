@@ -577,8 +577,8 @@ class SharedStorageTest extends TestCase {
 		]);
 
 		// trigger init
-		$this->assertInstanceOf(\OC\Files\Cache\FailedCache::class, $storage->getCache());
 		$this->assertInstanceOf(\OC\Files\Storage\FailedStorage::class, $storage->getSourceStorage());
+		$this->assertInstanceOf(\OC\Files\Cache\FailedCache::class, $storage->getCache());
 	}
 
 	public function testInitWithNotFoundSource() {
@@ -594,7 +594,7 @@ class SharedStorageTest extends TestCase {
 		]);
 
 		// trigger init
-		$this->assertInstanceOf(\OC\Files\Cache\FailedCache::class, $storage->getCache());
 		$this->assertInstanceOf(\OC\Files\Storage\FailedStorage::class, $storage->getSourceStorage());
+		$this->assertInstanceOf(\OC\Files\Cache\FailedCache::class, $storage->getCache());
 	}
 }
