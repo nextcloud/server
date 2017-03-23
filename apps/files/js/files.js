@@ -117,21 +117,34 @@
 				ownerDisplayName = $('#ownerDisplayName').val();
 			if (usedSpacePercent > 98) {
 				if (owner !== oc_current_user) {
-					OC.Notification.showTemporary(t('files', 'Storage of {owner} is full, files can not be updated or synced anymore!',
-						{ owner: ownerDisplayName }));
+					OC.Notification.show(t('files', 'Storage of {owner} is full, files can not be updated or synced anymore!', 
+						{owner: ownerDisplayName}), {type: 'error'}
+					);
 					return;
 				}
-				OC.Notification.show(t('files', 'Your storage is full, files can not be updated or synced anymore!'));
+				OC.Notification.show(t('files', 
+					'Your storage is full, files can not be updated or synced anymore!'), 
+					{type : 'error'}
+				);
 				return;
 			}
 			if (usedSpacePercent > 90) {
 				if (owner !== oc_current_user) {
-					OC.Notification.showTemporary(t('files', 'Storage of {owner} is almost full ({usedSpacePercent}%)',
-						{ usedSpacePercent: usedSpacePercent,  owner: ownerDisplayName }));
+					OC.Notification.show(t('files', 'Storage of {owner} is almost full ({usedSpacePercent}%)', 
+						{
+							usedSpacePercent: usedSpacePercent,  
+							owner: ownerDisplayName
+						}),
+						{  
+							type: 'error'
+						}
+					);
 					return;
 				}
 				OC.Notification.show(t('files', 'Your storage is almost full ({usedSpacePercent}%)',
-					{usedSpacePercent: usedSpacePercent}));
+					{usedSpacePercent: usedSpacePercent}), 
+					{type : 'error'}
+				);
 			}
 		},
 

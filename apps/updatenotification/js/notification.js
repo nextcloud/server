@@ -17,11 +17,10 @@ $(document).ready(function(){
 	var text = t('core', '{version} is available. Get more information on how to update.', {version: oc_updateState.updateVersion}),
 		element = $('<a>').attr('href', oc_updateState.updateLink).attr('target','_blank').text(text);
 
-	OC.Notification.showTemporary(
-		element,
+	OC.Notification.show(element, 
 		{
-			isHTML: true
+			isHTML: true,
+			type: 'error'
 		}
 	);
 });
-

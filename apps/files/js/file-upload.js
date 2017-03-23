@@ -462,7 +462,7 @@ OC.Uploader.prototype = _.extend({
 						deferred.resolve();
 						return;
 					}
-					OC.Notification.showTemporary(t('files', 'Could not create folder "{dir}"', {dir: fullPath}));
+					OC.Notification.show(t('files', 'Could not create folder "{dir}"', {dir: fullPath}), {type: 'error'});
 					deferred.reject();
 				});
 			}, function() {
@@ -544,7 +544,7 @@ OC.Uploader.prototype = _.extend({
 	},
 
 	showUploadCancelMessage: _.debounce(function() {
-		OC.Notification.showTemporary(t('files', 'Upload cancelled.'), {timeout: 10});
+		OC.Notification.show(t('files', 'Upload cancelled.'), {timeout : 7, type: 'error'});
 	}, 500),
 	/**
 	 * callback for the conflicts dialog
@@ -907,19 +907,15 @@ OC.Uploader.prototype = _.extend({
 						self.showConflict(upload);
 					} else if (status === 404) {
 						// target folder does not exist any more
-						OC.Notification.showTemporary(
-							t('files', 'Target folder "{dir}" does not exist any more', {dir: upload.getFullPath()})
-						);
+						OC.Notification.show(t('files', 'Target folder "{dir}" does not exist any more', {dir: upload.getFullPath()} ), {type: 'error'});
 						self.cancelUploads();
 					} else if (status === 507) {
 						// not enough space
-						OC.Notification.showTemporary(
-							t('files', 'Not enough free space')
-						);
+						OC.Notification.show(t('files', 'Not enough free space'), {type: 'error'});
 						self.cancelUploads();
 					} else {
 						// HTTP connection problem or other error
-						OC.Notification.showTemporary(data.errorThrown, {timeout: 10});
+						OC.Notification.show(data.errorThrown, {type: 'error'});
 					}
 
 					if (upload) {
@@ -1113,5 +1109,3 @@ OC.Uploader.prototype = _.extend({
 		return this.fileUploadParam;
 	}
 }, OC.Backbone.Events);
-
-
