@@ -217,7 +217,7 @@ class ChangePasswordController extends Controller {
 				return new JSONResponse([
 					'status' => 'error',
 					'data' => [
-						'message' => $this->l->t('Please provide an admin recovery password, otherwise all user data will be lost'),
+						'message' => $this->l->t('Please provide an admin recovery password; otherwise, all user data will be lost.'),
 					]
 				]);
 			} elseif ($recoveryEnabledForUser && ! $validRecoveryPassword) {
