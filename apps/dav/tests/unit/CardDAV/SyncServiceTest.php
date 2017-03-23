@@ -179,7 +179,7 @@ class SyncServiceTest extends TestCase {
 		$accountManager = $this->getMockBuilder('OC\Accounts\AccountManager')->disableOriginalConstructor()->getMock();
 		/** @var SyncService | \PHPUnit_Framework_MockObject_MockObject $ss */
 		$ss = $this->getMockBuilder(SyncService::class)
-			->setMethods(['ensureSystemAddressBookExists', 'requestSyncReport', 'download'])
+			->setMethods(['ensureSystemAddressBookExists', 'requestSyncReport', 'download', 'getCertPath'])
 			->setConstructorArgs([$backend, $userManager, $logger, $accountManager])
 			->getMock();
 		$ss->method('requestSyncReport')->withAnyParameters()->willReturn(['response' => $response, 'token' => 'sync-token-1']);
@@ -189,6 +189,7 @@ class SyncServiceTest extends TestCase {
 			'statusCode' => 200,
 			'headers' => []
 		]);
+		$ss->method('getCertPath')->willReturn('');
 		return $ss;
 	}
 

@@ -26,6 +26,7 @@ namespace OCA\DAV\CardDAV;
 
 use OC\Accounts\AccountManager;
 use OCP\AppFramework\Http;
+use OCP\ICertificateManager;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -68,12 +69,7 @@ class SyncService {
 		$this->userManager = $userManager;
 		$this->logger = $logger;
 		$this->accountManager = $accountManager;
-
-		$certManager = \OC::$server->getCertificateManager(null);
-		$certPath = $certManager->getAbsoluteBundlePath();
-		if (file_exists($certPath)) {
-			$this->certPath = $certPath;
-		}
+		$this->certPath = '';
 	}
 
 	/**
@@ -142,6 +138,28 @@ class SyncService {
 	}
 
 	/**
+	 * Check if there is a valid certPath we should use
+	 *
+	 * @return string
+	 */
+	protected function getCertPath() {
+
+		// we already have a valid certPath
+		if ($this->certPath !== '') {
+			return $this->certPath;
+		}
+
+		/** @var ICertificateManager $certManager */
+		$certManager = \OC::$server->getCertificateManager(null);
+		$certPath = $certManager->getAbsoluteBundlePath();
+		if (file_exists($certPath)) {
+			$this->certPath = $certPath;
+		}
+
+		return $this->certPath;
+	}
+
+	/**
 	 * @param string $url
 	 * @param string $userName
 	 * @param string $sharedSecret
@@ -154,9 +172,10 @@ class SyncService {
 			'password' => $sharedSecret,
 		];
 		$client = new Client($settings);
+		$certPath = $this->getCertPath();
 		$client->setThrowExceptions(true);
 
-		if (strpos($url, 'http://') !== 0 && $this->certPath) {
+		if ($certPath !== '' && strpos($url, 'http://') !== 0) {
 			$client->addCurlSetting(CURLOPT_CAINFO, $this->certPath);
 		}
 
