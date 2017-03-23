@@ -1,3 +1,8 @@
+/*
+ * vim: expandtab shiftwidth=4 softtabstop=4
+ */
+
+/* global dav */
 if (typeof dav == 'undefined') { dav = {}; };
 
 dav._XML_CHAR_MAP = {
@@ -100,10 +105,42 @@ dav.Client.prototype = {
     },
 
     /**
+     * Renders a "d:set" block for the given properties.
+     *
+     * @param {Object.<String,String>} properties
+     * @return {String} XML "<d:set>" block
+     */
+    _renderPropSet: function(properties) {
+        var body = '  <d:set>\n' +
+            '   <d:prop>\n';
+
+        for(var ii in properties) {
+            var property = this.parseClarkNotation(ii);
+            var propName;
+            var propValue = properties[ii];
+            if (this.xmlNamespaces[property.namespace]) {
+                propName = this.xmlNamespaces[property.namespace] + ':' + property.name;
+            } else {
+                propName = 'x:' + property.name + ' xmlns:x="' + property.namespace + '"';
+            }
+
+            // FIXME: hard-coded for now until we allow properties to
+            // specify whether to be escaped or not
+            if (propName !== 'd:resourcetype') {
+                propValue = dav._escapeXml(propValue);
+            }
+            body += '      <' + propName + '>' + propValue + '</' + propName + '>\n';
+        }
+        body +='    </d:prop>\n';
+        body +='  </d:set>\n';
+        return body;
+    },
+
+    /**
      * Generates a propPatch request.
      *
      * @param {string} url Url to do the proppatch request on
-     * @param {Array} properties List of properties to store.
+     * @param {Object.<String,String>} properties List of properties to store.
      * @param {Object} [headers] headers
      * @return {Promise}
      */
@@ -119,27 +156,48 @@ dav.Client.prototype = {
         for (namespace in this.xmlNamespaces) {
             body += ' xmlns:' + this.xmlNamespaces[namespace] + '="' + namespace + '"';
         }
-        body += '>\n' +
-            '  <d:set>\n' +
-            '   <d:prop>\n';
-
-        for(var ii in properties) {
-
-            var property = this.parseClarkNotation(ii);
-            var propName;
-            var propValue = properties[ii];
-            if (this.xmlNamespaces[property.namespace]) {
-                propName = this.xmlNamespaces[property.namespace] + ':' + property.name;
-            } else {
-                propName = 'x:' + property.name + ' xmlns:x="' + property.namespace + '"';
-            }
-            body += '      <' + propName + '>' + dav._escapeXml(propValue) + '</' + propName + '>\n';
-        }
-        body+='    </d:prop>\n';
-        body+='  </d:set>\n';
-        body+='</d:propertyupdate>';
+        body += '>\n' + this._renderPropSet(properties);
+        body += '</d:propertyupdate>';
 
         return this.request('PROPPATCH', url, headers, body).then(
+            function(result) {
+                return {
+                    status: result.status,
+                    body: result.body,
+                    xhr: result.xhr
+                };
+            }.bind(this)
+        );
+
+    },
+
+    /**
+     * Generates a MKCOL request.
+     * If attributes are given, it will use an extended MKCOL request.
+     *
+     * @param {string} url Url to do the proppatch request on
+     * @param {Object.<String,String>} [properties] list of properties to store.
+     * @param {Object} [headers] headers
+     * @return {Promise}
+     */
+    mkcol : function(url, properties, headers) {
+        var body = '';
+        headers = headers || {};
+        headers['Content-Type'] = 'application/xml; charset=utf-8';
+
+        if (properties) {
+            body =
+                '<?xml version="1.0"?>\n' +
+                '<d:mkcol';
+            var namespace;
+            for (namespace in this.xmlNamespaces) {
+                body += ' xmlns:' + this.xmlNamespaces[namespace] + '="' + namespace + '"';
+            }
+            body += '>\n' + this._renderPropSet(properties);
+            body +='</d:mkcol>';
+        }
+
+        return this.request('MKCOL', url, headers, body).then(
             function(result) {
                 return {
                     status: result.status,
@@ -293,10 +351,9 @@ dav.Client.prototype = {
             var propStatNode = propStatIterator.iterateNext();
 
             while(propStatNode) {
-
                 var propStat = {
                     status : doc.evaluate('string(d:status)', propStatNode, resolver, XPathResult.ANY_TYPE, null).stringValue,
-                    properties : [],
+                    properties : {},
                 };
 
                 var propIterator = doc.evaluate('d:prop/*', propStatNode, resolver, XPathResult.ANY_TYPE, null);
