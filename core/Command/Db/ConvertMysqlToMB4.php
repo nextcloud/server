@@ -71,16 +71,17 @@ class ConvertMysqlToMB4 extends Command {
 			return 1;
 		}
 
+		$oldValue = $this->config->getSystemValue('mysql.utf8mb4', false);
+		// enable charset
+		$this->config->setSystemValue('mysql.utf8mb4', true);
+
 		if (!$this->connection->supports4ByteText()) {
 			$url = $this->urlGenerator->linkToDocs('admin-mysql-utf8mb4');
 			$output->writeln("The database is not properly setup to use the charset utf8mb4.");
-			$output->writeln("Also check that the setting 'mysql.utf8mb4' is set to true in the config.php.");
 			$output->writeln("For more information please read the documentation at $url");
+			$this->config->setSystemValue('mysql.utf8mb4', $oldValue);
 			return 1;
 		}
-
-		// enable charset
-		$this->config->setSystemValue('mysql.utf8mb4', true);
 
 		// run conversion
 		$coll = new Collation($this->config, $this->logger, $this->connection, false);
