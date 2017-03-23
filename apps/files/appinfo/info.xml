@@ -6,7 +6,7 @@
 	<licence>AGPL</licence>
 	<author>Robin Appelman, Vincent Petry</author>
 	<default_enable/>
-	<version>1.7.1</version>
+	<version>1.7.2</version>
 	<types>
 		<filesystem/>
 	</types>
@@ -52,6 +52,7 @@
 		<command>OCA\Files\Command\Scan</command>
 		<command>OCA\Files\Command\DeleteOrphanedFiles</command>
 		<command>OCA\Files\Command\TransferOwnership</command>
+		<command>OCA\Files\Command\ScanAppData</command>
 	</commands>
 
 	<navigation>
