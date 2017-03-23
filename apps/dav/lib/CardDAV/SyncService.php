@@ -52,6 +52,9 @@ class SyncService {
 	/** @var AccountManager */
 	private $accountManager;
 
+	/** @var string */
+	protected $certPath;
+
 	/**
 	 * SyncService constructor.
 	 *
@@ -65,6 +68,12 @@ class SyncService {
 		$this->userManager = $userManager;
 		$this->logger = $logger;
 		$this->accountManager = $accountManager;
+
+		$certManager = \OC::$server->getCertificateManager(null);
+		$certPath = $certManager->getAbsoluteBundlePath();
+		if (file_exists($certPath)) {
+			$this->certPath = $certPath;
+		}
 	}
 
 	/**
@@ -136,10 +145,9 @@ class SyncService {
 	 * @param string $url
 	 * @param string $userName
 	 * @param string $sharedSecret
-	 * @param string $syncToken
-	 * @return array
+	 * @return Client
 	 */
-	protected function requestSyncReport($url, $userName, $sharedSecret, $syncToken) {
+	protected function getClient($url, $userName, $sharedSecret) {
 		$settings = [
 			'baseUri' => $url . '/',
 			'userName' => $userName,
@@ -148,6 +156,23 @@ class SyncService {
 		$client = new Client($settings);
 		$client->setThrowExceptions(true);
 
+		if (strpos($url, 'http://') !== 0 && $this->certPath) {
+			$client->addCurlSetting(CURLOPT_CAINFO, $this->certPath);
+		}
+
+		return $client;
+	}
+
+	/**
+	 * @param string $url
+	 * @param string $userName
+	 * @param string $sharedSecret
+	 * @param string $syncToken
+	 * @return array
+	 */
+	protected function requestSyncReport($url, $userName, $sharedSecret, $syncToken) {
+		$client = $this->getClient($url, $userName, $sharedSecret);
+
 		$addressBookUrl = "remote.php/dav/addressbooks/system/system/system";
 		$body = $this->buildSyncCollectionRequestBody($syncToken);
 
@@ -155,9 +180,7 @@ class SyncService {
 			'Content-Type' => 'application/xml'
 		]);
 
-		$result = $this->parseMultiStatus($response['body']);
-
-		return $result;
+		return $this->parseMultiStatus($response['body']);
 	}
 
 	/**
@@ -167,16 +190,8 @@ class SyncService {
 	 * @return array
 	 */
 	protected function download($url, $sharedSecret, $resourcePath) {
-		$settings = [
-			'baseUri' => $url,
-			'userName' => 'system',
-			'password' => $sharedSecret,
-		];
-		$client = new Client($settings);
-		$client->setThrowExceptions(true);
-
-		$response = $client->request('GET', $resourcePath);
-		return $response;
+		$client = $this->getClient($url, 'system', $sharedSecret);
+		return $client->request('GET', $resourcePath);
 	}
 
 	/**
