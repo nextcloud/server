@@ -516,6 +516,12 @@ class UsersController extends Controller {
 	public function getVerificationCode($account) {
 
 		$user = $this->userSession->getUser();
+
+		if ($user === null) {
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
+		$accountData = $this->accountManager->getUser($user);
 		$cloudId = $user->getCloudId();
 		$message = "Use my Federated Cloud ID to share with me: " . $cloudId;
 		$privateKey = $this->keyManager->getKey($user)->getPrivate();
@@ -527,16 +533,19 @@ class UsersController extends Controller {
 
 		switch ($account) {
 			case 'verify-twitter':
+				$accountData[AccountManager::PROPERTY_TWITTER]['verified'] = AccountManager::VERIFICATION_IN_PROGRESS;
 				$msg = $this->l10n->t('In order to verify your Twitter account post following tweet on Twitter:');
 				$code = $codeMd5;
 				break;
 			case 'verify-website':
+				$accountData[AccountManager::PROPERTY_WEBSITE]['verified'] = AccountManager::VERIFICATION_IN_PROGRESS;
 				$msg = $this->l10n->t('In order to verify your Website store following content in your webroot at \'CloudIdVerificationCode.txt\':');
 				break;
 			default:
 				return new DataResponse([], Http::STATUS_BAD_REQUEST);
-				break;
 		}
+
+		$this->accountManager->updateUser($user, $accountData);
 
 		return new DataResponse(['msg' => $msg, 'code' => $code]);
 	}

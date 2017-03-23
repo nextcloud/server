@@ -53,6 +53,10 @@ class AccountManager {
 	const PROPERTY_ADDRESS = 'address';
 	const PROPERTY_TWITTER = 'twitter';
 
+	const NOT_VERIFIED = '0';
+	const VERIFICATION_IN_PROGRESS = '1';
+	const VERIFIED = '2';
+
 	/** @var  IDBConnection database connection */
 	private $connection;
 
@@ -85,6 +89,7 @@ class AccountManager {
 		if (empty($userData)) {
 			$this->insertNewUser($user, $data);
 		} elseif ($userData !== $data) {
+			$data = $this->updateVerifyStatus($userData, $data);
 			$this->updateExistingUser($user, $data);
 		} else {
 			// nothing needs to be done if new and old data set are the same
@@ -121,6 +126,41 @@ class AccountManager {
 		}
 
 		return json_decode($result[0]['data'], true);
+	}
+
+	/**
+	 * reset verification status if personal data changed
+	 *
+	 * @param array $oldData
+	 * @param array $newData
+	 * @return array
+	 */
+	protected function updateVerifyStatus($oldData, $newData) {
+
+		$twitterVerified = isset($oldData[self::PROPERTY_TWITTER]['verified']) && $oldData[self::PROPERTY_TWITTER]['verified'] === self::VERIFIED;
+		$websiteVerified = isset($oldData[self::PROPERTY_WEBSITE]['verified']) && $oldData[self::PROPERTY_WEBSITE]['verified'] === self::VERIFIED;
+		$emailVerified = isset($oldData[self::PROPERTY_EMAIL]['verified']) && $oldData[self::PROPERTY_EMAIL]['verified'] === self::VERIFIED;
+
+		if($twitterVerified &&
+			$oldData[self::PROPERTY_TWITTER]['value'] !== $newData[self::PROPERTY_TWITTER]['value']
+		) {
+			$newData[self::PROPERTY_TWITTER]['value']['verified'] = self::NOT_VERIFIED;
+		}
+
+		if($websiteVerified &&
+			$oldData[self::PROPERTY_WEBSITE]['value'] !== $newData[self::PROPERTY_WEBSITE]['value']
+		) {
+			$newData[self::PROPERTY_WEBSITE]['value']['verified'] = self::NOT_VERIFIED;
+		}
+
+		if($emailVerified &&
+			$oldData[self::PROPERTY_EMAIL]['value'] !== $newData[self::PROPERTY_EMAIL]['value']
+		) {
+			$newData[self::PROPERTY_EMAIL]['value']['verified'] = self::NOT_VERIFIED;
+		}
+
+		return $newData;
+
 	}
 
 	/**
@@ -171,21 +211,25 @@ class AccountManager {
 				[
 					'value' => $user->getDisplayName(),
 					'scope' => self::VISIBILITY_CONTACTS_ONLY,
+					'verified' => '0',
 				],
 			self::PROPERTY_ADDRESS =>
 				[
 					'value' => '',
 					'scope' => self::VISIBILITY_PRIVATE,
+					'verified' => '0',
 				],
 			self::PROPERTY_WEBSITE =>
 				[
 					'value' => '',
 					'scope' => self::VISIBILITY_PRIVATE,
+					'verified' => '0',
 				],
 			self::PROPERTY_EMAIL =>
 				[
 					'value' => $user->getEMailAddress(),
 					'scope' => self::VISIBILITY_CONTACTS_ONLY,
+					'verified' => '0',
 				],
 			self::PROPERTY_AVATAR =>
 				[
@@ -195,11 +239,13 @@ class AccountManager {
 				[
 					'value' => '',
 					'scope' => self::VISIBILITY_PRIVATE,
+					'verified' => '0',
 				],
 			self::PROPERTY_TWITTER =>
 				[
 					'value' => '',
 					'scope' => self::VISIBILITY_PRIVATE,
+					'verified' => '0',
 				],
 		];
 	}
