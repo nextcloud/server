@@ -719,6 +719,10 @@ MountConfigListView.prototype = _.extend({
 			self.deleteStorageConfig($(this).closest('tr'));
 		});
 
+		this.$el.on('click', 'td.save>img', function () {
+			self.saveStorageConfig($(this).closest('tr'));
+		});
+
 		this.$el.on('click', 'td.mountOptionsToggle>img', function() {
 			self._showMountOptionsDropdown($(this).closest('tr'));
 		});
@@ -737,13 +741,6 @@ MountConfigListView.prototype = _.extend({
 		highlightInput($target);
 		var $tr = $target.closest('tr');
 		this.updateStatus($tr, null);
-
-		var timer = $tr.data('save-timer');
-		clearTimeout(timer);
-		timer = setTimeout(function() {
-			self.saveStorageConfig($tr, null, timer);
-		}, 2000);
-		$tr.data('save-timer', timer);
 	},
 
 	_onSelectBackend: function(event) {
@@ -813,8 +810,7 @@ MountConfigListView.prototype = _.extend({
 
 		$tr.data('storageConfig', storageConfig);
 		$tr.show();
-		$tr.find('td').last().attr('class', 'remove');
-		$tr.find('td.mountOptionsToggle').removeClass('hidden');
+		$tr.find('td.mountOptionsToggle, td.save, td.remove').removeClass('hidden');
 		$tr.find('td').last().removeAttr('style');
 		$tr.removeAttr('id');
 		$tr.find('select#selectBackend');

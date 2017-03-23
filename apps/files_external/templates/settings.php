@@ -150,11 +150,17 @@
 					/>
 					<input type="hidden" class="mountOptions" value="" />
 				</td>
-				<td class="hidden">
+				<td class="remove hidden">
 					<img class="svg"
 						alt="<?php p($l->t('Delete')); ?>"
 						title="<?php p($l->t('Delete')); ?>"
 						src="<?php print_unescaped(image_path('core', 'actions/delete.svg')); ?>"
+					/>
+				</td>
+				<td class="save hidden">
+					<img alt="<?php p($l->t('Save')); ?>"
+						 title="<?php p($l->t('Save')); ?>"
+						 src="<?php print_unescaped(image_path('core', 'actions/checkmark.svg')); ?>"
 					/>
 				</td>
 			</tr>

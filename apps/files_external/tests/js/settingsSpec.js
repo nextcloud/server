@@ -46,7 +46,8 @@ describe('OCA.External.Settings tests', function() {
 			'<input type="hidden" class="applicableUsers">' +
 			'</td>' +
 			'<td class="mountOptionsToggle"><input type="hidden" class="mountOptions"/><img class="svg action"/></td>' +
-			'<td><img alt="Delete" title="Delete" class="svg action"/></td>' +
+			'<td class="remove"><img alt="Delete" title="Delete" class="svg action"/></td>' +
+			'<td class="save"><img alt="Save" title="Save" class="svg action"/></td>' +
 			'</tr>' +
 			'</tbody>' +
 			'</table>'
@@ -195,7 +196,7 @@ describe('OCA.External.Settings tests', function() {
 				$tr = view.$el.find('tr:first');
 				selectBackend('\\OC\\TestBackend');
 			});
-			it('saves storage after editing config', function() {
+			it('saves storage after clicking the save button', function() {
 				var $field1 = $tr.find('input[data-parameter=field1]');
 				expect($field1.length).toEqual(1);
 				$field1.val('test');
@@ -205,7 +206,8 @@ describe('OCA.External.Settings tests', function() {
 				expect($mountOptionsField.length).toEqual(1);
 				$mountOptionsField.val(JSON.stringify({previews:true}));
 
-				clock.tick(4000);
+				var $saveButton = $tr.find('td.save img');
+				$saveButton.click();
 
 				expect(fakeServer.requests.length).toEqual(1);
 				var request = fakeServer.requests[0];
@@ -242,11 +244,6 @@ describe('OCA.External.Settings tests', function() {
 				// but after closing the dropdown
 				expect(fakeServer.requests.length).toEqual(1);
 			});
-			// TODO: tests with "applicableUsers" and "applicableGroups"
-			// TODO: test with missing mount point value
-			// TODO: test with personal mounts (no applicable fields)
-			// TODO: test save triggers: paste, keyup, checkbox
-			// TODO: test "custom" field with addScript
 			// TODO: status indicator
 		});
 		describe('validate storage configuration', function() {
