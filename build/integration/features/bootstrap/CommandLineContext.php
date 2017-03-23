@@ -89,6 +89,20 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
+	 * @When /^transfering ownership of path "([^"]+)" from "([^"]+)" to "([^"]+)"/
+	 */
+	public function transferingOwnershipPath($path, $user1, $user2) {
+		$path = '--path=' . $path;
+		if($this->runOcc(['files:transfer-ownership', $path, $user1, $user2]) === 0) {
+			$this->lastTransferPath = $this->findLastTransferFolderForUser($user1, $user2);
+		} else {
+			// failure
+			$this->lastTransferPath = null;
+		}
+	}
+
+
+	/**
 	 * @When /^using received transfer folder of "([^"]+)" as dav path$/
 	 */
 	public function usingTransferFolderAsDavPath($user) {
