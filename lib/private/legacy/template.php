@@ -119,7 +119,6 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addScript('select2-toggleselect');
 
 			OC_Util::addScript('oc-backbone', null, true);
-			OC_Util::addVendorScript('core', 'backbone/backbone', true);
 			OC_Util::addVendorScript('snapjs/dist/latest/snap', null, true);
 			OC_Util::addScript('mimetypelist', null, true);
 			OC_Util::addScript('mimetype', null, true);
