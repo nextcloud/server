@@ -124,13 +124,16 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		} catch (NotFoundException $e) {
 			// original file not accessible or deleted, set FailedStorage
 			$this->storage = new FailedStorage(['exception' => $e]);
+			$this->cache = new FailedCache();
 			$this->rootPath = '';
 		} catch (NoUserException $e) {
 			// sharer user deleted, set FailedStorage
 			$this->storage = new FailedStorage(['exception' => $e]);
+			$this->cache = new FailedCache();
 			$this->rootPath = '';
 		} catch (\Exception $e) {
 			$this->storage = new FailedStorage(['exception' => $e]);
+			$this->cache = new FailedCache();
 			$this->rootPath = '';
 			$this->logger->logException($e);
 		}
