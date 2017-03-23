@@ -144,7 +144,7 @@ interface FileInfo {
 	/**
 	 * Get the file id of the file or folder
 	 *
-	 * @return int
+	 * @return int|null
 	 * @since 7.0.0
 	 */
 	public function getId();
