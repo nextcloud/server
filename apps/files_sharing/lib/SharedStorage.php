@@ -31,16 +31,16 @@
 
 namespace OCA\Files_Sharing;
 
-use OC\Files\Filesystem;
 use OC\Files\Cache\FailedCache;
+use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\PermissionsMask;
-use OCA\Files_Sharing\ISharedStorage;
 use OC\Files\Storage\FailedStorage;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\Lock\ILockingProvider;
+use OC\User\NoUserException;
 
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
@@ -99,6 +99,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	private function getSourceRootInfo() {
 		if (is_null($this->sourceRootInfo)) {
 			if (is_null($this->superShare->getNodeCacheEntry())) {
+				$this->init();
 				$this->sourceRootInfo = $this->nonMaskedStorage->getCache()->get($this->rootPath);
 			} else {
 				$this->sourceRootInfo = $this->superShare->getNodeCacheEntry();
@@ -121,12 +122,24 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 				'mask' => $this->superShare->getPermissions()
 			]);
 		} catch (NotFoundException $e) {
+			// original file not accessible or deleted, set FailedStorage
 			$this->storage = new FailedStorage(['exception' => $e]);
+			$this->cache = new FailedCache();
+			$this->rootPath = '';
+		} catch (NoUserException $e) {
+			// sharer user deleted, set FailedStorage
+			$this->storage = new FailedStorage(['exception' => $e]);
+			$this->cache = new FailedCache();
 			$this->rootPath = '';
 		} catch (\Exception $e) {
 			$this->storage = new FailedStorage(['exception' => $e]);
+			$this->cache = new FailedCache();
 			$this->rootPath = '';
 			$this->logger->logException($e);
+		}
+
+		if (!$this->nonMaskedStorage) {
+			$this->nonMaskedStorage = $this->storage;
 		}
 	}
 
@@ -343,6 +356,9 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		}
 		if (!$storage) {
 			$storage = $this;
+		}
+		if ($this->storage instanceof FailedStorage) {
+			return new FailedCache();
 		}
 		$this->cache = new \OCA\Files_Sharing\Cache($storage, $this->getSourceRootInfo(), $this->superShare);
 		return $this->cache;
