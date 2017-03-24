@@ -45,34 +45,29 @@ class Checksum extends Wrapper {
 	 *
 	 * @var  resource[]
 	 */
- 	private $hashingContexts;
+	private $hashingContexts;
 
-	/** @var CappedMemoryCache Key is path, value is array of checksums */
-	private static $checksums;
-
+	/** @var callable */
+	private $callback;
 
 	public function __construct(array $algos = ['sha1', 'md5', 'adler32']) {
 
 		foreach ($algos as $algo) {
 			$this->hashingContexts[$algo] = hash_init($algo);
 		}
-
-		if (!self::$checksums) {
-			self::$checksums = new CappedMemoryCache();
-		}
 	}
 
 
 	/**
-	 * @param $source
-	 * @param $path
+	 * @param resource $source
+	 * @param callable $callback
 	 * @return resource
 	 */
-	public static function wrap($source, $path) {
+	public static function wrap($source, callable $callback) {
 		$context = stream_context_create([
 			'occhecksum' => [
 				'source' => $source,
-				'path' => $path
+				'callback' => $callback
 			]
 		]);
 
@@ -88,7 +83,7 @@ class Checksum extends Wrapper {
 	 * @return bool
 	 */
 	public function dir_opendir($path, $options) {
-		return true;
+		return false;
 	}
 
 	/**
@@ -101,6 +96,7 @@ class Checksum extends Wrapper {
 	public function stream_open($path, $mode, $options, &$opened_path) {
 		$context = parent::loadContext('occhecksum');
 		$this->setSourceStream($context['source']);
+		$this->callback = $context['callback'];
 
 		return true;
 	}
@@ -136,8 +132,8 @@ class Checksum extends Wrapper {
 	 * @return bool
 	 */
 	public function stream_close() {
-		$currentPath = $this->getPathFromStreamContext();
-		self::$checksums[$currentPath] = $this->finalizeHashingContexts();
+		$callback = $this->callback;
+		$callback($this->finalizeHashingContexts());
 
 		return parent::stream_close();
 	}
@@ -153,47 +149,5 @@ class Checksum extends Wrapper {
 		}
 
 		return $hashes;
-	}
-
-	public function dir_closedir() {
-		if (!isset($this->source)) {
-			return false;
-		}
-		return parent::dir_closedir();
-	}
-
-	/**
-	 * @return mixed
-	 * @return string
-	 */
-	private function getPathFromStreamContext() {
-		$ctx = stream_context_get_options($this->context);
-
-		return $ctx['occhecksum']['path'];
-	}
-
-	/**
-	 * @param $path
-	 * @return array
-	 */
-	public static function getChecksums($path) {
-		if (!isset(self::$checksums[$path])) {
-			return [];
-		}
-
-		return self::$checksums[$path];
-	}
-
-	/**
-	 * For debugging
-	 *
-	 * @return CappedMemoryCache
-	 */
-	public static function getChecksumsForAllPaths() {
-		if (!self::$checksums) {
-			self::$checksums = new CappedMemoryCache();
-		}
-
-		return self::$checksums;
 	}
 }
