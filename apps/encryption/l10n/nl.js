@@ -23,7 +23,6 @@ OC.L10N.register(
     "Private key password successfully updated." : "Privésleutel succesvol bijgewerkt.",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Je moet je cryptosleutels van de oude versleuteling (ownCloud <= 8.0) migreren naar de nieuwe. Start 'occ encryption:migrate' of neem contact op met je beheerder",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ongeldige privésleutel voor de crypto app. Werk het privésleutel wachtwoord bij in je persoonlijke instellingen om opnieuw toegang te krijgen tot je versleutelde bestanden.",
-    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Crypto app is geactiveerd, maar je sleutels werden niet geïnitialiseerd. Log uit en log daarna opnieuw in.",
     "Encryption app is enabled and ready" : "Encryptie app is geactiveerd en gereed",
     "Bad Signature" : "Verkeerde handtekening",
     "Missing Signature" : "Missende ondertekening",
@@ -35,6 +34,7 @@ OC.L10N.register(
     "Cheers!" : "Proficiat!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Hallo daar,<br><br>de beheerder heeft server-side versleuteling ingeschakeld. Je bestanden werden versleuteld met het wachtwoord <strong>%s</strong>.<br><br>Login op de webinterface, ga naar 'basis cryptomodule' in je persoonlijke instellingen en pas je cryptowachtwoord aan door dit wachtwoord in het \"oude inlog wachtwoord\" veld in te vullen alsmede in je huidige inlogwachtwoord.<br><br>",
     "Default encryption module" : "Standaard cryptomodule",
+    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Crypto app is geactiveerd, maar je sleutels werden niet geïnitialiseerd. Log uit en log daarna opnieuw in.",
     "Encrypt the home storage" : "Versleutel de eigen serveropslag",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Het inschakelen van deze optie zorgt voor versleutelen van alle bestanden op do hoofdopslag, anders worden alleen bestanden op externe opslag versleuteld",
     "Enable recovery key" : "Activeer herstelsleutel",
@@ -48,7 +48,6 @@ OC.L10N.register(
     "Repeat new recovery key password" : "Herhaal nieuwe wachtwoord herstelsleutel",
     "Change Password" : "Wijzigen wachtwoord",
     "Basic encryption module" : "Basis versleutelingsmodule",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Crypto app is geactiveerd, maar je sleutels werden niet geïnitialiseerd. Log uit en log daarna opnieuw in.",
     "Your private key password no longer matches your log-in password." : "Het wachtwoord van je privésleutel komt niet meer overeen met je inlogwachtwoord.",
     "Set your old private key password to your current log-in password:" : "Stel het wachtwoord van je oude privésleutel in op je huidige inlogwachtwoord.",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Als je je oude wachtwoord niet meer weet, kun je de beheerder vragen je bestanden terug te halen.",
@@ -58,6 +57,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Activeren wachtwoord herstel:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Het activeren van deze optie maakt het mogelijk om je versleutelde bestanden te benaderen als je wachtwoord kwijt is",
     "Enabled" : "Geactiveerd",
-    "Disabled" : "Gedeactiveerd"
+    "Disabled" : "Gedeactiveerd",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Crypto app is geactiveerd, maar je sleutels werden niet geïnitialiseerd. Log uit en log daarna opnieuw in."
 },
 "nplurals=2; plural=(n != 1);");

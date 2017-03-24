@@ -40,7 +40,6 @@ OC.L10N.register(
     "New recovery key password" : "Uusi salausavaimen salasana",
     "Repeat new recovery key password" : "Toista uusi salausavaimen salasana",
     "Change Password" : "Vaihda salasana",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Salaussovellus on käytössä, mutta salausavaimia ei ole alustettu. Ole hyvä ja kirjaudu sisään uudelleen.",
     "Your private key password no longer matches your log-in password." : "Salaisen avaimesi salasana ei enää vastaa kirjautumissalasanaasi.",
     "Set your old private key password to your current log-in password:" : "Aseta yksityisen avaimen vanha salasana vastaamaan nykyistä kirjautumissalasanaasi:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Jos et muista vanhaa salasanaasi, voit pyytää ylläpitäjää palauttamaan tiedostosi.",
@@ -50,6 +49,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Ota salasanan palautus käyttöön:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Tämän valinnan käyttäminen mahdollistaa pääsyn salattuihin tiedostoihisi, jos salasana unohtuu",
     "Enabled" : "Käytössä",
-    "Disabled" : "Ei käytössä"
+    "Disabled" : "Ei käytössä",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Salaussovellus on käytössä, mutta salausavaimia ei ole alustettu. Ole hyvä ja kirjaudu sisään uudelleen."
 },
 "nplurals=2; plural=(n != 1);");

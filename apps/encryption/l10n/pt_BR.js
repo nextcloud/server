@@ -23,7 +23,6 @@ OC.L10N.register(
     "Private key password successfully updated." : "Senha de chave privada atualizada com sucesso.",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Você precisa migrar suas chaves de criptografia a partir da antiga criptografia (ownCloud <= 8,0) para a nova. Por favor, execute 'occ encryption:migrate' ou contate o seu administrador",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chave privada inválida para o aplicativo de criptografia. Atualize a senha da sua chave privada nas configurações pessoais para recuperar o acesso aos seus arquivos criptografados.",
-    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "O aplicativo de criptografia está ativo, mas suas chaves não foram inicializadas. Autentique-se novamente.",
     "Encryption app is enabled and ready" : "O aplicativo de criptografia está ativo e pronto",
     "Bad Signature" : "Assinatura ruim",
     "Missing Signature" : "Faltando assinatura",
@@ -35,6 +34,7 @@ OC.L10N.register(
     "Cheers!" : "Saudações!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Olá,<br><br>o administrador habilitou criptografia-lado-servidor. Os seus arquivos foram criptografados usando a senha <strong>%s</strong>.<br><br>Por favor, faça o login para a interface da Web, vá para a seção 'módulo de criptografia básico' das suas definições pessoais e atualize sua senha de criptografia, inserindo esta senha no campo 'senha antiga de log-in' e sua atual senha-de-login.<br><br>",
     "Default encryption module" : "Módulo de criptografia padrão",
+    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "O aplicativo de criptografia está ativo, mas suas chaves não foram inicializadas. Autentique-se novamente.",
     "Encrypt the home storage" : "Criptografar a pasta de armazenamento home",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Ativar essa opção de criptografia para todos os arquivos armazenados no armazenamento principal, caso contrário, apenas arquivos no armazenamento externo serão criptografados",
     "Enable recovery key" : "Habilitar recuperação de chave",
@@ -48,7 +48,6 @@ OC.L10N.register(
     "Repeat new recovery key password" : "Repita a nova senha da chave de recuperação",
     "Change Password" : "Trocar senha",
     "Basic encryption module" : "Módulo de criptografia básico",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "App de criptografia está ativado, mas as chaves não estão inicializadas, por favor log-out e faça login novamente",
     "Your private key password no longer matches your log-in password." : "A sua senha de chave privada não corresponde a sua senha de login.",
     "Set your old private key password to your current log-in password:" : "Defina a sua antiga senha da chave privada para sua senha de login atual:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Se você não se lembra de sua antiga senha você pode pedir ao administrador que recupere seus arquivos.",
@@ -58,6 +57,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Habilitar recuperação de senha:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ativar essa opção vai permitir que você obtenha novamente acesso aos seus arquivos criptografados em caso de perda de senha",
     "Enabled" : "Habilitado",
-    "Disabled" : "Desabilitado"
+    "Disabled" : "Desabilitado",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "App de criptografia está ativado, mas as chaves não estão inicializadas, por favor log-out e faça login novamente"
 },
 "nplurals=2; plural=(n > 1);");

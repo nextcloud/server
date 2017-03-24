@@ -43,7 +43,6 @@ OC.L10N.register(
     "New recovery key password" : "Novi ključ za obnovitev gesla",
     "Repeat new recovery key password" : "Ponovi novi ključ za obnovitev gesla",
     "Change Password" : "Spremeni geslo",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Program za šifriranje je omogočen, vendar ni začet. Odjavite se in nato ponovno prijavite.",
     "Your private key password no longer matches your log-in password." : "Zasebno geslo ni več skladno s prijavnim geslom.",
     "Set your old private key password to your current log-in password:" : "Nastavite star zasebni ključ na trenutno prijavno geslo:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Če ste pozabili svoje geslo, lahko vaše datoteke obnovi le skrbnik sistema.",
@@ -53,6 +52,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Omogoči obnovitev gesla:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Nastavitev te možnosti omogoča ponovno pridobitev dostopa do šifriranih datotek, v primeru, da boste geslo pozabili.",
     "Enabled" : "Omogočeno",
-    "Disabled" : "Onemogočeno"
+    "Disabled" : "Onemogočeno",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Program za šifriranje je omogočen, vendar ni začet. Odjavite se in nato ponovno prijavite."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -43,7 +43,6 @@ OC.L10N.register(
     "New recovery key password" : "New recovery key password",
     "Repeat new recovery key password" : "Repeat new recovery key password",
     "Change Password" : "Change Password",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Encryption App is enabled but your keys are not initialised, please log-out and log-in again",
     "Your private key password no longer matches your log-in password." : "Your private key password no longer matches your log-in password.",
     "Set your old private key password to your current log-in password:" : "Set your old private key password to your current log-in password:",
     " If you don't remember your old password you can ask your administrator to recover your files." : " If you don't remember your old password you can ask your administrator to recover your files.",
@@ -53,6 +52,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Enable password recovery:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss",
     "Enabled" : "Enabled",
-    "Disabled" : "Disabled"
+    "Disabled" : "Disabled",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Encryption App is enabled but your keys are not initialised, please log-out and log-in again"
 },
 "nplurals=2; plural=(n != 1);");

@@ -23,7 +23,6 @@ OC.L10N.register(
     "Private key password successfully updated." : "개인 키 암호가 성공적으로 업데이트 되었습니다.",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "과거에 사용하였던(ownCloud <= 8.0) 암호화된 데이터에서 키를 이전해야 합니다. 'occ encryption:migrate'를 실행하거나 시스템 관리자에게 연락하십시오",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "암호화 앱의 개인 키가 잘못되었습니다. 암호화된 파일에 다시 접근하려면 개인 설정에서 개인 키 암호를 업데이트해야 합니다.",
-    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "암호화 앱이 활성화되어 있지만 키가 초기화되지 않았습니다. 로그아웃한 후 다시 로그인하십시오",
     "Encryption app is enabled and ready" : "암호화 앱이 활성화되었고 준비됨",
     "Bad Signature" : "잘못된 서명",
     "Missing Signature" : "서명 없음",
@@ -35,6 +34,7 @@ OC.L10N.register(
     "Cheers!" : "감사합니다!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "안녕하세요,<br><br>시스템 관리자가 서버 측 암호화를 활성화했습니다. 저장된 파일이 암호 <strong>%s</strong>으(로) 암호화되었습니다.<br><br>웹 인터페이스에 로그인하여 개인 설정의 '기본 암호화 모듈'로 이동한 다음, '이전 로그인 암호' 필드에 위 암호를 입력하고 현재 로그인 암호로 변경하여 암호화 암호를 업데이트하십시오.<br><br>",
     "Default encryption module" : "기본 암호화 모듈",
+    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "암호화 앱이 활성화되어 있지만 키가 초기화되지 않았습니다. 로그아웃한 후 다시 로그인하십시오",
     "Encrypt the home storage" : "홈 저장소 암호화",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "이 옵션을 사용하면 주 저장소에 있는 모드 파일을 암호화하며, 사용하지 않으면 외부 저장소의 파일만 암호화합니다",
     "Enable recovery key" : "복구 키 활성화",
@@ -48,7 +48,6 @@ OC.L10N.register(
     "Repeat new recovery key password" : "새 복구 키 암호 확인",
     "Change Password" : "암호 변경",
     "Basic encryption module" : "기본 암호화 모듈",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "암호화 앱이 활성화되어 있지만 키가 초기화되지 않았습니다. 로그아웃한 후 다시 로그인하십시오",
     "Your private key password no longer matches your log-in password." : "개인 키 암호와 로그인 암호가 일치하지 않습니다.",
     "Set your old private key password to your current log-in password:" : "기존 개인 키 암호를 로그인 암호와 동일하게 설정하십시오:",
     " If you don't remember your old password you can ask your administrator to recover your files." : " 이전 암호가 기억나지 않으면 시스템 관리자에게 파일 복구를 요청하십시오.",
@@ -58,6 +57,7 @@ OC.L10N.register(
     "Enable password recovery:" : "암호 복구 사용:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "이 옵션을 사용하면 암호를 잊었을 때 암호화된 파일에 다시 접근할 수 있습니다",
     "Enabled" : "활성화",
-    "Disabled" : "비활성화"
+    "Disabled" : "비활성화",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "암호화 앱이 활성화되어 있지만 키가 초기화되지 않았습니다. 로그아웃한 후 다시 로그인하십시오"
 },
 "nplurals=1; plural=0;");

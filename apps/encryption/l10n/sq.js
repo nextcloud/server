@@ -23,7 +23,6 @@ OC.L10N.register(
     "Private key password successfully updated." : "Fjalëkalimi për kyçin privat u përditësua me sukses.",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Lypset të kaloni kyçet tuaj të fshehtëzimeve nga versioni i vjetër i fshehtëzimeve (ownCloud <= 8.0) te i riu. Ju lutemi, ekzekutoni run 'occ encryption:migrate' ose lidhuni me përgjegjësin tuaj",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Kyç privat i pavlefshëm për aplikacionin e fshehtëzimeve. Ju lutemi, përditësoni fjalëkalimin tuaj të kyçit privat te rregullimet tuaja personale që të rimerrni hyrje te kartelat tuaja të fshehtëzuara.",
-    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikacioni i fshehtëzimeve është i aktivizuar, por kyçet tuaj s’janë vënë në punë, ju lutemi, dilni dhe ribëni hyrjen",
     "Encryption app is enabled and ready" : "Aplikacioni i Fshehtëzimeve u aktivizua dhe është gati",
     "Bad Signature" : "Nënshkrim i Keq",
     "Missing Signature" : "Mungon Nënshkrimi",
@@ -35,6 +34,7 @@ OC.L10N.register(
     "Cheers!" : "Gëzuar!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Njatjeta,<br><br>përgjegjësi aktivizoi fshehtëzim më anë shërbyesi. Kartelat tuaja qenë fshehtëzuar duke përdorur fjalëkalimin <strong>%s</strong>.<br><br>Ju lutemi, bëni hyrjen te ndërfaqja web, kaloni te ndarja \"modul i thjeshtëpër fshehtëzime\" e rregullimeve tuaja personale dhe përditësoni fjalëkalimin tuaj për fshehtëzime duke dhënë këtë fjalëkalim te fusha \"old log-in password\" dhe fjalëkalimin tuaj të tanishëm për hyrjet.<br><br>",
     "Default encryption module" : "Modul i parazgjedhur fshehtëzimi",
+    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikacioni i fshehtëzimeve është i aktivizuar, por kyçet tuaj s’janë vënë në punë, ju lutemi, dilni dhe ribëni hyrjen",
     "Encrypt the home storage" : "Fshehtëzo depozitën bazë",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Aktivizimi i kësaj mundësie fshehtëzon krejt kartelat e depozituara në depon bazë, përndryshe do të fshehtëzohen vetëm kartelat në depozitën e jashtme",
     "Enable recovery key" : "Aktivizo kyç rimarrjesh",
@@ -48,7 +48,6 @@ OC.L10N.register(
     "Repeat new recovery key password" : "Rijepni fjalëkalimin e ri kyçi rimarrjesh",
     "Change Password" : "Ndryshoni Fjalëkalimin",
     "Basic encryption module" : "Modul i thjeshtë fshehtëzimesh",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikacioni i fshehtëzimeve është i aktivizuar, por kyçet tuaj s’janë vënë në punë, ju lutemi, dilni dhe ribëni hyrjen",
     "Your private key password no longer matches your log-in password." : "Fjalëkalimi juaj për kyçe privatë s’përputhet më me fjalëkalimin për hyrjet.",
     "Set your old private key password to your current log-in password:" : "Fjalëkalimit të vjetër të kyçit privat jepini vlerën e fjalëkalimit tuaj të tanishëm për hyrjet:",
     " If you don't remember your old password you can ask your administrator to recover your files." : " Nëse s’e mbani mend fjalëkalimin tuaj të vjetër, mund t’i kërkoni përgjegjësit tuaj të rimarrë kartelat tuaja.",
@@ -58,6 +57,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Aktivizo rimarrje fjalëkalimesh:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivizimi i kësaj mundësie do t’ju lejojë të rifitoni hyrje te kartelat tuaja të fshehtëzuara në rast humbjeje fjalëkalimi",
     "Enabled" : "E aktivizuar",
-    "Disabled" : "E çaktivizuar"
+    "Disabled" : "E çaktivizuar",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikacioni i fshehtëzimeve është i aktivizuar, por kyçet tuaj s’janë vënë në punë, ju lutemi, dilni dhe ribëni hyrjen"
 },
 "nplurals=2; plural=(n != 1);");

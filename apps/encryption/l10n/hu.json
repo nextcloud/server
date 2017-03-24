@@ -21,7 +21,6 @@
     "Private key password successfully updated." : "A személyes kulcsának jelszava frissítésre került.",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Migrálni kell a titkosítási kulcsaidat a rég titkosításról (ownCloud <= 8.0) az újra. Kérlek futtasd az 'occ encryption:migrate' parancsot, vagy lépj kapcsolatba az adminisztrátorral",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "A titkosító alkalmazás privát kulcsa érvénytelen. A titkosított fájljaidhoz való hozzáféréshez frissítsd a privát kulcsod jelszavát a személyes beállításoknál.",
-    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "A titkosító alkalmazás engedélyezve van, de a kulcsaid még nincsenek inicializálva. Kérlek lépj ki, majd lépj be újra",
     "Encryption app is enabled and ready" : "A titkosító alkalmazás engedélyezve és készen áll",
     "Bad Signature" : "Rossz aláírás",
     "Missing Signature" : "Hiányzó aláírás",
@@ -33,6 +32,7 @@
     "Cheers!" : "Üdv.",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Szia!<br><br>Az adminisztrátor bekapcsolta a szerver-oldali titkosítást. A fájljaid ezzel a jelszóval lettek titkosítva: <strong>%s</strong>.<br><br>Kérlek jelentkezz be a webes felületre és a személyes beállítások 'alap titkosítási modul' szekcióban frissítsd a titkosítási jelszavad, úgy hogy megadod a 'régi bejelentkezési jelszó' mezőben ezt a jelszót, majd az aktuális bejelentkezési jelszavad.<br><br>",
     "Default encryption module" : "Alapértelmezett titkosítási modul",
+    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "A titkosító alkalmazás engedélyezve van, de a kulcsaid még nincsenek inicializálva. Kérlek lépj ki, majd lépj be újra",
     "Encrypt the home storage" : "Helyi tároló titkosítása",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "A lehetőség engedélyezésekor minden fájlt titkosít a fő tárolóban, egyébként csak a külső tárolókon lévő fájlok lesznek titkosítva",
     "Enable recovery key" : "Visszaállítási kulcs engedélyezése",
@@ -46,7 +46,6 @@
     "Repeat new recovery key password" : "Ismételd meg az új helyreállítási kulcs jelszavát",
     "Change Password" : "Jelszó megváltoztatása",
     "Basic encryption module" : "Alap titkosítási modul",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "A fájlok titkosítása engedélyezve van, de az Ön titkos kulcsai nincsenek beállítva. Ezért kérlek, hogy jelentkezz ki, és lépj be újra!",
     "Your private key password no longer matches your log-in password." : "A privát kulcs jelszavad már nem egyezik meg a bejelentkezési jelszavaddal. ",
     "Set your old private key password to your current log-in password:" : "Állítsd át a régi privát kulcs jelszavadat az aktuális bejelentkezési jelszavadra:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Ha nem emlékszik a régi jelszavára akkor megkérheti a rendszergazdát, hogy állítsa vissza a fájljait.",
@@ -56,6 +55,7 @@
     "Enable password recovery:" : "Jelszó-visszaállítás bekapcsolása",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ez az opció lehetővé teszi, hogy a titkosított fájlok tartalmát visszanyerjük abban az esetben, ha elfelejti a jelszavát",
     "Enabled" : "Bekapcsolva",
-    "Disabled" : "Kikapcsolva"
+    "Disabled" : "Kikapcsolva",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "A fájlok titkosítása engedélyezve van, de az Ön titkos kulcsai nincsenek beállítva. Ezért kérlek, hogy jelentkezz ki, és lépj be újra!"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
