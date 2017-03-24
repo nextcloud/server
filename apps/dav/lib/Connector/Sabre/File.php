@@ -227,7 +227,7 @@ class File extends Node implements IFile {
 
 			$this->refreshInfo();
 
-			$meta = $partStorage->getMetaData($internalPartPath);
+			$meta = $partStorage->getCache()->get($internalPartPath);
 
 			if (isset($meta['checksum'])) {
 				$this->fileView->putFileInfo(
@@ -492,9 +492,9 @@ class File extends Node implements IFile {
 
 
 				if (isset($partStorage) && isset($partInternalPath)) {
-					$checksums = $partStorage->getMetaData($partInternalPath)['checksum'];
+					$checksums = $partStorage->getCache()->get($partInternalPath)['checksum'];
 				} else {
-					$checksums = $targetStorage->getMetaData($targetInternalPath)['checksum'];
+					$checksums = $targetStorage->getCache()->get($targetInternalPath)['checksum'];
 				}
 
 				$this->fileView->putFileInfo(

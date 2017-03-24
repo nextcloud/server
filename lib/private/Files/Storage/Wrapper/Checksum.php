@@ -18,11 +18,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Files\Storage\Wrapper;
 
 use Icewind\Streams\CallbackWrapper;
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Stream\Checksum as ChecksumStream;
+use OCP\Files\IHomeStorage;
 use OCP\ILogger;
 
 /**
@@ -45,9 +47,6 @@ class Checksum extends Wrapper {
 	/** File needs to be checksummed on first read because it is already in cache but has no checksum */
 	const PATH_IN_CACHE_WITHOUT_CHECKSUM = 2;
 
-	/** @var array */
-	private $pathsInCacheWithoutChecksum = [];
-
 	/**
 	 * @param string $path
 	 * @param string $mode
@@ -62,26 +61,22 @@ class Checksum extends Wrapper {
 
 		$requirement = $this->getChecksumRequirement($path, $mode);
 
-		if ($requirement === self::PATH_NEW_OR_UPDATED) {
-			return \OC\Files\Stream\Checksum::wrap($stream, $path);
-		}
-
-		// If file is without checksum we save the path and create
-		// a callback because we can only calculate the checksum
-		// after the client has read the entire filestream once.
-		// the checksum is then saved to oc_filecache for subsequent
-		// retrieval (see onClose())
-		if ($requirement == self::PATH_IN_CACHE_WITHOUT_CHECKSUM) {
-			$checksumStream = \OC\Files\Stream\Checksum::wrap($stream, $path);
-			return CallbackWrapper::wrap(
-				$checksumStream,
-				null,
-				null,
-				[$this, 'onClose']
-			);
+		if ($requirement === self::PATH_NEW_OR_UPDATED ||
+			$requirement === self::PATH_IN_CACHE_WITHOUT_CHECKSUM
+		) {
+			return $this->wrapChecksumStream($stream, $path);
 		}
 
 		return $stream;
+	}
+
+	private function wrapChecksumStream($stream, $path) {
+		return \OC\Files\Stream\Checksum::wrap($stream, function (array $hashes) use ($path) {
+			$cache = $this->getCache();
+			$cache->put($path, [
+				'checksum' => self::getChecksumsInDbFormat($hashes)
+			]);
+		});
 	}
 
 	/**
@@ -90,7 +85,7 @@ class Checksum extends Wrapper {
 	 * @return int
 	 */
 	private function getChecksumRequirement($path, $mode) {
-		$isNormalFile = substr($path, 0, 6) === 'files/';
+		$isNormalFile = (!$this->getWrapperStorage() instanceof IHomeStorage) || strpos($path, 'files/') === 0;
 		$fileIsWritten = $mode !== 'r' && $mode !== 'rb';
 
 		if ($isNormalFile && $fileIsWritten) {
@@ -103,7 +98,6 @@ class Checksum extends Wrapper {
 		$cacheEntry = $cache->get($path);
 
 		if ($cacheEntry && empty($cacheEntry['checksum'])) {
-			$this->pathsInCacheWithoutChecksum[$cacheEntry->getId()] = $path;
 			return self::PATH_IN_CACHE_WITHOUT_CHECKSUM;
 		}
 
@@ -111,28 +105,12 @@ class Checksum extends Wrapper {
 	}
 
 	/**
-	 * Callback registered in fopen
-	 */
-	public function onClose() {
-		$cache = $this->getCache();
-		foreach ($this->pathsInCacheWithoutChecksum as $cacheId => $path) {
-			$cache->update(
-				$cacheId,
-				['checksum' => self::getChecksumsInDbFormat($path)]
-			);
-		}
-
-		$this->pathsInCacheWithoutChecksum = [];
-	}
-
-	/**
-	 * @param $path
-	 * Format like "SHA1:abc MD5:def ADLER32:ghi"
+	 * @param array $hashes
 	 * @return string
 	 */
-	private static function getChecksumsInDbFormat($path) {
+	private static function getChecksumsInDbFormat(array $hashes) {
 		$checksumString = '';
-		foreach (ChecksumStream::getChecksums($path) as $algo => $checksum) {
+		foreach ($hashes as $algo => $checksum) {
 			$checksumString .= sprintf('%s:%s ', strtoupper($algo), $checksum);
 		}
 
@@ -145,27 +123,13 @@ class Checksum extends Wrapper {
 	 * @return bool
 	 */
 	public function file_put_contents($path, $data) {
-		$memoryStream = fopen('php://memory', 'r+');
-		$checksumStream = \OC\Files\Stream\Checksum::wrap($memoryStream, $path);
-
-		fwrite($checksumStream, $data);
-		fclose($checksumStream);
-
-		return $this->getWrapperStorage()->file_put_contents($path, $data);
-	}
-
-	/**
-	 * @param string $path
-	 * @return array
-	 */
-	public function getMetaData($path) {
-		$parentMetaData = $this->getWrapperStorage()->getMetaData($path);
-		$parentMetaData['checksum'] = self::getChecksumsInDbFormat($path);
-
-		if (!isset($parentMetaData['mimetype'])) {
-			$parentMetaData['mimetype'] = 'application/octet-stream';
+		$fh = $this->fopen($path, 'w');
+		if (!$fh) {
+			return false;
 		}
+		fwrite($fh, $data);
+		fclose($fh);
 
-		return $parentMetaData;
+		return true;
 	}
 }

@@ -256,7 +256,6 @@ class Cache implements ICache {
 				return -1;
 			}
 		}
-
 		$data['path'] = $file;
 		$data['parent'] = $this->getParentId($file);
 		$data['name'] = \OC_Util::basename($file);
