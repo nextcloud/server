@@ -193,7 +193,7 @@ class Database extends Backend implements IUserBackend {
 
 		$displayNames = array();
 		$query = \OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users`'
-			. $searchLike .' ORDER BY `uid` ASC', $limit, $offset);
+			. $searchLike .' ORDER BY LOWER(`displayname`), LOWER(`uid`) ASC', $limit, $offset);
 		$result = $query->execute($parameters);
 		while ($row = $result->fetchRow()) {
 			$displayNames[$row['uid']] = $row['displayname'];
@@ -284,7 +284,7 @@ class Database extends Backend implements IUserBackend {
 			$searchLike = ' WHERE LOWER(`uid`) LIKE LOWER(?)';
 		}
 
-		$query = \OC_DB::prepare('SELECT `uid` FROM `*PREFIX*users`' . $searchLike . ' ORDER BY `uid` ASC', $limit, $offset);
+		$query = \OC_DB::prepare('SELECT `uid` FROM `*PREFIX*users`' . $searchLike . ' ORDER BY LOWER(`uid`) ASC', $limit, $offset);
 		$result = $query->execute($parameters);
 		$users = array();
 		while ($row = $result->fetchRow()) {
