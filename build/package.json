@@ -11,14 +11,20 @@
   "contributors": [],
   "dependencies": {},
   "devDependencies": {
-    "karma": "~1.3.0",
-    "karma-jasmine": "~1.0.2",
-    "karma-junit-reporter": "*",
+    "bower": "~1.8.0",
+    "handlebars": "^4.0.5",
+    "jasmine-core": "^2.5.2",
+    "jasmine-sinon": "^0.4.0",
+    "jsdoc": "~3.4.0",
+    "karma": "^1.5.0",
     "karma-coverage": "*",
+    "karma-jasmine": "^1.1.0",
+    "karma-jasmine-sinon": "^1.0.4",
+    "karma-junit-reporter": "*",
     "karma-phantomjs-launcher": "*",
     "phantomjs-prebuilt": "*",
-    "jasmine-core": "~2.5.2",
-    "node-sass": "~4.1.1"
+    "node-sass": "~4.1.1",
+    "sinon": "*"
   },
-  "engine": "node >= 0.8"
+  "engine": "node >= 6.9"
 }
