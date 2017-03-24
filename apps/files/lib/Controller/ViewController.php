@@ -152,37 +152,8 @@ class ViewController extends Controller {
 		$nav = new \OCP\Template('files', 'appnavigation', '');
 
 		// Load the files we need
-		\OCP\Util::addScript('files', 'app');
-		\OCP\Util::addScript('files', 'file-upload');
-		\OCP\Util::addScript('files', 'newfilemenu');
-		\OCP\Util::addScript('files', 'jquery.fileupload');
-		\OCP\Util::addScript('files', 'jquery-visibility');
-		\OCP\Util::addScript('files', 'fileinfomodel');
-		\OCP\Util::addScript('files', 'filesummary');
-		\OCP\Util::addScript('files', 'breadcrumb');
-		\OCP\Util::addScript('files', 'filelist');
-		\OCP\Util::addScript('files', 'search');
-
-		\OCP\Util::addScript('files', 'favoritesfilelist');
-		\OCP\Util::addScript('files', 'recentfilelist');
-		\OCP\Util::addScript('files', 'tagsplugin');
-		\OCP\Util::addScript('files', 'gotoplugin');
-		\OCP\Util::addScript('files', 'favoritesplugin');
-		\OCP\Util::addScript('files', 'recentplugin');
-
-		\OCP\Util::addScript('files', 'detailfileinfoview');
-		\OCP\Util::addScript('files', 'sidebarpreviewmanager');
-		\OCP\Util::addScript('files', 'sidebarpreviewtext');
-		\OCP\Util::addScript('files', 'detailtabview');
-		\OCP\Util::addScript('files', 'mainfileinfodetailview');
-		\OCP\Util::addScript('files', 'detailsview');
 		\OCP\Util::addStyle('files', 'merged');
-
-		\OCP\Util::addScript('files', 'fileactions');
-		\OCP\Util::addScript('files', 'fileactionsmenu');
-		\OCP\Util::addScript('files', 'files');
-		\OCP\Util::addScript('files', 'keyboardshortcuts');
-		\OCP\Util::addScript('files', 'navigation');
+		\OCP\Util::addScript('files', 'merged-index');
 
 		// mostly for the home storage's free space
 		// FIXME: Make non static
