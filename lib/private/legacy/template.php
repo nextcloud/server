@@ -109,31 +109,12 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addStyle('jquery-ui-fixes',null,true);
 			OC_Util::addVendorStyle('jquery-ui/themes/base/jquery-ui',null,true);
 			OC_Util::addStyle('server', null, true);
-
-			// avatars
-			\OC_Util::addScript('jquery.avatar', null, true);
-			\OC_Util::addScript('placeholder', null, true);
-
 			OC_Util::addVendorStyle('select2/select2', null, true);
-			OC_Util::addScript('select2-toggleselect');
-
-			OC_Util::addScript('oc-backbone', null, true);
-			OC_Util::addScript('mimetypelist', null, true);
-			OC_Util::addScript('mimetype', null, true);
-			OC_Util::addScript("apps", null, true);
-			OC_Util::addScript("oc-requesttoken", null, true);
-			OC_Util::addScript('search', 'search', true);
-			OC_Util::addScript("config", null, true);
-			OC_Util::addScript("public/appconfig", null, true);
-			OC_Util::addScript("eventsource", null, true);
-			OC_Util::addScript("octemplate", null, true);
+			OC_Util::addStyle('jquery.ocdialog');
 			OC_Util::addTranslations("core", null, true);
-			OC_Util::addScript("l10n", null, true);
-			OC_Util::addScript("js", null, true);
-			OC_Util::addScript("oc-dialogs", null, true);
-			OC_Util::addScript("jquery.ocdialog", null, true);
-			OC_Util::addScript("jquery-ui-fixes");
-			OC_Util::addStyle("jquery.ocdialog");
+			OC_Util::addScript('search', 'search', true);
+			OC_Util::addScript('merged-template-prepend', null, true);
+			OC_Util::addScript('jquery-ui-fixes');
 			OC_Util::addScript('files/fileinfo');
 			OC_Util::addScript('files/client');
 

@@ -1,0 +1,17 @@
+[
+  "jquery.ocdialog.js",
+  "oc-dialogs.js",
+  "js.js",
+  "l10n.js",
+  "octemplate.js",
+  "eventsource.js",
+  "public/appconfig.js",
+  "config.js",
+  "oc-requesttoken.js",
+  "apps.js",
+  "mimetype.js",
+  "mimetypelist.js",
+  "oc-backbone.js",
+  "placeholder.js",
+  "jquery.avatar.js"
+]
