@@ -43,7 +43,6 @@ OC.L10N.register(
     "New recovery key password" : "Nova palavra-passe da chave de recuperação",
     "Repeat new recovery key password" : "Repetir palavra-passe da chave de recuperação",
     "Change Password" : "Alterar Palavra-passe",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "A Aplicação de Encriptação está ativada, mas as suas chaves não inicializaram. Por favor, termine a sessão e inicie-a novamente",
     "Your private key password no longer matches your log-in password." : "A palavra-passe da sua chave privada já não coincide com a palavra-passe da sua sessão.",
     "Set your old private key password to your current log-in password:" : "Defina a sua palavra-passe antiga da chave privada para a sua palavra-passe atual da sessão:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Se não se lembra da palavra-passe antiga pode pedir ao seu administrador para recuperar os seus ficheiros. ",
@@ -53,6 +52,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Ativar a recuperação da palavra-passe:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ao ativar esta opção, irá fazer com que volte a obter o acesso aos seus ficheiros encriptados, se perder a palavra-passe",
     "Enabled" : "Ativada",
-    "Disabled" : "Desativada"
+    "Disabled" : "Desativada",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "A Aplicação de Encriptação está ativada, mas as suas chaves não inicializaram. Por favor, termine a sessão e inicie-a novamente"
 },
 "nplurals=2; plural=(n != 1);");

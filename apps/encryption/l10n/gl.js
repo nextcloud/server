@@ -36,7 +36,6 @@ OC.L10N.register(
     "New recovery key password" : "Novo contrasinal da chave de recuperación",
     "Repeat new recovery key password" : "Repita o novo contrasinal da chave de recuperación",
     "Change Password" : "Cambiar o contrasinal",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "A aplicación de cifrado está activada, mais as chaves non foron preparadas, saia da sesión e volva a acceder de novo",
     "Your private key password no longer matches your log-in password." : "O seu contrasinal da chave privada non coincide co seu contrasinal de acceso.",
     "Set your old private key password to your current log-in password:" : "Estabeleza o seu contrasinal antigo da chave de recuperación ao seu contrasinal de acceso actual:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Se non lembra o seu antigo contrasinal pode pedírllelo ao seu administrador para recuperar os seus ficheiros.",
@@ -46,6 +45,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Activar o  contrasinal de recuperación:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ao activar esta opción permitiráselle volver a obter acceso aos ficheiros cifrados no caso de perda do contrasinal",
     "Enabled" : "Activado",
-    "Disabled" : "Desactivado"
+    "Disabled" : "Desactivado",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "A aplicación de cifrado está activada, mais as chaves non foron preparadas, saia da sesión e volva a acceder de novo"
 },
 "nplurals=2; plural=(n != 1);");

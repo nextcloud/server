@@ -23,7 +23,6 @@ OC.L10N.register(
     "Private key password successfully updated." : "Mot de passe de la clef privée mis à jour avec succès.",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Vous devez migrer vos clés de chiffrement de l'ancienne version (ownCloud <= 8.0) vers la nouvelle. Veuillez exécuter 'occ encryption:migrate' ou contacter votre administrateur",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Clé privée invalide pour l'application de chiffrement. Veuillez mettre à jour le mot de passe de la clef privée dans vos paramètres personnels pour récupérer l'accès à vos fichiers chiffrés.",
-    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "L'application de chiffrement est activée mais vos clefs ne sont pas initialisées. Veuillez vous déconnecter et ensuite vous reconnecter.",
     "Encryption app is enabled and ready" : "L'application de chiffrement est activée et prête",
     "Bad Signature" : "Mauvaise signature",
     "Missing Signature" : "Signature manquante",
@@ -35,6 +34,7 @@ OC.L10N.register(
     "Cheers!" : "À bientôt !",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Bonjour,\n<br><br>\nL'administrateur a activé le chiffrement sur le serveur. Vos fichiers ont été chiffrés avec le mot de passe suivant :\n\n<p style=\"font-family: monospace;\"><b>%s</b></p>\n\n<p>\nVeuillez suivre ces instructions :\n<ol>\n<li>Connectez-vous à l'interface web et trouvez la section <em>\"Module de chiffrement de base d'\"</em> dans vos paramètres personnels;</li>\n<li>Entrez le mot de passe fourni ci-dessus dans le champ <em>\"Ancien mot de passe de connexion\"</em>;</li>\n<li>Entrez le mot de passe que vous utilisez actuellement pour vous connecter dans le champ <em>\"Actuel mot de passe de connexion\"</em>;</li>\n<li>Validez en cliquant sur le bouton <em>\"Mettre à jour le mot de passe de votre clef privée\"</em>.</li>\n</ol>\n</p>",
     "Default encryption module" : "Module de chiffrement par défaut",
+    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "L'application de chiffrement est activée mais vos clefs ne sont pas initialisées. Veuillez vous déconnecter et ensuite vous reconnecter.",
     "Encrypt the home storage" : "Chiffrer l'espace de stockage principal",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "L'activation de cette option chiffre tous les fichiers du stockage principal, sinon seuls les espaces de stockage externes seront chiffrés",
     "Enable recovery key" : "Activer la clé de récupération",
@@ -48,7 +48,6 @@ OC.L10N.register(
     "Repeat new recovery key password" : "Répétez le nouveau mot de passe de la clé de récupération",
     "Change Password" : "Changer de mot de passe",
     "Basic encryption module" : "Module de chiffrement basique",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'application de chiffrement est activée mais vos clefs ne sont pas initialisées. Veuillez vous déconnecter et ensuite vous reconnecter.",
     "Your private key password no longer matches your log-in password." : "Le mot de passe de votre clef privée ne correspond plus à votre mot de passe de connexion.",
     "Set your old private key password to your current log-in password:" : "Remplacez l'ancien mot de passe de votre clé privée par votre mot de passe de connexion actuel :",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Si vous ne vous souvenez plus de votre ancien mot de passe, vous pouvez demander à votre administrateur de récupérer vos fichiers.",
@@ -58,6 +57,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Activer la récupération du mot de passe :",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Activer cette option vous permettra d'obtenir à nouveau l'accès à vos fichiers chiffrés en cas de perte de mot de passe",
     "Enabled" : "Activé",
-    "Disabled" : "Désactivé"
+    "Disabled" : "Désactivé",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'application de chiffrement est activée mais vos clefs ne sont pas initialisées. Veuillez vous déconnecter et ensuite vous reconnecter."
 },
 "nplurals=2; plural=(n > 1);");

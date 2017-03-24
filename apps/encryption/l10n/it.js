@@ -23,7 +23,6 @@ OC.L10N.register(
     "Private key password successfully updated." : "Password della chiave privata aggiornata correttamente.",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Devi migrare le tue chiavi di cifratura dalla vecchia cifratura (ownCloud <= 8.0) alla nuova. Esegui 'occ encryption:migrate' o contatta il tuo amministratore",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chiave privata non valida per l'applicazione di cifratura. Aggiorna la password della chiave privata nelle impostazioni personali per ripristinare l'accesso ai tuoi file cifrati.",
-    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "L'applicazione di cifratura è abilitata, ma le chiavi non sono state inizializzate, disconnettiti ed effettua nuovamente l'accesso",
     "Encryption app is enabled and ready" : "L'applicazione Cifratura è abilitata e pronta",
     "Bad Signature" : "Firma non valida",
     "Missing Signature" : "Firma mancante",
@@ -35,6 +34,7 @@ OC.L10N.register(
     "Cheers!" : "Saluti!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Ciao,<br><br>l'amministratore ha abilitato la cifratura lato server. I tuoi file sono stati cifrati utilizzando la password <strong>%s</strong>.<br><br>Accedi all'interfaccia web, vai alla sezione \"modulo di cifratura base di\" dalle nelle tue impostazioni personali e aggiorna la tua password di cifratura digitando la password nel campo \"vecchia password di accesso\" e la tua nuova password.",
     "Default encryption module" : "Modulo di cifratura predefinito",
+    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "L'applicazione di cifratura è abilitata, ma le chiavi non sono state inizializzate, disconnettiti ed effettua nuovamente l'accesso",
     "Encrypt the home storage" : "Cifra l'archiviazione principale",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "L'abilitazione di questa opzione cifra tutti i file memorizzati sull'archiviazione principale, altrimenti saranno cifrati solo i file sull'archiviazione esterna.",
     "Enable recovery key" : "Abilita chiave di ripristino",
@@ -48,7 +48,6 @@ OC.L10N.register(
     "Repeat new recovery key password" : "Ripeti la nuova password della chiave di ripristino",
     "Change Password" : "Modifica password",
     "Basic encryption module" : "Modulo di cifratura base",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'applicazione di cifratura è abilitata, ma le chiavi non sono state inizializzate, disconnettiti ed effettua nuovamente l'accesso",
     "Your private key password no longer matches your log-in password." : "La password della chiave privata non corrisponde più alla password di accesso.",
     "Set your old private key password to your current log-in password:" : "Imposta la vecchia password della chiave privata sull'attuale password di accesso:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Se non ricordi la vecchia password puoi chiedere al tuo amministratore di recuperare i file.",
@@ -58,6 +57,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Abilita il ripristino della password:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "L'abilitazione di questa opzione ti consentirà di accedere nuovamente ai file cifrati in caso di perdita della password",
     "Enabled" : "Abilitata",
-    "Disabled" : "Disabilitata"
+    "Disabled" : "Disabilitata",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'applicazione di cifratura è abilitata, ma le chiavi non sono state inizializzate, disconnettiti ed effettua nuovamente l'accesso"
 },
 "nplurals=2; plural=(n != 1);");

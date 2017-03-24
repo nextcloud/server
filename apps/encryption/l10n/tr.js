@@ -23,7 +23,6 @@ OC.L10N.register(
     "Private key password successfully updated." : "Özel anahtar parolası güncellendi.",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Eski şifreleme anahtarlarınızın eski şifrelemeden (ownCloud <= 8.0) yenisine aktarılması gerekiyor. Lütfen 'occ encryption:migrate' komutunu çalıştırın ya da sistem yöneticiniz ile görüşün",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Şifreleme uygulaması özel anahtarı geçersiz. Şifrelenmiş dosyalarınıza erişebilmek için kişisel ayarlarınızdaki özel anahtar parolanızı güncelleyin.",
-    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Şifreleme uygulaması etkin ancak anahtarlarınız hazırlanmamış. Lütfen oturumunuzu kapatıp yeniden açın.",
     "Encryption app is enabled and ready" : "Şifreleme uygulaması etkinleştirilmiş ve hazır",
     "Bad Signature" : "İmza Kötü",
     "Missing Signature" : "İmza Eksik",
@@ -35,6 +34,7 @@ OC.L10N.register(
     "Cheers!" : "Hoşçakalın!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Selam,<br><br>Sistem yöneticisi sunucu tarafında şifrelemeyi etkinleştirdi. Dosyalarınız <strong>%s</strong> parolası kullanılarak şifrelendi.<br><br>Lütfen web arayüzünde oturum açın ve kişisel ayarlarınızdan 'temel şifreleme modülü'ne giderek 'eski oturum açma parolası' alanına bu parolayı ve geçerli oturum açma parolanızı yazarak şifreleme parolanızı güncelleyin.<br><br>",
     "Default encryption module" : "Varsayılan şifreleme modülü",
+    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Şifreleme uygulaması etkin ancak anahtarlarınız hazırlanmamış. Lütfen oturumunuzu kapatıp yeniden açın.",
     "Encrypt the home storage" : "Ana depolama şifrelensin",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Bu seçenek etkinleştirildiğinde, ana depolama alanındaki tüm dosyalar şifrelenir. Devre dışı bırakıldığında yalnız dış depolama alanındaki dosyalar şifrelenir",
     "Enable recovery key" : "Kurtarma anahtarını etkinleştir",
@@ -48,7 +48,6 @@ OC.L10N.register(
     "Repeat new recovery key password" : "Yeni kurtarma anahtarı parolası onayı",
     "Change Password" : "Parolayı Değiştir",
     "Basic encryption module" : "Temel şifreleme modülü",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Şifreleme Uygulaması etkin ancak anahtarlarınız hazırlanmamış. Lütfen oturumunuzu kapatıp yeniden açın",
     "Your private key password no longer matches your log-in password." : "Özel anahtar parolanız artık oturum açma parolanız ile eşleşmiyor.",
     "Set your old private key password to your current log-in password:" : "Eski özel anahtar parolanızı, geçerli oturum açma parolanız olarak ayarlayın:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Eski parolanızı hatırlamıyorsanız, yöneticinizden dosyalarınızı kurtarmasını isteyebilirsiniz.",
@@ -58,6 +57,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Parola kurtarmayı etkinleştir:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Bu seçenek etkinleştirildiğinde, parolayı unutursanız şifrelenmiş dosyalarınıza yeniden erişim izni elde edebilirsiniz",
     "Enabled" : "Etkin",
-    "Disabled" : "Devre Dışı"
+    "Disabled" : "Devre Dışı",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Şifreleme Uygulaması etkin ancak anahtarlarınız hazırlanmamış. Lütfen oturumunuzu kapatıp yeniden açın"
 },
 "nplurals=2; plural=(n > 1);");

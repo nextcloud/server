@@ -39,7 +39,6 @@
     "Repeat new recovery key password" : "Pakartokite naują atstatymo rakto slaptažodį",
     "Change Password" : "Pakeisti slaptažodį",
     "Basic encryption module" : "Pagrindinis šifravimo modulis",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Šifravimo programėlė yra įjungta, tačiau jūsų raktai nėra inicijuoti. Prašome atsijungti ir vėl prisijungti",
     "Your private key password no longer matches your log-in password." : "Jūsų privačiojo rakto slaptažodis daugiau nebesutampa su jūsų prisijungimo slaptažodžiu.",
     "Set your old private key password to your current log-in password:" : "Nustatyti Jūsų privataus rakto slaptažodį į Jūsų dabartinį slaptažodį.",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Jei nepamenate savo seno slaptažodžio, galite paprašyti administratoriaus atkurti Jūsų failus.",
@@ -49,6 +48,7 @@
     "Enable password recovery:" : "Įjungti slaptažodžio atkūrimą:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Šios parinkties įjungimas leis jums iš naujo gauti prieigą prie savo užšifruotų failų tuo atveju, jei prarasite slaptažodį",
     "Enabled" : "Įjungta",
-    "Disabled" : "Išjungta"
+    "Disabled" : "Išjungta",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Šifravimo programėlė yra įjungta, tačiau jūsų raktai nėra inicijuoti. Prašome atsijungti ir vėl prisijungti"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }
