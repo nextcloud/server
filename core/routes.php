@@ -82,6 +82,12 @@ $this->create('files.viewcontroller.showFile', '/f/{fileid}')->action(function($
 	$app->dispatch('ViewController', 'index');
 });
 
+// Call routes
+$this->create('spreed.pagecontroller.showCall', '/call/{token}')->action(function($urlParams) {
+	$app = new \OCA\Spreed\AppInfo\Application($urlParams);
+	$app->dispatch('PageController', 'index');
+});
+
 // Sharing routes
 $this->create('files_sharing.sharecontroller.showShare', '/s/{token}')->action(function($urlParams) {
 	$app = new \OCA\Files_Sharing\AppInfo\Application($urlParams);
