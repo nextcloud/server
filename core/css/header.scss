@@ -462,6 +462,7 @@ nav {
 	width: auto;
 	clear: both;
 	height: 44px;
+	flex-shrink: 0;
 
 	li {
 		float: left;
@@ -559,7 +560,7 @@ nav {
 }
 
 /* use popover menu on mobile and small screens */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 680px) {
 
 	#header .header-appname-container {
 		display: inline-block !important;
