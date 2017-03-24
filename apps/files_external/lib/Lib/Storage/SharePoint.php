@@ -137,13 +137,7 @@ class SharePoint extends Common {
 				$items = $collection->getData();
 				foreach ($items as $item) {
 					/** @var ListItem $fields */
-					$id = $item->getListItemAllFields()->getProperty('Id');
-					$hidden = $item->getListItemAllFields()->getProperty('Hidden'); // TODO: get someone to test this in SP 2013
-					if($hidden === false || $id !== null) {
-						// avoids listing hidden "Forms" folder (and its contents).
-						// Have not found a different mechanism to detect whether
-						// a file or folder is hidden. There used to be a Hidden
-						// field, but seems to have gone (since SP 2016?).
+					if(!$this->spClient->isHidden($item)) {
 						$files[] = $item->getProperty('Name');
 					}
 				}
@@ -372,6 +366,14 @@ class SharePoint extends Common {
 		if($path !== '') {
 			$serverUrl .= '/' . $path;
 		}
+
+		$pathParts = explode('/', $serverUrl);
+		$filename = array_pop($pathParts);
+		if($filename === '.') {
+			// remove /. from the end of the path
+			$serverUrl = mb_substr($serverUrl, 0, mb_strlen($serverUrl) - 2);
+		}
+
 		return $serverUrl;
 	}
 

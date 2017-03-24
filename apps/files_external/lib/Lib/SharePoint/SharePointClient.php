@@ -104,46 +104,57 @@ class SharePointClient {
 	public function fetchFolder($relativeServerPath, array $properties = null) {
 		$this->ensureConnection();
 		$folder = $this->context->getWeb()->getFolderByServerRelativeUrl($relativeServerPath);
-		$folderCollection = $folder->getFolders();
-		$fileCollection = $folder->getFiles();
-		$this->context->load($folder, $properties);
-		$this->context->load($folderCollection, null);
-		$this->context->load($fileCollection, null);
-		$this->context->executeQuery();
+		$this->loadAndExecute($folder, $properties);
 		return $folder;
 	}
 
 	/**
 	 * @param $relativeServerPath
 	 * @param null $properties
+	 * @param Folder $folder
 	 * @return ClientObjectCollection[]
 	 */
 	public function fetchFolderContents($relativeServerPath, $properties = null, Folder $folder = null) {
 		$this->ensureConnection();
 		if($folder === null) {
 			$folder = $this->context->getWeb()->getFolderByServerRelativeUrl($relativeServerPath);
-			$folderCollection = $folder->getFolders();
-			$fileCollection = $folder->getFiles();
-			$this->context->load($folderCollection, $properties);
-			$this->context->load($fileCollection, $properties);
-			$this->context->executeQuery();
-		} else {
-			$folderCollection = $folder->getFolders();
-			$fileCollection = $folder->getFiles();
 		}
+
+		$folderCollection = $folder->getFolders();
+		$fileCollection = $folder->getFiles();
+		$this->context->load($folderCollection, $properties);
+		$this->context->load($fileCollection, $properties);
+		$this->context->executeQuery();
 
 		$collections = ['folders' => $folderCollection, 'files' => $fileCollection];
 
-		foreach ($collections as $collection) {
-			foreach ($collection->getData() as $item) {
-				/** @var File|Folder $item */
-				$fields = $item->getListItemAllFields();
-				$this->context->load($fields, ['Id', 'Hidden']);
-			}
-		}
-		$this->context->executeQuery();
-
 		return $collections;
+	}
+
+	public function isHidden(ClientObject $file) {
+		// ClientObject itself does not have getListItemAllFields but is
+		// the common denominator of File and Folder
+		if(!$file instanceof File && !$file instanceof Folder) {
+			throw new \InvalidArgumentException('File or Folder expected');
+		}
+		if($file instanceof File) {
+			// it's expensive, we only check folders
+			return false;
+		}
+		$fields = $file->getListItemAllFields();
+		if($fields->getProperties() === []) {
+			$this->loadAndExecute($fields, ['Id', 'Hidden']);
+		}
+		$id = $fields->getProperty('Id');
+		$hidden = $fields->getProperty('Hidden'); // TODO: get someone to test this in SP 2013
+		if($hidden === false || $id !== null) {
+			// avoids listing hidden "Forms" folder (and its contents).
+			// Have not found a different mechanism to detect whether
+			// a file or folder is hidden. There used to be a Hidden
+			// field, but seems to have gone (since SP 2016?).
+			return false;
+		}
+		return true;
 	}
 
 	public function loadAndExecute(ClientObject $object, array $properties = null) {
