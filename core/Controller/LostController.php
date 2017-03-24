@@ -257,18 +257,8 @@ class LostController extends Controller {
 	 * @throws \Exception
 	 */
 	protected function sendEmail($user) {
-		if (!$this->userManager->userExists($user)) {
-			throw new \Exception($this->l10n->t('Couldn\'t send reset email. Please make sure your username is correct.'));
-		}
-
 		$userObject = $this->userManager->get($user);
 		$email = $userObject->getEMailAddress();
-
-		if (empty($email)) {
-			throw new \Exception(
-				$this->l10n->t('Could not send reset email because there is no email address for this username. Please contact your administrator.')
-			);
-		}
 
 		// Generate the token. It is stored encrypted in the database with the
 		// secret being the users' email address appended with the system secret.
