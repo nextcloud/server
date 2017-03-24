@@ -50,6 +50,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\IDBConnection;
 use OCP\IConfig;
+use OCP\Util;
 
 /**
  * This class provides the ability for apps to share their content between users.
@@ -92,15 +93,7 @@ class Share extends Constants {
 					'supportedFileExtensions' => $supportedFileExtensions
 				);
 				if(count(self::$backendTypes) === 1) {
-					\OC_Util::addScript('core', 'shareconfigmodel');
-					\OC_Util::addScript('core', 'shareitemmodel');
-					\OC_Util::addScript('core', 'sharesocialmanager');
-					\OC_Util::addScript('core', 'sharedialogresharerinfoview');
-					\OC_Util::addScript('core', 'sharedialoglinkshareview');
-					\OC_Util::addScript('core', 'sharedialogexpirationview');
-					\OC_Util::addScript('core', 'sharedialogshareelistview');
-					\OC_Util::addScript('core', 'sharedialogview');
-					\OC_Util::addScript('core', 'share');
+					Util::addScript('core', 'merged-share-backend');
 					\OC_Util::addStyle('core', 'share');
 				}
 				return true;
