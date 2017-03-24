@@ -25,16 +25,6 @@ script('core', [
 		<?php endforeach; ?>
 	</fieldset>
 	<?php endif; ?>
-	<?php if(!$_['htaccessWorking']): ?>
-	<fieldset class="warning">
-		<legend><strong><?php p($l->t('Security warning'));?></strong></legend>
-		<p><?php p($l->t('Your data directory and files are probably accessible from the internet because the .htaccess file does not work.'));?><br>
-		<?php print_unescaped($l->t(
-			'For information how to properly configure your server, please see the <a href="%s" target="_blank" rel="noreferrer">documentation</a>.',
-			link_to_docs('admin-install')
-		)); ?></p>
-	</fieldset>
-	<?php endif; ?>
 	<fieldset id="adminaccount">
 		<legend><?php print_unescaped($l->t( 'Create an <strong>admin account</strong>' )); ?></legend>
 		<p class="grouptop">
