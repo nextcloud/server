@@ -1,0 +1,9 @@
+[
+  "app.js",
+  "commentmodel.js",
+  "commentcollection.js",
+  "commentsummarymodel.js",
+  "commentstabview.js",
+  "filesplugin.js",
+  "activitytabviewplugin.js"
+]
