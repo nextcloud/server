@@ -416,6 +416,9 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	 * @since 11.0.0
 	 */
 	public function supports4ByteText() {
-		return ! ($this->getDatabasePlatform() instanceof MySqlPlatform && $this->getParams()['charset'] !== 'utf8mb4');
+		if (!$this->getDatabasePlatform() instanceof MySqlPlatform) {
+			return true;
+		}
+		return $this->getParams()['charset'] === 'utf8mb4';
 	}
 }

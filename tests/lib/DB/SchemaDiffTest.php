@@ -21,6 +21,7 @@
 
 namespace Test\DB;
 
+use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaDiff;
 use OC\DB\MDB2SchemaManager;
 use OC\DB\MDB2SchemaReader;
@@ -79,7 +80,8 @@ class SchemaDiffTest extends TestCase {
 		$this->manager->createDbFromStructure($schemaFile);
 
 		$schemaReader = new MDB2SchemaReader($this->config, $this->connection->getDatabasePlatform());
-		$endSchema = $schemaReader->loadSchemaFromFile($schemaFile);
+		$toSchema = new Schema([], [], $this->connection->getSchemaManager()->createSchemaConfig());
+		$endSchema = $schemaReader->loadSchemaFromFile($schemaFile, $toSchema);
 
 		// get the diff
 		/** @var SchemaDiff $diff */

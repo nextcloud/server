@@ -18,10 +18,10 @@ use Test\TestCase;
 
 class TestCollationRepair extends Collation {
 	/**
-	 * @param \Doctrine\DBAL\Connection $connection
+	 * @param IDBConnection $connection
 	 * @return string[]
 	 */
-	public function getAllNonUTF8BinTables($connection) {
+	public function getAllNonUTF8BinTables(IDBConnection $connection) {
 		return parent::getAllNonUTF8BinTables($connection);
 	}
 }
