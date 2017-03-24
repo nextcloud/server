@@ -1389,8 +1389,8 @@ class OC_Util {
 			return false;
 		}
 
-		$path_parts = pathinfo($trimmed);
-		if ($path_parts['extension'] === 'part') {
+		// detect part files
+		if (preg_match('/' . \OCP\Files\FileInfo::BLACKLIST_FILES_REGEX . '/', $trimmed) !== 0) {
 			return false;
 		}
 
