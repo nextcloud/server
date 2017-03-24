@@ -1123,38 +1123,6 @@ class OC_Util {
 		return $encoded;
 	}
 
-
-	public function createHtaccessTestFile(\OCP\IConfig $config) {
-		// php dev server does not support htaccess
-		if (php_sapi_name() === 'cli-server') {
-			return false;
-		}
-		if (\OC::$CLI) {
-			return false;
-		}
-
-		// testdata
-		$fileName = '/htaccesstest.txt';
-		$testContent = 'This is used for testing whether htaccess is properly enabled to disallow access from the outside. This file can be safely removed.';
-
-		// creating a test file
-		$testFile = $config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $fileName;
-
-		if (file_exists($testFile)) {// already running this test, possible recursive call
-			return false;
-		}
-
-		$fp = @fopen($testFile, 'w');
-		if (!$fp) {
-			throw new OC\HintException('Can\'t create test file to check for working .htaccess file.',
-				'Make sure it is possible for the webserver to write to ' . $testFile);
-		}
-		fwrite($fp, $testContent);
-		fclose($fp);
-
-		return $testContent;
-	}
-
 	/**
 	 * Check if the setlocal call does not work. This can happen if the right
 	 * local packages are not available on the server.
