@@ -13,7 +13,9 @@
 		"davclient.js/lib/client.js",
 		"clipboard/dist/clipboard.js",
 		"autosize/dist/autosize.js",
-		"DOMPurify/dist/purify.min.js"
+		"DOMPurify/dist/purify.min.js",
+		"snapjs/dist/latest/snap.js",
+		"select2/select2.js"
 	],
 	"libraries": [
 		"jquery-showpassword.js",
