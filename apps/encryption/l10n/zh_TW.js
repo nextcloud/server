@@ -43,7 +43,6 @@ OC.L10N.register(
     "New recovery key password" : "新的還原金鑰密碼",
     "Repeat new recovery key password" : "再輸入新的還原金鑰密碼一次",
     "Change Password" : "變更密碼",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "檔案加密已啓用，但是您的金鑰尚未初始化，請重新登入一次",
     "Your private key password no longer matches your log-in password." : "您的私人金鑰密碼不符合您的登入密碼",
     "Set your old private key password to your current log-in password:" : "設定您的舊私人金鑰密碼到您現在的登入密碼:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "如果您忘記舊密碼，可以請求管理員協助取回檔案。",
@@ -53,6 +52,7 @@ OC.L10N.register(
     "Enable password recovery:" : "啟用密碼還原:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "啟用這個選項將會允許您因忘記密碼但需要存取您的加密檔案",
     "Enabled" : "已啓用",
-    "Disabled" : "已停用"
+    "Disabled" : "已停用",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "檔案加密已啓用，但是您的金鑰尚未初始化，請重新登入一次"
 },
 "nplurals=1; plural=0;");

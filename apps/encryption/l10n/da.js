@@ -43,7 +43,6 @@ OC.L10N.register(
     "New recovery key password" : "Ny adgangskode for gendannelsesnøgle",
     "Repeat new recovery key password" : "Gentag ny adgangskode for gendannelsesnøgle",
     "Change Password" : "Skift Kodeord",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Krypteringsprogrammet er aktiveret, men din nøgler er ikke igangsat. Log venligst ud og ind igen.",
     "Your private key password no longer matches your log-in password." : "Dit private nøglekodeord stemmer ikke længere overens med dit login-kodeord.",
     "Set your old private key password to your current log-in password:" : "Sæt dit gamle, private nøglekodeord til at være dit nuværende login-kodeord. ",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Hvis du ikke kan huske dit gamle kodeord kan du bede din administrator om at gendanne dine filer.",
@@ -53,6 +52,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Aktiver kodeord gendannelse:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivering af denne valgmulighed tillader dig at generhverve adgang til dine krypterede filer i tilfælde af tab af kodeord",
     "Enabled" : "Aktiveret",
-    "Disabled" : "Deaktiveret"
+    "Disabled" : "Deaktiveret",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Krypteringsprogrammet er aktiveret, men din nøgler er ikke igangsat. Log venligst ud og ind igen."
 },
 "nplurals=2; plural=(n != 1);");

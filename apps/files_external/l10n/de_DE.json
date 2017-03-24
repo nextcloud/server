@@ -98,7 +98,7 @@
     "SMB / CIFS using OC login" : "SMB / CIFS mit OC-Login",
     "Username as share" : "Benutzername als Freigabe",
     "OpenStack Object Storage" : "Openstack-Objektspeicher",
-    "Service name" : "Dienst Name",
+    "Service name" : "Name des Dienstes",
     "Request timeout (seconds)" : "Anfrage-Zeitüberschreitung (Sekunden)",
     "External storages" : "Externer Speicher",
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Die cURL-Unterstützung von PHP ist nicht aktiviert oder installiert. %s konnte nicht hinzugefügt werden Bitte wenden Sie sich bezüglich  Aktivierung oder Installation an Ihren Administrator.",

@@ -23,7 +23,6 @@ OC.L10N.register(
     "Private key password successfully updated." : "Пароль закрытого ключа успешно обновлён.",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Вам необходимо произвести конвертацию ключей шифрования из старого формата (ownCloud <= 8.0) в новый. Пожалуйста запустите команду 'occ encryption:migrate' или обратитесь к администратору.",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Закрытый ключ приложения шифрования недействителен. Обновите закрытый ключ в личных настройках, чтобы восстановить доступ к зашифрованным файлам.",
-    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Приложение шифрования активно, но ваши ключи не инициализированы, выйдите из системы и войдите заново",
     "Encryption app is enabled and ready" : "Приложение шифрования включено и готово",
     "Bad Signature" : "Некорректная подпись",
     "Missing Signature" : "Подпись отсутствует",
@@ -35,6 +34,7 @@ OC.L10N.register(
     "Cheers!" : "Всего наилучшего!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Привет,<br><br>администратор включил шифрование на стороне сервера. Ваши файлы были зашифрованы с помощью пароля <strong>%s</strong>.<br><br>Пожалуйста войдите в веб-приложение, в разделе \"простой модуль шифрования\" в личных настройках вам нужно обновить пароль шифрования.<br><br>",
     "Default encryption module" : "Модуль шифрования по-умолчанию",
+    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Приложение шифрования активно, но ваши ключи не инициализированы, выйдите из системы и войдите заново",
     "Encrypt the home storage" : "Зашифровать домашнюю директорию",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Данный параметр позволяет зашифровать все файлы, хранящиеся в главном хранилище, иначе только файлы на внешних хранилищах будут зашифрованы",
     "Enable recovery key" : "Включить ключ восстановления",
@@ -48,7 +48,6 @@ OC.L10N.register(
     "Repeat new recovery key password" : "Повторите новый пароль ключа восстановления",
     "Change Password" : "Изменить пароль",
     "Basic encryption module" : "Базовый модуль шифрования",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Приложение шифрования активно, но ваши ключи не инициализированы, выйдите из системы и войдите заново",
     "Your private key password no longer matches your log-in password." : "Пароль закрытого ключа больше не соответствует паролю вашей учетной записи.",
     "Set your old private key password to your current log-in password:" : "Замените старый пароль закрытого ключа на текущий пароль учётной записи.",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Если вы не помните свой старый пароль, вы можете попросить своего администратора восстановить ваши файлы",
@@ -58,6 +57,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Включить восстановление пароля:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Включение этой опции позволит вам получить доступ к своим зашифрованным файлам в случае утери пароля",
     "Enabled" : "Включено",
-    "Disabled" : "Отключено"
+    "Disabled" : "Отключено",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Приложение шифрования активно, но ваши ключи не инициализированы, выйдите из системы и войдите заново"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

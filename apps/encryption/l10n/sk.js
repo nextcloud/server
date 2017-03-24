@@ -23,7 +23,6 @@ OC.L10N.register(
     "Private key password successfully updated." : "Heslo súkromného kľúča je úspešne aktualizované.",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Musíte migrovať vaše šifrovacie kľúče zo starého šifrovania (ownCloud <= 8,0) na nové. Spustite „occ encryption:migrate“ alebo sa obráťte na správcu",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Neplatný súkromný kľúč pre šifrovanie. Aktualizujte prosím heslo vášho súkromného kľúča v osobných nastaveniach pre obnovenie prístupu k vaším šifrovaným súborom.",
-    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikácia pre šifrovanie je povolená, ale vaše kľúče nie sú inicializované. Odhláste sa a znovu sa prihláste.",
     "Encryption app is enabled and ready" : "Aplikácia pre šifrovanie je povolená a pripravená",
     "Bad Signature" : "Zlý podpis",
     "Missing Signature" : "Chýbajúci podpis",
@@ -35,6 +34,7 @@ OC.L10N.register(
     "Cheers!" : "Pekný deň!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Dobrý deň,<br><br>Administrátor povolil šifrovanie na strane servera. Vaše súbory boli zašifrované pomocou hesla <strong>%s</strong>.<br><br>Prihláste sa prosím cez webový prehliadač, choďte do sekcie základného šifrovacieho modulu v osobných nastaveniach a zadajte horeuvedené heslo do políčka 'staré prihlasovacie heslo' a vaše súčasné prihlasovacie heslo.<br><br>",
     "Default encryption module" : "Predvolený šifrovací modul",
+    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikácia pre šifrovanie je povolená, ale vaše kľúče nie sú inicializované. Odhláste sa a znovu sa prihláste.",
     "Encrypt the home storage" : "Šifrovať domáce úložisko",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Zapnutím tejto voľby zašifrujete všetky súbory v hlavnom úložisku, v opačnom prípade zašifrujete iba súbory na externom úložisku.",
     "Enable recovery key" : "Povoliť obnovovací kľúč",
@@ -48,7 +48,6 @@ OC.L10N.register(
     "Repeat new recovery key password" : "Zopakujte nové heslo obnovovacieho kľúča",
     "Change Password" : "Zmeniť heslo",
     "Basic encryption module" : "Základný šifrovací modul",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikácia na šifrovanie je zapnutá, ale vaše kľúče nie sú inicializované. Odhláste sa a znovu sa prihláste.",
     "Your private key password no longer matches your log-in password." : "Heslo vášho súkromného kľúča sa nezhoduje v vašim prihlasovacím heslom.",
     "Set your old private key password to your current log-in password:" : "Zmeňte si vaše staré heslo súkromného kľúča na rovnaké, aké je vaše aktuálne prihlasovacie heslo:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Ak si nepamätáte svoje staré heslo, môžete požiadať administrátora o obnovenie svojich súborov.",
@@ -58,6 +57,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Povoliť obnovu hesla:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Povolenie Vám umožní znovu získať prístup k Vašim zašifrovaným súborom, ak stratíte heslo",
     "Enabled" : "Povolené",
-    "Disabled" : "Zakázané"
+    "Disabled" : "Zakázané",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikácia na šifrovanie je zapnutá, ale vaše kľúče nie sú inicializované. Odhláste sa a znovu sa prihláste."
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
