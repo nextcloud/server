@@ -35,6 +35,7 @@
  */
 namespace OC;
 
+use OC\Template\JSCombiner;
 use OC\Template\JSConfigHelper;
 use OC\Template\SCSSCacher;
 
@@ -249,7 +250,14 @@ class TemplateLayout extends \OC_Template {
 			\OC::$server->getLogger(),
 			$theme,
 			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
-			array( \OC::$SERVERROOT => \OC::$WEBROOT ));
+			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
+			new JSCombiner(
+				\OC::$server->getAppDataDir('js'),
+				\OC::$server->getURLGenerator(),
+				\OC::$server->getMemCacheFactory()->create('JS'),
+				\OC::$server->getSystemConfig()
+			)
+			);
 		$locator->find($scripts);
 		return $locator->getResources();
 	}

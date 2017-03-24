@@ -26,6 +26,16 @@
 namespace OC\Template;
 
 class JSResourceLocator extends ResourceLocator {
+
+	/** @var JSCombiner */
+	protected $jsCombiner;
+
+	public function __construct(\OCP\ILogger $logger, $theme, array $core_map, array $party_map, JSCombiner $JSCombiner) {
+		parent::__construct($logger, $theme, $core_map, $party_map);
+
+		$this->jsCombiner = $JSCombiner;
+	}
+
 	/**
 	 * @param string $script
 	 */
@@ -52,8 +62,10 @@ class JSResourceLocator extends ResourceLocator {
 		} else if ($this->appendIfExist($this->serverroot, $theme_dir.'apps/'.$script.'.js')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.$script.'.js')
 			|| $this->appendIfExist($this->serverroot, $script.'.js')
+			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, $script.'.json')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.'core/'.$script.'.js')
 			|| $this->appendIfExist($this->serverroot, 'core/'.$script.'.js')
+			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, 'core/'.$script.'.json')
 		) {
 			return;
 		}
@@ -68,12 +80,33 @@ class JSResourceLocator extends ResourceLocator {
 			$this->appendIfExist($app_path, $script . '.js', $app_url);
 			return;
 		}
-		$this->append($app_path, $script . '.js', $app_url);
+		if (!$this->cacheAndAppendCombineJsonIfExist($app_path, $script.'.json', $app)) {
+			$this->append($app_path, $script . '.js', $app_url);
+		}
 	}
 
 	/**
 	 * @param string $script
 	 */
 	public function doFindTheme($script) {
+	}
+
+	protected function cacheAndAppendCombineJsonIfExist($root, $file, $app = 'core') {
+		if (is_file($root.'/'.$file)) {
+			if ($this->jsCombiner->process($root, $file, $app)) {
+				$this->append($this->serverroot, $this->jsCombiner->getCachedJS($app, $file), false, false);
+			} else {
+				// Add all the files from the json
+				$files = $this->jsCombiner->getContent($root, $file);
+				$app_url = \OC_App::getAppWebPath($app);
+
+				foreach ($files as $jsFile) {
+					$this->append($root, $jsFile, $app_url);
+				}
+			}
+			return true;
+		}
+
+		return false;
 	}
 }
