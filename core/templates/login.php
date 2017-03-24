@@ -1,11 +1,7 @@
 <?php /** @var $l \OCP\IL10N */ ?>
 <?php
 vendor_script('jsTimezoneDetect/jstz');
-script('core', [
-	'visitortimezone',
-	'lostpassword',
-	'login'
-]);
+script('core', 'merged-login');
 ?>
 
 <!--[if IE 8]><style>input[type="checkbox"]{padding:0;}</style><![endif]-->
