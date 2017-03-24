@@ -146,7 +146,7 @@ class ConverterTest extends  TestCase {
 				[
 					'cloud' => 'foo@cloud.net',
 					'email' => 'foo@bar.net',
-					'photo' => 'data:image/jpeg;base64,MTIzNDU2Nzg5',
+					'photo' => 'MTIzNDU2Nzg5',
 				],
 				null,
 				'foo@bar.net',
@@ -157,7 +157,7 @@ class ConverterTest extends  TestCase {
 					'cloud' => 'foo@cloud.net',
 					'email' => 'foo@bar.net',
 					'fn' => 'Dr. Foo Bar',
-					'photo' => 'data:image/jpeg;base64,MTIzNDU2Nzg5',
+					'photo' => 'MTIzNDU2Nzg5',
 				],
 				"Dr. Foo Bar",
 				"foo@bar.net",
@@ -167,11 +167,21 @@ class ConverterTest extends  TestCase {
 				[
 					'cloud' => 'foo@cloud.net',
 					'fn' => 'Dr. Foo Bar',
-					'photo' => 'data:image/jpeg;base64,MTIzNDU2Nzg5',
+					'photo' => 'MTIzNDU2Nzg5',
 				],
 				"Dr. Foo Bar",
 				null,
 				"foo@cloud.net"
+			],
+			[
+				[
+					'cloud' => 'foo@cloud.net',
+					'fn' => 'Dr. Foo Bar',
+					'photo' => 'MTIzNDU2Nzg5',
+				],
+				'Dr. Foo Bar',
+				'',
+				'foo@cloud.net'
 			],
 		];
 	}

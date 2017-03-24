@@ -55,14 +55,21 @@ class Converter {
 		$image = $this->getAvatarImage($user);
 
 		$vCard = new VCard();
-		$vCard->add(new Text($vCard, 'UID', $uid));
+		$vCard->VERSION = '3.0';
+		$vCard->UID = $uid;
 
 		$publish = false;
 
 		foreach ($userData as $property => $value) {
-			if ($value['scope'] === AccountManager::VISIBILITY_CONTACTS_ONLY ||
-				$value['scope'] === AccountManager::VISIBILITY_PUBLIC
-			) {
+
+			$shareWithTrustedServers =
+				$value['scope'] === AccountManager::VISIBILITY_CONTACTS_ONLY ||
+				$value['scope'] === AccountManager::VISIBILITY_PUBLIC;
+
+			$emptyValue = !isset($value['value']) || $value['value'] === '';
+			$noImage = $image === null;
+
+			if ($shareWithTrustedServers && (!$emptyValue || !$noImage)) {
 				$publish = true;
 				switch ($property) {
 					case AccountManager::PROPERTY_DISPLAYNAME:
@@ -71,7 +78,7 @@ class Converter {
 						break;
 					case AccountManager::PROPERTY_AVATAR:
 						if ($image !== null) {
-							$vCard->add('PHOTO', 'data:'.$image->mimeType().';base64,' . base64_encode($image->data()));
+							$vCard->add('PHOTO', $image->data(), ['ENCODING' => 'b', 'TYPE' => $image->mimeType()]);
 						}
 						break;
 					case AccountManager::PROPERTY_EMAIL:

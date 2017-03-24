@@ -26,6 +26,7 @@ namespace OCA\DAV\CardDAV;
 
 use OC\Accounts\AccountManager;
 use OCP\AppFramework\Http;
+use OCP\ICertificateManager;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -52,6 +53,9 @@ class SyncService {
 	/** @var AccountManager */
 	private $accountManager;
 
+	/** @var string */
+	protected $certPath;
+
 	/**
 	 * SyncService constructor.
 	 *
@@ -65,6 +69,7 @@ class SyncService {
 		$this->userManager = $userManager;
 		$this->logger = $logger;
 		$this->accountManager = $accountManager;
+		$this->certPath = '';
 	}
 
 	/**
@@ -133,6 +138,51 @@ class SyncService {
 	}
 
 	/**
+	 * Check if there is a valid certPath we should use
+	 *
+	 * @return string
+	 */
+	protected function getCertPath() {
+
+		// we already have a valid certPath
+		if ($this->certPath !== '') {
+			return $this->certPath;
+		}
+
+		/** @var ICertificateManager $certManager */
+		$certManager = \OC::$server->getCertificateManager(null);
+		$certPath = $certManager->getAbsoluteBundlePath();
+		if (file_exists($certPath)) {
+			$this->certPath = $certPath;
+		}
+
+		return $this->certPath;
+	}
+
+	/**
+	 * @param string $url
+	 * @param string $userName
+	 * @param string $sharedSecret
+	 * @return Client
+	 */
+	protected function getClient($url, $userName, $sharedSecret) {
+		$settings = [
+			'baseUri' => $url . '/',
+			'userName' => $userName,
+			'password' => $sharedSecret,
+		];
+		$client = new Client($settings);
+		$certPath = $this->getCertPath();
+		$client->setThrowExceptions(true);
+
+		if ($certPath !== '' && strpos($url, 'http://') !== 0) {
+			$client->addCurlSetting(CURLOPT_CAINFO, $this->certPath);
+		}
+
+		return $client;
+	}
+
+	/**
 	 * @param string $url
 	 * @param string $userName
 	 * @param string $sharedSecret
@@ -140,13 +190,7 @@ class SyncService {
 	 * @return array
 	 */
 	protected function requestSyncReport($url, $userName, $sharedSecret, $syncToken) {
-		$settings = [
-			'baseUri' => $url . '/',
-			'userName' => $userName,
-			'password' => $sharedSecret,
-		];
-		$client = new Client($settings);
-		$client->setThrowExceptions(true);
+		$client = $this->getClient($url, $userName, $sharedSecret);
 
 		$addressBookUrl = "remote.php/dav/addressbooks/system/system/system";
 		$body = $this->buildSyncCollectionRequestBody($syncToken);
@@ -155,9 +199,7 @@ class SyncService {
 			'Content-Type' => 'application/xml'
 		]);
 
-		$result = $this->parseMultiStatus($response['body']);
-
-		return $result;
+		return $this->parseMultiStatus($response['body']);
 	}
 
 	/**
@@ -167,16 +209,8 @@ class SyncService {
 	 * @return array
 	 */
 	protected function download($url, $sharedSecret, $resourcePath) {
-		$settings = [
-			'baseUri' => $url,
-			'userName' => 'system',
-			'password' => $sharedSecret,
-		];
-		$client = new Client($settings);
-		$client->setThrowExceptions(true);
-
-		$response = $client->request('GET', $resourcePath);
-		return $response;
+		$client = $this->getClient($url, 'system', $sharedSecret);
+		return $client->request('GET', $resourcePath);
 	}
 
 	/**
