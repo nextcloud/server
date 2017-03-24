@@ -2005,11 +2005,13 @@ OC.Util.History = {
 	 * Note: this includes a workaround for IE8/IE9 that uses
 	 * the hash part instead of the search part.
 	 *
-	 * @param params to append to the URL, can be either a string
+	 * @param {Object|string} params to append to the URL, can be either a string
 	 * or a map
+	 * @param {string} [url] URL to be used, otherwise the current URL will be used,
+	 * using the params as query string
 	 * @param {boolean} [replace=false] whether to replace instead of pushing
 	 */
-	_pushState: function(params, replace) {
+	_pushState: function(params, url, replace) {
 		var strParams;
 		if (typeof(params) === 'string') {
 			strParams = params;
@@ -2018,7 +2020,7 @@ OC.Util.History = {
 			strParams = OC.buildQueryString(params);
 		}
 		if (window.history.pushState) {
-			var url = location.pathname + '?' + strParams;
+			url = url || location.pathname + '?' + strParams;
 			// Workaround for bug with SVG and window.history.pushState on Firefox < 51
 			// https://bugzilla.mozilla.org/show_bug.cgi?id=652991
 			var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
@@ -2053,11 +2055,13 @@ OC.Util.History = {
 	 * Note: this includes a workaround for IE8/IE9 that uses
 	 * the hash part instead of the search part.
 	 *
-	 * @param params to append to the URL, can be either a string
+	 * @param {Object|string} params to append to the URL, can be either a string
 	 * or a map
+	 * @param {string} [url] URL to be used, otherwise the current URL will be used,
+	 * using the params as query string
 	 */
-	pushState: function(params) {
-		return this._pushState(params, false);
+	pushState: function(params, url) {
+		return this._pushState(params, url, false);
 	},
 
 	/**
@@ -2066,11 +2070,13 @@ OC.Util.History = {
 	 * Note: this includes a workaround for IE8/IE9 that uses
 	 * the hash part instead of the search part.
 	 *
-	 * @param params to append to the URL, can be either a string
+	 * @param {Object|string} params to append to the URL, can be either a string
 	 * or a map
+	 * @param {string} [url] URL to be used, otherwise the current URL will be used,
+	 * using the params as query string
 	 */
-	replaceState: function(params) {
-		return this._pushState(params, true);
+	replaceState: function(params, url) {
+		return this._pushState(params, url, true);
 	},
 
 	/**
