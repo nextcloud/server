@@ -45,11 +45,10 @@ class JSCombiner {
 	protected $config;
 
 	/**
-	 * JSCombiner constructor.
-	 *
 	 * @param IAppData $appData
 	 * @param IURLGenerator $urlGenerator
 	 * @param ICache $depsCache
+	 * @param SystemConfig $config
 	 */
 	public function __construct(IAppData $appData,
 								IURLGenerator $urlGenerator,
@@ -68,7 +67,7 @@ class JSCombiner {
 	 * @return bool
 	 */
 	public function process($root, $file, $app) {
-		if ($this->config->getValue('debug')) {
+		if ($this->config->getValue('debug') || !$this->config->getValue('installed')) {
 			return false;
 		}
 
@@ -183,7 +182,11 @@ class JSCombiner {
 	 * @return string[]
 	 */
 	public function getContent($root, $file) {
+		/** @var array $data */
 		$data = json_decode(file_get_contents($root . '/' . $file));
+		if(!is_array($data)) {
+			return [];
+		}
 
 		$path = explode('/', $file);
 		array_pop($path);

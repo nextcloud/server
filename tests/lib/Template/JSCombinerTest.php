@@ -1,17 +1,35 @@
 <?php
-
+/**
+ * @copyright 2017, Roeland Jago Douma <roeland@famdouma.nl>
+ *
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 namespace Test\Template;
 
 use OC\SystemConfig;
 use OC\Template\JSCombiner;
-use OC\Template\SCSSCacher;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICache;
-use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IURLGenerator;
 
 class JSCombinerTest extends \Test\TestCase {
@@ -19,12 +37,12 @@ class JSCombinerTest extends \Test\TestCase {
 	protected $appData;
 	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	protected $urlGenerator;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var SystemConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
-	/** @var JSCombiner */
-	protected $jsCombiner;
 	/** @var ICache|\PHPUnit_Framework_MockObject_MockObject */
 	protected $depsCache;
+	/** @var JSCombiner */
+	protected $jsCombiner;
 
 	protected function setUp() {
 		parent::setUp();
@@ -40,7 +58,44 @@ class JSCombinerTest extends \Test\TestCase {
 			$this->config);
 	}
 
+	public function testProcessDebugMode() {
+		$this->config
+			->expects($this->once())
+			->method('getValue')
+			->with('debug')
+			->willReturn(true);
+
+		$actual = $this->jsCombiner->process(__DIR__, '/data/combine.json', 'awesomeapp');
+		$this->assertFalse($actual);
+	}
+
+	public function testProcessNotInstalled() {
+		$this->config
+			->expects($this->at(0))
+			->method('getValue')
+			->with('debug')
+			->willReturn(false);
+		$this->config
+			->expects($this->at(1))
+			->method('getValue')
+			->with('installed')
+			->willReturn(false);
+
+		$actual = $this->jsCombiner->process(__DIR__, '/data/combine.json', 'awesomeapp');
+		$this->assertFalse($actual);
+	}
+
 	public function testProcessUncachedFileNoAppDataFolder() {
+		$this->config
+			->expects($this->at(0))
+			->method('getValue')
+			->with('debug')
+			->willReturn(false);
+		$this->config
+			->expects($this->at(1))
+			->method('getValue')
+			->with('installed')
+			->willReturn(true);
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData->expects($this->once())->method('getFolder')->with('awesomeapp')->willThrowException(new NotFoundException());
 		$this->appData->expects($this->once())->method('newFolder')->with('awesomeapp')->willReturn($folder);
@@ -52,11 +107,12 @@ class JSCombinerTest extends \Test\TestCase {
 			->will($this->returnCallback(function($path) use ($file) {
 				if ($path === 'combine.js') {
 					return $file;
-				} else if ($path === 'combine.js.deps') {
-					throw new NotFoundException();
-				} else {
-					$this->fail();
 				}
+
+				if ($path === 'combine.js.deps') {
+					throw new NotFoundException();
+				}
+				$this->fail();
 			}));
 		$folder->expects($this->once())
 			->method('newFile')
@@ -68,6 +124,16 @@ class JSCombinerTest extends \Test\TestCase {
 	}
 
 	public function testProcessUncachedFile() {
+		$this->config
+			->expects($this->at(0))
+			->method('getValue')
+			->with('debug')
+			->willReturn(false);
+		$this->config
+			->expects($this->at(1))
+			->method('getValue')
+			->with('installed')
+			->willReturn(true);
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData->expects($this->once())->method('getFolder')->with('awesomeapp')->willReturn($folder);
 		$file = $this->createMock(ISimpleFile::class);
@@ -78,11 +144,12 @@ class JSCombinerTest extends \Test\TestCase {
 			->will($this->returnCallback(function($path) use ($file) {
 				if ($path === 'combine.js') {
 					return $file;
-				} else if ($path === 'combine.js.deps') {
-					throw new NotFoundException();
-				} else {
-					$this->fail();
 				}
+
+				if ($path === 'combine.js.deps') {
+					throw new NotFoundException();
+				}
+				$this->fail();
 			}));
 		$folder->expects($this->once())
 			->method('newFile')
@@ -94,6 +161,16 @@ class JSCombinerTest extends \Test\TestCase {
 	}
 
 	public function testProcessCachedFile() {
+		$this->config
+			->expects($this->at(0))
+			->method('getValue')
+			->with('debug')
+			->willReturn(false);
+		$this->config
+			->expects($this->at(1))
+			->method('getValue')
+			->with('installed')
+			->willReturn(true);
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData->expects($this->once())->method('getFolder')->with('awesomeapp')->willReturn($folder);
 		$file = $this->createMock(ISimpleFile::class);
@@ -106,11 +183,12 @@ class JSCombinerTest extends \Test\TestCase {
 			->will($this->returnCallback(function($path) use ($file, $fileDeps) {
 				if ($path === 'combine.js') {
 					return $file;
-				} else if ($path === 'combine.js.deps') {
-					return $fileDeps;
-				} else {
-					$this->fail();
 				}
+
+				if ($path === 'combine.js.deps') {
+					return $fileDeps;
+				}
+				$this->fail();
 			}));
 
 		$actual = $this->jsCombiner->process(__DIR__, '/data/combine.json', 'awesomeapp');
@@ -118,6 +196,16 @@ class JSCombinerTest extends \Test\TestCase {
 	}
 
 	public function testProcessCachedFileMemcache() {
+		$this->config
+			->expects($this->at(0))
+			->method('getValue')
+			->with('debug')
+			->willReturn(false);
+		$this->config
+			->expects($this->at(1))
+			->method('getValue')
+			->with('installed')
+			->willReturn(true);
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData->expects($this->once())
 			->method('getFolder')
@@ -136,11 +224,8 @@ class JSCombinerTest extends \Test\TestCase {
 			->will($this->returnCallback(function($path) use ($file) {
 				if ($path === 'combine.js') {
 					return $file;
-				} else if ($path === 'combine.js.deps') {
-					$this->fail();
-				} else {
-					$this->fail();
 				}
+				$this->fail();
 			}));
 
 		$actual = $this->jsCombiner->process(__DIR__, '/data/combine.json', 'awesomeapp');
@@ -148,7 +233,7 @@ class JSCombinerTest extends \Test\TestCase {
 	}
 
 	public function testIsCachedNoDepsFile() {
-		$fileName = "combine.json";
+		$fileName = 'combine.json';
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
 
@@ -156,18 +241,49 @@ class JSCombinerTest extends \Test\TestCase {
 			->will($this->returnCallback(function($path) use ($file) {
 				if ($path === 'combine.js') {
 					return $file;
-				} else if ($path === 'combine.js.deps') {
-					throw new NotFoundException();
-				} else {
-					$this->fail();
 				}
+				if ($path === 'combine.js.deps') {
+					throw new NotFoundException();
+				}
+				$this->fail();
 			}));
 
 		$actual = self::invokePrivate($this->jsCombiner, 'isCached', [$fileName, $folder]);
 		$this->assertFalse($actual);
 	}
+
+	public function testIsCachedWithNotExistingFile() {
+		$fileName = 'combine.json';
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+		$folder->method('getFile')
+			->with('combine.js.deps')
+			->willReturn($file);
+		$file->expects($this->once())
+			->method('getContent')
+			->willReturn(json_encode(['/etc/certainlynotexisting/file/ihope' => 10000]));
+
+		$actual = self::invokePrivate($this->jsCombiner, 'isCached', [$fileName, $folder]);
+		$this->assertFalse($actual);
+	}
+
+	public function testIsCachedWithOlderMtime() {
+		$fileName = 'combine.json';
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+		$folder->method('getFile')
+			->with('combine.js.deps')
+			->willReturn($file);
+		$file->expects($this->once())
+			->method('getContent')
+			->willReturn(json_encode([__FILE__ => 1234]));
+
+		$actual = self::invokePrivate($this->jsCombiner, 'isCached', [$fileName, $folder]);
+		$this->assertFalse($actual);
+	}
+
 	public function testCacheNoFile() {
-		$fileName = "combine.js";
+		$fileName = 'combine.js';
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -188,7 +304,7 @@ class JSCombinerTest extends \Test\TestCase {
 	}
 
 	public function testCache() {
-		$fileName = "combine.js";
+		$fileName = 'combine.js';
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -204,6 +320,42 @@ class JSCombinerTest extends \Test\TestCase {
 
 		$actual = self::invokePrivate($this->jsCombiner, 'cache', [$path, 'combine.json', $folder]);
 		$this->assertTrue($actual);
+	}
+
+	public function testCacheNotPermittedException() {
+		$fileName = 'combine.js';
+
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+		$depsFile = $this->createMock(ISimpleFile::class);
+
+		$path = __DIR__ . '/data/';
+
+		$folder->expects($this->at(0))->method('getFile')->with($fileName)->willReturn($file);
+		$folder->expects($this->at(1))->method('getFile')->with($fileName . '.deps')->willReturn($depsFile);
+
+		$file->expects($this->at(0))
+			->method('putContent')
+			->with('var a = \'hello\';
+
+
+var b = \'world\';
+
+
+');
+		$depsFile
+			->expects($this->at(0))
+			->method('putContent')
+			->with($this->callback(
+			function ($content) {
+				$deps = json_decode($content, true);
+				return array_key_exists(__DIR__ . '/data//1.js', $deps)
+					&& array_key_exists(__DIR__ . '/data//2.js', $deps);
+			}))
+			->willThrowException(new NotPermittedException());
+
+		$actual = self::invokePrivate($this->jsCombiner, 'cache', [$path, 'combine.json', $folder]);
+		$this->assertFalse($actual);
 	}
 
 	public function testCacheSuccess() {
@@ -264,5 +416,27 @@ var b = \'world\';
 		$this->assertEquals(substr($result, 1), $actual);
 	}
 
+	public function testGetContent() {
+		// Create temporary file with some content
+		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('JSCombinerTest');
+		$pathInfo = pathinfo($tmpFile);
+		file_put_contents($tmpFile, json_encode(['/foo/bar/test', $pathInfo['dirname'] . '/js/mytest.js']));
+		$tmpFilePathArray = explode('/', $pathInfo['basename']);
+		array_pop($tmpFilePathArray);
 
+		$expected = [
+			'//foo/bar/test',
+			'/' . implode('/', $tmpFilePathArray) . $pathInfo['dirname'] . '/js/mytest.js',
+		];
+		$this->assertEquals($expected, $this->jsCombiner->getContent($pathInfo['dirname'], $pathInfo['basename']));
+	}
+
+	public function testGetContentInvalidJson() {
+		// Create temporary file with some content
+		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('JSCombinerTest');
+		$pathInfo = pathinfo($tmpFile);
+		file_put_contents($tmpFile, 'CertainlyNotJson');
+		$expected = [];
+		$this->assertEquals($expected, $this->jsCombiner->getContent($pathInfo['dirname'], $pathInfo['basename']));
+	}
 }
