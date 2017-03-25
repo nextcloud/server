@@ -29,6 +29,7 @@ use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\SharePoint\ClientContext;
 use Office365\PHP\Client\SharePoint\File;
 use Office365\PHP\Client\SharePoint\Folder;
+use Office365\PHP\Client\SharePoint\FolderCollection;
 use Office365\PHP\Client\SharePoint\Web;
 use Test\TestCase;
 
@@ -167,11 +168,92 @@ class SharePointClientTest extends TestCase {
 			->method('executeQuery')
 			->willThrowException(new \Exception('Unknown Error'));
 
-
 		$this->contextsFactory->expects($this->exactly(3))
 			->method('getClientContext')
 			->willReturn($clientContextMock);
 
 		$this->client->fetchFileOrFolder($path, $properties);
+	}
+
+	public function testCreateFolderSuccess() {
+		$dirName = 'New Project Dir';
+		$parentPath = '/' . $this->documentLibraryTitle . '/Our Directory';
+		$path = $parentPath . '/'. $dirName;
+
+		$this->contextsFactory->expects($this->once())
+			->method('getAuthContext')
+			->willReturn($this->createMock(AuthenticationContext::class));
+
+		$folderCollectionMock = $this->createMock(FolderCollection::class);
+		$folderCollectionMock->expects($this->once())
+			->method('add')
+			->with($dirName);
+
+		$folderMock = $this->createMock(Folder::class);
+		$folderMock->expects($this->once())
+			->method('getFolders')
+			->willReturn($folderCollectionMock);
+
+		$webMock = $this->createMock(Web::class);
+		$webMock->expects($this->once())
+			->method('getFolderByServerRelativeUrl')
+			->with($parentPath)
+			->willReturn($folderMock);
+
+		$clientContextMock = $this->createMock(ClientContext::class);
+		$clientContextMock->expects($this->once())
+			->method('getWeb')
+			->willReturn($webMock);
+		$clientContextMock->expects($this->once())
+			->method('executeQuery');
+
+		$this->contextsFactory->expects($this->once())
+			->method('getClientContext')
+			->willReturn($clientContextMock);
+
+		$this->client->createFolder($path);
+	}
+
+	/**
+	 * @expectedException \Exception
+	 */
+	public function testCreateFolderError() {
+		$dirName = 'New Project Dir';
+		$parentPath = '/' . $this->documentLibraryTitle . '/Our Directory';
+		$path = $parentPath . '/'. $dirName;
+
+		$this->contextsFactory->expects($this->once())
+			->method('getAuthContext')
+			->willReturn($this->createMock(AuthenticationContext::class));
+
+		$folderCollectionMock = $this->createMock(FolderCollection::class);
+		$folderCollectionMock->expects($this->once())
+			->method('add')
+			->with($dirName);
+
+		$folderMock = $this->createMock(Folder::class);
+		$folderMock->expects($this->once())
+			->method('getFolders')
+			->willReturn($folderCollectionMock);
+
+		$webMock = $this->createMock(Web::class);
+		$webMock->expects($this->once())
+			->method('getFolderByServerRelativeUrl')
+			->with($parentPath)
+			->willReturn($folderMock);
+
+		$clientContextMock = $this->createMock(ClientContext::class);
+		$clientContextMock->expects($this->once())
+			->method('getWeb')
+			->willReturn($webMock);
+		$clientContextMock->expects($this->once())
+			->method('executeQuery')
+			->willThrowException(new \Exception('Whatever'));
+
+		$this->contextsFactory->expects($this->exactly(2))
+			->method('getClientContext')
+			->willReturn($clientContextMock);
+
+		$this->client->createFolder($path);
 	}
 }

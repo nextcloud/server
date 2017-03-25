@@ -81,6 +81,7 @@ class SharePointClient {
 			} catch (\Exception $e) {
 				if(preg_match('/^The file \/.* does not exist\.$/', $e->getMessage()) !== 1
 					&& $e->getMessage() !== 'Unknown Error'
+					&& $e->getMessage() !== 'File Not Found.'
 				) {
 					$this->createClientContext();
 					# Unexpected Exception, pass it on
@@ -106,6 +107,30 @@ class SharePointClient {
 		$folder = $this->context->getWeb()->getFolderByServerRelativeUrl($relativeServerPath);
 		$this->loadAndExecute($folder, $properties);
 		return $folder;
+	}
+
+	/**
+	 * adds a folder on the given server path
+	 *
+	 * @param string $relativeServerPath
+	 * @throws \Exception
+	 */
+	public function createFolder($relativeServerPath) {
+		$this->ensureConnection();
+
+		$serverUrlParts = explode('/', $relativeServerPath);
+		$newFolderName = array_pop($serverUrlParts);
+		$parentUrl =  implode('/', $serverUrlParts);
+
+		$parentFolder = $this->context->getWeb()->getFolderByServerRelativeUrl($parentUrl);
+		$parentFolder->getFolders()->add($newFolderName);
+
+		try {
+			$this->context->executeQuery();
+		} catch (\Exception $e) {
+			$this->createClientContext();
+			throw $e;
+		}
 	}
 
 	/**

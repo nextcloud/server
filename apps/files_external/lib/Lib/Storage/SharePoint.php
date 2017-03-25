@@ -102,8 +102,14 @@ class SharePoint extends Common {
 	 * @since 6.0.0
 	 */
 	public function mkdir($path) {
-		// TODO: Implement mkdir() method.
-		return true;
+		try {
+			$serverUrl = $this->formatPath($path);
+			$this->spClient->createFolder($serverUrl);
+			$this->fileCache->remove($serverUrl);
+			return true;
+		} catch (\Exception $e) {
+			return false;
+		}
 	}
 
 	/**

@@ -23,6 +23,7 @@
 
 namespace OCA\Files_External\Tests\Storage;
 
+use OC\Cache\CappedMemoryCache;
 use OCA\Files_External\Lib\SharePoint\NotFoundException;
 use OCP\Files\FileInfo;
 use OCA\Files_External\Lib\SharePoint\ContextsFactory;
@@ -68,6 +69,9 @@ class SharePointTest extends TestCase {
 	/** @var  SharePointClient|\PHPUnit_Framework_MockObject_MockObject */
 	protected $client;
 
+	/** @var  CappedMemoryCache|\PHPUnit_Framework_MockObject_MockObject */
+	protected $fileCache;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -79,6 +83,8 @@ class SharePointTest extends TestCase {
 			->method('getClient')
 			->willReturn($this->client);
 
+		$this->fileCache =  $this->createMock(CappedMemoryCache::class);
+
 		$parameters = [
 			'host'                    => $this->exampleHost,
 			'documentLibrary'         => $this->documentLibraryTitle,
@@ -86,6 +92,7 @@ class SharePointTest extends TestCase {
 			'password'                => $this->examplePwd,
 			'contextFactory'          => $this->factory,
 			'sharePointClientFactory' => $this->clientFactory,
+			'cappedMemoryCache'       => $this->fileCache,
 		];
 
 		$this->storage = new SharePoint($parameters);
@@ -249,6 +256,28 @@ class SharePointTest extends TestCase {
 		}
 
 		$this->assertSame($exists, $this->storage->file_exists($path));
+	}
+
+	/**
+	 * @dataProvider boolProvider
+	 */
+	public function testMkDir($successful) {
+		$dirName = '/Parentfolder/NewDirectory';
+		$serverPath = '/' . $this->documentLibraryTitle . $dirName;
+
+		$invocationMocker = $this->client->expects($this->once())
+			->method('createFolder')
+			->with($serverPath);
+
+		if(!$successful) {
+			$invocationMocker->willThrowException(new \Exception('Whatever'));
+		} else {
+			$this->fileCache->expects($this->once())
+				->method('remove')
+				->with($serverPath);
+		}
+
+		$this->assertSame($successful, $this->storage->mkdir($dirName));
 	}
 
 }
