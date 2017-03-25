@@ -111,4 +111,14 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 
 		throw new NotFound('Node with name \'' . $name . '\' could not be found');
 	}
+
+	/**
+	 * @param array $filters
+	 * @param integer|null $limit
+	 * @param integer|null $offset
+	 */
+	function calendarSearch(array $filters, $limit=null, $offset=null) {
+		$principalUri = $this->principalInfo['uri'];
+		return $this->caldavBackend->calendarSearch($principalUri, $filters, $limit, $offset);
+	}
 }
