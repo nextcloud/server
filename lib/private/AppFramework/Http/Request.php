@@ -612,7 +612,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 		// Support Cloudflare 'proxy'
 		$cloudflare = $this->config->getSystemValue('cloudflare');
-		if($cloudflare && (isset($_SERVER['HTTP_CF_CONNECTING_IP']))
+		if($cloudflare && (isset($_SERVER['HTTP_CF_CONNECTING_IP'])))
 		   return $_SERVER['HTTP_CF_CONNECTING_IP'];
 		   
 		return $remoteAddress;
