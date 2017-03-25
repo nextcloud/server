@@ -8,6 +8,7 @@ OC.L10N.register(
     "No user supplied" : "Niedostarczony użytkownik",
     "Unable to change password" : "Nie można zmienić hasła",
     "Authentication error" : "Błąd uwierzytelniania",
+    "Please provide an admin recovery password; otherwise, all user data will be lost." : "Proszę podać hasło odzyskiwania administratora; w innym przypadku wszystkie dane zostaną utracone.",
     "Wrong admin recovery password. Please check the password and try again." : "Błędne hasło odzyskiwania. Sprawdź hasło i spróbuj ponownie.",
     "Backend doesn't support password change, but the user's encryption key was successfully updated." : "Zaplecze nie obsługuje zmiany hasła, ale klucz szyfrowania użytkownika został pomyślnie zaktualizowany.",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "instalacji i aktualizacji aplikacji za pośrednictwem sklepu z aplikacjami lub udziałem Stowarzyszonej Chmury",
