@@ -8,6 +8,7 @@ OC.L10N.register(
     "No user supplied" : "Пользователь не задан",
     "Unable to change password" : "Невозможно изменить пароль",
     "Authentication error" : "Ошибка аутентификации",
+    "Please provide an admin recovery password; otherwise, all user data will be lost." : "Введите пароль восстановления администратора, в противном случае все пользовательские данные будут утеряны.",
     "Wrong admin recovery password. Please check the password and try again." : "Неправильный пароль восстановления администратора. Проверьте пароль и попробуйте еще раз.",
     "Backend doesn't support password change, but the user's encryption key was successfully updated." : "Используемый механизм не поддерживает смену паролей, но пользовательский ключ шифрования был успешно обновлён",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "установка и обновление приложений через магазин приложений или Объединение облачных хранилищ",
