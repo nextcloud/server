@@ -23,6 +23,7 @@ OC.L10N.register(
     "Private key password successfully updated." : "Das Passwort des privaten Schlüssels wurde erfolgreich aktualisiert.",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Sie müssen Ihre Verschlüsselungsschlüssel von der alten Verschlüsselung (ownCloud <= 8.0) zur neuen migrieren. Bitte führen Sie 'occ encryption:migrate' aus oder kontaktieren Sie Ihren Administrator.",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Falscher privater Schlüssel für die Verschlüsselungs-App. Bitte aktualisieren Sie Ihren privaten Schlüssel in Ihren persönlichen Einstellungen um wieder Zugriff auf die verschlüsselten Dateien zu erhalten.",
+    "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Verschlüsselung-App ist aktiviert, aber Ihre Schlüssel sind nicht initialisiert. Bitte melden Sie sich ab und wieder an.",
     "Encryption app is enabled and ready" : "Verschlüsselungs-App ist aktiviert und bereit",
     "Bad Signature" : "Falsche Signatur",
     "Missing Signature" : "Fehlende Signatur",

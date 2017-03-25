@@ -8,6 +8,7 @@ OC.L10N.register(
     "No user supplied" : "No se especificó un usuario",
     "Unable to change password" : "No se ha podido cambiar la contraseña",
     "Authentication error" : "Error de autenticación",
+    "Please provide an admin recovery password; otherwise, all user data will be lost." : "Por favor provea una contraseña de administración para recuperación; de otra forma toda la información de los usuarios será perdida.",
     "Wrong admin recovery password. Please check the password and try again." : "Contraseña de recuperación de administrador incorrecta. Por favor compruebe la contraseña e inténtelo de nuevo.",
     "Backend doesn't support password change, but the user's encryption key was successfully updated." : "El backend no admite cambios de contraseña, pero la clave de cifrado del usuario ha sido actualizada satisfactoriamente.",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "instalando y actualizando aplicaciones vía app store o Nube compartida Federada",

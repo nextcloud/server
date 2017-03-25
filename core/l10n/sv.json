@@ -175,6 +175,7 @@
     "sunny" : "soligt",
     "Hello {name}, the weather is {weather}" : "Hej {name}, vädret är {weather}",
     "Hello {name}" : "Hej {name}",
+    "<strong>These are your search results<script>alert(1)</script></strong>" : "<strong>Detta är ditt sökresultat<script>alert(1)</script></strong>",
     "new" : "ny",
     "_download %n file_::_download %n files_" : ["Ladda ner %n fil","Ladda ned %n filer"],
     "The update is in progress, leaving this page might interrupt the process in some environments." : "Uppdateringen pågår, om sidan lämnas kan uppdateringen misslyckas. ",

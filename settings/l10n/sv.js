@@ -266,6 +266,7 @@ OC.L10N.register(
     "Getting help" : "Få hjälp",
     "Commercial support" : "Kommersiell support",
     "You are using <strong>%s</strong> of <strong>%s</strong>" : "Du använder <strong>%s</strong> av <strong>%s</strong>",
+    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Du använder <strong>%s</strong> av <strong>%s</strong> (<strong>%s %%</strong>)",
     "Profile picture" : "Profilbild",
     "Upload new" : "Ladda upp ny",
     "Select from Files" : "Välj från Filer",
