@@ -174,6 +174,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		$readOnlyPropertyName = '{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only';
 		while($row = $result->fetch()) {
+			if ($row['principaluri'] === $principalUri) {
+				continue;
+			}
+
 			$readOnly = (int) $row['access'] === Backend::ACCESS_READ;
 			if (isset($addressBooks[$row['id']])) {
 				if ($readOnly) {
