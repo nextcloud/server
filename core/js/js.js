@@ -366,15 +366,30 @@ var OCP = {},
 	 */
 	addScript:function(app,script,ready){
 		var deferred, path=OC.filePath(app,'js',script+'.js');
-		if(!OC.addScript.loaded[path]){
-			if(ready){
-				deferred=$.getScript(path,ready);
-			}else{
-				deferred=$.getScript(path);
+		if(!OC.addScript.loaded[path]) {
+			if(ready) {
+				deferred = jQuery.ajax({
+					url: path,
+					cache: true,
+					success: function (content) {
+						eval(content);
+						eval(ready);
+					},
+					async: false
+				});
+			} else {
+				deferred = jQuery.ajax({
+					url: path,
+					cache: true,
+					success: function (content) {
+						eval(content);
+					},
+					async: false
+				});
 			}
-			OC.addScript.loaded[path]=deferred;
-		}else{
-			if(ready){
+			OC.addScript.loaded[path] = deferred;
+		} else {
+			if (ready) {
 				ready();
 			}
 		}
