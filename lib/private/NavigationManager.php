@@ -27,7 +27,9 @@
 namespace OC;
 
 use OC\App\AppManager;
+use OC\Group\Manager;
 use OCP\App\IAppManager;
+use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
@@ -52,19 +54,23 @@ class NavigationManager implements INavigationManager {
 	private $l10nFac;
 	/** @var IUserSession */
 	private $userSession;
-	/** @var IGroupManager */
+	/** @var IGroupManager|Manager */
 	private $groupManager;
+	/** @var IConfig */
+	private $config;
 
-	public function __construct(IAppManager $appManager = null,
-						 IURLGenerator $urlGenerator = null,
-						 IFactory $l10nFac = null,
-						 IUserSession $userSession = null,
-						 IGroupManager$groupManager = null) {
+	public function __construct(IAppManager $appManager,
+						 IURLGenerator $urlGenerator,
+						 IFactory $l10nFac,
+						 IUserSession $userSession,
+						 IGroupManager $groupManager,
+						 IConfig $config) {
 		$this->appManager = $appManager;
 		$this->urlGenerator = $urlGenerator;
 		$this->l10nFac = $l10nFac;
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
+		$this->config = $config;
 	}
 
 	/**
@@ -85,20 +91,42 @@ class NavigationManager implements INavigationManager {
 		if(!isset($entry['icon'])) {
 			$entry['icon'] = '';
 		}
+		if(!isset($entry['type'])) {
+			$entry['type'] = 'link';
+		}
 		$this->entries[] = $entry;
 	}
 
 	/**
 	 * returns all the added Menu entries
+	 * @param string $type
 	 * @return array an array of the added entries
 	 */
-	public function getAll() {
+	public function getAll($type = 'link') {
 		$this->init();
 		foreach ($this->closureEntries as $c) {
 			$this->add($c());
 		}
 		$this->closureEntries = array();
-		return $this->entries;
+
+		if ($type === 'all') {
+			return $this->entries;
+		}
+
+		return array_filter($this->entries, function($entry) use ($type) {
+			return $entry['type'] === $type;
+		});
+	}
+
+	/**
+	 * Do not load the default links
+	 * This is just a hack for the files app
+	 * @internal
+	 */
+	public function noDefaultLinks() {
+		$this->entries = [];
+		$this->closureEntries = [];
+		$this->init = true;
 	}
 
 	/**
@@ -134,7 +162,82 @@ class NavigationManager implements INavigationManager {
 			return;
 		}
 		$this->init = true;
-		if (is_null($this->appManager)) {
+
+		if ($this->config->getSystemValue('knowledgebaseenabled', true)) {
+			$l = $this->l10nFac->get('lib');
+			$this->add([
+				'type' => 'settings',
+				'id' => 'help',
+				'order' => 4,
+				'href' => $this->urlGenerator->linkToRoute('settings_help'),
+				'name' => $l->t('Help'),
+				'icon' => $this->urlGenerator->imagePath('settings', 'help.svg'),
+			]);
+		}
+
+		if ($this->userSession->isLoggedIn()) {
+			if ($this->isAdmin()) {
+				$l = $this->l10nFac->get('settings');
+				// App management
+				$this->add([
+					'id' => 'core_apps',
+					'order' => 9999,
+					'href' => $this->urlGenerator->linkToRoute('settings.AppSettings.viewApps'),
+					'icon' => $this->urlGenerator->imagePath('settings', 'apps.svg'),
+					'name' => $l->t('Apps'),
+				]);
+			}
+
+			$l = $this->l10nFac->get('lib');
+			// Personal settings
+			$this->add([
+				'type' => 'settings',
+				'id' => 'personal',
+				'order' => 1,
+				'href' => $this->urlGenerator->linkToRoute('settings_personal'),
+				'name' => $l->t('Personal'),
+				'icon' => $this->urlGenerator->imagePath('settings', 'personal.svg'),
+			]);
+
+			// Logout
+			$this->add([
+				'type' => 'settings',
+				'id' => 'logout',
+				'order' => 99999,
+				'href' => $this->urlGenerator->linkToRouteAbsolute(
+					'core.login.logout',
+					['requesttoken' => \OCP\Util::callRegister()]
+				),
+				'name' => $l->t('Log out'),
+				'icon' => $this->urlGenerator->imagePath('core', 'actions/logout.svg'),
+			]);
+
+			if ($this->isSubadmin()) {
+				// User management
+				$this->add([
+					'type' => 'settings',
+					'id' => 'core_users',
+					'order' => 3,
+					'href' => $this->urlGenerator->linkToRoute('settings_users'),
+					'name' => $l->t('Users'),
+					'icon' => $this->urlGenerator->imagePath('settings', 'users.svg'),
+				]);
+			}
+
+			if ($this->isAdmin()) {
+				// Admin settings
+				$this->add([
+					'type' => 'settings',
+					'id' => 'admin',
+					'order' => 2,
+					'href' => $this->urlGenerator->linkToRoute('settings.AdminSettings.index'),
+					'name' => $l->t('Admin'),
+					'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
+				]);
+			}
+		}
+
+		if ($this->appManager === 'null') {
 			return;
 		}
 		foreach ($this->appManager->getInstalledApps() as $app) {
@@ -166,7 +269,7 @@ class NavigationManager implements INavigationManager {
 					// no icon? - ignore it then
 				}
 			}
-			if (is_null($icon)) {
+			if ($icon === null) {
 				$icon = $this->urlGenerator->imagePath('core', 'default-app-icon');
 			}
 
@@ -176,17 +279,6 @@ class NavigationManager implements INavigationManager {
 				'href' => $route,
 				'icon' => $icon,
 				'name' => $l->t($nav['name']),
-			]);
-		}
-
-		if ($this->isAdmin()) {
-			$l = $this->l10nFac->get('settings');
-			$this->add([
-				'id' => 'core_apps',
-				'order' => 9999,
-				'href' => $this->urlGenerator->linkToRoute('settings.AppSettings.viewApps'),
-				'icon' => $this->urlGenerator->imagePath('settings', 'apps.svg'),
-				'name' => $l->t('Apps'),
 			]);
 		}
 	}
@@ -199,4 +291,11 @@ class NavigationManager implements INavigationManager {
 		return false;
 	}
 
+	private function isSubadmin() {
+		$user = $this->userSession->getUser();
+		if ($user !== null) {
+			return $this->groupManager->getSubAdmin()->isSubAdmin($user);
+		}
+		return false;
+	}
 }
