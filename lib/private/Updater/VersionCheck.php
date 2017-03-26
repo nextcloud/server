@@ -82,7 +82,12 @@ class VersionCheck {
 		$url = $updaterUrl . '?version=' . $versionString;
 
 		$tmp = [];
-		$xml = $this->getUrlContent($url);
+		try {
+			$xml = $this->getUrlContent($url);
+		} catch (\Exception $e) {
+			return false;
+		}
+
 		if ($xml) {
 			$loadEntities = libxml_disable_entity_loader(true);
 			$data = @simplexml_load_string($xml);
@@ -108,16 +113,13 @@ class VersionCheck {
 	/**
 	 * @codeCoverageIgnore
 	 * @param string $url
-	 * @return bool|resource|string
+	 * @return resource|string
+	 * @throws \Exception
 	 */
 	protected function getUrlContent($url) {
-		try {
-			$client = $this->clientService->newClient();
-			$response = $client->get($url);
-			return $response->getBody();
-		} catch (\Exception $e) {
-			return false;
-		}
+		$client = $this->clientService->newClient();
+		$response = $client->get($url);
+		return $response->getBody();
 	}
 }
 
