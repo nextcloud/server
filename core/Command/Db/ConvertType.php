@@ -308,7 +308,12 @@ class ConvertType extends Command implements CompletionAwareInterface {
 				}
 
 				foreach ($row as $key => $value) {
-					$insertQuery->setParameter($key, $value, $this->getColumnType($table, $key));
+					$type = $this->getColumnType($table, $key);
+					if ($type !== false) {
+						$insertQuery->setParameter($key, $value, $type);
+					} else {
+						$insertQuery->setParameter($key, $value);
+					}
 				}
 				$insertQuery->execute();
 			}
@@ -321,9 +326,10 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		if (isset($this->columnTypes[$table][$column])) {
 			return $this->columnTypes[$table][$column];
 		}
-
 		$prefix = $this->config->getSystemValue('dbtableprefix', 'oc_');
-		$this->columnTypes[$table][$column] = null;
+
+		$this->columnTypes[$table][$column] = false;
+
 		if ($table === $prefix . 'cards' && $column === 'carddata') {
 			$this->columnTypes[$table][$column] = IQueryBuilder::PARAM_LOB;
 		} else if ($column === 'calendardata') {
