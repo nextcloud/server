@@ -170,7 +170,7 @@ class NavigationManager implements INavigationManager {
 				$this->add([
 					'type' => 'settings',
 					'id' => 'core_apps',
-					'order' => 50,
+					'order' => 3,
 					'href' => $this->urlGenerator->linkToRoute('settings.AppSettings.viewApps'),
 					'icon' => $this->urlGenerator->imagePath('settings', 'apps.svg'),
 					'name' => $l->t('Apps'),
@@ -205,7 +205,7 @@ class NavigationManager implements INavigationManager {
 				$this->add([
 					'type' => 'settings',
 					'id' => 'core_users',
-					'order' => 3,
+					'order' => 4,
 					'href' => $this->urlGenerator->linkToRoute('settings_users'),
 					'name' => $l->t('Users'),
 					'icon' => $this->urlGenerator->imagePath('settings', 'users.svg'),
