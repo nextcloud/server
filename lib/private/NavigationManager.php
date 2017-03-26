@@ -163,8 +163,8 @@ class NavigationManager implements INavigationManager {
 		}
 		$this->init = true;
 
+		$l = $this->l10nFac->get('lib');
 		if ($this->config->getSystemValue('knowledgebaseenabled', true)) {
-			$l = $this->l10nFac->get('lib');
 			$this->add([
 				'type' => 'settings',
 				'id' => 'help',
@@ -177,18 +177,17 @@ class NavigationManager implements INavigationManager {
 
 		if ($this->userSession->isLoggedIn()) {
 			if ($this->isAdmin()) {
-				$l = $this->l10nFac->get('settings');
 				// App management
 				$this->add([
+					'type' => 'settings',
 					'id' => 'core_apps',
-					'order' => 9999,
+					'order' => 50,
 					'href' => $this->urlGenerator->linkToRoute('settings.AppSettings.viewApps'),
 					'icon' => $this->urlGenerator->imagePath('settings', 'apps.svg'),
 					'name' => $l->t('Apps'),
 				]);
 			}
 
-			$l = $this->l10nFac->get('lib');
 			// Personal settings
 			$this->add([
 				'type' => 'settings',
