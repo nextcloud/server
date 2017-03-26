@@ -178,6 +178,17 @@ class NavigationManager implements INavigationManager {
 				'name' => $l->t($nav['name']),
 			]);
 		}
+
+		if ($this->isAdmin()) {
+			$l = $this->l10nFac->get('settings');
+			$this->add([
+				'id' => 'core_apps',
+				'order' => 9999,
+				'href' => $this->urlGenerator->linkToRoute('settings.AppSettings.viewApps'),
+				'icon' => $this->urlGenerator->imagePath('settings', 'apps.svg'),
+				'name' => $l->t('Apps'),
+			]);
+		}
 	}
 
 	private function isAdmin() {
