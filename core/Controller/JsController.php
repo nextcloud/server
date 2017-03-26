@@ -29,6 +29,8 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IRequest;
 
 class JsController extends Controller {
@@ -63,12 +65,16 @@ class JsController extends Controller {
 	public function getJs($fileName, $appName) {
 		try {
 			$folder = $this->appData->getFolder($appName);
-			$jsFile = $folder->getFile($fileName);
+			$gzip = false;
+			$file = $this->getFile($folder, $fileName, $gzip);
 		} catch(NotFoundException $e) {
 			return new NotFoundResponse();
 		}
 
-		$response = new FileDisplayResponse($jsFile, Http::STATUS_OK, ['Content-Type' => 'application/javascript']);
+		$response = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'application/javascript']);
+		if ($gzip) {
+			$response->addHeader('Content-Encoding', 'gzip');
+		}
 		$response->cacheFor(86400);
 		$expires = new \DateTime();
 		$expires->setTimestamp($this->timeFactory->getTime());
@@ -76,5 +82,27 @@ class JsController extends Controller {
 		$response->addHeader('Expires', $expires->format(\DateTime::RFC1123));
 		$response->addHeader('Pragma', 'cache');
 		return $response;
+	}
+
+	/**
+	 * @param ISimpleFolder $folder
+	 * @param string $fileName
+	 * @param bool $gzip is set to true if we use the gzip file
+	 * @return ISimpleFile
+	 */
+	private function getFile(ISimpleFolder $folder, $fileName, &$gzip) {
+		$encoding = $this->request->getHeader('Accept-Encoding');
+
+		if ($encoding !== null && strpos($encoding, 'gzip') !== false) {
+			try {
+				$gzip = true;
+				return $folder->getFile($fileName . '.gz');
+			} catch (NotFoundException $e) {
+				// continue
+			}
+		}
+
+		$gzip = false;
+		return $folder->getFile($fileName);
 	}
 }
