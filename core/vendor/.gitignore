@@ -31,7 +31,7 @@ moment/**
 !moment/min
 !moment/LICENSE
 moment/min/**
-!moment/min/moment-with-locales.js
+!moment/min/moment-with-locales.min.js
 
 # jquery
 jquery/**
