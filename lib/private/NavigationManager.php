@@ -119,23 +119,12 @@ class NavigationManager implements INavigationManager {
 	}
 
 	/**
-	 * Do not load the default links
-	 * This is just a hack for the files app
-	 * @internal
-	 */
-	public function noDefaultLinks() {
-		$this->entries = [];
-		$this->closureEntries = [];
-		$this->init = true;
-	}
-
-	/**
 	 * removes all the entries
 	 */
-	public function clear() {
+	public function clear($loadDefaultLinks = true) {
 		$this->entries = [];
 		$this->closureEntries = [];
-		$this->init = false;
+		$this->init = !$loadDefaultLinks;
 	}
 
 	/**
@@ -242,45 +231,46 @@ class NavigationManager implements INavigationManager {
 		foreach ($this->appManager->getInstalledApps() as $app) {
 			// load plugins and collections from info.xml
 			$info = $this->appManager->getAppInfo($app);
-			if (!isset($info['navigation'])) {
+			if (empty($info['navigations'])) {
 				continue;
 			}
-			$nav = $info['navigation'];
-			if (!isset($nav['name'])) {
-				continue;
-			}
-			if (!isset($nav['route'])) {
-				continue;
-			}
-			$role = isset($nav['@attributes']['role']) ? $nav['@attributes']['role'] : 'all';
-			if ($role === 'admin' && !$this->isAdmin()) {
-				continue;
-			}
-			$l = $this->l10nFac->get($app);
-			$order = isset($nav['order']) ? $nav['order'] : 100;
-			$type = isset($nav['type']) ? $nav['type'] : 'link';
-			$route = $this->urlGenerator->linkToRoute($nav['route']);
-			$icon = isset($nav['icon']) ? $nav['icon'] : 'app.svg';
-			foreach ([$icon, "$app.svg"] as $i) {
-				try {
-					$icon = $this->urlGenerator->imagePath($app, $i);
-					break;
-				} catch (\RuntimeException $ex) {
-					// no icon? - ignore it then
+			foreach ($info['navigations'] as $nav) {
+				if (!isset($nav['name'])) {
+					continue;
 				}
-			}
-			if ($icon === null) {
-				$icon = $this->urlGenerator->imagePath('core', 'default-app-icon');
-			}
+				if (!isset($nav['route'])) {
+					continue;
+				}
+				$role = isset($nav['@attributes']['role']) ? $nav['@attributes']['role'] : 'all';
+				if ($role === 'admin' && !$this->isAdmin()) {
+					continue;
+				}
+				$l = $this->l10nFac->get($app);
+				$order = isset($nav['order']) ? $nav['order'] : 100;
+				$type = isset($nav['type']) ? $nav['type'] : 'link';
+				$route = $this->urlGenerator->linkToRoute($nav['route']);
+				$icon = isset($nav['icon']) ? $nav['icon'] : 'app.svg';
+				foreach ([$icon, "$app.svg"] as $i) {
+					try {
+						$icon = $this->urlGenerator->imagePath($app, $i);
+						break;
+					} catch (\RuntimeException $ex) {
+						// no icon? - ignore it then
+					}
+				}
+				if ($icon === null) {
+					$icon = $this->urlGenerator->imagePath('core', 'default-app-icon');
+				}
 
-			$this->add([
-				'id' => $app,
-				'order' => $order,
-				'href' => $route,
-				'icon' => $icon,
-				'type' => $type,
-				'name' => $l->t($nav['name']),
-			]);
+				$this->add([
+					'id' => $app,
+					'order' => $order,
+					'href' => $route,
+					'icon' => $icon,
+					'type' => $type,
+					'name' => $l->t($nav['name']),
+				]);
+			}
 		}
 	}
 

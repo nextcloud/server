@@ -48,7 +48,7 @@ class App {
 				\OC::$server->getGroupManager(),
 				\OC::$server->getConfig()
 			);
-			self::$navigationManager->noDefaultLinks();
+			self::$navigationManager->clear(false);
 		}
 		return self::$navigationManager;
 	}
