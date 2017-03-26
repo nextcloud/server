@@ -10,8 +10,9 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "バックアップコードを再生成すると、自動的に古いコードが無効になります。",
     "An error occurred while generating your backup codes" : "バックアップコードの生成中にエラーが発生しました",
     "Nextcloud backup codes" : "Nextcloud バックアップコード",
+    "Two-factor authentication" : "2要素認証",
     "Backup code" : "バックアップコード",
     "Use backup code" : "バックアップコードを使用する",
-    "Second-factor backup codes" : "第2因子バックアップコード"
+    "Second-factor backup codes" : "第二要素バックアップコード"
 },
 "nplurals=1; plural=0;");
