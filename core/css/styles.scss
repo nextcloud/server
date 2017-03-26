@@ -6,8 +6,8 @@
  * @copyright Copyright (c) 2016, Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2016, Morris Jobke <hey@morrisjobke.de>
  * @copyright Copyright (c) 2016, Christoph Wurst <christoph@winzerhof-wurst.at>
- * @copyright Copyright (c) 2016, Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @copyright Copyright (c) 2016, Raghu Nayyar <hey@raghunayyar.com>
+ * @copyright Copyright (c) 2011-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -194,6 +194,10 @@ body {
 			cursor: text;
 			background-color: $color-primary !important;
 			border: 1px solid rgba($color-primary-text, 0.5) !important;
+		}
+		&:hover, &:focus, &:active {
+			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
+			opacity: 1;
 		}
 		& ~ .icon-close-white {
 			display: inline;
