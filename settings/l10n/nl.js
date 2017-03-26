@@ -8,6 +8,7 @@ OC.L10N.register(
     "No user supplied" : "Geen gebruiker opgegeven",
     "Unable to change password" : "Kan wachtwoord niet wijzigen",
     "Authentication error" : "Authenticatie fout",
+    "Please provide an admin recovery password; otherwise, all user data will be lost." : "Voer een beheerdersherstelwachtwoord in, anders zullen alle gebruikersgegevens verloren gaan",
     "Wrong admin recovery password. Please check the password and try again." : "Onjuist beheerdersherstelwachtwoord. Controleer het wachtwoord en probeer het opnieuw.",
     "Backend doesn't support password change, but the user's encryption key was successfully updated." : "De Back-end ondersteunt geen wachtwoordwijzigingen, maar de cryptosleutel van de gebruiker is succesvol bijgewerkt.",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "installeren en bijwerken applicaties via de app store of Federated Cloud Sharing",

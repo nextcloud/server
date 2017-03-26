@@ -57,6 +57,7 @@ OC.L10N.register(
     "{actor} removed share" : "{actor} verwijderde de share",
     "You shared {file} with {user}" : "Je deelde {file} mey {user}",
     "You removed {user} from {file}" : "Je verwijderde {user} van {file}",
+    "{actor} shared {file} with {user}" : "{actor} deelde {file} met {user}",
     "{actor} removed {user} from {file}" : "{actor} verwijderde {user} van {file}",
     "{actor} shared {file} with you" : "{actor} deelde {file} met jou",
     "{actor} removed you from {file}" : "{actor} verwijderde jou van {file}",

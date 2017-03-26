@@ -6,6 +6,7 @@
     "No user supplied" : "没有满足的用户",
     "Unable to change password" : "无法修改密码",
     "Authentication error" : "认证错误",
+    "Please provide an admin recovery password; otherwise, all user data will be lost." : "请提供管理员恢复密码, 否则所有用户的数据都将丢失.",
     "Wrong admin recovery password. Please check the password and try again." : "错误的管理员恢复密码. 请检查密码并重试.",
     "Backend doesn't support password change, but the user's encryption key was successfully updated." : "后端不支持修改密码, 但用户的加密密钥已成功更新.",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "通过应用程序商店或联合云共享安装和更新应用程序",
