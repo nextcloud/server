@@ -373,7 +373,7 @@ var OCP = {},
 					cache: true,
 					success: function (content) {
 						eval(content);
-						eval(ready);
+						ready();
 					},
 					async: false
 				});
