@@ -367,24 +367,16 @@ var OCP = {},
 	addScript:function(app,script,ready){
 		var deferred, path=OC.filePath(app,'js',script+'.js');
 		if(!OC.addScript.loaded[path]) {
-			if(ready) {
-				deferred = jQuery.ajax({
-					url: path,
-					cache: true,
-					success: function (content) {
-						eval(content);
+			deferred = jQuery.ajax({
+				url: path,
+				cache: true,
+				success: function (content) {
+					eval(content);
+					if(ready) {
 						ready();
 					}
-				});
-			} else {
-				deferred = jQuery.ajax({
-					url: path,
-					cache: true,
-					success: function (content) {
-						eval(content);
-					}
-				});
-			}
+				}
+			});
 			OC.addScript.loaded[path] = deferred;
 		} else {
 			if (ready) {
