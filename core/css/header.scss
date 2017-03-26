@@ -317,30 +317,6 @@ nav {
 	}
 }
 
-/* Apps management */
-.apps-management {
-	min-height: initial;
-	height: initial;
-	margin: 0;
-	a {
-		svg,
-		span {
-			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=30)';
-			opacity: .3;
-		}
-		/* icon opacity and hover effect */
-		&:hover svg,
-		&:focus svg,
-		&.active svg,
-		&:hover span,
-		&:focus span,
-		&.active span {
-			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
-			opacity: 1;
-		}
-	}
-}
-
 #apps {
 	max-height: calc(100vh - 100px);
 	overflow: auto;
