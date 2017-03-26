@@ -31,15 +31,14 @@
     "test"
   ],
   "homepage": "https://github.com/dropbox/zxcvbn",
-  "version": "4.4.0",
-  "_release": "4.4.0",
+  "version": "4.4.2",
+  "_release": "4.4.2",
   "_resolution": {
     "type": "version",
-    "tag": "v4.4.0",
-    "commit": "4c3d1c2b4a246cc8d7c81a61e341ad92ce14411b"
+    "tag": "v4.4.2",
+    "commit": "0b7f691c370d922399fe60927433338c062dde23"
   },
   "_source": "https://github.com/dropbox/zxcvbn.git",
-  "_target": "^4.4.0",
-  "_originalSource": "zxcvbn",
-  "_direct": true
+  "_target": "*",
+  "_originalSource": "zxcvbn"
 }
