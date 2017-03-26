@@ -6,8 +6,8 @@
  * @copyright Copyright (c) 2016, Erik Pellikka <erik@pellikka.org>
  * @copyright Copyright (c) 2016, jowi <sjw@gmx.ch>
  * @copyright Copyright (c) 2015, Hendrik Leppelsack <hendrik@leppelsack.de>
- * @copyright Copyright (c) 2015, Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @copyright Copyright (c) 2015, Volker E <volker.e@temporaer.net>
+ * @copyright Copyright (c) 2014-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -248,10 +248,6 @@ nav {
 	left: 242px;
 }
 
-#expanddiv:after {
-	right: 15px;
-}
-
 #navigation {
 	box-sizing: border-box;
 	* {
@@ -372,7 +368,7 @@ nav {
 #expand {
 	display: flex;
 	align-items: center;
-	padding: 7px 30px 6px 10px;
+	padding: 7px 20px 6px 10px;
 	cursor: pointer;
 	* {
 		cursor: pointer;
@@ -386,13 +382,11 @@ nav {
 	&:focus,
 	&:active {
 		color: $color-primary-text;
-		img {
+		img,
+		#expandDisplayName {
 			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
 			opacity: 1;
 		}
-	}
-	.icon-caret {
-		margin-top: 0;
 	}
 
 	/* Profile picture in header */
@@ -408,6 +402,11 @@ nav {
 		&.avatardiv-shown + #expandDisplayName {
 			display: none;
 		}
+	}
+
+	#expandDisplayName {
+		padding: 8px;
+		opacity: .7;
 	}
 }
 
@@ -425,7 +424,7 @@ nav {
 	box-sizing: border-box;
 	&:after {
 		/* position of dropdown arrow */
-		right: 15px;
+		right: 13px;
 	}
 	a {
 		display: block;
@@ -446,14 +445,6 @@ nav {
 			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
 			opacity: 1;
 		}
-	}
-}
-
-/* do not show display name when profile picture is present */
-
-#header {
-	.avatardiv.avatardiv-shown + #expandDisplayName {
-		display: none;
 	}
 }
 

@@ -111,19 +111,7 @@
 			$.when(savingData).done(function() {
 				//OC.msg.finishedSaving('#personal-settings-container .msg', result)
 				self._showInputChangeSuccess(field);
-				if (field === 'displayname') {
-					self._updateDisplayName(value);
-				}
 			});
-		},
-
-		_updateDisplayName: function(displayName) {
-			// update displayName on the top right expand button
-			$('#expandDisplayName').text(displayName);
-			// update avatar if avatar is available
-			if (!$('#removeavatar').hasClass('hidden')) {
-				updateAvatar();
-			}
 		},
 
 		_onScopeChanged: function(field, scope) {

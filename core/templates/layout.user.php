@@ -160,8 +160,7 @@
 								>
 							<?php endif; ?>
 						</div>
-						<span id="expandDisplayName"><?php  p(trim($_['user_displayname']) != '' ? $_['user_displayname'] : $_['user_uid']) ?></span>
-						<div class="icon-caret"></div>
+						<div id="expandDisplayName" class="icon-settings-white"></div>
 					</div>
 					<div id="expanddiv">
 					<ul>
