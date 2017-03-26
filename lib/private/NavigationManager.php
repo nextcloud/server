@@ -157,7 +157,7 @@ class NavigationManager implements INavigationManager {
 			$this->add([
 				'type' => 'settings',
 				'id' => 'help',
-				'order' => 4,
+				'order' => 5,
 				'href' => $this->urlGenerator->linkToRoute('settings_help'),
 				'name' => $l->t('Help'),
 				'icon' => $this->urlGenerator->imagePath('settings', 'help.svg'),
