@@ -110,7 +110,7 @@ class AvatarHome implements ICollection {
 	/**
 	 * Returns the last modification time, as a unix timestamp
 	 *
-	 * @return int
+	 * @return int|null
 	 */
 	public function getLastModified() {
 		return null;
