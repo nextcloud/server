@@ -18,15 +18,17 @@
     "Gruntfile.js",
     "Moment.js.nuspec",
     "package.js",
-    "package.json"
+    "package.json",
+    "ISSUE_TEMPLATE.md",
+    "typing-tests"
   ],
   "homepage": "https://github.com/moment/moment",
-  "version": "2.15.1",
-  "_release": "2.15.1",
+  "version": "2.18.1",
+  "_release": "2.18.1",
   "_resolution": {
     "type": "version",
-    "tag": "2.15.1",
-    "commit": "d3f9a749f0e27ea7ec6e8de3719247d132b357a7"
+    "tag": "2.18.1",
+    "commit": "0af7d4f5f25f911c2eaab2a7ccb534c17e65c536"
   },
   "_source": "https://github.com/moment/moment.git",
   "_target": "^2.15.0",
