@@ -298,7 +298,7 @@ body {
 }
 
 #emptycontent, .emptycontent {
-	color: nc-darken($color-main-background, 8%);
+	color: nc-lighten($color-main-text, 53%);
 	text-align: center;
 	margin-top: 30vh;
 	width: 100%;
