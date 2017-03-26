@@ -530,21 +530,17 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					}
 					previousEntry = entry;
 					// do not show apps from #appmenu in #navigation
-					if(i < 7) {
+					if(i <= 7) {
 						$('#navigation li').eq(i).addClass('in-header');
 					} else {
 						$('#navigation li').eq(i).removeClass('in-header');
 					}
 				}
 
-
-
-				if (navEntries.length > 7) {
+				if (navEntries.length > 8) {
 					$('#more-apps').show();
-					$('.apps-management').hide();
 				} else {
 					$('#more-apps').hide();
-					$('.apps-management').show();
 				}
 			}
 		});

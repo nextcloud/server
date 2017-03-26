@@ -457,83 +457,8 @@ class OC_App {
 		$appManager->disableApp($app);
 	}
 
-	/**
-	 * Returns the Settings Navigation
-	 *
-	 * @return string[]
-	 *
-	 * This function returns an array containing all settings pages added. The
-	 * entries are sorted by the key 'order' ascending.
-	 */
-	public static function getSettingsNavigation() {
-		$l = \OC::$server->getL10N('lib');
-		$urlGenerator = \OC::$server->getURLGenerator();
-
-		$settings = array();
-		// by default, settings only contain the help menu
-		if (\OC::$server->getSystemConfig()->getValue('knowledgebaseenabled', true)) {
-			$settings = array(
-				array(
-					"id" => "help",
-					"order" => 4,
-					"href" => $urlGenerator->linkToRoute('settings_help'),
-					"name" => $l->t("Help"),
-					"icon" => $urlGenerator->imagePath("settings", "help.svg")
-				)
-			);
-		}
-
-		// if the user is logged-in
-		if (\OC::$server->getUserSession()->isLoggedIn()) {
-			// personal menu
-			$settings[] = array(
-				"id" => "personal",
-				"order" => 1,
-				"href" => $urlGenerator->linkToRoute('settings_personal'),
-				"name" => $l->t("Personal"),
-				"icon" => $urlGenerator->imagePath("settings", "personal.svg")
-			);
-
-			//SubAdmins are also allowed to access user management
-			$userObject = \OC::$server->getUserSession()->getUser();
-			$isSubAdmin = false;
-			if($userObject !== null) {
-				$isSubAdmin = \OC::$server->getGroupManager()->getSubAdmin()->isSubAdmin($userObject);
-			}
-			if ($isSubAdmin) {
-				// admin users menu
-				$settings[] = array(
-					"id" => "core_users",
-					"order" => 3,
-					"href" => $urlGenerator->linkToRoute('settings_users'),
-					"name" => $l->t("Users"),
-					"icon" => $urlGenerator->imagePath("settings", "users.svg")
-				);
-			}
-
-			// if the user is an admin
-			if (OC_User::isAdminUser(OC_User::getUser())) {
-				// admin settings
-				$settings[] = array(
-					"id" => "admin",
-					"order" => 2,
-					"href" => $urlGenerator->linkToRoute('settings.AdminSettings.index'),
-					"name" => $l->t("Admin"),
-					"icon" => $urlGenerator->imagePath("settings", "admin.svg")
-				);
-			}
-		}
-
-		$navigation = self::proceedNavigation($settings);
-		return $navigation;
-	}
-
 	// This is private as well. It simply works, so don't ask for more details
 	private static function proceedNavigation($list) {
-		$headerIconCount = 8;
-		if(OC_User::isAdminUser(OC_User::getUser())) {
-			$headerIconCount--;
-		}
 		usort($list, function($a, $b) {
 			if (isset($a['order']) && isset($b['order'])) {
 				return ($a['order'] < $b['order']) ? -1 : 1;
@@ -556,6 +481,11 @@ class OC_App {
 		}
 		unset($navEntry);
 
+		if (count($list) <= 8) {
+			return $list;
+		}
+
+		$headerIconCount = 7;
 		if($activeAppIndex > ($headerIconCount-1)) {
 			$active = $list[$activeAppIndex];
 			$lastInHeader = $list[$headerIconCount-1];
@@ -576,10 +506,6 @@ class OC_App {
 	}
 
 	public static function proceedAppNavigation($entries) {
-		$headerIconCount = 8;
-		if(OC_User::isAdminUser(OC_User::getUser())) {
-			$headerIconCount--;
-		}
 		$activeAppIndex = -1;
 		$list = self::proceedNavigation($entries);
 
@@ -592,6 +518,13 @@ class OC_App {
 				$navEntry['active'] = false;
 			}
 		}
+
+
+		if (count($list) <= 8) {
+			return $list;
+		}
+
+		$headerIconCount = 7;
 		// move active item to last position
 		if($activeAppIndex > ($headerIconCount-1)) {
 			$active = $list[$activeAppIndex];
@@ -789,8 +722,7 @@ class OC_App {
 	 */
 	public static function getNavigation() {
 		$entries = OC::$server->getNavigationManager()->getAll();
-		$navigation = self::proceedNavigation($entries);
-		return $navigation;
+		return self::proceedNavigation($entries);
 	}
 
 	/**
@@ -805,8 +737,20 @@ class OC_App {
 	 */
 	public static function getHeaderNavigation() {
 		$entries = OC::$server->getNavigationManager()->getAll();
-		$navigation = self::proceedAppNavigation($entries);
-		return $navigation;
+		return self::proceedAppNavigation($entries);
+	}
+
+	/**
+	 * Returns the Settings Navigation
+	 *
+	 * @return string[]
+	 *
+	 * This function returns an array containing all settings pages added. The
+	 * entries are sorted by the key 'order' ascending.
+	 */
+	public static function getSettingsNavigation() {
+		$entries = OC::$server->getNavigationManager()->getAll('settings');
+		return self::proceedNavigation($entries);
 	}
 
 	/**

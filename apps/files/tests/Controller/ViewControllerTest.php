@@ -134,6 +134,7 @@ class ViewControllerTest extends TestCase {
 				'name' => \OC::$server->getL10N('files')->t('All files'),
 				'active' => false,
 				'icon' => '',
+				'type' => 'link',
 			],
 			[
 				'id' => 'recent',
@@ -143,6 +144,7 @@ class ViewControllerTest extends TestCase {
 				'name' => \OC::$server->getL10N('files')->t('Recent'),
 				'active' => false,
 				'icon' => '',
+				'type' => 'link',
 			],
 			[
 				'id' => 'favorites',
@@ -152,6 +154,7 @@ class ViewControllerTest extends TestCase {
 				'name' => null,
 				'active' => false,
 				'icon' => '',
+				'type' => 'link',
 			],
 			[
 			'id' => 'sharingin',
@@ -161,6 +164,7 @@ class ViewControllerTest extends TestCase {
 				'name' => \OC::$server->getL10N('files_sharing')->t('Shared with you'),
 				'active' => false,
 				'icon' => '',
+				'type' => 'link',
 			],
 			[
 			'id' => 'sharingout',
@@ -170,6 +174,7 @@ class ViewControllerTest extends TestCase {
 				'name' => \OC::$server->getL10N('files_sharing')->t('Shared with others'),
 				'active' => false,
 				'icon' => '',
+				'type' => 'link',
 			],
 			[
 				'id' => 'sharinglinks',
@@ -179,6 +184,7 @@ class ViewControllerTest extends TestCase {
 				'name' => \OC::$server->getL10N('files_sharing')->t('Shared by link', []),
 				'active' => false,
 				'icon' => '',
+				'type' => 'link',
 			],
 			[
 				'id' => 'systemtagsfilter',
@@ -188,6 +194,7 @@ class ViewControllerTest extends TestCase {
 				'name' => \OC::$server->getL10N('systemtags')->t('Tags'),
 				'active' => false,
 				'icon' => '',
+				'type' => 'link',
 			],
 			[
 				'id' => 'trashbin',
@@ -197,7 +204,8 @@ class ViewControllerTest extends TestCase {
 				'name' => \OC::$server->getL10N('files_trashbin')->t('Deleted files'),
 				'active' => false,
 				'icon' => '',
-				],
+				'type' => 'link',
+			],
 		]);
 
 		$expected = new Http\TemplateResponse(
