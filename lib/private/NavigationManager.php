@@ -258,6 +258,7 @@ class NavigationManager implements INavigationManager {
 			}
 			$l = $this->l10nFac->get($app);
 			$order = isset($nav['order']) ? $nav['order'] : 100;
+			$type = isset($nav['type']) ? $nav['type'] : 'link';
 			$route = $this->urlGenerator->linkToRoute($nav['route']);
 			$icon = isset($nav['icon']) ? $nav['icon'] : 'app.svg';
 			foreach ([$icon, "$app.svg"] as $i) {
@@ -277,6 +278,7 @@ class NavigationManager implements INavigationManager {
 				'order' => $order,
 				'href' => $route,
 				'icon' => $icon,
+				'type' => $type,
 				'name' => $l->t($nav['name']),
 			]);
 		}
