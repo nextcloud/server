@@ -111,7 +111,7 @@ interface IQueryBuilder {
 	 * @return \OCP\DB\QueryBuilder\IFunctionBuilder
 	 * @since 12.0.0
 	 */
-	public function fun();
+	public function func();
 
 	/**
 	 * Gets the type of the currently built query.

@@ -139,7 +139,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return \OCP\DB\QueryBuilder\IFunctionBuilder
 	 */
-	public function fun() {
+	public function func() {
 		if ($this->connection instanceof OracleConnection) {
 			return new OCIFunctionBuilder($this->helper);
 		} else if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {

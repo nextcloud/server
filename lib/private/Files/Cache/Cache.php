@@ -529,7 +529,7 @@ class Cache implements ICache {
 				$sourceLength = strlen($sourcePath);
 				$query = $this->connection->getQueryBuilder();
 
-				$fun = $query->fun();
+				$fun = $query->func();
 				$newPathFunction = $fun->concat(
 					$query->createNamedParameter($targetPath),
 					$fun->substring('path', $query->createNamedParameter($sourceLength + 1, IQueryBuilder::PARAM_INT))// +1 for the leading slash
