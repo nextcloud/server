@@ -459,7 +459,6 @@ class OC_App {
 
 	// This is private as well. It simply works, so don't ask for more details
 	private static function proceedNavigation($list) {
-		$headerIconCount = 8;
 		usort($list, function($a, $b) {
 			if (isset($a['order']) && isset($b['order'])) {
 				return ($a['order'] < $b['order']) ? -1 : 1;
@@ -482,6 +481,11 @@ class OC_App {
 		}
 		unset($navEntry);
 
+		if (count($list) <= 8) {
+			return $list;
+		}
+
+		$headerIconCount = 7;
 		if($activeAppIndex > ($headerIconCount-1)) {
 			$active = $list[$activeAppIndex];
 			$lastInHeader = $list[$headerIconCount-1];
@@ -502,7 +506,6 @@ class OC_App {
 	}
 
 	public static function proceedAppNavigation($entries) {
-		$headerIconCount = 8;
 		$activeAppIndex = -1;
 		$list = self::proceedNavigation($entries);
 
@@ -515,6 +518,13 @@ class OC_App {
 				$navEntry['active'] = false;
 			}
 		}
+
+
+		if (count($list) <= 8) {
+			return $list;
+		}
+
+		$headerIconCount = 7;
 		// move active item to last position
 		if($activeAppIndex > ($headerIconCount-1)) {
 			$active = $list[$activeAppIndex];
