@@ -374,8 +374,7 @@ var OCP = {},
 					success: function (content) {
 						eval(content);
 						ready();
-					},
-					async: false
+					}
 				});
 			} else {
 				deferred = jQuery.ajax({
@@ -383,8 +382,7 @@ var OCP = {},
 					cache: true,
 					success: function (content) {
 						eval(content);
-					},
-					async: false
+					}
 				});
 			}
 			OC.addScript.loaded[path] = deferred;
