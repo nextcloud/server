@@ -246,6 +246,7 @@ class NavigationManager implements INavigationManager {
 					continue;
 				}
 				$l = $this->l10nFac->get($app);
+				$id = isset($nav['id']) ? $nav['id'] : $app;
 				$order = isset($nav['order']) ? $nav['order'] : 100;
 				$type = isset($nav['type']) ? $nav['type'] : 'link';
 				$route = $this->urlGenerator->linkToRoute($nav['route']);
@@ -263,7 +264,7 @@ class NavigationManager implements INavigationManager {
 				}
 
 				$this->add([
-					'id' => $app,
+					'id' => $id,
 					'order' => $order,
 					'href' => $route,
 					'icon' => $icon,
