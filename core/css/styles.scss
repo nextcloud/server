@@ -813,34 +813,63 @@ td.avatar {
 	border-radius: 0;
 }
 
-#notification-container {
-	position: absolute;
-	top: 0;
-	width: 100%;
-	text-align: center;
+
+@media screen and (min-device-width: 680px) {
+	#notification-container {
+		width: 100%;
+		height:45px;
+		text-align: center;
+	}
 }
+
+@media screen and (max-device-width: 680px) {
+	#notification-container {
+		position: fixed;
+		top: 30%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+}
+
 
 #notification {
 	margin: 0 auto;
-	max-width: 60%;
 	z-index: 8000;
 	background-color: $color-main-background;
-	border: 0;
 	padding: 1px 8px;
 	display: none;
 	position: relative;
 	top: 0;
-	border-bottom-left-radius: 3px;
-	border-bottom-right-radius: 3px;
+
 	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=90)';
 	opacity: .9;
+
 	span {
 		cursor: pointer;
 		margin-left: 1em;
 	}
 	overflow-x: hidden;
 	overflow-y: auto;
-	max-height: 100px;
+
+
+	@media screen and (min-device-width: 680px) {
+		max-width: 100%;
+		border: dotted 1px;
+		min-height: 2em;
+		max-height: 10em;
+		border-bottom-left-radius: 3px;
+		border-bottom-right-radius: 3px;
+	}
+
+	@media screen and (max-device-width: 680px) {
+		max-width: 80%;
+		border: solid 1px;
+		min-height: 4em;
+		max-height: 15em;
+		box-shadow: 0.3em 0.5em 0.2em #9090A0;
+		border-radius: 3px;
+	}
+
 	.row {
 		position: relative;
 		.close {

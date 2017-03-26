@@ -1158,17 +1158,16 @@ OC.Notification={
 		if (options.type) {
 			$row.addClass('type-' + options.type);
 		}
-		if (options.type === 'error') {
-			// add a close button
-			var $closeButton = $('<a class="action close icon-close" href="#"></a>');
-			$closeButton.attr('alt', t('core', 'Dismiss'));
-			$row.append($closeButton);
-			$closeButton.one('click', function() {
-				self.hide($row);
-				return false;
-			});
-			$row.addClass('closeable');
-		}
+//		// add a close button
+		var $closeButton = $('<a class="action close icon-close" href="#"></a>');
+		$closeButton.attr('alt', t('core', 'Dismiss'));
+		$row.append($closeButton);
+		$closeButton.one('click', function() {
+			self.hide($row);
+			return false;
+		});
+		$row.addClass('closeable');
+
 
 		$row.prepend(html);
 		$notification.append($row);
