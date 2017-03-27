@@ -73,7 +73,7 @@ class ThemingDefaultsTest extends TestCase {
 			->willReturn('Safe Data');
 		$this->defaults
 			->expects($this->at(3))
-			->method('getMailHeaderColor')
+			->method('getColorPrimary')
 			->willReturn('#000');
 		$this->template = new ThemingDefaults(
 			$this->config,
@@ -232,24 +232,24 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer">Name</a>', $this->template->getShortFooter());
 	}
 
-	public function testGetMailHeaderColorWithDefault() {
+	public function testgetColorPrimaryWithDefault() {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
 			->with('theming', 'color', '#000')
 			->willReturn('#000');
 
-		$this->assertEquals('#000', $this->template->getMailHeaderColor());
+		$this->assertEquals('#000', $this->template->getColorPrimary());
 	}
 
-	public function testGetMailHeaderColorWithCustom() {
+	public function testgetColorPrimaryWithCustom() {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
 			->with('theming', 'color', '#000')
 			->willReturn('#fff');
 
-		$this->assertEquals('#fff', $this->template->getMailHeaderColor());
+		$this->assertEquals('#fff', $this->template->getColorPrimary());
 	}
 
 	public function testSet() {

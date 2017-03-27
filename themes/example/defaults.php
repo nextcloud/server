@@ -147,7 +147,7 @@ class OC_Theme {
 	 * Returns mail header color
 	 * @return string
 	 */
-	public function getMailHeaderColor() {
+	public function getColorPrimary() {
 		return '#745bca';
 	}
 

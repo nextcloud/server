@@ -42,7 +42,7 @@ $cloudID = \OC::$server->getUserSession()->getUser()->getCloudId();
 $url = 'https://nextcloud.com/federation#' . $cloudID;
 $logoPath = \OC::$server->getURLGenerator()->imagePath('core', 'logo-icon.svg');
 $theme = \OC::$server->getThemingDefaults();
-$color = $theme->getMailHeaderColor();
+$color = $theme->getColorPrimary();
 $textColor = "#ffffff";
 if(\OC::$server->getAppManager()->isEnabledForUser("theming")) {
 	$logoPath = $theme->getLogo();

@@ -97,7 +97,7 @@ class IconBuilder {
 			return false;
 		}
 
-		$color = $this->themingDefaults->getMailHeaderColor();
+		$color = $this->themingDefaults->getColorPrimary();
 		$mime = mime_content_type($appIcon);
 
 		// generate background image with rounded corners
@@ -178,7 +178,7 @@ class IconBuilder {
 		}
 		$svg = file_get_contents($imageFile);
 		if ($svg !== false && $svg !== "") {
-			$color = $this->util->elementColor($this->themingDefaults->getMailHeaderColor());
+			$color = $this->util->elementColor($this->themingDefaults->getColorPrimary());
 			$svg = $this->util->colorizeSvg($svg, $color);
 			return $svg;
 		} else {

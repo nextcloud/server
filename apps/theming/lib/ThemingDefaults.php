@@ -78,7 +78,7 @@ class ThemingDefaults extends \OC_Defaults {
 		$this->name = $defaults->getName();
 		$this->url = $defaults->getBaseUrl();
 		$this->slogan = $defaults->getSlogan();
-		$this->color = $defaults->getMailHeaderColor();
+		$this->color = $defaults->getColorPrimary();
 	}
 
 	public function getName() {
@@ -119,7 +119,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 *
 	 * @return string
 	 */
-	public function getMailHeaderColor() {
+	public function getColorPrimary() {
 		return $this->config->getAppValue('theming', 'color', $this->color);
 	}
 
@@ -214,7 +214,7 @@ class ThemingDefaults extends \OC_Defaults {
 				$returnValue = $this->getSlogan();
 				break;
 			case 'color':
-				$returnValue = $this->getMailHeaderColor();
+				$returnValue = $this->getColorPrimary();
 				break;
 			default:
 				$returnValue = '';

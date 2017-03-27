@@ -9,10 +9,10 @@
 		<meta name="referrer" content="never">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
 		<meta name="apple-itunes-app" content="app-id=<?php p($theme->getiTunesAppId()); ?>">
-		<meta name="theme-color" content="<?php p($theme->getMailHeaderColor()); ?>">
+		<meta name="theme-color" content="<?php p($theme->getColorPrimary()); ?>">
 		<link rel="icon" href="<?php print_unescaped(image_path('', 'favicon.ico')); /* IE11+ supports png */ ?>">
 		<link rel="apple-touch-icon-precomposed" href="<?php print_unescaped(image_path('', 'favicon-touch.png')); ?>">
-		<link rel="mask-icon" sizes="any" href="<?php print_unescaped(image_path('', 'favicon-mask.svg')); ?>" color="<?php p($theme->getMailHeaderColor()); ?>">
+		<link rel="mask-icon" sizes="any" href="<?php print_unescaped(image_path('', 'favicon-mask.svg')); ?>" color="<?php p($theme->getColorPrimary()); ?>">
 		<?php if (isset($_['inline_ocjs'])): ?>
 			<script nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" type="text/javascript">
 				<?php print_unescaped($_['inline_ocjs']); ?>

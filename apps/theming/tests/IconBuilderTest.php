@@ -87,7 +87,7 @@ class IconBuilderTest extends TestCase {
 	public function testRenderAppIcon($app, $color, $file) {
 		$this->checkImagick();
 		$this->themingDefaults->expects($this->once())
-			->method('getMailHeaderColor')
+			->method('getColorPrimary')
 			->willReturn($color);
 
 		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);
@@ -112,7 +112,7 @@ class IconBuilderTest extends TestCase {
 	public function testGetTouchIcon($app, $color, $file) {
 		$this->checkImagick();
 		$this->themingDefaults->expects($this->once())
-			->method('getMailHeaderColor')
+			->method('getColorPrimary')
 			->willReturn($color);
 
 		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);
@@ -138,7 +138,7 @@ class IconBuilderTest extends TestCase {
 	public function testGetFavicon($app, $color, $file) {
 		$this->checkImagick();
 		$this->themingDefaults->expects($this->once())
-			->method('getMailHeaderColor')
+			->method('getColorPrimary')
 			->willReturn($color);
 
 		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);

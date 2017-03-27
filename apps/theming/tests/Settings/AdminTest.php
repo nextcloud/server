@@ -78,7 +78,7 @@ class AdminTest extends TestCase {
 			->willReturn('MySlogan');
 		$this->themingDefaults
 			->expects($this->once())
-			->method('getMailHeaderColor')
+			->method('getColorPrimary')
 			->willReturn('#fff');
 		$this->urlGenerator
 			->expects($this->once())
@@ -128,7 +128,7 @@ class AdminTest extends TestCase {
 			->willReturn('MySlogan');
 		$this->themingDefaults
 			->expects($this->once())
-			->method('getMailHeaderColor')
+			->method('getColorPrimary')
 			->willReturn('#fff');
 		$this->urlGenerator
 			->expects($this->once())
