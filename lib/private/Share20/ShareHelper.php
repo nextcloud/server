@@ -100,12 +100,15 @@ class ShareHelper implements IShareHelper {
 			if (!isset($byId[$info['node_id']])) {
 				$byId[$info['node_id']] = [];
 			}
-			$byId[$info['node_id']][$cloudId] = $info['node_path'];
+			$byId[$info['node_id']][$cloudId] = $info['token'];
 		}
 
 		if (isset($byId[$node->getId()])) {
-			foreach ($byId[$node->getId()] as $cloudId => $_) {
-				$results[$cloudId] = '/' . $node->getName();
+			foreach ($byId[$node->getId()] as $cloudId => $token) {
+				$results[$cloudId] = [
+					'node_path' => '/' . $node->getName(),
+					'token' => $token,
+				];
 			}
 			unset($byId[$node->getId()]);
 		}
@@ -120,8 +123,11 @@ class ShareHelper implements IShareHelper {
 			$item = $item->getParent();
 
 			if (!empty($byId[$item->getId()])) {
-				foreach ($byId[$item->getId()] as $uid => $_) {
-					$results[$uid] = $path;
+				foreach ($byId[$item->getId()] as $uid => $token) {
+					$results[$uid] = [
+						'node_path' => $path,
+						'token' => $token,
+					];
 				}
 				unset($byId[$item->getId()]);
 			}
