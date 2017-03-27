@@ -88,6 +88,16 @@
 					'{{/unless}}{{/if}}' +
 				'{{/if}}' +
 				'<li>' +
+					'<span class="shareOption menuitem">' +
+						'<input id="expireDate-{{cid}}-{{shareId}}" type="checkbox" name="expirationDate" class="expireDate checkbox" {{#if hasExpireDate}}checked="checked"{{/if}} data-permissions="{{expireDate}}" />' +
+						'<label for="expireDate-{{cid}}-{{shareId}}">{{expireDateLabel}}</label>' +
+						'<div class="expirationDateContainer-{{cid}}-{{shareId}} {{#unless isExpirationSet}}hidden{{/unless}}">' +
+						'    <label for="expirationDatePicker-{{cid}}-{{shareId}}" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>' +
+						'    <input id="expirationDatePicker-{{cid}}-{{shareId}}" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{expirationValue}}" />' +
+						'</div>' +
+					'</span>' +
+				'</li>' +
+		'<li>' +
 					'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span>{{unshareLabel}}</span></a>' +
 				'</li>' +
 			'</ul>' +
@@ -125,6 +135,7 @@
 			'click .unshare': 'onUnshare',
 			'click .icon-more': 'onToggleMenu',
 			'click .permissions': 'onPermissionChange',
+			'click .expireDate' : 'onExpireDateChange'
 		},
 
 		initialize: function(options) {
@@ -199,6 +210,7 @@
 				createPermissionLabel: t('core', 'can create'),
 				updatePermissionLabel: t('core', 'can change'),
 				deletePermissionLabel: t('core', 'can delete'),
+				expireDateLabel: t('core', 'set expiration data'),
 				crudsLabel: t('core', 'access control'),
 				triangleSImage: OC.imagePath('core', 'actions/triangle-s'),
 				isResharingAllowed: this.configModel.get('isResharingAllowed'),
@@ -399,6 +411,28 @@
 
 			OC.showMenu(null, $menu);
 			this._menuOpen = $li.data('share-id');
+		},
+
+		onExpireDateChange: function(event) {
+			var element = $(event.target);
+			var li = element.closest('li[data-share-id]');
+			var shareId = li.data('share-id');
+			var datePickerClass = '.expirationDateContainer-' + this.cid + '-' + shareId;
+			var datePicker = $(datePickerClass);
+			var state = element.prop('checked');
+			datePicker.toggleClass('hidden', !state);
+			if (!state) {
+				// discard expiration date
+				this.model.get('linkShare').expiration = '';
+				/*
+				this.model.saveLinkShare({
+					expireDate: ''
+				});
+				*/
+			} else {
+				var expirationDatePicker = '#expirationDatePicker-' + this.cid + '-' + shareId;
+				this.$(expirationDatePicker).focus();
+			}
 		},
 
 		onPermissionChange: function(event) {
