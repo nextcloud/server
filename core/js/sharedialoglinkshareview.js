@@ -437,7 +437,7 @@
 				publicEditing: publicEditable,
 				publicEditingChecked: publicEditingChecked,
 				publicEditingLabel: t('core', 'Allow editing'),
-				hideFileListLabel: t('core', 'File drop (upload only)'),
+				hideFileListLabel: 'Secure drop (' + t('core', 'upload only') + ')',
 				mailPrivatePlaceholder: t('core', 'Email link to person'),
 				mailButtonText: t('core', 'Send'),
 				singleAction: OC.Share.Social.Collection.size() == 0,
