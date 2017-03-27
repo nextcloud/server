@@ -45,9 +45,6 @@
     "Share it:" : "Paylaşın:",
     "Add to your website" : "Web sitenize ekleyin",
     "Share with me via Nextcloud" : "Benimle Nextcloud üzerinden paylaşın",
-    "HTML Code:" : "HTML Kodu:",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "%s paylaşılamadı. %s bulunamadı. Sunucuya şu anda erişilemiyor olabilir.",
-    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "%1$s kullanıcısından \"/%3$s\" uzak paylaşımını aldınız (%2$s adına)",
-    "You received \"/%3$s\" as a remote share from %1$s" : "%1$s kullanıcısından \"/%3$s\" uzak paylaşımını aldınız"
+    "HTML Code:" : "HTML Kodu:"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

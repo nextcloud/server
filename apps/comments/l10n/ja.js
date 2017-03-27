@@ -29,11 +29,6 @@ OC.L10N.register(
     "A (now) deleted user mentioned you in a comment on “%s”" : "(現在)削除されたユーザーが \"%s\" のコメントであなたのことについて言及しました",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "(現在)削除されたユーザーが \"{file}\" のコメントであなたのことについて言及しました",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s さんが “%2$s” のコメントであなたについて言及しました。",
-    "{user} mentioned you in a comment on “{file}”" : "{user} さんが ““{file}” のコメントであなたについて言及しました。",
-    "Type in a new comment..." : "新しいコメントを入力...",
-    "No other comments available" : "コメントはありません",
-    "More comments..." : "コメントをさらに表示...",
-    "{count} unread comments" : "未読コメント数 {count}",
-    "You commented on %2$s" : "%2$s にコメント済"
+    "{user} mentioned you in a comment on “{file}”" : "{user} さんが ““{file}” のコメントであなたについて言及しました。"
 },
 "nplurals=1; plural=0;");

@@ -113,7 +113,6 @@
     "Advanced settings" : "Definições avançadas",
     "Delete" : "Apagar",
     "Allow users to mount external storage" : "Permitir que os utilizadores montem armazenamento externo",
-    "Allow users to mount the following external storage" : "Permitir que os utilizadores montem o seguinte armazenamento externo",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Não foi possível recolher a informação do servidor ownCloud: {code} {type}"
+    "Allow users to mount the following external storage" : "Permitir que os utilizadores montem o seguinte armazenamento externo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

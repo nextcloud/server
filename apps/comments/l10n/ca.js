@@ -29,11 +29,6 @@ OC.L10N.register(
     "A (now) deleted user mentioned you in a comment on “%s”" : "Un usuari (ara) esborrat us ha nomenat en un comentari a “%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Un usuari (ara) esborrat us ha nomenat en un comentari de “{file}”",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s us ha nomenat en un comentari a “%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user} us ha nomenat en un comentari de “{file}”",
-    "Type in a new comment..." : "Escriviu un nou comentari...",
-    "No other comments available" : "No hi ha altres comentaris disponibles",
-    "More comments..." : "Més comentaris...",
-    "{count} unread comments" : "{count} comentaris no llegits",
-    "You commented on %2$s" : "Heu comentat a %2$s"
+    "{user} mentioned you in a comment on “{file}”" : "{user} us ha nomenat en un comentari de “{file}”"
 },
 "nplurals=2; plural=(n != 1);");

@@ -125,7 +125,6 @@ OC.L10N.register(
     "Advanced settings" : "Avancerade inställningar",
     "Delete" : "Radera",
     "Allow users to mount external storage" : "Tillåt användare att montera extern lagring",
-    "Allow users to mount the following external storage" : "Tillåt användare att montera följande extern lagring",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Kan ej ta emot information från NextCloud server: {code} {type}"
+    "Allow users to mount the following external storage" : "Tillåt användare att montera följande extern lagring"
 },
 "nplurals=2; plural=(n != 1);");

@@ -29,11 +29,6 @@ OC.L10N.register(
     "A (now) deleted user mentioned you in a comment on “%s”" : "Një përdorues i fshirë (tani) ju ka përmendur në një koment në \"%s\"",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Një përdorues i fshirë (tani) ju ka përmendur në një koment në “{file}”",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s ju ka përmendur në një koment në “%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user} ju ka përmendur në një koment në “{file}”",
-    "Type in a new comment..." : "Shtypni një koment të ri…",
-    "No other comments available" : "S’ka komente të tjera",
-    "More comments..." : "Më tepër komente…",
-    "{count} unread comments" : "{count} komente të palexuar",
-    "You commented on %2$s" : "Komentuat te %2$s"
+    "{user} mentioned you in a comment on “{file}”" : "{user} ju ka përmendur në një koment në “{file}”"
 },
 "nplurals=2; plural=(n != 1);");

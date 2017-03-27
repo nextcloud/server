@@ -11,9 +11,6 @@ OC.L10N.register(
     "Trusted servers" : "信頼済サーバー",
     "+ Add trusted server" : "+ 信頼済サーバーに追加",
     "Trusted server" : "信頼済サーバー",
-    "Add" : "追加",
-    "Trusted Servers" : "信頼済サーバー",
-    "+ Add Nextcloud server" : "Nextcloudサーバーを追加",
-    "Nextcloud Server" : "Nextcloud サーバー"
+    "Add" : "追加"
 },
 "nplurals=1; plural=0;");

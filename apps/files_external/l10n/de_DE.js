@@ -125,7 +125,6 @@ OC.L10N.register(
     "Advanced settings" : "Erweiterte Einstellungen",
     "Delete" : "Löschen",
     "Allow users to mount external storage" : "Erlauben Sie den Benutzern externen Speicher hinzuzufügen",
-    "Allow users to mount the following external storage" : "Benutzern erlauben, den oder die folgenden externen Speicher einzubinden:",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Es konnten keine Informationen vom entfernten Server gelesen werden: {code} {type}"
+    "Allow users to mount the following external storage" : "Benutzern erlauben, den oder die folgenden externen Speicher einzubinden:"
 },
 "nplurals=2; plural=(n != 1);");

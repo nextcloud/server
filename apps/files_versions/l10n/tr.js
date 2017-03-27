@@ -7,7 +7,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n bayt","%n bayt"],
     "Restore" : "Geri yükle",
     "No versions available" : "Herhangi bir sürüm yok",
-    "More versions..." : "Diğer sürümler...",
-    "No other versions available" : "Başka bir sürüm yok"
+    "More versions..." : "Diğer sürümler..."
 },
 "nplurals=2; plural=(n > 1);");

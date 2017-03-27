@@ -109,7 +109,6 @@ OC.L10N.register(
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
     "Delete" : "Διαγραφή",
     "Allow users to mount external storage" : "Να επιτρέπεται στους χρήστες η σύνδεση εξωτερικού χώρου",
-    "Allow users to mount the following external storage" : "Χορήγηση άδειας στους χρήστες να συνδέσουν τα παρακάτω εξωτερικά μέσα αποθήκευσης",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Αδυναμία λήψης πληροφορίας από τον διακομιστή nextcloud: {code} {type}"
+    "Allow users to mount the following external storage" : "Χορήγηση άδειας στους χρήστες να συνδέσουν τα παρακάτω εξωτερικά μέσα αποθήκευσης"
 },
 "nplurals=2; plural=(n != 1);");

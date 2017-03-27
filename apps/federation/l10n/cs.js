@@ -11,9 +11,6 @@ OC.L10N.register(
     "Trusted servers" : "Důvěryhodné servery",
     "+ Add trusted server" : "+ Přidat důvěryhodný server",
     "Trusted server" : "Důvěryhodný server",
-    "Add" : "Přidat",
-    "Trusted Servers" : "Důvěryhodné servery",
-    "+ Add Nextcloud server" : "+ Přidat Nextcloud server",
-    "Nextcloud Server" : "Server Nextcloud"
+    "Add" : "Přidat"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

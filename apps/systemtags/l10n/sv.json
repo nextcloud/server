@@ -49,17 +49,6 @@
     "No files in here" : "Inga filer här inne",
     "No entries found in this folder" : "Ingenting hittades i denna mapp",
     "Size" : "Storlek",
-    "Modified" : "Modifierad",
-    "You assigned system tag %3$s" : "Du tilldelade systemtagg %3$s",
-    "%1$s assigned system tag %3$s" : "%1$s blev tilldelad systemtagg %3$s",
-    "You unassigned system tag %3$s" : "Du tog bort tilldelning av systemtag %3$s",
-    "%1$s unassigned system tag %3$s" : "%1$s tog bort tilldelad systemtagg %3$s",
-    "You created system tag %2$s" : "Du skapade systemtagg %2$s",
-    "You deleted system tag %2$s" : "Du raderade systemtagg %2$s",
-    "You updated system tag %3$s to %2$s" : "Du uppdaterade systemtagg %3$s till %2$s",
-    "You assigned system tag %3$s to %2$s" : "Du tilldelade systemtagg %3$s till %2$s",
-    "%1$s assigned system tag %3$s to %2$s" : "%1$s tilldelade systemtagg %3$s till %2$s",
-    "You unassigned system tag %3$s from %2$s" : "Du tog bort tilldelad systemtagg %3$s från %2$s",
-    "%1$s unassigned system tag %3$s from %2$s" : "%1$s tog bort tilldelad systemtagg %3$s från %2$s"
+    "Modified" : "Modifierad"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

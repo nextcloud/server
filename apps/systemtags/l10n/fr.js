@@ -51,17 +51,6 @@ OC.L10N.register(
     "No files in here" : "Aucun fichier",
     "No entries found in this folder" : "Aucune entrée trouvée dans ce dossier",
     "Size" : "Taille",
-    "Modified" : "Modifié",
-    "You assigned system tag %3$s" : "Vous avez attribué l'étiquette collaborative %3$s",
-    "%1$s assigned system tag %3$s" : "%1$s a attribué l'étiquette collaborative %3$s",
-    "You unassigned system tag %3$s" : "Vous avez retiré l'étiquette collaborative %3$s",
-    "%1$s unassigned system tag %3$s" : "%1$s a retiré l'étiquette collaborative %3$s",
-    "You created system tag %2$s" : "Vous avez créé l'étiquette collaborative %2$s",
-    "You deleted system tag %2$s" : "Vous avez supprimé l'étiquette collaborative %2$s",
-    "You updated system tag %3$s to %2$s" : "Vous avez renommé l'étiquette collaborative %3$s en %2$s",
-    "You assigned system tag %3$s to %2$s" : "Vous avez attribué l'étiquette collaborative %3$s à %2$s",
-    "%1$s assigned system tag %3$s to %2$s" : "%1$s a attribué l'étiquette collaborative %3$s à %2$s",
-    "You unassigned system tag %3$s from %2$s" : "Vous avez retiré l'étiquette collaborative %3$s de %2$s",
-    "%1$s unassigned system tag %3$s from %2$s" : "%1$s a retiré l'étiquette collaborative %3$s de %2$s"
+    "Modified" : "Modifié"
 },
 "nplurals=2; plural=(n > 1);");

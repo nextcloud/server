@@ -27,11 +27,6 @@ OC.L10N.register(
     "{author} commented on {file}" : "{author} komentārs {file}",
     "<strong>Comments</strong> for files" : "<strong>Komentāri</strong> datnēm",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s minēja jūs komentārā “%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user} minēja jūs komentārā “{file}”",
-    "Type in a new comment..." : "Raksti jaunu komentāru...",
-    "No other comments available" : "Nav pieejami citi komentāri",
-    "More comments..." : "Vairāk komentāri...",
-    "{count} unread comments" : "{count} neizlasītu komentāru",
-    "You commented on %2$s" : "Tu komentēji %2$s"
+    "{user} mentioned you in a comment on “{file}”" : "{user} minēja jūs komentārā “{file}”"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

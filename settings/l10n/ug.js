@@ -42,13 +42,8 @@ OC.L10N.register(
     "Other" : "باشقا",
     "set new password" : "يېڭى ئىم تەڭشە",
     "Default" : "كۆڭۈلدىكى",
-    "Language changed" : "تىل ئۆزگەردى",
     "Admins can't remove themself from the admin group" : "باشقۇرغۇچى ئۆزىنى باشقۇرۇش گۇرۇپپىسىدىن چىقىرىۋېتەلمەيدۇ",
     "Unable to add user to group %s" : "ئىشلەتكۈچىنى %s گۇرۇپپىغا قوشالمايدۇ",
-    "Unable to remove user from group %s" : "ئىشلەتكۈچىنى %s گۇرۇپپىدىن چىقىرىۋېتەلمەيدۇ",
-    "Please wait...." : "سەل كۈتۈڭ…",
-    "Log" : "خاتىرە",
-    "More" : "تېخىمۇ كۆپ",
-    "Less" : "ئاز"
+    "Unable to remove user from group %s" : "ئىشلەتكۈچىنى %s گۇرۇپپىدىن چىقىرىۋېتەلمەيدۇ"
 },
 "nplurals=1; plural=0;");

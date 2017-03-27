@@ -29,11 +29,6 @@ OC.L10N.register(
     "A (now) deleted user mentioned you in a comment on “%s”" : "Bir (artık) silinmiş kullanıcı “%s” hakkındaki bir yorumda sizden bahsetti",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Bir (artık) silinmiş kullanıcı “{file}” hakkındaki bir yorumda sizden bahsetti",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s, “%2$s” hakkındaki bir yorumda sizden bahsetti",
-    "{user} mentioned you in a comment on “{file}”" : "{user}, “{file}” hakkındaki bir yorumda sizden bahsetti",
-    "Type in a new comment..." : "Yeni bir yorum yazın...",
-    "No other comments available" : "Başka bir yorum yok",
-    "More comments..." : "Diğer yorumlar...",
-    "{count} unread comments" : "{count} okunmamış yorum",
-    "You commented on %2$s" : "%2$s için yorum yaptınız"
+    "{user} mentioned you in a comment on “{file}”" : "{user}, “{file}” hakkındaki bir yorumda sizden bahsetti"
 },
 "nplurals=2; plural=(n > 1);");

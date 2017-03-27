@@ -30,10 +30,7 @@
     "Create" : "உருவாக்குக",
     "Other" : "மற்றவை",
     "Quota" : "பங்கு",
-    "Language changed" : "மொழி மாற்றப்பட்டது",
     "Unable to add user to group %s" : "குழு %s இல் பயனாளரை சேர்க்க முடியாது",
-    "Unable to remove user from group %s" : "குழு %s இலிருந்து பயனாளரை நீக்கமுடியாது",
-    "More" : "மேலதிக",
-    "Less" : "குறைவான"
+    "Unable to remove user from group %s" : "குழு %s இலிருந்து பயனாளரை நீக்கமுடியாது"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

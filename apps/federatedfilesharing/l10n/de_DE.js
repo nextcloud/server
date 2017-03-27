@@ -47,9 +47,6 @@ OC.L10N.register(
     "Share it:" : "Teilen:",
     "Add to your website" : "Zu Ihrer Web-Seite hinzufügen",
     "Share with me via Nextcloud" : "Teilen Sie mit mir über Nextcloud",
-    "HTML Code:" : "HTML-Code:",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Die Freigabe von %s ist fehlgeschlagen, da %s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar.",
-    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Sie haben \"/%3$s\" als Remotefreigabe von %1$s (als Teil von %2$s) erhalten",
-    "You received \"/%3$s\" as a remote share from %1$s" : "Sie haben \"/%3$s\" als Remotefreigabe von %1$s erhalten"
+    "HTML Code:" : "HTML-Code:"
 },
 "nplurals=2; plural=(n != 1);");

@@ -51,17 +51,6 @@ OC.L10N.register(
     "No files in here" : "Nenhum arquivo aqui",
     "No entries found in this folder" : "Nenhuma entrada foi encontrada nesta pasta",
     "Size" : "Tamanho",
-    "Modified" : "Modificado",
-    "You assigned system tag %3$s" : "Você atribuiu uma etiqueta ao sistema %3$s",
-    "%1$s assigned system tag %3$s" : "%1$s etiqueta de sistema atribuída %3$s",
-    "You unassigned system tag %3$s" : "Você desatribuiu uma etiqueta ao sistema %3$s",
-    "%1$s unassigned system tag %3$s" : "%1$s etiqueta de sistema não atribuída %3$s",
-    "You created system tag %2$s" : "Você criou uma etiqueta de sistema %2$s",
-    "You deleted system tag %2$s" : "Você eliminou uma etiqueta de sistema %2$s",
-    "You updated system tag %3$s to %2$s" : "Você atualizou a etiqueta do sistema %3$s para %2$s",
-    "You assigned system tag %3$s to %2$s" : "Você atribuiu a etiqueta do sistema %3$s para %2$s",
-    "%1$s assigned system tag %3$s to %2$s" : "%1$s etiqueta de sistema atribuída %3$s para %2$s",
-    "You unassigned system tag %3$s from %2$s" : "Você eliminou a atribuição da etiqueta do sistema %3$s de %2$s",
-    "%1$s unassigned system tag %3$s from %2$s" : "%1$s etiqueta de sistema não atribuída %3$s de %2$s"
+    "Modified" : "Modificado"
 },
 "nplurals=2; plural=(n > 1);");

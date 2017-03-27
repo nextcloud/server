@@ -125,7 +125,6 @@ OC.L10N.register(
     "Advanced settings" : "Gelişmiş ayarlar",
     "Delete" : "Sil",
     "Allow users to mount external storage" : "Kullanıcılar dış depolama bağlayabilsin",
-    "Allow users to mount the following external storage" : "Kullanıcıların şu dış depolamayı bağlayabilsin",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "ownCloud sunucusundan bilgi alınamadı: {code} {type}"
+    "Allow users to mount the following external storage" : "Kullanıcıların şu dış depolamayı bağlayabilsin"
 },
 "nplurals=2; plural=(n > 1);");

@@ -47,9 +47,6 @@ OC.L10N.register(
     "Share it:" : "Deel het:",
     "Add to your website" : "Toevoegen aan je website",
     "Share with me via Nextcloud" : "Deel met mij via Nextcloud",
-    "HTML Code:" : "HTML Code:",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Delen van %s mislukt, kon %s niet vinden, misschien is de server niet bereikbaar.",
-    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Je ontving \"/%3$s\" als een externe share van %1$s (namens %2$s)",
-    "You received \"/%3$s\" as a remote share from %1$s" : "Je ontving \"/%3$s\" als een externe share van %1$s"
+    "HTML Code:" : "HTML Code:"
 },
 "nplurals=2; plural=(n != 1);");

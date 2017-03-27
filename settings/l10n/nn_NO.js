@@ -68,14 +68,8 @@ OC.L10N.register(
     "set new password" : "lag nytt passord",
     "Default" : "Standard",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Ver venleg og gje eit admingjenopprettingspassord, elles vil all brukardata gå tapt.",
-    "Language changed" : "Språk endra",
     "Admins can't remove themself from the admin group" : "Administratorar kan ikkje fjerna seg sjølve frå admin-gruppa",
     "Unable to add user to group %s" : "Klarte ikkje leggja til brukaren til gruppa %s",
-    "Unable to remove user from group %s" : "Klarte ikkje fjerna brukaren frå gruppa %s",
-    "Please wait...." : "Ver venleg og vent …",
-    "Log" : "Logg",
-    "More" : "Meir",
-    "Less" : "Mindre",
-    "Group" : "Gruppe"
+    "Unable to remove user from group %s" : "Klarte ikkje fjerna brukaren frå gruppa %s"
 },
 "nplurals=2; plural=(n != 1);");

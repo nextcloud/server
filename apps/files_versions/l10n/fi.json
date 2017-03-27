@@ -5,7 +5,6 @@
     "_%n byte_::_%n bytes_" : ["%n tavu","%n tavua"],
     "Restore" : "Palauta",
     "No versions available" : "Ei versioita saatavilla",
-    "More versions..." : "Lisää versioita...",
-    "No other versions available" : "Ei muita versioita saatavilla"
+    "More versions..." : "Lisää versioita..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -7,7 +7,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n 比特"],
     "Restore" : "恢复",
     "No versions available" : "没有可用的版本",
-    "More versions..." : "更多版本...",
-    "No other versions available" : "无其他版本可用"
+    "More versions..." : "更多版本..."
 },
 "nplurals=1; plural=0;");

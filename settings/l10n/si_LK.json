@@ -31,11 +31,7 @@
     "Create" : "තනන්න",
     "Other" : "වෙනත්",
     "Quota" : "සලාකය",
-    "Language changed" : "භාෂාව ාවනස් කිරීම",
     "Unable to add user to group %s" : "පරිශීලකයා %s කණ්ඩායමට එකතු කළ නොහැක",
-    "Unable to remove user from group %s" : "පරිශීලකයා %s කණ්ඩායමින් ඉවත් කළ නොහැක",
-    "Log" : "ලඝුව",
-    "More" : "වැඩි",
-    "Less" : "අඩු"
+    "Unable to remove user from group %s" : "පරිශීලකයා %s කණ්ඩායමින් ඉවත් කළ නොහැක"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -29,11 +29,6 @@ OC.L10N.register(
     "A (now) deleted user mentioned you in a comment on “%s”" : "一个(已)被删除的用户在 “%s” 的评论中提到了您",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "一个(已)被删除的用户在 “{file}” 的评论中提到了您",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s 在 “%2$s” 的评论中提到了您",
-    "{user} mentioned you in a comment on “{file}”" : "{user} 在 “{file}” 的评论中提到了您",
-    "Type in a new comment..." : "添加新评论...",
-    "No other comments available" : "没有其他评论",
-    "More comments..." : "更多评论...",
-    "{count} unread comments" : "{count} 条未读评论",
-    "You commented on %2$s" : "您评论了 %2$s"
+    "{user} mentioned you in a comment on “{file}”" : "{user} 在 “{file}” 的评论中提到了您"
 },
 "nplurals=1; plural=0;");

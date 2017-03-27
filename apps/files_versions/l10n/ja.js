@@ -7,7 +7,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n バイト"],
     "Restore" : "復元",
     "No versions available" : "履歴はありません",
-    "More versions..." : "他のバージョン...",
-    "No other versions available" : "利用可能なバージョンはありません"
+    "More versions..." : "他のバージョン..."
 },
 "nplurals=1; plural=0;");

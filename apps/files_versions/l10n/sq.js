@@ -7,7 +7,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n bajte","%n bajte"],
     "Restore" : "Riktheje",
     "No versions available" : "Ska versione të gatshme",
-    "More versions..." : "Më shumë versione…",
-    "No other versions available" : "Nuk ka versione të tjera të gatshme"
+    "More versions..." : "Më shumë versione…"
 },
 "nplurals=2; plural=(n != 1);");

@@ -11,9 +11,6 @@ OC.L10N.register(
     "Trusted servers" : "Güvenilen sunucular",
     "+ Add trusted server" : "+ Güvenilir sunucu ekle",
     "Trusted server" : "Güvenilen sunucu",
-    "Add" : "Ekle",
-    "Trusted Servers" : "Güvenilir Sunucular",
-    "+ Add Nextcloud server" : "+ Nextcloud sunucusu ekle",
-    "Nextcloud Server" : "Nextcloud Sunucusu"
+    "Add" : "Ekle"
 },
 "nplurals=2; plural=(n > 1);");

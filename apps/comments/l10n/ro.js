@@ -29,11 +29,6 @@ OC.L10N.register(
     "A (now) deleted user mentioned you in a comment on “%s”" : "Un utilizator (momentan) șters te-a menționat într-un comentariu la ”%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Un utilizator (momentan) șters te-a menționat într-un comentariu la ”{file}”",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s te-a menționat într-un comentariu la ”%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user} te-a menționat într-un comentariu la ”{file}”",
-    "Type in a new comment..." : "Scrie un comentariu nou...",
-    "No other comments available" : "Nu sunt disponibile alte comentarii",
-    "More comments..." : "Mai multe comentarii...",
-    "{count} unread comments" : "{count} comentarii necitite",
-    "You commented on %2$s" : "Ai comentat la %2$s"
+    "{user} mentioned you in a comment on “{file}”" : "{user} te-a menționat într-un comentariu la ”{file}”"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

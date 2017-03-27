@@ -11,9 +11,6 @@ OC.L10N.register(
     "Trusted servers" : "Servitores fiduciari",
     "+ Add trusted server" : "+ Adder servitor fiduciari",
     "Trusted server" : "Servitor fiduciari",
-    "Add" : "Adder",
-    "Trusted Servers" : "Servitores Fiduciari",
-    "+ Add Nextcloud server" : "+ Adder servitor Nextcloud",
-    "Nextcloud Server" : "Servitor Nextcloud"
+    "Add" : "Adder"
 },
 "nplurals=2; plural=(n != 1);");

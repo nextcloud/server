@@ -27,11 +27,6 @@
     "A (now) deleted user mentioned you in a comment on “%s”" : "Un (ora) delite usator mentionava tu in un commentario in “%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Un (ora) delite usator mentionava tu in un commentario in “{file}”",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s mentionava tu in un commentario in “%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user} mentionava tu in un commentario in “{file}”",
-    "Type in a new comment..." : "Scribe in un nove commentario...",
-    "No other comments available" : "Nulle altere commentarios disponibile",
-    "More comments..." : "Plus commentarios...",
-    "{count} unread comments" : "{count} commentarios non legite",
-    "You commented on %2$s" : "Tu commentava in %2$s"
+    "{user} mentioned you in a comment on “{file}”" : "{user} mentionava tu in un commentario in “{file}”"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

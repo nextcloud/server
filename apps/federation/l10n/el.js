@@ -9,9 +9,6 @@ OC.L10N.register(
     "Trusted servers" : "Έμπιστοι διακομιστές",
     "+ Add trusted server" : "+Προσθήκη έμπιστων διακομιστών",
     "Trusted server" : "Έμπιστοι διακομιστές",
-    "Add" : "Προσθήκη",
-    "Trusted Servers" : "Έμπιστοι διακομιστές",
-    "+ Add Nextcloud server" : "+ Προσθήκη διακομιστή Nextcloud",
-    "Nextcloud Server" : "Διακομιστής Nextcloud"
+    "Add" : "Προσθήκη"
 },
 "nplurals=2; plural=(n != 1);");

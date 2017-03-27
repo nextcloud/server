@@ -7,7 +7,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n baiti","%n baiti","%n baiti"],
     "Restore" : "Atjaunot",
     "No versions available" : "Nav versijas",
-    "More versions..." : "Vairāk versiju...",
-    "No other versions available" : "Citas versijas nav pieejamas"
+    "More versions..." : "Vairāk versiju..."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

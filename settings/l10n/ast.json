@@ -125,22 +125,8 @@
     "set new password" : "afitar nueva contraseña",
     "Default" : "Predetermináu",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Facilita una contraseña de recuperación d'alministrador, sinón podríen perdese tolos datos d'usuariu",
-    "Language changed" : "Camudóse la llingua",
     "Admins can't remove themself from the admin group" : "Los alministradores nun puen desaniciase a ellos mesmos del grupu d'alministrador",
     "Unable to add user to group %s" : "Nun pudo amestase l'usuariu al grupu %s",
-    "Unable to remove user from group %s" : "Nun pudo desaniciase al usuariu del grupu %s",
-    "Are you really sure you want add \"{domain}\" as trusted domain?" : "¿De xuru que quies amestar \"{domain}\" como dominiu de confianza?",
-    "Please wait...." : "Espera, por favor....",
-    "Everything (fatal issues, errors, warnings, info, debug)" : "Too (Información, Avisos, Fallos, debug y problemes fatales)",
-    "Info, warnings, errors and fatal issues" : "Información, Avisos, Fallos y problemes fatales",
-    "Warnings, errors and fatal issues" : "Avisos, fallos y problemes fatales",
-    "Errors and fatal issues" : "Fallos y problemes fatales",
-    "Fatal issues only" : "Namái problemes fatales",
-    "Log" : "Rexistru",
-    "More" : "Más",
-    "Less" : "Menos",
-    "Allow users to send mail notification for shared files" : "Permitir a los usuarios unviar mensaxes de notificación pa ficheros compartíos",
-    "Uninstall App" : "Desinstalar aplicación",
-    "Group" : "Grupu"
+    "Unable to remove user from group %s" : "Nun pudo desaniciase al usuariu del grupu %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

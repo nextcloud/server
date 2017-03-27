@@ -18,7 +18,6 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "Upozorňovať členov nasledujúcich skupín o dostupných aktualizáciach:",
     "Only notification for app updates are available." : "Sú dostupné upozornenia iba pre aktualizácie aplikácií.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Pre vybraný aktualizačný kanál budú priradené upozornenia pre server zastarané.",
-    "The selected update channel does not support updates of the server." : "Vybraný aktualizačný kanál nepodporuje aktualizácie servera.",
-    "You are running PHP %s. To allow you to upgrade to Nextcloud 11 and higher you need to run at least PHP 5.6. Once you upgraded your PHP version you will be able to receive update notifications for these newer versions." : "Momentálne používate PHP %s. Pre aktualizáciu na Nextcloud 11 je potrebné PHP verzie minimálne 5.6. Ako náhle aktualizujete verziu PHP budete dostávať upozornenia s možnosťou aktualizácie na novšie verzie."
+    "The selected update channel does not support updates of the server." : "Vybraný aktualizačný kanál nepodporuje aktualizácie servera."
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

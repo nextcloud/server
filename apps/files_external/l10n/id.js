@@ -125,7 +125,6 @@ OC.L10N.register(
     "Advanced settings" : "Pengaturan Lanjutan",
     "Delete" : "Hapus",
     "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal",
-    "Allow users to mount the following external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Tidak bisa mendapatkan informasi dari server ownCloud: {code} {type}"
+    "Allow users to mount the following external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut"
 },
 "nplurals=1; plural=0;");

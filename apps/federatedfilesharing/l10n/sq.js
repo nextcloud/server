@@ -40,9 +40,6 @@ OC.L10N.register(
     "Share it:" : "Ndajeni:",
     "Add to your website" : "Shtojeni te sajti juaj",
     "Share with me via Nextcloud" : "Ndani me mua përmes Nextcloud-it",
-    "HTML Code:" : "Kod HTML:",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Ndarja për %s dështoi, s’u gjet dot %s, ndoshta shërbyesi është hëpërhë jashtë pune.",
-    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "\"/%3$s\" e morët si një ndarje të largët prej %1$s (në emër të %2$s)",
-    "You received \"/%3$s\" as a remote share from %1$s" : "\"/%3$s\" e morët si një ndarje të largët prej %1$s"
+    "HTML Code:" : "Kod HTML:"
 },
 "nplurals=2; plural=(n != 1);");

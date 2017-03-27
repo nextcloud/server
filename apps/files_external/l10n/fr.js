@@ -125,7 +125,6 @@ OC.L10N.register(
     "Advanced settings" : "Paramètres avancés",
     "Delete" : "Supprimer",
     "Allow users to mount external storage" : "Autoriser les utilisateurs à monter des espaces de stockage externes",
-    "Allow users to mount the following external storage" : "Autoriser les utilisateurs à monter les stockages externes suivants",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Impossible d'obtenir l'information depuis le serveur Nextcloud : {code} {type}"
+    "Allow users to mount the following external storage" : "Autoriser les utilisateurs à monter les stockages externes suivants"
 },
 "nplurals=2; plural=(n > 1);");

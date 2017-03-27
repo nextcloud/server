@@ -9,9 +9,6 @@
     "Trusted servers" : "Servitores fiduciari",
     "+ Add trusted server" : "+ Adder servitor fiduciari",
     "Trusted server" : "Servitor fiduciari",
-    "Add" : "Adder",
-    "Trusted Servers" : "Servitores Fiduciari",
-    "+ Add Nextcloud server" : "+ Adder servitor Nextcloud",
-    "Nextcloud Server" : "Servitor Nextcloud"
+    "Add" : "Adder"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

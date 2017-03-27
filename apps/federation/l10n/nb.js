@@ -11,9 +11,6 @@ OC.L10N.register(
     "Trusted servers" : "Klarerte tjenere",
     "+ Add trusted server" : "+ Legg til klarert tjener",
     "Trusted server" : "Klarert tjener",
-    "Add" : "Legg til",
-    "Trusted Servers" : "Klarerte tjenere",
-    "+ Add Nextcloud server" : "+ Legg til Nextcloud tjener",
-    "Nextcloud Server" : "Nextcloud tjener"
+    "Add" : "Legg til"
 },
 "nplurals=2; plural=(n != 1);");

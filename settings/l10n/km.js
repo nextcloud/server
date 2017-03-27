@@ -69,13 +69,8 @@ OC.L10N.register(
     "Other" : "ផ្សេងៗ",
     "set new password" : "កំណត់​ពាក្យ​សម្ងាត់​ថ្មី",
     "Default" : "លំនាំ​ដើម",
-    "Language changed" : "បាន​ប្ដូរ​ភាសា",
     "Admins can't remove themself from the admin group" : "អ្នក​គ្រប់​គ្រង​មិន​អាច​លុប​ខ្លួន​ឯង​ចេញ​ពី​ក្រុម​អ្នក​គ្រប់​គ្រង​ឡើយ",
     "Unable to add user to group %s" : "មិន​អាច​បន្ថែម​អ្នក​ប្រើ​ទៅ​ក្រុម %s",
-    "Unable to remove user from group %s" : "មិន​អាច​ដក​អ្នក​ប្រើ​ចេញ​ពី​ក្រុម​ %s",
-    "Please wait...." : "សូម​រង់​ចាំ....",
-    "Log" : "Log",
-    "More" : "ច្រើន​ទៀត",
-    "Less" : "តិច"
+    "Unable to remove user from group %s" : "មិន​អាច​ដក​អ្នក​ប្រើ​ចេញ​ពី​ក្រុម​ %s"
 },
 "nplurals=1; plural=0;");

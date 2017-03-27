@@ -49,17 +49,6 @@
     "No files in here" : "Itt nincsenek fájlok",
     "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
     "Size" : "Méret",
-    "Modified" : "Módosítva",
-    "You assigned system tag %3$s" : "%3$s rendszer címke hozzárendelve",
-    "%1$s assigned system tag %3$s" : "%1$s hozzárendelte ezt a rendszer címkét: %3$s",
-    "You unassigned system tag %3$s" : "Evette ezt a rendszer címkét: %3$s",
-    "%1$s unassigned system tag %3$s" : "%1$s elvette ezt a rendszer címkét: %3$s",
-    "You created system tag %2$s" : "%2$s rendszer címke létrehozva",
-    "You deleted system tag %2$s" : "%2$s rendszer címke törölve",
-    "You updated system tag %3$s to %2$s" : "%3$s rendszer címke frissítve erre: %2$s",
-    "You assigned system tag %3$s to %2$s" : "%3$s rendszer címkét hozzárendelte: %2$s",
-    "%1$s assigned system tag %3$s to %2$s" : "%1$s hozzárendelte ezt a rendszer címkét: %3$s neki: %2$s",
-    "You unassigned system tag %3$s from %2$s" : "%3$s rendszer címke hozzárendelést elvette tőle: %2$s",
-    "%1$s unassigned system tag %3$s from %2$s" : "%1$s elvette ezt a rendszer címkét %3$s tőle: %2$s"
+    "Modified" : "Módosítva"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -47,9 +47,6 @@ OC.L10N.register(
     "Share it:" : "Udostępnij to:",
     "Add to your website" : "Dodaj do swojej strony",
     "Share with me via Nextcloud" : "Podziel się ze mną poprzez Nextcloud",
-    "HTML Code:" : "Kod HTML:",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Współdzielenie %s nie powiodło się, nie można odnaleźć %s. Prawdopobnie serwer nie jest teraz osiągalny.",
-    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Otrzymałeś \"/%3$s\" w zdalnym udziale z %1$s (w imieniu %2$s)",
-    "You received \"/%3$s\" as a remote share from %1$s" : "Otrzymałeś \"/%3$s\" w zdalnym udziale z %1$s"
+    "HTML Code:" : "Kod HTML:"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

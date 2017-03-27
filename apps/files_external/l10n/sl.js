@@ -118,7 +118,6 @@ OC.L10N.register(
     "Advanced settings" : "Napredne nastavitve",
     "Delete" : "Izbriši",
     "Allow users to mount external storage" : "Dovoli uporabnikom priklapljanje zunanje shrambe",
-    "Allow users to mount the following external storage" : "Dovoli uporabnikom priklapljanje navedenih zunanjih shramb.",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Ni mogoče pridobiti podrobnosti s strežnika ownCloud:{koda} {vrsta}"
+    "Allow users to mount the following external storage" : "Dovoli uporabnikom priklapljanje navedenih zunanjih shramb."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

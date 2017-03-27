@@ -9,9 +9,6 @@
     "Trusted servers" : "Megbízható szerverek",
     "+ Add trusted server" : "+ Megbízható szerver hozzáadása",
     "Trusted server" : "Megbízható szerver",
-    "Add" : "Hozzáadás",
-    "Trusted Servers" : "Megbízható szerverek",
-    "+ Add Nextcloud server" : "+ Nextcloud szerver hozzáadása",
-    "Nextcloud Server" : "Nextcloud szerver"
+    "Add" : "Hozzáadás"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

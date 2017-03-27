@@ -7,7 +7,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n bytes"],
     "Restore" : "Pulihkan",
     "No versions available" : "Tidak ada versi yang tersedia",
-    "More versions..." : "Versi lainnya...",
-    "No other versions available" : "Tidak ada versi lain yang tersedia"
+    "More versions..." : "Versi lainnya..."
 },
 "nplurals=1; plural=0;");
