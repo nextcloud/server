@@ -128,7 +128,7 @@
 			// so we take the part before that
 		} while (!result && parts.length > 0);
 
-		return result;
+		return decodeURIComponent(result);
 	}
 
 	function isSuccessStatus(status) {

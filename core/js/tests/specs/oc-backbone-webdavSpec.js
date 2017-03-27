@@ -229,7 +229,7 @@ describe('Backbone Webdav extension', function() {
 					'married': '{http://owncloud.org/ns}married', // bool
 				},
 				url: function() {
-					return 'http://example.com/owncloud/remote.php/test/' + this.id;
+					return 'http://example.com/owncloud/remote.php/test/' + encodeURIComponent(this.id);
 				},
 				parse: function(data) {
 					return {
@@ -394,7 +394,7 @@ describe('Backbone Webdav extension', function() {
 		beforeEach(function() {
 			NodeModel = OC.Backbone.WebdavNode.extend({
 				url: function() {
-					return 'http://example.com/owncloud/remote.php/dav/endpoint/nodemodel/' + this.id;
+					return 'http://example.com/owncloud/remote.php/dav/endpoint/nodemodel/' + encodeURIComponent(this.id);
 				},
 				davProperties: {
 					'firstName': '{http://owncloud.org/ns}first-name',
@@ -547,7 +547,7 @@ describe('Backbone Webdav extension', function() {
 		beforeEach(function() {
 			ChildModel = OC.Backbone.WebdavNode.extend({
 				url: function() {
-					return 'http://example.com/owncloud/remote.php/dav/davcol/' + this.id;
+					return 'http://example.com/owncloud/remote.php/dav/davcol/' + encodeURIComponent(this.id);
 				},
 				davProperties: {
 					'firstName': '{http://owncloud.org/ns}first-name',
@@ -561,7 +561,7 @@ describe('Backbone Webdav extension', function() {
 			NodeModel = OC.Backbone.WebdavCollectionNode.extend({
 				childrenCollectionClass: ChildrenCollection,
 				url: function() {
-					return 'http://example.com/owncloud/remote.php/dav/' + this.id;
+					return 'http://example.com/owncloud/remote.php/dav/' + encodeURIComponent(this.id);
 				},
 				davProperties: {
 					'firstName': '{http://owncloud.org/ns}first-name',
@@ -647,6 +647,42 @@ describe('Backbone Webdav extension', function() {
 			expect(collection.at(0).isNew()).toEqual(false);
 			expect(collection.at(1).url()).toEqual('http://example.com/owncloud/remote.php/dav/davcol/test');
 			expect(collection.at(1).isNew()).toEqual(false);
+		});
+
+		it('parses id from href if no id was queried', function() {
+			var model = new NodeModel({
+				id: 'davcol'
+			});
+
+			var collection = model.getChildrenCollection();
+			collection.fetch();
+
+			deferredRequest.resolve({
+				status: 207,
+				body: [
+					// root element
+					{
+						href: 'http://example.com/owncloud/remote.php/dav/davcol/',
+						propStat: []
+					},
+					// first model
+					{
+						href: 'http://example.com/owncloud/remote.php/dav/davcol/sub%40thing',
+						propStat: [{
+							status: 'HTTP/1.1 200 OK',
+							properties: {
+								'{http://owncloud.org/ns}first-name': 'Hello',
+								'{http://owncloud.org/ns}last-name': 'World'
+							}
+						}]
+					}
+				]
+			});
+
+			expect(collection.length).toEqual(1);
+
+			expect(collection.at(0).id).toEqual('sub@thing');
+			expect(collection.at(0).url()).toEqual('http://example.com/owncloud/remote.php/dav/davcol/sub%40thing');
 		});
 
 		it('creates the Webdav collection with MKCOL', function() {
