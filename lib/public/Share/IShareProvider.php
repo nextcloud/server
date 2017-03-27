@@ -196,14 +196,15 @@ interface IShareProvider {
 	 * Return will look like:
 	 *
 	 * [
-	 *  users => ['user1', 'user2', 'user4'],
+	 *  users  => ['user1' => ['node_id' => 42, 'node_path' => '/path'], 'user2' => [...]],
+	 *  remote => ['user1' => ['node_id' => 42, 'node_path' => '/path'], 'user2' => [...]],
+	 *  mail   => bool
 	 *  public => bool
-	 *  remote => bool
 	 * ]
 	 *
 	 * @param Node[] $nodes The list of nodes to get access for
 	 * @param bool $currentAccess If current access is required (like for removed shares that might get revived later)
-	 * @return string[]
+	 * @return array
 	 * @since 12
 	 */
 	public function getAccessList($nodes, $currentAccess);

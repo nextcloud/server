@@ -1191,9 +1191,10 @@ class Manager implements IManager {
 	 *
 	 * Then the access list will to '/folder1/folder2/fileA' is:
 	 * [
-	 *  users => ['user1', 'user2', 'user4'],
+	 *  users  => ['user1' => ['node_id' => 42, 'node_path' => '/path'], 'user2' => [...]],
+	 *  remote => ['user1' => ['node_id' => 42, 'node_path' => '/path'], 'user2' => [...]],
 	 *  public => bool
-	 *  remote => bool
+	 *  mail => bool
 	 * ]
 	 *
 	 * This is required for encryption/activity
@@ -1206,7 +1207,7 @@ class Manager implements IManager {
 	public function getAccessList(\OCP\Files\Node $path, $recursive = true, $currentAccess = false) {
 		$owner = $path->getOwner()->getUID();
 
-		$al = ['users' => [], 'public' => false, 'remote' => false];
+		$al = ['users' => [], 'remote' => [], 'public' => false];
 		if (!$this->userManager->userExists($owner)) {
 			return $al;
 		}
@@ -1222,7 +1223,12 @@ class Manager implements IManager {
 		/** @var Node[] $nodes */
 		$nodes = [];
 
-		$al['users'][] = $owner;
+		$ownerPath = $path->getPath();
+		list(,,,$ownerPath) = explode('/', $ownerPath, 4);
+		$al['users'][$owner] = [
+			'node_id' => $path->getId(),
+			'node_path' => '/' . $ownerPath,
+		];
 
 		// Collect all the shares
 		while ($path->getPath() !== $userFolder->getPath()) {
@@ -1248,8 +1254,6 @@ class Manager implements IManager {
 				}
 			}
 		}
-
-		$al['users'] = array_unique($al['users']);
 
 		return $al;
 	}

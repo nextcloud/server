@@ -983,18 +983,23 @@ class FederatedShareProvider implements IShareProvider {
 		}
 
 		$qb = $this->dbConnection->getQueryBuilder();
-		$qb->select('share_with')
+		$qb->select('share_with', 'file_source', 'file_target')
 			->from('share')
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_REMOTE)))
 			->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)))
 			->andWhere($qb->expr()->orX(
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-			))
-			->setMaxResults(1);
+			));
 		$cursor = $qb->execute();
 
-		$remote = $cursor->fetch() !== false;
+		$remote = [];
+		while ($row = $cursor->fetch()) {
+			$remote[$row['share_with']] = [
+				'node_id' => $row['file_source'],
+				'node_path' => $row['file_target'],
+			];
+		}
 		$cursor->closeCursor();
 
 		return ['remote' => $remote];

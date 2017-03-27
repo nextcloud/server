@@ -22,43 +22,113 @@
  */
 namespace OC\Share20;
 
-use OCP\Files\IRootFolder;
 use OCP\Files\Node;
-use OCP\Files\NotFoundException;
+use OCP\Share\IManager;
+use OCP\Share\IShareHelper;
 
-class ShareHelper {
-	/** @var IRootFolder */
-	private $rootFolder;
+class ShareHelper implements IShareHelper {
 
-	public function __construct(IRootFolder $rootFolder) {
-		$this->rootFolder = $rootFolder;
+	/** @var IManager */
+	private $shareManager;
+
+	public function __construct(IManager $shareManager) {
+		$this->shareManager = $shareManager;
 	}
 
 	/**
-	 * If a user has access to a file
-	 *
 	 * @param Node $node
-	 * @param array $users Array of userIds
-	 * @return array Mapping $uid to an array of nodes
+	 * @return array [ users => [Mapping $uid => $path], remotes => [Mapping $cloudId => $path]]
 	 */
-	public function getPathsForAccessList(Node $node, $users) {
-		$result = [];
+	public function getPathsForAccessList(Node $node) {
+		$result = [
+			'users' => [],
+			'remotes' => [],
+		];
 
-		foreach ($users as $user) {
-			try {
-				$userFolder = $this->rootFolder->getUserFolder($user);
-			} catch (NotFoundException $e) {
-				continue;
-			}
-
-			$nodes = $userFolder->getById($node->getId());
-			if ($nodes === []) {
-				continue;
-			}
-
-			$result[$user] = $nodes;
+		$accessList = $this->shareManager->getAccessList($node, true, true);
+		if (!empty($accessList['users'])) {
+			$result['users'] = $this->getPathsForUsers($node, $accessList['users']);
+		}
+		if (!empty($accessList['remote'])) {
+			$result['remotes'] = $this->getPathsForRemotes($node, $accessList['remote']);
 		}
 
 		return $result;
+	}
+
+	protected function getPathsForUsers(Node $node, array $users) {
+		$byId = $results = [];
+		foreach ($users as $uid => $info) {
+			if (!isset($byId[$info['node_id']])) {
+				$byId[$info['node_id']] = [];
+			}
+			$byId[$info['node_id']][$uid] = $info['node_path'];
+		}
+
+		if (isset($byId[$node->getId()])) {
+			foreach ($byId[$node->getId()] as $uid => $path) {
+				$results[$uid] = $path;
+			}
+			unset($byId[$node->getId()]);
+		}
+
+		if (empty($byId)) {
+			return $results;
+		}
+
+		$item = $node;
+		$appendix = '/' . $node->getName();
+		while (!empty($byId)) {
+			$item = $item->getParent();
+
+			if (!empty($byId[$item->getId()])) {
+				foreach ($byId[$item->getId()] as $uid => $path) {
+					$results[$uid] = $path . $appendix;
+				}
+				unset($byId[$item->getId()]);
+			}
+
+			$appendix = '/' . $item->getName() . $appendix;
+		}
+
+		return $results;
+	}
+
+	protected function getPathsForRemotes(Node $node, array $remotes) {
+		$byId = $results = [];
+		foreach ($remotes as $cloudId => $info) {
+			if (!isset($byId[$info['node_id']])) {
+				$byId[$info['node_id']] = [];
+			}
+			$byId[$info['node_id']][$cloudId] = $info['node_path'];
+		}
+
+		if (isset($byId[$node->getId()])) {
+			foreach ($byId[$node->getId()] as $cloudId => $_) {
+				$results[$cloudId] = '/' . $node->getName();
+			}
+			unset($byId[$node->getId()]);
+		}
+
+		if (empty($byId)) {
+			return $results;
+		}
+
+		$item = $node;
+		$path = '/' . $node->getName();
+		while (!empty($byId)) {
+			$item = $item->getParent();
+
+			if (!empty($byId[$item->getId()])) {
+				foreach ($byId[$item->getId()] as $uid => $_) {
+					$results[$uid] = $path;
+				}
+				unset($byId[$item->getId()]);
+			}
+
+			$path = '/' . $item->getName() . $path;
+		}
+
+		return $results;
 	}
 }

@@ -33,12 +33,9 @@ use OCP\Files\Node;
 interface IShareHelper {
 
 	/**
-	 * If a user has access to a file
-	 *
 	 * @param Node $node
-	 * @param array $users Array of userIds
-	 * @return array Mapping $uid to an array of nodes
+	 * @return array [ users => [Mapping $uid => $path], remotes => [Mapping $cloudId => $path]]
 	 * @since 12
 	 */
-	public function getPathsForAccessList(Node $node, $users);
+	public function getPathsForAccessList(Node $node);
 }

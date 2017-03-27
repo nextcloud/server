@@ -1092,7 +1092,7 @@ class DefaultShareProvider implements IShareProvider {
 			$or->add($qb->expr()->eq('share_type', $qb->createNamedParameter(self::SHARE_TYPE_USERGROUP)));
 		}
 
-		$qb->select('share_type', 'share_with')
+		$qb->select('id', 'parent', 'share_type', 'share_with', 'file_source', 'file_target', 'permissions')
 			->from('share')
 			->where(
 				$or
@@ -1110,7 +1110,8 @@ class DefaultShareProvider implements IShareProvider {
 			$type = (int)$row['share_type'];
 			if ($type === \OCP\Share::SHARE_TYPE_USER) {
 				$uid = $row['share_with'];
-				$users[$uid] = isset($users[$uid]) ? $users[$uid] + 1 : 1;
+				$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
+				$users[$uid][$row['id']] = $row;
 			} else if ($type === \OCP\Share::SHARE_TYPE_GROUP) {
 				$gid = $row['share_with'];
 				$group = $this->groupManager->get($gid);
@@ -1121,23 +1122,60 @@ class DefaultShareProvider implements IShareProvider {
 
 				$userList = $group->getUsers();
 				foreach ($userList as $user) {
-					$users[$user->getUID()] = isset($users[$user->getUID()]) ? $users[$user->getUID()] + 1 : 1;
+					$uid = $user->getUID();
+					$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
+					$users[$uid][$row['id']] = $row;
 				}
 			} else if ($type === \OCP\Share::SHARE_TYPE_LINK) {
 				$link = true;
 			} else if ($type === self::SHARE_TYPE_USERGROUP) {
 				if ($currentAccess === true) {
 					$uid = $row['share_with'];
-					$users[$uid] = isset($users[$uid]) ? $users[$uid] - 1 : -1;
+					$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
+					$users[$uid][$row['id']] = $row;
 				}
 			}
 		}
 		$cursor->closeCursor();
 
-		$users = array_filter($users, function($count) {
-			return $count > 0;
-		});
+		$users = array_map([$this, 'filterSharesOfUser'], $users);
 
-		return ['users' => array_keys($users), 'public' => $link];
+		return ['users' => $users, 'public' => $link];
+	}
+
+	/**
+	 * For each user the path with the fewest slashes is returned
+	 * @param array $shares
+	 * @return array
+	 */
+	protected function filterSharesOfUser(array $shares) {
+		// Group shares when the user has a share exception
+		foreach ($shares as $id => $share) {
+			$type = (int) $share['share_type'];
+			$permissions = (int) $share['permissions'];
+
+			if ($type === self::SHARE_TYPE_USERGROUP) {
+				unset($shares[$share['parent']]);
+
+				if ($permissions === 0) {
+					unset($shares[$id]);
+				}
+			}
+		}
+
+		$best = [];
+		$bestDepth = 0;
+		foreach ($shares as $id => $share) {
+			$depth = substr_count($share['file_target'], '/');
+			if (empty($best) || $depth < $bestDepth) {
+				$bestDepth = $depth;
+				$best = [
+					'node_id' => $share['file_source'],
+					'node_path' => $share['file_target'],
+				];
+			}
+		}
+
+		return $best;
 	}
 }

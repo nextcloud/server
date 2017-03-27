@@ -207,9 +207,10 @@ interface IManager {
 	 *
 	 * Then the access list will to '/folder1/folder2/fileA' is:
 	 * [
-	 *  users => ['user1', 'user2', 'user4'],
+	 *  users  => ['user1' => ['node_id' => 42, 'node_path' => '/path'], 'user2' => [...]],
+	 *  remote => ['user1' => ['node_id' => 42, 'node_path' => '/path'], 'user2' => [...]],
 	 *  public => bool
-	 *  remote => bool
+	 *  mail => bool
 	 * ]
 	 *
 	 * This is required for encryption/activity
