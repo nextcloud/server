@@ -64,6 +64,7 @@ class Sharing implements ISettings {
 			'shareExcludeGroups'              => $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes' ? true : false,
 			'shareExcludedGroupsList'         => $excludeGroupsList,
 			'publicShareDisclaimerText'       => $this->config->getAppValue('core', 'shareapi_public_link_disclaimertext', null),
+			'enableLinkPasswordByDefault'     => $this->config->getAppValue('core', 'shareapi_enable_link_password_by_default', 'no'),
 		];
 
 		return new TemplateResponse('settings', 'admin/sharing', $parameters, '');

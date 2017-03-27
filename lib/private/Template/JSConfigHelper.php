@@ -112,6 +112,9 @@ class JSConfigHelper {
 			$apps_paths[$app] = \OC_App::getAppWebPath($app);
 		}
 
+
+		$enableLinkPasswordByDefault = $this->config->getAppValue('core', 'shareapi_enable_link_password_by_default', 'no');
+		$enableLinkPasswordByDefault = ($enableLinkPasswordByDefault === 'yes') ? true : false;
 		$defaultExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_expire_date', 'no') === 'yes';
 		$defaultExpireDate = $enforceDefaultExpireDate = null;
 		if ($defaultExpireDateEnabled) {
@@ -217,6 +220,7 @@ class JSConfigHelper {
 					'defaultExpireDate' => $defaultExpireDate,
 					'defaultExpireDateEnforced' => $enforceDefaultExpireDate,
 					'enforcePasswordForPublicLink' => \OCP\Util::isPublicLinkPasswordRequired(),
+					'enableLinkPasswordByDefault' => $enableLinkPasswordByDefault,
 					'sharingDisabledForUser' => \OCP\Util::isSharingDisabledForUser(),
 					'resharingAllowed' => \OCP\Share::isResharingAllowed(),
 					'remoteShareAllowed' => $outgoingServer2serverShareEnabled,
