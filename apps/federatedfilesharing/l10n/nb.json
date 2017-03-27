@@ -45,9 +45,6 @@
     "Share it:" : "Del den:",
     "Add to your website" : "Legg på websiden din",
     "Share with me via Nextcloud" : "Del med meg via Nextcloud",
-    "HTML Code:" : "HTML-kode:",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Deling %s feilet, fant ikke %s, kanskje tjeneren er utilgjengelig for øyeblikket.",
-    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Du mottor \"/%3$s\" som en fjerndeling fra %1$s (på vegne av %2$s)",
-    "You received \"/%3$s\" as a remote share from %1$s" : "Du mottok \"/%3$s\" som en fjerndeling fra %1$s"
+    "HTML Code:" : "HTML-kode:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -47,9 +47,6 @@ OC.L10N.register(
     "Share it:" : "Deila því:",
     "Add to your website" : "Bæta við vefsvæðið þitt",
     "Share with me via Nextcloud" : "Deila með mér í gegnum Nextcloud",
-    "HTML Code:" : "HTML-kóði:",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Deiling %s mistókst, gat ekki fundið %s, hugsanlega er þjónninn ekki tiltækur í augnablikinu.",
-    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Þú tókst við \"/%3$s\" sem fjartengdri sameign frá %1$s (fyrir hönd %2$s)",
-    "You received \"/%3$s\" as a remote share from %1$s" : "Þú tókst við \"/%3$s\" sem fjartengdri sameign frá %1$s"
+    "HTML Code:" : "HTML-kóði:"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

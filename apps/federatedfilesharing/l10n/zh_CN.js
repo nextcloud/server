@@ -47,9 +47,6 @@ OC.L10N.register(
     "Share it:" : "分享它：",
     "Add to your website" : "添加到您的网站",
     "Share with me via Nextcloud" : "通过联合云与我共享",
-    "HTML Code:" : "HTML 代码:",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "共享 %s 失败，联合云无法找到 %s，请检查设置或联系管理员。",
-    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "你接收到 \"/%3$s\"  做为远程共享来自于 %1$s (代表 %2$s)",
-    "You received \"/%3$s\" as a remote share from %1$s" : "你接收到 \"/%3$s\"  做为远程共享来自于 %1$s"
+    "HTML Code:" : "HTML 代码:"
 },
 "nplurals=1; plural=0;");

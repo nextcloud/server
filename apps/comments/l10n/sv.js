@@ -29,11 +29,6 @@ OC.L10N.register(
     "A (now) deleted user mentioned you in a comment on “%s”" : "En (nu) raderad användare nämnde dig i en kommentar på \"%s\"",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "En (nu) raderad användare nämnde dig i en kommentar på \"{file}\"",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s nämnde dig i en kommentar på “%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user} nämnde dig i en kommentar på \"{file}\"",
-    "Type in a new comment..." : "Skriv en ny kommentar...",
-    "No other comments available" : "Inga andra kommentarer tillgängliga",
-    "More comments..." : "Fler kommentarer...",
-    "{count} unread comments" : "{count} olästa kommentarer",
-    "You commented on %2$s" : "Du kommenterade %2$s"
+    "{user} mentioned you in a comment on “{file}”" : "{user} nämnde dig i en kommentar på \"{file}\""
 },
 "nplurals=2; plural=(n != 1);");

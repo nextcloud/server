@@ -11,9 +11,6 @@ OC.L10N.register(
     "Trusted servers" : "Luotetut palvelimet",
     "+ Add trusted server" : "+ Lisää luotettu palvelin",
     "Trusted server" : "Luotettu palvelin",
-    "Add" : "Lisää",
-    "Trusted Servers" : "Luotetut palvelimet",
-    "+ Add Nextcloud server" : "+ Lisää Nextcloud-palvelin",
-    "Nextcloud Server" : "Nextcloud-palvelin"
+    "Add" : "Lisää"
 },
 "nplurals=2; plural=(n != 1);");

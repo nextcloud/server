@@ -125,7 +125,6 @@ OC.L10N.register(
     "Advanced settings" : "高级选项",
     "Delete" : "删除",
     "Allow users to mount external storage" : "允许用户挂载外部存储",
-    "Allow users to mount the following external storage" : "允许用户挂载以下外部存储",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "无法从 ownCloud 服务器获取信息: {code} {type}"
+    "Allow users to mount the following external storage" : "允许用户挂载以下外部存储"
 },
 "nplurals=1; plural=0;");

@@ -7,7 +7,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n בייט","%n בייטים"],
     "Restore" : "שחזור",
     "No versions available" : "אין גרסאות זמינות",
-    "More versions..." : "גרסאות נוספות...",
-    "No other versions available" : "אין גרסאות אחרות זמינות"
+    "More versions..." : "גרסאות נוספות..."
 },
 "nplurals=2; plural=(n != 1);");

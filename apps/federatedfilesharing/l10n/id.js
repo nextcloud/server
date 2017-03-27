@@ -47,9 +47,6 @@ OC.L10N.register(
     "Share it:" : "Bagikan:",
     "Add to your website" : "Tambahkan pada situs web Anda",
     "Share with me via Nextcloud" : "Dibagikan pada saya via Nextcloud",
-    "HTML Code:" : "Kode HTML:",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Berbagi %s gagal, tidak menemukan %s, kemungkinan saat ini server tidak dapat dijangkau.",
-    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Anda menerima \"/%3$s\" sebagai berbagi remote dari %1$s (mewakili %2$s)",
-    "You received \"/%3$s\" as a remote share from %1$s" : "Anda menerima \"/%3$s\" sebagai berbagi remote dari %1$s"
+    "HTML Code:" : "Kode HTML:"
 },
 "nplurals=1; plural=0;");

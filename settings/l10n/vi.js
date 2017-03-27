@@ -58,14 +58,8 @@ OC.L10N.register(
     "change full name" : "Đổi họ và t",
     "set new password" : "đặt mật khẩu mới",
     "Default" : "Mặc định",
-    "Language changed" : "Ngôn ngữ đã được thay đổi",
     "Admins can't remove themself from the admin group" : "Quản trị viên không thể loại bỏ chính họ khỏi nhóm quản lý",
     "Unable to add user to group %s" : "Không thể thêm người dùng vào nhóm %s",
-    "Unable to remove user from group %s" : "Không thể xóa người dùng từ nhóm %s",
-    "Please wait...." : "Xin hãy đợi...",
-    "Log" : "Log",
-    "More" : "hơn",
-    "Less" : "ít",
-    "Group" : "N"
+    "Unable to remove user from group %s" : "Không thể xóa người dùng từ nhóm %s"
 },
 "nplurals=1; plural=0;");

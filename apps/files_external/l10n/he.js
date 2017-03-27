@@ -115,7 +115,6 @@ OC.L10N.register(
     "Advanced settings" : "הגדרות מתקדמות",
     "Delete" : "מחיקה",
     "Allow users to mount external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני",
-    "Allow users to mount the following external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני הבא",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "לא ניתן היה לקבל את המידע משרת ה- ownCloud: {code} {type}"
+    "Allow users to mount the following external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני הבא"
 },
 "nplurals=2; plural=(n != 1);");

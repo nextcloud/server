@@ -5,7 +5,6 @@
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Restore" : "Herstellen",
     "No versions available" : "Geen versies beschikbaar",
-    "More versions..." : "Meer versies...",
-    "No other versions available" : "Geen andere versies beschikbaar"
+    "More versions..." : "Meer versies..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

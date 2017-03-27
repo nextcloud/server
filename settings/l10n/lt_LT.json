@@ -172,20 +172,9 @@
     "set new password" : "nustatyti naują slaptažodį",
     "Default" : "Numatytasis",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Prašome įvesti administratoriaus atkūrimo slaptažodį, kitaip visi naudotojo duomenys bus prarasti",
-    "Language changed" : "Kalba pakeista",
     "Admins can't remove themself from the admin group" : "Administratoriai negali pašalinti savęs iš administratorių grupės",
     "Unable to add user to group %s" : "Nepavyko pridėti naudotojo į grupę %s",
     "Unable to remove user from group %s" : "Nepavyko pašalinti naudotojo iš grupės %s",
-    "Please wait...." : "Prašome palaukti...",
-    "Fatal issues only" : "Tik lemtingosios klaidos",
-    "Log" : "Žurnalas",
-    "What to log" : "Ką registruoti",
-    "Download logfile" : "Atsisiųsti žurnalo failą",
-    "More" : "Daugiau",
-    "Less" : "Mažiau",
-    "The logfile is bigger than 100 MB. Downloading it may take some time!" : "Žurnalo failo dydis yra daugiau nei 100 MB. Jo atsiuntimas gali šiek tiek užtrukti!",
-    "For password recovery and notifications" : "Skirtas slaptažodžio atkūrimui ir pranešimams",
-    "Add Group" : "Pridėti grupę",
-    "Group" : "Grupė"
+    "For password recovery and notifications" : "Skirtas slaptažodžio atkūrimui ir pranešimams"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

@@ -11,9 +11,6 @@ OC.L10N.register(
     "Trusted servers" : "Betrodda servrar",
     "+ Add trusted server" : "+ Lägg till betrodd server",
     "Trusted server" : "Betrodd server",
-    "Add" : "Lägg till",
-    "Trusted Servers" : "Betrodda servrar",
-    "+ Add Nextcloud server" : "+ Lägg till Nextcloud-server",
-    "Nextcloud Server" : "Nextcloud-server"
+    "Add" : "Lägg till"
 },
 "nplurals=2; plural=(n != 1);");

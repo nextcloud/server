@@ -247,22 +247,6 @@ OC.L10N.register(
     "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")" : "Per favor, scribe le quota de immagazinage (p.ex. \"512 MB\" o \"12 GB\")",
     "Other" : "Altere",
     "Quota" : "Quota",
-    "Please provide an admin recovery password, otherwise all user data will be lost" : "Per favor, provide un contrasigno administrator pro recuperation de datos, alteremente tote datos de usator essera perdite.",
-    "Please wait...." : "Per favor attende...",
-    "add group" : "adder gruppo",
-    "Everything (fatal issues, errors, warnings, info, debug)" : "Toto (problemas fatal, errores, advertimentos, informationes, registros pro correction de errores)",
-    "Info, warnings, errors and fatal issues" : "Informationes, advertimentos, errores e problemas fatal",
-    "Warnings, errors and fatal issues" : "Advertimentos, errores e problemas fatal",
-    "Errors and fatal issues" : "Errores e problemas fatal",
-    "Fatal issues only" : "Solo problemas fatal",
-    "Log" : "Registro",
-    "What to log" : "Que registrar?",
-    "Download logfile" : "Discargar file de registro",
-    "More" : "Plus",
-    "Less" : "Minus",
-    "Uninstall App" : "De-installar Application",
-    "Enable experimental apps" : "Activar applicationes experimental",
-    "Add Group" : "Adder Gruppo",
-    "Group" : "Gruppo"
+    "Please provide an admin recovery password, otherwise all user data will be lost" : "Per favor, provide un contrasigno administrator pro recuperation de datos, alteremente tote datos de usator essera perdite."
 },
 "nplurals=2; plural=(n != 1);");

@@ -11,9 +11,6 @@ OC.L10N.register(
     "Trusted servers" : "可信任服务器",
     "+ Add trusted server" : "+ 添加可信任服务器",
     "Trusted server" : "可信任服务器",
-    "Add" : "添加",
-    "Trusted Servers" : "可信任服务器",
-    "+ Add Nextcloud server" : "+ 添加 Nextcloud 服务器 ",
-    "Nextcloud Server" : "Nextcloud 服务器"
+    "Add" : "添加"
 },
 "nplurals=1; plural=0;");

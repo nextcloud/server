@@ -22,8 +22,6 @@ OC.L10N.register(
     "Help translate" : "Օգնել թարգմանել",
     "Name" : "Անուն",
     "Username" : "Օգտանուն",
-    "Other" : "Այլ",
-    "Language changed" : "Լեզուն փոխվեց",
-    "Group" : "Խումբ"
+    "Other" : "Այլ"
 },
 "nplurals=2; plural=(n != 1);");

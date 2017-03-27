@@ -29,11 +29,6 @@ OC.L10N.register(
     "A (now) deleted user mentioned you in a comment on “%s”" : "(Токущо) изтрит потребител те коментира в “%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "(Токущо) изтрит потребител те спомена в коментар за “{file}”",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s те спомена в коментар за “%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user} те спомена в коментар за “{file}”",
-    "Type in a new comment..." : "Напиши нов коментар...",
-    "No other comments available" : "Няма други коментари",
-    "More comments..." : "Още коментари...",
-    "{count} unread comments" : "{count} непрочетени коментари",
-    "You commented on %2$s" : "Ти коментира за %2$s"
+    "{user} mentioned you in a comment on “{file}”" : "{user} те спомена в коментар за “{file}”"
 },
 "nplurals=2; plural=(n != 1);");

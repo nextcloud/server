@@ -11,9 +11,6 @@ OC.L10N.register(
     "Trusted servers" : "Uzticami serveri",
     "+ Add trusted server" : "+ pievietot uzticamiem serveriem",
     "Trusted server" : "Uzticams serveris",
-    "Add" : "Pievienot",
-    "Trusted Servers" : "Uzticami serveri",
-    "+ Add Nextcloud server" : "+ pievienot Nextcloud serveri",
-    "Nextcloud Server" : "Nextcloud Serveris"
+    "Add" : "Pievienot"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

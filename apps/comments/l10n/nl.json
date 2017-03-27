@@ -27,11 +27,6 @@
     "A (now) deleted user mentioned you in a comment on “%s”" : "Een (nu) verwijderde gebruiker vermeldde jou in een reactie op \"%s\"",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Een (nu) verwijderde gebruiker vermeldde jou in een reactie op {file}\"",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s vermeldde jou in een reactie op “%2$s\"",
-    "{user} mentioned you in a comment on “{file}”" : "{user} vermeldde jou in een reactie op “{file}\"",
-    "Type in a new comment..." : "Type een nieuwe reactie...",
-    "No other comments available" : "Geen andere reacties beschikbaar",
-    "More comments..." : "Meer reacties...",
-    "{count} unread comments" : "{count} ongelezen reacties",
-    "You commented on %2$s" : "Je reageerde op %2$s"
+    "{user} mentioned you in a comment on “{file}”" : "{user} vermeldde jou in een reactie op “{file}\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

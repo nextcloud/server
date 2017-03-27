@@ -11,9 +11,6 @@ OC.L10N.register(
     "Trusted servers" : "Servidores de confianza",
     "+ Add trusted server" : "+ Añadir servidor de confianza",
     "Trusted server" : "Servidor de confianza",
-    "Add" : "Añadir",
-    "Trusted Servers" : "Servidores de confianza",
-    "+ Add Nextcloud server" : "+ Añadir servidor Nextcloud",
-    "Nextcloud Server" : "Servidor Nexcloud"
+    "Add" : "Añadir"
 },
 "nplurals=2; plural=(n != 1);");

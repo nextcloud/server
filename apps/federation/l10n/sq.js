@@ -11,9 +11,6 @@ OC.L10N.register(
     "Trusted servers" : "Servera të besuar",
     "+ Add trusted server" : "+ Shto server-a të besuar",
     "Trusted server" : "Server i besuar",
-    "Add" : "Shto",
-    "Trusted Servers" : "Server të besuar",
-    "+ Add Nextcloud server" : "+ Shto server Nextcloud",
-    "Nextcloud Server" : "Server Nextcloud"
+    "Add" : "Shto"
 },
 "nplurals=2; plural=(n != 1);");

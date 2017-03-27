@@ -49,17 +49,6 @@ OC.L10N.register(
     "No files in here" : "Không có tệp ở đây",
     "No entries found in this folder" : "Chưa có mục nào trong thư mục",
     "Size" : "Kích cỡ",
-    "Modified" : "Thay đổi",
-    "You assigned system tag %3$s" : "Bạn đã dán nhãn %3$s",
-    "%1$s assigned system tag %3$s" : "%1$s đã dán nhãn %3$s",
-    "You unassigned system tag %3$s" : "Bạn đã xóa nhãn %3$s",
-    "%1$s unassigned system tag %3$s" : "%1$s đã xóa nhãn %3$s",
-    "You created system tag %2$s" : "Bạn đã tạo nhãn %2$s",
-    "You deleted system tag %2$s" : "Bạn đã xóa nhãn %2$s",
-    "You updated system tag %3$s to %2$s" : "Bạn đã cập nhật nhãn %3$s thành %2$s",
-    "You assigned system tag %3$s to %2$s" : "Bạn đã cập nhật nhãn %3$s thành %2$s",
-    "%1$s assigned system tag %3$s to %2$s" : "%1$s đã dán nhãn %3$s vào %2$s",
-    "You unassigned system tag %3$s from %2$s" : "Bạn đã xóa nhãn %3$s khỏi %2$s",
-    "%1$s unassigned system tag %3$s from %2$s" : "%1$s đã xóa nhãn %3$s khỏi %2$s"
+    "Modified" : "Thay đổi"
 },
 "nplurals=1; plural=0;");

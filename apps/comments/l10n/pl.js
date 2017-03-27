@@ -29,11 +29,6 @@ OC.L10N.register(
     "A (now) deleted user mentioned you in a comment on “%s”" : "Pewien (obecnie) usunięty użytkownik wspomniał o Tobie w komentarzu “%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Pewien (obecnie) usunięty użytkownik wspomniał o Tobie w komentarzu “{file}”",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s wspomniał/-a o Tobie w komentarzu “%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user} wspomniał/-a o Tobie w komentarzu “{file}”",
-    "Type in a new comment..." : "Napisz nowy komentarz...",
-    "No other comments available" : "Nie ma więcej komentarzy",
-    "More comments..." : "Więcej komentarzy...",
-    "{count} unread comments" : "{count} nieprzeczytanych komentarzy",
-    "You commented on %2$s" : "Skomentowałeś/-aś %2$s"
+    "{user} mentioned you in a comment on “{file}”" : "{user} wspomniał/-a o Tobie w komentarzu “{file}”"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

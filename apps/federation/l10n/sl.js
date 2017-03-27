@@ -10,9 +10,6 @@ OC.L10N.register(
     "Trusted servers" : "Zanesljivi strežniki",
     "+ Add trusted server" : "+ Dodaj zanesljiv strežnik",
     "Trusted server" : "Zanesljiv strežnik",
-    "Add" : "Dodaj",
-    "Trusted Servers" : "Varni strežniki",
-    "+ Add Nextcloud server" : "+ Dodaj Nextcloud strežnik",
-    "Nextcloud Server" : "Nextcloud Strežnik"
+    "Add" : "Dodaj"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -51,17 +51,6 @@ OC.L10N.register(
     "No files in here" : "Täällä ei ole tiedostoja",
     "No entries found in this folder" : "Ei kohteita tässä kansiossa",
     "Size" : "Koko",
-    "Modified" : "Muokattu",
-    "You assigned system tag %3$s" : "Liitit järjestelmätunnisteen %3$s",
-    "%1$s assigned system tag %3$s" : "%1$s liitti järjestelmätunnisteen %3$s",
-    "You unassigned system tag %3$s" : "Poistit järjestelmätunnisteen %3$s",
-    "%1$s unassigned system tag %3$s" : "%1$s poisti järjestelmätunnisteen %3$s",
-    "You created system tag %2$s" : "Loit järjestelmätunnisteen %2$s",
-    "You deleted system tag %2$s" : "Poistit järjestelmätunnisteen %2$s",
-    "You updated system tag %3$s to %2$s" : "Päivitit järjestelmätunnisteen %3$s tunnisteeksi %2$s",
-    "You assigned system tag %3$s to %2$s" : "Liitit järjestelmätunnisteen %3$s kohteeseen %2$s",
-    "%1$s assigned system tag %3$s to %2$s" : "%1$s liitti järjestelmätunnisteen %3$s kohteeseen %2$s",
-    "You unassigned system tag %3$s from %2$s" : "Poistit järjestelmätunnisteen %3$s kohteesta %2$s",
-    "%1$s unassigned system tag %3$s from %2$s" : "%1$s poisti järjestelmätunnisteen %3$s kohteesta %2$s"
+    "Modified" : "Muokattu"
 },
 "nplurals=2; plural=(n != 1);");

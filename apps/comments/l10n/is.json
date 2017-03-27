@@ -27,11 +27,6 @@
     "A (now) deleted user mentioned you in a comment on “%s”" : "Notandi (sem nú er búið að eyða) minntist á þig í athugasemd við “%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Notandi (sem nú er búið að eyða) minntist á þig í athugasemd við “{file}”",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s minntist á þig í athugasemd við “%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user} minntist á þig í athugasemd við “{file}”",
-    "Type in a new comment..." : "Skrifaðu inn nýja athugasemd...",
-    "No other comments available" : "Engar aðrar athugasemdir eru tiltækar",
-    "More comments..." : "Fleiri athugasemdir...",
-    "{count} unread comments" : "{count} ólesnar athugasemdir",
-    "You commented on %2$s" : "Þú settir inn athugasemd við %2$s"
+    "{user} mentioned you in a comment on “{file}”" : "{user} minntist á þig í athugasemd við “{file}”"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

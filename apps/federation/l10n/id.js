@@ -11,9 +11,6 @@ OC.L10N.register(
     "Trusted servers" : "Server terpercaya",
     "+ Add trusted server" : "+ Tambah server terpercaya",
     "Trusted server" : "Server terpercaya",
-    "Add" : "Tambah",
-    "Trusted Servers" : "Server Terpercaya",
-    "+ Add Nextcloud server" : "+ Tambahkan server Nextcloud",
-    "Nextcloud Server" : "Server Nextcloud"
+    "Add" : "Tambah"
 },
 "nplurals=1; plural=0;");

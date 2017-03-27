@@ -29,11 +29,6 @@ OC.L10N.register(
     "A (now) deleted user mentioned you in a comment on “%s”" : "Egy (most) törölt felhasználó megemlített egy hozzászólásban itt: “%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Egy (most) törölt felhasználó megemlített egy hozzászólásban itt: “{file}”",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s megemlített egy hozzászólásban itt: “%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user} megemlített egy hozzászólásban itt: “{file}”",
-    "Type in a new comment..." : "Új hozzászólás írása...",
-    "No other comments available" : "Nincs több hozzászólás.",
-    "More comments..." : "Több hozzászólás...",
-    "{count} unread comments" : "{count} olvasatlan hozzászólás",
-    "You commented on %2$s" : "Hozzászólt ehhez: %2$s"
+    "{user} mentioned you in a comment on “{file}”" : "{user} megemlített egy hozzászólásban itt: “{file}”"
 },
 "nplurals=2; plural=(n != 1);");

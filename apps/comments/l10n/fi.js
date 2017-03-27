@@ -29,11 +29,6 @@ OC.L10N.register(
     "A (now) deleted user mentioned you in a comment on “%s”" : "Poistettu käyttäjä mainitsi sinut kommentissa \"%s\"",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Poistettu käyttäjä mainitsi sinut tiedoston \"{file}\" kommentissa",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s mainitsi sinut kommentissa “%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user} mainitsi sinut tiedoston \"{file}\" kommentissa",
-    "Type in a new comment..." : "Kirjoita uusi kommentti...",
-    "No other comments available" : "Ei muita kommentteja saatavilla",
-    "More comments..." : "Lisää kommentteja...",
-    "{count} unread comments" : "{count} lukematonta kommenttia",
-    "You commented on %2$s" : "Kommentoit %2$s"
+    "{user} mentioned you in a comment on “{file}”" : "{user} mainitsi sinut tiedoston \"{file}\" kommentissa"
 },
 "nplurals=2; plural=(n != 1);");

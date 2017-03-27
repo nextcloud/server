@@ -52,13 +52,8 @@ OC.L10N.register(
     "Quota" : "ქვოტა",
     "set new password" : "დააყენეთ ახალი პაროლი",
     "Default" : "საწყისი პარამეტრები",
-    "Language changed" : "ენა შეცვლილია",
     "Admins can't remove themself from the admin group" : "ადმინისტრატორებს არ შეუძლიათ საკუთარი თავის წაშლა ადმინ ჯგუფიდან",
     "Unable to add user to group %s" : "მომხმარებლის დამატება ვერ მოხეხდა ჯგუფში %s",
-    "Unable to remove user from group %s" : "მომხმარებლის წაშლა ვერ მოხეხდა ჯგუფიდან %s",
-    "Please wait...." : "დაიცადეთ....",
-    "Log" : "ლოგი",
-    "More" : "უფრო მეტი",
-    "Less" : "უფრო ნაკლები"
+    "Unable to remove user from group %s" : "მომხმარებლის წაშლა ვერ მოხეხდა ჯგუფიდან %s"
 },
 "nplurals=1; plural=0;");

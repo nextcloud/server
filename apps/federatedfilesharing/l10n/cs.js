@@ -47,9 +47,6 @@ OC.L10N.register(
     "Share it:" : "Sdílet:",
     "Add to your website" : "Přidat na svou webovou stránku",
     "Share with me via Nextcloud" : "Sdíleno se mnou přes Nextcloud",
-    "HTML Code:" : "HTML kód:",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Sdílení %s selhalo, %s se nepodařilo nalézt, server pravděpodobně právě není dostupný.",
-    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Obdrželi jste \"/%3$s\" jako vzdálené sdílení od %1$s (zastupuje %2$s)",
-    "You received \"/%3$s\" as a remote share from %1$s" : "Obdrželi jste \"/%3$s\" jako vzdálené sdílení od %1$s"
+    "HTML Code:" : "HTML kód:"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

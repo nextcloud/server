@@ -125,7 +125,6 @@ OC.L10N.register(
     "Advanced settings" : "Ítarlegri valkostir",
     "Delete" : "Eyða",
     "Allow users to mount external storage" : "Leyfa notendum að tengja ytri gagnageymslur í skráakerfi",
-    "Allow users to mount the following external storage" : "Leyfa notendum að tengja eftirfarandi ytri gagnageymslu í skráakerfi",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Gat ekki lesið upplýsingar frá ownCloud-þjóninum: {code} {type}"
+    "Allow users to mount the following external storage" : "Leyfa notendum að tengja eftirfarandi ytri gagnageymslu í skráakerfi"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

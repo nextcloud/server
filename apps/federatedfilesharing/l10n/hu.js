@@ -47,9 +47,6 @@ OC.L10N.register(
     "Share it:" : "Oszd meg:",
     "Add to your website" : "Adja hozzá saját weboldalához",
     "Share with me via Nextcloud" : "Ossza meg velem Nextcloud-on keresztül",
-    "HTML Code:" : "HTML kód:",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "%s megosztása sikertelen, mert %s nem található; talán a szerver jelenleg nem elérhető.",
-    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Kapott egy távoli megosztást: \"/%3$s\", innen: %1$s (%2$s nevében)",
-    "You received \"/%3$s\" as a remote share from %1$s" : "Kapott egy távoli megosztást: \"/%3$s\", innen: %1$s"
+    "HTML Code:" : "HTML kód:"
 },
 "nplurals=2; plural=(n != 1);");

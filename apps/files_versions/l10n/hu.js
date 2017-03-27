@@ -7,7 +7,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n bájt","%n bájt"],
     "Restore" : "Visszaállítás",
     "No versions available" : "Nincs elérhető verzió",
-    "More versions..." : "További változatok...",
-    "No other versions available" : "Nincs több elérhető verzió"
+    "More versions..." : "További változatok..."
 },
 "nplurals=2; plural=(n != 1);");

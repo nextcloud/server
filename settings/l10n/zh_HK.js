@@ -47,10 +47,6 @@ OC.L10N.register(
     "Create" : "新增",
     "Everyone" : "所有人",
     "Other" : "其他",
-    "Default" : "預設",
-    "Please wait...." : "請稍候....",
-    "Log" : "日誌",
-    "More" : "更多",
-    "Group" : "群組"
+    "Default" : "預設"
 },
 "nplurals=1; plural=0;");

@@ -156,21 +156,8 @@
     "set new password" : "постави нова лозинка",
     "Default" : "Предефиниран",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Ве молам дадете лозинка за поврат на администраторот, или сите кориснички податоци ќе бидат изгубени",
-    "log-level out of allowed range" : "нивото на логирање е надвор од дозволениот опсег",
-    "Language changed" : "Јазикот е сменет",
     "Admins can't remove themself from the admin group" : "Администраторите неможе да се избришат себеси од админ групата",
     "Unable to add user to group %s" : "Неможе да додадам корисник во група %s",
-    "Unable to remove user from group %s" : "Неможе да избришам корисник од група %s",
-    "Please wait...." : "Ве молам почекајте ...",
-    "Info, warnings, errors and fatal issues" : "Информации, предупредувања, грешки и фатални работи",
-    "Warnings, errors and fatal issues" : "Предупредувања, грешки и фатални работи",
-    "Errors and fatal issues" : "Грешки и фатални работи",
-    "Fatal issues only" : "Само фатални работи",
-    "Log" : "Записник",
-    "What to log" : "Што да логирам",
-    "Download logfile" : "Преземи ја датотеката со логови",
-    "More" : "Повеќе",
-    "Less" : "Помалку",
-    "Group" : "Група"
+    "Unable to remove user from group %s" : "Неможе да избришам корисник од група %s"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

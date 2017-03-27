@@ -25,11 +25,6 @@ OC.L10N.register(
     "A (now) deleted user mentioned you in a comment on “%s”" : "(Orain) Ezabatutako erabiltzaile batek aipatu zaitu iruzkinean \"%s\"",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "(Orain) Ezabatutako erabiltzaile batek aipatu zaitu iruzkinean “{file}”",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s aipatu zaitu iruzkinean \"“%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user} aipatu zaitu iruzkinean “{file}”",
-    "Type in a new comment..." : "Idatzi iruzkin berri bat...",
-    "No other comments available" : "Ez dago beste iruzkinik eskuragarri",
-    "More comments..." : "Iruzkin gehiago...",
-    "{count} unread comments" : "{count} iruzkin irakurri gabe",
-    "You commented on %2$s" : "%2$s-en Iruzkin duzu"
+    "{user} mentioned you in a comment on “{file}”" : "{user} aipatu zaitu iruzkinean “{file}”"
 },
 "nplurals=2; plural=(n != 1);");

@@ -27,11 +27,6 @@
     "A (now) deleted user mentioned you in a comment on “%s”" : "En (nu) sletter bruger nævnte dig i en kommentarer på “%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "En (nu) sletter bruger nævnte dig i en kommentarer på \"{file}\"",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s nævnte dig i en kommentarer på “%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user} nævnte dig i en kommentarer på \"{file}\"",
-    "Type in a new comment..." : "Indtast en ny kommentar...",
-    "No other comments available" : "Ingen andre kommentarer tilgængelige",
-    "More comments..." : "Flere kommentarer...",
-    "{count} unread comments" : "{count} ulæste kommentarer",
-    "You commented on %2$s" : "Du kommenterede %2$s"
+    "{user} mentioned you in a comment on “{file}”" : "{user} nævnte dig i en kommentarer på \"{file}\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

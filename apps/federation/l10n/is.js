@@ -11,9 +11,6 @@ OC.L10N.register(
     "Trusted servers" : "Treystir þjónar",
     "+ Add trusted server" : "+ Bæta við treystum þjóni",
     "Trusted server" : "Treystur þjónn",
-    "Add" : "Bæta við",
-    "Trusted Servers" : "Treystir þjónar",
-    "+ Add Nextcloud server" : "+ Bæta við Nextcloud þjóni",
-    "Nextcloud Server" : "Nextcloud þjónn"
+    "Add" : "Bæta við"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

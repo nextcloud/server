@@ -46,12 +46,7 @@ OC.L10N.register(
     "Create" : "Erstellen",
     "Other" : "Aner",
     "Quota" : "Quota",
-    "Language changed" : "Sprooch huet geännert",
     "Admins can't remove themself from the admin group" : "Admins kennen sech selwer net aus enger Admin Group läschen.",
-    "Unable to add user to group %s" : "Onmeiglech User an Grupp ze sätzen %s",
-    "Log" : "Log",
-    "More" : "Méi",
-    "Less" : "Manner",
-    "Group" : "Grupp"
+    "Unable to add user to group %s" : "Onmeiglech User an Grupp ze sätzen %s"
 },
 "nplurals=2; plural=(n != 1);");

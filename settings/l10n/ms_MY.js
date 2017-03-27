@@ -26,9 +26,6 @@ OC.L10N.register(
     "Username" : "Nama pengguna",
     "Create" : "Buat",
     "Other" : "Lain",
-    "Quota" : "Kuota",
-    "Language changed" : "Bahasa diubah",
-    "Log" : "Log",
-    "More" : "Lanjutan"
+    "Quota" : "Kuota"
 },
 "nplurals=1; plural=0;");

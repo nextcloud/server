@@ -27,11 +27,6 @@
     "A (now) deleted user mentioned you in a comment on “%s”" : "Um usuário (agora) excluído mencionou você em um comentário sobre “%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Um usuário (agora) excluído mencionou você em um comentário sobre “{file}”",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s mencionou você em um comentário sobre “%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user} mencionou você em um comentário sobre “{file}”",
-    "Type in a new comment..." : "Digite um novo comentário...",
-    "No other comments available" : "Nenhum outro comentário disponível",
-    "More comments..." : "Mais comentários...",
-    "{count} unread comments" : "{count} comentários não lidos",
-    "You commented on %2$s" : "Você comentou em %2$s"
+    "{user} mentioned you in a comment on “{file}”" : "{user} mencionou você em um comentário sobre “{file}”"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

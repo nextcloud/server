@@ -119,7 +119,6 @@ OC.L10N.register(
     "Advanced settings" : "고급 설정",
     "Delete" : "삭제",
     "Allow users to mount external storage" : "사용자가 외부 저장소를 마운트하도록 허용",
-    "Allow users to mount the following external storage" : "사용자가 다음 외부 저장소를 마운트할 수 있도록 허용",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "ownCloud 서버에서 정보를 가져올 수 없음: {code} {type}"
+    "Allow users to mount the following external storage" : "사용자가 다음 외부 저장소를 마운트할 수 있도록 허용"
 },
 "nplurals=1; plural=0;");

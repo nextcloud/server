@@ -47,9 +47,6 @@ OC.L10N.register(
     "Share it:" : "Dela detta:",
     "Add to your website" : "Lägg till på din hemsida",
     "Share with me via Nextcloud" : "Dela med mig via Nextcloud",
-    "HTML Code:" : "HTML Kod:",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Misslyckades dela ut %s, kan inte hitta %s, kanske är servern inte åtkomlig för närvarande.",
-    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Du tog emot \"/%3$s\" som en extern delning från %1$s (via %2$s)",
-    "You received \"/%3$s\" as a remote share from %1$s" : "Du tog emot \"/%3$s\" som en extern delning från %1$s"
+    "HTML Code:" : "HTML Kod:"
 },
 "nplurals=2; plural=(n != 1);");

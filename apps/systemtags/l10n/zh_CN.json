@@ -49,17 +49,6 @@
     "No files in here" : "无文件",
     "No entries found in this folder" : "此文件夹中无项目",
     "Size" : "大小",
-    "Modified" : "修改日期",
-    "You assigned system tag %3$s" : "你指定的系统标记 %3$s",
-    "%1$s assigned system tag %3$s" : "%1$s 分配了系统标签 %3$s",
-    "You unassigned system tag %3$s" : "未赋值系统标签 %3$s",
-    "%1$s unassigned system tag %3$s" : "%1$s 取消分配了系统标签 %3$s",
-    "You created system tag %2$s" : "你创建了系统标记 %2$s",
-    "You deleted system tag %2$s" : "删除了系统标识 %2$s",
-    "You updated system tag %3$s to %2$s" : "你更新了系统标记 %3$s 到 %2$s",
-    "You assigned system tag %3$s to %2$s" : "你指定了系统标记 %3$s 到 %2$s",
-    "%1$s assigned system tag %3$s to %2$s" : "%1$s 分配了系统标签 %3$s 到 %2$s",
-    "You unassigned system tag %3$s from %2$s" : "你未指定系统标记 %3$s 于 %2$s",
-    "%1$s unassigned system tag %3$s from %2$s" : "%1$s 取消分配系统标签 %3$s 从 %2$s"
+    "Modified" : "修改日期"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

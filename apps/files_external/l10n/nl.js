@@ -125,7 +125,6 @@ OC.L10N.register(
     "Advanced settings" : "Geavanceerde instellingen",
     "Delete" : "Verwijder",
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
-    "Allow users to mount the following external storage" : "Sta gebruikers toe de volgende externe opslag aan te koppelen",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Kon geen informatie van de Nextcloud server krijgen: {code} {type}"
+    "Allow users to mount the following external storage" : "Sta gebruikers toe de volgende externe opslag aan te koppelen"
 },
 "nplurals=2; plural=(n != 1);");

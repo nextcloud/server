@@ -125,7 +125,6 @@ OC.L10N.register(
     "Advanced settings" : "Ustawienia zaawansowane",
     "Delete" : "Usuń",
     "Allow users to mount external storage" : "Pozwól użytkownikom montować zewnętrzne zasoby dyskowe",
-    "Allow users to mount the following external storage" : "Pozwól użytkownikom montować następujące zewnętrzne zasoby dyskowe",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Nie udało się uzyskać informacje z serwera ownCloud: {code} {type}"
+    "Allow users to mount the following external storage" : "Pozwól użytkownikom montować następujące zewnętrzne zasoby dyskowe"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

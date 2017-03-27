@@ -27,11 +27,6 @@
     "A (now) deleted user mentioned you in a comment on “%s”" : "A (now) deleted user mentioned you in a comment on “%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Nyní již smazaný uživatel vás zmínil v komentáři u \"{file}\"",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s vás zmínil(a) v komentáři u %2$s",
-    "{user} mentioned you in a comment on “{file}”" : "{user} vás zmínil v komentáři u “{file}”",
-    "Type in a new comment..." : "Zadat nový komentář...",
-    "No other comments available" : "Nejsou dostupné žádné další komentáře",
-    "More comments..." : "Více komentářů...",
-    "{count} unread comments" : "{count} nepřečtených komentářů",
-    "You commented on %2$s" : "Okomentoval(a) jsi %2$s"
+    "{user} mentioned you in a comment on “{file}”" : "{user} vás zmínil v komentáři u “{file}”"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

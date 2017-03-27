@@ -49,17 +49,6 @@
     "No files in here" : "Hier geen bestanden",
     "No entries found in this folder" : "Niets gevonden in deze map",
     "Size" : "Grootte",
-    "Modified" : "Aangepast",
-    "You assigned system tag %3$s" : "Je wees systeemmarkering %3$s toe",
-    "%1$s assigned system tag %3$s" : "%1$s wees systeemmarkering %3$s toe",
-    "You unassigned system tag %3$s" : "Je maakte toewijzing systeemmarkering %3$s ongedaan",
-    "%1$s unassigned system tag %3$s" : "%1$s verwijderde systeem markering %3$s",
-    "You created system tag %2$s" : "Je creëerde systeemmarkering %2$s",
-    "You deleted system tag %2$s" : "Je verwijderde systeemmarkering %2$s",
-    "You updated system tag %3$s to %2$s" : "Je werkte systeemmarkering %3$s bij naar  %2$s",
-    "You assigned system tag %3$s to %2$s" : "Je wees systeemmarkering %3$s aan %2$s toe",
-    "%1$s assigned system tag %3$s to %2$s" : "%1$s wees systeemmarkering %3$s aan %2$s toe",
-    "You unassigned system tag %3$s from %2$s" : "Je maakte de toewijzing van systeem markering %3$s van %2$s ongedaan",
-    "%1$s unassigned system tag %3$s from %2$s" : "%1$s verwijderde systeemmarkering %3$s van %2$s"
+    "Modified" : "Aangepast"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -44,9 +44,6 @@ OC.L10N.register(
     "No files in here" : "Šeit nav datņu",
     "No entries found in this folder" : "Šajā mapē nekas nav atrasts",
     "Size" : "Izmērs",
-    "Modified" : "Mainīts",
-    "You created system tag %2$s" : "Tu izveidoji sistēmas atzīmi %2$s",
-    "You deleted system tag %2$s" : "Tu izdzēsi sistēmas atzīmi %2$s",
-    "You updated system tag %3$s to %2$s" : "Tu atjaunoji sistēmas atzīmi %3$s uz %2$s"
+    "Modified" : "Mainīts"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -103,20 +103,8 @@ OC.L10N.register(
     "set new password" : "﻿ಹೊಸ ಗುಪ್ತಪದವನ್ನು ಹೊಂದಿಸಿ",
     "change email address" : "﻿ಇ-ಅಂಚೆ ವಿಳಾಸ ಬದಲಾಯಿಸಿ",
     "Default" : "ಆರಂಭದ ಪ್ರತಿ",
-    "Language changed" : "﻿ಭಾಷೆಯನ್ನು ಬದಲಾಯಿಸಲಾಗಿದೆ",
     "Admins can't remove themself from the admin group" : "﻿ನಿರ್ವಾಹಕರು ನಿರ್ವಹಣೆ ಗುಂಪಿನಿಂದ ತಮ್ಮನ್ನೇ ತಾವು ತೆಗೆದುಹಾಕಿಕೊಳ್ಳಲು ಸಾಧ್ಯವಿಲ್ಲ",
     "Unable to add user to group %s" : "%s ಗುಂಪಿಗೆ ಹೂಸ ಬಳಕೆದಾರನನ್ನು ಸೇರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ",
-    "Unable to remove user from group %s" : "%s ಗುಂಪು ಬಳಕೆದಾರ ತೆಗೆದುಹಾಕಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ",
-    "Please wait...." : "﻿ದಯವಿಟ್ಟು ನಿರೀಕ್ಷಿಸಿ ....",
-    "Everything (fatal issues, errors, warnings, info, debug)" : "﻿ಎಲ್ಲ ರೀತಿಗಳು (ವಿನಾಶಕ ಸಮಸ್ಯೆಗಳು, ದೋಷಗಳು, ಎಚ್ಚರಿಕೆಗಳನ್ನು, ಮಾಹಿತಿ, ಇತರೆ )",
-    "Info, warnings, errors and fatal issues" : "﻿ಮಾಹಿತಿ, ಎಚ್ಚರಿಕೆ, ದೋಷಗಳು ಮತ್ತು ಮಾರಕ ಸಮಸ್ಯೆಗಳು",
-    "Warnings, errors and fatal issues" : "﻿ಎಚ್ಚರಿಕೆ, ದೋಷಗಳು ಮತ್ತು ಮಾರಕ ಸಮಸ್ಯೆಗಳು",
-    "Errors and fatal issues" : "﻿ದೋಷಗಳು ಮತ್ತು ಮಾರಕ ಸಮಸ್ಯೆಗಳು",
-    "Fatal issues only" : "ಮಾರಕ ಸಮಸ್ಯೆಗಳು ಮಾತ್ರ",
-    "Log" : "ಹಿನ್ನೆಲೆಯ ದಾಖಲೆ",
-    "More" : "﻿ಇನ್ನಷ್ಟು",
-    "Less" : "﻿ಕಡಿಮೆ",
-    "Uninstall App" : "ಅಳಿಸಿ",
-    "Group" : "﻿ಗುಂಪು"
+    "Unable to remove user from group %s" : "%s ಗುಂಪು ಬಳಕೆದಾರ ತೆಗೆದುಹಾಕಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ"
 },
 "nplurals=1; plural=0;");

@@ -73,18 +73,8 @@
     "set new password" : "establecer nueva contraseña",
     "Default" : "Predeterminado",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Por favor facilite una contraseña de recuperación de administrador, sino podrían perderse todos los datos de usuario",
-    "Language changed" : "Idioma cambiado",
     "Admins can't remove themself from the admin group" : "Los administradores no se pueden eliminar a ellos mismos del grupo de administrador",
     "Unable to add user to group %s" : "No se pudo añadir el usuario al grupo %s",
-    "Unable to remove user from group %s" : "No se pudo eliminar al usuario del grupo %s",
-    "Please wait...." : "Espere, por favor....",
-    "Everything (fatal issues, errors, warnings, info, debug)" : "Todo (Información, Avisos, Errores, debug y problemas fatales)",
-    "Info, warnings, errors and fatal issues" : "Información, Avisos, Errores y problemas fatales",
-    "Warnings, errors and fatal issues" : "Advertencias, errores y problemas fatales",
-    "Errors and fatal issues" : "Errores y problemas fatales",
-    "Fatal issues only" : "Problemas fatales solamente",
-    "Log" : "Registro",
-    "More" : "Más",
-    "Less" : "Menos"
+    "Unable to remove user from group %s" : "No se pudo eliminar al usuario del grupo %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -11,9 +11,6 @@ OC.L10N.register(
     "Trusted servers" : "Megbízható szerverek",
     "+ Add trusted server" : "+ Megbízható szerver hozzáadása",
     "Trusted server" : "Megbízható szerver",
-    "Add" : "Hozzáadás",
-    "Trusted Servers" : "Megbízható szerverek",
-    "+ Add Nextcloud server" : "+ Nextcloud szerver hozzáadása",
-    "Nextcloud Server" : "Nextcloud szerver"
+    "Add" : "Hozzáadás"
 },
 "nplurals=2; plural=(n != 1);");

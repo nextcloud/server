@@ -25,10 +25,6 @@ OC.L10N.register(
     "You commented on {file}" : "Komentovali ste {file}",
     "%1$s commented on %2$s" : "%1$s komentoval %2$s",
     "{author} commented on {file}" : "{author} komentoval {file}",
-    "<strong>Comments</strong> for files" : "<strong>Komentáre</strong> pre súbory",
-    "Type in a new comment..." : "Zadať nový komentár...",
-    "No other comments available" : "Žiadne ďalšie komentáre nie sú dostupné",
-    "More comments..." : "Ďalšie komentáre...",
-    "{count} unread comments" : "{count} neprečítaných komentárov"
+    "<strong>Comments</strong> for files" : "<strong>Komentáre</strong> pre súbory"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

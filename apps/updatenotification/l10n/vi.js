@@ -15,7 +15,6 @@ OC.L10N.register(
     "Checked on %s" : "Đã kiểm tra lúc %s",
     "Update channel:" : "Cập nhật kênh:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Bạn luôn có thể cập nhật lên phiên bản / kênh thử nghiệm mới hơn. Nhưng bạn không bao giờ có thể downgrade vào một kênh ổn định hơn.",
-    "Notify members of the following groups about available updates:" : "Thông báo cho các thành viên của các nhóm sau đây về các cập nhật có sẵn:",
-    "You are running PHP %s. To allow you to upgrade to Nextcloud 11 and higher you need to run at least PHP 5.6. Once you upgraded your PHP version you will be able to receive update notifications for these newer versions." : "Bạn đang chạy PHP%s. Để cho phép bạn nâng cấp lên NextCloud 11 và cao hơn, bạn cần chạy ít nhất là PHP 5.6. Một khi bạn nâng cấp phiên bản PHP của bạn, bạn sẽ có thể nhận được thông báo cập nhật cho các phiên bản mới hơn này."
+    "Notify members of the following groups about available updates:" : "Thông báo cho các thành viên của các nhóm sau đây về các cập nhật có sẵn:"
 },
 "nplurals=1; plural=0;");

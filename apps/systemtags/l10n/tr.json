@@ -49,17 +49,6 @@
     "No files in here" : "Burada herhangi bir dosya yok",
     "No entries found in this folder" : "Bu klasörde herhangi bir kayıt bulunamadı",
     "Size" : "Boyut",
-    "Modified" : "Değiştirilme",
-    "You assigned system tag %3$s" : "%3$s sistem etiketini atadınız",
-    "%1$s assigned system tag %3$s" : "%1$s, %3$s sistem etiketini atadı",
-    "You unassigned system tag %3$s" : "%3$s sistem etiketi atamasını kaldırdınız",
-    "%1$s unassigned system tag %3$s" : "%1$s, %3$s sistem etiketi atamasını kaldırdı",
-    "You created system tag %2$s" : "%2$s sistem etiketini eklediniz",
-    "You deleted system tag %2$s" : "%2$s sistem etiketini sildiniz",
-    "You updated system tag %3$s to %2$s" : "%3$s sistem etiketini %2$s olarak güncellediniz",
-    "You assigned system tag %3$s to %2$s" : "%3$s sistem etiketini %2$s dosyasına atadınız",
-    "%1$s assigned system tag %3$s to %2$s" : "%1$s, %3$s sistem etiketini %2$s dosyasına atadı",
-    "You unassigned system tag %3$s from %2$s" : "%2$s dosyasından %3$s sistem etiketinin atamasını kaldırdınız",
-    "%1$s unassigned system tag %3$s from %2$s" : "%1$s, %2$s dosyasından %3$s sistem etiketinin atamasını kaldırdı"
+    "Modified" : "Değiştirilme"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

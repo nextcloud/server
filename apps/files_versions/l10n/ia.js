@@ -7,7 +7,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Restore" : "Restaurar",
     "No versions available" : "Nulle versiones disponibile",
-    "More versions..." : "Plus versiones...",
-    "No other versions available" : "Nulle altere versiones disponibile"
+    "More versions..." : "Plus versiones..."
 },
 "nplurals=2; plural=(n != 1);");
