@@ -8,9 +8,9 @@
  * @copyright Copyright (c) 2016, Roeland Jago Douma <rullzer@owncloud.com>
  * @copyright Copyright (c) 2016, jowi <sjw@gmx.ch>
  * @copyright Copyright (c) 2015, Hendrik Leppelsack <hendrik@leppelsack.de>
- * @copyright Copyright (c) 2015, Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @copyright Copyright (c) 2015, Thomas Müller <thomas.mueller@tmit.eu>
  * @copyright Copyright (c) 2015, Vincent Petry <pvince81@owncloud.com>
+ * @copyright Copyright (c) 2014-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -664,10 +664,10 @@ em {
 			}
 		}
 		.menuitem {
-			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)' !important;
-			filter: alpha(opacity = 70) !important;
-			opacity: .7 !important;
-			&:hover, &:focus {
+			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)' !important;
+			filter: alpha(opacity = 50) !important;
+			opacity: .5 !important;
+			&:hover, &:focus, &.active {
 				-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)' !important;
 				filter: alpha(opacity = 100) !important;
 				opacity: 1 !important;
