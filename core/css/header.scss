@@ -494,7 +494,7 @@ nav {
 		display: inline-block;
 	}
 
-
+	/* show triangle below active app */
 	li:hover a:before,
 	li a.active:before {
 		content: ' ';
@@ -515,11 +515,6 @@ nav {
 	&.menu-open li a.active:before,
 	&.menu-open li:hover span {
 		display: none !important;
-	}
-
-	/* do not show active indicator when hovering other icons */
-	&:hover li:not(:hover) a:before {
-		display: none;
 	}
 
 	li.hidden {
