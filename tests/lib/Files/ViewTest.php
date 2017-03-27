@@ -9,6 +9,7 @@ namespace Test\Files;
 
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Cache\Watcher;
+use OC\Files\Filesystem;
 use OC\Files\Storage\Common;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Temporary;
@@ -556,6 +557,23 @@ class ViewTest extends \Test\TestCase {
 		$cachedData = $rootView->getFileInfo('foo.txt');
 		$this->assertGreaterThanOrEqual($oldCachedData['mtime'], $cachedData['mtime']);
 		$this->assertEquals($cachedData['storage_mtime'], $cachedData['mtime']);
+	}
+
+	/**
+	 * @medium
+	 */
+	public function testTouchFloat() {
+		$storage = $this->getTestStorage(true, TemporaryNoTouch::class);
+
+		Filesystem::mount($storage, array(), '/');
+
+		$rootView = new View('');
+		$oldCachedData = $rootView->getFileInfo('foo.txt');
+
+		$rootView->touch('foo.txt', 500.5);
+
+		$cachedData = $rootView->getFileInfo('foo.txt');
+		$this->assertEquals(500, $cachedData['mtime']);
 	}
 
 	/**
