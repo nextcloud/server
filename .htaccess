@@ -14,7 +14,6 @@
     Header set X-Content-Type-Options "nosniff"
     Header set X-XSS-Protection "1; mode=block"
     Header set X-Robots-Tag "none"
-    Header set X-Frame-Options "SAMEORIGIN"
     Header set X-Download-Options "noopen"
     Header set X-Permitted-Cross-Domain-Policies "none"
     SetEnv modHeadersAvailable true
