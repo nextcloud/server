@@ -472,6 +472,7 @@ class OC_App {
 		$activeAppIndex = -1;
 		$activeApp = OC::$server->getNavigationManager()->getActiveEntry();
 		foreach ($list as $index => &$navEntry) {
+			$navEntry['showInHeader'] = true;
 			if ($navEntry['id'] == $activeApp) {
 				$navEntry['active'] = true;
 				$activeAppIndex = $index;
@@ -494,13 +495,10 @@ class OC_App {
 		}
 
 		foreach ($list as $index => &$navEntry) {
-			$navEntry['showInHeader'] = false;
-			if($index < $headerIconCount) {
-				$navEntry['showInHeader'] = true;
+			if($index >= $headerIconCount) {
+				$navEntry['showInHeader'] = false;
 			}
 		}
-
-
 
 		return $list;
 	}
