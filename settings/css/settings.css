@@ -525,6 +525,10 @@ input.userFilter {width: 200px;}
 	width: 0;
 }
 
+#app-category-disabled {
+	margin-bottom: 20px;
+}
+
 .appinfo { margin: 1em 40px; }
 #app-navigation .appwarning {
 	background: #fcc;
@@ -548,17 +552,18 @@ span.version {
 	margin-top: 8px;
 }
 .app-level span {
-	color: #555;
-	background-color: transparent;
-	border: 1px solid #555;
-	border-radius: 3px;
+	color: #000;
+	background-color: #ccc;
+	border: 1px solid #ccc;
+	border-radius: 30px;
 	padding: 3px 6px;
 }
+
 .app-level .official {
-	border-color: #37ce02;
 	background-position: left center;
 	background-position: 5px center;
 	padding-left: 25px;
+	opacity: .5;
 }
 
 .app-score {
