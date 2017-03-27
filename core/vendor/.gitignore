@@ -172,3 +172,7 @@ DOMPurify/**
 !DOMPurify/dist/purify.min.js
 !DOMPurify/.bower.json
 !DOMPurify/LICENSE
+
+# strengthify
+strengthify/examples.html
+strengthify/examples.png
