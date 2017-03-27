@@ -517,3 +517,15 @@ Feature: webdav-related
 			| /textfile2.txt |
 			| /textfile3.txt |
 			| /textfile4.txt |
+
+	Scenario: Checking file id after a move using new endpoint
+		Given using new dav path
+		And user "user0" exists
+		And user "user0" creates a new chunking upload with id "chunking-42"
+		And user "user0" uploads new chunk file "1" with "AAAAA" to id "chunking-42"
+		And user "user0" uploads new chunk file "2" with "BBBBB" to id "chunking-42"
+		And user "user0" uploads new chunk file "3" with "CCCCC" to id "chunking-42"
+		And user "user0" moves new chunk file with id "chunking-42" to "/myChunkedFile.txt"
+		And User "user0" stores id of file "/myChunkedFile.txt"
+		When User "user0" moves file "/myChunkedFile.txt" to "/FOLDER/myChunkedFile.txt"
+		Then User "user0" checks id of file "/FOLDER/myChunkedFile.txt"
