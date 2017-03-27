@@ -30,6 +30,8 @@
 
 namespace OCA\Files_Sharing\Tests;
 
+use OCA\Files_Sharing\SharedStorage;
+
 /**
  * Class CacheTest
  *
@@ -545,6 +547,7 @@ class CacheTest extends TestCase {
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$this->assertTrue(\OC\Files\Filesystem::file_exists('/foo'));
+		/** @var SharedStorage $sharedStorage */
 		list($sharedStorage) = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/foo');
 
 		$this->assertEquals($sourceStorage->getCache()->getNumericStorageId(), $sharedStorage->getCache()->getNumericStorageId());
