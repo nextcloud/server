@@ -20,9 +20,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\DAV\Tests\Files;
+namespace OCA\DAV\Tests\DAV;
 
-use OCA\DAV\Files\CustomPropertiesBackend;
+use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCP\IDBConnection;
 use OCP\IUser;
 use Sabre\DAV\PropFind;

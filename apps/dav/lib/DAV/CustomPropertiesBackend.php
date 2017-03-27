@@ -23,7 +23,7 @@
  *
  */
 
-namespace OCA\DAV\Files;
+namespace OCA\DAV\DAV;
 
 use OCP\IDBConnection;
 use OCP\IUser;
