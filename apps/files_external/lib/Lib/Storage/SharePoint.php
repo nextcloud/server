@@ -39,6 +39,7 @@ use Office365\PHP\Client\SharePoint\ListItem;
 class SharePoint extends Common {
 	const SP_PROPERTY_SIZE = 'Length';
 	const SP_PROPERTY_MTIME = 'TimeLastModified';
+	const SP_PROPERTY_URL = 'ServerRelativeUrl';
 
 	/** @var  string */
 	protected $server;
@@ -337,6 +338,20 @@ class SharePoint extends Common {
 			$cacheItem = $entry ?: [];
 			$cacheItem['children'] = $contents;
 			$this->fileCache->set($serverUrl, $cacheItem);
+
+			// cache children instances
+			foreach ($contents as $collection) {
+				foreach ($collection->getData() as $item) {
+					/** @var  File|Folder $item */
+					$url = $item->getProperty(self::SP_PROPERTY_URL);
+					$itemEntry = $this->fileCache->get($url);
+					$itemEntry = $itemEntry ?: [];
+					if(!isset($itemEntry['instance'])) {
+						$itemEntry['instance'] = $item;
+						$this->fileCache->set($url, $itemEntry);
+					}
+				}
+			}
 		} else {
 			$contents = $entry['children'];
 		}
