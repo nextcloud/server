@@ -385,8 +385,13 @@ nav {
 
 	#expandDisplayName {
 		padding: 8px;
-		opacity: .7;
+		opacity: .6;
 	}
+}
+
+/* full opacity for gear icon if active */
+#body-settings #expandDisplayName {
+	opacity: 1;
 }
 
 /* show triangle below user menu if active */
