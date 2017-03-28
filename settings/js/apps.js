@@ -271,7 +271,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	imageUrl : function (url, appfromstore) {
 		var img;
 		if (appfromstore) {
-			img = '<svg width="72" height="72" viewBox="0 0 72 72">';
+			img = '<svg width="250" height="250" viewBox="0 0 72 72">';
 			img += '<image x="0" y="0" width="72" height="72" preserveAspectRatio="xMinYMin meet" xlink:href="' + url  + '"  class="app-icon" /></svg>';
 		} else {
 			img = '<svg width="32" height="32" viewBox="0 0 32 32">';

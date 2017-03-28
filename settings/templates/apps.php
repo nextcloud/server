@@ -86,14 +86,6 @@ script(
 			{{name}}
 		{{/if}}
 	</h2>
-	<div class="app-version"> {{version}}</div>
-	{{#if profilepage}}<a href="{{profilepage}}" target="_blank" rel="noreferrer">{{/if}}
-	<div class="app-author"><?php p($l->t('by %s', ['{{author}}']));?>
-		{{#if licence}}
-		(<?php p($l->t('%s-licensed', ['{{licence}}'])); ?>)
-		{{/if}}
-	</div>
-	{{#if profilepage}}</a>{{/if}}
 	<div class="app-level">
 		{{{level}}}
 	</div>
@@ -103,6 +95,14 @@ script(
 	<div class="app-detailpage"></div>
 
 	<div class="app-description-container hidden">
+		<div class="app-version">{{version}}</div>
+		{{#if profilepage}}<a href="{{profilepage}}" target="_blank" rel="noreferrer">{{/if}}
+		<div class="app-author"><?php p($l->t('by %s', ['{{author}}']));?>
+			{{#if licence}}
+			(<?php p($l->t('%s-licensed', ['{{licence}}'])); ?>)
+			{{/if}}
+		</div>
+		{{#if profilepage}}</a>{{/if}}
 		<div class="app-description">{{{description}}}</div>
 		<!--<div class="app-changed">{{changed}}</div>-->
 		{{#if documentation}}

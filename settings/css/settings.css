@@ -568,6 +568,7 @@ span.version {
 .app-score {
 	position: relative;
 	top: 4px;
+	opacity: .5;
 }
 
 #apps-list {
@@ -640,13 +641,6 @@ span.version {
 	}
 }
 
-@media (max-width: 600px), (min-width: 771px) and (max-width: 900px) {
-	#apps-list .section {
-		width: 100%;
-		box-sizing: border-box;
-	}
-}
-
 /* hide app version and level on narrower screens */
 @media only screen and (max-width: 768px) {
 	#apps-list.installed .app-version,
@@ -661,8 +655,8 @@ span.version {
 }
 
 .section h2.app-name {
-	margin-bottom: 8px;
-	display: inline;
+	display: block;
+	margin: 8px 0;
 }
 form.section {
 	position: relative;
@@ -676,11 +670,9 @@ form.section {
 	position: relative;
 }
 .app-image {
-	float: left;
-	padding-right: 10px;
-	width: 80px;
-	height: 80px;
-	opacity: 0.8;
+	height: 150px;
+	opacity: 1;
+	overflow: hidden;
 }
 .app-name,
 .app-version,
