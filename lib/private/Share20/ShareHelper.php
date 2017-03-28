@@ -37,7 +37,7 @@ class ShareHelper implements IShareHelper {
 
 	/**
 	 * @param Node $node
-	 * @return array [ users => [Mapping $uid => $path], remotes => [Mapping $cloudId => $path]]
+	 * @return array [ users => [Mapping $uid => $pathForUser], remotes => [Mapping $cloudId => $pathToMountRoot]]
 	 */
 	public function getPathsForAccessList(Node $node) {
 		$result = [
@@ -103,26 +103,10 @@ class ShareHelper implements IShareHelper {
 			$byId[$info['node_id']][$cloudId] = $info['token'];
 		}
 
-		if (isset($byId[$node->getId()])) {
-			foreach ($byId[$node->getId()] as $cloudId => $token) {
-				$results[$cloudId] = [
-					'node_path' => '/' . $node->getName(),
-					'token' => $token,
-				];
-			}
-			unset($byId[$node->getId()]);
-		}
-
-		if (empty($byId)) {
-			return $results;
-		}
-
 		$item = $node;
-		$path = '/' . $node->getName();
 		while (!empty($byId)) {
-			$item = $item->getParent();
-
 			if (!empty($byId[$item->getId()])) {
+				$path = $this->getMountedPath($item);
 				foreach ($byId[$item->getId()] as $uid => $token) {
 					$results[$uid] = [
 						'node_path' => $path,
@@ -131,10 +115,15 @@ class ShareHelper implements IShareHelper {
 				}
 				unset($byId[$item->getId()]);
 			}
-
-			$path = '/' . $item->getName() . $path;
+			$item = $item->getParent();
 		}
 
 		return $results;
+	}
+
+	protected function getMountedPath(Node $node) {
+		$path = $node->getPath();
+		$sections = explode('/', $path, 4);
+		return '/' . $sections[3];
 	}
 }

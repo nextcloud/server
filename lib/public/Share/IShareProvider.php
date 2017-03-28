@@ -197,7 +197,7 @@ interface IShareProvider {
 	 *
 	 * [
 	 *  users  => ['user1' => ['node_id' => 42, 'node_path' => '/path'], 'user2' => [...]],
-	 *  remote => ['user1' => ['node_id' => 42, 'node_path' => '/path'], 'user2' => [...]],
+	 *  remote => ['user1' => ['node_id' => 42, 'token' => 'ShareToken'], 'user2' => [...]],
 	 *  mail   => bool
 	 *  public => bool
 	 * ]

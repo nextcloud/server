@@ -34,7 +34,7 @@ interface IShareHelper {
 
 	/**
 	 * @param Node $node
-	 * @return array [ users => [Mapping $uid => $path], remotes => [Mapping $cloudId => $path]]
+	 * @return array [ users => [Mapping $uid => $pathForUser], remotes => [Mapping $cloudId => $pathToMountRoot]]
 	 * @since 12
 	 */
 	public function getPathsForAccessList(Node $node);
