@@ -32,6 +32,7 @@ use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
+use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;

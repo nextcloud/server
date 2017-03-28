@@ -742,11 +742,30 @@ class ShareAPIController extends OCSController {
 
 		} else {
 			// For other shares only permissions is valid.
-			if ($permissions === null) {
+			if ($share->getShareType() !== \OCP\Share::SHARE_TYPE_EMAIL && $permissions === null) {
 				throw new OCSBadRequestException($this->l->t('Wrong or no update parameter given'));
-			} else {
+			} elseif ($permissions !== null) {
 				$permissions = (int)$permissions;
 				$share->setPermissions($permissions);
+			}
+
+			if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+				if ($expireDate === '') {
+					$share->setExpirationDate(null);
+				} else if ($expireDate !== null) {
+					try {
+						$expireDate = $this->parseDate($expireDate);
+					} catch (\Exception $e) {
+						throw new OCSBadRequestException($e->getMessage());
+					}
+					$share->setExpirationDate($expireDate);
+				}
+
+				if ($password === '') {
+					$share->setPassword(null);
+				} else if ($password !== null) {
+					$share->setPassword($password);
+				}
 			}
 		}
 

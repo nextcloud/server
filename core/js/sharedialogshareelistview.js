@@ -13,6 +13,10 @@
 /* globals Handlebars */
 
 (function() {
+
+	var PASSWORD_PLACEHOLDER = '**********';
+	var PASSWORD_PLACEHOLDER_MESSAGE = t('core', 'Choose a password for the mail share');
+
 	if (!OC.Share) {
 		OC.Share = {};
 	}
@@ -97,7 +101,20 @@
 						'</div>' +
 					'</span>' +
 				'</li>' +
-		'<li>' +
+				'{{#if isMailShare}}' +
+					'<li>' +
+						'<span class="shareOption menuitem">' +
+							'<input id="password-{{cid}}-{{shareId}}" type="checkbox" name="password" class="password checkbox" {{#if isPasswordSet}}checked="checked"{{/if}}" />' +
+							'<label for="password-{{cid}}-{{shareId}}">{{passwordLabel}}</label>' +
+							'<div class="passwordContainer-{{cid}}-{{shareId}} {{#unless isPasswordSet}}hidden{{/unless}}">' +
+							'    <label for="passwordField-{{cid}}-{{shareId}}" class="hidden-visually" value="{{password}}">{{passwordLabel}}</label>' +
+							'    <input id="passwordField-{{cid}}-{{shareId}}" class="passwordField" type="password" placeholder="{{passwordPlaceholder}}" value="{{passwordValue}}" />' +
+							'    <span class="icon-loading-small hidden"></span>' +
+							'</div>' +
+						'</span>' +
+					'</li>' +
+				'{{/if}}' +
+				'<li>' +
 					'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span>{{unshareLabel}}</span></a>' +
 				'</li>' +
 			'</ul>' +
@@ -135,7 +152,10 @@
 			'click .unshare': 'onUnshare',
 			'click .icon-more': 'onToggleMenu',
 			'click .permissions': 'onPermissionChange',
-			'click .expireDate' : 'onExpireDateChange'
+			'click .expireDate' : 'onExpireDateChange',
+			'click .password' : 'onMailSharePasswordProtectChange',
+			'keyup input.passwordField': 'onMailSharePasswordKeyUp',
+			'focusout input.passwordField': 'onMailSharePasswordEntered'
 		},
 
 		initialize: function(options) {
@@ -182,6 +202,11 @@
 				shareWithTitle = shareWith;
 			}
 
+			var share = this.model.get('shares')[shareIndex];
+			var password = share.password;
+			var hasPassword = password !== null && password !== '';
+
+
 			return _.extend(hasPermissionOverride, {
 				cid: this.cid,
 				hasSharePermission: this.model.hasSharePermission(shareIndex),
@@ -198,7 +223,9 @@
 				isRemoteShare: shareType === OC.Share.SHARE_TYPE_REMOTE,
 				isMailShare: shareType === OC.Share.SHARE_TYPE_EMAIL,
 				isCircleShare: shareType === OC.Share.SHARE_TYPE_CIRCLE,
-				isFileSharedByMail: shareType === OC.Share.SHARE_TYPE_EMAIL && !this.model.isFolder()
+				isFileSharedByMail: shareType === OC.Share.SHARE_TYPE_EMAIL && !this.model.isFolder(),
+				isPasswordSet: hasPassword,
+				passwordPlaceholder: hasPassword ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
 			});
 		},
 
@@ -211,6 +238,7 @@
 				updatePermissionLabel: t('core', 'can change'),
 				deletePermissionLabel: t('core', 'can delete'),
 				expireDateLabel: t('core', 'set expiration data'),
+				passwordLabel: t('core', 'password protect'),
 				crudsLabel: t('core', 'access control'),
 				triangleSImage: OC.imagePath('core', 'actions/triangle-s'),
 				isResharingAllowed: this.configModel.get('isResharingAllowed'),
@@ -433,6 +461,76 @@
 				var expirationDatePicker = '#expirationDatePicker-' + this.cid + '-' + shareId;
 				this.$(expirationDatePicker).focus();
 			}
+		},
+
+		onMailSharePasswordProtectChange: function(event) {
+			var element = $(event.target);
+			var li = element.closest('li[data-share-id]');
+			var shareId = li.data('share-id');
+			var passwordContainerClass = '.passwordContainer-' + this.cid + '-' + shareId;
+			var passwordContainer = $(passwordContainerClass);
+			var inputClass = '#passwordField-' + this.cid + '-' + shareId;
+			var passwordField = $(inputClass);
+			var state = element.prop('checked');
+			passwordContainer.toggleClass('hidden', !state);
+			if (!state) {
+				this.model.updateShare(shareId, {password: ''});
+				passwordField.attr('value', '');
+				passwordField.attr('placeholder', PASSWORD_PLACEHOLDER_MESSAGE);
+			} else {
+				var passwordField = '#passwordField-' + this.cid + '-' + shareId;
+				this.$(passwordField).focus();
+			}
+		},
+
+		onMailSharePasswordKeyUp: function(event) {
+			if(event.keyCode === 13) {
+				this.onMailSharePasswordEntered(event);
+			}
+		},
+
+		onMailSharePasswordEntered: function(event) {
+			var passwordField = $(event.target);
+			var li = passwordField.closest('li[data-share-id]');
+			var shareId = li.data('share-id');
+			var passwordContainerClass = '.passwordContainer-' + this.cid + '-' + shareId;
+			var loading = this.$el.find(passwordContainerClass + ' .icon-loading-small');
+			if (!loading.hasClass('hidden')) {
+				// still in process
+				return;
+			}
+
+			passwordField.removeClass('error');
+			var password = passwordField.val();
+			// in IE9 the password might be the placeholder due to bugs in the placeholders polyfill
+			if(password === '' || password === PASSWORD_PLACEHOLDER || password === PASSWORD_PLACEHOLDER_MESSAGE) {
+				return;
+			}
+
+			loading
+				.removeClass('hidden')
+				.addClass('inlineblock');
+
+
+			this.model.updateShare(shareId, {
+				password: password
+			}, {
+				error: function(model, msg) {
+					// destroy old tooltips
+					passwordField.tooltip('destroy');
+					loading.removeClass('inlineblock').addClass('hidden');
+					passwordField.addClass('error');
+					passwordField.attr('title', msg);
+					passwordField.tooltip({placement: 'bottom', trigger: 'manual'});
+					passwordField.tooltip('show');
+				},
+				success: function(model, msg) {
+					passwordField.blur();
+					passwordField.attr('value', '');
+					passwordField.attr('placeholder', PASSWORD_PLACEHOLDER);
+					loading.removeClass('inlineblock').addClass('hidden');
+				}
+			});
 		},
 
 		onPermissionChange: function(event) {

@@ -730,11 +730,30 @@ class Manager implements IManager {
 			}
 		}
 
+		$plainTextPassword = null;
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK || $share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+			// Password updated.
+			if ($share->getPassword() !== $originalShare->getPassword()) {
+				//Verify the password
+				$this->verifyPassword($share->getPassword());
+
+				// If a password is set. Hash it!
+				if ($share->getPassword() !== null) {
+					$plainTextPassword = $share->getPassword();
+					$share->setPassword($this->hasher->hash($plainTextPassword));
+				}
+			}
+		}
+
 		$this->pathCreateChecks($share->getNode());
 
 		// Now update the share!
 		$provider = $this->factory->getProviderForType($share->getShareType());
-		$share = $provider->update($share);
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+			$share = $provider->update($share, $plainTextPassword);
+		} else {
+			$share = $provider->update($share);
+		}
 
 		if ($expirationDateUpdated === true) {
 			\OC_Hook::emit('OCP\Share', 'post_set_expiration_date', [
@@ -1091,7 +1110,9 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function checkPassword(\OCP\Share\IShare $share, $password) {
-		if ($share->getShareType() !== \OCP\Share::SHARE_TYPE_LINK) {
+		$passwordProtected = $share->getShareType() !== \OCP\Share::SHARE_TYPE_LINK
+			|| $share->getShareType() !== \OCP\Share::SHARE_TYPE_EMAIL;
+		if (!$passwordProtected) {
 			//TODO maybe exception?
 			return false;
 		}
