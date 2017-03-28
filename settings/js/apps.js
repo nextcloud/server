@@ -448,11 +448,11 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}
 
 		OC.Settings.Apps.hideErrorMessage(appId);
-		element.val(t('settings','Uninstalling …'));
+		element.val(t('settings','Removing …'));
 		$.post(OC.filePath('settings','ajax','uninstallapp.php'),{appid:appId},function(result) {
 			if(!result || result.status !== 'success') {
-				OC.Settings.Apps.showErrorMessage(appId, t('settings','Error while uninstalling app'));
-				element.val(t('settings','Uninstall'));
+				OC.Settings.Apps.showErrorMessage(appId, t('settings','Error while removing app'));
+				element.val(t('settings','Remove'));
 			} else {
 				OC.Settings.Apps.rebuildNavigation();
 				element.parents('#apps-list > .section').fadeOut(function() {
