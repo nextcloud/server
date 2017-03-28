@@ -129,9 +129,9 @@ class AppSettingsController extends Controller {
 		$currentLanguage = substr($this->l10nFactory->findLanguage(), 0, 2);
 
 		$formattedCategories = [
-			['id' => self::CAT_ALL_INSTALLED, 'ident' => 'installed', 'displayName' => (string)$this->l10n->t('All installed')],
-			['id' => self::CAT_ENABLED, 'ident' => 'enabled', 'displayName' => (string)$this->l10n->t('Enabled')],
-			['id' => self::CAT_DISABLED, 'ident' => 'disabled', 'displayName' => (string)$this->l10n->t('Not enabled')],
+			['id' => self::CAT_ALL_INSTALLED, 'ident' => 'installed', 'displayName' => (string)$this->l10n->t('Your apps')],
+			['id' => self::CAT_ENABLED, 'ident' => 'enabled', 'displayName' => (string)$this->l10n->t('Enabled apps')],
+			['id' => self::CAT_DISABLED, 'ident' => 'disabled', 'displayName' => (string)$this->l10n->t('Disabled apps')],
 		];
 		$categories = $this->categoryFetcher->get();
 		foreach($categories as $category) {
