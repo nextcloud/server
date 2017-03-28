@@ -155,8 +155,15 @@ class JSCombiner {
 		}
 
 		try {
+			$gzipFile = $folder->getFile($fileName . '.gz');
+		} catch (NotFoundException $e) {
+			$gzipFile = $folder->newFile($fileName . '.gz');
+		}
+
+		try {
 			$cachedfile->putContent($res);
 			$depFile->putContent(json_encode($deps));
+			$gzipFile->putContent(gzencode($res, 9));
 			return true;
 		} catch (NotPermittedException $e) {
 			return false;
