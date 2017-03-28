@@ -26,15 +26,15 @@
 		<?php foreach($_['printcssfiles'] as $cssfile): ?>
 			<link rel="stylesheet" href="<?php print_unescaped($cssfile); ?>" media="print">
 		<?php endforeach; ?>
+		<?php foreach($_['jsfiles'] as $jsfile): ?>
+			<script defer nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" src="<?php print_unescaped($jsfile); ?>"></script>
+		<?php endforeach; ?>
+		<?php print_unescaped($_['headers']); ?>
 		<?php if (isset($_['inline_ocjs'])): ?>
-			<script nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" type="text/javascript">
+			<script nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>">
 				<?php print_unescaped($_['inline_ocjs']); ?>
 			</script>
 		<?php endif; ?>
-		<?php foreach($_['jsfiles'] as $jsfile): ?>
-			<script nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" src="<?php print_unescaped($jsfile); ?>"></script>
-		<?php endforeach; ?>
-		<?php print_unescaped($_['headers']); ?>
 	</head>
 	<body id="<?php p($_['bodyid']);?>">
 	<?php include('layout.noscript.warning.php'); ?>
