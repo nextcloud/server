@@ -232,8 +232,8 @@
 		 */
 		render: function() {
 			this.$el.html(this.template({
-				emptyResultLabel: t('files_versions', 'No versions available'),
-				moreVersionsLabel: t('files_versions', 'More versions...')
+				emptyResultLabel: t('files_versions', 'No earlier versions available'),
+				moreVersionsLabel: t('files_versions', 'More versions …')
 			}));
 			this.$el.find('.has-tooltip').tooltip();
 			this.$versionsContainer = this.$el.find('ul.versions');

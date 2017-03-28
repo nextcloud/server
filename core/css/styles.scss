@@ -308,6 +308,10 @@ body {
 	width: 100%;
 }
 
+#app-sidebar #emptycontent, #app-sidebar .emptycontent {
+	margin-top: 10vh;
+}
+
 #emptycontent.emptycontent-search, .emptycontent.emptycontent-search {
 	position: static;
 }
