@@ -253,7 +253,9 @@ class OC_Response {
 			. 'img-src * data: blob:; '
 			. 'font-src \'self\' data:; '
 			. 'media-src *; ' 
-			. 'connect-src *';
+			. 'connect-src *; '
+			. 'object-src \'none\'; '
+			. 'base-uri \'self\'; ';
 		header('Content-Security-Policy:' . $policy);
 
 		// Send fallback headers for installations that don't have the possibility to send
