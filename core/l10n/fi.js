@@ -124,7 +124,6 @@ OC.L10N.register(
     "Password protect" : "Suojaa salasanalla",
     "Allow upload and editing" : "Salli lähetys ja muokkaus",
     "Allow editing" : "Salli muokkaus",
-    "File drop (upload only)" : "Tiedostojen pudotus (Vain lähetys)",
     "Email link to person" : "Lähetä linkki sähköpostitse",
     "Send" : "Lähetä",
     "Shared with you and the group {group} by {owner}" : "Jaettu sinun ja ryhmän {group} kanssa käyttäjältä {owner}",
@@ -293,6 +292,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Tämä sivu päivittää itsensä, kun %s on jälleen käytettävissä.",
     "Problem loading page, reloading in 5 seconds" : "Ongelma sivun lataamisessa, päivitetään 5 sekunnin kuluttua",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Tiedostosi on salattu. Jos et ole ottanut käyttöön palautusavainta, tietojasi ei ole mahdollista palauttaa salasanan nollaamisen jälkeen.<br />Jos et ole varma mitä tehdä, ota yhteys ylläpitäjään.<br />Haluatko varmasti jatkaa?",
+    "File drop (upload only)" : "Tiedostojen pudotus (Vain lähetys)",
     "The update was successful. Redirecting you to Nextcloud now." : "Päivitys onnistui. Sinut ohjataan nyt Nextcloudiin."
 },
 "nplurals=2; plural=(n != 1);");

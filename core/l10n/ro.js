@@ -124,7 +124,6 @@ OC.L10N.register(
     "Password protect" : "Protejare cu parolă",
     "Allow upload and editing" : "Permite încărcarea și editarea",
     "Allow editing" : "Permite editarea",
-    "File drop (upload only)" : "Aruncă fișierul (numai încărcare)",
     "Email link to person" : "Expediază legătura prin poșta electronică",
     "Send" : "Trimite",
     "Shared with you and the group {group} by {owner}" : "Distribuie cu tine si grupul {group} de {owner}",
@@ -290,6 +289,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Această pagină se va reîmprospăta atunci când %s instance e disponibil din nou.",
     "Problem loading page, reloading in 5 seconds" : "A apărut o problemă la încărcarea paginii, se reîncearcă în 5 secunde",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Fișierele tale sunt criptate. Dacă nu ai activat o cheie de restabilire, e posibil să nu mai poți accesa informațiile tale după o resetare a parolei.<br />Dacă nu ești sigur ce trebuie să faci, contactează administratorul înainte de a continua. <br /> Sigur vrei să continui?",
+    "File drop (upload only)" : "Aruncă fișierul (numai încărcare)",
     "The update was successful. Redirecting you to Nextcloud now." : "Actualizarea a reușit. Te redirecționăm acum la Nextcloud."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

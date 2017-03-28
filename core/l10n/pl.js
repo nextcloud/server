@@ -126,7 +126,6 @@ OC.L10N.register(
     "Password protect" : "Zabezpiecz hasłem",
     "Allow upload and editing" : "Pozwól na przesyłanie i edycję",
     "Allow editing" : "Pozwól na edycję",
-    "File drop (upload only)" : "Tylko przesyłanie",
     "Email link to person" : "Wyślij osobie odnośnik poprzez e-mail",
     "Send" : "Wyślij",
     "Shared with you and the group {group} by {owner}" : "Udostępnione tobie i grupie {group} przez {owner}",
@@ -297,6 +296,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Strona odświeży się gdy instancja %s będzie ponownie dostępna.",
     "Problem loading page, reloading in 5 seconds" : "Błąd podczas ładowania strony, odświeżanie w ciągu 5 sekund.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Twoje pliki są zaszyfrowane. Jeśli nie włączyłeś klucza odzyskiwania, nie będzie możliwości odszyfrowania tych plików po zresetowaniu hasła.<br>Jeśli nie jesteś pewien co zrobić, skontaktuj się ze swoim administratorem, zanim bedziesz kontynuował. <br/> Czy chcesz kontynuować?\n ",
+    "File drop (upload only)" : "Tylko przesyłanie",
     "The update was successful. Redirecting you to Nextcloud now." : "Aktualizacja przebiegła pomyślnie. Trwa przekierowywanie do Nextcloud."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

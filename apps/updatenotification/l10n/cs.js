@@ -5,6 +5,8 @@ OC.L10N.register(
     "Could not start updater, please try the manual update" : "Nepodařilo se spustit aktualizátor, zkuste ruční aktualizaci",
     "{version} is available. Get more information on how to update." : "Je dostupná {version}. Přečtěte si více informací jak aktualizovat.",
     "Channel updated" : "Kanál aktualizován",
+    "The update server could not be reached since %d days to check for new updates." : "Aktualizační server nebyl dosažen %d dní pro kontrolu aktualizací.",
+    "Please check the nextcloud and server log files for errors." : "Prosím zkontrolujte chyby v souborech protokolů pro nextcloud a server.",
     "Update to %1$s is available." : "Je dostupná aktualizace na %1$s.",
     "Update for %1$s to version %2$s is available." : "Je dostupná aktualizace pro %1$s na verzi %2$s.",
     "Update for {app} to version %s is available." : "Pro {app} je dostupná aktualizace na verzi %s.",

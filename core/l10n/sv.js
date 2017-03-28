@@ -123,7 +123,6 @@ OC.L10N.register(
     "Password protect" : "Lösenordsskydda",
     "Allow upload and editing" : "Tillåt uppladdning och redigering",
     "Allow editing" : "Tillåt redigering",
-    "File drop (upload only)" : "Göm fillista (endast uppladdning)",
     "Email link to person" : "Skicka länken som e-postmeddelande",
     "Send" : "Skicka",
     "Shared with you and the group {group} by {owner}" : "Delad med dig och gruppen {group} av {owner}",
@@ -288,6 +287,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Denna sida uppdaterar sig själv när %s instansen är tillgänglig igen.",
     "Problem loading page, reloading in 5 seconds" : "Problem med att ladda sidan, försöker igen om 5 sekunder",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Dina filer är krypterade. Om du inte angett någon återställningsnyckel, kommer det att vara omöjligt att få tillbaka dina data efter att lösenordet är återställt..<br />Om du är osäker på vad du ska göra, vänligen kontakta din administratör innan du fortsätter.<br />Är du verkligen helt säker på att du vill fortsätta?",
+    "File drop (upload only)" : "Göm fillista (endast uppladdning)",
     "The update was successful. Redirecting you to Nextcloud now." : "Uppdateringen lyckades. Omdirigerar nu till Nextcloud."
 },
 "nplurals=2; plural=(n != 1);");

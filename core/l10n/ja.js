@@ -126,7 +126,6 @@ OC.L10N.register(
     "Password protect" : "パスワード保護を有効化",
     "Allow upload and editing" : "アップロードと編集を許可する",
     "Allow editing" : "編集を許可",
-    "File drop (upload only)" : "ファイルドロップ(アップロードのみ)",
     "Email link to person" : "メールリンク",
     "Send" : "送信",
     "Shared with you and the group {group} by {owner}" : "あなたと {owner} のグループ {group} で共有中",
@@ -297,6 +296,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "この画面は、サーバー %s の再起動後に自動的に更新されます。",
     "Problem loading page, reloading in 5 seconds" : "ページ読込に問題がありました。5秒後に再読込します",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "ファイルが暗号化されています。リカバリーキーが有効でない場合は、パスワードをリセットした後にあなたのデータを元に戻す方法はありません。<br />どういうことか分からない場合は、操作を継続する前に管理者に問い合わせてください。<br />続けてよろしいでしょうか?",
+    "File drop (upload only)" : "ファイルドロップ(アップロードのみ)",
     "The update was successful. Redirecting you to Nextcloud now." : "アップデート成功。Nextcloud にリダイレクトします。"
 },
 "nplurals=1; plural=0;");

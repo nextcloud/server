@@ -123,7 +123,6 @@ OC.L10N.register(
     "Password protect" : "Babestu pasahitzarekin",
     "Allow upload and editing" : "Onartu igoera eta edizioa",
     "Allow editing" : "Baimendu editatzea",
-    "File drop (upload only)" : "Fitxategiak utzi (igo bakarrik)",
     "Email link to person" : "Postaz bidali lotura ",
     "Send" : "Bidali",
     "Shared with you and the group {group} by {owner}" : "{owner}-k zu eta {group} taldearekin elkarbanatuta",
@@ -287,6 +286,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Orri honek bere burua eguneratuko du %s instantzia berriz prest dagoenean.",
     "Problem loading page, reloading in 5 seconds" : "Arazoa orria kargatzerakoan, 5 segundotan birkargatzen",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Zure fitxategiak enkriptaturik daude. Ez baduzu berreskuratze gakoa gaitzen pasahitza berrabiaraztean ez da zure fitxategiak berreskuratzeko modurik egongo. <br />Zer egin ziur ez bazaude kudeatzailearekin harremanetan ipini jarraitu aurretik.<br /> Ziur zaude aurrera jarraitu nahi duzula?",
+    "File drop (upload only)" : "Fitxategiak utzi (igo bakarrik)",
     "The update was successful. Redirecting you to Nextcloud now." : "The update was successful. Redirecting you to Nextcloud now."
 },
 "nplurals=2; plural=(n != 1);");

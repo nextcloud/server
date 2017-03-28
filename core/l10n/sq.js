@@ -122,7 +122,6 @@ OC.L10N.register(
     "Password protect" : "Mbroje me fjalëkalim",
     "Allow upload and editing" : "Lejo ngarkim dhe editim",
     "Allow editing" : "Lejo përpunim",
-    "File drop (upload only)" : "Lësho skedar (vetëm ngarkim)",
     "Email link to person" : "Dërgoja personit lidhjen me email",
     "Send" : "Dërgoje",
     "Shared with you and the group {group} by {owner}" : "Ndarë me ju dhe me grupin {group} nga {owner}",
@@ -286,6 +285,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Kjo faqe do të rifreskohet vetiu, sapo instanca %s të jetë sërish gati.",
     "Problem loading page, reloading in 5 seconds" : "Gabim në ngarkimin e faqes, do të ringarkohet pas 5 sekondash",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Kartelat tuaja janë të fshehtëzuara. Nëse s’keni aktivizuar kyçin e rimarrjeve, nuk do të ketë ndonjë rrugë për të marrë sërish të dhënat tuaja pasi të jetë ricaktuar fjalëkalimi juaj.<br />Nëse s’jeni i sigurt se ç’duhet bërë, ju lutemi, përpara se të vazhdoni, lidhuni me përgjegjësin tuaj. <br />Doni vërtet të vazhdoni?",
+    "File drop (upload only)" : "Lësho skedar (vetëm ngarkim)",
     "The update was successful. Redirecting you to Nextcloud now." : "Përditësimi ishte i suksesshëm. Ju ridrejtojmë në Nextcloud tani."
 },
 "nplurals=2; plural=(n != 1);");

@@ -102,7 +102,6 @@ OC.L10N.register(
     "Password protect" : "Protegir amb contrasenya",
     "Allow upload and editing" : "Permet afegir i editar",
     "Allow editing" : "Permetre edició",
-    "File drop (upload only)" : "Arrossega fitxers (només càrrega)",
     "Email link to person" : "Enllaç per correu electrónic amb la persona",
     "Send" : "Envia",
     "Shared with you and the group {group} by {owner}" : "Compartit amb vos i amb el grup {group} per {owner}",
@@ -236,6 +235,7 @@ OC.L10N.register(
     "Update needed" : "Actualització necessaria",
     "This %s instance is currently in maintenance mode, which may take a while." : "Aquesta instància %s està actualment en manteniment i podria trigar una estona.",
     "This page will refresh itself when the %s instance is available again." : "Aquesta pàgina s'actualitzarà automàticament quan la instància %s estigui disponible de nou.",
-    "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Els vostres fitxers estan encriptats. Si no heu habilitat la clau de recuperació no hi haurà manera de recuperar les dades després que reestabliu la contrasenya. <br />Si sabeu què fer, contacteu amb l'administrador abans de continuar.<br />Voleu continuar?"
+    "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Els vostres fitxers estan encriptats. Si no heu habilitat la clau de recuperació no hi haurà manera de recuperar les dades després que reestabliu la contrasenya. <br />Si sabeu què fer, contacteu amb l'administrador abans de continuar.<br />Voleu continuar?",
+    "File drop (upload only)" : "Arrossega fitxers (només càrrega)"
 },
 "nplurals=2; plural=(n != 1);");

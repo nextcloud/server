@@ -126,7 +126,6 @@ OC.L10N.register(
     "Password protect" : "密码保护",
     "Allow upload and editing" : "允许上传和编辑",
     "Allow editing" : "允许编辑",
-    "File drop (upload only)" : "文件拖拽 (仅上传)",
     "Email link to person" : "发送链接到个人",
     "Send" : "发送",
     "Shared with you and the group {group} by {owner}" : "{owner} 分享给您及 {group} 分组",
@@ -297,6 +296,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "当实例 %s 再次可用时此页面将刷新.",
     "Problem loading page, reloading in 5 seconds" : "加载页面出现问题, 在 5 秒内重新加载",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "您的文件已经加密. 如果您没有启用恢复密钥, 当您的密码重置后没有任何方式能恢复您的数据. <br />如果您不确定, 请在继续前联系您的管理员.<br/>您是否真的要继续?",
+    "File drop (upload only)" : "文件拖拽 (仅上传)",
     "The update was successful. Redirecting you to Nextcloud now." : "升级成功. 正在重新访问 Nextcloud."
 },
 "nplurals=1; plural=0;");
