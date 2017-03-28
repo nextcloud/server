@@ -500,6 +500,7 @@ class Cache implements ICache {
 	 * @param string $sourcePath
 	 * @param string $targetPath
 	 * @throws \OC\DatabaseException
+	 * @throws \Exception if the given storages have an invalid id
 	 */
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
 		if ($sourceCache instanceof Cache) {
@@ -513,6 +514,13 @@ class Cache implements ICache {
 
 			list($sourceStorageId, $sourcePath) = $sourceCache->getMoveInfo($sourcePath);
 			list($targetStorageId, $targetPath) = $this->getMoveInfo($targetPath);
+
+			if (is_null($sourceStorageId) || $sourceStorageId === false) {
+				throw new \Exception('Invalid source storage id: ' . $sourceStorageId);
+			}
+			if (is_null($targetStorageId) || $targetStorageId === false) {
+				throw new \Exception('Invalid target storage id: ' . $targetStorageId);
+			}
 
 			// sql for final update
 			$moveSql = 'UPDATE `*PREFIX*filecache` SET `storage` =  ?, `path` = ?, `path_hash` = ?, `name` = ?, `parent` =? WHERE `fileid` = ?';
