@@ -757,7 +757,7 @@
 							isLinkShare: true,
 							id: share.id,
 							token: share.token,
-							password: share.share_with,
+							password: share.password,
 							link: link,
 							permissions: share.permissions,
 							// currently expiration is only effective for link shares.

@@ -28,6 +28,7 @@ namespace OCA\Files_Sharing\Tests;
 
 
 use OCA\Files_Sharing\Migration;
+use OCP\Share;
 
 /**
  * Class MigrationTest
@@ -87,7 +88,7 @@ class MigrationTest extends TestCase {
 				)
 			);
 		// shared contact, shouldn't be modified
-		$query->setParameter('share_type', \OCP\Share::SHARE_TYPE_CONTACT)
+		$query->setParameter('share_type', Share::SHARE_TYPE_CONTACT)
 			->setParameter('share_with', 'user1')
 			->setParameter('uid_owner', 'owner1')
 			->setParameter('uid_initiator', '')
@@ -103,7 +104,7 @@ class MigrationTest extends TestCase {
 			$query->execute()
 		);
 		// shared calendar, shouldn't be modified
-		$query->setParameter('share_type', \OCP\Share::SHARE_TYPE_USER)
+		$query->setParameter('share_type', Share::SHARE_TYPE_USER)
 			->setParameter('share_with', 'user1')
 			->setParameter('uid_owner', 'owner1')
 			->setParameter('uid_initiator', '')
@@ -119,7 +120,7 @@ class MigrationTest extends TestCase {
 			$query->execute()
 		);
 		// single user share, shouldn't be modified
-		$query->setParameter('share_type', \OCP\Share::SHARE_TYPE_USER)
+		$query->setParameter('share_type', Share::SHARE_TYPE_USER)
 			->setParameter('share_with', 'user1')
 			->setParameter('uid_owner', 'owner1')
 			->setParameter('uid_initiator', '')
@@ -135,7 +136,7 @@ class MigrationTest extends TestCase {
 			$query->execute()
 		);
 		// single group share, shouldn't be modified
-		$query->setParameter('share_type', \OCP\Share::SHARE_TYPE_GROUP)
+		$query->setParameter('share_type', Share::SHARE_TYPE_GROUP)
 			->setParameter('share_with', 'group1')
 			->setParameter('uid_owner', 'owner1')
 			->setParameter('uid_initiator', '')
@@ -168,7 +169,7 @@ class MigrationTest extends TestCase {
 			$query->execute()
 		);
 		// first user share, shouldn't be modified
-		$query->setParameter('share_type', \OCP\Share::SHARE_TYPE_USER)
+		$query->setParameter('share_type', Share::SHARE_TYPE_USER)
 			->setParameter('share_with', 'user1')
 			->setParameter('uid_owner', 'owner2')
 			->setParameter('uid_initiator', '')
@@ -185,7 +186,7 @@ class MigrationTest extends TestCase {
 		);
 		$parent = $query->getLastInsertId();
 		// first re-share, should be attached to the first user share after migration
-		$query->setParameter('share_type', \OCP\Share::SHARE_TYPE_USER)
+		$query->setParameter('share_type', Share::SHARE_TYPE_USER)
 			->setParameter('share_with', 'user2')
 			->setParameter('uid_owner', 'user1')
 			->setParameter('uid_initiator', '')
@@ -202,7 +203,7 @@ class MigrationTest extends TestCase {
 		);
 		$parent = $query->getLastInsertId();
 		// second re-share, should be attached to the first user share after migration
-		$query->setParameter('share_type', \OCP\Share::SHARE_TYPE_USER)
+		$query->setParameter('share_type', Share::SHARE_TYPE_USER)
 			->setParameter('share_with', 'user3')
 			->setParameter('uid_owner', 'user2')
 			->setParameter('uid_initiator', '')
@@ -219,7 +220,7 @@ class MigrationTest extends TestCase {
 		);
 		$parent = $query->getLastInsertId();
 		// third re-share, should be attached to the first user share after migration
-		$query->setParameter('share_type', \OCP\Share::SHARE_TYPE_REMOTE)
+		$query->setParameter('share_type', Share::SHARE_TYPE_REMOTE)
 			->setParameter('share_with', 'user@server.com')
 			->setParameter('uid_owner', 'user3')
 			->setParameter('uid_initiator', '')
@@ -236,7 +237,7 @@ class MigrationTest extends TestCase {
 		);
 
 		// Link reshare should keep its parent
-		$query->setParameter('share_type', \OCP\Share::SHARE_TYPE_LINK)
+		$query->setParameter('share_type', Share::SHARE_TYPE_LINK)
 			->setParameter('share_with', null)
 			->setParameter('uid_owner', 'user3')
 			->setParameter('uid_initiator', '')
@@ -317,7 +318,7 @@ class MigrationTest extends TestCase {
 						'stime' => $query->createParameter('stime'),
 					]
 				)
-				->setParameter('share_type', \OCP\Share::SHARE_TYPE_USER)
+				->setParameter('share_type', Share::SHARE_TYPE_USER)
 				->setParameter('share_with', 'user'.($i+1))
 				->setParameter('uid_owner', 'user'.($i))
 				->setParameter('uid_initiator', null)
@@ -376,5 +377,64 @@ class MigrationTest extends TestCase {
 		$this->assertSame('dummy-value',
 			$this->config->getAppValue('core', 'shareapi_setting1', null)
 		);
+	}
+
+	public function testAddPasswordColumn() {
+
+		$shareTypes = [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE, Share::SHARE_TYPE_EMAIL, Share::SHARE_TYPE_LINK];
+
+		foreach ($shareTypes as $shareType) {
+
+			for ($i = 0; $i < 5; $i++) {
+				$query = $this->connection->getQueryBuilder();
+				$query->insert($this->table)
+					->values(
+						[
+							'share_type' => $query->createParameter('share_type'),
+							'share_with' => $query->createParameter('share_with'),
+							'uid_owner' => $query->createParameter('uid_owner'),
+							'uid_initiator' => $query->createParameter('uid_initiator'),
+							'parent' => $query->createParameter('parent'),
+							'item_type' => $query->createParameter('item_type'),
+							'item_source' => $query->createParameter('item_source'),
+							'item_target' => $query->createParameter('item_target'),
+							'file_source' => $query->createParameter('file_source'),
+							'file_target' => $query->createParameter('file_target'),
+							'permissions' => $query->createParameter('permissions'),
+							'stime' => $query->createParameter('stime'),
+						]
+					)
+					->setParameter('share_type', $shareType)
+					->setParameter('share_with', 'shareWith')
+					->setParameter('uid_owner', 'user' . ($i))
+					->setParameter('uid_initiator', null)
+					->setParameter('parent', 0)
+					->setParameter('item_type', 'file')
+					->setParameter('item_source', '2')
+					->setParameter('item_target', '/2')
+					->setParameter('file_source', 2)
+					->setParameter('file_target', '/foobar')
+					->setParameter('permissions', 31)
+					->setParameter('stime', time());
+
+				$this->assertSame(1, $query->execute());
+			}
+		}
+
+		$this->migration->addPasswordColumn();
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')->from('share');
+		$allShares = $query->execute()->fetchAll();
+
+		foreach ($allShares as $share) {
+			if ((int)$share['share_type'] === Share::SHARE_TYPE_LINK) {
+				$this->assertSame(null, $share['share_with']);
+				$this->assertSame('shareWith', $share['password']);
+			} else {
+				$this->assertSame('shareWith', $share['share_with']);
+				$this->assertSame(null, $share['password']);
+			}
+		}
 	}
 }

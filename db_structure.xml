@@ -791,6 +791,13 @@
 				<notnull>false</notnull>
 				<length>255</length>
 			</field>
+			<field>
+				<name>password</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>255</length>
+			</field>
 
 			<!-- Foreign Key users::uid -->
             <!-- This is the owner of the share

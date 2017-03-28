@@ -123,6 +123,24 @@ class Migration {
 		$this->config->deleteAppValue('core', 'shareapi_allow_public_notification');
 	}
 
+	public function addPasswordColumn() {
+		$query = $this->connection->getQueryBuilder();
+		$query
+			->update('share')
+			->set('password', 'share_with')
+			->where($query->expr()->eq('share_type', $query->createNamedParameter(\OCP\Share::SHARE_TYPE_LINK)))
+			->andWhere($query->expr()->isNotNull('share_with'));
+		$query->execute();
+
+		$clearQuery = $this->connection->getQueryBuilder();
+		$clearQuery
+			->update('share')->set('share_with', $clearQuery->createNamedParameter(null))
+			->where($clearQuery->expr()->eq('share_type', $clearQuery->createNamedParameter(\OCP\Share::SHARE_TYPE_LINK)));
+
+		$clearQuery->execute();
+
+	}
+
 	/**
 	 * find the owner of a re-shared file/folder
 	 *
