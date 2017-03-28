@@ -124,7 +124,6 @@
     "Password protect" : "Chránit heslem",
     "Allow upload and editing" : "Povolit nahrávání a úpravy",
     "Allow editing" : "Povolit úpravy",
-    "File drop (upload only)" : "Přetažení souboru (pouze nahrání)",
     "Email link to person" : "Odeslat osobě odkaz emailem",
     "Send" : "Odeslat",
     "Shared with you and the group {group} by {owner}" : "S Vámi a skupinou {group} sdílí {owner}",
@@ -191,6 +190,7 @@
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Aktualizace nebyla úspěšná. Pro více informací si <a href=\"{url}\">přečtěte komentáře ve fóru</a> pojednávající o tomto problému.",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Aktualizace byla neúspěšná. Nahlaste prosím problém <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">komunitě Nextcloudu</a>",
     "Continue to Nextcloud" : "Pokračovat do Nextcloud",
+    "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["Aktualizace byla úspěšná. Přesměrování do Nextcloud za %n sekundu.","Aktualizace byla úspěšná. Přesměrování do Nextcloud za %n sekundy.","Aktualizace byla úspěšná. Přesměrování do Nextcloud za %n sekund."],
     "Searching other places" : "Prohledávání ostatních umístění",
     "No search results in other folders for {tag}{filter}{endtag}" : "Žádné výsledky v dalších složkách pro {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} nález v dalším adresáři","{count} nálezy v dalších adresářích","{count} nálezů v dalších adresářích"],
@@ -294,6 +294,7 @@
     "This page will refresh itself when the %s instance is available again." : "Tato stránka se automaticky načte poté, co bude opět dostupná instance %s.",
     "Problem loading page, reloading in 5 seconds" : "Problém s načítáním stránky, stránka se obnoví za 5 sekund",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Vaše soubory jsou šifrovány. Pokud jste nepovolili klíč pro obnovení, neexistuje způsob jak získat po změně hesla vaše data zpět.<br />Pokud si nejste jisti co dělat, kontaktujte nejprve svého správce systému, než budete pokračovat. <br />Opravdu si přejete pokračovat?",
+    "File drop (upload only)" : "Přetažení souboru (pouze nahrání)",
     "The update was successful. Redirecting you to Nextcloud now." : "Aktualizace byla úspěšná. Probíhá přesměrování na Nexcloud."
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

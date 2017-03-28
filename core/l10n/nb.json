@@ -118,7 +118,6 @@
     "Password protect" : "Passordbeskyttet",
     "Allow upload and editing" : "Tillatt opplasting og redigering",
     "Allow editing" : "Tillat redigering",
-    "File drop (upload only)" : "Filkasse (kun opplasting)",
     "Email link to person" : "Email lenke til person",
     "Send" : "Send",
     "Shared with you and the group {group} by {owner}" : "Delt med deg og gruppen {group} av {owner}",
@@ -289,6 +288,7 @@
     "This page will refresh itself when the %s instance is available again." : "Denne siden vil bli lastet på nytt når %s-instansen er tilgjengelig igjen.",
     "Problem loading page, reloading in 5 seconds" : "Det oppstod et problem ved lasting av side, laster på nytt om 5 sekunder",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Filene dine er kryptert. Hvis du ikke har aktivert gjenopprettingsnøkkelen, vil det være helt umulig å få tilbake dataene dine etter at pasordet ditt er tilbakestilt.<br />Hvis du er usikker på hva du skal gjøre, kontakt administratoren din før du fortsetter. <br />Vil du virkelig fortsette?",
+    "File drop (upload only)" : "Filkasse (kun opplasting)",
     "The update was successful. Redirecting you to Nextcloud now." : "Oppdateringen var vellykket. Videresender deg til Nextcloud nå."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

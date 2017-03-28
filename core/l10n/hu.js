@@ -121,7 +121,6 @@ OC.L10N.register(
     "Password protect" : "Jelszóval védett",
     "Allow upload and editing" : "Feltöltés és szerkesztés engedélyezése",
     "Allow editing" : "Szerkesztés engedélyezése",
-    "File drop (upload only)" : "Fájl ejtés (csak feltöltés)",
     "Email link to person" : "Hivatkozás elküldése e-mail címre",
     "Send" : "Küldés",
     "Shared with you and the group {group} by {owner}" : "{owner} megosztotta veled és ezzel a csoporttal: {group}",
@@ -285,6 +284,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Ez az oldal frissíteni fogja magát amint a(z) %s példány ismét elérhető.",
     "Problem loading page, reloading in 5 seconds" : "Probléma adódott az oldal betöltése közben, újratöltés 5 másodpercen belül",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Az Ön fájljai titkosítva vannak. Ha nem engedélyezte korábban az adatok visszanyeréséhez szükséges kulcs használatát, akkor a jelszó megváltoztatását követően nem fog hozzáférni az adataihoz. Ha nem biztos abban, hogy mit kellene tennie, akkor kérdezze meg a rendszergazdát, mielőtt továbbmenne.<br />Biztos, hogy folytatni kívánja?",
+    "File drop (upload only)" : "Fájl ejtés (csak feltöltés)",
     "The update was successful. Redirecting you to Nextcloud now." : "A frissítés sikeres volt. Most átirányítunk a Nextcloudhoz."
 },
 "nplurals=2; plural=(n != 1);");

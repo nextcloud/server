@@ -124,7 +124,6 @@
     "Password protect" : "Verja með lykilorði",
     "Allow upload and editing" : "Leyfa innsendingu og breytingar",
     "Allow editing" : "Leyfa breytingar",
-    "File drop (upload only)" : "Slepping skráa (einungis innsending)",
     "Email link to person" : "Senda veftengil í tölvupósti til notanda",
     "Send" : "Senda",
     "Shared with you and the group {group} by {owner}" : "Deilt með þér og hópnum {group} af {owner}",
@@ -295,6 +294,7 @@
     "This page will refresh itself when the %s instance is available again." : "Þessi síða mun uppfæra sig þegar %s er í boði á ný.",
     "Problem loading page, reloading in 5 seconds" : "Vandamál við að hlaða inn síðu, endurhleð eftir 5 sekúndur",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Skrárnar þínar eru dulritaðar. Ef þú hefur ekki virkjað endurheimtingarlykilinn, þá verður engin leið til að fá gögnin þín til baka eftir lykilorðið þitt er endurstillt.<br />Ef þú ert ekki viss hvað eigi að gera, skaltu hafa samband við kerfisstjórann áður en þú heldur áfram. <br />Viltu halda áfram?",
+    "File drop (upload only)" : "Slepping skráa (einungis innsending)",
     "The update was successful. Redirecting you to Nextcloud now." : "Uppfærslan heppnaðist. Beini þér til Nextcloud nú."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

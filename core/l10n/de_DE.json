@@ -124,7 +124,6 @@
     "Password protect" : "Passwortschutz",
     "Allow upload and editing" : "Hochladen und Bearbeiten erlauben",
     "Allow editing" : "Bearbeitung erlauben",
-    "File drop (upload only)" : "Dateien ablegen (nur Hochladen)",
     "Email link to person" : "Link per E-Mail verschicken",
     "Send" : "Senden",
     "Shared with you and the group {group} by {owner}" : "Von {owner} mit Ihnen und der Gruppe {group} geteilt.",
@@ -295,6 +294,7 @@
     "This page will refresh itself when the %s instance is available again." : "Diese Seite aktualisiert sich automatisch, wenn die %s-Instanz wieder verfügbar ist.",
     "Problem loading page, reloading in 5 seconds" : "Problem beim Laden der Seite, Seite wird in 5 Sekunden nochmals geladen",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Ihre Dateien sind verschlüsselt. Wenn Sie den Wiederherstellungsschlüssel nicht aktiviert haben, wird es keine Möglichkeit geben, um Ihre Daten wieder zu erhalten, nachdem Ihr Passwort zurückgesetzt wurde.<br />Wenn Sie sich nicht sicher sind, was Sie tun sollen, wenden Sie sich bitte an Ihren Administrator, bevor Sie fortfahren.<br />Wollen Sie wirklich fortfahren?",
+    "File drop (upload only)" : "Dateien ablegen (nur Hochladen)",
     "The update was successful. Redirecting you to Nextcloud now." : "Das Update war erfolgreich. Sie werden nun zu Nextcloud weitergeleitet."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

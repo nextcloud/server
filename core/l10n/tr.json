@@ -124,7 +124,6 @@
     "Password protect" : "Parola koruması",
     "Allow upload and editing" : "Yükleme ve düzenleme yapılabilsin",
     "Allow editing" : "Düzenleme yapılabilsin",
-    "File drop (upload only)" : "Dosya bırakma (yalnız yükleme)",
     "Email link to person" : "Bağlantıyı e-posta ile gönder",
     "Send" : "Gönder",
     "Shared with you and the group {group} by {owner}" : "{owner} tarafından sizinle ve {group} ile paylaşılmış",
@@ -295,6 +294,7 @@
     "This page will refresh itself when the %s instance is available again." : "Bu sayfa, %s kopyası yeniden kullanılabilir olduğunda kendini yenileyecek.",
     "Problem loading page, reloading in 5 seconds" : "Sayfa yüklenirken bir sorun çıktı, Sayfa 5 saniye içinde yeniden yüklenecek",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Dosyalarınız şifrelenmiş. Kurtarma anahtarını etkinleştirmediyseniz, parola sıfırlama işleminden sonra verilerinize erişemeyeceksiniz.<br />Ne yapacağınızdan emin değilseniz, ilerlemeden önce sistem yöneticiniz ile görüşün.<br />Gerçekten devam etmek istiyor musunuz?",
+    "File drop (upload only)" : "Dosya bırakma (yalnız yükleme)",
     "The update was successful. Redirecting you to Nextcloud now." : "Uygulama güncellendi. Nextcloud kullanmaya yönlendiriliyorsunuz."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

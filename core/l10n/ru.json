@@ -124,7 +124,6 @@
     "Password protect" : "Защитить паролем",
     "Allow upload and editing" : "Разрешить загрузку и редактирование",
     "Allow editing" : "Разрешить редактирование",
-    "File drop (upload only)" : "Хранилище (только для приема файлов)",
     "Email link to person" : "Отправить ссылку по электронной почте",
     "Send" : "Отправить",
     "Shared with you and the group {group} by {owner}" : "{owner} поделился с вами и группой {group} ",
@@ -295,6 +294,7 @@
     "This page will refresh itself when the %s instance is available again." : "Эта страница автоматически обновится, когда сервер %s снова станет доступен.",
     "Problem loading page, reloading in 5 seconds" : "Возникла проблема при загрузке страницы, повторная попытка через 5 секунд",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Ваши файлы зашифрованы. Если вы не включили ключ восстановления, то ваши данные будут недоступны после сброса пароля.<br />Если вы не уверены что делать дальше - обратитесь к вашему администратору.<br />Вы действительно хотите продолжить?",
+    "File drop (upload only)" : "Хранилище (только для приема файлов)",
     "The update was successful. Redirecting you to Nextcloud now." : "Обновление прошло успешно. Перенаправляем вас на Nextcloud прямо сейчас."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

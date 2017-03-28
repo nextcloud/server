@@ -126,7 +126,6 @@ OC.L10N.register(
     "Password protect" : "Wachtwoord beveiligd",
     "Allow upload and editing" : "Toestaan uploaden en bewerken",
     "Allow editing" : "Bewerken toestaan",
-    "File drop (upload only)" : "File drop (alleen uploaden)",
     "Email link to person" : "E-mail link naar persoon",
     "Send" : "Versturen",
     "Shared with you and the group {group} by {owner}" : "Gedeeld met jou en de groep {group} door {owner}",
@@ -297,6 +296,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Deze pagina wordt ververst als de %s-installatie weer beschikbaar is.",
     "Problem loading page, reloading in 5 seconds" : "Kan de pagina niet laden, verversen in 5 seconden",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Je bestanden zijn versleuteld. Als je de herstelsleutel niet hebt geactiveerd, is het niet mogelijk om je gegevens terug te krijgen nadat je wachtwoord is hersteld. <br>Als je niet weet wat je moet doen, neem dan eerst contact op met je beheerder. <br>Wil je echt verder gaan?",
+    "File drop (upload only)" : "File drop (alleen uploaden)",
     "The update was successful. Redirecting you to Nextcloud now." : "De update is geslaagd. Je wordt nu doorgeleid naar Nextcloud."
 },
 "nplurals=2; plural=(n != 1);");

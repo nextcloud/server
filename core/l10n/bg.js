@@ -122,7 +122,6 @@ OC.L10N.register(
     "Password protect" : "Защитено с парола",
     "Allow upload and editing" : "Позволи обновяване и редактиране",
     "Allow editing" : "Позволяване на редактиране",
-    "File drop (upload only)" : "Пускане на файл (качване само)",
     "Email link to person" : "Имейл връзка към човек",
     "Send" : "Изпращане",
     "Shared with you and the group {group} by {owner}" : "Споделено от {owner} с вас и групата {group}",
@@ -285,6 +284,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Страницата ще се зареди автоматично, когато %s е отново на линия.",
     "Problem loading page, reloading in 5 seconds" : "Проблем при зареждане на страницата, презареждане след 5 секунди",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Файловете Ви са криптирани. Ако не сте настроили ключ за възстановяване, няма да можете да възстановите данните си след смяна на паролата.<br />Ако не сте сигурни какво да направите, моля, свържете се с Вашия администратор преди да продължите. <br/>Наистина ли желаете да продължите?",
+    "File drop (upload only)" : "Пускане на файл (качване само)",
     "The update was successful. Redirecting you to Nextcloud now." : "Обновяването беше успешно. Сега те пренасочваме към Nextcloud."
 },
 "nplurals=2; plural=(n != 1);");

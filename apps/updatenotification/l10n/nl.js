@@ -5,6 +5,8 @@ OC.L10N.register(
     "Could not start updater, please try the manual update" : "Kon de updater niet starten, probeer alsjeblieft de handmatige update",
     "{version} is available. Get more information on how to update." : "{version} is beschikbaar. Meer informatie over het bijwerken.",
     "Channel updated" : "Kanaal bijgewerkt",
+    "The update server could not be reached since %d days to check for new updates." : "De updateserver kon sinds %d dagen niet meer worden bereikt om op updates te controleren.",
+    "Please check the nextcloud and server log files for errors." : "Contrleer de nextcloud en server logbestanden op fouten.",
     "Update to %1$s is available." : "Update naar %1$s is beschikbaar.",
     "Update for %1$s to version %2$s is available." : "Update voor %1$s naar versie %2$s is beschikbaar.",
     "Update for {app} to version %s is available." : "Update voor {app} naar versie %s is beschikbaar.",

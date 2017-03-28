@@ -124,7 +124,6 @@
     "Password protect" : "Protección con contraseña",
     "Allow upload and editing" : "Permitir subito y edición",
     "Allow editing" : "Permitir edición",
-    "File drop (upload only)" : "Entrega de archivos (solo subida)",
     "Email link to person" : "Enviar enlace por correo electrónico a una persona",
     "Send" : "Enviar",
     "Shared with you and the group {group} by {owner}" : "Compartido contigo y el grupo {group} por {owner}",
@@ -295,6 +294,7 @@
     "This page will refresh itself when the %s instance is available again." : "La página se refrescará cuando la instalación %s vuelva a estar disponible.",
     "Problem loading page, reloading in 5 seconds" : "Problema al cargar la página, recargando en 5 segundos",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Sus archivos están cifrados. Si no ha activado la clave de recuperación, no habrá manera de recuperar los datos una vez su contraseña sea restablecida.<br /> Si no está seguro de lo que debe hacer, por favor contacte con su administrador antes de continuar.<br />¿Realmente desea continuar?",
+    "File drop (upload only)" : "Entrega de archivos (solo subida)",
     "The update was successful. Redirecting you to Nextcloud now." : "Actualización completada con éxito. Redirigiendo a Nextcloud."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
