@@ -201,25 +201,25 @@ class EventMerger implements IEventMerger {
 			case 2:
 				$replacement = $this->l10n->t(
 					'%1$s and %2$s',
-					['{' . $parameter . '1}', '{' . $parameter . '2}']
+					['{' . $parameter . '2}', '{' . $parameter . '1}']
 				);
 				break;
 			case 3:
 				$replacement = $this->l10n->t(
 					'%1$s, %2$s and %3$s',
-					['{' . $parameter . '1}', '{' . $parameter . '2}', '{' . $parameter . '3}']
+					['{' . $parameter . '3}', '{' . $parameter . '2}', '{' . $parameter . '1}']
 				);
 				break;
 			case 4:
 				$replacement = $this->l10n->t(
 					'%1$s, %2$s, %3$s and %4$s',
-					['{' . $parameter . '1}', '{' . $parameter . '2}', '{' . $parameter . '3}', '{' . $parameter . '4}']
+					['{' . $parameter . '4}', '{' . $parameter . '3}', '{' . $parameter . '2}', '{' . $parameter . '1}']
 				);
 				break;
 			case 5:
 				$replacement = $this->l10n->t(
 					'%1$s, %2$s, %3$s, %4$s and %5$s',
-					['{' . $parameter . '1}', '{' . $parameter . '2}', '{' . $parameter . '3}', '{' . $parameter . '4}', '{' . $parameter . '5}']
+					['{' . $parameter . '5}', '{' . $parameter . '4}', '{' . $parameter . '3}', '{' . $parameter . '2}', '{' . $parameter . '1}']
 				);
 				break;
 			default:
