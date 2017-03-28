@@ -26,6 +26,12 @@ namespace OC\Files\ObjectStore;
 
 use Guzzle\Http\Exception\ClientErrorResponseException;
 use OCP\Files\ObjectStore\IObjectStore;
+use OCP\Files\StorageAuthException;
+use OCP\Files\StorageNotAvailableException;
+use OpenCloud\Common\Exceptions\EndpointError;
+use OpenCloud\Common\Service\Catalog;
+use OpenCloud\Common\Service\CatalogItem;
+use OpenCloud\ObjectStore\Service;
 use OpenCloud\OpenStack;
 use OpenCloud\Rackspace;
 
@@ -76,17 +82,47 @@ class Swift implements IObjectStore {
 			return;
 		}
 
-		// the OpenCloud client library will default to 'cloudFiles' if $serviceName is null
-		$serviceName = null;
-		if (isset($this->params['serviceName'])) {
-			$serviceName = $this->params['serviceName'];
+		try {
+			$this->client->authenticate();
+		} catch (ClientErrorResponseException $e) {
+			$statusCode = $e->getResponse()->getStatusCode();
+			if ($statusCode == 412) {
+				throw new StorageAuthException('Precondition failed, verify the keystone url', $e);
+			} else if ($statusCode === 401) {
+				throw new StorageAuthException('Authentication failed, verify the username, password and possibly tenant', $e);
+			} else {
+				throw new StorageAuthException('Unknown error', $e);
+			}
 		}
 
-		// the OpenCloud client library will default to 'publicURL' if $urlType is null
-		$urlType = null;
+		/** @var Catalog $catalog */
+		$catalog = $this->client->getCatalog();
+
+		if (isset($this->params['serviceName'])) {
+			$serviceName = $this->params['serviceName'];
+		} else {
+			$serviceName = Service::DEFAULT_NAME;
+		}
+
 		if (isset($this->params['urlType'])) {
 			$urlType = $this->params['urlType'];
+			if ($urlType !== 'internalURL' && $urlType !== 'publicURL') {
+				throw new StorageNotAvailableException('Invalid url type');
+			}
+		} else {
+			$urlType = Service::DEFAULT_URL_TYPE;
 		}
+
+		$catalogItem = $this->getCatalogForService($catalog, $serviceName);
+		if (!$catalogItem) {
+			$available = implode(', ', $this->getAvailableServiceNames($catalog));
+			throw new StorageNotAvailableException(
+				"Service $serviceName not found in service catalog, available services: $available"
+			);
+		} else if (isset($this->params['region'])) {
+			$this->validateRegion($catalogItem, $this->params['region']);
+		}
+
 		$this->objectStoreService = $this->client->objectStoreService($serviceName, $this->params['region'], $urlType);
 
 		try {
@@ -99,6 +135,45 @@ class Swift implements IObjectStore {
 				throw $ex;
 			}
 		}
+	}
+
+	/**
+	 * @param Catalog $catalog
+	 * @param $name
+	 * @return null|CatalogItem
+	 */
+	private function getCatalogForService(Catalog $catalog, $name) {
+		foreach ($catalog->getItems() as $item) {
+			/** @var CatalogItem $item */
+			if ($item->hasType(Service::DEFAULT_TYPE) && $item->hasName($name)) {
+				return $item;
+			}
+		}
+
+		return null;
+	}
+
+	private function validateRegion(CatalogItem $item, $region) {
+		$endPoints = $item->getEndpoints();
+		foreach ($endPoints as $endPoint) {
+			if ($endPoint->region === $region) {
+				return;
+			}
+		}
+
+		$availableRegions = implode(', ', array_map(function ($endpoint) {
+			return $endpoint->region;
+		}, $endPoints));
+
+		throw new StorageNotAvailableException("Invalid region '$region', available regions: $availableRegions");
+	}
+
+	private function getAvailableServiceNames(Catalog $catalog) {
+		return array_map(function (CatalogItem $item) {
+			return $item->getName();
+		}, array_filter($catalog->getItems(), function (CatalogItem $item) {
+			return $item->hasType(Service::DEFAULT_TYPE);
+		}));
 	}
 
 	/**
@@ -135,7 +210,7 @@ class Swift implements IObjectStore {
 
 		$stream = $objectContent->getStream();
 		// save the object content in the context of the stream to prevent it being gc'd until the stream is closed
-		stream_context_set_option($stream, 'swift','content', $objectContent);
+		stream_context_set_option($stream, 'swift', 'content', $objectContent);
 
 		return $stream;
 	}
