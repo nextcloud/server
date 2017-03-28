@@ -197,7 +197,7 @@ class SCSSCacher {
 			$data = $this->rebaseUrls($compiledScss, $webDir);
 			$cachedfile->putContent($data);
 			$depFile->putContent(json_encode($scss->getParsedFiles()));
-			$gzipFile->putContent(gzencode($data), 9);
+			$gzipFile->putContent(gzencode($data, 9));
 			$this->logger->debug($webDir.'/'.$fileNameSCSS.' compiled and successfully cached', ['app' => 'core']);
 			return true;
 		} catch(NotPermittedException $e) {

@@ -73,13 +73,16 @@ class SCSSCacherTest extends \Test\TestCase {
 		$file = $this->createMock(ISimpleFile::class);
 		$file->expects($this->any())->method('getSize')->willReturn(1);
 		$fileDeps = $this->createMock(ISimpleFile::class);
+		$gzfile = $this->createMock(ISimpleFile::class);
 
 		$folder->method('getFile')
-			->will($this->returnCallback(function($path) use ($file) {
+			->will($this->returnCallback(function($path) use ($file, $gzfile) {
 				if ($path === 'styles.css') {
 					return $file;
 				} else if ($path === 'styles.css.deps') {
 					throw new NotFoundException();
+				} else if ($path === 'styles.css.gz') {
+					return $gzfile;
 				} else {
 					$this->fail();
 				}
@@ -99,14 +102,17 @@ class SCSSCacherTest extends \Test\TestCase {
 		$file = $this->createMock(ISimpleFile::class);
 		$file->expects($this->any())->method('getSize')->willReturn(1);
 		$fileDeps = $this->createMock(ISimpleFile::class);
+		$gzfile = $this->createMock(ISimpleFile::class);
 
 		$folder->method('getFile')
-			->will($this->returnCallback(function($path) use ($file) {
+			->will($this->returnCallback(function($path) use ($file, $gzfile) {
 				if ($path === 'styles.css') {
 					return $file;
 				} else if ($path === 'styles.css.deps') {
 					throw new NotFoundException();
-				} else {
+				} else if ($path === 'styles.css.gz') {
+					return $gzfile;
+				}else {
 					$this->fail();
 				}
 			}));
@@ -211,17 +217,26 @@ class SCSSCacherTest extends \Test\TestCase {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
 		$depsFile = $this->createMock(ISimpleFile::class);
+		$gzipFile = $this->createMock(ISimpleFile::class);
 
 		$webDir = "core/css";
 		$path = \OC::$SERVERROOT . '/core/css/';
 
-		$folder->expects($this->at(0))->method('getFile')->with($fileNameCSS)->willThrowException(new NotFoundException());
-		$folder->expects($this->at(1))->method('newFile')->with($fileNameCSS)->willReturn($file);
-		$folder->expects($this->at(2))->method('getFile')->with($fileNameCSS . '.deps')->willThrowException(new NotFoundException());
-		$folder->expects($this->at(3))->method('newFile')->with($fileNameCSS . '.deps')->willReturn($depsFile);
+		$folder->method('getFile')->willThrowException(new NotFoundException());
+		$folder->method('newFile')->will($this->returnCallback(function($fileName) use ($file, $depsFile, $gzipFile) {
+			if ($fileName === 'styles.css') {
+				return $file;
+			} else if ($fileName === 'styles.css.deps') {
+				return $depsFile;
+			} else if ($fileName === 'styles.css.gz') {
+				return $gzipFile;
+			}
+			throw new \Exception();
+		}));
 
 		$file->expects($this->once())->method('putContent');
 		$depsFile->expects($this->once())->method('putContent');
+		$gzipFile->expects($this->once())->method('putContent');
 
 		$actual = self::invokePrivate($this->scssCacher, 'cache', [$path, $fileNameCSS, $fileNameSCSS, $folder, $webDir]);
 		$this->assertTrue($actual);
@@ -233,15 +248,25 @@ class SCSSCacherTest extends \Test\TestCase {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
 		$depsFile = $this->createMock(ISimpleFile::class);
+		$gzipFile = $this->createMock(ISimpleFile::class);
 
 		$webDir = "core/css";
 		$path = \OC::$SERVERROOT;
 
-		$folder->expects($this->at(0))->method('getFile')->with($fileNameCSS)->willReturn($file);
-		$folder->expects($this->at(1))->method('getFile')->with($fileNameCSS . '.deps')->willReturn($depsFile);
+		$folder->method('getFile')->will($this->returnCallback(function($fileName) use ($file, $depsFile, $gzipFile) {
+			if ($fileName === 'styles.css') {
+				return $file;
+			} else if ($fileName === 'styles.css.deps') {
+				return $depsFile;
+			} else if ($fileName === 'styles.css.gz') {
+				return $gzipFile;
+			}
+			throw new \Exception();
+		}));
 
 		$file->expects($this->once())->method('putContent');
 		$depsFile->expects($this->once())->method('putContent');
+		$gzipFile->expects($this->once())->method('putContent');
 
 		$actual = self::invokePrivate($this->scssCacher, 'cache', [$path, $fileNameCSS, $fileNameSCSS, $folder, $webDir]);
 		$this->assertTrue($actual);
@@ -253,12 +278,21 @@ class SCSSCacherTest extends \Test\TestCase {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
 		$depsFile = $this->createMock(ISimpleFile::class);
+		$gzipFile = $this->createMock(ISimpleFile::class);
 
 		$webDir = "tests/data/scss";
 		$path = \OC::$SERVERROOT . $webDir;
 
-		$folder->expects($this->at(0))->method('getFile')->with($fileNameCSS)->willReturn($file);
-		$folder->expects($this->at(1))->method('getFile')->with($fileNameCSS . '.deps')->willReturn($depsFile);
+		$folder->method('getFile')->will($this->returnCallback(function($fileName) use ($file, $depsFile, $gzipFile) {
+			if ($fileName === 'styles-success.css') {
+				return $file;
+			} else if ($fileName === 'styles-success.css.deps') {
+				return $depsFile;
+			} else if ($fileName === 'styles-success.css.gz') {
+				return $gzipFile;
+			}
+			throw new \Exception();
+		}));
 
 		$file->expects($this->at(0))->method('putContent')->with($this->callback(
 			function ($content){
@@ -270,6 +304,11 @@ class SCSSCacherTest extends \Test\TestCase {
 				return array_key_exists(\OC::$SERVERROOT . '/core/css/variables.scss', $deps)
 					&& array_key_exists(\OC::$SERVERROOT . '/tests/data/scss/styles-success.scss', $deps);
 			}));
+		$gzipFile->expects($this->at(0))->method('putContent')->with($this->callback(
+			function ($content) {
+				return gzdecode($content) === 'body{background-color:#0082c9}';
+			}
+		));
 
 		$actual = self::invokePrivate($this->scssCacher, 'cache', [$path, $fileNameCSS, $fileNameSCSS, $folder, $webDir]);
 		$this->assertTrue($actual);
