@@ -350,14 +350,14 @@ class ContentSecurityPolicyTest extends \Test\TestCase {
 	}
 
 	public function testGetAllowedFrameDomain() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self';connect-src 'self';media-src 'self';frame-src www.owncloud.com";
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self';connect-src 'self';media-src 'self';frame-src www.owncloud.com blob:";
 
 		$this->contentSecurityPolicy->addAllowedFrameDomain('www.owncloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
 	public function testGetPolicyFrameDomainValidMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self';connect-src 'self';media-src 'self';frame-src www.owncloud.com www.owncloud.org";
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self';connect-src 'self';media-src 'self';frame-src www.owncloud.com www.owncloud.org blob:";
 
 		$this->contentSecurityPolicy->addAllowedFrameDomain('www.owncloud.com');
 		$this->contentSecurityPolicy->addAllowedFrameDomain('www.owncloud.org');
@@ -373,7 +373,7 @@ class ContentSecurityPolicyTest extends \Test\TestCase {
 	}
 
 	public function testGetPolicyDisallowFrameDomainMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self';connect-src 'self';media-src 'self';frame-src www.owncloud.com";
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self';connect-src 'self';media-src 'self';frame-src www.owncloud.com blob:";
 
 		$this->contentSecurityPolicy->addAllowedFrameDomain('www.owncloud.com');
 		$this->contentSecurityPolicy->disallowFrameDomain('www.owncloud.org');

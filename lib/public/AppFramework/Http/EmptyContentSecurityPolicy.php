@@ -399,7 +399,7 @@ class EmptyContentSecurityPolicy {
 
 		if(!empty($this->allowedFrameDomains)) {
 			$policy .= 'frame-src ' . implode(' ', $this->allowedFrameDomains);
-			$policy .= ';';
+			$policy .= ' blob:;';
 		}
 
 		if(!empty($this->allowedChildSrcDomains)) {

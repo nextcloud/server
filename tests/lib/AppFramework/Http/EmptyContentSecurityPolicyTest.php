@@ -351,14 +351,14 @@ class EmptyContentSecurityPolicyTest extends \Test\TestCase {
 	}
 
 	public function testGetAllowedFrameDomain() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-src www.owncloud.com";
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-src www.owncloud.com blob:";
 
 		$this->contentSecurityPolicy->addAllowedFrameDomain('www.owncloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
 	public function testGetPolicyFrameDomainValidMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-src www.owncloud.com www.owncloud.org";
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-src www.owncloud.com www.owncloud.org blob:";
 
 		$this->contentSecurityPolicy->addAllowedFrameDomain('www.owncloud.com');
 		$this->contentSecurityPolicy->addAllowedFrameDomain('www.owncloud.org');
@@ -374,7 +374,7 @@ class EmptyContentSecurityPolicyTest extends \Test\TestCase {
 	}
 
 	public function testGetPolicyDisallowFrameDomainMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-src www.owncloud.com";
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-src www.owncloud.com blob:";
 
 		$this->contentSecurityPolicy->addAllowedFrameDomain('www.owncloud.com');
 		$this->contentSecurityPolicy->disallowFrameDomain('www.owncloud.org');
