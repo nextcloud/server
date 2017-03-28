@@ -622,7 +622,6 @@ html.ie8 .column-mtime .selectedActions {
 #fileList tr:hover a.action,
 #fileList a.action.permanent,
 #fileList tr:focus a.action,
-#fileList a.action.permanent,
 #fileList tr:hover a.action.no-permission:hover,
 #fileList tr:focus a.action.no-permission:focus,
 /*#fileList .name:focus .action,*/
@@ -648,6 +647,19 @@ html.ie8 .column-mtime .selectedActions {
 	opacity: .7;
 	display:inline;
 }
+
+#fileList .fileActionsMenu a.action.permanent {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)" !important;
+	filter: alpha(opacity=70) !important;
+	opacity: .7 !important;
+}
+#fileList .fileActionsMenu a.action.permanent:hover,
+#fileList .fileActionsMenu a.action.permanent:focus {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)" !important;
+	filter: alpha(opacity=100) !important;
+	opacity: 1 !important;
+}
+
 #fileList tr a.action.disabled {
 	background: none;
 }
@@ -655,8 +667,8 @@ html.ie8 .column-mtime .selectedActions {
 /* show share action of shared items darker to distinguish from non-shared */
 #fileList a.action.action-share.permanent.shared-style,
 /* show hovered permanent entries darker */
-#fileList tr a.action.action.permanent:hover,
-#fileList tr a.action.action.permanent:focus {
+#fileList tr a.action.permanent:hover,
+#fileList tr a.action.permanent:focus {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)" !important;
 	filter: alpha(opacity=70) !important;
 	opacity: .7 !important;
