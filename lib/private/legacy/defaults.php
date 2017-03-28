@@ -276,11 +276,14 @@ class OC_Defaults {
 	 * @return string
 	 */
 	public function getColorPrimary() {
+
 		if ($this->themeExist('getColorPrimary')) {
 			return $this->theme->getColorPrimary();
-		} else {
-			return $this->defaultMailHeaderColor;
 		}
+		if ($this->themeExist('getMailHeaderColor')) {
+			return $this->theme->getMailHeaderColor();
+		}
+		return $this->defaultMailHeaderColor;
 	}
 
 	public function shouldReplaceIcons() {
