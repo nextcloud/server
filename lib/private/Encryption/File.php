@@ -94,7 +94,7 @@ class File implements \OCP\Encryption\IFile {
 			$resultForParents = $this->shareManager->getAccessList($parentNode);
 			$this->cache[$parent] = $resultForParents;
 		}
-		$userIds = \array_merge($userIds, $resultForParents['users']);
+		$userIds = array_merge($userIds, $resultForParents['users']);
 		$public = $resultForParents['public'] || !empty($resultForParents['remote']);
 
 
