@@ -42,6 +42,9 @@ class JsControllerTest extends TestCase {
 	/** @var JsController */
 	private $controller;
 
+	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	private $request;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -51,9 +54,11 @@ class JsControllerTest extends TestCase {
 		$timeFactory->method('getTime')
 			->willReturn(1337);
 
+		$this->request = $this->createMock(IRequest::class);
+
 		$this->controller = new JsController(
 			'core',
-			$this->createMock(IRequest::class),
+			$this->request,
 			$this->appData,
 			$timeFactory
 		);
@@ -94,6 +99,67 @@ class JsControllerTest extends TestCase {
 		$folder->method('getFile')
 			->with('file.js')
 			->willReturn($file);
+
+		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'application/javascript']);
+		$expected->cacheFor(86400);
+		$expires = new \DateTime();
+		$expires->setTimestamp(1337);
+		$expires->add(new \DateInterval('PT24H'));
+		$expected->addHeader('Expires', $expires->format(\DateTime::RFC1123));
+		$expected->addHeader('Pragma', 'cache');
+
+		$result = $this->controller->getJs('file.js', 'myapp');
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testGetGzipFile() {
+		$folder = $this->createMock(ISimpleFolder::class);
+		$gzipFile = $this->createMock(ISimpleFile::class);
+		$this->appData->method('getFolder')
+			->with('myapp')
+			->willReturn($folder);
+
+		$folder->method('getFile')
+			->with('file.js.gz')
+			->willReturn($gzipFile);
+
+		$this->request->method('getHeader')
+			->with('Accept-Encoding')
+			->willReturn('gzip, deflate');
+
+		$expected = new FileDisplayResponse($gzipFile, Http::STATUS_OK, ['Content-Type' => 'application/javascript']);
+		$expected->addHeader('Content-Encoding', 'gzip');
+		$expected->cacheFor(86400);
+		$expires = new \DateTime();
+		$expires->setTimestamp(1337);
+		$expires->add(new \DateInterval('PT24H'));
+		$expected->addHeader('Expires', $expires->format(\DateTime::RFC1123));
+		$expected->addHeader('Pragma', 'cache');
+
+		$result = $this->controller->getJs('file.js', 'myapp');
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testGetGzipFileNotFound() {
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+		$this->appData->method('getFolder')
+			->with('myapp')
+			->willReturn($folder);
+
+		$folder->method('getFile')
+			->will($this->returnCallback(
+				function($fileName) use ($file) {
+					if ($fileName === 'file.js') {
+						return $file;
+					}
+					throw new NotFoundException();
+				})
+			);
+
+		$this->request->method('getHeader')
+			->with('Accept-Encoding')
+			->willReturn('gzip, deflate');
 
 		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'application/javascript']);
 		$expected->cacheFor(86400);
