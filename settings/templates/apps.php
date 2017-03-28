@@ -40,12 +40,12 @@ script(
 			{{name}}
 		{{/if}}
 	</h2>
-	<div class="app-version"> {{version}}</div>
+	<div class="app-version">{{version}}</div>
 	<div class="app-level">
 		{{{level}}}{{#unless internal}}<a href="https://apps.nextcloud.com/apps/{{id}}">View in Store</a>{{/unless}}
 	</div>
 
-	<div>
+	<div class="app-groups">
 		{{#if active}}
 		<div class="groups-enable">
 			<input type="checkbox" class="groups-enable__checkbox checkbox" id="groups_enable-{{id}}"/>
