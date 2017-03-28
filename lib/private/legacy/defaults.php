@@ -46,7 +46,7 @@ class OC_Defaults {
 	private $defaultDocVersion;
 	private $defaultSlogan;
 	private $defaultLogoClaim;
-	private $defaultMailHeaderColor;
+	private $defaultColorPrimary;
 
 	function __construct() {
 		$this->l = \OC::$server->getL10N('lib');
@@ -63,7 +63,7 @@ class OC_Defaults {
 		$this->defaultDocVersion = '11'; // used to generate doc links
 		$this->defaultSlogan = $this->l->t('a safe home for all your data');
 		$this->defaultLogoClaim = '';
-		$this->defaultMailHeaderColor = '#0082c9'; /* header color of mail notifications */
+		$this->defaultColorPrimary = '#0082c9';
 
 		$themePath = OC::$SERVERROOT . '/themes/' . OC_Util::getTheme() . '/defaults.php';
 		if (file_exists($themePath)) {
@@ -272,7 +272,7 @@ class OC_Defaults {
 	}
 
 	/**
-	 * Returns mail header color
+	 * Returns primary color
 	 * @return string
 	 */
 	public function getColorPrimary() {
@@ -283,7 +283,7 @@ class OC_Defaults {
 		if ($this->themeExist('getMailHeaderColor')) {
 			return $this->theme->getMailHeaderColor();
 		}
-		return $this->defaultMailHeaderColor;
+		return $this->defaultColorPrimary;
 	}
 
 	public function shouldReplaceIcons() {
