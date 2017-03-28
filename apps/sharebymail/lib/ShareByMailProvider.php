@@ -81,7 +81,7 @@ class ShareByMailProvider implements IShareProvider {
 	 * @return string Containing only [a-zA-Z0-9]
 	 */
 	public function identifier() {
-		return 'ocShareByMail';
+		return 'ocMailShare';
 	}
 
 	/**
