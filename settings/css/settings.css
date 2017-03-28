@@ -552,18 +552,17 @@ span.version {
 	margin-top: 8px;
 }
 .app-level span {
-	color: #000;
-	background-color: #ccc;
-	border: 1px solid #ccc;
-	border-radius: 30px;
+	color: #555;
+	background-color: transparent;
+	border: 1px solid #555;
+	border-radius: 3px;
 	padding: 3px 6px;
 }
-
 .app-level .official {
+	border-color: #37ce02;
 	background-position: left center;
 	background-position: 5px center;
 	padding-left: 25px;
-	opacity: .5;
 }
 
 .app-score {
