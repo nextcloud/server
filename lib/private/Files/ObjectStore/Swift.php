@@ -31,6 +31,7 @@ use OCP\Files\StorageNotAvailableException;
 use OpenCloud\Common\Exceptions\EndpointError;
 use OpenCloud\Common\Service\Catalog;
 use OpenCloud\Common\Service\CatalogItem;
+use OpenCloud\Identity\Resource\Token;
 use OpenCloud\ObjectStore\Service;
 use OpenCloud\OpenStack;
 use OpenCloud\Rackspace;
@@ -57,6 +58,8 @@ class Swift implements IObjectStore {
 	 */
 	private $container;
 
+	private $memcache;
+
 	public function __construct($params) {
 		if (isset($params['bucket'])) {
 			$params['container'] = $params['bucket'];
@@ -71,9 +74,15 @@ class Swift implements IObjectStore {
 
 		if (isset($params['apiKey'])) {
 			$this->client = new Rackspace($params['url'], $params);
+			$cacheKey = $this->params['username'] . '@' . $this->params['url'] . '/' . $this->params['bucket'];
 		} else {
 			$this->client = new OpenStack($params['url'], $params);
+			$cacheKey = $this->params['username'] . '@' . $this->params['url'] . '/' . $this->params['bucket'];
 		}
+
+		$cacheFactory = \OC::$server->getMemCacheFactory();
+		$this->memcache = $cacheFactory->create('swift::' . $cacheKey);
+
 		$this->params = $params;
 	}
 
@@ -82,18 +91,35 @@ class Swift implements IObjectStore {
 			return;
 		}
 
-		try {
-			$this->client->authenticate();
-		} catch (ClientErrorResponseException $e) {
-			$statusCode = $e->getResponse()->getStatusCode();
-			if ($statusCode == 412) {
-				throw new StorageAuthException('Precondition failed, verify the keystone url', $e);
-			} else if ($statusCode === 401) {
-				throw new StorageAuthException('Authentication failed, verify the username, password and possibly tenant', $e);
-			} else {
-				throw new StorageAuthException('Unknown error', $e);
+		$cachedTokenString = $this->memcache->get('token');
+		if ($cachedTokenString) {
+			$cachedToken = unserialize($cachedTokenString);
+			try {
+				$this->client->importCredentials($cachedToken);
+			} catch (\Exception $e) {
+				$this->client->setTokenObject(new Token());
 			}
 		}
+
+		/** @var Token $token */
+		$token = $this->client->getTokenObject();
+
+		if (!$token || $token->hasExpired()) {
+			try {
+				$this->client->authenticate();
+				$this->memcache->set('token', serialize($this->client->exportCredentials()));
+			} catch (ClientErrorResponseException $e) {
+				$statusCode = $e->getResponse()->getStatusCode();
+				if ($statusCode == 412) {
+					throw new StorageAuthException('Precondition failed, verify the keystone url', $e);
+				} else if ($statusCode === 401) {
+					throw new StorageAuthException('Authentication failed, verify the username, password and possibly tenant', $e);
+				} else {
+					throw new StorageAuthException('Unknown error', $e);
+				}
+			}
+		}
+
 
 		/** @var Catalog $catalog */
 		$catalog = $this->client->getCatalog();
