@@ -755,22 +755,24 @@ form.section {
 
 #apps-list.installed .section > *{
 	display: table-cell;
-	width: auto;
-	height: 3em;
+	height: initial;
 	vertical-align: middle;
 	float: none;
 	border-bottom: 1px solid #eee;
-	padding: .5em 1em;
+	padding: 6px;
 	box-sizing: border-box;
 }
 
 #apps-list.installed .app-image {
-	text-align: center;
+	width: 44px;
+	text-align: right;
 	opacity: .5;
 }
 
 #apps-list.installed .app-image-icon svg {
 	margin-top: 5px;
+	width: 20px;
+	height: 20px;
 }
 
 .installed .actions {

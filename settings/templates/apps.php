@@ -33,16 +33,16 @@ script(
 <script id="app-template-installed" type="text/x-handlebars">
 <div class="section" id="app-{{id}}">
 	<div class="app-image app-image-icon"></div>
-	<h2 class="app-name">
+	<div class="app-name">
 		{{#if detailpage}}
 			<a href="{{detailpage}}" target="_blank" rel="noreferrer">{{name}}</a>
 		{{else}}
 			{{name}}
 		{{/if}}
-	</h2>
+	</div>
 	<div class="app-version">{{version}}</div>
 	<div class="app-level">
-		{{{level}}}{{#unless internal}}<a href="https://apps.nextcloud.com/apps/{{id}}">View in Store</a>{{/unless}}
+		{{{level}}}{{#unless internal}}<a href="https://apps.nextcloud.com/apps/{{id}}"><?php p($l->t('View in store'));?> ↗</a>{{/unless}}
 	</div>
 
 	<div class="app-groups">
