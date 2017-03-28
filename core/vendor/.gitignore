@@ -150,7 +150,7 @@ base64/*min.js
 clipboard/**
 !clipboard/.bower.json
 !clipboard/dist
-!clipboard/dist/clipboard.js
+!clipboard/dist/clipboard.min.js
 
 # autosize
 autosize/**
