@@ -256,4 +256,65 @@ class SharePointClientTest extends TestCase {
 
 		$this->client->createFolder($path);
 	}
+
+	public function  boolXBoolProvider() {
+		return [
+			[ true, true ],
+			[ true, false ],
+			[ false, false ],
+			[ false, true ],
+		];
+	}
+
+	/**
+	 * @dataProvider boolXBoolProvider
+	 */
+	public function testDeleteFolder($successfull, $folderProvided) {
+		$dirName = 'Target Project Dir';
+		$path = '/' . $this->documentLibraryTitle . '/Our Directory/' . $dirName;
+
+		$this->contextsFactory->expects($this->once())
+			->method('getAuthContext')
+			->willReturn($this->createMock(AuthenticationContext::class));
+
+		$folderMock = $this->createMock(Folder::class);
+		$folderMock->expects($this->once())
+			->method('deleteObject');
+
+		$webMock = $this->createMock(Web::class);
+		$clientContextMock = $this->createMock(ClientContext::class);
+
+		$folderParameter = $folderMock;
+		if($folderProvided === false) {
+			$folderParameter = null;
+
+			$webMock->expects($this->once())
+				->method('getFolderByServerRelativeUrl')
+				->with($path)
+				->willReturn($folderMock);
+
+			$clientContextMock->expects($this->once())
+				->method('getWeb')
+				->willReturn($webMock);
+		}
+
+		if($successfull) {
+			$getClientContextCalls = 1;
+			$clientContextMock->expects($this->once())
+				->method('executeQuery');
+		} else {
+			$getClientContextCalls = 2;
+			$this->setExpectedException(\Exception::class);
+			$exceptionAt = $folderProvided ? 0 : 1;
+			$clientContextMock->expects($this->at($exceptionAt))
+				->method('executeQuery')
+				->willThrowException(new \Exception('Whatever'));
+		}
+
+		$this->contextsFactory->expects($this->exactly($getClientContextCalls))
+			->method('getClientContext')
+			->willReturn($clientContextMock);
+
+		$this->client->deleteFolder($path, $folderParameter);
+	}
 }

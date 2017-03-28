@@ -123,9 +123,25 @@ class SharePointClient {
 		$parentUrl =  implode('/', $serverUrlParts);
 
 		$parentFolder = $this->context->getWeb()->getFolderByServerRelativeUrl($parentUrl);
-		$parentFolder->getFolders()->add($newFolderName);
+		$folder = $parentFolder->getFolders()->add($newFolderName);
 
 		try {
+			$this->context->executeQuery();
+			return $folder;
+		} catch (\Exception $e) {
+			$this->createClientContext();
+			throw $e;
+		}
+	}
+
+	public function deleteFolder($relativeServerPath, Folder $folder = null) {
+		$this->ensureConnection();
+
+		try {
+			if($folder === null) {
+				$folder = $this->context->getWeb()->getFolderByServerRelativeUrl($relativeServerPath);
+			}
+			$folder->deleteObject();
 			$this->context->executeQuery();
 		} catch (\Exception $e) {
 			$this->createClientContext();

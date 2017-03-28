@@ -265,19 +265,76 @@ class SharePointTest extends TestCase {
 		$dirName = '/Parentfolder/NewDirectory';
 		$serverPath = '/' . $this->documentLibraryTitle . $dirName;
 
+		$folderMock = $this->createMock(Folder::class);
+
 		$invocationMocker = $this->client->expects($this->once())
 			->method('createFolder')
-			->with($serverPath);
+			->with($serverPath)
+			->willReturn($folderMock);
 
 		if(!$successful) {
-			$invocationMocker->willThrowException(new \Exception('Whatever'));
-		} else {
 			$this->fileCache->expects($this->once())
 				->method('remove')
 				->with($serverPath);
+
+			$invocationMocker->willThrowException(new \Exception('Whatever'));
+		} else {
+			$this->fileCache->expects($this->once())
+				->method('set')
+				->with($serverPath);
+
+			$folderMock->expects($this->once())
+				->method('getFolders');
+			$folderMock->expects($this->once())
+				->method('getFiles');
 		}
 
 		$this->assertSame($successful, $this->storage->mkdir($dirName));
+	}
+
+	public function  boolXBoolProvider() {
+		return [
+			[ true, true ],
+			[ true, false ],
+			[ false, false ],
+			[ false, true ],
+		];
+	}
+
+	/**
+	 * @dataProvider boolXBoolProvider
+	 */
+	public function testRmDir($successful, $useCache) {
+		$dirName = '/Parentfolder/TargetDirectory';
+		$serverPath = '/' . $this->documentLibraryTitle . $dirName;
+
+		$folderMock = null;
+		if($useCache) {
+			$folderMock = $this->createMock(Folder::class);
+
+			$this->fileCache->expects($this->once())
+				->method('get')
+				->with($serverPath)
+				->willReturn(['instance' => $folderMock]);
+		}
+
+		$invocationMocker = $this->client->expects($this->once())
+			->method('deleteFolder')
+			->with($serverPath, $folderMock);
+
+		if(!$successful) {
+			$this->fileCache->expects($this->once())
+				->method('remove')
+				->with($serverPath);
+
+			$invocationMocker->willThrowException(new \Exception('Whatever'));
+		} else {
+			$this->fileCache->expects($this->once())
+				->method('set')
+				->with($serverPath, null);
+		}
+
+		$this->assertSame($successful, $this->storage->rmdir($dirName));
 	}
 
 }

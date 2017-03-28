@@ -103,12 +103,19 @@ class SharePoint extends Common {
 	 * @since 6.0.0
 	 */
 	public function mkdir($path) {
+		$serverUrl = $this->formatPath($path);
 		try {
-			$serverUrl = $this->formatPath($path);
-			$this->spClient->createFolder($serverUrl);
-			$this->fileCache->remove($serverUrl);
+			$folder = $this->spClient->createFolder($serverUrl);
+			$this->fileCache->set($serverUrl, [
+				'instance' => $folder,
+				'children' => [
+					'folders' => $folder->getFolders(),
+					'files' => $folder->getFiles()
+				]
+			]);
 			return true;
 		} catch (\Exception $e) {
+			$this->fileCache->remove($serverUrl);
 			return false;
 		}
 	}
@@ -121,8 +128,20 @@ class SharePoint extends Common {
 	 * @since 6.0.0
 	 */
 	public function rmdir($path) {
-		// TODO: Implement rmdir() method.
-		return true;
+		$serverUrl = $this->formatPath($path);
+		try {
+			$cacheEntry = $this->fileCache->get($serverUrl);
+			$folder = null;
+			if(is_array($cacheEntry) && isset($cacheEntry['instance'])) {
+				$folder = $cacheEntry['instance'];
+			}
+			$this->spClient->deleteFolder($serverUrl, $folder);
+			$this->fileCache->set($serverUrl, false);
+			return true;
+		} catch (\Exception $e) {
+			$this->fileCache->remove($serverUrl);
+			return false;
+		}
 	}
 
 	/**
@@ -361,11 +380,19 @@ class SharePoint extends Common {
 	/**
 	 * @param $serverUrl
 	 * @return File|Folder
+	 * @throws NotFoundException
 	 */
 	private function getFileOrFolder($serverUrl) {
 		$entry = $this->fileCache->get($serverUrl);
-		if($entry === null || !isset($entry['instance'])) {
-			$file = $this->spClient->fetchFileOrFolder($serverUrl, [self::SP_PROPERTY_SIZE, self::SP_PROPERTY_MTIME]);
+		if($entry === false) {
+			throw new NotFoundException('File or Folder not found');
+		} else if($entry === null || !isset($entry['instance'])) {
+			try {
+				$file = $this->spClient->fetchFileOrFolder($serverUrl, [self::SP_PROPERTY_SIZE, self::SP_PROPERTY_MTIME]);
+			} catch (NotFoundException $e) {
+				$this->fileCache->set($serverUrl, false);
+				throw $e;
+			}
 			$cacheItem = $entry ?: [];
 			$cacheItem['instance'] = $file;
 			$this->fileCache->set($serverUrl, $cacheItem);
