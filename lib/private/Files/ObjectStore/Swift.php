@@ -91,15 +91,7 @@ class Swift implements IObjectStore {
 			return;
 		}
 
-		$cachedTokenString = $this->memcache->get('token');
-		if ($cachedTokenString) {
-			$cachedToken = unserialize($cachedTokenString);
-			try {
-				$this->client->importCredentials($cachedToken);
-			} catch (\Exception $e) {
-				$this->client->setTokenObject(new Token());
-			}
-		}
+		$this->importToken();
 
 		/** @var Token $token */
 		$token = $this->client->getTokenObject();
@@ -107,7 +99,7 @@ class Swift implements IObjectStore {
 		if (!$token || $token->hasExpired()) {
 			try {
 				$this->client->authenticate();
-				$this->memcache->set('token', serialize($this->client->exportCredentials()));
+				$this->exportToken();
 			} catch (ClientErrorResponseException $e) {
 				$statusCode = $e->getResponse()->getStatusCode();
 				if ($statusCode == 412) {
@@ -159,6 +151,40 @@ class Swift implements IObjectStore {
 				$this->container = $this->objectStoreService->createContainer($this->params['container']);
 			} else {
 				throw $ex;
+			}
+		}
+	}
+
+	private function exportToken() {
+		$export = $this->client->exportCredentials();
+		$export['catalog'] = array_map(function (CatalogItem $item) {
+			return [
+				'name' => $item->getName(),
+				'endpoints' => $item->getEndpoints(),
+				'type' => $item->getType()
+			];
+		}, $export['catalog']->getItems());
+		$this->memcache->set('token', json_encode($export));
+	}
+
+	private function importToken() {
+		$cachedTokenString = $this->memcache->get('token');
+		if ($cachedTokenString) {
+			$cachedToken = json_decode($cachedTokenString, true);
+			$cachedToken['catalog'] = array_map(function (array $item) {
+				$itemClass = new \stdClass();
+				$itemClass->name = $item['name'];
+				$itemClass->endpoints = array_map(function (array $endpoint) {
+					return (object) $endpoint;
+				}, $item['endpoints']);
+				$itemClass->type = $item['type'];
+
+				return $itemClass;
+			}, $cachedToken['catalog']);
+			try {
+				$this->client->importCredentials($cachedToken);
+			} catch (\Exception $e) {
+				$this->client->setTokenObject(new Token());
 			}
 		}
 	}
