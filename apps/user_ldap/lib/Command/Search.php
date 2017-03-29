@@ -114,6 +114,11 @@ class Search extends Command {
 			$proxy = new Group_Proxy($configPrefixes, $ldapWrapper);
 			$getMethod = 'getGroups';
 			$printID = false;
+			// convert the limit of groups to null. This will show all the groups available instead of
+			// nothing, and will match the same behaviour the search for users has.
+			if ($limit === 0) {
+				$limit = null;
+			}
 		} else {
 			$proxy = new User_Proxy($configPrefixes, $ldapWrapper, $this->ocConfig);
 			$getMethod = 'getDisplayNames';
