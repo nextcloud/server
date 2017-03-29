@@ -30,7 +30,11 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 
 use OC\Files\FileInfo;
+use OC\Files\Filesystem;
 use OC\Files\Storage\Temporary;
+use OC\Files\View;
+use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\ObjectTree;
 
 class TestDoubleFileView extends \OC\Files\View {
 
@@ -125,13 +129,13 @@ class ObjectTreeTest extends \Test\TestCase {
 		$this->moveTest($source, $destination, $updatables, $updatables, $deletables);
 	}
 
-	function moveFailedInvalidCharsProvider() {
+	public function moveFailedInvalidCharsProvider() {
 		return array(
 			array('a/b', 'a/*', array('a' => true, 'a/b' => true, 'a/c*' => false), array()),
 		);
 	}
 
-	function moveFailedProvider() {
+	public function moveFailedProvider() {
 		return array(
 			array('a/b', 'a/c', array('a' => false, 'a/b' => false, 'a/c' => false), array()),
 			array('a/b', 'b/b', array('a' => false, 'a/b' => false, 'b' => false, 'b/b' => false), array()),
@@ -142,7 +146,7 @@ class ObjectTreeTest extends \Test\TestCase {
 		);
 	}
 
-	function moveSuccessProvider() {
+	public function moveSuccessProvider() {
 		return array(
 			array('a/b', 'b/b', array('a' => true, 'a/b' => true, 'b' => true, 'b/b' => false), array('a/b' => true)),
 			// older files with special chars can still be renamed to valid names
@@ -178,6 +182,90 @@ class ObjectTreeTest extends \Test\TestCase {
 		$mountManager = \OC\Files\Filesystem::getMountManager();
 		$objectTree->init($rootDir, $view, $mountManager);
 		$objectTree->move($source, $destination);
+	}
+
+	public function copyDataProvider() {
+		return [
+			// copy into same dir
+			['a', 'b', ''],
+			// copy into same dir
+			['a/a', 'a/b', 'a'],
+			// copy into another dir
+			['a', 'sub/a', 'sub'],
+		];
+	}
+
+	/**
+	 * @dataProvider copyDataProvider
+	 */
+	public function testCopy($sourcePath, $targetPath, $targetParent) {
+		$view = $this->createMock(View::class);
+		$view->expects($this->once())
+			->method('verifyPath')
+			->with($targetParent)
+			->will($this->returnValue(true));
+		$view->expects($this->once())
+			->method('isCreatable')
+			->with($targetParent)
+			->will($this->returnValue(true));
+		$view->expects($this->once())
+			->method('copy')
+			->with($sourcePath, $targetPath)
+			->will($this->returnValue(true));
+
+		$info = new FileInfo('', null, null, [], null);
+
+		$rootDir = new Directory($view, $info);
+		$objectTree = $this->getMockBuilder(ObjectTree::class)
+			->setMethods(['nodeExists', 'getNodeForPath'])
+			->setConstructorArgs([$rootDir, $view])
+			->getMock();
+
+		$objectTree->expects($this->once())
+			->method('getNodeForPath')
+			->with($this->identicalTo($sourcePath))
+			->will($this->returnValue(false));
+
+		/** @var $objectTree \OCA\DAV\Connector\Sabre\ObjectTree */
+		$mountManager = Filesystem::getMountManager();
+		$objectTree->init($rootDir, $view, $mountManager);
+		$objectTree->copy($sourcePath, $targetPath);
+	}
+
+	/**
+	 * @dataProvider copyDataProvider
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
+	 */
+	public function testCopyFailNotCreatable($sourcePath, $targetPath, $targetParent) {
+		$view = $this->createMock(View::class);
+		$view->expects($this->once())
+			->method('verifyPath')
+			->with($targetParent)
+			->will($this->returnValue(true));
+		$view->expects($this->once())
+			->method('isCreatable')
+			->with($targetParent)
+			->will($this->returnValue(false));
+		$view->expects($this->never())
+			->method('copy');
+
+		$info = new FileInfo('', null, null, [], null);
+
+		$rootDir = new Directory($view, $info);
+		$objectTree = $this->getMockBuilder(ObjectTree::class)
+			->setMethods(['nodeExists', 'getNodeForPath'])
+			->setConstructorArgs([$rootDir, $view])
+			->getMock();
+
+		$objectTree->expects($this->once())
+			->method('getNodeForPath')
+			->with($this->identicalTo($sourcePath))
+			->will($this->returnValue(false));
+
+		/** @var $objectTree \OCA\DAV\Connector\Sabre\ObjectTree */
+		$mountManager = Filesystem::getMountManager();
+		$objectTree->init($rootDir, $view, $mountManager);
+		$objectTree->copy($sourcePath, $targetPath);
 	}
 
 	/**
