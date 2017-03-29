@@ -163,6 +163,11 @@ class ShareAPIController extends OCSController {
 		$result['file_parent'] = $node->getParent()->getId();
 		$result['file_target'] = $share->getTarget();
 
+		$expiration = $share->getExpirationDate();
+		if ($expiration !== null) {
+			$result['expiration'] = $expiration->format('Y-m-d 00:00:00');
+		}
+
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			$sharedWith = $this->userManager->get($share->getSharedWith());
 			$result['share_with'] = $share->getSharedWith();
@@ -178,11 +183,6 @@ class ShareAPIController extends OCSController {
 
 			$result['token'] = $share->getToken();
 			$result['url'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $share->getToken()]);
-
-			$expiration = $share->getExpirationDate();
-			if ($expiration !== null) {
-				$result['expiration'] = $expiration->format('Y-m-d 00:00:00');
-			}
 
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_REMOTE) {
 			$result['share_with'] = $share->getSharedWith();
@@ -741,32 +741,30 @@ class ShareAPIController extends OCSController {
 			}
 
 		} else {
-			// For other shares only permissions is valid.
-			if ($share->getShareType() !== \OCP\Share::SHARE_TYPE_EMAIL && $permissions === null) {
-				throw new OCSBadRequestException($this->l->t('Wrong or no update parameter given'));
-			} elseif ($permissions !== null) {
+			if ($permissions !== null) {
 				$permissions = (int)$permissions;
 				$share->setPermissions($permissions);
 			}
 
 			if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
-				if ($expireDate === '') {
-					$share->setExpirationDate(null);
-				} else if ($expireDate !== null) {
-					try {
-						$expireDate = $this->parseDate($expireDate);
-					} catch (\Exception $e) {
-						throw new OCSBadRequestException($e->getMessage());
-					}
-					$share->setExpirationDate($expireDate);
-				}
-
 				if ($password === '') {
 					$share->setPassword(null);
 				} else if ($password !== null) {
 					$share->setPassword($password);
 				}
 			}
+
+			if ($expireDate === '') {
+				$share->setExpirationDate(null);
+			} else if ($expireDate !== null) {
+				try {
+					$expireDate = $this->parseDate($expireDate);
+				} catch (\Exception $e) {
+					throw new OCSBadRequestException($e->getMessage());
+				}
+				$share->setExpirationDate($expireDate);
+			}
+
 		}
 
 		if ($permissions !== null && $share->getShareOwner() !== $this->currentUser) {

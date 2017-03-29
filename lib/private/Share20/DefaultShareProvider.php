@@ -202,6 +202,7 @@ class DefaultShareProvider implements IShareProvider {
 				->set('permissions', $qb->createNamedParameter($share->getPermissions()))
 				->set('item_source', $qb->createNamedParameter($share->getNode()->getId()))
 				->set('file_source', $qb->createNamedParameter($share->getNode()->getId()))
+				->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
 				->execute();
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$qb = $this->dbConn->getQueryBuilder();
@@ -212,6 +213,7 @@ class DefaultShareProvider implements IShareProvider {
 				->set('permissions', $qb->createNamedParameter($share->getPermissions()))
 				->set('item_source', $qb->createNamedParameter($share->getNode()->getId()))
 				->set('file_source', $qb->createNamedParameter($share->getNode()->getId()))
+				->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
 				->execute();
 
 			/*
@@ -224,6 +226,7 @@ class DefaultShareProvider implements IShareProvider {
 				->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()))
 				->set('item_source', $qb->createNamedParameter($share->getNode()->getId()))
 				->set('file_source', $qb->createNamedParameter($share->getNode()->getId()))
+				->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
 				->execute();
 
 			/*

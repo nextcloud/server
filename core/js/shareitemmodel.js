@@ -363,6 +363,10 @@
 			return this.get('reshare').share_type;
 		},
 
+		getExpireDate: function(shareIndex) {
+			return this._shareExpireDate(shareIndex);
+		},
+
 		/**
 		 * Returns all share entries that only apply to the current item
 		 * (file/folder)
@@ -447,6 +451,16 @@
 				throw "Unknown Share";
 			}
 			return (share.permissions & permission) === permission;
+		},
+
+
+		_shareExpireDate: function(shareIndex) {
+			var share = this.get('shares')[shareIndex];
+			if(!_.isObject(share)) {
+				throw "Unknown Share";
+			}
+			var date2 = share.expiration;
+			return date2;
 		},
 
 		/**

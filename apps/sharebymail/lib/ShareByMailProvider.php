@@ -24,6 +24,7 @@ namespace OCA\ShareByMail;
 use OC\HintException;
 use OC\Share20\Exception\InvalidShare;
 use OCP\Activity\IManager;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -440,6 +441,7 @@ class ShareByMailProvider implements IShareProvider {
 			->set('uid_owner', $qb->createNamedParameter($share->getShareOwner()))
 			->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()))
 			->set('password', $qb->createNamedParameter($share->getPassword()))
+			->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
 			->execute();
 
 		return $share;
@@ -697,6 +699,13 @@ class ShareByMailProvider implements IShareProvider {
 
 			$owner = $path->getOwner();
 			$share->setShareOwner($owner->getUID());
+		}
+
+		if ($data['expiration'] !== null) {
+			$expiration = \DateTime::createFromFormat('Y-m-d H:i:s', $data['expiration']);
+			if ($expiration !== false) {
+				$share->setExpirationDate($expiration);
+			}
 		}
 
 		$share->setNodeId((int)$data['file_source']);

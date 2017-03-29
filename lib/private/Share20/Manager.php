@@ -938,22 +938,11 @@ class Manager implements IManager {
 		 */
 		if ($shareType === \OCP\Share::SHARE_TYPE_LINK) {
 			$shares2 = [];
-			$today = new \DateTime();
 
 			while(true) {
 				$added = 0;
 				foreach ($shares as $share) {
-					// Check if the share is expired and if so delete it
-					if ($share->getExpirationDate() !== null &&
-						$share->getExpirationDate() <= $today
-					) {
-						try {
-							$this->deleteShare($share);
-						} catch (NotFoundException $e) {
-							//Ignore since this basically means the share is deleted
-						}
-						continue;
-					}
+
 					$added++;
 					$shares2[] = $share;
 
@@ -985,6 +974,22 @@ class Manager implements IManager {
 			$shares = $shares2;
 		}
 
+
+		// remove all shares which are already expired
+		foreach ($shares as $key => $share) {
+			try {
+				$this->checkExpireDate($share);
+			} catch (ShareNotFound $e) {
+				unset($shares[$key]);
+				try {
+					$this->deleteShare($share);
+				} catch (NotFoundException $e) {
+					//Ignore since this basically means the share is deleted
+				}
+			}
+		}
+
+
 		return $shares;
 	}
 
@@ -998,7 +1003,23 @@ class Manager implements IManager {
 			return [];
 		}
 
-		return $provider->getSharedWith($userId, $shareType, $node, $limit, $offset);
+		$shares = $provider->getSharedWith($userId, $shareType, $node, $limit, $offset);
+
+		// remove all shares which are already expired
+		foreach ($shares as $key => $share) {
+			try {
+				$this->checkExpireDate($share);
+			} catch (ShareNotFound $e) {
+				unset($shares[$key]);
+				try {
+					$this->deleteShare($share);
+				} catch (NotFoundException $e) {
+					//Ignore since this basically means the share is deleted
+				}
+			}
+		}
+
+		return $shares;
 	}
 
 	/**
@@ -1019,13 +1040,7 @@ class Manager implements IManager {
 
 		$share = $provider->getShareById($id, $recipient);
 
-		// Validate link shares expiration date
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK &&
-			$share->getExpirationDate() !== null &&
-			$share->getExpirationDate() <= new \DateTime()) {
-			$this->deleteShare($share);
-			throw new ShareNotFound();
-		}
+		$this->checkExpireDate($share);
 
 		return $share;
 	}
@@ -1087,11 +1102,7 @@ class Manager implements IManager {
 			throw new ShareNotFound();
 		}
 
-		if ($share->getExpirationDate() !== null &&
-			$share->getExpirationDate() <= new \DateTime()) {
-			$this->deleteShare($share);
-			throw new ShareNotFound();
-		}
+		$this->checkExpireDate($share);
 
 		/*
 		 * Reduce the permissions for link shares if public upload is not enabled
@@ -1102,6 +1113,15 @@ class Manager implements IManager {
 		}
 
 		return $share;
+	}
+
+	protected function checkExpireDate($share) {
+		if ($share->getExpirationDate() !== null &&
+			$share->getExpirationDate() <= new \DateTime()) {
+			$this->deleteShare($share);
+			throw new ShareNotFound();
+		}
+
 	}
 
 	/**

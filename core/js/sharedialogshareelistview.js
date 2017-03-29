@@ -105,9 +105,9 @@
 					'<span class="shareOption menuitem">' +
 						'<input id="expireDate-{{cid}}-{{shareId}}" type="checkbox" name="expirationDate" class="expireDate checkbox" {{#if hasExpireDate}}checked="checked"{{/if}}" />' +
 						'<label for="expireDate-{{cid}}-{{shareId}}">{{expireDateLabel}}</label>' +
-						'<div class="expirationDateContainer-{{cid}}-{{shareId}} {{#unless isExpirationSet}}hidden{{/unless}}">' +
+						'<div class="expirationDateContainer-{{cid}}-{{shareId}} {{#unless hasExpireDate}}hidden{{/unless}}">' +
 						'    <label for="expirationDatePicker-{{cid}}-{{shareId}}" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>' +
-						'    <input id="expirationDatePicker-{{cid}}-{{shareId}}" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{expirationValue}}" />' +
+						'    <input id="expirationDatePicker-{{cid}}-{{shareId}}" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{expireDate}}" />' +
 						'</div>' +
 					'</span>' +
 				'</li>' +
@@ -166,7 +166,9 @@
 			'click .password' : 'onMailSharePasswordProtectChange',
 			'click .secureDrop' : 'onSecureDropChange',
 			'keyup input.passwordField': 'onMailSharePasswordKeyUp',
-			'focusout input.passwordField': 'onMailSharePasswordEntered'
+			'focusout input.passwordField': 'onMailSharePasswordEntered',
+			'change .datepicker': 'onChangeExpirationDate',
+			'click .datepicker' : 'showDatePicker'
 		},
 
 		initialize: function(options) {
@@ -237,6 +239,8 @@
 				isFileSharedByMail: shareType === OC.Share.SHARE_TYPE_EMAIL && !this.model.isFolder(),
 				isPasswordSet: hasPassword,
 				secureDropMode: !this.model.hasReadPermission(shareIndex),
+				hasExpireDate: this.model.getExpireDate(shareIndex) !== null,
+				expireDate: this.model.getExpireDate(shareIndex),
 				passwordPlaceholder: hasPassword ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
 			});
 		},
@@ -464,17 +468,33 @@
 			var state = element.prop('checked');
 			datePicker.toggleClass('hidden', !state);
 			if (!state) {
-				// discard expiration date
-				this.model.get('linkShare').expiration = '';
-				/*
-				this.model.saveLinkShare({
-					expireDate: ''
-				});
-				*/
+				this.setExpirationDate(shareId, '');
 			} else {
-				var expirationDatePicker = '#expirationDatePicker-' + this.cid + '-' + shareId;
-				this.$(expirationDatePicker).focus();
+				this.showDatePicker(event);
+
 			}
+		},
+
+		showDatePicker: function(event) {
+			var element = $(event.target);
+			var li = element.closest('li[data-share-id]');
+			var shareId = li.data('share-id');
+			var expirationDatePicker = '#expirationDatePicker-' + this.cid + '-' + shareId;
+			$(expirationDatePicker).datepicker({dateFormat : 'dd-mm-yy'});
+			$(expirationDatePicker).focus();
+		},
+
+		onChangeExpirationDate: function(event) {
+			datePicker = $(event.target);
+			expireDate = datePicker.val();
+			var element = $(event.target);
+			var li = element.closest('li[data-share-id]');
+			var shareId = li.data('share-id');
+			this.setExpirationDate(shareId, expireDate);
+		},
+
+		setExpirationDate: function(shareId, expireDate) {
+			this.model.updateShare(shareId, {expireDate: expireDate}, {});
 		},
 
 		onMailSharePasswordProtectChange: function(event) {
