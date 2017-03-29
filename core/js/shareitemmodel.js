@@ -509,6 +509,10 @@
 			return this._shareHasPermission(shareIndex, OC.PERMISSION_DELETE);
 		},
 
+		hasReadPermission: function(shareIndex) {
+			return this._shareHasPermission(shareIndex, OC.PERMISSION_READ);
+		},
+
 		/**
 		 * @returns {boolean}
 		 */

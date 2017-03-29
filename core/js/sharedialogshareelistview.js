@@ -91,9 +91,19 @@
 					'</li>' +
 					'{{/unless}}{{/if}}' +
 				'{{/if}}' +
+				'{{#if isMailShare}}' +
+					'{{#if hasCreatePermission}}' +
+						'<li>' +
+							'<span class="shareOption menuitem">' +
+								'<input id="secureDrop-{{cid}}-{{shareId}}" type="checkbox" name="secureDrop" class="checkbox secureDrop" {{#if secureDropMode}}checked="checked"{{/if}} data-permissions="{{readPermission}}"/>' +
+								'<label for="secureDrop-{{cid}}-{{shareId}}">{{secureDropLabel}}</label>' +
+							'</span>' +
+						'</li>' +
+					'{{/if}}' +
+				'{{/if}}' +
 				'<li>' +
 					'<span class="shareOption menuitem">' +
-						'<input id="expireDate-{{cid}}-{{shareId}}" type="checkbox" name="expirationDate" class="expireDate checkbox" {{#if hasExpireDate}}checked="checked"{{/if}} data-permissions="{{expireDate}}" />' +
+						'<input id="expireDate-{{cid}}-{{shareId}}" type="checkbox" name="expirationDate" class="expireDate checkbox" {{#if hasExpireDate}}checked="checked"{{/if}}" />' +
 						'<label for="expireDate-{{cid}}-{{shareId}}">{{expireDateLabel}}</label>' +
 						'<div class="expirationDateContainer-{{cid}}-{{shareId}} {{#unless isExpirationSet}}hidden{{/unless}}">' +
 						'    <label for="expirationDatePicker-{{cid}}-{{shareId}}" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>' +
@@ -154,6 +164,7 @@
 			'click .permissions': 'onPermissionChange',
 			'click .expireDate' : 'onExpireDateChange',
 			'click .password' : 'onMailSharePasswordProtectChange',
+			'click .secureDrop' : 'onSecureDropChange',
 			'keyup input.passwordField': 'onMailSharePasswordKeyUp',
 			'focusout input.passwordField': 'onMailSharePasswordEntered'
 		},
@@ -225,6 +236,7 @@
 				isCircleShare: shareType === OC.Share.SHARE_TYPE_CIRCLE,
 				isFileSharedByMail: shareType === OC.Share.SHARE_TYPE_EMAIL && !this.model.isFolder(),
 				isPasswordSet: hasPassword,
+				secureDropMode: !this.model.hasReadPermission(shareIndex),
 				passwordPlaceholder: hasPassword ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
 			});
 		},
@@ -237,6 +249,7 @@
 				createPermissionLabel: t('core', 'can create'),
 				updatePermissionLabel: t('core', 'can change'),
 				deletePermissionLabel: t('core', 'can delete'),
+				secureDropLabel: t('core', 'Secure drop (upload only)'),
 				expireDateLabel: t('core', 'set expiration data'),
 				passwordLabel: t('core', 'password protect'),
 				crudsLabel: t('core', 'access control'),
@@ -251,6 +264,7 @@
 				createPermission: OC.PERMISSION_CREATE,
 				updatePermission: OC.PERMISSION_UPDATE,
 				deletePermission: OC.PERMISSION_DELETE,
+				readPermission: OC.PERMISSION_READ,
 				isFolder: this.model.isFolder()
 			};
 		},
@@ -583,6 +597,37 @@
 
 			this._renderPermissionChange = shareId;
 		},
+
+		onSecureDropChange: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			var $element = $(event.target);
+			var $li = $element.closest('li[data-share-id]');
+			var shareId = $li.data('share-id');
+
+			var permissions = OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE | OC.PERMISSION_DELETE;
+
+			if ($element.is(':checked')) {
+				var permissions = OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE | OC.PERMISSION_DELETE;
+			} else {
+				var permissions = OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE | OC.PERMISSION_DELETE | OC.PERMISSION_READ;
+			}
+
+			/** disable checkboxes during save operation to avoid race conditions **/
+			$li.find('input[type=checkbox]').prop('disabled', true);
+			var enableCb = function() {
+				$li.find('input[type=checkbox]').prop('disabled', false);
+			};
+			var errorCb = function(elem, msg) {
+				OC.dialogs.alert(msg, t('core', 'Error while sharing'));
+				enableCb();
+			};
+
+			this.model.updateShare(shareId, {permissions: permissions}, {error: errorCb, success: enableCb});
+
+			this._renderPermissionChange = shareId;
+		}
+
 	});
 
 	OC.Share.ShareDialogShareeListView = ShareDialogShareeListView;
