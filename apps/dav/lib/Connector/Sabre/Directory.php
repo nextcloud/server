@@ -43,6 +43,7 @@ use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\INode;
 use Sabre\DAV\Exception\BadRequest;
 use OC\Files\Mount\MoveableMount;
+use Sabre\DAV\IFile;
 
 class Directory extends \OCA\DAV\Connector\Sabre\Node
 	implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota, \Sabre\DAV\IMoveTarget {
@@ -344,6 +345,11 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 	 */
 	public function moveInto($targetName, $fullSourcePath, INode $sourceNode) {
 		if (!$sourceNode instanceof Node) {
+			// it's a file of another kind, like FutureFile
+			if ($sourceNode instanceof IFile) {
+				// fallback to default copy+delete handling
+				return false;
+			}
 			throw new BadRequest('Incompatible node types');
 		}
 
