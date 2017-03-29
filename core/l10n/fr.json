@@ -124,6 +124,7 @@
     "Password protect" : "Protéger par un mot de passe",
     "Allow upload and editing" : "Autoriser l'envoi et l'édition",
     "Allow editing" : "Permettre la modification",
+    "upload only" : " Envoyer uniquement",
     "Email link to person" : "Envoyer le lien par courriel",
     "Send" : "Envoyer",
     "Shared with you and the group {group} by {owner}" : "Partagé avec vous et le groupe {group} par {owner}",

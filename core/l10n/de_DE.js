@@ -126,6 +126,7 @@ OC.L10N.register(
     "Password protect" : "Passwortschutz",
     "Allow upload and editing" : "Hochladen und Bearbeiten erlauben",
     "Allow editing" : "Bearbeitung erlauben",
+    "upload only" : "Nur Hochladen",
     "Email link to person" : "Link per E-Mail verschicken",
     "Send" : "Senden",
     "Shared with you and the group {group} by {owner}" : "Von {owner} mit Ihnen und der Gruppe {group} geteilt.",

@@ -321,6 +321,7 @@ OC.L10N.register(
     "Subscribe to our twitter channel!" : "Twitter kanalımıza abone olun!",
     "Subscribe to our news feed!" : "Haber akışımıza abone olun!",
     "Subscribe to our newsletter!" : " Bültenimize abone olun!",
+    "Settings" : "Ayarlar",
     "Show storage location" : "Depolama konumu görüntülensin",
     "Show last log in" : "Son oturum açma zamanı görüntülensin",
     "Show user backend" : "Kullanıcı arka ucu görüntülensin",

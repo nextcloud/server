@@ -126,6 +126,7 @@ OC.L10N.register(
     "Password protect" : "Verja með lykilorði",
     "Allow upload and editing" : "Leyfa innsendingu og breytingar",
     "Allow editing" : "Leyfa breytingar",
+    "upload only" : "einungis innsending",
     "Email link to person" : "Senda veftengil í tölvupósti til notanda",
     "Send" : "Senda",
     "Shared with you and the group {group} by {owner}" : "Deilt með þér og hópnum {group} af {owner}",
