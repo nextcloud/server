@@ -48,6 +48,9 @@
 
 (function ($) {
 	$.fn.avatar = function(user, size, ie8fix, hidedefault, callback, displayname) {
+		user = String(user);
+		displayname = String(displayname);
+
 		if (typeof(size) === 'undefined') {
 			if (this.height() > 0) {
 				size = this.height();
