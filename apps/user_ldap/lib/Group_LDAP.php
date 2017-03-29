@@ -496,9 +496,11 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 
 		// if possible, read out membership via memberOf. It's far faster than
 		// performing a search, which still is a fallback later.
+		// memberof doesn't support memberuid, so skip it here.
 		if(intval($this->access->connection->hasMemberOfFilterSupport) === 1
 			&& intval($this->access->connection->useMemberOfToDetectMembership) === 1
-		) {
+		    && strtolower($this->access->connection->ldapGroupMemberAssocAttr) !== 'memberuid'
+		    ) {
 			$groupDNs = $this->_getGroupDNsFromMemberOf($userDN);
 			if (is_array($groupDNs)) {
 				foreach ($groupDNs as $dn) {
