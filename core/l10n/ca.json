@@ -22,6 +22,7 @@
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair warning: " : "Advertiment de reparació:",
     "Repair error: " : "Error de reparació:",
+    "[%d / %d]: Checking table %s" : "[%d / %d]: Revisant la taula %s",
     "Turned on maintenance mode" : "Activat el mode de manteniment",
     "Turned off maintenance mode" : "Desactivat el mode de manteniment",
     "Maintenance mode is kept active" : "El mode de manteniment es manté activat",

@@ -124,6 +124,7 @@
     "Password protect" : "Parola koruması",
     "Allow upload and editing" : "Yükleme ve düzenleme yapılabilsin",
     "Allow editing" : "Düzenleme yapılabilsin",
+    "upload only" : "yalnız yükleme",
     "Email link to person" : "Bağlantıyı e-posta ile gönder",
     "Send" : "Gönder",
     "Shared with you and the group {group} by {owner}" : "{owner} tarafından sizinle ve {group} ile paylaşılmış",

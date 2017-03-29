@@ -321,6 +321,7 @@ OC.L10N.register(
     "Subscribe to our twitter channel!" : "Abonniere unseren Twitter-Kanal!",
     "Subscribe to our news feed!" : "Abonniere unseren RSS-Feed!",
     "Subscribe to our newsletter!" : "Abonniere unseren Newsletter!",
+    "Settings" : "Einstellungen",
     "Show storage location" : "Speicherort anzeigen",
     "Show last log in" : "Letzte Anmeldung anzeigen",
     "Show user backend" : "Benutzer-Backend anzeigen",
