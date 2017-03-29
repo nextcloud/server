@@ -31,6 +31,7 @@ use OCP\Files\StorageNotAvailableException;
 use OpenCloud\Common\Exceptions\EndpointError;
 use OpenCloud\Common\Service\Catalog;
 use OpenCloud\Common\Service\CatalogItem;
+use OpenCloud\Identity\Resource\Token;
 use OpenCloud\ObjectStore\Service;
 use OpenCloud\OpenStack;
 use OpenCloud\Rackspace;
@@ -57,6 +58,8 @@ class Swift implements IObjectStore {
 	 */
 	private $container;
 
+	private $memcache;
+
 	public function __construct($params) {
 		if (isset($params['bucket'])) {
 			$params['container'] = $params['bucket'];
@@ -71,9 +74,15 @@ class Swift implements IObjectStore {
 
 		if (isset($params['apiKey'])) {
 			$this->client = new Rackspace($params['url'], $params);
+			$cacheKey = $this->params['username'] . '@' . $this->params['url'] . '/' . $this->params['bucket'];
 		} else {
 			$this->client = new OpenStack($params['url'], $params);
+			$cacheKey = $this->params['username'] . '@' . $this->params['url'] . '/' . $this->params['bucket'];
 		}
+
+		$cacheFactory = \OC::$server->getMemCacheFactory();
+		$this->memcache = $cacheFactory->create('swift::' . $cacheKey);
+
 		$this->params = $params;
 	}
 
@@ -82,18 +91,27 @@ class Swift implements IObjectStore {
 			return;
 		}
 
-		try {
-			$this->client->authenticate();
-		} catch (ClientErrorResponseException $e) {
-			$statusCode = $e->getResponse()->getStatusCode();
-			if ($statusCode == 412) {
-				throw new StorageAuthException('Precondition failed, verify the keystone url', $e);
-			} else if ($statusCode === 401) {
-				throw new StorageAuthException('Authentication failed, verify the username, password and possibly tenant', $e);
-			} else {
-				throw new StorageAuthException('Unknown error', $e);
+		$this->importToken();
+
+		/** @var Token $token */
+		$token = $this->client->getTokenObject();
+
+		if (!$token || $token->hasExpired()) {
+			try {
+				$this->client->authenticate();
+				$this->exportToken();
+			} catch (ClientErrorResponseException $e) {
+				$statusCode = $e->getResponse()->getStatusCode();
+				if ($statusCode == 412) {
+					throw new StorageAuthException('Precondition failed, verify the keystone url', $e);
+				} else if ($statusCode === 401) {
+					throw new StorageAuthException('Authentication failed, verify the username, password and possibly tenant', $e);
+				} else {
+					throw new StorageAuthException('Unknown error', $e);
+				}
 			}
 		}
+
 
 		/** @var Catalog $catalog */
 		$catalog = $this->client->getCatalog();
@@ -133,6 +151,40 @@ class Swift implements IObjectStore {
 				$this->container = $this->objectStoreService->createContainer($this->params['container']);
 			} else {
 				throw $ex;
+			}
+		}
+	}
+
+	private function exportToken() {
+		$export = $this->client->exportCredentials();
+		$export['catalog'] = array_map(function (CatalogItem $item) {
+			return [
+				'name' => $item->getName(),
+				'endpoints' => $item->getEndpoints(),
+				'type' => $item->getType()
+			];
+		}, $export['catalog']->getItems());
+		$this->memcache->set('token', json_encode($export));
+	}
+
+	private function importToken() {
+		$cachedTokenString = $this->memcache->get('token');
+		if ($cachedTokenString) {
+			$cachedToken = json_decode($cachedTokenString, true);
+			$cachedToken['catalog'] = array_map(function (array $item) {
+				$itemClass = new \stdClass();
+				$itemClass->name = $item['name'];
+				$itemClass->endpoints = array_map(function (array $endpoint) {
+					return (object) $endpoint;
+				}, $item['endpoints']);
+				$itemClass->type = $item['type'];
+
+				return $itemClass;
+			}, $cachedToken['catalog']);
+			try {
+				$this->client->importCredentials($cachedToken);
+			} catch (\Exception $e) {
+				$this->client->setTokenObject(new Token());
 			}
 		}
 	}
