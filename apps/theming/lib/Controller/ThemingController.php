@@ -451,8 +451,8 @@ class ThemingController extends Controller {
 		name: ' . json_encode($this->template->getName()) . ',
 		url: ' . json_encode($this->template->getBaseUrl()) . ',
 		slogan: ' . json_encode($this->template->getSlogan()) . ',
-		color: ' . json_encode($this->template->getMailHeaderColor()) . ',
-		inverted: ' . json_encode($this->util->invertTextColor($this->template->getMailHeaderColor())) . ',
+		color: ' . json_encode($this->template->getColorPrimary()) . ',
+		inverted: ' . json_encode($this->util->invertTextColor($this->template->getColorPrimary())) . ',
 		cacheBuster: ' . json_encode($cacheBusterValue). '
 	};
 })();';

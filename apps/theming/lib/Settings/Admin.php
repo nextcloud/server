@@ -70,7 +70,7 @@ class Admin implements ISettings {
 			'name'            => $this->themingDefaults->getEntity(),
 			'url'             => $this->themingDefaults->getBaseUrl(),
 			'slogan'          => $this->themingDefaults->getSlogan(),
-			'color'           => $this->themingDefaults->getMailHeaderColor(),
+			'color'           => $this->themingDefaults->getColorPrimary(),
 			'logo'            => $this->themingDefaults->getLogo(),
 			'logoMime'        => $this->config->getAppValue('theming', 'logoMime', ''),
 			'background'      => $this->themingDefaults->getBackground(),

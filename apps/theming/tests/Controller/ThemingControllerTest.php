@@ -983,7 +983,7 @@ class ThemingControllerTest extends TestCase {
 			->willReturn("");
 		$this->template
 			->expects($this->at(3))
-			->method('getMailHeaderColor')
+			->method('getColorPrimary')
 			->willReturn("#000");
 
 
@@ -1018,7 +1018,7 @@ class ThemingControllerTest extends TestCase {
 			->willReturn("awesome");
 		$this->template
 			->expects($this->any())
-			->method('getMailHeaderColor')
+			->method('getColorPrimary')
 			->willReturn("#ffffff");
 
 		$expectedResponse = '(function() {
