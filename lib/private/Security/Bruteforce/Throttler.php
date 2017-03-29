@@ -186,6 +186,17 @@ class Throttler {
 	}
 
 	/**
+	 * Remove the throttle for a client
+	 * @param string $ip
+	 */
+
+	public function clearAttempts($ip){
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('bruteforce_attempts');
+		$qb->setValue('ip', $ip);
+	}
+
+	/**
 	 * Get the throttling delay (in milliseconds)
 	 *
 	 * @param string $ip
