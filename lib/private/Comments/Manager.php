@@ -21,9 +21,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Comments;
 
 use Doctrine\DBAL\Exception\DriverException;
+use OC\DB\QueryBuilder\Literal;
+use OC\DB\QueryBuilder\QueryBuilder;
+use OC\DB\QueryBuilder\QueryFunction;
 use OCP\Comments\CommentsEvent;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsEventHandler;
@@ -46,7 +50,7 @@ class Manager implements ICommentsManager {
 	/** @var IConfig */
 	protected $config;
 
-	/** @var IComment[]  */
+	/** @var IComment[] */
 	protected $commentsCache = [];
 
 	/** @var  \Closure[] */
@@ -104,7 +108,7 @@ class Manager implements ICommentsManager {
 	 * @throws \UnexpectedValueException
 	 */
 	protected function prepareCommentForDatabaseWrite(IComment $comment) {
-		if(    !$comment->getActorType()
+		if (!$comment->getActorType()
 			|| !$comment->getActorId()
 			|| !$comment->getObjectType()
 			|| !$comment->getObjectId()
@@ -113,17 +117,17 @@ class Manager implements ICommentsManager {
 			throw new \UnexpectedValueException('Actor, Object and Verb information must be provided for saving');
 		}
 
-		if($comment->getId() === '') {
+		if ($comment->getId() === '') {
 			$comment->setChildrenCount(0);
 			$comment->setLatestChildDateTime(new \DateTime('0000-00-00 00:00:00', new \DateTimeZone('UTC')));
 			$comment->setLatestChildDateTime(null);
 		}
 
-		if(is_null($comment->getCreationDateTime())) {
+		if (is_null($comment->getCreationDateTime())) {
 			$comment->setCreationDateTime(new \DateTime());
 		}
 
-		if($comment->getParentId() !== '0') {
+		if ($comment->getParentId() !== '0') {
 			$comment->setTopmostParentId($this->determineTopmostParentId($comment->getParentId()));
 		} else {
 			$comment->setTopmostParentId('0');
@@ -143,7 +147,7 @@ class Manager implements ICommentsManager {
 	 */
 	protected function determineTopmostParentId($id) {
 		$comment = $this->get($id);
-		if($comment->getParentId() === '0') {
+		if ($comment->getParentId() === '0') {
 			return $comment->getId();
 		} else {
 			return $this->determineTopmostParentId($comment->getId());
@@ -153,16 +157,16 @@ class Manager implements ICommentsManager {
 	/**
 	 * updates child information of a comment
 	 *
-	 * @param string	$id
-	 * @param \DateTime	$cDateTime	the date time of the most recent child
+	 * @param string $id
+	 * @param \DateTime $cDateTime the date time of the most recent child
 	 * @throws NotFoundException
 	 */
 	protected function updateChildrenInformation($id, \DateTime $cDateTime) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$query = $qb->select($qb->createFunction('COUNT(`id`)'))
-				->from('comments')
-				->where($qb->expr()->eq('parent_id', $qb->createParameter('id')))
-				->setParameter('id', $id);
+			->from('comments')
+			->where($qb->expr()->eq('parent_id', $qb->createParameter('id')))
+			->setParameter('id', $id);
 
 		$resultStatement = $query->execute();
 		$data = $resultStatement->fetch(\PDO::FETCH_NUM);
@@ -185,8 +189,8 @@ class Manager implements ICommentsManager {
 	 * @throws \InvalidArgumentException
 	 */
 	protected function checkRoleParameters($role, $type, $id) {
-		if(
-			   !is_string($type) || empty($type)
+		if (
+			!is_string($type) || empty($type)
 			|| !is_string($id) || empty($id)
 		) {
 			throw new \InvalidArgumentException($role . ' parameters must be string and not empty');
@@ -200,7 +204,7 @@ class Manager implements ICommentsManager {
 	 */
 	protected function cache(IComment $comment) {
 		$id = $comment->getId();
-		if(empty($id)) {
+		if (empty($id)) {
 			return;
 		}
 		$this->commentsCache[strval($id)] = $comment;
@@ -228,11 +232,11 @@ class Manager implements ICommentsManager {
 	 * @since 9.0.0
 	 */
 	public function get($id) {
-		if(intval($id) === 0) {
+		if (intval($id) === 0) {
 			throw new \InvalidArgumentException('IDs must be translatable to a number in this implementation.');
 		}
 
-		if(isset($this->commentsCache[$id])) {
+		if (isset($this->commentsCache[$id])) {
 			return $this->commentsCache[$id];
 		}
 
@@ -245,7 +249,7 @@ class Manager implements ICommentsManager {
 
 		$data = $resultStatement->fetch();
 		$resultStatement->closeCursor();
-		if(!$data) {
+		if (!$data) {
 			throw new NotFoundException();
 		}
 
@@ -290,20 +294,20 @@ class Manager implements ICommentsManager {
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$query = $qb->select('*')
-				->from('comments')
-				->where($qb->expr()->eq('topmost_parent_id', $qb->createParameter('id')))
-				->orderBy('creation_timestamp', 'DESC')
-				->setParameter('id', $id);
+			->from('comments')
+			->where($qb->expr()->eq('topmost_parent_id', $qb->createParameter('id')))
+			->orderBy('creation_timestamp', 'DESC')
+			->setParameter('id', $id);
 
-		if($limit > 0) {
+		if ($limit > 0) {
 			$query->setMaxResults($limit);
 		}
-		if($offset > 0) {
+		if ($offset > 0) {
 			$query->setFirstResult($offset);
 		}
 
 		$resultStatement = $query->execute();
-		while($data = $resultStatement->fetch()) {
+		while ($data = $resultStatement->fetch()) {
 			$comment = new Comment($this->normalizeDatabaseData($data));
 			$this->cache($comment);
 			$tree['replies'][] = [
@@ -332,37 +336,37 @@ class Manager implements ICommentsManager {
 	 * @since 9.0.0
 	 */
 	public function getForObject(
-			$objectType,
-			$objectId,
-			$limit = 0,
-			$offset = 0,
-			\DateTime $notOlderThan = null
+		$objectType,
+		$objectId,
+		$limit = 0,
+		$offset = 0,
+		\DateTime $notOlderThan = null
 	) {
 		$comments = [];
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$query = $qb->select('*')
-				->from('comments')
-				->where($qb->expr()->eq('object_type', $qb->createParameter('type')))
-				->andWhere($qb->expr()->eq('object_id', $qb->createParameter('id')))
-				->orderBy('creation_timestamp', 'DESC')
-				->setParameter('type', $objectType)
-				->setParameter('id', $objectId);
+			->from('comments')
+			->where($qb->expr()->eq('object_type', $qb->createParameter('type')))
+			->andWhere($qb->expr()->eq('object_id', $qb->createParameter('id')))
+			->orderBy('creation_timestamp', 'DESC')
+			->setParameter('type', $objectType)
+			->setParameter('id', $objectId);
 
-		if($limit > 0) {
+		if ($limit > 0) {
 			$query->setMaxResults($limit);
 		}
-		if($offset > 0) {
+		if ($offset > 0) {
 			$query->setFirstResult($offset);
 		}
-		if(!is_null($notOlderThan)) {
+		if (!is_null($notOlderThan)) {
 			$query
 				->andWhere($qb->expr()->gt('creation_timestamp', $qb->createParameter('notOlderThan')))
 				->setParameter('notOlderThan', $notOlderThan, 'datetime');
 		}
 
 		$resultStatement = $query->execute();
-		while($data = $resultStatement->fetch()) {
+		while ($data = $resultStatement->fetch()) {
 			$comment = new Comment($this->normalizeDatabaseData($data));
 			$this->cache($comment);
 			$comments[] = $comment;
@@ -383,13 +387,13 @@ class Manager implements ICommentsManager {
 	public function getNumberOfCommentsForObject($objectType, $objectId, \DateTime $notOlderThan = null) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$query = $qb->select($qb->createFunction('COUNT(`id`)'))
-				->from('comments')
-				->where($qb->expr()->eq('object_type', $qb->createParameter('type')))
-				->andWhere($qb->expr()->eq('object_id', $qb->createParameter('id')))
-				->setParameter('type', $objectType)
-				->setParameter('id', $objectId);
+			->from('comments')
+			->where($qb->expr()->eq('object_type', $qb->createParameter('type')))
+			->andWhere($qb->expr()->eq('object_id', $qb->createParameter('id')))
+			->setParameter('type', $objectType)
+			->setParameter('id', $objectId);
 
-		if(!is_null($notOlderThan)) {
+		if (!is_null($notOlderThan)) {
 			$query
 				->andWhere($qb->expr()->gt('creation_timestamp', $qb->createParameter('notOlderThan')))
 				->setParameter('notOlderThan', $notOlderThan, 'datetime');
@@ -399,6 +403,40 @@ class Manager implements ICommentsManager {
 		$data = $resultStatement->fetch(\PDO::FETCH_NUM);
 		$resultStatement->closeCursor();
 		return intval($data[0]);
+	}
+
+	/**
+	 * Get the number of unread comments for all files in a folder
+	 *
+	 * @param int $folderId
+	 * @param IUser $user
+	 * @return array [$fileId => $unreadCount]
+	 */
+	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user) {
+		$qb = $this->dbConn->getQueryBuilder();
+		$query = $qb->select('fileid', $qb->createFunction(
+			'COUNT(' . $qb->getColumnName('c.id') . ')')
+		)->from('comments', 'c')
+			->innerJoin('c', 'filecache', 'f', $qb->expr()->andX(
+				$qb->expr()->eq('c.object_type', $qb->createNamedParameter('files')),
+				$qb->expr()->eq('f.fileid', $qb->createFunction(
+					'cast(' . $qb->getColumnName('c.object_id') . ' as int)'
+				))
+			))
+			->leftJoin('c', 'comments_read_markers', 'm', $qb->expr()->andX(
+				$qb->expr()->eq('m.object_type', $qb->createNamedParameter('files')),
+				$qb->expr()->eq('m.object_id', 'c.object_id'),
+				$qb->expr()->eq('m.user_id', $qb->createNamedParameter($user->getUID()))
+			))
+			->andWhere($qb->expr()->eq('f.parent', $qb->createNamedParameter($folderId)))
+			->andWhere($qb->expr()->orX(
+				$qb->expr()->gt('c.creation_timestamp', 'marker_datetime'),
+				$qb->expr()->isNull('marker_datetime')
+			))
+			->groupBy('f.fileid');
+
+		$resultStatement = $query->execute();
+		return $resultStatement->fetchAll(\PDO::FETCH_KEY_PAIR);
 	}
 
 	/**
@@ -433,7 +471,7 @@ class Manager implements ICommentsManager {
 	 * @since 9.0.0
 	 */
 	public function delete($id) {
-		if(!is_string($id)) {
+		if (!is_string($id)) {
 			throw new \InvalidArgumentException('Parameter must be string');
 		}
 
@@ -481,16 +519,16 @@ class Manager implements ICommentsManager {
 	 * @since 9.0.0
 	 */
 	public function save(IComment $comment) {
-		if($this->prepareCommentForDatabaseWrite($comment)->getId() === '') {
+		if ($this->prepareCommentForDatabaseWrite($comment)->getId() === '') {
 			$result = $this->insert($comment);
 		} else {
 			$result = $this->update($comment);
 		}
 
-		if($result && !!$comment->getParentId()) {
+		if ($result && !!$comment->getParentId()) {
 			$this->updateChildrenInformation(
-					$comment->getParentId(),
-					$comment->getCreationDateTime()
+				$comment->getParentId(),
+				$comment->getCreationDateTime()
 			);
 			$this->cache($comment);
 		}
@@ -509,17 +547,17 @@ class Manager implements ICommentsManager {
 		$affectedRows = $qb
 			->insert('comments')
 			->values([
-				'parent_id'					=> $qb->createNamedParameter($comment->getParentId()),
-				'topmost_parent_id' 		=> $qb->createNamedParameter($comment->getTopmostParentId()),
-				'children_count' 			=> $qb->createNamedParameter($comment->getChildrenCount()),
-				'actor_type' 				=> $qb->createNamedParameter($comment->getActorType()),
-				'actor_id' 					=> $qb->createNamedParameter($comment->getActorId()),
-				'message' 					=> $qb->createNamedParameter($comment->getMessage()),
-				'verb' 						=> $qb->createNamedParameter($comment->getVerb()),
-				'creation_timestamp' 		=> $qb->createNamedParameter($comment->getCreationDateTime(), 'datetime'),
-				'latest_child_timestamp'	=> $qb->createNamedParameter($comment->getLatestChildDateTime(), 'datetime'),
-				'object_type' 				=> $qb->createNamedParameter($comment->getObjectType()),
-				'object_id' 				=> $qb->createNamedParameter($comment->getObjectId()),
+				'parent_id' => $qb->createNamedParameter($comment->getParentId()),
+				'topmost_parent_id' => $qb->createNamedParameter($comment->getTopmostParentId()),
+				'children_count' => $qb->createNamedParameter($comment->getChildrenCount()),
+				'actor_type' => $qb->createNamedParameter($comment->getActorType()),
+				'actor_id' => $qb->createNamedParameter($comment->getActorId()),
+				'message' => $qb->createNamedParameter($comment->getMessage()),
+				'verb' => $qb->createNamedParameter($comment->getVerb()),
+				'creation_timestamp' => $qb->createNamedParameter($comment->getCreationDateTime(), 'datetime'),
+				'latest_child_timestamp' => $qb->createNamedParameter($comment->getLatestChildDateTime(), 'datetime'),
+				'object_type' => $qb->createNamedParameter($comment->getObjectType()),
+				'object_id' => $qb->createNamedParameter($comment->getObjectId()),
 			])
 			->execute();
 
@@ -548,22 +586,22 @@ class Manager implements ICommentsManager {
 		$qb = $this->dbConn->getQueryBuilder();
 		$affectedRows = $qb
 			->update('comments')
-				->set('parent_id',				$qb->createNamedParameter($comment->getParentId()))
-				->set('topmost_parent_id', 		$qb->createNamedParameter($comment->getTopmostParentId()))
-				->set('children_count',			$qb->createNamedParameter($comment->getChildrenCount()))
-				->set('actor_type', 			$qb->createNamedParameter($comment->getActorType()))
-				->set('actor_id', 				$qb->createNamedParameter($comment->getActorId()))
-				->set('message',				$qb->createNamedParameter($comment->getMessage()))
-				->set('verb',					$qb->createNamedParameter($comment->getVerb()))
-				->set('creation_timestamp',		$qb->createNamedParameter($comment->getCreationDateTime(), 'datetime'))
-				->set('latest_child_timestamp',	$qb->createNamedParameter($comment->getLatestChildDateTime(), 'datetime'))
-				->set('object_type',			$qb->createNamedParameter($comment->getObjectType()))
-				->set('object_id',				$qb->createNamedParameter($comment->getObjectId()))
+			->set('parent_id', $qb->createNamedParameter($comment->getParentId()))
+			->set('topmost_parent_id', $qb->createNamedParameter($comment->getTopmostParentId()))
+			->set('children_count', $qb->createNamedParameter($comment->getChildrenCount()))
+			->set('actor_type', $qb->createNamedParameter($comment->getActorType()))
+			->set('actor_id', $qb->createNamedParameter($comment->getActorId()))
+			->set('message', $qb->createNamedParameter($comment->getMessage()))
+			->set('verb', $qb->createNamedParameter($comment->getVerb()))
+			->set('creation_timestamp', $qb->createNamedParameter($comment->getCreationDateTime(), 'datetime'))
+			->set('latest_child_timestamp', $qb->createNamedParameter($comment->getLatestChildDateTime(), 'datetime'))
+			->set('object_type', $qb->createNamedParameter($comment->getObjectType()))
+			->set('object_id', $qb->createNamedParameter($comment->getObjectId()))
 			->where($qb->expr()->eq('id', $qb->createParameter('id')))
 			->setParameter('id', $comment->getId())
 			->execute();
 
-		if($affectedRows === 0) {
+		if ($affectedRows === 0) {
 			throw new NotFoundException('Comment to update does ceased to exist');
 		}
 
@@ -587,8 +625,8 @@ class Manager implements ICommentsManager {
 		$qb = $this->dbConn->getQueryBuilder();
 		$affectedRows = $qb
 			->update('comments')
-			->set('actor_type',	$qb->createNamedParameter(ICommentsManager::DELETED_USER))
-			->set('actor_id',	$qb->createNamedParameter(ICommentsManager::DELETED_USER))
+			->set('actor_type', $qb->createNamedParameter(ICommentsManager::DELETED_USER))
+			->set('actor_id', $qb->createNamedParameter(ICommentsManager::DELETED_USER))
 			->where($qb->expr()->eq('actor_type', $qb->createParameter('type')))
 			->andWhere($qb->expr()->eq('actor_id', $qb->createParameter('id')))
 			->setParameter('type', $actorType)
@@ -662,19 +700,19 @@ class Manager implements ICommentsManager {
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$values = [
-			'user_id'         => $qb->createNamedParameter($user->getUID()),
+			'user_id' => $qb->createNamedParameter($user->getUID()),
 			'marker_datetime' => $qb->createNamedParameter($dateTime, 'datetime'),
-			'object_type'     => $qb->createNamedParameter($objectType),
-			'object_id'       => $qb->createNamedParameter($objectId),
+			'object_type' => $qb->createNamedParameter($objectType),
+			'object_id' => $qb->createNamedParameter($objectId),
 		];
 
 		// Strategy: try to update, if this does not return affected rows, do an insert.
 		$affectedRows = $qb
 			->update('comments_read_markers')
-			->set('user_id',         $values['user_id'])
+			->set('user_id', $values['user_id'])
 			->set('marker_datetime', $values['marker_datetime'])
-			->set('object_type',     $values['object_type'])
-			->set('object_id',       $values['object_id'])
+			->set('object_type', $values['object_type'])
+			->set('object_id', $values['object_id'])
 			->where($qb->expr()->eq('user_id', $qb->createParameter('user_id')))
 			->andWhere($qb->expr()->eq('object_type', $qb->createParameter('object_type')))
 			->andWhere($qb->expr()->eq('object_id', $qb->createParameter('object_id')))
@@ -717,7 +755,7 @@ class Manager implements ICommentsManager {
 
 		$data = $resultStatement->fetch();
 		$resultStatement->closeCursor();
-		if(!$data || is_null($data['marker_datetime'])) {
+		if (!$data || is_null($data['marker_datetime'])) {
 			return null;
 		}
 
@@ -774,10 +812,10 @@ class Manager implements ICommentsManager {
 	 * \OutOfBoundsException has to thrown.
 	 */
 	public function registerDisplayNameResolver($type, \Closure $closure) {
-		if(!is_string($type)) {
+		if (!is_string($type)) {
 			throw new \InvalidArgumentException('String expected.');
 		}
-		if(isset($this->displayNameResolvers[$type])) {
+		if (isset($this->displayNameResolvers[$type])) {
 			throw new \OutOfBoundsException('Displayname resolver for this type already registered');
 		}
 		$this->displayNameResolvers[$type] = $closure;
@@ -797,10 +835,10 @@ class Manager implements ICommentsManager {
 	 * provided ID is unknown. It must be ensured that a string is returned.
 	 */
 	public function resolveDisplayName($type, $id) {
-		if(!is_string($type)) {
+		if (!is_string($type)) {
 			throw new \InvalidArgumentException('String expected.');
 		}
-		if(!isset($this->displayNameResolvers[$type])) {
+		if (!isset($this->displayNameResolvers[$type])) {
 			throw new \OutOfBoundsException('No Displayname resolver for this type registered');
 		}
 		return (string)$this->displayNameResolvers[$type]($id);
@@ -812,7 +850,7 @@ class Manager implements ICommentsManager {
 	 * @return \OCP\Comments\ICommentsEventHandler[]
 	 */
 	private function getEventHandlers() {
-		if(!empty($this->eventHandlers)) {
+		if (!empty($this->eventHandlers)) {
 			return $this->eventHandlers;
 		}
 

@@ -73,7 +73,7 @@ class QuoteHelper {
 				return $string;
 			}
 
-			return $alias . '.`' . $columnName . '`';
+			return '`' . $alias . '`.`' . $columnName . '`';
 		}
 
 		return '`' . $string . '`';
