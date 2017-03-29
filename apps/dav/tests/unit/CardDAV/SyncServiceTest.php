@@ -103,49 +103,49 @@ class SyncServiceTest extends TestCase {
 		$user->method('getBackendClassName')->willReturn('unittest');
 		$user->method('getUID')->willReturn('test-user');
 		$user->method('getCloudId')->willReturn('cloudId');
+		$user->method('getDisplayName')->willReturn('test-user');
 		$accountManager = $this->getMockBuilder('OC\Accounts\AccountManager')->disableOriginalConstructor()->getMock();
 		$accountManager->expects($this->any())->method('getUser')
 			->willReturn([
-				AccountManager::PROPERTY_DISPLAYNAME =>
-					[
-						'value' => $user->getDisplayName(),
-						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
-					],
-				AccountManager::PROPERTY_ADDRESS =>
-					[
-						'value' => '',
-						'scope' => AccountManager::VISIBILITY_PRIVATE,
-					],
-				AccountManager::PROPERTY_WEBSITE =>
-					[
-						'value' => '',
-						'scope' => AccountManager::VISIBILITY_PRIVATE,
-					],
-				AccountManager::PROPERTY_EMAIL =>
-					[
-						'value' => $user->getEMailAddress(),
-						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
-					],
-				AccountManager::PROPERTY_AVATAR =>
-					[
-						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY
-					],
-				AccountManager::PROPERTY_PHONE =>
-					[
-						'value' => '',
-						'scope' => AccountManager::VISIBILITY_PRIVATE,
-					],
-				AccountManager::PROPERTY_TWITTER =>
-					[
-						'value' => '',
-						'scope' => AccountManager::VISIBILITY_PRIVATE,
-					],
-			]);
+					AccountManager::PROPERTY_DISPLAYNAME =>
+						[
+							'value' => $user->getDisplayName(),
+							'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
+						],
+					AccountManager::PROPERTY_ADDRESS =>
+						[
+							'value' => '',
+							'scope' => AccountManager::VISIBILITY_PRIVATE,
+						],
+					AccountManager::PROPERTY_WEBSITE =>
+						[
+							'value' => '',
+							'scope' => AccountManager::VISIBILITY_PRIVATE,
+						],
+					AccountManager::PROPERTY_EMAIL =>
+						[
+							'value' => $user->getEMailAddress(),
+							'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
+						],
+					AccountManager::PROPERTY_AVATAR =>
+						[
+							'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY
+						],
+					AccountManager::PROPERTY_PHONE =>
+						[
+							'value' => '',
+							'scope' => AccountManager::VISIBILITY_PRIVATE,
+						],
+					AccountManager::PROPERTY_TWITTER =>
+						[
+							'value' => '',
+							'scope' => AccountManager::VISIBILITY_PRIVATE,
+						],
+				]
+			);
 
 		$ss = new SyncService($backend, $userManager, $logger, $accountManager);
 		$ss->updateUser($user);
-
-		$user->method('getDisplayName')->willReturn('A test user for unit testing');
 
 		$ss->updateUser($user);
 
@@ -179,7 +179,7 @@ class SyncServiceTest extends TestCase {
 		$accountManager = $this->getMockBuilder('OC\Accounts\AccountManager')->disableOriginalConstructor()->getMock();
 		/** @var SyncService | \PHPUnit_Framework_MockObject_MockObject $ss */
 		$ss = $this->getMockBuilder(SyncService::class)
-			->setMethods(['ensureSystemAddressBookExists', 'requestSyncReport', 'download'])
+			->setMethods(['ensureSystemAddressBookExists', 'requestSyncReport', 'download', 'getCertPath'])
 			->setConstructorArgs([$backend, $userManager, $logger, $accountManager])
 			->getMock();
 		$ss->method('requestSyncReport')->withAnyParameters()->willReturn(['response' => $response, 'token' => 'sync-token-1']);
@@ -189,6 +189,7 @@ class SyncServiceTest extends TestCase {
 			'statusCode' => 200,
 			'headers' => []
 		]);
+		$ss->method('getCertPath')->willReturn('');
 		return $ss;
 	}
 
