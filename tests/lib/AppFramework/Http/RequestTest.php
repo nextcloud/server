@@ -305,7 +305,10 @@ class RequestTest extends \Test\TestCase {
 		$vars = array(
 			'put' => $data,
 			'method' => 'PUT',
-			'server' => array('CONTENT_TYPE' => 'image/png'),
+			'server' => [
+				'CONTENT_TYPE' => 'image/png',
+				'CONTENT_LENGTH' => strlen($data)
+			],
 		);
 
 		$request = new Request(
