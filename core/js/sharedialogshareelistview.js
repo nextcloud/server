@@ -485,8 +485,8 @@
 		},
 
 		onChangeExpirationDate: function(event) {
-			datePicker = $(event.target);
-			expireDate = datePicker.val();
+			var datePicker = $(event.target);
+			var expireDate = datePicker.val();
 			var element = $(event.target);
 			var li = element.closest('li[data-share-id]');
 			var shareId = li.data('share-id');
@@ -624,8 +624,6 @@
 			var $element = $(event.target);
 			var $li = $element.closest('li[data-share-id]');
 			var shareId = $li.data('share-id');
-
-			var permissions = OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE | OC.PERMISSION_DELETE;
 
 			if ($element.is(':checked')) {
 				var permissions = OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE | OC.PERMISSION_DELETE;
