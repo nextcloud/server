@@ -537,3 +537,44 @@ Feature: webdav-related
 		When user "user0" moves new chunk file with id "chunking-42" to "/existingFile.txt"
 		Then User "user0" checks id of file "/existingFile.txt"
 
+	Scenario: Renaming a folder to a backslash encoded should return an error using old endpoint
+		Given using old dav path
+		And user "user0" exists
+		And user "user0" created a folder "/testshare"
+		When User "user0" moves folder "/testshare" to "/%2F"
+		Then the HTTP status code should be "403"
+
+	Scenario: Renaming a folder beginning with a backslash encoded should return an error using old endpoint
+		Given using old dav path
+		And user "user0" exists
+		And user "user0" created a folder "/testshare"
+		When User "user0" moves folder "/testshare" to "/%2Ftestshare"
+		Then the HTTP status code should be "403"
+
+	Scenario: Renaming a folder including a backslash encoded should return an error using old endpoint
+		Given using old dav path
+		And user "user0" exists
+		And user "user0" created a folder "/testshare"
+		When User "user0" moves folder "/testshare" to "/hola%2Fhola"
+		Then the HTTP status code should be "403"
+
+	Scenario: Renaming a folder to a backslash encoded should return an error using new endpoint
+		Given using new dav path
+		And user "user0" exists
+		And user "user0" created a folder "/testshare"
+		When User "user0" moves folder "/testshare" to "/%2F"
+		Then the HTTP status code should be "403"
+
+	Scenario: Renaming a folder beginning with a backslash encoded should return an error using new endpoint
+		Given using new dav path
+		And user "user0" exists
+		And user "user0" created a folder "/testshare"
+		When User "user0" moves folder "/testshare" to "/%2Ftestshare"
+		Then the HTTP status code should be "403"
+
+	Scenario: Renaming a folder including a backslash encoded should return an error using new endpoint
+		Given using new dav path
+		And user "user0" exists
+		And user "user0" created a folder "/testshare"
+		When User "user0" moves folder "/testshare" to "/hola%2Fhola"
+		Then the HTTP status code should be "403"
