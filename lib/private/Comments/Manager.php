@@ -412,15 +412,12 @@ class Manager implements ICommentsManager {
 	 */
 	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user) {
 		$qb = $this->dbConn->getQueryBuilder();
-		$castAs = ($this->dbConn->getDatabasePlatform() instanceof MySqlPlatform) ? 'unsigned integer' : 'int';
 		$query = $qb->select('fileid', $qb->createFunction(
 			'COUNT(' . $qb->getColumnName('c.id') . ')')
 		)->from('comments', 'c')
 			->innerJoin('c', 'filecache', 'f', $qb->expr()->andX(
 				$qb->expr()->eq('c.object_type', $qb->createNamedParameter('files')),
-				$qb->expr()->eq('f.fileid', $qb->createFunction(
-					'cast(' . $qb->getColumnName('c.object_id') . ' as ' . $castAs . ')'
-				))
+				$qb->expr()->eq('f.fileid', $qb->expr()->castColumn('c.object_id', IQueryBuilder::PARAM_INT))
 			))
 			->leftJoin('c', 'comments_read_markers', 'm', $qb->expr()->andX(
 				$qb->expr()->eq('m.object_type', $qb->createNamedParameter('files')),
