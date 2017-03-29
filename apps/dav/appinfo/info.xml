@@ -23,7 +23,7 @@
 	<repair-steps>
 		<post-migration>
 			<step>OCA\DAV\Migration\FixBirthdayCalendarComponent</step>
-			<step>OCA\DAV\Migration\ValueFixInsert</step>
+			<step>OCA\DAV\Migration\CalDAVRemoveEmptyValue</step>
 		</post-migration>
 	</repair-steps>
 	<commands>
