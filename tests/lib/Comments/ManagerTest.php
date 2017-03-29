@@ -6,7 +6,9 @@ use OC\Comments\Comment;
 use OCP\Comments\CommentsEvent;
 use OCP\Comments\ICommentsEventHandler;
 use OCP\Comments\ICommentsManager;
+use OCP\IDBConnection;
 use OCP\IUser;
+use Test\Files\Storage\DummyUser;
 use Test\TestCase;
 
 /**
@@ -15,37 +17,44 @@ use Test\TestCase;
  * @group DB
  */
 class ManagerTest extends TestCase {
+	/** @var IDBConnection */
+	private $connection;
 
 	public function setUp() {
 		parent::setUp();
 
-		$sql = \OC::$server->getDatabaseConnection()->getDatabasePlatform()->getTruncateTableSQL('`*PREFIX*comments`');
-		\OC::$server->getDatabaseConnection()->prepare($sql)->execute();
+		$this->connection = \OC::$server->getDatabaseConnection();
+
+		$sql = $this->connection->getDatabasePlatform()->getTruncateTableSQL('`*PREFIX*comments`');
+		$this->connection->prepare($sql)->execute();
 	}
 
-	protected function addDatabaseEntry($parentId, $topmostParentId, $creationDT = null, $latestChildDT = null) {
-		if(is_null($creationDT)) {
+	protected function addDatabaseEntry($parentId, $topmostParentId, $creationDT = null, $latestChildDT = null, $objectId = null) {
+		if (is_null($creationDT)) {
 			$creationDT = new \DateTime();
 		}
-		if(is_null($latestChildDT)) {
+		if (is_null($latestChildDT)) {
 			$latestChildDT = new \DateTime('yesterday');
 		}
+		if (is_null($objectId)) {
+			$objectId = 'file64';
+		}
 
-		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->insert('comments')
 			->values([
-					'parent_id'					=> $qb->createNamedParameter($parentId),
-					'topmost_parent_id' 		=> $qb->createNamedParameter($topmostParentId),
-					'children_count' 			=> $qb->createNamedParameter(2),
-					'actor_type' 				=> $qb->createNamedParameter('users'),
-					'actor_id' 					=> $qb->createNamedParameter('alice'),
-					'message' 					=> $qb->createNamedParameter('nice one'),
-					'verb' 						=> $qb->createNamedParameter('comment'),
-					'creation_timestamp' 		=> $qb->createNamedParameter($creationDT, 'datetime'),
-					'latest_child_timestamp'	=> $qb->createNamedParameter($latestChildDT, 'datetime'),
-					'object_type' 				=> $qb->createNamedParameter('files'),
-					'object_id' 				=> $qb->createNamedParameter('file64'),
+				'parent_id' => $qb->createNamedParameter($parentId),
+				'topmost_parent_id' => $qb->createNamedParameter($topmostParentId),
+				'children_count' => $qb->createNamedParameter(2),
+				'actor_type' => $qb->createNamedParameter('users'),
+				'actor_id' => $qb->createNamedParameter('alice'),
+				'message' => $qb->createNamedParameter('nice one'),
+				'verb' => $qb->createNamedParameter('comment'),
+				'creation_timestamp' => $qb->createNamedParameter($creationDT, 'datetime'),
+				'latest_child_timestamp' => $qb->createNamedParameter($latestChildDT, 'datetime'),
+				'object_type' => $qb->createNamedParameter('files'),
+				'object_id' => $qb->createNamedParameter($objectId),
 			])
 			->execute();
 
@@ -83,17 +92,17 @@ class ManagerTest extends TestCase {
 		$qb
 			->insert('comments')
 			->values([
-					'parent_id'					=> $qb->createNamedParameter('2'),
-					'topmost_parent_id' 		=> $qb->createNamedParameter('1'),
-					'children_count' 			=> $qb->createNamedParameter(2),
-					'actor_type' 				=> $qb->createNamedParameter('users'),
-					'actor_id' 					=> $qb->createNamedParameter('alice'),
-					'message' 					=> $qb->createNamedParameter('nice one'),
-					'verb' 						=> $qb->createNamedParameter('comment'),
-					'creation_timestamp' 		=> $qb->createNamedParameter($creationDT, 'datetime'),
-					'latest_child_timestamp'	=> $qb->createNamedParameter($latestChildDT, 'datetime'),
-					'object_type' 				=> $qb->createNamedParameter('files'),
-					'object_id' 				=> $qb->createNamedParameter('file64'),
+				'parent_id' => $qb->createNamedParameter('2'),
+				'topmost_parent_id' => $qb->createNamedParameter('1'),
+				'children_count' => $qb->createNamedParameter(2),
+				'actor_type' => $qb->createNamedParameter('users'),
+				'actor_id' => $qb->createNamedParameter('alice'),
+				'message' => $qb->createNamedParameter('nice one'),
+				'verb' => $qb->createNamedParameter('comment'),
+				'creation_timestamp' => $qb->createNamedParameter($creationDT, 'datetime'),
+				'latest_child_timestamp' => $qb->createNamedParameter($latestChildDT, 'datetime'),
+				'object_type' => $qb->createNamedParameter('files'),
+				'object_id' => $qb->createNamedParameter('file64'),
 			])
 			->execute();
 
@@ -149,7 +158,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame(count($tree['replies']), 3);
 
 		// one level deep
-		foreach($tree['replies'] as $reply) {
+		foreach ($tree['replies'] as $reply) {
 			$this->assertTrue($reply['comment'] instanceof \OCP\Comments\IComment);
 			$this->assertSame($reply['comment']->getId(), strval($id));
 			$this->assertSame(count($reply['replies']), 0);
@@ -171,7 +180,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame(count($tree['replies']), 0);
 
 		// one level deep
-		foreach($tree['replies'] as $reply) {
+		foreach ($tree['replies'] as $reply) {
 			throw new \Exception('This ain`t happen');
 		}
 	}
@@ -233,14 +242,14 @@ class ManagerTest extends TestCase {
 			$comments = $manager->getForObject('files', 'file64', 3, $offset);
 
 			$this->assertTrue(is_array($comments));
-			foreach($comments as $comment) {
+			foreach ($comments as $comment) {
 				$this->assertTrue($comment instanceof \OCP\Comments\IComment);
 				$this->assertSame($comment->getMessage(), 'nice one');
 				$this->assertSame($comment->getId(), strval($idToVerify));
 				$idToVerify--;
 			}
 			$offset += 3;
-		} while(count($comments) > 0);
+		} while (count($comments) > 0);
 	}
 
 	public function testGetForObjectWithDateTimeConstraint() {
@@ -272,7 +281,7 @@ class ManagerTest extends TestCase {
 			$comments = $manager->getForObject('files', 'file64', 3, $offset, new \DateTime('-4 hours'));
 
 			$this->assertTrue(is_array($comments));
-			foreach($comments as $comment) {
+			foreach ($comments as $comment) {
 				$this->assertTrue($comment instanceof \OCP\Comments\IComment);
 				$this->assertSame($comment->getMessage(), 'nice one');
 				$this->assertSame($comment->getId(), strval($idToVerify));
@@ -280,11 +289,11 @@ class ManagerTest extends TestCase {
 				$idToVerify--;
 			}
 			$offset += 3;
-		} while(count($comments) > 0);
+		} while (count($comments) > 0);
 	}
 
 	public function testGetNumberOfCommentsForObject() {
-		for($i = 1; $i < 5; $i++) {
+		for ($i = 1; $i < 5; $i++) {
 			$this->addDatabaseEntry(0, 0);
 		}
 
@@ -295,6 +304,52 @@ class ManagerTest extends TestCase {
 
 		$amount = $manager->getNumberOfCommentsForObject('files', 'file64');
 		$this->assertSame($amount, 4);
+	}
+
+	public function testGetNumberOfUnreadCommentsForFolder() {
+		// 2 comment for 1111 with 1 before read marker
+		// 2 comments for 1112 with no read marker
+		// 1 comment for 1113 before read marker
+		// 1 comment for 1114 with no read marker
+		$this->addDatabaseEntry(0, 0, null, null, '1112');
+		for ($i = 1; $i < 5; $i++) {
+			$this->addDatabaseEntry(0, 0, null, null, '111' . $i);
+		}
+		$this->addDatabaseEntry(0, 0, (new \DateTime())->modify('-2 days'), null, '1111');
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('comment_test'));
+
+		$manager = $this->getManager();
+
+		$manager->setReadMark('files', '1111', (new \DateTime())->modify('-1 days'), $user);
+		$manager->setReadMark('files', '1113', (new \DateTime()), $user);
+
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('filecache')
+			->values([
+				'fileid' => $query->createParameter('fileid'),
+				'parent' => $query->createNamedParameter(1000),
+				'size' => $query->createNamedParameter(10),
+				'mtime' => $query->createNamedParameter(10),
+				'storage_mtime' => $query->createNamedParameter(10),
+				'path' => $query->createParameter('path'),
+				'path_hash' => $query->createParameter('path'),
+			]);
+
+		for ($i = 1111; $i < 1115; $i++) {
+			$query->setParameter('path', 'path_' . $i);
+			$query->setParameter('fileid', $i);
+			$query->execute();
+		}
+
+		$amount = $manager->getNumberOfUnreadCommentsForFolder(1000, $user);
+		$this->assertEquals([
+			'1111' => 1,
+			'1112' => 2,
+			'1114' => 1,
+		], $amount);
 	}
 
 	public function invalidCreateArgsProvider() {
@@ -380,10 +435,10 @@ class ManagerTest extends TestCase {
 		$manager = $this->getManager();
 		$comment = new Comment();
 		$comment
-				->setActor('users', 'alice')
-				->setObject('files', 'file64')
-				->setMessage('very beautiful, I am impressed!')
-				->setVerb('comment');
+			->setActor('users', 'alice')
+			->setObject('files', 'file64')
+			->setMessage('very beautiful, I am impressed!')
+			->setVerb('comment');
 
 		$manager->save($comment);
 
@@ -401,10 +456,10 @@ class ManagerTest extends TestCase {
 		$manager = $this->getManager();
 		$comment = new Comment();
 		$comment
-				->setActor('users', 'alice')
-				->setObject('files', 'file64')
-				->setMessage('very beautiful, I am impressed!')
-				->setVerb('comment');
+			->setActor('users', 'alice')
+			->setObject('files', 'file64')
+			->setMessage('very beautiful, I am impressed!')
+			->setVerb('comment');
 
 		$manager->save($comment);
 
@@ -428,16 +483,16 @@ class ManagerTest extends TestCase {
 
 		$manager = $this->getManager();
 
-		for($i = 0; $i < 3; $i++) {
+		for ($i = 0; $i < 3; $i++) {
 			$comment = new Comment();
 			$comment
-					->setActor('users', 'alice')
-					->setObject('files', 'file64')
-					->setParentId(strval($id))
-					->setMessage('full ack')
-					->setVerb('comment')
-					// setting the creation time avoids using sleep() while making sure to test with different timestamps
-					->setCreationDateTime(new \DateTime('+' . $i . ' minutes'));
+				->setActor('users', 'alice')
+				->setObject('files', 'file64')
+				->setParentId(strval($id))
+				->setMessage('full ack')
+				->setVerb('comment')
+				// setting the creation time avoids using sleep() while making sure to test with different timestamps
+				->setCreationDateTime(new \DateTime('+' . $i . ' minutes'));
 
 			$manager->save($comment);
 
@@ -450,11 +505,11 @@ class ManagerTest extends TestCase {
 
 	public function invalidActorArgsProvider() {
 		return
-		[
-			['', ''],
-			[1, 'alice'],
-			['users', 1],
-		];
+			[
+				['', ''],
+				[1, 'alice'],
+				['users', 1],
+			];
 	}
 
 	/**
@@ -482,7 +537,7 @@ class ManagerTest extends TestCase {
 		$wasSuccessful = $manager->deleteReferencesOfActor('users', 'alice');
 		$this->assertTrue($wasSuccessful);
 
-		foreach($ids as $id) {
+		foreach ($ids as $id) {
 			$comment = $manager->get(strval($id));
 			$this->assertSame($comment->getActorType(), ICommentsManager::DELETED_USER);
 			$this->assertSame($comment->getActorId(), ICommentsManager::DELETED_USER);
@@ -516,11 +571,11 @@ class ManagerTest extends TestCase {
 
 	public function invalidObjectArgsProvider() {
 		return
-				[
-						['', ''],
-						[1, 'file64'],
-						['files', 1],
-				];
+			[
+				['', ''],
+				[1, 'file64'],
+				['files', 1],
+			];
 	}
 
 	/**
@@ -549,7 +604,7 @@ class ManagerTest extends TestCase {
 		$this->assertTrue($wasSuccessful);
 
 		$verified = 0;
-		foreach($ids as $id) {
+		foreach ($ids as $id) {
 			try {
 				$manager->get(strval($id));
 			} catch (\OCP\Comments\NotFoundException $e) {
@@ -575,7 +630,7 @@ class ManagerTest extends TestCase {
 		$manager = $this->getManager();
 		$manager->setReadMark('robot', '36', $dateTimeSet, $user);
 
-		$dateTimeGet = $manager->getReadMark('robot', '36',  $user);
+		$dateTimeGet = $manager->getReadMark('robot', '36', $user);
 
 		$this->assertEquals($dateTimeGet->getTimestamp(), $dateTimeSet->getTimestamp());
 	}
@@ -594,7 +649,7 @@ class ManagerTest extends TestCase {
 		$dateTimeSet = new \DateTime('today');
 		$manager->setReadMark('robot', '36', $dateTimeSet, $user);
 
-		$dateTimeGet = $manager->getReadMark('robot', '36',  $user);
+		$dateTimeGet = $manager->getReadMark('robot', '36', $user);
 
 		$this->assertEquals($dateTimeGet, $dateTimeSet);
 	}
@@ -611,7 +666,7 @@ class ManagerTest extends TestCase {
 		$manager->setReadMark('robot', '36', $dateTimeSet, $user);
 
 		$manager->deleteReadMarksFromUser($user);
-		$dateTimeGet = $manager->getReadMark('robot', '36',  $user);
+		$dateTimeGet = $manager->getReadMark('robot', '36', $user);
 
 		$this->assertNull($dateTimeGet);
 	}
@@ -628,7 +683,7 @@ class ManagerTest extends TestCase {
 		$manager->setReadMark('robot', '36', $dateTimeSet, $user);
 
 		$manager->deleteReadMarksOnObject('robot', '36');
-		$dateTimeGet = $manager->getReadMark('robot', '36',  $user);
+		$dateTimeGet = $manager->getReadMark('robot', '36', $user);
 
 		$this->assertNull($dateTimeGet);
 	}
@@ -643,8 +698,12 @@ class ManagerTest extends TestCase {
 			->method('handle');
 
 		$manager = $this->getManager();
-		$manager->registerEventHandler(function () use ($handler1) {return $handler1; });
-		$manager->registerEventHandler(function () use ($handler2) {return $handler2; });
+		$manager->registerEventHandler(function () use ($handler1) {
+			return $handler1;
+		});
+		$manager->registerEventHandler(function () use ($handler2) {
+			return $handler2;
+		});
 
 		$comment = new Comment();
 		$comment
@@ -667,11 +726,11 @@ class ManagerTest extends TestCase {
 	public function testResolveDisplayName() {
 		$manager = $this->getManager();
 
-		$planetClosure = function($name) {
+		$planetClosure = function ($name) {
 			return ucfirst($name);
 		};
 
-		$galaxyClosure = function($name) {
+		$galaxyClosure = function ($name) {
 			return strtoupper($name);
 		};
 
@@ -688,7 +747,7 @@ class ManagerTest extends TestCase {
 	public function testRegisterResolverDuplicate() {
 		$manager = $this->getManager();
 
-		$planetClosure = function($name) {
+		$planetClosure = function ($name) {
 			return ucfirst($name);
 		};
 		$manager->registerDisplayNameResolver('planet', $planetClosure);
@@ -701,7 +760,7 @@ class ManagerTest extends TestCase {
 	public function testRegisterResolverInvalidType() {
 		$manager = $this->getManager();
 
-		$planetClosure = function($name) {
+		$planetClosure = function ($name) {
 			return ucfirst($name);
 		};
 		$manager->registerDisplayNameResolver(1337, $planetClosure);
@@ -713,7 +772,7 @@ class ManagerTest extends TestCase {
 	public function testResolveDisplayNameUnregisteredType() {
 		$manager = $this->getManager();
 
-		$planetClosure = function($name) {
+		$planetClosure = function ($name) {
 			return ucfirst($name);
 		};
 
@@ -724,7 +783,9 @@ class ManagerTest extends TestCase {
 	public function testResolveDisplayNameDirtyResolver() {
 		$manager = $this->getManager();
 
-		$planetClosure = function() { return null; };
+		$planetClosure = function () {
+			return null;
+		};
 
 		$manager->registerDisplayNameResolver('planet', $planetClosure);
 		$this->assertTrue(is_string($manager->resolveDisplayName('planet', 'neptune')));
@@ -736,7 +797,9 @@ class ManagerTest extends TestCase {
 	public function testResolveDisplayNameInvalidType() {
 		$manager = $this->getManager();
 
-		$planetClosure = function() { return null; };
+		$planetClosure = function () {
+			return null;
+		};
 
 		$manager->registerDisplayNameResolver('planet', $planetClosure);
 		$this->assertTrue(is_string($manager->resolveDisplayName(1337, 'neptune')));

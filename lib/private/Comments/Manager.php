@@ -25,9 +25,7 @@
 namespace OC\Comments;
 
 use Doctrine\DBAL\Exception\DriverException;
-use OC\DB\QueryBuilder\Literal;
-use OC\DB\QueryBuilder\QueryBuilder;
-use OC\DB\QueryBuilder\QueryFunction;
+use Doctrine\DBAL\Platforms\MySqlPlatform;
 use OCP\Comments\CommentsEvent;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsEventHandler;
@@ -414,13 +412,14 @@ class Manager implements ICommentsManager {
 	 */
 	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user) {
 		$qb = $this->dbConn->getQueryBuilder();
+		$castAs = ($this->dbConn->getDatabasePlatform() instanceof MySqlPlatform) ? 'unsigned integer' : 'int';
 		$query = $qb->select('fileid', $qb->createFunction(
 			'COUNT(' . $qb->getColumnName('c.id') . ')')
 		)->from('comments', 'c')
 			->innerJoin('c', 'filecache', 'f', $qb->expr()->andX(
 				$qb->expr()->eq('c.object_type', $qb->createNamedParameter('files')),
 				$qb->expr()->eq('f.fileid', $qb->createFunction(
-					'cast(' . $qb->getColumnName('c.object_id') . ' as int)'
+					'cast(' . $qb->getColumnName('c.object_id') . ' as ' . $castAs . ')'
 				))
 			))
 			->leftJoin('c', 'comments_read_markers', 'm', $qb->expr()->andX(
@@ -436,7 +435,9 @@ class Manager implements ICommentsManager {
 			->groupBy('f.fileid');
 
 		$resultStatement = $query->execute();
-		return $resultStatement->fetchAll(\PDO::FETCH_KEY_PAIR);
+		return array_map(function ($count) {
+			return (int)$count;
+		}, $resultStatement->fetchAll(\PDO::FETCH_KEY_PAIR));
 	}
 
 	/**
