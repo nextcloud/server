@@ -11,9 +11,9 @@
 	<!-- filters for code coverage -->
 	<filter>
 		<whitelist>
-			<directory suffix=".php">../../dav</directory>
+			<directory suffix=".php">../../../dav</directory>
 			<exclude>
-				<directory suffix=".php">../../dav/tests</directory>
+				<directory suffix=".php">../../../dav/tests</directory>
 			</exclude>
 		</whitelist>
 	</filter>
