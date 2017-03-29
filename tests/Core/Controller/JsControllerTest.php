@@ -120,7 +120,7 @@ class JsControllerTest extends TestCase {
 			->willReturn($folder);
 
 		$folder->method('getFile')
-			->with('file.js.gz')
+			->with('file.js.gzip')
 			->willReturn($gzipFile);
 
 		$this->request->method('getHeader')

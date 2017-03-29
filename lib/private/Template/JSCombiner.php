@@ -155,9 +155,9 @@ class JSCombiner {
 		}
 
 		try {
-			$gzipFile = $folder->getFile($fileName . '.gz');
+			$gzipFile = $folder->getFile($fileName . '.gzip'); # Safari doesn't like .gz
 		} catch (NotFoundException $e) {
-			$gzipFile = $folder->newFile($fileName . '.gz');
+			$gzipFile = $folder->newFile($fileName . '.gzip'); # Safari doesn't like .gz
 		}
 
 		try {

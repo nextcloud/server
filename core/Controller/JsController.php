@@ -96,7 +96,7 @@ class JsController extends Controller {
 		if ($encoding !== null && strpos($encoding, 'gzip') !== false) {
 			try {
 				$gzip = true;
-				return $folder->getFile($fileName . '.gz');
+				return $folder->getFile($fileName . '.gzip'); # Safari doesn't like .gz
 			} catch (NotFoundException $e) {
 				// continue
 			}

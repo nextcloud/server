@@ -188,9 +188,9 @@ class SCSSCacher {
 
 		// Gzip file
 		try {
-			$gzipFile = $folder->getFile($fileNameCSS . '.gz');
+			$gzipFile = $folder->getFile($fileNameCSS . '.gzip'); # Safari doesn't like .gz
 		} catch (NotFoundException $e) {
-			$gzipFile = $folder->newFile($fileNameCSS . '.gz');
+			$gzipFile = $folder->newFile($fileNameCSS . '.gzip'); # Safari doesn't like .gz
 		}
 
 		try {
