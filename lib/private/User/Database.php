@@ -237,9 +237,10 @@ class Database extends Backend implements IUserBackend {
 	 * @return boolean true if user was found, false otherwise
 	 */
 	private function loadUser($uid) {
+		$uid = (string) $uid;
 		if (!isset($this->cache[$uid])) {
 			//guests $uid could be NULL or ''
-			if ($uid === null || $uid === '') {
+			if ($uid === '') {
 				$this->cache[$uid]=false;
 				return true;
 			}
