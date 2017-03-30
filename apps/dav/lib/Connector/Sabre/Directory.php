@@ -120,9 +120,9 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 			if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
 
 				// exit if we can't create a new file and we don't updatable existing file
-				$info = \OC_FileChunking::decodeName($name);
+				$chunkInfo = \OC_FileChunking::decodeName($name);
 				if (!$this->fileView->isCreatable($this->path) &&
-					!$this->fileView->isUpdatable($this->path . '/' . $info['name'])
+					!$this->fileView->isUpdatable($this->path . '/' . $chunkInfo['name'])
 				) {
 					throw new \Sabre\DAV\Exception\Forbidden();
 				}
@@ -137,8 +137,12 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 			$this->fileView->verifyPath($this->path, $name);
 
 			$path = $this->fileView->getAbsolutePath($this->path) . '/' . $name;
-			// using a dummy FileInfo is acceptable here since it will be refreshed after the put is complete
-			$info = new \OC\Files\FileInfo($path, null, null, array(), null);
+			// in case the file already exists/overwriting
+			$info = $this->fileView->getFileInfo($this->path . '/' . $name);
+			if (!$info) {
+				// use a dummy FileInfo which is acceptable here since it will be refreshed after the put is complete
+				$info = new \OC\Files\FileInfo($path, null, null, [], null);
+			}
 			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info);
 			$node->acquireLock(ILockingProvider::LOCK_SHARED);
 			return $node->put($data);

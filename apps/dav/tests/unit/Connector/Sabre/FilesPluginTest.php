@@ -32,6 +32,8 @@ use Sabre\DAV\PropPatch;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
+use OCA\DAV\Upload\FutureFile;
+use OCA\DAV\Connector\Sabre\Directory;
 
 /**
  * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
@@ -107,6 +109,12 @@ class FilesPluginTest extends TestCase {
 			$this->request,
 			$this->previewManager
 		);
+
+		$response = $this->getMockBuilder(ResponseInterface::class)
+				->disableOriginalConstructor()
+				->getMock();
+		$this->server->httpResponse = $response;
+
 		$this->plugin->initialize($this->server);
 	}
 
@@ -534,5 +542,60 @@ class FilesPluginTest extends TestCase {
 		);
 
 		$this->assertEquals("false", $propFind->get(self::HAS_PREVIEW_PROPERTYNAME));
+	}
+
+	public function testBeforeMoveFutureFileSkip() {
+		$node = $this->createMock(Directory::class);
+
+		$this->tree->expects($this->any())
+			->method('getNodeForPath')
+			->with('source')
+			->will($this->returnValue($node));
+		$this->server->httpResponse->expects($this->never())
+			->method('setStatus');
+
+		$this->assertNull($this->plugin->beforeMoveFutureFile('source', 'target'));
+	}
+
+	public function testBeforeMoveFutureFileSkipNonExisting() {
+		$sourceNode = $this->createMock(FutureFile::class);
+
+		$this->tree->expects($this->any())
+			->method('getNodeForPath')
+			->with('source')
+			->will($this->returnValue($sourceNode));
+		$this->tree->expects($this->any())
+			->method('nodeExists')
+			->with('target')
+			->will($this->returnValue(false));
+		$this->server->httpResponse->expects($this->never())
+			->method('setStatus');
+
+		$this->assertNull($this->plugin->beforeMoveFutureFile('source', 'target'));
+	}
+
+	public function testBeforeMoveFutureFileMoveIt() {
+		$sourceNode = $this->createMock(FutureFile::class);
+
+		$this->tree->expects($this->any())
+			->method('getNodeForPath')
+			->with('source')
+			->will($this->returnValue($sourceNode));
+		$this->tree->expects($this->any())
+			->method('nodeExists')
+			->with('target')
+			->will($this->returnValue(true));
+		$this->tree->expects($this->once())
+			->method('move')
+			->with('source', 'target');
+
+		$this->server->httpResponse->expects($this->once())
+			->method('setHeader')
+			->with('Content-Length', '0');
+		$this->server->httpResponse->expects($this->once())
+			->method('setStatus')
+			->with(204);
+
+		$this->assertFalse($this->plugin->beforeMoveFutureFile('source', 'target'));
 	}
 }
