@@ -344,6 +344,7 @@ nav {
 
 /* User menu on the right */
 #expand {
+	position: relative;
 	display: flex;
 	align-items: center;
 	padding: 7px 20px 6px 10px;
@@ -384,8 +385,30 @@ nav {
 
 	#expandDisplayName {
 		padding: 8px;
-		opacity: .7;
+		opacity: .6;
 	}
+}
+
+/* full opacity for gear icon if active */
+#body-settings #expandDisplayName {
+	opacity: 1;
+}
+
+/* show triangle below user menu if active */
+#body-settings #expand:before {
+	content: ' ';
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border: 0 solid transparent;
+	border-bottom-color: white;
+	border-width: 10px;
+	transform: translateX(-50%);
+	left: 26px;
+	bottom: 0;
+	z-index: 100;
+	display: block;
 }
 
 #expanddiv {
@@ -439,6 +462,7 @@ nav {
 		vertical-align: top !important;
 		height: 20px;
 		padding: 12px;
+		cursor: pointer;
 
 		a {
 			opacity: 0.6;
