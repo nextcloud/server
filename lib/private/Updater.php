@@ -71,6 +71,22 @@ class Updater extends BasicEmitter {
 		4 => 'Fatal',
 	];
 
+	static protected $validNextcloudReleases = [
+		'11.0.2.7',
+		'11.0.2.0',
+		'11.0.1.2',
+		'11.0.1.1',
+		'11.0.0.10',
+		'11.0.0.7',
+		'9.1.4.2',
+		'9.1.4.0',
+		'9.1.3.2',
+		'9.1.3.1',
+		'9.1.1.5',
+		'9.1.1.0',
+		'9.1.0.15',
+	];
+
 	/**
 	 * @param IConfig $config
 	 * @param Checker $checker
@@ -151,13 +167,13 @@ class Updater extends BasicEmitter {
 	/**
 	 * Return version from which this version is allowed to upgrade from
 	 *
-	 * @return string allowed previous version
+	 * @return array allowed previous versions per vendor
 	 */
-	private function getAllowedPreviousVersion() {
+	private function getAllowedPreviousVersions() {
 		// this should really be a JSON file
 		require \OC::$SERVERROOT . '/version.php';
 		/** @var array $OC_VersionCanBeUpgradedFrom */
-		return implode('.', $OC_VersionCanBeUpgradedFrom);
+		return $OC_VersionCanBeUpgradedFrom;
 	}
 
 	/**
@@ -176,26 +192,29 @@ class Updater extends BasicEmitter {
 	 * Whether an upgrade to a specified version is possible
 	 * @param string $oldVersion
 	 * @param string $newVersion
-	 * @param string $allowedPreviousVersion
+	 * @param array $allowedPreviousVersions
 	 * @return bool
 	 */
-	public function isUpgradePossible($oldVersion, $newVersion, $allowedPreviousVersion) {
-		$allowedUpgrade = (version_compare($allowedPreviousVersion, $oldVersion, '<=')
-			&& (version_compare($oldVersion, $newVersion, '<=') || $this->config->getSystemValue('debug', false)));
+	public function isUpgradePossible($oldVersion, $newVersion, array $allowedPreviousVersions) {
+		$version = explode('.', $oldVersion);
+		$majorMinor = $version[0] . '.' . $version[1];
 
-		if ($allowedUpgrade) {
-			return $allowedUpgrade;
+		$currentVendor = $this->config->getAppValue('core', 'vendor', '');
+		if ($currentVendor === 'nextcloud') {
+			return isset($allowedPreviousVersions[$currentVendor][$majorMinor])
+				&& (version_compare($oldVersion, $newVersion, '<=') ||
+					$this->config->getSystemValue('debug', false));
 		}
 
-		// Upgrade not allowed, someone switching vendor?
-		if ($this->getVendor() !== $this->config->getAppValue('core', 'vendor', '')) {
-			$oldVersion = explode('.', $oldVersion);
-			$newVersion = explode('.', $newVersion);
-
-			return $oldVersion[0] === $newVersion[0] && $oldVersion[1] === $newVersion[1];
+		if ($currentVendor === '') {
+			// Installed Nextcloud 10 or 11 where the install didn't set the vendor?
+			if (in_array($oldVersion, self::$validNextcloudReleases, true)) {
+				return true;
+			}
 		}
 
-		return false;
+		// Check if the instance can be migrated
+		return isset($allowedPreviousVersions[$currentVendor][$majorMinor]);
 	}
 
 	/**
@@ -209,8 +228,8 @@ class Updater extends BasicEmitter {
 	 */
 	private function doUpgrade($currentVersion, $installedVersion) {
 		// Stop update if the update is over several major versions
-		$allowedPreviousVersion = $this->getAllowedPreviousVersion();
-		if (!self::isUpgradePossible($installedVersion, $currentVersion, $allowedPreviousVersion)) {
+		$allowedPreviousVersions = $this->getAllowedPreviousVersions();
+		if (!$this->isUpgradePossible($installedVersion, $currentVersion, $allowedPreviousVersions)) {
 			throw new \Exception('Updates between multiple major versions and downgrades are unsupported.');
 		}
 
