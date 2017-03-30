@@ -169,6 +169,10 @@ class User {
 		$attr = strtolower($this->connection->ldapQuotaAttribute);
 		if(isset($ldapEntry[$attr])) {
 			$this->updateQuota($ldapEntry[$attr][0]);
+		} else {
+			if ($this->connection->ldapQuotaDefault !== '') {
+				$this->updateQuota();
+			}
 		}
 		unset($attr);
 
@@ -455,6 +459,20 @@ class User {
 	}
 
 	/**
+	 * Overall process goes as follow:
+	 * 1. fetch the quota from LDAP and check if it's parseable with the "verifyQuotaValue" function
+	 * 2. if the value can't be fetched, is empty or not parseable, use the default LDAP quota
+	 * 3. if the default LDAP quota can't be parsed, use the ownCloud's default quota (use 'default')
+	 * 4. check if the target user exists and set the quota for the user.
+	 *
+	 * In order to improve performance and prevent an unwanted extra LDAP call, the $valueFromLDAP
+	 * parameter can be passed with the value of the attribute. This value will be considered as the
+	 * quota for the user coming from the LDAP server (step 1 of the process) It can be useful to
+	 * fetch all the user's attributes in one call and use the fetched values in this function.
+	 * The expected value for that parameter is a string describing the quota for the user. Valid
+	 * values are 'none' (unlimited), 'default' (the ownCloud's default quota), '1234' (quota in
+	 * bytes), '1234 MB' (quota in MB - check the \OC_Helper::computerFileSize method for more info)
+	 *
 	 * fetches the quota from LDAP and stores it as ownCloud user value
 	 * @param string $valueFromLDAP the quota attribute's value can be passed,
 	 * to save the readAttribute request
@@ -464,23 +482,51 @@ class User {
 		if($this->wasRefreshed('quota')) {
 			return;
 		}
-		//can be null
-		$quotaDefault = $this->connection->ldapQuotaDefault;
-		$quota = $quotaDefault !== '' ? $quotaDefault : null;
-		$quota = !is_null($valueFromLDAP) ? $valueFromLDAP : $quota;
 
+		$quota = false;
 		if(is_null($valueFromLDAP)) {
 			$quotaAttribute = $this->connection->ldapQuotaAttribute;
 			if ($quotaAttribute !== '') {
 				$aQuota = $this->access->readAttribute($this->dn, $quotaAttribute);
 				if($aQuota && (count($aQuota) > 0)) {
-					$quota = $aQuota[0];
+					if ($this->verifyQuotaValue($aQuota[0])) {
+						$quota = $aQuota[0];
+					} else {
+						$this->log->log('not suitable LDAP quota found for user ' . $this->uid . ': [' . $aQuota[0] . ']', \OCP\Util::WARN);
+					}
 				}
 			}
+		} else {
+			if ($this->verifyQuotaValue($valueFromLDAP)) {
+				$quota = $valueFromLDAP;
+			} else {
+				$this->log->log('not suitable LDAP quota found for user ' . $this->uid . ': [' . $valueFromLDAP . ']', \OCP\Util::WARN);
+			}
 		}
-		if(!is_null($quota)) {
-			$this->userManager->get($this->uid)->setQuota($quota);
+
+		if ($quota === false) {
+			// quota not found using the LDAP attribute (or not parseable). Try the default quota
+			$defaultQuota = $this->connection->ldapQuotaDefault;
+			if ($this->verifyQuotaValue($defaultQuota)) {
+				$quota = $defaultQuota;
+			}
 		}
+
+		$targetUser = $this->userManager->get($this->uid);
+		if ($targetUser) {
+			if($quota !== false) {
+				$targetUser->setQuota($quota);
+			} else {
+				$this->log->log('not suitable default quota found for user ' . $this->uid . ': [' . $defaultQuota . ']', \OCP\Util::WARN);
+				$targetUser->setQuota('default');
+			}
+		} else {
+			$this->log->log('trying to set a quota for user ' . $this->uid . ' but the user is missing', \OCP\Util::ERROR);
+		}
+	}
+
+	private function verifyQuotaValue($quotaValue) {
+		return $quotaValue === 'none' || $quotaValue === 'default' || \OC_Helper::computerFileSize($quotaValue) !== false;
 	}
 
 	/**
