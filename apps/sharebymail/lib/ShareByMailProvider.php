@@ -23,6 +23,7 @@ namespace OCA\ShareByMail;
 
 use OC\HintException;
 use OC\Share20\Exception\InvalidShare;
+use OCA\ShareByMail\Settings\SettingsManager;
 use OCP\Activity\IManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Folder;
@@ -76,6 +77,9 @@ class ShareByMailProvider implements IShareProvider {
 	/** @var IManager  */
 	private $activityManager;
 
+	/** @var SettingsManager */
+	private $settingsManager;
+
 	/**
 	 * Return the identifier of this provider.
 	 *
@@ -97,6 +101,7 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param IMailer $mailer
 	 * @param IURLGenerator $urlGenerator
 	 * @param IManager $activityManager
+	 * @param SettingsManager $settingsManager
 	 */
 	public function __construct(
 		IDBConnection $connection,
@@ -107,7 +112,8 @@ class ShareByMailProvider implements IShareProvider {
 		ILogger $logger,
 		IMailer $mailer,
 		IURLGenerator $urlGenerator,
-		IManager $activityManager
+		IManager $activityManager,
+		SettingsManager $settingsManager
 	) {
 		$this->dbConnection = $connection;
 		$this->secureRandom = $secureRandom;
@@ -118,6 +124,7 @@ class ShareByMailProvider implements IShareProvider {
 		$this->mailer = $mailer;
 		$this->urlGenerator = $urlGenerator;
 		$this->activityManager = $activityManager;
+		$this->settingsManager = $settingsManager;
 	}
 
 	/**
@@ -299,6 +306,11 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param string $shareWith
 	 */
 	protected function sendPassword($filename, $initiator, $shareWith, $password) {
+
+		if ($this->settingsManager->sendPasswordByMail() === false) {
+			return;
+		}
+
 		$initiatorUser = $this->userManager->get($initiator);
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
 		$subject = (string)$this->l->t('Password to access »%s« shared to you by %s', [$filename, $initiatorDisplayName]);

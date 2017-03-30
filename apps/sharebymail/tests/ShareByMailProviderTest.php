@@ -24,6 +24,7 @@ namespace OCA\ShareByMail\Tests;
 
 
 use OC\HintException;
+use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
@@ -80,6 +81,9 @@ class ShareByMailProviderTest extends TestCase {
 	/** @var  \OCP\Activity\IManager | \PHPUnit_Framework_MockObject_MockObject */
 	private $activityManager;
 
+	/** @var  SettingsManager | \PHPUnit_Framework_MockObject_MockObject */
+	private $settingsManager;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -99,6 +103,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->urlGenerator = $this->getMockBuilder('\OCP\IUrlGenerator')->getMock();
 		$this->share = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
 		$this->activityManager = $this->getMockBuilder('OCP\Activity\IManager')->getMock();
+		$this->settingsManager = $this->getMockBuilder(SettingsManager::class)->disableOriginalConstructor()->getMock();
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
 	}
@@ -140,7 +145,8 @@ class ShareByMailProviderTest extends TestCase {
 			$this->logger,
 			$this->mailer,
 			$this->urlGenerator,
-			$this->activityManager
+			$this->activityManager,
+			$this->settingsManager
 		);
 
 	}
