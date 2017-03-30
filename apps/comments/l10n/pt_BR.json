@@ -2,7 +2,7 @@
     "Comments" : "Comentários",
     "Unknown user" : "Usuário desconhecido",
     "New comment …" : "Novo comentário",
-    "Delete comment" : "Apague o comentário",
+    "Delete comment" : "Apagar comentário",
     "Post" : "Postar",
     "Cancel" : "Cancelar",
     "Edit comment" : "Editar comentário",
@@ -24,8 +24,8 @@
     "%1$s commented on %2$s" : "%1$s comentado em %2$s",
     "{author} commented on {file}" : "{author} comentado em {file}",
     "<strong>Comments</strong> for files" : "<strong>Comentários</strong> para arquivos",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "Um usuário (agora) excluído mencionou você em um comentário sobre “%s”",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Um usuário (agora) excluído mencionou você em um comentário sobre “{file}”",
+    "A (now) deleted user mentioned you in a comment on “%s”" : "Um usuário excluído (agora) mencionou você em um comentário sobre “%s”",
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "Um usuário excluído (agora) mencionou você em um comentário sobre “{file}”",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s mencionou você em um comentário sobre “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} mencionou você em um comentário sobre “{file}”"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

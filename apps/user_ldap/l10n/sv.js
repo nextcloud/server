@@ -133,7 +133,6 @@ OC.L10N.register(
     "Special Attributes" : "Specialattribut",
     "Quota Field" : "Fält för lagringsutrymme",
     "Quota Default" : "Standardutrymme för lagring",
-    "in bytes" : "i bytes",
     "Email Field" : "E-postfält",
     "User Home Folder Naming Rule" : "Namnregel för hemkatalog",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Lämnas tomt för användarnamn (standard). Ange annars ett LDAP-/AD-attribut.",
@@ -146,6 +145,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Användarnamn-LDAP användarmappning",
     "Clear Username-LDAP User Mapping" : "Rensa användarnamn-LDAP användarmappning",
     "Clear Groupname-LDAP Group Mapping" : "Rensa gruppnamn-LDAP gruppmappning",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Inställningar bekräftade, men inga användare funna. Endast den första kommer kunna logga in. Överväg ett mer begränsat filter."
+    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Inställningar bekräftade, men inga användare funna. Endast den första kommer kunna logga in. Överväg ett mer begränsat filter.",
+    "in bytes" : "i bytes"
 },
 "nplurals=2; plural=(n != 1);");

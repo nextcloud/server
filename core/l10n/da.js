@@ -52,6 +52,7 @@ OC.L10N.register(
     "Saving..." : "Gemmer...",
     "Dismiss" : "Afvis",
     "This action requires you to confirm your password" : "Denne handling kræver at du bekræfter dit kodeord",
+    "Authentication required" : "Godkendelse påkrævet",
     "Password" : "Adgangskode",
     "Cancel" : "Annullér",
     "Confirm" : "Bekræft",

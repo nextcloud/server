@@ -19,7 +19,7 @@ OC.L10N.register(
     "does not match IPv4" : "no coincide con IPv4",
     "matches IPv6" : "coincide con IPv6",
     "does not match IPv6" : "no coincide con IPv6",
-    "Request time" : "Solicitar tiempo",
+    "Request time" : "Tiempo de la solicitud",
     "between" : "entre",
     "not between" : "no entre",
     "Start" : "Inicio",

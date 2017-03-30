@@ -115,7 +115,6 @@
     "Special Attributes" : "Különleges attribútumok",
     "Quota Field" : "Kvóta mező",
     "Quota Default" : "Alapértelmezett kvóta",
-    "in bytes" : "bájtban",
     "Email Field" : "E-mail mező",
     "User Home Folder Naming Rule" : "Felhasználói Home mappa elnevezési szabály",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Hagyja üresen, ha a felhasználónevet kívánja használni. Ellenkező esetben adjon meg egy LDAP/AD attribútumot!",
@@ -128,6 +127,7 @@
     "Username-LDAP User Mapping" : "Felhasználó - LDAP felhasználó hozzárendelés",
     "Clear Username-LDAP User Mapping" : "A felhasználó - LDAP felhasználó hozzárendelés törlése",
     "Clear Groupname-LDAP Group Mapping" : "A csoport - LDAP csoport hozzárendelés törlése",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Beállítások ellenőrizve, de egy felhasználó található. Csak az első léphet be automatikusan. Próbálj egy pontosabb szűrőt."
+    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Beállítások ellenőrizve, de egy felhasználó található. Csak az első léphet be automatikusan. Próbálj egy pontosabb szűrőt.",
+    "in bytes" : "bájtban"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
