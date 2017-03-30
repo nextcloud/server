@@ -938,36 +938,6 @@ class ApiTest extends TestCase {
 
 	/**
 	 * @medium
-	 * @depends testCreateShareUserFile
-	 */
-	public function testUpdateShareInvalidPermissions() {
-		$node1 = $this->userFolder->get($this->filename);
-		$share1 = $this->shareManager->newShare();
-		$share1->setNode($node1)
-			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
-			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
-			->setPermissions(19);
-		$share1 = $this->shareManager->createShare($share1);
-
-		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
-		try {
-			$ocs->updateShare($share1->getId());
-			$this->fail();
-		} catch (OCSBadRequestException $e) {
-
-		}
-		$ocs->cleanup();
-
-		//Permissions should not have changed!
-		$share1 = $this->shareManager->getShareById('ocinternal:' . $share1->getId());
-		$this->assertEquals(19, $share1->getPermissions());
-
-		$this->shareManager->deleteShare($share1);
-	}
-
-	/**
-	 * @medium
 	 */
 	function testUpdateShareUpload() {
 		$node1 = $this->userFolder->get($this->folder);

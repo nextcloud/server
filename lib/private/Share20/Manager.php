@@ -266,8 +266,8 @@ class Manager implements IManager {
 
 		// Check that read permissions are always set
 		// Link shares are allowed to have no read permissions to allow upload to hidden folders
-		$noReadPermissionRequired = $share->getShareType() !== \OCP\Share::SHARE_TYPE_LINK
-			|| $share->getShareType() !== \OCP\Share::SHARE_TYPE_EMAIL;
+		$noReadPermissionRequired = $share->getShareType() === \OCP\Share::SHARE_TYPE_LINK
+			|| $share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL;
 		if (!$noReadPermissionRequired &&
 			($share->getPermissions() & \OCP\Constants::PERMISSION_READ) === 0) {
 			throw new \InvalidArgumentException('Shares need at least read permissions');
@@ -936,59 +936,49 @@ class Manager implements IManager {
 		 * Work around so we don't return expired shares but still follow
 		 * proper pagination.
 		 */
-		if ($shareType === \OCP\Share::SHARE_TYPE_LINK) {
-			$shares2 = [];
 
-			while(true) {
-				$added = 0;
-				foreach ($shares as $share) {
+		$shares2 = [];
 
-					$added++;
-					$shares2[] = $share;
+		while(true) {
+			$added = 0;
+			foreach ($shares as $share) {
 
-					if (count($shares2) === $limit) {
-						break;
-					}
+				try {
+					$this->checkExpireDate($share);
+				} catch (ShareNotFound $e) {
+					//Ignore since this basically means the share is deleted
+					continue;
 				}
+
+				$added++;
+				$shares2[] = $share;
 
 				if (count($shares2) === $limit) {
 					break;
 				}
-
-				// If there was no limit on the select we are done
-				if ($limit === -1) {
-					break;
-				}
-
-				$offset += $added;
-
-				// Fetch again $limit shares
-				$shares = $provider->getSharesBy($userId, $shareType, $path, $reshares, $limit, $offset);
-
-				// No more shares means we are done
-				if (empty($shares)) {
-					break;
-				}
 			}
 
-			$shares = $shares2;
-		}
+			if (count($shares2) === $limit) {
+				break;
+			}
 
+			// If there was no limit on the select we are done
+			if ($limit === -1) {
+				break;
+			}
 
-		// remove all shares which are already expired
-		foreach ($shares as $key => $share) {
-			try {
-				$this->checkExpireDate($share);
-			} catch (ShareNotFound $e) {
-				unset($shares[$key]);
-				try {
-					$this->deleteShare($share);
-				} catch (NotFoundException $e) {
-					//Ignore since this basically means the share is deleted
-				}
+			$offset += $added;
+
+			// Fetch again $limit shares
+			$shares = $provider->getSharesBy($userId, $shareType, $path, $reshares, $limit, $offset);
+
+			// No more shares means we are done
+			if (empty($shares)) {
+				break;
 			}
 		}
 
+		$shares = $shares2;
 
 		return $shares;
 	}
@@ -1011,11 +1001,6 @@ class Manager implements IManager {
 				$this->checkExpireDate($share);
 			} catch (ShareNotFound $e) {
 				unset($shares[$key]);
-				try {
-					$this->deleteShare($share);
-				} catch (NotFoundException $e) {
-					//Ignore since this basically means the share is deleted
-				}
 			}
 		}
 

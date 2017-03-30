@@ -116,7 +116,7 @@ class DefaultShareProvider implements IShareProvider {
 
 			//If a password is set store it
 			if ($share->getPassword() !== null) {
-				$qb->setValue('share_with', $qb->createNamedParameter($share->getPassword()));
+				$qb->setValue('password', $qb->createNamedParameter($share->getPassword()));
 			}
 
 			//If an expiration date is set store it

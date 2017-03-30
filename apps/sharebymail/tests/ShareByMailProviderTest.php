@@ -23,7 +23,6 @@
 namespace OCA\ShareByMail\Tests;
 
 
-use OC\HintException;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCP\Files\IRootFolder;
@@ -33,9 +32,7 @@ use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
-use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
-use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use Test\TestCase;
@@ -127,7 +124,8 @@ class ShareByMailProviderTest extends TestCase {
 					$this->logger,
 					$this->mailer,
 					$this->urlGenerator,
-					$this->activityManager
+					$this->activityManager,
+					$this->settingsManager
 				]
 			);
 
@@ -318,7 +316,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->share->expects($this->once())->method('getPermissions')->willReturn($permissions + 1);
 		$this->share->expects($this->once())->method('getShareOwner')->willReturn($uidOwner);
 		$this->share->expects($this->once())->method('getSharedBy')->willReturn($sharedBy);
-		$this->share->expects($this->once())->method('getId')->willReturn($id);
+		$this->share->expects($this->atLeastOnce())->method('getId')->willReturn($id);
 
 		$this->assertSame($this->share,
 			$instance->update($this->share)

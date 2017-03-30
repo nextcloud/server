@@ -429,11 +429,11 @@ class MigrationTest extends TestCase {
 
 		foreach ($allShares as $share) {
 			if ((int)$share['share_type'] === Share::SHARE_TYPE_LINK) {
-				$this->assertSame(null, $share['share_with']);
+				$this->assertNull( $share['share_with']);
 				$this->assertSame('shareWith', $share['password']);
 			} else {
 				$this->assertSame('shareWith', $share['share_with']);
-				$this->assertSame(null, $share['password']);
+				$this->assertNull($share['password']);
 			}
 		}
 	}

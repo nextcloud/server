@@ -510,7 +510,7 @@
 				passwordField.attr('value', '');
 				passwordField.attr('placeholder', PASSWORD_PLACEHOLDER_MESSAGE);
 			} else {
-				var passwordField = '#passwordField-' + this.cid + '-' + shareId;
+				passwordField = '#passwordField-' + this.cid + '-' + shareId;
 				this.$(passwordField).focus();
 			}
 		},
@@ -623,10 +623,9 @@
 			var $li = $element.closest('li[data-share-id]');
 			var shareId = $li.data('share-id');
 
+			var permissions = OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE | OC.PERMISSION_DELETE | OC.PERMISSION_READ;
 			if ($element.is(':checked')) {
-				var permissions = OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE | OC.PERMISSION_DELETE;
-			} else {
-				var permissions = OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE | OC.PERMISSION_DELETE | OC.PERMISSION_READ;
+				permissions = OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE | OC.PERMISSION_DELETE;
 			}
 
 			/** disable checkboxes during save operation to avoid race conditions **/
