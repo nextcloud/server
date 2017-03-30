@@ -37,6 +37,7 @@
 
 namespace OC\Files\Cache;
 
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use Doctrine\DBAL\Driver\Statement;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
@@ -130,7 +131,7 @@ class Cache implements ICache {
 			$where = 'WHERE `fileid` = ?';
 			$params = array($file);
 		}
-		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
+		$sql = 'SELECT `fileid`, `storage`, `path`, `path_hash`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
 					   `storage_mtime`, `encrypted`, `etag`, `permissions`, `checksum`
 				FROM `*PREFIX*filecache` ' . $where;
 		$result = $this->connection->executeQuery($sql, $params);
@@ -522,27 +523,35 @@ class Cache implements ICache {
 				throw new \Exception('Invalid target storage id: ' . $targetStorageId);
 			}
 
-			// sql for final update
-			$moveSql = 'UPDATE `*PREFIX*filecache` SET `storage` =  ?, `path` = ?, `path_hash` = ?, `name` = ?, `parent` =? WHERE `fileid` = ?';
-
+			$this->connection->beginTransaction();
 			if ($sourceData['mimetype'] === 'httpd/unix-directory') {
-				//find all child entries
-				$sql = 'SELECT `path`, `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path` LIKE ?';
-				$result = $this->connection->executeQuery($sql, [$sourceStorageId, $this->connection->escapeLikeParameter($sourcePath) . '/%']);
-				$childEntries = $result->fetchAll();
+				//update all child entries
 				$sourceLength = strlen($sourcePath);
-				$this->connection->beginTransaction();
-				$query = $this->connection->prepare('UPDATE `*PREFIX*filecache` SET `storage` = ?, `path` = ?, `path_hash` = ? WHERE `fileid` = ?');
+				$query = $this->connection->getQueryBuilder();
 
-				foreach ($childEntries as $child) {
-					$newTargetPath = $targetPath . substr($child['path'], $sourceLength);
-					$query->execute([$targetStorageId, $newTargetPath, md5($newTargetPath), $child['fileid']]);
+				$fun = $query->func();
+				$newPathFunction = $fun->concat(
+					$query->createNamedParameter($targetPath),
+					$fun->substring('path', $query->createNamedParameter($sourceLength + 1, IQueryBuilder::PARAM_INT))// +1 for the leading slash
+				);
+				$query->update('filecache')
+					->set('storage', $query->createNamedParameter($targetStorageId, IQueryBuilder::PARAM_INT))
+					->set('path_hash', $fun->md5($newPathFunction))
+					->set('path', $newPathFunction)
+					->where($query->expr()->eq('storage', $query->createNamedParameter($sourceStorageId, IQueryBuilder::PARAM_INT)))
+					->andWhere($query->expr()->like('path', $query->createNamedParameter($this->connection->escapeLikeParameter($sourcePath) . '/%')));
+
+				try {
+					$query->execute();
+				} catch (\OC\DatabaseException $e) {
+					$this->connection->rollBack();
+					throw $e;
 				}
-				$this->connection->executeQuery($moveSql, [$targetStorageId, $targetPath, md5($targetPath), basename($targetPath), $newParentId, $sourceId]);
-				$this->connection->commit();
-			} else {
-				$this->connection->executeQuery($moveSql, [$targetStorageId, $targetPath, md5($targetPath), \OC_Util::basename($targetPath), $newParentId, $sourceId]);
 			}
+
+			$sql = 'UPDATE `*PREFIX*filecache` SET `storage` = ?, `path` = ?, `path_hash` = ?, `name` = ?, `parent` = ? WHERE `fileid` = ?';
+			$this->connection->executeQuery($sql, array($targetStorageId, $targetPath, md5($targetPath), \OC_Util::basename($targetPath), $newParentId, $sourceId));
+			$this->connection->commit();
 		} else {
 			$this->moveFromCacheFallback($sourceCache, $sourcePath, $targetPath);
 		}

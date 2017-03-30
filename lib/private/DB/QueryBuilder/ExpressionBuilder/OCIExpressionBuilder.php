@@ -156,6 +156,13 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 	/**
 	 * @inheritdoc
 	 */
+	public function like($x, $y, $type = null) {
+		return parent::like($x, $y, $type) . " ESCAPE '\\'";
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function iLike($x, $y, $type = null) {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnName($y);

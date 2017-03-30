@@ -352,24 +352,26 @@ class ExpressionBuilderTest extends TestCase {
 		return [
 			['eq', '5', IQueryBuilder::PARAM_STR, false, 3],
 			['eq', '5', IQueryBuilder::PARAM_STR, true, 1],
-			['neq', '5', IQueryBuilder::PARAM_STR, false, 6],
-			['neq', '5', IQueryBuilder::PARAM_STR, true, 4],
+			['neq', '5', IQueryBuilder::PARAM_STR, false, 8],
+			['neq', '5', IQueryBuilder::PARAM_STR, true, 6],
 			['lt', '5', IQueryBuilder::PARAM_STR, false, 3],
 			['lt', '5', IQueryBuilder::PARAM_STR, true, 1],
 			['lte', '5', IQueryBuilder::PARAM_STR, false, 6],
 			['lte', '5', IQueryBuilder::PARAM_STR, true, 4],
-			['gt', '5', IQueryBuilder::PARAM_STR, false, 3],
+			['gt', '5', IQueryBuilder::PARAM_STR, false, 5],
 			['gt', '5', IQueryBuilder::PARAM_STR, true, 1],
-			['gte', '5', IQueryBuilder::PARAM_STR, false, 6],
+			['gte', '5', IQueryBuilder::PARAM_STR, false, 8],
 			['gte', '5', IQueryBuilder::PARAM_STR, true, 4],
 			['like', '%5%', IQueryBuilder::PARAM_STR, false, 3],
 			['like', '%5%', IQueryBuilder::PARAM_STR, true, 1],
-			['notLike', '%5%', IQueryBuilder::PARAM_STR, false, 6],
-			['notLike', '%5%', IQueryBuilder::PARAM_STR, true, 4],
+			['like', 'under_%', IQueryBuilder::PARAM_STR, false, 2],
+			['like', 'under\_%', IQueryBuilder::PARAM_STR, false, 1],
+			['notLike', '%5%', IQueryBuilder::PARAM_STR, false, 8],
+			['notLike', '%5%', IQueryBuilder::PARAM_STR, true, 6],
 			['in', ['5'], IQueryBuilder::PARAM_STR_ARRAY, false, 3],
 			['in', ['5'], IQueryBuilder::PARAM_STR_ARRAY, true, 1],
-			['notIn', ['5'], IQueryBuilder::PARAM_STR_ARRAY, false, 6],
-			['notIn', ['5'], IQueryBuilder::PARAM_STR_ARRAY, true, 4],
+			['notIn', ['5'], IQueryBuilder::PARAM_STR_ARRAY, false, 8],
+			['notIn', ['5'], IQueryBuilder::PARAM_STR_ARRAY, true, 6],
 		];
 	}
 
@@ -392,6 +394,8 @@ class ExpressionBuilderTest extends TestCase {
 		$this->createConfig($appId, 7, 4);
 		$this->createConfig($appId, 8, 5);
 		$this->createConfig($appId, 9, 6);
+		$this->createConfig($appId, 10, 'under_score');
+		$this->createConfig($appId, 11, 'underscore');
 
 		$query = $this->connection->getQueryBuilder();
 		$query->select($query->createFunction('COUNT(*) AS `count`'))
