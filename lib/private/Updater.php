@@ -71,6 +71,22 @@ class Updater extends BasicEmitter {
 		4 => 'Fatal',
 	];
 
+	static protected $validNextcloudReleases = [
+		'11.0.2.7',
+		'11.0.2.0',
+		'11.0.1.2',
+		'11.0.1.1',
+		'11.0.0.10',
+		'11.0.0.7',
+		'9.1.4.2',
+		'9.1.4.0',
+		'9.1.3.2',
+		'9.1.3.1',
+		'9.1.1.5',
+		'9.1.1.0',
+		'9.1.0.15',
+	];
+
 	/**
 	 * @param IConfig $config
 	 * @param Checker $checker
@@ -188,6 +204,13 @@ class Updater extends BasicEmitter {
 			return isset($allowedPreviousVersions[$currentVendor][$majorMinor])
 				&& (version_compare($oldVersion, $newVersion, '<=') ||
 					$this->config->getSystemValue('debug', false));
+		}
+
+		if ($currentVendor === '') {
+			// Installed Nextcloud 10 or 11 where the install didn't set the vendor?
+			if (in_array($oldVersion, self::$validNextcloudReleases, true)) {
+				return true;
+			}
 		}
 
 		// Check if the instance can be migrated
