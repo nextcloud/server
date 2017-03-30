@@ -139,7 +139,6 @@ OC.L10N.register(
     "Special Attributes" : "Posebni atributi",
     "Quota Field" : "Polje količinske omejitve",
     "Quota Default" : "Privzeta količinska omejitev",
-    "in bytes" : "v bajtih",
     "Email Field" : "Polje elektronske pošte",
     "User Home Folder Naming Rule" : "Pravila poimenovanja uporabniške osebne mape",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Pustite prazno za uporabniško ime (privzeto), sicer navedite atribut LDAP/AD.",
@@ -152,6 +151,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Uporabniška preslikava uporabniškega imena na LDAP",
     "Clear Username-LDAP User Mapping" : "Izbriši preslikavo uporabniškega imena na LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Izbriši preslikavo skupine na LDAP",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Nastavitve so overjene, najden pa je le en uporabnik. Le prvi se bo lahko prijavil. Priporočljivo je navesti ožji filter."
+    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Nastavitve so overjene, najden pa je le en uporabnik. Le prvi se bo lahko prijavil. Priporočljivo je navesti ožji filter.",
+    "in bytes" : "v bajtih"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

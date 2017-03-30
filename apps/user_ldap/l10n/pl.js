@@ -149,7 +149,6 @@ OC.L10N.register(
     "Special Attributes" : "Specjalne atrybuty",
     "Quota Field" : "Pole przydziału",
     "Quota Default" : "Przydział domyślny",
-    "in bytes" : "w bajtach",
     "Email Field" : "Pole email",
     "User Home Folder Naming Rule" : "Reguły nazewnictwa folderu domowego użytkownika",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Pozostaw puste dla user name (domyślnie). W przeciwnym razie podaj atrybut LDAP/AD.",
@@ -164,6 +163,7 @@ OC.L10N.register(
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Nazwy użytkowników służą do przechowywania i przypisywania (meta) danych. W celu dokładnego określenia i rozpoznawania użytkowników, każdy użytkownik LDAP ma przypisaną wewnętrzną nazwę użytkownika. Wymaga to mapowania nazwy użytkownika do użytkownika LDAP. Utworzona nazwa użytkownika jest odwzorowywana na UUID użytkownika LDAP. Dodatkowo DN są buforowane, także w celu zmniejszenia oddziaływania LDAP, ale nie są stosowane do identyfikacji. Po zmianie DN, będzie można znaleźć zmiany. Wewnętrzna nazwa jest używana wszędzie. Usuwanie mapowania będzie miało wpływ wszędzie. Usuwanie mapowania nie jest wrażliwe na konfiguracje, dotyczy to wszystkich konfiguracji LDAP! Nigdy nie usuwaj mapowania w środowisku produkcyjnym, jest to dopuszczalne tylko w fazie eksperymentalnej, testowej.",
     "Clear Username-LDAP User Mapping" : "Czyść Mapowanie użytkownika LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Czyść Mapowanie nazwy grupy LDAP",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Ustawienia zweryfikowano, ale znaleziono jednego użytkownika. Tylko pierwszy będzie mógł się zalogować. Rozważ większe zawężenie filtrami."
+    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Ustawienia zweryfikowano, ale znaleziono jednego użytkownika. Tylko pierwszy będzie mógł się zalogować. Rozważ większe zawężenie filtrami.",
+    "in bytes" : "w bajtach"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

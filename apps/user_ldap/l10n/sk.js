@@ -136,7 +136,6 @@ OC.L10N.register(
     "Special Attributes" : "Špeciálne atribúty",
     "Quota Field" : "Pole kvóty",
     "Quota Default" : "Predvolená kvóta",
-    "in bytes" : "v bajtoch",
     "Email Field" : "Pole emailu",
     "User Home Folder Naming Rule" : "Pravidlo pre nastavenie názvu používateľského priečinka dát",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Nechajte prázdne pre používateľské meno (predvolené). Inak uveďte atribút z LDAP/AD.",
@@ -150,6 +149,7 @@ OC.L10N.register(
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Používateľské mená sa používajú na uchovávanie a priraďovanie (meta)dát. Každý používateľ v LDAP bude mať interné používateľské meno, aby bolo možné správne identifikovať a rozpoznávať používateľov. To je vyžaduje vytvorenie mapovania používateľských mien na používateľov v LDAPe. Vytvorené používateľské meno sa namapuje na UUID používateľa v LDAPe. Naviac je sa vo vyrovnávacej pamäti udržiava DN, aby sa obmedzila nadmerná interakcia s LDAPom, ale to sa nepoužíva na identifikáciu. Ak sa DN zmení, zmena bude správne rozpoznaná. Interné používateľské meno sa používa všade. Vyčistenie mapovaní vymaže zvyšky všade. Vyčistenie mapovaní naviac nie je špecifické pre určitú konfiguráciu; bude mať vplyv na všetky konfigurácie LDAPu! Nikdy nečistite mapovanie v produkčnom prostredí, len v testovacej alebo experimentálnej fáze.",
     "Clear Username-LDAP User Mapping" : "Zrušiť mapovanie LDAP používateľských mien",
     "Clear Groupname-LDAP Group Mapping" : "Zrušiť mapovanie názvov LDAP skupín",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Nastavenia sú overené, nájdený jeden používateľ. Len prvý používateľ sa bude môcť prihlásiť. Zvážte nastavenie užšieho filtra."
+    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Nastavenia sú overené, nájdený jeden používateľ. Len prvý používateľ sa bude môcť prihlásiť. Zvážte nastavenie užšieho filtra.",
+    "in bytes" : "v bajtoch"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
