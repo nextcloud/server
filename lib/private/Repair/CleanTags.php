@@ -173,7 +173,7 @@ class CleanTags implements IRepairStep {
 
 		$qb->select('d.' . $deleteId)
 			->from($deleteTable, 'd')
-			->leftJoin('d', $sourceTable, 's', $qb->expr()->eq('d.' . $deleteId, ' s.' . $sourceId))
+			->leftJoin('d', $sourceTable, 's', $qb->expr()->eq('d.' . $deleteId, 's.' . $sourceId))
 			->where(
 				$qb->expr()->eq('d.type', $qb->expr()->literal('files'))
 			)
