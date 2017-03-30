@@ -100,18 +100,6 @@
 							'</span>' +
 						'</li>' +
 					'{{/if}}' +
-				'{{/if}}' +
-				'<li>' +
-					'<span class="shareOption menuitem">' +
-						'<input id="expireDate-{{cid}}-{{shareId}}" type="checkbox" name="expirationDate" class="expireDate checkbox" {{#if hasExpireDate}}checked="checked"{{/if}}" />' +
-						'<label for="expireDate-{{cid}}-{{shareId}}">{{expireDateLabel}}</label>' +
-						'<div class="expirationDateContainer-{{cid}}-{{shareId}} {{#unless hasExpireDate}}hidden{{/unless}}">' +
-						'    <label for="expirationDatePicker-{{cid}}-{{shareId}}" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>' +
-						'    <input id="expirationDatePicker-{{cid}}-{{shareId}}" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{expireDate}}" />' +
-						'</div>' +
-					'</span>' +
-				'</li>' +
-				'{{#if isMailShare}}' +
 					'<li>' +
 						'<span class="shareOption menuitem">' +
 							'<input id="password-{{cid}}-{{shareId}}" type="checkbox" name="password" class="password checkbox" {{#if isPasswordSet}}checked="checked"{{/if}}" />' +
@@ -124,6 +112,16 @@
 						'</span>' +
 					'</li>' +
 				'{{/if}}' +
+				'<li>' +
+					'<span class="shareOption menuitem">' +
+						'<input id="expireDate-{{cid}}-{{shareId}}" type="checkbox" name="expirationDate" class="expireDate checkbox" {{#if hasExpireDate}}checked="checked"{{/if}}" />' +
+						'<label for="expireDate-{{cid}}-{{shareId}}">{{expireDateLabel}}</label>' +
+						'<div class="expirationDateContainer-{{cid}}-{{shareId}} {{#unless hasExpireDate}}hidden{{/unless}}">' +
+						'    <label for="expirationDatePicker-{{cid}}-{{shareId}}" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>' +
+						'    <input id="expirationDatePicker-{{cid}}-{{shareId}}" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{expireDate}}" />' +
+						'</div>' +
+					'</span>' +
+				'</li>' +
 				'<li>' +
 					'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span>{{unshareLabel}}</span></a>' +
 				'</li>' +
