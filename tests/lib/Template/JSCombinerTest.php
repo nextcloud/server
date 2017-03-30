@@ -111,7 +111,7 @@ class JSCombinerTest extends \Test\TestCase {
 					return $file;
 				} else if ($path === 'combine.js.deps') {
 					throw new NotFoundException();
-				} else if ($path === 'combine.js.gz') {
+				} else if ($path === 'combine.js.gzip') {
 					return $gzfile;
 				}
 				$this->fail();
@@ -148,7 +148,7 @@ class JSCombinerTest extends \Test\TestCase {
 					return $file;
 				} else if ($path === 'combine.js.deps') {
 					throw new NotFoundException();
-				} else if ($path === 'combine.js.gz') {
+				} else if ($path === 'combine.js.gzip') {
 					return $gzfile;
 				}
 				$this->fail();
@@ -302,7 +302,7 @@ class JSCombinerTest extends \Test\TestCase {
 					return $file;
 				} else if ($filename === 'combine.js.deps') {
 					return $depsFile;
-				} else if ($filename === 'combine.js.gz') {
+				} else if ($filename === 'combine.js.gzip') {
 					return $gzFile;
 				}
 				$this->fail();
@@ -333,7 +333,7 @@ class JSCombinerTest extends \Test\TestCase {
 					return $file;
 				} else if ($filename === 'combine.js.deps') {
 					return $depsFile;
-				} else if ($filename === 'combine.js.gz') {
+				} else if ($filename === 'combine.js.gzip') {
 					return $gzFile;
 				}
 				$this->fail();
@@ -401,7 +401,7 @@ var b = \'world\';
 					return $file;
 				} else if ($filename === 'combine.js.deps') {
 					return $depsFile;
-				} else if ($filename === 'combine.js.gz') {
+				} else if ($filename === 'combine.js.gzip') {
 					return $gzFile;
 				}
 				$this->fail();

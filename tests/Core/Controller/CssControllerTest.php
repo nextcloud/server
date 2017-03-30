@@ -121,7 +121,7 @@ class CssControllerTest extends TestCase {
 			->willReturn($folder);
 
 		$folder->method('getFile')
-			->with('file.css.gz')
+			->with('file.css.gzip')
 			->willReturn($gzipFile);
 
 		$this->request->method('getHeader')

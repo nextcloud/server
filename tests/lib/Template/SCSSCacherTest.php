@@ -81,7 +81,7 @@ class SCSSCacherTest extends \Test\TestCase {
 					return $file;
 				} else if ($path === 'styles.css.deps') {
 					throw new NotFoundException();
-				} else if ($path === 'styles.css.gz') {
+				} else if ($path === 'styles.css.gzip') {
 					return $gzfile;
 				} else {
 					$this->fail();
@@ -110,7 +110,7 @@ class SCSSCacherTest extends \Test\TestCase {
 					return $file;
 				} else if ($path === 'styles.css.deps') {
 					throw new NotFoundException();
-				} else if ($path === 'styles.css.gz') {
+				} else if ($path === 'styles.css.gzip') {
 					return $gzfile;
 				}else {
 					$this->fail();
@@ -228,7 +228,7 @@ class SCSSCacherTest extends \Test\TestCase {
 				return $file;
 			} else if ($fileName === 'styles.css.deps') {
 				return $depsFile;
-			} else if ($fileName === 'styles.css.gz') {
+			} else if ($fileName === 'styles.css.gzip') {
 				return $gzipFile;
 			}
 			throw new \Exception();
@@ -258,7 +258,7 @@ class SCSSCacherTest extends \Test\TestCase {
 				return $file;
 			} else if ($fileName === 'styles.css.deps') {
 				return $depsFile;
-			} else if ($fileName === 'styles.css.gz') {
+			} else if ($fileName === 'styles.css.gzip') {
 				return $gzipFile;
 			}
 			throw new \Exception();
@@ -288,7 +288,7 @@ class SCSSCacherTest extends \Test\TestCase {
 				return $file;
 			} else if ($fileName === 'styles-success.css.deps') {
 				return $depsFile;
-			} else if ($fileName === 'styles-success.css.gz') {
+			} else if ($fileName === 'styles-success.css.gzip') {
 				return $gzipFile;
 			}
 			throw new \Exception();
