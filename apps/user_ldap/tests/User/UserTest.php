@@ -289,13 +289,13 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->updateQuota();
 	}
 
 	public function testUpdateQuotaToNoneAllProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -329,13 +329,13 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->updateQuota();
 	}
 
 	public function testUpdateQuotaDefaultProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -550,7 +550,7 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->updateQuota($readQuota);
 	}
@@ -559,7 +559,7 @@ class UserTest extends \Test\TestCase {
 	 * Unparseable quota will fallback to use the LDAP default
 	 */
 	public function testUpdateWrongQuotaAllProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -598,7 +598,7 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->updateQuota();
 	}
@@ -607,7 +607,7 @@ class UserTest extends \Test\TestCase {
 	 * No user quota and wrong default will set 'default' as quota
 	 */
 	public function testUpdateWrongDefaultQuotaProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -646,7 +646,7 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->updateQuota();
 	}
@@ -655,7 +655,7 @@ class UserTest extends \Test\TestCase {
 	 * Wrong user quota and wrong default will set 'default' as quota
 	 */
 	public function testUpdateWrongQuotaAndDefaultAllProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -694,7 +694,7 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->updateQuota();
 	}
