@@ -124,6 +124,7 @@ OC.L10N.register(
     "Password protect" : "Suojaa salasanalla",
     "Allow upload and editing" : "Salli lähetys ja muokkaus",
     "Allow editing" : "Salli muokkaus",
+    "upload only" : "vain lähetys",
     "Email link to person" : "Lähetä linkki sähköpostitse",
     "Send" : "Lähetä",
     "Shared with you and the group {group} by {owner}" : "Jaettu sinun ja ryhmän {group} kanssa käyttäjältä {owner}",

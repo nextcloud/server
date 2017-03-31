@@ -126,6 +126,7 @@ OC.L10N.register(
     "Shared with you" : "Compartido con usted",
     "Shared with others" : "Compartido con otros",
     "Shared by link" : "Compartido por liga",
+    "Tags" : "Etiquetas",
     "Deleted files" : "Archivos borrados",
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt",

@@ -313,6 +313,7 @@ OC.L10N.register(
     "Subscribe to our twitter channel!" : "Iratkozz fel a Twitter csatornánkra!",
     "Subscribe to our news feed!" : "Iratkozz fel a hírfolyamunkra!",
     "Subscribe to our newsletter!" : "Iratkozz fel a hírlevelünkre!",
+    "Settings" : "Beállítások",
     "Show storage location" : "Háttértároló helyének mutatása",
     "Show last log in" : "Utolsó bejelentkezés megjelenítése",
     "Show user backend" : "Felhasználói háttér mutatása",
