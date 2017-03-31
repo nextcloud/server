@@ -30,7 +30,7 @@
 			'{{#if singleAction}}' +
 				'<a class="{{#unless isLinkShare}}hidden-visually{{/unless}} clipboardButton icon icon-clippy" data-clipboard-target="#linkText-{{cid}}"></a>' +
 			'{{else}}' +
-				'<a href="#"><span class="linkMore icon icon-more"></span></a>' +
+				'<a class="{{#unless isLinkShare}}hidden-visually{{/unless}}" href="#"><span class="linkMore icon icon-more"></span></a>' +
 				'{{{popoverMenu}}}' +
 			'{{/if}}' +
 			'</div>' +
