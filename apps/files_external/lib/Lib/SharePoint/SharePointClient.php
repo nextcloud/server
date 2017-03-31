@@ -26,6 +26,7 @@ namespace OCA\Files_External\Lib\SharePoint;
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
+use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use Office365\PHP\Client\SharePoint\ClientContext;
 use Office365\PHP\Client\SharePoint\File;
 use Office365\PHP\Client\SharePoint\Folder;
@@ -113,6 +114,7 @@ class SharePointClient {
 	 * adds a folder on the given server path
 	 *
 	 * @param string $relativeServerPath
+	 * @return Folder
 	 * @throws \Exception
 	 */
 	public function createFolder($relativeServerPath) {
@@ -132,6 +134,43 @@ class SharePointClient {
 			$this->createClientContext();
 			throw $e;
 		}
+	}
+
+	/**
+	 * downloads a file by passing it directly into a file resource
+	 *
+	 * @param $relativeServerPath
+	 * @param resource $fp a file resource open for writing
+	 * @return \Office365\PHP\Client\Runtime\OData\ODataPayload
+	 * @throws \Exception
+	 */
+	public function getFileViaStream($relativeServerPath, $fp) {
+		if(!is_resource($fp)) {
+			throw new \InvalidArgumentException('file resource expected');
+		}
+		$relativeServerPath = rawurlencode($relativeServerPath);
+		$url = $this->context->getServiceRootUrl() .
+			"web/getfilebyserverrelativeurl('$relativeServerPath')/\$value";
+		$options = new RequestOptions($url);
+		$options->addCurlOption(CURLOPT_FILE, $fp);
+
+		try {
+			$ok = $this->context->executeQueryDirect($options);
+		} catch(\Exception $e) {
+			$this->createClientContext();
+			throw $e;
+		}
+		return $ok;
+	}
+
+	/**
+	 * fetches the file content (aka download)
+	 *
+	 * @param $relativeServerPath
+	 * @return string the file content
+	 */
+	public function getFile($relativeServerPath) {
+		return File::openBinary($this->context, $relativeServerPath);
 	}
 
 	public function deleteFolder($relativeServerPath, Folder $folder = null) {

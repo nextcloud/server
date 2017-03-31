@@ -31,6 +31,7 @@ use OCA\Files_External\Lib\SharePoint\NotFoundException;
 use OCA\Files_External\Lib\SharePoint\SharePointClient;
 use OCA\Files_External\Lib\SharePoint\SharePointClientFactory;
 use OCP\Files\FileInfo;
+use OCP\ITempManager;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
 use Office365\PHP\Client\SharePoint\File;
 use Office365\PHP\Client\SharePoint\Folder;
@@ -61,6 +62,9 @@ class SharePoint extends Common {
 
 	/** @var ContextsFactory */
 	private $contextsFactory;
+
+	/** @var ITempManager */
+	private $tempManager;
 
 	public function __construct($parameters) {
 		$this->server = $parameters['host'];
@@ -266,7 +270,7 @@ class SharePoint extends Common {
 	 */
 	public function unlink($path) {
 		//  FIXME:: all is totally wrong
-		$path = trim($path);
+		/*$path = trim($path);
 		if($path === '/' || $path === '') {
 			return false;
 		}
@@ -278,7 +282,7 @@ class SharePoint extends Common {
 			} catch(\Exception $e) {
 				// NOOP
 			}
-		}
+		}*/
 		return false;
 	}
 
@@ -291,7 +295,27 @@ class SharePoint extends Common {
 	 * @since 6.0.0
 	 */
 	public function fopen($path, $mode) {
-		// TODO: Implement fopen() method.
+		$serverUrl = $this->formatPath($path);
+
+		switch ($mode) {
+			case 'r':
+			case 'rb':
+				$tmpFile = $this->tempManager->getTemporaryFile();
+
+				// TODO: when https://github.com/vgrem/phpSPO/pull/59 is merged,
+				// use getFileViaStream approach and remove the other code
+				/*$fp = fopen($tmpFile, 'w+');
+				if(!$this->spClient->getFileViaStream($serverUrl, $fp)) {
+					fclose($fp);
+					return false;
+				}
+				fseek($fp, 0);
+				return $fp;*/
+
+				$content = $this->spClient->getFile($serverUrl);
+				file_put_contents($tmpFile, $content);
+				return fopen($tmpFile, 'r');
+		}
 		return false;
 	}
 
@@ -341,7 +365,14 @@ class SharePoint extends Common {
 		if(isset($parameters['cappedMemoryCache'])) {
 			$this->fileCache = $parameters['cappedMemoryCache'];
 		} else {
-			$this->fileCache = new CappedMemoryCache('256');
+			// there's no API to get such
+			$this->fileCache = new CappedMemoryCache();
+		}
+
+		if(isset($parameters['tempManager'])) {
+			$this->tempManager = $parameters['tempManager'];
+		} else {
+			$this->tempManager = \OC::$server->getTempManager();
 		}
 	}
 
