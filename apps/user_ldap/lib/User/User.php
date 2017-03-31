@@ -630,10 +630,10 @@ class User {
 			//handle pwdReset attribute
 			$pwdReset = $this->access->readAttribute($this->dn, 'pwdReset');
 			if($pwdReset && (count($pwdReset) > 0) && $pwdReset[0] === 'TRUE') { //user must change his password
-					$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
-					header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
-					'user_ldap.renewPassword.showRenewPasswordForm', array('user' => $uid)));
-					exit();
+				$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
+				header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
+				'user_ldap.renewPassword.showRenewPasswordForm', array('user' => $uid)));
+				exit();
 			}
 			//handle password expiry warning
 			$pwdChangedTime  = $this->access->readAttribute($this->dn, 'pwdChangedTime');//for efficiency read only 1 attribute first
