@@ -57,6 +57,7 @@ OC.L10N.register(
     "{actor} removed share" : "{actor} lopetti jakamisen",
     "You shared {file} with {user}" : "Jaoit kohteen {file} käyttäjälle {user}",
     "You removed {user} from {file}" : "Poistit käyttäjän {user} kohteen {file} käyttöoikeudet",
+    "{actor} shared {file} with {user}" : "{actor} jakoi kohteen {file} käyttäjälle {user}",
     "{actor} removed {user} from {file}" : "{actor} poisti käyttäjän {user} kohteen {file} käyttöoikeudet",
     "{actor} shared {file} with you" : "{actor} jakoi kohteen {file} kanssasi",
     "{actor} removed you from {file}" : "{actor} poisti käyttöoikeutesi kohteeseen {file}",
