@@ -120,7 +120,7 @@ class Search extends Command {
 				$limit = null;
 			}
 		} else {
-			$proxy = new User_Proxy($configPrefixes, $ldapWrapper, $this->ocConfig);
+			$proxy = new User_Proxy($configPrefixes, $ldapWrapper, $this->ocConfig, \OC::$server->getNotificationManager());
 			$getMethod = 'getDisplayNames';
 			$printID = true;
 		}

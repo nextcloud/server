@@ -42,6 +42,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Image;
 use OCP\IUserManager;
+use OCP\Notification\IManager as INotificationManager;
 
 /**
  * Class AccessTest
@@ -89,7 +90,8 @@ class AccessTest extends \Test\TestCase {
 				$this->createMock(IAvatarManager::class),
 				$this->createMock(Image::class),
 				$this->createMock(IDBConnection::class),
-				$this->createMock(IUserManager::class)])
+				$this->createMock(IUserManager::class),
+				$this->createMock(INotificationManager::class)])
 			->getMock();
 		$helper = new Helper(\OC::$server->getConfig());
 

@@ -41,6 +41,7 @@ use OCA\User_LDAP\Exceptions\NotOnLDAP;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
+use OCP\Notification\IManager as INotificationManager;
 use OCP\Util;
 
 class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserInterface, IUserLDAP {
@@ -50,13 +51,18 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	/** @var \OCP\IConfig */
 	protected $ocConfig;
 
+	/** @var INotificationManager */
+	protected $notificationManager;
+
 	/**
 	 * @param Access $access
 	 * @param \OCP\IConfig $ocConfig
+	 * @param \OCP\Notification\IManager $notificationManager
 	 */
-	public function __construct(Access $access, IConfig $ocConfig) {
+	public function __construct(Access $access, IConfig $ocConfig, INotificationManager $notificationManager) {
 		parent::__construct($access);
 		$this->ocConfig = $ocConfig;
+		$this->notificationManager = $notificationManager;
 	}
 
 	/**
@@ -190,8 +196,19 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			throw new \Exception('LDAP setPassword: Could not get user object for uid ' . $uid .
 				'. Maybe the LDAP entry has no set display name attribute?');
 		}
-		if($user->getUsername() !== false) {
-			return $this->access->setPassword($user->getDN(), $password);
+		if($user->getUsername() !== false && $this->access->setPassword($user->getDN(), $password)) {
+			$ldapDefaultPPolicyDN = $this->access->connection->ldapDefaultPPolicyDN;
+			$turnOnPasswordChange = $this->access->connection->turnOnPasswordChange;
+			if (!empty($ldapDefaultPPolicyDN) && (intval($turnOnPasswordChange) === 1)) {
+				//remove last password expiry warning if any
+				$notification = $this->notificationManager->createNotification();
+				$notification->setApp('user_ldap')
+					->setUser($uid)
+					->setObject('pwd_exp_warn', $uid)
+				;
+				$this->notificationManager->markProcessed($notification);
+			}
+			return true;
 		}
 
 		return false;

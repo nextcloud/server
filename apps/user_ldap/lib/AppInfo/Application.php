@@ -21,6 +21,33 @@
  *
  */
 
-namespace OCA\User_LDAP\Exceptions;
+namespace OCA\User_LDAP\AppInfo;
 
-class ConstraintViolationException extends \Exception {}
+use OCA\User_LDAP\Controller\RenewPasswordController;
+use OCP\AppFramework\App;
+use OCP\AppFramework\IAppContainer;
+
+class Application extends App {
+	public function __construct () {
+		parent::__construct('user_ldap');
+		$container = $this->getContainer();
+
+		/**
+		 * Controller
+		 */
+		$container->registerService('RenewPasswordController', function(IAppContainer $c) {
+			/** @var \OC\Server $server */
+			$server = $c->query('ServerContainer');
+
+			return new RenewPasswordController(
+				$c->getAppName(),
+				$server->getRequest(),
+				$c->query('UserManager'),
+				$server->getConfig(),
+				$c->query('OCP\IL10N'),
+				//$c->query('Session'),
+				$server->getURLGenerator()
+			);
+		});
+	}
+}

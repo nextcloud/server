@@ -37,6 +37,7 @@ use OCP\IDBConnection;
 use OCP\Image;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Notification\IManager as INotificationManager;
 
 /**
  * Class UserTest
@@ -56,11 +57,12 @@ class UserTest extends \Test\TestCase {
 		$image   = $this->createMock(Image::class);
 		$dbc     = $this->createMock(IDBConnection::class);
 		$userMgr  = $this->createMock(IUserManager::class);
+		$notiMgr  = $this->createMock(INotificationManager::class);
 
-		return array($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr);
+		return array($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr);
 	}
 
-	private function getAdvancedMocks($cfMock, $fsMock, $logMock, $avaMgr, $dbc, $userMgr = null) {
+	private function getAdvancedMocks($cfMock, $fsMock, $logMock, $avaMgr, $dbc, $userMgr = null, $notiMgr = null) {
 		static $conMethods;
 		static $accMethods;
 		static $umMethods;
@@ -77,9 +79,12 @@ class UserTest extends \Test\TestCase {
 		if (is_null($userMgr)) {
 			$userMgr = $this->createMock(IUserManager::class);
 		}
+		if (is_null($notiMgr)) {
+			$notiMgr  = $this->createMock(INotificationManager::class);
+		}
 		$um = $this->getMockBuilder('\OCA\User_LDAP\User\Manager')
 			->setMethods($umMethods)
-			->setConstructorArgs([$cfMock, $fsMock, $logMock, $avaMgr, $im, $dbc, $userMgr])
+			->setConstructorArgs([$cfMock, $fsMock, $logMock, $avaMgr, $im, $dbc, $userMgr, $notiMgr])
 			->getMock();
 		$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
 		$connector = $this->getMockBuilder('\OCA\User_LDAP\Connection')
@@ -95,25 +100,25 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testGetDNandUsername() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $db, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $db, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$this->assertSame($dn, $user->getDN());
 		$this->assertSame($uid, $user->getUsername());
 	}
 
 	public function testUpdateEmailProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
-			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc, $userMgr);
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc, $userMgr, $notiMgr);
 
 		$connection->expects($this->once())
 			->method('__get')
@@ -140,13 +145,13 @@ class UserTest extends \Test\TestCase {
 			->method('get')
 			->willReturn($uuser);
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->updateEmail();
 	}
 
 	public function testUpdateEmailNotProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -170,13 +175,13 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->updateEmail();
 	}
 
 	public function testUpdateEmailNotConfigured() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -197,13 +202,13 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->updateEmail();
 	}
 
 	public function testUpdateQuotaAllProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -244,13 +249,13 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->updateQuota();
 	}
 
 	public function testUpdateQuotaToDefaultAllProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -369,13 +374,13 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->updateQuota();
 	}
 
 	public function testUpdateQuotaIndividualProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -416,13 +421,13 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->updateQuota();
 	}
 
 	public function testUpdateQuotaNoneProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -464,13 +469,13 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->updateQuota();
 	}
 
 	public function testUpdateQuotaNoneConfigured() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -510,13 +515,13 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->updateQuota();
 	}
 
 	public function testUpdateQuotaFromValue() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -734,14 +739,14 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->updateQuota();
 	}
 
 	//the testUpdateAvatar series also implicitely tests getAvatarImage
 	public function testUpdateAvatarJpegPhotoProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -784,13 +789,13 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->updateAvatar();
 	}
 
 	public function testUpdateAvatarThumbnailPhotoProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -842,13 +847,13 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->updateAvatar();
 	}
 
 	public function testUpdateAvatarNotProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -888,13 +893,13 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->updateAvatar();
 	}
 
 	public function testUpdateBeforeFirstLogin() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -924,13 +929,13 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->update();
 	}
 
 	public function testUpdateAfterFirstLogin() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -964,13 +969,13 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->update();
 	}
 
 	public function testUpdateNoRefresh() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -1000,13 +1005,13 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->update();
 	}
 
 	public function testMarkLogin() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $db, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $db, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$config->expects($this->once())
@@ -1021,13 +1026,13 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->markLogin();
 	}
 
 	public function testGetAvatarImageProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $db, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $db, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$access->expects($this->once())
@@ -1040,7 +1045,7 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$photo = $user->getAvatarImage();
 		$this->assertSame('this is a photo', $photo);
@@ -1050,7 +1055,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testProcessAttributes() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -1070,7 +1075,7 @@ class UserTest extends \Test\TestCase {
 		);
 
 		$userMock = $this->getMockBuilder('OCA\User_LDAP\User\User')
-			->setConstructorArgs(array($uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr))
+			->setConstructorArgs(array($uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr))
 			->setMethods($requiredMethods)
 			->getMock();
 
@@ -1102,7 +1107,7 @@ class UserTest extends \Test\TestCase {
 			$userMock->expects($this->once())
 				->method($method);
 		}
-
+		\OC_Hook::clear();//disconnect irrelevant hooks 
 		$userMock->processAttributes($record);
 		\OC_Hook::emit('OC_User', 'post_login', array('uid' => $uid));
 	}
@@ -1118,7 +1123,7 @@ class UserTest extends \Test\TestCase {
 	 * @dataProvider emptyHomeFolderAttributeValueProvider
 	 */
 	public function testGetHomePathNotConfigured($attributeValue) {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -1139,14 +1144,14 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$path = $user->getHomePath();
 		$this->assertSame($path, false);
 	}
 
 	public function testGetHomePathConfiguredNotAvailableAllowed() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -1170,7 +1175,7 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$path = $user->getHomePath();
 
@@ -1181,11 +1186,11 @@ class UserTest extends \Test\TestCase {
 	 * @expectedException \Exception
 	 */
 	public function testGetHomePathConfiguredNotAvailableNotAllowed() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
-			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc, $userMgr);
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc, $userMgr, $notiMgr);
 
 		$connection->expects($this->any())
 			->method('__get')
@@ -1205,7 +1210,7 @@ class UserTest extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->getHomePath();
 	}
@@ -1222,16 +1227,151 @@ class UserTest extends \Test\TestCase {
 	 * @dataProvider displayNameProvider
 	 */
 	public function testComposeAndStoreDisplayName($part1, $part2, $expected) {
-		list($access, $config, $filesys, $image, $log, $avaMgr, , $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, , $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$config->expects($this->once())
 			->method('setUserValue');
 
 		$user = new User(
-			'user', 'cn=user', $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			'user', 'cn=user', $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$displayName = $user->composeAndStoreDisplayName($part1, $part2);
 		$this->assertSame($expected, $displayName);
+	}
+
+	public function testHandlePasswordExpiryWarningDefaultPolicy() {
+		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+			$this->getTestInstances();
+
+		list($access, $connection) =
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
+
+		$uid = 'alice';
+		$dn = 'uid=alice';
+
+		$connection->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function($name) {
+				if($name === 'ldapDefaultPPolicyDN') {
+					return 'cn=default,ou=policies,dc=foo,dc=bar';
+				}
+				if($name === 'turnOnPasswordChange') {
+					return '1';
+				}
+				return $name;
+			}));
+
+		$access->expects($this->any())
+			->method('readAttribute')
+			->will($this->returnCallback(function($dn, $attr) {
+				if($attr === 'pwdChangedTime') {
+					return array((new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis').'Z');
+				}
+				if($dn === 'cn=default,ou=policies,dc=foo,dc=bar' && $attr === 'pwdMaxAge') {
+					return array('2592000');
+				}
+				if($dn === 'cn=default,ou=policies,dc=foo,dc=bar' && $attr === 'pwdExpireWarning') {
+					return array('2591999');
+				}
+				return array();
+			}));
+
+		$notification = $this->getMockBuilder('OCP\Notification\INotification')
+			->disableOriginalConstructor()
+			->getMock();
+		$notification->expects($this->any())
+			->method('setApp')
+			->will($this->returnValue($notification));
+		$notification->expects($this->any())
+			->method('setUser')
+			->will($this->returnValue($notification));
+		$notification->expects($this->any())
+			->method('setObject')
+			->will($this->returnValue($notification));
+		$notification->expects($this->any())
+			->method('setDateTime')
+			->will($this->returnValue($notification));
+		$notiMgr->expects($this->exactly(2))
+			->method('createNotification')
+			->will($this->returnValue($notification));
+		$notiMgr->expects($this->exactly(1))
+			->method('notify');
+
+		$user = new User(
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
+
+		\OC_Hook::clear();//disconnect irrelevant hooks 
+		\OCP\Util::connectHook('OC_User', 'post_login', $user, 'handlePasswordExpiry');
+		\OC_Hook::emit('OC_User', 'post_login', array('uid' => $uid));
+	}
+
+	public function testHandlePasswordExpiryWarningCustomPolicy() {
+		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+			$this->getTestInstances();
+
+		list($access, $connection) =
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
+
+		$uid = 'alice';
+		$dn = 'uid=alice';
+
+		$connection->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function($name) {
+				if($name === 'ldapDefaultPPolicyDN') {
+					return 'cn=default,ou=policies,dc=foo,dc=bar';
+				}
+				if($name === 'turnOnPasswordChange') {
+					return '1';
+				}
+				return $name;
+			}));
+
+		$access->expects($this->any())
+			->method('readAttribute')
+			->will($this->returnCallback(function($dn, $attr) {
+				if($attr === 'pwdPolicySubentry') {
+					return array('cn=custom,ou=policies,dc=foo,dc=bar');
+				}
+				if($attr === 'pwdChangedTime') {
+					return array((new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis').'Z');
+				}
+				if($dn === 'cn=custom,ou=policies,dc=foo,dc=bar' && $attr === 'pwdMaxAge') {
+					return array('2592000');
+				}
+				if($dn === 'cn=custom,ou=policies,dc=foo,dc=bar' && $attr === 'pwdExpireWarning') {
+					return array('2591999');
+				}
+				return array();
+			}));
+
+		$notification = $this->getMockBuilder('OCP\Notification\INotification')
+			->disableOriginalConstructor()
+			->getMock();
+		$notification->expects($this->any())
+			->method('setApp')
+			->will($this->returnValue($notification));
+		$notification->expects($this->any())
+			->method('setUser')
+			->will($this->returnValue($notification));
+		$notification->expects($this->any())
+			->method('setObject')
+			->will($this->returnValue($notification));
+		$notification->expects($this->any())
+			->method('setDateTime')
+			->will($this->returnValue($notification));
+		$notiMgr->expects($this->exactly(2))
+			->method('createNotification')
+			->will($this->returnValue($notification));
+		$notiMgr->expects($this->exactly(1))
+			->method('notify');
+
+		$user = new User(
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
+
+		\OC_Hook::clear();//disconnect irrelevant hooks 
+		\OCP\Util::connectHook('OC_User', 'post_login', $user, 'handlePasswordExpiry');
+		\OC_Hook::emit('OC_User', 'post_login', array('uid' => $uid));
 	}
 }

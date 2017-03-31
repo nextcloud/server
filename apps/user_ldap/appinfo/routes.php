@@ -21,7 +21,6 @@
  *
  */
 
-/** @var $this \OCP\Route\IRouter */
 $this->create('user_ldap_ajax_clearMappings', 'ajax/clearMappings.php')
 	->actionInclude('user_ldap/ajax/clearMappings.php');
 $this->create('user_ldap_ajax_deleteConfiguration', 'ajax/deleteConfiguration.php')
@@ -44,5 +43,15 @@ $application->registerRoutes($this, [
 		['name' => 'ConfigAPI#show',   'url' => '/api/v1/config/{configID}', 'verb' => 'GET'],
 		['name' => 'ConfigAPI#modify', 'url' => '/api/v1/config/{configID}', 'verb' => 'PUT'],
 		['name' => 'ConfigAPI#delete', 'url' => '/api/v1/config/{configID}', 'verb' => 'DELETE'],
+	]
+]);
+
+$application = new OCA\User_LDAP\AppInfo\Application();
+$application->registerRoutes($this, [
+	'routes' => [
+		['name' => 'renewPassword#tryRenewPassword', 'url' => '/renewpassword', 'verb' => 'POST'],
+		['name' => 'renewPassword#showRenewPasswordForm', 'url' => '/renewpassword/{user}', 'verb' => 'GET'],
+		['name' => 'renewPassword#cancel', 'url' => '/renewpassword/cancel', 'verb' => 'GET'],
+		['name' => 'renewPassword#showLoginFormInvalidPassword', 'url' => '/renewpassword/invalidlogin/{user}', 'verb' => 'GET'],
 	]
 ]);
