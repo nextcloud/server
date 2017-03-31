@@ -703,7 +703,7 @@ class UserTest extends \Test\TestCase {
 	 * No quota attribute set and wrong default will set 'default' as quota
 	 */
 	public function testUpdateWrongDefaultQuotaNotProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
