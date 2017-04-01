@@ -6,6 +6,8 @@ OC.L10N.register(
     "Failed to revert {file} to revision {timestamp}." : "Mistókst að endurheimta {file} útgáfu {timestamp}.",
     "_%n byte_::_%n bytes_" : ["%n bæti","%n bæti"],
     "Restore" : "Endurheimta",
+    "No earlier versions available" : "Engar eldri útgáfur í boði",
+    "More versions …" : "Fleiri útgáfur ...",
     "No versions available" : "Engar aðrar útgáfur í boði",
     "More versions..." : "Fleiri útgáfur..."
 },
