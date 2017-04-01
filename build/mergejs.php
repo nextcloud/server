@@ -31,5 +31,6 @@ $vendors = $data['vendor'];
 $vendorjs = fopen(__DIR__.'/../core/vendor/core.js', 'w');
 foreach($vendors as $vendor) {
 	fwrite($vendorjs, file_get_contents(__DIR__.'/../core/vendor/'.$vendor));
+	fwrite($vendorjs, PHP_EOL);
 }
 fclose($vendorjs);
