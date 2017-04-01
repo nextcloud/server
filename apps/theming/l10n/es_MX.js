@@ -19,6 +19,7 @@ OC.L10N.register(
     "Color" : "Color",
     "Logo" : "Logotipo",
     "Upload new logo" : "Cargar nuevo logotipo",
-    "Upload new login background" : "Cargar nueva imagen de forndo para ingresar"
+    "Login image" : "Imágen de inicio de sesión",
+    "Upload new login background" : "Cargar nueva imagen de fondo para inicio de sesión"
 },
 "nplurals=2; plural=(n != 1);");

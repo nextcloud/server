@@ -87,7 +87,7 @@ OC.L10N.register(
     "Moved by {user}" : "Перемещено {user}",
     "You created {file}" : "Вы создали {file}",
     "{user} created {file}" : "{user} создал {file}",
-    "{file} was created in a public folder" : "{file} создан в общем каталоге",
+    "{file} was created in a public folder" : "{file} создан в общедоступом каталоге",
     "You changed {file}" : "Вы изменили {file}",
     "{user} changed {file}" : "{user} изменил {file}",
     "You deleted {file}" : "Вы удалили {file}",
