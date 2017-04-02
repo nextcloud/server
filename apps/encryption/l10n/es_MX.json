@@ -14,6 +14,7 @@
     "Could not change the password. Maybe the old password was not correct." : "No fue posible cambiar la contraseña. Favor de verificar que contraseña anterior sea correcta.",
     "Recovery Key disabled" : "Llave de recuperación deshabilitada",
     "Recovery Key enabled" : "Llave de recuperación habilitada",
+    "Could not enable the recovery key, please try again or contact your administrator" : "No fue posible habilitar la llave de recuperación, favor de intentarlo de nuevo o contacte a su administrador",
     "Could not update the private key password." : "No fue posible actualizar la contraseña de la llave privada.",
     "The old password was not correct, please try again." : "La contraseña anterior no es correcta, favor de intentar de nuevo. ",
     "The current log-in password was not correct, please try again." : "La contraseña actual para iniciar sesión fue incorrecta, favor de volverlo a intentar. ",

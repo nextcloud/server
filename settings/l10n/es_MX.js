@@ -10,6 +10,8 @@ OC.L10N.register(
     "Authentication error" : "Error de autenticación",
     "Please provide an admin recovery password; otherwise, all user data will be lost." : "Favor de proporcionar una contraseña de recuperación de administrador; de lo contrario toda la información del usuario se perderá. ",
     "Wrong admin recovery password. Please check the password and try again." : "Contraseña de recuperación de administrador incorrecta. Favor de verificarla e inténtelo de nuevo.",
+    "installing and updating apps via the app store or Federated Cloud Sharing" : "instalando y actualizando aplicaciones por la tienda de aplicaciones o Compartiendo la Nube Federada",
+    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL está usando una versión anticuada (%s) de %s. Favor de actualizar su sistema operativo o las funcialidades tales como %s no funcionarán de forma confiable.",
     "A problem occurred, please check your log files (Error: %s)" : "Se presentó un problema, favor de verificar sus archivos de bitácoras (Error: %s)",
     "Migration Completed" : "Migración completada",
     "Group already exists." : "El grupo ya existe.",

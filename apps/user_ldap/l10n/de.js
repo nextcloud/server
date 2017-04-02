@@ -148,7 +148,7 @@ OC.L10N.register(
     "(New password is sent as plain text to LDAP)" : "(Das neue Passwort wurde als einfacher Text an LDAP gesendet)",
     "Special Attributes" : "Spezielle Eigenschaften",
     "Quota Field" : "Kontingent Feld",
-    "Leave empty for user's default quota. Otherwise, specify an LDAP/AD attribute." : "Frei lassen, um das Standard-Kontingent des Benutzers zu verwenden. Andernfalls ein Attribut für LDAP/AD angeben.",
+    "Leave empty for user's default quota. Otherwise, specify an LDAP/AD attribute." : "Ohne Eingabe wird das Standard-Kontingent des Benutzers verwendet. Andernfall trage ein LDAP/AD-Attribut ein.",
     "Quota Default" : "Standard Kontingent",
     "Override default quota for LDAP users who do not have a quota set in the Quota Field." : "Standard-Kontingent ignorieren für Benutzer von LDAP, die kein Kontingent festgelegt haben.",
     "Email Field" : "E-Mail-Feld",
