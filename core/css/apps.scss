@@ -16,7 +16,7 @@
  *
  */
 
-/* HEADING STYLING ---------------------------------------------------------- */
+/* BASE STYLING ---------------------------------------------------------- */
 
 h2 {
 	font-size: 20px;
@@ -24,17 +24,46 @@ h2 {
 	margin-bottom: 12px;
 	line-height: 140%;
 }
+
 h3 {
 	font-size: 15px;
 	font-weight: 300;
 	margin: 12px 0;
 }
+
 /* do not use italic typeface style, instead lighter color */
 em {
 	font-style: normal;
 	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
 	opacity: .5;
 }
+
+dl {
+	padding: 12px 0;
+}
+
+dt,
+dd {
+	display: inline-block;
+	padding: 12px;
+	padding-left: 0;
+}
+
+dt {
+	width: 130px;
+	white-space: nowrap;
+	text-align: right;
+}
+
+kbd {
+	padding: 4px 10px;
+	border: 1px solid #ccc;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, .2);
+	border-radius: 3px;
+	display: inline-block;
+	white-space: nowrap;
+}
+
 
 /* APP STYLING -------------------------------------------------------------- */
 
