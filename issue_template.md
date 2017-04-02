@@ -5,7 +5,8 @@ This is the bug tracker for the Server component. Find other components at https
 
 For reporting potential security issues please see https://nextcloud.com/security/
 
-To make it possible for us to help you please fill out below information carefully.
+To make it possible for us to help you please fill out below information carefully. 
+You can also use the Issue Template application to prefill most of the required information: https://apps.nextcloud.com/apps/issuetemplate
 --> 
 ### Steps to reproduce
 1.
@@ -66,8 +67,8 @@ from within your Nextcloud installation folder
 
 or 
 
-Insert your config.php content here
-(Without the database password, passwordsalt and secret)
+Insert your config.php content here. 
+Make sure to remove all sensitive contents such as passwords. (e.g. database password, passwordsalt, secret, smtp password, …)
 ```
 </details>
 
