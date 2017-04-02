@@ -11,7 +11,7 @@
 	<version>1.0.0</version>
 	<category>other</category>
 	<dependencies>
-        <nextcloud min-version="11" max-version="11" />
+        <nextcloud min-version="12" max-version="12" />
 	</dependencies>
 
 	<namespace>BruteForceSettings</namespace>
