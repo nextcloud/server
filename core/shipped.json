@@ -42,7 +42,6 @@
     "workflowengine"
   ],
   "alwaysEnabled": [
-    "bruteforcesettings",
     "files",
     "dav",
     "federatedfilesharing",

@@ -30,7 +30,6 @@ pipeline:
     image: nextcloudci/php7.0:php7.0-7
     commands:
       - ./occ app:check-code admin_audit
-      - ./occ app:check-code bruteforcesettings
       - ./occ app:check-code comments
       - ./occ app:check-code federation
       - ./occ app:check-code sharebymail
