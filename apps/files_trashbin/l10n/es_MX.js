@@ -9,6 +9,7 @@ OC.L10N.register(
     "Delete permanently" : "Borrar permanentemente",
     "Error" : "Error",
     "This operation is forbidden" : "Esta opración está prohibida",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Este directorio no está disponible, favor de verificar las bitácoras o contacte al administrador",
     "restored" : "restaurado",
     "No deleted files" : "No hay archivos borrados",
     "You will be able to recover deleted files from here" : "Usted podrá recuperar archivos borrados desde aquí",

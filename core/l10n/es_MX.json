@@ -216,6 +216,7 @@
     "Cancel log in" : "Cancelar inicio de sesión",
     "Use backup code" : "Usar código de respaldo",
     "Error while validating your second factor" : "Se presentó un error al validar su segundo factor",
+    "You are accessing the server from an untrusted domain." : "Se encuentra accediendo al servidor desde un dominio no confiable. ",
     "App update required" : "Se requiere una actualización de la aplicación",
     "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:",
     "These incompatible apps will be disabled:" : "Las siguientes aplicaciones incompatibles serán deshabilitadas:",
