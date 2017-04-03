@@ -58,7 +58,7 @@
 			+ '    <div class="last-message">{{contact.lastMessage}}</div>'
 			+ '</div>'
 			+ '{{#if contact.topAction}}'
-			+ '<a class="top-action {{contact.topAction.icon}}" href="{{contact.topAction.hyperlink}}"></a>'
+			+ '<a class="top-action {{contact.topAction.icon}}" href="{{contact.topAction.hyperlink}}" title="{{contact.topAction.title}}"></a>'
 			+ '{{/if}}'
 			+ '{{#if contact.hasManyActions}}'
 			+ '    <span class="other-actions icon-more"></span>'
@@ -220,6 +220,9 @@
 
 			// Show placeholder iff no avatar is available (avatar is rendered as img, not div)
 			this.$('div.avatar').imageplaceholder(this._model.get('fullName'));
+
+			// Show tooltip for top action
+			this.$('.top-action').tooltip({placement: 'left'});
 
 			return this;
 		},
