@@ -1,5 +1,5 @@
 /*!
-	Autosize 3.0.17
+	Autosize 3.0.20
 	license: MIT
 	http://www.jacklmoore.com/autosize
 */
@@ -18,23 +18,35 @@
 })(this, function (exports, module) {
 	'use strict';
 
-	var set = typeof Set === 'function' ? new Set() : (function () {
-		var list = [];
+	var map = typeof Map === "function" ? new Map() : (function () {
+		var keys = [];
+		var values = [];
 
 		return {
 			has: function has(key) {
-				return Boolean(list.indexOf(key) > -1);
+				return keys.indexOf(key) > -1;
 			},
-			add: function add(key) {
-				list.push(key);
+			get: function get(key) {
+				return values[keys.indexOf(key)];
+			},
+			set: function set(key, value) {
+				if (keys.indexOf(key) === -1) {
+					keys.push(key);
+					values.push(value);
+				}
 			},
 			'delete': function _delete(key) {
-				list.splice(list.indexOf(key), 1);
-			} };
+				var index = keys.indexOf(key);
+				if (index > -1) {
+					keys.splice(index, 1);
+					values.splice(index, 1);
+				}
+			}
+		};
 	})();
 
 	var createEvent = function createEvent(name) {
-		return new Event(name);
+		return new Event(name, { bubbles: true });
 	};
 	try {
 		new Event('test');
@@ -48,7 +60,7 @@
 	}
 
 	function assign(ta) {
-		if (!ta || !ta.nodeName || ta.nodeName !== 'TEXTAREA' || set.has(ta)) return;
+		if (!ta || !ta.nodeName || ta.nodeName !== 'TEXTAREA' || map.has(ta)) return;
 
 		var heightOffset = null;
 		var clientWidth = ta.clientWidth;
@@ -91,8 +103,6 @@
 			}
 
 			ta.style.overflowY = value;
-
-			resize();
 		}
 
 		function getParentOverflows(el) {
@@ -102,7 +112,8 @@
 				if (el.parentNode.scrollTop) {
 					arr.push({
 						node: el.parentNode,
-						scrollTop: el.parentNode.scrollTop });
+						scrollTop: el.parentNode.scrollTop
+					});
 				}
 				el = el.parentNode;
 			}
@@ -143,27 +154,36 @@
 		function update() {
 			resize();
 
-			var computed = window.getComputedStyle(ta, null);
-			var computedHeight = Math.round(parseFloat(computed.height));
 			var styleHeight = Math.round(parseFloat(ta.style.height));
+			var computed = window.getComputedStyle(ta, null);
+			var actualHeight = Math.round(parseFloat(computed.height));
 
-			// The computed height not matching the height set via resize indicates that
+			// The actual height not matching the style height (set via the resize method) indicates that
 			// the max-height has been exceeded, in which case the overflow should be set to visible.
-			if (computedHeight !== styleHeight) {
+			if (actualHeight !== styleHeight) {
 				if (computed.overflowY !== 'visible') {
 					changeOverflow('visible');
+					resize();
+					actualHeight = Math.round(parseFloat(window.getComputedStyle(ta, null).height));
 				}
 			} else {
 				// Normally keep overflow set to hidden, to avoid flash of scrollbar as the textarea expands.
 				if (computed.overflowY !== 'hidden') {
 					changeOverflow('hidden');
+					resize();
+					actualHeight = Math.round(parseFloat(window.getComputedStyle(ta, null).height));
 				}
 			}
 
-			if (cachedHeight !== computedHeight) {
-				cachedHeight = computedHeight;
+			if (cachedHeight !== actualHeight) {
+				cachedHeight = actualHeight;
 				var evt = createEvent('autosize:resized');
-				ta.dispatchEvent(evt);
+				try {
+					ta.dispatchEvent(evt);
+				} catch (err) {
+					// Firefox will throw an error on dispatchEvent for a detached element
+					// https://bugzilla.mozilla.org/show_bug.cgi?id=889376
+				}
 			}
 		}
 
@@ -179,17 +199,19 @@
 			ta.removeEventListener('keyup', update, false);
 			ta.removeEventListener('autosize:destroy', destroy, false);
 			ta.removeEventListener('autosize:update', update, false);
-			set['delete'](ta);
 
 			Object.keys(style).forEach(function (key) {
 				ta.style[key] = style[key];
 			});
+
+			map['delete'](ta);
 		}).bind(ta, {
 			height: ta.style.height,
 			resize: ta.style.resize,
 			overflowY: ta.style.overflowY,
 			overflowX: ta.style.overflowX,
-			wordWrap: ta.style.wordWrap });
+			wordWrap: ta.style.wordWrap
+		});
 
 		ta.addEventListener('autosize:destroy', destroy, false);
 
@@ -203,23 +225,29 @@
 		window.addEventListener('resize', pageResize, false);
 		ta.addEventListener('input', update, false);
 		ta.addEventListener('autosize:update', update, false);
-		set.add(ta);
 		ta.style.overflowX = 'hidden';
 		ta.style.wordWrap = 'break-word';
+
+		map.set(ta, {
+			destroy: destroy,
+			update: update
+		});
 
 		init();
 	}
 
 	function destroy(ta) {
-		if (!(ta && ta.nodeName && ta.nodeName === 'TEXTAREA')) return;
-		var evt = createEvent('autosize:destroy');
-		ta.dispatchEvent(evt);
+		var methods = map.get(ta);
+		if (methods) {
+			methods.destroy();
+		}
 	}
 
 	function update(ta) {
-		if (!(ta && ta.nodeName && ta.nodeName === 'TEXTAREA')) return;
-		var evt = createEvent('autosize:update');
-		ta.dispatchEvent(evt);
+		var methods = map.get(ta);
+		if (methods) {
+			methods.update();
+		}
 	}
 
 	var autosize = null;
