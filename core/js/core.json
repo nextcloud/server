@@ -12,7 +12,7 @@
 		"es6-promise/dist/es6-promise.js",
 		"davclient.js/lib/client.js",
 		"clipboard/dist/clipboard.min.js",
-		"autosize/dist/autosize.js",
+		"autosize/dist/autosize.min.js",
 		"DOMPurify/dist/purify.min.js",
 		"snapjs/dist/latest/snap.js",
 		"select2/select2.js"

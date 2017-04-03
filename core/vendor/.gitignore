@@ -155,7 +155,7 @@ clipboard/**
 # autosize
 autosize/**
 !autosize/dist
-!autosize/dist/autosize.js
+!autosize/dist/autosize.min.js
 !autosize/.bower.json
 !autosize/LICENCE.md
 
