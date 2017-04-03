@@ -27,6 +27,7 @@ namespace OC\Contacts\ContactsMenu;
 use OCP\App\IAppManager;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\IURLGenerator;
+use OCP\IUser;
 
 class Manager {
 
@@ -38,9 +39,6 @@ class Manager {
 
 	/** @var IAppManager */
 	private $appManager;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
 
 	/**
 	 * @param ContactsStore $store
@@ -54,18 +52,18 @@ class Manager {
 	}
 
 	/**
-	 * @param string $userId
+	 * @param string $user
 	 * @param string $filter
 	 * @return array
 	 */
-	public function getEntries($userId, $filter) {
+	public function getEntries(IUser $user, $filter) {
 		$entries = $this->store->getContacts($filter);
 
 		$sortedEntries = $this->sortEntries($entries);
 		$topEntries = array_slice($sortedEntries, 0, 25);
-		$this->processEntries($topEntries);
+		$this->processEntries($topEntries, $user);
 
-		$contactsEnabled = $this->appManager->isEnabledForUser('contacts', $userId);
+		$contactsEnabled = $this->appManager->isEnabledForUser('contacts', $user);
 		return [
 			'contacts' => $topEntries,
 			'contactsAppEnabled' => $contactsEnabled,
@@ -85,9 +83,10 @@ class Manager {
 
 	/**
 	 * @param IEntry[] $entries
+	 * @param IUser $user
 	 */
-	private function processEntries(array $entries) {
-		$providers = $this->actionProviderStore->getProviders();
+	private function processEntries(array $entries, IUser $user) {
+		$providers = $this->actionProviderStore->getProviders($user);
 		foreach ($entries as $entry) {
 			foreach ($providers as $provider) {
 				$provider->process($entry);

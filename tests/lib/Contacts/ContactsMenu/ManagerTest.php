@@ -30,6 +30,7 @@ use OC\Contacts\ContactsMenu\Manager;
 use OCP\App\IAppManager;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\ContactsMenu\IProvider;
+use OCP\IUser;
 use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
@@ -71,7 +72,7 @@ class ManagerTest extends TestCase {
 
 	public function testGetFilteredEntries() {
 		$filter = 'con';
-		$user = 'user849';
+		$user = $this->createMock(IUser::class);
 		$entries = $this->generateTestEntries();
 		$provider = $this->createMock(IProvider::class);
 		$this->contactsStore->expects($this->once())
@@ -80,6 +81,7 @@ class ManagerTest extends TestCase {
 			->willReturn($entries);
 		$this->actionProviderStore->expects($this->once())
 			->method('getProviders')
+			->with($user)
 			->willReturn([$provider]);
 		$provider->expects($this->exactly(25))
 			->method('process');

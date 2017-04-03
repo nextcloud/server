@@ -28,6 +28,8 @@ use OC\Contacts\ContactsMenu\Manager;
 use OC\Core\Controller\ContactsMenuController;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserSession;
 use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
@@ -36,8 +38,8 @@ class ContactsMenuControllerTest extends TestCase {
 	/** @var IRequest|PHPUnit_Framework_MockObject_MockObject */
 	private $request;
 
-	/** @var string */
-	private $userId;
+	/** @var IUserSession|PHPUnit_Framework_MockObject_MockObject */
+	private $userSession;
 
 	/** @var Manager|PHPUnit_Framework_MockObject_MockObject */
 	private $contactsManager;
@@ -49,20 +51,24 @@ class ContactsMenuControllerTest extends TestCase {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
-		$this->userId = 'user4563';
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->contactsManager = $this->createMock(Manager::class);
 
-		$this->controller = new ContactsMenuController($this->request, $this->userId, $this->contactsManager);
+		$this->controller = new ContactsMenuController($this->request, $this->userSession, $this->contactsManager);
 	}
 
 	public function testIndex() {
+		$user = $this->createMock(IUser::class);
 		$entries = [
 			$this->createMock(IEntry::class),
 			$this->createMock(IEntry::class),
 		];
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
 		$this->contactsManager->expects($this->once())
 			->method('getEntries')
-			->with($this->equalTo($this->userId), $this->equalTo(null))
+			->with($this->equalTo($user), $this->equalTo(null))
 			->willReturn($entries);
 
 		$response = $this->controller->index();

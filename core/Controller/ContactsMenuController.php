@@ -28,23 +28,24 @@ use OC\Contacts\ContactsMenu\Manager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
+use OCP\IUserSession;
 
 class ContactsMenuController extends Controller {
 
 	/** @var Manager */
 	private $manager;
 
-	/** @var string */
-	private $userId;
+	/** @var IUserSession */
+	private $userSession;
 
 	/**
 	 * @param IRequest $request
-	 * @param string $UserId
+	 * @param IUserSession $userSession
 	 * @param Manager $manager
 	 */
-	public function __construct(IRequest $request, $UserId, Manager $manager) {
+	public function __construct(IRequest $request, IUserSession $userSession, Manager $manager) {
 		parent::__construct('core', $request);
-		$this->userId = $UserId;
+		$this->userSession = $userSession;
 		$this->manager = $manager;
 	}
 
@@ -55,7 +56,7 @@ class ContactsMenuController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function index($filter = null) {
-		return $this->manager->getEntries($this->userId, $filter);
+		return $this->manager->getEntries($this->userSession->getUser(), $filter);
 	}
 
 }

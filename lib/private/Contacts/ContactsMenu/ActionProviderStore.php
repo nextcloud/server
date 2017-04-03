@@ -24,38 +24,49 @@
 
 namespace OC\Contacts\ContactsMenu;
 
+use Exception;
+use OC\App\AppManager;
 use OC\Contacts\ContactsMenu\Providers\EMailProvider;
 use OCP\AppFramework\QueryException;
 use OCP\Contacts\ContactsMenu\IProvider;
 use OCP\ILogger;
 use OCP\IServerContainer;
+use OCP\IUser;
 
 class ActionProviderStore {
 
 	/** @var IServerContainer */
 	private $serverContainer;
 
+	/** @var AppManager */
+	private $appManager;
+
 	/** @var ILogger */
 	private $logger;
 
 	/**
 	 * @param IServerContainer $serverContainer
+	 * @param AppManager $appManager
+	 * @param ILogger $logger
 	 */
-	public function __construct(IServerContainer $serverContainer, ILogger $logger) {
+	public function __construct(IServerContainer $serverContainer, AppManager $appManager, ILogger $logger) {
 		$this->serverContainer = $serverContainer;
+		$this->appManager = $appManager;
 		$this->logger = $logger;
 	}
 
 	/**
+	 * @param IUser $user
 	 * @return IProvider[]
 	 * @throws Exception
 	 */
-	public function getProviders() {
-		// TODO: include apps
+	public function getProviders(IUser $user) {
+		$appClasses = $this->getAppProviderClasses($user);
 		$providerClasses = $this->getServerProviderClasses();
+		$allClasses = array_merge($providerClasses, $appClasses);
 		$providers = [];
 
-		foreach ($providerClasses as $class) {
+		foreach ($allClasses as $class) {
 			try {
 				$providers[] = $this->serverContainer->query($class);
 			} catch (QueryException $ex) {
@@ -63,7 +74,7 @@ class ActionProviderStore {
 					'message' => "Could not load contacts menu action provider $class",
 					'app' => 'core',
 				]);
-				throw new \Exception("Could not load contacts menu action provider");
+				throw new Exception("Could not load contacts menu action provider");
 			}
 		}
 
@@ -77,6 +88,27 @@ class ActionProviderStore {
 		return [
 			EMailProvider::class,
 		];
+	}
+
+	/**
+	 * @param IUser $user
+	 * @return string[]
+	 */
+	private function getAppProviderClasses(IUser $user) {
+		return array_reduce($this->appManager->getEnabledAppsForUser($user), function($all, $appId) {
+			$info = $this->appManager->getAppInfo($appId);
+
+			if (!isset($info['contactsmenu']) || !isset($info['contactsmenu'])) {
+				// Nothing to add
+				return $all;
+			}
+
+			$providers = array_reduce($info['contactsmenu'], function($all, $provider) {
+				return array_merge($all, [$provider]);
+			}, []);
+
+			return array_merge($all, $providers);
+		}, []);
 	}
 
 }
