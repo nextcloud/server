@@ -960,6 +960,7 @@ OC.Uploader.prototype = _.extend({
 				var bufferSize = 20;
 				var buffer = [];
 				var bufferIndex = 0;
+				var bufferIndex2 = 0;
 				var bufferTotal = 0;
 				for(var i = 0; i < bufferSize;i++){
 					buffer[i] = 0;
@@ -1005,8 +1006,16 @@ OC.Uploader.prototype = _.extend({
 						bufferTotal = bufferTotal - (buffer[bufferIndex]) + remainingSeconds;
 						buffer[bufferIndex] = remainingSeconds; //buffer to make it smoother
 						bufferIndex = (bufferIndex + 1) % bufferSize;
+						bufferIndex2 = bufferIndex2++;
 					}
-					var smoothRemainingSeconds = (bufferTotal / bufferSize); //seconds
+					var smoothRemainingSeconds;
+					if(bufferIndex2<20) {
+							smoothRemainingSeconds = bufferTotal / bufferIndex2;
+					}
+					else {
+						 smoothRemainingSeconds = bufferTotal / bufferSize; 
+					}
+
 					var h = moment.duration(smoothRemainingSeconds, "seconds").humanize();
 					$('#uploadprogressbar .label .mobile').text(h);
 					$('#uploadprogressbar .label .desktop').text(h);
