@@ -107,7 +107,7 @@
     "Expert" : "Uzman",
     "Advanced" : "Gelişmiş",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Uyarı:</b> user_ldap ve user_webdavauth uygulamaları uyumlu değil. Beklenmedik bir davranışla karşılaşabilirsiniz. Lütfen ikisinden birini devre dışı bırakmak için sistem yöneticinizle görüşün.",
-    "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Uyarı:</b> PHP LDAP modülü kurulu değil, arka uç çalışmayacak. Lütfen kurulumu için sistem yöneticinizle görüşün.",
+    "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Uyarı:</b> PHP LDAP modülü kurulmamış, arka uç çalışmayacak. Lütfen kurulumu için sistem yöneticinizle görüşün.",
     "Connection Settings" : "Bağlantı Ayarları",
     "Configuration Active" : "Yapılandırma Etkin",
     "When unchecked, this configuration will be skipped." : "Bu seçenek işaretli değilse, bu yapılandırma atlanır.",
