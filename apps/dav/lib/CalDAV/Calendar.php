@@ -175,12 +175,11 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	}
 
 	function propPatch(PropPatch $propPatch) {
-		$mutations = $propPatch->getMutations();
-		// If this is a shared calendar, the user can only change the enabled property, to hide it.
-		if ($this->isShared() && (sizeof($mutations) !== 1 || !isset($mutations['{http://owncloud.org/ns}calendar-enabled']))) {
-			throw new Forbidden();
+		// parent::propPatch will only update calendars table
+		// if calendar is shared, changes have to be made to the properties table
+		if (!$this->isShared()) {
+			parent::propPatch($propPatch);
 		}
-		parent::propPatch($propPatch);
 	}
 
 	function getChild($name) {
