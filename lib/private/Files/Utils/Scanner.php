@@ -87,6 +87,7 @@ class Scanner extends PublicEmitter {
 		$this->logger = $logger;
 		$this->user = $user;
 		$this->db = $db;
+		// when DB locking is used, no DB transactions will be used
 		$this->useTransaction = !(\OC::$server->getLockingProvider() instanceof DBLockingProvider);
 	}
 
@@ -262,10 +263,10 @@ class Scanner extends PublicEmitter {
 
 	private function postProcessEntry(IStorage $storage, $internalPath) {
 		$this->triggerPropagator($storage, $internalPath);
-		$this->entriesToCommit++;
 		if ($this->useTransaction) {
-			$propagator = $storage->getPropagator();
+			$this->entriesToCommit++;
 			if ($this->entriesToCommit >= self::MAX_ENTRIES_TO_COMMIT) {
+				$propagator = $storage->getPropagator();
 				$this->entriesToCommit = 0;
 				$this->db->commit();
 				$propagator->commitBatch();
