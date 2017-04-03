@@ -98,7 +98,7 @@ class JSCombiner {
 		$fileName = str_replace('.json', '.js', $fileName) . '.deps';
 		try {
 			$deps = $this->depsCache->get($folder->getName() . '-' . $fileName);
-			if ($deps === null) {
+			if ($deps === null || $deps === '') {
 				$depFile = $folder->getFile($fileName);
 				$deps = $depFile->getContent();
 				$this->depsCache->set($folder->getName() . '-' . $fileName, $deps);
