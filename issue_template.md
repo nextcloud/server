@@ -68,7 +68,7 @@ from within your Nextcloud installation folder
 or 
 
 Insert your config.php content here. 
-Make sure to remove all sensitive contents such as passwords. (e.g. database password, passwordsalt, secret, smtp password, …)
+Make sure to remove all sensitive content such as passwords. (e.g. database password, passwordsalt, secret, smtp password, …)
 ```
 </details>
 
