@@ -46,9 +46,7 @@ class EMailProvider implements IProvider {
 	public function process(IEntry $entry) {
 		foreach ($entry->getEMailAddresses() as $address) {
 			// TODO: absolute path
-			// TODO: meaningful URL
-			// TODO: l10n
-			$action = $this->actionFactory->newEMailAction('icon-mail', 'Mail', $address);
+			$action = $this->actionFactory->newEMailAction('icon-mail', $address, $address);
 			$entry->addAction($action);
 		}
 	}
