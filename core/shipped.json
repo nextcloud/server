@@ -2,6 +2,7 @@
   "shippedApps": [
     "activity",
     "admin_audit",
+    "bruteforcesettings",
     "comments",
     "dav",
     "encryption",

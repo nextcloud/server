@@ -146,7 +146,7 @@ class ManagerTest extends TestCase {
 				['class' => \OCA\WorkflowEngine\Settings\Section::class, 'priority' => 90]
 			]));
 
-		$this->url->expects($this->exactly(5))
+		$this->url->expects($this->exactly(6))
 			->method('imagePath')
 			->willReturnMap([
 				['settings', 'admin.svg', '1'],
@@ -159,6 +159,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals([
 			0 => [new Section('server', 'Server settings', 0, '1')],
 			5 => [new Section('sharing', 'Sharing', 0, '2')],
+			10 => [new Section('security', 'Security', 0, '3')],
 			45 => [new Section('encryption', 'Encryption', 0, '3')],
 			90 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
 			98 => [new Section('additional', 'Additional settings', 0, '4')],
@@ -177,7 +178,7 @@ class ManagerTest extends TestCase {
 			->will($this->returnValue([
 			]));
 
-		$this->url->expects($this->exactly(5))
+		$this->url->expects($this->exactly(6))
 			->method('imagePath')
 			->willReturnMap([
 				['settings', 'admin.svg', '1'],
@@ -190,6 +191,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals([
 			0 => [new Section('server', 'Server settings', 0, '1')],
 			5 => [new Section('sharing', 'Sharing', 0, '2')],
+			10 => [new Section('security', 'Security', 0, '3')],
 			45 => [new Section('encryption', 'Encryption', 0, '3')],
 			98 => [new Section('additional', 'Additional settings', 0, '4')],
 			99 => [new Section('tips-tricks', 'Tips & tricks', 0, '5')],

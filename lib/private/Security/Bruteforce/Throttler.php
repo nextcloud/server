@@ -186,6 +186,67 @@ class Throttler {
 	}
 
 	/**
+	 * Check if the IP is whitelisted
+	 *
+	 * @param string $ip
+	 * @return bool
+	 */
+	private function isIPWhitelisted($ip) {
+		$keys = $this->config->getAppKeys('bruteForce');
+		$keys = array_filter($keys, function($key) {
+			$regex = '/^whitelist_/S';
+			return preg_match($regex, $key) === 1;
+		});
+
+		if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+			$type = 4;
+		} else if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+			$type = 6;
+		} else {
+			return false;
+		}
+
+		$ip = inet_pton($ip);
+
+		foreach ($keys as $key) {
+			$cidr = $this->config->getAppValue('bruteForce', $key, null);
+
+			$cx = explode('/', $cidr);
+			$addr = $cx[0];
+			$mask = (int)$cx[1];
+
+			// Do not compare ipv4 to ipv6
+			if (($type === 4 && !filter_var($addr, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) ||
+				($type === 6 && !filter_var($addr, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6))) {
+				continue;
+			}
+
+			$addr = inet_pton($addr);
+
+			$valid = true;
+			for($i = 0; $i < $mask; $i++) {
+				$part = ord($addr[(int)($i/8)]);
+				$orig = ord($ip[(int)($i/8)]);
+
+				$part = $part & (15 << (1 - ($i % 2)));
+				$orig = $orig & (15 << (1 - ($i % 2)));
+
+				if ($part !== $orig) {
+					$valid = false;
+					break;
+				}
+			}
+
+			if ($valid === true) {
+				return true;
+			}
+		}
+
+		return false;
+
+	}
+
+	/**
 	 * Get the throttling delay (in milliseconds)
 	 *
 	 * @param string $ip
@@ -193,6 +254,10 @@ class Throttler {
 	 * @return int
 	 */
 	public function getDelay($ip, $action = '') {
+		if ($this->isIPWhitelisted($ip)) {
+			return 0;
+		}
+
 		$cutoffTime = (new \DateTime())
 			->sub($this->getCutoff(43200))
 			->getTimestamp();
