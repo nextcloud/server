@@ -29,12 +29,10 @@
 					'<span class="has-tooltip username" title="{{shareWithTitle}}">{{shareWithDisplayName}}</span>' +
 					'<span class="sharingOptionsGroup">' +
 						'{{#if editPermissionPossible}}' +
-						'{{#unless isFileSharedByMail}}' +
 						'<span class="shareOption">' +
 							'<input id="canEdit-{{cid}}-{{shareWith}}" type="checkbox" name="edit" class="permissions checkbox" {{#if hasEditPermission}}checked="checked"{{/if}} />' +
 							'<label for="canEdit-{{cid}}-{{shareWith}}">{{canEditLabel}}</label>' +
 						'</span>' +
-						'{{/unless}}' +
 						'{{/if}}' +
 						'<a href="#"><span class="icon icon-more"></span></a>' +
 						'{{{popoverMenu}}}' +
