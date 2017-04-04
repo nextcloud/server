@@ -7,7 +7,7 @@ OC.L10N.register(
     "All files" : "Todos los archivos",
     "Recent" : "Reciente",
     "File could not be found" : "No fue posible encontrar el archivo",
-    "Home" : "Particular",
+    "Home" : "Inicio",
     "Close" : "Cerrar",
     "Favorites" : "Favoritos",
     "Could not create folder \"{dir}\"" : "No fue posible crear la carpeta \"{dir}\"",

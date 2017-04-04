@@ -20,6 +20,7 @@ OC.L10N.register(
     "Logo" : "Logotipo",
     "Upload new logo" : "Cargar nuevo logotipo",
     "Login image" : "Imágen de inicio de sesión",
-    "Upload new login background" : "Cargar nueva imagen de fondo para inicio de sesión"
+    "Upload new login background" : "Cargar nueva imagen de fondo para inicio de sesión",
+    "Log in image" : "Imagen de inicio de sesión"
 },
 "nplurals=2; plural=(n != 1);");

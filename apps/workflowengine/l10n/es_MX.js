@@ -45,6 +45,7 @@ OC.L10N.register(
     "The given IP range is invalid" : "El rango de IP's es inválido",
     "The given IP range is not valid for IPv4" : "El rango de IPs dado no es válido para IPv4",
     "The given IP range is not valid for IPv6" : "El rango de IPs dado no es válido para IPv6",
+    "The given time span is invalid" : "El espacio de tiempo dado es inválido",
     "The given start time is invalid" : "El tiempo inicial dado no es válido",
     "The given end time is invalid" : "El tiempo final dado no es válido",
     "The given group does not exist" : "El grupo dado no existe",

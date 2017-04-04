@@ -124,6 +124,7 @@
     "Password protect" : "パスワード保護を有効化",
     "Allow upload and editing" : "アップロードと編集を許可する",
     "Allow editing" : "編集を許可",
+    "upload only" : "アップロードのみ",
     "Email link to person" : "メールリンク",
     "Send" : "送信",
     "Shared with you and the group {group} by {owner}" : "あなたと {owner} のグループ {group} で共有中",
