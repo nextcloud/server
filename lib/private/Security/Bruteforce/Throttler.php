@@ -190,11 +190,12 @@ class Throttler {
 	 *
 	 * @param string $ip
 	 * @param string $action optionally filter by action
+	 * @param int $timeout how long to we go back in time to count attempts to call the API in seconds
 	 * @return int
 	 */
-	public function getDelay($ip, $action = '') {
+	public function getDelay($ip, $action = '', $timeout = 43200) {
 		$cutoffTime = (new \DateTime())
-			->sub($this->getCutoff(43200))
+			->sub($this->getCutoff($timeout))
 			->getTimestamp();
 
 		$qb = $this->db->getQueryBuilder();
@@ -232,10 +233,11 @@ class Throttler {
 	 *
 	 * @param string $ip
 	 * @param string $action optionally filter by action
+	 * @param int $timeout how long to we go back in time to count attempts to call the API in seconds
 	 * @return int the time spent sleeping
 	 */
-	public function sleepDelay($ip, $action = '') {
-		$delay = $this->getDelay($ip, $action);
+	public function sleepDelay($ip, $action = '', $timeout = 43200) {
+		$delay = $this->getDelay($ip, $action, $timeout);
 		usleep($delay * 1000);
 		return $delay;
 	}

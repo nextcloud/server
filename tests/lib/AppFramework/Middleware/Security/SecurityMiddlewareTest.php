@@ -665,21 +665,25 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		/** @var ControllerMethodReflector|\PHPUnit_Framework_MockObject_MockObject $reader */
 		$reader = $this->getMockBuilder(ControllerMethodReflector::class)->disableOriginalConstructor()->getMock();
 
-		$middleware = new SecurityMiddleware(
-			$this->request,
-			$reader,
-			$this->navigationManager,
-			$this->urlGenerator,
-			$this->logger,
-			$this->session,
-			'files',
-			false,
-			false,
-			$this->contentSecurityPolicyManager,
-			$this->csrfTokenManager,
-			$this->cspNonceManager,
-			$this->bruteForceThrottler
-		);
+		/** @var SecurityMiddleware | \PHPUnit_Framework_MockObject_MockObject $middleware */
+		$middleware = $this->getMockBuilder(SecurityMiddleware::class)
+			->setConstructorArgs(
+				[
+					$this->request,
+					$reader,
+					$this->navigationManager,
+					$this->urlGenerator,
+					$this->logger,
+					$this->session,
+					'files',
+					false,
+					false,
+					$this->contentSecurityPolicyManager,
+					$this->csrfTokenManager,
+					$this->cspNonceManager,
+					$this->bruteForceThrottler
+				]
+			)->setMethods(['getTimeout'])->getMock();
 
 		$reader->expects($this->any())->method('hasAnnotation')
 			->willReturnCallback(
@@ -704,11 +708,13 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->request->expects($this->any())->method('getRemoteAddress')->willReturn('remoteAddress');
 
 		if ($bruteForceProtectionEnabled) {
+			$middleware->expects($this->once())->method('getTimeout')->willReturn(42);
 			$this->bruteForceThrottler->expects($this->once())->method('sleepDelay')
-				->with('remoteAddress', 'action');
+				->with('remoteAddress', 'action', 42);
 			$this->bruteForceThrottler->expects($this->once())->method('registerAttempt')
 				->with('action', 'remoteAddress');
 		} else {
+			$middleware->expects($this->never())->method('getTimeout');
 			$this->bruteForceThrottler->expects($this->never())->method('sleepDelay');
 			$this->bruteForceThrottler->expects($this->never())->method('registerAttempt');
 		}
@@ -723,4 +729,52 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			[false]
 		];
 	}
+
+	/**
+	 * @dataProvider dataTestGetTimeout
+	 * @param bool $hasAnnotation
+	 * @param mixed $parameter
+	 * @param int $expected
+	 */
+	public function testGetTimestamp($hasAnnotation, $parameter, $expected) {
+		/** @var ControllerMethodReflector|\PHPUnit_Framework_MockObject_MockObject $reader */
+		$reader = $this->getMockBuilder(ControllerMethodReflector::class)->disableOriginalConstructor()->getMock();
+
+		$middleware = new SecurityMiddleware(
+			$this->request,
+			$reader,
+			$this->navigationManager,
+			$this->urlGenerator,
+			$this->logger,
+			$this->session,
+			'files',
+			false,
+			false,
+			$this->contentSecurityPolicyManager,
+			$this->csrfTokenManager,
+			$this->cspNonceManager,
+			$this->bruteForceThrottler
+		);
+
+		$reader->expects($this->any())->method('hasAnnotation')->with('BruteForceProtectionTimeout')
+			->willReturn($hasAnnotation);
+		$reader->expects($this->any())->method('getAnnotationParameter')->with('BruteForceProtectionTimeout')
+			->willReturn($parameter);
+
+		$this->assertSame($expected, $this->invokePrivate($middleware, 'getTimeout'));
+	}
+
+	public function dataTestGetTimeout() {
+		return [
+			[true, 60, 60],
+			[true, '60', 60],
+			[true, '60.3', 600],
+			[true, 60.3, 600],
+			[true, '60f', 600],
+			[true, true, 600],
+			[true, 'foo', 600],
+			[false, 60, 600],
+		];
+	}
+
 }
