@@ -36,8 +36,16 @@
     "You removed system tag {systemtag} from {file}" : "Usted eliminó la etiqueta del sistema {systemtag} de {file}",
     "%1$s removed system tag %3$s from %2$s" : "%1$s eliminó la etiqueta del sistema %3$s de %2$s",
     "{actor} removed system tag {systemtag} from {file}" : "{actor} eliminó la etiqueta del sistema  {systemtag} de {file}",
+    "%s (invisible)" : "%s (invisible) ",
     "Collaborative tags" : "Etiquetas colaborativas",
     "Name" : "Nombre",
+    "Delete" : "Borrar",
+    "Public" : "Público",
+    "Restricted" : "Restringido",
+    "Invisible" : "Invisible",
+    "Reset" : "Restaurar",
+    "No files in here" : "No hay archivos aquí",
+    "No entries found in this folder" : "No se encontraron elementos en esta carpeta",
     "Size" : "Tamaño",
     "Modified" : "Modificado"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
