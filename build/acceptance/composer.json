@@ -5,5 +5,10 @@
     "behat/mink-extension": "*",
     "behat/mink-selenium2-driver": "*",
     "phpunit/phpunit": "~4.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "features/core"
+    }
   }
 }

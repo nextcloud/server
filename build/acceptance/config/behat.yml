@@ -6,6 +6,8 @@ default:
       paths:
         - %paths.base%/../features
       contexts:
+        - NextcloudTestServerContext
+
         - FeatureContext
   extensions:
     Behat\MinkExtension:
