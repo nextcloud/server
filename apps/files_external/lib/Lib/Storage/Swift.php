@@ -373,6 +373,10 @@ class Swift extends \OC\Files\Storage\Common {
 		$path = $this->normalizePath($path);
 
 		switch ($mode) {
+			case 'a':
+			case 'ab':
+			case 'a+':
+				return false;
 			case 'r':
 			case 'rb':
 				try {
@@ -395,12 +399,9 @@ class Swift extends \OC\Files\Storage\Common {
 				}
 			case 'w':
 			case 'wb':
-			case 'a':
-			case 'ab':
 			case 'r+':
 			case 'w+':
 			case 'wb+':
-			case 'a+':
 			case 'x':
 			case 'x+':
 			case 'c':
@@ -419,10 +420,6 @@ class Swift extends \OC\Files\Storage\Common {
 					}
 					$source = $this->fopen($path, 'r');
 					file_put_contents($tmpFile, $source);
-					// Seek to end if required
-					if ($mode[0] === 'a') {
-						fseek($tmpFile, 0, SEEK_END);
-					}
 				}
 				$handle = fopen($tmpFile, $mode);
 				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
