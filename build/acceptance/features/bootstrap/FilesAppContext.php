@@ -23,15 +23,17 @@
 
 use Behat\Behat\Context\Context;
 
-class FeatureContext implements Context, ActorAwareInterface {
+class FilesAppContext implements Context, ActorAwareInterface {
 
 	use ActorAware;
 
 	/**
-	 * @When I visit the Home page
+	 * @Then I see that the current page is the Files app
 	 */
-	public function iVisitTheHomePage() {
-		$this->actor->getSession()->visit($this->actor->locatePath("/"));
+	public function iSeeThatTheCurrentPageIsTheFilesApp() {
+		PHPUnit_Framework_Assert::assertStringStartsWith(
+				$this->actor->locatePath("/apps/files/"),
+				$this->actor->getSession()->getCurrentUrl());
 	}
 
 }

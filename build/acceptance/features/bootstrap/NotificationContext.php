@@ -23,15 +23,32 @@
 
 use Behat\Behat\Context\Context;
 
-class FeatureContext implements Context, ActorAwareInterface {
+class NotificationContext implements Context, ActorAwareInterface {
 
 	use ActorAware;
 
 	/**
-	 * @When I visit the Home page
+	 * @return Locator
 	 */
-	public function iVisitTheHomePage() {
-		$this->actor->getSession()->visit($this->actor->locatePath("/"));
+	public static function notificationMessage($message) {
+		return Locator::forThe()->content($message)->descendantOf(self::notificationContainer())->
+				describedAs("$message notification");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	private static function notificationContainer() {
+		return Locator::forThe()->id("notification-container")->
+				describedAs("Notification container");
+	}
+
+	/**
+	 * @Then I see that the :message notification is shown
+	 */
+	public function iSeeThatTheNotificationIsShown($message) {
+		PHPUnit_Framework_Assert::assertTrue($this->actor->find(
+				self::notificationMessage($message), 10)->isVisible());
 	}
 
 }
