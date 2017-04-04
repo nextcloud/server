@@ -35,6 +35,12 @@
  * most cases the tests are specified using relative paths that can be converted
  * to the appropriate absolute URL using locatePath() in the step
  * implementation.
+ *
+ * An Actor can find elements in its Mink Session using its find() method; it is
+ * a wrapper over the find() method provided by Mink that extends it with
+ * several features: the element can be looked for based on a Locator object, an
+ * exception is thrown if the element is not found, and, optionally, it is
+ * possible to try again to find the element several times before giving up.
  */
 class Actor {
 
@@ -87,6 +93,99 @@ class Actor {
 	 */
 	public function locatePath($relativePath) {
 		return $this->baseUrl . $relativePath;
+	}
+
+	/**
+	 * Finds an element in the Mink Session of this Actor.
+	 *
+	 * The given element locator is relative to its ancestor (either another
+	 * locator or an actual element); if it has no ancestor then the base
+	 * document element is used.
+	 *
+	 * Sometimes an element may not be found simply because it has not appeared
+	 * yet; for those cases this method supports trying again to find the
+	 * element several times before giving up. The timeout parameter controls
+	 * how much time to wait, at most, to find the element; the timeoutStep
+	 * parameter controls how much time to wait before trying again to find the
+	 * element. If ancestor locators need to be found the timeout is applied
+	 * individually to each one, that is, if the timeout is 10 seconds the
+	 * method will wait up to 10 seconds to find the ancestor of the ancestor
+	 * and, then, up to 10 seconds to find the ancestor and, then, up to 10
+	 * seconds to find the element. By default the timeout is 0, so the element
+	 * and its ancestor will be looked for just once; the default time to wait
+	 * before retrying is half a second.
+	 *
+	 * In any case, if the element, or its ancestors, can not be found a
+	 * NoSuchElementException is thrown.
+	 *
+	 * @param Locator $elementLocator the locator for the element.
+	 * @param float $timeout the number of seconds (decimals allowed) to wait at
+	 *        most for the element to appear.
+	 * @param float $timeoutStep the number of seconds (decimals allowed) to
+	 *        wait before trying to find the element again.
+	 * @return \Behat\Mink\Element\Element the element found.
+	 * @throws NoSuchElementException if the element, or its ancestor, can not
+	 *         be found.
+	 */
+	public function find($elementLocator, $timeout = 0, $timeoutStep = 0.5) {
+		$element = null;
+		$selector = $elementLocator->getSelector();
+		$locator = $elementLocator->getLocator();
+		$ancestorElement = $this->findAncestorElement($elementLocator, $timeout, $timeoutStep);
+
+		$findCallback = function() use (&$element, $selector, $locator, $ancestorElement) {
+			$element = $ancestorElement->find($selector, $locator);
+
+			return $element !== null;
+		};
+		if (!Utils::waitFor($findCallback, $timeout, $timeoutStep)) {
+			throw new NoSuchElementException($elementLocator->getDescription() . " could not be found");
+		}
+
+		return $element;
+	}
+
+	/**
+	 * Returns the ancestor element from which the given locator will be looked
+	 * for.
+	 *
+	 * If the ancestor of the given locator is another locator the element for
+	 * the ancestor locator is found and returned. If the ancestor of the given
+	 * locator is already an element that element is the one returned. If the
+	 * given locator has no ancestor then the base document element is returned.
+	 *
+	 * The timeout is used only when finding the element for the ancestor
+	 * locator; if the timeout expires a NoSuchElementException is thrown.
+	 *
+	 * @param Locator $elementLocator the locator for the element to get its
+	 *        ancestor.
+	 * @param float $timeout the number of seconds (decimals allowed) to wait at
+	 *        most for the ancestor element to appear.
+	 * @param float $timeoutStep the number of seconds (decimals allowed) to
+	 *        wait before trying to find the ancestor element again.
+	 * @return \Behat\Mink\Element\Element the ancestor element found.
+	 * @throws NoSuchElementException if the ancestor element can not be found.
+	 */
+	private function findAncestorElement($elementLocator, $timeout, $timeoutStep) {
+		$ancestorElement = $elementLocator->getAncestor();
+		if ($ancestorElement instanceof Locator) {
+			try {
+				$ancestorElement = $this->find($ancestorElement, $timeout, $timeoutStep);
+			} catch (NoSuchElementException $exception) {
+				// Little hack to show the stack of ancestor elements that could
+				// not be found, as Behat only shows the message of the last
+				// exception in the chain.
+				$message = $exception->getMessage() . "\n" .
+						   $elementLocator->getDescription() . " could not be found";
+				throw new NoSuchElementException($message, $exception);
+			}
+		}
+
+		if ($ancestorElement === null) {
+			$ancestorElement = $this->getSession()->getPage();
+		}
+
+		return $ancestorElement;
 	}
 
 }
