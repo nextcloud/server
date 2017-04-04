@@ -614,7 +614,22 @@ class Manager implements IManager {
 		}
 
 		// Generate the target
-		$target = $this->config->getSystemValue('share_folder', '/') .'/'. $share->getNode()->getName();
+
+		// Should we preserver the full name?
+		if ($this->shareApiPreserveFullName()) {
+			$current_node = $share->getNode();
+			$label = [];
+			do {
+				$label[] = $current_node->getName();
+				$current_node = $current_node->getParent();
+			} while (!empty($current_node->getName()));
+			array_pop($label);
+			array_pop($label);
+			$label = implode(' | ', array_reverse($label));
+			$target = $this->config->getSystemValue('share_folder', '/') . '/' . $label;
+		} else {
+			$target = $this->config->getSystemValue('share_folder', '/') . '/' . $share->getNode()->getName();
+		}
 		$target = \OC\Files\Filesystem::normalizePath($target);
 		$share->setTarget($target);
 
@@ -1188,6 +1203,15 @@ class Manager implements IManager {
 	 */
 	public function shareApiEnabled() {
 		return $this->config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes';
+	}
+
+	/**
+	 * Preserve full path of source node within name of target node
+	 *
+	 * @return bool
+	 */
+	public function shareApiPreserveFullName() {
+		return $this->config->getAppValue('core', 'shareapi_preserve_full_name', 'no') === 'yes';
 	}
 
 	/**

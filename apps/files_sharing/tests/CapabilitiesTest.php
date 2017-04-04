@@ -83,6 +83,24 @@ class CapabilitiesTest extends \Test\TestCase {
 		$this->assertNotContains('resharing', $result);
 	}
 
+	public function testPreserveNames() {
+		$map = [
+			['core', 'shareapi_enabled', 'yes', 'yes'],
+			['core', 'shareapi_preserve_full_name', 'no', 'yes'],
+		];
+		$result = $this->getResults($map);
+		$this->assertTrue($result['preserve_full_name']);
+	}
+
+	public function testNoPreserveNames() {
+		$map = [
+			['core', 'shareapi_enabled', 'yes', 'yes'],
+			['core', 'shareapi_preserve_full_name', 'no', 'no'],
+		];
+		$result = $this->getResults($map);
+		$this->assertFalse($result['preserve_full_name']);
+	}
+
 	public function testNoLinkSharing() {
 		$map = [
 			['core', 'shareapi_enabled', 'yes', 'yes'],

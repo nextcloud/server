@@ -54,6 +54,8 @@ class Capabilities implements ICapability {
 		} else {
 			$res['api_enabled'] = true;
 
+			$res['preserve_full_name'] = $this->config->getAppValue('core', 'shareapi_preserve_full_name', 'no') === 'yes';
+
 			$public = [];
 			$public['enabled'] = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes';
 			if ($public['enabled']) {

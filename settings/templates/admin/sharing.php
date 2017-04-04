@@ -37,6 +37,11 @@
 		<label for="shareAPIEnabled"><?php p($l->t('Allow apps to use the Share API'));?></label><br/>
 	</p>
 	<p class="<?php if ($_['shareAPIEnabled'] === 'no') p('hidden');?>">
+		<input type="checkbox" name="shareapi_preserve_full_name" id="preserveFullName" class="checkbox"
+			   value="1" <?php if ($_['preserveFullName'] === 'yes') print_unescaped('checked="checked"'); ?> />
+		<label for="preserveFullName"><?php p($l->t('Preserve full path of source object as name of target share'));?></label><br/>
+	</p>
+	<p class="<?php if ($_['shareAPIEnabled'] === 'no') p('hidden');?>">
 		<input type="checkbox" name="shareapi_allow_links" id="allowLinks" class="checkbox"
 			   value="1" <?php if ($_['allowLinks'] === 'yes') print_unescaped('checked="checked"'); ?> />
 		<label for="allowLinks"><?php p($l->t('Allow users to share via link'));?></label><br/>

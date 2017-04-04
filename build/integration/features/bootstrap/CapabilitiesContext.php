@@ -65,6 +65,7 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 	protected function resetAppConfigs() {
 		$this->modifyServerConfig('core', 'shareapi_enabled', 'yes');
 		$this->modifyServerConfig('core', 'shareapi_allow_links', 'yes');
+		$this->modifyServerConfig('core', 'shareapi_preserve_full_name', 'no');
 		$this->modifyServerConfig('core', 'shareapi_allow_public_upload', 'yes');
 		$this->modifyServerConfig('core', 'shareapi_allow_resharing', 'yes');
 		$this->modifyServerConfig('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
