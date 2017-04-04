@@ -981,9 +981,9 @@ class OC_Util {
 			);
 			exit();
 		}
-		// Redirect to index page if 2FA challenge was not solved yet
+		// Redirect to 2FA challenge selection if 2FA challenge was not solved yet
 		if (\OC::$server->getTwoFactorAuthManager()->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
-			header('Location: ' . \OCP\Util::linkToAbsolute('', 'index.php'));
+			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.selectChallenge'));
 			exit();
 		}
 	}
