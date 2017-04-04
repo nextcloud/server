@@ -38,6 +38,14 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function settingsMenu() {
+		return Locator::forThe()->id("expanddiv")->descendantOf(self::settingsMenuButton())->
+				describedAs("Settings menu");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function usersMenuItem() {
 		return self::menuItemFor("Users");
 	}
@@ -53,15 +61,23 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	private static function menuItemFor($itemText) {
-		return Locator::forThe()->content($itemText)->descendantOf(self::settingsMenuButton())->
+		return Locator::forThe()->content($itemText)->descendantOf(self::settingsMenu())->
 				describedAs($itemText . " item in Settings menu");
+	}
+
+	/**
+	 * @When I open the Settings menu
+	 */
+	public function iOpenTheSettingsMenu() {
+		$this->actor->find(self::settingsMenuButton(), 10)->click();
 	}
 
 	/**
 	 * @When I open the User settings
 	 */
 	public function iOpenTheUserSettings() {
-		$this->actor->find(self::settingsMenuButton(), 10)->click();
+		$this->iOpenTheSettingsMenu();
+
 		$this->actor->find(self::usersMenuItem(), 2)->click();
 	}
 
@@ -69,8 +85,38 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 * @When I log out
 	 */
 	public function iLogOut() {
-		$this->actor->find(self::settingsMenuButton(), 10)->click();
+		$this->iOpenTheSettingsMenu();
+
 		$this->actor->find(self::logOutMenuItem(), 2)->click();
+	}
+
+	/**
+	 * @Then I see that the Settings menu is shown
+	 */
+	public function iSeeThatTheSettingsMenuIsShown() {
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::settingsMenu(), 10)->isVisible());
+	}
+
+	/**
+	 * @Then I see that the :itemText item in the Settings menu is shown
+	 */
+	public function iSeeThatTheItemInTheSettingsMenuIsShown($itemText) {
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::menuItemFor($itemText), 10)->isVisible());
+	}
+
+	/**
+	 * @Then I see that the :itemText item in the Settings menu is not shown
+	 */
+	public function iSeeThatTheItemInTheSettingsMenuIsNotShown($itemText) {
+		$this->iSeeThatTheSettingsMenuIsShown();
+
+		try {
+			PHPUnit_Framework_Assert::assertFalse(
+					$this->actor->find(self::menuItemFor($itemText))->isVisible());
+		} catch (NoSuchElementException $exception) {
+		}
 	}
 
 }
