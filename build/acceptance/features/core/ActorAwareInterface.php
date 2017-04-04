@@ -21,10 +21,11 @@
  *
  */
 
-use Behat\Behat\Context\Context;
+interface ActorAwareInterface {
 
-class FeatureContext implements Context, ActorAwareInterface {
-
-	use ActorAware;
+	/**
+	 * @param Actor $actor
+	 */
+	public function setCurrentActor(Actor $actor);
 
 }

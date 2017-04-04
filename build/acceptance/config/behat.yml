@@ -6,6 +6,7 @@ default:
       paths:
         - %paths.base%/../features
       contexts:
+        - ActorContext
         - NextcloudTestServerContext
 
         - FeatureContext
