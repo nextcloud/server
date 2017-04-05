@@ -52,17 +52,24 @@ translation('settings');
 					</label>
 				</p>
 				<p>
-					<input type="checkbox" name="LastLogin" value="LastLogin" id="CheckboxLastLogin"
-						class="checkbox" <?php if ($_['show_last_login'] === 'true') print_unescaped('checked="checked"'); ?> />
-					<label for="CheckboxLastLogin">
-						<?php p($l->t('Show last log in')) ?>
-					</label>
-				</p>
-				<p>
 					<input type="checkbox" name="UserBackend" value="UserBackend" id="CheckboxUserBackend"
 						class="checkbox" <?php if ($_['show_backend'] === 'true') print_unescaped('checked="checked"'); ?> />
 					<label for="CheckboxUserBackend">
 						<?php p($l->t('Show user backend')) ?>
+					</label>
+				</p>
+				<p>
+					<input type="checkbox" name="LastLogin" value="LastLogin" id="CheckboxLastLogin"
+						class="checkbox" <?php if ($_['show_last_login'] === 'true') print_unescaped('checked="checked"'); ?> />
+					<label for="CheckboxLastLogin">
+						<?php p($l->t('Show last login')) ?>
+					</label>
+				</p>
+				<p>
+					<input type="checkbox" name="EmailAddress" value="EmailAddress" id="CheckboxEmailAddress"
+						class="checkbox" <?php if ($_['show_email'] === 'true') print_unescaped('checked="checked"'); ?> />
+					<label for="CheckboxEmailAddress">
+						<?php p($l->t('Show email address')) ?>
 					</label>
 				</p>
 				<p>
@@ -73,14 +80,7 @@ translation('settings');
 					</label>
 				</p>
 				<p class="info-text">
-					<?php p($l->t('When the password of the new user is left empty an activation email with a link to set the password is send to the user')) ?>
-				</p>
-				<p>
-					<input type="checkbox" name="EmailAddress" value="EmailAddress" id="CheckboxEmailAddress"
-						class="checkbox" <?php if ($_['show_email'] === 'true') print_unescaped('checked="checked"'); ?> />
-					<label for="CheckboxEmailAddress">
-						<?php p($l->t('Show email address')) ?>
-					</label>
+					<?php p($l->t('When the password of a new user is left empty, an activation email with a link to set the password is sent.')) ?>
 				</p>
 			</div>
 		</div>
