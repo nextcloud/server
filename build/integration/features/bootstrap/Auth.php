@@ -1,7 +1,5 @@
 <?php
-
 /**
-
  *
  * @author Christoph Wurst <christoph@owncloud.com>
  *
@@ -21,19 +19,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Cookie\CookieJar;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
 trait Auth {
-
-	private $clientToken;
+	/** @var string */
+	private $unrestrictedClientToken;
+	/** @var string */
+	private $restrictedClientToken;
+	/** @var Client */
+	private $client;
+	/** @var string */
+	private $responseXml;
 
 	/** @BeforeScenario */
 	public function setUpScenario() {
 		$this->client = new Client();
 		$this->responseXml = '';
+		$this->cookieJar = new CookieJar();
 	}
 
 	/**
@@ -65,15 +72,28 @@ trait Auth {
 	}
 
 	/**
-	 * @Given a new client token is used
+	 * @When the CSRF token is extracted from the previous response
 	 */
-	public function aNewClientTokenIsUsed() {
-		$this->loggingInUsingWebAs('user0');
+	public function theCsrfTokenIsExtractedFromThePreviousResponse() {
+		$this->requestToken = substr(preg_replace('/(.*)data-requesttoken="(.*)">(.*)/sm', '\2', $this->response->getBody()->getContents()), 0, 89);
+	}
+
+	/**
+	 * @param bool $loginViaWeb
+	 * @return object
+	 */
+	private function createClientToken($loginViaWeb = true) {
+		if($loginViaWeb) {
+			$this->loggingInUsingWebAs('user0');
+		}
 
 		$fullUrl = substr($this->baseUrl, 0, -5) . '/index.php/settings/personal/authtokens';
 		$client = new Client();
 		$options = [
-			'auth' => ['user0', '123456'],
+			'auth' => [
+				'user0',
+				$loginViaWeb ? '123456' : $this->restrictedClientToken,
+			],
 			'body' => [
 				'requesttoken' => $this->requestToken,
 				'name' => md5(microtime()),
@@ -81,34 +101,107 @@ trait Auth {
 			'cookies' => $this->cookieJar,
 		];
 
-		$resp = $client->send($client->createRequest('POST', $fullUrl, $options));
+		try {
+			$this->response = $client->send($client->createRequest('POST', $fullUrl, $options));
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			$this->response = $e->getResponse();
+		}
+		return json_decode($this->response->getBody()->getContents());
+	}
 
-		$this->clientToken = json_decode($resp->getBody()->getContents())->token;
+	/**
+	 * @Given a new restricted client token is added
+	 */
+	public function aNewRestrictedClientTokenIsAdded()  {
+		$tokenObj = $this->createClientToken();
+		$newCreatedTokenId = $tokenObj->deviceToken->id;
+		$fullUrl = substr($this->baseUrl, 0, -5) . '/index.php/settings/personal/authtokens/' . $newCreatedTokenId;
+		$client = new Client();
+		$options = [
+			'auth' => ['user0', '123456'],
+			'headers' => [
+				'requesttoken' => $this->requestToken,
+			],
+			'json' => [
+				'scope' => [
+					'filesystem' => false,
+				],
+			],
+			'cookies' => $this->cookieJar,
+		];
+		$this->response = $client->send($client->createRequest('PUT', $fullUrl, $options));
+		$this->restrictedClientToken = $tokenObj->token;
+	}
+
+	/**
+	 * @Given a new unrestricted client token is added
+	 */
+	public function aNewUnrestrictedClientTokenIsAdded() {
+		$this->unrestrictedClientToken = $this->createClientToken()->token;
+	}
+
+	/**
+	 * @When a new unrestricted client token is added using restricted basic token auth
+	 */
+	public function aNewUnrestrictedClientTokenIsAddedUsingRestrictedBasicTokenAuth() {
+		$this->createClientToken(false);
 	}
 
 	/**
 	 * @When requesting :url with :method using basic auth
+	 *
+	 * @param string $url
+	 * @param string $method
 	 */
 	public function requestingWithBasicAuth($url, $method) {
 		$this->sendRequest($url, $method, 'basic ' . base64_encode('user0:123456'));
 	}
 
 	/**
-	 * @When requesting :url with :method using basic token auth
+	 * @When requesting :url with :method using unrestricted basic token auth
+	 *
+	 * @param string $url
+	 * @param string $method
 	 */
-	public function requestingWithBasicTokenAuth($url, $method) {
-		$this->sendRequest($url, $method, 'basic ' . base64_encode('user0:' . $this->clientToken));
+	public function requestingWithUnrestrictedBasicTokenAuth($url, $method) {
+		$this->sendRequest($url, $method, 'basic ' . base64_encode('user0:' . $this->unrestrictedClientToken), true);
 	}
 
 	/**
-	 * @When requesting :url with :method using a client token
+	 * @When requesting :url with :method using restricted basic token auth
+	 *
+	 * @param string $url
+	 * @param string $method
 	 */
-	public function requestingWithUsingAClientToken($url, $method) {
-		$this->sendRequest($url, $method, 'token ' . $this->clientToken);
+	public function requestingWithRestrictedBasicTokenAuth($url, $method) {
+		$this->sendRequest($url, $method, 'basic ' . base64_encode('user0:' . $this->restrictedClientToken), true);
+	}
+
+	/**
+	 * @When requesting :url with :method using an unrestricted client token
+	 *
+	 * @param string $url
+	 * @param string $method
+	 */
+	public function requestingWithUsingAnUnrestrictedClientToken($url, $method) {
+		$this->sendRequest($url, $method, 'token ' . $this->unrestrictedClientToken);
+	}
+
+	/**
+	 * @When requesting :url with :method using a restricted client token
+	 *
+	 * @param string $url
+	 * @param string $method
+	 */
+	public function requestingWithUsingARestrictedClientToken($url, $method) {
+		$this->sendRequest($url, $method, 'token ' . $this->restrictedClientToken);
 	}
 
 	/**
 	 * @When requesting :url with :method using browser session
+	 *
+	 * @param string $url
+	 * @param string $method
 	 */
 	public function requestingWithBrowserSession($url, $method) {
 		$this->sendRequest($url, $method, null, true);
@@ -116,6 +209,8 @@ trait Auth {
 
 	/**
 	 * @Given a new browser session is started
+	 *
+	 * @param bool $remember
 	 */
 	public function aNewBrowserSessionIsStarted($remember = false) {
 		$loginUrl = substr($this->baseUrl, 0, -5) . '/login';
@@ -147,6 +242,14 @@ trait Auth {
 	 */
 	public function aNewRememberedBrowserSessionIsStarted() {
 		$this->aNewBrowserSessionIsStarted(true);
+	}
+
+
+	/**
+	 * @Given the cookie jar is reset
+	 */
+	public function theCookieJarIsReset() {
+		$this->cookieJar = new CookieJar();
 	}
 
 	/**
