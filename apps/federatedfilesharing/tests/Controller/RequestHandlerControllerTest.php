@@ -276,7 +276,7 @@ class RequestHandlerControllerTest extends TestCase {
 			Filesystem::getLoader(),
 			$httpClientService,
 			\OC::$server->getNotificationManager(),
-			\OC::$server->getOCSDiscoveryService(),
+			\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
 			$toDelete
 		);
 

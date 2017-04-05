@@ -254,7 +254,7 @@ class MountPublicLinkController extends Controller {
 			Filesystem::getLoader(),
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getNotificationManager(),
-			\OC::$server->getOCSDiscoveryService(),
+			\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
 			\OC::$server->getUserSession()->getUser()->getUID()
 		);
 

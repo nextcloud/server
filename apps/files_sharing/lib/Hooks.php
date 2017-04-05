@@ -38,7 +38,7 @@ class Hooks {
 			\OC\Files\Filesystem::getLoader(),
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getNotificationManager(),
-			\OC::$server->getOCSDiscoveryService(),
+			\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
 			$params['uid']);
 
 		$manager->removeUserShares($params['uid']);

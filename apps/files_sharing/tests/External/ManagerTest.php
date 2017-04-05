@@ -77,7 +77,7 @@ class ManagerTest extends TestCase {
 			new StorageFactory(),
 			$this->clientService,
 			\OC::$server->getNotificationManager(),
-			\OC::$server->getOCSDiscoveryService(),
+			\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
 			$this->uid
 		);
 		$this->testMountProvider = new MountProvider(\OC::$server->getDatabaseConnection(), function() {

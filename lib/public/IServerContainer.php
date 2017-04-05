@@ -531,10 +531,4 @@ interface IServerContainer extends IContainer {
 	 * @since 12.0.0
 	 */
 	public function getCloudIdManager();
-
-	/**
-	 * @return \OC\OCS\DiscoveryService
-	 * @since 12.0.0
-	 */
-	public function getOCSDiscoveryService();
 }

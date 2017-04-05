@@ -98,7 +98,7 @@ class Application extends App {
 				\OC\Files\Filesystem::getLoader(),
 				$server->getHTTPClientService(),
 				$server->getNotificationManager(),
-				$server->getOCSDiscoveryService(),
+				$server->query(\OCP\OCS\IDiscoveryService::class),
 				$uid
 			);
 		});

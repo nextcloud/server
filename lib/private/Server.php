@@ -937,7 +937,7 @@ class Server extends ServerContainer implements IServerContainer {
 			});
 		});
 
-		$this->registerService('OCSDiscoveryService', function (Server $c) {
+		$this->registerService(\OCP\OCS\IDiscoveryService::class, function (Server $c) {
 			return new DiscoveryService($c->getMemCacheFactory(), $c->getHTTPClientService());
 		});
 
@@ -1000,14 +1000,6 @@ class Server extends ServerContainer implements IServerContainer {
 	public function getEncryptionKeyStorage() {
 		return $this->query('EncryptionKeyStorage');
 	}
-
-	/**
-	 * @return \OC\OCS\DiscoveryService
-	 */
-	public function getOCSDiscoveryService() {
-		return $this->query('OCSDiscoveryService');
-	}
-
 
 	/**
 	 * The current request object holding all information about the request

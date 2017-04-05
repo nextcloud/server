@@ -101,7 +101,7 @@ class GetSharedSecret extends Job{
 		$this->jobList = $jobList ? $jobList : \OC::$server->getJobList();
 		$this->urlGenerator = $urlGenerator ? $urlGenerator : \OC::$server->getURLGenerator();
 		$this->dbHandler = $dbHandler ? $dbHandler : new DbHandler(\OC::$server->getDatabaseConnection(), \OC::$server->getL10N('federation'));
-		$this->ocsDiscoveryService = $ocsDiscoveryService ? $ocsDiscoveryService : \OC::$server->getOCSDiscoveryService();
+		$this->ocsDiscoveryService = $ocsDiscoveryService ? $ocsDiscoveryService : \OC::$server->query(\OCP\OCS\IDiscoveryService::class);
 		if ($trustedServers) {
 			$this->trustedServers = $trustedServers;
 		} else {

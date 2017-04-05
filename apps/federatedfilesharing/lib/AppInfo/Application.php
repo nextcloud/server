@@ -51,7 +51,7 @@ class Application extends App {
 			$notification = new Notifications(
 				$addressHandler,
 				$server->getHTTPClientService(),
-				$server->getOCSDiscoveryService(),
+				$server->query(\OCP\OCS\IDiscoveryService::class),
 				\OC::$server->getJobList()
 			);
 			return new RequestHandlerController(
@@ -99,7 +99,7 @@ class Application extends App {
 		$notifications = new \OCA\FederatedFileSharing\Notifications(
 			$addressHandler,
 			\OC::$server->getHTTPClientService(),
-			\OC::$server->getOCSDiscoveryService(),
+			\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
 			\OC::$server->getJobList()
 		);
 		$tokenHandler = new \OCA\FederatedFileSharing\TokenHandler(
