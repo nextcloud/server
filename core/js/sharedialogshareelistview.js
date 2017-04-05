@@ -367,6 +367,19 @@
 			this.$('.popovermenu').on('afterHide', function() {
 				_this._menuOpen = false;
 			});
+			this.$('.popovermenu').on('beforeHide', function() {
+				var shareId = parseInt(_this._menuOpen, 10);
+				if(!_.isNaN(shareId)) {
+					var datePickerClass = '.expirationDateContainer-' + _this.cid + '-' + shareId;
+					var datePickerInput = '#expirationDatePicker-' + _this.cid + '-' + shareId;
+					var expireDateCheckbox = '#expireDate-' + _this.cid + '-' + shareId;
+					if ($(expireDateCheckbox).prop('checked')) {
+						$(datePickerInput).removeClass('hidden-visually');
+						$(datePickerClass).removeClass('hasDatepicker');
+						$(datePickerClass + ' .ui-datepicker').hide();
+					}
+				}
+			});
 			if (this._menuOpen != false) {
 				// Open menu again if it was opened before
 				var shareId = parseInt(this._menuOpen, 10);
@@ -476,17 +489,20 @@
 			var li = element.closest('li[data-share-id]');
 			var shareId = li.data('share-id');
 			var expirationDatePicker = '#expirationDatePicker-' + this.cid + '-' + shareId;
-			$(expirationDatePicker).datepicker({dateFormat : 'dd-mm-yy'});
-			$(expirationDatePicker).focus();
-		},
+			var view = this;
+			$(expirationDatePicker).closest('div').datepicker({
+				dateFormat : 'dd-mm-yy',
+				onSelect:
+					function (expireDate) {
+						view.setExpirationDate(shareId, expireDate);
+					},
+				onClose:
+					function () {
+						$(expirationDatePicker).removeClass('hidden-visually');
+					}
+			});
 
-		onChangeExpirationDate: function(event) {
-			var datePicker = $(event.target);
-			var expireDate = datePicker.val();
-			var element = $(event.target);
-			var li = element.closest('li[data-share-id]');
-			var shareId = li.data('share-id');
-			this.setExpirationDate(shareId, expireDate);
+			$(expirationDatePicker).addClass('hidden-visually');
 		},
 
 		setExpirationDate: function(shareId, expireDate) {
