@@ -20,6 +20,7 @@ Tell us what should happen
 Tell us what happens instead
 
 ### Server configuration
+
 **Operating system**:
 
 **Web server:**
@@ -56,7 +57,7 @@ from within your Nextcloud installation folder
 ```
 </details>
 
-**The content of config/config.php:**
+**Nextcloud configuration:**
 <details>
 <summary>Config report</summary>
 
