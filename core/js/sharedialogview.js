@@ -276,11 +276,13 @@
 				text = t('core', '{sharee} (email)', { sharee: text }, undefined, { escape: false });
 			}
 			var insert = $("<div class='share-autocomplete-item'/>");
-			var avatar = $("<div class='avatardiv'></div>").appendTo(insert);
-			if (item.value.shareType === OC.Share.SHARE_TYPE_USER) {
-				avatar.avatar(item.value.shareWith, 32, undefined, undefined, undefined, item.label);
-			} else {
-				avatar.imageplaceholder(text, undefined, 32);
+			if (oc_config.enable_avatars === true) {
+				var avatar = $("<div class='avatardiv'></div>").appendTo(insert);
+				if (item.value.shareType === OC.Share.SHARE_TYPE_USER) {
+					avatar.avatar(item.value.shareWith, 32, undefined, undefined, undefined, item.label);
+				} else {
+					avatar.imageplaceholder(text, undefined, 32);
+				}
 			}
 
 			$("<div class='autocomplete-item-text'></div>")
