@@ -399,6 +399,10 @@ class KeyManager {
 	 * @return string
 	 */
 	public function getFileKey($path, $uid) {
+		if ($uid === '') {
+			$uid = null;
+		}
+		$publicAccess = is_null($uid);
 		$encryptedFileKey = $this->keyStorage->getFileKey($path, $this->fileKeyId, Encryption::ID);
 
 		if (empty($encryptedFileKey)) {
@@ -407,9 +411,16 @@ class KeyManager {
 
 		if ($this->util->isMasterKeyEnabled()) {
 			$uid = $this->getMasterKeyId();
-		}
-
-		if (is_null($uid)) {
+			$shareKey = $this->getShareKey($path, $uid);
+			if ($publicAccess) {
+				$privateKey = $this->getSystemPrivateKey($uid);
+				$privateKey = $this->crypt->decryptPrivateKey($privateKey, $this->getMasterKeyPassword(), $uid);
+			} else {
+				// when logged in, the master key is already decrypted in the session
+				$privateKey = $this->session->getPrivateKey();
+			}
+		} else if ($publicAccess) {
+			// use public share key for public links
 			$uid = $this->getPublicShareKeyId();
 			$shareKey = $this->getShareKey($path, $uid);
 			$privateKey = $this->keyStorage->getSystemUserKey($this->publicShareKeyId . '.privateKey', Encryption::ID);
