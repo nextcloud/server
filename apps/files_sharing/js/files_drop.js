@@ -46,7 +46,14 @@
 					var errors = [];
 
 					var name = data.files[0].name;
-
+					try {
+						// FIXME: not so elegant... need to refactor that method to return a value
+						Files.isFileNameValid(name);
+					}
+					catch (errorMessage) {
+						OC.Notification.show(errorMessage, {type: 'error'});
+						return false;
+					}
 					var base = OC.getProtocol() + '://' + OC.getHost();
 					data.url = base + OC.getRootPath() + '/public.php/webdav/' + encodeURI(name);
 
