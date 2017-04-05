@@ -178,7 +178,7 @@ script(
 	<input class="enable{{#if needsDownload}} needs-download{{/if}}" type="submit" data-appid="{{id}}" data-active="false" {{#unless canInstall}}disabled="disabled"{{/unless}} value="<?php p($l->t("Enable"));?>"/>
 	{{/if}}
 	{{#if canUnInstall}}
-	<input class="uninstall" type="submit" value="<?php p($l->t('Remove app')); ?>" data-appid="{{id}}" />
+	<input class="uninstall" type="submit" value="<?php p($l->t('Remove')); ?>" data-appid="{{id}}" />
 	{{/if}}
 
 	<div class="warning hidden"></div>
