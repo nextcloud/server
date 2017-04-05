@@ -50,3 +50,12 @@ Feature: caldav
     Then The CalDAV HTTP status code should be "201"
     And "admin" requests calendar "admin/MyCalendar" on the endpoint "/remote.php/dav/calendars/"
     Then The CalDAV HTTP status code should be "207"
+
+  Scenario: Propfind on public calendar endpoint without calendars
+    When "admin" creates a calendar named "MyCalendar"
+    Then The CalDAV HTTP status code should be "201"
+    And "admin" publicly shares the calendar named "MyCalendar"
+    Then The CalDAV HTTP status code should be "202"
+    When "admin" requests calendar "/" on the endpoint "/remote.php/dav/public-calendars"
+    Then The CalDAV HTTP status code should be "207"
+    Then There should be "0" calendars in the response body
