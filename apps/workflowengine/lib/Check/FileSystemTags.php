@@ -23,6 +23,7 @@ namespace OCA\WorkflowEngine\Check;
 
 
 use OCP\Files\Cache\ICache;
+use OCP\Files\IHomeStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\IL10N;
 use OCP\SystemTag\ISystemTagManager;
@@ -108,7 +109,7 @@ class FileSystemTags implements ICheck {
 	 */
 	protected function getSystemTags() {
 		$cache = $this->storage->getCache();
-		$fileIds = $this->getFileIds($cache, $this->path);
+		$fileIds = $this->getFileIds($cache, $this->path, !$this->storage->instanceOfStorage(IHomeStorage::class));
 
 		$systemTags = [];
 		foreach ($fileIds as $i => $fileId) {
@@ -135,17 +136,19 @@ class FileSystemTags implements ICheck {
 	 * Get the file ids of the given path and its parents
 	 * @param ICache $cache
 	 * @param string $path
+	 * @param bool $isExternalStorage
 	 * @return int[]
 	 */
-	protected function getFileIds(ICache $cache, $path) {
+	protected function getFileIds(ICache $cache, $path, $isExternalStorage) {
 		$cacheId = $cache->getNumericStorageId();
 		if (isset($this->fileIds[$cacheId][$path])) {
 			return $this->fileIds[$cacheId][$path];
 		}
 
-		if ($path !== dirname($path)) {
-			$parentIds = $this->getFileIds($cache, dirname($path));
-		} else {
+		$parentIds = [];
+		if ($path !== $this->dirname($path)) {
+			$parentIds = $this->getFileIds($cache, $this->dirname($path), $isExternalStorage);
+		} else if (!$isExternalStorage) {
 			return [];
 		}
 
@@ -157,5 +160,10 @@ class FileSystemTags implements ICheck {
 		$this->fileIds[$cacheId][$path] = $parentIds;
 
 		return $parentIds;
+	}
+
+	protected function dirname($path) {
+		$dir = dirname($path);
+		return $dir === '.' ? '' : $dir;
 	}
 }
