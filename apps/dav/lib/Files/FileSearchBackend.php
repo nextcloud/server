@@ -116,6 +116,7 @@ class FileSearchBackend implements ISearchBackend {
 			new SearchPropertyDefinition('{DAV:}getlastmodified', true, true, true, SearchPropertyDefinition::DATATYPE_DATETIME),
 			new SearchPropertyDefinition(FilesPlugin::SIZE_PROPERTYNAME, true, true, true, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
 			new SearchPropertyDefinition(TagsPlugin::FAVORITE_PROPERTYNAME, true, true, true, SearchPropertyDefinition::DATATYPE_BOOLEAN),
+			new SearchPropertyDefinition(FilesPlugin::INTERNAL_FILEID_PROPERTYNAME, true, true, false, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
 
 			// select only properties
 			new SearchPropertyDefinition('{DAV:}resourcetype', false, true, false),
@@ -127,7 +128,6 @@ class FileSearchBackend implements ISearchBackend {
 			new SearchPropertyDefinition(FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME, false, true, false),
 			new SearchPropertyDefinition(FilesPlugin::DATA_FINGERPRINT_PROPERTYNAME, false, true, false),
 			new SearchPropertyDefinition(FilesPlugin::HAS_PREVIEW_PROPERTYNAME, false, true, false, SearchPropertyDefinition::DATATYPE_BOOLEAN),
-			new SearchPropertyDefinition(FilesPlugin::INTERNAL_FILEID_PROPERTYNAME, false, true, false, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
 			new SearchPropertyDefinition(FilesPlugin::FILEID_PROPERTYNAME, false, true, false, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
 		];
 	}
@@ -222,7 +222,7 @@ class FileSearchBackend implements ISearchBackend {
 			case Operator::OPERATION_IS_COLLECTION:
 				return new SearchComparison('eq', 'mimetype', ICacheEntry::DIRECTORY_MIMETYPE);
 			default:
-				throw new \InvalidArgumentException('Unsupported operation ' . $trimmedType.  ' (' . $operator->type . ')');
+				throw new \InvalidArgumentException('Unsupported operation ' . $trimmedType . ' (' . $operator->type . ')');
 		}
 	}
 
@@ -244,6 +244,8 @@ class FileSearchBackend implements ISearchBackend {
 				return 'favorite';
 			case TagsPlugin::TAGS_PROPERTYNAME:
 				return 'tagname';
+			case FilesPlugin::INTERNAL_FILEID_PROPERTYNAME:
+				return 'fileid';
 			default:
 				throw new \InvalidArgumentException('Unsupported property for search or order: ' . $propertyName);
 		}
@@ -266,7 +268,7 @@ class FileSearchBackend implements ISearchBackend {
 							return 0 + $value;
 						}
 						$date = \DateTime::createFromFormat(\DateTime::ATOM, $value);
-						return ($date instanceof  \DateTime) ? $date->getTimestamp() : 0;
+						return ($date instanceof \DateTime) ? $date->getTimestamp() : 0;
 					default:
 						return $value;
 				}

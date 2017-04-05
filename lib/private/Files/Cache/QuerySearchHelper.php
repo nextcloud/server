@@ -152,7 +152,8 @@ class QuerySearchHelper {
 			'name' => 'string',
 			'size' => 'integer',
 			'tagname' => 'string',
-			'favorite' => 'boolean'
+			'favorite' => 'boolean',
+			'fileid' => 'integer'
 		];
 		$comparisons = [
 			'mimetype' => ['eq', 'like'],
@@ -161,6 +162,7 @@ class QuerySearchHelper {
 			'size' => ['eq', 'gt', 'lt', 'gte', 'lte'],
 			'tagname' => ['eq', 'like'],
 			'favorite' => ['eq'],
+			'fileid' => ['eq']
 		];
 
 		if (!isset($types[$operator->getField()])) {
