@@ -23,6 +23,7 @@
 
 namespace OCA\Files_External\Lib\Storage;
 
+use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Storage\Common;
@@ -281,9 +282,25 @@ class SharePoint extends Common {
 				return true;
 			} catch(\Exception $e) {
 				// NOOP
+	}
+
+	public function rename($path1, $path2) {
+		$oldPath = $this->formatPath($path1);
+		$newPath = $this->formatPath($path2);
+		try {
+			$isRenamed = $this->spClient->rename($oldPath, $newPath);
+			if($isRenamed) {
+				$entry = $this->fileCache->get($oldPath);
+				$this->fileCache->remove($newPath);
+				if($entry !== false) {
+					$this->fileCache->set($newPath, $entry);
+				}
+				$this->fileCache->remove($oldPath);
 			}
-		}*/
-		return false;
+			return $isRenamed;
+		} catch (\Exception $e) {
+			return false;
+		}
 	}
 
 	/**
@@ -298,25 +315,84 @@ class SharePoint extends Common {
 		$serverUrl = $this->formatPath($path);
 
 		switch ($mode) {
+			case 'a':
+			case 'ab':
+			case 'a+':
+				// no native support
+				return false;
 			case 'r':
 			case 'rb':
 				$tmpFile = $this->tempManager->getTemporaryFile();
 
-				// TODO: when https://github.com/vgrem/phpSPO/pull/59 is merged,
-				// use getFileViaStream approach and remove the other code
-				/*$fp = fopen($tmpFile, 'w+');
+				$fp = fopen($tmpFile, 'w+');
 				if(!$this->spClient->getFileViaStream($serverUrl, $fp)) {
 					fclose($fp);
 					return false;
 				}
 				fseek($fp, 0);
-				return $fp;*/
+				return $fp;
+				break;
+			case 'r+':
+			case 'rb+':
+			case 'r+b':
+				// fseek 0
+			case 'w':
+			case 'w+':
+			case 'wb':
+			case 'wb+':
+			case 'w+b':
+				// truncate
+				// fseek 0
+			case 'x':
+			case 'x+':
+			case 'xb':
+			case 'xb+':
+			case 'x+b':
+				// fseek 0
+			case 'c':
+			case 'cb':
+			case 'c+':
+			case 'cb+':
+			case 'c+b':
+				//fseek 0
+				if($mode[0] === 'x' && $this->file_exists($path)) {
+					return false;
+				}
+				$tmpFile = $this->tempManager->getTemporaryFile();
+				if($mode[0] !== 'w' && $this->file_exists($path)) {
+					$content = $this->fopen($path, 'r');
+					if($content === false) {
+						// should not happen, but let's be safe
+						return false;
+					}
+					$this->file_put_contents($tmpFile, $content);
+				}
+				$fp = fopen($tmpFile, $mode);
+				return CallbackWrapper::wrap($fp, null, null, function () use ($path, $tmpFile) {
+					$this->writeBack($tmpFile, $path);
+				});
 
-				$content = $this->spClient->getFile($serverUrl);
-				file_put_contents($tmpFile, $content);
-				return fopen($tmpFile, 'r');
 		}
 		return false;
+	}
+
+	public function writeBack($tmpFile, $path) {
+		$serverUrl = $this->formatPath($path);
+		$content = file_get_contents($tmpFile);
+		$fp = fopen($tmpFile, 'r');
+
+		try {
+			if ($this->file_exists($path)) {
+				$this->spClient->overwriteFileViaStream($serverUrl, $fp, $tmpFile);
+				fclose($fp);
+				$this->fileCache->remove($serverUrl);
+			} else {
+				$file = $this->spClient->uploadNewFile($serverUrl, $content);
+				$this->fileCache->set($serverUrl, ['instance' => $file]);
+			}
+		} catch (\Exception $e) {
+			return false;
+		}
 	}
 
 	/**

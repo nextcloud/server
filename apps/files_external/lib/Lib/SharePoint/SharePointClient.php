@@ -29,6 +29,7 @@ use Office365\PHP\Client\Runtime\ClientObjectCollection;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use Office365\PHP\Client\SharePoint\ClientContext;
 use Office365\PHP\Client\SharePoint\File;
+use Office365\PHP\Client\SharePoint\FileCreationInformation;
 use Office365\PHP\Client\SharePoint\Folder;
 use Office365\PHP\Client\SharePoint\SPList;
 
@@ -120,12 +121,8 @@ class SharePointClient {
 	public function createFolder($relativeServerPath) {
 		$this->ensureConnection();
 
-		$serverUrlParts = explode('/', $relativeServerPath);
-		$newFolderName = array_pop($serverUrlParts);
-		$parentUrl =  implode('/', $serverUrlParts);
-
-		$parentFolder = $this->context->getWeb()->getFolderByServerRelativeUrl($parentUrl);
-		$folder = $parentFolder->getFolders()->add($newFolderName);
+		$parentFolder = $this->context->getWeb()->getFolderByServerRelativeUrl(dirname($relativeServerPath));
+		$folder = $parentFolder->getFolders()->add(basename($relativeServerPath));
 
 		try {
 			$this->context->executeQuery();
@@ -152,7 +149,7 @@ class SharePointClient {
 		$url = $this->context->getServiceRootUrl() .
 			"web/getfilebyserverrelativeurl('$relativeServerPath')/\$value";
 		$options = new RequestOptions($url);
-		$options->addCurlOption(CURLOPT_FILE, $fp);
+		$options->StreamHandle = $fp;
 
 		try {
 			$ok = $this->context->executeQueryDirect($options);
@@ -173,6 +170,110 @@ class SharePointClient {
 		return File::openBinary($this->context, $relativeServerPath);
 	}
 
+	/**
+	 * @param string $relativeServerPath
+	 * @param resource $fp
+	 * @param string $localPath - we need to pass the file size for the content length header
+	 * @return bool
+	 * @throws \Exception
+	 */
+	public function overwriteFileViaStream($relativeServerPath, $fp, $localPath) {
+		$serverRelativeUrl = rawurlencode($relativeServerPath);
+		$url = $this->context->getServiceRootUrl() . "web/getfilebyserverrelativeurl('$serverRelativeUrl')/\$value";
+		$request = new RequestOptions($url);
+		$request->Method = 'POST'; // yes, POST
+		$request->addCustomHeader('X-HTTP-Method','PUT'); // yes, PUT
+		$this->context->ensureFormDigest($request);
+		//FIXME: Proper StreamHandle handling is not upstream, yet
+		$request->StreamHandle = $fp;
+		$request->addCustomHeader("content-length", filesize($localPath));
+
+		try {
+			$ok = $this->context->executeQueryDirect($request);
+		} catch(\Exception $e) {
+			$this->resetClientContext();
+			throw $e;
+		}
+		return $ok !== false;
+	}
+
+	/**
+	 * FIXME: use StreamHandle as in  overwriteFileViaStream for uploading a file
+	 * needs to reimplement adding-file-tp-sp-logic quite some… perhaps upload an
+	 * empty file and continue with overwriteFileViaStream?
+	 *
+	 * @param $relativeServerPath
+	 * @param $content
+	 * @return File
+	 * @throws \Exception
+	 */
+	public function uploadNewFile($relativeServerPath, $content) {
+		$parentFolder = $this->context->getWeb()->getFolderByServerRelativeUrl(dirname($relativeServerPath));
+		$fileCollection = $parentFolder->getFiles();
+
+		$info = new FileCreationInformation();
+		$info->Content = $content;
+		$info->Url = basename($relativeServerPath);
+		$file = $fileCollection->add($info);
+		try {
+			$this->context->executeQuery();
+			return $file;
+		} catch(\Exception $e) {
+			$this->createClientContext();
+			throw $e;
+		}
+	}
+
+	/**
+	 * moves a file or a folder to the given destination
+	 *
+	 * @param string $oldPath
+	 * @param string $newPath
+	 * @return bool
+	 * @throws \Exception
+	 */
+	public function rename($oldPath, $newPath) {
+		$this->ensureConnection();
+
+		try {
+			$item = $this->fetchFileOrFolder($oldPath);
+			if($item instanceof File) {
+				$this->renameFile($item, $newPath);
+			} else if($item instanceof Folder) {
+				$this->renameFolder($item, $newPath);
+			} else {
+				return false;
+			}
+			return true;
+		} catch (\Exception $e) {
+			$this->createClientContext();
+			throw $e;
+		}
+	}
+
+	/**
+	 * renames a folder
+	 *
+	 * @param Folder $folder
+	 * @param string $newPath
+	 */
+	private function renameFolder(Folder $folder, $newPath) {
+		$folder->rename(basename($newPath));
+		$this->context->executeQuery();
+	}
+
+	/**
+	 * moves a file
+	 *
+	 * @param File $file
+	 * @param string $newPath
+	 */
+	private function renameFile(File $file, $newPath) {
+		$newPath = rawurlencode($newPath);
+		$file->moveTo($newPath, 0);
+		$this->context->executeQuery();
+		#$req = $this->debugGetLastRequest();
+	}
 	public function deleteFolder($relativeServerPath, Folder $folder = null) {
 		$this->ensureConnection();
 
