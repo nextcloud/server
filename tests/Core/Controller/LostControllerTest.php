@@ -76,8 +76,12 @@ class LostControllerTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->existingUser = $this->createMock(IUser::class);
-		$this->existingUser->method('getEMailAddress')
+		$this->existingUser->expects($this->any())
+			->method('getEMailAddress')
 			->willReturn('test@example.com');
+		$this->existingUser->expects($this->any())
+			->method('getUID')
+			->willReturn('ExistingUser');
 
 		$this->config = $this->createMock(IConfig::class);
 		$this->config->method('getSystemValue')
@@ -280,11 +284,6 @@ class LostControllerTest extends \Test\TestCase {
 			->with('21')
 			->will($this->returnValue('ThisIsMaybeANotSoSecretToken!'));
 		$this->userManager
-				->expects($this->once())
-				->method('userExists')
-				->with('ExistingUser')
-				->will($this->returnValue(true));
-		$this->userManager
 				->expects($this->any())
 				->method('get')
 				->with('ExistingUser')
@@ -344,17 +343,83 @@ class LostControllerTest extends \Test\TestCase {
 		$this->assertSame($expectedResponse, $response);
 	}
 
-	public function testEmailCantSendException() {
+	public function testEmailWithMailSuccessful() {
 		$this->secureRandom
 			->expects($this->once())
 			->method('generate')
 			->with('21')
 			->will($this->returnValue('ThisIsMaybeANotSoSecretToken!'));
 		$this->userManager
+				->expects($this->any())
+				->method('get')
+				->with('test@example.com')
+				->willReturn(null);
+		$this->userManager
+				->expects($this->any())
+				->method('getByEmail')
+				->with('test@example.com')
+				->willReturn([$this->existingUser]);
+		$this->timeFactory
 			->expects($this->once())
-			->method('userExists')
-			->with('ExistingUser')
-			->will($this->returnValue(true));
+			->method('getTime')
+			->will($this->returnValue(12348));
+		$this->config
+			->expects($this->once())
+			->method('setUserValue')
+			->with('ExistingUser', 'core', 'lostpassword', 'encryptedToken');
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkToRouteAbsolute')
+			->with('core.lost.resetform', array('userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'))
+			->will($this->returnValue('https://example.tld/index.php/lostpassword/'));
+		$message = $this->getMockBuilder('\OC\Mail\Message')
+			->disableOriginalConstructor()->getMock();
+		$message
+			->expects($this->at(0))
+			->method('setTo')
+			->with(['test@example.com' => 'ExistingUser']);
+		$message
+			->expects($this->at(1))
+			->method('setSubject')
+			->with(' password reset');
+		$message
+			->expects($this->at(2))
+			->method('setPlainBody')
+			->with('Use the following link to reset your password: https://example.tld/index.php/lostpassword/');
+		$message
+			->expects($this->at(3))
+			->method('setFrom')
+			->with(['lostpassword-noreply@localhost' => null]);
+		$this->mailer
+			->expects($this->at(0))
+			->method('createMessage')
+			->will($this->returnValue($message));
+		$this->mailer
+			->expects($this->at(1))
+			->method('send')
+			->with($message);
+
+		$this->config->method('getSystemValue')
+			->with('secret', '')
+			->willReturn('SECRET');
+
+		$this->crypto->method('encrypt')
+			->with(
+				$this->equalTo('12348:ThisIsMaybeANotSoSecretToken!'),
+				$this->equalTo('test@example.comSECRET')
+			)->willReturn('encryptedToken');
+
+		$response = $this->lostController->email('test@example.com');
+		$expectedResponse = array('status' => 'success');
+		$this->assertSame($expectedResponse, $response);
+	}
+
+	public function testEmailCantSendException() {
+		$this->secureRandom
+			->expects($this->once())
+			->method('generate')
+			->with('21')
+			->will($this->returnValue('ThisIsMaybeANotSoSecretToken!'));
 		$this->userManager
 				->expects($this->any())
 				->method('get')
