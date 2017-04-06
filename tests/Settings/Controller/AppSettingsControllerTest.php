@@ -92,14 +92,19 @@ class AppSettingsControllerTest extends TestCase {
 	public function testListCategories() {
 		$expected = new JSONResponse([
 			[
+				'id' => 2,
+				'ident' => 'installed',
+				'displayName' => 'Your apps',
+			],
+			[
 				'id' => 0,
 				'ident' => 'enabled',
-				'displayName' => 'Enabled',
+				'displayName' => 'Enabled apps',
 			],
 			[
 				'id' => 1,
 				'ident' => 'disabled',
-				'displayName' => 'Not enabled',
+				'displayName' => 'Disabled apps',
 			],
 			[
 				'id' => 'auth',
@@ -175,7 +180,7 @@ class AppSettingsControllerTest extends TestCase {
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 
-		$expected = new TemplateResponse('settings', 'apps', ['category' => 'enabled', 'appstoreEnabled' => true], 'user');
+		$expected = new TemplateResponse('settings', 'apps', ['category' => 'installed', 'appstoreEnabled' => true], 'user');
 		$expected->setContentSecurityPolicy($policy);
 
 		$this->assertEquals($expected, $this->appSettingsController->viewApps());
@@ -195,7 +200,7 @@ class AppSettingsControllerTest extends TestCase {
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 
-		$expected = new TemplateResponse('settings', 'apps', ['category' => 'enabled', 'appstoreEnabled' => false], 'user');
+		$expected = new TemplateResponse('settings', 'apps', ['category' => 'installed', 'appstoreEnabled' => false], 'user');
 		$expected->setContentSecurityPolicy($policy);
 
 		$this->assertEquals($expected, $this->appSettingsController->viewApps());
