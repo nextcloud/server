@@ -28,6 +28,7 @@
 
 namespace OC\Core\Command\Db;
 
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use \OCP\IConfig;
 use OC\DB\Connection;
 use OC\DB\ConnectionFactory;
@@ -53,6 +54,9 @@ class ConvertType extends Command implements CompletionAwareInterface {
 	 * @var \OC\DB\ConnectionFactory
 	 */
 	protected $connectionFactory;
+
+	/** @var array */
+	protected $columnTypes;
 
 	/**
 	 * @param \OCP\IConfig $config
@@ -304,13 +308,38 @@ class ConvertType extends Command implements CompletionAwareInterface {
 				}
 
 				foreach ($row as $key => $value) {
-					$insertQuery->setParameter($key, $value);
+					$type = $this->getColumnType($table, $key);
+					if ($type !== false) {
+						$insertQuery->setParameter($key, $value, $type);
+					} else {
+						$insertQuery->setParameter($key, $value);
+					}
 				}
 				$insertQuery->execute();
 			}
 			$result->closeCursor();
 		}
 		$progress->finish();
+	}
+
+	protected function getColumnType($table, $column) {
+		if (isset($this->columnTypes[$table][$column])) {
+			return $this->columnTypes[$table][$column];
+		}
+		$prefix = $this->config->getSystemValue('dbtableprefix', 'oc_');
+
+		$this->columnTypes[$table][$column] = false;
+
+		if ($table === $prefix . 'cards' && $column === 'carddata') {
+			$this->columnTypes[$table][$column] = IQueryBuilder::PARAM_LOB;
+		} else if ($column === 'calendardata') {
+			if ($table === $prefix . 'calendarobjects' ||
+				$table === $prefix . 'schedulingobjects') {
+				$this->columnTypes[$table][$column] = IQueryBuilder::PARAM_LOB;
+			}
+		}
+
+		return $this->columnTypes[$table][$column];
 	}
 
 	protected function convertDB(Connection $fromDB, Connection $toDB, array $tables, InputInterface $input, OutputInterface $output) {
