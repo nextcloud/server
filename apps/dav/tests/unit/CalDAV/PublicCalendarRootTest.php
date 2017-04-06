@@ -21,7 +21,7 @@ use Test\TestCase;
  */
 class PublicCalendarRootTest extends TestCase {
 
-	const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
+	const UNIT_TEST_USER = '';
 	/** @var CalDavBackend */
 	private $backend;
 	/** @var PublicCalendarRoot */
@@ -92,13 +92,8 @@ class PublicCalendarRootTest extends TestCase {
 
 	public function testGetChildren() {
 		$this->createPublicCalendar();
-
-		$publicCalendars = $this->backend->getPublicCalendars();
-
 		$calendarResults = $this->publicCalendarRoot->getChildren();
-
-		$this->assertEquals(1, count($calendarResults));
-		$this->assertEquals(new Calendar($this->backend, $publicCalendars[0], $this->l10n), $calendarResults[0]);
+		$this->assertSame([], $calendarResults);
 	}
 
 	/**

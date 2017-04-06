@@ -21,7 +21,6 @@
 namespace OCA\DAV\CalDAV;
 
 use Sabre\DAV\Collection;
-use Sabre\DAV\Exception\NotFound;
 
 class PublicCalendarRoot extends Collection {
 
@@ -48,6 +47,7 @@ class PublicCalendarRoot extends Collection {
 	 */
 	function getChild($name) {
 		$calendar = $this->caldavBackend->getPublicCalendar($name);
+		$calendar['{http://owncloud.org/ns}owner-principal'] = '';
 		return new Calendar($this->caldavBackend, $calendar, $this->l10n);
 	}
 
@@ -55,13 +55,6 @@ class PublicCalendarRoot extends Collection {
 	 * @inheritdoc
 	 */
 	function getChildren() {
-		$calendars = $this->caldavBackend->getPublicCalendars();
-		$children = [];
-		foreach ($calendars as $calendar) {
-			// TODO: maybe implement a new class PublicCalendar ???
-			$children[] = new Calendar($this->caldavBackend, $calendar, $this->l10n);
-		}
-
-		return $children;
+		return [];
 	}
 }
