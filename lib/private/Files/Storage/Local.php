@@ -380,9 +380,10 @@ class Local extends \OC\Files\Storage\Common {
 		}
 		if (substr($realPath, 0, $this->dataDirLength) === $this->realDataDir) {
 			return $fullPath;
-		} else {
-			throw new ForbiddenException("Following symlinks is not allowed ('$fullPath' -> '$realPath' not inside '{$this->realDataDir}')", false);
 		}
+
+		\OCP\Util::writeLog('core',  "Following symlinks is not allowed ('$fullPath' -> '$realPath' not inside '{$this->realDataDir}')", \OCP\Util::ERROR);
+		throw new ForbiddenException('Following symlinks is not allowed', false);
 	}
 
 	/**
