@@ -213,6 +213,7 @@ OC.L10N.register(
     "Allow apps to use the Share API" : "アプリからの共有APIの利用を許可する",
     "Allow users to share via link" : "URLリンクでの共有を許可する",
     "Allow public uploads" : "パブリックなアップロードを許可する",
+    "Always ask for a password" : "常にパスワードを尋ねる",
     "Enforce password protection" : "常にパスワード保護を有効にする",
     "Set default expiration date" : "有効期限のデフォルト値を設定する",
     "Expire after " : "無効になるまで",
@@ -323,11 +324,9 @@ OC.L10N.register(
     "Subscribe to our newsletter!" : "ニュースレターを購読する！",
     "Settings" : "設定",
     "Show storage location" : "データの保存場所を表示",
-    "Show last log in" : "最終ログインを表示",
     "Show user backend" : "ユーザーバックエンドを表示",
-    "Send email to new user" : "新規ユーザーにメールを送信",
-    "When the password of the new user is left empty an activation email with a link to set the password is send to the user" : "新しいユーザーのパスワードを空のままにすると、パスワードを設定するためのリンクを含むアクティベーションのメールがユーザーに送信されます",
     "Show email address" : "メールアドレスを表示",
+    "Send email to new user" : "新規ユーザーにメールを送信",
     "E-Mail" : "メール",
     "Create" : "作成",
     "Admin Recovery Password" : "管理者リカバリパスワード",
@@ -351,6 +350,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "管理者は自身を管理者グループから削除できません。",
     "Unable to add user to group %s" : "ユーザーをグループ %s に追加できません",
     "Unable to remove user from group %s" : "ユーザーをグループ %s から削除できません",
-    "For password recovery and notifications" : "パスワード回復と通知用"
+    "For password recovery and notifications" : "パスワード回復と通知用",
+    "Show last log in" : "最終ログインを表示"
 },
 "nplurals=1; plural=0;");

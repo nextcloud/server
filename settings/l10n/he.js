@@ -234,10 +234,9 @@ OC.L10N.register(
     "Username" : "שם משתמש",
     "Done" : "הסתיים",
     "Show storage location" : "הצגת מיקום אחסון",
-    "Show last log in" : "הצגת כניסה אחרונה",
     "Show user backend" : "הצגת צד אחורי למשתמש",
-    "Send email to new user" : "שליחת דואר אלקטרוני למשתמש חדש",
     "Show email address" : "הצגת כתובת דואר אלקטרוני",
+    "Send email to new user" : "שליחת דואר אלקטרוני למשתמש חדש",
     "E-Mail" : "דואר אלקטרוני",
     "Create" : "יצירה",
     "Admin Recovery Password" : "סיסמת השחזור של המנהל",
@@ -255,6 +254,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "מנהלים לא יכולים להסיר את עצמם מקבוצת המנהלים",
     "Unable to add user to group %s" : "לא ניתן להוסיף משתמש לקבוצה %s",
     "Unable to remove user from group %s" : "לא ניתן להסיר משתמש מהקבוצה %s",
-    "For password recovery and notifications" : "לשחזור סיסמא והודעות"
+    "For password recovery and notifications" : "לשחזור סיסמא והודעות",
+    "Show last log in" : "הצגת כניסה אחרונה"
 },
 "nplurals=2; plural=(n != 1);");

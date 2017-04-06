@@ -176,9 +176,8 @@ OC.L10N.register(
     "Username" : "Kasutajanimi",
     "Done" : "Valmis",
     "Show storage location" : "Näita salvestusruumi asukohta",
-    "Show last log in" : "Viimane sisselogimine",
-    "Send email to new user" : "Saada uuele kasutajale e-kiri",
     "Show email address" : "Näita e-posti aadressi",
+    "Send email to new user" : "Saada uuele kasutajale e-kiri",
     "E-Mail" : "E-post",
     "Create" : "Lisa",
     "Admin Recovery Password" : "Admini parooli taastamine",
@@ -195,6 +194,7 @@ OC.L10N.register(
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Palun sisesta administraatori taasteparool, muidu kaotad kõik kasutajate andmed",
     "Admins can't remove themself from the admin group" : "Administraatorid ei saa ise end admin grupist eemaldada",
     "Unable to add user to group %s" : "Kasutajat ei saa lisada gruppi %s",
-    "Unable to remove user from group %s" : "Kasutajat ei saa eemaldada grupist %s"
+    "Unable to remove user from group %s" : "Kasutajat ei saa eemaldada grupist %s",
+    "Show last log in" : "Viimane sisselogimine"
 },
 "nplurals=2; plural=(n != 1);");

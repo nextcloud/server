@@ -1,6 +1,8 @@
 OC.L10N.register(
     "files_external",
     {
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Se presentó una falla al buscar las fichas de solicitud. Favor de verificar que su llave de aplicación y su secreto sean correctos. ",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Se presentó una falla al buscar las fichas de acceso. Favor de verificar que su llave de aplicación y su secreto sean correctos. ",
     "Please provide a valid app key and secret." : "Favor de proporcionar una llave de aplicación y secreto válidos.",
     "Step 1 failed. Exception: %s" : "Falla en el paso 1: Excepción %s",
     "Step 2 failed. Exception: %s" : "Paso 2 falló. Excepción: %s",
@@ -84,6 +86,7 @@ OC.L10N.register(
     "Share" : "Compartir",
     "Domain" : "Dominio",
     "SMB / CIFS using OC login" : "SMB / CIFS usando inicio de sesión OC",
+    "Username as share" : "Nombre de usuario como elemento compartido",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Nombre del servicio",
     "Request timeout (seconds)" : "Tiemo de vida de la solicitud (segudos)",

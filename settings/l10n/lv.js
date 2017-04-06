@@ -254,9 +254,8 @@ OC.L10N.register(
     "Follow us on Google Plus!" : "Seko mums Google Plus!",
     "Subscribe to our newsletter!" : "Abonēt mūsu jaunumus!",
     "Show storage location" : "Rādīt krātuves atrašanās vietu",
-    "Show last log in" : "Rādīt pēdējo autorizāciju",
-    "Send email to new user" : "Sūtīt e-pastu jaunajam lietotājam",
     "Show email address" : "Rādīt e-pasta adreses",
+    "Send email to new user" : "Sūtīt e-pastu jaunajam lietotājam",
     "E-Mail" : "E-pasts",
     "Create" : "Izveidot",
     "Admin Recovery Password" : "Administratora atgūšanas parole",
@@ -279,6 +278,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Administratori nevar izņemt paši sevi no administratoru grupas",
     "Unable to add user to group %s" : "Nevar pievienot lietotāju grupai %s",
     "Unable to remove user from group %s" : "Nevar izņemt lietotāju no grupas %s",
-    "For password recovery and notifications" : "Paroles atjaunošanai un paziņojumiem"
+    "For password recovery and notifications" : "Paroles atjaunošanai un paziņojumiem",
+    "Show last log in" : "Rādīt pēdējo autorizāciju"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

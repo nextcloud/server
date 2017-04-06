@@ -234,10 +234,9 @@ OC.L10N.register(
     "Username" : "Nom d'usuari",
     "Done" : "Fet",
     "Show storage location" : "Mostra la ubicació del magatzem",
-    "Show last log in" : "Mostrar l'últim accés",
     "Show user backend" : "Mostrar backend d'usuari",
-    "Send email to new user" : "Enviar correu electrònic al nou usuari",
     "Show email address" : "Mostrar l'adreça de correu electrònic",
+    "Send email to new user" : "Enviar correu electrònic al nou usuari",
     "E-Mail" : "E-mail",
     "Create" : "Crea",
     "Admin Recovery Password" : "Recuperació de contrasenya d'administrador",
@@ -257,6 +256,7 @@ OC.L10N.register(
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Sisplau, proporcioneu una contrasenya de recuperació d'administrador, altrament totes les dades d'usuari es perdran",
     "Admins can't remove themself from the admin group" : "Els administradors no es poden eliminar del grup admin",
     "Unable to add user to group %s" : "No es pot afegir l'usuari al grup %s",
-    "Unable to remove user from group %s" : "No es pot eliminar l'usuari del grup %s"
+    "Unable to remove user from group %s" : "No es pot eliminar l'usuari del grup %s",
+    "Show last log in" : "Mostrar l'últim accés"
 },
 "nplurals=2; plural=(n != 1);");

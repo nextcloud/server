@@ -161,10 +161,9 @@ OC.L10N.register(
     "Username" : "İstifadəçi adı",
     "Done" : "Edildi",
     "Show storage location" : "Depo ünvanını göstər",
-    "Show last log in" : "Son girişi göstər",
     "Show user backend" : "Daxili istifadəçini göstər",
-    "Send email to new user" : "Yeni istifadəçiyə məktub yolla",
     "Show email address" : "Email ünvanını göstər",
+    "Send email to new user" : "Yeni istifadəçiyə məktub yolla",
     "E-Mail" : "E-Mail",
     "Create" : "Yarat",
     "Admin Recovery Password" : "İnzibatçı bərpa şifrəsi",
@@ -181,6 +180,7 @@ OC.L10N.register(
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Xahış olunur inzibatçı geriyə qayıdış şifrəsini təqdim edəsiniz, əks halda bütün istfadəçi datası itəcək.",
     "Admins can't remove themself from the admin group" : "İnzibatçılar özlərini inzibatçı qrupundan silə bilməz",
     "Unable to add user to group %s" : "İstifadəçini %s qrupuna əlavə etmək mümkün olmadı",
-    "Unable to remove user from group %s" : "İstifadəçini %s qrupundan silmək mümkün olmadı"
+    "Unable to remove user from group %s" : "İstifadəçini %s qrupundan silmək mümkün olmadı",
+    "Show last log in" : "Son girişi göstər"
 },
 "nplurals=2; plural=(n != 1);");

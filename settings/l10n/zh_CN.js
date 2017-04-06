@@ -322,11 +322,9 @@ OC.L10N.register(
     "Subscribe to our news feed!" : "订阅我们 RSS 最新消息!",
     "Subscribe to our newsletter!" : "订阅我们的最新消息!",
     "Show storage location" : "显示存储位置",
-    "Show last log in" : "显示最后登录",
     "Show user backend" : "显示用户来源",
-    "Send email to new user" : "发送电子邮件给新用户",
-    "When the password of the new user is left empty an activation email with a link to set the password is send to the user" : "当新用户密码为空时, 一个需要设置密码的激活邮件将会发送给用户.",
     "Show email address" : "显示邮件地址",
+    "Send email to new user" : "发送电子邮件给新用户",
     "E-Mail" : "E-Mail",
     "Create" : "创建",
     "Admin Recovery Password" : "管理恢复密码",
@@ -350,6 +348,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "管理员不能将自己移出管理组",
     "Unable to add user to group %s" : "无法将用户添加到分组 %s",
     "Unable to remove user from group %s" : "无法从分组 %s 中移除用户",
-    "For password recovery and notifications" : "用于密码恢复和通知"
+    "For password recovery and notifications" : "用于密码恢复和通知",
+    "Show last log in" : "显示最后登录"
 },
 "nplurals=1; plural=0;");

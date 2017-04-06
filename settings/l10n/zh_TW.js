@@ -229,10 +229,9 @@ OC.L10N.register(
     "Name" : "名稱",
     "Username" : "使用者名稱",
     "Show storage location" : "顯示儲存位置",
-    "Show last log in" : "顯示最近登入",
     "Show user backend" : "顯示用戶後台",
-    "Send email to new user" : "寄送郵件給新用戶",
     "Show email address" : "顯示電子郵件信箱",
+    "Send email to new user" : "寄送郵件給新用戶",
     "E-Mail" : "電子郵件",
     "Create" : "建立",
     "Admin Recovery Password" : "管理者復原密碼",
@@ -250,6 +249,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "管理者帳號無法從管理者群組中移除",
     "Unable to add user to group %s" : "無法將使用者加入群組 %s",
     "Unable to remove user from group %s" : "無法將使用者移出群組 %s",
-    "For password recovery and notifications" : "用於密碼重設和通知"
+    "For password recovery and notifications" : "用於密碼重設和通知",
+    "Show last log in" : "顯示最近登入"
 },
 "nplurals=1; plural=0;");

@@ -215,9 +215,8 @@ OC.L10N.register(
     "Done" : "Завършен",
     "Subscribe to our newsletter!" : "Абонирайте се за нашата емисия!",
     "Show storage location" : "Покажи мястото на хранилището",
-    "Show last log in" : "Покажи последно вписване",
-    "Send email to new user" : "Изпращай писмо към нов потребител",
     "Show email address" : "Покажи адреса на електронната поща",
+    "Send email to new user" : "Изпращай писмо към нов потребител",
     "E-Mail" : "Имейл",
     "Create" : "Създаване",
     "Admin Recovery Password" : "Възстановяване на администраторската парола",
@@ -239,6 +238,7 @@ OC.L10N.register(
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Моля, посочете администраторската парола за възстановяване. В противен случай, всичката информация на потребителите ще бъде загубена.",
     "Admins can't remove themself from the admin group" : "Администраторите не могат да премахват себе си от групата \"admin\".",
     "Unable to add user to group %s" : "Неуспешно добавяне на потребител към групата %s.",
-    "Unable to remove user from group %s" : "Неуспешно премахване на потребител от групата %s."
+    "Unable to remove user from group %s" : "Неуспешно премахване на потребител от групата %s.",
+    "Show last log in" : "Покажи последно вписване"
 },
 "nplurals=2; plural=(n != 1);");

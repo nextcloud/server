@@ -193,10 +193,9 @@ OC.L10N.register(
     "Username" : "Nome de usuario",
     "Done" : "Feito",
     "Show storage location" : "Amosar a localización do almacenamento",
-    "Show last log in" : "Amosar a última conexión",
     "Show user backend" : "Amosar a infraestrutura do usuario",
-    "Send email to new user" : "Enviar correo ao novo usuario",
     "Show email address" : "Amosar o enderezo de correo",
+    "Send email to new user" : "Enviar correo ao novo usuario",
     "E-Mail" : "Correo-e",
     "Create" : "Crear",
     "Admin Recovery Password" : "Contrasinal de recuperación do administrador",
@@ -213,6 +212,7 @@ OC.L10N.register(
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Forneza un contrasinal de recuperación do administrador de recuperación, senón perderanse todos os datos do usuario",
     "Admins can't remove themself from the admin group" : "Os administradores non poden eliminarse a si mesmos do grupo admin",
     "Unable to add user to group %s" : "Non é posíbel engadir o usuario ao grupo %s",
-    "Unable to remove user from group %s" : "Non é posíbel eliminar o usuario do grupo %s"
+    "Unable to remove user from group %s" : "Non é posíbel eliminar o usuario do grupo %s",
+    "Show last log in" : "Amosar a última conexión"
 },
 "nplurals=2; plural=(n != 1);");

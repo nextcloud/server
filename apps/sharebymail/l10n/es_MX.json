@@ -8,7 +8,7 @@
     "%3$s shared %1$s with %2$s by mail" : "%3$s ha compartido %1$s con %2$s por correo ",
     "{actor} shared {file} with {email} by mail" : "{actor} ha compartido {file} con {email} por correo",
     "Sharing %s failed, this item is already shared with %s" : "Se presentó una falla al compartir %s, este elemento ya ha sido compartido con %s",
-    "Failed to send share by E-mail" : "Se presentó una falla al enviar el recurso ccompartido por correo electrónico",
+    "Failed to send share by E-mail" : "Se presentó una falla al enviar el recurso compartido por correo electrónico",
     "%s shared »%s« with you" : "%s ha compartido »%s« con usted",
     "%s shared »%s« with you on behalf of %s" : "%s ha compartido »%s« con usted a nombre de %s",
     "Failed to create the E-mail" : "Se presentó una falla al crear el correo electrónico",

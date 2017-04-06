@@ -240,10 +240,9 @@ OC.L10N.register(
     "Username" : "Username",
     "Done" : "Done",
     "Show storage location" : "Show storage location",
-    "Show last log in" : "Show last log in",
     "Show user backend" : "Show user backend",
-    "Send email to new user" : "Send email to new user",
     "Show email address" : "Show email address",
+    "Send email to new user" : "Send email to new user",
     "E-Mail" : "E-Mail",
     "Create" : "Create",
     "Admin Recovery Password" : "Admin Recovery Password",
@@ -261,6 +260,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Admins can't remove themselves from the admin group",
     "Unable to add user to group %s" : "Unable to add user to group %s",
     "Unable to remove user from group %s" : "Unable to remove user from group %s",
-    "For password recovery and notifications" : "For password recovery and notifications"
+    "For password recovery and notifications" : "For password recovery and notifications",
+    "Show last log in" : "Show last log in"
 },
 "nplurals=2; plural=(n != 1);");

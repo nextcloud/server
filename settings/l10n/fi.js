@@ -198,6 +198,7 @@ OC.L10N.register(
     "Allow apps to use the Share API" : "Salli sovellusten käyttää jakamisen ohjelmointirajapintaa",
     "Allow users to share via link" : "Salli käyttäjien jakaa linkkien kautta",
     "Allow public uploads" : "Salli julkiset lähetykset",
+    "Always ask for a password" : "Kysy aina salasanaa",
     "Enforce password protection" : "Pakota salasanasuojaus",
     "Set default expiration date" : "Aseta oletusvanhenemispäivä",
     "Expire after " : "Vanhenna",
@@ -245,6 +246,7 @@ OC.L10N.register(
     "Getting help" : "Apua",
     "Commercial support" : "Kaupallinen tuki",
     "You are using <strong>%s</strong> of <strong>%s</strong>" : "Käytössäsi on <strong>%s</strong>/<strong>%s</strong>",
+    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Käytössäsi on <strong>%s</strong>/<strong>%s</strong> (<strong>%s %%</strong>)",
     "Profile picture" : "Profiilikuva",
     "Upload new" : "Lähetä uusi",
     "Select from Files" : "Valitse tiedostosovelluksesta",
@@ -299,11 +301,9 @@ OC.L10N.register(
     "Subscribe to our newsletter!" : "Tilaa uutiskirjeemme!",
     "Settings" : "Asetukset",
     "Show storage location" : "Näytä tallennustilan sijainti",
-    "Show last log in" : "Näytä viimeisin sisäänkirjautuminen",
     "Show user backend" : "Näytä käyttäjätaustaosa",
-    "Send email to new user" : "Lähetä sähköpostia uudelle käyttäjälle",
-    "When the password of the new user is left empty an activation email with a link to set the password is send to the user" : "Kun uuden käyttäjän salasana jätetään tyhjäksi, hänelle lähetetään aktivointiviesti, joka sisältää linkin, jolla hän voi asettaa salasanansa",
     "Show email address" : "Näytä sähköpostiosoite",
+    "Send email to new user" : "Lähetä sähköpostia uudelle käyttäjälle",
     "E-Mail" : "Sähköposti",
     "Create" : "Luo",
     "Admin Recovery Password" : "Ylläpitäjän palautussalasana",
@@ -327,6 +327,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Ylläpitäjät eivät poistaa omia tunnuksiaan ylläpitäjien ryhmästä",
     "Unable to add user to group %s" : "Käyttäjän tai ryhmän %s lisääminen ei onnistu",
     "Unable to remove user from group %s" : "Käyttäjän poistaminen ryhmästä %s ei onnistu",
-    "For password recovery and notifications" : "Salasanan nollausta ja ilmoituksia varten"
+    "For password recovery and notifications" : "Salasanan nollausta ja ilmoituksia varten",
+    "Show last log in" : "Näytä viimeisin sisäänkirjautuminen"
 },
 "nplurals=2; plural=(n != 1);");

@@ -316,11 +316,9 @@ OC.L10N.register(
     "Subscribe to our news feed!" : "Abonner på vår nyhetsstrøm!",
     "Subscribe to our newsletter!" : "Abonner på vårt nyhetsbrev!",
     "Show storage location" : "Vis lagringssted",
-    "Show last log in" : "Vis site innlogging",
     "Show user backend" : "Vis bruker-server",
-    "Send email to new user" : "Send e-post til ny bruker",
-    "When the password of the new user is left empty an activation email with a link to set the password is send to the user" : "Når passordet til den nye brukeren er utelatt, vil det sendes en aktiveringslink til brukeren.",
     "Show email address" : "Vis e-postadresse",
+    "Send email to new user" : "Send e-post til ny bruker",
     "E-Mail" : "E-post",
     "Create" : "Opprett",
     "Admin Recovery Password" : "Administrativt gjenopprettingspassord",
@@ -344,6 +342,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Admin kan ikke flytte seg selv fra admingruppen",
     "Unable to add user to group %s" : "Kan ikke legge bruker til gruppen %s",
     "Unable to remove user from group %s" : "Kan ikke slette bruker fra gruppen %s",
-    "For password recovery and notifications" : "For passord-gjenoppretting og varsler"
+    "For password recovery and notifications" : "For passord-gjenoppretting og varsler",
+    "Show last log in" : "Vis site innlogging"
 },
 "nplurals=2; plural=(n != 1);");

@@ -311,10 +311,9 @@ OC.L10N.register(
     "Subscribe to our news feed!" : "Abonohuni në kanalin tonë në twitter!",
     "Subscribe to our newsletter!" : "Abonohuni në buletinin tonë informativ!",
     "Show storage location" : "Shfaq vendndodhje depozite",
-    "Show last log in" : "Shfaq hyrjen e fundit",
     "Show user backend" : "Shfaq programin klient të përdoruesit",
-    "Send email to new user" : "Dërgo email përdoruesi të ri",
     "Show email address" : "Shfaq adresë email",
+    "Send email to new user" : "Dërgo email përdoruesi të ri",
     "E-Mail" : "Email",
     "Create" : "Krijoje",
     "Admin Recovery Password" : "Fjalëkalim Rikthimesh Nga Përgjegjësi",
@@ -338,6 +337,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Administratorët s’mund të heqin veten prej grupit admin",
     "Unable to add user to group %s" : "S’arrin të shtojë përdorues te grupi %s",
     "Unable to remove user from group %s" : "S’arrin të heqë përdorues nga grupi %s",
-    "For password recovery and notifications" : "Për rimarrje fjalëkalimesh dhe njoftime "
+    "For password recovery and notifications" : "Për rimarrje fjalëkalimesh dhe njoftime ",
+    "Show last log in" : "Shfaq hyrjen e fundit"
 },
 "nplurals=2; plural=(n != 1);");

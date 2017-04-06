@@ -292,10 +292,9 @@ OC.L10N.register(
     "Username" : "Erabiltzaile izena",
     "Done" : "Egina",
     "Show storage location" : "Erakutsi biltegiaren kokapena",
-    "Show last log in" : "Erakutsi azkeneko saio hasiera",
     "Show user backend" : "Bistaratu erabiltzaile motorra",
-    "Send email to new user" : "Bidali eposta erabiltzaile berriari",
     "Show email address" : "Bistaratu eposta helbidea",
+    "Send email to new user" : "Bidali eposta erabiltzaile berriari",
     "E-Mail" : "E-posta",
     "Create" : "Sortu",
     "Admin Recovery Password" : "Administratzailearen pasahitza berreskuratzea",
@@ -318,6 +317,7 @@ OC.L10N.register(
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Mesedez eman berreskuratzeko administrazio  pasahitza, bestela erabiltzaile datu guztiak galduko dira",
     "Admins can't remove themself from the admin group" : "Kudeatzaileak ezin du bere burua kendu kudeatzaile taldetik",
     "Unable to add user to group %s" : "Ezin izan da erabiltzailea %s taldera gehitu",
-    "Unable to remove user from group %s" : "Ezin izan da erabiltzailea %s taldetik ezabatu"
+    "Unable to remove user from group %s" : "Ezin izan da erabiltzailea %s taldetik ezabatu",
+    "Show last log in" : "Erakutsi azkeneko saio hasiera"
 },
 "nplurals=2; plural=(n != 1);");

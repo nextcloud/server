@@ -13,7 +13,7 @@
     "%1$s added system tag %2$s" : "%1$s agregó la etiqueta del sistema %2$s",
     "{actor} added system tag {systemtag}" : "{actor} agregó la etiqueta del sistema {systemtag}",
     "Removed system tag %1$s" : "Eliminó la etiqueta del sistema %1$s",
-    "Removed system tag {systemtag}" : "Etiqueta del sistema {systemtag} eliminada",
+    "Removed system tag {systemtag}" : "Eliminó la etiqueta del sistema {systemtag}",
     "%1$s removed system tag %2$s" : "%1$s eliminó la etiqueta del sistema %2$s",
     "{actor} removed system tag {systemtag}" : "{actor} eliminó la etiqueta del sistema {systemtag}",
     "You created system tag %1$s" : "Usted creó la etiqueta del sistema %1$s",

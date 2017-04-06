@@ -322,11 +322,9 @@ OC.L10N.register(
     "Subscribe to our news feed!" : "Iscriviti alla nostra fonte di notizie!",
     "Subscribe to our newsletter!" : "Iscriviti alla nostra newsletter!",
     "Show storage location" : "Mostra posizione di archiviazione",
-    "Show last log in" : "Mostra ultimo accesso",
     "Show user backend" : "Mostra il motore utente",
-    "Send email to new user" : "Invia email al nuovo utente",
-    "When the password of the new user is left empty an activation email with a link to set the password is send to the user" : "Quando la password del nuovo utente è lasciata vuota una email con un collegamento per impostare la password è inviata all'utente",
     "Show email address" : "Mostra l'indirizzo email",
+    "Send email to new user" : "Invia email al nuovo utente",
     "E-Mail" : "Posta elettronica",
     "Create" : "Crea",
     "Admin Recovery Password" : "Password di ripristino amministrativa",
@@ -350,6 +348,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Gli amministratori non possono rimuovere se stessi dal gruppo di amministrazione",
     "Unable to add user to group %s" : "Impossibile aggiungere l'utente al gruppo %s",
     "Unable to remove user from group %s" : "Impossibile rimuovere l'utente dal gruppo %s",
-    "For password recovery and notifications" : "Per il ripristino della password e per le notifiche"
+    "For password recovery and notifications" : "Per il ripristino della password e per le notifiche",
+    "Show last log in" : "Mostra ultimo accesso"
 },
 "nplurals=2; plural=(n != 1);");

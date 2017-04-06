@@ -216,10 +216,9 @@
     "Username" : "Uporabniško ime",
     "Done" : "Končano",
     "Show storage location" : "Pokaži mesto shrambe",
-    "Show last log in" : "Pokaži podatke zadnje prijave",
     "Show user backend" : "Pokaži ozadnji program",
-    "Send email to new user" : "Pošlji sporočilo novemu uporabniku",
     "Show email address" : "Pokaži naslov elektronske pošte",
+    "Send email to new user" : "Pošlji sporočilo novemu uporabniku",
     "E-Mail" : "Elektronska pošta",
     "Create" : "Ustvari",
     "Admin Recovery Password" : "Obnovitev skrbniškega gesla",
@@ -237,6 +236,7 @@
     "Admins can't remove themself from the admin group" : "Skrbnikov ni mogoče odstraniti iz skupine skrbnikov (admin)",
     "Unable to add user to group %s" : "Uporabnika ni mogoče dodati k skupini %s",
     "Unable to remove user from group %s" : "Uporabnika ni mogoče odstraniti iz skupine %s",
-    "For password recovery and notifications" : "Za obnovo gesla in obveščanje"
+    "For password recovery and notifications" : "Za obnovo gesla in obveščanje",
+    "Show last log in" : "Pokaži podatke zadnje prijave"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

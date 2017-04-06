@@ -11,6 +11,7 @@ OC.L10N.register(
     "No file uploaded" : "No hay archivos cargados",
     "Unsupported image type" : "Tipo de imagen no soportado",
     "You are already using a custom theme" : "Usted ya se encuentra usando un tema personalizado",
+    "Theming" : "Tematizar",
     "Name" : "Nombre",
     "reset to default" : "restaurar a predeterminado",
     "Web address" : "Dirección web",

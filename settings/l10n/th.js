@@ -220,10 +220,9 @@ OC.L10N.register(
     "Username" : "ชื่อผู้ใช้งาน",
     "Done" : "เสร็จสิ้น",
     "Show storage location" : "แสดงสถานที่จัดเก็บข้อมูล",
-    "Show last log in" : "แสดงการเข้าสู่ระบบล่าสุด",
     "Show user backend" : "แสดงแบ็กเอนด์ของผู้ใช้",
-    "Send email to new user" : "ส่งอีเมลไปยังผู้ใช้ใหม่",
     "Show email address" : "แสดงที่อยู่อีเมล",
+    "Send email to new user" : "ส่งอีเมลไปยังผู้ใช้ใหม่",
     "E-Mail" : "อีเมล",
     "Create" : "สร้าง",
     "Admin Recovery Password" : "กู้คืนรหัสผ่านดูแลระบบ",
@@ -241,6 +240,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "ผู้ดูแลระบบไม่สามารถลบตัวเองออกจากกลุ่มผู้ดูแลได้",
     "Unable to add user to group %s" : "ไม่สามารถเพิ่มผู้ใช้งานเข้าไปที่กลุ่ม %s ได้",
     "Unable to remove user from group %s" : "ไม่สามารถลบผู้ใช้งานออกจากกลุ่ม %s ได้",
-    "For password recovery and notifications" : "สำหรับการกู้คืนรหัสผ่านและการแจ้งเตือน"
+    "For password recovery and notifications" : "สำหรับการกู้คืนรหัสผ่านและการแจ้งเตือน",
+    "Show last log in" : "แสดงการเข้าสู่ระบบล่าสุด"
 },
 "nplurals=1; plural=0;");

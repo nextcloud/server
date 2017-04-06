@@ -272,10 +272,9 @@ OC.L10N.register(
     "Subscribe to our twitter channel!" : "Εγγραφείτε στο κανάλι μας στο twitter!",
     "Subscribe to our news feed!" : "Εγγραφείτε στην ροή των νέων μας!",
     "Show storage location" : "Εμφάνιση τοποθεσίας αποθήκευσης",
-    "Show last log in" : "Εμφάνιση τελευταίας εισόδου",
     "Show user backend" : "Εμφάνιση χρήστη συστήματος υποστήριξης",
-    "Send email to new user" : "Αποστολή μηνύματος στο νέο χρήστη",
     "Show email address" : "Εμφάνιση διεύθυνσης ηλ. αλληλογραφίας",
+    "Send email to new user" : "Αποστολή μηνύματος στο νέο χρήστη",
     "E-Mail" : "Ηλεκτρονική αλληλογραφία",
     "Create" : "Δημιουργία",
     "Admin Recovery Password" : "Κωδικός Επαναφοράς Διαχειριστή ",
@@ -298,6 +297,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Οι διαχειριστές δεν μπορούν να αφαιρέσουν τους εαυτούς τους από την ομάδα των διαχειριστών",
     "Unable to add user to group %s" : "Αδυναμία προσθήκη χρήστη στην ομάδα %s",
     "Unable to remove user from group %s" : "Αδυναμία αφαίρεσης χρήστη από την ομάδα %s",
-    "For password recovery and notifications" : "Η ανάκτηση του συνθηματικού και οι ειδοποιήσεις"
+    "For password recovery and notifications" : "Η ανάκτηση του συνθηματικού και οι ειδοποιήσεις",
+    "Show last log in" : "Εμφάνιση τελευταίας εισόδου"
 },
 "nplurals=2; plural=(n != 1);");

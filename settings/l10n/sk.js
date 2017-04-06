@@ -275,10 +275,9 @@ OC.L10N.register(
     "Done" : "Hotovo",
     "Follow us on Google Plus!" : "Sleduj nás na Google Plus!",
     "Show storage location" : "Zobraziť umiestnenie úložiska",
-    "Show last log in" : "Zobraziť posledné prihlásenie",
     "Show user backend" : "Zobraziť backend používateľa",
-    "Send email to new user" : "Odoslať email novému používateľovi",
     "Show email address" : "Zobraziť emailovú adresu",
+    "Send email to new user" : "Odoslať email novému používateľovi",
     "E-Mail" : "email",
     "Create" : "Vytvoriť",
     "Admin Recovery Password" : "Obnovenie hesla administrátora",
@@ -302,6 +301,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Administrátori nesmú odstrániť sami seba zo skupiny admin",
     "Unable to add user to group %s" : "Nie je možné pridať používateľa do skupiny %s",
     "Unable to remove user from group %s" : "Nie je možné odstrániť používateľa zo skupiny %s",
-    "For password recovery and notifications" : "Pre obnovu hesla a oznámenia"
+    "For password recovery and notifications" : "Pre obnovu hesla a oznámenia",
+    "Show last log in" : "Zobraziť posledné prihlásenie"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
