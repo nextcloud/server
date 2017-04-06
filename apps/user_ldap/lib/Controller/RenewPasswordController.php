@@ -55,13 +55,8 @@ class RenewPasswordController extends Controller {
 	 * @param IConfig $config
 	 * @param IURLGenerator $urlGenerator
 	 */
-	function __construct($appName,
-						 IRequest $request,
-						 IUserManager $userManager,
-						 IConfig $config,
-						 IL10N $l10n,
-						 ISession $session,
-						 IURLGenerator $urlGenerator) {
+	function __construct($appName, IRequest $request, IUserManager $userManager, 
+		IConfig $config, IL10N $l10n, ISession $session, IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->config = $config;
@@ -93,7 +88,7 @@ class RenewPasswordController extends Controller {
 		if($this->config->getUserValue($user, 'user_ldap', 'needsPasswordReset') !== 'true') {
 			return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
 		}
-		$parameters = array();
+		$parameters = [];
 		$renewPasswordMessages = $this->session->get('renewPasswordMessages');
 		$errors = [];
 		$messages = [];

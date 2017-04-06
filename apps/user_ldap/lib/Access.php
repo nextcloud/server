@@ -1096,7 +1096,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @param bool $skipHandling
 	 * @return array with the search result
 	 */
-	private function search($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
+	public function search($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
 		if($limit <= 0) {
 			//otherwise search will fail
 			$limit = null;

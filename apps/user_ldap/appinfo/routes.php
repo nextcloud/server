@@ -21,6 +21,7 @@
  *
  */
 
+/** @var $this \OCP\Route\IRouter */
 $this->create('user_ldap_ajax_clearMappings', 'ajax/clearMappings.php')
 	->actionInclude('user_ldap/ajax/clearMappings.php');
 $this->create('user_ldap_ajax_deleteConfiguration', 'ajax/deleteConfiguration.php')

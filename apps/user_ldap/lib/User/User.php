@@ -610,11 +610,30 @@ class User {
 		}
 		$uid = $params['uid'];
 		if(isset($uid) && $uid === $this->getUsername()) {
+			//retrieve relevant user attributes
+			$result = $this->access->search('objectclass=*', $this->dn, ['sn', 'pwdpolicysubentry', 'pwdgraceusetime', 'pwdreset', 'pwdchangedtime']);
+			
+			if(array_key_exists('pwdpolicysubentry', $result[0])) {
+				$pwdPolicySubentry = $result[0]['pwdpolicysubentry'];
+				if($pwdPolicySubentry && (count($pwdPolicySubentry) > 0)){
+					$ppolicyDN = $pwdPolicySubentry[0];//custom ppolicy DN
+				}
+			}
+			
+			$pwdGraceUseTime = array_key_exists('pwdgraceusetime', $result[0]) ? $result[0]['pwdgraceusetime'] : null;
+			$pwdReset = array_key_exists('pwdreset', $result[0]) ? $result[0]['pwdreset'] : null;
+			$pwdChangedTime = array_key_exists('pwdchangedtime', $result[0]) ? $result[0]['pwdchangedtime'] : null;
+			
+			//retrieve relevant password policy attributes
+			$result = $this->access->search('objectclass=*', $ppolicyDN, ['cn','pwdgraceauthnlimit', 'pwdmaxage', 'pwdexpirewarning']);
+
+			$pwdGraceAuthNLimit = array_key_exists('pwdgraceauthnlimit', $result[0]) ? $result[0]['pwdgraceauthnlimit'] : null;
+			$pwdMaxAge = array_key_exists('pwdmaxage', $result[0]) ? $result[0]['pwdmaxage'] : null;
+			$pwdExpireWarning = array_key_exists('pwdexpirewarning', $result[0]) ? $result[0]['pwdexpirewarning'] : null;
+			
 			//handle grace login
-			$pwdGraceUseTime = $this->access->readAttribute($this->dn, 'pwdGraceUseTime');
 			$pwdGraceUseTimeCount = count($pwdGraceUseTime);
 			if($pwdGraceUseTime && $pwdGraceUseTimeCount > 0) { //was this a grace login?
-				$pwdGraceAuthNLimit = $this->access->readAttribute($ppolicyDN, 'pwdGraceAuthNLimit');
 				if($pwdGraceAuthNLimit 
 					&& (count($pwdGraceAuthNLimit) > 0)
 					&&($pwdGraceUseTimeCount < intval($pwdGraceAuthNLimit[0]))) { //at least one more grace login available?
@@ -628,7 +647,6 @@ class User {
 				exit();
 			}
 			//handle pwdReset attribute
-			$pwdReset = $this->access->readAttribute($this->dn, 'pwdReset');
 			if($pwdReset && (count($pwdReset) > 0) && $pwdReset[0] === 'TRUE') { //user must change his password
 				$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
 				header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
@@ -636,20 +654,11 @@ class User {
 				exit();
 			}
 			//handle password expiry warning
-			$pwdChangedTime  = $this->access->readAttribute($this->dn, 'pwdChangedTime');//for efficiency read only 1 attribute first
 			if($pwdChangedTime && (count($pwdChangedTime) > 0)) {
-				$pwdPolicySubentry = $this->access->readAttribute($this->dn, 'pwdPolicySubentry');
-				if($pwdPolicySubentry && (count($pwdPolicySubentry) > 0)){
-					$ppolicyDN = $pwdPolicySubentry[0];//custom ppolicy DN
-				}
-				$pwdMaxAge = $this->access->readAttribute($ppolicyDN, 'pwdMaxAge');
-				$pwdExpireWarning = $this->access->readAttribute($ppolicyDN, 'pwdExpireWarning');
 				if($pwdMaxAge && (count($pwdMaxAge) > 0)
 					&& $pwdExpireWarning && (count($pwdExpireWarning) > 0)) {
 					$pwdMaxAgeInt = intval($pwdMaxAge[0]);
 					$pwdExpireWarningInt = intval($pwdExpireWarning[0]);
-					//pwdMaxAge=0 -> password never expires
-					//pwdExpireWarning=0 -> don't warn about expiry
 					if($pwdMaxAgeInt > 0 && $pwdExpireWarningInt > 0){
 						$pwdChangedTimeDt = \DateTime::createFromFormat('YmdHisZ', $pwdChangedTime[0]);
 						$pwdChangedTimeDt->add(new \DateInterval('PT'.$pwdMaxAgeInt.'S'));
