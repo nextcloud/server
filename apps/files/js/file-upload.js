@@ -540,7 +540,8 @@ OC.Uploader.prototype = _.extend({
 	getUpload: function(data) {
 		if (_.isString(data)) {
 			return this._uploads[data];
-		} else if (data.uploadId) {
+		} else if (data.uploadId && this._uploads[data.uploadId]) {
+			this._uploads[data.uploadId].data = data;
 			return this._uploads[data.uploadId];
 		}
 		return null;
