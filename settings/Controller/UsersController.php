@@ -33,6 +33,7 @@ namespace OC\Settings\Controller;
 use OC\Accounts\AccountManager;
 use OC\AppFramework\Http;
 use OC\ForbiddenException;
+use OC\Mail\EMailTemplate;
 use OC\User\User;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -443,17 +444,39 @@ class UsersController extends Controller {
 					$link = $this->urlGenerator->getAbsoluteURL('/');
 				}
 
-				// data for the mail template
-				$mailData = array(
-					'username' => $username,
-					'url' => $link
+
+
+				$emailTemplate = new EMailTemplate($this->defaults);
+
+				$emailTemplate->addHeader($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('', 'logo-mail-header.png')));
+
+				$displayname = $user->getDisplayName();
+				if ($displayname === $username) {
+					$emailTemplate->addHeading($this->l10n->t('Welcome aboard'));
+				} else {
+					$emailTemplate->addHeading($this->l10n->t('Welcome aboard %s', $displayname));
+				}
+				$emailTemplate->addBodyText($this->l10n->t('You have now an Nextcloud account, you can add, protect, and share your data.'));
+				$emailTemplate->addBodyText($this->l10n->t('Your username is: %s', [$username]));
+
+				if ($generatedPassword) {
+					$leftButtonText = $this->l10n->t('Set your password');
+				} else {
+					$leftButtonText = $this->l10n->t('Go to %s', [$this->defaults->getName()]);
+				}
+
+				$emailTemplate->addBodyButtonGroup(
+					$leftButtonText, $link,
+					$this->l10n->t('Install Client'), 'https://nextcloud.com/install/#install-clients'
 				);
 
-				$mail = new TemplateResponse('settings', 'email.new_user', $mailData, 'blank');
-				$mailContent = $mail->render();
+				$emailTemplate->addFooter(
+					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('', 'logo-mail-footer.png')),
+					$this->defaults->getName() . ' - ' . $this->defaults->getSlogan() . '<br>' . $this->l10n->t('This is an automatically generated email, please do not reply.')
+				);
 
-				$mail = new TemplateResponse('settings', 'email.new_user_plain_text', $mailData, 'blank');
-				$plainTextMailContent = $mail->render();
+				$mailContent = $emailTemplate->renderHTML();
+				$plainTextMailContent = $emailTemplate->renderText();
 
 				$subject = $this->l10n->t('Your %s account was created', [$this->defaults->getName()]);
 

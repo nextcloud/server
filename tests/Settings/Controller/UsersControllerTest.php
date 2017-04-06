@@ -12,6 +12,7 @@ namespace Tests\Settings\Controller;
 
 use OC\Accounts\AccountManager;
 use OC\Group\Manager;
+use OC\Mail\EMailTemplate;
 use OC\Settings\Controller\UsersController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -1427,32 +1428,33 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->at(1))
 			->method('setSubject')
 			->with('Your  account was created');
-		$htmlBody = new Http\TemplateResponse(
-			'settings',
-			'email.new_user',
-			[
-				'username' => 'foo',
-				'url' => '',
-			],
-			'blank'
+
+		$emailTemplate = new EMailTemplate($this->defaults);
+
+		$emailTemplate->addHeader('https://example.org/img/logo-mail-header.png');
+
+		$emailTemplate->addHeading('Welcome aboard');
+		$emailTemplate->addBodyText('You have now an Nextcloud account, you can add, protect, and share your data.');
+		$emailTemplate->addBodyText('Your username is: foo');
+
+
+		$emailTemplate->addBodyButtonGroup(
+			'Go to Nextcloud', 'https://example.org/resetPassword/123',
+			'Install Client', 'https://nextcloud.com/install/#install-clients'
+		);
+
+		$emailTemplate->addFooter(
+			'https://example.org/img/logo-mail-footer.png',
+			'TestCloud - A safe home for your data<br>This is an automatically generated email, please do not reply.'
 		);
 		$message
 			->expects($this->at(2))
 			->method('setHtmlBody')
-			->with($htmlBody->render());
-		$plainBody = new Http\TemplateResponse(
-			'settings',
-			'email.new_user_plain_text',
-			[
-				'username' => 'foo',
-				'url' => '',
-			],
-			'blank'
-		);
+			->with($emailTemplate->renderHTML());
 		$message
 			->expects($this->at(3))
 			->method('setPlainBody')
-			->with($plainBody->render());
+			->with($emailTemplate->renderText());
 		$message
 			->expects($this->at(4))
 			->method('setFrom')
@@ -2325,32 +2327,33 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->at(1))
 			->method('setSubject')
 			->with('Your  account was created');
-		$htmlBody = new Http\TemplateResponse(
-			'settings',
-			'email.new_user',
-			[
-				'username' => 'foo',
-				'url' => 'link-with-my-token',
-			],
-			'blank'
+
+		$emailTemplate = new EMailTemplate($this->defaults);
+
+		$emailTemplate->addHeader('https://example.org/img/logo-mail-header.png');
+
+		$emailTemplate->addHeading('Welcome aboard');
+		$emailTemplate->addBodyText('You have now an Nextcloud account, you can add, protect, and share your data.');
+		$emailTemplate->addBodyText('Your username is: foo');
+
+
+		$emailTemplate->addBodyButtonGroup(
+			'Go to Nextcloud', 'https://example.org/resetPassword/123',
+			'Install Client', 'https://nextcloud.com/install/#install-clients'
+		);
+
+		$emailTemplate->addFooter(
+			'https://example.org/img/logo-mail-footer.png',
+			'TestCloud - A safe home for your data<br>This is an automatically generated email, please do not reply.'
 		);
 		$message
 			->expects($this->at(2))
 			->method('setHtmlBody')
-			->with($htmlBody->render());
-		$plainBody = new Http\TemplateResponse(
-			'settings',
-			'email.new_user_plain_text',
-			[
-				'username' => 'foo',
-				'url' => 'link-with-my-token',
-			],
-			'blank'
-		);
+			->with($emailTemplate->renderHTML());
 		$message
 			->expects($this->at(3))
 			->method('setPlainBody')
-			->with($plainBody->render());
+			->with($emailTemplate->renderText());
 		$message
 			->expects($this->at(4))
 			->method('setFrom')
