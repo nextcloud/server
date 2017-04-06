@@ -573,7 +573,14 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		return $this->completeLogin($user, ['loginName' => $uid, 'password' => $password, 'token' => $dbToken], false);
+		return $this->completeLogin(
+			$user,
+			[
+				'loginName' => $dbToken->getLoginName(),
+				'password' => $password,
+				'token' => $dbToken
+			],
+			false);
 	}
 
 	/**
