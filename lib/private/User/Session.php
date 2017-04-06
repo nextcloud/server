@@ -349,7 +349,7 @@ class Session implements IUserSession, Emitter {
 
 		if(isset($loginDetails['token']) && $loginDetails['token'] instanceof IToken) {
 			$this->setToken($loginDetails['token']->getId());
-			\OC::$server->getLockdownManager()->setToken($loginDetails['token']);
+			$this->lockdownManager->setToken($loginDetails['token']);
 			$firstTimeLogin = false;
 		} else {
 			$this->setToken(null);
