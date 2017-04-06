@@ -515,15 +515,21 @@
 			var shareId = li.data('share-id');
 			var passwordContainerClass = '.passwordContainer-' + this.cid + '-' + shareId;
 			var passwordContainer = $(passwordContainerClass);
+			var loading = this.$el.find(passwordContainerClass + ' .icon-loading-small');
 			var inputClass = '#passwordField-' + this.cid + '-' + shareId;
 			var passwordField = $(inputClass);
 			var state = element.prop('checked');
-			passwordContainer.toggleClass('hidden', !state);
 			if (!state) {
 				this.model.updateShare(shareId, {password: ''});
 				passwordField.attr('value', '');
+				passwordField.removeClass('error');
+				passwordField.tooltip('hide');
+				loading.addClass('hidden');
 				passwordField.attr('placeholder', PASSWORD_PLACEHOLDER_MESSAGE);
+				// We first need to reset the password field before we hide it
+				passwordContainer.toggleClass('hidden', !state);
 			} else {
+				passwordContainer.toggleClass('hidden', !state);
 				passwordField = '#passwordField-' + this.cid + '-' + shareId;
 				this.$(passwordField).focus();
 			}
