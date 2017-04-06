@@ -1265,13 +1265,13 @@ class UserTest extends \Test\TestCase {
 		$access->expects($this->any())
 			->method('readAttribute')
 			->will($this->returnCallback(function($dn, $attr) {
-				if($attr === 'pwdChangedTime') {
+				if($attr === 'pwdchangedtime') {
 					return array((new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis').'Z');
 				}
-				if($dn === 'cn=default,ou=policies,dc=foo,dc=bar' && $attr === 'pwdMaxAge') {
+				if($dn === 'cn=default,ou=policies,dc=foo,dc=bar' && $attr === 'pwdmaxage') {
 					return array('2592000');
 				}
-				if($dn === 'cn=default,ou=policies,dc=foo,dc=bar' && $attr === 'pwdExpireWarning') {
+				if($dn === 'cn=default,ou=policies,dc=foo,dc=bar' && $attr === 'pwdexpirewarning') {
 					return array('2591999');
 				}
 				return array();
@@ -1331,16 +1331,16 @@ class UserTest extends \Test\TestCase {
 		$access->expects($this->any())
 			->method('readAttribute')
 			->will($this->returnCallback(function($dn, $attr) {
-				if($attr === 'pwdPolicySubentry') {
+				if($attr === 'pwdpolicysubentry') {
 					return array('cn=custom,ou=policies,dc=foo,dc=bar');
 				}
-				if($attr === 'pwdChangedTime') {
+				if($attr === 'pwdchangedtime') {
 					return array((new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis').'Z');
 				}
-				if($dn === 'cn=custom,ou=policies,dc=foo,dc=bar' && $attr === 'pwdMaxAge') {
+				if($dn === 'cn=custom,ou=policies,dc=foo,dc=bar' && $attr === 'pwdmaxage') {
 					return array('2592000');
 				}
-				if($dn === 'cn=custom,ou=policies,dc=foo,dc=bar' && $attr === 'pwdExpireWarning') {
+				if($dn === 'cn=custom,ou=policies,dc=foo,dc=bar' && $attr === 'pwdexpirewarning') {
 					return array('2591999');
 				}
 				return array();
