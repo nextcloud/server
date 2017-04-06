@@ -89,7 +89,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 					'auth' => [
 						$user,
 						$password,
-					]
+					],
 				]
 			);
 			$this->response = $this->client->send($request);
@@ -184,4 +184,51 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 		$this->response = $this->client->send($request);
 	}
 
+	/**
+	 * @Then :user publicly shares the calendar named :name
+	 *
+	 * @param string $user
+	 * @param string $name
+	 */
+	public function publiclySharesTheCalendarNamed($user, $name) {
+		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/'.$user.'/'.$name;
+		$password = ($user === 'admin') ? 'admin' : '123456';
+
+		$request = $this->client->createRequest(
+			'POST',
+			$davUrl,
+			[
+				'body' => '<cs:publish-calendar xmlns:cs="http://calendarserver.org/ns/"/>',
+				'auth' => [
+					$user,
+					$password,
+				],
+				'headers' => [
+					'Content-Type' => 'application/xml; charset=UTF-8',
+				],
+			]
+		);
+
+		$this->response = $this->client->send($request);
+	}
+
+	/**
+	 * @Then There should be :amount calendars in the response body
+	 *
+	 * @param string $amount
+	 */
+	public function t($amount) {
+		$jsonEncoded = json_encode($this->responseXml);
+		$arrayElement = json_decode($jsonEncoded, true);
+		$actual = count($arrayElement['value']) - 1;
+		if($actual !== (int)$amount) {
+			throw new InvalidArgumentException(
+				sprintf(
+					'Expected %s got %s',
+					$amount,
+					$actual
+				)
+			);
+		}
+	}
 }
