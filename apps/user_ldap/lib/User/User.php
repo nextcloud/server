@@ -625,8 +625,13 @@ class User {
 			$pwdChangedTime = array_key_exists('pwdchangedtime', $result[0]) ? $result[0]['pwdchangedtime'] : null;
 			
 			//retrieve relevant password policy attributes
-			$result = $this->access->search('objectclass=*', $ppolicyDN, ['cn','pwdgraceauthnlimit', 'pwdmaxage', 'pwdexpirewarning']);
-
+			$cacheKey = 'ppolicyAttributes' . $ppolicyDN;
+			$result = $this->connection->getFromCache($cacheKey);
+			if(is_null($result)) {
+				$result = $this->access->search('objectclass=*', $ppolicyDN, ['cn','pwdgraceauthnlimit', 'pwdmaxage', 'pwdexpirewarning']);
+				$this->connection->writeToCache($cacheKey, $result);
+			}
+			
 			$pwdGraceAuthNLimit = array_key_exists('pwdgraceauthnlimit', $result[0]) ? $result[0]['pwdgraceauthnlimit'] : null;
 			$pwdMaxAge = array_key_exists('pwdmaxage', $result[0]) ? $result[0]['pwdmaxage'] : null;
 			$pwdExpireWarning = array_key_exists('pwdexpirewarning', $result[0]) ? $result[0]['pwdexpirewarning'] : null;
