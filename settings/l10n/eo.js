@@ -108,7 +108,6 @@ OC.L10N.register(
     "Name" : "Nomo",
     "Username" : "Uzantonomo",
     "Done" : "Farita",
-    "Show last log in" : "Montri lastan ensaluton",
     "Show user backend" : "Montri uzantomotoron",
     "E-Mail" : "Retpoŝtadreso",
     "Create" : "Krei",
@@ -122,6 +121,7 @@ OC.L10N.register(
     "Default" : "Defaŭlta",
     "Admins can't remove themself from the admin group" : "Administrantoj ne povas forigi sin mem el la administra grupo.",
     "Unable to add user to group %s" : "Ne eblis aldoni la uzanton al la grupo %s",
-    "Unable to remove user from group %s" : "Ne eblis forigi la uzantan el la grupo %s"
+    "Unable to remove user from group %s" : "Ne eblis forigi la uzantan el la grupo %s",
+    "Show last log in" : "Montri lastan ensaluton"
 },
 "nplurals=2; plural=(n != 1);");

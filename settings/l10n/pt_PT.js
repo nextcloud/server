@@ -230,10 +230,9 @@ OC.L10N.register(
     "Username" : "Nome de utilizador",
     "Done" : "Concluído",
     "Show storage location" : "Mostrar a localização do armazenamento",
-    "Show last log in" : "Mostrar ultimo acesso de entrada",
     "Show user backend" : "Mostrar interface do utilizador",
-    "Send email to new user" : "Enviar email ao novo utilizador",
     "Show email address" : "Mostrar endereço de email",
+    "Send email to new user" : "Enviar email ao novo utilizador",
     "E-Mail" : "Correio Eletrónico",
     "Create" : "Criar",
     "Admin Recovery Password" : "Recuperação da Palavra-passe de Administrador",
@@ -251,6 +250,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Os administradores não se podem remover a eles próprios do grupo 'admin'.",
     "Unable to add user to group %s" : "Não é possível adicionar o utilizador ao grupo %s",
     "Unable to remove user from group %s" : "Não é possível remover o utilizador do grupo %s",
-    "For password recovery and notifications" : "Para recuperação da palavra-passe e notificações"
+    "For password recovery and notifications" : "Para recuperação da palavra-passe e notificações",
+    "Show last log in" : "Mostrar ultimo acesso de entrada"
 },
 "nplurals=2; plural=(n != 1);");

@@ -116,7 +116,6 @@ OC.L10N.register(
     "Name" : "Naziv",
     "Username" : "Korisničko ime",
     "Show storage location" : "Prikaži mjesto pohrane",
-    "Show last log in" : "Prikaži zadnje spajanje",
     "Create" : "Kreirajte",
     "Admin Recovery Password" : "Admin lozinka za oporavak",
     "Enter the recovery password in order to recover the users files during password change" : "Unesite lozinku za oporavak da biste oporavili korisničke datoteke tijekom promjene lozinke",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Molimo navedite admin lozinku za oporavak, u protivnom će svi korisnički podaci biti izgubljeni.",
     "Admins can't remove themself from the admin group" : "Administratori ne mogu sami sebe ukloniti iz admin grupe",
     "Unable to add user to group %s" : "Dodavanje korisnika grupi %s nije moguće",
-    "Unable to remove user from group %s" : "Uklanjanje korisnika iz grupe %s nije moguće"
+    "Unable to remove user from group %s" : "Uklanjanje korisnika iz grupe %s nije moguće",
+    "Show last log in" : "Prikaži zadnje spajanje"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

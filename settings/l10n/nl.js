@@ -323,11 +323,9 @@ OC.L10N.register(
     "Subscribe to our newsletter!" : "Abonneer jezelf op onze nieuwsbrief!",
     "Settings" : "Instellingen",
     "Show storage location" : "Toon opslaglocatie",
-    "Show last log in" : "Toon laatste inlog",
     "Show user backend" : "Toon backend gebruiker",
-    "Send email to new user" : "Verstuur e-mail aan nieuwe gebruiker",
-    "When the password of the new user is left empty an activation email with a link to set the password is send to the user" : "Als het wachtwoord van de nieuwe gebruiker blanco blijft, wordt een activeringsmailtje naar de gebruiker gestuurd met een link om het wachtwoord in te stellen",
     "Show email address" : "Toon e-mailadres",
+    "Send email to new user" : "Verstuur e-mail aan nieuwe gebruiker",
     "E-Mail" : "E-mail",
     "Create" : "Aanmaken",
     "Admin Recovery Password" : "Beheer herstel wachtwoord",
@@ -351,6 +349,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Admins kunnen zichzelf niet uit de admin groep verwijderen",
     "Unable to add user to group %s" : "Niet in staat om gebruiker toe te voegen aan groep %s",
     "Unable to remove user from group %s" : "Niet in staat om gebruiker te verwijderen uit groep %s",
-    "For password recovery and notifications" : "Voor wachtwoordherstel en meldingen"
+    "For password recovery and notifications" : "Voor wachtwoordherstel en meldingen",
+    "Show last log in" : "Toon laatste inlog"
 },
 "nplurals=2; plural=(n != 1);");

@@ -307,10 +307,9 @@ OC.L10N.register(
     "Subscribe to our news feed!" : "뉴스 피드를 구독하세요!",
     "Subscribe to our newsletter!" : "뉴스 레터를 구독하세요!",
     "Show storage location" : "저장소 위치 보이기",
-    "Show last log in" : "마지막 로그인 시간 보이기",
     "Show user backend" : "사용자 백엔드 보이기",
-    "Send email to new user" : "새 사용자에게 이메일 보내기",
     "Show email address" : "이메일 주소 보이기",
+    "Send email to new user" : "새 사용자에게 이메일 보내기",
     "E-Mail" : "이메일",
     "Create" : "만들기",
     "Admin Recovery Password" : "관리자 복구 암호",
@@ -334,6 +333,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "관리자 자신을 관리자 그룹에서 삭제할 수 없음",
     "Unable to add user to group %s" : "그룹 %s에 사용자를 추가할 수 없음",
     "Unable to remove user from group %s" : "그룹 %s에서 사용자를 삭제할 수 없음",
-    "For password recovery and notifications" : "암호 복구와 알림에 사용"
+    "For password recovery and notifications" : "암호 복구와 알림에 사용",
+    "Show last log in" : "마지막 로그인 시간 보이기"
 },
 "nplurals=1; plural=0;");

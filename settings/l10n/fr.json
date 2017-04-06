@@ -211,6 +211,7 @@
     "Allow apps to use the Share API" : "Autoriser les applications à utiliser l'API de partage",
     "Allow users to share via link" : "Autoriser les utilisateurs à partager par lien",
     "Allow public uploads" : "Autoriser les téléversements publics",
+    "Always ask for a password" : "Toujours demander un mot de passe",
     "Enforce password protection" : "Imposer la protection par mot de passe",
     "Set default expiration date" : "Indiquer une date d'expiration par défaut",
     "Expire after " : "Expiration après ",
@@ -321,11 +322,9 @@
     "Subscribe to our newsletter!" : "Abonnez-vous à notre newsletter!",
     "Settings" : "Paramètres",
     "Show storage location" : "Afficher l'emplacement du stockage",
-    "Show last log in" : "Montrer la dernière connexion",
     "Show user backend" : "Montrer la source de l'identifiant",
-    "Send email to new user" : "Envoyer un e-mail aux utilisateurs créés",
-    "When the password of the new user is left empty an activation email with a link to set the password is send to the user" : "Quand le mot de passe du nouvel utilisateur est laissé vide, un mail d'activation avec un lien pour configurer le mot de passe est envoyé à l'utilisateur",
     "Show email address" : "Afficher l'adresse e-mail",
+    "Send email to new user" : "Envoyer un e-mail aux utilisateurs créés",
     "E-Mail" : "E-Mail",
     "Create" : "Créer",
     "Admin Recovery Password" : "Mot de passe Administrateur de récupération",
@@ -349,6 +348,7 @@
     "Admins can't remove themself from the admin group" : "Les administrateurs ne peuvent pas se retirer eux-mêmes du groupe admin",
     "Unable to add user to group %s" : "Impossible d'ajouter l'utilisateur au groupe %s",
     "Unable to remove user from group %s" : "Impossible de supprimer l'utilisateur du groupe %s",
-    "For password recovery and notifications" : "Pour la récupération de mot de passe et les notifications"
+    "For password recovery and notifications" : "Pour la récupération de mot de passe et les notifications",
+    "Show last log in" : "Montrer la dernière connexion"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

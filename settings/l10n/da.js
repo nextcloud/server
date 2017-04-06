@@ -200,10 +200,9 @@ OC.L10N.register(
     "Username" : "Brugernavn",
     "Done" : "Færdig",
     "Show storage location" : "Vis placering af lageret",
-    "Show last log in" : "Vis seneste login",
     "Show user backend" : "Vis bruger-backend",
-    "Send email to new user" : "Send e-mail til ny bruger",
     "Show email address" : "Vis e-mailadresse",
+    "Send email to new user" : "Send e-mail til ny bruger",
     "E-Mail" : "E-mail",
     "Create" : "Ny",
     "Admin Recovery Password" : "Administrator gendannelse kodeord",
@@ -221,6 +220,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Administratorer kan ikke fjerne dem selv fra admin gruppen",
     "Unable to add user to group %s" : "Brugeren kan ikke tilføjes til gruppen %s",
     "Unable to remove user from group %s" : "Brugeren kan ikke fjernes fra gruppen %s",
-    "For password recovery and notifications" : "Angiv en e-mailadresse for at aktivere gendannelse af adgangskode og modtage notifikationer"
+    "For password recovery and notifications" : "Angiv en e-mailadresse for at aktivere gendannelse af adgangskode og modtage notifikationer",
+    "Show last log in" : "Vis seneste login"
 },
 "nplurals=2; plural=(n != 1);");

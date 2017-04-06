@@ -213,6 +213,7 @@ OC.L10N.register(
     "Allow apps to use the Share API" : "Leyfa forritum að nota Share API",
     "Allow users to share via link" : "Leyfa notendum að deila með tengli",
     "Allow public uploads" : "Leyfa opinberar innsendingar",
+    "Always ask for a password" : "Alltaf biðja um lykilorð",
     "Enforce password protection" : "Krefjast verndunar með aðgangsorði",
     "Set default expiration date" : "Setja sjálfgefinn gildistíma",
     "Expire after " : "Rennur út eftir ",
@@ -323,11 +324,9 @@ OC.L10N.register(
     "Subscribe to our newsletter!" : "Gerstu áskrifandi að fréttabréfinu okkar!",
     "Settings" : "Stillingar",
     "Show storage location" : "Birta staðsetningu gagnageymslu",
-    "Show last log in" : "Birta síðustu innskráningu",
     "Show user backend" : "Birta bakenda notanda",
-    "Send email to new user" : "Senda tölvupóst til nýs notanda",
-    "When the password of the new user is left empty an activation email with a link to set the password is send to the user" : "Þegar lykilorð nýs notanda er skilið eftir autt, mun honum verða sendur tölvupóstur með tengli til að virkja aðganginn sinn",
     "Show email address" : "Birta tölvupóstfang",
+    "Send email to new user" : "Senda tölvupóst til nýs notanda",
     "E-Mail" : "Tölvupóstfang",
     "Create" : "Búa til",
     "Admin Recovery Password" : "Endurheimtulykilorð kerfisstjóra",
@@ -351,6 +350,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Stjórnendur geta ekki fjarlægt sjálfa sig úr stjórnendahóp",
     "Unable to add user to group %s" : "Ekki tókst að bæta notanda við hópinn %s",
     "Unable to remove user from group %s" : "Ekki tókst að fjarlægja notanda úr hópnum %s",
-    "For password recovery and notifications" : "Fyrir tilkynningar og endurheimtingu lykilorðs"
+    "For password recovery and notifications" : "Fyrir tilkynningar og endurheimtingu lykilorðs",
+    "Show last log in" : "Birta síðustu innskráningu"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -323,11 +323,9 @@ OC.L10N.register(
     "Subscribe to our newsletter!" : "¡Suscríbete a nuestro boletín!",
     "Settings" : "Configuración",
     "Show storage location" : "Mostrar la ubicación del almacenamiento",
-    "Show last log in" : "Mostrar el último inicio de sesión",
     "Show user backend" : "Mostrar motor de usuario",
-    "Send email to new user" : "Enviar correo al usuario nuevo",
-    "When the password of the new user is left empty an activation email with a link to set the password is send to the user" : "Cuando la contraseña del nuevo usuario se deja vacía, un correo electrónico de activación con un enlace para establecer la contraseña se envía al usuario",
     "Show email address" : "Mostrar dirección de correo electrónico",
+    "Send email to new user" : "Enviar correo al usuario nuevo",
     "E-Mail" : "Correo electrónico",
     "Create" : "Crear",
     "Admin Recovery Password" : "Recuperación de la contraseña de administración",
@@ -351,6 +349,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Los administradores no se pueden eliminar a ellos mismos del grupo de administrador",
     "Unable to add user to group %s" : "No se pudo añadir el usuario al grupo %s",
     "Unable to remove user from group %s" : "No se pudo eliminar al usuario del grupo %s",
-    "For password recovery and notifications" : "Para la recuperación de contraseña y notificaciones"
+    "For password recovery and notifications" : "Para la recuperación de contraseña y notificaciones",
+    "Show last log in" : "Mostrar el último inicio de sesión"
 },
 "nplurals=2; plural=(n != 1);");

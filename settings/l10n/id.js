@@ -263,10 +263,9 @@ OC.L10N.register(
     "Done" : "Selesai",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Dikembangkan oleh {commmunityopen}komunitas Nextcloud{linkclose}, {githubopen}sumber kode{linkclose} dilisensikan dibawah {licenseopen}AGPL{linkclose}.",
     "Show storage location" : "Tampilkan kolasi penyimpanan",
-    "Show last log in" : "Tampilkan masuk terakhir",
     "Show user backend" : "Tampilkan pengguna backend",
-    "Send email to new user" : "Kirim email kepada pengguna baru",
     "Show email address" : "Tampilkan alamat email",
+    "Send email to new user" : "Kirim email kepada pengguna baru",
     "E-Mail" : "E-Mail",
     "Create" : "Buat",
     "Admin Recovery Password" : "Sandi pemulihan Admin",
@@ -289,6 +288,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Admin tidak dapat menghapus dirinya sendiri dari grup admin",
     "Unable to add user to group %s" : "Tidak dapat menambahkan pengguna ke grup %s",
     "Unable to remove user from group %s" : "Tidak dapat menghapus pengguna dari grup %s",
-    "For password recovery and notifications" : "Untuk pemulihan sandi dan pemberitahuan"
+    "For password recovery and notifications" : "Untuk pemulihan sandi dan pemberitahuan",
+    "Show last log in" : "Tampilkan masuk terakhir"
 },
 "nplurals=1; plural=0;");

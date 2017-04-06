@@ -189,10 +189,9 @@
     "Username" : "Корисничко име",
     "Done" : "Завршено",
     "Show storage location" : "Прикажи локацију складишта",
-    "Show last log in" : "Прикажи последњу пријаву",
     "Show user backend" : "Прикажи позадину за кориснике",
-    "Send email to new user" : "Пошаљи е-пошту новом кориснику",
     "Show email address" : "Прикажи е-адресу",
+    "Send email to new user" : "Пошаљи е-пошту новом кориснику",
     "E-Mail" : "Е-пошта",
     "Create" : "Направи",
     "Admin Recovery Password" : "Администраторска лозинка за опоравак",
@@ -209,6 +208,7 @@
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Наведите администраторску лозинку опоравка. У супротном, сви кориснички подаци биће изгубљени.",
     "Admins can't remove themself from the admin group" : "Администратор не може себе да уклони из admin групе",
     "Unable to add user to group %s" : "Не могу да додам корисника у групу %s",
-    "Unable to remove user from group %s" : "Не могу да уклоним корисника из групе %s"
+    "Unable to remove user from group %s" : "Не могу да уклоним корисника из групе %s",
+    "Show last log in" : "Прикажи последњу пријаву"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

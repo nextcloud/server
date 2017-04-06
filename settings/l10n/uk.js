@@ -195,10 +195,9 @@ OC.L10N.register(
     "Username" : "Ім'я користувача",
     "Done" : "Готово",
     "Show storage location" : "Показати місцезнаходження сховища",
-    "Show last log in" : "Показати останній вхід в систему",
     "Show user backend" : "Показати користувача",
-    "Send email to new user" : "Надіслати email новому користувачу",
     "Show email address" : "Показати адресу електронної пошти",
+    "Send email to new user" : "Надіслати email новому користувачу",
     "E-Mail" : "Адреса електронної пошти",
     "Create" : "Створити",
     "Admin Recovery Password" : "Пароль адміністратора для відновлення",
@@ -215,6 +214,7 @@ OC.L10N.register(
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Будь ласка введіть пароль відновлення адміністратора, інакше всі дані будуть втрачені",
     "Admins can't remove themself from the admin group" : "Адміністратор не може видалити себе з групи адміністраторів",
     "Unable to add user to group %s" : "Не вдалося додати користувача у групу %s",
-    "Unable to remove user from group %s" : "Не вдалося видалити користувача із групи %s"
+    "Unable to remove user from group %s" : "Не вдалося видалити користувача із групи %s",
+    "Show last log in" : "Показати останній вхід в систему"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

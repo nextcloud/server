@@ -213,6 +213,7 @@ OC.L10N.register(
     "Allow apps to use the Share API" : "Uygulamalar Paylaşım API kullanabilsin",
     "Allow users to share via link" : "Kullanıcıların bağlantı ile paylaşabilsin",
     "Allow public uploads" : "Herkes yükleme yapabilsin",
+    "Always ask for a password" : "Her zaman parola sorulsun",
     "Enforce password protection" : "Parola koruması dayatılsın",
     "Set default expiration date" : "Varsayılan son kullanma tarihini ayarla",
     "Expire after " : "Kullanım süresi",
@@ -323,11 +324,9 @@ OC.L10N.register(
     "Subscribe to our newsletter!" : " Bültenimize abone olun!",
     "Settings" : "Ayarlar",
     "Show storage location" : "Depolama konumu görüntülensin",
-    "Show last log in" : "Son oturum açma zamanı görüntülensin",
     "Show user backend" : "Kullanıcı arka ucu görüntülensin",
-    "Send email to new user" : "Yeni kullanıcıya e-posta gönderilsin",
-    "When the password of the new user is left empty an activation email with a link to set the password is send to the user" : "Yeni kullanıcının parolası boş bırakıldığında, kullanıcıya parola ayarlama bağlantısını içeren bir ektinleştirme e-postası gönderilir.",
     "Show email address" : "E-posta adresi görüntülensin",
+    "Send email to new user" : "Yeni kullanıcıya e-posta gönderilsin",
     "E-Mail" : "E-posta",
     "Create" : "Oluştur",
     "Admin Recovery Password" : "Yönetici Kurtarma Parolası",
@@ -351,6 +350,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Yöneticiler kendilerini admin grubundan çıkartamaz",
     "Unable to add user to group %s" : "Kullanıcı %s grubuna eklenemedi",
     "Unable to remove user from group %s" : "Kullanıcı %s grubundan çıkartılamadı",
-    "For password recovery and notifications" : "Parola sıfırlama ve bildirimler için"
+    "For password recovery and notifications" : "Parola sıfırlama ve bildirimler için",
+    "Show last log in" : "Son oturum açma zamanı görüntülensin"
 },
 "nplurals=2; plural=(n > 1);");

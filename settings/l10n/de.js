@@ -213,6 +213,7 @@ OC.L10N.register(
     "Allow apps to use the Share API" : "Apps die Benutzung der Share-API erlauben",
     "Allow users to share via link" : "Benutzern erlauben, Inhalte über Links zu teilen",
     "Allow public uploads" : "Öffentliches Hochladen erlauben",
+    "Always ask for a password" : "Immer nach einem Passwort fragen",
     "Enforce password protection" : "Passwortschutz erzwingen",
     "Set default expiration date" : "Standardmäßiges Ablaufdatum setzen",
     "Expire after " : "Ablauf nach ",
@@ -323,11 +324,9 @@ OC.L10N.register(
     "Subscribe to our newsletter!" : "Abonniere unseren Newsletter!",
     "Settings" : "Einstellungen",
     "Show storage location" : "Speicherort anzeigen",
-    "Show last log in" : "Letzte Anmeldung anzeigen",
     "Show user backend" : "Benutzer-Backend anzeigen",
-    "Send email to new user" : "E-Mail an neuen Benutzer senden",
-    "When the password of the new user is left empty an activation email with a link to set the password is send to the user" : "Wenn das Passwort für den neuen Benutzer leer gelassen wird, wird an ihn eine Aktivierungs-E-Mail mit einem Link zur Passwortvergabe versandt.",
     "Show email address" : "E-Mail-Adresse anzeigen",
+    "Send email to new user" : "E-Mail an neuen Benutzer senden",
     "E-Mail" : "E-Mail",
     "Create" : "Anlegen",
     "Admin Recovery Password" : "Admin-Wiederherstellungspasswort",
@@ -351,6 +350,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Administratoren können sich nicht selbst aus der Admin-Gruppe löschen.",
     "Unable to add user to group %s" : "Der Benutzer konnte nicht zur Gruppe %s hinzugefügt werden",
     "Unable to remove user from group %s" : "Der Benutzer konnte nicht aus der Gruppe %s entfernt werden",
-    "For password recovery and notifications" : "Für Passwort-Wiederherstellung und Benachrichtigungen"
+    "For password recovery and notifications" : "Für Passwort-Wiederherstellung und Benachrichtigungen",
+    "Show last log in" : "Letzte Anmeldung anzeigen"
 },
 "nplurals=2; plural=(n != 1);");
