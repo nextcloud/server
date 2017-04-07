@@ -61,7 +61,9 @@
 			</div>
 		</div>
 		<span class="icon-checkmark hidden"/>
+		<?php if($_['lookupServerUploadEnabled']) { ?>
 		<input type="hidden" id="avatarscope" value="<?php p($_['avatarScope']) ?>">
+		<?php } ?>
 	</form>
 </div>
 <?php endif; ?>
@@ -81,7 +83,9 @@
 				<span><?php if(isset($_['displayName']) && !empty($_['displayName'])) { p($_['displayName']); } else { p($l->t('No display name set')); } ?></span>
 			<?php } ?>
 			<span class="icon-checkmark hidden"/>
+			<?php if($_['lookupServerUploadEnabled']) { ?>
 			<input type="hidden" id="displaynamescope" value="<?php p($_['displayNameScope']) ?>">
+			<?php } ?>
 		</form>
 	</div>
 	<div class="personal-settings-setting-box">
@@ -102,9 +106,12 @@
 				<em><?php p($l->t('For password recovery and notifications')); ?></em>
 			<?php } ?>
 			<span class="icon-checkmark hidden"/>
+			<?php if($_['lookupServerUploadEnabled']) { ?>
 			<input type="hidden" id="emailscope" value="<?php p($_['emailScope']) ?>">
+			<?php } ?>
 		</form>
 	</div>
+	<?php if($_['lookupServerUploadEnabled']) { ?>
 	<div class="personal-settings-setting-box">
 		<form id="phoneform" class="section">
 			<h2>
@@ -159,7 +166,7 @@
 			<input type="hidden" id="twitterscope" value="<?php p($_['twitterScope']) ?>">
 		</form>
 	</div>
-
+	<?php } ?>
 	<span class="msg"></span>
 </div>
 </div>

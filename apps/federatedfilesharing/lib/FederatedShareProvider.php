@@ -953,4 +953,15 @@ class FederatedShareProvider implements IShareProvider {
 		$result = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no');
 		return ($result === 'yes') ? true : false;
 	}
+
+
+	/**
+	 * Check if it is allowed to publish user specific data to the lookup server
+	 *
+	 * @return bool
+	 */
+	public function isLookupServerUploadEnabled() {
+		$result = $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes');
+		return ($result === 'yes') ? true : false;
+	}
 }
