@@ -734,7 +734,7 @@ class UsersControllerTest extends TestCase {
 			'displayname' => 'Demo User',
 			'phone' => 'phone',
 			'address' => 'address',
-			'webpage' => 'website',
+			'website' => 'website',
 			'twitter' => 'twitter',
 			'groups' => ['group0', 'group1', 'group2']
 		];
@@ -823,7 +823,7 @@ class UsersControllerTest extends TestCase {
 			'displayname' => 'Demo User',
 			'phone' => 'phone',
 			'address' => 'address',
-			'webpage' => 'website',
+			'website' => 'website',
 			'twitter' => 'twitter',
 			'groups' => []
 		];
@@ -952,7 +952,7 @@ class UsersControllerTest extends TestCase {
 			'displayname' => 'Subadmin User',
 			'phone' => 'phone',
 			'address' => 'address',
-			'webpage' => 'website',
+			'website' => 'website',
 			'twitter' => 'twitter',
 			'groups' => []
 		];
@@ -2636,7 +2636,7 @@ class UsersControllerTest extends TestCase {
 					'displayname' => 'Demo User',
 					'phone' => 'phone',
 					'address' => 'address',
-					'webpage' => 'website',
+					'website' => 'website',
 					'twitter' => 'twitter'
 				]
 			);
@@ -2648,7 +2648,7 @@ class UsersControllerTest extends TestCase {
 			'email' => 'demo@owncloud.org',
 			'phone' => 'phone',
 			'address' => 'address',
-			'webpage' => 'website',
+			'website' => 'website',
 			'twitter' => 'twitter',
 			'display-name' => 'Demo User'
 		];
@@ -2696,7 +2696,7 @@ class UsersControllerTest extends TestCase {
 			'email' => 'demo@owncloud.org',
 			'phone' => 'phone',
 			'address' => 'address',
-			'webpage' => 'website',
+			'website' => 'website',
 			'twitter' => 'twitter',
 			'displayname' => 'Demo User'
 		];

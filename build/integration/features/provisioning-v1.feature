@@ -32,6 +32,14 @@ Feature: provisioning
 			| password | 123456 |
 		Then the OCS status code should be "102"
 		And the HTTP status code should be "200"
+		And user "brand-new-user" has
+			| id | brand-new-user |
+			| displayname | brand-new-user |
+			| email |  |
+			| phone |  |
+			| address |  |
+			| website |  |
+			| twitter |  |
 
 	Scenario: Get an existing user
 		Given As an "admin"
@@ -52,13 +60,48 @@ Feature: provisioning
 		Given As an "admin"
 		And user "brand-new-user" exists
 		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | displayname |
+			| value | Brand New User |
+		And the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And sending "PUT" to "/cloud/users/brand-new-user" with
 			| key | quota |
 			| value | 12MB |
+		And the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And sending "PUT" to "/cloud/users/brand-new-user" with
 			| key | email |
 			| value | brand-new-user@gmail.com |
-		Then the OCS status code should be "100"
+		And the OCS status code should be "100"
 		And the HTTP status code should be "200"
-		And user "brand-new-user" exists
+		And sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | phone |
+			| value | 0123 456 789 |
+		And the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | address |
+			| value | Foo Bar Town |
+		And the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | website |
+			| value | https://nextcloud.com |
+		And the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | twitter |
+			| value | Nextcloud |
+		And the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		Then user "brand-new-user" has
+			| id | brand-new-user |
+			| displayname | Brand New User |
+			| email | brand-new-user@gmail.com |
+			| phone | 0123 456 789 |
+			| address | Foo Bar Town |
+			| website | https://nextcloud.com |
+			| twitter | Nextcloud |
 
 	Scenario: Create a group
 		Given As an "admin"
