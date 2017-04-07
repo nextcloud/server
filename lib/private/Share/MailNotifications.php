@@ -30,7 +30,6 @@
 
 namespace OC\Share;
 
-use DateTime;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;

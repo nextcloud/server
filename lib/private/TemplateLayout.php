@@ -38,6 +38,7 @@ namespace OC;
 use OC\Template\JSCombiner;
 use OC\Template\JSConfigHelper;
 use OC\Template\SCSSCacher;
+use OCP\Defaults;
 
 class TemplateLayout extends \OC_Template {
 
@@ -135,7 +136,7 @@ class TemplateLayout extends \OC_Template {
 			if (\OC::$server->getContentSecurityPolicyNonceManager()->browserSupportsCspV3()) {
 				$jsConfigHelper = new JSConfigHelper(
 					\OC::$server->getL10N('core'),
-					\OC::$server->getThemingDefaults(),
+					\OC::$server->query(Defaults::class),
 					\OC::$server->getAppManager(),
 					\OC::$server->getSession(),
 					\OC::$server->getUserSession()->getUser(),

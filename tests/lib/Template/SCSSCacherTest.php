@@ -42,8 +42,6 @@ class SCSSCacherTest extends \Test\TestCase {
 	protected $urlGenerator;
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
-	/** @var \OC_Defaults|\PHPUnit_Framework_MockObject_MockObject */
-	protected $defaults;
 	/** @var SCSSCacher */
 	protected $scssCacher;
 	/** @var ICache|\PHPUnit_Framework_MockObject_MockObject */

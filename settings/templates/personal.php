@@ -5,7 +5,7 @@
  */
 
 /** @var $_ mixed[]|\OCP\IURLGenerator[] */
-/** @var \OC_Defaults $theme */
+/** @var \OCP\Defaults $theme */
 ?>
 
 <div id="app-navigation">

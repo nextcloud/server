@@ -26,8 +26,8 @@ namespace OCA\Theming\Tests\Controller;
 use OC\Files\SimpleFS\SimpleFile;
 use OCA\Theming\ImageManager;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\Defaults;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
@@ -41,7 +41,7 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 class IconControllerTest extends TestCase {
 	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Defaults|\PHPUnit_Framework_MockObject_MockObject */
 	private $themingDefaults;
 	/** @var Util */
 	private $util;
@@ -58,7 +58,7 @@ class IconControllerTest extends TestCase {
 
 	public function setUp() {
 		$this->request = $this->getMockBuilder('OCP\IRequest')->getMock();
-		$this->themingDefaults = $this->getMockBuilder('OCA\Theming\ThemingDefaults')
+		$this->themingDefaults = $this->getMockBuilder('OCP\Defaults')
 			->disableOriginalConstructor()->getMock();
 		$this->util = $this->getMockBuilder('\OCA\Theming\Util')->disableOriginalConstructor()
 			->setMethods(['getAppImage', 'getAppIcon', 'elementColor'])->getMock();

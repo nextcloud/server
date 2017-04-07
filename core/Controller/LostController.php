@@ -34,6 +34,7 @@ use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Defaults;
 use OCP\Encryption\IManager;
 use \OCP\IURLGenerator;
 use \OCP\IRequest;
@@ -58,7 +59,7 @@ class LostController extends Controller {
 	protected $urlGenerator;
 	/** @var IUserManager */
 	protected $userManager;
-	/** @var \OC_Defaults */
+	/** @var Defaults */
 	protected $defaults;
 	/** @var IL10N */
 	protected $l10n;
@@ -82,7 +83,7 @@ class LostController extends Controller {
 	 * @param IRequest $request
 	 * @param IURLGenerator $urlGenerator
 	 * @param IUserManager $userManager
-	 * @param \OC_Defaults $defaults
+	 * @param Defaults $defaults
 	 * @param IL10N $l10n
 	 * @param IConfig $config
 	 * @param ISecureRandom $secureRandom
@@ -96,7 +97,7 @@ class LostController extends Controller {
 								IRequest $request,
 								IURLGenerator $urlGenerator,
 								IUserManager $userManager,
-								\OC_Defaults $defaults,
+								Defaults $defaults,
 								IL10N $l10n,
 								IConfig $config,
 								ISecureRandom $secureRandom,

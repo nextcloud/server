@@ -23,6 +23,8 @@
 
 namespace OC\Mail;
 
+use OCP\Defaults;
+
 /**
  * Interface IEMailTemplate
  *
@@ -32,7 +34,7 @@ namespace OC\Mail;
  *
  * <?php
  *
- * $emailTemplate = new EMailTemplate($this->defaults);
+ * $emailTemplate = new EMailTemplate($this->defaults, $this->urlGenerator, $this->l10n);
  *
  * $emailTemplate->addHeader();
  * $emailTemplate->addHeading('Welcome aboard');
@@ -50,11 +52,11 @@ namespace OC\Mail;
  */
 interface IEMailTemplate {
 	/**
-	 * @param \OCA\Theming\ThemingDefaults $themingDefaults
+	 * @param Defaults $themingDefaults
 	 * @param \OCP\IURLGenerator $urlGenerator
 	 * @param \OCP\IL10N $l10n
 	 */
-	public function __construct(\OCA\Theming\ThemingDefaults $themingDefaults,
+	public function __construct(Defaults $themingDefaults,
 								\OCP\IURLGenerator $urlGenerator,
 								\OCP\IL10N $l10n);
 

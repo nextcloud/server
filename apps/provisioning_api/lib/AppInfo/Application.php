@@ -7,6 +7,7 @@ use OC\AppFramework\Utility\TimeFactory;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OCA\Provisioning_API\Middleware\ProvisioningApiMiddleware;
 use OCP\AppFramework\App;
+use OCP\Defaults;
 use OCP\Util;
 
 class Application extends App {
@@ -18,7 +19,7 @@ class Application extends App {
 
 		$container->registerService(NewUserMailHelper::class, function(SimpleContainer $c) use ($server) {
 			return new NewUserMailHelper(
-				$server->getThemingDefaults(),
+				$server->query(Defaults::class),
 				$server->getURLGenerator(),
 				$server->getL10N('settings'),
 				$server->getMailer(),

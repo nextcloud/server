@@ -52,8 +52,6 @@ class UsersControllerTest extends \Test\TestCase {
 	private $config;
 	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	private $logger;
-	/** @var \OC_Defaults|\PHPUnit_Framework_MockObject_MockObject */
-	private $defaults;
 	/** @var IMailer|\PHPUnit_Framework_MockObject_MockObject */
 	private $mailer;
 	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */

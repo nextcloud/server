@@ -30,11 +30,8 @@
 
 namespace OC\Core;
 
-use OC\AppFramework\Utility\SimpleContainer;
 use OC\Core\Controller\JsController;
-use OC\Core\Controller\OCJSController;
 use OC\Security\IdentityProof\Manager;
-use OC\Server;
 use OCP\AppFramework\App;
 use OC\Core\Controller\CssController;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -68,25 +65,6 @@ class Application extends App {
 				$container->query(IRequest::class),
 				\OC::$server->getAppDataDir('css'),
 				$container->query(ITimeFactory::class)
-			);
-		});
-		$container->registerService(OCJSController::class, function () use ($container) {
-			/** @var Server $server */
-			$server = $container->getServer();
-			return new OCJSController(
-				$container->query('appName'),
-				$server->getRequest(),
-				$server->getL10N('core'),
-				// This is required for the theming to overwrite the `OC_Defaults`, see
-				// https://github.com/nextcloud/server/issues/3148
-				$server->getThemingDefaults(),
-				$server->getAppManager(),
-				$server->getSession(),
-				$server->getUserSession(),
-				$server->getConfig(),
-				$server->getGroupManager(),
-				$server->getIniWrapper(),
-				$server->getURLGenerator()
 			);
 		});
 		$container->registerService(JsController::class, function () use ($container) {

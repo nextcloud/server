@@ -24,12 +24,11 @@ namespace Test;
 
 use DOMDocument;
 use DOMNode;
-use OC\Cache\CappedMemoryCache;
 use OC\Command\QueueBus;
 use OC\Files\Filesystem;
 use OC\Template\Base;
-use OC_Defaults;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Defaults;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\Security\ISecureRandom;
@@ -483,8 +482,13 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		require_once __DIR__.'/../../lib/private/legacy/template/functions.php';
 
 		$requestToken = 12345;
-		$theme = new OC_Defaults();
-		/** @var IL10N | \PHPUnit_Framework_MockObject_MockObject $l10n */
+		/** @var Defaults|\PHPUnit_Framework_MockObject_MockObject $l10n */
+		$theme = $this->getMockBuilder('\OCP\Defaults')
+			->disableOriginalConstructor()->getMock();
+		$theme->expects($this->any())
+			->method('getName')
+			->willReturn('Nextcloud');
+		/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject $l10n */
 		$l10n = $this->getMockBuilder('\OCP\IL10N')
 			->disableOriginalConstructor()->getMock();
 		$l10n

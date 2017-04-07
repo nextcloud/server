@@ -28,6 +28,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
+use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -47,7 +48,7 @@ class OCJSController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IL10N $l
-	 * @param \OC_Defaults $defaults
+	 * @param Defaults $defaults
 	 * @param IAppManager $appManager
 	 * @param ISession $session
 	 * @param IUserSession $userSession
@@ -59,7 +60,7 @@ class OCJSController extends Controller {
 	public function __construct($appName,
 								IRequest $request,
 								IL10N $l,
-								\OC_Defaults $defaults,
+								Defaults $defaults,
 								IAppManager $appManager,
 								ISession $session,
 								IUserSession $userSession,

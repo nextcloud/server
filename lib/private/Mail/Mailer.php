@@ -22,6 +22,7 @@
 
 namespace OC\Mail;
 
+use OCP\Defaults;
 use OCP\IConfig;
 use OCP\Mail\IMailer;
 use OCP\ILogger;
@@ -51,17 +52,17 @@ class Mailer implements IMailer {
 	private $config;
 	/** @var ILogger */
 	private $logger;
-	/** @var \OC_Defaults */
+	/** @var Defaults */
 	private $defaults;
 
 	/**
 	 * @param IConfig $config
 	 * @param ILogger $logger
-	 * @param \OC_Defaults $defaults
+	 * @param Defaults $defaults
 	 */
 	function __construct(IConfig $config,
 						 ILogger $logger,
-						 \OC_Defaults $defaults) {
+						 Defaults $defaults) {
 		$this->config = $config;
 		$this->logger = $logger;
 		$this->defaults = $defaults;

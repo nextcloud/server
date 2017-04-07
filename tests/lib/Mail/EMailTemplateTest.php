@@ -24,13 +24,13 @@
 namespace Test\Mail;
 
 use OC\Mail\EMailTemplate;
-use OCA\Theming\ThemingDefaults;
+use OCP\Defaults;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use Test\TestCase;
 
 class EMailTemplateTest extends TestCase {
-	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Defaults|\PHPUnit_Framework_MockObject_MockObject */
 	private $defaults;
 	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
@@ -42,7 +42,7 @@ class EMailTemplateTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->defaults = $this->createMock(ThemingDefaults::class);
+		$this->defaults = $this->createMock(Defaults::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->l10n = $this->createMock(IL10N::class);
 
@@ -62,10 +62,6 @@ class EMailTemplateTest extends TestCase {
 			->expects($this->any())
 			->method('getLogo')
 			->willReturn('/img/logo-mail-header.png');
-		$this->defaults
-			->expects($this->any())
-			->method('getCacheBusterCounter')
-			->willReturn('48');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('getAbsoluteURL')
@@ -107,10 +103,6 @@ class EMailTemplateTest extends TestCase {
 			->expects($this->any())
 			->method('getLogo')
 			->willReturn('/img/logo-mail-header.png');
-		$this->defaults
-			->expects($this->any())
-			->method('getCacheBusterCounter')
-			->willReturn('48');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('getAbsoluteURL')

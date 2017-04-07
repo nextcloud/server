@@ -23,9 +23,9 @@ namespace Tests\Core\Controller;
 
 use OC\Core\Controller\LostController;
 use OC\Mail\Message;
-use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Defaults;
 use OCP\Encryption\IManager;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -55,7 +55,7 @@ class LostControllerTest extends \Test\TestCase {
 	private $l10n;
 	/** @var IUserManager | PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
-	/** @var \OC_Defaults */
+	/** @var Defaults */
 	private $defaults;
 	/** @var IConfig | PHPUnit_Framework_MockObject_MockObject */
 	private $config;
@@ -94,7 +94,7 @@ class LostControllerTest extends \Test\TestCase {
 			->will($this->returnCallback(function($text, $parameters = array()) {
 				return vsprintf($text, $parameters);
 			}));
-		$this->defaults = $this->getMockBuilder('\OC_Defaults')
+		$this->defaults = $this->getMockBuilder('\OCP\Defaults')
 			->disableOriginalConstructor()->getMock();
 		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')
 			->disableOriginalConstructor()->getMock();

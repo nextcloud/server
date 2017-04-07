@@ -24,7 +24,6 @@ namespace Test\Accounts;
 
 
 use OC\Accounts\AccountManager;
-use OC\Mail\Mailer;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
