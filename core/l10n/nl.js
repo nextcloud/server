@@ -114,6 +114,7 @@ OC.L10N.register(
     "Expiration" : "Vervaltermijn",
     "Expiration date" : "Vervaldatum",
     "Choose a password for the public link" : "Kies een wachtwoord voor de openbare link",
+    "Choose a password for the public link or press enter" : "Kies een wachtwoord voor de openbare link of druk op enter",
     "Copied!" : "Gekopieerd!",
     "Copy" : "Kopiëren",
     "Not supported!" : "Niet ondersteund!",

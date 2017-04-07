@@ -1,6 +1,7 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
+    "Federated sharing" : "Elementos compartidos federados",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Desea agregar el elemento compartido remoto {name} de {owner}@{remote}?",
     "Remote share" : "Elemento compartido remoto",
     "Remote share password" : "Contraseña del elemento compartido remoto",
