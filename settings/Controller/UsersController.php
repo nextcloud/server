@@ -444,19 +444,17 @@ class UsersController extends Controller {
 					$link = $this->urlGenerator->getAbsoluteURL('/');
 				}
 
-
-
 				$emailTemplate = new EMailTemplate($this->defaults);
 
 				$emailTemplate->addHeader($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('', 'logo-mail-header.png')));
 
-				$displayname = $user->getDisplayName();
-				if ($displayname === $username) {
+				$displayName = $user->getDisplayName();
+				if ($displayName === $username) {
 					$emailTemplate->addHeading($this->l10n->t('Welcome aboard'));
 				} else {
-					$emailTemplate->addHeading($this->l10n->t('Welcome aboard %s', $displayname));
+					$emailTemplate->addHeading($this->l10n->t('Welcome aboard %s', [$displayName]));
 				}
-				$emailTemplate->addBodyText($this->l10n->t('You have now an Nextcloud account, you can add, protect, and share your data.'));
+				$emailTemplate->addBodyText($this->l10n->t('You have now an %s account, you can add, protect, and share your data.', [$this->defaults->getName()]));
 				$emailTemplate->addBodyText($this->l10n->t('Your username is: %s', [$username]));
 
 				if ($generatedPassword) {
@@ -466,8 +464,10 @@ class UsersController extends Controller {
 				}
 
 				$emailTemplate->addBodyButtonGroup(
-					$leftButtonText, $link,
-					$this->l10n->t('Install Client'), 'https://nextcloud.com/install/#install-clients'
+					$leftButtonText,
+					$link,
+					$this->l10n->t('Install Client'),
+					'https://nextcloud.com/install/#install-clients'
 				);
 
 				$emailTemplate->addFooter(

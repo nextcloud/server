@@ -129,7 +129,7 @@ class UsersControllerTest extends \Test\TestCase {
 				$this->logger,
 				$this->defaults,
 				$this->mailer,
-				'no-reply@owncloud.com',
+				'no-reply@nextcloud.com',
 				$this->urlGenerator,
 				$this->appManager,
 				$this->avatarManager,
@@ -153,7 +153,7 @@ class UsersControllerTest extends \Test\TestCase {
 						$this->logger,
 						$this->defaults,
 						$this->mailer,
-						'no-reply@owncloud.com',
+						'no-reply@nextcloud.com',
 						$this->urlGenerator,
 						$this->appManager,
 						$this->avatarManager,
@@ -1427,26 +1427,56 @@ class UsersControllerTest extends \Test\TestCase {
 		$message
 			->expects($this->at(1))
 			->method('setSubject')
-			->with('Your  account was created');
+			->with('Your Nextcloud account was created');
+
+		$this->urlGenerator
+			->expects($this->at(0))
+			->method('getAbsoluteURL')
+			->with('/')
+			->willReturn('https://example.org/');
+		$this->urlGenerator
+			->expects($this->at(1))
+			->method('imagePath')
+			->with('', 'logo-mail-header.png')
+			->willReturn('/img/logo-mail-header.png');
+		$this->urlGenerator
+			->expects($this->at(2))
+			->method('getAbsoluteURL')
+			->with('/img/logo-mail-header.png')
+			->willReturn('https://example.org/img/logo-mail-header.png');
+		$this->urlGenerator
+			->expects($this->at(3))
+			->method('imagePath')
+			->with('', 'logo-mail-footer.png')
+			->willReturn('/img/logo-mail-footer.png');
+		$this->urlGenerator
+			->expects($this->at(4))
+			->method('getAbsoluteURL')
+			->with('/img/logo-mail-footer.png')
+			->willReturn('https://example.org/img/logo-mail-footer.png');
+		$this->defaults
+			->expects($this->any())
+			->method('getName')
+			->willReturn('Nextcloud');
+		$this->defaults
+			->expects($this->any())
+			->method('getSlogan')
+			->willReturn('A safe home for your data');
 
 		$emailTemplate = new EMailTemplate($this->defaults);
-
 		$emailTemplate->addHeader('https://example.org/img/logo-mail-header.png');
-
 		$emailTemplate->addHeading('Welcome aboard');
 		$emailTemplate->addBodyText('You have now an Nextcloud account, you can add, protect, and share your data.');
 		$emailTemplate->addBodyText('Your username is: foo');
-
-
 		$emailTemplate->addBodyButtonGroup(
-			'Go to Nextcloud', 'https://example.org/resetPassword/123',
+			'Go to Nextcloud', 'https://example.org/',
 			'Install Client', 'https://nextcloud.com/install/#install-clients'
 		);
-
 		$emailTemplate->addFooter(
 			'https://example.org/img/logo-mail-footer.png',
-			'TestCloud - A safe home for your data<br>This is an automatically generated email, please do not reply.'
+			'Nextcloud - A safe home for your data<br>This is an automatically generated email, please do not reply.'
 		);
+
 		$message
 			->expects($this->at(2))
 			->method('setHtmlBody')
@@ -1458,7 +1488,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$message
 			->expects($this->at(4))
 			->method('setFrom')
-			->with(['no-reply@owncloud.com' => null]);
+			->with(['no-reply@nextcloud.com' => 'Nextcloud']);
 
 		$this->mailer
 			->expects($this->at(0))
@@ -1484,6 +1514,9 @@ class UsersControllerTest extends \Test\TestCase {
 			->will($this->returnValue('/home/user'));
 		$user
 			->method('getUID')
+			->will($this->returnValue('foo'));
+		$user
+			->method('getDisplayName')
 			->will($this->returnValue('foo'));
 		$user
 			->expects($this->once())
@@ -2264,20 +2297,24 @@ class UsersControllerTest extends \Test\TestCase {
 
 
 	public function testCreateSuccessfulWithoutPasswordAndWithEmail() {
-		$controller = $this->getController(true);
-
 		$user = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$user
 			->method('getHome')
-			->will($this->returnValue('/home/user'));
+			->willReturn('/home/user');
 		$user
 			->method('getUID')
-			->will($this->returnValue('foo'));
+			->willReturn('foo');
+		$user
+			->method('getDisplayName')
+			->willReturn('John Doe');
+		$user
+			->method('getEmailAddress')
+			->willReturn('abc@example.org');
 		$user
 			->expects($this->once())
 			->method('getBackendClassName')
-			->will($this->returnValue('bar'));
+			->willReturn('bar');
 
 		$this->userManager
 			->expects($this->once())
@@ -2310,11 +2347,6 @@ class UsersControllerTest extends \Test\TestCase {
 				ISecureRandom::CHAR_LOWER .
 				ISecureRandom::CHAR_UPPER)
 			->will($this->returnValue('mytoken'));
-		$this->urlGenerator
-			->expects($this->once())
-			->method('linkToRouteAbsolute')
-			->with('core.lost.resetform', ['userId' => 'foo', 'token' => 'mytoken'])
-			->will($this->returnValue('link-with-my-token'));
 
 		$controller = $this->getController(true);
 		$message = $this->getMockBuilder('\OC\Mail\Message')
@@ -2326,26 +2358,56 @@ class UsersControllerTest extends \Test\TestCase {
 		$message
 			->expects($this->at(1))
 			->method('setSubject')
-			->with('Your  account was created');
+			->with('Your Nextcloud account was created');
+
+		$this->urlGenerator
+			->expects($this->at(0))
+			->method('linkToRouteAbsolute')
+			->with('core.lost.resetform', ['userId' => 'foo', 'token' => 'mytoken'])
+			->will($this->returnValue('https://example.org/resetPassword/123'));
+		$this->urlGenerator
+			->expects($this->at(1))
+			->method('imagePath')
+			->with('', 'logo-mail-header.png')
+			->willReturn('/img/logo-mail-header.png');
+		$this->urlGenerator
+			->expects($this->at(2))
+			->method('getAbsoluteURL')
+			->with('/img/logo-mail-header.png')
+			->willReturn('https://example.org/img/logo-mail-header.png');
+		$this->urlGenerator
+			->expects($this->at(3))
+			->method('imagePath')
+			->with('', 'logo-mail-footer.png')
+			->willReturn('/img/logo-mail-footer.png');
+		$this->urlGenerator
+			->expects($this->at(4))
+			->method('getAbsoluteURL')
+			->with('/img/logo-mail-footer.png')
+			->willReturn('https://example.org/img/logo-mail-footer.png');
+		$this->defaults
+			->expects($this->any())
+			->method('getName')
+			->willReturn('Nextcloud');
+		$this->defaults
+			->expects($this->any())
+			->method('getSlogan')
+			->willReturn('A safe home for your data');
 
 		$emailTemplate = new EMailTemplate($this->defaults);
-
 		$emailTemplate->addHeader('https://example.org/img/logo-mail-header.png');
-
-		$emailTemplate->addHeading('Welcome aboard');
+		$emailTemplate->addHeading('Welcome aboard John Doe');
 		$emailTemplate->addBodyText('You have now an Nextcloud account, you can add, protect, and share your data.');
 		$emailTemplate->addBodyText('Your username is: foo');
-
-
 		$emailTemplate->addBodyButtonGroup(
-			'Go to Nextcloud', 'https://example.org/resetPassword/123',
+			'Set your password', 'https://example.org/resetPassword/123',
 			'Install Client', 'https://nextcloud.com/install/#install-clients'
 		);
-
 		$emailTemplate->addFooter(
 			'https://example.org/img/logo-mail-footer.png',
-			'TestCloud - A safe home for your data<br>This is an automatically generated email, please do not reply.'
+			'Nextcloud - A safe home for your data<br>This is an automatically generated email, please do not reply.'
 		);
+
 		$message
 			->expects($this->at(2))
 			->method('setHtmlBody')
@@ -2357,7 +2419,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$message
 			->expects($this->at(4))
 			->method('setFrom')
-			->with(['no-reply@owncloud.com' => null]);
+			->with(['no-reply@nextcloud.com' => 'Nextcloud']);
 
 		$this->mailer
 			->expects($this->at(0))
@@ -2374,19 +2436,19 @@ class UsersControllerTest extends \Test\TestCase {
 			->with($message);
 
 		$expectedResponse = new DataResponse(
-			array(
+			[
 				'name' => 'foo',
 				'groups' => null,
 				'storageLocation' => '/home/user',
 				'backend' => 'bar',
-				'lastLogin' => null,
-				'displayname' => null,
+				'lastLogin' => 0,
+				'displayname' => 'John Doe',
 				'quota' => null,
 				'subadmin' => array(),
-				'email' => null,
+				'email' => 'abc@example.org',
 				'isRestoreDisabled' => false,
 				'isAvatarAvailable' => true,
-			),
+			],
 			Http::STATUS_CREATED
 		);
 		$response = $controller->create('foo', '', array(), 'abc@example.org');
