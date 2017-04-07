@@ -24,51 +24,113 @@
 namespace Test\Mail;
 
 use OC\Mail\EMailTemplate;
-use OC_Defaults;
+use OCA\Theming\ThemingDefaults;
+use OCP\IL10N;
+use OCP\IURLGenerator;
 use Test\TestCase;
 
 class EMailTemplateTest extends TestCase {
-	/** @var OC_Defaults */
+	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
 	private $defaults;
+	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	private $urlGenerator;
+	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	private $l10n;
+	/** @var EMailTemplate */
+	private $emailTemplate;
 
-	function setUp() {
+	public function setUp() {
 		parent::setUp();
 
-		$this->defaults = $this->getMockBuilder('\OC_Defaults')
-			->disableOriginalConstructor()->getMock();
+		$this->defaults = $this->createMock(ThemingDefaults::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->l10n = $this->createMock(IL10N::class);
 
+		$this->emailTemplate = new EMailTemplate(
+			$this->defaults,
+			$this->urlGenerator,
+			$this->l10n
+		);
+	}
+
+	public function testEMailTemplateCustomFooter() {
 		$this->defaults
 			->expects($this->any())
 			->method('getColorPrimary')
 			->willReturn('#0082c9');
-	}
+		$this->defaults
+			->expects($this->any())
+			->method('getLogo')
+			->willReturn('/img/logo-mail-header.png');
+		$this->defaults
+			->expects($this->any())
+			->method('getCacheBusterCounter')
+			->willReturn('48');
+		$this->urlGenerator
+			->expects($this->once())
+			->method('getAbsoluteURL')
+			->with('/img/logo-mail-header.png')
+			->willReturn('https://example.org/img/logo-mail-header.png');
 
-	public function testEMailTemplate() {
-		$emailTemplate = new EMailTemplate($this->defaults);
-
-		$emailTemplate->addHeader('https://example.org/img/logo-mail-header.png');
-
-		$emailTemplate->addHeading('Welcome aboard');
-		$emailTemplate->addBodyText('You have now an Nextcloud account, you can add, protect, and share your data.');
-		$emailTemplate->addBodyText('Your username is: abc');
-
-
-		$emailTemplate->addBodyButtonGroup(
+		$this->emailTemplate->addHeader();
+		$this->emailTemplate->addHeading('Welcome aboard');
+		$this->emailTemplate->addBodyText('You have now an Nextcloud account, you can add, protect, and share your data.');
+		$this->emailTemplate->addBodyText('Your username is: abc');
+		$this->emailTemplate->addBodyButtonGroup(
 			'Set your password', 'https://example.org/resetPassword/123',
 			'Install Client', 'https://nextcloud.com/install/#install-clients'
 		);
-
-		$emailTemplate->addFooter(
-			'https://example.org/img/logo-mail-footer.png',
+		$this->emailTemplate->addFooter(
 			'TestCloud - A safe home for your data<br>This is an automatically generated email, please do not reply.'
 		);
 
 		$expectedHTML = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email.html');
-		$this->assertSame($expectedHTML, $emailTemplate->renderHTML());
-
-
+		$this->assertSame($expectedHTML, $this->emailTemplate->renderHTML());
 		$expectedTXT = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email.txt');
-		$this->assertSame($expectedTXT, $emailTemplate->renderText());
+		$this->assertSame($expectedTXT, $this->emailTemplate->renderText());
+	}
+
+	public function testEMailTemplateDefaultFooter() {
+		$this->defaults
+			->expects($this->any())
+			->method('getColorPrimary')
+			->willReturn('#0082c9');
+		$this->defaults
+			->expects($this->any())
+			->method('getName')
+			->willReturn('TestCloud');
+		$this->defaults
+			->expects($this->any())
+			->method('getSlogan')
+			->willReturn('A safe home for your data');
+		$this->defaults
+			->expects($this->any())
+			->method('getLogo')
+			->willReturn('/img/logo-mail-header.png');
+		$this->defaults
+			->expects($this->any())
+			->method('getCacheBusterCounter')
+			->willReturn('48');
+		$this->urlGenerator
+			->expects($this->once())
+			->method('getAbsoluteURL')
+			->with('/img/logo-mail-header.png')
+			->willReturn('https://example.org/img/logo-mail-header.png');
+
+		$this->emailTemplate->addHeader();
+		$this->emailTemplate->addHeading('Welcome aboard');
+		$this->emailTemplate->addBodyText('You have now an Nextcloud account, you can add, protect, and share your data.');
+		$this->emailTemplate->addBodyText('Your username is: abc');
+		$this->emailTemplate->addBodyButtonGroup(
+			'Set your password', 'https://example.org/resetPassword/123',
+			'Install Client', 'https://nextcloud.com/install/#install-clients'
+		);
+		$this->emailTemplate->addFooter();
+
+		$expectedHTML = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email-custom.html');
+		$this->assertSame($expectedHTML, $this->emailTemplate->renderHTML());
+		$expectedTXT = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email-custom.txt');
+		$this->assertSame($expectedTXT, $this->emailTemplate->renderText());
 	}
 
 

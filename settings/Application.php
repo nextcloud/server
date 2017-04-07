@@ -35,7 +35,10 @@ use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Token\IProvider;
 use OC\Server;
+use OC\ServerContainer;
+use OC\Settings\Mailer\NewUserMailHelper;
 use OC\Settings\Middleware\SubadminMiddleware;
+use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\App;
 use OCP\IContainer;
 use OCP\Settings\IManager;
@@ -75,9 +78,6 @@ class Application extends App {
 			}
 			return $isSubAdmin;
 		});
-		$container->registerService('fromMailAddress', function() {
-			return Util::getDefaultEmailAddress('no-reply');
-		});
 		$container->registerService('userCertificateManager', function(IContainer $c) {
 			return $c->query('ServerContainer')->getCertificateManager();
 		}, false);
@@ -89,6 +89,23 @@ class Application extends App {
 		});
 		$container->registerService(IManager::class, function (IContainer $c) {
 			return $c->query('ServerContainer')->getSettingsManager();
+		});
+
+		$container->registerService(NewUserMailHelper::class, function (IContainer $c) {
+			/** @var Server $server */
+			$server = $c->query('ServerContainer');
+
+			return new NewUserMailHelper(
+				$server->getThemingDefaults(),
+				$server->getURLGenerator(),
+				$server->getL10N('settings'),
+				$server->getMailer(),
+				$server->getSecureRandom(),
+				new TimeFactory(),
+				$server->getConfig(),
+				$server->getCrypto(),
+				Util::getDefaultEmailAddress('no-reply')
+			);
 		});
 		$container->registerService(AppFetcher::class, function (IContainer $c) {
 			/** @var Server $server */

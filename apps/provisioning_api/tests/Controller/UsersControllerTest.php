@@ -32,6 +32,8 @@ namespace OCA\Provisioning_API\Tests\Controller;
 use Exception;
 use OC\Accounts\AccountManager;
 use OC\Group\Manager;
+use OC\Mail\IEMailTemplate;
+use OC\Settings\Mailer\NewUserMailHelper;
 use OC\SubAdmin;
 use OCA\Provisioning_API\Controller\UsersController;
 use OCP\AppFramework\Http\DataResponse;
@@ -54,39 +56,30 @@ class UsersControllerTest extends TestCase {
 
 	/** @var IUserManager|PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
-
 	/** @var IConfig|PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
-
 	/** @var Manager|PHPUnit_Framework_MockObject_MockObject */
 	protected $groupManager;
-
 	/** @var IUserSession|PHPUnit_Framework_MockObject_MockObject */
 	protected $userSession;
-
 	/** @var ILogger|PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
-
 	/** @var UsersController|PHPUnit_Framework_MockObject_MockObject */
 	protected $api;
-
 	/** @var  AccountManager|PHPUnit_Framework_MockObject_MockObject */
 	protected $accountManager;
-
 	/** @var  IRequest|PHPUnit_Framework_MockObject_MockObject */
 	protected $request;
-
-	/** @var IURLGenerator | PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
-
-	/** @var IMailer | PHPUnit_Framework_MockObject_MockObject */
+	/** @var IMailer|PHPUnit_Framework_MockObject_MockObject */
 	private $mailer;
-
-	/** @var \OC_Defaults | PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC_Defaults|PHPUnit_Framework_MockObject_MockObject */
 	private $defaults;
-
-	/** @var IFactory | PHPUnit_Framework_MockObject_MockObject */
+	/** @var IFactory|PHPUnit_Framework_MockObject_MockObject */
 	private $l10nFactory;
+	/** @var NewUserMailHelper|PHPUnit_Framework_MockObject_MockObject */
+	private $newUserMailHelper;
 
 	protected function setUp() {
 		parent::setUp();
@@ -102,6 +95,7 @@ class UsersControllerTest extends TestCase {
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->defaults = $this->createMock(\OC_Defaults::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
+		$this->newUserMailHelper = $this->createMock(NewUserMailHelper::class);
 
 		$this->api = $this->getMockBuilder(UsersController::class)
 			->setConstructorArgs([
@@ -117,7 +111,8 @@ class UsersControllerTest extends TestCase {
 				$this->urlGenerator,
 				$this->mailer,
 				$this->defaults,
-				$this->l10nFactory
+				$this->l10nFactory,
+				$this->newUserMailHelper
 			])
 			->setMethods(['fillStorageInfo'])
 			->getMock();
@@ -2621,7 +2616,8 @@ class UsersControllerTest extends TestCase {
 				$this->urlGenerator,
 				$this->mailer,
 				$this->defaults,
-				$this->l10nFactory
+				$this->l10nFactory,
+				$this->newUserMailHelper
 			])
 			->setMethods(['getUserData'])
 			->getMock();
@@ -2684,7 +2680,8 @@ class UsersControllerTest extends TestCase {
 				$this->urlGenerator,
 				$this->mailer,
 				$this->defaults,
-				$this->l10nFactory
+				$this->l10nFactory,
+				$this->newUserMailHelper
 			])
 			->setMethods(['getUserData'])
 			->getMock();
@@ -2884,56 +2881,6 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getEmailAddress')
 			->will($this->returnValue('abc@example.org'));
-		$message = $this->getMockBuilder('\OC\Mail\Message')
-			->disableOriginalConstructor()->getMock();
-		$message
-			->expects($this->at(0))
-			->method('setTo')
-			->with(['abc@example.org' => 'user-id']);
-		$message
-			->expects($this->at(1))
-			->method('setSubject')
-			->with('Your  account was created');
-		$htmlBody = new TemplateResponse(
-			'settings',
-			'email.new_user',
-			[
-				'username' => 'user-id',
-				'url' => null,
-			],
-			'blank'
-		);
-		$message
-			->expects($this->at(2))
-			->method('setHtmlBody')
-			->with($htmlBody->render());
-		$plainBody = new TemplateResponse(
-			'settings',
-			'email.new_user_plain_text',
-			[
-				'username' => 'user-id',
-				'url' => null,
-			],
-			'blank'
-		);
-		$message
-			->expects($this->at(3))
-			->method('setPlainBody')
-			->with($plainBody->render());
-		$message
-			->expects($this->at(4))
-			->method('setFrom')
-			->with(['test@example.org' => null]);
-
-		$this->mailer
-			->expects($this->at(0))
-			->method('createMessage')
-			->will($this->returnValue($message));
-		$this->mailer
-			->expects($this->at(1))
-			->method('send')
-			->with($message);
-
 		$this->config
 			->expects($this->at(0))
 			->method('getUserValue')
@@ -2942,11 +2889,6 @@ class UsersControllerTest extends TestCase {
 		$l10n = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$l10n
-			->expects($this->at(0))
-			->method('t')
-			->with('Your %s account was created', [null])
-			->willReturn('Your  account was created');
 		$this->l10nFactory
 			->expects($this->at(0))
 			->method('languageExists')
@@ -2957,6 +2899,19 @@ class UsersControllerTest extends TestCase {
 			->method('get')
 			->with('settings', 'es')
 			->willReturn($l10n);
+		$emailTemplate = $this->createMock(IEMailTemplate::class);
+		$this->newUserMailHelper
+			->expects($this->at(0))
+			->method('setL10N')
+			->willReturn($l10n);
+		$this->newUserMailHelper
+			->expects($this->at(1))
+			->method('generateTemplate')
+			->willReturn($emailTemplate);
+		$this->newUserMailHelper
+			->expects($this->at(2))
+			->method('sendMail')
+			->with($targetUser, $emailTemplate);
 
 		$this->api->resendWelcomeMessage('UserToGet');
 	}
@@ -2996,56 +2951,6 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getEmailAddress')
 			->will($this->returnValue('abc@example.org'));
-		$message = $this->getMockBuilder('\OC\Mail\Message')
-			->disableOriginalConstructor()->getMock();
-		$message
-			->expects($this->at(0))
-			->method('setTo')
-			->with(['abc@example.org' => 'user-id']);
-		$message
-			->expects($this->at(1))
-			->method('setSubject')
-			->with('Your  account was created');
-		$htmlBody = new TemplateResponse(
-			'settings',
-			'email.new_user',
-			[
-				'username' => 'user-id',
-				'url' => null,
-			],
-			'blank'
-		);
-		$message
-			->expects($this->at(2))
-			->method('setHtmlBody')
-			->with($htmlBody->render());
-		$plainBody = new TemplateResponse(
-			'settings',
-			'email.new_user_plain_text',
-			[
-				'username' => 'user-id',
-				'url' => null,
-			],
-			'blank'
-		);
-		$message
-			->expects($this->at(3))
-			->method('setPlainBody')
-			->with($plainBody->render());
-		$message
-			->expects($this->at(4))
-			->method('setFrom')
-			->with(['test@example.org' => null]);
-
-		$this->mailer
-			->expects($this->at(0))
-			->method('createMessage')
-			->will($this->returnValue($message));
-		$this->mailer
-			->expects($this->at(1))
-			->method('send')
-			->with($message);
-
 		$this->config
 			->expects($this->at(0))
 			->method('getUserValue')
@@ -3054,11 +2959,6 @@ class UsersControllerTest extends TestCase {
 		$l10n = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$l10n
-			->expects($this->at(0))
-			->method('t')
-			->with('Your %s account was created', [null])
-			->willReturn('Your  account was created');
 		$this->l10nFactory
 			->expects($this->at(0))
 			->method('languageExists')
@@ -3069,6 +2969,19 @@ class UsersControllerTest extends TestCase {
 			->method('get')
 			->with('settings', 'en')
 			->willReturn($l10n);
+		$emailTemplate = $this->createMock(IEMailTemplate::class);
+		$this->newUserMailHelper
+			->expects($this->at(0))
+			->method('setL10N')
+			->willReturn($l10n);
+		$this->newUserMailHelper
+			->expects($this->at(1))
+			->method('generateTemplate')
+			->willReturn($emailTemplate);
+		$this->newUserMailHelper
+			->expects($this->at(2))
+			->method('sendMail')
+			->with($targetUser, $emailTemplate);
 
 		$this->api->resendWelcomeMessage('UserToGet');
 	}
@@ -3113,56 +3026,6 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getEmailAddress')
 			->will($this->returnValue('abc@example.org'));
-		$message = $this->getMockBuilder('\OC\Mail\Message')
-			->disableOriginalConstructor()->getMock();
-		$message
-			->expects($this->at(0))
-			->method('setTo')
-			->with(['abc@example.org' => 'user-id']);
-		$message
-			->expects($this->at(1))
-			->method('setSubject')
-			->with('Your  account was created');
-		$htmlBody = new TemplateResponse(
-			'settings',
-			'email.new_user',
-			[
-				'username' => 'user-id',
-				'url' => null,
-			],
-			'blank'
-		);
-		$message
-			->expects($this->at(2))
-			->method('setHtmlBody')
-			->with($htmlBody->render());
-		$plainBody = new TemplateResponse(
-			'settings',
-			'email.new_user_plain_text',
-			[
-				'username' => 'user-id',
-				'url' => null,
-			],
-			'blank'
-		);
-		$message
-			->expects($this->at(3))
-			->method('setPlainBody')
-			->with($plainBody->render());
-		$message
-			->expects($this->at(4))
-			->method('setFrom')
-			->with(['test@example.org' => null]);
-
-		$this->mailer
-			->expects($this->at(0))
-			->method('createMessage')
-			->will($this->returnValue($message));
-		$this->mailer
-			->expects($this->at(1))
-			->method('send')
-			->will($this->throwException(new \Exception()));
-
 		$this->config
 			->expects($this->at(0))
 			->method('getUserValue')
@@ -3171,11 +3034,6 @@ class UsersControllerTest extends TestCase {
 		$l10n = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$l10n
-			->expects($this->at(0))
-			->method('t')
-			->with('Your %s account was created', [null])
-			->willReturn('Your  account was created');
 		$this->l10nFactory
 			->expects($this->at(0))
 			->method('languageExists')
@@ -3186,6 +3044,20 @@ class UsersControllerTest extends TestCase {
 			->method('get')
 			->with('settings', 'es')
 			->willReturn($l10n);
+		$emailTemplate = $this->createMock(IEMailTemplate::class);
+		$this->newUserMailHelper
+			->expects($this->at(0))
+			->method('setL10N')
+			->willReturn($l10n);
+		$this->newUserMailHelper
+			->expects($this->at(1))
+			->method('generateTemplate')
+			->willReturn($emailTemplate);
+		$this->newUserMailHelper
+			->expects($this->at(2))
+			->method('sendMail')
+			->with($targetUser, $emailTemplate)
+			->willThrowException(new \Exception());
 
 		$this->api->resendWelcomeMessage('UserToGet');
 	}

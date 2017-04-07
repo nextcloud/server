@@ -12,8 +12,9 @@ namespace Tests\Settings\Controller;
 
 use OC\Accounts\AccountManager;
 use OC\Group\Manager;
-use OC\Mail\EMailTemplate;
+use OC\Mail\IEMailTemplate;
 use OC\Settings\Controller\UsersController;
+use OC\Settings\Mailer\NewUserMailHelper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -69,6 +70,8 @@ class UsersControllerTest extends \Test\TestCase {
 	private $secureRandom;
 	/** @var ITimeFactory | \PHPUnit_Framework_MockObject_MockObject */
 	private $timeFactory;
+	/** @var NewUserMailHelper|\PHPUnit_Framework_MockObject_MockObject */
+	private $newUserMailHelper;
 	/** @var ICrypto | \PHPUnit_Framework_MockObject_MockObject */
 	private $crypto;
 
@@ -80,7 +83,6 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->logger = $this->createMock(ILogger::class);
-		$this->defaults = $this->createMock(\OC_Defaults::class);
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->appManager = $this->createMock(IAppManager::class);
@@ -89,6 +91,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->crypto = $this->createMock(ICrypto::class);
+		$this->newUserMailHelper = $this->createMock(NewUserMailHelper::class);
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')
 			->will($this->returnCallback(function ($text, $parameters = []) {
@@ -127,16 +130,13 @@ class UsersControllerTest extends \Test\TestCase {
 				$isAdmin,
 				$this->l,
 				$this->logger,
-				$this->defaults,
 				$this->mailer,
-				'no-reply@nextcloud.com',
 				$this->urlGenerator,
 				$this->appManager,
 				$this->avatarManager,
 				$this->accountManager,
 				$this->secureRandom,
-				$this->timeFactory,
-				$this->crypto
+				$this->newUserMailHelper
 			);
 		} else {
 			return $this->getMockBuilder(UsersController::class)
@@ -151,16 +151,13 @@ class UsersControllerTest extends \Test\TestCase {
 						$isAdmin,
 						$this->l,
 						$this->logger,
-						$this->defaults,
 						$this->mailer,
-						'no-reply@nextcloud.com',
 						$this->urlGenerator,
 						$this->appManager,
 						$this->avatarManager,
 						$this->accountManager,
 						$this->secureRandom,
-						$this->timeFactory,
-						$this->crypto
+						$this->newUserMailHelper
 					]
 				)->setMethods($mockedMethods)->getMock();
 		}
@@ -1418,91 +1415,11 @@ class UsersControllerTest extends \Test\TestCase {
 	 */
 	public function testCreateSuccessfulWithValidEmailAdmin() {
 		$controller = $this->getController(true);
-		$message = $this->getMockBuilder('\OC\Mail\Message')
-			->disableOriginalConstructor()->getMock();
-		$message
-			->expects($this->at(0))
-			->method('setTo')
-			->with(['validMail@Adre.ss' => 'foo']);
-		$message
-			->expects($this->at(1))
-			->method('setSubject')
-			->with('Your Nextcloud account was created');
-
-		$this->urlGenerator
-			->expects($this->at(0))
-			->method('getAbsoluteURL')
-			->with('/')
-			->willReturn('https://example.org/');
-		$this->urlGenerator
-			->expects($this->at(1))
-			->method('imagePath')
-			->with('', 'logo-mail-header.png')
-			->willReturn('/img/logo-mail-header.png');
-		$this->urlGenerator
-			->expects($this->at(2))
-			->method('getAbsoluteURL')
-			->with('/img/logo-mail-header.png')
-			->willReturn('https://example.org/img/logo-mail-header.png');
-		$this->urlGenerator
-			->expects($this->at(3))
-			->method('imagePath')
-			->with('', 'logo-mail-footer.png')
-			->willReturn('/img/logo-mail-footer.png');
-		$this->urlGenerator
-			->expects($this->at(4))
-			->method('getAbsoluteURL')
-			->with('/img/logo-mail-footer.png')
-			->willReturn('https://example.org/img/logo-mail-footer.png');
-		$this->defaults
-			->expects($this->any())
-			->method('getName')
-			->willReturn('Nextcloud');
-		$this->defaults
-			->expects($this->any())
-			->method('getSlogan')
-			->willReturn('A safe home for your data');
-
-		$emailTemplate = new EMailTemplate($this->defaults);
-		$emailTemplate->addHeader('https://example.org/img/logo-mail-header.png');
-		$emailTemplate->addHeading('Welcome aboard');
-		$emailTemplate->addBodyText('You have now an Nextcloud account, you can add, protect, and share your data.');
-		$emailTemplate->addBodyText('Your username is: foo');
-		$emailTemplate->addBodyButtonGroup(
-			'Go to Nextcloud', 'https://example.org/',
-			'Install Client', 'https://nextcloud.com/install/#install-clients'
-		);
-		$emailTemplate->addFooter(
-			'https://example.org/img/logo-mail-footer.png',
-			'Nextcloud - A safe home for your data<br>This is an automatically generated email, please do not reply.'
-		);
-
-		$message
-			->expects($this->at(2))
-			->method('setHtmlBody')
-			->with($emailTemplate->renderHTML());
-		$message
-			->expects($this->at(3))
-			->method('setPlainBody')
-			->with($emailTemplate->renderText());
-		$message
-			->expects($this->at(4))
-			->method('setFrom')
-			->with(['no-reply@nextcloud.com' => 'Nextcloud']);
-
 		$this->mailer
 			->expects($this->at(0))
 			->method('validateMailAddress')
 			->with('validMail@Adre.ss')
 			->will($this->returnValue(true));
-		$this->mailer
-			->expects($this->at(1))
-			->method('createMessage')
-			->will($this->returnValue($message));
-		$this->mailer
-			->expects($this->at(2))
-			->method('send')
-			->with($message);
 
 		$user = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
@@ -1522,6 +1439,17 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getBackendClassName')
 			->will($this->returnValue('bar'));
+
+		$emailTemplate = $this->createMock(IEMailTemplate::class);
+		$this->newUserMailHelper
+			->expects($this->at(0))
+			->method('generateTemplate')
+			->with($user, false)
+			->willReturn($emailTemplate);
+		$this->newUserMailHelper
+			->expects($this->at(1))
+			->method('sendMail')
+			->with($user, $emailTemplate);
 
 		$this->userManager
 			->expects($this->once())
@@ -2334,106 +2262,22 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getSubAdmin')
 			->will($this->returnValue($subadmin));
 
-		$this->secureRandom
-			->expects($this->at(0))
-			->method('generate')
-			->with(32)
-			->will($this->returnValue('abc123'));
-		$this->secureRandom
-			->expects($this->at(1))
-			->method('generate')
-			->with(21,
-				ISecureRandom::CHAR_DIGITS .
-				ISecureRandom::CHAR_LOWER .
-				ISecureRandom::CHAR_UPPER)
-			->will($this->returnValue('mytoken'));
-
 		$controller = $this->getController(true);
-		$message = $this->getMockBuilder('\OC\Mail\Message')
-			->disableOriginalConstructor()->getMock();
-		$message
-			->expects($this->at(0))
-			->method('setTo')
-			->with(['abc@example.org' => 'foo']);
-		$message
-			->expects($this->at(1))
-			->method('setSubject')
-			->with('Your Nextcloud account was created');
-
-		$this->urlGenerator
-			->expects($this->at(0))
-			->method('linkToRouteAbsolute')
-			->with('core.lost.resetform', ['userId' => 'foo', 'token' => 'mytoken'])
-			->will($this->returnValue('https://example.org/resetPassword/123'));
-		$this->urlGenerator
-			->expects($this->at(1))
-			->method('imagePath')
-			->with('', 'logo-mail-header.png')
-			->willReturn('/img/logo-mail-header.png');
-		$this->urlGenerator
-			->expects($this->at(2))
-			->method('getAbsoluteURL')
-			->with('/img/logo-mail-header.png')
-			->willReturn('https://example.org/img/logo-mail-header.png');
-		$this->urlGenerator
-			->expects($this->at(3))
-			->method('imagePath')
-			->with('', 'logo-mail-footer.png')
-			->willReturn('/img/logo-mail-footer.png');
-		$this->urlGenerator
-			->expects($this->at(4))
-			->method('getAbsoluteURL')
-			->with('/img/logo-mail-footer.png')
-			->willReturn('https://example.org/img/logo-mail-footer.png');
-		$this->defaults
-			->expects($this->any())
-			->method('getName')
-			->willReturn('Nextcloud');
-		$this->defaults
-			->expects($this->any())
-			->method('getSlogan')
-			->willReturn('A safe home for your data');
-
-		$emailTemplate = new EMailTemplate($this->defaults);
-		$emailTemplate->addHeader('https://example.org/img/logo-mail-header.png');
-		$emailTemplate->addHeading('Welcome aboard John Doe');
-		$emailTemplate->addBodyText('You have now an Nextcloud account, you can add, protect, and share your data.');
-		$emailTemplate->addBodyText('Your username is: foo');
-		$emailTemplate->addBodyButtonGroup(
-			'Set your password', 'https://example.org/resetPassword/123',
-			'Install Client', 'https://nextcloud.com/install/#install-clients'
-		);
-		$emailTemplate->addFooter(
-			'https://example.org/img/logo-mail-footer.png',
-			'Nextcloud - A safe home for your data<br>This is an automatically generated email, please do not reply.'
-		);
-
-		$message
-			->expects($this->at(2))
-			->method('setHtmlBody')
-			->with($emailTemplate->renderHTML());
-		$message
-			->expects($this->at(3))
-			->method('setPlainBody')
-			->with($emailTemplate->renderText());
-		$message
-			->expects($this->at(4))
-			->method('setFrom')
-			->with(['no-reply@nextcloud.com' => 'Nextcloud']);
-
 		$this->mailer
 			->expects($this->at(0))
 			->method('validateMailAddress')
 			->with('abc@example.org')
 			->will($this->returnValue(true));
-		$this->mailer
+		$emailTemplate = $this->createMock(IEMailTemplate::class);
+		$this->newUserMailHelper
+			->expects($this->at(0))
+			->method('generateTemplate')
+			->with($user, true)
+			->willReturn($emailTemplate);
+		$this->newUserMailHelper
 			->expects($this->at(1))
-			->method('createMessage')
-			->will($this->returnValue($message));
-		$this->mailer
-			->expects($this->at(2))
-			->method('send')
-			->with($message);
+			->method('sendMail')
+			->with($user, $emailTemplate);
 
 		$expectedResponse = new DataResponse(
 			[

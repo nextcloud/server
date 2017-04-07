@@ -33,12 +33,10 @@ namespace OC\Settings\Controller;
 use OC\Accounts\AccountManager;
 use OC\AppFramework\Http;
 use OC\ForbiddenException;
-use OC\Mail\EMailTemplate;
-use OC\User\User;
+use OC\Settings\Mailer\NewUserMailHelper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -50,9 +48,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
 use OCP\IAvatarManager;
-use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
-use OCP\AppFramework\Utility\ITimeFactory;
 
 /**
  * @package OC\Settings\Controller
@@ -72,14 +68,8 @@ class UsersController extends Controller {
 	private $config;
 	/** @var ILogger */
 	private $log;
-	/** @var \OC_Defaults */
-	private $defaults;
 	/** @var IMailer */
 	private $mailer;
-	/** @var string */
-	private $fromMailAddress;
-	/** @var IURLGenerator */
-	private $urlGenerator;
 	/** @var bool contains the state of the encryption app */
 	private $isEncryptionAppEnabled;
 	/** @var bool contains the state of the admin recovery setting */
@@ -90,11 +80,8 @@ class UsersController extends Controller {
 	private $accountManager;
 	/** @var ISecureRandom */
 	private $secureRandom;
-	/** @var ITimeFactory */
-	private $timeFactory;
-	/** @var ICrypto */
-	private $crypto;
-
+	/** @var NewUserMailHelper */
+	private $newUserMailHelper;
 
 	/**
 	 * @param string $appName
@@ -106,16 +93,13 @@ class UsersController extends Controller {
 	 * @param bool $isAdmin
 	 * @param IL10N $l10n
 	 * @param ILogger $log
-	 * @param \OC_Defaults $defaults
 	 * @param IMailer $mailer
-	 * @param string $fromMailAddress
 	 * @param IURLGenerator $urlGenerator
 	 * @param IAppManager $appManager
 	 * @param IAvatarManager $avatarManager
 	 * @param AccountManager $accountManager
 	 * @param ISecureRandom $secureRandom
-	 * @param ITimeFactory $timeFactory
-	 * @param ICrypto $crypto
+	 * @param NewUserMailHelper $newUserMailHelper
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -126,16 +110,13 @@ class UsersController extends Controller {
 								$isAdmin,
 								IL10N $l10n,
 								ILogger $log,
-								\OC_Defaults $defaults,
 								IMailer $mailer,
-								$fromMailAddress,
 								IURLGenerator $urlGenerator,
 								IAppManager $appManager,
 								IAvatarManager $avatarManager,
 								AccountManager $accountManager,
 								ISecureRandom $secureRandom,
-								ITimeFactory $timeFactory,
-								ICrypto $crypto) {
+								NewUserMailHelper $newUserMailHelper) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -144,15 +125,11 @@ class UsersController extends Controller {
 		$this->isAdmin = $isAdmin;
 		$this->l10n = $l10n;
 		$this->log = $log;
-		$this->defaults = $defaults;
 		$this->mailer = $mailer;
-		$this->fromMailAddress = $fromMailAddress;
-		$this->urlGenerator = $urlGenerator;
 		$this->avatarManager = $avatarManager;
 		$this->accountManager = $accountManager;
 		$this->secureRandom = $secureRandom;
-		$this->timeFactory = $timeFactory;
-		$this->crypto = $crypto;
+		$this->newUserMailHelper = $newUserMailHelper;
 
 		// check for encryption state - TODO see formatUserForIndex
 		$this->isEncryptionAppEnabled = $appManager->isEnabledForUser('encryption');
@@ -380,7 +357,7 @@ class UsersController extends Controller {
 			);
 		}
 
-		$generatedPassword = false;
+		$generatePasswordResetToken = false;
 		if ($password === '') {
 			if ($email === '') {
 				return new DataResponse(
@@ -392,7 +369,7 @@ class UsersController extends Controller {
 			}
 
 			$password = $this->secureRandom->generate(32);
-			$generatedPassword = true;
+			$generatePasswordResetToken = true;
 		}
 
 		try {
@@ -426,68 +403,9 @@ class UsersController extends Controller {
 			 */
 			if($email !== '') {
 				$user->setEMailAddress($email);
-
-				if ($generatedPassword) {
-					$token = $this->secureRandom->generate(
-						21,
-						ISecureRandom::CHAR_DIGITS .
-						ISecureRandom::CHAR_LOWER .
-						ISecureRandom::CHAR_UPPER
-					);
-					$tokenValue = $this->timeFactory->getTime() . ':' . $token;
-					$mailAddress = !is_null($user->getEMailAddress()) ? $user->getEMailAddress() : '';
-					$encryptedValue = $this->crypto->encrypt($tokenValue, $mailAddress . $this->config->getSystemValue('secret'));
-					$this->config->setUserValue($username, 'core', 'lostpassword', $encryptedValue);
-
-					$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', ['userId' => $username, 'token' => $token]);
-				} else {
-					$link = $this->urlGenerator->getAbsoluteURL('/');
-				}
-
-				$emailTemplate = new EMailTemplate($this->defaults);
-
-				$emailTemplate->addHeader($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('', 'logo-mail-header.png')));
-
-				$displayName = $user->getDisplayName();
-				if ($displayName === $username) {
-					$emailTemplate->addHeading($this->l10n->t('Welcome aboard'));
-				} else {
-					$emailTemplate->addHeading($this->l10n->t('Welcome aboard %s', [$displayName]));
-				}
-				$emailTemplate->addBodyText($this->l10n->t('You have now an %s account, you can add, protect, and share your data.', [$this->defaults->getName()]));
-				$emailTemplate->addBodyText($this->l10n->t('Your username is: %s', [$username]));
-
-				if ($generatedPassword) {
-					$leftButtonText = $this->l10n->t('Set your password');
-				} else {
-					$leftButtonText = $this->l10n->t('Go to %s', [$this->defaults->getName()]);
-				}
-
-				$emailTemplate->addBodyButtonGroup(
-					$leftButtonText,
-					$link,
-					$this->l10n->t('Install Client'),
-					'https://nextcloud.com/install/#install-clients'
-				);
-
-				$emailTemplate->addFooter(
-					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('', 'logo-mail-footer.png')),
-					$this->defaults->getName() . ' - ' . $this->defaults->getSlogan() . '<br>' . $this->l10n->t('This is an automatically generated email, please do not reply.')
-				);
-
-				$mailContent = $emailTemplate->renderHTML();
-				$plainTextMailContent = $emailTemplate->renderText();
-
-				$subject = $this->l10n->t('Your %s account was created', [$this->defaults->getName()]);
-
 				try {
-					$message = $this->mailer->createMessage();
-					$message->setTo([$email => $username]);
-					$message->setSubject($subject);
-					$message->setHtmlBody($mailContent);
-					$message->setPlainBody($plainTextMailContent);
-					$message->setFrom([$this->fromMailAddress => $this->defaults->getName()]);
-					$this->mailer->send($message);
+					$emailTemplate = $this->newUserMailHelper->generateTemplate($user, $generatePasswordResetToken);
+					$this->newUserMailHelper->sendMail($user, $emailTemplate);
 				} catch(\Exception $e) {
 					$this->log->error("Can't send new user mail to $email: " . $e->getMessage(), array('app' => 'settings'));
 				}

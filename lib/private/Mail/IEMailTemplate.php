@@ -34,7 +34,7 @@ namespace OC\Mail;
  *
  * $emailTemplate = new EMailTemplate($this->defaults);
  *
- * $emailTemplate->addHeader('https://example.org/img/logo-mail-header.png');
+ * $emailTemplate->addHeader();
  * $emailTemplate->addHeading('Welcome aboard');
  * $emailTemplate->addBodyText('You have now an Nextcloud account, you can add, protect, and share your data.');
  *
@@ -43,21 +43,25 @@ namespace OC\Mail;
  *     'Install Client', 'https://nextcloud.com/install/#install-clients'
  * );
  *
- * $emailTemplate->addFooter(
- *     'https://example.org/img/logo-mail-footer.png',
- *     'Nextcloud - a safe home for your data <br>This is an automatically generated email, please do not reply.'
- * );
+ * $emailTemplate->addFooter('Optional footer text');
  *
  * $htmlContent = $emailTemplate->renderHTML();
  * $plainContent = $emailTemplate->renderText();
  */
 interface IEMailTemplate {
 	/**
-	 * Adds a header to the email
-	 *
-	 * @param string $logoUrl
+	 * @param \OCA\Theming\ThemingDefaults $themingDefaults
+	 * @param \OCP\IURLGenerator $urlGenerator
+	 * @param \OCP\IL10N $l10n
 	 */
-	public function addHeader($logoUrl);
+	public function __construct(\OCA\Theming\ThemingDefaults $themingDefaults,
+								\OCP\IURLGenerator $urlGenerator,
+								\OCP\IL10N $l10n);
+
+	/**
+	 * Adds a header to the email
+	 */
+	public function addHeader();
 
 	/**
 	 * Adds a heading to the email
@@ -86,10 +90,9 @@ interface IEMailTemplate {
 	/**
 	 * Adds a logo and a text to the footer. <br> in the text will be replaced by new lines in the plain text email
 	 *
-	 * @param string $logoUrl
 	 * @param string $text
 	 */
-	public function addFooter($logoUrl, $text);
+	public function addFooter($text = '');
 
 	/**
 	 * Returns the rendered HTML email as string
