@@ -136,9 +136,6 @@ try {
 		throw new RemoteException('Path not found', OC_Response::STATUS_NOT_FOUND);
 	}
 
-	// force language as given in the http request
-	\OC::$server->getL10NFactory()->setLanguageFromRequest();
-
 	$file=ltrim($file, '/');
 
 	$parts=explode('/', $file, 2);
