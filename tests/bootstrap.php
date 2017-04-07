@@ -19,3 +19,5 @@ if (!class_exists('PHPUnit_Framework_TestCase')) {
 }
 
 OC_Hook::clear();
+
+set_include_path(get_include_path() . PATH_SEPARATOR . '/usr/share/php');

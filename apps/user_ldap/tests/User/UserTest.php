@@ -1263,16 +1263,22 @@ class UserTest extends \Test\TestCase {
 			}));
 
 		$access->expects($this->any())
-			->method('readAttribute')
-			->will($this->returnCallback(function($dn, $attr) {
-				if($attr === 'pwdchangedtime') {
-					return array((new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis').'Z');
+			->method('search')
+			->will($this->returnCallback(function($filter, $base) {
+				if($base === 'uid=alice') {
+					return array(
+						array(
+							'pwdchangedtime' => array((new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis').'Z'),
+						),
+					);
 				}
-				if($dn === 'cn=default,ou=policies,dc=foo,dc=bar' && $attr === 'pwdmaxage') {
-					return array('2592000');
-				}
-				if($dn === 'cn=default,ou=policies,dc=foo,dc=bar' && $attr === 'pwdexpirewarning') {
-					return array('2591999');
+				if($base === 'cn=default,ou=policies,dc=foo,dc=bar') {
+					return array(
+						array(
+							'pwdmaxage' => array('2592000'),
+							'pwdexpirewarning' => array('2591999'),
+						),
+					);
 				}
 				return array();
 			}));
@@ -1329,19 +1335,23 @@ class UserTest extends \Test\TestCase {
 			}));
 
 		$access->expects($this->any())
-			->method('readAttribute')
-			->will($this->returnCallback(function($dn, $attr) {
-				if($attr === 'pwdpolicysubentry') {
-					return array('cn=custom,ou=policies,dc=foo,dc=bar');
+			->method('search')
+			->will($this->returnCallback(function($filter, $base) {
+				if($base === 'uid=alice') {
+					return array(
+						array(
+							'pwdpolicysubentry' => array('cn=custom,ou=policies,dc=foo,dc=bar'),
+							'pwdchangedtime' => array((new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis').'Z'),
+						)
+					);
 				}
-				if($attr === 'pwdchangedtime') {
-					return array((new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis').'Z');
-				}
-				if($dn === 'cn=custom,ou=policies,dc=foo,dc=bar' && $attr === 'pwdmaxage') {
-					return array('2592000');
-				}
-				if($dn === 'cn=custom,ou=policies,dc=foo,dc=bar' && $attr === 'pwdexpirewarning') {
-					return array('2591999');
+				if($base === 'cn=custom,ou=policies,dc=foo,dc=bar') {
+					return array(
+						array(
+							'pwdmaxage' => array('2592000'),
+							'pwdexpirewarning' => array('2591999'),
+						)
+					);
 				}
 				return array();
 			}));
