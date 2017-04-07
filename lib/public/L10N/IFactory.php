@@ -62,14 +62,6 @@ interface IFactory {
 	public function languageExists($app, $lang);
 
 	/**
-	 * @param string|null $app App id or null for core
-	 * @return string
-	 * @since 9.0.0
-	 */
-	public function setLanguageFromRequest($app = null);
-
-
-	/**
 	 * Creates a function from the plural string
 	 *
 	 * @param string $string

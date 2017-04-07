@@ -54,9 +54,6 @@ try {
 	// load all apps to get all api routes properly setup
 	OC_App::loadApps();
 
-	// force language as given in the http request
-	\OC::$server->getL10NFactory()->setLanguageFromRequest();
-
 	OC::$server->getRouter()->match('/ocs'.\OC::$server->getRequest()->getRawPathInfo());
 	return;
 } catch (ResourceNotFoundException $e) {

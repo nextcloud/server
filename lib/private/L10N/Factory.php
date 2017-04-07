@@ -271,24 +271,6 @@ class Factory implements IFactory {
 	}
 
 	/**
-	 * @param string|null $app App id or null for core
-	 * @return string
-	 */
-	public function setLanguageFromRequest($app = null) {
-
-		try {
-			$requestLanguage = $this->getLanguageFromRequest($app);
-		} catch (LanguageNotFoundException $e) {
-			$requestLanguage = 'en';
-		}
-
-		if ($app === null && !$this->requestLanguage) {
-			$this->requestLanguage = $requestLanguage;
-		}
-		return $requestLanguage;
-	}
-
-	/**
 	 * Checks if $sub is a subdirectory of $parent
 	 *
 	 * @param string $sub
