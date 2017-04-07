@@ -236,7 +236,7 @@
 				isPasswordSet: hasPassword,
 				secureDropMode: !this.model.hasReadPermission(shareIndex),
 				hasExpireDate: this.model.getExpireDate(shareIndex) !== null,
-				expireDate: this.model.getExpireDate(shareIndex),
+				expireDate: moment(this.model.getExpireDate(shareIndex), 'YYYY-MM-DD').format('DD-MM-YYYY'),
 				passwordPlaceholder: hasPassword ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
 			});
 		},
