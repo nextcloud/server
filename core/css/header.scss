@@ -458,20 +458,17 @@ nav {
 
 	li {
 		float: left;
-		display: inline-block;
-		vertical-align: top !important;
-		height: 20px;
-		padding: 12px;
 		cursor: pointer;
 
 		a {
-			opacity: 0.6;
+			position: relative;
+			display: inline-block;
 			margin: 0;
+			padding: 12px;
+			height: 21px;
 			text-align: center;
 			vertical-align: top !important;
-			position: relative;
-			height: 44px;
-			display: inline-block;
+			opacity: .6;
 		}
 	}
 
@@ -504,7 +501,7 @@ nav {
 		color: rgba(0, 0, 0, .6);
 		width: auto;
 		left: 50%;
-		top: 32px;
+		top: 45px;
 		transform: translateX(-50%);
 		padding: 4px 10px;
 		-webkit-filter: drop-shadow(0 0 5px rgba(150, 150, 150, .75));
@@ -531,7 +528,7 @@ nav {
 		border-width: 10px;
 		transform: translateX(-50%);
 		left: 50%;
-		top: 13px;
+		bottom: 0;
 		z-index: 100;
 		display: block;
 	}
