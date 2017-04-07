@@ -338,7 +338,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb->insert('share')
 			->values([
 				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK),
-				'share_with' => $qb->expr()->literal('sharedWith'),
+				'password' => $qb->expr()->literal('password'),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
 				'item_type'   => $qb->expr()->literal('file'),
@@ -366,7 +366,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->assertEquals($id, $share->getId());
 		$this->assertEquals(\OCP\Share::SHARE_TYPE_LINK, $share->getShareType());
-		$this->assertEquals('sharedWith', $share->getPassword());
+		$this->assertNull($share->getSharedWith());
+		$this->assertEquals('password', $share->getPassword());
 		$this->assertEquals('sharedBy', $share->getSharedBy());
 		$this->assertEquals('shareOwner', $share->getShareOwner());
 		$this->assertEquals($ownerPath, $share->getNode());
@@ -752,7 +753,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb->insert('share')
 			->values([
 				'share_type'    => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK),
-				'share_with'    => $qb->expr()->literal('password'),
+				'password'    => $qb->expr()->literal('password'),
 				'uid_owner'     => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
 				'item_type'     => $qb->expr()->literal('file'),
@@ -814,7 +815,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			['home::shareOwner', 'files/test.txt', 'files/test2.txt'],
 			// regular file on external storage
 			['smb::whatever', 'files/test.txt', 'files/test2.txt'],
-			// regular file on external storage in trashbin-like folder, 
+			// regular file on external storage in trashbin-like folder,
 			['smb::whatever', 'files_trashbin/files/test.txt', 'files_trashbin/files/test2.txt'],
 		];
 	}
@@ -2353,9 +2354,11 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$rootFolder
 		);
 
-		$u1 = $userManager->createUser('testShare1', 'test');
-		$u2 = $userManager->createUser('testShare2', 'test');
-		$u3 = $userManager->createUser('testShare3', 'test');
+		$password = md5(time());
+
+		$u1 = $userManager->createUser('testShare1', $password);
+		$u2 = $userManager->createUser('testShare2', $password);
+		$u3 = $userManager->createUser('testShare3', $password);
 
 		$g1 = $groupManager->createGroup('group1');
 

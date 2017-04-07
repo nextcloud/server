@@ -163,6 +163,11 @@ class ShareAPIController extends OCSController {
 		$result['file_parent'] = $node->getParent()->getId();
 		$result['file_target'] = $share->getTarget();
 
+		$expiration = $share->getExpirationDate();
+		if ($expiration !== null) {
+			$result['expiration'] = $expiration->format('Y-m-d 00:00:00');
+		}
+
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			$sharedWith = $this->userManager->get($share->getSharedWith());
 			$result['share_with'] = $share->getSharedWith();
@@ -179,17 +184,13 @@ class ShareAPIController extends OCSController {
 			$result['token'] = $share->getToken();
 			$result['url'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $share->getToken()]);
 
-			$expiration = $share->getExpirationDate();
-			if ($expiration !== null) {
-				$result['expiration'] = $expiration->format('Y-m-d 00:00:00');
-			}
-
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_REMOTE) {
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $this->getDisplayNameFromAddressBook($share->getSharedWith(), 'CLOUD');
 			$result['token'] = $share->getToken();
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
 			$result['share_with'] = $share->getSharedWith();
+			$result['password'] = $share->getPassword();
 			$result['share_with_displayname'] = $this->getDisplayNameFromAddressBook($share->getSharedWith(), 'EMAIL');
 			$result['token'] = $share->getToken();
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_CIRCLE) {
@@ -668,13 +669,14 @@ class ShareAPIController extends OCSController {
 			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
 		}
 
+		if ($permissions === null && $password === null && $publicUpload === null && $expireDate === null) {
+			throw new OCSBadRequestException($this->l->t('Wrong or no update parameter given'));
+		}
+
 		/*
 		 * expirationdate, password and publicUpload only make sense for link shares
 		 */
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
-			if ($permissions === null && $password === null && $publicUpload === null && $expireDate === null) {
-				throw new OCSBadRequestException($this->l->t('Wrong or no update parameter given'));
-			}
 
 			$newPermissions = null;
 			if ($publicUpload === 'true') {
@@ -740,13 +742,30 @@ class ShareAPIController extends OCSController {
 			}
 
 		} else {
-			// For other shares only permissions is valid.
-			if ($permissions === null) {
-				throw new OCSBadRequestException($this->l->t('Wrong or no update parameter given'));
-			} else {
+			if ($permissions !== null) {
 				$permissions = (int)$permissions;
 				$share->setPermissions($permissions);
 			}
+
+			if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+				if ($password === '') {
+					$share->setPassword(null);
+				} else if ($password !== null) {
+					$share->setPassword($password);
+				}
+			}
+
+			if ($expireDate === '') {
+				$share->setExpirationDate(null);
+			} else if ($expireDate !== null) {
+				try {
+					$expireDate = $this->parseDate($expireDate);
+				} catch (\Exception $e) {
+					throw new OCSBadRequestException($e->getMessage());
+				}
+				$share->setExpirationDate($expireDate);
+			}
+
 		}
 
 		if ($permissions !== null && $share->getShareOwner() !== $this->currentUser) {

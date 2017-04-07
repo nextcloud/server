@@ -116,7 +116,7 @@ class DefaultShareProvider implements IShareProvider {
 
 			//If a password is set store it
 			if ($share->getPassword() !== null) {
-				$qb->setValue('share_with', $qb->createNamedParameter($share->getPassword()));
+				$qb->setValue('password', $qb->createNamedParameter($share->getPassword()));
 			}
 
 			//If an expiration date is set store it
@@ -202,6 +202,7 @@ class DefaultShareProvider implements IShareProvider {
 				->set('permissions', $qb->createNamedParameter($share->getPermissions()))
 				->set('item_source', $qb->createNamedParameter($share->getNode()->getId()))
 				->set('file_source', $qb->createNamedParameter($share->getNode()->getId()))
+				->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
 				->execute();
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$qb = $this->dbConn->getQueryBuilder();
@@ -212,6 +213,7 @@ class DefaultShareProvider implements IShareProvider {
 				->set('permissions', $qb->createNamedParameter($share->getPermissions()))
 				->set('item_source', $qb->createNamedParameter($share->getNode()->getId()))
 				->set('file_source', $qb->createNamedParameter($share->getNode()->getId()))
+				->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
 				->execute();
 
 			/*
@@ -224,6 +226,7 @@ class DefaultShareProvider implements IShareProvider {
 				->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()))
 				->set('item_source', $qb->createNamedParameter($share->getNode()->getId()))
 				->set('file_source', $qb->createNamedParameter($share->getNode()->getId()))
+				->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
 				->execute();
 
 			/*
@@ -240,7 +243,7 @@ class DefaultShareProvider implements IShareProvider {
 			$qb = $this->dbConn->getQueryBuilder();
 			$qb->update('share')
 				->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
-				->set('share_with', $qb->createNamedParameter($share->getPassword()))
+				->set('password', $qb->createNamedParameter($share->getPassword()))
 				->set('uid_owner', $qb->createNamedParameter($share->getShareOwner()))
 				->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()))
 				->set('permissions', $qb->createNamedParameter($share->getPermissions()))
@@ -646,7 +649,7 @@ class DefaultShareProvider implements IShareProvider {
 		// exclude shares leading to trashbin on home storages
 		$pathSections = explode('/', $data['path'], 2);
 		// FIXME: would not detect rare md5'd home storage case properly
-		if ($pathSections[0] !== 'files' 
+		if ($pathSections[0] !== 'files'
 		    	&& in_array(explode(':', $data['storage_string_id'], 2)[0], array('home', 'object'))) {
 			return false;
 		}
@@ -838,7 +841,7 @@ class DefaultShareProvider implements IShareProvider {
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$share->setSharedWith($data['share_with']);
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
-			$share->setPassword($data['share_with']);
+			$share->setPassword($data['password']);
 			$share->setToken($data['token']);
 		}
 

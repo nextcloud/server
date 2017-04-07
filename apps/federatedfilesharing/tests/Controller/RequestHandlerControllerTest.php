@@ -67,7 +67,7 @@ class RequestHandlerControllerTest extends TestCase {
 
 	/** @var  \OCA\FederatedFileSharing\AddressHandler|\PHPUnit_Framework_MockObject_MockObject */
 	private $addressHandler;
-	
+
 	/** @var  IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
 
@@ -107,7 +107,7 @@ class RequestHandlerControllerTest extends TestCase {
 		$this->userManager = $this->getMockBuilder('OCP\IUserManager')->getMock();
 
 		$this->cloudIdManager = new CloudIdManager();
-		
+
 		$this->registerHttpHelper($httpHelperMock);
 
 		$this->s2s = new RequestHandlerController(
@@ -384,6 +384,7 @@ class RequestHandlerControllerTest extends TestCase {
 			'parent' => null,
 			'accepted' => '0',
 			'expiration' => null,
+			'password' => null,
 			'mail_send' => '0'
 		];
 

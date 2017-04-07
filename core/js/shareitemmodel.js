@@ -363,6 +363,10 @@
 			return this.get('reshare').share_type;
 		},
 
+		getExpireDate: function(shareIndex) {
+			return this._shareExpireDate(shareIndex);
+		},
+
 		/**
 		 * Returns all share entries that only apply to the current item
 		 * (file/folder)
@@ -449,6 +453,16 @@
 			return (share.permissions & permission) === permission;
 		},
 
+
+		_shareExpireDate: function(shareIndex) {
+			var share = this.get('shares')[shareIndex];
+			if(!_.isObject(share)) {
+				throw "Unknown Share";
+			}
+			var date2 = share.expiration;
+			return date2;
+		},
+
 		/**
 		 * @returns {boolean}
 		 */
@@ -507,6 +521,10 @@
 		 */
 		hasDeletePermission: function(shareIndex) {
 			return this._shareHasPermission(shareIndex, OC.PERMISSION_DELETE);
+		},
+
+		hasReadPermission: function(shareIndex) {
+			return this._shareHasPermission(shareIndex, OC.PERMISSION_READ);
 		},
 
 		/**
@@ -757,7 +775,7 @@
 							isLinkShare: true,
 							id: share.id,
 							token: share.token,
-							password: share.share_with,
+							password: share.password,
 							link: link,
 							permissions: share.permissions,
 							// currently expiration is only effective for link shares.

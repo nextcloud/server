@@ -25,6 +25,7 @@ namespace OCA\Files_Sharing\Tests;
 
 use OCA\Files_Sharing\Capabilities;
 use OCA\Files_Sharing\Tests\TestCase;
+use OCP\App\IAppManager;
 
 /**
  * Class CapabilitiesTest
@@ -46,7 +47,7 @@ class CapabilitiesTest extends \Test\TestCase {
 	}
 
 	/**
-	 * Create a mock config object and insert the values in $map tot the getAppValue
+	 * Create a mock config object and insert the values in $map to the getAppValue
 	 * function. Then obtain the capabilities and extract the first few
 	 * levels in the array
 	 *
@@ -54,9 +55,11 @@ class CapabilitiesTest extends \Test\TestCase {
 	 * @return string[]
 	 */
 	private function getResults(array $map) {
-		$stub = $this->getMockBuilder('\OCP\IConfig')->disableOriginalConstructor()->getMock();
-		$stub->method('getAppValue')->will($this->returnValueMap($map));
-		$cap = new Capabilities($stub);
+		$config = $this->getMockBuilder('\OCP\IConfig')->disableOriginalConstructor()->getMock();
+		$config->method('getAppValue')->will($this->returnValueMap($map));
+		$appManager = $this->getMockBuilder(IAppManager::class)->getMock();
+		$appManager->expects($this->any())->method('isEnabledForUser')->with('sharebymail')->willReturn(true);
+		$cap = new Capabilities($config, $appManager);
 		$result = $this->getFilesSharingPart($cap->getCapabilities());
 		return $result;
 	}

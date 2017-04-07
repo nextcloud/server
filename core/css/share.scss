@@ -106,6 +106,7 @@
 	.shareOption {
 		white-space: nowrap;
 		display: inline-block;
+		opacity: 1 !important;
 	}
 	.unshare img,
 	.showCruds img {
@@ -183,4 +184,17 @@ a {
 	padding-left: 12px;
 	padding-top: 12px;
 	color: rgba($color-main-text, .4);
+}
+
+.popovermenu .datepicker {
+    margin-left: 35px;
+}
+
+.popovermenu .passwordField {
+	margin-left: 35px;
+	width: inherit !important;
+}
+
+.ui-datepicker {
+	z-index: 1111 !important;
 }

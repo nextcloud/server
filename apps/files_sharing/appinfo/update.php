@@ -34,3 +34,8 @@ if (version_compare($installedVersion, '0.9.1', '<')) {
 if (version_compare($installedVersion, '1.1.1', '<')) {
 	$m = new Migration(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig());
 }
+
+if (version_compare($installedVersion, '1.4.0', '<')) {
+	$m = new Migration(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig());
+	$m->addPasswordColumn();
+}

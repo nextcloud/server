@@ -266,7 +266,9 @@ class Manager implements IManager {
 
 		// Check that read permissions are always set
 		// Link shares are allowed to have no read permissions to allow upload to hidden folders
-		if ($share->getShareType() !== \OCP\Share::SHARE_TYPE_LINK &&
+		$noReadPermissionRequired = $share->getShareType() === \OCP\Share::SHARE_TYPE_LINK
+			|| $share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL;
+		if (!$noReadPermissionRequired &&
 			($share->getPermissions() & \OCP\Constants::PERMISSION_READ) === 0) {
 			throw new \InvalidArgumentException('Shares need at least read permissions');
 		}
@@ -730,11 +732,30 @@ class Manager implements IManager {
 			}
 		}
 
+		$plainTextPassword = null;
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK || $share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+			// Password updated.
+			if ($share->getPassword() !== $originalShare->getPassword()) {
+				//Verify the password
+				$this->verifyPassword($share->getPassword());
+
+				// If a password is set. Hash it!
+				if ($share->getPassword() !== null) {
+					$plainTextPassword = $share->getPassword();
+					$share->setPassword($this->hasher->hash($plainTextPassword));
+				}
+			}
+		}
+
 		$this->pathCreateChecks($share->getNode());
 
 		// Now update the share!
 		$provider = $this->factory->getProviderForType($share->getShareType());
-		$share = $provider->update($share);
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+			$share = $provider->update($share, $plainTextPassword);
+		} else {
+			$share = $provider->update($share);
+		}
 
 		if ($expirationDateUpdated === true) {
 			\OC_Hook::emit('OCP\Share', 'post_set_expiration_date', [
@@ -915,54 +936,49 @@ class Manager implements IManager {
 		 * Work around so we don't return expired shares but still follow
 		 * proper pagination.
 		 */
-		if ($shareType === \OCP\Share::SHARE_TYPE_LINK) {
-			$shares2 = [];
-			$today = new \DateTime();
 
-			while(true) {
-				$added = 0;
-				foreach ($shares as $share) {
-					// Check if the share is expired and if so delete it
-					if ($share->getExpirationDate() !== null &&
-						$share->getExpirationDate() <= $today
-					) {
-						try {
-							$this->deleteShare($share);
-						} catch (NotFoundException $e) {
-							//Ignore since this basically means the share is deleted
-						}
-						continue;
-					}
-					$added++;
-					$shares2[] = $share;
+		$shares2 = [];
 
-					if (count($shares2) === $limit) {
-						break;
-					}
+		while(true) {
+			$added = 0;
+			foreach ($shares as $share) {
+
+				try {
+					$this->checkExpireDate($share);
+				} catch (ShareNotFound $e) {
+					//Ignore since this basically means the share is deleted
+					continue;
 				}
+
+				$added++;
+				$shares2[] = $share;
 
 				if (count($shares2) === $limit) {
 					break;
 				}
-
-				// If there was no limit on the select we are done
-				if ($limit === -1) {
-					break;
-				}
-
-				$offset += $added;
-
-				// Fetch again $limit shares
-				$shares = $provider->getSharesBy($userId, $shareType, $path, $reshares, $limit, $offset);
-
-				// No more shares means we are done
-				if (empty($shares)) {
-					break;
-				}
 			}
 
-			$shares = $shares2;
+			if (count($shares2) === $limit) {
+				break;
+			}
+
+			// If there was no limit on the select we are done
+			if ($limit === -1) {
+				break;
+			}
+
+			$offset += $added;
+
+			// Fetch again $limit shares
+			$shares = $provider->getSharesBy($userId, $shareType, $path, $reshares, $limit, $offset);
+
+			// No more shares means we are done
+			if (empty($shares)) {
+				break;
+			}
 		}
+
+		$shares = $shares2;
 
 		return $shares;
 	}
@@ -977,7 +993,18 @@ class Manager implements IManager {
 			return [];
 		}
 
-		return $provider->getSharedWith($userId, $shareType, $node, $limit, $offset);
+		$shares = $provider->getSharedWith($userId, $shareType, $node, $limit, $offset);
+
+		// remove all shares which are already expired
+		foreach ($shares as $key => $share) {
+			try {
+				$this->checkExpireDate($share);
+			} catch (ShareNotFound $e) {
+				unset($shares[$key]);
+			}
+		}
+
+		return $shares;
 	}
 
 	/**
@@ -998,13 +1025,7 @@ class Manager implements IManager {
 
 		$share = $provider->getShareById($id, $recipient);
 
-		// Validate link shares expiration date
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK &&
-			$share->getExpirationDate() !== null &&
-			$share->getExpirationDate() <= new \DateTime()) {
-			$this->deleteShare($share);
-			throw new ShareNotFound();
-		}
+		$this->checkExpireDate($share);
 
 		return $share;
 	}
@@ -1066,11 +1087,7 @@ class Manager implements IManager {
 			throw new ShareNotFound();
 		}
 
-		if ($share->getExpirationDate() !== null &&
-			$share->getExpirationDate() <= new \DateTime()) {
-			$this->deleteShare($share);
-			throw new ShareNotFound();
-		}
+		$this->checkExpireDate($share);
 
 		/*
 		 * Reduce the permissions for link shares if public upload is not enabled
@@ -1083,6 +1100,15 @@ class Manager implements IManager {
 		return $share;
 	}
 
+	protected function checkExpireDate($share) {
+		if ($share->getExpirationDate() !== null &&
+			$share->getExpirationDate() <= new \DateTime()) {
+			$this->deleteShare($share);
+			throw new ShareNotFound();
+		}
+
+	}
+
 	/**
 	 * Verify the password of a public share
 	 *
@@ -1091,7 +1117,9 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function checkPassword(\OCP\Share\IShare $share, $password) {
-		if ($share->getShareType() !== \OCP\Share::SHARE_TYPE_LINK) {
+		$passwordProtected = $share->getShareType() !== \OCP\Share::SHARE_TYPE_LINK
+			|| $share->getShareType() !== \OCP\Share::SHARE_TYPE_EMAIL;
+		if (!$passwordProtected) {
 			//TODO maybe exception?
 			return false;
 		}

@@ -28,6 +28,7 @@ use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\TokenHandler;
+use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCP\Share\IProviderFactory;
 use OC\Share20\Exception\ProviderException;
@@ -149,18 +150,19 @@ class ProviderFactory implements IProviderFactory {
 				return null;
 			}
 
-			$l = $this->serverContainer->getL10N('sharebymail');
+			$settingsManager = new SettingsManager($this->serverContainer->getConfig());
 
 			$this->shareByMailProvider = new ShareByMailProvider(
 				$this->serverContainer->getDatabaseConnection(),
 				$this->serverContainer->getSecureRandom(),
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getLazyRootFolder(),
-				$l,
+				$this->serverContainer->getL10N('sharebymail'),
 				$this->serverContainer->getLogger(),
 				$this->serverContainer->getMailer(),
 				$this->serverContainer->getURLGenerator(),
-				$this->serverContainer->getActivityManager()
+				$this->serverContainer->getActivityManager(),
+				$settingsManager
 			);
 		}
 
