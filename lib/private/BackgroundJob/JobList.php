@@ -187,18 +187,24 @@ class JobList implements IJobList {
 		$update->update('jobs')
 			->set('reserved_at', $update->createNamedParameter($this->timeFactory->getTime()))
 			->set('last_checked', $update->createNamedParameter($this->timeFactory->getTime()))
-			->where($update->expr()->eq('id', $update->createParameter('jobid')));
+			->where($update->expr()->eq('id', $update->createParameter('jobid')))
+			->andWhere($update->expr()->eq('reserved_at', $update->createParameter('reserved_at')))
+			->andWhere($update->expr()->eq('last_checked', $update->createParameter('last_checked')));
 
-		$this->connection->lockTable('jobs');
 		$result = $query->execute();
 		$row = $result->fetch();
 		$result->closeCursor();
 
 		if ($row) {
 			$update->setParameter('jobid', $row['id']);
-			$update->execute();
-			$this->connection->unlockTable();
+			$update->setParameter('reserved_at', $row['reserved_at']);
+			$update->setParameter('last_checked', $row['last_checked']);
+			$count = $update->execute();
 
+			if ($count === 0) {
+				// Background job already executed elsewhere, try again.
+				return $this->getNext();
+			}
 			$job = $this->buildJob($row);
 
 			if ($job === null) {
@@ -208,7 +214,6 @@ class JobList implements IJobList {
 
 			return $job;
 		} else {
-			$this->connection->unlockTable();
 			return null;
 		}
 	}
