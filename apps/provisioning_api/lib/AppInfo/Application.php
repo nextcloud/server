@@ -3,8 +3,11 @@
 namespace OCA\Provisioning_API\AppInfo;
 
 use OC\AppFramework\Utility\SimpleContainer;
+use OC\AppFramework\Utility\TimeFactory;
+use OC\Settings\Mailer\NewUserMailHelper;
 use OCA\Provisioning_API\Middleware\ProvisioningApiMiddleware;
 use OCP\AppFramework\App;
+use OCP\Util;
 
 class Application extends App {
 	public function __construct(array $urlParams = array()) {
@@ -13,6 +16,19 @@ class Application extends App {
 		$container = $this->getContainer();
 		$server = $container->getServer();
 
+		$container->registerService(NewUserMailHelper::class, function(SimpleContainer $c) use ($server) {
+			return new NewUserMailHelper(
+				$server->getThemingDefaults(),
+				$server->getURLGenerator(),
+				$server->getL10N('settings'),
+				$server->getMailer(),
+				$server->getSecureRandom(),
+				new TimeFactory(),
+				$server->getConfig(),
+				$server->getCrypto(),
+				Util::getDefaultEmailAddress('no-reply')
+			);
+		});
 		$container->registerService('ProvisioningApiMiddleware', function(SimpleContainer $c) use ($server) {
 			$user = $server->getUserManager()->get($c['UserId']);
 			$isAdmin = $user !== null ? $server->getGroupManager()->isAdmin($user->getUID()) : false;

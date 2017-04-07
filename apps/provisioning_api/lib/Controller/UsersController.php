@@ -30,6 +30,7 @@
 namespace OCA\Provisioning_API\Controller;
 
 use OC\Accounts\AccountManager;
+use OC\Settings\Mailer\NewUserMailHelper;
 use \OC_Helper;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -72,6 +73,8 @@ class UsersController extends OCSController {
 	private $defaults;
 	/** @var IFactory */
 	private $l10nFactory;
+	/** @var NewUserMailHelper */
+	private $newUserMailHelper;
 
 	/**
 	 * @param string $appName
@@ -87,6 +90,7 @@ class UsersController extends OCSController {
 	 * @param IMailer $mailer
 	 * @param \OC_Defaults $defaults
 	 * @param IFactory $l10nFactory
+	 * @param NewUserMailHelper $newUserMailHelper
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -100,7 +104,8 @@ class UsersController extends OCSController {
 								IURLGenerator $urlGenerator,
 								IMailer $mailer,
 								\OC_Defaults $defaults,
-								IFactory $l10nFactory) {
+								IFactory $l10nFactory,
+								NewUserMailHelper $newUserMailHelper) {
 		parent::__construct($appName, $request);
 
 		$this->userManager = $userManager;
@@ -114,6 +119,7 @@ class UsersController extends OCSController {
 		$this->mailer = $mailer;
 		$this->defaults = $defaults;
 		$this->l10nFactory = $l10nFactory;
+		$this->newUserMailHelper = $newUserMailHelper;
 	}
 
 	/**
@@ -807,30 +813,10 @@ class UsersController extends OCSController {
 
 		$l10n = $this->l10nFactory->get('settings', $lang);
 
-		// data for the mail template
-		$mailData = [
-			'username' => $username,
-			'url' => $this->urlGenerator->getAbsoluteURL('/')
-		];
-
-		// FIXME: set users language in email
-		$mail = new TemplateResponse('settings', 'email.new_user', $mailData, 'blank');
-		$mailContent = $mail->render();
-
-		// FIXME: set users language in email
-		$mail = new TemplateResponse('settings', 'email.new_user_plain_text', $mailData, 'blank');
-		$plainTextMailContent = $mail->render();
-
-		$subject = $l10n->t('Your %s account was created', [$this->defaults->getName()]);
-
 		try {
-			$message = $this->mailer->createMessage();
-			$message->setTo([$email => $username]);
-			$message->setSubject($subject);
-			$message->setHtmlBody($mailContent);
-			$message->setPlainBody($plainTextMailContent);
-			$message->setFrom([$this->fromMailAddress => $this->defaults->getName()]);
-			$this->mailer->send($message);
+			$this->newUserMailHelper->setL10N($l10n);
+			$emailTemplate = $this->newUserMailHelper->generateTemplate($targetUser, false);
+			$this->newUserMailHelper->sendMail($targetUser, $emailTemplate);
 		} catch(\Exception $e) {
 			$this->logger->error("Can't send new user mail to $email: " . $e->getMessage(), array('app' => 'settings'));
 			throw new OCSException('Sending email failed', 102);

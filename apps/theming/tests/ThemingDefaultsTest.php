@@ -24,37 +24,36 @@
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\ThemingDefaults;
+use OCP\Files\IAppData;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\Files\IRootFolder;
 use Test\TestCase;
 
 class ThemingDefaultsTest extends TestCase {
-	/** @var IConfig */
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
-	/** @var IL10N */
+	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
 	private $l10n;
-	/** @var IURLGenerator */
+	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
-	/** @var \OC_Defaults */
+	/** @var \OC_Defaults|\PHPUnit_Framework_MockObject_MockObject */
 	private $defaults;
+	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	private $appData;
+	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
+	private $cacheFactory;
 	/** @var ThemingDefaults */
 	private $template;
-	/** @var IRootFolder */
-	private $rootFolder;
-	/** @var ICacheFactory */
-	private $cacheFactory;
 
 	public function setUp() {
 		parent::setUp();
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
 		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
-		$this->rootFolder = $this->getMockBuilder(IRootFolder::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->appData = $this->createMock(IAppData::class);
 		$this->cacheFactory = $this->getMockBuilder(ICacheFactory::class)->getMock();
 		$this->defaults = $this->getMockBuilder(\OC_Defaults::class)
 			->disableOriginalConstructor()
@@ -80,7 +79,7 @@ class ThemingDefaultsTest extends TestCase {
 			$this->l10n,
 			$this->urlGenerator,
 			$this->defaults,
-			$this->rootFolder,
+			$this->appData,
 			$this->cacheFactory
 		);
 	}
@@ -386,6 +385,11 @@ class ThemingDefaultsTest extends TestCase {
 			->method('getAppValue')
 			->with('theming', 'backgroundMime')
 			->willReturn('');
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('images')
+			->willThrowException(new \Exception());
 		$expected = $this->urlGenerator->imagePath('core','background.jpg');
 		$this->assertEquals($expected, $this->template->getBackground());
 	}
@@ -396,6 +400,17 @@ class ThemingDefaultsTest extends TestCase {
 			->method('getAppValue')
 			->with('theming', 'backgroundMime')
 			->willReturn('image/svg+xml');
+		$simpleFolder = $this->createMock(ISimpleFolder::class);
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('images')
+			->willReturn($simpleFolder);
+		$simpleFolder
+			->expects($this->once())
+			->method('getFile')
+			->with('background')
+			->willReturn('');
 		$expected = $this->urlGenerator->linkToRoute('theming.Theming.getLoginBackground');
 		$this->assertEquals($expected, $this->template->getBackground());
 	}
@@ -406,6 +421,11 @@ class ThemingDefaultsTest extends TestCase {
 			->method('getAppValue')
 			->with('theming', 'logoMime')
 			->willReturn('');
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('images')
+			->willThrowException(new \Exception());
 		$expected = $this->urlGenerator->imagePath('core','logo.svg');
 		$this->assertEquals($expected, $this->template->getLogo());
 	}
@@ -416,6 +436,17 @@ class ThemingDefaultsTest extends TestCase {
 			->method('getAppValue')
 			->with('theming', 'logoMime')
 			->willReturn('image/svg+xml');
+		$simpleFolder = $this->createMock(ISimpleFolder::class);
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('images')
+			->willReturn($simpleFolder);
+		$simpleFolder
+			->expects($this->once())
+			->method('getFile')
+			->with('logo')
+			->willReturn('');
 		$expected = $this->urlGenerator->linkToRoute('theming.Theming.getLogo');
 		$this->assertEquals($expected, $this->template->getLogo());
 	}

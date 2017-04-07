@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
+ * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,15 +20,14 @@
  *
  */
 
-
 namespace OCA\Theming;
 
 
+use OCP\Files\IAppData;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\Files\IRootFolder;
 use OCP\Util;
 
 class ThemingDefaults extends \OC_Defaults {
@@ -38,8 +38,8 @@ class ThemingDefaults extends \OC_Defaults {
 	private $l;
 	/** @var IURLGenerator */
 	private $urlGenerator;
-	/** @var IRootFolder */
-	private $rootFolder;
+	/** @var IAppData */
+	private $appData;
 	/** @var ICacheFactory */
 	private $cacheFactory;
 	/** @var string */
@@ -58,21 +58,21 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @param IL10N $l
 	 * @param IURLGenerator $urlGenerator
 	 * @param \OC_Defaults $defaults
-	 * @param IRootFolder $rootFolder
+	 * @param IAppData $appData
 	 * @param ICacheFactory $cacheFactory
 	 */
 	public function __construct(IConfig $config,
 								IL10N $l,
 								IURLGenerator $urlGenerator,
 								\OC_Defaults $defaults,
-								IRootFolder $rootFolder,
+								IAppData $appData,
 								ICacheFactory $cacheFactory
 	) {
 		parent::__construct();
 		$this->config = $config;
 		$this->l = $l;
 		$this->urlGenerator = $urlGenerator;
-		$this->rootFolder = $rootFolder;
+		$this->appData = $appData;
 		$this->cacheFactory = $cacheFactory;
 
 		$this->name = $defaults->getName();
@@ -130,11 +130,19 @@ class ThemingDefaults extends \OC_Defaults {
 	 */
 	public function getLogo() {
 		$logo = $this->config->getAppValue('theming', 'logoMime');
-		if(!$logo || !$this->rootFolder->nodeExists('/themedinstancelogo')) {
-			return $this->urlGenerator->imagePath('core','logo.svg');
-		} else {
-			return $this->urlGenerator->linkToRoute('theming.Theming.getLogo');
+
+		$logoExists = true;
+		try {
+			$this->appData->getFolder('images')->getFile('logo');
+		} catch (\Exception $e) {
+			$logoExists = false;
 		}
+
+		if(!$logo || !$logoExists) {
+			return $this->urlGenerator->imagePath('core','logo.svg');
+		}
+
+		return $this->urlGenerator->linkToRoute('theming.Theming.getLogo');
 	}
 
 	/**
@@ -144,11 +152,19 @@ class ThemingDefaults extends \OC_Defaults {
 	 */
 	public function getBackground() {
 		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime');
-		if(!$backgroundLogo || !$this->rootFolder->nodeExists('/themedbackgroundlogo')) {
-			return $this->urlGenerator->imagePath('core','background.jpg');
-		} else {
-			return $this->urlGenerator->linkToRoute('theming.Theming.getLoginBackground');
+
+		$backgroundExists = true;
+		try {
+			$this->appData->getFolder('images')->getFile('background');
+		} catch (\Exception $e) {
+			$backgroundExists = false;
 		}
+
+		if(!$backgroundLogo || !$backgroundExists) {
+			return $this->urlGenerator->imagePath('core','background.jpg');
+		}
+
+		return $this->urlGenerator->linkToRoute('theming.Theming.getLoginBackground');
 	}
 
 	/**
@@ -172,6 +188,15 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 		$cache->set('shouldReplaceIcons', $value);
 		return $value;
+	}
+
+	/**
+	 * Gets the current cache buster count
+	 *
+	 * @return string
+	 */
+	public function getCacheBusterCounter() {
+		return $this->config->getAppValue('theming', 'cachebuster', '0');
 	}
 
 	/**

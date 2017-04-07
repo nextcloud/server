@@ -823,7 +823,7 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->getL10N('theming'),
 					$c->getURLGenerator(),
 					new \OC_Defaults(),
-					$c->getLazyRootFolder(),
+					$c->getAppDataDir('theming'),
 					$c->getMemCacheFactory()
 				);
 			}
@@ -1572,7 +1572,7 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	/**
-	 * @return \OC_Defaults
+	 * @return \OCA\Theming\ThemingDefaults
 	 */
 	public function getThemingDefaults() {
 		return $this->query('ThemingDefaults');
