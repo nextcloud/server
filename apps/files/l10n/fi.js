@@ -6,7 +6,7 @@ OC.L10N.register(
     "Unknown error" : "Tuntematon virhe",
     "All files" : "Kaikki tiedostot",
     "Recent" : "Viimeaikaiset",
-    "File could not be found" : "TIedostoa ei löytynyt",
+    "File could not be found" : "Tiedostoa ei löytynyt",
     "Home" : "Koti",
     "Close" : "Sulje",
     "Favorites" : "Suosikit",
