@@ -28,7 +28,7 @@ input#openid, input#webdav { width:20em; }
 }
 
 #avatarform {
-	width: 145px;
+	min-width: 145px;
 	padding-right: 0;
 }
 #avatarform .avatardiv {
