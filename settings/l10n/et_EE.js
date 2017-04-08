@@ -20,7 +20,6 @@ OC.L10N.register(
     "Invalid mail address" : "Vigane e-posti aadress",
     "A user with that name already exists." : "Selle nimega kasutaja on juba olemas.",
     "Unable to create user." : "Kasutaja loomine ebaõnnestus.",
-    "Your %s account was created" : "Sinu %s konto on loodud",
     "Unable to delete user." : "Kasutaja kustutamine ebaõnnestus.",
     "Unable to change full name" : "Täispika nime muutmine ebaõnnestus",
     "Your full name has been changed." : "Sinu täispikk nimi on muudetud.",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "Invalid user" : "Vigane kasutaja",
     "Unable to change mail address" : "E-posti aadressi muutmine ebaõnnestus",
     "Email saved" : "Kiri on salvestatud",
+    "Your %s account was created" : "Sinu %s konto on loodud",
     "Couldn't remove app." : "Ei suutnud rakendit eemaldada.",
     "Couldn't update app." : "Rakenduse uuendamine ebaõnnestus.",
     "Add trusted domain" : "Lis ausaldusväärne domeen",
@@ -146,7 +146,6 @@ OC.L10N.register(
     "Issued By" : "isas",
     "Valid until %s" : "Kehtib kuni %s",
     "Import root certificate" : "Impordi root sertifikaat",
-    "Cheers!" : "Terekest!",
     "Administrator documentation" : "Administraatori dokumentatsioon",
     "Online documentation" : "Võrgus olev dokumentatsioon",
     "Forum" : "Foorum",
@@ -195,6 +194,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Administraatorid ei saa ise end admin grupist eemaldada",
     "Unable to add user to group %s" : "Kasutajat ei saa lisada gruppi %s",
     "Unable to remove user from group %s" : "Kasutajat ei saa eemaldada grupist %s",
+    "Cheers!" : "Terekest!",
     "Show last log in" : "Viimane sisselogimine"
 },
 "nplurals=2; plural=(n != 1);");

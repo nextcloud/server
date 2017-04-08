@@ -126,8 +126,6 @@
     "remote" : "απομακρυσμένα",
     "email" : "ηλεκτρονικό ταχυδρομείο",
     "Unshare" : "Διακοπή διαμοιρασμού",
-    "can edit" : "δυνατότητα αλλαγής",
-    "access control" : "έλεγχος πρόσβασης",
     "Could not unshare" : "Δεν μπορεί να γίνει αναίρεση διαμοιρασμού",
     "Share details could not be loaded for this item." : "Αδυναμία φόρτωσης λεπτομερειών διαμοιρασμού για αυτό το αντικείμενο.",
     "No users found for {search}" : "Δεν βρέθηκαν χρήστες για την αναζήτηση {search}",
@@ -245,6 +243,8 @@
     "This page will refresh itself when the %s instance is available again." : "Αυτή η σελίδα θα ανανεωθεί από μόνη της όταν η %s εγκατάσταση είναι διαθέσιμη ξανά.",
     "Problem loading page, reloading in 5 seconds" : "Πρόβλημα φόρτωσης σελίδας, επαναφόρτωση σε 5 λεπτά",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Τα αρχεία σας είναι κρυπτογραφημένα. Εάν δεν έχετε ενεργοποιήσει το κλειδί επαναφοράς, δεν θα υπάρχει τρόπος να ανακτήσετε τα δεδομένα σας μετά την επαναφορά του κωδικού πρόσβασής σας.<br />Εάν δεν είστε σίγουροι για το τι θα θέλατε να κάνετε, παρακαλώ επικοινωνήστε με το διαχειριστή σας πριν συνεχίσετε. <br />Θέλετε στ' αλήθεια να συνεχίσετε;",
+    "can edit" : "δυνατότητα αλλαγής",
+    "access control" : "έλεγχος πρόσβασης",
     "The update was successful. Redirecting you to Nextcloud now." : "Η ενημέρωση ήταν επιτυχής. Ανακατεύθυνση στο Nextcloud."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

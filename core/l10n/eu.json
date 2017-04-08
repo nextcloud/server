@@ -130,12 +130,6 @@
     "remote" : "urrunekoa",
     "email" : "posta-elektronikoa",
     "Unshare" : "Ez elkarbanatu",
-    "can reshare" : "elkarbanatu dezake",
-    "can edit" : "editatu dezake",
-    "can create" : "sortu dezake",
-    "can change" : "aldatu dezake",
-    "can delete" : "ezabatu dezake",
-    "access control" : "sarrera kontrola",
     "Could not unshare" : "Ezin izan despartekatu",
     "Share details could not be loaded for this item." : "Partekatze xehetasunak ezin izan dira elementu honentzat kargatu.",
     "No users or groups found for {search}" : "Ez dira {search} -rentzat erabiltzaile edo talderik aurkitu",
@@ -285,6 +279,12 @@
     "Problem loading page, reloading in 5 seconds" : "Arazoa orria kargatzerakoan, 5 segundotan birkargatzen",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Zure fitxategiak enkriptaturik daude. Ez baduzu berreskuratze gakoa gaitzen pasahitza berrabiaraztean ez da zure fitxategiak berreskuratzeko modurik egongo. <br />Zer egin ziur ez bazaude kudeatzailearekin harremanetan ipini jarraitu aurretik.<br /> Ziur zaude aurrera jarraitu nahi duzula?",
     "File drop (upload only)" : "Fitxategiak utzi (igo bakarrik)",
+    "can reshare" : "elkarbanatu dezake",
+    "can edit" : "editatu dezake",
+    "can create" : "sortu dezake",
+    "can change" : "aldatu dezake",
+    "can delete" : "ezabatu dezake",
+    "access control" : "sarrera kontrola",
     "The update was successful. Redirecting you to Nextcloud now." : "The update was successful. Redirecting you to Nextcloud now."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

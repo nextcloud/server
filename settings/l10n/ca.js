@@ -25,7 +25,6 @@ OC.L10N.register(
     "No valid group selected" : "No s'ha seleccionat un grup vàlid",
     "A user with that name already exists." : "Ja existeix un usuari amb est nom.",
     "Unable to create user." : "No es pot crear el usuari.",
-    "Your %s account was created" : "S'ha creat el seu compte %s",
     "Unable to delete user." : "No es pot eliminar l'usuari",
     "Settings saved" : "Paràmetres desats",
     "Unable to change full name" : "No s'ha pogut canviar el nom complet",
@@ -35,6 +34,7 @@ OC.L10N.register(
     "Invalid user" : "Usuari no vàlid",
     "Unable to change mail address" : "No es pot canviar l'adreça de correu electrònic",
     "Email saved" : "S'ha desat el correu electrònic",
+    "Your %s account was created" : "S'ha creat el seu compte %s",
     "Couldn't remove app." : "No s'ha pogut eliminar l'aplicació",
     "Couldn't update app." : "No s'ha pogut actualitzar l'aplicació.",
     "Add trusted domain" : "Afegir domini de confiança",
@@ -190,7 +190,6 @@ OC.L10N.register(
     "Issued By" : "Emès Per",
     "Valid until %s" : "Vàlid fins %s",
     "Import root certificate" : "Importa certificat root",
-    "Cheers!" : "Salut!",
     "Administrator documentation" : "Documentació d'administrador",
     "Online documentation" : "Documentació en línia",
     "Forum" : "Fòrum",
@@ -257,6 +256,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Els administradors no es poden eliminar del grup admin",
     "Unable to add user to group %s" : "No es pot afegir l'usuari al grup %s",
     "Unable to remove user from group %s" : "No es pot eliminar l'usuari del grup %s",
+    "Cheers!" : "Salut!",
     "Show last log in" : "Mostrar l'últim accés"
 },
 "nplurals=2; plural=(n != 1);");

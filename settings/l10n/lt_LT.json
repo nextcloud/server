@@ -16,7 +16,6 @@
     "Invalid mail address" : "Neteisingas pašto adresas",
     "A user with that name already exists." : "Toks naudotojas jau yra.",
     "Unable to create user." : "Nepavyko sukurti naudotojo.",
-    "Your %s account was created" : "Jūsų paskyra %s sukurta",
     "Unable to delete user." : "Nepavyko ištrinti naudotojo.",
     "Settings saved" : "Nustatymai įrašyti",
     "Unable to change full name" : "Nepavyko pakeisti pilno vardo",
@@ -24,6 +23,7 @@
     "Invalid user" : "Neteisingas naudotojas",
     "Unable to change mail address" : "Nepavyko pakeisti el. pašto adresą",
     "Email saved" : "El. paštas įrašytas",
+    "Your %s account was created" : "Jūsų paskyra %s sukurta",
     "Password confirmation is required" : "Reikalingas slaptažodžio patvirtinimas",
     "Couldn't remove app." : "Nepavyko pašalinti programėlės.",
     "Couldn't update app." : "Nepavyko atnaujinti programėlės.",
@@ -125,7 +125,6 @@
     "Show description …" : "Rodyti aprašą …",
     "Hide description …" : "Slėpti aprašą …",
     "This app has an update available." : "Šiai programėlei yra prieinamas atnaujinimas.",
-    "Cheers!" : "Sveikinimai!",
     "Online documentation" : "Dokumentacija internete",
     "Forum" : "Forumas",
     "You are using <strong>%s</strong> of <strong>%s</strong>" : "Jūs naudojate <strong>%s</strong> iš <strong>%s</strong>",
@@ -175,6 +174,7 @@
     "Admins can't remove themself from the admin group" : "Administratoriai negali pašalinti savęs iš administratorių grupės",
     "Unable to add user to group %s" : "Nepavyko pridėti naudotojo į grupę %s",
     "Unable to remove user from group %s" : "Nepavyko pašalinti naudotojo iš grupės %s",
+    "Cheers!" : "Sveikinimai!",
     "For password recovery and notifications" : "Skirtas slaptažodžio atkūrimui ir pranešimams"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

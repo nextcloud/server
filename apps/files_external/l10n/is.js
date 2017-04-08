@@ -33,7 +33,7 @@ OC.L10N.register(
     "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Gat ekki fengið lista yfir tengipunkta Windows-netdrifa: autt svar frá þjóni",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Sumir uppsettir tengipunktar eru ekki tengdir í skráakerfið. Smelltu á rauðu örina/örvarnar til að fá frekari upplýsingar",
     "Please enter the credentials for the {mount} mount" : "Settu inn auðkenni fyrir {mount} tengipunktinn",
-    "Username" : "Notendanafn",
+    "Username" : "Notandanafn",
     "Password" : "Lykilorð",
     "Credentials saved" : "Auðkenni vistuð",
     "Credentials saving failed" : "Vistun auðkenna tókst ekki",

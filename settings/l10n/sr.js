@@ -24,7 +24,6 @@ OC.L10N.register(
     "Invalid mail address" : "Неисправна е-адреса",
     "A user with that name already exists." : "Корисник са тим именом већ постоји.",
     "Unable to create user." : "Не могу да направим корисника.",
-    "Your %s account was created" : "Ваш %s налог је направљен",
     "Unable to delete user." : "Не могу да обришем корисника.",
     "Unable to change full name" : "Не могу да променим пуно име",
     "Your full name has been changed." : "Ваше пуно име је промењено.",
@@ -32,6 +31,7 @@ OC.L10N.register(
     "Invalid user" : "Неисправан корисник",
     "Unable to change mail address" : "Не могу да изменим е-адресу",
     "Email saved" : "Е-порука сачувана",
+    "Your %s account was created" : "Ваш %s налог је направљен",
     "Couldn't remove app." : "Не могу да уклоним апликацију.",
     "Couldn't update app." : "Не могу да ажурирам апликацију.",
     "Add trusted domain" : "Додај поуздан домен",
@@ -161,7 +161,6 @@ OC.L10N.register(
     "Issued By" : "Издавач",
     "Valid until %s" : "Важи до %s",
     "Import root certificate" : "Увоз кореног сертификата",
-    "Cheers!" : "Здраво!",
     "Administrator documentation" : "Администраторска документација",
     "Online documentation" : "Документација на мрежи",
     "Forum" : "Форум",
@@ -211,6 +210,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Администратор не може себе да уклони из admin групе",
     "Unable to add user to group %s" : "Не могу да додам корисника у групу %s",
     "Unable to remove user from group %s" : "Не могу да уклоним корисника из групе %s",
+    "Cheers!" : "Здраво!",
     "Show last log in" : "Прикажи последњу пријаву"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

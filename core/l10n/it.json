@@ -133,12 +133,6 @@
     "remote" : "remota",
     "email" : "email",
     "Unshare" : "Rimuovi condivisione",
-    "can reshare" : "può ri-condividere",
-    "can edit" : "può modificare",
-    "can create" : "può creare",
-    "can change" : "può cambiare",
-    "can delete" : "può eliminare",
-    "access control" : "controllo d'accesso",
     "Could not unshare" : "Impossibile rimuovere la condivisione",
     "Share details could not be loaded for this item." : "I dettagli della condivisione non possono essere caricati per questo elemento.",
     "_At least {count} character is needed for autocompletion_::_At least {count} characters are needed for autocompletion_" : ["Almeno {count} carattere è richiesto per l'autocompletamento","Almeno {count} caratteri sono richiesti per il completamento automatico"],
@@ -295,6 +289,12 @@
     "Problem loading page, reloading in 5 seconds" : "Problema durante il caricamento della pagina, aggiornamento tra 5 secondi",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "I tuoi file sono cifrati. Se non hai precedentemente abilitato la chiave di ripristino, non sarà più possibile ritrovare i tuoi dati una volta che la password sarà reimpostata.<br />Se non sei sicuro, contatta l'amministratore prima di proseguire.<br />Vuoi davvero continuare?",
     "File drop (upload only)" : "Rilascia file (solo caricamento)",
+    "can reshare" : "può ri-condividere",
+    "can edit" : "può modificare",
+    "can create" : "può creare",
+    "can change" : "può cambiare",
+    "can delete" : "può eliminare",
+    "access control" : "controllo d'accesso",
     "The update was successful. Redirecting you to Nextcloud now." : "L'aggiornamento è stato effettuato correttamente. Reindirizzamento immediato a Nextcloud."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

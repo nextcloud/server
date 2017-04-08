@@ -110,8 +110,6 @@ OC.L10N.register(
     "group" : "קבוצה",
     "remote" : "נשלט מרחוק",
     "Unshare" : "הסר שיתוף",
-    "can edit" : "ניתן לערוך",
-    "access control" : "בקרת גישה",
     "Could not unshare" : "לא ניתן לבטל שיתוף",
     "Share details could not be loaded for this item." : "לא ניתן היה לטעון מידע שיתוף לפריט זה",
     "No users or groups found for {search}" : "לא אותרו משתמשים או קבוצות עבור {search}",
@@ -236,6 +234,8 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "הפעלה %s זו כרגע במצב אחזקה, שתמשך זמן מה.",
     "This page will refresh itself when the %s instance is available again." : "עמוד זה ירענן את עצמו כשהפעלת %s תהיה זמינה שוב.",
     "Problem loading page, reloading in 5 seconds" : "בעיה בטעינת העמוד, טעינה מחדש בעוד 5 שניות.",
-    "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "הקבצים שלך מוצפנים. אם לא הפעלת את מפתח השחזור, לא תהיה דרך לקבל את המידע מחדש אחרי שהסיסמא תאופס.<br />אם אין לך מושג מה לעשות what to do, מוטב לפנות למנהל שלך לפני ההמשך. <br />האם באמת ברצונך להמשיך?"
+    "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "הקבצים שלך מוצפנים. אם לא הפעלת את מפתח השחזור, לא תהיה דרך לקבל את המידע מחדש אחרי שהסיסמא תאופס.<br />אם אין לך מושג מה לעשות what to do, מוטב לפנות למנהל שלך לפני ההמשך. <br />האם באמת ברצונך להמשיך?",
+    "can edit" : "ניתן לערוך",
+    "access control" : "בקרת גישה"
 },
 "nplurals=2; plural=(n != 1);");

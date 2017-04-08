@@ -106,11 +106,6 @@ OC.L10N.register(
     "remote" : "attālināti",
     "email" : "e-pasts",
     "Unshare" : "Pārtraukt koplietošanu",
-    "can edit" : "var rediģēt",
-    "can create" : "var izveidot",
-    "can change" : "var mainīt",
-    "can delete" : "var dzēst",
-    "access control" : "piekļuves vadība",
     "Could not unshare" : "Nevarēja pārtraukt koplietošanu",
     "Share details could not be loaded for this item." : "Šim nevarēja ielādēt koplietošanas detaļas.",
     "No users or groups found for {search}" : "Pēc  {search} netika atrasts neviens lietotājs vai grupa",
@@ -235,6 +230,11 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Šis %s serveris pašlaik darbojas uzturēšanas režīmā, tas var ilgt kādu laiku.",
     "Problem loading page, reloading in 5 seconds" : "Problēma ielādējot lapu, pārlādēšana pēc 5 sekundēm",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Jūsu faili ir šifrēti. Ja neesat iespējojis atkopšanas atslēgu, nevarēsiet atgūt datus atpakaļ, pēc jūsu paroles atiestatīšanas.<br />Ja neesat pārliecināts par to, ko darīt, lūdzu, pirms turpināt, sazinieties ar administratoru. <br />Vai tiešām vēlaties turpināt?",
+    "can edit" : "var rediģēt",
+    "can create" : "var izveidot",
+    "can change" : "var mainīt",
+    "can delete" : "var dzēst",
+    "access control" : "piekļuves vadība",
     "The update was successful. Redirecting you to Nextcloud now." : "Atjaunināšana ir bijusi veiksmīga. Tagad novirzīsim jūs uz Nextcloud."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

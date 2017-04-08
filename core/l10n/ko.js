@@ -127,9 +127,6 @@ OC.L10N.register(
     "group" : "그룹",
     "remote" : "원격",
     "Unshare" : "공유 해제",
-    "can reshare" : "재공유 가능",
-    "can edit" : "편집 가능",
-    "access control" : "접근 제어",
     "Could not unshare" : "공유 해제할 수 없음",
     "Share details could not be loaded for this item." : "이 항목의 공유 정보를 불러올 수 없습니다.",
     "No users or groups found for {search}" : "{search}에 해당하는 사용자나 그룹을 찾을 수 없음",
@@ -266,6 +263,9 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "%s 인스턴스를 다시 사용할 수 있으면 자동으로 새로 고칩니다.",
     "Problem loading page, reloading in 5 seconds" : "페이지 로딩에 문제가 있습니다. 5초 후 다시로드 하십시오.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "파일이 암호화되어 있습니다. 복구 키를 활성화하지 않았다면 암호를 초기화한 후 데이터를 복구할 수 없습니다.<br />무엇을 해야 할 지 잘 모르겠으면 계속하기 전에 관리자에게 연락하십시오.<br />그래도 계속 진행하시겠습니까?",
+    "can reshare" : "재공유 가능",
+    "can edit" : "편집 가능",
+    "access control" : "접근 제어",
     "The update was successful. Redirecting you to Nextcloud now." : "업데이트가 성공했습니다. 지금 Nextcloud로 리디렉션합니다."
 },
 "nplurals=1; plural=0;");

@@ -21,7 +21,6 @@ OC.L10N.register(
     "Invalid mail address" : "невалиден адрес на електронна поща",
     "A user with that name already exists." : "Потребител с това име вече съществува",
     "Unable to create user." : "Неуспешно създаване на потребител.",
-    "Your %s account was created" : "Вашия %s профил бе създаден",
     "Unable to delete user." : "Неуспешно изтриване на потребител.",
     "Settings saved" : "Настройките са запазени",
     "Unable to change full name" : "Неуспешна промяна на пълното име.",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "Invalid user" : "Невалиден протребител",
     "Unable to change mail address" : "Неуспешна промяна на адрес на електронна поща",
     "Email saved" : "Имейлът е запазен",
+    "Your %s account was created" : "Вашия %s профил бе създаден",
     "Couldn't remove app." : "Приложението не бе премахнато.",
     "Couldn't update app." : "Приложението не бе обновено.",
     "Add trusted domain" : "Добавяне на сигурен домейн",
@@ -172,7 +172,6 @@ OC.L10N.register(
     "Issued By" : "Издаден от",
     "Valid until %s" : "Валиден до %s",
     "Import root certificate" : "Импортиране на основен сертификат",
-    "Cheers!" : "Поздрави!",
     "Online documentation" : "Онлайн документация",
     "Forum" : "Форум",
     "Commercial support" : "Платена поддръжка",
@@ -239,6 +238,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Администраторите не могат да премахват себе си от групата \"admin\".",
     "Unable to add user to group %s" : "Неуспешно добавяне на потребител към групата %s.",
     "Unable to remove user from group %s" : "Неуспешно премахване на потребител от групата %s.",
+    "Cheers!" : "Поздрави!",
     "Show last log in" : "Покажи последно вписване"
 },
 "nplurals=2; plural=(n != 1);");

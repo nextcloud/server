@@ -97,7 +97,6 @@ OC.L10N.register(
     "Valid until" : "Valid until",
     "Issued By" : "Issued By",
     "Valid until %s" : "Valid until %s",
-    "Cheers!" : "Cheers!",
     "Forum" : "Forum",
     "Profile picture" : "Slika profila",
     "Upload new" : "Učitajte novu",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Administratori ne mogu sami sebe ukloniti iz admin grupe",
     "Unable to add user to group %s" : "Dodavanje korisnika grupi %s nije moguće",
     "Unable to remove user from group %s" : "Uklanjanje korisnika iz grupe %s nije moguće",
+    "Cheers!" : "Cheers!",
     "Show last log in" : "Prikaži zadnje spajanje"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

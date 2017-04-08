@@ -26,7 +26,6 @@ OC.L10N.register(
     "Invalid mail address" : "Неправильна email адреса",
     "A user with that name already exists." : "Користувач з таким іменем вже існує.",
     "Unable to create user." : "Неможливо створити користувача.",
-    "Your %s account was created" : "Ваш %s аккаунт створений",
     "Unable to delete user." : "Неможливо видалити користувача.",
     "Unable to change full name" : "Неможливо змінити повне ім'я",
     "Your full name has been changed." : "Ваше повне ім'я було змінено",
@@ -34,6 +33,7 @@ OC.L10N.register(
     "Invalid user" : "Неправильний користувач",
     "Unable to change mail address" : "Неможливо поміняти email адресу",
     "Email saved" : "Адресу збережено",
+    "Your %s account was created" : "Ваш %s аккаунт створений",
     "Couldn't remove app." : "Неможливо видалити додаток.",
     "Couldn't update app." : "Не вдалося оновити додаток. ",
     "Add trusted domain" : "Додати довірений домен",
@@ -163,7 +163,6 @@ OC.L10N.register(
     "Issued By" : "Виданий",
     "Valid until %s" : "Дійсно до %s",
     "Import root certificate" : "Імпортувати кореневий сертифікат",
-    "Cheers!" : "Будьмо!",
     "Administrator documentation" : "Документація адміністратора",
     "Online documentation" : "Документація онлайн",
     "Forum" : "Форум",
@@ -215,6 +214,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Адміністратор не може видалити себе з групи адміністраторів",
     "Unable to add user to group %s" : "Не вдалося додати користувача у групу %s",
     "Unable to remove user from group %s" : "Не вдалося видалити користувача із групи %s",
+    "Cheers!" : "Будьмо!",
     "Show last log in" : "Показати останній вхід в систему"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

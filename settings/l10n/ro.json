@@ -20,7 +20,6 @@
     "Invalid mail address" : "Adresa mail invalidă",
     "A user with that name already exists." : "Există deja un utilizator cu acest nume.",
     "Unable to create user." : "Imposibil de creat utilizatorul.",
-    "Your %s account was created" : "Contul tău %s a fost creat",
     "Unable to delete user." : "Imposibil de șters utilizatorul.",
     "Unable to change full name" : "Nu s-a putut schimba numele complet",
     "Your full name has been changed." : "Numele tău complet a fost schimbat.",
@@ -28,6 +27,7 @@
     "Invalid user" : "Utilizator invalid",
     "Unable to change mail address" : "Nu s-a putut schimba adresa email",
     "Email saved" : "E-mail salvat",
+    "Your %s account was created" : "Contul tău %s a fost creat",
     "Couldn't remove app." : "Nu s-a putut înlătura aplicația.",
     "Couldn't update app." : "Aplicaţia nu s-a putut actualiza.",
     "Add trusted domain" : "Adaugă domeniu de încredere",
@@ -144,7 +144,6 @@
     "Issued By" : "Emis de",
     "Valid until %s" : "Valabil până la %s",
     "Import root certificate" : "Importă certificat rădăcină",
-    "Cheers!" : "Noroc!",
     "Administrator documentation" : "Documentație pentru administrare",
     "Online documentation" : "Documentație online",
     "Forum" : "Forum",
@@ -183,6 +182,7 @@
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Furnizează o parolă administrativă de recuperare, altfel toate datele utilizatorilor vor fi pierdute",
     "Admins can't remove themself from the admin group" : "Administratorii nu se pot șterge singuri din grupul adminnistrativ",
     "Unable to add user to group %s" : "Nu s-a putut adăuga utilizatorul în grupul %s",
-    "Unable to remove user from group %s" : "Nu s-a putut elimina utilizatorul din grupul %s"
+    "Unable to remove user from group %s" : "Nu s-a putut elimina utilizatorul din grupul %s",
+    "Cheers!" : "Noroc!"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

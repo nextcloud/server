@@ -135,12 +135,6 @@
     "remote" : "Entfernte Freigabe",
     "email" : "E-Mail",
     "Unshare" : "Freigabe aufheben",
-    "can reshare" : "kann weiterteilen",
-    "can edit" : "kann bearbeiten",
-    "can create" : "kann erstellen",
-    "can change" : "kann ändern",
-    "can delete" : "kann löschen",
-    "access control" : "Zugriffskontrolle",
     "Could not unshare" : "Freigabe konnte nicht entfernt werden",
     "Share details could not be loaded for this item." : "Details der geteilten Freigabe zu diesem Eintrag konnten nicht geladen werden.",
     "_At least {count} character is needed for autocompletion_::_At least {count} characters are needed for autocompletion_" : ["Mindestens {count} Zeichen wird für die Autovervollständigung benötigt","Mindestens {count} Zeichen werden für die Autovervollständigung benötigt"],
@@ -297,6 +291,12 @@
     "Problem loading page, reloading in 5 seconds" : "Problem beim Laden der Seite, Seite wird in 5 Sekunden nochmals geladen",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Deine Dateien sind verschlüsselt. Solltest du den Wiederherstellungsschlüssel nicht aktiviert haben, gibt es keine Möglichkeit, deine Daten zurückzuerlangen, nachdem dein Passwort zurückgesetzt wurde.<br />Falls du dir nicht sicher bist, was zu tun ist, kontaktiere bitte deinen Administrator, bevor du fortfährst<br />Möchtest du wirklich fortfahren?",
     "File drop (upload only)" : "Dateien ablegen (nur Hochladen)",
+    "can reshare" : "kann weiterteilen",
+    "can edit" : "kann bearbeiten",
+    "can create" : "kann erstellen",
+    "can change" : "kann ändern",
+    "can delete" : "kann löschen",
+    "access control" : "Zugriffskontrolle",
     "The update was successful. Redirecting you to Nextcloud now." : "Das Update war erfolgreich. Weiterleitung zu Nextcloud."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
