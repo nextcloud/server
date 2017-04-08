@@ -95,7 +95,7 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @When /^transfering ownership from "([^"]+)" to "([^"]+)"/
+	 * @When /^transferring ownership from "([^"]+)" to "([^"]+)"/
 	 */
 	public function transferingOwnership($user1, $user2) {
 		if ($this->runOcc(['files:transfer-ownership', $user1, $user2]) === 0) {
@@ -107,7 +107,7 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @When /^transfering ownership of path "([^"]+)" from "([^"]+)" to "([^"]+)"/
+	 * @When /^transferring ownership of path "([^"]+)" from "([^"]+)" to "([^"]+)"/
 	 */
 	public function transferingOwnershipPath($path, $user1, $user2) {
 		$path = '--path=' . $path;

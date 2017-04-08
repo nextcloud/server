@@ -609,7 +609,7 @@ class FederatedShareProvider implements IShareProvider {
 	 */
 	public function deleteFromSelf(IShare $share, $recipient) {
 		// nothing to do here. Technically deleteFromSelf in the context of federated
-		// shares is a umount of a external storage. This is handled here
+		// shares is a umount of an external storage. This is handled here
 		// apps/files_sharing/lib/external/manager.php
 		// TODO move this code over to this app
 	}
