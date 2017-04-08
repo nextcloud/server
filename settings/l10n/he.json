@@ -24,7 +24,6 @@
     "Invalid mail address" : "כתובת דואר אלקטרוני לא חוקית",
     "A user with that name already exists." : "משתמש בשם זה כבר קיים.",
     "Unable to create user." : "לא ניתן ליצור משתמש.",
-    "Your %s account was created" : "חשבון %s שלך נוצר",
     "Unable to delete user." : "לא ניתן למחוק משתמש.",
     "Unable to change full name" : "לא ניתן לשנות שם מלא",
     "Your full name has been changed." : "השם המלא שלך הוחלף",
@@ -32,6 +31,7 @@
     "Invalid user" : "שם משתמש לא חוקי",
     "Unable to change mail address" : "לא ניתן לשנות כתובת דואר אלקטרוני",
     "Email saved" : "הדואר האלקטרוני נשמר",
+    "Your %s account was created" : "חשבון %s שלך נוצר",
     "Couldn't remove app." : "לא ניתן להסיר את היישום.",
     "Couldn't update app." : "לא ניתן לעדכן את היישום.",
     "Add trusted domain" : "הוספת שם מתחם מהימן",
@@ -195,7 +195,6 @@
     "Issued By" : "הוצא על ידי",
     "Valid until %s" : "בתוקף עד %s",
     "Import root certificate" : "יבוא אישור אבטחה לנתיב יסוד",
-    "Cheers!" : "לחיים!",
     "Administrator documentation" : "תיעוד מנהל",
     "Online documentation" : "תיעוד מקוון",
     "Forum" : "פורום",
@@ -252,6 +251,7 @@
     "Admins can't remove themself from the admin group" : "מנהלים לא יכולים להסיר את עצמם מקבוצת המנהלים",
     "Unable to add user to group %s" : "לא ניתן להוסיף משתמש לקבוצה %s",
     "Unable to remove user from group %s" : "לא ניתן להסיר משתמש מהקבוצה %s",
+    "Cheers!" : "לחיים!",
     "For password recovery and notifications" : "לשחזור סיסמא והודעות",
     "Show last log in" : "הצגת כניסה אחרונה"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

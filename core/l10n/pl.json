@@ -135,12 +135,6 @@
     "remote" : "zdalny",
     "email" : "email",
     "Unshare" : "Zatrzymaj współdzielenie",
-    "can reshare" : "mogą udostępniać dalej",
-    "can edit" : "może edytować",
-    "can create" : "może utworzyć",
-    "can change" : "może zmienić",
-    "can delete" : "może usunąć",
-    "access control" : "kontrola dostępu",
     "Could not unshare" : "Nie udało się usunąć udostępnienia",
     "Share details could not be loaded for this item." : "Szczegóły udziału nie mogły zostać wczytane dla tego obiektu.",
     "_At least {count} character is needed for autocompletion_::_At least {count} characters are needed for autocompletion_" : ["Do automatycznego uzupełnienia potrzebny jest co najmniej {count} znak","Do automatycznego uzupełnienia potrzebnych jest co najmniej {count} znaków","Do automatycznego uzupełnienia potrzebnych jest co najmniej {count} znaków","Do automatycznego uzupełnienia potrzebnych jest co najmniej {count} znaków"],
@@ -297,6 +291,12 @@
     "Problem loading page, reloading in 5 seconds" : "Błąd podczas ładowania strony, odświeżanie w ciągu 5 sekund.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Twoje pliki są zaszyfrowane. Jeśli nie włączyłeś klucza odzyskiwania, nie będzie możliwości odszyfrowania tych plików po zresetowaniu hasła.<br>Jeśli nie jesteś pewien co zrobić, skontaktuj się ze swoim administratorem, zanim bedziesz kontynuował. <br/> Czy chcesz kontynuować?\n ",
     "File drop (upload only)" : "Tylko przesyłanie",
+    "can reshare" : "mogą udostępniać dalej",
+    "can edit" : "może edytować",
+    "can create" : "może utworzyć",
+    "can change" : "może zmienić",
+    "can delete" : "może usunąć",
+    "access control" : "kontrola dostępu",
     "The update was successful. Redirecting you to Nextcloud now." : "Aktualizacja przebiegła pomyślnie. Trwa przekierowywanie do Nextcloud."
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

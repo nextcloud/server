@@ -111,12 +111,6 @@ OC.L10N.register(
     "remote" : "remot",
     "email" : "email",
     "Unshare" : "Deixa de compartir",
-    "can reshare" : "pot recompartir",
-    "can edit" : "pot editar",
-    "can create" : "pot crear",
-    "can change" : "pot canviar",
-    "can delete" : "Pot esborrar",
-    "access control" : "control d'accés",
     "Could not unshare" : "No pot descompartir",
     "No users found for {search}" : "No s'han trobat usuaris per {search}",
     "An error occurred. Please try again" : "S'ha produït un error. Si us plau, torni a intentar-ho.",
@@ -237,6 +231,12 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Aquesta instància %s està actualment en manteniment i podria trigar una estona.",
     "This page will refresh itself when the %s instance is available again." : "Aquesta pàgina s'actualitzarà automàticament quan la instància %s estigui disponible de nou.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Els vostres fitxers estan encriptats. Si no heu habilitat la clau de recuperació no hi haurà manera de recuperar les dades després que reestabliu la contrasenya. <br />Si sabeu què fer, contacteu amb l'administrador abans de continuar.<br />Voleu continuar?",
-    "File drop (upload only)" : "Arrossega fitxers (només càrrega)"
+    "File drop (upload only)" : "Arrossega fitxers (només càrrega)",
+    "can reshare" : "pot recompartir",
+    "can edit" : "pot editar",
+    "can create" : "pot crear",
+    "can change" : "pot canviar",
+    "can delete" : "Pot esborrar",
+    "access control" : "control d'accés"
 },
 "nplurals=2; plural=(n != 1);");

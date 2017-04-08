@@ -24,7 +24,6 @@
     "Invalid mail address" : "Endereço de correio eletrónico inválido",
     "A user with that name already exists." : "Já existe um utilizador com esse nome.",
     "Unable to create user." : "Impossível criar o utilizador.",
-    "Your %s account was created" : "A tua conta %s foi criada",
     "Unable to delete user." : "Impossível apagar o utilizador.",
     "Unable to change full name" : "Não foi possível alterar o seu nome completo",
     "Your full name has been changed." : "O seu nome completo foi alterado.",
@@ -32,6 +31,7 @@
     "Invalid user" : "Utilizador inválido",
     "Unable to change mail address" : "Não foi possível alterar o teu endereço de email",
     "Email saved" : "E-mail guardado",
+    "Your %s account was created" : "A tua conta %s foi criada",
     "Couldn't remove app." : "Não foi possível remover a aplicação.",
     "Couldn't update app." : "Não foi possível atualizar a app.",
     "Add trusted domain" : "Adicionar domínio confiável ",
@@ -193,7 +193,6 @@
     "Issued By" : "Emitido Por",
     "Valid until %s" : "Válido até %s",
     "Import root certificate" : "Importar certificado root",
-    "Cheers!" : "Parabéns!",
     "Administrator documentation" : "Documentação de Administrador.",
     "Online documentation" : "Documentação Online",
     "Forum" : "Fórum",
@@ -248,6 +247,7 @@
     "Admins can't remove themself from the admin group" : "Os administradores não se podem remover a eles próprios do grupo 'admin'.",
     "Unable to add user to group %s" : "Não é possível adicionar o utilizador ao grupo %s",
     "Unable to remove user from group %s" : "Não é possível remover o utilizador do grupo %s",
+    "Cheers!" : "Parabéns!",
     "For password recovery and notifications" : "Para recuperação da palavra-passe e notificações",
     "Show last log in" : "Mostrar ultimo acesso de entrada"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

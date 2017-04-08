@@ -110,8 +110,6 @@ OC.L10N.register(
     "group" : "grupo",
     "remote" : "remoto",
     "Unshare" : "Cancelar partilha",
-    "can edit" : "pode editar",
-    "access control" : "controlo de acesso",
     "Could not unshare" : "Não foi possível cancelar a partilha",
     "Share details could not be loaded for this item." : "Não foi possível carregar os detalhes de partilha para este item.",
     "No users or groups found for {search}" : "Não foram encontrados nenhuns utilizadores ou grupos para {search}",
@@ -236,6 +234,8 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instância %s está atualmente no modo de manutenção, o que poderá demorar algum tempo.",
     "This page will refresh itself when the %s instance is available again." : "Esta página irá ser atualizada quando a instância %s ficar novamente disponível.",
     "Problem loading page, reloading in 5 seconds" : "Problema a carregar a página, a recarregar em 5 segundos",
-    "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Os seus ficheiros estão encriptados. Se não ativou a chave de recuperação, não terá nenhum modo para voltar obter os seus dados depois de reiniciar a sua senha. <br />Se não tem a certeza do que fazer, por favor, contacte o seu administrador antes de continuar.<br />  Tem a certeza que quer continuar?"
+    "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Os seus ficheiros estão encriptados. Se não ativou a chave de recuperação, não terá nenhum modo para voltar obter os seus dados depois de reiniciar a sua senha. <br />Se não tem a certeza do que fazer, por favor, contacte o seu administrador antes de continuar.<br />  Tem a certeza que quer continuar?",
+    "can edit" : "pode editar",
+    "access control" : "controlo de acesso"
 },
 "nplurals=2; plural=(n != 1);");

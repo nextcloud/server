@@ -22,7 +22,6 @@ OC.L10N.register(
     "Invalid mail address" : "Yalnış mail ünvanı",
     "A user with that name already exists." : "Bu adla istifadəçi artıq mövcuddur.",
     "Unable to create user." : "İstifadəçi yaratmaq mümkün deyil.",
-    "Your %s account was created" : "Sizin %s hesab yaradıldı",
     "Unable to delete user." : "İstifadəçini silmək mümkün deyil.",
     "Unable to change full name" : "Tam adı dəyişmək olmur",
     "Your full name has been changed." : "Sizin tam adınız dəyişdirildi.",
@@ -30,6 +29,7 @@ OC.L10N.register(
     "Invalid user" : "İstifadəçi adı yalnışdır",
     "Unable to change mail address" : "Mail ünvanını dəyişmək olmur",
     "Email saved" : "Məktub yadda saxlanıldı",
+    "Your %s account was created" : "Sizin %s hesab yaradıldı",
     "Couldn't remove app." : "Proqram təminatını silmək mümkün olmadı.",
     "Couldn't update app." : "Proqram təminatını yeniləmək mümkün deyil.",
     "Add trusted domain" : "İnamlı domainlərə əlavə et",
@@ -134,7 +134,6 @@ OC.L10N.register(
     "Issued By" : "Tərəfindən yaradılıb",
     "Valid until %s" : "Keçərlidir vaxtadək %s",
     "Import root certificate" : "root sertifikatı import et",
-    "Cheers!" : "Şərəfə!",
     "Forum" : "Forum",
     "Profile picture" : "Profil şəkli",
     "Upload new" : "Yenisini yüklə",
@@ -181,6 +180,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "İnzibatçılar özlərini inzibatçı qrupundan silə bilməz",
     "Unable to add user to group %s" : "İstifadəçini %s qrupuna əlavə etmək mümkün olmadı",
     "Unable to remove user from group %s" : "İstifadəçini %s qrupundan silmək mümkün olmadı",
+    "Cheers!" : "Şərəfə!",
     "Show last log in" : "Son girişi göstər"
 },
 "nplurals=2; plural=(n != 1);");

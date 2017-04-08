@@ -27,7 +27,6 @@ OC.L10N.register(
     "No valid group selected" : "Nulle gruppo valide selectionate",
     "A user with that name already exists." : "Un usator con iste nomine ja existe.",
     "Unable to create user." : "Impossibile crear usator.",
-    "Your %s account was created" : "Tu conto %s esseva create",
     "Unable to delete user." : "Impossibile deler usator.",
     "Settings saved" : "Configurationes salveguardate",
     "Unable to change full name" : "Impossibile cambiar nomine complete",
@@ -37,6 +36,7 @@ OC.L10N.register(
     "Invalid user" : "Usator invalide",
     "Unable to change mail address" : "Impossibile cambiar adresse de e-posta",
     "Email saved" : "E-posta salveguardate",
+    "Your %s account was created" : "Tu conto %s esseva create",
     "Password confirmation is required" : "Un confirmation del contrasigno es necessari",
     "Couldn't remove app." : "Impossibile remover application.",
     "Couldn't update app." : "Impossibile actualisar application.",
@@ -184,7 +184,6 @@ OC.L10N.register(
     "Issued By" : "Emittite per",
     "Valid until %s" : "Valide usque %s",
     "Import root certificate" : "Importar certificato root",
-    "Cheers!" : "Congratulationes!",
     "Administrator documentation" : "Documentation de administrator",
     "Online documentation" : "Documentation in linea",
     "Forum" : "Foro",
@@ -247,6 +246,7 @@ OC.L10N.register(
     "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")" : "Per favor, scribe le quota de immagazinage (p.ex. \"512 MB\" o \"12 GB\")",
     "Other" : "Altere",
     "Quota" : "Quota",
-    "Please provide an admin recovery password, otherwise all user data will be lost" : "Per favor, provide un contrasigno administrator pro recuperation de datos, alteremente tote datos de usator essera perdite."
+    "Please provide an admin recovery password, otherwise all user data will be lost" : "Per favor, provide un contrasigno administrator pro recuperation de datos, alteremente tote datos de usator essera perdite.",
+    "Cheers!" : "Congratulationes!"
 },
 "nplurals=2; plural=(n != 1);");

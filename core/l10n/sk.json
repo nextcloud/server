@@ -117,11 +117,6 @@
     "group" : "skupina",
     "remote" : "vzdialený",
     "Unshare" : "Zneprístupniť",
-    "can edit" : "môže upraviť",
-    "can create" : "môže vytvoriť",
-    "can change" : "môže zmeniť",
-    "can delete" : "môže odstrániť",
-    "access control" : "prístupové práva",
     "Could not unshare" : "Nepodarilo sa zrušiť sprístupnenie",
     "Share details could not be loaded for this item." : "Nebolo možné načítať údaje o sprístupnení tejto položky.",
     "An error occurred. Please try again" : "Nastala chyba. Skúste to prosím znovu",
@@ -243,6 +238,11 @@
     "This page will refresh itself when the %s instance is available again." : "Táto stránka sa obnoví sama hneď ako bude %s inštancia znovu dostupná.",
     "Problem loading page, reloading in 5 seconds" : "Nastal problém pri načítaní stránky, pokus sa zopakuje o 5 sekúnd",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Súbory sú zašifrované. Ak ste nepovolili kľúč pre obnovenie, neexistuje žiadny spôsob, ako obnoviť vaše dáta po obnovení vášho hesla. <br /> Ak si nie ste istí čo urobiť, prosím skôr než budete pokračovať, obráťte sa na administrátora. <br /> Naozaj chcete pokračovať?",
+    "can edit" : "môže upraviť",
+    "can create" : "môže vytvoriť",
+    "can change" : "môže zmeniť",
+    "can delete" : "môže odstrániť",
+    "access control" : "prístupové práva",
     "The update was successful. Redirecting you to Nextcloud now." : "Aktualizácia bola úspešná. Presmerovávam na Nextcloud."
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

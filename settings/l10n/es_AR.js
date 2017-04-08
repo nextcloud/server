@@ -68,7 +68,6 @@ OC.L10N.register(
     "Allow public uploads" : "Permitir subidas públicas",
     "Allow resharing" : "Permitir Re-Compartir",
     "Documentation:" : "Documentación:",
-    "Cheers!" : "¡Saludos!",
     "Forum" : "Foro",
     "Profile picture" : "Imágen de perfil",
     "Upload new" : "Subir nuevo",
@@ -101,6 +100,7 @@ OC.L10N.register(
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Por favor provea de una contraseña de recuperación administrativa, sino se perderá todos los datos del usuario",
     "Admins can't remove themself from the admin group" : "Los administradores no se pueden quitar a si mismos del grupo administrador. ",
     "Unable to add user to group %s" : "No fue posible agregar el usuario al grupo %s",
-    "Unable to remove user from group %s" : "No es posible borrar al usuario del grupo %s"
+    "Unable to remove user from group %s" : "No es posible borrar al usuario del grupo %s",
+    "Cheers!" : "¡Saludos!"
 },
 "nplurals=2; plural=(n != 1);");

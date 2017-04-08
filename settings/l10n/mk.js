@@ -23,7 +23,6 @@ OC.L10N.register(
     "Invalid mail address" : "Неправилна електронска адреса/пошта",
     "A user with that name already exists." : "Корисник со ова име веќе постои.",
     "Unable to create user." : "Неможе да додадам корисник.",
-    "Your %s account was created" : "Вашата %s сметка е креирана",
     "Unable to delete user." : "Неможам да избришам корисник",
     "Unable to change full name" : "Не можам да го променам целото име",
     "Your full name has been changed." : "Вашето целосно име е променето.",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "Invalid user" : "Неправилен корисник",
     "Unable to change mail address" : "Не можам да ја променам електронската адреса/пошта",
     "Email saved" : "Електронската пошта е снимена",
+    "Your %s account was created" : "Вашата %s сметка е креирана",
     "Couldn't remove app." : "Не можам да ја отстранам апликацијата.",
     "Couldn't update app." : "Не можам да ја надградам апликацијата.",
     "Add trusted domain" : "Додади доверлив домејн",
@@ -129,7 +129,6 @@ OC.L10N.register(
     "Developer documentation" : "Документација за програмери",
     "Documentation:" : "Документација:",
     "Enable only for specific groups" : "Овозможи само на специфицирани групи",
-    "Cheers!" : "Поздрав!",
     "Forum" : "Форум",
     "Profile picture" : "Фотографија за профил",
     "Upload new" : "Префрли нова",
@@ -160,6 +159,7 @@ OC.L10N.register(
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Ве молам дадете лозинка за поврат на администраторот, или сите кориснички податоци ќе бидат изгубени",
     "Admins can't remove themself from the admin group" : "Администраторите неможе да се избришат себеси од админ групата",
     "Unable to add user to group %s" : "Неможе да додадам корисник во група %s",
-    "Unable to remove user from group %s" : "Неможе да избришам корисник од група %s"
+    "Unable to remove user from group %s" : "Неможе да избришам корисник од група %s",
+    "Cheers!" : "Поздрав!"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -16,7 +16,6 @@
     "Invalid request" : "Neispravan zahtjev",
     "Invalid mail address" : "Nevažeća adresa e-pošte",
     "Unable to create user." : "Nemoguće kreirati korisnika",
-    "Your %s account was created" : "Vaš %s račun je kreiran",
     "Unable to delete user." : "Nemoguće izbrisati korisnika",
     "Unable to change full name" : "Puno ime nije moguće promijeniti",
     "Your full name has been changed." : "Vaše puno ime je promijenjeno.",
@@ -24,6 +23,7 @@
     "Invalid user" : "Nevažeči korisnik",
     "Unable to change mail address" : "Nemoguće je izmjeniti adresu e-pošte",
     "Email saved" : "E-pošta je spremljena",
+    "Your %s account was created" : "Vaš %s račun je kreiran",
     "Couldn't remove app." : "Nije moguće ukloniti aplikaciju.",
     "Couldn't update app." : "Ažuriranje aplikacije nije moguće.",
     "Add trusted domain" : "Dodaj pouzdanu domenu",
@@ -112,7 +112,6 @@
     "Valid until" : "Validno do",
     "Issued By" : "Izdano od",
     "Valid until %s" : "Validno do %s",
-    "Cheers!" : "Cheers!",
     "Forum" : "Forum",
     "Profile picture" : "Slika profila",
     "Upload new" : "Učitaj novu",
@@ -154,6 +153,7 @@
     "Admins can't remove themself from the admin group" : "Administratori ne mogu sami sebe ukloniti iz admin grupe",
     "Unable to add user to group %s" : "Dodavanje korisnika grupi %s nije moguće",
     "Unable to remove user from group %s" : "Uklanjanje korisnika iz grupe %s nije moguće",
+    "Cheers!" : "Cheers!",
     "Show last log in" : "Prikaži zadnju prijavu"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

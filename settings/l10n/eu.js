@@ -28,7 +28,6 @@ OC.L10N.register(
     "A user with that name already exists." : "Izen hori duen erabiltzaile bat bada jadanik.",
     "To send a password link to the user an email address is required." : "Pasahitza ",
     "Unable to create user." : "Ezin izan da erabiltzailea sortu.",
-    "Your %s account was created" : "Zure %s kontua sortu da",
     "Unable to delete user." : "Ezin izan da erabiltzailea ezabatu.",
     "Settings saved" : "Ezarpenak gordeta",
     "Unable to change full name" : "Ezin izan da izena aldatu",
@@ -38,6 +37,7 @@ OC.L10N.register(
     "Invalid user" : "Baliogabeko erabiiltzailea",
     "Unable to change mail address" : "Ezin izan da posta helbidea aldatu",
     "Email saved" : "Eposta gorde da",
+    "Your %s account was created" : "Zure %s kontua sortu da",
     "Password confirmation is required" : "Pasahitza konfirmatzea beharrezkoa da",
     "Couldn't remove app." : "Ezin izan da aplikazioa ezabatu..",
     "Couldn't update app." : "Ezin izan da aplikazioa eguneratu.",
@@ -239,8 +239,6 @@ OC.L10N.register(
     "Issued By" : "Honek bidalita",
     "Valid until %s" : "%s arte baliogarria",
     "Import root certificate" : "Inportatu root ziurtagiria",
-    "Cheers!" : "Ongi izan!",
-    "Hey there,\n\njust letting you know that you now have a %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Kaixo,\n\nJakinarazi nahi dizugu, badaukazula %s kontua.\n\nZure erabiltzaile izena: %s \nSar zaitez: %s\n",
     "Administrator documentation" : "Administratzaile dokumentazioa",
     "Online documentation" : "Online dokumentazioa",
     "Forum" : "Foroa",
@@ -318,6 +316,8 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Kudeatzaileak ezin du bere burua kendu kudeatzaile taldetik",
     "Unable to add user to group %s" : "Ezin izan da erabiltzailea %s taldera gehitu",
     "Unable to remove user from group %s" : "Ezin izan da erabiltzailea %s taldetik ezabatu",
+    "Cheers!" : "Ongi izan!",
+    "Hey there,\n\njust letting you know that you now have a %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Kaixo,\n\nJakinarazi nahi dizugu, badaukazula %s kontua.\n\nZure erabiltzaile izena: %s \nSar zaitez: %s\n",
     "Show last log in" : "Erakutsi azkeneko saio hasiera"
 },
 "nplurals=2; plural=(n != 1);");

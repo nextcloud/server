@@ -35,7 +35,6 @@ OC.L10N.register(
     "Sharing" : "Chia sẻ",
     "Allow apps to use the Share API" : "Cho phép các ứng dụng sử dụng chia sẻ API",
     "Allow resharing" : "Cho phép chia sẻ lại",
-    "Cheers!" : "Chúc mừng!",
     "Forum" : "Diễn đàn",
     "Upload new" : "Tải lên",
     "Remove image" : "Xóa ",
@@ -60,6 +59,7 @@ OC.L10N.register(
     "Default" : "Mặc định",
     "Admins can't remove themself from the admin group" : "Quản trị viên không thể loại bỏ chính họ khỏi nhóm quản lý",
     "Unable to add user to group %s" : "Không thể thêm người dùng vào nhóm %s",
-    "Unable to remove user from group %s" : "Không thể xóa người dùng từ nhóm %s"
+    "Unable to remove user from group %s" : "Không thể xóa người dùng từ nhóm %s",
+    "Cheers!" : "Chúc mừng!"
 },
 "nplurals=1; plural=0;");

@@ -117,9 +117,6 @@
     "group" : "群組",
     "remote" : "遠端",
     "Unshare" : "取消分享",
-    "can reshare" : "允許轉分享",
-    "can edit" : "可編輯",
-    "access control" : "存取控制",
     "Could not unshare" : "無法取消分享",
     "Share details could not be loaded for this item." : "無法載入分享細節",
     "No users or groups found for {search}" : "沒有群組或使用者符合 {search}",
@@ -250,6 +247,9 @@
     "This page will refresh itself when the %s instance is available again." : "%s 安裝恢復可用之後，本頁會自動重新整理",
     "Problem loading page, reloading in 5 seconds" : "載入頁面出錯，5 秒後重新整理",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "您的檔案是加密的，如果您沒有啟用救援金鑰，當您重設密碼之後將無法存取您的資料。<br/>如果不確定該怎麼做，請聯絡您的系統管理員。<br/>您確定要繼續嗎？",
+    "can reshare" : "允許轉分享",
+    "can edit" : "可編輯",
+    "access control" : "存取控制",
     "The update was successful. Redirecting you to Nextcloud now." : "更新成功，即將重導向至 Nextcloud"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

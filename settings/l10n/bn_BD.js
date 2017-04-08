@@ -43,7 +43,6 @@ OC.L10N.register(
     "Expire after " : "এরপর মেয়াদোত্তীর্ণ হও",
     "days" : "দিনগুলি",
     "Enforce expiration date" : "মেয়াদোত্তীর্ণ হওয়ার তারিখ কার্যকর করুন",
-    "Cheers!" : "শুভেচ্ছা!",
     "Forum" : "ফোরাম",
     "Cancel" : "বাতির",
     "Email" : "ইমেইল",
@@ -70,6 +69,7 @@ OC.L10N.register(
     "Default" : "পূর্বনির্ধারিত",
     "Admins can't remove themself from the admin group" : "প্রশাসকবৃন্দ তাদেরকে প্রশাসক গোষ্ঠী থেকে মুছে ফেলতে পারবেন না",
     "Unable to add user to group %s" : " %s গোষ্ঠীতে ব্যবহারকারী যোগ করা সম্ভব হলো না ",
-    "Unable to remove user from group %s" : "%s গোষ্ঠী থেকে ব্যবহারকারীকে অপসারণ করা সম্ভব হলো না"
+    "Unable to remove user from group %s" : "%s গোষ্ঠী থেকে ব্যবহারকারীকে অপসারণ করা সম্ভব হলো না",
+    "Cheers!" : "শুভেচ্ছা!"
 },
 "nplurals=2; plural=(n != 1);");

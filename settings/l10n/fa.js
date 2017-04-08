@@ -18,7 +18,6 @@ OC.L10N.register(
     "Invalid mail address" : "آدرس ایمیل نامعتبر است",
     "A user with that name already exists." : "کاربری با همین نام در حال حاضر وجود دارد.",
     "Unable to create user." : "ایجاد کاربر امکان‌پذیر نیست.",
-    "Your %s account was created" : "حساب کاربری شما  %s ایجاد شد",
     "Unable to delete user." : "حذف کاربر امکان پذیر نیست.",
     "Unable to change full name" : "امکان تغییر نام کامل وجود ندارد",
     "Your full name has been changed." : "نام کامل شما تغییر یافت",
@@ -26,6 +25,7 @@ OC.L10N.register(
     "Invalid user" : "کاربر نامعتبر",
     "Unable to change mail address" : "تغییر آدرس ایمیل امکان‌پذیر نیست",
     "Email saved" : "ایمیل ذخیره شد",
+    "Your %s account was created" : "حساب کاربری شما  %s ایجاد شد",
     "Couldn't remove app." : "امکان حذف برنامه وجود ندارد.",
     "Couldn't update app." : "برنامه را نمی توان به هنگام ساخت.",
     "Add trusted domain" : "افزودن دامنه مورد اعتماد",
@@ -139,7 +139,6 @@ OC.L10N.register(
     "Issued By" : "صدور توسط",
     "Valid until %s" : "متعبر تا %s",
     "Import root certificate" : "وارد کردن گواهی اصلی",
-    "Cheers!" : "سلامتی!",
     "Administrator documentation" : "مستندات مدیر",
     "Online documentation" : "مستندات آنلاین",
     "Forum" : "انجمن",
@@ -187,6 +186,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "مدیران نمی توانند خود را از گروه مدیریت حذف کنند",
     "Unable to add user to group %s" : "امکان افزودن کاربر به گروه %s نیست",
     "Unable to remove user from group %s" : "امکان حذف کاربر از گروه %s نیست",
+    "Cheers!" : "سلامتی!",
     "Show last log in" : "نمایش اخرین ورود"
 },
 "nplurals=1; plural=0;");

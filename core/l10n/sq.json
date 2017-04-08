@@ -129,12 +129,6 @@
     "remote" : "i largët",
     "email" : "postë elektronike",
     "Unshare" : "Hiqe ndarjen",
-    "can reshare" : "mund të rishpërndahet",
-    "can edit" : "mund të përpunojnë",
-    "can create" : "mund të krijohet",
-    "can change" : "mund të ndryshohet",
-    "can delete" : "mund të fshihet",
-    "access control" : "kontroll hyrjesh",
     "Could not unshare" : "S’e shndau dot",
     "Share details could not be loaded for this item." : "Për këtë objekt s’u ngarkuan dot hollësi ndarjeje.",
     "No users or groups found for {search}" : "S’u gjetën përdorues ose grupe për {search}",
@@ -284,6 +278,12 @@
     "Problem loading page, reloading in 5 seconds" : "Gabim në ngarkimin e faqes, do të ringarkohet pas 5 sekondash",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Kartelat tuaja janë të fshehtëzuara. Nëse s’keni aktivizuar kyçin e rimarrjeve, nuk do të ketë ndonjë rrugë për të marrë sërish të dhënat tuaja pasi të jetë ricaktuar fjalëkalimi juaj.<br />Nëse s’jeni i sigurt se ç’duhet bërë, ju lutemi, përpara se të vazhdoni, lidhuni me përgjegjësin tuaj. <br />Doni vërtet të vazhdoni?",
     "File drop (upload only)" : "Lësho skedar (vetëm ngarkim)",
+    "can reshare" : "mund të rishpërndahet",
+    "can edit" : "mund të përpunojnë",
+    "can create" : "mund të krijohet",
+    "can change" : "mund të ndryshohet",
+    "can delete" : "mund të fshihet",
+    "access control" : "kontroll hyrjesh",
     "The update was successful. Redirecting you to Nextcloud now." : "Përditësimi ishte i suksesshëm. Ju ridrejtojmë në Nextcloud tani."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -24,7 +24,6 @@
     "Invalid mail address" : "Ugyldig mailadresse",
     "A user with that name already exists." : "Dette brugernavn eksistere allerede.",
     "Unable to create user." : "Kan ikke oprette brugeren.",
-    "Your %s account was created" : "Din %s-konto blev oprettet",
     "Unable to delete user." : "Kan ikke slette brugeren.",
     "Unable to change full name" : "Ikke i stand til at ændre dit fulde navn",
     "Your full name has been changed." : "Dit fulde navn er blevet ændret.",
@@ -32,6 +31,7 @@
     "Invalid user" : "Ugyldig bruger",
     "Unable to change mail address" : "Kan ikke ændre mailadresse",
     "Email saved" : "E-mailadressen er gemt",
+    "Your %s account was created" : "Din %s-konto blev oprettet",
     "Couldn't remove app." : "Kunne ikke fjerne app'en.",
     "Couldn't update app." : "Kunne ikke opdatere app'en.",
     "Add trusted domain" : "Tilføj et domæne som du har tillid til",
@@ -166,7 +166,6 @@
     "Issued By" : "Udstedt af",
     "Valid until %s" : "Gyldig indtil %s",
     "Import root certificate" : "Importer rodcertifikat",
-    "Cheers!" : "Hej!",
     "Administrator documentation" : "Administratordokumentation",
     "Online documentation" : "Online dokumentation",
     "Forum" : "Forum",
@@ -218,6 +217,7 @@
     "Admins can't remove themself from the admin group" : "Administratorer kan ikke fjerne dem selv fra admin gruppen",
     "Unable to add user to group %s" : "Brugeren kan ikke tilføjes til gruppen %s",
     "Unable to remove user from group %s" : "Brugeren kan ikke fjernes fra gruppen %s",
+    "Cheers!" : "Hej!",
     "For password recovery and notifications" : "Angiv en e-mailadresse for at aktivere gendannelse af adgangskode og modtage notifikationer",
     "Show last log in" : "Vis seneste login"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

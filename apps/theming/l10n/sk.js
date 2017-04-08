@@ -1,7 +1,7 @@
 OC.L10N.register(
     "theming",
     {
-    "Admin" : "Administrátor",
+    "Admin" : "Správca",
     "a safe home for all your data" : "bezpečný domov pre všetky vaše dáta",
     "The given name is too long" : "Zadané meno je príliš dlhé",
     "The given web address is too long" : "Zadaná web adresa je príliš dlhá",

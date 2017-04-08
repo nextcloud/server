@@ -131,12 +131,6 @@
     "remote" : "de la distanță",
     "email" : "email",
     "Unshare" : "Anulare partajare",
-    "can reshare" : "poate partaja mai departe",
-    "can edit" : "poate edita",
-    "can create" : "poate crea",
-    "can change" : "poate schimba",
-    "can delete" : "poate șterge",
-    "access control" : "control acces",
     "Could not unshare" : "Nu s-a putut elimina partajarea",
     "Share details could not be loaded for this item." : "Nu s-au putut încărca detaliile de partajare pentru acest element.",
     "_At least {count} character is needed for autocompletion_::_At least {count} characters are needed for autocompletion_" : ["Este necesar cel puțin un caracter pentru autocompletare","Sunt necesare cel puțin {count} caractere pentru autocompletare","Sunt necesare cel puțin {count} caractere pentru autocompletare"],
@@ -288,6 +282,12 @@
     "Problem loading page, reloading in 5 seconds" : "A apărut o problemă la încărcarea paginii, se reîncearcă în 5 secunde",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Fișierele tale sunt criptate. Dacă nu ai activat o cheie de restabilire, e posibil să nu mai poți accesa informațiile tale după o resetare a parolei.<br />Dacă nu ești sigur ce trebuie să faci, contactează administratorul înainte de a continua. <br /> Sigur vrei să continui?",
     "File drop (upload only)" : "Aruncă fișierul (numai încărcare)",
+    "can reshare" : "poate partaja mai departe",
+    "can edit" : "poate edita",
+    "can create" : "poate crea",
+    "can change" : "poate schimba",
+    "can delete" : "poate șterge",
+    "access control" : "control acces",
     "The update was successful. Redirecting you to Nextcloud now." : "Actualizarea a reușit. Te redirecționăm acum la Nextcloud."
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

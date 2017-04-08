@@ -123,8 +123,6 @@ OC.L10N.register(
     "group" : "group",
     "remote" : "remote",
     "Unshare" : "Unshare",
-    "can edit" : "can edit",
-    "access control" : "access control",
     "Could not unshare" : "Could not unshare",
     "Share details could not be loaded for this item." : "Share details could not be loaded for this item.",
     "No users or groups found for {search}" : "No users or groups found for {search}",
@@ -251,6 +249,8 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "This page will refresh itself when the %s instance is available again.",
     "Problem loading page, reloading in 5 seconds" : "Problem loading page, reloading in 5 seconds",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?",
+    "can edit" : "can edit",
+    "access control" : "access control",
     "The update was successful. Redirecting you to Nextcloud now." : "The update was successful. Redirecting you to Nextcloud."
 },
 "nplurals=2; plural=(n != 1);");

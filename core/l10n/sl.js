@@ -116,8 +116,6 @@ OC.L10N.register(
     "group" : "skupina",
     "remote" : "oddaljeno",
     "Unshare" : "Prekliči souporabo",
-    "can edit" : "lahko ureja",
-    "access control" : "nadzor dostopa",
     "Could not unshare" : "Ni mogoče prekiniti souporabe",
     "Share details could not be loaded for this item." : "Podrobnosti souporabe za te predmet ni mogoče naložiti.",
     "No users or groups found for {search}" : "Ni najdenih uporabnikov ali skupin za {search}",
@@ -251,6 +249,8 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Stran bo osvežena ko bo %s spet na voljo.",
     "Problem loading page, reloading in 5 seconds" : "Napaka nalaganja strani! Poskus ponovnega nalaganja bo izveden čez 5 sekund.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Datoteke so šifrirane. Če niste omogočili obnovitvenega ključa, po ponastavitvi gesla ne bo mogoč dostop do datotek.<br />V primeru, da niste prepričani, kaj storiti, stopite v stik s skrbnikom sistema.<br />Ali ste prepričani, da želite nadaljevati?",
+    "can edit" : "lahko ureja",
+    "access control" : "nadzor dostopa",
     "The update was successful. Redirecting you to Nextcloud now." : "Posodobitev je bila uspešna. Stran bo preusmerjena na NextCloud"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
