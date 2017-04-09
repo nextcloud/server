@@ -14,11 +14,17 @@ OC.L10N.register(
     "%s shared »%s« with you" : "%s sizinle »%s« ögesini paylaştı",
     "%s shared »%s« with you on behalf of %s" : "%s sizinle »%s« ögesini %s adına paylaştı",
     "Failed to create the E-mail" : "E-posta oluşturulamadı",
+    "Password to access »%s« shared to you by %s" : "»%s« için sizin tarafınızdan %s üzerinden paylaşılan erişim parolası",
     "Could not find share" : "Paylaşım bulunamadı",
     "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Merhaba,\n\n%s sizinle »%s« ögesini %s adına paylaştı.\n\n%s\n\n",
     "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Merhaba,\n\n%s sizinle »%s« ögesini paylaştı.\n\n%s\n\n",
     "Cheers!" : "Hoşça kalın!",
+    "Hey there,\n\n%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n\nIt is protected with the following password: %s\n\n" : "Merhaba\n\n%s sizinle »%s« paylaştı.\nErişim bilgilerini içeren başka bir e-posta daha gönderilmiş olmalı.\n\nKoruma parolası: %s\n",
     "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Merhaba,<br><br>%s sizinle <a href=\"%s\">%s</a> ögesini %s adına paylaştı.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Merhaba,<br><br>%s sizinle <a href=\"%s\">%s</a> ögesini paylaştı.<br><br>"
+    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Merhaba,<br><br>%s sizinle <a href=\"%s\">%s</a> ögesini paylaştı.<br><br>",
+    "Hey there,<br><br>%s shared <i>%s</i> with you.<br>You should have already received a separate mail with a link to access it.<br><br>It is protected with the following password: %s<br><br>" : "Merhaba,<br><br>%s sizinle <i>%s</i> paylaştı.<br>Erişim bilgilerini içeren başka bir e-posta daha gönderilmiş olmalı.<br><br> Koruma parolası: %s<br><br>",
+    "Share by mail" : "E-posta ile paylaş",
+    "Send a personalized link to a file or folder by mail." : "Bir dosya ya da klasörün kişiselleştirilmiş bağlantısını e-posta ile gönderin.",
+    "Send password by mail" : "Parolayı e-posta ile gönder"
 },
 "nplurals=2; plural=(n > 1);");

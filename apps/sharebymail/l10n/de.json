@@ -12,11 +12,17 @@
     "%s shared »%s« with you" : "%s hat „%s“ mit Dir geteilt",
     "%s shared »%s« with you on behalf of %s" : "%s hat »%s«  im Auftrag von %s mit Dir geteilt",
     "Failed to create the E-mail" : "Erstellen der E-Mail ist fehlgeschalgen",
+    "Password to access »%s« shared to you by %s" : "Das Passwort zum Zugriff auf %s wurde durch %s mit dir geteilt.",
     "Could not find share" : "Freigabe konnte nicht gefunden werden",
     "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Hallo,\n\n%s hat »%s« im Auftrag von %s mit Dir geteilt.\n\n%s\n",
     "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Hallo,\n\n%s hat »%s« mit Dir geteilt.\n\n%s\n",
     "Cheers!" : "Noch einen schönen Tag!",
+    "Hey there,\n\n%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n\nIt is protected with the following password: %s\n\n" : "Hallo,\n\n%s hat %s mit dir geteilt.\nDu solltest bereits eine separate E-Mail mit einem Zugriffslink erhalten haben.\n\nDies ist mit dem folgenden Passwort geschützt: %s\n",
     "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hallo,<br><br>%s hat <a href=\"%s\">%s</a> im Auftrag von %s mit Dir geteilt.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hallo,<br><br>%s hat <a href=\"%s\">%s</a> mit Dir geteilt.<br><br>"
+    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hallo,<br><br>%s hat <a href=\"%s\">%s</a> mit Dir geteilt.<br><br>",
+    "Hey there,<br><br>%s shared <i>%s</i> with you.<br>You should have already received a separate mail with a link to access it.<br><br>It is protected with the following password: %s<br><br>" : "Hallo,<br><br>%s hat <i>%s</i> mit dir geteilt.<br>Du solltest bereits eine separate E-Mail mit einem Zugriffslink erhalten haben.<br><br>Dies ist mit dem folgenden Passwort geschützt: %s<br><br>",
+    "Share by mail" : "Geteilt über eine E-Mail",
+    "Send a personalized link to a file or folder by mail." : "Einen personalisierten Link zu einer Datei oder Ordner per E-Mail versenden.",
+    "Send password by mail" : "Passwort per Mail senden"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -40,6 +40,7 @@
     "File name is too long" : "Dateiname ist zu lang",
     "Dot files are not allowed" : "Dateinamen mit einem Punkt am Anfang sind nicht erlaubt",
     "Empty filename is not allowed" : "Ein leerer Dateiname ist nicht erlaubt",
+    "This is an automatically generated email, please do not reply." : "Dies ist eine automatisch generierte E-Mail, bitte nicht antworten.",
     "Help" : "Hilfe",
     "Apps" : "Apps",
     "Personal" : "Persönlich",

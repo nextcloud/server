@@ -19,6 +19,7 @@ OC.L10N.register(
     "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Ciao,\n\n%s ha condiviso «%s» con te.\n\n%s\n\n",
     "Cheers!" : "Saluti!",
     "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Ciao, <br><br>%s ha condiviso <a href=\"%s\">%s</a> con te per conto di %s.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Ciao, <br><br>%s ha condiviso <a href=\"%s\">%s</a> con te.<br><br>"
+    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Ciao, <br><br>%s ha condiviso <a href=\"%s\">%s</a> con te.<br><br>",
+    "Share by mail" : "Condividi tramite email"
 },
 "nplurals=2; plural=(n != 1);");
