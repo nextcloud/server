@@ -417,25 +417,35 @@ class ThemingDefaultsTest extends TestCase {
 
 	public function testGetLogoDefault() {
 		$this->config
-			->expects($this->once())
+			->expects($this->at(0))
 			->method('getAppValue')
 			->with('theming', 'logoMime')
 			->willReturn('');
+		$this->config
+			->expects($this->at(1))
+			->method('getAppValue')
+			->with('theming', 'cachebuster', '0')
+			->willReturn('0');
 		$this->appData
 			->expects($this->once())
 			->method('getFolder')
 			->with('images')
 			->willThrowException(new \Exception());
-		$expected = $this->urlGenerator->imagePath('core','logo.svg');
+		$expected = $this->urlGenerator->imagePath('core','logo.svg') . '?v=0';
 		$this->assertEquals($expected, $this->template->getLogo());
 	}
 
 	public function testGetLogoCustom() {
 		$this->config
-			->expects($this->once())
+			->expects($this->at(0))
 			->method('getAppValue')
 			->with('theming', 'logoMime')
 			->willReturn('image/svg+xml');
+		$this->config
+			->expects($this->at(1))
+			->method('getAppValue')
+			->with('theming', 'cachebuster', '0')
+			->willReturn('0');
 		$simpleFolder = $this->createMock(ISimpleFolder::class);
 		$this->appData
 			->expects($this->once())
@@ -447,7 +457,7 @@ class ThemingDefaultsTest extends TestCase {
 			->method('getFile')
 			->with('logo')
 			->willReturn('');
-		$expected = $this->urlGenerator->linkToRoute('theming.Theming.getLogo');
+		$expected = $this->urlGenerator->linkToRoute('theming.Theming.getLogo') . '?v=0';
 		$this->assertEquals($expected, $this->template->getLogo());
 	}
 }
