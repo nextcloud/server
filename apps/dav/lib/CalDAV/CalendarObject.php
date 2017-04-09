@@ -43,7 +43,7 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 		return $data;
 	}
 
-	private function isShared() {
+	protected function isShared() {
 		if (!isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
 			return false;
 		}
