@@ -11,7 +11,7 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "Tapahtui virhe varakoodeja luotaessa",
     "Nextcloud backup codes" : "Nextcloud-varakoodit",
     "Two-factor authentication" : "Kaksivaiheinen tunnistautuminen",
-    "You successfully logged in using two-factor authentication (%1$s)" : "Kirjauduit onnistuneesti sisään käyttäen kaksivaiheista tunnistautumista (%1$s)",
+    "You successfully logged in using two-factor authentication (%1$s)" : "Kirjauduit onnistuneesti sisään kaksivaiheista tunnistautumista käyttäen (%1$s)",
     "A login attempt using two-factor authentication failed (%1$s)" : "Kirjautumisyritys kaksivaiheista tunnistautumista käyttäen epäonnistui (%1$s)",
     "You created two-factor backup codes for your account" : "Loit kaksivaiheisen tunnistautumisen varakoodit tilillesi",
     "Backup code" : "Varakoodi",

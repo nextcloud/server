@@ -16,7 +16,12 @@
     "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Hei,\n\n%s jakoi kohteen »%s« kanssasi käyttäjän %s puolesta.\n\n%s\n\n",
     "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Hei,\n\n%s jakoi kohteen »%s« kanssasi.\n\n%s\n\n",
     "Cheers!" : "Kiitos!",
+    "Hey there,\n\n%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n\nIt is protected with the following password: %s\n\n" : "Hei,\n\n%s jakoi kohteen »%s« kanssasi.\nSinulla pitäisi olla erillinen sähköpostiviesti, joka sisältää linkin siihen.\n\nSe on suojattu salasanalla: %s\n\n",
     "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hei,<br><br>%s jakoi kohteen <a href=\"%s\">%s</a> kanssasi käyttäjän %s puolesta.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hei,<br><br>%s jakoi kohteen <a href=\"%s\">%s</a> kanssasi.<br><br>"
+    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hei,<br><br>%s jakoi kohteen <a href=\"%s\">%s</a> kanssasi.<br><br>",
+    "Hey there,<br><br>%s shared <i>%s</i> with you.<br>You should have already received a separate mail with a link to access it.<br><br>It is protected with the following password: %s<br><br>" : "Hei,<br><br>%s jakoi kohteen <i>%s</i> kanssasi.<br>Sinulla pitäisi olla erillinen sähköpostiviesti, joka sisältää linkin siihen.<br><br>Se on suojattu salasanalla: %s<br><br>",
+    "Share by mail" : "Jaa sähköpostitse",
+    "Send a personalized link to a file or folder by mail." : "Lähetä personoitu linkki tiedostoon tai kansioon sähköpostitse.",
+    "Send password by mail" : "Lähetä salasana sähköpostitse"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

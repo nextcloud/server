@@ -40,6 +40,7 @@
     "File name is too long" : "Имя файла слишком длинное.",
     "Dot files are not allowed" : "Файлы начинающиеся с точки не допускаются",
     "Empty filename is not allowed" : "Пустое имя файла не допускается",
+    "This is an automatically generated email, please do not reply." : "Это соощение создано автоматически, пожалуйста, не отвечайте на него.",
     "Help" : "Помощь",
     "Apps" : "Приложения",
     "Personal" : "Личное",
