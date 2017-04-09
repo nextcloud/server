@@ -34,7 +34,7 @@ use Test\TestCase;
 class CalendarTest extends TestCase {
 
 	/** @var IL10N */
-	private $l10n;
+	protected $l10n;
 
 	public function setUp() {
 		parent::setUp();
