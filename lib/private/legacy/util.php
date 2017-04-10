@@ -711,7 +711,7 @@ class OC_Util {
 					. '%sgiving the webserver write access to the root directory%s.',
 					['<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank" rel="noreferrer">', '</a>']);
 				$errors[] = [
-					'error' => 'Your Data directory is not writable',
+					'error' => 'Your data directory is not writable',
 					'hint' => $permissionsHint
 				];
 			} else {
@@ -923,13 +923,13 @@ class OC_Util {
 		$permissionsModHint = $l->t('Please change the permissions to 0770 so that the directory'
 			. ' cannot be listed by other users.');
 		$perms = substr(decoct(@fileperms($dataDirectory)), -3);
-		if (substr($perms, -1) != '0') {
+		if (substr($perms, -1) !== '0') {
 			chmod($dataDirectory, 0770);
 			clearstatcache();
 			$perms = substr(decoct(@fileperms($dataDirectory)), -3);
-			if (substr($perms, 2, 1) != '0') {
+			if ($perms[2] !== '0') {
 				$errors[] = [
-					'error' => $l->t('Your Data directory is readable by other users'),
+					'error' => $l->t('Your data directory is readable by other users'),
 					'hint' => $permissionsModHint
 				];
 			}
@@ -949,13 +949,13 @@ class OC_Util {
 		$errors = [];
 		if ($dataDirectory[0] !== '/') {
 			$errors[] = [
-				'error' => $l->t('Your Data directory must be an absolute path'),
+				'error' => $l->t('Your data directory must be an absolute path'),
 				'hint' => $l->t('Check the value of "datadirectory" in your configuration')
 			];
 		}
 		if (!file_exists($dataDirectory . '/.ocdata')) {
 			$errors[] = [
-				'error' => $l->t('Your Data directory  is invalid'),
+				'error' => $l->t('Your data directory  is invalid'),
 				'hint' => $l->t('Please check that the data directory contains a file' .
 					' ".ocdata" in its root.')
 			];
