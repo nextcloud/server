@@ -26,6 +26,7 @@ namespace Tests\Contacts\ContactsMenu;
 
 use OC\Contacts\ContactsMenu\ContactsStore;
 use OCP\Contacts\IManager;
+use OCP\IUser;
 use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
@@ -46,23 +47,27 @@ class ContactsStoreTest extends TestCase {
 	}
 
 	public function testGetContactsWithoutFilter() {
+		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())
 			->method('search')
 			->with($this->equalTo(''), $this->equalTo(['FN']))
 			->willReturn([
 				[
-					'id' => 123,
+					'UID' => 123,
 				],
 				[
-					'id' => 567,
+					'UID' => 567,
 					'FN' => 'Darren Roner',
 					'EMAIL' => [
 						'darren@roner.au'
 					],
 				],
 		]);
+		$user->expects($this->once())
+			->method('getUID')
+			->willReturn('user123');
 
-		$entries = $this->contactsStore->getContacts('');
+		$entries = $this->contactsStore->getContacts($user, '');
 
 		$this->assertCount(2, $entries);
 		$this->assertEquals([
@@ -70,16 +75,43 @@ class ContactsStoreTest extends TestCase {
 			], $entries[1]->getEMailAddresses());
 	}
 
-	public function testGetContactsWithoutBinaryImage() {
+	public function testGetContactsHidesOwnEntry() {
+		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())
 			->method('search')
 			->with($this->equalTo(''), $this->equalTo(['FN']))
 			->willReturn([
 				[
-					'id' => 123,
+					'UID' => 'user123',
 				],
 				[
-					'id' => 567,
+					'UID' => 567,
+					'FN' => 'Darren Roner',
+					'EMAIL' => [
+						'darren@roner.au'
+					],
+				],
+		]);
+		$user->expects($this->once())
+			->method('getUID')
+			->willReturn('user123');
+
+		$entries = $this->contactsStore->getContacts($user, '');
+
+		$this->assertCount(1, $entries);
+	}
+
+	public function testGetContactsWithoutBinaryImage() {
+		$user = $this->createMock(IUser::class);
+		$this->contactsManager->expects($this->once())
+			->method('search')
+			->with($this->equalTo(''), $this->equalTo(['FN']))
+			->willReturn([
+				[
+					'UID' => 123,
+				],
+				[
+					'UID' => 567,
 					'FN' => 'Darren Roner',
 					'EMAIL' => [
 						'darren@roner.au'
@@ -87,23 +119,27 @@ class ContactsStoreTest extends TestCase {
 					'PHOTO' => base64_encode('photophotophoto'),
 				],
 		]);
+		$user->expects($this->once())
+			->method('getUID')
+			->willReturn('user123');
 
-		$entries = $this->contactsStore->getContacts('');
+		$entries = $this->contactsStore->getContacts($user, '');
 
 		$this->assertCount(2, $entries);
 		$this->assertNull($entries[1]->getAvatar());
 	}
 
 	public function testGetContactsWithoutAvatarURI() {
+		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())
 			->method('search')
 			->with($this->equalTo(''), $this->equalTo(['FN']))
 			->willReturn([
 				[
-					'id' => 123,
+					'UID' => 123,
 				],
 				[
-					'id' => 567,
+					'UID' => 567,
 					'FN' => 'Darren Roner',
 					'EMAIL' => [
 						'darren@roner.au'
@@ -111,8 +147,11 @@ class ContactsStoreTest extends TestCase {
 					'PHOTO' => 'VALUE=uri:https://photo',
 				],
 		]);
+		$user->expects($this->once())
+			->method('getUID')
+			->willReturn('user123');
 
-		$entries = $this->contactsStore->getContacts('');
+		$entries = $this->contactsStore->getContacts($user, '');
 
 		$this->assertCount(2, $entries);
 		$this->assertEquals('https://photo', $entries[1]->getAvatar());

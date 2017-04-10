@@ -26,7 +26,6 @@ namespace OC\Contacts\ContactsMenu;
 
 use OCP\App\IAppManager;
 use OCP\Contacts\ContactsMenu\IEntry;
-use OCP\IURLGenerator;
 use OCP\IUser;
 
 class Manager {
@@ -57,7 +56,7 @@ class Manager {
 	 * @return array
 	 */
 	public function getEntries(IUser $user, $filter) {
-		$entries = $this->store->getContacts($filter);
+		$entries = $this->store->getContacts($user, $filter);
 
 		$sortedEntries = $this->sortEntries($entries);
 		$topEntries = array_slice($sortedEntries, 0, 25);

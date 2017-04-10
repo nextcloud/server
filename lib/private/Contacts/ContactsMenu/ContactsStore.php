@@ -26,6 +26,7 @@ namespace OC\Contacts\ContactsMenu;
 
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\IManager;
+use OCP\IUser;
 
 class ContactsStore {
 
@@ -40,17 +41,22 @@ class ContactsStore {
 	}
 
 	/**
+	 * @param IUser $user
 	 * @param string|null $filter
 	 * @return IEntry[]
 	 */
-	public function getContacts($filter) {
+	public function getContacts(IUser $user, $filter) {
 		$allContacts = $this->contactsManager->search($filter ?: '', [
 			'FN',
 		]);
 
-		return array_map(function(array $contact) {
+		$self = $user->getUID();
+		$entries = array_map(function(array $contact) {
 			return $this->contactArrayToEntry($contact);
 		}, $allContacts);
+		return array_filter($entries, function(IEntry $entry) use ($self) {
+			return $entry->getProperty('UID') !== $self;
+		});
 	}
 
 	/**

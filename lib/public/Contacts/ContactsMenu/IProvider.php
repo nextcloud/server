@@ -32,6 +32,7 @@ interface IProvider {
 	/**
 	 * @since 12.0
 	 * @param IEntry $entry
+	 * @return void
 	 */
 	public function process(IEntry $entry);
 }

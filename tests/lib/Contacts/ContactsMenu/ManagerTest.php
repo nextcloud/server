@@ -77,7 +77,7 @@ class ManagerTest extends TestCase {
 		$provider = $this->createMock(IProvider::class);
 		$this->contactsStore->expects($this->once())
 			->method('getContacts')
-			->with($filter)
+			->with($user, $filter)
 			->willReturn($entries);
 		$this->actionProviderStore->expects($this->once())
 			->method('getProviders')
