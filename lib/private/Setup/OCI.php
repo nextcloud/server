@@ -149,7 +149,7 @@ class OCI extends AbstractDatabase {
 		if ($e_host == '') {
 			$easy_connect_string = $e_dbname; // use dbname as easy connect name
 		} else {
-			$easy_connect_string = '//'.$e_host.'/'.$e_dbname;
+			$easy_connect_string = '//' . $e_host . (!empty($e_port) ? ":{$e_port}" : "") . '/' . $e_dbname;
 		}
 		$connection = @oci_connect($this->dbUser, $this->dbPassword, $easy_connect_string);
 		if(!$connection) {

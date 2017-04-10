@@ -25,6 +25,7 @@
  */
 
 namespace OC\DB;
+
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
@@ -33,15 +34,15 @@ use Doctrine\DBAL\Event\Listeners\SQLSessionInit;
 use OC\SystemConfig;
 
 /**
-* Takes care of creating and configuring Doctrine connections.
-*/
+ * Takes care of creating and configuring Doctrine connections.
+ */
 class ConnectionFactory {
 	/**
-	* @var array
-	*
-	* Array mapping DBMS type to default connection parameters passed to
-	* \Doctrine\DBAL\DriverManager::getConnection().
-	*/
+	 * @var array
+	 *
+	 * Array mapping DBMS type to default connection parameters passed to
+	 * \Doctrine\DBAL\DriverManager::getConnection().
+	 */
 	protected $defaultConnectionParams = [
 		'mysql' => [
 			'adapter' => '\OC\DB\AdapterMySQL',
@@ -77,17 +78,17 @@ class ConnectionFactory {
 	 */
 	public function __construct(SystemConfig $systemConfig) {
 		$this->config = $systemConfig;
-		if($this->config->getValue('mysql.utf8mb4', false)) {
+		if ($this->config->getValue('mysql.utf8mb4', false)) {
 			$this->defaultConnectionParams['mysql']['charset'] = 'utf8mb4';
 		}
 	}
 
 	/**
-	* @brief Get default connection parameters for a given DBMS.
-	* @param string $type DBMS type
-	* @throws \InvalidArgumentException If $type is invalid
-	* @return array Default connection parameters.
-	*/
+	 * @brief Get default connection parameters for a given DBMS.
+	 * @param string $type DBMS type
+	 * @throws \InvalidArgumentException If $type is invalid
+	 * @return array Default connection parameters.
+	 */
 	public function getDefaultConnectionParams($type) {
 		$normalizedType = $this->normalizeType($type);
 		if (!isset($this->defaultConnectionParams[$normalizedType])) {
@@ -105,11 +106,11 @@ class ConnectionFactory {
 	}
 
 	/**
-	* @brief Get default connection parameters for a given DBMS.
-	* @param string $type DBMS type
-	* @param array $additionalConnectionParams Additional connection parameters
-	* @return \OC\DB\Connection
-	*/
+	 * @brief Get default connection parameters for a given DBMS.
+	 * @param string $type DBMS type
+	 * @param array $additionalConnectionParams Additional connection parameters
+	 * @return \OC\DB\Connection
+	 */
 	public function getConnection($type, $additionalConnectionParams) {
 		$normalizedType = $this->normalizeType($type);
 		$eventManager = new EventManager();
@@ -124,6 +125,17 @@ class ConnectionFactory {
 				if (isset($additionalConnectionParams['driverOptions'])) {
 					$additionalConnectionParams = array_merge($additionalConnectionParams, $additionalConnectionParams['driverOptions']);
 				}
+				$host = $additionalConnectionParams['host'];
+				$port = isset($additionalConnectionParams['port']) ? $additionalConnectionParams['port'] : null;
+				$dbName = $additionalConnectionParams['dbname'];
+
+				// we set the connect string as dbname and unset the host to coerce doctrine into using it as connect string
+				if ($host === '') {
+					$additionalConnectionParams['dbname'] = $dbName; // use dbname as easy connect name
+				} else {
+					$additionalConnectionParams['dbname'] = '//' . $host . (!empty($port) ? ":{$port}" : "") . '/' . $dbName;
+				}
+				unset($additionalConnectionParams['host']);
 				break;
 			case 'sqlite3':
 				$journalMode = $additionalConnectionParams['sqlite.journal_mode'];
@@ -141,10 +153,10 @@ class ConnectionFactory {
 	}
 
 	/**
-	* @brief Normalize DBMS type
-	* @param string $type DBMS type
-	* @return string Normalized DBMS type
-	*/
+	 * @brief Normalize DBMS type
+	 * @param string $type DBMS type
+	 * @return string Normalized DBMS type
+	 */
 	public function normalizeType($type) {
 		return $type === 'sqlite' ? 'sqlite3' : $type;
 	}
@@ -207,7 +219,7 @@ class ConnectionFactory {
 			'tablePrefix' => $connectionParams['tablePrefix']
 		];
 
-		if($this->config->getValue('mysql.utf8mb4', false)) {
+		if ($this->config->getValue('mysql.utf8mb4', false)) {
 			$connectionParams['defaultTableOptions'] = [
 				'collate' => 'utf8mb4_bin',
 				'charset' => 'utf8mb4',
