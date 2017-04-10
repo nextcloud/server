@@ -1200,7 +1200,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	public function dataGetColumnName() {
 		return [
 			['column', '', '`column`'],
-			['column', 'a', 'a.`column`'],
+			['column', 'a', '`a`.`column`'],
 		];
 	}
 

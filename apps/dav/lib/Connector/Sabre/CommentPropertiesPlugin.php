@@ -42,6 +42,10 @@ class CommentPropertiesPlugin extends ServerPlugin {
 	/** @var IUserSession */
 	private $userSession;
 
+	private $cachedUnreadCount = [];
+
+	private $cachedFolders = [];
+
 	public function __construct(ICommentsManager $commentsManager, IUserSession $userSession) {
 		$this->commentsManager = $commentsManager;
 		$this->userSession = $userSession;
@@ -79,6 +83,18 @@ class CommentPropertiesPlugin extends ServerPlugin {
 			return;
 		}
 
+		// need prefetch ?
+		if ($node instanceof \OCA\DAV\Connector\Sabre\Directory
+			&& $propFind->getDepth() !== 0
+			&& !is_null($propFind->getStatus(self::PROPERTY_NAME_UNREAD))
+		) {
+			$unreadCounts = $this->commentsManager->getNumberOfUnreadCommentsForFolder($node->getId(), $this->userSession->getUser());
+			$this->cachedFolders[] = $node->getPath();
+			foreach ($unreadCounts as $id => $count) {
+				$this->cachedUnreadCount[$id] = $count;
+			}
+		}
+
 		$propFind->handle(self::PROPERTY_NAME_COUNT, function() use ($node) {
 			return $this->commentsManager->getNumberOfCommentsForObject('files', strval($node->getId()));
 		});
@@ -88,7 +104,20 @@ class CommentPropertiesPlugin extends ServerPlugin {
 		});
 
 		$propFind->handle(self::PROPERTY_NAME_UNREAD, function() use ($node) {
-			return $this->getUnreadCount($node);
+			if (isset($this->cachedUnreadCount[$node->getId()])) {
+				return $this->cachedUnreadCount[$node->getId()];
+			} else {
+				list($parentPath,) = \Sabre\Uri\split($node->getPath());
+				if ($parentPath === '') {
+					$parentPath = '/';
+				}
+				// if we already cached the folder this file is in we know there are no shares for this file
+				if (array_search($parentPath, $this->cachedFolders) === false) {
+					return $this->getUnreadCount($node);
+				} else {
+					return 0;
+				}
+			}
 		});
 	}
 
