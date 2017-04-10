@@ -931,7 +931,7 @@ class FederatedShareProvider implements IShareProvider {
 	 */
 	public function isOutgoingServer2serverShareEnabled() {
 		$result = $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
-		return ($result === 'yes') ? true : false;
+		return ($result === 'yes');
 	}
 
 	/**
@@ -941,7 +941,7 @@ class FederatedShareProvider implements IShareProvider {
 	 */
 	public function isIncomingServer2serverShareEnabled() {
 		$result = $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes');
-		return ($result === 'yes') ? true : false;
+		return ($result === 'yes');
 	}
 
 	/**
@@ -951,7 +951,7 @@ class FederatedShareProvider implements IShareProvider {
 	 */
 	public function isLookupServerQueriesEnabled() {
 		$result = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no');
-		return ($result === 'yes') ? true : false;
+		return ($result === 'yes');
 	}
 
 
@@ -962,6 +962,6 @@ class FederatedShareProvider implements IShareProvider {
 	 */
 	public function isLookupServerUploadEnabled() {
 		$result = $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes');
-		return ($result === 'yes') ? true : false;
+		return ($result === 'yes');
 	}
 }
