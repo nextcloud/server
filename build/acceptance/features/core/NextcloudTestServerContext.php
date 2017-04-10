@@ -38,13 +38,26 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
  * RawMinkContexts; just add NextcloudTestServerContext to the context list of a
  * suite in "behat.yml".
  *
- * The Nextcloud server is set up by running a new Docker container; the Docker
- * image used by the container must provide a Nextcloud server ready to be used
- * by the tests. By default, the image "nextcloud-local-test-acceptance" is
- * used, although that can be customized using the "dockerImageName" parameter
- * in "behat.yml". In the same way, the range of ports in which the Nextcloud
- * server will be published in the local host (by default, "15000-16000") can be
- * customized using the "hostPortRangeForContainer" parameter.
+ * The Nextcloud server is provided by an instance of NextcloudTestServerHelper;
+ * its class must be specified when this context is created. By default,
+ * "NextcloudTestServerDockerHelper" is used, although that can be customized
+ * using the "nextcloudTestServerHelper" parameter in "behat.yml". In the same
+ * way, the parameters to be passed to the helper when it is created can be
+ * customized using the "nextcloudTestServerHelperParameters" parameter, which
+ * is an array (without keys) with the value of the parameters in the same order
+ * as in the constructor of the helper class (by default,
+ * [ "nextcloud-local-test-acceptance", "15000-16000" ]).
+ *
+ * Example of custom parameters in "behat.yml":
+ * default:
+ *   suites:
+ *     default:
+ *       contexts:
+ *         - NextcloudTestServerContext:
+ *             nextcloudTestServerHelper: NextcloudTestServerDockerHelper
+ *             nextcloudTestServerHelperParameters:
+ *               - nextcloud-local-test-acceptance-custom-image
+ *               - 23000-42000
  *
  * Note that using Docker containers as a regular user requires giving access to
  * the Docker daemon to that user. Unfortunately, that makes possible for that
@@ -55,20 +68,27 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 class NextcloudTestServerContext implements Context {
 
 	/**
-	 * @var NextcloudTestServerDockerHelper
+	 * @var NextcloudTestServerHelper
 	 */
-	private $dockerHelper;
+	private $nextcloudTestServerHelper;
 
 	/**
 	 * Creates a new NextcloudTestServerContext.
 	 *
-	 * @param string $dockerImageName the name of the Docker image that provides
-	 *        the Nextcloud test server.
-	 * @param string $hostPortRangeForContainer the range of local ports in the
-	 *        host in which the port 80 of the container can be published.
+	 * @param string $nextcloudTestServerHelper the name of the
+	 *        NextcloudTestServerHelper implementing class to use.
+	 * @param array $nextcloudTestServerHelperParameters the parameters for the
+	 *        constructor of the $nextcloudTestServerHelper class.
 	 */
-	public function __construct($dockerImageName = "nextcloud-local-test-acceptance", $hostPortRangeForContainer = "15000-16000") {
-		$this->dockerHelper = new NextcloudTestServerDockerHelper($dockerImageName, $hostPortRangeForContainer);
+	public function __construct($nextcloudTestServerHelper = "NextcloudTestServerDockerHelper",
+								$nextcloudTestServerHelperParameters = [ "nextcloud-local-test-acceptance", "15000-16000" ]) {
+		$nextcloudTestServerHelperClass = new ReflectionClass($nextcloudTestServerHelper);
+
+		if ($nextcloudTestServerHelperParameters === null) {
+			$nextcloudTestServerHelperParameters = array();
+		}
+
+		$this->nextcloudTestServerHelper = $nextcloudTestServerHelperClass->newInstanceArgs($nextcloudTestServerHelperParameters);
 	}
 
 	/**
@@ -76,21 +96,19 @@ class NextcloudTestServerContext implements Context {
 	 *
 	 * Sets up the Nextcloud test server before each scenario.
 	 *
-	 * It starts the Docker container and, once ready, it sets the "base_url"
-	 * parameter of the sibling RawMinkContexts to "http://" followed by the IP
-	 * address and port of the container; if the Docker container can not be
-	 * started after some time an exception is thrown (as it is just a warning
-	 * for the test runner and nothing to be explicitly catched a plain base
-	 * Exception is used).
+	 * Once the Nextcloud test server is set up, the "base_url" parameter of the
+	 * sibling RawMinkContexts is set to the base URL of the Nextcloud test
+	 * server.
 	 *
 	 * @param \Behat\Behat\Hook\Scope\BeforeScenarioScope $scope the
 	 *        BeforeScenario hook scope.
-	 * @throws \Exception if the Docker container can not be started.
+	 * @throws \Exception if the Nextcloud test server can not be set up or its
+	 *         base URL got.
 	 */
 	public function setUpNextcloudTestServer(BeforeScenarioScope $scope) {
-		$this->dockerHelper->setUp();
+		$this->nextcloudTestServerHelper->setUp();
 
-		$this->setBaseUrlInSiblingRawMinkContexts($scope, $this->dockerHelper->getBaseUrl());
+		$this->setBaseUrlInSiblingRawMinkContexts($scope, $this->nextcloudTestServerHelper->getBaseUrl());
 	}
 
 	/**
@@ -98,15 +116,10 @@ class NextcloudTestServerContext implements Context {
 	 *
 	 * Cleans up the Nextcloud test server after each scenario.
 	 *
-	 * It stops and removes the Docker container; if the Docker container can
-	 * not be removed after some time an exception is thrown (as it is just a
-	 * warning for the test runner and nothing to be explicitly catched a plain
-	 * base Exception is used).
-	 *
-	 * @throws \Exception if the Docker container can not be removed.
+	 * @throws \Exception if the Nextcloud test server can not be cleaned up.
 	 */
 	public function cleanUpNextcloudTestServer() {
-		$this->dockerHelper->cleanUp();
+		$this->nextcloudTestServerHelper->cleanUp();
 	}
 
 	private function setBaseUrlInSiblingRawMinkContexts(BeforeScenarioScope $scope, $baseUrl) {
