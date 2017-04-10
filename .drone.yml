@@ -268,6 +268,15 @@ pipeline:
     when:
       matrix:
         TESTS: integration-auth
+  integration-maintenance-mode:
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/maintenance-mode.feature
+    when:
+      matrix:
+        TESTS: integration-maintenance-mode
   integration-carddav:
     image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
@@ -497,6 +506,7 @@ matrix:
     - TESTS: db-codecov
     - TESTS: integration-capabilities_features
     - TESTS: integration-federation_features
+    - TESTS: integration-maintenance-mode
     - TESTS: integration-auth
     - TESTS: integration-carddav
     - TESTS: integration-dav-v2
