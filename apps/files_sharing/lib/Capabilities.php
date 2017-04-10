@@ -21,7 +21,6 @@
  */
 namespace OCA\Files_Sharing;
 
-use OCP\App\IAppManager;
 use OCP\Capabilities\ICapability;
 use \OCP\IConfig;
 
@@ -35,12 +34,8 @@ class Capabilities implements ICapability {
 	/** @var IConfig */
 	private $config;
 
-	/** @var IAppManager */
-	private $appManager;
-
-	public function __construct(IConfig $config, IAppManager $appManager) {
+	public function __construct(IConfig $config) {
 		$this->config = $config;
-		$this->appManager = $appManager;
 	}
 
 	/**
@@ -98,15 +93,6 @@ class Capabilities implements ICapability {
 			'incoming' => $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes') === 'yes',
 			'expire_date' => ['enabled' => true]
 		];
-
-		if ($this->appManager->isEnabledForUser('sharebymail')) {
-			$res['mailshare'] = [
-				'enabled' => true,
-				'upload_files_drop' => ['enabled' => true],
-				'password' => ['enabled' => true],
-				'expire_date' => ['enabled' => true]
-			];
-		}
 
 		return [
 			'files_sharing' => $res,
