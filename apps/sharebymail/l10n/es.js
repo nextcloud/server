@@ -14,11 +14,17 @@ OC.L10N.register(
     "%s shared »%s« with you" : "%s compartió »%s« con usted",
     "%s shared »%s« with you on behalf of %s" : "%s compartió »%s« con usted a nombre de %s",
     "Failed to create the E-mail" : "Falló crear el correo electrónico",
+    "Password to access »%s« shared to you by %s" : "Contraseña para acceder »%s« compartido con usted por %s",
     "Could not find share" : "No se pudo encontrar el recurso compartido",
     "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "¡Hola!,\n\n%s comapartió »%s« con usted a nombre de %s.\n\n%s\n\n",
     "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Hola,\n\n%s compartió »%s« con usted.\n\n%s\n\n",
     "Cheers!" : "¡Ánimo!",
+    "Hey there,\n\n%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n\nIt is protected with the following password: %s\n\n" : "Hola que tal,\n\n%s compartió »%s« contigo.\nDeberías ya haber recibido un mensaje separado con un enlace para acceder a él.\n\nEstá protegido por la siguiente contraseña: %s\n",
     "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hola,<br><br>%s compartió <a href=\"%s\">%s</a> con usted a nombre de %s.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hola,<br><br>%s compartió <a href=\"%s\">%s</a> con usted.<br><br>"
+    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hola,<br><br>%s compartió <a href=\"%s\">%s</a> con usted.<br><br>",
+    "Hey there,<br><br>%s shared <i>%s</i> with you.<br>You should have already received a separate mail with a link to access it.<br><br>It is protected with the following password: %s<br><br>" : "Hola que tal,<br><br>%s compartió <i>%s</i> contigo.<br>Deberías ya haber recibido un mensaje separado con un enlace para acceder a él.<br><br>Está protegido por la siguiente contraseña: %s<br><br>",
+    "Share by mail" : "Enviado por correo electrónico",
+    "Send a personalized link to a file or folder by mail." : "Enviar un enlace personalizado a uno de los archivos o carpetas por correo electrónico.",
+    "Send password by mail" : "Enviar contraseñas por email"
 },
 "nplurals=2; plural=(n != 1);");
