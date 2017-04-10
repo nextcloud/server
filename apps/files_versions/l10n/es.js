@@ -7,6 +7,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Restore" : "Recuperar",
     "No earlier versions available" : "No hay versiones previouses disponibles",
+    "More versions …" : "Más versiones ...",
     "No versions available" : "No hay versiones disponibles",
     "More versions..." : "Más versiones..."
 },
