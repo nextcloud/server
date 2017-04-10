@@ -6,7 +6,7 @@
 		"underscore/underscore.js",
 		"moment/min/moment-with-locales.min.js",
 		"handlebars/handlebars.js",
-		"blueimp-md5/js/md5.js",
+		"blueimp-md5/js/md5.min.js",
 		"bootstrap/js/tooltip.js",
 		"backbone/backbone.js",
 		"es6-promise/dist/es6-promise.js",

@@ -1,6 +1,6 @@
 {
   "name": "blueimp-md5",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "title": "JavaScript MD5",
   "description": "JavaScript MD5 implementation.",
   "keywords": [
@@ -29,12 +29,7 @@
     "url": "git://github.com/blueimp/JavaScript-MD5.git"
   },
   "bugs": "https://github.com/blueimp/JavaScript-MD5/issues",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://www.opensource.org/licenses/MIT"
-    }
-  ],
+  "license": "MIT",
   "main": "js/md5.js",
   "ignore": [
     "/*.*",
@@ -42,13 +37,13 @@
     "js/demo.js",
     "test"
   ],
-  "_release": "1.1.0",
+  "_release": "1.1.1",
   "_resolution": {
     "type": "version",
-    "tag": "1.1.0",
-    "commit": "b187bf0abe24bacbca83ea4799978b78829e7914"
+    "tag": "1.1.1",
+    "commit": "f6d59c44053c65cab63b6e8329c731af632249e8"
   },
-  "_source": "git://github.com/blueimp/JavaScript-MD5.git",
+  "_source": "https://github.com/blueimp/JavaScript-MD5.git",
   "_target": "~1.1.0",
   "_originalSource": "blueimp-md5"
 }
