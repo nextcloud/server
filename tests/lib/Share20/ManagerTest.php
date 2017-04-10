@@ -1022,12 +1022,12 @@ class ManagerTest extends \Test\TestCase {
  	public function testUserCreateChecksIdenticalPathSharedViaDeletedGroup() {
 		$share  = $this->manager->newShare();
 
-		$sharedWith = $this->getMock('\OCP\IUser');
+		$sharedWith = $this->createMock(IUser::class);
 		$sharedWith->method('getUID')->willReturn('sharedWith');
 
 		$this->userManager->method('get')->with('sharedWith')->willReturn($sharedWith);
 
-		$path = $this->getMock('\OCP\Files\Node');
+		$path = $this->createMock(Node::class);
 
 		$share->setSharedWith('sharedWith')
 			->setNode($path)
@@ -1136,7 +1136,7 @@ class ManagerTest extends \Test\TestCase {
 	public function testGroupCreateChecksShareWithGroupMembersOnlyNullGroup() {
 		$share = $this->manager->newShare();
 
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->createMock(IUser::class);
 		$share->setSharedBy('user')->setSharedWith('group');
 
 		$this->groupManager->method('get')->with('group')->willReturn(null);
@@ -2611,7 +2611,7 @@ class ManagerTest extends \Test\TestCase {
 		$share->setShareType(\OCP\Share::SHARE_TYPE_GROUP);
 		$share->setSharedWith('shareWith');
 
-		$recipient = $this->getMock('\OCP\IUser');
+		$recipient = $this->createMock(IUser::class);
 
 		$this->groupManager->method('get')->with('shareWith')->willReturn(null);
 		$this->userManager->method('get')->with('recipient')->willReturn($recipient);
@@ -2779,6 +2779,8 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($folder);
 		$file->method('getPath')
 			->willReturn('/owner/files/folder/file');
+		$file->method('getId')
+			->willReturn(23);
 		$folder->method('getParent')
 			->willReturn($userFolder);
 		$folder->method('getPath')
@@ -2800,9 +2802,9 @@ class ManagerTest extends \Test\TestCase {
 			)
 			->willReturn([
 				'users' => [
-					'user1',
-					'user2',
-					'user3',
+					'user1' => [],
+					'user2' => [],
+					'user3' => [],
 				],
 				'public' => true,
 			]);
@@ -2814,11 +2816,13 @@ class ManagerTest extends \Test\TestCase {
 			)
 			->willReturn([
 				'users' => [
-					'user3',
-					'user4',
-					'user5',
+					'user3' => [],
+					'user4' => [],
+					'user5' => [],
 				],
-				'remote' => true,
+				'remote' => [
+					'remote1',
+				],
 			]);
 
 		$this->rootFolder->method('getUserFolder')
@@ -2826,9 +2830,16 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($userFolder);
 
 		$expected = [
-			'users' => ['owner', 'user1', 'user2', 'user3', 'user4', 'user5'],
+			'users' => [
+				'owner' => [
+					'node_id' => 23,
+					'node_path' => '/folder/file'
+				]
+				, 'user1' => [], 'user2' => [], 'user3' => [], 'user4' => [], 'user5' => []],
+			'remote' => [
+				'remote1',
+			],
 			'public' => true,
-			'remote' => true,
 		];
 
 		$result = $manager->getAccessList($node, true, true);
