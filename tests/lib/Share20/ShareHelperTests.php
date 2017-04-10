@@ -23,16 +23,14 @@
 namespace Test\Share20;
 
 use OC\Share20\ShareHelper;
-use OCP\Files\Folder;
-use OCP\Files\IRootFolder;
 use OCP\Files\Node;
-use OCP\Files\NotFoundException;
+use OCP\Share\IManager;
 use Test\TestCase;
 
 class ShareHelperTests extends TestCase {
 
-	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
-	private $rootFolder;
+	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $manager;
 
 	/** @var ShareHelper */
 	private $helper;
@@ -40,55 +38,83 @@ class ShareHelperTests extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->manager = $this->createMock(IManager::class);
 
-		$this->helper = new ShareHelper($this->rootFolder);
+		$this->helper = new ShareHelper($this->manager);
+	}
+
+	public function dataGetPathsForAccessList() {
+		return [
+			[[], [], false, [], [], false, [
+				'users' => [],
+				'remotes' => [],
+			]],
+			[['user1', 'user2'], ['user1' => 'foo', 'user2' => 'bar'], true, [], [], false, [
+				'users' => ['user1' => 'foo', 'user2' => 'bar'],
+				'remotes' => [],
+			]],
+			[[], [], false, ['remote1', 'remote2'], ['remote1' => 'qwe', 'remote2' => 'rtz'], true, [
+				'users' => [],
+				'remotes' => ['remote1' => 'qwe', 'remote2' => 'rtz'],
+			]],
+			[['user1', 'user2'], ['user1' => 'foo', 'user2' => 'bar'], true, ['remote1', 'remote2'], ['remote1' => 'qwe', 'remote2' => 'rtz'], true, [
+				'users' => ['user1' => 'foo', 'user2' => 'bar'],
+				'remotes' => ['remote1' => 'qwe', 'remote2' => 'rtz'],
+			]],
+		];
 	}
 
 	/**
-	 * uid1 - Exists with valid node
-	 * uid2 - Does not exist
-	 * uid3 - Exists but no valid node
-	 * uid4 - Exists with valid node
+	 * @dataProvider dataGetPathsForAccessList
 	 */
-	public function testGetPathsForAccessList() {
-		/** @var Folder[]|\PHPUnit_Framework_MockObject_MockObject[] $userFolder */
-		$userFolder = [
-			'uid1' => $this->createMock(Folder::class),
-			'uid3' => $this->createMock(Folder::class),
-			'uid4' => $this->createMock(Folder::class),
-		];
-
-		$this->rootFolder->method('getUserFolder')
-			->willReturnCallback(function($uid) use ($userFolder) {
-				if (isset($userFolder[$uid])) {
-					return $userFolder[$uid];
-				}
-				throw new NotFoundException();
-			});
+	public function testGetPathsForAccessList(array $userList, array $userMap, $resolveUsers, array $remoteList, array $remoteMap, $resolveRemotes, array $expected) {
+		$this->manager->expects($this->once())
+			->method('getAccessList')
+			->willReturn([
+				'users' => $userList,
+				'remote' => $remoteList,
+			]);
 
 		/** @var Node|\PHPUnit_Framework_MockObject_MockObject $node */
 		$node = $this->createMock(Node::class);
-		$node->method('getId')
-			->willReturn(42);
+		/** @var ShareHelper|\PHPUnit_Framework_MockObject_MockObject $helper */
+		$helper = $this->getMockBuilder(ShareHelper::class)
+			->setConstructorArgs([$this->manager])
+			->setMethods(['getPathsForUsers', 'getPathsForRemotes'])
+			->getMock();
 
-		$userFolder['uid1']->method('getById')
-			->with(42)
-			->willReturn([$node]);
-		$userFolder['uid3']->method('getById')
-			->with(42)
-			->willReturn([]);
-		$userFolder['uid4']->method('getById')
-			->with(42)
-			->willReturn([$node]);
+		$helper->expects($resolveUsers ? $this->once() : $this->never())
+			->method('getPathsForUsers')
+			->with($node, $userList)
+			->willReturn($userMap);
 
-		$expects = [
-			'uid1' => [$node],
-			'uid4' => [$node],
+		$helper->expects($resolveRemotes ? $this->once() : $this->never())
+			->method('getPathsForRemotes')
+			->with($node, $remoteList)
+			->willReturn($remoteMap);
+
+		$this->assertSame($expected, $helper->getPathsForAccessList($node));
+	}
+
+	public function dataGetMountedPath() {
+		return [
+			['/admin/files/foobar', '/foobar'],
+			['/admin/files/foo/bar', '/foo/bar'],
 		];
+	}
 
-		$result = $this->helper->getPathsForAccessList($node, ['uid1', 'uid2', 'uid3', 'uid4']);
+	/**
+	 * @dataProvider dataGetMountedPath
+	 * @param string $path
+	 * @param string $expected
+	 */
+	public function testGetMountedPath($path, $expected) {
+		/** @var Node|\PHPUnit_Framework_MockObject_MockObject $node */
+		$node = $this->createMock(Node::class);
+		$node->expects($this->once())
+			->method('getPath')
+			->willReturn($path);
 
-		$this->assertSame($expects, $result);
+		$this->assertSame($expected, self::invokePrivate($this->helper, 'getMountedPath', [$node]));
 	}
 }

@@ -56,6 +56,11 @@ class ShareHelper implements IShareHelper {
 		return $result;
 	}
 
+	/**
+	 * @param Node $node
+	 * @param array[] $users
+	 * @return array
+	 */
 	protected function getPathsForUsers(Node $node, array $users) {
 		$byId = $results = [];
 		foreach ($users as $uid => $info) {
@@ -79,6 +84,7 @@ class ShareHelper implements IShareHelper {
 		$item = $node;
 		$appendix = '/' . $node->getName();
 		while (!empty($byId)) {
+			/** @var Node $item */
 			$item = $item->getParent();
 
 			if (!empty($byId[$item->getId()])) {
@@ -94,6 +100,11 @@ class ShareHelper implements IShareHelper {
 		return $results;
 	}
 
+	/**
+	 * @param Node $node
+	 * @param array[] $remotes
+	 * @return array
+	 */
 	protected function getPathsForRemotes(Node $node, array $remotes) {
 		$byId = $results = [];
 		foreach ($remotes as $cloudId => $info) {
@@ -121,6 +132,10 @@ class ShareHelper implements IShareHelper {
 		return $results;
 	}
 
+	/**
+	 * @param Node $node
+	 * @return string
+	 */
 	protected function getMountedPath(Node $node) {
 		$path = $node->getPath();
 		$sections = explode('/', $path, 4);
