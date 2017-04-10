@@ -53,7 +53,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	protected $addressHandler;
 	/** @var Notifications | \PHPUnit_Framework_MockObject_MockObject */
 	protected $notifications;
-	/** @var TokenHandler */
+	/** @var TokenHandler|\PHPUnit_Framework_MockObject_MockObject */
 	protected $tokenHandler;
 	/** @var IL10N */
 	protected $l;
@@ -798,8 +798,10 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$folder1 = $rootFolder->getUserFolder($u1->getUID())->newFolder('foo');
 		$file1 = $folder1->newFile('bar1');
 
-		$this->tokenHandler->method('generateToken')->willReturn('token');
-		$this->notifications
+		$this->tokenHandler->expects($this->exactly(2))
+			->method('generateToken')
+			->willReturnOnConsecutiveCalls('token1', 'token2');
+		$this->notifications->expects($this->atLeastOnce())
 			->method('sendRemoteShare')
 			->willReturn(true);
 
@@ -811,9 +813,26 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setNode($file1);
 		$this->provider->create($share1);
 
+		$share2 = $this->shareManager->newShare();
+		$share2->setSharedWith('foobar@localhost')
+			->setSharedBy($u1->getUID())
+			->setShareOwner($u1->getUID())
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file1);
+		$this->provider->create($share2);
+
 		$result = $this->provider->getAccessList([$file1], true);
 
-		$this->assertSame(['remote' => true], $result);
+		$this->assertEquals(['remote' => [
+			'user@server.com' => [
+				'token' => 'token1',
+				'node_id' => $file1->getId(),
+			],
+			'foobar@localhost' => [
+				'token' => 'token2',
+				'node_id' => $file1->getId(),
+			],
+		]], $result);
 		$u1->delete();
 	}
 }
