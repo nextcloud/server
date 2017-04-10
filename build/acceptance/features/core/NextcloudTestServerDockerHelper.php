@@ -130,7 +130,7 @@ class NextcloudTestServerDockerHelper {
 	 *
 	 * @throws \Exception if the Docker command failed to execute.
 	 */
-	public function createAndStartContainer() {
+	private function createAndStartContainer() {
 		$moreEntropy = true;
 		$this->containerName = uniqid($this->imageName . "-", $moreEntropy);
 
@@ -185,7 +185,7 @@ class NextcloudTestServerDockerHelper {
 	 *
 	 * @throws \Exception if the Docker command failed to execute.
 	 */
-	public function stopAndRemoveContainer() {
+	private function stopAndRemoveContainer() {
 		// Although the Nextcloud image does not define a volume "--volumes" is
 		// used anyway just in case any of its ancestor images does.
 		$this->executeDockerCommand("rm --volumes --force " . $this->containerName);
@@ -210,7 +210,7 @@ class NextcloudTestServerDockerHelper {
 	 * @throws \Exception if the Docker command failed to execute or the
 	 *         container is not running.
 	 */
-	public function getNextcloudTestServerAddress() {
+	private function getNextcloudTestServerAddress() {
 		return $this->executeDockerCommand("port " . $this->containerName . " 80");
 	}
 
@@ -220,7 +220,7 @@ class NextcloudTestServerDockerHelper {
 	 * @return boolean true if the container exists, false otherwise.
 	 * @throws \Exception if the Docker command failed to execute.
 	 */
-	public function isContainerRegistered() {
+	private function isContainerRegistered() {
 		// With the "--quiet" option "docker ps" only shows the ID of the
 		// matching containers, without table headers. Therefore, if the
 		// container does not exist the output will be empty (not even a new
