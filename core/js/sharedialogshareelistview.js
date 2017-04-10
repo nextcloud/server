@@ -190,6 +190,8 @@
 			var shareWithDisplayName = this.model.getShareWithDisplayName(shareIndex);
 			var shareWithTitle = '';
 			var shareType = this.model.getShareType(shareIndex);
+			var sharedBy = this.model.getSharedBy(shareIndex);
+			var sharedByDisplayName = this.model.getSharedByDisplayName(shareIndex);
 
 			var hasPermissionOverride = {};
 			if (shareType === OC.Share.SHARE_TYPE_GROUP) {
@@ -209,6 +211,17 @@
 				shareWithTitle = shareWith + " (" + t('core', 'email') + ')';
 			} else if (shareType === OC.Share.SHARE_TYPE_CIRCLE) {
 				shareWithTitle = shareWith;
+			}
+
+			if (sharedBy !== oc_current_user) {
+				var empty = shareWithTitle === '';
+				if (!empty) {
+					shareWithTitle += ' (';
+				}
+				shareWithTitle += t('core', 'shared by {sharer}', {sharer: sharedByDisplayName});
+				if (!empty) {
+					shareWithTitle += ')';
+				}
 			}
 
 			var share = this.model.get('shares')[shareIndex];
