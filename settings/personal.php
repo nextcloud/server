@@ -186,6 +186,10 @@ $tmpl->assign('certs', $certificateManager->listCertificates());
 $tmpl->assign('showCertificates', $enableCertImport);
 $tmpl->assign('urlGenerator', $urlGenerator);
 
+$lookupServerUploadEnabled = $config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes');
+$lookupServerUploadEnabled = $lookupServerUploadEnabled === 'yes';
+$tmpl->assign('lookupServerUploadEnabled', $lookupServerUploadEnabled);
+
 // Get array of group ids for this user
 $groups = \OC::$server->getGroupManager()->getUserIdGroups(OC_User::getUser());
 $groups2 = array_map(function($group) { return $group->getGID(); }, $groups);
