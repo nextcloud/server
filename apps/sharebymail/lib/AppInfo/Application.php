@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
+ * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,4 +19,27 @@
  *
  */
 
-$app = new \OCA\ShareByMail\AppInfo\Application();
+
+namespace OCA\ShareByMail\AppInfo;
+
+
+use OCA\ShareByMail\Settings;
+use OCP\AppFramework\App;
+use OCP\Util;
+
+class Application extends App {
+
+	public function __construct(array $urlParams = array()) {
+		parent::__construct('sharebymail', $urlParams);
+
+		$settings = new Settings();
+
+		/** register capabilities */
+		$container = $this->getContainer();
+		$container->registerCapability('OCA\ShareByMail\Capabilities');
+
+		/** register hooks */
+		Util::connectHook('\OCP\Config', 'js', $settings, 'announceShareProvider');
+	}
+
+}
