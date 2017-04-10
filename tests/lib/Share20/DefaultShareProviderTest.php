@@ -1545,9 +1545,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(1, $stmt);
 		$id = $qb->getLastInsertId();
 
-		$user1 = $this->getMock('\OCP\IUser');
+		$user1 = $this->createMock(IUser::class);
 		$user1->method('getUID')->willReturn('user1');
-		$user2 = $this->getMock('\OCP\IUser');
+		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
 		$this->userManager->method('get')->will($this->returnValueMap([
 			['user1', $user1],
@@ -1556,7 +1556,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->groupManager->method('get')->with('group')->willReturn(null);
 
-		$file = $this->getMock('\OCP\Files\File');
+		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(1);
 
 		$this->rootFolder->method('getUserFolder')->with('user1')->will($this->returnSelf());
@@ -2503,10 +2503,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$result = $provider->getAccessList([$folder1, $folder2, $file1], false);
 
 		$this->assertCount(4, $result['users']);
-		$this->assertContains('testShare2', $result['users']);
-		$this->assertContains('testShare3', $result['users']);
-		$this->assertContains('testShare4', $result['users']);
-		$this->assertContains('testShare5', $result['users']);
+		$this->assertArrayHasKey('testShare2', $result['users']);
+		$this->assertArrayHasKey('testShare3', $result['users']);
+		$this->assertArrayHasKey('testShare4', $result['users']);
+		$this->assertArrayHasKey('testShare5', $result['users']);
 		$this->assertTrue($result['public']);
 
 		$provider->delete($share1);
@@ -2590,9 +2590,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$result = $provider->getAccessList([$folder1, $folder2, $file1], true);
 
 		$this->assertCount(3, $result['users']);
-		$this->assertContains('testShare2', $result['users']);
-		$this->assertContains('testShare3', $result['users']);
-		$this->assertContains('testShare5', $result['users']);
+		$this->assertArrayHasKey('testShare2', $result['users']);
+		$this->assertArrayHasKey('testShare3', $result['users']);
+		$this->assertArrayHasKey('testShare5', $result['users']);
 		$this->assertTrue($result['public']);
 
 		$provider->delete($share1);

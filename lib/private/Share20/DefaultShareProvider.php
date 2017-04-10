@@ -1128,17 +1128,18 @@ class DefaultShareProvider implements IShareProvider {
 				}
 			} else if ($type === \OCP\Share::SHARE_TYPE_LINK) {
 				$link = true;
-			} else if ($type === self::SHARE_TYPE_USERGROUP) {
-				if ($currentAccess === true) {
-					$uid = $row['share_with'];
-					$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
-					$users[$uid][$row['id']] = $row;
-				}
+			} else if ($type === self::SHARE_TYPE_USERGROUP && $currentAccess === true) {
+				$uid = $row['share_with'];
+				$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
+				$users[$uid][$row['id']] = $row;
 			}
 		}
 		$cursor->closeCursor();
 
 		$users = array_map([$this, 'filterSharesOfUser'], $users);
+		if ($currentAccess === true) {
+			$users = array_filter($users);
+		}
 
 		return ['users' => $users, 'public' => $link];
 	}
