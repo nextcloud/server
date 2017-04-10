@@ -24,7 +24,15 @@ $(function() {
 		if ($(this).is(':checked')) {
 			status = 'yes';
 		}
-		OC.AppConfig.setValue('sharebymail', 'sendpasswordmail', status);
+		OCP.AppConfig.setValue('sharebymail', 'sendpasswordmail', status);
+	});
+
+	$('#enforcePasswordProtection').on('change', function() {
+		var status = 'no';
+		if ($(this).is(':checked')) {
+			status = 'yes';
+		}
+		OCP.AppConfig.setValue('sharebymail', 'enforcePasswordProtection', status);
 	});
 
 });

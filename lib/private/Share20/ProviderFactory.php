@@ -160,7 +160,8 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getURLGenerator(),
 				$this->serverContainer->getActivityManager(),
 				$settingsManager,
-				$this->serverContainer->query(Defaults::class)
+				$this->serverContainer->query(Defaults::class),
+				$this->serverContainer->getHasher()
 			);
 		}
 

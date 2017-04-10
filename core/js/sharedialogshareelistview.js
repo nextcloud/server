@@ -100,7 +100,7 @@
 					'{{/if}}' +
 					'<li>' +
 						'<span class="shareOption menuitem">' +
-							'<input id="password-{{cid}}-{{shareId}}" type="checkbox" name="password" class="password checkbox" {{#if isPasswordSet}}checked="checked"{{/if}}" />' +
+							'<input id="password-{{cid}}-{{shareId}}" type="checkbox" name="password" class="password checkbox" {{#if isPasswordSet}}checked="checked"{{/if}}{{#if isPasswordForMailSharesRequired}}disabled=""{{/if}}" />' +
 							'<label for="password-{{cid}}-{{shareId}}">{{passwordLabel}}</label>' +
 							'<div class="passwordContainer-{{cid}}-{{shareId}} {{#unless isPasswordSet}}hidden{{/unless}}">' +
 							'    <label for="passwordField-{{cid}}-{{shareId}}" class="hidden-visually" value="{{password}}">{{passwordLabel}}</label>' +
@@ -268,6 +268,7 @@
 				crudsLabel: t('core', 'Access control'),
 				triangleSImage: OC.imagePath('core', 'actions/triangle-s'),
 				isResharingAllowed: this.configModel.get('isResharingAllowed'),
+				isPasswordForMailSharesRequired: this.configModel.get('isPasswordForMailSharesRequired'),
 				sharePermissionPossible: this.model.sharePermissionPossible(),
 				editPermissionPossible: this.model.editPermissionPossible(),
 				createPermissionPossible: this.model.createPermissionPossible(),

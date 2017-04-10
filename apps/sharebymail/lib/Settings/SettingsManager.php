@@ -30,7 +30,9 @@ class SettingsManager {
 	/** @var IConfig */
 	private $config;
 
-	private $defaultSetting = 'yes';
+	private $sendPasswordByMailDefault = 'yes';
+
+	private $enforcePasswordProtectionDefault = 'no';
 
 	public function __construct(IConfig $config) {
 		$this->config = $config;
@@ -42,8 +44,18 @@ class SettingsManager {
 	 * @return bool
 	 */
 	public function sendPasswordByMail() {
-		$sendPasswordByMail = $this->config->getAppValue('sharebymail', 'sendpasswordmail', $this->defaultSetting);
+		$sendPasswordByMail = $this->config->getAppValue('sharebymail', 'sendpasswordmail', $this->sendPasswordByMailDefault);
 		return $sendPasswordByMail === 'yes';
+	}
+
+	/**
+	 * do we require a share by mail to be password protected
+	 *
+	 * @return bool
+	 */
+	public function enforcePasswordProtection() {
+		$enforcePassword = $this->config->getAppValue('sharebymail', 'enforcePasswordProtection', $this->enforcePasswordProtectionDefault);
+		return $enforcePassword === 'yes';
 	}
 
 }

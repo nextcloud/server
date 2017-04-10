@@ -32,7 +32,8 @@ class Application extends App {
 	public function __construct(array $urlParams = array()) {
 		parent::__construct('sharebymail', $urlParams);
 
-		$settings = new Settings();
+		$settingsManager = \OC::$server->query(Settings\SettingsManager::class);
+		$settings = new Settings($settingsManager);
 
 		/** register capabilities */
 		$container = $this->getContainer();
@@ -40,6 +41,7 @@ class Application extends App {
 
 		/** register hooks */
 		Util::connectHook('\OCP\Config', 'js', $settings, 'announceShareProvider');
+		Util::connectHook('\OCP\Config', 'js', $settings, 'announceShareByMailSettings');
 	}
 
 }

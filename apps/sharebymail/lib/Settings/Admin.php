@@ -40,7 +40,8 @@ class Admin implements ISettings {
 	public function getForm() {
 
 		$parameters = [
-			'sendPasswordMail' => $this->settingsManager->sendPasswordByMail()
+			'sendPasswordMail' => $this->settingsManager->sendPasswordByMail(),
+			'enforcePasswordProtection' => $this->settingsManager->enforcePasswordProtection()
 		];
 
 		return new TemplateResponse('sharebymail', 'settings-admin', $parameters, '');
