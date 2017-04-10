@@ -39,9 +39,8 @@
  * accessed through a local port in the host system mapped to the port 80 of the
  * Docker container; if the Nextcloud server was instead accessed directly
  * through its IP address it would complain that it was being accessed from an
- * untrusted domain and refuse to work until the admin whitelisted it. The IP
- * address and port to access the Nextcloud server can be got from
- * "getNextcloudTestServerAddress".
+ * untrusted domain and refuse to work until the admin whitelisted it. The base
+ * URL to access the Nextcloud server can be got from "getBaseUrl".
  *
  * For better compatibility, Docker CLI commands used internally follow the
  * pre-1.13 syntax (also available in 1.13 and newer). For example,
@@ -98,6 +97,32 @@ class NextcloudTestServerDockerHelper {
 	}
 
 	/**
+	 * Sets up the Nextcloud test server.
+	 *
+	 * It starts the Docker container and waits for its Nextcloud test server to
+	 * be started; if the server does not start after some time an exception is
+	 * thrown (as it is just a warning for the test runner and nothing to be
+	 * explicitly catched a plain base Exception is used).
+	 *
+	 * @throws \Exception if the Docker container or its Nextcloud test server
+	 *         can not be started.
+	 */
+	public function setUp() {
+		$this->createAndStartContainer();
+
+		$serverAddress = $this->getNextcloudTestServerAddress();
+
+		$isServerReadyCallback = function() use ($serverAddress) {
+			return $this->isServerReady($serverAddress);
+		};
+		$timeout = 10;
+		$timeoutStep = 0.5;
+		if (!Utils::waitFor($isServerReadyCallback, $timeout, $timeoutStep)) {
+			throw new Exception("Docker container for Nextcloud (" . $this->containerName . ") or its Nextcloud test server could not be started");
+		}
+	}
+
+	/**
 	 * Creates and starts the container.
 	 *
 	 * Note that, even if the container has started, the server it contains may
@@ -116,6 +141,43 @@ class NextcloudTestServerDockerHelper {
 		// the "127.0.0.1" IP address, which prevents Nextcloud from complaining
 		// that it is being accessed from an untrusted domain.
 		$this->executeDockerCommand("run --detach --user=www-data --publish 127.0.0.1:" . $this->hostPortRangeForContainer . ":80 --name=" . $this->containerName . " " . $this->imageName);
+	}
+
+	private function isServerReady($serverAddress) {
+		$curlHandle = curl_init("http://" . $serverAddress);
+
+		// Returning the transfer as the result of curl_exec prevents the
+		// transfer from being written to the output.
+		curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+
+		$transfer = curl_exec($curlHandle);
+
+		curl_close($curlHandle);
+
+		return $transfer !== false;
+	}
+
+	/**
+	 * Cleans up the Nextcloud test server.
+	 *
+	 * It stops and removes the Docker container; if the Docker container can
+	 * not be removed after some time an exception is thrown (as it is just a
+	 * warning for the test runner and nothing to be explicitly catched a plain
+	 * base Exception is used).
+	 *
+	 * @throws \Exception if the Docker container can not be removed.
+	 */
+	public function cleanUp() {
+		$this->stopAndRemoveContainer();
+
+		$wasContainerRemovedCallback = function() {
+			return !$this->isContainerRegistered();
+		};
+		$timeout = 10;
+		$timeoutStep = 0.5;
+		if (!Utils::waitFor($wasContainerRemovedCallback, $timeout, $timeoutStep)) {
+			throw new Exception("Docker container for Nextcloud (" . $this->containerName . ") could not be removed");
+		}
 	}
 
 	/**
@@ -139,6 +201,17 @@ class NextcloudTestServerDockerHelper {
 	 */
 	public function getContainerName() {
 		return $this->containerName;
+	}
+
+	/**
+	 * Returns the base URL of the Nextcloud test server.
+	 *
+	 * @return string the base URL of the Nextcloud test server.
+	 * @throws \Exception if the Docker command failed to execute or the
+	 *         container is not running.
+	 */
+	public function getBaseUrl() {
+		return "http://" . $this->getNextcloudTestServerAddress() . "/index.php";
 	}
 
 	/**

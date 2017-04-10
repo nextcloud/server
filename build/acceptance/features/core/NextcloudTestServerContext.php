@@ -88,20 +88,9 @@ class NextcloudTestServerContext implements Context {
 	 * @throws \Exception if the Docker container can not be started.
 	 */
 	public function setUpNextcloudTestServer(BeforeScenarioScope $scope) {
-		$this->dockerHelper->createAndStartContainer();
+		$this->dockerHelper->setUp();
 
-		$serverAddress = $this->dockerHelper->getNextcloudTestServerAddress();
-
-		$isServerReadyCallback = function() use ($serverAddress) {
-			return $this->isServerReady($serverAddress);
-		};
-		$timeout = 10;
-		$timeoutStep = 0.5;
-		if (!Utils::waitFor($isServerReadyCallback, $timeout, $timeoutStep)) {
-			throw new Exception("Docker container for Nextcloud could not be started");
-		}
-
-		$this->setBaseUrlInSiblingRawMinkContexts($scope, "http://" . $serverAddress . "/index.php");
+		$this->setBaseUrlInSiblingRawMinkContexts($scope, $this->dockerHelper->getBaseUrl());
 	}
 
 	/**
@@ -117,30 +106,7 @@ class NextcloudTestServerContext implements Context {
 	 * @throws \Exception if the Docker container can not be removed.
 	 */
 	public function cleanUpNextcloudTestServer() {
-		$this->dockerHelper->stopAndRemoveContainer();
-
-		$wasContainerRemovedCallback = function() {
-			return !$this->dockerHelper->isContainerRegistered();
-		};
-		$timeout = 10;
-		$timeoutStep = 0.5;
-		if (!Utils::waitFor($wasContainerRemovedCallback, $timeout, $timeoutStep)) {
-			throw new Exception("Docker container for Nextcloud (" . $this->dockerHelper->getContainerName() . ") could not be removed");
-		}
-	}
-
-	private function isServerReady($serverAddress) {
-		$curlHandle = curl_init("http://" . $serverAddress);
-
-		// Returning the transfer as the result of curl_exec prevents the
-		// transfer from being written to the output.
-		curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
-
-		$transfer = curl_exec($curlHandle);
-
-		curl_close($curlHandle);
-
-		return $transfer !== false;
+		$this->dockerHelper->cleanUp();
 	}
 
 	private function setBaseUrlInSiblingRawMinkContexts(BeforeScenarioScope $scope, $baseUrl) {
