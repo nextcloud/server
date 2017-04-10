@@ -74,6 +74,9 @@ class Server {
 		$root = new RootCollection();
 		$this->server = new \OCA\DAV\Connector\Sabre\Server($root);
 
+		// Add maintenance plugin
+		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin(\OC::$server->getConfig()));
+
 		// Backends
 		$authBackend = new Auth(
 			\OC::$server->getSession(),
