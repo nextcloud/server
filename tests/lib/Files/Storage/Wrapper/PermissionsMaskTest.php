@@ -10,6 +10,9 @@ namespace Test\Files\Storage\Wrapper;
 
 use OCP\Constants;
 
+/**
+ * @group DB
+ */
 class PermissionsMaskTest extends \Test\Files\Storage\Storage {
 
 	/**
@@ -101,5 +104,14 @@ class PermissionsMaskTest extends \Test\Files\Storage\Storage {
 	public function testFopenNewFileNoCreate() {
 		$storage = $this->getMaskedStorage(Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE);
 		$this->assertFalse($storage->fopen('foo', 'w'));
+	}
+
+	public function testScanNewFiles() {
+		$storage = $this->getMaskedStorage(Constants::PERMISSION_READ + Constants::PERMISSION_CREATE);
+		$storage->file_put_contents('foo', 'bar');
+		$storage->getScanner()->scan('');
+
+		$this->assertEquals(Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE, $this->sourceStorage->getCache()->get('foo')->getPermissions());
+		$this->assertEquals(Constants::PERMISSION_READ, $storage->getCache()->get('foo')->getPermissions());
 	}
 }

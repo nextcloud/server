@@ -147,4 +147,8 @@ class PermissionsMask extends Wrapper {
 		}
 		return $data;
 	}
+
+	public function getScanner($path = '', $storage = null) {
+		return parent::getScanner($path, $this->storage);
+	}
 }
