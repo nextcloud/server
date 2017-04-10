@@ -87,7 +87,7 @@ class NextcloudTestServerContext implements Context {
 	 *        BeforeScenario hook scope.
 	 * @throws \Exception if the Docker container can not be started.
 	 */
-	public function startNextcloudTestServer(BeforeScenarioScope $scope) {
+	public function setUpNextcloudTestServer(BeforeScenarioScope $scope) {
 		$this->dockerHelper->createAndStartContainer();
 
 		$serverAddress = $this->dockerHelper->getNextcloudTestServerAddress();
@@ -116,7 +116,7 @@ class NextcloudTestServerContext implements Context {
 	 *
 	 * @throws \Exception if the Docker container can not be removed.
 	 */
-	public function stopNextcloudTestServer() {
+	public function cleanUpNextcloudTestServer() {
 		$this->dockerHelper->stopAndRemoveContainer();
 
 		$wasContainerRemovedCallback = function() {
