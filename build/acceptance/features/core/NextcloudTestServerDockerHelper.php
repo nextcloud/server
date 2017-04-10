@@ -24,14 +24,13 @@
 /**
  * Helper to manage the Docker container for the Nextcloud test server.
  *
- * The NextcloudTestServerDockerHelper abstracts the calls to the Docker Command
- * Line Interface (the "docker" command) to run, get information from, and
- * destroy containers. It is not a generic abstraction, but one tailored
- * specifically to the Nextcloud test server; a Docker image that provides an
- * installed and ready to run Nextcloud server with the configuration and data
- * expected by the acceptance tests must be available in the system. The
- * Nextcloud server must use a local storage so all the changes it makes are
- * confined to its running container.
+ * The NextcloudTestServerDockerHelper provides a Nextcloud test server using a
+ * Docker container. The "setUp" method creates and starts the container, while
+ * the "cleanUp" method destroys it. A Docker image that provides an installed
+ * and ready to run Nextcloud server with the configuration and data expected by
+ * the acceptance tests must be available in the system. The Nextcloud server
+ * must use a local storage so all the changes it makes are confined to its
+ * running container.
  *
  * Also, the Nextcloud server installed in the Docker image is expected to see
  * "127.0.0.1" as a trusted domain (which would be the case if it was installed
@@ -42,8 +41,10 @@
  * untrusted domain and refuse to work until the admin whitelisted it. The base
  * URL to access the Nextcloud server can be got from "getBaseUrl".
  *
- * For better compatibility, Docker CLI commands used internally follow the
- * pre-1.13 syntax (also available in 1.13 and newer). For example,
+ * Internally, the NextcloudTestServerDockerHelper uses the Docker Command Line
+ * Interface (the "docker" command) to run, get information from, and destroy
+ * the container, For better compatibility, the used Docker CLI commands follow
+ * the pre-1.13 syntax (also available in 1.13 and newer). For example,
  * "docker start" instead of "docker container start".
  *
  * In any case, the "docker" command requires special permissions to talk to the
@@ -65,7 +66,7 @@
  * just a warning for the test runner and nothing to be explicitly catched a
  * plain base Exception is used.
  */
-class NextcloudTestServerDockerHelper {
+class NextcloudTestServerDockerHelper implements NextcloudTestServerHelper {
 
 	/**
 	 * @var string
