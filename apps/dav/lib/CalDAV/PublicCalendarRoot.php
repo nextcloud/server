@@ -47,8 +47,7 @@ class PublicCalendarRoot extends Collection {
 	 */
 	function getChild($name) {
 		$calendar = $this->caldavBackend->getPublicCalendar($name);
-		$calendar['{http://owncloud.org/ns}owner-principal'] = '';
-		return new Calendar($this->caldavBackend, $calendar, $this->l10n);
+		return new PublicCalendar($this->caldavBackend, $calendar, $this->l10n);
 	}
 
 	/**
