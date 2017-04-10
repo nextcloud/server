@@ -698,22 +698,22 @@ class OC_Util {
 				if ($success) {
 					$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
 				} else {
-					$errors[] = array(
-						'error' => $l->t('Cannot create "data" directory (%s)', array($CONFIG_DATADIRECTORY)),
+					$errors[] = [
+						'error' => $l->t('Cannot create "data" directory'),
 						'hint' => $l->t('This can usually be fixed by '
 							. '<a href="%s" target="_blank" rel="noreferrer">giving the webserver write access to the root directory</a>.',
-							array($urlGenerator->linkToDocs('admin-dir_permissions')))
-					);
+							[$urlGenerator->linkToDocs('admin-dir_permissions')])
+					];
 				}
 			} else if (!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
 				//common hint for all file permissions error messages
 				$permissionsHint = $l->t('Permissions can usually be fixed by '
 					. '%sgiving the webserver write access to the root directory%s.',
-					array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank" rel="noreferrer">', '</a>'));
-				$errors[] = array(
-					'error' => 'Data directory (' . $CONFIG_DATADIRECTORY . ') not writable',
+					['<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank" rel="noreferrer">', '</a>']);
+				$errors[] = [
+					'error' => 'Your data directory is not writable',
 					'hint' => $permissionsHint
-				);
+				];
 			} else {
 				$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
 			}
@@ -923,15 +923,15 @@ class OC_Util {
 		$permissionsModHint = $l->t('Please change the permissions to 0770 so that the directory'
 			. ' cannot be listed by other users.');
 		$perms = substr(decoct(@fileperms($dataDirectory)), -3);
-		if (substr($perms, -1) != '0') {
+		if (substr($perms, -1) !== '0') {
 			chmod($dataDirectory, 0770);
 			clearstatcache();
 			$perms = substr(decoct(@fileperms($dataDirectory)), -3);
-			if (substr($perms, 2, 1) != '0') {
-				$errors[] = array(
-					'error' => $l->t('Data directory (%s) is readable by other users', array($dataDirectory)),
+			if ($perms[2] !== '0') {
+				$errors[] = [
+					'error' => $l->t('Your data directory is readable by other users'),
 					'hint' => $permissionsModHint
-				);
+				];
 			}
 		}
 		return $errors;
@@ -949,13 +949,13 @@ class OC_Util {
 		$errors = [];
 		if ($dataDirectory[0] !== '/') {
 			$errors[] = [
-				'error' => $l->t('Data directory (%s) must be an absolute path', [$dataDirectory]),
+				'error' => $l->t('Your data directory must be an absolute path'),
 				'hint' => $l->t('Check the value of "datadirectory" in your configuration')
 			];
 		}
 		if (!file_exists($dataDirectory . '/.ocdata')) {
 			$errors[] = [
-				'error' => $l->t('Data directory (%s) is invalid', [$dataDirectory]),
+				'error' => $l->t('Your data directory  is invalid'),
 				'hint' => $l->t('Please check that the data directory contains a file' .
 					' ".ocdata" in its root.')
 			];
