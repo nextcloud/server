@@ -282,7 +282,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		return isset($this->calendarInfo['{http://owncloud.org/ns}public']);
 	}
 
-	private function isShared() {
+	protected function isShared() {
 		if (!isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
 			return false;
 		}
