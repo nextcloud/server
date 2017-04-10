@@ -57,9 +57,7 @@ class CapabilitiesTest extends \Test\TestCase {
 	private function getResults(array $map) {
 		$config = $this->getMockBuilder('\OCP\IConfig')->disableOriginalConstructor()->getMock();
 		$config->method('getAppValue')->will($this->returnValueMap($map));
-		$appManager = $this->getMockBuilder(IAppManager::class)->getMock();
-		$appManager->expects($this->any())->method('isEnabledForUser')->with('sharebymail')->willReturn(true);
-		$cap = new Capabilities($config, $appManager);
+		$cap = new Capabilities($config);
 		$result = $this->getFilesSharingPart($cap->getCapabilities());
 		return $result;
 	}

@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
+ * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,4 +19,32 @@
  *
  */
 
-$app = new \OCA\ShareByMail\AppInfo\Application();
+
+namespace OCA\ShareByMail;
+
+
+use OCP\Capabilities\ICapability;
+
+class Capabilities implements ICapability {
+
+	/**
+	 * Function an app uses to return the capabilities
+	 *
+	 * @return array Array containing the apps capabilities
+	 * @since 8.2.0
+	 */
+	public function getCapabilities() {
+		return [
+			'files_sharing' =>
+				[
+					'sharebymail' =>
+						[
+							'enabled' => true,
+							'upload_files_drop' => ['enabled' => true],
+							'password' => ['enabled' => true],
+							'expire_date' => ['enabled' => true]
+						]
+				]
+		];
+	}
+}
