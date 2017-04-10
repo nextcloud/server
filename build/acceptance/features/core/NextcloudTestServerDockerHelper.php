@@ -192,6 +192,21 @@ class NextcloudTestServerDockerHelper {
 	}
 
 	/**
+	 * Returns whether the container exists (no matter its state) or not.
+	 *
+	 * @return boolean true if the container exists, false otherwise.
+	 * @throws \Exception if the Docker command failed to execute.
+	 */
+	private function isContainerRegistered() {
+		// With the "--quiet" option "docker ps" only shows the ID of the
+		// matching containers, without table headers. Therefore, if the
+		// container does not exist the output will be empty (not even a new
+		// line, as the last line of output returned by "executeDockerCommand"
+		// does not include a trailing new line character).
+		return $this->executeDockerCommand("ps --all --quiet --filter 'name=" . $this->containerName . "'") !== "";
+	}
+
+	/**
 	 * Returns the base URL of the Nextcloud test server.
 	 *
 	 * @return string the base URL of the Nextcloud test server.
@@ -212,21 +227,6 @@ class NextcloudTestServerDockerHelper {
 	 */
 	private function getNextcloudTestServerAddress() {
 		return $this->executeDockerCommand("port " . $this->containerName . " 80");
-	}
-
-	/**
-	 * Returns whether the container exists (no matter its state) or not.
-	 *
-	 * @return boolean true if the container exists, false otherwise.
-	 * @throws \Exception if the Docker command failed to execute.
-	 */
-	private function isContainerRegistered() {
-		// With the "--quiet" option "docker ps" only shows the ID of the
-		// matching containers, without table headers. Therefore, if the
-		// container does not exist the output will be empty (not even a new
-		// line, as the last line of output returned by "executeDockerCommand"
-		// does not include a trailing new line character).
-		return $this->executeDockerCommand("ps --all --quiet --filter 'name=" . $this->containerName . "'") !== "";
 	}
 
 	/**
