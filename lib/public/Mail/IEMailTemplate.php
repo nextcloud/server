@@ -21,9 +21,7 @@
  *
  */
 
-namespace OC\Mail;
-
-use OCP\Defaults;
+namespace OCP\Mail;
 
 /**
  * Interface IEMailTemplate
@@ -49,19 +47,14 @@ use OCP\Defaults;
  *
  * $htmlContent = $emailTemplate->renderHTML();
  * $plainContent = $emailTemplate->renderText();
+ *
+ * @since 12.0.0
  */
 interface IEMailTemplate {
 	/**
-	 * @param Defaults $themingDefaults
-	 * @param \OCP\IURLGenerator $urlGenerator
-	 * @param \OCP\IL10N $l10n
-	 */
-	public function __construct(Defaults $themingDefaults,
-								\OCP\IURLGenerator $urlGenerator,
-								\OCP\IL10N $l10n);
-
-	/**
 	 * Adds a header to the email
+	 *
+	 * @since 12.0.0
 	 */
 	public function addHeader();
 
@@ -69,6 +62,8 @@ interface IEMailTemplate {
 	 * Adds a heading to the email
 	 *
 	 * @param string $title
+	 *
+	 * @since 12.0.0
 	 */
 	public function addHeading($title);
 
@@ -76,6 +71,8 @@ interface IEMailTemplate {
 	 * Adds a paragraph to the body of the email
 	 *
 	 * @param string $text
+	 *
+	 * @since 12.0.0
 	 */
 	public function addBodyText($text);
 
@@ -86,6 +83,8 @@ interface IEMailTemplate {
 	 * @param string $urlLeft URL of left button
 	 * @param string $textRight Text of right button
 	 * @param string $urlRight URL of right button
+	 *
+	 * @since 12.0.0
 	 */
 	public function addBodyButtonGroup($textLeft, $urlLeft, $textRight, $urlRight);
 
@@ -93,6 +92,8 @@ interface IEMailTemplate {
 	 * Adds a logo and a text to the footer. <br> in the text will be replaced by new lines in the plain text email
 	 *
 	 * @param string $text
+	 *
+	 * @since 12.0.0
 	 */
 	public function addFooter($text = '');
 
@@ -100,6 +101,8 @@ interface IEMailTemplate {
 	 * Returns the rendered HTML email as string
 	 *
 	 * @return string
+	 *
+	 * @since 12.0.0
 	 */
 	public function renderHTML();
 
@@ -107,6 +110,8 @@ interface IEMailTemplate {
 	 * Returns the rendered plain text email as string
 	 *
 	 * @return string
+	 *
+	 * @since 12.0.0
 	 */
 	public function renderText();
 }

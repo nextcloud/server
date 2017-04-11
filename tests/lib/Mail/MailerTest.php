@@ -8,32 +8,44 @@
 
 namespace Test\Mail;
 
+use OC\Mail\EMailTemplate;
 use OC\Mail\Mailer;
 use OCP\Defaults;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\ILogger;
+use OCP\IURLGenerator;
 use Test\TestCase;
 
 class MailerTest extends TestCase {
-	/** @var IConfig */
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
-	/** @var Defaults */
+	/** @var Defaults|\PHPUnit_Framework_MockObject_MockObject */
 	private $defaults;
-	/** @var ILogger */
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	private $logger;
+	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	private $urlGenerator;
+	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	private $l10n;
 	/** @var Mailer */
 	private $mailer;
 
-	function setUp() {
+	public function setUp() {
 		parent::setUp();
 
-		$this->config = $this->getMockBuilder('\OCP\IConfig')
-			->disableOriginalConstructor()->getMock();
-		$this->defaults = $this->getMockBuilder('\OCP\Defaults')
-			->disableOriginalConstructor()->getMock();
-		$this->logger = $this->getMockBuilder('\OCP\ILogger')
-			->disableOriginalConstructor()->getMock();
-		$this->mailer = new Mailer($this->config, $this->logger, $this->defaults);
+		$this->config = $this->createMock(IConfig::class);
+		$this->defaults = $this->createMock(Defaults::class);
+		$this->logger = $this->createMock(ILogger::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->mailer = new Mailer(
+			$this->config,
+			$this->logger,
+			$this->defaults,
+			$this->urlGenerator,
+			$this->l10n
+		);
 	}
 
 	public function testGetMailInstance() {
@@ -120,4 +132,7 @@ class MailerTest extends TestCase {
 		$this->assertSame($expected, $this->mailer->validateMailAddress($email));
 	}
 
+	public function testCreateEMailTemplate() {
+		$this->assertSame(EMailTemplate::class, get_class($this->mailer->createEMailTemplate()));
+	}
 }

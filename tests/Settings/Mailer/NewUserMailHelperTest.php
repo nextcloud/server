@@ -21,7 +21,7 @@
 
 namespace Tests\Settings\Mailer;
 
-use OC\Mail\IEMailTemplate;
+use OCP\Mail\IEMailTemplate;
 use OC\Mail\Message;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OCP\AppFramework\Utility\ITimeFactory;
