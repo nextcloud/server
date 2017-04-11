@@ -727,7 +727,9 @@ class Server extends ServerContainer implements IServerContainer {
 			return new Mailer(
 				$c->getConfig(),
 				$c->getLogger(),
-				$c->query(Defaults::class)
+				$c->query(Defaults::class),
+				$c->getURLGenerator(),
+				$c->getL10N('lib')
 			);
 		});
 		$this->registerAlias('Mailer', \OCP\Mail\IMailer::class);

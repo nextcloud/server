@@ -28,6 +28,7 @@ namespace OC\Mail;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\Mail\IEMailTemplate;
 
 /**
  * Class EMailTemplate

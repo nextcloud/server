@@ -24,6 +24,8 @@ namespace OC\Mail;
 
 use OCP\Defaults;
 use OCP\IConfig;
+use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\Mail\IMailer;
 use OCP\ILogger;
 
@@ -54,18 +56,28 @@ class Mailer implements IMailer {
 	private $logger;
 	/** @var Defaults */
 	private $defaults;
+	/** @var IURLGenerator */
+	private $urlGenerator;
+	/** @var IL10N */
+	private $l10n;
 
 	/**
 	 * @param IConfig $config
 	 * @param ILogger $logger
 	 * @param Defaults $defaults
+	 * @param IURLGenerator $urlGenerator
+	 * @param IL10N $l10n
 	 */
-	function __construct(IConfig $config,
+	public function __construct(IConfig $config,
 						 ILogger $logger,
-						 Defaults $defaults) {
+						 Defaults $defaults,
+						 IURLGenerator $urlGenerator,
+						 IL10N $l10n) {
 		$this->config = $config;
 		$this->logger = $logger;
 		$this->defaults = $defaults;
+		$this->urlGenerator = $urlGenerator;
+		$this->l10n = $l10n;
 	}
 
 	/**
@@ -75,6 +87,14 @@ class Mailer implements IMailer {
 	 */
 	public function createMessage() {
 		return new Message(new \Swift_Message());
+	}
+
+	public function createEMailTemplate() {
+		return new EMailTemplate(
+			$this->defaults,
+			$this->urlGenerator,
+			$this->l10n
+		);
 	}
 
 	/**
