@@ -155,7 +155,6 @@
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Engir reklar fyrir gagnagrunn eru uppsettir (sqlite, mysql eða postgresql).",
     "Cannot write into \"config\" directory" : "Get ekki skrifað í \"config\" möppuna",
     "Cannot write into \"apps\" directory" : "Get ekki skrifað í \"apps\" möppuna",
-    "Cannot create \"data\" directory (%s)" : "Get ekki búið til \"data\" möppu (%s)",
     "Setting locale to %s failed" : "Mistókst að setja upp staðfærsluna %s",
     "Please install one of these locales on your system and restart your webserver." : "Settu upp eina af þessum staðfærslum og endurræstu vefþjóninn.",
     "Please ask your server administrator to install the module." : "Biddu kerfisstjórann þinn um að setja eininguna upp.",
@@ -171,14 +170,15 @@
     "Please ask your server administrator to restart the web server." : "Biddu kerfisstjórann þinn um að endurræsa vefþjóninn.",
     "PostgreSQL >= 9 required" : "Krefst PostgreSQL >= 9",
     "Please upgrade your database version" : "Uppfærðu útgáfu gagnagrunnsins",
-    "Data directory (%s) is readable by other users" : "Gagnamappa (%s) er lesanleg fyrir aðra notendur",
-    "Data directory (%s) must be an absolute path" : "Gagnamappan (%s) verður að vera algild slóð",
     "Check the value of \"datadirectory\" in your configuration" : "Athugaðu gildi \"datadirectory\" í uppsetningunni þinni",
-    "Data directory (%s) is invalid" : "Gagnamappa (%s) er ógild",
     "Storage unauthorized. %s" : "Gagnageymsla ekki auðkennd. %s",
     "Storage incomplete configuration. %s" : "Ófullgerð uppsetning gagnageymslu. %s",
     "Storage connection error. %s" : "Villa í tengingu við gagnageymslu. %s",
     "Storage is temporarily not available" : "Gagnageymsla ekki tiltæk í augnablikinu",
-    "Storage connection timeout. %s" : "Gagnageymsla féll á tíma. %s"
+    "Storage connection timeout. %s" : "Gagnageymsla féll á tíma. %s",
+    "Cannot create \"data\" directory (%s)" : "Get ekki búið til \"data\" möppu (%s)",
+    "Data directory (%s) is readable by other users" : "Gagnamappa (%s) er lesanleg fyrir aðra notendur",
+    "Data directory (%s) must be an absolute path" : "Gagnamappan (%s) verður að vera algild slóð",
+    "Data directory (%s) is invalid" : "Gagnamappa (%s) er ógild"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

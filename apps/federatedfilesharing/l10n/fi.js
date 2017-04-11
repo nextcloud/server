@@ -41,12 +41,12 @@ OC.L10N.register(
     "Open documentation" : "Avaa dokumentaatio",
     "Allow users on this server to send shares to other servers" : "Salli tämän palvelimen käyttäjien lähettää jakoja muille palvelimille",
     "Allow users on this server to receive shares from other servers" : "Salli tämän palvelimen käyttäjien vastaanottaa jakoja muilta palvelimilta",
-    "Search global and public address book for users" : "Etsi käyttäjiä maailmanlaajuisesta ja julkisesta osoitekirjasta",
     "Federated Cloud" : "Federoitu pilvi",
     "Your Federated Cloud ID:" : "Federoidun pilvesi tunniste:",
     "Share it:" : "Jaa se:",
     "Add to your website" : "Lisää verkkosivuillesi",
     "Share with me via Nextcloud" : "Jaa kanssani Nextcloudin kautta",
-    "HTML Code:" : "HTML-koodi:"
+    "HTML Code:" : "HTML-koodi:",
+    "Search global and public address book for users" : "Etsi käyttäjiä maailmanlaajuisesta ja julkisesta osoitekirjasta"
 },
 "nplurals=2; plural=(n != 1);");

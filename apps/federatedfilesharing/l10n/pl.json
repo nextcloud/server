@@ -39,12 +39,12 @@
     "Open documentation" : "Otwórz dokumentację",
     "Allow users on this server to send shares to other servers" : "Zezwalaj użytkownikom na tym serwerze wysłać udostępnienia do innych serwerów",
     "Allow users on this server to receive shares from other servers" : "Zezwalaj użytkownikom na tym serwerze do otrzymania udostępnień z innych serwerów",
-    "Search global and public address book for users" : "Szukaj użytkowników w globalnej i publicznej książce adresowej",
     "Federated Cloud" : "Stowarzyszona Chmura",
     "Your Federated Cloud ID:" : "Twoje ID Stowarzyszonej Chmury:",
     "Share it:" : "Udostępnij to:",
     "Add to your website" : "Dodaj do swojej strony",
     "Share with me via Nextcloud" : "Podziel się ze mną poprzez Nextcloud",
-    "HTML Code:" : "Kod HTML:"
+    "HTML Code:" : "Kod HTML:",
+    "Search global and public address book for users" : "Szukaj użytkowników w globalnej i publicznej książce adresowej"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

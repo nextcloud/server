@@ -41,12 +41,12 @@ OC.L10N.register(
     "Open documentation" : "Open documentatie",
     "Allow users on this server to send shares to other servers" : "Toestaan dat gebruikers op deze server shares sturen naar andere servers",
     "Allow users on this server to receive shares from other servers" : "Toestaan dat gebruikers op deze server shares ontvangen van andere servers",
-    "Search global and public address book for users" : "Doorzoeken globale en openbare adresboeken naar gebruikers",
     "Federated Cloud" : "Gefedereerde Cloud",
     "Your Federated Cloud ID:" : "Je Federated Cloud ID:",
     "Share it:" : "Deel het:",
     "Add to your website" : "Toevoegen aan je website",
     "Share with me via Nextcloud" : "Deel met mij via Nextcloud",
-    "HTML Code:" : "HTML Code:"
+    "HTML Code:" : "HTML Code:",
+    "Search global and public address book for users" : "Doorzoeken globale en openbare adresboeken naar gebruikers"
 },
 "nplurals=2; plural=(n != 1);");

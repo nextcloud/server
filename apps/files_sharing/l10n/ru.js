@@ -18,7 +18,7 @@ OC.L10N.register(
     "No expiration date set" : "Дата истечения не установлена",
     "Shared by" : "Поделился",
     "Sharing" : "Общий доступ",
-    "File shares" : "Файловые ресурсы общего доступа",
+    "File shares" : "Обмен файлами",
     "Downloaded via public link" : "Скачано по общедоступной ссылке",
     "Downloaded by {email}" : "Скачано {email}",
     "{file} downloaded via public link" : "{file} скачан по общедоступной ссылке",

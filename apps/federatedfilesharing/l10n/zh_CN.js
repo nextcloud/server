@@ -41,12 +41,12 @@ OC.L10N.register(
     "Open documentation" : "打开文档",
     "Allow users on this server to send shares to other servers" : "允许用户分享文件给其他服务器上的用户",
     "Allow users on this server to receive shares from other servers" : "允许用户从其他服务器接收分享",
-    "Search global and public address book for users" : "在全局和公开地址簿中寻找用户",
     "Federated Cloud" : "联合云",
     "Your Federated Cloud ID:" : "你的联合云ID：",
     "Share it:" : "分享它：",
     "Add to your website" : "添加到您的网站",
     "Share with me via Nextcloud" : "通过联合云与我共享",
-    "HTML Code:" : "HTML 代码:"
+    "HTML Code:" : "HTML 代码:",
+    "Search global and public address book for users" : "在全局和公开地址簿中寻找用户"
 },
 "nplurals=1; plural=0;");

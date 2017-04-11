@@ -12,11 +12,15 @@
     "%s shared »%s« with you" : "%s ha compartido »%s« con usted",
     "%s shared »%s« with you on behalf of %s" : "%s ha compartido »%s« con usted a nombre de %s",
     "Failed to create the E-mail" : "Se presentó una falla al crear el correo electrónico",
+    "Password to access »%s« shared to you by %s" : "Contraseña para acceder  »%s« compartido con usted por %s ",
     "Could not find share" : "No fue posible encontrar el elemento compartido",
     "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Hola,\n\n%s ha compartido »%s« con usted a nombre de %s.\n\n%s\n",
     "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Hola,\n\n%s ha compartido »%s« con usted.\n\n%s\n",
     "Cheers!" : "¡Saludos!",
     "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hola,<br><br>%s ha compartido <a href=\"%s\">%s</a> con usted a nombre de %s.<br><br> ",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hola, <br><br>%s ha compartido <a href=\"%s\">%s</a> con usted.<br><br> "
+    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hola, <br><br>%s ha compartido <a href=\"%s\">%s</a> con usted.<br><br> ",
+    "Share by mail" : "Compartir por correo",
+    "Send a personalized link to a file or folder by mail." : "Enviar por correo una liga personalizada a un archivo o carpeta.",
+    "Send password by mail" : "La contraseña ha sido enviada por correo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
