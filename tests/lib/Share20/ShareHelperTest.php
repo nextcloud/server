@@ -27,7 +27,7 @@ use OCP\Files\Node;
 use OCP\Share\IManager;
 use Test\TestCase;
 
-class ShareHelperTests extends TestCase {
+class ShareHelperTest extends TestCase {
 
 	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $manager;
