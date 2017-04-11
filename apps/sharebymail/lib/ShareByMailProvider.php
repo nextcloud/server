@@ -260,42 +260,34 @@ class ShareByMailProvider implements IShareProvider {
 		}
 
 		$message = $this->mailer->createMessage();
-		$htmlBody = $this->createMailBody('mail', $filename, $link, $ownerDisplayName, $initiatorDisplayName);
-		$textBody = $this->createMailBody('altmail', $filename, $link, $ownerDisplayName, $initiatorDisplayName);
-		$message->setTo([$shareWith]);
-		$message->setSubject($subject);
-		$message->setBody($textBody, 'text/plain');
-		$message->setHtmlBody($htmlBody);
-		$this->mailer->send($message);
 
-	}
+		$emailTemplate = $this->mailer->createEMailTemplate();
 
-	/**
-	 * create mail body
-	 *
-	 * @param $filename
-	 * @param $link
-	 * @param $owner
-	 * @param $initiator
-	 * @return string plain text mail
-	 * @throws HintException
-	 */
-	protected function createMailBody($template, $filename, $link, $owner, $initiator) {
+		$emailTemplate->addHeader();
+		$emailTemplate->addHeading($this->l->t('%s shared »%s« with you', [$ownerDisplayName, $filename]));
 
-		$mailBodyTemplate = new Template('sharebymail', $template, '');
-		$mailBodyTemplate->assign ('filename', \OCP\Util::sanitizeHTML($filename));
-		$mailBodyTemplate->assign ('link', $link);
-		$mailBodyTemplate->assign ('owner', \OCP\Util::sanitizeHTML($owner));
-		$mailBodyTemplate->assign ('initiator', \OCP\Util::sanitizeHTML($initiator));
-		$mailBodyTemplate->assign ('onBehalfOf', $initiator !== $owner);
-		$mailBody = $mailBodyTemplate->fetchPage();
-
-		if (is_string($mailBody)) {
-			return $mailBody;
+		if ($owner === $initiator) {
+			$text = $this->l->t('%s shared »%s« with you.', [$ownerDisplayName, $filename]);
+		} else {
+			$text= $this->l->t('%s shared »%s« with you on behalf of %s.', [$ownerDisplayName, $filename, $initiator]);
 		}
 
-		throw new HintException('Failed to create the E-mail',
-			$this->l->t('Failed to create the E-mail'));
+		$text .= ' ' . $this->l->t('Click the button below to open it.');
+
+		$emailTemplate->addBodyText($text);
+
+		$emailTemplate->addBodyButton(
+			$this->l->t('Open »%s«', [$filename]),
+			$link
+		);
+		$emailTemplate->addFooter();
+
+		$message->setTo([$shareWith]);
+		$message->setSubject($subject);
+		$message->setBody($emailTemplate->renderText(), 'text/plain');
+		$message->setHtmlBody($emailTemplate->renderHTML());
+		$this->mailer->send($message);
+
 	}
 
 	/**
@@ -316,39 +308,26 @@ class ShareByMailProvider implements IShareProvider {
 		$subject = (string)$this->l->t('Password to access »%s« shared to you by %s', [$filename, $initiatorDisplayName]);
 
 		$message = $this->mailer->createMessage();
-		$htmlBody = $this->createMailBodyToSendPassword('mailpassword', $filename, $initiatorDisplayName, $password);
-		$textBody = $this->createMailBodyToSendPassword('altmailpassword', $filename,$initiatorDisplayName, $password);
+
+		$emailTemplate = $this->mailer->createEMailTemplate();
+
+		$emailTemplate->addHeader();
+		$emailTemplate->addHeading($this->l->t('Password to access »%s«', [$filename]));
+
+		$emailTemplate->addBodyText($this->l->t(
+			'%s shared »%s« with you. You should have already received a separate mail with a link to access it.',
+				[$initiatorDisplayName, $filename]
+		));
+		$emailTemplate->addBodyText($this->l->t('It is protected with the following password: %s', [$password]));
+
+		$emailTemplate->addFooter();
+
 		$message->setTo([$shareWith]);
 		$message->setSubject($subject);
-		$message->setBody($textBody, 'text/plain');
-		$message->setHtmlBody($htmlBody);
+		$message->setBody($emailTemplate->renderText(), 'text/plain');
+		$message->setHtmlBody($emailTemplate->renderHTML());
 		$this->mailer->send($message);
 
-	}
-
-	/**
-	 * create mail body to send password to recipient
-	 *
-	 * @param string $filename
-	 * @param string $initiator
-	 * @param string $password
-	 * @return string plain text mail
-	 * @throws HintException
-	 */
-	protected function createMailBodyToSendPassword($template, $filename, $initiator, $password) {
-
-		$mailBodyTemplate = new Template('sharebymail', $template, '');
-		$mailBodyTemplate->assign ('filename', \OCP\Util::sanitizeHTML($filename));
-		$mailBodyTemplate->assign ('password', \OCP\Util::sanitizeHTML($password));
-		$mailBodyTemplate->assign ('initiator', \OCP\Util::sanitizeHTML($initiator));
-		$mailBody = $mailBodyTemplate->fetchPage();
-
-		if (is_string($mailBody)) {
-			return $mailBody;
-		}
-
-		throw new HintException('Failed to create the E-mail',
-			$this->l->t('Failed to create the E-mail'));
 	}
 
 
