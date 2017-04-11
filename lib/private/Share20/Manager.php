@@ -1181,18 +1181,33 @@ class Manager implements IManager {
 	 *
 	 * Consider:
 	 * -root
-	 * |-folder1
-	 *  |-folder2
-	 *   |-fileA
+	 * |-folder1 (23)
+	 *  |-folder2 (32)
+	 *   |-fileA (42)
 	 *
-	 * fileA is shared with user1
+	 * fileA is shared with user1 and user1@server1
 	 * folder2 is shared with group2 (user4 is a member of group2)
-	 * folder1 is shared with user2
+	 * folder1 is shared with user2 (renamed to "folder (1)") and user2@server2
 	 *
-	 * Then the access list will to '/folder1/folder2/fileA' is:
+	 * Then the access list to '/folder1/folder2/fileA' with $currentAccess is:
 	 * [
-	 *  users  => ['user1' => ['node_id' => 42, 'node_path' => '/path'], 'user2' => [...]],
-	 *  remote => ['user1' => ['node_id' => 42, 'node_path' => '/path'], 'user2' => [...]],
+	 *  users  => [
+	 *      'user1' => ['node_id' => 42, 'node_path' => '/fileA'],
+	 *      'user4' => ['node_id' => 32, 'node_path' => '/folder2'],
+	 *      'user2' => ['node_id' => 23, 'node_path' => '/folder (1)'],
+	 *  ],
+	 *  remote => [
+	 *      'user1@server1' => ['node_id' => 42, 'token' => 'SeCr3t'],
+	 *      'user2@server2' => ['node_id' => 23, 'token' => 'FooBaR'],
+	 *  ],
+	 *  public => bool
+	 *  mail => bool
+	 * ]
+	 *
+	 * The access list to '/folder1/folder2/fileA' **without** $currentAccess is:
+	 * [
+	 *  users  => ['user1', 'user2', 'user4'],
+	 *  remote => bool,
 	 *  public => bool
 	 *  mail => bool
 	 * ]
@@ -1207,7 +1222,11 @@ class Manager implements IManager {
 	public function getAccessList(\OCP\Files\Node $path, $recursive = true, $currentAccess = false) {
 		$owner = $path->getOwner()->getUID();
 
-		$al = ['users' => [], 'remote' => [], 'public' => false];
+		if ($currentAccess) {
+			$al = ['users' => [], 'remote' => [], 'public' => false];
+		} else {
+			$al = ['users' => [], 'remote' => false, 'public' => false];
+		}
 		if (!$this->userManager->userExists($owner)) {
 			return $al;
 		}

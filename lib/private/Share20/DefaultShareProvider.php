@@ -1136,9 +1136,11 @@ class DefaultShareProvider implements IShareProvider {
 		}
 		$cursor->closeCursor();
 
-		$users = array_map([$this, 'filterSharesOfUser'], $users);
 		if ($currentAccess === true) {
+			$users = array_map([$this, 'filterSharesOfUser'], $users);
 			$users = array_filter($users);
+		} else {
+			$users = array_keys($users);
 		}
 
 		return ['users' => $users, 'public' => $link];

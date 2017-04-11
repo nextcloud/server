@@ -976,6 +976,9 @@ class FederatedShareProvider implements IShareProvider {
 		return ($result === 'yes');
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function getAccessList($nodes, $currentAccess) {
 		$ids = [];
 		foreach ($nodes as $node) {
@@ -992,6 +995,13 @@ class FederatedShareProvider implements IShareProvider {
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
 			));
 		$cursor = $qb->execute();
+
+		if ($currentAccess === false) {
+			$remote = $cursor->fetch() !== false;
+			$cursor->closeCursor();
+
+			return ['remote' => $remote];
+		}
 
 		$remote = [];
 		while ($row = $cursor->fetch()) {

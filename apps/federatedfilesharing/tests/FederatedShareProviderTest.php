@@ -805,6 +805,12 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->method('sendRemoteShare')
 			->willReturn(true);
 
+		$result = $this->provider->getAccessList([$file1], true);
+		$this->assertEquals(['remote' => []], $result);
+
+		$result = $this->provider->getAccessList([$file1], false);
+		$this->assertEquals(['remote' => false], $result);
+
 		$share1 = $this->shareManager->newShare();
 		$share1->setSharedWith('user@server.com')
 			->setSharedBy($u1->getUID())
@@ -822,7 +828,6 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->provider->create($share2);
 
 		$result = $this->provider->getAccessList([$file1], true);
-
 		$this->assertEquals(['remote' => [
 			'user@server.com' => [
 				'token' => 'token1',
@@ -833,6 +838,10 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				'node_id' => $file1->getId(),
 			],
 		]], $result);
+
+		$result = $this->provider->getAccessList([$file1], false);
+		$this->assertEquals(['remote' => true], $result);
+
 		$u1->delete();
 	}
 }

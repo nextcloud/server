@@ -834,6 +834,9 @@ class ShareByMailProvider implements IShareProvider {
 		return $shares;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function getAccessList($nodes, $currentAccess) {
 		$ids = [];
 		foreach ($nodes as $node) {

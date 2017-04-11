@@ -675,6 +675,13 @@ class ShareByMailProviderTest extends TestCase {
 
 		$folder = $rootFolder->getUserFolder($u1->getUID())->newFolder('foo');
 
+		$accessList = $provider->getAccessList([$folder], true);
+		$this->assertArrayHasKey('mail', $accessList);
+		$this->assertFalse($accessList['mail']);
+		$accessList = $provider->getAccessList([$folder], false);
+		$this->assertArrayHasKey('mail', $accessList);
+		$this->assertFalse($accessList['mail']);
+
 		$share1 = $this->shareManager->newShare();
 		$share1->setSharedWith('user@server.com')
 			->setSharedBy($u1->getUID())

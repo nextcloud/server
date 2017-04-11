@@ -95,14 +95,14 @@ class File implements \OCP\Encryption\IFile {
 			$this->cache[$parent] = $resultForParents;
 		}
 		$userIds = array_merge($userIds, $resultForParents['users']);
-		$public = $resultForParents['public'] || !empty($resultForParents['remote']);
+		$public = $resultForParents['public'] || $resultForParents['remote'];
 
 
 		// Find out who, if anyone, is sharing the file
 		if ($file !== null) {
 			$resultForFile = $this->shareManager->getAccessList($file, false);
 			$userIds = array_merge($userIds, $resultForFile['users']);
-			$public = $resultForFile['public'] || !empty($resultForFile['remote']) || $public;
+			$public = $resultForFile['public'] || $resultForFile['remote'] || $public;
 		}
 
 		// check if it is a group mount

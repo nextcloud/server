@@ -2462,6 +2462,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$folder2 = $folder1->newFolder('baz');
 		$file1 = $folder2->newFile('bar');
 
+		$result = $provider->getAccessList([$folder1, $folder2, $file1], false);
+		$this->assertCount(0, $result['users']);
+		$this->assertFalse($result['public']);
+
 		$shareManager = \OC::$server->getShareManager();
 		$share1 = $shareManager->newShare();
 		$share1->setNode($folder1)
@@ -2503,10 +2507,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$result = $provider->getAccessList([$folder1, $folder2, $file1], false);
 
 		$this->assertCount(4, $result['users']);
-		$this->assertArrayHasKey('testShare2', $result['users']);
-		$this->assertArrayHasKey('testShare3', $result['users']);
-		$this->assertArrayHasKey('testShare4', $result['users']);
-		$this->assertArrayHasKey('testShare5', $result['users']);
+		$this->assertContains('testShare2', $result['users']);
+		$this->assertContains('testShare3', $result['users']);
+		$this->assertContains('testShare4', $result['users']);
+		$this->assertContains('testShare5', $result['users']);
 		$this->assertTrue($result['public']);
 
 		$provider->delete($share1);
@@ -2548,6 +2552,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$folder1 = $u1Folder->newFolder('foo');
 		$folder2 = $folder1->newFolder('baz');
 		$file1 = $folder2->newFile('bar');
+
+		$result = $provider->getAccessList([$folder1, $folder2, $file1], false);
+		$this->assertCount(0, $result['users']);
+		$this->assertFalse($result['public']);
 
 		$shareManager = \OC::$server->getShareManager();
 		$share1 = $shareManager->newShare();
