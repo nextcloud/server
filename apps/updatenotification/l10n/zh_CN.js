@@ -5,6 +5,8 @@ OC.L10N.register(
     "Could not start updater, please try the manual update" : "无法启动自动更新，请尝试手动更新",
     "{version} is available. Get more information on how to update." : "新版本 {version} 已可以使用。获取更多升级相关信息。",
     "Channel updated" : "更新通道",
+    "The update server could not be reached since %d days to check for new updates." : "更新服务器自 1%d 天前起无法访问以检查更新。",
+    "Please check the nextcloud and server log files for errors." : "请检查 nextcloud 和服务器的日志中的错误。",
     "Update to %1$s is available." : " 可以更新到 %1$s 。",
     "Update for %1$s to version %2$s is available." : "可以从 %1$s 版本更新到 %2$s 版本。",
     "Update for {app} to version %s is available." : "可以将您的 {app} 更新到版本 %s 。",

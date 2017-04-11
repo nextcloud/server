@@ -38,12 +38,12 @@
     "Open documentation" : "Abrir documentación",
     "Allow users on this server to send shares to other servers" : "Permitirle a los usuarios de este servidor enviar elementos compartidos a otros servidores",
     "Allow users on this server to receive shares from other servers" : "Permitir que los usuarios de este servidor recibir elementos compartidos de otros servidores",
-    "Search global and public address book for users" : "Buscar usuarios en las libretas de contactos globales y públicas",
     "Federated Cloud" : "Nube Federada",
     "Your Federated Cloud ID:" : "Su ID de Nube Federada:",
     "Share it:" : "Compartirlo:",
     "Add to your website" : "Agregar a su sitio web",
     "Share with me via Nextcloud" : "Compartir conmigo vía Nextcloud",
-    "HTML Code:" : "Código HTML:"
+    "HTML Code:" : "Código HTML:",
+    "Search global and public address book for users" : "Buscar usuarios en las libretas de contactos globales y públicas"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -6,6 +6,7 @@ OC.L10N.register(
     "Failed to revert {file} to revision {timestamp}." : "Αποτυχία επαναφοράς του {file} στην αναθεώρηση {timestamp}.",
     "_%n byte_::_%n bytes_" : ["%n bytes","%n bytes"],
     "Restore" : "Επαναφορά",
+    "More versions …" : "Περισσότερες εκδόσεις ...",
     "No versions available" : "Δεν υπάρχουν εκδόσεις διαθέσιμες",
     "More versions..." : "Περισσότερες εκδόσεις..."
 },

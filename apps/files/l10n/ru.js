@@ -78,7 +78,7 @@ OC.L10N.register(
     "Removed from favorites" : "Удалено из избранного",
     "You added {file} to your favorites" : "Вы добавили {file} в избранное",
     "You removed {file} from your favorites" : "Вы удалили {file} из избранного",
-    "File changes" : "Файлы изменены",
+    "File changes" : "Изменения файлов",
     "Created by {user}" : "Создано {user}",
     "Changed by {user}" : "Изменено {user}",
     "Deleted by {user}" : "Удалено {user}",

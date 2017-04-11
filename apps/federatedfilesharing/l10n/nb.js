@@ -41,12 +41,12 @@ OC.L10N.register(
     "Open documentation" : "Åpne dokumentasjonen",
     "Allow users on this server to send shares to other servers" : "Tillat at brukere på denne tjeneren sender delinger til andre tjenere",
     "Allow users on this server to receive shares from other servers" : "Tillat at brukere på denne tjeneren mottar delinger fra andre tjenere",
-    "Search global and public address book for users" : "Søk global og offentlige adressebøker etter brukere",
     "Federated Cloud" : "Sammenknyttet sky",
     "Your Federated Cloud ID:" : "Din ID for sammenknyttet sky:",
     "Share it:" : "Del den:",
     "Add to your website" : "Legg på websiden din",
     "Share with me via Nextcloud" : "Del med meg via Nextcloud",
-    "HTML Code:" : "HTML-kode:"
+    "HTML Code:" : "HTML-kode:",
+    "Search global and public address book for users" : "Søk global og offentlige adressebøker etter brukere"
 },
 "nplurals=2; plural=(n != 1);");
