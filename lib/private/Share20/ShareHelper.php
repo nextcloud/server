@@ -60,6 +60,25 @@ class ShareHelper implements IShareHelper {
 	}
 
 	/**
+	 * Sample:
+	 * $users = [
+	 *   'test1' => ['node_id' => 16, 'node_path' => '/foo'],
+	 *   'test2' => ['node_id' => 23, 'node_path' => '/bar'],
+	 *   'test3' => ['node_id' => 42, 'node_path' => '/cat'],
+	 *   'test4' => ['node_id' => 48, 'node_path' => '/dog'],
+	 * ];
+	 *
+	 * Node tree:
+	 * - SixTeen is the parent of TwentyThree
+	 * - TwentyThree is the parent of FortyTwo
+	 * - FortyEight does not exist
+	 *
+	 * $return = [
+	 *   'test1' => '/foo/TwentyThree/FortyTwo',
+	 *   'test2' => '/bar/FortyTwo',
+	 *   'test3' => '/cat',
+	 * ],
+	 *
 	 * @param Node $node
 	 * @param array[] $users
 	 * @return array
@@ -122,6 +141,25 @@ class ShareHelper implements IShareHelper {
 	}
 
 	/**
+	 * Sample:
+	 * $remotes = [
+	 *   'test1' => ['node_id' => 16, 'token' => 't1'],
+	 *   'test2' => ['node_id' => 23, 'token' => 't2'],
+	 *   'test3' => ['node_id' => 42, 'token' => 't3'],
+	 *   'test4' => ['node_id' => 48, 'token' => 't4'],
+	 * ];
+	 *
+	 * Node tree:
+	 * - SixTeen is the parent of TwentyThree
+	 * - TwentyThree is the parent of FortyTwo
+	 * - FortyEight does not exist
+	 *
+	 * $return = [
+	 *   'test1' => ['token' => 't1', 'node_path' => '/SixTeen'],
+	 *   'test2' => ['token' => 't2', 'node_path' => '/SixTeen/TwentyThree'],
+	 *   'test3' => ['token' => 't3', 'node_path' => '/SixTeen/TwentyThree/FortyTwo'],
+	 * ],
+	 *
 	 * @param Node $node
 	 * @param array[] $remotes
 	 * @return array
