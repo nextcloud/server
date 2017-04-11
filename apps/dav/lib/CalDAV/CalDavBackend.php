@@ -279,6 +279,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$readOnlyPropertyName = '{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only';
 		while($row = $result->fetch()) {
+			if ($row['principaluri'] === $principalUri) {
+				continue;
+			}
+
 			$readOnly = (int) $row['access'] === Backend::ACCESS_READ;
 			if (isset($calendars[$row['id']])) {
 				if ($readOnly) {
