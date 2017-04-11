@@ -22,7 +22,10 @@
  */
 namespace OC\Share20;
 
+use OCP\Files\InvalidPathException;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Share\IManager;
 use OCP\Share\IShareHelper;
 
@@ -62,7 +65,11 @@ class ShareHelper implements IShareHelper {
 	 * @return array
 	 */
 	protected function getPathsForUsers(Node $node, array $users) {
-		$byId = $results = [];
+		/** @var array[] $byId */
+		$byId = [];
+		/** @var array[] $results */
+		$results = [];
+
 		foreach ($users as $uid => $info) {
 			if (!isset($byId[$info['node_id']])) {
 				$byId[$info['node_id']] = [];
@@ -70,11 +77,17 @@ class ShareHelper implements IShareHelper {
 			$byId[$info['node_id']][$uid] = $info['node_path'];
 		}
 
-		if (isset($byId[$node->getId()])) {
-			foreach ($byId[$node->getId()] as $uid => $path) {
-				$results[$uid] = $path;
+		try {
+			if (isset($byId[$node->getId()])) {
+				foreach ($byId[$node->getId()] as $uid => $path) {
+					$results[$uid] = $path;
+				}
+				unset($byId[$node->getId()]);
 			}
-			unset($byId[$node->getId()]);
+		} catch (NotFoundException $e) {
+			return $results;
+		} catch (InvalidPathException $e) {
+			return $results;
 		}
 
 		if (empty($byId)) {
@@ -84,17 +97,25 @@ class ShareHelper implements IShareHelper {
 		$item = $node;
 		$appendix = '/' . $node->getName();
 		while (!empty($byId)) {
-			/** @var Node $item */
-			$item = $item->getParent();
+			try {
+				/** @var Node $item */
+				$item = $item->getParent();
 
-			if (!empty($byId[$item->getId()])) {
-				foreach ($byId[$item->getId()] as $uid => $path) {
-					$results[$uid] = $path . $appendix;
+				if (!empty($byId[$item->getId()])) {
+					foreach ($byId[$item->getId()] as $uid => $path) {
+						$results[$uid] = $path . $appendix;
+					}
+					unset($byId[$item->getId()]);
 				}
-				unset($byId[$item->getId()]);
-			}
 
-			$appendix = '/' . $item->getName() . $appendix;
+				$appendix = '/' . $item->getName() . $appendix;
+			} catch (NotFoundException $e) {
+				return $results;
+			} catch (InvalidPathException $e) {
+				return $results;
+			} catch (NotPermittedException $e) {
+				return $results;
+			}
 		}
 
 		return $results;
@@ -106,7 +127,11 @@ class ShareHelper implements IShareHelper {
 	 * @return array
 	 */
 	protected function getPathsForRemotes(Node $node, array $remotes) {
-		$byId = $results = [];
+		/** @var array[] $byId */
+		$byId = [];
+		/** @var array[] $results */
+		$results = [];
+
 		foreach ($remotes as $cloudId => $info) {
 			if (!isset($byId[$info['node_id']])) {
 				$byId[$info['node_id']] = [];
@@ -116,17 +141,27 @@ class ShareHelper implements IShareHelper {
 
 		$item = $node;
 		while (!empty($byId)) {
-			if (!empty($byId[$item->getId()])) {
-				$path = $this->getMountedPath($item);
-				foreach ($byId[$item->getId()] as $uid => $token) {
-					$results[$uid] = [
-						'node_path' => $path,
-						'token' => $token,
-					];
+			try {
+				if (!empty($byId[$item->getId()])) {
+					$path = $this->getMountedPath($item);
+					foreach ($byId[$item->getId()] as $uid => $token) {
+						$results[$uid] = [
+							'node_path' => $path,
+							'token' => $token,
+						];
+					}
+					unset($byId[$item->getId()]);
 				}
-				unset($byId[$item->getId()]);
+
+				/** @var Node $item */
+				$item = $item->getParent();
+			} catch (NotFoundException $e) {
+				return $results;
+			} catch (InvalidPathException $e) {
+				return $results;
+			} catch (NotPermittedException $e) {
+				return $results;
 			}
-			$item = $item->getParent();
 		}
 
 		return $results;
