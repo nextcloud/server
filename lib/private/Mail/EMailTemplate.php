@@ -227,6 +227,46 @@ EOF;
 </table>
 EOF;
 
+	protected $button = <<<EOF
+<table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
+	<tbody>
+	<tr style="padding:0;text-align:left;vertical-align:top">
+		<td height="50px" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:50px;font-weight:400;hyphens:auto;line-height:50px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&#xA0;</td>
+	</tr>
+	</tbody>
+</table>
+<table align="center" class="row btn-group" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%%">
+	<tbody>
+	<tr style="padding:0;text-align:left;vertical-align:top">
+		<th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:30px;padding-left:30px;padding-right:30px;text-align:left;width:550px">
+			<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
+				<tr style="padding:0;text-align:left;vertical-align:top">
+					<th style="Margin:0;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
+						<center data-parsed="" style="min-width:490px;width:100%%">
+							<table class="button btn default primary float-center" style="Margin:0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0;max-height:40px;padding:0;text-align:center;vertical-align:top;width:auto">
+								<tr style="padding:0;text-align:left;vertical-align:top">
+									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
+											<tr style="padding:0;text-align:left;vertical-align:top">
+												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;background:%s;border:0 solid %s;border-collapse:collapse!important;color:#fefefe;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+													<a href="%s" style="Margin:0;border:0 solid %s;border-radius:2px;color:#fefefe;display:inline-block;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;padding:10px 25px 10px 25px;text-align:left;text-decoration:none">%s</a>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</center>
+					</th>
+					<th class="expander" style="Margin:0;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
+				</tr>
+			</table>
+		</th>
+	</tr>
+	</tbody>
+</table>
+EOF;
+
 	protected $bodyEnd = <<<EOF
 
 					</td>
@@ -363,6 +403,30 @@ EOF;
 		$this->htmlBody .= vsprintf($this->buttonGroup, [$color, $color, $urlLeft, $color, $textLeft, $urlRight, $textRight]);
 		$this->plainBody .= $plainTextLeft . ': ' . $urlLeft . PHP_EOL;
 		$this->plainBody .= $plainTextRight . ': ' . $urlRight . PHP_EOL . PHP_EOL;
+
+	}
+
+	/**
+	 * Adds a button to the body of the email
+	 *
+	 * @param string $text Text of button
+	 * @param string $url URL of button
+	 *
+	 * @since 12.0.0
+	 */
+	public function addBodyButton($text, $url) {
+		if ($this->footerAdded) {
+			return;
+		}
+
+		if (!$this->bodyOpened) {
+			$this->htmlBody .= $this->bodyBegin;
+			$this->bodyOpened = true;
+		}
+
+		$color = $this->themingDefaults->getColorPrimary();
+		$this->htmlBody .= vsprintf($this->button, [$color, $color, $url, $color, htmlspecialchars($text)]);
+		$this->plainBody .= $text . ': ' . $url . PHP_EOL;
 
 	}
 

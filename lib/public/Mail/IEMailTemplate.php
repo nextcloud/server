@@ -93,6 +93,16 @@ interface IEMailTemplate {
 	public function addBodyButtonGroup($textLeft, $urlLeft, $textRight, $urlRight, $plainTextLeft = '', $plainTextRight = '');
 
 	/**
+	 * Adds a button to the body of the email
+	 *
+	 * @param string $text Text of button
+	 * @param string $url URL of button
+	 *
+	 * @since 12.0.0
+	 */
+	public function addBodyButton($text, $url);
+
+	/**
 	 * Adds a logo and a text to the footer. <br> in the text will be replaced by new lines in the plain text email
 	 *
 	 * @param string $text
