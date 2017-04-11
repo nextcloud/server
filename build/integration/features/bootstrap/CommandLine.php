@@ -35,7 +35,7 @@ trait CommandLine {
 	/**
 	 * Invokes an OCC command
 	 *
-	 * @param string OCC command, the part behind "occ". For example: "files:transfer-ownership"
+	 * @param []string $args OCC command, the part behind "occ". For example: "files:transfer-ownership"
 	 * @return int exit code
 	 */
 	public function runOcc($args = []) {
@@ -54,6 +54,12 @@ trait CommandLine {
 		$this->lastStdOut = stream_get_contents($pipes[1]);
 		$this->lastStdErr = stream_get_contents($pipes[2]);
 		$this->lastCode = proc_close($process);
+
+		// Clean opcode cache
+		$client = new GuzzleHttp\Client();
+		$request = $client->createRequest('GET', 'http://localhost:8080/apps/testing/clean_opcode_cache.php');
+		$client->send($request);
+
 		return $this->lastCode;
 	}
 
