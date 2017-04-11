@@ -157,7 +157,8 @@ class EMailTemplateTest extends TestCase {
 		$this->emailTemplate->addBodyText('You have now an Nextcloud account, you can add, protect, and share your data.');
 		$this->emailTemplate->addBodyText('Your username is: abc');
 		$this->emailTemplate->addBodyButton(
-			'Set your password', 'https://example.org/resetPassword/123'
+			'Set your password', 'https://example.org/resetPassword/123',
+			false
 		);
 		$this->emailTemplate->addFooter();
 

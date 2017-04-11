@@ -423,10 +423,12 @@ EOF;
 	 *
 	 * @param string $text Text of button
 	 * @param string $url URL of button
+	 * @param string $plainText Text of button in plain text version
+	 * 		if empty the $text is used, if false none will be used
 	 *
 	 * @since 12.0.0
 	 */
-	public function addBodyButton($text, $url) {
+	public function addBodyButton($text, $url, $plainText = '') {
 		if ($this->footerAdded) {
 			return;
 		}
@@ -436,9 +438,18 @@ EOF;
 			$this->bodyOpened = true;
 		}
 
+		if ($plainText === '') {
+			$plainText = $text;
+		}
+
 		$color = $this->themingDefaults->getColorPrimary();
 		$this->htmlBody .= vsprintf($this->button, [$color, $color, $url, $color, htmlspecialchars($text)]);
-		$this->plainBody .= $text . ': ' . $url . PHP_EOL;
+
+		if ($plainText !== false) {
+			$this->plainBody .= $plainText . ': ';
+		}
+
+		$this->plainBody .=  $url . PHP_EOL;
 
 	}
 

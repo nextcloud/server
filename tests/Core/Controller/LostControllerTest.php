@@ -33,6 +33,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
@@ -314,17 +315,32 @@ class LostControllerTest extends \Test\TestCase {
 		$message
 			->expects($this->at(2))
 			->method('setPlainBody')
-			->with('Use the following link to reset your password: https://example.tld/index.php/lostpassword/');
+			->with('text body');
 		$message
 			->expects($this->at(3))
+			->method('setHtmlBody')
+			->with('HTML body');
+		$message
+			->expects($this->at(4))
 			->method('setFrom')
 			->with(['lostpassword-noreply@localhost' => null]);
+		$emailTemplate = $this->createMock(IEMailTemplate::class);
+		$emailTemplate->expects($this->any())
+			->method('renderHTML')
+			->willReturn('HTML body');
+		$emailTemplate->expects($this->any())
+			->method('renderText')
+			->willReturn('text body');
 		$this->mailer
 			->expects($this->at(0))
+			->method('createEMailTemplate')
+			->willReturn($emailTemplate);
+		$this->mailer
+			->expects($this->at(1))
 			->method('createMessage')
 			->will($this->returnValue($message));
 		$this->mailer
-			->expects($this->at(1))
+			->expects($this->at(2))
 			->method('send')
 			->with($message);
 
@@ -385,17 +401,32 @@ class LostControllerTest extends \Test\TestCase {
 		$message
 			->expects($this->at(2))
 			->method('setPlainBody')
-			->with('Use the following link to reset your password: https://example.tld/index.php/lostpassword/');
+			->with('text body');
 		$message
 			->expects($this->at(3))
+			->method('setHtmlBody')
+			->with('HTML body');
+		$message
+			->expects($this->at(4))
 			->method('setFrom')
 			->with(['lostpassword-noreply@localhost' => null]);
+		$emailTemplate = $this->createMock(IEMailTemplate::class);
+		$emailTemplate->expects($this->any())
+			->method('renderHTML')
+			->willReturn('HTML body');
+		$emailTemplate->expects($this->any())
+			->method('renderText')
+			->willReturn('text body');
 		$this->mailer
 			->expects($this->at(0))
+			->method('createEMailTemplate')
+			->willReturn($emailTemplate);
+		$this->mailer
+			->expects($this->at(1))
 			->method('createMessage')
 			->will($this->returnValue($message));
 		$this->mailer
-			->expects($this->at(1))
+			->expects($this->at(2))
 			->method('send')
 			->with($message);
 
@@ -450,17 +481,32 @@ class LostControllerTest extends \Test\TestCase {
 		$message
 			->expects($this->at(2))
 			->method('setPlainBody')
-			->with('Use the following link to reset your password: https://example.tld/index.php/lostpassword/');
+			->with('text body');
 		$message
 			->expects($this->at(3))
+			->method('setHtmlBody')
+			->with('HTML body');
+		$message
+			->expects($this->at(4))
 			->method('setFrom')
 			->with(['lostpassword-noreply@localhost' => null]);
+		$emailTemplate = $this->createMock(IEMailTemplate::class);
+		$emailTemplate->expects($this->any())
+			->method('renderHTML')
+			->willReturn('HTML body');
+		$emailTemplate->expects($this->any())
+			->method('renderText')
+			->willReturn('text body');
 		$this->mailer
 			->expects($this->at(0))
+			->method('createEMailTemplate')
+			->willReturn($emailTemplate);
+		$this->mailer
+			->expects($this->at(1))
 			->method('createMessage')
 			->will($this->returnValue($message));
 		$this->mailer
-			->expects($this->at(1))
+			->expects($this->at(2))
 			->method('send')
 			->with($message)
 			->will($this->throwException(new \Exception()));
