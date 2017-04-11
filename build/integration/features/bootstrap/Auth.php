@@ -22,6 +22,7 @@
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Cookie\CookieJar;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -67,6 +68,8 @@ trait Auth {
 			$request->setHeader('requesttoken', $this->requestToken);
 			$this->response = $this->client->send($request);
 		} catch (ClientException $ex) {
+			$this->response = $ex->getResponse();
+		} catch (ServerException $ex) {
 			$this->response = $ex->getResponse();
 		}
 	}

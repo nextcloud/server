@@ -36,6 +36,20 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 		$this->remoteBaseUrl = $baseUrl;
 	}
 
+	/**
+	 * @Given Maintenance mode is enabled
+	 */
+	public function maintenanceModeIsEnabled()  {
+		$this->runOcc(['maintenance:mode', '--on']);
+	}
+
+	/**
+	 * @Then Maintenance mode is disabled
+	 */
+	public function maintenanceModeIsDisabled()  {
+		$this->runOcc(['maintenance:mode', '--off']);
+	}
+
 	/** @BeforeScenario */
 	public function gatherContexts(BeforeScenarioScope $scope) {
 		$environment = $scope->getEnvironment();
