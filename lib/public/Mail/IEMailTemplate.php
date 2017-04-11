@@ -105,7 +105,7 @@ interface IEMailTemplate {
 	/**
 	 * Adds a logo and a text to the footer. <br> in the text will be replaced by new lines in the plain text email
 	 *
-	 * @param string $text
+	 * @param string $text If the text is empty the default "Name - Slogan<br>This is an automatically generated email" will be used
 	 *
 	 * @since 12.0.0
 	 */

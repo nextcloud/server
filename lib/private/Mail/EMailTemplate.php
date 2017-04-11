@@ -345,7 +345,7 @@ EOF;
 			$plainTitle = $title;
 		}
 
-		$this->htmlBody .= vsprintf($this->heading, [$title]);
+		$this->htmlBody .= vsprintf($this->heading, [htmlspecialchars($title)]);
 		$this->plainBody .= $plainTitle . PHP_EOL . PHP_EOL;
 	}
 
@@ -368,7 +368,7 @@ EOF;
 			$this->bodyOpened = true;
 		}
 
-		$this->htmlBody .= vsprintf($this->bodyText, [$text]);
+		$this->htmlBody .= vsprintf($this->bodyText, [htmlspecialchars($text)]);
 		$this->plainBody .= $plainText . PHP_EOL . PHP_EOL;
 	}
 
@@ -382,7 +382,12 @@ EOF;
 	 * @param string $plainTextLeft Text of left button that is used in the plain text version - if unset the $textLeft is used
 	 * @param string $plainTextRight Text of right button that is used in the plain text version - if unset the $textRight is used
 	 */
-	public function addBodyButtonGroup($textLeft, $urlLeft, $textRight, $urlRight, $plainTextLeft = '', $plainTextRight = '') {
+	public function addBodyButtonGroup($textLeft,
+									   $urlLeft,
+									   $textRight,
+									   $urlRight,
+									   $plainTextLeft = '',
+									   $plainTextRight = '') {
 		if ($this->footerAdded) {
 			return;
 		}
@@ -400,7 +405,8 @@ EOF;
 		}
 
 		$color = $this->themingDefaults->getColorPrimary();
-		$this->htmlBody .= vsprintf($this->buttonGroup, [$color, $color, $urlLeft, $color, $textLeft, $urlRight, $textRight]);
+
+		$this->htmlBody .= vsprintf($this->buttonGroup, [$color, $color, $urlLeft, $color, htmlspecialchars($textLeft), $urlRight, htmlspecialchars($textRight)]);
 		$this->plainBody .= $plainTextLeft . ': ' . $urlLeft . PHP_EOL;
 		$this->plainBody .= $plainTextRight . ': ' . $urlRight . PHP_EOL . PHP_EOL;
 
@@ -433,7 +439,7 @@ EOF;
 	/**
 	 * Adds a logo and a text to the footer. <br> in the text will be replaced by new lines in the plain text email
 	 *
-	 * @param string $text
+	 * @param string $text If the text is empty the default "Name - Slogan<br>This is an automatically generated email" will be used
 	 */
 	public function addFooter($text = '') {
 		if($text === '') {
