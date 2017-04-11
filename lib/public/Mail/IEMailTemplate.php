@@ -52,17 +52,6 @@ namespace OCP\Mail;
  */
 interface IEMailTemplate {
 	/**
-	 * @param \OCP\Defaults $themingDefaults
-	 * @param \OCP\IURLGenerator $urlGenerator
-	 * @param \OCP\IL10N $l10n
-	 *
-	 * @since 12.0.0
-	 */
-	public function __construct(\OCP\Defaults $themingDefaults,
-								\OCP\IURLGenerator $urlGenerator,
-								\OCP\IL10N $l10n);
-
-	/**
 	 * Adds a header to the email
 	 *
 	 * @since 12.0.0
