@@ -27,26 +27,32 @@ namespace OC\Contacts\ContactsMenu\Providers;
 use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\ContactsMenu\IProvider;
+use OCP\IURLGenerator;
 
 class EMailProvider implements IProvider {
 
 	/** @var IActionFactory */
 	private $actionFactory;
 
+	/** @var IURLGenerator */
+	private $urlGenerator;
+
 	/**
 	 * @param IActionFactory $actionFactory
+	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct(IActionFactory $actionFactory) {
+	public function __construct(IActionFactory $actionFactory, IURLGenerator $urlGenerator) {
 		$this->actionFactory = $actionFactory;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
 	 * @param IEntry $entry
 	 */
 	public function process(IEntry $entry) {
+		$iconUrl = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/mail.svg'));
 		foreach ($entry->getEMailAddresses() as $address) {
-			// TODO: absolute path
-			$action = $this->actionFactory->newEMailAction('icon-mail', $address, $address);
+			$action = $this->actionFactory->newEMailAction($iconUrl, $address, $address);
 			$entry->addAction($action);
 		}
 	}
