@@ -22,7 +22,7 @@
 namespace OC\Settings\Mailer;
 
 use OC\Mail\EMailTemplate;
-use OC\Mail\IEMailTemplate;
+use OCP\Mail\IEMailTemplate;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IConfig;
