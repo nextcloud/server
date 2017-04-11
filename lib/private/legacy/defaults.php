@@ -47,6 +47,8 @@ class OC_Defaults {
 	private $defaultSlogan;
 	private $defaultLogoClaim;
 	private $defaultColorPrimary;
+	private $defaultLogoUrl;
+	private $defaultCacheBuster;
 
 	function __construct() {
 		$this->l = \OC::$server->getL10N('lib');
@@ -64,6 +66,8 @@ class OC_Defaults {
 		$this->defaultSlogan = $this->l->t('a safe home for all your data');
 		$this->defaultLogoClaim = '';
 		$this->defaultColorPrimary = '#0082c9';
+		$this->defaultLogoUrl = \OC::$server->getURLGenerator()->imagePath('core','logo.svg');
+		$this->defaultLogoUrl .=  '?v=' . hash('sha1', implode('.', \OCP\Util::getVersion()));
 
 		$themePath = OC::$SERVERROOT . '/themes/' . OC_Util::getTheme() . '/defaults.php';
 		if (file_exists($themePath)) {
@@ -263,6 +267,7 @@ class OC_Defaults {
 
 	/**
 	 * @param string $key
+	 * @return string URL to doc with key
 	 */
 	public function buildDocLinkToKey($key) {
 		if ($this->themeExist('buildDocLinkToKey')) {
@@ -288,5 +293,18 @@ class OC_Defaults {
 
 	public function shouldReplaceIcons() {
 		return false;
+	}
+
+	/**
+	 * Themed logo url
+	 *
+	 * @return string
+	 */
+	public function getLogo() {
+		if ($this->themeExist('getLogo')) {
+			return $this->theme->getLogo();
+		}
+
+		return $this->defaultLogoUrl;
 	}
 }

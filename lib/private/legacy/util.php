@@ -651,7 +651,7 @@ class OC_Util {
 
 		$webServerRestart = false;
 		$setup = new \OC\Setup($config, \OC::$server->getIniWrapper(), \OC::$server->getL10N('lib'),
-			\OC::$server->getThemingDefaults(), \OC::$server->getLogger(), \OC::$server->getSecureRandom());
+			\OC::$server->query(\OCP\Defaults::class), \OC::$server->getLogger(), \OC::$server->getSecureRandom());
 
 		$urlGenerator = \OC::$server->getURLGenerator();
 

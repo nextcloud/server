@@ -24,6 +24,7 @@ namespace OC\Template;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use OCP\App\IAppManager;
+use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -36,7 +37,7 @@ class JSConfigHelper {
 	/** @var IL10N */
 	private $l;
 
-	/** @var \OC_Defaults */
+	/** @var Defaults */
 	private $defaults;
 
 	/** @var IAppManager */
@@ -62,7 +63,7 @@ class JSConfigHelper {
 
 	/**
 	 * @param IL10N $l
-	 * @param \OC_Defaults $defaults
+	 * @param Defaults $defaults
 	 * @param IAppManager $appManager
 	 * @param ISession $session
 	 * @param IUser|null $currentUser
@@ -72,7 +73,7 @@ class JSConfigHelper {
 	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct(IL10N $l,
-								\OC_Defaults $defaults,
+								Defaults $defaults,
 								IAppManager $appManager,
 								ISession $session,
 								$currentUser,

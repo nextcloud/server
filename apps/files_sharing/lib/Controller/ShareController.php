@@ -106,7 +106,7 @@ class ShareController extends Controller {
 	 * @param FederatedShareProvider $federatedShareProvider
 	 * @param EventDispatcherInterface $eventDispatcher
 	 * @param IL10N $l10n
-	 * @param \OC_Defaults $defaults
+	 * @param Defaults $defaults
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -122,7 +122,7 @@ class ShareController extends Controller {
 								FederatedShareProvider $federatedShareProvider,
 								EventDispatcherInterface $eventDispatcher,
 								IL10N $l10n,
-								\OC_Defaults $defaults) {
+								Defaults $defaults) {
 		parent::__construct($appName, $request);
 
 		$this->config = $config;

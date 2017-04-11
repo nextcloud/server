@@ -111,7 +111,7 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->federatedShareProvider,
 			$this->eventDispatcher,
 			$this->getMockBuilder('\OCP\IL10N')->getMock(),
-			$this->getMockBuilder('\OC_Defaults')->getMock()
+			$this->getMockBuilder('\OCP\Defaults')->getMock()
 		);
 
 

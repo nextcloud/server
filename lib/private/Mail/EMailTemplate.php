@@ -25,7 +25,7 @@
 
 namespace OC\Mail;
 
-use OCA\Theming\ThemingDefaults;
+use OCP\Defaults;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 
@@ -38,7 +38,7 @@ use OCP\IURLGenerator;
  * @package OC\Mail
  */
 class EMailTemplate implements IEMailTemplate {
-	/** @var ThemingDefaults */
+	/** @var Defaults */
 	protected $themingDefaults;
 	/** @var IURLGenerator */
 	protected $urlGenerator;
@@ -264,11 +264,11 @@ EOF;
 EOF;
 
 	/**
-	 * @param ThemingDefaults $themingDefaults
+	 * @param Defaults $themingDefaults
 	 * @param IURLGenerator $urlGenerator
 	 * @param IL10N $l10n
 	 */
-	public function __construct(ThemingDefaults $themingDefaults,
+	public function __construct(Defaults $themingDefaults,
 								IURLGenerator $urlGenerator,
 								IL10N $l10n) {
 		$this->themingDefaults = $themingDefaults;
@@ -286,7 +286,7 @@ EOF;
 		}
 		$this->headerAdded = true;
 
-		$logoUrl = $this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo()) . '?v='. $this->themingDefaults->getCacheBusterCounter();
+		$logoUrl = $this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo());
 		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getColorPrimary(), $logoUrl]);
 	}
 

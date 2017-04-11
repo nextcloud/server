@@ -23,8 +23,8 @@ namespace OC\Settings\Mailer;
 
 use OC\Mail\EMailTemplate;
 use OC\Mail\IEMailTemplate;
-use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -34,7 +34,7 @@ use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 
 class NewUserMailHelper {
-	/** @var ThemingDefaults */
+	/** @var Defaults */
 	private $themingDefaults;
 	/** @var IURLGenerator */
 	private $urlGenerator;
@@ -54,7 +54,7 @@ class NewUserMailHelper {
 	private $fromAddress;
 
 	/**
-	 * @param ThemingDefaults $themingDefaults
+	 * @param Defaults $themingDefaults
 	 * @param IURLGenerator $urlGenerator
 	 * @param IL10N $l10n
 	 * @param IMailer $mailer
@@ -64,7 +64,7 @@ class NewUserMailHelper {
 	 * @param ICrypto $crypto
 	 * @param string $fromAddress
 	 */
-	public function __construct(ThemingDefaults $themingDefaults,
+	public function __construct(Defaults $themingDefaults,
 								IURLGenerator $urlGenerator,
 								IL10N $l10n,
 								IMailer $mailer,

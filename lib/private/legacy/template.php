@@ -79,7 +79,8 @@ class OC_Template extends \OC\Template\Base {
 
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
 		$l10n = \OC::$server->getL10N($parts[0]);
-		$themeDefaults = \OC::$server->getThemingDefaults();
+		/** @var \OCP\Defaults $themeDefaults */
+		$themeDefaults = \OC::$server->query(\OCP\Defaults::class);
 
 		list($path, $template) = $this->findTemplate($theme, $app, $name);
 

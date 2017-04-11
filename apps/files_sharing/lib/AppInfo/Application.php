@@ -35,6 +35,7 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OCA\Files_Sharing\Controller\ExternalSharesController;
 use OCA\Files_Sharing\Controller\ShareController;
 use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
+use OCP\Defaults;
 use OCP\Federation\ICloudIdManager;
 use \OCP\IContainer;
 use OCP\IServerContainer;
@@ -67,7 +68,7 @@ class Application extends App {
 				$federatedSharingApp->getFederatedShareProvider(),
 				$server->getEventDispatcher(),
 				$server->getL10N($c->query('AppName')),
-				$server->getThemingDefaults()
+				$server->query(Defaults::class)
 			);
 		});
 		$container->registerService('ExternalSharesController', function (SimpleContainer $c) {

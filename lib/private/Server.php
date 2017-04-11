@@ -95,6 +95,7 @@ use OC\Session\CryptoWrapper;
 use OC\Tagging\TagMapper;
 use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
+use OCP\Defaults;
 use OCP\Federation\ICloudIdManager;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\ICacheFactory;
@@ -726,7 +727,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new Mailer(
 				$c->getConfig(),
 				$c->getLogger(),
-				$c->getThemingDefaults()
+				$c->query(Defaults::class)
 			);
 		});
 		$this->registerAlias('Mailer', \OCP\Mail\IMailer::class);
@@ -954,6 +955,13 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(\OCP\AppFramework\Utility\ITimeFactory::class, \OC\AppFramework\Utility\TimeFactory::class);
 		$this->registerAlias('TimeFactory', \OCP\AppFramework\Utility\ITimeFactory::class);
+
+		$this->registerService(Defaults::class, function (Server $c) {
+			return new Defaults(
+				$c->getThemingDefaults()
+			);
+		});
+		$this->registerAlias('Defaults', \OCP\Defaults::class);
 
 		$this->registerService(\OCP\ISession::class, function(SimpleContainer $c) {
 			return $c->query(\OCP\IUserSession::class)->getSession();

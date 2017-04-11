@@ -37,10 +37,10 @@ use OC\Settings\Mailer\NewUserMailHelper;
 use OC\SubAdmin;
 use OCA\Provisioning_API\Controller\UsersController;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\ILogger;
-use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -74,7 +74,7 @@ class UsersControllerTest extends TestCase {
 	private $urlGenerator;
 	/** @var IMailer|PHPUnit_Framework_MockObject_MockObject */
 	private $mailer;
-	/** @var \OC_Defaults|PHPUnit_Framework_MockObject_MockObject */
+	/** @var Defaults|PHPUnit_Framework_MockObject_MockObject */
 	private $defaults;
 	/** @var IFactory|PHPUnit_Framework_MockObject_MockObject */
 	private $l10nFactory;
@@ -93,7 +93,7 @@ class UsersControllerTest extends TestCase {
 		$this->accountManager = $this->createMock(AccountManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->mailer = $this->createMock(IMailer::class);
-		$this->defaults = $this->createMock(\OC_Defaults::class);
+		$this->defaults = $this->createMock(Defaults::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->newUserMailHelper = $this->createMock(NewUserMailHelper::class);
 

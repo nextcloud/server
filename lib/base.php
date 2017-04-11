@@ -912,7 +912,7 @@ class OC {
 		if (!$systemConfig->getValue('installed', false)) {
 			\OC::$server->getSession()->clear();
 			$setupHelper = new OC\Setup(\OC::$server->getSystemConfig(), \OC::$server->getIniWrapper(),
-				\OC::$server->getL10N('lib'), \OC::$server->getThemingDefaults(), \OC::$server->getLogger(),
+				\OC::$server->getL10N('lib'), \OC::$server->query(\OCP\Defaults::class), \OC::$server->getLogger(),
 				\OC::$server->getSecureRandom());
 			$controller = new OC\Core\Controller\SetupController($setupHelper);
 			$controller->run($_POST);

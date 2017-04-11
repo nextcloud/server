@@ -41,7 +41,7 @@ namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use Exception;
-use OCP\IConfig;
+use OCP\Defaults;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\Security\ISecureRandom;
@@ -53,7 +53,7 @@ class Setup {
 	protected $iniWrapper;
 	/** @var IL10N */
 	protected $l10n;
-	/** @var \OC_Defaults */
+	/** @var Defaults */
 	protected $defaults;
 	/** @var ILogger */
 	protected $logger;
@@ -63,12 +63,14 @@ class Setup {
 	/**
 	 * @param SystemConfig $config
 	 * @param IniGetWrapper $iniWrapper
-	 * @param \OC_Defaults $defaults
+	 * @param Defaults $defaults
+	 * @param ILogger $logger
+	 * @param ISecureRandom $random
 	 */
 	function __construct(SystemConfig $config,
 						 IniGetWrapper $iniWrapper,
 						 IL10N $l10n,
-						 \OC_Defaults $defaults,
+						 Defaults $defaults,
 						 ILogger $logger,
 						 ISecureRandom $random
 		) {
@@ -422,7 +424,7 @@ class Setup {
 		}
 
 		$setupHelper = new \OC\Setup($config, \OC::$server->getIniWrapper(),
-			\OC::$server->getL10N('lib'), \OC::$server->getThemingDefaults(), \OC::$server->getLogger(),
+			\OC::$server->getL10N('lib'), \OC::$server->query(Defaults::class), \OC::$server->getLogger(),
 			\OC::$server->getSecureRandom());
 
 		$htaccessContent = file_get_contents($setupHelper->pathToHtaccess());

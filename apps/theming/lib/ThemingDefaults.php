@@ -138,11 +138,13 @@ class ThemingDefaults extends \OC_Defaults {
 			$logoExists = false;
 		}
 
+		$cacheBusterCounter = $this->config->getAppValue('theming', 'cachebuster', '0');
+
 		if(!$logo || !$logoExists) {
-			return $this->urlGenerator->imagePath('core','logo.svg');
+			return $this->urlGenerator->imagePath('core','logo.svg') . '?v=' . $cacheBusterCounter;
 		}
 
-		return $this->urlGenerator->linkToRoute('theming.Theming.getLogo');
+		return $this->urlGenerator->linkToRoute('theming.Theming.getLogo') . '?v=' . $cacheBusterCounter;
 	}
 
 	/**
@@ -188,15 +190,6 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 		$cache->set('shouldReplaceIcons', $value);
 		return $value;
-	}
-
-	/**
-	 * Gets the current cache buster count
-	 *
-	 * @return string
-	 */
-	public function getCacheBusterCounter() {
-		return $this->config->getAppValue('theming', 'cachebuster', '0');
 	}
 
 	/**

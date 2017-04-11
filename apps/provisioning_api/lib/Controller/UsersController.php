@@ -33,10 +33,10 @@ use OC\Accounts\AccountManager;
 use OC\Settings\Mailer\NewUserMailHelper;
 use \OC_Helper;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
+use OCP\Defaults;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -69,7 +69,7 @@ class UsersController extends OCSController {
 	private $urlGenerator;
 	/** @var IMailer */
 	private $mailer;
-	/** @var \OC_Defaults */
+	/** @var Defaults */
 	private $defaults;
 	/** @var IFactory */
 	private $l10nFactory;
@@ -88,7 +88,7 @@ class UsersController extends OCSController {
 	 * @param string $fromMailAddress
 	 * @param IURLGenerator $urlGenerator
 	 * @param IMailer $mailer
-	 * @param \OC_Defaults $defaults
+	 * @param Defaults $defaults
 	 * @param IFactory $l10nFactory
 	 * @param NewUserMailHelper $newUserMailHelper
 	 */
@@ -103,7 +103,7 @@ class UsersController extends OCSController {
 								$fromMailAddress,
 								IURLGenerator $urlGenerator,
 								IMailer $mailer,
-								\OC_Defaults $defaults,
+								Defaults $defaults,
 								IFactory $l10nFactory,
 								NewUserMailHelper $newUserMailHelper) {
 		parent::__construct($appName, $request);
