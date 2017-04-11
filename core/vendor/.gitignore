@@ -22,7 +22,7 @@ underscore/**
 # blueimp-md5
 blueimp-md5/css
 blueimp-md5/js/*
-!blueimp-md5/js/md5.js
+!blueimp-md5/js/md5.min.js
 blueimp-md5/index.html
 
 # momentjs - ignore all files except the two listed below

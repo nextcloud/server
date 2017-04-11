@@ -13,7 +13,7 @@
     "tests"
   ],
   "dependencies": {
-    "blueimp-md5": "~1.1.0",
+    "blueimp-md5": "^2.7.0",
     "handlebars": "^4.0.5",
     "jcrop": "~0.9.12",
     "jquery": "~2.2.0",
