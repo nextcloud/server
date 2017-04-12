@@ -35,6 +35,7 @@
 
 namespace OC\Files\Storage;
 
+use OC\Files\Storage\Wrapper\Jail;
 use OCP\Files\ForbiddenException;
 
 /**
@@ -371,7 +372,7 @@ class Local extends \OC\Files\Storage\Common {
 			return $fullPath;
 		}
 
-		\OCP\Util::writeLog('core',  "Following symlinks is not allowed ('$fullPath' -> '$realPath' not inside '{$this->realDataDir}')", \OCP\Util::ERROR);
+		\OCP\Util::writeLog('core', "Following symlinks is not allowed ('$fullPath' -> '$realPath' not inside '{$this->realDataDir}')", \OCP\Util::ERROR);
 		throw new ForbiddenException('Following symlinks is not allowed', false);
 	}
 
@@ -427,7 +428,13 @@ class Local extends \OC\Files\Storage\Common {
 	 * @return bool
 	 */
 	public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
-		if ($sourceStorage->instanceOfStorage('\OC\Files\Storage\Local')) {
+		if ($sourceStorage->instanceOfStorage(Local::class)) {
+			if ($sourceStorage->instanceOfStorage(Jail::class)) {
+				/**
+				 * @var \OC\Files\Storage\Wrapper\Jail $sourceStorage
+				 */
+				$sourceInternalPath = $sourceStorage->getUnjailedPath($sourceInternalPath);
+			}
 			/**
 			 * @var \OC\Files\Storage\Local $sourceStorage
 			 */
