@@ -35,11 +35,15 @@ use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Token\IProvider;
 use OC\Server;
+use OC\Settings\Activity\Provider;
+use OC\Settings\Activity\Setting;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OC\Settings\Middleware\SubadminMiddleware;
 use OCP\AppFramework\App;
 use OCP\Defaults;
 use OCP\IContainer;
+use OCP\IL10N;
+use OCP\IUser;
 use OCP\Settings\IManager;
 use OCP\Util;
 
@@ -128,5 +132,67 @@ class Application extends App {
 				$server->getConfig()
 			);
 		});
+	}
+
+	public function register() {
+		$activityManager = $this->getContainer()->getServer()->getActivityManager();
+		$activityManager->registerSetting(Setting::class); // FIXME move to info.xml
+		$activityManager->registerProvider(Provider::class); // FIXME move to info.xml
+
+		Util::connectHook('OC_User', 'post_setPassword', $this, 'onPasswordChange');
+		Util::connectHook('OC_User', 'changeUser', $this, 'onChangeInfo');
+	}
+
+	public function onPasswordChange($parameters) {
+		$uid = $parameters['uid'];
+
+		$activityManager = $this->getContainer()->getServer()->getActivityManager();
+		$event = $activityManager->generateEvent();
+		$event->setApp('settings')
+			->setType('personal_settings')
+			->setAffectedUser($uid);
+
+		$actor = $this->getContainer()->getServer()->getUserSession()->getUser();
+		if ($actor instanceof IUser) {
+			if ($actor->getUID() !== $uid) {
+				$event->setAuthor($actor->getUID())
+					->setSubject(Provider::PASSWORD_CHANGED_BY, [$actor->getUID()]);
+			} else {
+				$event->setAuthor($actor->getUID())
+					->setSubject(Provider::PASSWORD_CHANGED_SELF);
+			}
+		} else {
+			$event->setSubject(Provider::PASSWORD_RESET);
+		}
+		$activityManager->publish($event);
+	}
+
+	public function onChangeInfo($parameters) {
+		if ($parameters['feature'] !== 'eMailAddress') {
+			return;
+		}
+
+		/** @var IUser $user */
+		$user = $parameters['user'];
+
+		$activityManager = $this->getContainer()->getServer()->getActivityManager();
+		$event = $activityManager->generateEvent();
+		$event->setApp('settings')
+			->setType('personal_settings')
+			->setAffectedUser($user->getUID());
+
+		$actor = $this->getContainer()->getServer()->getUserSession()->getUser();
+		if ($actor instanceof IUser) {
+			if ($actor->getUID() !== $user->getUID()) {
+				$event->setAuthor($actor->getUID())
+					->setSubject(Provider::EMAIL_CHANGED_BY, [$actor->getUID()]);
+			} else {
+				$event->setAuthor($actor->getUID())
+					->setSubject(Provider::EMAIL_CHANGED_SELF);
+			}
+		} else {
+			$event->setSubject(Provider::EMAIL_CHANGED);
+		}
+		$activityManager->publish($event);
 	}
 }

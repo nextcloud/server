@@ -727,6 +727,9 @@ class OC {
 		self::registerAccountHooks();
 		self::registerSettingsHooks();
 
+		$settings = new \OC\Settings\Application();
+		$settings->register();
+
 		//make sure temporary files are cleaned up
 		$tmpManager = \OC::$server->getTempManager();
 		register_shutdown_function(array($tmpManager, 'clean'));
