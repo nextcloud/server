@@ -64,7 +64,12 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * Close session if class gets destructed
 	 */
 	public function __destruct() {
-		$this->close();
+		try {
+			$this->close();
+		} catch (SessionNotAvailableException $e){
+			// This exception can occur if session is already closed
+			// So it is safe to ignore it and let the garbage collector to proceed
+		}
 	}
 
 	protected function initializeSession() {
