@@ -98,7 +98,7 @@ EOF;
 							<tbody>
 							<tr style="padding:0;text-align:left;vertical-align:top">
 								<center data-parsed="" style="min-width:580px;width:100%%">
-									<img class="logo float-center" src="%s" alt="logo" align="center" style="-ms-interpolation-mode:bicubic;Margin:0 auto;clear:both;display:block;float:none;margin:0 auto;max-height:100%%;max-width:100px;outline:0;text-align:center;text-decoration:none;width:auto">
+									<img class="logo float-center" src="%s" alt="%s" align="center" style="-ms-interpolation-mode:bicubic;Margin:0 auto;clear:both;display:block;float:none;margin:0 auto;max-height:100%%;max-width:100px;outline:0;text-align:center;text-decoration:none;width:auto">
 								</center>
 							</tr>
 							</tbody>
@@ -328,7 +328,7 @@ EOF;
 		$this->headerAdded = true;
 
 		$logoUrl = $this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo());
-		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getColorPrimary(), $logoUrl]);
+		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getColorPrimary(), $logoUrl, $this->themingDefaults->getName()]);
 	}
 
 	/**

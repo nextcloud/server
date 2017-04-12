@@ -62,6 +62,10 @@ class EMailTemplateTest extends TestCase {
 			->expects($this->any())
 			->method('getLogo')
 			->willReturn('/img/logo-mail-header.png');
+		$this->defaults
+			->expects($this->any())
+			->method('getName')
+			->willReturn('TestCloud');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('getAbsoluteURL')
