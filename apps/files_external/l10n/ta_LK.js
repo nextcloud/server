@@ -12,7 +12,7 @@ OC.L10N.register(
     "URL" : "URL",
     "Host" : "ஓம்புனர்",
     "Location" : "இடம்",
-    "ownCloud" : "OwnCloud",
+    "Nextcloud" : "OwnCloud",
     "Share" : "பகிர்வு",
     "Name" : "பெயர்",
     "External Storage" : "வெளி சேமிப்பு",

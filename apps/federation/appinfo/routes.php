@@ -43,7 +43,7 @@ $application->registerRoutes(
 			],
 		],
 		'ocs' => [
-			// old endpoints, only used by Nextcloud and ownCloud
+			// old endpoints, only used by Nextcloud and Nextcloud
 			[
 				'name' => 'OCSAuthAPI#getSharedSecret',
 				'url' => '/api/v1/shared-secret',

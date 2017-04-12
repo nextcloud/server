@@ -119,6 +119,6 @@ OC.L10N.register(
     "Delete" : "Törlés",
     "Allow users to mount external storage" : "Külső tárolók csatolásának  engedélyezése a felhasználók részére",
     "Allow users to mount the following external storage" : "A felhasználók számára engedélyezett külső tárolók csatolása:",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Nem sikerült lekérdezni az információkat az ownCloud szerverről: {code} {type}"
+    "Couldn't get the information from the Nextcloud server: {code} {type}" : "Nem sikerült lekérdezni az információkat az Nextcloud szerverről: {code} {type}"
 },
 "nplurals=2; plural=(n != 1);");

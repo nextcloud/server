@@ -112,7 +112,7 @@
     "Settings" : "Ajustes",
     "Show hidden files" : "Mostrar archivos ocultos",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Introduce esta dirección <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> en el cliente de ownCloud para acceder a tus archivos a través de él</a>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Introduce esta dirección <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> en el cliente de Nextcloud para acceder a tus archivos a través de él</a>",
     "No files in here" : "Aquí no hay archivos",
     "Upload some content or sync with your devices!" : "Suba contenidos o sincronice sus dispositivos.",
     "No entries found in this folder" : "No hay entradas en esta carpeta",

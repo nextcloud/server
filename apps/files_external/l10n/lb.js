@@ -12,7 +12,7 @@ OC.L10N.register(
     "URL" : "URL",
     "Host" : "Host",
     "Location" : "Uert",
-    "ownCloud" : "ownCloud",
+    "Nextcloud" : "Nextcloud",
     "Share" : "Deelen",
     "Name" : "Numm",
     "Enable encryption" : "Verschlësselung aschalten",

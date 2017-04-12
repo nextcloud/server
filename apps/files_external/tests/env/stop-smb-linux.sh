@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# ownCloud
+# Nextcloud
 #
 # This script stops the docker container the files_external tests were run
 # against. It will also revert the config changes done in start step.

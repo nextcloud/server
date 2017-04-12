@@ -60,8 +60,8 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	}
 
 	/**
-	 * checks whether the user is allowed to change his avatar in ownCloud
-	 * @param string $uid the ownCloud user name
+	 * checks whether the user is allowed to change his avatar in Nextcloud
+	 * @param string $uid the Nextcloud user name
 	 * @return boolean either the user can or cannot
 	 */
 	public function canChangeAvatar($uid) {
@@ -234,7 +234,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			$filter,
 			$this->access->userManager->getAttributes(true),
 			$limit, $offset);
-		$ldap_users = $this->access->ownCloudUserNames($ldap_users);
+		$ldap_users = $this->access->NextcloudUserNames($ldap_users);
 		Util::writeLog('user_ldap', 'getUsers: '.count($ldap_users). ' Users found', Util::DEBUG);
 
 		$this->access->connection->writeToCache($cachekey, $ldap_users);
@@ -244,7 +244,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	/**
 	 * checks whether a user is still available on LDAP
 	 *
-	 * @param string|\OCA\User_LDAP\User\User $user either the ownCloud user
+	 * @param string|\OCA\User_LDAP\User\User $user either the Nextcloud user
 	 * name or an instance of that user
 	 * @return bool
 	 * @throws \Exception

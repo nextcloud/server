@@ -407,8 +407,8 @@ class Access extends LDAPUtility implements IUserTools {
 	}
 
 	/**
-	 * returns the LDAP DN for the given internal ownCloud name of the group
-	 * @param string $name the ownCloud name in question
+	 * returns the LDAP DN for the given internal Nextcloud name of the group
+	 * @param string $name the Nextcloud name in question
 	 * @return string|false LDAP DN on success, otherwise false
 	 */
 	public function groupname2dn($name) {
@@ -416,8 +416,8 @@ class Access extends LDAPUtility implements IUserTools {
 	}
 
 	/**
-	 * returns the LDAP DN for the given internal ownCloud name of the user
-	 * @param string $name the ownCloud name in question
+	 * returns the LDAP DN for the given internal Nextcloud name of the user
+	 * @param string $name the Nextcloud name in question
 	 * @return string|false with the LDAP DN on success, otherwise false
 	 */
 	public function username2dn($name) {
@@ -433,10 +433,10 @@ class Access extends LDAPUtility implements IUserTools {
 	}
 
 	/**
-	 * returns the internal ownCloud name for the given LDAP DN of the group, false on DN outside of search DN or failure
+	 * returns the internal Nextcloud name for the given LDAP DN of the group, false on DN outside of search DN or failure
 	 * @param string $fdn the dn of the group object
 	 * @param string $ldapName optional, the display name of the object
-	 * @return string|false with the name to use in ownCloud, false on DN outside of search DN
+	 * @return string|false with the name to use in Nextcloud, false on DN outside of search DN
 	 */
 	public function dn2groupname($fdn, $ldapName = null) {
 		//To avoid bypassing the base DN settings under certain circumstances
@@ -489,10 +489,10 @@ class Access extends LDAPUtility implements IUserTools {
 	}
 
 	/**
-	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN or failure
+	 * returns the internal Nextcloud name for the given LDAP DN of the user, false on DN outside of search DN or failure
 	 * @param string $dn the dn of the user object
 	 * @param string $ldapName optional, the display name of the object
-	 * @return string|false with with the name to use in ownCloud
+	 * @return string|false with with the name to use in Nextcloud
 	 */
 	public function dn2username($fdn, $ldapName = null) {
 		//To avoid bypassing the base DN settings under certain circumstances
@@ -506,11 +506,11 @@ class Access extends LDAPUtility implements IUserTools {
 	}
 
 	/**
-	 * returns an internal ownCloud name for the given LDAP DN, false on DN outside of search DN
+	 * returns an internal Nextcloud name for the given LDAP DN, false on DN outside of search DN
 	 * @param string $dn the dn of the user object
 	 * @param string $ldapName optional, the display name of the object
 	 * @param bool $isUser optional, whether it is a user object (otherwise group assumed)
-	 * @return string|false with with the name to use in ownCloud
+	 * @return string|false with with the name to use in Nextcloud
 	 */
 	public function dn2ocname($fdn, $ldapName = null, $isUser = true) {
 		if($isUser) {
@@ -521,7 +521,7 @@ class Access extends LDAPUtility implements IUserTools {
 			$nameAttribute = $this->connection->ldapGroupDisplayName;
 		}
 
-		//let's try to retrieve the ownCloud name from the mappings table
+		//let's try to retrieve the Nextcloud name from the mappings table
 		$ocName = $mapper->getNameByDN($fdn);
 		if(is_string($ocName)) {
 			return $ocName;
@@ -591,23 +591,23 @@ class Access extends LDAPUtility implements IUserTools {
 	/**
 	 * gives back the user names as they are used ownClod internally
 	 * @param array $ldapUsers as returned by fetchList()
-	 * @return array an array with the user names to use in ownCloud
+	 * @return array an array with the user names to use in Nextcloud
 	 *
 	 * gives back the user names as they are used ownClod internally
 	 */
-	public function ownCloudUserNames($ldapUsers) {
-		return $this->ldap2ownCloudNames($ldapUsers, true);
+	public function NextcloudUserNames($ldapUsers) {
+		return $this->ldap2NextcloudNames($ldapUsers, true);
 	}
 
 	/**
 	 * gives back the group names as they are used ownClod internally
 	 * @param array $ldapGroups as returned by fetchList()
-	 * @return array an array with the group names to use in ownCloud
+	 * @return array an array with the group names to use in Nextcloud
 	 *
 	 * gives back the group names as they are used ownClod internally
 	 */
-	public function ownCloudGroupNames($ldapGroups) {
-		return $this->ldap2ownCloudNames($ldapGroups, false);
+	public function NextcloudGroupNames($ldapGroups) {
+		return $this->ldap2NextcloudNames($ldapGroups, false);
 	}
 
 	/**
@@ -615,14 +615,14 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @param bool $isUsers
 	 * @return array
 	 */
-	private function ldap2ownCloudNames($ldapObjects, $isUsers) {
+	private function ldap2NextcloudNames($ldapObjects, $isUsers) {
 		if($isUsers) {
 			$nameAttribute = $this->connection->ldapUserDisplayName;
 			$sndAttribute  = $this->connection->ldapUserDisplayName2;
 		} else {
 			$nameAttribute = $this->connection->ldapGroupDisplayName;
 		}
-		$ownCloudNames = array();
+		$NextcloudNames = array();
 
 		foreach($ldapObjects as $ldapObject) {
 			$nameByLDAP = null;
@@ -636,7 +636,7 @@ class Access extends LDAPUtility implements IUserTools {
 
 			$ocName = $this->dn2ocname($ldapObject['dn'][0], $nameByLDAP, $isUsers);
 			if($ocName) {
-				$ownCloudNames[] = $ocName;
+				$NextcloudNames[] = $ocName;
 				if($isUsers) {
 					//cache the user names so it does not need to be retrieved
 					//again later (e.g. sharing dialogue).
@@ -649,12 +649,12 @@ class Access extends LDAPUtility implements IUserTools {
 				}
 			}
 		}
-		return $ownCloudNames;
+		return $NextcloudNames;
 	}
 
 	/**
 	 * caches the user display name
-	 * @param string $ocName the internal ownCloud username
+	 * @param string $ocName the internal Nextcloud username
 	 * @param string|false $home the home directory path
 	 */
 	public function cacheUserHome($ocName, $home) {
@@ -664,7 +664,7 @@ class Access extends LDAPUtility implements IUserTools {
 
 	/**
 	 * caches a user as existing
-	 * @param string $ocName the internal ownCloud username
+	 * @param string $ocName the internal Nextcloud username
 	 */
 	public function cacheUserExists($ocName) {
 		$this->connection->writeToCache('userExists'.$ocName, true);
@@ -672,7 +672,7 @@ class Access extends LDAPUtility implements IUserTools {
 
 	/**
 	 * caches the user display name
-	 * @param string $ocName the internal ownCloud username
+	 * @param string $ocName the internal Nextcloud username
 	 * @param string $displayName the display name
 	 * @param string $displayName2 the second display name
 	 */
@@ -687,9 +687,9 @@ class Access extends LDAPUtility implements IUserTools {
 	}
 
 	/**
-	 * creates a unique name for internal ownCloud use for users. Don't call it directly.
+	 * creates a unique name for internal Nextcloud use for users. Don't call it directly.
 	 * @param string $name the display name of the object
-	 * @return string|false with with the name to use in ownCloud or false if unsuccessful
+	 * @return string|false with with the name to use in Nextcloud or false if unsuccessful
 	 *
 	 * Instead of using this method directly, call
 	 * createAltInternalOwnCloudName($name, true)
@@ -709,9 +709,9 @@ class Access extends LDAPUtility implements IUserTools {
 	}
 
 	/**
-	 * creates a unique name for internal ownCloud use for groups. Don't call it directly.
+	 * creates a unique name for internal Nextcloud use for groups. Don't call it directly.
 	 * @param string $name the display name of the object
-	 * @return string|false with with the name to use in ownCloud or false if unsuccessful.
+	 * @return string|false with with the name to use in Nextcloud or false if unsuccessful.
 	 *
 	 * Instead of using this method directly, call
 	 * createAltInternalOwnCloudName($name, false)
@@ -747,10 +747,10 @@ class Access extends LDAPUtility implements IUserTools {
 	}
 
 	/**
-	 * creates a unique name for internal ownCloud use.
+	 * creates a unique name for internal Nextcloud use.
 	 * @param string $name the display name of the object
 	 * @param boolean $isUser whether name should be created for a user (true) or a group (false)
-	 * @return string|false with with the name to use in ownCloud or false if unsuccessful
+	 * @return string|false with with the name to use in Nextcloud or false if unsuccessful
 	 */
 	private function createAltInternalOwnCloudName($name, $isUser) {
 		$originalTTL = $this->connection->ldapCacheTTL;
@@ -1141,7 +1141,7 @@ class Access extends LDAPUtility implements IUserTools {
 		$offset = $savedoffset;
 
 		// if we're here, probably no connection resource is returned.
-		// to make ownCloud behave nicely, we simply give back an empty array.
+		// to make Nextcloud behave nicely, we simply give back an empty array.
 		if(is_null($findings)) {
 			return array();
 		}

@@ -21,7 +21,7 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "Staré heslo nebylo zadáno správně, zkuste to prosím znovu.",
     "The current log-in password was not correct, please try again." : "Současné přihlašovací heslo nebylo zadáno správně, zkuste to prosím znovu.",
     "Private key password successfully updated." : "Heslo soukromého klíče úspěšně aktualizováno.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Musíte přenést své šifrovací klíče ze staré verze šifrování (ownCloud <= 8.0) na novou. Spusťte příkaz 'occ encryption:migrate' nebo kontaktujte svého administrátora.",
+    "You need to migrate your encryption keys from the old encryption (Nextcloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Musíte přenést své šifrovací klíče ze staré verze šifrování (Nextcloud <= 8.0) na novou. Spusťte příkaz 'occ encryption:migrate' nebo kontaktujte svého administrátora.",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chybný soukromý klíč pro šifrovací aplikaci. Aktualizujte prosím heslo svého soukromého klíče v osobním nastavení, abyste znovu získali přístup ke svým zašifrovaným souborům.",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikace pro šifrování je zapnuta, ale šifrovací klíče ještě nejsou inicializované. Prosím odhlaste se a znovu se přihlaste",
     "Encryption app is enabled and ready" : "Aplikace šifrování je již povolena a připravena",

@@ -19,7 +19,7 @@
     "The old password was not correct, please try again." : "Стара лозинка није исправна. Покушајте поново.",
     "The current log-in password was not correct, please try again." : "Тренутна лозинка за пријаву није исправна. Покушајте поново.",
     "Private key password successfully updated." : "Лозинка личног кључа је успешно ажурирана.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Морате да пребаците старе шифрарске кључеве (оунКлауд <= 8.0) у нови. Укључите „оунКлауд подразумевани шифрарски модул“ и покрените 'occ encryption:migrate'",
+    "You need to migrate your encryption keys from the old encryption (Nextcloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Морате да пребаците старе шифрарске кључеве (оунКлауд <= 8.0) у нови. Укључите „оунКлауд подразумевани шифрарски модул“ и покрените 'occ encryption:migrate'",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Не могу да дешифрујем фајл. Вероватно је то дељен фајл. Затражите од власника фајла да га поново подели са вама.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Не могу да читам фајл. Вероватно је дељен. Питајте власника да га поново подели са вама.",
     "The share will expire on %s." : "Дељење истиче %s.",

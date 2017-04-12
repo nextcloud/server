@@ -73,7 +73,7 @@ OCA = OCA || {};
 
 		/**
 		 * the method can be used to display a different error/information
-		 * message than provided by the ownCloud server response. The concrete
+		 * message than provided by the Nextcloud server response. The concrete
 		 * Tab View may optionally implement it. Returning an empty string will
 		 * avoid any notification.
 		 *

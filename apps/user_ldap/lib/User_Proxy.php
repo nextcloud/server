@@ -163,7 +163,7 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 
 	/**
 	 * check if a user exists on LDAP
-	 * @param string|\OCA\User_LDAP\User\User $user either the ownCloud user
+	 * @param string|\OCA\User_LDAP\User\User $user either the Nextcloud user
 	 * name or an instance of that user
 	 * @return boolean
 	 */
@@ -225,8 +225,8 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	}
 
 	/**
-	 * checks whether the user is allowed to change his avatar in ownCloud
-	 * @param string $uid the ownCloud user name
+	 * checks whether the user is allowed to change his avatar in Nextcloud
+	 * @param string $uid the Nextcloud user name
 	 * @return boolean either the user can or cannot
 	 */
 	public function canChangeAvatar($uid) {

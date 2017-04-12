@@ -41,7 +41,7 @@ OC.L10N.register(
     "Secure ftps://" : "Захищений ftps://",
     "Local" : "Локально",
     "Location" : "Місце",
-    "ownCloud" : "ownCloud",
+    "Nextcloud" : "Nextcloud",
     "Root" : "Батьківський каталог",
     "Share" : "Поділитися",
     "SMB / CIFS using OC login" : "SMB / CIFS з використанням логіна OC",

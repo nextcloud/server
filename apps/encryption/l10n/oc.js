@@ -21,7 +21,7 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "L'ancian senhal es incorrècte. Ensajatz tornamai.",
     "The current log-in password was not correct, please try again." : "Lo senhal de connexion actual es pas corrècte, ensajatz tornamai.",
     "Private key password successfully updated." : "Senhal de la clau privada mes a jorn amb succès.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Vos cal migrar vòstras claus de chiframent de l'anciana version (ownCloud <= 8.0) cap a la novèla. Executatz 'occ encryption:migrate' o contactatz vòstre administrator",
+    "You need to migrate your encryption keys from the old encryption (Nextcloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Vos cal migrar vòstras claus de chiframent de l'anciana version (Nextcloud <= 8.0) cap a la novèla. Executatz 'occ encryption:migrate' o contactatz vòstre administrator",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Vòstra clau privada pel chiframent es pas valida ! Metètz a jorn lo senhal de vòstra clau privada dins vòstres paramètres personals per recuperar l'accès a vòstres fichièrs chifrats.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'aplicacion de chiframent es activada mas vòstras claus son pas inicializadas. Desconnectatz-vos e puèi reconnectatz-vos.",
     "Encryption App is enabled and ready" : "L'aplicacion de chiframent es activada e prèsta",

@@ -97,7 +97,7 @@ OC.L10N.register(
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "共有",
     "Domain" : "ドメイン",
-    "SMB / CIFS using OC login" : "ownCloudログインを利用したSMB / CIFS",
+    "SMB / CIFS using OC login" : "Nextcloudログインを利用したSMB / CIFS",
     "Username as share" : "共有名",
     "OpenStack Object Storage" : "OpenStack ObjectStorage",
     "Service name" : "サービス名",

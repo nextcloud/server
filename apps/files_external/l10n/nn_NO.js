@@ -10,7 +10,7 @@ OC.L10N.register(
     "URL" : "Nettstad",
     "Host" : "Tenar",
     "Location" : "Stad",
-    "ownCloud" : "ownCloud",
+    "Nextcloud" : "Nextcloud",
     "Share" : "Del",
     "Name" : "Namn",
     "Folder name" : "Mappenamn",

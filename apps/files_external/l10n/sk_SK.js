@@ -65,7 +65,7 @@ OC.L10N.register(
     "Google Drive" : "Google Drive",
     "Local" : "Lokálny",
     "Location" : "Umiestnenie",
-    "ownCloud" : "ownCloud",
+    "Nextcloud" : "Nextcloud",
     "SFTP" : "SFTP",
     "Root" : "Root",
     "SMB / CIFS" : "SMB / CIFS",

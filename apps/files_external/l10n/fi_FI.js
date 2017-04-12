@@ -106,6 +106,6 @@ OC.L10N.register(
     "Delete" : "Poista",
     "Allow users to mount external storage" : "Salli käyttäjien liittää erillisiä tallennustiloja",
     "Allow users to mount the following external storage" : "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Tietojen saaminen ownCloud-palvelimelta epäonnistui: {code} {type}"
+    "Couldn't get the information from the Nextcloud server: {code} {type}" : "Tietojen saaminen Nextcloud-palvelimelta epäonnistui: {code} {type}"
 },
 "nplurals=2; plural=(n != 1);");

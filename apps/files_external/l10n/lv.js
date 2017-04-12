@@ -14,7 +14,7 @@ OC.L10N.register(
     "URL" : "URL",
     "Host" : "Resursdators",
     "Location" : "Vieta",
-    "ownCloud" : "ownCloud",
+    "Nextcloud" : "Nextcloud",
     "Share" : "Dalīties",
     "Name" : "Nosaukums",
     "Enable encryption" : "Ieslēgt šifrēšanu",

@@ -126,6 +126,6 @@ OC.L10N.register(
     "Delete" : "Slett",
     "Allow users to mount external storage" : "Tillat at brukere kobler opp eksterne lagre",
     "Allow users to mount the following external storage" : "Tillat brukere å koble opp følgende eksterne lagring",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "Klarte ikke å hente informasjon fra Nextcloud tjeneren: {code} {type}"
+    "Couldn't get the information from the Nextcloud server: {code} {type}" : "Klarte ikke å hente informasjon fra Nextcloud tjeneren: {code} {type}"
 },
 "nplurals=2; plural=(n != 1);");

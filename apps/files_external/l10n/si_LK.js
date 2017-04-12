@@ -12,7 +12,7 @@ OC.L10N.register(
     "URL" : "URL",
     "Host" : "සත්කාරකය",
     "Location" : "ස්ථානය",
-    "ownCloud" : "ownCloud",
+    "Nextcloud" : "Nextcloud",
     "Share" : "බෙදා හදා ගන්න",
     "Name" : "නම",
     "External Storage" : "භාහිර ගබඩාව",

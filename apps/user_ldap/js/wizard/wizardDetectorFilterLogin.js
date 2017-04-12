@@ -11,7 +11,7 @@ OCA = OCA || {};
 
 	/**
 	 * @classdesc a Port Detector. It executes the auto-detection of the port
-	 * by the ownCloud server, if requirements are met.
+	 * by the Nextcloud server, if requirements are met.
 	 *
 	 * @constructor
 	 */

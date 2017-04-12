@@ -63,7 +63,7 @@ OC.L10N.register(
     "Google Drive" : "Google Drive",
     "Local" : "Kohalik",
     "Location" : "Asukoht",
-    "ownCloud" : "ownCloud",
+    "Nextcloud" : "Nextcloud",
     "SFTP" : "SFTP",
     "Root" : "Juur",
     "SFTP with secret key login" : "SFTP koos salajase võtmega logimisega",

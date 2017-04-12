@@ -175,7 +175,7 @@ class Manager {
 
 	/**
 	 * Checks whether the specified user is marked as deleted
-	 * @param string $id the ownCloud user name
+	 * @param string $id the Nextcloud user name
 	 * @return bool
 	 */
 	public function isDeletedUser($id) {
@@ -198,7 +198,7 @@ class Manager {
 	}
 
 	/**
-	 * @brief returns a User object by it's ownCloud username
+	 * @brief returns a User object by it's Nextcloud username
 	 * @param string $id the DN or username of the user
 	 * @return \OCA\User_LDAP\User\User|\OCA\User_LDAP\User\OfflineUser|null
 	 */
@@ -215,7 +215,7 @@ class Manager {
 	}
 
 	/**
-	 * @brief returns a User object by it's DN or ownCloud username
+	 * @brief returns a User object by it's DN or Nextcloud username
 	 * @param string $id the DN or username of the user
 	 * @return \OCA\User_LDAP\User\User|\OCA\User_LDAP\User\OfflineUser|null
 	 * @throws \Exception when connection could not be established

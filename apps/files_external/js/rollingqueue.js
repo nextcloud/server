@@ -1,9 +1,9 @@
 /**
- * ownCloud
+ * Nextcloud
  *
  * @author Juan Pablo Villafañez Ramos <jvillafanez@owncloud.com>
  * @author Jesus Macias Portela <jesus@owncloud.com>
- * @copyright (C) 2014 ownCloud, Inc.
+ * @copyright (C) 2014 Nextcloud, Inc.
  *
  * This file is licensed under the Affero General Public License version 3
  * or later.

@@ -14,7 +14,7 @@ OC.L10N.register(
     "Remote share password" : "Contrasenya de compartició remota",
     "Cancel" : "Cancel·la",
     "Add remote share" : "Afegeix compartició remota",
-    "Invalid ownCloud url" : "La url d'ownCloud no és vàlida",
+    "Invalid Nextcloud url" : "La url d'Nextcloud no és vàlida",
     "Shared by" : "Compartit per",
     "Sharing" : "Compartir",
     "A file or folder has been <strong>shared</strong>" : "S'ha <strong>compartit</strong> un fitxer o una carpeta",
@@ -35,7 +35,7 @@ OC.L10N.register(
     "the link expired" : "l'enllaç ha vençut",
     "sharing is disabled" : "s'ha desactivat la compartició",
     "For more info, please ask the person who sent this link." : "Per més informació contacteu amb qui us ha enviat l'enllaç.",
-    "Add to your ownCloud" : "Afegiu a ownCloud",
+    "Add to your Nextcloud" : "Afegiu a Nextcloud",
     "Download" : "Baixa",
     "Download %s" : "Baixa %s",
     "Direct link" : "Enllaç directe"

@@ -142,7 +142,7 @@ class ServerFactory {
 				$rootInfo = $view->getFileInfo('');
 			}
 
-			// Create ownCloud Dir
+			// Create Nextcloud Dir
 			if ($rootInfo->getType() === 'dir') {
 				$root = new \OCA\DAV\Connector\Sabre\Directory($view, $rootInfo, $objectTree);
 			} else {

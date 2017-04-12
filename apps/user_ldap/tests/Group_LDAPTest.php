@@ -315,7 +315,7 @@ class Group_LDAPTest extends \Test\TestCase {
 		$this->enableGroups($access);
 
 		$access->expects($this->once())
-			->method('ownCloudGroupNames')
+			->method('NextcloudGroupNames')
 			->will($this->returnValue(array('group1', 'group2')));
 
 		$groupBackend = new GroupLDAP($access);
@@ -350,7 +350,7 @@ class Group_LDAPTest extends \Test\TestCase {
 			->will($this->returnValue('cn=foobar,dc=foo,dc=bar'));
 
 		$access->expects($this->once())
-			->method('ownCloudUserNames')
+			->method('NextcloudUserNames')
 			->will($this->returnValue(array('lisa', 'bart', 'kira', 'brad')));
 
 		$groupBackend = new GroupLDAP($access);
@@ -451,7 +451,7 @@ class Group_LDAPTest extends \Test\TestCase {
 			->with($dn, 'memberOf');
 
 		$access->expects($this->once())
-			->method('ownCloudGroupNames')
+			->method('NextcloudGroupNames')
 			->will($this->returnValue([]));
 
 		$groupBackend = new GroupLDAP($access);
@@ -496,7 +496,7 @@ class Group_LDAPTest extends \Test\TestCase {
 		];
 
 		$access->expects($this->once())
-			->method('ownCloudGroupNames')
+			->method('NextcloudGroupNames')
 			->with([$group1, $group2])
 			->will($this->returnValue(['group1', 'group2']));
 

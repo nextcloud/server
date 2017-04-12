@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# ownCloud
+# Nextcloud
 #
 # @author Thomas Müller
 # @copyright 2015 Thomas Müller <deepdiver@owncloud.com>

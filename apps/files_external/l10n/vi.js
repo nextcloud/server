@@ -15,7 +15,7 @@ OC.L10N.register(
     "URL" : "URL",
     "Host" : "Máy chủ",
     "Location" : "Vị trí",
-    "ownCloud" : "ownCloud",
+    "Nextcloud" : "Nextcloud",
     "Share" : "Chia sẻ",
     "Name" : "Tên",
     "External Storage" : "Lưu trữ ngoài",

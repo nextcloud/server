@@ -132,7 +132,7 @@ abstract class AbstractCalDavBackendTest extends TestCase {
 		$calData = <<<EOD
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:ownCloud Calendar
+PRODID:Nextcloud Calendar
 BEGIN:VEVENT
 CREATED;VALUE=DATE-TIME:20130910T125139Z
 UID:47d15e3ec8

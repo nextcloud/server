@@ -27,7 +27,7 @@ use Sabre\HTTP\RequestInterface;
 
 /**
  * Class DummyGetResponsePlugin is a plugin used to not show a "Not implemented"
- * error to clients that rely on verifying the functionality of the ownCloud
+ * error to clients that rely on verifying the functionality of the Nextcloud
  * WebDAV backend using a simple GET to /.
  *
  * This is considered a legacy behaviour and implementers should consider sending

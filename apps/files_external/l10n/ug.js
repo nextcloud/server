@@ -12,7 +12,7 @@ OC.L10N.register(
     "URL" : "URL",
     "Host" : "باش ئاپپارات",
     "Location" : "ئورنى",
-    "ownCloud" : "ownCloud",
+    "Nextcloud" : "Nextcloud",
     "Share" : "ھەمبەھىر",
     "Name" : "ئاتى",
     "Folder name" : "قىسقۇچ ئاتى",

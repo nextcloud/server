@@ -251,7 +251,7 @@ class User {
 	}
 
 	/**
-	 * @brief returns the ownCloud internal username of the user
+	 * @brief returns the Nextcloud internal username of the user
 	 * @return string
 	 */
 	public function getUsername() {
@@ -429,7 +429,7 @@ class User {
 	}
 
 	/**
-	 * fetches the email from LDAP and stores it as ownCloud user value
+	 * fetches the email from LDAP and stores it as Nextcloud user value
 	 * @param string $valueFromLDAP if known, to save an LDAP read request
 	 * @return null
 	 */
@@ -462,7 +462,7 @@ class User {
 	 * Overall process goes as follow:
 	 * 1. fetch the quota from LDAP and check if it's parseable with the "verifyQuotaValue" function
 	 * 2. if the value can't be fetched, is empty or not parseable, use the default LDAP quota
-	 * 3. if the default LDAP quota can't be parsed, use the ownCloud's default quota (use 'default')
+	 * 3. if the default LDAP quota can't be parsed, use the Nextcloud's default quota (use 'default')
 	 * 4. check if the target user exists and set the quota for the user.
 	 *
 	 * In order to improve performance and prevent an unwanted extra LDAP call, the $valueFromLDAP
@@ -470,10 +470,10 @@ class User {
 	 * quota for the user coming from the LDAP server (step 1 of the process) It can be useful to
 	 * fetch all the user's attributes in one call and use the fetched values in this function.
 	 * The expected value for that parameter is a string describing the quota for the user. Valid
-	 * values are 'none' (unlimited), 'default' (the ownCloud's default quota), '1234' (quota in
+	 * values are 'none' (unlimited), 'default' (the Nextcloud's default quota), '1234' (quota in
 	 * bytes), '1234 MB' (quota in MB - check the \OC_Helper::computerFileSize method for more info)
 	 *
-	 * fetches the quota from LDAP and stores it as ownCloud user value
+	 * fetches the quota from LDAP and stores it as Nextcloud user value
 	 * @param string $valueFromLDAP the quota attribute's value can be passed,
 	 * to save the readAttribute request
 	 * @return null
@@ -541,7 +541,7 @@ class User {
 	}
 
 	/**
-	 * @brief attempts to get an image from LDAP and sets it as ownCloud avatar
+	 * @brief attempts to get an image from LDAP and sets it as Nextcloud avatar
 	 * @return null
 	 */
 	public function updateAvatar() {
@@ -558,7 +558,7 @@ class User {
 	}
 
 	/**
-	 * @brief sets an image as ownCloud avatar
+	 * @brief sets an image as Nextcloud avatar
 	 * @return null
 	 */
 	private function setOwnCloudAvatar() {

@@ -21,7 +21,7 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "Staro geslo ni vpisano pravilno. Poskusite znova.",
     "The current log-in password was not correct, please try again." : "Trenutno geslo za prijavo ni vpisano pravilno. Poskusite znova.",
     "Private key password successfully updated." : "Zasebni ključ za geslo je uspešno posodobljen.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Preseliti je treba šifrirne ključe iz starega sistema (ownCloud <= 8.0) na novega. Zaženite ukaz 'occ encryption:migrate' ali pa stopite v stik s skrbnikom sistema.",
+    "You need to migrate your encryption keys from the old encryption (Nextcloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Preseliti je treba šifrirne ključe iz starega sistema (Nextcloud <= 8.0) na novega. Zaženite ukaz 'occ encryption:migrate' ali pa stopite v stik s skrbnikom sistema.",
     "Bad Signature" : "Neustrezen podpis",
     "Missing Signature" : "Manjkajoč podpis",
     "one-time password for server-side-encryption" : "enkratno geslo za šifriranje na strani strežnika",

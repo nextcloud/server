@@ -183,7 +183,7 @@ class TrustedServers {
 	}
 
 	/**
-	 * check if given server is a trusted ownCloud server
+	 * check if given server is a trusted Nextcloud server
 	 *
 	 * @param string $url
 	 * @return bool
@@ -211,7 +211,7 @@ class TrustedServers {
 	}
 
 	/**
-	 * check if URL point to a ownCloud/Nextcloud server
+	 * check if URL point to a Nextcloud/Nextcloud server
 	 *
 	 * @param string $url
 	 * @return bool
@@ -240,7 +240,7 @@ class TrustedServers {
 	}
 
 	/**
-	 * check if ownCloud version is >= 9.0
+	 * check if Nextcloud version is >= 9.0
 	 *
 	 * @param $status
 	 * @return bool

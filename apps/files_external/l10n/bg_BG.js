@@ -40,7 +40,7 @@ OC.L10N.register(
     "Secure ftps://" : "Сигурен ftps://",
     "Local" : "Локален",
     "Location" : "Местоположение",
-    "ownCloud" : "ownCloud",
+    "Nextcloud" : "Nextcloud",
     "Root" : "Root",
     "Share" : "Споделяне",
     "SMB / CIFS using OC login" : "SMB / CIFS използвайки OC профил",

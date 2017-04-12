@@ -41,7 +41,7 @@ OC.L10N.register(
     "Secure ftps://" : "Сигурни ftps://",
     "Local" : "локална",
     "Location" : "Локација",
-    "ownCloud" : "оунКлауд",
+    "Nextcloud" : "оунКлауд",
     "SFTP" : "СФТП",
     "Root" : "Корен",
     "SFTP with secret key login" : "СФТП са пријавом помоћу тајног кључа",

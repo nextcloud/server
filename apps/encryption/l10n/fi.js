@@ -21,7 +21,7 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "Vanha salasana oli väärin, yritä uudelleen.",
     "The current log-in password was not correct, please try again." : "Nykyinen kirjautumiseen käytettävä salasana oli väärin, yritä uudelleen.",
     "Private key password successfully updated." : "Yksityisen avaimen salasana päivitettiin onnistuneesti.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Salausavaimet tulee siirtää vanhasta salaustavasta (ownCloud <= 8.0) uuteen salaustapaan. Suorita 'occ encryption:migrate' tai ota yhteys ylläpitoon",
+    "You need to migrate your encryption keys from the old encryption (Nextcloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Salausavaimet tulee siirtää vanhasta salaustavasta (Nextcloud <= 8.0) uuteen salaustapaan. Suorita 'occ encryption:migrate' tai ota yhteys ylläpitoon",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Salaussovelluksen salausavain on virheellinen. Ole hyvä ja päivitä salausavain henkilökohtaisissa asetuksissasi jotta voit taas avata salauskirjoitetut tiedostosi.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Salaussovellus on käytössä, mutta salausavaimia ei ole alustettu. Ole hyvä ja kirjaudu sisään uudelleen.",
     "Encryption app is enabled and ready" : "Salaussovellus on aktivoitu ja valmis",

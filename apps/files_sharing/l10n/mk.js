@@ -17,7 +17,7 @@ OC.L10N.register(
     "Cancel" : "Откажи",
     "Add remote share" : "Додади оддалечно споделување",
     "You can upload into this folder" : "Можете да прикачите во оваа папка",
-    "Invalid ownCloud url" : "Неисправен ownCloud url",
+    "Invalid Nextcloud url" : "Неисправен Nextcloud url",
     "Shared by" : "Споделено од",
     "Sharing" : "Споделување",
     "A file or folder has been <strong>shared</strong>" : "Датотека или фолдер беше <strong>споделен</strong>",
@@ -45,7 +45,7 @@ OC.L10N.register(
     "the link expired" : "времетраењето на линкот е изминато",
     "sharing is disabled" : "споделувањето не е дозволено",
     "For more info, please ask the person who sent this link." : "За повеќе информации, прашајте го лицето кое ви ја испратила врската.",
-    "Add to your ownCloud" : "Додади во вашиот ownCloud",
+    "Add to your Nextcloud" : "Додади во вашиот Nextcloud",
     "Download" : "Преземи",
     "Download %s" : "Преземи %s",
     "Direct link" : "Директна врска"

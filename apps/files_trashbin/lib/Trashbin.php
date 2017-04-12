@@ -680,7 +680,7 @@ class Trashbin {
 	}
 
 	/**
-	 * resize trash bin if necessary after a new file was added to ownCloud
+	 * resize trash bin if necessary after a new file was added to Nextcloud
 	 *
 	 * @param string $user user id
 	 */

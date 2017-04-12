@@ -42,7 +42,7 @@ OC.L10N.register(
     "Secure ftps://" : "Sekura ftps://",
     "Local" : "Loka",
     "Location" : "Loko",
-    "ownCloud" : "ownCloud",
+    "Nextcloud" : "Nextcloud",
     "SFTP" : "SFTP",
     "Root" : "Radiko",
     "SFTP with secret key login" : "SFTP kun sekretoŝlosila ensaluto",
