@@ -40,7 +40,6 @@ use OC\Security\CSP\ContentSecurityPolicyManager;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Security\CSRF\CsrfToken;
 use OC\Security\CSRF\CsrfTokenManager;
-use OC\Security\RateLimiting\Limiter;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -53,7 +52,6 @@ use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
-use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 
 
@@ -85,10 +83,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	private $csrfTokenManager;
 	/** @var ContentSecurityPolicyNonceManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $cspNonceManager;
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
-	private $userSession;
-	/** @var Limiter|\PHPUnit_Framework_MockObject_MockObject */
-	private $limiter;
 	/** @var  Throttler|\PHPUnit_Framework_MockObject_MockObject */
 	private $bruteForceThrottler;
 
@@ -99,8 +93,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->reader = new ControllerMethodReflector();
 		$this->logger = $this->createMock(ILogger::class);
 		$this->navigationManager = $this->createMock(INavigationManager::class);
-		$this->userSession = $this->createMock(IUserSession::class);
-		$this->limiter = $this->createMock(Limiter::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->request = $this->createMock(IRequest::class);
@@ -119,11 +111,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	 * @return SecurityMiddleware
 	 */
 	private function getMiddleware($isLoggedIn, $isAdminUser) {
-		$this->userSession
-			->expects($this->any())
-			->method('isLoggedIn')
-			->willReturn($isLoggedIn);
-
 		return new SecurityMiddleware(
 			$this->request,
 			$this->reader,
@@ -132,13 +119,12 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$this->logger,
 			$this->session,
 			'files',
-			$this->userSession,
+			$isLoggedIn,
 			$isAdminUser,
 			$this->contentSecurityPolicyManager,
 			$this->csrfTokenManager,
 			$this->cspNonceManager,
-			$this->bruteForceThrottler,
-			$this->limiter
+			$this->bruteForceThrottler
 		);
 	}
 
@@ -687,35 +673,13 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$this->logger,
 			$this->session,
 			'files',
-			$this->userSession,
+			false,
 			false,
 			$this->contentSecurityPolicyManager,
 			$this->csrfTokenManager,
 			$this->cspNonceManager,
-			$this->bruteForceThrottler,
-			$this->limiter
+			$this->bruteForceThrottler
 		);
-
-		$reader
-			->expects($this->at(0))
-			->method('getAnnotationParameter')
-			->with('AnonRateThrottle', 'limit')
-			->willReturn('');
-		$reader
-			->expects($this->at(1))
-			->method('getAnnotationParameter')
-			->with('AnonRateThrottle', 'period')
-			->willReturn('');
-		$reader
-			->expects($this->at(2))
-			->method('getAnnotationParameter')
-			->with('UserRateThrottle', 'limit')
-			->willReturn('');
-		$reader
-			->expects($this->at(3))
-			->method('getAnnotationParameter')
-			->with('UserRateThrottle', 'period')
-			->willReturn('');
 
 		$reader->expects($this->any())->method('hasAnnotation')
 			->willReturnCallback(
