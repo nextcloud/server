@@ -59,4 +59,14 @@ interface IFunctionBuilder {
 	 * @since 12.0.0
 	 */
 	public function substring($input, $start, $length = null);
+
+	/**
+	 * Takes the sum of all rows in a column
+	 *
+	 * @param mixed $field the column to sum
+	 *
+	 * @return IQueryFunction
+	 * @since 12.0.0
+	 */
+	public function sum($field);
 }

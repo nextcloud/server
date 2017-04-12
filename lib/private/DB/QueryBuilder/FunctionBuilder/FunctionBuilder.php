@@ -53,4 +53,8 @@ class FunctionBuilder implements IFunctionBuilder {
 			return new QueryFunction('SUBSTR(' . $this->helper->quoteColumnName($input) . ', ' . $this->helper->quoteColumnName($start) . ')');
 		}
 	}
+
+	public function sum($field) {
+		return new QueryFunction('SUM(' . $this->helper->quoteColumnName($field) . ')');
+	}
 }
