@@ -256,6 +256,49 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('foo3', array_shift($result)->getUID());
 	}
 
+	public function dataCreateUserInvalid() {
+		return [
+			['te?st', 'foo', 'Only the following characters are allowed in a username:'
+				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'],
+			["te\tst", '', 'Only the following characters are allowed in a username:'
+				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'],
+			["te\nst", '', 'Only the following characters are allowed in a username:'
+				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'],
+			["te\rst", '', 'Only the following characters are allowed in a username:'
+				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'],
+			["te\0st", '', 'Only the following characters are allowed in a username:'
+				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'],
+			["te\x0Bst", '', 'Only the following characters are allowed in a username:'
+				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'],
+			["te\xe2st", '', 'Only the following characters are allowed in a username:'
+				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'],
+			["te\x80st", '', 'Only the following characters are allowed in a username:'
+				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'],
+			["te\x8bst", '', 'Only the following characters are allowed in a username:'
+				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'],
+			['', 'foo', 'A valid username must be provided'],
+			[' ', 'foo', 'A valid username must be provided'],
+			[' test', 'foo', 'Username contains whitespace at the beginning or at the end'],
+			['test ', 'foo', 'Username contains whitespace at the beginning or at the end'],
+			['.', 'foo', 'Username must not consist of dots only'],
+			['..', 'foo', 'Username must not consist of dots only'],
+			['.test', '', 'A valid password must be provided'],
+			['test', '', 'A valid password must be provided'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataCreateUserInvalid
+	 */
+	public function testCreateUserInvalid($uid, $password, $exception) {
+
+		$this->setExpectedException(\Exception::class, $exception);
+
+		$manager = new \OC\User\Manager($this->config);
+		$manager->createUser($uid, $password);
+
+	}
+
 	public function testCreateUserSingleBackendNotExists() {
 		/**
 		 * @var \Test\Util\User\Dummy | \PHPUnit_Framework_MockObject_MockObject $backend

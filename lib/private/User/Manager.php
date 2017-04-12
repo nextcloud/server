@@ -278,8 +278,12 @@ class Manager extends PublicEmitter implements IUserManager {
 			throw new \Exception($l->t('A valid username must be provided'));
 		}
 		// No whitespace at the beginning or at the end
-		if (strlen(trim($uid, "\t\n\r\0\x0B\xe2\x80\x8b")) !== strlen(trim($uid))) {
+		if (trim($uid) !== $uid) {
 			throw new \Exception($l->t('Username contains whitespace at the beginning or at the end'));
+		}
+		// Username only consists of 1 or 2 dots (directory traversal)
+		if ($uid === '.' || $uid === '..') {
+			throw new \Exception($l->t('Username must not consist of dots only'));
 		}
 		// No empty password
 		if (trim($password) == '') {
