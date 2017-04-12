@@ -126,4 +126,46 @@ class EMailTemplateTest extends TestCase {
 	}
 
 
+
+	public function testEMailTemplateAlternativePlainTexts() {
+		$this->defaults
+			->expects($this->any())
+			->method('getColorPrimary')
+			->willReturn('#0082c9');
+		$this->defaults
+			->expects($this->any())
+			->method('getName')
+			->willReturn('TestCloud');
+		$this->defaults
+			->expects($this->any())
+			->method('getSlogan')
+			->willReturn('A safe home for your data');
+		$this->defaults
+			->expects($this->any())
+			->method('getLogo')
+			->willReturn('/img/logo-mail-header.png');
+		$this->urlGenerator
+			->expects($this->once())
+			->method('getAbsoluteURL')
+			->with('/img/logo-mail-header.png')
+			->willReturn('https://example.org/img/logo-mail-header.png');
+
+		$this->emailTemplate->addHeader();
+		$this->emailTemplate->addHeading('Welcome aboard', 'Welcome aboard - text');
+		$this->emailTemplate->addBodyText('You have now an Nextcloud account, you can add, protect, and share your data.', 'You have now an Nextcloud account, you can add, protect, and share your data. - text');
+		$this->emailTemplate->addBodyText('Your username is: abc');
+		$this->emailTemplate->addBodyButtonGroup(
+			'Set your password', 'https://example.org/resetPassword/123',
+			'Install Client', 'https://nextcloud.com/install/#install-clients',
+			'Set your password - text', 'Install Client - text'
+		);
+		$this->emailTemplate->addFooter();
+
+		$expectedHTML = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email-custom.html');
+		$this->assertSame($expectedHTML, $this->emailTemplate->renderHTML());
+		$expectedTXT = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email-custom-text-alternative.txt');
+		$this->assertSame($expectedTXT, $this->emailTemplate->renderText());
+	}
+
+
 }

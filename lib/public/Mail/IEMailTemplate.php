@@ -62,19 +62,21 @@ interface IEMailTemplate {
 	 * Adds a heading to the email
 	 *
 	 * @param string $title
+	 * @param string $plainTitle Title that is used in the plain text email - if empty the $title is used
 	 *
 	 * @since 12.0.0
 	 */
-	public function addHeading($title);
+	public function addHeading($title, $plainTitle = '');
 
 	/**
 	 * Adds a paragraph to the body of the email
 	 *
 	 * @param string $text
+	 * @param string $plainText Text that is used in the plain text email - if empty the $text is used
 	 *
 	 * @since 12.0.0
 	 */
-	public function addBodyText($text);
+	public function addBodyText($text, $plainText = '');
 
 	/**
 	 * Adds a button group of two buttons to the body of the email
@@ -83,10 +85,12 @@ interface IEMailTemplate {
 	 * @param string $urlLeft URL of left button
 	 * @param string $textRight Text of right button
 	 * @param string $urlRight URL of right button
+	 * @param string $plainTextLeft Text of left button that is used in the plain text version - if empty the $textLeft is used
+	 * @param string $plainTextRight Text of right button that is used in the plain text version - if empty the $textRight is used
 	 *
 	 * @since 12.0.0
 	 */
-	public function addBodyButtonGroup($textLeft, $urlLeft, $textRight, $urlRight);
+	public function addBodyButtonGroup($textLeft, $urlLeft, $textRight, $urlRight, $plainTextLeft = '', $plainTextRight = '');
 
 	/**
 	 * Adds a logo and a text to the footer. <br> in the text will be replaced by new lines in the plain text email

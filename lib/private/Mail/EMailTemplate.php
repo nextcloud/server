@@ -295,24 +295,32 @@ EOF;
 	 * Adds a heading to the email
 	 *
 	 * @param string $title
+	 * @param string $plainTitle Title that is used in the plain text email - if empty the $title is used
 	 */
-	public function addHeading($title) {
+	public function addHeading($title, $plainTitle = '') {
 		if ($this->footerAdded) {
 			return;
 		}
+		if ($plainTitle === '') {
+			$plainTitle = $title;
+		}
 
 		$this->htmlBody .= vsprintf($this->heading, [$title]);
-		$this->plainBody .= $title . PHP_EOL . PHP_EOL;
+		$this->plainBody .= $plainTitle . PHP_EOL . PHP_EOL;
 	}
 
 	/**
 	 * Adds a paragraph to the body of the email
 	 *
 	 * @param string $text
+	 * @param string $plainText Text that is used in the plain text email - if empty the $text is used
 	 */
-	public function addBodyText($text) {
+	public function addBodyText($text, $plainText = '') {
 		if ($this->footerAdded) {
 			return;
+		}
+		if ($plainText === '') {
+			$plainText = $text;
 		}
 
 		if (!$this->bodyOpened) {
@@ -321,7 +329,7 @@ EOF;
 		}
 
 		$this->htmlBody .= vsprintf($this->bodyText, [$text]);
-		$this->plainBody .= $text . PHP_EOL . PHP_EOL;
+		$this->plainBody .= $plainText . PHP_EOL . PHP_EOL;
 	}
 
 	/**
@@ -331,10 +339,19 @@ EOF;
 	 * @param string $urlLeft URL of left button
 	 * @param string $textRight Text of right button
 	 * @param string $urlRight URL of right button
+	 * @param string $plainTextLeft Text of left button that is used in the plain text version - if unset the $textLeft is used
+	 * @param string $plainTextRight Text of right button that is used in the plain text version - if unset the $textRight is used
 	 */
-	public function addBodyButtonGroup($textLeft, $urlLeft, $textRight, $urlRight) {
+	public function addBodyButtonGroup($textLeft, $urlLeft, $textRight, $urlRight, $plainTextLeft = '', $plainTextRight = '') {
 		if ($this->footerAdded) {
 			return;
+		}
+		if ($plainTextLeft === '') {
+			$plainTextLeft = $textLeft;
+		}
+
+		if ($plainTextRight === '') {
+			$plainTextRight = $textRight;
 		}
 
 		if (!$this->bodyOpened) {
@@ -344,8 +361,8 @@ EOF;
 
 		$color = $this->themingDefaults->getColorPrimary();
 		$this->htmlBody .= vsprintf($this->buttonGroup, [$color, $color, $urlLeft, $color, $textLeft, $urlRight, $textRight]);
-		$this->plainBody .= $textLeft . ': ' . $urlLeft . PHP_EOL;
-		$this->plainBody .= $textRight . ': ' . $urlRight . PHP_EOL . PHP_EOL;
+		$this->plainBody .= $plainTextLeft . ': ' . $urlLeft . PHP_EOL;
+		$this->plainBody .= $plainTextRight . ': ' . $urlRight . PHP_EOL . PHP_EOL;
 
 	}
 
