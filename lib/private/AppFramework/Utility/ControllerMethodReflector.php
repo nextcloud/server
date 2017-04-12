@@ -48,7 +48,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 		preg_match_all('/^\h+\*\h+@(?P<annotation>[A-Z]\w+)((?P<parameter>.*))?$/m', $docs, $matches);
 		foreach($matches['annotation'] as $key => $annontation) {
 			$annotationValue = $matches['parameter'][$key];
-			if($annotationValue[0] === '(' && $annotationValue[strlen($annotationValue) - 1] === ')') {
+			if(isset($annotationValue[0]) && $annotationValue[0] === '(' && $annotationValue[strlen($annotationValue) - 1] === ')') {
 				$cutString = substr($annotationValue, 1, -1);
 				$cutString = str_replace(' ', '', $cutString);
 				$splittedArray = explode(',', $cutString);
