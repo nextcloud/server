@@ -4,7 +4,7 @@
     "The configuration is invalid: anonymous bind is not allowed." : "設定檔無效: 不允許匿名使者",
     "The configuration is valid and the connection could be established!" : "設定有效且連線可建立",
     "The configuration is valid, but the Bind failed. Please check the server settings and credentials." : "設定有效但連線無法建立，請檢查伺服器設定與認證資料。",
-    "The configuration is invalid. Please have a look at the logs for further details." : "設定無效，更多細節請參閱 ownCloud 的記錄檔。",
+    "The configuration is invalid. Please have a look at the logs for further details." : "設定無效，更多細節請參閱 Nextcloud 的記錄檔。",
     "No action specified" : "沒有指定操作",
     "No configuration specified" : "沒有指定設定",
     "No data specified" : "沒有指定資料",

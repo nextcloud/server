@@ -19,7 +19,7 @@
     "The old password was not correct, please try again." : "舊密碼不正確，請再試一次",
     "The current log-in password was not correct, please try again." : "目前登入的密碼不正確，請再試一次",
     "Private key password successfully updated." : "私人金鑰密碼已成功更新。",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "您需要搬移您的加密鑰匙從舊版的加密 (ownCloud <= 8.0) 到新版，請執行 'occ encryption:migrate' 或是聯絡系統管理員",
+    "You need to migrate your encryption keys from the old encryption (Nextcloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "您需要搬移您的加密鑰匙從舊版的加密 (Nextcloud <= 8.0) 到新版，請執行 'occ encryption:migrate' 或是聯絡系統管理員",
     "Bad Signature" : "壞的簽章",
     "Missing Signature" : "遺失簽章",
     "one-time password for server-side-encryption" : "一次性密碼用於伺服器端的加密",

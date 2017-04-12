@@ -21,7 +21,7 @@
  *
  */
 
-// This file is just used to redirect the legacy sharing URLs (< ownCloud 8) to the new ones
+// This file is just used to redirect the legacy sharing URLs (< Nextcloud 8) to the new ones
 
 $urlGenerator = \OC::$server->getURLGenerator();
 $token = isset($_GET['t']) ? $_GET['t'] : '';

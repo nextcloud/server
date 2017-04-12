@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# ownCloud
+# Nextcloud
 #
 # This script start a docker container to test the files_external tests
 # against. It will also change the files_external config to use the docker
@@ -10,7 +10,7 @@
 #
 # @author Morris Jobke
 # @author Robin McCorkell
-# @copyright 2015 ownCloud
+# @copyright 2015 Nextcloud
 
 if ! command -v docker >/dev/null 2>&1; then
     echo "No docker executable found - skipped docker setup"

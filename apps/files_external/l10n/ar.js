@@ -19,7 +19,7 @@ OC.L10N.register(
     "Host" : "المضيف",
     "Local" : "محلي",
     "Location" : "المكان",
-    "ownCloud" : "ownCloud",
+    "Nextcloud" : "Nextcloud",
     "Share" : "شارك",
     "Name" : "اسم",
     "Never" : "أبدا",

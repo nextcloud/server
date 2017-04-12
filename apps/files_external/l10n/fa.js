@@ -39,7 +39,7 @@ OC.L10N.register(
     "Google Drive" : "Google Drive",
     "Local" : "محلی",
     "Location" : "محل",
-    "ownCloud" : "ownCloud",
+    "Nextcloud" : "Nextcloud",
     "SFTP" : "SFTP",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "اشتراک‌گذاری",

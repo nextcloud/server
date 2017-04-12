@@ -21,7 +21,7 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "A régi jelszó nem volt helyes, kérlek próbáld újra.",
     "The current log-in password was not correct, please try again." : "Az aktuális bejelentkezési jelszó nem volt helyes, kérlek próbáld újra.",
     "Private key password successfully updated." : "A személyes kulcsának jelszava frissítésre került.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Migrálni kell a titkosítási kulcsaidat a rég titkosításról (ownCloud <= 8.0) az újra. Kérlek futtasd az 'occ encryption:migrate' parancsot, vagy lépj kapcsolatba az adminisztrátorral",
+    "You need to migrate your encryption keys from the old encryption (Nextcloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Migrálni kell a titkosítási kulcsaidat a rég titkosításról (Nextcloud <= 8.0) az újra. Kérlek futtasd az 'occ encryption:migrate' parancsot, vagy lépj kapcsolatba az adminisztrátorral",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "A titkosító alkalmazás privát kulcsa érvénytelen. A titkosított fájljaidhoz való hozzáféréshez frissítsd a privát kulcsod jelszavát a személyes beállításoknál.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "A fájlok titkosítása engedélyezve van, de az Ön titkos kulcsai nincsenek beállítva. Ezért kérlek, hogy jelentkezz ki, és lépj be újra!",
     "Encryption app is enabled and ready" : "A titkosító alkalmazás engedélyezve és készen áll",

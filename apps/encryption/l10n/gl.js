@@ -21,7 +21,7 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "O contrasinal antigo non é correcto, ténteo de novo.",
     "The current log-in password was not correct, please try again." : "O actual contrasinal de acceso non é correcto, ténteo de novo.",
     "Private key password successfully updated." : "A chave privada foi actualizada correctamente.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "É necesario migrar as súas chaves de cifrado do antigo cifrado (ownCloud <= 8,0) cara ao novo. Execute «occ encryption:migrate» ou contacte co administrador",
+    "You need to migrate your encryption keys from the old encryption (Nextcloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "É necesario migrar as súas chaves de cifrado do antigo cifrado (Nextcloud <= 8,0) cara ao novo. Execute «occ encryption:migrate» ou contacte co administrador",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Non foi posíbel descifrar o ficheiro, probabelmente tratase dun ficheiro compartido. Pídalle ao propietario do ficheiro que  volva compartir o ficheiro con vostede.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Non foi posíbel ler o ficheiro, probabelmente tratase dun ficheiro compartido. Pídalle ao propietario do ficheiro que  volva compartir o ficheiro con vostede.",
     "The share will expire on %s." : "Esta compartición caduca o %s.",

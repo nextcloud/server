@@ -40,7 +40,7 @@ OC.L10N.register(
     "Secure ftps://" : "Protocol segur ftps://",
     "Local" : "Local",
     "Location" : "Ubicació",
-    "ownCloud" : "ownCloud",
+    "Nextcloud" : "Nextcloud",
     "Root" : "Arrel",
     "SFTP with secret key login" : "Inici de sessió SFTP amb clau secreta",
     "Share" : "Comparteix",

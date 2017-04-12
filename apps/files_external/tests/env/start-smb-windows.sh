@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# ownCloud
+# Nextcloud
 #
 # Set environment variable DEBUG to print config file
 #

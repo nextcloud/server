@@ -80,7 +80,7 @@ class BackgroundJob extends TimedJob {
 	}
 
 	/**
-	 * Check for ownCloud update
+	 * Check for Nextcloud update
 	 */
 	protected function checkCoreUpdate() {
 		if (in_array($this->getChannel(), ['daily', 'git'], true)) {

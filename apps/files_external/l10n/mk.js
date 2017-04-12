@@ -16,7 +16,7 @@ OC.L10N.register(
     "Host" : "Домаќин",
     "Local" : "Локален",
     "Location" : "Локација",
-    "ownCloud" : "ownCloud",
+    "Nextcloud" : "Nextcloud",
     "Share" : "Сподели",
     "Name" : "Име",
     "Enable encryption" : "Овозможи енкрипција",

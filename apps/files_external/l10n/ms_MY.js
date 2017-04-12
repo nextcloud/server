@@ -8,7 +8,7 @@ OC.L10N.register(
     "Region" : "Wilayah",
     "URL" : "URL",
     "Location" : "Lokasi",
-    "ownCloud" : "ownCloud",
+    "Nextcloud" : "Nextcloud",
     "Share" : "Kongsi",
     "Name" : "Nama",
     "Delete" : "Padam"

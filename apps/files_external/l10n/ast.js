@@ -36,7 +36,7 @@ OC.L10N.register(
     "Secure ftps://" : "Secure ftps://",
     "Local" : "Llocal",
     "Location" : "Llocalización",
-    "ownCloud" : "ownCloud",
+    "Nextcloud" : "Nextcloud",
     "Root" : "Raíz",
     "Share" : "Compartir",
     "SMB / CIFS using OC login" : "SMB / CIFS usando accesu OC",

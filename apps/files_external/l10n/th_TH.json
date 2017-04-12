@@ -111,6 +111,6 @@
     "Delete" : "ลบ",
     "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก",
     "Allow users to mount the following external storage" : "อนุญาตให้ผู้ใช้ติดตั้งจัดเก็บข้อมูลภายนอกต่อไปนี้",
-    "Couldn't get the information from the ownCloud server: {code} {type}" : "ไม่สามารถรับข้อมูลจากเซิร์ฟเวอร์ ownCloud: {code} {type}"
+    "Couldn't get the information from the Nextcloud server: {code} {type}" : "ไม่สามารถรับข้อมูลจากเซิร์ฟเวอร์ Nextcloud: {code} {type}"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

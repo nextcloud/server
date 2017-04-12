@@ -33,7 +33,7 @@ $ocVersion = explode('.', \OC::$server->getSystemConfig()->getValue('version'));
  * uploaded at a time where encryption was enabled.
  *
  * So we can only do this when:
- * - Current version of ownCloud before the update is 8.1.0 or 8.2.0.(0-2)
+ * - Current version of Nextcloud before the update is 8.1.0 or 8.2.0.(0-2)
  * - Encryption is disabled
  * - files_encryption is not known in the app config
  *
@@ -44,7 +44,7 @@ $ocVersion = explode('.', \OC::$server->getSystemConfig()->getValue('version'));
  * can also safely reset the flag here.
  *
  * If this is not the case, we go with "better save then sorry" and don't change
- * the flag but write a message to the ownCloud log file.
+ * the flag but write a message to the Nextcloud log file.
  */
 
 /**
@@ -54,7 +54,7 @@ function owncloud_reset_encrypted_flag(\OCP\IDBConnection $conn) {
 	$conn->executeUpdate('UPDATE `*PREFIX*filecache` SET `encrypted` = 0 WHERE `encrypted` = 1');
 }
 
-// Current version of ownCloud before the update is 8.1.0 or 8.2.0.(0-2)
+// Current version of Nextcloud before the update is 8.1.0 or 8.2.0.(0-2)
 if ($installedVersion === '1.1.9' && (
 		// 8.1.0.x
 		(((int) $ocVersion[0]) === 8 && ((int) $ocVersion[1]) === 1 && ((int) $ocVersion[2]) === 0)

@@ -267,7 +267,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * translates a primary group ID into an ownCloud internal name
+	 * translates a primary group ID into an Nextcloud internal name
 	 * @param string $gid as given by primaryGroupID on AD
 	 * @param string $dn a DN that belongs to the same domain as the group
 	 * @return string|bool
@@ -296,7 +296,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		$dn = $result[0]['dn'][0];
 
 		//and now the group name
-		//NOTE once we have separate ownCloud group IDs and group names we can
+		//NOTE once we have separate Nextcloud group IDs and group names we can
 		//directly read the display name attribute instead of the DN
 		$name = $this->access->dn2groupname($dn);
 
@@ -388,7 +388,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 				$limit,
 				$offset
 			);
-			return $this->access->ownCloudUserNames($users);
+			return $this->access->NextcloudUserNames($users);
 		} catch (\Exception $e) {
 			return array();
 		}
@@ -541,7 +541,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			$groups = array_merge($groups, $this->cachedGroupsByMember[$uid]);
 		} else {
 			$groupsByMember = array_values($this->getGroupsByMember($uid));
-			$groupsByMember = $this->access->ownCloudGroupNames($groupsByMember);
+			$groupsByMember = $this->access->NextcloudGroupNames($groupsByMember);
 			$this->cachedGroupsByMember[$uid] = $groupsByMember;
 			$groups = array_merge($groups, $groupsByMember);
 		}
@@ -804,7 +804,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 				array($this->access->connection->ldapGroupDisplayName, 'dn'),
 				$limit,
 				$offset);
-		$ldap_groups = $this->access->ownCloudGroupNames($ldap_groups);
+		$ldap_groups = $this->access->NextcloudGroupNames($ldap_groups);
 
 		$this->access->connection->writeToCache($cacheKey, $ldap_groups);
 		return $ldap_groups;

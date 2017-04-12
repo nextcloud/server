@@ -945,7 +945,7 @@ class FederatedShareProvider implements IShareProvider {
 	}
 
 	/**
-	 * check if users are allowed to mount public links from other ownClouds
+	 * check if users are allowed to mount public links from other Nextclouds
 	 *
 	 * @return bool
 	 */

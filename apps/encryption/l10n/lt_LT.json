@@ -19,7 +19,7 @@
     "The old password was not correct, please try again." : "Neteisingas senas slaptažodis, prašome bandyti dar kartą.",
     "The current log-in password was not correct, please try again." : "Esamas prisijungimo slaptažodis buvo neteisingas, prašome bandyti dar kartą.",
     "Private key password successfully updated." : "Privačiojo rakto slaptažodis sėkmingai atnaujintas.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Jūs turite perkelti savo šifravimo raktus iš senojo šifravimo (ownCloud <= 8.0) į naująjį. Prašome vykdyti \"occ encryption:migrate\" arba susisiekti su savo administratoriumi",
+    "You need to migrate your encryption keys from the old encryption (Nextcloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Jūs turite perkelti savo šifravimo raktus iš senojo šifravimo (Nextcloud <= 8.0) į naująjį. Prašome vykdyti \"occ encryption:migrate\" arba susisiekti su savo administratoriumi",
     "Bad Signature" : "Blogas parašas",
     "Missing Signature" : "Trūksta parašo",
     "one-time password for server-side-encryption" : "Vienkartinis slaptažodis šifravimui serverio pusėje",

@@ -276,7 +276,7 @@ class FilesPlugin extends ServerPlugin {
 	}
 
 	/**
-	 * Adds all ownCloud-specific properties
+	 * Adds all Nextcloud-specific properties
 	 *
 	 * @param PropFind $propFind
 	 * @param \Sabre\DAV\INode $node
@@ -381,7 +381,7 @@ class FilesPlugin extends ServerPlugin {
 	}
 
 	/**
-	 * Update ownCloud-specific properties
+	 * Update Nextcloud-specific properties
 	 *
 	 * @param string $path
 	 * @param PropPatch $propPatch

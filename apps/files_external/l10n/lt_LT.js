@@ -19,7 +19,7 @@ OC.L10N.register(
     "URL" : "URL",
     "Host" : "Mazgas",
     "Location" : "Vieta",
-    "ownCloud" : "ownCloud",
+    "Nextcloud" : "Nextcloud",
     "Share" : "Dalintis",
     "Name" : "Pavadinimas",
     "External Storage" : "Išorinės saugyklos",

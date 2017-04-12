@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016 ownCloud Inc
+ * Copyright (c) 2016 Nextcloud Inc
  *
  * @author Lukas Reschke <lukas@owncloud.com>
  *

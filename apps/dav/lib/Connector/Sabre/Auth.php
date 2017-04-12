@@ -174,7 +174,7 @@ class Auth extends AbstractBasic {
 			return false;
 		}
 
-		// Official ownCloud clients require no checks
+		// Official Nextcloud clients require no checks
 		if($this->request->isUserAgent([
 			IRequest::USER_AGENT_CLIENT_DESKTOP,
 			IRequest::USER_AGENT_CLIENT_ANDROID,

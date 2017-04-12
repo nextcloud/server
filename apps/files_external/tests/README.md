@@ -12,15 +12,15 @@ found in the `tests/env` folder of the files_external app.
 The current implementation supports a script that starts with `start-` for the
 setup step which is executed before the PHPUnit run and an optional script
 starting with `stop-` (and have the same ending as the start script) to cleanup
-the provider. For example: `start-webdav-ownCloud.sh` and
-`stop-webdav-ownCloud.sh`. As a second requirement after this prefix there has
+the provider. For example: `start-webdav-Nextcloud.sh` and
+`stop-webdav-Nextcloud.sh`. As a second requirement after this prefix there has
 to be the name of the backend test suite. In the above example the test suite
 `tests/backends/webdav.php` is used. The last part is a name that can be chosen
 freely.
 
 ## Hands-on way of unit test execution
 
-Run all files_external unit tests by invoking the following in the ownCloud
+Run all files_external unit tests by invoking the following in the Nextcloud
 core root folder:
 
     ./autotest-external.sh
@@ -33,14 +33,14 @@ You can also pass the name of the external file system provider as a second
 argument that should be executed. This is the name of the script without the
 prefix `start-` (or `stop-`) and without the extension `.sh` from the above
 mentioned components in `test/env`. So if you want to start the WebDAV backend
-tests against an ownCloud instance you can run following:
+tests against an Nextcloud instance you can run following:
 
-    ./autotest-external.sh sqlite webdav-ownCloud
+    ./autotest-external.sh sqlite webdav-Nextcloud
 
-This runs the script `start-webdav-ownCloud.sh` from the `tests/env` folder,
+This runs the script `start-webdav-Nextcloud.sh` from the `tests/env` folder,
 then runs the unit test suite from `backends/webdav.php` (because the middle part of
 the name of the script is `webdav`) and finally tries to call
-`stop-webdav-ownCloud.sh` for cleanup purposes.
+`stop-webdav-Nextcloud.sh` for cleanup purposes.
 
 If `common-tests` is supplied as second argument it will skip the backend specific
 part completely and just run the common files_external unit tests:

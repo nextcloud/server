@@ -11,7 +11,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Local" : "Lokalno",
     "Location" : "Lokacija",
-    "ownCloud" : "OwnCloud",
+    "Nextcloud" : "OwnCloud",
     "Share" : "Podijeli",
     "Name" : "Ime",
     "Delete" : "Izbriši"

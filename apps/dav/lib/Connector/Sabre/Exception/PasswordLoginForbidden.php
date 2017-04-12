@@ -45,7 +45,7 @@ class PasswordLoginForbidden extends NotAuthenticated {
 	 */
 	public function serialize(Server $server, DOMElement $errorNode) {
 
-		// set ownCloud namespace
+		// set Nextcloud namespace
 		$errorNode->setAttribute('xmlns:o', self::NS_OWNCLOUD);
 
 		$error = $errorNode->ownerDocument->createElementNS('o:', 'o:hint', 'password login forbidden');

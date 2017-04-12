@@ -45,7 +45,7 @@ class OwncloudTest extends \Test\Files\Storage\Storage {
 		$id = $this->getUniqueID();
 		$this->config = include('files_external/tests/config.php');
 		if ( ! is_array($this->config) or ! isset($this->config['owncloud']) or ! $this->config['owncloud']['run']) {
-			$this->markTestSkipped('ownCloud backend not configured');
+			$this->markTestSkipped('Nextcloud backend not configured');
 		}
 		$this->config['owncloud']['root'] .= '/' . $id; //make sure we have an new empty folder to work in
 		$this->instance = new OwnCloud($this->config['owncloud']);

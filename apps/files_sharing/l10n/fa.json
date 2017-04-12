@@ -17,7 +17,7 @@
     "Cancel" : "منصرف شدن",
     "Add remote share" : "افزودن اشتراک از راه دور",
     "You can upload into this folder" : "می‌توانید در این پوشه آپلود کنید",
-    "Invalid ownCloud url" : "آدرس نمونه ownCloud  غیر معتبر است",
+    "Invalid Nextcloud url" : "آدرس نمونه Nextcloud  غیر معتبر است",
     "Shared by" : "اشتراک گذاشته شده به وسیله",
     "Sharing" : "اشتراک گذاری",
     "A file or folder has been <strong>shared</strong>" : "فایل یا پوشه ای به <strong>اشتراک</strong> گذاشته شد",
@@ -38,7 +38,7 @@
     "the link expired" : "این پیوند منقضی شده است",
     "sharing is disabled" : "قابلیت اشتراک گذاری غیرفعال است",
     "For more info, please ask the person who sent this link." : "برای اطلاعات بیشتر، لطفا از شخصی که این پیوند را ارسال کرده سوال بفرمایید.",
-    "Add to your ownCloud" : "افزودن به ownCloud شما",
+    "Add to your Nextcloud" : "افزودن به Nextcloud شما",
     "Download" : "دانلود",
     "Download %s" : "دانلود %s",
     "Direct link" : "پیوند مستقیم"

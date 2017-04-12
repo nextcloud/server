@@ -21,7 +21,7 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "Det gamle kodeord var ikke korrekt, prøv venligst igen.",
     "The current log-in password was not correct, please try again." : "Det nuværende kodeord til log-in var ikke korrekt, prøv venligst igen.",
     "Private key password successfully updated." : "Privat nøgle kodeord succesfuldt opdateret.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Du skal overflytte dine krypteringsnøgler fra den gamle kryptering (ownCloud <= 8.0) til den nye af slagsen. Kør venligst \"occ encryption:migrate\" eller kontakt din administrator.",
+    "You need to migrate your encryption keys from the old encryption (Nextcloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Du skal overflytte dine krypteringsnøgler fra den gamle kryptering (Nextcloud <= 8.0) til den nye af slagsen. Kør venligst \"occ encryption:migrate\" eller kontakt din administrator.",
     "Bad Signature" : "Ugyldig signatur",
     "Missing Signature" : "Signatur mangler",
     "one-time password for server-side-encryption" : "Engangs password for kryptering på serverdelen",

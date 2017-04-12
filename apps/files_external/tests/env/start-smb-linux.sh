@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# ownCloud
+# Nextcloud
 #
 # This script start a docker container to test the files_external tests
 # against. It will also change the files_external config to use the docker

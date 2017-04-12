@@ -21,7 +21,7 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "A palavra-passe antiga não estava correta, por favor, tente de novo.",
     "The current log-in password was not correct, please try again." : "A palavra-passe de iniciar a sessão atual não estava correta, por favor, tente de novo.",
     "Private key password successfully updated." : "A palavra-passe da chave privada foi atualizada com sucesso. ",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Precisa de migrar as suas chaves de encriptação da encriptação antiga (ownCloud <= 8.0) para a nova. Por favor, execute 'occ encryption:migrate' ou contacte o seu administrador",
+    "You need to migrate your encryption keys from the old encryption (Nextcloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Precisa de migrar as suas chaves de encriptação da encriptação antiga (Nextcloud <= 8.0) para a nova. Por favor, execute 'occ encryption:migrate' ou contacte o seu administrador",
     "Bad Signature" : "Má Assinatura",
     "Missing Signature" : "Assinatura em Falta",
     "one-time password for server-side-encryption" : "palavra-passe de utilização única para a encriptação do lado do servidor",

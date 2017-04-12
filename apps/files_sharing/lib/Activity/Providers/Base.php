@@ -137,7 +137,7 @@ abstract class Base implements IProvider {
 			$path = reset($parameter);
 			$id = (string) key($parameter);
 		} else if ($event !== null) {
-			// Legacy from before ownCloud 8.2
+			// Legacy from before Nextcloud 8.2
 			$path = $parameter;
 			$id = $event->getObjectId();
 		} else {

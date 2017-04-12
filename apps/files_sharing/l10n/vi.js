@@ -24,7 +24,7 @@ OC.L10N.register(
     "the item was removed" : "đối tượng đã bị xóa",
     "the link expired" : "liên kết đã hết hạn",
     "sharing is disabled" : "việc chia sẻ bị cấm",
-    "Add to your ownCloud" : "Thêm vào ownCloud của bạn",
+    "Add to your Nextcloud" : "Thêm vào Nextcloud của bạn",
     "Download" : "Tải về",
     "Download %s" : "Tải về %s",
     "Direct link" : "Link trực tiếp"

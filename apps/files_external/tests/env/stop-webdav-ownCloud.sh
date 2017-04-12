@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# ownCloud
+# Nextcloud
 #
 # This script stops the docker container the files_external tests were run
 # against. It will also revert the config changes done in start step.
@@ -17,7 +17,7 @@ fi
 echo "Docker executable found - stop and remove docker containers"
 
 # retrieve current folder to remove the config from the parent folder
-thisFolder=`echo $0 | sed 's#env/stop-webdav-ownCloud\.sh##'`
+thisFolder=`echo $0 | sed 's#env/stop-webdav-Nextcloud\.sh##'`
 
 if [ -z "$thisFolder" ]; then
     thisFolder="."

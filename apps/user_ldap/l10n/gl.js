@@ -6,7 +6,7 @@ OC.L10N.register(
     "The configuration is invalid: anonymous bind is not allowed." : "A configuración é incorrecta: o vínculo anónimo non está permitido.",
     "The configuration is valid and the connection could be established!" : "A configuración é correcta e pode estabelecerse a conexión.",
     "The configuration is valid, but the Bind failed. Please check the server settings and credentials." : "A configuración é correcta, mais a ligazón non. Comprobe a configuración do servidor e as credenciais.",
-    "The configuration is invalid. Please have a look at the logs for further details." : "A configuración non é correcta. Vexa o rexistro de ownCloud para máis detalles",
+    "The configuration is invalid. Please have a look at the logs for further details." : "A configuración non é correcta. Vexa o rexistro de Nextcloud para máis detalles",
     "No action specified" : "Non se especificou unha acción",
     "No configuration specified" : "Non se especificou unha configuración",
     "No data specified" : "Non se especificaron datos",

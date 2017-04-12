@@ -23,7 +23,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 /**
- * ownCloud
+ * Nextcloud
  *
  * @author Vincent Petry
  * @copyright 2014 Vincent Petry <pvince81@owncloud.com>

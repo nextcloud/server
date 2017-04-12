@@ -16,7 +16,7 @@ OC.L10N.register(
     "URL" : "URL",
     "Host" : "Servidor",
     "Location" : "Ubicación",
-    "ownCloud" : "ownCloud",
+    "Nextcloud" : "Nextcloud",
     "Share" : "Compartir",
     "Name" : "Nombre",
     "External Storage" : "Almacenamiento externo",

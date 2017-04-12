@@ -63,7 +63,7 @@ class InvalidPath extends Exception {
 	 */
 	public function serialize(\Sabre\DAV\Server $server,\DOMElement $errorNode) {
 
-		// set ownCloud namespace
+		// set Nextcloud namespace
 		$errorNode->setAttribute('xmlns:o', self::NS_OWNCLOUD);
 
 		// adding the retry node

@@ -38,7 +38,7 @@ use OCP\ILogger;
 use OCP\IUserSession;
 
 /**
- * Class Crypt provides the encryption implementation of the default ownCloud
+ * Class Crypt provides the encryption implementation of the default Nextcloud
  * encryption module. As default AES-256-CTR is used, it does however offer support
  * for the following modes:
  *
@@ -54,10 +54,10 @@ use OCP\IUserSession;
 class Crypt {
 
 	const DEFAULT_CIPHER = 'AES-256-CTR';
-	// default cipher from old ownCloud versions
+	// default cipher from old Nextcloud versions
 	const LEGACY_CIPHER = 'AES-128-CFB';
 
-	// default key format, old ownCloud version encrypted the private key directly
+	// default key format, old Nextcloud version encrypted the private key directly
 	// with the user password
 	const LEGACY_KEY_FORMAT = 'password';
 

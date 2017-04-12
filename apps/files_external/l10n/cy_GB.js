@@ -8,7 +8,7 @@ OC.L10N.register(
     "None" : "Dim",
     "URL" : "URL",
     "Location" : "Lleoliad",
-    "ownCloud" : "ownCloud",
+    "Nextcloud" : "Nextcloud",
     "Share" : "Rhannu",
     "Name" : "Enw",
     "Delete" : "Dileu"

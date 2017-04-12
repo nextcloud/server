@@ -1,5 +1,5 @@
 /**
-* ownCloud
+* Nextcloud
 *
 * @author Vincent Petry
 * @copyright 2015 Vincent Petry <pvince81@owncloud.com>

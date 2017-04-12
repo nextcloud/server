@@ -15,7 +15,7 @@ OC.L10N.register(
     "URL" : "URL",
     "Host" : "ჰოსტი",
     "Location" : "ადგილმდებარეობა",
-    "ownCloud" : "ownCloud–ი",
+    "Nextcloud" : "Nextcloud–ი",
     "Share" : "გაზიარება",
     "Name" : "სახელი",
     "External Storage" : "ექსტერნალ საცავი",

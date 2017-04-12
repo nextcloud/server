@@ -10,11 +10,11 @@ OCA = OCA || {};
 
 	/**
 	 * @classdesc this class represents a server configuration. It communicates
-	 * with the ownCloud server to ensure to always have the up to date LDAP
+	 * with the Nextcloud server to ensure to always have the up to date LDAP
 	 * configuration. It sends various events that views can listen to and
 	 * provides methods so they can modify the configuration based upon user
 	 * input. This model is also extended by so-called "detectors" who let the
-	 * ownCloud server try to auto-detect settings and manipulate the
+	 * Nextcloud server try to auto-detect settings and manipulate the
 	 * configuration as well.
 	 *
 	 * @constructor
@@ -108,7 +108,7 @@ OCA = OCA || {};
 		 */
 
 		/**
-		 * calls an AJAX endpoint at ownCloud. This method should be called by
+		 * calls an AJAX endpoint at Nextcloud. This method should be called by
 		 * detectors only!
 		 *
 		 * @param {string} [params] - as return by OC.buildQueryString
@@ -121,7 +121,7 @@ OCA = OCA || {};
 		},
 
 		/**
-		 * calls an AJAX endpoint at ownCloud. This method should be called by
+		 * calls an AJAX endpoint at Nextcloud. This method should be called by
 		 * detectors only!
 		 *
 		 * @param {string} destination - the desired end point
@@ -148,7 +148,7 @@ OCA = OCA || {};
 		/**
 		 * modifies a configuration key. If a provided configuration key does
 		 * not exist or the provided value equals the current setting, false is
-		 * returned. Otherwise ownCloud server will be called to save the new
+		 * returned. Otherwise Nextcloud server will be called to save the new
 		 * value, an event will notify when this is done. True is returned when
 		 * the request is sent, however it does not mean whether saving was
 		 * successful or not.
@@ -195,7 +195,7 @@ OCA = OCA || {};
 
 		/**
 		 * updates the model's configuration data. This should be called only,
-		 * when a new configuration value was received from the ownCloud server.
+		 * when a new configuration value was received from the Nextcloud server.
 		 * This is typically done by detectors, but never by views.
 		 *
 		 * Cancels with false if old and new values already match.
@@ -314,7 +314,7 @@ OCA = OCA || {};
 		},
 
 		/**
-		 * starts a configuration test on the ownCloud server
+		 * starts a configuration test on the Nextcloud server
 		 */
 		requestConfigurationTest: function() {
 			var url = OC.generateUrl('apps/user_ldap/ajax/testConfiguration.php');

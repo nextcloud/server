@@ -277,7 +277,7 @@ class CalendarTest extends TestCase {
 
 		$calData = <<<EOD
 BEGIN:VCALENDAR
-PRODID:-//ownCloud calendar v1.2.2
+PRODID:-//Nextcloud calendar v1.2.2
 BEGIN:VEVENT
 CREATED:20160602T133732
 DTSTAMP:20160602T133732

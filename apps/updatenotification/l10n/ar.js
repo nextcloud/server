@@ -4,7 +4,7 @@ OC.L10N.register(
     "Update notifications" : "إشعارات التحديث",
     "{version} is available. Get more information on how to update." : "{version} متوفر.  أحصل على معلومات كيفية التحديث.",
     "Updated channel" : "قناة محدَّثة.",
-    "ownCloud core" : "نواة ownCloud",
+    "Nextcloud core" : "نواة Nextcloud",
     "Update for %1$s to version %2$s is available." : "التحديث من النسخة %1$s إلى %2$s متوفر.",
     "Updater" : "برنامج التحديث",
     "A new version is available: %s" : "توجد نسخة جديدة: %s",

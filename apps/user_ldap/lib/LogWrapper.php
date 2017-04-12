@@ -25,7 +25,7 @@
 namespace OCA\User_LDAP;
 
 /**
- * @brief wraps around static ownCloud core methods
+ * @brief wraps around static Nextcloud core methods
  */
 class LogWrapper {
 	protected $app = 'user_ldap';

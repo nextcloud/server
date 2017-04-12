@@ -26,7 +26,7 @@ OC.L10N.register(
     "Secure ftps://" : "ftps:// অর্জন কর",
     "Local" : "স্থানীয়",
     "Location" : "অবস্থান",
-    "ownCloud" : "ওউনক্লাউড",
+    "Nextcloud" : "ওউনক্লাউড",
     "Root" : "শেকড়",
     "Share" : "ভাগাভাগি কর",
     "<b>Note:</b> " : "<b>দ্রষ্টব্য:</b> ",
