@@ -144,7 +144,7 @@ class NewUserMailHelperTest extends TestCase {
 			->method('getUID')
 			->willReturn('john');
 		$this->defaults
-			->expects($this->at(0))
+			->expects($this->any())
 			->method('getName')
 			->willReturn('TestCloud');
 
@@ -174,7 +174,7 @@ class NewUserMailHelperTest extends TestCase {
 							<tbody>
 							<tr style="padding:0;text-align:left;vertical-align:top">
 								<center data-parsed="" style="min-width:580px;width:100%">
-									<img class="logo float-center" src="" alt="logo" align="center" style="-ms-interpolation-mode:bicubic;Margin:0 auto;clear:both;display:block;float:none;margin:0 auto;max-height:100%;max-width:100px;outline:0;text-align:center;text-decoration:none;width:auto">
+									<img class="logo float-center" src="" alt="TestCloud" align="center" style="-ms-interpolation-mode:bicubic;Margin:0 auto;clear:both;display:block;float:none;margin:0 auto;max-height:100%;max-width:100px;outline:0;text-align:center;text-decoration:none;width:auto">
 								</center>
 							</tr>
 							</tbody>
@@ -227,7 +227,7 @@ class NewUserMailHelperTest extends TestCase {
 			<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 				<tr style="padding:0;text-align:left;vertical-align:top">
 					<th style="Margin:0;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
-						<p class="text-left" style="Margin:0;Margin-bottom:10px;color:#777;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left">You have now an  account, you can add, protect, and share your data.</p>
+						<p class="text-left" style="Margin:0;Margin-bottom:10px;color:#777;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left">You have now an TestCloud account, you can add, protect, and share your data.</p>
 					</th>
 					<th class="expander" style="Margin:0;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
 				</tr>
@@ -324,7 +324,7 @@ class NewUserMailHelperTest extends TestCase {
 					</tr>
 					</tbody>
 				</table>
-				<p class="text-center float-center" align="center" style="Margin:0;Margin-bottom:10px;color:#C8C8C8;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:12px;font-weight:400;line-height:16px;margin:0;margin-bottom:10px;padding:0;text-align:center"> - <br>This is an automatically generated email, please do not reply.</p>
+				<p class="text-center float-center" align="center" style="Margin:0;Margin-bottom:10px;color:#C8C8C8;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:12px;font-weight:400;line-height:16px;margin:0;margin-bottom:10px;padding:0;text-align:center">TestCloud - <br>This is an automatically generated email, please do not reply.</p>
 			</center>
 		</td>
 	</tr>
@@ -340,15 +340,16 @@ EOF;
 		$expectedTextBody = <<<EOF
 Welcome aboard
 
-You have now an  account, you can add, protect, and share your data.
+You have now an TestCloud account, you can add, protect, and share your data.
 
 Your username is: john
 
 Set your password: https://example.com/resetPassword/MySuperLongSecureRandomToken
 Install Client: https://nextcloud.com/install/#install-clients
 
---
- - 
+
+-- 
+TestCloud - 
 This is an automatically generated email, please do not reply.
 EOF;
 
@@ -406,7 +407,7 @@ EOF;
 							<tbody>
 							<tr style="padding:0;text-align:left;vertical-align:top">
 								<center data-parsed="" style="min-width:580px;width:100%">
-									<img class="logo float-center" src="" alt="logo" align="center" style="-ms-interpolation-mode:bicubic;Margin:0 auto;clear:both;display:block;float:none;margin:0 auto;max-height:100%;max-width:100px;outline:0;text-align:center;text-decoration:none;width:auto">
+									<img class="logo float-center" src="" alt="TestCloud" align="center" style="-ms-interpolation-mode:bicubic;Margin:0 auto;clear:both;display:block;float:none;margin:0 auto;max-height:100%;max-width:100px;outline:0;text-align:center;text-decoration:none;width:auto">
 								</center>
 							</tr>
 							</tbody>
@@ -579,7 +580,8 @@ Your username is: john
 Go to TestCloud: https://example.com/
 Install Client: https://nextcloud.com/install/#install-clients
 
---
+
+-- 
 TestCloud - 
 This is an automatically generated email, please do not reply.
 EOF;

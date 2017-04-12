@@ -7,6 +7,7 @@ Your username is: abc
 Set your password: https://example.org/resetPassword/123
 Install Client: https://nextcloud.com/install/#install-clients
 
---
+
+-- 
 TestCloud - A safe home for your data
 This is an automatically generated email, please do not reply.
