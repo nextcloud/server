@@ -283,6 +283,7 @@ pipeline:
       - ./occ maintenance:install --admin-pass=admin
       - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.local
       - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.distributed
+      - ./occ app:enable testing
       - cd build/integration
       - ./run.sh features/ratelimiting.feature
     when:
