@@ -98,7 +98,7 @@ EOF;
 							<tbody>
 							<tr style="padding:0;text-align:left;vertical-align:top">
 								<center data-parsed="" style="min-width:580px;width:100%%">
-									<img class="logo float-center" src="%s" alt="logo" align="center" style="-ms-interpolation-mode:bicubic;Margin:0 auto;clear:both;display:block;float:none;margin:0 auto;max-height:100%%;max-width:100px;outline:0;text-align:center;text-decoration:none;width:auto">
+									<img class="logo float-center" src="%s" alt="%s" align="center" style="-ms-interpolation-mode:bicubic;Margin:0 auto;clear:both;display:block;float:none;margin:0 auto;max-height:100%%;max-width:100px;outline:0;text-align:center;text-decoration:none;width:auto">
 								</center>
 							</tr>
 							</tbody>
@@ -227,6 +227,46 @@ EOF;
 </table>
 EOF;
 
+	protected $button = <<<EOF
+<table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
+	<tbody>
+	<tr style="padding:0;text-align:left;vertical-align:top">
+		<td height="50px" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:50px;font-weight:400;hyphens:auto;line-height:50px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&#xA0;</td>
+	</tr>
+	</tbody>
+</table>
+<table align="center" class="row btn-group" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%%">
+	<tbody>
+	<tr style="padding:0;text-align:left;vertical-align:top">
+		<th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:30px;padding-left:30px;padding-right:30px;text-align:left;width:550px">
+			<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
+				<tr style="padding:0;text-align:left;vertical-align:top">
+					<th style="Margin:0;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
+						<center data-parsed="" style="min-width:490px;width:100%%">
+							<table class="button btn default primary float-center" style="Margin:0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0;max-height:40px;padding:0;text-align:center;vertical-align:top;width:auto">
+								<tr style="padding:0;text-align:left;vertical-align:top">
+									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
+											<tr style="padding:0;text-align:left;vertical-align:top">
+												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;background:%s;border:0 solid %s;border-collapse:collapse!important;color:#fefefe;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+													<a href="%s" style="Margin:0;border:0 solid %s;border-radius:2px;color:#fefefe;display:inline-block;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;padding:10px 25px 10px 25px;text-align:left;text-decoration:none">%s</a>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</center>
+					</th>
+					<th class="expander" style="Margin:0;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
+				</tr>
+			</table>
+		</th>
+	</tr>
+	</tbody>
+</table>
+EOF;
+
 	protected $bodyEnd = <<<EOF
 
 					</td>
@@ -288,14 +328,15 @@ EOF;
 		$this->headerAdded = true;
 
 		$logoUrl = $this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo());
-		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getColorPrimary(), $logoUrl]);
+		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getColorPrimary(), $logoUrl, $this->themingDefaults->getName()]);
 	}
 
 	/**
 	 * Adds a heading to the email
 	 *
 	 * @param string $title
-	 * @param string $plainTitle Title that is used in the plain text email - if empty the $title is used
+	 * @param string $plainTitle|bool Title that is used in the plain text email
+	 *   if empty the $title is used, if false none will be used
 	 */
 	public function addHeading($title, $plainTitle = '') {
 		if ($this->footerAdded) {
@@ -305,15 +346,18 @@ EOF;
 			$plainTitle = $title;
 		}
 
-		$this->htmlBody .= vsprintf($this->heading, [$title]);
-		$this->plainBody .= $plainTitle . PHP_EOL . PHP_EOL;
+		$this->htmlBody .= vsprintf($this->heading, [htmlspecialchars($title)]);
+		if ($plainTitle !== false) {
+			$this->plainBody .= $plainTitle . PHP_EOL . PHP_EOL;
+		}
 	}
 
 	/**
 	 * Adds a paragraph to the body of the email
 	 *
 	 * @param string $text
-	 * @param string $plainText Text that is used in the plain text email - if empty the $text is used
+	 * @param string|bool $plainText Text that is used in the plain text email
+	 *   if empty the $text is used, if false none will be used
 	 */
 	public function addBodyText($text, $plainText = '') {
 		if ($this->footerAdded) {
@@ -328,8 +372,10 @@ EOF;
 			$this->bodyOpened = true;
 		}
 
-		$this->htmlBody .= vsprintf($this->bodyText, [$text]);
-		$this->plainBody .= $plainText . PHP_EOL . PHP_EOL;
+		$this->htmlBody .= vsprintf($this->bodyText, [htmlspecialchars($text)]);
+		if ($plainText !== false) {
+			$this->plainBody .= $plainText . PHP_EOL . PHP_EOL;
+		}
 	}
 
 	/**
@@ -342,7 +388,12 @@ EOF;
 	 * @param string $plainTextLeft Text of left button that is used in the plain text version - if unset the $textLeft is used
 	 * @param string $plainTextRight Text of right button that is used in the plain text version - if unset the $textRight is used
 	 */
-	public function addBodyButtonGroup($textLeft, $urlLeft, $textRight, $urlRight, $plainTextLeft = '', $plainTextRight = '') {
+	public function addBodyButtonGroup($textLeft,
+									   $urlLeft,
+									   $textRight,
+									   $urlRight,
+									   $plainTextLeft = '',
+									   $plainTextRight = '') {
 		if ($this->footerAdded) {
 			return;
 		}
@@ -360,16 +411,41 @@ EOF;
 		}
 
 		$color = $this->themingDefaults->getColorPrimary();
-		$this->htmlBody .= vsprintf($this->buttonGroup, [$color, $color, $urlLeft, $color, $textLeft, $urlRight, $textRight]);
+
+		$this->htmlBody .= vsprintf($this->buttonGroup, [$color, $color, $urlLeft, $color, htmlspecialchars($textLeft), $urlRight, htmlspecialchars($textRight)]);
 		$this->plainBody .= $plainTextLeft . ': ' . $urlLeft . PHP_EOL;
 		$this->plainBody .= $plainTextRight . ': ' . $urlRight . PHP_EOL . PHP_EOL;
 
 	}
 
 	/**
+	 * Adds a button to the body of the email
+	 *
+	 * @param string $text Text of button
+	 * @param string $url URL of button
+	 *
+	 * @since 12.0.0
+	 */
+	public function addBodyButton($text, $url) {
+		if ($this->footerAdded) {
+			return;
+		}
+
+		if (!$this->bodyOpened) {
+			$this->htmlBody .= $this->bodyBegin;
+			$this->bodyOpened = true;
+		}
+
+		$color = $this->themingDefaults->getColorPrimary();
+		$this->htmlBody .= vsprintf($this->button, [$color, $color, $url, $color, htmlspecialchars($text)]);
+		$this->plainBody .= $text . ': ' . $url . PHP_EOL;
+
+	}
+
+	/**
 	 * Adds a logo and a text to the footer. <br> in the text will be replaced by new lines in the plain text email
 	 *
-	 * @param string $text
+	 * @param string $text If the text is empty the default "Name - Slogan<br>This is an automatically generated email" will be used
 	 */
 	public function addFooter($text = '') {
 		if($text === '') {
@@ -388,7 +464,7 @@ EOF;
 
 		$this->htmlBody .= vsprintf($this->footer, [$text]);
 		$this->htmlBody .= $this->tail;
-		$this->plainBody .= '--' . PHP_EOL;
+		$this->plainBody .= PHP_EOL . '-- ' . PHP_EOL;
 		$this->plainBody .= str_replace('<br>', PHP_EOL, $text);
 	}
 

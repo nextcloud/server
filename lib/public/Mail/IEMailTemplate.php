@@ -62,7 +62,8 @@ interface IEMailTemplate {
 	 * Adds a heading to the email
 	 *
 	 * @param string $title
-	 * @param string $plainTitle Title that is used in the plain text email - if empty the $title is used
+	 * @param string $plainTitle|bool Title that is used in the plain text email
+	 *   if empty the $title is used, if false none will be used
 	 *
 	 * @since 12.0.0
 	 */
@@ -72,7 +73,8 @@ interface IEMailTemplate {
 	 * Adds a paragraph to the body of the email
 	 *
 	 * @param string $text
-	 * @param string $plainText Text that is used in the plain text email - if empty the $text is used
+	 * @param string|bool $plainText Text that is used in the plain text email
+	 *   if empty the $text is used, if false none will be used
 	 *
 	 * @since 12.0.0
 	 */
@@ -93,9 +95,19 @@ interface IEMailTemplate {
 	public function addBodyButtonGroup($textLeft, $urlLeft, $textRight, $urlRight, $plainTextLeft = '', $plainTextRight = '');
 
 	/**
+	 * Adds a button to the body of the email
+	 *
+	 * @param string $text Text of button
+	 * @param string $url URL of button
+	 *
+	 * @since 12.0.0
+	 */
+	public function addBodyButton($text, $url);
+
+	/**
 	 * Adds a logo and a text to the footer. <br> in the text will be replaced by new lines in the plain text email
 	 *
-	 * @param string $text
+	 * @param string $text If the text is empty the default "Name - Slogan<br>This is an automatically generated email" will be used
 	 *
 	 * @since 12.0.0
 	 */
