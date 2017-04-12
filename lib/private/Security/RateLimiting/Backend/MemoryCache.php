@@ -52,7 +52,8 @@ class MemoryCache implements IBackend {
 	 * @param string $userIdentifier
 	 * @return string
 	 */
-	private function hash($methodIdentifier, $userIdentifier) {
+	private function hash($methodIdentifier,
+						  $userIdentifier) {
 		return hash('sha512', $methodIdentifier . $userIdentifier);
 	}
 
@@ -72,7 +73,9 @@ class MemoryCache implements IBackend {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getAttempts($methodIdentifier, $userIdentifier, $seconds) {
+	public function getAttempts($methodIdentifier,
+								$userIdentifier,
+								$seconds) {
 		$identifier = $this->hash($methodIdentifier, $userIdentifier);
 		$existingAttempts = $this->getExistingAttempts($identifier);
 
@@ -91,10 +94,23 @@ class MemoryCache implements IBackend {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function registerAttempt($methodIdentifier, $userIdentifier, $timestamp) {
+	public function registerAttempt($methodIdentifier,
+									$userIdentifier,
+									$period) {
 		$identifier = $this->hash($methodIdentifier, $userIdentifier);
 		$existingAttempts = $this->getExistingAttempts($identifier);
-		$existingAttempts[] = (string)$timestamp;
+		$currentTime = $this->timeFactory->getTime();
+
+		// Unset all attempts older than $period
+		foreach ($existingAttempts as $key => $attempt) {
+			if(($attempt + $period) < $currentTime) {
+				unset($existingAttempts[$key]);
+			}
+		}
+		$existingAttempts = array_values($existingAttempts);
+
+		// Store the new attempt
+		$existingAttempts[] = (string)$currentTime;
 		$this->cache->set($identifier, json_encode($existingAttempts));
 	}
 }

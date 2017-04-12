@@ -88,6 +88,11 @@ class MemoryCacheTest extends TestCase {
 	}
 
 	public function testRegisterAttemptWithNoAttemptsBefore() {
+		$this->timeFactory
+			->expects($this->once())
+			->method('getTime')
+			->willReturn(123);
+
 		$this->cache
 			->expects($this->once())
 			->method('get')
@@ -101,10 +106,15 @@ class MemoryCacheTest extends TestCase {
 				json_encode(['123'])
 			);
 
-		$this->memoryCache->registerAttempt('Method', 'User', 123);
+		$this->memoryCache->registerAttempt('Method', 'User', 100);
 	}
 
-	public function testRegisterAttempts() {
+	public function testRegisterAttempt() {
+		$this->timeFactory
+			->expects($this->once())
+			->method('getTime')
+			->willReturn(129);
+
 		$this->cache
 			->expects($this->once())
 			->method('get')
@@ -123,8 +133,6 @@ class MemoryCacheTest extends TestCase {
 			->with(
 				'eea460b8d756885099c7f0a4c083bf6a745069ee4a301984e726df58fd4510bffa2dac4b7fd5d835726a6753ffa8343ba31c7e902bbef78fc68c2e743667cb4b',
 				json_encode([
-					'1',
-					'2',
 					'87',
 					'123',
 					'123',
@@ -133,6 +141,6 @@ class MemoryCacheTest extends TestCase {
 				])
 			);
 
-		$this->memoryCache->registerAttempt('Method', 'User', 129);
+		$this->memoryCache->registerAttempt('Method', 'User', 100);
 	}
 }

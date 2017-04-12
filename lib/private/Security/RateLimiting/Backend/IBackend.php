@@ -32,19 +32,23 @@ interface IBackend {
 	/**
 	 * Gets the amount of attempts within the last specified seconds
 	 *
-	 * @param string $methodIdentifier
-	 * @param string $userIdentifier
-	 * @param int $seconds
+	 * @param string $methodIdentifier Identifier for the method
+	 * @param string $userIdentifier Identifier for the user
+	 * @param int $seconds Seconds to look back at
 	 * @return int
 	 */
-	public function getAttempts($methodIdentifier, $userIdentifier, $seconds);
+	public function getAttempts($methodIdentifier,
+								$userIdentifier,
+								$seconds);
 
 	/**
 	 * Registers an attempt
 	 *
-	 * @param string $methodIdentifier
-	 * @param string $userIdentifier
-	 * @param int $timestamp
+	 * @param string $methodIdentifier Identifier for the method
+	 * @param string $userIdentifier Identifier for the user
+	 * @param int $period Period in seconds how long this attempt should be stored
 	 */
-	public function registerAttempt($methodIdentifier, $userIdentifier, $timestamp);
+	public function registerAttempt($methodIdentifier,
+									$userIdentifier,
+									$period);
 }
