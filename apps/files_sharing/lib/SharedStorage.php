@@ -232,7 +232,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	}
 
 	public function fopen($path, $mode) {
-		if ($source = $this->getSourcePath($path)) {
+		if ($source = $this->getUnjailedPath($path)) {
 			switch ($mode) {
 				case 'r+':
 				case 'rb+':
@@ -274,7 +274,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 				'mode' => $mode,
 			);
 			\OCP\Util::emitHook('\OC\Files\Storage\Shared', 'fopen', $info);
-			return $this->nonMaskedStorage->fopen($this->getSourcePath($path), $mode);
+			return $this->nonMaskedStorage->fopen($this->getUnjailedPath($path), $mode);
 		}
 		return false;
 	}
@@ -302,7 +302,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 			}
 		}
 
-		return $this->nonMaskedStorage->rename($this->getSourcePath($path1), $this->getSourcePath($path2));
+		return $this->nonMaskedStorage->rename($this->getUnjailedPath($path1), $this->getUnjailedPath($path2));
 	}
 
 	/**
@@ -479,7 +479,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	public function file_get_contents($path) {
 		$info = [
 			'target' => $this->getMountPoint() . '/' . $path,
-			'source' => $this->getSourcePath($path),
+			'source' => $this->getUnjailedPath($path),
 		];
 		\OCP\Util::emitHook('\OC\Files\Storage\Shared', 'file_get_contents', $info);
 		return parent::file_get_contents($path);
@@ -488,7 +488,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	public function file_put_contents($path, $data) {
 		$info = [
 			'target' => $this->getMountPoint() . '/' . $path,
-			'source' => $this->getSourcePath($path),
+			'source' => $this->getUnjailedPath($path),
 		];
 		\OCP\Util::emitHook('\OC\Files\Storage\Shared', 'file_put_contents', $info);
 		return parent::file_put_contents($path, $data);

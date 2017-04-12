@@ -413,7 +413,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		$storage = $mount->getStorage();
 		if ($storage->instanceOfStorage('\OC\Files\Storage\Wrapper\Jail')) {
 			/** @var \OC\Files\Storage\Wrapper\Jail $storage */
-			$jailRoot = $storage->getSourcePath('');
+			$jailRoot = $storage->getUnjailedPath('');
 			$rootLength = strlen($jailRoot) + 1;
 			if ($path === $jailRoot) {
 				return $mount->getMountPoint();
