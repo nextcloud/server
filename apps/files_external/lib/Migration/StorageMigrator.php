@@ -118,16 +118,6 @@ class StorageMigrator {
 	}
 
 	/**
-	 * Migrate admin configured storages
-	 */
-	public function migrateGlobal() {
-		$legacyService = new GlobalLegacyStoragesService($this->backendService);
-		$storageService = new GlobalStoragesService($this->backendService, $this->dbConfig, $this->userMountCache);
-
-		$this->migrate($legacyService, $storageService);
-	}
-
-	/**
 	 * Migrate personal storages configured by the current user
 	 *
 	 * @param IUser $user
