@@ -91,7 +91,7 @@ jsTimezoneDetect/jstz.min.js
 # handlebars
 handlebars/**
 !handlebars/.bower.json
-!handlebars/handlebars.js
+!handlebars/handlebars.min.js
 
 # select2
 select2/**

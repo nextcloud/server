@@ -5,7 +5,7 @@
 		"jquery-ui/ui/minified/jquery-ui.custom.min.js",
 		"underscore/underscore.js",
 		"moment/min/moment-with-locales.min.js",
-		"handlebars/handlebars.js",
+		"handlebars/handlebars.min.js",
 		"blueimp-md5/js/md5.min.js",
 		"bootstrap/js/tooltip.js",
 		"backbone/backbone.js",
