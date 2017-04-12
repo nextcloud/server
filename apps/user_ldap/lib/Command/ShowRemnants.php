@@ -54,7 +54,7 @@ class ShowRemnants extends Command {
 	protected function configure() {
 		$this
 			->setName('ldap:show-remnants')
-			->setDescription('shows which users are not available on LDAP anymore, but have remnants in ownCloud.')
+			->setDescription('shows which users are not available on LDAP anymore, but have remnants in Nextcloud.')
 			->addOption('json', null, InputOption::VALUE_NONE, 'return JSON array instead of pretty table.');
 	}
 
@@ -67,7 +67,7 @@ class ShowRemnants extends Command {
 		/** @var \Symfony\Component\Console\Helper\Table $table */
 		$table = new Table($output);
 		$table->setHeaders(array(
-			'ownCloud name', 'Display Name', 'LDAP UID', 'LDAP DN', 'Last Login',
+			'Nextcloud name', 'Display Name', 'LDAP UID', 'LDAP DN', 'Last Login',
 			'Dir', 'Sharer'));
 		$rows = array();
 		$resultSet = $this->dui->getUsers();

@@ -65,7 +65,7 @@ OCA = OCA || {};
 		},
 
 		/**
-		 * sets the attribute to be used to create an ownCloud ID (username)
+		 * sets the attribute to be used to create an Nextcloud ID (username)
 		 *
 		 * @param {string} attribute
 		 */

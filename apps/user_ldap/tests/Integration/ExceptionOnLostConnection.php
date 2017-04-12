@@ -87,7 +87,7 @@ class ExceptionOnLostConnection {
 	}
 
 	/**
-	 * prepares everything for the test run. Includes loading ownCloud and
+	 * prepares everything for the test run. Includes loading Nextcloud and
 	 * the LDAP backend, as well as getting information about toxiproxy.
 	 * Also creates an instance of the LDAP class, the testee
 	 *

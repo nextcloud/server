@@ -208,16 +208,16 @@ class Storage extends DAV implements ISharedStorage {
 		try {
 			$this->getShareInfo();
 		} catch (NotFoundException $e) {
-			// a 404 can either mean that the share no longer exists or there is no ownCloud on the remote
+			// a 404 can either mean that the share no longer exists or there is no Nextcloud on the remote
 			if ($this->testRemote()) {
-				// valid ownCloud instance means that the public share no longer exists
+				// valid Nextcloud instance means that the public share no longer exists
 				// since this is permanent (re-sharing the file will create a new token)
 				// we remove the invalid storage
 				$this->manager->removeShare($this->mountPoint);
 				$this->manager->getMountManager()->removeMount($this->mountPoint);
 				throw new StorageInvalidException();
 			} else {
-				// ownCloud instance is gone, likely to be a temporary server configuration error
+				// Nextcloud instance is gone, likely to be a temporary server configuration error
 				throw new StorageNotAvailableException();
 			}
 		} catch (ForbiddenException $e) {
@@ -286,7 +286,7 @@ class Storage extends DAV implements ISharedStorage {
 	}
 
 	/**
-	 * Whether the remote is an ownCloud, used since some sharing features are not
+	 * Whether the remote is an ownCloud/Nextcloud, used since some sharing features are not
 	 * standardized. Let's use this to detect whether to use it.
 	 *
 	 * @return bool

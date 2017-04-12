@@ -6,7 +6,7 @@
 # against. It will also change the files_external config to use the docker
 # container as testing environment. This is reverted in the stop step.
 #
-# If the environment variable RUN_DOCKER_MYSQL is set the ownCloud will
+# If the environment variable RUN_DOCKER_MYSQL is set the Nextcloud will
 # be set up using MySQL instead of SQLite.
 #
 # Set environment variable DEBUG to print config file
@@ -48,7 +48,7 @@ container=`docker run -P $parameter -d -e ADMINLOGIN=test -e ADMINPWD=test morri
 
 host=`docker inspect --format="{{.NetworkSettings.IPAddress}}" $container`
 
-echo -n "Waiting for ownCloud initialization"
+echo -n "Waiting for Nextcloud initialization"
 if ! "$thisFolder"/env/wait-for-connection ${host} 80 60; then
     echo "[ERROR] Waited 60 seconds, no response" >&2
     exit 1
@@ -74,7 +74,7 @@ return array(
 
 DELIM
 
-echo "ownCloud container: $container"
+echo "Nextcloud container: $container"
 
 # put container IDs into a file to drop them after the test run (keep in mind that multiple tests run in parallel on the same host)
 echo $container >> $thisFolder/dockerContainerOwnCloud.$EXECUTOR_NUMBER.webdav

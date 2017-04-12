@@ -345,7 +345,7 @@ class EncryptionTest extends TestCase {
 	}
 
 	/**
-	 * Test case if the public key is missing. ownCloud should still encrypt
+	 * Test case if the public key is missing. Nextcloud should still encrypt
 	 * the file for the remaining users
 	 */
 	public function testUpdateMissingPublicKey() {

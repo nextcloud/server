@@ -183,7 +183,7 @@ class TrustedServers {
 	}
 
 	/**
-	 * check if given server is a trusted ownCloud server
+	 * check if given server is a trusted Nextcloud server
 	 *
 	 * @param string $url
 	 * @return bool

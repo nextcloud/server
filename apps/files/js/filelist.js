@@ -856,7 +856,7 @@
 				title = '';
 			}
 			title += this.appName;
-			// Sets the page title with the " - ownCloud" suffix as in templates
+			// Sets the page title with the " - Nextcloud" suffix as in templates
 			window.document.title = title + ' - ' + oc_defaults.title;
 
 			return true;

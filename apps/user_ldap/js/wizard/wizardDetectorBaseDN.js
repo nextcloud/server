@@ -11,7 +11,7 @@ OCA = OCA || {};
 
 	/**
 	 * @classdesc a Base DN Detector. It executes the auto-detection of the base
-	 * DN by the ownCloud server, if requirements are met.
+	 * DN by the Nextcloud server, if requirements are met.
 	 *
 	 * @constructor
 	 */

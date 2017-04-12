@@ -236,7 +236,7 @@ class UserHooks implements IHook {
 	}
 
 	/**
-	 * If the password can't be changed within ownCloud, than update the key password in advance.
+	 * If the password can't be changed within Nextcloud, than update the key password in advance.
 	 *
 	 * @param array $params : uid, password
 	 * @return boolean|null

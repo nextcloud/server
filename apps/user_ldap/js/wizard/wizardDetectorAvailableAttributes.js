@@ -11,7 +11,7 @@ OCA = OCA || {};
 
 	/**
 	 * @classdesc an Attributes Detector. It executes the auto-detection of
-	 * available attributes by the ownCloud server, if requirements are met.
+	 * available attributes by the Nextcloud server, if requirements are met.
 	 *
 	 * @constructor
 	 */
