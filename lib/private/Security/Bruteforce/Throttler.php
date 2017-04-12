@@ -266,7 +266,7 @@ class Throttler {
 		$qb->select('*')
 			->from('bruteforce_attempts')
 			->where($qb->expr()->gt('occurred', $qb->createNamedParameter($cutoffTime)))
-			->andWhere($qb->expr()->eq('subnet', $qb->createNamedParameter($this->getSubnet($ip))));
+			->andWhere($qb->expr()->eq('ip', $qb->createNamedParameter($ip)));
 
 		if ($action !== '') {
 			$qb->andWhere($qb->expr()->eq('action', $qb->createNamedParameter($action)));
