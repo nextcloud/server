@@ -621,7 +621,7 @@ class EncryptionTest extends Storage {
 
 		$sourceStorage->expects($this->once())
 			->method('file_exists')
-			->willReturnCallback(function() use ($exists) {return $exists;});
+			->willReturn($exists);
 
 		$util = $this->getMockBuilder('\OC\Encryption\Util')
 			->setConstructorArgs([new View(), new Manager($this->config), $this->groupManager, $this->config, $this->arrayCache])
