@@ -326,12 +326,10 @@ img, object, video, button, textarea, input, select {
 	background-image: url('../img/actions/settings-white.svg?v=1');
 }
 
+/* always use icon-shared, AdBlock blocks icon-share */
+.icon-shared,
 .icon-share {
 	background-image: url('../img/actions/share.svg?v=1');
-}
-
-.icon-shared {
-	background-image: url('../img/actions/shared.svg?v=1');
 }
 
 .icon-sound {

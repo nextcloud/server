@@ -44,21 +44,21 @@
 
 			if (this._dirInfo !== null && (this._dirInfo.path !== '/' || this._dirInfo.name !== '')) {
 				var isShared = data.dirInfo && data.dirInfo.shareTypes && data.dirInfo.shareTypes.length > 0;
-				this.$el.removeClass('shared icon-public icon-share');
+				this.$el.removeClass('shared icon-public icon-shared');
 				if (isShared) {
 					this.$el.addClass('shared');
 					if (data.dirInfo.shareTypes.indexOf(OC.Share.SHARE_TYPE_LINK) !== -1) {
 						this.$el.addClass('icon-public');
 					} else {
-						this.$el.addClass('icon-share');
+						this.$el.addClass('icon-shared');
 					}
 				} else {
-					this.$el.addClass('icon-share');
+					this.$el.addClass('icon-shared');
 				}
 				this.$el.show();
 				this.delegateEvents();
 			} else {
-				this.$el.removeClass('shared icon-public icon-share');
+				this.$el.removeClass('shared icon-public icon-shared');
 				this.$el.hide();
 			}
 
