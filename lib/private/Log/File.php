@@ -115,7 +115,7 @@ class File {
 			'url',
 			'message',
 			'userAgent',
-			'version',
+			'version'
 		);
 		$entry = json_encode($entry);
 		$handle = @fopen(self::$logFile, 'a');
