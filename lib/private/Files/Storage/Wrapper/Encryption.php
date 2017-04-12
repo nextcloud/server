@@ -910,7 +910,8 @@ class Encryption extends Wrapper {
 	 */
 	protected function getHeader($path) {
 		$realFile = $this->util->stripPartialFileExtension($path);
-		if ($this->storage->file_exists($realFile)) {
+		$exists = $this->storage->file_exists($realFile);
+		if ($exists) {
 			$path = $realFile;
 		}
 
@@ -922,8 +923,9 @@ class Encryption extends Wrapper {
 		if (!isset($result[Util::HEADER_ENCRYPTION_MODULE_KEY])) {
 			if (!empty($result)) {
 				$result[Util::HEADER_ENCRYPTION_MODULE_KEY] = 'OC_DEFAULT_MODULE';
-			} else {
+			} else if ($exists) {
 				// if the header was empty we have to check first if it is a encrypted file at all
+				// We would do query to filecache only if we know that entry in filecache exists
 				$info = $this->getCache()->get($path);
 				if (isset($info['encrypted']) && $info['encrypted'] === true) {
 					$result[Util::HEADER_ENCRYPTION_MODULE_KEY] = 'OC_DEFAULT_MODULE';

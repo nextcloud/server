@@ -614,10 +614,14 @@ class EncryptionTest extends Storage {
 	 *
 	 * @dataProvider dataTestGetHeaderAddLegacyModule
 	 */
-	public function testGetHeaderAddLegacyModule($header, $isEncrypted, $expected) {
+	public function testGetHeaderAddLegacyModule($header, $isEncrypted, $exists, $expected) {
 
 		$sourceStorage = $this->getMockBuilder('\OC\Files\Storage\Storage')
 			->disableOriginalConstructor()->getMock();
+
+		$sourceStorage->expects($this->once())
+			->method('file_exists')
+			->willReturn($exists);
 
 		$util = $this->getMockBuilder('\OC\Encryption\Util')
 			->setConstructorArgs([new View(), new Manager($this->config), $this->groupManager, $this->config, $this->arrayCache])
@@ -657,9 +661,10 @@ class EncryptionTest extends Storage {
 
 	public function dataTestGetHeaderAddLegacyModule() {
 		return [
-			[['cipher' => 'AES-128'], true, ['cipher' => 'AES-128', Util::HEADER_ENCRYPTION_MODULE_KEY => 'OC_DEFAULT_MODULE']],
-			[[], true, [Util::HEADER_ENCRYPTION_MODULE_KEY => 'OC_DEFAULT_MODULE']],
-			[[], false, []],
+			[['cipher' => 'AES-128'], true, true, ['cipher' => 'AES-128', Util::HEADER_ENCRYPTION_MODULE_KEY => 'OC_DEFAULT_MODULE']],
+			[[], true, false, []],
+			[[], true, true, [Util::HEADER_ENCRYPTION_MODULE_KEY => 'OC_DEFAULT_MODULE']],
+			[[], false, true, []],
 		];
 	}
 
