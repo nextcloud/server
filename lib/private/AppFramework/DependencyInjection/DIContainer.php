@@ -53,13 +53,11 @@ use OCP\AppFramework\QueryException;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\IL10N;
-use OCP\IMemcache;
 use OCP\IRequest;
 use OCP\IServerContainer;
 use OCP\IUserSession;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Util;
-use SearchDAV\XML\Limit;
 
 class DIContainer extends SimpleContainer implements IAppContainer {
 
@@ -162,22 +160,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		$this->registerService(IValidator::class, function($c) {
 			return $c->query(Validator::class);
-		});
-
-		$this->registerService(OC\Security\RateLimiting\Limiter::class, function($c) {
-			return new OC\Security\RateLimiting\Limiter(
-				$this->getServer()->getUserSession(),
-				$this->getServer()->getRequest(),
-				new OC\AppFramework\Utility\TimeFactory(),
-				$c->query(OC\Security\RateLimiting\Backend\IBackend::class)
-			);
-		});
-
-		$this->registerService(OC\Security\RateLimiting\Backend\IBackend::class, function($c) {
-			return new OC\Security\RateLimiting\Backend\MemoryCache(
-				$this->getServer()->getMemCacheFactory(),
-				new OC\AppFramework\Utility\TimeFactory()
-			);
 		});
 
 		$this->registerService(\OC\Security\IdentityProof\Manager::class, function ($c) {
