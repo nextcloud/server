@@ -40,6 +40,8 @@ OC.L10N.register(
     "Open documentation" : "Abrir documentación",
     "Allow users on this server to send shares to other servers" : "Permitirle a los usuarios de este servidor enviar elementos compartidos a otros servidores",
     "Allow users on this server to receive shares from other servers" : "Permitir que los usuarios de este servidor recibir elementos compartidos de otros servidores",
+    "Search global and public address book for users and let local users publish their data" : "Buscar una libreta de direcciones global y pública para los usuarios y permitir  a los usuarios locales publicar sus datos",
+    "Allow users to publish their data to a global and public address book" : "Permitir a los usuarios publicar sus datos a una libreta de direcciones global y pública",
     "Federated Cloud" : "Nube Federada",
     "Your Federated Cloud ID:" : "Su ID de Nube Federada:",
     "Share it:" : "Compartirlo:",

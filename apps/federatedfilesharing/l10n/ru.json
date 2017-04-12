@@ -39,6 +39,8 @@
     "Open documentation" : "Открыть документацию",
     "Allow users on this server to send shares to other servers" : "Разрешить пользователям делиться с пользователями других серверов",
     "Allow users on this server to receive shares from other servers" : "Разрешить пользователям использовать общие ресурсы с других серверов",
+    "Search global and public address book for users and let local users publish their data" : "Поиск пользователей в глобальной и общедоступной адресной книге и резрешение публикации своих данных локальным пользователям ",
+    "Allow users to publish their data to a global and public address book" : "Резрешить пользователям публиковать свои данные в глобальной и общедосупной адресной книге",
     "Federated Cloud" : "Федерация облачных хранилищ",
     "Your Federated Cloud ID:" : "Ваш ID в федерации облачных хранилищ:",
     "Share it:" : "Поделиться:",
