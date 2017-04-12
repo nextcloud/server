@@ -458,7 +458,7 @@ class Encryption implements IEncryptionModule {
 
 	/**
 	 * get size of the unencrypted payload per block.
-	 * ownCloud read/write files with a block size of 8192 byte
+	 * Nextcloud read/write files with a block size of 8192 byte
 	 *
 	 * @param bool $signed
 	 * @return int

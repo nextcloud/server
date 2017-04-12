@@ -267,7 +267,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * translates a primary group ID into an ownCloud internal name
+	 * translates a primary group ID into an Nextcloud internal name
 	 * @param string $gid as given by primaryGroupID on AD
 	 * @param string $dn a DN that belongs to the same domain as the group
 	 * @return string|bool
@@ -296,7 +296,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		$dn = $result[0]['dn'][0];
 
 		//and now the group name
-		//NOTE once we have separate ownCloud group IDs and group names we can
+		//NOTE once we have separate Nextcloud group IDs and group names we can
 		//directly read the display name attribute instead of the DN
 		$name = $this->access->dn2groupname($dn);
 

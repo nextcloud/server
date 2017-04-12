@@ -20,7 +20,7 @@ freely.
 
 ## Hands-on way of unit test execution
 
-Run all files_external unit tests by invoking the following in the ownCloud
+Run all files_external unit tests by invoking the following in the Nextcloud
 core root folder:
 
     ./autotest-external.sh

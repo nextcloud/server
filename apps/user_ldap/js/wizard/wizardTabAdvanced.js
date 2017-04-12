@@ -332,7 +332,7 @@ OCA = OCA || {};
 		},
 
 		/**
-		 * sets the attribute for the ownCloud user specific home folder location
+		 * sets the attribute for the Nextcloud user specific home folder location
 		 *
 		 * @param {string} attribute
 		 */
