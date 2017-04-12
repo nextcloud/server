@@ -264,7 +264,7 @@ class ShareByMailProvider implements IShareProvider {
 		$emailTemplate = $this->mailer->createEMailTemplate();
 
 		$emailTemplate->addHeader();
-		$emailTemplate->addHeading($this->l->t('%s shared »%s« with you', [$ownerDisplayName, $filename]));
+		$emailTemplate->addHeading($this->l->t('%s shared »%s« with you', [$ownerDisplayName, $filename]), false);
 
 		if ($owner === $initiator) {
 			$text = $this->l->t('%s shared »%s« with you.', [$ownerDisplayName, $filename]);

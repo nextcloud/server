@@ -353,7 +353,8 @@ EOF;
 	 * Adds a paragraph to the body of the email
 	 *
 	 * @param string $text
-	 * @param string $plainText Text that is used in the plain text email - if empty the $text is used
+	 * @param string|bool $plainText Text that is used in the plain text email
+	 *   if empty the $text is used, if false none will be used
 	 */
 	public function addBodyText($text, $plainText = '') {
 		if ($this->footerAdded) {
@@ -369,7 +370,9 @@ EOF;
 		}
 
 		$this->htmlBody .= vsprintf($this->bodyText, [htmlspecialchars($text)]);
-		$this->plainBody .= $plainText . PHP_EOL . PHP_EOL;
+		if ($plainText !== false) {
+			$this->plainBody .= $plainText . PHP_EOL . PHP_EOL;
+		}
 	}
 
 	/**

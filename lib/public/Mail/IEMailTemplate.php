@@ -72,7 +72,8 @@ interface IEMailTemplate {
 	 * Adds a paragraph to the body of the email
 	 *
 	 * @param string $text
-	 * @param string $plainText Text that is used in the plain text email - if empty the $text is used
+	 * @param string|bool $plainText Text that is used in the plain text email
+	 *   if empty the $text is used, if false none will be used
 	 *
 	 * @since 12.0.0
 	 */
