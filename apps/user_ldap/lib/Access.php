@@ -595,8 +595,8 @@ class Access extends LDAPUtility implements IUserTools {
 	 *
 	 * gives back the user names as they are used ownClod internally
 	 */
-	public function ownCloudUserNames($ldapUsers) {
-		return $this->ldap2ownCloudNames($ldapUsers, true);
+	public function nextcloudUserNames($ldapUsers) {
+		return $this->ldap2NextcloudNames($ldapUsers, true);
 	}
 
 	/**
@@ -606,8 +606,8 @@ class Access extends LDAPUtility implements IUserTools {
 	 *
 	 * gives back the group names as they are used ownClod internally
 	 */
-	public function ownCloudGroupNames($ldapGroups) {
-		return $this->ldap2ownCloudNames($ldapGroups, false);
+	public function nextcloudGroupNames($ldapGroups) {
+		return $this->ldap2NextcloudNames($ldapGroups, false);
 	}
 
 	/**
@@ -615,14 +615,14 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @param bool $isUsers
 	 * @return array
 	 */
-	private function ldap2ownCloudNames($ldapObjects, $isUsers) {
+	private function ldap2NextcloudNames($ldapObjects, $isUsers) {
 		if($isUsers) {
 			$nameAttribute = $this->connection->ldapUserDisplayName;
 			$sndAttribute  = $this->connection->ldapUserDisplayName2;
 		} else {
 			$nameAttribute = $this->connection->ldapGroupDisplayName;
 		}
-		$ownCloudNames = array();
+		$nextcloudNames = array();
 
 		foreach($ldapObjects as $ldapObject) {
 			$nameByLDAP = null;
@@ -634,9 +634,9 @@ class Access extends LDAPUtility implements IUserTools {
 				$nameByLDAP = $ldapObject[$nameAttribute][0];
 			}
 
-			$ocName = $this->dn2ocname($ldapObject['dn'][0], $nameByLDAP, $isUsers);
-			if($ocName) {
-				$ownCloudNames[] = $ocName;
+			$ncName = $this->dn2ocname($ldapObject['dn'][0], $nameByLDAP, $isUsers);
+			if($ncName) {
+				$nextcloudNames[] = $ncName;
 				if($isUsers) {
 					//cache the user names so it does not need to be retrieved
 					//again later (e.g. sharing dialogue).
@@ -645,11 +645,11 @@ class Access extends LDAPUtility implements IUserTools {
 					}
 					$sndName = isset($ldapObject[$sndAttribute][0])
 						? $ldapObject[$sndAttribute][0] : '';
-					$this->cacheUserDisplayName($ocName, $nameByLDAP, $sndName);
+					$this->cacheUserDisplayName($ncName, $nameByLDAP, $sndName);
 				}
 			}
 		}
-		return $NextcloudNames;
+		return $nextcloudNames;
 	}
 
 	/**

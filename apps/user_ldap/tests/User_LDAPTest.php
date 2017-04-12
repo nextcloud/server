@@ -349,7 +349,7 @@ class User_LDAPTest extends TestCase {
 			   }));
 
 		$access->expects($this->any())
-			   ->method('ownCloudUserNames')
+			   ->method('nextcloudUserNames')
 			   ->will($this->returnArgument(0));
 	}
 

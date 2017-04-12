@@ -388,7 +388,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 				$limit,
 				$offset
 			);
-			return $this->access->ownCloudUserNames($users);
+			return $this->access->nextcloudUserNames($users);
 		} catch (\Exception $e) {
 			return array();
 		}
@@ -541,7 +541,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			$groups = array_merge($groups, $this->cachedGroupsByMember[$uid]);
 		} else {
 			$groupsByMember = array_values($this->getGroupsByMember($uid));
-			$groupsByMember = $this->access->ownCloudGroupNames($groupsByMember);
+			$groupsByMember = $this->access->nextcloudGroupNames($groupsByMember);
 			$this->cachedGroupsByMember[$uid] = $groupsByMember;
 			$groups = array_merge($groups, $groupsByMember);
 		}
@@ -804,7 +804,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 				array($this->access->connection->ldapGroupDisplayName, 'dn'),
 				$limit,
 				$offset);
-		$ldap_groups = $this->access->ownCloudGroupNames($ldap_groups);
+		$ldap_groups = $this->access->nextcloudGroupNames($ldap_groups);
 
 		$this->access->connection->writeToCache($cacheKey, $ldap_groups);
 		return $ldap_groups;
