@@ -51,7 +51,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 		if ($data === null) {
 			return null;
 		}
-		$internalPath = $this->storage->getSourcePath($path);
+		$internalPath = $this->storage->getUnjailedPath($path);
 		$data['permissions'] = $this->storage->getSourceStorage()->getPermissions($internalPath);
 		return $data;
 	}
