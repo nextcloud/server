@@ -335,7 +335,8 @@ EOF;
 	 * Adds a heading to the email
 	 *
 	 * @param string $title
-	 * @param string $plainTitle Title that is used in the plain text email - if empty the $title is used
+	 * @param string $plainTitle|bool Title that is used in the plain text email
+	 *   if empty the $title is used, if false none will be used
 	 */
 	public function addHeading($title, $plainTitle = '') {
 		if ($this->footerAdded) {
@@ -346,7 +347,9 @@ EOF;
 		}
 
 		$this->htmlBody .= vsprintf($this->heading, [htmlspecialchars($title)]);
-		$this->plainBody .= $plainTitle . PHP_EOL . PHP_EOL;
+		if ($plainTitle !== false) {
+			$this->plainBody .= $plainTitle . PHP_EOL . PHP_EOL;
+		}
 	}
 
 	/**

@@ -62,7 +62,8 @@ interface IEMailTemplate {
 	 * Adds a heading to the email
 	 *
 	 * @param string $title
-	 * @param string $plainTitle Title that is used in the plain text email - if empty the $title is used
+	 * @param string $plainTitle|bool Title that is used in the plain text email
+	 *   if empty the $title is used, if false none will be used
 	 *
 	 * @since 12.0.0
 	 */
