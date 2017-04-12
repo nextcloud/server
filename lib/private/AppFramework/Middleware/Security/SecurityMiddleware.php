@@ -26,7 +26,6 @@
  *
  */
 
-
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\AppNotEnabledException;
@@ -40,6 +39,7 @@ use OC\Security\Bruteforce\Throttler;
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Security\CSRF\CsrfTokenManager;
+use OC\Security\RateLimiting\Limiter;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -54,6 +54,7 @@ use OCP\IURLGenerator;
 use OCP\IRequest;
 use OCP\ILogger;
 use OCP\AppFramework\Controller;
+use OCP\IUserSession;
 use OCP\Util;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 
@@ -78,8 +79,8 @@ class SecurityMiddleware extends Middleware {
 	private $logger;
 	/** @var ISession */
 	private $session;
-	/** @var bool */
-	private $isLoggedIn;
+	/** @var IUserSession */
+	private $userSession;
 	/** @var bool */
 	private $isAdminUser;
 	/** @var ContentSecurityPolicyManager */
@@ -90,6 +91,8 @@ class SecurityMiddleware extends Middleware {
 	private $cspNonceManager;
 	/** @var Throttler */
 	private $throttler;
+	/** @var Limiter */
+	private $limiter;
 
 	/**
 	 * @param IRequest $request
@@ -99,12 +102,13 @@ class SecurityMiddleware extends Middleware {
 	 * @param ILogger $logger
 	 * @param ISession $session
 	 * @param string $appName
-	 * @param bool $isLoggedIn
+	 * @param IUserSession $userSession
 	 * @param bool $isAdminUser
 	 * @param ContentSecurityPolicyManager $contentSecurityPolicyManager
 	 * @param CSRFTokenManager $csrfTokenManager
 	 * @param ContentSecurityPolicyNonceManager $cspNonceManager
 	 * @param Throttler $throttler
+	 * @param Limiter $limiter
 	 */
 	public function __construct(IRequest $request,
 								ControllerMethodReflector $reflector,
@@ -113,12 +117,13 @@ class SecurityMiddleware extends Middleware {
 								ILogger $logger,
 								ISession $session,
 								$appName,
-								$isLoggedIn,
+								IUserSession $userSession,
 								$isAdminUser,
 								ContentSecurityPolicyManager $contentSecurityPolicyManager,
 								CsrfTokenManager $csrfTokenManager,
 								ContentSecurityPolicyNonceManager $cspNonceManager,
-								Throttler $throttler) {
+								Throttler $throttler,
+								Limiter $limiter) {
 		$this->navigationManager = $navigationManager;
 		$this->request = $request;
 		$this->reflector = $reflector;
@@ -126,14 +131,14 @@ class SecurityMiddleware extends Middleware {
 		$this->urlGenerator = $urlGenerator;
 		$this->logger = $logger;
 		$this->session = $session;
-		$this->isLoggedIn = $isLoggedIn;
+		$this->userSession = $userSession;
 		$this->isAdminUser = $isAdminUser;
 		$this->contentSecurityPolicyManager = $contentSecurityPolicyManager;
 		$this->csrfTokenManager = $csrfTokenManager;
 		$this->cspNonceManager = $cspNonceManager;
 		$this->throttler = $throttler;
+		$this->limiter = $limiter;
 	}
-
 
 	/**
 	 * This runs all the security checks before a method call. The
@@ -152,7 +157,7 @@ class SecurityMiddleware extends Middleware {
 		// security checks
 		$isPublicPage = $this->reflector->hasAnnotation('PublicPage');
 		if(!$isPublicPage) {
-			if(!$this->isLoggedIn) {
+			if(!$this->userSession->isLoggedIn()) {
 				throw new NotLoggedInException();
 			}
 
@@ -191,8 +196,29 @@ class SecurityMiddleware extends Middleware {
 			}
 		}
 
+		$anonLimit = $this->reflector->getAnnotationParameter('AnonRateThrottle', 'limit');
+		$anonPeriod = $this->reflector->getAnnotationParameter('AnonRateThrottle', 'period');
+		$userLimit = $this->reflector->getAnnotationParameter('UserRateThrottle', 'limit');
+		$userPeriod = $this->reflector->getAnnotationParameter('UserRateThrottle', 'period');
+		$rateLimitIdentifier = get_class($controller) . '::' . $methodName;
+		if($userLimit !== '' && $userPeriod !== '' && $this->userSession->isLoggedIn()) {
+			$this->limiter->registerUserRequest(
+				$rateLimitIdentifier,
+				$userLimit,
+				$userPeriod,
+				$this->userSession->getUser()
+			);
+		} elseif ($anonLimit !== '' && $anonPeriod !== '') {
+			$this->limiter->registerAnonRequest(
+				$rateLimitIdentifier,
+				$anonLimit,
+				$anonPeriod,
+				$this->request->getRemoteAddress()
+			);
+		}
+
 		if($this->reflector->hasAnnotation('BruteForceProtection')) {
-			$action = $this->reflector->getAnnotationParameter('BruteForceProtection');
+			$action = $this->reflector->getAnnotationParameter('BruteForceProtection', 'action');
 			$this->throttler->sleepDelay($this->request->getRemoteAddress(), $action);
 			$this->throttler->registerAttempt($action, $this->request->getRemoteAddress());
 		}
@@ -206,7 +232,6 @@ class SecurityMiddleware extends Middleware {
 		if(\OC_App::getAppPath($this->appName) !== false && !\OC_App::isEnabled($this->appName)) {
 			throw new AppNotEnabledException();
 		}
-
 	}
 
 	/**

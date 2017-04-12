@@ -25,10 +25,30 @@ namespace OCA\Testing\AppInfo;
 use OCA\Testing\Config;
 use OCA\Testing\Locking\Provisioning;
 use OCP\API;
+use OCP\AppFramework\App;
 
 $config = new Config(
 	\OC::$server->getConfig(),
 	\OC::$server->getRequest()
+);
+
+$app = new App('testing');
+$app->registerRoutes(
+	$this,
+	[
+		'routes' => [
+			[
+				'name' => 'RateLimitTest#userAndAnonProtected',
+				'url' => '/userAndAnonProtected',
+				'verb' => 'GET',
+			],
+			[
+				'name' => 'RateLimitTest#onlyAnonProtected',
+				'url' => '/anonProtected',
+				'verb' => 'GET',
+			],
+		]
+	]
 );
 
 API::register(

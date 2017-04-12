@@ -204,7 +204,7 @@ class LostController extends Controller {
 
 	/**
 	 * @PublicPage
-	 * @BruteForceProtection passwordResetEmail
+	 * @BruteForceProtection(action=passwordResetEmail)
 	 *
 	 * @param string $user
 	 * @return array

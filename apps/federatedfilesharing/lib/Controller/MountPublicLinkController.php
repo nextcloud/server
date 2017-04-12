@@ -120,7 +120,7 @@ class MountPublicLinkController extends Controller {
 	 *
 	 * @NoCSRFRequired
 	 * @PublicPage
-	 * @BruteForceProtection publicLink2FederatedShare
+	 * @BruteForceProtection(action=publicLink2FederatedShare)
 	 *
 	 * @param string $shareWith
 	 * @param string $token

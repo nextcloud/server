@@ -277,6 +277,17 @@ pipeline:
     when:
       matrix:
         TESTS: integration-maintenance-mode
+  integration-ratelimiting:
+  image: nextcloudci/integration-php7.0:integration-php7.0-3
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.local
+      - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.distributed
+      - cd build/integration
+      - ./run.sh features/ratelimiting.feature
+    when:
+      matrix:
+        TESTS: integration-ratelimiting
   integration-carddav:
     image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
@@ -516,6 +527,7 @@ matrix:
     - TESTS: integration-capabilities_features
     - TESTS: integration-federation_features
     - TESTS: integration-maintenance-mode
+    - TESTS: integration-ratelimiting
     - TESTS: integration-auth
     - TESTS: integration-carddav
     - TESTS: integration-dav-v2

@@ -24,27 +24,17 @@
  *
  */
 
-
 namespace OC\AppFramework\Utility;
 
 use \OCP\AppFramework\Utility\IControllerMethodReflector;
 
-
 /**
  * Reads and parses annotations from doc comments
  */
-class ControllerMethodReflector implements IControllerMethodReflector{
-
-	private $annotations;
-	private $types;
-	private $parameters;
-
-	public function __construct() {
-		$this->types = array();
-		$this->parameters = array();
-		$this->annotations = array();
-	}
-
+class ControllerMethodReflector implements IControllerMethodReflector {
+	public $annotations = [];
+	private $types = [];
+	private $parameters = [];
 
 	/**
 	 * @param object $object an object or classname
@@ -55,9 +45,21 @@ class ControllerMethodReflector implements IControllerMethodReflector{
 		$docs = $reflection->getDocComment();
 
 		// extract everything prefixed by @ and first letter uppercase
-		preg_match_all('/^\h+\*\h+@(?P<annotation>[A-Z]\w+)(\h+(?P<parameter>\w+))?$/m', $docs, $matches);
+		preg_match_all('/^\h+\*\h+@(?P<annotation>[A-Z]\w+)((?P<parameter>.*))?$/m', $docs, $matches);
 		foreach($matches['annotation'] as $key => $annontation) {
-			$this->annotations[$annontation] = $matches['parameter'][$key];
+			$annotationValue = $matches['parameter'][$key];
+			if($annotationValue[0] === '(' && $annotationValue[strlen($annotationValue) - 1] === ')') {
+				$cutString = substr($annotationValue, 1, -1);
+				$cutString = str_replace(' ', '', $cutString);
+				$splittedArray = explode(',', $cutString);
+				foreach($splittedArray as $annotationValues) {
+					list($key, $value) = explode('=', $annotationValues);
+					$this->annotations[$annontation][$key] = $value;
+				}
+				continue;
+			}
+
+			$this->annotations[$annontation] = [$annotationValue];
 		}
 
 		// extract type parameter information
@@ -83,7 +85,6 @@ class ControllerMethodReflector implements IControllerMethodReflector{
 		}
 	}
 
-
 	/**
 	 * Inspects the PHPDoc parameters for types
 	 * @param string $parameter the parameter whose type comments should be
@@ -99,7 +100,6 @@ class ControllerMethodReflector implements IControllerMethodReflector{
 		}
 	}
 
-
 	/**
 	 * @return array the arguments of the method with key => default value
 	 */
@@ -107,30 +107,27 @@ class ControllerMethodReflector implements IControllerMethodReflector{
 		return $this->parameters;
 	}
 
-
 	/**
 	 * Check if a method contains an annotation
 	 * @param string $name the name of the annotation
 	 * @return bool true if the annotation is found
 	 */
-	public function hasAnnotation($name){
+	public function hasAnnotation($name) {
 		return array_key_exists($name, $this->annotations);
 	}
 
-
 	/**
-	 * Get optional annotation parameter
+	 * Get optional annotation parameter by key
+	 *
 	 * @param string $name the name of the annotation
+	 * @param string $key the string of the annotation
 	 * @return string
 	 */
-	public function getAnnotationParameter($name){
-		$parameter = '';
-		if($this->hasAnnotation($name)) {
-			$parameter = $this->annotations[$name];
+	public function getAnnotationParameter($name, $key) {
+		if(isset($this->annotations[$name][$key])) {
+			return $this->annotations[$name][$key];
 		}
 
-		return $parameter;
+		return '';
 	}
-
-
 }
