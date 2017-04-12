@@ -130,6 +130,7 @@ OC.L10N.register(
     "Send" : "Enviar",
     "Shared with you and the group {group} by {owner}" : "Compartido con usted y el grupo {group} por {owner}",
     "Shared with you by {owner}" : "Compartido con usted por {owner}",
+    "Choose a password for the mail share" : "Establecer una contraseña para el elemento compartido por correo",
     "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} ha compatido mediante una liga",
     "group" : "grupo",
     "remote" : "remoto",

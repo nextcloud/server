@@ -41,6 +41,8 @@ OC.L10N.register(
     "Open documentation" : "Belgeleri aç",
     "Allow users on this server to send shares to other servers" : "Bu sunucudaki kullanıcılar diğer sunuculara paylaşım gönderebilsin",
     "Allow users on this server to receive shares from other servers" : "Bu sunucudaki kullanıcılar diğer sunuculardan paylaşım alabilsin",
+    "Search global and public address book for users and let local users publish their data" : "Genel ve herkese açık adres defterinde kullanıcı ara ve yerel kullanıcıların bilgilerini paylaşmasını sağla",
+    "Allow users to publish their data to a global and public address book" : "Kullanıcıların bilgilerini genel ve herkese açık bir adres defterinde paylaşabilsin",
     "Federated Cloud" : "Birleşmiş Bulut",
     "Your Federated Cloud ID:" : "Birleşmiş Bulut Kimliğiniz:",
     "Share it:" : "Paylaşın:",
