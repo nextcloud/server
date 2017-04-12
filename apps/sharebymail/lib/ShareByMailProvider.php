@@ -272,9 +272,10 @@ class ShareByMailProvider implements IShareProvider {
 			$text= $this->l->t('%s shared »%s« with you on behalf of %s.', [$ownerDisplayName, $filename, $initiator]);
 		}
 
-		$text .= ' ' . $this->l->t('Click the button below to open it.');
-
-		$emailTemplate->addBodyText($text);
+		$emailTemplate->addBodyText(
+			$text . ' ' . $this->l->t('Click the button below to open it.'),
+			$text
+		);
 
 		$emailTemplate->addBodyButton(
 			$this->l->t('Open »%s«', [$filename]),
