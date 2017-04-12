@@ -24,6 +24,7 @@
  *
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
+use OCP\Files\FileInfo;
 use Test\TestCase;
 
 /**
@@ -107,11 +108,16 @@ class QuotaPluginTest extends TestCase {
 			array(1024, array('X-EXPECTED-ENTITY-LENGTH' => '1024')),
 			array(1024, array('CONTENT-LENGTH' => '512')),
 			array(1024, array('OC-TOTAL-LENGTH' => '1024', 'CONTENT-LENGTH' => '512')),
-			// \OCP\Files\FileInfo::SPACE-UNKNOWN = -2
-			array(-2, array()),
-			array(-2, array('X-EXPECTED-ENTITY-LENGTH' => '1024')),
-			array(-2, array('CONTENT-LENGTH' => '512')),
-			array(-2, array('OC-TOTAL-LENGTH' => '1024', 'CONTENT-LENGTH' => '512')),
+
+			array(FileInfo::SPACE_UNKNOWN, array()),
+			array(FileInfo::SPACE_UNKNOWN, array('X-EXPECTED-ENTITY-LENGTH' => '1024')),
+			array(FileInfo::SPACE_UNKNOWN, array('CONTENT-LENGTH' => '512')),
+			array(FileInfo::SPACE_UNKNOWN, array('OC-TOTAL-LENGTH' => '1024', 'CONTENT-LENGTH' => '512')),
+
+			array(FileInfo::SPACE_UNLIMITED, array()),
+			array(FileInfo::SPACE_UNLIMITED, array('X-EXPECTED-ENTITY-LENGTH' => '1024')),
+			array(FileInfo::SPACE_UNLIMITED, array('CONTENT-LENGTH' => '512')),
+			array(FileInfo::SPACE_UNLIMITED, array('OC-TOTAL-LENGTH' => '1024', 'CONTENT-LENGTH' => '512')),
 		);
 	}
 
