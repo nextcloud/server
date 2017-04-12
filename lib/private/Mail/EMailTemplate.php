@@ -461,7 +461,7 @@ EOF;
 
 		$this->htmlBody .= vsprintf($this->footer, [$text]);
 		$this->htmlBody .= $this->tail;
-		$this->plainBody .= '--' . PHP_EOL;
+		$this->plainBody .= PHP_EOL . '-- ' . PHP_EOL;
 		$this->plainBody .= str_replace('<br>', PHP_EOL, $text);
 	}
 
