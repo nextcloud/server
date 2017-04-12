@@ -71,7 +71,7 @@ jquery-ui/themes/ui-darkness
 jquery-ui/themes/ui-lightness
 jquery-ui/themes/vader
 jquery-ui/ui/**
-!jquery-ui/ui/jquery-ui.custom.js
+!jquery-ui/ui/minified/jquery-ui.custom.min.js
 jquery-ui/*.json
 !jquery-ui/.bower.json
 jquery-ui/AUTHORS.txt
