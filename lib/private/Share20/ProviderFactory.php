@@ -104,14 +104,10 @@ class ProviderFactory implements IProviderFactory {
 				$l,
 				$this->serverContainer->getCloudIdManager()
 			);
-			$discoveryManager = new DiscoveryManager(
-				$this->serverContainer->getMemCacheFactory(),
-				$this->serverContainer->getHTTPClientService()
-			);
 			$notifications = new Notifications(
 				$addressHandler,
 				$this->serverContainer->getHTTPClientService(),
-				$discoveryManager,
+				$this->serverContainer->query(\OCP\OCS\IDiscoveryService::class),
 				$this->serverContainer->getJobList()
 			);
 			$tokenHandler = new TokenHandler(

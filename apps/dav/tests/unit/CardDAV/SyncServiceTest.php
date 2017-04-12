@@ -37,7 +37,7 @@ class SyncServiceTest extends TestCase {
 		$backend = $this->getBackendMock(0, 0, 0);
 
 		$ss = $this->getSyncServiceMock($backend, []);
-		$return = $ss->syncRemoteAddressBook('', 'system', '1234567890', null, '1', 'principals/system/system', []);
+		$return = $ss->syncRemoteAddressBook('', 'system', 'system', '1234567890', null, '1', 'principals/system/system', []);
 		$this->assertEquals('sync-token-1', $return);
 	}
 
@@ -46,7 +46,7 @@ class SyncServiceTest extends TestCase {
 		$backend->method('getCard')->willReturn(false);
 
 		$ss = $this->getSyncServiceMock($backend, ['0' => [200 => '']]);
-		$return = $ss->syncRemoteAddressBook('', 'system', '1234567890', null, '1', 'principals/system/system', []);
+		$return = $ss->syncRemoteAddressBook('', 'system', 'system', '1234567890', null, '1', 'principals/system/system', []);
 		$this->assertEquals('sync-token-1', $return);
 	}
 
@@ -55,7 +55,7 @@ class SyncServiceTest extends TestCase {
 		$backend->method('getCard')->willReturn(true);
 
 		$ss = $this->getSyncServiceMock($backend, ['0' => [200 => '']]);
-		$return = $ss->syncRemoteAddressBook('', 'system', '1234567890', null, '1', 'principals/system/system', []);
+		$return = $ss->syncRemoteAddressBook('', 'system', 'system', '1234567890', null, '1', 'principals/system/system', []);
 		$this->assertEquals('sync-token-1', $return);
 	}
 
@@ -63,7 +63,7 @@ class SyncServiceTest extends TestCase {
 		$backend = $this->getBackendMock(0, 0, 1);
 
 		$ss = $this->getSyncServiceMock($backend, ['0' => [404 => '']]);
-		$return = $ss->syncRemoteAddressBook('', 'system', '1234567890', null, '1', 'principals/system/system', []);
+		$return = $ss->syncRemoteAddressBook('', 'system', 'system', '1234567890', null, '1', 'principals/system/system', []);
 		$this->assertEquals('sync-token-1', $return);
 	}
 

@@ -270,17 +270,13 @@ class RequestHandlerControllerTest extends TestCase {
 			->method('newClient')
 			->willReturn($client);
 
-		$discoveryManager = new DiscoveryManager(
-			\OC::$server->getMemCacheFactory(),
-			$httpClientService
-		);
 		$manager = new \OCA\Files_Sharing\External\Manager(
 			\OC::$server->getDatabaseConnection(),
 			Filesystem::getMountManager(),
 			Filesystem::getLoader(),
 			$httpClientService,
 			\OC::$server->getNotificationManager(),
-			$discoveryManager,
+			\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
 			$toDelete
 		);
 
