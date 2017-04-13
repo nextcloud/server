@@ -192,7 +192,7 @@ class SecurityMiddleware extends Middleware {
 		}
 
 		if($this->reflector->hasAnnotation('BruteForceProtection')) {
-			$action = $this->reflector->getAnnotationParameter('BruteForceProtection');
+			$action = $this->reflector->getAnnotationParameter('BruteForceProtection', 'action');
 			$this->throttler->sleepDelay($this->request->getRemoteAddress(), $action);
 			$this->throttler->registerAttempt($action, $this->request->getRemoteAddress());
 		}

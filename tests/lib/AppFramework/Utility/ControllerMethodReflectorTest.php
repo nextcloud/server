@@ -75,18 +75,32 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 		$this->assertTrue($reader->hasAnnotation('Annotation'));
 	}
 
-
 	/**
-	 * @Annotation parameter
+	 * @Annotation(parameter=value)
 	 */
-	public function testGetAnnotationParameter(){
+	public function testGetAnnotationParameterSingle() {
 		$reader = new ControllerMethodReflector();
 		$reader->reflect(
-			'\Test\AppFramework\Utility\ControllerMethodReflectorTest',
-			'testGetAnnotationParameter'
+			__CLASS__,
+			__FUNCTION__
 		);
 
-		$this->assertSame('parameter', $reader->getAnnotationParameter('Annotation'));
+		$this->assertSame('value', $reader->getAnnotationParameter('Annotation', 'parameter'));
+	}
+
+	/**
+	 * @Annotation(parameter1=value1, parameter2=value2,parameter3=value3)
+	 */
+	public function testGetAnnotationParameterMultiple() {
+		$reader = new ControllerMethodReflector();
+		$reader->reflect(
+			__CLASS__,
+			__FUNCTION__
+		);
+
+		$this->assertSame('value1', $reader->getAnnotationParameter('Annotation', 'parameter1'));
+		$this->assertSame('value2', $reader->getAnnotationParameter('Annotation', 'parameter2'));
+		$this->assertSame('value3', $reader->getAnnotationParameter('Annotation', 'parameter3'));
 	}
 
 	/**

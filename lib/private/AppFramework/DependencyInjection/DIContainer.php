@@ -40,6 +40,7 @@ use OC\AppFramework\Http\Output;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Middleware\Security\CORSMiddleware;
 use OC\AppFramework\Middleware\OCSMiddleware;
+use OC\AppFramework\Middleware\Security\RateLimitingMiddleware;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\Utility\SimpleContainer;
@@ -169,7 +170,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			);
 		});
 
-
 		/**
 		 * App Framework APIs
 		 */
@@ -230,6 +230,18 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		});
 
+		$this->registerService('RateLimitingMiddleware', function($c) use ($app) {
+			/** @var \OC\Server $server */
+			$server = $app->getServer();
+
+			return new RateLimitingMiddleware(
+				$server->getRequest(),
+				$server->getUserSession(),
+				$c['ControllerMethodReflector'],
+				$c->query(OC\Security\RateLimiting\Limiter::class)
+			);
+		});
+
 		$this->registerService('CORSMiddleware', function($c) {
 			return new CORSMiddleware(
 				$c['Request'],
@@ -270,6 +282,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$dispatcher->registerMiddleware($c['OCSMiddleware']);
 			$dispatcher->registerMiddleware($c['SecurityMiddleware']);
 			$dispatcher->registerMiddleWare($c['TwoFactorMiddleware']);
+			$dispatcher->registerMiddleware($c['RateLimitingMiddleware']);
 
 			foreach($middleWares as $middleWare) {
 				$dispatcher->registerMiddleware($c[$middleWare]);
