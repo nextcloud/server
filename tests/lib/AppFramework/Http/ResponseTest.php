@@ -264,4 +264,9 @@ class ResponseTest extends \Test\TestCase {
 
 	}
 
+	public function testThrottle() {
+		$this->assertFalse($this->childResponse->isThrottled());
+		$this->childResponse->throttle();
+		$this->assertTrue($this->childResponse->isThrottled());
+	}
 }
