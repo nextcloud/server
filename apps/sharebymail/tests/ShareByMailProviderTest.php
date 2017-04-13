@@ -676,11 +676,11 @@ class ShareByMailProviderTest extends TestCase {
 		$folder = $rootFolder->getUserFolder($u1->getUID())->newFolder('foo');
 
 		$accessList = $provider->getAccessList([$folder], true);
-		$this->assertArrayHasKey('mail', $accessList);
-		$this->assertFalse($accessList['mail']);
+		$this->assertArrayHasKey('public', $accessList);
+		$this->assertFalse($accessList['public']);
 		$accessList = $provider->getAccessList([$folder], false);
-		$this->assertArrayHasKey('mail', $accessList);
-		$this->assertFalse($accessList['mail']);
+		$this->assertArrayHasKey('public', $accessList);
+		$this->assertFalse($accessList['public']);
 
 		$share1 = $this->shareManager->newShare();
 		$share1->setSharedWith('user@server.com')
@@ -699,29 +699,29 @@ class ShareByMailProviderTest extends TestCase {
 		$share2 = $provider->create($share2);
 
 		$accessList = $provider->getAccessList([$folder], true);
-		$this->assertArrayHasKey('mail', $accessList);
-		$this->assertTrue($accessList['mail']);
+		$this->assertArrayHasKey('public', $accessList);
+		$this->assertTrue($accessList['public']);
 		$accessList = $provider->getAccessList([$folder], false);
-		$this->assertArrayHasKey('mail', $accessList);
-		$this->assertTrue($accessList['mail']);
+		$this->assertArrayHasKey('public', $accessList);
+		$this->assertTrue($accessList['public']);
 
 		$provider->delete($share2);
 
 		$accessList = $provider->getAccessList([$folder], true);
-		$this->assertArrayHasKey('mail', $accessList);
-		$this->assertTrue($accessList['mail']);
+		$this->assertArrayHasKey('public', $accessList);
+		$this->assertTrue($accessList['public']);
 		$accessList = $provider->getAccessList([$folder], false);
-		$this->assertArrayHasKey('mail', $accessList);
-		$this->assertTrue($accessList['mail']);
+		$this->assertArrayHasKey('public', $accessList);
+		$this->assertTrue($accessList['public']);
 
 		$provider->delete($share1);
 
 		$accessList = $provider->getAccessList([$folder], true);
-		$this->assertArrayHasKey('mail', $accessList);
-		$this->assertFalse($accessList['mail']);
+		$this->assertArrayHasKey('public', $accessList);
+		$this->assertFalse($accessList['public']);
 		$accessList = $provider->getAccessList([$folder], false);
-		$this->assertArrayHasKey('mail', $accessList);
-		$this->assertFalse($accessList['mail']);
+		$this->assertArrayHasKey('public', $accessList);
+		$this->assertFalse($accessList['public']);
 
 		$u1->delete();
 		$u2->delete();
