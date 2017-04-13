@@ -1242,12 +1242,17 @@ class Manager implements IManager {
 		/** @var Node[] $nodes */
 		$nodes = [];
 
-		$ownerPath = $path->getPath();
-		list(,,,$ownerPath) = explode('/', $ownerPath, 4);
-		$al['users'][$owner] = [
-			'node_id' => $path->getId(),
-			'node_path' => '/' . $ownerPath,
-		];
+
+		if ($currentAccess) {
+			$ownerPath = $path->getPath();
+			list(, , , $ownerPath) = explode('/', $ownerPath, 4);
+			$al['users'][$owner] = [
+				'node_id' => $path->getId(),
+				'node_path' => '/' . $ownerPath,
+			];
+		} else {
+			$al['users'][] = $owner;
+		}
 
 		// Collect all the shares
 		while ($path->getPath() !== $userFolder->getPath()) {
