@@ -282,6 +282,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Share\\IManager' => __DIR__ . '/../../..' . '/lib/public/Share/IManager.php',
         'OCP\\Share\\IProviderFactory' => __DIR__ . '/../../..' . '/lib/public/Share/IProviderFactory.php',
         'OCP\\Share\\IShare' => __DIR__ . '/../../..' . '/lib/public/Share/IShare.php',
+        'OCP\\Share\\IShareHelper' => __DIR__ . '/../../..' . '/lib/public/Share/IShareHelper.php',
         'OCP\\Share\\IShareProvider' => __DIR__ . '/../../..' . '/lib/public/Share/IShareProvider.php',
         'OCP\\Share_Backend' => __DIR__ . '/../../..' . '/lib/public/Share_Backend.php',
         'OCP\\Share_Backend_Collection' => __DIR__ . '/../../..' . '/lib/public/Share_Backend_Collection.php',

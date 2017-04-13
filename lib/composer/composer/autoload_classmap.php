@@ -252,6 +252,7 @@ return array(
     'OCP\\Share\\IManager' => $baseDir . '/lib/public/Share/IManager.php',
     'OCP\\Share\\IProviderFactory' => $baseDir . '/lib/public/Share/IProviderFactory.php',
     'OCP\\Share\\IShare' => $baseDir . '/lib/public/Share/IShare.php',
+    'OCP\\Share\\IShareHelper' => $baseDir . '/lib/public/Share/IShareHelper.php',
     'OCP\\Share\\IShareProvider' => $baseDir . '/lib/public/Share/IShareProvider.php',
     'OCP\\Share_Backend' => $baseDir . '/lib/public/Share_Backend.php',
     'OCP\\Share_Backend_Collection' => $baseDir . '/lib/public/Share_Backend_Collection.php',
