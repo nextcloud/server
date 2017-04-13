@@ -284,15 +284,29 @@ class LostController extends Controller {
 
 		$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', array('userId' => $user->getUID(), 'token' => $token));
 
-		$tmpl = new \OC_Template('core', 'lostpassword/email');
-		$tmpl->assign('link', $link);
-		$msg = $tmpl->fetchPage();
+		$emailTemplate = $this->mailer->createEMailTemplate();
+
+		$emailTemplate->addHeader();
+		$emailTemplate->addHeading($this->l10n->t('Password reset'));
+
+		$emailTemplate->addBodyText(
+			$this->l10n->t('Click the following button to reset your password. If you have not requested the password reset, then ignore this email.'),
+			$this->l10n->t('Click the following link to reset your password. If you have not requested the password reset, then ignore this email.')
+		);
+
+		$emailTemplate->addBodyButton(
+			$this->l10n->t('Reset your password'),
+			$link,
+			false
+		);
+		$emailTemplate->addFooter();
 
 		try {
 			$message = $this->mailer->createMessage();
 			$message->setTo([$email => $user->getUID()]);
 			$message->setSubject($this->l10n->t('%s password reset', [$this->defaults->getName()]));
-			$message->setPlainBody($msg);
+			$message->setPlainBody($emailTemplate->renderText());
+			$message->setHtmlBody($emailTemplate->renderHTML());
 			$message->setFrom([$this->from => $this->defaults->getName()]);
 			$this->mailer->send($message);
 		} catch (\Exception $e) {

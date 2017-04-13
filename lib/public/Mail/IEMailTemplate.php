@@ -99,10 +99,12 @@ interface IEMailTemplate {
 	 *
 	 * @param string $text Text of button
 	 * @param string $url URL of button
+	 * @param string $plainText Text of button in plain text version
+	 * 		if empty the $text is used, if false none will be used
 	 *
 	 * @since 12.0.0
 	 */
-	public function addBodyButton($text, $url);
+	public function addBodyButton($text, $url, $plainText = '');
 
 	/**
 	 * Adds a logo and a text to the footer. <br> in the text will be replaced by new lines in the plain text email
