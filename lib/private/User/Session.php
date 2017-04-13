@@ -329,7 +329,7 @@ class Session implements IUserSession, Emitter {
 	 * @param IUser $user
 	 * @param array $loginDetails
 	 * @param bool $regenerateSessionId
-	 * @return bool
+	 * @return true returns true if login successful or an exception otherwise
 	 * @throws LoginException
 	 */
 	public function completeLogin(IUser $user, array $loginDetails, $regenerateSessionId = true) {
