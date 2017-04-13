@@ -143,28 +143,66 @@ class Application extends App {
 		Util::connectHook('OC_User', 'changeUser', $this, 'onChangeInfo');
 	}
 
-	public function onPasswordChange($parameters) {
-		$uid = $parameters['uid'];
+	/**
+	 * @param array $parameters
+	 * @throws \InvalidArgumentException
+	 * @throws \BadMethodCallException
+	 * @throws \Exception
+	 */
+	public function onPasswordChange(array $parameters) {
+		$userManager = $this->getContainer()->getServer()->getUserManager();
+		$user = $userManager->get($parameters['uid']);
+
+		if (!$user instanceof IUser || $user->getEMailAddress() === null) {
+			return;
+		}
 
 		$activityManager = $this->getContainer()->getServer()->getActivityManager();
 		$event = $activityManager->generateEvent();
 		$event->setApp('settings')
 			->setType('personal_settings')
-			->setAffectedUser($uid);
+			->setAffectedUser($user->getUID());
+
+		/** @var IL10N $l */
+		$l = $this->getContainer()->query(IL10N::class);
+		$urlGenerator = $this->getContainer()->getServer()->getURLGenerator();
+		$instanceUrl = $urlGenerator->getAbsoluteURL('/');
 
 		$actor = $this->getContainer()->getServer()->getUserSession()->getUser();
 		if ($actor instanceof IUser) {
-			if ($actor->getUID() !== $uid) {
+			if ($actor->getUID() !== $user->getUID()) {
+				$text = $l->t('%1$s changed your password on %2$s.', [$actor->getDisplayName(), $instanceUrl]);
 				$event->setAuthor($actor->getUID())
 					->setSubject(Provider::PASSWORD_CHANGED_BY, [$actor->getUID()]);
 			} else {
+				$text = $l->t('Your password on %s was changed.', [$instanceUrl]);
 				$event->setAuthor($actor->getUID())
 					->setSubject(Provider::PASSWORD_CHANGED_SELF);
 			}
 		} else {
+			$text = $l->t('Your password on %s was reset by an administrator.', [$instanceUrl]);
 			$event->setSubject(Provider::PASSWORD_RESET);
 		}
+
 		$activityManager->publish($event);
+
+		if ($user->getEMailAddress() !== null) {
+			$mailer = $this->getContainer()->getServer()->getMailer();
+			$template = $mailer->createEMailTemplate();
+			$template->addHeader();
+			$template->addHeading($l->t('Password changed for %s', $user->getDisplayName()), false);
+			$template->addBodyText($text . ' ' . $l->t('If you did not request this, please contact an administrator as soon as possible.'));
+			$template->addFooter();
+
+
+			$message = $mailer->createMessage();
+			$message->setTo([$user->getEMailAddress() => $user->getDisplayName()]);
+			$message->setSubject($l->t('Password for %1$s changed on %2$s', [$user->getDisplayName(), $instanceUrl]));
+			$message->setBody($template->renderText(), 'text/plain');
+			$message->setHtmlBody($template->renderHTML());
+
+			$mailer->send($message);
+		}
 	}
 
 	public function onChangeInfo($parameters) {
