@@ -135,6 +135,7 @@
     "group" : "grup",
     "remote" : "uzak",
     "email" : "e-posta",
+    "shared by {sharer}" : "{sharer} tarafından paylaşıldı",
     "Unshare" : "Paylaşımdan Kaldır",
     "Can reshare" : "Yeniden paylaşabilir",
     "Can edit" : "Düzenleyebilir",
@@ -207,9 +208,6 @@
     "File not found" : "Dosya bulunamadı",
     "The specified document has not been found on the server." : "Belirtilen dosya sunucuda bulunamadı.",
     "You can click here to return to %s." : "%s ana sayfasına dönmek için buraya tıklayın.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Merhaba,\n\n%s kullanıcısının sizinle %s paylaşımında bulunduğunu bildirmek istedik.\nPaylaşımı şuradan görebilirsiniz: %s\n\n",
-    "The share will expire on %s." : "Bu paylaşım %s tarihinde sona erecek.",
-    "Cheers!" : "Hoşça kalın!",
     "Internal Server Error" : "Sunucu İçinde Sorun",
     "The server encountered an internal error and was unable to complete your request." : "Sunucu içinde bir sorun çıktığından isteğiniz tamamlanamadı.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Bu sorun bir kereden çok ortaya çıktıysa aşağıdaki teknik ayrıntıları da ekleyerek sunucu yöneticisiyle görüşün.",
@@ -267,7 +265,6 @@
     "New password" : "Yeni parola",
     "New Password" : "Yeni Parola",
     "Reset password" : "Parolayı sıfırla",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Merhaba, <br><br>%s kullanıcısının sizinle <strong>%s</strong> paylaşımında bulunduğunu bildirmek istedik.<br><a href=\"%s\">Paylaşımı şuradan görebilirsiniz!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Bu Nextcloud kopyası şu anda tek kullanıcı kipinde.",
     "This means only administrators can use the instance." : "Yani bu kopya yalnız yöneticiler tarafından kullanılabilir.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Bu ileti görüntülenmeye devam ediyor ya da beklenmedik şekilde ortaya çıkıyorsa sistem yöneticinizle görüşün.",
@@ -305,6 +302,10 @@
     "can change" : "değiştirebilir",
     "can delete" : "silebilir",
     "access control" : "erişim denetimi",
-    "The update was successful. Redirecting you to Nextcloud now." : "Uygulama güncellendi. Nextcloud kullanmaya yönlendiriliyorsunuz."
+    "The update was successful. Redirecting you to Nextcloud now." : "Uygulama güncellendi. Nextcloud kullanmaya yönlendiriliyorsunuz.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Merhaba,\n\n%s kullanıcısının sizinle %s paylaşımında bulunduğunu bildirmek istedik.\nPaylaşımı şuradan görebilirsiniz: %s\n\n",
+    "The share will expire on %s." : "Bu paylaşım %s tarihinde sona erecek.",
+    "Cheers!" : "Hoşça kalın!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Merhaba, <br><br>%s kullanıcısının sizinle <strong>%s</strong> paylaşımında bulunduğunu bildirmek istedik.<br><a href=\"%s\">Paylaşımı şuradan görebilirsiniz!</a><br><br>"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -191,9 +191,6 @@
     "File not found" : "Fișierul nu a fost găsit",
     "The specified document has not been found on the server." : "Documentul specificat nu a fost găsit pe server.",
     "You can click here to return to %s." : "Poți da click aici pentru a te întoarce la %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Salutare,\n\nvrem să te anunțăm că %s a partajat %s cu tine.\nPoți vedea aici: %s\n\n",
-    "The share will expire on %s." : "Partajarea va expira în data de %s.",
-    "Cheers!" : "Noroc!",
     "Internal Server Error" : "Eroare internă a serverului",
     "The server encountered an internal error and was unable to complete your request." : "Serverul a întâmpinat o eroare și nu îți poate îndeplini cererea.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Te rugăm să contactezi administratorul serverului dacă această eroare apare de mai multe ori, incluzând și următoarele detalii tehnice în raportul tău.",
@@ -250,7 +247,6 @@
     "New password" : "Noua parolă",
     "New Password" : "Noua parolă",
     "Reset password" : "Resetează parola",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Salutare,<br><br>te anunțăm pe această cale că %s a partajat <strong>%s</strong> cu tine.<br><a href=\"%s\">Accesează!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Această instanță de Nextcloud funcționează momentan în modul single user.",
     "This means only administrators can use the instance." : "Asta înseamnă că doar administratorii pot folosi instanța.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contactează-ți administratorul de sistem dacă acest mesaj persistă sau a apărut neașteptat.",
@@ -288,6 +284,10 @@
     "can change" : "poate schimba",
     "can delete" : "poate șterge",
     "access control" : "control acces",
-    "The update was successful. Redirecting you to Nextcloud now." : "Actualizarea a reușit. Te redirecționăm acum la Nextcloud."
+    "The update was successful. Redirecting you to Nextcloud now." : "Actualizarea a reușit. Te redirecționăm acum la Nextcloud.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Salutare,\n\nvrem să te anunțăm că %s a partajat %s cu tine.\nPoți vedea aici: %s\n\n",
+    "The share will expire on %s." : "Partajarea va expira în data de %s.",
+    "Cheers!" : "Noroc!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Salutare,<br><br>te anunțăm pe această cale că %s a partajat <strong>%s</strong> cu tine.<br><a href=\"%s\">Accesează!</a><br><br>"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

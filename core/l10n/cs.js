@@ -199,9 +199,6 @@ OC.L10N.register(
     "File not found" : "Soubor nenalezen",
     "The specified document has not been found on the server." : "Požadovaný dokument nebyl na serveru nalezen.",
     "You can click here to return to %s." : "Klikněte zde pro návrat na %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hej ty tam,\n\njen ti chci dát vědět, že %s sdílel %s s tebou.\nZobraz si to: %s\n\n",
-    "The share will expire on %s." : "Sdílení vyprší %s.",
-    "Cheers!" : "Ať slouží!",
     "Internal Server Error" : "Vnitřní chyba serveru",
     "The server encountered an internal error and was unable to complete your request." : "Server zaznamenal interní chybu a nebyl schopen dokončit váš požadavek.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Kontaktujte prosím správce serveru, pokud se bude tato chyba opakovat. Připojte do svého hlášení níže zobrazené technické detaily.",
@@ -259,7 +256,6 @@ OC.L10N.register(
     "New password" : "Nové heslo",
     "New Password" : "Nové heslo",
     "Reset password" : "Obnovit heslo",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Ahoj,<br><br>jen ti dávám vědět, že s tebou %s sdílí <strong>%s</strong>.<br><a href=\"%s\">Zkontroluj to!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Tato instalace Nextcloudu je momentálně v jednouživatelském módu.",
     "This means only administrators can use the instance." : "To znamená, že pouze správci systému mohou aplikaci používat.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktujte prosím správce systému, pokud se tato zpráva objevuje opakovaně nebo nečekaně.",
@@ -297,6 +293,10 @@ OC.L10N.register(
     "can change" : "může měnit",
     "can delete" : "může smazat",
     "access control" : "řízení přístupu",
-    "The update was successful. Redirecting you to Nextcloud now." : "Aktualizace byla úspěšná. Probíhá přesměrování na Nexcloud."
+    "The update was successful. Redirecting you to Nextcloud now." : "Aktualizace byla úspěšná. Probíhá přesměrování na Nexcloud.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hej ty tam,\n\njen ti chci dát vědět, že %s sdílel %s s tebou.\nZobraz si to: %s\n\n",
+    "The share will expire on %s." : "Sdílení vyprší %s.",
+    "Cheers!" : "Ať slouží!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Ahoj,<br><br>jen ti dávám vědět, že s tebou %s sdílí <strong>%s</strong>.<br><a href=\"%s\">Zkontroluj to!</a><br><br>"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

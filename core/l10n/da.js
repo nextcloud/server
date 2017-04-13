@@ -181,9 +181,6 @@ OC.L10N.register(
     "File not found" : "Filen blev ikke fundet",
     "The specified document has not been found on the server." : "Det angivne dokument blev ikke fundet på serveren.",
     "You can click here to return to %s." : "Du kan klikke her for at gå tilbage til %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hej\n\nDette blot for at lade dig vide, at %s har delt %s med dig.\n\nSe det her: %s\n\n",
-    "The share will expire on %s." : "Delingen vil udløbe om %s.",
-    "Cheers!" : "Hav en fortsat god dag.",
     "Internal Server Error" : "Intern serverfejl",
     "The server encountered an internal error and was unable to complete your request." : "Servern stødte på en intern fejl og var ikke i stand til at fuldføre din forespørgsel.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Kontakt venligst serveradministratoren, hvis denne fejl gentager sig flere gange - medtag venligst de tekniske detaljer nedenfor i din rapport.",
@@ -238,7 +235,6 @@ OC.L10N.register(
     "New password" : "Ny adgangskode",
     "New Password" : "Ny adgangskode",
     "Reset password" : "Nulstil kodeord",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hej med dig,<br><br>Dette er blot for at informere dig om, at %s har delt <strong>%s</strong> med dig.<br><a href=\"%s\">Se det her!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Denne Nextcloud instans er lige nu i enkeltbruger tilstand.",
     "This means only administrators can use the instance." : "Det betyder at det kun er administrator, som kan benytte ownCloud.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontakt systemadministratoren, hvis denne meddelelse fortsætter eller optrådte uventet.",
@@ -269,6 +265,10 @@ OC.L10N.register(
     "can change" : "kan ændre",
     "can delete" : "kan slette",
     "access control" : "Adgangskontrol",
-    "The update was successful. Redirecting you to Nextcloud now." : "Opdateringen blev udført korrekt. Du bliver nu viderestillet til Nextcloud."
+    "The update was successful. Redirecting you to Nextcloud now." : "Opdateringen blev udført korrekt. Du bliver nu viderestillet til Nextcloud.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hej\n\nDette blot for at lade dig vide, at %s har delt %s med dig.\n\nSe det her: %s\n\n",
+    "The share will expire on %s." : "Delingen vil udløbe om %s.",
+    "Cheers!" : "Hav en fortsat god dag.",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hej med dig,<br><br>Dette er blot for at informere dig om, at %s har delt <strong>%s</strong> med dig.<br><a href=\"%s\">Se det her!</a><br><br>"
 },
 "nplurals=2; plural=(n != 1);");

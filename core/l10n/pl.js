@@ -137,6 +137,7 @@ OC.L10N.register(
     "group" : "grupa",
     "remote" : "zdalny",
     "email" : "email",
+    "shared by {sharer}" : "współdzielone przez {sharer}",
     "Unshare" : "Zatrzymaj współdzielenie",
     "Can reshare" : "Może współdzielić z innymi",
     "Can edit" : "Może edytować",
@@ -209,9 +210,6 @@ OC.L10N.register(
     "File not found" : "Nie odnaleziono pliku",
     "The specified document has not been found on the server." : "Wskazany dokument nie został znaleziony na serwerze.",
     "You can click here to return to %s." : "Możesz kliknąć tutaj aby powrócić do %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Witaj,\n\ntylko informuję, że %s współdzieli z Tobą %s.\nZobacz tutaj: %s\n\n",
-    "The share will expire on %s." : "Ten zasób wygaśnie %s",
-    "Cheers!" : "Pozdrawiam!",
     "Internal Server Error" : "Błąd wewnętrzny serwera",
     "The server encountered an internal error and was unable to complete your request." : "Serwer napotkał błąd wewnętrzny i nie był w stanie ukończyć Twojego żądania.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Proszę skontaktować się z administratorem jeśli ten błąd będzie się pojawiał wielokrotnie, proszę do zgłoszenia dołączyć szczegóły techniczne opisane poniżej.",
@@ -269,7 +267,6 @@ OC.L10N.register(
     "New password" : "Nowe hasło",
     "New Password" : "Nowe hasło",
     "Reset password" : "Zresetuj hasło",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Witam, <br><br>informuję, że %s udostępnianych zasobów <strong>%s</strong> jest z Tobą.<br><a href=\"%s\">Zobacz!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Ta instalacja Nextcloud działa obecnie w trybie pojedynczego użytkownika.",
     "This means only administrators can use the instance." : "To oznacza, że tylko administratorzy mogą w tej chwili używać aplikacji.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Skontaktuj się z administratorem, jeśli ten komunikat pojawił się nieoczekiwanie lub wyświetla się ciągle.",
@@ -307,6 +304,10 @@ OC.L10N.register(
     "can change" : "może zmienić",
     "can delete" : "może usunąć",
     "access control" : "kontrola dostępu",
-    "The update was successful. Redirecting you to Nextcloud now." : "Aktualizacja przebiegła pomyślnie. Trwa przekierowywanie do Nextcloud."
+    "The update was successful. Redirecting you to Nextcloud now." : "Aktualizacja przebiegła pomyślnie. Trwa przekierowywanie do Nextcloud.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Witaj,\n\ntylko informuję, że %s współdzieli z Tobą %s.\nZobacz tutaj: %s\n\n",
+    "The share will expire on %s." : "Ten zasób wygaśnie %s",
+    "Cheers!" : "Pozdrawiam!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Witam, <br><br>informuję, że %s udostępnianych zasobów <strong>%s</strong> jest z Tobą.<br><a href=\"%s\">Zobacz!</a><br><br>"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

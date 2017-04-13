@@ -207,9 +207,6 @@
     "File not found" : "Ficheiro não encontrado",
     "The specified document has not been found on the server." : "O documento especificado não foi encontrado no servidor.",
     "You can click here to return to %s." : "Pode clicar aqui para voltar para %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Olá,\n\napenas para informar que %s partilhou »%s« consigo.\nConsulte aqui: %s\n",
-    "The share will expire on %s." : "Esta partilha irá expirar em %s.",
-    "Cheers!" : "Parabéns!",
     "Internal Server Error" : "Erro Interno do Servidor",
     "The server encountered an internal error and was unable to complete your request." : "O servidor encontrou um erro interno e não conseguiu concluir o seu pedido.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Entra em contacto com o administrador do servidor se este erro aparecer várias vezes, inclui também os detalhes técnicos abaixo no seu contacto.",
@@ -267,7 +264,6 @@
     "New password" : "Nova palavra-passe",
     "New Password" : "Nova palavra-passe",
     "Reset password" : "Repor palavra-passe",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Olá,<br><br>apenas para informar que %s partilhou <strong>%s</strong> consigo.<br><a href=\"%s\">Consulte aqui!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Esta instância do Nextcloud está atualmente configurada no modo de único utilizador.",
     "This means only administrators can use the instance." : "Isto significa que apenas os administradores podem utilizar a instância.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte o seu administrador do sistema se esta mensagem persistir ou apareceu inesperadamente.",
@@ -305,6 +301,10 @@
     "can change" : "pode alterar",
     "can delete" : "pode apagar",
     "access control" : "controlo de acesso",
-    "The update was successful. Redirecting you to Nextcloud now." : "A actualização foi bem sucedida. A redireccionar para Nextcloud agora."
+    "The update was successful. Redirecting you to Nextcloud now." : "A actualização foi bem sucedida. A redireccionar para Nextcloud agora.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Olá,\n\napenas para informar que %s partilhou »%s« consigo.\nConsulte aqui: %s\n",
+    "The share will expire on %s." : "Esta partilha irá expirar em %s.",
+    "Cheers!" : "Parabéns!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Olá,<br><br>apenas para informar que %s partilhou <strong>%s</strong> consigo.<br><a href=\"%s\">Consulte aqui!</a><br><br>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

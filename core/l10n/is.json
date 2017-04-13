@@ -199,9 +199,6 @@
     "File not found" : "Skrá finnst ekki",
     "The specified document has not been found on the server." : "Tiltekið skjal hefur ekki fundist á þjóninum.",
     "You can click here to return to %s." : "Þú getur smellt hér til að fara aftur á %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Sælir,\n\nbara láta þig vita að %s deildi %s með þér.\n\nSkoðaðu það: %s\n\n",
-    "The share will expire on %s." : "Gildistími sameignar rennur út %s.",
-    "Cheers!" : "Skál!",
     "Internal Server Error" : "Innri villa",
     "The server encountered an internal error and was unable to complete your request." : "Innri villa kom upp á þjóninum og ekki náðist að afgreiða beiðnina.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Hafðu samband við kerfisstjóra ef þessi villa birtist oft aftur, láttu þá tæknilegu upplýsingarnar hér að neðan fylgja með.",
@@ -259,7 +256,6 @@
     "New password" : "Nýtt lykilorð",
     "New Password" : "Nýtt lykilorð",
     "Reset password" : "Endursetja lykilorð",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hæ þú,<br><br>bara að láta þig vita að %s deildi <strong>%s</strong> með þér.<br><a href=\"%s\">Skoðaðu það!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Þetta Nextcloud eintak er nú í eins-notanda ham.",
     "This means only administrators can use the instance." : "Þetta þýðir aðeins stjórnendur geta notað eintakið.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hafðu samband við kerfisstjóra ef þessi skilaboð eru viðvarandi eða birtust óvænt.",
@@ -297,6 +293,10 @@
     "can change" : "getur breytt",
     "can delete" : "getur eytt",
     "access control" : "aðgangsstýring",
-    "The update was successful. Redirecting you to Nextcloud now." : "Uppfærslan heppnaðist. Beini þér til Nextcloud nú."
+    "The update was successful. Redirecting you to Nextcloud now." : "Uppfærslan heppnaðist. Beini þér til Nextcloud nú.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Sælir,\n\nbara láta þig vita að %s deildi %s með þér.\n\nSkoðaðu það: %s\n\n",
+    "The share will expire on %s." : "Gildistími sameignar rennur út %s.",
+    "Cheers!" : "Skál!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hæ þú,<br><br>bara að láta þig vita að %s deildi <strong>%s</strong> með þér.<br><a href=\"%s\">Skoðaðu það!</a><br><br>"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

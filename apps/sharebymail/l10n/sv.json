@@ -11,18 +11,16 @@
     "Failed to send share by E-mail" : "Misslyckades att dela via e-post",
     "%s shared »%s« with you" : "%s delade »%s« med dig",
     "%s shared »%s« with you on behalf of %s" : "%s delade »%s« med dig på begäran av %s",
-    "Failed to create the E-mail" : "Misslyckades att skapa e-post",
     "Password to access »%s« shared to you by %s" : "Lösenord för att få tillgång till »%s« delat med dig av %s",
     "Could not find share" : "Kunde inte hitta delning",
+    "Share by mail" : "Dela via e-mejl",
+    "Send a personalized link to a file or folder by mail." : "Skicka en personlig länk till en fil eller mapp via e-mejl",
+    "Send password by mail" : "Skicka lösenord med e-post",
+    "Failed to create the E-mail" : "Misslyckades att skapa e-post",
     "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Hej!\n\n%s delade »%s« med dig från%s.\n\n%s\n\n",
     "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Hej,\n\n%s delade »%s« med dig.\n\n%s\n",
     "Cheers!" : "Ha det fint!",
-    "Hey there,\n\n%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n\nIt is protected with the following password: %s\n\n" : "Hej!\n\n%s delade »%s« med dig.\nDu borde ha fått ett separat e-mejl med länk för att få tillgång till det.\n\nDet är skyddat med följande lösnord: %s\n\n",
     "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hej!<br><br>%s delade <a href=\"%s\">%s</a> med dig från  %s.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hej!<br><br>%s delade <a href=\"%s\">%s</a> med dig.<br><br>",
-    "Hey there,<br><br>%s shared <i>%s</i> with you.<br>You should have already received a separate mail with a link to access it.<br><br>It is protected with the following password: %s<br><br>" : "Hej!<br><br>%s delade <i>%s</i> med dig.<br>Du borde ha fått ett separat e-mejl med en länk för att få tillgång till det.<br><br>Det är skyddat med följande lösenord: %s<br><br>",
-    "Share by mail" : "Dela via e-mejl",
-    "Send a personalized link to a file or folder by mail." : "Skicka en personlig länk till en fil eller mapp via e-mejl",
-    "Send password by mail" : "Skicka lösenord med e-post"
+    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hej!<br><br>%s delade <a href=\"%s\">%s</a> med dig.<br><br>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -191,9 +191,6 @@
     "File not found" : "Berkas tidak ditemukan",
     "The specified document has not been found on the server." : "Dokumen yang diminta tidak tersedia pada server.",
     "You can click here to return to %s." : "Anda dapat klik disini unutk kembali ke %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hai,\n\nhanya supaya anda tahu bahwa %s membagikan %s dengan anda.\nLihat: %s\n\n",
-    "The share will expire on %s." : "Pembagian akan berakhir pada %s.",
-    "Cheers!" : "Horee!",
     "Internal Server Error" : "Kesalahan Server Internal",
     "The server encountered an internal error and was unable to complete your request." : "Server mengalami kesalahan internal dan tidak dapat menyelesaikan permintaan Anda.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Silahkan hubungi administrator server jika kesalahan ini muncul kembali berulang kali, harap sertakan rincian teknis di bawah ini dalam laporan Anda.",
@@ -250,7 +247,6 @@
     "New password" : "Sandi baru",
     "New Password" : "Sandi Baru",
     "Reset password" : "Setel ulang sandi",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hai,<br><br>hanya memberi tahu jika %s membagikan <strong>%s</strong> dengan Anda.<br><a href=\"%s\">Lihat!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Nextcloud ini sedang dalam mode pengguna tunggal.",
     "This means only administrators can use the instance." : "Ini berarti hanya administrator yang dapat menggunakan ownCloud.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hubungi administrator sistem anda jika pesan ini terus muncul atau muncul tiba-tiba.",
@@ -288,6 +284,10 @@
     "can change" : "dapat mengubah",
     "can delete" : "dapat menghapus",
     "access control" : "kontrol akses",
-    "The update was successful. Redirecting you to Nextcloud now." : "Pembaruan berhasil. Mengarahkan Anda ke Nextcloud."
+    "The update was successful. Redirecting you to Nextcloud now." : "Pembaruan berhasil. Mengarahkan Anda ke Nextcloud.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hai,\n\nhanya supaya anda tahu bahwa %s membagikan %s dengan anda.\nLihat: %s\n\n",
+    "The share will expire on %s." : "Pembagian akan berakhir pada %s.",
+    "Cheers!" : "Horee!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hai,<br><br>hanya memberi tahu jika %s membagikan <strong>%s</strong> dengan Anda.<br><a href=\"%s\">Lihat!</a><br><br>"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

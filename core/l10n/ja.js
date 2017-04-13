@@ -201,9 +201,6 @@ OC.L10N.register(
     "File not found" : "ファイルが見つかりません",
     "The specified document has not been found on the server." : "サーバーに指定されたファイルが見つかりませんでした。",
     "You can click here to return to %s." : "ここをクリックすると、 %s に戻れます。",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "こんにちは、\n\n%s があなたと %s を共有したことをお知らせします。\nそれを表示: %s\n",
-    "The share will expire on %s." : "共有は %s で有効期限が切れます。",
-    "Cheers!" : "それでは！",
     "Internal Server Error" : "内部サーバーエラー",
     "The server encountered an internal error and was unable to complete your request." : "サーバー内でエラーが発生したため、リクエストを完了できませんでした。",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "このエラーが繰り返し表示されるようであれば、以下の技術情報を添付してサーバー管理者に問い合わせてください。",
@@ -261,7 +258,6 @@ OC.L10N.register(
     "New password" : "新しいパスワードを入力",
     "New Password" : "新しいパスワード",
     "Reset password" : "パスワードをリセット",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "こんにちは、<br><br>%sがあなたと »%s« を共有したことをお知らせします。<br><a href=\"%s\">それを表示</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "このNextcloudインスタンスは、現在シングルユーザーモードです。",
     "This means only administrators can use the instance." : "これは、管理者のみがインスタンスを利用できることを意味しています。",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "このメッセージが引き続きもしくは予期せず現れる場合は、システム管理者に問い合わせてください。",
@@ -299,6 +295,10 @@ OC.L10N.register(
     "can change" : "変更できます",
     "can delete" : "削除できます",
     "access control" : "アクセス権限",
-    "The update was successful. Redirecting you to Nextcloud now." : "アップデート成功。Nextcloud にリダイレクトします。"
+    "The update was successful. Redirecting you to Nextcloud now." : "アップデート成功。Nextcloud にリダイレクトします。",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "こんにちは、\n\n%s があなたと %s を共有したことをお知らせします。\nそれを表示: %s\n",
+    "The share will expire on %s." : "共有は %s で有効期限が切れます。",
+    "Cheers!" : "それでは！",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "こんにちは、<br><br>%sがあなたと »%s« を共有したことをお知らせします。<br><a href=\"%s\">それを表示</a><br><br>"
 },
 "nplurals=1; plural=0;");

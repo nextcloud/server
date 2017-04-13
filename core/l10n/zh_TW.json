@@ -163,9 +163,6 @@
     "File not found" : "找不到檔案",
     "The specified document has not been found on the server." : "該文件不存在於伺服器上",
     "You can click here to return to %s." : "點這裡以回到 %s",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "嗨，\n\n%s 和你分享了 %s ，到這裡看它：%s\n",
-    "The share will expire on %s." : "這個分享將會於 %s 過期",
-    "Cheers!" : "太棒了！",
     "Internal Server Error" : "內部伺服器錯誤",
     "The server encountered an internal error and was unable to complete your request." : "伺服器遭遇內部錯誤，無法完成您的要求",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "如果這個錯誤重複出現，請聯絡系統管理員，並附上以下的錯誤細節",
@@ -218,7 +215,6 @@
     "New password" : "新密碼",
     "New Password" : "新密碼",
     "Reset password" : "重設密碼",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "嗨，<br><br>%s 與你分享了<strong>%s</strong>。<br><a href=\"%s\">檢視</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "這個 Nextcloud 伺服器目前運作於單一使用者模式",
     "This means only administrators can use the instance." : "這表示只有系統管理員能夠使用",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "若這個訊息持續出現，請聯絡系統管理員",
@@ -250,6 +246,10 @@
     "can reshare" : "允許轉分享",
     "can edit" : "可編輯",
     "access control" : "存取控制",
-    "The update was successful. Redirecting you to Nextcloud now." : "更新成功，即將重導向至 Nextcloud"
+    "The update was successful. Redirecting you to Nextcloud now." : "更新成功，即將重導向至 Nextcloud",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "嗨，\n\n%s 和你分享了 %s ，到這裡看它：%s\n",
+    "The share will expire on %s." : "這個分享將會於 %s 過期",
+    "Cheers!" : "太棒了！",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "嗨，<br><br>%s 與你分享了<strong>%s</strong>。<br><a href=\"%s\">檢視</a><br><br>"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

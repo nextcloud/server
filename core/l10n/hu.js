@@ -190,9 +190,6 @@ OC.L10N.register(
     "File not found" : "Fájl nem található",
     "The specified document has not been found on the server." : "A meghatározott dokumentum nem található a szerveren.",
     "You can click here to return to %s." : "Ide kattintva visszatérhet ide: %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Üdv!\n\nÉrtesítünk, hogy %s megosztotta veled a következőt: %s.\nItt nézheted meg: %s\n\n",
-    "The share will expire on %s." : "A megosztás lejár ekkor: %s.",
-    "Cheers!" : "Üdv.",
     "Internal Server Error" : "Belső szerver hiba",
     "The server encountered an internal error and was unable to complete your request." : "A szerver belső hibával találkozott és nem tudja teljesíteni a kérést.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Kérjük keresse fel a szerver rendszergazdáját, ha ez a hiba ismételten, többször előfordulna. Kérjük, mellékelje a technikai részleteket a lenti jelentésbe.",
@@ -249,7 +246,6 @@ OC.L10N.register(
     "New password" : "Új jelszó",
     "New Password" : "Új jelszó",
     "Reset password" : "Jelszó-visszaállítás",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Üdv!<br /><br />\n\nÉrtesítünk, hogy %s megosztotta veled a következőt: <strong>%s</strong><br />\n<a href=\"%s\">Itt nézheted meg.</a><br /><br />",
     "This Nextcloud instance is currently in single user mode." : "Ez az Nextcloud szolgáltatás jelenleg egyfelhasználós üzemmódban működik.",
     "This means only administrators can use the instance." : "Ez azt jelenti, hogy csak az adminisztrátor használhatja ezt a példányt",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Ha ez az üzenet ismételten vagy indokolatlanul megjelenik, akkor keresse fel a rendszergazdáját!",
@@ -287,6 +283,10 @@ OC.L10N.register(
     "can change" : "módosíthat",
     "can delete" : "törölhet",
     "access control" : "jogosultság",
-    "The update was successful. Redirecting you to Nextcloud now." : "A frissítés sikeres volt. Most átirányítunk a Nextcloudhoz."
+    "The update was successful. Redirecting you to Nextcloud now." : "A frissítés sikeres volt. Most átirányítunk a Nextcloudhoz.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Üdv!\n\nÉrtesítünk, hogy %s megosztotta veled a következőt: %s.\nItt nézheted meg: %s\n\n",
+    "The share will expire on %s." : "A megosztás lejár ekkor: %s.",
+    "Cheers!" : "Üdv.",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Üdv!<br /><br />\n\nÉrtesítünk, hogy %s megosztotta veled a következőt: <strong>%s</strong><br />\n<a href=\"%s\">Itt nézheted meg.</a><br /><br />"
 },
 "nplurals=2; plural=(n != 1);");

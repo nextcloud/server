@@ -137,6 +137,7 @@ OC.L10N.register(
     "group" : "группа",
     "remote" : "удаленный",
     "email" : "email",
+    "shared by {sharer}" : "поделился {sharer}",
     "Unshare" : "Закрыть доступ",
     "Can reshare" : "Можно распространять",
     "Can edit" : "Можно редактировать",
@@ -209,9 +210,6 @@ OC.L10N.register(
     "File not found" : "Файл не найден",
     "The specified document has not been found on the server." : "Указанный документ не найден на сервере.",
     "You can click here to return to %s." : "Вы можете нажать здесь, чтобы вернуться в %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Здравствуйте,\n\n%s поделился %s с вами.\nПосмотреть: %s\n",
-    "The share will expire on %s." : "Доступ будет закрыт %s",
-    "Cheers!" : "Всего наилучшего!",
     "Internal Server Error" : "Внутренняя ошибка сервера",
     "The server encountered an internal error and was unable to complete your request." : "Запрос не выполнен, на сервере произошла ошибка.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Пожалуйста, свяжитесь с администратором сервера если эта ошибка будет повторяться. Прикрепите указанную ниже информацию к своему сообщению.",
@@ -269,7 +267,6 @@ OC.L10N.register(
     "New password" : "Новый пароль",
     "New Password" : "Новый пароль",
     "Reset password" : "Сбросить пароль",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Здравствуйте,<br><br>%s поделился с вами <strong>%s</strong>.<br>Перейдите по <a href=\"%s\">ссылке</a>, чтобы посмотреть<br><br>",
     "This Nextcloud instance is currently in single user mode." : "Сервер Nextcloud в настоящее время работает в однопользовательском режиме.",
     "This means only administrators can use the instance." : "Это значит, что только администраторы могут использовать сервер.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Обратитесь к вашему системному администратору если это сообщение не исчезает или появляется неожиданно.",
@@ -307,6 +304,10 @@ OC.L10N.register(
     "can change" : "можно изменять",
     "can delete" : "можно удалять",
     "access control" : "контроль доступа",
-    "The update was successful. Redirecting you to Nextcloud now." : "Обновление прошло успешно. Перенаправляем вас на Nextcloud прямо сейчас."
+    "The update was successful. Redirecting you to Nextcloud now." : "Обновление прошло успешно. Перенаправляем вас на Nextcloud прямо сейчас.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Здравствуйте,\n\n%s поделился %s с вами.\nПосмотреть: %s\n",
+    "The share will expire on %s." : "Доступ будет закрыт %s",
+    "Cheers!" : "Всего наилучшего!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Здравствуйте,<br><br>%s поделился с вами <strong>%s</strong>.<br>Перейдите по <a href=\"%s\">ссылке</a>, чтобы посмотреть<br><br>"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

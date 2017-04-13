@@ -198,9 +198,6 @@ OC.L10N.register(
     "File not found" : "Tiedostoa ei löytynyt",
     "The specified document has not been found on the server." : "Määritettyä asiakirjaa ei löytynyt palvelimelta.",
     "You can click here to return to %s." : "Napsauta tästä palataksesi %siin.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hei,\n\n%s jakoi kohteen %s kanssasi.\nTutustu siihen: %s\n\n",
-    "The share will expire on %s." : "Jakaminen päättyy %s.",
-    "Cheers!" : "Kiitos!",
     "Internal Server Error" : "Sisäinen palvelinvirhe",
     "The server encountered an internal error and was unable to complete your request." : "Palvelin kohtasi sisäisen virheen, eikä pystynyt viimeistelmään pyyntöäsi.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Ota yhteys palvelimen ylläpitäjään, jos tämä virhe ilmenee useita kertoja. Lisää yhteydenottoosi alla olevat tekniset tiedot.",
@@ -258,7 +255,6 @@ OC.L10N.register(
     "New password" : "Uusi salasana",
     "New Password" : "Uusi salasana",
     "Reset password" : "Palauta salasana",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hei,<br><br>%s jakoi kanssasi kohteen <strong>%s</strong>.<br><a href=\"%s\">Tutustu siihen!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Tämä Nextcloud-asennus on parhaillaan single user -tilassa.",
     "This means only administrators can use the instance." : "Se tarkoittaa, että vain ylläpitäjät voivat nyt käyttää tätä sivustoa.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Ota yhteys järjestelmän ylläpitäjään, jos tämä viesti ilmenee uudelleen tai odottamatta.",
@@ -296,6 +292,10 @@ OC.L10N.register(
     "can change" : "voi vaihtaa",
     "can delete" : "voi poistaa",
     "access control" : "pääsynhallinta",
-    "The update was successful. Redirecting you to Nextcloud now." : "Päivitys onnistui. Sinut ohjataan nyt Nextcloudiin."
+    "The update was successful. Redirecting you to Nextcloud now." : "Päivitys onnistui. Sinut ohjataan nyt Nextcloudiin.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hei,\n\n%s jakoi kohteen %s kanssasi.\nTutustu siihen: %s\n\n",
+    "The share will expire on %s." : "Jakaminen päättyy %s.",
+    "Cheers!" : "Kiitos!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hei,<br><br>%s jakoi kanssasi kohteen <strong>%s</strong>.<br><a href=\"%s\">Tutustu siihen!</a><br><br>"
 },
 "nplurals=2; plural=(n != 1);");
