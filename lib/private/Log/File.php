@@ -106,14 +106,14 @@ class File {
 		$version = $config->getValue('version', '');
 		$entry = compact(
 			'reqId',
-			'remoteAddr',
-			'app',
-			'message',
 			'level',
 			'time',
+			'remoteAddr',
+			'user',
+			'app',
 			'method',
 			'url',
-			'user',
+			'message',
 			'userAgent',
 			'version'
 		);
