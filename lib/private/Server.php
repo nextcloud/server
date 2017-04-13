@@ -982,7 +982,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(IShareHelper::class, function(Server $c) {
 			return new ShareHelper(
-				$c->getLazyRootFolder()
+				$c->query(\OCP\Share\IManager::class)
 			);
 		});
 	}
