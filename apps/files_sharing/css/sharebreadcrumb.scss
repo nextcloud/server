@@ -20,7 +20,7 @@
  *
  */
 
-div.crumb span.icon-share,
+div.crumb span.icon-shared,
 div.crumb span.icon-public {
 	display: inline-block;
 	cursor: pointer;
@@ -28,7 +28,7 @@ div.crumb span.icon-public {
 	margin-right: 6px;
 }
 
-div.crumb span.icon-share.shared,
+div.crumb span.icon-shared.shared,
 div.crumb span.icon-public.shared {
 	opacity: 0.7;
 }

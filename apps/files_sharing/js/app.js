@@ -40,7 +40,7 @@ OCA.Sharing.App = {
 
 		this._extendFileList(this._inFileList);
 		this._inFileList.appName = t('files_sharing', 'Shared with you');
-		this._inFileList.$el.find('#emptycontent').html('<div class="icon-share"></div>' +
+		this._inFileList.$el.find('#emptycontent').html('<div class="icon-shared"></div>' +
 			'<h2>' + t('files_sharing', 'Nothing shared with you yet') + '</h2>' +
 			'<p>' + t('files_sharing', 'Files and folders others share with you will show up here') + '</p>');
 		return this._inFileList;
@@ -63,7 +63,7 @@ OCA.Sharing.App = {
 
 		this._extendFileList(this._outFileList);
 		this._outFileList.appName = t('files_sharing', 'Shared with others');
-		this._outFileList.$el.find('#emptycontent').html('<div class="icon-share"></div>' +
+		this._outFileList.$el.find('#emptycontent').html('<div class="icon-shared"></div>' +
 			'<h2>' + t('files_sharing', 'Nothing shared yet') + '</h2>' +
 			'<p>' + t('files_sharing', 'Files and folders you share will show up here') + '</p>');
 		return this._outFileList;
@@ -194,4 +194,3 @@ $(document).ready(function() {
 		OCA.Sharing.App.removeSharingLinks();
 	});
 });
-

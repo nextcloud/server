@@ -154,7 +154,7 @@
 				altText: t('core', 'Share'),
 				mime: 'all',
 				permissions: OC.PERMISSION_ALL,
-				iconClass: 'icon-share',
+				iconClass: 'icon-shared',
 				type: OCA.Files.FileActions.TYPE_INLINE,
 				actionHandler: function(fileName) {
 					fileList.showDetailsView(fileName, 'shareTabView');
