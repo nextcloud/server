@@ -3,7 +3,6 @@ style('settings', 'settings');
 vendor_script(
 	'core',
 	[
-		'handlebars/handlebars',
 		'marked/marked.min',
 	]
 );
