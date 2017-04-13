@@ -168,6 +168,6 @@ class Application extends App {
 
 		/** @var Hooks $hooks */
 		$hooks = $this->getContainer()->query(Hooks::class);
-		$hooks->onChangeEmail($parameters['user']);
+		$hooks->onChangeEmail($parameters['user'], $parameters['old_value']);
 	}
 }

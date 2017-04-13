@@ -112,27 +112,54 @@ class Hooks {
 
 	/**
 	 * @param IUser $user
+	 * @param string|null $oldMailAddress
 	 * @throws \InvalidArgumentException
 	 * @throws \BadMethodCallException
 	 */
-	public function onChangeEmail(IUser $user) {
+	public function onChangeEmail(IUser $user, $oldMailAddress) {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('settings')
 			->setType('personal_settings')
 			->setAffectedUser($user->getUID());
 
+		$instanceUrl = $this->urlGenerator->getAbsoluteURL('/');
+
 		$actor = $this->userSession->getUser();
 		if ($actor instanceof IUser) {
 			if ($actor->getUID() !== $user->getUID()) {
+				$text = $this->l->t('%1$s changed your email address on %2$s.', [$actor->getDisplayName(), $instanceUrl]);
 				$event->setAuthor($actor->getUID())
 					->setSubject(Provider::EMAIL_CHANGED_BY, [$actor->getUID()]);
 			} else {
+				$text = $this->l->t('Your email address on %s was changed.', [$instanceUrl]);
 				$event->setAuthor($actor->getUID())
 					->setSubject(Provider::EMAIL_CHANGED_SELF);
 			}
 		} else {
+			$text = $this->l->t('Your email address on %s was changed by an administrator.', [$instanceUrl]);
 			$event->setSubject(Provider::EMAIL_CHANGED);
 		}
 		$this->activityManager->publish($event);
+
+
+		if ($oldMailAddress !== null) {
+			$template = $this->mailer->createEMailTemplate();
+			$template->addHeader();
+			$template->addHeading($this->l->t('Email address changed for %s', $user->getDisplayName()), false);
+			$template->addBodyText($text . ' ' . $this->l->t('If you did not request this, please contact an administrator.'));
+			if ($user->getEMailAddress()) {
+				$template->addBodyText($this->l->t('The new email address is %s', $user->getEMailAddress()));
+			}
+			$template->addFooter();
+
+
+			$message = $this->mailer->createMessage();
+			$message->setTo([$oldMailAddress => $user->getDisplayName()]);
+			$message->setSubject($this->l->t('Email address for %1$s changed on %2$s', [$user->getDisplayName(), $instanceUrl]));
+			$message->setBody($template->renderText(), 'text/plain');
+			$message->setHtmlBody($template->renderHTML());
+
+			$this->mailer->send($message);
+		}
 	}
 }
