@@ -41,6 +41,7 @@ use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Hooks\Emitter;
+use OC\Hooks\PublicEmitter;
 use OC_User;
 use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
@@ -78,7 +79,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class Session implements IUserSession, Emitter {
 
-	/** @var IUserManager $manager */
+	/** @var IUserManager|PublicEmitter $manager */
 	private $manager;
 
 	/** @var ISession $session */
@@ -156,7 +157,7 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * get the manager object
 	 *
-	 * @return Manager
+	 * @return Manager|PublicEmitter
 	 */
 	public function getManager() {
 		return $this->manager;
@@ -322,6 +323,46 @@ class Session implements IUserSession, Emitter {
 			return $this->loginWithToken($password);
 		}
 		return $this->loginWithPassword($uid, $password);
+	}
+
+	/**
+	 * @param IUser $user
+	 * @param array $loginDetails
+	 * @param bool $regenerateSessionId
+	 * @return true returns true if login successful or an exception otherwise
+	 * @throws LoginException
+	 */
+	public function completeLogin(IUser $user, array $loginDetails, $regenerateSessionId = true) {
+		if (!$user->isEnabled()) {
+			// disabled users can not log in
+			// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
+			$message = \OC::$server->getL10N('lib')->t('User disabled');
+			throw new LoginException($message);
+		}
+
+		if($regenerateSessionId) {
+			$this->session->regenerateId();
+		}
+
+		$this->setUser($user);
+		$this->setLoginName($loginDetails['loginName']);
+
+		if(isset($loginDetails['token']) && $loginDetails['token'] instanceof IToken) {
+			$this->setToken($loginDetails['token']->getId());
+			$this->lockdownManager->setToken($loginDetails['token']);
+			$firstTimeLogin = false;
+		} else {
+			$this->setToken(null);
+			$firstTimeLogin = $user->updateLastLoginTimestamp();
+		}
+		$this->manager->emit('\OC\User', 'postLogin', [$user, $loginDetails['password']]);
+		if($this->isLoggedIn()) {
+			$this->prepareUserLogin($firstTimeLogin);
+			return true;
+		} else {
+			$message = \OC::$server->getL10N('lib')->t('Login canceled by app');
+			throw new LoginException($message);
+		}
 	}
 
 	/**
@@ -498,25 +539,7 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		if ($user->isEnabled()) {
-			$this->setUser($user);
-			$this->setLoginName($uid);
-			$this->setToken(null);
-			$firstTimeLogin = $user->updateLastLoginTimestamp();
-			$this->manager->emit('\OC\User', 'postLogin', [$user, $password]);
-			if ($this->isLoggedIn()) {
-				$this->prepareUserLogin($firstTimeLogin);
-				return true;
-			} else {
-				// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
-				$message = \OC::$server->getL10N('lib')->t('Login canceled by app');
-				throw new LoginException($message);
-			}
-		} else {
-			// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
-			$message = \OC::$server->getL10N('lib')->t('User disabled');
-			throw new LoginException($message);
-		}
+		return $this->completeLogin($user, ['loginName' => $uid, 'password' => $password], false);
 	}
 
 	/**
@@ -542,34 +565,22 @@ class Session implements IUserSession, Emitter {
 			// Ignore and use empty string instead
 		}
 
+		$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
+
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
 			// user does not exist
 			return false;
 		}
-		if (!$user->isEnabled()) {
-			// disabled users can not log in
-			// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
-			$message = \OC::$server->getL10N('lib')->t('User disabled');
-			throw new LoginException($message);
-		}
 
-		//login
-		$this->setUser($user);
-		$this->setLoginName($dbToken->getLoginName());
-		$this->setToken($dbToken->getId());
-		$this->lockdownManager->setToken($dbToken);
-		$this->manager->emit('\OC\User', 'postLogin', array($user, $password));
-
-		if ($this->isLoggedIn()) {
-			$this->prepareUserLogin(false); // token login cant be the first
-		} else {
-			// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
-			$message = \OC::$server->getL10N('lib')->t('Login canceled by app');
-			throw new LoginException($message);
-		}
-
-		return true;
+		return $this->completeLogin(
+			$user,
+			[
+				'loginName' => $dbToken->getLoginName(),
+				'password' => $password,
+				'token' => $dbToken
+			],
+			false);
 	}
 
 	/**

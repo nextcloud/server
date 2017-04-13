@@ -63,6 +63,7 @@ class Log implements ILogger {
 
 	protected $methodsWithSensitiveParameters = [
 		// Session/User
+		'completeLogin',
 		'login',
 		'checkPassword',
 		'loginWithPassword',
