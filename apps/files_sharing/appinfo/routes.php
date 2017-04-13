@@ -125,8 +125,6 @@ $application->registerRoutes($this, [
 ]);
 
 /** @var $this \OCP\Route\IRouter */
-$this->create('files_sharing_ajax_list', 'ajax/list.php')
-	->actionInclude('files_sharing/ajax/list.php');
 $this->create('sharing_external_shareinfo', '/shareinfo')
 	->actionInclude('files_sharing/ajax/shareinfo.php');
 
