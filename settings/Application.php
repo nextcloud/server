@@ -42,8 +42,6 @@ use OC\Settings\Middleware\SubadminMiddleware;
 use OCP\AppFramework\App;
 use OCP\Defaults;
 use OCP\IContainer;
-use OCP\IL10N;
-use OCP\IUser;
 use OCP\Settings\IManager;
 use OCP\Util;
 
@@ -139,7 +137,7 @@ class Application extends App {
 		$activityManager->registerSetting(Setting::class); // FIXME move to info.xml
 		$activityManager->registerProvider(Provider::class); // FIXME move to info.xml
 
-		Util::connectHook('OC_User', 'post_setPassword', $this, 'onPasswordChange');
+		Util::connectHook('OC_User', 'post_setPassword', $this, 'onChangePassword');
 		Util::connectHook('OC_User', 'changeUser', $this, 'onChangeInfo');
 	}
 
@@ -148,89 +146,28 @@ class Application extends App {
 	 * @throws \InvalidArgumentException
 	 * @throws \BadMethodCallException
 	 * @throws \Exception
+	 * @throws \OCP\AppFramework\QueryException
 	 */
-	public function onPasswordChange(array $parameters) {
-		$userManager = $this->getContainer()->getServer()->getUserManager();
-		$user = $userManager->get($parameters['uid']);
-
-		if (!$user instanceof IUser || $user->getEMailAddress() === null) {
-			return;
-		}
-
-		$activityManager = $this->getContainer()->getServer()->getActivityManager();
-		$event = $activityManager->generateEvent();
-		$event->setApp('settings')
-			->setType('personal_settings')
-			->setAffectedUser($user->getUID());
-
-		/** @var IL10N $l */
-		$l = $this->getContainer()->query(IL10N::class);
-		$urlGenerator = $this->getContainer()->getServer()->getURLGenerator();
-		$instanceUrl = $urlGenerator->getAbsoluteURL('/');
-
-		$actor = $this->getContainer()->getServer()->getUserSession()->getUser();
-		if ($actor instanceof IUser) {
-			if ($actor->getUID() !== $user->getUID()) {
-				$text = $l->t('%1$s changed your password on %2$s.', [$actor->getDisplayName(), $instanceUrl]);
-				$event->setAuthor($actor->getUID())
-					->setSubject(Provider::PASSWORD_CHANGED_BY, [$actor->getUID()]);
-			} else {
-				$text = $l->t('Your password on %s was changed.', [$instanceUrl]);
-				$event->setAuthor($actor->getUID())
-					->setSubject(Provider::PASSWORD_CHANGED_SELF);
-			}
-		} else {
-			$text = $l->t('Your password on %s was reset by an administrator.', [$instanceUrl]);
-			$event->setSubject(Provider::PASSWORD_RESET);
-		}
-
-		$activityManager->publish($event);
-
-		if ($user->getEMailAddress() !== null) {
-			$mailer = $this->getContainer()->getServer()->getMailer();
-			$template = $mailer->createEMailTemplate();
-			$template->addHeader();
-			$template->addHeading($l->t('Password changed for %s', $user->getDisplayName()), false);
-			$template->addBodyText($text . ' ' . $l->t('If you did not request this, please contact an administrator as soon as possible.'));
-			$template->addFooter();
-
-
-			$message = $mailer->createMessage();
-			$message->setTo([$user->getEMailAddress() => $user->getDisplayName()]);
-			$message->setSubject($l->t('Password for %1$s changed on %2$s', [$user->getDisplayName(), $instanceUrl]));
-			$message->setBody($template->renderText(), 'text/plain');
-			$message->setHtmlBody($template->renderHTML());
-
-			$mailer->send($message);
-		}
+	public function onChangePassword(array $parameters) {
+		/** @var Hooks $hooks */
+		$hooks = $this->getContainer()->query(Hooks::class);
+		$hooks->onChangePassword($parameters['uid']);
 	}
 
-	public function onChangeInfo($parameters) {
+	/**
+	 * @param array $parameters
+	 * @throws \InvalidArgumentException
+	 * @throws \BadMethodCallException
+	 * @throws \Exception
+	 * @throws \OCP\AppFramework\QueryException
+	 */
+	public function onChangeInfo(array $parameters) {
 		if ($parameters['feature'] !== 'eMailAddress') {
 			return;
 		}
 
-		/** @var IUser $user */
-		$user = $parameters['user'];
-
-		$activityManager = $this->getContainer()->getServer()->getActivityManager();
-		$event = $activityManager->generateEvent();
-		$event->setApp('settings')
-			->setType('personal_settings')
-			->setAffectedUser($user->getUID());
-
-		$actor = $this->getContainer()->getServer()->getUserSession()->getUser();
-		if ($actor instanceof IUser) {
-			if ($actor->getUID() !== $user->getUID()) {
-				$event->setAuthor($actor->getUID())
-					->setSubject(Provider::EMAIL_CHANGED_BY, [$actor->getUID()]);
-			} else {
-				$event->setAuthor($actor->getUID())
-					->setSubject(Provider::EMAIL_CHANGED_SELF);
-			}
-		} else {
-			$event->setSubject(Provider::EMAIL_CHANGED);
-		}
-		$activityManager->publish($event);
+		/** @var Hooks $hooks */
+		$hooks = $this->getContainer()->query(Hooks::class);
+		$hooks->onChangeEmail($parameters['user']);
 	}
 }
