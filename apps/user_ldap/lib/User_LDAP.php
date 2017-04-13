@@ -234,7 +234,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			$filter,
 			$this->access->userManager->getAttributes(true),
 			$limit, $offset);
-		$ldap_users = $this->access->ownCloudUserNames($ldap_users);
+		$ldap_users = $this->access->nextcloudUserNames($ldap_users);
 		Util::writeLog('user_ldap', 'getUsers: '.count($ldap_users). ' Users found', Util::DEBUG);
 
 		$this->access->connection->writeToCache($cachekey, $ldap_users);
