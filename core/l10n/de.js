@@ -137,6 +137,7 @@ OC.L10N.register(
     "group" : "Gruppe",
     "remote" : "Entfernte Freigabe",
     "email" : "E-Mail",
+    "shared by {sharer}" : "geteilt von {sharer}",
     "Unshare" : "Freigabe aufheben",
     "Can reshare" : "kann weiterteilen",
     "Can edit" : "kann bearbeiten",
@@ -209,9 +210,6 @@ OC.L10N.register(
     "File not found" : "Datei nicht gefunden",
     "The specified document has not been found on the server." : "Das ausgewählte Dokument wurde auf dem Server nicht gefunden.",
     "You can click here to return to %s." : "Hier klicken, um zu %s zurückzukehren.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hallo,\n\nhier nur kurz die Mitteilung, dass %s %s mit Dir geteilt hat.\nZum Anzeigen: %s\n\n",
-    "The share will expire on %s." : "Die Freigabe wird am %s ablaufen.",
-    "Cheers!" : "Noch einen schönen Tag!",
     "Internal Server Error" : "Interner Serverfehler",
     "The server encountered an internal error and was unable to complete your request." : "Der Server hat einen internen Fehler und konnte Ihre Anfrage nicht vervollständigen.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Bitte wende dich an den Serveradministrator, falls dieser Fehler mehrfach auftritt, und füge deiner Anfrage die untenstehenden technischen Details bei.",
@@ -269,7 +267,6 @@ OC.L10N.register(
     "New password" : "Neues Passwort",
     "New Password" : "Neues Passwort",
     "Reset password" : "Passwort zurücksetzen",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hallo,<br><br>hier nur kurz die Mitteilung, dass %s <strong>%s</strong> mit dir geteilt hat.<br><a href=\"%s\">Sieh es Dir an!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Diese Nextcloud-Instanz befindet sich derzeit im Einzelbenutzermodus.",
     "This means only administrators can use the instance." : "Dies bedeutet, dass diese Instanz nur von Administratoren genutzt werden kann.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktiere den Systemadministrator, wenn diese Meldung dauerhaft oder unerwartet erscheint.",
@@ -307,6 +304,10 @@ OC.L10N.register(
     "can change" : "kann ändern",
     "can delete" : "kann löschen",
     "access control" : "Zugriffskontrolle",
-    "The update was successful. Redirecting you to Nextcloud now." : "Das Update war erfolgreich. Weiterleitung zu Nextcloud."
+    "The update was successful. Redirecting you to Nextcloud now." : "Das Update war erfolgreich. Weiterleitung zu Nextcloud.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hallo,\n\nhier nur kurz die Mitteilung, dass %s %s mit Dir geteilt hat.\nZum Anzeigen: %s\n\n",
+    "The share will expire on %s." : "Die Freigabe wird am %s ablaufen.",
+    "Cheers!" : "Noch einen schönen Tag!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hallo,<br><br>hier nur kurz die Mitteilung, dass %s <strong>%s</strong> mit dir geteilt hat.<br><a href=\"%s\">Sieh es Dir an!</a><br><br>"
 },
 "nplurals=2; plural=(n != 1);");

@@ -135,6 +135,7 @@
     "group" : "groep",
     "remote" : "extern",
     "email" : "e-mail",
+    "shared by {sharer}" : "Gedeeld door {eigenaar}",
     "Unshare" : "Delen stoppen",
     "Can reshare" : "Kan doordelen",
     "Can edit" : "Kan bewerken",
@@ -207,9 +208,6 @@
     "File not found" : "Bestand niet gevonden",
     "The specified document has not been found on the server." : "Het opgegeven document is niet gevonden op deze server.",
     "You can click here to return to %s." : "Klik hier om terug te keren naar %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hallo daar,\n\n%s deelt %s met je.\nBekijk het hier: %s\n\n",
-    "The share will expire on %s." : "Het gedeelde vervalt op %s.",
-    "Cheers!" : "Proficiat!",
     "Internal Server Error" : "Interne serverfout",
     "The server encountered an internal error and was unable to complete your request." : "De server ontdekte een interne fout en kon je aanvraag niet verder uitvoeren.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Neem contact op met de serverbeheerder als deze fout meerdere keren optreedt en neem de onderstaande technische details op in je melding.",
@@ -267,7 +265,6 @@
     "New password" : "Nieuw wachtwoord",
     "New Password" : "Nieuw wachtwoord",
     "Reset password" : "Reset wachtwoord",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hallo daar,<br><br>%s deelde <strong>%s</strong> met je.<br><a href=\"%s\">Bekijk het hier!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Deze Nextcloud werkt momenteel in enkele gebruiker modus.",
     "This means only administrators can use the instance." : "Dat betekent dat alleen beheerders deze installatie kunnen gebruiken.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Neem contact op met je systeembeheerder als deze melding aanhoudt of onverwacht verscheen.",
@@ -305,6 +302,10 @@
     "can change" : "kan wijzigen",
     "can delete" : "kan verwijderen",
     "access control" : "toegangscontrole",
-    "The update was successful. Redirecting you to Nextcloud now." : "De update is geslaagd. Je wordt nu doorgeleid naar Nextcloud."
+    "The update was successful. Redirecting you to Nextcloud now." : "De update is geslaagd. Je wordt nu doorgeleid naar Nextcloud.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hallo daar,\n\n%s deelt %s met je.\nBekijk het hier: %s\n\n",
+    "The share will expire on %s." : "Het gedeelde vervalt op %s.",
+    "Cheers!" : "Proficiat!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hallo daar,<br><br>%s deelde <strong>%s</strong> met je.<br><a href=\"%s\">Bekijk het hier!</a><br><br>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

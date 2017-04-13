@@ -209,9 +209,6 @@ OC.L10N.register(
     "File not found" : "Archivo no encontrado",
     "The specified document has not been found on the server." : "El documento indicado no se ha encontrado en el servidor.",
     "You can click here to return to %s." : "Puede hacer clic aquí para volver a %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hola:\n\nTan solo queremos informarte que %s compartió %s contigo.\nMíralo aquí: %s\n\n",
-    "The share will expire on %s." : "El objeto dejará de ser compartido el %s.",
-    "Cheers!" : "¡Saludos!",
     "Internal Server Error" : "Error interno del servidor",
     "The server encountered an internal error and was unable to complete your request." : "El servidor ha encontrado un error y no puede completar la solicitud.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Por favor, contacte con el administrador del servidor si este error reaparece múltiples veces. Incluya asimismo los detalles técnicos que se muestran a continuación.",
@@ -269,7 +266,6 @@ OC.L10N.register(
     "New password" : "Nueva contraseña",
     "New Password" : "Contraseña nueva",
     "Reset password" : "Restablecer contraseña",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hola:<br><br>Te comentamos que %s compartió <strong>%s</strong> contigo.<br><a href=\"%s\">¡Échale un vistazo!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Esta instalación de Nextcloud se encuentra en modo de usuario único.",
     "This means only administrators can use the instance." : "Esto quiere decir que solo un administrador puede usarla.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte con su administrador de sistemas si este mensaje persiste o aparece de forma inesperada.",
@@ -307,6 +303,10 @@ OC.L10N.register(
     "can change" : "puede cambiar",
     "can delete" : "puede eliminar",
     "access control" : "control de acceso",
-    "The update was successful. Redirecting you to Nextcloud now." : "Actualización completada con éxito. Redirigiendo a Nextcloud."
+    "The update was successful. Redirecting you to Nextcloud now." : "Actualización completada con éxito. Redirigiendo a Nextcloud.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hola:\n\nTan solo queremos informarte que %s compartió %s contigo.\nMíralo aquí: %s\n\n",
+    "The share will expire on %s." : "El objeto dejará de ser compartido el %s.",
+    "Cheers!" : "¡Saludos!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hola:<br><br>Te comentamos que %s compartió <strong>%s</strong> contigo.<br><a href=\"%s\">¡Échale un vistazo!</a><br><br>"
 },
 "nplurals=2; plural=(n != 1);");

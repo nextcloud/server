@@ -39,6 +39,8 @@
     "Open documentation" : "Otwórz dokumentację",
     "Allow users on this server to send shares to other servers" : "Zezwalaj użytkownikom na tym serwerze wysłać udostępnienia do innych serwerów",
     "Allow users on this server to receive shares from other servers" : "Zezwalaj użytkownikom na tym serwerze do otrzymania udostępnień z innych serwerów",
+    "Search global and public address book for users and let local users publish their data" : "Szukaj użytkowników w globalnej i publicznej książce adresowej i pozwól lokalnym użytkownikom na publikowanie swoich danych",
+    "Allow users to publish their data to a global and public address book" : "Pozwól użytkownikom na publikację ich danych do globalnej i publicznej książki adresowej",
     "Federated Cloud" : "Stowarzyszona Chmura",
     "Your Federated Cloud ID:" : "Twoje ID Stowarzyszonej Chmury:",
     "Share it:" : "Udostępnij to:",

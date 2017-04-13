@@ -190,9 +190,6 @@ OC.L10N.register(
     "File not found" : "Ez da fitxategia aurkitu",
     "The specified document has not been found on the server." : "Zehaztutako dokumentua ez da zerbitzarian aurkitu.",
     "You can click here to return to %s." : "Hemen klika dezakezu %sra itzultzeko.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Kaixo\n\n%s-ek %s zurekin partekatu duela jakin dezazun.\nIkusi ezazu: %s\n\n",
-    "The share will expire on %s." : "Elkarbanaketa %s-n iraungiko da.",
-    "Cheers!" : "Ongi izan!",
     "Internal Server Error" : "Zerbitzariaren Barne Errorea",
     "The server encountered an internal error and was unable to complete your request." : "Zerbitzariak barne errore bat izan du eta ez da gai izan zure eskaria osatzeko.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Mesedez harremanetan jarri zerbitzariaren kudeatzailearekin errore hau aldi askotan agertzekotan, mesedez gehitu beheko zehaztapen teknikoak zure txostenean.",
@@ -249,7 +246,6 @@ OC.L10N.register(
     "New password" : "Pasahitz berria",
     "New Password" : "Pasahitz Berria",
     "Reset password" : "Berrezarri pasahitza",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Kaixo<br><br>%s-ek %s zurekin partekatu duela jakin dezazun.\nIkusi ezazu: %s",
     "This Nextcloud instance is currently in single user mode." : "Nextcloud instantzia hau erabiltzaile bakar moduan dago.",
     "This means only administrators can use the instance." : "Honek administradoreak bakarrik erabili dezakeela esan nahi du.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Jarri harremanetan zure sistema administratzailearekin mezu hau irauten badu edo bat-batean agertu bada.",
@@ -287,6 +283,10 @@ OC.L10N.register(
     "can change" : "aldatu dezake",
     "can delete" : "ezabatu dezake",
     "access control" : "sarrera kontrola",
-    "The update was successful. Redirecting you to Nextcloud now." : "The update was successful. Redirecting you to Nextcloud now."
+    "The update was successful. Redirecting you to Nextcloud now." : "The update was successful. Redirecting you to Nextcloud now.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Kaixo\n\n%s-ek %s zurekin partekatu duela jakin dezazun.\nIkusi ezazu: %s\n\n",
+    "The share will expire on %s." : "Elkarbanaketa %s-n iraungiko da.",
+    "Cheers!" : "Ongi izan!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Kaixo<br><br>%s-ek %s zurekin partekatu duela jakin dezazun.\nIkusi ezazu: %s"
 },
 "nplurals=2; plural=(n != 1);");

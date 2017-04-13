@@ -65,7 +65,6 @@
     "Set an admin username." : "Ezarri administraziorako erabiltzaile izena.",
     "Set an admin password." : "Ezarri administraziorako pasahitza.",
     "Can't create or write into the data directory %s" : "Ezin da %s datu karpeta sortu edo bertan idatzi ",
-    "%s shared »%s« with you" : "%s-ek »%s« zurekin partekatu du",
     "Sharing %s failed, because the backend does not allow shares from type %i" : "%s partekatzeak huts egin du, motorrak %i motako partekatzeak baimentzen ez dituelako",
     "Sharing %s failed, because the file does not exist" : "%s elkarbanatzeak huts egin du, fitxategia ez delako existitzen",
     "You are not allowed to share %s" : "Ez zadue %s elkarbanatzeko baimendua",
@@ -162,6 +161,7 @@
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Mesedez aldatu baimenak 0770ra beste erabiltzaileek karpetan sartu ezin izateko.",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Mesedez egiaztatu data karpeta \".ocdata\" fitxategia duela bere erroan.",
     "Could not obtain lock type %d on \"%s\"." : "Ezin da lortu sarraia mota %d \"%s\"-an.",
+    "%s shared »%s« with you" : "%s-ek »%s« zurekin partekatu du",
     "Cannot create \"data\" directory (%s)" : "Ezin da \"data\" karpeta sortu (%s)",
     "Data directory (%s) is readable by other users" : "Data karpeta (%s) beste erabiltzaileek irakur dezakete",
     "Data directory (%s) is invalid" : "Datuen karpeta (%s) ez da baliogarria"

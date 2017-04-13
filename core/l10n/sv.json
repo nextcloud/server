@@ -189,9 +189,6 @@
     "File not found" : "Filen kunde inte hittas",
     "The specified document has not been found on the server." : "Det angivna dokumentet hittades inte på servern.",
     "You can click here to return to %s." : "Du kan klicka här för att återvända till %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hej där,\n\nVi vill bara meddela att %s delade %s med dig.\nTitta på den här: %s\n\n",
-    "The share will expire on %s." : "Delningen kommer att upphöra %s.",
-    "Cheers!" : "Ha de fint!",
     "Internal Server Error" : "Internt serverfel",
     "The server encountered an internal error and was unable to complete your request." : "Servern påträffade ett internt fel och lmisslyckades att slutföra din begäran.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Vänligen kontakta serveradministratören om detta fel återkommer flera gånger, vänligen inkludera nedanstående tekniska detaljeri din felrapport.",
@@ -248,7 +245,6 @@
     "New password" : "Nytt lösenord",
     "New Password" : "Nytt lösenord",
     "Reset password" : "Återställ lösenord",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hej där,<br><br>Tänkte bara informera dig om att %s delade <strong>%s</strong> med dig.<br><a href=\"%s\">Klicka här för att se!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Denna Nextcloud instans är för närvarande i enanvändarläge",
     "This means only administrators can use the instance." : "Detta betyder att endast administartörer kan använda instansen.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hör av dig till din systemadministratör om detta meddelande fortsätter eller visas oväntat.",
@@ -286,6 +282,10 @@
     "can change" : "kan ändra",
     "can delete" : "kan radera",
     "access control" : "åtkomstkontroll",
-    "The update was successful. Redirecting you to Nextcloud now." : "Uppdateringen lyckades. Omdirigerar nu till Nextcloud."
+    "The update was successful. Redirecting you to Nextcloud now." : "Uppdateringen lyckades. Omdirigerar nu till Nextcloud.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hej där,\n\nVi vill bara meddela att %s delade %s med dig.\nTitta på den här: %s\n\n",
+    "The share will expire on %s." : "Delningen kommer att upphöra %s.",
+    "Cheers!" : "Ha de fint!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hej där,<br><br>Tänkte bara informera dig om att %s delade <strong>%s</strong> med dig.<br><a href=\"%s\">Klicka här för att se!</a><br><br>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

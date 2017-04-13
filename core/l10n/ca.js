@@ -152,9 +152,6 @@ OC.L10N.register(
     "File not found" : "No s'ha trobat l'arxiu",
     "The specified document has not been found on the server." : "El document especificat no s'ha trobat al servidor.",
     "You can click here to return to %s." : "Pots clicar aquí per tornar a %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Ei,\n\nnomés fer-te saber que %s ha compartit %s amb tu.\nMira-ho a: %s\n\n",
-    "The share will expire on %s." : "La compartició venç el %s.",
-    "Cheers!" : "Salut!",
     "Internal Server Error" : "Error Intern del Servidor",
     "The server encountered an internal error and was unable to complete your request." : "El servidor ha trobat un error intern i no pot finalitzar la teva petició.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Per favor, posi's en contacte amb l'administrador del servidor si aquest error torna a aparèixer diverses vegades, per favor inclogui els detalls tècnics de baix en el seu informe.",
@@ -207,7 +204,6 @@ OC.L10N.register(
     "New password" : "Contrasenya nova",
     "New Password" : "Contrasenya nova",
     "Reset password" : "Reinicialitza la contrasenya",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Ei, <br><br>només fer-vos saber que %s us ha comparti <strong>%s</strong>. <br><a href=\"%s\">Mireu-ho!</a>",
     "This Nextcloud instance is currently in single user mode." : "La instància Nextcloud està en mode d'usuari únic.",
     "This means only administrators can use the instance." : "Això significa que només els administradors poden usar la instància.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacteu amb l'administrador del sistema si aquest missatge persisteix o apareix inesperadament.",
@@ -237,6 +233,10 @@ OC.L10N.register(
     "can create" : "pot crear",
     "can change" : "pot canviar",
     "can delete" : "Pot esborrar",
-    "access control" : "control d'accés"
+    "access control" : "control d'accés",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Ei,\n\nnomés fer-te saber que %s ha compartit %s amb tu.\nMira-ho a: %s\n\n",
+    "The share will expire on %s." : "La compartició venç el %s.",
+    "Cheers!" : "Salut!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Ei, <br><br>només fer-vos saber que %s us ha comparti <strong>%s</strong>. <br><a href=\"%s\">Mireu-ho!</a>"
 },
 "nplurals=2; plural=(n != 1);");

@@ -157,9 +157,6 @@ OC.L10N.register(
     "File not found" : "Fails nav atrasts",
     "The specified document has not been found on the server." : "Norādītais dokuments nav atrasts serverī.",
     "You can click here to return to %s." : "Jūs varat noklikšķināt šeit, lai atgrieztos uz %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Sveiki,\n\ninformējam, ka %s koplietoja ar jums %s.\nApskati to: %s\n",
-    "The share will expire on %s." : "Koplietošana beigsies %s.",
-    "Cheers!" : "Priekā!",
     "Internal Server Error" : "Iekšēja servera kļūda",
     "The server encountered an internal error and was unable to complete your request." : "Serverī radās iekšēja kļūda, un tas nevarēja pabeigt jūsu pieprasījumu.",
     "More details can be found in the server log." : "Sīkāka informācija atrodama servera žurnāl failā.",
@@ -209,7 +206,6 @@ OC.L10N.register(
     "New password" : "Jauna parole",
     "New Password" : "Jauna parole",
     "Reset password" : "Mainīt paroli",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Sveiki,<br><br>informējam, ka %s koplietoja ar jums <strong>%s</strong>.<br><a href=\"%s\">Apskati to!</a><br><br>",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Sazinieties ar sistēmas administratoru, ja šis ziņojums tiek rādīts.. vai parādījās negaidīti",
     "Thank you for your patience." : "Paldies par jūsu pacietību.",
     "Log out" : "Izrakstīties",
@@ -235,6 +231,10 @@ OC.L10N.register(
     "can change" : "var mainīt",
     "can delete" : "var dzēst",
     "access control" : "piekļuves vadība",
-    "The update was successful. Redirecting you to Nextcloud now." : "Atjaunināšana ir bijusi veiksmīga. Tagad novirzīsim jūs uz Nextcloud."
+    "The update was successful. Redirecting you to Nextcloud now." : "Atjaunināšana ir bijusi veiksmīga. Tagad novirzīsim jūs uz Nextcloud.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Sveiki,\n\ninformējam, ka %s koplietoja ar jums %s.\nApskati to: %s\n",
+    "The share will expire on %s." : "Koplietošana beigsies %s.",
+    "Cheers!" : "Priekā!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Sveiki,<br><br>informējam, ka %s koplietoja ar jums <strong>%s</strong>.<br><a href=\"%s\">Apskati to!</a><br><br>"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -160,9 +160,6 @@
     "File not found" : "Súbor nenájdený",
     "The specified document has not been found on the server." : "Zadaný dokument nebol nájdený na serveri.",
     "You can click here to return to %s." : "Kliknite tu pre návrat do %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Dobrý deň,\n\npoužívateľ %s Vám sprístupnil položku s názvom %s.\nPre zobrazenie kliknite na odkaz: %s\n",
-    "The share will expire on %s." : "Sprístupnenie vyprší %s.",
-    "Cheers!" : "Pekný deň!",
     "Internal Server Error" : "Vnútorná chyba servera",
     "The server encountered an internal error and was unable to complete your request." : "Na serveri došlo k vnútornej chybe a nebol schopný dokončiť vašu požiadavku.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Obráťte sa na správcu servera, ak sa táto chyba objaví znovu viackrát, uveďte nižšie zobrazené technické údaje vo svojej správe.",
@@ -214,7 +211,6 @@
     "New password" : "Nové heslo",
     "New Password" : "Nové heslo",
     "Reset password" : "Obnovenie hesla",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Dobrý deň,<br><br>používateľ %s Vám sprístupnil položku s názvom »%s«.<br><a href=\"%s\">Zobraziť!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Táto inštancia Nextcloudu je teraz v jednopoužívateľskom móde.",
     "This means only administrators can use the instance." : "Len správca systému môže používať túto inštanciu.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktujte prosím správcu systému, ak sa táto správa objavuje opakovane alebo neočakávane.",
@@ -243,6 +239,10 @@
     "can change" : "môže zmeniť",
     "can delete" : "môže odstrániť",
     "access control" : "prístupové práva",
-    "The update was successful. Redirecting you to Nextcloud now." : "Aktualizácia bola úspešná. Presmerovávam na Nextcloud."
+    "The update was successful. Redirecting you to Nextcloud now." : "Aktualizácia bola úspešná. Presmerovávam na Nextcloud.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Dobrý deň,\n\npoužívateľ %s Vám sprístupnil položku s názvom %s.\nPre zobrazenie kliknite na odkaz: %s\n",
+    "The share will expire on %s." : "Sprístupnenie vyprší %s.",
+    "Cheers!" : "Pekný deň!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Dobrý deň,<br><br>používateľ %s Vám sprístupnil položku s názvom »%s«.<br><a href=\"%s\">Zobraziť!</a><br><br>"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

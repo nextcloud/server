@@ -165,9 +165,6 @@
     "File not found" : "File not found",
     "The specified document has not been found on the server." : "The specified document has not been found on the server.",
     "You can click here to return to %s." : "You can click here to return to %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n",
-    "The share will expire on %s." : "The share will expire on %s.",
-    "Cheers!" : "Cheers!",
     "Internal Server Error" : "Internal Server Error",
     "The server encountered an internal error and was unable to complete your request." : "The server encountered an internal error and was unable to complete your request.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report.",
@@ -221,7 +218,6 @@
     "New password" : "New password",
     "New Password" : "New Password",
     "Reset password" : "Reset password",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "This Nextcloud instance is currently in single user mode.",
     "This means only administrators can use the instance." : "This means only administrators can use the instance.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contact your system administrator if this message persists or appeared unexpectedly.",
@@ -249,6 +245,10 @@
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?",
     "can edit" : "can edit",
     "access control" : "access control",
-    "The update was successful. Redirecting you to Nextcloud now." : "The update was successful. Redirecting you to Nextcloud."
+    "The update was successful. Redirecting you to Nextcloud now." : "The update was successful. Redirecting you to Nextcloud.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n",
+    "The share will expire on %s." : "The share will expire on %s.",
+    "Cheers!" : "Cheers!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

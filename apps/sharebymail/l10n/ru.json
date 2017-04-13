@@ -11,18 +11,16 @@
     "Failed to send share by E-mail" : "Не удалось поделиться по e-mail",
     "%s shared »%s« with you" : "%s поделился »%s« с вами",
     "%s shared »%s« with you on behalf of %s" : "%s поделился »%s« с вами от имени %s",
-    "Failed to create the E-mail" : "Не удалось создать e-mail",
     "Password to access »%s« shared to you by %s" : "Пароль для доступа к »%s«, которым поделился %s",
     "Could not find share" : "Не удалось найти общий ресурс",
+    "Share by mail" : "Поделиться по почте",
+    "Send a personalized link to a file or folder by mail." : "Отправить персональную ссылку на файл или каталог по почте.",
+    "Send password by mail" : "Отправить пароль почтой",
+    "Failed to create the E-mail" : "Не удалось создать e-mail",
     "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Привет,\n\n%s предоставил вам общий доступ к »%s« от имени %s.\n\n%s\n\n",
     "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Привет,\n\n%s предоставил вам общий доступ к »%s«.\n\n%s\n\n",
     "Cheers!" : "Всего наилучшего!",
-    "Hey there,\n\n%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n\nIt is protected with the following password: %s\n\n" : "Привет,\n\n%s поделился »%s«.\nВы уже должны были получить отдельное письмо с сслкой для доступа.\n\nРесурс защищён следующим паролем: %s\n\n",
     "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Привет,<br><br>%s вам предоставил общий доступ к <a href=\"%s\">%s</a> от имени %s.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Привет,<br><br>%s вам предоставил общий доступ к <a href=\"%s\">%s</a>.<br><br>",
-    "Hey there,<br><br>%s shared <i>%s</i> with you.<br>You should have already received a separate mail with a link to access it.<br><br>It is protected with the following password: %s<br><br>" : "Привет,<br><br>%s поделился <i>%s</i>. <br> Вы уже должны были получить отдельное письмо с сслкой для доступа.<br><br>Ресурс защищён следующим паролем: %s<br><br>",
-    "Share by mail" : "Поделиться по почте",
-    "Send a personalized link to a file or folder by mail." : "Отправить персональную ссылку на файл или каталог по почте.",
-    "Send password by mail" : "Отправить пароль почтой"
+    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Привет,<br><br>%s вам предоставил общий доступ к <a href=\"%s\">%s</a>.<br><br>"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

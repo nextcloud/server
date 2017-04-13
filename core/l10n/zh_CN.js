@@ -199,9 +199,6 @@ OC.L10N.register(
     "File not found" : "文件未找到",
     "The specified document has not been found on the server." : "在服务器上没找到指定的文件.",
     "You can click here to return to %s." : "你可以点击这里返回 %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "嗨、你好,\n\n只想让你知道 %s 分享了 %s 给你。\n现在查看: %s\n",
-    "The share will expire on %s." : "此分享将在 %s 过期.",
-    "Cheers!" : "干杯！",
     "Internal Server Error" : "内部服务器错误",
     "The server encountered an internal error and was unable to complete your request." : "服务器发生一个内部错误并且无法完成你的请求.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "如果多次出现这个错误, 请联系服务器管理员, 请把下面的技术细节包含在您的报告中.",
@@ -259,7 +256,6 @@ OC.L10N.register(
     "New password" : "新密码",
     "New Password" : "新密码",
     "Reset password" : "重置密码",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "嗨、你好,<br><br>只想让你知道 %s 分享了 <strong>%s</strong> 给你。<br><a href=\"%s\">现在查看！</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "当前 Nextcloud 实例运行在单用户模式下.",
     "This means only administrators can use the instance." : "这意味着只有管理员才能在实例上操作.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "如果这个消息一直存在或不停出现, 请联系你的系统管理员.",
@@ -297,6 +293,10 @@ OC.L10N.register(
     "can change" : "允许改变",
     "can delete" : "允许删除",
     "access control" : "访问控制",
-    "The update was successful. Redirecting you to Nextcloud now." : "升级成功. 正在重新访问 Nextcloud."
+    "The update was successful. Redirecting you to Nextcloud now." : "升级成功. 正在重新访问 Nextcloud.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "嗨、你好,\n\n只想让你知道 %s 分享了 %s 给你。\n现在查看: %s\n",
+    "The share will expire on %s." : "此分享将在 %s 过期.",
+    "Cheers!" : "干杯！",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "嗨、你好,<br><br>只想让你知道 %s 分享了 <strong>%s</strong> 给你。<br><a href=\"%s\">现在查看！</a><br><br>"
 },
 "nplurals=1; plural=0;");

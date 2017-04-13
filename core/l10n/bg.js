@@ -189,9 +189,6 @@ OC.L10N.register(
     "File not found" : "Файлът не е открит",
     "The specified document has not been found on the server." : "Избраният документ не е намерен на сървъра.",
     "You can click here to return to %s." : "Можете да натиснете тук, за да се върнете на %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Здравейте,\n\nсамо да ви уведомяваме, че %s сподели %s с вас.\nРазгледай го: %s\n\n",
-    "The share will expire on %s." : "Споделянето ще изтече на %s.",
-    "Cheers!" : "Поздрави!",
     "Internal Server Error" : "Вътрешна системна грешка",
     "The server encountered an internal error and was unable to complete your request." : "Сървърът се натъкна на вътрешна грешка и неуспя да завърши заявката.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Моля, свържете се със сървърния администратор, ако тази грешка се появи отново. Също така Ви Молим да включите техническите данни, показани в доклада по-долу.",
@@ -247,7 +244,6 @@ OC.L10N.register(
     "New password" : "Нова парола",
     "New Password" : "Нова парола",
     "Reset password" : "Възстановяване на паролата",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Здравейте,<br><br>само ви уведомяваме, че %s сподели <strong>%s</strong> с вас.\n<br><a href=\"%s\">Разгледай го!</a><br><br>.",
     "This Nextcloud instance is currently in single user mode." : "В момента този Nextcloud е в режим допускащ само един потребител.",
     "This means only administrators can use the instance." : "Това означава, че само администраторът може да го използва.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Свържете се със системния администратор ако това съобщение се задържи твърде дълго или се е появило неочаквано.",
@@ -285,6 +281,10 @@ OC.L10N.register(
     "can change" : "може да ",
     "can delete" : "може да изтрива",
     "access control" : "контрол на достъпа",
-    "The update was successful. Redirecting you to Nextcloud now." : "Обновяването беше успешно. Сега те пренасочваме към Nextcloud."
+    "The update was successful. Redirecting you to Nextcloud now." : "Обновяването беше успешно. Сега те пренасочваме към Nextcloud.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Здравейте,\n\nсамо да ви уведомяваме, че %s сподели %s с вас.\nРазгледай го: %s\n\n",
+    "The share will expire on %s." : "Споделянето ще изтече на %s.",
+    "Cheers!" : "Поздрави!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Здравейте,<br><br>само ви уведомяваме, че %s сподели <strong>%s</strong> с вас.\n<br><a href=\"%s\">Разгледай го!</a><br><br>."
 },
 "nplurals=2; plural=(n != 1);");

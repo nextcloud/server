@@ -187,9 +187,6 @@
     "File not found" : "S’u gjet kartelë",
     "The specified document has not been found on the server." : "Dokumenti i përcaktuar s’u gjet në shërbyes.",
     "You can click here to return to %s." : "Mund të klikoni këtu për t’u kthyer te %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Njatjeta,\n\nthjesht po ju bëjmë të ditur që %s ndau me ju %s.\nShiheni: %s\n\n",
-    "The share will expire on %s." : "Ndarja do të skadojë më %s.",
-    "Cheers!" : "Gëzuar!",
     "Internal Server Error" : "Gabim i Brendshëm Shërbyesi",
     "The server encountered an internal error and was unable to complete your request." : "Shërbyesi hasi një gabim të brendshëm dhe s’qe në gjendje të plotësojë kërkesën tuaj.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Nëse ky gabim shfaqet shumë herë, ju lutemi, lidhuni me përgjegjësin e shërbyesit, dhe përfshini hollësitë teknike më poshtë në njoftimin tuaj.",
@@ -246,7 +243,6 @@
     "New password" : "Fjalëkalim i ri",
     "New Password" : "Fjalëkalim i Ri",
     "Reset password" : "Ricaktoni fjalëkalimin",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Njatjeta,<br><br>thjesht po ju bëjmë të ditur që %s ndau me ju <strong>%s</strong>.<br><a href=\"%s\">Shiheni!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Kjo instancë Nextcloud është aktualisht në gjendje me përdorues të vetëm.",
     "This means only administrators can use the instance." : "Kjo do të thotë që instancën mund ta përdorin vetëm administratorët.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Nëse ky mesazh shfaqet vazhdimisht ose u shfaq papritmas, lidhuni me përgjegjësin e sistemit.",
@@ -284,6 +280,10 @@
     "can change" : "mund të ndryshohet",
     "can delete" : "mund të fshihet",
     "access control" : "kontroll hyrjesh",
-    "The update was successful. Redirecting you to Nextcloud now." : "Përditësimi ishte i suksesshëm. Ju ridrejtojmë në Nextcloud tani."
+    "The update was successful. Redirecting you to Nextcloud now." : "Përditësimi ishte i suksesshëm. Ju ridrejtojmë në Nextcloud tani.",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Njatjeta,\n\nthjesht po ju bëjmë të ditur që %s ndau me ju %s.\nShiheni: %s\n\n",
+    "The share will expire on %s." : "Ndarja do të skadojë më %s.",
+    "Cheers!" : "Gëzuar!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Njatjeta,<br><br>thjesht po ju bëjmë të ditur që %s ndau me ju <strong>%s</strong>.<br><a href=\"%s\">Shiheni!</a><br><br>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -151,9 +151,6 @@
     "File not found" : "קובץ לא נמצא",
     "The specified document has not been found on the server." : "המסמך המבוקש לא נמצא על השרת.",
     "You can click here to return to %s." : "ניתן ללחוץ כאן לחזרה אל %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "שלום רב,\n\nרצינו לעדכן אותך ש- %s שיתף/שיתפה %s איתך.\nניתן לצפות בשיתוף כאן: %s\n\n",
-    "The share will expire on %s." : "השיתוף יפוג תוקף ב- %s.",
-    "Cheers!" : "לחיים!",
     "Internal Server Error" : "שגיאה פנימית בשרת",
     "The server encountered an internal error and was unable to complete your request." : "השרת נתקל בשגיאה פנימית ולא הצליח לסיים את הבקשה שלך.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "יש ליצור קשר עם מנהל השרת אם שגיאה זו חוזרת מספר פעמים, יש לצרף לדיווח את הפרטים הטכניים למטה.",
@@ -207,7 +204,6 @@
     "New password" : "ססמה חדשה",
     "New Password" : "סיסמא חדשה",
     "Reset password" : "איפוס ססמה",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "הי לך,<br><br>כדאי לך לדעת ש- %s משתף/פת <strong>%s</strong> אתך.<br><a href=\"%s\">לצפייה!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "הפעלת Nextcloud זו עובדת כרגע במצב של משתמש יחיד.",
     "This means only administrators can use the instance." : "לפיכך רק מנהלים יכולים להשתמש בהפעלה זו.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "יש ליצור קשר עם מנהל המערכת אם הודעה שו נמשכת או מופיעה באופן בלתי צפוי. ",
@@ -234,6 +230,10 @@
     "Problem loading page, reloading in 5 seconds" : "בעיה בטעינת העמוד, טעינה מחדש בעוד 5 שניות.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "הקבצים שלך מוצפנים. אם לא הפעלת את מפתח השחזור, לא תהיה דרך לקבל את המידע מחדש אחרי שהסיסמא תאופס.<br />אם אין לך מושג מה לעשות what to do, מוטב לפנות למנהל שלך לפני ההמשך. <br />האם באמת ברצונך להמשיך?",
     "can edit" : "ניתן לערוך",
-    "access control" : "בקרת גישה"
+    "access control" : "בקרת גישה",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "שלום רב,\n\nרצינו לעדכן אותך ש- %s שיתף/שיתפה %s איתך.\nניתן לצפות בשיתוף כאן: %s\n\n",
+    "The share will expire on %s." : "השיתוף יפוג תוקף ב- %s.",
+    "Cheers!" : "לחיים!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "הי לך,<br><br>כדאי לך לדעת ש- %s משתף/פת <strong>%s</strong> אתך.<br><a href=\"%s\">לצפייה!</a><br><br>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -163,9 +163,6 @@ OC.L10N.register(
     "File not found" : "Datoteke ni mogoče najti",
     "The specified document has not been found on the server." : "Določenega dokumenta na strežniku ni mogoče najti.",
     "You can click here to return to %s." : "S klikom na povezavo boste vrnjeni na %s.",
-    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Pozdravljeni,\n\noseba %s vam je omogočila souporabo %s.\nVir si lahko ogledate: %s\n\n",
-    "The share will expire on %s." : "Povezava souporabe bo potekla %s.",
-    "Cheers!" : "Lep pozdrav!",
     "Internal Server Error" : "Notranja  napaka strežnika",
     "The server encountered an internal error and was unable to complete your request." : "Prišlo je do notranje napake, zato ni mogoče končati zahteve.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Stopite v stik s skrbnikom sistema, če se napaka pojavlja pogosto. V poročilo vključite tudi tehnične podatke v dnevniški datoteki.",
@@ -219,7 +216,6 @@ OC.L10N.register(
     "New password" : "Novo geslo",
     "New Password" : "Novo geslo",
     "Reset password" : "Ponastavi geslo",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Pozdravljeni,<br><br>uporabnik %s vam je omogočil souporabo <strong>%s</strong>.<br><a href=\"%s\">Oglejte si vsebino!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Ta seja oblaka Nextcloud je trenutno v načinu enega sočasnega uporabnika.",
     "This means only administrators can use the instance." : "To pomeni, da lahko oblak uporabljajo le osebe s skrbniškimi dovoljenji.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Stopite v stik s skrbnikom sistema, če se bo sporočilo še naprej nepričakovano prikazovalo.",
@@ -251,6 +247,10 @@ OC.L10N.register(
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Datoteke so šifrirane. Če niste omogočili obnovitvenega ključa, po ponastavitvi gesla ne bo mogoč dostop do datotek.<br />V primeru, da niste prepričani, kaj storiti, stopite v stik s skrbnikom sistema.<br />Ali ste prepričani, da želite nadaljevati?",
     "can edit" : "lahko ureja",
     "access control" : "nadzor dostopa",
-    "The update was successful. Redirecting you to Nextcloud now." : "Posodobitev je bila uspešna. Stran bo preusmerjena na NextCloud"
+    "The update was successful. Redirecting you to Nextcloud now." : "Posodobitev je bila uspešna. Stran bo preusmerjena na NextCloud",
+    "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Pozdravljeni,\n\noseba %s vam je omogočila souporabo %s.\nVir si lahko ogledate: %s\n\n",
+    "The share will expire on %s." : "Povezava souporabe bo potekla %s.",
+    "Cheers!" : "Lep pozdrav!",
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Pozdravljeni,<br><br>uporabnik %s vam je omogočil souporabo <strong>%s</strong>.<br><a href=\"%s\">Oglejte si vsebino!</a><br><br>"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -8,7 +8,7 @@ OC.L10N.register(
     "Tagged files" : "Merkede filer",
     "Select tags to filter by" : "Velg merkelapper å filtrere på",
     "No tags found" : "Fant ingen merkelapper",
-    "Please select tags to filter by" : "Vennligst velg merkelapper å filtrere på",
+    "Please select tags to filter by" : "Velg merkelapper å filtrere etter",
     "No files found for the selected tags" : "Ingen filer funnet for de valgte merkelappene",
     "Added system tag %1$s" : "La til system-merkelapp %1$s",
     "Added system tag {systemtag}" : "La til system-merkelapp {systemtag}",
