@@ -224,10 +224,20 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$app->isAdminUser(),
 				$server->getContentSecurityPolicyManager(),
 				$server->getCsrfTokenManager(),
-				$server->getContentSecurityPolicyNonceManager(),
-				$server->getBruteForceThrottler()
+				$server->getContentSecurityPolicyNonceManager()
 			);
 
+		});
+
+		$this->registerService('BruteForceMiddleware', function($c) use ($app) {
+			/** @var \OC\Server $server */
+			$server = $app->getServer();
+
+			return new OC\AppFramework\Middleware\Security\BruteForceMiddleware(
+				$c['ControllerMethodReflector'],
+				$server->getBruteForceThrottler(),
+				$server->getRequest()
+			);
 		});
 
 		$this->registerService('RateLimitingMiddleware', function($c) use ($app) {
@@ -281,7 +291,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$dispatcher->registerMiddleware($c['CORSMiddleware']);
 			$dispatcher->registerMiddleware($c['OCSMiddleware']);
 			$dispatcher->registerMiddleware($c['SecurityMiddleware']);
-			$dispatcher->registerMiddleWare($c['TwoFactorMiddleware']);
+			$dispatcher->registerMiddleware($c['TwoFactorMiddleware']);
+			$dispatcher->registerMiddleware($c['BruteForceMiddleware']);
 			$dispatcher->registerMiddleware($c['RateLimitingMiddleware']);
 
 			foreach($middleWares as $middleWare) {

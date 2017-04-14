@@ -290,6 +290,7 @@ return array(
     'OC\\AppFramework\\Http\\Request' => $baseDir . '/lib/private/AppFramework/Http/Request.php',
     'OC\\AppFramework\\Middleware\\MiddlewareDispatcher' => $baseDir . '/lib/private/AppFramework/Middleware/MiddlewareDispatcher.php',
     'OC\\AppFramework\\Middleware\\OCSMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/OCSMiddleware.php',
+    'OC\\AppFramework\\Middleware\\Security\\BruteForceMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/Security/BruteForceMiddleware.php',
     'OC\\AppFramework\\Middleware\\Security\\CORSMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/Security/CORSMiddleware.php',
     'OC\\AppFramework\\Middleware\\Security\\Exceptions\\AppNotEnabledException' => $baseDir . '/lib/private/AppFramework/Middleware/Security/Exceptions/AppNotEnabledException.php',
     'OC\\AppFramework\\Middleware\\Security\\Exceptions\\CrossSiteRequestForgeryException' => $baseDir . '/lib/private/AppFramework/Middleware/Security/Exceptions/CrossSiteRequestForgeryException.php',

@@ -29,7 +29,6 @@
 namespace OC\Core\Controller;
 
 use OC\Authentication\TwoFactorAuth\Manager;
-use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OC_App;
 use OC_Util;
@@ -64,8 +63,6 @@ class LoginController extends Controller {
 	private $logger;
 	/** @var Manager */
 	private $twoFactorManager;
-	/** @var Throttler */
-	private $throttler;
 
 	/**
 	 * @param string $appName
@@ -77,7 +74,6 @@ class LoginController extends Controller {
 	 * @param IURLGenerator $urlGenerator
 	 * @param ILogger $logger
 	 * @param Manager $twoFactorManager
-	 * @param Throttler $throttler
 	 */
 	public function __construct($appName,
 						 IRequest $request,
@@ -87,8 +83,7 @@ class LoginController extends Controller {
 						 IUserSession $userSession,
 						 IURLGenerator $urlGenerator,
 						 ILogger $logger,
-						 Manager $twoFactorManager,
-						 Throttler $throttler) {
+						 Manager $twoFactorManager) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->config = $config;
@@ -97,7 +92,6 @@ class LoginController extends Controller {
 		$this->urlGenerator = $urlGenerator;
 		$this->logger = $logger;
 		$this->twoFactorManager = $twoFactorManager;
-		$this->throttler = $throttler;
 	}
 
 	/**
@@ -203,6 +197,7 @@ class LoginController extends Controller {
 	 * @PublicPage
 	 * @UseSession
 	 * @NoCSRFRequired
+	 * @BruteForceProtection(action=login)
 	 *
 	 * @param string $user
 	 * @param string $password
@@ -216,8 +211,6 @@ class LoginController extends Controller {
 		if(!is_string($user)) {
 			throw new \InvalidArgumentException('Username must be string');
 		}
-		$currentDelay = $this->throttler->getDelay($this->request->getRemoteAddress(), 'login');
-		$this->throttler->sleepDelay($this->request->getRemoteAddress(), 'login');
 
 		// If the user is already logged in and the CSRF check does not pass then
 		// simply redirect the user to the correct page as required. This is the
@@ -245,16 +238,14 @@ class LoginController extends Controller {
 			}
 		}
 		if ($loginResult === false) {
-			$this->throttler->registerAttempt('login', $this->request->getRemoteAddress(), ['user' => $originalUser]);
-			if($currentDelay === 0) {
-				$this->throttler->sleepDelay($this->request->getRemoteAddress(), 'login');
-			}
+			// Read current user and append if possible - we need to return the unmodified user otherwise we will leak the login name
+			$args = !is_null($user) ? ['user' => $originalUser] : [];
+			$response = new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm', $args));
+			$response->throttle();
 			$this->session->set('loginMessages', [
 				['invalidpassword'], []
 			]);
-			// Read current user and append if possible - we need to return the unmodified user otherwise we will leak the login name
-			$args = !is_null($user) ? ['user' => $originalUser] : [];
-			return new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm', $args));
+			return $response;
 		}
 		// TODO: remove password checks from above and let the user session handle failures
 		// requires https://github.com/owncloud/core/pull/24616
@@ -305,6 +296,7 @@ class LoginController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @UseSession
+	 * @BruteForceProtection(action=sudo)
 	 *
 	 * @license GNU AGPL version 3 or any later version
 	 *
@@ -312,18 +304,12 @@ class LoginController extends Controller {
 	 * @return DataResponse
 	 */
 	public function confirmPassword($password) {
-		$currentDelay = $this->throttler->getDelay($this->request->getRemoteAddress(), 'sudo');
-		$this->throttler->sleepDelay($this->request->getRemoteAddress(), 'sudo');
-
 		$loginName = $this->userSession->getLoginName();
 		$loginResult = $this->userManager->checkPassword($loginName, $password);
 		if ($loginResult === false) {
-			$this->throttler->registerAttempt('sudo', $this->request->getRemoteAddress(), ['user' => $loginName]);
-			if ($currentDelay === 0) {
-				$this->throttler->sleepDelay($this->request->getRemoteAddress(), 'sudo');
-			}
-
-			return new DataResponse([], Http::STATUS_FORBIDDEN);
+			$response = new DataResponse([], Http::STATUS_FORBIDDEN);
+			$response->throttle();
+			return $response;
 		}
 
 		$confirmTimestamp = time();
