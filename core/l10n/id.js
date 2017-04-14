@@ -245,7 +245,6 @@ OC.L10N.register(
     "Log in" : "Masuk",
     "Stay logged in" : "Tetap masuk",
     "Alternative Logins" : "Cara Alternatif untuk Masuk",
-    "Use the following link to reset your password: {link}" : "Gunakan tautan berikut untuk menyetel ulang sandi Anda: {link}",
     "New password" : "Sandi baru",
     "New Password" : "Sandi Baru",
     "Reset password" : "Setel ulang sandi",
@@ -290,6 +289,7 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hai,\n\nhanya supaya anda tahu bahwa %s membagikan %s dengan anda.\nLihat: %s\n\n",
     "The share will expire on %s." : "Pembagian akan berakhir pada %s.",
     "Cheers!" : "Horee!",
+    "Use the following link to reset your password: {link}" : "Gunakan tautan berikut untuk menyetel ulang sandi Anda: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hai,<br><br>hanya memberi tahu jika %s membagikan <strong>%s</strong> dengan Anda.<br><a href=\"%s\">Lihat!</a><br><br>"
 },
 "nplurals=1; plural=0;");

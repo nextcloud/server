@@ -67,7 +67,6 @@
     "_%n byte_::_%n bytes_" : ["%n Byte","%n Bytes"],
     "Favorited" : "Favorisiert",
     "Favorite" : "Favorit",
-    "Copy local link" : "Kopiere lokale Verknüpfung",
     "Folder" : "Ordner",
     "New folder" : "Neuer Ordner",
     "Upload" : "Hochladen",
@@ -136,6 +135,7 @@
     "{seconds}s" : "{seconds}n",
     "Any moment now..." : "Jeden Augenblick...",
     "Soon..." : "Bald...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Dateiupload läuft. Wenn die Seite jetzt verlassen wird, bricht der Upload ab."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "Dateiupload läuft. Wenn die Seite jetzt verlassen wird, bricht der Upload ab.",
+    "Copy local link" : "Kopiere lokale Verknüpfung"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

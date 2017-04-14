@@ -231,7 +231,6 @@ OC.L10N.register(
     "Log in" : "Log ind",
     "Stay logged in" : "Forbliv logget ind",
     "Alternative Logins" : "Alternative logins",
-    "Use the following link to reset your password: {link}" : "Anvend følgende link til at nulstille din adgangskode: {link}",
     "New password" : "Ny adgangskode",
     "New Password" : "Ny adgangskode",
     "Reset password" : "Nulstil kodeord",
@@ -269,6 +268,7 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hej\n\nDette blot for at lade dig vide, at %s har delt %s med dig.\n\nSe det her: %s\n\n",
     "The share will expire on %s." : "Delingen vil udløbe om %s.",
     "Cheers!" : "Hav en fortsat god dag.",
+    "Use the following link to reset your password: {link}" : "Anvend følgende link til at nulstille din adgangskode: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hej med dig,<br><br>Dette er blot for at informere dig om, at %s har delt <strong>%s</strong> med dig.<br><a href=\"%s\">Se det her!</a><br><br>"
 },
 "nplurals=2; plural=(n != 1);");

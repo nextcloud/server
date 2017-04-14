@@ -1,9 +1,9 @@
 OC.L10N.register(
     "workflowengine",
     {
-    "Successfully saved" : "Lagring var vellykket",
-    "Saving failed:" : "Lagring feilet:",
-    "File mime type" : "Filens mimetype",
+    "Successfully saved" : "Lagret",
+    "Saving failed:" : "Lagring mislyktes:",
+    "File mime type" : "Filens MIME-type",
     "is" : "er",
     "is not" : "er ikke",
     "matches" : "passer",

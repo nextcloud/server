@@ -69,7 +69,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n tavu","%n tavua"],
     "Favorited" : "Lisätty suosikkeihin",
     "Favorite" : "Suosikki",
-    "Copy local link" : "Kopioi paikallinen linkki",
     "Folder" : "Kansio",
     "New folder" : "Uusi kansio",
     "Upload" : "Lähetä",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "{seconds}s" : "{seconds} s",
     "Any moment now..." : "Minä tahansa hetkenä...",
     "Soon..." : "Pian...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Tiedoston lähetys on meneillään. Sivulta poistuminen nyt peruu tiedoston lähetyksen."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "Tiedoston lähetys on meneillään. Sivulta poistuminen nyt peruu tiedoston lähetyksen.",
+    "Copy local link" : "Kopioi paikallinen linkki"
 },
 "nplurals=2; plural=(n != 1);");

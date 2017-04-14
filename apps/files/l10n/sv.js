@@ -68,7 +68,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n bytes","%n bytes"],
     "Favorited" : "Favoriserad",
     "Favorite" : "Favorit",
-    "Copy local link" : "Kopiera den lokala länken",
     "Folder" : "Mapp",
     "New folder" : "Ny mapp",
     "Upload" : "Ladda upp",
@@ -137,6 +136,7 @@ OC.L10N.register(
     "{seconds}s" : "{seconds}s",
     "Any moment now..." : "Alldeles strax...",
     "Soon..." : "Snart...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Filuppladdning pågår. Lämnar du sidan så avbryts uppladdningen."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "Filuppladdning pågår. Lämnar du sidan så avbryts uppladdningen.",
+    "Copy local link" : "Kopiera den lokala länken"
 },
 "nplurals=2; plural=(n != 1);");

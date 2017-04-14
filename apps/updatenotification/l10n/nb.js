@@ -2,7 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "Update notifications" : "Oppdateringsvarsel",
-    "Could not start updater, please try the manual update" : "Kunne ikke starte oppdateringen, vennligst prøv å oppdatere manuelt",
+    "Could not start updater, please try the manual update" : "Kunne ikke starte oppdateringen, prøv å oppdatere manuelt",
     "{version} is available. Get more information on how to update." : "{version} er tilgjengelig. Få mer informasjon om å oppdatere.",
     "Channel updated" : "Kanal oppdatert",
     "Update to %1$s is available." : "Oppdatering til %1$s er tilgjengelig.",

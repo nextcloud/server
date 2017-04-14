@@ -261,7 +261,6 @@
     "Log in" : "Войти",
     "Stay logged in" : "Оставаться в системе",
     "Alternative Logins" : "Альтернативные имена пользователя",
-    "Use the following link to reset your password: {link}" : "Используйте следующую ссылку чтобы сбросить пароль: {link}",
     "New password" : "Новый пароль",
     "New Password" : "Новый пароль",
     "Reset password" : "Сбросить пароль",
@@ -306,6 +305,7 @@
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Здравствуйте,\n\n%s поделился %s с вами.\nПосмотреть: %s\n",
     "The share will expire on %s." : "Доступ будет закрыт %s",
     "Cheers!" : "Всего наилучшего!",
+    "Use the following link to reset your password: {link}" : "Используйте следующую ссылку чтобы сбросить пароль: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Здравствуйте,<br><br>%s поделился с вами <strong>%s</strong>.<br>Перейдите по <a href=\"%s\">ссылке</a>, чтобы посмотреть<br><br>"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

@@ -63,7 +63,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Favorited" : "Agregat a favorits",
     "Favorite" : "Preferits",
-    "Copy local link" : "C",
     "Folder" : "Carpeta",
     "New folder" : "Carpeta nova",
     "Upload" : "Puja",
@@ -115,6 +114,7 @@ OC.L10N.register(
     "_{seconds} second left_::_{seconds} seconds left_" : ["Falta {seconds} segon","Falten {seconds} segons"],
     "{seconds}s" : "{seconds}s",
     "Soon..." : "Aviat...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Hi ha una pujada en curs. Si abandoneu la pàgina la pujada es cancel·larà."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "Hi ha una pujada en curs. Si abandoneu la pàgina la pujada es cancel·larà.",
+    "Copy local link" : "C"
 },
 "nplurals=2; plural=(n != 1);");

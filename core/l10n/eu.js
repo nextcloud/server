@@ -242,7 +242,6 @@ OC.L10N.register(
     "Log in" : "Hasi saioa",
     "Stay logged in" : "Ez amaitu saioa",
     "Alternative Logins" : "Beste erabiltzaile izenak",
-    "Use the following link to reset your password: {link}" : "Eribili hurrengo lotura zure pasahitza berrezartzeko: {link}",
     "New password" : "Pasahitz berria",
     "New Password" : "Pasahitz Berria",
     "Reset password" : "Berrezarri pasahitza",
@@ -287,6 +286,7 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Kaixo\n\n%s-ek %s zurekin partekatu duela jakin dezazun.\nIkusi ezazu: %s\n\n",
     "The share will expire on %s." : "Elkarbanaketa %s-n iraungiko da.",
     "Cheers!" : "Ongi izan!",
+    "Use the following link to reset your password: {link}" : "Eribili hurrengo lotura zure pasahitza berrezartzeko: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Kaixo<br><br>%s-ek %s zurekin partekatu duela jakin dezazun.\nIkusi ezazu: %s"
 },
 "nplurals=2; plural=(n != 1);");

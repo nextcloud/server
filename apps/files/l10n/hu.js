@@ -69,7 +69,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n bájt","%n bájt"],
     "Favorited" : "Kedvenc",
     "Favorite" : "Kedvenc",
-    "Copy local link" : "Helyi hivatkozás másolása",
     "Folder" : "Mappa",
     "New folder" : "Új mappa",
     "Upload" : "Feltöltés",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "{seconds}s" : "{seconds}mp",
     "Any moment now..." : "Mostmár bármelyik pillanatban...",
     "Soon..." : "Hamarosan...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Fájlfeltöltés van folyamatban. Az oldal elhagyása megszakítja a feltöltést."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "Fájlfeltöltés van folyamatban. Az oldal elhagyása megszakítja a feltöltést.",
+    "Copy local link" : "Helyi hivatkozás másolása"
 },
 "nplurals=2; plural=(n != 1);");

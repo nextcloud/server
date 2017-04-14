@@ -69,7 +69,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n байт","%n байта","%n байт","%n байт"],
     "Favorited" : "Избранное",
     "Favorite" : "Избранное",
-    "Copy local link" : "Копировать локальную ссылку",
     "Folder" : "Каталог",
     "New folder" : "Новый каталог",
     "Upload" : "Загрузить",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "{seconds}s" : "{seconds}с",
     "Any moment now..." : "В любой момент...",
     "Soon..." : "Скоро...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Идёт загрузка файла. Покинув страницу, вы прервёте загрузку."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "Идёт загрузка файла. Покинув страницу, вы прервёте загрузку.",
+    "Copy local link" : "Копировать локальную ссылку"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

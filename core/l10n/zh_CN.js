@@ -252,7 +252,6 @@ OC.L10N.register(
     "Log in" : "登录",
     "Stay logged in" : "保持登录",
     "Alternative Logins" : "其他登录方式",
-    "Use the following link to reset your password: {link}" : "使用以下链接重置您的密码: {link}",
     "New password" : "新密码",
     "New Password" : "新密码",
     "Reset password" : "重置密码",
@@ -297,6 +296,7 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "嗨、你好,\n\n只想让你知道 %s 分享了 %s 给你。\n现在查看: %s\n",
     "The share will expire on %s." : "此分享将在 %s 过期.",
     "Cheers!" : "干杯！",
+    "Use the following link to reset your password: {link}" : "使用以下链接重置您的密码: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "嗨、你好,<br><br>只想让你知道 %s 分享了 <strong>%s</strong> 给你。<br><a href=\"%s\">现在查看！</a><br><br>"
 },
 "nplurals=1; plural=0;");

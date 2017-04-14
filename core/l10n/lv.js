@@ -202,7 +202,6 @@ OC.L10N.register(
     "Log in" : "Ierakstīties",
     "Stay logged in" : "Palikt ierakstītam",
     "Alternative Logins" : "Alternatīvās pieteikšanās",
-    "Use the following link to reset your password: {link}" : "Izmantojiet šo saiti, lai mainītu paroli: {link}",
     "New password" : "Jauna parole",
     "New Password" : "Jauna parole",
     "Reset password" : "Mainīt paroli",
@@ -235,6 +234,7 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Sveiki,\n\ninformējam, ka %s koplietoja ar jums %s.\nApskati to: %s\n",
     "The share will expire on %s." : "Koplietošana beigsies %s.",
     "Cheers!" : "Priekā!",
+    "Use the following link to reset your password: {link}" : "Izmantojiet šo saiti, lai mainītu paroli: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Sveiki,<br><br>informējam, ka %s koplietoja ar jums <strong>%s</strong>.<br><a href=\"%s\">Apskati to!</a><br><br>"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

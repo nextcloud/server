@@ -223,7 +223,6 @@
     "Log in" : "로그인",
     "Stay logged in" : "로그인 유지",
     "Alternative Logins" : "대체 로그인",
-    "Use the following link to reset your password: {link}" : "다음 링크를 사용하여 암호를 재설정할 수 있습니다: {link}",
     "New password" : "새 암호",
     "New Password" : "새 암호",
     "Reset password" : "암호 재설정",
@@ -264,6 +263,7 @@
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "안녕하세요,\n\n%s 님이 %s을(를) 공유하였음을 알려 드립니다.\n보기 링크: %s\n\n",
     "The share will expire on %s." : "이 공유는 %s 까지 유지됩니다.",
     "Cheers!" : "감사합니다!",
+    "Use the following link to reset your password: {link}" : "다음 링크를 사용하여 암호를 재설정할 수 있습니다: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "안녕하세요,<br><br>%s 님이 <strong>%s</strong>을(를) 공유하였음을 알려 드립니다.<br><a href=\"%s\">보러 가기!</a><br><br>"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

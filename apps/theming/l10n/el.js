@@ -1,0 +1,27 @@
+OC.L10N.register(
+    "theming",
+    {
+    "Admin" : "Διαχειριστής",
+    "a safe home for all your data" : "μια ασφαλής τοποθεσία για όλα σας τα δεδομένα",
+    "The given name is too long" : "Το όνομα που δόθηκε είναι πολύ μεγάλο",
+    "The given web address is too long" : "Η διεύθυνση ιστοσελίδας που δόθηκε είναι πολύ μεγάλη.",
+    "The given slogan is too long" : "Το ρητό που δόθηκε είναι πολύ μεγάλο",
+    "The given color is invalid" : "Δόθηκε μη έγκυρο χρώμα",
+    "Saved" : "Αποθηκεύτηκαν",
+    "No file uploaded" : "Δεν έχει μεταφορτωθεί αρχείο",
+    "Unsupported image type" : "Μη υποστηριζόμενος τύπος εικόνας",
+    "You are already using a custom theme" : "Χρησιμοποιείτε ήδη προσαρμοσμένο θέμα",
+    "Theming" : "Θεματοποίηση",
+    "Name" : "Όνομα",
+    "reset to default" : "επαναφορά στα προεπιλεγμένα",
+    "Web address" : "Διεύθυση ιστοσελίδας",
+    "Web address https://…" : "Διεύθυνση ιστοσελίδας https://...",
+    "Slogan" : "Ρητό",
+    "Color" : "Χρώμα",
+    "Logo" : "Λογότυπο",
+    "Upload new logo" : "Μεταφόρτωση νέου λογοτύπου",
+    "Login image" : "Εικόνα εισόδου",
+    "Upload new login background" : "Μεταφόρτωση νέου φόντου εισόδου",
+    "Log in image" : "Εικόνα εισόδου"
+},
+"nplurals=2; plural=(n != 1);");

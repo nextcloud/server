@@ -261,7 +261,6 @@
     "Log in" : "Meld u aan",
     "Stay logged in" : "Ingelogd blijven",
     "Alternative Logins" : "Alternatieve inlogs",
-    "Use the following link to reset your password: {link}" : "Gebruik de volgende link om je wachtwoord te resetten: {link}",
     "New password" : "Nieuw wachtwoord",
     "New Password" : "Nieuw wachtwoord",
     "Reset password" : "Reset wachtwoord",
@@ -306,6 +305,7 @@
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hallo daar,\n\n%s deelt %s met je.\nBekijk het hier: %s\n\n",
     "The share will expire on %s." : "Het gedeelde vervalt op %s.",
     "Cheers!" : "Proficiat!",
+    "Use the following link to reset your password: {link}" : "Gebruik de volgende link om je wachtwoord te resetten: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hallo daar,<br><br>%s deelde <strong>%s</strong> met je.<br><a href=\"%s\">Bekijk het hier!</a><br><br>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

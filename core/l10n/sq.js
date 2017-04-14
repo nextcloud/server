@@ -241,7 +241,6 @@ OC.L10N.register(
     "Log in" : "Hyni",
     "Stay logged in" : "Qëndro i futur",
     "Alternative Logins" : "Hyrje Alternative",
-    "Use the following link to reset your password: {link}" : "Që të ricaktoni fjalëkalimin tuaj, përdorni lidhjen vijuese: {link}",
     "New password" : "Fjalëkalim i ri",
     "New Password" : "Fjalëkalim i Ri",
     "Reset password" : "Ricaktoni fjalëkalimin",
@@ -286,6 +285,7 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Njatjeta,\n\nthjesht po ju bëjmë të ditur që %s ndau me ju %s.\nShiheni: %s\n\n",
     "The share will expire on %s." : "Ndarja do të skadojë më %s.",
     "Cheers!" : "Gëzuar!",
+    "Use the following link to reset your password: {link}" : "Që të ricaktoni fjalëkalimin tuaj, përdorni lidhjen vijuese: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Njatjeta,<br><br>thjesht po ju bëjmë të ditur që %s ndau me ju <strong>%s</strong>.<br><a href=\"%s\">Shiheni!</a><br><br>"
 },
 "nplurals=2; plural=(n != 1);");

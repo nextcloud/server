@@ -67,7 +67,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajte"],
     "Favorited" : "U kalua e parapëlqyer",
     "Favorite" : "E parapëlqyer",
-    "Copy local link" : "Kopjo lidhjen lokale",
     "Folder" : "Dosje",
     "New folder" : "Dosje e re",
     "Upload" : "Ngarkoje",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "{seconds}s" : "{seconds}s",
     "Any moment now..." : "Në çdo çast tani…",
     "Soon..." : "Së shpejti…",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Ngarkimi i skedarit është në punë e sipër. Largimi nga faqja do të anulojë ngarkimin."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "Ngarkimi i skedarit është në punë e sipër. Largimi nga faqja do të anulojë ngarkimin.",
+    "Copy local link" : "Kopjo lidhjen lokale"
 },
 "nplurals=2; plural=(n != 1);");

@@ -263,7 +263,6 @@ OC.L10N.register(
     "Log in" : "Zaloguj",
     "Stay logged in" : "Pozostań zalogowany",
     "Alternative Logins" : "Alternatywne loginy",
-    "Use the following link to reset your password: {link}" : "Użyj tego odnośnika by zresetować hasło: {link}",
     "New password" : "Nowe hasło",
     "New Password" : "Nowe hasło",
     "Reset password" : "Zresetuj hasło",
@@ -308,6 +307,7 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Witaj,\n\ntylko informuję, że %s współdzieli z Tobą %s.\nZobacz tutaj: %s\n\n",
     "The share will expire on %s." : "Ten zasób wygaśnie %s",
     "Cheers!" : "Pozdrawiam!",
+    "Use the following link to reset your password: {link}" : "Użyj tego odnośnika by zresetować hasło: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Witam, <br><br>informuję, że %s udostępnianych zasobów <strong>%s</strong> jest z Tobą.<br><a href=\"%s\">Zobacz!</a><br><br>"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

@@ -69,7 +69,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajty","%n bajtov"],
     "Favorited" : "Pridané k obľúbeným",
     "Favorite" : "Obľúbené",
-    "Copy local link" : "Kopíruj lokálny odkaz",
     "Folder" : "Priečinok",
     "New folder" : "Nový priečinok",
     "Upload" : "Nahrať",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "{seconds}s" : "{seconds}s",
     "Any moment now..." : "Už každú chvíľu…",
     "Soon..." : "Čoskoro…",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Opustenie stránky zruší práve prebiehajúce odosielanie súboru."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "Opustenie stránky zruší práve prebiehajúce odosielanie súboru.",
+    "Copy local link" : "Kopíruj lokálny odkaz"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

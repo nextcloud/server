@@ -242,7 +242,6 @@ OC.L10N.register(
     "Log in" : "Bejelentkezés",
     "Stay logged in" : "Maradjon bejelentkezve",
     "Alternative Logins" : "Alternatív bejelentkezés",
-    "Use the following link to reset your password: {link}" : "Használja ezt a hivatkozást a jelszó ismételt beállításához: {link}",
     "New password" : "Új jelszó",
     "New Password" : "Új jelszó",
     "Reset password" : "Jelszó-visszaállítás",
@@ -287,6 +286,7 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Üdv!\n\nÉrtesítünk, hogy %s megosztotta veled a következőt: %s.\nItt nézheted meg: %s\n\n",
     "The share will expire on %s." : "A megosztás lejár ekkor: %s.",
     "Cheers!" : "Üdv.",
+    "Use the following link to reset your password: {link}" : "Használja ezt a hivatkozást a jelszó ismételt beállításához: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Üdv!<br /><br />\n\nÉrtesítünk, hogy %s megosztotta veled a következőt: <strong>%s</strong><br />\n<a href=\"%s\">Itt nézheted meg.</a><br /><br />"
 },
 "nplurals=2; plural=(n != 1);");

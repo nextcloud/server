@@ -65,7 +65,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n바이트"],
     "Favorited" : "책갈피에 추가됨",
     "Favorite" : "즐겨찾기",
-    "Copy local link" : "로컬 링크 복사",
     "Folder" : "폴더",
     "New folder" : "새 폴더",
     "Upload" : "업로드",
@@ -130,6 +129,7 @@ OC.L10N.register(
     "{seconds}s" : "{seconds}초",
     "Any moment now..." : "조금 남음",
     "Soon..." : "곧...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "파일 업로드가 진행 중입니다. 이 페이지를 벗어나면 업로드가 취소됩니다."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "파일 업로드가 진행 중입니다. 이 페이지를 벗어나면 업로드가 취소됩니다.",
+    "Copy local link" : "로컬 링크 복사"
 },
 "nplurals=1; plural=0;");

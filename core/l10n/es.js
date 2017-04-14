@@ -137,6 +137,7 @@ OC.L10N.register(
     "group" : "grupo",
     "remote" : "remoto",
     "email" : "email",
+    "shared by {sharer}" : "compartido por {sharer}",
     "Unshare" : "Dejar de compartir",
     "Can reshare" : "Puede compartir",
     "Can edit" : "Puede editar",
@@ -262,7 +263,6 @@ OC.L10N.register(
     "Log in" : "Iniciar sesión",
     "Stay logged in" : "Permanecer autenticado",
     "Alternative Logins" : "Inicios de sesión alternativos",
-    "Use the following link to reset your password: {link}" : "Utilice el siguiente enlace para restablecer su contraseña: {link}",
     "New password" : "Nueva contraseña",
     "New Password" : "Contraseña nueva",
     "Reset password" : "Restablecer contraseña",
@@ -307,6 +307,7 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hola:\n\nTan solo queremos informarte que %s compartió %s contigo.\nMíralo aquí: %s\n\n",
     "The share will expire on %s." : "El objeto dejará de ser compartido el %s.",
     "Cheers!" : "¡Saludos!",
+    "Use the following link to reset your password: {link}" : "Utilice el siguiente enlace para restablecer su contraseña: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hola:<br><br>Te comentamos que %s compartió <strong>%s</strong> contigo.<br><a href=\"%s\">¡Échale un vistazo!</a><br><br>"
 },
 "nplurals=2; plural=(n != 1);");

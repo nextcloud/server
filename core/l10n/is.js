@@ -254,7 +254,6 @@ OC.L10N.register(
     "Log in" : "Skrá inn",
     "Stay logged in" : "Haldast skráður inn",
     "Alternative Logins" : "Aðrar innskráningar",
-    "Use the following link to reset your password: {link}" : "Notað eftirfarandi veftengil til að endursetja lykilorðið þitt: {link}",
     "New password" : "Nýtt lykilorð",
     "New Password" : "Nýtt lykilorð",
     "Reset password" : "Endursetja lykilorð",
@@ -299,6 +298,7 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Sælir,\n\nbara láta þig vita að %s deildi %s með þér.\n\nSkoðaðu það: %s\n\n",
     "The share will expire on %s." : "Gildistími sameignar rennur út %s.",
     "Cheers!" : "Skál!",
+    "Use the following link to reset your password: {link}" : "Notað eftirfarandi veftengil til að endursetja lykilorðið þitt: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hæ þú,<br><br>bara að láta þig vita að %s deildi <strong>%s</strong> með þér.<br><a href=\"%s\">Skoðaðu það!</a><br><br>"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

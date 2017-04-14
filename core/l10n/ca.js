@@ -200,7 +200,6 @@ OC.L10N.register(
     "Log in" : "Inici de sessió",
     "Stay logged in" : "Mantén la sessió connectada",
     "Alternative Logins" : "Acreditacions alternatives",
-    "Use the following link to reset your password: {link}" : "Useu l'enllaç següent per restablir la contrasenya: {link}",
     "New password" : "Contrasenya nova",
     "New Password" : "Contrasenya nova",
     "Reset password" : "Reinicialitza la contrasenya",
@@ -237,6 +236,7 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Ei,\n\nnomés fer-te saber que %s ha compartit %s amb tu.\nMira-ho a: %s\n\n",
     "The share will expire on %s." : "La compartició venç el %s.",
     "Cheers!" : "Salut!",
+    "Use the following link to reset your password: {link}" : "Useu l'enllaç següent per restablir la contrasenya: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Ei, <br><br>només fer-vos saber que %s us ha comparti <strong>%s</strong>. <br><a href=\"%s\">Mireu-ho!</a>"
 },
 "nplurals=2; plural=(n != 1);");

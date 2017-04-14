@@ -67,7 +67,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n bytes"],
     "Favorited" : "Được ưa thích",
     "Favorite" : "Ưu thích",
-    "Copy local link" : "Sao chép liên kết cục bộ",
     "Folder" : "Thư mục",
     "New folder" : "Tạo thư mục",
     "Upload" : "Tải lên",
@@ -128,6 +127,7 @@ OC.L10N.register(
     "_{seconds} second left_::_{seconds} seconds left_" : ["{seconds} giây còn lại"],
     "Any moment now..." : "Sắp xong rồi...",
     "Soon..." : "Sớm thôi...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi trang bây giờ sẽ hủy quá trình này."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi trang bây giờ sẽ hủy quá trình này.",
+    "Copy local link" : "Sao chép liên kết cục bộ"
 },
 "nplurals=1; plural=0;");

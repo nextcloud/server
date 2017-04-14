@@ -69,7 +69,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n byte","%n byte"],
     "Favorited" : "Preferiti",
     "Favorite" : "Preferito",
-    "Copy local link" : "Copia collegamento locale",
     "Folder" : "Cartella",
     "New folder" : "Nuova cartella",
     "Upload" : "Carica",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "{seconds}s" : "{seconds}s",
     "Any moment now..." : "Da un momento all'altro...",
     "Soon..." : "Presto...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Caricamento del file in corso. La chiusura della pagina annullerà il caricamento."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "Caricamento del file in corso. La chiusura della pagina annullerà il caricamento.",
+    "Copy local link" : "Copia collegamento locale"
 },
 "nplurals=2; plural=(n != 1);");

@@ -249,7 +249,6 @@
     "Log in" : "Kirjaudu sisään",
     "Stay logged in" : "Pysy sisäänkirjautuneena",
     "Alternative Logins" : "Vaihtoehtoiset kirjautumistavat",
-    "Use the following link to reset your password: {link}" : "Voit palauttaa salasanasi seuraavassa osoitteessa: {link}",
     "New password" : "Uusi salasana",
     "New Password" : "Uusi salasana",
     "Reset password" : "Palauta salasana",
@@ -294,6 +293,7 @@
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hei,\n\n%s jakoi kohteen %s kanssasi.\nTutustu siihen: %s\n\n",
     "The share will expire on %s." : "Jakaminen päättyy %s.",
     "Cheers!" : "Kiitos!",
+    "Use the following link to reset your password: {link}" : "Voit palauttaa salasanasi seuraavassa osoitteessa: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hei,<br><br>%s jakoi kanssasi kohteen <strong>%s</strong>.<br><a href=\"%s\">Tutustu siihen!</a><br><br>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
