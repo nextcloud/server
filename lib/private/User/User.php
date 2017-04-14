@@ -158,12 +158,13 @@ class User implements IUser {
 	 * @since 9.0.0
 	 */
 	public function setEMailAddress($mailAddress) {
+		$oldMailAddress = $this->getEMailAddress();
 		if($mailAddress === '') {
 			$this->config->deleteUserValue($this->uid, 'settings', 'email');
 		} else {
 			$this->config->setUserValue($this->uid, 'settings', 'email', $mailAddress);
 		}
-		$this->triggerChange('eMailAddress', $mailAddress);
+		$this->triggerChange('eMailAddress', $mailAddress, $oldMailAddress);
 	}
 
 	/**
@@ -435,9 +436,9 @@ class User implements IUser {
 		return $url;
 	}
 
-	public function triggerChange($feature, $value = null) {
+	public function triggerChange($feature, $value = null, $oldValue = null) {
 		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'changeUser', array($this, $feature, $value));
+			$this->emitter->emit('\OC\User', 'changeUser', array($this, $feature, $value, $oldValue));
 		}
 	}
 }

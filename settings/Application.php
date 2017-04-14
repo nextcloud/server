@@ -35,6 +35,8 @@ use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Token\IProvider;
 use OC\Server;
+use OC\Settings\Activity\Provider;
+use OC\Settings\Activity\Setting;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OC\Settings\Middleware\SubadminMiddleware;
 use OCP\AppFramework\App;
@@ -128,5 +130,44 @@ class Application extends App {
 				$server->getConfig()
 			);
 		});
+	}
+
+	public function register() {
+		$activityManager = $this->getContainer()->getServer()->getActivityManager();
+		$activityManager->registerSetting(Setting::class); // FIXME move to info.xml
+		$activityManager->registerProvider(Provider::class); // FIXME move to info.xml
+
+		Util::connectHook('OC_User', 'post_setPassword', $this, 'onChangePassword');
+		Util::connectHook('OC_User', 'changeUser', $this, 'onChangeInfo');
+	}
+
+	/**
+	 * @param array $parameters
+	 * @throws \InvalidArgumentException
+	 * @throws \BadMethodCallException
+	 * @throws \Exception
+	 * @throws \OCP\AppFramework\QueryException
+	 */
+	public function onChangePassword(array $parameters) {
+		/** @var Hooks $hooks */
+		$hooks = $this->getContainer()->query(Hooks::class);
+		$hooks->onChangePassword($parameters['uid']);
+	}
+
+	/**
+	 * @param array $parameters
+	 * @throws \InvalidArgumentException
+	 * @throws \BadMethodCallException
+	 * @throws \Exception
+	 * @throws \OCP\AppFramework\QueryException
+	 */
+	public function onChangeInfo(array $parameters) {
+		if ($parameters['feature'] !== 'eMailAddress') {
+			return;
+		}
+
+		/** @var Hooks $hooks */
+		$hooks = $this->getContainer()->query(Hooks::class);
+		$hooks->onChangeEmail($parameters['user'], $parameters['old_value']);
 	}
 }
