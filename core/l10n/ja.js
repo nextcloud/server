@@ -254,7 +254,6 @@ OC.L10N.register(
     "Log in" : "ログイン",
     "Stay logged in" : "ログインしたままにする",
     "Alternative Logins" : "代替ログイン",
-    "Use the following link to reset your password: {link}" : "パスワードをリセットするには次のリンクをクリックしてください: {link}",
     "New password" : "新しいパスワードを入力",
     "New Password" : "新しいパスワード",
     "Reset password" : "パスワードをリセット",
@@ -299,6 +298,7 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "こんにちは、\n\n%s があなたと %s を共有したことをお知らせします。\nそれを表示: %s\n",
     "The share will expire on %s." : "共有は %s で有効期限が切れます。",
     "Cheers!" : "それでは！",
+    "Use the following link to reset your password: {link}" : "パスワードをリセットするには次のリンクをクリックしてください: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "こんにちは、<br><br>%sがあなたと »%s« を共有したことをお知らせします。<br><a href=\"%s\">それを表示</a><br><br>"
 },
 "nplurals=1; plural=0;");

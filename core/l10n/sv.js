@@ -243,7 +243,6 @@ OC.L10N.register(
     "Log in" : "Logga in",
     "Stay logged in" : "Fortsätt vara inloggad.",
     "Alternative Logins" : "Alternativa inloggningar",
-    "Use the following link to reset your password: {link}" : "Använd följande länk för att återställa lösenordet: {link}",
     "New password" : "Nytt lösenord",
     "New Password" : "Nytt lösenord",
     "Reset password" : "Återställ lösenord",
@@ -288,6 +287,7 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hej där,\n\nVi vill bara meddela att %s delade %s med dig.\nTitta på den här: %s\n\n",
     "The share will expire on %s." : "Delningen kommer att upphöra %s.",
     "Cheers!" : "Ha de fint!",
+    "Use the following link to reset your password: {link}" : "Använd följande länk för att återställa lösenordet: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hej där,<br><br>Tänkte bara informera dig om att %s delade <strong>%s</strong> med dig.<br><a href=\"%s\">Klicka här för att se!</a><br><br>"
 },
 "nplurals=2; plural=(n != 1);");

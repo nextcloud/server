@@ -100,7 +100,7 @@ OC.L10N.register(
     "Reasons might be:" : "Mulige årsaker:",
     "the item was removed" : "elementet er fjernet",
     "the link expired" : "lenken er utløpt",
-    "sharing is disabled" : "deling er deaktivert",
+    "sharing is disabled" : "deling er avskrudd",
     "For more info, please ask the person who sent this link." : "For mer informasjon, spør personen som sendte lenken.",
     "Add to your Nextcloud" : "Legg til i din Nextcloud",
     "Download" : "Last ned",

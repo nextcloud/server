@@ -202,7 +202,6 @@ OC.L10N.register(
     "Log in" : "כניסה",
     "Stay logged in" : "השאר מחובר",
     "Alternative Logins" : "כניסות אלטרנטיביות",
-    "Use the following link to reset your password: {link}" : "יש להשתמש בקישור הבא כדי לאפס את הססמה שלך: {link}",
     "New password" : "ססמה חדשה",
     "New Password" : "סיסמא חדשה",
     "Reset password" : "איפוס ססמה",
@@ -236,6 +235,7 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "שלום רב,\n\nרצינו לעדכן אותך ש- %s שיתף/שיתפה %s איתך.\nניתן לצפות בשיתוף כאן: %s\n\n",
     "The share will expire on %s." : "השיתוף יפוג תוקף ב- %s.",
     "Cheers!" : "לחיים!",
+    "Use the following link to reset your password: {link}" : "יש להשתמש בקישור הבא כדי לאפס את הססמה שלך: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "הי לך,<br><br>כדאי לך לדעת ש- %s משתף/פת <strong>%s</strong> אתך.<br><a href=\"%s\">לצפייה!</a><br><br>"
 },
 "nplurals=2; plural=(n != 1);");

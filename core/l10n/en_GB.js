@@ -216,7 +216,6 @@ OC.L10N.register(
     "Log in" : "Log in",
     "Stay logged in" : "Stay logged in",
     "Alternative Logins" : "Alternative Logins",
-    "Use the following link to reset your password: {link}" : "Use the following link to reset your password: {link}",
     "New password" : "New password",
     "New Password" : "New Password",
     "Reset password" : "Reset password",
@@ -251,6 +250,7 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n",
     "The share will expire on %s." : "The share will expire on %s.",
     "Cheers!" : "Cheers!",
+    "Use the following link to reset your password: {link}" : "Use the following link to reset your password: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>"
 },
 "nplurals=2; plural=(n != 1);");

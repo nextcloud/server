@@ -69,7 +69,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n 字节"],
     "Favorited" : "已收藏",
     "Favorite" : "收藏",
-    "Copy local link" : "复制本地链接",
     "Folder" : "文件夹",
     "New folder" : "新建文件夹",
     "Upload" : "上传",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "{seconds}s" : "{seconds}s",
     "Any moment now..." : "现在任何时候...",
     "Soon..." : "很快...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "文件正在上传中. 离开此页将会取消上传."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "文件正在上传中. 离开此页将会取消上传.",
+    "Copy local link" : "复制本地链接"
 },
 "nplurals=1; plural=0;");

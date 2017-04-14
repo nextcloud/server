@@ -260,7 +260,6 @@
     "Log in" : "Ingresar",
     "Stay logged in" : "Mantener la sesión abierta",
     "Alternative Logins" : "Accesos Alternativos",
-    "Use the following link to reset your password: {link}" : "Use la siguiente liga para restablecer su contraseña: {link}",
     "New password" : "Nueva contraseña",
     "New Password" : "Nueva Contraseña",
     "Reset password" : "Restablecer contraseña",
@@ -305,6 +304,7 @@
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hola,\n\nsólo queremos informarle que %s ha compartido %s con usted.\n\nConsúltelo aquí: %s\n\n",
     "The share will expire on %s." : "El recurso dejará de ser compartido el %s.",
     "Cheers!" : "¡Saludos!",
+    "Use the following link to reset your password: {link}" : "Use la siguiente liga para restablecer su contraseña: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hola,<br><br> sólo queremos informarle que %s ha compartido <strong>%s</strong> con usted. <br><a href=\"%s\">¡Véalo!</a><br><br>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

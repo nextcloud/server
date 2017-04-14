@@ -238,7 +238,6 @@
     "Log in" : "Вписване",
     "Stay logged in" : "Остани вписан",
     "Alternative Logins" : "Алтернативни методи на вписване",
-    "Use the following link to reset your password: {link}" : "Използвайте следната връзка, за да възстановите паролата си: {link}",
     "New password" : "Нова парола",
     "New Password" : "Нова парола",
     "Reset password" : "Възстановяване на паролата",
@@ -283,6 +282,7 @@
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Здравейте,\n\nсамо да ви уведомяваме, че %s сподели %s с вас.\nРазгледай го: %s\n\n",
     "The share will expire on %s." : "Споделянето ще изтече на %s.",
     "Cheers!" : "Поздрави!",
+    "Use the following link to reset your password: {link}" : "Използвайте следната връзка, за да възстановите паролата си: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Здравейте,<br><br>само ви уведомяваме, че %s сподели <strong>%s</strong> с вас.\n<br><a href=\"%s\">Разгледай го!</a><br><br>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

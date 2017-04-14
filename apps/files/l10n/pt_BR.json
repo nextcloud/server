@@ -67,7 +67,6 @@
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Favorited" : "Favoritado",
     "Favorite" : "Favorito",
-    "Copy local link" : "Copiar link local",
     "Folder" : "Pasta",
     "New folder" : "Nova pasta",
     "Upload" : "Enviar",
@@ -136,6 +135,7 @@
     "{seconds}s" : "{seconds}s",
     "Any moment now..." : "A qualquer momento...",
     "Soon..." : "Logo...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Envio de arquivo em andamento. Sair da página agora resultará no cancelamento do envio."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "Envio de arquivo em andamento. Sair da página agora resultará no cancelamento do envio.",
+    "Copy local link" : "Copiar link local"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

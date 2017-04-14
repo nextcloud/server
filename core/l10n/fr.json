@@ -261,7 +261,6 @@
     "Log in" : "Se connecter",
     "Stay logged in" : "Rester connecté",
     "Alternative Logins" : "Identifiants alternatifs",
-    "Use the following link to reset your password: {link}" : "Utilisez le lien suivant pour réinitialiser votre mot de passe : {link}",
     "New password" : "Nouveau mot de passe",
     "New Password" : "Nouveau mot de passe",
     "Reset password" : "Réinitialiser le mot de passe",
@@ -306,6 +305,7 @@
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Bonjour,\n\nNous vous informons que %s a partagé %s avec vous.\nVous pouvez y accéder à l'adresse suivante : %s\n",
     "The share will expire on %s." : "Le partage expirera le %s.",
     "Cheers!" : "À bientôt !",
+    "Use the following link to reset your password: {link}" : "Utilisez le lien suivant pour réinitialiser votre mot de passe : {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Bonjour,<br><br>Nous vous informons que %s a partagé <strong>%s</strong> avec vous.<br><a href=\"%s\">Cliquez ici pour y accéder !</a><br><br>"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

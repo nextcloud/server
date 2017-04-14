@@ -69,7 +69,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["¦%n Byte","¦%n Byte"],
     "Favorited" : "Favoriséiert",
     "Favorite" : "Favorit",
-    "Copy local link" : "Lokale Link kopéiert",
     "Folder" : "Dossier",
     "New folder" : "Neien Dossier",
     "Upload" : "Eroplueden",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "{seconds}s" : "{seconds}s",
     "Any moment now..." : "An engen Moment",
     "Soon..." : "Geschwënn",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "File Upload am gaang. Wann's de des Säit verléiss gëtt den Upload ofgebrach."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "File Upload am gaang. Wann's de des Säit verléiss gëtt den Upload ofgebrach.",
+    "Copy local link" : "Lokale Link kopéiert"
 },
 "nplurals=2; plural=(n != 1);");

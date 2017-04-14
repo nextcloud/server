@@ -211,7 +211,6 @@
     "Log in" : "登入",
     "Stay logged in" : "保持登入狀態",
     "Alternative Logins" : "其他登入方法",
-    "Use the following link to reset your password: {link}" : "請至以下連結重設您的密碼： {link}",
     "New password" : "新密碼",
     "New Password" : "新密碼",
     "Reset password" : "重設密碼",
@@ -250,6 +249,7 @@
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "嗨，\n\n%s 和你分享了 %s ，到這裡看它：%s\n",
     "The share will expire on %s." : "這個分享將會於 %s 過期",
     "Cheers!" : "太棒了！",
+    "Use the following link to reset your password: {link}" : "請至以下連結重設您的密碼： {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "嗨，<br><br>%s 與你分享了<strong>%s</strong>。<br><a href=\"%s\">檢視</a><br><br>"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

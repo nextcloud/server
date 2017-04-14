@@ -69,7 +69,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Favorited" : "Favoriet",
     "Favorite" : "Favoriet",
-    "Copy local link" : "Kopiëren lokale link",
     "Folder" : "Map",
     "New folder" : "Nieuwe map",
     "Upload" : "Uploaden",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "{seconds}s" : "{seconds}en",
     "Any moment now..." : "Heel snel nu...",
     "Soon..." : "Binnenkort...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Bestandsupload is bezig. Wanneer de pagina nu verlaten wordt, stopt de upload."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "Bestandsupload is bezig. Wanneer de pagina nu verlaten wordt, stopt de upload.",
+    "Copy local link" : "Kopiëren lokale link"
 },
 "nplurals=2; plural=(n != 1);");

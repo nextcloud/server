@@ -69,7 +69,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n baitas","%n baitai","%n baitų"],
     "Favorited" : "Pažymėta mėgstamu",
     "Favorite" : "Mėgiamas",
-    "Copy local link" : "Kopijuoti vietinę nuorodą",
     "Folder" : "Aplankas",
     "New folder" : "Naujas aplankas",
     "Upload" : "Įkelti",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "{seconds}s" : "{seconds}s",
     "Any moment now..." : "Bet kuriuo metu...",
     "Soon..." : "Netrukus...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Failo įkėlimas yra eigoje. Jei išeisite iš šio puslapio, įkėlimo bus atsisakyta."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "Failo įkėlimas yra eigoje. Jei išeisite iš šio puslapio, įkėlimo bus atsisakyta.",
+    "Copy local link" : "Kopijuoti vietinę nuorodą"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");

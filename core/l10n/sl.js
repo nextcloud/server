@@ -212,7 +212,6 @@ OC.L10N.register(
     "Log in" : "Prijava",
     "Stay logged in" : "Ohrani prijavo",
     "Alternative Logins" : "Druge prijavne možnosti",
-    "Use the following link to reset your password: {link}" : "Za ponastavitev gesla uporabite povezavo: {link}",
     "New password" : "Novo geslo",
     "New Password" : "Novo geslo",
     "Reset password" : "Ponastavi geslo",
@@ -251,6 +250,7 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Pozdravljeni,\n\noseba %s vam je omogočila souporabo %s.\nVir si lahko ogledate: %s\n\n",
     "The share will expire on %s." : "Povezava souporabe bo potekla %s.",
     "Cheers!" : "Lep pozdrav!",
+    "Use the following link to reset your password: {link}" : "Za ponastavitev gesla uporabite povezavo: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Pozdravljeni,<br><br>uporabnik %s vam je omogočil souporabo <strong>%s</strong>.<br><a href=\"%s\">Oglejte si vsebino!</a><br><br>"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

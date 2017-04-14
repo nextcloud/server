@@ -69,7 +69,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n バイト"],
     "Favorited" : "お気に入り済",
     "Favorite" : "お気に入り",
-    "Copy local link" : "ローカルリンクをコピー",
     "Folder" : "フォルダー",
     "New folder" : "新しいフォルダー",
     "Upload" : "アップロード",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "{seconds}s" : "{seconds} 秒",
     "Any moment now..." : "まもなく…",
     "Soon..." : "まもなく…",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "ファイル転送を実行中です。今このページから移動するとアップロードが中止されます。"
+    "File upload is in progress. Leaving the page now will cancel the upload." : "ファイル転送を実行中です。今このページから移動するとアップロードが中止されます。",
+    "Copy local link" : "ローカルリンクをコピー"
 },
 "nplurals=1; plural=0;");

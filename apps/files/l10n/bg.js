@@ -66,7 +66,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n байт","%n байта"],
     "Favorited" : "Отбелязано в любими",
     "Favorite" : "Любими",
-    "Copy local link" : "Копиране на локална връзка",
     "Folder" : "Папка",
     "New folder" : "Нова папка",
     "Upload" : "Качване",
@@ -132,6 +131,7 @@ OC.L10N.register(
     "{seconds}s" : "{seconds}и",
     "Any moment now..." : "Всеки момент...",
     "Soon..." : "Скоро...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Извършва се качване на файлове. Затварянето на тази страница ще прекъсне качването."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "Извършва се качване на файлове. Затварянето на тази страница ще прекъсне качването.",
+    "Copy local link" : "Копиране на локална връзка"
 },
 "nplurals=2; plural=(n != 1);");

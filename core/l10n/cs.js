@@ -252,7 +252,6 @@ OC.L10N.register(
     "Log in" : "Přihlásit",
     "Stay logged in" : "Neodhlašovat",
     "Alternative Logins" : "Alternativní přihlášení",
-    "Use the following link to reset your password: {link}" : "Heslo obnovíte použitím následujícího odkazu: {link}",
     "New password" : "Nové heslo",
     "New Password" : "Nové heslo",
     "Reset password" : "Obnovit heslo",
@@ -297,6 +296,7 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hej ty tam,\n\njen ti chci dát vědět, že %s sdílel %s s tebou.\nZobraz si to: %s\n\n",
     "The share will expire on %s." : "Sdílení vyprší %s.",
     "Cheers!" : "Ať slouží!",
+    "Use the following link to reset your password: {link}" : "Heslo obnovíte použitím následujícího odkazu: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Ahoj,<br><br>jen ti dávám vědět, že s tebou %s sdílí <strong>%s</strong>.<br><a href=\"%s\">Zkontroluj to!</a><br><br>"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

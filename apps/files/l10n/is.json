@@ -67,7 +67,6 @@
     "_%n byte_::_%n bytes_" : ["%n bæti","%n bæti"],
     "Favorited" : "Sett í eftirlæti",
     "Favorite" : "Eftirlæti",
-    "Copy local link" : "Afrita staðværan tengil",
     "Folder" : "Mappa",
     "New folder" : "Ný mappa",
     "Upload" : "Senda inn",
@@ -136,6 +135,7 @@
     "{seconds}s" : "{seconds}sek",
     "Any moment now..." : "Á hverri stundu...",
     "Soon..." : "Bráðum...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Innsending í gangi. Ef þú ferð af þessari síðu mun innsending hætta."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "Innsending í gangi. Ef þú ferð af þessari síðu mun innsending hætta.",
+    "Copy local link" : "Afrita staðværan tengil"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

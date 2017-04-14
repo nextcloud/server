@@ -67,7 +67,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Favorited" : "Gogokoa",
     "Favorite" : "Gogokoa",
-    "Copy local link" : "Kopiatu tokiko esteka",
     "Folder" : "Karpeta",
     "New folder" : "Karpeta berria",
     "Upload" : "Igo",
@@ -136,6 +135,7 @@ OC.L10N.register(
     "{seconds}s" : "{seconds}s",
     "Any moment now..." : "Edozein unean...",
     "Soon..." : "Laster...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Fitxategien igoera martxan da. Orria orain uzteak igoera ezeztatutko du."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "Fitxategien igoera martxan da. Orria orain uzteak igoera ezeztatutko du.",
+    "Copy local link" : "Kopiatu tokiko esteka"
 },
 "nplurals=2; plural=(n != 1);");

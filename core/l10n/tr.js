@@ -263,7 +263,6 @@ OC.L10N.register(
     "Log in" : "Oturum Aç",
     "Stay logged in" : "Bağlı kal",
     "Alternative Logins" : "Alternatif Oturum Açmalar",
-    "Use the following link to reset your password: {link}" : "Parolanızı sıfırlamak için şu bağlantıyı kullanın: {link}",
     "New password" : "Yeni parola",
     "New Password" : "Yeni Parola",
     "Reset password" : "Parolayı sıfırla",
@@ -308,6 +307,7 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Merhaba,\n\n%s kullanıcısının sizinle %s paylaşımında bulunduğunu bildirmek istedik.\nPaylaşımı şuradan görebilirsiniz: %s\n\n",
     "The share will expire on %s." : "Bu paylaşım %s tarihinde sona erecek.",
     "Cheers!" : "Hoşça kalın!",
+    "Use the following link to reset your password: {link}" : "Parolanızı sıfırlamak için şu bağlantıyı kullanın: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Merhaba, <br><br>%s kullanıcısının sizinle <strong>%s</strong> paylaşımında bulunduğunu bildirmek istedik.<br><a href=\"%s\">Paylaşımı şuradan görebilirsiniz!</a><br><br>"
 },
 "nplurals=2; plural=(n > 1);");

@@ -67,7 +67,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n baiti","%n baits","%n baiti"],
     "Favorited" : "Favorīti",
     "Favorite" : "Iecienītais",
-    "Copy local link" : "Kopēt lokālo saiti",
     "Folder" : "Mape",
     "New folder" : "Jauna mape",
     "Upload" : "Augšupielādēt",
@@ -136,6 +135,7 @@ OC.L10N.register(
     "{seconds}s" : "{seconds}s",
     "Any moment now..." : "Jebkurā brīdī tagad...",
     "Soon..." : "Drīz...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Notiek augšupielāde. Pametot lapu tagad, tiks atcelta augšupielāde."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "Notiek augšupielāde. Pametot lapu tagad, tiks atcelta augšupielāde.",
+    "Copy local link" : "Kopēt lokālo saiti"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

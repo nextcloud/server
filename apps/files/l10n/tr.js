@@ -69,7 +69,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n bayt","%n bayt"],
     "Favorited" : "Sık kullanılanlara eklendi",
     "Favorite" : "Sık kullanılanlara ekle",
-    "Copy local link" : "Bağlantıyı kopyala",
     "Folder" : "Klasör",
     "New folder" : "Yeni klasör",
     "Upload" : "Yükle",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "{seconds}s" : "{seconds} saniye",
     "Any moment now..." : "Hemen şimdi...",
     "Soon..." : "Yakında...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Dosya yükleme işlemi sürüyor. Sayfadan ayrılırsanız yükleme işlemi iptal edilir."
+    "File upload is in progress. Leaving the page now will cancel the upload." : "Dosya yükleme işlemi sürüyor. Sayfadan ayrılırsanız yükleme işlemi iptal edilir.",
+    "Copy local link" : "Bağlantıyı kopyala"
 },
 "nplurals=2; plural=(n > 1);");
