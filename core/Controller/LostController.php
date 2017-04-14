@@ -32,6 +32,7 @@ namespace OC\Core\Controller;
 
 use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use \OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\JSONResponse;
 use \OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
@@ -207,17 +208,21 @@ class LostController extends Controller {
 	 * @BruteForceProtection(action=passwordResetEmail)
 	 *
 	 * @param string $user
-	 * @return array
+	 * @return JSONResponse
 	 */
 	public function email($user){
 		// FIXME: use HTTP error codes
 		try {
 			$this->sendEmail($user);
 		} catch (\Exception $e){
-			return $this->error($e->getMessage());
+			$response = new JSONResponse($this->error($e->getMessage()));
+			$response->throttle();
+			return $response;
 		}
 
-		return $this->success();
+		$response = new JSONResponse($this->success());
+		$response->throttle();
+		return $response;
 	}
 
 	/**

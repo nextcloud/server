@@ -22,7 +22,6 @@
 namespace OC\Core\Controller;
 
 use OC\CapabilitiesManager;
-use OC\Security\Bruteforce\Throttler;
 use OC\Security\IdentityProof\Manager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
@@ -39,8 +38,6 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	private $userManager;
 	/** @var Manager */
 	private $keyManager;
-	/** @var Throttler */
-	private $throttler;
 
 	/**
 	 * OCSController constructor.
@@ -50,7 +47,6 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 * @param CapabilitiesManager $capabilitiesManager
 	 * @param IUserSession $userSession
 	 * @param IUserManager $userManager
-	 * @param Throttler $throttler
 	 * @param Manager $keyManager
 	 */
 	public function __construct($appName,
@@ -58,13 +54,11 @@ class OCSController extends \OCP\AppFramework\OCSController {
 								CapabilitiesManager $capabilitiesManager,
 								IUserSession $userSession,
 								IUserManager $userManager,
-								Throttler $throttler,
 								Manager $keyManager) {
 		parent::__construct($appName, $request);
 		$this->capabilitiesManager = $capabilitiesManager;
 		$this->userSession = $userSession;
 		$this->userManager = $userManager;
-		$this->throttler = $throttler;
 		$this->keyManager = $keyManager;
 	}
 
@@ -107,6 +101,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @PublicPage
+	 * @BruteForceProtection(action=login)
 	 *
 	 * @param string $login
 	 * @param string $password
@@ -114,7 +109,6 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 */
 	public function personCheck($login = '', $password = '') {
 		if ($login !== '' && $password !== '') {
-			$this->throttler->sleepDelay($this->request->getRemoteAddress(), 'login');
 			if ($this->userManager->checkPassword($login, $password)) {
 				return new DataResponse([
 					'person' => [
@@ -122,8 +116,10 @@ class OCSController extends \OCP\AppFramework\OCSController {
 					]
 				]);
 			}
-			$this->throttler->registerAttempt('login', $this->request->getRemoteAddress());
-			return new DataResponse(null, 102);
+
+			$response = new DataResponse(null, 102);
+			$response->throttle();
+			return $response;
 		}
 		return new DataResponse(null, 101);
 	}

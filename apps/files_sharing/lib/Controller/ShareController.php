@@ -182,7 +182,9 @@ class ShareController extends Controller {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.showShare', array('token' => $token)));
 		}
 
-		return new TemplateResponse($this->appName, 'authenticate', array('wrongpw' => true), 'guest');
+		$response = new TemplateResponse($this->appName, 'authenticate', array('wrongpw' => true), 'guest');
+		$response->throttle();
+		return $response;
 	}
 
 	/**

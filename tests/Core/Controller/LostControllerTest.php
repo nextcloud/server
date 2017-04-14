@@ -23,6 +23,7 @@ namespace Tests\Core\Controller;
 
 use OC\Core\Controller\LostController;
 use OC\Mail\Message;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
@@ -245,7 +246,7 @@ class LostControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testEmailUnsucessful() {
+	public function testEmailUnsuccessful() {
 		$existingUser = 'ExistingUser';
 		$nonExistingUser = 'NonExistingUser';
 		$this->userManager
@@ -258,11 +259,12 @@ class LostControllerTest extends \Test\TestCase {
 
 		// With a non existing user
 		$response = $this->lostController->email($nonExistingUser);
-		$expectedResponse = [
+		$expectedResponse = new JSONResponse([
 			'status' => 'error',
 			'msg' => 'Couldn\'t send reset email. Please make sure your username is correct.'
-		];
-		$this->assertSame($expectedResponse, $response);
+		]);
+		$expectedResponse->throttle();
+		$this->assertEquals($expectedResponse, $response);
 
 		// With no mail address
 		$this->config
@@ -271,11 +273,12 @@ class LostControllerTest extends \Test\TestCase {
 			->with($existingUser, 'settings', 'email')
 			->will($this->returnValue(null));
 		$response = $this->lostController->email($existingUser);
-		$expectedResponse = [
+		$expectedResponse = new JSONResponse([
 			'status' => 'error',
 			'msg' => 'Couldn\'t send reset email. Please make sure your username is correct.'
-		];
-		$this->assertSame($expectedResponse, $response);
+		]);
+		$expectedResponse->throttle();
+		$this->assertEquals($expectedResponse, $response);
 	}
 
 	public function testEmailSuccessful() {
@@ -355,8 +358,9 @@ class LostControllerTest extends \Test\TestCase {
 			)->willReturn('encryptedToken');
 
 		$response = $this->lostController->email('ExistingUser');
-		$expectedResponse = array('status' => 'success');
-		$this->assertSame($expectedResponse, $response);
+		$expectedResponse = new JSONResponse(['status' => 'success']);
+		$expectedResponse->throttle();
+		$this->assertEquals($expectedResponse, $response);
 	}
 
 	public function testEmailWithMailSuccessful() {
@@ -441,8 +445,9 @@ class LostControllerTest extends \Test\TestCase {
 			)->willReturn('encryptedToken');
 
 		$response = $this->lostController->email('test@example.com');
-		$expectedResponse = array('status' => 'success');
-		$this->assertSame($expectedResponse, $response);
+		$expectedResponse = new JSONResponse(['status' => 'success']);
+		$expectedResponse->throttle();
+		$this->assertEquals($expectedResponse, $response);
 	}
 
 	public function testEmailCantSendException() {
@@ -522,8 +527,9 @@ class LostControllerTest extends \Test\TestCase {
 			)->willReturn('encryptedToken');
 
 		$response = $this->lostController->email('ExistingUser');
-		$expectedResponse = ['status' => 'error', 'msg' => 'Couldn\'t send reset email. Please contact your administrator.'];
-		$this->assertSame($expectedResponse, $response);
+		$expectedResponse = new JSONResponse(['status' => 'error', 'msg' => 'Couldn\'t send reset email. Please contact your administrator.']);
+		$expectedResponse->throttle();
+		$this->assertEquals($expectedResponse, $response);
 	}
 
 	public function testSetPasswordUnsuccessful() {
@@ -692,8 +698,9 @@ class LostControllerTest extends \Test\TestCase {
 			->willReturn($user);
 
 		$response = $this->lostController->email('ExistingUser');
-		$expectedResponse = ['status' => 'error', 'msg' => 'Could not send reset email because there is no email address for this username. Please contact your administrator.'];
-		$this->assertSame($expectedResponse, $response);
+		$expectedResponse = new JSONResponse(['status' => 'error', 'msg' => 'Could not send reset email because there is no email address for this username. Please contact your administrator.']);
+		$expectedResponse->throttle();
+		$this->assertEquals($expectedResponse, $response);
 	}
 
 	public function testSetPasswordEncryptionDontProceed() {

@@ -25,7 +25,6 @@ namespace OCA\User_LDAP\Controller;
 
 use OC\CapabilitiesManager;
 use OC\Core\Controller\OCSController;
-use OC\Security\Bruteforce\Throttler;
 use OC\Security\IdentityProof\Manager;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Helper;
@@ -52,7 +51,6 @@ class ConfigAPIController extends OCSController {
 		CapabilitiesManager $capabilitiesManager,
 		IUserSession $userSession,
 		IUserManager $userManager,
-		Throttler $throttler,
 		Manager $keyManager,
 		Helper $ldapHelper,
 		ILogger $logger
@@ -63,7 +61,6 @@ class ConfigAPIController extends OCSController {
 			$capabilitiesManager,
 			$userSession,
 			$userManager,
-			$throttler,
 			$keyManager
 		);
 
