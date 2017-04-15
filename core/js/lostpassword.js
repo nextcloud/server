@@ -39,16 +39,8 @@ OC.Lostpassword = {
 	sendLinkDone : function(result){
 		var sendErrorMsg;
 
-		if (result && result.status === 'success'){
-			OC.Lostpassword.sendLinkSuccess();
-		} else {
-			if (result && result.msg){
-				sendErrorMsg = result.msg;
-			} else {
-				sendErrorMsg = OC.Lostpassword.sendErrorMsg;
-			}
-			OC.Lostpassword.sendLinkError(sendErrorMsg);
-		}
+		OC.Lostpassword.sendLinkSuccess();
+
 	},
 
 	sendLinkSuccess : function(msg){
