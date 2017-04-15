@@ -190,13 +190,13 @@ function prepareDocker() {
 	# to root).
 	echo "Copying local Git working directory of Nextcloud to the container"
 	tar --create --file="$NEXTCLOUD_LOCAL_TAR" --exclude=".git" --exclude="./build" --exclude="./config/config.php" --exclude="./data" --exclude="./tests" --directory=../../ .
+	tar --append --file="$NEXTCLOUD_LOCAL_TAR" --directory=../../ build/acceptance/installAndConfigureServer.sh
 
 	docker cp - $NEXTCLOUD_LOCAL_CONTAINER:/var/www/html/ < "$NEXTCLOUD_LOCAL_TAR"
 	docker exec $NEXTCLOUD_LOCAL_CONTAINER chown -R www-data:www-data /var/www/html/
 
 	echo "Installing Nextcloud in the container"
-	docker exec --user www-data $NEXTCLOUD_LOCAL_CONTAINER php occ maintenance:install --admin-pass=admin
-	docker exec --user www-data $NEXTCLOUD_LOCAL_CONTAINER bash -c "OC_PASS=123456 php occ user:add --password-from-env user0"
+	docker exec --user www-data $NEXTCLOUD_LOCAL_CONTAINER build/acceptance/installAndConfigureServer.sh
 
 	echo "Creating Docker image to be used in acceptance tests"
 	docker commit --message "Nextcloud installed from the local Git working directory" $NEXTCLOUD_LOCAL_CONTAINER $NEXTCLOUD_LOCAL_IMAGE
