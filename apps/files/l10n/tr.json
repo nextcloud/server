@@ -67,6 +67,7 @@
     "_%n byte_::_%n bytes_" : ["%n bayt","%n bayt"],
     "Favorited" : "Sık kullanılanlara eklendi",
     "Favorite" : "Sık kullanılanlara ekle",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Doğrudan bağlantıyı kopyala (yalnız bu dosya ya da klasöre erişim izni olan kullanıcılar için)",
     "Folder" : "Klasör",
     "New folder" : "Yeni klasör",
     "Upload" : "Yükle",

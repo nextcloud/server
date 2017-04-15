@@ -67,6 +67,7 @@
     "_%n byte_::_%n bytes_" : ["%n Byte","%n Bytes"],
     "Favorited" : "Favorisiert",
     "Favorite" : "Favorit",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Direkten Link kopieren (funktioniert nur für Nutzer, die Zugriff auf diese(n) Datei/Ordner haben)",
     "Folder" : "Ordner",
     "New folder" : "Neuer Ordner",
     "Upload" : "Hochladen",

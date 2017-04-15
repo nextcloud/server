@@ -69,6 +69,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n octet","%n octets"],
     "Favorited" : "Marqué comme favori",
     "Favorite" : "Favoris",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Copier lien direct (fonctionne seulement pour les utilisateurs qui ont accès a ce fichier/dossier)",
     "Folder" : "Dossier",
     "New folder" : "Nouveau dossier",
     "Upload" : "Téléverser",

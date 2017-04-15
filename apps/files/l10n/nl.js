@@ -69,6 +69,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Favorited" : "Favoriet",
     "Favorite" : "Favoriet",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Kopieer de link direct (werkt alleen voor gebruikers met toegang tot map/bestand)",
     "Folder" : "Map",
     "New folder" : "Nieuwe map",
     "Upload" : "Uploaden",
