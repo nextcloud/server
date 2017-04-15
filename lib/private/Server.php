@@ -93,6 +93,7 @@ use OC\Security\CredentialsManager;
 use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
 use OC\Session\CryptoWrapper;
+use OC\Share20\ShareHelper;
 use OC\Tagging\TagMapper;
 use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
@@ -106,6 +107,7 @@ use OCP\IServerContainer;
 use OCP\ITempManager;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Security\IContentSecurityPolicyManager;
+use OCP\Share\IShareHelper;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -173,7 +175,11 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getGroupManager(),
 				$c->getConfig()
 			);
-			return new Encryption\File($util);
+			return new Encryption\File(
+				$util,
+				$c->getRootFolder(),
+				$c->getShareManager()
+			);
 		});
 
 		$this->registerService('EncryptionKeyStorage', function (Server $c) {
@@ -987,6 +993,12 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(\OCP\ISession::class, function(SimpleContainer $c) {
 			return $c->query(\OCP\IUserSession::class)->getSession();
+		});
+
+		$this->registerService(IShareHelper::class, function(Server $c) {
+			return new ShareHelper(
+				$c->query(\OCP\Share\IManager::class)
+			);
 		});
 	}
 

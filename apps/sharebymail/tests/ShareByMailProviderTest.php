@@ -664,4 +664,66 @@ class ShareByMailProviderTest extends TestCase {
 		$u2->delete();
 	}
 
+	public function testGetAccessList() {
+		$userManager = \OC::$server->getUserManager();
+		$rootFolder = \OC::$server->getRootFolder();
+
+		$provider = $this->getInstance(['sendMailNotification', 'createActivity']);
+
+		$u1 = $userManager->createUser('testFed', md5(time()));
+		$u2 = $userManager->createUser('testFed2', md5(time()));
+
+		$folder = $rootFolder->getUserFolder($u1->getUID())->newFolder('foo');
+
+		$accessList = $provider->getAccessList([$folder], true);
+		$this->assertArrayHasKey('public', $accessList);
+		$this->assertFalse($accessList['public']);
+		$accessList = $provider->getAccessList([$folder], false);
+		$this->assertArrayHasKey('public', $accessList);
+		$this->assertFalse($accessList['public']);
+
+		$share1 = $this->shareManager->newShare();
+		$share1->setSharedWith('user@server.com')
+			->setSharedBy($u1->getUID())
+			->setShareOwner($u1->getUID())
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($folder);
+		$share1 = $provider->create($share1);
+
+		$share2 = $this->shareManager->newShare();
+		$share2->setSharedWith('user2@server.com')
+			->setSharedBy($u2->getUID())
+			->setShareOwner($u1->getUID())
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($folder);
+		$share2 = $provider->create($share2);
+
+		$accessList = $provider->getAccessList([$folder], true);
+		$this->assertArrayHasKey('public', $accessList);
+		$this->assertTrue($accessList['public']);
+		$accessList = $provider->getAccessList([$folder], false);
+		$this->assertArrayHasKey('public', $accessList);
+		$this->assertTrue($accessList['public']);
+
+		$provider->delete($share2);
+
+		$accessList = $provider->getAccessList([$folder], true);
+		$this->assertArrayHasKey('public', $accessList);
+		$this->assertTrue($accessList['public']);
+		$accessList = $provider->getAccessList([$folder], false);
+		$this->assertArrayHasKey('public', $accessList);
+		$this->assertTrue($accessList['public']);
+
+		$provider->delete($share1);
+
+		$accessList = $provider->getAccessList([$folder], true);
+		$this->assertArrayHasKey('public', $accessList);
+		$this->assertFalse($accessList['public']);
+		$accessList = $provider->getAccessList([$folder], false);
+		$this->assertArrayHasKey('public', $accessList);
+		$this->assertFalse($accessList['public']);
+
+		$u1->delete();
+		$u2->delete();
+	}
 }

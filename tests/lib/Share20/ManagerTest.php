@@ -1022,12 +1022,12 @@ class ManagerTest extends \Test\TestCase {
  	public function testUserCreateChecksIdenticalPathSharedViaDeletedGroup() {
 		$share  = $this->manager->newShare();
 
-		$sharedWith = $this->getMock('\OCP\IUser');
+		$sharedWith = $this->createMock(IUser::class);
 		$sharedWith->method('getUID')->willReturn('sharedWith');
 
 		$this->userManager->method('get')->with('sharedWith')->willReturn($sharedWith);
 
-		$path = $this->getMock('\OCP\Files\Node');
+		$path = $this->createMock(Node::class);
 
 		$share->setSharedWith('sharedWith')
 			->setNode($path)
@@ -1136,7 +1136,7 @@ class ManagerTest extends \Test\TestCase {
 	public function testGroupCreateChecksShareWithGroupMembersOnlyNullGroup() {
 		$share = $this->manager->newShare();
 
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->createMock(IUser::class);
 		$share->setSharedBy('user')->setSharedWith('group');
 
 		$this->groupManager->method('get')->with('group')->willReturn(null);
@@ -2611,7 +2611,7 @@ class ManagerTest extends \Test\TestCase {
 		$share->setShareType(\OCP\Share::SHARE_TYPE_GROUP);
 		$share->setSharedWith('shareWith');
 
-		$recipient = $this->getMock('\OCP\IUser');
+		$recipient = $this->createMock(IUser::class);
 
 		$this->groupManager->method('get')->with('shareWith')->willReturn(null);
 		$this->userManager->method('get')->with('recipient')->willReturn($recipient);
@@ -2638,7 +2638,6 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->manager->moveShare($share, 'recipient');
 	}
-
 
 	/**
 	 * @dataProvider dataTestShareProviderExists
@@ -2736,6 +2735,119 @@ class ManagerTest extends \Test\TestCase {
 		];
 
 		$this->assertSame($expects, $result);
+	}
+
+	public function testGetAccessList() {
+		$factory = new DummyFactory2($this->createMock(IServerContainer::class));
+
+		$manager = new Manager(
+			$this->logger,
+			$this->config,
+			$this->secureRandom,
+			$this->hasher,
+			$this->mountManager,
+			$this->groupManager,
+			$this->l,
+			$factory,
+			$this->userManager,
+			$this->rootFolder,
+			$this->eventDispatcher
+		);
+
+		$factory->setProvider($this->defaultProvider);
+		$extraProvider = $this->createMock(IShareProvider::class);
+		$factory->setSecondProvider($extraProvider);
+
+		$owner = $this->createMock(IUser::class);
+		$owner->expects($this->once())
+			->method('getUID')
+			->willReturn('owner');
+
+		$node = $this->createMock(Node::class);
+		$node->expects($this->once())
+			->method('getOwner')
+			->willReturn($owner);
+		$node->expects($this->once())
+			->method('getId')
+			->willReturn(42);
+
+		$userFolder = $this->createMock(Folder::class);
+		$file = $this->createMock(File::class);
+		$folder = $this->createMock(Folder::class);
+
+		$file->method('getParent')
+			->willReturn($folder);
+		$file->method('getPath')
+			->willReturn('/owner/files/folder/file');
+		$file->method('getId')
+			->willReturn(23);
+		$folder->method('getParent')
+			->willReturn($userFolder);
+		$folder->method('getPath')
+			->willReturn('/owner/files/folder');
+		$userFolder->method('getById')
+			->with($this->equalTo(42))
+			->willReturn([$file]);
+		$userFolder->method('getPath')
+			->willReturn('/owner/files');
+
+		$this->userManager->method('userExists')
+			->with($this->equalTo('owner'))
+			->willReturn(true);
+
+		$this->defaultProvider->method('getAccessList')
+			->with(
+				$this->equalTo([$file, $folder]),
+				true
+			)
+			->willReturn([
+				'users' => [
+					'user1' => [],
+					'user2' => [],
+					'user3' => [],
+				],
+				'public' => true,
+			]);
+
+		$extraProvider->method('getAccessList')
+			->with(
+				$this->equalTo([$file, $folder]),
+				true
+			)
+			->willReturn([
+				'users' => [
+					'user3' => [],
+					'user4' => [],
+					'user5' => [],
+				],
+				'remote' => [
+					'remote1',
+				],
+			]);
+
+		$this->rootFolder->method('getUserFolder')
+			->with($this->equalTo('owner'))
+			->willReturn($userFolder);
+
+		$expected = [
+			'users' => [
+				'owner' => [
+					'node_id' => 23,
+					'node_path' => '/folder/file'
+				]
+				, 'user1' => [], 'user2' => [], 'user3' => [], 'user4' => [], 'user5' => []],
+			'remote' => [
+				'remote1',
+			],
+			'public' => true,
+		];
+
+		$result = $manager->getAccessList($node, true, true);
+
+		$this->assertSame($expected['public'], $result['public']);
+		$this->assertSame($expected['remote'], $result['remote']);
+		$this->assertSame(array_values($expected['users']), array_values($result['users']));
+
 	}
 }
 

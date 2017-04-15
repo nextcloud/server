@@ -48,6 +48,7 @@ use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
+use OCP\Share\IShare;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use OCP\Share\IShareProvider;
@@ -1176,29 +1177,109 @@ class Manager implements IManager {
 
 	/**
 	 * Get access list to a path. This means
-	 * all the users and groups that can access a given path.
+	 * all the users that can access a given path.
 	 *
 	 * Consider:
 	 * -root
-	 * |-folder1
-	 *  |-folder2
-	 *   |-fileA
+	 * |-folder1 (23)
+	 *  |-folder2 (32)
+	 *   |-fileA (42)
 	 *
-	 * fileA is shared with user1
-	 * folder2 is shared with group2
-	 * folder1 is shared with user2
+	 * fileA is shared with user1 and user1@server1
+	 * folder2 is shared with group2 (user4 is a member of group2)
+	 * folder1 is shared with user2 (renamed to "folder (1)") and user2@server2
 	 *
-	 * Then the access list will to '/folder1/folder2/fileA' is:
+	 * Then the access list to '/folder1/folder2/fileA' with $currentAccess is:
 	 * [
-	 * 	'users' => ['user1', 'user2'],
-	 *  'groups' => ['group2']
+	 *  users  => [
+	 *      'user1' => ['node_id' => 42, 'node_path' => '/fileA'],
+	 *      'user4' => ['node_id' => 32, 'node_path' => '/folder2'],
+	 *      'user2' => ['node_id' => 23, 'node_path' => '/folder (1)'],
+	 *  ],
+	 *  remote => [
+	 *      'user1@server1' => ['node_id' => 42, 'token' => 'SeCr3t'],
+	 *      'user2@server2' => ['node_id' => 23, 'token' => 'FooBaR'],
+	 *  ],
+	 *  public => bool
+	 *  mail => bool
 	 * ]
 	 *
-	 * This is required for encryption
+	 * The access list to '/folder1/folder2/fileA' **without** $currentAccess is:
+	 * [
+	 *  users  => ['user1', 'user2', 'user4'],
+	 *  remote => bool,
+	 *  public => bool
+	 *  mail => bool
+	 * ]
+	 *
+	 * This is required for encryption/activity
 	 *
 	 * @param \OCP\Files\Node $path
+	 * @param bool $recursive Should we check all parent folders as well
+	 * @param bool $currentAccess Should the user have currently access to the file
+	 * @return array
 	 */
-	public function getAccessList(\OCP\Files\Node $path) {
+	public function getAccessList(\OCP\Files\Node $path, $recursive = true, $currentAccess = false) {
+		$owner = $path->getOwner()->getUID();
+
+		if ($currentAccess) {
+			$al = ['users' => [], 'remote' => [], 'public' => false];
+		} else {
+			$al = ['users' => [], 'remote' => false, 'public' => false];
+		}
+		if (!$this->userManager->userExists($owner)) {
+			return $al;
+		}
+
+		//Get node for the owner
+		$userFolder = $this->rootFolder->getUserFolder($owner);
+		if (!$userFolder->isSubNode($path)) {
+			$path = $userFolder->getById($path->getId())[0];
+		}
+
+		$providers = $this->factory->getAllProviders();
+
+		/** @var Node[] $nodes */
+		$nodes = [];
+
+
+		if ($currentAccess) {
+			$ownerPath = $path->getPath();
+			list(, , , $ownerPath) = explode('/', $ownerPath, 4);
+			$al['users'][$owner] = [
+				'node_id' => $path->getId(),
+				'node_path' => '/' . $ownerPath,
+			];
+		} else {
+			$al['users'][] = $owner;
+		}
+
+		// Collect all the shares
+		while ($path->getPath() !== $userFolder->getPath()) {
+			$nodes[] = $path;
+			if (!$recursive) {
+				break;
+			}
+			$path = $path->getParent();
+		}
+
+		foreach ($providers as $provider) {
+			$tmp = $provider->getAccessList($nodes, $currentAccess);
+
+			foreach ($tmp as $k => $v) {
+				if (isset($al[$k])) {
+					if (is_array($al[$k])) {
+						$al[$k] = array_merge($al[$k], $v);
+					} else {
+						$al[$k] = $al[$k] || $v;
+					}
+				} else {
+					$al[$k] = $v;
+				}
+			}
+		}
+
+		return $al;
 	}
 
 	/**

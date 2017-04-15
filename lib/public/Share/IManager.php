@@ -192,6 +192,53 @@ interface IManager {
 	public function userDeletedFromGroup($uid, $gid);
 
 	/**
+	 * Get access list to a path. This means
+	 * all the users that can access a given path.
+	 *
+	 * Consider:
+	 * -root
+	 * |-folder1 (23)
+	 *  |-folder2 (32)
+	 *   |-fileA (42)
+	 *
+	 * fileA is shared with user1 and user1@server1
+	 * folder2 is shared with group2 (user4 is a member of group2)
+	 * folder1 is shared with user2 (renamed to "folder (1)") and user2@server2
+	 *
+	 * Then the access list to '/folder1/folder2/fileA' with $currentAccess is:
+	 * [
+	 *  users  => [
+	 *      'user1' => ['node_id' => 42, 'node_path' => '/fileA'],
+	 *      'user4' => ['node_id' => 32, 'node_path' => '/folder2'],
+	 *      'user2' => ['node_id' => 23, 'node_path' => '/folder (1)'],
+	 *  ],
+	 *  remote => [
+	 *      'user1@server1' => ['node_id' => 42, 'token' => 'SeCr3t'],
+	 *      'user2@server2' => ['node_id' => 23, 'token' => 'FooBaR'],
+	 *  ],
+	 *  public => bool
+	 *  mail => bool
+	 * ]
+	 *
+	 * The access list to '/folder1/folder2/fileA' **without** $currentAccess is:
+	 * [
+	 *  users  => ['user1', 'user2', 'user4'],
+	 *  remote => bool,
+	 *  public => bool
+	 *  mail => bool
+	 * ]
+	 *
+	 * This is required for encryption/activity
+	 *
+	 * @param \OCP\Files\Node $path
+	 * @param bool $recursive Should we check all parent folders as well
+	 * @param bool $currentAccess Should the user have currently access to the file
+	 * @return array
+	 * @since 12
+	 */
+	public function getAccessList(\OCP\Files\Node $path, $recursive = true, $currentAccess = false);
+
+	/**
 	 * Instantiates a new share object. This is to be passed to
 	 * createShare.
 	 *

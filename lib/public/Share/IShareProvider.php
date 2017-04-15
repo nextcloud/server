@@ -190,4 +190,16 @@ interface IShareProvider {
 	 * @since 9.1.0
 	 */
 	public function userDeletedFromGroup($uid, $gid);
+
+	/**
+	 * Get the access list to the array of provided nodes.
+	 *
+	 * @see IManager::getAccessList() for sample docs
+	 *
+	 * @param Node[] $nodes The list of nodes to get access for
+	 * @param bool $currentAccess If current access is required (like for removed shares that might get revived later)
+	 * @return array
+	 * @since 12
+	 */
+	public function getAccessList($nodes, $currentAccess);
 }
