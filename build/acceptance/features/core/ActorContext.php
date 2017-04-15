@@ -38,6 +38,10 @@ use Behat\MinkExtension\Context\RawMinkContext;
  * Besides updating the current actor in sibling contexts the ActorContext also
  * propagates its inherited "base_url" Mink parameter to the Actors as needed.
  *
+ * By default no multiplier for the find timeout is set in the Actors. However,
+ * it can be customized using the "actorFindTimeoutMultiplier" parameter of the
+ * ActorContext in "behat.yml".
+ *
  * Every actor used in the scenarios must have a corresponding Mink session
  * declared in "behat.yml" with the same name as the actor. All used sessions
  * are stopped after each scenario is run.
@@ -53,6 +57,21 @@ class ActorContext extends RawMinkContext {
 	 * @var Actor
 	 */
 	private $currentActor;
+
+	/**
+	 * @var float
+	 */
+	private $actorFindTimeoutMultiplier;
+
+	/**
+	 * Creates a new ActorContext.
+	 *
+	 * @param float $actorFindTimeoutMultiplier the find timeout multiplier to
+	 *        set in the Actors.
+	 */
+	public function __construct($actorFindTimeoutMultiplier = 1) {
+		$this->actorFindTimeoutMultiplier = $actorFindTimeoutMultiplier;
+	}
 
 	/**
 	 * Sets a Mink parameter.
@@ -85,6 +104,7 @@ class ActorContext extends RawMinkContext {
 		$this->actors = array();
 
 		$this->actors["default"] = new Actor($this->getSession(), $this->getMinkParameter("base_url"));
+		$this->actors["default"]->setFindTimeoutMultiplier($this->actorFindTimeoutMultiplier);
 
 		$this->currentActor = $this->actors["default"];
 	}
@@ -108,6 +128,7 @@ class ActorContext extends RawMinkContext {
 	public function iActAs($actorName) {
 		if (!array_key_exists($actorName, $this->actors)) {
 			$this->actors[$actorName] = new Actor($this->getSession($actorName), $this->getMinkParameter("base_url"));
+			$this->actors[$actorName]->setFindTimeoutMultiplier($this->actorFindTimeoutMultiplier);
 		}
 
 		$this->currentActor = $this->actors[$actorName];

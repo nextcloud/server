@@ -41,6 +41,13 @@
  * several features: the element can be looked for based on a Locator object, an
  * exception is thrown if the element is not found, and, optionally, it is
  * possible to try again to find the element several times before giving up.
+ *
+ * The amount of time to wait before giving up is specified in each call to
+ * find(). However, a general multiplier to be applied to every timeout can be
+ * set using setFindTimeoutMultiplier(); this makes possible to retry longer
+ * before giving up without modifying the tests themselves. Note that the
+ * multiplier affects the timeout, but not the timeout step; the rate at which
+ * find() will try again to find the element does not change.
  */
 class Actor {
 
@@ -55,6 +62,11 @@ class Actor {
 	private $baseUrl;
 
 	/**
+	 * @var float
+	 */
+	private $findTimeoutMultiplier;
+
+	/**
 	 * Creates a new Actor.
 	 *
 	 * @param \Behat\Mink\Session $session the Mink Session used to control its
@@ -64,6 +76,7 @@ class Actor {
 	public function __construct(\Behat\Mink\Session $session, $baseUrl) {
 		$this->session = $session;
 		$this->baseUrl = $baseUrl;
+		$this->findTimeoutMultiplier = 1;
 	}
 
 	/**
@@ -73,6 +86,16 @@ class Actor {
 	 */
 	public function setBaseUrl($baseUrl) {
 		$this->baseUrl = $baseUrl;
+	}
+
+	/**
+	 * Sets the multiplier for find timeouts.
+	 *
+	 * @param float $findTimeoutMultiplier the multiplier to apply to find
+	 *        timeouts.
+	 */
+	public function setFindTimeoutMultiplier($findTimeoutMultiplier) {
+		$this->findTimeoutMultiplier = $findTimeoutMultiplier;
 	}
 
 	/**
@@ -113,7 +136,8 @@ class Actor {
 	 * and, then, up to 10 seconds to find the ancestor and, then, up to 10
 	 * seconds to find the element. By default the timeout is 0, so the element
 	 * and its ancestor will be looked for just once; the default time to wait
-	 * before retrying is half a second.
+	 * before retrying is half a second. If the timeout is not 0 it will be
+	 * affected by the multiplier set using setFindTimeoutMultiplier(), if any.
 	 *
 	 * In any case, if the element, or its ancestors, can not be found a
 	 * NoSuchElementException is thrown.
@@ -128,6 +152,8 @@ class Actor {
 	 *         be found.
 	 */
 	public function find($elementLocator, $timeout = 0, $timeoutStep = 0.5) {
+		$timeout = $timeout * $this->findTimeoutMultiplier;
+
 		$element = null;
 		$selector = $elementLocator->getSelector();
 		$locator = $elementLocator->getLocator();
