@@ -139,7 +139,11 @@ class Actor {
 			return $element !== null;
 		};
 		if (!Utils::waitFor($findCallback, $timeout, $timeoutStep)) {
-			throw new NoSuchElementException($elementLocator->getDescription() . " could not be found");
+			$message = $elementLocator->getDescription() . " could not be found";
+			if ($timeout > 0) {
+				$message = $message . " after $timeout seconds";
+			}
+			throw new NoSuchElementException($message);
 		}
 
 		return $element;
@@ -177,6 +181,9 @@ class Actor {
 				// exception in the chain.
 				$message = $exception->getMessage() . "\n" .
 						   $elementLocator->getDescription() . " could not be found";
+				if ($timeout > 0) {
+					$message = $message . " after $timeout seconds";
+				}
 				throw new NoSuchElementException($message, $exception);
 			}
 		}
