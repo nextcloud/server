@@ -69,6 +69,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n байт","%n байта","%n байт","%n байт"],
     "Favorited" : "Избранное",
     "Favorite" : "Избранное",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Копировать прямую ссылку (работает только для пользователей с правами доступа к этому файлу или каталогу)",
     "Folder" : "Каталог",
     "New folder" : "Новый каталог",
     "Upload" : "Загрузить",

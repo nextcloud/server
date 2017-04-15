@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Successfully saved" : "Guardado con éxito",
     "Saving failed:" : "Guardado fallido:",
-    "File mime type" : "Tipo mime del fichero",
+    "File mime type" : "Tipo MIME del archivo",
     "is" : "es/esta",
     "is not" : "no es/esta",
     "matches" : "coincidencias",
@@ -42,7 +42,7 @@ OC.L10N.register(
     "is not member of" : "no es miembro de",
     "The given operator is invalid" : "La operación dada no es valida",
     "The given regular expression is invalid" : "La expresión regular dada no es valida",
-    "The given file size is invalid" : "El tamaño de fichero dado no es valido ",
+    "The given file size is invalid" : "El tamaño del archivo dado no es válido ",
     "The given tag id is invalid" : "El id de etiqueta dado no es valido",
     "The given IP range is invalid" : "El rango de IPs no es valido",
     "The given IP range is not valid for IPv4" : "El rango de IP no es valida para IPv4",

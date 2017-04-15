@@ -17,6 +17,7 @@ OC.L10N.register(
     "Couldn't reset password because the token is invalid" : "Salasanaa ei voitu palauttaa, koska valtuutus on virheellinen",
     "Couldn't reset password because the token is expired" : "Salasanaa ei voitu palauttaa, koska valtuutus on vanhentunut",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Salasanan palautusviestiä ei voitu lähettää sähköpostitse, koska käyttäjätunnukselle ei ole määritetty sähköpostiosoitetta. Ota yhteys ylläpitäjään.",
+    "Password reset" : "Salasanan palautus",
     "%s password reset" : "%s salasanan palautus",
     "Couldn't send reset email. Please contact your administrator." : "Palautussähköpostin lähettäminen ei onnistunut. Ota yhteys ylläpitäjään.",
     "Couldn't send reset email. Please make sure your username is correct." : "Palautussähköpostin lähettäminen ei onnistunut. Varmista, että käyttäjätunnuksesi on oikein.",
