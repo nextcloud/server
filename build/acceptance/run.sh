@@ -264,9 +264,12 @@ trap cleanUp EXIT
 # that.
 cd "$(dirname $0)"
 
+# If no parameter is provided to this script all the acceptance tests are run.
+SCENARIO_TO_RUN=$1
+
 prepareBehat
 prepareSelenium
 prepareDocker
 
-echo "Running all tests"
-vendor/bin/behat
+echo "Running tests"
+vendor/bin/behat $SCENARIO_TO_RUN
