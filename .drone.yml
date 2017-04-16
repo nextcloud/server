@@ -478,6 +478,33 @@ pipeline:
     when:
       matrix:
         TESTS: integration-trashbin
+  # As it needs access to the cloned Git repository it must be defined in the
+  # pipeline as "detached" instead of in the services.
+  service-acceptance-nextcloud-server:
+    image: nextcloudci/acceptance-nextcloud-server-php7.1-apache
+    detach: true
+    commands:
+      # "nextcloud-server-control-setup.sh" can not be set as the entry point in
+      # the image because Drone overrides it.
+      - /usr/local/bin/nextcloud-server-control-setup.sh
+      - su --shell "/bin/sh" --command "php /usr/local/bin/nextcloud-server-control.php 12345" - www-data
+    when:
+      matrix:
+        TESTS: acceptance
+  acceptance-access-levels:
+      image: nextcloudci/php7.0:php7.0-7
+      commands:
+        - build/acceptance/run-drone.sh features/access-levels.feature
+      when:
+        matrix:
+          TESTS-ACCEPTANCE: access-levels
+  acceptance-login:
+      image: nextcloudci/php7.0:php7.0-7
+      commands:
+        - build/acceptance/run-drone.sh features/login.feature
+      when:
+        matrix:
+          TESTS-ACCEPTANCE: login
   nodb-codecov:
     image: nextcloudci/php7.0:php7.0-7
     commands:
@@ -551,6 +578,10 @@ matrix:
     - TESTS: integration-transfer-ownership-features
     - TESTS: integration-ldap-features
     - TESTS: integration-trashbin
+    - TESTS: acceptance
+      TESTS-ACCEPTANCE: access-levels
+    - TESTS: acceptance
+      TESTS-ACCEPTANCE: login
     - TESTS: jsunit
     - TESTS: check-autoloader
     - TESTS: check-mergejs
@@ -626,5 +657,14 @@ services:
       when:
         matrix:
           OBJECT_STORE: s3
+  selenium:
+    image: selenium/standalone-firefox:2.53.1-beryllium
+    environment:
+      # Reduce default log level for Selenium server (INFO) as it is too
+      # verbose.
+      - JAVA_OPTS=-Dselenium.LOGGER.level=WARNING
+    when:
+      matrix:
+        TESTS: acceptance
 
 branches: [ master, stable* ]
