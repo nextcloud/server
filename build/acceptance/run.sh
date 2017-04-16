@@ -24,14 +24,13 @@
 # script installs Behat, its dependencies, and some related packages in the
 # "vendor" subdirectory of the acceptance tests. The acceptance tests also use
 # the Selenium server to control a web browser, so the Selenium server is also
-# installed to the "selenium" subdirectory and launched before the tests start
-# (it will be stopped automatically once the tests end). Finally, the tests
-# expect that a Docker image with the Nextcloud installation to be tested is
-# available, so the script creates it based on the Nextcloud code from the
-# grandparent directory.
+# launched before the tests start in its own Docker container (it will be
+# stopped automatically once the tests end). Finally, the tests expect that a
+# Docker image with the Nextcloud installation to be tested is available, so the
+# script creates it based on the Nextcloud code from the grandparent directory.
 #
-# To perform its job, the script requires the "composer", "java" and "docker"
-# commands to be available.
+# To perform its job, the script requires the "composer" and "docker" commands
+# to be available.
 #
 # The Docker Command Line Interface (the "docker" command) requires special
 # permissions to talk to the Docker daemon, and those permissions are typically
@@ -47,8 +46,9 @@
 # https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
 #
 # Finally, take into account that this script will automatically remove the
-# Docker containers named "nextcloud-local-test-acceptance" and
-# "nextcloud-local-test-acceptance-[0-9a-f.]*" and the Docker image tagged as
+# Docker containers named "selenium-nextcloud-local-test-acceptance",
+# "nextcloud-local-test-acceptance" and
+# "nextcloud-local-test-acceptance-[0-9a-f.]*", and the Docker image tagged as
 # "nextcloud-local-test-acceptance:latest", even if the script did not create
 # them (probably you will not have containers nor images with those names, but
 # just in case).
@@ -62,71 +62,50 @@ function prepareBehat() {
 	composer install
 }
 
-# Launches the Selenium server, installing it if needed.
+# Launches the Selenium server in a Docker container.
 #
 # The acceptance tests use Firefox by default but, unfortunately, Firefox >= 48
 # does not provide yet the same level of support as earlier versions for certain
-# features related to automated testing. Therefore, if an incompatible version
-# is found the script will be exited immediately with an error state.
+# features related to automated testing. Therefore, the Docker image used is not
+# the latest one, but an older version known to work.
 #
-# The Selenium server is installed in the "selenium" subdirectory of the
-# directory of the script.
+# The acceptance tests expect the Selenium server to be accessible at
+# "127.0.0.1:4444", so the 4444 port of the container is mapped to the 4444 port
+# of the host.
 #
-# The Selenium server launched here will be automatically stopped when the
+# The Nextcloud server has to be accessed at "127.0.0.1" by the Selenium server
+# (as that is the only trusted domain by default), so the Nextcloud server
+# containers have to be connected to the network of the Selenium server
+# container (another option would be to connect the Selenium server to the host
+# network, but messing with the host network is better avoided if possible). The
+# acceptance tests themselves also need access to the Nextcloud server to ensure
+# that it is ready before starting each scenario, so the 80 port of the Selenium
+# server is mapped to the 80 port of the host (it is not possible to map the
+# port in the container that connects to the network of another container).
+#
+# Besides the Selenium server, the Docker image also provides a VNC server, so
+# the 5900 port of the container is also mapped to the 5900 port of the host.
+#
+# The Docker container started here will be automatically stopped when the
 # script exits (see cleanUp). If the Selenium server can not be started then the
 # script will be exited immediately with an error state; the most common cause
 # for the Selenium server to fail to start is that another server is already
 # running in the default port.
 #
-# The output of the Selenium server will be saved to
-# "selenium/selenium-server-{DATE}.log".
+# As the web browser is run inside the Docker container it is not visible by
+# default. However, it can be viewed using VNC (for example,
+# "vncviewer 127.0.0.1:5900"); when asked for the password use "secret".
 function prepareSelenium() {
-	FIREFOX_MAJOR_VERSION=$(firefox --version | sed -e "s/Mozilla Firefox \([0-9]\+\).*/\1/")
-	if [ "$FIREFOX_MAJOR_VERSION" -ge 48 ]; then
-		echo "The acceptance tests can not be run on Mozilla Firefox >= 48 (major version found was $FIREFOX_MAJOR_VERSION)"
-		exit 1
-	fi
-
-	SELENIUM_SERVER_STANDALONE="selenium-server-standalone-2.53.1.jar"
-	SELENIUM_SERVER_STANDALONE_URL="http://selenium-release.storage.googleapis.com/2.53/$SELENIUM_SERVER_STANDALONE"
-
-	mkdir --parents selenium
-
-	if [ ! -f "selenium/$SELENIUM_SERVER_STANDALONE" ]; then
-		echo "Installing Selenium server"
-		wget --output-document="selenium/$SELENIUM_SERVER_STANDALONE" "$SELENIUM_SERVER_STANDALONE_URL"
-	fi
-
-	SELENIUM_SERVER_STANDALONE_LOG="selenium-server-$(date +%Y%m%d-%H%M%S).log"
+	SELENIUM_CONTAINER=selenium-nextcloud-local-test-acceptance
 
 	echo "Starting Selenium server"
-	# LANG=C forces "English" output for Selenium server to be able to look for
-	# the startup finished message (I do not really know if Selenium server log
-	# messages are localized or not, but just in case).
-	LANG=C java -jar "selenium/$SELENIUM_SERVER_STANDALONE" &>"selenium/$SELENIUM_SERVER_STANDALONE_LOG" &
-	SELENIUM_SERVER_STANDALONE_PID=$!
+	docker run --detach --name=$SELENIUM_CONTAINER --publish 80:80 --publish 4444:4444 --publish 5900:5900 selenium/standalone-firefox-debug:2.53.1-beryllium
 
-	echo -n "Waiting for Selenium server to be ready"
-	TIMEOUT=10
-	TIMEOUT_STEP=1
-	ELAPSED_TIME=0
-	while [ $ELAPSED_TIME -lt $TIMEOUT ] && ! grep "Selenium Server is up and running" "selenium/$SELENIUM_SERVER_STANDALONE_LOG" &>/dev/null; do
-		sleep $TIMEOUT_STEP
-		echo -n "."
-		ELAPSED_TIME=$((ELAPSED_TIME+TIMEOUT_STEP))
-	done
-	echo
-
-	if [ "$ELAPSED_TIME" -eq "$TIMEOUT" ]; then
-		echo -n "Could not start Selenium server; see" \
-		     "$PWD/selenium/$SELENIUM_SERVER_STANDALONE_LOG"
-
-		if grep "Address already in use" "selenium/$SELENIUM_SERVER_STANDALONE_LOG" &>/dev/null; then
-			echo " (probably another" \
-				 "Selenium server is already running)"
-		else
-			echo
-		fi
+	echo "Waiting for Selenium server to be ready"
+	if ! timeout 10s bash -c "while ! curl 127.0.0.1:4444 >/dev/null 2>&1; do sleep 1; done"; then
+		echo "Could not start Selenium server; running" \
+		     "\"docker run --rm --publish 80:80 --publish 4444:4444 --publish 5900:5900 selenium/standalone-firefox-debug:2.53.1-beryllium\"" \
+		     "could give you a hint of the problem"
 
 		exit 1
 	fi
@@ -247,9 +226,9 @@ function cleanUp() {
 		docker rmi $NEXTCLOUD_LOCAL_IMAGE:latest
 	fi
 
-	if [ -n "$SELENIUM_SERVER_STANDALONE_PID" ]; then
-		echo "Stopping Selenium server (PID $SELENIUM_SERVER_STANDALONE_PID)"
-		kill $SELENIUM_SERVER_STANDALONE_PID
+	if [ -n "$(docker ps --all --quiet --filter name="^/$SELENIUM_CONTAINER$")" ]; then
+		echo "Removing Docker container $SELENIUM_CONTAINER"
+		docker rm --volumes --force $SELENIUM_CONTAINER
 	fi
 }
 

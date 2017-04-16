@@ -46,7 +46,7 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
  * customized using the "nextcloudTestServerHelperParameters" parameter, which
  * is an array (without keys) with the value of the parameters in the same order
  * as in the constructor of the helper class (by default,
- * [ "nextcloud-local-test-acceptance", "15000-16000" ]).
+ * [ "nextcloud-local-test-acceptance", "selenium-nextcloud-local-test-acceptance" ]).
  *
  * Example of custom parameters in "behat.yml":
  * default:
@@ -57,7 +57,7 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
  *             nextcloudTestServerHelper: NextcloudTestServerDockerHelper
  *             nextcloudTestServerHelperParameters:
  *               - nextcloud-local-test-acceptance-custom-image
- *               - 23000-42000
+ *               - selenium-nextcloud-local-test-acceptance-custom-image
  *
  * Note that using Docker containers as a regular user requires giving access to
  * the Docker daemon to that user. Unfortunately, that makes possible for that
@@ -81,7 +81,7 @@ class NextcloudTestServerContext implements Context {
 	 *        constructor of the $nextcloudTestServerHelper class.
 	 */
 	public function __construct($nextcloudTestServerHelper = "NextcloudTestServerDockerHelper",
-								$nextcloudTestServerHelperParameters = [ "nextcloud-local-test-acceptance", "15000-16000" ]) {
+								$nextcloudTestServerHelperParameters = [ "nextcloud-local-test-acceptance", "selenium-nextcloud-local-test-acceptance" ]) {
 		$nextcloudTestServerHelperClass = new ReflectionClass($nextcloudTestServerHelper);
 
 		if ($nextcloudTestServerHelperParameters === null) {

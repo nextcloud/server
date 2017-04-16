@@ -34,12 +34,14 @@
  *
  * Also, the Nextcloud server installed in the Docker image is expected to see
  * "127.0.0.1" as a trusted domain (which would be the case if it was installed
- * by running "occ maintenance:install"). Therefore, the Nextcloud server is
- * accessed through a local port in the host system mapped to the port 80 of the
- * Docker container; if the Nextcloud server was instead accessed directly
- * through its IP address it would complain that it was being accessed from an
- * untrusted domain and refuse to work until the admin whitelisted it. The base
- * URL to access the Nextcloud server can be got from "getBaseUrl".
+ * by running "occ maintenance:install"). Therefore, the Nextcloud server
+ * container is connected to the network of the Selenium server container (which
+ * can be customized in the constructor) so the Selenium server can access the
+ * Nextcloud server using the "127.0.0.1" IP address. The Selenium server
+ * container is also expected to map its 80 port to the 80 port of the host so
+ * the acceptance tests can also access the Nextcloud server using the
+ * "127.0.0.1" IP address. In any case, the base URL to access the Nextcloud
+ * server can be got from "getBaseUrl".
  *
  * Internally, the NextcloudTestServerDockerHelper uses the Docker Command Line
  * Interface (the "docker" command) to run, get information from, and destroy
@@ -76,7 +78,7 @@ class NextcloudTestServerDockerHelper implements NextcloudTestServerHelper {
 	/**
 	 * @var string
 	 */
-	private $hostPortRangeForContainer;
+	private $seleniumContainerName;
 
 	/**
 	 * @var string
@@ -88,12 +90,12 @@ class NextcloudTestServerDockerHelper implements NextcloudTestServerHelper {
 	 *
 	 * @param string $imageName the name of the Docker image that provides the
 	 *        Nextcloud test server.
-	 * @param string $hostPortRangeForContainer the range of local ports in the
-	 *        host in which the port 80 of the container can be published.
+	 * @param string $seleniumContainerName the name of the Selenium server
+	 *        container.
 	 */
-	public function __construct($imageName = "nextcloud-local-test-acceptance", $hostPortRangeForContainer = "15000-16000") {
+	public function __construct($imageName = "nextcloud-local-test-acceptance", $seleniumContainerName = "selenium-nextcloud-local-test-acceptance") {
 		$this->imageName = $imageName;
-		$this->hostPortRangeForContainer = $hostPortRangeForContainer;
+		$this->seleniumContainerName = $seleniumContainerName;
 		$this->containerName = null;
 	}
 
@@ -131,11 +133,15 @@ class NextcloudTestServerDockerHelper implements NextcloudTestServerHelper {
 
 		// There is no need to start the web server as root, so it is started
 		// directly as www-data instead.
-		// The port 80 of the container is mapped to a free port from a range in
-		// the host system; due to this it can be accessed from the host using
-		// the "127.0.0.1" IP address, which prevents Nextcloud from complaining
-		// that it is being accessed from an untrusted domain.
-		$this->executeDockerCommand("run --detach --user=www-data --publish 127.0.0.1:" . $this->hostPortRangeForContainer . ":80 --name=" . $this->containerName . " " . $this->imageName);
+		// The container is connected to the network of the Selenium server
+		// container; due to this, the Selenium server can access the Nextcloud
+		// server using the "127.0.0.1" IP address, which prevents Nextcloud
+		// from complaining that it is being accessed from an untrusted domain.
+		// Moreover, as the Selenium server container is expected to map its
+		// 80 port to the 80 port of the host the acceptance tests can also
+		// access the Nextcloud server using the "127.0.0.1" IP address to check
+		// whether the server is ready or not.
+		$this->executeDockerCommand("run --detach --user=www-data --network container:" . $this->seleniumContainerName . " --name=" . $this->containerName . " " . $this->imageName);
 	}
 
 	/**
@@ -195,19 +201,7 @@ class NextcloudTestServerDockerHelper implements NextcloudTestServerHelper {
 	 *         container is not running.
 	 */
 	public function getBaseUrl() {
-		return "http://" . $this->getNextcloudTestServerAddress() . "/index.php";
-	}
-
-	/**
-	 * Returns the IP address and port of the Nextcloud test server (which is
-	 * mapped to a local port in the host).
-	 *
-	 * @return string the IP address and port as "$ipAddress:$port".
-	 * @throws \Exception if the Docker command failed to execute or the
-	 *         container is not running.
-	 */
-	private function getNextcloudTestServerAddress() {
-		return $this->executeDockerCommand("port " . $this->containerName . " 80");
+		return "http://127.0.0.1/index.php";
 	}
 
 	/**
