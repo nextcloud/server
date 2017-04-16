@@ -2,11 +2,11 @@ OC.L10N.register(
     "theming",
     {
     "Admin" : "Administrador",
-    "a safe home for all your data" : "um lugar seguro para todos os seus dados",
-    "The given name is too long" : "O nome é demasiado longo",
+    "a safe home for all your data" : "um lugar seguro para seus dados",
+    "The given name is too long" : "O nome é muito longo",
     "The given web address is too long" : "O endereço da Web fornecido é muito longo",
     "The given slogan is too long" : "O slogan dado é muito longo",
-    "The given color is invalid" : "A cor dada é inválida",
+    "The given color is invalid" : "A cor fornecida é inválida",
     "Saved" : "Salva",
     "No file uploaded" : "Nenhum arquivo enviado",
     "Unsupported image type" : "Tipo de imagem não suportado",
@@ -18,10 +18,10 @@ OC.L10N.register(
     "Web address https://…" : "Endereço da Web https://...",
     "Slogan" : "Slogan",
     "Color" : "Cor",
-    "Logo" : "Logo",
+    "Logo" : "Logotipo",
     "Upload new logo" : "Enviar novo logotipo",
     "Login image" : "Imagem de login",
-    "Upload new login background" : "Enviar novo fundo para o login",
-    "Log in image" : "Imagem do login"
+    "Upload new login background" : "Enviar nova imagem de fundo para o login",
+    "Log in image" : "Imagem de fundo do login"
 },
 "nplurals=2; plural=(n > 1);");
