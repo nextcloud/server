@@ -111,14 +111,8 @@ class NextcloudTestServerDockerHelper implements NextcloudTestServerHelper {
 	public function setUp() {
 		$this->createAndStartContainer();
 
-		$serverAddress = $this->getNextcloudTestServerAddress();
-
-		$isServerReadyCallback = function() use ($serverAddress) {
-			return $this->isServerReady($serverAddress);
-		};
 		$timeout = 10;
-		$timeoutStep = 0.5;
-		if (!Utils::waitFor($isServerReadyCallback, $timeout, $timeoutStep)) {
+		if (!Utils::waitForServer($this->getBaseUrl(), $timeout)) {
 			throw new Exception("Docker container for Nextcloud (" . $this->containerName . ") or its Nextcloud test server could not be started");
 		}
 	}
@@ -142,20 +136,6 @@ class NextcloudTestServerDockerHelper implements NextcloudTestServerHelper {
 		// the "127.0.0.1" IP address, which prevents Nextcloud from complaining
 		// that it is being accessed from an untrusted domain.
 		$this->executeDockerCommand("run --detach --user=www-data --publish 127.0.0.1:" . $this->hostPortRangeForContainer . ":80 --name=" . $this->containerName . " " . $this->imageName);
-	}
-
-	private function isServerReady($serverAddress) {
-		$curlHandle = curl_init("http://" . $serverAddress);
-
-		// Returning the transfer as the result of curl_exec prevents the
-		// transfer from being written to the output.
-		curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
-
-		$transfer = curl_exec($curlHandle);
-
-		curl_close($curlHandle);
-
-		return $transfer !== false;
 	}
 
 	/**

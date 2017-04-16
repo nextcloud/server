@@ -56,4 +56,35 @@ class Utils {
 		return $conditionMet;
 	}
 
+	/**
+	 * Waits at most $timeout seconds for the server at the given URL to be up,
+	 * checking it again every $timeoutStep seconds.
+	 *
+	 * Note that it does not verify whether the URL returns a valid HTTP status
+	 * or not; it simply checks that the server at the given URL is accessible.
+	 *
+	 * @param string $url the URL for the server to check.
+	 * @param float $timeout the number of seconds (decimals allowed) to wait at
+	 *        most for the server.
+	 * @param float $timeoutStep the number of seconds (decimals allowed) to
+	 *        wait before checking the server again; by default, 0.5 seconds.
+	 * @return boolean true if the server was found, false otherwise.
+	 */
+	public static function waitForServer($url, $timeout, $timeoutStep = 0.5) {
+		$isServerUpCallback = function() use ($url) {
+			$curlHandle = curl_init($url);
+
+			// Returning the transfer as the result of curl_exec prevents the
+			// transfer from being written to the output.
+			curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+
+			$transfer = curl_exec($curlHandle);
+
+			curl_close($curlHandle);
+
+			return $transfer !== false;
+		};
+		return self::waitFor($isServerUpCallback, $timeout, $timeoutStep);
+	}
+
 }
