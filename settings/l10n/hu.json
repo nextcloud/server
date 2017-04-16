@@ -1,4 +1,10 @@
 { "translations": {
+    "{actor} changed your password" : "{actor} módosította a jelszavad",
+    "You changed your password" : "Módosítottad a jelszavad",
+    "Your password was reset by an administrator" : "A jelszavadat visszaállította egy adminisztrátor",
+    "{actor} changed your email" : "{actor} módosította az e-mail címed",
+    "You changed your email" : "Módosítottad az e-mail címed",
+    "Your email was changed by an administrator" : "Az e-mail címedet módosította egy adminisztrátor",
     "Enabled" : "Engedélyezve",
     "Not enabled" : "Nem engedélyezett",
     "Wrong password" : "Hibás jelszó",
