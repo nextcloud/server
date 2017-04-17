@@ -21,6 +21,7 @@ OC.L10N.register(
     "Password to access »%s«" : "Passord for å benytte »%s«",
     "Could not find share" : "Delingen ble ikke funnet",
     "Share by mail" : "Del via e-post",
+    "Send a personalized link to a file or folder by mail." : "Send en personalisert lenke til ei fil eller mappe via e-post.",
     "Send password by mail" : "Send passord via e-post",
     "Failed to create the E-mail" : "Feilet ved opprettelse av epost",
     "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Hei,\n\n%s delte »%s« med deg på vegne av %s.\n\n%s\n\n",
