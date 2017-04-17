@@ -41,6 +41,7 @@ OC.L10N.register(
     "Open documentation" : "Åpne dokumentasjonen",
     "Allow users on this server to send shares to other servers" : "Tillat at brukere på denne tjeneren sender delinger til andre tjenere",
     "Allow users on this server to receive shares from other servers" : "Tillat at brukere på denne tjeneren mottar delinger fra andre tjenere",
+    "Allow users to publish their data to a global and public address book" : "Tillat brukere å offentliggjøre deres data til en verdensomspennende og offentlig adressebok",
     "Federated Cloud" : "Sammenknyttet sky",
     "Your Federated Cloud ID:" : "Din ID for sammenknyttet sky:",
     "Share it:" : "Del den:",

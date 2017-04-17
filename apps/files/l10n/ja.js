@@ -69,6 +69,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n バイト"],
     "Favorited" : "お気に入り済",
     "Favorite" : "お気に入り",
+    "Copy direct link (only works for users who have access to this file/folder)" : "ダイレクトリンクをコピー (このファイル/フォルダにアクセスできるユーザーのみ)",
     "Folder" : "フォルダー",
     "New folder" : "新しいフォルダー",
     "Upload" : "アップロード",

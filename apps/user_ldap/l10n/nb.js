@@ -46,6 +46,7 @@ OC.L10N.register(
     "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "Plassholder %uID mangler. Den erstattes av påloggingsnavnet ved spørring mot LDAP / AD.",
     "Please provide a login name to test against" : "Oppgi et påloggingsnavn å teste mot",
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Gruppeboksen ble deaktivert fordi LDAP- / AD-tjeneren ikke støtter memberOf.",
+    "Password change rejected. Hint: " : "Passordendring avslått. Hint:",
     "LDAP / AD integration" : "LDAP / AD integrasjon",
     "_%s group found_::_%s groups found_" : ["%s gruppe funnet","%s grupper funnet"],
     "_%s user found_::_%s users found_" : ["%s bruker funnet","%s brukere funnet"],

@@ -21,6 +21,7 @@ OC.L10N.register(
     "Logo" : "Logo",
     "Upload new logo" : "Last opp ny logo",
     "Login image" : "Innloggingsbilde",
+    "Upload new login background" : "Last opp ny innloggingsbakgrunn",
     "Log in image" : "Innloggingsbilde"
 },
 "nplurals=2; plural=(n != 1);");
