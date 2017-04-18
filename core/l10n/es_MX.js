@@ -148,6 +148,7 @@ OC.L10N.register(
     "Can create" : "Puede crear",
     "Can change" : "Puede cambiar",
     "Can delete" : "Puede borrar",
+    "Secure drop (upload only)" : "Depósito seguro (sólo carga de archivos)",
     "Access control" : "Control de acceso",
     "Could not unshare" : "No fue posible dejar de compartir",
     "Share details could not be loaded for this item." : "Los detalles del recurso compartido no se pudieron cargar para este elemento. ",

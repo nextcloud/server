@@ -44,7 +44,7 @@ OC.L10N.register(
     "Objectstore forbidden" : "Objektlager forbudt",
     "Invalid storage backend \"%s\"" : "Ugyldig lagringstjener \"%s\"",
     "Not permitted to use backend \"%s\"" : "Bruk av bakenden \"%s\" tillates ikke",
-    "Not permitted to use authentication mechanism \"%s\"" : "Ikke tillatt å bruke autentiseringsmekanisme \"%s\"",
+    "Not permitted to use authentication mechanism \"%s\"" : "Du tillates ikke å bruke autentiseringsmekanismen \"%s\"",
     "Unsatisfied backend parameters" : "Noen bakende-parameter mangler",
     "Unsatisfied authentication mechanism parameters" : "Noen parametre for autentiseringsmekanisme mangler",
     "Insufficient data: %s" : "Utilstrekkelige data: %s",

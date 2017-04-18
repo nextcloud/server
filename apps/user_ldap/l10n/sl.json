@@ -149,7 +149,6 @@
     "Username-LDAP User Mapping" : "Uporabniška preslikava uporabniškega imena na LDAP",
     "Clear Username-LDAP User Mapping" : "Izbriši preslikavo uporabniškega imena na LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Izbriši preslikavo skupine na LDAP",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Nastavitve so overjene, najden pa je le en uporabnik. Le prvi se bo lahko prijavil. Priporočljivo je navesti ožji filter.",
     "in bytes" : "v bajtih"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

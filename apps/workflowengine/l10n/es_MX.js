@@ -31,7 +31,7 @@ OC.L10N.register(
     "Select timezone…" : "Seleccionar zona horaria...",
     "Request URL" : "Solicitar URL",
     "Predefined URLs" : "URLs predefinidos",
-    "Files WebDAV" : "Archivos WebDAV",
+    "Files WebDAV" : "Archivos en WebDAV",
     "Request user agent" : "Solicitar agente de usuario",
     "Sync clients" : "Sincronizar clientes",
     "Android client" : "Cliente Android",
