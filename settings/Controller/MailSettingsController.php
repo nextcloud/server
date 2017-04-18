@@ -145,11 +145,19 @@ class MailSettingsController extends Controller {
 		$email = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'email', '');
 		if (!empty($email)) {
 			try {
+				$displayName = $this->userSession->getUser()->getDisplayName();
+
+				$template = $this->mailer->createEMailTemplate();
+				$template->addHeader();
+				$template->addHeading($this->l10n->t('Well done, %s!', [$displayName]));
+				$template->addBodyText($this->l10n->t('If you received this email, the email configuration seems to be correct.'));
+				$template->addFooter();
+
 				$message = $this->mailer->createMessage();
-				$message->setTo([$email => $this->userSession->getUser()->getDisplayName()]);
-				$message->setFrom([$this->defaultMailAddress]);
-				$message->setSubject($this->l10n->t('test email settings'));
-				$message->setPlainBody('If you received this email, the settings seem to be correct.');
+				$message->setTo([$email => $displayName]);
+				$message->setSubject($this->l10n->t('Email setting test'));
+				$message->setHtmlBody($template->renderHTML());
+				$message->setPlainBody($template->renderText());
 				$errors = $this->mailer->send($message);
 				if (!empty($errors)) {
 					throw new \RuntimeException($this->l10n->t('Mail could not be sent. Check your mail server log'));
