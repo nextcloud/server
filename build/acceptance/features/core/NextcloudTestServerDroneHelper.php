@@ -21,198 +21,63 @@
  *
  */
 
-namespace NextcloudServerControl {
-
-class SocketException extends \Exception {
-	public function __construct($message) {
-		parent::__construct($message);
-	}
-}
-
 /**
- * Common class for communication between client and server.
+ * Helper to manage a Nextcloud test server when acceptance tests are run in a
+ * Drone step.
  *
- * Clients and server communicate through messages: a client sends a request and
- * the server answers with a response. Requests and responses all have the same
- * common structure composed by a mandatory header and optional data. The header
- * contains a code that identifies the type of request or response followed by
- * the length of the data (which can be 0). The data is a free form string that
- * depends on each request and response type.
+ * The Nextcloud test server is executed using the PHP built-in web server
+ * directly from the grandparent directory of the acceptance tests directory
+ * (that is, the root directory of the Nextcloud server); note that the
+ * acceptance tests must be run from the acceptance tests directory. The "setUp"
+ * method resets the Nextcloud server to its initial state and starts it, while
+ * the "cleanUp" method stops it. To be able to reset the Nextcloud server to
+ * its initial state a Git repository must be provided in the root directory of
+ * the Nextcloud server; the last commit in that Git repository must provide the
+ * initial state for the Nextcloud server expected by the acceptance tests.
  *
- * The Messenger abstracts all that and provides two public methods: readMessage
- * and writeMessage. For each connection a client first writes the request
- * message and then reads the response message, while the server first reads the
- * request message and then writes the response message. If the client needs to
- * send another request it must connect again to the server.
- *
- * The Messenger class in the server must be kept in sync with the Messenger
- * class in the client. Due to the size of the code and its current use it was
- * more practical, at least for the time being, to keep two copies of the code
- * than creating a library that had to be downloaded and included in the client
- * and in the server.
- */
-class Messenger {
-
-	/**
-	 * Reset the Nextcloud server.
-	 *
-	 * -Request data: empty
-	 * -OK response data: empty.
-	 * -Failed response data: error information.
-	 */
-	const CODE_REQUEST_RESET = 0;
-
-	const CODE_RESPONSE_OK = 0;
-	const CODE_RESPONSE_FAILED = 1;
-
-	const HEADER_LENGTH = 5;
-
-	/**
-	 * Reads a message from the given socket.
-	 *
-	 * The message is returned as an indexed array with keys "code" and "data".
-	 *
-	 * @param resource $socket the socket to read the message from.
-	 * @return array the message read.
-	 * @throws SocketException if an error occurs while reading the socket.
-	 */
-	public static function readMessage($socket) {
-		$header = self::readSocket($socket, self::HEADER_LENGTH);
-		$header = unpack("Ccode/VdataLength", $header);
-
-		$data = self::readSocket($socket, $header["dataLength"]);
-
-		return [ "code" => $header["code"], "data" => $data ];
-	}
-
-	/**
-	 * Reads content from the given socket.
-	 *
-	 * It blocks until the specified number of bytes were read.
-	 *
-	 * @param resource $socket the socket to read the message from.
-	 * @param int $length the number of bytes to read.
-	 * @return string the content read.
-	 * @throws SocketException if an error occurs while reading the socket.
-	 */
-	private static function readSocket($socket, $length) {
-		if ($socket == null) {
-			throw new SocketException("Null socket can not be read from");
-		}
-
-		$pendingLength = $length;
-		$content = "";
-
-		while ($pendingLength > 0) {
-			$readContent = socket_read($socket, $pendingLength);
-			if ($readContent === "") {
-				throw new SocketException("Socket could not be read: $pendingLength bytes are pending, but there is no more data to read");
-			} else if ($readContent == false) {
-				throw new SocketException("Socket could not be read: " . socket_strerror(socket_last_error()));
-			}
-
-			$pendingLength -= strlen($readContent);
-			$content = $content . $readContent;
-		}
-
-		return $content;
-	}
-
-	/**
-	 * Writes a message to the given socket.
-	 *
-	 * @param resource $socket the socket to write the message to.
-	 * @param int $code the message code.
-	 * @param string $data the message data, if any.
-	 * @throws SocketException if an error occurs while reading the socket.
-	 */
-	public static function writeMessage($socket, $code, $data = "") {
-		if ($socket == null) {
-			throw new SocketException("Null socket can not be written to");
-		}
-
-		$header = pack("CV", $code, strlen($data));
-
-		$message = $header . $data;
-		$pendingLength = strlen($message);
-
-		while ($pendingLength > 0) {
-			$sent = socket_write($socket, $message, $pendingLength);
-			if ($sent !== 0 && $sent == false) {
-				throw new SocketException("Message ($message) could not be written: " . socket_strerror(socket_last_error()));
-			}
-
-			$pendingLength -= $sent;
-			$message = substr($message, $sent);
-		}
-	}
-}
-
-}
-
-namespace {
-
-use NextcloudServerControl\Messenger;
-use NextcloudServerControl\SocketException;
-
-/**
- * Helper to manage the Nextcloud test server running in a Drone service.
- *
- * The NextcloudTestServerDroneHelper controls a Nextcloud test server running
- * in a Drone service. The "setUp" method resets the Nextcloud server to its
- * initial state; nothing needs to be done in the "cleanUp" method. To be able
- * to control the remote Nextcloud server the Drone service must provide the
- * Nextcloud server control server; the port in which the server listens on can
- * be set with the $nextcloudTestServerControlPort parameter of the constructor.
- *
- * Drone services are available at "127.0.0.1", so the Nextcloud server is
- * expected to see "127.0.0.1" as a trusted domain (which would be the case if
- * it was installed by running "occ maintenance:install"). Note, however, that
- * the Nextcloud server does not listen on port "80" but on port "8000" due to
- * internal issues of the Nextcloud server control. In any case, the base URL to
- * access the Nextcloud server can be got from "getBaseUrl".
+ * The Nextcloud server is available at "127.0.0.1", so it is expected to see
+ * "127.0.0.1" as a trusted domain (which would be the case if it was installed
+ * by running "occ maintenance:install"). The base URL to access the Nextcloud
+ * server can be got from "getBaseUrl".
  */
 class NextcloudTestServerDroneHelper implements NextcloudTestServerHelper {
 
 	/**
-	 * @var int
+	 * @var string
 	 */
-	private $nextcloudTestServerControlPort;
+	private $phpServerPid;
 
 	/**
 	 * Creates a new NextcloudTestServerDroneHelper.
-	 *
-	 * @param int $nextcloudTestServerControlPort the port in which the
-	 *        Nextcloud server control is listening.
 	 */
-	public function __construct($nextcloudTestServerControlPort) {
-		$this->nextcloudTestServerControlPort = $nextcloudTestServerControlPort;
+	public function __construct() {
+		$this->phpServerPid = "";
 	}
 
 	/**
 	 * Sets up the Nextcloud test server.
 	 *
-	 * It resets the Nextcloud test server through the control system provided
-	 * by its Drone service and waits for the Nextcloud test server to be
-	 * started again; if the server can not be reset or if it does not start
-	 * again after some time an exception is thrown (as it is just a warning for
-	 * the test runner and nothing to be explicitly catched a plain base
-	 * Exception is used).
+	 * It resets the Nextcloud test server restoring its last saved Git state
+	 * and then waits for the Nextcloud test server to start again; if the
+	 * server can not be reset or if it does not start again after some time an
+	 * exception is thrown (as it is just a warning for the test runner and
+	 * nothing to be explicitly catched a plain base Exception is used).
 	 *
-	 * @throws \Exception if the Nextcloud test server in the Drone service can
-	 *         not be reset or started again.
+	 * @throws \Exception if the Nextcloud test server can not be reset or
+	 *         started again.
 	 */
 	public function setUp() {
-		$resetNextcloudServerCallback = function($socket) {
-			Messenger::writeMessage($socket, Messenger::CODE_REQUEST_RESET);
+		// Ensure that previous PHP server is not running (as cleanUp may not
+		// have been called).
+		$this->killPhpServer();
 
-			$response = Messenger::readMessage($socket);
+		$this->execOrException("cd ../../ && git reset --hard HEAD");
+		$this->execOrException("cd ../../ && git clean -d --force");
 
-			if ($response["code"] == Messenger::CODE_RESPONSE_FAILED) {
-				throw new Exception("Request to reset Nextcloud server failed: " . $response["data"]);
-			}
-		};
-		$this->sendRequestAndHandleResponse($resetNextcloudServerCallback);
+		// execOrException is not used because the server is started in the
+		// background, so the command will always succeed even if the server
+		// itself fails.
+		$this->phpServerPid = exec("php -S 127.0.0.1:80 -t ../../ >/dev/null 2>&1 & echo $!");
 
 		$timeout = 60;
 		if (!Utils::waitForServer($this->getBaseUrl(), $timeout)) {
@@ -223,9 +88,10 @@ class NextcloudTestServerDroneHelper implements NextcloudTestServerHelper {
 	/**
 	 * Cleans up the Nextcloud test server.
 	 *
-	 * Nothing needs to be done when using the Drone service.
+	 * It kills the running Nextcloud test server, if any.
 	 */
 	public function cleanUp() {
+		$this->killPhpServer();
 	}
 
 	/**
@@ -234,39 +100,35 @@ class NextcloudTestServerDroneHelper implements NextcloudTestServerHelper {
 	 * @return string the base URL of the Nextcloud test server.
 	 */
 	public function getBaseUrl() {
-		return "http://127.0.0.1:8000/index.php";
+		return "http://127.0.0.1/index.php";
 	}
 
 	/**
-	 * Executes the given callback to communicate with the Nextcloud test server
-	 * control.
+	 * Executes the given command, throwing an Exception if it fails.
 	 *
-	 * A socket is created with the Nextcloud test server control and passed to
-	 * the callback to send the request and handle its response.
-	 *
-	 * @param \Closure $nextcloudServerControlCallback the callback to call with
-	 *        the communication socket.
-	 * @throws \Exception if any socket-related operation fails.
+	 * @param string $command the command to execute.
+	 * @throws \Exception if the command fails to execute.
 	 */
-	private function sendRequestAndHandleResponse($nextcloudServerControlCallback) {
-		$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-		if ($socket === false) {
-			throw new Exception("Request socket to reset Nextcloud server could not be created: " . socket_strerror(socket_last_error()));
-		}
-
-		try {
-			if (socket_connect($socket, "127.0.0.1", $this->nextcloudTestServerControlPort) === false) {
-				throw new Exception("Request socket to reset Nextcloud server could not be connected: " . socket_strerror(socket_last_error()));
-			}
-
-			$nextcloudServerControlCallback($socket);
-		} catch (SocketException $exception) {
-			throw new Exception("Request socket to reset Nextcloud server failed: " . $exception->getMessage());
-		} finally {
-			socket_close($socket);
+	private function execOrException($command) {
+		exec($command . " 2>&1", $output, $returnValue);
+		if ($returnValue != 0) {
+			throw new Exception("'$command' could not be executed: " . implode("\n", $output));
 		}
 	}
 
-}
+	/**
+	 * Kills the PHP built-in web server started in setUp, if any.
+	 */
+	private function killPhpServer() {
+		if ($this->phpServerPid == "") {
+			return;
+		}
+
+		// execOrException is not used because the PID may no longer exist when
+		// trying to kill it.
+		exec("kill " . $this->phpServerPid);
+
+		$this->phpServerPid = "";
+	}
 
 }

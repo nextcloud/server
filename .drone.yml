@@ -478,19 +478,6 @@ pipeline:
     when:
       matrix:
         TESTS: integration-trashbin
-  # As it needs access to the cloned Git repository it must be defined in the
-  # pipeline as "detached" instead of in the services.
-  service-acceptance-nextcloud-server:
-    image: nextcloudci/acceptance-nextcloud-server-php7.1-apache
-    detach: true
-    commands:
-      # "nextcloud-server-control-setup.sh" can not be set as the entry point in
-      # the image because Drone overrides it.
-      - /usr/local/bin/nextcloud-server-control-setup.sh
-      - su --shell "/bin/sh" --command "php /usr/local/bin/nextcloud-server-control.php 12345" - www-data
-    when:
-      matrix:
-        TESTS: acceptance
   acceptance-access-levels:
       image: nextcloudci/php7.0:php7.0-7
       commands:

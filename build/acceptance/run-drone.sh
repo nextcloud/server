@@ -22,11 +22,13 @@
 #
 # The acceptance tests are written in Behat so, besides running the tests, this
 # script installs Behat, its dependencies, and some related packages in the
-# "vendor" subdirectory of the acceptance tests. The acceptance tests also use
-# the Selenium server to control a web browser, and they require a Nextcloud
-# server to be available, so this script waits for the Selenium server and the
-# Nextcloud server (both provided in their own Drone service) to be ready before
-# running the tests.
+# "vendor" subdirectory of the acceptance tests. The acceptance tests expect
+# that the last commit in the Git repository provides the default state of the
+# Nextcloud server, so the script installs the Nextcloud server and saves a
+# snapshot of the whole grandparent directory (no .gitignore file is used) in
+# the Git repository. Finally, the acceptance tests also use the Selenium server
+# to control a web browser, so this script waits for the Selenium server
+# (provided in its own Drone service) to be ready before running the tests.
 
 # Exit immediately on errors.
 set -o errexit
@@ -50,26 +52,24 @@ ORIGINAL="\
 REPLACEMENT="\
         - NextcloudTestServerContext:\n\
             nextcloudTestServerHelper: NextcloudTestServerDroneHelper\n\
-            nextcloudTestServerHelperParameters:\n\
-              - $NEXTCLOUD_SERVER_CONTROL_PORT"
+            nextcloudTestServerHelperParameters:"
 sed "s/$ORIGINAL/$REPLACEMENT/" config/behat.yml > config/behat-drone.yml
 
-# Both the Selenium server and the Nextcloud server control should be ready by
-# now, as Composer typically takes way longer to execute than their startup
-# (which is done in parallel in Drone services), but just in case.
+cd ../../
 
+echo "Installing and configuring Nextcloud server"
+build/acceptance/installAndConfigureServer.sh
+
+echo "Saving the default state so acceptance tests can reset to it"
+find . -name ".gitignore" -exec rm --force {} \;
+git add --all && echo 'Default state' | git -c user.name='John Doe' -c user.email='john@doe.org' commit --quiet --file=-
+
+cd build/acceptance
+
+# The Selenium server should be ready by now, as Composer typically takes way
+# longer to execute than its startup (which is done in parallel in a Drone
+# service), but just in case.
 echo "Waiting for Selenium"
 timeout 60s bash -c "while ! curl 127.0.0.1:4444 >/dev/null 2>&1; do sleep 1; done"
-
-# This just checks if it can connect to the port in which the Nextcloud server
-# control should be listening on.
-NEXTCLOUD_SERVER_CONTROL_PORT="12345"
-PHP_CHECK_NEXTCLOUD_SERVER="\
-if ((\\\$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) { exit(1); } \
-if (socket_connect(\\\$socket, \\\"127.0.0.1\\\", \\\"$NEXTCLOUD_SERVER_CONTROL_PORT\\\") === false) { exit(1); } \
-socket_close(\\\$socket);"
-
-echo "Waiting for Nextcloud server control"
-timeout 60s bash -c "while ! php -r \"$PHP_CHECK_NEXTCLOUD_SERVER\" >/dev/null 2>&1; do sleep 1; done"
 
 vendor/bin/behat --config=config/behat-drone.yml $SCENARIO_TO_RUN
