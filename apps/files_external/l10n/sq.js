@@ -38,7 +38,6 @@ OC.L10N.register(
     "Credentials saved" : "Kredencialet u ruajtën",
     "Credentials saving failed" : "Ruajtja e kredencialeve dështoi",
     "Credentials required" : "Lypsen kredenciale",
-    "Storage with id \"%i\" not found" : "S’u gjet depozitë me id \"%i\"",
     "Invalid backend or authentication mechanism class" : "Mekanizëm shërbimi ose klasë mekanizmi mirëfilltësimi e palvefshme",
     "Invalid mount point" : "Pikë montimi e pavlefshme",
     "Objectstore forbidden" : "Objectstore e ndaluar",
@@ -49,7 +48,6 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "Parametra mekanizmi mirëfilltësimi të papërmbushur",
     "Insufficient data: %s" : "Të dhëna të pamjaftueshme: %s",
     "%s" : "%s",
-    "Storage with id \"%i\" is not user editable" : "Depozita me id \"%i\" s’është e përpunueshme nga përdoruesi",
     "Access key" : "Kyç hyrjesh",
     "Secret key" : "Kyç i fshehtë",
     "Builtin" : "I brendshëm",
@@ -125,6 +123,8 @@ OC.L10N.register(
     "Advanced settings" : "Rregullime të mëtejshme",
     "Delete" : "Fshije",
     "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme",
-    "Allow users to mount the following external storage" : "Lejoju përdoruesve të montojnë depozitën e jashtme vijuese"
+    "Allow users to mount the following external storage" : "Lejoju përdoruesve të montojnë depozitën e jashtme vijuese",
+    "Storage with id \"%i\" not found" : "S’u gjet depozitë me id \"%i\"",
+    "Storage with id \"%i\" is not user editable" : "Depozita me id \"%i\" s’është e përpunueshme nga përdoruesi"
 },
 "nplurals=2; plural=(n != 1);");

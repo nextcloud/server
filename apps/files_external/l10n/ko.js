@@ -35,7 +35,6 @@ OC.L10N.register(
     "Credentials saved" : "인증 정보 저장됨",
     "Credentials saving failed" : "인증 정보를 저장할 수 없음",
     "Credentials required" : "인증 정보 필요함",
-    "Storage with id \"%i\" not found" : "ID가 \"%i\"인 저장소를 찾을 수 없음",
     "Invalid backend or authentication mechanism class" : "백엔드나 인증 방식 클래스가 잘못됨",
     "Invalid mount point" : "잘못된 마운트 지점",
     "Objectstore forbidden" : "Objectstore에 접근 금지됨",
@@ -46,7 +45,6 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "인증 방식 인자가 부족함",
     "Insufficient data: %s" : "충분하지 않은 데이터: %s",
     "%s" : "%s",
-    "Storage with id \"%i\" is not user editable" : "저장소 ID \"%i\"을(를) 사용자가 편집할 수 없음",
     "Access key" : "접근 키",
     "Secret key" : "비밀 키",
     "Builtin" : "내장",
@@ -119,6 +117,8 @@ OC.L10N.register(
     "Advanced settings" : "고급 설정",
     "Delete" : "삭제",
     "Allow users to mount external storage" : "사용자가 외부 저장소를 마운트하도록 허용",
-    "Allow users to mount the following external storage" : "사용자가 다음 외부 저장소를 마운트할 수 있도록 허용"
+    "Allow users to mount the following external storage" : "사용자가 다음 외부 저장소를 마운트할 수 있도록 허용",
+    "Storage with id \"%i\" not found" : "ID가 \"%i\"인 저장소를 찾을 수 없음",
+    "Storage with id \"%i\" is not user editable" : "저장소 ID \"%i\"을(를) 사용자가 편집할 수 없음"
 },
 "nplurals=1; plural=0;");

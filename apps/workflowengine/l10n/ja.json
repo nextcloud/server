@@ -1,7 +1,5 @@
 { "translations": {
-    "Successfully saved" : "保存しました",
     "Saving failed:" : "保存に失敗しました：",
-    "File mime type" : "ファイルMIMEタイプ",
     "is" : "は",
     "is not" : "は異なる",
     "matches" : "合致",
@@ -64,6 +62,8 @@
     "Reset" : "リセット",
     "Save" : "保存",
     "Saving…" : "保存中...",
-    "Loading…" : "読み込み中..."
+    "Loading…" : "読み込み中...",
+    "Successfully saved" : "保存しました",
+    "File mime type" : "ファイルMIMEタイプ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

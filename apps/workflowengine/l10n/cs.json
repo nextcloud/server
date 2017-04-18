@@ -1,7 +1,5 @@
 { "translations": {
-    "Successfully saved" : "Úspěšně uloženo",
     "Saving failed:" : "Ukládání selhalo:",
-    "File mime type" : "Mime typ souboru",
     "is" : "je",
     "is not" : "není",
     "matches" : "odpovídá",
@@ -64,6 +62,8 @@
     "Reset" : "Obnovit",
     "Save" : "Uložit",
     "Saving…" : "Ukládání…",
-    "Loading…" : "Načítání…"
+    "Loading…" : "Načítání…",
+    "Successfully saved" : "Úspěšně uloženo",
+    "File mime type" : "Mime typ souboru"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

@@ -33,7 +33,6 @@ OC.L10N.register(
     "Credentials saved" : "ข้อมูลประจำตัวได้ถูกบันทึก",
     "Credentials saving failed" : "บันทึกข้อมูลประจำตัวล้มเหลว",
     "Credentials required" : "จำเป็นต้องระบบข้อมูลประจำตัว",
-    "Storage with id \"%i\" not found" : "ไม่พบจัดการเก็บข้อมูลของ ID \"%i\"",
     "Invalid backend or authentication mechanism class" : "แบ็กเอนด์ไม่ถูกต้องหรือระดับการรับรองความถูกต้องไม่เพียงพอ",
     "Invalid mount point" : "จุดเชื่อมต่อที่ไม่ถูกต้อง",
     "Objectstore forbidden" : "เก็บวัตถุต้องห้าม",
@@ -44,7 +43,6 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "การรับรองความถูกต้องไม่เพียงพอ",
     "Insufficient data: %s" : "ข้อมูลไม่เพียงพอ: %s",
     "%s" : "%s",
-    "Storage with id \"%i\" is not user editable" : "พื้นที่เก็บข้อมูล รหัส \"%i\" ไม่อนุญาตให้ผู้ใช้แก้ไขข้อมูลได้",
     "Access key" : "คีย์การเข้าถึง",
     "Secret key" : "คีย์ลับ",
     "Builtin" : "ในตัว",
@@ -112,6 +110,8 @@ OC.L10N.register(
     "Advanced settings" : "ตั้งค่าขั้นสูง",
     "Delete" : "ลบ",
     "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก",
-    "Allow users to mount the following external storage" : "อนุญาตให้ผู้ใช้ติดตั้งจัดเก็บข้อมูลภายนอกต่อไปนี้"
+    "Allow users to mount the following external storage" : "อนุญาตให้ผู้ใช้ติดตั้งจัดเก็บข้อมูลภายนอกต่อไปนี้",
+    "Storage with id \"%i\" not found" : "ไม่พบจัดการเก็บข้อมูลของ ID \"%i\"",
+    "Storage with id \"%i\" is not user editable" : "พื้นที่เก็บข้อมูล รหัส \"%i\" ไม่อนุญาตให้ผู้ใช้แก้ไขข้อมูลได้"
 },
 "nplurals=1; plural=0;");

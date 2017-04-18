@@ -25,7 +25,6 @@ OC.L10N.register(
     "external-storage" : "Eksternt lager",
     "Username" : "Brugernavn",
     "Password" : "Kodeord",
-    "Storage with id \"%i\" not found" : "Lager med ID'et \"%i% er ikke fundet",
     "Invalid backend or authentication mechanism class" : "Ugyldig backend eller klasse for godkendelsesmekanisme",
     "Invalid mount point" : "Fokert monteringspunkt",
     "Objectstore forbidden" : "Objectstore er forbudt",
@@ -36,7 +35,6 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "Utilfredsstillede parametre for godkendelsesmekanisme",
     "Insufficient data: %s" : "Utilstrækkelige data: %s",
     "%s" : "%s",
-    "Storage with id \"%i\" is not user editable" : "Lageret med id \"%i\" kan ikke redigeres af bruger",
     "Access key" : "Adgangsnøgle",
     "Secret key" : "Hemmelig nøgle",
     "Builtin" : "Indbygget",
@@ -103,6 +101,8 @@ OC.L10N.register(
     "Add storage" : "Tilføj lager",
     "Advanced settings" : "Avancerede indstillinger",
     "Delete" : "Slet",
-    "Allow users to mount the following external storage" : "Tillad brugere at montere følgende som eksternt lager"
+    "Allow users to mount the following external storage" : "Tillad brugere at montere følgende som eksternt lager",
+    "Storage with id \"%i\" not found" : "Lager med ID'et \"%i% er ikke fundet",
+    "Storage with id \"%i\" is not user editable" : "Lageret med id \"%i\" kan ikke redigeres af bruger"
 },
 "nplurals=2; plural=(n != 1);");

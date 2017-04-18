@@ -38,11 +38,9 @@ OC.L10N.register(
     "Credentials saved" : "Azonosítók mentve",
     "Credentials saving failed" : "Azonosítók mentése sikertelen",
     "Credentials required" : "Azonosító szükséges",
-    "Storage with id \"%i\" not found" : "A következő azonosítójú tároló nem található: \"%i\"",
     "Invalid mount point" : "Érvénytelen csatolási pont",
     "Insufficient data: %s" : "Nem elegendő adat: %s",
     "%s" : "%s",
-    "Storage with id \"%i\" is not user editable" : "A következő azonosítójú tároló a felhasználó számára nem szerkeszthető: \"%i\"",
     "Access key" : "Hozzáférési kulcs",
     "Secret key" : "Titkos kulcs",
     "Builtin" : "Beépített",
@@ -118,6 +116,8 @@ OC.L10N.register(
     "Advanced settings" : "Haladó beállítások",
     "Delete" : "Törlés",
     "Allow users to mount external storage" : "Külső tárolók csatolásának  engedélyezése a felhasználók részére",
-    "Allow users to mount the following external storage" : "A felhasználók számára engedélyezett külső tárolók csatolása:"
+    "Allow users to mount the following external storage" : "A felhasználók számára engedélyezett külső tárolók csatolása:",
+    "Storage with id \"%i\" not found" : "A következő azonosítójú tároló nem található: \"%i\"",
+    "Storage with id \"%i\" is not user editable" : "A következő azonosítójú tároló a felhasználó számára nem szerkeszthető: \"%i\""
 },
 "nplurals=2; plural=(n != 1);");

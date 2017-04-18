@@ -2,10 +2,10 @@ OC.L10N.register(
     "settings",
     {
     "Authentication error" : "ავთენტიფიკაციის შეცდომა",
-    "Email sent" : "იმეილი გაიგზავნა",
     "Invalid request" : "არასწორი მოთხოვნა",
     "Email saved" : "იმეილი შენახულია",
     "Couldn't update app." : "ვერ მოხერხდა აპლიკაციის განახლება.",
+    "Email sent" : "იმეილი გაიგზავნა",
     "All" : "ყველა",
     "Disable" : "გამორთვა",
     "Enable" : "ჩართვა",
@@ -26,7 +26,6 @@ OC.L10N.register(
     "Server address" : "სერვერის მისამართი",
     "Port" : "პორტი",
     "Credentials" : "იუზერ/პაროლი",
-    "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP მოდული 'fileinfo' არ არსებობს. ჩვენ გირჩევთ რომ აუცილებლად ჩართოთ ეს მოდული, რომ მიიღოთ კარგი შედეგები mime-type–ს აღმოჩენისას.",
     "Cron" : "Cron–ი",
     "Execute one task with each page loaded" : "გაუშვი თითო მოქმედება ყველა ჩატვირთულ გვერდზე",
     "Version" : "ვერსია",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Default" : "საწყისი პარამეტრები",
     "Admins can't remove themself from the admin group" : "ადმინისტრატორებს არ შეუძლიათ საკუთარი თავის წაშლა ადმინ ჯგუფიდან",
     "Unable to add user to group %s" : "მომხმარებლის დამატება ვერ მოხეხდა ჯგუფში %s",
-    "Unable to remove user from group %s" : "მომხმარებლის წაშლა ვერ მოხეხდა ჯგუფიდან %s"
+    "Unable to remove user from group %s" : "მომხმარებლის წაშლა ვერ მოხეხდა ჯგუფიდან %s",
+    "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP მოდული 'fileinfo' არ არსებობს. ჩვენ გირჩევთ რომ აუცილებლად ჩართოთ ეს მოდული, რომ მიიღოთ კარგი შედეგები mime-type–ს აღმოჩენისას."
 },
 "nplurals=1; plural=0;");

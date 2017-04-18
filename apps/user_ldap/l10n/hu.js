@@ -64,7 +64,6 @@ OC.L10N.register(
     "%s. Server:" : "%s. szerver",
     "Delete the current configuration" : "Aktuális konfiguráció törlése",
     "Host" : "Kiszolgáló",
-    "You can omit the protocol, except you require SSL. Then start with ldaps://" : "A protokoll előtag elhagyható, kivéve, ha SSL-t kíván használni. Ebben az esetben kezdje így:  ldaps://",
     "Port" : "Port",
     "Detect Port" : "Port detektálás",
     "User DN" : "A kapcsolódó felhasználó DN-je",
@@ -129,6 +128,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Felhasználó - LDAP felhasználó hozzárendelés",
     "Clear Username-LDAP User Mapping" : "A felhasználó - LDAP felhasználó hozzárendelés törlése",
     "Clear Groupname-LDAP Group Mapping" : "A csoport - LDAP csoport hozzárendelés törlése",
+    "You can omit the protocol, except you require SSL. Then start with ldaps://" : "A protokoll előtag elhagyható, kivéve, ha SSL-t kíván használni. Ebben az esetben kezdje így:  ldaps://",
     "in bytes" : "bájtban"
 },
 "nplurals=2; plural=(n != 1);");

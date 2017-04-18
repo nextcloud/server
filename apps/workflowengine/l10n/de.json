@@ -1,7 +1,5 @@
 { "translations": {
-    "Successfully saved" : "Erfolgreich gespeichert",
     "Saving failed:" : "Speichern fehlgeschlagen:",
-    "File mime type" : "Datei Medientyp",
     "is" : "ist",
     "is not" : "ist nicht",
     "matches" : "entspricht",
@@ -64,6 +62,8 @@
     "Reset" : "Zurücksetzen",
     "Save" : "Speichern",
     "Saving…" : "Speichern…",
-    "Loading…" : "Laden…"
+    "Loading…" : "Laden…",
+    "Successfully saved" : "Erfolgreich gespeichert",
+    "File mime type" : "Datei Medientyp"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -38,7 +38,6 @@ OC.L10N.register(
     "Credentials saved" : "Přihlašovací údaje uloženy",
     "Credentials saving failed" : "Uložení přihlašovacích údajů selhalo",
     "Credentials required" : "Vyžadovány přihlašovací údaje",
-    "Storage with id \"%i\" not found" : "Úložiště s id \"%i\" nebylo nalezeno",
     "Invalid backend or authentication mechanism class" : "Neplatný backend nebo třída ověřovacího mechanismu",
     "Invalid mount point" : "Neplatný přípojný bod",
     "Objectstore forbidden" : "Úložiště objektů zakázáno",
@@ -49,7 +48,6 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "Neuspokojivé parametry ověřovacího mechanismu",
     "Insufficient data: %s" : "Nedostatečná data: %s",
     "%s" : "%s",
-    "Storage with id \"%i\" is not user editable" : "Úložiště s id \"%i\" uživatelé nemohou upravovat",
     "Access key" : "Přístupový klíč",
     "Secret key" : "Tajný klíč",
     "Builtin" : "Zabudované",
@@ -125,6 +123,8 @@ OC.L10N.register(
     "Advanced settings" : "Pokročilá nastavení",
     "Delete" : "Smazat",
     "Allow users to mount external storage" : "Povolit uživatelům připojení externího úložiště",
-    "Allow users to mount the following external storage" : "Povolit uživatelů připojit následující externí úložiště"
+    "Allow users to mount the following external storage" : "Povolit uživatelů připojit následující externí úložiště",
+    "Storage with id \"%i\" not found" : "Úložiště s id \"%i\" nebylo nalezeno",
+    "Storage with id \"%i\" is not user editable" : "Úložiště s id \"%i\" uživatelé nemohou upravovat"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

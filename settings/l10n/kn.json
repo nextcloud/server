@@ -9,8 +9,6 @@
     "Group already exists." : "﻿ಗುಂಪು ಈಗಾಗಲೇ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ.",
     "Unable to add group." : "﻿ಗುಂಪುನ್ನು ಸೇರಿಸಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ.",
     "Unable to delete group." : "﻿ಗುಂಪುನ್ನು ಅಳಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.",
-    "test email settings" : "ಪರೀರ್ಕ್ಷಾತ ﻿ಇ-ಅಂಚೆಯ ಆಯ್ಕೇ",
-    "Email sent" : "ಇ-ಅಂಚೆ ಕಳುಹಿಸಲಾಗಿದೆ",
     "You need to set your user email before being able to send test emails." : "ನೀವು ಪರೀಕ್ಷಾ ಇ-ಅಂಚೆಯನ್ನು ಕಳುಹಿಸುವ ಮುನ್ನ ನಿಮ್ಮ ಬಳಕೆದಾರ ಇ-ಅಂಚೆಯನ್ನು  ಹೊಂದಿಸಬೇಕಾಗುತ್ತದೆ.",
     "Invalid request" : "﻿ಅಮಾನ್ಯ ಕೋರಿಕೆ",
     "Invalid mail address" : "﻿ಅಮಾನ್ಯ ಇ-ಅಂಚೆ ವಿಳಾಸ",
@@ -25,7 +23,7 @@
     "Your %s account was created" : "﻿ನಿಮ್ಮ%s ಖಾತೆಯನ್ನು ಸ್ಥಾಪಿಸಲಾಗಿದೆ",
     "Couldn't remove app." : "ಅಳಿಸುವಾಗ ಏನೊ ಲೋಪವಾಗಿದೆ",
     "Couldn't update app." : "﻿ ಕಾಯಕ್ರಮವನ್ನು ನವೀಕರಿಸಲ ಸಾದ್ಯವಾಗುತ್ತಿಲ್ಲ.",
-    "Sending..." : "﻿ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ ...",
+    "Email sent" : "ಇ-ಅಂಚೆ ಕಳುಹಿಸಲಾಗಿದೆ",
     "All" : "﻿ಎಲ್ಲಾ",
     "Error while disabling app" : "ಕಾರ್ಯಕ್ರಮವನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸುವಾಗ ಏನೊ ಲೋಪವಾಗಿದೆ",
     "Disable" : "﻿ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿ",
@@ -34,7 +32,6 @@
     "Updating...." : "ಆಧುನೀಕರಿಸುಲಾಗುತ್ತಿದೇ ....",
     "Error while updating app" : "ಕಾರ್ಯಕ್ರಮವನ್ನು  ನವೀಕರಿಸುವಾಗ ಏನೊ ಲೋಪವಾಗಿದೆ",
     "Updated" : "ಆಧುನೀಕರಿಸಲಾಗಿದೆ",
-    "Uninstalling ...." : "ಅಳಿಸಿಹಾಕುವುದು ...",
     "Error while uninstalling app" : "ಅಳಿಸುವಾಗ ಏನೊ ಲೋಪವಾಗಿದೆ",
     "Uninstall" : "ಅಳಿಸಿ",
     "Valid until {date}" : "﻿{date} ವರೆಗೆ ಚಾಲ್ತಿಯಲ್ಲಿರುತ್ತದೆ",
@@ -100,9 +97,12 @@
     "set new password" : "﻿ಹೊಸ ಗುಪ್ತಪದವನ್ನು ಹೊಂದಿಸಿ",
     "change email address" : "﻿ಇ-ಅಂಚೆ ವಿಳಾಸ ಬದಲಾಯಿಸಿ",
     "Default" : "ಆರಂಭದ ಪ್ರತಿ",
+    "test email settings" : "ಪರೀರ್ಕ್ಷಾತ ﻿ಇ-ಅಂಚೆಯ ಆಯ್ಕೇ",
     "Admins can't remove themself from the admin group" : "﻿ನಿರ್ವಾಹಕರು ನಿರ್ವಹಣೆ ಗುಂಪಿನಿಂದ ತಮ್ಮನ್ನೇ ತಾವು ತೆಗೆದುಹಾಕಿಕೊಳ್ಳಲು ಸಾಧ್ಯವಿಲ್ಲ",
     "Unable to add user to group %s" : "%s ಗುಂಪಿಗೆ ಹೂಸ ಬಳಕೆದಾರನನ್ನು ಸೇರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ",
     "Unable to remove user from group %s" : "%s ಗುಂಪು ಬಳಕೆದಾರ ತೆಗೆದುಹಾಕಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ",
+    "Sending..." : "﻿ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ ...",
+    "Uninstalling ...." : "ಅಳಿಸಿಹಾಕುವುದು ...",
     "Cheers!" : "ಆನಂದಿಸಿ !"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

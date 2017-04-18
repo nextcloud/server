@@ -59,7 +59,6 @@
     "Edit LDAP Query" : "Redigera LDAP förfrågan",
     "LDAP Filter:" : "LDAP Filter:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Filtret specifierar vilka LDAD-grupper som ska ha åtkomst till %s instans",
-    "Verify settings and count groups" : "Verifiera inställningar och räkna grupper",
     "LDAP / AD Username:" : "LDAP / AD Användarnamn:",
     "LDAP / AD Email Address:" : "LDAP / AD E-postadress:",
     "Other Attributes:" : "Övriga attribut:",
@@ -67,11 +66,9 @@
     "Verify settings" : "Verifiera inställningar",
     "1. Server" : "1. Server",
     "%s. Server:" : "%s. Server:",
-    "Add a new and blank configuration" : "Skapa en ny och tom konfiguration",
     "Copy current configuration into new directory binding" : "Kopiera nuvarande konfiguration till en ny katalogsammansättning",
     "Delete the current configuration" : "Radera nuvarande konfiguration",
     "Host" : "Server",
-    "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Du behöver inte ange protokoll förutom om du använder SSL. Starta då med ldaps://",
     "Port" : "Port",
     "Detect Port" : "Upptäck Port",
     "User DN" : "Användar-DN",
@@ -143,6 +140,9 @@
     "Username-LDAP User Mapping" : "Användarnamn-LDAP användarmappning",
     "Clear Username-LDAP User Mapping" : "Rensa användarnamn-LDAP användarmappning",
     "Clear Groupname-LDAP Group Mapping" : "Rensa gruppnamn-LDAP gruppmappning",
+    "Verify settings and count groups" : "Verifiera inställningar och räkna grupper",
+    "Add a new and blank configuration" : "Skapa en ny och tom konfiguration",
+    "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Du behöver inte ange protokoll förutom om du använder SSL. Starta då med ldaps://",
     "in bytes" : "i bytes"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

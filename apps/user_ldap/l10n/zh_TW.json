@@ -53,7 +53,6 @@
     "Selected groups" : "已選擇的群組",
     "Edit LDAP Query" : "編輯LDAP Query",
     "LDAP Filter:" : "LDAP 過慮器:",
-    "Verify settings and count groups" : "驗證設定並計算群組數",
     "When logging in, %s will find the user based on the following attributes:" : "當登入%s時，將會根據以下屬性找到使用者 :",
     "LDAP / AD Username:" : "LDAP / AD 使用者名稱:",
     "LDAP / AD Email Address:" : "LDAP / AD 電子郵件:",
@@ -63,11 +62,9 @@
     "Verify settings" : "驗證設定",
     "1. Server" : "1. 伺服器",
     "%s. Server:" : "%s. 伺服器:",
-    "Add a new and blank configuration" : "新增一個空白的設定檔",
     "Copy current configuration into new directory binding" : "複製目前的設定檔到新目錄",
     "Delete the current configuration" : "刪除目前的設定檔",
     "Host" : "主機",
-    "You can omit the protocol, except you require SSL. Then start with ldaps://" : "若您不需要 SSL 加密連線則不需輸入通訊協定，反之請輸入 ldaps://",
     "Port" : "連接埠",
     "Detect Port" : "偵測連接阜",
     "User DN" : "User DN",
@@ -127,6 +124,9 @@
     "Override UUID detection" : "偵測覆寫UUID",
     "UUID Attribute for Users:" : "使用者的UUID值:",
     "UUID Attribute for Groups:" : "群組的UUID值:",
+    "Verify settings and count groups" : "驗證設定並計算群組數",
+    "Add a new and blank configuration" : "新增一個空白的設定檔",
+    "You can omit the protocol, except you require SSL. Then start with ldaps://" : "若您不需要 SSL 加密連線則不需輸入通訊協定，反之請輸入 ldaps://",
     "in bytes" : "以位元組為單位"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

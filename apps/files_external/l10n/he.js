@@ -36,7 +36,6 @@ OC.L10N.register(
     "Credentials saved" : "פרטי גישה נשמרו",
     "Credentials saving failed" : "שמירת פרטי גישה נכשלה",
     "Credentials required" : "נדרשים פרטי גישה",
-    "Storage with id \"%i\" not found" : "אחסון עם מספר זיהוי \"%i\" לא אותר",
     "Invalid backend or authentication mechanism class" : "צד אחורי או סוג מנגנון אימות לא חוקי",
     "Invalid mount point" : "נקודת עגינה לא חוקית",
     "Objectstore forbidden" : "Objectstore חסום",
@@ -47,7 +46,6 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "פרמטרים של מכניזם אימות אינם מספקים",
     "Insufficient data: %s" : "מידע לא מספק: %s",
     "%s" : "%s",
-    "Storage with id \"%i\" is not user editable" : "האחסון עם זהות \"%i\" לא ניתן לעריכה",
     "Access key" : "מפתח כניסה",
     "Secret key" : "מפתח סודי",
     "Builtin" : "מובנה",
@@ -115,6 +113,8 @@ OC.L10N.register(
     "Advanced settings" : "הגדרות מתקדמות",
     "Delete" : "מחיקה",
     "Allow users to mount external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני",
-    "Allow users to mount the following external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני הבא"
+    "Allow users to mount the following external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני הבא",
+    "Storage with id \"%i\" not found" : "אחסון עם מספר זיהוי \"%i\" לא אותר",
+    "Storage with id \"%i\" is not user editable" : "האחסון עם זהות \"%i\" לא ניתן לעריכה"
 },
 "nplurals=2; plural=(n != 1);");

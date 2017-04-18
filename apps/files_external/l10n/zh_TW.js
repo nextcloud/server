@@ -30,7 +30,6 @@ OC.L10N.register(
     "external-storage" : "外部儲存",
     "Username" : "使用者名稱",
     "Password" : "密碼",
-    "Storage with id \"%i\" not found" : "沒有找到編號 \"%i\" 的儲存空間 ",
     "Invalid backend or authentication mechanism class" : "無效的後端處理或是驗證方式",
     "Invalid mount point" : "無效的掛載點",
     "Objectstore forbidden" : "物件儲存禁止存取",
@@ -103,6 +102,7 @@ OC.L10N.register(
     "Advanced settings" : "進階設定",
     "Delete" : "刪除",
     "Allow users to mount external storage" : "允許使用者能自行掛載外部儲存",
-    "Allow users to mount the following external storage" : "允許使用者自行掛載以下的外部儲存"
+    "Allow users to mount the following external storage" : "允許使用者自行掛載以下的外部儲存",
+    "Storage with id \"%i\" not found" : "沒有找到編號 \"%i\" 的儲存空間 "
 },
 "nplurals=1; plural=0;");

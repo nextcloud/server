@@ -38,7 +38,6 @@ OC.L10N.register(
     "Credentials saved" : "Credenciais salvas",
     "Credentials saving failed" : "A gravação das credenciais falhou",
     "Credentials required" : "Credenciais são requeridas",
-    "Storage with id \"%i\" not found" : "Armazenamento com ID \"%i\" não encontrado",
     "Invalid backend or authentication mechanism class" : "Backend ou classe de mecanismo de autenticação inválido",
     "Invalid mount point" : "Ponto de montagem inválido",
     "Objectstore forbidden" : "Proibido armazenamento de objetos",
@@ -49,7 +48,6 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "Parâmetros de mecanismos de autenticação não satisfeitos",
     "Insufficient data: %s" : "Dados insuficientes: %s",
     "%s" : "%s",
-    "Storage with id \"%i\" is not user editable" : "Armazenamento com ID \"%i\" não é editável pelo usuário",
     "Access key" : "Chave da acesso",
     "Secret key" : "Chave secreta",
     "Builtin" : "Construídas em",
@@ -125,6 +123,8 @@ OC.L10N.register(
     "Advanced settings" : "Configurações avançadas",
     "Delete" : "Excluir",
     "Allow users to mount external storage" : "Permitir que usuários montem armazenamento externo",
-    "Allow users to mount the following external storage" : "Permitir que usuários montem o seguinte armazenamento externo"
+    "Allow users to mount the following external storage" : "Permitir que usuários montem o seguinte armazenamento externo",
+    "Storage with id \"%i\" not found" : "Armazenamento com ID \"%i\" não encontrado",
+    "Storage with id \"%i\" is not user editable" : "Armazenamento com ID \"%i\" não é editável pelo usuário"
 },
 "nplurals=2; plural=(n > 1);");
