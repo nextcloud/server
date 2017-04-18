@@ -3,6 +3,7 @@
     "Could not start updater, please try the manual update" : "Kunne ikke starte oppdateringen, prøv å oppdatere manuelt",
     "{version} is available. Get more information on how to update." : "{version} er tilgjengelig. Få mer informasjon om å oppdatere.",
     "Channel updated" : "Kanal oppdatert",
+    "Please check the nextcloud and server log files for errors." : "Se i Nextcloud- og tjener-loggen etter feil.",
     "Update to %1$s is available." : "Oppdatering til %1$s er tilgjengelig.",
     "Update for %1$s to version %2$s is available." : "Oppdatering for %1$s til versjon %2$s er tilgjengelig.",
     "Update for {app} to version %s is available." : "Oppdatering for {app} til versjon %s er tilgjengelig.",

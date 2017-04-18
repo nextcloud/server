@@ -17,6 +17,8 @@
     "Open »%s«" : "Åpne »%s«",
     "Password to access »%s« shared to you by %s" : "Passord for å benytte »%s« tildelt deg av %s",
     "Password to access »%s«" : "Passord for å benytte »%s«",
+    "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s delte «%s» med deg. Du skal allerede ha mottatt en annen e-post med en lenke til innholdet.",
+    "It is protected with the following password: %s" : "Det er beskyttet med følgende passord: %s",
     "Could not find share" : "Delingen ble ikke funnet",
     "Share by mail" : "Del via e-post",
     "Send a personalized link to a file or folder by mail." : "Send en personalisert lenke til ei fil eller mappe via e-post.",

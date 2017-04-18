@@ -69,6 +69,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Favorited" : "Marcado como favorito",
     "Favorite" : "Favorito",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Copiar liga directa (sólo funciona para usuarios que tienen acceso a este archivo/carpeta)",
     "Folder" : "Carpeta",
     "New folder" : "Carpeta nueva",
     "Upload" : "Cargar",
