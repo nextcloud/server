@@ -138,7 +138,7 @@ class MailSettingsController extends Controller {
 
 	/**
 	 * Send a mail to test the settings
-	 * @return array|DataResponse
+	 * @return DataResponse
 	 */
 	public function sendTestMail() {
 		$email = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'email', '');
@@ -153,14 +153,13 @@ class MailSettingsController extends Controller {
 				if (!empty($errors)) {
 					throw new \RuntimeException($this->l10n->t('Mail could not be sent. Check your mail server log'));
 				}
+				return new DataResponse();
 			} catch (\Exception $e) {
-				return new DataResponse($this->l10n->t('A problem occurred while sending the email. Please revise your settings. (Error: %s)', [$e->getMessage()]));
+				return new DataResponse($this->l10n->t('A problem occurred while sending the email. Please revise your settings. (Error: %s)', [$e->getMessage()]), Http::STATUS_BAD_REQUEST);
 			}
-
-			return new DataResponse();
 		}
 
-		return new DataResponse($this->l10n->t('You need to set your user email before being able to send test emails.'));
+		return new DataResponse($this->l10n->t('You need to set your user email before being able to send test emails.'), Http::STATUS_BAD_REQUEST);
 	}
 
 }
