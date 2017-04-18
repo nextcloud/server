@@ -435,7 +435,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}
 
 		OC.Settings.Apps.hideErrorMessage(appId);
-		element.val(t('settings','Uninstalling ....'));
+		element.val(t('settings','Uninstalling …'));
 		$.post(OC.filePath('settings','ajax','uninstallapp.php'),{appid:appId},function(result) {
 			if(!result || result.status !== 'success') {
 				OC.Settings.Apps.showErrorMessage(appId, t('settings','Error while uninstalling app'));

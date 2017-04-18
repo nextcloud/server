@@ -147,14 +147,14 @@ abstract class StoragesService {
 		$mount = $this->dbConfig->getMountById($id);
 
 		if (!is_array($mount)) {
-			throw new NotFoundException('Storage with id "' . $id . '" not found');
+			throw new NotFoundException('Storage with ID "' . $id . '" not found');
 		}
 
 		$config = $this->getStorageConfigFromDBMount($mount);
 		if ($this->isApplicable($config)) {
 			return $config;
 		} else {
-			throw new NotFoundException('Storage with id "' . $id . '" not found');
+			throw new NotFoundException('Storage with ID "' . $id . '" not found');
 		}
 	}
 
@@ -377,7 +377,7 @@ abstract class StoragesService {
 		$existingMount = $this->dbConfig->getMountById($id);
 
 		if (!is_array($existingMount)) {
-			throw new NotFoundException('Storage with id "' . $id . '" not found while updating storage');
+			throw new NotFoundException('Storage with ID "' . $id . '" not found while updating storage');
 		}
 
 		$oldStorage = $this->getStorageConfigFromDBMount($existingMount);
@@ -456,7 +456,7 @@ abstract class StoragesService {
 		$existingMount = $this->dbConfig->getMountById($id);
 
 		if (!is_array($existingMount)) {
-			throw new NotFoundException('Storage with id "' . $id . '" not found');
+			throw new NotFoundException('Storage with ID "' . $id . '" not found');
 		}
 
 		$this->dbConfig->removeMount($id);

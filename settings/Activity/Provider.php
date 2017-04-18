@@ -89,11 +89,11 @@ class Provider implements IProvider {
 			$subject = $this->l->t('Your password was reset by an administrator');
 
 		} else if ($event->getSubject() === self::EMAIL_CHANGED_BY) {
-			$subject = $this->l->t('{actor} changed your email');
+			$subject = $this->l->t('{actor} changed your email address');
 		} else if ($event->getSubject() === self::EMAIL_CHANGED_SELF) {
-			$subject = $this->l->t('You changed your email');
+			$subject = $this->l->t('You changed your email address');
 		} else if ($event->getSubject() === self::EMAIL_CHANGED) {
-			$subject = $this->l->t('Your email was changed by an administrator');
+			$subject = $this->l->t('Your email address was changed by an administrator');
 
 		} else {
 			throw new \InvalidArgumentException();

@@ -324,7 +324,7 @@ class NewUserMailHelperTest extends TestCase {
 					</tr>
 					</tbody>
 				</table>
-				<p class="text-center float-center" align="center" style="Margin:0;Margin-bottom:10px;color:#C8C8C8;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:12px;font-weight:400;line-height:16px;margin:0;margin-bottom:10px;padding:0;text-align:center">TestCloud - <br>This is an automatically generated email, please do not reply.</p>
+				<p class="text-center float-center" align="center" style="Margin:0;Margin-bottom:10px;color:#C8C8C8;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:12px;font-weight:400;line-height:16px;margin:0;margin-bottom:10px;padding:0;text-align:center">TestCloud - <br>This is an automatically sent email, please do not reply.</p>
 			</center>
 		</td>
 	</tr>
@@ -350,7 +350,7 @@ Install Client: https://nextcloud.com/install/#install-clients
 
 -- 
 TestCloud - 
-This is an automatically generated email, please do not reply.
+This is an automatically sent email, please do not reply.
 EOF;
 
 		$result = $this->newUserMailHelper->generateTemplate($user, true);
@@ -557,7 +557,7 @@ EOF;
 					</tr>
 					</tbody>
 				</table>
-				<p class="text-center float-center" align="center" style="Margin:0;Margin-bottom:10px;color:#C8C8C8;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:12px;font-weight:400;line-height:16px;margin:0;margin-bottom:10px;padding:0;text-align:center">TestCloud - <br>This is an automatically generated email, please do not reply.</p>
+				<p class="text-center float-center" align="center" style="Margin:0;Margin-bottom:10px;color:#C8C8C8;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:12px;font-weight:400;line-height:16px;margin:0;margin-bottom:10px;padding:0;text-align:center">TestCloud - <br>This is an automatically sent email, please do not reply.</p>
 			</center>
 		</td>
 	</tr>
@@ -583,7 +583,7 @@ Install Client: https://nextcloud.com/install/#install-clients
 
 -- 
 TestCloud - 
-This is an automatically generated email, please do not reply.
+This is an automatically sent email, please do not reply.
 EOF;
 
 		$result = $this->newUserMailHelper->generateTemplate($user, false);

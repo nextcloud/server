@@ -81,7 +81,7 @@ class EMailTemplateTest extends TestCase {
 			'Install Client', 'https://nextcloud.com/install/#install-clients'
 		);
 		$this->emailTemplate->addFooter(
-			'TestCloud - A safe home for your data<br>This is an automatically generated email, please do not reply.'
+			'TestCloud - A safe home for your data<br>This is an automatically sent email, please do not reply.'
 		);
 
 		$expectedHTML = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email.html');

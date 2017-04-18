@@ -122,7 +122,7 @@ class UserGlobalStoragesController extends StoragesController {
 		} catch (NotFoundException $e) {
 			return new DataResponse(
 				[
-					'message' => (string)$this->l10n->t('Storage with id "%i" not found', array($id))
+					'message' => (string)$this->l10n->t('Storage with ID "%d" not found', array($id))
 				],
 				Http::STATUS_NOT_FOUND
 			);
@@ -162,7 +162,7 @@ class UserGlobalStoragesController extends StoragesController {
 			} else {
 				return new DataResponse(
 					[
-						'message' => (string)$this->l10n->t('Storage with id "%i" is not user editable', array($id))
+						'message' => (string)$this->l10n->t('Storage with ID "%d" is not user editable', array($id))
 					],
 					Http::STATUS_FORBIDDEN
 				);
@@ -170,7 +170,7 @@ class UserGlobalStoragesController extends StoragesController {
 		} catch (NotFoundException $e) {
 			return new DataResponse(
 				[
-					'message' => (string)$this->l10n->t('Storage with id "%i" not found', array($id))
+					'message' => (string)$this->l10n->t('Storage with ID "%d" not found', array($id))
 				],
 				Http::STATUS_NOT_FOUND
 			);

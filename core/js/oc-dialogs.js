@@ -326,7 +326,7 @@ var OCdialogs = {
 					}
 				};
 				buttonlist[0] = {
-					text: t('core', 'Ok'),
+					text: t('core', 'OK'),
 					click: functionToCall,
 					defaultButton: true
 				};

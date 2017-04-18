@@ -193,8 +193,8 @@ class Manager implements IManager {
 			if (isset($this->encryptionModules[$moduleId])) {
 				return call_user_func($this->encryptionModules[$moduleId]['callback']);
 			} else {
-				$message = "Module with id: $moduleId does not exist.";
-				$hint = $this->l->t('Module with id: %s does not exist. Please enable it in your apps settings or contact your administrator.', [$moduleId]);
+				$message = "Module with ID: $moduleId does not exist.";
+				$hint = $this->l->t('Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator.', [$moduleId]);
 				throw new Exceptions\ModuleDoesNotExistsException($message, $hint);
 			}
 		} else {

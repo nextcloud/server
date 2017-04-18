@@ -100,7 +100,7 @@ class ManagerTest extends TestCase {
 
 	/**
 	 * @expectedException \OC\Encryption\Exceptions\ModuleDoesNotExistsException
-	 * @expectedExceptionMessage Module with id: unknown does not exist.
+	 * @expectedExceptionMessage Module with ID: unknown does not exist.
 	 */
 	public function testGetEncryptionModuleUnknown() {
 		$this->config->expects($this->any())->method('getAppValue')->willReturn(true);
@@ -214,7 +214,7 @@ class ManagerTest extends TestCase {
 //
 //	/**
 //	 * @expectedException \OC\Encryption\Exceptions\ModuleDoesNotExistsException
-//	 * @expectedExceptionMessage Module with id: unknown does not exist.
+//	 * @expectedExceptionMessage Module with ID: unknown does not exist.
 //	 */
 //	public function testGetEncryptionModuleUnknown() {
 //		$config = $this->getMock('\OCP\IConfig');

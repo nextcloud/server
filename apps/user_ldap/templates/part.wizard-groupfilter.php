@@ -53,7 +53,7 @@
 		</p>
 		<p class="ldap_count">
 			<button class="ldapGetEntryCount ldapGetGroupCount" name="ldapGetEntryCount" type="button">
-				<?php p($l->t('Verify settings and count groups'));?>
+				<?php p($l->t('Verify settings and count the groups'));?>
 			</button>
 			<span id="ldap_group_count"></span>
 		</p>
