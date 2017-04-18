@@ -129,7 +129,6 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Felhasználó - LDAP felhasználó hozzárendelés",
     "Clear Username-LDAP User Mapping" : "A felhasználó - LDAP felhasználó hozzárendelés törlése",
     "Clear Groupname-LDAP Group Mapping" : "A csoport - LDAP csoport hozzárendelés törlése",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Beállítások ellenőrizve, de egy felhasználó található. Csak az első léphet be automatikusan. Próbálj egy pontosabb szűrőt.",
     "in bytes" : "bájtban"
 },
 "nplurals=2; plural=(n != 1);");

@@ -145,7 +145,6 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Användarnamn-LDAP användarmappning",
     "Clear Username-LDAP User Mapping" : "Rensa användarnamn-LDAP användarmappning",
     "Clear Groupname-LDAP Group Mapping" : "Rensa gruppnamn-LDAP gruppmappning",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Inställningar bekräftade, men inga användare funna. Endast den första kommer kunna logga in. Överväg ett mer begränsat filter.",
     "in bytes" : "i bytes"
 },
 "nplurals=2; plural=(n != 1);");

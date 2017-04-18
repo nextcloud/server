@@ -38,7 +38,7 @@ OC.L10N.register(
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Cambiar la modalidad habilitará las consultas automaticas de LDAP. Dependiendo del tamaño de su LDAP esto puede tomar algun tiempo. ¿Aún desea cambiar la modalidad?",
     "Mode switch" : "Cambio de modo",
     "Select attributes" : "Seleccionar atributos",
-    "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command line validation): <br/>" : "El usuario no fue encontrado. Favor de verficiar los atributos de inicio de sesión y su nombre de usuario. Filtrado efectivo (para copiar y pegar a la validación de línea de comandos): </br>",
+    "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command line validation): <br/>" : "El usuario no fue encontrado. Favor de verficar los atributos de inicio de sesión así como su nombre de usuario. Filtro aplicado (para copiar-y-pegar para validar en la línea de comandos): </br>",
     "User found and settings verified." : "Usuario encontrado y ajustes verificados. ",
     "Settings verified, but more than one user found. Only the first will be able to login. Consider a more narrow filter." : "Ajustes verficados, pero se encontró más de un usuario. Sólo el primero será capaz de iniciar sesión. Considere un filtro más refinado.",
     "An unspecified error occurred. Please check the settings and the log." : "Se presentó un error no especificado. Favor de verificar los ajustes y la bitácroa. ",
