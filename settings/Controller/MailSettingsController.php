@@ -25,6 +25,8 @@
 namespace OC\Settings\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 use OCP\IL10N;
 use OCP\IConfig;
@@ -84,7 +86,7 @@ class MailSettingsController extends Controller {
 	 * @param string $mail_smtpauthtype
 	 * @param int $mail_smtpauth
 	 * @param string $mail_smtpport
-	 * @return array
+	 * @return DataResponse
 	 */
 	public function setMailSettings($mail_domain,
 									$mail_from_address,
@@ -109,12 +111,7 @@ class MailSettingsController extends Controller {
 
 		$this->config->setSystemValues($configs);
 
-		return array('data' =>
-			array('message' =>
-				(string) $this->l10n->t('Saved')
-			),
-			'status' => 'success'
-		);
+		return new DataResponse();
 	}
 
 	/**
@@ -124,25 +121,24 @@ class MailSettingsController extends Controller {
 	 *
 	 * @param string $mail_smtpname
 	 * @param string $mail_smtppassword
-	 * @return array
+	 * @return DataResponse
 	 */
 	public function storeCredentials($mail_smtpname, $mail_smtppassword) {
+		if ($mail_smtppassword === '********') {
+			return new DataResponse($this->l10n->t('Invalid SMTP password.'), Http::STATUS_BAD_REQUEST);
+		}
+
 		$this->config->setSystemValues([
 			'mail_smtpname'		=> $mail_smtpname,
 			'mail_smtppassword'	=> $mail_smtppassword,
 		]);
 
-		return array('data' =>
-			array('message' =>
-				(string) $this->l10n->t('Saved')
-			),
-			'status' => 'success'
-		);
+		return new DataResponse();
 	}
 
 	/**
 	 * Send a mail to test the settings
-	 * @return array
+	 * @return array|DataResponse
 	 */
 	public function sendTestMail() {
 		$email = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'email', '');
@@ -158,28 +154,13 @@ class MailSettingsController extends Controller {
 					throw new \RuntimeException($this->l10n->t('Mail could not be sent. Check your mail server log'));
 				}
 			} catch (\Exception $e) {
-				return [
-					'data' => [
-						'message' => (string) $this->l10n->t('A problem occurred while sending the email. Please revise your settings. (Error: %s)', [$e->getMessage()]),
-					],
-					'status' => 'error',
-				];
+				return new DataResponse($this->l10n->t('A problem occurred while sending the email. Please revise your settings. (Error: %s)', [$e->getMessage()]));
 			}
 
-			return array('data' =>
-				array('message' =>
-					(string) $this->l10n->t('Email sent')
-				),
-				'status' => 'success'
-			);
+			return new DataResponse();
 		}
 
-		return array('data' =>
-			array('message' =>
-				(string) $this->l10n->t('You need to set your user email before being able to send test emails.'),
-			),
-			'status' => 'error'
-		);
+		return new DataResponse($this->l10n->t('You need to set your user email before being able to send test emails.'));
 	}
 
 }

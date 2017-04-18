@@ -65,6 +65,10 @@ class Additional implements ISettings {
 			'mail_smtppassword'     => $this->config->getSystemValue('mail_smtppassword', ''),
 		];
 
+		if ($parameters['mail_smtppassword'] !== '') {
+			$parameters['mail_smtppassword'] = '********';
+		}
+
 		return new TemplateResponse('settings', 'admin/additional-mail', $parameters, '');
 	}
 
