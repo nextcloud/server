@@ -354,7 +354,7 @@ This is an automatically sent email, please do not reply.
 EOF;
 
 		$result = $this->newUserMailHelper->generateTemplate($user, true);
-		$this->assertEquals($expectedHtmlBody, $result->renderHTML());
+		$this->assertEquals($expectedHtmlBody, $result->renderHtml());
 		$this->assertEquals($expectedTextBody, $result->renderText());
 		$this->assertSame('OC\Mail\EMailTemplate', get_class($result));
 	}
@@ -587,7 +587,7 @@ This is an automatically sent email, please do not reply.
 EOF;
 
 		$result = $this->newUserMailHelper->generateTemplate($user, false);
-		$this->assertEquals($expectedHtmlBody, $result->renderHTML());
+		$this->assertEquals($expectedHtmlBody, $result->renderHtml());
 		$this->assertEquals($expectedTextBody, $result->renderText());
 		$this->assertSame('OC\Mail\EMailTemplate', get_class($result));
 	}
@@ -621,7 +621,7 @@ EOF;
 		$message
 			->expects($this->at(2))
 			->method('setHtmlBody')
-			->with($emailTemplate->renderHTML());
+			->with($emailTemplate->renderHtml());
 		$message
 			->expects($this->at(3))
 			->method('setPlainBody')

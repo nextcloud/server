@@ -34,7 +34,7 @@ use OCP\Mail\IEMailTemplate;
  * Class EMailTemplate
  *
  * addBodyText and addBodyButtonGroup automatically opens the body
- * addFooter, renderHTML, renderText automatically closes the body and the HTML if opened
+ * addFooter, renderHtml, renderText automatically closes the body and the HTML if opened
  *
  * @package OC\Mail
  */
@@ -484,7 +484,7 @@ EOF;
 	 *
 	 * @return string
 	 */
-	public function renderHTML() {
+	public function renderHtml() {
 		if (!$this->footerAdded) {
 			$this->footerAdded = true;
 			if ($this->bodyOpened) {

@@ -85,7 +85,7 @@ class EMailTemplateTest extends TestCase {
 		);
 
 		$expectedHTML = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email.html');
-		$this->assertSame($expectedHTML, $this->emailTemplate->renderHTML());
+		$this->assertSame($expectedHTML, $this->emailTemplate->renderHtml());
 		$expectedTXT = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email.txt');
 		$this->assertSame($expectedTXT, $this->emailTemplate->renderText());
 	}
@@ -124,7 +124,7 @@ class EMailTemplateTest extends TestCase {
 		$this->emailTemplate->addFooter();
 
 		$expectedHTML = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email-custom.html');
-		$this->assertSame($expectedHTML, $this->emailTemplate->renderHTML());
+		$this->assertSame($expectedHTML, $this->emailTemplate->renderHtml());
 		$expectedTXT = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email-custom.txt');
 		$this->assertSame($expectedTXT, $this->emailTemplate->renderText());
 	}
@@ -163,7 +163,7 @@ class EMailTemplateTest extends TestCase {
 		$this->emailTemplate->addFooter();
 
 		$expectedHTML = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email-single-button.html');
-		$this->assertSame($expectedHTML, $this->emailTemplate->renderHTML());
+		$this->assertSame($expectedHTML, $this->emailTemplate->renderHtml());
 		$expectedTXT = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email-single-button.txt');
 		$this->assertSame($expectedTXT, $this->emailTemplate->renderText());
 	}
@@ -205,7 +205,7 @@ class EMailTemplateTest extends TestCase {
 		$this->emailTemplate->addFooter();
 
 		$expectedHTML = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email-custom.html');
-		$this->assertSame($expectedHTML, $this->emailTemplate->renderHTML());
+		$this->assertSame($expectedHTML, $this->emailTemplate->renderHtml());
 		$expectedTXT = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email-custom-text-alternative.txt');
 		$this->assertSame($expectedTXT, $this->emailTemplate->renderText());
 	}

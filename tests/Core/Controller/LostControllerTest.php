@@ -329,7 +329,7 @@ class LostControllerTest extends \Test\TestCase {
 			->with(['lostpassword-noreply@localhost' => null]);
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
 		$emailTemplate->expects($this->any())
-			->method('renderHTML')
+			->method('renderHtml')
 			->willReturn('HTML body');
 		$emailTemplate->expects($this->any())
 			->method('renderText')
@@ -416,7 +416,7 @@ class LostControllerTest extends \Test\TestCase {
 			->with(['lostpassword-noreply@localhost' => null]);
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
 		$emailTemplate->expects($this->any())
-			->method('renderHTML')
+			->method('renderHtml')
 			->willReturn('HTML body');
 		$emailTemplate->expects($this->any())
 			->method('renderText')
@@ -497,7 +497,7 @@ class LostControllerTest extends \Test\TestCase {
 			->with(['lostpassword-noreply@localhost' => null]);
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
 		$emailTemplate->expects($this->any())
-			->method('renderHTML')
+			->method('renderHtml')
 			->willReturn('HTML body');
 		$emailTemplate->expects($this->any())
 			->method('renderText')

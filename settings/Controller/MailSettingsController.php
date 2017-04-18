@@ -156,7 +156,7 @@ class MailSettingsController extends Controller {
 				$message = $this->mailer->createMessage();
 				$message->setTo([$email => $displayName]);
 				$message->setSubject($this->l10n->t('Email setting test'));
-				$message->setHtmlBody($template->renderHTML());
+				$message->setHtmlBody($template->renderHtml());
 				$message->setPlainBody($template->renderText());
 				$errors = $this->mailer->send($message);
 				if (!empty($errors)) {

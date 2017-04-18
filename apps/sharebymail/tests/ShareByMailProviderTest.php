@@ -824,7 +824,7 @@ class ShareByMailProviderTest extends TestCase {
 			->with('Text Render');
 		$template
 			->expects($this->once())
-			->method('renderHTML')
+			->method('renderHtml')
 			->willReturn('HTML Render');
 		$message
 			->expects($this->once())
@@ -939,7 +939,7 @@ class ShareByMailProviderTest extends TestCase {
 			->with('Text Render');
 		$template
 			->expects($this->once())
-			->method('renderHTML')
+			->method('renderHtml')
 			->willReturn('HTML Render');
 		$message
 			->expects($this->once())

@@ -158,7 +158,7 @@ class NewUserMailHelper {
 		$message = $this->mailer->createMessage();
 		$message->setTo([$user->getEMailAddress() => $user->getDisplayName()]);
 		$message->setSubject($this->l10n->t('Your %s account was created', [$this->themingDefaults->getName()]));
-		$message->setHtmlBody($emailTemplate->renderHTML());
+		$message->setHtmlBody($emailTemplate->renderHtml());
 		$message->setPlainBody($emailTemplate->renderText());
 		$message->setFrom([$this->fromAddress => $this->themingDefaults->getName()]);
 		$this->mailer->send($message);
