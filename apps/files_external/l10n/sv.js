@@ -38,7 +38,6 @@ OC.L10N.register(
     "Credentials saved" : "Sparade uppgifter",
     "Credentials saving failed" : "Misslyckades med att spara uppgifterna",
     "Credentials required" : "Uppgifter krävs",
-    "Storage with id \"%i\" not found" : "Lagring med id \"%i\" kan ej hittas",
     "Invalid backend or authentication mechanism class" : "Ogiltig backend eller autentiseringsmekanism-klass",
     "Invalid mount point" : "Ogiltig monteringspunkt",
     "Objectstore forbidden" : "Objekt förbjudet",
@@ -49,7 +48,6 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "Otillfredsställda autentiseringsmekanism parametrar",
     "Insufficient data: %s" : "Otillräcklig data: %s",
     "%s" : "%s",
-    "Storage with id \"%i\" is not user editable" : "Lagring med id \"%i\" är inte redigerbar av användare",
     "Access key" : "Åtkomstnyckel",
     "Secret key" : "Hemlig nyckel",
     "Builtin" : "Inbyggt",
@@ -125,6 +123,8 @@ OC.L10N.register(
     "Advanced settings" : "Avancerade inställningar",
     "Delete" : "Radera",
     "Allow users to mount external storage" : "Tillåt användare att montera extern lagring",
-    "Allow users to mount the following external storage" : "Tillåt användare att montera följande extern lagring"
+    "Allow users to mount the following external storage" : "Tillåt användare att montera följande extern lagring",
+    "Storage with id \"%i\" not found" : "Lagring med id \"%i\" kan ej hittas",
+    "Storage with id \"%i\" is not user editable" : "Lagring med id \"%i\" är inte redigerbar av användare"
 },
 "nplurals=2; plural=(n != 1);");

@@ -38,7 +38,6 @@ OC.L10N.register(
     "Credentials saved" : "Kimlik doğrulama bilgileri kaydedildi",
     "Credentials saving failed" : "Kimlik doğrulama bilgileri kaydedilemedi",
     "Credentials required" : "Kimlik doğrulama bilgileri gerekli",
-    "Storage with id \"%i\" not found" : "\"%i\" kimliği ile bir depolama bulunamadı",
     "Invalid backend or authentication mechanism class" : "Arka yüz ya da kimlik doğrulama mekanizması sınıfı geçersiz",
     "Invalid mount point" : "Bağlama noktası geçersiz",
     "Objectstore forbidden" : "Nesne deposuna erişim kapalı",
@@ -49,7 +48,6 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "Kimlik doğrulama mekanizması parametreleri yetersiz",
     "Insufficient data: %s" : "Veriler yetersiz: %s",
     "%s" : "%s",
-    "Storage with id \"%i\" is not user editable" : "\"%i\" kimlikli depolama düzenlenebilir değil",
     "Access key" : "Erişim anahtarı",
     "Secret key" : "Gizli anahtar",
     "Builtin" : "Yerleşik",
@@ -125,6 +123,8 @@ OC.L10N.register(
     "Advanced settings" : "Gelişmiş ayarlar",
     "Delete" : "Sil",
     "Allow users to mount external storage" : "Kullanıcılar dış depolama bağlayabilsin",
-    "Allow users to mount the following external storage" : "Kullanıcıların şu dış depolamayı bağlayabilsin"
+    "Allow users to mount the following external storage" : "Kullanıcıların şu dış depolamayı bağlayabilsin",
+    "Storage with id \"%i\" not found" : "\"%i\" kimliği ile bir depolama bulunamadı",
+    "Storage with id \"%i\" is not user editable" : "\"%i\" kimlikli depolama düzenlenebilir değil"
 },
 "nplurals=2; plural=(n > 1);");

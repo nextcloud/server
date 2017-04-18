@@ -1,7 +1,5 @@
 { "translations": {
-    "Successfully saved" : "Sikeresen mentve",
     "Saving failed:" : "Mentés sikertelen:",
-    "File mime type" : "Fájl mime típus",
     "is" : "ez",
     "is not" : "nem ez",
     "matches" : "egyezik",
@@ -64,6 +62,8 @@
     "Reset" : "Visszaállítás",
     "Save" : "Mentés",
     "Saving…" : "Mentés...",
-    "Loading…" : "Betöltés..."
+    "Loading…" : "Betöltés...",
+    "Successfully saved" : "Sikeresen mentve",
+    "File mime type" : "Fájl mime típus"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

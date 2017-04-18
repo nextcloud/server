@@ -1,9 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
-    "Successfully saved" : "Tókst að vista",
     "Saving failed:" : "Vistun mistókst:",
-    "File mime type" : "Skráartegund",
     "is" : "er",
     "is not" : "er ekki",
     "matches" : "samsvarar",
@@ -66,6 +64,8 @@ OC.L10N.register(
     "Reset" : "Endurstilla",
     "Save" : "Vista",
     "Saving…" : "Vista…",
-    "Loading…" : "Hleð inn..."
+    "Loading…" : "Hleð inn...",
+    "Successfully saved" : "Tókst að vista",
+    "File mime type" : "Skráartegund"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

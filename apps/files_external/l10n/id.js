@@ -38,7 +38,6 @@ OC.L10N.register(
     "Credentials saved" : "Kredensial tersimpan",
     "Credentials saving failed" : "Penyimpanan kredensial gagal",
     "Credentials required" : "Kredensial dibutuhkan",
-    "Storage with id \"%i\" not found" : "Penyimpanan dengan id \"%i\" tidak ditemukan",
     "Invalid backend or authentication mechanism class" : "Beckend atau kelas mekanisme otentikasi salah.",
     "Invalid mount point" : "Mount point salah",
     "Objectstore forbidden" : "Objectstore terlarang",
@@ -49,7 +48,6 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "Parameter mekanisme otentikasi tidak lengkap",
     "Insufficient data: %s" : "Data tidak cukup: %s",
     "%s" : "%s",
-    "Storage with id \"%i\" is not user editable" : "Penyimpanan dengan id \"%i\" tidak bisa diubah pengguna",
     "Access key" : "Kunci akses",
     "Secret key" : "Kunci rahasia",
     "Builtin" : "Internal",
@@ -125,6 +123,8 @@ OC.L10N.register(
     "Advanced settings" : "Pengaturan Lanjutan",
     "Delete" : "Hapus",
     "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal",
-    "Allow users to mount the following external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut"
+    "Allow users to mount the following external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut",
+    "Storage with id \"%i\" not found" : "Penyimpanan dengan id \"%i\" tidak ditemukan",
+    "Storage with id \"%i\" is not user editable" : "Penyimpanan dengan id \"%i\" tidak bisa diubah pengguna"
 },
 "nplurals=1; plural=0;");

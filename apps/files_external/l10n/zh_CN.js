@@ -38,7 +38,6 @@ OC.L10N.register(
     "Credentials saved" : "凭据已保存",
     "Credentials saving failed" : "凭据保存失败",
     "Credentials required" : "需要凭据",
-    "Storage with id \"%i\" not found" : "未找到 ID 为 \"%i\" 的存储",
     "Invalid backend or authentication mechanism class" : "无效的后端或认证类型",
     "Invalid mount point" : "无效的挂载点",
     "Objectstore forbidden" : "对象存储禁止访问",
@@ -49,7 +48,6 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "无法满足认证类型条件",
     "Insufficient data: %s" : "数据不足: %s",
     "%s" : "%s",
-    "Storage with id \"%i\" is not user editable" : "无法编辑 ID 为 \"%i\" 的存储",
     "Access key" : "Access key",
     "Secret key" : "Secret key",
     "Builtin" : "内置",
@@ -125,6 +123,8 @@ OC.L10N.register(
     "Advanced settings" : "高级选项",
     "Delete" : "删除",
     "Allow users to mount external storage" : "允许用户挂载外部存储",
-    "Allow users to mount the following external storage" : "允许用户挂载以下外部存储"
+    "Allow users to mount the following external storage" : "允许用户挂载以下外部存储",
+    "Storage with id \"%i\" not found" : "未找到 ID 为 \"%i\" 的存储",
+    "Storage with id \"%i\" is not user editable" : "无法编辑 ID 为 \"%i\" 的存储"
 },
 "nplurals=1; plural=0;");

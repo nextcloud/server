@@ -38,7 +38,6 @@ OC.L10N.register(
     "Credentials saved" : "Inloggegevens opgeslagen",
     "Credentials saving failed" : "Opslaan inloggegevens mislukt",
     "Credentials required" : "Inloggegevens vereist",
-    "Storage with id \"%i\" not found" : "Opslag met id \"%i\" niet gevonden",
     "Invalid backend or authentication mechanism class" : "Ongeldige backend of authenticatie mechanisme klasse",
     "Invalid mount point" : "Ongeldig aankoppelpunt",
     "Objectstore forbidden" : "Objectopslag verboden",
@@ -49,7 +48,6 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "Onvoldoende authenticatiemechanisme parameters",
     "Insufficient data: %s" : "Onvoldoende gegevens: %s",
     "%s" : "%s",
-    "Storage with id \"%i\" is not user editable" : "Opslag met id \"%i\" is niet te bewerken door gebruiker",
     "Access key" : "Access Key",
     "Secret key" : "Geheime sleutel",
     "Builtin" : "Ingebouwd",
@@ -125,6 +123,8 @@ OC.L10N.register(
     "Advanced settings" : "Geavanceerde instellingen",
     "Delete" : "Verwijder",
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
-    "Allow users to mount the following external storage" : "Sta gebruikers toe de volgende externe opslag aan te koppelen"
+    "Allow users to mount the following external storage" : "Sta gebruikers toe de volgende externe opslag aan te koppelen",
+    "Storage with id \"%i\" not found" : "Opslag met id \"%i\" niet gevonden",
+    "Storage with id \"%i\" is not user editable" : "Opslag met id \"%i\" is niet te bewerken door gebruiker"
 },
 "nplurals=2; plural=(n != 1);");

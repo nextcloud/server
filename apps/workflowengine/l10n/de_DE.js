@@ -1,9 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
-    "Successfully saved" : "Erfolgreich gespeichert",
     "Saving failed:" : "Speichern fehlgeschlagen:",
-    "File mime type" : "Datei MIME-Typ",
     "is" : "ist",
     "is not" : "ist nicht",
     "matches" : "passt zu",
@@ -66,6 +64,8 @@ OC.L10N.register(
     "Reset" : "Zurücksetzen",
     "Save" : "Speichern",
     "Saving…" : "Speichere...",
-    "Loading…" : "Lade..."
+    "Loading…" : "Lade...",
+    "Successfully saved" : "Erfolgreich gespeichert",
+    "File mime type" : "Datei MIME-Typ"
 },
 "nplurals=2; plural=(n != 1);");

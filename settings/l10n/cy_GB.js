@@ -2,8 +2,8 @@ OC.L10N.register(
     "settings",
     {
     "Authentication error" : "Gwall dilysu",
-    "Email sent" : "Anfonwyd yr e-bost",
     "Invalid request" : "Cais annilys",
+    "Email sent" : "Anfonwyd yr e-bost",
     "Delete" : "Dileu",
     "Groups" : "Grwpiau",
     "undo" : "dadwneud",

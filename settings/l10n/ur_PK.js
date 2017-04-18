@@ -1,8 +1,8 @@
 OC.L10N.register(
     "settings",
     {
-    "Email sent" : "ارسال شدہ ای میل ",
     "Invalid request" : "غلط درخواست",
+    "Email sent" : "ارسال شدہ ای میل ",
     "Delete" : "حذف کریں",
     "Very weak password" : "بہت کمزور پاسورڈ",
     "Weak password" : "کمزور پاسورڈ",

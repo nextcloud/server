@@ -6,7 +6,6 @@ OC.L10N.register(
     "{version} is available. Get more information on how to update." : "{version} está disponible. Obtenga más información sobre cómo actualizar.",
     "Channel updated" : "Canal actualizado",
     "The update server could not be reached since %d days to check for new updates." : "El servidor de actualización no se ha podido alcanzar desde hace %d días para comprobar nuevas actualizaciones.",
-    "Please check the nextcloud and server log files for errors." : "Por favor, comprueba el registro de Nextcloud y del servidor por posibles errores.",
     "Update to %1$s is available." : "Actualización a %1$s esta disponible.",
     "Update for %1$s to version %2$s is available." : "La actualización de %1$s a la versión %2$s está disponible.",
     "Update for {app} to version %s is available." : "Actualización de {app} a la versión %s disponible.",

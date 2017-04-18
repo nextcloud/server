@@ -1,9 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
-    "Successfully saved" : "Kaydedildi",
     "Saving failed:" : "Kaydedilemedi:",
-    "File mime type" : "Dosya MIME türü",
     "is" : "şu olan",
     "is not" : "şu olmayan",
     "matches" : "şuna uyan",
@@ -66,6 +64,8 @@ OC.L10N.register(
     "Reset" : "Sıfırla",
     "Save" : "Kaydet",
     "Saving…" : "Kaydediliyor...",
-    "Loading…" : "Yükleniyor..."
+    "Loading…" : "Yükleniyor...",
+    "Successfully saved" : "Kaydedildi",
+    "File mime type" : "Dosya MIME türü"
 },
 "nplurals=2; plural=(n > 1);");

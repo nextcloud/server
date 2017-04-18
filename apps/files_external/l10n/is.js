@@ -38,7 +38,6 @@ OC.L10N.register(
     "Credentials saved" : "Auðkenni vistuð",
     "Credentials saving failed" : "Vistun auðkenna tókst ekki",
     "Credentials required" : "Auðkenna krafist",
-    "Storage with id \"%i\" not found" : "Geymsla með auðkennið '%i' fannst ekki",
     "Invalid backend or authentication mechanism class" : "Ógildur flokkur bakenda eða auðkenningartækni",
     "Invalid mount point" : "Ógildur tengipunktur",
     "Objectstore forbidden" : "Hlutageymsla (objectstore) bönnuð",
@@ -49,7 +48,6 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "Óuppfyllt viðföng auðkenningartækni",
     "Insufficient data: %s" : "Ónóg gögn: %s",
     "%s" : "%s",
-    "Storage with id \"%i\" is not user editable" : "Geymslan með auðkennið '%s' er ekki breytanleg af notanda",
     "Access key" : "Aðgangslykill",
     "Secret key" : "Leynilykill",
     "Builtin" : "Innbyggt",
@@ -125,6 +123,8 @@ OC.L10N.register(
     "Advanced settings" : "Ítarlegri valkostir",
     "Delete" : "Eyða",
     "Allow users to mount external storage" : "Leyfa notendum að tengja ytri gagnageymslur í skráakerfi",
-    "Allow users to mount the following external storage" : "Leyfa notendum að tengja eftirfarandi ytri gagnageymslu í skráakerfi"
+    "Allow users to mount the following external storage" : "Leyfa notendum að tengja eftirfarandi ytri gagnageymslu í skráakerfi",
+    "Storage with id \"%i\" not found" : "Geymsla með auðkennið '%i' fannst ekki",
+    "Storage with id \"%i\" is not user editable" : "Geymslan með auðkennið '%s' er ekki breytanleg af notanda"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

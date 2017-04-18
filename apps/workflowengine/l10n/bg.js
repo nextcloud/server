@@ -1,9 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
-    "Successfully saved" : "Успешно запазен",
     "Saving failed:" : "Запазването се провали:",
-    "File mime type" : "Разширения",
     "is" : "е",
     "is not" : "не е",
     "matches" : "съвпадения",
@@ -66,6 +64,8 @@ OC.L10N.register(
     "Reset" : "Възстанови",
     "Save" : "Запази",
     "Saving…" : "Запазване...",
-    "Loading…" : "Зареждане..."
+    "Loading…" : "Зареждане...",
+    "Successfully saved" : "Успешно запазен",
+    "File mime type" : "Разширения"
 },
 "nplurals=2; plural=(n != 1);");

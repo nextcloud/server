@@ -1,9 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
-    "Successfully saved" : "Veiksmīgi saglabāts",
     "Saving failed:" : "Saglabāšana neizdevās:",
-    "File mime type" : "Faila MIME tips",
     "is" : "ir",
     "is not" : "nav",
     "matches" : "atbilst",
@@ -66,6 +64,8 @@ OC.L10N.register(
     "Reset" : "Atiestatīt",
     "Save" : "Saglabāt",
     "Saving…" : "Saglabā...",
-    "Loading…" : "Ielādē …"
+    "Loading…" : "Ielādē …",
+    "Successfully saved" : "Veiksmīgi saglabāts",
+    "File mime type" : "Faila MIME tips"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

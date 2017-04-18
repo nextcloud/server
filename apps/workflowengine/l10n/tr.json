@@ -1,7 +1,5 @@
 { "translations": {
-    "Successfully saved" : "Kaydedildi",
     "Saving failed:" : "Kaydedilemedi:",
-    "File mime type" : "Dosya MIME türü",
     "is" : "şu olan",
     "is not" : "şu olmayan",
     "matches" : "şuna uyan",
@@ -64,6 +62,8 @@
     "Reset" : "Sıfırla",
     "Save" : "Kaydet",
     "Saving…" : "Kaydediliyor...",
-    "Loading…" : "Yükleniyor..."
+    "Loading…" : "Yükleniyor...",
+    "Successfully saved" : "Kaydedildi",
+    "File mime type" : "Dosya MIME türü"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

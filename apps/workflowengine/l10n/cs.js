@@ -1,9 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
-    "Successfully saved" : "Úspěšně uloženo",
     "Saving failed:" : "Ukládání selhalo:",
-    "File mime type" : "Mime typ souboru",
     "is" : "je",
     "is not" : "není",
     "matches" : "odpovídá",
@@ -66,6 +64,8 @@ OC.L10N.register(
     "Reset" : "Obnovit",
     "Save" : "Uložit",
     "Saving…" : "Ukládání…",
-    "Loading…" : "Načítání…"
+    "Loading…" : "Načítání…",
+    "Successfully saved" : "Úspěšně uloženo",
+    "File mime type" : "Mime typ souboru"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

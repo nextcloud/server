@@ -38,7 +38,6 @@ OC.L10N.register(
     "Credentials saved" : "Anmeldeinformationen gespeichert",
     "Credentials saving failed" : "Speichern der Anmeldeinformationen fehlgeschlagen",
     "Credentials required" : "Anmeldeinformationen benötigt",
-    "Storage with id \"%i\" not found" : "Der Speicher mit der ID „%i“ wurde nicht gefunden",
     "Invalid backend or authentication mechanism class" : "Ungültiger Backend- oder Authentifizierungsmechanismus",
     "Invalid mount point" : "Ungültiger mount point",
     "Objectstore forbidden" : "Objekt nicht erlaubt",
@@ -49,7 +48,6 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "Unbefriedigende Authentifizierungsmechanismus Parameter",
     "Insufficient data: %s" : "Unzureichende Daten: %s",
     "%s" : "%s",
-    "Storage with id \"%i\" is not user editable" : "Speicher mit der ID \"%i\" kann nicht vom Benutzer bearbeitet werden",
     "Access key" : "Zugangsschlüssel",
     "Secret key" : "Geheimer Schlüssel",
     "Builtin" : "eingebaut",
@@ -125,6 +123,8 @@ OC.L10N.register(
     "Advanced settings" : "Erweiterte Einstellungen",
     "Delete" : "Löschen",
     "Allow users to mount external storage" : "Benutzern erlauben, externen Speicher einzubinden",
-    "Allow users to mount the following external storage" : "Benutzern erlauben, den oder die folgenden externen Speicher einzubinden:"
+    "Allow users to mount the following external storage" : "Benutzern erlauben, den oder die folgenden externen Speicher einzubinden:",
+    "Storage with id \"%i\" not found" : "Der Speicher mit der ID „%i“ wurde nicht gefunden",
+    "Storage with id \"%i\" is not user editable" : "Speicher mit der ID \"%i\" kann nicht vom Benutzer bearbeitet werden"
 },
 "nplurals=2; plural=(n != 1);");

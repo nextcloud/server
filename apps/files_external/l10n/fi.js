@@ -38,7 +38,6 @@ OC.L10N.register(
     "Credentials saved" : "Kirjautumistiedot tallennettu",
     "Credentials saving failed" : "Kirjautumistietojen tallentaminen epäonnistui",
     "Credentials required" : "Kirjautumistiedot vaaditaan",
-    "Storage with id \"%i\" not found" : "Tallennustilaa tunnisteella \"%i\" ei löytynyt",
     "Invalid backend or authentication mechanism class" : "Virheellinen tietovarasto tai tunnistautumismekanismin luokka",
     "Invalid mount point" : "Virheellinen liitoskohta",
     "Objectstore forbidden" : "Objektimuisti estetty",
@@ -49,7 +48,6 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "Riittämättömät tunnistautumismekanismin parametrit",
     "Insufficient data: %s" : "Puutteellinen data: %s",
     "%s" : "%s",
-    "Storage with id \"%i\" is not user editable" : "Tallennustila, jolla on \"%i\" id, ei ole muokattavissa.",
     "Access key" : "Pääsyavain",
     "Secret key" : "Salainen avain",
     "Builtin" : "Sisäänrakennettu",
@@ -125,6 +123,8 @@ OC.L10N.register(
     "Advanced settings" : "Lisäasetukset",
     "Delete" : "Poista",
     "Allow users to mount external storage" : "Salli käyttäjien liittää erillisiä tallennustiloja",
-    "Allow users to mount the following external storage" : "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet"
+    "Allow users to mount the following external storage" : "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet",
+    "Storage with id \"%i\" not found" : "Tallennustilaa tunnisteella \"%i\" ei löytynyt",
+    "Storage with id \"%i\" is not user editable" : "Tallennustila, jolla on \"%i\" id, ei ole muokattavissa."
 },
 "nplurals=2; plural=(n != 1);");

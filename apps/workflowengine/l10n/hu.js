@@ -1,9 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
-    "Successfully saved" : "Sikeresen mentve",
     "Saving failed:" : "Mentés sikertelen:",
-    "File mime type" : "Fájl mime típus",
     "is" : "ez",
     "is not" : "nem ez",
     "matches" : "egyezik",
@@ -66,6 +64,8 @@ OC.L10N.register(
     "Reset" : "Visszaállítás",
     "Save" : "Mentés",
     "Saving…" : "Mentés...",
-    "Loading…" : "Betöltés..."
+    "Loading…" : "Betöltés...",
+    "Successfully saved" : "Sikeresen mentve",
+    "File mime type" : "Fájl mime típus"
 },
 "nplurals=2; plural=(n != 1);");

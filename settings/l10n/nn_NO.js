@@ -6,10 +6,10 @@ OC.L10N.register(
     "Unable to change password" : "Klarte ikkje å endra passordet",
     "Authentication error" : "Autentiseringsfeil",
     "Wrong admin recovery password. Please check the password and try again." : "Feil admingjenopprettingspassord. Ver venleg og sjekk passordet og prøv igjen.",
-    "Email sent" : "E-post sendt",
     "Invalid request" : "Ugyldig førespurnad",
     "Email saved" : "E-postadresse lagra",
     "Couldn't update app." : "Klarte ikkje oppdatera programmet.",
+    "Email sent" : "E-post sendt",
     "All" : "Alle",
     "Error while disabling app" : "Klarte ikkje å skru av programmet",
     "Disable" : "Slå av",
@@ -35,7 +35,6 @@ OC.L10N.register(
     "Login" : "Logg inn",
     "Encryption" : "Kryptering",
     "Server address" : "Tenaradresse",
-    "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP-modulen «fileinfo» manglar. Me rår sterkt til å slå på denne modulen for å best mogleg oppdaga MIME-typar.",
     "Cron" : "Cron",
     "Execute one task with each page loaded" : "Utfør éi oppgåve for kvar sidelasting",
     "Version" : "Utgåve",
@@ -70,6 +69,7 @@ OC.L10N.register(
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Ver venleg og gje eit admingjenopprettingspassord, elles vil all brukardata gå tapt.",
     "Admins can't remove themself from the admin group" : "Administratorar kan ikkje fjerna seg sjølve frå admin-gruppa",
     "Unable to add user to group %s" : "Klarte ikkje leggja til brukaren til gruppa %s",
-    "Unable to remove user from group %s" : "Klarte ikkje fjerna brukaren frå gruppa %s"
+    "Unable to remove user from group %s" : "Klarte ikkje fjerna brukaren frå gruppa %s",
+    "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP-modulen «fileinfo» manglar. Me rår sterkt til å slå på denne modulen for å best mogleg oppdaga MIME-typar."
 },
 "nplurals=2; plural=(n != 1);");

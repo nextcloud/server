@@ -1,9 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
-    "Successfully saved" : "成功保存",
     "Saving failed:" : "保存失敗:",
-    "File mime type" : "檔案mime類型",
     "is" : "是",
     "is not" : "不是",
     "matches" : "匹配",
@@ -62,6 +60,8 @@ OC.L10N.register(
     "Reset" : "重設",
     "Save" : "儲存",
     "Saving…" : "儲存中...",
-    "Loading…" : "載入中…"
+    "Loading…" : "載入中…",
+    "Successfully saved" : "成功保存",
+    "File mime type" : "檔案mime類型"
 },
 "nplurals=1; plural=0;");

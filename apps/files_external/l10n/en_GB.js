@@ -37,7 +37,6 @@ OC.L10N.register(
     "Credentials saved" : "Credentials saved",
     "Credentials saving failed" : "Credentials saving failed",
     "Credentials required" : "Credentials required",
-    "Storage with id \"%i\" not found" : "Storage with id \"%i\" not found",
     "Invalid backend or authentication mechanism class" : "Invalid backend or authentication mechanism class",
     "Invalid mount point" : "Invalid mount point",
     "Objectstore forbidden" : "Objectstore forbidden",
@@ -48,7 +47,6 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "Unsatisfied authentication mechanism parameters",
     "Insufficient data: %s" : "Insufficient data: %s",
     "%s" : "%s",
-    "Storage with id \"%i\" is not user editable" : "Storage with id \"%i\" is not user editable",
     "Access key" : "Access key",
     "Secret key" : "Secret key",
     "Builtin" : "Builtin",
@@ -118,6 +116,8 @@ OC.L10N.register(
     "Advanced settings" : "Advanced settings",
     "Delete" : "Delete",
     "Allow users to mount external storage" : "Allow users to mount external storage",
-    "Allow users to mount the following external storage" : "Allow users to mount the following external storage"
+    "Allow users to mount the following external storage" : "Allow users to mount the following external storage",
+    "Storage with id \"%i\" not found" : "Storage with id \"%i\" not found",
+    "Storage with id \"%i\" is not user editable" : "Storage with id \"%i\" is not user editable"
 },
 "nplurals=2; plural=(n != 1);");

@@ -38,7 +38,6 @@ OC.L10N.register(
     "Credentials saved" : "資格情報を保存しました",
     "Credentials saving failed" : "資格情報の保存に失敗しました",
     "Credentials required" : "資格情報が必要です",
-    "Storage with id \"%i\" not found" : "ストレージID \"%i\" が見つかりません",
     "Invalid backend or authentication mechanism class" : "バックエンドまたは認証システムクラスが無効",
     "Invalid mount point" : "無効なマウントポイント",
     "Objectstore forbidden" : "オブジェクトストアが禁じられています",
@@ -49,7 +48,6 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "認証のためのパラメータが不十分です",
     "Insufficient data: %s" : "データが不足しています: %s",
     "%s" : "%s",
-    "Storage with id \"%i\" is not user editable" : "ストレージID \"%i\" はユーザーが編集できません",
     "Access key" : "アクセスキー",
     "Secret key" : "シークレットキー",
     "Builtin" : "ビルトイン",
@@ -125,6 +123,8 @@ OC.L10N.register(
     "Advanced settings" : "詳細設定",
     "Delete" : "削除",
     "Allow users to mount external storage" : "ユーザーに外部ストレージの接続を許可する",
-    "Allow users to mount the following external storage" : "ユーザーに以下の外部ストレージのマウントを許可する"
+    "Allow users to mount the following external storage" : "ユーザーに以下の外部ストレージのマウントを許可する",
+    "Storage with id \"%i\" not found" : "ストレージID \"%i\" が見つかりません",
+    "Storage with id \"%i\" is not user editable" : "ストレージID \"%i\" はユーザーが編集できません"
 },
 "nplurals=1; plural=0;");

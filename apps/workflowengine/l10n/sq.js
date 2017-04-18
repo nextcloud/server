@@ -1,9 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
-    "Successfully saved" : "U ruajt me sukses",
     "Saving failed:" : "Ruajtja dështoi:",
-    "File mime type" : "Tipi mime i skedarëve",
     "is" : "është",
     "is not" : "nuk është",
     "matches" : "përputhje",
@@ -66,6 +64,8 @@ OC.L10N.register(
     "Reset" : "Rivendos",
     "Save" : "Ruaj",
     "Saving…" : "Duke u ruajtur...",
-    "Loading…" : "Po ngarkohet..."
+    "Loading…" : "Po ngarkohet...",
+    "Successfully saved" : "U ruajt me sukses",
+    "File mime type" : "Tipi mime i skedarëve"
 },
 "nplurals=2; plural=(n != 1);");

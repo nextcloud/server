@@ -38,7 +38,6 @@ OC.L10N.register(
     "Credentials saved" : "Påloggingsdetaljer lagret",
     "Credentials saving failed" : "Lagring av påloggingsdetaljer mislyktes",
     "Credentials required" : "Påloggingsdetaljer kreves",
-    "Storage with id \"%i\" not found" : "Lager med ID \"%i\" ikke funnet",
     "Invalid backend or authentication mechanism class" : "Ugyldig bakende eller type autentiseringsmekanisme",
     "Invalid mount point" : "Ugyldig oppkoblingspunkt",
     "Objectstore forbidden" : "Objektlager forbudt",
@@ -49,7 +48,6 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "Noen parametre for autentiseringsmekanisme mangler",
     "Insufficient data: %s" : "Utilstrekkelige data: %s",
     "%s" : "%s",
-    "Storage with id \"%i\" is not user editable" : "Lager med ID \"%i\" kan ikke redigeres av bruker",
     "Access key" : "Tilgangsnøkkel",
     "Secret key" : "Hemmelig nøkkel",
     "Builtin" : "Innebygget",
@@ -125,6 +123,8 @@ OC.L10N.register(
     "Advanced settings" : "Avanserte innstillinger",
     "Delete" : "Slett",
     "Allow users to mount external storage" : "Tillat at brukere kobler opp eksterne lagre",
-    "Allow users to mount the following external storage" : "Tillat brukere å koble opp følgende eksterne lagring"
+    "Allow users to mount the following external storage" : "Tillat brukere å koble opp følgende eksterne lagring",
+    "Storage with id \"%i\" not found" : "Lager med ID \"%i\" ikke funnet",
+    "Storage with id \"%i\" is not user editable" : "Lager med ID \"%i\" kan ikke redigeres av bruker"
 },
 "nplurals=2; plural=(n != 1);");

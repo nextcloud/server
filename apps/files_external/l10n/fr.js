@@ -38,7 +38,6 @@ OC.L10N.register(
     "Credentials saved" : "Identifiants sauvegardés",
     "Credentials saving failed" : "La sauvegarde des identifiants a échoué",
     "Credentials required" : "Des informations d'identification sont requises",
-    "Storage with id \"%i\" not found" : "Stockage avec l'id \"%i\" non trouvé",
     "Invalid backend or authentication mechanism class" : "Service ou méthode d'authentification non valable",
     "Invalid mount point" : "Point de montage non valide",
     "Objectstore forbidden" : "\"Objectstore\" interdit",
@@ -49,7 +48,6 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "Paramètres manquants pour la méthode d'authentification",
     "Insufficient data: %s" : "Données insuffisantes : %s",
     "%s" : "%s",
-    "Storage with id \"%i\" is not user editable" : "Le support de stockage d'id \"%i\" n'est pas modifiable par les utilisateurs",
     "Access key" : "Clé d'accès",
     "Secret key" : "Clé secrète",
     "Builtin" : "Intégré",
@@ -125,6 +123,8 @@ OC.L10N.register(
     "Advanced settings" : "Paramètres avancés",
     "Delete" : "Supprimer",
     "Allow users to mount external storage" : "Autoriser les utilisateurs à monter des espaces de stockage externes",
-    "Allow users to mount the following external storage" : "Autoriser les utilisateurs à monter les stockages externes suivants"
+    "Allow users to mount the following external storage" : "Autoriser les utilisateurs à monter les stockages externes suivants",
+    "Storage with id \"%i\" not found" : "Stockage avec l'id \"%i\" non trouvé",
+    "Storage with id \"%i\" is not user editable" : "Le support de stockage d'id \"%i\" n'est pas modifiable par les utilisateurs"
 },
 "nplurals=2; plural=(n > 1);");
