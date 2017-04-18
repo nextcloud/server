@@ -62,6 +62,11 @@
 			+ '    <img src="{{contact.topAction.icon}}">'
 			+ '</a>'
 			+ '{{/if}}'
+			+ '{{#if contact.hasTwoActions}}'
+			+ '<a class="second-action" href="{{contact.secondAction.hyperlink}}">'
+			+ '    <img src="{{contact.secondAction.icon}}">'
+			+ '</a>'
+			+ '{{/if}}'
 			+ '{{#if contact.hasManyActions}}'
 			+ '    <span class="other-actions icon-more"></span>'
 			+ '    <div class="menu popovermenu">'
@@ -76,9 +81,6 @@
 			+ '            {{/each}}'
 			+ '        </ul>'
 			+ '    </div>'
-			+ '{{/if}}'
-			+ '{{#if contact.hasTwoActions}}'
-			+ '<a class="second-action {{contact.secondAction.icon}}" href="{{contact.secondAction.hyperlink}}"></a>'
 			+ '{{/if}}';
 
 	/**
