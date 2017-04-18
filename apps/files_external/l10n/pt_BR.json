@@ -36,7 +36,7 @@
     "Credentials saved" : "Credenciais salvas",
     "Credentials saving failed" : "A gravação das credenciais falhou",
     "Credentials required" : "Credenciais são requeridas",
-    "Storage with id \"%i\" not found" : "Armazenamento com id \"%i\" não encontrado",
+    "Storage with id \"%i\" not found" : "Armazenamento com ID \"%i\" não encontrado",
     "Invalid backend or authentication mechanism class" : "Backend ou classe de mecanismo de autenticação inválido",
     "Invalid mount point" : "Ponto de montagem inválido",
     "Objectstore forbidden" : "Proibido armazenamento de objetos",

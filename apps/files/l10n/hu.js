@@ -69,6 +69,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n bájt","%n bájt"],
     "Favorited" : "Kedvenc",
     "Favorite" : "Kedvenc",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Közvetlen hivatkozás másolása (csak azoknál a felhasználóknál működik akiknek hozzáférése van a fájlhoz/mappához)",
     "Folder" : "Mappa",
     "New folder" : "Új mappa",
     "Upload" : "Feltöltés",

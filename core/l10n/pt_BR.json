@@ -2,7 +2,7 @@
     "Please select a file." : "Por favor, selecione um arquivo.",
     "File is too big" : "O arquivo é muito grande",
     "The selected file is not an image." : "O arquivo selecionado não é uma imagem",
-    "The selected file cannot be read." : "O arquivo selecionado não pode ser lido",
+    "The selected file cannot be read." : "O arquivo selecionado não pôde ser lido",
     "Invalid file provided" : "Arquivo fornecido inválido",
     "No image or file provided" : "Nenhuma imagem ou arquivo fornecido",
     "Unknown filetype" : "Tipo de arquivo desconhecido",

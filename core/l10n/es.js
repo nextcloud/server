@@ -129,7 +129,7 @@ OC.L10N.register(
     "Share link" : "Enlace compartido",
     "Link" : "Enlace",
     "Password protect" : "Protección con contraseña",
-    "Allow upload and editing" : "Permitir subito y edición",
+    "Allow upload and editing" : "Permitir la subida y la edición",
     "Allow editing" : "Permitir edición",
     "upload only" : "solo subida",
     "Email link to person" : "Enviar enlace por correo electrónico a una persona",
