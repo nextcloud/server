@@ -111,7 +111,7 @@ class Mailer implements IMailer {
 		$debugMode = $this->config->getSystemValue('mail_smtpdebug', false);
 
 		if (sizeof($message->getFrom()) === 0) {
-			$message->setFrom([\OCP\Util::getDefaultEmailAddress($this->defaults->getName())]);
+			$message->setFrom([\OCP\Util::getDefaultEmailAddress($this->defaults->getName()) => $this->defaults->getName()]);
 		}
 
 		$failedRecipients = [];
