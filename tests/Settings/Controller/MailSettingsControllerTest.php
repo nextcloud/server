@@ -20,6 +20,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserSession;
+use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OC\User\User;
 
@@ -161,6 +162,11 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$this->mailer->expects($this->once())
 			->method('createMessage')
 			->willReturn($this->createMock(Message::class));
+		$emailTemplate = $this->createMock(IEMailTemplate::class);
+		$this->mailer
+			->expects($this->once())
+			->method('createEMailTemplate')
+			->willReturn($emailTemplate);
 		$response = $this->mailController->sendTestMail();
 		$this->assertSame(Http::STATUS_OK, $response->getStatus(), $response->getData());
 	}
