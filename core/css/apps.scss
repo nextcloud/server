@@ -693,6 +693,7 @@ kbd {
 			}
 		}
 		.menuitem {
+			width: 100%;
 			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)' !important;
 			filter: alpha(opacity = 50) !important;
 			opacity: .5 !important;
