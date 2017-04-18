@@ -1,7 +1,10 @@
 <?php
 /**
- * @author Lukas Reschke
- * @copyright 2014 Lukas Reschke lukas@owncloud.com
+ * @copyright 2014 Lukas Reschke lukas@nextcloud.com
+ * @copyright Copyright (c) 2017  Joas Schilling <coding@schilljs.com>
+ *
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later.
@@ -44,14 +47,16 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->mailer = $this->createMock(IMailer::class);
+		/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject $request */
+		$request = $this->createMock(IRequest::class);
 		$this->mailController = new MailSettingsController(
 			'settings',
-			$this->createMock(IRequest::class),
+			$request,
 			$this->l,
 			$this->config,
 			$this->userSession,
 			$this->mailer,
-			'no-reply@owncloud.com'
+			'no-reply@nextcloud.com'
 		);
 	}
 
@@ -60,21 +65,21 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			->method('setSystemValues')
 			->withConsecutive(
 				[[
-					'mail_domain' => 'owncloud.com',
-					'mail_from_address' => 'demo@owncloud.com',
+					'mail_domain' => 'nextcloud.com',
+					'mail_from_address' => 'demo@nextcloud.com',
 					'mail_smtpmode' => 'smtp',
 					'mail_smtpsecure' => 'ssl',
-					'mail_smtphost' => 'mx.owncloud.org',
+					'mail_smtphost' => 'mx.nextcloud.org',
 					'mail_smtpauthtype' => 'NTLM',
 					'mail_smtpauth' => 1,
 					'mail_smtpport' => '25',
 				]],
 				[[
-					'mail_domain' => 'owncloud.com',
-					'mail_from_address' => 'demo@owncloud.com',
+					'mail_domain' => 'nextcloud.com',
+					'mail_from_address' => 'demo@nextcloud.com',
 					'mail_smtpmode' => 'smtp',
 					'mail_smtpsecure' => 'ssl',
-					'mail_smtphost' => 'mx.owncloud.org',
+					'mail_smtphost' => 'mx.nextcloud.org',
 					'mail_smtpauthtype' => 'NTLM',
 					'mail_smtpauth' => null,
 					'mail_smtpport' => '25',
@@ -85,11 +90,11 @@ class MailSettingsControllerTest extends \Test\TestCase {
 
 		// With authentication
 		$response = $this->mailController->setMailSettings(
-			'owncloud.com',
-			'demo@owncloud.com',
+			'nextcloud.com',
+			'demo@nextcloud.com',
 			'smtp',
 			'ssl',
-			'mx.owncloud.org',
+			'mx.nextcloud.org',
 			'NTLM',
 			1,
 			'25'
@@ -98,11 +103,11 @@ class MailSettingsControllerTest extends \Test\TestCase {
 
 		// Without authentication (testing the deletion of the stored password)
 		$response = $this->mailController->setMailSettings(
-			'owncloud.com',
-			'demo@owncloud.com',
+			'nextcloud.com',
+			'demo@nextcloud.com',
 			'smtp',
 			'ssl',
-			'mx.owncloud.org',
+			'mx.nextcloud.org',
 			'NTLM',
 			0,
 			'25'
