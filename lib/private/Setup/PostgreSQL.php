@@ -98,7 +98,7 @@ class PostgreSQL extends AbstractDatabase {
 		} catch (\Exception $e) {
 			$this->logger->logException($e);
 			throw new \OC\DatabaseSetupException($this->trans->t('PostgreSQL username and/or password not valid'),
-				$this->trans->t('You need to enter either an existing account or the administrator.'));
+				$this->trans->t('You need to enter details of an existing account.'));
 		}
 
 

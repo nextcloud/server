@@ -9,7 +9,7 @@
 			</label>
 
 			<input type="checkbox" id="ldap_loginfilter_username"
-				   title="<?php p($l->t('Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected.'));?>"
+				   title="<?php p($l->t('Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected.'));?>"
 				   name="ldap_loginfilter_username" value="1" />
 		</p>
 		<p>

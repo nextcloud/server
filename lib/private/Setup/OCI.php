@@ -154,7 +154,7 @@ class OCI extends AbstractDatabase {
 		$connection = @oci_connect($this->dbUser, $this->dbPassword, $easy_connect_string);
 		if(!$connection) {
 			throw new \OC\DatabaseSetupException($this->trans->t('Oracle username and/or password not valid'),
-					$this->trans->t('You need to enter either an existing account or the administrator.'));
+					$this->trans->t('You need to enter details of an existing account.'));
 		}
 		$query = "SELECT count(*) FROM user_tables WHERE table_name = :un";
 		$stmt = oci_parse($connection, $query);

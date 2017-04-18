@@ -81,7 +81,7 @@
 		if (!$_['has_fileinfo']) {
 			?>
 			<li>
-				<?php p($l->t('The PHP module \'fileinfo\' is missing. We strongly recommend to enable this module to get best results with mime-type detection.')); ?>
+				<?php p($l->t('The PHP module \'fileinfo\' is missing. We strongly recommend to enable this module to get best results with MIME type detection.')); ?>
 			</li>
 			<?php
 		}

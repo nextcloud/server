@@ -187,7 +187,7 @@
 					this.saving = false;
 					this.originalModel = JSON.parse(JSON.stringify(this.model));
 
-					this.message = t('workflowengine', 'Successfully saved');
+					this.message = t('workflowengine', 'Saved');
 					this.errorMessage = '';
 					this.render();
 				};

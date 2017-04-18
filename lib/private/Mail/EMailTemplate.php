@@ -456,11 +456,11 @@ EOF;
 	/**
 	 * Adds a logo and a text to the footer. <br> in the text will be replaced by new lines in the plain text email
 	 *
-	 * @param string $text If the text is empty the default "Name - Slogan<br>This is an automatically generated email" will be used
+	 * @param string $text If the text is empty the default "Name - Slogan<br>This is an automatically sent email" will be used
 	 */
 	public function addFooter($text = '') {
 		if($text === '') {
-			$text = $this->themingDefaults->getName() . ' - ' . $this->themingDefaults->getSlogan() . '<br>' . $this->l10n->t('This is an automatically generated email, please do not reply.');
+			$text = $this->themingDefaults->getName() . ' - ' . $this->themingDefaults->getSlogan() . '<br>' . $this->l10n->t('This is an automatically sent email, please do not reply.');
 		}
 
 		if ($this->footerAdded) {
