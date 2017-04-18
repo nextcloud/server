@@ -479,33 +479,20 @@
 		},
 
 		_renderSharePlaceholderPart: function () {
-			var allowGroupSharing = this.configModel.get('allowGroupSharing');
 			var allowRemoteSharing = this.configModel.get('isRemoteShareAllowed');
 			var allowMailSharing = this.configModel.get('isMailShareAllowed');
 
-			if (!allowGroupSharing && !allowRemoteSharing && allowMailSharing) {
-				return t('core', 'Share with users or by mail...');
+			if (!allowRemoteSharing && allowMailSharing) {
+				return t('core', 'Name or email address...');
 			}
-			if (!allowGroupSharing && allowRemoteSharing && !allowMailSharing) {
-				return t('core', 'Share with users or remote users...');
+			if (allowRemoteSharing && !allowMailSharing) {
+				return t('core', 'Name or federated cloud ID...');
 			}
-			if (!allowGroupSharing && allowRemoteSharing && allowMailSharing) {
-				return t('core', 'Share with users, remote users or by mail...');
-			}
-			if (allowGroupSharing && !allowRemoteSharing && !allowMailSharing) {
-				return t('core', 'Share with users or groups...');
-			}
-			if (allowGroupSharing && !allowRemoteSharing && allowMailSharing) {
-				return t('core', 'Share with users, groups or by mail...');
-			}
-			if (allowGroupSharing && allowRemoteSharing && !allowMailSharing) {
-				return t('core', 'Share with users, groups or remote users...');
-			}
-			if (allowGroupSharing && allowRemoteSharing && allowMailSharing) {
-				return t('core', 'Share with users, groups, remote users or by mail...');
+			if (allowRemoteSharing && allowMailSharing) {
+				return t('core', 'Name, federated cloud ID or email address...');
 			}
 
-			return 	t('core', 'Share with users...');
+			return 	t('core', 'Name...');
 		},
 
 		/**
