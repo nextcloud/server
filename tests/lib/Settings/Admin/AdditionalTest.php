@@ -109,7 +109,7 @@ class AdditionalTest extends TestCase {
 				'mail_smtpauthtype'     => 'login',
 				'mail_smtpauth'         => true,
 				'mail_smtpname'         => 'smtp.sender.com',
-				'mail_smtppassword'     => 'mypassword',
+				'mail_smtppassword'     => '********',
 			],
 			''
 		);

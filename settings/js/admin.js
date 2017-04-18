@@ -186,11 +186,11 @@ $(document).ready(function(){
 			url: OC.generateUrl('/settings/admin/mailsettings'),
 			type: 'POST',
 			data: $('#mail_general_settings_form').serialize(),
-			success: function(data){
-				OC.msg.finishedSaving('#mail_settings_msg', data);
+			success: function(){
+				OC.msg.finishedSuccess('#mail_settings_msg', t('settings', 'Saved'));
 			},
-			error: function(data){
-				OC.msg.finishedError('#mail_settings_msg', data.responseJSON.message);
+			error: function(xhr){
+				OC.msg.finishedError('#mail_settings_msg', xhr.responseJSON);
 			}
 		});
 	};
@@ -206,21 +206,39 @@ $(document).ready(function(){
 			url: OC.generateUrl('/settings/admin/mailsettings/credentials'),
 			type: 'POST',
 			data: $('#mail_credentials_settings').serialize(),
-			success: function(data){
-				OC.msg.finishedSaving('#mail_settings_msg', data);
+			success: function(){
+				OC.msg.finishedSuccess('#mail_settings_msg', t('settings', 'Saved'));
 			},
-			error: function(data){
-				OC.msg.finishedError('#mail_settings_msg', data.responseJSON.message);
+			error: function(xhr){
+				OC.msg.finishedError('#mail_settings_msg', xhr.responseJSON);
 			}
 		});
 	};
 
 	$('#mail_general_settings_form').change(changeEmailSettings);
 	$('#mail_credentials_settings_submit').click(toggleEmailCredentials);
+	$('#mail_smtppassword').click(function() {
+		if (this.type === 'text' && this.value === '********') {
+			this.type = 'password';
+			this.value = '';
+		}
+	});
 
 	$('#sendtestemail').click(function(event){
 		event.preventDefault();
-		OC.msg.startAction('#sendtestmail_msg', t('settings', 'Sending...'));
+		OC.msg.startAction('#sendtestmail_msg', t('settings', 'Sending…'));
+
+		$.ajax({
+			url: OC.generateUrl('/settings/admin/mailtest'),
+			type: 'POST',
+			data: $('#mail_credentials_settings').serialize(),
+			success: function(){
+				OC.msg.finishedSuccess('#sendtestmail_msg', t('settings', 'Email sent'));
+			},
+			error: function(xhr){
+				OC.msg.finishedError('#sendtestmail_msg', xhr.responseJSON);
+			}
+		});
 		$.post(OC.generateUrl('/settings/admin/mailtest'), '', function(data){
 			OC.msg.finishedAction('#sendtestmail_msg', data);
 		});

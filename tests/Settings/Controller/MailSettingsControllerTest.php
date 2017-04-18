@@ -1,7 +1,10 @@
 <?php
 /**
- * @author Lukas Reschke
- * @copyright 2014 Lukas Reschke lukas@owncloud.com
+ * @copyright 2014 Lukas Reschke lukas@nextcloud.com
+ * @copyright Copyright (c) 2017  Joas Schilling <coding@schilljs.com>
+ *
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later.
@@ -12,11 +15,13 @@ namespace Tests\Settings\Controller;
 
 use OC\Mail\Message;
 use OC\Settings\Controller\MailSettingsController;
+use OCP\AppFramework\Http;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
+use OC\User\User;
 
 /**
  * @package Tests\Settings\Controller
@@ -42,45 +47,39 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->mailer = $this->createMock(IMailer::class);
-//		$this->mailer = $this->getMockBuilder(IMailer::class)
-//			->setMethods(['send'])
-//			->getMock();
+		/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject $request */
+		$request = $this->createMock(IRequest::class);
 		$this->mailController = new MailSettingsController(
 			'settings',
-			$this->createMock(IRequest::class),
+			$request,
 			$this->l,
 			$this->config,
 			$this->userSession,
 			$this->mailer,
-			'no-reply@owncloud.com'
+			'no-reply@nextcloud.com'
 		);
 	}
 
 	public function testSetMailSettings() {
-		$this->l
-			->expects($this->exactly(2))
-			->method('t')
-			->will($this->returnValue('Saved'));
-
 		$this->config->expects($this->exactly(2))
 			->method('setSystemValues')
 			->withConsecutive(
 				[[
-					'mail_domain' => 'owncloud.com',
-					'mail_from_address' => 'demo@owncloud.com',
+					'mail_domain' => 'nextcloud.com',
+					'mail_from_address' => 'demo@nextcloud.com',
 					'mail_smtpmode' => 'smtp',
 					'mail_smtpsecure' => 'ssl',
-					'mail_smtphost' => 'mx.owncloud.org',
+					'mail_smtphost' => 'mx.nextcloud.org',
 					'mail_smtpauthtype' => 'NTLM',
 					'mail_smtpauth' => 1,
 					'mail_smtpport' => '25',
 				]],
 				[[
-					'mail_domain' => 'owncloud.com',
-					'mail_from_address' => 'demo@owncloud.com',
+					'mail_domain' => 'nextcloud.com',
+					'mail_from_address' => 'demo@nextcloud.com',
 					'mail_smtpmode' => 'smtp',
 					'mail_smtpsecure' => 'ssl',
-					'mail_smtphost' => 'mx.owncloud.org',
+					'mail_smtphost' => 'mx.nextcloud.org',
 					'mail_smtpauthtype' => 'NTLM',
 					'mail_smtpauth' => null,
 					'mail_smtpport' => '25',
@@ -91,40 +90,33 @@ class MailSettingsControllerTest extends \Test\TestCase {
 
 		// With authentication
 		$response = $this->mailController->setMailSettings(
-			'owncloud.com',
-			'demo@owncloud.com',
+			'nextcloud.com',
+			'demo@nextcloud.com',
 			'smtp',
 			'ssl',
-			'mx.owncloud.org',
+			'mx.nextcloud.org',
 			'NTLM',
 			1,
 			'25'
 		);
-		$expectedResponse = array('data' => array('message' =>'Saved'), 'status' => 'success');
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 
 		// Without authentication (testing the deletion of the stored password)
 		$response = $this->mailController->setMailSettings(
-			'owncloud.com',
-			'demo@owncloud.com',
+			'nextcloud.com',
+			'demo@nextcloud.com',
 			'smtp',
 			'ssl',
-			'mx.owncloud.org',
+			'mx.nextcloud.org',
 			'NTLM',
 			0,
 			'25'
 		);
-		$expectedResponse = array('data' => array('message' =>'Saved'), 'status' => 'success');
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 
 	}
 
 	public function testStoreCredentials() {
-		$this->l
-			->expects($this->once())
-			->method('t')
-			->will($this->returnValue('Saved'));
-
 		$this->config
 			->expects($this->once())
 			->method('setSystemValues')
@@ -134,15 +126,11 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			]);
 
 		$response = $this->mailController->storeCredentials('UsernameToStore', 'PasswordToStore');
-		$expectedResponse = array('data' => array('message' =>'Saved'), 'status' => 'success');
-
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 	}
 
 	public function testSendTestMail() {
-		$user = $this->getMockBuilder('\OC\User\User')
-			->disableOriginalConstructor()
-			->getMock();
+		$user = $this->createMock(User::class);
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('Werner'));
@@ -150,22 +138,11 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			->method('getDisplayName')
 			->will($this->returnValue('Werner Brösel'));
 
-		$this->l
-			->expects($this->any())
+		$this->l->expects($this->any())
 			->method('t')
-			->will(
-				$this->returnValueMap(
-					array(
-						array('You need to set your user email before being able to send test emails.', array(),
-							'You need to set your user email before being able to send test emails.'),
-						array('A problem occurred while sending the e-mail. Please revisit your settings.', array(),
-							'A problem occurred while sending the e-mail. Please revisit your settings.'),
-						array('Email sent', array(), 'Email sent'),
-						array('test email settings', array(), 'test email settings'),
-						array('If you received this email, the settings seem to be correct.', array(),
-							'If you received this email, the settings seem to be correct.')
-					)
-				));
+			->willReturnCallback(function($text, $parameters = []) {
+				return vsprintf($text, $parameters);
+			});
 		$this->userSession
 			->expects($this->any())
 			->method('getUser')
@@ -173,8 +150,8 @@ class MailSettingsControllerTest extends \Test\TestCase {
 
 		// Ensure that it fails when no mail address has been specified
 		$response = $this->mailController->sendTestMail();
-		$expectedResponse = array('data' => array('message' =>'You need to set your user email before being able to send test emails.'), 'status' => 'error');
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
+		$this->assertSame('You need to set your user email before being able to send test emails.', $response->getData());
 
 		// If no exception is thrown it should work
 		$this->config
@@ -185,8 +162,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			->method('createMessage')
 			->willReturn($this->createMock(Message::class));
 		$response = $this->mailController->sendTestMail();
-		$expectedResponse = array('data' => array('message' =>'Email sent'), 'status' => 'success');
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame(Http::STATUS_OK, $response->getStatus(), $response->getData());
 	}
 
 }
