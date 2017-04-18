@@ -25,45 +25,40 @@ use OC\HintException;
 use OC\Settings\Controller\ChangePasswordController;
 use OC\User\Session;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\IRequest;
 use OCP\IUserManager;
 
 class ChangePasswordControllerTest extends \Test\TestCase {
-
 	/** @var string */
 	private $userId = 'currentUser';
-
-	/** @var IUserManager */
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
-
-	/** @var Session */
+	/** @var Session|\PHPUnit_Framework_MockObject_MockObject */
 	private $userSession;
-
-	/** @var IGroupManager */
+	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $groupManager;
-
-	/** @var IAppManager */
+	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $appManager;
-
-	/** @var IL10N */
+	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
 	private $l;
-
 	/** @var ChangePasswordController */
 	private $controller;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->userManager = $this->getMockBuilder('OCP\IUserManager')->getMock();
-		$this->userSession = $this->getMockBuilder('OC\User\Session')->disableOriginalConstructor()->getMock();
-		$this->groupManager = $this->getMockBuilder('OCP\IGroupManager')->getMock();
-		$this->appManager = $this->getMockBuilder('OCP\App\IAppManager')->getMock();
-		$this->l = $this->getMockBuilder('OCP\IL10N')->getMock();
-
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->userSession = $this->createMock(Session::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->appManager = $this->createMock(IAppManager::class);
+		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')->will($this->returnArgument(0));
 
-		$request = $this->getMockBuilder('OCP\IRequest')->getMock();
+		/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject $request */
+		$request = $this->createMock(IRequest::class);
 
 		$this->controller = new ChangePasswordController(
 			'core',
@@ -83,16 +78,16 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 			->with($this->userId, 'old')
 			->willReturn(false);
 
-		$expects = [
+		$expects = new JSONResponse([
 			'status' => 'error',
 			'data' => [
 				'message' => 'Wrong password',
 			],
-		];
+		]);
+		$expects->throttle();
 
-		$res = $this->controller->changePersonalPassword('old', 'new');
-
-		$this->assertEquals($expects, $res->getData());
+		$actual = $this->controller->changePersonalPassword('old', 'new');
+		$this->assertEquals($expects, $actual);
 	}
 
 	public function testChangePersonalPasswordCommonPassword() {
@@ -107,16 +102,15 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 			->with('new')
 			->will($this->throwException(new HintException('Common password')));
 
-		$expects = [
+		$expects = new JSONResponse([
 			'status' => 'error',
 			'data' => [
 				'message' => 'Common password',
 			],
-		];
+		]);
 
-		$res = $this->controller->changePersonalPassword('old', 'new');
-
-		$this->assertEquals($expects, $res->getData());
+		$actual = $this->controller->changePersonalPassword('old', 'new');
+		$this->assertEquals($expects, $actual);
 	}
 
 	public function testChangePersonalPasswordNoNewPassword() {
@@ -147,13 +141,12 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 			->with('new')
 			->willReturn(false);
 
-		$expects = [
+		$expects = new JSONResponse([
 			'status' => 'error',
-		];
+		]);
 
-		$res = $this->controller->changePersonalPassword('old', 'new');
-
-		$this->assertEquals($expects, $res->getData());
+		$actual = $this->controller->changePersonalPassword('old', 'new');
+		$this->assertEquals($expects, $actual);
 	}
 
 	public function testChangePersonalPassword() {
@@ -172,15 +165,14 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 			->method('updateSessionTokenPassword')
 			->with('new');
 
-		$expects = [
+		$expects = new JSONResponse([
 			'status' => 'success',
 			'data' => [
 				'message' => 'Saved',
 			],
-		];
+		]);
 
-		$res = $this->controller->changePersonalPassword('old', 'new');
-
-		$this->assertEquals($expects, $res->getData());
+		$actual = $this->controller->changePersonalPassword('old', 'new');
+		$this->assertEquals($expects, $actual);
 	}
 }

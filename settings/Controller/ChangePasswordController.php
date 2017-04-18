@@ -85,6 +85,7 @@ class ChangePasswordController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoSubadminRequired
+	 * @BruteForceProtection(action=changePersonalPassword)
 	 *
 	 * @param string $oldpassword
 	 * @param string $newpassword
@@ -95,12 +96,14 @@ class ChangePasswordController extends Controller {
 		/** @var IUser $user */
 		$user = $this->userManager->checkPassword($this->userId, $oldpassword);
 		if ($user === false) {
-			return new JSONResponse([
+			$response = new JSONResponse([
 				'status' => 'error',
 				'data' => [
 					'message' => $this->l->t('Wrong password'),
 				],
 			]);
+			$response->throttle();
+			return $response;
 		}
 
 		try {
