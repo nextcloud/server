@@ -40,13 +40,12 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
  *
  * The Nextcloud server is provided by an instance of NextcloudTestServerHelper;
  * its class must be specified when this context is created. By default,
- * "NextcloudTestServerDockerHelper" is used, although that can be customized
+ * "NextcloudTestServerLocalHelper" is used, although that can be customized
  * using the "nextcloudTestServerHelper" parameter in "behat.yml". In the same
  * way, the parameters to be passed to the helper when it is created can be
  * customized using the "nextcloudTestServerHelperParameters" parameter, which
  * is an array (without keys) with the value of the parameters in the same order
- * as in the constructor of the helper class (by default,
- * [ "nextcloud-local-test-acceptance", "selenium-nextcloud-local-test-acceptance" ]).
+ * as in the constructor of the helper class (by default, [ ]).
  *
  * Example of custom parameters in "behat.yml":
  * default:
@@ -54,16 +53,10 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
  *     default:
  *       contexts:
  *         - NextcloudTestServerContext:
- *             nextcloudTestServerHelper: NextcloudTestServerDockerHelper
+ *             nextcloudTestServerHelper: NextcloudTestServerCustomHelper
  *             nextcloudTestServerHelperParameters:
- *               - nextcloud-local-test-acceptance-custom-image
- *               - selenium-nextcloud-local-test-acceptance-custom-image
- *
- * Note that using Docker containers as a regular user requires giving access to
- * the Docker daemon to that user. Unfortunately, that makes possible for that
- * user to get root privileges for the system. Please see the
- * NextcloudTestServerDockerHelper documentation for further information on this
- * issue.
+ *               - first-parameter-value
+ *               - second-parameter-value
  */
 class NextcloudTestServerContext implements Context {
 
@@ -80,8 +73,8 @@ class NextcloudTestServerContext implements Context {
 	 * @param array $nextcloudTestServerHelperParameters the parameters for the
 	 *        constructor of the $nextcloudTestServerHelper class.
 	 */
-	public function __construct($nextcloudTestServerHelper = "NextcloudTestServerDockerHelper",
-								$nextcloudTestServerHelperParameters = [ "nextcloud-local-test-acceptance", "selenium-nextcloud-local-test-acceptance" ]) {
+	public function __construct($nextcloudTestServerHelper = "NextcloudTestServerLocalHelper",
+								$nextcloudTestServerHelperParameters = [ ]) {
 		$nextcloudTestServerHelperClass = new ReflectionClass($nextcloudTestServerHelper);
 
 		if ($nextcloudTestServerHelperParameters === null) {

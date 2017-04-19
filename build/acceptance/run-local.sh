@@ -43,20 +43,6 @@ SCENARIO_TO_RUN=$1
 
 composer install
 
-# Although Behat documentation states that using the BEHAT_PARAMS environment
-# variable "You can set any value for any option that is available in a
-# behat.yml file" this is currently not true for the constructor parameters of
-# contexts (see https://github.com/Behat/Behat/issues/983). Thus, the default
-# "behat.yml" configuration file has to be adjusted to provide the appropriate
-# parameters for NextcloudTestServerContext.
-ORIGINAL="\
-        - NextcloudTestServerContext"
-REPLACEMENT="\
-        - NextcloudTestServerContext:\n\
-            nextcloudTestServerHelper: NextcloudTestServerLocalHelper\n\
-            nextcloudTestServerHelperParameters:"
-sed "s/$ORIGINAL/$REPLACEMENT/" config/behat.yml > config/behat-local.yml
-
 cd ../../
 
 echo "Installing and configuring Nextcloud server"
@@ -72,4 +58,4 @@ cd build/acceptance
 echo "Waiting for Selenium"
 timeout 60s bash -c "while ! curl 127.0.0.1:4444 >/dev/null 2>&1; do sleep 1; done"
 
-vendor/bin/behat --config=config/behat-local.yml $SCENARIO_TO_RUN
+vendor/bin/behat $SCENARIO_TO_RUN
