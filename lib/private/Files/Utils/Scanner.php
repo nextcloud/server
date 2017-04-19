@@ -162,6 +162,7 @@ class Scanner extends PublicEmitter {
 	/**
 	 * @param string $dir
 	 * @throws \OC\ForbiddenException
+	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function scan($dir = '') {
 		if (!Filesystem::isValidPath($dir)) {
