@@ -37,6 +37,7 @@ use Sabre\HTTP\ResponseInterface;
 class Plugin extends ServerPlugin {
 
 	const NS_OWNCLOUD = 'http://owncloud.org/ns';
+	const NS_NEXTCLOUD = 'http://nextcloud.com/ns';
 
 	/** @var Auth */
 	private $auth;

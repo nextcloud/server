@@ -248,6 +248,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$calendar[$xmlName] = $row[$dbName];
 			}
 
+			$this->addOwnerPrincipal($calendar);
+
 			if (!isset($calendars[$calendar['id']])) {
 				$calendars[$calendar['id']] = $calendar;
 			}
@@ -319,6 +321,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$calendar[$xmlName] = $row[$dbName];
 			}
 
+			$this->addOwnerPrincipal($calendar);
+
 			$calendars[$calendar['id']] = $calendar;
 		}
 		$result->closeCursor();
@@ -359,6 +363,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			foreach($this->propertyMap as $xmlName=>$dbName) {
 				$calendar[$xmlName] = $row[$dbName];
 			}
+
+			$this->addOwnerPrincipal($calendar);
+
 			if (!isset($calendars[$calendar['id']])) {
 				$calendars[$calendar['id']] = $calendar;
 			}
@@ -428,6 +435,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$calendar[$xmlName] = $row[$dbName];
 			}
 
+			$this->addOwnerPrincipal($calendar);
+
 			if (!isset($calendars[$calendar['id']])) {
 				$calendars[$calendar['id']] = $calendar;
 			}
@@ -492,6 +501,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$calendar[$xmlName] = $row[$dbName];
 		}
 
+		$this->addOwnerPrincipal($calendar);
+
 		return $calendar;
 
 	}
@@ -543,6 +554,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$calendar[$xmlName] = $row[$dbName];
 		}
 
+		$this->addOwnerPrincipal($calendar);
+
 		return $calendar;
 	}
 
@@ -586,6 +599,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		foreach($this->propertyMap as $xmlName=>$dbName) {
 			$calendar[$xmlName] = $row[$dbName];
 		}
+
+		$this->addOwnerPrincipal($calendar);
 
 		return $calendar;
 	}
@@ -1814,5 +1829,20 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			return "principals/$name";
 		}
 		return $principalUri;
+	}
+
+	private function addOwnerPrincipal(&$calendarInfo) {
+		$ownerPrincipalKey = '{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal';
+		$displaynameKey = '{' . \OCA\DAV\DAV\Sharing\Plugin::NS_NEXTCLOUD . '}owner-displayname';
+		if (isset($calendarInfo[$ownerPrincipalKey])) {
+			$uri = $calendarInfo[$ownerPrincipalKey];
+		} else {
+			$uri = $calendarInfo['principaluri'];
+		}
+
+		$principalInformation = $this->principalBackend->getPrincipalByPath($uri);
+		if (isset($principalInformation['{DAV:}displayname'])) {
+			$calendarInfo[$displaynameKey] = $principalInformation['{DAV:}displayname'];
+		}
 	}
 }

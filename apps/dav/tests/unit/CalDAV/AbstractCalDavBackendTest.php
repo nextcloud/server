@@ -68,7 +68,8 @@ abstract class AbstractCalDavBackendTest extends TestCase {
 			->getMock();
 		$this->principal->expects($this->any())->method('getPrincipalByPath')
 			->willReturn([
-				'uri' => 'principals/best-friend'
+				'uri' => 'principals/best-friend',
+				'{DAV:}displayname' => 'User\'s displayname',
 			]);
 		$this->principal->expects($this->any())->method('getGroupMembership')
 			->withAnyParameters()
