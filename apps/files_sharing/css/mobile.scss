@@ -34,13 +34,6 @@ table td.filename .nametext {
 	margin-top: 32px;
 }
 
-/* always show actions on mobile */
-#fileList a.action {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)" !important;
-	filter: alpha(opacity=20) !important;
-	opacity: .2 !important;
-	display: inline !important;
-}
 /* some padding for better clickability */
 #fileList a.action img {
 	padding: 0 6px 0 12px;

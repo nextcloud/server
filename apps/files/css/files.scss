@@ -575,7 +575,6 @@ a.action > img {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	filter: alpha(opacity=0);
 	opacity: 0;
-	display:none;
 }
 #fileList a.action.action-share {
 	padding: 17px 14px;
@@ -588,79 +587,44 @@ a.action > img {
 	padding-right: 14px;
 }
 
-#fileList tr:hover a.action,
-#fileList a.action.permanent,
-#fileList tr:focus a.action,
-#fileList tr:hover a.action.no-permission:hover,
-#fileList tr:focus a.action.no-permission:focus,
+#fileList a.action,
+#fileList a.action.no-permission:hover,
+#fileList a.action.no-permission:focus,
 /* also enforce the low opacity for disabled links that are hovered/focused */
-#fileList tr:hover a.action.disabled:hover,
-#fileList tr:focus a.action.disabled:focus,
-#fileList .name:focus a.action.disabled:focus,
+#fileList a.action.disabled:hover,
+#fileList a.action.disabled:focus,
 #fileList a.action.disabled img {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
 	filter: alpha(opacity=30);
 	opacity: .3;
 }
-#fileList tr a.action.disabled.action-download,
-#fileList tr:hover a.action.disabled.action-download:hover,
-#fileList tr:focus a.action.disabled.action-download:focus,
-#fileList tr:hover a.action:hover,
-#fileList tr:focus a.action:focus,
-#fileList .name:focus a.action:focus {
+
+#fileList a.action.disabled.action-download,
+#fileList a.action.disabled.action-download:hover,
+#fileList a.action.disabled.action-download:focus,
+#fileList a.action:hover,
+#fileList a.action:focus,
+#fileList .fileActionsMenu a.action,
+/* show share action of shared items darker to distinguish from non-shared */
+#fileList a.action.action-share.shared-style {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 	filter: alpha(opacity=70);
 	opacity: .7;
-	display:inline;
 }
 
-#fileList .fileActionsMenu a.action.permanent {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)" !important;
-	filter: alpha(opacity=70) !important;
-	opacity: .7 !important;
-}
-#fileList .fileActionsMenu a.action.permanent:hover,
-#fileList .fileActionsMenu a.action.permanent:focus {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)" !important;
-	filter: alpha(opacity=100) !important;
-	opacity: 1 !important;
+#fileList .fileActionsMenu a.action:hover,
+#fileList .fileActionsMenu a.action:focus,
+/* show share action of shared items darker to distinguish from non-shared */
+#fileList a.action.action-share.shared-style:hover,
+#fileList a.action.action-share.shared-style:focus {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	opacity: 1;
 }
 
 #fileList tr a.action.disabled {
 	background: none;
 }
-
-/* show share action of shared items darker to distinguish from non-shared */
-#fileList a.action.action-share.permanent.shared-style,
-/* show hovered permanent entries darker */
-#fileList tr a.action.permanent:hover,
-#fileList tr a.action.permanent:focus {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)" !important;
-	filter: alpha(opacity=70) !important;
-	opacity: .7 !important;
-	display:inline;
-}
-/* always show actions on mobile, not only on hover */
-#fileList a.action.permanent {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)" !important;
-	filter: alpha(opacity=30) !important;
-	opacity: .3 !important;
-	display: inline !important;
-}
-
-/* properly display actions in the popover menu */
-#fileList .popovermenu .action {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)" !important;
-	filter: alpha(opacity=50) !important;
-	opacity: .5 !important;
-}
-#fileList .popovermenu .action:hover,
-#fileList .popovermenu .action:focus {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)" !important;
-	filter: alpha(opacity=100) !important;
-	opacity: 1 !important;
-}
-
 
 #selectedActionsList a.download.disabled,
 #fileList tr a.action.action-download.disabled {
