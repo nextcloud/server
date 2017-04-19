@@ -187,11 +187,11 @@ class ShareByMailProviderTest extends TestCase {
 		$node = $this->getMockBuilder(File::class)->getMock();
 		$node->expects($this->any())->method('getName')->willReturn('filename');
 
-		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject', 'createActivity', 'sendPassword']);
+		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject', 'createShareActivity', 'sendPassword']);
 
 		$instance->expects($this->once())->method('getSharedWith')->willReturn([]);
 		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn(42);
-		$instance->expects($this->once())->method('createActivity')->with($share);
+		$instance->expects($this->once())->method('createShareActivity')->with($share);
 		$instance->expects($this->once())->method('getRawShare')->with(42)->willReturn('rawShare');
 		$instance->expects($this->once())->method('createShareObject')->with('rawShare')->willReturn('shareObject');
 		$instance->expects($this->any())->method('sendPassword')->willReturn(true);
@@ -661,7 +661,7 @@ class ShareByMailProviderTest extends TestCase {
 		$userManager = \OC::$server->getUserManager();
 		$rootFolder = \OC::$server->getRootFolder();
 
-		$provider = $this->getInstance(['sendMailNotification', 'createActivity']);
+		$provider = $this->getInstance(['sendMailNotification', 'createShareActivity']);
 
 		$u1 = $userManager->createUser('testFed', md5(time()));
 		$u2 = $userManager->createUser('testFed2', md5(time()));
@@ -703,7 +703,7 @@ class ShareByMailProviderTest extends TestCase {
 		$userManager = \OC::$server->getUserManager();
 		$rootFolder = \OC::$server->getRootFolder();
 
-		$provider = $this->getInstance(['sendMailNotification', 'createActivity']);
+		$provider = $this->getInstance(['sendMailNotification', 'createShareActivity']);
 
 		$u1 = $userManager->createUser('testFed', md5(time()));
 		$u2 = $userManager->createUser('testFed2', md5(time()));

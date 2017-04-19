@@ -381,7 +381,6 @@ class ShareByMailProvider implements IShareProvider {
 		$initiatorUser = $this->userManager->get($initiator);
 		$ownerDisplayName = ($ownerUser instanceof IUser) ? $ownerUser->getDisplayName() : $owner;
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
-		$initiatorEmailAddress = ($initiatorUser instanceof IUser) ? $initiatorUser->getEMailAddress() : null;
 		if ($owner === $initiator) {
 			$subject = (string)$this->l->t('%s shared »%s« with you', array($ownerDisplayName, $filename));
 		} else {
@@ -407,11 +406,6 @@ class ShareByMailProvider implements IShareProvider {
 			$this->l->t('Open »%s«', [$filename]),
 			$link
 		);
-
-		$emailTemplate->addFooter();
-		if ($initiatorEmailAddress !== null) {
-			$message->setFrom([$initiatorEmailAddress => $initiatorDisplayName]);
-		}
 
 		$message->setTo([$shareWith]);
 
