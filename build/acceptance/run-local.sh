@@ -18,7 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Helper script to run the acceptance tests, which test a running Nextcloud
-# instance from the point of view of a real user, in a Drone step.
+# instance from the point of view of a real user, configured to start the
+# Nextcloud server themselves and from their grandparent directory.
 #
 # The acceptance tests are written in Behat so, besides running the tests, this
 # script installs Behat, its dependencies, and some related packages in the
@@ -28,7 +29,8 @@
 # snapshot of the whole grandparent directory (no .gitignore file is used) in
 # the Git repository. Finally, the acceptance tests also use the Selenium server
 # to control a web browser, so this script waits for the Selenium server
-# (provided in its own Drone service) to be ready before running the tests.
+# (which should have been started before executing this script) to be ready
+# before running the tests.
 
 # Exit immediately on errors.
 set -o errexit
@@ -51,9 +53,9 @@ ORIGINAL="\
         - NextcloudTestServerContext"
 REPLACEMENT="\
         - NextcloudTestServerContext:\n\
-            nextcloudTestServerHelper: NextcloudTestServerDroneHelper\n\
+            nextcloudTestServerHelper: NextcloudTestServerLocalHelper\n\
             nextcloudTestServerHelperParameters:"
-sed "s/$ORIGINAL/$REPLACEMENT/" config/behat.yml > config/behat-drone.yml
+sed "s/$ORIGINAL/$REPLACEMENT/" config/behat.yml > config/behat-local.yml
 
 cd ../../
 
@@ -66,10 +68,8 @@ git add --all && echo 'Default state' | git -c user.name='John Doe' -c user.emai
 
 cd build/acceptance
 
-# The Selenium server should be ready by now, as Composer typically takes way
-# longer to execute than its startup (which is done in parallel in a Drone
-# service), but just in case.
+# Ensure that the Selenium server is ready before running the tests.
 echo "Waiting for Selenium"
 timeout 60s bash -c "while ! curl 127.0.0.1:4444 >/dev/null 2>&1; do sleep 1; done"
 
-vendor/bin/behat --config=config/behat-drone.yml $SCENARIO_TO_RUN
+vendor/bin/behat --config=config/behat-local.yml $SCENARIO_TO_RUN

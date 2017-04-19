@@ -22,8 +22,8 @@
  */
 
 /**
- * Helper to manage a Nextcloud test server when acceptance tests are run in a
- * Drone step.
+ * Helper to manage a Nextcloud test server started directly by the acceptance
+ * tests themselves using the PHP built-in web server.
  *
  * The Nextcloud test server is executed using the PHP built-in web server
  * directly from the grandparent directory of the acceptance tests directory
@@ -40,7 +40,7 @@
  * by running "occ maintenance:install"). The base URL to access the Nextcloud
  * server can be got from "getBaseUrl".
  */
-class NextcloudTestServerDroneHelper implements NextcloudTestServerHelper {
+class NextcloudTestServerLocalHelper implements NextcloudTestServerHelper {
 
 	/**
 	 * @var string
@@ -48,7 +48,7 @@ class NextcloudTestServerDroneHelper implements NextcloudTestServerHelper {
 	private $phpServerPid;
 
 	/**
-	 * Creates a new NextcloudTestServerDroneHelper.
+	 * Creates a new NextcloudTestServerLocalHelper.
 	 */
 	public function __construct() {
 		$this->phpServerPid = "";
