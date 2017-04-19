@@ -42,8 +42,6 @@ class OCSControllerTest extends TestCase {
 	private $userSession;
 	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
-	/** @var Throttler|\PHPUnit_Framework_MockObject_MockObject */
-	private $throttler;
 	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject */
 	private $keyManager;
 	/** @var OCSController */
@@ -56,7 +54,6 @@ class OCSControllerTest extends TestCase {
 		$this->capabilitiesManager = $this->createMock(CapabilitiesManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->userManager = $this->createMock(IUserManager::class);
-		$this->throttler = $this->createMock(Throttler::class);
 		$this->keyManager = $this->createMock(Manager::class);
 
 		$this->controller = new OCSController(
@@ -65,7 +62,6 @@ class OCSControllerTest extends TestCase {
 			$this->capabilitiesManager,
 			$this->userSession,
 			$this->userManager,
-			$this->throttler,
 			$this->keyManager
 		);
 	}
@@ -117,16 +113,6 @@ class OCSControllerTest extends TestCase {
 	}
 
 	public function testPersonCheckValid() {
-		$this->request->method('getRemoteAddress')
-			->willReturn('1.2.3.4');
-
-		$this->throttler->expects($this->once())
-			->method('sleepDelay')
-			->with('1.2.3.4');
-
-		$this->throttler->expects($this->never())
-			->method('registerAttempt');
-
 		$this->userManager->method('checkPassword')
 			->with(
 				$this->equalTo('user'),
@@ -138,25 +124,10 @@ class OCSControllerTest extends TestCase {
 				'personid' => 'user'
 			]
 		]);
-
 		$this->assertEquals($expected, $this->controller->personCheck('user', 'pass'));
 	}
 
 	public function testPersonInvalid() {
-		$this->request->method('getRemoteAddress')
-			->willReturn('1.2.3.4');
-
-		$this->throttler->expects($this->once())
-			->method('sleepDelay')
-			->with('1.2.3.4');
-
-		$this->throttler->expects($this->once())
-			->method('registerAttempt')
-			->with(
-				$this->equalTo('login'),
-				$this->equalTo('1.2.3.4')
-			);
-
 		$this->userManager->method('checkPassword')
 			->with(
 				$this->equalTo('user'),
@@ -164,20 +135,11 @@ class OCSControllerTest extends TestCase {
 			)->willReturn(false);
 
 		$expected = new DataResponse(null, 102);
-
+		$expected->throttle();
 		$this->assertEquals($expected, $this->controller->personCheck('user', 'wrongpass'));
 	}
 
 	public function testPersonNoLogin() {
-		$this->request->method('getRemoteAddress')
-			->willReturn('1.2.3.4');
-
-		$this->throttler->expects($this->never())
-			->method('sleepDelay');
-
-		$this->throttler->expects($this->never())
-			->method('registerAttempt');
-
 		$this->userManager->method('checkPassword')
 			->with(
 				$this->equalTo('user'),
@@ -185,7 +147,6 @@ class OCSControllerTest extends TestCase {
 			)->willReturn(false);
 
 		$expected = new DataResponse(null, 101);
-
 		$this->assertEquals($expected, $this->controller->personCheck('', ''));
 	}
 
