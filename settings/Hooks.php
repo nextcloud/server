@@ -104,7 +104,7 @@ class Hooks {
 			$message->setTo([$user->getEMailAddress() => $user->getDisplayName()]);
 			$message->setSubject($this->l->t('Password for %1$s changed on %2$s', [$user->getDisplayName(), $instanceUrl]));
 			$message->setBody($template->renderText(), 'text/plain');
-			$message->setHtmlBody($template->renderHTML());
+			$message->setHtmlBody($template->renderHtml());
 
 			$this->mailer->send($message);
 		}
@@ -157,7 +157,7 @@ class Hooks {
 			$message->setTo([$oldMailAddress => $user->getDisplayName()]);
 			$message->setSubject($this->l->t('Email address for %1$s changed on %2$s', [$user->getDisplayName(), $instanceUrl]));
 			$message->setBody($template->renderText(), 'text/plain');
-			$message->setHtmlBody($template->renderHTML());
+			$message->setHtmlBody($template->renderHtml());
 
 			$this->mailer->send($message);
 		}

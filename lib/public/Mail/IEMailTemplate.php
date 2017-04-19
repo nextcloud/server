@@ -45,7 +45,7 @@ namespace OCP\Mail;
  *
  * $emailTemplate->addFooter('Optional footer text');
  *
- * $htmlContent = $emailTemplate->renderHTML();
+ * $htmlContent = $emailTemplate->renderHtml();
  * $plainContent = $emailTemplate->renderText();
  *
  * @since 12.0.0
@@ -122,7 +122,7 @@ interface IEMailTemplate {
 	 *
 	 * @since 12.0.0
 	 */
-	public function renderHTML();
+	public function renderHtml();
 
 	/**
 	 * Returns the rendered plain text email as string

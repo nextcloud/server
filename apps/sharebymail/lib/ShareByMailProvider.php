@@ -329,7 +329,7 @@ class ShareByMailProvider implements IShareProvider {
 
 		$message->setSubject($subject);
 		$message->setPlainBody($emailTemplate->renderText());
-		$message->setHtmlBody($emailTemplate->renderHTML());
+		$message->setHtmlBody($emailTemplate->renderHtml());
 		$this->mailer->send($message);
 	}
 
@@ -368,7 +368,7 @@ class ShareByMailProvider implements IShareProvider {
 		$message->setTo([$shareWith]);
 		$message->setSubject($subject);
 		$message->setBody($emailTemplate->renderText(), 'text/plain');
-		$message->setHtmlBody($emailTemplate->renderHTML());
+		$message->setHtmlBody($emailTemplate->renderHtml());
 		$this->mailer->send($message);
 
 	}
