@@ -2767,8 +2767,7 @@ class ManagerTest extends \Test\TestCase {
 		$node->expects($this->once())
 			->method('getOwner')
 			->willReturn($owner);
-		$node->expects($this->once())
-			->method('getId')
+		$node->method('getId')
 			->willReturn(42);
 
 		$userFolder = $this->createMock(Folder::class);
