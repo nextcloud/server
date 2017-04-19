@@ -241,7 +241,7 @@ class ShareByMailProvider implements IShareProvider {
 				$link,
 				$share->getShareOwner(),
 				$share->getSharedBy(),
-					$share->getSharedWith()
+				$share->getSharedWith()
 			);
 		} catch (HintException $hintException) {
 			$this->logger->error('Failed to send share by mail: ' . $hintException->getMessage());
