@@ -30,6 +30,7 @@ use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\TokenHandler;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
+use OCP\Defaults;
 use OCP\Share\IProviderFactory;
 use OC\Share20\Exception\ProviderException;
 use OCP\IServerContainer;
@@ -158,7 +159,8 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getMailer(),
 				$this->serverContainer->getURLGenerator(),
 				$this->serverContainer->getActivityManager(),
-				$settingsManager
+				$settingsManager,
+				$this->serverContainer->query(Defaults::class)
 			);
 		}
 

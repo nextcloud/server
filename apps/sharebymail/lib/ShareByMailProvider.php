@@ -26,6 +26,7 @@ use OC\Share20\Exception\InvalidShare;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCP\Activity\IManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Defaults;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -80,6 +81,9 @@ class ShareByMailProvider implements IShareProvider {
 	/** @var SettingsManager */
 	private $settingsManager;
 
+	/** @var Defaults */
+	private $defaults;
+
 	/**
 	 * Return the identifier of this provider.
 	 *
@@ -102,6 +106,7 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param IURLGenerator $urlGenerator
 	 * @param IManager $activityManager
 	 * @param SettingsManager $settingsManager
+	 * @param Defaults $defaults
 	 */
 	public function __construct(
 		IDBConnection $connection,
@@ -113,7 +118,8 @@ class ShareByMailProvider implements IShareProvider {
 		IMailer $mailer,
 		IURLGenerator $urlGenerator,
 		IManager $activityManager,
-		SettingsManager $settingsManager
+		SettingsManager $settingsManager,
+		Defaults $defaults
 	) {
 		$this->dbConnection = $connection;
 		$this->secureRandom = $secureRandom;
@@ -125,6 +131,7 @@ class ShareByMailProvider implements IShareProvider {
 		$this->urlGenerator = $urlGenerator;
 		$this->activityManager = $activityManager;
 		$this->settingsManager = $settingsManager;
+		$this->defaults = $defaults;
 	}
 
 	/**
@@ -229,10 +236,13 @@ class ShareByMailProvider implements IShareProvider {
 		try {
 			$link = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare',
 				['token' => $share->getToken()]);
-			$this->sendMailNotification($share->getNode()->getName(),
+			$this->sendMailNotification(
+				$share->getNode()->getName(),
 				$link,
 				$share->getShareOwner(),
-				$share->getSharedBy(), $share->getSharedWith());
+				$share->getSharedBy(),
+				$share->getSharedWith()
+			);
 		} catch (HintException $hintException) {
 			$this->logger->error('Failed to send share by mail: ' . $hintException->getMessage());
 			$this->removeShareFromTable($shareId);
@@ -248,7 +258,19 @@ class ShareByMailProvider implements IShareProvider {
 
 	}
 
-	protected function sendMailNotification($filename, $link, $owner, $initiator, $shareWith) {
+	/**
+	 * @param string $filename
+	 * @param string $link
+	 * @param string $owner
+	 * @param string $initiator
+	 * @param string $shareWith
+	 * @throws \Exception If mail couldn't be sent
+	 */
+	protected function sendMailNotification($filename,
+											$link,
+											$owner,
+											$initiator,
+											$shareWith) {
 		$ownerUser = $this->userManager->get($owner);
 		$initiatorUser = $this->userManager->get($initiator);
 		$ownerDisplayName = ($ownerUser instanceof IUser) ? $ownerUser->getDisplayName() : $owner;
@@ -281,14 +303,34 @@ class ShareByMailProvider implements IShareProvider {
 			$this->l->t('Open »%s«', [$filename]),
 			$link
 		);
-		$emailTemplate->addFooter();
 
 		$message->setTo([$shareWith]);
+
+		// The "From" contains the sharers name
+		$instanceName = $this->defaults->getName();
+		$senderName = $this->l->t(
+			'%s via %s',
+			[
+				$ownerDisplayName,
+				$instanceName
+			]
+		);
+		$message->setFrom([\OCP\Util::getDefaultEmailAddress($instanceName) => $senderName]);
+
+		// The "Reply-To" is set to the sharer if an mail address is configured
+		// also the default footer contains a "Do not reply" which needs to be adjusted.
+		$ownerEmail = $ownerUser->getEMailAddress();
+		if($ownerEmail !== null) {
+			$message->setReplyTo([$ownerEmail => $ownerDisplayName]);
+			$emailTemplate->addFooter($instanceName . ' - ' . $this->defaults->getSlogan());
+		} else {
+			$emailTemplate->addFooter();
+		}
+
 		$message->setSubject($subject);
-		$message->setBody($emailTemplate->renderText(), 'text/plain');
+		$message->setPlainBody($emailTemplate->renderText());
 		$message->setHtmlBody($emailTemplate->renderHTML());
 		$this->mailer->send($message);
-
 	}
 
 	/**
