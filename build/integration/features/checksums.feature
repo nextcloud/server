@@ -54,6 +54,7 @@ Feature: checksums
     When user "user0" downloads the file "/myChecksumFile.txt"
     Then The header checksum should match "SHA1:acfa6b1565f9710d4d497c6035d5c069bd35a8e8"
 
+  @local_storage
   Scenario: Downloading a file from local storage has correct checksum
     Given using old dav path
     And user "user0" exists
@@ -132,6 +133,7 @@ Feature: checksums
     When user "user0" downloads the file "/myChecksumFile.txt"
     Then The header checksum should match "SHA1:acfa6b1565f9710d4d497c6035d5c069bd35a8e8"
 
+  @local_storage
   Scenario: Downloading a file from local storage has correct checksum using new dav path
     Given using new dav path
     And user "user0" exists
@@ -172,3 +174,14 @@ Feature: checksums
     When Downloading file "/chksumtst.txt" as "user0"
     Then The following headers should be set
             | OC-Checksum | SHA1:ce5582148c6f0c1282335b87df5ed4be4b781399 |
+
+  @local_storage
+  Scenario: Uploaded file to external storage should have the same checksum when downloaded
+    Given using old dav path
+    Given user "user0" exists
+    And file "/local_storage/chksumtst.txt"  does not exist for user "user0"
+    And user "user0" uploads file with checksum "SHA1:ce5582148c6f0c1282335b87df5ed4be4b781399" and content "Some Text" to "/local_storage/chksumtst.txt"
+    When Downloading file "/local_storage/chksumtst.txt" as "user0"
+    Then The following headers should be set
+            | OC-Checksum | SHA1:ce5582148c6f0c1282335b87df5ed4be4b781399 |
+
