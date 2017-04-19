@@ -23,6 +23,7 @@
  */
 namespace OC\Share20;
 
+use OC\CapabilitiesManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
@@ -161,7 +162,8 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getActivityManager(),
 				$settingsManager,
 				$this->serverContainer->query(Defaults::class),
-				$this->serverContainer->getHasher()
+				$this->serverContainer->getHasher(),
+				$this->serverContainer->query(CapabilitiesManager::class)
 			);
 		}
 

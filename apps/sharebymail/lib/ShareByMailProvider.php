@@ -21,6 +21,7 @@
 
 namespace OCA\ShareByMail;
 
+use OC\CapabilitiesManager;
 use OC\HintException;
 use OC\Share20\Exception\InvalidShare;
 use OCA\ShareByMail\Settings\SettingsManager;
@@ -43,7 +44,6 @@ use OC\Share20\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
-use OCP\Template;
 
 /**
  * Class ShareByMail
@@ -88,6 +88,9 @@ class ShareByMailProvider implements IShareProvider {
 	/** @var IHasher */
 	private $hasher;
 
+	/** @var  CapabilitiesManager */
+	private $capabilitiesManager;
+
 	/**
 	 * Return the identifier of this provider.
 	 *
@@ -112,6 +115,7 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param SettingsManager $settingsManager
 	 * @param Defaults $defaults
 	 * @param IHasher $hasher
+	 * @param CapabilitiesManager $capabilitiesManager
 	 */
 	public function __construct(
 		IDBConnection $connection,
@@ -125,7 +129,8 @@ class ShareByMailProvider implements IShareProvider {
 		IManager $activityManager,
 		SettingsManager $settingsManager,
 		Defaults $defaults,
-		IHasher $hasher
+		IHasher $hasher,
+		CapabilitiesManager $capabilitiesManager
 	) {
 		$this->dbConnection = $connection;
 		$this->secureRandom = $secureRandom;
@@ -139,6 +144,7 @@ class ShareByMailProvider implements IShareProvider {
 		$this->settingsManager = $settingsManager;
 		$this->defaults = $defaults;
 		$this->hasher = $hasher;
+		$this->capabilitiesManager = $capabilitiesManager;
 	}
 
 	/**
@@ -202,10 +208,33 @@ class ShareByMailProvider implements IShareProvider {
 			);
 		}
 
-		$password = $this->generateToken(8);
+		$passwordPolicy = $this->getPasswordPolicy();
+		$passwordCharset = ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS;
+		$passwordLength = 8;
+		if (!empty($passwordPolicy)) {
+			$passwordLength = (int)$passwordPolicy['minLength'] > 0 ? (int)$passwordPolicy['minLength'] : $passwordLength;
+			$passwordCharset .= $passwordPolicy['enforceSpecialCharacters'] ? ISecureRandom::CHAR_SYMBOLS : '';
+		}
+
+		$password = $this->secureRandom->generate($passwordLength, $passwordCharset);
+
 		$share->setPassword($this->hasher->hash($password));
 
 		return $password;
+	}
+
+	/**
+	 * get password policy
+	 *
+	 * @return array
+	 */
+	protected function getPasswordPolicy() {
+		$capabilities = $this->capabilitiesManager->getCapabilities();
+		if (isset($capabilities['password_policy'])) {
+			return $capabilities['password_policy'];
+		}
+
+		return [];
 	}
 
 	/**

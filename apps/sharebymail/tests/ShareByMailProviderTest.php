@@ -23,6 +23,7 @@
 namespace OCA\ShareByMail\Tests;
 
 
+use OC\CapabilitiesManager;
 use OC\Mail\Message;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
@@ -93,6 +94,9 @@ class ShareByMailProviderTest extends TestCase {
 	/** @var  IHasher | \PHPUnit_Framework_MockObject_MockObject */
 	private $hasher;
 
+	/** @var  CapabilitiesManager | \PHPUnit_Framework_MockObject_MockObject */
+	private $capabilitiesManager;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -115,6 +119,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->settingsManager = $this->getMockBuilder(SettingsManager::class)->disableOriginalConstructor()->getMock();
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->hasher = $this->getMockBuilder(IHasher::class)->getMock();
+		$this->capabilitiesManager = $this->getMockBuilder(CapabilitiesManager::class)->disableOriginalConstructor()->getMock();
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
 	}
@@ -141,7 +146,8 @@ class ShareByMailProviderTest extends TestCase {
 					$this->activityManager,
 					$this->settingsManager,
 					$this->defaults,
-					$this->hasher
+					$this->hasher,
+					$this->capabilitiesManager
 				]
 			);
 
@@ -162,7 +168,8 @@ class ShareByMailProviderTest extends TestCase {
 			$this->activityManager,
 			$this->settingsManager,
 			$this->defaults,
-			$this->hasher
+			$this->hasher,
+			$this->capabilitiesManager
 		);
 
 	}
