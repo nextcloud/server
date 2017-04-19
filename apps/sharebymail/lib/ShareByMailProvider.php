@@ -485,15 +485,14 @@ class ShareByMailProvider implements IShareProvider {
 		}
 
 		$subject = (string)$this->l->t('Password to access »%s« shared with %s', [$filename, $shareWith]);
-		$plainBodyPart = $this->l->t("You just shared »%s« with %s.\nThe share was already send to the recipient. Due to the security policies\neach share needs to be protected by password and it is not allowed to send the\npassword directly by mail to the recipient. Therefore you need to forward\nthe password manually to the recipient.", [$filename, $shareWith]);
-		$htmlBodyPart = $this->l->t('You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies each share needs to be protected by password and it is not allowed to send the password directly by mail to the recipient. Therefore you need to forward the password manually to the recipient.', [$filename, $shareWith]);
+		$bodyPart = $this->l->t("You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient.", [$filename, $shareWith, $this->defaults->getName()]);
 
 		$message = $this->mailer->createMessage();
 		$emailTemplate = $this->mailer->createEMailTemplate();
 
 		$emailTemplate->addHeader();
 		$emailTemplate->addHeading($this->l->t('Password to access »%s«', [$filename]), false);
-		$emailTemplate->addBodyText($htmlBodyPart, $plainBodyPart);
+		$emailTemplate->addBodyText($bodyPart);
 		$emailTemplate->addBodyText($this->l->t('This is the password: %s', [$password]));
 		$emailTemplate->addBodyText($this->l->t('You can chose a different password at any time in the share dialog.'));
 		$emailTemplate->addFooter();
