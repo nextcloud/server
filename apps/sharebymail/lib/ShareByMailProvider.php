@@ -172,11 +172,12 @@ class ShareByMailProvider implements IShareProvider {
 		}
 
 		$shareId = $this->createMailShare($share);
-		$send = $this->sendPassword($share->getNode()->getName(), $share->getSharedBy(), $share->getSharedWith(), $password);
+		$send = $this->sendPassword($share, $password);
 		if ($passwordEnforced && $send === false) {
-			$this->sendPasswordToOwner($share->getNode()->getName(), $share->getSharedBy(), $shareWith, $password);
+			$this->sendPasswordToOwner($share, $password);
 		}
-		$this->createActivity($share);
+
+		$this->createShareActivity($share);
 		$data = $this->getRawShare($shareId);
 
 		return $this->createShareObject($data);
@@ -212,7 +213,7 @@ class ShareByMailProvider implements IShareProvider {
 	 *
 	 * @param IShare $share
 	 */
-	protected function createActivity(IShare $share) {
+	protected function createShareActivity(IShare $share) {
 
 		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
 
@@ -239,6 +240,37 @@ class ShareByMailProvider implements IShareProvider {
 		}
 
 	}
+
+	/**
+	 * create activity if a file/folder was shared by mail
+	 *
+	 * @param IShare $share
+	 * @param string $sharedWith
+	 * @param bool $sendToSelf
+	 */
+	protected function createPasswordSendActivity(IShare $share, $sharedWith, $sendToSelf) {
+
+		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
+
+		if ($sendToSelf) {
+			$this->publishActivity(
+				Activity::SUBJECT_SHARED_EMAIL_PASSWORD_SEND_SELF,
+				[$userFolder->getRelativePath($share->getNode()->getPath())],
+				$share->getSharedBy(),
+				$share->getNode()->getId(),
+				$userFolder->getRelativePath($share->getNode()->getPath())
+			);
+		} else {
+			$this->publishActivity(
+				Activity::SUBJECT_SHARED_EMAIL_PASSWORD_SEND,
+				[$userFolder->getRelativePath($share->getNode()->getPath()), $sharedWith],
+				$share->getSharedBy(),
+				$share->getNode()->getId(),
+				$userFolder->getRelativePath($share->getNode()->getPath())
+			);
+		}
+	}
+
 
 	/**
 	 * publish activity if a file/folder was shared by mail
@@ -384,13 +416,15 @@ class ShareByMailProvider implements IShareProvider {
 	/**
 	 * send password to recipient of a mail share
 	 *
-	 * @param string $filename
-	 * @param string $initiator
-	 * @param string $shareWith
+	 * @param IShare $share
 	 * @param string $password
 	 * @return bool
 	 */
-	protected function sendPassword($filename, $initiator, $shareWith, $password) {
+	protected function sendPassword(IShare $share, $password) {
+
+		$filename = $share->getNode()->getName();
+		$initiator = $share->getSharedBy();
+		$shareWith = $share->getSharedWith();
 
 		if ($password === '' || $this->settingsManager->sendPasswordByMail() === false) {
 			return false;
@@ -422,6 +456,8 @@ class ShareByMailProvider implements IShareProvider {
 		$message->setHtmlBody($emailTemplate->renderHtml());
 		$this->mailer->send($message);
 
+		$this->createPasswordSendActivity($share, $shareWith, false);
+
 		return true;
 	}
 
@@ -429,17 +465,18 @@ class ShareByMailProvider implements IShareProvider {
 	 * send auto generated password to the owner. This happens if the admin enforces
 	 * a password for mail shares and forbid to send the password by mail to the recipient
 	 *
-	 * @param string $filename
-	 * @param string $initiator
-	 * @param string $shareWith
+	 * @param IShare $share
 	 * @param string $password
+	 * @return bool
 	 * @throws \Exception
 	 */
-	protected function sendPasswordToOwner($filename, $initiator, $shareWith, $password) {
+	protected function sendPasswordToOwner(IShare $share, $password) {
 
-		$initiatorUser = $this->userManager->get($initiator);
-		$initiatorEMailAddress = ($initiatorUser instanceof IUser) ? $initiatorUser->getEMailAddress() : null;
-		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
+		$filename = $share->getNode()->getName();
+		$initiator = $this->userManager->get($share->getSharedBy());
+		$initiatorEMailAddress = ($initiator instanceof IUser) ? $initiator->getEMailAddress() : null;
+		$initiatorDisplayName = ($initiator instanceof IUser) ? $initiator->getDisplayName() : $share->getSharedBy();
+		$shareWith = $share->getSharedWith();
 
 		if ($initiatorEMailAddress === null) {
 			throw new \Exception(
@@ -469,6 +506,10 @@ class ShareByMailProvider implements IShareProvider {
 		$message->setBody($emailTemplate->renderText(), 'text/plain');
 		$message->setHtmlBody($emailTemplate->renderHTML());
 		$this->mailer->send($message);
+
+		$this->createPasswordSendActivity($share, $shareWith, true);
+
+		return true;
 	}
 
 	/**
@@ -561,7 +602,7 @@ class ShareByMailProvider implements IShareProvider {
 		$validPassword = $plainTextPassword !== null && $plainTextPassword !== '';
 
 		if($validPassword && $originalShare->getPassword() !== $share->getPassword()) {
-			$this->sendPassword($share->getNode()->getName(), $share->getSharedBy(), $share->getSharedWith(), $plainTextPassword);
+			$this->sendPassword($share, $plainTextPassword);
 		}
 		/*
 		 * We allow updating the permissions and password of mail shares
