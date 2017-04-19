@@ -32,6 +32,7 @@ use OC\ForbiddenException;
 use OC\Hooks\PublicEmitter;
 use OC\Lock\DBLockingProvider;
 use OCA\Files_Sharing\SharedStorage;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ILogger;
@@ -216,6 +217,9 @@ class Scanner extends PublicEmitter {
 			try {
 				$propagator = $storage->getPropagator();
 				$propagator->beginBatch();
+				if (!$storage->file_exists($relativePath)) {
+					throw new NotFoundException($dir);
+				}
 				$scanner->scan($relativePath, \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
 				$cache = $storage->getCache();
 				if ($cache instanceof Cache) {
