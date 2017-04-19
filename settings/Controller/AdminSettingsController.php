@@ -135,6 +135,10 @@ class AdminSettingsController extends Controller {
 		/** @var \OC\Settings\Section[] $prioritizedSections */
 		foreach($sections as $prioritizedSections) {
 			foreach ($prioritizedSections as $section) {
+				if (empty($this->settingsManager->getAdminSettings($section->getID()))) {
+					continue;
+				}
+
 				$icon = '';
 				if ($section instanceof IIconSection) {
 					$icon = $section->getIcon();
