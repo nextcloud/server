@@ -135,12 +135,8 @@ class SharePoint extends Common {
 	public function rmdir($path) {
 		$serverUrl = $this->formatPath($path);
 		try {
-			$cacheEntry = $this->fileCache->get($serverUrl);
-			$folder = null;
-			if(is_array($cacheEntry) && isset($cacheEntry['instance'])) {
-				$folder = $cacheEntry['instance'];
-			}
-			$this->spClient->deleteFolder($serverUrl, $folder);
+			$folder = $this->getFileOrFolder($serverUrl);
+			$this->spClient->delete($folder);
 			$this->fileCache->set($serverUrl, false);
 			return true;
 		} catch (\Exception $e) {
@@ -270,23 +266,32 @@ class SharePoint extends Common {
 	 * @since 6.0.0
 	 */
 	public function unlink($path) {
-		//  FIXME:: all is totally wrong
-		/*$path = trim($path);
-		if($path === '/' || $path === '') {
+		// file methods get called twice at least, returning true
+		if(!$this->file_exists($path)) {
+			return true;
+		}
+		try {
+			$serverUrl = $this->formatPath($path);
+			$this->spClient->delete($this->getFileOrFolder($serverUrl));
+			$this->fileCache->set($serverUrl, false);
+			return true;
+		} catch (\Exception $e) {
 			return false;
 		}
-		foreach([true, false] as $asFile) {
-			try {
-				$fsObject = $this->spClient->fetchFileOrFolder($path, $asFile);
-				$fsObject->deleteObject();
-				return true;
-			} catch(\Exception $e) {
-				// NOOP
 	}
 
 	public function rename($path1, $path2) {
 		$oldPath = $this->formatPath($path1);
 		$newPath = $this->formatPath($path2);
+
+		try {
+			$item = $this->getFileOrFolder($newPath);
+			$this->spClient->delete($item);
+			$this->fileCache->remove($newPath);
+		} catch(NotFoundException $e) {
+			// noop
+		}
+
 		try {
 			$isRenamed = $this->spClient->rename($oldPath, $newPath);
 			if($isRenamed) {

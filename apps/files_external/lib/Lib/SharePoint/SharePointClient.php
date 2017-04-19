@@ -27,6 +27,7 @@ use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+use Office365\PHP\Client\Runtime\Utilities\Requests;
 use Office365\PHP\Client\SharePoint\ClientContext;
 use Office365\PHP\Client\SharePoint\File;
 use Office365\PHP\Client\SharePoint\FileCreationInformation;
@@ -85,12 +86,12 @@ class SharePointClient {
 					&& $e->getMessage() !== 'Unknown Error'
 					&& $e->getMessage() !== 'File Not Found.'
 				) {
-					$this->createClientContext();
+					$this->resetClientContext();
 					# Unexpected Exception, pass it on
 					throw $e;
 				}
 			}
-			$this->createClientContext();
+			$this->resetClientContext();
 		}
 
 		# Nothing succeeded, quit with not found
@@ -128,7 +129,7 @@ class SharePointClient {
 			$this->context->executeQuery();
 			return $folder;
 		} catch (\Exception $e) {
-			$this->createClientContext();
+			$this->resetClientContext();
 			throw $e;
 		}
 	}
@@ -154,7 +155,7 @@ class SharePointClient {
 		try {
 			$ok = $this->context->executeQueryDirect($options);
 		} catch(\Exception $e) {
-			$this->createClientContext();
+			$this->resetClientContext();
 			throw $e;
 		}
 		return $ok;
@@ -219,7 +220,7 @@ class SharePointClient {
 			$this->context->executeQuery();
 			return $file;
 		} catch(\Exception $e) {
-			$this->createClientContext();
+			$this->resetClientContext();
 			throw $e;
 		}
 	}
@@ -246,7 +247,7 @@ class SharePointClient {
 			}
 			return true;
 		} catch (\Exception $e) {
-			$this->createClientContext();
+			$this->resetClientContext();
 			throw $e;
 		}
 	}
@@ -274,19 +275,41 @@ class SharePointClient {
 		$this->context->executeQuery();
 		#$req = $this->debugGetLastRequest();
 	}
-	public function deleteFolder($relativeServerPath, Folder $folder = null) {
-		$this->ensureConnection();
 
+	private function debugGetLastRequest() {
+		$requestHistory = Requests::getHistory();
+		$request = array_pop($requestHistory);
+		return $request;
+	}
+
+	public function delete(ClientObject $item) {
+		$this->ensureConnection();
 		try {
-			if($folder === null) {
-				$folder = $this->context->getWeb()->getFolderByServerRelativeUrl($relativeServerPath);
+			if ($item instanceof File) {
+				$this->deleteFile($item);
+			} else if ($item instanceof Folder) {
+				$this->deleteFolder($item);
 			}
-			$folder->deleteObject();
-			$this->context->executeQuery();
-		} catch (\Exception $e) {
-			$this->createClientContext();
+		} catch(\Exception $e) {
+			$this->resetClientContext();
 			throw $e;
 		}
+	}
+
+	/**
+	 * deletes the given file on SP
+	 *
+	 * @param File $file
+	 * @throws \Exception
+	 */
+	public function deleteFile(File $file) {
+		$file->recycle();
+		$this->context->executeQuery();
+	}
+
+	public function deleteFolder(Folder $folder) {
+		$folder->deleteObject();
+		$this->context->executeQuery();
 	}
 
 	/**
@@ -380,15 +403,18 @@ class SharePointClient {
 		}
 		$this->authContext = $this->contextsFactory->getAuthContext($this->credentials['user'], $this->credentials['password']);
 		$this->authContext->AuthType = CURLAUTH_NTLM;		# Basic auth does not work somehow…
-		$this->createClientContext();
+		$this->context = $this->contextsFactory->getClientContext($this->sharePointUrl, $this->authContext);
 		# Auth is not triggered yet. This will happen when something is requested from SharePoint (on demand), e.g.:
 	}
 
 	/**
-	 * (re)creates the sharepoint client context
+	 * resets the sharepoint client context
+	 *
+	 * Usually executed, when a query resulted into an exception. The faulty
+	 * query is not removed by default.
 	 */
-	private function createClientContext() {
-		$this->context = null;
-		$this->context = $this->contextsFactory->getClientContext($this->sharePointUrl, $this->authContext);
+	private function resetClientContext() {
+		//FIXME: resetQueries method did not go upstream yet
+		$this->context->getPendingRequest()->resetQueries();
 	}
 }
