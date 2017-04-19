@@ -29,46 +29,26 @@
 
 $helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
 $configPrefixes = $helper->getServerConfigurationPrefixes(true);
-$ldapWrapper = new OCA\User_LDAP\LDAP();
-$ocConfig = \OC::$server->getConfig();
-$notificationManager = \OC::$server->getNotificationManager();
-$notificationManager->registerNotifier(function() {
-	return new \OCA\User_LDAP\Notification\Notifier(
-	  \OC::$server->getL10NFactory()
-	);
-}, function() {
+if(count($configPrefixes) > 0) {
+	$ldapWrapper = new OCA\User_LDAP\LDAP();
+	$ocConfig = \OC::$server->getConfig();
+	$notificationManager = \OC::$server->getNotificationManager();
+	$notificationManager->registerNotifier(function() {
+		return new \OCA\User_LDAP\Notification\Notifier(
+			\OC::$server->getL10NFactory()
+		);
+	}, function() {
 		$l = \OC::$server->getL10N('user_ldap');
 		return [
 			'id' => 'user_ldap',
 			'name' => $l->t('LDAP user and group backend'),
 		];
-});
-if(count($configPrefixes) === 1) {
-	$dbc = \OC::$server->getDatabaseConnection();
-	$userManager = new OCA\User_LDAP\User\Manager($ocConfig,
-		new OCA\User_LDAP\FilesystemHelper(),
-		new OCA\User_LDAP\LogWrapper(),
-		\OC::$server->getAvatarManager(),
-		new \OCP\Image(),
-		$dbc,
-		\OC::$server->getUserManager(),
-		$notificationManager
-	);
-	$connector = new OCA\User_LDAP\Connection($ldapWrapper, $configPrefixes[0]);
-	$ldapAccess = new OCA\User_LDAP\Access($connector, $ldapWrapper, $userManager, $helper);
+	});
 
-	$ldapAccess->setUserMapper(new OCA\User_LDAP\Mapping\UserMapping($dbc));
-	$ldapAccess->setGroupMapper(new OCA\User_LDAP\Mapping\GroupMapping($dbc));
-	$userBackend  = new OCA\User_LDAP\User_LDAP($ldapAccess, $ocConfig, $notificationManager);
-	$groupBackend = new \OCA\User_LDAP\Group_LDAP($ldapAccess);
-} else if(count($configPrefixes) > 1) {
 	$userBackend  = new OCA\User_LDAP\User_Proxy(
 		$configPrefixes, $ldapWrapper, $ocConfig, $notificationManager
 	);
 	$groupBackend  = new OCA\User_LDAP\Group_Proxy($configPrefixes, $ldapWrapper);
-}
-
-if(count($configPrefixes) > 0) {
 	// register user backend
 	OC_User::useBackend($userBackend);
 	\OC::$server->getGroupManager()->addBackend($groupBackend);
