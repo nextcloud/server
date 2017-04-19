@@ -526,7 +526,7 @@ class ShareByMailProvider implements IShareProvider {
 		$message->setTo([$initiatorEMailAddress => $initiatorDisplayName]);
 		$message->setSubject($subject);
 		$message->setBody($emailTemplate->renderText(), 'text/plain');
-		$message->setHtmlBody($emailTemplate->renderHTML());
+		$message->setHtmlBody($emailTemplate->renderHtml());
 		$this->mailer->send($message);
 
 		$this->createPasswordSendActivity($share, $shareWith, true);
