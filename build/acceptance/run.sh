@@ -174,4 +174,4 @@ prepareSelenium
 prepareDocker
 
 echo "Running tests"
-docker exec $NEXTCLOUD_LOCAL_CONTAINER bash -c "cd nextcloud && build/acceptance/run-local.sh $SCENARIO_TO_RUN"
+docker exec $NEXTCLOUD_LOCAL_CONTAINER bash -c "cd nextcloud && build/acceptance/run-local.sh allow-git-repository-modifications $SCENARIO_TO_RUN"

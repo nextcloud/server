@@ -481,14 +481,14 @@ pipeline:
   acceptance-access-levels:
       image: nextcloudci/php7.0:php7.0-7
       commands:
-        - build/acceptance/run-local.sh features/access-levels.feature
+        - build/acceptance/run-local.sh allow-git-repository-modifications features/access-levels.feature
       when:
         matrix:
           TESTS-ACCEPTANCE: access-levels
   acceptance-login:
       image: nextcloudci/php7.0:php7.0-7
       commands:
-        - build/acceptance/run-local.sh features/login.feature
+        - build/acceptance/run-local.sh allow-git-repository-modifications features/login.feature
       when:
         matrix:
           TESTS-ACCEPTANCE: login

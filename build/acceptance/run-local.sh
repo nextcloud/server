@@ -39,7 +39,15 @@ set -o errexit
 # Behat through Composer or running Behat) expect that.
 cd "$(dirname $0)"
 
-SCENARIO_TO_RUN=$1
+# Safety parameter to prevent executing this script by mistake and messing with
+# the Git repository.
+if [ "$1" != "allow-git-repository-modifications" ]; then
+	echo "To run the acceptance tests use \"run.sh\" instead"
+
+	exit 1
+fi
+
+SCENARIO_TO_RUN=$2
 
 composer install
 
