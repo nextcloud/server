@@ -517,7 +517,7 @@ class ShareByMailProvider implements IShareProvider {
 		$emailTemplate->addHeading($this->l->t('Password to access »%s«', [$filename]), false);
 		$emailTemplate->addBodyText($bodyPart);
 		$emailTemplate->addBodyText($this->l->t('This is the password: %s', [$password]));
-		$emailTemplate->addBodyText($this->l->t('You can chose a different password at any time in the share dialog.'));
+		$emailTemplate->addBodyText($this->l->t('You can choose a different password at any time in the share dialog.'));
 		$emailTemplate->addFooter();
 
 		if ($initiatorEMailAddress) {
