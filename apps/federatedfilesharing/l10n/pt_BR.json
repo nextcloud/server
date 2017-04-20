@@ -14,7 +14,7 @@
     "Server to server sharing is not enabled on this server" : "Servidor para compartilhamento de servidor não está ativo neste servidor",
     "Couldn't establish a federated share." : "Não foi possível estabelecer um compartilhamento federado.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Não foi possível estabelecer um compartilhamento federado, talvez a senha esteja incorreta.",
-    "Federated Share request was successful, you will receive a invitation. Check your notifications." : "Solicitação de compartilhamento federado conclúida com sucesso. Você receberá um convite que pode ser visto nas suas notificações.",
+    "Federated Share request was successful, you will receive a invitation. Check your notifications." : "Solicitação de compartilhamento federado concluída. Você receberá um convite que pode ser visto nas suas notificações.",
     "The mountpoint name contains invalid characters." : "O nome do ponto de montagem contém caracteres inválidos.",
     "Not allowed to create a federated share with the owner." : "Não é permitido criar um compartilhamento federado com o proprietário.",
     "Invalid or untrusted SSL certificate" : "Certificado SSL inválido ou não confiável",

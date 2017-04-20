@@ -1,7 +1,9 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Saved" : "Kaydedildi",
     "Saving failed:" : "Kaydedilemedi:",
+    "File MIME type" : "Dosya MIME türü",
     "is" : "şu olan",
     "is not" : "şu olmayan",
     "matches" : "şuna uyan",

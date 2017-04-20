@@ -46,7 +46,7 @@ OC.L10N.register(
     "Delete" : "Excluir",
     "Public" : "Público",
     "Restricted" : "Restrito",
-    "Invisible" : "Invisível",
+    "Invisible" : "Oculto",
     "Reset" : "Redefinir",
     "No files in here" : "Nenhum arquivo aqui",
     "No entries found in this folder" : "Nenhuma entrada foi encontrada nesta pasta",
