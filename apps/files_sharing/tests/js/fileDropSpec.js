@@ -69,7 +69,6 @@ describe("files Drop tests", function() {
 
 	replicatedTestFiles.map(function (testFile) {
 		it("validates the filenames correctly", function() {
-			testFile = { name: 'test.txt', expectedValidationResult: true };
 				data = {
 					'submit': function() {},
 					'files': [testFile]
