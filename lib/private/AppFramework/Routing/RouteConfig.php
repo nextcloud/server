@@ -231,15 +231,9 @@ class RouteConfig {
 
 				$routeName = $this->appName . '.' . strtolower($resource) . '.' . strtolower($method);
 
-				$route = $this->router->create($routeName, $url)->method($verb)->action(
+				$this->router->create($routeName, $url)->method($verb)->action(
 					new RouteActionHandler($this->container, $controllerName, $actionName)
 				);
-
-				if (!$collectionAction) {
-					$route->requirements([
-						'id' => '[^?]*'
-					]);
-				}
 			}
 		}
 	}
