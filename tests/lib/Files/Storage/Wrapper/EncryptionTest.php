@@ -943,7 +943,7 @@ class EncryptionTest extends Storage {
 	 * @dataProvider dataTestShouldEncrypt
 	 *
 	 * @param bool $encryptMountPoint
-	 * @param \PHPUnit_Framework_MockObject_MockObject | IEncryptionModule $encryptionModule
+	 * @param mixed $encryptionModule
 	 * @param bool $encryptionModuleShouldEncrypt
 	 * @param bool $expected
 	 */
@@ -985,8 +985,15 @@ class EncryptionTest extends Storage {
 			->setMethods(['getFullPath', 'getEncryptionModule'])
 			->getMock();
 
+		if ($encryptionModule === true) {
+			/** @var IEncryptionModule|\PHPUnit_Framework_MockObject_MockObject $encryptionModule */
+			$encryptionModule = $this->createMock(IEncryptionModule::class);
+		}
+
 		$wrapper->method('getFullPath')->with($path)->willReturn($fullPath);
-		$wrapper->method('getEncryptionModule')->with($fullPath)
+		$wrapper->expects($encryptMountPoint ? $this->once() : $this->never())
+			->method('getEncryptionModule')
+			->with($fullPath)
 			->willReturnCallback(
 				function() use ($encryptionModule) {
 					if ($encryptionModule === false) {
@@ -999,12 +1006,15 @@ class EncryptionTest extends Storage {
 			->willReturn($encryptMountPoint);
 
 		if ($encryptionModule !== null && $encryptionModule !== false) {
-			$encryptionModule->method('shouldEncrypt')->with($fullPath)
+			$encryptionModule
+				->method('shouldEncrypt')
+				->with($fullPath)
 				->willReturn($encryptionModuleShouldEncrypt);
 		}
 
 		if ($encryptionModule === null) {
-			$encryptionManager->expects($this->once())->method('getEncryptionModule')
+			$encryptionManager->expects($this->once())
+				->method('getEncryptionModule')
 				->willReturn($defaultEncryptionModule);
 		}
 		$defaultEncryptionModule->method('shouldEncrypt')->willReturn(true);
@@ -1015,12 +1025,11 @@ class EncryptionTest extends Storage {
 	}
 
 	public function dataTestShouldEncrypt() {
-		$encryptionModule = $this->createMock(IEncryptionModule::class);
 		return [
 			[false, false, false, false],
 			[true, false, false, false],
-			[true, $encryptionModule, false, false],
-			[true, $encryptionModule, true, true],
+			[true, true, false, false],
+			[true, true, true, true],
 			[true, null, false, true],
 		];
 	}
