@@ -44,6 +44,7 @@ OC.L10N.register(
     "An unspecified error occurred. Please check the settings and the log." : "Ein nicht näher spezifizierter Fehler ist aufgetreten. Bitte prüfe die Einstellungen und die Logdatei.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "Der Suchfilter ist ungültig, möglicherweise bestehen Eingabefehler wie z.B. eine ungerade Anzahl von geöffneten und geschlossenen Klammern. Bitte überarbeiten.",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Es ist ein Verbindungsfehler zum LDAP/AD aufgetreten, bitte Host, Port und Anmeldeinformationen überprüfen.",
+    "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "Der %uid - Platzhalter fehlt. Dieser wird mit dem Anmeldenamen beim Abfragen von LDAP / AD ersetzt.",
     "Please provide a login name to test against" : "Bitte gib einen Benutzernamen an, um gegen diesen zu testen",
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Das Gruppenfeld wurde deaktiviert, da der LDAP / AD-Server memberOf nicht unterstützt.",
     "Password change rejected. Hint: " : "Passwortändertung verweigert. Hinweis:",

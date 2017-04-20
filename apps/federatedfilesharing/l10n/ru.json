@@ -1,5 +1,5 @@
 { "translations": {
-    "Federated sharing" : "Общий доступ из объединённого общего хранилища",
+    "Federated sharing" : "Общий доступ из федеративного хранилища",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Вы хотите добавить удалённый общий каталог {name} из {owner}@{remote}?",
     "Remote share" : "Удалённый общий ресурс",
     "Remote share password" : "Пароль для удалённого общего ресурса",
@@ -13,7 +13,7 @@
     "Invalid Federated Cloud ID" : "Неверный ID в объединении облачных хранилищ.",
     "Server to server sharing is not enabled on this server" : "На данном сервере выключено межсерверное предоставление общего доступа",
     "Couldn't establish a federated share." : "Не удаётся установить федеративный общий доступ.",
-    "Couldn't establish a federated share, maybe the password was wrong." : "Не удаётся установить федеративный общий доступ, может быть пароль был не верен.",
+    "Couldn't establish a federated share, maybe the password was wrong." : "Не удаётся установить федеративный общий доступ, возможно неверный пароль.",
     "Federated Share request was successful, you will receive a invitation. Check your notifications." : "Запрос на федеративный общий ресурс прошёл успешно, вы получите приглашение. Проверьте ваши уведомления.",
     "The mountpoint name contains invalid characters." : "Имя точки монтирования содержит недопустимые символы.",
     "Not allowed to create a federated share with the owner." : "Не допускается создание федеративного общего ресурса с владельцем.",
