@@ -1233,7 +1233,7 @@ class Manager implements IManager {
 
 		//Get node for the owner
 		$userFolder = $this->rootFolder->getUserFolder($owner);
-		if (!$userFolder->isSubNode($path)) {
+		if ($path->getId() !== $userFolder->getId() && !$userFolder->isSubNode($path)) {
 			$path = $userFolder->getById($path->getId())[0];
 		}
 
@@ -1245,7 +1245,12 @@ class Manager implements IManager {
 
 		if ($currentAccess) {
 			$ownerPath = $path->getPath();
-			list(, , , $ownerPath) = explode('/', $ownerPath, 4);
+			$ownerPath = explode('/', $ownerPath, 4);
+			if (count($ownerPath) < 4) {
+				$ownerPath = '';
+			} else {
+				$ownerPath = $ownerPath[3];
+			}
 			$al['users'][$owner] = [
 				'node_id' => $path->getId(),
 				'node_path' => '/' . $ownerPath,
