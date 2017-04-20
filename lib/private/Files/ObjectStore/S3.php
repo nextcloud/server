@@ -22,11 +22,7 @@
 namespace OC\Files\ObjectStore;
 
 use OCP\Files\ObjectStore\IObjectStore;
-
-// TODO: proper composer
-set_include_path(get_include_path() . PATH_SEPARATOR .
-	\OC_App::getAppPath('files_external') . '/3rdparty/aws-sdk-php');
-require_once 'aws-autoloader.php';
+use Psr\Http\Message\StreamInterface;
 
 class S3 implements IObjectStore {
 	use S3ConnectionTrait;
@@ -50,31 +46,17 @@ class S3 implements IObjectStore {
 	 * @since 7.0.0
 	 */
 	function readObject($urn) {
-		// Create the command and serialize the request
-		$request = $this->getConnection()->getCommand('GetObject', [
+		$client = $this->getConnection();
+		$command = $client->getCommand('GetObject', [
 			'Bucket' => $this->bucket,
 			'Key' => $urn
-		])->prepare();
+		]);
+		$command['@http']['stream'] = true;
+		$result = $client->execute($command);
+		/** @var StreamInterface $body */
+		$body = $result['Body'];
 
-		$request->dispatch('request.before_send', array(
-			'request' => $request
-		));
-
-		$headers = $request->getHeaderLines();
-		$headers[] = 'Connection: close';
-
-		$opts = [
-			'http' => [
-				'method' => "GET",
-				'header' => $headers
-			],
-			'ssl' => [
-				'verify_peer' => true
-			]
-		];
-
-		$context = stream_context_create($opts);
-		return fopen($request->getUrl(), 'r', false, $context);
+		return $body->detach();
 	}
 
 	/**
