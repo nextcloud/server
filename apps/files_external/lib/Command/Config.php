@@ -91,6 +91,9 @@ class Config extends Base {
 		} else {
 			$value = $mount->getBackendOption($key);
 		}
+		if (!is_string($value) && json_decode(json_encode($value)) === $value) { // show bools and objects correctly
+ 			$value = json_encode($value);
+ 		}
 		$output->writeln($value);
 	}
 
@@ -101,6 +104,10 @@ class Config extends Base {
 	 * @param OutputInterface $output
 	 */
 	protected function setOption(StorageConfig $mount, $key, $value, OutputInterface $output) {
+		$decoded = json_decode($value, true);
+ 		if (!is_null($decoded) && json_encode($decoded) === $value) {
+ 			$value = $decoded;
+ 		}
 		if ($key === 'mountpoint' || $key === 'mount_point') {
 			$mount->setMountPoint($value);
 		} else {
