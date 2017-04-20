@@ -40,6 +40,7 @@ class AddressBookTest extends TestCase {
 		]);
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
+			'{DAV:}displayname' => 'Test address book',
 			'principaluri' => 'user2',
 			'id' => 666,
 			'uri' => 'default',
@@ -61,6 +62,7 @@ class AddressBookTest extends TestCase {
 		]);
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
+			'{DAV:}displayname' => 'Test address book',
 			'principaluri' => 'user2',
 			'id' => 666,
 			'uri' => 'default',
@@ -78,6 +80,7 @@ class AddressBookTest extends TestCase {
 		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')->disableOriginalConstructor()->getMock();
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
+			'{DAV:}displayname' => 'Test address book',
 			'principaluri' => 'user2',
 			'id' => 666,
 			'uri' => 'default',
@@ -95,6 +98,7 @@ class AddressBookTest extends TestCase {
 		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')->disableOriginalConstructor()->getMock();
 		$backend->expects($this->any())->method('applyShareAcl')->willReturnArgument(1);
 		$calendarInfo = [
+			'{DAV:}displayname' => 'Test address book',
 			'principaluri' => 'user2',
 			'id' => 666,
 			'uri' => 'default'
