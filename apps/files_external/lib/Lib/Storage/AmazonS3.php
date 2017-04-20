@@ -36,10 +36,6 @@
 
 namespace OCA\Files_External\Lib\Storage;
 
-set_include_path(get_include_path() . PATH_SEPARATOR .
-	\OC_App::getAppPath('files_external') . '/3rdparty/aws-sdk-php');
-require_once 'aws-autoloader.php';
-
 use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
 use Icewind\Streams\CallbackWrapper;
@@ -230,21 +226,29 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 		try {
 			$files = array();
-			$result = $this->getConnection()->getIterator('ListObjects', array(
+			$results = $this->getConnection()->getPaginator('ListObjects', [
 				'Bucket' => $this->bucket,
 				'Delimiter' => '/',
-				'Prefix' => $path
-			), array('return_prefixes' => true));
+				'Prefix' => $path,
+			]);
 
-			foreach ($result as $object) {
-				if (isset($object['Key']) && $object['Key'] === $path) {
-					// it's the directory itself, skip
-					continue;
+			foreach ($results as $result) {
+				// sub folders
+				if (is_array($result['CommonPrefixes'])) {
+					foreach ($result['CommonPrefixes'] as $prefix) {
+						$files[] = substr(trim($prefix['Prefix'], '/'), strlen($path));
+					}
 				}
-				$file = basename(
-					isset($object['Key']) ? $object['Key'] : $object['Prefix']
-				);
-				$files[] = $file;
+				foreach ($result['Contents'] as $object) {
+					if (isset($object['Key']) && $object['Key'] === $path) {
+						// it's the directory itself, skip
+						continue;
+					}
+					$file = basename(
+						isset($object['Key']) ? $object['Key'] : $object['Prefix']
+					);
+					$files[] = $file;
+				}
 			}
 
 			return IteratorDirectory::wrap($files);
@@ -270,7 +274,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				));
 
 				$stat['size'] = $result['ContentLength'] ? $result['ContentLength'] : 0;
-				if ($result['Metadata']['lastmodified']) {
+				if (isset($result['Metadata']['lastmodified'])) {
 					$stat['mtime'] = strtotime($result['Metadata']['lastmodified']);
 				} else {
 					$stat['mtime'] = strtotime($result['LastModified']);

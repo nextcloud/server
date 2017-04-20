@@ -53,7 +53,7 @@ trait S3ConnectionTrait {
 		$this->bucket = $params['bucket'];
 		$this->timeout = (!isset($params['timeout'])) ? 15 : $params['timeout'];
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
-		$params['hostname'] = empty($params['hostname']) ? 's3.amazonaws.com' : $params['hostname'];
+		$params['hostname'] = empty($params['hostname']) ? 's3.' . $params['region'] . '.amazonaws.com' : $params['hostname'];
 		if (!isset($params['port']) || $params['port'] === '') {
 			$params['port'] = (isset($params['use_ssl']) && $params['use_ssl'] === false) ? 80 : 443;
 		}
@@ -76,20 +76,23 @@ trait S3ConnectionTrait {
 		$base_url = $scheme . '://' . $this->params['hostname'] . ':' . $this->params['port'] . '/';
 
 		$options = [
-			'key' => $this->params['key'],
-			'secret' => $this->params['secret'],
-			'base_url' => $base_url,
+			'version' => isset($this->params['version']) ? $this->params['version'] : 'latest',
+			'credentials' => [
+				'key' => $this->params['key'],
+				'secret' => $this->params['secret'],
+			],
+			'endpoint' => $base_url,
 			'region' => $this->params['region'],
-			S3Client::COMMAND_PARAMS => [
+			'command.params' => [
 				'PathStyle' => isset($this->params['use_path_style']) ? $this->params['use_path_style'] : false,
 			]
 		];
 		if (isset($this->params['proxy'])) {
-			$options[S3Client::REQUEST_OPTIONS] = ['proxy' => $this->params['proxy']];
+			$options['request.options'] = ['proxy' => $this->params['proxy']];
 		}
-		$this->connection = S3Client::factory($options);
+		$this->connection = new S3Client($options);
 
-		if (!$this->connection->isValidBucketName($this->bucket)) {
+		if (!S3Client::isBucketDnsCompatible($this->bucket)) {
 			throw new \Exception("The configured bucket name is invalid.");
 		}
 
@@ -97,11 +100,6 @@ trait S3ConnectionTrait {
 			try {
 				$this->connection->createBucket(array(
 					'Bucket' => $this->bucket
-				));
-				$this->connection->waitUntilBucketExists(array(
-					'Bucket' => $this->bucket,
-					'waiter.interval' => 1,
-					'waiter.max_attempts' => 15
 				));
 				$this->testTimeout();
 			} catch (S3Exception $e) {
