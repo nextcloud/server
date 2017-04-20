@@ -39,7 +39,7 @@ class ContactsManagerTest extends TestCase {
 		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $backEnd */
 		$backEnd = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')->disableOriginalConstructor()->getMock();
 		$backEnd->method('getAddressBooksForUser')->willReturn([
-				['uri' => 'default'],
+				['{DAV:}displayname' => 'Test address book', 'uri' => 'default'],
 			]);
 
 		$l = $this->createMock(IL10N::class);
