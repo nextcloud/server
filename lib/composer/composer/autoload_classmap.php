@@ -808,7 +808,6 @@ return array(
     'OC\\Share20\\ShareHelper' => $baseDir . '/lib/private/Share20/ShareHelper.php',
     'OC\\Share\\Constants' => $baseDir . '/lib/private/Share/Constants.php',
     'OC\\Share\\Helper' => $baseDir . '/lib/private/Share/Helper.php',
-    'OC\\Share\\MailNotifications' => $baseDir . '/lib/private/Share/MailNotifications.php',
     'OC\\Share\\SearchResultSorter' => $baseDir . '/lib/private/Share/SearchResultSorter.php',
     'OC\\Share\\Share' => $baseDir . '/lib/private/Share/Share.php',
     'OC\\Streamer' => $baseDir . '/lib/private/Streamer.php',
