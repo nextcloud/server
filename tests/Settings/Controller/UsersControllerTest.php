@@ -12,7 +12,6 @@ namespace Tests\Settings\Controller;
 
 use OC\Accounts\AccountManager;
 use OC\Group\Manager;
-use OC\Mail\IEMailTemplate;
 use OC\Settings\Controller\UsersController;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OCP\App\IAppManager;
@@ -31,6 +30,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
