@@ -24,11 +24,11 @@ namespace OCA\Theming\Tests\Controller;
 
 
 use OC\Files\SimpleFS\SimpleFile;
+use OCA\Theming\IconBuilder;
 use OCA\Theming\ImageManager;
+use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\NotFoundResponse;
-use OCP\Defaults;
-use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -41,7 +41,7 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 class IconControllerTest extends TestCase {
 	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
-	/** @var Defaults|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
 	private $themingDefaults;
 	/** @var Util */
 	private $util;
@@ -51,14 +51,14 @@ class IconControllerTest extends TestCase {
 	private $iconController;
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
-	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IconBuilder|\PHPUnit_Framework_MockObject_MockObject */
 	private $iconBuilder;
 	/** @var ImageManager */
 	private $imageManager;
 
 	public function setUp() {
 		$this->request = $this->getMockBuilder('OCP\IRequest')->getMock();
-		$this->themingDefaults = $this->getMockBuilder('OCP\Defaults')
+		$this->themingDefaults = $this->getMockBuilder('OCA\Theming\ThemingDefaults')
 			->disableOriginalConstructor()->getMock();
 		$this->util = $this->getMockBuilder('\OCA\Theming\Util')->disableOriginalConstructor()
 			->setMethods(['getAppImage', 'getAppIcon', 'elementColor'])->getMock();
@@ -109,7 +109,7 @@ class IconControllerTest extends TestCase {
 		$expires->add(new \DateInterval('PT24H'));
 		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
 		$expected->addHeader('Pragma', 'cache');
-		@$this->assertEquals($expected, $this->iconController->getThemedIcon('core', 'filetypes/folder.svg'));
+		$this->assertEquals($expected, $this->iconController->getThemedIcon('core', 'filetypes/folder.svg'));
 	}
 
 	public function testGetFaviconDefault() {
