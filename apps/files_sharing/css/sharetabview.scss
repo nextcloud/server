@@ -40,6 +40,17 @@
 	padding: 18px 0 18px 36px;
 }
 
+/* fix clickable area because in the share tab popover the label is inside the actual menu item*/
+#shareWithList .popovermenu .shareOption {
+	padding-right: 0 !important;
+}
+/* fix clickable area because in the share tab popover the label is inside the actual menu item*/
+.shareTabView .popovermenu label {
+	width: 100%;
+	display: inline-block;
+	padding: 0 10px 0 0 !important;
+}
+
 .shareTabView label {
 	white-space: nowrap;
 }
