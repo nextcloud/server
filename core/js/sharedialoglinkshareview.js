@@ -85,7 +85,7 @@
 				'</li>' +
 				'{{#each social}}' +
 					'<li>' +
-						'<a href="#" class="shareOption menuitem pop-up" data-url="{{url}}">' +
+						'<a href="#" class="shareOption menuitem pop-up" data-url="{{url}}" data-window="{{newWindow}}">' +
 							'<span class="icon {{iconClass}}"' +
 								'></span><span>{{label}}' +
 							'</span>' +
@@ -424,7 +424,8 @@
 					url: url,
 					label: t('core', 'Share to {name}', {name: model.get('name')}),
 					name: model.get('name'),
-					iconClass: model.get('iconClass')
+					iconClass: model.get('iconClass'),
+					newWindow: model.get('newWindow')
 				});
 			});
 
@@ -515,14 +516,19 @@
 			event.stopPropagation();
 
 			var url = $(event.currentTarget).data('url');
+			var newWindow = $(event.currentTarget).data('window');
 			$(event.currentTarget).tooltip('hide');
 			if (url) {
-				var width = 600;
-				var height = 400;
-				var left = (screen.width/2)-(width/2);
-				var top = (screen.height/2)-(height/2);
+				if (newWindow === true) {
+					var width = 600;
+					var height = 400;
+					var left = (screen.width / 2) - (width / 2);
+					var top = (screen.height / 2) - (height / 2);
 
-				window.open(url, 'name', 'width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
+					window.open(url, 'name', 'width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
+				} else {
+					window.location.href = url;
+				}
 			}
 		}
 

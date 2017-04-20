@@ -36,7 +36,9 @@
 			/** Name to show in the tooltip */
 			name: null,
 			/** Icon class to display */
-			iconClass: null
+			iconClass: null,
+			/** Open in new windows */
+			newWindow: true
 		}
 	});
 
