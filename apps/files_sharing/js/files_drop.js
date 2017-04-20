@@ -20,9 +20,11 @@
 	var Drop = {
 		/** @type {Function} **/
 		_template: undefined,
-
-		initialize: function () {
-
+	
+		addFileToUpload: function(e, data) {
+			var errors = [];
+			var output = this.template();
+			
 			var filesClient = new OC.Files.Client({
 				host: OC.getHost(),
 				port: OC.getPort(),
@@ -32,7 +34,45 @@
 				root: OC.getRootPath() + '/public.php/webdav',
 				useHTTPS: OC.getProtocol() === 'https'
 			});
-
+			
+			var name = data.files[0].name;
+			try {
+				// FIXME: not so elegant... need to refactor that method to return a value
+				Files.isFileNameValid(name);
+			}
+			catch (errorMessage) {
+				OC.Notification.show(errorMessage, {type: 'error'});
+				return false;
+			}
+			var base = OC.getProtocol() + '://' + OC.getHost();
+			data.url = base + OC.getRootPath() + '/public.php/webdav/' + encodeURI(name);
+	
+			data.multipart = false;
+	
+			if (!data.headers) {
+				data.headers = {};
+			}
+	
+			var userName = filesClient.getUserName();
+			var password = filesClient.getPassword();
+			if (userName) {
+				// copy username/password from DAV client
+				data.headers['Authorization'] =
+					'Basic ' + btoa(userName + ':' + (password || ''));
+			}
+	
+			$('#drop-upload-done-indicator').addClass('hidden');
+			$('#drop-upload-progress-indicator').removeClass('hidden');
+			_.each(data['files'], function(file) {
+				$('#public-upload ul').append(output({isUploading: true, name: escapeHTML(file.name)}));
+				$('[data-toggle="tooltip"]').tooltip();
+				data.submit();
+			});
+	
+			return true;
+		},
+		
+		initialize: function () {
 			$(document).bind('drop dragover', function (e) {
 				// Prevent the default browser drop action:
 				e.preventDefault();
@@ -43,35 +83,9 @@
 				dropZone: $('#public-upload'),
 				sequentialUploads: true,
 				add: function(e, data) {
-					var errors = [];
-
-					var name = data.files[0].name;
-
-					var base = OC.getProtocol() + '://' + OC.getHost();
-					data.url = base + OC.getRootPath() + '/public.php/webdav/' + encodeURI(name);
-
-					data.multipart = false;
-
-					if (!data.headers) {
-						data.headers = {};
-					}
-
-					var userName = filesClient.getUserName();
-					var password = filesClient.getPassword();
-					if (userName) {
-						// copy username/password from DAV client
-						data.headers['Authorization'] =
-							'Basic ' + btoa(userName + ':' + (password || ''));
-					}
-
-					$('#drop-upload-done-indicator').addClass('hidden');
-					$('#drop-upload-progress-indicator').removeClass('hidden');
-					_.each(data['files'], function(file) {
-						$('#public-upload ul').append(output({isUploading: true, name: escapeHTML(file.name)}));
-						$('[data-toggle="tooltip"]').tooltip();
-						data.submit();
-					});
-
+					Drop.addFileToUpload(e, data);
+					//we return true to keep trying to upload next file even
+					//if addFileToUpload did not like the privious one
 					return true;
 				},
 				done: function(e, data) {
@@ -116,15 +130,13 @@
 		}
 	};
 
+	OCA.FilesSharingDrop = Drop;
+
 	$(document).ready(function() {
 		if($('#upload-only-interface').val() === "1") {
 			$('.avatardiv').avatar($('#sharingUserId').val(), 128, true);
 		}
 
-		OCA.Files_Sharing_Drop = Drop;
-		OCA.Files_Sharing_Drop.initialize();
+		OCA.FilesSharingDrop.initialize();
 	});
-
-
 })(jQuery);
-
