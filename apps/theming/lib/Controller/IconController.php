@@ -24,6 +24,7 @@ namespace OCA\Theming\Controller;
 
 use OCA\Theming\IconBuilder;
 use OCA\Theming\ImageManager;
+use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\NotFoundResponse;
@@ -36,7 +37,7 @@ use OCA\Theming\Util;
 use OCP\IConfig;
 
 class IconController extends Controller {
-	/** @var Defaults */
+	/** @var ThemingDefaults */
 	private $themingDefaults;
 	/** @var Util */
 	private $util;
@@ -54,7 +55,7 @@ class IconController extends Controller {
 	 *
 	 * @param string $appName
 	 * @param IRequest $request
-	 * @param Defaults $themingDefaults
+	 * @param ThemingDefaults $themingDefaults
 	 * @param Util $util
 	 * @param ITimeFactory $timeFactory
 	 * @param IConfig $config
@@ -64,7 +65,7 @@ class IconController extends Controller {
 	public function __construct(
 		$appName,
 		IRequest $request,
-		Defaults $themingDefaults,
+		ThemingDefaults $themingDefaults,
 		Util $util,
 		ITimeFactory $timeFactory,
 		IConfig $config,
