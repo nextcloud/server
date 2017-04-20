@@ -373,7 +373,7 @@ Raw output
 	 * Checks whether a PHP opcache is properly set up
 	 * @return bool
 	 */
-	private function isOpcacheProperlySetup() {
+	protected function isOpcacheProperlySetup() {
 		$iniWrapper = new IniGetWrapper();
 
 		$isOpcacheProperlySetUp = true;
