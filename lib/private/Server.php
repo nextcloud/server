@@ -602,22 +602,23 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 		$this->registerAlias('HttpClientService', \OCP\Http\Client\IClientService::class);
-
 		$this->registerService(\OCP\Diagnostics\IEventLogger::class, function (Server $c) {
+			$eventLogger = new EventLogger();
 			if ($c->getSystemConfig()->getValue('debug', false)) {
-				return new EventLogger();
-			} else {
-				return new NullEventLogger();
+				// In debug mode, module is being activated by default
+				$eventLogger->activate();
 			}
+			return $eventLogger;
 		});
 		$this->registerAlias('EventLogger', \OCP\Diagnostics\IEventLogger::class);
 
 		$this->registerService(\OCP\Diagnostics\IQueryLogger::class, function (Server $c) {
+			$queryLogger = new QueryLogger();
 			if ($c->getSystemConfig()->getValue('debug', false)) {
-				return new QueryLogger();
-			} else {
-				return new NullQueryLogger();
+				// In debug mode, module is being activated by default
+				$queryLogger->activate();
 			}
+			return $queryLogger;
 		});
 		$this->registerAlias('QueryLogger', \OCP\Diagnostics\IQueryLogger::class);
 

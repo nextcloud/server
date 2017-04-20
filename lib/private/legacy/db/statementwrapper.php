@@ -64,14 +64,7 @@ class OC_DB_StatementWrapper {
 	 * @param array $input
 	 * @return \OC_DB_StatementWrapper|int
 	 */
-	public function execute($input=array()) {
-		if(\OC::$server->getSystemConfig()->getValue( "log_query", false)) {
-			$backTrace = debug_backtrace();
-			$class = $backTrace[1]['class'] . ':' . $backTrace[1]['function'];
-			$file = substr($backTrace[0]['file'], strlen(\OC::$SERVERROOT)) . ':' . $backTrace[0]['line'];
-			$params_str = str_replace("\n", " ", var_export($input, true));
-			\OCP\Util::writeLog('core', "DB execute with arguments : $params_str in $class; $file", \OCP\Util::DEBUG);
-		}
+	public function execute($input= []) {
 		$this->lastArguments = $input;
 		if (count($input) > 0) {
 			$result = $this->statement->execute($input);
