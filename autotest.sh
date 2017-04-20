@@ -358,7 +358,7 @@ function execute_tests {
 	fi
 
 	if [ -d "$2" ]; then
-	    for f in $(find "$2" -name '*.php'); do
+	    for f in $(find "$2" -name '*Test.php'); do
 			echo "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" / "$f" "$3"
 			"${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$f" "$3"
 			RESULT=$?
