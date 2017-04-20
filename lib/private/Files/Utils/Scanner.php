@@ -212,15 +212,15 @@ class Scanner extends PublicEmitter {
 				$this->triggerPropagator($storage, $path);
 			});
 
+			if (!$storage->file_exists($relativePath)) {
+				throw new NotFoundException($dir);
+			}
 			if (!$isDbLocking) {
 				$this->db->beginTransaction();
 			}
 			try {
 				$propagator = $storage->getPropagator();
 				$propagator->beginBatch();
-				if (!$storage->file_exists($relativePath)) {
-					throw new NotFoundException($dir);
-				}
 				$scanner->scan($relativePath, \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
 				$cache = $storage->getCache();
 				if ($cache instanceof Cache) {
