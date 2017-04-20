@@ -23,7 +23,16 @@
 namespace OCA\ShareByMail;
 
 
+use OCA\ShareByMail\Settings\SettingsManager;
+
 class Settings {
+
+	/** @var SettingsManager */
+	private $settingsManager;
+
+	public function __construct(SettingsManager $settingsManager) {
+		$this->settingsManager = $settingsManager;
+	}
 
 	/**
 	 * announce that the share-by-mail share provider is enabled
@@ -33,6 +42,12 @@ class Settings {
 	public function announceShareProvider(array $settings) {
 		$array = json_decode($settings['array']['oc_appconfig'], true);
 		$array['shareByMailEnabled'] = true;
+		$settings['array']['oc_appconfig'] = json_encode($array);
+	}
+
+	public function announceShareByMailSettings(array $settings) {
+		$array = json_decode($settings['array']['oc_appconfig'], true);
+		$array['shareByMail']['enforcePasswordProtection'] = $this->settingsManager->enforcePasswordProtection();
 		$settings['array']['oc_appconfig'] = json_encode($array);
 	}
 }

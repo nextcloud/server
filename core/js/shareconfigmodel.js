@@ -29,6 +29,7 @@
 			isMailShareAllowed: oc_appconfig.shareByMailEnabled !== undefined,
 			defaultExpireDate: oc_appconfig.core.defaultExpireDate,
 			isResharingAllowed: oc_appconfig.core.resharingAllowed,
+			isPasswordForMailSharesRequired: (oc_appconfig.shareByMail === undefined) ? false : oc_appconfig.shareByMail.enforcePasswordProtection,
 			allowGroupSharing: oc_appconfig.core.allowGroupSharing
 		},
 
