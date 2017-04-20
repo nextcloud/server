@@ -86,12 +86,10 @@ class SharePointClient {
 					&& $e->getMessage() !== 'Unknown Error'
 					&& $e->getMessage() !== 'File Not Found.'
 				) {
-					$this->resetClientContext();
 					# Unexpected Exception, pass it on
 					throw $e;
 				}
 			}
-			$this->resetClientContext();
 		}
 
 		# Nothing succeeded, quit with not found
@@ -125,13 +123,8 @@ class SharePointClient {
 		$parentFolder = $this->context->getWeb()->getFolderByServerRelativeUrl(dirname($relativeServerPath));
 		$folder = $parentFolder->getFolders()->add(basename($relativeServerPath));
 
-		try {
-			$this->context->executeQuery();
-			return $folder;
-		} catch (\Exception $e) {
-			$this->resetClientContext();
-			throw $e;
-		}
+		$this->context->executeQuery();
+		return $folder;
 	}
 
 	/**
@@ -152,13 +145,7 @@ class SharePointClient {
 		$options = new RequestOptions($url);
 		$options->StreamHandle = $fp;
 
-		try {
-			$ok = $this->context->executeQueryDirect($options);
-		} catch(\Exception $e) {
-			$this->resetClientContext();
-			throw $e;
-		}
-		return $ok;
+		return $this->context->executeQueryDirect($options);
 	}
 
 	/**
@@ -189,13 +176,7 @@ class SharePointClient {
 		$request->StreamHandle = $fp;
 		$request->addCustomHeader("content-length", filesize($localPath));
 
-		try {
-			$ok = $this->context->executeQueryDirect($request);
-		} catch(\Exception $e) {
-			$this->resetClientContext();
-			throw $e;
-		}
-		return $ok !== false;
+		return false !== $this->context->executeQueryDirect($request);
 	}
 
 	/**
@@ -216,13 +197,8 @@ class SharePointClient {
 		$info->Content = $content;
 		$info->Url = basename($relativeServerPath);
 		$file = $fileCollection->add($info);
-		try {
-			$this->context->executeQuery();
-			return $file;
-		} catch(\Exception $e) {
-			$this->resetClientContext();
-			throw $e;
-		}
+		$this->context->executeQuery();
+		return $file;
 	}
 
 	/**
@@ -236,20 +212,15 @@ class SharePointClient {
 	public function rename($oldPath, $newPath) {
 		$this->ensureConnection();
 
-		try {
-			$item = $this->fetchFileOrFolder($oldPath);
-			if($item instanceof File) {
-				$this->renameFile($item, $newPath);
-			} else if($item instanceof Folder) {
-				$this->renameFolder($item, $newPath);
-			} else {
-				return false;
-			}
-			return true;
-		} catch (\Exception $e) {
-			$this->resetClientContext();
-			throw $e;
+		$item = $this->fetchFileOrFolder($oldPath);
+		if($item instanceof File) {
+			$this->renameFile($item, $newPath);
+		} else if($item instanceof Folder) {
+			$this->renameFolder($item, $newPath);
+		} else {
+			return false;
 		}
+		return true;
 	}
 
 	/**
@@ -284,15 +255,10 @@ class SharePointClient {
 
 	public function delete(ClientObject $item) {
 		$this->ensureConnection();
-		try {
-			if ($item instanceof File) {
-				$this->deleteFile($item);
-			} else if ($item instanceof Folder) {
-				$this->deleteFolder($item);
-			}
-		} catch(\Exception $e) {
-			$this->resetClientContext();
-			throw $e;
+		if ($item instanceof File) {
+			$this->deleteFile($item);
+		} else if ($item instanceof Folder) {
+			$this->deleteFolder($item);
 		}
 	}
 
@@ -406,15 +372,5 @@ class SharePointClient {
 		$this->context = $this->contextsFactory->getClientContext($this->sharePointUrl, $this->authContext);
 		# Auth is not triggered yet. This will happen when something is requested from SharePoint (on demand), e.g.:
 	}
-
-	/**
-	 * resets the sharepoint client context
-	 *
-	 * Usually executed, when a query resulted into an exception. The faulty
-	 * query is not removed by default.
-	 */
-	private function resetClientContext() {
-		//FIXME: resetQueries method did not go upstream yet
-		$this->context->getPendingRequest()->resetQueries();
-	}
+	
 }
