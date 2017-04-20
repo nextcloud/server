@@ -537,7 +537,7 @@ class OC_Helper {
 		$includeExtStorage = \OC::$server->getSystemConfig()->getValue('quota_include_external_storage', false);
 
 		if (!$rootInfo) {
-			$rootInfo = \OC\Files\Filesystem::getFileInfo($path, $includeExtStorage);
+			$rootInfo = \OC\Files\Filesystem::getFileInfo($path, 'ext');
 		}
 		if (!$rootInfo instanceof \OCP\Files\FileInfo) {
 			throw new \OCP\Files\NotFoundException();
