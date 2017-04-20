@@ -39,6 +39,7 @@ use OCP\Lock\LockedException;
 use OCP\Share\IManager;
 use OCP\Share;
 use Test\TestCase;
+use OCP\Share\IShare;
 
 /**
  * Class ShareAPIControllerTest
@@ -549,18 +550,18 @@ class ShareAPIControllerTest extends TestCase {
 		]));
 		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
-		$share = $this->getMockBuilder('OCP\Share\IShare')->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_GROUP);
 		$share->method('getSharedWith')->willReturn('group2');
 		$this->assertFalse($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
 		// null group
-		$share = $this->getMock('OCP\Share\IShare');
+		$share = $this->createMock(IShare::class);
 		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_GROUP);
 		$share->method('getSharedWith')->willReturn('groupnull');
 		$this->assertFalse($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
-		$share = $this->getMockBuilder('OCP\Share\IShare')->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_LINK);
 		$this->assertFalse($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 	}

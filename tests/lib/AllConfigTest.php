@@ -15,6 +15,8 @@ namespace Test;
  *
  * @package Test
  */
+use OCP\IDBConnection;
+
 class AllConfigTest extends \Test\TestCase {
 
 	/** @var  \OCP\IDBConnection */
@@ -189,7 +191,7 @@ class AllConfigTest extends \Test\TestCase {
 			->method('fetchColumn')
 			->will($this->returnValue('valueSetUnchanged'));
 
-		$connectionMock = $this->getMock('\OCP\IDBConnection');
+		$connectionMock = $this->createMock(IDBConnection::class);
 		$connectionMock->expects($this->once())
 			->method('executeQuery')
 			->with($this->equalTo('SELECT `configvalue` FROM `*PREFIX*preferences` '.
