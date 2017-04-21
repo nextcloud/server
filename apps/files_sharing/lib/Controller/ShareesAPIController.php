@@ -654,13 +654,14 @@ class ShareesAPIController extends OCSController {
 
 	protected function getLookup($search) {
 		$isEnabled = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no');
+		$lookupServerUrl = $this->config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
 		$result = [];
 
 		if($isEnabled === 'yes') {
 			try {
 				$client = $this->clientService->newClient();
 				$response = $client->get(
-					'https://lookup.nextcloud.com/users?search=' . urlencode($search),
+					$lookupServerUrl . '/users?search=' . urlencode($search),
 					[
 						'timeout' => 10,
 						'connect_timeout' => 3,
