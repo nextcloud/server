@@ -31,6 +31,7 @@ use OCP\Files\Node;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share;
+use OCP\Share\IShareHelper;
 
 class Listener {
 	/** @var IManager */
@@ -43,6 +44,8 @@ class Listener {
 	protected $mountCollection;
 	/** @var \OCP\Files\IRootFolder */
 	protected $rootFolder;
+	/** @var IShareHelper */
+	protected $shareHelper;
 
 	/**
 	 * Listener constructor.
@@ -52,17 +55,20 @@ class Listener {
 	 * @param IAppManager $appManager
 	 * @param IMountProviderCollection $mountCollection
 	 * @param IRootFolder $rootFolder
+	 * @param IShareHelper $shareHelper
 	 */
 	public function __construct(IManager $activityManager,
 								IUserSession $session,
 								IAppManager $appManager,
 								IMountProviderCollection $mountCollection,
-								IRootFolder $rootFolder) {
+								IRootFolder $rootFolder,
+								IShareHelper $shareHelper) {
 		$this->activityManager = $activityManager;
 		$this->session = $session;
 		$this->appManager = $appManager;
 		$this->mountCollection = $mountCollection;
 		$this->rootFolder = $rootFolder;
+		$this->shareHelper = $shareHelper;
 	}
 
 	/**
@@ -91,12 +97,8 @@ class Listener {
 			if (!empty($nodes)) {
 				/** @var Node $node */
 				$node = array_shift($nodes);
-				$path = $node->getPath();
-				if (strpos($path, '/' . $owner . '/files/') === 0) {
-					$path = substr($path, strlen('/' . $owner . '/files'));
-				}
-				// Get all users that have access to the mount point
-				$users = array_merge($users, Share::getUsersSharingFile($path, $owner, true, true));
+				$al = $this->shareHelper->getPathsForAccessList($node);
+				$users = array_merge($users, $al['users']);
 			}
 		}
 
