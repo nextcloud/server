@@ -280,7 +280,12 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 */
 	public function getById($id) {
 		$mountCache = $this->root->getUserMountCache();
-		$mountsContainingFile = $mountCache->getMountsForFileId((int)$id);
+		if (strpos($this->getPath(), '/', 1) > 0) {
+			list(, $user) = explode('/', $this->getPath());
+		} else {
+			$user = null;
+		}
+		$mountsContainingFile = $mountCache->getMountsForFileId((int)$id, $user);
 		$mounts = $this->root->getMountsIn($this->path);
 		$mounts[] = $this->root->getMount($this->path);
 		/** @var IMountPoint[] $folderMounts */

@@ -220,14 +220,19 @@ class UserMountCache implements IUserMountCache {
 
 	/**
 	 * @param int $numericStorageId
+	 * @param string|null $user limit the results to a single user
 	 * @return CachedMountInfo[]
 	 */
-	public function getMountsForStorageId($numericStorageId) {
+	public function getMountsForStorageId($numericStorageId, $user = null) {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path')
 			->from('mounts', 'm')
 			->innerJoin('m', 'filecache', 'f' , $builder->expr()->eq('m.root_id', 'f.fileid'))
 			->where($builder->expr()->eq('storage_id', $builder->createPositionalParameter($numericStorageId, IQueryBuilder::PARAM_INT)));
+
+		if ($user) {
+			$query->andWhere($builder->expr()->eq('user_id', $builder->createPositionalParameter($user)));
+		}
 
 		$rows = $query->execute()->fetchAll();
 
@@ -278,16 +283,17 @@ class UserMountCache implements IUserMountCache {
 
 	/**
 	 * @param int $fileId
+	 * @param string|null $user optionally restrict the results to a single user
 	 * @return ICachedMountInfo[]
 	 * @since 9.0.0
 	 */
-	public function getMountsForFileId($fileId) {
+	public function getMountsForFileId($fileId, $user = null) {
 		try {
 			list($storageId, $internalPath) = $this->getCacheInfoFromFileId($fileId);
 		} catch (NotFoundException $e) {
 			return [];
 		}
-		$mountsForStorage = $this->getMountsForStorageId($storageId);
+		$mountsForStorage = $this->getMountsForStorageId($storageId, $user);
 
 		// filter mounts that are from the same storage but a different directory
 		return array_filter($mountsForStorage, function (ICachedMountInfo $mount) use ($internalPath, $fileId) {
