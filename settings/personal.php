@@ -40,7 +40,11 @@ OC_Util::checkLoggedIn();
 
 $defaults = \OC::$server->getThemingDefaults();
 $certificateManager = \OC::$server->getCertificateManager();
-$accountManager = new \OC\Accounts\AccountManager(\OC::$server->getDatabaseConnection(), \OC::$server->getEventDispatcher());
+$accountManager = new \OC\Accounts\AccountManager(
+	\OC::$server->getDatabaseConnection(),
+	\OC::$server->getEventDispatcher(),
+	\OC::$server->getJobList()
+);
 $config = \OC::$server->getConfig();
 $urlGenerator = \OC::$server->getURLGenerator();
 

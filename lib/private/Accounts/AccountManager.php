@@ -23,6 +23,7 @@
 
 namespace OC\Accounts;
 
+use OCP\BackgroundJob\IJobList;
 use OCP\IDBConnection;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -66,15 +67,22 @@ class AccountManager {
 	/** @var EventDispatcherInterface */
 	private $eventDispatcher;
 
+	/** @var IJobList */
+	private $jobList;
+
 	/**
 	 * AccountManager constructor.
 	 *
 	 * @param IDBConnection $connection
 	 * @param EventDispatcherInterface $eventDispatcher
+	 * @param IJobList $jobList
 	 */
-	public function __construct(IDBConnection $connection, EventDispatcherInterface $eventDispatcher) {
+	public function __construct(IDBConnection $connection,
+								EventDispatcherInterface $eventDispatcher,
+								IJobList $jobList) {
 		$this->connection = $connection;
 		$this->eventDispatcher = $eventDispatcher;
+		$this->jobList = $jobList;
 	}
 
 	/**
@@ -89,6 +97,7 @@ class AccountManager {
 		if (empty($userData)) {
 			$this->insertNewUser($user, $data);
 		} elseif ($userData !== $data) {
+			$this->checkEmailVerification($userData, $data, $user);
 			$data = $this->updateVerifyStatus($userData, $data);
 			$this->updateExistingUser($user, $data);
 		} else {
@@ -129,6 +138,28 @@ class AccountManager {
 	}
 
 	/**
+	 * check if we need to ask the server for email verification, if yes we create a cronjob
+	 *
+	 * @param $oldData
+	 * @param $newData
+	 * @param IUser $user
+	 */
+	protected function checkEmailVerification($oldData, $newData, IUser $user) {
+		if ($oldData[self::PROPERTY_EMAIL]['value'] !== $newData[self::PROPERTY_EMAIL]['value']) {
+			$this->jobList->add('OC\Settings\BackgroundJobs\VerifyUserData',
+				[
+					'verificationCode' => '',
+					'data' => $newData[self::PROPERTY_EMAIL]['value'],
+					'type' => self::PROPERTY_EMAIL,
+					'uid' => $user->getUID(),
+					'try' => 0,
+					'lastRun' => time()
+				]
+			);
+		}
+	}
+
+	/**
 	 * reset verification status if personal data changed
 	 *
 	 * @param array $oldData
@@ -152,7 +183,7 @@ class AccountManager {
 		}
 
 		if(!isset($newData[self::PROPERTY_EMAIL]['verified'])) {
-			$newData[self::PROPERTY_EMAIL]['verified'] = isset($oldData[self::PROPERTY_WEBSITE]['verified']) ? $oldData[self::PROPERTY_EMAIL]['verified'] : self::NOT_VERIFIED;
+			$newData[self::PROPERTY_EMAIL]['verified'] = isset($oldData[self::PROPERTY_WEBSITE]['verified']) ? $oldData[self::PROPERTY_EMAIL]['verified'] : self::VERIFICATION_IN_PROGRESS;
 		}
 
 		// reset verification status if a value from a previously verified data was changed

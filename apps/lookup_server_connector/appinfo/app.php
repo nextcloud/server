@@ -33,7 +33,11 @@ $dispatcher->addListener('OC\AccountManager::userUpdated', function(\Symfony\Com
 	$lookupServer = $config->getSystemValue('lookup_server', '');
 
 	$updateLookupServer = new \OCA\LookupServerConnector\UpdateLookupServer(
-		new \OC\Accounts\AccountManager(\OC::$server->getDatabaseConnection(), \OC::$server->getEventDispatcher()),
+		new \OC\Accounts\AccountManager(
+			\OC::$server->getDatabaseConnection(),
+			\OC::$server->getEventDispatcher(),
+			\OC::$server->getJobList()
+		),
 		\OC::$server->getHTTPClientService(),
 		new \OC\Security\IdentityProof\Signer(
 			$keyManager,

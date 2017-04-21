@@ -89,7 +89,8 @@ class Hooks {
 		if (is_null($this->accountManager)) {
 			$this->accountManager = new AccountManager(
 				\OC::$server->getDatabaseConnection(),
-				\OC::$server->getEventDispatcher()
+				\OC::$server->getEventDispatcher(),
+				\OC::$server->getJobList()
 			);
 		}
 		return $this->accountManager;
