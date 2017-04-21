@@ -38,6 +38,8 @@ use OC\Security\IdentityProof\Manager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -49,6 +51,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
 use OCP\IAvatarManager;
+use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 
 /**
@@ -89,7 +92,8 @@ class UsersController extends Controller {
 	private $crypto;
 	/** @var Manager */
 	private $keyManager;
-
+	/** @var IJobList */
+	private $jobList;
 
 	/**
 	 * @param string $appName
@@ -111,6 +115,7 @@ class UsersController extends Controller {
 	 * @param ITimeFactory $timeFactory
 	 * @param ICrypto $crypto
 	 * @param Manager $keyManager
+	 * @param IJobList $jobList
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -130,7 +135,8 @@ class UsersController extends Controller {
 								NewUserMailHelper $newUserMailHelper,
 								ITimeFactory $timeFactory,
 								ICrypto $crypto,
-								Manager $keyManager) {
+								Manager $keyManager,
+								IJobList $jobList) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -147,6 +153,7 @@ class UsersController extends Controller {
 		$this->timeFactory = $timeFactory;
 		$this->crypto = $crypto;
 		$this->keyManager = $keyManager;
+		$this->jobList = $jobList;
 
 		// check for encryption state - TODO see formatUserForIndex
 		$this->isEncryptionAppEnabled = $appManager->isEnabledForUser('encryption');
@@ -524,22 +531,24 @@ class UsersController extends Controller {
 		$accountData = $this->accountManager->getUser($user);
 		$cloudId = $user->getCloudId();
 		$message = "Use my Federated Cloud ID to share with me: " . $cloudId;
-		$privateKey = $this->keyManager->getKey($user)->getPrivate();
-		openssl_sign(json_encode($message), $signature, $privateKey, OPENSSL_ALGO_SHA512);
-		$signatureBase64 = base64_encode($signature);
+		$signature = $this->signMessage($user, $message);
 
-		$code = $message . ' ' . $signatureBase64;
-		$codeMd5 = $message . ' ' . md5($signatureBase64);
+		$code = $message . ' ' . $signature;
+		$codeMd5 = $message . ' ' . md5($signature);
 
 		switch ($account) {
 			case 'verify-twitter':
 				$accountData[AccountManager::PROPERTY_TWITTER]['verified'] = AccountManager::VERIFICATION_IN_PROGRESS;
 				$msg = $this->l10n->t('In order to verify your Twitter account post following tweet on Twitter:');
 				$code = $codeMd5;
+				$type = AccountManager::PROPERTY_TWITTER;
+				$data = $accountData[AccountManager::PROPERTY_TWITTER]['value'];
 				break;
 			case 'verify-website':
 				$accountData[AccountManager::PROPERTY_WEBSITE]['verified'] = AccountManager::VERIFICATION_IN_PROGRESS;
-				$msg = $this->l10n->t('In order to verify your Website store following content in your webroot at \'CloudIdVerificationCode.txt\':');
+				$msg = $this->l10n->t('In order to verify your Website store following content in your web-root at \'CloudIdVerificationCode.txt\':');
+				$type = AccountManager::PROPERTY_WEBSITE;
+				$data = $accountData[AccountManager::PROPERTY_WEBSITE]['value'];
 				break;
 			default:
 				return new DataResponse([], Http::STATUS_BAD_REQUEST);
@@ -547,7 +556,44 @@ class UsersController extends Controller {
 
 		$this->accountManager->updateUser($user, $accountData);
 
+
+		$this->jobList->add('OC\Settings\BackgroundJobs\VerifyUserData',
+			[
+				'verificationCode' => $code,
+				'data' => $data,
+				'type' => $type,
+				'uid' => $user->getUID(),
+				'try' => 0,
+				'lastRun' => $this->getCurrentTime()
+			]
+		);
+
 		return new DataResponse(['msg' => $msg, 'code' => $code]);
+	}
+
+	/**
+	 * get current timestamp
+	 *
+	 * @return int
+	 */
+	protected function getCurrentTime() {
+		return time();
+	}
+
+	/**
+	 * sign message with users private key
+	 *
+	 * @param IUser $user
+	 * @param string $message
+	 *
+	 * @return string base64 encoded signature
+	 */
+	protected function signMessage(IUser $user, $message) {
+		$privateKey = $this->keyManager->getKey($user)->getPrivate();
+		openssl_sign(json_encode($message), $signature, $privateKey, OPENSSL_ALGO_SHA512);
+		$signatureBase64 = base64_encode($signature);
+
+		return $signatureBase64;
 	}
 
 	/**

@@ -18,6 +18,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJobList;
 use OCP\IAvatar;
 use OCP\IAvatarManager;
 use OCP\IConfig;
@@ -74,6 +75,10 @@ class UsersControllerTest extends \Test\TestCase {
 	private $newUserMailHelper;
 	/** @var ICrypto | \PHPUnit_Framework_MockObject_MockObject */
 	private $crypto;
+	/** @var  IJobList | \PHPUnit_Framework_MockObject_MockObject */
+	private $jobList;
+	/** @var \OC\Security\IdentityProof\Manager |\PHPUnit_Framework_MockObject_MockObject  */
+	private $securityManager;
 
 	protected function setUp() {
 		parent::setUp();
@@ -92,6 +97,10 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->newUserMailHelper = $this->createMock(NewUserMailHelper::class);
+		$this->timeFactory = $this->getMock(ITimeFactory::class);
+		$this->crypto = $this->getMock(ICrypto::class);
+		$this->securityManager = $this->getMockBuilder(\OC\Security\IdentityProof\Manager::class)->disableOriginalConstructor()->getMock();
+		$this->jobList = $this->createMock(IJobList::class);
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')
 			->will($this->returnCallback(function ($text, $parameters = []) {
@@ -136,7 +145,12 @@ class UsersControllerTest extends \Test\TestCase {
 				$this->avatarManager,
 				$this->accountManager,
 				$this->secureRandom,
-				$this->newUserMailHelper
+				$this->newUserMailHelper,
+				$this->timeFactory,
+				$this->crypto,
+				$this->securityManager,
+				$this->jobList
+
 			);
 		} else {
 			return $this->getMockBuilder(UsersController::class)
@@ -157,7 +171,11 @@ class UsersControllerTest extends \Test\TestCase {
 						$this->avatarManager,
 						$this->accountManager,
 						$this->secureRandom,
-						$this->newUserMailHelper
+						$this->newUserMailHelper,
+						$this->timeFactory,
+						$this->crypto,
+						$this->securityManager,
+						$this->jobList
 					]
 				)->setMethods($mockedMethods)->getMock();
 		}
@@ -2266,5 +2284,89 @@ class UsersControllerTest extends \Test\TestCase {
 		);
 		$response = $controller->create('foo', '', array(), 'abc@example.org');
 		$this->assertEquals($expectedResponse, $response);
+	}
+
+	/**
+	 * @param string $account
+	 * @param string $type
+	 * @param array $dataBefore
+	 * @param array $expectedData
+	 *
+	 * @dataProvider dataTestGetVerificationCode
+	 */
+	public function testGetVerificationCode($account, $type, $dataBefore, $expectedData) {
+
+		$message = 'Use my Federated Cloud ID to share with me: user@nextcloud.com';
+		$signature = 'theSignature';
+
+		$code = $message . ' ' . $signature;
+		if($type === AccountManager::PROPERTY_TWITTER) {
+			$code = $message . ' ' . md5($signature);
+		}
+
+		$controller = $this->getController(false, ['signMessage', 'getCurrentTime']);
+
+		$user = $this->getMock(IUser::class);
+		$this->userSession->expects($this->once())->method('getUser')->willReturn($user);
+		$this->accountManager->expects($this->once())->method('getUser')->with($user)->willReturn($dataBefore);
+		$user->expects($this->any())->method('getCloudId')->willReturn('user@nextcloud.com');
+		$user->expects($this->any())->method('getUID')->willReturn('uid');
+		$controller->expects($this->once())->method('signMessage')->with($user, $message)->willReturn($signature);
+		$controller->expects($this->once())->method('getCurrentTime')->willReturn(1234567);
+
+		$this->accountManager->expects($this->once())->method('updateUser')->with($user, $expectedData);
+		$this->jobList->expects($this->once())->method('add')
+			->with('OC\Settings\BackgroundJobs\VerifyUserData',
+				[
+					'verificationCode' => $code,
+					'data' => $dataBefore[$type]['value'],
+					'type' => $type,
+					'uid' => 'uid',
+					'try' => 0,
+					'lastRun' => 1234567
+				]);
+
+
+		$result = $controller->getVerificationCode($account);
+
+		$data = $result->getData();
+		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+		$this->assertSame($code, $data['code']);
+	}
+
+	public function dataTestGetVerificationCode() {
+
+		$accountDataBefore = [
+			AccountManager::PROPERTY_WEBSITE => ['value' => 'https://nextcloud.com', 'verified' => AccountManager::NOT_VERIFIED],
+			AccountManager::PROPERTY_TWITTER => ['value' => '@nextclouders', 'verified' => AccountManager::NOT_VERIFIED],
+		];
+
+		$accountDataAfterWebsite = [
+			AccountManager::PROPERTY_WEBSITE => ['value' => 'https://nextcloud.com', 'verified' => AccountManager::VERIFICATION_IN_PROGRESS],
+			AccountManager::PROPERTY_TWITTER => ['value' => '@nextclouders', 'verified' => AccountManager::NOT_VERIFIED],
+		];
+
+		$accountDataAfterTwitter = [
+			AccountManager::PROPERTY_WEBSITE => ['value' => 'https://nextcloud.com', 'verified' => AccountManager::NOT_VERIFIED],
+			AccountManager::PROPERTY_TWITTER => ['value' => '@nextclouders', 'verified' => AccountManager::VERIFICATION_IN_PROGRESS],
+		];
+
+		return [
+			['verify-twitter', AccountManager::PROPERTY_TWITTER, $accountDataBefore, $accountDataAfterTwitter],
+			['verify-website', AccountManager::PROPERTY_WEBSITE, $accountDataBefore, $accountDataAfterWebsite],
+		];
+	}
+
+	/**
+	 * test get verification code in case no valid user was given
+	 */
+	public function testGetVerificationCodeInvalidUser() {
+
+		$controller = $this->getController();
+		$this->userSession->expects($this->once())->method('getUser')->willReturn(null);
+		$result = $controller->getVerificationCode('account');
+
+		$this->assertSame(Http::STATUS_BAD_REQUEST ,$result->getStatus());
+
 	}
 }
