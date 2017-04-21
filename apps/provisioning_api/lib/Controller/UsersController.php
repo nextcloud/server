@@ -790,7 +790,7 @@ class UsersController extends OCSController {
 
 		$targetUser = $this->userManager->get($userId);
 		if($targetUser === null) {
-			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+			throw new OCSException('', \OCP\API::RESPOND_NOT_FOUND);
 		}
 
 		// Check if admin / subadmin
