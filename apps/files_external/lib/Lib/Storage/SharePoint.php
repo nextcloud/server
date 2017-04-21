@@ -42,6 +42,11 @@ class SharePoint extends Common {
 	const SP_PROPERTY_MTIME = 'TimeLastModified';
 	const SP_PROPERTY_URL = 'ServerRelativeUrl';
 
+	const SP_PERMISSION_READ = 1;
+	const SP_PERMISSION_CREATE = 2;
+	const SP_PERMISSION_UPDATE = 3;
+	const SP_PERMISSION_DELETE = 4;
+
 	/** @var  string */
 	protected $server;
 
@@ -154,7 +159,6 @@ class SharePoint extends Common {
 	public function opendir($path) {
 		try {
 			$serverUrl = $this->formatPath($path);
-			//$collections = $this->spClient->fetchFolderContents($serverUrl, ['Name', 'ListItemAllFields']);	// does not work for some reason :(
 			$collections = $this->getFolderContents($serverUrl);
 			$files = [];
 
@@ -398,6 +402,43 @@ class SharePoint extends Common {
 		}
 	}
 
+	public function isCreatable($path) {
+		try {
+			return $this->hasPermission($path, self::SP_PERMISSION_CREATE);
+		} catch (\Exception $e) {
+			return parent::isCreatable($path);
+		}
+	}
+
+	public function isUpdatable($path) {
+		try {
+			return $this->hasPermission($path, self::SP_PERMISSION_UPDATE);
+		} catch (\Exception $e) {
+			return parent::isUpdatable($path);
+		}
+	}
+
+	public function isReadable($path) {
+		try {
+			return $this->hasPermission($path, self::SP_PERMISSION_READ);
+		} catch (\Exception $e) {
+			return parent::isReadable($path);
+		}
+	}
+
+	public function isDeletable($path) {
+		try {
+			return $this->hasPermission($path, self::SP_PERMISSION_DELETE);
+		} catch (\Exception $e) {
+			return parent::isDeletable($path);
+		}
+	}
+
+	private function hasPermission($path, $permissionType) {
+		$serverUrl = $this->formatPath($path);
+		return $this->getUserPermissions($serverUrl)->has($permissionType);
+	}
+
 	/**
 	 * see http://php.net/manual/en/function.touch.php
 	 * If the backend does not support the operation, false should be returned
@@ -483,6 +524,28 @@ class SharePoint extends Common {
 			$contents = $entry['children'];
 		}
 		return $contents;
+	}
+
+	private function getUserPermissions($serverUrl) {
+		$item = $this->getFileOrFolder($serverUrl);
+		$entry = $this->fileCache->get($serverUrl);
+		if(isset($entry['permissions'])) {
+			if($entry['permissions'] === false) {
+				throw new NotFoundException('Could not retrieve permissions');
+			}
+			return $entry['permissions'];
+		}
+		try {
+			$permissions = $this->spClient->getPermissions($item);
+		} catch (\Exception $e) {
+			$permissions = false;
+		}
+		$entry['permissions'] = $permissions;
+		$this->fileCache->set($serverUrl, $entry);
+		if($entry['permissions'] === false) {
+			throw new NotFoundException('Could not retrieve permissions');
+		}
+		return $entry['permissions'];
 	}
 
 	/**

@@ -28,6 +28,7 @@ use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use Office365\PHP\Client\Runtime\Utilities\Requests;
+use Office365\PHP\Client\SharePoint\BasePermissions;
 use Office365\PHP\Client\SharePoint\ClientContext;
 use Office365\PHP\Client\SharePoint\File;
 use Office365\PHP\Client\SharePoint\FileCreationInformation;
@@ -327,28 +328,33 @@ class SharePointClient {
 		return true;
 	}
 
+	/**
+	 * requests the permission for the provided file or folder
+	 *
+	 * @param ClientObject $item
+	 * @return BasePermissions
+	 */
+	public function getPermissions(ClientObject $item) {
+		if(!$item instanceof File && !$item instanceof Folder) {
+			throw new \InvalidArgumentException('File or Folder expected');
+		}
+
+		$listItem = $item->getListItemAllFields();
+		$this->loadAndExecute($listItem, ['EffectiveBasePermissions']);
+		$data = $listItem->getProperty('EffectiveBasePermissions');
+		if(!is_object($data) || !property_exists($data, 'High') || !property_exists($data, 'Low')) {
+			throw new \RuntimeException('Unexpected value from SP Server');
+		}
+		$permissions = new BasePermissions();
+		$permissions->High = $data->High;
+		$permissions->Low = $data->Low;
+
+		return $permissions;
+	}
+
 	public function loadAndExecute(ClientObject $object, array $properties = null) {
 		$this->context->load($object, $properties);
 		$this->context->executeQuery();
-	}
-
-	/**
-	 * @return SPList
-	 * @throws NotFoundException
-	 */
-	private function getDocumentLibrary() {
-		if(!is_null($this->documentLibrary)) {
-			return $this->documentLibrary;
-		}
-
-		$lists = $this->context->getWeb()->getLists()->filter('Title eq \'' . $this->documentLibraryTitle . '\'')->top(1);
-		$this->context->load($lists)->executeQuery();
-		if ($lists->getCount() === 1 && $lists->getData()[0] instanceof SPList) {
-			$this->documentLibrary = $lists->getData()[0];
-			return $this->documentLibrary;
-		}
-
-		throw new NotFoundException('List not found');
 	}
 
 	/**
@@ -372,5 +378,5 @@ class SharePointClient {
 		$this->context = $this->contextsFactory->getClientContext($this->sharePointUrl, $this->authContext);
 		# Auth is not triggered yet. This will happen when something is requested from SharePoint (on demand)
 	}
-	
+
 }
