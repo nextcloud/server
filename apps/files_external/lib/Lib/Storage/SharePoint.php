@@ -36,7 +36,6 @@ use OCP\ITempManager;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
 use Office365\PHP\Client\SharePoint\File;
 use Office365\PHP\Client\SharePoint\Folder;
-use Office365\PHP\Client\SharePoint\ListItem;
 
 class SharePoint extends Common {
 	const SP_PROPERTY_SIZE = 'Length';
@@ -163,7 +162,6 @@ class SharePoint extends Common {
 				/** @var File[]|Folder[] $items */
 				$items = $collection->getData();
 				foreach ($items as $item) {
-					/** @var ListItem $fields */
 					if(!$this->spClient->isHidden($item)) {
 						$files[] = $item->getProperty('Name');
 					}
@@ -396,7 +394,7 @@ class SharePoint extends Common {
 				$this->fileCache->set($serverUrl, ['instance' => $file]);
 			}
 		} catch (\Exception $e) {
-			return false;
+			// noop
 		}
 	}
 
@@ -410,10 +408,8 @@ class SharePoint extends Common {
 	 * @since 6.0.0
 	 */
 	public function touch($path, $mtime = null) {
-		// TODO: Implement touch() method.
-		return true;
+		return false;
 	}
-
 
 	/**
 	 * work around dependency injection issues so we can test this class properly

@@ -370,7 +370,7 @@ class SharePointClient {
 		$this->authContext = $this->contextsFactory->getAuthContext($this->credentials['user'], $this->credentials['password']);
 		$this->authContext->AuthType = CURLAUTH_NTLM;		# Basic auth does not work somehow…
 		$this->context = $this->contextsFactory->getClientContext($this->sharePointUrl, $this->authContext);
-		# Auth is not triggered yet. This will happen when something is requested from SharePoint (on demand), e.g.:
+		# Auth is not triggered yet. This will happen when something is requested from SharePoint (on demand)
 	}
 	
 }
