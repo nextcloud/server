@@ -27,6 +27,7 @@ use OC\Accounts\AccountManager;
 use OC\BackgroundJob\Job;
 use OC\BackgroundJob\JobList;
 use OCP\AppFramework\Http;
+use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -135,7 +136,7 @@ class VerifyUserData extends Job {
 
 		$result = false;
 
-		$url = rtrim($argument['data'], '/') . '/' . 'CloudIdVerificationCode.txt';
+		$url = rtrim($argument['data'], '/') . '/well-known/' . 'CloudIdVerificationCode.txt';
 
 		$client = $this->httpClientService->newClient();
 		try {
@@ -147,6 +148,8 @@ class VerifyUserData extends Job {
 		if ($response->getStatusCode() === Http::STATUS_OK) {
 			$result = true;
 			$publishedCode = $response->getBody();
+			// remove new lines and spaces
+			$publishedCodeSanitized = $string = trim(preg_replace('/\s\s+/', ' ', $publishedCode));
 			$user = $this->userManager->get($argument['uid']);
 			// we don't check a valid user -> give up
 			if ($user === null) {
@@ -155,11 +158,10 @@ class VerifyUserData extends Job {
 			}
 			$userData = $this->accountManager->getUser($user);
 
-			if ($publishedCode === $argument['verificationCode']) {
-
-				$userData[AccountManager::PROPERTY_WEBSITE]['verified'] === AccountManager::VERIFIED;
+			if ($publishedCodeSanitized === $argument['verificationCode']) {
+				$userData[AccountManager::PROPERTY_WEBSITE]['verified'] = AccountManager::VERIFIED;
 			} else {
-				$userData[AccountManager::PROPERTY_WEBSITE]['verified'] === AccountManager::NOT_VERIFIED;
+				$userData[AccountManager::PROPERTY_WEBSITE]['verified'] = AccountManager::NOT_VERIFIED;
 			}
 
 			$this->accountManager->updateUser($user, $userData);
@@ -202,11 +204,11 @@ class VerifyUserData extends Job {
 		}
 
 		// lookup server hasn't verified the email address so far, try again later
-		if ($lookupServerData[$dataType]['verified'] === AccountManager::VERIFICATION_IN_PROGRESS) {
+		if ($lookupServerData[$dataType]['verified'] === AccountManager::NOT_VERIFIED) {
 			return false;
 		}
 
-		$localUserData[$dataType]['verified'] === $lookupServerData[$dataType]['verified'];
+		$localUserData[$dataType]['verified'] = AccountManager::VERIFIED;
 		$this->accountManager->updateUser($user, $localUserData);
 
 		return true;
@@ -218,9 +220,9 @@ class VerifyUserData extends Job {
 	 */
 	protected function queryLookupServer($cloudId) {
 		try {
-			$client = $this->clientService->newClient();
+			$client = $this->httpClientService->newClient();
 			$response = $client->get(
-				$this->lookupServerUrl . '/users?search=' . urlencode($cloudId),
+				$this->lookupServerUrl . '/users?search=' . urlencode($cloudId) . '&exactCloudId=1',
 				[
 					'timeout' => 10,
 					'connect_timeout' => 3,
@@ -229,10 +231,8 @@ class VerifyUserData extends Job {
 
 			$body = json_decode($response->getBody(), true);
 
-			foreach ($body as $lookup) {
-				if ($lookup['federationId'] === $cloudId) {
-					return $lookup;
-				}
+			if ($body['federationId'] === $cloudId) {
+				return $body;
 			}
 
 		} catch (\Exception $e) {
