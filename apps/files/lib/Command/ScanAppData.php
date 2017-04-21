@@ -128,6 +128,8 @@ class ScanAppData extends Base {
 		} catch (InterruptedException $e) {
 			# exit the function if ctrl-c has been pressed
 			$output->writeln('Interrupted by user');
+		} catch (NotFoundException $e) {
+			$output->writeln('<error>Path not found: ' . $e->getMessage() . '</error>');
 		} catch (\Exception $e) {
 			$output->writeln('<error>Exception during scan: ' . $e->getMessage() . '</error>');
 			$output->writeln('<error>' . $e->getTraceAsString() . '</error>');

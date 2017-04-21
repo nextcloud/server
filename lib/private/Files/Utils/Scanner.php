@@ -32,6 +32,7 @@ use OC\ForbiddenException;
 use OC\Hooks\PublicEmitter;
 use OC\Lock\DBLockingProvider;
 use OCA\Files_Sharing\SharedStorage;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ILogger;
@@ -161,6 +162,7 @@ class Scanner extends PublicEmitter {
 	/**
 	 * @param string $dir
 	 * @throws \OC\ForbiddenException
+	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function scan($dir = '') {
 		if (!Filesystem::isValidPath($dir)) {
@@ -210,6 +212,9 @@ class Scanner extends PublicEmitter {
 				$this->triggerPropagator($storage, $path);
 			});
 
+			if (!$storage->file_exists($relativePath)) {
+				throw new NotFoundException($dir);
+			}
 			if (!$isDbLocking) {
 				$this->db->beginTransaction();
 			}
