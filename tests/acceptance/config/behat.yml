@@ -1,0 +1,26 @@
+default:
+  autoload:
+    '': %paths.base%/../features/bootstrap
+  suites:
+    default:
+      paths:
+        - %paths.base%/../features
+      contexts:
+        - ActorContext
+        - NextcloudTestServerContext
+
+        - FeatureContext
+        - FilesAppContext
+        - LoginPageContext
+        - NotificationContext
+        - SettingsMenuContext
+        - UsersSettingsContext
+  extensions:
+    Behat\MinkExtension:
+      sessions:
+        default:
+          selenium2: ~
+        John:
+          selenium2: ~
+        Jane:
+          selenium2: ~

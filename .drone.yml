@@ -478,6 +478,20 @@ pipeline:
     when:
       matrix:
         TESTS: integration-trashbin
+  acceptance-access-levels:
+      image: nextcloudci/php7.0:php7.0-7
+      commands:
+        - tests/acceptance/run-local.sh allow-git-repository-modifications features/access-levels.feature
+      when:
+        matrix:
+          TESTS-ACCEPTANCE: access-levels
+  acceptance-login:
+      image: nextcloudci/php7.0:php7.0-7
+      commands:
+        - tests/acceptance/run-local.sh allow-git-repository-modifications features/login.feature
+      when:
+        matrix:
+          TESTS-ACCEPTANCE: login
   nodb-codecov:
     image: nextcloudci/php7.0:php7.0-7
     commands:
@@ -551,6 +565,10 @@ matrix:
     - TESTS: integration-transfer-ownership-features
     - TESTS: integration-ldap-features
     - TESTS: integration-trashbin
+    - TESTS: acceptance
+      TESTS-ACCEPTANCE: access-levels
+    - TESTS: acceptance
+      TESTS-ACCEPTANCE: login
     - TESTS: jsunit
     - TESTS: check-autoloader
     - TESTS: check-mergejs
@@ -626,5 +644,14 @@ services:
       when:
         matrix:
           OBJECT_STORE: s3
+  selenium:
+    image: selenium/standalone-firefox:2.53.1-beryllium
+    environment:
+      # Reduce default log level for Selenium server (INFO) as it is too
+      # verbose.
+      - JAVA_OPTS=-Dselenium.LOGGER.level=WARNING
+    when:
+      matrix:
+        TESTS: acceptance
 
 branches: [ master, stable* ]
