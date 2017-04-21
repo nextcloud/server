@@ -137,10 +137,25 @@ class AccountManager {
 	 */
 	protected function updateVerifyStatus($oldData, $newData) {
 
+		// which account was already verified successfully?
 		$twitterVerified = isset($oldData[self::PROPERTY_TWITTER]['verified']) && $oldData[self::PROPERTY_TWITTER]['verified'] === self::VERIFIED;
 		$websiteVerified = isset($oldData[self::PROPERTY_WEBSITE]['verified']) && $oldData[self::PROPERTY_WEBSITE]['verified'] === self::VERIFIED;
 		$emailVerified = isset($oldData[self::PROPERTY_EMAIL]['verified']) && $oldData[self::PROPERTY_EMAIL]['verified'] === self::VERIFIED;
 
+		// keep old verification status if we don't have a new one
+		if(!isset($newData[self::PROPERTY_TWITTER]['verified'])) {
+			$newData[self::PROPERTY_TWITTER]['verified'] = isset($oldData[self::PROPERTY_TWITTER]['verified']) ? $oldData[self::PROPERTY_TWITTER]['verified'] : self::NOT_VERIFIED;
+		}
+
+		if(!isset($newData[self::PROPERTY_WEBSITE]['verified'])) {
+			$newData[self::PROPERTY_WEBSITE]['verified'] = isset($oldData[self::PROPERTY_WEBSITE]['verified']) ? $oldData[self::PROPERTY_WEBSITE]['verified'] : self::NOT_VERIFIED;
+		}
+
+		if(!isset($newData[self::PROPERTY_EMAIL]['verified'])) {
+			$newData[self::PROPERTY_EMAIL]['verified'] = isset($oldData[self::PROPERTY_WEBSITE]['verified']) ? $oldData[self::PROPERTY_EMAIL]['verified'] : self::NOT_VERIFIED;
+		}
+
+		// reset verification status if a value from a previously verified data was changed
 		if($twitterVerified &&
 			$oldData[self::PROPERTY_TWITTER]['value'] !== $newData[self::PROPERTY_TWITTER]['value']
 		) {
