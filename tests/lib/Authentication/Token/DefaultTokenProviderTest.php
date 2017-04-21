@@ -274,7 +274,7 @@ class DefaultTokenProviderTest extends TestCase {
 	public function testRenewSessionTokenWithoutPassword() {
 		$token = $this->getMockBuilder(DefaultToken::class)
 			->disableOriginalConstructor()
-			->setMethods(['getUID', 'getLoginName', 'getPassword', 'getName'])
+			->setMethods(['getUID', 'getLoginName', 'getPassword', 'getName', 'getRemember'])
 			->getMock();
 		$token
 			->expects($this->at(0))
@@ -293,7 +293,7 @@ class DefaultTokenProviderTest extends TestCase {
 			->method('getName')
 			->willReturn('MyTokenName');
 		$token
-			->expects($this->at(3))
+			->expects($this->at(4))
 			->method('getRemember')
 			->willReturn(IToken::DO_NOT_REMEMBER);
 		$this->config
@@ -325,7 +325,7 @@ class DefaultTokenProviderTest extends TestCase {
 	public function testRenewSessionTokenWithPassword() {
 		$token = $this->getMockBuilder(DefaultToken::class)
 			->disableOriginalConstructor()
-			->setMethods(['getUID', 'getLoginName', 'getPassword', 'getName'])
+			->setMethods(['getUID', 'getLoginName', 'getPassword', 'getName', 'getRemember'])
 			->getMock();
 		$token
 			->expects($this->at(0))
@@ -348,7 +348,7 @@ class DefaultTokenProviderTest extends TestCase {
 			->method('getName')
 			->willReturn('MyTokenName');
 		$token
-			->expects($this->at(3))
+			->expects($this->at(5))
 			->method('getRemember')
 			->willReturn(IToken::REMEMBER);
 		$this->crypto

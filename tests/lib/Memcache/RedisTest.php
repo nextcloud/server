@@ -17,15 +17,22 @@ class RedisTest extends Cache {
 			self::markTestSkipped('The redis extension is not available.');
 		}
 
+		$errorOccurred = false;
 		set_error_handler(
 			function($errno, $errstr) {
-				restore_error_handler();
-				self::markTestSkipped($errstr);
+				throw new \RuntimeException($errstr, 123456789);
 			},
 			E_WARNING
 		);
-		$instance = new \OC\Memcache\Redis(self::getUniqueID());
+		try {
+			$instance = new \OC\Memcache\Redis(self::getUniqueID());
+		} catch (\RuntimeException $e) {
+			$errorOccurred = $e->getCode() === 123456789 ? $e->getMessage() : false;
+		}
 		restore_error_handler();
+		if ($errorOccurred !== false) {
+			self::markTestSkipped($errorOccurred);
+		}
 
 		if ($instance->set(self::getUniqueID(), self::getUniqueID()) === false) {
 			self::markTestSkipped('redis server seems to be down.');

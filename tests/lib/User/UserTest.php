@@ -204,12 +204,12 @@ class UserTest extends TestCase {
 		/**
 		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
 		 */
-		$backend = $this->createMock(Dummy::class);
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
 		$backend->expects($this->at(0))
 			->method('implementsActions')
 			->will($this->returnCallback(function ($actions) {
-				if ($actions === Backend::GET_HOME) {
+				if ($actions === \OC\User\Backend::GET_HOME) {
 					return true;
 				} else {
 					return false;

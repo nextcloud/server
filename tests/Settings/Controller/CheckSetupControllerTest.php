@@ -68,8 +68,6 @@ class CheckSetupControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()->getMock();
-		$this->config = $this->getMockBuilder('\OCP\IConfig')
-			->disableOriginalConstructor()->getMock();
 		$this->clientService = $this->getMockBuilder('\OCP\Http\Client\IClientService')
 			->disableOriginalConstructor()->getMock();
 		$this->util = $this->getMockBuilder('\OC_Util')
@@ -98,7 +96,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->checker,
 				$this->logger
 				])
-			->setMethods(['getCurlVersion', 'isPhpOutdated'])->getMock();
+			->setMethods(['getCurlVersion', 'isPhpOutdated', 'isOpcacheProperlySetup'])->getMock();
 	}
 
 	public function testIsInternetConnectionWorkingDisabledViaConfig() {
@@ -307,6 +305,10 @@ class CheckSetupControllerTest extends TestCase {
 			->expects($this->once())
 			->method('isPhpOutdated')
 			->willReturn(true);
+		$this->checkSetupController
+			->expects($this->once())
+			->method('isOpcacheProperlySetup')
+			->willReturn(false);
 		$this->urlGenerator->expects($this->at(2))
 			->method('linkToDocs')
 			->with('admin-reverse-proxy')

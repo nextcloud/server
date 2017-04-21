@@ -225,8 +225,8 @@ class CalendarTest extends TestCase {
 
 	/**
 	 * @dataProvider providesConfidentialClassificationData
-	 * @param $expectedChildren
-	 * @param $isShared
+	 * @param int $expectedChildren
+	 * @param bool $isShared
 	 */
 	public function testPrivateClassification($expectedChildren, $isShared) {
 
@@ -268,8 +268,8 @@ class CalendarTest extends TestCase {
 
 	/**
 	 * @dataProvider providesConfidentialClassificationData
-	 * @param $expectedChildren
-	 * @param $isShared
+	 * @param int $expectedChildren
+	 * @param bool $isShared
 	 */
 	public function testConfidentialClassification($expectedChildren, $isShared) {
 		$start = '20160609';

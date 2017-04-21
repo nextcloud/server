@@ -49,7 +49,7 @@ class FileTest extends TestCase
 		if (isset($this->restore_logdateformat)) {
 			$config->getSystemValue("logdateformat", $this->restore_logdateformat);
 		} else {
-			$config->deleteSystemValue("restore_logdateformat");
+			$config->deleteSystemValue("logdateformat");
 		}		
 		File::init();
 		parent::tearDown();
