@@ -872,9 +872,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		$query2->selectDistinct('cp.cardid')->from($this->dbCardsPropertiesTable, 'cp');
 		$query2->andWhere($query2->expr()->eq('cp.addressbookid', $query->createNamedParameter($addressBookId)));
+		$or = $query2->expr()->orX();
 		foreach ($searchProperties as $property) {
-			$query2->expr()->orX($query2->expr()->eq('cp.name', $query->createNamedParameter($property)));
+			$or->add($query2->expr()->eq('cp.name', $query->createNamedParameter($property)));
 		}
+		$query2->andWhere($or);
 		$query2->andWhere($query2->expr()->ilike('cp.value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%')));
 
 		$query->select('c.carddata', 'c.uri')->from($this->dbCardsTable, 'c')
