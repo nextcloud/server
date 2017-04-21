@@ -130,16 +130,16 @@ class Activity implements IProvider {
 				])
 				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_SHARED_EMAIL_PASSWORD_SEND) {
-			$event->setParsedSubject($this->l->t('Password for mail share send to %1$s', [
+			$event->setParsedSubject($this->l->t('Password for mail share sent to %1$s', [
 				$parsedParameters['email']['name']
 			]))
-				->setRichSubject($this->l->t('Password for mail share send to {email}'), [
+				->setRichSubject($this->l->t('Password for mail share sent to {email}'), [
 					'email' => $parsedParameters['email']
 				])
 				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_SHARED_EMAIL_PASSWORD_SEND_SELF) {
-			$event->setParsedSubject($this->l->t('Password for mail share send to you'))
-				->setRichSubject($this->l->t('Password for mail share send to you'))
+			$event->setParsedSubject($this->l->t('Password for mail share sent to you'))
+				->setRichSubject($this->l->t('Password for mail share sent to you'))
 				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
 		} else {
 			throw new \InvalidArgumentException();
