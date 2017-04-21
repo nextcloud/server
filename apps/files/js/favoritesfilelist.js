@@ -94,6 +94,12 @@ $(document).ready(function() {
 				}
 
 				return OCA.Files.FileList.prototype.reloadCallback.call(this, status, result);
+			},
+
+			_onUrlChanged: function (e) {
+				if (e && _.isString(e.dir)) {
+					this.changeDirectory(e.dir, false, true);
+				}
 			}
 		});
 
