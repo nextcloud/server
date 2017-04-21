@@ -54,13 +54,13 @@ composer install
 cd ../../
 
 echo "Installing and configuring Nextcloud server"
-build/acceptance/installAndConfigureServer.sh
+tests/acceptance/installAndConfigureServer.sh
 
 echo "Saving the default state so acceptance tests can reset to it"
 find . -name ".gitignore" -exec rm --force {} \;
 git add --all && echo 'Default state' | git -c user.name='John Doe' -c user.email='john@doe.org' commit --quiet --file=-
 
-cd build/acceptance
+cd tests/acceptance
 
 # Ensure that the Selenium server is ready before running the tests.
 echo "Waiting for Selenium"
