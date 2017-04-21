@@ -2707,7 +2707,7 @@ class UsersControllerTest extends TestCase {
 
 	/**
 	 * @expectedException \OCP\AppFramework\OCS\OCSException
-	 * @expectedExceptionCode 997
+	 * @expectedExceptionCode 998
 	 */
 	public function testResendWelcomeMessageWithNotExistingTargetUser() {
 		$this->userManager
