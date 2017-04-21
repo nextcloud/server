@@ -111,7 +111,7 @@ class LoginPageContext implements Context, ActorAwareInterface {
 	 */
 	public function iAmLoggedIn() {
 		$this->featureContext->iVisitTheHomePage();
-		$this->iLogInWithUserAndPassword("user0", "123456");
+		$this->iLogInWithUserAndPassword("user0", "123456acb");
 		$this->filesAppContext->iSeeThatTheCurrentPageIsTheFilesApp();
 	}
 
