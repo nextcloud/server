@@ -156,6 +156,7 @@
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "В составе имени пользователя допускаются следующие символы: \"a-z\", \"A-Z\", \"0-9\" и \"_.@-'\"",
     "A valid username must be provided" : "Укажите допустимое имя пользователя",
     "Username contains whitespace at the beginning or at the end" : "Имя пользователя содержит пробел в начале или в конце",
+    "Username must not consist of dots only" : "Имя пользователя должно состоять не только из точек",
     "A valid password must be provided" : "Укажите допустимый пароль",
     "The username is already being used" : "Имя пользователя уже используется",
     "User disabled" : "Пользователь отключен",
