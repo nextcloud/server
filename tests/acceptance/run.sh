@@ -48,6 +48,32 @@
 # (probably you will not have containers nor images with those names, but just
 # in case).
 
+# Switch between timeout on linux and gtimeout on macOS (same for mktemp and
+# gmktemp)
+
+case "$OSTYPE" in
+    darwin*)
+        INSTALLED=$(which gtimeout)
+        if [ "$INSTALLED" == "" ]; then
+            echo "Please install coreutils (brew install coreutils)"
+            exit 1;
+        fi
+
+        MKTEMP=gmktemp
+        TIMEOUT=gtimeout
+        DOCKEROPTION="-e no_proxy=localhost "
+        ;;
+    linux*)
+        MKTEMP=mktemp
+        TIMEOUT=timeout
+        DOCKEROPTION=" "
+        ;;
+    *)
+        echo "Operating system ($OSTYPE) not supported"
+        exit 1
+        ;;
+esac
+
 # Launches the Selenium server in a Docker container.
 #
 # The acceptance tests use Firefox by default but, unfortunately, Firefox >= 48
@@ -79,12 +105,12 @@ function prepareSelenium() {
 	SELENIUM_CONTAINER=selenium-nextcloud-local-test-acceptance
 
 	echo "Starting Selenium server"
-	docker run --detach --name=$SELENIUM_CONTAINER --publish 4444:4444 --publish 5900:5900 selenium/standalone-firefox-debug:2.53.1-beryllium
+	docker run --detach --name=$SELENIUM_CONTAINER --publish 4444:4444 --publish 5900:5900 $DOCKEROPTION selenium/standalone-firefox-debug:2.53.1-beryllium
 
 	echo "Waiting for Selenium server to be ready"
-	if ! timeout 10s bash -c "while ! curl 127.0.0.1:4444 >/dev/null 2>&1; do sleep 1; done"; then
+	if ! $TIMEOUT 10s bash -c "while ! curl 127.0.0.1:4444 >/dev/null 2>&1; do sleep 1; done"; then
 		echo "Could not start Selenium server; running" \
-		     "\"docker run --rm --publish 4444:4444 --publish 5900:5900 selenium/standalone-firefox-debug:2.53.1-beryllium\"" \
+		     "\"docker run --rm --publish 4444:4444 --publish 5900:5900 $DOCKEROPTION selenium/standalone-firefox-debug:2.53.1-beryllium\"" \
 		     "could give you a hint of the problem"
 
 		exit 1
@@ -112,7 +138,7 @@ function prepareDocker() {
 	docker run --detach --name=$NEXTCLOUD_LOCAL_CONTAINER --network=container:$SELENIUM_CONTAINER --interactive --tty nextcloudci/php7.0:php7.0-7 bash
 
 	# Use the $TMPDIR or, if not set, fall back to /tmp.
-	NEXTCLOUD_LOCAL_TAR="$(mktemp --tmpdir="${TMPDIR:-/tmp}" --suffix=.tar nextcloud-local-XXXXXXXXXX)"
+	NEXTCLOUD_LOCAL_TAR="$($MKTEMP --tmpdir="${TMPDIR:-/tmp}" --suffix=.tar nextcloud-local-XXXXXXXXXX)"
 
 	# Setting the user and group of files in the tar would be superfluous, as
 	# "docker cp" does not take them into account (the extracted files are set
