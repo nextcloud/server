@@ -179,7 +179,7 @@ class GetSharedSecret extends Job{
 			if ($status === Http::STATUS_FORBIDDEN) {
 				$this->logger->info($target . ' refused to exchange a shared secret with you.', ['app' => 'federation']);
 			} else {
-				$this->logger->logException($e, ['app' => 'federation']);
+				$this->logger->info($target . ' responded with a ' . $status . ' containing: ' . $e->getMessage(), ['app' => 'federation']);
 			}
 		} catch (\Exception $e) {
 			$status = Http::STATUS_INTERNAL_SERVER_ERROR;
