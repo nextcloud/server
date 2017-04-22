@@ -197,7 +197,9 @@ class TemplateLayout extends \OC_Template {
 			// allows chrome workspace mapping in debug mode
 			return "";
 		}
-
+		if ($this->config->getSystemValue('installed', false) && \OC::$server->getAppManager()->isInstalled('theming')) {
+			return '?v=' . self::$versionHash . '-' . $this->config->getAppValue('theming', 'cachebuster', '0');
+		}
 		return '?v=' . self::$versionHash;
 	}
 
