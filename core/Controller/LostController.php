@@ -206,6 +206,7 @@ class LostController extends Controller {
 	/**
 	 * @PublicPage
 	 * @BruteForceProtection(action=passwordResetEmail)
+	 * @AnonRateThrottle(limit=10, period=300)
 	 *
 	 * @param string $user
 	 * @return JSONResponse

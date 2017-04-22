@@ -31,7 +31,9 @@ OC.Lostpassword = {
 						user : $('#user').val()
 					},
 					OC.Lostpassword.sendLinkDone
-				);
+				).fail(function() {
+					OC.Lostpassword.sendLinkError(OC.Lostpassword.sendErrorMsg);
+				});
 			}
 		}
 	},
