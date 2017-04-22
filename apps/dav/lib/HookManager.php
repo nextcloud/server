@@ -28,7 +28,6 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Util;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class HookManager {
 

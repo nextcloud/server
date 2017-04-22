@@ -28,7 +28,6 @@ use OCA\DAV\Connector\Sabre\FilesReportPlugin as FilesReportPluginImplementation
 use OCP\IPreview;
 use OCP\ITagManager;
 use OCP\IUserSession;
-use Sabre\DAV\Exception\NotFound;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OC\Files\View;
 use OCP\Files\Folder;

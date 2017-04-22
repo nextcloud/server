@@ -26,7 +26,6 @@
  */
 namespace OC\Setup;
 
-use OC\AllConfig;
 use OC\DB\ConnectionFactory;
 use OC\SystemConfig;
 use OCP\IL10N;

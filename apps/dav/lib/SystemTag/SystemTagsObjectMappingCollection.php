@@ -27,7 +27,6 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\PreconditionFailed;
 use Sabre\DAV\ICollection;
-
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\ISystemTag;

@@ -51,7 +51,6 @@ use OC\App\DependencyAnalyzer;
 use OC\App\InfoParser;
 use OC\App\Platform;
 use OC\Installer;
-use OC\OCSClient;
 use OC\Repair;
 use OCP\App\ManagerEvent;
 

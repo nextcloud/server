@@ -23,7 +23,6 @@ namespace OCA\DAV\CalDAV\Schedule;
 
 use OCP\ILogger;
 use OCP\Mail\IMailer;
-use Sabre\DAV;
 use Sabre\VObject\ITip;
 use Sabre\CalDAV\Schedule\IMipPlugin as SabreIMipPlugin;
 /**

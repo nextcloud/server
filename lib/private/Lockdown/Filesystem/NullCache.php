@@ -22,7 +22,6 @@ namespace OC\Lockdown\Filesystem;
 use OC\Files\Cache\CacheEntry;
 use OCP\Constants;
 use OCP\Files\Cache\ICache;
-use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
 use OCP\Files\Search\ISearchQuery;
 

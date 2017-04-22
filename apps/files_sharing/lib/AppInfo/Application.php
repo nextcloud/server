@@ -27,7 +27,6 @@
 
 namespace OCA\Files_Sharing\AppInfo;
 
-use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
 use OCA\Files_Sharing\MountProvider;
 use OCP\AppFramework\App;

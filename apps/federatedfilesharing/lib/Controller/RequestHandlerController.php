@@ -26,7 +26,6 @@
 
 namespace OCA\FederatedFileSharing\Controller;
 
-use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\Files_Sharing\Activity\Providers\RemoteShares;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;

@@ -24,14 +24,11 @@
 
 namespace OC\Files\Config;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use OC\Files\Filesystem;
 use OCA\Files_Sharing\SharedMount;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountPoint;
-use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\ICache;
 use OCP\IDBConnection;

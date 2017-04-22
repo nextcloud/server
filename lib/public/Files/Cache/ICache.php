@@ -21,7 +21,6 @@
  */
 
 namespace OCP\Files\Cache;
-use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 
 /**

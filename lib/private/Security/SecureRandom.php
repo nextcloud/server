@@ -23,8 +23,6 @@
 
 namespace OC\Security;
 
-use RandomLib;
-use Sabre\DAV\Exception;
 use OCP\Security\ISecureRandom;
 
 /**

@@ -26,8 +26,6 @@ namespace OC\App\CodeChecker;
 
 use OC\Hooks\BasicEmitter;
 use PhpParser\Lexer;
-use PhpParser\Node;
-use PhpParser\Node\Name;
 use PhpParser\NodeTraverser;
 use PhpParser\Parser;
 use RecursiveCallbackFilterIterator;

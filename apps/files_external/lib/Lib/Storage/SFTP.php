@@ -33,7 +33,6 @@
  */
 namespace OCA\Files_External\Lib\Storage;
 use Icewind\Streams\IteratorDirectory;
-
 use Icewind\Streams\RetryWrapper;
 use phpseclib\Net\SFTP\Stream;
 

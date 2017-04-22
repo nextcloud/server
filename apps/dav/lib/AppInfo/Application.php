@@ -25,7 +25,6 @@
 namespace OCA\DAV\AppInfo;
 
 use OCA\DAV\CalDAV\Activity\Backend;
-use OCA\DAV\CalDAV\Activity\Extension;
 use OCA\DAV\CalDAV\Activity\Provider\Event;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\Capabilities;

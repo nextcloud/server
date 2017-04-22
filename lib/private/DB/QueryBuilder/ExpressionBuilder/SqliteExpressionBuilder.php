@@ -22,12 +22,6 @@
 namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
 
-use OC\DB\QueryBuilder\QueryFunction;
-use OCP\DB\QueryBuilder\ILiteral;
-use OCP\DB\QueryBuilder\IParameter;
-use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\DB\QueryBuilder\IQueryFunction;
-
 class SqliteExpressionBuilder extends ExpressionBuilder {
 	/**
 	 * @inheritdoc

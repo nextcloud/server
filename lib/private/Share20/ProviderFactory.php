@@ -25,7 +25,6 @@ namespace OC\Share20;
 
 use OC\CapabilitiesManager;
 use OCA\FederatedFileSharing\AddressHandler;
-use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\TokenHandler;
