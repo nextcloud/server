@@ -143,6 +143,8 @@ class TwoFactorChallengeController extends Controller {
 	 * @NoCSRFRequired
 	 * @UseSession
 	 *
+	 * @UserRateThrottle(limit=5, period=100)
+	 *
 	 * @param string $challengeProviderId
 	 * @param string $challenge
 	 * @param string $redirect_url
