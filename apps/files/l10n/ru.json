@@ -119,7 +119,6 @@
     "Select all" : "Выбрать все",
     "Upload too large" : "Файл слишком велик",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файлы, которые вы пытаетесь загрузить, превышают лимит максимального размера на этом сервере.",
-    "No favorites" : "Нет избранного",
     "Files and folders you mark as favorite will show up here" : "Здесь появятся файлы и каталоги, отмеченные как избранные",
     "Shared with you" : "Поделились с вами",
     "Shared with others" : "Доступные для других",
@@ -137,6 +136,7 @@
     "Any moment now..." : "В любой момент...",
     "Soon..." : "Скоро...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Идёт загрузка файла. Покинув страницу, вы прервёте загрузку.",
-    "Copy local link" : "Копировать локальную ссылку"
+    "Copy local link" : "Копировать локальную ссылку",
+    "No favorites" : "Нет избранного"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

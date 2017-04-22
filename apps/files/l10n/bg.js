@@ -117,7 +117,6 @@ OC.L10N.register(
     "Select all" : "Избери всички",
     "Upload too large" : "Прекалено голям файл за качване.",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файловете, които се опитвате да качите са по-големи от позволеното на сървъра.",
-    "No favorites" : "Няма любими",
     "Files and folders you mark as favorite will show up here" : "Файловете и папките които отбелязваш като любими ще се показват тук",
     "Shared with you" : "Споделено с вас",
     "Shared with others" : "Споделено с други",
@@ -132,6 +131,7 @@ OC.L10N.register(
     "Any moment now..." : "Всеки момент...",
     "Soon..." : "Скоро...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Извършва се качване на файлове. Затварянето на тази страница ще прекъсне качването.",
-    "Copy local link" : "Копиране на локална връзка"
+    "Copy local link" : "Копиране на локална връзка",
+    "No favorites" : "Няма любими"
 },
 "nplurals=2; plural=(n != 1);");

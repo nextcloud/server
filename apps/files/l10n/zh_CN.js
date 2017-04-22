@@ -120,7 +120,6 @@ OC.L10N.register(
     "Select all" : "全部选择",
     "Upload too large" : "上传文件过大",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "正在上传的文件超过了此服务器允许上传的最大容量限制",
-    "No favorites" : "无收藏",
     "Files and folders you mark as favorite will show up here" : "收藏的文件和文件夹会在这里显示",
     "Shared with you" : "与您分享",
     "Shared with others" : "与他人分享",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "Any moment now..." : "现在任何时候...",
     "Soon..." : "很快...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "文件正在上传中. 离开此页将会取消上传.",
-    "Copy local link" : "复制本地链接"
+    "Copy local link" : "复制本地链接",
+    "No favorites" : "无收藏"
 },
 "nplurals=1; plural=0;");

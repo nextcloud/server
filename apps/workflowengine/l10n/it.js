@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Saved" : "Salvato",
     "Saving failed:" : "Salvataggio non riuscito:",
     "is" : "è",
     "is not" : "non è",

@@ -98,7 +98,6 @@ OC.L10N.register(
     "Select all" : "Seleccionar tot",
     "Upload too large" : "La pujada és massa gran",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Els fitxers que esteu intentant pujar excedeixen la mida màxima de pujada del servidor",
-    "No favorites" : "No hi ha favorits",
     "Files and folders you mark as favorite will show up here" : "Aquí apareixeran els arxius i carpetes que vostè marqui com favorits",
     "Shared with you" : "Compartit amb tu",
     "Shared with others" : "Compartit amb altres",
@@ -115,6 +114,7 @@ OC.L10N.register(
     "{seconds}s" : "{seconds}s",
     "Soon..." : "Aviat...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Hi ha una pujada en curs. Si abandoneu la pàgina la pujada es cancel·larà.",
-    "Copy local link" : "C"
+    "Copy local link" : "C",
+    "No favorites" : "No hi ha favorits"
 },
 "nplurals=2; plural=(n != 1);");

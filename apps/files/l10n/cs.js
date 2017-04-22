@@ -120,7 +120,6 @@ OC.L10N.register(
     "Select all" : "Vybrat vše",
     "Upload too large" : "Odesílaný soubor je příliš velký",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Soubory, které se snažíte odeslat, překračují limit velikosti odesílání na tomto serveru.",
-    "No favorites" : "Žádné oblíbené",
     "Files and folders you mark as favorite will show up here" : "Zde budou zobrazeny soubory a adresáře označené jako oblíbené",
     "Shared with you" : "Sdíleno s vámi",
     "Shared with others" : "Sdíleno s ostatními",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "Any moment now..." : "Každou chvíli...",
     "Soon..." : "Brzy...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Probíhá odesílání souboru. Opuštění stránky způsobí zrušení nahrávání.",
-    "Copy local link" : "Kopírovat místní odkaz"
+    "Copy local link" : "Kopírovat místní odkaz",
+    "No favorites" : "Žádné oblíbené"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

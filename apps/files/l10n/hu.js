@@ -121,7 +121,6 @@ OC.L10N.register(
     "Select all" : "Összes kijelölése",
     "Upload too large" : "A feltöltés túl nagy",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "A feltöltendő fájlok mérete meghaladja a szerveren megengedett maximális méretet.",
-    "No favorites" : "Nincsenek kedvencek",
     "Files and folders you mark as favorite will show up here" : "A kedvencnek jelölt fájlokat és mappákat itt találod meg",
     "Shared with you" : "Megosztva veled",
     "Shared with others" : "Megosztva másokkal",
@@ -139,6 +138,7 @@ OC.L10N.register(
     "Any moment now..." : "Mostmár bármelyik pillanatban...",
     "Soon..." : "Hamarosan...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Fájlfeltöltés van folyamatban. Az oldal elhagyása megszakítja a feltöltést.",
-    "Copy local link" : "Helyi hivatkozás másolása"
+    "Copy local link" : "Helyi hivatkozás másolása",
+    "No favorites" : "Nincsenek kedvencek"
 },
 "nplurals=2; plural=(n != 1);");

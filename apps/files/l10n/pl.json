@@ -119,7 +119,6 @@
     "Select all" : "Wybierz wszystko",
     "Upload too large" : "Ładowany plik jest za duży",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Pliki, które próbujesz przesłać, przekraczają maksymalną dopuszczalną wielkość.",
-    "No favorites" : "Brak ulubionych",
     "Files and folders you mark as favorite will show up here" : "Pliki i katalogi, które oznaczysz jako ulubione wyświetlą się tutaj",
     "Shared with you" : "Udostępnione dla Ciebie",
     "Shared with others" : "Udostępnione przez Ciebie",
@@ -137,6 +136,7 @@
     "Any moment now..." : "Jeszcze chwilę...",
     "Soon..." : "Wkrótce...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Wysyłanie pliku jest w toku. Jeśli opuścisz tę stronę, wysyłanie zostanie przerwane.",
-    "Copy local link" : "Kopiowanie lokalnego linku"
+    "Copy local link" : "Kopiowanie lokalnego linku",
+    "No favorites" : "Brak ulubionych"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

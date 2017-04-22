@@ -121,7 +121,6 @@ OC.L10N.register(
     "Select all" : "Alles selecteren",
     "Upload too large" : "Upload is te groot",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "De bestanden die je probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server.",
-    "No favorites" : "Geen favorieten",
     "Files and folders you mark as favorite will show up here" : "Bestanden en mappen die je als favoriet aanmerkt, worden hier getoond",
     "Shared with you" : "Gedeeld met jou",
     "Shared with others" : "Gedeeld met anderen",
@@ -139,6 +138,7 @@ OC.L10N.register(
     "Any moment now..." : "Heel snel nu...",
     "Soon..." : "Binnenkort...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Bestandsupload is bezig. Wanneer de pagina nu verlaten wordt, stopt de upload.",
-    "Copy local link" : "Kopiëren lokale link"
+    "Copy local link" : "Kopiëren lokale link",
+    "No favorites" : "Geen favorieten"
 },
 "nplurals=2; plural=(n != 1);");

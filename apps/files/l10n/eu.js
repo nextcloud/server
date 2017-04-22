@@ -118,7 +118,6 @@ OC.L10N.register(
     "Select all" : "Hautatu dena",
     "Upload too large" : "Igoera handiegia da",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Igotzen saiatzen ari zaren fitxategiak zerbitzari honek igotzeko onartzen duena baino handiagoak dira.",
-    "No favorites" : "Gogokorik ez",
     "Files and folders you mark as favorite will show up here" : "Gogokotzat markatutako fitxategi eta karpeta hemen agertuko dira",
     "Shared with you" : "Zurekin partekatuta",
     "Shared with others" : "Besteekin partekatuta",
@@ -136,6 +135,7 @@ OC.L10N.register(
     "Any moment now..." : "Edozein unean...",
     "Soon..." : "Laster...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Fitxategien igoera martxan da. Orria orain uzteak igoera ezeztatutko du.",
-    "Copy local link" : "Kopiatu tokiko esteka"
+    "Copy local link" : "Kopiatu tokiko esteka",
+    "No favorites" : "Gogokorik ez"
 },
 "nplurals=2; plural=(n != 1);");

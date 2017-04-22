@@ -115,7 +115,6 @@ OC.L10N.register(
     "Select all" : "모두 선택",
     "Upload too large" : "업로드한 파일이 너무 큼",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "이 파일이 서버에서 허용하는 최대 업로드 가능 용량보다 큽니다.",
-    "No favorites" : "책갈피 없음",
     "Files and folders you mark as favorite will show up here" : "책갈피에 추가한 파일과 폴더가 여기에 나타납니다",
     "Shared with you" : "나와 공유됨",
     "Shared with others" : "다른 사람과 공유됨",
@@ -130,6 +129,7 @@ OC.L10N.register(
     "Any moment now..." : "조금 남음",
     "Soon..." : "곧...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "파일 업로드가 진행 중입니다. 이 페이지를 벗어나면 업로드가 취소됩니다.",
-    "Copy local link" : "로컬 링크 복사"
+    "Copy local link" : "로컬 링크 복사",
+    "No favorites" : "책갈피 없음"
 },
 "nplurals=1; plural=0;");

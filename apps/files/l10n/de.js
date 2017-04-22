@@ -121,7 +121,6 @@ OC.L10N.register(
     "Select all" : "Alle auswählen",
     "Upload too large" : "Der Upload ist zu groß",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server.",
-    "No favorites" : "Keine Favoriten",
     "Files and folders you mark as favorite will show up here" : "Dateien und Ordner, die als Favoriten markiert werden, erscheinen hier",
     "Shared with you" : "Mit dir geteilt",
     "Shared with others" : "Mit anderen geteilt",
@@ -139,6 +138,7 @@ OC.L10N.register(
     "Any moment now..." : "Jeden Augenblick...",
     "Soon..." : "Bald...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Dateiupload läuft. Wenn die Seite jetzt verlassen wird, bricht der Upload ab.",
-    "Copy local link" : "Kopiere lokale Verknüpfung"
+    "Copy local link" : "Kopiere lokale Verknüpfung",
+    "No favorites" : "Keine Favoriten"
 },
 "nplurals=2; plural=(n != 1);");

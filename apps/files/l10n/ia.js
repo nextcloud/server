@@ -120,7 +120,6 @@ OC.L10N.register(
     "Select all" : "Selectionar toto",
     "Upload too large" : "Incarga troppo grande",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Le files que tu tenta incargar excede le dimension maxime pro incarga de files in iste servitor.",
-    "No favorites" : "Nulle favoritos",
     "Files and folders you mark as favorite will show up here" : "Files e dossiers que tu marca como favorito essera monstrate ci",
     "Shared with you" : "Compartite con te",
     "Shared with others" : "Compartite con alteres",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "Any moment now..." : "A qualcunque momento...",
     "Soon..." : "Proximemente...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Incarga de un file es in progresso. Quitar le pagina ora cancellara le incarga.",
-    "Copy local link" : "Copiar ligamine local"
+    "Copy local link" : "Copiar ligamine local",
+    "No favorites" : "Nulle favoritos"
 },
 "nplurals=2; plural=(n != 1);");

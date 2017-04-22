@@ -120,7 +120,6 @@ OC.L10N.register(
     "Select all" : "Velja allt",
     "Upload too large" : "Innsend skrá er of stór",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Skrárnar sem þú ert að senda inn eru stærri en hámarks innsendingarstærð á þessum netþjóni.",
-    "No favorites" : "Engin eftirlæti",
     "Files and folders you mark as favorite will show up here" : "Skrár og möppur sem þú merkir sem eftirlæti birtast hér",
     "Shared with you" : "Deilt með þér",
     "Shared with others" : "Deilt með öðrum",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "Any moment now..." : "Á hverri stundu...",
     "Soon..." : "Bráðum...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Innsending í gangi. Ef þú ferð af þessari síðu mun innsending hætta.",
-    "Copy local link" : "Afrita staðværan tengil"
+    "Copy local link" : "Afrita staðværan tengil",
+    "No favorites" : "Engin eftirlæti"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

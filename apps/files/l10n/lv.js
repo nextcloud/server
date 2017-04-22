@@ -118,7 +118,6 @@ OC.L10N.register(
     "Select all" : "Atzīmēt visu",
     "Upload too large" : "Datne ir par lielu, lai to augšupielādētu",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Augšupielādējamās datnes pārsniedz servera pieļaujamo datņu augšupielādes apjomu",
-    "No favorites" : "Nav favorītu",
     "Files and folders you mark as favorite will show up here" : "Datnes un mapes, ko atzīmēsiet kā favorītus, tiks rādīti šeit",
     "Shared with you" : "Koplietots ar tevi",
     "Shared with others" : "Koplietots ar citiem",
@@ -136,6 +135,7 @@ OC.L10N.register(
     "Any moment now..." : "Jebkurā brīdī tagad...",
     "Soon..." : "Drīz...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Notiek augšupielāde. Pametot lapu tagad, tiks atcelta augšupielāde.",
-    "Copy local link" : "Kopēt lokālo saiti"
+    "Copy local link" : "Kopēt lokālo saiti",
+    "No favorites" : "Nav favorītu"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

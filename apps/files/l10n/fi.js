@@ -69,6 +69,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n tavu","%n tavua"],
     "Favorited" : "Lisätty suosikkeihin",
     "Favorite" : "Suosikki",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Kopioi suora linkki (toimii vain käyttäjillä, joilla on pääsyoikeus tähän tiedostoon/kansioon)",
     "Folder" : "Kansio",
     "New folder" : "Uusi kansio",
     "Upload" : "Lähetä",
@@ -120,7 +121,6 @@ OC.L10N.register(
     "Select all" : "Valitse kaikki",
     "Upload too large" : "Lähetettävä tiedosto on liian suuri",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan.",
-    "No favorites" : "Ei suosikkeja",
     "Files and folders you mark as favorite will show up here" : "Suosikeiksi merkitsemäsi tiedostot ja kansiot näkyvät täällä",
     "Shared with you" : "Jaettu kanssasi",
     "Shared with others" : "Jaettu muille",
@@ -138,6 +138,7 @@ OC.L10N.register(
     "Any moment now..." : "Minä tahansa hetkenä...",
     "Soon..." : "Pian...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Tiedoston lähetys on meneillään. Sivulta poistuminen nyt peruu tiedoston lähetyksen.",
-    "Copy local link" : "Kopioi paikallinen linkki"
+    "Copy local link" : "Kopioi paikallinen linkki",
+    "No favorites" : "Ei suosikkeja"
 },
 "nplurals=2; plural=(n != 1);");
