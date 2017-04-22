@@ -118,7 +118,6 @@ OC.L10N.register(
     "Select all" : "Përzgjidhe krejt",
     "Upload too large" : "Ngarkim shumë i madh",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Kartelat që po rrekeni të ngarkoni e tejkalojnë madhësinë maksimale për ngarkime kartelash në këtë shërbyes.",
-    "No favorites" : "Pa të parapëlqyera",
     "Files and folders you mark as favorite will show up here" : "Këtu do të duken kartelat dhe dosjet që i shënoni si të parapëlqyera",
     "Shared with you" : "E ndarë me ju",
     "Shared with others" : "E ndarë me të tjerët",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "Any moment now..." : "Në çdo çast tani…",
     "Soon..." : "Së shpejti…",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Ngarkimi i skedarit është në punë e sipër. Largimi nga faqja do të anulojë ngarkimin.",
-    "Copy local link" : "Kopjo lidhjen lokale"
+    "Copy local link" : "Kopjo lidhjen lokale",
+    "No favorites" : "Pa të parapëlqyera"
 },
 "nplurals=2; plural=(n != 1);");

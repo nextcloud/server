@@ -121,7 +121,6 @@ OC.L10N.register(
     "Select all" : "Tümünü seç",
     "Upload too large" : "Yükleme boyutu çok büyük",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Yüklemeye çalıştığınız dosyalar bu sunucuya yüklenmesine izin verilen en büyük dosya boyutunu aşıyor.",
-    "No favorites" : "Sık kullanılan bir öge yok",
     "Files and folders you mark as favorite will show up here" : "Sık kullanılanlara eklediğiniz dosya ve klasörler burada görüntülenir",
     "Shared with you" : "Sizinle paylaşılan",
     "Shared with others" : "Diğerleri ile paylaşılan",
@@ -139,6 +138,7 @@ OC.L10N.register(
     "Any moment now..." : "Hemen şimdi...",
     "Soon..." : "Yakında...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Dosya yükleme işlemi sürüyor. Sayfadan ayrılırsanız yükleme işlemi iptal edilir.",
-    "Copy local link" : "Bağlantıyı kopyala"
+    "Copy local link" : "Bağlantıyı kopyala",
+    "No favorites" : "Sık kullanılan bir öge yok"
 },
 "nplurals=2; plural=(n > 1);");

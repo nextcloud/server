@@ -112,7 +112,6 @@
     "Select all" : "Chọn tất cả",
     "Upload too large" : "Tập tin tải lên quá lớn",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Các tập tin bạn đang tải lên vượt quá kích thước tối đa cho phép trên máy chủ .",
-    "No favorites" : "Không có mục ưa thích nào",
     "Files and folders you mark as favorite will show up here" : "Các tệp và thư mục mà bạn đánh dấu là yêu thích sẽ hiển thị ở đây",
     "Shared with you" : "Đã chia sẻ với bạn",
     "Shared with others" : "Chia sẻ với người khác",
@@ -126,6 +125,7 @@
     "Any moment now..." : "Sắp xong rồi...",
     "Soon..." : "Sớm thôi...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi trang bây giờ sẽ hủy quá trình này.",
-    "Copy local link" : "Sao chép liên kết cục bộ"
+    "Copy local link" : "Sao chép liên kết cục bộ",
+    "No favorites" : "Không có mục ưa thích nào"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

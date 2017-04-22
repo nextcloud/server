@@ -120,7 +120,6 @@ OC.L10N.register(
     "Select all" : "Pažymėti viską",
     "Upload too large" : "Įkėlimui failas per didelis",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Bandomų įkelti failų dydis viršija maksimalų, šiame serveryje leidžiamų įkelti failų dydį.",
-    "No favorites" : "Nėra mėgstamiausių",
     "Files and folders you mark as favorite will show up here" : "Failai ir aplankai, kuriuos pažymite mėgstamais, atsiras čia",
     "Shared with you" : "Bendrinama su jumis",
     "Shared with others" : "Bendrinama su kitais",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "Any moment now..." : "Bet kuriuo metu...",
     "Soon..." : "Netrukus...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Failo įkėlimas yra eigoje. Jei išeisite iš šio puslapio, įkėlimo bus atsisakyta.",
-    "Copy local link" : "Kopijuoti vietinę nuorodą"
+    "Copy local link" : "Kopijuoti vietinę nuorodą",
+    "No favorites" : "Nėra mėgstamiausių"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");

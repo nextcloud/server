@@ -121,7 +121,6 @@ OC.L10N.register(
     "Select all" : "すべて選択",
     "Upload too large" : "アップロードには大きすぎます。",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "アップロードしようとしているファイルは、サーバーで規定された最大サイズを超えています。",
-    "No favorites" : "お気に入りなし",
     "Files and folders you mark as favorite will show up here" : "お気に入りに登録されたファイルやフォルダーは、ここに表示されます。",
     "Shared with you" : "他ユーザーがあなたと共有中",
     "Shared with others" : "他ユーザーと共有中",
@@ -139,6 +138,7 @@ OC.L10N.register(
     "Any moment now..." : "まもなく…",
     "Soon..." : "まもなく…",
     "File upload is in progress. Leaving the page now will cancel the upload." : "ファイル転送を実行中です。今このページから移動するとアップロードが中止されます。",
-    "Copy local link" : "ローカルリンクをコピー"
+    "Copy local link" : "ローカルリンクをコピー",
+    "No favorites" : "お気に入りなし"
 },
 "nplurals=1; plural=0;");

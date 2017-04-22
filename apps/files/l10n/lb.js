@@ -120,7 +120,6 @@ OC.L10N.register(
     "Select all" : "All auswielen",
     "Upload too large" : "Upload ze grouss",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Déi Dateien déi Dir probéiert erop ze lueden sinn méi grouss wei déi Maximal Gréisst déi op dësem Server erlaabt ass.",
-    "No favorites" : "Keng Favoriten",
     "Files and folders you mark as favorite will show up here" : "Hei gesais du deng Favoriten",
     "Shared with you" : "Mat dir gedeelt",
     "Shared with others" : "Mat aaneren gedeelt",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "Any moment now..." : "An engen Moment",
     "Soon..." : "Geschwënn",
     "File upload is in progress. Leaving the page now will cancel the upload." : "File Upload am gaang. Wann's de des Säit verléiss gëtt den Upload ofgebrach.",
-    "Copy local link" : "Lokale Link kopéiert"
+    "Copy local link" : "Lokale Link kopéiert",
+    "No favorites" : "Keng Favoriten"
 },
 "nplurals=2; plural=(n != 1);");

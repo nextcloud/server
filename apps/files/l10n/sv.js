@@ -119,7 +119,6 @@ OC.L10N.register(
     "Select all" : "Välj allt",
     "Upload too large" : "För stor uppladdning",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filerna du försöker ladda upp överstiger den maximala storleken för filöverföringar på servern.",
-    "No favorites" : "Inga favoriter",
     "Files and folders you mark as favorite will show up here" : "Filer och mappar markerade som favoriter kommer att visas här",
     "Shared with you" : "Delad med dig",
     "Shared with others" : "Delad med andra",
@@ -137,6 +136,7 @@ OC.L10N.register(
     "Any moment now..." : "Alldeles strax...",
     "Soon..." : "Snart...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Filuppladdning pågår. Lämnar du sidan så avbryts uppladdningen.",
-    "Copy local link" : "Kopiera den lokala länken"
+    "Copy local link" : "Kopiera den lokala länken",
+    "No favorites" : "Inga favoriter"
 },
 "nplurals=2; plural=(n != 1);");

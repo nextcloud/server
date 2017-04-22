@@ -120,7 +120,6 @@ OC.L10N.register(
     "Select all" : "Velg alle",
     "Upload too large" : "Filen er for stor",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filene du prøver å laste opp er for store til å laste opp til denne tjeneren.",
-    "No favorites" : "Ingen favoritter",
     "Files and folders you mark as favorite will show up here" : "Filer og mapper som du gjør til favoritter vises her",
     "Shared with you" : "Delt med deg",
     "Shared with others" : "Delt med andre",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "Any moment now..." : "Hvert øyeblikk nå...",
     "Soon..." : "Snart...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Filopplasting pågår. Forlater du siden nå avbrytes opplastingen.",
-    "Copy local link" : "Kopier lokal lenke"
+    "Copy local link" : "Kopier lokal lenke",
+    "No favorites" : "Ingen favoritter"
 },
 "nplurals=2; plural=(n != 1);");
