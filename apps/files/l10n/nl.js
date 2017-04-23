@@ -121,6 +121,7 @@ OC.L10N.register(
     "Select all" : "Alles selecteren",
     "Upload too large" : "Upload is te groot",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "De bestanden die je probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server.",
+    "No favorites yet" : "Nog geen favorieten",
     "Files and folders you mark as favorite will show up here" : "Bestanden en mappen die je als favoriet aanmerkt, worden hier getoond",
     "Shared with you" : "Gedeeld met jou",
     "Shared with others" : "Gedeeld met anderen",
