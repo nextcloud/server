@@ -1,0 +1,10 @@
+version: '2'
+services:
+  server:
+    build:
+      context: .
+    image: nextcloud-server
+    volumes:
+      - .:/nextcloud
+    container_name: 'nextcloud-server'
+
