@@ -14,7 +14,8 @@
 }
 
 .shareTabView .shareWithRemoteInfo,
-.shareTabView .clipboardButton {
+.shareTabView .clipboardButton,
+.shareTabView .linkPass .icon-loading-small {
 	position: absolute;
 	right: -7px;
 	top: -4px;
@@ -152,7 +153,7 @@
 }
 
 .shareTabView .linkPass .icon-loading-small {
-	margin-top: 9px;
+	margin-right: 0px;
 }
 
 .shareTabView .icon {
