@@ -731,10 +731,9 @@ class Manager implements IManager {
 				$this->validateExpirationDate($share);
 				$expirationDateUpdated = true;
 			}
-		}
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+			$plainTextPassword = null;
 
-		$plainTextPassword = null;
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
 			// Password updated.
 			if ($share->getPassword() !== $originalShare->getPassword()) {
 				//Verify the password
