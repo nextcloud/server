@@ -2510,6 +2510,7 @@ class ManagerTest extends \Test\TestCase {
 		$share->setProviderId('foo')
 			->setId('42')
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setToken('token')
 			->setSharedBy('owner')
 			->setShareOwner('owner')
 			->setPassword('password')
@@ -2542,8 +2543,18 @@ class ManagerTest extends \Test\TestCase {
 		]);
 
 		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner2, 'post');
-		$hookListner2->expects($this->never())->method('post');
+		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListner2, 'post');
+		$hookListner2->expects($this->once())->method('post')->with([
+			'itemType' => 'file',
+			'itemSource' => 100,
+			'uidOwner' => 'owner',
+			'token' => 'token',
+			'disabled' => false,
+		]);
+
+		$hookListner3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner3, 'post');
+		$hookListner3->expects($this->never())->method('post');
 
 
 		$manager->updateShare($share);
