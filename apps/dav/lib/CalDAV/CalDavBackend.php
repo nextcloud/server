@@ -1307,26 +1307,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
-	 * This method validates if a filter (as passed to calendarSearch) matches
-	 * the given object.
-	 *
-	 * @param array $object
-	 * @param array $filters
-	 * @return bool
-	 */
-	protected function validateFilterForCalendarSearch(array $object, array $filters) {
-		$vObject = Reader::read($object['calendardata']);
-
-		$validator = new Search\CalendarSearchValidator();
-		$result = $validator->validate($vObject, $filters);
-
-		// Destroy circular references so PHP will GC the object.
-		$vObject->destroy();
-
-		return $result;
-	}
-
-	/**
 	 * Searches through all of a users calendars and calendar objects to find
 	 * an object with a specific UID.
 	 *
