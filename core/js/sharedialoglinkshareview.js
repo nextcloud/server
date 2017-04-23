@@ -307,6 +307,9 @@
 			this.model.saveLinkShare({
 				password: password
 			}, {
+				success: function(model) {
+					$loading.removeClass('inlineblock').addClass('hidden');
+				},
 				error: function(model, msg) {
 					// destroy old tooltips
 					$input.tooltip('destroy');
