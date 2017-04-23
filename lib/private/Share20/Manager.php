@@ -734,7 +734,7 @@ class Manager implements IManager {
 		}
 
 		$plainTextPassword = null;
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK || $share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
 			// Password updated.
 			if ($share->getPassword() !== $originalShare->getPassword()) {
 				//Verify the password

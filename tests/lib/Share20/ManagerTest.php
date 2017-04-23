@@ -2520,6 +2520,12 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('canShare')->willReturn(true);
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
 		$manager->expects($this->once())->method('validateExpirationDate')->with($share);
+		$manager->expects($this->once())->method('verifyPassword')->with('password');
+
+		$this->hasher->expects($this->once())
+			->method('hash')
+			->with('password')
+			->willReturn('hashed');
 
 		$this->defaultProvider->expects($this->once())
 			->method('update')
