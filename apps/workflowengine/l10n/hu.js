@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Saved" : "Elmentve",
     "Saving failed:" : "Mentés sikertelen:",
     "is" : "ez",
     "is not" : "nem ez",

@@ -121,6 +121,7 @@ OC.L10N.register(
     "Select all" : "Selecionar tudo",
     "Upload too large" : "Arquivo muito grande para envio",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Os arquivos que você está tentando enviar excederam o tamanho máximo para arquivos no servidor.",
+    "No favorites yet" : "Sem favoritos ainda",
     "Files and folders you mark as favorite will show up here" : "Arquivos e pastas que você marcou como favoritos serão mostrados aqui",
     "Shared with you" : "Compartilhado com você",
     "Shared with others" : "Compartilhado com outros",

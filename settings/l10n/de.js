@@ -329,7 +329,7 @@ OC.L10N.register(
     "Desktop client" : "Desktop-Client",
     "Android app" : "Android-App",
     "iOS app" : "iOS-App",
-    "If you want to support the project {contributeopen}join development{linkclose} or {contributeopen}spread the word{linkclose}!" : "Wenn Du das Projekt unterstützen willst {contributeopen} helfe bei der Entwicklung{linkclose} oder {contributeopen} verbreite es{linkclose}!",
+    "If you want to support the project {contributeopen}join development{linkclose} or {contributeopen}spread the word{linkclose}!" : "Wenn du das Projekt unterstützen willst, {contributeopen}hilf bei der Entwicklung{linkclose} oder {contributeopen}verbreite es{linkclose}!",
     "Show First Run Wizard again" : "Den Einrichtungsassistenten erneut anzeigen",
     "Web, desktop and mobile clients currently logged in to your account." : "Aktuell in Deinem Konto eingeloggte Web-, Desktop- und Mobil-Clients.",
     "Device" : "Gerät",

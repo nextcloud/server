@@ -119,6 +119,7 @@
     "Select all" : "Выбрать все",
     "Upload too large" : "Файл слишком велик",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файлы, которые вы пытаетесь загрузить, превышают лимит максимального размера на этом сервере.",
+    "No favorites yet" : "Избранного ещё нет",
     "Files and folders you mark as favorite will show up here" : "Здесь появятся файлы и каталоги, отмеченные как избранные",
     "Shared with you" : "Поделились с вами",
     "Shared with others" : "Доступные для других",
