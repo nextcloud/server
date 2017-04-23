@@ -29,6 +29,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 	State: {
 		currentCategory: null,
+		currentCategoryElements: null,
 		apps: null,
 		$updateNotification: null,
 		availableUpdates: 0
@@ -90,14 +91,15 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}), {
 			type:'GET',
 			success: function (apps) {
+				OC.Settings.Apps.State.currentCategoryElements = apps.apps;
 				var appListWithIndex = _.indexBy(apps.apps, 'id');
 				OC.Settings.Apps.State.apps = appListWithIndex;
 				var appList = _.map(appListWithIndex, function(app) {
 					// default values for missing fields
 					return _.extend({level: 0}, app);
 				});
-				var source
-				if (categoryId === 'enabled' || categoryId === 'disabled' || categoryId === 'installed') {
+				var source;
+				if (categoryId === 'enabled' || categoryId === 'disabled' || categoryId === 'installed' || categoryId === 'app-bundles') {
 					source = $("#app-template-installed").html();
 					$('#apps-list').addClass('installed');
 				} else {
@@ -303,6 +305,20 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		return $.get(OC.generateUrl('apps/files'));
 	},
 
+	enableAppBundle:function(bundleId, active, element, groups) {
+		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.enableAppBundle, this, bundleId, active, element, groups));
+			return;
+		}
+
+		var bundles = OC.Settings.Apps.State.currentCategoryElements;
+		bundles.forEach(function(bundle) {
+			if(bundle['id'] === bundleId) {
+				OC.Settings.Apps.enableApp(bundle['apps'], active, element, groups);
+			}
+		});
+	},
+
 	enableApp:function(appId, active, element, groups) {
 		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
 			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.enableApp, this, appId, active, element, groups));
@@ -342,7 +358,14 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			// TODO: display message to admin to not refresh the page!
 			// TODO: lock UI to prevent further operations
 			element.val(t('settings','Enabling app …'));
-			$.post(OC.filePath('settings','ajax','enableapp.php'),{appid: appId, groups: groups},function(result) {
+
+			var appIdArray = [];
+			if( typeof appId === 'string' ) {
+				appIdArray = [appId];
+			} else {
+				appIdArray = appId;
+			}
+			$.post(OC.filePath('settings','ajax','enableapp.php'),{appIds: appIdArray, groups: groups},function(result) {
 				if(!result || result.status !== 'success') {
 					if (result.data && result.data.message) {
 						OC.Settings.Apps.showErrorMessage(appId, result.data.message);
@@ -777,7 +800,12 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			var element = $(this);
 			var active = $(this).data('active');
 
-			OC.Settings.Apps.enableApp(appId, active, element);
+			var category = $('#app-navigation').attr('data-category');
+			if(category === 'app-bundles') {
+				OC.Settings.Apps.enableAppBundle(appId, active, element);
+			} else {
+				OC.Settings.Apps.enableApp(appId, active, element);
+			}
 		});
 
 		$(document).on('click', '#apps-list input.uninstall', function () {

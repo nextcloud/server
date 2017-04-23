@@ -243,11 +243,11 @@ class Updater extends BasicEmitter {
 		}
 
 		// update all shipped apps
-		$disabledApps = $this->checkAppsRequirements();
+		$this->checkAppsRequirements();
 		$this->doAppUpgrade();
 
 		// upgrade appstore apps
-		$this->upgradeAppStoreApps($disabledApps);
+		$this->upgradeAppStoreApps(\OC::$server->getAppManager()->getInstalledApps());
 
 		// install new shipped apps on upgrade
 		OC_App::loadApps('authentication');
@@ -441,7 +441,8 @@ class Updater extends BasicEmitter {
 					\OC::$server->getAppFetcher(),
 					\OC::$server->getHTTPClientService(),
 					\OC::$server->getTempManager(),
-					$this->log
+					$this->log,
+					\OC::$server->getConfig()
 				);
 				if (Installer::isUpdateAvailable($app, \OC::$server->getAppFetcher())) {
 					$this->emit('\OC\Updater', 'upgradeAppStoreApp', [$app]);

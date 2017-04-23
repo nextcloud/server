@@ -27,6 +27,7 @@
 
 namespace OC\Settings\Controller;
 
+use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\App\AppStore\Version\VersionParser;
@@ -50,6 +51,7 @@ class AppSettingsController extends Controller {
 	const CAT_ENABLED = 0;
 	const CAT_DISABLED = 1;
 	const CAT_ALL_INSTALLED = 2;
+	const CAT_APP_BUNDLES = 3;
 
 	/** @var \OCP\IL10N */
 	private $l10n;
@@ -65,6 +67,8 @@ class AppSettingsController extends Controller {
 	private $appFetcher;
 	/** @var IFactory */
 	private $l10nFactory;
+	/** @var BundleFetcher */
+	private $bundleFetcher;
 
 	/**
 	 * @param string $appName
@@ -76,6 +80,7 @@ class AppSettingsController extends Controller {
 	 * @param CategoryFetcher $categoryFetcher
 	 * @param AppFetcher $appFetcher
 	 * @param IFactory $l10nFactory
+	 * @param BundleFetcher $bundleFetcher
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -85,7 +90,8 @@ class AppSettingsController extends Controller {
 								IAppManager $appManager,
 								CategoryFetcher $categoryFetcher,
 								AppFetcher $appFetcher,
-								IFactory $l10nFactory) {
+								IFactory $l10nFactory,
+								BundleFetcher $bundleFetcher) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->config = $config;
@@ -94,6 +100,7 @@ class AppSettingsController extends Controller {
 		$this->categoryFetcher = $categoryFetcher;
 		$this->appFetcher = $appFetcher;
 		$this->l10nFactory = $l10nFactory;
+		$this->bundleFetcher = $bundleFetcher;
 	}
 
 	/**
@@ -131,6 +138,7 @@ class AppSettingsController extends Controller {
 		$formattedCategories = [
 			['id' => self::CAT_ALL_INSTALLED, 'ident' => 'installed', 'displayName' => (string)$this->l10n->t('Your apps')],
 			['id' => self::CAT_ENABLED, 'ident' => 'enabled', 'displayName' => (string)$this->l10n->t('Enabled apps')],
+			['id' => self::CAT_APP_BUNDLES, 'ident' => 'app-bundles', 'displayName' => (string)$this->l10n->t('App bundles')],
 			['id' => self::CAT_DISABLED, 'ident' => 'disabled', 'displayName' => (string)$this->l10n->t('Disabled apps')],
 		];
 		$categories = $this->categoryFetcher->get();
@@ -333,6 +341,23 @@ class AppSettingsController extends Controller {
 					}
 					return ($a < $b) ? -1 : 1;
 				});
+				break;
+			case 'app-bundles':
+				$bundles = $this->bundleFetcher->getBundles();
+				$apps = [];
+				foreach($bundles as $bundle) {
+					$apps[] = [
+						'id' => $bundle->getIdentifier(),
+						'author' => 'Nextcloud',
+						'name' => $bundle->getName() . ' (' . $bundle->getDescription() .')',
+						'description' => '',
+						'internal' => true,
+						'active' => false,
+						'removable' => false,
+						'groups' => [],
+						'apps' => $bundle->getAppIdentifiers(),
+					];
+				}
 				break;
 			default:
 				$apps = $this->getAppsForCategory($category);
