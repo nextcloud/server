@@ -183,7 +183,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		app.firstExperimental = firstExperimental;
 
 		if (!app.preview) {
-			app.preview = OC.imagePath('core', 'default-app-icon');
+			app.preview = OC.imagePath('core', 'filetypes/image');
 			app.previewAsIcon = true;
 		}
 

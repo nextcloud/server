@@ -766,6 +766,11 @@ form.section {
 	height: 20px;
 }
 
+#apps-list .app-image-icon svg {
+	opacity: .3;
+	margin-top: 50px;
+}
+
 .installed .actions {
 	text-align: right;
 }
