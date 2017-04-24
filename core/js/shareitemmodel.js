@@ -156,7 +156,6 @@
 
 		addShare: function(attributes, options) {
 			var shareType = attributes.shareType;
-			options = options || {};
 			attributes = _.extend({}, attributes);
 
 			// Default permissions are Edit (CRUD) and Share
@@ -180,13 +179,30 @@
 				attributes.path = this.fileInfoModel.getFullPath();
 			}
 
-			var self = this;
-			return $.ajax({
+			return this._addOrUpdateShare({
 				type: 'POST',
 				url: this._getUrl('shares'),
 				data: attributes,
 				dataType: 'json'
-			}).always(function() {
+			}, options);
+		},
+
+		updateShare: function(shareId, attrs, options) {
+			return this._addOrUpdateShare({
+				type: 'PUT',
+				url: this._getUrl('shares/' + encodeURIComponent(shareId)),
+				data: attrs,
+				dataType: 'json'
+			}, options);
+		},
+
+		_addOrUpdateShare: function(ajaxSettings, options) {
+			var self = this;
+			options = options || {};
+
+			return $.ajax(
+				ajaxSettings
+			).always(function() {
 				if (_.isFunction(options.complete)) {
 					options.complete(self);
 				}
@@ -200,41 +216,6 @@
 				var msg = t('core', 'Error');
 				var result = xhr.responseJSON;
 				if (result && result.ocs && result.ocs.meta) {
-					msg = result.ocs.meta.message;
-				}
-
-				if (_.isFunction(options.error)) {
-					options.error(self, msg);
-				} else {
-					OC.dialogs.alert(msg, t('core', 'Error while sharing'));
-				}
-			});
-		},
-
-		updateShare: function(shareId, attrs, options) {
-			var self = this;
-			options = options || {};
-			return $.ajax({
-				type: 'PUT',
-				url: this._getUrl('shares/' + encodeURIComponent(shareId)),
-				data: attrs,
-				dataType: 'json'
-			}).always(function() {
-				if (_.isFunction(options.complete)) {
-					options.complete(self);
-				}
-			}).done(function() {
-				self.fetch({
-					success: function() {
-						if (_.isFunction(options.success)) {
-							options.success(self);
-						}
-					}
-				});
-			}).fail(function(xhr) {
-				var msg = t('core', 'Error');
-				var result = xhr.responseJSON;
-				if (result.ocs && result.ocs.meta) {
 					msg = result.ocs.meta.message;
 				}
 
