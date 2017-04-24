@@ -414,7 +414,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Contacts\\ContactsMenu\\ContactsStore' => __DIR__ . '/../../..' . '/lib/private/Contacts/ContactsMenu/ContactsStore.php',
         'OC\\Contacts\\ContactsMenu\\Entry' => __DIR__ . '/../../..' . '/lib/private/Contacts/ContactsMenu/Entry.php',
         'OC\\Contacts\\ContactsMenu\\Manager' => __DIR__ . '/../../..' . '/lib/private/Contacts/ContactsMenu/Manager.php',
-        'OC\\Contacts\\ContactsMenu\\Providers\\DetailsProvider' => __DIR__ . '/../../..' . '/lib/private/Contacts/ContactsMenu/Providers/DetailsProvider.php',
         'OC\\Contacts\\ContactsMenu\\Providers\\EMailProvider' => __DIR__ . '/../../..' . '/lib/private/Contacts/ContactsMenu/Providers/EMailProvider.php',
         'OC\\Core\\Application' => __DIR__ . '/../../..' . '/core/Application.php',
         'OC\\Core\\Command\\App\\CheckCode' => __DIR__ . '/../../..' . '/core/Command/App/CheckCode.php',

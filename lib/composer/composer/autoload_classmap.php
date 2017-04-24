@@ -384,7 +384,6 @@ return array(
     'OC\\Contacts\\ContactsMenu\\ContactsStore' => $baseDir . '/lib/private/Contacts/ContactsMenu/ContactsStore.php',
     'OC\\Contacts\\ContactsMenu\\Entry' => $baseDir . '/lib/private/Contacts/ContactsMenu/Entry.php',
     'OC\\Contacts\\ContactsMenu\\Manager' => $baseDir . '/lib/private/Contacts/ContactsMenu/Manager.php',
-    'OC\\Contacts\\ContactsMenu\\Providers\\DetailsProvider' => $baseDir . '/lib/private/Contacts/ContactsMenu/Providers/DetailsProvider.php',
     'OC\\Contacts\\ContactsMenu\\Providers\\EMailProvider' => $baseDir . '/lib/private/Contacts/ContactsMenu/Providers/EMailProvider.php',
     'OC\\Core\\Application' => $baseDir . '/core/Application.php',
     'OC\\Core\\Command\\App\\CheckCode' => $baseDir . '/core/Command/App/CheckCode.php',
