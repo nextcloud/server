@@ -27,6 +27,7 @@ class RequestOptions
         $this->UserCredentials = null;
         $this->Verbose = false;
         $this->SSLVersion = null;
+        $this->StreamHandle = null;
     }
 
     public function toArray()
@@ -42,9 +43,9 @@ class RequestOptions
             'Verbose' => $this->Verbose,
             'UserCredentials' => $this->UserCredentials,
             'SSLVersion' => $this->SSLVersion,
+            'StreamHandle' => $this->StreamHandle,
         ];
     }
-
 
     public function addCustomHeader($name, $value)
     {
@@ -126,5 +127,11 @@ class RequestOptions
      * @var int
      */
     public $SSLVersion;
+
+
+    /**
+     * @var resource
+     */
+    public $StreamHandle;
 
 }

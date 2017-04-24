@@ -109,6 +109,8 @@ class Requests
         //set Post Body
         if(isset($options->Data))
             curl_setopt($ch, CURLOPT_POSTFIELDS, $options->Data);
+        if(is_resource($options->StreamHandle))
+            curl_setopt($ch, CURLOPT_FILE, $options->StreamHandle);
         $options->addCustomHeader("content-length",strlen($options->Data));
         //custom HTTP headers
         if($options->Headers)

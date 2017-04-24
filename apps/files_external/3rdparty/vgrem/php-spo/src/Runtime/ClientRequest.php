@@ -123,7 +123,7 @@ class ClientRequest
     public function executeQuery()
     {
         $serializer = new JsonPayloadSerializer($this->format);
-        foreach ($this->queries as $qry) {
+        while(($qry = array_shift($this->queries)) !== null) {
             $request = $this->buildRequest($qry);
             if (is_callable($this->eventsList["BeforeExecuteQuery"])) {
                 call_user_func_array($this->eventsList["BeforeExecuteQuery"], array(
@@ -151,7 +151,6 @@ class ClientRequest
                 }
             }
         }
-        $this->queries = array();
     }
 
     /**

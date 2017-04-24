@@ -38,7 +38,7 @@ class ClientRuntimeContext
     /**
      * @var ODataFormat
      */
-    protected $format;
+    public $Format;
 
     /**
      * REST client context ctor
@@ -52,7 +52,7 @@ class ClientRuntimeContext
         $this->version = $version;
         $this->serviceRootUrl = $serviceUrl;
         $this->authContext = $authContext;
-        $this->format = $format;
+        $this->Format = $format;
     }
 
     /**
@@ -70,6 +70,15 @@ class ClientRuntimeContext
     public function getServiceRootUrl()
     {
         return $this->serviceRootUrl;
+    }
+
+
+    /**
+     * @param $url string
+     */
+    public function setServiceRootUrl($url)
+    {
+        $this->serviceRootUrl = $url;
     }
 
     /**
@@ -158,9 +167,10 @@ class ClientRuntimeContext
     public function getPendingRequest()
     {
         if (!isset($this->pendingRequest)) {
-            $this->pendingRequest = new ClientRequest($this, $this->format);
+            $this->pendingRequest = new ClientRequest($this, $this->Format);
         }
         return $this->pendingRequest;
     }
+
 
 }

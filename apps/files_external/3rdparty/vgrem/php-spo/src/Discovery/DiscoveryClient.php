@@ -19,16 +19,15 @@ class DiscoveryClient extends ClientRuntimeContext
     }
 
 
-    /**
-     * @return CapabilityDiscoveryResult
-     */
-    public function getDiscoverCapabilities()
-    {
-        $capabilities = new CapabilityDiscoveryResult();
-        $qry = new ClientActionReadEntity($this->getServiceRootUrl() . "me");
-        $this->addQuery($qry,$capabilities);
-        $this->executeQuery();
-        return $capabilities;
-    }
 
+    /**
+     * @return ServiceInfoCollection
+     */
+    public function getAllServices()
+    {
+        $allServices = new ServiceInfoCollection();
+        $qry = new ClientActionReadEntity($this->getServiceRootUrl() . "me/allServices");
+        $this->addQuery($qry,$allServices);
+        return $allServices;
+    }
 }

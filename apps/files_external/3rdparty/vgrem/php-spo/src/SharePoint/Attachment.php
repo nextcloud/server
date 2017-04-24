@@ -16,4 +16,20 @@ class Attachment extends ClientObject
         $this->getContext()->addQuery($qry);
     }
 
+
+    /**
+     * @return string
+     */
+    public function getFileName(){
+        return $this->getProperty("FileName");
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getServerRelativeUrl(){
+        return $this->getProperty("ServerRelativeUrl");
+    }
+
 }

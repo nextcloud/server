@@ -53,6 +53,7 @@ class AuthenticationContext implements IAuthenticationContext
         return $authorizeUrl . "?" . http_build_query($parameters);
     }
 
+
     /**
      * Acquire security token from STS
      * @param string $username

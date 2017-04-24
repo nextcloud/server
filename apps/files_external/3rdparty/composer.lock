@@ -94,12 +94,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vgrem/phpSPO.git",
-                "reference": "59a2956f94f694592e3d3c6252f0e753f73a1686"
+                "reference": "9a866bae3552d01b8a8e33ddd8faf8adc66e2423"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vgrem/phpSPO/zipball/59a2956f94f694592e3d3c6252f0e753f73a1686",
-                "reference": "59a2956f94f694592e3d3c6252f0e753f73a1686",
+                "url": "https://api.github.com/repos/vgrem/phpSPO/zipball/9a866bae3552d01b8a8e33ddd8faf8adc66e2423",
+                "reference": "9a866bae3552d01b8a8e33ddd8faf8adc66e2423",
                 "shasum": ""
             },
             "require": {
@@ -130,7 +130,7 @@
                 "rest",
                 "sharepoint"
             ],
-            "time": "2017-02-22 10:52:00"
+            "time": "2017-04-19 08:17:21"
         }
     ],
     "packages-dev": [],

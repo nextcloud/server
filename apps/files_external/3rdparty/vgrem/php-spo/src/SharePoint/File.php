@@ -159,6 +159,9 @@ class File extends SecurableObject
          $request->Method = HttpMethod::Post;
          $request->addCustomHeader('X-HTTP-Method','PUT');
          $request->Data = $content;
+         if($ctx instanceof ClientContext) {
+             $ctx->ensureFormDigest($request);
+         }
          $ctx->executeQueryDirect($request);
      }
 

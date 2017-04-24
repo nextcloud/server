@@ -159,7 +159,5 @@ $RECYCLE.BIN/
 examples/SharePoint/todoapp/
 src/ExcelServices/
 src/SharePoint/DocumentManagement/Video/
-src/SharePoint/Publishing/
-src/VideoService/
 examples/GraphExplorer/bower_components
 vendor

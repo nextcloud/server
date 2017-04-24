@@ -8,6 +8,7 @@ The library provides a Office 365 REST client for PHP applications. It allows to
     -   [Outlook Contacts REST API](https://msdn.microsoft.com/en-us/office/office365/api/contacts-rest-operations)
     -   [Outlook Calendar REST API](https://msdn.microsoft.com/en-us/office/office365/api/calendar-rest-operations)
     -   [Outlook Mail REST API](https://msdn.microsoft.com/en-us/office/office365/api/mail-rest-operations)
+    -   OneNote REST API
 
 ### Status
 
