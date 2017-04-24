@@ -185,6 +185,10 @@ $tmpl->assign('websiteScope', $userData[\OC\Accounts\AccountManager::PROPERTY_WE
 $tmpl->assign('twitterScope', $userData[\OC\Accounts\AccountManager::PROPERTY_TWITTER]['scope']);
 $tmpl->assign('addressScope', $userData[\OC\Accounts\AccountManager::PROPERTY_ADDRESS]['scope']);
 
+$tmpl->assign('websiteVerification', $userData[\OC\Accounts\AccountManager::PROPERTY_WEBSITE]['verified']);
+$tmpl->assign('twitterVerification', $userData[\OC\Accounts\AccountManager::PROPERTY_TWITTER]['verified']);
+$tmpl->assign('emailVerification', $userData[\OC\Accounts\AccountManager::PROPERTY_EMAIL]['verified']);
+
 $tmpl->assign('avatarChangeSupported', OC_User::canUserChangeAvatar(OC_User::getUser()));
 $tmpl->assign('certs', $certificateManager->listCertificates());
 $tmpl->assign('showCertificates', $enableCertImport);

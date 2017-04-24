@@ -111,7 +111,19 @@
 				<label for="email"><?php p($l->t('Email')); ?></label>
 				<span class="icon-password"/>
 			</h2>
-			<span class="verify" id="verify-email">Verify</span>
+			<span class="verify" id="verify-email"><?php
+				switch($_['emailVerification']) {
+					case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
+						p('verification in progress');
+						break;
+					case \OC\Accounts\AccountManager::VERIFIED:
+						p('verified');
+						break;
+					default:
+						p('click to verify');
+				}
+				?>
+				</span>
 			<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
 				<?php if(!$_['displayNameChangeSupported']) { print_unescaped('class="hidden"'); } ?>
 				placeholder="<?php p($l->t('Your email address')); ?>"
@@ -164,7 +176,20 @@
 				<label for="website"><?php p($l->t('Website')); ?></label>
 				<span class="icon-password"/>
 			</h2>
-			<span class="verify" id="verify-website">Verify</span>
+			<span class="verify" id="verify-website">
+				<?php
+				switch($_['websiteVerification']) {
+					case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
+						p('verification in progress');
+						break;
+					case \OC\Accounts\AccountManager::VERIFIED:
+						p('verified');
+						break;
+					default:
+						p('click to verify');
+				}
+				?>
+			</span>
 			<input type="text" name="website" id="website" value="<?php p($_['website']); ?>"
 			       placeholder="<?php p($l->t('Your website')); ?>"
 			       autocomplete="on" autocapitalize="none" autocorrect="off" />
@@ -178,7 +203,20 @@
 				<label for="twitter"><?php p($l->t('Twitter')); ?></label>
 				<span class="icon-password"/>
 			</h2>
-			<span class="verify" id="verify-twitter">Verify</span>
+			<span class="verify" id="verify-twitter">
+				<?php
+				switch($_['twitterVerification']) {
+					case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
+						p('verification in progress');
+						break;
+					case \OC\Accounts\AccountManager::VERIFIED:
+						p('verified');
+						break;
+					default:
+						p('click to verify');
+				}
+				?>
+			</span>
 			<input type="text" name="twitter" id="twitter" value="<?php p($_['twitter']); ?>"
 				   placeholder="<?php p($l->t('Your Twitter handle')); ?>"
 				   autocomplete="on" autocapitalize="none" autocorrect="off" />
