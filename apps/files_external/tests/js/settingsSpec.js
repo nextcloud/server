@@ -15,7 +15,7 @@ describe('OCA.External.Settings tests', function() {
 
 	beforeEach(function() {
 		clock = sinon.useFakeTimers();
-		select2Stub = sinon.stub($.fn, 'select2', function(args) {
+		select2Stub = sinon.stub($.fn, 'select2').callsFake(function(args) {
 			if (args === 'val') {
 				return select2ApplicableUsers;
 			}

@@ -2273,7 +2273,7 @@ describe('OCA.Files.FileList tests', function() {
 			var actionStub = sinon.stub();
 			var readyHandler = sinon.stub();
 			var clock = sinon.useFakeTimers();
-			var debounceStub = sinon.stub(_, 'debounce', function(callback) {
+			var debounceStub = sinon.stub(_, 'debounce').callsFake(function(callback) {
 				return function() {
 					// defer instead of debounce, to make it work with clock
 					_.defer(callback);

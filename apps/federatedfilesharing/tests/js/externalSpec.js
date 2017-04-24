@@ -8,6 +8,8 @@
  *
  */
 
+/* global sinon */
+
 describe('OCA.Sharing external tests', function() {
 	var plugin;
 	var urlQueryStub;
@@ -24,8 +26,8 @@ describe('OCA.Sharing external tests', function() {
 		plugin = OCA.Sharing.ExternalShareDialogPlugin;
 		urlQueryStub = sinon.stub(OC.Util.History, 'parseUrlQuery');
 
-		confirmDialogStub = sinon.stub(OC.dialogs, 'confirm', dummyShowDialog);
-		promptDialogStub = sinon.stub(OC.dialogs, 'prompt', dummyShowDialog);
+		confirmDialogStub = sinon.stub(OC.dialogs, 'confirm').callsFake(dummyShowDialog);
+		promptDialogStub = sinon.stub(OC.dialogs, 'prompt').callsFake(dummyShowDialog);
 
 		plugin.filesApp = {
 			fileList: {

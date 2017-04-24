@@ -186,7 +186,7 @@ describe('jquery.avatar tests', function() {
 		});
 
 		it('with ie8 fix', function() {
-			sinon.stub(Math, 'random', function() {
+			sinon.stub(Math, 'random').callsFake(function() {
 				return 0.5;
 			});
 
