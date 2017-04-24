@@ -7,6 +7,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Roger Szabo <roger.szabo@web.de>
  *
  * @license AGPL-3.0
  *
@@ -34,6 +35,7 @@ use OCP\IConfig;
 use OCP\Image;
 use OCP\IUserManager;
 use OCP\Util;
+use OCP\Notification\IManager as INotificationManager;
 
 /**
  * User
@@ -74,6 +76,10 @@ class User {
 	 */
 	protected $userManager;
 	/**
+	 * @var INotificationManager
+	 */
+	protected $notificationManager;
+	/**
 	 * @var string
 	 */
 	protected $dn;
@@ -108,11 +114,13 @@ class User {
 	 * @param LogWrapper $log
 	 * @param IAvatarManager $avatarManager
 	 * @param IUserManager $userManager
+	 * @param INotificationManager $notificationManager
 	 */
 	public function __construct($username, $dn, IUserTools $access,
 		IConfig $config, FilesystemHelper $fs, Image $image,
-		LogWrapper $log, IAvatarManager $avatarManager, IUserManager $userManager) {
-
+		LogWrapper $log, IAvatarManager $avatarManager, IUserManager $userManager,
+		INotificationManager $notificationManager) {
+	
 		if ($username === null) {
 			$log->log("uid for '$dn' must not be null!", Util::ERROR);
 			throw new \InvalidArgumentException('uid must not be null!');
@@ -121,16 +129,19 @@ class User {
 			throw new \InvalidArgumentException('uid must not be an empty string!');
 		}
 
-		$this->access        = $access;
-		$this->connection    = $access->getConnection();
-		$this->config        = $config;
-		$this->fs            = $fs;
-		$this->dn            = $dn;
-		$this->uid           = $username;
-		$this->image         = $image;
-		$this->log           = $log;
-		$this->avatarManager = $avatarManager;
-		$this->userManager   = $userManager;
+		$this->access              = $access;
+		$this->connection          = $access->getConnection();
+		$this->config              = $config;
+		$this->fs                  = $fs;
+		$this->dn                  = $dn;
+		$this->uid                 = $username;
+		$this->image               = $image;
+		$this->log                 = $log;
+		$this->avatarManager       = $avatarManager;
+		$this->userManager         = $userManager;
+		$this->notificationManager = $notificationManager;
+
+		\OCP\Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry');
 	}
 
 	/**
@@ -587,4 +598,98 @@ class User {
 		}
 	}
 
+	/**
+	 * called by a post_login hook to handle password expiry
+	 *
+	 * @param array $params
+	 */
+	public function handlePasswordExpiry($params) {
+		$ppolicyDN = $this->connection->ldapDefaultPPolicyDN;
+		if (empty($ppolicyDN) || (intval($this->connection->turnOnPasswordChange) !== 1)) {
+			return;//password expiry handling disabled
+		}
+		$uid = $params['uid'];
+		if(isset($uid) && $uid === $this->getUsername()) {
+			//retrieve relevant user attributes
+			$result = $this->access->search('objectclass=*', $this->dn, ['pwdpolicysubentry', 'pwdgraceusetime', 'pwdreset', 'pwdchangedtime']);
+			
+			if(array_key_exists('pwdpolicysubentry', $result[0])) {
+				$pwdPolicySubentry = $result[0]['pwdpolicysubentry'];
+				if($pwdPolicySubentry && (count($pwdPolicySubentry) > 0)){
+					$ppolicyDN = $pwdPolicySubentry[0];//custom ppolicy DN
+				}
+			}
+			
+			$pwdGraceUseTime = array_key_exists('pwdgraceusetime', $result[0]) ? $result[0]['pwdgraceusetime'] : null;
+			$pwdReset = array_key_exists('pwdreset', $result[0]) ? $result[0]['pwdreset'] : null;
+			$pwdChangedTime = array_key_exists('pwdchangedtime', $result[0]) ? $result[0]['pwdchangedtime'] : null;
+			
+			//retrieve relevant password policy attributes
+			$cacheKey = 'ppolicyAttributes' . $ppolicyDN;
+			$result = $this->connection->getFromCache($cacheKey);
+			if(is_null($result)) {
+				$result = $this->access->search('objectclass=*', $ppolicyDN, ['pwdgraceauthnlimit', 'pwdmaxage', 'pwdexpirewarning']);
+				$this->connection->writeToCache($cacheKey, $result);
+			}
+			
+			$pwdGraceAuthNLimit = array_key_exists('pwdgraceauthnlimit', $result[0]) ? $result[0]['pwdgraceauthnlimit'] : null;
+			$pwdMaxAge = array_key_exists('pwdmaxage', $result[0]) ? $result[0]['pwdmaxage'] : null;
+			$pwdExpireWarning = array_key_exists('pwdexpirewarning', $result[0]) ? $result[0]['pwdexpirewarning'] : null;
+			
+			//handle grace login
+			$pwdGraceUseTimeCount = count($pwdGraceUseTime);
+			if($pwdGraceUseTime && $pwdGraceUseTimeCount > 0) { //was this a grace login?
+				if($pwdGraceAuthNLimit 
+					&& (count($pwdGraceAuthNLimit) > 0)
+					&&($pwdGraceUseTimeCount < intval($pwdGraceAuthNLimit[0]))) { //at least one more grace login available?
+					$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
+					header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
+					'user_ldap.renewPassword.showRenewPasswordForm', array('user' => $uid)));
+				} else { //no more grace login available
+					header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
+					'user_ldap.renewPassword.showLoginFormInvalidPassword', array('user' => $uid)));
+				}
+				exit();
+			}
+			//handle pwdReset attribute
+			if($pwdReset && (count($pwdReset) > 0) && $pwdReset[0] === 'TRUE') { //user must change his password
+				$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
+				header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
+				'user_ldap.renewPassword.showRenewPasswordForm', array('user' => $uid)));
+				exit();
+			}
+			//handle password expiry warning
+			if($pwdChangedTime && (count($pwdChangedTime) > 0)) {
+				if($pwdMaxAge && (count($pwdMaxAge) > 0)
+					&& $pwdExpireWarning && (count($pwdExpireWarning) > 0)) {
+					$pwdMaxAgeInt = intval($pwdMaxAge[0]);
+					$pwdExpireWarningInt = intval($pwdExpireWarning[0]);
+					if($pwdMaxAgeInt > 0 && $pwdExpireWarningInt > 0){
+						$pwdChangedTimeDt = \DateTime::createFromFormat('YmdHisZ', $pwdChangedTime[0]);
+						$pwdChangedTimeDt->add(new \DateInterval('PT'.$pwdMaxAgeInt.'S'));
+						$currentDateTime = new \DateTime();
+						$secondsToExpiry = $pwdChangedTimeDt->getTimestamp() - $currentDateTime->getTimestamp();
+						if($secondsToExpiry <= $pwdExpireWarningInt) {
+							//remove last password expiry warning if any
+							$notification = $this->notificationManager->createNotification();
+							$notification->setApp('user_ldap')
+								->setUser($uid)
+								->setObject('pwd_exp_warn', $uid)
+							;
+							$this->notificationManager->markProcessed($notification);
+							//create new password expiry warning
+							$notification = $this->notificationManager->createNotification();
+							$notification->setApp('user_ldap')
+								->setUser($uid)
+								->setDateTime($currentDateTime)
+								->setObject('pwd_exp_warn', $uid) 
+								->setSubject('pwd_exp_warn_days', [strval(ceil($secondsToExpiry / 60 / 60 / 24))])
+							;
+							$this->notificationManager->notify($notification);
+						}
+					}
+				}
+			}
+		}
+	}
 }

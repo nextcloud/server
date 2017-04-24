@@ -48,7 +48,7 @@ class IntegrationTestUserHome extends AbstractIntegrationTest {
 		$this->mapping = new UserMapping(\OC::$server->getDatabaseConnection());
 		$this->mapping->clear();
 		$this->access->setUserMapper($this->mapping);
-		$this->backend = new \OCA\User_LDAP\User_LDAP($this->access, \OC::$server->getConfig());
+		$this->backend = new \OCA\User_LDAP\User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager());
 	}
 
 	/**
