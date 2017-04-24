@@ -63,6 +63,7 @@
     "Edit LDAP Query" : "Bewerken LDAP opvraging",
     "LDAP Filter:" : "LDAP Filter:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Dit filter geeft aan welke LDAP groepen toegang hebben tot %s.",
+    "Verify settings and count the groups" : "Verifiëren instellingen en tellen groepen",
     "When logging in, %s will find the user based on the following attributes:" : "Bij inloggen vindt %s de gebruiker gebaseerd op de volgende attributen:",
     "LDAP / AD Username:" : "LDAP / AD gebruikersnaam:",
     "Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected." : "Maakt inloggen tegen de LDAP / AD gebruikersnaam mogelijk, ofwel uid of sAMAccountname en wordt gedetecteerd.",
