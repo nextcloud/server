@@ -100,6 +100,11 @@
 				$this.avatar($this.data('username'), 32);
 			});
 
+			this.$el.find('.reshare').contactsMenu(
+				this.model.getReshareOwner(),
+				OC.Share.SHARE_TYPE_USER,
+				this.$el);
+
 			return this;
 		},
 

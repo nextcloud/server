@@ -161,6 +161,10 @@ a {
 	padding: 6px 4px;
 }
 
+.resharerInfoView.subView {
+	position: relative;
+}
+
 #defaultExpireMessage, .reshare {
 	/* fix shared by text going out of box */
 	white-space: normal;
