@@ -81,6 +81,16 @@ interface IEMailTemplate {
 	public function addBodyText($text, $plainText = '');
 
 	/**
+	 * Adds a list item to the body of the email
+	 *
+	 * @param string $text
+	 * @param string $plainText Text that is used in the plain text email
+	 *   if empty the $text is used
+	 * @since 12.0.0
+	 */
+	public function addBodyListItem($text, $plainText = '');
+
+	/**
 	 * Adds a button group of two buttons to the body of the email
 	 *
 	 * @param string $textLeft Text of left button
