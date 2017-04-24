@@ -74,8 +74,9 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		if (this._loadCategoryCall) {
 			this._loadCategoryCall.abort();
 		}
+
+		$('#app-content').addClass('icon-loading');
 		$('#apps-list')
-			.addClass('icon-loading')
 			.removeClass('hidden')
 			.html('');
 		$('#apps-list-empty').addClass('hidden');
@@ -166,7 +167,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				});
 			},
 			complete: function() {
-				$('#apps-list').removeClass('icon-loading');
+				$('#app-content').removeClass('icon-loading');
 			}
 		});
 	},
