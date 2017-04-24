@@ -101,6 +101,7 @@ class EntryTest extends \PHPUnit_Framework_TestCase {
 			'topAction' => null,
 			'actions' => [],
 			'lastMessage' => '',
+			'avatar' => null,
 		];
 
 		$this->entry->setId(123);
