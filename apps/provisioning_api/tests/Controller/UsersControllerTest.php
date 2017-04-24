@@ -2238,7 +2238,7 @@ class UsersControllerTest extends TestCase {
 	/**
 	 * @expectedException \OCP\AppFramework\OCS\OCSException
 	 * @expectedExceptionCode 102
-	 * @expectedExceptionMessage Group:NotExistingGroup does not exist
+	 * @expectedExceptionMessage Group does not exist
 	 */
 	public function testAddSubAdminWithNotExistingTargetGroup() {
 
@@ -2265,6 +2265,10 @@ class UsersControllerTest extends TestCase {
 	public function testAddSubAdminToAdminGroup() {
 		$targetUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
+		$targetGroup
+			->expects($this->once())
+			->method('getGID')
+			->will($this->returnValue('admin'));
 		$this->userManager
 			->expects($this->once())
 			->method('get')

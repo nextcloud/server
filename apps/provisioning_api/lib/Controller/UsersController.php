@@ -668,10 +668,10 @@ class UsersController extends OCSController {
 		}
 		// Check if group exists
 		if($group === null) {
-			throw new OCSException('Group:'.$groupid.' does not exist',  102);
+			throw new OCSException('Group does not exist',  102);
 		}
 		// Check if trying to make subadmin of admin group
-		if(strtolower($groupid) === 'admin') {
+		if($group->getGID() === 'admin') {
 			throw new OCSException('Cannot create subadmins for admin group', 103);
 		}
 
@@ -713,7 +713,7 @@ class UsersController extends OCSController {
 			throw new OCSException('Group does not exist', 101);
 		}
 		// Check if they are a subadmin of this said group
-		if(!$subAdminManager->isSubAdminofGroup($user, $group)) {
+		if(!$subAdminManager->isSubAdminOfGroup($user, $group)) {
 			throw new OCSException('User is not a subadmin of this group', 102);
 		}
 
