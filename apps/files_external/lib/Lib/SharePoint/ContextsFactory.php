@@ -30,10 +30,20 @@ use Office365\PHP\Client\SharePoint\ClientContext;
 
 class ContextsFactory {
 
+	/**
+	 * @param string $user
+	 * @param string $password
+	 * @return NetworkCredentialContext
+	 */
 	public function getAuthContext($user, $password) {
 		return new NetworkCredentialContext($user, $password);
 	}
 
+	/**
+	 * @param string $server
+	 * @param IAuthenticationContext $authContext
+	 * @return ClientContext
+	 */
 	public function getClientContext($server, IAuthenticationContext $authContext) {
 		return new ClientContext($server, $authContext);
 	}

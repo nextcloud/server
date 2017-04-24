@@ -57,7 +57,20 @@ class SharePointClient {
 	/** @var  string */
 	private $documentLibraryTitle;
 
-	public function __construct(ContextsFactory $contextsFactory, $sharePointUrl, array $credentials, $documentLibraryTitle) {
+	/**
+	 * SharePointClient constructor.
+	 *
+	 * @param ContextsFactory $contextsFactory
+	 * @param string $sharePointUrl
+	 * @param array $credentials
+	 * @param string $documentLibraryTitle
+	 */
+	public function __construct(
+		ContextsFactory $contextsFactory,
+		$sharePointUrl,
+		array $credentials,
+		$documentLibraryTitle
+	) {
 		$this->contextsFactory = $contextsFactory;
 		$this->sharePointUrl = $sharePointUrl;
 		$this->credentials = $credentials;
@@ -65,6 +78,9 @@ class SharePointClient {
 	}
 
 	/**
+	 * Returns the corresponding File or Folder object for the provided path.
+	 * If none can be retrieved, an exception is thrown.
+	 *
 	 * @param string $path
 	 * @param array $properties
 	 * @return File|Folder
@@ -97,6 +113,13 @@ class SharePointClient {
 		throw new NotFoundException('File or Folder not found');
 	}
 
+	/**
+	 * returns a File instance for the provided path
+	 *
+	 * @param string $relativeServerPath
+	 * @param array|null $properties
+	 * @return File
+	 */
 	public function fetchFile($relativeServerPath, array $properties = null) {
 		$this->ensureConnection();
 		$file = $this->context->getWeb()->getFileByServerRelativeUrl($relativeServerPath);
@@ -104,6 +127,13 @@ class SharePointClient {
 		return $file;
 	}
 
+	/**
+	 * returns a Folder instance for the provided path
+	 *
+	 * @param string $relativeServerPath
+	 * @param array|null $properties
+	 * @return Folder
+	 */
 	public function fetchFolder($relativeServerPath, array $properties = null) {
 		$this->ensureConnection();
 		$folder = $this->context->getWeb()->getFolderByServerRelativeUrl($relativeServerPath);
@@ -147,16 +177,6 @@ class SharePointClient {
 		$options->StreamHandle = $fp;
 
 		return $this->context->executeQueryDirect($options);
-	}
-
-	/**
-	 * fetches the file content (aka download)
-	 *
-	 * @param $relativeServerPath
-	 * @return string the file content
-	 */
-	public function getFile($relativeServerPath) {
-		return File::openBinary($this->context, $relativeServerPath);
 	}
 
 	/**
@@ -248,12 +268,20 @@ class SharePointClient {
 		#$req = $this->debugGetLastRequest();
 	}
 
-	private function debugGetLastRequest() {
+	/**
+	 * @return array
+	 */
+	private function _debugGetLastRequest() {
 		$requestHistory = Requests::getHistory();
 		$request = array_pop($requestHistory);
 		return $request;
 	}
 
+	/**
+	 * deletes a provided File or Folder
+	 *
+	 * @param ClientObject $item
+	 */
 	public function delete(ClientObject $item) {
 		$this->ensureConnection();
 		if ($item instanceof File) {
@@ -264,7 +292,7 @@ class SharePointClient {
 	}
 
 	/**
-	 * deletes the given file on SP
+	 * deletes (in fact recycles) the given file on SP
 	 *
 	 * @param File $file
 	 * @throws \Exception
@@ -274,12 +302,19 @@ class SharePointClient {
 		$this->context->executeQuery();
 	}
 
+	/**
+	 * deletes (in fact recycles) the given Folder on SP.
+	 *
+	 * @param Folder $folder
+	 */
 	public function deleteFolder(Folder $folder) {
-		$folder->deleteObject();
+		$folder->recycle();
 		$this->context->executeQuery();
 	}
 
 	/**
+	 * returns a Folder- and a FileCollection of the children of the given directory
+	 *
 	 * @param $relativeServerPath
 	 * @param null $properties
 	 * @param Folder $folder
@@ -302,6 +337,12 @@ class SharePointClient {
 		return $collections;
 	}
 
+	/**
+	 * tests whether the provided instance is hidden
+	 *
+	 * @param ClientObject $file
+	 * @return bool
+	 */
 	public function isHidden(ClientObject $file) {
 		// ClientObject itself does not have getListItemAllFields but is
 		// the common denominator of File and Folder
@@ -352,6 +393,12 @@ class SharePointClient {
 		return $permissions;
 	}
 
+	/**
+	 * shortcut for querying a provided object from SP
+	 *
+	 * @param ClientObject $object
+	 * @param array|null $properties
+	 */
 	public function loadAndExecute(ClientObject $object, array $properties = null) {
 		$this->context->load($object, $properties);
 		$this->context->executeQuery();

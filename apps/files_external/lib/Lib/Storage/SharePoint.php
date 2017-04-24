@@ -282,6 +282,11 @@ class SharePoint extends Common {
 		}
 	}
 
+	/**
+	 * @param string $path1
+	 * @param string $path2
+	 * @return bool
+	 */
 	public function rename($path1, $path2) {
 		$oldPath = $this->formatPath($path1);
 		$newPath = $this->formatPath($path2);
@@ -383,6 +388,10 @@ class SharePoint extends Common {
 		return false;
 	}
 
+	/**
+	 * @param string $tmpFile
+	 * @param string $path
+	 */
 	public function writeBack($tmpFile, $path) {
 		$serverUrl = $this->formatPath($path);
 		$content = file_get_contents($tmpFile);
@@ -402,6 +411,10 @@ class SharePoint extends Common {
 		}
 	}
 
+	/**
+	 * @param string $path
+	 * @return bool
+	 */
 	public function isCreatable($path) {
 		try {
 			return $this->hasPermission($path, self::SP_PERMISSION_CREATE);
@@ -410,6 +423,10 @@ class SharePoint extends Common {
 		}
 	}
 
+	/**
+	 * @param string $path
+	 * @return bool
+	 */
 	public function isUpdatable($path) {
 		try {
 			return $this->hasPermission($path, self::SP_PERMISSION_UPDATE);
@@ -418,6 +435,10 @@ class SharePoint extends Common {
 		}
 	}
 
+	/**
+	 * @param string $path
+	 * @return bool
+	 */
 	public function isReadable($path) {
 		try {
 			return $this->hasPermission($path, self::SP_PERMISSION_READ);
@@ -426,6 +447,10 @@ class SharePoint extends Common {
 		}
 	}
 
+	/**
+	 * @param string $path
+	 * @return bool
+	 */
 	public function isDeletable($path) {
 		try {
 			return $this->hasPermission($path, self::SP_PERMISSION_DELETE);
@@ -434,6 +459,11 @@ class SharePoint extends Common {
 		}
 	}
 
+	/**
+	 * @param string $path
+	 * @param int $permissionType
+	 * @return bool
+	 */
 	private function hasPermission($path, $permissionType) {
 		$serverUrl = $this->formatPath($path);
 		return $this->getUserPermissions($serverUrl)->has($permissionType);
@@ -526,6 +556,11 @@ class SharePoint extends Common {
 		return $contents;
 	}
 
+	/**
+	 * @param string $serverUrl
+	 * @return \Office365\PHP\Client\SharePoint\BasePermissions
+	 * @throws NotFoundException
+	 */
 	private function getUserPermissions($serverUrl) {
 		$item = $this->getFileOrFolder($serverUrl);
 		$entry = $this->fileCache->get($serverUrl);
