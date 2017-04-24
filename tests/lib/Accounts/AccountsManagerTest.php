@@ -24,6 +24,7 @@ namespace Test\Accounts;
 
 
 use OC\Accounts\AccountManager;
+use OCP\BackgroundJob\IJobList;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -43,6 +44,9 @@ class AccountsManagerTest extends TestCase {
 	/** @var  EventDispatcherInterface | \PHPUnit_Framework_MockObject_MockObject */
 	private $eventDispatcher;
 
+	/** @var  IJobList | \PHPUnit_Framework_MockObject_MockObject */
+	private $jobList;
+
 	/** @var string accounts table name */
 	private $table = 'accounts';
 
@@ -51,6 +55,7 @@ class AccountsManagerTest extends TestCase {
 		$this->eventDispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')
 			->disableOriginalConstructor()->getMock();
 		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->jobList = $this->getMockBuilder(IJobList::class)->getMock();
 	}
 
 	public function tearDown() {
@@ -67,7 +72,7 @@ class AccountsManagerTest extends TestCase {
 	 */
 	public function getInstance($mockedMethods = null) {
 		return $this->getMockBuilder('OC\Accounts\AccountManager')
-			->setConstructorArgs([$this->connection, $this->eventDispatcher])
+			->setConstructorArgs([$this->connection, $this->eventDispatcher, $this->jobList])
 			->setMethods($mockedMethods)
 			->getMock();
 
@@ -75,15 +80,24 @@ class AccountsManagerTest extends TestCase {
 
 	/**
 	 * @dataProvider dataTrueFalse
+	 *
+	 * @param array $newData
+	 * @param array $oldData
+	 * @param bool $insertNew
+	 * @param bool $updateExisting
 	 */
-	public function testUpdateUser($newData, $oldData, $insertNew, $updateExisitng) {
-		$accountManager = $this->getInstance(['getUser', 'insertNewUser', 'updateExistingUser']);
+	public function testUpdateUser($newData, $oldData, $insertNew, $updateExisting) {
+		$accountManager = $this->getInstance(['getUser', 'insertNewUser', 'updateExistingUser', 'updateVerifyStatus', 'checkEmailVerification']);
 		/** @var IUser $user */
 		$user = $this->createMock(IUser::class);
 
 		$accountManager->expects($this->once())->method('getUser')->with($user)->willReturn($oldData);
 
-		if ($updateExisitng) {
+		if ($updateExisting) {
+			$accountManager->expects($this->once())->method('checkEmailVerification')
+				->with($oldData, $newData, $user);
+			$accountManager->expects($this->once())->method('updateVerifyStatus')
+				->with($oldData, $newData)->willReturn($newData);
 			$accountManager->expects($this->once())->method('updateExistingUser')
 				->with($user, $newData);
 			$accountManager->expects($this->never())->method('insertNewUser');
@@ -94,8 +108,10 @@ class AccountsManagerTest extends TestCase {
 			$accountManager->expects($this->never())->method('updateExistingUser');
 		}
 
-		if (!$insertNew && !$updateExisitng) {
+		if (!$insertNew && !$updateExisting) {
 			$accountManager->expects($this->never())->method('updateExistingUser');
+			$accountManager->expects($this->never())->method('checkEmailVerification');
+			$accountManager->expects($this->never())->method('updateVerifyStatus');
 			$accountManager->expects($this->never())->method('insertNewUser');
 			$this->eventDispatcher->expects($this->never())->method('dispatch');
 		} else {
@@ -133,13 +149,22 @@ class AccountsManagerTest extends TestCase {
 	 * @param book $userAlreadyExists
 	 */
 	public function testGetUser($setUser, $setData, $askUser, $expectedData, $userAlreadyExists) {
-		$accountManager = $this->getInstance(['buildDefaultUserRecord', 'insertNewUser']);
+		$accountManager = $this->getInstance(['buildDefaultUserRecord', 'insertNewUser', 'addMissingDefaultValues']);
 		if (!$userAlreadyExists) {
 			$accountManager->expects($this->once())->method('buildDefaultUserRecord')
 				->with($askUser)->willReturn($expectedData);
 			$accountManager->expects($this->once())->method('insertNewUser')
 				->with($askUser, $expectedData);
 		}
+
+		if(empty($expectedData)) {
+			$accountManager->expects($this->never())->method('addMissingDefaultValues');
+
+ 		} else {
+			$accountManager->expects($this->once())->method('addMissingDefaultValues')->with($expectedData)
+				->willReturn($expectedData);
+		}
+
 		$this->addDummyValuesToTable($setUser, $setData);
 		$this->assertEquals($expectedData,
 			$accountManager->getUser($askUser)
@@ -182,6 +207,25 @@ class AccountsManagerTest extends TestCase {
 
 		$dataFromDb = $this->getDataFromTable($uid);
 		$this->assertEquals($data, $dataFromDb);
+	}
+
+	public function testAddMissingDefaultValues() {
+
+		$accountManager = $this->getInstance();
+
+		$input = [
+			'key1' => ['value' => 'value1', 'verified' => '0'],
+			'key2' => ['value' => 'value1'],
+		];
+
+		$expected = [
+			'key1' => ['value' => 'value1', 'verified' => '0'],
+			'key2' => ['value' => 'value1', 'verified' => '0'],
+		];
+
+		$result = $this->invokePrivate($accountManager, 'addMissingDefaultValues', [$input]);
+
+		$this->assertSame($expected, $result);
 	}
 
 	private function addDummyValuesToTable($uid, $data) {
