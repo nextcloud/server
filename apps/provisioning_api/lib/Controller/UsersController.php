@@ -278,10 +278,10 @@ class UsersController extends OCSController {
 		// Admin? Or SubAdmin?
 		if($this->groupManager->isAdmin($currentLoggedInUser->getUID())
 			|| $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUserObject)) {
-			$data['enabled'] = $this->config->getUserValue($userId, 'core', 'enabled', 'true');
+			$data['enabled'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'enabled', 'true');
 		} else {
 			// Check they are looking up themselves
-			if($currentLoggedInUser->getUID() !== $userId) {
+			if($currentLoggedInUser->getUID() !== $targetUserObject->getUID()) {
 				throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
 			}
 		}
@@ -295,7 +295,7 @@ class UsersController extends OCSController {
 
 		// Find the data
 		$data['id'] = $targetUserObject->getUID();
-		$data['quota'] = $this->fillStorageInfo($userId);
+		$data['quota'] = $this->fillStorageInfo($targetUserObject->getUID());
 		$data[AccountManager::PROPERTY_EMAIL] = $targetUserObject->getEMailAddress();
 		$data[AccountManager::PROPERTY_DISPLAYNAME] = $targetUserObject->getDisplayName();
 		$data[AccountManager::PROPERTY_PHONE] = $userAccount[AccountManager::PROPERTY_PHONE]['value'];
@@ -330,7 +330,7 @@ class UsersController extends OCSController {
 		}
 
 		$permittedFields = [];
-		if($userId === $currentLoggedInUser->getUID()) {
+		if($targetUser->getUID() === $currentLoggedInUser->getUID()) {
 			// Editing self (display, email)
 			$permittedFields[] = 'display';
 			$permittedFields[] = AccountManager::PROPERTY_DISPLAYNAME;
@@ -618,7 +618,7 @@ class UsersController extends OCSController {
 		}
 
 		// Check they aren't removing themselves from 'admin' or their 'subadmin; group
-		if ($userId === $loggedInUser->getUID()) {
+		if ($targetUser->getUID() === $loggedInUser->getUID()) {
 			if ($this->groupManager->isAdmin($loggedInUser->getUID())) {
 				if ($group->getGID() === 'admin') {
 					throw new OCSException('Cannot remove yourself from the admin group', 105);

@@ -705,19 +705,19 @@ class UsersControllerTest extends TestCase {
 		$this->config
 			->expects($this->at(0))
 			->method('getUserValue')
-			->with('UserToGet', 'core', 'enabled', 'true')
+			->with('UID', 'core', 'enabled', 'true')
 			->will($this->returnValue('true'));
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
-			->with('UserToGet')
+			->with('UID')
 			->will($this->returnValue(['DummyValue']));
 		$targetUser
 			->expects($this->once())
 			->method('getDisplayName')
 			->will($this->returnValue('Demo User'));
 		$targetUser
-			->expects($this->once())
+			->expects($this->exactly(3))
 			->method('getUID')
 			->will($this->returnValue('UID'));
 
@@ -784,19 +784,19 @@ class UsersControllerTest extends TestCase {
 		$this->config
 			->expects($this->at(0))
 			->method('getUserValue')
-			->with('UserToGet', 'core', 'enabled', 'true')
+			->with('UID', 'core', 'enabled', 'true')
 			->will($this->returnValue('true'));
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
-			->with('UserToGet')
+			->with('UID')
 			->will($this->returnValue(['DummyValue']));
 		$targetUser
 			->expects($this->once())
 			->method('getDisplayName')
 			->will($this->returnValue('Demo User'));
 		$targetUser
-			->expects($this->once())
+			->expects($this->exactly(3))
 			->method('getUID')
 			->will($this->returnValue('UID'));
 		$this->accountManager->expects($this->any())->method('getUser')
@@ -878,7 +878,7 @@ class UsersControllerTest extends TestCase {
 		$loggedInUser
 			->expects($this->exactly(2))
 			->method('getUID')
-			->will($this->returnValue('subadmin'));
+			->will($this->returnValue('UID'));
 		$targetUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -894,7 +894,7 @@ class UsersControllerTest extends TestCase {
 		$this->groupManager
 			->expects($this->once())
 			->method('isAdmin')
-			->with('subadmin')
+			->with('UID')
 			->will($this->returnValue(false));
 		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
 			->disableOriginalConstructor()
@@ -915,7 +915,7 @@ class UsersControllerTest extends TestCase {
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
-			->with('subadmin')
+			->with('UID')
 			->will($this->returnValue(['DummyValue']));
 		$targetUser
 			->expects($this->once())
@@ -926,7 +926,7 @@ class UsersControllerTest extends TestCase {
 			->method('getEMailAddress')
 			->will($this->returnValue('subadmin@owncloud.org'));
 		$targetUser
-			->expects($this->once())
+			->expects($this->exactly(3))
 			->method('getUID')
 			->will($this->returnValue('UID'));
 		$this->accountManager->expects($this->any())->method('getUser')
@@ -961,7 +961,7 @@ class UsersControllerTest extends TestCase {
 		$loggedInUser
 			->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('UserToEdit'));
+			->will($this->returnValue('UID'));
 		$targetUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -978,6 +978,10 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('setDisplayName')
 			->with('NewDisplayName');
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UID'));
 
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'display', 'NewDisplayName')->getData());
 	}
@@ -989,7 +993,7 @@ class UsersControllerTest extends TestCase {
 		$loggedInUser
 			->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('UserToEdit'));
+			->will($this->returnValue('UID'));
 		$targetUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -1006,6 +1010,10 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('setEMailAddress')
 			->with('demo@owncloud.org');
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UID'));
 
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'email', 'demo@owncloud.org')->getData());
 	}
@@ -1022,7 +1030,7 @@ class UsersControllerTest extends TestCase {
 		$loggedInUser
 			->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('UserToEdit'));
+			->will($this->returnValue('UID'));
 		$targetUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -1035,6 +1043,10 @@ class UsersControllerTest extends TestCase {
 			->method('get')
 			->with('UserToEdit')
 			->will($this->returnValue($targetUser));
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UID'));
 
 		$this->api->editUser('UserToEdit', 'email', 'demo.org');
 	}
@@ -1046,7 +1058,7 @@ class UsersControllerTest extends TestCase {
 		$loggedInUser
 			->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('UserToEdit'));
+			->will($this->returnValue('UID'));
 		$targetUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -1063,6 +1075,10 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('setPassword')
 			->with('NewPassword');
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UID'));
 
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'password', 'NewPassword')->getData());
 	}
@@ -1079,7 +1095,7 @@ class UsersControllerTest extends TestCase {
 		$loggedInUser
 			->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('UserToEdit'));
+			->will($this->returnValue('UID'));
 		$targetUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -1092,6 +1108,10 @@ class UsersControllerTest extends TestCase {
 			->method('get')
 			->with('UserToEdit')
 			->will($this->returnValue($targetUser));
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UID'));
 
 		$this->api->editUser('UserToEdit', 'quota', 'NewQuota');
 	}
@@ -1101,7 +1121,7 @@ class UsersControllerTest extends TestCase {
 		$loggedInUser
 			->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('UserToEdit'));
+			->will($this->returnValue('UID'));
 		$targetUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$targetUser->expects($this->once())
 			->method('setQuota')
@@ -1118,8 +1138,12 @@ class UsersControllerTest extends TestCase {
 		$this->groupManager
 			->expects($this->once())
 			->method('isAdmin')
-			->with('UserToEdit')
+			->with('UID')
 			->will($this->returnValue(true));
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UID'));
 
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'quota', '3042824')->getData());
 	}
@@ -1135,7 +1159,7 @@ class UsersControllerTest extends TestCase {
 		$loggedInUser
 			->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('UserToEdit'));
+			->will($this->returnValue('UID'));
 		$targetUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$this->userSession
 			->expects($this->once())
@@ -1149,8 +1173,12 @@ class UsersControllerTest extends TestCase {
 		$this->groupManager
 			->expects($this->once())
 			->method('isAdmin')
-			->with('UserToEdit')
+			->with('UID')
 			->will($this->returnValue(true));
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UID'));
 
 		$this->api->editUser('UserToEdit', 'quota', 'ABC');
 	}
@@ -1186,6 +1214,10 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UID'));
 
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'quota', '3042824')->getData());
 	}
@@ -1221,6 +1253,10 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UID'));
 
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'quota', '3042824')->getData());
 	}
@@ -1257,6 +1293,10 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UID'));
 
 		$this->api->editUser('UserToEdit', 'quota', 'value');
 	}
@@ -1293,12 +1333,12 @@ class UsersControllerTest extends TestCase {
 		$loggedInUser
 			->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('UserToDelete'));
+			->will($this->returnValue('UID'));
 		$targetUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$targetUser
 			->expects($this->once())
 			->method('getUID')
-			->will($this->returnValue('UserToDelete'));
+			->will($this->returnValue('UID'));
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -1322,7 +1362,7 @@ class UsersControllerTest extends TestCase {
 		$targetUser
 			->expects($this->once())
 			->method('getUID')
-			->will($this->returnValue('UserToDelete'));
+			->will($this->returnValue('UID'));
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -1359,7 +1399,7 @@ class UsersControllerTest extends TestCase {
 		$targetUser
 			->expects($this->once())
 			->method('getUID')
-			->will($this->returnValue('UserToDelete'));
+			->will($this->returnValue('UID'));
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -1392,7 +1432,7 @@ class UsersControllerTest extends TestCase {
 		$targetUser
 			->expects($this->once())
 			->method('getUID')
-			->will($this->returnValue('UserToDelete'));
+			->will($this->returnValue('UID'));
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -1440,7 +1480,7 @@ class UsersControllerTest extends TestCase {
 		$targetUser
 			->expects($this->once())
 			->method('getUID')
-			->will($this->returnValue('UserToDelete'));
+			->will($this->returnValue('UID'));
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -1488,7 +1528,7 @@ class UsersControllerTest extends TestCase {
 		$targetUser
 			->expects($this->once())
 			->method('getUID')
-			->will($this->returnValue('UserToDelete'));
+			->will($this->returnValue('UID'));
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -1984,6 +2024,10 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->will($this->returnValue('admin'));
 		$targetUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
+		$targetUser
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('admin'));
 		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
 		$targetGroup
 			->expects($this->once())
@@ -2001,7 +2045,7 @@ class UsersControllerTest extends TestCase {
 		$this->userManager
 			->expects($this->once())
 			->method('get')
-			->with('admin')
+			->with('Admin')
 			->will($this->returnValue($targetUser));
 		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
 			->disableOriginalConstructor()->getMock();
@@ -2015,7 +2059,7 @@ class UsersControllerTest extends TestCase {
 			->with('admin')
 			->will($this->returnValue(true));
 
-		$this->api->removeFromGroup('admin', 'admin');
+		$this->api->removeFromGroup('Admin', 'admin');
 	}
 
 	/**
@@ -2030,6 +2074,10 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->will($this->returnValue('subadmin'));
 		$targetUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
+		$targetUser
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('subadmin'));
 		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
 		$targetGroup
 			->expects($this->any())
@@ -2047,7 +2095,7 @@ class UsersControllerTest extends TestCase {
 		$this->userManager
 			->expects($this->once())
 			->method('get')
-			->with('subadmin')
+			->with('SubAdmin')
 			->will($this->returnValue($targetUser));
 		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
 			->disableOriginalConstructor()->getMock();
@@ -2066,7 +2114,7 @@ class UsersControllerTest extends TestCase {
 			->with('subadmin')
 			->will($this->returnValue(false));
 
-		$this->api->removeFromGroup('subadmin', 'subadmin');
+		$this->api->removeFromGroup('SubAdmin', 'subadmin');
 	}
 
 	/**
