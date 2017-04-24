@@ -26,8 +26,10 @@ namespace OCA\Files_External\Tests\SharePoint;
 use OCA\Files_External\Lib\SharePoint\ContextsFactory;
 use OCA\Files_External\Lib\SharePoint\SharePointClient;
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
+use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\SharePoint\ClientContext;
 use Office365\PHP\Client\SharePoint\File;
+use Office365\PHP\Client\SharePoint\FileCollection;
 use Office365\PHP\Client\SharePoint\Folder;
 use Office365\PHP\Client\SharePoint\FolderCollection;
 use Office365\PHP\Client\SharePoint\Web;
@@ -168,7 +170,7 @@ class SharePointClientTest extends TestCase {
 			->method('executeQuery')
 			->willThrowException(new \Exception('Unknown Error'));
 
-		$this->contextsFactory->expects($this->exactly(3))
+		$this->contextsFactory->expects($this->exactly(1))
 			->method('getClientContext')
 			->willReturn($clientContextMock);
 
@@ -250,71 +252,129 @@ class SharePointClientTest extends TestCase {
 			->method('executeQuery')
 			->willThrowException(new \Exception('Whatever'));
 
-		$this->contextsFactory->expects($this->exactly(2))
+		$this->contextsFactory->expects($this->exactly(1))
 			->method('getClientContext')
 			->willReturn($clientContextMock);
 
 		$this->client->createFolder($path);
 	}
 
-	public function  boolXBoolProvider() {
+	public function fileTypeProvider() {
 		return [
-			[ true, true ],
-			[ true, false ],
-			[ false, false ],
-			[ false, true ],
+			[ 'file' ],
+			[ 'dir' ],
 		];
 	}
 
 	/**
-	 * @dataProvider boolXBoolProvider
+	 * @dataProvider fileTypeProvider
 	 */
-	public function testDeleteFolder($successfull, $folderProvided) {
-		$dirName = 'Target Project Dir';
-		$path = '/' . $this->documentLibraryTitle . '/Our Directory/' . $dirName;
+	public function testDelete($fileType) {
+		$itemClass = $fileType === 'dir' ? Folder::class : File::class;
+		/** @var ClientObject|\PHPUnit_Framework_MockObject_MockObject $itemMock */
+		$itemMock = $this->createMock($itemClass);
+		$itemMock->expects($this->once())
+			->method('recycle');
 
 		$this->contextsFactory->expects($this->once())
 			->method('getAuthContext')
 			->willReturn($this->createMock(AuthenticationContext::class));
 
-		$folderMock = $this->createMock(Folder::class);
-		$folderMock->expects($this->once())
-			->method('deleteObject');
-
-		$webMock = $this->createMock(Web::class);
 		$clientContextMock = $this->createMock(ClientContext::class);
-
-		$folderParameter = $folderMock;
-		if($folderProvided === false) {
-			$folderParameter = null;
-
-			$webMock->expects($this->once())
-				->method('getFolderByServerRelativeUrl')
-				->with($path)
-				->willReturn($folderMock);
-
-			$clientContextMock->expects($this->once())
-				->method('getWeb')
-				->willReturn($webMock);
-		}
-
-		if($successfull) {
-			$getClientContextCalls = 1;
-			$clientContextMock->expects($this->once())
-				->method('executeQuery');
-		} else {
-			$getClientContextCalls = 2;
-			$this->setExpectedException(\Exception::class);
-			$exceptionAt = $folderProvided ? 0 : 1;
-			$clientContextMock->expects($this->at($exceptionAt))
-				->method('executeQuery')
-				->willThrowException(new \Exception('Whatever'));
-		}
-
-		$this->contextsFactory->expects($this->exactly($getClientContextCalls))
+		$this->contextsFactory->expects($this->once())
 			->method('getClientContext')
 			->willReturn($clientContextMock);
 
-		$this->client->deleteFolder($path, $folderParameter);
+		$clientContextMock->expects($this->once())
+			->method('executeQuery');
+
+		$this->client->delete($itemMock);
 	}
+
+	/**
+	 * @dataProvider fileTypeProvider
+	 */
+	public function testRename($fileType) {
+		if($fileType === 'dir') {
+			$fileName = 'Goodies';
+			$path = '/' . $this->documentLibraryTitle . '/' . $fileName;
+			$newPath = $path . '1337';
+			$spFetchMethod = 'getFolderByServerRelativeUrl';
+			$spRenameMethod = 'rename';
+			$spRenameParameter = $fileName . '1337';
+			$itemClass = Folder::class;
+		} else {
+			$fileName = 'Goodies.asc';
+			$path = '/' . $this->documentLibraryTitle . '/' . $fileName;
+			$newPath = '/' . $this->documentLibraryTitle . '/Goodies w00t.asc';
+			$spFetchMethod = 'getFileByServerRelativeUrl';
+			$spRenameMethod = 'moveTo';
+			$spRenameParameter = rawurlencode($newPath);
+			$itemClass = File::class;
+		}
+
+		$itemMock = $this->createMock($itemClass);
+		$itemMock->expects($this->once())
+			->method($spRenameMethod)
+			->with($spRenameParameter);
+
+		$this->contextsFactory->expects($this->once())
+			->method('getAuthContext')
+			->willReturn($this->createMock(AuthenticationContext::class));
+
+		$webMock = $this->createMock(Web::class);
+		$webMock->expects($this->once())
+			->method($spFetchMethod)
+			->with($path)
+			->willReturn($itemMock);
+
+		$clientContextMock = $this->createMock(ClientContext::class);
+		$clientContextMock->expects($this->once())
+			->method('getWeb')
+			->willReturn($webMock);
+
+		$this->contextsFactory->expects($this->once())
+			->method('getClientContext')
+			->willReturn($clientContextMock);
+
+		$clientContextMock->expects($this->exactly(2))
+			->method('executeQuery');
+
+		$this->client->rename($path, $newPath);
+	}
+
+	public function testFetchFolderContents() {
+		$folderCollectionMock = $this->createMock(FolderCollection::class);
+		$fileCollectionMock = $this->createMock(FileCollection::class);
+
+		/** @var Folder|\PHPUnit_Framework_MockObject_MockObject $folderMock */
+		$folderMock = $this->createMock(Folder::class);
+		$folderMock->expects($this->once())
+			->method('getFolders')
+			->willReturn($folderCollectionMock);
+		$folderMock->expects($this->once())
+			->method('getFiles')
+			->willReturn($fileCollectionMock);
+
+		$this->contextsFactory->expects($this->once())
+			->method('getAuthContext')
+			->willReturn($this->createMock(AuthenticationContext::class));
+
+		$clientContextMock = $this->createMock(ClientContext::class);
+		$clientContextMock->expects($this->exactly(2))
+			->method('load')
+			->withConsecutive([$folderCollectionMock], [$fileCollectionMock]);
+		$clientContextMock->expects($this->once())
+			->method('executeQuery');
+
+		$this->contextsFactory->expects($this->once())
+			->method('getClientContext')
+			->willReturn($clientContextMock);
+
+		$result = $this->client->fetchFolderContents($folderMock);
+		$this->assertSame($result['folders'], $folderCollectionMock);
+		$this->assertSame($result['files'], $fileCollectionMock);
+	}
+
+
 }

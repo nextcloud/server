@@ -529,10 +529,10 @@ class SharePoint extends Common {
 	 * @return ClientObjectCollection[]
 	 */
 	private function getFolderContents($serverUrl) {
+		$folder = $this->getFileOrFolder($serverUrl);
 		$entry = $this->fileCache->get($serverUrl);
 		if($entry === null || !isset($entry['children'])) {
-			$folder = isset($entry['instance']) ? $entry['instance'] : null;
-			$contents = $this->spClient->fetchFolderContents($serverUrl, null, $folder);
+			$contents = $this->spClient->fetchFolderContents($folder);
 			$cacheItem = $entry ?: [];
 			$cacheItem['children'] = $contents;
 			$this->fileCache->set($serverUrl, $cacheItem);

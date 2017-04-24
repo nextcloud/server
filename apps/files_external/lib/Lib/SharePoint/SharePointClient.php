@@ -170,6 +170,7 @@ class SharePointClient {
 		if(!is_resource($fp)) {
 			throw new \InvalidArgumentException('file resource expected');
 		}
+		$this->ensureConnection();
 		$relativeServerPath = rawurlencode($relativeServerPath);
 		$url = $this->context->getServiceRootUrl() .
 			"web/getfilebyserverrelativeurl('$relativeServerPath')/\$value";
@@ -193,7 +194,6 @@ class SharePointClient {
 		$request->Method = 'POST'; // yes, POST
 		$request->addCustomHeader('X-HTTP-Method','PUT'); // yes, PUT
 		$this->context->ensureFormDigest($request);
-		//FIXME: Proper StreamHandle handling is not upstream, yet
 		$request->StreamHandle = $fp;
 		$request->addCustomHeader("content-length", filesize($localPath));
 
@@ -265,7 +265,6 @@ class SharePointClient {
 		$newPath = rawurlencode($newPath);
 		$file->moveTo($newPath, 0);
 		$this->context->executeQuery();
-		#$req = $this->debugGetLastRequest();
 	}
 
 	/**
@@ -315,21 +314,16 @@ class SharePointClient {
 	/**
 	 * returns a Folder- and a FileCollection of the children of the given directory
 	 *
-	 * @param $relativeServerPath
-	 * @param null $properties
 	 * @param Folder $folder
 	 * @return ClientObjectCollection[]
 	 */
-	public function fetchFolderContents($relativeServerPath, $properties = null, Folder $folder = null) {
+	public function fetchFolderContents(Folder $folder) {
 		$this->ensureConnection();
-		if($folder === null) {
-			$folder = $this->context->getWeb()->getFolderByServerRelativeUrl($relativeServerPath);
-		}
 
 		$folderCollection = $folder->getFolders();
 		$fileCollection = $folder->getFiles();
-		$this->context->load($folderCollection, $properties);
-		$this->context->load($fileCollection, $properties);
+		$this->context->load($folderCollection);
+		$this->context->load($fileCollection);
 		$this->context->executeQuery();
 
 		$collections = ['folders' => $folderCollection, 'files' => $fileCollection];
@@ -379,6 +373,7 @@ class SharePointClient {
 		if(!$item instanceof File && !$item instanceof Folder) {
 			throw new \InvalidArgumentException('File or Folder expected');
 		}
+		$this->ensureConnection();
 
 		$listItem = $item->getListItemAllFields();
 		$this->loadAndExecute($listItem, ['EffectiveBasePermissions']);

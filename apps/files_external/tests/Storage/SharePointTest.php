@@ -98,21 +98,6 @@ class SharePointTest extends TestCase {
 		$this->storage = new SharePoint($parameters);
 	}
 
-	private function prepareFactoryMocks() {
-		$authContextMock = $this->createMock(IAuthenticationContext::class);
-		$this->clientContextMock = $this->createMock(ClientContext::class);
-
-		$this->factory->expects($this->once())
-			->method('getAuthContext')
-			->with($this->exampleUser, $this->examplePwd)
-			->willReturn($authContextMock);
-		$this->factory->expects($this->once())
-			->method('getClientContext')
-			->with($this->exampleHost, $authContextMock)
-			->willReturn($this->clientContextMock);
-
-	}
-
 	/**
 	 * @expectedException \InvalidArgumentException
 	 */
@@ -292,49 +277,52 @@ class SharePointTest extends TestCase {
 		$this->assertSame($successful, $this->storage->mkdir($dirName));
 	}
 
-	public function  boolXBoolProvider() {
-		return [
-			[ true, true ],
-			[ true, false ],
-			[ false, false ],
-			[ false, true ],
-		];
-	}
-
 	/**
-	 * @dataProvider boolXBoolProvider
+	 * @dataProvider boolProvider
 	 */
-	public function testRmDir($successful, $useCache) {
+	public function testRmDir($successful) {
 		$dirName = '/Parentfolder/TargetDirectory';
 		$serverPath = '/' . $this->documentLibraryTitle . $dirName;
 
-		$folderMock = null;
-		if($useCache) {
-			$folderMock = $this->createMock(Folder::class);
+		$folderMock = $this->createMock(Folder::class);
 
-			$this->fileCache->expects($this->once())
-				->method('get')
-				->with($serverPath)
-				->willReturn(['instance' => $folderMock]);
-		}
-
+		$this->client->expects($this->once())
+			->method('fetchFileOrFolder')
+			->with($serverPath)
+			->willReturn($folderMock);
 		$invocationMocker = $this->client->expects($this->once())
-			->method('deleteFolder')
-			->with($serverPath, $folderMock);
+			->method('delete')
+			->with($folderMock);
 
 		if(!$successful) {
-			$this->fileCache->expects($this->once())
-				->method('remove')
-				->with($serverPath);
-
-			$invocationMocker->willThrowException(new \Exception('Whatever'));
-		} else {
-			$this->fileCache->expects($this->once())
-				->method('set')
-				->with($serverPath, null);
+			$invocationMocker->willThrowException(new \Exception('nope'));
 		}
 
 		$this->assertSame($successful, $this->storage->rmdir($dirName));
 	}
+
+	public function testUnlink() {
+		$path = '/dingdong/nothing.sh';
+
+		$serverPath = '/' . $this->documentLibraryTitle;
+		if(trim($path, '/') !== '') {
+			$serverPath .= '/' . trim($path, '/');
+		}
+
+		$fileMock = $this->createMock(File::class);
+
+		$this->client->expects($this->exactly(2))
+			->method('fetchFileOrFolder')
+			->with($serverPath)
+			->willReturn($fileMock);
+
+		$this->client->expects($this->once())
+			->method('delete')
+			->with($fileMock);
+
+		$this->storage->unlink($path);
+	}
+
+
 
 }
