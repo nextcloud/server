@@ -31,23 +31,20 @@ namespace OCA\Provisioning_API\Controller;
 
 use OC\Accounts\AccountManager;
 use OC\Settings\Mailer\NewUserMailHelper;
-use \OC_Helper;
+use OC_Helper;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
-use OCP\Defaults;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IRequest;
-use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
-use OCP\Mail\IMailer;
 
 class UsersController extends OCSController {
 
@@ -63,14 +60,6 @@ class UsersController extends OCSController {
 	private $accountManager;
 	/** @var ILogger */
 	private $logger;
-	/** @var string */
-	private $fromMailAddress;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var IMailer */
-	private $mailer;
-	/** @var Defaults */
-	private $defaults;
 	/** @var IFactory */
 	private $l10nFactory;
 	/** @var NewUserMailHelper */
@@ -85,10 +74,6 @@ class UsersController extends OCSController {
 	 * @param IUserSession $userSession
 	 * @param AccountManager $accountManager
 	 * @param ILogger $logger
-	 * @param string $fromMailAddress
-	 * @param IURLGenerator $urlGenerator
-	 * @param IMailer $mailer
-	 * @param Defaults $defaults
 	 * @param IFactory $l10nFactory
 	 * @param NewUserMailHelper $newUserMailHelper
 	 */
@@ -100,10 +85,6 @@ class UsersController extends OCSController {
 								IUserSession $userSession,
 								AccountManager $accountManager,
 								ILogger $logger,
-								$fromMailAddress,
-								IURLGenerator $urlGenerator,
-								IMailer $mailer,
-								Defaults $defaults,
 								IFactory $l10nFactory,
 								NewUserMailHelper $newUserMailHelper) {
 		parent::__construct($appName, $request);
@@ -114,10 +95,6 @@ class UsersController extends OCSController {
 		$this->userSession = $userSession;
 		$this->accountManager = $accountManager;
 		$this->logger = $logger;
-		$this->fromMailAddress = $fromMailAddress;
-		$this->urlGenerator = $urlGenerator;
-		$this->mailer = $mailer;
-		$this->defaults = $defaults;
 		$this->l10nFactory = $l10nFactory;
 		$this->newUserMailHelper = $newUserMailHelper;
 	}
@@ -278,10 +255,10 @@ class UsersController extends OCSController {
 		// Admin? Or SubAdmin?
 		if($this->groupManager->isAdmin($currentLoggedInUser->getUID())
 			|| $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUserObject)) {
-			$data['enabled'] = $this->config->getUserValue($userId, 'core', 'enabled', 'true');
+			$data['enabled'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'enabled', 'true');
 		} else {
 			// Check they are looking up themselves
-			if($currentLoggedInUser->getUID() !== $userId) {
+			if($currentLoggedInUser->getUID() !== $targetUserObject->getUID()) {
 				throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
 			}
 		}
@@ -295,7 +272,7 @@ class UsersController extends OCSController {
 
 		// Find the data
 		$data['id'] = $targetUserObject->getUID();
-		$data['quota'] = $this->fillStorageInfo($userId);
+		$data['quota'] = $this->fillStorageInfo($targetUserObject->getUID());
 		$data[AccountManager::PROPERTY_EMAIL] = $targetUserObject->getEMailAddress();
 		$data[AccountManager::PROPERTY_DISPLAYNAME] = $targetUserObject->getDisplayName();
 		$data[AccountManager::PROPERTY_PHONE] = $userAccount[AccountManager::PROPERTY_PHONE]['value'];
@@ -330,7 +307,7 @@ class UsersController extends OCSController {
 		}
 
 		$permittedFields = [];
-		if($userId === $currentLoggedInUser->getUID()) {
+		if($targetUser->getUID() === $currentLoggedInUser->getUID()) {
 			// Editing self (display, email)
 			$permittedFields[] = 'display';
 			$permittedFields[] = AccountManager::PROPERTY_DISPLAYNAME;
@@ -618,7 +595,7 @@ class UsersController extends OCSController {
 		}
 
 		// Check they aren't removing themselves from 'admin' or their 'subadmin; group
-		if ($userId === $loggedInUser->getUID()) {
+		if ($targetUser->getUID() === $loggedInUser->getUID()) {
 			if ($this->groupManager->isAdmin($loggedInUser->getUID())) {
 				if ($group->getGID() === 'admin') {
 					throw new OCSException('Cannot remove yourself from the admin group', 105);
@@ -668,10 +645,10 @@ class UsersController extends OCSController {
 		}
 		// Check if group exists
 		if($group === null) {
-			throw new OCSException('Group:'.$groupid.' does not exist',  102);
+			throw new OCSException('Group does not exist',  102);
 		}
 		// Check if trying to make subadmin of admin group
-		if(strtolower($groupid) === 'admin') {
+		if($group->getGID() === 'admin') {
 			throw new OCSException('Cannot create subadmins for admin group', 103);
 		}
 
@@ -713,7 +690,7 @@ class UsersController extends OCSController {
 			throw new OCSException('Group does not exist', 101);
 		}
 		// Check if they are a subadmin of this said group
-		if(!$subAdminManager->isSubAdminofGroup($user, $group)) {
+		if(!$subAdminManager->isSubAdminOfGroup($user, $group)) {
 			throw new OCSException('User is not a subadmin of this group', 102);
 		}
 
