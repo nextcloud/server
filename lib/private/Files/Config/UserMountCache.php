@@ -187,6 +187,9 @@ class UserMountCache implements IUserMountCache {
 
 	private function dbRowToMountInfo(array $row) {
 		$user = $this->userManager->get($row['user_id']);
+		if (is_null($user)) {
+			return null;
+		}
 		return new CachedMountInfo($user, (int)$row['storage_id'], (int)$row['root_id'], $row['mount_point'], $row['mount_id']);
 	}
 
@@ -203,7 +206,7 @@ class UserMountCache implements IUserMountCache {
 
 			$rows = $query->execute()->fetchAll();
 
-			$this->mountsForUsers[$user->getUID()] = array_map([$this, 'dbRowToMountInfo'], $rows);
+			$this->mountsForUsers[$user->getUID()] = array_filter(array_map([$this, 'dbRowToMountInfo'], $rows));
 		}
 		return $this->mountsForUsers[$user->getUID()];
 	}
@@ -220,7 +223,7 @@ class UserMountCache implements IUserMountCache {
 
 		$rows = $query->execute()->fetchAll();
 
-		return array_map([$this, 'dbRowToMountInfo'], $rows);
+		return array_filter(array_map([$this, 'dbRowToMountInfo'], $rows));
 	}
 
 	/**
@@ -235,7 +238,7 @@ class UserMountCache implements IUserMountCache {
 
 		$rows = $query->execute()->fetchAll();
 
-		return array_map([$this, 'dbRowToMountInfo'], $rows);
+		return array_filter(array_map([$this, 'dbRowToMountInfo'], $rows));
 	}
 
 	/**
