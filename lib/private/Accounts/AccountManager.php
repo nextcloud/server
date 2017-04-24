@@ -134,7 +134,11 @@ class AccountManager {
 			return $userData;
 		}
 
-		return json_decode($result[0]['data'], true);
+		$userDataArray = json_decode($result[0]['data'], true);
+
+		$userDataArray = $this->addMissingDefaultValues($userDataArray);
+
+		return $userDataArray;
 	}
 
 	/**
@@ -157,6 +161,23 @@ class AccountManager {
 				]
 			);
 		}
+	}
+
+	/**
+	 * make sure that all expected data are set
+	 *
+	 * @param array $userData
+	 * @return array
+	 */
+	protected function addMissingDefaultValues(array $userData) {
+
+		foreach ($userData as $key => $value) {
+			if (!isset($userData[$key]['verified'])) {
+				$userData[$key]['verified'] = self::NOT_VERIFIED;
+			}
+		}
+
+		return $userData;
 	}
 
 	/**
@@ -190,19 +211,19 @@ class AccountManager {
 		if($twitterVerified &&
 			$oldData[self::PROPERTY_TWITTER]['value'] !== $newData[self::PROPERTY_TWITTER]['value']
 		) {
-			$newData[self::PROPERTY_TWITTER]['value']['verified'] = self::NOT_VERIFIED;
+			$newData[self::PROPERTY_TWITTER]['verified'] = self::NOT_VERIFIED;
 		}
 
 		if($websiteVerified &&
 			$oldData[self::PROPERTY_WEBSITE]['value'] !== $newData[self::PROPERTY_WEBSITE]['value']
 		) {
-			$newData[self::PROPERTY_WEBSITE]['value']['verified'] = self::NOT_VERIFIED;
+			$newData[self::PROPERTY_WEBSITE]['verified'] = self::NOT_VERIFIED;
 		}
 
 		if($emailVerified &&
 			$oldData[self::PROPERTY_EMAIL]['value'] !== $newData[self::PROPERTY_EMAIL]['value']
 		) {
-			$newData[self::PROPERTY_EMAIL]['value']['verified'] = self::NOT_VERIFIED;
+			$newData[self::PROPERTY_EMAIL]['verified'] = self::NOT_VERIFIED;
 		}
 
 		return $newData;
@@ -263,19 +284,19 @@ class AccountManager {
 				[
 					'value' => '',
 					'scope' => self::VISIBILITY_PRIVATE,
-					'verified' => '0',
+					'verified' => self::NOT_VERIFIED,
 				],
 			self::PROPERTY_WEBSITE =>
 				[
 					'value' => '',
 					'scope' => self::VISIBILITY_PRIVATE,
-					'verified' => '0',
+					'verified' => self::NOT_VERIFIED,
 				],
 			self::PROPERTY_EMAIL =>
 				[
 					'value' => $user->getEMailAddress(),
 					'scope' => self::VISIBILITY_CONTACTS_ONLY,
-					'verified' => '0',
+					'verified' => self::NOT_VERIFIED,
 				],
 			self::PROPERTY_AVATAR =>
 				[
@@ -285,13 +306,13 @@ class AccountManager {
 				[
 					'value' => '',
 					'scope' => self::VISIBILITY_PRIVATE,
-					'verified' => '0',
+					'verified' => self::NOT_VERIFIED,
 				],
 			self::PROPERTY_TWITTER =>
 				[
 					'value' => '',
 					'scope' => self::VISIBILITY_PRIVATE,
-					'verified' => '0',
+					'verified' => self::NOT_VERIFIED,
 				],
 		];
 	}
