@@ -194,6 +194,11 @@ describe('Contacts menu', function() {
 					},
 					actions: [
 						{
+							title: 'Info',
+							icon: 'icon-info',
+							hyperlink: 'https:\/\/localhost\/index.php\/apps\/contacts'
+						},
+						{
 							title: 'Details',
 							icon: 'icon-info',
 							hyperlink: 'https:\/\/localhost\/index.php\/apps\/contacts'
@@ -210,6 +215,11 @@ describe('Contacts menu', function() {
 						hyperlink: 'mailto:ceciliasoto%40essensia.com'
 					},
 					actions: [
+						{
+							title: 'Info',
+							icon: 'icon-info',
+							hyperlink: 'https://localhost\/index.php\/apps\/contacts'
+						},
 						{
 							title: 'Details',
 							icon: 'icon-info',
@@ -228,8 +238,8 @@ describe('Contacts menu', function() {
 			expect($menuEl.html()).toContain('Show all contacts …');
 
 			// Both menus are closed at the beginning
-			expect($menuEl.find('.contact').eq(0).find('.menu').is(':visible')).toBeFalsy();
-			expect($menuEl.find('.contact').eq(1).find('.menu').is(':visible')).toBeFalsy();
+			expect($menuEl.find('.contact').eq(0).find('.menu').is(':visible')).toBe(false);
+			expect($menuEl.find('.contact').eq(1).find('.menu').is(':visible')).toBe(false);
 
 			// Open the first one
 			$menuEl.find('.contact').eq(0).find('.other-actions').click();
