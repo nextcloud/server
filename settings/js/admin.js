@@ -231,16 +231,12 @@ $(document).ready(function(){
 		$.ajax({
 			url: OC.generateUrl('/settings/admin/mailtest'),
 			type: 'POST',
-			data: $('#mail_credentials_settings').serialize(),
 			success: function(){
 				OC.msg.finishedSuccess('#sendtestmail_msg', t('settings', 'Email sent'));
 			},
 			error: function(xhr){
 				OC.msg.finishedError('#sendtestmail_msg', xhr.responseJSON);
 			}
-		});
-		$.post(OC.generateUrl('/settings/admin/mailtest'), '', function(data){
-			OC.msg.finishedAction('#sendtestmail_msg', data);
 		});
 	});
 
