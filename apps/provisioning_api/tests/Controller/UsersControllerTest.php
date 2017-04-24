@@ -70,12 +70,6 @@ class UsersControllerTest extends TestCase {
 	protected $accountManager;
 	/** @var  IRequest|PHPUnit_Framework_MockObject_MockObject */
 	protected $request;
-	/** @var IURLGenerator|PHPUnit_Framework_MockObject_MockObject */
-	private $urlGenerator;
-	/** @var IMailer|PHPUnit_Framework_MockObject_MockObject */
-	private $mailer;
-	/** @var Defaults|PHPUnit_Framework_MockObject_MockObject */
-	private $defaults;
 	/** @var IFactory|PHPUnit_Framework_MockObject_MockObject */
 	private $l10nFactory;
 	/** @var NewUserMailHelper|PHPUnit_Framework_MockObject_MockObject */
@@ -91,9 +85,6 @@ class UsersControllerTest extends TestCase {
 		$this->logger = $this->createMock(ILogger::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->accountManager = $this->createMock(AccountManager::class);
-		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->mailer = $this->createMock(IMailer::class);
-		$this->defaults = $this->createMock(Defaults::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->newUserMailHelper = $this->createMock(NewUserMailHelper::class);
 
@@ -107,10 +98,6 @@ class UsersControllerTest extends TestCase {
 				$this->userSession,
 				$this->accountManager,
 				$this->logger,
-				'test@example.org',
-				$this->urlGenerator,
-				$this->mailer,
-				$this->defaults,
 				$this->l10nFactory,
 				$this->newUserMailHelper
 			])
@@ -2664,10 +2651,6 @@ class UsersControllerTest extends TestCase {
 				$this->userSession,
 				$this->accountManager,
 				$this->logger,
-				'',
-				$this->urlGenerator,
-				$this->mailer,
-				$this->defaults,
 				$this->l10nFactory,
 				$this->newUserMailHelper
 			])
@@ -2728,10 +2711,6 @@ class UsersControllerTest extends TestCase {
 				$this->userSession,
 				$this->accountManager,
 				$this->logger,
-				'',
-				$this->urlGenerator,
-				$this->mailer,
-				$this->defaults,
 				$this->l10nFactory,
 				$this->newUserMailHelper
 			])

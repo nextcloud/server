@@ -31,23 +31,20 @@ namespace OCA\Provisioning_API\Controller;
 
 use OC\Accounts\AccountManager;
 use OC\Settings\Mailer\NewUserMailHelper;
-use \OC_Helper;
+use OC_Helper;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
-use OCP\Defaults;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IRequest;
-use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
-use OCP\Mail\IMailer;
 
 class UsersController extends OCSController {
 
@@ -63,14 +60,6 @@ class UsersController extends OCSController {
 	private $accountManager;
 	/** @var ILogger */
 	private $logger;
-	/** @var string */
-	private $fromMailAddress;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var IMailer */
-	private $mailer;
-	/** @var Defaults */
-	private $defaults;
 	/** @var IFactory */
 	private $l10nFactory;
 	/** @var NewUserMailHelper */
@@ -85,10 +74,6 @@ class UsersController extends OCSController {
 	 * @param IUserSession $userSession
 	 * @param AccountManager $accountManager
 	 * @param ILogger $logger
-	 * @param string $fromMailAddress
-	 * @param IURLGenerator $urlGenerator
-	 * @param IMailer $mailer
-	 * @param Defaults $defaults
 	 * @param IFactory $l10nFactory
 	 * @param NewUserMailHelper $newUserMailHelper
 	 */
@@ -100,10 +85,6 @@ class UsersController extends OCSController {
 								IUserSession $userSession,
 								AccountManager $accountManager,
 								ILogger $logger,
-								$fromMailAddress,
-								IURLGenerator $urlGenerator,
-								IMailer $mailer,
-								Defaults $defaults,
 								IFactory $l10nFactory,
 								NewUserMailHelper $newUserMailHelper) {
 		parent::__construct($appName, $request);
@@ -114,10 +95,6 @@ class UsersController extends OCSController {
 		$this->userSession = $userSession;
 		$this->accountManager = $accountManager;
 		$this->logger = $logger;
-		$this->fromMailAddress = $fromMailAddress;
-		$this->urlGenerator = $urlGenerator;
-		$this->mailer = $mailer;
-		$this->defaults = $defaults;
 		$this->l10nFactory = $l10nFactory;
 		$this->newUserMailHelper = $newUserMailHelper;
 	}
