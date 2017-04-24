@@ -149,7 +149,7 @@ class VerifyUserData extends Job {
 			$result = true;
 			$publishedCode = $response->getBody();
 			// remove new lines and spaces
-			$publishedCodeSanitized = $string = trim(preg_replace('/\s\s+/', ' ', $publishedCode));
+			$publishedCodeSanitized = trim(preg_replace('/\s\s+/', ' ', $publishedCode));
 			$user = $this->userManager->get($argument['uid']);
 			// we don't check a valid user -> give up
 			if ($user === null) {
