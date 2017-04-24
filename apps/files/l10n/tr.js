@@ -121,6 +121,7 @@ OC.L10N.register(
     "Select all" : "Tümünü seç",
     "Upload too large" : "Yükleme boyutu çok büyük",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Yüklemeye çalıştığınız dosyalar bu sunucuya yüklenmesine izin verilen en büyük dosya boyutunu aşıyor.",
+    "No favorites yet" : "Henüz sık kullanılan bir öge yok",
     "Files and folders you mark as favorite will show up here" : "Sık kullanılanlara eklediğiniz dosya ve klasörler burada görüntülenir",
     "Shared with you" : "Sizinle paylaşılan",
     "Shared with others" : "Diğerleri ile paylaşılan",
