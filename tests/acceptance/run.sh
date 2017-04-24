@@ -48,31 +48,34 @@
 # (probably you will not have containers nor images with those names, but just
 # in case).
 
-# Switch between timeout on linux and gtimeout on macOS (same for mktemp and
-# gmktemp)
+# Sets the variables that abstract the differences in command names and options
+# between operating systems.
+#
+# Switches between timeout on GNU/Linux and gtimeout on macOS (same for mktemp
+# and gmktemp).
+function setOperatingSystemAbstractionVariables() {
+	case "$OSTYPE" in
+		darwin*)
+			if [ "$(which gtimeout)" == "" ]; then
+				echo "Please install coreutils (brew install coreutils)"
+				exit 1
+			fi
 
-case "$OSTYPE" in
-    darwin*)
-        INSTALLED=$(which gtimeout)
-        if [ "$INSTALLED" == "" ]; then
-            echo "Please install coreutils (brew install coreutils)"
-            exit 1;
-        fi
-
-        MKTEMP=gmktemp
-        TIMEOUT=gtimeout
-        DOCKEROPTION="-e no_proxy=localhost "
-        ;;
-    linux*)
-        MKTEMP=mktemp
-        TIMEOUT=timeout
-        DOCKEROPTION=" "
-        ;;
-    *)
-        echo "Operating system ($OSTYPE) not supported"
-        exit 1
-        ;;
-esac
+			MKTEMP=gmktemp
+			TIMEOUT=gtimeout
+			DOCKER_OPTIONS="-e no_proxy=localhost "
+			;;
+		linux*)
+			MKTEMP=mktemp
+			TIMEOUT=timeout
+			DOCKER_OPTIONS=" "
+			;;
+		*)
+			echo "Operating system ($OSTYPE) not supported"
+			exit 1
+			;;
+	esac
+}
 
 # Launches the Selenium server in a Docker container.
 #
@@ -105,12 +108,12 @@ function prepareSelenium() {
 	SELENIUM_CONTAINER=selenium-nextcloud-local-test-acceptance
 
 	echo "Starting Selenium server"
-	docker run --detach --name=$SELENIUM_CONTAINER --publish 4444:4444 --publish 5900:5900 $DOCKEROPTION selenium/standalone-firefox-debug:2.53.1-beryllium
+	docker run --detach --name=$SELENIUM_CONTAINER --publish 4444:4444 --publish 5900:5900 $DOCKER_OPTIONS selenium/standalone-firefox-debug:2.53.1-beryllium
 
 	echo "Waiting for Selenium server to be ready"
 	if ! $TIMEOUT 10s bash -c "while ! curl 127.0.0.1:4444 >/dev/null 2>&1; do sleep 1; done"; then
 		echo "Could not start Selenium server; running" \
-		     "\"docker run --rm --publish 4444:4444 --publish 5900:5900 $DOCKEROPTION selenium/standalone-firefox-debug:2.53.1-beryllium\"" \
+		     "\"docker run --rm --publish 4444:4444 --publish 5900:5900 $DOCKER_OPTIONS selenium/standalone-firefox-debug:2.53.1-beryllium\"" \
 		     "could give you a hint of the problem"
 
 		exit 1
@@ -196,6 +199,8 @@ cd "$(dirname $0)"
 
 # If no parameter is provided to this script all the acceptance tests are run.
 SCENARIO_TO_RUN=$1
+
+setOperatingSystemAbstractionVariables
 
 prepareSelenium
 prepareDocker
