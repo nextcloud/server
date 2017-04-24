@@ -474,6 +474,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Command\\User\\ResetPassword' => __DIR__ . '/../../..' . '/core/Command/User/ResetPassword.php',
         'OC\\Core\\Command\\User\\Setting' => __DIR__ . '/../../..' . '/core/Command/User/Setting.php',
         'OC\\Core\\Controller\\AvatarController' => __DIR__ . '/../../..' . '/core/Controller/AvatarController.php',
+        'OC\\Core\\Controller\\ClientFlowLoginController' => __DIR__ . '/../../..' . '/core/Controller/ClientFlowLoginController.php',
         'OC\\Core\\Controller\\CssController' => __DIR__ . '/../../..' . '/core/Controller/CssController.php',
         'OC\\Core\\Controller\\JsController' => __DIR__ . '/../../..' . '/core/Controller/JsController.php',
         'OC\\Core\\Controller\\LoginController' => __DIR__ . '/../../..' . '/core/Controller/LoginController.php',
