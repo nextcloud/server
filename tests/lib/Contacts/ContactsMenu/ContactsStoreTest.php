@@ -161,10 +161,11 @@ class ContactsStoreTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())
 			->method('search')
-			->with($this->equalTo(''), $this->equalTo(['FN']))
+			->with($this->equalTo('a567'), $this->equalTo(['UID']))
 			->willReturn([
 				[
 					'UID' => 123,
+					'isLocalSystemBook' => false
 				],
 				[
 					'UID' => 'a567',
@@ -190,17 +191,19 @@ class ContactsStoreTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())
 			->method('search')
-			->with($this->equalTo(''), $this->equalTo(['FN']))
+			->with($this->equalTo('darren@roner.au'), $this->equalTo(['EMAIL']))
 			->willReturn([
 				[
 					'UID' => 123,
+					'isLocalSystemBook' => false
 				],
 				[
 					'UID' => 'a567',
 					'FN' => 'Darren Roner',
 					'EMAIL' => [
 						'darren@roner.au'
-					]
+					],
+					'isLocalSystemBook' => false
 				],
 			]);
 		$user->expects($this->once())
@@ -226,17 +229,19 @@ class ContactsStoreTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())
 			->method('search')
-			->with($this->equalTo(''), $this->equalTo(['FN']))
+			->with($this->equalTo('a567'), $this->equalTo(['UID']))
 			->willReturn([
 				[
 					'UID' => 123,
+					'isLocalSystemBook' => false
 				],
 				[
 					'UID' => 'a567',
 					'FN' => 'Darren Roner',
 					'EMAIL' => [
 						'darren@roner.au123'
-					]
+					],
+					'isLocalSystemBook' => false
 				],
 			]);
 		$user->expects($this->once())
