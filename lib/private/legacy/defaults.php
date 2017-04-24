@@ -48,7 +48,6 @@ class OC_Defaults {
 	private $defaultLogoClaim;
 	private $defaultColorPrimary;
 	private $defaultLogoUrl;
-	private $defaultCacheBuster;
 
 	function __construct() {
 		$this->l = \OC::$server->getL10N('lib');

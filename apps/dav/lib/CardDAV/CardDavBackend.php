@@ -213,7 +213,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	}
 
 	public function getUsersOwnAddressBooks($principalUri) {
-		$principalUriOriginal = $principalUri;
 		$principalUri = $this->convertPrincipal($principalUri, true);
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'uri', 'displayname', 'principaluri', 'description', 'synctoken'])
