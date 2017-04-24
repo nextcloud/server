@@ -26,7 +26,7 @@
 			'{{#each sharees}}' +
 				'<li data-share-id="{{shareId}}" data-share-type="{{shareType}}" data-share-with="{{shareWith}}">' +
 					'<div class="avatar {{#if modSeed}}imageplaceholderseed{{/if}}" data-username="{{shareWith}}" data-displayname="{{shareWithDisplayName}}" {{#if modSeed}}data-seed="{{shareWith}} {{shareType}}"{{/if}}></div>' +
-					'<span class="has-tooltip username" title="{{shareWithTitle}}">{{shareWithDisplayName}}</span>' +
+					'<span class="username" title="{{shareWithTitle}}">{{shareWithDisplayName}}</span>' +
 					'<span class="sharingOptionsGroup">' +
 						'{{#if editPermissionPossible}}' +
 						'<span class="shareOption">' +
@@ -361,6 +361,15 @@
 				this.$('.has-tooltip').tooltip({
 					placement: 'bottom'
 				});
+
+				this.$('ul.shareWithList > li').each(function() {
+					var $this = $(this);
+
+					var shareWith = $this.data('share-with');
+					var shareType = $this.data('share-type');
+
+					$this.find('div.avatar, span.username').contactsMenu(shareWith, shareType, $this);
+				})
 			} else {
 				var permissionChangeShareId = parseInt(this._renderPermissionChange, 10);
 				var shareWithIndex = this.model.findShareWithIndex(permissionChangeShareId);

@@ -99,4 +99,49 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($expected, $data);
 	}
 
+	public function testFindOne() {
+		$shareTypeFilter = 42;
+		$shareWithFilter = 'foobar';
+
+		$user = $this->createMock(IUser::class);
+		$entry = current($this->generateTestEntries());
+		$provider = $this->createMock(IProvider::class);
+		$this->contactsStore->expects($this->once())
+			->method('findOne')
+			->with($user, $shareTypeFilter, $shareWithFilter)
+			->willReturn($entry);
+		$this->actionProviderStore->expects($this->once())
+			->method('getProviders')
+			->with($user)
+			->willReturn([$provider]);
+		$provider->expects($this->once())
+			->method('process');
+
+		$data = $this->manager->findOne($user, $shareTypeFilter, $shareWithFilter);
+
+		$this->assertEquals($entry, $data);
+	}
+
+	public function testFindOne404() {
+		$shareTypeFilter = 42;
+		$shareWithFilter = 'foobar';
+
+		$user = $this->createMock(IUser::class);
+		$provider = $this->createMock(IProvider::class);
+		$this->contactsStore->expects($this->once())
+			->method('findOne')
+			->with($user, $shareTypeFilter, $shareWithFilter)
+			->willReturn(null);
+		$this->actionProviderStore->expects($this->never())
+			->method('getProviders')
+			->with($user)
+			->willReturn([$provider]);
+		$provider->expects($this->never())
+			->method('process');
+
+		$data = $this->manager->findOne($user, $shareTypeFilter, $shareWithFilter);
+
+		$this->assertEquals(null, $data);
+	}
+
 }

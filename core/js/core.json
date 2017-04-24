@@ -20,6 +20,7 @@
 	"libraries": [
 		"jquery-showpassword.js",
 		"jquery.avatar.js",
+		"jquery.contactsmenu.js",
 		"placeholder.js"
 	],
 	"modules": [

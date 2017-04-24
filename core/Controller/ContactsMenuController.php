@@ -26,6 +26,7 @@ namespace OC\Core\Controller;
 
 use OC\Contacts\ContactsMenu\Manager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\IUserSession;
@@ -59,4 +60,20 @@ class ContactsMenuController extends Controller {
 		return $this->manager->getEntries($this->userSession->getUser(), $filter);
 	}
 
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param integer $shareType
+	 * @param string $shareWith
+	 * @return JSONResponse
+	 */
+	public function findOne($shareType, $shareWith) {
+		$contact = $this->manager->findOne($this->userSession->getUser(), $shareType, $shareWith);
+
+		if ($contact) {
+			return $contact;
+		} else {
+			return new JSONResponse([], Http::STATUS_NOT_FOUND);
+		}
+	}
 }

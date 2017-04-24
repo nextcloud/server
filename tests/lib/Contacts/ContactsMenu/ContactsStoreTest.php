@@ -157,4 +157,94 @@ class ContactsStoreTest extends TestCase {
 		$this->assertEquals('https://photo', $entries[1]->getAvatar());
 	}
 
+	public function testFindOneUser() {
+		$user = $this->createMock(IUser::class);
+		$this->contactsManager->expects($this->once())
+			->method('search')
+			->with($this->equalTo(''), $this->equalTo(['FN']))
+			->willReturn([
+				[
+					'UID' => 123,
+				],
+				[
+					'UID' => 'a567',
+					'FN' => 'Darren Roner',
+					'EMAIL' => [
+						'darren@roner.au'
+					],
+					'isLocalSystemBook' => true
+				],
+			]);
+		$user->expects($this->once())
+			->method('getUID')
+			->willReturn('user123');
+
+		$entry = $this->contactsStore->findOne($user, 0, 'a567');
+
+		$this->assertEquals([
+			'darren@roner.au'
+		], $entry->getEMailAddresses());
+	}
+
+	public function testFindOneEMail() {
+		$user = $this->createMock(IUser::class);
+		$this->contactsManager->expects($this->once())
+			->method('search')
+			->with($this->equalTo(''), $this->equalTo(['FN']))
+			->willReturn([
+				[
+					'UID' => 123,
+				],
+				[
+					'UID' => 'a567',
+					'FN' => 'Darren Roner',
+					'EMAIL' => [
+						'darren@roner.au'
+					]
+				],
+			]);
+		$user->expects($this->once())
+			->method('getUID')
+			->willReturn('user123');
+
+		$entry = $this->contactsStore->findOne($user, 4, 'darren@roner.au');
+
+		$this->assertEquals([
+			'darren@roner.au'
+		], $entry->getEMailAddresses());
+	}
+
+	public function testFindOneNotSupportedType() {
+		$user = $this->createMock(IUser::class);
+
+		$entry = $this->contactsStore->findOne($user, 42, 'darren@roner.au');
+
+		$this->assertEquals(null, $entry);
+	}
+
+	public function testFindOneNoMatches() {
+		$user = $this->createMock(IUser::class);
+		$this->contactsManager->expects($this->once())
+			->method('search')
+			->with($this->equalTo(''), $this->equalTo(['FN']))
+			->willReturn([
+				[
+					'UID' => 123,
+				],
+				[
+					'UID' => 'a567',
+					'FN' => 'Darren Roner',
+					'EMAIL' => [
+						'darren@roner.au123'
+					]
+				],
+			]);
+		$user->expects($this->once())
+			->method('getUID')
+			->willReturn('user123');
+
+		$entry = $this->contactsStore->findOne($user, 0, 'a567');
+
+		$this->assertEquals(null, $entry);
+	}
 }
