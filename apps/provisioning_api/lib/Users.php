@@ -194,16 +194,16 @@ class Users {
 		// Admin? Or SubAdmin?
 		if($this->groupManager->isAdmin($currentLoggedInUser->getUID())
 			|| $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUserObject)) {
-			$data['enabled'] = $this->config->getUserValue($userId, 'core', 'enabled', 'true');
+			$data['enabled'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'enabled', 'true');
 		} else {
 			// Check they are looking up themselves
-			if($currentLoggedInUser->getUID() !== $userId) {
+			if($currentLoggedInUser->getUID() !== $targetUserObject->getUID()) {
 				return new \OC\OCS\Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 			}
 		}
 
 		// Find the data
-		$data['quota'] = $this->fillStorageInfo($userId);
+		$data['quota'] = $this->fillStorageInfo($targetUserObject->getUID());
 		$data['email'] = $targetUserObject->getEMailAddress();
 		$data['displayname'] = $targetUserObject->getDisplayName();
 
@@ -232,7 +232,7 @@ class Users {
 		}
 
 		$permittedFields = [];
-		if($targetUserId === $currentLoggedInUser->getUID()) {
+		if($targetUser->getUID() === $currentLoggedInUser->getUID()) {
 			// Editing self (display, email)
 			$permittedFields[] = 'display';
 			$permittedFields[] = 'email';
@@ -489,7 +489,7 @@ class Users {
 			return new \OC\OCS\Result(null, 104);
 		}
 		// Check they aren't removing themselves from 'admin' or their 'subadmin; group
-		if($parameters['userid'] === $loggedInUser->getUID()) {
+		if($targetUser->getUID() === $loggedInUser->getUID()) {
 			if($this->groupManager->isAdmin($loggedInUser->getUID())) {
 				if($group->getGID() === 'admin') {
 					return new \OC\OCS\Result(null, 105, 'Cannot remove yourself from the admin group');
