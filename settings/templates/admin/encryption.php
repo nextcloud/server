@@ -31,7 +31,7 @@
 	<a target="_blank" rel="noreferrer" class="icon-info"
 	   title="<?php p($l->t('Open documentation'));?>"
 	   href="<?php p(link_to_docs('admin-encryption')); ?>"></a>
-
+	<p class="settings-hint"><?php p($l->t('Server-side encryption makes is possible to encrypt files that are uploaded to this server. This comes with limitation like a performance penalty. Enable only if needed.')); ?></p>
 	<p id="enable">
 		<input type="checkbox"
 			   id="enableEncryption" class="checkbox"

@@ -23,7 +23,7 @@
 			<a href="<?php p($_['downloadLink']); ?>" class="button<?php if ($_['updaterEnabled']) { p(' hidden'); } ?>"><?php p($l->t('Download now')) ?></a>
 		<?php } ?>
 	<?php } else { ?>
-		<strong><?php p($l->t('Your version is up to date.')); ?></strong>
+		<?php p($l->t('Your version is up to date.')); ?>
 		<span class="icon-info svg" title="<?php p($l->t('Checked on %s', [$lastCheckedDate])) ?>"></span>
 	<?php } ?>
 

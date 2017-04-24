@@ -28,6 +28,7 @@
 
 <div id="security-warning" class="section">
 	<h2><?php p($l->t('Security & setup warnings'));?></h2>
+	<p class="settings-hint"><?php p($l->t('It\'s important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Ticks section and the documentation for more information.'));?></p>
 	<ul>
 		<?php
 		// is php setup properly to query system environment variables like getenv('PATH')
@@ -181,6 +182,7 @@
 	   title="<?php p($l->t('Open documentation'));?>"
 	   href="<?php p(link_to_docs('admin-background-jobs')); ?>"></a>
 
+	<p class="settings-hint"><?php p($l->t('For the optimal performance it\'s important to configure background jobs correctly. For bigger instances \'Cron\' is the recommended setting. Please see the documentation for more information.'));?></p>
 	<p>
 		<input type="radio" name="mode" value="ajax" class="radio"
 			   id="backgroundjobs_ajax" <?php if ($_['backgroundjobs_mode'] === "ajax") {
@@ -223,5 +225,5 @@
 <div class="section">
 	<!-- should be the last part, so Updater can follow if enabled (it has no heading therefore). -->
 	<h2><?php p($l->t('Version'));?></h2>
-	<p><a href="<?php print_unescaped($theme->getBaseUrl()); ?>" rel="noreferrer" target="_blank"><?php p($theme->getTitle()); ?></a> <?php p(OC_Util::getHumanVersion()) ?></p>
+	<p><strong><a href="<?php print_unescaped($theme->getBaseUrl()); ?>" rel="noreferrer" target="_blank"><?php p($theme->getTitle()); ?></a> <?php p(OC_Util::getHumanVersion()) ?></strong></p>
 </div>

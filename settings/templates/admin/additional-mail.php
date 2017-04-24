@@ -56,8 +56,8 @@ if ($_['mail_smtpmode'] === 'qmail') {
 		<a target="_blank" rel="noreferrer" class="icon-info"
 		   title="<?php p($l->t('Open documentation'));?>"
 		   href="<?php p(link_to_docs('admin-email')); ?>"></a>
-
-		<p><?php p($l->t('This is used for sending out notifications.')); ?> <span id="mail_settings_msg" class="msg"></span></p>
+		<p class="settings-hint"><?php p($l->t('It is important to setup this server to be able to send emails. This is for example used to send out notification.')); ?></p>
+		<p><span id="mail_settings_msg" class="msg"></span></p>
 
 		<p>
 			<label for="mail_smtpmode"><?php p($l->t('Send mode')); ?></label>

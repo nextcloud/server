@@ -28,6 +28,7 @@
 
 <div class="section" id="admin-tips">
 	<h2><?php p($l->t('Tips & tricks'));?></h2>
+	<p class="settings-hint"><?php p($l->t('There are a lot of features and config switches available to optimally customize and use this instance. Here are some pointers for more information.')); ?></p>
 	<ul>
 		<?php
 		// SQLite database performance issue

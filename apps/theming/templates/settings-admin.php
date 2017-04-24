@@ -28,6 +28,7 @@ style('theming', 'settings-admin');
 ?>
 <div id="theming" class="section">
 	<h2 class="inlineblock"><?php p($l->t('Theming')); ?></h2>
+        <p class="settings-hint"><?php p($l->t('Theming makes it possible to easily customize the look and feel of your instance. This will be visible for all users.')); ?></p>
 		<div id="theming_settings_msg" class="msg success inlineblock" style="display: none;">Saved</div>
 	<?php if ($_['themable'] === false) { ?>
 	<p>
