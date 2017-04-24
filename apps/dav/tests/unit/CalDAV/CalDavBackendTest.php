@@ -61,6 +61,7 @@ class CalDavBackendTest extends AbstractCalDavBackendTest {
 		$this->assertCount(1, $calendars);
 		$this->assertEquals('Unit test', $calendars[0]['{DAV:}displayname']);
 		$this->assertEquals('Calendar used for unit testing', $calendars[0]['{urn:ietf:params:xml:ns:caldav}calendar-description']);
+		$this->assertEquals('User\'s displayname', $calendars[0]['{http://nextcloud.com/ns}owner-displayname']);
 
 		// delete the address book
 		$this->dispatcher->expects($this->at(0))
@@ -410,6 +411,7 @@ EOD;
 		$publicCalendars = $this->backend->getPublicCalendars();
 		$this->assertCount(1, $publicCalendars);
 		$this->assertEquals(true, $publicCalendars[0]['{http://owncloud.org/ns}public']);
+		$this->assertEquals('User\'s displayname', $publicCalendars[0]['{http://nextcloud.com/ns}owner-displayname']);
 
 		$publicCalendarURI = $publicCalendars[0]['uri'];
 		$publicCalendar = $this->backend->getPublicCalendar($publicCalendarURI);
